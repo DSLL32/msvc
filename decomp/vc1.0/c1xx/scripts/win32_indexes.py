@@ -43,7 +43,7 @@ def publics():
 def indexes():
     orig = PE(TC / 'bin/C1XX3232.EXE')
     rec = PE('build/c1xx.exe')
-    cfg = json.loads(Path('functions.json').read_text())
+    cfg = json.loads(Path('.build/functions.json').read_text())
     assert hashlib.sha256(orig.data).hexdigest() == cfg['target']['sha256'], 'target changed'
     for function in cfg['driver']:
         assert function['start'] < function['end'], 'invalid original extent: ' + function['name']
@@ -54,7 +54,7 @@ def indexes():
     driver_addresses = {r['start'] for r in cfg['driver']}
     original = [r for r in json.loads(Path('runtime.json').read_text())
                 if r['start'] not in driver_addresses]
-    compatible=[r for r in original if 'compatible_proof' in r]
+    compatible=[r for r in original if r['name']=='___strgtold12']
     if compatible:
         from decimal_variant import default_record, verify
         assert compatible==[default_record()], 'unexpected compatible CRT index row'

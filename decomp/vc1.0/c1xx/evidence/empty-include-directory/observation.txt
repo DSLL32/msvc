@@ -1,5 +1,0 @@
-entry 00024290 caller 00023966 entry_esp 002cfdf0 unwritten_slot 002cfde0 unwritten_pointer 007e00f1
-first_directory 007e0119 bytes 00
-read 00024310 esi 007e00f1 slot 007e00f1
-pointed_byte 5c
-outcome code 80000003 address 00023966 eip 00023967 eax 00000001

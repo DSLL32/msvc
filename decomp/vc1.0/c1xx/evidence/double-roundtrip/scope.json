@@ -1,7 +1,0 @@
-{
-  "scope": "Actual two pointer formals of whole34B double_to_extended, no extra input-state framework",
-  "input": "Immediate accepted convert_floating_literal real local, initialized by successful extended_to_double FSTPQWORD. Fresh calleeESP+28 address matches actual argument0; native real caller local address only, no unobserved pointee equality claim.",
-  "output": "Actual argument1 names static12B scanned_floating_value. C writes format8, narrow FLDQWORD + ESI bridge passes loaded value and destination to named unaccepted4Bstore tail.",
-  "negative_checks": "Productionpreflight control passes; missing ESP,wrongoffset,wrongactualnative local and invented callerlocal prestate all hold.",
-  "credit": "Only whole34B app wrapper, no CRT body or transport credit"
-}

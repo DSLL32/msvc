@@ -1,6 +1,0 @@
-{
-  "status": "NULL overload cursor rejected before entryESP-20 read; public reachability unknown",
-  "function": "count_debug_methods",
-  "signal": 5,
-  "pc_offset": 64
-}

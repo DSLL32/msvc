@@ -1,7 +1,0 @@
-{
-  "status": "accepted runtime library/import identity",
-  "function": "_strncat",
-  "next_frontier": "_emit_debug_vshape@4",
-  "boundary_evidence": "evidence/debug-member-writer/strncat-boundary/receipt.json",
-  "downstream_comparison": "cases/frontiers/state_machine_debug/1093-write_debug_member_name-20/validation.json"
-}

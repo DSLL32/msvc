@@ -1,9 +1,0 @@
-{
-  "frame_delta": -28,
-  "cursor_local": 20,
-  "cursor_entry_relative": -8,
-  "condition": "overloads==NULL",
-  "proof": "NULL JZ0x30bbf goes0x30c20 skipping stores0x30c0f/1c; unconditionalcursorload0x30c30. Raw instructions independently counted SUB12+4savedregisters16 =>28; local20 =>entry-8.",
-  "public_reachability": "UNKNOWN",
-  "policy": "Retain Win32 cursor; exact nativeNULLtrap"
-}

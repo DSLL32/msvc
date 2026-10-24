@@ -1,7 +1,0 @@
-{
-  "status": "unsupported native path rejected",
-  "function": "multiplication_overflows",
-  "signal": 5,
-  "injected_width": 3,
-  "pc_offset": 315
-}

@@ -1,13 +1,41 @@
 {
-  "schema": 1,
-  "scope": "One positively identified older CRT variant; compatible graph/ABI binding, not byte identity, no source/app credit",
   "record": {
     "name": "___strgtold12",
     "start": 558368,
     "end": 560192,
     "object": "obj\\i386\\strgtold.obj",
-    "library": "LIBC.LIB",
-    "compatible_proof": "evidence/decimal-library-binding/compatibility.json",
-    "compatible_proof_sha256": "254f07be1ee7e9abef2aed5dab30ee6b4a4a1117a51445cffd50c295e3fa36d1"
-  }
+    "library": "LIBC.LIB"
+  },
+  "historical_proof_commit": "17c78f8c6d2a8127a69266c8ecd2dad3e1c19c8a",
+  "historical_proof_path": "decomp/vc1.0/c1xx/evidence/decimal-library-binding/compatibility.json",
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "original_body_sha256": "9157b8301e3ca6b6d69964322c70f31bb46846f929849c17ee0cdd52e55901b5",
+  "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+  "member_sha256": "9e96982348304cd42b00965631fbc781ca55c2a9a82ccc6322f4b9b00e70deb6",
+  "same_distinct_callees": [
+    "___mtold12",
+    "___multtenpow12",
+    "__isctype"
+  ],
+  "abi": {
+    "convention": "cdecl",
+    "stack_words": 7,
+    "result_bytes": 12,
+    "end_pointer_output_bytes": 4,
+    "return_bits": 32,
+    "hidden_register_inputs": []
+  },
+  "data_delta": "Original private25B BSS digit workspace replaced by shipped automatic25B array; four encoded references all inside original parser, no application address consumer",
+  "public_contract": {
+    "case": "state_machine_debug",
+    "input_hex": "312e3500",
+    "after_input_hex": "312e3500",
+    "defined_output_bytes": 10,
+    "output_hex": "00000000000000c0ff3f",
+    "status": 0,
+    "output_prestate": "unread and uncredited",
+    "scope": "Actual first reached invocation only; later reached inputs must match or hold, no broad edge-domain equivalence claim"
+  },
+  "source_credit": 0,
+  "application_credit": 0
 }

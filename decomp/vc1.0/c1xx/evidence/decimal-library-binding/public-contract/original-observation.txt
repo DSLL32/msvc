@@ -1,9 +1,0 @@
-runtime __atoldbl
-return_va 00074b57
-output_address 002cfddc
-text_address 0008c158
-entry_esp 002cfdb0
-text 312e3500
-result 0
-output 00000000000000c0ff3f
-after_text 312e3500

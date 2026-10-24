@@ -1,9 +1,0 @@
-Breakpoint 1 at 0x8fe82: file build/shared-inputs/3e9fce922e970282d3b9a6a5ddfb86023c24a9b248918db0b2c105d71b6e113c/src/crt.c, line 1102.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, recon_getcwd (out=0x56645204 "", capacity=256) at build/shared-inputs/3e9fce922e970282d3b9a6a5ddfb86023c24a9b248918db0b2c105d71b6e113c/src/crt.c:1102
-1102	    if (!recon_fullpath(cwd,".",sizeof(cwd))) return NULL;
-0x5658d2bb in browser_working_directory () at src/browser.c:311
-311	        return _getcwd(directory, 256);
-Value returned is $1 = 0x56645204 "S:\\vc1.0\\c1xx\\member-registry-browser-driver"

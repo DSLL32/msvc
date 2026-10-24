@@ -1,6 +1,0 @@
-python3 scripts/wine-tool.py --init
-python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Ibuild/shared-inputs/732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12/include /Fobuild/reference-arithmetic-observer.obj src/reference-arithmetic-observer.c
-src/reference-arithmetic-observer.c
-src/reference-arithmetic-observer.c(25) : warning C4090: 'argument' : different 'const' qualifiers
-src/reference-arithmetic-observer.c(25) : warning C4022: 'WriteProcessMemory' : pointer mismatch for actual parameter 3
-python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /out:build/reference-arithmetic-observer.exe build/reference-arithmetic-observer.obj

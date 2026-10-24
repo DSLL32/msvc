@@ -1,6 +1,0 @@
-equal_flat_offset=0 distinct_own=1
-flat size4 00013380
-offset size8 00013380 00000008
-virtual_flat size12 00013380 00000008 00077f52
-virtual_offset size12 00013380 00000000 00077f52
-virtual_own size12 00013350 00000000 00000000

@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c1xx/scripts/capture-frontier-arguments.py", line 194, in <module>
-    main()
-    ~~~~^^
-  File "/root/msvc2/decomp/vc1.0/c1xx/scripts/capture-frontier-arguments.py", line 69, in main
-    assert checkpoint['declared_arguments'] == sorted(item['name'] for item in plan['formals'])
-           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
-KeyError: 'declared_arguments'

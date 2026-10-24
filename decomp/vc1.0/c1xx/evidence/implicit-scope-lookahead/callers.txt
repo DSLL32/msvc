@@ -1,6 +1,0 @@
-   28a67:	e8 e4 dc ff ff       	call   0x26750
-   28b42:	e8 09 dc ff ff       	call   0x26750
-   28bbc:	e8 8f db ff ff       	call   0x26750
-   28d3c:	e8 0f da ff ff       	call   0x26750
-   2921f:	e8 2c d5 ff ff       	call   0x26750
-   2926e:	e8 dd d4 ff ff       	call   0x26750

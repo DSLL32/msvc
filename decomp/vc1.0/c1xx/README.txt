@@ -1,324 +1,86 @@
-C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
-==========================================================
+C1XX3232.EXE (vc1.0 / 1.0-nt)
+============================
 
-PARTIAL binary reconstruction. Last reviewed verified checkpoint: 3c751d03a,
-1297 accepted frontiers, including 1191 frontend functions and seven older CRT
-functions reconstructed as source.
+PARTIAL reconstruction, PAUSED. Last reviewed verified checkpoint: 3c751d03a,
+1297 frontiers / 1191 application source functions plus seven historical CRT
+source functions. Tagged administrative WIP checkpoint: 17c78f8c6.
 
-PAUSED WIP CHECKPOINT: pending accept_preprocessor_token source, raw observations
-and generated cache/metadata are retained for handoff. The metadata currently
-records 1298 frontiers / 1192 frontend functions; that advancement has not received
-final review and is not newly verified by this administrative commit. No build,
-capture, audit or fixture was run for this checkpoint. Resume review from the
-last verified checkpoint above before accepting the pending advancement.
-Complete cases: cpp_basic, virtual_diamond, copy_assignment, stack_lifetime, new_delete, state_machine_defined_debug.
-Pending metadata places member_registry_browser at _scan_preprocessor_token@4,
-original VA 0x18180; the last reviewed boundary is _accept_preprocessor_token@4
-at original VA 0x18140.
-All unimplemented callees remain meaningful named INT3 stubs.
-The user selected preservation of scope entry's original Win32 uninitialized
-token bug, with an explicit native-only INT3 when cached parser lookahead would
-read that caller-derived stack byte. That malformed-input path is unsupported
-natively and is not claimed equivalent. evidence/implicit-scope-lookahead records
-the instruction, grammar repair counterexample, last writer and original probe.
-Multiplication overflow checking retains the original Win32 uninitialized
-threshold for signed opposite-positive-status operands with unsupported widths.
-That exact native path traps; malformed/internal widths are not claimed equivalent.
-Normal integer widths1/2/4 and the actual lifetime invocation have exact original/
-native return evidence under evidence/multiply-boundary. native-rejections checks
-the documented guards without running Wine.
-Include-directory search preserves the original Win32 unwritten last-character
-pointer when a nonnull directory is empty. Valid public -I "" can succeed in the
-original using a stale caller strchr argument; native execution explicitly traps
-on that exact branch. It is a third coverage limitation, not a malformed-only
-input or a universal stack invariant. evidence/empty-include-directory retains
-the successful original probe, public producer and exact observed last writer.
-The single-function overload probe preserves its original uninitialized cursor
-for NULL input. That exact native branch traps before reading entryESP-8.
-Public NULL reachability remains unknown; no stale-stack equivalence is claimed.
-evidence/single-function-null records the raw instructions and guard policy.
-Primitive CodeView type lookup retains its Win32 flags&15 indexing. Native
-execution traps only before an out-of-range logical float[11]/integral[9] lookup.
-This fifth limitation is an unknown internal descriptor domain, without a public
-reachability, original-bug or invalid-width equivalence claim; no neighbouring
-string bytes or invented padding become lookup data. The focused native width9
-check and encountered-row audit are under evidence/primitive-debug-width.
-Debug method counting preserves its original uninitialized NULL-overload cursor.
-Native execution traps on that exact branch before reading entryESP-20; public
-NULL reachability remains unknown and no stale-stack equivalence is claimed.
-evidence/debug-methods-null records the raw extent and focused native rejection.
-Class/enum emission retains the original unwritten length on its unsupported
-descriptor fallback. Native execution traps before the entryESP-24 read. This
-seventh domain limitation has unknown public reachability and no stale-stack
-equivalence claim; evidence/debug-class-domain holds raw and focused checks.
-Virtual-base debug emission preserves ignored failed-query output reads in Win32.
-Native execution traps on that exact false query before reading entryESP-68/-72/
--76 outputs: first failure leaves them unwritten, later failure may leave stale
-values. Public reachability remains unknown. evidence/debug-base-query-failure
-contains raw writer/reader proof, focused missing-group and successful controls.
-The general emitted-overload counter also retains an unwritten NULL cursor at
-entryESP-8. Its exact native NULL branch traps; public NULL reachability is
-unknown. evidence/overload-count-null retains its separate raw/focused proof.
-Method-list emission likewise retains its NULL-overload uninitialized cursor at
-entryESP-8. The exact native NULL guard precedes that read; public reachability
-is unknown. evidence/debug-method-list-null records its separate raw proof and
-focused injected rejection. No initialization or malformed-only claim is added.
-Member-pointer construction preserves two unwritten result reads for inheritance
-models outside1..4. Native execution traps in each exact fallback before reading
-entryESP-4. Public reachability is unknown. evidence/member-pointer-model-domain
-records the whole-body proof and separate data/method injected-model checks; no
-invalid-model equivalence or extra application coverage is claimed.
-The string-name encoder retains its original wide WORD loop, but that branch
-has not been validated. A reached wide case must establish the actual defined
-read span before execution/credit; see evidence/string-name-encoding/wide-scope.json.
-Function-output closing retains its original unwritten scope local when no
-closed scopes were queued. The native empty-list arm emits the same two records13,
-then traps before the entryESP-4 read at original0x55b06. The frozen valid-input
-state_machine_debug case reaches this path through synthetic local-static cleanup.
-Its original/native divergence (one missing06 record), exact owner/read proof and
-unaccepted flush candidate are retained under evidence/empty-output-scope. This is
-an additional native limitation, not malformed-only input or a completed case.
-No source initialization, output normalization or new function credit is claimed.
-Browser temporary-name generation retains its unwritten last-character pointer
-for an empty requested name. Native execution traps only on that empty copied
-name before the entryESP-4 read/write-through. Public reachability is unknown;
-evidence/browser-temporary-name holds exact frame/def-use and focused checks.
-All five selected C++ cases are complete, including new/delete/operators.
-The distinct defined-debug successor keeps the scalar cache and adds substantial
-multiple-base member-pointer conversions, round trips and virtual calls.
-cases/reconstruction-queue.json records completion and subsequent case review.
+The retained accept_preprocessor_token body and old 1298-frontier advancement
+were not finally reviewed. binary.c explicitly leaves that function UNIMPLEMENTED
+(unaccepted) even though its WIP source executes. The browser fixture checks the
+retained unreviewed scanner checkpoint; migration replay is not function
+acceptance. Last reviewed boundary is accept_preprocessor_token at RVA0x8140;
+current WIP observation reaches scan_preprocessor_token at RVA0x8180.
 
-Last reviewed accepted extents cover 314392 / 476418 code-section bytes
-(65.990790%). Pending unreviewed metadata records 314449 bytes (66.002754%).
-The union includes function bodies, shared text data, positively identified CRT and import
-thunks, clipped to section VirtualSize (backed raw size only if zero). This is
-not branch coverage. Whole functions include statically recovered unvisited paths.
+Build and run
+-------------
+    make -j4                 # shared native i386 PIC/O0/debug libbinary.so
+    make -j4 check           # eight native-only saved-reference cases
+    make -j4 unit            # narrow forked native policy/control tests
+    make -j4 win32           # explicit original-compiler build, uses shared Wine
+    make -j4 audit           # original compiler graph/ABI, data and grammars
 
-The original decimal CRT parser uses a compatible shipped-library binding,
-not a new CRT source body. runtime-compatible.json and evidence/decimal-library-binding
-bind its whole older extent, table, graph, ABI and private workspace to the known
-C1 variant and its shipped counterpart. The original/native/shipped first 1.5
-conversion agrees on all ten defined bytes, status and unchanged input; later
-reached inputs must match or hold. This adds no application/source function credit.
+The shared recon-tool owns execution, tracing, stream/file checks and cleanup.
+Each case.so contains only its adapter/descriptor/tests and links libbinary.so;
+application/shim/tracer state is present once per isolated executor. Application
+changes rebuild that shared library without relinking unchanged case libraries.
+Normal fixtures never invoke Wine or refresh original references. Explicit
+original captures use the common tool outside regressions, shared repo prefix,
+fixed R:/S:/T: drives. No private prefix or per-case drive mapping is retained.
 
-Native build and regressions
-----------------------------
-The reviewed shared e4f17cae9 pin uses RECON_NATIVE_STARTUP_CONTROLFP_53.
-This reproduces original main-entry CW027f/status0/tagsffff without an app call
-or entry rename; evidence/startup-precision53 records the original/native check.
-The later e4 refresh corrects a reached successful _getcwd errno clobber through
-shared _fullpath. evidence/browser-working-directory retains the old failure,
-unchanged original boundary and corrected full-buffer/return/errors/FP proof;
-all eight native cached phases pass. Shipped GETCWD.OBJ is library-only credit.
+The reviewed CRT/startup sources remain pinned at e4f17cae9. The independently
+reviewed module tracer overlay is pinned at 00875e919, without CRT/entry changes.
+RECON_NATIVE_STARTUP_CONTROLFP_53 and binary-default fmode0x8000 are retained.
+Original compilation still uses the historical Win32 source and BINMODE.OBJ.
 
-Run from this binary directory:
+Cases and provenance
+--------------------
+Six complete frontend cases: cpp_basic, virtual_diamond, copy_assignment,
+stack_lifetime, new_delete, state_machine_defined_debug. Each checks exact
+streams, status and complete frontend artifacts against the cached original.
+state_machine_debug remains a partial case at flush_current_function: its valid
+input encounters the unsupported native empty-closed-scope stale-local path.
+member_registry_browser is the separate partial WIP checkpoint described above;
+io.bin stores both final six-artifact oracle and partial file/presence assertions.
+Its exact visible cwd S:\vc1.0\c1xx\member-registry-browser-driver is real input,
+not normalization. Inputs include registry.cpp and registry.h unchanged.
 
-    make -j4
-    make -j4 check
-    make -j4 native-check
-    make -j4 native-rejections
+Trace orders are original UNSEEDED encounters after each descriptor's explicit
+seen-RVA seed. Those seeds reset for every run; no case depends on an earlier run.
+The historical captures did not record full independent order for later cases.
+Import/CRT/shim/case-test glue entries are excluded. binary.c is the single
+function registry; the audit configuration is generated from that descriptor.
+policy-data.json retains target data/grammar/callback and native-limit policies.
+runtime.json is the read-only library/member-identification audit input, with no
+application implementation credit; binary.c remains the discovered-function registry.
 
-Source is Win32 C under src/, scripts are under scripts/. Native builds use
-Clang i386 -O0 -g; shared lib/recon source files are linked directly. Original
-BINMODE.OBJ behavior is retained with RECON_DEFAULT_FMODE=0x8000. Application
-instrumentation excludes target runtime.c and shared CRT/import/shim entries.
+The previous frontier/argument-observation trees were repeated captures of these
+eight invocation workloads, not separate public cases. They and the superseded
+runners/observer/evidence packages were retired during migration. Historical raw
+records remain in tagged commit17c78f8c6; old evidence/ paths in source comments
+refer to that history. The inactive registry v1 proposal was rejected because
+original model2-to3 member-pointer conversion lost adjustment8 and its runtime
+equality check failed. It is not silently promoted to a passing case; v2 avoids
+those conversions. Its source/failure is preserved in that tagged history.
 
-check/replay run only native cached fixtures. They check first-entry order,
-terminal status, raw stdout/stderr, complete file sets and all frontend intermediates (including debug irdb when
-applicable). Unknown definitions, modified references and external processes
-fail. No fixture invokes Wine or refreshes an oracle. cpp_basic expects 553 application first entries and exit 0.
-virtual_diamond expects 225 application first entries and exit 0.
-copy_assignment expects 61 application first entries and exit 0.
-stack_lifetime expects 31 application first entries and exit 0.
+The optional tests retain ten native unsupported-path guards, ten original-backed
+multiply returns, and small type/name/overload controls. Old point-in-time observer
+mutation campaigns and callee-mock acceptance harnesses are superseded; they are
+not claims that all historical GDB injections remain fixtures.
 
-cases/original-entry-references.json binds fresh original first-entry plans,
-raw events and capture receipts. Each debugger first-entry trap is checked,
-restored, instruction-cache flushed and EIP rewound. Missing/out-of-order entries,
-unexpected exceptions and early exit reject the capture. functions.json retains
-the ordered provenance and full original extents (1297 reviewed entries plus the
-pending unreviewed advancement described above); the cache
-also classifies exact CRT/import entries. The projection cache is rebuilt only
-explicitly after verified metadata changes:
+Boundaries
+----------
+Sixteen exact native limitations remain in policy-data.json and source. They
+include original unwritten locals (lookahead, empty include/name, null overload
+iterators, debug-query/output scope and missing-colon false result), unknown
+internal type/member-pointer domains and the unmodeled browser category prefix.
+These traps preserve honest unsupported paths; no broad malformed-only or public
+reachability claim is implied. The wide string-name branch remains unvalidated.
 
-    python3 scripts/native-traces.py --write
-
-Original compiler and capture operations
-----------------------------------------
-Explicit operations, separate from fixtures:
-
-    make -j4 win32
-    make -j4 audit
-    python3 scripts/capture-original.py --case virtual_diamond --entry-plan
-    python3 scripts/capture-native.py --case virtual_diamond
-    python3 scripts/coverage.py
-
-Original builds and captures use ~/.ai-tmp/vc1.0-capture/wine. Fixed R: maps to
-/root/msvc2 and S: to ~/.ai-tmp/msvc2. No tool creates/remaps drives or stops the
-shared server. Cases use S:\vc1.0\c1xx\<case>; own explicit captures serialize
-cwd access with ~/.ai-tmp/msvc2/vc1.0/c1xx/capture.lock. Inputs remain relative.
-Native runs map each process's S: to its isolated host namespace while exposing
-that same canonical cwd. The actual CL child argv0 and sole MSC_CMD_FLAGS block
-are preserved; ordinary argv is not substituted for the frontend transport.
-
-scripts/capture-shared-fixtures.py explicitly captures all five approved sources
-from original CL, independent C1XX/C2/LINK phases and the final silent exit-0
-programs. It writes a fresh staging directory and never runs from a fixture.
-The frontend streams compare raw. Only independently demonstrated COFF and PE
-TimeDateStamp DWORDs may differ in downstream comparisons; each differing offset
-is recorded. No path or pointer normalization occurs.
-
-Fresh function acceptance additionally compares every configured pending FILE
-buffer (five for the debug case, four for earlier cases),
-fourteen checkpoint state words, raw streams, full visible files and the exact
-canonical original-toolchain call graph/ABI. capture-native.py records GDB state;
-Current acceptances also require --argument-proof: actual original stack/native
-entry formals must have explicit scalar or logical pointer bindings, with hidden
-and register inputs accounted for by the raw ABI analysis. Unknown inputs hold
-acceptance. This supplements the older fixed-state proofs without relabeling them.
-Explicit --observe-short reads exactly two initialized bytes for a queue WORD
-out-parameter; the default DWORD observer remains unchanged. Read width/success
-and the actual queue slot owner are checked, without reading adjacent padding.
-A debug-buffer alias may carry an explicit checked byte offset within its proven
-4096-byte allocation. The owner pointer is read freshly on each affected capture;
-heap addresses are never cached as identities. Default alias offsets remain zero.
-An optional EAX+ESP ownership pair can bind a member pointer and immediate caller
-WORD output local. Unwritten output locals use address-only observations, without
-reading, comparing or initializing their contents; prior single-anchor modes stay
-unchanged. The conversion-name output is a signed diagnostic-text handle.
-
-advance-frontier.py requires a fresh original entry-plan capture and persists its
-new reference only after the matching full oracle. The runtime-chain counterpart
-also requires exact library relocation/callee/global identity and explicit
-original/native argument/return evidence for newly encountered CRT semantics.
-
-Shared host graph audit
------------------------
-make audit builds the shared tooling/graph-audit host binary once through its
-quiet Make include, then invokes it directly. Cargo build errors and the tool's
-own diagnostics remain visible. Ordinary native fixtures never build or invoke
-the auditor, Cargo or Wine. The audit command uses the c1xx profile with CFG
-discovery plus --check-ret, --check-references, --check-callbacks,
---check-ownership and --check-extents. build/graph-audit.json records the full
-canonical result. There is no private instruction decoder or legacy fallback.
-
-The two contextual hash/equality callback tables are described by
-scripts/graph_metadata.py. Unreconstructed callbacks may remain named traps;
-the auditor compares their ordered non-null logical identities. audit-data.py
-additionally verifies every exact callback slot and null sentinel, option/state
-aliases/defaults, encountered data, parser and lookahead policies. The separate
-parser/lookahead audits and reached-CRT identity/behavior proofs are retained.
-Candidate acceptance proposes only its complete recovered original extent to
-the same shared engine before changing accepted metadata, and saves its full
-JSON result, flags and tool hash with the frontier evidence.
-
-    make -j4 graph-audit-tool
-    make -j4 audit graph-negative-check
-
-graph-negative-check uses disposable host-side PE/config copies to reject a
-changed call edge, RET cleanup, truncated instruction extent, reordered callback
-and moved callback sentinel. It also checks the candidate adapter and freezes
-the canonical inputs throughout. build/graph-negative-validation.json records
-the commands, original diagnostics and elapsed checks. These tests never launch
-either Windows executable or modify a canonical file.
-
-Shared-prefix migration and retained analysis
---------------------------------------------
-All five phase fixtures were freshly recaptured, including an owned
-../fixtures/c1xx-cpp-basic copy. The shared ../fixtures/cpp-basic input is untouched.
-cases/shared-prefix-validation.json records measured build/capture/native phases,
-exact comparisons, rejection checks, affected fixtures and private-prefix retirement.
-The private transport histories and alternate oracle bundles have been removed;
-their original bytes remain in Git at 0812fa9 and were never relabelled.
-
-Independent ABI/layout/branch analysis remains under evidence/. In particular,
-evidence/runtime-analysis retains unchanged historical raw CRT observations with
-explicit original path/hash provenance, separate from active frontend references.
-These observations establish close, flush, exit, realloc and overlapping-copy
-semantics; all required offline corruption checks remain enforced. Named raw
-historical logs are read-only analysis, never executable transport configuration.
-evidence/function-analysis and recovered-implementation-notes.txt retain contextual
-function findings. historical-analysis-index.json binds retained bytes to their
-original paths. historical-replay-timings.json retains old measurements without an
-alternate runner/oracle dependency. Current migration timings are separate.
-
-Explicit build provenance
--------------------------
-scripts/build-frontier.py LABEL records native and original-toolchain builds
-separately. New pins use immutable Git commit/tree references and ordinary
-per-file manifests under evidence/shared-build-inputs. Each phase verifies that
-the exact compiled inputs did not change during compilation. Historical source
-archives remain unchanged and supported.
-Default native and canonical builds use the committed pin/tree in
-cases/shared-build-reference.json, materialized from Git blobs; no live or
-untracked shared source is used. At each substantial case boundary, review
-newer verified shared fixes with /root/recon_lib_maintenance and deliberately
-refresh with:
-
-    make refresh-shared-build RECON_COMMIT=<reviewed-commit>
-
-The selected revision/tree is in each build receipt; new pins create no archive. The native input signature covers nested headers, C inputs and compiler
-flags; unchanged inputs retain incremental objects. Setup/hash failures stop before
-the dependent phase or acceptance capture. --native-only supports infrastructure
-revalidation without another original invocation. Snapshot setup time is separate
-from compilation where measured. Historical receipts refer to their immutable
-archives; they do not require later shared worktrees to retain the same hash.
-
-evidence/native-build-sigbus preserves the Clang SIGBUS/invalid-UTF8 crash,
-intermediate and stable retry accounting, and a native-only revalidation against
-unchanged original0910 inputs/outputs. The crash cause is unestablished. Its
-revalidation.json binds compiled shared contents and native artifact hashes to
-the original evidence; the earlier setup failure remains explicitly recorded.
-
-Fresh entry arguments
----------------------
-New frontier acceptance requires a current argument proof binding every actual
-formal (and any proved hidden/register input) to fresh original/native evidence.
-Explicit plans in cases/argument-plans describe flat scalar values, static object
-offsets or actual owner aliases. Unknown inputs hold acceptance; these are not
-recursive object dumps. capture-frontier-arguments.py is an explicit reference
-operation, outside fixtures. Its original stack-word count defaults to four;
-six is opt-in for a proved six-word ABI. The observer records requested/actual
-counts, context/read success, and its executable hash. Missing/short observations
-are rejected before acceptance. Prior raw evidence stays unchanged.
-For a freshly allocated object not yet owned by a static slot, an explicit
-caller ownership anchor may bind the original ESI value to the native caller's
-actual local. The proof records the raw allocation-to-register-to-push dataflow,
-caller RVA and observed accepted caller entry. This is observer ownership
-metadata, not an extra callee ABI input. Missing/wrong owners hold acceptance.
-
-Browser declaration categories model the encountered 12-byte ordinary-symbol
-prefix at original 0x9ebe8, not a recovered full historical array extent. The
-following padding and the independently indexed access DWORD table remain
-separate. An exact native-only trap precedes an out-of-prefix indexed read;
-Win32 keeps the original indexing. This is unmodeled data support, with unknown
-public reachability, not proof of an original bug. Current fresh operator-new
-header is kind7. evidence/browser-declaration records typed producer/alias paths,
-remaining conflicting-input uncertainty and focused controls.
-
-Include-name backward copies use source_buffer_end at original 0x9fc54, the
-one-past end of token_buffer[7936], rather than source_text_cursor. Both quoted
-and angle-name reader locals were corrected when include search exposed the
-wrong owner. Existing raw references are retained; prior matching filename text
-and output did not prove pointer identity. evidence/include-name-buffer contains
-the original relocation/load proof, old native owner and fresh corrected tail
-spelling/ownership controls. No original is recaptured merely for this correction.
-
-The browser emitter reads the existing options.z_n field at original 0x91878;
-there is no independent browser pass counter. Its former duplicate zero storage
-was exposed by the explicit alias/data audit and removed without new function
-credit. Matching -Zn=0 outputs alone had not established the alias.
-Macro replacement preserves strict-dialect literal #@ versus extension character
-substitution. evidence/macro-replacement retains the first matching native pair,
-the unvisited condition correction, focused controls and derived native receipt.
-Run affected data/grammar audits explicitly when their contracts change; ordinary
-advance-frontier runs graph checks and cached native fixtures, not those audits.
-The formal-name lookup's exact original span 0x1ff30..0x1ff93 is 99 bytes;
-older prose calling that helper 97 bytes was a size-description error. The
-recorded extent and current whole-body proof use the correct endpoints.
-
-A missing ':' in a preprocessor conditional leaves the original false-result
-pointer unwritten at entryESP-4. Win32 retains that local. Native execution traps
-only when a false condition would consume it, after the real parser side effects;
-a true condition still returns its defined result. Public reachability is unknown.
-evidence/preprocessor-expressions/conditional-missing-colon.json records the
-complete 74-byte def-use proof and false/true/valid-colon focused controls.
+Seven old runtime.c bodies are retained unchanged by user direction, support-only
+credit: setvbuf, sopen, freebuf, fseek, ftell, tzset, isindst. Their necessity for
+current cached paths was not established; no additional CRT bodies are authorized.
+The older decimal parser uses the approved compatible shipped-library binding,
+not a new body or application credit. runtime-compatible.json binds unchanged
+original/library/member identities, established ABI/callees and bounded conversion
+contract to the historical proof. Later reached mismatches must hold, not relax it.

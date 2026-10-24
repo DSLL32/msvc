@@ -1,5 +1,0 @@
-python3 scripts/dependencies.py
-python3 scripts/wine-tool.py --init
-python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Ibuild/shared-inputs/4ff28afed142fb3ac59555a35417f1fa8d440226ec622a53110b5f1b26cab484/include /Fobuild/reference-string-observer.obj src/reference-string-observer.c
-src/reference-string-observer.c
-python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /out:build/reference-string-observer.exe build/reference-string-observer.obj

@@ -1,7 +1,0 @@
-{
-  "status": "accepted runtime library/import identity",
-  "function": "_strchr",
-  "next_frontier": "_search_include_directories@4",
-  "boundary_evidence": "evidence/include-strchr-boundary/receipt.json",
-  "downstream_comparison": "cases/frontiers/new_delete/0967-process_pch_include-4/validation.json"
-}

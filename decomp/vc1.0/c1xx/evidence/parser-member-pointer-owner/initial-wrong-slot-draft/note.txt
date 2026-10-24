@@ -1,1 +1,0 @@
-Initial guessed parser slot9500c was rejected by actual ESI-8 binding before promotion. Raw fresh ESI identifies the correct consumed slot; no raw record relabelled. Final argument capture must be fresh with corrected address and still bind it independently to that capture ESI-8.

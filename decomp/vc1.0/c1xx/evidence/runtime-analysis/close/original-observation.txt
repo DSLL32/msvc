@@ -1,8 +1,0 @@
-descriptor 7
-open_flag 1
-return_va 0001e9bc
-runtime __close argument 00000007
-runtime import:CloseHandle argument 00000050
-runtime __free_osfhnd argument 00000007
-result 0
-closed_flag 0

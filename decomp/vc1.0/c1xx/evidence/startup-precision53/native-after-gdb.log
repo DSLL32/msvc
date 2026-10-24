@@ -1,7 +1,0 @@
-Breakpoint 1 at 0x37f6: file src/c1xx.c, line 12.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:12
-12	    signal(SIGINT, interrupt_compile);
-#0  main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:12

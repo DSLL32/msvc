@@ -7,7 +7,14 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[4]
 TC = ROOT / 'toolchains/1.0-nt'
-from case_paths import PREFIX, SCRATCH, windows
+PREFIX = Path.home()/'.ai-tmp/vc1.0-capture/wine'
+SCRATCH = Path.home()/'.ai-tmp/msvc2'
+def windows(path):
+    path = Path(path).resolve()
+    for drive, root in [('R:', ROOT), ('S:', SCRATCH)]:
+        try: return drive+'\\'+str(path.relative_to(root)).replace('/', '\\')
+        except ValueError: pass
+    raise ValueError('Path is outside fixed R:/S: roots: '+str(path))
 
 def environment():
     env = os.environ.copy()

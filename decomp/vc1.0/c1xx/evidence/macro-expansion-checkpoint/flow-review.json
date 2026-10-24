@@ -1,6 +1,0 @@
-{
-  "scope": "Whole-body source review after exact empty-object case acceptance, before checkpoint",
-  "correction": "Original20285 skip_macro_space()==0 jumps directly to2033f rescan test; initial while formulation wrongly fell through to parenthesis/line-space handling on that unvisited path. Replaced with explicit common rescan label. Current empty-object invocation does not enter this function-macro branch.",
-  "original_branch": "20285:testeax;20287:je2033f",
-  "validation": "Fresh whole-prefix ordinary original/native checkpoint after corrected canonical/native rebuild; full static/data/grammar audits and cached cases."
-}

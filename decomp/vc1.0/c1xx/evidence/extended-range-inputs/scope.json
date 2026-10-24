@@ -1,9 +1,0 @@
-{
-  "scope": "Two actual private x87 inputs, not a general register/context dump",
-  "mapping": "Original FSAVE logicalslots0/1 match raw nativeST0/ST1 and independently read actual10Blimit/value owners; TOP6 maps physical6/7, tagsvalid; full CW027f/status3000/tags0fff match after reviewed startup profile",
-  "data": "Only encountered6Bnegative/status state and exact10Bthreshold defined; no extra format/control padding",
-  "initial_hold": "State-requirement indices incorrectly interleaved DWORD/WORD diagnostics; reader groups DWORDs then WORDs, so plan was corrected before acceptance and fresh pair captured",
-  "failed_unaccepted_pair": "/root/.ai-tmp/msvc2/vc1.0/c1xx/check-range-initial-proof-interleaved-observation-indices",
-  "negative_checks": "Actual control passes; missing operand, swapped raw slots, shortread and wrong caller owner hold in production preflight",
-  "credit": "No extra credit for observation transport; one whole70B helper is candidate"
-}

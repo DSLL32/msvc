@@ -1,7 +1,0 @@
-{
-  "status": "Exact original data reference checked before acceptance",
-  "original_instruction": "2e709 MOV EAX,[0x9f290]",
-  "initialization": "694bc stores first4064 interned type at0x9f290;694cc stores second at0x9f294",
-  "correct_source": "type_4064_first",
-  "scope": "Even though both currently intern to the same CType, the distinct global slot is preserved; no capture was accepted with the earlier second-slot spelling"
-}

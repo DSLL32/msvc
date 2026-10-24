@@ -1,1 +1,0 @@
-Fixup+4 is a buffer-relative offset, not a pointer. Actual writer0x7047e loads pointer argument, SUB EAX,[debug_record_buffer] at0x70482 and stores offset at0x70488. Consumer0x70058..7005d subtracts current cursor then adds live buffer base. First candidate pointer typing failed native compile, before any fresh acceptance; corrected to unsigned offset and offset-(cursor-buffer).

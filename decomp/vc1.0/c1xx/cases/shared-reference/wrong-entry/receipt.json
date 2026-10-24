@@ -1,9 +1,0 @@
-{
-  "status": "pass",
-  "scope": "Wrong first-entry plan rejected by fresh original debugger; no frontend acceptance",
-  "helper_status": 5,
-  "original_execution_seconds": 6.3067020662128925,
-  "source_capture": "/root/.ai-tmp/msvc2/vc1.0/c1xx/original-capture-15kbx9mc",
-  "first_expected": "64b00 b9 _message_text",
-  "first_actual": "59630 56 _main"
-}

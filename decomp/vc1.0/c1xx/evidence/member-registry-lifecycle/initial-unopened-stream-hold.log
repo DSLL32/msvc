@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c1xx/scripts/seed-case.py", line 90, in <module>
-    if __name__=='__main__':main()
-                            ~~~~^^
-  File "/root/msvc2/decomp/vc1.0/c1xx/scripts/seed-case.py", line 41, in main
-    assert native['buffers']==[m[1] for m in re.findall(r'^buffer \d+ (\d+) ([0-9a-f]*)$',events,re.M)]
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

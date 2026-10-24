@@ -1,8 +1,0 @@
-{
-  "status": "unsupported native path rejected",
-  "function": "begin_implicit_statement_scope",
-  "injected_lookahead": 2,
-  "signal": 5,
-  "pc_offset": 177,
-  "preceding_instruction": "cc"
-}

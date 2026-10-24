@@ -1,3 +1,0 @@
-python3 scripts/check-native.py --trace
-cpp_basic,virtual_diamond,copy_assignment: pass
-receipt: /root/.ai-tmp/msvc2/vc1.0/c1xx/native/native-check-bmjmam1g/receipt.json

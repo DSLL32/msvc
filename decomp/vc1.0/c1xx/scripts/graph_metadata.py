@@ -19,7 +19,7 @@ def metadata(config):
 def main():
     import sys
     destination=Path(sys.argv[1])
-    destination.write_text(json.dumps(metadata(json.loads((BINARY/'functions.json').read_text())),indent=2)+'\n')
+    destination.write_text(json.dumps(metadata(json.loads((BINARY/'.build/functions.json').read_text())),indent=2)+'\n')
 
 
 if __name__=='__main__':main()

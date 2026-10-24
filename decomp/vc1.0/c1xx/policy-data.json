@@ -1,0 +1,3100 @@
+{
+  "runtime_data": [
+    {
+      "name": "__fmode",
+      "original": 697276,
+      "value": 32768,
+      "bytes": 4,
+      "object": "BINMODE.OBJ"
+    },
+    {
+      "name": "__timezone",
+      "original": 715320,
+      "value": 28800,
+      "bytes": 4,
+      "object": "TIMESET.OBJ"
+    },
+    {
+      "name": "__daylight",
+      "original": 715324,
+      "value": 1,
+      "bytes": 4,
+      "object": "TIMESET.OBJ"
+    }
+  ],
+  "tables": [
+    {
+      "name": "_option_rules",
+      "original": 655384,
+      "kind": "option"
+    },
+    {
+      "name": "_options",
+      "original": 653208,
+      "kind": "configuration",
+      "bytes": 764
+    },
+    {
+      "name": "_keyword_specs",
+      "original": 646824,
+      "kind": "keyword"
+    },
+    {
+      "name": "_declspec_specs",
+      "original": 647520,
+      "kind": "declspec"
+    },
+    {
+      "name": "_ir_record_formats",
+      "original": 666380,
+      "kind": "schemas",
+      "count": 191,
+      "original_stride": 8,
+      "rebuilt_stride": 4
+    },
+    {
+      "name": "_special_identifiers",
+      "original": 645600,
+      "kind": "identifiers"
+    },
+    {
+      "name": "_character_flags",
+      "original": 644784,
+      "kind": "bytes",
+      "bytes": 256
+    },
+    {
+      "name": "__tzname",
+      "original": 715336,
+      "kind": "string_pointers",
+      "count": 2
+    },
+    {
+      "name": "__days",
+      "original": 715264,
+      "kind": "bytes",
+      "bytes": 52
+    },
+    {
+      "name": "_global_record_formats",
+      "original": 668088,
+      "kind": "schemas",
+      "count": 19,
+      "original_stride": 8,
+      "rebuilt_stride": 4
+    },
+    {
+      "name": "_next_symbol_index",
+      "original": 652352,
+      "kind": "bytes",
+      "bytes": 4
+    },
+    {
+      "name": "_function_ir",
+      "original": 594788,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_function_ir",
+          "original": 594788,
+          "bytes": 20
+        },
+        {
+          "name": "_hidden_frame_enabled",
+          "original": 654264,
+          "bytes": 4
+        },
+        {
+          "name": "_hidden_frame_bytes",
+          "original": 652368,
+          "bytes": 4
+        },
+        {
+          "name": "_function_not_inlinable",
+          "original": 654344,
+          "bytes": 4
+        },
+        {
+          "name": "_pragma_record_number",
+          "original": 652376,
+          "bytes": 4
+        },
+        {
+          "name": "_pragma_text",
+          "original": 654004,
+          "bytes": 4
+        },
+        {
+          "name": "_pragma_values",
+          "original": 652072,
+          "bytes": 4
+        },
+        {
+          "name": "_declaration_type_stack",
+          "original": 594676,
+          "bytes": 4
+        },
+        {
+          "name": "_declaration_type_index",
+          "original": 594688,
+          "bytes": 2
+        },
+        {
+          "name": "_source_file_index",
+          "original": 594812,
+          "bytes": 4
+        },
+        {
+          "name": "_source_file_counter",
+          "original": 653196,
+          "bytes": 4
+        },
+        {
+          "name": "_last_record_source",
+          "original": 622672,
+          "bytes": 256
+        },
+        {
+          "name": "_function_call_seen",
+          "original": 654340,
+          "bytes": 4
+        },
+        {
+          "name": "_inline_candidate",
+          "original": 654336,
+          "bytes": 4
+        },
+        {
+          "name": "_global_record_kind",
+          "original": 594780,
+          "bytes": 1
+        },
+        {
+          "name": "_auxiliary_ir_stream",
+          "original": 666028,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_active_input",
+      "original": 645096,
+      "fields": [
+        {
+          "name": "_active_input",
+          "original": 645096,
+          "bytes": 4
+        },
+        {
+          "name": "_root_input",
+          "original": 645100,
+          "bytes": 4
+        },
+        {
+          "name": "_free_inputs",
+          "original": 645104,
+          "bytes": 4
+        },
+        {
+          "name": "_source_handle",
+          "original": 645112,
+          "bytes": 4
+        },
+        {
+          "name": "_include_depth",
+          "original": 645108,
+          "bytes": 2
+        },
+        {
+          "name": "_source_storage",
+          "original": 596204,
+          "bytes": 12297
+        },
+        {
+          "name": "_source_text_cursor",
+          "original": 573772,
+          "bytes": 4
+        },
+        {
+          "name": "_source_line_number",
+          "original": 576664,
+          "bytes": 4
+        },
+        {
+          "name": "_conditional_depth",
+          "original": 654280,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_expansion_active",
+          "original": 596096,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_expansion_frames",
+          "original": 612256,
+          "bytes": 4,
+          "offset": 20
+        },
+        {
+          "name": "_browser_file_cookie",
+          "original": 609040,
+          "bytes": 4
+        },
+        {
+          "name": "_browser_saved_position",
+          "original": 664380,
+          "bytes": 4
+        },
+        {
+          "name": "_browser_file",
+          "original": 585720,
+          "bytes": 4
+        },
+        {
+          "name": "_final_newline_emitted",
+          "original": 648520,
+          "bytes": 4
+        },
+        {
+          "name": "_forced_include_active",
+          "original": 654008,
+          "bytes": 1
+        },
+        {
+          "name": "_forced_source_inputs",
+          "original": 593744,
+          "bytes": 4
+        },
+        {
+          "name": "_source_filename",
+          "original": 654416,
+          "bytes": 4,
+          "pointer_to": "_token_buffer",
+          "original_target": 585748
+        },
+        {
+          "name": "_source_buffer_cursor",
+          "original": 654412,
+          "bytes": 4,
+          "pointer_to": "_token_buffer",
+          "original_target": 585748
+        },
+        {
+          "name": "_source_buffer_end",
+          "original": 654420,
+          "bytes": 4,
+          "pointer_to": "_token_buffer",
+          "original_target": 593684,
+          "target_offset": 7936
+        }
+      ]
+    },
+    {
+      "name": "_builtin_operators",
+      "original": 687216,
+      "kind": "bytes",
+      "bytes": 1160
+    },
+    {
+      "kind": "tokens",
+      "name": "_token_spellings",
+      "original": 660940,
+      "count": 213
+    },
+    {
+      "kind": "state",
+      "name": "_declaration_mode",
+      "original": 573756,
+      "fields": [
+        {
+          "name": "_declaration_mode",
+          "original": 573756,
+          "bytes": 1
+        },
+        {
+          "name": "_global_record_kind",
+          "original": 594780,
+          "bytes": 1
+        },
+        {
+          "name": "_declaration_storage",
+          "original": 574460,
+          "bytes": 3
+        },
+        {
+          "name": "_declaration_kind",
+          "original": 595280,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_deferred_declarations",
+      "original": 594892,
+      "fields": [
+        {
+          "name": "_deferred_declarations",
+          "original": 594892,
+          "bytes": 240
+        },
+        {
+          "name": "_current_class_context",
+          "original": 654312,
+          "bytes": 4
+        },
+        {
+          "name": "_allow_incomplete_class",
+          "original": 654464,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_cpp_parser_flags",
+      "original": 653204,
+      "kind": "bytes",
+      "bytes": 4
+    },
+    {
+      "kind": "state",
+      "name": "_pending_function_qualifiers",
+      "original": 594416,
+      "fields": [
+        {
+          "name": "_pending_function_qualifiers",
+          "original": 594416,
+          "bytes": 2
+        },
+        {
+          "name": "_parsed_parameter_symbols",
+          "original": 594280,
+          "bytes": 4
+        },
+        {
+          "name": "_function_declaration_kind",
+          "original": 595320,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_suppress_implicit_member",
+      "original": 594412,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_global_expression_scope_active",
+      "original": 576696,
+      "bytes": 4
+    },
+    {
+      "kind": "state",
+      "name": "_conversion_declaration",
+      "original": 594836,
+      "fields": [
+        {
+          "name": "_conversion_declaration",
+          "original": 594836,
+          "bytes": 8
+        },
+        {
+          "name": "_current_declaration_scope",
+          "original": 654396,
+          "bytes": 2
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_current_qc_context",
+      "original": 654400,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_purecall_symbol",
+      "original": 651952,
+      "bytes": 4
+    },
+    {
+      "kind": "runtime_functions",
+      "name": "_runtime_function_specs",
+      "original": 651616,
+      "count": 1
+    },
+    {
+      "kind": "bytes",
+      "name": "_symbol_scope_mode",
+      "original": 573752,
+      "bytes": 1
+    },
+    {
+      "kind": "packed_options",
+      "name": "_packed_option_values",
+      "original": 668864,
+      "count": 21
+    },
+    {
+      "kind": "state",
+      "name": "_parser_stacks",
+      "original": 609860,
+      "fields": [
+        {
+          "name": "_parser_stacks",
+          "original": 609860,
+          "bytes": 2208
+        },
+        {
+          "name": "_parser_value",
+          "original": 573936,
+          "bytes": 8
+        },
+        {
+          "name": "_current_token_value",
+          "original": 573776,
+          "bytes": 8
+        },
+        {
+          "name": "_parser_lookahead",
+          "original": 650140,
+          "bytes": 4
+        },
+        {
+          "name": "_parser_error_count",
+          "original": 650144,
+          "bytes": 4
+        },
+        {
+          "name": "_parser_recovery_count",
+          "original": 650148,
+          "bytes": 2
+        }
+      ]
+    },
+    {
+      "kind": "declaration_codes",
+      "name": "_declaration_codes",
+      "original": 662004,
+      "count": 49
+    },
+    {
+      "kind": "state",
+      "name": "_declaration_control",
+      "original": 576536,
+      "fields": [
+        {
+          "name": "_declaration_control",
+          "original": 576536,
+          "bytes": 64
+        },
+        {
+          "name": "_default_argument_storage",
+          "original": 594420,
+          "bytes": 244
+        },
+        {
+          "name": "_class_contexts",
+          "original": 573948,
+          "bytes": 512
+        },
+        {
+          "name": "_text_work_cursor",
+          "original": 654408,
+          "bytes": 4,
+          "pointer_to": "_literal_workspace",
+          "original_target": 574472,
+          "target_offset": 4
+        },
+        {
+          "name": "_initializer_list_started",
+          "original": 657956,
+          "bytes": 4
+        },
+        {
+          "name": "_declarator_nesting",
+          "original": 596116,
+          "bytes": 4
+        },
+        {
+          "name": "_declaration_spec_storage",
+          "original": 608508,
+          "bytes": 488
+        },
+        {
+          "name": "_enumerator_value",
+          "original": 654348,
+          "bytes": 4
+        },
+        {
+          "name": "_enumerator_context",
+          "original": 651736,
+          "bytes": 4
+        },
+        {
+          "name": "_based_symbol",
+          "original": 594276,
+          "bytes": 4
+        },
+        {
+          "name": "_array_bound",
+          "original": 621500,
+          "bytes": 4
+        },
+        {
+          "name": "_new_array_bound",
+          "original": 621508,
+          "bytes": 4
+        },
+        {
+          "name": "_member_lookup_operator",
+          "original": 621492,
+          "bytes": 1
+        },
+        {
+          "name": "_member_lookup_context",
+          "original": 621496,
+          "bytes": 4
+        },
+        {
+          "name": "_control_labels",
+          "original": 595292,
+          "bytes": 4
+        },
+        {
+          "name": "_break_labels",
+          "original": 595296,
+          "bytes": 4
+        },
+        {
+          "name": "_continue_labels",
+          "original": 595300,
+          "bytes": 4
+        },
+        {
+          "name": "_switch_labels",
+          "original": 595304,
+          "bytes": 4
+        },
+        {
+          "name": "_default_labels",
+          "original": 595308,
+          "bytes": 4
+        },
+        {
+          "name": "_label_stack_count",
+          "original": 595288,
+          "bytes": 4
+        },
+        {
+          "name": "_default_label",
+          "original": 595312,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_token_replay",
+      "original": 617356,
+      "fields": [
+        {
+          "name": "_token_replay",
+          "original": 617356,
+          "bytes": 3248
+        },
+        {
+          "name": "_deferred_token_end",
+          "original": 645060,
+          "bytes": 4,
+          "pointer_to": "_token_replay",
+          "original_target": 617356
+        },
+        {
+          "name": "_deferred_token_cursor",
+          "original": 645064,
+          "bytes": 4,
+          "pointer_to": "_token_replay",
+          "original_target": 617356
+        },
+        {
+          "name": "_current_token_code",
+          "original": 654424,
+          "bytes": 1
+        },
+        {
+          "name": "_type_specifier_symbol",
+          "original": 609016,
+          "bytes": 4
+        },
+        {
+          "name": "_pushed_token_top",
+          "original": 645048,
+          "bytes": 4,
+          "pointer_to": "_token_replay",
+          "original_target": 620556,
+          "target_offset": 3200
+        },
+        {
+          "name": "_pushed_token_begin",
+          "original": 645052,
+          "bytes": 4,
+          "pointer_to": "_token_replay",
+          "original_target": 620556,
+          "target_offset": 3200
+        },
+        {
+          "name": "_pushed_token_count",
+          "original": 645056,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_token_categories",
+      "original": 661791,
+      "bytes": 213
+    },
+    {
+      "kind": "state",
+      "name": "_lexer_text_storage",
+      "original": 573784,
+      "fields": [
+        {
+          "name": "_lexer_text_storage",
+          "original": 573784,
+          "bytes": 132
+        },
+        {
+          "name": "_pch_output_written",
+          "original": 654012,
+          "bytes": 1
+        },
+        {
+          "name": "_compiler_stack",
+          "original": 577488,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_mode",
+          "original": 576720,
+          "bytes": 4
+        },
+        {
+          "name": "_error_count",
+          "original": 576648,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_suppress_vtordisp",
+      "original": 573944,
+      "fields": [
+        {
+          "name": "_suppress_vtordisp",
+          "original": 573944,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_current_enum_symbol",
+      "original": 608504,
+      "fields": [
+        {
+          "name": "_current_enum_symbol",
+          "original": 608504,
+          "bytes": 4
+        },
+        {
+          "name": "_current_scope",
+          "original": 651980,
+          "bytes": 4
+        },
+        {
+          "name": "_global_scope",
+          "original": 651976,
+          "bytes": 4
+        },
+        {
+          "name": "_lookup_scope",
+          "original": 651756,
+          "bytes": 4
+        },
+        {
+          "name": "_scope_directory",
+          "original": 651984,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_tag_declaration_seen",
+      "original": 596092,
+      "fields": [
+        {
+          "name": "_tag_declaration_seen",
+          "original": 596092,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_pch_separate_debug",
+      "original": 654028,
+      "fields": [
+        {
+          "name": "_pch_separate_debug",
+          "original": 654028,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_cpp_context_stack",
+      "original": 652076,
+      "fields": [
+        {
+          "name": "_cpp_context_stack",
+          "original": 652076,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_scope_directory_index",
+      "original": 658716,
+      "fields": [
+        {
+          "name": "_scope_directory_index",
+          "original": 658716,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_pragma_vtordisp",
+      "original": 652384,
+      "fields": [
+        {
+          "name": "_pragma_vtordisp",
+          "original": 652384,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_compiler_arena",
+      "original": 665408,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_compiler_arena",
+          "original": 665408,
+          "bytes": 128
+        },
+        {
+          "name": "_arena_release_word_1",
+          "original": 663068,
+          "bytes": 4
+        },
+        {
+          "name": "_arena_release_word_2",
+          "original": 663076,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_last_lookup_scope",
+      "original": 595132,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_last_lookup_scope",
+          "original": 595132,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_addition_unsigned_max",
+      "original": 669792,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "name": "_addition_signed_max",
+      "original": 669816,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "name": "_addition_signed_min",
+      "original": 669840,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "name": "_implicit_member_descriptions",
+      "original": 650344,
+      "kind": "string_pointers",
+      "count": 4
+    },
+    {
+      "name": "_class_lookup_operator",
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_class_lookup_operator",
+          "original": 654468,
+          "bytes": 1
+        },
+        {
+          "name": "_class_lookup_context",
+          "original": 595136,
+          "bytes": 4
+        },
+        {
+          "name": "_class_lookup_error",
+          "original": 595140,
+          "bytes": 4
+        }
+      ],
+      "original": 654468
+    },
+    {
+      "name": "_parenthesis_lookahead_depth",
+      "original": 645068,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_parenthesis_lookahead_depth",
+          "original": 645068,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_lookahead_stacks",
+      "original": 631160,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_lookahead_stacks",
+          "original": 631160,
+          "bytes": 1510
+        },
+        {
+          "name": "_lookahead_token",
+          "original": 682204,
+          "bytes": 4
+        },
+        {
+          "name": "_lookahead_error_count",
+          "original": 682208,
+          "bytes": 4
+        },
+        {
+          "name": "_lookahead_recovery_count",
+          "original": 682212,
+          "bytes": 2
+        },
+        {
+          "name": "_lookahead_state",
+          "original": 682216,
+          "bytes": 2
+        },
+        {
+          "name": "_lookahead_state_top",
+          "original": 682220,
+          "bytes": 4,
+          "pointer_to": "_lookahead_stacks",
+          "original_target": 632366,
+          "target_offset": 1206
+        },
+        {
+          "name": "_lookahead_value_top",
+          "original": 682224,
+          "bytes": 4,
+          "pointer_to": "_lookahead_stacks",
+          "original_target": 631160
+        }
+      ]
+    },
+    {
+      "name": "_active_parameter_symbols",
+      "original": 574464,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_active_parameter_symbols",
+          "original": 574464,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_replacement_shape_prefix",
+      "original": 622960,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_replacement_shape_prefix",
+          "original": 622960,
+          "bytes": 12
+        }
+      ]
+    },
+    {
+      "name": "_previous_base_class",
+      "original": 688436,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_previous_base_class",
+          "original": 688436,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_captured_class_error_count",
+      "original": 596100,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_captured_class_error_count",
+          "original": 596100,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_initializer_record_stack",
+      "original": 593740,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_initializer_record_stack",
+          "original": 593740,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_active_function_declaration_kind",
+      "original": 596108,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_active_function_declaration_kind",
+          "original": 596108,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_qualification_arena",
+      "original": 688384,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_qualification_arena",
+          "original": 688384,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_saved_qualification_arena",
+      "original": 688388,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_saved_qualification_arena",
+          "original": 688388,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_qualified_definition_class",
+      "original": 654276,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_qualified_definition_class",
+          "original": 654276,
+          "bytes": 4
+        },
+        {
+          "name": "_current_return_type",
+          "original": 651864,
+          "bytes": 4
+        },
+        {
+          "name": "_structure_return_pointer_type",
+          "original": 609028,
+          "bytes": 4
+        },
+        {
+          "name": "_default_code_segment",
+          "original": 652272,
+          "bytes": 4
+        },
+        {
+          "name": "_browser_macro_end_suppressed",
+          "original": 609036,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_local_static_guard",
+      "original": 596020,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_local_static_guard",
+          "original": 596020,
+          "bytes": 12
+        },
+        {
+          "name": "_default_inline_candidate",
+          "original": 654332,
+          "bytes": 4
+        },
+        {
+          "name": "_function_exit_label",
+          "original": 595284,
+          "bytes": 4
+        },
+        {
+          "name": "_function_expression_sequence",
+          "original": 594784,
+          "bytes": 4
+        },
+        {
+          "name": "_active_local_static_guard",
+          "original": 654472,
+          "bytes": 4,
+          "pointer_to": "_local_static_guard",
+          "original_target": 596020
+        },
+        {
+          "name": "_local_static_guard_label",
+          "original": 595328,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_label_symbols",
+      "original": 654616,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_label_symbols",
+          "original": 654616,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_ir_record_head",
+      "original": 657920,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_ir_record_head",
+          "original": 657920,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_record_tail",
+          "original": 657924,
+          "bytes": 4
+        },
+        {
+          "name": "_function_ir_tail",
+          "original": 658012,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_function_error_count",
+          "original": 658016,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_records_suppressed",
+          "original": 658020,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_ir_free_records",
+      "original": 657928,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_ir_free_records",
+          "original": 657928,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_expression_depth",
+          "original": 657932,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_record_sequence",
+          "original": 657936,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_goto_count",
+          "original": 657940,
+          "bytes": 4
+        },
+        {
+          "name": "_initializing_symbol",
+          "original": 657944,
+          "bytes": 4
+        },
+        {
+          "name": "_initializing_reference",
+          "original": 657948,
+          "bytes": 4
+        },
+        {
+          "name": "_member_initializer_active",
+          "original": 657952,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_list_started",
+          "original": 657956,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_label_records",
+          "original": 657960,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_goto_records",
+          "original": 657964,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_switch_records",
+          "original": 657968,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_ir_record_error_context",
+      "original": 658024,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_ir_record_error_context",
+          "original": 658024,
+          "bytes": 4
+        },
+        {
+          "name": "_syntax_diagnostic_count",
+          "original": 595148,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_convention_warning_emitted",
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_convention_warning_emitted",
+          "original": 621544,
+          "bytes": 4
+        },
+        {
+          "name": "_pending_constructor_initializers",
+          "original": 595144,
+          "bytes": 4
+        }
+      ],
+      "original": 621544
+    },
+    {
+      "name": "_control_record_formats",
+      "original": 668544,
+      "kind": "schemas",
+      "count": 36,
+      "original_stride": 8,
+      "rebuilt_stride": 4
+    },
+    {
+      "name": "_record_context_symbol",
+      "original": 651868,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_record_context_symbol",
+          "original": 651868,
+          "bytes": 4
+        },
+        {
+          "name": "_pending_pragma_kind",
+          "original": 648524,
+          "bytes": 4
+        },
+        {
+          "name": "_pending_pragma_text",
+          "original": 648528,
+          "bytes": 4
+        },
+        {
+          "name": "_function_control_flags",
+          "original": 594808,
+          "bytes": 1
+        },
+        {
+          "name": "_control_word",
+          "original": 573472,
+          "bytes": 2
+        },
+        {
+          "name": "_control_alignment",
+          "original": 654324,
+          "bytes": 2
+        },
+        {
+          "name": "_control_alignment_mode",
+          "original": 654328,
+          "bytes": 2
+        },
+        {
+          "name": "_control_counted_data",
+          "original": 573604,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "name": "_pointer_base_symbol",
+      "original": 594408,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_pointer_base_symbol",
+          "original": 594408,
+          "bytes": 4
+        },
+        {
+          "name": "_inline_base_region",
+          "original": 594672,
+          "bytes": 2
+        },
+        {
+          "name": "_inline_scope_depth",
+          "original": 594680,
+          "bytes": 4
+        },
+        {
+          "name": "_inline_scopes",
+          "original": 594684,
+          "bytes": 4
+        },
+        {
+          "name": "_inline_parameter_slots",
+          "original": 594692,
+          "bytes": 40
+        },
+        {
+          "name": "_inline_slot_count",
+          "original": 594772,
+          "bytes": 1
+        },
+        {
+          "name": "_extended_zero",
+          "original": 654672,
+          "bytes": 12
+        }
+      ]
+    },
+    {
+      "kind": "expression_codes",
+      "name": "_expression_record_rules",
+      "original": 662004,
+      "count": 213
+    },
+    {
+      "kind": "state",
+      "name": "_member_context_links",
+      "original": 652108,
+      "fields": [
+        {
+          "name": "_member_context_links",
+          "original": 652108,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_scope_cleanup_stack",
+      "original": 594844,
+      "fields": [
+        {
+          "name": "_scope_cleanup_stack",
+          "original": 594844,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_classes_pending_table_output",
+      "original": 652240,
+      "fields": [
+        {
+          "name": "_classes_pending_table_output",
+          "original": 652240,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_type_indirect_0080_2",
+      "original": 651944,
+      "fields": [
+        {
+          "name": "_type_indirect_0080_2",
+          "original": 651944,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_integer_constant_scratch",
+      "original": 594664,
+      "fields": [
+        {
+          "name": "_integer_constant_scratch",
+          "original": 594664,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_maximum_signed_int_constant",
+      "original": 654368,
+      "fields": [
+        {
+          "name": "_maximum_signed_int_constant",
+          "original": 654368,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_function_shapes",
+      "original": 651988,
+      "fields": [
+        {
+          "name": "_function_shapes",
+          "original": 651988,
+          "bytes": 84
+        },
+        {
+          "name": "_pragma_values",
+          "original": 652072,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_frontend_record_mates",
+      "original": 657976,
+      "bytes": 36
+    },
+    {
+      "kind": "state",
+      "name": "_seh_try_depth",
+      "original": 594824,
+      "fields": [
+        {
+          "name": "_seh_try_depth",
+          "original": 594824,
+          "bytes": 4
+        },
+        {
+          "name": "_seh_except_depth",
+          "original": 594828,
+          "bytes": 4
+        },
+        {
+          "name": "_seh_finally_depth",
+          "original": 594832,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_closed_scopes",
+      "original": 595152,
+      "fields": [
+        {
+          "name": "_closed_scopes",
+          "original": 595152,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_initializer_data_symbol",
+      "original": 596016,
+      "fields": [
+        {
+          "name": "_initializer_data_symbol",
+          "original": 596016,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_decorated_name_workspace",
+      "original": 621624,
+      "fields": [
+        {
+          "name": "_decorated_name_workspace",
+          "original": 621624,
+          "bytes": 992
+        },
+        {
+          "name": "_decorated_type_count",
+          "original": 621616,
+          "bytes": 4
+        },
+        {
+          "name": "_decorated_name_count",
+          "original": 622656,
+          "bytes": 4
+        },
+        {
+          "name": "_mangle_name_only",
+          "original": 622660,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_allow_plain_symbol_names",
+      "original": 658028,
+      "fields": [
+        {
+          "name": "_allow_plain_symbol_names",
+          "original": 658028,
+          "bytes": 4
+        },
+        {
+          "name": "_mangle_error_sequence",
+          "original": 658032,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_function_directory",
+      "original": 651724,
+      "fields": [
+        {
+          "name": "_function_directory",
+          "original": 651724,
+          "bytes": 4
+        },
+        {
+          "name": "_function_directory_tail",
+          "original": 651728,
+          "bytes": 4
+        },
+        {
+          "name": "_function_directory_index",
+          "original": 652324,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_symbol_bytes",
+          "original": 664348,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_expression_bytes",
+          "original": 664356,
+          "bytes": 4
+        },
+        {
+          "name": "_normalized_Oq",
+          "original": 576604,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_read_enabled",
+          "original": 654016,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_write_enabled",
+          "original": 654020,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_materialized_value_index",
+      "original": 663072,
+      "fields": [
+        {
+          "name": "_materialized_value_index",
+          "original": 663072,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_function_symbol_aliases",
+      "original": 658724,
+      "fields": [
+        {
+          "name": "_function_symbol_aliases",
+          "original": 658724,
+          "bytes": 4
+        },
+        {
+          "name": "_function_symbol_bindings",
+          "original": 658728,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_access_through_virtual_base",
+      "original": 621520,
+      "fields": [
+        {
+          "name": "_access_through_virtual_base",
+          "original": 621520,
+          "bytes": 4
+        },
+        {
+          "name": "_access_failure_owner",
+          "original": 621516,
+          "bytes": 4
+        },
+        {
+          "name": "_access_failure_member",
+          "original": 621524,
+          "bytes": 4
+        },
+        {
+          "name": "_access_failure_protection",
+          "original": 621536,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "name": "_unsigned_integer_limits",
+      "original": 669792,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "name": "_signed_integer_maxima",
+      "original": 669816,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "name": "_signed_integer_minima",
+      "original": 669840,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_default_data_segment",
+          "original": 652264,
+          "bytes": 4
+        }
+      ],
+      "name": "_default_data_segment",
+      "original": 652264
+    },
+    {
+      "name": "_initializer_runtime_override",
+      "original": 595324,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_initializer_runtime_override",
+          "original": 595324,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_storage_symbol",
+          "original": 595344,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_runtime_start",
+          "original": 595348,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_offset",
+          "original": 595352,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_value_error_reported",
+          "original": 658052,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_constructor_offset",
+          "original": 658056,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_constructor_count",
+          "original": 658060,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_end_label",
+          "original": 595336,
+          "bytes": 4
+        },
+        {
+          "name": "_pending_initializer_symbol",
+          "original": 654532,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_data_used",
+          "original": 595340,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_allocation_base_symbol",
+      "original": 658712,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_allocation_base_symbol",
+          "original": 658712,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_base_initialization_access",
+      "original": 621512,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_base_initialization_access",
+          "original": 621512,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_generated_member_queue",
+      "original": 651712,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_generated_member_queue",
+          "original": 651712,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_pending_cleanup_by_scope",
+      "original": 595156,
+      "fields": [
+        {
+          "name": "_pending_cleanup_by_scope",
+          "original": 595156,
+          "bytes": 124
+        },
+        {
+          "name": "_declaration_kind",
+          "original": 595280,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_declaration_thunks",
+      "original": 652088,
+      "fields": [
+        {
+          "name": "_declaration_thunks",
+          "original": 652088,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_deferred_type_tables",
+      "original": 652092,
+      "fields": [
+        {
+          "name": "_deferred_type_tables",
+          "original": 652092,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_segment_symbols",
+      "original": 651860,
+      "fields": [
+        {
+          "name": "_segment_symbols",
+          "original": 651860,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_decorated_names",
+      "original": 622616,
+      "fields": [
+        {
+          "name": "_decorated_names",
+          "original": 622616,
+          "bytes": 40
+        }
+      ]
+    },
+    {
+      "name": "_decorated_types",
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_decorated_types",
+          "original": 621576,
+          "bytes": 40
+        },
+        {
+          "name": "_decorated_type_count",
+          "original": 621616,
+          "bytes": 4
+        },
+        {
+          "name": "_mangle_parameter_depth",
+          "original": 658036,
+          "bytes": 4
+        }
+      ],
+      "original": 621576
+    },
+    {
+      "name": "_pch_file_incomplete",
+      "original": 664432,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_pch_file_incomplete",
+          "original": 664432,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_replacement_incomplete",
+          "original": 664436,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_expression_output",
+          "original": 654024,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_file",
+          "original": 577500,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_replacement_file",
+          "original": 576716,
+          "bytes": 4
+        },
+        {
+          "name": "_intermediate_status",
+          "original": 576636,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_method_aliases",
+      "original": 652084,
+      "fields": [
+        {
+          "name": "_method_aliases",
+          "original": 652084,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "function_pointers",
+      "name": "_hash_functions",
+      "original": 658672,
+      "functions": [
+        "_hash_aligned_pointer",
+        "_hash_low_pointer_bits",
+        "_hash_symbol_index",
+        "_hash_first_word",
+        "_hash_virtual_thunk_key",
+        "_hash_tail_word_pair",
+        "_hash_declaration_index",
+        "_hash_resolved_declaration",
+        "_hash_word_triplet",
+        "_hash_word_pair",
+        null
+      ]
+    },
+    {
+      "kind": "function_pointers",
+      "name": "_equality_functions",
+      "original": 658632,
+      "functions": [
+        "_equal_pointer",
+        "_equal_symbol_indices",
+        "_equal_first_words",
+        "_equal_virtual_thunk_keys",
+        "_equal_tail_word_pairs",
+        "_equal_declaration_indices",
+        "_equal_resolved_declarations",
+        "_equal_word_triplets",
+        "_equal_word_pairs",
+        null
+      ]
+    },
+    {
+      "name": "_inherited_access_levels",
+      "original": 650368,
+      "kind": "bytes",
+      "bytes": 16
+    },
+    {
+      "name": "_pending_class_name_index",
+      "original": 650456,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_pending_class_name_index",
+          "original": 650456,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_type_diagnostic_depth",
+      "original": 654528,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_type_diagnostic_depth",
+          "original": 654528,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_type_diagnostic_storage",
+      "original": 593748,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_type_diagnostic_storage",
+          "original": 593748,
+          "bytes": 528
+        },
+        {
+          "name": "_next_type_diagnostic_handle",
+          "original": 663320,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_conditional_branch_states",
+      "original": 612068,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_conditional_branch_states",
+          "original": 612068,
+          "bytes": 128
+        },
+        {
+          "name": "_pch_include_count",
+          "original": 664412,
+          "bytes": 2
+        }
+      ]
+    },
+    {
+      "name": "_directive_keywords",
+      "original": 647688,
+      "kind": "directives",
+      "count": 13,
+      "groups": 647744,
+      "ids": 647776
+    },
+    {
+      "name": "_literal_workspace",
+      "original": 574468,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_literal_workspace",
+          "original": 574468,
+          "bytes": 2056
+        }
+      ]
+    },
+    {
+      "name": "_initializer_record_marker",
+      "original": 594776,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_initializer_record_marker",
+          "original": 594776,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "name": "_virtual_adjustment_thunks",
+      "original": 652080,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_virtual_adjustment_thunks",
+          "original": 652080,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "token_membership",
+      "name": "_operator_name_tokens",
+      "original": 662855,
+      "count": 63,
+      "domain": 213,
+      "mask": 64
+    },
+    {
+      "name": "_qc_loop_markers",
+      "original": 596032,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_qc_loop_markers",
+          "original": 596032,
+          "bytes": 4
+        },
+        {
+          "name": "_qc_loop_analyses",
+          "original": 596036,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_pch_input_record",
+      "original": 576704,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_pch_input_record",
+          "original": 576704,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_saved_page_count",
+          "original": 664416,
+          "bytes": 2
+        },
+        {
+          "name": "_pch_input_changed",
+          "original": 664420,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_abort_on_file_change",
+          "original": 664424,
+          "bytes": 4
+        },
+        {
+          "name": "_permanent_page_count",
+          "original": 664384,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_macro_formal_count",
+      "original": 612232,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_macro_formal_count",
+          "original": 612232,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_macro_expansion_frames",
+      "original": 612236,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_macro_expansion_frames",
+          "original": 612236,
+          "bytes": 5120
+        },
+        {
+          "name": "_macro_argument_start",
+          "original": 612204,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_argument_state",
+          "original": 612208,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_intertoken_space",
+          "original": 612212,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_expansion_line",
+          "original": 612216,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_file_timestamp",
+          "original": 596168,
+          "bytes": 26
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_debug_file",
+      "original": 576700,
+      "fields": [
+        {
+          "name": "_debug_file",
+          "original": 576700,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_debug_record_buffer",
+      "original": 576692,
+      "fields": [
+        {
+          "name": "_debug_record_buffer",
+          "original": 576692,
+          "bytes": 4
+        },
+        {
+          "name": "_debug_stream_offset",
+          "original": 652380,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "schemas",
+      "name": "_debug_record_formats",
+      "original": 668328,
+      "count": 13,
+      "original_stride": 8,
+      "rebuilt_stride": 4
+    },
+    {
+      "kind": "tokens",
+      "name": "_intrinsic_name_suffixes",
+      "original": 657040,
+      "count": 52
+    },
+    {
+      "kind": "bytes",
+      "name": "_intrinsic_name_groups",
+      "original": 657248,
+      "bytes": 29
+    },
+    {
+      "kind": "bytes",
+      "name": "_intrinsic_rules",
+      "original": 657280,
+      "bytes": 612
+    },
+    {
+      "kind": "state",
+      "name": "_braced_initializers",
+      "original": 595376,
+      "fields": [
+        {
+          "name": "_initializer_excess_reported",
+          "original": 595368,
+          "bytes": 4
+        },
+        {
+          "name": "_braced_initializer_depth",
+          "original": 658048,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_selected_type",
+          "original": 595332,
+          "bytes": 4
+        },
+        {
+          "name": "_current_braced_initializer",
+          "original": 595372,
+          "bytes": 4
+        },
+        {
+          "name": "_braced_initializers",
+          "original": 595376,
+          "bytes": 640
+        },
+        {
+          "name": "_initializer_bit_field_offset",
+          "original": 595356,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_bit_field_value",
+          "original": 595360,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_bit_field_pending",
+          "original": 595364,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_initializer_symbol_bytes",
+      "original": 654536,
+      "bytes": 84
+    },
+    {
+      "kind": "state",
+      "name": "_anonymous_identifier_count",
+      "original": 652360,
+      "fields": [
+        {
+          "name": "_anonymous_identifier_count",
+          "original": 652360,
+          "bytes": 4
+        },
+        {
+          "name": "_anonymous_identifier_spelling",
+          "original": 654620,
+          "bytes": 5
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_static_member_aliases",
+      "original": 652244,
+      "fields": [
+        {
+          "name": "_static_member_aliases",
+          "original": 652244,
+          "bytes": 4
+        },
+        {
+          "name": "_static_member_name_bindings",
+          "original": 651872,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_printing_inline_declaration",
+      "original": 663140,
+      "fields": [
+        {
+          "name": "_printing_inline_declaration",
+          "original": 663140,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_declaration_print_error",
+      "original": 663128,
+      "fields": [
+        {
+          "name": "_declaration_print_error",
+          "original": 663128,
+          "bytes": 4
+        },
+        {
+          "name": "_printing_function_declaration",
+          "original": 663136,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "diagnostic_spellings",
+      "name": "_declaration_calling_conventions",
+      "original": 663208,
+      "count": 6
+    },
+    {
+      "kind": "diagnostic_spellings",
+      "name": "_declaration_pointer_models",
+      "original": 663288,
+      "count": 4
+    },
+    {
+      "kind": "state",
+      "name": "_constructor_closures",
+      "original": 652280,
+      "fields": [
+        {
+          "name": "_constructor_closures",
+          "original": 652280,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_next_debug_type_index",
+      "original": 652372,
+      "fields": [
+        {
+          "name": "_next_debug_type_index",
+          "original": 652372,
+          "bytes": 2
+        },
+        {
+          "name": "_debug_types",
+          "original": 576688,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_real_types",
+      "original": 665032,
+      "bytes": 22
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_unsigned_int_types",
+      "original": 665056,
+      "bytes": 18
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_signed_int_types",
+      "original": 665080,
+      "bytes": 18
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_unsigned_size_types",
+      "original": 665104,
+      "bytes": 18
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_signed_size_types",
+      "original": 665128,
+      "bytes": 18
+    },
+    {
+      "kind": "state",
+      "name": "_debug_type_count",
+      "original": 665024,
+      "fields": [
+        {
+          "name": "_debug_type_count",
+          "original": 665024,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_debug_field_properties",
+      "original": 665028,
+      "fields": [
+        {
+          "name": "_debug_field_properties",
+          "original": 665028,
+          "bytes": 2
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_debug_type_capacity",
+      "original": 665020,
+      "fields": [
+        {
+          "name": "_debug_type_capacity",
+          "original": 665020,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_debug_type_fixups",
+      "original": 665008,
+      "fields": [
+        {
+          "name": "_debug_type_fixups",
+          "original": 665008,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_pointer_models",
+      "original": 665016,
+      "bytes": 4
+    },
+    {
+      "kind": "state",
+      "name": "_debug_field_bytes",
+      "original": 576684,
+      "fields": [
+        {
+          "name": "_debug_field_bytes",
+          "original": 576684,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_member_pointer_full_generality",
+      "original": 652340,
+      "fields": [
+        {
+          "name": "_member_pointer_full_generality",
+          "original": 652340,
+          "bytes": 4
+        },
+        {
+          "name": "_member_pointer_generality_fixed",
+          "original": 652344,
+          "bytes": 4
+        },
+        {
+          "name": "_member_pointer_requested_model",
+          "original": 652348,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_default_constant_segment",
+      "original": 652260,
+      "fields": [
+        {
+          "name": "_default_constant_segment",
+          "original": 652260,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_scanned_floating_value",
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_scanned_floating_value",
+          "original": 621480,
+          "bytes": 12
+        }
+      ],
+      "original": 621480
+    },
+    {
+      "name": "_double_round_limit",
+      "kind": "state",
+      "original": 681694,
+      "fields": [
+        {
+          "name": "_double_round_limit",
+          "original": 681694,
+          "bytes": 10
+        }
+      ]
+    },
+    {
+      "name": "_extended_workspace",
+      "kind": "state",
+      "original": 681738,
+      "fields": [
+        {
+          "name": "_extended_workspace",
+          "original": 681738,
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "name": "_float_round_limit",
+      "kind": "state",
+      "original": 681684,
+      "fields": [
+        {
+          "name": "_float_round_limit",
+          "original": 681684,
+          "bytes": 10
+        }
+      ]
+    },
+    {
+      "name": "_extended_round_limit",
+      "kind": "state",
+      "original": 681704,
+      "fields": [
+        {
+          "name": "_extended_round_limit",
+          "original": 681704,
+          "bytes": 10
+        }
+      ]
+    },
+    {
+      "name": "_type_0041_q1000",
+      "kind": "state",
+      "original": 651876,
+      "fields": [
+        {
+          "name": "_type_0041_q1000",
+          "original": 651876,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_type_0064",
+      "kind": "state",
+      "original": 651892,
+      "fields": [
+        {
+          "name": "_type_0064",
+          "original": 651892,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_type_0042",
+      "kind": "state",
+      "original": 651912,
+      "fields": [
+        {
+          "name": "_type_0042",
+          "original": 651912,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_case_unsigned_maximum",
+      "original": 654376,
+      "kind": "bytes",
+      "bytes": 20
+    },
+    {
+      "name": "_type_0000",
+      "kind": "state",
+      "original": 651928,
+      "fields": [
+        {
+          "name": "_type_0000",
+          "original": 651928,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_atexit_function",
+      "original": 621540,
+      "fields": [
+        {
+          "name": "_atexit_function",
+          "original": 621540,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "function_pointers",
+      "name": "_member_pointer_conversions",
+      "original": 658232,
+      "functions": [
+        "_convert_compact_method_pointer@24",
+        "_convert_compact_method_pointer@24",
+        "_convert_compact_to_virtual_method_pointer@24",
+        "_convert_compact_to_general_method_pointer@24",
+        "_convert_compact_method_pointer@24",
+        "_convert_compact_method_pointer@24",
+        "_convert_compact_to_virtual_method_pointer@24",
+        "_convert_compact_to_general_method_pointer@24",
+        "_convert_virtual_to_compact_method_pointer@24",
+        "_convert_virtual_to_compact_method_pointer@24",
+        "_convert_virtual_method_pointer@24",
+        "_convert_virtual_to_general_method_pointer@24",
+        "_convert_general_to_compact_method_pointer@24",
+        "_convert_general_to_compact_method_pointer@24",
+        "_convert_general_to_virtual_method_pointer@24",
+        "_convert_general_method_pointer@24",
+        "_convert_compact_data_member_pointer@24",
+        "_convert_compact_data_member_pointer@24",
+        "_convert_compact_to_virtual_data_pointer@24",
+        "_convert_compact_to_general_data_pointer@24",
+        "_convert_compact_data_member_pointer@24",
+        "_convert_compact_data_member_pointer@24",
+        "_convert_compact_to_virtual_data_pointer@24",
+        "_convert_compact_to_general_data_pointer@24",
+        "_convert_virtual_to_compact_data_pointer@24",
+        "_convert_virtual_to_compact_data_pointer@24",
+        "_convert_virtual_data_member_pointer@24",
+        "_convert_virtual_to_general_data_pointer@24",
+        "_convert_general_to_compact_data_pointer@24",
+        "_convert_general_to_compact_data_pointer@24",
+        "_convert_general_to_virtual_data_pointer@24",
+        "_convert_general_data_member_pointer@24"
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_qualified_tag_depth",
+      "original": 658040,
+      "fields": [
+        {
+          "name": "_qualified_tag_depth",
+          "original": 658040,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_record_count",
+      "original": 609084,
+      "fields": [
+        {
+          "name": "_browser_record_count",
+          "original": 609084,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_record_head",
+      "original": 609088,
+      "fields": [
+        {
+          "name": "_browser_record_head",
+          "original": 609088,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_records",
+      "original": 609092,
+      "fields": [
+        {
+          "name": "_browser_records",
+          "original": 609092,
+          "bytes": 768
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_records_suppressed",
+      "original": 650196,
+      "fields": [
+        {
+          "name": "_browser_records_suppressed",
+          "original": 650196,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_last_line",
+      "original": 650200,
+      "fields": [
+        {
+          "name": "_browser_last_line",
+          "original": 650200,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_last_reference",
+      "original": 609056,
+      "fields": [
+        {
+          "name": "_browser_last_reference",
+          "original": 609056,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_record_template",
+      "original": 609060,
+      "fields": [
+        {
+          "name": "_browser_record_template",
+          "original": 609060,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_symbol_references",
+      "original": 577528,
+      "fields": [
+        {
+          "name": "_browser_symbol_references",
+          "original": 577528,
+          "bytes": 8192
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_browser_symbol_bit_masks",
+      "original": 650208,
+      "bytes": 8
+    },
+    {
+      "name": "_browser_declaration_categories",
+      "kind": "bytes",
+      "original": 650216,
+      "bytes": 12
+    },
+    {
+      "name": "_browser_access_attributes",
+      "kind": "bytes",
+      "original": 650240,
+      "bytes": 16
+    },
+    {
+      "kind": "state",
+      "name": "_preprocessor_expression_token",
+      "original": 645040,
+      "fields": [
+        {
+          "name": "_preprocessor_expression_token",
+          "original": 645040,
+          "bytes": 1
+        },
+        {
+          "name": "_preprocessor_expression_parentheses",
+          "original": 645044,
+          "bytes": 4
+        },
+        {
+          "name": "_preprocessor_skip_evaluation",
+          "original": 620604,
+          "bytes": 4
+        }
+      ]
+    }
+  ],
+  "buffered_streams": [
+    {
+      "name": "_expression_file",
+      "original": 577508
+    },
+    {
+      "name": "_symbol_file",
+      "original": 577512
+    },
+    {
+      "name": "_line_file",
+      "original": 577516
+    },
+    {
+      "name": "_global_file",
+      "original": 577520
+    }
+  ],
+  "checkpoint_state": [
+    {
+      "name": "_compiler_stack",
+      "original": 577488,
+      "pointer": true
+    },
+    {
+      "name": "_initializer_record_stack",
+      "original": 593740,
+      "pointer": true
+    },
+    {
+      "name": "_macro_expansion_active",
+      "original": 596096,
+      "pointer": false
+    },
+    {
+      "name": "_captured_class_error_count",
+      "original": 596100,
+      "pointer": false
+    },
+    {
+      "name": "_current_class_context",
+      "original": 654312,
+      "pointer": false
+    },
+    {
+      "name": "_declaration_control",
+      "original": 576536,
+      "pointer": false
+    },
+    {
+      "name": "_token_allocation_flags",
+      "original": 653200,
+      "pointer": false
+    },
+    {
+      "name": "_cpp_parser_flags",
+      "original": 653204,
+      "pointer": false
+    },
+    {
+      "name": "_next_symbol_index",
+      "original": 652352,
+      "pointer": false
+    },
+    {
+      "name": "_ir_record_sequence",
+      "original": 657936,
+      "pointer": false
+    },
+    {
+      "name": "_pending_constructor_initializers",
+      "original": 595144,
+      "pointer": true
+    },
+    {
+      "name": "_initializing_symbol",
+      "original": 657944,
+      "pointer": true
+    },
+    {
+      "name": "_initializing_reference",
+      "original": 657948,
+      "pointer": false
+    },
+    {
+      "name": "_member_initializer_active",
+      "original": 657952,
+      "pointer": false
+    }
+  ],
+  "native_limitations": [
+    {
+      "function": "_begin_implicit_statement_scope@4",
+      "original": [
+        157520,
+        157666
+      ],
+      "condition": "parser_lookahead != -1",
+      "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+      "win32": "original-style uninitialized unsigned char token retained",
+      "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+      "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence",
+      "historical_evidence": "17c78f8c6:evidence/implicit-scope-lookahead/analysis.json"
+    },
+    {
+      "function": "_multiplication_overflows@16",
+      "original": [
+        477232,
+        477505
+      ],
+      "condition": "!unsigned_arithmetic && ((int)left>0)!=((int)right>0) && bytes not in {1,2,4}",
+      "behavior": "explicit native-only INT3; unsupported original unwritten-threshold path for malformed/internal type widths",
+      "win32": "original uninitialized threshold switch fallback retained",
+      "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
+      "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence",
+      "historical_evidence": "17c78f8c6:evidence/multiply-boundary/receipt.json"
+    },
+    {
+      "function": "_search_include_directories@4",
+      "original": [
+        148112,
+        148413
+      ],
+      "condition": "directory != NULL && directory != \"./\" && *directory == 0",
+      "behavior": "explicit native-only INT3 before the original unwritten-last-pointer dereference",
+      "win32": "original-style uninitialized last-character pointer retained",
+      "authorization": "Root approved exact guard under preserve-Win32-bug policy after successful public empty-I original probe",
+      "coverage_note": "Valid public -I \"\" input is unsupported natively; original can succeed using caller-derived stale strchr input. No universal stack-origin invariant or malformed-only characterization.",
+      "historical_evidence": "17c78f8c6:evidence/empty-include-directory/analysis.json"
+    },
+    {
+      "function": "_has_single_function@4",
+      "original": [
+        199840,
+        200012
+      ],
+      "condition": "symbol == NULL",
+      "behavior": "explicit native-only INT3 before the original unwritten declaration cursor read",
+      "win32": "original-style uninitialized cursor retained",
+      "authorization": "Root approved exact guard under established preserve-Win32-bug policy",
+      "coverage_note": "NULL input public reachability is unknown; no caller-derived stack equivalence or malformed-only classification.",
+      "historical_evidence": "17c78f8c6:evidence/single-function-null/analysis.json"
+    },
+    {
+      "function": "_primitive_debug_type@4",
+      "original": [
+        448800,
+        448951
+      ],
+      "condition": "!(flags & 0x80) && (flags & 0x140) && (flags & 15) >= ((flags & 0x100) ? 11 : 9)",
+      "behavior": "explicit native-only INT3 before an out-of-domain logical predefined-type table access",
+      "win32": "original flags&15 indexing retained, without invented zero padding or neighbouring literal bytes",
+      "authorization": "Root approved exact native unsupported-domain guard and logical float[11]/integral[9] tables",
+      "coverage_note": "Unknown descriptor domain is unsupported natively; no public reachability, original-bug or invalid-width equivalence claim.",
+      "historical_evidence": "17c78f8c6:evidence/primitive-debug-width/receipt.json"
+    },
+    {
+      "function": "_count_debug_methods@8",
+      "original": [
+        449920,
+        450431
+      ],
+      "condition": "overloads == NULL",
+      "behavior": "explicit native-only INT3 before the original unwritten next-method cursor read",
+      "win32": "original-style uninitialized cursor retained on NULL-overloads branch",
+      "authorization": "Established root-approved exact uninitialized-cursor guard policy after independent raw def-use/offset check",
+      "coverage_note": "Original cursor at entryESP-20 is unwritten on NULL branch. Public NULL reachability unknown; no caller-stack equivalence or malformed-only/CRT classification.",
+      "historical_evidence": "17c78f8c6:evidence/debug-methods-null/analysis.json"
+    },
+    {
+      "function": "_emit_debug_class@12",
+      "original": [
+        452064,
+        453017
+      ],
+      "condition": "tag->type->flags is not 0x402,0x404,0x408 and lacks 0x200",
+      "behavior": "explicit native-only INT3 before the original unwritten record-length local read",
+      "win32": "original uninitialized length retained on unsupported descriptor fallback",
+      "authorization": "Established root-approved original-uninitialized-local guard policy after independent raw condition/offset/writer review",
+      "coverage_note": "Fallback loads entryESP-24, with no local writer. Public reachability unknown; no malformed-only, CRT or stale-stack equivalence claim.",
+      "historical_evidence": "17c78f8c6:evidence/debug-class-domain/analysis.json"
+    },
+    {
+      "function": "_emit_debug_base_fields@12",
+      "original": [
+        455808,
+        456940
+      ],
+      "condition": "query_virtual_base_pointer returns false on direct/inherited virtual-base emission",
+      "behavior": "exact native-only INT3 before reading uninitialized output locals",
+      "win32": "original ignored query return and uninitialized output reads retained",
+      "authorization": "Root approved after full call/output-writer proof; no blanket guard",
+      "coverage_note": "Missing-group public reachability UNKNOWN; no malformed-only or stale-stack equivalence claim. pointer_offset/table_offset/pointer_type at entryESP-68/-72/-76 independently checked.",
+      "historical_evidence": "17c78f8c6:evidence/debug-base-query-failure/analysis.json"
+    },
+    {
+      "function": "_count_emitted_overloads@4",
+      "original": [
+        199600,
+        199825
+      ],
+      "condition": "overloads == NULL",
+      "behavior": "exact native-only INT3 before original unwritten cursor read",
+      "win32": "original uninitialized next cursor retained for NULL input",
+      "authorization": "Existing root-approved exact uninitialized-cursor policy after independent raw branch/frame/writer proof",
+      "coverage_note": "Cursor entryESP-8 unwritten on NULL branch; public NULL reachability UNKNOWN, no malformed-only or stale-stack equivalence claim.",
+      "historical_evidence": "17c78f8c6:evidence/overload-count-null/analysis.json"
+    },
+    {
+      "function": "_emit_debug_method_list@4",
+      "original": [
+        457392,
+        457837
+      ],
+      "condition": "overloads == NULL",
+      "behavior": "explicit native-only INT3 before original unwritten next-method cursor read",
+      "win32": "original-style uninitialized cursor retained on NULL overload-set branch",
+      "authorization": "Established exact native uninitialized-cursor guard policy after independent raw def-use/frame check",
+      "coverage_note": "NULL jumps6facd to6fb30, skipping cursor stores6fb1b/6fb28; cursor entryESP-8 is unwritten. Public reachability UNKNOWN; no malformed-only/CRT/stale-stack equivalence claim.",
+      "historical_evidence": "17c78f8c6:evidence/debug-method-list-null/analysis.json"
+    },
+    {
+      "function": "_member_pointer_expression@4",
+      "original": [
+        303040,
+        303607
+      ],
+      "condition": "inheritance model outside 1..4, in either data-member or method branch",
+      "behavior": "exact native-only INT3 before original unwritten entryESP-4 result read",
+      "win32": "original-style uninitialized result local retained",
+      "authorization": "Established precise native uninitialized-read policy after independent whole-body def-use/frame check",
+      "coverage_note": "Both fallback loads4a0e4/4a18a read adjustedESP+24 after SUB16/save12; no writer exists to that local. Public reachability UNKNOWN; no invalid-model or original stack equivalence claim.",
+      "historical_evidence": "17c78f8c6:evidence/member-pointer-model-domain/analysis.json"
+    },
+    {
+      "function": "_fold_floating_binary@12",
+      "original": [
+        184464,
+        185320
+      ],
+      "condition": "arithmetic-result path with (expression->type->flags & 0xefff) outside 0x104/0x108/0x128",
+      "behavior": "exact native-only INT3 before original unwritten entryESP-25 literal-kind read",
+      "win32": "original-style uninitialized unsigned char kind retained",
+      "authorization": "Parent approved established precise original-bug policy after independent whole-body frame/def-use check",
+      "coverage_note": "The byte at adjustedESP+11 has no writer in whole728Bbody; result and conversion output spans do not overlap it. Public reachability UNKNOWN; no undefined-kind or original stack equivalence claim.",
+      "historical_evidence": "17c78f8c6:evidence/floating-binary-fold/analysis.json"
+    },
+    {
+      "function": "_finish_function_output",
+      "original": [
+        350912,
+        351070
+      ],
+      "condition": "!options.prototypes_only and closed_scopes==NULL after finish_label_symbols; native guard follows both genuine records13",
+      "behavior": "exact native-only INT3 before original55b06 unwritten entryESP-4 DWORD read",
+      "win32": "original-style uninitialized scope pointer retained",
+      "authorization": "Parent approved established original-UB policy after concrete valid-input original/native divergence and exact whole-body owner/read proof",
+      "coverage_note": "Public valid-input reach is proven by frozen state_machine_debug synthetic local-static cleanup. Original symbol buffer1802B vs unguarded native1801B omitted06; guarded native1634B matches original prefix before06. Unaccepted flush candidate remains a patch/stub boundary; no original stale-stack equivalence or current-case completion claim.",
+      "historical_evidence": "17c78f8c6:evidence/empty-output-scope/receipt.json"
+    },
+    {
+      "function": "_format_browser_temporary_name@4",
+      "original": [
+        175312,
+        175416
+      ],
+      "condition": "copied options.option_Fr filename is empty",
+      "behavior": "exact native-only INT3 before original2ad10 unwritten entryESP-4 last-pointer read/write-through",
+      "win32": "original-style uninitialized last pointer retained",
+      "authorization": "Established precise original-uninitialized-local policy after independent complete104B def-use/frame check",
+      "coverage_note": "SUB4+EBX/ESI/EDI saves12 places adjustedESP+12 atentryESP-4. Only nonempty2ad06 assigns EAX last; empty2ad10 loads untouchedlocal before2ad14 writeslast[1]. Public empty-name reachability UNKNOWN, current registry.sbr nonempty defined; no undefined-stack equivalence claimed.",
+      "historical_evidence": "17c78f8c6:evidence/browser-temporary-name/analysis.json"
+    },
+    {
+      "function": "_fill_browser_declaration@8",
+      "original": [
+        178176,
+        178821
+      ],
+      "condition": "category-table lookup after original filters has symbol kind (kind & 31) outside encountered prefix0..11",
+      "behavior": "native-only INT3 immediately before unmodeled category-row read",
+      "win32": "original unguarded table indexing retained",
+      "authorization": "Root approved bounded encountered prefix and exact unsupported-data-domain trap",
+      "coverage_note": "Unknown historical full table extent and pseudo-kind lookup reachability; no original-UB or malformed-only classification. Current genuine operator-new symbol is kind7; kind11 suppression and storage7/type4/member7 bypasses retain original ordering.",
+      "historical_evidence": "17c78f8c6:evidence/browser-declaration/analysis.json"
+    },
+    {
+      "function": "_parse_preprocessor_conditional",
+      "original": [
+        100064,
+        100138
+      ],
+      "condition": "ternary '?' accepted, ':' not accepted, and condition->value==0",
+      "behavior": "Exact native-only INT3 after genuine preceding parser calls, before consuming unwritten false-result pointer",
+      "win32": "Original uninitialized false-result pointer remains uninitialized",
+      "authorization": "Root confirms established exact original-uninitialized-output policy after complete74B prologue/def-use analysis",
+      "coverage_note": "SUB4/saveESI+EDI8 makes original18710 [adjustedESP+8] equalentryESP-4, with no writer. On true condition1871a overwrites/discards that load, so no blanket missing-colon guard. Public reachability UNKNOWN; current case has no ternary at this frontier, no malformed-only or stack-equivalence claim.",
+      "historical_evidence": "17c78f8c6:evidence/preprocessor-expressions/conditional-missing-colon.json"
+    }
+  ]
+}

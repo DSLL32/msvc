@@ -1,8 +1,0 @@
-entry _read_include_name rva 000137f0 byte 56
-entry _read_angle_include_name rva 00013630 byte 56
-entry _trim_filename_space rva 000147b0 byte 53
-entry _open_forced_include@8 rva 000138b0 byte 56
-entry _process_pch_include@4 rva 0005b530 byte 56
-exception 80000003 rva 000714f0 base 00010000 first 1
-exception 80000003 rva 0001392e base 00010000 first 1
-exit 99
