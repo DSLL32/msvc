@@ -92,7 +92,6 @@ char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
-void __stdcall browser_declaration(CppSymbol *symbol) { __asm { int 3 } }
 char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose) { __asm { int 3 } return 0; }
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 

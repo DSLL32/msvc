@@ -1,0 +1,308 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00051c60 <.text+0x3ac60>:
+   51c60:	83 ec 04             	sub    esp,0x4
+   51c63:	53                   	push   ebx
+   51c64:	56                   	push   esi
+   51c65:	57                   	push   edi
+   51c66:	55                   	push   ebp
+   51c67:	8b 7c 24 1c          	mov    edi,DWORD PTR [esp+0x1c]
+   51c6b:	c7 44 24 10 00 00 00 	mov    DWORD PTR [esp+0x10],0x0
+   51c72:	00 
+   51c73:	8b 5f 04             	mov    ebx,DWORD PTR [edi+0x4]
+   51c76:	0b db                	or     ebx,ebx
+   51c78:	74 4e                	je     0x51cc8
+   51c7a:	8b 43 0c             	mov    eax,DWORD PTR [ebx+0xc]
+   51c7d:	0b c0                	or     eax,eax
+   51c7f:	75 0f                	jne    0x51c90
+   51c81:	2b c0                	sub    eax,eax
+   51c83:	5d                   	pop    ebp
+   51c84:	5f                   	pop    edi
+   51c85:	5e                   	pop    esi
+   51c86:	5b                   	pop    ebx
+   51c87:	83 c4 04             	add    esp,0x4
+   51c8a:	c2 08 00             	ret    0x8
+   51c8d:	8d 49 00             	lea    ecx,[ecx+0x0]
+   51c90:	8b 00                	mov    eax,DWORD PTR [eax]
+   51c92:	8b 40 08             	mov    eax,DWORD PTR [eax+0x8]
+   51c95:	50                   	push   eax
+   51c96:	e8 85 cc fd ff       	call   0x2e920
+   51c9b:	0b c0                	or     eax,eax
+   51c9d:	74 21                	je     0x51cc0
+   51c9f:	80 3d 3c c1 08 00 00 	cmp    BYTE PTR ds:0x8c13c,0x0
+   51ca6:	74 20                	je     0x51cc8
+   51ca8:	8b 47 08             	mov    eax,DWORD PTR [edi+0x8]
+   51cab:	50                   	push   eax
+   51cac:	68 8f 02 00 00       	push   0x28f
+   51cb1:	e8 ca 14 02 00       	call   0x73180
+   51cb6:	83 c4 08             	add    esp,0x8
+   51cb9:	eb 0d                	jmp    0x51cc8
+   51cbb:	05 00 00 00 00       	add    eax,0x0
+   51cc0:	c7 44 24 10 01 00 00 	mov    DWORD PTR [esp+0x10],0x1
+   51cc7:	00 
+   51cc8:	f6 05 94 f7 09 00 80 	test   BYTE PTR ds:0x9f794,0x80
+   51ccf:	74 22                	je     0x51cf3
+   51cd1:	80 3d 3c c1 08 00 00 	cmp    BYTE PTR ds:0x8c13c,0x0
+   51cd8:	8b 6c 24 18          	mov    ebp,DWORD PTR [esp+0x18]
+   51cdc:	75 19                	jne    0x51cf7
+   51cde:	8a 45 00             	mov    al,BYTE PTR [ebp+0x0]
+   51ce1:	a8 07                	test   al,0x7
+   51ce3:	75 12                	jne    0x51cf7
+   51ce5:	24 f9                	and    al,0xf9
+   51ce7:	0c 01                	or     al,0x1
+   51ce9:	88 45 00             	mov    BYTE PTR [ebp+0x0],al
+   51cec:	24 df                	and    al,0xdf
+   51cee:	88 45 00             	mov    BYTE PTR [ebp+0x0],al
+   51cf1:	eb 04                	jmp    0x51cf7
+   51cf3:	8b 6c 24 18          	mov    ebp,DWORD PTR [esp+0x18]
+   51cf7:	57                   	push   edi
+   51cf8:	55                   	push   ebp
+   51cf9:	e8 c2 02 00 00       	call   0x51fc0
+   51cfe:	8b f0                	mov    esi,eax
+   51d00:	83 7c 24 10 00       	cmp    DWORD PTR [esp+0x10],0x0
+   51d05:	74 07                	je     0x51d0e
+   51d07:	6a 01                	push   0x1
+   51d09:	e8 a2 16 fe ff       	call   0x333b0
+   51d0e:	0b f6                	or     esi,esi
+   51d10:	75 36                	jne    0x51d48
+   51d12:	e8 19 6d 01 00       	call   0x68a30
+   51d17:	6a 00                	push   0x0
+   51d19:	57                   	push   edi
+   51d1a:	e8 c1 5e 01 00       	call   0x67be0
+   51d1f:	50                   	push   eax
+   51d20:	e8 4b 6d 01 00       	call   0x68a70
+   51d25:	50                   	push   eax
+   51d26:	68 f4 00 00 00       	push   0xf4
+   51d2b:	e8 50 14 02 00       	call   0x73180
+   51d30:	83 c4 08             	add    esp,0x8
+   51d33:	e8 08 6d 01 00       	call   0x68a40
+   51d38:	80 4f 02 02          	or     BYTE PTR [edi+0x2],0x2
+   51d3c:	2b c0                	sub    eax,eax
+   51d3e:	5d                   	pop    ebp
+   51d3f:	5f                   	pop    edi
+   51d40:	5e                   	pop    esi
+   51d41:	5b                   	pop    ebx
+   51d42:	83 c4 04             	add    esp,0x4
+   51d45:	c2 08 00             	ret    0x8
+   51d48:	8a 06                	mov    al,BYTE PTR [esi]
+   51d4a:	24 1f                	and    al,0x1f
+   51d4c:	3c 04                	cmp    al,0x4
+   51d4e:	75 10                	jne    0x51d60
+   51d50:	8b c6                	mov    eax,esi
+   51d52:	5d                   	pop    ebp
+   51d53:	5f                   	pop    edi
+   51d54:	5e                   	pop    esi
+   51d55:	5b                   	pop    ebx
+   51d56:	83 c4 04             	add    esp,0x4
+   51d59:	c2 08 00             	ret    0x8
+   51d5c:	8d 64 24 00          	lea    esp,[esp+0x0]
+   51d60:	83 3d 04 c4 08 00 00 	cmp    DWORD PTR ds:0x8c404,0x0
+   51d67:	74 5d                	je     0x51dc6
+   51d69:	80 3d 3c c1 08 00 00 	cmp    BYTE PTR ds:0x8c13c,0x0
+   51d70:	74 09                	je     0x51d7b
+   51d72:	83 3d 10 f0 08 00 00 	cmp    DWORD PTR ds:0x8f010,0x0
+   51d79:	74 4b                	je     0x51dc6
+   51d7b:	83 7e 10 00          	cmp    DWORD PTR [esi+0x10],0x0
+   51d7f:	75 3f                	jne    0x51dc0
+   51d81:	81 3d 40 f4 09 00 ff 	cmp    DWORD PTR ds:0x9f440,0x7fffffff
+   51d88:	ff ff 7f 
+   51d8b:	72 0a                	jb     0x51d97
+   51d8d:	6a 37                	push   0x37
+   51d8f:	e8 ec 14 02 00       	call   0x73280
+   51d94:	83 c4 04             	add    esp,0x4
+   51d97:	a1 44 f4 09 00       	mov    eax,ds:0x9f444
+   51d9c:	39 05 40 f4 09 00    	cmp    DWORD PTR ds:0x9f440,eax
+   51da2:	72 0e                	jb     0x51db2
+   51da4:	83 3d 04 c4 08 00 00 	cmp    DWORD PTR ds:0x8c404,0x0
+   51dab:	74 05                	je     0x51db2
+   51dad:	e8 ce a5 fd ff       	call   0x2c380
+   51db2:	a1 40 f4 09 00       	mov    eax,ds:0x9f440
+   51db7:	ff 05 40 f4 09 00    	inc    DWORD PTR ds:0x9f440
+   51dbd:	89 46 10             	mov    DWORD PTR [esi+0x10],eax
+   51dc0:	56                   	push   esi
+   51dc1:	e8 6a a6 fd ff       	call   0x2c430
+   51dc6:	8a 06                	mov    al,BYTE PTR [esi]
+   51dc8:	24 1f                	and    al,0x1f
+   51dca:	3c 06                	cmp    al,0x6
+   51dcc:	0f 84 73 01 00 00    	je     0x51f45
+   51dd2:	3c 07                	cmp    al,0x7
+   51dd4:	0f 84 6b 01 00 00    	je     0x51f45
+   51dda:	8a 46 1a             	mov    al,BYTE PTR [esi+0x1a]
+   51ddd:	24 07                	and    al,0x7
+   51ddf:	3c 01                	cmp    al,0x1
+   51de1:	75 17                	jne    0x51dfa
+   51de3:	f6 46 14 04          	test   BYTE PTR [esi+0x14],0x4
+   51de7:	75 11                	jne    0x51dfa
+   51de9:	f6 46 1b 10          	test   BYTE PTR [esi+0x1b],0x10
+   51ded:	75 1a                	jne    0x51e09
+   51def:	8a 46 15             	mov    al,BYTE PTR [esi+0x15]
+   51df2:	a8 04                	test   al,0x4
+   51df4:	74 04                	je     0x51dfa
+   51df6:	a8 01                	test   al,0x1
+   51df8:	75 0f                	jne    0x51e09
+   51dfa:	8a 46 1c             	mov    al,BYTE PTR [esi+0x1c]
+   51dfd:	a8 04                	test   al,0x4
+   51dff:	74 04                	je     0x51e05
+   51e01:	a8 08                	test   al,0x8
+   51e03:	74 04                	je     0x51e09
+   51e05:	80 4e 01 04          	or     BYTE PTR [esi+0x1],0x4
+   51e09:	0b db                	or     ebx,ebx
+   51e0b:	74 46                	je     0x51e53
+   51e0d:	8b 43 0c             	mov    eax,DWORD PTR [ebx+0xc]
+   51e10:	8b 00                	mov    eax,DWORD PTR [eax]
+   51e12:	8b 68 08             	mov    ebp,DWORD PTR [eax+0x8]
+   51e15:	55                   	push   ebp
+   51e16:	e8 05 cb fd ff       	call   0x2e920
+   51e1b:	0b c0                	or     eax,eax
+   51e1d:	0f 85 10 01 00 00    	jne    0x51f33
+   51e23:	f6 05 91 f7 09 00 04 	test   BYTE PTR ds:0x9f791,0x4
+   51e2a:	74 0c                	je     0x51e38
+   51e2c:	8b c6                	mov    eax,esi
+   51e2e:	5d                   	pop    ebp
+   51e2f:	5f                   	pop    edi
+   51e30:	5e                   	pop    esi
+   51e31:	5b                   	pop    ebx
+   51e32:	83 c4 04             	add    esp,0x4
+   51e35:	c2 08 00             	ret    0x8
+   51e38:	8b 43 0c             	mov    eax,DWORD PTR [ebx+0xc]
+   51e3b:	6a 00                	push   0x0
+   51e3d:	8b 00                	mov    eax,DWORD PTR [eax]
+   51e3f:	50                   	push   eax
+   51e40:	e8 cb 68 02 00       	call   0x78710
+   51e45:	50                   	push   eax
+   51e46:	68 5e 01 00 00       	push   0x15e
+   51e4b:	e8 30 13 02 00       	call   0x73180
+   51e50:	83 c4 08             	add    esp,0x8
+   51e53:	8a 46 1c             	mov    al,BYTE PTR [esi+0x1c]
+   51e56:	a8 04                	test   al,0x4
+   51e58:	74 4d                	je     0x51ea7
+   51e5a:	a8 08                	test   al,0x8
+   51e5c:	75 49                	jne    0x51ea7
+   51e5e:	f6 46 01 04          	test   BYTE PTR [esi+0x1],0x4
+   51e62:	75 06                	jne    0x51e6a
+   51e64:	f6 46 14 04          	test   BYTE PTR [esi+0x14],0x4
+   51e68:	74 3d                	je     0x51ea7
+   51e6a:	f6 05 92 f7 09 00 08 	test   BYTE PTR ds:0x9f792,0x8
+   51e71:	74 1b                	je     0x51e8e
+   51e73:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   51e78:	8a 40 1c             	mov    al,BYTE PTR [eax+0x1c]
+   51e7b:	a8 04                	test   al,0x4
+   51e7d:	74 0f                	je     0x51e8e
+   51e7f:	a8 08                	test   al,0x8
+   51e81:	75 0b                	jne    0x51e8e
+   51e83:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   51e88:	f6 40 1b 01          	test   BYTE PTR [eax+0x1b],0x1
+   51e8c:	75 19                	jne    0x51ea7
+   51e8e:	68 50 0d 0a 00       	push   0xa0d50
+   51e93:	56                   	push   esi
+   51e94:	e8 a7 43 00 00       	call   0x56240
+   51e99:	50                   	push   eax
+   51e9a:	68 eb 01 00 00       	push   0x1eb
+   51e9f:	e8 dc 12 02 00       	call   0x73180
+   51ea4:	83 c4 0c             	add    esp,0xc
+   51ea7:	8a 46 1a             	mov    al,BYTE PTR [esi+0x1a]
+   51eaa:	24 07                	and    al,0x7
+   51eac:	74 69                	je     0x51f17
+   51eae:	3c 07                	cmp    al,0x7
+   51eb0:	74 65                	je     0x51f17
+   51eb2:	3c 01                	cmp    al,0x1
+   51eb4:	74 61                	je     0x51f17
+   51eb6:	f6 46 14 04          	test   BYTE PTR [esi+0x14],0x4
+   51eba:	75 5b                	jne    0x51f17
+   51ebc:	f6 46 01 04          	test   BYTE PTR [esi+0x1],0x4
+   51ec0:	74 0a                	je     0x51ecc
+   51ec2:	56                   	push   esi
+   51ec3:	e8 28 64 ff ff       	call   0x482f0
+   51ec8:	0b c0                	or     eax,eax
+   51eca:	75 4b                	jne    0x51f17
+   51ecc:	8a 06                	mov    al,BYTE PTR [esi]
+   51ece:	24 1f                	and    al,0x1f
+   51ed0:	3c 09                	cmp    al,0x9
+   51ed2:	75 43                	jne    0x51f17
+   51ed4:	3b fe                	cmp    edi,esi
+   51ed6:	75 3f                	jne    0x51f17
+   51ed8:	56                   	push   esi
+   51ed9:	e8 92 3f 00 00       	call   0x55e70
+   51ede:	0b c0                	or     eax,eax
+   51ee0:	75 18                	jne    0x51efa
+   51ee2:	f6 46 15 04          	test   BYTE PTR [esi+0x15],0x4
+   51ee6:	74 23                	je     0x51f0b
+   51ee8:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   51eeb:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   51eee:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   51ef1:	0b c0                	or     eax,eax
+   51ef3:	74 16                	je     0x51f0b
+   51ef5:	f6 00 40             	test   BYTE PTR [eax],0x40
+   51ef8:	74 11                	je     0x51f0b
+   51efa:	8b 46 08             	mov    eax,DWORD PTR [esi+0x8]
+   51efd:	50                   	push   eax
+   51efe:	68 12 02 00 00       	push   0x212
+   51f03:	e8 78 12 02 00       	call   0x73180
+   51f08:	83 c4 08             	add    esp,0x8
+   51f0b:	f6 46 1c 02          	test   BYTE PTR [esi+0x1c],0x2
+   51f0f:	74 06                	je     0x51f17
+   51f11:	56                   	push   esi
+   51f12:	e8 b9 fa ff ff       	call   0x519d0
+   51f17:	56                   	push   esi
+   51f18:	e8 a3 07 00 00       	call   0x526c0
+   51f1d:	c7 05 b8 cc 08 00 01 	mov    DWORD PTR ds:0x8ccb8,0x1
+   51f24:	00 00 00 
+   51f27:	8b c6                	mov    eax,esi
+   51f29:	5d                   	pop    ebp
+   51f2a:	5f                   	pop    edi
+   51f2b:	5e                   	pop    esi
+   51f2c:	5b                   	pop    ebx
+   51f2d:	83 c4 04             	add    esp,0x4
+   51f30:	c2 08 00             	ret    0x8
+   51f33:	55                   	push   ebp
+   51f34:	53                   	push   ebx
+   51f35:	56                   	push   esi
+   51f36:	e8 85 fb ff ff       	call   0x51ac0
+   51f3b:	5d                   	pop    ebp
+   51f3c:	5f                   	pop    edi
+   51f3d:	5e                   	pop    esi
+   51f3e:	5b                   	pop    ebx
+   51f3f:	83 c4 04             	add    esp,0x4
+   51f42:	c2 08 00             	ret    0x8
+   51f45:	f6 46 14 04          	test   BYTE PTR [esi+0x14],0x4
+   51f49:	74 22                	je     0x51f6d
+   51f4b:	8b 46 08             	mov    eax,DWORD PTR [esi+0x8]
+   51f4e:	50                   	push   eax
+   51f4f:	6a 48                	push   0x48
+   51f51:	e8 2a 12 02 00       	call   0x73180
+   51f56:	83 c4 08             	add    esp,0x8
+   51f59:	a1 74 f2 09 00       	mov    eax,ds:0x9f274
+   51f5e:	89 46 0c             	mov    DWORD PTR [esi+0xc],eax
+   51f61:	f6 46 03 04          	test   BYTE PTR [esi+0x3],0x4
+   51f65:	c6 06 03             	mov    BYTE PTR [esi],0x3
+   51f68:	75 03                	jne    0x51f6d
+   51f6a:	c6 06 09             	mov    BYTE PTR [esi],0x9
+   51f6d:	f6 46 14 10          	test   BYTE PTR [esi+0x14],0x10
+   51f71:	74 11                	je     0x51f84
+   51f73:	8b 46 08             	mov    eax,DWORD PTR [esi+0x8]
+   51f76:	50                   	push   eax
+   51f77:	68 88 00 00 00       	push   0x88
+   51f7c:	e8 ff 11 02 00       	call   0x73180
+   51f81:	83 c4 08             	add    esp,0x8
+   51f84:	6a 00                	push   0x0
+   51f86:	56                   	push   esi
+   51f87:	e8 44 ef ff ff       	call   0x50ed0
+   51f8c:	f6 45 02 01          	test   BYTE PTR [ebp+0x2],0x1
+   51f90:	74 14                	je     0x51fa6
+   51f92:	56                   	push   esi
+   51f93:	e8 a8 42 00 00       	call   0x56240
+   51f98:	50                   	push   eax
+   51f99:	68 e8 01 00 00       	push   0x1e8
+   51f9e:	e8 dd 11 02 00       	call   0x73180
+   51fa3:	83 c4 08             	add    esp,0x8
+   51fa6:	8b c6                	mov    eax,esi
+   51fa8:	5d                   	pop    ebp
+   51fa9:	5f                   	pop    edi
+   51faa:	5e                   	pop    esi
+   51fab:	5b                   	pop    ebx
+   51fac:	83 c4 04             	add    esp,0x4
+   51faf:	c2 08 00             	ret    0x8

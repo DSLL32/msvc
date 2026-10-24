@@ -347,3 +347,9 @@ char *duplicate_browser_text(char *text)
         copy[index] = text[index];
     return copy;
 }
+
+/* Original 0x2c430..0x2c43e. Queue a resolved declaration symbol. */
+void __stdcall browser_declaration(CppSymbol *symbol)
+{
+    queue_browser_record(3, symbol);
+}

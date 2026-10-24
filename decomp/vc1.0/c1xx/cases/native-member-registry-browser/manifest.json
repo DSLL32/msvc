@@ -1,14 +1,14 @@
 {
   "case": "member_registry_browser",
-  "scope": "1277 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/frontiers/member_registry_browser/1276-duplicate_browser_text/original-receipt.json",
-  "reference_receipt_sha256": "6a471ec15a552a0c5e1e4893185566d7a7f8850e603da19022b3b85a794d62d1",
+  "scope": "1278 accepted frontiers; explicit original-backed current partial frontend terminal",
+  "reference_receipt": "cases/frontiers/member_registry_browser/1277-browser_declaration-4/original-receipt.json",
+  "reference_receipt_sha256": "ed35b5523815ad67ceee476f9df00824cd4e00d07f9a37698540c63ccc515ea3",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "b3ccbd360308f226266b0d85f4f686f682a0f5b291116e932253c1a0ac97e44b",
+  "canonical_map_sha256": "d04e12c13f0d01dacc871354d9bdfe11f7c74960d4a6c62438c556cf30949915",
   "terminal": {
     "kind": "frontier",
-    "logical": "_browser_declaration@4",
+    "logical": "_fill_browser_declaration@8",
     "native_signal": 5,
     "original_exception": "80000003"
   },
@@ -47,7 +47,7 @@
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 1.7186644142493606,
+  "capture_seconds": 0.9172305893152952,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

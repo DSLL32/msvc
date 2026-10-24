@@ -1,0 +1,19 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655aa1a in fill_browser_declaration (record=0x56620200 <browser_records+264>, symbol=0x56634dd8) at src/stubs.c:587
+587	void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
+#0  0x5655aa1a in fill_browser_declaration (record=0x56620200 <browser_records+264>, symbol=0x56634dd8) at src/stubs.c:587
+#1  0x5658cb9b in fill_browser_record (record=0x56620200 <browser_records+264>, subject=0x56634dd8) at src/browser.c:115
+#2  0x5658c7af in append_browser_record (kind=3 '\003', subject=0x56634dd8, line=0) at src/browser.c:103
+#3  0x5658c5f4 in queue_browser_record (kind=3 '\003', subject=0x56634dd8) at src/browser.c:57
+#4  0x5658d3f9 in browser_declaration (symbol=0x56634dd8) at src/browser.c:354
+#5  0x5656861f in apply_declaration_type (context=0xffffd628, declaration=0x56634dd8) at src/declaration-bind.c:179
+#6  0x5657d0cf in declare_operator_new (attributes=1) at src/operators.c:167
+#7  0x5657ced2 in initialize_allocation_operators () at src/operators.c:133
+#8  0x5657ce14 in initialize_operators () at src/operators.c:117
+#9  0x5655f322 in initialize_frontend () at src/initialization.c:243
+#10 0x5655dbcc in compile_translation_unit () at src/frontend.c:22
+#11 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#12 0x56558894 in main (argc=1, argv=0xffffd804, environment=0xffffd80c) at src/c1xx.c:20
