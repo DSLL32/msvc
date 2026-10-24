@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3f94: file src/stubs.c, line 100.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_allocate_fixup () at src/stubs.c:100
+100	OmfFixup *omf_allocate_fixup(void) { __asm int 3 }
+C2_ALLOCATOR {"count": 0, "caller": "omf_add_fixup"}

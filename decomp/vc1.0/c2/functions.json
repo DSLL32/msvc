@@ -1289,7 +1289,8 @@
     "@omf_pad_record@8",
     "@omf_write_datum@8",
     "@omf_output_bytes@8",
-    "@omf_add_fixup@16"
+    "@omf_add_fixup@16",
+    "_omf_allocate_fixup"
   ],
   "driver": [
     {
@@ -9255,8 +9256,15 @@
     {
       "name": "_omf_allocate_fixup",
       "start": 441616,
-      "end": 441617,
-      "provisional": true
+      "end": 441670,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-fixup-allocator-abi/validation.json",
+        "scope": "Original6bd10..6bd46 overwrites ECX from global signed fixup_count before using it; no ECX/EDX/stack/formal/flags/x87/out pointer input, RET0. Actual count0 and caller omf_add_fixup/originalreturn6b99c observed. Returned pool entry is output, contents not read by allocator and never captured/seeded as input."
+      }
     }
   ],
   "cases": {

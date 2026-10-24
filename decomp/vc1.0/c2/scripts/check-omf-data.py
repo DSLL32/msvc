@@ -1,10 +1,10 @@
 """Actual caller-local byte source and whole data callback forwarding ABI."""
 from pathlib import Path
-import copy,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_output_data@8';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());ref=Path(e['original_reference']['directory']);binding=ref/'original-binding.json';assert hashlib.sha256(binding.read_bytes()).hexdigest()==e['original_reference']['binding_sha256'];bound=json.loads(binding.read_text());assert all(hashlib.sha256((ref/n).read_bytes()).hexdigest()==h for n,h in bound['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_output_data@8';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());ref=Path(e['original_reference']['directory']);binding=ref/'original-binding.json';assert hashlib.sha256(binding.read_bytes()).hexdigest()==e['original_reference']['binding_sha256'];bound=json.loads(binding.read_text());assert all(hashlib.sha256((ref/n).read_bytes()).hexdigest()==h for n,h in bound['files'].items())
 def validate(e):
  assert e['matched']and e['function']==name and e['original_va']=='0x6b6c0'and e['no_hidden_inputs_proof']and e['hidden_inputs']==row['abi']['hidden_inputs']==[]and e['callee_stack_cleanup']==row['abi']['callee_stack_cleanup']==0
  assert [{k:f[k]for k in ['name','location','type']}for f in e['formals']]==row['abi']['parameters']==[dict(name='data',location='ECX',type='void pointer'),dict(name='bytes',location='EDX',type='unsigned32')]and e['formals'][1]['value']==4
@@ -21,6 +21,9 @@ for label,change in [('missing count',lambda e:e['formals'].pop()),('wrong data 
  except(AssertionError,KeyError):reject.append(label)
  else:raise AssertionError('Accepted '+label)
 assert row['start']==0x6b6c0 and row['end']==0x6b6e4 and original.read(0x6b6e3,1)==b'\xc3'
+
+if args.abi_only:
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
 
 def run(image,native,count,returned,mutate):
  u=Uc(UC_ARCH_X86,UC_MODE_32)

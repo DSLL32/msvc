@@ -1,10 +1,10 @@
 """Actual four-formal FIXUPP thread ABI and byte-tag/full-result controls."""
 from pathlib import Path
-import copy,hashlib,json,struct,time
+import argparse,copy,hashlib,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_define_fixup_thread@16';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_define_fixup_thread@16';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
 def validate(e):
  assert e['matched']and e['function']==name and e['no_hidden_inputs_proof']and e['hidden_inputs']==row['abi']['hidden_inputs']==[]and e['callee_stack_cleanup']==row['abi']['callee_stack_cleanup']==8
  expected=[dict(name='flags',location='ECX',type='unsigned8',value=0),dict(name='method',location='EDX',type='unsigned8',value=0),dict(name='target',location='entryESP+4',type='unsigned32',value=3),dict(name='thread',location='entryESP+8',type='unsigned32',value=0)];assert e['formals']==expected and e['native']['values']==e['original_values']==[0,0,3,0]
@@ -16,6 +16,9 @@ for label,change in [('missing stack formal',lambda e:e['formals'].pop()),('wron
  except(AssertionError,KeyError):reject.append(label)
  else:raise AssertionError('Accepted '+label)
 assert row['start']==0x6a800 and row['end']==0x6a843 and original.read(0x6a840,3)==b'\xc2\x08\0'
+
+if args.abi_only:
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
 
 def run(image,native,flags,method,target,thread,count,upper):
  u=Uc(UC_ARCH_X86,UC_MODE_32)

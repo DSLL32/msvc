@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/check-omf-fixup-allocator.py", line 20, in <module>
+    section=next(s for s in image.sections if image.base+s['rva']<=pool<image.base+s['rva']+s['virtual_size']);assert section['flags']&0x80 and pool+6000<=image.base+section['rva']+section['virtual_size'];assert image.read(counter,4)==bytes(4)
+                                                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

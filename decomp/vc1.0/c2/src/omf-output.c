@@ -59,6 +59,8 @@ unsigned omf_next_segment = 1; /* 00085080 */
 unsigned omf_next_frame_thread; /* 00085088 */
 unsigned omf_next_target_thread; /* 0008508c */
 unsigned char omf_comdat_flags; /* 00085090, cached COMDAT flags */
+OmfFixup omf_fixups[250]; /* 00079154..0007a8c4, original BSS pool */
+typedef char OmfFixupPoolSizeCheck[sizeof(omf_fixups) == 6000 ? 1 : -1];
 int omf_fixup_count; /* 00085094, pending fixup entries */
 unsigned omf_last_comdat_name; /* 0007e8b0, last LINSYM name index */
 OmfRecord omf_records[4]; /* 0007a8dc..0007b88c, original BSS */
@@ -1128,4 +1130,19 @@ void __fastcall omf_add_fixup(SymbolHeader *symbol, unsigned char type,
         compiler_internal_error("@(#)omf.c:1.10", 0x3a5);
         break;
     }
+}
+
+/* Original [0006bd10,0006bd46). The known counter lifecycle is zero/reset
+   then increment; the signed upper-bound diagnostic precedes slot selection. */
+OmfFixup *omf_allocate_fixup(void)
+{
+    int index = omf_fixup_count;
+    OmfFixup *fixup;
+    if (index >= 250) {
+        compiler_internal_error("@(#)omf.c:1.10", 0x772);
+        index = omf_fixup_count;
+    }
+    fixup = &omf_fixups[index];
+    omf_fixup_count = index + 1;
+    return fixup;
 }

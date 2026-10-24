@@ -1,10 +1,10 @@
 """Actual callback ABI, eight-slot dispatch and whole initializer-emission controls."""
 from pathlib import Path
-import copy,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_output_relocation@12';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_output_relocation@12';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
 def validate(e):
  assert e['matched']and e['function']==name and e['original_va']=='0x6afc0'and e['no_hidden_inputs_proof']and e['hidden_inputs']==row['abi']['hidden_inputs']==[]and e['callee_stack_cleanup']==row['abi']['callee_stack_cleanup']==4
  expected=[dict(name='initializer',location='ECX',type='Initializer pointer'),dict(name='symbol',location='EDX',type='SymbolHeader pointer'),dict(name='segment',location='entryESP+4',type='Segment pointer')];assert [{k:f[k]for k in ['name','location','type']}for f in e['formals']]==row['abi']['parameters']==expected
@@ -28,6 +28,9 @@ def remainder(a,b):
  assert b and not(a==-2147483648 and b==-1)
  q=abs(a)//abs(b);q=-q if(a<0)!=(b<0)else q
  return a-q*b
+
+if args.abi_only:
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
 
 def run(image,native,c):
  u=Uc(UC_ARCH_X86,UC_MODE_32)

@@ -1,10 +1,10 @@
 """Actual OMF index writer ABI and signed/truncated one/two-byte writes."""
 from pathlib import Path
-import copy,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_write_index@8';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());ref=Path(e['original_reference']['directory']);binding=ref/'original-binding.json';assert hashlib.sha256(binding.read_bytes()).hexdigest()==e['original_reference']['binding_sha256'];bound=json.loads(binding.read_text());assert all(hashlib.sha256((ref/n).read_bytes()).hexdigest()==h for n,h in bound['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_write_index@8';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());ref=Path(e['original_reference']['directory']);binding=ref/'original-binding.json';assert hashlib.sha256(binding.read_bytes()).hexdigest()==e['original_reference']['binding_sha256'];bound=json.loads(binding.read_text());assert all(hashlib.sha256((ref/n).read_bytes()).hexdigest()==h for n,h in bound['files'].items())
 def validate(e):
  assert e['matched']and e['function']==name and e['no_hidden_inputs_proof']and e['hidden_inputs']==row['abi']['hidden_inputs']==[]and e['callee_stack_cleanup']==row['abi']['callee_stack_cleanup']==0
  assert e['formals']==[dict(name='record',location='ECX',type='omf_record_current32',value=0),dict(name='index',location='EDX',type='signed32',value=3)]
@@ -21,6 +21,9 @@ for label,change in [('missing formal',lambda e:e.update(formals=[])),('wrong in
  except(AssertionError,KeyError):reject.append(label)
  else:raise AssertionError('Accepted '+label)
 assert row['start']==0x6c2b0 and row['end']==0x6c2ee and original.read(0x6c2ed,1)==b'\xc3'
+
+if args.abi_only:
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
 
 def run(image,native,index,count,cursor):
  u=Uc(UC_ARCH_X86,UC_MODE_32)

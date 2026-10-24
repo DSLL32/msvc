@@ -1,10 +1,10 @@
 """Actual record/count ABI and signed strict-capacity/renewed-result controls."""
 from pathlib import Path
-import copy,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_reserve_bytes@8';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_reserve_bytes@8';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
 def validate(e):
  assert e['matched']and e['function']==name and e['no_hidden_inputs_proof']and e['hidden_inputs']==row['abi']['hidden_inputs']==[]and e['callee_stack_cleanup']==row['abi']['callee_stack_cleanup']==0
  assert e['formals']==[dict(name='record',location='ECX',type='omf_record_current32',value=0),dict(name='bytes',location='EDX',type='unsigned32',value=4)]and row['abi']['parameters']==[dict(name='record',location='ECX',type='OmfRecord pointer'),dict(name='bytes',location='EDX',type='unsigned32')]
@@ -24,6 +24,9 @@ for label,change in [('missing bytecount',lambda e:e['formals'].pop()),('wrong c
 assert row['start']==0x6b6f0 and row['end']==0x6b70d and original.read(0x6b70c,1)==b'\xc3'
 
 def signed(v):return v-(1<<32)if v&0x80000000 else v
+if args.abi_only:
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
+
 def run(image,native,offset,count,returned):
  u=Uc(UC_ARCH_X86,UC_MODE_32)
  for a,n in [(0x10000,0x100000),(0x300000,0x10000),(0x400000,0x2000),(0x500000,0x1000)]:u.mem_map(a,n)

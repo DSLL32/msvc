@@ -4,7 +4,7 @@ import argparse,copy,hashlib,itertools,json,os,shutil,struct,subprocess,tempfile
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-ap=argparse.ArgumentParser();ap.add_argument('--native-guard',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_emit_public@8';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--native-guard',action='store_true');ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_emit_public@8';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
 def fields(d):
  h=bytes.fromhex(d['header_hex']);i=bytes.fromhex(d['identity_hex']);t=bytes.fromhex(d['type_hex']);v=bytes.fromhex(d['offset_hex']);assert len(h)==len(v)==4 and len(i)==len(t)==8
  return dict(offset=struct.unpack('<I',v)[0],kind=struct.unpack('<b',h[:1])[0],symbol_flags=struct.unpack('<H',h[2:])[0],segment_identifier=struct.unpack('<I',i[:4])[0],identifier=struct.unpack('<I',i[4:])[0],type=struct.unpack('<H',t[:2])[0],output_flags=struct.unpack('<H',t[2:4])[0],attributes=struct.unpack('<I',t[4:])[0],name_hex=d['name_hex'])
@@ -21,6 +21,12 @@ for label,change in [('missing context formal',lambda e:e['formals'].pop()),('wr
  except(AssertionError,KeyError):reject.append(label)
  else:raise AssertionError('Accepted '+label)
 assert row['start']==0x6aef0 and row['end']==0x6afbe and original.read(0x6af70,4)==b'\x83\xc4\x04\xc3'and original.read(0x6af14,4)==b'\x8b\x4c\x24\x0c'
+
+if args.abi_only:
+ assert not args.native_guard, '--abi-only cannot recapture a native guard'
+ source=Path('src/omf-output.c').read_text();body=source[source.index('void __fastcall omf_emit_public(SymbolHeader *symbol, Segment *segment)\n{'):].split('\n}\n',1)[0];assert '#ifdef RECON_NATIVE_TEST\n    else { __asm int 3 }\n#endif' in body
+ guard=json.loads(Path('cases/omf-public-native-guard.json').read_text());assert hashlib.sha256(Path(guard['path']).read_bytes()).hexdigest()==guard['sha256']
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
 
 def run(image,native,c):
  u=Uc(UC_ARCH_X86,UC_MODE_32)

@@ -1,10 +1,10 @@
 """Actual fixup ABI, contextual layout and whole constructor/state-call controls."""
 from pathlib import Path
-import copy,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_add_fixup@16';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_add_fixup@16';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
 params=[dict(name=n,location=l,type=t)for n,l,t in [('symbol','ECX','SymbolHeader pointer'),('type','DL','unsigned8'),('displacement','entryESP+4','unsigned32'),('relative','entryESP+8','signed32')]]
 actual=dict(formals=dict(type=9,displacement=0xfffffffc,relative=0),symbol_owner=dict(identifier=118,bucket=54,index=0),record=dict(slot=0,count=124),dos=1,threads=dict(group_frame=0,bss_target=3,data_target=1,const_target=0,code_target=2),payload=dict(kind=1,offset=40,flags=10624,attributes=8742,storage=4),segment=dict(identifier=2,order=2,bucket=2,index=0))
 def validate(e):
@@ -74,6 +74,9 @@ def model(c):
   else:put(8,4,(flags()|4)&~8);put(13,1,threads[4]);put(20,4,position)
  else:terminal=fail(0x3a5)
  return dict(terminal=terminal,events=events,fixup=f,symbol=d,current_symbol=cur,threads=threads,count=count)
+
+if args.abi_only:
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
 
 def run(image,native,c):
  u=Uc(UC_ARCH_X86,UC_MODE_32)

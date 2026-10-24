@@ -277,6 +277,11 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
     }
+    if(!strcmp(call->name,"_omf_allocate_fixup")) {
+        sprintf(line,"omf_fixup_allocator count %ld return_address %08lx\n",
+            (long)read_word(process,image_base+0x75094),call->return_address);log_line(line);
+        /* The pool contents are not read by this address allocator. */
+    }
     if(!strcmp(call->name,"@omf_add_fixup@16")) {
         DWORD symbol=call->args[0],kind=read_byte(process,symbol+12);
         DWORD id=read_word(process,symbol+28),bucket=id&63,index=0;

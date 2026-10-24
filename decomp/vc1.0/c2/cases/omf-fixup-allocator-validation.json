@@ -1,0 +1,255 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "invented ECX formal",
+    "wrong counter input",
+    "wrong original count",
+    "wrong cleanup",
+    "invented old pool input"
+  ],
+  "states": 24,
+  "cases": [
+    {
+      "count": 0,
+      "incoming_caller_registers": 0,
+      "result": {
+        "terminal": "return",
+        "slot": 0,
+        "byte_offset": 0,
+        "next_count": 1
+      }
+    },
+    {
+      "count": 0,
+      "incoming_caller_registers": 2309737967,
+      "result": {
+        "terminal": "return",
+        "slot": 0,
+        "byte_offset": 0,
+        "next_count": 1
+      }
+    },
+    {
+      "count": 0,
+      "incoming_caller_registers": 4294967295,
+      "result": {
+        "terminal": "return",
+        "slot": 0,
+        "byte_offset": 0,
+        "next_count": 1
+      }
+    },
+    {
+      "count": 1,
+      "incoming_caller_registers": 0,
+      "result": {
+        "terminal": "return",
+        "slot": 1,
+        "byte_offset": 24,
+        "next_count": 2
+      }
+    },
+    {
+      "count": 1,
+      "incoming_caller_registers": 2309737967,
+      "result": {
+        "terminal": "return",
+        "slot": 1,
+        "byte_offset": 24,
+        "next_count": 2
+      }
+    },
+    {
+      "count": 1,
+      "incoming_caller_registers": 4294967295,
+      "result": {
+        "terminal": "return",
+        "slot": 1,
+        "byte_offset": 24,
+        "next_count": 2
+      }
+    },
+    {
+      "count": 124,
+      "incoming_caller_registers": 0,
+      "result": {
+        "terminal": "return",
+        "slot": 124,
+        "byte_offset": 2976,
+        "next_count": 125
+      }
+    },
+    {
+      "count": 124,
+      "incoming_caller_registers": 2309737967,
+      "result": {
+        "terminal": "return",
+        "slot": 124,
+        "byte_offset": 2976,
+        "next_count": 125
+      }
+    },
+    {
+      "count": 124,
+      "incoming_caller_registers": 4294967295,
+      "result": {
+        "terminal": "return",
+        "slot": 124,
+        "byte_offset": 2976,
+        "next_count": 125
+      }
+    },
+    {
+      "count": 248,
+      "incoming_caller_registers": 0,
+      "result": {
+        "terminal": "return",
+        "slot": 248,
+        "byte_offset": 5952,
+        "next_count": 249
+      }
+    },
+    {
+      "count": 248,
+      "incoming_caller_registers": 2309737967,
+      "result": {
+        "terminal": "return",
+        "slot": 248,
+        "byte_offset": 5952,
+        "next_count": 249
+      }
+    },
+    {
+      "count": 248,
+      "incoming_caller_registers": 4294967295,
+      "result": {
+        "terminal": "return",
+        "slot": 248,
+        "byte_offset": 5952,
+        "next_count": 249
+      }
+    },
+    {
+      "count": 249,
+      "incoming_caller_registers": 0,
+      "result": {
+        "terminal": "return",
+        "slot": 249,
+        "byte_offset": 5976,
+        "next_count": 250
+      }
+    },
+    {
+      "count": 249,
+      "incoming_caller_registers": 2309737967,
+      "result": {
+        "terminal": "return",
+        "slot": 249,
+        "byte_offset": 5976,
+        "next_count": 250
+      }
+    },
+    {
+      "count": 249,
+      "incoming_caller_registers": 4294967295,
+      "result": {
+        "terminal": "return",
+        "slot": 249,
+        "byte_offset": 5976,
+        "next_count": 250
+      }
+    },
+    {
+      "count": 250,
+      "incoming_caller_registers": 0,
+      "result": {
+        "terminal": "internal",
+        "code": 1906,
+        "next_count": 250
+      }
+    },
+    {
+      "count": 250,
+      "incoming_caller_registers": 2309737967,
+      "result": {
+        "terminal": "internal",
+        "code": 1906,
+        "next_count": 250
+      }
+    },
+    {
+      "count": 250,
+      "incoming_caller_registers": 4294967295,
+      "result": {
+        "terminal": "internal",
+        "code": 1906,
+        "next_count": 250
+      }
+    },
+    {
+      "count": 251,
+      "incoming_caller_registers": 0,
+      "result": {
+        "terminal": "internal",
+        "code": 1906,
+        "next_count": 251
+      }
+    },
+    {
+      "count": 251,
+      "incoming_caller_registers": 2309737967,
+      "result": {
+        "terminal": "internal",
+        "code": 1906,
+        "next_count": 251
+      }
+    },
+    {
+      "count": 251,
+      "incoming_caller_registers": 4294967295,
+      "result": {
+        "terminal": "internal",
+        "code": 1906,
+        "next_count": 251
+      }
+    },
+    {
+      "count": 2147483647,
+      "incoming_caller_registers": 0,
+      "result": {
+        "terminal": "internal",
+        "code": 1906,
+        "next_count": 2147483647
+      }
+    },
+    {
+      "count": 2147483647,
+      "incoming_caller_registers": 2309737967,
+      "result": {
+        "terminal": "internal",
+        "code": 1906,
+        "next_count": 2147483647
+      }
+    },
+    {
+      "count": 2147483647,
+      "incoming_caller_registers": 4294967295,
+      "result": {
+        "terminal": "internal",
+        "code": 1906,
+        "next_count": 2147483647
+      }
+    }
+  ],
+  "seconds": 0.5357793485745788,
+  "pool": {
+    "original_start": "0x79154",
+    "original_end": "0x7a8c4",
+    "entries": 250,
+    "stride": 24,
+    "bytes": 6000,
+    "original_bss": true,
+    "canonical_bss": true
+  },
+  "scope": "Whole54-byte original/canonical allocator, no incoming formals; counter0/1/124/248/249 -> typed base+24*index and increment,250/251/INTMAX -> actual772 diagnostic before selection. Three incoming caller-register poisons, RET0/callee-saved/stack checked. Memory hooks reject any read/write of old pool entries: pool is address output, no snapshot/seed. Signed negative indices not modeled as valid; known lifecycle is BSS0/allocatorincrement/writerreset0, no invented native guard, real negative counter would hold for producer/ABI review. Error stops, no returning-fatal claim. Struct24/offsets compile checked, original LEAs prove250x24 extent, explicit typed BSS pool6000 introduced at encountered allocator, not copied data."
+}

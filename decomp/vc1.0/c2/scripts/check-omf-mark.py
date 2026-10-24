@@ -1,10 +1,10 @@
 """Actual marked-global ABI and whole OMF symbol classification controls."""
 from pathlib import Path
-import copy,hashlib,json,struct,time
+import argparse,copy,hashlib,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_mark_symbol@4';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());ref=Path(e['original_reference']['directory']);binding=ref/'original-binding.json';assert hashlib.sha256(binding.read_bytes()).hexdigest()==e['original_reference']['binding_sha256'];bound=json.loads(binding.read_text());assert all(hashlib.sha256((ref/n).read_bytes()).hexdigest()==h for n,h in bound['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_mark_symbol@4';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());ref=Path(e['original_reference']['directory']);binding=ref/'original-binding.json';assert hashlib.sha256(binding.read_bytes()).hexdigest()==e['original_reference']['binding_sha256'];bound=json.loads(binding.read_text());assert all(hashlib.sha256((ref/n).read_bytes()).hexdigest()==h for n,h in bound['files'].items())
 def fields(d):
  h=bytes.fromhex(d['header_hex']);i=bytes.fromhex(d['identity_hex']);f=bytes.fromhex(d['flags_hex']);assert len(h)==4 and len(i)==8 and len(f)==6
  return dict(kind=struct.unpack('<b',h[:1])[0],symbol_flags=struct.unpack('<H',h[2:])[0],segment_identifier=struct.unpack('<I',i[:4])[0],identifier=struct.unpack('<I',i[4:])[0],output_flags=struct.unpack('<H',f[:2])[0],attributes=struct.unpack('<I',f[2:])[0],name_hex=d['name_hex'])
@@ -21,6 +21,9 @@ for label,change in [('missing pointer',lambda e:e.update(formals=[])),('wrong E
  except(AssertionError,KeyError):reject.append(label)
  else:raise AssertionError('Accepted '+label)
 assert row['start']==0x6ab20 and row['end']==0x6acb7 and original.read(0x6acb6,1)==b'\xc3'
+
+if args.abi_only:
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
 
 def run(image,native,c):
  u=Uc(UC_ARCH_X86,UC_MODE_32)

@@ -1,10 +1,10 @@
 """Four-formal ownership and whole repeated-byte record-chunking controls."""
 from pathlib import Path
-import copy,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_write_byte_array@16';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_write_byte_array@16';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
 params=[dict(name=n,location=l,type=t)for n,l,t in [('segment','ECX','Segment pointer'),('bytes','EDX','unsigned32'),('repeat','entryESP+4','unsigned32'),('source','entryESP+8','void pointer')]]
 def validate(e):
  assert e['matched']and e['function']==name and e['original_va']=='0x6b3d0'and e['hidden_inputs']==row['abi']['hidden_inputs']==[]and e['callee_stack_cleanup']==row['abi']['callee_stack_cleanup']==8 and e['no_hidden_inputs_proof']
@@ -37,6 +37,9 @@ def expected(c):
    left=c['width'];repeat-=1
   step+=1
   if not repeat:return events,combine
+
+if args.abi_only:
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
 
 def run(image,native,c):
  u=Uc(UC_ARCH_X86,UC_MODE_32)

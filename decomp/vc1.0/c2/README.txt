@@ -731,3 +731,23 @@ W3/full audits/fresh pair and15 native cases pass(14 complete), next allocator
 historical CRT. No real old entry dump/seed or cold execution claim. Corrected
 build41.159s includes126 canonical recompiles; audit41.853s separately. Details:
 cases/omf-fixup-checkpoint.json.
+
+Checkpoint1286 adds54-byte no-formal fixup address allocator and encountered
+typed250x24 BSS pool, no raw data copy/initializer.24 controls/5 ABI rejects
+cover valid slots/counter increment and actual upper-bound diagnostic; memory
+hooks reject old-entry reads/writes. Actual counter0, no hidden inputs. Signed
+negative counts remain outside known zero/reset/+1 lifecycle, no new guard.
+Raw-file BSS-counter proof mistake retained/corrected to loader-zero membership,
+without target change. Original/W3/graph/layout/ABI/focused controls/fresh pair
+and15 native cases pass(14 complete), next output_noop_function68d70.343637/
+399693 extent bytes; app/support325337B/1171functions exclude5 historical CRT.
+
+Ordinary audit now uses16 additional existing-pattern --abi-only paths after
+actual ABI/negative/extent/storage proofs; public/alignment guard source and
+receipt hashes retained. Full semantic grids remain default and explicit under
+audit-data; function/control-loop ASTs unchanged. Host mode verification5.926s
+includes2 incompatible guard-option rejects. Next required1286 audit20.691s
+with0 recompiles versus prior full-grid1285 batch41.853s; this includes a new
+54-byte function, no separate profiling run. Newly changed contracts retain
+focused full controls at acceptance. See cases/omf-new-model-modes.json and
+cases/omf-fixup-allocator-checkpoint.json for timings/scope.

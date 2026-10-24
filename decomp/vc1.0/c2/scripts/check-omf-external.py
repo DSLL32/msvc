@@ -1,10 +1,10 @@
 """Actual EXTDEF input/global storage and full index/name/type-byte controls."""
 from pathlib import Path
-import copy,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_emit_external@4';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_emit_external@4';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
 def fields(d):
  h=bytes.fromhex(d['header_hex']);i=bytes.fromhex(d['identifier_hex']);a=bytes.fromhex(d['attributes_hex']);assert len(h)==len(i)==len(a)==4
  return dict(kind=struct.unpack('<b',h[:1])[0],name_class=h[1],symbol_flags=struct.unpack('<H',h[2:])[0],identifier=struct.unpack('<I',i)[0],attributes=struct.unpack('<I',a)[0],name_hex=d['name_hex'])
@@ -23,6 +23,9 @@ for label,change in [('missing pointer',lambda e:e.update(formals=[])),('wrong E
 assert row['start']==0x6ad80 and row['end']==0x6adc0 and original.read(0x6adbf,1)==b'\xc3'
 assert original.read(0x85078,4)==canonical.read(names['_omf_next_external'],4)==b'\x01\0\0\0'
 assert len({names['_omf_next_external'],names['_omf_next_group'],names['_omf_next_segment'],names['_omf_next_name']})==4
+
+if args.abi_only:
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
 
 def run(image,native,c):
  u=Uc(UC_ARCH_X86,UC_MODE_32)

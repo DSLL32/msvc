@@ -1,0 +1,159 @@
+{
+  "status": "Verified16 ABI-only/negative paths and mode separation; next required1286 ordinary audit passed20.691s with0 recompiles.",
+  "baseline_full_audit": "cases/omf-fixup-checkpoint.json",
+  "baseline_full_audit_seconds": 41.853279766626656,
+  "models": [
+    {
+      "path": "scripts/check-omf-alignment.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "c5f775b55693d30d330622ba3b1dfed42bb4b138cb7fa0ee43c5fdfb2ed0877c",
+      "after_sha256": "93ced252996b357e69b6158117ce1a3bf22f0d40590a81bcf79354781a43f46f",
+      "unchanged_functions_and_full_grid_ast_sha256": "07320e1a14e50421798b1ae51e49e31c5eae437583291e8a8a7c4da5702ae99a",
+      "unchanged_ast_nodes": 5
+    },
+    {
+      "path": "scripts/check-omf-index.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "da93a4d301c7d9ac8bf471b72fcca485b4212a43fc31766226767303ed8c6ec7",
+      "after_sha256": "e943f695c76353953ec33df287c70e866b258619a5b1ff6a0468f7f115c2ea6e",
+      "unchanged_functions_and_full_grid_ast_sha256": "d648bb60b3a78c636f5e4ca055dfa0a75c305fab0f0bc70fa454067a0900a755",
+      "unchanged_ast_nodes": 4
+    },
+    {
+      "path": "scripts/check-omf-group.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "08a30edce377c2552955061d936efdc40799a9a7cf90a4be764a024985b1d11a",
+      "after_sha256": "bbf7bc556e26746cc6760b7089cb9398cf7e2f44bc31deeca577cfc8a09e8a6d",
+      "unchanged_functions_and_full_grid_ast_sha256": "65ef12cb1712e95c47e0611e5787c37ef22edcac893f5e8db491dab81fbbd34b",
+      "unchanged_ast_nodes": 4
+    },
+    {
+      "path": "scripts/check-omf-thread.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "e84202a088d6b99f6cb5211751a88a9a74742f96fd32a0040310fedfdd9c8a99",
+      "after_sha256": "e6a3c024fd3ea45e49dbbf15c71ae15f8eeb83c703abf01f4c7d9ed1f0b9d563",
+      "unchanged_functions_and_full_grid_ast_sha256": "0130b74981da50ed0bcdcdb2cf9be80a97b848e90d956d9f04e545c92810f499",
+      "unchanged_ast_nodes": 4
+    },
+    {
+      "path": "scripts/check-omf-select.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "194fb5f5f2364acc6926cd5d8acdd37b090567b31d10dcbc64a27960d611ab6e",
+      "after_sha256": "15d329c72799efafad2677f45a2be6bad3b6dc88d091b6baf208d9d0575be1ce",
+      "unchanged_functions_and_full_grid_ast_sha256": "eb14246674b87cfda9658c9abcb83aecabc91a873c17f1dd3a92d9486ad4e979",
+      "unchanged_ast_nodes": 4
+    },
+    {
+      "path": "scripts/check-omf-data.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "ac45f65f8eff9dd69b6c9dbe7776dc02d47b9ff10d948665d677154d4beb6e5b",
+      "after_sha256": "bc06911949bd18c9c419c008224aa99ce74071c0a1336164dd8ed4f4a3053935",
+      "unchanged_functions_and_full_grid_ast_sha256": "cf053f9e148275d7014802fd824713317ad5d64f6e653bc5d8ca4e4476a3f1a3",
+      "unchanged_ast_nodes": 4
+    },
+    {
+      "path": "scripts/check-omf-reserve.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "787d0f48bb53cbd4d071b35f146fb919cee858409b15297111db4154ebcf9de4",
+      "after_sha256": "5abf70b9b626bb0f2d1b15679600926e5c07dc1ba57862b5422c5b72bcc0ecce",
+      "unchanged_functions_and_full_grid_ast_sha256": "f2e0cbb641da1f17494dee63057a59a363876ad64fc6f5e09d60a4423aa13b4e",
+      "unchanged_ast_nodes": 5
+    },
+    {
+      "path": "scripts/check-omf-mark.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "f5c03e6149558cc312c4cd4e3fa0d88d4f24db21bf8bfe037bde53c9cf28b0d1",
+      "after_sha256": "80d95a0ca14d715ac23cb10d11c32d6d8bc6788fcebb1d5e31a0173d4cdbd5d5",
+      "unchanged_functions_and_full_grid_ast_sha256": "489db93133ec10f32907d41c0bacc2b6f7b08c7ca1809ac658f55196112fb536",
+      "unchanged_ast_nodes": 10
+    },
+    {
+      "path": "scripts/check-omf-public.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "8eb41101e61706e63dbde33825419b5482c5f3dd2b4798cea5592b992fdd0af3",
+      "after_sha256": "c443bf4d6f44539507b68a11daf6ea0857dd41b0e1456be90029f18e1f5404c7",
+      "unchanged_functions_and_full_grid_ast_sha256": "95b7d9c8500ed7de41dc31efadb3f1c4d2e6fb968a9b145bf1f0513b93b6c83c",
+      "unchanged_ast_nodes": 6
+    },
+    {
+      "path": "scripts/check-omf-external.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "4066507dd40f84f2b5a760c3bcefa9e8ce771a33375485a56be5dc06fd01ad72",
+      "after_sha256": "675e1ca1a7f6c9f5c621f5b29186d075bd34ee22a980f73bbb29c16cc9706d1e",
+      "unchanged_functions_and_full_grid_ast_sha256": "da2c59eec7e6e4ac6bf27bd36545d73e51dae6bce44b300fac0809c40c9b40cd",
+      "unchanged_ast_nodes": 5
+    },
+    {
+      "path": "scripts/check-omf-relocation.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "5aac159701d54d17fd2384b4b34665eaa36c1e9c8786cb52e016acccd7dd44f1",
+      "after_sha256": "38211bdbcefe619cb54fb4d44dd8236b910870d22705145fa39acc97e360f577",
+      "unchanged_functions_and_full_grid_ast_sha256": "a39e9d3e7867fe4eee8db313f52279fb5644ea899ffc0978039c8d39c729e514",
+      "unchanged_ast_nodes": 14
+    },
+    {
+      "path": "scripts/check-omf-byte-array.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "7363c2f2f97e01f3ff90e72685fc2e810a4ef502e101f51b2a3ce524e619cc5e",
+      "after_sha256": "028c5feab085c418a0389b92dc383af3ef38a8a6ecdabe01fae9370404ef342b",
+      "unchanged_functions_and_full_grid_ast_sha256": "7cb1a41b0f0d351436f1400554c4ac78aee899d048d06be14ab387ee3d6d9593",
+      "unchanged_ast_nodes": 7
+    },
+    {
+      "path": "scripts/check-omf-pad.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "808415cb1a142273959a95b5ce099c6604bc28ada9462ec0ee670ea4e612caa7",
+      "after_sha256": "a9bb880f6af09b22734746deae54ca59827c66178ff6e393d7fa1af2f3705dcc",
+      "unchanged_functions_and_full_grid_ast_sha256": "0dffed6d00c01a161af1dc6dd578257359f2d12da84300f70094b38c41486fa0",
+      "unchanged_ast_nodes": 4
+    },
+    {
+      "path": "scripts/check-omf-datum.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "07e624511baf682b6b68181c9bcf3712743d096d7a941843c608482140e6b4cf",
+      "after_sha256": "038c0d24b55a30b9c6e95da5a08b7366da17bc76c8830e59c93b891ca31b7451",
+      "unchanged_functions_and_full_grid_ast_sha256": "c6271c6031085ef2ed3c44d63f01c397685679ce924c81534eac536a62443a1d",
+      "unchanged_ast_nodes": 7
+    },
+    {
+      "path": "scripts/check-omf-absolute.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "a0281a698bac6ec1be43cda51276cec45e023cc6b4975da5a26bbb1cdfab477b",
+      "after_sha256": "7736ca226b47179e10a98e5ea07e8fb10748deb455deec202b68ed97a45bbc63",
+      "unchanged_functions_and_full_grid_ast_sha256": "43d3617f4c797a4f2e43f95bb9f43d12ea588490fab33b7025dc0c2877590225",
+      "unchanged_ast_nodes": 4
+    },
+    {
+      "path": "scripts/check-omf-fixup.py",
+      "baseline_commit": "be25fe14a",
+      "before_sha256": "4cea60cd42f414692199f4e0421cc1588f67c1fa2ae59f63ba049e4fb676e9a9",
+      "after_sha256": "26cb8b978b09e487d1ea806923b39fbce89263c579e179142d273b7250a82938",
+      "unchanged_functions_and_full_grid_ast_sha256": "8ab42f8cf9d41cf65494492a3056876c1bfbdc545c35cd9879eda7707402ccba",
+      "unchanged_ast_nodes": 16
+    }
+  ],
+  "scope": "Existing established --abi-only pattern only: actual original/native ABI bindings, negative evidence controls, original extents/RET/storage/switch proofs before early exit. Public/alignment source traps and saved native-guard hashes remain bound. Full default function definitions and control loops unchanged by AST equality; explicit audit-data keeps complete grids. No target/build/reference/cache or new framework change.",
+  "structural_verification": {
+    "command": [
+      "python3",
+      "-"
+    ],
+    "seconds": 5.925839719362557,
+    "returncode": 0,
+    "log_sha256": "9065818136873b554070aa7b93a44f79b847eb1998bbf0bda28d9ad6672eacc5"
+  },
+  "next_required_audit": {
+    "command": [
+      "make",
+      "-j4",
+      "-o",
+      "Makefile",
+      "audit",
+      "coverage"
+    ],
+    "seconds": 20.69056262820959,
+    "returncode": 0,
+    "log_sha256": "67ba3ea689f23adc40a4f19400f53fec65dadc20d085fb7613a0cadcbdf3a888"
+  },
+  "comparison_limit": "Next real acceptance includes an additional54-byte allocator/structural check; no isolated benchmark or profiling run. Canonical graph/extents/storage/ABI/guards unchanged in obligation. New allocator full24 controls run separately; no historical grids repeated solely for mode edit."
+}

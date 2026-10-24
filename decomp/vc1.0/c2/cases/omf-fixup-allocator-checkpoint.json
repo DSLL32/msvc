@@ -1,0 +1,186 @@
+{
+  "checkpoint": 1286,
+  "previous_checkpoint": 1285,
+  "new_application": [
+    {
+      "name": "_omf_allocate_fixup",
+      "start": 441616,
+      "end": 441670,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-fixup-allocator-abi/validation.json",
+        "scope": "Original6bd10..6bd46 overwrites ECX from global signed fixup_count before using it; no ECX/EDX/stack/formal/flags/x87/out pointer input, RET0. Actual count0 and caller omf_add_fixup/originalreturn6b99c observed. Returned pool entry is output, contents not read by allocator and never captured/seeded as input."
+      }
+    }
+  ],
+  "new_extent_bytes": 54,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1286,
+    "accepted_code_bytes": 343637,
+    "original_code_bytes": 399693,
+    "percentage": 85.9752359936251,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 634
+  },
+  "application_graph_rows": 1176,
+  "reconstructed_application_support_functions": 1171,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 325337,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "_output_noop_function",
+  "next_original_va": "0x68d70",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "_output_noop_function"
+  },
+  "controls": [
+    "cases/omf-fixup-allocator-validation.json"
+  ],
+  "timings": {
+    "omf1286-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 20.69056262820959,
+      "returncode": 0,
+      "log_sha256": "67ba3ea689f23adc40a4f19400f53fec65dadc20d085fb7613a0cadcbdf3a888"
+    },
+    "omf1286-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.9855659129098058,
+      "returncode": 0,
+      "log_sha256": "7ad5a0bd26f66fdfed513e9a98d6a67248a4c49c3ff2c8c4c5f18c6fcbe0ad53"
+    },
+    "omf1286-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1285.json",
+        "--extend-after",
+        "cases/omf-original-1286.json"
+      ],
+      "seconds": 0.3396109314635396,
+      "returncode": 0,
+      "log_sha256": "243f1d944bfc4c0e3f6527bef806e9f9bc91956abf697cfb89e9548590a44633"
+    },
+    "omf1286-controls-bss-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-fixup-allocator.py"
+      ],
+      "seconds": 0.6446327632293105,
+      "returncode": 0,
+      "log_sha256": "32a08b2069ab101c9d907b82d91ecc2f0e5b0b26d702c3649e3dc2907ae251c1"
+    },
+    "omf1286-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-fixup-allocator.py"
+      ],
+      "seconds": 0.3361964048817754,
+      "returncode": 1,
+      "log_sha256": "fcb829eb215815f4e96a163490bf986d70bbd9f2a306bf51111d5e8b95ec47db"
+    },
+    "omf1286-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-fixup-allocator-entry.py"
+      ],
+      "seconds": 1.7529080361127853,
+      "returncode": 0,
+      "log_sha256": "9c7e5086497322d7c52dd27cc3d6914dc2a44caa3bff1c85f0715b23c686f944"
+    },
+    "omf1286-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.9045899016782641,
+      "returncode": 0,
+      "log_sha256": "465dbf208394b4aa0adf7d40a48369d3d9654c8c3339b06b284921bc355934bc"
+    },
+    "omf1286-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1286.json"
+      ],
+      "seconds": 0.22770889941602945,
+      "returncode": 0,
+      "log_sha256": "2063b6d2dab174ede46c04e9728300d56fbb0957af6b7a87877decc8bd194e29"
+    },
+    "omf1286-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 4.21326054725796,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1286-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1286.json"
+      ],
+      "seconds": 1.9269794598221779,
+      "returncode": 0,
+      "log_sha256": "5fff26cadcfd1d9d8b13dfaa727c093672ea0fc668b6144d41ecd1b6069cc13a"
+    },
+    "omf1286-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 2.2854674430564046,
+      "returncode": 0,
+      "log_sha256": "fd7e57058c585a6ac365be1417269d8c1504de8b57ff22a71dc98a5944825d19"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole54-byte address allocator with actual no-formal ABI/counter0.24 original/canonical controls/5 ABI negatives cover0/1/124/248/249 slot address and increment,250/251/INTMAX actual772 diagnostic before selection, three caller-register poisons, RET0/callee-saved/stack. Memory hooks reject ALL reads/writes of old pool entries: output addresses only, no real old-entry capture or seed.",
+    "Contextual OmfFixup[250] typed pool6000B introduced at original79154..7a8c4. Original allocator LEA index*24, signed250 bound, writer6c400 stride24 and BSS section range support exactextent; canonical/native size/layout compile assertions. Original/canonical pool BSS, counter original zero/canonicalBSS zero, distinct nonoverlapping storage. No bulk copied data or new pool-wide initializer/clear. Negative indices outside known zero/reset/+1 lifecycle are not successful controls; no invented guard, real negative counter holds for producer/ABI review; fatal stops, no returning-fatal claim.",
+    "First static checker failed because its raw-file PE reader treated canonicalBSS counter at section off0 as file bytes5bc9c355. Corrected proof uses explicit BSS loader-zero membership(and raw zero only for initialized sections), with actual original/native counter0 observation unchanged. No target source initialization or oracle normalization changed; failed.336s and passing.645s retained.",
+    "Per parent cadence request,16 newer models use established ABI-only early paths in ordinary audit/negatives, retaining actual ABI mutants/extents/storage/switch/native guard bindings. Existing default full-grid function/control-loop ASTs unchanged, complete semantic models explicit in audit-data. New allocator full24 controls ran separately before ordinary ABI path. Required ordinary audit20.691s/0 recompiles versus prior1285 full-grid41.853s; one additional54-byte target function, not isolated benchmark. Receipt cases/omf-new-model-modes.json includes independent16-mode verification5.926s and2 invalid-option rejections.",
+    "Original/W3/full graph/extents/RET/ABI/storage, focused new whole-body controls, fresh original/native match to output_noop_function68d70 and15 cached native cases pass(14 complete). Build2.986s,/W32.285s,reference1.927s,native.228s,fixtures.905s wrappers; subphases retained, analysis/edit unmeasured. Full exact OMF output still pending."
+  ]
+}

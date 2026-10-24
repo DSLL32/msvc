@@ -1,0 +1,21 @@
+{
+  "matched": true,
+  "function": "_omf_allocate_fixup",
+  "original_va": "0x6bd10",
+  "formals": [],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6bd10..6bd46 overwrites ECX from global signed fixup_count before using it; no ECX/EDX/stack/formal/flags/x87/out pointer input, RET0. Actual count0 and caller omf_add_fixup/originalreturn6b99c observed. Returned pool entry is output, contents not read by allocator and never captured/seeded as input.",
+  "original": {
+    "count": 0,
+    "return_address": 440732
+  },
+  "native": {
+    "count": 0,
+    "caller": "omf_add_fixup"
+  },
+  "original_execution_seconds": 1.2860995065420866,
+  "native_debug_seconds": 0.14660406112670898,
+  "total_seconds": 1.684437352232635,
+  "scope": "No-formal ABI and contextual counter0 only; pointer/old entry flags/output not fabricated. Pool extent/layout and producer bounds need independent static proof; whole function still unaccepted."
+}

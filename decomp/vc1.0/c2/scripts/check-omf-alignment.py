@@ -4,7 +4,7 @@ import argparse,copy,hashlib,json,os,shutil,struct,subprocess,tempfile,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-ap=argparse.ArgumentParser();ap.add_argument('--native-guard',action='store_true');args=ap.parse_args();started=time.perf_counter()
+ap=argparse.ArgumentParser();ap.add_argument('--native-guard',action='store_true');ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();started=time.perf_counter()
 original,canonical,cfg,_,_=indexes();names=publics();name='@omf_alignment@4';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
 def validate(e):
  assert e['matched']and e['function']==name and e['no_hidden_inputs_proof']and e['hidden_inputs']==row['abi']['hidden_inputs']==[]and e['callee_stack_cleanup']==row['abi']['callee_stack_cleanup']==0
@@ -19,6 +19,12 @@ for label,change in [('missing formal',lambda e:e.update(formals=[])),('wrong EC
 assert row['start']==0x6a310 and row['end']==0x6a346
 assert original.read(0x6a324,1)==b'\xc3'and original.read(0x6a345,1)==b'\xc3'
 raw_entry_eax=int((p.parent/'original.txt').read_text().splitlines()[0].split()[3],16);assert raw_entry_eax==0x7a8dc
+
+if args.abi_only:
+ assert not args.native_guard, '--abi-only cannot recapture a native guard'
+ source=Path('src/omf-output.c').read_text();body=source[source.index('unsigned __fastcall omf_alignment(unsigned alignment)\n{'):].split('\n}\n',1)[0];assert '#ifdef RECON_NATIVE_TEST\n    __asm int 3\n#endif' in body and body.count('return ')==4
+ guard=json.loads(Path('cases/omf-alignment-native-guard.json').read_text());assert hashlib.sha256(Path(guard['path']).read_bytes()).hexdigest()==guard['sha256']
+ print(name,'actual ABI/negative/extent/storage checks pass; full semantic grid is explicit');raise SystemExit
 
 def run(image,entry,alignment,eax):
  u=Uc(UC_ARCH_X86,UC_MODE_32);u.mem_map(0x10000,0x100000);u.mem_map(0x300000,0x10000);u.mem_map(0x400000,0x1000)
