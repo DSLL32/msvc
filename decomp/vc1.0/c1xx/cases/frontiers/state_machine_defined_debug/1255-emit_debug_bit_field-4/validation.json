@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_debug_bit_field@4",
+    "start": 456944,
+    "end": 457036
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_defined_debug/1255-emit_debug_bit_field-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_emit_debug_type_record@4",
+    "_primitive_debug_type@4"
+  ],
+  "next_frontier": "_finish_debug_info",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8489934122189879,
+  "total_operation_seconds": 5.328737113624811,
+  "original_capture_seconds": 1.9197869673371315
+}

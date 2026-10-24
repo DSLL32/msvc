@@ -123,6 +123,20 @@ unsigned debug_calling_convention(unsigned short attributes)
     return 15;
 }
 
+/* Original 0x6f8f0..0x6f94b. Enum bit fields use the underlying
+   integral primitive encoding while retaining their original width and offset. */
+void __stdcall emit_debug_bit_field(CppSymbol *field)
+{
+    unsigned char *leaf = debug_record_buffer + 2;
+    unsigned short flags = field->type->flags;
+    *(unsigned short *)leaf = 0x206;
+    leaf[2] = field->auxiliary.bit_field.width;
+    leaf[3] = field->auxiliary.bit_field.offset;
+    if (flags & 0x200) flags = (flags & ~0x200) | 0x64;
+    *(unsigned short *)(leaf + 4) = primitive_debug_type(flags);
+    emit_debug_type_record(6);
+}
+
 /* Original 0x6e590..0x6e5d3. Array leaves carry the element type,
    the fixed index type and a numeric byte size followed by an empty name. */
 void __stdcall emit_debug_array_type(CType *type, unsigned short base_index)

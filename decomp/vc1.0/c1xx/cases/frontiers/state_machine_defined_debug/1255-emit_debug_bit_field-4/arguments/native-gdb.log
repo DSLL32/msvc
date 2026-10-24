@@ -1,0 +1,15 @@
+Breakpoint 1 at 0x3a819: file src/debug-types.c, line 130.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, emit_debug_bit_field (field=0x566313ac) at src/debug-types.c:130
+130	    unsigned char *leaf = debug_record_buffer + 2;
+#0  emit_debug_bit_field (field=0x566313ac) at src/debug-types.c:130
+#1  0x5659187a in flush_debug_types () at src/debug-types.c:698
+#2  0x565ad902 in prepare_symbol_debug_type (symbol=0x56631694) at src/symbol-output.c:15
+#3  0x565ae043 in emit_symbol_declaration (symbol=0x56631694) at src/symbol-output.c:148
+#4  0x565ae969 in serialize_scope (scope=0x5662f048) at src/function-finalization.c:144
+#5  0x565af70e in finish_expression_output () at src/function-finalization.c:350
+#6  0x5655df57 in compile_translation_unit () at src/frontend.c:79
+#7  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#8  0x56558894 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20
