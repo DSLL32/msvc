@@ -1,0 +1,16 @@
+{
+  "scope": "Public _mbslwr under explicit MSVCRT510 default-C CP0/full initial MB/ctype tables/handles; ASCII terminated writable span; known errors2/2/0. Local integer in-place lower with borrowed alias and prevalidation. Other states denied.",
+  "prior_typed_surface_commit": "0e8a3d3fc",
+  "frozen_receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-ascii/receipt.json",
+    "sha256": "62e40a016ce90efdbfb3aee95345e54a803b007d94ecf2c4871f9c6fc58a22f6"
+  },
+  "qualification": "No concurrent target locale mutation. Original private lock25/CS/allocator effects and original OS thread count unobserved/unclaimed, without preinitialized/noallocation inference. Only initialized32B original span observed; no original allocation-tail/extent claim. Future private readers/escape/concurrency reopen contract.",
+  "checks": "Four frozen GCC/Clang default510 probes: actual32B+129 spans x empty/live full108FP/errors/alias/tails/tables;18 unsupported-state denials/default20; late-nonASCII shared-memory no-partial-write control. Existing native core check passes.",
+  "actual_target_integration": "Pending CL native-only adoption against unchanged helper0 selector-2 original; no app acceptance claimed here.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/selector-preuse/mbslwr-parent-review.json",
+    "sha256": "b4c7ef3114cf4f90d6b29a4641b2c5d4c6f4f9552f89cd65b1375a03ace371b1",
+    "result": "PASS all37 source/provider/receipt bindings,four frozenELFs/four checker reruns; narrow production diff and private-effect qualifications reviewed"
+  }
+}

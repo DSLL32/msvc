@@ -2301,8 +2301,27 @@ WEAK unsigned int __cdecl recon_mbctolower(unsigned int character)
 }
 WEAK unsigned char *recon_mbsupr(unsigned char *text)
 { (void)text; recon_unsupported("unreviewed _mbsupr"); return NULL; }
+/* Observed default-C ASCII span, with no concurrent target locale mutation.
+ * Original lock25/critical-section allocation is provider-private: its live
+ * initialization and bytes were not observed and are not reproduced here. */
 WEAK unsigned char *__cdecl recon_mbslwr(unsigned char *text)
-{ (void)text; recon_unsupported("unreviewed _mbslwr"); return NULL; }
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    unsigned char *cursor;
+    if (!text || ctype_selection.bound || ctype_selection.calls || ctype_selection.mb_calls ||
+        errno!=2 || recon_doserrno!=2 || recon_GetLastError())
+        recon_unsupported("_mbslwr default-C span/error state");
+    isolated_ctype_initial_state();
+    /* Reject the complete unsupported span before changing its first byte. */
+    for (cursor=text;*cursor;++cursor)
+        if (*cursor>=128) recon_unsupported("_mbslwr nonASCII span");
+    for (cursor=text;*cursor;++cursor)
+        if (*cursor>='A' && *cursor<='Z') *cursor=(unsigned char)(*cursor+('a'-'A'));
+    return text;
+#else
+    (void)text;recon_unsupported("_mbslwr requires MSVCRT510 profile");return NULL;
+#endif
+}
 WEAK unsigned char *recon_mbspbrk(const unsigned char *text,const unsigned char *accept)
 {
     const unsigned char *cursor,*set;
