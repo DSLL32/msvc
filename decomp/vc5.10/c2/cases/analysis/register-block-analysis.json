@@ -1,0 +1,47 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "function": {
+    "name": "_new_register_block",
+    "primary": [
+      4245338,
+      4245477
+    ],
+    "cold": [
+      4616409,
+      4616495
+    ],
+    "bytes": 225
+  },
+  "block": {
+    "size": 2572,
+    "next": 0,
+    "cursor": 4,
+    "end": 8,
+    "records": 12,
+    "count": 32,
+    "stride": 80,
+    "row_number": 28
+  },
+  "natural_calls": 4,
+  "natural_arena_count": 5,
+  "directory_capacity": 1000,
+  "initial_directory_offset": 32,
+  "current_directory_slots": 4,
+  "allocator_provenance": "Accepted401000 whole function malloc4096; capacity4088 and bothheaderDWORDs then memset full4088B payload. Every new2572Bblock exceeds priorremaining64/1516; no uninitialized malloc slack claim. Unknown row fields only compared as exact allocator-written bytes, no semantics/default/layout credit.",
+  "pending_next": {
+    "name": "@new_register_set@4",
+    "entry": 4200547,
+    "ABI": "fastcall signedint poolECX=1; noEDX/stack/hiddenregister; pointerEAX result,RET0; actualcalleewholebody proven",
+    "future_data": "Originalfree_set_head48e120+pool*4 slot1=48e124 raw0 is ANALYSISONLY until callee actually reconstructed. No invented nativearray/extent/default now."
+  },
+  "unvisited_growth": "Capacity doubles, alloc pool1/copy all oldpointerentries intrinsicmemcpy, no olddirectoryfree. Whole86B chunk owned; branch unvisited in current naturalcase.",
+  "source_files": {
+    "src/function-records.c": "0480b8df5ee3bae2d67bb408b4b74c6697c1364a08ae5d8b474a8a78aa1f55d9",
+    "src/function-records.h": "9dfd38e64360bb59e0af5146f5fba72d9f8fe21a2cfe55e5f1a1108d4295cfd6"
+  },
+  "allowed_source_slots": [
+    "src/function-records.c",
+    "src/function-records.h",
+    "src/stubs.c"
+  ]
+}

@@ -5,15 +5,26 @@
 
 typedef struct C2RegisterBlock C2RegisterBlock;
 typedef struct C2RegisterSet C2RegisterSet;
-/* Only this encountered kind byte is used here. The actual allocator's80B
+/* Only the encountered kind and number fields are named. The actual allocator's80B
  * records justify the extent; other fields/defaults remain unmodeled. */
 typedef struct C2FunctionRegister {
     unsigned char pending00[4];
     unsigned char kind;
-    unsigned char pending05[75];
+    unsigned char pending05[23];
+    unsigned number;
+    unsigned char pending32[48];
 } C2FunctionRegister;
 typedef char C2FunctionRegisterSizeCheck[sizeof(C2FunctionRegister) == 80 ? 1 : -1];
 typedef char C2FunctionRegisterKindCheck[offsetof(C2FunctionRegister,kind) == 4 ? 1 : -1];
+typedef char C2FunctionRegisterNumberCheck[offsetof(C2FunctionRegister,number) == 28 ? 1 : -1];
+struct C2RegisterBlock {
+    C2RegisterBlock *next;
+    C2FunctionRegister *cursor, *end;
+    C2FunctionRegister records[32];
+};
+typedef char C2RegisterBlockSizeCheck[sizeof(C2RegisterBlock) == 2572 ? 1 : -1];
+typedef char C2RegisterBlockRowsCheck[offsetof(C2RegisterBlock,records) == 12 ? 1 : -1];
+
 extern C2RegisterBlock **function_register_blocks;
 extern C2RegisterBlock **next_function_register_block, **end_function_register_blocks;
 extern C2RegisterBlock *first_function_register_block, *last_function_register_block;

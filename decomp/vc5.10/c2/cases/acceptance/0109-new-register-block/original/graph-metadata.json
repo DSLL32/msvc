@@ -1,0 +1,715 @@
+{
+  "schema": 1,
+  "functions": {
+    "_c2_crt_startup": {
+      "original": {
+        "roots": [
+          4670637,
+          4670658
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4201339,
+          4201372
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3d0",
+        "rebuilt_scope_table": "0x40a0a8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "_c2_main": {
+      "original": {
+        "roots": [
+          4670693,
+          4670736
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4201790,
+          4201853
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3c0",
+        "rebuilt_scope_table": "0x40a0b8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "@read_initializer_records@4": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true,
+        "enabled": true
+      },
+      "original": {
+        "text_data": [
+          [
+            4531320,
+            4531352
+          ],
+          [
+            4531352,
+            4531369
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4208105,
+            4208137
+          ],
+          [
+            4208137,
+            4208154
+          ]
+        ]
+      }
+    },
+    "_initialize_object_output": {
+      "register_imports": {
+        "enabled": true,
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "@initialize_coff_output@4": {
+      "register_imports": {
+        "enabled": true,
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "@create_coff_section@4": {
+      "register_imports": {
+        "enabled": true,
+        "require_all_register_calls_resolved": true
+      },
+      "original": {
+        "text_data": [
+          [
+            4321008,
+            4321056
+          ],
+          [
+            4321056,
+            4321077
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4228606,
+            4228654
+          ],
+          [
+            4228654,
+            4228675
+          ]
+        ]
+      }
+    },
+    "@c2_match_option@16": {
+      "original": {
+        "text_data": [
+          [
+            4533424,
+            4533444
+          ],
+          [
+            4533456,
+            4533502
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4203372,
+            4203392
+          ],
+          [
+            4203392,
+            4203438
+          ]
+        ]
+      }
+    },
+    "@c2_apply_option@12": {
+      "original": {
+        "text_data": [
+          [
+            4533728,
+            4533760
+          ],
+          [
+            4533760,
+            4533799
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4204223,
+            4204255
+          ],
+          [
+            4204255,
+            4204294
+          ]
+        ]
+      }
+    },
+    "_format_diagnostic_args": {
+      "original": {
+        "text_data": [
+          [
+            4771504,
+            4771532
+          ],
+          [
+            4771532,
+            4771583
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4209842,
+            4209870
+          ],
+          [
+            4209870,
+            4209921
+          ]
+        ]
+      }
+    },
+    "@c2_node_size@4": {
+      "original": {
+        "text_data": [
+          [
+            4248936,
+            4249000
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4211171,
+            4211235
+          ]
+        ]
+      }
+    },
+    "@read_symbols@4": {
+      "original": {
+        "text_data": [
+          [
+            4327020,
+            4327064
+          ],
+          [
+            4327072,
+            4327095
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4214608,
+            4214652
+          ],
+          [
+            4214652,
+            4214675
+          ]
+        ]
+      }
+    },
+    "@read_symbol@4": {
+      "original": {
+        "text_data": [
+          [
+            4328984,
+            4329076
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4217994,
+            4218086
+          ]
+        ]
+      }
+    },
+    "@intern_symbol_name@12": {
+      "original": {
+        "text_data": [
+          [
+            4329420,
+            4329444
+          ],
+          [
+            4329444,
+            4329455
+          ],
+          [
+            4329456,
+            4329492
+          ],
+          [
+            4329492,
+            4329521
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4218506,
+            4218530
+          ],
+          [
+            4218530,
+            4218541
+          ],
+          [
+            4218541,
+            4218577
+          ],
+          [
+            4218577,
+            4218606
+          ]
+        ]
+      }
+    },
+    "@update_symbol_storage@4": {
+      "original": {
+        "text_data": [
+          [
+            4359628,
+            4359656
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4213406,
+            4213434
+          ]
+        ]
+      }
+    },
+    "_output_callback_453e02": {
+      "original": {
+        "text_data": [
+          [
+            4537916,
+            4537956
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4225151,
+            4225191
+          ]
+        ]
+      }
+    },
+    "_prepare_global_records": {
+      "original": {
+        "text_data": [
+          [
+            4323808,
+            4323828
+          ],
+          [
+            4323828,
+            4323844
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4223491,
+            4223511
+          ],
+          [
+            4223511,
+            4223527
+          ]
+        ]
+      }
+    },
+    "@prepare_function_records@4": {
+      "original": {
+        "text_data": [
+          [
+            4323232,
+            4323248
+          ],
+          [
+            4323248,
+            4323263
+          ],
+          [
+            4323264,
+            4323284
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4222658,
+            4222674
+          ],
+          [
+            4222674,
+            4222689
+          ],
+          [
+            4222689,
+            4222709
+          ]
+        ]
+      }
+    }
+  },
+  "callback_tables": [],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "function": "@new_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "_input_varuint"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "_input_compact_signed"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_initializer_values@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@queue_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@emit_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@free_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "_c2_read_il_byte"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@input_string@8"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@lookup_source_file@8"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@c2_report_internal@8"
+        },
+        "preserves": [
+          "ebp",
+          "edi",
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_initializer_records@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "free"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@c2_pool_allocate@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "_query_incremental_stream_size"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_incremental_stream@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "_read_incremental_byte"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "_validate_incremental_options"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fopen"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fclose"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "_initialize_coff_lists"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "@new_output_list@8"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "function": "_read_incremental_output"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "malloc"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "strncmp"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/strncmp-ebp-contract.json",
+          "sha256": "1ff5defb3dd330606ebc995bb1e75477d66b430884bb6e998cf2f2e131ac9d30"
+        }
+      }
+    ]
+  }
+}

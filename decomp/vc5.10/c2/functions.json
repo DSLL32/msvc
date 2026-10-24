@@ -118,7 +118,8 @@
     "@write_assembly_records@4",
     "_begin_function_input",
     "_reset_register_marks",
-    "_initialize_function_records"
+    "_initialize_function_records",
+    "_new_register_block"
   ],
   "driver": [
     {
@@ -261,17 +262,17 @@
             "review": "Full bounded disassembly shows one assignment before all three calls; no holder rewrite or address escape; cdecl preserves ESI"
           },
           "rebuilt": {
-            "slot": 4231260,
+            "slot": 4235356,
             "holder": "[EBP-0xc]",
             "lifetime": [
               212,
               312
             ],
-            "lifetime_sha256": "8d6eac996b3e8374f8609e0a659f5bc264d45e81c2010a40b1d9e125eb4590e7",
+            "lifetime_sha256": "6b30054c2db03cb42859b6418482aef431bbdfa103d9d75b389b502f955bf089",
             "instructions": [
               {
                 "offset": 212,
-                "bytes": "8b0d5c904000894df4"
+                "bytes": "8b0d5ca04000894df4"
               },
               {
                 "offset": 243,
@@ -433,17 +434,17 @@
             "review": "Full48b72b..48b78c reviewed: EDI assigned once before recursion/loop; lookup fastcall preserves EDI; no holder overwrite or escape; one indirect strdup call and cleanup4."
           },
           "rebuilt": {
-            "slot": 4231264,
+            "slot": 4235360,
             "holder": "[EBP-0x4]",
             "lifetime": [
               42,
               191
             ],
-            "lifetime_sha256": "fa650d0240a4947442bc75147f858cf80a2e7370b43d34be47f51382bbbf2b52",
+            "lifetime_sha256": "f8869f63465ac7d9c44107bb4a615fbd77789b84329ead53b8a8c9776e26bec9",
             "instructions": [
               {
                 "offset": 42,
-                "bytes": "a1609040008945fc"
+                "bytes": "a160a040008945fc"
               },
               {
                 "offset": 104,
@@ -515,17 +516,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4231288,
+            "slot": 4235384,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "e2bbf63d5777de5e14dbcdacf595a131dd8f1f49061b738c433f329eaff0d0a6",
+            "lifetime_sha256": "8b55a7ea30bbcafd6095b6cff42805086753a02db2f0701b3ad00565140a7b34",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d78904000894df8"
+                "bytes": "8b0d78a04000894df8"
               },
               {
                 "offset": 509,
@@ -664,17 +665,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4231292,
+            "slot": 4235388,
             "holder": "[EBP-0x8]",
             "lifetime": [
               38,
               154
             ],
-            "lifetime_sha256": "d809676955fa62ca5788ab99d9471ab19d8bd0f72c2bd465cfbf5cc6901b7d90",
+            "lifetime_sha256": "25821e094b0e2db024ca1616717787465be5156d036b73f0a0b5997df9d6ae6a",
             "instructions": [
               {
                 "offset": 38,
-                "bytes": "a17c9040008945f8"
+                "bytes": "a17ca040008945f8"
               },
               {
                 "offset": 110,
@@ -725,17 +726,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4231296,
+            "slot": 4235392,
             "holder": "[EBP-0x4]",
             "lifetime": [
               46,
               154
             ],
-            "lifetime_sha256": "fdd6740a9ec727d76411c9b4abde127397c8fa140b1ace5df61b948873fddba3",
+            "lifetime_sha256": "e3fce22e67d714f7ac312eaa6f5d6c31129073451ba63cd950d9abf82a0859ae",
             "instructions": [
               {
                 "offset": 46,
-                "bytes": "8b0d80904000894dfc"
+                "bytes": "8b0d80a04000894dfc"
               },
               {
                 "offset": 89,
@@ -945,12 +946,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4231284,
+            "slot": 4235380,
             "holder": "[EBP-0x14]",
             "instructions": [
               {
                 "offset": 15,
-                "bytes": "8b0d74904000894dec"
+                "bytes": "8b0d74a04000894dec"
               },
               {
                 "offset": 44,
@@ -962,16 +963,16 @@
               15,
               98
             ],
-            "lifetime_sha256": "9e9dcae1bfa47f7f5648f76ab0cb5f49c75f97a9dbde7b410471d30311f54e43",
+            "lifetime_sha256": "12eb523cb537a1b98eb018c7b2f98e8c9fddc9bff19c150cb228720703554cf3",
             "accessed_data": [
               {
-                "slot": 4231280,
+                "slot": 4235376,
                 "dll": "MSVCRT.dll",
                 "symbol": "__mb_cur_max",
                 "abi": "imported 32-bit int variable"
               },
               {
-                "slot": 4231276,
+                "slot": 4235372,
                 "dll": "MSVCRT.dll",
                 "symbol": "_pctype",
                 "abi": "imported pointer variable to unsigned-short flags table indexed by signed char"
@@ -1008,12 +1009,12 @@
             "lifetime_sha256": "ba75a000344a85d30c5093fba5eb4182adc3ff672b0e6bfc79b00196d843b704"
           },
           "rebuilt": {
-            "slot": 4231272,
+            "slot": 4235368,
             "holder": "[EBP-0x10]",
             "instructions": [
               {
                 "offset": 98,
-                "bytes": "a1689040008945f0"
+                "bytes": "a168a040008945f0"
               },
               {
                 "offset": 106,
@@ -1029,7 +1030,7 @@
               98,
               140
             ],
-            "lifetime_sha256": "d4944b8a8068847ef1f902217633df3763e20ac87f8bbdbd3101174f50a3552b"
+            "lifetime_sha256": "919b64bd557f737ee06d6c3010ea7f9c6588e32ac706ad4d725e1438923abfb1"
           }
         }
       ]
@@ -1488,12 +1489,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4231256,
+            "slot": 4235352,
             "holder": "[EBP-0x8]",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a1589040008945f8"
+                "bytes": "a158a040008945f8"
               },
               {
                 "offset": 89,
@@ -1509,7 +1510,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "3649e8abf83556e2dc81b3d2c529b785335334fda6cd0e22b4f71ccf86d56793"
+            "lifetime_sha256": "4285071757a9df7188d1291161edbf9c9c0d17bb0a1bc869023cc4e8b05cef64"
           }
         }
       ]
@@ -1670,12 +1671,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4231256,
+            "slot": 4235352,
             "holder": "[EBP-0x8]",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a1589040008945f8"
+                "bytes": "a158a040008945f8"
               },
               {
                 "offset": 89,
@@ -1699,7 +1700,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "a3efa259ef41aa670055f776e59fe5bc17695889a16b5b0d2bcc04a143ace3b5"
+            "lifetime_sha256": "348c3000eee63226feeea72ebece51261a5862152f9031c012b0ff2fa2bf0abe"
           }
         }
       ]
@@ -4131,16 +4132,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4231256,
+            "slot": 4235352,
             "lifetime": [
               6,
               827
             ],
-            "lifetime_sha256": "e0d532e82a3b04146b32c5759935f5e2f9f0e38ecac597adb30fa1ac037436c3",
+            "lifetime_sha256": "6fe795c585e3370d584a3d4e7f3bbe1fb9f6e9a34945c6f31dd937a66381c6cb",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158904000"
+                "bytes": "a158a04000"
               },
               {
                 "offset": 11,
@@ -4391,16 +4392,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4231256,
+            "slot": 4235352,
             "lifetime": [
               27,
               145
             ],
-            "lifetime_sha256": "309b21e2ea37484ed602d07efda50fc76828979c34071b8039457df49daefd3b",
+            "lifetime_sha256": "41671fd7d4b0c25748010bedb5dfd3028f060b97c58ca0009274b354058037f5",
             "instructions": [
               {
                 "offset": 27,
-                "bytes": "8b1558904000"
+                "bytes": "8b1558a04000"
               },
               {
                 "offset": 33,
@@ -5585,16 +5586,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4231256,
+            "slot": 4235352,
             "lifetime": [
               6,
               489
             ],
-            "lifetime_sha256": "45b19d77add72071f37ec61c3c8fd7dcf6563c55affba91f01e15355d7edfd2b",
+            "lifetime_sha256": "a243c6993f1030b8658c8d74d63002700caef0b011f6d781351ec01d79dcd6f8",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158904000"
+                "bytes": "a158a04000"
               },
               {
                 "offset": 11,
@@ -5840,16 +5841,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4231256,
+            "slot": 4235352,
             "lifetime": [
               6,
               315
             ],
-            "lifetime_sha256": "750b055c3db6bb3a6d379d189676af792aa7c4aeb8dcff15ae564e8aac217583",
+            "lifetime_sha256": "eaf3fab84c24db2d01d3c210ea3b344dcc875e2d7067845680d1c1250f498ef4",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158904000"
+                "bytes": "a158a04000"
               },
               {
                 "offset": 11,
@@ -7098,17 +7099,17 @@
             "review": "Unique verified IATseed before all dispatches. No EBP rewrite until POP45246f; complete coldchunk included. Each named callee has an explicit incoming-EBP preservation witness. One pushESI/CALLEBP/ADDESP4 at47421f, no alias escape, branch-entry bypass or unknown other indirect call."
           },
           "rebuilt": {
-            "slot": 4231300,
+            "slot": 4235396,
             "holder": "direct IAT",
             "lifetime": [
               306,
               319
             ],
-            "lifetime_sha256": "0e4f638e9c10cc7954bde7a9712fb973f43119546de9d7169c2ebdc24020c4cf",
+            "lifetime_sha256": "05a77882741d9a5ce1c4d7509e9b60382939710ed49e2d31ede048a72ebb645b",
             "instructions": [
               {
                 "offset": 306,
-                "bytes": "8b55f852ff158490400083c404"
+                "bytes": "8b55f852ff1584a0400083c404"
               }
             ],
             "review": "cases/analysis/object-writer-import-review.json: exact fixed byte intervals unchanged except enumerated same-MAP data operands; all holder/load/call/cleanup instructions unchanged."
@@ -12436,6 +12437,23 @@
       "kind": "application",
       "abi": "voidcdecl(void),RET0",
       "evidence": "cases/analysis/function-records-analysis.json whole179B initializer; first real child before blockcreation."
+    },
+    {
+      "name": "_new_register_block",
+      "native": "new_register_block",
+      "start": 4245338,
+      "end": 4245477,
+      "code_chunks": [
+        [
+          4616409,
+          4616495
+        ]
+      ],
+      "kind": "application",
+      "abi": "cdecl(void), pointerEAX,RET0",
+      "evidence": "cases/analysis/register-block-analysis.json139Bhot+86Bcold; four naturalcalls produce4pool1arenas and directorylinks. Capacitygrowth statically reconstructed, notnaturallyexecuted.",
+      "register_block_model": "cases/analysis/register-block-analysis.json",
+      "register_block_model_sha256": "9c03941491411d05297fd5cbf4d7dbcfc6ff4d89dff6de332fd45f4ee5c1521d"
     }
   ],
   "stubs": [
@@ -14506,13 +14524,13 @@
       "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit."
     },
     {
-      "name": "_new_register_block",
-      "native": "new_register_block",
-      "start": 4245338,
-      "end": 4245339,
+      "name": "@new_register_set@4",
+      "native": "new_register_set",
+      "start": 4200547,
+      "end": 4200548,
       "kind": "application",
       "pending_extent": true,
-      "abi": "cdecl(void),pointerEAX,RET0",
+      "abi": "fastcall int poolECX, pointerEAX,RET0",
       "evidence": "cases/analysis/function-records-analysis.json actual wholecallee/caller ABI; namedmaskedINT3, no bodycredit.",
       "state_policy": "globals-complete",
       "state": [
@@ -14690,17 +14708,9 @@
       "state_model": "scripts/globals_state.py",
       "section_caller": "initialize_function_records",
       "function_register_directory": true,
-      "state_model_sha256": "7a7a45e81990b32de89c6b843766574d5f3564390263b23e50cdabe5429c238b"
-    },
-    {
-      "name": "@new_register_set@4",
-      "native": "new_register_set",
-      "start": 4200547,
-      "end": 4200548,
-      "kind": "application",
-      "pending_extent": true,
-      "abi": "fastcall int poolECX, pointerEAX,RET0",
-      "evidence": "cases/analysis/function-records-analysis.json actual wholecallee/caller ABI; namedmaskedINT3, no bodycredit."
+      "function_register_blocks": 4,
+      "register_set_input": true,
+      "state_model_sha256": "45e67b7fc3ccfd2385b20c2565cbc66a3959bf763faebebfafc745963f3a3d22"
     },
     {
       "name": "@new_function_register@4",
@@ -15036,7 +15046,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15048,7 +15058,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15060,7 +15070,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15072,7 +15082,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15084,7 +15094,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15096,7 +15106,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15108,7 +15118,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15120,7 +15130,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15132,7 +15142,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15144,7 +15154,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15158,7 +15168,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15170,7 +15180,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15185,7 +15195,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15197,7 +15207,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15209,7 +15219,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15221,7 +15231,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15233,7 +15243,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15245,7 +15255,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15260,7 +15270,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15275,7 +15285,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15287,7 +15297,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15299,7 +15309,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15311,7 +15321,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {
@@ -15326,7 +15336,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
+          "sha256": "d06b212b11d2ff009619271591d9e8174aeda8e4c88004870ecf4d99ab1d6403"
         }
       },
       {

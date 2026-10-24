@@ -1,0 +1,1405 @@
+{
+  "review": "Analysis-only exact byte comparison over manually reviewed fixed lifetimes. Every changed byte is one listed same-MAP/same-IAT/equal-literal/same-named-relative-call DWORD operand. All other bytes/holders/calls/cleanup/relative branches remain exact. CommonRust independently owns all graph checks.",
+  "old_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/records108-original-final",
+  "old_rebuilt_sha256": "1238e4f3064ce86a29571078e4be9196e7400832005a58004fd76dce74ac2cc4",
+  "new_rebuilt_sha256": "347daa95a54829829a3fea97fc74c66996a7accf523c5013784fb96777c9286c",
+  "analysis_script_sha256": "59c1bb12c8383d2a2f45e90c816452a671b5d18dcbb75e5486ae042a7d62d552",
+  "rows": [
+    {
+      "function": "_c2_initialize_options",
+      "symbol": "strpbrk",
+      "interval": [
+        212,
+        312
+      ],
+      "changes": [
+        {
+          "offset": 214,
+          "old": 4231260,
+          "new": 4235356,
+          "identity": "MAP __imp__strpbrk"
+        },
+        {
+          "offset": 223,
+          "old": 4264928,
+          "new": 4269024,
+          "identity": "MAP _c2_assembly_enabled"
+        },
+        {
+          "offset": 232,
+          "old": 4239452,
+          "new": 4243548,
+          "identity": "literal 'cC'"
+        },
+        {
+          "offset": 238,
+          "old": 4264948,
+          "new": 4269044,
+          "identity": "MAP _c2_assembly_flags"
+        },
+        {
+          "offset": 255,
+          "old": 4264932,
+          "new": 4269028,
+          "identity": "MAP _c2_mixed_assembly"
+        },
+        {
+          "offset": 264,
+          "old": 4239456,
+          "new": 4243552,
+          "identity": "literal 'sS'"
+        },
+        {
+          "offset": 269,
+          "old": 4264948,
+          "new": 4269044,
+          "identity": "MAP _c2_assembly_flags"
+        },
+        {
+          "offset": 286,
+          "old": 4264952,
+          "new": 4269048,
+          "identity": "MAP _c2_assembly_source"
+        },
+        {
+          "offset": 295,
+          "old": 4239460,
+          "new": 4243556,
+          "identity": "literal 'bB'"
+        },
+        {
+          "offset": 301,
+          "old": 4264948,
+          "new": 4269044,
+          "identity": "MAP _c2_assembly_flags"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_initialize_messages",
+      "symbol": "_strdup",
+      "interval": [
+        42,
+        191
+      ],
+      "changes": [
+        {
+          "offset": 43,
+          "old": 4231264,
+          "new": 4235360,
+          "identity": "MAP __imp___strdup"
+        },
+        {
+          "offset": 53,
+          "old": 4241136,
+          "new": 4245232,
+          "identity": "MAP _messages"
+        },
+        {
+          "offset": 135,
+          "old": 4241192,
+          "new": 4245288,
+          "identity": "literal 'warning'"
+        },
+        {
+          "offset": 158,
+          "old": 4241200,
+          "new": 4245296,
+          "identity": "literal 'error'"
+        },
+        {
+          "offset": 181,
+          "old": 4241208,
+          "new": 4245304,
+          "identity": "literal 'fatal error'"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_emit_diagnostic",
+      "symbol": "fwrite",
+      "interval": [
+        462,
+        540
+      ],
+      "changes": [
+        {
+          "offset": 464,
+          "old": 4231288,
+          "new": 4235384,
+          "identity": "MAP __imp__fwrite"
+        },
+        {
+          "offset": 473,
+          "old": 4231184,
+          "new": 4235280,
+          "identity": "MAP __imp___iob"
+        },
+        {
+          "offset": 517,
+          "old": 4231184,
+          "new": 4235280,
+          "identity": "MAP __imp___iob"
+        },
+        {
+          "offset": 530,
+          "old": 4241240,
+          "new": 4245336,
+          "identity": "literal '\\n'"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_c2_cleanup",
+      "symbol": "remove",
+      "interval": [
+        38,
+        154
+      ],
+      "changes": [
+        {
+          "offset": 39,
+          "old": 4231292,
+          "new": 4235388,
+          "identity": "MAP __imp__remove"
+        },
+        {
+          "offset": 48,
+          "old": 4231296,
+          "new": 4235392,
+          "identity": "MAP __imp__fclose"
+        },
+        {
+          "offset": 57,
+          "old": 4264296,
+          "new": 4268392,
+          "identity": "MAP _c2_output_incomplete"
+        },
+        {
+          "offset": 66,
+          "old": 4264988,
+          "new": 4269084,
+          "identity": "MAP _c2_errors"
+        },
+        {
+          "offset": 75,
+          "old": 4264300,
+          "new": 4268396,
+          "identity": "MAP _c2_output_stream"
+        },
+        {
+          "offset": 84,
+          "old": 4264300,
+          "new": 4268396,
+          "identity": "MAP _c2_output_stream"
+        },
+        {
+          "offset": 97,
+          "old": 4264924,
+          "new": 4269020,
+          "identity": "MAP _c2_output_name"
+        },
+        {
+          "offset": 105,
+          "old": 4264924,
+          "new": 4269020,
+          "identity": "MAP _c2_output_name"
+        },
+        {
+          "offset": 118,
+          "old": 4264972,
+          "new": 4269068,
+          "identity": "MAP _c2_assembly_redirected"
+        },
+        {
+          "offset": 127,
+          "old": 4231184,
+          "new": 4235280,
+          "identity": "MAP __imp___iob"
+        },
+        {
+          "offset": 143,
+          "old": 4264964,
+          "new": 4269060,
+          "identity": "MAP _c2_assembly_file"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_c2_cleanup",
+      "symbol": "fclose",
+      "interval": [
+        46,
+        154
+      ],
+      "changes": [
+        {
+          "offset": 48,
+          "old": 4231296,
+          "new": 4235392,
+          "identity": "MAP __imp__fclose"
+        },
+        {
+          "offset": 57,
+          "old": 4264296,
+          "new": 4268392,
+          "identity": "MAP _c2_output_incomplete"
+        },
+        {
+          "offset": 66,
+          "old": 4264988,
+          "new": 4269084,
+          "identity": "MAP _c2_errors"
+        },
+        {
+          "offset": 75,
+          "old": 4264300,
+          "new": 4268396,
+          "identity": "MAP _c2_output_stream"
+        },
+        {
+          "offset": 84,
+          "old": 4264300,
+          "new": 4268396,
+          "identity": "MAP _c2_output_stream"
+        },
+        {
+          "offset": 97,
+          "old": 4264924,
+          "new": 4269020,
+          "identity": "MAP _c2_output_name"
+        },
+        {
+          "offset": 105,
+          "old": 4264924,
+          "new": 4269020,
+          "identity": "MAP _c2_output_name"
+        },
+        {
+          "offset": 118,
+          "old": 4264972,
+          "new": 4269068,
+          "identity": "MAP _c2_assembly_redirected"
+        },
+        {
+          "offset": 127,
+          "old": 4231184,
+          "new": 4235280,
+          "identity": "MAP __imp___iob"
+        },
+        {
+          "offset": 143,
+          "old": 4264964,
+          "new": 4269060,
+          "identity": "MAP _c2_assembly_file"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "@parse_option_integer@4",
+      "symbol": "_isctype",
+      "interval": [
+        15,
+        98
+      ],
+      "changes": [
+        {
+          "offset": 17,
+          "old": 4231284,
+          "new": 4235380,
+          "identity": "MAP __imp___isctype"
+        },
+        {
+          "offset": 26,
+          "old": 4231280,
+          "new": 4235376,
+          "identity": "MAP __imp____mb_cur_max"
+        },
+        {
+          "offset": 63,
+          "old": 4231276,
+          "new": 4235372,
+          "identity": "MAP __imp___pctype"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "@parse_option_integer@4",
+      "symbol": "_errno",
+      "interval": [
+        98,
+        140
+      ],
+      "changes": [
+        {
+          "offset": 99,
+          "old": 4231272,
+          "new": 4235368,
+          "identity": "MAP __imp___errno"
+        },
+        {
+          "offset": 127,
+          "old": 4231268,
+          "new": 4235364,
+          "identity": "MAP __imp__strtol"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_c2_read_il_word",
+      "symbol": "_filbuf",
+      "interval": [
+        6,
+        198
+      ],
+      "changes": [
+        {
+          "offset": 7,
+          "old": 4231256,
+          "new": 4235352,
+          "identity": "MAP __imp___filbuf"
+        },
+        {
+          "offset": 16,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 27,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 36,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 48,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 63,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 74,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 84,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 106,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 117,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 126,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 138,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 153,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 164,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 174,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_c2_read_il_long",
+      "symbol": "_filbuf",
+      "interval": [
+        6,
+        377
+      ],
+      "changes": [
+        {
+          "offset": 7,
+          "old": 4231256,
+          "new": 4235352,
+          "identity": "MAP __imp___filbuf"
+        },
+        {
+          "offset": 16,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 27,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 36,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 48,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 63,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 74,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 84,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 106,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 117,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 126,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 138,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 153,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 164,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 174,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 196,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 207,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 216,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 228,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 243,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 254,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 264,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 286,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 297,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 306,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 318,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 333,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 344,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 354,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_input_varuint",
+      "symbol": "_filbuf",
+      "interval": [
+        6,
+        827
+      ],
+      "changes": [
+        {
+          "offset": 7,
+          "old": 4231256,
+          "new": 4235352,
+          "identity": "MAP __imp___filbuf"
+        },
+        {
+          "offset": 16,
+          "old": 4264728,
+          "new": 4268824,
+          "identity": "MAP _c2_il_extended_header"
+        },
+        {
+          "offset": 29,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 40,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 49,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 61,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 76,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 87,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 97,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 150,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 162,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 171,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 182,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 196,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 207,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 216,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 271,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 283,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 292,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 303,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 317,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 328,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 337,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 387,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 398,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 407,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 419,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 434,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 445,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 455,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 482,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 493,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 502,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 514,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 529,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 540,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 550,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 610,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 621,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 630,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 642,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 657,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 668,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 678,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 705,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 716,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 725,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 737,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 752,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 763,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 773,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "@input_string@8",
+      "symbol": "_filbuf",
+      "interval": [
+        27,
+        145
+      ],
+      "changes": [
+        {
+          "offset": 29,
+          "old": 4231256,
+          "new": 4235352,
+          "identity": "MAP __imp___filbuf"
+        },
+        {
+          "offset": 37,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 49,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 57,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 69,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 84,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 94,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 104,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_input_compact_signed",
+      "symbol": "_filbuf",
+      "interval": [
+        6,
+        489
+      ],
+      "changes": [
+        {
+          "offset": 7,
+          "old": 4231256,
+          "new": 4235352,
+          "identity": "MAP __imp___filbuf"
+        },
+        {
+          "offset": 16,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 27,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 36,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 48,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 63,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 74,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 84,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 132,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 144,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 153,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 164,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 178,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 189,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 198,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 220,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 232,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 241,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 252,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 266,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 277,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 286,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 308,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 320,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 329,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 340,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 354,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 365,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 374,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 396,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 408,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 417,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 428,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 442,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 453,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 462,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "_input_compact_short",
+      "symbol": "_filbuf",
+      "interval": [
+        6,
+        315
+      ],
+      "changes": [
+        {
+          "offset": 7,
+          "old": 4231256,
+          "new": 4235352,
+          "identity": "MAP __imp___filbuf"
+        },
+        {
+          "offset": 16,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 27,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 36,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 48,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 63,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 74,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 84,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 133,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 145,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 154,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 165,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 179,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 190,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 199,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 221,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 233,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 242,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 253,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 267,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 278,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        },
+        {
+          "offset": 287,
+          "old": 4264716,
+          "new": 4268812,
+          "identity": "MAP _c2_current_il"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    },
+    {
+      "function": "@read_initializer_records@4",
+      "symbol": "free",
+      "interval": [
+        306,
+        319
+      ],
+      "changes": [
+        {
+          "offset": 312,
+          "old": 4231300,
+          "new": 4235396,
+          "identity": "MAP __imp__free"
+        }
+      ],
+      "whole_interval_equal_after_explicit_operand_projection": true
+    }
+  ]
+}

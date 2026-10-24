@@ -154,6 +154,8 @@ def main():
         receipt[stream]={'bytes':path.stat().st_size,'sha256':sha(path.read_bytes())}if path.exists()else None
     if config.get('register_model'):
         receipt['register_state_hashes']={name:sha((output/name).read_bytes())for name in ['registers-before.bin','registers-after.bin']}
+    if any(r.get('function_register_blocks')for r in config['stubs']):
+        receipt['function_pools_sha256']=sha((output/'function-pools.bin').read_bytes())
     (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     assert result.returncode==0, 'original debugger failed; preserved '+str(output)
     assert provider.exists() and receipt['provider_sha256']==CANONICAL_CRT,'canonical provider not proved; preserved '+str(output)

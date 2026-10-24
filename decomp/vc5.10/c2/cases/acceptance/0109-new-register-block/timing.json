@@ -1,0 +1,76 @@
+{
+  "builds": {
+    "original": {
+      "seconds": 7.809826022014022,
+      "status": 0
+    },
+    "native": {
+      "seconds": 3.0384668223559856,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 2.6659866645932198,
+      "status": 0
+    },
+    "helper_failed": {
+      "seconds": 0.7136162258684635,
+      "status": 2
+    }
+  },
+  "original_capture": {
+    "setup": 1.2919165389612317,
+    "execution": 3.6212441930547357,
+    "total": 4.96391221228987
+  },
+  "native_capture": {
+    "execution": 0.5831788666546345,
+    "total": 0.8150611398741603
+  },
+  "audit_seconds": 1.1036566393449903,
+  "protocol_controls": {
+    "fresh": 6,
+    "reused": 147,
+    "seconds": 9.281573263928294
+  },
+  "fresh_affected_controls": {
+    "input": {
+      "fresh": 70,
+      "seconds": 1.783425402827561
+    },
+    "compiled_boundary": {
+      "fresh": 13,
+      "seconds": 4.796982267871499
+    },
+    "source_guard": {
+      "fresh": 5,
+      "seconds": 0.03804963734000921
+    }
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.01789137814193964,
+      "execution": 0.002807498909533024,
+      "checks": 0.0001994231715798378,
+      "total": 0.02133982442319393
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "failures": {
+    "helper_build": "0.714s failed original helper C89 compile: logging inserted before localDWORD declaration; moved statement after declaration, rebuilt helper. Original target/native builds passed.",
+    "first_compare": "Both target captures valid; inherited expected noarg schema rejected actual int pool formal. Corrected both schema views, retained actualraw; no producer or target change/recapture.",
+    "boundary_controls_setup": "First mutation campaign halted because short-copy substring matched two source sites. Selected exact indented memcpy count; all13 controls then passed. Prior log preserved.",
+    "static_ABI_setup": "Probe corrected canonical321B code vs334B MAP interval (13 trailingINT3 alignment), recorded both explicitly. No extent waiver/source change.",
+    "target_capture_failures": 0,
+    "paths": [
+      "/root/.ai-tmp/msvc2/vc5.10/c2/block109-helper-build.log",
+      "/root/.ai-tmp/msvc2/vc5.10/c2/block109-boundary-controls.log",
+      "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/block109-original",
+      "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/block109-native"
+    ]
+  }
+}

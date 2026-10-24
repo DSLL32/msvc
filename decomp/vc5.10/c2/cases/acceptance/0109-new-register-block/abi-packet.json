@@ -1,0 +1,101 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "original_extents": [
+    [
+      4245338,
+      4245477
+    ],
+    [
+      4616409,
+      4616495
+    ]
+  ],
+  "original_extent_hashes": [
+    "3decf00b76da891bfeb1e97fc1fe4b1e57fe7bebb3f8938aed3b9b9a5b3f14d2",
+    "d63113b4a2c34afac769fa414d48dd145404b047e663bb750cc0159e78d5286f"
+  ],
+  "original_unique_code_bytes": 225,
+  "rebuilt": [
+    4221378,
+    4221699
+  ],
+  "rebuilt_MAP_owned": [
+    4221378,
+    4221712
+  ],
+  "canonical_alignment_padding": {
+    "bytes": 13,
+    "kind": "INT3 alignment after actualRET; no original coveragecredit"
+  },
+  "rebuilt_sha256": "87e6801f47bc20938f5af3817ec5d2482e2c596bea436c6d315d9625ed51b39a",
+  "ABI": "cdecl(void), pointerEAX,RET0. Original wholehotreturn restoresEBX/EBP/ESI/EDI and localECX stackspace; no incoming formal. Native/canonical readable C returns same block.",
+  "intrinsic_memcpy": {
+    "original": [
+      4616470,
+      4616477
+    ],
+    "rebuilt": [
+      4221582,
+      4221589
+    ],
+    "graph_imports": [],
+    "original_build_flag": "function-records.obj /Oi; full compiled Makefile/source snapshots retained",
+    "runtime_status": "growth unvisited in natural original; actual source forced capacity1->2->4 auxiliary passes, no original branch execution claim"
+  },
+  "allocator_zero_writer": {
+    "accepted_proof": "cases/acceptance/0037-pool-allocator/acceptance.json",
+    "accepted_proof_sha256": "012ab8390c36555803926a8105a12ccb71913075bc847f88fab81e3edd15469c",
+    "original_zero_span_code": [
+      4198473,
+      4198507
+    ],
+    "original_zero_span_code_sha256": "63d90b2f44487cd6da45fed557cffee2243f5462614f38b1fee44af3c5ebdd65",
+    "source_sha256": "76bcc8f03ed1abe6cf73ecddb85d905a55662a66fbbd2461f9e94f2b9454f782",
+    "span": "Each actualmalloc4096: capacity4088 +2headerDWORDwrites +memset4088payload. Initialfreeblocks0/no acceptedpopulation; current all5arenaheaderscap4088 and exact chains. No malloc/slack default inference."
+  },
+  "function_registers": {
+    "directory_offset": 32,
+    "cursor_offset": 48,
+    "end_offset": 4032,
+    "capacity": 1000,
+    "allocation_bytes": 4000,
+    "pending": {
+      "next_function_register_number": 128,
+      "first_function_register_block": 1,
+      "last_function_register_block": 4,
+      "tracked_register_block": 1,
+      "secondary_register_block": 2,
+      "plain_register_block": 3,
+      "default_register_block": 4,
+      "extra_register_block": 0,
+      "free_plain_register_nodes": 0,
+      "free_tracked_register_nodes": 0,
+      "pending_debug_symbols": 0,
+      "secondary_register_set": 0,
+      "tracked_register_set": 0,
+      "empty_function_register": 0
+    }
+  },
+  "function_pool_state": {
+    "head": 1448857328,
+    "root_address": 1448684404,
+    "arena_count": 5
+  },
+  "next": {
+    "name": "@new_register_set@4",
+    "range": [
+      4200547,
+      4200607
+    ],
+    "all_original_body_masked": true,
+    "formal": "signedintECX pool1; wholecallee no incomingEDX/stack/hiddenregister; pointerEAX,RET0",
+    "future_free_head": {
+      "original_slot": 4776228,
+      "value": 0,
+      "status": "ANALYSISONLY; no native storage/default/extent or callee bodycredit. Establish real table ownership when body reconstructed."
+    }
+  },
+  "original_receipt_sha256": "39aa264b21e11e0af0866cdef90bc44b4c3b46cf55b57408fbf72e40b662eb20",
+  "native_receipt_sha256": "cab77fe2e33b3818936b4b7cd4a8bacd7781346d0d8f35e6723b1f99ec9730f8",
+  "source_guard_model_sha256": "9c03941491411d05297fd5cbf4d7dbcfc6ff4d89dff6de332fd45f4ee5c1521d"
+}

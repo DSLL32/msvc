@@ -1,0 +1,74 @@
+{
+  "count": 13,
+  "controls": [
+    {
+      "control": "actual constructor/nonzero untouchedbytes/32numbers/4nodes/twogrowths/unsignedwrap",
+      "build_seconds": 0.3574672993272543,
+      "execution_seconds": 0.002159859985113144
+    },
+    {
+      "control": "wrong allocation bytes",
+      "build_seconds": 0.35721916798502207,
+      "execution_seconds": 0.0014667343348264694
+    },
+    {
+      "control": "wrong row cursor",
+      "build_seconds": 0.3564014956355095,
+      "execution_seconds": 0.0011637136340141296
+    },
+    {
+      "control": "wrong row end",
+      "build_seconds": 0.3536903392523527,
+      "execution_seconds": 0.0011123977601528168
+    },
+    {
+      "control": "wrong number increment",
+      "build_seconds": 0.4702163767069578,
+      "execution_seconds": 0.0014143595471978188
+    },
+    {
+      "control": "unmodeled row field clobbered",
+      "build_seconds": 0.4014737596735358,
+      "execution_seconds": 0.0014131609350442886
+    },
+    {
+      "control": "short growth copy",
+      "build_seconds": 0.3594244038686156,
+      "execution_seconds": 0.0012249089777469635
+    },
+    {
+      "control": "wrong grown cursor",
+      "build_seconds": 0.3460185891017318,
+      "execution_seconds": 0.002717246301472187
+    },
+    {
+      "control": "wrong grown limit",
+      "build_seconds": 0.35111881978809834,
+      "execution_seconds": 0.001605628989636898
+    },
+    {
+      "control": "missing previous block link",
+      "build_seconds": 0.3554842099547386,
+      "execution_seconds": 0.0024755317717790604
+    },
+    {
+      "control": "wrong last block",
+      "build_seconds": 0.3556073596701026,
+      "execution_seconds": 0.0013476889580488205
+    },
+    {
+      "control": "missing directory write",
+      "build_seconds": 0.35565305035561323,
+      "execution_seconds": 0.0011992743238806725
+    },
+    {
+      "control": "self-cycle newblock",
+      "build_seconds": 0.3491154620423913,
+      "execution_seconds": 0.0013672728091478348
+    }
+  ],
+  "seconds": 4.796982267871499,
+  "checker_sha256": "b7ada433b168b27c1ae72990e36d70486366bfd98bdde8bdc2cfd78190d584d1",
+  "source_sha256": "0480b8df5ee3bae2d67bb408b4b74c6697c1364a08ae5d8b474a8a78aa1f55d9",
+  "scope": "Actual complete C constructor compiled unchanged; isolated allocation observer only. Two unsigned seeds incl wrap, nonzero unmodeled backing, fourblocks, forced capacity1->2->4 and exact existing-pointer copy. This auxiliary exercises source cold branch; original natural capacity1000 branch remains unvisited/unclaimed. No allocator/dependency/new target vertex credit."
+}

@@ -1,0 +1,110 @@
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0040c75a <.text+0xb75a>:
+  40c75a:	51                   	push   ecx
+  40c75b:	53                   	push   ebx
+  40c75c:	55                   	push   ebp
+  40c75d:	56                   	push   esi
+  40c75e:	57                   	push   edi
+  40c75f:	ba 0c 0a 00 00       	mov    edx,0xa0c
+  40c764:	b9 01 00 00 00       	mov    ecx,0x1
+  40c769:	e8 92 48 ff ff       	call   0x401000
+  40c76e:	8b d8                	mov    ebx,eax
+  40c770:	8d 43 0c             	lea    eax,[ebx+0xc]
+  40c773:	8d 8b 0c 0a 00 00    	lea    ecx,[ebx+0xa0c]
+  40c779:	3b c1                	cmp    eax,ecx
+  40c77b:	c7 03 00 00 00 00    	mov    DWORD PTR [ebx],0x0
+  40c781:	89 43 04             	mov    DWORD PTR [ebx+0x4],eax
+  40c784:	89 4b 08             	mov    DWORD PTR [ebx+0x8],ecx
+  40c787:	73 17                	jae    0x40c7a0
+  40c789:	8b 15 90 fa 48 00    	mov    edx,DWORD PTR ds:0x48fa90
+  40c78f:	89 50 1c             	mov    DWORD PTR [eax+0x1c],edx
+  40c792:	83 c0 50             	add    eax,0x50
+  40c795:	42                   	inc    edx
+  40c796:	3b c1                	cmp    eax,ecx
+  40c798:	72 f5                	jb     0x40c78f
+  40c79a:	89 15 90 fa 48 00    	mov    DWORD PTR ds:0x48fa90,edx
+  40c7a0:	8b 0d a8 fa 48 00    	mov    ecx,DWORD PTR ds:0x48faa8
+  40c7a6:	a1 a4 fa 48 00       	mov    eax,ds:0x48faa4
+  40c7ab:	3b c8                	cmp    ecx,eax
+  40c7ad:	0f 84 26 a9 05 00    	je     0x4670d9
+  40c7b3:	a1 d8 e2 48 00       	mov    eax,ds:0x48e2d8
+  40c7b8:	85 c0                	test   eax,eax
+  40c7ba:	74 21                	je     0x40c7dd
+  40c7bc:	8b 15 a0 fa 48 00    	mov    edx,DWORD PTR ds:0x48faa0
+  40c7c2:	89 1a                	mov    DWORD PTR [edx],ebx
+  40c7c4:	89 19                	mov    DWORD PTR [ecx],ebx
+  40c7c6:	5f                   	pop    edi
+  40c7c7:	83 c1 04             	add    ecx,0x4
+  40c7ca:	5e                   	pop    esi
+  40c7cb:	89 1d a0 fa 48 00    	mov    DWORD PTR ds:0x48faa0,ebx
+  40c7d1:	8b c3                	mov    eax,ebx
+  40c7d3:	5d                   	pop    ebp
+  40c7d4:	89 0d a8 fa 48 00    	mov    DWORD PTR ds:0x48faa8,ecx
+  40c7da:	5b                   	pop    ebx
+  40c7db:	59                   	pop    ecx
+  40c7dc:	c3                   	ret
+  40c7dd:	89 1d d8 e2 48 00    	mov    DWORD PTR ds:0x48e2d8,ebx
+  40c7e3:	eb df                	jmp    0x40c7c4
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+004670d9 <.text+0x660d9>:
+  4670d9:	8b 3d 8c f8 48 00    	mov    edi,DWORD PTR ds:0x48f88c
+  4670df:	b9 01 00 00 00       	mov    ecx,0x1
+  4670e4:	2b c7                	sub    eax,edi
+  4670e6:	c1 f8 02             	sar    eax,0x2
+  4670e9:	8b f0                	mov    esi,eax
+  4670eb:	8d 2c f5 00 00 00 00 	lea    ebp,[esi*8+0x0]
+  4670f2:	8b d5                	mov    edx,ebp
+  4670f4:	e8 07 9f f9 ff       	call   0x401000
+  4670f9:	8d 0c b5 00 00 00 00 	lea    ecx,[esi*4+0x0]
+  467100:	8b 35 8c f8 48 00    	mov    esi,DWORD PTR ds:0x48f88c
+  467106:	89 4c 24 10          	mov    DWORD PTR [esp+0x10],ecx
+  46710a:	8b d1                	mov    edx,ecx
+  46710c:	8b f8                	mov    edi,eax
+  46710e:	a3 8c f8 48 00       	mov    ds:0x48f88c,eax
+  467113:	c1 e9 02             	shr    ecx,0x2
+  467116:	f3 a5                	rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
+  467118:	8b ca                	mov    ecx,edx
+  46711a:	83 e1 03             	and    ecx,0x3
+  46711d:	f3 a4                	rep movs BYTE PTR es:[edi],BYTE PTR ds:[esi]
+  46711f:	8b ca                	mov    ecx,edx
+  467121:	03 c8                	add    ecx,eax
+  467123:	03 c5                	add    eax,ebp
+  467125:	a3 a4 fa 48 00       	mov    ds:0x48faa4,eax
+  46712a:	e9 84 56 fa ff       	jmp    0x40c7b3
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00401863 <.text+0x863>:
+  401863:	53                   	push   ebx
+  401864:	8b d9                	mov    ebx,ecx
+  401866:	8b 04 9d 20 e1 48 00 	mov    eax,DWORD PTR [ebx*4+0x48e120]
+  40186d:	85 c0                	test   eax,eax
+  40186f:	75 23                	jne    0x401894
+  401871:	ba 0c 00 00 00       	mov    edx,0xc
+  401876:	8b cb                	mov    ecx,ebx
+  401878:	e8 83 f7 ff ff       	call   0x401000
+  40187d:	8b 48 08             	mov    ecx,DWORD PTR [eax+0x8]
+  401880:	88 58 04             	mov    BYTE PTR [eax+0x4],bl
+  401883:	81 e1 00 00 00 ff    	and    ecx,0xff000000
+  401889:	c7 00 00 00 00 00    	mov    DWORD PTR [eax],0x0
+  40188f:	89 48 08             	mov    DWORD PTR [eax+0x8],ecx
+  401892:	5b                   	pop    ebx
+  401893:	c3                   	ret
+  401894:	8b 08                	mov    ecx,DWORD PTR [eax]
+  401896:	89 0c 9d 20 e1 48 00 	mov    DWORD PTR [ebx*4+0x48e120],ecx
+  40189d:	eb de                	jmp    0x40187d

@@ -1212,14 +1212,6 @@
     "evidence": null
   },
   {
-    "name": "_new_register_block",
-    "start": 4245338,
-    "end": 4245339,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@new_register_set@4",
     "start": 4200547,
     "end": 4200548,

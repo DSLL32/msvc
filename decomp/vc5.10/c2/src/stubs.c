@@ -680,11 +680,6 @@ void reset_function_listing(void)
     __asm { int 3 }
 }
 
-C2RegisterBlock *new_register_block(void)
-{
-    __asm { int 3 }
-    return NULL;
-}
 C2RegisterSet *__fastcall new_register_set(int pool)
 {
     __asm { int 3 }
