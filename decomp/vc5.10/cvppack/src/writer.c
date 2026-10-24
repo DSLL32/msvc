@@ -2,7 +2,7 @@
 #include "writer.h"
 #include <recon.h>
 
-#pragma intrinsic(memcpy)
+#pragma intrinsic(memcpy, memset)
 extern int verbose;
 PackedSignature packed_signature = { { 'N', 'B', '1', '1' }, 0 };
 unsigned output_capacity, output_used;
@@ -59,6 +59,56 @@ void write_subsection(unsigned index)
 }
 
 /* Global-public records and their name/address hashes [0040d600,0040d998). */
+/* Insert S_ALIGN records so symbol streams respect their 4K pages.
+ * [0040f960,0040fad2), cdecl; the final reserve requests an end marker. */
+unsigned insert_symbol_page_padding(PublicSymbol **buckets, unsigned reserve)
+{
+    PublicSymbol *node, *previous, *padding;
+    unsigned bucket, position = 0, added = 0, size;
+    unsigned short overhead = 0;
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        previous = NULL;
+        node = buckets[bucket];
+        if (node) overhead = (unsigned short)(reserve + 4);
+        while (node) {
+            if ((position & 0xffff) + *(unsigned short *)node->record + overhead + 2 > 4096) {
+                size = 4096 - (position & 0xffff);
+                padding = allocate_public_block(16 + size);
+                padding->hash = 0xffff;
+                padding->name_offset = 0xffff;
+                padding->segment = 0;
+                padding->offset = 0;
+                memset(padding->record, 0, size);
+                *(unsigned short *)padding->record = (unsigned short)(size - 2);
+                *(unsigned short *)(padding->record + 2) = 0x402;
+                padding->next = node;
+                if (previous) previous->next = padding;
+                else buckets[bucket] = padding;
+                added += size;
+                position = 0;
+            }
+            position += (unsigned short)(*(unsigned short *)node->record + 2);
+            previous = node;
+            node = node->next;
+        }
+        if (bucket == 4095 && reserve >= 4) {
+            padding = allocate_public_block(24);
+            padding->hash = 0xffff;
+            padding->name_offset = 0xffff;
+            padding->segment = 0;
+            padding->offset = 0;
+            memset(padding->record, 0xff, 8);
+            *(unsigned short *)padding->record = 6;
+            *(unsigned short *)(padding->record + 2) = 0x402;
+            padding->next = node;
+            if (previous) previous->next = padding;
+            else buckets[bucket] = padding;
+            added += 8;
+        }
+    }
+    return added;
+}
+
 void write_publics(CodeViewDirectoryEntry *entry, unsigned offset)
 {
     SymbolHashHeader header;

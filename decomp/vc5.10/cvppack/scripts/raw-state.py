@@ -13,9 +13,19 @@ def decode(events):
     assert len(frontiers) == 1, 'expected one raw original frontier'
     frontier_line_index,address = frontiers[0]
     memory,strings = {},{}
+    public_padding={}
     file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[];image_allocations=[];checked_allocations=[];module_allocations=[];cleared_allocations=[]
     for line in lines:
-        if line.startswith('module-allocation-call '):
+        if line.startswith('public-padding-entry '):
+            assert not public_padding,'public padding entry repeated'
+            f=line.split();public_padding.update(entry_esp=int(f[1],16),return_pc=int(f[2],16),buckets_address=int(f[3],16),reserve=int(f[4]),remaining=int(f[5]),cursor=int(f[6],16),before_nonvolatile=[int(v,16) for v in f[7:]],nodes=[])
+        elif line.startswith('public-padding-buckets '):public_padding['buckets']=bytes.fromhex(line.split()[1])
+        elif line.startswith('public-padding-node '):
+            _,bucket,location,payload=line.split();public_padding['nodes'].append(dict(bucket=int(bucket),address=int(location,16),bytes=bytes.fromhex(payload)))
+        elif line.startswith('public-padding-return ') and ' eax ' not in line:
+            f=line.split();assert 'result' not in public_padding;public_padding.update(result=int(f[1]),exit_esp=int(f[2],16),after_nonvolatile=[int(v,16) for v in f[3:]])
+        elif line.startswith('public-padding-observation-failed'):raise AssertionError('incomplete public padding input/return observation')
+        elif line.startswith('module-allocation-call '):
             _,entry,size=line.split();module_allocations.append(dict(entry=int(entry,16),size=int(size)))
         elif line.startswith('module-allocation-return '):
             assert module_allocations and 'address' not in module_allocations[-1]
@@ -314,8 +324,10 @@ def decode(events):
             strings[int(location,16)] = value
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
+    # Separate pre-padding typed input history from mutable current nodes.
+
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,output_buffer_allocations=output_buffer_allocations,output_buffer_state=output_buffer_state,subsection_calls=subsection_calls,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(public_padding=public_padding,address=address,memory=memory,strings=strings,output_buffer_allocations=output_buffer_allocations,output_buffer_state=output_buffer_state,subsection_calls=subsection_calls,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -600,6 +612,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
         elif item['kind']=='caller-local-pointer':
             assert original['stack'][0]==item['owner_return'] and value==original['esp']+item['original_delta'],'original output argument caller-local identity differs'
             parameters[item['name']]=dict(owner=item['owner'],local=item['local'],width=item['width'])
+            if item.get('field'):parameters[item['name']]['field']=item['field']
             if item.get('initialized'):
                 assert len(original['memory'][value])==item['width']
                 raw=original['memory'][value]
@@ -1255,9 +1268,12 @@ def compare(config,data,events,native,artifacts=None,views=None):
                                 reference_symbol_nodes_checked+=1
                             else:
                                 assert a[4:]==b[4:],'initialized public node header/record/padding differs'
-                                name=16+int.from_bytes(a[12:14],'little')
-                                assert 20<=name<len(a) and name+1+a[name]<=len(a),'symbol node counted name exceeds initialized record'
-                            assert int.from_bytes(a[4:8],'little')%4096==offset//4,'symbol node hash/bucket differs'
+                                if kind==0x402 and item['name']=='type_table_global' and config.get('observe_public_padding'):
+                                    assert a[4:16]==bytes.fromhex('ffff000000000000ffff0000'),'typed symbol padding header differs'
+                                else:
+                                    name=16+int.from_bytes(a[12:14],'little')
+                                    assert 20<=name<len(a) and name+1+a[name]<=len(a),'symbol node counted name exceeds initialized record'
+                            if not(kind==0x402 and item['name']=='type_table_global' and config.get('observe_public_padding')):assert int.from_bytes(a[4:8],'little')%4096==offset//4,'symbol node hash/bucket differs'
                             source=int.from_bytes(a[:4],'little');destination=int.from_bytes(b[:4],'little')
             elif item.get('written_allocation'):
                 spec=item['written_allocation'];address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
@@ -1436,6 +1452,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
         spec=importlib.util.spec_from_file_location('public_writer_state',Path(__file__).with_name('public-writer-state.py'))
         public_writer=importlib.util.module_from_spec(spec);spec.loader.exec_module(public_writer)
         public_writer_proof=public_writer.validate(config,data,original,native)
+    public_padding_proof=None
+    if config.get('observe_public_padding'):
+        spec=importlib.util.spec_from_file_location('public_padding_state',Path(__file__).with_name('public-padding-state.py'))
+        padding=importlib.util.module_from_spec(spec);spec.loader.exec_module(padding)
+        public_padding_proof=padding.validate(config,data,original,native,image_aliases,image_sizes)
     native_parameters=dict(native['parameters'])
     for item,value in object_parameters:
         actual=native_parameters[item['name']]
@@ -1485,4 +1506,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert typed_records_checked==global_integer('type_record_count') and recursive_type_nodes_checked and interned_type_nodes_checked,'historical typed table validation incomplete'
         free_lifetimes['historical_typed_table_bytes_checked']=free_lifetimes.pop('historical_typed_table_bytes_pending')
         free_lifetimes['historical_table_proof_roles']=sorted(historical_tables_used)
-    return dict(parameters=parameters,caller_state=caller_state,output_buffer=output_buffer_proof,subsection_output=subsection_proof,public_writer=public_writer_proof,output_directory=output_directory_proof,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,output_buffer=output_buffer_proof,subsection_output=subsection_proof,public_writer=public_writer_proof,public_padding=public_padding_proof,output_directory=output_directory_proof,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

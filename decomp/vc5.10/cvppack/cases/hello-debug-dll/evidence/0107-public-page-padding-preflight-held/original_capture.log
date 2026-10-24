@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 202, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 37, in main
+    audit_candidate(output / 'configuration.json', args.candidate, output / 'audit.json')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/audit.py", line 211, in run
+    free_lifetimes=free_evidence.prove(config)
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/main-free-evidence.py", line 123, in prove
+    body=pe.read(extent[0],extent[1]-extent[0]);assert hashlib.sha256(body).hexdigest()==proof['sha256']
+                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

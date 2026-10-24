@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0106-write-publics-prefix/original",
-  "reference_receipt_sha256": "f8f3547be1246d5a2ce351b3248139f9a6a5d563017374bbb00ca164ba049f25",
+  "reference": "cases/hello-debug-dll/evidence/0107-public-page-padding/original",
+  "reference_receipt_sha256": "ea06c3dc2617f6be911341e1f8667af7b60db41cc81e59326e0c654103bf30ed",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -112,6 +112,7 @@
     "begin_buffered_output",
     "write_subsection",
     "write_publics",
-    "insert_symbol_page_padding"
+    "insert_symbol_page_padding",
+    "build_symbol_name_hash"
   ]
 }

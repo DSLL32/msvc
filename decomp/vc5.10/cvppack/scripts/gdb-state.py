@@ -29,6 +29,7 @@ source_family_allocations=[]
 source_family_frees=[]
 output_buffer_allocations=[]
 subsection_calls=[]
+public_padding={}
 output_directory_before={}
 output_directory_sort={}
 output_directory_complete={}
@@ -286,6 +287,28 @@ def install(configuration):
                 return False
         DirectorySort()
 
+    if config.get('observe_public_padding'):
+        class PaddingReturned(gdb.FinishBreakpoint):
+            def __init__(self):super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                public_padding.update(result=int(self.return_value)&0xffffffff,exit_esp=int(gdb.parse_and_eval('$esp')),after_nonvolatile=[int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')])
+                return False
+        class PaddingEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('*insert_symbol_page_padding',internal=True)
+            def stop(self):
+                assert not public_padding,'public padding repeated unexpectedly'
+                inferior=gdb.selected_inferior();frame=gdb.newest_frame();esp=int(gdb.parse_and_eval('$esp'));args=bytes(inferior.read_memory(esp,12));ret,root,reserve=struct.unpack('<3I',args)
+                assert root==int(gdb.parse_and_eval('type_table_global')) and reserve==4 and frame.older().name()=='write_publics','public padding actual entry arguments differ'
+                table=bytes(inferior.read_memory(root,16384));nodes=[];seen=set()
+                for bucket in range(4096):
+                    node=int.from_bytes(table[bucket*4:bucket*4+4],'little')
+                    while node:
+                        assert node not in seen and len(seen)<512,'public padding input cycle';seen.add(node)
+                        header=bytes(inferior.read_memory(node,18));length=int.from_bytes(header[16:18],'little');assert length<=1024
+                        nodes.append(dict(bucket=bucket,address=node,bytes=bytes(inferior.read_memory(node,18+length)).hex()));node=int.from_bytes(header[:4],'little')
+                public_padding.update(entry_esp=esp,return_pc=ret,buckets_address=root,reserve=reserve,remaining=int(gdb.parse_and_eval('public_arena_remaining')),cursor=int(gdb.parse_and_eval('public_arena_cursor')),before_nonvolatile=[int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')],buckets=table.hex(),nodes=nodes)
+                PaddingReturned();return False
+        PaddingEntered()
     if config.get('observe_subsection_output'):
         def preserved_registers():return [int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')]
         class SubsectionReturned(gdb.FinishBreakpoint):
@@ -713,6 +736,7 @@ def capture(configuration,data_file,output):
             while owner is not None and owner.name()!=item['owner']:owner=owner.older()
             assert owner is not None
             local=owner.read_var(item['local']);address=int(value)
+            if item.get('field'):local=local[item['field']]
             assert int(local.address)==address and local.type.sizeof==item['capacity'],'record buffer owner/identity differs'
             size=int.from_bytes(bytes(inferior.read_memory(address,2)),'little')+2
             assert 2<=size<=item['capacity']
@@ -756,8 +780,10 @@ def capture(configuration,data_file,output):
             while owner is not None and owner.name()!=item['owner']:owner=owner.older()
             assert owner is not None
             local=owner.read_var(item['local']);address=int(value)
+            if item.get('field'):local=local[item['field']]
             assert int(local.address)==address and local.type.sizeof==item['width'],'output argument caller-local identity differs'
             parameters[item['name']]=dict(owner=item['owner'],local=item['local'],width=item['width'])
+            if item.get('field'):parameters[item['name']]['field']=item['field']
             if item.get('initialized'):
                 raw=bytes(inferior.read_memory(address,item['width']))
                 if item.get('widen_output'):
@@ -837,6 +863,7 @@ def capture(configuration,data_file,output):
     state['source_family_frees']=source_family_frees
     state['output_buffer_allocations']=output_buffer_allocations
     state['subsection_calls']=subsection_calls
+    state['public_padding']=public_padding
     state['directory_before_writer']=output_directory_before
     state['directory_sort_input']=output_directory_sort
     state['directory_sort_complete']=output_directory_complete

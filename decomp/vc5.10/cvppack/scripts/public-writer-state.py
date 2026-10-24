@@ -2,15 +2,19 @@
 
 
 def validate(config,data,original,native):
-    assert original['address']==0x40f960 and original['stack'][0]==0x40d62f and native['frontier_caller']=='write_publics','public writer first real child differs'
-    assert native['parameters']=={'buckets':dict(null=False,global_name='type_table_global'),'reserve':4},'public writer child argument schema differs'
+    padding=bool(config.get('observe_public_padding'))
+    if padding:
+        assert original['address']==0x40e920 and original['stack'][0]==0x40d66a and native['frontier_caller']=='write_publics','public writer next namehash child differs'
+    else:assert original['address']==0x40f960 and original['stack'][0]==0x40d62f and native['frontier_caller']=='write_publics','public writer first real child differs'
+    if not padding:assert native['parameters']=={'buckets':dict(null=False,global_name='type_table_global'),'reserve':4},'public writer child argument schema differs'
     rows={row['name']:row for row in data}
     def root(name):return int.from_bytes(original['memory'][rows[name]['original']],'little')
     def actual(name):return int.from_bytes(bytes.fromhex(native['globals'][name]),'little')
-    assert original['stack'][1]==root('type_table_global') and original['stack'][2]==4,'public writer actual original bucket input/reserve differs'
+    assert (original['stack'][6]==root('type_table_global') and original['stack'][5]==64) if padding else (original['stack'][1]==root('type_table_global') and original['stack'][2]==4),'public writer actual original bucket input/reserve differs'
     parent=native['public_writer_frame']
     assert parent['owner']=='write_publics' and parent['caller']=='flush_packed_file','public writer parent identities differ'
-    assert original['stack'][24]==0x406c5a and original['stack'][25]==root('directory_entries')+58*12 and original['stack'][26]==5056,'public writer original parent arguments/stack differ'
+    shift=4 if padding else 0
+    assert original['stack'][24+shift]==0x406c5a and original['stack'][25+shift]==root('directory_entries')+58*12 and original['stack'][26+shift]==5056,'public writer original parent arguments/stack differ'
     assert parent['entry']==actual('directory_entries')+58*12 and parent['offset']==5056,'public writer native parent arguments differ'
     expected={'name_method':dict(offset=0,width=2),'address_method':dict(offset=2,width=2),'symbol_bytes':dict(offset=4,width=4),'name_bytes':dict(offset=8,width=4),'address_bytes':dict(offset=12,width=4)}
     assert parent['header_layout']==expected,'public writer actual header fields differ'
@@ -19,11 +23,13 @@ def validate(config,data,original,native):
     # 16-byte header at ESP+32. The following 48B stream contents are excluded from typed comparison;
     # the original fixed 128B raw stack transport still retains their own bits.
     stack=original['memory'][original['esp']]
-    assert stack[28:48]==bytes(20) and bytes.fromhex(parent['header'])==bytes(16) and parent['padding']==0,'public writer initialized header/padding differs'
+    expected_header=bytes(4)+(2116 if padding else 0).to_bytes(4,'little')+bytes(8)
+    begin=44 if padding else 28
+    assert stack[begin:begin+20]==bytes(4)+expected_header and bytes.fromhex(parent['header'])==expected_header and parent['padding']==0,'public writer initialized header/padding differs'
     streams=parent['uninitialized_streams'];assert all(set(row)=={'local','address','width','first_offset'} for row in streams),'public writer unknown stream contents admitted'
     assert [{k:row[k] for k in ('local','width','first_offset')} for row in streams]==[dict(local=name,width=24,first_offset=20) for name in ('names','addresses')],'public writer actual stream types differ'
     objects=[(parent['header_address'],16),(parent['padding_address'],4)]+[(row['address'],row['width']) for row in streams]
     assert all(address and size and all(max(address,other)>=min(address+size,other+length) for other,length in objects[index+1:]) for index,(address,size) in enumerate(objects)),'public writer automatic object identities overlap'
     assert parent['uninitialized_stream_bytes_uncompared']==sum(row['width'] for row in streams)==48,'public writer unknown stream state admitted'
     assert root('output_used')==actual('output_used')==5056 and root('directory_count')==actual('directory_count')==58,'public writer modified output before first helper'
-    return dict(parent_original_return_pc=0x406c5a,child_original_return_pc=0x40d62f,bucket_input='type_table_global(public buckets)',reserve=4,initialized_header_bytes=16,initialized_padding_bytes=4,uninitialized_stream_bytes_uncompared=48,output_prefix_unchanged_bytes=5056,next_consumer='insert_symbol_page_padding(buckets,reserve4)')
+    return dict(parent_original_return_pc=0x406c5a,child_original_return_pc=0x40d66a if padding else 0x40d62f,bucket_input='type_table_global(public buckets)',reserve=4,initialized_header_bytes=16,initialized_padding_bytes=4,uninitialized_stream_bytes_uncompared=48,output_prefix_unchanged_bytes=5056,next_consumer='build_symbol_name_hash' if padding else 'insert_symbol_page_padding(buckets,reserve4)')

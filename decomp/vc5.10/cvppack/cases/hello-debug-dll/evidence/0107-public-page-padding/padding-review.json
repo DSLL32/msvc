@@ -1,0 +1,232 @@
+{
+  "schema": 1,
+  "status": "candidate-complete-affected-checks-awaiting-review",
+  "candidate": "insert_symbol_page_padding",
+  "target_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "intervals": [
+    {
+      "name": "padding_helper",
+      "extent": [
+        4258144,
+        4258514
+      ],
+      "bytes": 370,
+      "sha256": "035dc28d6fc15abcdbb6900ac6ad4ffee65639ca4532c044b759569e29b9f5ad",
+      "instructions": 118,
+      "calls": [
+        [
+          4258241,
+          "0x40b1d0"
+        ],
+        [
+          4258395,
+          "0x40b1d0"
+        ]
+      ],
+      "absolute_operands": [],
+      "returns": [
+        {
+          "site": 4258513,
+          "bytes": "c3",
+          "cleanup": ""
+        }
+      ]
+    },
+    {
+      "name": "public_writer_continuation",
+      "extent": [
+        4249135,
+        4249194
+      ],
+      "bytes": 59,
+      "sha256": "87fb21ffd62742b092a8ea9ac036c938ac8c37cff7a608f4e25034282021a5f4",
+      "instructions": 17,
+      "calls": [
+        [
+          4249189,
+          "0x40e920"
+        ]
+      ],
+      "absolute_operands": [
+        {
+          "site": 4249135,
+          "address": 4272852,
+          "width": 4
+        },
+        {
+          "site": 4249141,
+          "address": 4271348,
+          "width": 4
+        },
+        {
+          "site": 4249152,
+          "address": 4272756,
+          "width": 4
+        },
+        {
+          "site": 4249157,
+          "address": 4272852,
+          "width": 4
+        }
+      ],
+      "returns": []
+    }
+  ],
+  "excluded_gap_bytes": 14,
+  "actual_state": {
+    "input_nodes": 64,
+    "input_symbol_bytes": 2108,
+    "padding_nodes": 1,
+    "padding_symbol_bytes": 8,
+    "new_initialized_arena_bytes": 24,
+    "arena_allocation_generation_preserved": true,
+    "internal_alignment_path_unvisited": true,
+    "unchanged_other_bucket_slots": 4095,
+    "current_symbol_bytes": 2116,
+    "hash_stream_uninitialized_bytes_uncompared": 48,
+    "next_consumer": "build_symbol_name_hash(callback,WORDout,DWORDout,stream24,count64,buckets)"
+  },
+  "public_writer_state": {
+    "parent_original_return_pc": 4222042,
+    "child_original_return_pc": 4249194,
+    "bucket_input": "type_table_global(public buckets)",
+    "reserve": 4,
+    "initialized_header_bytes": 16,
+    "initialized_padding_bytes": 4,
+    "uninitialized_stream_bytes_uncompared": 48,
+    "output_prefix_unchanged_bytes": 5056,
+    "next_consumer": "build_symbol_name_hash"
+  },
+  "next_actual_parameters": {
+    "key": {
+      "function": "symbol_record_key"
+    },
+    "method": {
+      "owner": "write_publics",
+      "local": "header",
+      "width": 2,
+      "field": "name_method",
+      "bytes": "0000"
+    },
+    "bytes": {
+      "owner": "write_publics",
+      "local": "header",
+      "width": 4,
+      "field": "name_bytes",
+      "bytes": "00000000"
+    },
+    "stream": {
+      "owner": "write_publics",
+      "local": "names",
+      "width": 24
+    },
+    "count": 64,
+    "buckets": {
+      "null": false,
+      "global_name": "type_table_global"
+    }
+  },
+  "source_review": [
+    "Whole370B readable cdecl C routine, only two calls to existing allocate_public_block. Actual4096 buckets and linked nodes,16-bit reserve+4 and recordlen+2 arithmetic, lowWORD position, conditional4096-byte page boundary fill, typed S_ALIGN0402 node header, actual block linking and8B end marker. memset intrinsic preserves original in-function stores, no invented call vertices.14NOP gap bytes excluded.",
+    "Current case has64 initialized old nodes/2108 record bytes, all fit below the first page with reserve8. Therefore actual internal padding path is unvisited/static-only; if a future input crosses a page boundary, controller explicitly holds pending fresh concrete contract, never manufactures zero behavior.",
+    "Original independent before observer and native actual entry observer freeze entire16384B bucket table, all64 full owned nodes and actual arena cursor/remaining. Controller traverses each complete chain, binds input records/owner offsets/identities, then derives exact changed final bucket and fully initialized24B marker.4095 other bucket slots and all previous node contents/links remain checked. No arbitrary post-state copies are replayed as input.",
+    "Actual bump cursor advances24 and remaining decreases24 within same observed8100B arena generation; no new allocator generation/free/CRT body. End marker hashffff/offset0/nameffff/segment0/record0600,0402,ffffffff is typed data at its natural allocation, never a bulk image. Generic node decoder admits nameless0402 only for this observed public-table role, with full header/payload and differential controller proof; unrelated tables retain their normal rules.",
+    "Actual helper caller return40d62f/result8/entry-vs-return ESP and all4 nonvolatile registers match, then original59B writer continuation consumes return into public_symbol_bytes2116 and the header symbol count. Directory/output5056B/current positions remain unchanged. Old freed roots remain identity-only; no new read/compare/free/serialization/order/escape of retired payload in helper or continuation.",
+    "Next genuine cdecl6 namehash boundary binds callback symbol_record_key, initialized zero WORD header.name_method, initialized zero DWORD header.name_bytes, actual own uninitialized names24 stream, count64 and same buckets. Actual GDB pointer/formal width/pointee inventory and named parent local/field identity are independent from metadata; stream contents never read/seeded. Whole local header20B initialized state now contains only actual2116 symbol count,48B unknown streams remain own.",
+    "Entire helper/continuation integer-only and original ownFP/error baseline preserved through nextchild under prior narrow027f/0/ffff predicate. Actual full375callbacks/58copies repeat in fresh pair; no new FP/CRT/PDB/shared semantics."
+  ],
+  "source": {
+    "path": "src/writer.c",
+    "sha256": "cb4fe46159e13c59b9fee568d125dbdc8e6a295887d27ecdceeb4d8ef61eb5fb"
+  },
+  "header": {
+    "path": "src/writer.h",
+    "sha256": "bc88336322cd56ad1470ddbe9853ab49de62b2e98b2ad7e3c1e49c03ce0bbf4a"
+  },
+  "stubs": {
+    "path": "src/stubs.c",
+    "sha256": "36d46cd9692b7ab826543a286552ce631d5c8c3526078770b6ccd6ce430d57b0"
+  },
+  "controller": {
+    "path": "scripts/public-padding-state.py",
+    "sha256": "60b5ffa7b4d8a87b4f87c4965234ba3e96dffb0ed6d472da0ce260b934519aea"
+  },
+  "parent_controller": {
+    "path": "scripts/public-writer-state.py",
+    "sha256": "9ba326b66f32eeae5a437f2baa7066332656dd9f6107fd595064052769b813d6"
+  },
+  "raw_decoder": {
+    "path": "scripts/raw-state.py",
+    "sha256": "1e83b040e2fa951afc2f3f86f076f2e52f8c37098dde37b490704f71e4c96997"
+  },
+  "native_observer": {
+    "path": "scripts/gdb-state.py",
+    "sha256": "d6b84549396dd39900fb3efa746cb3d899c8ade591ebc7f67545f150bc1347ad"
+  },
+  "original_observer": {
+    "path": "scripts/public-padding-observer.inc",
+    "sha256": "d89b755a8da462aaf96fe1f7ae656ba458df80c7b1192d3f3e56ae46235f182a"
+  },
+  "original_host": {
+    "path": "scripts/debug-run.c",
+    "sha256": "da0d1aec7832e849de0607f58a0a0befde0b046b7d2160b9fed355133c0b850d"
+  },
+  "static_scope": {
+    "path": "scripts/main-free-evidence.py",
+    "sha256": "704516f71aa8feb32035b932b177568b1e9e648785779f4cae3c912874f833bc"
+  },
+  "checker": {
+    "path": "scripts/public-padding-evidence.py",
+    "sha256": "0c6c62dfd8aa464f7ee65e87f4f49da2f98e259428652b64c9142f8968c93a54"
+  },
+  "policy": {
+    "path": "cases/hello-debug-dll/public-padding-lifetimes.json",
+    "sha256": "4d408d4167ee4bf80ad2f199f668fbfd525264f56ce361c2867173a9dbe0642d"
+  },
+  "original_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0107-public-page-padding/original/receipt.json",
+    "sha256": "ea06c3dc2617f6be911341e1f8667af7b60db41cc81e59326e0c654103bf30ed"
+  },
+  "native_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0107-public-page-padding/native/receipt.json",
+    "sha256": "ea88199a0a1963f26a5ceab3e710e63917355d24c6cac43a3534079d5980d555"
+  },
+  "audit": {
+    "path": "cases/hello-debug-dll/evidence/0107-public-page-padding/original/audit.json",
+    "sha256": "156b22568f0ea2c06b55dfc4ac044965d8a262e5674853c289d27b0423db879c"
+  },
+  "pair_check": {
+    "path": "cases/hello-debug-dll/evidence/0107-public-page-padding/pair_check.log",
+    "sha256": "99cd8ca7fa6ea476d29cd754d3a7528e4f5f946d90a7da8b7cfccd6f645a2a11"
+  },
+  "controls": {
+    "path": "cases/hello-debug-dll/evidence/0107-public-page-padding/padding-checks.json",
+    "sha256": "e7be8f0e48ddf301dfa450239a456550dd92e276b31e9298c05e2bbb7b001b21"
+  },
+  "compiled_sources": {
+    "path": "cases/hello-debug-dll/evidence/0107-public-page-padding/build-source-inputs.json",
+    "sha256": "160640abfd27bdd6d3950edae3006c2715f3cdec4c95fd6a65d7821103f7b4da"
+  },
+  "seconds": {
+    "fresh_stages": {
+      "original_build": 0.04156735260039568,
+      "native_build": 0.039396967738866806,
+      "graph_tool_build": 0.03925818856805563,
+      "original_capture": 22.789994776248932,
+      "native_capture": 4.935723096132278,
+      "pair_check": 2.742919499054551
+    },
+    "native": {
+      "direct_execution": 0.018953335471451283,
+      "gdb_execution": 4.713290324434638,
+      "total": 4.860791533254087
+    },
+    "fresh_controls": 3.9374773539602757
+  },
+  "retained_diagnostics": [
+    "Initial source omitted intrinsic memset, qualified-import graph rejected extra CRT call. Corrected pragma before reference execution; first static logs retained in preflight diagnostics.",
+    "Initial informal extent byte count372 was wrong: actual[40f960,40fad2) is370. Extent itself was correct, but policy hash accidentally covered372 incl2NOPs. Static hash guard rejected before Wine child creation; failed preflight evidence retained as0107-public-page-padding-preflight-held. Corrected exact370B hash, no coverage/acceptance from failed attempt.",
+    "First executed pair omitted pre-padding inputs due debugger full_graphs gate at accepted-entry events. Pair rejected, no before-state inferred from older cases. Custom/generic return labels also had a parser collision, corrected by exact generic-label exclusion.0107-public-page-padding-missing-before-held retains both failures and actual raw. Corrected entry-only before observer compiled; required fresh original22.790s/native4.936s pair now complete.",
+    "Focused controls derive same allocation identities from streams already independently validated by full production positive; controls do not implement another CFG or target routine. Previous controls referenced only at their original scope, new33 address all newly exposed node/bump/field/callback/stream contracts."
+  ]
+}

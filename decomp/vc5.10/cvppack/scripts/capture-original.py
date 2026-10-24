@@ -124,6 +124,9 @@ def main():
     if config.get('observe_source_index_entry') or config.get('observe_source_index_complete'):
         env['VC510_CVPACK_PROBES']+=',40f183:source-index-allocation-entry,40f188:source-index-allocation-result'
     if config.get('observe_public_writer_prefix'):env['VC510_CVPACK_PUBLIC_WRITER']='1'
+    if config.get('observe_public_padding'):
+        env['VC510_CVPACK_PUBLIC_PADDING']='1'
+        env['VC510_CVPACK_PROBES']+=',40fad1:public-padding-return'
     if config.get('observe_subsection_output'):
         env['VC510_CVPACK_SUBSECTIONS']='1'
         env['VC510_CVPACK_PROBES']+=',4068a4:subsection-call,4069d9:subsection-return'

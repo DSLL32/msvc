@@ -112,7 +112,8 @@
     "compare_packed_directory_entries",
     "begin_buffered_output",
     "write_subsection",
-    "write_publics"
+    "write_publics",
+    "insert_symbol_page_padding"
   ],
   "functions": [
     {
@@ -3742,8 +3743,11 @@
       "symbol": "_insert_symbol_page_padding",
       "native_symbol": "insert_symbol_page_padding",
       "original": 4258144,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4258144,
+        4258514
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3762,7 +3766,8 @@
           "slot": 2,
           "kind": "integer"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0107-public-page-padding/promotion.json"
     },
     {
       "name": "build_symbol_name_hash",
@@ -3772,7 +3777,66 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "key",
+          "slot": 1,
+          "kind": "function-pointer",
+          "function": "symbol_record_key",
+          "original": 4247376
+        },
+        {
+          "name": "method",
+          "slot": 2,
+          "kind": "caller-local-pointer",
+          "owner": "write_publics",
+          "local": "header",
+          "field": "name_method",
+          "width": 2,
+          "owner_return": 4249194,
+          "original_delta": 48,
+          "initialized": true
+        },
+        {
+          "name": "bytes",
+          "slot": 3,
+          "kind": "caller-local-pointer",
+          "owner": "write_publics",
+          "local": "header",
+          "field": "name_bytes",
+          "width": 4,
+          "owner_return": 4249194,
+          "original_delta": 56,
+          "initialized": true
+        },
+        {
+          "name": "stream",
+          "slot": 4,
+          "kind": "caller-local-pointer",
+          "owner": "write_publics",
+          "local": "names",
+          "width": 24,
+          "owner_return": 4249194,
+          "original_delta": 64,
+          "initialized": false
+        },
+        {
+          "name": "count",
+          "slot": 5,
+          "kind": "integer"
+        },
+        {
+          "name": "buckets",
+          "slot": 6,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "type_table_global"
+          ],
+          "global_value": true,
+          "nullable": false,
+          "native_pointee_width": 4
+        }
+      ]
     },
     {
       "name": "build_symbol_address_hash",
@@ -4054,8 +4118,8 @@
   "observe_widen_release": true,
   "observe_main_frees": true,
   "main_free_policy": {
-    "path": "cases/hello-debug-dll/public-writer-lifetimes.json",
-    "sha256": "e12820b172d6f33e2cf51debe7f7777a30792edd854fd634917cb1ae66449402"
+    "path": "cases/hello-debug-dll/public-padding-lifetimes.json",
+    "sha256": "4d408d4167ee4bf80ad2f199f668fbfd525264f56ce361c2867173a9dbe0642d"
   },
   "observe_widen_frees": true,
   "observe_derived_finalize_entry": false,
@@ -4066,5 +4130,6 @@
   "observe_complete_directory_sort": true,
   "observe_output_buffer_init": true,
   "observe_subsection_output": true,
-  "observe_public_writer_prefix": true
+  "observe_public_writer_prefix": true,
+  "observe_public_padding": true
 }

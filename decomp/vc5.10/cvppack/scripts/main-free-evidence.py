@@ -116,6 +116,17 @@ def prove(config):
             assert [(i.address,operand.mem.disp,operand.size) for i in code for operand in i.operands if operand.type==X86_OP_MEM and not operand.mem.base and not operand.mem.index]==[(0x40d603,0x412cf4,4)],'publicwriter prologue consumes unreviewed global'
             source_prefix['public_writer_prologue']=row
             source_prefix['public_writer_validator_sha256']=sha(BINARY/'scripts/public-writer-state.py')
+            if config.get('observe_public_padding'):
+                assert policy.get('public_padding') is True
+                for key,extent in [('public_padding_body',(0x40f960,0x40fad2)),('public_after_padding',(0x40d62f,0x40d66a))]:
+                    proof=policy[key];assert (proof['start'],proof['end'])==extent
+                    body=pe.read(extent[0],extent[1]-extent[0]);assert hashlib.sha256(body).hexdigest()==proof['sha256']
+                    code=list(decoder.disasm(body,extent[0]));assert sum(i.size for i in code)==len(body)
+                    assert not any(i.mnemonic.startswith(('f','v','xsave','xrstor')) for i in code),'new publicpadding rawFP consumer'
+                    allowed=set() if key=='public_padding_body' else {0x4132d4,0x412cf4,0x413274}
+                    assert all(operand.mem.disp in allowed for i in code for operand in i.operands if operand.type==X86_OP_MEM and not operand.mem.base and not operand.mem.index),'publicpadding consumes retired global'
+                    source_prefix[key]=proof
+                source_prefix['public_padding_validator_sha256']=sha(BINARY/'scripts/public-padding-state.py')
         if subsections:
             row=policy['subsection_writer'];assert (row['start'],row['end'])==(0x4068a0,0x4069da)
             assert hashlib.sha256(pe.read(row['start'],314)).hexdigest()==row['sha256']

@@ -69,7 +69,6 @@ unsigned write_global_types(void) { __asm { int 3 } return 0; }
 unsigned write_cached_file(int file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }
 void resize_cached_file(int file, unsigned size) { __asm { int 3 } }
 
-unsigned insert_symbol_page_padding(PublicSymbol **buckets, unsigned reserve) { __asm { int 3 } return 0; }
 void build_symbol_name_hash(SymbolKeyProc key, unsigned short *method, unsigned *bytes, HashOutputStream *stream, unsigned count, PublicSymbol **buckets) { __asm { int 3 } }
 void build_symbol_address_hash(unsigned short *method, unsigned *bytes, HashOutputStream *stream, unsigned count, PublicSymbol **buckets) { __asm { int 3 } }
 HashOutputBlock *first_hash_output_block(HashOutputStream *stream) { __asm { int 3 } return NULL; }
