@@ -22,9 +22,13 @@ def check_policy_snapshot(directory,expected,path=None):
 def validate(config,pe,runtime,record):
     assert record['classification']=='reviewed-case-specific-CRT-variant'
     assert record['application_coverage'] is False and record['unconditionally_unmask'] is False
-    assert record['case']in('hello-debug-dll','dos-codeview16') and record['name']=='__sopen'
+    assert record['case']in('hello-debug-dll','dos-codeview16','legacy-nb02-rejected') and record['name']=='__sopen'
     guard=record['guard']
-    if record['case']=='dos-codeview16':
+    if record['case']=='legacy-nb02-rejected':
+        assert guard==dict(mode=0x8002,share=0x40,name='cfig386.dbg',every_invocation=True)
+        assert record['phase']==1 and record['input']==dict(path='decomp/vc1.0/cvpack/cases/legacy-nb02-rejected/input/cfig386.dbg',name='cfig386.dbg',bytes=37096,sha256='2e01fe1d2d150f1e20352225636081e0373cae3d79c8b601d8482a4cedc4ddf4'),'unapproved NB02 input/phase'
+        access=0xc0000000
+    elif record['case']=='dos-codeview16':
         assert guard==dict(mode=0x8002,share=0x40,name='dos-cv.exe',every_invocation=True)
         assert record['phase']==1 and record['input']==dict(path='decomp/vc1.0/cvpack/cases/dos-codeview16/input/dos-cv.exe',name='dos-cv.exe',bytes=5577,sha256='5dd0e8f3fc09ad257ea86b7dcaf2112b50d0d939c8f2a249f8f78bf3f7633c47'),'unapproved DOS input/phase'
         access=0xc0000000
@@ -70,6 +74,7 @@ def approved(config,pe,runtime,case=None):
     result=[validate(config,pe,runtime,record)for record in records]
     assert [r['phase']for r in result if r['case']=='hello-debug-dll']==[1,2,3],'conditional DLL phase inventory/order differs'
     assert [r['phase']for r in result if r['case']=='dos-codeview16']==[1],'conditional DOS phase inventory/order differs'
+    assert [r['phase']for r in result if r['case']=='legacy-nb02-rejected']==[1],'conditional NB02 phase inventory/order differs'
     return [r for r in result if case is None or r['case']==case]
 
 

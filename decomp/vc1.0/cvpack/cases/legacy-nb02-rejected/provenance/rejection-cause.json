@@ -1,0 +1,19 @@
+{
+  "correction": "Previous detached-container rejection inference is false; actual read_image_debug accepts detached stream and calls read_old_directory. No read_image_debug source change.",
+  "actual_original": {
+    "fatal_entry": "0x1ed60",
+    "caller_return": "0x214c5",
+    "call_site": "0x214c0",
+    "diagnostic_argument": 17,
+    "outer_reader_return": "0x1f9a0",
+    "loop_index": 177,
+    "last_read_count": 4
+  },
+  "format": {
+    "shipped_directory_entries": 212,
+    "shipped_entry_bytes": 10,
+    "VC1_reader_entry_bytes": 12,
+    "directory_bytes": 2122
+  },
+  "scope": "Normal negative-case reconstruction of real reached309B application reader; authentic input unchanged. Root approved no format/envelope repairs; no historical proof pipeline."
+}

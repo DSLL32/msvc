@@ -37,7 +37,7 @@ Page *remove_lru_page(void) { __asm { int 3 } return NULL; }
 
 
 
-void read_old_directory(void) { __asm { int 3 } }
+
 void read_packed_modules(void) { __asm { int 3 } }
 
 void grow_mapping(FileSlot *slot, long size) { __asm { int 3 } }

@@ -1,0 +1,31 @@
+{
+  "status": "proposed-root-review",
+  "case": "fieldlist-continuations",
+  "goal": "Exercise genuine LF_INDEX field-list continuations and their allocation/release/duplicate-type paths, rather than manufacturing legacy CodeView records.",
+  "producer": "Original VC1 CL /nologo /c /Od /Z7 /G3, two C++ TUs including one shared header declaring a4096-int-member class plus a recursive peer pointer; both actually use a global instance and first/middle/last fields. Duplicate debug types across TUs provide a real merging/dedup context. Original LINK /dll /debug:full /debugtype:cv /nopack; no PCH.",
+  "bounded_validation": "First original producer succeeds and NB05 actual type inventory confirms whether any LF_INDEX0x405 continuation exists. If4096 members exceed compiler limits, retain failure and permit one smaller2048-member build only if root approves; no synthesized records/signature/header changes. Standalone original CVPACK must succeed before reconstruction. If no continuation is emitted, report it honestly and propose a different route rather than changing debug bytes.",
+  "argv": [
+    "/nologo",
+    "/cvnew",
+    "/verbose",
+    "/mapio",
+    "fields.dll"
+  ],
+  "static_leads": {
+    "merge_field_list": 369,
+    "release_type_data": 78,
+    "warning": 121
+  },
+  "reachability": "compact_new_type LF_FIELDLIST switch calls merge_field_list on genuine LF_INDEX405. Merged allocation sets flags consumed by store_type/intern_type release_type_data; oversized original records may instead emit real warning6. These are leads, not guaranteed gain.",
+  "controls": "Reuse established native cached exact trace/status/streams/fullfile workflow and existing mapped/file/typedowner facilities only where newly consumed state requires them. Existing explicit host profile may be reused only with rootapproval/binding and actual mismatch evidence; no universal allocator guarantee or routine perallocation probes.",
+  "inventory": {
+    "accepted_application_functions": 179,
+    "accepted_extent_bytes": 55733,
+    "whole_text_bytes": 111678,
+    "whole_text_extent_percent": 49.91,
+    "named_stubs": 24,
+    "non_CRT_denominator": null,
+    "unknown": "Unclassified native/support versus unusedCRT/padding remains; no completion claim."
+  },
+  "prior_survey": "Bounded read-only353shippedEXE/DLL scan found no compatible NB02/NB08 successor beyond incompatible CFIG386. No replacement original execution has occurred."
+}

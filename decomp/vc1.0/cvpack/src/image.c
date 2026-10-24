@@ -404,3 +404,26 @@ ModuleInfo *find_module(unsigned short number, int create)
     fatal_error(31, NULL, NULL);
     return NULL;
 }
+
+/* Original NB02 directory entries are read as twelve bytes, not ten. */
+void read_old_directory(void)
+{
+    CvDirectoryEntry entry;
+    unsigned long i;
+    if (read_file(input_file, &cv_directory_offset, 4) != 4 ||
+        seek_file(input_file, cv_file_offset+cv_directory_offset, 0) == -1 ||
+        read_file(input_file, &directory_entry_count, 2) != 2)
+        fatal_error(17, NULL, NULL);
+    directory_entries = malloc((directory_entry_count+6)*sizeof(CvDirectoryEntry));
+    if (!directory_entries) fatal_error(13, NULL, NULL);
+    for (i = 0; i < directory_entry_count; ++i) {
+        if (read_file(input_file, &entry, sizeof(entry)) != sizeof(entry))
+            fatal_error(17, NULL, NULL);
+        directory_entries[i].subsection = entry.subsection;
+        directory_entries[i].module = entry.module;
+        directory_entries[i].location.offset = entry.location.offset;
+        directory_entries[i].size = (unsigned short)entry.size;
+    }
+    qsort(directory_entries, directory_entry_count, sizeof(CvDirectoryEntry),
+          compare_directory);
+}

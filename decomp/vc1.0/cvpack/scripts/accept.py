@@ -160,8 +160,9 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     events=(original/'events').read_text();traps=re.findall(r'^exception ([0-9a-f]+) va ([0-9a-f]+) ',events,re.M)
     apps={r['original']:r for r in config['functions']};frontier=None;complete=current['terminal']=='exit'
     if complete:
-        assert receipt['terminal']=='exit'and receipt['status']==current['exit']==0,'native completion status differs'
-        assert not traps and re.findall(r'^exit (\d+)$',events,re.M)==['0'],'original did not finish normally'
+        assert isinstance(current['exit'],int) and 0<=current['exit']<=255 and current['exit']==record['complete_reference']['exit'],'terminal status is not the cached original oracle'
+        assert receipt['terminal']=='exit'and receipt['status']==current['exit'],'native completion status differs'
+        assert not traps and re.findall(r'^exit (\d+)$',events,re.M)==[str(current['exit'])],'original terminal status differs'
     else:
         assert receipt['terminal']=='trap'and receipt['status']==-5,'native genuine trap missing'
         assert len(traps)==1 and traps[0][0]=='80000003'and 'exit 99\n'in events,'unknown original terminal'
@@ -174,7 +175,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
         assert json.loads((work/'host-environment.json').read_text())==dict(host_controls_absent=True,unbound_CRT_uses_host_vector=True),'host allocator controls visible to target'
     state=json.loads((work/'gdb.json').read_text());assert state['later_heap_equality']is False
     if complete:
-        assert state['signal']==0 and state['exit']==0 and state['frames']==[]and state['parameters']=={}and state['globals']=={}and state['walks']=={},'native terminal debugger observation differs'
+        assert state['signal']==0 and state['exit']==current['exit'] and state['frames']==[]and state['parameters']=={}and state['globals']=={}and state['walks']=={},'native terminal debugger observation differs'
     else:assert state['signal']==5 and state['frames'][0]==frontier['native'],'native next named trap differs'
     words={int(a):int(b,16)for a,b in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)};parameters={}
     registers=re.search(r'^registers (.*)$',events,re.M)

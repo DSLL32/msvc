@@ -1263,10 +1263,10 @@ int main(int argc, char **argv)
         if (sscanf(program, "%lx:%lx:%lx", &sopen_start, &sopen_end, &sopen_offset) != 3 ||
             sopen_start != 0x2dcb0 || sopen_end != 0x2e0a0 ||
             !GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_NAME", sopen_name, sizeof(sopen_name)) ||
-            (strcmp(sopen_name, "hello-debug.dll") && strcmp(sopen_name, "dos-cv.exe")) ||
+            (strcmp(sopen_name, "hello-debug.dll") && strcmp(sopen_name, "dos-cv.exe") && strcmp(sopen_name, "cfig386.dbg")) ||
             !GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_INPUT", sopen_master, sizeof(sopen_master)) ||
             strlen(argv[6])+strlen(sopen_name)+2 >= sizeof(sopen_input)) return 14;
-        if (!strcmp(sopen_name, "dos-cv.exe")) sopen_limit = 1;
+        if (!strcmp(sopen_name, "dos-cv.exe") || !strcmp(sopen_name, "cfig386.dbg")) sopen_limit = 1;
         sprintf(sopen_input, "%s\\%s", argv[6], sopen_name);
         GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_REOPEN_INPUT", sopen_reopen_master, sizeof(sopen_reopen_master));
         if (GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_PDB_NAME", sopen_pdb_name, sizeof(sopen_pdb_name))) {

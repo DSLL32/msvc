@@ -1,0 +1,11 @@
+{
+  "accepted_function": "read_old_directory",
+  "sequence": 179,
+  "extent_bytes": 309,
+  "terminal": "exit1",
+  "diagnostic": "CVPACK : fatal error CK1005: invalid executable file",
+  "artifact": "unchanged authenticated37096B NB02 input",
+  "source_correction": "No read_image_debug change; initial detached-container rejection inference disproved by actual fatal caller.",
+  "targeted_checker_change": "Ordinary terminal acceptance compares exact cached original status incl declared nonzero status, rather than assuming all completecases exit0. One changednativeexit0 control denies.",
+  "historical_pipeline": "Never run."
+}

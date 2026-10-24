@@ -1,0 +1,118 @@
+{
+  "function": "read_old_directory",
+  "sequence": 179,
+  "case": "legacy-nb02-rejected",
+  "extent": [
+    136192,
+    136501
+  ],
+  "original_frontier": null,
+  "native_frontier": "exit",
+  "application_entries": [
+    "main",
+    "parse_options",
+    "files_initialize",
+    "new_page",
+    "new_file_slot",
+    "open_file",
+    "find_cached_file",
+    "acquire_file_slot",
+    "move_file_slot",
+    "open_buffered_file",
+    "seek_buffered_file",
+    "allocate_file_page",
+    "attach_page",
+    "read_file_page",
+    "touch_page",
+    "initialize_type_tables",
+    "checked_zero",
+    "initialize_buffer",
+    "checked_alloc",
+    "read_image_debug",
+    "seek_file",
+    "read_file",
+    "read_buffered_file",
+    "read_cv_signature",
+    "tell_file",
+    "read_old_directory",
+    "advance_file_page",
+    "release_page",
+    "flush_file_page",
+    "fatal_error"
+  ],
+  "matched_frontier_parameters": {},
+  "typed_frontier_parameters": {},
+  "matched_application_globals": {},
+  "observed_objects": {},
+  "conditional_CRT_support": [
+    {
+      "original": {
+        "mode": 32770,
+        "share": 64,
+        "name": "cfig386.dbg",
+        "permission": 0,
+        "createfile": {
+          "access": 3221225472,
+          "share": 3,
+          "disposition": 3,
+          "attrs": 128,
+          "inherit": true,
+          "name": "cfig386.dbg"
+        },
+        "return": {
+          "descriptor": 3,
+          "errno": 0,
+          "osfile": 1,
+          "type": 1,
+          "position": 0,
+          "owned": true,
+          "input_matches": true,
+          "last_error": 0
+        }
+      },
+      "native": {
+        "name": "cfig386.dbg",
+        "mode": 32770,
+        "share": 64,
+        "permission": 438,
+        "createfile": {
+          "name": "cfig386.dbg",
+          "access": 3221225472,
+          "share": 3,
+          "disposition": 3,
+          "attrs": 128,
+          "inherit": false
+        },
+        "return": {
+          "descriptor": 3,
+          "errno": 0,
+          "last_error": 0,
+          "osfile": 1,
+          "type": 1,
+          "position": 0,
+          "owned": true,
+          "host_descriptor": 3,
+          "access_mode": 2,
+          "input_matches": true,
+          "input_sha256": "2e01fe1d2d150f1e20352225636081e0373cae3d79c8b601d8482a4cedc4ddf4"
+        }
+      },
+      "permission": "inactive with exact binary existing modes8000/8002; both raw words retained",
+      "descriptor_identity": "logical CRT fd; host HANDLE/fd mapped to full owned case input",
+      "inheritance": "originalTRUE/nativeFALSE is retained; approved singleprocess/nochild scope only"
+    }
+  ],
+  "freebuf_noop_boundary": null,
+  "runtime_unmasked": [],
+  "seconds": {
+    "setup": 0.3200030205771327,
+    "execution": 0.011567991226911545,
+    "debugging": 0.2126082805916667,
+    "checks": 0.007181979715824127,
+    "total": 0.551367225125432
+  },
+  "classification": "routine-whole-function-and-exact-terminal-output",
+  "later_module_heap_equality": false,
+  "prior_module3": "cases/hello-debug-dll/evidence/0097-create_symbol_reference/proof.json",
+  "scope": "Root streamlined normal loop; actual formal/selected consumed globals checked, old full module3 contracts retained; additional state probes only for concrete ambiguities/mismatches"
+}

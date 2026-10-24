@@ -114,5 +114,34 @@
     "access": 3221225472,
     "guard_version": 2,
     "phase": 1
+  },
+  {
+    "name": "__sopen",
+    "classification": "reviewed-case-specific-CRT-variant",
+    "case": "legacy-nb02-rejected",
+    "application_coverage": false,
+    "unconditionally_unmask": false,
+    "target_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "start": 187568,
+    "end": 188576,
+    "body_sha256": "b7fdcb2af4a8c2dc7acb300de553cec15ecc7fa126d0aed46ad2e8c359c7fb12",
+    "evidence": "cases/runtime-variants/sopen-analysis.json",
+    "evidence_sha256": "b0c1dcc543dc7ba8b08da658bb99db579e00105352cde002a9ec850b4c138040",
+    "guard": {
+      "mode": 32770,
+      "share": 64,
+      "name": "cfig386.dbg",
+      "every_invocation": true
+    },
+    "input": {
+      "path": "decomp/vc1.0/cvpack/cases/legacy-nb02-rejected/input/cfig386.dbg",
+      "name": "cfig386.dbg",
+      "bytes": 37096,
+      "sha256": "2e01fe1d2d150f1e20352225636081e0373cae3d79c8b601d8482a4cedc4ddf4"
+    },
+    "policy_approval": "Root approved exact authenticated NB02 negative case first/only successful8002/share40 file open; same reviewed variant/body/guards. Subsequent application short-read yields expected CK1005. No other modes/files/outcomes or CRT/application credit; existing nochild/inheritance limitation retained.",
+    "access": 3221225472,
+    "guard_version": 2,
+    "phase": 1
   }
 ]

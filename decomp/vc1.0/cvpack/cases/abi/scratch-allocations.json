@@ -12,7 +12,7 @@
     "src/diagnostics.c": "88717de8be9d57afadd1a66cef24e4346c1d03dbc40c8fe349928b5606847a45",
     "src/files.c": "56929a66dc87805acaa042ada1bdd97d9c4a66a2281cff41591b911e88716fe4",
     "src/files.h": "e5145e3746779308d3afc58eb4559a0061e68cdf20d97e548822398b23f66385",
-    "src/image.c": "24317f37706b277c40b92fb1963a414dbc84c31e0c6a9ef77022128ab99ad9a4",
+    "src/image.c": "16236abc6b56fc1bdf1a26ffaf1aa48be4a40f67c10e6c297ad9bc969dc9ef6b",
     "src/image.h": "98fa2fadb7c4529fffb5490ff253f2a74ff86944fe4affeb77416353747bb02e",
     "src/main.c": "4fca840733d7a800e500b46f51294c3ac999ddd1ecfcc54f2b36eee0da7f65bc",
     "src/modules.c": "074e617dad13afb4d38498ea3bc8c8284edaa6fa031e718cb3433eff6f284bec",
@@ -23,7 +23,7 @@
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
     "src/strip.c": "ccb0eb975ad67fdbb7633ea4db4f773d691e88f9d87080ac95ea04e71365e6f9",
     "src/strip.h": "8110c284b1697c03fa2c7c4f9030d31625cff4726cbf7edb2d33987a5fdd01eb",
-    "src/stubs.c": "5c0389dfb71b561d909f8cc106a0b77556c58f400a31666ff0e340ecf3052759",
+    "src/stubs.c": "9de2e8a422a0d05c69a2b0e5abc86eaed51a4525346dbc7c46018d112875920e",
     "src/types.c": "ff1e4f441dcb8366461a41e026da3aca82eb470ea3916160ed0b7e8cdcf7cf70",
     "src/types.h": "d8f17d9fe8dd9fa00515acc4326cf4ee38d5bc1eb61769a0045948c0ba7b83a4"
   },

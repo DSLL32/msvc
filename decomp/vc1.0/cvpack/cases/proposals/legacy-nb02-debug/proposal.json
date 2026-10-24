@@ -1,5 +1,5 @@
 {
-  "status": "original-rejected",
+  "status": "completed-as-authentic-negative-case",
   "case": "legacy-nb02-debug",
   "input_plan": "Use the genuine37096B NB02 debug block of the already shipped Watcom CFIG386.EXE as a detached .dbg input: byte-exact contiguous extraction [43479,80575), no header/signature/record rewriting. Do not run CFIG386 or resume Watcom reconstruction.",
   "source": {
@@ -72,6 +72,8 @@
     "stderr": "",
     "input_unchanged": true,
     "elapsed_seconds": 0.5726335952058434,
-    "conclusion": "Detached-input support inference disproved by actual original. No new case/guard/reconstruction/input patch begun. Stop and report root; require genuine supported executable container or alternative."
+    "conclusion": "Detached-input support inference disproved by actual original. No new case/guard/reconstruction/input patch begun. Stop and report root; require genuine supported executable container or alternative.",
+    "correction": "The initial CK1005 is caused by real12B olddirectory reader shortread, not rejection of detachedcontainer. One diagnostic fatalentry probe authenticated caller214c5/code17/outerreturn1f9a0; read_image_debug is unchanged. Rootapproved normalnegativecase completed179read_old_directory309B.",
+    "case": "legacy-nb02-rejected"
   }
 }

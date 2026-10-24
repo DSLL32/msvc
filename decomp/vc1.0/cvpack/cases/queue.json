@@ -52,6 +52,17 @@
       ],
       "status": "complete",
       "completion": "cases/dos-codeview16/evidence/0178-pack_old_lines/proof.json"
+    },
+    {
+      "name": "legacy-nb02-rejected",
+      "argv": [
+        "/nologo",
+        "/cvnew",
+        "/verbose",
+        "cfig386.dbg"
+      ],
+      "status": "complete",
+      "completion": "cases/legacy-nb02-rejected/evidence/0179-read_old_directory/proof.json"
     }
   ]
 }

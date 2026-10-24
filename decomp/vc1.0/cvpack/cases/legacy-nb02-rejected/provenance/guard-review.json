@@ -1,0 +1,6 @@
+{
+  "review": "/root/.ai-tmp/msvc2/recon-maintenance/cvpack-nb02-open/review.json",
+  "sha256": "50ff592ba20fa82b357a62ebbf8483411601d42f260cb71de07c2aee94ccc6ef",
+  "result": "PASS exact37096B firstonly8002/share40/fullfile/createfile/return variantreuse, five small pure guard controls. No sharedchange or original/historical execution.",
+  "qualification": "Inactive rawpermission0vs438 preserved; original/native inheritance differs under existing singleprocess/nochild policy."
+}

@@ -1,0 +1,50 @@
+{
+  "argv": [
+    "wine",
+    "R:\\toolchains\\1.0-nt\\bin\\CVPACK.EXE",
+    "/nologo",
+    "/cvnew",
+    "/verbose",
+    "cfig386.dbg"
+  ],
+  "status": 1,
+  "elapsed_seconds": 0.5726335952058434,
+  "input": {
+    "path": "toolchains/watcom10.0a/bin/CFIG386.EXE",
+    "bytes": 80575,
+    "sha256": "c9adb1a1b7c9a37f8ea2f365bf4d21b1220855e01436f981b3d3430a002cfc5f",
+    "debug_start": 43479,
+    "debug_bytes": 37096,
+    "debug_sha256": "2e01fe1d2d150f1e20352225636081e0373cae3d79c8b601d8482a4cedc4ddf4",
+    "directory_offset": 34966,
+    "directory_entries": 212,
+    "subsections": {
+      "0x101": {
+        "entries": 98,
+        "bytes": 2291
+      },
+      "0x102": {
+        "entries": 98,
+        "bytes": 5781
+      },
+      "0x103": {
+        "entries": 5,
+        "bytes": 12780
+      },
+      "0x104": {
+        "entries": 5,
+        "bytes": 8202
+      },
+      "0x109": {
+        "entries": 5,
+        "bytes": 5892
+      },
+      "0x106": {
+        "entries": 1,
+        "bytes": 12
+      }
+    }
+  },
+  "output_bytes": 37096,
+  "output_sha256": "2e01fe1d2d150f1e20352225636081e0373cae3d79c8b601d8482a4cedc4ddf4"
+}

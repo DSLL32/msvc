@@ -1402,16 +1402,28 @@
       "native": "read_old_directory",
       "symbol": "_read_old_directory",
       "original": 136192,
-      "source": "src/stubs.c",
+      "source": "src/image.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        136192,
+        136501
+      ],
       "abi": "void read_old_directory(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/legacy-nb02-rejected/evidence/0179-read_old_directory/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "legacy-nb02-rejected": [
+          {
+            "name": "cfig386.dbg",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "read_new_directory",
@@ -9395,6 +9407,12 @@
       "case": "dos-codeview16",
       "kind": "application",
       "sequence": 178
+    },
+    {
+      "function": "read_old_directory",
+      "case": "legacy-nb02-rejected",
+      "kind": "application",
+      "sequence": 179
     }
   ],
   "support_unmasked": [
@@ -10097,11 +10115,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "c1c9e45908d1e84cd417625682c167729c2a083b9329f518750e7a038215e9a6"
+    "evidence_sha256": "d863b5edbf38d6bf7e6c0c9bd4fb08a67be56af2b3de6c9f0aab86993b60729b"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "31c500a95c0bc5365c67749a02a5b62e65aa674dd215afa2b0830a19800e174d"
+    "evidence_sha256": "49c6658f06235be5a0e42c55bc0be48ce7ef7c7f13f35377a091726c41f449e6"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -10177,7 +10195,7 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "02592300a4980e0a192f15bbdcb4fa6f2335f5d0f58c5e5e06275bcd10ef5491"
+    "sha256": "c7097fd9223003de9786de3599f63d046855fc79490e352bfe281180830cd11d"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

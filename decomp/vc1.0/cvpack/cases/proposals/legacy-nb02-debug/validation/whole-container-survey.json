@@ -1,0 +1,23 @@
+{
+  "method": "Read-only shippedEXE/DLL tail inventory, no original execution/patches. NB02/NB08 exact8-byte end trailers and matching base signature only.",
+  "examined_executable_files": 353,
+  "records": [
+    {
+      "path": "toolchains/watcom10.0a/bin/CFIG386.EXE",
+      "size": 80575,
+      "sha256": "c9adb1a1b7c9a37f8ea2f365bf4d21b1220855e01436f981b3d3430a002cfc5f",
+      "tail_signature": "NB02",
+      "back_offset": 37096,
+      "base": 43479,
+      "header_magic": "4d5a",
+      "e_lfarlc": "0x1e",
+      "e_lfanew": "0x27d0020",
+      "directory_offset": 34966,
+      "entries": 212,
+      "bytes_to_trailer": 2122,
+      "fits12": false,
+      "fits10": true,
+      "dir_prefix": "d4000101010008000000190002010100fb0800000d00010102002100000018000201"
+    }
+  ]
+}
