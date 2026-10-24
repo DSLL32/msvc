@@ -1,0 +1,23 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558b78 in symbol_alias (symbol=0x566557f4) at src/stubs.c:91
+91	CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
+#0  0x56558b78 in symbol_alias (symbol=0x566557f4) at src/stubs.c:91
+#1  0x56563e8a in get_ir_symbol_index (symbol=0x566557f4) at src/ir.c:307
+#2  0x56563233 in write_ir_record (tag=38, value=0x5663f210) at src/ir.c:198
+#3  0x565af592 in emit_expression_tree (expression=0x5663f210) at src/expression-output.c:112
+#4  0x565af497 in emit_expression_tree (expression=0x5663f224) at src/expression-output.c:105
+#5  0x565af497 in emit_expression_tree (expression=0x5663f238) at src/expression-output.c:105
+#6  0x565af4ad in emit_expression_tree (expression=0x5663f24c) at src/expression-output.c:108
+#7  0x56564695 in emit_condition_to_label (condition=0x5663f24c, label=0x56655868, sense=1) at src/ir.c:496
+#8  0x5659353a in guard_local_static_initialization (symbol=0x566556e0) at src/object-initializers.c:153
+#9  0x5659323e in begin_runtime_initializer (symbol=0x566556e0) at src/object-initializers.c:123
+#10 0x56593091 in initialize_class_object (symbol=0x566556e0, value=0x5663f1c4) at src/object-initializers.c:104
+#11 0x56593a11 in initialize_object_value (symbol=0x566556e0, value=0x5663f1c4) at src/object-initializers.c:277
+#12 0x5659395e in initialize_object (symbol=0x566556e0, value=0x5663f1c4) at src/object-initializers.c:255
+#13 0x565bb076 in parse_translation_unit () at src/parser-declaration-actions.inc:317
+#14 0x5655de6f in compile_translation_unit () at src/frontend.c:73
+#15 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#16 0x56558894 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

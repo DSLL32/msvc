@@ -6,6 +6,8 @@
 #include "parameters.h"
 #include "operators.h"
 #include "keywords.h"
+#include "function-definitions.h"
+#include "macros.h"
 #include <recon.h>
 
 HashTable *declaration_table; /* original 0x9f340 */
@@ -480,4 +482,36 @@ char *make_anonymous_identifier(void)
     anonymous_identifier_spelling[1] = (char)('a' + (anonymous_identifier_count / (26 * 26)) % 26);
     ++anonymous_identifier_count;
     return intern_identifier(anonymous_identifier_spelling);
+}
+
+char *__stdcall make_local_static_name(CppSymbol *symbol);
+
+/* Original 0x3cb70..0x3cc6a, stdcall8. Generated storage inherits the
+   declaration defaults; an inline function's static guard gets its own name
+   and temporarily uses C linkage while applying the declaration type. */
+CppSymbol *__stdcall create_generated_object(unsigned char storage, CType *type)
+{
+    LanguageLinkage saved_linkage = linkage_stack[linkage_depth];
+    CppSymbol *symbol = new_declarator(make_anonymous_identifier());
+    CppSymbol *result;
+    DeclarationType context;
+    symbol->flags |= 0x80;
+    if (storage == 3 && function_symbol && (function_symbol->storage[1] & 1) &&
+        (function_symbol->storage[0] & 7) != 3) {
+        symbol->detail.scope_number = (short)active_local_static_guard->count;
+        symbol->name = name_static_guard;
+        symbol->storage[0] = (symbol->storage[0] & 0xfb) | 3;
+        symbol->declaration_flags &= ~0x300;
+        symbol->name = make_local_static_name(symbol);
+        symbol->declaration_flags |= 0x200;
+        linkage_stack[linkage_depth] = LINKAGE_C;
+    }
+    if ((token_allocation_flags & 0x40) && storage != 3) storage = 3;
+    context.storage[0] = (declaration_storage[0] & ~7) | (storage & 7);
+    context.storage[1] = declaration_storage[1];
+    context.storage[2] = declaration_storage[2];
+    context.type = type;
+    result = apply_declaration_type(&context, symbol);
+    linkage_stack[linkage_depth] = saved_linkage;
+    return result;
 }

@@ -1,0 +1,84 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0003cb70 <.text+0x25b70>:
+   3cb70:	83 ec 08             	sub    esp,0x8
+   3cb73:	53                   	push   ebx
+   3cb74:	56                   	push   esi
+   3cb75:	57                   	push   edi
+   3cb76:	a1 7c fc 09 00       	mov    eax,ds:0x9fc7c
+   3cb7b:	8b 34 85 a4 13 09 00 	mov    esi,DWORD PTR [eax*4+0x913a4]
+   3cb82:	e8 69 ff ff ff       	call   0x3caf0
+   3cb87:	50                   	push   eax
+   3cb88:	e8 53 f4 ff ff       	call   0x3bfe0
+   3cb8d:	8b f8                	mov    edi,eax
+   3cb8f:	8a 5c 24 18          	mov    bl,BYTE PTR [esp+0x18]
+   3cb93:	80 4f 01 80          	or     BYTE PTR [edi+0x1],0x80
+   3cb97:	80 fb 03             	cmp    bl,0x3
+   3cb9a:	75 62                	jne    0x3cbfe
+   3cb9c:	83 3d 40 c1 08 00 00 	cmp    DWORD PTR ds:0x8c140,0x0
+   3cba3:	74 59                	je     0x3cbfe
+   3cba5:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   3cbaa:	f6 40 1b 01          	test   BYTE PTR [eax+0x1b],0x1
+   3cbae:	74 4e                	je     0x3cbfe
+   3cbb0:	8a 40 1a             	mov    al,BYTE PTR [eax+0x1a]
+   3cbb3:	24 07                	and    al,0x7
+   3cbb5:	3c 03                	cmp    al,0x3
+   3cbb7:	74 45                	je     0x3cbfe
+   3cbb9:	a1 88 fc 09 00       	mov    eax,ds:0x9fc88
+   3cbbe:	8b 40 08             	mov    eax,DWORD PTR [eax+0x8]
+   3cbc1:	66 89 47 20          	mov    WORD PTR [edi+0x20],ax
+   3cbc5:	a1 38 f2 09 00       	mov    eax,ds:0x9f238
+   3cbca:	89 47 08             	mov    DWORD PTR [edi+0x8],eax
+   3cbcd:	8a 47 1a             	mov    al,BYTE PTR [edi+0x1a]
+   3cbd0:	24 fb                	and    al,0xfb
+   3cbd2:	0c 03                	or     al,0x3
+   3cbd4:	88 47 1a             	mov    BYTE PTR [edi+0x1a],al
+   3cbd7:	80 67 03 fc          	and    BYTE PTR [edi+0x3],0xfc
+   3cbdb:	57                   	push   edi
+   3cbdc:	e8 af 98 01 00       	call   0x56490
+   3cbe1:	89 47 08             	mov    DWORD PTR [edi+0x8],eax
+   3cbe4:	8a 47 03             	mov    al,BYTE PTR [edi+0x3]
+   3cbe7:	24 fe                	and    al,0xfe
+   3cbe9:	0c 02                	or     al,0x2
+   3cbeb:	88 47 03             	mov    BYTE PTR [edi+0x3],al
+   3cbee:	a1 7c fc 09 00       	mov    eax,ds:0x9fc7c
+   3cbf3:	c7 04 85 a4 13 09 00 	mov    DWORD PTR [eax*4+0x913a4],0x2
+   3cbfa:	02 00 00 00 
+   3cbfe:	f6 05 90 f7 09 00 40 	test   BYTE PTR ds:0x9f790,0x40
+   3cc05:	74 07                	je     0x3cc0e
+   3cc07:	80 fb 03             	cmp    bl,0x3
+   3cc0a:	74 02                	je     0x3cc0e
+   3cc0c:	b3 03                	mov    bl,0x3
+   3cc0e:	8a 44 24 0c          	mov    al,BYTE PTR [esp+0xc]
+   3cc12:	32 c3                	xor    al,bl
+   3cc14:	24 07                	and    al,0x7
+   3cc16:	30 44 24 0c          	xor    BYTE PTR [esp+0xc],al
+   3cc1a:	8a 4c 24 0c          	mov    cl,BYTE PTR [esp+0xc]
+   3cc1e:	b8 fc c3 08 00       	mov    eax,0x8c3fc
+   3cc23:	8d 5c 24 0c          	lea    ebx,[esp+0xc]
+   3cc27:	66 8b 10             	mov    dx,WORD PTR [eax]
+   3cc2a:	66 89 13             	mov    WORD PTR [ebx],dx
+   3cc2d:	8a 40 02             	mov    al,BYTE PTR [eax+0x2]
+   3cc30:	88 43 02             	mov    BYTE PTR [ebx+0x2],al
+   3cc33:	80 e1 07             	and    cl,0x7
+   3cc36:	8a 44 24 0c          	mov    al,BYTE PTR [esp+0xc]
+   3cc3a:	32 c1                	xor    al,cl
+   3cc3c:	24 07                	and    al,0x7
+   3cc3e:	30 44 24 0c          	xor    BYTE PTR [esp+0xc],al
+   3cc42:	8b 44 24 1c          	mov    eax,DWORD PTR [esp+0x1c]
+   3cc46:	89 44 24 10          	mov    DWORD PTR [esp+0x10],eax
+   3cc4a:	8d 44 24 0c          	lea    eax,[esp+0xc]
+   3cc4e:	57                   	push   edi
+   3cc4f:	50                   	push   eax
+   3cc50:	e8 0b 50 01 00       	call   0x51c60
+   3cc55:	8b 0d 7c fc 09 00    	mov    ecx,DWORD PTR ds:0x9fc7c
+   3cc5b:	89 34 8d a4 13 09 00 	mov    DWORD PTR [ecx*4+0x913a4],esi
+   3cc62:	5f                   	pop    edi
+   3cc63:	5e                   	pop    esi
+   3cc64:	5b                   	pop    ebx
+   3cc65:	83 c4 08             	add    esp,0x8
+   3cc68:	c2 08 00             	ret    0x8

@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_create_generated_object@8",
+    "start": 248688,
+    "end": 248939
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1217-create_generated_object-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_apply_declaration_type@8",
+    "_make_anonymous_identifier",
+    "_make_local_static_name@4",
+    "_new_declarator@4"
+  ],
+  "next_frontier": "_symbol_alias@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8306990899145603,
+  "total_operation_seconds": 5.305273542180657,
+  "original_capture_seconds": 1.9703955920413136
+}

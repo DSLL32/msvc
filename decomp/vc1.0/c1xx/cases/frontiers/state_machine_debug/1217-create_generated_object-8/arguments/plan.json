@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "function": "_create_generated_object@8",
+  "native_entry": "create_generated_object",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_storage": "(unsigned)storage",
+    "raw_type": "(unsigned)type",
+    "guard_type": "(unsigned)type_4041_q1",
+    "observed_linkage_depth": "linkage_depth",
+    "observed_linkage": "(unsigned)linkage_stack[linkage_depth]",
+    "observed_linkage_slot": "(unsigned)&linkage_stack[linkage_depth]",
+    "linkage_base": "(unsigned)&linkage_stack[0]"
+  },
+  "formals": [
+    {
+      "name": "storage",
+      "stack_index": 0,
+      "native_field": "raw_storage",
+      "binding": {
+        "kind": "scalar",
+        "bits": 8
+      }
+    },
+    {
+      "name": "type",
+      "stack_index": 1,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "guard_type",
+        "original_anchor_address": 651904,
+        "native_anchor_field": "guard_type",
+        "identity": "Accepted guard_local_static_initialization incrementsactualguardcountthenMOV EAX,[type_4041_q1@9f280]48014/PUSHEAX48019/PUSH3storage4801a/CALL4801c/return48021. Fresh same-capture globalpointer binds actualtypeargument; native type_4041_q1 actual initialized builtin type binds nativearg1."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "original_observations": [
+    {
+      "name": "guard_type",
+      "original": 651904
+    },
+    {
+      "name": "linkage_depth",
+      "original": 654460
+    },
+    {
+      "name": "current_linkage",
+      "original": 594852
+    }
+  ],
+  "state_requirements": [
+    {
+      "index": 15,
+      "native_field": "observed_linkage_depth",
+      "equals": 0
+    },
+    {
+      "index": 16,
+      "native_field": "observed_linkage",
+      "equals": 0
+    }
+  ],
+  "abi_analysis": {
+    "original_extent": [
+      248688,
+      248939
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 CppSymbol* returnEAX",
+    "proof": "Whole251B SUB8/saveEBXESIEDI12; storageBYTEadjustedESP+24/typeDWORD+28; RET8. No incomingGPR/x87/CPUflagsformal. Saveactualexistinglinkage_stack[linkage_depth], anonymousidentifier/newdeclarator/flags80. storage3/nonNULLinlinefunction/nonstaticfunction: scope_number=activeguard.countWORD; name_static_guard, lowstoragebits3, cleardeclarationflags300, make_local_static_name, flags200, actualcurrentlinkage=2. Globalinitializerflag40forcesstorage3. Copyexact3declaration_storagebytes and replaceonlylow3bits; type+4; apply_declaration_type returnsactualresultEAX, reloadcurrentlinkage_depthandrestore savedlinkage beforeRET. Originalintermediateunwrittenlocal highbitsat3cc0e..33 arediscardedbeforeuse; finaldefinedthreebytes exactlycopydefaults+selectedlow3, no inventedpadding/initialization. Existingknownlinkageglobals, notnewcontexts: parse_options3cfa8 PUSH0/3cfaaCALLacceptedpush_linkage initializesdepth0/slot0; freshactualdepth0/slot913a4 valuesvalidated. Initial-1 beforeoptions andprecedingoption_Aw alias areUNREACHED/UNVALIDATED here; no storagechange/newguard orclaimofnegativeindexequivalence. No newdata/CRTbody."
+  }
+}
