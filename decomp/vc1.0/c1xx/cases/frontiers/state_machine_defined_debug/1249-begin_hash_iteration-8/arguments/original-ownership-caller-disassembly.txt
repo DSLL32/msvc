@@ -1,0 +1,32 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004dd60 <.text+0x36d60>:
+   4dd60:	83 ec 14             	sub    esp,0x14
+   4dd63:	83 3d 38 f3 09 00 00 	cmp    DWORD PTR ds:0x9f338,0x0
+   4dd6a:	74 3b                	je     0x4dda7
+   4dd6c:	a1 38 f3 09 00       	mov    eax,ds:0x9f338
+   4dd71:	50                   	push   eax
+   4dd72:	8d 44 24 04          	lea    eax,[esp+0x4]
+   4dd76:	50                   	push   eax
+   4dd77:	e8 e4 10 00 00       	call   0x4ee60
+   4dd7c:	8d 44 24 00          	lea    eax,[esp+0x0]
+   4dd80:	50                   	push   eax
+   4dd81:	e8 fa 10 00 00       	call   0x4ee80
+   4dd86:	0b c0                	or     eax,eax
+   4dd88:	74 1d                	je     0x4dda7
+   4dd8a:	8b 44 24 10          	mov    eax,DWORD PTR [esp+0x10]
+   4dd8e:	50                   	push   eax
+   4dd8f:	8b 44 24 10          	mov    eax,DWORD PTR [esp+0x10]
+   4dd93:	50                   	push   eax
+   4dd94:	e8 17 00 00 00       	call   0x4ddb0
+   4dd99:	8d 44 24 00          	lea    eax,[esp+0x0]
+   4dd9d:	50                   	push   eax
+   4dd9e:	e8 dd 10 00 00       	call   0x4ee80
+   4dda3:	0b c0                	or     eax,eax
+   4dda5:	75 e3                	jne    0x4dd8a
+   4dda7:	83 c4 14             	add    esp,0x14
+   4ddaa:	c3                   	ret

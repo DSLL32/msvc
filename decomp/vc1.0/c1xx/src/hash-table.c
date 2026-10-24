@@ -41,6 +41,15 @@ HashTable *__stdcall new_hash_table(unsigned short buckets, short arena,
     return table;
 }
 
+/* Original 0x4ee60..0x4ee7a. Key and value remain unwritten
+   until next_hash_entry finds an entry. */
+void __stdcall begin_hash_iteration(HashIterator *iterator, HashTable *table)
+{
+    iterator->table = table;
+    iterator->bucket = 0;
+    iterator->next = 0;
+}
+
 unsigned __stdcall hash_table_bucket(HashTable *table, void *key);
 HashEntry *__stdcall find_hash_entry(HashTable *table, void *key, unsigned bucket);
 

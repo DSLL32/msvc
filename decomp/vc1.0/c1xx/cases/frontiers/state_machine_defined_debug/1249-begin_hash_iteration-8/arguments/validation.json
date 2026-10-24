@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_begin_hash_iteration@8",
+  "case": "state_machine_defined_debug",
+  "accepted_before": 1249,
+  "configuration_sha256": "0ba942f99f94164702f96c1c3d888a79711bb5455315560f0d86f9faece0ecff",
+  "native_entry": "begin_hash_iteration",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "iterator",
+      "stack_index": 0,
+      "native_field": "raw_iterator",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 253308,
+        "original_owner_function": "_finish_declarations",
+        "native_owner_function": "finish_declarations",
+        "native_owner_field": "caller_iterator",
+        "native_owner_local": "iterator",
+        "native_owner_address": true,
+        "output_only": true,
+        "identity": "Caller SUBESP20 allocates actual20B HashIterator, PUSHtable4dd71 then LEAEAX[ESP+4]4dd72/PUSH4dd76/CALL4dd77/return4dd7c binds actual local. Native caller iterator address only; no uninitialized key/value/padding read.",
+        "original_owner_value": 2948784,
+        "native_owner_value": 4294956624
+      },
+      "original_raw": 2948784,
+      "native_raw": 4294956624,
+      "result": "match"
+    },
+    {
+      "name": "table",
+      "stack_index": 1,
+      "native_field": "raw_table",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "thunks_owner",
+        "original_anchor_address": 652088,
+        "native_anchor_field": "thunks_owner",
+        "identity": "Fresh actual declaration_thunks global owner, original load4dd6c/PUSH4dd71. Callee only copies this pointer and does not consume pointed-to fields.",
+        "original_anchor_value": 8311656,
+        "native_anchor_value": 1449345896
+      },
+      "original_raw": 8311656,
+      "native_raw": 1449345896,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      323168,
+      323195
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 void RET8",
+    "proof": "Whole27B frameless iterator/table entryESP+4/+8; writes table+0,bucket+8=0,next+4=0; key/value+12/+16 remain unwritten. No callee/data/hidden/register/x87/flags input; EAX caller-scratch residual not semantically consumed by accepted caller. No new data/CRT/guard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "c0c23f2bba77b9c3d03ae0e01b1581aedfffc1d4af39849e93f2632c68171345",
+  "capture_timing": {
+    "original_capture_seconds": 0.8161974046379328,
+    "native_capture_seconds": 0.18495981395244598,
+    "total_operation_seconds": 1.2704473147168756
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "49dd2d1ac13950fd1d3e114d3b385d5485b066d4d1114b09a5c23b19f7d5a09a",
+    "native-commands.gdb": "6710aaefd034550c98e66e0294919c32b5b0d2cc49feaa1ad67f93c453871e2f",
+    "native-gdb.log": "dd0fecf13a9c16108013a1d2f337a88448ab8f2ada8ded590c03c2d1aed3aac5",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "6018cdb23ea557175d300096ff93cdccdf27e9785d3adf915917c5eb936b1c84",
+    "original-configuration.json": "0ba942f99f94164702f96c1c3d888a79711bb5455315560f0d86f9faece0ecff",
+    "original-disassembly.txt": "05b1ab72f8736d023f08389e90c05c575f4938a817023ba603f2d905fa914aed",
+    "original-entries.plan": "6ee4d0e5c8ec1cece7d71959c75aaf61d4573820647261115089f314cc190b4b",
+    "original-events.txt": "41bbce10273fc3f4c5ad3abd6e39fe4256fd70c33392b0a99de6dd16f520b1cf",
+    "original-ownership-caller-disassembly.txt": "2104a1e8fe5c28f3588e9b2095f7376c839bb1422888d55a74f09bfcdb8e33fc",
+    "original-receipt.json": "480fb9b06784f20cea5ad75d7e5ded1cebf9f23c98c65db206a3b5fc537e9173",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "f2a60388502264903164132cf6664d78a4a8be629cb177c54bf472b8982eca14"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1,0 +1,11 @@
+Breakpoint 1 at 0x1df69: file src/hash-table.c, line 48.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, begin_hash_iteration (iterator=0xffffd650, table=0x56634368) at src/hash-table.c:48
+48	    iterator->table = table;
+#0  begin_hash_iteration (iterator=0xffffd650, table=0x56634368) at src/hash-table.c:48
+#1  0x565af1f7 in finish_declarations () at src/function-finalization.c:297
+#2  0x5655dfcf in compile_translation_unit () at src/frontend.c:76
+#3  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558894 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20
