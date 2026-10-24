@@ -410,3 +410,14 @@ int __cdecl rc_parse_multiplicative(void)
         else return value;
     }
 }
+
+int __cdecl rc_parse_unary(void)
+{
+    if(rc_accept_expression_token(55))
+        return !rc_parse_primary();
+    if(rc_accept_expression_token(84))
+        return ~rc_parse_primary();
+    if(rc_accept_expression_token(65))
+        return -rc_parse_primary();
+    return rc_parse_primary();
+}

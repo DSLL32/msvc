@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Seventy-eight application functions (22,000 original code bytes), two embedded CRT functions
+Seventy-nine application functions (22,065 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_parse_unary`.
+currently matches at the next named trap, `rc_accept_expression_token`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -665,3 +665,11 @@ multiply/divide/remainder loop and reaching the actual unary-parser child.
 records eleven affected semantic controls, unchanged live input, both builds,
 graph/ABI checks and cached native help. No arithmetic result or division
 exception behavior is claimed by this checkpoint.
+
+Unary parsing is reconstructed (65 bytes), reaching its first token matcher
+with actual token55: a one-byte formal, four-byte physical stack slot and full
+raw `37000000` retained. [Verification](cases/resources-rich-trailing-space/unary-verification.json)
+records seventeen affected semantic controls, both token globals' distinct
+storage/widths, full unchanged live source state, both builds, graph/ABI checks
+and cached native help. Matcher prefetch/result and primary/unary operands
+remain pending; the147-byte primary parser is a named dependency.
