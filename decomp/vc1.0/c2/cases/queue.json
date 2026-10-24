@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF1298: corrected true8-byte default-group object; full1994-byte finalizer input prefix now matches, finalizer6a9d0 still unaccepted.14 prior cases complete.",
+  "status": "Derived OMF case1299: module finalizer accepted, matching original/native MODEND writer6aad0.14 prior cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,8 +487,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "_omf_finish_module",
-  "current_checkpoint": 1298,
+  "current_application_frontier": "_omf_write_module_end",
+  "current_checkpoint": 1299,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",

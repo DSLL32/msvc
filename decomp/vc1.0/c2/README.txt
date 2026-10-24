@@ -882,3 +882,13 @@ extents/ABI/storage and15 native cases pass(14 complete). Ordinary audit
 cases/default-segment-group-checkpoint.json. Accepted1298/344614 bytes and
 app1183functions remain unchanged; finalizer6a9d0 still unaccepted, full exact
 OMF object pending.
+
+Checkpoint1299 adds whole253-byte module finalizer after the separately
+recorded default-group repair. Actual no-formal FILE/full1994-byte prefix/
+7-segment inputs match.336 full controls/10 ABI rejects prove conditional
+flush order,header rewrites,post-child global/list/order reloads,restore-end
+seek,MODEND/finalflush/close and started0; ignored errors remain ignored.
+Original/W3/ordinary audits/fresh pair and15 native cases pass(14 complete),
+next26-byte MODEND writer6aad0.344867/399693 extent bytes; app/support326567B/
+1184functions exclude5 historical CRT. Full controls6.248s, structural audit
+26.330s; full exact object pending. cases/omf-module-end-checkpoint.json.

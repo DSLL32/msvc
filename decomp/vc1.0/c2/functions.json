@@ -1302,7 +1302,8 @@
     "@omf_output_size@8",
     "@write_codeview_block@12",
     "@omf_output_offset@8",
-    "@write_codeview_global_data@4"
+    "@write_codeview_global_data@4",
+    "_omf_finish_module"
   ],
   "driver": [
     {
@@ -2477,8 +2478,15 @@
     {
       "name": "_omf_finish_module",
       "start": 436688,
-      "end": 436689,
-      "provisional": true
+      "end": 436941,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-module-end-abi-corrected/validation.json",
+        "scope": "Original6a9d0..6aacd no formal/register/stack/flags/x87/out pointer input, RET0. Consumes object_file global84fb0 via public ftell/fseek/fclose, segment_list84fac next36/combine53/conditional header_end60/order64 after initial flush children; current globals reloaded at original boundaries. Actual FILE owner/buffer topology/defined used prefix/lowio/descriptor position+length and closed ordered segment fields observed. object_generation_started is write-only final output and not captured as input. Child cache/FILE/segment state can change; entry snapshot never substitutes later reloads."
+      }
     },
     {
       "name": "@omf_output_relocation@12",
@@ -9494,6 +9502,12 @@
       "name": "@omf_write_comdat_line@12",
       "start": 440304,
       "end": 440305,
+      "provisional": true
+    },
+    {
+      "name": "_omf_write_module_end",
+      "start": 436944,
+      "end": 436945,
       "provisional": true
     }
   ],

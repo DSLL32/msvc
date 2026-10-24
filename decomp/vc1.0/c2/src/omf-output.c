@@ -1271,3 +1271,33 @@ void __fastcall omf_output_offset(unsigned displacement, SymbolHeader *symbol)
 {
     omf_add_fixup(symbol, 9, displacement, 1);
 }
+
+/* Original [0006a9d0,0006aacd). Pending payloads precede rewriting the
+   original segment headers. Preserve the end position for final MODEND. */
+void omf_finish_module(void)
+{
+    long end;
+    Segment *segment;
+    omf_flush_record_type(0x91);
+    if (!omf_flush_record_type(0xb0) && !omf_flush_record_type(0x8c) &&
+        !omf_flush_record_type(0xb4)) omf_flush_record_type(0xbc);
+    omf_flush_record_type(0xa3);
+    omf_flush_record_type(0xa1);
+    omf_flush_record_type(0xc3);
+    omf_flush_record_type(0xc5);
+    omf_flush_record_type(0x95);
+    end = ftell(object_file);
+    for (segment = segment_list; segment; segment = segment->segment_next) {
+        if (segment->combine != 7) {
+            fseek(object_file, segment->omf_header_end, SEEK_SET);
+            omf_next_segment = segment->identity.order;
+            omf_write_segment_definition(segment);
+            omf_flush_records();
+        }
+    }
+    fseek(object_file, end, SEEK_SET);
+    omf_write_module_end();
+    omf_flush_records();
+    fclose(object_file);
+    object_generation_started = 0;
+}
