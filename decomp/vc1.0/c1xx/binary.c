@@ -1,7 +1,7 @@
 /* Single original function registry; RVAs are relative to image base 0x10000.
- * Reviewed checkpoint: 3c751d03a, 1297 frontiers / 1191 application bodies.
- * Reconstruction is paused. accept_preprocessor_token retains unreviewed WIP
- * source, not acceptance. CRT/import entries carry no implementation credit.
+ * Reviewed baseline: 3c751d03a, 1297 frontiers / 1191 application bodies.
+ * Bounded shared-harness trial: accept_preprocessor_token freshly validated.
+ * CRT/import entries carry no implementation credit.
  * The seven historical CRT source overrides remain qualified in README.txt.
  * Unimplemented one-byte extents are entry placeholders, not whole bodies. */
 #include <recon-tool.h>
@@ -42,6 +42,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "accept_preprocessor_token",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_scan_preprocessor_token@4",

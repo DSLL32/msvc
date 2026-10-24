@@ -1,16 +1,15 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction, PAUSED. Last reviewed verified checkpoint: 3c751d03a,
-1297 frontiers / 1191 application source functions plus seven historical CRT
-source functions. Tagged administrative WIP checkpoint: 17c78f8c6.
+PARTIAL reconstruction. Bounded five-function shared-harness trial in progress.
+Reviewed baseline: 3c751d03a, 1297 frontiers / 1191 application source functions
+plus seven historical CRT source functions. Current: 1298 / 1192 application.
 
-The retained accept_preprocessor_token body and old 1298-frontier advancement
-were not finally reviewed. binary.c explicitly leaves that function UNIMPLEMENTED
-(unaccepted) even though its WIP source executes. The browser fixture checks the
-retained unreviewed scanner checkpoint; migration replay is not function
-acceptance. Last reviewed boundary is accept_preprocessor_token at RVA0x8140;
-current WIP observation reaches scan_preprocessor_token at RVA0x8180.
+accept_preprocessor_token (RVA0x8140, 57 bytes) reuses the tagged WIP body, now
+freshly validated with shared original --progress and native replay at scanner
+RVA0x8180, exact first-entry order and partial artifacts. The final oracle is
+unchanged. Original compilation, graph/ABI audit and all eight cached cases pass.
+This fresh acceptance is separate from the earlier migration replay.
 
 Build and run
 -------------
@@ -44,7 +43,7 @@ stack_lifetime, new_delete, state_machine_defined_debug. Each checks exact
 streams, status and complete frontend artifacts against the cached original.
 state_machine_debug remains a partial case at flush_current_function: its valid
 input encounters the unsupported native empty-closed-scope stale-local path.
-member_registry_browser is the separate partial WIP checkpoint described above;
+member_registry_browser is the separate partial checkpoint described above;
 capture.bin stores both final six-artifact oracle and partial file/presence assertions.
 Its exact visible cwd S:\vc1.0\c1xx\member-registry-browser-driver is real input,
 not normalization. Inputs include registry.cpp and registry.h unchanged.

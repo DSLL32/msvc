@@ -1202,7 +1202,7 @@ static const uint32_t seen[] = {
 
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "member_registry_browser",
-    "UNREVIEWED WIP checkpoint; migration replay does not accept token-helper. Last reviewed boundary accept_preprocessor_token RVA 0x8140; trace compares unseeded encounters with explicit per-case seed",
+    "Partial browser case; token helper freshly validated with shared original/native progress capture; trace compares unseeded encounters with explicit per-case seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
     RECON_IO, RECON_FRONTIER, 0x8180,
     NULL, invoke, NULL, NULL, 0
