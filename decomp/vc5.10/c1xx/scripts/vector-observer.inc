@@ -5,6 +5,33 @@ static DWORD vector_count,vector_entry_esp,vector_return_address;
 static DWORD vector_member_esp,vector_member_return,signature_entry;
 static BYTE vector_return_saved,vector_member_saved;
 static int vector_return_active,vector_member_active,signature_entry_active;
+static DWORD argument_entry_esp;
+static BYTE argument_return_saved;
+static int argument_active;
+
+static void argument_record(const char *phase,DWORD address,CONTEXT *context,HANDLE thread,DWORD tid)
+{
+    DWORD words[12];char name[100];
+    words[0]=sequence;words[1]=address;words[2]=context->Esp;words[3]=context->Eax;
+    words[4]=context->Ebx;words[5]=context->Esi;words[6]=context->Edi;words[7]=context->Ebp;
+    readmem(context->Esp,words+8,4);words[9]=argument_entry_esp;words[10]=base;words[11]=0;
+    sprintf(name,"argument-%s-registers.bin",phase);save_blob(name,words,sizeof(words));
+    sprintf(name,"argument-%s",phase);locale_snapshot(name,context,thread,tid);
+    fprintf(events,"argument-observer phase=%s seq=%u pc=%08lx esp=%08lx\n",phase,sequence,address,context->Esp);
+}
+
+static void argument_enter(CONTEXT *context,HANDLE thread,DWORD tid)
+{
+    DWORD caller;
+    if(!getenv("C1XX_OBSERVE_ARGUMENT"))return;
+    readmem(context->Esp,&caller,4);
+    if(!getenv("C1XX_TEST_INIT_RESTORE") || argument_active || vector_count!=3 || caller!=base+0x390b3)fail("argument restore caller/order");
+    argument_entry_esp=context->Esp;argument_return_saved=snapshot[0x390b3-code_rva];
+    if(argument_return_saved!=0x50)fail("argument actual caller instruction");
+    argument_record("entry",base+0x39428,context,thread,tid);
+    patch(caller,0xcc);argument_active=1;
+}
+
 
 static void vector_remote(const char *name,DWORD address,DWORD bytes)
 {
@@ -91,7 +118,13 @@ static int vector_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWORD ti
 {
     DWORD header[3],arena[8],words[12],stack[4];char name[100];
     if(!vector_probe)return 0;
-    if(vector_member_active && address==vector_member_return) {
+    if(argument_active && address==base+0x390b3) {
+        BYTE result[256];DWORD length=0;
+        if(context->Esp!=argument_entry_esp+4)fail("argument actual RET0");
+        argument_record("return",address,context,thread,tid);
+        do {if(length==sizeof(result))fail("argument result unbounded");readmem(context->Eax+length,result+length,1);}while(result[length++]);
+        save_blob("argument-result.bin",result,length);patch(address,argument_return_saved);argument_active=0;
+    } else if(vector_member_active && address==vector_member_return) {
         words[0]=sequence;words[1]=address;words[2]=context->Esp;words[3]=context->Eax;
         words[4]=context->Ebx;words[5]=context->Esi;words[6]=context->Edi;words[7]=context->Ebp;
         words[8]=context->Ecx;readmem(context->Esp,words+9,4);words[10]=vector_member_esp;words[11]=vector_count;

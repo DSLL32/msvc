@@ -3,7 +3,7 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "autonomous minimal C++ reconstruction: vector allocator accepted; normal genuine SigForPbCb input CPP/3 requires captured external response; restore reaches next_argument",
+  "state": "autonomous minimal C++ reconstruction: restore-only34B argument iterator accepted; next matcher pending, normal own CPP rawCRC adoption will accompany its required ordinary capture",
   "cases": [
     {
       "id": "dll-lifecycle-and-exports",
@@ -29,7 +29,7 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active: full116B vector allocator accepted; normal unsupported public dependency held, restore next_argument frontier",
+      "status": "active:87app5923B; restore-only next_argument accepted, real four-formal match_option frontier; normal retained historical Sig entry",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",
@@ -62,7 +62,8 @@
       "scanner_validation": "minimal/scanner-trial.json",
       "filename_case_validation": "minimal/path-fold-trial.json",
       "environment_arguments_validation": "minimal/env-arguments-trial.json",
-      "vector_validation": "minimal/vector-trial.json"
+      "vector_validation": "minimal/vector-trial.json",
+      "argument_cursor_validation": "minimal/argument-trial.json"
     },
     {
       "id": "cpp-basic",

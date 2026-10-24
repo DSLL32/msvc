@@ -555,7 +555,7 @@ end
         observer+=env_observer;scaler_finish+=env_finish
     if trial.get('vector_observers'):
         from vector_probe import setup as setup_vector
-        vector_observer,vector_finish=setup_vector(output,binary,collector)
+        vector_observer,vector_finish=setup_vector(output,binary,collector,bool(trial.get("argument_observers")))
         observer+=vector_observer;scaler_finish+=vector_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)

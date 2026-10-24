@@ -1,0 +1,121 @@
+{
+  "kind": "restore-only iterator/next matcher affected controls; unchanged prefix/protocol campaigns reused with their immutable vector receipts",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-argument-restore-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-argument-restore-native-3",
+  "original_receipt_sha256": "43efb8f8f3b604824c5953c68abdfea64108184dd618051f9021931dfd980dda",
+  "native_receipt_sha256": "bd1da2887112612062f42d422959e72ff954127dc56a69996333a1d3e7d6e2d7",
+  "checker_sha256": "8e138f9afdfa7f90e4e055feed754580380731b7cdfc79f343661399a2478fa6",
+  "semantic_checker_sha256": "7e837ad6bfb4dfd1784f695cee26590cd7bcf3cb25f0a1f5b1372712f4122892",
+  "positive": {
+    "frontier": "_match_option",
+    "code_bytes": 34,
+    "executed_case": "restore-nonzero only",
+    "normal_case": "held at historical genuine SigForPbCb entry; no fresh normal leaf claim",
+    "argc_before": 26,
+    "argc_after": 25,
+    "argv_advance_bytes": 4,
+    "result": "borrowed Invoke argv[1] -il NUL",
+    "matcher_formals": 4,
+    "vector_prefix": {}
+  },
+  "count": 24,
+  "cases": [
+    {
+      "case": "input-count",
+      "rejection": "argument cursor: actual input Invoke26, distinct from HOST CRT arguments"
+    },
+    {
+      "case": "input-root",
+      "rejection": "argument cursor: actual input Invoke26, distinct from HOST CRT arguments"
+    },
+    {
+      "case": "return-stack",
+      "rejection": "argument cursor: native real borrowed result/RET0/nonvolatiles"
+    },
+    {
+      "case": "return-register",
+      "rejection": "argument cursor: native real borrowed result/RET0/nonvolatiles"
+    },
+    {
+      "case": "return-pointer",
+      "rejection": "argument cursor: native real borrowed result/RET0/nonvolatiles"
+    },
+    {
+      "case": "return-string",
+      "rejection": "argument cursor: native real borrowed result/RET0/nonvolatiles"
+    },
+    {
+      "case": "return-neighbor",
+      "rejection": "argument cursor: full native target/saved/external guard differs only two fields"
+    },
+    {
+      "case": "return-owner",
+      "rejection": "argument cursor: native locale/owners/namespace/errors/architecturalFP"
+    },
+    {
+      "case": "return-FP",
+      "rejection": "argument cursor: native locale/owners/namespace/errors/architecturalFP"
+    },
+    {
+      "case": "matcher-rules",
+      "rejection": "argument cursor: actual four-formal matcher raw ABI/grammar/borrowed argument/callback/scalar"
+    },
+    {
+      "case": "matcher-argument",
+      "rejection": "argument cursor: actual four-formal matcher raw ABI/grammar/borrowed argument/callback/scalar"
+    },
+    {
+      "case": "matcher-callback",
+      "rejection": "argument cursor: actual four-formal matcher raw ABI/grammar/borrowed argument/callback/scalar"
+    },
+    {
+      "case": "matcher-copy",
+      "rejection": "argument cursor: actual four-formal matcher raw ABI/grammar/borrowed argument/callback/scalar"
+    },
+    {
+      "case": "matcher-formal",
+      "rejection": "argument cursor: actual four-formal matcher raw ABI/grammar/borrowed argument/callback/scalar"
+    },
+    {
+      "case": "matcher-PC",
+      "rejection": "argument cursor: actual direct caller encoding"
+    },
+    {
+      "case": "matcher-caller",
+      "rejection": "argument cursor: actual direct caller encoding"
+    },
+    {
+      "case": "matcher-owner",
+      "rejection": "argument cursor: native locale/owners/namespace/errors/architecturalFP"
+    },
+    {
+      "case": "final-count",
+      "rejection": "argument cursor: complete final modeled state differs only argc/borrowed argv advance"
+    },
+    {
+      "case": "final-root",
+      "rejection": "argument cursor: complete final modeled state differs only argc/borrowed argv advance"
+    },
+    {
+      "case": "final-private-vector",
+      "rejection": "argument cursor: private ordered native vectors preserved"
+    },
+    {
+      "case": "original-return-pointer",
+      "rejection": "argument cursor: returned original borrowed Invoke slot1 full bytes"
+    },
+    {
+      "case": "original-return-neighbor",
+      "rejection": "argument cursor: whole original BSS/no unknown-neighbor mutation"
+    },
+    {
+      "case": "original-final-formal",
+      "rejection": "argument cursor: complete original actual matcher4 stack slots and final named trap"
+    },
+    {
+      "case": "candidate-range",
+      "rejection": "argument cursor: whole34-byte leaf"
+    }
+  ],
+  "seconds": 3.6804588846862316
+}

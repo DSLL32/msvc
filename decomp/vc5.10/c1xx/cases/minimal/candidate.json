@@ -92,7 +92,8 @@
     "_initialize_multibyte_categories",
     "_initialize_lowercase_table",
     "_read_env_arguments",
-    "_new_option_vector"
+    "_new_option_vector",
+    "_next_argument"
   ],
   "trial": null,
   "ranges": [
@@ -858,7 +859,14 @@
       "start_rva": 340655,
       "end_rva": 340667,
       "entry": 0
+    },
+    {
+      "owner": "_next_argument",
+      "start_rva": 234536,
+      "end_rva": 234570,
+      "entry": 1
     }
   ],
-  "stage": "_new_option_vector accepted; next frontier public:mspdb50!SigForPbCb"
+  "stage": "_next_argument accepted; next frontier _match_option",
+  "test_seed": "restore-nonzero"
 }

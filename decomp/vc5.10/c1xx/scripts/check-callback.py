@@ -40,7 +40,7 @@ def check(original,native,require_audit=True,audit_path=None):
     allocation_candidate=trial['trial']=='_reserve_work_buffer'
     early_options_candidate=trial['trial']=='_initialize_intermediate_files'
     early_switch_candidate=trial['trial']=='_process_early_option'
-    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector')
+    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector','_next_argument')
     scaler_candidate=reset_candidate or trial['trial']=='_calculate_arena_reservation'
     reserve_arena_candidate=trial['trial']=='CompilerArena::Reserve'
     default_arena_candidate=trial['trial']=='_initialize_default_arena'
@@ -169,6 +169,7 @@ def check(original,native,require_audit=True,audit_path=None):
         trace_name=records[name]['native_symbol'] if name in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else name
         if trace_name not in trace:trace.append(trace_name)
     if vector_checkpoint and seed:trace.append('next_argument')
+    if trial.get('argument_observers'):trace.append('match_option')
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     registered=sum(name=='register_cleanup' for name,_ in path[:-1])
     s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation','process_compiler_options','push_declaration_context','initialize_include_aliases','initialize_checksums','initialize_multibyte_categories','initialize_lowercase_table','read_env_arguments','new_option_vector') or state['args']=={}) and
@@ -303,10 +304,10 @@ def check(original,native,require_audit=True,audit_path=None):
     if '_initialize_include_aliases'in trial['accepted'] and not seed:
         from include_alias_state import check as check_alias
         check_alias(s,d,original,native,trial,text,state,final,traps)
-    if model['schema'] >= 34 and trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector'):
+    if model['schema'] >= 34 and trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector','_next_argument'):
         from checksum_state import check as check_checksum
         check_checksum(s,d,original,native,trial,text,pre,phase,state,seed,final,traps)
-    if model['schema']>=35 and trial['trial'] in ('_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector'):
+    if model['schema']>=35 and trial['trial'] in ('_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector','_next_argument'):
         from scanner_state import check as check_scanner
         check_scanner(s,d,original,native,trial,text,pre,phase,state,seed,final,traps)
     if require_audit:s.audit(trial,audit_path)
@@ -319,7 +320,12 @@ def check(original,native,require_audit=True,audit_path=None):
     vector_result=None
     if vector_checkpoint:
         from vector_state import check as check_vector
-        vector_result=check_vector(s,d,original,native,trial,actual_text,actual_state,state)
+        vector_state=actual_state
+        if trial.get('argument_observers'):vector_state=json.loads((native/'argument-entry-state.json').read_text())
+        vector_result=check_vector(s,d,original,native,trial,actual_text,vector_state,state)
+        if trial.get('argument_observers'):
+            from argument_state import check as check_argument
+            vector_result=check_argument(s,d,original,native,trial,actual_text,actual_state,vector_state,vector_result)
     return {'trial':trial['trial'],'frontier':vector_result['frontier']if vector_result else '_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else '_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],
             'typed_bss_bytes':state['frontend']['known_sizes']['bss']-(model['native_padding']['bytes'] if model['schema']>=6 else 0),

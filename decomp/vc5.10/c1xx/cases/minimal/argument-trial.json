@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "status": "accepted exactly one34B application leaf on explicitly restore-only exercised path",
+  "function": "_next_argument",
+  "source": "src/options.c",
+  "source_sha256": "b6d0e16ebeefe0fb78f8d62f6f11c786238d1a565ed53e899d27f44e21798a07",
+  "chunks": [
+    [
+      234536,
+      234570
+    ]
+  ],
+  "code_bytes": 34,
+  "proof": {
+    "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-argument-restore-original-1",
+    "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-argument-restore-native-3",
+    "original_receipt_sha256": "43efb8f8f3b604824c5953c68abdfea64108184dd618051f9021931dfd980dda",
+    "native_receipt_sha256": "bd1da2887112612062f42d422959e72ff954127dc56a69996333a1d3e7d6e2d7",
+    "trial_sha256": "87b8ee81e2a47d7913e543c6df813457b353aa77d94f5366495bb3611667d35e",
+    "original_helper_sha256": "7315aa9ae27da9355861e71a6ced9fa62b9f86fb7938ba644cdeb2a9a21e7266",
+    "original_helper_source_sha256": "14083b61df03958b6859e8b24eba5bc6bfbd598c228c136e14bc4f2948252677",
+    "original_observer_sha256": "597c9848fa9fce7b3041b6ae799dd221c812693e6bd03378d37345134c134208",
+    "native_ELF_sha256": "7dc4f184e28272f4dc966f9ad1760ef27f8a17b5bd2dfbc54ebbfea1ae9e4427",
+    "native_compiled_source_provenance_sha256": "95538972ca9d5d659012b4ec1fa771cca06a3b581efd62e1e007867348096310",
+    "native_probe_sha256": "69d379f6091bc32a8134273fc416280edf9a14cf2109e709f4cc93579512da32",
+    "native_collector_body_sha256": "576ad101a8f18f29becd519bc6dc7b71b41976888aed05245a9bd0c35b14ef31",
+    "original_seconds": 36.28143716510385,
+    "native_GDB_seconds": 11.308623291552067,
+    "native_outer_accounting": {
+      "snapshot_provenance_setup_seconds": 0.03700445219874382,
+      "execution_seconds": 11.308623291552067,
+      "post_execution_verification_seconds": 5.019063526764512,
+      "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+    },
+    "native_GDB_accounting": {
+      "source_command_seconds": 4.284855159930885,
+      "source_command_count": 58,
+      "gdb_total_seconds": 11.308623291552067,
+      "startup_seconds": 0.09534235764294863,
+      "breakpoint_setup_seconds": 1.1761227454990149,
+      "collection_seconds": 4.706339647993445,
+      "serialization_io_seconds": 0.12747851014137268,
+      "residual_inferior_debugger_seconds": 5.203340030275285,
+      "collector_count": 66,
+      "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+    },
+    "validation": "cases/minimal/evidence/argument-restore-validation.json",
+    "validation_sha256": "13b5c44629b61341f7ad2ef6960d3ad288bd85a01a928da6dabdf6ee090dc2c9",
+    "controls": "cases/minimal/evidence/argument-restore-controls.json",
+    "controls_sha256": "5432d4686afdd2de6c1b73ed2beec148808ed8f76191914240b2ce8762c80f79"
+  },
+  "normal_scope": "Prior vector normal public-entry raw stays historical at its exact mask. This candidate has no fresh normal execution; standalone CPP API-only preparation remains unexecuted and withdrawn by root.",
+  "changed_fields": [
+    "existing BSS signed command_argc26 to25",
+    "existing borrowed Invoke command_argv root to root+4"
+  ],
+  "result": "Invoke argv[1], full -il NUL, borrowed identity/lifetime",
+  "next_frontier": {
+    "name": "_match_option",
+    "rva": 234570,
+    "calling_convention": "cdecl16",
+    "arguments": [
+      "rules=originald6160/nativevalidatedgrammar",
+      "argument=borrowedInvoke[1]",
+      "next=actualnext_argument",
+      "copy=scalar0"
+    ]
+  },
+  "audit": {
+    "proof_sha256": "b6841cabda7a9015b0b568af01434a44c83fbce6bb393b4091465fd46d1a500f",
+    "seconds": 0.12516052275896072,
+    "auditor_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24"
+  },
+  "accounting": {
+    "original_compile_seconds": 0.7887604190036654,
+    "native_compile_seconds": 0.13647537492215633,
+    "original_link_seconds": 0.7260700026527047,
+    "native_link_seconds": 1.5891619324684143,
+    "fresh_affected_control_count": 24,
+    "fresh_affected_control_seconds": 3.6804588846862316
+  },
+  "unchanged_scope": {
+    "application_functions_before": 86,
+    "application_bytes_before": 5889,
+    "application_functions_if_promoted": 87,
+    "application_bytes_if_promoted": 5923,
+    "support_CRT_bytes": 451,
+    "support_generated_import_bytes": 12,
+    "total_code_bytes_if_promoted": 6386,
+    "whole_code_denominator": 751216,
+    "not_nonCRT_percentage": true,
+    "initialized_semantic_bytes": 2489,
+    "initialized_natural_padding": 51,
+    "original_initialized_unknown_bytes": 6031,
+    "BSS_semantic_bytes": 2793,
+    "BSS_natural_padding": 31,
+    "new_fields": 0
+  },
+  "failed_attempts": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-argument-restore-native-1",
+      "scope": "preparation rejected new candidate enum before GDB; no execution"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-argument-restore-native-2",
+      "scope": "preparation rejected final frontier enum before GDB; no execution"
+    }
+  ],
+  "reused_controls": {
+    "packet": "cases/minimal/vector-trial.json",
+    "sha256": "d0acef00e3ab5dc3652faf87a5e853b4f5087763a512acdac76bbfa48c4adbb9",
+    "scope": "unchanged previous prefix/raw protocol;24 new affected cursor/nextmatcher mutations fresh"
+  },
+  "shared_compiled_inputs": {
+    "lib/recon/include/recon.h": "2d9b3215967d79d405d4f620d6ffe10fc35048584d6b20f5e4259f84df15aa61",
+    "lib/recon/src/compat.c": "12db85b894e15e950eaabebd6e07b3bc60e7d709281bcf89fd6d9380caf26f49",
+    "lib/recon/src/crt.c": "390ea919dafdf5ffa2e6b5aa06de54fd464771b4b552b161febf4747d5cc1cbd"
+  },
+  "acceptance": {
+    "accepted_count": 91,
+    "result": {
+      "accepted": "_next_argument",
+      "accepted_count": 91,
+      "promoted_functions": [
+        "_next_argument"
+      ]
+    },
+    "result_sha256": "e03f7f038adff0f80b1b1445f430703e1a737017f6c9adcadd80dd0cf0f9d295"
+  }
+}

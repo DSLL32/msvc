@@ -384,7 +384,12 @@ char **prepare_argument_append(void) { __asm { int 3 } return NULL; }
 char *duplicate_argument(const char *argument, int copy) { __asm { int 3 } return NULL; }
 int report_response_error(int number, ...) { __asm { int 3 } return 0; }
 void stop_compiler(int status, int detail) { __asm { int 3 } }
-char *next_argument(void) { __asm { int 3 } return NULL; }
+char *next_argument(void)
+{
+    if (--frontend_bss.command_argc > 0)
+        return *++frontend_bss.command_argv;
+    return NULL;
+}
 int match_option(CompilerOptionRule *rules, char *argument, char *(__cdecl *next)(void), int copy) { __asm { int 3 } return 0; }
 char *resolve_option_path(char *output, const char *input, unsigned capacity) { __asm { int 3 } return NULL; }
 void disable_multibyte_identifiers(void) { __asm { int 3 } }

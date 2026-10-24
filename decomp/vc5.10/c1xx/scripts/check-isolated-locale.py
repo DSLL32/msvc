@@ -69,7 +69,7 @@ def check(directory):
         path = directory / name
         require(Path(name).name == name and path.is_file() and path.stat().st_size == row['size'] and sha(path) == row['sha256'], 'capture artifact drift: ' + name)
     trial = json.loads((directory / 'trial.json').read_text())
-    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector'), 'not a genuine encountered checksum/scanner candidate')
+    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector','_next_argument'), 'not a genuine encountered checksum/scanner candidate')
     for name, digest in trial['case_inputs'].items():
         require(sha(directory / Path(name).name) == digest, 'case input drift: ' + name)
     schema = json.loads((directory / 'locale-schema.json').read_text())
@@ -93,7 +93,7 @@ def check(directory):
     base = int(re.search(r'^module name=MSVCRT.dll actual=(\w+) ', text, re.M | re.I)[1], 16)
     require(int(entry[1], 16) == base + schema['exports']['setlocale'] and int(entry[3], 16) == int(returned[1], 16) == 0x10400000 + call['caller_return_rva'], 'public entry/return PCs')
     require(int(entry[4]) == 2 and int(entry[5], 16) == call['arguments'][1] and int(returned[2], 16) == int(entry[2], 16) + 4 and returned[3] == entry[2] and returned[0] == entry[0] and entry[6:] == returned[5:], 'cdecl arguments/RET0/nonvolatile ABI')
-    expected_frontier={'_read_env_arguments':'0000682f','_initialize_lowercase_table':'00039413','_initialize_multibyte_categories':'000393ca'}.get(trial['trial'],'00039394')
+    expected_frontier={'_next_argument':'0003944a','_read_env_arguments':'0000682f','_initialize_lowercase_table':'00039413','_initialize_multibyte_categories':'000393ca'}.get(trial['trial'],'00039394')
     expected_frontiers=[expected_frontier]
     if trial['trial']=='_new_option_vector':
         expected_frontiers=['00039428']if trial.get('test_seed')else[]

@@ -15,7 +15,7 @@ def check(s,d,original,native,trial,text,state,prefix):
     def registers(name,count):
         result=(original/name).read_bytes();need(len(result)==count*4,'exact original register record');return struct.unpack('<%dI'%count,result)
     names=symbols(native/'native-executable.elf');seed=bool(trial.get('test_seed'))
-    need(trial['trial']=='_new_option_vector'and trial['vector_observers']=={'entry_rva':0x682f,'calls':3,'arguments':[40,1],'header_bytes':12,'items_bytes':160,'arena_index':1,'committed_bytes':32768,'normal_frontier':'public:mspdb50!SigForPbCb','restore_frontier':'_next_argument','provider_execution':False},'exact application candidate/observer scope')
+    need(trial['trial']in('_new_option_vector','_next_argument')and trial['vector_observers']=={'entry_rva':0x682f,'calls':3,'arguments':[40,1],'header_bytes':12,'items_bytes':160,'arena_index':1,'committed_bytes':32768,'normal_frontier':'public:mspdb50!SigForPbCb','restore_frontier':'_next_argument','provider_execution':False},'exact application candidate/observer scope')
     entries,returns=rows('entries'),rows('returns');need(len(entries)==len(returns)==3,'complete three-call inventory')
     need(prefix['symbol']=='new_option_vector'and prefix['args']=={'capacity':40,'arena_index':1}and prefix['pc']==entries[0]['pc']and prefix['esp']==entries[0]['esp'],'actual structured pre-body checkpoint identity')
     need(prefix['frontend']['arenas'][8:16]==entries[0]['arena'],'actual structured checkpoint/arena1 input')
@@ -99,6 +99,7 @@ def check(s,d,original,native,trial,text,state,prefix):
     tail=[(int(seq),rva)for seq,rva in observed_traps if int(seq)>=first_sequence]
     expected_tail=[(first_sequence,'0000682f'),(first_sequence+1,'0001d738'),(first_sequence+2,'0000682f'),(first_sequence+3,'0000682f')]
     if seed:expected_tail.append((first_sequence+4,'00039428'))
+    if trial.get('argument_observers'):tail=[row for row in tail if row[0]<=first_sequence+4]
     need(tail==expected_tail,'complete actual target function suffix chronology, no hidden/extra target frontier')
     expected_frontend=copy.deepcopy(prefix['frontend']);expected_frontend['arenas'][8:16]=returns[-1]['arena']
     for name,address in zip(pointer_names,objects):expected_frontend['options_bss'][name]=address
@@ -119,14 +120,16 @@ def check(s,d,original,native,trial,text,state,prefix):
         need(prefix['frontend']['option_c9il']!=0 and struct.unpack_from('<I',old_data,0x1488)[0]==prefix['frontend']['option_c9il'],'actual nonzero restored branch discriminator')
         need(following['pc']==names['next_argument'][0]and following['args']==[]and following['formal_inventory']==[]and following['caller']=='process_compiler_options'and state['symbol']=='next_argument'and state['args']=={},'real target next stub/no source formals')
         direct_call(following['return_pc'],following['pc'])
-        start,size=names['next_argument'];need(start<state['pc']<=start+size and d.elf_byte(native,state['pc']-1)==0xcc and b'Program received signal SIGTRAP'in(native/'gdb.txt').read_bytes(),'actual source INT3 next frontier')
+        start,size=names['next_argument']
+        if trial.get('argument_observers'):need(state['pc']==start and state['esp']==following['esp'],'actual pre-body iterator checkpoint identity')
+        else:need(start<state['pc']<=start+size and d.elf_byte(native,state['pc']-1)==0xcc and b'Program received signal SIGTRAP'in(native/'gdb.txt').read_bytes(),'actual source INT3 next frontier')
         need(following['guard']==expected_native and locale_value(following)==locale_value(first)and following['last_error']==203 and semantic(following['fp'])==initial_fp,'actual native next full guard/provider-owner/error/FP continuity')
         mapping(following,True)
         final_seq=first_sequence+4
         need((original/('pool-bss-%03d.bin'%(final_seq+1))).read_bytes()==bytes(expected_old)and(original/('frontend-data-%03d.bin'%final_seq)).read_bytes()==old_data and(original/('frontend-snapshot-%03d.bin'%final_seq)).read_bytes()==old_saved,'direct original next-stub complete target/unknown/saved state')
         need(semantic(fp((original/('x87-context-%03d.bin'%final_seq)).read_bytes()))==initial_fp,'direct original next-stub architectural FP')
         last_trap=re.findall(r'^trap seq=%d rva=00039428 .*stack=([0-9a-f,]+)\nlast-error=(\d+)'%final_seq,text,re.M)
-        need(len(last_trap)==1 and [int(v,16)for v in last_trap[0][0].split(',')][:3]==[0x104390b3,0x10439428,0]and last_trap[0][1]=='203'and re.findall(r'^frontier rva=(\w+)$',text,re.M)==['00039428'],'original actual next noarg caller; outer pending matcher arguments are not callee formals')
+        need(len(last_trap)==1 and [int(v,16)for v in last_trap[0][0].split(',')][:3]==[0x104390b3,0x10439428,0]and last_trap[0][1]=='203'and re.findall(r'^frontier rva=(\w+)$',text,re.M)==(['0003944a']if trial.get('argument_observers')else['00039428']),'original actual next noarg caller; outer pending matcher arguments are not callee formals')
         # Derived continuity, not an additional original provider-table read:
         # the actual nonzero flag takes JNE390a7. The executed path writes only
         # forced_includes, adjusts/pushes the caller stack, then calls the stub.

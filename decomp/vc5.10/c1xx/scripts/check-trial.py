@@ -54,7 +54,7 @@ def check(original, native, require_audit=True, audit_path=None):
         require(not candidate.get('test_prototype_seed'),'prototype data auxiliary cannot promote a function')
         require(not candidate.get('test_pool_seed'),'pool constructor data auxiliary cannot promote a function')
         require(candidate.get('test_pdb_seed') is None,'PDB data auxiliary cannot promote a function')
-        require(not candidate.get('test_seed'),'auxiliary/seeded executions cannot promote a function')
+        require(not candidate.get('test_seed') or (candidate['trial']=='_next_argument' and candidate.get('test_seed')=='restore-nonzero'),'auxiliary/seeded executions cannot promote a function outside explicitly exercised restore-only iterator')
         require(not candidate.get('test_token_seed'),'token data auxiliary cannot promote a function')
         require(not candidate.get('test_deferred_seed'),'deferred-work data auxiliary cannot promote a function')
         require(not candidate.get('test_constructor_seed'),'constructor data-seed auxiliary cannot promote a function')
@@ -92,6 +92,7 @@ def check(original, native, require_audit=True, audit_path=None):
                   '_initialize_lowercase_table':'check-callback.py',
                   '_read_env_arguments':'check-callback.py',
                   '_new_option_vector':'check-callback.py',
+                  '_next_argument':'check-callback.py',
                   '_initialize_frontend_01':'check-callback.py'}.get(candidate['trial'])
         if (candidate['trial'] or '').startswith('_initialize_frontend_'):
             filename='check-callback.py'

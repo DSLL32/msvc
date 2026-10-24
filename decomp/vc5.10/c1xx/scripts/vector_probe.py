@@ -3,10 +3,12 @@ from pathlib import Path
 from scaler_probe import symbols
 
 
-def setup(output,binary,collector):
+def setup(output,binary,collector,argument=False):
     (output/'vector-probe-source.py').write_bytes(Path(__file__).read_bytes());names=symbols(binary)
     prefix=output/'collect-vector-prefix.gdb'
     prefix.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'vector-prefix-state.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'vector-prefix-argv.bin'))))
+    argument_checkpoint=output/'collect-argument-entry.gdb'
+    if argument:argument_checkpoint.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'argument-entry-state.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'argument-entry-argv.bin'))))
     code='''python
 vector_entries=[]
 vector_returns=[]
@@ -16,6 +18,8 @@ vector_api_entries=[]
 vector_api_returns=[]
 vector_public_entries=[]
 vector_next_entries=[]
+argument_returns=[]
+argument_matchers=[]
 def vector_row(phase):
     row=fold_row();arena=gdb.parse_and_eval('frontend_bss.arenas[1]');address=int(arena.address)
     row.update(arena_address=address,arena=list(struct.unpack('<8I',gdb.selected_inferior().read_memory(address,32))),locale=checksum_locale_state(phase))
@@ -63,9 +67,20 @@ class VectorApiEntry(gdb.Breakpoint):
         caller=gdb.newest_frame().older()
         if caller.name()!='CompilerArena::CommitExtent'or int(caller.read_var('this'))!=int(gdb.parse_and_eval('&frontend_bss.arenas[1]')):return False
         row=vector_abi(vector_row('vector-API-entry'),4);row['caller_this']=int(caller.read_var('this'));vector_api_entries.append(row);VectorApiReturn(row);return False
+class ArgumentReturn(gdb.Breakpoint):
+    def __init__(self,entry):
+        super(ArgumentReturn,self).__init__('*0x%x'%entry['return_pc'],internal=True);self.entry=entry
+    def stop(self):
+        row=vector_row('argument-return');row.update(entry_esp=self.entry['esp'],result=gdb.selected_inferior().read_memory(row['eax'],4).tobytes().hex());argument_returns.append(row);self.enabled=False;return False
+class ArgumentMatcher(gdb.Breakpoint):
+    def stop(self):
+        row=vector_abi(vector_row('argument-next'),4);argument_matchers.append(row);return False
 class VectorNextEntry(gdb.Breakpoint):
     def stop(self):
-        vector_next_entries.append(vector_abi(vector_row('vector-next'),0));return False
+        row=vector_abi(vector_row('vector-next'),0);vector_next_entries.append(row)
+        if @@ARGUMENT@@:
+            gdb.execute('source '+@@ARGUMENT_CHECKPOINT@@);ArgumentReturn(row)
+        return False
 class VectorPublicEntry(gdb.Breakpoint):
     def stop(self):
         row=vector_abi(vector_row('signature-entry'),3);row['input']=gdb.selected_inferior().read_memory(row['args'][0],4).tobytes().hex();vector_public_entries.append(row)
@@ -75,9 +90,11 @@ VectorMemberEntry('*0x%x'%@@MEMBER@@,internal=True)
 VectorApiEntry('*recon_VirtualAlloc',internal=True)
 VectorPublicEntry('*recon_mspdb_SigForPbCb',internal=True)
 VectorNextEntry('*next_argument',internal=True)
+if @@ARGUMENT@@:ArgumentMatcher('*match_option',internal=True)
 end
-'''.replace('@@PREFIX@@',repr(str(prefix))).replace('@@OUTPUT@@',repr(str(output))).replace('@@ENTRY@@',str(names['new_option_vector'][0])).replace('@@MEMBER@@',str(names['_ZN13CompilerArena12CommitExtentEv'][0]))
+'''.replace('@@ARGUMENT@@',repr(argument)).replace('@@ARGUMENT_CHECKPOINT@@',repr(str(argument_checkpoint))).replace('@@PREFIX@@',repr(str(prefix))).replace('@@OUTPUT@@',repr(str(output))).replace('@@ENTRY@@',str(names['new_option_vector'][0])).replace('@@MEMBER@@',str(names['_ZN13CompilerArena12CommitExtentEv'][0]))
     finish='python\n'
     for name in ('entries','returns','member_entries','member_returns','api_entries','api_returns','public_entries','next_entries'):
         finish+='open(%r,"w").write(json.dumps(vector_%s,indent=2)+"\\n")\n'%(str(output/('vector-'+name.replace('_','-')+'.json')),name)
+    for name in ('returns','matchers'):finish+='open(%r,"w").write(json.dumps(argument_%s,indent=2)+"\\n")\n'%(str(output/('argument-'+name+'.json')),name)
     return code,finish+'end\n'

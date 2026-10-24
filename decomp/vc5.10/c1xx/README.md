@@ -370,6 +370,12 @@ from arena1, with a genuine32KiB commitment and full zero/neighbor/ABI checks.
 Normal execution stops at authenticated MSPDB50!SigForPbCb("CPP",3,ffffffff)
 before provider execution; restore reaches next_argument. No provider success
 or code credit is claimed. See `cases/minimal/VECTORS.md`/`vector-trial.json`.
-Current86 application functions/5889B plus historical CRT451B/imports12B total
-6352/751216 whole code bytes; the normal dependency still needs a guarded
-captured response before the minimal C++ compile can continue.
+The subsequent34-byte `next_argument` leaf is accepted on the real restore-only
+path: count26 becomes25, the borrowed Invoke argv cursor advances4 bytes and
+`-il` reaches the genuine four-formal matcher trap. Full source/graph and24
+focused controls pass; no fresh normal leaf execution is claimed. See
+`cases/minimal/ARGUMENT-CURSOR.md`/`argument-trial.json`. Current87 application
+functions/5923B plus historical CRT451B/imports12B total6386/751216 whole code
+bytes. The root-approved shared integer SigForPbCb CRC is published; its own CPP
+adoption belongs to the next ordinary normal matcher run. The separately
+prepared API-only capture was never executed and is retained as withdrawn history.
