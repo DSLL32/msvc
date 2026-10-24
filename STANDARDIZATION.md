@@ -29,7 +29,6 @@ decomp/{project}/{binary}/
             capture.bin              # applicable input/reference data, uncompressed
             direct.c            # direct-function setup, invocation and assertions
             tests.c             # optional, narrow behavior tests
-            Makefile            # includes shared build rules
             .build/case.so
 ```
 
@@ -243,11 +242,14 @@ The first implementation lives in `tooling/recon-tool/`; its shared C ABI is
 `recon-tool.mk` once. It owns native builds, automatic numbered-case discovery,
 `check`/`replay`/`fixtures`, `unit`/`test-all-cases`, and generated-output cleanup.
 Every discovered case participates in both execution and unit-test targets.
-Case Makefiles are included to generate real object/library targets in the
-parent build; `check` and `unit` depend on those targets without recursive make.
-Case flags are isolated, and the common library is an order-only prerequisite
-so changes to it do not relink unchanged cases. Standalone case builds remain
-incremental.
+Numbered directories with `case.c` or `case.cpp` are discovered automatically.
+Shared rules generate object/library targets; `check` and `unit` depend on those
+targets without recursive make. Cases have no individual Makefiles and inherit
+the binary compilation settings, including instrumentation. The application
+registry filters case/test glue out of the recorded trace.
+The common library is an order-only prerequisite so changes to it do not relink
+unchanged cases. Build a single case by naming its `.build/case.so` target from
+the binary root.
 C-only libraries do not require libstdc++.
 
 Optional original builds use a separate `ORIGINAL_SOURCES` list plus

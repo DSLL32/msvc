@@ -10,9 +10,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 TOOL = ROOT / 'target/i686-unknown-linux-gnu/debug/recon-tool'
 CASES = ROOT / 'tests/fixture/cases'
-subprocess.run(['make', '-C', str(CASES.parent), '-j4', 'recon-native'], check=True)
-for case in sorted(CASES.iterdir()):
-    subprocess.run(['make', '-C', str(case), '-j4', 'RECON_SKIP_BINARY_BUILD=1'], check=True)
+subprocess.run(['make', '-C', str(CASES.parent), '-j4', 'cases'], check=True)
 
 scratch_root = Path.home() / '.ai-tmp'
 scratch_root.mkdir(exist_ok=True)

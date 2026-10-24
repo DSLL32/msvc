@@ -55,20 +55,21 @@ include $(RECON_TOOL_DIR)/recon-tool.mk
 ```
 
 `all`, `native` and `native-trace` build the library. `cases` discovers numbered
-`cases/NNNN-name/Makefile` directories and includes their settings to generate
-object and `case.so` targets in the parent Makefile. `check` and `unit` depend
-directly on those files; binary-root builds never launch case sub-makes. Each
-case library has an order-only dependency on the common library. `check`/`replay`/`fixtures` run all discovered cases;
-`unit`/`test-all-cases` run their unit tests. Optional `RECON_RUN_FLAGS` and
-`RECON_TEST_FLAGS` pass runner options. These targets never depend on the original
-build. Standalone case builds update the common library incrementally. Case Makefiles
-include `$(RECON_TOOL_DIR)/case.mk`, with a standalone fallback such as
-`RECON_TOOL_DIR ?= $(abspath ../../../../../tooling/recon-tool)`. Use `CASE_CC`,
-`CASE_CXX`, `CASE_CPPFLAGS`, `CASE_CFLAGS`, `CASE_CXXFLAGS`, `CASE_LDFLAGS` and
-`CASE_LDLIBS` for per-case settings. Compilers default to the binary settings
-(or GCC standalone); flags are isolated per case. Relative include paths should
-use `$(CASE_DIR)` (the case path at the binary root, or `.` standalone), for
-example `CASE_CPPFLAGS = -I$(CASE_DIR)/../../src`.
+`cases/NNNN-name/` directories containing `case.c` or `case.cpp` and generates
+object and `case.so` targets directly. Cases have no individual Makefiles.
+`check`/`replay`/`fixtures` depend on those files and run all discovered cases;
+`unit`/`test-all-cases` run their unit tests. These builds never recurse. Each
+case library has an order-only dependency on the common library, so an app
+change does not relink unchanged cases. Build one case from the binary root with
+`make cases/0000-example/.build/case.so`.
+
+Case compilation inherits the binary's native compilers, include paths, defines
+and language flags directly, including instrumentation. The application registry
+filters case/test glue out of the recorded trace.
+`CASE_LDFLAGS` and `CASE_LDLIBS` may supply extra case-library link settings at
+the binary root.
+Optional `RECON_RUN_FLAGS` and `RECON_TEST_FLAGS` pass runner options. These
+native targets never depend on the original build.
 `clean` removes `BINARY_BUILD` (default `.build`), `ORIGINAL_BUILD` (default `build`),
 and each discovered case's `.build`.
 

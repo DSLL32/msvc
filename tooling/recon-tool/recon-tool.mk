@@ -9,21 +9,12 @@ $(RECON_TOOL): $(RECON_TOOL_SOURCES)
 include $(RECON_TOOL_DIR)/binary.mk
 include $(RECON_TOOL_DIR)/original-build.mk
 
-# Only numbered case directories with a Makefile participate. Adding a case
-# requires no changes to this file or the binary's Makefile.
+# Discover descriptors directly; cases do not carry their own build files.
 CASES_ROOT ?= cases
-CASE_DIRS := $(sort $(patsubst %/Makefile,%,$(wildcard $(CASES_ROOT)/[0-9][0-9][0-9][0-9]-*/Makefile)))
-# Include each case's configuration, then emit its real file targets into this
-# make process. CASE_* settings are reset between cases and frozen per target.
-CASE_TARGETS :=
-RECON_CASE_PARENT := 1
-define recon-include-case
-CASE_DIR := $(1)
-$(foreach var,BUILD SOURCES CC CXX LINKER CPPFLAGS CFLAGS CXXFLAGS LDFLAGS LDLIBS,$(eval undefine CASE_$(var)))
-include $(1)/Makefile
-endef
-$(foreach dir,$(CASE_DIRS),$(eval $(call recon-include-case,$(dir))))
-undefine RECON_CASE_PARENT
+CASE_DESCRIPTORS := $(wildcard $(CASES_ROOT)/[0-9][0-9][0-9][0-9]-*/case.c $(CASES_ROOT)/[0-9][0-9][0-9][0-9]-*/case.cpp)
+CASE_DIRS := $(sort $(patsubst %/,%,$(dir $(CASE_DESCRIPTORS))))
+CASE_TARGETS := $(addsuffix /.build/case.so,$(CASE_DIRS))
+include $(RECON_TOOL_DIR)/case.mk
 .PHONY: all native native-trace cases check replay fixtures unit test-all-cases clean $(CASE_DIRS)
 all native native-trace: recon-native
 cases: $(CASE_TARGETS)

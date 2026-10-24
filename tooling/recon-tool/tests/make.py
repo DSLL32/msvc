@@ -52,6 +52,8 @@ if mode=='tool' and args[0]=='registry-export':
     write('Makefile', f'''RECON_TOOL_DIR := {TOOL_DIR}
 RECON_TOOL := {root}/tool
 NATIVE_CC := python3 {wrapper} native
+NATIVE_CXX := python3 {wrapper} native
+NATIVE_CPPFLAGS := -DINHERITED_BUILD_FLAGS
 BINARY_SOURCES := src/one.c other/one.c generated/code.c
 BINARY_SOURCE_ROOT := {root}
 BINARY_SUPPORT_SOURCES := support/a_b.c support/a/b.c
@@ -83,15 +85,9 @@ local-audit:
     for name in ['0000-first', '0001-second']:
         write(f'cases/{name}/local.h', '#define CASE_VALUE 1\n')
         source = 'case.c' if name == '0000-first' else 'case.cpp'
-        write(f'cases/{name}/{source}', '#include \"local.h\"\nint case_descriptor = CASE_VALUE;\n')
-        write(f'cases/{name}/Makefile', f'''RECON_TOOL_DIR := {TOOL_DIR}
-CASE_CC := python3 {wrapper} native
-CASE_CXX := python3 {wrapper} native
-CASE_CPPFLAGS = -I$(CASE_DIR) -DCASE_EXPECTED_{name.replace('-', '_')}
-include $(RECON_TOOL_DIR)/case.mk
-''')
-    write('cases/not-a-case/Makefile', 'all:\n\tfalse\n')
-    write('cases/9999-no-makefile/case.c', '')
+        write(f'cases/{name}/{source}', '#include \"local.h\"\n#ifndef INHERITED_BUILD_FLAGS\n#error missing binary flags\n#endif\nint case_descriptor = CASE_VALUE;\n')
+    write('cases/not-a-case/case.c', '')
+    write('cases/9999-no-descriptor/tests.c', '')
 
     def make(*args):
         result = subprocess.run(['make', '-j4', *args], cwd=root,
@@ -129,12 +125,11 @@ include $(RECON_TOOL_DIR)/case.mk
     output = make('cases')
     delta = commands()[before:]
     assert len(delta) == 2 and 'cases/0000-first/case.c' in delta[0], delta
-    assert '-DCASE_EXPECTED_0000_first' in delta[0] and '-DCASE_EXPECTED_0001_second' not in delta[0], delta
+    assert '-DINHERITED_BUILD_FLAGS' in delta[0] and '-finstrument-functions' in delta[0], delta
     assert cases[1].stat().st_mtime_ns == mtimes[1]
     before = len(commands())
-    subprocess.run(['make', '-C', str(root/'cases/0000-first'), '-j4'], check=True,
-                   stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    assert len(commands()) == before, 'standalone case rebuilt unchanged library'
+    output = make('cases/0000-first/.build/case.so')
+    assert len(commands()) == before and 'make[1]' not in output, output
     output = make('check', 'unit')
     assert 'make[1]' not in output, output
     invocations = [row for row in commands() if row[0] == 'tool']
