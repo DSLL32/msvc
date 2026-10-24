@@ -7,7 +7,50 @@
   },
   "qualification": "No concurrent target locale mutation. Original private lock25/CS/allocator effects and original OS thread count unobserved/unclaimed, without preinitialized/noallocation inference. Only initialized32B original span observed; no original allocation-tail/extent claim. Future private readers/escape/concurrency reopen contract.",
   "checks": "Four frozen GCC/Clang default510 probes: actual32B+129 spans x empty/live full108FP/errors/alias/tails/tables;18 unsupported-state denials/default20; late-nonASCII shared-memory no-partial-write control. Existing native core check passes.",
-  "actual_target_integration": "Pending CL native-only adoption against unchanged helper0 selector-2 original; no app acceptance claimed here.",
+  "actual_target_integration": {
+    "commit": "470faaf5535386ee55d05a1ad134b54e66c8cf61",
+    "scope": "CL ordinary selector genuinely executes one32B in-place lower, returns borrowed alias and reaches genuine qsort comparator with16items; no new original/replay.",
+    "owned_manifest": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/milestones/option-selector/manifest.json",
+      "sha256": "c66b46444c4f4050dec1feed93f8f76096e86e6dc7c049b501a8861654c0afda",
+      "records_verified": 1974
+    },
+    "promotion": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/milestones/option-selector/promotion.json",
+      "sha256": "a48dd993d0f092c2d7d85fc85c9a46c2291a288d598358d80835753c31316844"
+    },
+    "parent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/selector-3/parent-review.json",
+      "sha256": "29f74ab1a265313822bee0cf0083e3619589a63a5925720a3b8ad155fafbb5df"
+    },
+    "pair": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/milestones/option-selector/scratch/selector-3/pair.json",
+      "sha256": "a18a8c24102977eae2ff63626629ad497cad0a72d10b621d13ed42746803874b"
+    },
+    "compiled_build": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/milestones/option-selector/scratch/selector-3-native/native-build.json",
+      "sha256": "c05c31b3f58b8c02317f7c29296922adf186638eb91f932217e1e89f42f1bc0c",
+      "native_ELF_sha256": "a1d911f278af94dd88f6b8400678ec3a4644c919ba9c67c13c129164709b4bf5",
+      "source_contents_verified": 35
+    },
+    "native_response": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/milestones/option-selector/scratch/selector-3-native/mre-response.json",
+      "sha256": "79128e47708510279e7e37efce89d010b2279f84cab8181fefd20335c66b1a13"
+    },
+    "actual_API": {
+      "initialized_bytes": 32,
+      "before_hex": "2d696e633d523a5c746f6f6c636861696e735c352e31305c696e636c75646500",
+      "after_hex": "2d696e633d723a5c746f6f6c636861696e735c352e31305c696e636c75646500",
+      "borrowed_alias": true,
+      "cdecl_bytes": 4,
+      "known_errors": "2/2/0 preserved",
+      "full_original_FP_preserved": true,
+      "native_architectural_FP_preserved": true,
+      "current_CP0_tables_handles_FILE_FD_namespaces_preserved": true
+    },
+    "qualifications": "Provider-private lock/heap/critical-section/threadcount remain unobserved/unclaimed; no concurrent target locale mutation, no original allocation-tail claim, no normal MRE-close/completion credit. Historical4021 sharedvalidation hash remains frozen in owned promotion evidence.",
+    "checks": "Metadata-only ownedmanifest/receipt/build-source identity verification, no native execution/rebuild/reference capture"
+  },
   "independent_review": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/cl/selector-preuse/mbslwr-parent-review.json",
     "sha256": "b4c7ef3114cf4f90d6b29a4641b2c5d4c6f4f9552f89cd65b1375a03ace371b1",

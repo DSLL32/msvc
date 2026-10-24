@@ -62,8 +62,8 @@
   },
   "proof": "All256 canonicalDWORDs generatedfrompolynomial; byte update identity gives induction for arbitrary seeds/nonnegativevalid lengths.262144 byte-transition and35 longer offline cases checked separately; C actualreturnc2280058.",
   "private_representation": "Original modifies third incoming by-value parameter slot. Native uses ordinary C signature parameter updates; caller discards12B and consumes EAX. No raw private argument-slot immutability/representation equality claim.",
-  "CPP_qualification": "OfflineCPP testvector is algebraic, not actual C1XX original oracle; its next required ordinary candidate acceptance still needs own actual call/state. No API-only bookkeeping original authorized.",
-  "remaining": "C1 actual ordinary normal adoption accepted (restore skipsAPI). C1XX own ordinary CPP pair still completing strict review/adoption; offlineCPP value is not original oracle.",
+  "CPP_qualification": "Offline CPP vector remains algebraic. Separate accepted own ordinary C1XX matcher oracle now supplies actual CPP/3/ffffffff\u2192a3b219d4 with third incoming-slot update/real RET0/caller discard and complete state proof.",
+  "remaining": "C1 and C1XX own ordinary normal adoptions accepted; each restore truthfully skips API. No additional API-only originals or shared source changes needed.",
   "receipt": {
     "path": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/receipt.json",
     "sha256": "31b1ebf5bba42bd0772ec3466eb9b0748d2e9d11f4ded00334a987de69d59d9c"
@@ -326,5 +326,83 @@
       }
     ],
     "checks": "Metadata-only read of proof/receipt/compiledsource-content identities; no rebuild/native execution/original replay"
+  },
+  "C1XX_actual_ordinary_adoption": {
+    "commit": "f217c1c71",
+    "scope": "Own ordinary CPP/3/ffffffff genuinely executes rawCRC and matches original; restore honestly skips API. No provider code/app credit.",
+    "packet": {
+      "path": "/root/msvc2/decomp/vc5.10/c1xx/cases/minimal/matcher-trial.json",
+      "sha256": "a25b07f68ca60120ba1ff62230173eee88fa3755fb2521944282ec07564d1b76"
+    },
+    "parent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/matcher-parent-review.json",
+      "sha256": "56b6e0e42ea43ee0d234f1b61b4d19ce489ca4d9cc188dae2fbd8c755752900a"
+    },
+    "pairs": [
+      {
+        "role": "normal",
+        "execution_receipts": {
+          "original": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-original-1/receipt.json",
+            "sha256": "b7db6db365f924f559597ac1831582bd90d4497e443a0537f4d733ebf0f58f9a"
+          },
+          "native": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-native-4/receipt.json",
+            "sha256": "8a16c30b2b05e6a626947da0dd0794c0a7d7d19b3bdcb09e08465f9b683957d0"
+          }
+        },
+        "validation": {
+          "path": "/root/msvc2/decomp/vc5.10/c1xx/cases/minimal/evidence/matcher-normal-validation.json",
+          "sha256": "e0a445bf02846b3ed70cf6416873fdb3b5ae42786f6a8191e4558504565ed7b4"
+        },
+        "compiled_build": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-native-4/build-provenance.json",
+          "sha256": "f7f001106b199b09bc47b66389c761c1081df35a5b180c396fcf760f2f0c33cf",
+          "native_ELF_sha256": "08966b6140bdb6258da7a5bfac876c87fe89e6ae4e93f2e85b22a1bcd8852ca4",
+          "source_contents_verified": 67
+        },
+        "actual_signature_call": {
+          "mode": "root-approved shared stateless integer rawCRC; no captured-response replay/binder/counter",
+          "own_normal_input_hex": "435050",
+          "count": 3,
+          "seed": 4294967295,
+          "observed_original_result_hex": "a3b219d4",
+          "observed_native_result_hex": "a3b219d4",
+          "physical_stack": "all3 slots before/after; third result update observed on both; real caller ADD12 discards slots and consumes only EAX",
+          "provider_code_bytes": 53,
+          "provider_table_bytes": 1024,
+          "provider_application_credit": 0,
+          "standalone_API_only_preparation": "unexecuted, withdrawn history retained"
+        }
+      },
+      {
+        "role": "restore",
+        "execution_receipts": {
+          "original": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-restore-original-1/receipt.json",
+            "sha256": "9221631b9944405d58d756b9ab5c0932a8b2ff837aa5aeaf813c9c9b5fc89397"
+          },
+          "native": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-restore-native-1/receipt.json",
+            "sha256": "29bba3ea2fede022591cade7045c015c9e1cd1f57ba48be06a7eac62a0bc8b7b"
+          }
+        },
+        "validation": {
+          "path": "/root/msvc2/decomp/vc5.10/c1xx/cases/minimal/evidence/matcher-restore-validation.json",
+          "sha256": "d306a038a76b16b8d056b8d9dc425adbf9de978c041eb0a10d78f8b7dc2b871d"
+        },
+        "compiled_build": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-restore-native-1/build-provenance.json",
+          "sha256": "f7f001106b199b09bc47b66389c761c1081df35a5b180c396fcf760f2f0c33cf",
+          "native_ELF_sha256": "08966b6140bdb6258da7a5bfac876c87fe89e6ae4e93f2e85b22a1bcd8852ca4",
+          "source_contents_verified": 67
+        },
+        "actual_signature_call": {
+          "executed": false,
+          "reason": "actual restored c9_il9 skips API"
+        }
+      }
+    ],
+    "checks": "Metadata-only receipt/proof/compiled source content hash verification; no build/native execution/original replay. Retained source0e8/b534 distinct from later4021."
   }
 }
