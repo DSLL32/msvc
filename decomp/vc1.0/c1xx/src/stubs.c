@@ -429,7 +429,6 @@ void __stdcall emit_debug_array_type(CType *type, unsigned short base_index) { _
 void __stdcall emit_debug_bit_field(CppSymbol *field) { __asm { int 3 } }
 void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int limit) { __asm { int 3 } }
 
-char *__stdcall format_qualified_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }
 
 char *__stdcall mangle_based_symbol(char *cursor, unsigned short attributes, CppSymbol *symbol) { __asm { int 3 } return 0; }
 char *__stdcall mangle_pointer_base(char *cursor, CType *type) { __asm { int 3 } return 0; }

@@ -1257,7 +1257,8 @@
     "_begin_hash_iteration@8",
     "_next_hash_entry@4",
     "_emit_declaration_thunk@8",
-    "_mangle_vcall_model@8"
+    "_mangle_vcall_model@8",
+    "_format_qualified_tag_name@8"
   ],
   "driver": [
     {
@@ -5655,7 +5656,7 @@
     {
       "name": "_format_qualified_tag_name@8",
       "start": 279280,
-      "end": 279281
+      "end": 279362
     },
     {
       "name": "_classify_symbol_decoration@4",
@@ -9295,8 +9296,8 @@
           "original": 576700
         }
       ],
-      "terminal": "_format_qualified_tag_name@8",
-      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1252-mangle_vcall_model-8/original-events.txt",
+      "terminal": "_emit_debug_array_type@8",
+      "terminal_evidence": "cases/frontiers/state_machine_defined_debug/1253-format_qualified_tag_name-8/original-events.txt",
       "original_seed": "cases/state_machine_defined_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_defined_debug/1232-equal_tail_word_pairs/frontier-extension.json",
@@ -9319,7 +9320,8 @@
         "cases/frontiers/state_machine_defined_debug/1249-begin_hash_iteration-8/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1250-next_hash_entry-4/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1251-emit_declaration_thunk-8/frontier-extension.json",
-        "cases/frontiers/state_machine_defined_debug/1252-mangle_vcall_model-8/frontier-extension.json"
+        "cases/frontiers/state_machine_defined_debug/1252-mangle_vcall_model-8/frontier-extension.json",
+        "cases/frontiers/state_machine_defined_debug/1253-format_qualified_tag_name-8/frontier-extension.json"
       ]
     }
   },
@@ -11962,6 +11964,18 @@
         "_convert_general_to_compact_data_pointer@24",
         "_convert_general_to_virtual_data_pointer@24",
         "_convert_general_data_member_pointer@24"
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_qualified_tag_depth",
+      "original": 658040,
+      "fields": [
+        {
+          "name": "_qualified_tag_depth",
+          "original": 658040,
+          "bytes": 4
+        }
       ]
     }
   ],

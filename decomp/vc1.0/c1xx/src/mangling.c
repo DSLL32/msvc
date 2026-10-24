@@ -13,6 +13,7 @@ int decorated_name_count; /* original 0x98040: ten-entry identifier cache count 
 int mangle_name_only; /* original 0x98044 */
 int allow_plain_symbol_names = 1; /* original 0xa0a6c */
 unsigned mangle_error_sequence; /* original 0xa0a70 */
+unsigned qualified_tag_depth; /* original 0xa0a78: active scope-name recursion */
 typedef char DecoratedWorkspaceSizeMustBe992[
     (sizeof(decorated_name_workspace) == 992) ? 1 : -1];
 
@@ -77,6 +78,24 @@ char *__stdcall mangle_string_literal(ParserValue *literal, int wide)
     }
     *end = 0;
     return decorated_name_workspace;
+}
+
+/* Original 0x442f0..0x44341. Recursive scope names include ::
+   after every inner component and a NUL after the final tag name. */
+char *__stdcall format_qualified_tag_name(char *cursor, CppSymbol *tag)
+{
+    CppSymbol *parent;
+    char *name;
+    ++qualified_tag_depth;
+    parent = next_member_context(tag);
+    if (parent) cursor = format_qualified_tag_name(cursor, parent);
+    name = tag->name;
+    while ((*cursor = *name++) != 0) ++cursor;
+    if (--qualified_tag_depth) {
+        *cursor++ = ':';
+        *cursor++ = ':';
+    }
+    return cursor;
 }
 
 /* Original 0x442b0..0x442e5, stdcall 8. Tag type encodings end with

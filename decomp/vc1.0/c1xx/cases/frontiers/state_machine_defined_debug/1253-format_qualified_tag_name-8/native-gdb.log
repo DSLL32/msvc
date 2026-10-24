@@ -1,0 +1,15 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559cbb in emit_debug_array_type (type=0x5663190c, base_index=4236) at src/stubs.c:428
+428	void __stdcall emit_debug_array_type(CType *type, unsigned short base_index) { __asm { int 3 } }
+#0  0x56559cbb in emit_debug_array_type (type=0x5663190c, base_index=4236) at src/stubs.c:428
+#1  0x565915f4 in flush_debug_types () at src/debug-types.c:645
+#2  0x565ad7d2 in prepare_symbol_debug_type (symbol=0x56631694) at src/symbol-output.c:15
+#3  0x565adf13 in emit_symbol_declaration (symbol=0x56631694) at src/symbol-output.c:148
+#4  0x565ae839 in serialize_scope (scope=0x5662f048) at src/function-finalization.c:144
+#5  0x565af5de in finish_expression_output () at src/function-finalization.c:350
+#6  0x5655df77 in compile_translation_unit () at src/frontend.c:79
+#7  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#8  0x56558894 in main (argc=1, argv=0xffffd814, environment=0xffffd81c) at src/c1xx.c:20
