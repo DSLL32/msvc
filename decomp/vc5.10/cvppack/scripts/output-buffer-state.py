@@ -7,7 +7,9 @@ def validate(config,data,original,native):
     def root(name):return int.from_bytes(original['memory'][rows[name]['original']],'little')
     def other(name):return int.from_bytes(bytes.fromhex(native['globals'][name]),'little')
     subsections=bool(config.get('observe_subsection_output'))
-    if subsections:
+    if config.get('observe_public_writer_prefix'):
+        assert original['address']==0x40f960 and original['stack'][0]==0x40d62f and native['frontier_caller']=='write_publics' and native['parameters']=={'buckets':dict(null=False,global_name='type_table_global'),'reserve':4},'output buffer next publicwriter child ABI differs'
+    elif subsections:
         assert original['address']==0x40d600 and original['stack'][0]==0x406c5a and native['frontier_caller']=='flush_packed_file' and native['parameters']['offset']==5056,'output buffer next publics consumer ABI differs'
     else:assert original['address']==0x4068a0 and original['stack'][0]==0x406c17 and original['stack'][1]==0 and native['frontier_caller']=='flush_packed_file' and native['parameters']=={'index':0},'output buffer next real consumer ABI differs'
     old=original['output_buffer_allocations'];new=native['output_buffer_allocations']
@@ -48,4 +50,4 @@ def validate(config,data,original,native):
             for index,retired in enumerate(records):
                 if retired['address'] and max(base,retired['address'])<min(base+size,retired['address']+retired['size']):
                     overlaps.append(dict(side=side,retired_owner=owner,retired_index=index,new_owner='begin_buffered_output',new_address=base,new_size=size,old_address=retired['address'],old_size=retired['size']))
-    return dict(allocation_attempts=1,new_owner='begin_buffered_output',requested_capacity=65512,initialized_prefix_bytes=5056 if subsections else 8,own_unwritten_capacity_bytes=60456 if subsections else 65504,header=header.hex(),file_index=15,writer_position=10000 if subsections else 4952,actual_old_generation_address_reuse=overlaps,retired_payload_reopened=False,own_full_FP_and_error_baseline_preserved=True,next_consumer='write_publics' if subsections else 'write_subsection(index0)')
+    return dict(allocation_attempts=1,new_owner='begin_buffered_output',requested_capacity=65512,initialized_prefix_bytes=5056 if subsections else 8,own_unwritten_capacity_bytes=60456 if subsections else 65504,header=header.hex(),file_index=15,writer_position=10000 if subsections else 4952,actual_old_generation_address_reuse=overlaps,retired_payload_reopened=False,own_full_FP_and_error_baseline_preserved=True,next_consumer='insert_symbol_page_padding' if config.get('observe_public_writer_prefix') else 'write_publics' if subsections else 'write_subsection(index0)')

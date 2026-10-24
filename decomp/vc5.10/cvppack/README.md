@@ -7,9 +7,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
 the public-symbol writer (`write_publics`),
-after all 21 Widen lifetimes. There are 105 accepted application functions /
-33,600 extent bytes, plus 784 associated switch-data
-bytes. This is 53.62% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+after all 21 Widen lifetimes. There are 106 accepted application functions /
+34,520 extent bytes, plus 784 associated switch-data
+bytes. This is 55.09% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and five import thunks (30 bytes) remain separate support.
 
@@ -97,3 +97,5 @@ The packed-directory sort now matches all 375 canonical callbacks, complete inpu
 The output initializer now establishes a separate 65,512-byte allocation generation and compares its eight initialized header bytes. Original allocation reuses a retired type-table address; that historical table remains identity-only and its payload is never restored as current memory. The remaining 65,504 buffer bytes are own unwritten storage. Later stale-root consumers remain held.
 
 All 58 subsection calls now copy 5,002 initialized source bytes and 46 alignment bytes into the new buffer, producing its 5,056-byte initialized prefix. Sorted input pointers remain a historical snapshot; all 58 current rows carry checked relative offsets. The 144-byte initialized directory tail is retained, with 72 spare bytes unobserved.
+
+The public-symbol writer now reaches its real page-padding child with the existing bucket table and reserve four. The actual 16-byte header and four-byte padding local are zero; both 24-byte hash streams remain own uninitialized storage. Its 920-byte whole-body graph is checked, while dynamic proof stops at that first helper. The source-snapshot drift attempt is retained separately from the reviewed native-only refresh.

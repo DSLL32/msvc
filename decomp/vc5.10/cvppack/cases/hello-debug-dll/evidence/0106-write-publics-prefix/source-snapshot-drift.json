@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "status": "not-promoted source-snapshot drift",
+  "build_sources_sha256": "a4e2d8099f245920edb05ffa3dc96ac7cca5e208c3320417f9f31a14c27c6487",
+  "capture_sources_sha256": "4a87a9622a12b01fb90f81f36a4fcdce45b7500042b6d5b4e634429fbe910672",
+  "actual_elf_sha256": "d827bbe4817b7524156ff891ddb3a31426583698217056007f8600d161dfe343",
+  "actual_compiled_crt_sha256": "ee55a842081fcee814bc344fb662ba7eca0d0da40ceeea7dd470a2d2570d6030",
+  "capture_time_crt_sha256": "390ea919dafdf5ffa2e6b5aa06de54fd464771b4b552b161febf4747d5cc1cbd",
+  "explanation": "Native build was no-op and retained previously compiled approved611 ELF; build-source-inputs snapshot froze that old source, but shared crt changed during20.424s original capture so native-debug current-source snapshot inaccurately describes ELF. Original actual target/mask/effective candidate/config/input unchanged; preserve whole attempt; rebuild native once after READY c11fa6763 and capture native-only, strict current audit sidecar binds original reuse. No original rerun for shared change."
+}

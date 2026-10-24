@@ -42,6 +42,7 @@ typedef struct PublicSymbol {
     unsigned char record[1];
 } PublicSymbol;
 PublicSymbol *allocate_public_block(unsigned size);
+extern unsigned public_symbol_bytes, public_symbol_count;
 int insert_public_symbol(unsigned char *record, SymbolKeyProc key);
 int __fastcall insert_global_symbol(unsigned char *record, SymbolKeyProc key);
 void decode_legacy_lines(void *lines, unsigned size);

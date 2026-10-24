@@ -1,0 +1,259 @@
+{
+  "schema": 1,
+  "status": "candidate-complete-affected-checks-awaiting-review",
+  "candidate": "write_publics",
+  "target_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "whole_extent": [
+    4249088,
+    4250008
+  ],
+  "extent_bytes": 920,
+  "whole_body_sha256": "cebf64e5650c971ffca2aa7f36d69630d64484bd0ccf343bbf6c789aef80986e",
+  "instructions": 288,
+  "whole_calls": [
+    {
+      "site": 4249130,
+      "operand": "0x40f960"
+    },
+    {
+      "site": 4249189,
+      "operand": "0x40e920"
+    },
+    {
+      "site": 4249226,
+      "operand": "0x40ede0"
+    },
+    {
+      "site": 4249357,
+      "operand": "0x410140"
+    },
+    {
+      "site": 4249379,
+      "operand": "0x4054d0"
+    },
+    {
+      "site": 4249485,
+      "operand": "0x410140"
+    },
+    {
+      "site": 4249507,
+      "operand": "0x4054d0"
+    },
+    {
+      "site": 4249556,
+      "operand": "0x4100c0"
+    },
+    {
+      "site": 4249640,
+      "operand": "0x410140"
+    },
+    {
+      "site": 4249662,
+      "operand": "0x4054d0"
+    },
+    {
+      "site": 4249671,
+      "operand": "0x4100d0"
+    },
+    {
+      "site": 4249702,
+      "operand": "0x4100c0"
+    },
+    {
+      "site": 4249786,
+      "operand": "0x410140"
+    },
+    {
+      "site": 4249808,
+      "operand": "0x4054d0"
+    },
+    {
+      "site": 4249817,
+      "operand": "0x4100d0"
+    },
+    {
+      "site": 4249926,
+      "operand": "0x410140"
+    },
+    {
+      "site": 4249948,
+      "operand": "0x4054d0"
+    },
+    {
+      "site": 4249982,
+      "operand": "0x407610"
+    },
+    {
+      "site": 4249991,
+      "operand": "dword ptr [0x4161e0]"
+    }
+  ],
+  "returns": [
+    {
+      "site": 4250007,
+      "operand": ""
+    }
+  ],
+  "excluded_gap_bytes": 8,
+  "finite_prologue": {
+    "extent": [
+      4249088,
+      4249135
+    ],
+    "sha256": "1eceb415b2d852e1ceaf4b85d2d4fd24db82a5383f0dba7c838f72632ca5409f",
+    "absolute_operands": [
+      {
+        "site": 4249091,
+        "address": 4271348,
+        "width": 4
+      }
+    ],
+    "actual_cdecl_child_return": 4249135,
+    "parent_return": 4222042,
+    "child_esp_relative_to_parent_entry": -96,
+    "initialized_local_ranges_relative_to_child_esp": [
+      [
+        28,
+        32
+      ],
+      [
+        32,
+        48
+      ]
+    ],
+    "uninitialized_stream_ranges_relative_to_child_esp": [
+      [
+        48,
+        72
+      ],
+      [
+        72,
+        96
+      ]
+    ],
+    "parent_stack_slots": {
+      "return_pc": 24,
+      "entry": 25,
+      "offset": 26
+    }
+  },
+  "actual_state": {
+    "parent_original_return_pc": 4222042,
+    "child_original_return_pc": 4249135,
+    "bucket_input": "type_table_global(public buckets)",
+    "reserve": 4,
+    "initialized_header_bytes": 16,
+    "initialized_padding_bytes": 4,
+    "uninitialized_stream_bytes_uncompared": 48,
+    "output_prefix_unchanged_bytes": 5056,
+    "next_consumer": "insert_symbol_page_padding(buckets,reserve4)"
+  },
+  "prefix_subsection_state": {
+    "calls": 58,
+    "actual_complete_cdecl_nonvolatile_source_inputs": true,
+    "source_initialized_bytes": 5002,
+    "alignment_bytes": 46,
+    "initialized_output_prefix_bytes": 5056,
+    "own_unwritten_capacity_bytes": 60456,
+    "rewritten_directory_rows": 58,
+    "unchanged_initialized_tail_bytes": 144,
+    "unwritten_directory_spare_bytes": 72,
+    "sorted_pointer_history_separate_from_current_relative_offsets": true,
+    "next_consumer": "insert_symbol_page_padding"
+  },
+  "source_review": [
+    "Whole920B routine is readable Win32 C: 16B header, public-page padding helper, public count update, name/address hash builders,12B output-entry setup, actual4096 bucket chains, actual typed block iteration, inline buffer-write macro and final DWORD alignment. Ordinary literals remain at use; no new helper vertices or generated assembly. Eight NOP gap bytes excluded.",
+    "New genuine named traps at40f960/40e920/40ede0/4100c0/4100d0 remain unaccepted, no extent/coverage credit. Current child40f960 has actual cdecl2 buckets/reserve4 formal schema; actual DWARF independently verifies4B pointer/4B pointed bucket and4B scalar. Other formal schemas are deferred until reached, never claimed by this pair.",
+    "Actual original prologue only reads existing public bucket pointer412cf4, zeroes16B header and4B padding, then calls first helper. Public writer parent actualentry=directoryroot+58*12 andrelativeoffset5056; child bucket pointer remains public table, reserve4. Exact stack stores/slots are independent from current GDB named-locals/type-layout proof.",
+    "Header field widths2/2/4/4/4 at0/2/4/8/12 and padding DWORD match actual typed native locals. Two24B streams have encountered first-pointer offset20, but first20B fields stay opaque state until builders are reconstructed. All48B contents remain own uninitialized/uncompared/unseeded; fixed original128B stack transport retains incidental raw bits only. Focused positive changes these bits alone; no target reads them before child.",
+    "Finite initialized-output5056B and converted current directory remain unchanged at first child; historicalsorted input840B stays distinct. No oldroot dereference/compare/free/serialization/order/unknownescape in this47B prologue. Future child/page-padding/global consumers reopen boundary as actually reached. Existing retired/new generation distinctions unchanged.",
+    "Original entire writer and reachedprologue integer-only; actual all375sort callbacks/58copies and ownFP/errors match under existing narrow027f/0/ffff predicate. No new shared sort/lifecycle/FP allowance or library implementation credit.",
+    "Old native capture described a capture-time shared source different from actual compiled ELF; retained as unpromoted drift. After shared READY c11fa6763, rebuilt native and captured fresh native-only using exact unchanged original inputs/mask/candidate. Current strict graph/import/RET sidecar binds current ELF/PE/MAP/metadata plus historical original receipt/raw. Source snapshot before build completion equals fresh capture snapshot exactly."
+  ],
+  "source": {
+    "path": "src/writer.c",
+    "sha256": "fb708feb0ea708eb0bd8758f77fbf7af49abd7293fa0fea7396e2b937f15fdc8"
+  },
+  "types": {
+    "path": "src/writer.h",
+    "sha256": "bc88336322cd56ad1470ddbe9853ab49de62b2e98b2ad7e3c1e49c03ce0bbf4a"
+  },
+  "stubs": {
+    "path": "src/stubs.c",
+    "sha256": "e97ba2e3a12b9e2085772acff8a98dc046e92efc41d6f980126c4c2435dd5dff"
+  },
+  "new_controller": {
+    "path": "scripts/public-writer-state.py",
+    "sha256": "9d21b5c08e8df2eeb3e1b0bea29af9ada0722a51e6905fa6bc419e0c8521d6a0"
+  },
+  "raw_decoder": {
+    "path": "scripts/raw-state.py",
+    "sha256": "d381c1c7b4d17ef51274b1c616e8b4500c88085d488a4b84489e343c24a3bc4c"
+  },
+  "native_observer": {
+    "path": "scripts/gdb-state.py",
+    "sha256": "874feec369448e63c4e2fa5427ba4b2f2cec479e36b25caeb0b5859f88f917a3"
+  },
+  "static_scope": {
+    "path": "scripts/main-free-evidence.py",
+    "sha256": "f2e4b588deb1c6141c9c1178ed6796dd1165f818e78125f2fd6a135d5dcb7fd3"
+  },
+  "checker": {
+    "path": "scripts/public-writer-evidence.py",
+    "sha256": "73d4cbe1f62ac6090bb47fd0ce59739f233e42926201b31c52ed0857531825f2"
+  },
+  "policy": {
+    "path": "cases/hello-debug-dll/public-writer-lifetimes.json",
+    "sha256": "e12820b172d6f33e2cf51debe7f7777a30792edd854fd634917cb1ae66449402"
+  },
+  "original_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0106-write-publics-prefix/original/receipt.json",
+    "sha256": "f8f3547be1246d5a2ce351b3248139f9a6a5d563017374bbb00ca164ba049f25"
+  },
+  "native_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0106-write-publics-prefix/native-ready/receipt.json",
+    "sha256": "62f273b8a920c8d1adff8640775b64265d5c5e2251f0eed83555ebc29928b136"
+  },
+  "audit": {
+    "path": "cases/hello-debug-dll/evidence/0106-write-publics-prefix/final-audit/audit.json",
+    "sha256": "b6e96083a6eef0f67f99457f912ef231038d9981901ff0182065c97aaa1d42cc"
+  },
+  "pair_check": {
+    "path": "cases/hello-debug-dll/evidence/0106-write-publics-prefix/final-pair-check.log",
+    "sha256": "ef960a04dd3d11eac21fe8e6e178aa94cad27e16b2294998cabbd2119454c793"
+  },
+  "controls": {
+    "path": "cases/hello-debug-dll/evidence/0106-write-publics-prefix/public-writer-checks.json",
+    "sha256": "320f43599b9f1760e4c46079a0c47087edb7cb601388e38106111ed81de6cde8"
+  },
+  "original_build_snapshot": {
+    "path": "cases/hello-debug-dll/evidence/0106-write-publics-prefix/build-source-inputs.json",
+    "sha256": "a4e2d8099f245920edb05ffa3dc96ac7cca5e208c3320417f9f31a14c27c6487"
+  },
+  "actual_ready_build_snapshot": {
+    "path": "cases/hello-debug-dll/evidence/0106-write-publics-prefix/ready-build-source-inputs.json",
+    "sha256": "4a87a9622a12b01fb90f81f36a4fcdce45b7500042b6d5b4e634429fbe910672"
+  },
+  "drift": {
+    "path": "cases/hello-debug-dll/evidence/0106-write-publics-prefix/source-snapshot-drift.json",
+    "sha256": "12492818d85dc4381f55c7ff7adea2b4cd90d1b37168ac8ccf4c2b6897f34c4b"
+  },
+  "seconds": {
+    "first_stages": {
+      "original_build": 0.04017800558358431,
+      "native_build": 0.04094672575592995,
+      "graph_tool_build": 0.03688067011535168,
+      "original_capture": 20.423650582320988,
+      "native_capture": 4.933899596333504,
+      "pair_check": 2.6855439860373735
+    },
+    "ready_native_build": 1.8216061554849148,
+    "ready_native_capture": {
+      "direct_execution": 0.0105581134557724,
+      "gdb_execution": 4.983409301377833,
+      "total": 5.103044930845499
+    },
+    "fresh_controls": 2.5704000862315297
+  },
+  "controls_correction": "First control run attempted in-place mutation of decoded tuple stack and stopped with AttributeError before recording a successful campaign. Harness now converts copied tuple to mutable list only for negative mutation; production decoder unchanged. Initial static exact-global site draft was corrected from guessed40d621 to actually disassembled40d603 before final current audit."
+}

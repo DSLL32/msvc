@@ -58,6 +58,56 @@ void write_subsection(unsigned index)
     }
 }
 
+/* Global-public records and their name/address hashes [0040d600,0040d998). */
+void write_publics(CodeViewDirectoryEntry *entry, unsigned offset)
+{
+    SymbolHashHeader header;
+    HashOutputStream names, addresses;
+    HashOutputBlock *block;
+    PublicSymbol *node;
+    unsigned bucket, added, padding = 0;
+    unsigned short written;
+    header.name_method = header.address_method = 0;
+    header.symbol_bytes = header.name_bytes = header.address_bytes = 0;
+    added = insert_symbol_page_padding((PublicSymbol **)type_table_global, 4);
+    public_symbol_bytes += added;
+    header.symbol_bytes = public_symbol_bytes;
+    build_symbol_name_hash(symbol_record_key, &header.name_method, &header.name_bytes,
+        &names, public_symbol_count, (PublicSymbol **)type_table_global);
+    build_symbol_address_hash(&header.address_method, &header.address_bytes,
+        &addresses, public_symbol_count, (PublicSymbol **)type_table_global);
+    entry->offset = offset;
+    entry->subsection = 0x12a;
+    entry->module = 0xffff;
+    entry->size = sizeof(header) + header.symbol_bytes + header.name_bytes + header.address_bytes;
+    BUFFER_WRITE(&header, sizeof(header), written);
+    if (!written) fatal_error(1008, NULL, NULL);
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (node = ((PublicSymbol **)type_table_global)[bucket]; node; node = node->next) {
+            BUFFER_WRITE(node->record, *(unsigned short *)node->record + 2, written);
+            if (!written) fatal_error(1008, NULL, NULL);
+        }
+    }
+    if (header.name_method) {
+        for (block = first_hash_output_block(&names); block; block = next_hash_output_block(block)) {
+            BUFFER_WRITE(block->data, block->used, written);
+            if (!written) fatal_error(1008, NULL, NULL);
+        }
+    }
+    if (header.address_method) {
+        for (block = first_hash_output_block(&addresses); block; block = next_hash_output_block(block)) {
+            BUFFER_WRITE(block->data, block->used, written);
+            if (!written) fatal_error(1008, NULL, NULL);
+        }
+    }
+    added = 4 - (entry->size & 3);
+    if (added != 4) {
+        BUFFER_WRITE(&padding, added, written);
+        if (!written) fatal_error(1008, NULL, NULL);
+    }
+    if (verbose) printf(message_text(8013), "\t\t", header.symbol_bytes, '\n');
+}
+
 /* Sort module records first, then unsigned module/subsection order.
  * [004063f0,0040645b), ordinary cdecl comparator. */
 int __cdecl compare_packed_directory_entries(const void *first, const void *second)

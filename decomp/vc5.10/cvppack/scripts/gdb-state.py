@@ -812,6 +812,21 @@ def capture(configuration,data_file,output):
         assert actual.code==gdb.TYPE_CODE_INT and actual.sizeof==item['width'] and str(actual)==item['native_type'],'actual caller-local type/extent differs'
         caller_state[item['name']]=dict(owner=owner.name(),local=item['local'],width=int(actual.sizeof),native_type=str(actual),value=int(value))
     state['caller_state']=caller_state
+    if config.get('observe_public_writer_prefix'):
+        owner=frame.older();assert owner is not None and owner.name()=='write_publics' and owner.older() is not None and owner.older().name()=='flush_packed_file','public writer actual parent scope differs'
+        header=owner.read_var('header');actual=header.type.strip_typedefs();assert actual.code==gdb.TYPE_CODE_STRUCT and actual.sizeof==16,'public writer header actual type/extent differs'
+        layout={field.name:dict(offset=int(field.bitpos)//8,width=int(field.type.strip_typedefs().sizeof)) for field in actual.fields()}
+        assert layout=={'name_method':dict(offset=0,width=2),'address_method':dict(offset=2,width=2),'symbol_bytes':dict(offset=4,width=4),'name_bytes':dict(offset=8,width=4),'address_bytes':dict(offset=12,width=4)},'public writer actual header field layout differs'
+        padding=owner.read_var('padding');actual=padding.type.strip_typedefs();assert actual.code==gdb.TYPE_CODE_INT and actual.sizeof==4 and str(actual)=='unsigned int','public writer padding actual type differs'
+        block=owner.block()
+        while block is not None and block.function is None:block=block.superblock
+        formals={symbol.name:symbol.type.strip_typedefs() for symbol in block if symbol.is_argument};assert set(formals)=={'entry','offset'} and formals['entry'].code==gdb.TYPE_CODE_PTR and formals['entry'].sizeof==4 and formals['entry'].target().strip_typedefs().sizeof==12 and formals['offset'].code==gdb.TYPE_CODE_INT and formals['offset'].sizeof==4,'public writer actual parent formal ABI differs'
+        streams=[]
+        for local in ('names','addresses'):
+            value=owner.read_var(local);kind=value.type.strip_typedefs();assert kind.code==gdb.TYPE_CODE_STRUCT and kind.sizeof==24,'public writer actual stream extent differs'
+            fields={field.name:field for field in kind.fields()};assert set(fields)=={'state','first'} and fields['first'].bitpos==160 and fields['first'].type.strip_typedefs().sizeof==4,'public writer actual stream first-pointer layout differs'
+            streams.append(dict(local=local,address=int(value.address),width=int(kind.sizeof),first_offset=20))
+        state['public_writer_frame']=dict(owner=owner.name(),caller=owner.older().name(),header_address=int(header.address),header=bytes(inferior.read_memory(header.address,16)).hex(),header_layout=layout,padding_address=int(padding.address),padding=int(padding),entry=int(owner.read_var('entry')),offset=int(owner.read_var('offset')),uninitialized_streams=streams,uninitialized_stream_bytes_uncompared=sum(row['width'] for row in streams))
     state['file_calls']=file_calls
     state['mapping_calls']=mapping_calls
     state['file_reads']=file_reads

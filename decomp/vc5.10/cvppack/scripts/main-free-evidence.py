@@ -107,6 +107,15 @@ def prove(config):
                 if operand.type==X86_OP_MEM and not operand.mem.base and not operand.mem.index:
                     assert operand.mem.disp in ({0x415368,0x415640,0x4153b8,0x415388,0x415628,0x4161e0,0x4161f4,0x415654,0x412124}|({0x412d34,0x412d38,0x412d40,0x412138,0x41213c,0x415660} if buffer_init else set())),'writer prefix consumes retired root'
         source_prefix['writer_prefix']=prefix
+        if config.get('observe_public_writer_prefix'):
+            assert policy.get('public_writer_prefix') is True
+            row=policy['public_writer_prologue'];assert (row['start'],row['end'])==(0x40d600,0x40d62f)
+            body=pe.read(row['start'],47);assert hashlib.sha256(body).hexdigest()==row['sha256']
+            code=list(decoder.disasm(body,row['start']));assert sum(i.size for i in code)==47 and [i.address for i in code if i.mnemonic=='call']==[0x40d62a]
+            assert all(i.mnemonic in ('sub','mov','xor','push','call') for i in code),'unproved publicwriter prologue'
+            assert [(i.address,operand.mem.disp,operand.size) for i in code for operand in i.operands if operand.type==X86_OP_MEM and not operand.mem.base and not operand.mem.index]==[(0x40d603,0x412cf4,4)],'publicwriter prologue consumes unreviewed global'
+            source_prefix['public_writer_prologue']=row
+            source_prefix['public_writer_validator_sha256']=sha(BINARY/'scripts/public-writer-state.py')
         if subsections:
             row=policy['subsection_writer'];assert (row['start'],row['end'])==(0x4068a0,0x4069da)
             assert hashlib.sha256(pe.read(row['start'],314)).hexdigest()==row['sha256']

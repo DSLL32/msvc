@@ -8,7 +8,7 @@ import struct
 
 
 def validate(config,data,original,native,objects,allocations):
-    expected=(0x40d600,0x406c5a,'flush_packed_file') if config.get('observe_subsection_output') else (0x4068a0,0x406c17,'flush_packed_file') if config.get('observe_output_buffer_init') else (0x4100e0,0x406b84,'flush_packed_file') if config.get('observe_complete_directory_sort') else (0x4063f0,original['module_bases']['msvcrt.dll']+0x2551e,'recon_qsort') if config.get('observe_output_directory') else (0x4069e0,0x404776,'cvpack_main')
+    expected=(0x40f960,0x40d62f,'write_publics') if config.get('observe_public_writer_prefix') else (0x40d600,0x406c5a,'flush_packed_file') if config.get('observe_subsection_output') else (0x4068a0,0x406c17,'flush_packed_file') if config.get('observe_output_buffer_init') else (0x4100e0,0x406b84,'flush_packed_file') if config.get('observe_complete_directory_sort') else (0x4063f0,original['module_bases']['msvcrt.dll']+0x2551e,'recon_qsort') if config.get('observe_output_directory') else (0x4069e0,0x404776,'cvpack_main')
     assert (original['address'],original['stack'][0],native['frontier_caller'])==expected,'source family unknown next consumer'
     rows={row['name']:row for row in data}
     def root(name):return int.from_bytes(original['memory'][rows[name]['original']],'little')

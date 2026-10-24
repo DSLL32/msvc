@@ -6,8 +6,11 @@ def validate(config,data,original,native):
     rows={row['name']:row for row in data}
     def root(name):return int.from_bytes(original['memory'][rows[name]['original']],'little')
     def other(name):return int.from_bytes(bytes.fromhex(native['globals'][name]),'little')
-    assert original['address']==0x40d600 and original['stack'][0]==0x406c5a and native['frontier_caller']=='flush_packed_file','subsection next publics consumer differs'
-    assert native['parameters']=={'entry':dict(root='directory_entries',index=58,extent=12),'offset':5056},'subsection publics actual output-pointer/scalar ABI differs'
+    public_prefix=bool(config.get('observe_public_writer_prefix'))
+    if public_prefix:
+        assert original['address']==0x40f960 and original['stack'][0]==0x40d62f and native['frontier_caller']=='write_publics','subsection next publicwriter child differs'
+    else:assert original['address']==0x40d600 and original['stack'][0]==0x406c5a and native['frontier_caller']=='flush_packed_file','subsection next publics consumer differs'
+    if not public_prefix:assert native['parameters']=={'entry':dict(root='directory_entries',index=58,extent=12),'offset':5056},'subsection publics actual output-pointer/scalar ABI differs'
     assert root('directory_count')==other('directory_count')==58,'subsection final row count differs'
     old=original['subsection_calls'];new=native['subsection_calls'];assert len(old)==len(new)==58,'subsection complete call inventory differs'
     before=original['directory_sort_complete']['bytes'];actual_before=bytes.fromhex(native['directory_sort_complete']['bytes'])
@@ -45,4 +48,4 @@ def validate(config,data,original,native):
         assert len(current)==840 and current==expected,'subsection current directory offsets/tail differ from actual calls'
     assert original['output_buffer_state']['bytes']==bytes.fromhex(native['output_buffer_state']['bytes'])==bytes(output),'subsection complete initialized output buffer differs'
     assert root('output_padding_size')==other('output_padding_size')==4,'subsection final shared padding count differs'
-    return dict(calls=58,actual_complete_cdecl_nonvolatile_source_inputs=True,source_initialized_bytes=input_bytes,alignment_bytes=alignment_bytes,initialized_output_prefix_bytes=len(output),own_unwritten_capacity_bytes=65512-len(output),rewritten_directory_rows=58,unchanged_initialized_tail_bytes=144,unwritten_directory_spare_bytes=72,sorted_pointer_history_separate_from_current_relative_offsets=True,next_consumer='write_publics(spare entry58,offset5056)')
+    return dict(calls=58,actual_complete_cdecl_nonvolatile_source_inputs=True,source_initialized_bytes=input_bytes,alignment_bytes=alignment_bytes,initialized_output_prefix_bytes=len(output),own_unwritten_capacity_bytes=65512-len(output),rewritten_directory_rows=58,unchanged_initialized_tail_bytes=144,unwritten_directory_spare_bytes=72,sorted_pointer_history_separate_from_current_relative_offsets=True,next_consumer='insert_symbol_page_padding' if public_prefix else 'write_publics(spare entry58,offset5056)')
