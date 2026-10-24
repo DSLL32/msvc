@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "function": "_begin_switch_body_region@4",
+  "native_entry": "begin_switch_body_region",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_type": "(unsigned)type"
+  },
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 264635,
+        "original_owner_function": "_begin_switch_body@4",
+        "native_owner_function": "begin_switch_body",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "expression",
+        "native_owner_fields": [
+          "type"
+        ],
+        "identity": "Actual immediate caller MOV EAX,[ESI+4] at509b2 loads emitted expression.type; PUSH EAX509b5/CALL509b6/return509bb. Native actual expression local and its type field own precisely this pointer. No recursive state or frozen heap identity."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      263008,
+      263160
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void",
+    "proof": "Whole152B SUB16/saveESI4: type entryESP+4=>ESP+24, RET4. No incoming GPR/x87/CPUflags formals. Suppressed mode returns before cleanup; normal mode calls whole141B end_switch_condition_region402d0..4035d, then fully initialized16Bkind30. NonNULL unshaped enum flags200 with existing signed context-index item finds openingkind2d, sets flags4 and typed enumtag+28. Existing record/context fields only. Callee closer independently reviewed: fold tailkind3d value into preceding switch+24/bit80 andremove; empty2e also removed, else fullyzeroed16Bkind2f appended. Closer remains named trap until reached."
+  },
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    330162,
+    330171
+  ],
+  "native_caller_locals": {
+    "caller_type": {
+      "frame": 1,
+      "function": "begin_switch_body",
+      "local": "expression",
+      "fields": [
+        "type"
+      ]
+    }
+  }
+}

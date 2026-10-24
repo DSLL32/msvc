@@ -1,0 +1,12 @@
+Breakpoint 1 at 0x5fb09: file src/frontend-records.c, line 929.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, begin_switch_body_region (type=0x56629e10) at src/frontend-records.c:929
+929	    if (ir_records_suppressed) return;
+#0  begin_switch_body_region (type=0x56629e10) at src/frontend-records.c:929
+#1  0x565858dc in begin_switch_body (expression=0x5663a650) at src/loop-output.c:135
+#2  0x565baa65 in parse_translation_unit () at src/parser-statement-actions.inc:132
+#3  0x5655df0f in compile_translation_unit () at src/frontend.c:73
+#4  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#5  0x56558894 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

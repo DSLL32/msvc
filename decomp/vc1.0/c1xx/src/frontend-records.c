@@ -12,6 +12,7 @@
 void begin_for_increment_region(void);
 void end_for_increment_region(void);
 void begin_switch_condition_region(void);
+void end_switch_condition_region(void);
 
 FrontendRecord *ir_record_head; /* original 0xa0a00 */
 FrontendRecord *ir_record_tail; /* original 0xa0a04 */
@@ -917,4 +918,27 @@ void begin_switch_condition_region(void)
     record.next = 0;
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
+}
+
+/* Original 0x40360..0x403f7, stdcall4. Open the switch body after
+   condition cleanup, retaining an enum tag for later case diagnostics. */
+void __stdcall begin_switch_body_region(CType *type)
+{
+    FrontendRecord record;
+    SwitchFrontendRecord *opening;
+    if (ir_records_suppressed) return;
+    end_switch_condition_region();
+    record.kind = 0x30;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    if (type && (type->flags & 0x200) && !type->related &&
+        cpp_context_stack->items[type->field08]) {
+        opening = (SwitchFrontendRecord *)find_frontend_record(ir_record_tail, 0x2d, 1);
+        opening->header.flags |= 4;
+        opening->enum_tag = (CppSymbol *)cpp_context_stack->items[type->field08];
+    }
 }
