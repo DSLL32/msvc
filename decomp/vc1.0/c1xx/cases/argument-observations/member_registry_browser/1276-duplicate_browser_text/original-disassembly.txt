@@ -1,0 +1,37 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0002b750 <.text+0x14750>:
+   2b750:	56                   	push   esi
+   2b751:	57                   	push   edi
+   2b752:	8b 74 24 0c          	mov    esi,DWORD PTR [esp+0xc]
+   2b756:	8b fe                	mov    edi,esi
+   2b758:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   2b75d:	2b c0                	sub    eax,eax
+   2b75f:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   2b761:	f7 d1                	not    ecx
+   2b763:	51                   	push   ecx
+   2b764:	e8 b7 4e 05 00       	call   0x80620
+   2b769:	83 c4 04             	add    esp,0x4
+   2b76c:	8b d0                	mov    edx,eax
+   2b76e:	8b fe                	mov    edi,esi
+   2b770:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   2b775:	2b c0                	sub    eax,eax
+   2b777:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   2b779:	f7 d1                	not    ecx
+   2b77b:	2b f9                	sub    edi,ecx
+   2b77d:	8b c1                	mov    eax,ecx
+   2b77f:	8b f7                	mov    esi,edi
+   2b781:	8b fa                	mov    edi,edx
+   2b783:	c1 e9 02             	shr    ecx,0x2
+   2b786:	f3 a5                	rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
+   2b788:	8b c8                	mov    ecx,eax
+   2b78a:	83 e1 03             	and    ecx,0x3
+   2b78d:	f3 a4                	rep movs BYTE PTR es:[edi],BYTE PTR ds:[esi]
+   2b78f:	8b c2                	mov    eax,edx
+   2b791:	5f                   	pop    edi
+   2b792:	5e                   	pop    esi
+   2b793:	c3                   	ret

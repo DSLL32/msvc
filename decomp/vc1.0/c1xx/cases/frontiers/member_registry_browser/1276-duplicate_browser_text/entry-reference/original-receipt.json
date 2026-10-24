@@ -1,0 +1,102 @@
+{
+  "case": "member_registry_browser",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1276,
+  "terminal": "_browser_declaration@4",
+  "candidate": "_duplicate_browser_text",
+  "pending_accepted": [],
+  "configuration_sha256": "d304cde9618622a1c366d0d71fb360c9d51c643ce16da461828e7da243d8534a",
+  "capture_seconds": 1.7186644142493606,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "registry.h": {
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    },
+    "registry.sbt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "registry.cpp": {
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32",
+  "first_entry_projection": {
+    "accepted_first": 1257,
+    "accepted_last": 1277,
+    "accepted_prefix_sha256": "4bd1abc7a113155cc02593d237c1d24cbdd0d43b3676363d190ab5dfe6126cac",
+    "expected": [
+      "_begin_browser_output",
+      "_format_browser_temporary_name@4",
+      "_begin_browser_records",
+      "_queue_browser_record@8",
+      "_append_browser_record@12",
+      "_fill_browser_record@8",
+      "_first_browser_record",
+      "_second_browser_record",
+      "_browser_record_from_end@4",
+      "_browser_macro@4",
+      "_fill_browser_macro@8",
+      "_pop_first_browser_record",
+      "_emit_browser_record@4",
+      "_serialize_browser_record@8",
+      "_browser_working_directory",
+      "_write_ir_string",
+      "_browser_open_file",
+      "_fill_browser_filename",
+      "_duplicate_browser_text"
+    ],
+    "observed": [
+      "_begin_browser_output",
+      "_format_browser_temporary_name@4",
+      "_begin_browser_records",
+      "_queue_browser_record@8",
+      "_append_browser_record@12",
+      "_fill_browser_record@8",
+      "_first_browser_record",
+      "_second_browser_record",
+      "_browser_record_from_end@4",
+      "_browser_macro@4",
+      "_fill_browser_macro@8",
+      "_pop_first_browser_record",
+      "_emit_browser_record@4",
+      "_serialize_browser_record@8",
+      "_browser_working_directory",
+      "_write_ir_string",
+      "_browser_open_file",
+      "_fill_browser_filename",
+      "_duplicate_browser_text"
+    ],
+    "events_sha256": "d19753c9a1d1779e4b0c2edb4f9dc52782fff58190738b6ccbd7be3b18a9f832",
+    "plan_sha256": "c4e0c6164b8f99d97765ca283ebddd45ac57e511f312e73c440674c3d59f5498"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_duplicate_browser_text",
+  "case": "member_registry_browser",
+  "accepted_before": 1276,
+  "configuration_sha256": "d304cde9618622a1c366d0d71fb360c9d51c643ce16da461828e7da243d8534a",
+  "native_entry": "duplicate_browser_text",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "text",
+      "stack_index": 0,
+      "native_field": "raw_text",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 585748,
+        "offset": 0,
+        "native_anchor_field": "token_owner",
+        "native_object_address": 1449230576
+      },
+      "original_raw": 585748,
+      "native_raw": 1449230576,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      178000,
+      178068
+    ],
+    "argument_bytes": 4,
+    "convention": "cdecl4 charpointer EAX RET0 caller cleanup4",
+    "proof": "Whole68B savesESIEDI8, textadjustedESP+12=entryESP+4. FirstREPNEscan inclNUL\u2192malloc(bytes); saveresultEDX; secondsameNULscan determinescopybytes, copyDWORDchunks+BYTEremainder, EAX=allocation. Onlydirectcall_malloc80620, no hiddenregister/flags/x87inputs/newdata/CRTsource. ExplicittwoCscans preserveboth original inline scans without adding strlen/strcpy graphvertices; copyincludesNUL; originalhasnoNULLmallocguard, retained. Current actualarg0 is originalstatic token_buffer8f014/native7936Btoken_buffer[0], alreadyinitialized sourcefilename registry.cpp+NUL byacceptedsourceopenproducer; source_filename9fc50 alias pointsatthisbuffer, no frozenheapidentity. Non-overlapping freshallocation and definedstring source support ordinarybytecopy, not arbitraryneighbor/paddingread.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "49270e9a8af71118b0900b93adb63ea70ad15d958f1184cf9458edc2f2f6fb6d",
+  "capture_timing": {
+    "original_capture_seconds": 1.4682244881987572,
+    "native_capture_seconds": 0.18665321171283722,
+    "total_operation_seconds": 1.9266735538840294
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "fb847097bfeddd4792537efd3350ba96e06ecc99840dea7b0aa0ccd14d1e3ae0",
+    "native-commands.gdb": "dd8ab53687acac262ff17f1f9964cf0bedc0576f51dbb490c8807a467729525a",
+    "native-gdb.log": "1b016a763353ce5edcd961f37d0c6d93df67e821ff682243d63587347a82ba2a",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "54b5115d3ac6b61fddaa3633c3b170bc1f6cef46853db97c5022ff1ccbfd3d42",
+    "original-configuration.json": "d304cde9618622a1c366d0d71fb360c9d51c643ce16da461828e7da243d8534a",
+    "original-disassembly.txt": "7f1ea2e031a2f400388d4c392f25badc27c5ccdb74ccfba1951a7c2f0b262f79",
+    "original-events.txt": "c2203f4a5d769dd0c8fe5591147d38f7bb0005b0f1a232706e1b3928b8bc78e0",
+    "original-receipt.json": "94cb76751038e0d7ca3ac6dca5fab084d6678fc60217ad08eb998a87b27ed5f2",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "b27d3b859a0554c9c49234f4b1ea2e4a3c64fa82a9fc553b5fe2f38a9f44d030"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

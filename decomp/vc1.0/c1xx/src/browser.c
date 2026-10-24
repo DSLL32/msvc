@@ -330,3 +330,20 @@ void fill_browser_filename(BrowserRecord *record)
     record->name = duplicate_browser_text(source_filename);
     record->name_identity = 0;
 }
+
+/* Original 0x2b750..0x2b793. The two original inline string scans
+   precede allocation and copying respectively; retain the terminating NUL. */
+char *duplicate_browser_text(char *text)
+{
+    char *end, *copy;
+    unsigned bytes, index;
+    for (end = text; *end; ++end)
+        ;
+    copy = malloc(end - text + 1);
+    for (end = text; *end; ++end)
+        ;
+    bytes = end - text + 1;
+    for (index = 0; index < bytes; ++index)
+        copy[index] = text[index];
+    return copy;
+}
