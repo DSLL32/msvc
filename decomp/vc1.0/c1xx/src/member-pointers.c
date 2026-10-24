@@ -489,3 +489,11 @@ IrToken *__stdcall make_null_simple_data_pointer(CType *type)
     value->type = type;
     return value;
 }
+
+/* Original 0x4b350..0x4b369, stdcall4. The owning class fixes
+   which integer representation is reserved for a null data-member pointer. */
+int __stdcall data_member_pointer_uses_zero_null(CType *type)
+{
+    CppSymbol *owner = member_pointer_owner_class(type);
+    return (owner->detail.class_info->alignment_flags & 0x40) != 0;
+}

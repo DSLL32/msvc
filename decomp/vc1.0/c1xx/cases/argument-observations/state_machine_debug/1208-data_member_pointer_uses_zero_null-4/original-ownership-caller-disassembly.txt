@@ -1,0 +1,11 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004b330 <.text+0x34330>:
+   4b330:	56                   	push   esi
+   4b331:	8b 74 24 08          	mov    esi,DWORD PTR [esp+0x8]
+   4b335:	56                   	push   esi
+   4b336:	e8 15 00 00 00       	call   0x4b350

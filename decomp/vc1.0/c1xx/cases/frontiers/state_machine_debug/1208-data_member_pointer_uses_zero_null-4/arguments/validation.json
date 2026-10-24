@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_data_member_pointer_uses_zero_null@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1208,
+  "configuration_sha256": "898616c66bbf5917e4be145ae37f04e0bec5af5bc5cacb1dd0729da497c9a706",
+  "native_entry": "data_member_pointer_uses_zero_null",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 242491,
+        "original_owner_function": "_make_null_simple_data_pointer@4",
+        "native_owner_function": "make_null_simple_data_pointer",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Accepted caller savesactualtypeformal ESI4b331/PUSH ESI4b335/CALL4b336/return4b33b. Native actual immediatecaller typeformal binds same logicalCType; classowner/flagsresolvedbyexistingacceptedcallee andexistingClassInfo+50 field.",
+        "original_owner_value": 8311904,
+        "native_owner_value": 1449333856
+      },
+      "original_raw": 8311904,
+      "native_raw": 1449333856,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      308048,
+      308074
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 intBOOL returnEAX",
+    "proof": "Whole26B noframe/savedregs, typeentryESP+4, RET4. No incomingGPR/x87/CPUflagsformal. Callaccepted member_pointer_owner_class4dfe0, loadCppSymbol.class_info+32/ClassInfo.alignment_flagsBYTE+50; mask40/CMP1/SBB/INC returnsdefined0or1. Existinglayoutassertoffset50; exactgraph/calldefinedfields/no newdata/CRTbody.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "02a1a7bbfae2acd4d7b0fe65421728c301d7ef816ce60a292a0e8ef196f15fe7",
+  "capture_timing": {
+    "original_capture_seconds": 0.7162545351311564,
+    "native_capture_seconds": 0.1961849071085453,
+    "total_operation_seconds": 1.1825049249455333
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "b6556299b19b3daeace31650b7b77f3b8b65057acc1a2761cfe7e5090bc1ecf5",
+    "native-commands.gdb": "65d0a0fae12cc2cb4d5841856882cd1b9549fa0b689548877bf7d27862496d96",
+    "native-gdb.log": "ae051c6a360f177a557264131d102d99ca929fa7c7c3c973786e0db337b7a61e",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "e505c55744802bc83b287d565296f1f3c02017ae2cc93b53e67bd1b202d83206",
+    "original-configuration.json": "898616c66bbf5917e4be145ae37f04e0bec5af5bc5cacb1dd0729da497c9a706",
+    "original-disassembly.txt": "1f5eaa6087a57e4a6392f269d2942dd3dc58c8ba28a927d76a35494459207784",
+    "original-entries.plan": "9b16e613406c9ed3889917d186b78b5597cfbd937761dfcde8241766a79b01c5",
+    "original-events.txt": "8954bb3a1c13bbfe9b7d219b5d9d3f6363a743811ce4c12dd63a7424803d708d",
+    "original-ownership-caller-disassembly.txt": "201a9126425c488e7900d9e77c2050645aa3896d7f68c9ecb0b80dfb00c5a4aa",
+    "original-receipt.json": "d960fe7a99a8f2d03c14f7d3fbad3cbc5369a3a85e14b9f256f9be51c131d699",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "ae7024670c962f7fe030e2e18ce079b3f2d6787c811d841e524f01d81782a66a"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

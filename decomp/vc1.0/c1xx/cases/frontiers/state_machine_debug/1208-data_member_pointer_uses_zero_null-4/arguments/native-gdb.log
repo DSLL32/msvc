@@ -1,0 +1,20 @@
+Breakpoint 1 at 0x53926: file src/member-pointers.c, line 497.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, data_member_pointer_uses_zero_null (type=0x56631460) at src/member-pointers.c:497
+497	    CppSymbol *owner = member_pointer_owner_class(type);
+#0  data_member_pointer_uses_zero_null (type=0x56631460) at src/member-pointers.c:497
+#1  0x565a8794 in make_null_simple_data_pointer (type=0x56631460) at src/member-pointers.c:488
+#2  0x565a86c4 in make_null_member_pointer (type=0x56631460) at src/member-pointers.c:444
+#3  0x565a4bdf in convert_derived_initializer (type=0x56631460, expression=0x5663e340) at src/numeric-conversion.c:321
+#4  0x5658831c in convert_initializer (operation=68 'D', type=0x56631460, expression=0x5663e340) at src/constructor-initializers.c:707
+#5  0x56584d37 in convert_operand_if_needed (operation=68 'D', type=0x56631460, expression=0x5663e340) at src/binary-expressions.c:1114
+#6  0x56583848 in convert_pointer_operands (expression=0x5663e354, left=0x5663e32c, right=0x5663e340) at src/binary-expressions.c:986
+#7  0x56582ced in convert_binary_operands (expression=0x5663e354) at src/binary-expressions.c:455
+#8  0x56581617 in builtin_binary_expression (operation=68 'D', left=0x5663e32c, right=0x5663e340) at src/binary-expressions.c:145
+#9  0x56584ca5 in binary_expression (operation=68 'D', left=0x5663e32c, right=0x5663e340) at src/binary-expressions.c:865
+#10 0x565be863 in parse_translation_unit () at src/parser-expression-actions.inc:90
+#11 0x5655df6f in compile_translation_unit () at src/frontend.c:73
+#12 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#13 0x56558894 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20
