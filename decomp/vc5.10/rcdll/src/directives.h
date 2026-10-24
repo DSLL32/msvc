@@ -37,6 +37,8 @@ int __stdcall rc_skip_inactive(int);
 int __cdecl rc_push_condition(void);
 int __cdecl rc_evaluate_condition(void);
 int __cdecl rc_parse_conditional_expression(void);
+int __cdecl rc_parse_logical_or(void);
+int __stdcall rc_accept_expression_token(unsigned char token);
 extern int rc_expression_parentheses;
 void __cdecl rc_parse_define(void);
 void __cdecl rc_parse_macro_parameters(void);

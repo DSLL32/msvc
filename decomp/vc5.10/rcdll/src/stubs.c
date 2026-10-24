@@ -111,7 +111,7 @@ int __stdcall rc_skip_inactive(int level)
     return 0;
 }
 
-int __cdecl rc_parse_conditional_expression(void)
+int __cdecl rc_parse_logical_or(void)
 {
     __asm int 3
     return 0;
@@ -235,4 +235,10 @@ WCHAR *__stdcall rc_copy_replacement_quoted(WCHAR *cursor,WCHAR delimiter)
 {
     __asm int 3
     return NULL;
+}
+
+int __stdcall rc_accept_expression_token(unsigned char token)
+{
+    __asm int 3
+    return 0;
 }

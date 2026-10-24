@@ -72,7 +72,8 @@
     "rc_read_macro_replacement",
     "rc_check_macro_space",
     "rc_find_macro_parameter",
-    "rc_evaluate_condition"
+    "rc_evaluate_condition",
+    "rc_parse_conditional_expression"
   ],
   "functions": [
     {
@@ -1486,6 +1487,23 @@
       "end": "0x2dc6",
       "abi": "cdecl",
       "stack_bytes": 0,
+      "kind": "application"
+    },
+    {
+      "name": "rc_parse_logical_or",
+      "start": "0x2dc6",
+      "end": "0x2def",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_accept_expression_token",
+      "start": "0x6fce",
+      "end": "0x7093",
+      "abi": "stdcall",
+      "stack_bytes": 4,
       "kind": "application",
       "stub": true
     }

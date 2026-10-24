@@ -281,3 +281,16 @@ int __cdecl rc_evaluate_condition(void)
     }
     return value;
 }
+
+int __cdecl rc_parse_conditional_expression(void)
+{
+    int value,selected,alternate;
+    value=rc_parse_logical_or();
+    if(rc_accept_expression_token(81)){
+        selected=rc_parse_logical_or();
+        if(rc_accept_expression_token(49))
+            alternate=rc_parse_logical_or();
+        value=value ? selected : alternate;
+    }
+    return value;
+}
