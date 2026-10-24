@@ -42,3 +42,14 @@ def capture():
     assert int(node)==int(candidate)!=0
     hashed=dict(bucket=bucket,head=int(head),count=hash_count,position=position,cursor=cursor,available=available,arena=arena,node=int(node),bytes=raw(int(node),12).hex())
     return dict(entry=dict(local=local,input=local_data),record=dict(published=published,hash=hashed))
+
+
+def numeric_input(address,size):
+    f=gdb.newest_frame();caller=f.older()
+    assert f.name()=='numeric_leaf_size'and caller.name()=='compact_type_list'and int(caller.read_var('record'))==address and size==2
+    base=int(gdb.parse_and_eval('global_type_data'));requested=int(gdb.parse_and_eval('global_symbol_size'));module=int(gdb.parse_and_eval('current_module[0].module'))
+    directory=gdb.parse_and_eval('directory_entries');entries=int(gdb.parse_and_eval('directory_entry_count'))
+    matches=[(i,directory[i])for i in range(entries)if int(directory[i]['subsection'])==0x121 and int(directory[i]['module'])==module]
+    assert len(matches)==1;index,entry=matches[0];span=int(entry['size'])
+    assert int(gdb.parse_and_eval('global_symbol_blocks[0]'))==base and 0<span<=requested<0xffe8 and base+4<=address<=base+span-size
+    return dict(module=module,input=base,requested=requested,defined=span,directory=index,source=int(entry['location']['offset']),argument=address,size=size,bytes=bytes(gdb.selected_inferior().read_memory(address,size)).hex())

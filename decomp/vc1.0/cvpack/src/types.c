@@ -2129,3 +2129,32 @@ different:
     entry->flags &= ~1;
     return 0;
 }
+
+/* Original [0001c500,0001c63b): accumulate derived classes by base type. */
+void add_derived_type(unsigned short type, unsigned short base)
+{
+    unsigned short i;
+    TypeDerivation *entry;
+    for (i = 0; i < derived_type_count; ++i)
+        if (derived_types[i].type == base) break;
+    if (i == derived_type_count) {
+        if (derived_type_count == derived_type_capacity) {
+            derived_type_capacity += 128;
+            derived_types = checked_realloc(derived_types,
+                (unsigned long)derived_type_capacity*sizeof(*derived_types));
+        }
+        entry = &derived_types[i];
+        entry->count = 0;
+        entry->capacity = 20;
+        entry->type = base;
+        entry->list = checked_alloc(40);
+        ++derived_type_count;
+    }
+    entry = &derived_types[i];
+    if (entry->count == entry->capacity) {
+        entry->capacity += 20;
+        entry->list = checked_realloc(entry->list, (unsigned long)entry->capacity*2);
+    }
+    entry->list[entry->count] = type;
+    ++entry->count;
+}

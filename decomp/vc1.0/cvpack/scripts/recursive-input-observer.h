@@ -81,3 +81,26 @@ static int dump_recursive_inputs(HANDLE child,HANDLE log,DWORD frontier,CONTEXT 
         bucket,head,hash_count,position,cursor,available,arena,node);
     return recursive_line(log,used,(BYTE *)link,12);
 }
+
+static int dump_numeric_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *words)
+{
+    DWORD module,directory,entries,input,requested,blocks,block0,entry[3],span=0,offset=0,selected=0,i;
+    WORD number;BYTE tag[2];int used;
+    if(frontier!=0x1f1d0)return 1;
+    if(words[0]!=0x27766 || !recursive_read(child,0x33050,&module,4) || !module ||
+       !recursive_read(child,module,&number,2) || !recursive_read(child,0x33018,&directory,4) ||
+       !recursive_read(child,0x3329c,&entries,4) || entries>4096 || !recursive_read(child,0x33064,&input,4) ||
+       !recursive_read(child,0x33078,&requested,4) || !recursive_read(child,0x3308c,&blocks,4) ||
+       !blocks || !recursive_read(child,blocks,&block0,4) || block0!=input)return 0;
+    for(i=0;i<entries;++i) {
+        if(!recursive_read(child,directory+i*12,entry,12))return 0;
+        if((entry[0]&0xffff)==0x121 && (entry[0]>>16)==number) {
+            if(span)return 0;span=entry[2];offset=entry[1];selected=i;
+        }
+    }
+    if(!span || span>requested || requested>=0xffe8 || words[1]<input+4 ||
+       words[1]-input>span-2 || !recursive_read(child,words[1],tag,2))return 0;
+    used=sprintf(object_line,"numeric-type-input module %lu input %08lx requested %lu defined %lu directory %lu source %lu argument %08lx size 2 bytes ",
+        (DWORD)number,input,requested,span,selected,offset,words[1]);
+    return recursive_line(log,used,tag,2);
+}

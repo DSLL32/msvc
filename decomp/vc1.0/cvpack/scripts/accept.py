@@ -157,6 +157,9 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
         recursive_input=compare_recursive_input(events,words,state['parameters'])
     for item in frontier['parameters']if frontier else []:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+        elif item['kind']=='module-type-slice':
+            from recursive_input import compare_numeric
+            parameters[item['name']]=compare_numeric(events,words,state['parameters'][item['name']])
         elif item['kind']in('local-type-record','published-type-record'):
             assert recursive_input is not None,'unproved recursive comparison input'
             parameters[item['name']]=dict(typed_owner=recursive_input,role=item['kind'])

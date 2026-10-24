@@ -30,3 +30,13 @@ def compare(events,words,parameters):
         assert r['arena']==r['cursor']-(1024-r['available'])*12 and r['arena']<=r['node']<r['cursor']and (r['node']-r['arena'])%12==0 and 0<=r['position']<r['count']
     assert local['entry']==words['ecx']and new_local['entry']==parameters['entry']['address']and published['record']==words[1]and new_pub['record']==parameters['record']['address']
     return dict(original=dict(local=local,input=data,published=published,hash=hashed),native=dict(local=new_local,input=new_data,published=new_pub,hash=new_hash),scope='Actual local-table entry and defined module-type bytes; published global type/page/buffer and recursive hash-node identity. Raw pointer values retained; 2 reserved node bytes and unconsumed next link receive no equality credit. Expanded recursive arrays pending.')
+
+
+def compare_numeric(events,words,actual):
+    old=parse(events,'numeric-type-input',['module','input','requested','defined','directory','source','argument','size','bytes'],('input','argument'))
+    new=actual['typed'];assert words[0]==0x27766 and old['argument']==words[1]and new['argument']==actual['address'],'numeric input caller/argument differs'
+    assert all(old[k]==new[k]for k in('module','requested','defined','directory','source','size','bytes')),'actual numeric tag/span differs'
+    for r in(old,new):
+        assert r['input']+4<=r['argument']and r['argument']+2<=r['input']+r['defined']<=r['input']+r['requested']and r['size']==2 and len(bytes.fromhex(r['bytes']))==2
+    assert old['argument']-old['input']==new['argument']-new['input'],'numeric input module-relative identity differs'
+    return dict(original=old,native=new,scope='Actual two-byte numeric selector inside the fully read current module-type subsection. Only the selector consumed on this reached LONG path is compared; no undefined capacity tail or speculative numeric payload reads.')

@@ -130,4 +130,3 @@ void *checked_realloc(void *block, unsigned long size) { __asm { int 3 } return 
 void merge_field_list(unsigned char *record, TypeRecord *entry) { __asm { int 3 } }
 
 void release_type_data(TypeRecord *entry) { __asm { int 3 } }
-void add_derived_type(unsigned short type, unsigned short base) { __asm { int 3 } }
