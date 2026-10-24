@@ -175,7 +175,6 @@ IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initial
 
 
 CppSymbol *__stdcall require_default_constructor_closure(CppSymbol *constructor) { __asm { int 3 } return 0; }
-void __stdcall finish_local_static_initialization(CppSymbol *symbol) { __asm { int 3 } }
 unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 void __stdcall begin_initializer_function(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
@@ -592,3 +591,6 @@ IrToken *__stdcall make_null_virtual_data_pointer(CType *type) { __asm { int 3 }
 IrToken *__stdcall make_null_general_data_pointer(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_virtual_method_pointer(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_general_method_pointer(CType *type) { __asm { int 3 } return 0; }
+
+char *__stdcall make_local_static_destructor_name(CppSymbol *object, CppSymbol *function) { __asm { int 3 } return 0; }
+void __stdcall emit_atexit_registration(CppSymbol *function) { __asm { int 3 } }

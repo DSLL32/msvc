@@ -1,0 +1,27 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_finish_local_static_initialization@4",
+    "start": 295744,
+    "end": 295960
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1219-finish_local_static_initialization-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_defer_object_definition@4",
+    "_emit_atexit_registration@4",
+    "_emit_label@4",
+    "_has_destructor_member_model@4",
+    "_insert_scope_symbol@8",
+    "_make_local_static_destructor_name@8",
+    "_make_missing_function_declaration",
+    "_report_syntax_error",
+    "_symbol_alias@4",
+    "_symbol_construction_class@4"
+  ],
+  "next_frontier": "_make_missing_function_declaration",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8101253220811486,
+  "total_operation_seconds": 5.0821301424875855,
+  "original_capture_seconds": 1.7679301146417856
+}

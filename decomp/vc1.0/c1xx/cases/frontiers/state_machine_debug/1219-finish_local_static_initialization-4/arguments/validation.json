@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_finish_local_static_initialization@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1219,
+  "configuration_sha256": "dd603a4cb15f4bd4084c32571b82e60c1ac30320385cf7e4ed3d20f27eb76eee",
+  "native_entry": "finish_local_static_initialization",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 229242,
+        "original_owner_function": "_initialize_class_object@8",
+        "native_owner_function": "initialize_class_object",
+        "native_owner_field": "caller_symbol",
+        "native_owner_local": "symbol",
+        "identity": "Accepted classinitializer retainsactualsymbolESI acrossconstructor/emission/type restore; actualblockstaticgate PUSH ESI47f74/CALL47f75/return47f7a. Native actual immediatecaller symbolformal owns same object declaration.",
+        "original_owner_value": 8449272,
+        "native_owner_value": 1449482112
+      },
+      "original_raw": 8449272,
+      "native_raw": 1449482112,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      295744,
+      295960
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void",
+    "proof": "Whole216B saveEBXESIEDI12, symboladjustedESP+16, RET4. No incomingGPR/x87/CPUflagsformal. Existingconstructionclass gate thenhas_destructor_member_model(type); false diagnostic262 actualname thenalwayslabel. True calls existingnamedgeneratedfunction34350, optionally inlinefunction external/decl400: actualsymbol_alias(object), newnamed make_local_static_destructor_name56210..56238 whole40B/stdcall8object+function returnschar*, flags200/storage41/insertglobal. Newnamed emit_atexit_registration341b0..34242 whole146B/stdcall4actualfunction/void buildsandemitsexitregistration, lefttrap. SaveBYTEdeclaration_mode/set0/deferactualsymbolalias/deferfunction/restoremode; alwaysemit_label(local_static_guard_label). FullcalleebodiesABIsreviewedbeforestubs, no sourceCRT/data/guardchanges.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "a2ee6904ecd6f7b74e9f0c16ea37067b8749ed3d8d4411b6e0af12a0ac090f67",
+  "capture_timing": {
+    "original_capture_seconds": 1.3173623578622937,
+    "native_capture_seconds": 0.1819268288090825,
+    "total_operation_seconds": 1.7544657085090876
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "a59d382f4bc893687b9d8daf794ce7146198ed7dacf8144fe41f17560ac47519",
+    "native-commands.gdb": "587a34044a13226e18813cbd71296f48f17dbe02a1b621f6566db9e0636c9a1f",
+    "native-gdb.log": "5d1d69e4613c741655eff396df1453a271e23c7b0682612c70211e7e580958d9",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "46d5ad69891eba7e21b0e511cc2aee88c267224bcae8a013035035283caa5d47",
+    "original-configuration.json": "dd603a4cb15f4bd4084c32571b82e60c1ac30320385cf7e4ed3d20f27eb76eee",
+    "original-disassembly.txt": "1960f5bbe0ee4b83fce72506a85f19e0d253e8f9c2ecf46fce61037db6e0befa",
+    "original-entries.plan": "80d13f6e0b88a90db69f18cbf0c6a795065db411ead44db094a08b8919300e20",
+    "original-events.txt": "2bea43a7ec9f2f08f25d621f8a20d65e07dfce60a5715a85c11f239af5539d35",
+    "original-ownership-caller-disassembly.txt": "5132fae2800a029085033b77043377d3a9ae73801926f253e571d52916019d30",
+    "original-receipt.json": "5a6a977bef5e9de5eb8f08f3236fbf93c2d89f291e0c3a8e6d13c7947faa1399",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "923e901c89ce98fd16ffdf20460d1bf2593073d0026f4e6f44bd43ef5ade4ed8"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1,0 +1,57 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00047ef0 <.text+0x30ef0>:
+   47ef0:	53                   	push   ebx
+   47ef1:	56                   	push   esi
+   47ef2:	57                   	push   edi
+   47ef3:	8b 74 24 10          	mov    esi,DWORD PTR [esp+0x10]
+   47ef7:	56                   	push   esi
+   47ef8:	e8 f3 03 00 00       	call   0x482f0
+   47efd:	8b d8                	mov    ebx,eax
+   47eff:	8b 7e 0c             	mov    edi,DWORD PTR [esi+0xc]
+   47f02:	80 66 14 fb          	and    BYTE PTR [esi+0x14],0xfb
+   47f06:	56                   	push   esi
+   47f07:	e8 74 00 00 00       	call   0x47f80
+   47f0c:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   47f10:	50                   	push   eax
+   47f11:	53                   	push   ebx
+   47f12:	e8 49 31 ff ff       	call   0x3b060
+   47f17:	8b d8                	mov    ebx,eax
+   47f19:	68 00 30 00 00       	push   0x3000
+   47f1e:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   47f21:	50                   	push   eax
+   47f22:	e8 49 8f 00 00       	call   0x50e70
+   47f27:	89 46 0c             	mov    DWORD PTR [esi+0xc],eax
+   47f2a:	6a 00                	push   0x0
+   47f2c:	56                   	push   esi
+   47f2d:	e8 ee 46 ff ff       	call   0x3c620
+   47f32:	50                   	push   eax
+   47f33:	6a 3a                	push   0x3a
+   47f35:	e8 d6 72 01 00       	call   0x5f210
+   47f3a:	50                   	push   eax
+   47f3b:	53                   	push   ebx
+   47f3c:	56                   	push   esi
+   47f3d:	6a 00                	push   0x0
+   47f3f:	6a 00                	push   0x0
+   47f41:	6a 00                	push   0x0
+   47f43:	e8 a8 79 00 00       	call   0x4f8f0
+   47f48:	6a 02                	push   0x2
+   47f4a:	50                   	push   eax
+   47f4b:	e8 30 68 ff ff       	call   0x3e780
+   47f50:	50                   	push   eax
+   47f51:	e8 8a 1b 01 00       	call   0x59ae0
+   47f56:	89 7e 0c             	mov    DWORD PTR [esi+0xc],edi
+   47f59:	f6 05 92 f7 09 00 08 	test   BYTE PTR ds:0x9f792,0x8
+   47f60:	74 18                	je     0x47f7a
+   47f62:	f6 05 90 f7 09 00 40 	test   BYTE PTR ds:0x9f790,0x40
+   47f69:	75 0f                	jne    0x47f7a
+   47f6b:	8a 46 1a             	mov    al,BYTE PTR [esi+0x1a]
+   47f6e:	24 07                	and    al,0x7
+   47f70:	3c 03                	cmp    al,0x3
+   47f72:	75 06                	jne    0x47f7a
+   47f74:	56                   	push   esi
+   47f75:	e8 c6 03 00 00       	call   0x48340

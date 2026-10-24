@@ -11,6 +11,10 @@
 #include "function-finalization.h"
 #include <recon.h>
 
+char *__stdcall make_local_static_destructor_name(CppSymbol *object, CppSymbol *function);
+void __stdcall emit_atexit_registration(CppSymbol *function);
+void __stdcall defer_object_definition(CppSymbol *symbol);
+
 IrToken *initializer_end_label; /* original 0x91588: optional final branch label */
 CppSymbol *pending_initializer_symbol; /* original 0x9fcc4: deferred record header */
 int initializer_runtime_override; /* original 0x9157c */
@@ -516,4 +520,37 @@ void __stdcall emit_initializer_constant(CppSymbol *target)
         emit_runtime_symbol_initializer(target, value);
         initializer_data_used = 1;
     } else emit_runtime_symbol_initializer(target, value);
+}
+
+/* Original 0x48340..0x48417, stdcall4. Static objects register an
+   available destructor and queue its definition, then close the guard even
+   when no destructor exists or a diagnostic was issued. */
+void __stdcall finish_local_static_initialization(CppSymbol *symbol)
+{
+    CppSymbol *function, *object;
+    unsigned char saved_mode;
+    if (symbol_construction_class(symbol)) {
+        if (!has_destructor_member_model(symbol->type))
+            report_syntax_error(262, symbol->name);
+        else {
+            function = make_missing_function_declaration();
+            if (function_symbol && (function_symbol->storage[1] & 1) &&
+                ((function_symbol->storage[0] & 7) != 3 ||
+                 (function_symbol->declaration_flags & 0x400))) {
+                object = symbol_alias(symbol);
+                function->name = make_local_static_destructor_name(object, function);
+                function->declaration_flags =
+                    (function->declaration_flags & ~0x100) | 0x200;
+                function->storage[0] = (function->storage[0] & ~7) | 0x41;
+                insert_scope_symbol(global_scope, function);
+            }
+            emit_atexit_registration(function);
+            saved_mode = declaration_mode;
+            declaration_mode = 0;
+            defer_object_definition(symbol_alias(symbol));
+            defer_object_definition(function);
+            declaration_mode = saved_mode;
+        }
+    }
+    emit_label(local_static_guard_label);
 }

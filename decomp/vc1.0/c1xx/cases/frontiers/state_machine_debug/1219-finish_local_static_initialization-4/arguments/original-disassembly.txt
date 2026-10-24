@@ -1,0 +1,78 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00048340 <.text+0x31340>:
+   48340:	53                   	push   ebx
+   48341:	56                   	push   esi
+   48342:	57                   	push   edi
+   48343:	8b 74 24 10          	mov    esi,DWORD PTR [esp+0x10]
+   48347:	56                   	push   esi
+   48348:	e8 a3 ff ff ff       	call   0x482f0
+   4834d:	0b c0                	or     eax,eax
+   4834f:	0f 84 b2 00 00 00    	je     0x48407
+   48355:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   48358:	50                   	push   eax
+   48359:	e8 f2 f7 fe ff       	call   0x37b50
+   4835e:	0b c0                	or     eax,eax
+   48360:	75 16                	jne    0x48378
+   48362:	8b 46 08             	mov    eax,DWORD PTR [esi+0x8]
+   48365:	50                   	push   eax
+   48366:	68 06 01 00 00       	push   0x106
+   4836b:	e8 10 ae 02 00       	call   0x73180
+   48370:	83 c4 08             	add    esp,0x8
+   48373:	e9 8f 00 00 00       	jmp    0x48407
+   48378:	e8 d3 bf fe ff       	call   0x34350
+   4837d:	8b f8                	mov    edi,eax
+   4837f:	83 3d 40 c1 08 00 00 	cmp    DWORD PTR ds:0x8c140,0x0
+   48386:	74 54                	je     0x483dc
+   48388:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   4838d:	f6 40 1b 01          	test   BYTE PTR [eax+0x1b],0x1
+   48391:	74 49                	je     0x483dc
+   48393:	8a 40 1a             	mov    al,BYTE PTR [eax+0x1a]
+   48396:	24 07                	and    al,0x7
+   48398:	3c 03                	cmp    al,0x3
+   4839a:	75 0b                	jne    0x483a7
+   4839c:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   483a1:	f6 40 03 04          	test   BYTE PTR [eax+0x3],0x4
+   483a5:	74 35                	je     0x483dc
+   483a7:	57                   	push   edi
+   483a8:	56                   	push   esi
+   483a9:	e8 52 db 00 00       	call   0x55f00
+   483ae:	50                   	push   eax
+   483af:	e8 5c de 00 00       	call   0x56210
+   483b4:	89 47 08             	mov    DWORD PTR [edi+0x8],eax
+   483b7:	8a 47 03             	mov    al,BYTE PTR [edi+0x3]
+   483ba:	24 fe                	and    al,0xfe
+   483bc:	0c 02                	or     al,0x2
+   483be:	88 47 03             	mov    BYTE PTR [edi+0x3],al
+   483c1:	8a 47 1a             	mov    al,BYTE PTR [edi+0x1a]
+   483c4:	24 f9                	and    al,0xf9
+   483c6:	0c 01                	or     al,0x1
+   483c8:	88 47 1a             	mov    BYTE PTR [edi+0x1a],al
+   483cb:	0c 40                	or     al,0x40
+   483cd:	88 47 1a             	mov    BYTE PTR [edi+0x1a],al
+   483d0:	57                   	push   edi
+   483d1:	a1 c8 f2 09 00       	mov    eax,ds:0x9f2c8
+   483d6:	50                   	push   eax
+   483d7:	e8 f4 c6 00 00       	call   0x54ad0
+   483dc:	57                   	push   edi
+   483dd:	e8 ce bd fe ff       	call   0x341b0
+   483e2:	8a 1d 3c c1 08 00    	mov    bl,BYTE PTR ds:0x8c13c
+   483e8:	c6 05 3c c1 08 00 00 	mov    BYTE PTR ds:0x8c13c,0x0
+   483ef:	56                   	push   esi
+   483f0:	e8 0b db 00 00       	call   0x55f00
+   483f5:	50                   	push   eax
+   483f6:	e8 75 6f 00 00       	call   0x4f370
+   483fb:	57                   	push   edi
+   483fc:	e8 6f 6f 00 00       	call   0x4f370
+   48401:	88 1d 3c c1 08 00    	mov    BYTE PTR ds:0x8c13c,bl
+   48407:	a1 80 15 09 00       	mov    eax,ds:0x91580
+   4840c:	50                   	push   eax
+   4840d:	e8 2e 24 01 00       	call   0x5a840
+   48412:	5f                   	pop    edi
+   48413:	5e                   	pop    esi
+   48414:	5b                   	pop    ebx
+   48415:	c2 04 00             	ret    0x4
