@@ -1344,3 +1344,30 @@ CppSymbol *__stdcall select_allocation_function(unsigned short flags, CppSymbol 
         report_syntax_error(559, token_spellings[151]);
     return selected;
 }
+
+/* Original 0x3e110..0x3e1c2, stdcall8. Each instantiated default
+   expression gets fresh member-reference indices and restores its detached
+   symbols before joining the ordinary call-argument list. */
+IrToken *__stdcall append_default_call_argument(IrToken *arguments, void *expression)
+{
+    IrToken *value = clone_expression(expression, 0);
+    MemberReferenceGroup *group;
+    ExpressionReference *reference;
+    unsigned index;
+    if ((value->flags & 7) == 7 && value->kind == 0xca) {
+        for (group = value->tail.reference_groups; group; group = group->next) {
+            if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+            if (next_symbol_index >= browser_symbol_limit && browser_filename)
+                browser_symbol_rollover();
+            index = next_symbol_index++;
+            for (reference = group->references; reference; reference = reference->next)
+                reference->expression->value.integer = index;
+        }
+        value = value->value.pointer;
+    }
+    if ((value->flags & 7) == 7 && value->kind == 0xc9) {
+        restore_expression_symbols((ExpressionSymbolList *)value->tail.right);
+        value = value->value.pointer;
+    }
+    return append_expression(arguments, value, 4);
+}

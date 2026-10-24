@@ -137,7 +137,6 @@ IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object, IrToke
 void __stdcall report_argument_conversion(unsigned code, CppSymbol *function,
     CType *function_type, char *name, unsigned argument, CType *source, CType *target) { __asm { int 3 } }
 void __stdcall report_call_argument_error(unsigned code, CppSymbol *function, unsigned index) { __asm { int 3 } }
-IrToken *__stdcall append_default_call_argument(IrToken *arguments, void *expression) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall create_initializer_temporary(unsigned char storage, CType *type) { __asm { int 3 } return 0; }
 void __stdcall record_initialized_temporary(CppSymbol *symbol, CType *type) { __asm { int 3 } }
 IrToken *__stdcall materialize_call_result(IrToken *call) { __asm { int 3 } return 0; }

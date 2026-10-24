@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "function": "_append_default_call_argument@8",
+  "native_entry": "append_default_call_argument",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_arguments": "(unsigned)arguments",
+    "raw_expression": "(unsigned)expression",
+    "default_argument_bytes": "sizeof(DefaultArgument)",
+    "default_argument_offset": "(unsigned)&((DefaultArgument *)0)->expression"
+  },
+  "formals": [
+    {
+      "name": "arguments",
+      "stack_index": 0,
+      "native_field": "raw_arguments",
+      "binding": {
+        "kind": "null-pointer"
+      }
+    },
+    {
+      "name": "expression",
+      "stack_index": 1,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "default-argument-expression",
+        "original_register": "ebx",
+        "original_caller_rva": 175369,
+        "original_owner_function": "_convert_call_arguments@16",
+        "original_observation_name": "default_expression",
+        "owner_bytes": 20,
+        "field_offset": 12,
+        "native_owner_field": "caller_argument",
+        "native_expression_field": "caller_expression",
+        "identity": "ActualacceptedcallerDefaultArgument*argument heldEBX; MOV ECX,[EBX+12]3acfa/PUSH ECX3ad02/PUSH EAXarguments3ad03/CALL3ad04/return3ad09. Fresh EBX plus exact initialized4B at+12 bindsactualarg1, native actualsamecallerargument.expression field bindsnativearg1. Established20B default node overlaysacceptedappend_expression/new_ir_expression listnode whose value.pointer+12writer storesactualexpression; onlythatpointerwordcredited, no downstreamcontents/otherfields."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "ebx",
+  "ownership_caller_extent": [
+    240884,
+    240905
+  ],
+  "native_caller_locals": {
+    "caller_argument": {
+      "frame": 1,
+      "function": "convert_call_arguments",
+      "local": "argument"
+    },
+    "caller_expression": {
+      "frame": 1,
+      "function": "convert_call_arguments",
+      "local": "argument",
+      "fields": [
+        "expression"
+      ]
+    }
+  },
+  "original_observations": [
+    {
+      "name": "default_expression",
+      "original": 8302780
+    }
+  ],
+  "abi_analysis": {
+    "original_extent": [
+      254224,
+      254403
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8 IrToken* returnEAX",
+    "proof": "Whole179B saveEBXESIEDIEBP16; argumentsadjustedESP+20/expression+24, RET8. No incomingGPR/x87/CPUflagsformal. Existingclone_expression(expression,0), ifflags7/kindca iterateexisting8BMemberReferenceGroup and8BExpressionReference nodes, allocatefreshsymbolindexpergroupwithfatal55/browserrollover thenwriteeachactualreference.expression.valueDWORD+12. Unwrapca tovalue.pointer; ifflags7/kindc9 restore_expression_symbols3e2a0..3e316 whole118B/stdcall4 ExpressionSymbolList* namedstub thenunwrap. Existingappend_expression(arguments,value,4) return. CurrentfirstargumentsNULL andactualDefaultArgument.expression input boundviafreshEBX/one4Bfield+nativecallerfield, no newselector/generalobserver/recursivecontents/newdata/CRTbody."
+  }
+}

@@ -15,6 +15,11 @@ typedef struct DefaultArgument {
     void *expression;
     struct DefaultArgument *next;
 } DefaultArgument;
+/* Default arguments retain the ordinary twenty-byte expression-list node:
+   its initialized value pointer is the expression consumed at a call. */
+typedef char DefaultArgumentSizeMustBe20[(sizeof(DefaultArgument) == 20) ? 1 : -1];
+typedef char DefaultArgumentExpressionOffsetMustBe12[
+    (offsetof(DefaultArgument, expression) == 12) ? 1 : -1];
 struct FunctionParameters {
     CType *associated_type;
     unsigned char default_count, flags;

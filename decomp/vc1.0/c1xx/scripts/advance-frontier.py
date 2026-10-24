@@ -7,6 +7,7 @@ from member_parameter_owner import validate as validate_member_parameter_owner
 from member_path_outputs import validate as validate_member_path_output
 from goto_cleanup_inputs import validate as validate_goto_cleanup_inputs
 from generated_linkage_owner import validate as validate_generated_linkage_owner
+from default_argument_owner import validate as validate_default_argument_owner
 import argparse
 from parser_context_owner import validate as validate_parser_context_owner
 from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
@@ -121,6 +122,8 @@ def main():
             validate_parser_context_owner(args.candidate, formal, anchors, entry_native, words, entry_original, (argument_directory/'original-events.txt').read_text(), config, sha(argument_directory/'original-events.txt'))
         elif binding['kind']=='member-function-parameter-owner':
             validate_member_parameter_owner(args.candidate, formal, anchors, entry_native, words, entry_original, (argument_directory/'original-events.txt').read_text(), config, sha(argument_directory/'original-events.txt'))
+        elif binding['kind']=='default-argument-expression':
+            validate_default_argument_owner(args.candidate, formal, anchors, entry_native, words, entry_original, (argument_directory/'original-events.txt').read_text(), config, sha(argument_directory/'original-events.txt'))
         elif binding['kind']=='null-pointer':
             assert formal['original_raw']==formal['native_raw']==0, 'null pointer argument differs'
         elif binding['kind']=='scalar':
