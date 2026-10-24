@@ -17,8 +17,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "type_scratch",
-    "native_function": "type_scratch",
+    "logical": "write_mapped_file",
+    "native_function": "write_mapped_file",
     "application_trace": [
       "main",
       "parse_options",
@@ -126,7 +126,30 @@
       "free_strip_records",
       "finalize_types",
       "finalize_derived_types",
-      "type_scratch"
+      "type_scratch",
+      "build_source_file_index",
+      "find_source_name",
+      "hash_source_name",
+      "add_source_name",
+      "write_packed_debug",
+      "compare_output_directory",
+      "initialize_output",
+      "write_subsection",
+      "write_global_publics",
+      "pad_symbols",
+      "build_symbol_name_hash",
+      "append_fill",
+      "build_symbol_address_hash",
+      "compare_symbol_address",
+      "first_buffer_block",
+      "next_buffer_block",
+      "write_global_symbols",
+      "write_static_symbols",
+      "write_packed_types",
+      "build_type_offsets",
+      "flush_output",
+      "write_file",
+      "write_mapped_file"
     ],
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
@@ -135,7 +158,9 @@
       "suppressed_symbol_depth",
       "symbol_scope_depth"
     ],
-    "observed_walks": [],
+    "observed_walks": [
+      "output_buffer"
+    ],
     "artifacts": []
   },
   "status": "active",
@@ -156,5 +181,9 @@
     "original": "0x2aa30",
     "native": "open_mapped_file",
     "scope": "Logical baseline only; no new function acceptance or full formal proof at this initial trap"
+  },
+  "native_host_allocator": {
+    "profile": "cases/embedded-cpp-mapped/native-host-allocator/profile.json",
+    "sha256": "972c09dd9881ee687c82e32b5bd3689cb9ed48c9cdc116dcd0c08728b6cf710b"
   }
 }

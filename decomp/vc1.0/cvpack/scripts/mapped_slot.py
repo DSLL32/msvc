@@ -1,9 +1,10 @@
 """Active Win32 HANDLE in the concretely reached mapped input slot."""
 import re
 
-def compare(pointer,old,new,actual,events,native,mapped_seek=False):
+def compare(pointer,old,new,actual,events,native,mapped_seek=False,mapped_write=False):
     assert len(old)==len(new)==40 and old[4:16]==new[4:16]and old[28:36]==new[28:36],'mapped slot scalar inputs differ'
-    assert old[32:40]==new[32:40]==bytes(8),'initial cursor/next not NULL'
+    assert old[36:40]==new[36:40]==bytes(4),'next slot not NULL'
+    if not mapped_write:assert old[32:36]==new[32:36]==bytes(4),'initial cursor not zero'
     if mapped_seek:
         assert all(int.from_bytes(raw[i:i+4],'little')for raw in(old,new)for i in(20,24)),'mapping/view successful result missing'
     else:assert old[20:28]==new[20:28]==bytes(8),'mapping/view not yet proved NULL'
@@ -56,3 +57,16 @@ def compare_view_input(pointer,old,actual,events,words,file):
     assert new['registered_view']and new['owned_mapping']and new['extent']==2097152 and new['cursor']==0 and new['count']==64,'native mapped extent/input differs'
     assert len(bytes.fromhex(r[12]))==64 and r[12]==new['bytes']==file.read_bytes()[:64].hex(),'actual consumed mapped bytes differ'
     return dict(original=r,native=new,scope='Actual first64-byte DOS-header input from the real2MB mapped allocation; original region and actual mapping returns, native mapping/view registry and source-file identity. No comparison credit for unconsumed mapping payload or undefined DOS output prebytes.')
+
+
+def compare_destination(pointer,old,actual,events,words):
+    rows=re.findall(r'^mapped-destination slot ([0-9a-f]+) mapping ([0-9a-f]+) view ([0-9a-f]+) extent (\d+) cursor (\d+) count (\d+) region ([0-9a-f]+) ([0-9a-f]+) (\d+) (\d+) (\d+) (\d+)$',events,re.M)
+    assert words[0]==0x2a693 and len(rows)==1,'missing actual mapped output caller/owner'
+    r=rows[0];new=actual['view_input'];raw=bytes.fromhex(actual['bytes'])
+    word=lambda data,offset:int.from_bytes(data[offset:offset+4],'little')
+    assert int(r[0],16)==pointer and int(r[1],16)==word(old,20)and int(r[2],16)==word(old,24),'original mapped destination differs'
+    assert int(r[3])==int(r[8])==2097152 and int(r[4])==word(old,32)and int(r[5])==words[3],'actual destination extent/cursor/count differs'
+    assert int(r[6],16)==int(r[7],16)==word(old,24)and [int(r[i])for i in(9,10,11)]==[0x1000,4,0x40000],'unknown original destination mapping'
+    assert new['slot']==actual['address']and new['mapping']==word(raw,20)and new['view']==word(raw,24)and new['registered_view']and new['owned_mapping'],'native destination owner differs'
+    assert new['extent']==int(r[3])and new['cursor']==int(r[4])and new['count']==int(r[5])and 0<new['count']<=new['extent']-new['cursor'],'native destination range differs'
+    return dict(original=r,native=new,scope='Actual writable2MB mapped destination owner and overwritten range. The write reads no previous destination payload; source defined output prefix is independently compared. No destination-byte or arbitrary pointer equivalence claim.')

@@ -143,3 +143,19 @@ static int dump_mapped_input(HANDLE child,HANDLE log,DWORD pointer,DWORD *slot,D
     for(i=0;i<sizeof(input);++i)used+=sprintf(line+used,"%02x",input[i]);line[used++]='\n';
     return WriteFile(log,line,used,&written,0);
 }
+
+/* The write overwrites this range; prove destination ownership/extent only. */
+static int dump_mapped_destination(HANDLE child,HANDLE log,DWORD pointer,DWORD *slot,DWORD *words)
+{
+    MEMORY_BASIC_INFORMATION region;
+    DWORD written;char line[256];
+    if(words[0]!=0x2a693 || slot[1]!=11 || slot[5]!=mapped_api_mapping || slot[6]!=mapped_api_view ||
+       !slot[6] || slot[7]!=0x200000 || slot[8]>slot[7] || words[3]>slot[7]-slot[8] ||
+       VirtualQueryEx(child,(void *)slot[6],&region,sizeof(region))!=sizeof(region) ||
+       (DWORD)region.BaseAddress!=slot[6] || (DWORD)region.AllocationBase!=slot[6] || region.RegionSize!=slot[7] ||
+       region.State!=MEM_COMMIT || region.Protect!=PAGE_READWRITE || region.Type!=MEM_MAPPED)return 0;
+    sprintf(line,"mapped-destination slot %08lx mapping %08lx view %08lx extent %lu cursor %lu count %lu region %08lx %08lx %lu %lu %lu %lu\n",
+        pointer,slot[5],slot[6],slot[7],slot[8],words[3],(DWORD)region.BaseAddress,(DWORD)region.AllocationBase,
+        region.RegionSize,region.State,region.Protect,region.Type);
+    return WriteFile(log,line,strlen(line),&written,0) && written==strlen(line);
+}

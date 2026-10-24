@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x7097: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=6, argv=0xfff9b034, environment=0xfff9b050) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565ff008 in write_mapped_file (slot=0xf7d28010, buffer=0xf79e3010, size=17612) at src/stubs.c:41
+41	int write_mapped_file(FileSlot *slot,const void *buffer,unsigned long size) { __asm { int 3 } return -1; }

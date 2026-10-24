@@ -920,15 +920,16 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
             for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", observed[i]);
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
-            if ((entry == 0x2a450 || entry == 0x29c50 || entry == 0x29f50 || entry == 0x2aa30 || entry == 0x2ad30 || entry == 0x2ab50 || entry == 0x2abb0) && slot == 1 && size == 40 && input) {
+            if ((entry == 0x2a450 || entry == 0x29c50 || entry == 0x29f50 || entry == 0x2aa30 || entry == 0x2ad30 || entry == 0x2ab50 || entry == 0x2abb0 || entry == 0x2ac00) && slot == 1 && size == 40 && input) {
                 DWORD table, limit, handle, actual;
                 handle = *(DWORD *)(original_bytes+8);
                 if (!ReadProcessMemory(child, (void *)0x33000, &table, 4, &bytes) || bytes != 4 ||
                     !ReadProcessMemory(child, (void *)0x352c0, &limit, 4, &bytes) || bytes != 4 ||
                     handle >= limit || limit > 64 || !table ||
                     !ReadProcessMemory(child, (void *)(table+handle*4), &actual, 4, &bytes) || bytes != 4 || actual != pointer) return 0;
-                if((entry==0x2ad30 || entry==0x2ab50 || entry==0x2abb0) && !dump_mapped_source(child,log,pointer,(DWORD *)original_bytes))return 0;
+                if((entry==0x2ad30 || entry==0x2ab50 || entry==0x2abb0 || entry==0x2ac00) && !dump_mapped_source(child,log,pointer,(DWORD *)original_bytes))return 0;
                 if(entry==0x2abb0 && !dump_mapped_input(child,log,pointer,(DWORD *)original_bytes,words))return 0;
+                if(entry==0x2ac00 && !dump_mapped_destination(child,log,pointer,(DWORD *)original_bytes,words))return 0;
                 used = sprintf(object_line, "file-slot-owner %08lx %lu %08lx %lu\n", pointer, handle, table, limit);
                 if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
             }

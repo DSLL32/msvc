@@ -193,11 +193,14 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
             source_proof=None
             if item.get('source_win32_handle'):
                 from mapped_slot import compare as compare_mapped_slot
-                assert args.case=='embedded-cpp-mapped'and frontier['name']in('map_file','seek_mapped_file','read_mapped_file'),'unknown active HANDLE consumer'
-                source_proof=compare_mapped_slot(pointer,old,new,actual,events,json.loads((work/'mapped-open.json').read_text()),item.get('mapped_seek',False))
+                assert args.case=='embedded-cpp-mapped'and frontier['name']in('map_file','seek_mapped_file','read_mapped_file','write_mapped_file'),'unknown active HANDLE consumer'
+                source_proof=compare_mapped_slot(pointer,old,new,actual,events,json.loads((work/'mapped-open.json').read_text()),item.get('mapped_seek',False),item.get('mapped_write',False))
                 if item.get('mapped_seek'):
                     from mapped_slot import compare_creation
                     source_proof['mapping_creation']=compare_creation(pointer,old,new,actual,events,json.loads((work/'mapping-returns.json').read_text()))
+                if item.get('mapped_write'):
+                    from mapped_slot import compare_destination
+                    source_proof['destination']=compare_destination(pointer,old,actual,events,words)
                 if item.get('mapped_read'):
                     from mapped_slot import compare_view_input
                     source_proof['consumed_view_input']=compare_view_input(pointer,old,actual,events,words,original/'work/embedded-cpp.dll')

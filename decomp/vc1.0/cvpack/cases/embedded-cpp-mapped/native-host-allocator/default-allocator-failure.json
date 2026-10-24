@@ -1,0 +1,19 @@
+{
+  "candidate": "type_scratch",
+  "frontier": "write_mapped_file",
+  "bytes": 17612,
+  "differing_offsets": [
+    16793,
+    16794
+  ],
+  "original": "0000",
+  "native": "100b",
+  "source_file_index_size": 208,
+  "unwritten_alignment_range": [
+    205,
+    208
+  ],
+  "scope": "Two actual differing bytes within the3-byte unwritten alignment tail. Whole original/native source-prefix comparison denied acceptance; default failure preserved.",
+  "original_receipt_sha256": "dd754f771284776dcf1a07fa9844f1f9519ec0e56bf9d1a0fe2eb8efbc07a805",
+  "native_receipt_sha256": "f6f4fb42cf1877bb4d589d6e784f75a3f1822168d361fc8e38f4a576288895ee"
+}

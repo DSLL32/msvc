@@ -2204,3 +2204,26 @@ void convert_local_data32(void)
     type = (unsigned short *)(symbol_input+10);
     *type = convert_new_type(*type);
 }
+
+/* Reused temporary storage for synthesized type records. */
+void *type_scratch_buffer;
+unsigned short type_scratch_capacity;
+
+/* Original [0001efb0,0001f021). The stored capacity truncates to 16 bits. */
+void *type_scratch(unsigned long size)
+{
+    void *buffer = type_scratch_buffer;
+    if (type_scratch_capacity < size) {
+        if (buffer) free(buffer);
+        if (size <= 256) size = 256;
+        type_scratch_capacity = (unsigned short)size;
+        buffer = malloc(type_scratch_capacity);
+        type_scratch_buffer = buffer;
+        if (!buffer) {
+            fatal_error(13, NULL, NULL);
+            buffer = type_scratch_buffer;
+        }
+    }
+    type_scratch_buffer = buffer;
+    return buffer;
+}

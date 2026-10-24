@@ -1330,5 +1330,21 @@
     "original": 228980,
     "size": 4,
     "source": "src/output.c"
+  },
+  {
+    "name": "type_scratch_buffer",
+    "symbol": "_type_scratch_buffer",
+    "original": 227396,
+    "size": 4,
+    "source": "src/types.c",
+    "provenance": "Reusable type_scratch allocation; original loads/frees/replaces pointer at37844."
+  },
+  {
+    "name": "type_scratch_capacity",
+    "symbol": "_type_scratch_capacity",
+    "original": 227400,
+    "size": 2,
+    "source": "src/types.c",
+    "provenance": "Original type_scratch compares zero-extended WORD capacity and truncates new requested allocation size to WORD."
   }
 ]

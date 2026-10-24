@@ -1,0 +1,18 @@
+{
+  "positive": true,
+  "controls": [
+    {
+      "field": "extent",
+      "rejected": true
+    },
+    {
+      "field": "cursor",
+      "rejected": true
+    },
+    {
+      "field": "owned_mapping",
+      "rejected": true
+    }
+  ],
+  "scope": "Three focused offline mutations of actual mapped destination proof; no historical pipeline."
+}
