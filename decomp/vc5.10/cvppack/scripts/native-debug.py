@@ -50,6 +50,7 @@ def main():
         'helper.capture('+repr(str(output/'configuration.json'))+','+repr(str(output/'data.json'))+','+repr(str(state_path))+')\nend\nquit\n')
     (output/'gdb-state.py').write_bytes((BINARY/'scripts/gdb-state.py').read_bytes())
     if config.get('observe_address_hash_complete'):(output/'address-hash-complete-gdb.py').write_bytes((BINARY/'scripts/address-hash-complete-gdb.py').read_bytes())
+    if config.get('observe_next_hash_output_block'):(output/'hash-chain-gdb.py').write_bytes((BINARY/'scripts/hash-chain-gdb.py').read_bytes())
     env = os.environ.copy()
     env.pop('VC510_CVPACK_WIDEN',None)
     env.pop('RECON_TRACE_FD', None)
@@ -106,7 +107,8 @@ def main():
         path=output/('artifact-'+name);path.write_bytes((output/name).read_bytes())
         artifact_records.append(dict(name=path.name,bytes=path.stat().st_size,sha256=sha(path)))
     if config.get('observe_address_hash_complete'):extra_outputs+=['address-hash-complete-gdb.py','first-address-callback-state.json','first-address-callback-config.json']
-    receipt = dict(schema=1, case=case['name'], native_sha256=sha(BINARY / 'build/native/CVPACK'),
+    if config.get('observe_next_hash_output_block'):extra_outputs+=['hash-chain-gdb.py','first-next-block-config.json','first-next-block-state.json']
+    receipt = dict(schema=1, observer_inventory=2 if config.get('observe_next_hash_output_block') else 1, case=case['name'], native_sha256=sha(BINARY / 'build/native/CVPACK'),
                    case_definition_sha256=sha(output/'case-definition.json'),
                    configuration_sha256=sha(output / 'configuration.json'),
                    rebuilt_sha256=sha(BINARY / 'build/CVPACK.EXE'),

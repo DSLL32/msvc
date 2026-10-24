@@ -1,0 +1,36 @@
+/* Original-only typed live heap observations after the names-block phase. */
+static DWORD hash_chain_calls, hash_chain_pending, hash_chain_esp;
+static DWORD hash_chain_argument, hash_chain_width, hash_chain_block[2], hash_chain_payload[2];
+static void hash_chain_observe(FILE *log,HANDLE process,CONTEXT *context,DWORD site)
+{
+    DWORD args[2],words[6],index;
+    if(site==0x4100d0 || site==0x4100c0) {
+        if(hash_chain_pending || hash_chain_calls>=3 || !read_bytes(process,context->Esp,args,8)) goto failed;
+        if(!hash_chain_calls) {
+            if(site!=0x4100d0 || !read_bytes(process,ah_stream_arena,words,24)) goto failed;
+            hash_chain_block[0]=name_hash_addresses[3];hash_chain_payload[0]=name_hash_addresses[4];
+            hash_chain_block[1]=words[5];
+            if(!read_bytes(process,words[5],words,12)) goto failed;
+            hash_chain_payload[1]=words[1];
+        }
+        hash_chain_esp=context->Esp;hash_chain_argument=args[1];hash_chain_width=site==0x4100c0?24:12;hash_chain_pending=site;
+        fprintf(log,"hash-chain-call %lu %08lx %08lx %08lx %08lx %08lx %08lx %08lx %08lx\n",hash_chain_calls,site,context->Esp,args[0],args[1],context->Ebx,context->Esi,context->Edi,context->Ebp);
+        namehash_hex(log,process,"hash-chain-input",args[1],hash_chain_width);
+    } else if(site==0x4100c7 || site==0x4100d7) {
+        if(!hash_chain_pending || site!=hash_chain_pending+7 || context->Esp!=hash_chain_esp) goto failed;
+        fprintf(log,"hash-chain-return %lu %08lx %08lx %08lx %08lx %08lx %08lx %08lx\n",hash_chain_calls,site,context->Esp,context->Eax,context->Ebx,context->Esi,context->Edi,context->Ebp);
+        namehash_hex(log,process,"hash-chain-after-input",hash_chain_argument,hash_chain_width);
+        hash_chain_pending=0;++hash_chain_calls;
+    } else if(site==0x40d8d8) {
+        fprintf(log,"hash-chain-address-copy %08lx %08lx %08lx %08lx\n",context->Esp,context->Ebx,context->Esi,context->Edi);
+    } else if(site==0x40d9a0) {
+        if(hash_chain_calls!=3 || hash_chain_pending) goto failed;
+        for(index=0;index<2;++index) {
+            namehash_hex(log,process,index?"hash-chain-address-block":"hash-chain-name-block",hash_chain_block[index],12);
+            namehash_hex(log,process,index?"hash-chain-address-output":"hash-chain-name-output",hash_chain_payload[index],index?540:564);
+        }
+    }
+    return;
+failed:
+    fprintf(log,"hash-chain-observation-failed\n");
+}

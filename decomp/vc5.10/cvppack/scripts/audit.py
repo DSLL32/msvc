@@ -300,6 +300,10 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
             historical_metadata_proof_sha256=sha(reuse_original/'graph-metadata-proof.json') if (reuse_original/'graph-metadata-proof.json').exists() else None,
             original_events_sha256=sha(reuse_original/'events'),
             masked_image_sha256=original['masked_image_sha256'])
+    if reuse_native is not None and config.get('observe_next_hash_output_block'):
+        spec=importlib.util.spec_from_file_location('native_observer_files',BINARY/'scripts/native-observer-files.py')
+        observers=importlib.util.module_from_spec(spec);spec.loader.exec_module(observers)
+        receipt['native_observer_files']=observers.bind(reuse_native,config)
     if output:
         output.write_text(json.dumps(receipt, indent=2) + '\n')
     return receipt

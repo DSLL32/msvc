@@ -127,6 +127,9 @@ def main():
     if config.get('observe_name_hash'):
         env['VC510_CVPACK_NAME_HASH']='1'
         env['VC510_CVPACK_PROBES']+=',40e9aa:namehash-malloc-call,40e9af:namehash-malloc-return,40e9e9:namehash-clear-call,40e9ee:namehash-clear-return,40eb0a:namehash-overflow-call,40eb0f:namehash-overflow-return,40eba0:namehash-init-call,40eba5:namehash-init-return,40ebb0:namehash-copy-call,40ebb5:namehash-copy-return,40ff9d:namehash-block-call,40ffa2:namehash-block-return,40ffaa:namehash-payload-call,40ffaf:namehash-payload-return'
+    if config.get('observe_next_hash_output_block'):
+        env['VC510_CVPACK_NEXT_HASH_BLOCK']='1'
+        env['VC510_CVPACK_PROBES']+=',4100d7:next-block-return,40d8d8:address-block-copy-complete,4100c4:first-block-argument-loaded,4100d4:next-block-argument-loaded'
     if config.get('observe_first_hash_output_block'):
         env['VC510_CVPACK_FIRST_HASH_BLOCK']='1'
         env['VC510_CVPACK_PROBES']+=',4100c7:first-block-return,40d7d9:first-block-caller-return,40d846:first-block-copy-complete'

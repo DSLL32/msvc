@@ -42,6 +42,8 @@ address_hash_sort={}
 address_hash_first_snapshot={}
 address_hash_complete_state={}
 address_hash_complete_module=None
+hash_chain_state={}
+hash_chain_module=None
 output_directory_before={}
 output_directory_sort={}
 output_directory_complete={}
@@ -384,7 +386,7 @@ def install(configuration):
                     # retained independently; no comparator expression ran yet.
                     assert address_hash_first_snapshot and gdb.newest_frame().older().name()=='recon_qsort'
                     directory=Path(configuration).parent
-                    phase=dict(config,observe_address_hash_complete=False,observe_first_hash_output_block=False)
+                    phase=dict(config,observe_address_hash_complete=False,observe_first_hash_output_block=False,observe_next_hash_output_block=False)
                     phase_path=directory/'first-address-callback-config.json'
                     phase_path.write_text(json.dumps(phase,indent=2)+'\n')
                     capture(str(phase_path),str(directory/'data.json'),str(directory/'first-address-callback-state.json'))
@@ -396,6 +398,11 @@ def install(configuration):
             spec=importlib.util.spec_from_file_location('frozen_address_hash_complete_gdb',Path(configuration).parent/'address-hash-complete-gdb.py')
             address_hash_complete_module=importlib.util.module_from_spec(spec);spec.loader.exec_module(address_hash_complete_module)
             address_hash_complete_state=address_hash_complete_module.install(globals(),config)
+            if config.get('observe_next_hash_output_block'):
+                global hash_chain_state,hash_chain_module
+                spec=importlib.util.spec_from_file_location('frozen_hash_chain_gdb',Path(configuration).parent/'hash-chain-gdb.py')
+                hash_chain_module=importlib.util.module_from_spec(spec);spec.loader.exec_module(hash_chain_module)
+                hash_chain_state=hash_chain_module.install(globals(),config,configuration)
 
     if config.get('observe_name_hash'):
         class NameHashEntered(gdb.Breakpoint):
@@ -1053,7 +1060,7 @@ def capture(configuration,data_file,output):
         assert actual.code==gdb.TYPE_CODE_INT and actual.sizeof==item['width'] and str(actual)==item['native_type'],'actual caller-local type/extent differs'
         caller_state[item['name']]=dict(owner=owner.name(),local=item['local'],width=int(actual.sizeof),native_type=str(actual),value=int(value))
     state['caller_state']=caller_state
-    if config.get('observe_public_writer_prefix'):
+    if config.get('observe_public_writer_prefix') and not config.get('observe_next_hash_output_block'):
         owner=frame.older()
         while owner is not None and owner.name()!='write_publics':owner=owner.older()
         assert owner is not None and owner.older() is not None and owner.older().name()=='flush_packed_file','public writer actual parent scope differs'
@@ -1072,7 +1079,7 @@ def capture(configuration,data_file,output):
             alias=value['fields'];assert int(alias.address)-base==4 and alias.type.strip_typedefs().code==gdb.TYPE_CODE_ARRAY and alias.type.sizeof==20 and alias.type.target().sizeof==4,'public writer actual anonymous arena alias differs'
             streams.append(dict(local=local,address=int(value.address),width=int(kind.sizeof),first_offset=20))
         state['public_writer_frame']=dict(owner=owner.name(),caller=owner.older().name(),header_address=int(header.address),header=bytes(inferior.read_memory(header.address,16)).hex(),header_layout=layout,padding_address=int(padding.address),padding=int(padding),entry=int(owner.read_var('entry')),offset=int(owner.read_var('offset')),stream_objects=streams,uninitialized_streams=[] if config.get('observe_address_hash_complete') else streams[1:] if config.get('observe_name_hash') else streams,uninitialized_stream_bytes_uncompared=0 if config.get('observe_address_hash_complete') else 24 if config.get('observe_name_hash') else sum(row['width'] for row in streams))
-    if config.get('observe_name_hash'):
+    if config.get('observe_name_hash') and not config.get('observe_next_hash_output_block'):
         if config.get('observe_name_hash_complete'):
             assert name_hash_first_frame,'missing actual namehash before-fill frame'
             state['name_hash_frame']=name_hash_first_frame
@@ -1103,7 +1110,7 @@ def capture(configuration,data_file,output):
     state['address_hash_entry']=address_hash_entry
     state['address_hash_allocations']=address_hash_allocations
     state['address_hash_sort']=address_hash_sort
-    if config.get('observe_address_hash'):
+    if config.get('observe_address_hash') and not config.get('observe_next_hash_output_block'):
         assert address_hash_sort and len(address_hash_allocations)==4
         if config.get('observe_address_hash_complete'):
             directory=Path(configuration).parent
@@ -1126,7 +1133,7 @@ def capture(configuration,data_file,output):
     state['widen_emit_calls']=widen_emit_calls
     if config.get('observe_output_buffer_init'):
         address=int(gdb.parse_and_eval('output_buffer'));capacity=int(gdb.parse_and_eval('output_capacity'));used=int(gdb.parse_and_eval('output_used'));file=int(gdb.parse_and_eval('output_file'))
-        assert address and used==(7752 if config.get('observe_first_hash_output_block') else 7188 if config.get('observe_address_hash_complete') else 5056 if config.get('observe_subsection_output') else 8) and used<=capacity and output_buffer_allocations and output_buffer_allocations[-1]['address']==address and output_buffer_allocations[-1]['size']==capacity,'output buffer initialized-prefix observation differs'
+        assert address and used==(8292 if config.get('observe_next_hash_output_block') else 7752 if config.get('observe_first_hash_output_block') else 7188 if config.get('observe_address_hash_complete') else 5056 if config.get('observe_subsection_output') else 8) and used<=capacity and output_buffer_allocations and output_buffer_allocations[-1]['address']==address and output_buffer_allocations[-1]['size']==capacity,'output buffer initialized-prefix observation differs'
         state['output_buffer_state']=dict(address=address,capacity=capacity,used=used,file=file,bytes=bytes(actual_inferior.read_memory(address,used)).hex(),environment=sort_environment())
     state['widen_query_calls']=widen_query_calls
     state['widen_factory_calls']=widen_factory_calls
@@ -1351,4 +1358,7 @@ def capture(configuration,data_file,output):
     state['strings']=strings
     state['file_handles']=handles
     state['mapped_views']=mapped_views
+    if config.get('observe_next_hash_output_block'):
+        state['hash_chain']=hash_chain_module.finish(hash_chain_state)
+        state['hash_chain_entry_phase']=json.loads((Path(configuration).parent/'first-next-block-state.json').read_text())
     open(output,'w').write(json.dumps(state,indent=2)+'\n')

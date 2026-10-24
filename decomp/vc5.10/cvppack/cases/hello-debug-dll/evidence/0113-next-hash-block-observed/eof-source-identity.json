@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "source": "src/stubs.c",
+  "old_sha256": "f348fcf459bf8461a3ab2da65f48d6918502a4ff4a1335bad2aa32a4f031e003",
+  "new_sha256": "f3a5b2fefb30c38ebbe6f2bdf9e33dd372eaae6db9a109026f92443c5df43c8d",
+  "change": "Remove exactly one redundant final newline; all C tokens and preceding bytes identical.",
+  "tokens_identical": true,
+  "no_original_recapture": true
+}

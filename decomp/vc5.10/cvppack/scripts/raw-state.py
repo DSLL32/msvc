@@ -410,6 +410,10 @@ def compare(config,data,events,native,artifacts=None,views=None,*,_return_origin
     assert type(_return_original) is bool,'private phase-return flag must be boolean'
     assert not (_return_original and config.get('observe_address_hash_complete')),'private phase return cannot enter complete mode'
     import importlib.util
+    if config.get('observe_next_hash_output_block'):
+        spec=importlib.util.spec_from_file_location('hash_chain_state',Path(__file__).with_name('hash-chain-state.py'))
+        chain=importlib.util.module_from_spec(spec);spec.loader.exec_module(chain)
+        return chain.validate(config,data,events,native,artifacts,views,compare,decode)
     if config.get('observe_address_hash_complete'):
         spec=importlib.util.spec_from_file_location('complete_address_hash_state',Path(__file__).with_name('address-hash-complete-state.py'))
         complete=importlib.util.module_from_spec(spec);spec.loader.exec_module(complete)

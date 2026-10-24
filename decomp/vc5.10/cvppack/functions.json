@@ -118,7 +118,8 @@
     "fill_type_arena",
     "build_symbol_address_hash",
     "compare_symbol_address",
-    "first_hash_output_block"
+    "first_hash_output_block",
+    "next_hash_output_block"
   ],
   "functions": [
     {
@@ -3705,7 +3706,23 @@
       "original": 4250016,
       "status": "stub",
       "extent": null,
-      "ret": 0
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "directory-output-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12,
+          "native_pointee_width": 12
+        },
+        {
+          "name": "offset",
+          "slot": 2,
+          "kind": "integer"
+        }
+      ]
     },
     {
       "name": "write_static_symbols",
@@ -3943,8 +3960,11 @@
       "symbol": "_next_hash_output_block",
       "native_symbol": "next_hash_output_block",
       "original": 4260048,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4260048,
+        4260056
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3958,7 +3978,8 @@
           "initialized": true,
           "native_pointee_width": 12
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/promotion.json"
     },
     {
       "name": "fill_type_arena",
@@ -4294,5 +4315,10 @@
     "path": "cases/hello-debug-dll/first-hash-block-lifetimes.json",
     "sha256": "216cbfeffdb51b90e583455f3729386f6bc877321488a96701d28c71e61eddd6"
   },
-  "observe_first_hash_output_block": true
+  "observe_first_hash_output_block": true,
+  "observe_next_hash_output_block": true,
+  "next_hash_block_policy": {
+    "path": "cases/hello-debug-dll/next-hash-block-lifetimes.json",
+    "sha256": "00f5d7bf7a5facd9a80ac4aa73c1b3f3544fd728c42d9d05cb05eb35357dcc36"
+  }
 }

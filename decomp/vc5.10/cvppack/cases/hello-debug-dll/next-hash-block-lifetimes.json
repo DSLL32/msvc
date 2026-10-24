@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "target_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "scope": "Actual names-block candidate-entry historical phase to true write_globals. No dead automatic descriptor reads; current live heap owners only, no future consumer permission.",
+  "integer_intervals": [
+    {
+      "extent": [
+        4260048,
+        4260056
+      ],
+      "sha256": "9b8a71e6d4e3ed6c04caf8590ebe29a62f205ab4b372b02c67e8ca015ae4ba36"
+    },
+    {
+      "extent": [
+        4249676,
+        4250008
+      ],
+      "sha256": "1fa68181f82d0232e9150d7968baa63b88d79793a976507ec751ebac7e6be012"
+    },
+    {
+      "extent": [
+        4222042,
+        4222116
+      ],
+      "sha256": "48ebb33a59eda25c56827edbdc574757895054fb80fe8efb31c5f7f3d1095578"
+    },
+    {
+      "extent": [
+        4201088,
+        4201118
+      ],
+      "sha256": "2c7175cb0d78830f04a9d2740bb50e813123265c169914eaf96e3c7c9a9cd286"
+    }
+  ]
+}

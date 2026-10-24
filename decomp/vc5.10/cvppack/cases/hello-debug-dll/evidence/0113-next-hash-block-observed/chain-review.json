@@ -1,0 +1,176 @@
+{
+  "schema": 1,
+  "candidate": "next_hash_output_block",
+  "status": "provisional corrected observations; observer review/promotion hold",
+  "extent": [
+    4260048,
+    4260056
+  ],
+  "extent_bytes": 8,
+  "excluded_NOP_bytes": 8,
+  "source_review": [
+    "Whole original8B MOVarg/MOVnext/RET0 becomes readable cdecl1 return block->next. Eight NOP gap bytes excluded; no helper/data/CRT source added.",
+    "At genuine first candidate entry, original emits bounded hash-next-phase-entry/end plus typed state. Native independently retains physical entry and exact+25B frame/GOT/formal-slot checkpoint (ESP-28), before instrumentation or pointee load. The112 predicate uses these fresh same-phase observations with actual113 mask/candidate identity; no112 execution receipt/fake trap is asserted.",
+    "After this entry, exact helper sequence is next(namesblock12)\u2192NULL, first(addresses24)\u2192addressblock12, next(addressblock12)\u2192NULL. Every full initialized input remains unchanged, actual pointer aliases/results, cdecl stack/RET, four nonvolatile registers and genuine original/native CALL return roles checked. Later original inputs use actual persistent+4 probes before3B pointee MOV; recorded EAX==stack argument and canonical preceding4B MOV/RET identity prove the checkpoint. The original helper restores exact opcode, steps once and rearms; unchanged transport source/executed binary/probe records bound separately.",
+    "First incomplete113 observer had later returns but lacked repeated inputs because function-entry traces fire once. Its raw/native logs remain unpromoted. Corrected original genuinely obtains missing repeated inputs; its job had already launched when parent pre-use review arrived. All corrected captures remain provisional until that concrete review; no duplicate reference solely to reorder review.",
+    "write_publics completes its address540B copy into current output7752\u21928292. Actual original copy boundary records block/source end/destination end/ESP. Complete original8292B bytes are actually captured and checked against independently known live payload and retained7752B prefix. Its3236B public section is aligned; verbose0 prevents the final printf branch. No padding/unknown capacity is credited.",
+    "After write_publics returns, its two automatic24B descriptors and header are historical only. Final native capture deliberately excludes public_writer_frame/name_hash_complete/address_hash_complete current keys. Four fresh live heap block/payload owners12+564+12+540=1128 initialized bytes retain exact generation, aliases, complete contents and own unwritten tails3532/3556. Saved old tables and ended arrays stay historical, with no restored payload/current read.",
+    "Caller increments directory_count58\u219259, uses real tell_cached_file position4944 plus8292 output bytes to update image_read_mode13236, then calls genuine write_globals(directory_entries[59],8292). Actual DWARF two-formal pointer12/uint32 inventory and original slots/return406ca4 checked. All other globals, generic current objects, streams, directory840B initialized range, prior allocator/free/file/mapping/read inventories, own raw FP/errors and actual file state remain unchanged. No allocations/frees or mapping writes occur in this finite continuation; a later unknown consumer remains held.",
+    "Whole pinned helper8B, public suffix332B, caller74B and cached-tell30B prove integer-only/no new retired-global consumer. Static application graph/RET/import/ownership remains strict except existing exact Release residual; no new dependency contract or CRT/app credit.39 focused negatives cover helper ABI/result/input/checkpoint, current heap/copy/global/output/frontier/lifecycle leaks/dead-frame schema/FP/errors. Prior11225/11177 campaigns are hash-bound historical controls; the same predicates run fresh through real113 phase."
+  ],
+  "actual_state": {
+    "calls": 3,
+    "next_returns_null": 2,
+    "names_initialized_bytes": 564,
+    "address_initialized_bytes": 540,
+    "current_heap_initialized_bytes": 1128,
+    "packed_output_initialized_bytes": 8292,
+    "own_unwritten_packed_tail_bytes_uncompared": 57220,
+    "current_directory_count": 59,
+    "next_offset": 8292,
+    "dead_automatic_descriptors_historical_only": true,
+    "next_consumer": "write_globals(directory_entries[59],8292)"
+  },
+  "phase": {
+    "begin": 276650,
+    "end": 278099,
+    "raw_phase_sha256": "88217084f708d8d93fdd5446c876c3ed3ef4bfe9c585bf69ef66250e2da9d89e",
+    "native_prologue_sha256": "cb66a5dbe8524de5f58c933c1a09f2c8e6bbdd52b593201b679439054a3346b1",
+    "kind": "fresh actual113 candidate-entry historical phase, actual113 mask retained; no real trap claimed"
+  },
+  "files": [
+    {
+      "path": "src/writer.c",
+      "sha256": "35a1d5275893620a3f746b8c93ec79ef554b55960a86bc1e8520f15465c9307a"
+    },
+    {
+      "path": "src/stubs.c",
+      "sha256": "f348fcf459bf8461a3ab2da65f48d6918502a4ff4a1335bad2aa32a4f031e003"
+    },
+    {
+      "path": "src/types.h",
+      "sha256": "a937219499e19de837e5be8238eabbe80a75c10b8b43843738fa30453b92a170"
+    },
+    {
+      "path": "scripts/hash-chain-state.py",
+      "sha256": "e95ae759f308a26bacce6f91e33377b690edae7d919356d9e0543c35bb5952c2"
+    },
+    {
+      "path": "scripts/hash-chain-observer.inc",
+      "sha256": "05567f0be52efa973ad8f45f33010b064b79780f0f69311e6b09ba9b5b9ec8a2"
+    },
+    {
+      "path": "scripts/hash-chain-gdb.py",
+      "sha256": "7367d5b9af500b947c16786d8e30d4e5710dd69213a8d6f894119ac822bdc205"
+    },
+    {
+      "path": "scripts/debug-run.c",
+      "sha256": "3c3c8b7c7aef5d25b746bc68cc6efe009a7e184d4e76e1118963b80d5c661b9e"
+    },
+    {
+      "path": "scripts/raw-state.py",
+      "sha256": "8cb1e2d3cd69ea2788e35e8dbb21ccde24cf235a5822822dd2fd06dac2061c7d"
+    },
+    {
+      "path": "scripts/main-free-evidence.py",
+      "sha256": "fac2155f2d66ef547fe4fd1d6589f53868344502101016d51fe7b0df281b7a8d"
+    },
+    {
+      "path": "scripts/gdb-state.py",
+      "sha256": "cf73c129ed1c68baa9b638a7cffd84bd64bde511bbbdae2eda6f62c54cc7f1c4"
+    },
+    {
+      "path": "scripts/address-hash-complete-state.py",
+      "sha256": "7bb85804c48cd0d09b53d69e72f3d884d5220430f905b2b88f0c26814b8384a9"
+    },
+    {
+      "path": "scripts/address-hash-complete-gdb.py",
+      "sha256": "9f81740b9e8a1f5f2ac86f310f39796d0342047da09d01b027743b2278b4bb03"
+    },
+    {
+      "path": "scripts/output-buffer-observer.inc",
+      "sha256": "032f5d940f42111d8b8e425434417acd75c6a4b4dc870f49b97c1460ee2fda33"
+    },
+    {
+      "path": "scripts/capture-original.py",
+      "sha256": "d65762dea79290a9d75341c5d3533deea6857c07c82fabe356d48d0b589c6d68"
+    },
+    {
+      "path": "scripts/native-debug.py",
+      "sha256": "a156d355080b0818e12d843ac8c10dbc407451d1a1a3c0a657d4cf0674fdf126"
+    },
+    {
+      "path": "scripts/check-hash-chain-state.py",
+      "sha256": "999344e98a09899123375ed4987f37030f10dafaa9400372223a020c1cba6b78"
+    },
+    {
+      "path": "cases/hello-debug-dll/next-hash-block-lifetimes.json",
+      "sha256": "00f5d7bf7a5facd9a80ac4aa73c1b3f3544fd728c42d9d05cb05eb35357dcc36"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/original/receipt.json",
+      "sha256": "efeb1db398bd187c625894914b451e3957ddefa82a9344d5bd3666aa0b8b9b91"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/original/configuration.json",
+      "sha256": "d939612026e9c1c676e40746f1ee4b7001c39560be10dd664dd4d36ac8645951"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/original/compiled-sources.json",
+      "sha256": "c9900f47cfd173c322e6dc1643bbdb6cb80720c00dbc8ea49bbcca3b6b960e4f"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/native/receipt.json",
+      "sha256": "d9a6bdef28f73e1b127fde64fb13f7c350ef7758cb8d14df06b868e1df248040"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/native/compiled-sources.json",
+      "sha256": "c9900f47cfd173c322e6dc1643bbdb6cb80720c00dbc8ea49bbcca3b6b960e4f"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/native/state.json",
+      "sha256": "a45a3b424e7e3fa5994be52e9cfce49f7fdbc1146ba363725b6105a0f28264b0"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/native/first-next-block-state.json",
+      "sha256": "26e8a8178c765248d84cc54c3d9ca7fd2d141a28f29e7af08b9d55d515a54806"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/native/first-next-block-config.json",
+      "sha256": "68965551b43c75d07667ffeaede4327c78913d3bbfa603aafa4ce5bd208008c5"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/native/hash-chain-gdb.py",
+      "sha256": "7367d5b9af500b947c16786d8e30d4e5710dd69213a8d6f894119ac822bdc205"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/pair-check.log",
+      "sha256": "e75d5832290024c92fdaa41f360add61f0285556e67edd304a1f4901a201fd38"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/hash-chain-checks.json",
+      "sha256": "ebe51529033a6628fba6508b040c653e29f13700fd5a05cab3cc7a617739e55a"
+    },
+    {
+      "path": "cases/hello-debug-dll/evidence/0113-next-hash-block-observed/observer-correction-review.json",
+      "sha256": "9159d6850d629e83fc8e7baab84d2f700141649f1f20f38a877aae1b2bfbb0ce"
+    }
+  ],
+  "fresh_negative_count": 39,
+  "seconds": {
+    "build-timing.json": {
+      "seconds": 10.401291398331523,
+      "exit": 0,
+      "before_after_source_identity": true,
+      "compiled_source_sha256": "24c4f9a09bfecc09ab37b2ec798c5eee0369d78ee66c825d5e5948170912e8a6"
+    },
+    "original-timing.json": {
+      "seconds": 21.580638336017728,
+      "exit": 0
+    },
+    "native-timing.json": {
+      "seconds": 11.273350755684078,
+      "exit": 0
+    }
+  }
+}

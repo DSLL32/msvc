@@ -28,7 +28,7 @@ static void output_buffer_state(FILE *log, HANDLE process, CONTEXT *context)
 {
     DWORD fields[4], i;
     unsigned char *bytes;
-    DWORD expected = address_hash_complete_mode && ah_free_count==4 ? (first_hash_block_mode ? 7752 : 7188) : subsection_mode ? 5056 : 8;
+    DWORD expected = address_hash_complete_mode && ah_free_count==4 ? (hash_next_mode && !hash_next_phase_dump ? 8292 : first_hash_block_mode ? 7752 : 7188) : subsection_mode ? 5056 : 8;
     if (buffer_pending || !buffer_attempts || !read_bytes(process, 0x412d34, fields, sizeof(fields)) ||
         fields[3] != expected || !fields[1] || fields[0] < fields[3] ||
         fields[3] > 65512) {

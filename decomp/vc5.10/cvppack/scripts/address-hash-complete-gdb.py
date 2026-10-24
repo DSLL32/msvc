@@ -34,6 +34,7 @@ def install(ns,config):
         class FirstEntered(gdb.Breakpoint):
             def __init__(self):super().__init__('*first_hash_output_block',internal=True)
             def stop(self):
+                if config.get('observe_next_hash_output_block') and 'first_block' in state:return False
                 frame=gdb.newest_frame();assert frame.older().name()=='write_publics' and 'first_block' not in state
                 types=formals(frame);assert set(types)=={'stream'} and types['stream'].code==gdb.TYPE_CODE_PTR and types['stream'].sizeof==4 and types['stream'].target().sizeof==24
                 esp=int(gdb.parse_and_eval('$esp'));ret,arg=struct.unpack('<2I',bytes(gdb.selected_inferior().read_memory(esp,8)));owner=frame.older();local=owner.read_var('names');assert int(local.address)==arg and local.type.sizeof==24

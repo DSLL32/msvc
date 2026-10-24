@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "status": "RELEASED repeated helper input observer correction; ordinary113 semantic checks still required",
+  "reviewed_utc": "2026-10-24T06:54:30.885741+00:00",
+  "packet": {
+    "path": "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0113-next-hash-block-observed/observer-correction-review.json",
+    "sha256": "9159d6850d629e83fc8e7baab84d2f700141649f1f20f38a877aae1b2bfbb0ce"
+  },
+  "independent_checks": "Nine file hashes/current compile-source content blobs, actual original receipt+source manifest, unchanged probe rearm fragment, exact multiset of2+2 probe/return events and three typed chains decoded from retained original raw. Exact EAX argument after harmless4B MOV; before3B pointee load. ESP/nonvolatiles/input own preservation and proper RET offsets verified.",
+  "source_review": "Whole-body unmask refreshes saved probe opcode; restore/TF/single-step/reinsert executes exactly one genuine instruction. First next(names) retains actual entry and complete phase. No target/source/ABI relaxation, no dead caller frame relabeled current.",
+  "limits": "Corrected run launched before review request arrived; truthful timing/identity preserved. Held113 raw remains incomplete. No duplicate original solely review order. Full current final state/affected semantic negatives remain ordinary worker responsibility.",
+  "review_checker_note": "Parent assertion setup corrected to select explicit eax probe records and exact multiset of duplicateNULLreturns; independent typed return record remains separate. No observation/source changes."
+}

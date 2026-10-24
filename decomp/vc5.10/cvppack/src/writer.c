@@ -498,3 +498,9 @@ TypeArenaBlock *first_hash_output_block(TypeArena *stream)
 {
     return stream->first;
 }
+
+/* [004100d0,004100d8), cdecl accessor; alignment gap excluded. */
+TypeArenaBlock *next_hash_output_block(TypeArenaBlock *block)
+{
+    return block->next;
+}

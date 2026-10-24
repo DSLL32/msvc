@@ -93,6 +93,10 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
         for key,name in [('graph_metadata_sha256','graph-metadata.json'),('graph_metadata_proof_sha256','graph-metadata-proof.json')]:
             assert audit[key]==sha(audit_path.parent/name), 'stale current metadata'
         assert audit['switch_data_validator_sha256']==sha(BINARY/'scripts/switch-data.py')
+    if config.get('observe_next_hash_output_block'):
+        spec=importlib.util.spec_from_file_location('native_observer_files',BINARY/'scripts/native-observer-files.py')
+        observers=importlib.util.module_from_spec(spec);spec.loader.exec_module(observers)
+        assert audit.get('native_observer_files')==observers.bind(native_dir,config),'missing/stale native observer derived binding'
     if refreshed_audit:
         expected_binding=dict(original_receipt_sha256=sha(original_dir/'receipt.json'),
             native_receipt_sha256=sha(native_dir/'receipt.json'),
