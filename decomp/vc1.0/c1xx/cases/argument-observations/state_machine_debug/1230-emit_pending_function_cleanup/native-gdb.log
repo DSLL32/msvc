@@ -1,0 +1,15 @@
+Breakpoint 1 at 0x58bd7: file src/function-finalization.c, line 487.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, emit_pending_function_cleanup () at src/function-finalization.c:487
+487	    int emitted_function = 0;
+#0  emit_pending_function_cleanup () at src/function-finalization.c:487
+#1  0x565ada50 in finish_translation_symbols () at src/function-finalization.c:252
+#2  0x565c43f5 in read_lexical_token () at src/lexer.c:443
+#3  0x565c2a95 in scan_token () at src/lexer.c:228
+#4  0x565c1f75 in read_parser_token () at src/lexer.c:69
+#5  0x565ba3f9 in parse_translation_unit () at src/parser.c:85
+#6  0x5655e0ff in compile_translation_unit () at src/frontend.c:73
+#7  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#8  0x56558894 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

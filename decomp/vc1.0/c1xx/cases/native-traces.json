@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "75c371d9f5c73fb8b75f38f4044f7b1445907a7b7acf98ca947453fbebfa483d",
+    "functions.json": "c92d8da470dd6c8ff43c32fca6f7673817647687d548fd8a5db68bc489e9f146",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "fa7afc97ebfa3540ec8e3c81cd7f320019a18dd835c6ae95864d122da61223cf",
-    "cases/canonical-map.txt": "3ee16fba1774217b199ba7f40d7b9dde3c0c53dde2f540c844771ea77f135be3",
+    "cases/original-entry-references.json": "6430b121e331c0f4129dd3dd2e15b42289fd2f7103e105ca50e8f13c388fb3d6",
+    "cases/canonical-map.txt": "f8d9a2da7a83f8c6a7333290bb66567336081d8b2dde079d5218e5c15ddc7123",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1229-convert_selected_operator_operand/entry-reference/original-receipt.json": "ebba61e33b7f16e39dcd8ee13ab692ef75b20611c2d34036acb42cefc134138d",
-    "cases/frontiers/state_machine_debug/1229-convert_selected_operator_operand/entry-reference/original-events.txt": "70cc5c7eb28c8521eaf36e3ddcaf8f67f714823b014b26c9ed897db30ffa7eb4",
-    "cases/frontiers/state_machine_debug/1229-convert_selected_operator_operand/entry-reference/original-entries.plan": "0e9cf30b9775cecdabdb26b848ae79bf71d723e96c8f9a09d02876c04eb76d03"
+    "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/entry-reference/original-receipt.json": "977d9a4ff6d822f355211bc762e953b56e4ac745d4c6bfce16422d7038b481d1",
+    "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/entry-reference/original-events.txt": "91c0651f0d1675e29f278c184f15e6d3073dba1d21eff6de05a8d55316028a22",
+    "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/entry-reference/original-entries.plan": "3eb7f5971447ee11ede388cf12db87ab3624f90d800f20fce2655e73aead7673"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1924,7 +1924,7 @@
     },
     "emit_pending_function_cleanup": {
       "logical": "_emit_pending_function_cleanup",
-      "source": "src/stubs.c"
+      "source": "src/function-finalization.c"
     },
     "emit_pending_runtime_functions": {
       "logical": "_emit_pending_runtime_functions",
@@ -7100,7 +7100,8 @@
     "equal_data_member_null_representation",
     "resolve_overloaded_arrow",
     "builtin_operand_is_lvalue",
-    "convert_selected_operator_operand"
+    "convert_selected_operator_operand",
+    "emit_pending_function_cleanup"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -11223,7 +11224,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1230,
+      "last": 1231,
       "seen": [
         "main",
         "message_text",
@@ -12352,12 +12353,13 @@
         "resolve_overloaded_arrow",
         "builtin_operand_is_lvalue",
         "convert_selected_operator_operand",
-        "emit_pending_function_cleanup"
+        "emit_pending_function_cleanup",
+        "begin_initializer_function"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_emit_pending_function_cleanup",
-        "native": "emit_pending_function_cleanup",
+        "logical": "_begin_initializer_function@4",
+        "native": "begin_initializer_function",
         "signal": 5
       }
     }

@@ -1,0 +1,29 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_pending_function_cleanup",
+    "start": 324544,
+    "end": 324806
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_begin_initializer_function@4",
+    "_builtin_unary_expression@8",
+    "_chain_initializer_function",
+    "_classify_incomplete_type@4",
+    "_emit_expression_statement@4",
+    "_flush_current_function@4",
+    "_has_destructor_member_model@4",
+    "_make_array_destructor_call@4",
+    "_make_destructor_call@20",
+    "_pop_work_list@4",
+    "_remove_type_qualifiers@8",
+    "_resolve_symbol_expression@4"
+  ],
+  "next_frontier": "_begin_initializer_function@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8195490138605237,
+  "total_operation_seconds": 4.99997340887785,
+  "original_capture_seconds": 1.6180351674556732
+}

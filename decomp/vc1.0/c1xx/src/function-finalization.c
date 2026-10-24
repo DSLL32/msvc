@@ -11,6 +11,7 @@
 #include "symbol-output.h"
 #include "cpp-context.h"
 #include "special-members.h"
+#include "constructor-initializers.h"
 #include <recon.h>
 
 /* Lazily allocated by the aggregate-data initializer at original 0x45f00;
@@ -473,4 +474,45 @@ void __stdcall defer_object_definition(CppSymbol *symbol)
     item->value.pointer = symbol;
     if (is_unqualified_class_type(symbol->type))
         defer_generated_member(lookup_complete_object_destructor(symbol->type));
+}
+
+/* Original 0x4f3c0..0x4f4c5, cdecl0. Drain file-scope work,
+   switching generated initializer functions around queued object cleanup. */
+void emit_pending_function_cleanup(void)
+{
+    WorkList *item;
+    CppSymbol *symbol, *tag;
+    CType *saved_type;
+    IrToken *cleanup;
+    int emitted_function = 0;
+    while ((item = pending_cleanup_by_scope[0]) != 0) {
+        pop_work_list(&pending_cleanup_by_scope[0]);
+        symbol = item->value.pointer;
+        if ((symbol->kind & 0x1f) == 7) {
+            if (token_allocation_flags & 0x40) chain_initializer_function();
+            begin_initializer_function(symbol);
+            emitted_function = 1;
+            continue;
+        }
+        tag = cpp_context_stack->items[symbol->type->field08];
+        if (!(tag->detail.class_info->trivial_special_members & 8) &&
+            has_destructor_member_model(symbol->type)) {
+            saved_type = symbol->type;
+            if (!(token_allocation_flags & 0x40)) begin_initializer_function(0);
+            symbol->type = remove_type_qualifiers(saved_type, 0x3000);
+            if (classify_incomplete_type(symbol->type) & 2)
+                cleanup = make_array_destructor_call(resolve_symbol_expression(symbol));
+            else {
+                cleanup = builtin_unary_expression(OP_BIT_AND, resolve_symbol_expression(symbol));
+                tag = cpp_context_stack->items[symbol->type->field08];
+                cleanup = make_destructor_call(tag, cleanup, 3, 1, 0);
+            }
+            emit_expression_statement(cleanup);
+            symbol->type = saved_type;
+        }
+        if (emitted_function) {
+            flush_current_function(0);
+            emitted_function = 0;
+        }
+    }
 }

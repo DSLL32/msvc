@@ -1,0 +1,91 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004f3c0 <.text+0x383c0>:
+   4f3c0:	53                   	push   ebx
+   4f3c1:	56                   	push   esi
+   4f3c2:	57                   	push   edi
+   4f3c3:	55                   	push   ebp
+   4f3c4:	2b ff                	sub    edi,edi
+   4f3c6:	8b 35 d4 14 09 00    	mov    esi,DWORD PTR ds:0x914d4
+   4f3cc:	3b f7                	cmp    esi,edi
+   4f3ce:	0f 84 ed 00 00 00    	je     0x4f4c1
+   4f3d4:	bb 40 00 00 00       	mov    ebx,0x40
+   4f3d9:	8d a4 24 00 00 00 00 	lea    esp,[esp+0x0]
+   4f3e0:	68 d4 14 09 00       	push   0x914d4
+   4f3e5:	e8 d6 13 00 00       	call   0x507c0
+   4f3ea:	8b 76 04             	mov    esi,DWORD PTR [esi+0x4]
+   4f3ed:	8a 06                	mov    al,BYTE PTR [esi]
+   4f3ef:	24 1f                	and    al,0x1f
+   4f3f1:	3c 07                	cmp    al,0x7
+   4f3f3:	75 1e                	jne    0x4f413
+   4f3f5:	66 85 1d 90 f7 09 00 	test   WORD PTR ds:0x9f790,bx
+   4f3fc:	74 05                	je     0x4f403
+   4f3fe:	e8 4d 4e fe ff       	call   0x34250
+   4f403:	56                   	push   esi
+   4f404:	e8 07 91 ff ff       	call   0x48510
+   4f409:	bf 01 00 00 00       	mov    edi,0x1
+   4f40e:	e9 a0 00 00 00       	jmp    0x4f4b3
+   4f413:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   4f416:	0f bf 48 08          	movsx  ecx,WORD PTR [eax+0x8]
+   4f41a:	a1 2c f3 09 00       	mov    eax,ds:0x9f32c
+   4f41f:	8b 44 88 04          	mov    eax,DWORD PTR [eax+ecx*4+0x4]
+   4f423:	8b 40 20             	mov    eax,DWORD PTR [eax+0x20]
+   4f426:	f6 40 36 08          	test   BYTE PTR [eax+0x36],0x8
+   4f42a:	75 7a                	jne    0x4f4a6
+   4f42c:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   4f42f:	50                   	push   eax
+   4f430:	e8 1b 87 fe ff       	call   0x37b50
+   4f435:	0b c0                	or     eax,eax
+   4f437:	74 6d                	je     0x4f4a6
+   4f439:	8b 6e 0c             	mov    ebp,DWORD PTR [esi+0xc]
+   4f43c:	66 85 1d 90 f7 09 00 	test   WORD PTR ds:0x9f790,bx
+   4f443:	75 07                	jne    0x4f44c
+   4f445:	6a 00                	push   0x0
+   4f447:	e8 c4 90 ff ff       	call   0x48510
+   4f44c:	68 00 30 00 00       	push   0x3000
+   4f451:	55                   	push   ebp
+   4f452:	e8 19 1a 00 00       	call   0x50e70
+   4f457:	89 46 0c             	mov    DWORD PTR [esi+0xc],eax
+   4f45a:	50                   	push   eax
+   4f45b:	e8 d0 d9 fe ff       	call   0x3ce30
+   4f460:	a8 02                	test   al,0x2
+   4f462:	56                   	push   esi
+   4f463:	74 0d                	je     0x4f472
+   4f465:	e8 b6 d1 fe ff       	call   0x3c620
+   4f46a:	50                   	push   eax
+   4f46b:	e8 80 91 fe ff       	call   0x385f0
+   4f470:	eb 2b                	jmp    0x4f49d
+   4f472:	e8 a9 d1 fe ff       	call   0x3c620
+   4f477:	50                   	push   eax
+   4f478:	6a 3a                	push   0x3a
+   4f47a:	e8 91 fd 00 00       	call   0x5f210
+   4f47f:	8b 4e 0c             	mov    ecx,DWORD PTR [esi+0xc]
+   4f482:	8b 15 2c f3 09 00    	mov    edx,DWORD PTR ds:0x9f32c
+   4f488:	0f bf 49 08          	movsx  ecx,WORD PTR [ecx+0x8]
+   4f48c:	6a 00                	push   0x0
+   4f48e:	6a 01                	push   0x1
+   4f490:	6a 03                	push   0x3
+   4f492:	50                   	push   eax
+   4f493:	8b 44 8a 04          	mov    eax,DWORD PTR [edx+ecx*4+0x4]
+   4f497:	50                   	push   eax
+   4f498:	e8 63 b9 fe ff       	call   0x3ae00
+   4f49d:	50                   	push   eax
+   4f49e:	e8 3d a6 00 00       	call   0x59ae0
+   4f4a3:	89 6e 0c             	mov    DWORD PTR [esi+0xc],ebp
+   4f4a6:	0b ff                	or     edi,edi
+   4f4a8:	74 09                	je     0x4f4b3
+   4f4aa:	6a 00                	push   0x0
+   4f4ac:	e8 af 90 ff ff       	call   0x48560
+   4f4b1:	2b ff                	sub    edi,edi
+   4f4b3:	8b 35 d4 14 09 00    	mov    esi,DWORD PTR ds:0x914d4
+   4f4b9:	0b f6                	or     esi,esi
+   4f4bb:	0f 85 1f ff ff ff    	jne    0x4f3e0
+   4f4c1:	5d                   	pop    ebp
+   4f4c2:	5f                   	pop    edi
+   4f4c3:	5e                   	pop    esi
+   4f4c4:	5b                   	pop    ebx
+   4f4c5:	c3                   	ret

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1230,
+  "accepted": "_emit_pending_function_cleanup",
+  "terminal": "_begin_initializer_function@4",
+  "original_capture": "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/original-receipt.json",
+  "original_capture_sha256": "977d9a4ff6d822f355211bc762e953b56e4ac745d4c6bfce16422d7038b481d1",
+  "original_events": "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/original-events.txt",
+  "original_events_sha256": "91c0651f0d1675e29f278c184f15e6d3073dba1d21eff6de05a8d55316028a22",
+  "original_configuration": "cases/frontiers/state_machine_debug/1230-emit_pending_function_cleanup/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

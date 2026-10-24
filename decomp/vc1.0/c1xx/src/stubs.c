@@ -150,7 +150,6 @@ IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *ty
 int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment, WorkList *analysis) { __asm { int 3 } return 0; }
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void emit_inline_assembly(void) { __asm { int 3 } }
-void emit_pending_function_cleanup(void) { __asm { int 3 } }
 void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
 void end_else_statement(void) { __asm { int 3 } }
