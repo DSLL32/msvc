@@ -360,7 +360,6 @@ void __stdcall report_named_type_difference(unsigned code, CType *context, char 
 
 
 
-CppSymbol *make_missing_function_declaration(void) { __asm { int 3 } return 0; }
 void initialize_function_inline_analysis(void) { __asm { int 3 } }
 
 

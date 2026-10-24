@@ -1,0 +1,50 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.489780264906585,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace",
+      "RECON=build/shared-inputs/3e9fce922e970282d3b9a6a5ddfb86023c24a9b248918db0b2c105d71b6e113c"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-make-missing-function-declaration-native.log",
+    "shared_inputs": {
+      "manifest": "evidence/shared-build-inputs/3e9fce922e970282d3b9a6a5ddfb86023c24a9b248918db0b2c105d71b6e113c.json",
+      "manifest_sha256": "3e9fce922e970282d3b9a6a5ddfb86023c24a9b248918db0b2c105d71b6e113c",
+      "storage": "git-blobs",
+      "files": 23,
+      "committed_reference": "bf7d2cbfdbe1a071c1cd79d4c8ec46b8b8f23ccc",
+      "committed_tree": "364e7bc295f79c11f63bdca0430c5ff4881cfb2b"
+    },
+    "shared_input_setup_seconds": 0.15208769869059324,
+    "shared_inputs_unchanged_during_build": true
+  },
+  {
+    "phase": "canonical",
+    "seconds": 2.2306590182706714,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json",
+      "graph-audit-tool",
+      "build/graph-metadata.json",
+      "RECON=build/shared-inputs/3e9fce922e970282d3b9a6a5ddfb86023c24a9b248918db0b2c105d71b6e113c"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-make-missing-function-declaration-canonical.log",
+    "shared_inputs": {
+      "manifest": "evidence/shared-build-inputs/3e9fce922e970282d3b9a6a5ddfb86023c24a9b248918db0b2c105d71b6e113c.json",
+      "manifest_sha256": "3e9fce922e970282d3b9a6a5ddfb86023c24a9b248918db0b2c105d71b6e113c",
+      "storage": "git-blobs",
+      "files": 23,
+      "committed_reference": "bf7d2cbfdbe1a071c1cd79d4c8ec46b8b8f23ccc",
+      "committed_tree": "364e7bc295f79c11f63bdca0430c5ff4881cfb2b"
+    },
+    "shared_input_setup_seconds": 0.15298238676041365,
+    "shared_inputs_unchanged_during_build": true
+  }
+]

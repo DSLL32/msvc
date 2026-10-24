@@ -420,3 +420,31 @@ CppSymbol *__stdcall class_tag_for_type(CType *type)
     if (!is_unqualified_class_type(type)) return 0;
     return cpp_context_stack->items[type->field08];
 }
+
+/* Original 0x34350..0x3440e, cdecl with no formals. Besides recovery
+   for an absent function declarator, this factory supplies generated cleanup
+   functions. Their anonymous names and static storage use ordinary symbols. */
+CppSymbol *make_missing_function_declaration(void)
+{
+    CppSymbol *symbol = new_symbol(make_anonymous_identifier(), 0);
+    TypeDescription *description;
+    symbol->kind = 7;
+    symbol->storage[0] = (declaration_storage[0] & ~7) | 3;
+    symbol->storage[1] = declaration_storage[1];
+    symbol->storage[2] = declaration_storage[2];
+    description = copy_type_description(make_function_type(0x11, type_0080));
+    symbol->type = (CType *)description;
+    symbol->attributes |= 0x8000;
+    symbol->type = intern_type(description);
+    --type_description_depth;
+    if (default_code_segment) {
+        if (symbol->attributes & 2) {
+            if (symbol->type->related->data.based_symbol != default_code_segment)
+                report_syntax_error(193, symbol->name);
+        } else
+            assign_symbol_segment(symbol, default_code_segment);
+    }
+    symbol->cpp.parts.token = 1;
+    symbol->declaration_flags = (symbol->declaration_flags & ~0x100) | 0x200;
+    return symbol;
+}

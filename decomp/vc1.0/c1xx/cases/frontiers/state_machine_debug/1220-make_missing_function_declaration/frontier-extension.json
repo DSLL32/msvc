@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1220,
+  "accepted": "_make_missing_function_declaration",
+  "terminal": "_emit_atexit_registration@4",
+  "original_capture": "cases/frontiers/state_machine_debug/1220-make_missing_function_declaration/original-receipt.json",
+  "original_capture_sha256": "d1dcfa69d3c4c043b54867809c1900c0d0adaabe949e06b54c42316326316994",
+  "original_events": "cases/frontiers/state_machine_debug/1220-make_missing_function_declaration/original-events.txt",
+  "original_events_sha256": "6c14974a08a0cb74fcce0f7058d54d059fbe927f6ae8a4b240931a3e2ef98747",
+  "original_configuration": "cases/frontiers/state_machine_debug/1220-make_missing_function_declaration/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

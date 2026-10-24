@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_make_missing_function_declaration",
+  "case": "state_machine_debug",
+  "accepted_before": 1220,
+  "configuration_sha256": "5f2eadf0ad9e82fb20a800e2bcd992552e5f01ce4f202f651fc916fbb0557f08",
+  "native_entry": "make_missing_function_declaration",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      213840,
+      214031
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl0 CppSymbol* returnEAX",
+    "proof": "Whole191B saveESIEDI8; noformal/noincomingGPR/x87/CPUflagsinput; RET0. Existinganonymousidentifier/new_symbol(name,0), kind7 andexact3storagebytesfromdeclaration_storage withlow3static3. Existingmake_function_type11/type_0080 thencopy_type_description; actualsymbol.type temporarilynamesdescription, attributes8000, intern_type and--descriptiondepth. Existingdefault_code_segment: ifbasedattr2 compareactualtype.related.databasedsymbol/diagnostic193; elseassign_symbol_segment62860..628ab whole75B/stdcall8symbol+segment/void remainsnamedtrap. SetactualCppSymbol.cpp.parts.tokenBYTE49=1, declarationflags200afterclearing100, returnactualsymbol. Legacyprovisionalfactoryname retained; samebodyservesmissingdeclaratorandgeneratedcleanup. Explicitnative declared_arguments=[] required; arbitraryobservedstackwordsuncredited. No newdata/CRTbody.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "3c8274f9f91958a54f66c8f8387f2f607ccbe3c1adf7563fae26cfd23081ea5a",
+  "capture_timing": {
+    "original_capture_seconds": 1.0167270619422197,
+    "native_capture_seconds": 0.17795089073479176,
+    "total_operation_seconds": 1.4511813437566161
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "a114062e4103a2ea46e9a829778db0dfaec4b61f47df3202202bc92e7a182914",
+    "native-commands.gdb": "c34041b3d04a0b20d9323a15d82a90e9e21517f4199e6cb3b384a319aeaef645",
+    "native-gdb.log": "ef4185dc55f55f953eb9c4c716fba972e336f7c928e2e35d2b53fef01af1d276",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "dac9d33c76c238a3a0e2670c0313d6ba9b9f3d599709f7554c95eb3d00798edc",
+    "original-configuration.json": "5f2eadf0ad9e82fb20a800e2bcd992552e5f01ce4f202f651fc916fbb0557f08",
+    "original-disassembly.txt": "6f6d609552fb93a40397c04f130165ac98781d305f8e56b008201beb02596175",
+    "original-events.txt": "ef7325df331b96549965227147cbd7d81ea2fd6b225f493d79418a79e17ff3af",
+    "original-receipt.json": "8497aa186a9c58885792725da19b57580f8d1ca58022eddc73d5060f664bff68",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "30ccefe2b473391f9a45954b6bba10aa62ba557b7632802a00b614b02392740e"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

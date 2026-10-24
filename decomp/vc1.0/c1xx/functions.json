@@ -1224,7 +1224,8 @@
     "_record_function_symbol_alias@8",
     "_create_generated_object@8",
     "_symbol_alias@4",
-    "_finish_local_static_initialization@4"
+    "_finish_local_static_initialization@4",
+    "_make_missing_function_declaration"
   ],
   "driver": [
     {
@@ -4650,7 +4651,7 @@
     {
       "name": "_make_missing_function_declaration",
       "start": 213840,
-      "end": 213841
+      "end": 214031
     },
     {
       "name": "_initialize_function_inline_analysis",
@@ -8832,7 +8833,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_make_missing_function_declaration",
+      "terminal": "_emit_atexit_registration@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8855,7 +8856,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1219-finish_local_static_initialization-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1220-make_missing_function_declaration/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -9080,7 +9081,8 @@
         "cases/frontiers/state_machine_debug/1216-record_function_symbol_alias-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1217-create_generated_object-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1218-symbol_alias-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1219-finish_local_static_initialization-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1219-finish_local_static_initialization-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1220-make_missing_function_declaration/frontier-extension.json"
       ]
     }
   },

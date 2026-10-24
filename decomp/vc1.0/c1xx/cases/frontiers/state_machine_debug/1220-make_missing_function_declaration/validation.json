@@ -1,0 +1,24 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_missing_function_declaration",
+    "start": 213840,
+    "end": 214031
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1220-make_missing_function_declaration/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_assign_symbol_segment@8",
+    "_copy_type_description@4",
+    "_intern_type@4",
+    "_make_anonymous_identifier",
+    "_make_function_type@8",
+    "_new_symbol@8",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_emit_atexit_registration@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8289287714287639,
+  "total_operation_seconds": 4.444159610196948,
+  "original_capture_seconds": 1.1669065756723285
+}
