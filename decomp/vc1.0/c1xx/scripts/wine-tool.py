@@ -17,6 +17,9 @@ def windows(path):
     raise ValueError('Path is outside fixed R:/S: roots: '+str(path))
 
 def environment():
+    assert (PREFIX/'system.reg').exists(), 'Shared prefix is managed externally'
+    assert (PREFIX/'dosdevices/r:').resolve() == ROOT
+    assert (PREFIX/'dosdevices/s:').resolve() == SCRATCH
     env = os.environ.copy()
     env.update(WINEPREFIX=str(PREFIX), WINEARCH='win32', WINEDEBUG='-all',
                INCLUDE=windows(TC / 'include'), LIB=windows(TC / 'lib'))
@@ -27,9 +30,7 @@ def environment():
 
 if __name__ == '__main__':
     if sys.argv[1] == '--init':
-        assert (PREFIX/'system.reg').exists(), 'Shared prefix is managed externally'
-        assert (PREFIX/'dosdevices/r:').resolve() == ROOT
-        assert (PREFIX/'dosdevices/s:').resolve() == SCRATCH
+        environment()
         sys.exit(0)
     sys.exit(subprocess.call(['wine', windows(TC / 'bin' / sys.argv[1])] + sys.argv[2:],
                              env=environment()))

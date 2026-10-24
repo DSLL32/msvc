@@ -18,9 +18,11 @@ Build and run
     make -j4 check           # eight native-only saved-reference cases
     make -j4 unit            # narrow forked native policy/control tests
     make -j4 win32           # explicit original-compiler build, uses shared Wine
-    make -j4 audit           # original compiler graph/ABI, data and grammars
+    make -j4 audit           # separate static graph/ABI, data and grammar checks
 
-The shared recon-tool owns execution, tracing, stream/file checks and cleanup.
+The shared recon-tool.mk discovers numbered cases and owns native/original
+object mapping, case builds, replay and unit targets. The shared recon-tool owns
+execution, tracing, stream/file checks and cleanup.
 Each case.so contains only its adapter/descriptor/tests and links libbinary.so;
 application/shim/tracer state is present once per isolated executor. Application
 changes rebuild that shared library without relinking unchanged case libraries.
@@ -28,8 +30,8 @@ Normal fixtures never invoke Wine or refresh original references. Explicit
 original captures use the common tool outside regressions, shared repo prefix,
 fixed R:/S:/T: drives. No private prefix or per-case drive mapping is retained.
 
-The reviewed CRT/startup sources remain pinned at e4f17cae9. The independently
-reviewed module tracer overlay is pinned at 00875e919, without CRT/entry changes.
+Native builds use the current shared lib/recon sources directly; no historical
+shim snapshots or per-build copies are retained.
 RECON_NATIVE_STARTUP_CONTROLFP_53 and binary-default fmode0x8000 are retained.
 Original compilation still uses the historical Win32 source and BINMODE.OBJ.
 

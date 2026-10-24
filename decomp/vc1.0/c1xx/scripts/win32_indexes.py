@@ -79,27 +79,3 @@ def indexes():
             end = next(a for a in addresses if a > start)
             reconstructed.append(dict(name=r['name'], start=start, end=end))
     return orig, rec, cfg, original, reconstructed
-
-def mask(pe, records, accepted, output):
-    data = bytearray(pe.data)
-    for s in pe.sections:
-        if s['flags'] & 0x20:
-            data[s['off']:s['off']+s['size']] = b'\xcc'*s['size']
-    for r in records:
-        if r['name'] in accepted:
-            for start, end in [[r['start'], r['end']]] + r.get('shared', []):
-                a, b = pe.offset(start), pe.offset(end-1)+1
-                data[a:b] = pe.data[a:b]
-    Path(output).write_bytes(data)
-
-
-def logical(events, pe, records):
-    m = re.search(r'exception ([0-9a-f]+) rva ([0-9a-f]+)', events)
-    if not m: return 'exit:'+events.strip().split()[-1]
-    addr = pe.base + int(m[2],16)
-    candidates = [r for r in records if r['start'] <= addr < r['end']]
-    # Public aliases with zero size aren't executed as separate functions.
-    if not candidates: return 'unknown:%08x:%s' % (addr,m[1])
-    r = min(candidates, key=lambda r:r['end']-r['start'])
-    if m[1] != '80000003': return 'fault:%s:%s' % (m[1],r['name'])
-    return r['name'] + ('+%x' % (addr-r['start']) if addr != r['start'] else '')

@@ -2,12 +2,7 @@ PYTHON ?= python3
 TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
 RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
-include $(RECON_TOOL_DIR)/recon-tool.mk
-# Reviewed CRT/startup pin. The module tracer overlay is pinned separately below.
-RECON_BASE_COMMIT = e4f17cae9e32249373f16cd2a612dc2b8aa24587
-RECON_TRACE_COMMIT = 00875e919af701cc2061fdc90fc34b35dcc6e1a7
-RECON = .build/shared-inputs
-SHARED_STAMP = $(RECON)/.stamp
+RECON = ../../../lib/recon
 NATIVE_CC = clang
 NATIVE_CXX = clang++
 NATIVE_CPPFLAGS = -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -DRECON_DEFAULT_FMODE=0x8000 -I$(RECON)/include -I$(RECON)/native -Isrc
@@ -125,59 +120,50 @@ BINARY_SOURCES = src/c1xx.c \
     src/class-type-sets.c \
     src/special-members.c
 BINARY_SUPPORT_SOURCES = src/runtime.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
-.DEFAULT_GOAL := all
-include $(RECON_TOOL_DIR)/binary.mk
-.PHONY: all native native-trace check replay fixtures cases win32 audit clean prefix unit
-all native native-trace: recon-native
-$(BINARY_OBJECTS) $(BINARY_SUPPORT_OBJECTS): Makefile | $(SHARED_STAMP)
-$(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c): | $(SHARED_STAMP)
-$(SHARED_STAMP): Makefile scripts/materialize-shared.py
-	$(PYTHON) scripts/materialize-shared.py $(RECON_BASE_COMMIT) $(RECON_TRACE_COMMIT) $(RECON)
-CASE_DIRS := $(sort $(wildcard cases/[0-9][0-9][0-9][0-9]-*))
-CASE_TARGETS := $(addsuffix /.build/case.so,$(CASE_DIRS))
-cases: recon-native $(CASE_DIRS)
-.PHONY: $(CASE_DIRS)
-$(CASE_DIRS): | recon-native
-	+$(MAKE) -C $@ RECON_SKIP_BINARY_BUILD=1
-check replay fixtures: cases $(RECON_TOOL)
-	$(RECON_TOOL) run $(CASE_DIRS)
-unit: cases $(RECON_TOOL)
-	$(RECON_TOOL) test cases/0000-cpp-basic
-win32: build/c1xx.exe
-prefix:
-	$(TOOL) --init
-build:
-	mkdir -p $@
-build/%.obj: src/%.c scripts/wine-tool.py | build prefix $(SHARED_STAMP)
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fobuild/$*.obj $<
-build/parser-grammar.c: scripts/generate-parser.py scripts/grammar.py src/grammar.bnf | build
-	$(PYTHON) scripts/generate-parser.py $@
-build/lookahead-grammar.c: scripts/generate-lookahead.py scripts/generate-parser.py scripts/grammar.py src/lookahead.bnf | build
-	$(PYTHON) scripts/generate-lookahead.py $@
-build/%.obj: build/%.c | prefix $(SHARED_STAMP)
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /Isrc /I$(RECON)/include /Fo$@ $<
-OBJECTS = build/c1xx.obj build/stubs.obj build/diagnostics.obj build/options.obj build/linkage.obj build/packing.obj build/memory.obj build/checksums.obj build/characters.obj build/comments.obj build/arguments.obj build/vectors.obj build/option-data.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/keywords.obj build/floating.obj build/cpp-context.obj build/inline-vector.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/scopes.obj build/declarations.obj build/declaration-bind.obj build/declaration-lookup.obj build/special-functions.obj build/runtime-symbols.obj build/option-state.obj build/parser-state.obj build/resolve-declaration.obj build/declarator-shapes.obj build/symbol-types.obj build/hash-table.obj build/type-attributes.obj build/parameters.obj build/macros.obj build/macro-expansion.obj build/global-ir.obj build/global-formats.obj build/source-input.obj build/operators.obj build/token-spellings.obj build/preprocessor-expressions.obj build/record-processing.obj build/expression-preparation.obj build/binary-expressions.obj build/condition-expressions.obj build/loop-output.obj build/constructor-initializers.obj build/browser.obj build/debug-info.obj build/intrinsics.obj build/enumerators.obj build/braced-initializers.obj build/debug-types.obj build/debug-fields.obj build/object-initializers.obj build/text-format.obj build/type-diagnostics.obj build/directives.obj build/literals.obj build/virtual-table-output.obj build/special-member-lookup.obj build/initializer-records.obj build/allocation-expressions.obj build/call-expressions.obj build/numeric-scanning.obj build/numeric-conversion.obj build/reference-initializers.obj build/member-access.obj build/member-expressions.obj build/member-pointers.obj build/mangling.obj build/symbol-output.obj build/function-finalization.obj build/statement-scopes.obj build/return-statements.obj build/expression-output.obj build/expression-records.obj build/expression-copy.obj build/unary-expressions.obj build/inline-analysis.obj build/control-ir.obj build/control-formats.obj build/ir-encoding.obj build/function-definitions.obj build/frontend-records.obj build/identifier-expressions.obj build/parser-grammar.obj build/parser.obj build/declaration-codes.obj build/lexer.obj build/token-categories.obj build/type-specifiers.obj build/tags.obj build/qualified-names.obj build/class-members.obj build/inline-capture.obj build/type-sizes.obj build/arithmetic.obj build/lookahead.obj build/lookahead-parser.obj build/lookahead-grammar.obj build/parameter-scopes.obj build/storage.obj build/class-finalization.obj build/class-type-sets.obj build/special-members.obj
-build/parser.obj: src/parser-declaration-actions.inc src/parser-declarator-actions.inc src/parser-statement-actions.inc src/parser-expression-actions.inc src/parser-allocation-actions.inc
-build/c1xx.exe: $(OBJECTS) $(TC)/lib/BINMODE.OBJ Makefile
-	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/c1xx.map /out:$@ $(OBJECTS) $(TC)/lib/BINMODE.OBJ
-build/runtime.json: build/c1xx.exe scripts/identify-runtime.py scripts/binary.py
-	$(PYTHON) scripts/identify-runtime.py build/c1xx.exe $@
-.build/functions.json: binary.c policy-data.json $(RECON_TOOL) | $(firstword $(CASE_DIRS))
-	$(RECON_TOOL) registry-export $(firstword $(CASE_DIRS)) --image-base 65536 --policy policy-data.json --output $@
-include ../../../tooling/graph-audit/graph-audit.mk
-GRAPH_AUDIT_FLAGS = --profile c1xx --project . --repo ../../.. --config .build/functions.json --discovery cfg --check-ret --check-references --check-callbacks --check-ownership --check-extents --metadata build/graph-metadata.json
-build/graph-metadata.json: .build/functions.json scripts/graph_metadata.py | build
-	$(PYTHON) scripts/graph_metadata.py $@
-audit: $(GRAPH_AUDIT_BIN) build/graph-metadata.json build/runtime.json .build/functions.json
-	"$(GRAPH_AUDIT_BIN)" $(GRAPH_AUDIT_FLAGS) --report build/graph-audit.json
-	$(PYTHON) scripts/audit-data.py
-	$(PYTHON) scripts/audit-parser-grammar.py
-	$(PYTHON) scripts/audit-lookahead-grammar.py
-clean:
-	rm -rf .build build
 
-build/dependencies.mk: scripts/dependencies.py $(wildcard src/*.c src/*.h) | build
-	$(PYTHON) scripts/dependencies.py
-ifneq ($(MAKECMDGOALS),clean)
--include build/dependencies.mk
-endif
+ORIGINAL_SOURCES = $(BINARY_SOURCES) src/runtime.c
+ORIGINAL_BUILD = build
+ORIGINAL_OUTPUT = $(ORIGINAL_BUILD)/c1xx.exe
+ORIGINAL_CC = $(TOOL) CL.EXE
+ORIGINAL_CPPFLAGS = /Isrc /I$(RECON)/include
+ORIGINAL_CFLAGS = /nologo /c /Od /G3
+ORIGINAL_LINK = $(TOOL) LINK.EXE
+ORIGINAL_LDFLAGS = /nologo /subsystem:console /map:$(ORIGINAL_BUILD)/c1xx.map
+ORIGINAL_LDLIBS = $(TC)/lib/BINMODE.OBJ
+ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(TC)/include
+ORIGINAL_EXTRA_DEPS = scripts/wine-tool.py
+
+RECON_AUDIT_PROFILE = c1xx
+RECON_IMAGE_BASE = 65536
+RECON_POLICY = policy-data.json
+RECON_AUDIT_FLAGS = --discovery cfg --check-ret --check-references --check-callbacks --check-ownership --check-extents
+RECON_AUDIT_METADATA = build/graph-metadata.json
+RECON_AUDIT_PREREQUISITES = build/runtime.json $(ORIGINAL_OUTPUT)
+include $(RECON_TOOL_DIR)/recon-tool.mk
+
+build/parser-grammar.c: scripts/generate-parser.py scripts/grammar.py src/grammar.bnf
+	@mkdir -p $(@D)
+	$(PYTHON) scripts/generate-parser.py $@
+
+build/lookahead-grammar.c: scripts/generate-lookahead.py scripts/generate-parser.py scripts/grammar.py src/lookahead.bnf
+	@mkdir -p $(@D)
+	$(PYTHON) scripts/generate-lookahead.py $@
+
+build/runtime.json: $(ORIGINAL_OUTPUT) scripts/identify-runtime.py scripts/binary.py
+	$(PYTHON) scripts/identify-runtime.py $(ORIGINAL_OUTPUT) $@
+
+build/graph-metadata.json: $(RECON_REGISTRY) scripts/graph_metadata.py
+	@mkdir -p $(@D)
+	$(PYTHON) scripts/graph_metadata.py $@
+
+.PHONY: audit-data audit-parser-grammar audit-lookahead-grammar
+audit: audit-data audit-parser-grammar audit-lookahead-grammar
+
+audit-data: $(ORIGINAL_OUTPUT) build/runtime.json $(RECON_REGISTRY)
+	$(PYTHON) scripts/audit-data.py
+
+audit-parser-grammar: src/grammar.bnf scripts/grammar.py scripts/generate-parser.py scripts/audit-parser-grammar.py
+	$(PYTHON) scripts/audit-parser-grammar.py
+
+audit-lookahead-grammar: src/lookahead.bnf scripts/grammar.py scripts/generate-lookahead.py scripts/audit-lookahead-grammar.py
+	$(PYTHON) scripts/audit-lookahead-grammar.py
