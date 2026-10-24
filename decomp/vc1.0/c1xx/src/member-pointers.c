@@ -12,6 +12,44 @@
 #include "global-ir.h"
 #include <recon.h>
 
+typedef IrToken *(__stdcall *MemberPointerConversion)(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_compact_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_compact_to_virtual_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_compact_to_general_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_virtual_to_compact_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_virtual_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_virtual_to_general_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_general_to_compact_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_general_to_virtual_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_general_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_compact_data_member_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_compact_to_virtual_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_compact_to_general_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_virtual_to_compact_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_virtual_data_member_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_virtual_to_general_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_general_to_compact_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_general_to_virtual_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base);
+
+/* Original 0xa0b38..0xa0bb7: method/data, source model1..4,
+   target model1..4. The machine uses a base five words before this table;
+   subtracting one from each model recovers the same32 slots. */
+MemberPointerConversion member_pointer_conversions[2][4][4] = {
+    {
+        { convert_compact_method_pointer, convert_compact_method_pointer, convert_compact_to_virtual_method_pointer, convert_compact_to_general_method_pointer },
+        { convert_compact_method_pointer, convert_compact_method_pointer, convert_compact_to_virtual_method_pointer, convert_compact_to_general_method_pointer },
+        { convert_virtual_to_compact_method_pointer, convert_virtual_to_compact_method_pointer, convert_virtual_method_pointer, convert_virtual_to_general_method_pointer },
+        { convert_general_to_compact_method_pointer, convert_general_to_compact_method_pointer, convert_general_to_virtual_method_pointer, convert_general_method_pointer },
+    },
+    {
+        { convert_compact_data_member_pointer, convert_compact_data_member_pointer, convert_compact_to_virtual_data_pointer, convert_compact_to_general_data_pointer },
+        { convert_compact_data_member_pointer, convert_compact_data_member_pointer, convert_compact_to_virtual_data_pointer, convert_compact_to_general_data_pointer },
+        { convert_virtual_to_compact_data_pointer, convert_virtual_to_compact_data_pointer, convert_virtual_data_member_pointer, convert_virtual_to_general_data_pointer },
+        { convert_general_to_compact_data_pointer, convert_general_to_compact_data_pointer, convert_general_to_virtual_data_pointer, convert_general_data_member_pointer },
+    },
+};
+
 IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type,
     IrToken *function, IrToken *adjustment);
 CppSymbol *__stdcall enclosing_qualifier_class(QualifierBinding *binding);
@@ -506,4 +544,22 @@ IrToken *__stdcall apply_simple_data_member_pointer(IrToken *expression)
         expression->tail.right->type));
     expression->kind = 0x5a;
     return new_typed_unary_expression(0x46, type, expression);
+}
+
+/* Original 0x4be50..0x4bede, stdcall16. Select the conversion for
+   the source/target representations after resolving its base-class path.
+   This case establishes model1..4 only; other model values remain unvalidated. */
+IrToken *__stdcall convert_member_pointer_representation(IrToken *expression,
+    CType *type, QualifiedDeclarator *path, int forward)
+{
+    unsigned target_model = member_pointer_inheritance_model(type);
+    unsigned source_model = member_pointer_inheritance_model(expression->type);
+    unsigned data_member = (type->related->flags & 0x10) != 0;
+    QualifierBinding *binding = path->resolution->binding;
+    BaseClassLink *virtual_base;
+    int displacement;
+    resolve_member_pointer_path(binding, &virtual_base, &displacement);
+    if (!forward) displacement = (int)(0U - (unsigned)displacement);
+    return member_pointer_conversions[data_member][source_model - 1][target_model - 1](
+        expression, type, binding, forward, displacement, virtual_base);
 }

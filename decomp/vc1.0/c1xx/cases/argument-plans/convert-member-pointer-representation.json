@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "function": "_convert_member_pointer_representation@16",
+  "native_entry": "convert_member_pointer_representation",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_expression": "(unsigned)expression",
+    "raw_type": "(unsigned)type",
+    "raw_path": "(unsigned)path",
+    "raw_forward": "(unsigned)forward"
+  },
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 353540,
+        "original_owner_function": "_convert_member_pointer_initializer@8",
+        "native_owner_function": "convert_member_pointer_initializer",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted caller retainsoriginalexpressionESI/targetCTypeEDI andclasslookupreturnedpathEAX; loadforwardECX664f7/PUSHECX664fb/PUSHEAX664fc/PUSHEDI664fd/PUSHESI664fe/CALL664ff/return66504. Existingtriple EDI/ESI/EAX selector binds native realcaller expression/type/path locals independently; forward scalarDWORD observed."
+      }
+    },
+    {
+      "name": "type",
+      "stack_index": 1,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 353540,
+        "original_owner_function": "_convert_member_pointer_initializer@8",
+        "native_owner_function": "convert_member_pointer_initializer",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Actual accepted caller retainsoriginalexpressionESI/targetCTypeEDI andclasslookupreturnedpathEAX; loadforwardECX664f7/PUSHECX664fb/PUSHEAX664fc/PUSHEDI664fd/PUSHESI664fe/CALL664ff/return66504. Existingtriple EDI/ESI/EAX selector binds native realcaller expression/type/path locals independently; forward scalarDWORD observed."
+      }
+    },
+    {
+      "name": "path",
+      "stack_index": 2,
+      "native_field": "raw_path",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 353540,
+        "original_owner_function": "_convert_member_pointer_initializer@8",
+        "native_owner_function": "convert_member_pointer_initializer",
+        "native_owner_field": "caller_path",
+        "native_owner_local": "path",
+        "identity": "Actual accepted caller retainsoriginalexpressionESI/targetCTypeEDI andclasslookupreturnedpathEAX; loadforwardECX664f7/PUSHECX664fb/PUSHEAX664fc/PUSHEDI664fd/PUSHESI664fe/CALL664ff/return66504. Existingtriple EDI/ESI/EAX selector binds native realcaller expression/type/path locals independently; forward scalarDWORD observed."
+      }
+    },
+    {
+      "name": "forward",
+      "stack_index": 3,
+      "native_field": "raw_forward",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "edi,esi,eax",
+  "ownership_caller_extent": [
+    418960,
+    419076
+  ],
+  "native_caller_locals": {
+    "caller_expression": {
+      "frame": 1,
+      "function": "convert_member_pointer_initializer",
+      "local": "expression"
+    },
+    "caller_type": {
+      "frame": 1,
+      "function": "convert_member_pointer_initializer",
+      "local": "type"
+    },
+    "caller_path": {
+      "frame": 1,
+      "function": "convert_member_pointer_initializer",
+      "local": "path"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      310864,
+      311007
+    ],
+    "argument_bytes": 16,
+    "convention": "stdcall16 IrToken* returnEAX",
+    "proof": "Whole143B SUB16/saveEBXESIEDIEBP16; formalsadjustedESP+36expression/+40type/+44path/+48forward, RET16. No incomingGPR/x87/CPUflagsformal. Existinginheritancemodel(target then source), dataBOOLtarget.shape.flags10. Actualpath.resolution.binding passedtoexistingresolve_member_pointer_path; outputs initializedbycallee toNULLvirtualbase/0displacement thenactualbasewalk. Reverseuses32bitNEG expressedunsignedwrap. Push6 actualcallbackwords expr/type/binding/forward/displacement/virtualbase, tableoffset=target+4*source+16*data atbiasedbasea0b24; precise32slot2x4x4table startsa0b38=>[data][source-1][target-1]. FiveprecedingunrelatedDWORDsandfollowingmaskbytesexcluded.18sharedcallbackidentities, allobservedRET24s/first6stackwordcontracts, namedstubs/zeroacceptcredit untilreached. Currentmodels1..4only; no inventedguard/neighborentries/out-of-domainclaim, HOLDfuturegenuineout-ofdomain. Fouractualformals ESI/EDI/EAX/currentforward bound. No newsourceCRT."
+  }
+}

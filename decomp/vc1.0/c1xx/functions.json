@@ -1228,7 +1228,8 @@
     "_make_missing_function_declaration",
     "_emit_atexit_registration@4",
     "_defer_object_definition@4",
-    "_append_default_call_argument@8"
+    "_append_default_call_argument@8",
+    "_convert_member_pointer_representation@16"
   ],
   "driver": [
     {
@@ -8335,7 +8336,7 @@
     {
       "name": "_convert_member_pointer_representation@16",
       "start": 310864,
-      "end": 310865
+      "end": 311007
     },
     {
       "name": "_new_member_pointer_thunk_key@8",
@@ -8636,6 +8637,96 @@
       "name": "_emit_atexit_registration@4",
       "start": 213424,
       "end": 213570
+    },
+    {
+      "name": "_convert_compact_method_pointer@24",
+      "start": 311136,
+      "end": 311137
+    },
+    {
+      "name": "_convert_compact_to_virtual_method_pointer@24",
+      "start": 312352,
+      "end": 312353
+    },
+    {
+      "name": "_convert_compact_to_general_method_pointer@24",
+      "start": 313552,
+      "end": 313553
+    },
+    {
+      "name": "_convert_virtual_to_compact_method_pointer@24",
+      "start": 312512,
+      "end": 312513
+    },
+    {
+      "name": "_convert_virtual_method_pointer@24",
+      "start": 316304,
+      "end": 316305
+    },
+    {
+      "name": "_convert_virtual_to_general_method_pointer@24",
+      "start": 314784,
+      "end": 314785
+    },
+    {
+      "name": "_convert_general_to_compact_method_pointer@24",
+      "start": 313408,
+      "end": 313409
+    },
+    {
+      "name": "_convert_general_to_virtual_method_pointer@24",
+      "start": 314448,
+      "end": 314449
+    },
+    {
+      "name": "_convert_general_method_pointer@24",
+      "start": 315632,
+      "end": 315633
+    },
+    {
+      "name": "_convert_compact_data_member_pointer@24",
+      "start": 311008,
+      "end": 311009
+    },
+    {
+      "name": "_convert_compact_to_virtual_data_pointer@24",
+      "start": 311680,
+      "end": 311681
+    },
+    {
+      "name": "_convert_compact_to_general_data_pointer@24",
+      "start": 313168,
+      "end": 313169
+    },
+    {
+      "name": "_convert_virtual_to_compact_data_pointer@24",
+      "start": 312208,
+      "end": 312209
+    },
+    {
+      "name": "_convert_virtual_data_member_pointer@24",
+      "start": 312720,
+      "end": 312721
+    },
+    {
+      "name": "_convert_virtual_to_general_data_pointer@24",
+      "start": 314112,
+      "end": 314113
+    },
+    {
+      "name": "_convert_general_to_compact_data_pointer@24",
+      "start": 313024,
+      "end": 313025
+    },
+    {
+      "name": "_convert_general_to_virtual_data_pointer@24",
+      "start": 313760,
+      "end": 313761
+    },
+    {
+      "name": "_convert_general_data_member_pointer@24",
+      "start": 315104,
+      "end": 315105
     }
   ],
   "cases": {
@@ -8836,7 +8927,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_convert_member_pointer_representation@16",
+      "terminal": "_convert_compact_data_member_pointer@24",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8859,7 +8950,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1223-append_default_call_argument-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1224-convert_member_pointer_representation-16/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -9088,7 +9179,8 @@
         "cases/frontiers/state_machine_debug/1220-make_missing_function_declaration/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1221-emit_atexit_registration-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1222-defer_object_definition-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1223-append_default_call_argument-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1223-append_default_call_argument-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1224-convert_member_pointer_representation-16/frontier-extension.json"
       ]
     }
   },
@@ -11692,6 +11784,45 @@
           "original": 621540,
           "bytes": 4
         }
+      ]
+    },
+    {
+      "kind": "function_pointers",
+      "name": "_member_pointer_conversions",
+      "original": 658232,
+      "functions": [
+        "_convert_compact_method_pointer@24",
+        "_convert_compact_method_pointer@24",
+        "_convert_compact_to_virtual_method_pointer@24",
+        "_convert_compact_to_general_method_pointer@24",
+        "_convert_compact_method_pointer@24",
+        "_convert_compact_method_pointer@24",
+        "_convert_compact_to_virtual_method_pointer@24",
+        "_convert_compact_to_general_method_pointer@24",
+        "_convert_virtual_to_compact_method_pointer@24",
+        "_convert_virtual_to_compact_method_pointer@24",
+        "_convert_virtual_method_pointer@24",
+        "_convert_virtual_to_general_method_pointer@24",
+        "_convert_general_to_compact_method_pointer@24",
+        "_convert_general_to_compact_method_pointer@24",
+        "_convert_general_to_virtual_method_pointer@24",
+        "_convert_general_method_pointer@24",
+        "_convert_compact_data_member_pointer@24",
+        "_convert_compact_data_member_pointer@24",
+        "_convert_compact_to_virtual_data_pointer@24",
+        "_convert_compact_to_general_data_pointer@24",
+        "_convert_compact_data_member_pointer@24",
+        "_convert_compact_data_member_pointer@24",
+        "_convert_compact_to_virtual_data_pointer@24",
+        "_convert_compact_to_general_data_pointer@24",
+        "_convert_virtual_to_compact_data_pointer@24",
+        "_convert_virtual_to_compact_data_pointer@24",
+        "_convert_virtual_data_member_pointer@24",
+        "_convert_virtual_to_general_data_pointer@24",
+        "_convert_general_to_compact_data_pointer@24",
+        "_convert_general_to_compact_data_pointer@24",
+        "_convert_general_to_virtual_data_pointer@24",
+        "_convert_general_data_member_pointer@24"
       ]
     }
   ],

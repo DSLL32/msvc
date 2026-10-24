@@ -1,0 +1,19 @@
+Breakpoint 1 at 0x542e4: file src/member-pointers.c, line 555.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, convert_member_pointer_representation (expression=0x5663f8ec, type=0x566327f0, path=0x56655ae0, forward=1) at src/member-pointers.c:555
+555	    unsigned target_model = member_pointer_inheritance_model(type);
+#0  convert_member_pointer_representation (expression=0x5663f8ec, type=0x566327f0, path=0x56655ae0, forward=1) at src/member-pointers.c:555
+#1  0x565a4a87 in convert_member_pointer_initializer (type=0x566327f0, expression=0x5663f8ec) at src/numeric-conversion.c:199
+#2  0x565a4b57 in convert_scalar_initializer (operation=1 '\001', type=0x566327f0, expression=0x5663f8ec) at src/numeric-conversion.c:216
+#3  0x565a5764 in convert_derived_initializer (type=0x566327f0, expression=0x5663f8ec) at src/numeric-conversion.c:353
+#4  0x5658875c in convert_initializer (operation=126 '~', type=0x566327f0, expression=0x5663f8ec) at src/constructor-initializers.c:707
+#5  0x565884d7 in initialize_lvalue (target=0x5663f900, value=0x5663f8ec) at src/constructor-initializers.c:419
+#6  0x5659464b in emit_initializer_assignment (target=0x5663f900, value=0x5663f8ec) at src/object-initializers.c:425
+#7  0x56594093 in initialize_object_value (symbol=0x56655a9c, value=0x5663f8ec) at src/object-initializers.c:307
+#8  0x56593e2e in initialize_object (symbol=0x56655a9c, value=0x5663f8ec) at src/object-initializers.c:259
+#9  0x565bbc6a in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#10 0x5655e15f in compile_translation_unit () at src/frontend.c:73
+#11 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#12 0x56558894 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20

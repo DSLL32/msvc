@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "545cb4f32dbf5a336c496e707d1d8b7a0df44fca0b7875840b3ebcf07eceb1b2",
+    "functions.json": "f96b45dcfe460adf937b092f8a6dcbfbf32bd20354e6d840728b8f8d9144e38f",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "cf7833918bc4218194b7c0e05247cb6071a1a543a9f7ed9246f173818e5a0d1a",
-    "cases/canonical-map.txt": "44b3cf64f8db436a6fa6bae27000357066ab46765adce97f1aee5c43f2a1e960",
+    "cases/original-entry-references.json": "29cd234f12042f3b316d645bee156a14c0de4d9b20db6483b26d41b92bf73818",
+    "cases/canonical-map.txt": "17c7ce2e97815f6266553cce73629d8bc479cc385cea1115e91e1efbfa15b2ef",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1223-append_default_call_argument-8/entry-reference/original-receipt.json": "7ae05aaec1a45c32557a3a7f62c56b8e408e1a0c68ab4b7c3a459cbfa5ec50bd",
-    "cases/frontiers/state_machine_debug/1223-append_default_call_argument-8/entry-reference/original-events.txt": "b7a8145d3b3a38fb3e399eb62ecab0d58212b9efef579ca8377c336b5a793fa9",
-    "cases/frontiers/state_machine_debug/1223-append_default_call_argument-8/entry-reference/original-entries.plan": "0b57b4c50436b4e2c9dd5386146762296c34a14095f431dc9d6020b8443c73c6"
+    "cases/frontiers/state_machine_debug/1224-convert_member_pointer_representation-16/entry-reference/original-receipt.json": "cbf65b525d01aaa6af182752495052c9977d8cb19c75668498171e9a7f3d883b",
+    "cases/frontiers/state_machine_debug/1224-convert_member_pointer_representation-16/entry-reference/original-events.txt": "49b62d2eaa7b67bf2abe5ca8c2f79d44c4fc1b804e7101c10dad1da12a2bc12d",
+    "cases/frontiers/state_machine_debug/1224-convert_member_pointer_representation-16/entry-reference/original-entries.plan": "f076e6bfa3296bbe98518bed0462fd25eaa5debdb9778b5c96a1f6aa04608583"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1234,6 +1234,30 @@
       "logical": "_convert_class_pointer@16",
       "source": "src/numeric-conversion.c"
     },
+    "convert_compact_data_member_pointer": {
+      "logical": "_convert_compact_data_member_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_compact_method_pointer": {
+      "logical": "_convert_compact_method_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_compact_to_general_data_pointer": {
+      "logical": "_convert_compact_to_general_data_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_compact_to_general_method_pointer": {
+      "logical": "_convert_compact_to_general_method_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_compact_to_virtual_data_pointer": {
+      "logical": "_convert_compact_to_virtual_data_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_compact_to_virtual_method_pointer": {
+      "logical": "_convert_compact_to_virtual_method_pointer@24",
+      "source": "src/stubs.c"
+    },
     "convert_deferred_type_token": {
       "logical": "_convert_deferred_type_token@8",
       "source": "src/lookahead.c"
@@ -1249,6 +1273,30 @@
     "convert_floating_literal": {
       "logical": "_convert_floating_literal@8",
       "source": "src/floating.c"
+    },
+    "convert_general_data_member_pointer": {
+      "logical": "_convert_general_data_member_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_general_method_pointer": {
+      "logical": "_convert_general_method_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_general_to_compact_data_pointer": {
+      "logical": "_convert_general_to_compact_data_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_general_to_compact_method_pointer": {
+      "logical": "_convert_general_to_compact_method_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_general_to_virtual_data_pointer": {
+      "logical": "_convert_general_to_virtual_data_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_general_to_virtual_method_pointer": {
+      "logical": "_convert_general_to_virtual_method_pointer@24",
+      "source": "src/stubs.c"
     },
     "convert_initializer": {
       "logical": "_convert_initializer@12",
@@ -1272,7 +1320,7 @@
     },
     "convert_member_pointer_representation": {
       "logical": "_convert_member_pointer_representation@16",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "convert_numeric_constant": {
       "logical": "_convert_numeric_constant@12",
@@ -1296,6 +1344,30 @@
     },
     "convert_selected_operator_operand": {
       "logical": "_convert_selected_operator_operand",
+      "source": "src/stubs.c"
+    },
+    "convert_virtual_data_member_pointer": {
+      "logical": "_convert_virtual_data_member_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_virtual_method_pointer": {
+      "logical": "_convert_virtual_method_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_virtual_to_compact_data_pointer": {
+      "logical": "_convert_virtual_to_compact_data_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_virtual_to_compact_method_pointer": {
+      "logical": "_convert_virtual_to_compact_method_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_virtual_to_general_data_pointer": {
+      "logical": "_convert_virtual_to_general_data_pointer@24",
+      "source": "src/stubs.c"
+    },
+    "convert_virtual_to_general_method_pointer": {
+      "logical": "_convert_virtual_to_general_method_pointer@24",
       "source": "src/stubs.c"
     },
     "copy_arena_bytes": {
@@ -7010,7 +7082,8 @@
     "make_missing_function_declaration",
     "emit_atexit_registration",
     "defer_object_definition",
-    "append_default_call_argument"
+    "append_default_call_argument",
+    "convert_member_pointer_representation"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -11133,7 +11206,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1224,
+      "last": 1225,
       "seen": [
         "main",
         "message_text",
@@ -12256,12 +12329,13 @@
         "emit_atexit_registration",
         "defer_object_definition",
         "append_default_call_argument",
-        "convert_member_pointer_representation"
+        "convert_member_pointer_representation",
+        "convert_compact_data_member_pointer"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_convert_member_pointer_representation@16",
-        "native": "convert_member_pointer_representation",
+        "logical": "_convert_compact_data_member_pointer@24",
+        "native": "convert_compact_data_member_pointer",
         "signal": 5
       }
     }
