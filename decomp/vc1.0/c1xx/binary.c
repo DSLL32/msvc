@@ -848,10 +848,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_skip_macro_space",
         .entry_rva = 0x11040,
-        .code = (const ReconExtent[]) { { 0x11040, 0x11041 } },
+        .code = (const ReconExtent[]) { { 0x11040, 0x1116b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "skip_macro_space",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_macro_expansion_error@4",

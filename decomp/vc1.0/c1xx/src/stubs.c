@@ -217,7 +217,6 @@ void __stdcall reference_browser_macro(MacroDefinition *definition) { __asm { in
 void __stdcall push_macro_expansion(MacroDefinition *definition) { __asm { int 3 } }
 void rescan_macro_replacement(void) { __asm { int 3 } }
 int finish_macro_expansion(void) { __asm { int 3 } return 0; }
-int skip_macro_space(void) { __asm { int 3 } return 0; }
 void __stdcall expand_macro_arguments(MacroDefinition *definition, int count) { __asm { int 3 } }
 void __stdcall emit_macro_string(unsigned char delimiter, char *text) { __asm { int 3 } }
 void __stdcall emit_macro_text(char *text) { __asm { int 3 } }

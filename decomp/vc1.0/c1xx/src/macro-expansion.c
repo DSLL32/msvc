@@ -208,3 +208,49 @@ int __stdcall check_defined_macro(char *name)
     if (parentheses > 0 && !macro_rescan_depth) compiler_warning(1, 4);
     return defined;
 }
+
+/* Original 0x21040..0x2116a. Whitespace can terminate an argument scan,
+   resume a source window, or append one separator to the expansion buffer. */
+int skip_macro_space(void)
+{
+    int available = 0;
+    unsigned status;
+    unsigned char classification;
+    token_allocation_flags &= ~0x00800000UL;
+    macro_intertoken_space = 0;
+    for (;;) {
+        classification = character_class[(unsigned char)*source_text_cursor++];
+        if (classification == CC_SPACE || classification == CC_CARRIAGE_RETURN) {
+            macro_intertoken_space = 1;
+            continue;
+        }
+        if (classification == CC_ESCAPE_OR_END) {
+            status = recover_special_character();
+            if (status & 0x0a) break;
+            if (status & ~0x50U) continue;
+        } else if (classification == CC_NEWLINE) {
+            if (token_allocation_flags & 0x00010000UL) {
+                --source_text_cursor;
+                break;
+            }
+            ++source_line_number;
+            if (options.option_E) {
+                if (preprocessor_stream)
+                    fputc((unsigned char)source_text_cursor[-1], preprocessor_stream);
+                else write_work_character((unsigned char)source_text_cursor[-1], compiler_stack);
+            }
+            token_allocation_flags |= 0x00800000UL;
+            macro_intertoken_space = 1;
+            continue;
+        }
+        --source_text_cursor;
+        available = 1;
+        break;
+    }
+    if (macro_intertoken_space) {
+        if ((unsigned)(macro_work_buffer + macro_work_bytes - 5) <=
+            (unsigned)macro_expansion_start) macro_expansion_error(56);
+        if (macro_expansion_start[-1] != ' ') *macro_expansion_start++ = ' ';
+    }
+    return available;
+}
