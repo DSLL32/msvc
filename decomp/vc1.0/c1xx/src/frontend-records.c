@@ -10,6 +10,7 @@
 #include <recon.h>
 
 void begin_do_body_region(void);
+void end_do_body_region(void);
 void begin_for_increment_region(void);
 void end_for_increment_region(void);
 void begin_switch_condition_region(void);
@@ -1059,6 +1060,22 @@ void begin_do_body_region(void)
 {
     FrontendRecord record;
     record.kind = 0x20;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
+
+/* Original 0x3fb70..0x3fbb7. Complete the do-body's pending
+   evaluation before opening the condition region. */
+void begin_do_condition(void)
+{
+    FrontendRecord record;
+    if (ir_records_suppressed) return;
+    end_do_body_region();
+    record.kind = 0x22;
     record.flags = 0;
     record.field02 = 0;
     record.sequence = 0;
