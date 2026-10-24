@@ -24,8 +24,8 @@ def records(slots,post=False,name=0):
 
 def compare(original,state,trap,events,native_directory=None):
     verify()
-    completed=state['function']in ('create_library','find_library','initialize_library_enumerator')
-    mapping=state['function']in ('initialize_file_mapping','create_library','find_library','initialize_library_enumerator')
+    completed=state['function']in ('create_library','find_library','initialize_library_enumerator','next_library')
+    mapping=state['function']in ('initialize_file_mapping','create_library','find_library','initialize_library_enumerator','next_library')
     assert native_directory is not None
     receipt=json.loads((native_directory/'receipt.json').read_text())
     symbols=slot_symbols(str(native_directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
@@ -63,7 +63,7 @@ def compare(original,state,trap,events,native_directory=None):
     assert entry['formals']==expected and nentry['formals']==nexpected
     assert entry['hidden_inputs']==nentry['hidden_inputs']==acquire['hidden_inputs']==nacquire['hidden_inputs']==[]
     assert acquire['stack_pointer']==entry['stack_pointer']-44
-    assert trap['esp']==entry['stack_pointer']-(848 if state['function']=='initialize_library_enumerator'else 28 if state['function']=='find_library'else 0 if completed else 76 if mapping else 44)and trap['stack'][0]==(0x40f674 if state['function']=='initialize_library_enumerator'else 0x40ede7 if state['function']=='find_library'else 0x44b906 if completed else 0x40c9cf if mapping else 0x40b84a)
+    assert trap['esp']==entry['stack_pointer']-(844 if state['function']=='next_library'else 848 if state['function']=='initialize_library_enumerator'else 28 if state['function']=='find_library'else 0 if completed else 76 if mapping else 44)and trap['stack'][0]==(0x40f67e if state['function']=='next_library'else 0x40f674 if state['function']=='initialize_library_enumerator'else 0x40ede7 if state['function']=='find_library'else 0x44b906 if completed else 0x40c9cf if mapping else 0x40b84a)
     assert obefore['stack']==acquire['stack_pointer']-44
     if not mapping:assert trap['ebp']==0xffffffff
     current=trap['file_record_formals'];ncurrent=state['file_record_formals']

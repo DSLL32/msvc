@@ -95,7 +95,8 @@
     "_open_mapped_file@16",
     "_initialize_file_mapping@12",
     "_create_library@12",
-    "_find_library@12"
+    "_find_library@12",
+    "_initialize_library_enumerator@8"
   ],
   "driver": [
     {
@@ -2556,12 +2557,11 @@
     {
       "name": "_initialize_library_enumerator@8",
       "start": 4258544,
-      "end": 4258545,
-      "source": "src/pass-one.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "end": 4258578,
+      "source": "src/libraries.c",
+      "status": "implemented",
       "native_symbol": "initialize_library_enumerator",
-      "abi": "stdcall void(LibraryEnumerator *enumerator,OutputLibrary *first);two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+      "abi": "stdcall void(LibraryEnumerator *enumerator,OutputLibrary *first); two physical DWORD inputs, RET8; no hidden inputs. Constructor overwrites all16 output bytes without reading their prior values."
     },
     {
       "name": "_next_library@4",

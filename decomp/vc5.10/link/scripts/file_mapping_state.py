@@ -35,7 +35,7 @@ def compare_created(original,state,trap,events,name,newname,oslots,nslots):
     assert state['mapped_file_slots']==[nslots[15]]+[0]*15
     assert bytes.fromhex(state['mapped_file_slots_bytes'])==struct.pack('<16I',*state['mapped_file_slots'])
     assert state['mapped_file_slots_address'] # Bound to real BSS symbol in the enclosing compare.
-    completed=state['function']in ('create_library','find_library','initialize_library_enumerator')
+    completed=state['function']in ('create_library','find_library','initialize_library_enumerator','next_library')
     current=trap['mapping_formals'];ncurrent=state['mapping_formals'];physical=state['mapping_entry']
     assert physical['hidden_inputs']==[]and physical['raw_formals']==[nslots[15],0,state['mapped_open_formals']['size']]
     assert current==dict(record=oslots[15],resize=0,raw_resize_word=0,error=trap['mapped_open_formals']['size'],initial_error=0)

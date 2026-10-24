@@ -1,0 +1,56 @@
+{
+  "kind": "Next ordinary serialized capture verifies bounded same-hFile explicit-offset adoption",
+  "old_receipt_sha256": "c2c1c9187f8c534da711c3320204a43a802a0db800590d8d1cffffd9df384cca",
+  "new_receipt_sha256": "7a592f368dafa287ce62ab990d50b9c22d9877757f0662844b83e7f01c8a2199",
+  "helper_sha256": "c929fc863335cf8b07dfd61c8950b33acdca45bae4fc6efb962b9bf281e081ff",
+  "source_sha256": "00f88e488217b6544cd420221c02de413812f63a5523e285175adc626f3315bd",
+  "all_module_copies_byte_identical": true,
+  "module_copies": {
+    "module-002.bin": {
+      "bytes": 2008819,
+      "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733"
+    },
+    "module-005.bin": {
+      "bytes": 565760,
+      "sha256": "91cd76f9fa3b25008decb12c005c194bdf66c8d6526a954de7051bec9aae462a"
+    },
+    "module-004.bin": {
+      "bytes": 117520,
+      "sha256": "cd2f551da04809ac239a86919eaa343aed15318a158b3cacbc943768330bc38c"
+    },
+    "module-003.bin": {
+      "bytes": 6153638,
+      "sha256": "0487dccab70545e92be2cd427c0f5255928f2a39d03113ab171ec2609c9611e3"
+    },
+    "module-009.bin": {
+      "bytes": 528384,
+      "sha256": "50bc91713b9f693efcca2dc68e853eca8be1dccea500cc4f6ce64853bcfda1ac"
+    },
+    "module-000.bin": {
+      "bytes": 464896,
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+    },
+    "module-007.bin": {
+      "bytes": 167424,
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    "module-010.bin": {
+      "bytes": 528384,
+      "sha256": "50bc91713b9f693efcca2dc68e853eca8be1dccea500cc4f6ce64853bcfda1ac"
+    },
+    "module-006.bin": {
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    "module-001.bin": {
+      "bytes": 3372656,
+      "sha256": "ccb6dc0da783d4cd1b64ae336790b77e7265fb912afadb2421313c557784b13e"
+    },
+    "module-008.bin": {
+      "bytes": 74864,
+      "sha256": "f8f8cacff6ade07584201a5622bf5650fdd62ed9fe5301ab48628772a56e204d"
+    }
+  },
+  "old_evidence_unmodified": true,
+  "actual_reference_capture": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-m08g7qtg"
+}

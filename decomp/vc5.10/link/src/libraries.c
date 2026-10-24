@@ -33,3 +33,11 @@ void *__stdcall find_library(const unsigned char *name,void *list,BYTE before)
     }
     return found;
 }
+
+void __stdcall initialize_library_enumerator(LibraryEnumerator *enumerator,OutputLibrary *first)
+{
+    enumerator->next=next_library;
+    enumerator->end=(void (__stdcall *)(LibraryEnumerator *))end_section_enumerator;
+    enumerator->current=NULL;
+    enumerator->first=first;
+}

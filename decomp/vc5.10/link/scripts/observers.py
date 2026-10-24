@@ -56,6 +56,7 @@ def plan(accepted,case="help"):
                        (0xb885,'observe:file_available_call'),(0xb88a,'observe:file_available_return'),
                        (0xb829,'observe:file_acquire_call'),(0xb82e,'observe:file_acquire_return'),
                        (0xb898,'observe:file_name_call'),(0xb89d,'observe:file_name_return')])
+    if '_initialize_library_enumerator@8'in accepted:result.append((0xf674,'observe:library_enum_return'))
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]
