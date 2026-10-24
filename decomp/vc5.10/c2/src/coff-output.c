@@ -554,3 +554,71 @@ void __fastcall initialize_coff_symbols(C2CoffSectionData *data)
     else
         add_coff_symbol(record);
 }
+
+unsigned __fastcall register_coff_storage(C2CoffSectionData *data)
+{
+    C2OutputStorage *storage;
+    C2OutputStorageEntry *entry, *first, *previous, *next, *empty;
+    C2CoffSectionData *last;
+    unsigned index = data->symbol_index;
+    if (coff_reuse_output) {
+        storage = coff_storage;
+        first = storage->first;
+        if (first) {
+            last = storage->last->data;
+            if (last && index > last->symbol_index) {
+                entry = output_allocate(8);
+                storage = coff_storage;
+                entry->data = data;
+                previous = storage->last;
+                previous->next = entry;
+                storage->last = entry;
+                goto inserted;
+            }
+            if (first->data && index < first->data->symbol_index) {
+                entry = output_allocate(8);
+                storage = coff_storage;
+                entry->data = data;
+                previous = storage->first;
+                storage->first = entry;
+                entry->next = previous;
+                goto inserted;
+            }
+            empty = first->data ? NULL : first;
+            next = first->next;
+            previous = first;
+            while (next) {
+                if (next->data) {
+                    if (next->data->symbol_index > index)
+                        break;
+                    empty = NULL;
+                } else if (!empty)
+                    empty = next;
+                next = next->next;
+                previous = previous->next;
+            }
+            if (empty) {
+                empty->data = data;
+                goto inserted;
+            }
+            entry = output_allocate(8);
+            storage = coff_storage;
+            entry->next = next;
+            entry->data = data;
+            previous->next = entry;
+            goto inserted;
+        }
+    }
+    entry = output_allocate(8);
+    storage = coff_storage;
+    entry->data = data;
+    previous = storage->last;
+    if (previous)
+        previous->next = entry;
+    else
+        storage->first = entry;
+    storage->last = entry;
+inserted:
+    ++storage->count;
+    return ++storage->next_index;
+}

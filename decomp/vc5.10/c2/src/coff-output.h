@@ -8,6 +8,17 @@ typedef struct C2OutputTable C2OutputTable;
 typedef struct C2OutputList C2OutputList;
 typedef struct C2OutputStorage C2OutputStorage;
 typedef struct C2OutputChunk C2OutputChunk;
+typedef struct C2OutputStorageEntry {
+    struct C2OutputStorageEntry *next;
+    struct C2CoffSectionData *data;
+} C2OutputStorageEntry;
+struct C2OutputStorage {
+    C2OutputStorageEntry *first, *last;
+    unsigned count, next_index;
+};
+typedef char C2OutputStorageSizeCheck[sizeof(C2OutputStorage) == 16 ? 1 : -1];
+typedef char C2OutputStorageEntrySizeCheck[sizeof(C2OutputStorageEntry) == 8 ? 1 : -1];
+typedef char C2OutputStorageIndexCheck[offsetof(C2OutputStorage, next_index) == 12 ? 1 : -1];
 typedef struct C2OutputBlock508 C2OutputBlock508;
 typedef struct C2OutputBlock308 C2OutputBlock308;
 typedef struct C2OutputSection C2OutputSection;

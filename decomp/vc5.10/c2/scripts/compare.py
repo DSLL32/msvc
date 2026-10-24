@@ -430,7 +430,7 @@ def compare(original,native,validation=None):
         writer_block=(original/'writer-pool.bin').read_bytes()if writer else b''
         if writer:assert len(writer_block)==4096
         symbol_buffer=struct.unpack_from('<I',image,0x497d48-0x48e000)[0]if expected.get('frontier_contract')in ('coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input')else 0
-        symbol_buffer_bytes=20 if expected.get('section_caller')=='initialize_coff_symbols'else 12
+        symbol_buffer_bytes=20 if expected.get('section_caller')in ('initialize_coff_symbols','register_coff_storage')else 12
         def read(address,size):
             if symbol_buffer and symbol_buffer<=address and address+size<=symbol_buffer+symbol_buffer_bytes:
                 entries=(original/'coff-symbol-entries.bin').read_bytes();assert len(entries)==symbol_buffer_bytes
@@ -440,7 +440,7 @@ def compare(original,native,validation=None):
             if directive_head<=address and address+size<=directive_head+4096:return directive_block[address-directive_head:address-directive_head+size]
             assert 0x48e000<=address and address+size<=0x49e700,'unmodeled external data access'
             return image[address-0x48e000:address-0x48e000+size]
-        wanted=json.loads(json.dumps(complete_globals(read,{name:item[0]for name,item in ROOTS.items()},directives=directives,writer=writer,coff=expected.get('frontier_contract')in ('coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'),initialized_output=expected.get('frontier_contract')in ('coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'),list_pending=expected.get('frontier_contract')=='coff-chunk-input',list_constructed=expected.get('frontier_contract')in ('coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'),source_pending=expected.get('frontier_contract')in ('coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'),symbols_complete=expected.get('frontier_contract')in ('coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'),append_pending=expected.get('section_caller')=='add_coff_section',append_complete=expected.get('section_caller')in ('append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols'),section_symbols_pending=expected.get('section_caller')in ('lookup_output_table','initialize_coff_symbols'),section_symbols_complete=expected.get('section_caller')=='initialize_coff_symbols')))
+        wanted=json.loads(json.dumps(complete_globals(read,{name:item[0]for name,item in ROOTS.items()},directives=directives,writer=writer,coff=expected.get('frontier_contract')in ('coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'),initialized_output=expected.get('frontier_contract')in ('coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'),list_pending=expected.get('frontier_contract')=='coff-chunk-input',list_constructed=expected.get('frontier_contract')in ('coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'),source_pending=expected.get('frontier_contract')in ('coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'),symbols_complete=expected.get('frontier_contract')in ('coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'),append_pending=expected.get('section_caller')=='add_coff_section',append_complete=expected.get('section_caller')in ('append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols','register_coff_storage'),section_symbols_pending=expected.get('section_caller')in ('lookup_output_table','initialize_coff_symbols','register_coff_storage'),section_symbols_complete=expected.get('section_caller')in ('initialize_coff_symbols','register_coff_storage'),storage_complete=expected.get('section_caller')=='register_coff_storage')))
         native_complete=dict(state['globals_complete']);streams=native_complete.pop('streams');wanted['formals']=[];wanted['opaque_context_anchor_alias']=True
         if expected.get('frontier_contract')=='initializer-input':
             wanted['formals']=[{'name':'input','type':'ShimFILE *'}];wanted['input_file']={'index':3,'main_alias':True}
@@ -591,18 +591,18 @@ def compare(original,native,validation=None):
         contract=(BINARY/config['section_callback_storage_contract']).read_bytes()
         assert all((directory/'section-callback-storage-contract.json').read_bytes()==contract for directory in (original,native))
         wanted={'formals':[{'name':'section','type':'C2Section *'}],'section_offset':1892,'directive_global_alias':True,'stored_target_alias':True,'caller':'write_coff_directive'}
-        if expected.get('section_caller')in ('select_output_section','create_coff_section','add_coff_section','append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols'):wanted.update(caller='select_output_section',caller_section_alias=True,coff_section=1 if expected.get('section_caller')in ('append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols')else 0)
+        if expected.get('section_caller')in ('select_output_section','create_coff_section','add_coff_section','append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols','register_coff_storage'):wanted.update(caller='select_output_section',caller_section_alias=True,coff_section=1 if expected.get('section_caller')in ('append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols','register_coff_storage')else 0)
         assert state['section_callback']==wanted,'direct section formal/owned record/global/stored identity differs'
         raw=re.findall(r'^C2-SECTION-CALLBACK (.*)$',(native/'gdb.stdout').read_text(),re.M)
         assert len(raw)==1 and json.loads(raw[0])==wanted
-        context_start=0x41ec59 if expected.get('section_caller')in ('create_coff_section','add_coff_section','append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols')else expected['start']
+        context_start=0x41ec59 if expected.get('section_caller')in ('create_coff_section','add_coff_section','append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols','register_coff_storage')else expected['start']
         raw=re.findall(r'^observe %08x eax=[0-9a-f]+ ecx=([0-9a-f]+) edx=[0-9a-f]+ esp=[0-9a-f]+$'%context_start,text,re.M)
         assert len(raw)==1 and int(raw[0],16)==head+1892
         assert struct.unpack('<I',read(0x4973fc,4))[0]==head+1892
         assert struct.unpack('<I',read(0x497ce4,4))[0]==0x41ec20
         stack=re.findall(r'^observe-stack ([^\n]+)$',text.rsplit('observe %08x '%context_start,1)[1],re.M)
-        assert stack and stack[0].split()[0]==('0041ec4c'if expected.get('section_caller')in ('select_output_section','create_coff_section','add_coff_section','append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols')else'00453ebd')
-        if expected.get('section_caller')in ('select_output_section','create_coff_section','add_coff_section','append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols'):assert struct.unpack('<I',read(head+1892+70,4))[0]==(1 if expected.get('section_caller')in ('append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols')else 0)
+        assert stack and stack[0].split()[0]==('0041ec4c'if expected.get('section_caller')in ('select_output_section','create_coff_section','add_coff_section','append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols','register_coff_storage')else'00453ebd')
+        if expected.get('section_caller')in ('select_output_section','create_coff_section','add_coff_section','append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols','register_coff_storage'):assert struct.unpack('<I',read(head+1892+70,4))[0]==(1 if expected.get('section_caller')in ('append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols','register_coff_storage')else 0)
     if expected.get('section_caller')in ('create_coff_section','add_coff_section'):
         wanted={'formals':[{'name':'name','type':'char *'},{'name':'flags','type':'unsigned int'},{'name':'flag8','type':'int'},{'name':'reuse','type':'int'}],'name':'.drectve','flags':0xa00,'flag8':1,'reuse':0,'caller':'create_coff_section','name_section_alias':True}
         assert state['coff_section_output']==wanted,'actual section name/flags/stackarguments/owner alias differs'
@@ -622,6 +622,15 @@ def compare(original,native,validation=None):
         assert len(raw)==1 and (int(raw[0][0],16)&0xffff,int(raw[0][1],16))==(1,0xa00)
         stack=re.findall(r'^observe-stack ([^\n]+)$',text.rsplit('observe 0041ef83 ',1)[1],re.M)
         assert stack and stack[0].split()[0]=='0041edab'
+    if expected.get('section_caller')=='register_coff_storage':
+        wanted={'formals':[{'name':'section','type':'C2Section *'}],'offset':1892,'caller':'create_coff_section','caller_section_alias':True,'coff_index':1}
+        assert state['coff_section_record']==wanted,'actual record-section formal/creator alias/index differs'
+        raw=re.findall(r'^C2-COFF-SECTION-RECORD (.*)$',(native/'gdb.stdout').read_text(),re.M)
+        assert len(raw)==1 and json.loads(raw[0])==wanted
+        raw=re.findall(r'^observe 0041f173 eax=[0-9a-f]+ ecx=([0-9a-f]+) edx=[0-9a-f]+ esp=[0-9a-f]+$',text,re.M)
+        assert len(raw)==1 and int(raw[0],16)==head+1892
+        stack=re.findall(r'^observe-stack ([^\n]+)$',segment,re.M)
+        assert stack and stack[0].split()[0]=='0041edb2'
     if expected.get('section_caller')=='lookup_output_table':
         wanted={'formals':[{'name':'data','type':'C2CoffSectionData *'}],'offset':1908,'caller':'initialize_coff_section','caller_data_alias':True,'section_offset':1884,'section_table_alias':True,'section_data_alias':True}
         assert state['coff_section_symbols']==wanted,'actual section-data formal/initialized owner/table aliases differ'

@@ -1,0 +1,12 @@
+[
+  [
+    "/formals/0/name",
+    "section",
+    "data"
+  ],
+  [
+    "/formals/0/type",
+    "C2Section *",
+    "C2CoffSectionData *"
+  ]
+]

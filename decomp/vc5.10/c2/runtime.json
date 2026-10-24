@@ -1146,13 +1146,5 @@
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
-  },
-  {
-    "name": "@register_coff_storage@4",
-    "start": 4321574,
-    "end": 4321575,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
   }
 ]

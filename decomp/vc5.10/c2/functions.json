@@ -99,7 +99,8 @@
     "@append_output_table@8",
     "@initialize_coff_section@8",
     "@lookup_output_table@8",
-    "@initialize_coff_symbols@4"
+    "@initialize_coff_symbols@4",
+    "@register_coff_storage@4"
   ],
   "driver": [
     {
@@ -242,17 +243,17 @@
             "review": "Full bounded disassembly shows one assignment before all three calls; no holder rewrite or address escape; cdecl preserves ESI"
           },
           "rebuilt": {
-            "slot": 4227164,
+            "slot": 4231260,
             "holder": "[EBP-0xc]",
             "lifetime": [
               212,
               312
             ],
-            "lifetime_sha256": "76666d514a3c7637b5f6c7a2c584b7dfe4799d438f13c17e7bb9b530718da630",
+            "lifetime_sha256": "1be050890d719b25c5a504c5d06ee2c047688f86d727a87ec42936cf2b4ccf78",
             "instructions": [
               {
                 "offset": 212,
-                "bytes": "8b0d5c804000894df4"
+                "bytes": "8b0d5c904000894df4"
               },
               {
                 "offset": 243,
@@ -414,17 +415,17 @@
             "review": "Full48b72b..48b78c reviewed: EDI assigned once before recursion/loop; lookup fastcall preserves EDI; no holder overwrite or escape; one indirect strdup call and cleanup4."
           },
           "rebuilt": {
-            "slot": 4227168,
+            "slot": 4231264,
             "holder": "[EBP-0x4]",
             "lifetime": [
               42,
               191
             ],
-            "lifetime_sha256": "7f85ff4953af8f0200be8a382ab3fbeba2d341b25b3599d9ea3d78624f9eb7e4",
+            "lifetime_sha256": "fa650d0240a4947442bc75147f858cf80a2e7370b43d34be47f51382bbbf2b52",
             "instructions": [
               {
                 "offset": 42,
-                "bytes": "a1608040008945fc"
+                "bytes": "a1609040008945fc"
               },
               {
                 "offset": 104,
@@ -496,17 +497,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4227192,
+            "slot": 4231288,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "11732fd301f4e0b2590002d966bd7f94c0162f8e2276c73f1202ff00e3755e98",
+            "lifetime_sha256": "e2bbf63d5777de5e14dbcdacf595a131dd8f1f49061b738c433f329eaff0d0a6",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d78804000894df8"
+                "bytes": "8b0d78904000894df8"
               },
               {
                 "offset": 509,
@@ -645,17 +646,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4227196,
+            "slot": 4231292,
             "holder": "[EBP-0x8]",
             "lifetime": [
               38,
               154
             ],
-            "lifetime_sha256": "db1cb414b9bc9237d05b485616a0f0cc8057bc3ead04e8531fd5118634e5d341",
+            "lifetime_sha256": "c89cb4c4d317019a9ef2b00132b5d037325476cc0840eb1ab77a37249f1d4501",
             "instructions": [
               {
                 "offset": 38,
-                "bytes": "a17c8040008945f8"
+                "bytes": "a17c9040008945f8"
               },
               {
                 "offset": 110,
@@ -706,17 +707,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4227200,
+            "slot": 4231296,
             "holder": "[EBP-0x4]",
             "lifetime": [
               46,
               154
             ],
-            "lifetime_sha256": "4d86d8226f0bf1decd16296a568a6046fdfdf019bb8055169c8c155b7c13baa6",
+            "lifetime_sha256": "cf04fa2a141115f3e6e60a2346dd7409b7a66ed10c4d3f72e6fe665ee9933bf0",
             "instructions": [
               {
                 "offset": 46,
-                "bytes": "8b0d80804000894dfc"
+                "bytes": "8b0d80904000894dfc"
               },
               {
                 "offset": 89,
@@ -926,12 +927,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4227188,
+            "slot": 4231284,
             "holder": "[EBP-0x14]",
             "instructions": [
               {
                 "offset": 15,
-                "bytes": "8b0d74804000894dec"
+                "bytes": "8b0d74904000894dec"
               },
               {
                 "offset": 44,
@@ -943,16 +944,16 @@
               15,
               98
             ],
-            "lifetime_sha256": "e3e213debdc04db65704e51ecc71634fe1ca133c42a9a2c004b63f78df8b677d",
+            "lifetime_sha256": "9e9dcae1bfa47f7f5648f76ab0cb5f49c75f97a9dbde7b410471d30311f54e43",
             "accessed_data": [
               {
-                "slot": 4227184,
+                "slot": 4231280,
                 "dll": "MSVCRT.dll",
                 "symbol": "__mb_cur_max",
                 "abi": "imported 32-bit int variable"
               },
               {
-                "slot": 4227180,
+                "slot": 4231276,
                 "dll": "MSVCRT.dll",
                 "symbol": "_pctype",
                 "abi": "imported pointer variable to unsigned-short flags table indexed by signed char"
@@ -989,12 +990,12 @@
             "lifetime_sha256": "ba75a000344a85d30c5093fba5eb4182adc3ff672b0e6bfc79b00196d843b704"
           },
           "rebuilt": {
-            "slot": 4227176,
+            "slot": 4231272,
             "holder": "[EBP-0x10]",
             "instructions": [
               {
                 "offset": 98,
-                "bytes": "a1688040008945f0"
+                "bytes": "a1689040008945f0"
               },
               {
                 "offset": 106,
@@ -1010,7 +1011,7 @@
               98,
               140
             ],
-            "lifetime_sha256": "626076e06b66b0e5e680650377a3ce2d09a7f740d53d8bff275b7ba1778486c0"
+            "lifetime_sha256": "d4944b8a8068847ef1f902217633df3763e20ac87f8bbdbd3101174f50a3552b"
           }
         }
       ]
@@ -1469,12 +1470,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4227160,
+            "slot": 4231256,
             "holder": "[EBP-0x8]",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a1588040008945f8"
+                "bytes": "a1589040008945f8"
               },
               {
                 "offset": 89,
@@ -1490,7 +1491,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "8ba8252df5aab8e92619cd72c48fd2fb46d5e4c4d738b1c2e66aa634cc31cc8e"
+            "lifetime_sha256": "a4d4de6dda790bcd64e0958142ccb0b7991e9bf5c2087e6b3660b5de9e8413d7"
           }
         }
       ]
@@ -1651,12 +1652,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4227160,
+            "slot": 4231256,
             "holder": "[EBP-0x8]",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a1588040008945f8"
+                "bytes": "a1589040008945f8"
               },
               {
                 "offset": 89,
@@ -1680,7 +1681,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "60742e4717e1264a0b75b519862d96ccf4ad705dd8dcb96c8a83ae2ce56ba037"
+            "lifetime_sha256": "96246f7d75e358db9fe0444d7bdfcbd1406410f5b8910ef1cdfa0acd3c2f4139"
           }
         }
       ]
@@ -4112,16 +4113,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4227160,
+            "slot": 4231256,
             "lifetime": [
               6,
               827
             ],
-            "lifetime_sha256": "3ca57e92092ab2805820d2e163851ff07b17e7b888237e011403674358e618d6",
+            "lifetime_sha256": "47695c5d1fa478e1b53ccda858154e393490aeee02e805c7b4a53e59116578f2",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158804000"
+                "bytes": "a158904000"
               },
               {
                 "offset": 11,
@@ -4372,16 +4373,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4227160,
+            "slot": 4231256,
             "lifetime": [
               27,
               145
             ],
-            "lifetime_sha256": "6c8bfbbccc85342a35b421b5d837d6a82a6d7116feee0ca56a1965ed225bfd80",
+            "lifetime_sha256": "4e4520490f8d9a1c89df0e1439a4cbcdc40622783712a1a4df04c88909d3e859",
             "instructions": [
               {
                 "offset": 27,
-                "bytes": "8b1558804000"
+                "bytes": "8b1558904000"
               },
               {
                 "offset": 33,
@@ -5566,16 +5567,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4227160,
+            "slot": 4231256,
             "lifetime": [
               6,
               489
             ],
-            "lifetime_sha256": "98835819f65112941b4d8b947575624124809753effdafae42f17455f53506b8",
+            "lifetime_sha256": "c738c81f8d5ffee59e4ae68f6e633ff45ff3da237524e4dd7c983cbe5ebaf33b",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158804000"
+                "bytes": "a158904000"
               },
               {
                 "offset": 11,
@@ -5821,16 +5822,16 @@
             ]
           },
           "rebuilt": {
-            "slot": 4227160,
+            "slot": 4231256,
             "lifetime": [
               6,
               315
             ],
-            "lifetime_sha256": "ebedad65378c46265c856e5a6d2c4b53ccdc117e163552698405d8c49aa75fa1",
+            "lifetime_sha256": "a514f4a8cb785aacc2079565941cbc2f07b1975c82b4c06066b3073e37dc2de6",
             "instructions": [
               {
                 "offset": 6,
-                "bytes": "a158804000"
+                "bytes": "a158904000"
               },
               {
                 "offset": 11,
@@ -6818,7 +6819,7 @@
         "-G5"
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "symbol": "_read_initializers",
       "evidence": "cases/analysis/read-initializers-disassembly.txt:11B4532fa..453305 loads c2_input intoECX and tailjumps4523d2. Prior scaffold-name described registers incorrectly; original logicalID preserved, actualsource/Win32name read_initializers. Cdecl noargs, inheritedRET0 from fastcallFILE reader; reader remains unaccepted/trapped."
     },
@@ -7014,7 +7015,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7079,17 +7080,17 @@
             "review": "Unique verified IATseed before all dispatches. No EBP rewrite until POP45246f; complete coldchunk included. Each named callee has an explicit incoming-EBP preservation witness. One pushESI/CALLEBP/ADDESP4 at47421f, no alias escape, branch-entry bypass or unknown other indirect call."
           },
           "rebuilt": {
-            "slot": 4227204,
+            "slot": 4231300,
             "holder": "direct IAT",
             "lifetime": [
               306,
               319
             ],
-            "lifetime_sha256": "6c390ebdda53313c6e6b9744057e612a18954bb701398c1b8f537f710e3181b3",
+            "lifetime_sha256": "0e4f638e9c10cc7954bde7a9712fb973f43119546de9d7169c2ebdc24020c4cf",
             "instructions": [
               {
                 "offset": 306,
-                "bytes": "8b55f852ff158480400083c404"
+                "bytes": "8b55f852ff158490400083c404"
               }
             ],
             "review": "cases/analysis/object-writer-import-review.json: exact fixed byte intervals unchanged except enumerated same-MAP data operands; all holder/load/call/cleanup instructions unchanged."
@@ -7288,7 +7289,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7484,7 +7485,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7672,7 +7673,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7867,7 +7868,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8061,7 +8062,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8253,7 +8254,7 @@
       "expected_argv": [
         "-G5"
       ],
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "frontier_contract": "output-directives-complete",
       "code_chunks": [
         [
@@ -8488,7 +8489,7 @@
         "-G5"
       ],
       "frontier_contract": "object-writer-input",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "code_chunks": [
         [
           4672729,
@@ -8721,7 +8722,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-table-input",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2"
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e"
     },
     {
       "name": "_writer_callback_41eb8a",
@@ -8911,7 +8912,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-allocate-input",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2"
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e"
     },
     {
       "name": "_initialize_coff_lists",
@@ -9099,7 +9100,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-lists-input",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2"
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e"
     },
     {
       "name": "@new_output_list@8",
@@ -9287,7 +9288,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-list-input",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2"
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e"
     },
     {
       "name": "_new_output_chunk",
@@ -9475,7 +9476,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-chunk-input",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "code_chunks": [
         [
           4626548,
@@ -9675,7 +9676,7 @@
           4670578
         ]
       ],
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2"
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e"
     },
     {
       "name": "@add_coff_symbol@4",
@@ -9863,7 +9864,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2"
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e"
     },
     {
       "name": "_write_output_directives",
@@ -10046,7 +10047,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10237,7 +10238,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10457,7 +10458,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10653,7 +10654,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10843,7 +10844,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11128,7 +11129,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11208,6 +11209,25 @@
         [
           4627091,
           4627148
+        ]
+      ],
+      "source": "src/coff-output.c"
+    },
+    {
+      "name": "@register_coff_storage@4",
+      "native": "register_coff_storage",
+      "symbol": "@register_coff_storage@4",
+      "start": 4321574,
+      "end": 4321651,
+      "pending_extent": false,
+      "pending_signature": false,
+      "kind": "application",
+      "abi": "fastcall C2CoffSectionData*dataECX; unsignedEAX,RET0",
+      "evidence": "cases/analysis/register-coff-storage-analysis.json",
+      "code_chunks": [
+        [
+          4627148,
+          4627338
         ]
       ],
       "source": "src/coff-output.c"
@@ -12686,7 +12706,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2"
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e"
     },
     {
       "name": "@reserve_incremental_symbols@12",
@@ -12874,7 +12894,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2"
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e"
     },
     {
       "name": "_grow_coff_symbol_buffer",
@@ -13069,7 +13089,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -13168,31 +13188,7 @@
       "kind": "application",
       "pending_signature": false,
       "abi": "fastcall C2Section*sectionECX; callerignoresresultRET0",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@mark_debug_section@4",
-      "native": "mark_debug_section",
-      "symbol": "@mark_debug_section@4",
-      "start": 4746574,
-      "end": 4746575,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall unsignedsectionECX; callerignoresresultRET0",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@register_coff_storage@4",
-      "native": "register_coff_storage",
-      "symbol": "@register_coff_storage@4",
-      "start": 4321574,
-      "end": 4321575,
-      "pending_extent": true,
-      "pending_signature": false,
-      "kind": "application",
-      "abi": "fastcall C2CoffSectionData*dataECX; unsignedEAX,RET0",
-      "evidence": "cases/analysis/initialize-coff-section-analysis.json",
+      "evidence": "cases/analysis/create-coff-section-analysis.json",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -13370,8 +13366,20 @@
         "-G5"
       ],
       "frontier_contract": "coff-section-input",
-      "section_caller": "initialize_coff_symbols",
-      "state_model_sha256": "439d6ea19cc6c325b52d4f6cf049221846c49ccf1508dcc2e3108ea941883ae2"
+      "section_caller": "register_coff_storage",
+      "state_model_sha256": "105bc708e4811ee3a4614188e2cb6e757516a98cd739d19f7fc5d350e662828e"
+    },
+    {
+      "name": "@mark_debug_section@4",
+      "native": "mark_debug_section",
+      "symbol": "@mark_debug_section@4",
+      "start": 4746574,
+      "end": 4746575,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall unsignedsectionECX; callerignoresresultRET0",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
     }
   ],
   "text_data": [
@@ -13652,7 +13660,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13664,7 +13672,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13676,7 +13684,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13688,7 +13696,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13700,7 +13708,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13712,7 +13720,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13724,7 +13732,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13736,7 +13744,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13748,7 +13756,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13760,7 +13768,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13774,7 +13782,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13786,7 +13794,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13801,7 +13809,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13813,7 +13821,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13825,7 +13833,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13837,7 +13845,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13849,7 +13857,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13861,7 +13869,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13876,7 +13884,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13891,7 +13899,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13903,7 +13911,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13915,7 +13923,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13927,7 +13935,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
@@ -13942,7 +13950,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "177f4aa87d25735f1c2685ad9555fa9c94d95e36e52144b11718268806fbdc7f"
+          "sha256": "d378648cd45b76f934211f654350a8f46fc483409eae2ddb85e0f514d81125b9"
         }
       },
       {
