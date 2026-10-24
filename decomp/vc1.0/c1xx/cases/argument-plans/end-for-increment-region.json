@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_end_for_increment_region",
+  "native_entry": "end_for_increment_region",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      261808,
+      261897
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole89B SUB16localrecord/plainRET/zerostackformals/noincomingGPR/x87/CPUflagsformal. Actualtailkindlow6==28 removeslastandreturns; otherwisefullydefined16Bkind29closingrecordisappended. No extra suppressionguard atthisentry; begin_for_bodyalreadyguards owncall. Existingglobals/callees/recordtype only, no newdata."
+  }
+}

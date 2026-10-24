@@ -863,3 +863,21 @@ void begin_for_body(void)
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
 }
+
+/* Original 0x3feb0..0x3ff08. An empty increment region disappears;
+   a nonempty one keeps its closing delimiter before the loop body. */
+void end_for_increment_region(void)
+{
+    FrontendRecord record;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x28) {
+        remove_last_frontend_record();
+        return;
+    }
+    record.kind = 0x29;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
