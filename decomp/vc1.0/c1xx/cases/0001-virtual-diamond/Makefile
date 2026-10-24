@@ -1,1 +1,2 @@
-include ../../../../../tooling/recon-tool/case.mk
+RECON_TOOL_DIR ?= $(abspath ../../../../../tooling/recon-tool)
+include $(RECON_TOOL_DIR)/case.mk

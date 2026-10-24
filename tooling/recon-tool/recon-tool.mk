@@ -13,19 +13,26 @@ include $(RECON_TOOL_DIR)/original-build.mk
 # requires no changes to this file or the binary's Makefile.
 CASES_ROOT ?= cases
 CASE_DIRS := $(sort $(patsubst %/Makefile,%,$(wildcard $(CASES_ROOT)/[0-9][0-9][0-9][0-9]-*/Makefile)))
-CASE_TARGETS := $(addsuffix /.build/case.so,$(CASE_DIRS))
+# Include each case's configuration, then emit its real file targets into this
+# make process. CASE_* settings are reset between cases and frozen per target.
+CASE_TARGETS :=
+RECON_CASE_PARENT := 1
+define recon-include-case
+CASE_DIR := $(1)
+$(foreach var,BUILD SOURCES CC CXX LINKER CPPFLAGS CFLAGS CXXFLAGS LDFLAGS LDLIBS,$(eval undefine CASE_$(var)))
+include $(1)/Makefile
+endef
+$(foreach dir,$(CASE_DIRS),$(eval $(call recon-include-case,$(dir))))
+undefine RECON_CASE_PARENT
 .PHONY: all native native-trace cases check replay fixtures unit test-all-cases clean $(CASE_DIRS)
 all native native-trace: recon-native
-cases: recon-native $(CASE_DIRS)
-# One common library build completes before any parallel case submake starts.
-$(CASE_DIRS): | recon-native
-	+$(MAKE) -C $@ RECON_SKIP_BINARY_BUILD=1
-check replay fixtures: cases $(RECON_TOOL)
+cases: $(CASE_TARGETS)
+check replay fixtures: $(CASE_TARGETS) $(RECON_TOOL)
 	@test -n "$(CASE_DIRS)" || { echo 'No numbered case directories found' >&2; exit 1; }
 	$(RECON_TOOL) run $(CASE_DIRS) $(RECON_RUN_FLAGS)
 clean:
 	rm -rf -- $(BINARY_BUILD) $(ORIGINAL_BUILD) $(addsuffix /.build,$(CASE_DIRS))
-unit test-all-cases: cases $(RECON_TOOL)
+unit test-all-cases: $(CASE_TARGETS) $(RECON_TOOL)
 	@test -n "$(CASE_DIRS)" || { echo 'No numbered case directories found' >&2; exit 1; }
 	$(RECON_TOOL) test $(CASE_DIRS) $(RECON_TEST_FLAGS)
 
@@ -37,7 +44,7 @@ RECON_REPO_ROOT ?= $(abspath $(RECON_TOOL_DIR)/../..)
 RECON_REGISTRY ?= $(BINARY_BUILD)/functions.json
 RECON_AUDIT_REPORT ?= $(ORIGINAL_BUILD)/graph-audit.json
 include $(RECON_TOOL_DIR)/../graph-audit/graph-audit.mk
-$(RECON_REGISTRY): binary.c Makefile $(RECON_TOOL_DIR)/recon-tool.mk $(RECON_POLICY) $(RECON_TOOL) | $(firstword $(CASE_DIRS))
+$(RECON_REGISTRY): binary.c Makefile $(RECON_TOOL_DIR)/recon-tool.mk $(RECON_POLICY) $(RECON_TOOL) | $(firstword $(CASE_TARGETS))
 	@test -n "$(CASE_DIRS)" || { echo 'Registry export needs a numbered case' >&2; exit 1; }
 	@test -n "$(RECON_IMAGE_BASE)" || { echo 'Set RECON_IMAGE_BASE for registry export' >&2; exit 1; }
 	@mkdir -p $(@D)

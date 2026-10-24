@@ -79,9 +79,13 @@ local-audit:
 \t@echo local > original/local-audit
 ''')
     for name in ['0000-first', '0001-second']:
-        write(f'cases/{name}/case.c', 'int case_descriptor;\n')
+        write(f'cases/{name}/local.h', '#define CASE_VALUE 1\n')
+        source = 'case.c' if name == '0000-first' else 'case.cpp'
+        write(f'cases/{name}/{source}', '#include \"local.h\"\nint case_descriptor = CASE_VALUE;\n')
         write(f'cases/{name}/Makefile', f'''RECON_TOOL_DIR := {TOOL_DIR}
-NATIVE_CC := python3 {wrapper} native
+CASE_CC := python3 {wrapper} native
+CASE_CXX := python3 {wrapper} native
+CASE_CPPFLAGS = -I$(CASE_DIR) -DCASE_EXPECTED_{name.replace('-', '_')}
 include $(RECON_TOOL_DIR)/case.mk
 ''')
     write('cases/not-a-case/Makefile', 'all:\n\tfalse\n')
@@ -97,7 +101,8 @@ include $(RECON_TOOL_DIR)/case.mk
     def commands():
         return [json.loads(line) for line in (root/'commands.jsonl').read_text().splitlines()]
 
-    make('cases')
+    output = make('cases')
+    assert 'make[1]' not in output and 'RECON_SKIP_BINARY_BUILD' not in output, output
     initial = commands()
     common_links = [row for row in initial if '-Wl,-soname,libbinary.so' in row]
     assert len(common_links) == 1, common_links
@@ -115,10 +120,19 @@ include $(RECON_TOOL_DIR)/case.mk
     assert len(changed) == 2 and 'src/one.c' in changed[0], changed
     assert [path.stat().st_mtime_ns for path in cases] == mtimes
     before = len(commands())
+    time.sleep(.02)
+    write('cases/0000-first/local.h', '#define CASE_VALUE 2\n')
+    output = make('cases')
+    delta = commands()[before:]
+    assert len(delta) == 2 and 'cases/0000-first/case.c' in delta[0], delta
+    assert '-DCASE_EXPECTED_0000_first' in delta[0] and '-DCASE_EXPECTED_0001_second' not in delta[0], delta
+    assert cases[1].stat().st_mtime_ns == mtimes[1]
+    before = len(commands())
     subprocess.run(['make', '-C', str(root/'cases/0000-first'), '-j4'], check=True,
                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     assert len(commands()) == before, 'standalone case rebuilt unchanged library'
-    make('check', 'unit')
+    output = make('check', 'unit')
+    assert 'make[1]' not in output, output
     invocations = [row for row in commands() if row[0] == 'tool']
     assert [row[1] for row in invocations] == ['run', 'test'] or [row[1] for row in invocations] == ['test', 'run']
     assert all(row[2:] == ['cases/0000-first', 'cases/0001-second'] for row in invocations)

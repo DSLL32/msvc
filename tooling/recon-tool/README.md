@@ -51,11 +51,20 @@ include $(RECON_TOOL_DIR)/recon-tool.mk
 ```
 
 `all`, `native` and `native-trace` build the library. `cases` discovers numbered
-`cases/NNNN-name/Makefile` directories; one library build finishes before parallel
-case submakes. `check`/`replay`/`fixtures` run all discovered cases;
+`cases/NNNN-name/Makefile` directories and includes their settings to generate
+object and `case.so` targets in the parent Makefile. `check` and `unit` depend
+directly on those files; binary-root builds never launch case sub-makes. Each
+case library has an order-only dependency on the common library. `check`/`replay`/`fixtures` run all discovered cases;
 `unit`/`test-all-cases` run their unit tests. Optional `RECON_RUN_FLAGS` and
 `RECON_TEST_FLAGS` pass runner options. These targets never depend on the original
-build. Standalone case builds update the common library incrementally.
+build. Standalone case builds update the common library incrementally. Case Makefiles
+include `$(RECON_TOOL_DIR)/case.mk`, with a standalone fallback such as
+`RECON_TOOL_DIR ?= $(abspath ../../../../../tooling/recon-tool)`. Use `CASE_CC`,
+`CASE_CXX`, `CASE_CPPFLAGS`, `CASE_CFLAGS`, `CASE_CXXFLAGS`, `CASE_LDFLAGS` and
+`CASE_LDLIBS` for per-case settings. Compilers default to the binary settings
+(or GCC standalone); flags are isolated per case. Relative include paths should
+use `$(CASE_DIR)` (the case path at the binary root, or `.` standalone), for
+example `CASE_CPPFLAGS = -I$(CASE_DIR)/../../src`.
 `clean` removes `BINARY_BUILD` (default `.build`), `ORIGINAL_BUILD` (default `build`),
 and each discovered case's `.build`.
 
