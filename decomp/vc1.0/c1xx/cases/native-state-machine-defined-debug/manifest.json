@@ -1,14 +1,14 @@
 {
   "case": "state_machine_defined_debug",
-  "scope": "1246 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/frontiers/state_machine_defined_debug/1245-member_pointer_integer_field-12/original-receipt.json",
-  "reference_receipt_sha256": "b6fd27955dc85ed979f79a170e21cbf2cde45f43adae2bdcde05e87c69532017",
+  "scope": "1247 accepted frontiers; explicit original-backed current partial frontend terminal",
+  "reference_receipt": "cases/frontiers/state_machine_defined_debug/1246-check_conversion_qualifiers-16/original-receipt.json",
+  "reference_receipt_sha256": "5a6fa864bfbd49c68fda0b8ccfd9c4bcae7d666c6c03a068a2409d953846b39a",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "5b3af41483562a4d3c3124100c994bc9975070a153060b3605133a59afcfb135",
+  "canonical_map_sha256": "5bea0db0edd9a8353b26397434e073d2c350028e81560e441c4e1f87686b617a",
   "terminal": {
     "kind": "frontier",
-    "logical": "_check_conversion_qualifiers@16",
+    "logical": "_lower_multiple_inheritance_member_call@16",
     "native_signal": 5,
     "original_exception": "80000003"
   },
@@ -17,8 +17,8 @@
   "outputs": [
     {
       "path": "irex",
-      "bytes": 6,
-      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+      "bytes": 4915,
+      "sha256": "f53184bb22506dacc86f7a4bed71304bbf6d0eda0bce61954d76e888bf54f1a6"
     },
     {
       "path": "irsy",
@@ -42,7 +42,7 @@
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 1.8190566254779696,
+  "capture_seconds": 1.66939337272197,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

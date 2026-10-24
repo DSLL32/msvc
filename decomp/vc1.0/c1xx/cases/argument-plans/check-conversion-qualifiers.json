@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "function": "_check_conversion_qualifiers@16",
+  "native_entry": "check_conversion_qualifiers",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_operation": "(unsigned)operation",
+    "raw_target": "(unsigned)target",
+    "raw_source": "(unsigned)source",
+    "raw_first_layer": "(unsigned)first_layer"
+  },
+  "formals": [
+    {
+      "name": "operation",
+      "stack_index": 0,
+      "native_field": "raw_operation",
+      "binding": {
+        "kind": "scalar",
+        "bits": 8
+      }
+    },
+    {
+      "name": "target",
+      "stack_index": 1,
+      "native_field": "raw_target",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      }
+    },
+    {
+      "name": "source",
+      "stack_index": 2,
+      "native_field": "raw_source",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      }
+    },
+    {
+      "name": "first_layer",
+      "stack_index": 3,
+      "native_field": "raw_first_layer",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      397056,
+      397310
+    ],
+    "argument_bytes": 16,
+    "convention": "stdcall16 int EAX; BYTE op,WORD target/source,DWORD first_layer",
+    "proof": "Whole254B savesEBXESIEDI12; operation/target/source/first_layer adjustedESP+16/+20/+24/+28, allRET16. Only low8 operation and low16 qualifiers are defined/consumed; upper word bits uncredited (actual caller retains stale high bits). No hidden/register/x87/flag input. Existing token_categories:3f/78/86 return1;3d/7a/7e/87 check changed source3000 bits, diagnose removedvolatile2000 then const1000 through accepted report_syntax_error268 and existing token_spellings56/57, return0 ifanyremoved else first_layer?1:2; allother categories return2. Explicit flag0 matches original EAX initialization. Actual op44 is within known213-token tables; broader out-of-domain byte values unvalidated, no extra table bytes/padding or speculative guard. All data already owned, no newCRT/data/helper."
+  }
+}

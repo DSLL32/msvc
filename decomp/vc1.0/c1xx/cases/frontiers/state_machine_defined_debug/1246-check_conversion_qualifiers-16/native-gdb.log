@@ -1,0 +1,13 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558e31 in lower_multiple_inheritance_member_call (object=0x5665761c, member=0x56657658, type=0x56635868, prefix=0xffffd5d8) at src/stubs.c:133
+133	IrToken *__stdcall lower_multiple_inheritance_member_call(IrToken *object, IrToken *member, CType *type, IrToken **prefix) { __asm { int 3 } return 0; }
+#0  0x56558e31 in lower_multiple_inheritance_member_call (object=0x5665761c, member=0x56657658, type=0x56635868, prefix=0xffffd5d8) at src/stubs.c:133
+#1  0x565a96fd in lower_member_pointer_call (expression=0x5665766c, prefix=0xffffd5d8) at src/member-pointers.c:456
+#2  0x5659fc9f in build_call_expression (expression=0x5665766c, arguments=0x566576b4) at src/call-expressions.c:271
+#3  0x565c155c in parse_translation_unit () at src/parser-expression-actions.inc:179
+#4  0x5655dfcf in compile_translation_unit () at src/frontend.c:73
+#5  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#6  0x56558894 in main (argc=1, argv=0xffffd814, environment=0xffffd81c) at src/c1xx.c:20

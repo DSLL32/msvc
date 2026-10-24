@@ -5,6 +5,7 @@
 #include "lexer.h"
 #include "return-statements.h"
 #include "numeric-conversion.h"
+#include "keywords.h"
 #include <recon.h>
 
 unsigned integer_constant_scratch; /* original 0x912e8: shared constant payload */
@@ -1112,4 +1113,31 @@ IrToken *__stdcall convert_operand_if_needed(unsigned char operation, CType *typ
         same_unqualified_class_type(type, expression->type)))
         return expression;
     return convert_initializer(operation, type, expression);
+}
+
+/* Original 0x60f00..0x60ffd, stdcall16. Conversion contexts
+   differ in whether dropping const/volatile is an error or a deeper-layer check. */
+int __stdcall check_conversion_qualifiers(unsigned char operation,
+    unsigned short target, unsigned short source, int first_layer)
+{
+    int removed = 0;
+    switch (token_categories[operation]) {
+    case 0x3f: case 0x78: case 0x86:
+        return 1;
+    case 0x3d: case 0x7a: case 0x7e: case 0x87:
+        if (((target ^ source) & 0x3000) && (source & 0x3000)) {
+            if (!(target & 0x2000) && (source & 0x2000)) {
+                report_syntax_error(268, token_spellings[operation], token_spellings[TOK_VOLATILE]);
+                removed = 1;
+            }
+            if (!(target & 0x1000) && (source & 0x1000)) {
+                report_syntax_error(268, token_spellings[operation], token_spellings[TOK_CONST]);
+                removed = 1;
+            }
+            if (removed) return 0;
+        }
+        return first_layer ? 1 : 2;
+    default:
+        return 2;
+    }
 }

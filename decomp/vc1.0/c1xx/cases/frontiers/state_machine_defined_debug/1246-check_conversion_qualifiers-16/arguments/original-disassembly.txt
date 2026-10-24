@@ -1,0 +1,93 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00060f00 <.text+0x49f00>:
+   60f00:	53                   	push   ebx
+   60f01:	56                   	push   esi
+   60f02:	57                   	push   edi
+   60f03:	8b 74 24 10          	mov    esi,DWORD PTR [esp+0x10]
+   60f07:	81 e6 ff 00 00 00    	and    esi,0xff
+   60f0d:	33 c0                	xor    eax,eax
+   60f0f:	8a 86 1f 19 0a 00    	mov    al,BYTE PTR [esi+0xa191f]
+   60f15:	83 f8 7a             	cmp    eax,0x7a
+   60f18:	7f 26                	jg     0x60f40
+   60f1a:	74 46                	je     0x60f62
+   60f1c:	83 f8 3d             	cmp    eax,0x3d
+   60f1f:	74 41                	je     0x60f62
+   60f21:	83 f8 3f             	cmp    eax,0x3f
+   60f24:	0f 84 c9 00 00 00    	je     0x60ff3
+   60f2a:	83 f8 78             	cmp    eax,0x78
+   60f2d:	0f 84 c0 00 00 00    	je     0x60ff3
+   60f33:	b8 02 00 00 00       	mov    eax,0x2
+   60f38:	5f                   	pop    edi
+   60f39:	5e                   	pop    esi
+   60f3a:	5b                   	pop    ebx
+   60f3b:	c2 10 00             	ret    0x10
+   60f3e:	8b ff                	mov    edi,edi
+   60f40:	83 f8 7e             	cmp    eax,0x7e
+   60f43:	74 1d                	je     0x60f62
+   60f45:	3d 86 00 00 00       	cmp    eax,0x86
+   60f4a:	0f 84 a3 00 00 00    	je     0x60ff3
+   60f50:	3d 87 00 00 00       	cmp    eax,0x87
+   60f55:	74 0b                	je     0x60f62
+   60f57:	b8 02 00 00 00       	mov    eax,0x2
+   60f5c:	5f                   	pop    edi
+   60f5d:	5e                   	pop    esi
+   60f5e:	5b                   	pop    ebx
+   60f5f:	c2 10 00             	ret    0x10
+   60f62:	66 8b 5c 24 18       	mov    bx,WORD PTR [esp+0x18]
+   60f67:	66 8b c3             	mov    ax,bx
+   60f6a:	66 8b 7c 24 14       	mov    di,WORD PTR [esp+0x14]
+   60f6f:	66 33 c7             	xor    ax,di
+   60f72:	f6 c4 30             	test   ah,0x30
+   60f75:	74 6b                	je     0x60fe2
+   60f77:	f6 c7 30             	test   bh,0x30
+   60f7a:	74 66                	je     0x60fe2
+   60f7c:	2b c0                	sub    eax,eax
+   60f7e:	66 f7 c7 00 20       	test   di,0x2000
+   60f83:	75 25                	jne    0x60faa
+   60f85:	f6 c7 20             	test   bh,0x20
+   60f88:	74 20                	je     0x60faa
+   60f8a:	a1 b0 16 0a 00       	mov    eax,ds:0xa16b0
+   60f8f:	50                   	push   eax
+   60f90:	8b 04 b5 cc 15 0a 00 	mov    eax,DWORD PTR [esi*4+0xa15cc]
+   60f97:	50                   	push   eax
+   60f98:	68 0c 01 00 00       	push   0x10c
+   60f9d:	e8 de 21 01 00       	call   0x73180
+   60fa2:	83 c4 0c             	add    esp,0xc
+   60fa5:	b8 01 00 00 00       	mov    eax,0x1
+   60faa:	66 f7 c7 00 10       	test   di,0x1000
+   60faf:	75 25                	jne    0x60fd6
+   60fb1:	f6 c7 10             	test   bh,0x10
+   60fb4:	74 20                	je     0x60fd6
+   60fb6:	a1 ac 16 0a 00       	mov    eax,ds:0xa16ac
+   60fbb:	50                   	push   eax
+   60fbc:	8b 04 b5 cc 15 0a 00 	mov    eax,DWORD PTR [esi*4+0xa15cc]
+   60fc3:	50                   	push   eax
+   60fc4:	68 0c 01 00 00       	push   0x10c
+   60fc9:	e8 b2 21 01 00       	call   0x73180
+   60fce:	83 c4 0c             	add    esp,0xc
+   60fd1:	b8 01 00 00 00       	mov    eax,0x1
+   60fd6:	0b c0                	or     eax,eax
+   60fd8:	74 08                	je     0x60fe2
+   60fda:	2b c0                	sub    eax,eax
+   60fdc:	5f                   	pop    edi
+   60fdd:	5e                   	pop    esi
+   60fde:	5b                   	pop    ebx
+   60fdf:	c2 10 00             	ret    0x10
+   60fe2:	83 7c 24 1c 01       	cmp    DWORD PTR [esp+0x1c],0x1
+   60fe7:	1b c0                	sbb    eax,eax
+   60fe9:	83 e0 01             	and    eax,0x1
+   60fec:	40                   	inc    eax
+   60fed:	5f                   	pop    edi
+   60fee:	5e                   	pop    esi
+   60fef:	5b                   	pop    ebx
+   60ff0:	c2 10 00             	ret    0x10
+   60ff3:	b8 01 00 00 00       	mov    eax,0x1
+   60ff8:	5f                   	pop    edi
+   60ff9:	5e                   	pop    esi
+   60ffa:	5b                   	pop    ebx
+   60ffb:	c2 10 00             	ret    0x10
