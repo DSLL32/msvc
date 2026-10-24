@@ -107,6 +107,8 @@ def compare(original,native,validation=None):
             expected[offset(inventory,record['start'])]=0xcc
     if config.get('directive_callback_contract'):
         expected[offset(inventory,0x453df4)]=0xcc
+    if '_prepare_global_records'in config['accepted']:
+        for point in (0x41f9c4,0x41f9c9):expected[offset(inventory,point)]=0xcc
     assert (original/'C2.EXE').read_bytes()==bytes(expected),'masked image differs from configuration'
     assert sha(bytes(expected))==receipts[0]['executable_sha256']
     for name,digest in receipts[0]['execution_inputs'].items():
@@ -430,7 +432,7 @@ def compare(original,native,validation=None):
         writer_block=(original/'writer-pool.bin').read_bytes()if writer else b''
         if writer:assert len(writer_block)==4096
         symbol_buffer=struct.unpack_from('<I',image,0x497d48-0x48e000)[0]if expected.get('frontier_contract')in ('coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready')else 0
-        symbol_buffer_bytes=20 if expected.get('section_caller')in ('initialize_coff_symbols','register_coff_storage','record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records')else 12
+        symbol_buffer_bytes=20 if expected.get('section_caller')in ('initialize_coff_symbols','register_coff_storage','record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records','prepare_global_records')else 12
         def read(address,size):
             if symbol_buffer and symbol_buffer<=address and address+size<=symbol_buffer+symbol_buffer_bytes:
                 entries=(original/'coff-symbol-entries.bin').read_bytes();assert len(entries)==symbol_buffer_bytes
@@ -440,7 +442,7 @@ def compare(original,native,validation=None):
             if directive_head<=address and address+size<=directive_head+4096:return directive_block[address-directive_head:address-directive_head+size]
             assert 0x48e000<=address and address+size<=0x49e700,'unmodeled external data access'
             return image[address-0x48e000:address-0x48e000+size]
-        wanted=json.loads(json.dumps(complete_globals(read,{name:item[0]for name,item in ROOTS.items()},directives=directives,writer=writer,coff=expected.get('frontier_contract')in ('coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready'),initialized_output=expected.get('frontier_contract')in ('coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready'),list_pending=expected.get('frontier_contract')=='coff-chunk-input',list_constructed=expected.get('frontier_contract')in ('coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready'),source_pending=expected.get('frontier_contract')in ('coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready'),symbols_complete=expected.get('frontier_contract')in ('coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready'),append_pending=expected.get('section_caller')=='add_coff_section',append_complete=expected.get('section_caller')in ('append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols','register_coff_storage','record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records'),section_symbols_pending=expected.get('section_caller')in ('lookup_output_table','initialize_coff_symbols','register_coff_storage','record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records'),section_symbols_complete=expected.get('section_caller')in ('initialize_coff_symbols','register_coff_storage','record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records'),storage_complete=expected.get('section_caller')in ('register_coff_storage','record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records'),section_recorded=expected.get('section_caller')in ('record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records'),section_selected=expected.get('section_caller')in ('select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records'),output_bytes_written=expected.get('section_caller')=='write_output_bytes',output_directives_complete=expected.get('frontier_contract')=='coff-output-ready')))
+        wanted=json.loads(json.dumps(complete_globals(read,{name:item[0]for name,item in ROOTS.items()},directives=directives,writer=writer,coff=expected.get('frontier_contract')in ('coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready'),initialized_output=expected.get('frontier_contract')in ('coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready'),list_pending=expected.get('frontier_contract')=='coff-chunk-input',list_constructed=expected.get('frontier_contract')in ('coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready'),source_pending=expected.get('frontier_contract')in ('coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready'),symbols_complete=expected.get('frontier_contract')in ('coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input','coff-output-ready'),append_pending=expected.get('section_caller')=='add_coff_section',append_complete=expected.get('section_caller')in ('append_output_table','initialize_coff_section','lookup_output_table','initialize_coff_symbols','register_coff_storage','record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records','prepare_global_records'),section_symbols_pending=expected.get('section_caller')in ('lookup_output_table','initialize_coff_symbols','register_coff_storage','record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records','prepare_global_records'),section_symbols_complete=expected.get('section_caller')in ('initialize_coff_symbols','register_coff_storage','record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records','prepare_global_records'),storage_complete=expected.get('section_caller')in ('register_coff_storage','record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records','prepare_global_records'),section_recorded=expected.get('section_caller')in ('record_output_section','select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records','prepare_global_records'),section_selected=expected.get('section_caller')in ('select_coff_section','query_coff_position','output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records','prepare_global_records'),output_bytes_written=expected.get('section_caller')=='write_output_bytes',output_directives_complete=expected.get('frontier_contract')=='coff-output-ready')))
         native_complete=dict(state['globals_complete']);streams=native_complete.pop('streams');wanted['formals']=[];wanted['opaque_context_anchor_alias']=True
         if expected.get('frontier_contract')=='initializer-input':
             wanted['formals']=[{'name':'input','type':'ShimFILE *'}];wanted['input_file']={'index':3,'main_alias':True}
@@ -464,6 +466,7 @@ def compare(original,native,validation=None):
         if expected.get('frontier_contract')=='coff-output-ready':wanted['formals']=[{'name':'source','type':'char *'}]
         if expected.get('section_caller')=='initialize_source_output':wanted['formals']=[{'name':'function','type':'C2Function *'}]
         if expected.get('section_caller')=='prepare_function_records':wanted['formals']=[]
+        if expected.get('section_caller')=='prepare_global_records':wanted['formals']=[{'name':'records','type':'C2DebugLink *'}]
         if expected.get('frontier_contract')=='coff-source-input':wanted['formals']=[{'name':'name','type':'char *'}]
         if expected.get('frontier_contract')=='coff-symbol-input':wanted['formals']=[{'name':'record','type':'C2CoffRecord *'}]
         if expected.get('frontier_contract')=='output-directive-input':
@@ -599,7 +602,7 @@ def compare(original,native,validation=None):
         assert len(raw)==1 and raw[0]==('004996a0','0049a658')
         stack=re.findall(r'^observe-stack ([^\n]+)$',text.rsplit('observe 00453eab ',1)[1],re.M)
         assert stack and stack[0].split()[:3]==['00453e27','00000000','00000000']
-    if expected.get('frontier_contract')=='coff-section-input'and expected.get('section_caller')not in ('output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records'):
+    if expected.get('frontier_contract')=='coff-section-input'and expected.get('section_caller')not in ('output_list_position','write_output_bytes','write_output_byte','initialize_source_output','prepare_function_records','prepare_global_records'):
         contract=(BINARY/config['section_callback_storage_contract']).read_bytes()
         assert all((directory/'section-callback-storage-contract.json').read_bytes()==contract for directory in (original,native))
         wanted={'formals':[{'name':'section','type':'C2Section *'}],'section_offset':1892,'directive_global_alias':True,'stored_target_alias':True,'caller':'write_coff_directive'}
@@ -645,7 +648,36 @@ def compare(original,native,validation=None):
         stack=re.findall(r'^observe-stack ([^\n]+)$',segment,re.M)
         assert stack and stack[0].split()[0]=='0041ec36'
     if expected.get('frontier_contract')=='coff-output-ready':
-        if expected.get('section_caller')=='prepare_function_records':
+        if expected.get('section_caller')=='prepare_global_records':
+            wanted={'formals':[{'name':'records','type':'C2DebugLink *'}],'records_null':True,'caller':'initialize_backend'}
+            assert state['process_records_input']==wanted,'actual records formal/headNULL differs'
+            raw=re.findall(r'^C2-PROCESS-RECORDS-INPUT (.*)$',(native/'gdb.stdout').read_text(),re.M)
+            assert len(raw)==1 and json.loads(raw[0])==wanted
+            assert re.findall(r'^process-records-input records=([0-9a-f]+) result=([0-9a-f]+)$',segment,re.M)==[('00000000','00000000')]
+            records=state['global_noop_abi']
+            raw=re.findall(r'^C2-GLOBAL-NOOP-ABI (.*)$',(native/'gdb.stdout').read_text(),re.M)
+            assert len(raw)==3 and [json.loads(row)for row in raw]==records,'missing actual no-op ABI observation'
+            fields=('pc','ecx','ebx','ebp','esi','edi','esp','eax','flag')
+            rows=re.findall(r'^global-noop-abi role=(call|entry|return) '+r' '.join(key+r'=([0-9a-f]+)'for key in fields)+r' stack=([0-9a-f,]+)$',text,re.M)
+            assert len(rows)==3,'need exact original no-op call/entry/return observations'
+            original_points=[]
+            for row in rows:
+                item=dict(zip(fields,(int(v,16)for v in row[1:-1])));item.update(role=row[0],stack=[int(v,16)for v in row[-1].split(',')]);original_points.append(item)
+            assert [r['pc']for r in original_points]==[0x41f9c4,0x41eb89,0x41f9c9]
+            assert original_points[0]['esi']==0,'original ECX must come from actual head ESI'
+            live=proof.symbols(BINARY/'build/native/c2');bias=int(native_proof['load_bias'],16)
+            call=live['prepare_global_records'][0]+0x33d;target=live['c2_set_argv'][0]
+            instruction=b'\xe8'+struct.pack('<i',target-call-5)
+            current=proof.verify_callsite(BINARY/'build/native/c2','prepare_global_records',0x33d,instruction)
+            assert receipts[1]['global_noop_callsite_proof']==current,'current native no-op observer instruction differs'
+            assert [r['pc']for r in records]==[call+bias,target+bias,call+bias+5]
+            for points in (original_points,records):
+                assert [r['role']for r in points]==['call','entry','return']
+                before,entry,after=points
+                assert before['ecx']==entry['ecx']==0 and all(r['flag']==1 for r in points)
+                assert entry['esp']==before['esp']-4 and after['esp']==before['esp'] and entry['stack'][0]==after['pc'],'no-op has hidden stack argument/cleanup'
+                assert all(before[key]==after[key]for key in ('ebx','ebp','esi','edi')),'no-op changed nonvolatile register'
+        elif expected.get('section_caller')=='prepare_function_records':
             wanted={'formals':[],'caller':'prepare_function_records','caller_formals':[{'name':'function','type':'C2Function *'}],'caller_function_null':True,'caller_owner_null':True}
             assert state['global_records_input']==wanted,'actual noarg/helper caller NULL context differs'
             raw=re.findall(r'^C2-GLOBAL-RECORDS-INPUT (.*)$',(native/'gdb.stdout').read_text(),re.M)

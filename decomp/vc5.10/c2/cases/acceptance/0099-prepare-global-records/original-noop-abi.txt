@@ -1,0 +1,8 @@
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041eb89 <.text+0x1db89>:
+  41eb89:	c3                   	ret

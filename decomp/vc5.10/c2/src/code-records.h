@@ -35,6 +35,13 @@ typedef char C2RecordLineCheck[offsetof(C2Record, line) == 16 ? 1 : -1];
 typedef char C2RecordReferenceCheck[offsetof(C2Record, reference) == 20 ? 1 : -1];
 typedef char C2RecordValueCheck[offsetof(C2Record, value) == 24 ? 1 : -1];
 typedef char C2RecordResultsCheck[offsetof(C2Record, results) == 28 ? 1 : -1];
+extern C2InitRecord *global_initializers;
+extern int global_records_processing;
+C2Symbol *__fastcall resolve_alias_symbol(C2Symbol *symbol);
+void __fastcall record_symbol_references(C2Symbol *symbol);
+int __fastcall symbol_requires_references(C2Symbol *symbol);
+int __fastcall initializer_is_static(C2InitRecord *record);
+C2DebugLink *new_symbol_link(void);
 extern unsigned record_source_line;
 extern unsigned short record_line_delta;
 #endif

@@ -1,0 +1,42 @@
+{
+  "globals99-compare.json": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-compare.json",
+    "sha256": "d892f206abe57c30b03226b6eaaf8effcbdb6ec1e6d7f584243a545ba3b28bbc"
+  },
+  "globals99-abi-packet.json": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-abi-packet.json",
+    "sha256": "3a68af725abddb37c76c9fc9e4473f9f503b3c4d8bbd4dce33469df15a195b48"
+  },
+  "globals99-input-controls.json": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-input-controls.json",
+    "sha256": "2a4a7acb58de2ee5ce13936387f33909065d9c0619b31b567b5cce4592335078"
+  },
+  "globals99-table-controls.json": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-table-controls.json",
+    "sha256": "8e1dc4b7be81428005c9c7368dd5c8313f96e5bd753a6592ee4b8b8c63087938"
+  },
+  "globals99-rejections.json": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-rejections.json",
+    "sha256": "18d7c2ac80a1d801c8118ddbfa1f92d4839077abc4d5507d18c42fd92d366ac3"
+  },
+  "globals99-native-fixture.json": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-native-fixture.json",
+    "sha256": "2eee7f05ea4b3ab4567bd949830afda6c7c3731529c8631c8b220051cac35257"
+  },
+  "scripts/check-process-records-input.py": {
+    "sha256": "659ed21d932e96b03f5b1cc838d0cfea48501c22c3473363b53c04bd754ad7f4"
+  },
+  "scripts/check-global-initializer-dispatch.py": {
+    "sha256": "ae6cce7623bdba81d5a407a53e5138e51b1d4d98a9301aab792caa5fccbc40a5"
+  },
+  "scripts/accept.py": {
+    "sha256": "8ea1712e32a7624b7b4a7d0772c67cd9be530563fffa0978f08981a6a161830e"
+  },
+  "scripts/compare.py": {
+    "sha256": "3a488720755fa29837961881286fcd9b56c9417d1b64beb0ec02a8ac99e874ef"
+  },
+  "preservation_only_change": {
+    "scope": "accept.py optionalcopy source-output-input.bin only; no predicate/transport/execution delta; historical6control result preserved before change, currentdryrunpasses",
+    "preflight_sha256": "d892f206abe57c30b03226b6eaaf8effcbdb6ec1e6d7f584243a545ba3b28bbc"
+  }
+}

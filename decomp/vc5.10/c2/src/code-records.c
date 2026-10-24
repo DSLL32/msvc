@@ -91,3 +91,99 @@ C2DebugLink *__fastcall prepare_function_records(C2Function *function)
     }
     return head;
 }
+
+C2InitRecord *global_initializers;
+int global_records_processing;
+extern int c2_zero_alignment;
+
+C2DebugLink *prepare_global_records(void)
+{
+    C2InitRecord *record, *value;
+    C2Symbol *symbol;
+    C2DebugLink *head = NULL, **tail = &head, *link;
+    unsigned attributes, flags;
+
+    global_records_processing = 1;
+    for (record = global_initializers; record; record = record->list_next) {
+        if (record->emitted)
+            continue;
+        symbol = record->symbol;
+        if (!symbol) {
+            symbol = lookup_global_symbol(record->symbol_serial);
+            if (!symbol)
+                continue;
+            record->symbol = symbol;
+        }
+        if ((symbol->kind == 4 || symbol->kind == 1) &&
+            (((C2InputSymbol *)symbol)->attributes & 0x1000))
+            symbol = resolve_alias_symbol(symbol);
+        if (symbol->output_flags & 3)
+            continue;
+        if (symbol->output_flags & 4) {
+            record_symbol_references(symbol);
+            continue;
+        }
+        if ((symbol->flags & 0x60) == 0x20)
+            continue;
+        symbol->output_flags |= 4;
+        if (symbol_requires_references(symbol)) {
+            symbol->output_flags &= ~4;
+            record_symbol_references(symbol);
+        } else
+            symbol->output_flags &= ~4;
+    }
+    for (record = global_initializers; record; record = record->list_next) {
+        if (record->emitted)
+            continue;
+        symbol = record->symbol;
+        if (!symbol) {
+            symbol = lookup_global_symbol(record->symbol_serial);
+            if (!symbol)
+                continue;
+        }
+        if ((symbol->kind == 4 || symbol->kind == 1) &&
+            (((C2InputSymbol *)symbol)->attributes & 0x1000))
+            symbol = resolve_alias_symbol(symbol);
+        if (!(symbol->output_flags & 4) || (symbol->output_flags & 3))
+            continue;
+        attributes = ((C2InputSymbol *)symbol)->attributes;
+        if ((attributes & 0x780) != 0x80 && (attributes & 0x780) != 0x200)
+            goto append;
+        if ((attributes & 0x70) == 0x40)
+            goto append;
+        flags = symbol->flags;
+        if ((flags & 0x1200) || c2_zero_alignment)
+            goto append;
+        for (value = record->next; value; value = value->next) {
+            switch (value->kind) {
+            case 4: case 8:
+                break;
+            case 1: case 16:
+                if (initializer_is_static(value))
+                    break;
+                goto append;
+            default:
+                goto append;
+            }
+        }
+        symbol->flags = flags & ~0x480U;
+        symbol->association.section_serial = 0;
+        update_symbol_storage(symbol);
+        reserve_symbol_storage(symbol);
+        record->emitted = 1;
+        continue;
+
+append:
+        link = new_symbol_link();
+        link->next = NULL;
+        link->symbol = symbol;
+        *tail = link;
+        tail = &link->next;
+    }
+    /* The original shares this single RET0 body with startup's _setargv.
+       This reviewed use supplies the link head in ECX, with no stack arguments
+       or result. The seventeen pending callback identities stay stores-only. */
+    ((void (__fastcall *)(C2DebugLink *)) c2_set_argv)(head);
+    global_records_processing = 0;
+    return head;
+}

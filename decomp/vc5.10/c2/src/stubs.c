@@ -1,4 +1,4 @@
-#include "functions.h"
+#include "code-records.h"
 #include "coff-output.h"
 #include <recon.h>
 
@@ -621,14 +621,15 @@ void __fastcall write_assembly_header(char *source)
     __asm { int 3 }
 }
 
-C2DebugLink *prepare_global_records(void)
-{
-    __asm { int 3 }
-    return NULL;
-}
 
 int __fastcall has_local_symbol(unsigned serial)
 {
     __asm { int 3 }
     return 0;
 }
+
+C2Symbol *__fastcall resolve_alias_symbol(C2Symbol *symbol) { __asm { int 3 } return NULL; }
+void __fastcall record_symbol_references(C2Symbol *symbol) { __asm { int 3 } }
+int __fastcall symbol_requires_references(C2Symbol *symbol) { __asm { int 3 } return 0; }
+int __fastcall initializer_is_static(C2InitRecord *record) { __asm { int 3 } return 0; }
+C2DebugLink *new_symbol_link(void) { __asm { int 3 } return NULL; }

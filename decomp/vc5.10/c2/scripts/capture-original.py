@@ -95,6 +95,13 @@ def main():
         image=bytearray(image);point=0x453df4;p=offset(inventory,point)
         assert image[p]==original[p]==0xff,'ABI observer must belong to restored real dispatcher code'
         entries.append((point,image[p]));image[p]=0xcc;image=bytes(image)
+    if '_prepare_global_records' in config['accepted'] and not args.unmasked:
+        image=bytearray(image)
+        for point,byte in ((0x41f9c4,0xe8),(0x41f9c9,0x8b)):
+            p=offset(inventory,point)
+            assert image[p]==original[p]==byte,'global-noop observer must belong to restored real caller'
+            entries.append((point,image[p]));image[p]=0xcc
+        image=bytes(image)
     (output/'C2.EXE').write_bytes(image)
     for name in ('MSVCRT.DLL','MSPDB50.DLL'):
         shutil.copyfile(ROOT/'toolchains/5.10/bin'/name,output/name)

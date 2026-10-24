@@ -1,0 +1,67 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "source_sha256": "fca252c8d6b2a1fcdff70c2ff3b5fc6db56502949ba7b812036b9ddb0994d844",
+  "canonical_sha256": "f88ba18720608b0df0bcdffab489c248b17bd9f3033a9ca3143d2c3289ae7eba",
+  "native_sha256": "4fa619463d1893e7b0fe0da0c98bdf5a92ae7fb2b5096c7bf3d6ea43f872fc8c",
+  "canonical_symbols": {
+    "caller": 4221829,
+    "target": 4201236
+  },
+  "native_call": {
+    "elf_sha256": "4fa619463d1893e7b0fe0da0c98bdf5a92ae7fb2b5096c7bf3d6ea43f872fc8c",
+    "owner": "prepare_global_records",
+    "symbol_start": 57440,
+    "symbol_size": 883,
+    "offset": 829,
+    "bytes": "e87e89ffff"
+  },
+  "native_ECX_head_setup": {
+    "elf_sha256": "4fa619463d1893e7b0fe0da0c98bdf5a92ae7fb2b5096c7bf3d6ea43f872fc8c",
+    "owner": "prepare_global_records",
+    "symbol_start": 57440,
+    "symbol_size": 883,
+    "offset": 826,
+    "bytes": "8b4dec"
+  },
+  "observations": [
+    {
+      "side": "original",
+      "receipt": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/globals99-original-final/receipt.json",
+      "receipt_sha256": "659f9bc9da7af7440950355af66b4aa5fd5a91e7679ec33b618e570a8d800a9e",
+      "raw_sha256": "7b501efeff7ef72469f825f715f4a51efa40633240e54415d7b1ec296be1a640"
+    },
+    {
+      "side": "native",
+      "receipt": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/globals99-native-final/receipt.json",
+      "receipt_sha256": "28f4ff3df6aee2343048b2f058d9b03426fc7a98c7ad4f67d208200283341e8f",
+      "raw_sha256": "82ebf1876b8f1e164d051dc25211e857e323ec27f78d722a4fcf75de23d18cfc"
+    }
+  ],
+  "disassembly": {
+    "original-caller": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-original-caller-abi.txt",
+      "sha256": "6a35a8df47228b2f09e24f02d6a8a68177e2d5abd120e86cb1a08d495c741dc4"
+    },
+    "original-noop": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-original-noop-abi.txt",
+      "sha256": "5bafab3b81e6716c60719f4c51fa9ac1f74228e62739e64edcfa011844f404d6"
+    },
+    "canonical-caller": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-canonical-caller-abi.txt",
+      "sha256": "a5e7a303c56f269e182b8a6df6ff30b048f60e01df454c5e302e0c64206f7e05"
+    },
+    "canonical-noop": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-canonical-noop-abi.txt",
+      "sha256": "99af110342eb20779fab02f58a4bcd7a2f1e3a1ba498eb2a6cefd7556e0b6ade"
+    },
+    "native-caller": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-native-caller-abi.txt",
+      "sha256": "8b36d38e4fb9325af9045f6c04589d8519dbd47715eec5837822ec5b5e876cab"
+    },
+    "native-noop": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c2/globals99-native-noop-abi.txt",
+      "sha256": "72f9ef430180824575fdedaad2689dd1e29134b71efedea31b88f1945fafe3b6"
+    }
+  },
+  "scope": "Only source99 direct call physical41eb89: ECXhead,zero stackargs/RET0,resultignored; same accepted support vertex, zero extra credit.17 erased app aliases retain original boundary/pending traps. Native tracing changes volatiles but preserves physical function ABI. Whole99 graphs/RET/extents/imports/refs/ownership checked independently."
+}

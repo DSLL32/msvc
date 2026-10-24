@@ -173,7 +173,7 @@ struct C2Symbol {
     } association;
     unsigned serial;
     long source_line;
-    unsigned char source_kind, pending31;
+    unsigned char source_kind, output_flags;
 };
 struct C2ScopeHash {
     C2ScopeHash *previous;

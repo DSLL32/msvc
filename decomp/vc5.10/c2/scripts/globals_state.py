@@ -27,6 +27,7 @@ ROOTS = {
 
 
 COFF_GLOBALS = {
+    'global_initializers':(0x497d98,4),'global_records_processing':(0x497df0,4),
     'output_allocate': (0x497d88, 4), 'output_error_handler': (0x4999f4, 4),
     'output_clock_handler': (0x497e00, 4), 'coff_new_output': (0x497da0, 4),
     'record_source_line':(0x48e004,4),'record_line_delta':(0x48e008,2),

@@ -1,0 +1,244 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/globals99-original-final/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/globals99-original-final/graph-audit.json",
+    "matched": "@process_records@4",
+    "original": "0x41f494",
+    "native": "process_records",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "process_records",
+      "symbol_start": "0x5aa0",
+      "symbol_size": 83,
+      "static_pc": "0x5ad8",
+      "int3_sites": [
+        "0x5ad7"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output",
+      "@initialize_coff_output@4",
+      "@new_output_table@4",
+      "_writer_callback_41eb8a",
+      "_initialize_coff_lists",
+      "@new_output_list@8",
+      "_new_output_chunk",
+      "@add_output_source@4",
+      "@add_coff_symbol@4",
+      "_write_output_directives",
+      "_output_callback_453e02",
+      "@write_coff_directive@16",
+      "_output_callback_41ec20",
+      "@create_coff_section@4",
+      "@add_coff_section@16",
+      "@append_output_table@8",
+      "@initialize_coff_section@8",
+      "@lookup_output_table@8",
+      "@initialize_coff_symbols@4",
+      "@register_coff_storage@4",
+      "@record_output_section@4",
+      "@select_coff_section@4",
+      "@query_coff_position@4",
+      "@output_list_position@4",
+      "@write_output_bytes@8",
+      "@write_output_byte@4",
+      "@initialize_source_output@4",
+      "@prepare_function_records@4",
+      "_prepare_global_records"
+    ],
+    "candidates": [
+      "_prepare_global_records"
+    ],
+    "acceptance": false
+  },
+  "count": 31,
+  "rejected": [
+    {
+      "control": "records formal omitted",
+      "reason": "actual records formal/headNULL differs"
+    },
+    {
+      "control": "records formal wrong type",
+      "reason": "actual records formal/headNULL differs"
+    },
+    {
+      "control": "records formal NULL lost",
+      "reason": "actual records formal/headNULL differs"
+    },
+    {
+      "control": "wrong actual parent",
+      "reason": "actual records formal/headNULL differs"
+    },
+    {
+      "control": "full model missing actual formal",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "native processing flag not reset",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "native initializer head not NULL",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "original processing flag not reset",
+      "reason": "COFF copied/default global differs: global_records_processing"
+    },
+    {
+      "control": "original initializer head not NULL",
+      "reason": "COFF copied/default global differs: global_initializers"
+    },
+    {
+      "control": "original records formal ECX nonNULL",
+      "reason": ""
+    },
+    {
+      "control": "original returned head EAX nonNULL",
+      "reason": ""
+    },
+    {
+      "control": "native call PC wrong owner",
+      "reason": ""
+    },
+    {
+      "control": "native entry wrong physical target",
+      "reason": ""
+    },
+    {
+      "control": "native return PC wrong",
+      "reason": ""
+    },
+    {
+      "control": "native call ECX not head",
+      "reason": ""
+    },
+    {
+      "control": "native entry ECX not head",
+      "reason": ""
+    },
+    {
+      "control": "native call processing flag absent",
+      "reason": ""
+    },
+    {
+      "control": "native return processing flag prematurely cleared",
+      "reason": ""
+    },
+    {
+      "control": "native entry stack imbalance",
+      "reason": "no-op has hidden stack argument/cleanup"
+    },
+    {
+      "control": "native return hidden cleanup",
+      "reason": "no-op has hidden stack argument/cleanup"
+    },
+    {
+      "control": "native return EBX changed",
+      "reason": "no-op changed nonvolatile register"
+    },
+    {
+      "control": "native return EBP changed",
+      "reason": "no-op changed nonvolatile register"
+    },
+    {
+      "control": "native return ESI changed",
+      "reason": "no-op changed nonvolatile register"
+    },
+    {
+      "control": "native return EDI changed",
+      "reason": "no-op changed nonvolatile register"
+    },
+    {
+      "control": "native entry wrong return address",
+      "reason": "no-op has hidden stack argument/cleanup"
+    },
+    {
+      "control": "original call wrong physical target",
+      "reason": ""
+    },
+    {
+      "control": "original call ECX not head",
+      "reason": ""
+    },
+    {
+      "control": "original entry ECX not head",
+      "reason": ""
+    },
+    {
+      "control": "original head ESI not NULL",
+      "reason": "original ECX must come from actual head ESI"
+    },
+    {
+      "control": "original return EBX clobbered",
+      "reason": "no-op changed nonvolatile register"
+    },
+    {
+      "control": "original return processing flag cleared early",
+      "reason": ""
+    }
+  ],
+  "seconds": 38.26431104261428,
+  "checker_sha256": "659ed21d932e96b03f5b1cc838d0cfea48501c22c3473363b53c04bd754ad7f4",
+  "original_receipt_sha256": "659f9bc9da7af7440950355af66b4aa5fd5a91e7679ec33b618e570a8d800a9e",
+  "native_receipt_sha256": "28f4ff3df6aee2343048b2f058d9b03426fc7a98c7ad4f67d208200283341e8f",
+  "scope": "Actual C2DebugLink*NULL frontier, initialized head/processing flag, raw call/entry/return physical41eb89 ABI and liveELF instruction/target binding. Approved direct use only;17 stores-only alias slots unchanged; no new body/ABI credit for pendingchildren. Full99 strict common graph audit independent."
+}

@@ -1,0 +1,51 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "source_sha256": "fca252c8d6b2a1fcdff70c2ff3b5fc6db56502949ba7b812036b9ddb0994d844",
+  "rebuilt_offsets": [
+    [
+      782,
+      802
+    ],
+    [
+      802,
+      818
+    ]
+  ],
+  "classes": [
+    0,
+    4,
+    4,
+    1,
+    4,
+    4,
+    4,
+    2,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    3
+  ],
+  "scope": "Encountered5switchtargets/16classificationbytes owned asdata, no codecredit. Emptycurrentinitializerhead proves no payload/loop execution. Wholebody graphchecked independently.",
+  "original": {
+    "targets_offsets": [
+      232,
+      435,
+      435,
+      232,
+      247
+    ]
+  },
+  "rebuilt": {
+    "targets_offsets": [
+      636,
+      634,
+      634,
+      636,
+      652
+    ]
+  }
+}

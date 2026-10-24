@@ -1,0 +1,11 @@
+
+/root/msvc2/decomp/vc5.10/c2/build/c2.exe:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00401b14 <.text+0xb14>:
+  401b14:	55                   	push   ebp
+  401b15:	8b ec                	mov    ebp,esp
+  401b17:	5d                   	pop    ebp
+  401b18:	c3                   	ret

@@ -1,0 +1,25 @@
+
+/root/msvc2/decomp/vc5.10/c2/build/native/c2:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+0000e397 <prepare_global_records+0x337>:
+    e397:	8b 5d d8             	mov    ebx,DWORD PTR [ebp-0x28]
+    e39a:	8b 4d ec             	mov    ecx,DWORD PTR [ebp-0x14]
+    e39d:	e8 7e 89 ff ff       	call   6d20 <c2_set_argv>
+    e3a2:	8b 5d d8             	mov    ebx,DWORD PTR [ebp-0x28]
+    e3a5:	c7 83 88 42 00 00 00 	mov    DWORD PTR [ebx+0x4288],0x0
+    e3ac:	00 00 00 
+    e3af:	8b 45 ec             	mov    eax,DWORD PTR [ebp-0x14]
+    e3b2:	89 45 d0             	mov    DWORD PTR [ebp-0x30],eax
+    e3b5:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    e3b8:	8d 8b 6c 40 fd ff    	lea    ecx,[ebx-0x2bf94]
+    e3be:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    e3c1:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    e3c5:	e8 46 d7 01 00       	call   2bb10 <__cyg_profile_func_exit>
+    e3ca:	8b 45 d0             	mov    eax,DWORD PTR [ebp-0x30]
+    e3cd:	83 c4 34             	add    esp,0x34
+    e3d0:	5b                   	pop    ebx
+    e3d1:	5d                   	pop    ebp
+    e3d2:	c3                   	ret

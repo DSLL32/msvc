@@ -1,0 +1,19 @@
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041f9be <.text+0x1e9be>:
+  41f9be:	8b 74 24 14          	mov    esi,DWORD PTR [esp+0x14]
+  41f9c2:	8b ce                	mov    ecx,esi
+  41f9c4:	e8 c0 f1 ff ff       	call   0x41eb89
+  41f9c9:	8b c6                	mov    eax,esi
+  41f9cb:	c7 05 f0 7d 49 00 00 	mov    DWORD PTR ds:0x497df0,0x0
+  41f9d2:	00 00 00 
+  41f9d5:	5f                   	pop    edi
+  41f9d6:	5e                   	pop    esi
+  41f9d7:	5d                   	pop    ebp
+  41f9d8:	5b                   	pop    ebx
+  41f9d9:	83 c4 08             	add    esp,0x8
+  41f9dc:	c3                   	ret

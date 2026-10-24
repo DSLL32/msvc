@@ -1108,17 +1108,49 @@
     "evidence": null
   },
   {
-    "name": "_prepare_global_records",
-    "start": 4323284,
-    "end": 4323285,
+    "name": "@has_local_symbol@4",
+    "start": 4500303,
+    "end": 4500304,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
   },
   {
-    "name": "@has_local_symbol@4",
-    "start": 4500303,
-    "end": 4500304,
+    "name": "@resolve_alias_symbol@4",
+    "start": 4745656,
+    "end": 4745657,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@record_symbol_references@4",
+    "start": 4499796,
+    "end": 4499797,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@symbol_requires_references@4",
+    "start": 4554043,
+    "end": 4554044,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@initializer_is_static@4",
+    "start": 4500100,
+    "end": 4500101,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_new_symbol_link",
+    "start": 4500288,
+    "end": 4500289,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

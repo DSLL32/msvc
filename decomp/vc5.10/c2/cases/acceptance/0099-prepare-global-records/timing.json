@@ -1,0 +1,62 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 6.275258635170758,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 2.838751313276589,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": null,
+      "status": 0,
+      "note": "Build succeeded; timing wrapper failed after successful build due list/dict assignment; elapsed unavailable, not guessed."
+    }
+  ],
+  "original_capture": {
+    "setup": 1.016429228708148,
+    "execution": 2.620061805471778,
+    "total": 3.685095438733697
+  },
+  "native_capture": {
+    "execution": 0.5591206979006529,
+    "total": 0.7844709549099207
+  },
+  "audit_seconds": 0.9229074204340577,
+  "protocol_controls": {
+    "fresh": 6,
+    "reused": 147,
+    "seconds": 7.6492450488731265
+  },
+  "fresh_affected_controls": {
+    "input": {
+      "fresh": 31,
+      "seconds": 38.26431104261428
+    },
+    "table": 0.3788022706285119,
+    "counts": {
+      "ABI_and_frontier": 31,
+      "table": 10
+    }
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.012022534385323524,
+      "execution": 0.0023096511140465736,
+      "checks": 0.00022583920508623123,
+      "total": 0.01504367496818304
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "failures": "Initial native setup aborted before execution because four pending metadata rows retained the previous state-model hash. Initial original raw retained under globals99-original; after correcting current metadata, one coherent final pair was captured. The helper compiled successfully, but its elapsed timing wrapper failed afterward (list/dict accounting bug); timing is recorded as unavailable. No target execution mismatch.",
+  "preservation_only_change": "Future acceptance copies existing receipt-bound source-output-input.bin; all old archives/cases unchanged. Current dry-run after change passed; no execution/predicate changes."
+}

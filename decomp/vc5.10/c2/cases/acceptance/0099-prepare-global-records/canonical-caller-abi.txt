@@ -1,0 +1,15 @@
+
+/root/msvc2/decomp/vc5.10/c2/build/c2.exe:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00406e7a <.text+0x5e7a>:
+  406e7a:	8b 4d f0             	mov    ecx,DWORD PTR [ebp-0x10]
+  406e7d:	e8 92 ac ff ff       	call   0x401b14
+  406e82:	c7 05 30 c2 40 00 00 	mov    DWORD PTR ds:0x40c230,0x0
+  406e89:	00 00 00 
+  406e8c:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+  406e8f:	8b e5                	mov    esp,ebp
+  406e91:	5d                   	pop    ebp
+  406e92:	c3                   	ret

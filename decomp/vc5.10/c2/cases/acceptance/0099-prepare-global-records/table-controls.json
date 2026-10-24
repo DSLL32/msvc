@@ -1,0 +1,138 @@
+{
+  "positive": {
+    "evidence_sha256": "d6f40c3f8e83205944b8717d30c1f7d2ea5d6439a5a0fb0e11f1a1290670ab6b",
+    "data_bytes": 36,
+    "sides": {
+      "original": {
+        "targets": [
+          4323516,
+          4323719,
+          4323719,
+          4323516,
+          4323531
+        ],
+        "classes": [
+          0,
+          4,
+          4,
+          1,
+          4,
+          4,
+          4,
+          2,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          3
+        ],
+        "intervals": [
+          [
+            4323808,
+            4323828
+          ],
+          [
+            4323828,
+            4323844
+          ]
+        ],
+        "sha256s": [
+          "12a1d670f5d953b7ae9c53b6766b90878e0fc7a86d15c51a57c4df65f15bbd4e",
+          "346a37d829a8dbb2b08ad8c1f6b52d9519a4322c8b8ff392e87d6339566f136a"
+        ]
+      },
+      "rebuilt": {
+        "targets": [
+          4222465,
+          4222463,
+          4222463,
+          4222465,
+          4222481
+        ],
+        "classes": [
+          0,
+          4,
+          4,
+          1,
+          4,
+          4,
+          4,
+          2,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          3
+        ],
+        "intervals": [
+          [
+            4222611,
+            4222631
+          ],
+          [
+            4222631,
+            4222647
+          ]
+        ],
+        "sha256s": [
+          "6672d6c6fe2f771c4ccb63c1ad971b7d2cb60b4bef882c50861b5cdb798af803",
+          "346a37d829a8dbb2b08ad8c1f6b52d9519a4322c8b8ff392e87d6339566f136a"
+        ]
+      }
+    }
+  },
+  "count": 10,
+  "rejected": [
+    {
+      "control": "rebuilt initializer target differs",
+      "reason": "global initializer logical case target differs"
+    },
+    {
+      "control": "rebuilt initializer class differs",
+      "reason": "global initializer classification content differs"
+    },
+    {
+      "control": "original initializer target differs with rebound hash",
+      "reason": "global initializer logical case target differs"
+    },
+    {
+      "control": "original initializer class differs with rebound hash",
+      "reason": "global initializer classification content differs"
+    },
+    {
+      "control": "shared original data ownership omitted",
+      "reason": ""
+    },
+    {
+      "control": "shared original class owner shortened",
+      "reason": ""
+    },
+    {
+      "control": "shared original code envelope invented",
+      "reason": ""
+    },
+    {
+      "control": "text class ownership omitted",
+      "reason": ""
+    },
+    {
+      "control": "rebuilt class owner shortened",
+      "reason": ""
+    },
+    {
+      "control": "source content identity differs",
+      "reason": ""
+    }
+  ],
+  "seconds": 0.3788022706285119,
+  "checker_sha256": "ae6cce7623bdba81d5a407a53e5138e51b1d4d98a9301aab792caa5fccbc40a5",
+  "validator_sha256": "ef62ce1c28d50c0138ad3277c1e1ccd43a46969448bbaaa837a57b418165e2f4",
+  "configuration_sha256": "e6a6132eb86ba9b6e99469a616f360c4f7e9b12973fe58b262f9219e94d0f5e6",
+  "scope": "Exact encountered36B structured data and disjoint ownership only. Original hash is deliberately rebound in owned temporary controls to reach actual content checks; repository original never mutated. Commonstrictgraph audit separately handles all instruction/extent ownership."
+}
