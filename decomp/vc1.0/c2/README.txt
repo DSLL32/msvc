@@ -922,3 +922,13 @@ new16th expected frontier pass. Full ordinary audit26.912s, build2.892s,
 controls3.517s, fresh original1.654s/native.241s, native suite wrapper.872s.
 See cases/comdat-communal-checkpoint.json for complete capture/repeat timings
 and limits; exact completed object pending, no child semantic coverage claim.
+
+At1303 the signed communal-size encoder116B and iterated-data writer195B
+are reconstructed. Their153/1152 whole original/canonical controls and6/8
+ABI negatives pass; original compiler/W3/ordinary graph/extents/ABI/storage,
+fresh matching and16 native cases pass. Actual LIDATA source is caller-owned
+zero,repeat1016/width1/combine2; coldCOMDAT/synthetic negative cases remain
+model controls only. Iterated body ends at6b293RET8, excluding padding from
+earlier196B provisional envelope. Next CodeView register-location pass2b1b0.
+Split timings/extent/current limitations: cases/comdat-size-checkpoint.json
+and cases/comdat-iterated-checkpoint.json. Exact final object still pending.

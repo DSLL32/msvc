@@ -1,0 +1,8 @@
+enter @omf_write_iterated_data@16 eax 0029fe88 args 007b13b8 000003f8 00000001 0029fe88
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_iterated segment 007b13b8 repeat 000003f8 bytes 1 source 0029fe88 initializer 007b15f4 kind 8 combine 2 return_address 0006b19d data_segment 007b13b8
+omf_iterated_owner padding 000003f8
+omf_iterated_data_hex 00
+entry_end

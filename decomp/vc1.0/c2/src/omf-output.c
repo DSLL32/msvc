@@ -1330,3 +1330,61 @@ void __fastcall omf_emit_communal(SymbolHeader *symbol)
     record->cursor = cursor;
     omf_write_communal_size(record, symbol->value);
 }
+
+/* Original [0006c600,0006c674). Signed size thresholds are deliberate;
+   larger values carry three low bytes after84, not a four-byte integer. */
+void __fastcall omf_write_communal_size(OmfRecord *record, int size)
+{
+    unsigned char *cursor = record->cursor;
+    unsigned count = record->count;
+    if (size <= 127) {
+        ++record->count;
+        *cursor++ = (unsigned char)size;
+        record->cursor = cursor;
+    } else {
+        record->count = ++count;
+        *cursor++ = size <= 65535 ? 0x81 : 0x84;
+        record->cursor = cursor;
+        record->count = ++count;
+        *cursor++ = (unsigned char)size;
+        record->cursor = cursor;
+        record->count = ++count;
+        *cursor++ = (unsigned char)(size >> 8);
+        record->cursor = cursor;
+        if (size > 65535) {
+            record->count = ++count;
+            *cursor++ = (unsigned char)(size >> 16);
+            record->cursor = cursor;
+        }
+    }
+}
+
+/* Original [0006b1d0,0006b293). Even repetition counts use two adjacent
+   copies of the pattern. Keep the signed shift and low-byte block length. */
+void __fastcall omf_write_iterated_data(Segment *segment, int repeat,
+    unsigned bytes, void *data)
+{
+    OmfRecord *record;
+    unsigned count, index, shift = 0;
+    unsigned char *cursor;
+    if (segment->combine == 7) {
+        segment->object_attributes.omf_comdat.flags |= 2;
+        record = omf_begin_record(0xc3, segment);
+    } else record = omf_begin_record(0xa3, segment);
+    if (!(repeat & 1)) shift = 1;
+    repeat >>= shift;
+    count = record->count;
+    cursor = record->cursor;
+    for (index = 0; index < 4; ++index) {
+        record->count = ++count;
+        *cursor++ = (unsigned char)((unsigned)repeat >> (index * 8));
+        record->cursor = cursor;
+    }
+    record->count = ++count; *cursor++ = 0; record->cursor = cursor;
+    record->count = ++count; *cursor++ = 0; record->cursor = cursor;
+    record->count = ++count;
+    *cursor++ = (unsigned char)(bytes << shift);
+    record->cursor = cursor;
+    omf_append_bytes(record, data, bytes);
+    if (shift) omf_append_bytes(record, data, bytes);
+}

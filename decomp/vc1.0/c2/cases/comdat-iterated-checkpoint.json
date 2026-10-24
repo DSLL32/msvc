@@ -1,0 +1,181 @@
+{
+  "checkpoint": 1303,
+  "status": "195B iterated-data writer accepted; next CodeView register-location pass2b1b0",
+  "new_function": {
+    "name": "@omf_write_iterated_data@16",
+    "start": 438736,
+    "end": 438931,
+    "abi": {
+      "convention": "fastcall",
+      "parameters": [
+        {
+          "name": "segment",
+          "location": "ECX",
+          "type": "Segment pointer"
+        },
+        {
+          "name": "repeat",
+          "location": "EDX",
+          "type": "signed32"
+        },
+        {
+          "name": "bytes",
+          "location": "entryESP+4",
+          "type": "unsigned32"
+        },
+        {
+          "name": "source",
+          "location": "entryESP+8",
+          "type": "void pointer"
+        }
+      ],
+      "hidden_inputs": [],
+      "callee_stack_cleanup": 8,
+      "entry_observation": "cases/omf-iterated-abi/validation.json",
+      "scope": "Original6b1d0..6b293 consumes ECXsegment/EDXsignedrepeat/stack+4unsignedbytes/stack+8source, RET8. Reads combine+53 and only forCOMDAT reads/writes flags+69. No incoming other registers/flags/x87/out pointers. Begin-record context is segment; encoded pattern source belongs to caller initializer inline datum or padding zero local, actual caller/source proof recorded: kind8 return6b19d and observed EAXsource bind original6b183 zero-store/LEAEAXlocal/pushEAX/push1 sequence, native source aliases &zero. Record pointer is future child result, no old output bytes inspected/dumped/seeded."
+    }
+  },
+  "extent_delta": 195,
+  "extent_proof": "First instruction6b1d0 through fullRET8 at6b290..6b293. Following6b293 padding excluded; earlier196B proposal was provisional analysis envelope, never unmasked.",
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1303,
+    "accepted_code_bytes": 345289,
+    "original_code_bytes": 399693,
+    "percentage": 86.38855321459219,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 646
+  },
+  "actual_abi": "cases/omf-iterated-abi/validation.json",
+  "focused_controls": "cases/omf-iterated-validation.json",
+  "fresh_before": "cases/comdat-original-1302.json",
+  "fresh_after": "cases/comdat-original-1303.json",
+  "native_after": "cases/comdat-original-1303-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "timings": {
+    "comdat-iterated-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 4.251363633200526,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "comdat-iterated-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-iterated-entry.py"
+      ],
+      "seconds": 2.2196208043023944,
+      "returncode": 0,
+      "log_sha256": "e8acb64d0a829c376c5c9810f7c29fe7acc4eb44e7141e95cd7faf09c599d6f7"
+    },
+    "comdat-1303-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 3.7906728452071548,
+      "returncode": 0,
+      "log_sha256": "74e92f436e42f161a214fa8c0ff17882fae6e58d3fb7d16ced04c663938ba100"
+    },
+    "comdat-1303-controls": {
+      "command": [
+        "python3",
+        "scripts/check-omf-iterated.py"
+      ],
+      "seconds": 12.753151004202664,
+      "returncode": 0,
+      "log_sha256": "4fdef35cafe10d78f8a6e905da6cf65775d1e32e741bc3ac5b0c1128b4a6d4df"
+    },
+    "comdat-1303-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.9381866194307804,
+      "returncode": 0,
+      "log_sha256": "c98ef31303b47a32e986f7137e1bf5ab5d89afff6c6af1957934b76649158aa8"
+    },
+    "comdat-1303-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 28.24467682186514,
+      "returncode": 0,
+      "log_sha256": "df7e87ce9e617076617bfd01fb8f82c3d3e2d0f1c76d59db5912ed3f1fa55ff9"
+    },
+    "comdat-1303-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "comdat",
+        "--receipt",
+        "cases/comdat-original-1303.json"
+      ],
+      "seconds": 1.4829174289479852,
+      "returncode": 0,
+      "log_sha256": "6e15fa083b8c619cd469cb02c1a992747b13296850ceb5ad529ace6c66ee9cfe"
+    },
+    "comdat-1303-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1303.json"
+      ],
+      "seconds": 0.2192816650494933,
+      "returncode": 0,
+      "log_sha256": "6cb2067c8f35c8803285207fb9b4f2923a3c76071b2ca507a8c294de4d3e7026"
+    },
+    "comdat-1303-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/comdat-original-1302.json",
+        "--extend-after",
+        "cases/comdat-original-1303.json"
+      ],
+      "seconds": 0.33085467386990786,
+      "returncode": 0,
+      "log_sha256": "9e624c0cb2668c850b916c1cc78cb83098694f33c6633c572adbeb0ba571eafb"
+    },
+    "comdat-1303-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 2.5433546751737595,
+      "returncode": 0,
+      "log_sha256": "7a8831481a27283bcf622ec1bfb5a50d213680a3ee066e82e593e17841562d3d"
+    }
+  },
+  "scope": "1152 full original/canonical controls/8 ABI negatives; full195B body incl unvisitedCOMDAT flag path, signed halving evenrepeat with duplicatedpattern/low8size preserved. Actual combine2/repeat1016/width1/callerzero source only, actual originalEAXsource+6b183zero-store/LEA/push andnative&zero bind defined ownership. No extra original recapture needed for derived static proof. Exact complete1962B object pending, child semantic controls mocked. Analysis/edit time unmeasured."
+}

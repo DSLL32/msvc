@@ -1305,7 +1305,9 @@
     "@write_codeview_global_data@4",
     "_omf_finish_module",
     "_omf_write_module_end",
-    "@omf_emit_communal@4"
+    "@omf_emit_communal@4",
+    "@omf_write_communal_size@8",
+    "@omf_write_iterated_data@16"
   ],
   "driver": [
     {
@@ -9391,8 +9393,36 @@
     {
       "name": "@omf_write_iterated_data@16",
       "start": 438736,
-      "end": 438737,
-      "provisional": true
+      "end": 438931,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "segment",
+            "location": "ECX",
+            "type": "Segment pointer"
+          },
+          {
+            "name": "repeat",
+            "location": "EDX",
+            "type": "signed32"
+          },
+          {
+            "name": "bytes",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          },
+          {
+            "name": "source",
+            "location": "entryESP+8",
+            "type": "void pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 8,
+        "entry_observation": "cases/omf-iterated-abi/validation.json",
+        "scope": "Original6b1d0..6b293 consumes ECXsegment/EDXsignedrepeat/stack+4unsignedbytes/stack+8source, RET8. Reads combine+53 and only forCOMDAT reads/writes flags+69. No incoming other registers/flags/x87/out pointers. Begin-record context is segment; encoded pattern source belongs to caller initializer inline datum or padding zero local, actual caller/source proof recorded: kind8 return6b19d and observed EAXsource bind original6b183 zero-store/LEAEAXlocal/pushEAX/push1 sequence, native source aliases &zero. Record pointer is future child result, no old output bytes inspected/dumped/seeded."
+      }
     },
     {
       "name": "@omf_write_datum@8",
@@ -9535,8 +9565,26 @@
     {
       "name": "@omf_write_communal_size@8",
       "start": 443904,
-      "end": 443905,
-      "provisional": true
+      "end": 444020,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "OmfRecord pointer"
+          },
+          {
+            "name": "size",
+            "location": "EDX",
+            "type": "signed32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-communal-size-abi/validation.json",
+        "scope": "Original6c600..6c674 consumes ECX record/EDX signed size, RET0, no child. Reads count+12/cursor+16; signed127/65535 thresholds choose1/3/4 raw bytes. No other incoming registers/stack/flags/x87/out pointer. Actual current four-slot record aliases native caller record and size aliases caller symbol value, original return6aee2. Old destination bytes are write-only and never inspected/dumped/seeded."
+      }
     }
   ],
   "cases": {

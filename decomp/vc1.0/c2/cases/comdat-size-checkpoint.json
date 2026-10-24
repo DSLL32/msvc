@@ -1,0 +1,170 @@
+{
+  "checkpoint": 1302,
+  "status": "116B signed communal-size encoder accepted; next iterated-data6b1d0",
+  "new_function": {
+    "name": "@omf_write_communal_size@8",
+    "start": 443904,
+    "end": 444020,
+    "abi": {
+      "convention": "fastcall",
+      "parameters": [
+        {
+          "name": "record",
+          "location": "ECX",
+          "type": "OmfRecord pointer"
+        },
+        {
+          "name": "size",
+          "location": "EDX",
+          "type": "signed32"
+        }
+      ],
+      "hidden_inputs": [],
+      "callee_stack_cleanup": 0,
+      "entry_observation": "cases/omf-communal-size-abi/validation.json",
+      "scope": "Original6c600..6c674 consumes ECX record/EDX signed size, RET0, no child. Reads count+12/cursor+16; signed127/65535 thresholds choose1/3/4 raw bytes. No other incoming registers/stack/flags/x87/out pointer. Actual current four-slot record aliases native caller record and size aliases caller symbol value, original return6aee2. Old destination bytes are write-only and never inspected/dumped/seeded."
+    }
+  },
+  "extent_delta": 116,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1302,
+    "accepted_code_bytes": 345094,
+    "original_code_bytes": 399693,
+    "percentage": 86.33976577022865,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 645
+  },
+  "actual_abi": "cases/omf-communal-size-abi/validation.json",
+  "focused_controls": "cases/omf-communal-size-validation.json",
+  "fresh_before": "cases/comdat-original-1301.json",
+  "fresh_after": "cases/comdat-original-1302.json",
+  "native_after": "cases/comdat-original-1302-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "timings": {
+    "comdat-size-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.4288742123171687,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "comdat-size-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-communal-size-entry.py"
+      ],
+      "seconds": 2.25660487357527,
+      "returncode": 0,
+      "log_sha256": "fc9c27364a48eeda64de11ddb5d03e16645514b589c514c11bcde743641bd73e"
+    },
+    "comdat-1302-build": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 3.4878648463636637,
+      "returncode": 0,
+      "log_sha256": "a4ffebad45c541a2c78abe1ff214cadf4b7386fb9716d7ab3347fde353474c83"
+    },
+    "comdat-1302-controls": {
+      "command": [
+        "python3",
+        "scripts/check-omf-communal-size.py"
+      ],
+      "seconds": 2.589589518494904,
+      "returncode": 0,
+      "log_sha256": "43edc4b67094005f94e0c0f29a3f204eb962f12606d5fae3d0e1087639f235c4"
+    },
+    "comdat-1302-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.711843398399651,
+      "returncode": 0,
+      "log_sha256": "b78b60c2a206ddc6fd8453395ce268a0c0c1b310056f62182fc99bc4e2824a1e"
+    },
+    "comdat-1302-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 27.109074574895203,
+      "returncode": 0,
+      "log_sha256": "1a2238447db46f419a7bdef113d6183f4af0c8ea1690b9b57f2bd38e60a8d305"
+    },
+    "comdat-1302-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "comdat",
+        "--receipt",
+        "cases/comdat-original-1302.json"
+      ],
+      "seconds": 1.6266470476984978,
+      "returncode": 0,
+      "log_sha256": "091ab2748f9a3742c23ffd5d9af9a28137d6c7824e10b867503259883f1424a6"
+    },
+    "comdat-1302-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1302.json"
+      ],
+      "seconds": 0.21600055508315563,
+      "returncode": 0,
+      "log_sha256": "f0a4f7ca3b8387652577427603ee1524d6d4e528b8de5b85442d775aef7ff454"
+    },
+    "comdat-1302-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/comdat-original-1301.json",
+        "--extend-after",
+        "cases/comdat-original-1302.json"
+      ],
+      "seconds": 0.31366097275167704,
+      "returncode": 0,
+      "log_sha256": "9e624c0cb2668c850b916c1cc78cb83098694f33c6633c572adbeb0ba571eafb"
+    },
+    "comdat-1302-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 1.0230357768014073,
+      "returncode": 0,
+      "log_sha256": "fb05a6fce39a11d52166d28f0840dbc6d41524c0712b1a5ffea65f41aa694c68"
+    }
+  },
+  "scope": "153 full controls/6 ABI negatives; signed127/65535 compares and1/3/4-byte low-bit encoding, negative input assumptions preserved without invented guard. Actual size68/count17/cursoroffset40/current slot1 observed. Actual future widths not independently traced at this frontier; complete fixture artifact pending. No new data or child. Analysis/edit time unmeasured."
+}

@@ -1,0 +1,12 @@
+{
+  "logical": "_record_debug_register_locations",
+  "matched": true,
+  "executable_sha256": "405ab1d7326200371aafd76991006385c10f62dfe0d51aec0569edd6338934ce",
+  "config_sha256": "6be846e1d1345ac9470b4bc6bf82f4cde4734b18d9d53979aec4abba4b195ae4",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\packets",
+  "setup_seconds": 0.007779700681567192,
+  "execution_seconds": 0.133598237298429,
+  "seconds": 0.15195072442293167,
+  "log_sha256": "bef3775f1f0c7a70940665dbe83ed3d18bce02af319905d6ec10145829887cf5",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/comdat-gdb-i3n0y7yu"
+}

@@ -452,12 +452,34 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         dump_bytes(process,"omf_datum_value_hex",node+12,width);
         dump_bytes(process,"omf_datum_count_cursor_hex",record+12,8);
     }
+    if(!strcmp(call->name,"@omf_write_communal_size@8")) {
+        DWORD record=call->args[0];
+        sprintf(line,"omf_size record %08lx size %08lx current %08lx base %08lx return_address %08lx count %lu cursor %08lx\n",
+            record,call->args[1],read_word(process,image_base+0x6b88c),image_base+0x6a8dc,
+            call->return_address,read_word(process,record+12),read_word(process,record+16));log_line(line);
+    }
     if(!strcmp(call->name,"@omf_pad_record@8")) {
         DWORD record=call->args[0];
         sprintf(line,"omf_pad record %08lx bytes %lu current %08lx base %08lx return_address %08lx\n",
             record,call->args[1],read_word(process,image_base+0x6b88c),image_base+0x6a8dc,call->return_address);log_line(line);
         /* Only the count/cursor are consumed; old destination bytes are write-only. */
         dump_bytes(process,"omf_pad_count_cursor_hex",record+12,8);
+    }
+    if(!strcmp(call->name,"@omf_write_iterated_data@16")) {
+        DWORD segment=call->args[0],bytes=call->args[2],source=call->args[3];
+        DWORD initializer=context->Ebx,kind=read_word(process,initializer)&65535;
+        if(bytes>4096)exit(312);
+        sprintf(line,"omf_iterated segment %08lx repeat %08lx bytes %lu source %08lx initializer %08lx kind %lu combine %lu return_address %08lx data_segment %08lx\n",
+            segment,call->args[1],bytes,source,initializer,kind,read_byte(process,segment+53),
+            call->return_address,read_word(process,image_base+0x6b8d8));log_line(line);
+        if(read_byte(process,segment+53)==7)dump_bytes(process,"omf_iterated_flags_hex",segment+69,1);
+        if(kind==1) {
+            sprintf(line,"omf_iterated_owner source %08lx repeat %08lx bytes %lu\n",initializer+12,
+                read_word(process,initializer+24),(DWORD)(long)(short)(read_word(process,initializer+8)>>16));log_line(line);
+        } else if(kind==8) {
+            sprintf(line,"omf_iterated_owner padding %08lx\n",read_word(process,initializer+8));log_line(line);
+        } else exit(313);
+        dump_bytes(process,"omf_iterated_data_hex",source,bytes);
     }
     if(!strcmp(call->name,"@omf_write_byte_array@16")) {
         DWORD segment=call->args[0],bytes=call->args[1],source=call->args[3];

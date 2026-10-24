@@ -84,6 +84,8 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-output-noop-begin.py --abi-only
 	$(PYTHON) scripts/check-omf-local-external.py --abi-only
 	$(PYTHON) scripts/check-omf-communal.py --abi-only
+	$(PYTHON) scripts/check-omf-communal-size.py --abi-only
+	$(PYTHON) scripts/check-omf-iterated.py --abi-only
 	$(PYTHON) scripts/check-omf-filename.py --abi-only
 	$(PYTHON) scripts/check-omf-fixup-writer.py --abi-only
 	$(PYTHON) scripts/check-omf-fixup-entry.py --abi-only
@@ -158,6 +160,8 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-output-noop-begin.py --abi-only
 	$(PYTHON) scripts/check-omf-local-external.py --abi-only
 	$(PYTHON) scripts/check-omf-communal.py --abi-only
+	$(PYTHON) scripts/check-omf-communal-size.py --abi-only
+	$(PYTHON) scripts/check-omf-iterated.py --abi-only
 	$(PYTHON) scripts/check-omf-filename.py --abi-only
 	$(PYTHON) scripts/check-omf-fixup-writer.py --abi-only
 	$(PYTHON) scripts/check-omf-fixup-entry.py --abi-only
@@ -206,6 +210,8 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-output-noop-begin.py
 	$(PYTHON) scripts/check-omf-local-external.py
 	$(PYTHON) scripts/check-omf-communal.py
+	$(PYTHON) scripts/check-omf-communal-size.py
+	$(PYTHON) scripts/check-omf-iterated.py
 	$(PYTHON) scripts/check-omf-filename.py
 	$(PYTHON) scripts/check-omf-fixup-writer.py
 	$(PYTHON) scripts/check-omf-fixup-entry.py

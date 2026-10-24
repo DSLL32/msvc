@@ -99,14 +99,11 @@ __declspec(naked) void omf_output_value(void) { RECON_TRACE_NAKED_ENTRY(omf_outp
 
 
 
-void __fastcall omf_write_iterated_data(Segment *segment, int repeat, unsigned bytes,
-    void *data) { __asm int 3 }
 
 
 
 void __fastcall omf_emit_comdat_external(SymbolHeader *symbol) { __asm int 3 }
 unsigned __fastcall omf_local_name_index(char *name) { __asm int 3 }
-void __fastcall omf_write_communal_size(OmfRecord *record, int size) { __asm int 3 }
 void __fastcall omf_emit_weak_external(FunctionSymbol *symbol) { __asm int 3 }
 
 

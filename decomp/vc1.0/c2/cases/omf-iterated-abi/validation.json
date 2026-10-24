@@ -1,0 +1,83 @@
+{
+  "matched": true,
+  "function": "@omf_write_iterated_data@16",
+  "original_va": "0x6b1d0",
+  "formals": [
+    {
+      "name": "segment",
+      "location": "ECX",
+      "type": "Segment pointer",
+      "original": 8065976,
+      "native": 1449358472
+    },
+    {
+      "name": "repeat",
+      "location": "EDX",
+      "type": "signed32",
+      "original": 1016,
+      "native": 1016
+    },
+    {
+      "name": "bytes",
+      "location": "entryESP+4",
+      "type": "unsigned32",
+      "original": 1,
+      "native": 1
+    },
+    {
+      "name": "source",
+      "location": "entryESP+8",
+      "type": "void pointer",
+      "original": 2752136,
+      "native": 4294957748
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 8,
+  "no_hidden_inputs_proof": "Original6b1d0..6b293 consumes ECXsegment/EDXsignedrepeat/stack+4unsignedbytes/stack+8source, RET8. Reads combine+53 and only forCOMDAT reads/writes flags+69. No incoming other registers/flags/x87/out pointers. Begin-record context is segment; encoded pattern source belongs to caller initializer inline datum or padding zero local, actual caller/source proof recorded: kind8 return6b19d and observed EAXsource bind original6b183 zero-store/LEAEAXlocal/pushEAX/push1 sequence, native source aliases &zero. Record pointer is future child result, no old output bytes inspected/dumped/seeded.",
+  "shape": {
+    "repeat": 1016,
+    "bytes": 1,
+    "kind": 8,
+    "combine": 2,
+    "flags": null,
+    "data_hex": "00"
+  },
+  "original": {
+    "segment": 8065976,
+    "repeat": 1016,
+    "bytes": 1,
+    "source": 2752136,
+    "initializer": 8066548,
+    "kind": 8,
+    "combine": 2,
+    "return_address": 438685,
+    "data_segment": 8065976,
+    "data_hex": "00",
+    "owner": {
+      "padding": 1016
+    },
+    "flags": null,
+    "source_eax": 2752136
+  },
+  "native": {
+    "segment": 1449358472,
+    "bytes": 1,
+    "repeat": 1016,
+    "source": 4294957748,
+    "kind": 8,
+    "combine": 2,
+    "flags": null,
+    "data_segment": 1449358472,
+    "data_hex": "00",
+    "owner": {
+      "padding": 1016,
+      "source": 4294957748
+    },
+    "caller": "omf_output_relocation"
+  },
+  "original_execution_seconds": 1.737100244499743,
+  "native_debug_seconds": 0.1470034420490265,
+  "total_seconds": 2.1527580320835114,
+  "scope": "Actual four formals/defined source bytes and conditional segment flag only. Observer4096 limit not target guard. Synthetic cold branch/body controls and eventual complete object separate."
+}
