@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "kind": "v4 corrected distinctcase/baseline-stop pre-use review; no original execution",
+  "manifest_sha256": "13afbaa4272d71e65652260340092ec969b33e953b709739928114675217ef21",
+  "affected_controls": {
+    "passed": true,
+    "fresh_negative_controls": 8,
+    "seconds": 0.0004796888679265976,
+    "controls": [
+      "masked",
+      "old case",
+      "other dependency analysis",
+      "LINK response",
+      "clock analysis",
+      "clock response",
+      "never acceptance False",
+      "never acceptance True"
+    ],
+    "reused": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-dry-run-plan/mode-controls-v3.json",
+      "sha256": "c5d5e8cf589aef8812af3616b6d6244074ef8a7eab030008d0fccfb247fcb538",
+      "count": 154,
+      "premise": "Identical C mode/call primitives, unchanged byte/range/cleanup/order guards; V2 case/marker and mandatory dispatch stop reviewed separately."
+    },
+    "primitive_sha256": "6b0cbf79d45c93032f0290ff0d318b7a7a8306f0232393266402bde45ce3dc0f"
+  },
+  "review": [
+    "Correctly distinct /Gm /Zi case; prior incompatible /Bz dryrun unchanged and no-credit.",
+    "Current/helper manifest and exact C primitive equality with reviewed v3 verified.",
+    "Mandatory named execute_pass550d guard present and verifies entry-list; handler observes and terminates before restoring entry byte or executing dispatch.",
+    "Same3actualMREcalls/cleanup/signature-entry stop with16BInput bounded observer; no new decoder/data mutation.",
+    "All analysis captures excluded acceptance; failed/unexpected dispatch stays analysis.",
+    "Intermediate provider-owned PDBfile effects and opaqueobjects unmodeled, no native success release."
+  ],
+  "release": "one corrected bounded essential original prefix baseline"
+}

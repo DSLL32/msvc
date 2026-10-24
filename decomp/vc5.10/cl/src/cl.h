@@ -26,7 +26,7 @@ typedef struct DeferredInput {
     struct DeferredInput *next;
     BOOL is_cpp;
     char *source_name, *object_name;
-    unsigned timestamp;
+    char *option_signature;
 } DeferredInput;
 /* The remaining allocation tail stays undefined until its consumers are reached. */
 struct Job {
@@ -86,6 +86,7 @@ typedef struct InputKind {
 } InputKind;
 typedef struct TemporarySuffix { char *suffix; int per_input; } TemporarySuffix;
 extern TemporarySuffix temporary_suffixes[8];
+extern char option_buffer[1024];
 extern Driver driver_storage;
 extern Driver *driver;
 extern Option *unrecognized_options, *free_options;
@@ -196,7 +197,9 @@ void prepare_execution(void);
 void run_driver(Driver *);
 Job *source_jobs(Driver *);
 Job *create_job(Input *);
-unsigned file_timestamp(Driver *);
+char *option_signature(Driver *);
+int compare_option_strings(const void *, const void *);
+int option_matching_selector(Option *, const char *);
 Job *jobs_from_deferred(DeferredInput *);
 Job *prepare_jobs(Driver *, Job *, PendingWork *);
 Job *next_jobs(Driver *, PendingWork *);

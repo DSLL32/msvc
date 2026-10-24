@@ -1,0 +1,322 @@
+{
+  "original_runs": [
+    {
+      "kind": "no-MRE dry-run",
+      "setup_seconds": 0.026877904310822487,
+      "reference_execution_seconds": 1.2093930402770638
+    },
+    {
+      "kind": "pre-call helper layout failure",
+      "setup_seconds": 0.02699561882764101,
+      "reference_execution_seconds": 0.6611145455390215
+    },
+    {
+      "kind": "actual three-call partial prefix",
+      "setup_seconds": 0.026637361384928226,
+      "reference_execution_seconds": 3.7462012646719813
+    }
+  ],
+  "build": {
+    "parallel_jobs": 4,
+    "status": 0,
+    "seconds": null,
+    "note": "Original/native/source-alias build passed; elapsed not separately measured",
+    "log_sha256": "ffc6d0ba5e5a5b3c33f9404ecf2d46946728cf6b13701148910634c646d5646a"
+  },
+  "accepted_audits": {
+    "status": 0,
+    "seconds": 0.6492749229073524
+  },
+  "cached_native_regressions": {
+    "count": 13,
+    "seconds": 3.2449096562340856,
+    "reports": [
+      {
+        "schema": 1,
+        "case": "help",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 50,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 141,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.006923966109752655,
+          "setup": 0.0019384892657399178,
+          "execution": 0.007906381040811539,
+          "checks": 0.0008374210447072983,
+          "total": 0.03081193659454584
+        }
+      },
+      {
+        "case": "minimal-c",
+        "passed": true,
+        "mode": "cached native regression; fresh GDB proof separate",
+        "application_entries": 75,
+        "status": 0,
+        "object_bytes": 275,
+        "C1_calls": 1,
+        "C2_calls": 1,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "held_trial": false,
+        "seconds": {
+          "setup": 0.8088735872879624,
+          "execution": 0.06540826987475157,
+          "checks": 0.35432521905750036,
+          "total": 1.2286460120230913
+        }
+      },
+      {
+        "schema": 1,
+        "case": "response-options",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 56,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.007520938292145729,
+          "setup": 0.0019502956420183182,
+          "execution": 0.007812613621354103,
+          "checks": 0.0006874417886137962,
+          "total": 0.031233759596943855
+        }
+      },
+      {
+        "schema": 1,
+        "case": "usage",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 14,
+        "stdout_bytes": 61,
+        "stderr_bytes": 141,
+        "mktemp_calls": 0,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.0075538987293839455,
+          "setup": 0.0016165291890501976,
+          "execution": 0.0037932908162474632,
+          "checks": 0.0005449159070849419,
+          "total": 0.0265633100643754
+        }
+      },
+      {
+        "schema": 1,
+        "case": "unknown-option",
+        "passed": true,
+        "full_dword_status": 2,
+        "application_entries": 56,
+        "stdout_bytes": 0,
+        "stderr_bytes": 139,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.007967465557157993,
+          "setup": 0.0016922121867537498,
+          "execution": 0.0037504173815250397,
+          "checks": 0.0006248271092772484,
+          "total": 0.0268919812515378
+        }
+      },
+      {
+        "schema": 1,
+        "case": "preprocessor-pass-options",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 53,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.007266093045473099,
+          "setup": 0.0017076879739761353,
+          "execution": 0.007883374579250813,
+          "checks": 0.0006571505218744278,
+          "total": 0.03066286724060774
+        }
+      },
+      {
+        "schema": 1,
+        "case": "explicit-inputs",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 57,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.007539653219282627,
+          "setup": 0.0016994699835777283,
+          "execution": 0.007962388917803764,
+          "checks": 0.0006507439538836479,
+          "total": 0.030676374211907387
+        }
+      },
+      {
+        "schema": 1,
+        "case": "macro-language-conflict",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 54,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 58,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.006465506739914417,
+          "setup": 0.0017132824286818504,
+          "execution": 0.007919246330857277,
+          "checks": 0.0006389189511537552,
+          "total": 0.02995043247938156
+        }
+      },
+      {
+        "schema": 1,
+        "case": "optimization-defaults",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 52,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.006697610020637512,
+          "setup": 0.0018893005326390266,
+          "execution": 0.007849744521081448,
+          "checks": 0.0006749872118234634,
+          "total": 0.03260454908013344
+        }
+      },
+      {
+        "passed": true,
+        "case": "link-object",
+        "mode": "cached native regression; fresh GDB proof separate",
+        "application_entries": 69,
+        "status": 0,
+        "object_input_bytes": 275,
+        "response_input_bytes": 82,
+        "executable_output_bytes": 1024,
+        "LINK_calls": 1,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.008668782189488411,
+          "setup": 0.21631630882620811,
+          "execution": 0.015936010517179966,
+          "checks": 0.2615270549431443,
+          "total": 0.5639578495174646
+        }
+      },
+      {
+        "passed": true,
+        "case": "link-timing",
+        "mode": "cached native regression; fresh GDB proof separate",
+        "application_entries": 72,
+        "status": 0,
+        "object_input_bytes": 275,
+        "response_input_bytes": 82,
+        "executable_output_bytes": 1024,
+        "LINK_calls": 1,
+        "mktemp_calls": 1,
+        "clock_calls": 2,
+        "clock_inventory": "Actual uninstrumented host finish requires shared configured-clock counter2",
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.008104495704174042,
+          "setup": 0.04527896922081709,
+          "execution": 0.016103961504995823,
+          "checks": 0.025332588702440262,
+          "total": 0.1481044590473175
+        }
+      },
+      {
+        "schema": 1,
+        "case": "link-naming",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 72,
+        "stdout_bytes": 199,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.007574501447379589,
+          "setup": 0.006473436951637268,
+          "execution": 0.008070395328104496,
+          "checks": 0.003014388494193554,
+          "total": 0.03861897625029087
+        }
+      },
+      {
+        "schema": 1,
+        "case": "grouped-dry-run",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 75,
+        "stdout_bytes": 792,
+        "stderr_bytes": 0,
+        "mktemp_calls": 1,
+        "native_sha256": "0fd7e958f79764b427ab103d2f1e4d612fedf04601ac170bdbfcd31a9911ffbb",
+        "seconds": {
+          "build": 0.006573143415153027,
+          "setup": 0.04636597167700529,
+          "execution": 0.007869062945246696,
+          "checks": 0.006044777110219002,
+          "total": 0.08044001460075378
+        }
+      }
+    ]
+  },
+  "packet_controls": {
+    "passed": true,
+    "negative_controls": 37,
+    "seconds": 9.47090726159513,
+    "controls": [
+      "baseline required",
+      "analysis flag required",
+      "wrong case",
+      "mixed family",
+      "wrong marker",
+      "call1 arguments",
+      "call1 before-context",
+      "call1 after-context",
+      "call1 before-identity",
+      "call2 arguments",
+      "call2 before-context",
+      "call2 after-context",
+      "call2 before-identity",
+      "call3 arguments",
+      "call3 before-context",
+      "call3 after-context",
+      "call3 before-identity",
+      "Open write BOOL",
+      "shared scratch pointer",
+      "engine result",
+      "driver role alias",
+      "error out",
+      "PDB spelling",
+      "scratch retention",
+      "Open errno effect",
+      "Init LastError",
+      "full FP preservation",
+      "descriptor noinherit",
+      "Pending known zeros",
+      "signature formal",
+      "source name",
+      "option ordering/flags",
+      "option text",
+      "Input allocation bound",
+      "actual fd3 offset",
+      "must stop before frontend",
+      "wrong private stop"
+    ],
+    "scope": "Partial analysis decoding only; final IDB data is not an intermediate API output oracle; no native success/credit."
+  }
+}

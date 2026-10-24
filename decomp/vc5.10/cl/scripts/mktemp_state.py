@@ -89,6 +89,13 @@ def original(directory):
     if (directory/'clock-observer.inc').exists():
         assert capture['helper_sources']['clock-observer.inc']==sha((directory/'clock-observer.inc').read_bytes())
         controls.add('clock-observer.inc')
+    if (directory/'mre-observer.inc').exists():
+        assert capture['helper_sources']['mre-observer.inc']==sha((directory/'mre-observer.inc').read_bytes())
+        controls.add('mre-observer.inc')
+    if capture.get('mre_analysis'):
+        assert capture['case']=='mre-prefix'and capture['baseline']is True and not any(capture.get(k)for k in ('dependency_analysis','dependency_complete','dependency_response','link_response','clock_analysis','clock_response'))
+        assert (directory/'mre-observer.txt').read_bytes()==b'CL_MRE_PREFIX_ANALYSIS_V2\n'
+        controls.add('mre-observer.txt')
     if (directory/'export-reader.h').exists():
         assert capture['helper_sources']['export-reader.h']==sha((directory/'export-reader.h').read_bytes())
         controls|={'export-reader.h'}

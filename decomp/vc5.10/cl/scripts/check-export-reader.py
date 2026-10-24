@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Offline old/new export-reader controls over the actual captured providers."""
+import argparse
 import ctypes
 import hashlib
 import json
@@ -10,7 +11,8 @@ import time
 from binary import PE
 
 PROJECT=Path(__file__).resolve().parents[1]
-SCRATCH=Path('/root/.ai-tmp/msvc2/vc5.10/cl/export-reader-review')
+parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--provider',choices=('all','msvcrt','c1','mspdb'),default='all');parser.add_argument('--output',type=Path);args=parser.parse_args()
+SCRATCH=args.output or Path('/root/.ai-tmp/msvc2/vc5.10/cl/export-reader-review')
 SCRATCH.mkdir(parents=True,exist_ok=True)
 started=time.perf_counter()
 subprocess.run(['gcc','-std=c89','-pedantic','-Wall','-Wextra','-Werror','-O2','-shared','-fPIC',
@@ -31,10 +33,11 @@ def replace(data,offset,value,kind='I'):
 
 
 records=[];total_old=total_new=0;controls=[];inputs={}
-for name,relative,sha in (
-    ('MSVCRT.DLL','loaded-msvcrt.bin','e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'),
-    ('C1.DLL','observer/loaded-c1.bin','7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d')):
-    path=SCRATCH.parent/'cleanup-files-1-original'/relative
+for provider,name,path,sha in (
+    ('msvcrt','MSVCRT.DLL',Path('/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-1-original/loaded-msvcrt.bin'),'e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'),
+    ('c1','C1.DLL',Path('/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-1-original/observer/loaded-c1.bin'),'7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d'),
+    ('mspdb','MSPDB50.DLL',Path('/root/.ai-tmp/msvc2/vc5.10/cl/mre-prefix-analysis-2/loaded-mspdb50.bin'),'cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33')):
+    if args.provider not in ('all',provider):continue
     image=PE(path);assert hashlib.sha256(image.data).hexdigest()==sha
     inputs[name]={'path':str(path),'sha256':sha}
     nt=struct.unpack_from('<I',image.data,60)[0];image_size=struct.unpack_from('<I',image.data,image.optional+56)[0]

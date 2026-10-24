@@ -1,8 +1,8 @@
 # CL.EXE 5.10 reconstruction
 
 The `/?` case is complete: 50 reconstructed application functions, 8,175 original
-extent bytes (42.89% of the 19,062-byte `.text`). A complete non-CRT denominator
-is not yet classified. The 15 startup/import support records restore another
+extent bytes (42.89% of the 19,062-byte `.text`). The separately reviewed application extent denominator is now 18,545 bytes;
+this historical help milestone retains its original whole-section percentage. The 15 startup/import support records restore another
 476 bytes and receive no application source credit.
 
 The native-only fixture takes about 28 ms including an incremental build, with
@@ -15,8 +15,11 @@ acceptance journal for the measured evidence.
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
 There are now 104 accepted application functions /17,609 original extent bytes
-(92.38% of whole `.text`); the non-CRT
-denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
+(92.38% of whole `.text`, 94.95% of the 18,545-byte application extent).
+There are 104/112 application functions accepted, with eight functions/936 bytes
+remaining. `cases/code-partition.json` and its independent review classify all
+19,062 bytes without overlaps: 18,545 application, 476 support, 41 literalCC padding.
+These are accepted function extents, not branch or input-domain coverage. The response-file/options/help case adds five driver functions with 56 actual
 entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
 line, then removes all temporary IR and exits0. Source still compiles with
@@ -334,3 +337,11 @@ or nonpreferred-base test has run here.
 `cases/plan.json` seeds help, minimal-C and `/O2 /G5` Win32 hello themes. Only
 source/themes were copied from vc1.0; all arguments, IR, traces and expected
 artifacts need fresh 5.10 capture. No vc1.0 oracle is reused.
+
+Minimal-rebuild investigation now reaches the real option-signature entry after
+three observed MSPDB calls. The actual shared rule/error scratch buffer and
+signature pointer type are corrected; the signature builder, comparator and
+selector remain named traps. Native MRE success is held for the exact IDB file,
+descriptor/noinherit and lifetime contract. Source-C analysis and the earlier
+no-MRE dry run remain distinct. This checkpoint adds no application credit;
+all 13 previous native fixtures pass in 3.24 seconds after the source corrections.

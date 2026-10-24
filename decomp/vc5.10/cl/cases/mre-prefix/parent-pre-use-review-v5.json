@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "kind": "pre-use v5 narrow actualMSPDB export-reader addition review; no original execution",
+  "manifest_sha256": "aa3ebd1f496aeca6f90292f12269abde5158e800b5f16724acdd4235416f8975",
+  "changes": [
+    "/root/msvc2/decomp/vc5.10/cl/build/reference-debugger-build.json",
+    "/root/msvc2/decomp/vc5.10/cl/build/reference-debugger.exe",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/export-reader.h"
+  ],
+  "checks": [
+    "Exact actual hash-bound MSPDB parsedlayout whitelist only; parser uses existing fresh3reads/no mutablecache/fallback.",
+    "157 actual namedexports old/newexact and37 malformed/read/range/overflow controls independently rerun in separate native-only parser harness.",
+    "Exact prior helperobserver/case/guardinput hashes unchanged; helper rebuilt and allsources verified.",
+    "All bounded stop/success limits remain v4; previous failed pre-call raw retained, no identity bypass."
+  ],
+  "release": "one necessary corrected original MRE-prefix baseline retry"
+}

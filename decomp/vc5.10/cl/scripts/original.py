@@ -52,11 +52,18 @@ def clock_response_mode(config,baseline,case,analysis,complete,response,link_res
     return 'CL_LINK_CLOCK_RESPONSE_V1\n'
 
 
-def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False,dependency_complete=False,dependency_response=False,link_response=False,clock_analysis=False,clock_response=False):
+def mre_analysis_mode(baseline,case,analysis,complete,response,link_response,clock_analysis,clock_response,enabled):
+    if not enabled:return None
+    assert baseline and case=='mre-prefix'and not any((analysis,complete,response,link_response,clock_analysis,clock_response)), 'MRE prefix analysis requires separate unmasked original-only case'
+    return 'CL_MRE_PREFIX_ANALYSIS_V2\n'
+
+
+def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False,dependency_complete=False,dependency_response=False,link_response=False,clock_analysis=False,clock_response=False,mre_analysis=False):
     assert not dependency_analysis or (baseline and case_name=='minimal-c'),'dependency analysis requires explicit original-only minimal-C baseline'
     assert not dependency_complete or dependency_analysis,'complete dependency observation requires explicit analysis mode'
     start=time.perf_counter()
     config=json.loads(config_path.read_text())
+    mre_mode=mre_analysis_mode(baseline,case_name,dependency_analysis,dependency_complete,dependency_response,link_response,clock_analysis,clock_response,mre_analysis)
     mode=clock_response_mode(config,baseline,case_name,dependency_analysis,dependency_complete,dependency_response,link_response,clock_analysis,clock_response) or clock_analysis_mode(baseline,case_name,dependency_analysis,dependency_complete,dependency_response,link_response,clock_analysis) or link_mode(config,baseline,case_name,dependency_analysis,dependency_complete,dependency_response,link_response) or dependency_mode(config,baseline,case_name,dependency_analysis,dependency_complete,dependency_response)
     target=ROOT/config['target']['path']
     assert sha(target.read_bytes())==config['target']['sha256']
@@ -84,9 +91,10 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
         (directory/'pass-state-observer.txt').write_bytes(CONTROL)
     if mode:
         (directory/'dependency-observer.txt').write_text(mode)
+    if mre_mode:(directory/'mre-observer.txt').write_text(mre_mode)
     if clock_analysis:(directory/'clock-observer.txt').write_text('CL_CLOCK_OBSERVER_V1\n')
     if clock_response:(directory/'clock-observer.txt').write_text('CL_CLOCK_RESPONSE_V1\n')
-    if not baseline or dependency_analysis or clock_analysis:
+    if not baseline or dependency_analysis or clock_analysis or mre_analysis:
         from binary import PE
         pe=PE(target)
         rows=[]
@@ -103,6 +111,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     shutil.copyfile(HERE/'dependency-observer.inc',directory/'dependency-observer.inc')
     shutil.copyfile(HERE/'export-reader.h',directory/'export-reader.h')
     shutil.copyfile(HERE/'clock-observer.inc',directory/'clock-observer.inc')
+    shutil.copyfile(HERE/'mre-observer.inc',directory/'mre-observer.inc')
     controller_source=store_blob(Path(__file__).read_bytes())
     helper_source=store_blob((HERE/'reference-debugger.c').read_bytes())
     env=wt.environment();env.update(TMP='.',TEMP='.')
@@ -147,8 +156,8 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     (directory/'helper.stdout').write_bytes(result.stdout)
     (directory/'helper.stderr').write_bytes(result.stderr)
     loaded=directory/'loaded-msvcrt.bin'
-    captured_paths=directory.rglob('*')if (dependency_response or link_response or clock_analysis or clock_response) else directory.iterdir()
-    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,'dependency_complete':dependency_complete,'dependency_response':dependency_response,'link_response':link_response,'clock_analysis':clock_analysis,'clock_response':clock_response,
+    captured_paths=directory.rglob('*')if (dependency_response or link_response or clock_analysis or clock_response or mre_analysis) else directory.iterdir()
+    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,'dependency_complete':dependency_complete,'dependency_response':dependency_response,'link_response':link_response,'clock_analysis':clock_analysis,'clock_response':clock_response,'mre_analysis':mre_analysis,
         'target_sha256':sha(target.read_bytes()),'config_sha256':sha(config_path.read_bytes()),
         'original_mask_sha256':sha(image),'helper_status':result.returncode,
         'loaded_msvcrt_sha256':sha(loaded.read_bytes()) if loaded.exists() else None,
@@ -156,7 +165,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
         'helper_sha256':sha((directory/'reference-debugger.exe').read_bytes()),'helper_build':helper_build,
         **paired,'build_dependency_hashes':dependency_hashes,
         'helper_source_sha256':sha((HERE/'reference-debugger.c').read_bytes()),
-        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc','clock-observer.inc','export-reader.h')},
+        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc','clock-observer.inc','mre-observer.inc','export-reader.h')},
         'controller_source':controller_source,'helper_source':helper_source,
         'command':command,'environment':{k:env[k] for k in ('WINEPREFIX','WINEDLLOVERRIDES','INCLUDE','LIB','WINEPATH','TMP','TEMP')},
         'timing':{'setup_seconds':setup,'reference_execution_seconds':run_time},
@@ -191,4 +200,5 @@ if __name__=='__main__':
     parser.add_argument('--link-response',action='store_true',help='Observe LINK-only child during a masked candidate trial')
     parser.add_argument('--clock-analysis',action='store_true',help='Explicit unmasked LINK-clock analysis only; never reconstruction acceptance')
     parser.add_argument('--clock-response',action='store_true',help='Observe actual clock and LINK effects in a masked timing trial; success remains closed until typed comparison')
-    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis,args.dependency_complete,args.dependency_response,args.link_response,args.clock_analysis,args.clock_response)
+    parser.add_argument('--mre-analysis',action='store_true',help='Bounded unmasked Open/Query/Init analysis only, stopping before option-signature logic')
+    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis,args.dependency_complete,args.dependency_response,args.link_response,args.clock_analysis,args.clock_response,args.mre_analysis)

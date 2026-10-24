@@ -5,7 +5,6 @@
 
 int first_dependency_scan = 1;
 int first_stage_notice = 1;
-static char mre_error[1024];
 /* 004097a8..004097b4: shared with the console-control handler. */
 int interrupted, pass_running;
 CompilerPass *active_pass;
@@ -539,7 +538,7 @@ Job *next_jobs(Driver *state, PendingWork *pending)
         return NULL;
     if (!pending->outdated && !pending->sources && !pending->compiled)
         return NULL;
-    if (!MREFOpenByName(&engine, pdb_name, &error, mre_error, reproducible, TRUE)) {
+    if (!MREFOpenByName(&engine, pdb_name, &error, option_buffer, reproducible, TRUE)) {
         warning(4028);
         first_dependency_scan = 0;
         return jobs_from_deferred(pending->sources);
@@ -616,7 +615,7 @@ Job *prepare_jobs(Driver *state, Job *jobs, PendingWork *pending)
     Mre *engine;
     MreDriver *mre;
     int error;
-    unsigned timestamp;
+    char *signature;
     Job *job, *result;
     Input *input;
     DeferredInput *tail = NULL, *node;
@@ -624,7 +623,7 @@ Job *prepare_jobs(Driver *state, Job *jobs, PendingWork *pending)
         first_dependency_scan = 0;
         return jobs;
     }
-    if (!MREFOpenByName(&engine, pdb_name, &error, mre_error, reproducible, TRUE)) {
+    if (!MREFOpenByName(&engine, pdb_name, &error, option_buffer, reproducible, TRUE)) {
         warning(4028);
         first_dependency_scan = 0;
         return jobs;
@@ -638,7 +637,7 @@ Job *prepare_jobs(Driver *state, Job *jobs, PendingWork *pending)
     pending->failed = NULL;
     state->deferred_inputs = NULL;
     state->deferred_tail = &state->deferred_inputs;
-    timestamp = file_timestamp(state);
+    signature = option_signature(state);
     for (job = jobs; job; job = job->next) {
         input = job->input;
         state->current_input = input;
@@ -653,7 +652,7 @@ Job *prepare_jobs(Driver *state, Job *jobs, PendingWork *pending)
         node->is_cpp = input->kind == 1 || input->kind == 2;
         node->source_name = input->name;
         node->object_name = duplicate(object_name);
-        node->timestamp = timestamp;
+        node->option_signature = signature;
         job->browser_name = duplicate(browser_name);
     }
     if (first_dependency_scan && MREDrvFFilesOutOfDate(mre, pending))

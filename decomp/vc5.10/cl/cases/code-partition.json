@@ -1,0 +1,1196 @@
+{
+  "kind": "Read-only exact original code-extent partition proposal; no acceptance credit change",
+  "target": {
+    "path": "toolchains/5.10/bin/CL.EXE",
+    "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+  },
+  "index_sha256": "4600030ca51df39af7fa0b02fd5c6b419573d2944ae333988415001758e6eef0",
+  "section": {
+    "start": 4198400,
+    "end": 4217462,
+    "virtual_bytes": 19062
+  },
+  "functions": [
+    {
+      "name": "_main",
+      "start": 4200259,
+      "end": 4201197,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 938,
+      "sha256": "9505db66c742e9942f4a4e37dd29cdd40e8709db03ddd00a805404e5a34b91e3"
+    },
+    {
+      "name": "_install_control_handler",
+      "start": 4216756,
+      "end": 4216770,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 14,
+      "sha256": "2013c4ac23571c1b190630f763b2c197478fedd4a89c92c92f4523467c6f844e"
+    },
+    {
+      "name": "_split_arguments",
+      "start": 4213969,
+      "end": 4214481,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 512,
+      "sha256": "6b2f26521a519114f491003347558176f84456d162cb13273443614c36eaf93a"
+    },
+    {
+      "name": "_count_arguments",
+      "start": 4202806,
+      "end": 4202831,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 25,
+      "sha256": "8b6c161228d408d7fef427d58717edf0877201d8f04a8464e6d9bea0f0410871"
+    },
+    {
+      "name": "_program_name",
+      "start": 4203451,
+      "end": 4203460,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 9,
+      "sha256": "5c8c3c3db03747cfb09a8ca37b6409dbebd2003c8eb8b9dfd0488e758c5705ff"
+    },
+    {
+      "name": "_initialize_driver",
+      "start": 4203241,
+      "end": 4203289,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 48,
+      "sha256": "a7705a60de33f2d57035bceb2aee8335582df01151eecf33198f0ddd905137ba"
+    },
+    {
+      "name": "_show_usage",
+      "start": 4205450,
+      "end": 4205489,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 39,
+      "sha256": "9482c47f5d17f073629e0c0f742ee812808b55706da4861ffb069b19382f9aea"
+    },
+    {
+      "name": "_has_nologo",
+      "start": 4202831,
+      "end": 4203241,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 410,
+      "sha256": "398e259692dfb83fcb8f84a5f953700f07896c2f251196b00d5b45f836d5bb0a"
+    },
+    {
+      "name": "_show_banner",
+      "start": 4206004,
+      "end": 4206053,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 49,
+      "sha256": "505276bec3d49fb7eaf149bd19c4befc766911bd4ba159a5e2e8b3d079d18462"
+    },
+    {
+      "name": "_parse_arguments",
+      "start": 4201197,
+      "end": 4201447,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 250,
+      "sha256": "2b6fe32e12dcc86988c58575d6e29d384efac13fa42bbf5a56e57a800b8ffc0d"
+    },
+    {
+      "name": "_write_message",
+      "start": 4214889,
+      "end": 4214930,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 41,
+      "sha256": "579db6c698d8bc27715c580af044348bf8d0353d785c002282b61dfc36c5e1bb"
+    },
+    {
+      "name": "_finish_options",
+      "start": 4204851,
+      "end": 4205237,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 386,
+      "sha256": "c703e937aa94e67fe55a45a79b673640b7d7951ba817d584f387471b8983753b"
+    },
+    {
+      "name": "_prepare_inputs",
+      "start": 4204617,
+      "end": 4204851,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 234,
+      "sha256": "761d02176f3afdde2f5c758eccdd8114a8c82b74f71115e7b04b796c8b01f7d1"
+    },
+    {
+      "name": "_prepare_environment",
+      "start": 4203289,
+      "end": 4203451,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 162,
+      "sha256": "982541db7c75e00faada8b64cbb4992d7c17f7a2fcb512c4e1af3e1531ad82b4"
+    },
+    {
+      "name": "_show_help",
+      "start": 4215461,
+      "end": 4215604,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 143,
+      "sha256": "8c8b0a35ea7cbad6696b781cfcfa1b870d1af218344fe2aa9db2bcca845fe99f"
+    },
+    {
+      "name": "_allocate",
+      "start": 4215957,
+      "end": 4215986,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 29,
+      "sha256": "23c0f4bf1ee4e749ed4f20803b15d3d8a1ca746419d3723699867b846fa9bc98"
+    },
+    {
+      "name": "_append_text",
+      "start": 4213376,
+      "end": 4213412,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 36,
+      "sha256": "81608f7fc70e2e890f8ec5b6bc8b4fe66ab69260f20de14e63bdbdf395d159bb"
+    },
+    {
+      "name": "_warning",
+      "start": 4215738,
+      "end": 4215805,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 67,
+      "sha256": "c2cc612181bce6878a6cbbd8952ef8f37d5546817b85b41fe07e8f92748faaa5"
+    },
+    {
+      "name": "_release",
+      "start": 4215986,
+      "end": 4216005,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 19,
+      "sha256": "8d252846f64409cb1309b5b89927b7194ce509f99f313363d3778a79f7db615f"
+    },
+    {
+      "name": "_fatal",
+      "start": 4215649,
+      "end": 4215738,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 89,
+      "sha256": "5e7ad7519d9349dc6cb58c3d1b41dbde043e976b8e577aa9198a2a69622510ae"
+    },
+    {
+      "name": "_prepare_execution",
+      "start": 4216832,
+      "end": 4216854,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 22,
+      "sha256": "a2c5b9550f440bd339d5cd2cab4ddf9cf664ab1cc61b69499d6994b8e3bcf9cc"
+    },
+    {
+      "name": "_run_driver",
+      "start": 4207404,
+      "end": 4207869,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 465,
+      "sha256": "803d89f1941cb36dfd05fa3d0751a250df5bcec148924f06df3a0f887afc12f9"
+    },
+    {
+      "name": "_driver_exit",
+      "start": 4214746,
+      "end": 4214766,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 20,
+      "sha256": "8a85d712ac085de0d1c11d04e89beceb4472b72fdfbb550f6923889fae7319c0"
+    },
+    {
+      "name": "_console_control_handler@4",
+      "start": 4216770,
+      "end": 4216832,
+      "classification": "application",
+      "accepted": false,
+      "bytes": 62,
+      "sha256": "585f97de138674ce436f273c3f6027de2e7f735eac13ea8d6aef09f9411091fa"
+    },
+    {
+      "name": "_skip_space",
+      "start": 4213190,
+      "end": 4213232,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 42,
+      "sha256": "2ee229bef22ad4cb83accf051473b316f5b366c3d72c741e24e0305e8d4ace34"
+    },
+    {
+      "name": "_program_directory",
+      "start": 4206053,
+      "end": 4206187,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 134,
+      "sha256": "12c4678f069f658c3b9d08b6eb7ea35a0e3daab563489ed7c5f3420ba1dfb17d"
+    },
+    {
+      "name": "_duplicate",
+      "start": 4216005,
+      "end": 4216044,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 39,
+      "sha256": "5c13e09326a88c71fcdbacb1ca787e72d84de40e1e049c7812cfe6aa03f4300e"
+    },
+    {
+      "name": "_load_string",
+      "start": 4215604,
+      "end": 4215649,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 45,
+      "sha256": "28004908a3f71420689309808d1993b3ad044cd316ed200b8d54d624ec221cee"
+    },
+    {
+      "name": "_format_message",
+      "start": 4214930,
+      "end": 4215346,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 416,
+      "sha256": "c9825a4b8744eaebd5bbc45dd9d16f14de81e980468fc1ad79d585555982aec9"
+    },
+    {
+      "name": "_format_number",
+      "start": 4214766,
+      "end": 4214889,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 123,
+      "sha256": "384d818bc2bd0feeef1cc934f80001cb21ba6319a945e575b4d4416d37945c7b"
+    },
+    {
+      "name": "_read_response",
+      "start": 4206992,
+      "end": 4207404,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 412,
+      "sha256": "0538cdbc3ceb46cc8dfd98d54d0aa0231ced1d930d2ac924e325b3013e0d5e87"
+    },
+    {
+      "name": "_classify_input",
+      "start": 4198400,
+      "end": 4198499,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 99,
+      "sha256": "58078423e3b023f3a2795b088f1c948d06aff1cee9241bb1355467dc8b59e598"
+    },
+    {
+      "name": "_add_input",
+      "start": 4198548,
+      "end": 4198616,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 68,
+      "sha256": "531d1522fc7bf11597c55cfdf3c692d18421e98acf5f9ddfb7d8e76583010eaa"
+    },
+    {
+      "name": "_find_special",
+      "start": 4202502,
+      "end": 4202559,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 57,
+      "sha256": "e3a1e46a92d16b8f13496234634a1838ead0b7bd9889b16268dfc038b76807b2"
+    },
+    {
+      "name": "_apply_special",
+      "start": 4202559,
+      "end": 4202768,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 209,
+      "sha256": "f7f828b3ef3cb29361991b6fa2299e54e00d1d7c5044a5c56041deb536573d60"
+    },
+    {
+      "name": "_match_option",
+      "start": 4201447,
+      "end": 4202011,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 564,
+      "sha256": "9d328c7749d4e2e1ed39c3dc678b6ab94cbbc902609bfba86d489272b7dbe594"
+    },
+    {
+      "name": "_has_prefix",
+      "start": 4202768,
+      "end": 4202806,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 38,
+      "sha256": "767aa336e7b8ccb7d202624619b5480a55e3cbc3e0e57358cd4e63a346cf9fd0"
+    },
+    {
+      "name": "_find_rule",
+      "start": 4202084,
+      "end": 4202192,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 108,
+      "sha256": "cf96ba38e7817ae8085653e55e91b46e55f5c8a6a667603a5a9fc3ce1172fa62"
+    },
+    {
+      "name": "_read_option",
+      "start": 4198917,
+      "end": 4199314,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 397,
+      "sha256": "feb376d4a2462c7fdf2f3657e0a478206f36541eb7beb75f4f3b50f84310f74f"
+    },
+    {
+      "name": "_new_option",
+      "start": 4199314,
+      "end": 4199407,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 93,
+      "sha256": "906d25d4fc96848a1b4e4f1ae28058312c21eeb20161fe4908a1c648dba826e2"
+    },
+    {
+      "name": "_append_option",
+      "start": 4200036,
+      "end": 4200055,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 19,
+      "sha256": "b040d205e8a3d446fa1e3199e30f946c5dfb4dc2b1135db03feb2bd6ca159e5f"
+    },
+    {
+      "name": "_expand_options",
+      "start": 4199762,
+      "end": 4200036,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 274,
+      "sha256": "ac692094e1671eaa13ef45eb9ab9db03725d646fb35daeb1387af38b2f9583dd"
+    },
+    {
+      "name": "_detach_options",
+      "start": 4202192,
+      "end": 4202352,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 160,
+      "sha256": "535669e2176492fcdb771912201e84f327aae5e7534d29356b27fe0e60d0067e"
+    },
+    {
+      "name": "_delete_options",
+      "start": 4202011,
+      "end": 4202037,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 26,
+      "sha256": "d2e7a5d856680eef5ea851164a9afad71233d3e7046be3162e2ab24c0879c5bc"
+    },
+    {
+      "name": "_option_conflict",
+      "start": 4202418,
+      "end": 4202502,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 84,
+      "sha256": "96a1e781a3b1414ddd40d50a117bfb7b1f56cff5d95cc4b00b790a8876945673"
+    },
+    {
+      "name": "_match_pattern",
+      "start": 4199407,
+      "end": 4199488,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 81,
+      "sha256": "c47f55d28a597b3deef702d20f765acdcdaf0ec538e2ff66baf1db3223c7bb49"
+    },
+    {
+      "name": "_define_macro",
+      "start": 4205612,
+      "end": 4205834,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 222,
+      "sha256": "ec4d7873b36bd7947fa0b87a71b30463cfb8c7d774b2e08735649cdaae55cd6e"
+    },
+    {
+      "name": "_link_arguments",
+      "start": 4205489,
+      "end": 4205612,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 123,
+      "sha256": "795cf27989e01e67360be5a9e0a466d08059286bbec0ad1666699d750982d458"
+    },
+    {
+      "name": "_c_input",
+      "start": 4205860,
+      "end": 4205886,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 26,
+      "sha256": "9730523e3580dba9451a45e2fd9cd4a2a31a9cc7f445887f5a9d3d4f97852e78"
+    },
+    {
+      "name": "_cpp_input",
+      "start": 4205886,
+      "end": 4205912,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 26,
+      "sha256": "ab3fef41d24fce492bb6a0b9a2e10d57b9c41c24f3f9840d42c433feef1f6159"
+    },
+    {
+      "name": "_object_input",
+      "start": 4205834,
+      "end": 4205860,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 26,
+      "sha256": "61d3016379d959c417d5943909a9b17207aa041ac1a827a5ab2c1143a7f34da0"
+    },
+    {
+      "name": "_validate_value",
+      "start": 4198680,
+      "end": 4198917,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 237,
+      "sha256": "fa26830f6efe864239540f374c3382f5ee49b54926db39f90a1974daeb83f941"
+    },
+    {
+      "name": "_expand_word",
+      "start": 4199565,
+      "end": 4199762,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 197,
+      "sha256": "fec2efc774cf2b7ad8b2cd39b85f2311e5cc1666fbae9cccea33ce76f45c9218"
+    },
+    {
+      "name": "_expand_alternative",
+      "start": 4199488,
+      "end": 4199565,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 77,
+      "sha256": "d9647dd932c53d13b8bc5844490ee1c6f57c990ec703ac07efaad646e8be9a38"
+    },
+    {
+      "name": "_append_literal",
+      "start": 4213232,
+      "end": 4213268,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 36,
+      "sha256": "54295f24c8ccccfd3026509864f2bd658c6e652a7d5d5a28b6dbe49f14461c57"
+    },
+    {
+      "name": "_append_escaped",
+      "start": 4213268,
+      "end": 4213376,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 108,
+      "sha256": "ccf0c0706f02018039bc81347f20524d3e2499a9459a76ddb44aae5248eb302c"
+    },
+    {
+      "name": "_apply_extension",
+      "start": 4205300,
+      "end": 4205450,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 150,
+      "sha256": "2ef4290486773c949e9ca7967f18f8fdd260c4301af4c564d26d9e62720d403f"
+    },
+    {
+      "name": "_options_match",
+      "start": 4200055,
+      "end": 4200259,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 204,
+      "sha256": "30fc6644ba7411edb220cb9d12f88e5b1191cfc0132558be6e87e61a3ff06c84"
+    },
+    {
+      "name": "_copy_option",
+      "start": 4202352,
+      "end": 4202385,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 33,
+      "sha256": "57e29b0145ed075b7570f3be28e7ce16e2326b91504ad40ed69022f8bc1003ad"
+    },
+    {
+      "name": "_unlink_option",
+      "start": 4202385,
+      "end": 4202418,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 33,
+      "sha256": "0fddb7b5d21002100ffb89965e6c7895e513107c41fe5f3f346c8da0efc78daa"
+    },
+    {
+      "name": "_delete_option",
+      "start": 4202037,
+      "end": 4202084,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 47,
+      "sha256": "c957fb0b4955fb2de710a4d17b8df88f3b88a60eb8f0ea4e0fb2b1b59cb698b6"
+    },
+    {
+      "name": "_find_last_separator",
+      "start": 4213908,
+      "end": 4213969,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 61,
+      "sha256": "647aba03bfb12b5d8502dff33268e11420cb952ded33b69bc6b7f796838b65f6"
+    },
+    {
+      "name": "_undefine_macro",
+      "start": 4203786,
+      "end": 4203838,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 52,
+      "sha256": "d8b322f822509df1cd34c18d30258a8550f4bc79026f55394636335a5f034193"
+    },
+    {
+      "name": "_has_any_option",
+      "start": 4205237,
+      "end": 4205300,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 63,
+      "sha256": "d50b6d6cfb6dc718c203ac824096add39a92607749a6dbedbcfe427cdf44c7be"
+    },
+    {
+      "name": "_option_for_pass",
+      "start": 4198616,
+      "end": 4198647,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 31,
+      "sha256": "d2a223fd17df512f3319b70191bc5a26492c1c02ecdacd9785c38b5de35d25b4"
+    },
+    {
+      "name": "_expand_filename",
+      "start": 4212103,
+      "end": 4212557,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 454,
+      "sha256": "280786965adf53c8939681b8e5db3312041067fb40974e8c37b480467b63272c"
+    },
+    {
+      "name": "_configure_assembly",
+      "start": 4204083,
+      "end": 4204495,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 412,
+      "sha256": "25ea04d446a7eb56b18b719f1d8b264ec150a55c86f4c37acc9311dd37571ca5"
+    },
+    {
+      "name": "_enable_pass",
+      "start": 4203570,
+      "end": 4203608,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 38,
+      "sha256": "4a598a8b04e17c9d14c1db3ea3cb872186c4561b659a47befb1d0a9c43202e98"
+    },
+    {
+      "name": "_toggle_pass",
+      "start": 4203673,
+      "end": 4203786,
+      "classification": "application",
+      "accepted": false,
+      "bytes": 113,
+      "sha256": "21a27c7e2224c814962ac4031a21dee17008b17d1d752ac6d458c345279462c9"
+    },
+    {
+      "name": "_disable_pass",
+      "start": 4203608,
+      "end": 4203673,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 65,
+      "sha256": "577da33ad48b126b43f68d98fbedc06c68bf3ed477ad5dff181ab1969c4215f9"
+    },
+    {
+      "name": "_set_output_option",
+      "start": 4203924,
+      "end": 4204083,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 159,
+      "sha256": "7b9c131a756ad74c9377624a28b86f34d92a34172a86478bd6372f9e6f6aa6eb"
+    },
+    {
+      "name": "_set_pass_suffix",
+      "start": 4203515,
+      "end": 4203570,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 55,
+      "sha256": "adf9c48953c5da0b918ecf939a3a9fb1818f30e71441fcb9e13ba1cb07bab0f8"
+    },
+    {
+      "name": "_set_pass_name",
+      "start": 4203460,
+      "end": 4203515,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 55,
+      "sha256": "ac5efc8b9b89857aa538a0448aa313e6c6cf0c398e1653a2eacf01e01b5c2480"
+    },
+    {
+      "name": "_undefine_defaults",
+      "start": 4203838,
+      "end": 4203924,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 86,
+      "sha256": "081675c9fc60987c1fcaeebe442780fec6293b5313ee8664f50b42343016182c"
+    },
+    {
+      "name": "_enable_dll",
+      "start": 4204495,
+      "end": 4204617,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 122,
+      "sha256": "95bd2765bf3f1899114007935a333fa8a606e8fe21ac18ff23726318f668aca4"
+    },
+    {
+      "name": "_file_basename",
+      "start": 4213005,
+      "end": 4213032,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 27,
+      "sha256": "273991c0468959ee53200797f36ce31ab8ffab83207305cdb92bd57d74d0a959"
+    },
+    {
+      "name": "_file_directory",
+      "start": 4213109,
+      "end": 4213190,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 81,
+      "sha256": "8b5733ba03c883f8b3c9bba328aa8a3edb3bd1b4f77cd40703906c723ac95212"
+    },
+    {
+      "name": "_make_map_name",
+      "start": 4212557,
+      "end": 4212742,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 185,
+      "sha256": "601a45d966b7529896039056701fe16e30ed6fd325746e24ad97d71e256f668e"
+    },
+    {
+      "name": "_join_text",
+      "start": 4213412,
+      "end": 4213476,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 64,
+      "sha256": "3d247ac971e66f4c04a6eb264e24d1343cd009c5200c88d1e050f31c95df81bc"
+    },
+    {
+      "name": "_console_rows",
+      "start": 4216854,
+      "end": 4216945,
+      "classification": "application",
+      "accepted": false,
+      "bytes": 91,
+      "sha256": "8d62568a61d8d9d68f4f9cab4e7eced9e440744f6739b5f1c4402ad762a3077e"
+    },
+    {
+      "name": "_create_input",
+      "start": 4198499,
+      "end": 4198548,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 49,
+      "sha256": "252dce0eae928ed81fb77ec06ebb6d964f9f43503d0116963ef685c8fb60f74c"
+    },
+    {
+      "name": "_source_jobs",
+      "start": 4207869,
+      "end": 4207943,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 74,
+      "sha256": "0274860316ca2f0f4db9763f4a5175133e067af7dcb7c0f1750ce0e1fd4e1914"
+    },
+    {
+      "name": "_prepare_jobs",
+      "start": 4207966,
+      "end": 4208393,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 427,
+      "sha256": "49154f521a3cae853ef61c2656a76e6c8a513cd6a92f2005d285eb89b244d05c"
+    },
+    {
+      "name": "_next_jobs",
+      "start": 4208393,
+      "end": 4208954,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 561,
+      "sha256": "0a60774836cba0a20a579951462964be07754bbb9f929b131b92effa268ee4fb"
+    },
+    {
+      "name": "_run_jobs",
+      "start": 4209591,
+      "end": 4210160,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 569,
+      "sha256": "483728bcdc29d54b9aa548aaa0b84730d56a710574f82f19b5386e1be17d903d"
+    },
+    {
+      "name": "_run_passes",
+      "start": 4210183,
+      "end": 4210269,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 86,
+      "sha256": "c1a481c58a7179ed208bfa3dc7b2761035c3459f998c4fb71a4a30cac3651292"
+    },
+    {
+      "name": "_link_pass",
+      "start": 4211307,
+      "end": 4211649,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 342,
+      "sha256": "9582e70db9ad13e8b77d7a7953fbeca6bccdbdb2628171bf4e0900b203efebad"
+    },
+    {
+      "name": "_final_pass",
+      "start": 4210269,
+      "end": 4211307,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 1038,
+      "sha256": "351faf028ed769903e1c770cddd3a5ce1d1e987aaf5f6f05bc9a3aee2b9cf675"
+    },
+    {
+      "name": "_file_name",
+      "start": 4213032,
+      "end": 4213109,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 77,
+      "sha256": "d506a73388f655585a97af772f12b364b886bcf72ca1a99661007cdd66dff0c0"
+    },
+    {
+      "name": "_create_job",
+      "start": 4207943,
+      "end": 4207966,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 23,
+      "sha256": "4a563236961691105797732ad30908bed5f65b4bb601650013adde69f4475eb6"
+    },
+    {
+      "name": "_file_timestamp",
+      "start": 4208954,
+      "end": 4209481,
+      "classification": "application",
+      "accepted": false,
+      "bytes": 527,
+      "sha256": "9fb0d3ef4166be99827f887aa2e097ec971f36d44cab3c4db7b272c52acbb35f"
+    },
+    {
+      "name": "_jobs_from_deferred",
+      "start": 4209501,
+      "end": 4209550,
+      "classification": "application",
+      "accepted": false,
+      "bytes": 49,
+      "sha256": "7e174978ee2ade6d2fb53a0f3b12f8dc9dedc88a37dbecc13c720f6e25c17271"
+    },
+    {
+      "name": "_advance_jobs",
+      "start": 4210160,
+      "end": 4210183,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 23,
+      "sha256": "a0a41e7ccd872f70aeee0652311841a1338a06acdd0d22492d57f760e987b098"
+    },
+    {
+      "name": "_configure_pass",
+      "start": 4206187,
+      "end": 4206545,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 358,
+      "sha256": "239b4316d2527ad071d9b9dbb38314ee175358948163e9fc73327c8a0e5727ef"
+    },
+    {
+      "name": "_cleanup_files",
+      "start": 4214481,
+      "end": 4214639,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 158,
+      "sha256": "f3863952e1992c2ba6b403da82a8e900abaccb91bdf6519db98852119519a4f3"
+    },
+    {
+      "name": "_find_file",
+      "start": 4206545,
+      "end": 4206808,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 263,
+      "sha256": "d74210256f4f2b7e4c11e7ef8d0392c23dec59063ccc5bb728e3979e88edd2ec"
+    },
+    {
+      "name": "_search_path",
+      "start": 4206808,
+      "end": 4206992,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 184,
+      "sha256": "be181940ada344f8f29d3ada883d3e07a6050ffdc65e117dfee27e51cd350785"
+    },
+    {
+      "name": "_quoted_length",
+      "start": 4213476,
+      "end": 4213616,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 140,
+      "sha256": "8b1289aeb04556729124363e6ca2bbe2fcd41bbfaac75c98871ad7bc03e540f5"
+    },
+    {
+      "name": "_expanded_length",
+      "start": 4212742,
+      "end": 4213005,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 263,
+      "sha256": "3ec39181aa88b352bf062eae7f986b1ace21013c54b92de4f77273fbc268bc6d"
+    },
+    {
+      "name": "_quote_argument",
+      "start": 4213616,
+      "end": 4213908,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 292,
+      "sha256": "228e8083f634b2b1b7c3d085b7825486e0cf7b57a8c5d8240bbbc82a5ef5624b"
+    },
+    {
+      "name": "_start_timer",
+      "start": 4215805,
+      "end": 4215818,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 13,
+      "sha256": "e90608c917492901deaa3649b04a2869b6897e27073ef84cd07a0f48cbd0f728"
+    },
+    {
+      "name": "_stop_timer",
+      "start": 4215818,
+      "end": 4215957,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 139,
+      "sha256": "dc40802bb3077b0fe2978dcc4feb74b7d0108dff38ce80e602b59bc48e820eeb"
+    },
+    {
+      "name": "_execute_pass",
+      "start": 4216077,
+      "end": 4216756,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 679,
+      "sha256": "34458436bd45f8dd881ecbccae7f248cde336a19e3902a0ac60051058a6e6196"
+    },
+    {
+      "name": "_unload_pass",
+      "start": 4216044,
+      "end": 4216077,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 33,
+      "sha256": "cbeab177de3e2bb563e33ce2e09d87993c8f045eef7be9ae1fa43adc6af4bd02"
+    },
+    {
+      "name": "_delete_temporary",
+      "start": 4214639,
+      "end": 4214746,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 107,
+      "sha256": "218e1d27288a20448f7139755de8df1c41d989fed9f65ac2b410a6129dae6e5b"
+    },
+    {
+      "name": "_deferred_from_jobs",
+      "start": 4209550,
+      "end": 4209591,
+      "classification": "application",
+      "accepted": false,
+      "bytes": 41,
+      "sha256": "eeb2c548f1b1c004ad35f0356978910f27e80e463a5b39a8d242ab8166c19b5b"
+    },
+    {
+      "name": "_vwrite_message",
+      "start": 4215346,
+      "end": 4215385,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 39,
+      "sha256": "ab3afc7a0a716f2e18db2fca6c668a918a42a8bae9aff2f84a6786639a4708ed"
+    },
+    {
+      "name": "_typed_input",
+      "start": 4205912,
+      "end": 4206004,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 92,
+      "sha256": "722478459b63a7a521bdc14a7c909701977ea7a4d951564baf0dab79f1e85225"
+    },
+    {
+      "name": "_write_link_response",
+      "start": 4211649,
+      "end": 4212103,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 454,
+      "sha256": "42a1a06f3f60413bc1c3b19e5dd2b5c9420f2c10a87ce02c74d7ba6d542614c1"
+    },
+    {
+      "name": "_write_link_message",
+      "start": 4215385,
+      "end": 4215461,
+      "classification": "application",
+      "accepted": true,
+      "bytes": 76,
+      "sha256": "f9e12782840dd8917b3e04248e9d68820451ce701314cb0e8659c585c8a3532e"
+    },
+    {
+      "name": "option_string_comparator",
+      "start": 4209481,
+      "end": 4209501,
+      "classification": "application",
+      "accepted": false,
+      "bytes": 20,
+      "sha256": "d325a4b5aa834efc98d6f28cee1974e45b42bd54ce73f007453bb389ba9a8703"
+    },
+    {
+      "name": "option_matching_selector",
+      "start": 4198647,
+      "end": 4198680,
+      "classification": "application",
+      "accepted": false,
+      "bytes": 33,
+      "sha256": "71c08e480128e9799844358003e928d740e782990ec32e6579faa7c298b6eb28"
+    },
+    {
+      "name": "_mainCRTStartup",
+      "start": 4217056,
+      "end": 4217392,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 336,
+      "sha256": "bb81973afbfcfbeb06403b137515d8ccb66020633bf5ea08c9fb9c801261f1d9"
+    },
+    {
+      "name": "___setargv",
+      "start": 4217040,
+      "end": 4217056,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 16,
+      "sha256": "43c27b69b4a4d4d48e45d313f99a537349cf158468d128b201cd56df594d0e7a"
+    },
+    {
+      "name": "__setdefaultprecision",
+      "start": 4217408,
+      "end": 4217440,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 32,
+      "sha256": "e876c3870359a48587de374d80fed277bebd235378138b50dc5667692fe75a7d"
+    },
+    {
+      "name": "__matherr",
+      "start": 4217440,
+      "end": 4217456,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 16,
+      "sha256": "33cb7c6b5695e070548b4e7f33d43173b10670c306067b684edf21470a662ef2"
+    },
+    {
+      "name": "__setargv",
+      "start": 4216960,
+      "end": 4216976,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 16,
+      "sha256": "2a0abb262111bd36ef36b231646a8e28706feac75ae7a90396f0197e20b495fb"
+    },
+    {
+      "name": "import:_except_handler3",
+      "start": 4217008,
+      "end": 4217014,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 6,
+      "sha256": "708defd9bdc85ab2d26ba20f8e8c0220ee9ccc837ab4d51569a26b18eccdadfe"
+    },
+    {
+      "name": "import:_XcptFilter",
+      "start": 4217392,
+      "end": 4217398,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 6,
+      "sha256": "4911964ad5c79c83ea3d28b49cc6f325c6878f1f9138d7c4b7a715677a093647"
+    },
+    {
+      "name": "import:_initterm",
+      "start": 4217398,
+      "end": 4217404,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 6,
+      "sha256": "1d1f4f707e13835c6fa2aca45e41993b8eb9913495e7b222967a764cf4e0aa65"
+    },
+    {
+      "name": "import:_controlfp",
+      "start": 4217456,
+      "end": 4217462,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 6,
+      "sha256": "8af7c31e3447afb35e6dd2d1be59b18f747c9554c86782678677afacbbe49942"
+    },
+    {
+      "name": "import:memset",
+      "start": 4216982,
+      "end": 4216988,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 6,
+      "sha256": "2f70d4c81046518fc33e7d003383dccaeb4df21cdbbb473a6d0946d943887248"
+    },
+    {
+      "name": "import:strlen",
+      "start": 4216988,
+      "end": 4216994,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 6,
+      "sha256": "17db91a5a912ca8d9a31431335f74e204e7874aa1b9439fa2426272c123dfabe"
+    },
+    {
+      "name": "import:strcat",
+      "start": 4217020,
+      "end": 4217026,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 6,
+      "sha256": "44f5f276a431c08c4b5eab6b080381a2560f7b8df40ecc3e5b82fa5500dc330e"
+    },
+    {
+      "name": "import:strcpy",
+      "start": 4216976,
+      "end": 4216982,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 6,
+      "sha256": "1fe0e5e3e0a7dcb91adbd44ff0662f3611f6eb1df27449fbf32869fffca1bb95"
+    },
+    {
+      "name": "import:memcpy",
+      "start": 4217014,
+      "end": 4217020,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 6,
+      "sha256": "179946afd7bd660eb3346b2935d286226f7675ec099e884ca0ed4cce3cd23186"
+    },
+    {
+      "name": "import:strcmp",
+      "start": 4216994,
+      "end": 4217000,
+      "classification": "library/import support",
+      "accepted": "support selection; zero application credit",
+      "bytes": 6,
+      "sha256": "77a80f9c5a157a5a4877facf7e13b0088a61b7d195f18308a568a39e10de63e3"
+    }
+  ],
+  "padding": [
+    {
+      "start": 4216945,
+      "end": 4216960,
+      "bytes": 15,
+      "hex": "cccccccccccccccccccccccccccccc"
+    },
+    {
+      "start": 4217000,
+      "end": 4217008,
+      "bytes": 8,
+      "hex": "cccccccccccccccc"
+    },
+    {
+      "start": 4217026,
+      "end": 4217040,
+      "bytes": 14,
+      "hex": "cccccccccccccccccccccccccccc"
+    },
+    {
+      "start": 4217404,
+      "end": 4217408,
+      "bytes": 4,
+      "hex": "cccccccc"
+    }
+  ],
+  "totals": {
+    "app_functions": 112,
+    "app_bytes": 18545,
+    "accepted_app_functions": 104,
+    "accepted_app_bytes": 17609,
+    "remaining_app_bytes": 936,
+    "app_extent_percent": 94.95281747101644,
+    "support_records": 15,
+    "support_bytes": 476,
+    "padding_bytes": 41
+  },
+  "scope": "Function extents including owned .text data, not branch coverage. Six unaccepted actual bodies statically bounded; distinct comparator20B and selector33B identified. All original virtual .text bytes covered with no overlaps; only remaining gaps are literal CC padding. Await independent classification review before changing public denominator."
+}

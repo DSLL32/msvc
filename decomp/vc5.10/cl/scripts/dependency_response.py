@@ -25,9 +25,9 @@ CHILD_PHASES=PHASES[:-1]+('free-before','c1-entry-0','free-after','putenv-2-befo
 digest = lambda value: hashlib.sha256(value).hexdigest()
 
 
-def phase_snapshot(directory, read, phase, errors):
+def phase_snapshot(directory, read, phase, errors, mre_prefix=False):
     """Decode addressed original records, including the distinct handle tables."""
-    events = read('observer/events.txt').decode('ascii')
+    events = read('observer/mre-events.txt'if mre_prefix else'observer/events.txt').decode('ascii')
     matches = re.findall(r'^snapshot phase=' + phase + r' event=(\d+) tid=(\d+) eax=([0-9a-f]{8}) esp=([0-9a-f]{8}) ebp=([0-9a-f]{8})$', events, re.M)
     assert len(matches) == 1, 'missing or repeated original dependency state: ' + phase
     event, thread, eax, esp, ebp = matches[0]
@@ -51,7 +51,7 @@ def phase_snapshot(directory, read, phase, errors):
     if words[20]:
         argv_pointer, argv = vector(read('observer/' + phase + '-caller-argv.bin'))
     else:
-        assert phase in ('frontier','exit-before'),'missing live argv at a dependency call'
+        assert mre_prefix or phase in ('frontier','exit-before'),'missing live argv at a dependency call'
         argv_pointer,argv=0,[]
     assert (env_pointer, argv_pointer) == (words[1], words[20])
     streams = json.loads(read('streams-' + phase + '.json'))
@@ -68,13 +68,16 @@ def phase_snapshot(directory, read, phase, errors):
     assert u32(read('streams-' + phase + '-pioinfo-slot.bin'), 0) == streams['lowio']
     assert u32(read('observer/' + phase + '-pioinfo-pointers.bin'), 0) == streams['lowio']
     descriptors = json.loads(read('observer/' + phase + '-open-descriptors.json'))
-    assert [item['fd'] for item in descriptors] == [0, 1, 2]
+    expected_fds=[0,1,2,3]if mre_prefix and phase!='mre-1-before'else[0,1,2]
+    assert [item['fd'] for item in descriptors] == expected_fds
     for index in range(3):
         assert lowio[index * 36 + 4] & 1
         assert u32(lowio, index * 36) == streams['crt'][index]['handle']
         assert u32(parameters, 0x18 + index * 4) == streams['win32'][index]['handle']
         assert descriptors[index]['query'] == streams['crt'][index]
-    assert not any(lowio[index * 36 + 4] & 1 for index in range(3, 32))
+    for index in expected_fds[3:]:
+        assert lowio[index*36+4]&1 and u32(lowio,index*36)==descriptors[index]['query']['handle']
+    assert not any(lowio[index * 36 + 4] & 1 for index in range(len(expected_fds), 32))
     # Other allocated lowio blocks must not hide an additional open descriptor.
     pointers = struct.unpack('<64I', read('observer/' + phase + '-pioinfo-pointers.bin'))
     for index, pointer in enumerate(pointers[1:], 1):
@@ -90,13 +93,17 @@ def phase_snapshot(directory, read, phase, errors):
         'os_environment_sha256': digest(read('observer/' + phase + '-os-environment.bin')),
         'argv': [text.decode('ascii') for pointer, text in argv],
         'argument_pointers': [pointer for pointer, text in argv], 'argument_vector': argv_pointer,
-        'pass_address': words[21], 'pass_words': list(struct.unpack('<9I', read('observer/' + phase + '-caller-pass.bin'))),
+        'pass_address': words[21], 'pass_words': (None if mre_prefix else list(struct.unpack('<9I', read('observer/' + phase + '-caller-pass.bin')))),
         'file0_2_words': list(struct.unpack('<24I', iob[:96])), 'streams': streams,
         'open_descriptors': descriptors, 'directory': directory_entries(read('observer/' + phase + '-directory.bin')), **texts}
     # This pointer refers to contextual original .rdata, not an observer's
     # guessed spelling of the pass assignment prefix (which includes '=').
-    snapshot['pass_environment'] = (PE(directory / 'loaded-target.bin').string(snapshot['pass_words'][2])
-                                    if snapshot['pass_words'][2] else None)
+    if mre_prefix:
+        assert words[20:23]==(0,0,0),'MRE prefix must not invent a compiler-pass caller'
+        snapshot['pass_environment']=None
+    else:
+        snapshot['pass_environment'] = (PE(directory / 'loaded-target.bin').string(snapshot['pass_words'][2])
+                                        if snapshot['pass_words'][2] else None)
     return snapshot, context
 
 

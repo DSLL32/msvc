@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "kind": "independent raw-derived partialMREprefix/sourcealias review; no execution/native success",
+  "review_manifest_sha256": "a58dd1741dac6f2e9c590566d2675883b0baa56a315f6ae53c18e077695f375c",
+  "packet_sha256": "8a79446238fba9d816b47c94a48a6749975ffe6e87027a8dee74681128c9c508",
+  "raw_decode_seconds": 0.336911185644567,
+  "phases": 7,
+  "options": 37,
+  "checks": [
+    "Every actual rawartifact/helper/provider/input hash validated by strictdecoder; reconstructedpacket exactJSONequality.",
+    "Threeactualcalls qualifiedIAT/export/ordinal/stack/stdcall24/8/4/opaqueengine+4/ignoredresultroles and real signatureentry currenttargetformals checked.",
+    "All7 actual fullCRT/OS/stdio/error/FP snapshots retained; realnewfd3flags11/pos1024/lifetime separate from unknown filepathidentity/intermediatebytes.",
+    "Actual shared4091b8buffer sourceidentity correction legitimate; prior staticlocal value andMREerror duplicate removed into contextual1024Bobject, physicalDeferredInput DWORD nowmeaningfulchar*option_signature.",
+    "No new bodies accepted: option_signature/comparator20B/selector33B remain genuine namedtraps, all104app prefix unchanged credit.",
+    "phase_snapshot MREexplicitbranch alone admits callerless/persistentfd3; defaultlogic stillrequires0..2/no hiddenopenfds.13priornativefixture results retained.",
+    "Next distinct actualobjectcase planned, currentCsourcecase inputs/oracle immutable. Independent read-only IDBpath copy/fileidentity/cursorpreservation and lowioNOINHERIT gap remain held."
+  ],
+  "release": "Checkpoint analysis/types/sourcealias as scopedWIP; prepare bounded nextcase observationcontroller/plan. No native MRE provider success yet.",
+  "retained_manifest_verified": {
+    "owned_files": 1252,
+    "referenced_records": 8,
+    "total_records": 1260,
+    "manifest_sha256": "37e7889cd750f0314c94164d36d8db3f050ba528e75918ebfbaf08f40ffc05e3"
+  }
+}

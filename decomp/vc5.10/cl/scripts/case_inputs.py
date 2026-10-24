@@ -8,7 +8,7 @@ PROJECT=Path(__file__).resolve().parents[1]
 
 
 def target_status(status):
-    assert type(status)is int and 0<=status<=0xffffffff and status not in (0x7001,0x7003),'invalid/reserved target status'
+    assert type(status)is int and 0<=status<=0xffffffff and status not in (0x7001,0x7003,0x7004),'invalid/reserved target status'
     return status
 
 

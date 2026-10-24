@@ -1,0 +1,71 @@
+{
+  "result": "PASS",
+  "kind": "native offline analysis parser controls; no PE execution or Wine",
+  "inputs": {
+    "MSPDB50.DLL": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-prefix-analysis-2/loaded-mspdb50.bin",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    }
+  },
+  "equivalent_named_exports": 157,
+  "records": [
+    {
+      "module": "MSPDB50.DLL",
+      "export_names": 157,
+      "old_algorithm_seconds": 0.005617130547761917,
+      "new_algorithm_seconds": 0.00523428525775671,
+      "new_reads_per_lookup": 3
+    }
+  ],
+  "old_remote_reads": 278557,
+  "new_remote_reads": 471,
+  "controls": 37,
+  "control_names": [
+    "MSPDB50.DLL: DOS signature",
+    "MSPDB50.DLL: PE signature",
+    "MSPDB50.DLL: machine",
+    "MSPDB50.DLL: optional-header length",
+    "MSPDB50.DLL: PE32 magic",
+    "MSPDB50.DLL: missing export directory entry",
+    "MSPDB50.DLL: NT offset overflow",
+    "MSPDB50.DLL: truncated NT headers",
+    "MSPDB50.DLL: zero image size",
+    "MSPDB50.DLL: oversized image",
+    "MSPDB50.DLL: load base overflow",
+    "MSPDB50.DLL: export allocation cap",
+    "MSPDB50.DLL: export extent outside image",
+    "MSPDB50.DLL: unknown provider timestamp",
+    "MSPDB50.DLL: unknown preferred image",
+    "MSPDB50.DLL: missing actual export bytes",
+    "MSPDB50.DLL: module identity",
+    "MSPDB50.DLL: zero function count",
+    "MSPDB50.DLL: function count cap",
+    "MSPDB50.DLL: name count exceeds functions",
+    "MSPDB50.DLL: functions array outside proven extent",
+    "MSPDB50.DLL: names array outside proven extent",
+    "MSPDB50.DLL: ordinals array outside proven extent",
+    "MSPDB50.DLL: name RVA outside proven extent",
+    "MSPDB50.DLL: ordinal index outside array",
+    "MSPDB50.DLL: named null function RVA",
+    "MSPDB50.DLL: function RVA outside image",
+    "MSPDB50.DLL: unterminated export name",
+    "MSPDB50.DLL: unterminated module name",
+    "MSPDB50.DLL: malformed entry after requested valid prefix",
+    "MSPDB50.DLL: remote read failure 1",
+    "MSPDB50.DLL: remote read failure 2",
+    "MSPDB50.DLL: remote read failure 3",
+    "MSPDB50.DLL: missing export remains missing",
+    "MSPDB50.DLL: relocation base retained",
+    "MSPDB50.DLL: forwarder address behavior retained",
+    "MSPDB50.DLL: unterminated forwarder"
+  ],
+  "seconds": 0.2486694185063243,
+  "sources": {
+    "scripts/export-reader.h": "5757ccb3bbb39aaf8fbd0ca1e650e50d1ff2a4cee243cf251f8e3b654f9a362c",
+    "scripts/reference-debugger.c": "fe7f36ecc80a1c8114176a7b74406000731a2d540a5a6bc94dab22a4c5e8016a",
+    "scripts/check-export-reader.c": "fef2b1c9044e1cdb1e9917fac93447882d963accb91fffb3d7c82522bf2b8906",
+    "scripts/check-export-reader.py": "1637fec8d1ed7de9fc85311703712d25fe1e5a6e297e52141fbcd7de2ffbe6aa",
+    "scripts/helper-build.py": "aa8d4529cc5c840fc52a571202af9e9dae13e2b4d626509eaf20692ae8ca7cf9",
+    "scripts/original.py": "09ee825eef64499d3d10288a0a23fa18e5e9c3c6b4fb74abbe4eb6d52b8f5ff5"
+  }
+}

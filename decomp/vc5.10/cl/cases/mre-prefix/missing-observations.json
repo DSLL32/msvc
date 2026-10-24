@@ -1,0 +1,25 @@
+{
+  "scope": "Current three-call source-C prefix only; no native success or acceptance.",
+  "next_actual_case": {
+    "id": "mre-object",
+    "arguments": [
+      "/nologo",
+      "/Gm",
+      "/Zi",
+      "/c",
+      "/DVALUE=7",
+      "/Fdcase.pdb",
+      "test.obj"
+    ],
+    "input": "Existing owned genuine VC5 275B object; separate actual reference required"
+  },
+  "required_observations": [
+    "Exact own MRE args/output/tokens/lifetimes and PendingWork/Job/Option/driver state at each actual reached import",
+    "After real return independently open case.idb read-only, compare fileidentity to child CRTfd3, capture complete bytes/metadata and sharing result",
+    "Query actual fd3 position/lowio plus CRT FILE/Winstd/error/FP before/after helper copy to prove target state not changed; never shared-duplicate-cursor read",
+    "Unknown later MRE/lifecycle/close effects remain held until their actual corresponding observations; no frontend/C2 may execute beyond mandatory guard"
+  ],
+  "known_shared_gap": "Current recon_sopen omits lowio FNOINHERIT0x10; owner to review complete flags/share/ownership/lifetime before narrow correction. No manual osfile writes.",
+  "source_correction": "Actual1024B4091b8 scratch now shared by rule expansion and MRE/signature consumers; no expected-byte seeding. char* signature replaces unaccepted timestamp label, comparator20B/selector33B remain named traps.",
+  "credit": "104 application functions/17609B unchanged; prefix analysis itself zero source credit."
+}

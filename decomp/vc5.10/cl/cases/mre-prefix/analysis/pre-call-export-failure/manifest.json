@@ -1,0 +1,312 @@
+{
+  "schema": 1,
+  "kind": "Explicit original-only analysis; no reconstruction acceptance or native response oracle",
+  "case": "mre-prefix",
+  "historical_source_directory": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-prefix-analysis-2",
+  "capture_sha256": "7b8c1c1e5738438f390d09568191bf9f69e578b09650e26ab10184955d9e13ae",
+  "helper_status": 26,
+  "controller_error": null,
+  "timing": {
+    "setup_seconds": 0.02699561882764101,
+    "reference_execution_seconds": 0.6611145455390215
+  },
+  "records": {
+    "original/capture.json": {
+      "bytes": 16517,
+      "sha256": "7b8c1c1e5738438f390d09568191bf9f69e578b09650e26ab10184955d9e13ae",
+      "owned_file": "original/capture.json"
+    },
+    "original/mktemp-after-tls-index.bin": {
+      "bytes": 4,
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "owned_file": "original/mktemp-after-tls-index.bin"
+    },
+    "original/mktemp-events.txt": {
+      "bytes": 282,
+      "sha256": "be84a921014dcf0894278ec2570f026a087580f42b6c7cc9e7469839d70abbd9",
+      "owned_file": "original/mktemp-events.txt"
+    },
+    "original/mktemp-before-ptd.bin": {
+      "bytes": 116,
+      "sha256": "52865d7bde51b4835024adafe1d46aa9d91d78a429c043f8feb191d130f6ddc7",
+      "owned_file": "original/mktemp-before-ptd.bin"
+    },
+    "original/helper.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_file": "original/helper.stderr"
+    },
+    "original/streams-entry-pioinfo-slot.bin": {
+      "bytes": 4,
+      "sha256": "3da00fca1a11a3b0e80cebf56d2caa88a3771d747dde51b3d00f2d49ac562b03",
+      "owned_file": "original/streams-entry-pioinfo-slot.bin"
+    },
+    "original/streams-entry-peb.bin": {
+      "bytes": 32,
+      "sha256": "854e47d41f8a456dcece123722b686148bdbd20e6402a95a4aa18030e2230092",
+      "owned_file": "original/streams-entry-peb.bin"
+    },
+    "original/streams-entry-parameters.bin": {
+      "bytes": 36,
+      "sha256": "17054d1404d89820f8dbee466e7b8d4aa58615576f2fbec23360805bc6423047",
+      "owned_file": "original/streams-entry-parameters.bin"
+    },
+    "original/argv.bin": {
+      "bytes": 162,
+      "sha256": "7d6105c982040b368998c98c7019e69f02ce1e1b4df4171e7c9ce905aff33027",
+      "owned_file": "original/argv.bin"
+    },
+    "original/config.json": {
+      "bytes": 85425,
+      "sha256": "4600030ca51df39af7fa0b02fd5c6b419573d2944ae333988415001758e6eef0",
+      "owned_file": "original/config.json"
+    },
+    "original/export-reader.h": {
+      "bytes": 4858,
+      "sha256": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607",
+      "owned_file": "original/export-reader.h"
+    },
+    "original/mktemp-before.bin": {
+      "bytes": 9,
+      "sha256": "e126b1eba52faccd6a3fc442136b3d13ba181f9d979d92af52a3eecdc856e260",
+      "owned_file": "original/mktemp-before.bin"
+    },
+    "original/dependency-observer.inc": {
+      "bytes": 20863,
+      "sha256": "158e39ace380a10a61f4ad25f64216ad1573422c33561c5b5ef8aa92b169801d",
+      "owned_file": "original/dependency-observer.inc"
+    },
+    "original/clock-observer.inc": {
+      "bytes": 4828,
+      "sha256": "a8ac78cd30746c3981794c56569ce70b42efdfb1f9536ab3830ea040907eec98",
+      "owned_file": "original/clock-observer.inc"
+    },
+    "original/mb-state.bin": {
+      "bytes": 261,
+      "sha256": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed",
+      "owned_file": "original/mb-state.bin"
+    },
+    "original/loaded-msvcrt.bin": {
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "repository_original": "toolchains/5.10/bin/MSVCRT.DLL"
+    },
+    "original/mktemp-entry-ptd.bin": {
+      "bytes": 116,
+      "sha256": "52865d7bde51b4835024adafe1d46aa9d91d78a429c043f8feb191d130f6ddc7",
+      "owned_file": "original/mktemp-entry-ptd.bin"
+    },
+    "original/test.c": {
+      "bytes": 26,
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "owned_file": "original/test.c"
+    },
+    "original/environment.bin": {
+      "bytes": 2725,
+      "sha256": "15dfe1c795615612fc83a7dd71e3fea16fd4eb230bb230228e5844ebb930a764",
+      "owned_file": "original/environment.bin"
+    },
+    "original/mktemp-after.bin": {
+      "bytes": 9,
+      "sha256": "003897ac42492143de5e1c30659b163fd376580cc05a6eaefb73d0dfd8173fbc",
+      "owned_file": "original/mktemp-after.bin"
+    },
+    "original/pgmptr.bin": {
+      "bytes": 42,
+      "sha256": "8ad8fe69e035488bb47dce1be8712870db2c16b3a4d2fdb2c4bcb2ed4c3e2915",
+      "owned_file": "original/pgmptr.bin"
+    },
+    "original/streams-entry.json": {
+      "bytes": 1298,
+      "sha256": "d5e3beab85a54f6367d273969eb4ffa58c996cb52294ac4e7d609f1fc2280e9d",
+      "owned_file": "original/streams-entry.json"
+    },
+    "original/MSPDB50.DLL": {
+      "bytes": 167424,
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "repository_original": "toolchains/5.10/bin/MSPDB50.DLL"
+    },
+    "original/mktemp-after-ptd.bin": {
+      "bytes": 116,
+      "sha256": "7813b3c4e22048228144dc0109e7777b63714d2b6bb48bd899472513f25b4517",
+      "owned_file": "original/mktemp-after-ptd.bin"
+    },
+    "original/mktemp-before-tls-index.bin": {
+      "bytes": 4,
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "owned_file": "original/mktemp-before-tls-index.bin"
+    },
+    "original/dependency-inputs.json": {
+      "bytes": 509,
+      "sha256": "a057852c42f521f57b2bd817eddff639f9f3fad9ef44bf29dfd57012a6ea71f5",
+      "owned_file": "original/dependency-inputs.json"
+    },
+    "original/resource-events.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_file": "original/resource-events.txt"
+    },
+    "original/loaded-target.bin": {
+      "bytes": 46080,
+      "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+      "repository_original": "toolchains/5.10/bin/CL.EXE"
+    },
+    "original/C1.DLL": {
+      "bytes": 565008,
+      "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+      "repository_original": "toolchains/5.10/bin/C1.DLL"
+    },
+    "original/streams-entry-teb.bin": {
+      "bytes": 4096,
+      "sha256": "05377dbe6e982908384d2ba63eeeb6f0f7a75ee364752a33d5abd42f925a280c",
+      "owned_file": "original/streams-entry-teb.bin"
+    },
+    "original/mktemp-after-teb.bin": {
+      "bytes": 4096,
+      "sha256": "5db103c348d7097f87d6918a7d5b3a76b4fe31517972c23e8a2cdd882e36a343",
+      "owned_file": "original/mktemp-after-teb.bin"
+    },
+    "original/stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_file": "original/stderr.bin"
+    },
+    "original/loaded-mspdb50.bin": {
+      "bytes": 167424,
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "repository_original": "toolchains/5.10/bin/MSPDB50.DLL"
+    },
+    "original/CL.EXE": {
+      "bytes": 46080,
+      "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+      "repository_original": "toolchains/5.10/bin/CL.EXE"
+    },
+    "original/main-entry-context.bin": {
+      "bytes": 268,
+      "sha256": "2406b44a0ab4f22c1472ecdb1fed8fe4437f17a5a91d6974728a6909533223a7",
+      "owned_file": "original/main-entry-context.bin"
+    },
+    "original/events.txt": {
+      "bytes": 4567,
+      "sha256": "08fc42bb376909b0d7272a0e02fbdece9be133e647e61bbe606ffe9d879ab1b1",
+      "owned_file": "original/events.txt"
+    },
+    "original/mktemp-entry-teb.bin": {
+      "bytes": 4096,
+      "sha256": "05377dbe6e982908384d2ba63eeeb6f0f7a75ee364752a33d5abd42f925a280c",
+      "owned_file": "original/mktemp-entry-teb.bin"
+    },
+    "original/helper.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_file": "original/helper.stdout"
+    },
+    "original/reference-debugger.c": {
+      "bytes": 41070,
+      "sha256": "fe7f36ecc80a1c8114176a7b74406000731a2d540a5a6bc94dab22a4c5e8016a",
+      "owned_file": "original/reference-debugger.c"
+    },
+    "original/mre-observer.txt": {
+      "bytes": 26,
+      "sha256": "9fc98d425d86f44503727bf645d5a4f4709c3fc7c4dd4c8a26784391d98d3b71",
+      "owned_file": "original/mre-observer.txt"
+    },
+    "original/stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_file": "original/stdout.bin"
+    },
+    "original/mbspan-events.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_file": "original/mbspan-events.txt"
+    },
+    "original/crt-state.bin": {
+      "bytes": 132,
+      "sha256": "c8d88837e26163437ac8b52a73ff33e9c68b6c712a9bf70ab48aafeb845c9970",
+      "owned_file": "original/crt-state.bin"
+    },
+    "original/mre-observer.inc": {
+      "bytes": 8537,
+      "sha256": "ffb63d24e4ac6e94e0d68534065fba316373d49f478e8201e088e608cf9a3812",
+      "owned_file": "original/mre-observer.inc"
+    },
+    "original/streams-entry-iob.bin": {
+      "bytes": 96,
+      "sha256": "4d0149241f1bbdf767bd2181c978844a97e5e2fced31a59e5aa8cb165a739763",
+      "owned_file": "original/streams-entry-iob.bin"
+    },
+    "original/entries.txt": {
+      "bytes": 2266,
+      "sha256": "ba9e08a243cf2b52230089d21fe93e313acda5d0dbc76f51a6e3b887a82ee809",
+      "owned_file": "original/entries.txt"
+    },
+    "original/mktemp-entry-tls-index.bin": {
+      "bytes": 4,
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "owned_file": "original/mktemp-entry-tls-index.bin"
+    },
+    "original/trace.txt": {
+      "bytes": 783,
+      "sha256": "ff23e8f6037ad3ce4a1bd29885c5d40752deb894e830aad57bb05dfb3e50cb7e",
+      "owned_file": "original/trace.txt"
+    },
+    "original/case-inputs.json": {
+      "bytes": 342,
+      "sha256": "4d10b15868977f1a3d715f02ec537bc018b7acc37e624a118c6c0cb38c22c774",
+      "owned_file": "original/case-inputs.json"
+    },
+    "original/input-directory.json": {
+      "bytes": 2559,
+      "sha256": "a53335d567d94b63a98238571f51b3cc7bd3bf5794888e03f32a434d0eda6483",
+      "owned_file": "original/input-directory.json"
+    },
+    "original/streams-entry-lowio.bin": {
+      "bytes": 108,
+      "sha256": "58968ad1dd95fadf9d6bf8df351b4e04725143e2ae118ed74571781ef359598a",
+      "owned_file": "original/streams-entry-lowio.bin"
+    },
+    "original/access-events.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_file": "original/access-events.txt"
+    },
+    "original/reference-debugger.exe": {
+      "bytes": 97792,
+      "sha256": "c712faff040d6668ff4ea29cbf20f8ceb146a3eee6f8360a0a63258f07d50c95",
+      "owned_file": "original/reference-debugger.exe"
+    },
+    "original/C2.EXE": {
+      "bytes": 660240,
+      "sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+      "repository_original": "toolchains/5.10/bin/C2.EXE"
+    },
+    "original/mktemp-before-teb.bin": {
+      "bytes": 4096,
+      "sha256": "b12ac9fb13b779ad7ef067726a774bc41ec10b3e275472c958e8d4b2d5e70030",
+      "owned_file": "original/mktemp-before-teb.bin"
+    },
+    "original/MSVCRT.DLL": {
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "repository_original": "toolchains/5.10/bin/MSVCRT.DLL"
+    },
+    "original/observer/mre-events.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "owned_file": "original/observer/mre-events.txt"
+    },
+    "sources/controller_source.py": {
+      "bytes": 14940,
+      "sha256": "09ee825eef64499d3d10288a0a23fa18e5e9c3c6b4fb74abbe4eb6d52b8f5ff5",
+      "owned_file": "sources/controller_source.py"
+    },
+    "sources/helper_source.c": {
+      "bytes": 41070,
+      "sha256": "fe7f36ecc80a1c8114176a7b74406000731a2d540a5a6bc94dab22a4c5e8016a",
+      "owned_file": "sources/helper_source.c"
+    }
+  },
+  "owned_bytes": 369186,
+  "retention_scope": "Exact raw process inputs/observations/helper/controller; metadata native/rebuilt/build-dependency hashes were informational bookkeeping, not inputs to this original execution. Existing repo originals remain relative path+SHA references."
+}

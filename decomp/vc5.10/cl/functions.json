@@ -1622,12 +1622,18 @@
       }
     },
     {
-      "name": "_file_timestamp",
+      "name": "_option_signature",
       "start": 4208954,
-      "end": 4208955,
+      "end": 4209481,
       "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "file_timestamp"
+      "state": "named trap; recovered signature type and bounded actual extent; not accepted",
+      "native_symbol": "option_signature",
+      "evidence": {
+        "kind": "Complete527B signature builder and actual MRE signature-entry caller; no body reconstructed",
+        "range": "0040393a..00403b49",
+        "previous_unaccepted_identifier": "file_timestamp",
+        "result": "owned char* sorted option signature, not a timestamp"
+      }
     },
     {
       "name": "_jobs_from_deferred",
@@ -2039,6 +2045,28 @@
           "hidden_inputs": []
         },
         "import_preservation": "cases/link-object/write-preservation.json"
+      }
+    },
+    {
+      "name": "_compare_option_strings",
+      "native_symbol": "compare_option_strings",
+      "start": 4209481,
+      "end": 4209501,
+      "state": "named trap; statically identified, not reconstructed/accepted",
+      "evidence": {
+        "kind": "Separate20B qsort callback, cdecl int(constvoid*,constvoid*)",
+        "range": "00403b49..00403b5d"
+      }
+    },
+    {
+      "name": "_option_matching_selector",
+      "native_symbol": "option_matching_selector",
+      "start": 4198647,
+      "end": 4198680,
+      "state": "named trap; statically identified, not reconstructed/accepted",
+      "evidence": {
+        "kind": "Separate33B cdecl selector over Option.matching via qualified MSVCRT!strpbrk",
+        "range": "004010f7..00401118"
       }
     }
   ],

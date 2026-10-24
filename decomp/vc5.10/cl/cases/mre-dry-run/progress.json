@@ -1,0 +1,10 @@
+{
+  "state": "original-only dry-run finding; no reconstruction credit",
+  "status": 0,
+  "MRE_calls": 0,
+  "PDB_files": 0,
+  "reason": "Actual grammar replaces Gm when Bz is selected; Gm requiresZi.",
+  "reference_seconds": 1.2093930402770638,
+  "raw": "analysis/no-mre-dry-run/manifest.json",
+  "native_fixture": "not added; this is a preserved exploration, not accepted case completion"
+}

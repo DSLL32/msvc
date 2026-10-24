@@ -1,0 +1,52 @@
+{
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "shared_scratch": {
+    "address": 4231608,
+    "capacity": 1024,
+    "consumers": [
+      {
+        "function": "expand_options",
+        "site": 4199794,
+        "bytes": "bfb8914000"
+      },
+      {
+        "function": "prepare_jobs/MREFOpenByName",
+        "site": 4208007,
+        "bytes": "68b8914000"
+      },
+      {
+        "function": "option_signature",
+        "site": 4209081,
+        "bytes": "bfb8914000"
+      }
+    ]
+  },
+  "functions": [
+    {
+      "name": "option_signature",
+      "start": 4208954,
+      "end": 4209481,
+      "bytes": 527,
+      "sha256": "9fb0d3ef4166be99827f887aa2e097ec971f36d44cab3c4db7b272c52acbb35f"
+    },
+    {
+      "name": "compare_option_strings",
+      "start": 4209481,
+      "end": 4209501,
+      "bytes": 20,
+      "sha256": "d325a4b5aa834efc98d6f28cee1974e45b42bd54ce73f007453bb389ba9a8703"
+    },
+    {
+      "name": "option_matching_selector",
+      "start": 4198647,
+      "end": 4198680,
+      "bytes": 33,
+      "sha256": "71c08e480128e9799844358003e928d740e782990ec32e6579faa7c298b6eb28"
+    }
+  ],
+  "notes": [
+    "Analysis only; no body implemented or accepted.",
+    "Unify actual scratch alias before native MRE boundary matching; no synthetic expected-buffer override.",
+    "Signature return and DeferredInput member are char* rather than provisional unsigned timestamp; correct on reached path."
+  ]
+}

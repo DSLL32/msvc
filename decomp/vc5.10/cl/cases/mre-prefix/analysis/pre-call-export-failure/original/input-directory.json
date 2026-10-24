@@ -1,0 +1,89 @@
+{
+  "entries": [
+    {
+      "name": "C1.DLL",
+      "bytes": 565008,
+      "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+    },
+    {
+      "name": "C2.EXE",
+      "bytes": 660240,
+      "sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae"
+    },
+    {
+      "name": "CL.EXE",
+      "bytes": 46080,
+      "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+    },
+    {
+      "name": "MSPDB50.DLL",
+      "bytes": 167424,
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    {
+      "name": "MSVCRT.DLL",
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    {
+      "name": "case-inputs.json",
+      "bytes": 342,
+      "sha256": "4d10b15868977f1a3d715f02ec537bc018b7acc37e624a118c6c0cb38c22c774"
+    },
+    {
+      "name": "clock-observer.inc",
+      "bytes": 4828,
+      "sha256": "a8ac78cd30746c3981794c56569ce70b42efdfb1f9536ab3830ea040907eec98"
+    },
+    {
+      "name": "config.json",
+      "bytes": 85425,
+      "sha256": "4600030ca51df39af7fa0b02fd5c6b419573d2944ae333988415001758e6eef0"
+    },
+    {
+      "name": "dependency-inputs.json",
+      "bytes": 509,
+      "sha256": "a057852c42f521f57b2bd817eddff639f9f3fad9ef44bf29dfd57012a6ea71f5"
+    },
+    {
+      "name": "dependency-observer.inc",
+      "bytes": 20863,
+      "sha256": "158e39ace380a10a61f4ad25f64216ad1573422c33561c5b5ef8aa92b169801d"
+    },
+    {
+      "name": "entries.txt",
+      "bytes": 2266,
+      "sha256": "ba9e08a243cf2b52230089d21fe93e313acda5d0dbc76f51a6e3b887a82ee809"
+    },
+    {
+      "name": "export-reader.h",
+      "bytes": 4858,
+      "sha256": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607"
+    },
+    {
+      "name": "mre-observer.inc",
+      "bytes": 8537,
+      "sha256": "ffb63d24e4ac6e94e0d68534065fba316373d49f478e8201e088e608cf9a3812"
+    },
+    {
+      "name": "mre-observer.txt",
+      "bytes": 26,
+      "sha256": "9fc98d425d86f44503727bf645d5a4f4709c3fc7c4dd4c8a26784391d98d3b71"
+    },
+    {
+      "name": "reference-debugger.c",
+      "bytes": 41070,
+      "sha256": "fe7f36ecc80a1c8114176a7b74406000731a2d540a5a6bc94dab22a4c5e8016a"
+    },
+    {
+      "name": "reference-debugger.exe",
+      "bytes": 97792,
+      "sha256": "c712faff040d6668ff4ea29cbf20f8ceb146a3eee6f8360a0a63258f07d50c95"
+    },
+    {
+      "name": "test.c",
+      "bytes": 26,
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2"
+    }
+  ]
+}

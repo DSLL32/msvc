@@ -2,6 +2,9 @@
 #include "cl.h"
 #include <recon.h>
 
+/* Shared by rule expansion and minimal-rebuild formatting/error output. */
+char option_buffer[1024];
+
 /* 00401f91..00401fb2: detach one exact node without releasing its storage. */
 Option *unlink_option(Option **head, Option *option)
 {
@@ -50,7 +53,6 @@ Option *expand_options(char *pattern, Option *context)
 {
     Option *head = NULL;
     char name[32], passes[16], *out, *payload;
-    static char value[1024];
     unsigned flags;
     passes[0] = '\0';
     while (*pattern) {
@@ -71,8 +73,8 @@ Option *expand_options(char *pattern, Option *context)
         if (*pattern == '!' || *pattern == ':') {
             if (*pattern == '!')
                 flags |= 4;
-            pattern = expand_word(pattern + 1, value, context->value);
-            payload = strlen(value) ? value : NULL;
+            pattern = expand_word(pattern + 1, option_buffer, context->value);
+            payload = strlen(option_buffer) ? option_buffer : NULL;
         } else
             payload = NULL;
         if (*pattern == ',')

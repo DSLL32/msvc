@@ -1,0 +1,13 @@
+{
+  "state": "partial original MRE prefix observed; native success held",
+  "new_application_functions": 0,
+  "new_application_extent_bytes": 0,
+  "retained_analysis": "analysis/three-call-prefix/manifest.json",
+  "typed_packet": "analysis-packet.json",
+  "parent_review": "parent-review.json",
+  "controls": "packet-controls.json",
+  "missing_observations": "missing-observations.json",
+  "source_changes": "Shared original4091b8buffer, corrected char* option signature and separate named trapping comparator/selector. No new bodies accepted.",
+  "verified": "Original and native make-j4 builds plus accepted graph/import/ABI audits pass;13 prior native fixtures pass.",
+  "native_fixture_seconds": 3.2449096562340856
+}

@@ -270,6 +270,7 @@ static void frontier_requests(DWORD address, DWORD *stack)
 }
 #include "dependency-observer.inc"
 #include "clock-observer.inc"
+#include "mre-observer.inc"
 
 static void module(DWORD base,HANDLE file)
 {
@@ -289,7 +290,7 @@ static void module(DWORD base,HANDLE file)
         event_number,name,base,nt.OptionalHeader.ImageBase,nt.FileHeader.TimeDateStamp,
         nt.OptionalHeader.SizeOfImage);
     if (!_stricmp(name,"msvcrt.dll")) { crt_base=base;save_file(file,"loaded-msvcrt.bin"); }
-    if (!_stricmp(name,"mspdb50.dll")) save_file(file,"loaded-mspdb50.bin");
+    if (!_stricmp(name,"mspdb50.dll")) { mre_provider_base=base;save_file(file,"loaded-mspdb50.bin"); }
     dependency_loaded(base,file,&nt);
     fflush(events);
 }
@@ -408,11 +409,12 @@ int main(int argc,char **argv)
             thread_ids[threads_count++]=event.dwThreadId;
             dependency_install(stop_at_trap);
             clock_install(stop_at_trap);
+            mre_observation_install(stop_at_trap);
             fprintf(events,"create event=%lu base=%08lx entry=%08lx\n",event_number,
                 target_base,(DWORD)event.u.CreateProcessInfo.lpStartAddress);
             save_file(event.u.CreateProcessInfo.hFile,"loaded-target.bin");
             if (event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
-            if (observe_mre) {
+            if (observe_mre && !mre_analysis_observer) {
                 BYTE call[6];DWORD slot;
                 for (i=0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i) {
                     memory(target_base+mre_sites[i],call,sizeof(call));
@@ -483,7 +485,7 @@ int main(int argc,char **argv)
                 if (address==target_base+access_sites[i]) access_site=i;
                 if (access_pending==(int)i && address==target_base+access_sites[i]+(i==1 || i==2 ? 2 : 6)) { access_site=i;access_return=1; }
             }
-            if (observe_mre) for (i=0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i)
+            if (observe_mre && !mre_analysis_observer) for (i=0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i)
                 if (address==target_base+mre_sites[i]) mre_site=1;
             for (i=0;i<entry_count;++i)
                 if (!entry_guards[i].seen && target_base+entry_guards[i].rva==address) guard=entry_guards+i;
@@ -509,8 +511,25 @@ int main(int argc,char **argv)
                     if (address!=target_base+0x52a5) return 134;
                     pass_state();
                 }
-                patch_byte(address,(BYTE)guard->byte);context.Eip=address;
-                if (!SetThreadContext(thread,&context)) return 47;
+                if (mre_analysis_observer && guard->rva==0x550d) {
+                    dependency_state("mre-unexpected-dispatch",teb,event.dwThreadId,&context,input,out,err);
+                    fprintf(dependency_events,"analysis-stop kind=unexpected-dispatch address=%08lx calls=%lu event=%lu\n",address,mre_analysis_calls,event_number);
+                    fflush(dependency_events);mre_analysis_stopped=1;TerminateProcess(child,0x7004);
+                } else {
+                    patch_byte(address,(BYTE)guard->byte);context.Eip=address;
+                    if (!SetThreadContext(thread,&context)) return 47;
+                }
+            } else if (code==EXCEPTION_BREAKPOINT && mre_observation_point(address)>=0) {
+                int point=mre_observation_point(address);
+                thread=NULL;teb=0;
+                for (i=0;i<threads_count;++i)
+                    if (thread_ids[i]==event.dwThreadId) { thread=threads[i];teb=thread_tebs[i]; }
+                if (!thread) return 172;
+                memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
+                if (!GetThreadContext(thread,&context)) return 173;
+                mre_observation_trap(point,address,teb,event.dwThreadId,&context,input,out,err);
+                if (!mre_analysis_stopped)
+                    if (!SetThreadContext(thread,&context)) return 174;
             } else if (code==EXCEPTION_BREAKPOINT && clock_point(address)>=0) {
                 int point=clock_point(address);
                 thread=NULL;teb=0;
@@ -714,7 +733,7 @@ int main(int argc,char **argv)
             }
             fclose(events);fclose(trace);if (mktemp_events) fclose(mktemp_events);if (resource_events) fclose(resource_events);CloseHandle(out);CloseHandle(err);CloseHandle(input);
             ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
-            return event.u.ExitProcess.dwExitCode==0x7001 || (dependency_analysis && !dependency_response && event.u.ExitProcess.dwExitCode==0x7003) ? 0:event.u.ExitProcess.dwExitCode;
+            return (mre_analysis_observer && event.u.ExitProcess.dwExitCode==0x7004) || event.u.ExitProcess.dwExitCode==0x7001 || (dependency_analysis && !dependency_response && event.u.ExitProcess.dwExitCode==0x7003) ? 0:event.u.ExitProcess.dwExitCode;
         }
         ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
     }

@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "kind": "bounded original-only MRE observer pre-use source review; no target execution",
+  "manifest": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-dry-run-plan/pre-use-review-v3.json",
+  "manifest_sha256": "b6582ffa83f64ce17296eadf5eec9830d7554981c146eb49b4147783fc49ed11",
+  "reviewed_files": {
+    "/root/msvc2/decomp/vc5.10/cl/Makefile": "836438cc898834d2e60d92d98005b42de7176720c9d5b926572711b28543d78f",
+    "/root/msvc2/decomp/vc5.10/cl/functions.json": "4600030ca51df39af7fa0b02fd5c6b419573d2944ae333988415001758e6eef0",
+    "/root/msvc2/decomp/vc5.10/cl/cases/plan.json": "d8db4ab69e4a8fd2d0bd422a7b39b6c5712aae8a38a5b4644479bbc7d33bb785",
+    "/root/msvc2/decomp/vc5.10/cl/cases/mre-dry-run/dependencies.json": "da95d71af4ca946976429b57e21aab04fa888add4141a0d700f6290b457e71b9",
+    "/root/msvc2/decomp/vc5.10/cl/cases/sources/test.c": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/reference-debugger.c": "b62c7fa98e78ca0d1065149e1e2498b0961f945aad1b0b370cb3d2f24ae6b0b4",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/mre-observer.inc": "7fa6c51b354e0b207e81a4f7e9c69c8390e50d81e7ae8fa4eff03c522d8b7c2e",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/dependency-observer.inc": "158e39ace380a10a61f4ad25f64216ad1573422c33561c5b5ef8aa92b169801d",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/clock-observer.inc": "a8ac78cd30746c3981794c56569ce70b42efdfb1f9536ab3830ea040907eec98",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/export-reader.h": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/original.py": "196242f02231baeadece7a931160e7288b7513a6df8ea3ac6bb6651c0627e54e",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/helper-build.py": "aa8d4529cc5c840fc52a571202af9e9dae13e2b4d626509eaf20692ae8ca7cf9",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/accept.py": "29a244661161dcce3aeae56e97ea2349c84fc2e8b01d47f906524a32c08bd567",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/case_inputs.py": "3b8dde32c7b7eb6eb4a8bfe60f4ea5fc44fdc991945862ccbfb270550dc1b366",
+    "/root/msvc2/decomp/vc5.10/cl/scripts/check-mre-analysis-mode.py": "54a6f968136cea866aa1c8a588da5ce92322caa733206722f56713ae00b62570",
+    "/root/msvc2/decomp/vc5.10/cl/build/reference-debugger-build.json": "d5df98b6ef7f62b1c1f74df95998ba24f89438fe6df07725f2fe0f72783d4b3b",
+    "/root/msvc2/decomp/vc5.10/cl/build/reference-debugger.exe": "79c15426a766029bf12448b6b7d434b6f19bd359f3a44ce1b17febd92d3b5272"
+  },
+  "controls": {
+    "independently_rerun": 154,
+    "scope": "mode/call primitive and baseline/case/acceptance guard; not complete semantic observation checker"
+  },
+  "checks": [
+    "v1/v2 Input overread caught pre-use; actual401063 PUSH ESI/PUSH16 proves16-byte allocation. Corrected v3 reads exactly16, source Input16.",
+    "Driver44, Option24, initializedJobheader12, PendingWork20 storage match established declarations/canonical writes. Full uninitialized outputs are raw observations only.",
+    "Actual original three FF15 slots/argument pushes and EBP frame checked: stdcall cleanup24/8/4; actual IAT must match authenticated loaded provider export.",
+    "Only original baseline + distinct mre-dry-run case enables observer; mixed family rejected and acceptance explicitly rejects analysis.",
+    "Strict new bounded NUL-terminated strings; cycles and bounded lists reject. Every observation reads fresh stopped process state.",
+    "Three actual returns/signature-entry or Open-failure stops controlled private0x7004. No normal completion/input compilation/provider success claim.",
+    "Full prior CRT/OS/error/FILE/x87 state observation retained. Intermediate provider-owned PDB contents not yet fully observed and held explicitly."
+  ],
+  "release": "One bounded original baseline analysis authorized; unknown native MRE remains denied pending complete typed contract, no app acceptance."
+}

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "link-timing-active",
+  "state": "mre-prefix-planning",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -181,6 +181,34 @@
       ],
       "source": "minimal-c/reference/test.obj",
       "from_vc1": "Authored5.10 actual LINK timing case, exact fresh clock/child contract required."
+    },
+    {
+      "id": "mre-dry-run",
+      "arguments": [
+        "/nologo",
+        "/Gm",
+        "/Bz",
+        "/c",
+        "/DVALUE=7",
+        "/Fdcase.pdb",
+        "test.c"
+      ],
+      "source": "sources/test.c",
+      "from_vc1": "Authored genuine5.10 minimal-rebuild driver dry-run; explicit bounded MSPDB prefix analysis, no native success yet."
+    },
+    {
+      "id": "mre-prefix",
+      "arguments": [
+        "/nologo",
+        "/Gm",
+        "/Zi",
+        "/c",
+        "/DVALUE=7",
+        "/Fdcase.pdb",
+        "test.c"
+      ],
+      "source": "sources/test.c",
+      "from_vc1": "Authored genuine5.10 minimal-rebuild case; bounded original prefix stops before signature/firstpass, native MRE success not yet supplied."
     }
   ],
   "notes": [
@@ -190,10 +218,11 @@
     "Minimal-C exact C1 argv/BOOL, DLL attach/detach entry observations and C2 MSC_CMD_FLAGS+IR were explicitly captured from original5.10; no reconstruction authorized.",
     "Root released autonomous continuation beyond help; minimal-C follows the completed, frozen help review window and an explicit dependency-boundary plan.",
     "explicit-inputs originalcompletedhelp0, butlowercaseba/bc/bx wereunknown; retain unchanged as input/linkcase, publicpassoptions are separate.",
-    "filename-substitutions initial help probe completed without new handlers; user filename % is escaped. Retained analysis receipt, no coverage credit."
+    "filename-substitutions initial help probe completed without new handlers; user filename % is escaped. Retained analysis receipt, no coverage credit.",
+    "mre-dry-run original analysis completed0 without MRE: actual Bz and Gm grammar replaces the other switch; no new reconstruction credit. Distinct mre-prefix adds required Zi and omits Bz."
   ],
   "groundwork_capture": "original-probes/host-contract-2/manifest.json",
-  "authorized_case": "mre-dry-run",
+  "authorized_case": "mre-prefix",
   "authorized_queue": [
     "help",
     "minimal-c",
@@ -209,7 +238,8 @@
     "link-naming",
     "grouped-dry-run",
     "link-timing",
-    "mre-dry-run"
+    "mre-dry-run",
+    "mre-prefix"
   ],
   "next_case_gate": "Parent approved bounded baseline /Gm /Bz analysis after timing completion; new native MRE success requires complete typed external contract review.",
   "completed_cases": [

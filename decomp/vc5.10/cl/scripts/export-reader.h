@@ -58,7 +58,7 @@ static int export_lookup(ExportRead read,void *context,DWORD base,const char *wa
     if (!image || image>0x1000000 || base>0xffffffffUL-image ||
         offset>image || sizeof(nt)>image-offset || size<40 || size>0x100000 ||
         start>=image || size>image-start) return -1;
-    /* Exact parsed PE identity of the two hash-bound loaded providers used by
+    /* Exact parsed PE identity of the three hash-bound loaded providers used by
      * this case. Their complete export arrays/names fit these actual extents;
      * other layouts fail closed rather than extending the read speculatively. */
     if (stamp==0x345ebc2cUL && image==0x48000 && entry==0x1000 &&
@@ -67,6 +67,9 @@ static int export_lookup(ExportRead read,void *context,DWORD base,const char *wa
     else if (stamp==0x335fbd28UL && image==0x9b000 && entry==0x1202a &&
         preferred==0x10600000UL && start==0x5b560 && size==0x74)
         expected="c1n32_l.dll";
+    else if (stamp==0x32f1504dUL && image==0x2a000 && entry==0x1de70 &&
+        preferred==0x10300000UL && start==0x23010 && size==0x126d)
+        expected="mspdb50.dll";
     else return -2;
     data=(BYTE *)malloc(size);
     if (!data) return -4;
