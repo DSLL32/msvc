@@ -44,6 +44,7 @@ static const uint32_t order[] = {
     0x8a90, /* parse_preprocessor_unary */
     0x8140, /* accept_preprocessor_token */
     0x8180, /* scan_preprocessor_token */
+    0x14550, /* check_defined_macro */
 };
 static const uint32_t seen[] = {
     0x59630, /* main */
@@ -1202,8 +1203,8 @@ static const uint32_t seen[] = {
 
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "member_registry_browser",
-    "Partial browser case; token helper freshly validated with shared original/native progress capture; trace compares unseeded encounters with explicit per-case seed",
+    "Partial browser case; token accept/scan helpers freshly validated with shared original/native progress capture; trace compares unseeded encounters with explicit per-case seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x8180,
+    RECON_IO, RECON_FRONTIER, 0x14550,
     NULL, invoke, NULL, NULL, 0
 };

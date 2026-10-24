@@ -2,6 +2,7 @@
 #include "preprocessor-expressions.h"
 #include "frontend.h"
 #include "operators.h"
+#include "macro-expansion.h"
 #include <recon.h>
 unsigned char preprocessor_expression_token = 1; /* original 0x9d7b0 */
 int preprocessor_expression_parentheses; /* original 0x9d7b4 */
@@ -275,5 +276,36 @@ int __stdcall accept_preprocessor_token(unsigned char token)
         preprocessor_expression_token = 0x93;
         return 1;
     }
+    return 0;
+}
+
+/* Original 0x97840..0x97847: only the type WORD and value DWORD
+   are written by the scanner; alignment bytes carry no data credit. */
+PreprocessorValue preprocessor_literal;
+
+/* Original 0x18180..0x18242. Identifier and integral-literal tokens
+   share the cached numeric token, while punctuation retains its lexical code. */
+int __stdcall scan_preprocessor_token(unsigned char token)
+{
+    unsigned char actual;
+    IrToken *expression;
+    actual = read_parser_token();
+    if (actual == 2) {
+        preprocessor_literal.value = check_defined_macro(current_token_value.name);
+        preprocessor_literal.type = 0x64;
+    } else if (actual == 0x6f) {
+        expression = current_token_value.expression;
+        if (!(expression->type->flags & 0x40)) fatal_error(17);
+        else {
+            preprocessor_literal.value = expression->value.integer;
+            preprocessor_literal.type = expression->type->flags;
+        }
+    } else {
+        if (token == current_token_code) return 1;
+        preprocessor_expression_token = current_token_code;
+        return 0;
+    }
+    if (token == 7) return 1;
+    preprocessor_expression_token = 7;
     return 0;
 }
