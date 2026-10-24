@@ -368,6 +368,15 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             sprintf(line,"omf_fixup_symbol kind %lu index %lu attributes %lu\n",kind,read_word(process,symbol+20),read_word(process,symbol+36));log_line(line);
         } else exit(300); /* Extend only when a real label input is encountered. */
     }
+    if(!strcmp(call->name,"@omf_output_size@8")) {
+        DWORD symbol=call->args[1],id=read_word(process,symbol+28),bucket=id&63,index=0;
+        DWORD member=read_word(process,image_base+0x6c158+4*bucket);
+        while(member&&member!=symbol&&index<1024){member=read_word(process,member);++index;}
+        if(member!=symbol||index==1024)exit(304);
+        sprintf(line,"omf_size displacement %08lx symbol %08lx identifier %lu bucket %lu index %lu member %08lx return_address %08lx\n",
+            call->args[0],symbol,id,bucket,index,member,call->return_address);log_line(line);
+        /* Wrapper does not dereference its symbol; fields prove owner only. */
+    }
     if(!strcmp(call->name,"@omf_output_bytes@8")) {
         DWORD symbol=call->args[1],node=context->Ebx;
         DWORD id=read_word(process,node+8),bucket=id&63,index=0;

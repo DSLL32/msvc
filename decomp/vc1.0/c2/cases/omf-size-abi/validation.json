@@ -1,0 +1,55 @@
+{
+  "matched": true,
+  "function": "@omf_output_size@8",
+  "previous_provisional_name": "_omf_output_size",
+  "original_va": "0x6bd00",
+  "formals": [
+    {
+      "name": "displacement",
+      "location": "ECX",
+      "type": "unsigned32",
+      "original": 4294967276,
+      "native": 4294967276
+    },
+    {
+      "name": "symbol",
+      "location": "EDX",
+      "type": "SymbolHeader pointer",
+      "original": 8071552,
+      "native": 1449364080
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6bd00..6bd10 consumes ECXdisplacement/EDXsymbol, forwards child ECXsymbol/DL11/stack(displacement,0), RET0. No other registers/stack/flags/x87/out pointer. Actual pointer aliases closed global hash member and native caller symbol; caller length/return recorded. Wrapper never dereferences symbol; fields prove ownership only, not invented child payload.",
+  "shape": {
+    "displacement": 4294967276,
+    "identifier": 124,
+    "bucket": 60,
+    "index": 0
+  },
+  "original": {
+    "displacement": 4294967276,
+    "symbol": 8071552,
+    "identifier": 124,
+    "bucket": 60,
+    "index": 0,
+    "member": 8071552,
+    "return_address": 431891
+  },
+  "native": {
+    "displacement": 4294967276,
+    "symbol": 1449364080,
+    "caller_symbol": 1449364080,
+    "length": 46,
+    "identifier": 124,
+    "bucket": 60,
+    "index": 0,
+    "member": 1449364080,
+    "caller": "write_codeview_function"
+  },
+  "original_execution_seconds": 1.6610105838626623,
+  "native_debug_seconds": 0.14115695096552372,
+  "total_seconds": 2.0751202944666147,
+  "scope": "Actual displacement/symbol and closed owner/caller alias; no pointee/child result/old entry dump or seed.1024 chain cap observer-only. Whole body/control/canonical/fresh matching pending."
+}

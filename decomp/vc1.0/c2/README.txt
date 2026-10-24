@@ -827,3 +827,11 @@ ordinary audits/fresh pair and15 native cases pass(14 complete), next size
 reference6bd00.344272/399693 extent bytes; app/support325972B/1179functions
 exclude5 historical CRT. Audit23.894s, full object pending.
 cases/omf-line-entry-checkpoint.json retains split timings and limits.
+
+Checkpoint1295 adds16-byte CodeView size-reference adapter: symbol/type11/
+displacement/relative0 permutation matches. Actual displacement-20=26-length46
+in write_codeview_function, original69704..69713 and closed globalID124 prove
+caller/owner.15 controls/8 ABI rejects, original/W3/ordinary audits/fresh pair
+and15 native cases pass(14 complete), next CodeView block69b20.344288/399693
+extent bytes; app/support325988B/1180functions exclude5 historical CRT. Ordinary
+audit24.252s, full object pending. cases/omf-size-checkpoint.json.

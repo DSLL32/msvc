@@ -79,7 +79,7 @@ void __fastcall omf_output_debug_record(unsigned line, unsigned offset);
 void omf_output_value(void);
 void __fastcall omf_output_bytes(unsigned displacement, SymbolHeader *symbol);
 void omf_output_offset(void);
-void omf_output_size(void);
+void __fastcall omf_output_size(unsigned displacement, SymbolHeader *symbol);
 void omf_finish_module(void);
 unsigned __fastcall omf_output_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment);
 void __fastcall omf_output_record(ModuleDirective *directive);

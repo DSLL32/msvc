@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case at1294: LINNUM32 writer accepted, matching original/native size reference6bd00.14 prior cases complete.",
+  "status": "Derived OMF case at1295: CodeView size-reference adapter accepted, matching original/native CodeView block69b20.14 prior cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,8 +487,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "_omf_output_size",
-  "current_checkpoint": 1294,
+  "current_application_frontier": "@write_codeview_block@12",
+  "current_checkpoint": 1295,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",

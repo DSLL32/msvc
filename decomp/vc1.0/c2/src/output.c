@@ -102,7 +102,7 @@ void initialize_output_callbacks(void)
     output_callbacks.absolute_reference = omf_output_bytes;
     output_callbacks.address = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_offset;
-    output_callbacks.size = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_size;
+    output_callbacks.size = omf_output_size;
     output_callbacks.finish_module = (OutputRoutine)omf_finish_module;
     output_callbacks.relocation = omf_output_relocation;
     output_callbacks.record = omf_output_record;

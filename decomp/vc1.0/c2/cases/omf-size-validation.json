@@ -1,0 +1,228 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing symbol formal",
+    "wrong symbol location",
+    "wrong cleanup",
+    "wrong lookup owner",
+    "wrong global member",
+    "wrong identifier",
+    "wrong displacement",
+    "invented pointee input"
+  ],
+  "states": 15,
+  "cases": [
+    {
+      "displacement": 0,
+      "symbol": 0,
+      "result": {
+        "calls": [
+          [
+            0,
+            11,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 0,
+      "symbol": 3735928559,
+      "result": {
+        "calls": [
+          [
+            3735928559,
+            11,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 0,
+      "symbol": 4194432,
+      "result": {
+        "calls": [
+          [
+            4194432,
+            11,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 1,
+      "symbol": 0,
+      "result": {
+        "calls": [
+          [
+            0,
+            11,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 1,
+      "symbol": 3735928559,
+      "result": {
+        "calls": [
+          [
+            3735928559,
+            11,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 1,
+      "symbol": 4194432,
+      "result": {
+        "calls": [
+          [
+            4194432,
+            11,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 4294967276,
+      "symbol": 0,
+      "result": {
+        "calls": [
+          [
+            0,
+            11,
+            4294967276,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 4294967276,
+      "symbol": 3735928559,
+      "result": {
+        "calls": [
+          [
+            3735928559,
+            11,
+            4294967276,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 4294967276,
+      "symbol": 4194432,
+      "result": {
+        "calls": [
+          [
+            4194432,
+            11,
+            4294967276,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 2147483648,
+      "symbol": 0,
+      "result": {
+        "calls": [
+          [
+            0,
+            11,
+            2147483648,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 2147483648,
+      "symbol": 3735928559,
+      "result": {
+        "calls": [
+          [
+            3735928559,
+            11,
+            2147483648,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 2147483648,
+      "symbol": 4194432,
+      "result": {
+        "calls": [
+          [
+            4194432,
+            11,
+            2147483648,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 4294967295,
+      "symbol": 0,
+      "result": {
+        "calls": [
+          [
+            0,
+            11,
+            4294967295,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 4294967295,
+      "symbol": 3735928559,
+      "result": {
+        "calls": [
+          [
+            3735928559,
+            11,
+            4294967295,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "displacement": 4294967295,
+      "symbol": 4194432,
+      "result": {
+        "calls": [
+          [
+            4194432,
+            11,
+            4294967295,
+            0
+          ]
+        ]
+      }
+    }
+  ],
+  "seconds": 0.44808853790163994,
+  "scope": "Whole16-byte original/canonical wrapper, exact displacement/symbol permutation to ECXsymbol/DL11/two stack words(displacement,0), childRET8 and parentRET0/callee-saved/stack guards. Symbol pointers opaque/unmapped in request-shape controls prove no wrapper dereference, not valid child/frontend inputs. Upper EDX bits outside childunsigned8 contract, no fabricated native hidden formal. Actual displacement-20 and closed globallookup member id124/bucket60 observed; accepted child independently checked; forwarding controls do not add cold child behavior/return/artifact credit."
+}

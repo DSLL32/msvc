@@ -1298,7 +1298,8 @@
     "@omf_write_fixup@4",
     "@omf_output_symbol@4",
     "@omf_output_debug_record@8",
-    "@omf_write_line@12"
+    "@omf_write_line@12",
+    "@omf_output_size@8"
   ],
   "driver": [
     {
@@ -2429,10 +2430,28 @@
       "provisional": true
     },
     {
-      "name": "_omf_output_size",
+      "name": "@omf_output_size@8",
       "start": 441600,
-      "end": 441601,
-      "provisional": true
+      "end": 441616,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "displacement",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "symbol",
+            "location": "EDX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-size-abi/validation.json",
+        "scope": "Original6bd00..6bd10 consumes ECXdisplacement/EDXsymbol, forwards child ECXsymbol/DL11/stack(displacement,0), RET0. No other registers/stack/flags/x87/out pointer. Actual pointer aliases closed global hash member and native caller symbol; caller length/return recorded. Wrapper never dereferences symbol; fields prove ownership only, not invented child payload."
+      }
     },
     {
       "name": "_omf_finish_module",

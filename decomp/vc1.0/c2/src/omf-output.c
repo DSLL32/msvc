@@ -1259,3 +1259,9 @@ void __fastcall omf_write_line(unsigned short line, unsigned offset, Segment *se
     record->count = ++count; *cursor++ = (unsigned char)(offset >> 16); record->cursor = cursor;
     record->count = ++count; *cursor++ = (unsigned char)(offset >> 24); record->cursor = cursor;
 }
+
+/* Original [0006bd00,0006bd10): CodeView section-reference fixup. */
+void __fastcall omf_output_size(unsigned displacement, SymbolHeader *symbol)
+{
+    omf_add_fixup(symbol, 11, displacement, 0);
+}
