@@ -1,0 +1,15 @@
+{
+  "scope": "Additive native SDK constants IMAGE_REL_BASED_HIGH=1, IMAGE_REL_BASED_LOW=2, IMAGE_REL_BASED_MIPS_JMPADDR=5. Existing ABSOLUTE0/HIGHLOW3/HIGHADJ4 unchanged; no type, ABI or API behavior changes.",
+  "canonical_definitions": "Bundled toolchains/1.0-nt/include/NTIMAGE.H610/611/614 and WINNT.H3014/3015/3018; both complete six-value sets verified and source hashes bound.",
+  "frozen_receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/pe-relocation-flags/receipt.json",
+    "sha256": "fe7398da633b61c64bf14542a68083207212bbfdfd277ecea2f748bccc4d232f"
+  },
+  "validation": "Exact only3-added-line comparison against prior574227 header and four GCC/Clang default/510 i386 header syntax/value assertions pass. No runtime probe, original build/reference capture or application acceptance claimed.",
+  "request": "VC1 LINK root-approved REBASE fallback case needs period SDK names for its readable switch; initial baseline/stub frontier remains on immutable published source.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/pe-relocation-flags-parent-review.json",
+    "sha256": "2296b5ad0f6856bb2a6602f14037a2e1cc3a9cdc7eb140669702ee05888aac67",
+    "result": "PASS:exact three shared headers/two SDK source hashes and definition lines, four i386 header syntax/value checks independently verified; only requested3 definitions added."
+  }
+}
