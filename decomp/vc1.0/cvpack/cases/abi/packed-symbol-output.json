@@ -109,7 +109,7 @@
   ],
   "sources": {
     "src/types.c": "afef248401a6632f884cdb80de20103140b43ad3c296779254efd8f642b6d972",
-    "src/types.h": "66692468283112e7109b6e5cc02e55fd6bcd4d082d0c9db581eb08f4b3d463d2",
+    "src/types.h": "007f9cc7ed259a5b0778eac675ee741fcba41e425b9effa0ab5268a65738b6ff",
     "src/image.h": "315371c8ba43081103c2237dab03453203b65d98f3056449d663511427014fa1"
   },
   "scope": "Same actual module3 allocation5113. Header4; search12 yields16; then completed24-byte S_OBJNAME copy yields40. Exact first respectivecallbacks/parentframes/sourcecursor; later writes not inferred.",

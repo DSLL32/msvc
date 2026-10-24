@@ -24,7 +24,7 @@ unsigned short flush_output(int handle) { __asm { int 3 } return 0; }
 
 
 
-void write_global_symbols(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }
+
 void write_static_symbols(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }
 unsigned long write_packed_types(void) { __asm { int 3 } return 0; }
 unsigned long write_old_packed_types(void) { __asm { int 3 } return 0; }

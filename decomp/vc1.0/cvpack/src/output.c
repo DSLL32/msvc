@@ -572,4 +572,46 @@ BufferBlock *next_buffer_block(const BufferBlock *block)
 {
     return block->next;
 }
+
+void write_global_symbols(CvDirectoryEntry *entry, unsigned long offset)
+{
+    unsigned long zero = 0, bucket, bytes, padding;
+    SymbolHashHeader header;
+    GrowingBuffer names, addresses;
+    PublicSymbol *symbol;
+    BufferBlock *block;
+
+    header.name_kind = header.address_kind = 0;
+    header.symbols = header.names = header.addresses = 0;
+    global_symbols_size += pad_symbols(global_symbol_hash, 4);
+    header.symbols = global_symbols_size;
+    build_symbol_name_hash(hash_public, &header.name_kind, &header.names,
+                           &names, global_symbols_count, global_symbol_hash);
+    build_symbol_address_hash(&header.address_kind, &header.addresses,
+                              &addresses, global_symbols_count, global_symbol_hash);
+    entry->subsection = 0x129;
+    entry->module = 0xffff;
+    entry->location.offset = offset;
+    entry->size = header.symbols+header.names+header.addresses+sizeof(header);
+    OUTPUT_BYTES(&header, sizeof(header));
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (symbol = global_symbol_hash[bucket]; symbol; symbol = symbol->next) {
+            bytes = *(unsigned short *)symbol->record+2;
+            OUTPUT_BYTES(symbol->record, bytes);
+        }
+    }
+    if (header.name_kind) {
+        for (block = first_buffer_block(&names); block; block = next_buffer_block(block))
+            OUTPUT_BYTES(block->data, block->used);
+    }
+    if (header.address_kind) {
+        for (block = first_buffer_block(&addresses); block; block = next_buffer_block(block))
+            OUTPUT_BYTES(block->data, block->used);
+    }
+    padding = 4-(entry->size & 3);
+    if (padding != 4) OUTPUT_BYTES(&zero, padding);
+    if (verbose == 1)
+        printf("Initial symbol size\t\t= %8.ld\nFinal symbol size\t\t= %8.ld\nGlobal symbol size\t\t= %8.1ld\n",
+               total_new_type_bytes, total_packed_symbol_bytes, header.symbols);
+}
 #undef OUTPUT_BYTES
