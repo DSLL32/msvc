@@ -371,8 +371,8 @@ fn describe(d: &Decoder, pe: &impl ImageView, r: &Record) -> Result<Description>
                     && i.m != "jmp"
                     && !i.jump
                 {
-                    // TEST's immediate is a bitmask, even if it equals a function VA.
-                    if i.m != "test" {
+                    // Logical immediates are bitmasks, even if equal to a function VA.
+                    if !matches!(i.m.as_str(), "test" | "and" | "or" | "xor") {
                         out.references.insert(*v);
                     }
                     if let Ok(bytes) = pe.read(*v, 12)
@@ -1594,15 +1594,19 @@ mod alias_tests {
         assert!(equivalent(&left, &right, &oa, &ra));
     }
     #[test]
-    fn test_immediate_mask_is_not_a_function_reference() {
+    fn logical_immediate_masks_are_not_function_references() {
         let target = 0x401080;
-        // A real indexed RET function resides at target. TEST's equal-valued
-        // mask is not address-taking; MOV/PUSH/CMP still carry its identity.
+        // A real indexed RET function resides at target. Equal-valued logical
+        // masks are not address-taking; MOV/PUSH/CMP/ADD retain their identity.
         for (instruction, is_reference) in [
             (
                 vec![0xf7, 0x05, 0xf0, 0x10, 0x40, 0, 0x80, 0x10, 0x40, 0],
                 false,
             ),
+            (vec![0x25, 0x80, 0x10, 0x40, 0], false), // AND EAX, mask
+            (vec![0x0d, 0x80, 0x10, 0x40, 0], false), // OR EAX, mask
+            (vec![0x35, 0x80, 0x10, 0x40, 0], false), // XOR EAX, mask
+            (vec![0x05, 0x80, 0x10, 0x40, 0], true),  // ADD EAX, address
             (vec![0xb8, 0x80, 0x10, 0x40, 0], true),
             (vec![0x68, 0x80, 0x10, 0x40, 0], true),
             (vec![0x3d, 0x80, 0x10, 0x40, 0], true),

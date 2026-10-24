@@ -115,8 +115,8 @@ pub fn walk(
                 && i.m != "jmp"
                 && !i.jump
             {
-                // TEST's immediate is a bitmask, even if it equals a function VA.
-                if i.m != "test" {
+                // Logical immediates are bitmasks, even if equal to a function VA.
+                if !matches!(i.m.as_str(), "test" | "and" | "or" | "xor") {
                     out.references.insert(*v);
                 }
                 if (options.infer_seh || options.require_explicit_seh_roots)
