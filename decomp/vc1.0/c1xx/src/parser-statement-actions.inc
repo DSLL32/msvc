@@ -128,7 +128,8 @@
             break;
         case 213:
             if (normalized_Ol && options.configuration.option_qc) begin_qc_control(0x10);
-            begin_switch_body(validate_value_expression(right[-1].expression));
+            switch_condition = validate_value_expression(right[-1].expression);
+            begin_switch_body(switch_condition);
             if (options.configuration.option_qc) current_qc_context = 1;
             POP_DECLARATION();
             CLEAR_DECLARATION_FLAGS();

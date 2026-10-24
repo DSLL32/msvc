@@ -4,6 +4,9 @@
 #include "initialization.h"
 #include "lexer.h"
 #include "source-input.h"
+#include "unary-expressions.h"
+#include "frontend-records.h"
+#include "operators.h"
 #include <recon.h>
 
 LabelStack *qc_loop_markers; /* original 0x91840 */
@@ -75,4 +78,59 @@ void finish_conditional_branch(void)
     break_labels = break_labels->next;
     label_stack_count -= options.configuration.option_qc ? 4 : 3;
     if (!label_stack_count) release_arena(3);
+}
+
+/* Original 0x50840..0x509be, with its thirty-row dispatch at
+   0x509c0..0x50a37. Switch labels retain the promoted condition type. */
+void __stdcall begin_switch_body(IrToken *expression)
+{
+    unsigned char category, operation;
+    unsigned replacement;
+    push_loop_label(&control_labels, 0x11);
+    push_loop_label(&break_labels, 0x12);
+    push_loop_label(&default_labels, 0x13);
+    default_labels->label = 0;
+    push_loop_label(&switch_labels, 0x14);
+    switch_labels->label = 0;
+    if (!expression) {
+        control_labels->label->type = type_0064;
+        begin_switch_body_region(0);
+        return;
+    }
+    expression = boolean_expression(expression, 1);
+    category = expression->flags & 7;
+    operation = expression->kind;
+    if (category == 1) {
+        if (operation == 0x45)
+            compiler_warning(1, 144, token_spellings[0x45]);
+    } else if (category == 2) {
+        switch (operation) {
+        case 0x3b:
+        case 0x44:
+        case 0x58:
+            replacement = operation == 0x3b ? 0x3a :
+                operation == 0x58 ? 0x56 : 0x3d;
+            compiler_warning(1, 145, token_spellings[operation],
+                token_spellings[replacement]);
+            break;
+        case 0x47:
+        case 0x48:
+        case 0x4d:
+        case 0x4e:
+        case 0x55:
+            compiler_warning(1, 144, token_spellings[operation]);
+            break;
+        }
+    }
+    if ((expression->type->flags & 0x240) && !expression->type->related) {
+        expression = promote_arithmetic_expression(expression);
+        control_labels->label->type = intern_type((TypeDescription *)expression->type);
+    } else {
+        report_syntax_error(50);
+        control_labels->label->type = type_0064;
+    }
+    expression = new_typed_unary_expression(0x90, expression->type, expression);
+    current_label_symbol = (CppSymbol *)control_labels->label->value.pointer;
+    emit_expression_tree(expression);
+    begin_switch_body_region(expression->type);
 }

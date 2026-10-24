@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_begin_switch_body@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1169,
+  "configuration_sha256": "be8ff098e3ec6da9ed6e94dc9a51ed995db126c0f11eb112c85b57a26638a4b0",
+  "native_entry": "begin_switch_body",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 101638,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_condition",
+        "native_owner_local": "switch_condition",
+        "identity": "Actual accepted parser action213 PUSHES returned EAX fromvalidate_value_expression at28d00/CALL28d01/return28d06; EAXunchanged at calleeentry. Native actual switch_condition names precisely returned expression before call, not a new owner or recursive state dump.",
+        "original_owner_value": 8364132,
+        "native_owner_value": 1449371180
+      },
+      "original_raw": 8364132,
+      "native_raw": 1449371180,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      329792,
+      330296
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void",
+    "proof": "Whole383Bcode+1alignmentbyte+30DWORD120Bdispatch. SavesESI4B; expressionentryESP+4=>ESP+8; RET4atboth exits. Zero incomingregister/x87/CPUflag inputs. Initializesall4labelstacks; earlyNULLusesbuiltinint andpassesNULLtype to40360. NonNULLboolean_expression mode1, fullydecoded8nondefaultwarningrows, promote only unshapedflags240, internresulttype, else diagnostic50/intlabel. Createsop90typedunary, takesactualcontrol-label token.value.pointer as current_label_symbol, emitsactualexpressionthenpassesitstype. Whole40360..403f8calleeret4/typeformal independentlyreviewed andleftnamedtrap. Existingglobals/callees/vocabulary only; no newdata.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "e55eaa77e344f5a13ff9658a35cdc06925dfa6969afcd9f767c633b43daa6d34",
+  "capture_timing": {
+    "original_capture_seconds": 0.6658278657123446,
+    "native_capture_seconds": 0.1712812790647149,
+    "total_operation_seconds": 1.0900194412097335
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "4c3dd04a8a4863f754d25c9a5501eecc36fb87ba31e54a3e5e82a937186b5deb",
+    "native-commands.gdb": "60e3b26a4a6c33aff3e301528238185e4c70eebe9c608ef26207830f4b4f1f6c",
+    "native-gdb.log": "336ded78345a68cc9878a36e0f8bbd2552820b19df71333774da8f1740854314",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "573f66ecdd1f0ded1433e1eb079c1242b7d68c03a3f0a7bdb5d4379f03687adb",
+    "original-configuration.json": "be8ff098e3ec6da9ed6e94dc9a51ed995db126c0f11eb112c85b57a26638a4b0",
+    "original-disassembly.txt": "1856ae77ccf2b313f0e5bfea69bcbbbe77e482dbaea01a1a0adda2bc5de52bdf",
+    "original-entries.plan": "370c711dccbb5b7397929f7868231d8379173ff12fc5f749b725f67b72b94d54",
+    "original-events.txt": "26744bb3b624dda5e3cc6aa9eb1de43c0507750bed514c667fbe1d285f67ce3b",
+    "original-ownership-caller-disassembly.txt": "9ca6cb7b251824d0865b239fe0ec47f624d5b8f099e3a0c042abed1305082a7e",
+    "original-receipt.json": "51424e79882c13a2783e616c73006d5044546ad65a7b5c91a8b71e73550bcb0f",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "b577e998cb0b54e5860a946756c2667acce82e4bb90a2f78c42cb126cdbf4dc6"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

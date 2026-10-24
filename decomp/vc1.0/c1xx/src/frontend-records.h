@@ -60,6 +60,7 @@ typedef char SwitchFrontendRecordSizeMustBe32[(sizeof(SwitchFrontendRecord) == 3
 typedef char SwitchOuterRecordOffsetMustBe16[(offsetof(SwitchFrontendRecord, outer_switch) == 16) ? 1 : -1];
 void begin_while_condition_region(void);
 void begin_for_condition_region(void);
+void __stdcall begin_switch_body_region(CType *type);
 void end_while_condition_region(void);
 void end_while_body(void);
 typedef char BranchBoundaryRecordSizeMustBe20[(sizeof(BranchBoundaryRecord) == 20) ? 1 : -1];

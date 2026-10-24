@@ -1,0 +1,11 @@
+Breakpoint 1 at 0x30599: file src/loop-output.c, line 89.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, begin_switch_body (expression=0x5663a62c) at src/loop-output.c:89
+89	    push_loop_label(&control_labels, 0x11);
+#0  begin_switch_body (expression=0x5663a62c) at src/loop-output.c:89
+#1  0x565ba955 in parse_translation_unit () at src/parser-statement-actions.inc:132
+#2  0x5655df0f in compile_translation_unit () at src/frontend.c:73
+#3  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558894 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

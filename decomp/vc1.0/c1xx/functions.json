@@ -1173,7 +1173,8 @@
     "_begin_for_body",
     "_end_for_increment_region",
     "_begin_switch_condition",
-    "_begin_switch_condition_region"
+    "_begin_switch_condition_region",
+    "_begin_switch_body@4"
   ],
   "driver": [
     {
@@ -2662,7 +2663,7 @@
     {
       "name": "_begin_switch_body@4",
       "start": 329792,
-      "end": 329793
+      "end": 330296
     },
     {
       "name": "_begin_switch_condition",
@@ -8391,6 +8392,11 @@
       "name": "_begin_switch_condition_region",
       "start": 262800,
       "end": 262858
+    },
+    {
+      "name": "_begin_switch_body_region@4",
+      "start": 263008,
+      "end": 263009
     }
   ],
   "cases": {
@@ -8591,7 +8597,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_begin_switch_body@4",
+      "terminal": "_begin_switch_body_region@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8614,7 +8620,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1168-begin_switch_condition_region/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1169-begin_switch_body-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8788,7 +8794,8 @@
         "cases/frontiers/state_machine_debug/1165-begin_for_body/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1166-end_for_increment_region/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1167-begin_switch_condition/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1168-begin_switch_condition_region/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1168-begin_switch_condition_region/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1169-begin_switch_body-4/frontier-extension.json"
       ]
     }
   },

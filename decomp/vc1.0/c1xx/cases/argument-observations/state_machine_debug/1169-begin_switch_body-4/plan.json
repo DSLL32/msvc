@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_begin_switch_body@4",
+  "native_entry": "begin_switch_body",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_expression": "(unsigned)expression"
+  },
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 101638,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_condition",
+        "native_owner_local": "switch_condition",
+        "identity": "Actual accepted parser action213 PUSHES returned EAX fromvalidate_value_expression at28d00/CALL28d01/return28d06; EAXunchanged at calleeentry. Native actual switch_condition names precisely returned expression before call, not a new owner or recursive state dump."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      329792,
+      330296
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void",
+    "proof": "Whole383Bcode+1alignmentbyte+30DWORD120Bdispatch. SavesESI4B; expressionentryESP+4=>ESP+8; RET4atboth exits. Zero incomingregister/x87/CPUflag inputs. Initializesall4labelstacks; earlyNULLusesbuiltinint andpassesNULLtype to40360. NonNULLboolean_expression mode1, fullydecoded8nondefaultwarningrows, promote only unshapedflags240, internresulttype, else diagnostic50/intlabel. Createsop90typedunary, takesactualcontrol-label token.value.pointer as current_label_symbol, emitsactualexpressionthenpassesitstype. Whole40360..403f8calleeret4/typeformal independentlyreviewed andleftnamedtrap. Existingglobals/callees/vocabulary only; no newdata."
+  },
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    167159,
+    167174
+  ],
+  "native_caller_locals": {
+    "caller_condition": {
+      "frame": 1,
+      "function": "parse_translation_unit",
+      "local": "switch_condition"
+    }
+  }
+}
