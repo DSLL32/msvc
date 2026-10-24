@@ -38,6 +38,12 @@ void write_browser_header(void)
     write_browser_record(0,0);
 }
 
+/* Original 0x27620..0x2762a, cdecl. */
+void browser_macro_end(void)
+{
+    write_browser_record(7,0);
+}
+
 int browser_suppressed; /* original0x6b58c */
 
 /* Original0x27130..0x2718f. Initialize only the record's meaningful fields;

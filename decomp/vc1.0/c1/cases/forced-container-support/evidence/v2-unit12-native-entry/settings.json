@@ -1,0 +1,26 @@
+{
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/container-v2-unit12-native-entry-1",
+  "function": "free_bitset",
+  "arguments": [
+    0
+  ],
+  "formals": [
+    "set"
+  ],
+  "body": false,
+  "buffered_streams": [
+    "expression_file",
+    "symbol_file",
+    "line_file",
+    "global_file",
+    "debug_file",
+    "pch_file",
+    "browser_output"
+  ],
+  "kind": "container-support",
+  "marker": "finish_declarations",
+  "owner_name": "forced_source_inputs",
+  "unit": 12,
+  "context_owner_name": "forced_source_inputs",
+  "convention": "stdcall"
+}

@@ -71,4 +71,5 @@ extern struct FrontendSymbol *pointer_base_symbol;
 CType *__stdcall qualify_member_type(CType *type, unsigned short model);
 CType *__stdcall clear_type_attributes(CType *type, unsigned short attributes);
 CType *__stdcall make_pointer_model_type(unsigned short model, CType *type);
+int __stdcall merge_selected_flags(unsigned *target, unsigned added);
 #endif

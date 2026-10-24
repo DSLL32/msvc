@@ -1,0 +1,10 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, finish_declarations () at src/declarations.c:694
+694	{
+
+Breakpoint -6, clone_bitset (source=0x57ad3730) at src/stubs.c:799
+799	BitSet *__stdcall clone_bitset(BitSet *source) { __asm { int 3 } return 0; }
+[Inferior 1 (process 2103328) killed]

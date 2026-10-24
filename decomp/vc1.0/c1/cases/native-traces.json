@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "66c18d675557f02722445436aba663925e9a1b2082e164c18a7dbcd5bbf02e26",
+    "functions.json": "64e13ea1b49afa91ea2fe04561a8b4e0e9993b11ee4520646fe2f51e169a06b7",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "ff6df528155b84fcd6d7fdad42b8dac7a64f3caf692d042381ee3594ee32a997"
+    "sha256": "e266c714e7212afa235eec8e93c699248e3f30d764e0b72ed794c0935b85b878"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -423,7 +423,7 @@
     },
     "browser_macro_end": {
       "logical": "_browser_macro_end",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "browser_macro_reference": {
       "logical": "_browser_macro_reference@4",
@@ -624,6 +624,10 @@
     "clear_type_attributes": {
       "logical": "_clear_type_attributes@8",
       "source": "src/types.c"
+    },
+    "clone_bitset": {
+      "logical": "_clone_bitset@4",
+      "source": "src/memory.c"
     },
     "clone_vector": {
       "logical": "_clone_vector@8",
@@ -1565,6 +1569,10 @@
       "logical": "_format_timestamp@4",
       "source": "src/macros.c"
     },
+    "free_bitset": {
+      "logical": "_free_bitset@4",
+      "source": "src/memory.c"
+    },
     "free_inline_query_tables": {
       "logical": "_free_inline_query_tables",
       "source": "src/inline-query.c"
@@ -1635,7 +1643,7 @@
     },
     "hash_pointer_low12": {
       "logical": "_hash_pointer_low12",
-      "source": "src/stubs.c"
+      "source": "src/hash-table.c"
     },
     "hash_symbol_index": {
       "logical": "_hash_symbol_index",
@@ -2253,6 +2261,10 @@
       "logical": "_merge_scoped_declaration@8",
       "source": "src/declarations.c"
     },
+    "merge_selected_flags": {
+      "logical": "_merge_selected_flags@8",
+      "source": "src/types.c"
+    },
     "merge_storage_class": {
       "logical": "_merge_storage_class@16",
       "source": "src/declarations.c"
@@ -2304,6 +2316,10 @@
     "new_declaration_text": {
       "logical": "_new_declaration_text",
       "source": "src/declaration-text.c"
+    },
+    "new_empty_vector": {
+      "logical": "_new_empty_vector@4",
+      "source": "src/vectors.c"
     },
     "new_enumerator": {
       "logical": "_new_enumerator@8",
@@ -3437,9 +3453,17 @@
       "logical": "_store_extended",
       "source": "src/floating.c"
     },
+    "store_vector_iterator": {
+      "logical": "_store_vector_iterator@8",
+      "source": "src/vectors.c"
+    },
     "string_pool_name": {
       "logical": "_string_pool_name@8",
       "source": "src/literal-names.c"
+    },
+    "subtract_bitset": {
+      "logical": "_subtract_bitset@8",
+      "source": "src/memory.c"
     },
     "subtract_extended": {
       "logical": "_subtract_extended",
@@ -3523,6 +3547,10 @@
     },
     "valid_vector": {
       "logical": "_valid_vector@4",
+      "source": "src/vectors.c"
+    },
+    "valid_vector_iterator": {
+      "logical": "_valid_vector_iterator@4",
       "source": "src/vectors.c"
     },
     "validate_asm_operand_count": {
@@ -4690,7 +4718,16 @@
     "vectors_equal",
     "valid_vector",
     "join_truncated_names",
-    "make_pointer_model_type"
+    "make_pointer_model_type",
+    "store_vector_iterator",
+    "valid_vector_iterator",
+    "clone_bitset",
+    "subtract_bitset",
+    "free_bitset",
+    "merge_selected_flags",
+    "new_empty_vector",
+    "hash_pointer_low12",
+    "browser_macro_end"
   ],
   "excluded_accepted": {
     "CRT": [

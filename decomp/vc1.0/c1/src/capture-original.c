@@ -879,6 +879,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
     memset(&current,0,sizeof(current));
     current.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
     if (!GetThreadContext(thread,&current)) return -1;
+    if(direct_active&&container_stage)return container_constructor_return(process,thread,log,base,&current,buffers);
     if (!direct_active) {
         direct_saved = current;
         direct_marker = site;
@@ -951,6 +952,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
             }
         }
         if(container_unit>=0&&!container_prepare(process,log,base))return -1;
+        if(container_stage)return container_call(process,thread,log,base,&current,1);
         for (index=0;index<8;++index) words[index]=0xa5a5a5a5;
         words[0]=site;
         for (index=0;index<direct_count;++index) words[index+1]=direct_arguments[index];
@@ -970,7 +972,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         return 1;
     }
     sprintf(line,"direct-return eax %08lx edx %08lx esp %08lx expected %08lx nonvolatile %u fctrl %08lx before %08lx\n",
-        current.Eax,current.Edx,current.Esp,direct_stack+4+4*direct_count,
+        current.Eax,current.Edx,current.Esp,direct_stack+4+4*(container_unit==15?0:direct_count),
         current.Ebx==direct_saved.Ebx && current.Esi==direct_saved.Esi &&
         current.Edi==direct_saved.Edi && current.Ebp==direct_saved.Ebp,
         current.FloatSave.ControlWord,direct_saved.FloatSave.ControlWord);
@@ -1041,7 +1043,7 @@ int main(int argc, char **argv)
     if (flag_option) {
         if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx,%lx",&direct_marker_rva,
                 &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1],&direct_arguments[2]) < 5 ||
-                direct_count>3 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT") && !getenv("C1_CONTAINER_UNIT"))) return 2;
+                direct_count>3 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")&&!getenv("C1_CONTAINER_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT") && !getenv("C1_CONTAINER_UNIT"))) return 2;
     }
     flag_option=getenv("C1_SUPPORT_UNIT");
     if(flag_option) {
@@ -1059,11 +1061,11 @@ int main(int argc, char **argv)
     if(flag_option) {
         container_unit=atoi(flag_option);
         {
-            static DWORD targets[]={0x226b0,0x226d0,0x227b0,0x22800,0x22810,0x22480,0x25910,0x303e0};
-            static unsigned counts[]={2,2,2,1,2,1,2,2};
-            if(container_unit<0||container_unit>7||support_unit>=0||getenv("C1_TEMPLATE_UNIT")||direct_marker_rva!=0x262c0||
-               direct_target_rva!=targets[container_unit]||direct_count!=counts[container_unit]||direct_arguments[0]!=(container_unit==7?2:0)||
-               direct_arguments[1]!=(container_unit<2?1:0))return 2;
+            static DWORD targets[]={0x226b0,0x226d0,0x227b0,0x22800,0x22810,0x22480,0x25910,0x303e0,0x22860,0x22880,0x22410,0x22450,0x22400,0x2f950,0x224b0,0x228b0,0x17620};
+            static unsigned counts[]={2,2,2,1,2,1,2,2,2,1,1,2,1,2,1,1,0};
+            if(container_unit<0||container_unit>16||support_unit>=0||getenv("C1_TEMPLATE_UNIT")||direct_marker_rva!=0x262c0||
+               direct_target_rva!=targets[container_unit]||direct_count!=counts[container_unit]||direct_arguments[0]!=(container_unit==7?2:container_unit==14?1:0)||
+               direct_arguments[1]!=(container_unit<2?1:container_unit==13?0xf37f9:0))return 2;
         }
     }
     flag_option=getenv("C1_TEMPLATE_UNIT");

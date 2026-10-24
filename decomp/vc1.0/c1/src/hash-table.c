@@ -4,6 +4,12 @@
 #include "builtins.h"
 #include <recon.h>
 
+/* Original 0x328b0..0x328ba, cdecl. Pointer identity, without dereference. */
+unsigned hash_pointer_low12(void *key)
+{
+    return (unsigned)key & 0xfff;
+}
+
 /* Original 0x328c0..0x32985. Both the header and its initially empty bucket
    vector use the same arena; arena 0 is permanent, -1 selects pool 0. */
 HashTable *__stdcall new_hash_table(unsigned short buckets, short arena,

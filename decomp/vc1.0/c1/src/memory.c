@@ -64,6 +64,33 @@ BitSet *__stdcall new_bitset(unsigned bit_count)
     return set;
 }
 
+/* Original 0x32400..0x32410, RET4. Bitsets have individual heap ownership. */
+void __stdcall free_bitset(BitSet *set)
+{
+    free(set);
+}
+
+/* Original 0x32410..0x32442, RET4. Retain the constructor's sentinel
+   byte as well as the represented bits and their final partial byte. */
+BitSet *__stdcall clone_bitset(BitSet *source)
+{
+    BitSet *copy = new_bitset(source->bit_count);
+    unsigned bytes = (source->bit_count >> 3) + 2;
+    unsigned index;
+    copy->bit_count = source->bit_count;
+    for (index = 0; index < bytes; ++index) copy->bits[index] = source->bits[index];
+    return copy;
+}
+
+/* Original 0x32450..0x32479, RET8. The sentinel beyond the final
+   represented byte is deliberately retained. The caller supplies equal sizes. */
+void __stdcall subtract_bitset(BitSet *target, BitSet *source)
+{
+    unsigned last = target->bit_count >> 3, index;
+    for (index = 0; index <= last; ++index)
+        target->bits[index] &= (unsigned char)~source->bits[index];
+}
+
 /* Original 0x4a570..0x4a594. */
 void *__stdcall checked_malloc(unsigned bytes)
 {

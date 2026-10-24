@@ -1076,7 +1076,16 @@
     "_vectors_equal@8",
     "_valid_vector@4",
     "_join_truncated_names@8",
-    "_make_pointer_model_type@8"
+    "_make_pointer_model_type@8",
+    "_store_vector_iterator@8",
+    "_valid_vector_iterator@4",
+    "_clone_bitset@4",
+    "_subtract_bitset@8",
+    "_free_bitset@4",
+    "_merge_selected_flags@8",
+    "_new_empty_vector@4",
+    "_hash_pointer_low12",
+    "_browser_macro_end"
   ],
   "driver": [
     {
@@ -2361,7 +2370,7 @@
     {
       "name": "_browser_macro_end",
       "start": 161312,
-      "end": 161313
+      "end": 161322
     },
     {
       "name": "_browser_function_parameters@4",
@@ -3447,9 +3456,29 @@
       "end": 205824
     },
     {
+      "name": "_free_bitset@4",
+      "start": 205824,
+      "end": 205840
+    },
+    {
+      "name": "_clone_bitset@4",
+      "start": 205840,
+      "end": 205890
+    },
+    {
+      "name": "_subtract_bitset@8",
+      "start": 205904,
+      "end": 205945
+    },
+    {
       "name": "_valid_vector@4",
       "start": 205952,
       "end": 205995
+    },
+    {
+      "name": "_new_empty_vector@4",
+      "start": 206000,
+      "end": 206015
     },
     {
       "name": "_new_vector@8",
@@ -3512,9 +3541,19 @@
       "end": 206930
     },
     {
+      "name": "_store_vector_iterator@8",
+      "start": 206944,
+      "end": 206967
+    },
+    {
+      "name": "_valid_vector_iterator@4",
+      "start": 206976,
+      "end": 207019
+    },
+    {
       "name": "_hash_pointer_low12",
       "start": 207024,
-      "end": 207025
+      "end": 207034
     },
     {
       "name": "_new_hash_table@16",
@@ -4450,6 +4489,11 @@
       "name": "_make_based_address@8",
       "start": 260128,
       "end": 260429
+    },
+    {
+      "name": "_merge_selected_flags@8",
+      "start": 260432,
+      "end": 260660
     },
     {
       "name": "_compatible_storage_modifiers@8",
@@ -6729,9 +6773,9 @@
     },
     "forced-container-support": {
       "accepted_from": 1063,
-      "accepted_count": 1072,
+      "accepted_count": 1081,
       "public_reachability": false,
-      "units": 8,
+      "units": 17,
       "manifest": "cases/forced-container-support/manifest.json"
     }
   }

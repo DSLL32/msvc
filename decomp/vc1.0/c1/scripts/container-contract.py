@@ -21,6 +21,7 @@ def type_state(text,boundary):
     return result
 
 def validate(original,native,plan,config):
+    if plan['unit']>=8:return validate_v2(original,native,plan,config)
     text=(original/'events').read_text();state=json.loads((native/'state.json').read_text())
     before=vector(text,'before');actual=state['before']['vector']
     for item in [before,actual]:
@@ -98,3 +99,105 @@ def validate(original,native,plan,config):
     receipt=json.loads((native/'receipt.json').read_text());work=Path(receipt['environment']['RECON_DRIVE_S']).joinpath(*canonical_parts(manifest['phases'][plan['phase']]['canonical_working_directory']))
     assert {p.name:p.read_bytes()for p in(original/'work').iterdir()}=={p.name:p.read_bytes()for p in work.iterdir()},'complete direct owned files differ'
     return dict(status='pass',kind='direct vector clone body/ABI/output'if returned else'fresh direct vector helper entry',public_reachability=False)
+
+def owned_state(text,boundary,unit):
+    if unit in(8,9):
+        m=re.search(r'^container-iterator '+boundary+r' address (\w+) vector (\w+) index (-?\d+)$',text,re.M);assert m
+        return dict(address=int(m[1],16),vector=int(m[2],16),index=int(m[3]))
+    if unit in(10,11,12):
+        if unit==12 and boundary=='after':
+            m=re.search(r'^container-released address (\w+)$',text,re.M);assert m;return dict(released=int(m[1],16))
+        rows=re.findall(r'^container-bitset '+boundary+r' (\d+) address (\w+) count (\d+) bytes (\w+)$',text,re.M)
+        assert [int(row[0])for row in rows]==list(range(2 if unit==11 else 1))
+        return [dict(address=int(address,16),count=int(count),bytes=data)for index,address,count,data in rows]
+    assert unit==13
+    m=re.search(r'^container-flags '+boundary+r' address (\w+) value (\w+) initial (\w+)$',text,re.M);assert m
+    return dict(address=int(m[1],16),value=int(m[2],16),initial=int(m[3],16))
+
+def validate_v2(original,native,plan,config):
+    unit=plan['unit'];text=(original/'events').read_text();state=json.loads((native/'state.json').read_text())
+    before=vector(text,'before');actual=state['before']['vector']
+    for item in [before,actual]:
+        assert (item['count'],item['capacity'],item['arena'])==(3,40,-1)
+        assert item['names']==['forced-a.h','forced-b.h','forced-c.h']
+    owned=actual_owned=None
+    if unit<=13:
+        owned=owned_state(text,'before',unit);actual_owned=state['before']['owned']
+        starts=re.findall(r'^container-constructor-start stage (\d+) target (\w+) argument (\d+) stack (\w+)$',text,re.M)
+        returns=re.findall(r'^container-constructor-return stage (\d+) address (\w+) esp (\w+) expected (\w+) nonvolatile 1 fctrl (\w+) before (\w+) canary a5x16$',text,re.M)
+        constructors=state['constructors'];count=2 if unit==11 else 1
+        assert len(starts)==len(returns)==len(constructors)==count
+        for index,(start,ret,constructor)in enumerate(zip(starts,returns,constructors)):
+            name='allocate_permanent'if unit in(8,9,13)else'new_bitset';argument=4 if unit==13 else 8 if unit<10 else 31
+            target=next(row['start']for row in config['driver']if row['name']=='_'+name+'@4')
+            assert int(start[0])==int(ret[0])==index+1 and int(start[1],16)==target and int(start[2])==argument
+            assert ret[2]==ret[3]and int(ret[2],16)==int(start[3],16)+8 and ret[4]==ret[5]
+            assert constructor['function']==name and constructor['argument']==argument
+            assert constructor['initialized_bytes']==('00'*argument if name=='allocate_permanent'else'1f00000000000000ff')
+            original_address=owned[index]['address']if unit in(10,11,12)else owned['address']
+            native_address=actual_owned[index]['address']if unit in(10,11,12)else actual_owned['address']
+            assert int(ret[1],16)==original_address and constructor['address']==native_address
+        if unit in(8,9):
+            assert owned['vector']==before['address']and actual_owned['vector']==actual['address']and owned['index']==actual_owned['index']==1
+        elif unit in(10,11,12):
+            for index,(left,right)in enumerate(zip(owned,actual_owned)):
+                assert left['count']==right['count']==31 and left['bytes']==right['bytes']==('5aa50f40ff'if index==0 else'0ff03320ff')
+        else:assert owned['value']==owned['initial']==actual_owned['value']==actual_owned['initial']
+    def arguments(value,record):
+        if unit in(8,9):return [record['address'],value['values'][2]]if unit==8 else[record['address']]
+        if unit in(10,11,12):return [row['address']for row in record]
+        if unit==13:return [record['address'],0xf37f9]
+        return {14:[1],15:[value['address']],16:[]}[unit]
+    start=re.search(r'^direct-start target (\w+) marker (\w+) stack (\w+) count (\d+) args (\w+) (\w+)$',text,re.M);assert start
+    target=next(row for row in config['driver']if row['name']==plan['function'])
+    assert int(start[1],16)==target['start']and int(start[4])==plan['arguments']
+    assert [int(start[i],16)for i in range(5,5+plan['arguments'])]==arguments(before,owned)
+    assert state['arguments']==state['formals']==arguments(actual,actual_owned)
+    returned='direct-return eax 'in text
+    first=text[:text.index('direct-return eax ')]if returned else text
+    assert buffers(first,config)==state['before']['buffers']
+    if returned:
+        after=vector(text,'after');native_after=state['after']['vector']
+        for source,changed in [(before,after),(actual,native_after)]:
+            expected=dict(source)
+            if unit==8:expected.update(values=[source['values'][0],source['values'][2],source['values'][2]],names=['forced-a.h','forced-c.h','forced-c.h'])
+            assert changed==expected,'unexpected parsed vector mutation'
+        if unit<=13:
+            after_owned=owned_state(text,'after',unit);native_owned=state['after']['owned']
+            if unit==11:
+                for source,changed in [(owned,after_owned),(actual_owned,native_owned)]:
+                    assert changed[0]==dict(source[0],bytes='50050c40ff')and changed[1]==source[1]
+            elif unit==12:
+                assert after_owned==dict(released=owned[0]['address'])and native_owned==dict(released=actual_owned[0]['address'])
+            elif unit==13:
+                assert after_owned==dict(owned,value=owned['initial']|0xf37f8)and native_owned==dict(actual_owned,value=actual_owned['initial']|0xf37f8)
+            else:assert after_owned==owned and native_owned==actual_owned
+        ret=re.search(r'^direct-return eax (\w+) edx (\w+) esp (\w+) expected (\w+) nonvolatile (\d+) fctrl (\w+) before (\w+)$',text,re.M);assert ret
+        eax=int(ret[1],16);native_eax=state['after']['registers']['eax'];cleanup=0 if plan.get('convention')=='cdecl'else plan['arguments']
+        assert ret[3]==ret[4]and int(ret[3],16)==int(start[3],16)+4+4*cleanup and ret[5]=='1'and ret[6]==ret[7]
+        assert re.search(r'^direct-canary (.+)$',text,re.M)[1]=='a5a5a5a5 '*3+'a5a5a5a5'
+        assert state['status']=='returned'and state['canary']=='a5'*16 and state['after']['registers']['esp']==state['stack']+4+4*cleanup
+        for register in ['ebx','esi','edi','ebp','fctrl']:assert state['after']['registers'][register]==state['before']['registers'][register]
+        if unit in(9,13):assert eax==native_eax==1
+        if unit==10:
+            result=owned_state(text,'result',unit)[0];native_result=state['bitset_result']
+            assert result==dict(owned[0],address=eax)and native_result==dict(actual_owned[0],address=native_eax)
+            assert eax!=owned[0]['address']and native_eax!=actual_owned[0]['address']
+        if unit==14:
+            m=re.search(r'^container-empty result address (\w+) count (-?\d+) capacity (-?\d+) arena (-?\d+)$',text,re.M);assert m
+            assert int(m[1],16)==eax and [int(m[i])for i in [2,3,4]]==[0,0,1]
+            assert state['empty_result']==dict(count=0,capacity=0,arena=1)
+        if unit==15:assert eax==before['address']&0xfff and native_eax==actual['address']&0xfff
+        final_buffers=buffers(text[text.index('direct-return eax '):],config)
+        assert final_buffers==state['after']['buffers']
+        if unit!=16:assert final_buffers==state['before']['buffers']
+        else:assert final_buffers['browser_output']!=state['before']['buffers']['browser_output']
+    else:
+        m=re.search(r'^exception 80000003 rva (\w+) base (\w+)',text,re.M);assert m
+        assert int(m[1],16)+int(m[2],16)==target['start']and state['status']=='entry'
+    for name in ['stdout','stderr']:assert(original/name).read_bytes()==(native/name).read_bytes()
+    from case_paths import canonical_parts
+    phase=json.loads((Path(__file__).resolve().parents[1]/'cases/forced-container-support/manifest.json').read_text())['phases'][plan['phase']]
+    receipt=json.loads((native/'receipt.json').read_text());work=Path(receipt['environment']['RECON_DRIVE_S']).joinpath(*canonical_parts(phase['canonical_working_directory']))
+    assert {p.name:p.read_bytes()for p in(original/'work').iterdir()}=={p.name:p.read_bytes()for p in work.iterdir()},'complete direct owned files differ'
+    return dict(status='pass',kind='direct constructor-owned container body/ABI/output'if returned else'fresh direct constructor-owned entry',public_reachability=False,unit=unit)

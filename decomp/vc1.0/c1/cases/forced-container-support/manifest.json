@@ -1,6 +1,6 @@
 {
   "case": "Forced-header/nested-macro/browser and direct container/type support",
-  "status": "Complete: public forced-header/browser context plus8explicit direct units,9new application functions646B; remaining unlisted/dormant code is not classified CRT.",
+  "status": "v1/v2 complete:17direct units,18new whole application functions1082B;59public+57direct cached native regressions pass; prior references unchanged. Remaining unknown bodies are not CRT.",
   "baseline_commit": "4c180d6c2f61e3e05947f9c11e541544fccf3411",
   "baseline_accepted_count": 1063,
   "authorization": "Root approved one coherent case; real parsed names/types and populated vectors, actual constructor-created owned test records; preserve public/direct distinction and no CRT-by-location assumption.",
@@ -339,6 +339,151 @@
       "result_kind": "type",
       "phase": "direct",
       "status": "accepted; direct support only, actual parsed container_result function type"
+    },
+    {
+      "unit": 8,
+      "function": "_store_vector_iterator@8",
+      "arguments": 2,
+      "request_arguments": [
+        0,
+        0
+      ],
+      "formals": [
+        "iterator",
+        "item"
+      ],
+      "owner": "forced_source_inputs",
+      "result_kind": "iterator-store",
+      "phase": "direct",
+      "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+      "constructor": "allocate_permanent(8)"
+    },
+    {
+      "unit": 9,
+      "function": "_valid_vector_iterator@4",
+      "arguments": 1,
+      "request_arguments": [
+        0
+      ],
+      "formals": [
+        "iterator"
+      ],
+      "owner": "forced_source_inputs",
+      "result_kind": "iterator-valid",
+      "phase": "direct",
+      "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+      "constructor": "allocate_permanent(8)"
+    },
+    {
+      "unit": 10,
+      "function": "_clone_bitset@4",
+      "arguments": 1,
+      "request_arguments": [
+        0
+      ],
+      "formals": [
+        "source"
+      ],
+      "owner": "forced_source_inputs",
+      "result_kind": "bitset-clone",
+      "phase": "direct",
+      "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+      "constructor": "new_bitset(31)"
+    },
+    {
+      "unit": 11,
+      "function": "_subtract_bitset@8",
+      "arguments": 2,
+      "request_arguments": [
+        0,
+        0
+      ],
+      "formals": [
+        "target",
+        "source"
+      ],
+      "owner": "forced_source_inputs",
+      "result_kind": "bitset-difference",
+      "phase": "direct",
+      "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+      "constructor": "new_bitset(31), twice"
+    },
+    {
+      "unit": 12,
+      "function": "_free_bitset@4",
+      "arguments": 1,
+      "request_arguments": [
+        0
+      ],
+      "formals": [
+        "set"
+      ],
+      "owner": "forced_source_inputs",
+      "result_kind": "bitset-free",
+      "phase": "direct",
+      "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+      "constructor": "new_bitset(31)"
+    },
+    {
+      "unit": 13,
+      "function": "_merge_selected_flags@8",
+      "arguments": 2,
+      "request_arguments": [
+        0,
+        997369
+      ],
+      "formals": [
+        "target",
+        "added"
+      ],
+      "owner": "forced_source_inputs",
+      "result_kind": "flags",
+      "phase": "direct",
+      "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+      "constructor": "allocate_permanent(4)"
+    },
+    {
+      "unit": 14,
+      "function": "_new_empty_vector@4",
+      "arguments": 1,
+      "request_arguments": [
+        1
+      ],
+      "formals": [
+        "arena"
+      ],
+      "owner": "forced_source_inputs",
+      "result_kind": "empty-vector",
+      "phase": "direct",
+      "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked"
+    },
+    {
+      "unit": 15,
+      "function": "_hash_pointer_low12",
+      "arguments": 1,
+      "request_arguments": [
+        0
+      ],
+      "formals": [
+        "key"
+      ],
+      "owner": "forced_source_inputs",
+      "result_kind": "hash",
+      "phase": "direct",
+      "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+      "convention": "cdecl"
+    },
+    {
+      "unit": 16,
+      "function": "_browser_macro_end",
+      "arguments": 0,
+      "request_arguments": [],
+      "formals": [],
+      "owner": "forced_source_inputs",
+      "result_kind": "browser",
+      "phase": "direct",
+      "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+      "convention": "cdecl"
     }
   ],
   "direct_oracles": [
@@ -740,8 +885,452 @@
         "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
         "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v2-unit8-first-entry",
+      "input": {
+        "unit": 8,
+        "function": "_store_vector_iterator@8",
+        "arguments": 2,
+        "request_arguments": [
+          0,
+          0
+        ],
+        "formals": [
+          "iterator",
+          "item"
+        ],
+        "owner": "forced_source_inputs",
+        "result_kind": "iterator-store",
+        "phase": "direct",
+        "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+        "constructor": "allocate_permanent(8)"
+      },
+      "accepted_from": 1072,
+      "accepted_count": 1073,
+      "accepted_functions": [
+        "_store_vector_iterator@8"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "entry-plan.txt": "4bf6d49feedbd5d78eeebaeb551718ec83ef68a3977076951986b6c523226f40",
+        "events": "552dc0e6bd87d621dd8ccc8eabd1509d64c7989bc71c1e99948c8bc2267188d7",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "823dd690e51764e58cd3b9f393bba3601ba148763f7beddd5c9897f8d2f7bb3c",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "e96e338eb08735c043ebf35a6e111be64eedb104f608cb525f69c1fc5c1c7cc4",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v2-unit9-first-entry",
+      "input": {
+        "unit": 9,
+        "function": "_valid_vector_iterator@4",
+        "arguments": 1,
+        "request_arguments": [
+          0
+        ],
+        "formals": [
+          "iterator"
+        ],
+        "owner": "forced_source_inputs",
+        "result_kind": "iterator-valid",
+        "phase": "direct",
+        "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+        "constructor": "allocate_permanent(8)"
+      },
+      "accepted_from": 1073,
+      "accepted_count": 1074,
+      "accepted_functions": [
+        "_valid_vector_iterator@4"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "7dd7b1814099660ab75fcdd8bd4b58a024a1e8fb138fd91aa4807bf855cd9b25",
+        "receipt.json": "8ba1ada447370f0fcce90f4a5b21ae4319e30f99454a663b69351c87e8d2d65d",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "aae7b4cc9b0dd7192d62bc597c0286028a3dd5a21095ed2f2e833051cc73e724",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "57a5d8f7a7cd54410724d8ad802e67e7d1ddbb414daecd6eaaa958deb1c394d0",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v2-unit10-first-entry",
+      "input": {
+        "unit": 10,
+        "function": "_clone_bitset@4",
+        "arguments": 1,
+        "request_arguments": [
+          0
+        ],
+        "formals": [
+          "source"
+        ],
+        "owner": "forced_source_inputs",
+        "result_kind": "bitset-clone",
+        "phase": "direct",
+        "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+        "constructor": "new_bitset(31)"
+      },
+      "accepted_from": 1074,
+      "accepted_count": 1075,
+      "accepted_functions": [
+        "_clone_bitset@4"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "3d170516be25e8e46f2a808cb5e9d809ea251054376887394d1a5444646ec94d",
+        "capture-status.json": "d9e5b55551cdd4af73f896c3110902c4cc9b6556c76265fcdb63a3c97fdd67a3",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "d8debe98399165be41e25d0238346b778f6251e2a87e4c72e0ea2f4d0315a32b",
+        "receipt.json": "484e2b0a7a17864d5546234c8c41b9d0aec85b0d6601ef4d2f9d00ac7de98c5f",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v2-unit11-first-entry",
+      "input": {
+        "unit": 11,
+        "function": "_subtract_bitset@8",
+        "arguments": 2,
+        "request_arguments": [
+          0,
+          0
+        ],
+        "formals": [
+          "target",
+          "source"
+        ],
+        "owner": "forced_source_inputs",
+        "result_kind": "bitset-difference",
+        "phase": "direct",
+        "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+        "constructor": "new_bitset(31), twice"
+      },
+      "accepted_from": 1075,
+      "accepted_count": 1076,
+      "accepted_functions": [
+        "_subtract_bitset@8"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "capture-status.json": "71c9fdbdf941a04a06bde2879f8b2da474b7a8946925bae93a352c15b7bcc5a4",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "4b73bbb6fdbdef300f80687d9fdfea4295544be989903ee201740ebd34278d7d",
+        "events": "9d8383147973e8057ed7cc8bb3212c76344917f59458d307d40bcd5a4e3a840f",
+        "entry-plan.txt": "8c8b7080f14c4ac4ffa283eeb2ba24f6d20c79d72731a205039fab36095f3709",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v2-unit12-first-entry",
+      "input": {
+        "unit": 12,
+        "function": "_free_bitset@4",
+        "arguments": 1,
+        "request_arguments": [
+          0
+        ],
+        "formals": [
+          "set"
+        ],
+        "owner": "forced_source_inputs",
+        "result_kind": "bitset-free",
+        "phase": "direct",
+        "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+        "constructor": "new_bitset(31)"
+      },
+      "accepted_from": 1076,
+      "accepted_count": 1077,
+      "accepted_functions": [
+        "_free_bitset@4"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "578653d36c17987eb4e13051ffed8b8c5924facb3184dff85d2265ad2df83a5e",
+        "receipt.json": "2426cab86ce5e97bfae31d1dd2ecf136e3d95811dac7fdf4778d6f2fa6eaea63",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "4e64475ee180693fa5004fc111d93b4675d99a2fb3c97eb8d0d4a780017c2e6d",
+        "entry-plan.txt": "bf1401b2c8dd79583136f8dcfebbdbab26c3f91a9538d5748bcec60b24075bdb",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v2-unit13-first-entry",
+      "input": {
+        "unit": 13,
+        "function": "_merge_selected_flags@8",
+        "arguments": 2,
+        "request_arguments": [
+          0,
+          997369
+        ],
+        "formals": [
+          "target",
+          "added"
+        ],
+        "owner": "forced_source_inputs",
+        "result_kind": "flags",
+        "phase": "direct",
+        "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+        "constructor": "allocate_permanent(4)"
+      },
+      "accepted_from": 1077,
+      "accepted_count": 1078,
+      "accepted_functions": [
+        "_merge_selected_flags@8"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "f6a14c1fe571dab77add753a86258fe1a483e8b0bd2783aca959a5d9389fc43b",
+        "capture-status.json": "19a125dceeae5aa650f8df401d518cbdfb882b3c1d56aa9065ee8d7d1f99360d",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "ca623ff777ffe6bdfbffc334fb8971417ca308f66a6a93e719267cd6d3371c75",
+        "entry-plan.txt": "578026f49226aa0bdd43106f1098349a7628011c0faf62b710788c2efdea9a59",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v2-unit14-first-entry",
+      "input": {
+        "unit": 14,
+        "function": "_new_empty_vector@4",
+        "arguments": 1,
+        "request_arguments": [
+          1
+        ],
+        "formals": [
+          "arena"
+        ],
+        "owner": "forced_source_inputs",
+        "result_kind": "empty-vector",
+        "phase": "direct",
+        "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked"
+      },
+      "accepted_from": 1078,
+      "accepted_count": 1079,
+      "accepted_functions": [
+        "_new_empty_vector@4"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "fba56fec9dc47c9a00ba37a326188282759fd6d2aff2b472c9bc192e3efea459",
+        "receipt.json": "6f078fa5abbe1769496f36b10a2658b7e1607550c67d9f2df9938a9ba09aa61d",
+        "capture-status.json": "9852d7ebaf985b817f845e46b080ad998bbd649c571e32b3d3cc40b58f39a373",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "24c11ab3c2eec45862c7e5e02c9b289964bd6928006b63d3c5af5d99ae745c48",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v2-unit15-first-entry",
+      "input": {
+        "unit": 15,
+        "function": "_hash_pointer_low12",
+        "arguments": 1,
+        "request_arguments": [
+          0
+        ],
+        "formals": [
+          "key"
+        ],
+        "owner": "forced_source_inputs",
+        "result_kind": "hash",
+        "phase": "direct",
+        "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+        "convention": "cdecl"
+      },
+      "accepted_from": 1079,
+      "accepted_count": 1080,
+      "accepted_functions": [
+        "_hash_pointer_low12"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "receipt.json": "79ca5454cce66327777d313c12f16c1271e82cda1fab34f5f787f524078b3646",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "a77c8df06c263e12a3fa1771a846506afaff4a6c61f04ab4fb95eab6c7804cd9",
+        "events": "bcc13fb4fbf3a9a0d06e780139dd6be49b0e8c356a3d5c799e4de2f8e1a516c7",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "2ec68ef59f35a6f612c4634749e3674eaff901b954aff74c047e133f3564df5a",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v2-unit16-first-entry",
+      "input": {
+        "unit": 16,
+        "function": "_browser_macro_end",
+        "arguments": 0,
+        "request_arguments": [],
+        "formals": [],
+        "owner": "forced_source_inputs",
+        "result_kind": "browser",
+        "phase": "direct",
+        "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
+        "convention": "cdecl"
+      },
+      "accepted_from": 1080,
+      "accepted_count": 1081,
+      "accepted_functions": [
+        "_browser_macro_end"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "2b5ef8c1057161657c61ff02ab0ba5a845a99c8607cd42e46a946812eed97638",
+        "events": "d85098f94f3b8a063292b86c2279094d41f0c7986e042f565c8d971d5209a115",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "ff1a2e0defc00b92acca1b53bfdf58bf82c1a746734c1804ceabd0683e038aa9",
+        "entry-plan.txt": "569b0e7f920c3d3877c7f2a148ce806bbcc8900c9863119848ddb9df7c79e68b",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d"
+      }
     }
   ],
   "interface": "Standalone C1 parsed frontend interface; no CL/backend compatibility claim.",
-  "retained_scaffold_failure": "First native fixture executed successfully but its artifact checker rejected missing output_name fields in new metadata. Output names were added explicitly; raw original/native files remain unchanged."
+  "retained_scaffold_failure": "First native fixture executed successfully but its artifact checker rejected missing output_name fields in new metadata. Output names were added explicitly; raw original/native files remain unchanged.",
+  "extension_v2_authorization": "Root approved real vector iterators, constructor-owned bitset clone/difference/free and flag propagation over established owned records; accepted constructors and bound ABIs, no general stepper/global seeding.",
+  "retained_v2_scaffold_trial": "Initial iterator observation used a partial DWORD buffer with a subsequent short cast; changed to separately typed4B/2B reads before acceptance, retaining original trials. Affected original entries recaptured asentry-2; no target-state repair or evidence relabeling."
 }

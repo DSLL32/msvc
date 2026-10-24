@@ -9,6 +9,12 @@ typedef struct Vector {
     int arena;
     void **items;
 } Vector;
+typedef struct VectorIterator {
+    Vector *vector;
+    short index;
+} VectorIterator;
+typedef char VectorIterator_size[(sizeof(VectorIterator) == 8) ? 1 : -1];
+typedef char VectorIterator_index[(offsetof(VectorIterator,index) == 4) ? 1 : -1];
 typedef char Vector_size[(sizeof(Vector) == 12) ? 1 : -1];
 typedef char Vector_capacity[(offsetof(Vector,capacity) == 2) ? 1 : -1];
 typedef char Vector_arena[(offsetof(Vector,arena) == 4) ? 1 : -1];
@@ -165,6 +171,9 @@ typedef struct Arena {
 extern Arena compiler_arena, diagnostic_arena;
 void __stdcall refill_arena(Arena *arena, ArenaPool *pool);
 BitSet *__stdcall new_bitset(unsigned bit_count);
+BitSet *__stdcall clone_bitset(BitSet *source);
+void __stdcall subtract_bitset(BitSet *target, BitSet *source);
+void __stdcall free_bitset(BitSet *set);
 void *new_permanent_page(void);
 void __stdcall release_arena(int arena);
 extern int permanent_page_count;
@@ -204,6 +213,9 @@ int __stdcall vector_contains(Vector *vector, void *item);
 void *__stdcall first_vector_item(Vector *vector);
 int __stdcall vectors_equal(Vector *left, Vector *right);
 int __stdcall valid_vector(Vector *vector);
+Vector *__stdcall new_empty_vector(int arena);
+void __stdcall store_vector_iterator(VectorIterator *iterator, void *item);
+int __stdcall valid_vector_iterator(VectorIterator *iterator);
 char *__stdcall join_truncated_names(char *prefix, char *suffix);
 unsigned __stdcall vector_storage_bytes(Vector *vector);
 #endif

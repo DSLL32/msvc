@@ -464,7 +464,6 @@ void release_input_handle(void) { __asm { int 3 } }
 
 
 
-void browser_macro_end(void) { __asm { int 3 } }
 
 /* Original 0x1e550. */
 
@@ -528,7 +527,6 @@ void browser_macro_end(void) { __asm { int 3 } }
 /* Original 0x32af0. */
 
 /* Original 0x328b0. */
-unsigned hash_pointer_low12(void *key) { __asm { int 3 } return 0; }
 
 /* Original 0x363e0. */
 
@@ -792,6 +790,7 @@ unsigned hash_pointer_low12(void *key) { __asm { int 3 } return 0; }
 #include "pch-relocate.h"
 #include "asm.h"
 #include <recon.h>
+
 
 
 

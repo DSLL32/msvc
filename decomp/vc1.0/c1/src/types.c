@@ -5,6 +5,15 @@
 #include "parser.h"
 #include <recon.h>
 
+/* Original 0x3f950..0x3fa34, RET8. Propagate only these declaration
+   flags; report whether any selected flag was present, even if already set. */
+int __stdcall merge_selected_flags(unsigned *target, unsigned added)
+{
+    unsigned selected = added & 0x000f37f8;
+    if (selected) *target |= selected;
+    return selected != 0;
+}
+
 /* Original 0x403e0..0x40484, RET8. Keep the source pointer model on
    the new outer shape, and apply the requested model to its base type. */
 CType *__stdcall make_pointer_model_type(unsigned short model, CType *type)

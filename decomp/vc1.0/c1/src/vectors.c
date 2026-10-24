@@ -52,6 +52,27 @@ int __stdcall valid_vector(Vector *vector)
         vector->capacity >= vector->count;
 }
 
+/* Original 0x324b0..0x324bf, RET4. The unused items field is left to
+   new_vector; a zero-capacity vector does not initialize it explicitly. */
+Vector *__stdcall new_empty_vector(int arena)
+{
+    return new_vector(0, arena);
+}
+
+/* Original 0x32860..0x32877, RET8. The iterator owns its index check. */
+void __stdcall store_vector_iterator(VectorIterator *iterator, void *item)
+{
+    iterator->vector->items[iterator->index] = item;
+}
+
+/* Original 0x32880..0x328ab, RET4. The original includes the end position
+   and does not reject negative indices; this predicate is not a store bound. */
+int __stdcall valid_vector_iterator(VectorIterator *iterator)
+{
+    return valid_vector(iterator->vector) &&
+        iterator->index <= iterator->vector->count;
+}
+
 /* Original 0x32630..0x326ac, RET12. Copy only initialized item slots;
    capacity is a signed short, while the negative-extra check uses int. */
 Vector *__stdcall clone_vector_with_extra(Vector *source, short extra, int arena)

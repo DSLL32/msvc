@@ -34,7 +34,7 @@ def main():
     parser.add_argument('--direct-function',help='Explicit debugger-only support callback after real marker; no public-reach claim')
     parser.add_argument('--direct-arguments',nargs='*',type=lambda s:int(s,0))
     parser.add_argument('--support-unit',type=int,choices=range(13),help='Direct legacy support method using genuinely parsed owners')
-    parser.add_argument('--container-unit',type=int,choices=range(8),help='Explicit direct container unit over actual parsed forced headers')
+    parser.add_argument('--container-unit',type=int,choices=range(17),help='Explicit direct container unit over actual parsed forced headers')
     parser.add_argument('--expression-unit',type=int,choices=range(6),help='External direct expression unit; owned test input, not target-global seeding')
     parser.add_argument('--direct-body',action='store_true',help='Restore exactly selected candidate body/shared text for explicit direct verification')
     parser.add_argument('--restore-function',action='append',default=[],help='Explicit candidate body/shared-text restoration, without accepting it')

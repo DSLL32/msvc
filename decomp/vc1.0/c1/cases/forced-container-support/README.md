@@ -1,3 +1,5 @@
+This is the v1 checkpoint. See `README-v2.md` for its constructor-owned extension.
+
 The public phase compiles a single program using three forced headers, nested
 includes and macros, records, bitfields, callbacks, floating literals and browser
 output. Its original status, both streams, browser file and all five IR files

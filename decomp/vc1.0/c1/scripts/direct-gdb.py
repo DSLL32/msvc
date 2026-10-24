@@ -44,7 +44,7 @@ def vector_snapshot(address):
     assert count==3 and count<=capacity<=256
     items=[int(vector['items'][i])for i in range(count)]
     names=[gdb.parse_and_eval('(char *)'+str(item)).string()for item in items]
-    assert names==['forced-a.h','forced-b.h','forced-c.h']
+    assert all(name in ['forced-a.h','forced-b.h','forced-c.h']for name in names)
     return dict(address=address,count=count,capacity=capacity,arena=int(vector['arena']),items=int(vector['items']),values=items,names=names)
 
 def container_snapshot():
@@ -57,7 +57,40 @@ def container_snapshot():
         buffers[name]=memory(base,pointer-base).hex()if pointer>base else''
     result=dict(registers={r:number('$'+r)for r in registers},owner=container_owner,vector=vector_snapshot(container_owner),error_count=number('error_count'),buffers=buffers)
     if settings['unit']==7:result['type']=container_type_snapshot(container_type)
+    if 8<=settings['unit']<=13:result['owned']=container_owned_snapshot()
     return result
+
+def bitset_snapshot(address):
+    count=struct.unpack('<I',memory(address,4))[0];assert count==31
+    return dict(address=address,count=count,bytes=memory(address+4,5).hex())
+
+def container_owned_snapshot():
+    unit=settings['unit']
+    if unit in(8,9):
+        vector,index=struct.unpack('<Ih',memory(container_owned[0],6))
+        return dict(address=container_owned[0],vector=vector,index=index)
+    if unit in(10,11,12):
+        if unit==12 and not container_owned_live:return dict(released=container_owned[0])
+        return [bitset_snapshot(address)for address in container_owned]
+    assert unit==13
+    return dict(address=container_owned[0],value=struct.unpack('<I',memory(container_owned[0],4))[0],initial=container_initial_flags)
+
+def container_construct():
+    global container_owned,container_owned_live,container_initial_flags
+    unit=settings['unit'];container_owned=[];container_owned_live=True;constructors=[]
+    name='allocate_permanent'if unit in(8,9,13)else'new_bitset';argument=4 if unit==13 else 8 if unit<10 else 31
+    for index in range(2 if unit==11 else 1):
+        address=int(gdb.parse_and_eval(name+'('+str(argument)+')'))
+        assert address;container_owned.append(address)
+        initialized=memory(address,argument if name=='allocate_permanent'else 9)
+        assert initialized==(b'\0'*argument if name=='allocate_permanent'else bytes.fromhex('1f00000000000000ff'))
+        constructors.append(dict(function=name,argument=argument,address=address,initialized_bytes=initialized.hex()))
+        if unit in(8,9):gdb.selected_inferior().write_memory(address,struct.pack('<Ih',container_owner,1))
+        elif unit==13:
+            container_initial_flags=int(find_support_owner('container_result').dereference()['attributes'])
+            gdb.selected_inferior().write_memory(address,struct.pack('<I',container_initial_flags))
+        else:gdb.selected_inferior().write_memory(address+4,bytes.fromhex('5aa50f40'if index==0 else'0ff03320'))
+    settings['constructors']=constructors
 
 def container_type_snapshot(address):
     type=gdb.parse_and_eval('(CType *)'+str(address)).dereference();shapes=[];shape=type['related']
@@ -203,7 +236,13 @@ if settings.get('kind')=='container-support':
     if settings['unit']==7:
         container_type=int(find_support_owner('container_result').dereference()['type'])
         assert container_type and len(container_type_snapshot(container_type)['shapes'])==1
-    settings['arguments']={0:[container_owner,1],1:[container_owner,1],2:[container_owner,actual['values'][2]],3:[container_owner],4:[container_owner,container_owner],5:[container_owner],6:[actual['values'][0],actual['values'][2]],7:[2,container_type]if settings['unit']==7 else[]}[settings['unit']]
+    if 8<=settings['unit']<=13:
+        container_construct()
+        settings['arguments']=[container_owned[0]]
+        if settings['unit']==8:settings['arguments'].append(actual['values'][2])
+        if settings['unit']==11:settings['arguments'].append(container_owned[1])
+        if settings['unit']==13:settings['arguments'].append(0xf37f9)
+    else:settings['arguments']={0:[container_owner,1],1:[container_owner,1],2:[container_owner,actual['values'][2]],3:[container_owner],4:[container_owner,container_owner],5:[container_owner],6:[actual['values'][0],actual['values'][2]],7:[2,container_type]if settings['unit']==7 else[],14:[1],15:[container_owner],16:[]}[settings['unit']]
 if settings.get('kind')=='legacy-support':
     support_owner=find_support_owner(settings.get('context_owner_name',settings['owner_name']))
     if settings['unit']in(10,11):
@@ -234,6 +273,7 @@ slots=[struct.unpack('<I',memory(number('$ebp')+8+4*i,4))[0]for i in range(len(s
 formals=[number(n)for n in settings['formals']]
 assert slots==settings['arguments'] and formals==slots,('direct ABI slots/formals differ',slots,formals,settings['arguments'])
 report=dict(before=before,storage=storage,stack=stack,arguments=slots,formals=formals,entry=snapshot(),status='entry')
+if 'constructors'in settings:report['constructors']=settings['constructors']
 if settings['body']:
     entry.delete()
     if settings.get('frontier'):
@@ -251,8 +291,9 @@ if settings['body']:
         nested.delete();marker.delete();gdb.execute('kill');gdb.execute('quit')
     gdb.execute('continue')
     assert number('$eip')==words[0],('direct callback stopped elsewhere',hex(number('$eip')),gdb.newest_frame().name())
+    if settings.get('kind')=='container-support'and settings['unit']==12:container_owned_live=False
     after=snapshot()
-    assert after['registers']['esp']==stack+4+4*len(slots),'direct stack cleanup differs'
+    assert after['registers']['esp']==stack+4+(0 if settings.get('convention')=='cdecl'else 4*len(slots)),'direct stack cleanup differs'
     for r in ['ebx','esi','edi','ebp','fctrl']:
         assert after['registers'][r]==before['registers'][r],('direct callee-saved register differs',r)
     canary=memory(stack+4+4*len(slots),16)
@@ -264,6 +305,9 @@ if settings['body']:
         report['name_result']=gdb.parse_and_eval('(char *)'+str(after['registers']['eax'])).string()
     if settings.get('kind')=='container-support'and settings['unit']==7:
         report['type_result']=container_type_snapshot(after['registers']['eax'])
+    if settings.get('kind')=='container-support'and settings['unit']==10:report['bitset_result']=bitset_snapshot(after['registers']['eax'])
+    if settings.get('kind')=='container-support'and settings['unit']==14:
+        count,capacity,arena=struct.unpack('<hhi',memory(after['registers']['eax'],8));report['empty_result']=dict(count=count,capacity=capacity,arena=arena)
     if settings.get('kind')=='legacy-support' and settings['unit']==11:
         fixup=gdb.parse_and_eval('legacy_type_fixups');assert int(fixup) and int(fixup)==number('legacy_type_fixup_tail')
         item=fixup.dereference()

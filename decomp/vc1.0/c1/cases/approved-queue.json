@@ -2,7 +2,7 @@
   "authorization": "Root-approved substantial standalone QuickC and legacy declaration/literal cases; real parsed flags, frozen originals and native-only regression.",
   "baseline_commit": "160ef1dcc8e61a9227cfdee0ffaa43102f1cec27",
   "baseline_accepted_count": 1015,
-  "status": "Forced-header/container/type support case complete; residual application survey remains active",
+  "status": "Forced-header/container/type v1/v2 complete; residual application survey remains active",
   "cases": [
     {
       "case": "legacy-pdb-object",
@@ -41,7 +41,7 @@
       "case": "forced-container-support",
       "phase": "context and direct container/type support",
       "authorization": "Root approved one coherent case; real parsed names/types and populated vectors, actual constructor-created owned test records; preserve public/direct distinction and no CRT-by-location assumption.",
-      "status": "Complete public context and8direct units;9new application functions646B;1072accepted entries;59public+48direct cached native checks pass. Direct support does not establish public producers."
+      "status": "v1/v2 complete: public context and17direct units,18new app functions1082B,1081accepted entries,59public+57direct pass. Explicit direct support; five named appstubs and unlisted candidates remain."
     }
   ]
 }

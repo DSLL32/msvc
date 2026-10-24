@@ -14,7 +14,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--function',choices=['report_asm_expected_token','asm_recovery_value'])
     parser.add_argument('--support-unit',type=int,choices=range(13))
-    parser.add_argument('--container-unit',type=int,choices=range(8))
+    parser.add_argument('--container-unit',type=int,choices=range(17))
     parser.add_argument('--seen-count',type=int,help='Explicit accepted-prefix seed for support entry tracing')
     parser.add_argument('--arguments',nargs='+',type=lambda v:int(v,0))
     parser.add_argument('--directory',required=True,type=Path)
@@ -49,6 +49,7 @@ def main():
     trace=None;run_options={}
     if direct:
         settings.update(kind='container-support'if container else'legacy-support',marker=plan.get('marker','_finish_declarations')[1:].split('@')[0],owner_name=plan['owner'],unit=unit,context_owner_name=plan.get('context_owner',plan['owner']))
+        if container:settings['convention']=plan.get('convention','stdcall')
         if options.support_unit in(8,9):settings.update(literal_writer=plan['accepts'][1:],literal_width=4 if options.support_unit==8 else 8)
         cache=json.loads((BINARY/'cases/native-traces.json').read_text())
         seen_count=options.seen_count if options.seen_count is not None else manifest['baseline_accepted_count']
