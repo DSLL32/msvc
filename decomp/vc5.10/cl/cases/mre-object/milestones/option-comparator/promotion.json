@@ -1,0 +1,20 @@
+{
+  "candidate": "_compare_option_strings",
+  "extent_bytes": 20,
+  "accepted_application_functions": 107,
+  "total_application_functions": 112,
+  "accepted_application_extent_bytes": 18189,
+  "total_application_extent_bytes": 18545,
+  "separate_support_records": 15,
+  "separate_support_bytes": 476,
+  "full_case_complete": false,
+  "next_frontier": {
+    "symbol": "jobs_from_deferred",
+    "arguments": [
+      null
+    ]
+  },
+  "shared_pin": "5a8cb5ac92899546946119757a7bea42fcc9b60a",
+  "parent_review_sha256": "9b01237a493034b9d45e855319a9ab10e1e45968a616d7379fb28ea75431c966",
+  "scope": "Only first comparator return/two strings captured; original array census unclaimed, private/later MRE lifetime denied. Three native failures retained; no native strcmp magnitude mismatch."
+}

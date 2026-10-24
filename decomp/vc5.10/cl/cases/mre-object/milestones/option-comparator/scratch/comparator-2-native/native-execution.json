@@ -1,0 +1,24 @@
+{
+  "kind": "Native MRE execution binding",
+  "signature_candidate": false,
+  "selector_candidate": false,
+  "sort_candidate": true,
+  "native_sha256": "775e060c77bf2d0da4844409e154a2f33948b0aa125850a00fb1bc25b48b470d",
+  "rebuilt_sha256": "83e4f0bc90e0164fd9c05361d4f5ae796b81f42ae33af56b84c30f7ad17db9ae",
+  "native_build_sha256": "6fe91405de347e21ed932a2a3b53ebe55b8b231dabb8fdc34362d6326eae73ab",
+  "config_sha256": "31a7e2174c8228e5297148358cdd1d730429ba1358d4f90898cdadbb53df3258",
+  "resource_sha256": "18a0a7a878846acd3d40008dcc38a2f3d7a0bd6a275900afabc578be136c037f",
+  "original_capture": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-original/capture.json",
+    "sha256": "3d543194748ad29d78b8d39285cac196cba19057d1872758f2c7e9228710970f"
+  },
+  "sources": {
+    "mre_native.py": "9699ec1fca7df59699ff74cedf1d067b4fddda40bdcf45c26ab524a02f014b6e",
+    "mre_state.py": "faa1f12dc92f493f552fe558a4eb1c48f8e85aef2f72ada1bbedb9bf2dccd730",
+    "mre_elf.py": "57e5031f9291cc2749e862ff25aa353f394aae2e155e2d236e5a7780bed8ecfe",
+    "selector_native_state.py": "d23360eda82b0702fc73dba3dc164cbf86fcc7ea0b84a715445f0d218358a40e",
+    "sort_native_state.py": "c2bf89202778555057dfcee7628c6ed52913c428994f04cd35dc7ee07c4e2694",
+    "native-mre-prefix.py": "76c57746f6fcc0857eda55c9f03db184af27f86d2c64235adfa73343fc9ff682",
+    "gdb_mre.py": "a2ede6236338cb7d7c71738e5b62ced8ae868cf36446431f55e40441962c60b0"
+  }
+}

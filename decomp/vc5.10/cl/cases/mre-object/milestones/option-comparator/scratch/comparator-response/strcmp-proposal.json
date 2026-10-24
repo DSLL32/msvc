@@ -1,0 +1,3439 @@
+{
+  "kind": "Canonical public strcmp contract proposal; no native/app acceptance",
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "ordinal": 694,
+    "export_rva": 187122,
+    "body_rva": [
+      187122,
+      187251
+    ],
+    "body_sha256": "4b31452c3fe0fd48872e745a17d11582cbb0ca160b359dae9cbf3e791aee444b",
+    "bytes": 129
+  },
+  "SDK": {
+    "path": "toolchains/5.10/include/STRING.H",
+    "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+    "line": 116,
+    "declaration": "_CRTIMP int __cdecl strcmp(const char *, const char *);"
+  },
+  "caller": {
+    "path": "toolchains/5.10/bin/CL.EXE",
+    "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+    "body_va": [
+      4209481,
+      4209501
+    ],
+    "body_hex": "8b442408ff308b442408ff30e8481d00005959c3",
+    "qualified_IAT": 4235796,
+    "import_thunk_va": 4216994,
+    "import_thunk_hex": "ff2514a24000",
+    "ABI": "cdecl int(const void*,const void*); dereference two owned char* slots, pass to genuine strcmp, preserve return EAX unchanged"
+  },
+  "observed_callback": {
+    "symbol": "compare_option_strings",
+    "address": 4209481,
+    "cdecl_formals": [
+      8989524,
+      8989520
+    ],
+    "pointed_string_addresses": [
+      8989600,
+      8989744
+    ],
+    "values_hex": [
+      "2d5a6500",
+      "2d47733430393600"
+    ],
+    "entry_esp": 3274972,
+    "caller_return": 2013418782,
+    "normal_return_esp": 3274976,
+    "result": 1,
+    "signature_frame_pointer": 3275320,
+    "public_before": {
+      "event": 99,
+      "thread": 1368,
+      "errors": {
+        "errno": 2,
+        "doserrno": 2,
+        "last_error": 0
+      },
+      "x87_control_word": 639,
+      "fmode": 0,
+      "commode": 0,
+      "mb_cur_max": 1,
+      "mb_codepage": 0,
+      "lc_codepage": 0,
+      "lc_handles": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pctype_address": 2013526954,
+      "mb_state_sha256": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed",
+      "ctype_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+      "crt_environment_count": 78,
+      "crt_environment_sha256": "15dfe1c795615612fc83a7dd71e3fea16fd4eb230bb230228e5844ebb930a764",
+      "os_environment_sha256": "2533fffccdf301bc8e1ca51a631d23e3de0e78024b1ff956d648d35271ecd596",
+      "argv": [],
+      "argument_pointers": [],
+      "argument_vector": 0,
+      "pass_address": 0,
+      "pass_words": null,
+      "file0_2_words": [
+        2013538176,
+        0,
+        2013538176,
+        257,
+        0,
+        0,
+        4096,
+        0,
+        0,
+        0,
+        0,
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        0
+      ],
+      "streams": {
+        "teb": 1073618944,
+        "peb": 1073680384,
+        "parameters": 3414008,
+        "lowio": 3933320,
+        "iob": 2013525360,
+        "inherited": [
+          {
+            "handle": 80,
+            "type": 2,
+            "information_valid": 0,
+            "volume": 0,
+            "index_high": 0,
+            "index_low": 0,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 72,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 76,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015827,
+            "position_high": 0,
+            "position_low": 61
+          }
+        ],
+        "crt": [
+          {
+            "handle": 80,
+            "type": 2,
+            "information_valid": 0,
+            "volume": 0,
+            "index_high": 0,
+            "index_low": 0,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 72,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 76,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          }
+        ],
+        "win32": [
+          {
+            "handle": 80,
+            "type": 2,
+            "information_valid": 0,
+            "volume": 0,
+            "index_high": 0,
+            "index_low": 0,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 72,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 76,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          }
+        ]
+      },
+      "open_descriptors": [
+        {
+          "fd": 0,
+          "query": {
+            "handle": 80,
+            "type": 2,
+            "information_valid": 0,
+            "volume": 0,
+            "index_high": 0,
+            "index_low": 0,
+            "position_high": 0,
+            "position_low": 0
+          }
+        },
+        {
+          "fd": 1,
+          "query": {
+            "handle": 72,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          }
+        },
+        {
+          "fd": 2,
+          "query": {
+            "handle": 76,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          }
+        },
+        {
+          "fd": 3,
+          "query": {
+            "handle": 116,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11017462,
+            "position_high": 0,
+            "position_low": 1024
+          }
+        }
+      ],
+      "directory": {
+        "access-events.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910905634034,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910905634034,
+          "bytes": 0,
+          "alternate_name": "ACCE~AG4.TXT"
+        },
+        "argv.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910910873924,
+          "access_filetime": 134372910910833925,
+          "write_filetime": 134372910910873924,
+          "bytes": 164,
+          "alternate_name": ""
+        },
+        "case-inputs.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910900194148,
+          "access_filetime": 134372910900194148,
+          "write_filetime": 134372910900194148,
+          "bytes": 361,
+          "alternate_name": "CASE~3I4.JSO"
+        },
+        "case.idb": {
+          "attributes": 32,
+          "creation_filetime": 134372910915313831,
+          "access_filetime": 134372910915313831,
+          "write_filetime": 134372910915313831,
+          "bytes": 25600,
+          "alternate_name": ""
+        },
+        "CL.EXE": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 46080,
+          "alternate_name": ""
+        },
+        "clock-observer.inc": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 4828,
+          "alternate_name": "CLOC~MXA.INC"
+        },
+        "config.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 87503,
+          "alternate_name": "CONF~QUV.JSO"
+        },
+        "crt-state.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910910793926,
+          "access_filetime": 134372910910793926,
+          "write_filetime": 134372910910793926,
+          "bytes": 132,
+          "alternate_name": "CRT-~PY4.BIN"
+        },
+        "dependency-observer.inc": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 20863,
+          "alternate_name": "DEPE~OLO.INC"
+        },
+        "entries.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 2357,
+          "alternate_name": ""
+        },
+        "environment.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911833904,
+          "access_filetime": 134372910910873924,
+          "write_filetime": 134372910911833904,
+          "bytes": 2725,
+          "alternate_name": "ENVI~YSC.BIN"
+        },
+        "events.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910953353032,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910953353032,
+          "bytes": 5432,
+          "alternate_name": ""
+        },
+        "export-reader.h": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 5031,
+          "alternate_name": "EXPO~O5Q.H"
+        },
+        "input-directory.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910900514141,
+          "access_filetime": 134372910900514141,
+          "write_filetime": 134372910900514141,
+          "bytes": 2434,
+          "alternate_name": "INPU~XG0.JSO"
+        },
+        "loaded-mspdb50.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910910113940,
+          "access_filetime": 134372910910113940,
+          "write_filetime": 134372910910113940,
+          "bytes": 167424,
+          "alternate_name": "LOAD~EHC.BIN"
+        },
+        "loaded-msvcrt.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910909953943,
+          "access_filetime": 134372910909913944,
+          "write_filetime": 134372910909953943,
+          "bytes": 277776,
+          "alternate_name": "LOAD~CA4.BIN"
+        },
+        "loaded-target.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910909353956,
+          "access_filetime": 134372910909353956,
+          "write_filetime": 134372910909353956,
+          "bytes": 46080,
+          "alternate_name": "LOAD~GK2.BIN"
+        },
+        "main-entry-context.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911913902,
+          "access_filetime": 134372910911913902,
+          "write_filetime": 134372910911913902,
+          "bytes": 268,
+          "alternate_name": "MAIN~NHC.BIN"
+        },
+        "mb-state.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910910833925,
+          "access_filetime": 134372910910833925,
+          "write_filetime": 134372910910833925,
+          "bytes": 261,
+          "alternate_name": ""
+        },
+        "mbspan-events.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910905634034,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910905634034,
+          "bytes": 0,
+          "alternate_name": "MBSP~PKZ.TXT"
+        },
+        "mktemp-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912473890,
+          "access_filetime": 134372910912473890,
+          "write_filetime": 134372910912473890,
+          "bytes": 116,
+          "alternate_name": "MKTE~4IR.BIN"
+        },
+        "mktemp-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912433891,
+          "access_filetime": 134372910912433891,
+          "write_filetime": 134372910912433891,
+          "bytes": 4096,
+          "alternate_name": "MKTE~VYK.BIN"
+        },
+        "mktemp-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912473890,
+          "access_filetime": 134372910912473890,
+          "write_filetime": 134372910912473890,
+          "bytes": 4,
+          "alternate_name": "MKTE~AKN.BIN"
+        },
+        "mktemp-after.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912433891,
+          "access_filetime": 134372910912433891,
+          "write_filetime": 134372910912433891,
+          "bytes": 9,
+          "alternate_name": "MKTE~DI1.BIN"
+        },
+        "mktemp-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912433891,
+          "access_filetime": 134372910912433891,
+          "write_filetime": 134372910912433891,
+          "bytes": 116,
+          "alternate_name": "MKTE~OIQ.BIN"
+        },
+        "mktemp-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912393892,
+          "access_filetime": 134372910912393892,
+          "write_filetime": 134372910912393892,
+          "bytes": 4096,
+          "alternate_name": "MKTE~FYL.BIN"
+        },
+        "mktemp-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912433891,
+          "access_filetime": 134372910912393892,
+          "write_filetime": 134372910912433891,
+          "bytes": 4,
+          "alternate_name": "MKTE~A0K.BIN"
+        },
+        "mktemp-before.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912393892,
+          "access_filetime": 134372910912393892,
+          "write_filetime": 134372910912393892,
+          "bytes": 9,
+          "alternate_name": "MKTE~EIH.BIN"
+        },
+        "mktemp-compare-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 116,
+          "alternate_name": "MKTE~OH4.BIN"
+        },
+        "mktemp-compare-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953353032,
+          "access_filetime": 134372910953353032,
+          "write_filetime": 134372910953353032,
+          "bytes": 4096,
+          "alternate_name": "MKTE~FXF.BIN"
+        },
+        "mktemp-compare-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953353032,
+          "write_filetime": 134372910953393031,
+          "bytes": 4,
+          "alternate_name": "MKTE~DHT.BIN"
+        },
+        "mktemp-entry-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911833904,
+          "access_filetime": 134372910911833904,
+          "write_filetime": 134372910911833904,
+          "bytes": 116,
+          "alternate_name": "MKTE~X45.BIN"
+        },
+        "mktemp-entry-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911833904,
+          "access_filetime": 134372910911833904,
+          "write_filetime": 134372910911833904,
+          "bytes": 4096,
+          "alternate_name": "MKTE~2OE.BIN"
+        },
+        "mktemp-entry-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911833904,
+          "access_filetime": 134372910911833904,
+          "write_filetime": 134372910911833904,
+          "bytes": 4,
+          "alternate_name": "MKTE~GD4.BIN"
+        },
+        "mktemp-events.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910912473890,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910912473890,
+          "bytes": 282,
+          "alternate_name": "MKTE~IXK.TXT"
+        },
+        "mktemp-lower-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910947993145,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910947993145,
+          "bytes": 116,
+          "alternate_name": "MKTE~TOX.BIN"
+        },
+        "mktemp-lower-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910947993145,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910947993145,
+          "bytes": 4096,
+          "alternate_name": "MKTE~Y4M.BIN"
+        },
+        "mktemp-lower-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910947993145,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910947993145,
+          "bytes": 4,
+          "alternate_name": "MKTE~WQU.BIN"
+        },
+        "mktemp-lower-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943673235,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943673235,
+          "bytes": 116,
+          "alternate_name": "MKTE~HUG.BIN"
+        },
+        "mktemp-lower-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943673235,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943673235,
+          "bytes": 4096,
+          "alternate_name": "MKTE~ME3.BIN"
+        },
+        "mktemp-lower-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943673235,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943673235,
+          "bytes": 4,
+          "alternate_name": "MKTE~X0Y.BIN"
+        },
+        "mktemp-mre-1-after-copy-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918953754,
+          "access_filetime": 134372910918913755,
+          "write_filetime": 134372910918953754,
+          "bytes": 116,
+          "alternate_name": "MKTE~EH3.BIN"
+        },
+        "mktemp-mre-1-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918913755,
+          "access_filetime": 134372910918913755,
+          "write_filetime": 134372910918913755,
+          "bytes": 4096,
+          "alternate_name": "MKTE~PXG.BIN"
+        },
+        "mktemp-mre-1-after-copy-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918913755,
+          "access_filetime": 134372910918913755,
+          "write_filetime": 134372910918913755,
+          "bytes": 4,
+          "alternate_name": "MKTE~JH5.BIN"
+        },
+        "mktemp-mre-1-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915353830,
+          "access_filetime": 134372910915353830,
+          "write_filetime": 134372910915353830,
+          "bytes": 116,
+          "alternate_name": "MKTE~NAB.BIN"
+        },
+        "mktemp-mre-1-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915353830,
+          "access_filetime": 134372910915353830,
+          "write_filetime": 134372910915353830,
+          "bytes": 4096,
+          "alternate_name": "MKTE~GQ0.BIN"
+        },
+        "mktemp-mre-1-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915353830,
+          "access_filetime": 134372910915353830,
+          "write_filetime": 134372910915353830,
+          "bytes": 4,
+          "alternate_name": "MKTE~3KM.BIN"
+        },
+        "mktemp-mre-1-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912633887,
+          "access_filetime": 134372910912633887,
+          "write_filetime": 134372910912633887,
+          "bytes": 116,
+          "alternate_name": "MKTE~U5Y.BIN"
+        },
+        "mktemp-mre-1-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912633887,
+          "access_filetime": 134372910912633887,
+          "write_filetime": 134372910912633887,
+          "bytes": 4096,
+          "alternate_name": "MKTE~5PD.BIN"
+        },
+        "mktemp-mre-1-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912633887,
+          "access_filetime": 134372910912633887,
+          "write_filetime": 134372910912633887,
+          "bytes": 4,
+          "alternate_name": "MKTE~IHC.BIN"
+        },
+        "mktemp-mre-2-after-copy-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929273538,
+          "access_filetime": 134372910929273538,
+          "write_filetime": 134372910929273538,
+          "bytes": 116,
+          "alternate_name": "MKTE~UHF.BIN"
+        },
+        "mktemp-mre-2-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929273538,
+          "access_filetime": 134372910929273538,
+          "write_filetime": 134372910929273538,
+          "bytes": 4096,
+          "alternate_name": "MKTE~5X4.BIN"
+        },
+        "mktemp-mre-2-after-copy-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929273538,
+          "access_filetime": 134372910929273538,
+          "write_filetime": 134372910929273538,
+          "bytes": 4,
+          "alternate_name": "MKTE~ZW2.BIN"
+        },
+        "mktemp-mre-2-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925033627,
+          "access_filetime": 134372910925033627,
+          "write_filetime": 134372910925033627,
+          "bytes": 116,
+          "alternate_name": "MKTE~2DN.BIN"
+        },
+        "mktemp-mre-2-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925033627,
+          "access_filetime": 134372910925033627,
+          "write_filetime": 134372910925033627,
+          "bytes": 4096,
+          "alternate_name": "MKTE~XTW.BIN"
+        },
+        "mktemp-mre-2-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925033627,
+          "access_filetime": 134372910925033627,
+          "write_filetime": 134372910925033627,
+          "bytes": 4,
+          "alternate_name": "MKTE~ZH2.BIN"
+        },
+        "mktemp-mre-2-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921553700,
+          "access_filetime": 134372910921553700,
+          "write_filetime": 134372910921553700,
+          "bytes": 116,
+          "alternate_name": "MKTE~2V1.BIN"
+        },
+        "mktemp-mre-2-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921553700,
+          "access_filetime": 134372910921553700,
+          "write_filetime": 134372910921553700,
+          "bytes": 4096,
+          "alternate_name": "MKTE~XFA.BIN"
+        },
+        "mktemp-mre-2-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921553700,
+          "access_filetime": 134372910921553700,
+          "write_filetime": 134372910921553700,
+          "bytes": 4,
+          "alternate_name": "MKTE~LPP.BIN"
+        },
+        "mktemp-mre-3-after-copy-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941793275,
+          "access_filetime": 134372910941793275,
+          "write_filetime": 134372910941793275,
+          "bytes": 116,
+          "alternate_name": "MKTE~EHN.BIN"
+        },
+        "mktemp-mre-3-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941793275,
+          "access_filetime": 134372910941793275,
+          "write_filetime": 134372910941793275,
+          "bytes": 4096,
+          "alternate_name": "MKTE~PXW.BIN"
+        },
+        "mktemp-mre-3-after-copy-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941793275,
+          "access_filetime": 134372910941793275,
+          "write_filetime": 134372910941793275,
+          "bytes": 4,
+          "alternate_name": "MKTE~ZX3.BIN"
+        },
+        "mktemp-mre-3-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937953355,
+          "write_filetime": 134372910937993355,
+          "bytes": 116,
+          "alternate_name": "MKTE~3CJ.BIN"
+        },
+        "mktemp-mre-3-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937953355,
+          "access_filetime": 134372910937953355,
+          "write_filetime": 134372910937953355,
+          "bytes": 4096,
+          "alternate_name": "MKTE~WSS.BIN"
+        },
+        "mktemp-mre-3-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937953355,
+          "access_filetime": 134372910937953355,
+          "write_filetime": 134372910937953355,
+          "bytes": 4,
+          "alternate_name": "MKTE~3DM.BIN"
+        },
+        "mktemp-mre-3-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933073458,
+          "access_filetime": 134372910933073458,
+          "write_filetime": 134372910933073458,
+          "bytes": 116,
+          "alternate_name": "MKTE~U30.BIN"
+        },
+        "mktemp-mre-3-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933073458,
+          "access_filetime": 134372910933073458,
+          "write_filetime": 134372910933073458,
+          "bytes": 4096,
+          "alternate_name": "MKTE~5NB.BIN"
+        },
+        "mktemp-mre-3-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933073458,
+          "access_filetime": 134372910933073458,
+          "write_filetime": 134372910933073458,
+          "bytes": 4,
+          "alternate_name": "MKTE~KPL.BIN"
+        },
+        "mre-file-observer.inc": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 9585,
+          "alternate_name": "MRE-~PHQ.INC"
+        },
+        "mre-observer.inc": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 18879,
+          "alternate_name": "MRE-~DWT.INC"
+        },
+        "mre-observer.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 24,
+          "alternate_name": "MRE-~M3W.TXT"
+        },
+        "mre-sort-observer.inc": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 7625,
+          "alternate_name": "MRE-~N3D.INC"
+        },
+        "MSPDB50.DLL": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 167424,
+          "alternate_name": ""
+        },
+        "MSVCRT.DLL": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 277776,
+          "alternate_name": ""
+        },
+        "pgmptr.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910910833925,
+          "access_filetime": 134372910910833925,
+          "write_filetime": 134372910910833925,
+          "bytes": 42,
+          "alternate_name": ""
+        },
+        "reference-debugger.c": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 42421,
+          "alternate_name": "REFE~JTU.C"
+        },
+        "reference-debugger.exe": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 112640,
+          "alternate_name": "REFE~ABV.EXE"
+        },
+        "resource-0001-after.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912513889,
+          "access_filetime": 134372910912513889,
+          "write_filetime": 134372910912513889,
+          "bytes": 256,
+          "alternate_name": "RESO~0Y1.BIN"
+        },
+        "resource-0001-before.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912473890,
+          "access_filetime": 134372910912473890,
+          "write_filetime": 134372910912473890,
+          "bytes": 256,
+          "alternate_name": "RESO~JRX.BIN"
+        },
+        "resource-0002-after.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912553889,
+          "access_filetime": 134372910912553889,
+          "write_filetime": 134372910912553889,
+          "bytes": 256,
+          "alternate_name": "RESO~KK3.BIN"
+        },
+        "resource-0002-before.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912553889,
+          "access_filetime": 134372910912513889,
+          "write_filetime": 134372910912553889,
+          "bytes": 256,
+          "alternate_name": "RESO~MQV.BIN"
+        },
+        "resource-events.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910912553889,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910912553889,
+          "bytes": 206,
+          "alternate_name": "RESO~IJL.TXT"
+        },
+        "stderr.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912553889,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910912553889,
+          "bytes": 61,
+          "alternate_name": ""
+        },
+        "stdout.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910905634034,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910905634034,
+          "bytes": 0,
+          "alternate_name": ""
+        },
+        "streams-compare-before-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 96,
+          "alternate_name": "STRE~FGV.BIN"
+        },
+        "streams-compare-before-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 108,
+          "alternate_name": "STRE~AQU.BIN"
+        },
+        "streams-compare-before-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 36,
+          "alternate_name": "STRE~2DD.BIN"
+        },
+        "streams-compare-before-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 32,
+          "alternate_name": "STRE~VG5.BIN"
+        },
+        "streams-compare-before-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 4,
+          "alternate_name": "STRE~V5I.BIN"
+        },
+        "streams-compare-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 4096,
+          "alternate_name": "STRE~VCP.BIN"
+        },
+        "streams-compare-before.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910953433030,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953433030,
+          "bytes": 1299,
+          "alternate_name": "STRE~LRS.JSO"
+        },
+        "streams-entry-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 96,
+          "alternate_name": "STRE~1C4.BIN"
+        },
+        "streams-entry-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 108,
+          "alternate_name": "STRE~OGI.BIN"
+        },
+        "streams-entry-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 36,
+          "alternate_name": "STRE~JCY.BIN"
+        },
+        "streams-entry-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 32,
+          "alternate_name": "STRE~LCU.BIN"
+        },
+        "streams-entry-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 4,
+          "alternate_name": "STRE~SJ1.BIN"
+        },
+        "streams-entry-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 4096,
+          "alternate_name": "STRE~LGE.BIN"
+        },
+        "streams-entry.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910911913902,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911913902,
+          "bytes": 1298,
+          "alternate_name": "STRE~S1P.JSO"
+        },
+        "streams-lower-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910948033144,
+          "access_filetime": 134372910948033144,
+          "write_filetime": 134372910948033144,
+          "bytes": 96,
+          "alternate_name": "STRE~VYX.BIN"
+        },
+        "streams-lower-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910948033144,
+          "access_filetime": 134372910948033144,
+          "write_filetime": 134372910948033144,
+          "bytes": 108,
+          "alternate_name": "STRE~QVE.BIN"
+        },
+        "streams-lower-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910948033144,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910948033144,
+          "bytes": 36,
+          "alternate_name": "STRE~GA1.BIN"
+        },
+        "streams-lower-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910947993145,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910947993145,
+          "bytes": 32,
+          "alternate_name": "STRE~FY3.BIN"
+        },
+        "streams-lower-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910948033144,
+          "access_filetime": 134372910948033144,
+          "write_filetime": 134372910948033144,
+          "bytes": 4,
+          "alternate_name": "STRE~UPU.BIN"
+        },
+        "streams-lower-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910947993145,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910947993145,
+          "bytes": 4096,
+          "alternate_name": "STRE~F2N.BIN"
+        },
+        "streams-lower-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910948073143,
+          "access_filetime": 134372910948033144,
+          "write_filetime": 134372910948073143,
+          "bytes": 1299,
+          "alternate_name": "STRE~LWT.JSO"
+        },
+        "streams-lower-before-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943713234,
+          "access_filetime": 134372910943713234,
+          "write_filetime": 134372910943713234,
+          "bytes": 96,
+          "alternate_name": "STRE~UNN.BIN"
+        },
+        "streams-lower-before-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943713234,
+          "access_filetime": 134372910943713234,
+          "write_filetime": 134372910943713234,
+          "bytes": 108,
+          "alternate_name": "STRE~TAD.BIN"
+        },
+        "streams-lower-before-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943713234,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943713234,
+          "bytes": 36,
+          "alternate_name": "STRE~X4O.BIN"
+        },
+        "streams-lower-before-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943673235,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943673235,
+          "bytes": 32,
+          "alternate_name": "STRE~ENH.BIN"
+        },
+        "streams-lower-before-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943713234,
+          "access_filetime": 134372910943713234,
+          "write_filetime": 134372910943713234,
+          "bytes": 4,
+          "alternate_name": "STRE~FEA.BIN"
+        },
+        "streams-lower-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943673235,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943673235,
+          "bytes": 4096,
+          "alternate_name": "STRE~EJX.BIN"
+        },
+        "streams-lower-before.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910943713234,
+          "access_filetime": 134372910943713234,
+          "write_filetime": 134372910943713234,
+          "bytes": 1299,
+          "alternate_name": "STRE~MES.JSO"
+        },
+        "streams-mre-1-after-copy-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918993753,
+          "access_filetime": 134372910918993753,
+          "write_filetime": 134372910918993753,
+          "bytes": 96,
+          "alternate_name": "STRE~VR4.BIN"
+        },
+        "streams-mre-1-after-copy-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918993753,
+          "access_filetime": 134372910918993753,
+          "write_filetime": 134372910918993753,
+          "bytes": 108,
+          "alternate_name": "STRE~CHG.BIN"
+        },
+        "streams-mre-1-after-copy-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918953754,
+          "access_filetime": 134372910918953754,
+          "write_filetime": 134372910918953754,
+          "bytes": 36,
+          "alternate_name": "STRE~PI4.BIN"
+        },
+        "streams-mre-1-after-copy-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918953754,
+          "access_filetime": 134372910918953754,
+          "write_filetime": 134372910918953754,
+          "bytes": 32,
+          "alternate_name": "STRE~FRU.BIN"
+        },
+        "streams-mre-1-after-copy-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918953754,
+          "access_filetime": 134372910918953754,
+          "write_filetime": 134372910918953754,
+          "bytes": 4,
+          "alternate_name": "STRE~GF2.BIN"
+        },
+        "streams-mre-1-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918953754,
+          "access_filetime": 134372910918953754,
+          "write_filetime": 134372910918953754,
+          "bytes": 4096,
+          "alternate_name": "STRE~FVE.BIN"
+        },
+        "streams-mre-1-after-copy-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910919033753,
+          "access_filetime": 134372910918993753,
+          "write_filetime": 134372910919033753,
+          "bytes": 1299,
+          "alternate_name": "STRE~OST.JSO"
+        },
+        "streams-mre-1-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915393829,
+          "bytes": 96,
+          "alternate_name": "STRE~LWB.BIN"
+        },
+        "streams-mre-1-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915393829,
+          "bytes": 108,
+          "alternate_name": "STRE~LZ5.BIN"
+        },
+        "streams-mre-1-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915393829,
+          "bytes": 36,
+          "alternate_name": "STRE~Z3B.BIN"
+        },
+        "streams-mre-1-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915393829,
+          "bytes": 32,
+          "alternate_name": "STRE~1WL.BIN"
+        },
+        "streams-mre-1-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915393829,
+          "bytes": 4,
+          "alternate_name": "STRE~J1N.BIN"
+        },
+        "streams-mre-1-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915353830,
+          "write_filetime": 134372910915393829,
+          "bytes": 4096,
+          "alternate_name": "STRE~1S1.BIN"
+        },
+        "streams-mre-1-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910915433828,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915433828,
+          "bytes": 1299,
+          "alternate_name": "STRE~ZJM.JSO"
+        },
+        "streams-mre-1-before-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912673886,
+          "access_filetime": 134372910912673886,
+          "write_filetime": 134372910912673886,
+          "bytes": 96,
+          "alternate_name": "STRE~HGT.BIN"
+        },
+        "streams-mre-1-before-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912673886,
+          "access_filetime": 134372910912673886,
+          "write_filetime": 134372910912673886,
+          "bytes": 108,
+          "alternate_name": "STRE~I3X.BIN"
+        },
+        "streams-mre-1-before-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912673886,
+          "access_filetime": 134372910912673886,
+          "write_filetime": 134372910912673886,
+          "bytes": 36,
+          "alternate_name": "STRE~IPD.BIN"
+        },
+        "streams-mre-1-before-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912633887,
+          "access_filetime": 134372910912633887,
+          "write_filetime": 134372910912633887,
+          "bytes": 32,
+          "alternate_name": "STRE~XGZ.BIN"
+        },
+        "streams-mre-1-before-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912673886,
+          "access_filetime": 134372910912673886,
+          "write_filetime": 134372910912673886,
+          "bytes": 4,
+          "alternate_name": "STRE~J52.BIN"
+        },
+        "streams-mre-1-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912633887,
+          "access_filetime": 134372910912633887,
+          "write_filetime": 134372910912633887,
+          "bytes": 4096,
+          "alternate_name": "STRE~XCJ.BIN"
+        },
+        "streams-mre-1-before.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910912713885,
+          "access_filetime": 134372910912673886,
+          "write_filetime": 134372910912713885,
+          "bytes": 1299,
+          "alternate_name": "STRE~1JV.JSO"
+        },
+        "streams-mre-2-after-copy-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929353536,
+          "access_filetime": 134372910929353536,
+          "write_filetime": 134372910929353536,
+          "bytes": 96,
+          "alternate_name": "STRE~FRG.BIN"
+        },
+        "streams-mre-2-after-copy-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929313537,
+          "access_filetime": 134372910929313537,
+          "write_filetime": 134372910929313537,
+          "bytes": 108,
+          "alternate_name": "STRE~PWQ.BIN"
+        },
+        "streams-mre-2-after-copy-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929313537,
+          "access_filetime": 134372910929313537,
+          "write_filetime": 134372910929313537,
+          "bytes": 36,
+          "alternate_name": "STRE~LQX.BIN"
+        },
+        "streams-mre-2-after-copy-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929313537,
+          "access_filetime": 134372910929313537,
+          "write_filetime": 134372910929313537,
+          "bytes": 32,
+          "alternate_name": "STRE~VRM.BIN"
+        },
+        "streams-mre-2-after-copy-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929313537,
+          "access_filetime": 134372910929313537,
+          "write_filetime": 134372910929313537,
+          "bytes": 4,
+          "alternate_name": "STRE~WX0.BIN"
+        },
+        "streams-mre-2-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929313537,
+          "access_filetime": 134372910929313537,
+          "write_filetime": 134372910929313537,
+          "bytes": 4096,
+          "alternate_name": "STRE~VV2.BIN"
+        },
+        "streams-mre-2-after-copy-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910929393535,
+          "access_filetime": 134372910929353536,
+          "write_filetime": 134372910929393535,
+          "bytes": 1299,
+          "alternate_name": "STRE~VST.JSO"
+        },
+        "streams-mre-2-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 96,
+          "alternate_name": "STRE~0VN.BIN"
+        },
+        "streams-mre-2-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 108,
+          "alternate_name": "STRE~JBN.BIN"
+        },
+        "streams-mre-2-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 36,
+          "alternate_name": "STRE~0VM.BIN"
+        },
+        "streams-mre-2-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 32,
+          "alternate_name": "STRE~KVH.BIN"
+        },
+        "streams-mre-2-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 4,
+          "alternate_name": "STRE~RAN.BIN"
+        },
+        "streams-mre-2-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 4096,
+          "alternate_name": "STRE~KRX.BIN"
+        },
+        "streams-mre-2-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 1299,
+          "alternate_name": "STRE~2IO.JSO"
+        },
+        "streams-mre-2-before-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921633698,
+          "access_filetime": 134372910921633698,
+          "write_filetime": 134372910921633698,
+          "bytes": 96,
+          "alternate_name": "STRE~PMQ.BIN"
+        },
+        "streams-mre-2-before-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921593699,
+          "access_filetime": 134372910921593699,
+          "write_filetime": 134372910921593699,
+          "bytes": 108,
+          "alternate_name": "STRE~415.BIN"
+        },
+        "streams-mre-2-before-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921593699,
+          "access_filetime": 134372910921593699,
+          "write_filetime": 134372910921593699,
+          "bytes": 36,
+          "alternate_name": "STRE~TPD.BIN"
+        },
+        "streams-mre-2-before-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921593699,
+          "access_filetime": 134372910921593699,
+          "write_filetime": 134372910921593699,
+          "bytes": 32,
+          "alternate_name": "STRE~5M0.BIN"
+        },
+        "streams-mre-2-before-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921593699,
+          "access_filetime": 134372910921593699,
+          "write_filetime": 134372910921593699,
+          "bytes": 4,
+          "alternate_name": "STRE~P5H.BIN"
+        },
+        "streams-mre-2-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921593699,
+          "access_filetime": 134372910921593699,
+          "write_filetime": 134372910921593699,
+          "bytes": 4096,
+          "alternate_name": "STRE~5IK.BIN"
+        },
+        "streams-mre-2-before.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910921633698,
+          "access_filetime": 134372910921633698,
+          "write_filetime": 134372910921633698,
+          "bytes": 1299,
+          "alternate_name": "STRE~TEE.JSO"
+        },
+        "streams-mre-3-after-copy-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 96,
+          "alternate_name": "STRE~VRO.BIN"
+        },
+        "streams-mre-3-after-copy-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 108,
+          "alternate_name": "STRE~LGC.BIN"
+        },
+        "streams-mre-3-after-copy-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 36,
+          "alternate_name": "STRE~LY4.BIN"
+        },
+        "streams-mre-3-after-copy-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 32,
+          "alternate_name": "STRE~FRE.BIN"
+        },
+        "streams-mre-3-after-copy-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 4,
+          "alternate_name": "STRE~GFY.BIN"
+        },
+        "streams-mre-3-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 4096,
+          "alternate_name": "STRE~FVU.BIN"
+        },
+        "streams-mre-3-after-copy-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910941873273,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941873273,
+          "bytes": 1299,
+          "alternate_name": "STRE~2ST.JSO"
+        },
+        "streams-mre-3-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 96,
+          "alternate_name": "STRE~1UJ.BIN"
+        },
+        "streams-mre-3-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 108,
+          "alternate_name": "STRE~LJN.BIN"
+        },
+        "streams-mre-3-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 36,
+          "alternate_name": "STRE~1VI.BIN"
+        },
+        "streams-mre-3-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 32,
+          "alternate_name": "STRE~LUD.BIN"
+        },
+        "streams-mre-3-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 4,
+          "alternate_name": "STRE~ZJN.BIN"
+        },
+        "streams-mre-3-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 4096,
+          "alternate_name": "STRE~LQT.BIN"
+        },
+        "streams-mre-3-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910938033354,
+          "access_filetime": 134372910938033354,
+          "write_filetime": 134372910938033354,
+          "bytes": 1299,
+          "alternate_name": "STRE~YIM.JSO"
+        },
+        "streams-mre-3-before-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933153456,
+          "access_filetime": 134372910933153456,
+          "write_filetime": 134372910933153456,
+          "bytes": 96,
+          "alternate_name": "STRE~HER.BIN"
+        },
+        "streams-mre-3-before-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933153456,
+          "access_filetime": 134372910933113457,
+          "write_filetime": 134372910933153456,
+          "bytes": 108,
+          "alternate_name": "STRE~MZX.BIN"
+        },
+        "streams-mre-3-before-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933113457,
+          "access_filetime": 134372910933113457,
+          "write_filetime": 134372910933113457,
+          "bytes": 36,
+          "alternate_name": "STRE~0PD.BIN"
+        },
+        "streams-mre-3-before-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933113457,
+          "access_filetime": 134372910933113457,
+          "write_filetime": 134372910933113457,
+          "bytes": 32,
+          "alternate_name": "STRE~XE1.BIN"
+        },
+        "streams-mre-3-before-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933113457,
+          "access_filetime": 134372910933113457,
+          "write_filetime": 134372910933113457,
+          "bytes": 4,
+          "alternate_name": "STRE~N5O.BIN"
+        },
+        "streams-mre-3-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933113457,
+          "access_filetime": 134372910933113457,
+          "write_filetime": 134372910933113457,
+          "bytes": 4096,
+          "alternate_name": "STRE~XAL.BIN"
+        },
+        "streams-mre-3-before.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910933193455,
+          "access_filetime": 134372910933153456,
+          "write_filetime": 134372910933193455,
+          "bytes": 1299,
+          "alternate_name": "STRE~TAU.JSO"
+        },
+        "test.obj": {
+          "attributes": 32,
+          "creation_filetime": 134372910900194148,
+          "access_filetime": 134372910900194148,
+          "write_filetime": 134372910900194148,
+          "bytes": 275,
+          "alternate_name": ""
+        },
+        "trace.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910943633236,
+          "access_filetime": 134372910905594035,
+          "write_filetime": 134372910943633236,
+          "bytes": 919,
+          "alternate_name": ""
+        }
+      },
+      "cwd": "S:\\vc5.10\\cl\\comparator-1-original\\",
+      "image": "S:\\vc5.10\\cl\\comparator-1-original\\CL.EXE",
+      "command": "\"S:\\vc5.10\\cl\\comparator-1-original\\CL.EXE\" /nologo /Gm /Zi /c /DVALUE=7 /Fdcase.pdb test.obj",
+      "pass_environment": null
+    },
+    "public_after": {
+      "event": 100,
+      "thread": 1368,
+      "errors": {
+        "errno": 2,
+        "doserrno": 2,
+        "last_error": 0
+      },
+      "x87_control_word": 639,
+      "fmode": 0,
+      "commode": 0,
+      "mb_cur_max": 1,
+      "mb_codepage": 0,
+      "lc_codepage": 0,
+      "lc_handles": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "pctype_address": 2013526954,
+      "mb_state_sha256": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed",
+      "ctype_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+      "crt_environment_count": 78,
+      "crt_environment_sha256": "15dfe1c795615612fc83a7dd71e3fea16fd4eb230bb230228e5844ebb930a764",
+      "os_environment_sha256": "2533fffccdf301bc8e1ca51a631d23e3de0e78024b1ff956d648d35271ecd596",
+      "argv": [],
+      "argument_pointers": [],
+      "argument_vector": 0,
+      "pass_address": 0,
+      "pass_words": null,
+      "file0_2_words": [
+        2013538176,
+        0,
+        2013538176,
+        257,
+        0,
+        0,
+        4096,
+        0,
+        0,
+        0,
+        0,
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        0
+      ],
+      "streams": {
+        "teb": 1073618944,
+        "peb": 1073680384,
+        "parameters": 3414008,
+        "lowio": 3933320,
+        "iob": 2013525360,
+        "inherited": [
+          {
+            "handle": 80,
+            "type": 2,
+            "information_valid": 0,
+            "volume": 0,
+            "index_high": 0,
+            "index_low": 0,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 72,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 76,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015827,
+            "position_high": 0,
+            "position_low": 61
+          }
+        ],
+        "crt": [
+          {
+            "handle": 80,
+            "type": 2,
+            "information_valid": 0,
+            "volume": 0,
+            "index_high": 0,
+            "index_low": 0,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 72,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 76,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          }
+        ],
+        "win32": [
+          {
+            "handle": 80,
+            "type": 2,
+            "information_valid": 0,
+            "volume": 0,
+            "index_high": 0,
+            "index_low": 0,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 72,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          },
+          {
+            "handle": 76,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          }
+        ]
+      },
+      "open_descriptors": [
+        {
+          "fd": 0,
+          "query": {
+            "handle": 80,
+            "type": 2,
+            "information_valid": 0,
+            "volume": 0,
+            "index_high": 0,
+            "index_low": 0,
+            "position_high": 0,
+            "position_low": 0
+          }
+        },
+        {
+          "fd": 1,
+          "query": {
+            "handle": 72,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          }
+        },
+        {
+          "fd": 2,
+          "query": {
+            "handle": 76,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11015826,
+            "position_high": 0,
+            "position_low": 0
+          }
+        },
+        {
+          "fd": 3,
+          "query": {
+            "handle": 116,
+            "type": 1,
+            "information_valid": 1,
+            "volume": 1392508928,
+            "index_high": 0,
+            "index_low": 11017462,
+            "position_high": 0,
+            "position_low": 1024
+          }
+        }
+      ],
+      "directory": {
+        "access-events.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910905634034,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910905634034,
+          "bytes": 0,
+          "alternate_name": "ACCE~AG4.TXT"
+        },
+        "argv.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910910873924,
+          "access_filetime": 134372910910833925,
+          "write_filetime": 134372910910873924,
+          "bytes": 164,
+          "alternate_name": ""
+        },
+        "case-inputs.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910900194148,
+          "access_filetime": 134372910900194148,
+          "write_filetime": 134372910900194148,
+          "bytes": 361,
+          "alternate_name": "CASE~3I4.JSO"
+        },
+        "case.idb": {
+          "attributes": 32,
+          "creation_filetime": 134372910915313831,
+          "access_filetime": 134372910915313831,
+          "write_filetime": 134372910915313831,
+          "bytes": 25600,
+          "alternate_name": ""
+        },
+        "CL.EXE": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 46080,
+          "alternate_name": ""
+        },
+        "clock-observer.inc": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 4828,
+          "alternate_name": "CLOC~MXA.INC"
+        },
+        "config.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 87503,
+          "alternate_name": "CONF~QUV.JSO"
+        },
+        "crt-state.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910910793926,
+          "access_filetime": 134372910910793926,
+          "write_filetime": 134372910910793926,
+          "bytes": 132,
+          "alternate_name": "CRT-~PY4.BIN"
+        },
+        "dependency-observer.inc": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 20863,
+          "alternate_name": "DEPE~OLO.INC"
+        },
+        "entries.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 2357,
+          "alternate_name": ""
+        },
+        "environment.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911833904,
+          "access_filetime": 134372910910873924,
+          "write_filetime": 134372910911833904,
+          "bytes": 2725,
+          "alternate_name": "ENVI~YSC.BIN"
+        },
+        "events.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910953353032,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910953353032,
+          "bytes": 5432,
+          "alternate_name": ""
+        },
+        "export-reader.h": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 5031,
+          "alternate_name": "EXPO~O5Q.H"
+        },
+        "input-directory.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910900514141,
+          "access_filetime": 134372910900514141,
+          "write_filetime": 134372910900514141,
+          "bytes": 2434,
+          "alternate_name": "INPU~XG0.JSO"
+        },
+        "loaded-mspdb50.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910910113940,
+          "access_filetime": 134372910910113940,
+          "write_filetime": 134372910910113940,
+          "bytes": 167424,
+          "alternate_name": "LOAD~EHC.BIN"
+        },
+        "loaded-msvcrt.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910909953943,
+          "access_filetime": 134372910909913944,
+          "write_filetime": 134372910909953943,
+          "bytes": 277776,
+          "alternate_name": "LOAD~CA4.BIN"
+        },
+        "loaded-target.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910909353956,
+          "access_filetime": 134372910909353956,
+          "write_filetime": 134372910909353956,
+          "bytes": 46080,
+          "alternate_name": "LOAD~GK2.BIN"
+        },
+        "main-entry-context.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911913902,
+          "access_filetime": 134372910911913902,
+          "write_filetime": 134372910911913902,
+          "bytes": 268,
+          "alternate_name": "MAIN~NHC.BIN"
+        },
+        "mb-state.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910910833925,
+          "access_filetime": 134372910910833925,
+          "write_filetime": 134372910910833925,
+          "bytes": 261,
+          "alternate_name": ""
+        },
+        "mbspan-events.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910905634034,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910905634034,
+          "bytes": 0,
+          "alternate_name": "MBSP~PKZ.TXT"
+        },
+        "mktemp-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912473890,
+          "access_filetime": 134372910912473890,
+          "write_filetime": 134372910912473890,
+          "bytes": 116,
+          "alternate_name": "MKTE~4IR.BIN"
+        },
+        "mktemp-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912433891,
+          "access_filetime": 134372910912433891,
+          "write_filetime": 134372910912433891,
+          "bytes": 4096,
+          "alternate_name": "MKTE~VYK.BIN"
+        },
+        "mktemp-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912473890,
+          "access_filetime": 134372910912473890,
+          "write_filetime": 134372910912473890,
+          "bytes": 4,
+          "alternate_name": "MKTE~AKN.BIN"
+        },
+        "mktemp-after.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912433891,
+          "access_filetime": 134372910912433891,
+          "write_filetime": 134372910912433891,
+          "bytes": 9,
+          "alternate_name": "MKTE~DI1.BIN"
+        },
+        "mktemp-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912433891,
+          "access_filetime": 134372910912433891,
+          "write_filetime": 134372910912433891,
+          "bytes": 116,
+          "alternate_name": "MKTE~OIQ.BIN"
+        },
+        "mktemp-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912393892,
+          "access_filetime": 134372910912393892,
+          "write_filetime": 134372910912393892,
+          "bytes": 4096,
+          "alternate_name": "MKTE~FYL.BIN"
+        },
+        "mktemp-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912433891,
+          "access_filetime": 134372910912393892,
+          "write_filetime": 134372910912433891,
+          "bytes": 4,
+          "alternate_name": "MKTE~A0K.BIN"
+        },
+        "mktemp-before.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912393892,
+          "access_filetime": 134372910912393892,
+          "write_filetime": 134372910912393892,
+          "bytes": 9,
+          "alternate_name": "MKTE~EIH.BIN"
+        },
+        "mktemp-compare-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910956992956,
+          "access_filetime": 134372910956992956,
+          "write_filetime": 134372910956992956,
+          "bytes": 116,
+          "alternate_name": "MKTE~GOM.BIN"
+        },
+        "mktemp-compare-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910956992956,
+          "access_filetime": 134372910956992956,
+          "write_filetime": 134372910956992956,
+          "bytes": 4096,
+          "alternate_name": "MKTE~N4X.BIN"
+        },
+        "mktemp-compare-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910956992956,
+          "access_filetime": 134372910956992956,
+          "write_filetime": 134372910956992956,
+          "bytes": 4,
+          "alternate_name": "MKTE~QD1.BIN"
+        },
+        "mktemp-compare-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 116,
+          "alternate_name": "MKTE~OH4.BIN"
+        },
+        "mktemp-compare-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953353032,
+          "access_filetime": 134372910953353032,
+          "write_filetime": 134372910953353032,
+          "bytes": 4096,
+          "alternate_name": "MKTE~FXF.BIN"
+        },
+        "mktemp-compare-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953353032,
+          "write_filetime": 134372910953393031,
+          "bytes": 4,
+          "alternate_name": "MKTE~DHT.BIN"
+        },
+        "mktemp-entry-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911833904,
+          "access_filetime": 134372910911833904,
+          "write_filetime": 134372910911833904,
+          "bytes": 116,
+          "alternate_name": "MKTE~X45.BIN"
+        },
+        "mktemp-entry-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911833904,
+          "access_filetime": 134372910911833904,
+          "write_filetime": 134372910911833904,
+          "bytes": 4096,
+          "alternate_name": "MKTE~2OE.BIN"
+        },
+        "mktemp-entry-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911833904,
+          "access_filetime": 134372910911833904,
+          "write_filetime": 134372910911833904,
+          "bytes": 4,
+          "alternate_name": "MKTE~GD4.BIN"
+        },
+        "mktemp-events.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910912473890,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910912473890,
+          "bytes": 282,
+          "alternate_name": "MKTE~IXK.TXT"
+        },
+        "mktemp-lower-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910947993145,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910947993145,
+          "bytes": 116,
+          "alternate_name": "MKTE~TOX.BIN"
+        },
+        "mktemp-lower-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910947993145,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910947993145,
+          "bytes": 4096,
+          "alternate_name": "MKTE~Y4M.BIN"
+        },
+        "mktemp-lower-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910947993145,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910947993145,
+          "bytes": 4,
+          "alternate_name": "MKTE~WQU.BIN"
+        },
+        "mktemp-lower-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943673235,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943673235,
+          "bytes": 116,
+          "alternate_name": "MKTE~HUG.BIN"
+        },
+        "mktemp-lower-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943673235,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943673235,
+          "bytes": 4096,
+          "alternate_name": "MKTE~ME3.BIN"
+        },
+        "mktemp-lower-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943673235,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943673235,
+          "bytes": 4,
+          "alternate_name": "MKTE~X0Y.BIN"
+        },
+        "mktemp-mre-1-after-copy-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918953754,
+          "access_filetime": 134372910918913755,
+          "write_filetime": 134372910918953754,
+          "bytes": 116,
+          "alternate_name": "MKTE~EH3.BIN"
+        },
+        "mktemp-mre-1-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918913755,
+          "access_filetime": 134372910918913755,
+          "write_filetime": 134372910918913755,
+          "bytes": 4096,
+          "alternate_name": "MKTE~PXG.BIN"
+        },
+        "mktemp-mre-1-after-copy-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918913755,
+          "access_filetime": 134372910918913755,
+          "write_filetime": 134372910918913755,
+          "bytes": 4,
+          "alternate_name": "MKTE~JH5.BIN"
+        },
+        "mktemp-mre-1-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915353830,
+          "access_filetime": 134372910915353830,
+          "write_filetime": 134372910915353830,
+          "bytes": 116,
+          "alternate_name": "MKTE~NAB.BIN"
+        },
+        "mktemp-mre-1-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915353830,
+          "access_filetime": 134372910915353830,
+          "write_filetime": 134372910915353830,
+          "bytes": 4096,
+          "alternate_name": "MKTE~GQ0.BIN"
+        },
+        "mktemp-mre-1-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915353830,
+          "access_filetime": 134372910915353830,
+          "write_filetime": 134372910915353830,
+          "bytes": 4,
+          "alternate_name": "MKTE~3KM.BIN"
+        },
+        "mktemp-mre-1-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912633887,
+          "access_filetime": 134372910912633887,
+          "write_filetime": 134372910912633887,
+          "bytes": 116,
+          "alternate_name": "MKTE~U5Y.BIN"
+        },
+        "mktemp-mre-1-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912633887,
+          "access_filetime": 134372910912633887,
+          "write_filetime": 134372910912633887,
+          "bytes": 4096,
+          "alternate_name": "MKTE~5PD.BIN"
+        },
+        "mktemp-mre-1-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912633887,
+          "access_filetime": 134372910912633887,
+          "write_filetime": 134372910912633887,
+          "bytes": 4,
+          "alternate_name": "MKTE~IHC.BIN"
+        },
+        "mktemp-mre-2-after-copy-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929273538,
+          "access_filetime": 134372910929273538,
+          "write_filetime": 134372910929273538,
+          "bytes": 116,
+          "alternate_name": "MKTE~UHF.BIN"
+        },
+        "mktemp-mre-2-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929273538,
+          "access_filetime": 134372910929273538,
+          "write_filetime": 134372910929273538,
+          "bytes": 4096,
+          "alternate_name": "MKTE~5X4.BIN"
+        },
+        "mktemp-mre-2-after-copy-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929273538,
+          "access_filetime": 134372910929273538,
+          "write_filetime": 134372910929273538,
+          "bytes": 4,
+          "alternate_name": "MKTE~ZW2.BIN"
+        },
+        "mktemp-mre-2-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925033627,
+          "access_filetime": 134372910925033627,
+          "write_filetime": 134372910925033627,
+          "bytes": 116,
+          "alternate_name": "MKTE~2DN.BIN"
+        },
+        "mktemp-mre-2-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925033627,
+          "access_filetime": 134372910925033627,
+          "write_filetime": 134372910925033627,
+          "bytes": 4096,
+          "alternate_name": "MKTE~XTW.BIN"
+        },
+        "mktemp-mre-2-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925033627,
+          "access_filetime": 134372910925033627,
+          "write_filetime": 134372910925033627,
+          "bytes": 4,
+          "alternate_name": "MKTE~ZH2.BIN"
+        },
+        "mktemp-mre-2-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921553700,
+          "access_filetime": 134372910921553700,
+          "write_filetime": 134372910921553700,
+          "bytes": 116,
+          "alternate_name": "MKTE~2V1.BIN"
+        },
+        "mktemp-mre-2-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921553700,
+          "access_filetime": 134372910921553700,
+          "write_filetime": 134372910921553700,
+          "bytes": 4096,
+          "alternate_name": "MKTE~XFA.BIN"
+        },
+        "mktemp-mre-2-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921553700,
+          "access_filetime": 134372910921553700,
+          "write_filetime": 134372910921553700,
+          "bytes": 4,
+          "alternate_name": "MKTE~LPP.BIN"
+        },
+        "mktemp-mre-3-after-copy-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941793275,
+          "access_filetime": 134372910941793275,
+          "write_filetime": 134372910941793275,
+          "bytes": 116,
+          "alternate_name": "MKTE~EHN.BIN"
+        },
+        "mktemp-mre-3-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941793275,
+          "access_filetime": 134372910941793275,
+          "write_filetime": 134372910941793275,
+          "bytes": 4096,
+          "alternate_name": "MKTE~PXW.BIN"
+        },
+        "mktemp-mre-3-after-copy-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941793275,
+          "access_filetime": 134372910941793275,
+          "write_filetime": 134372910941793275,
+          "bytes": 4,
+          "alternate_name": "MKTE~ZX3.BIN"
+        },
+        "mktemp-mre-3-after-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937953355,
+          "write_filetime": 134372910937993355,
+          "bytes": 116,
+          "alternate_name": "MKTE~3CJ.BIN"
+        },
+        "mktemp-mre-3-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937953355,
+          "access_filetime": 134372910937953355,
+          "write_filetime": 134372910937953355,
+          "bytes": 4096,
+          "alternate_name": "MKTE~WSS.BIN"
+        },
+        "mktemp-mre-3-after-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937953355,
+          "access_filetime": 134372910937953355,
+          "write_filetime": 134372910937953355,
+          "bytes": 4,
+          "alternate_name": "MKTE~3DM.BIN"
+        },
+        "mktemp-mre-3-before-ptd.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933073458,
+          "access_filetime": 134372910933073458,
+          "write_filetime": 134372910933073458,
+          "bytes": 116,
+          "alternate_name": "MKTE~U30.BIN"
+        },
+        "mktemp-mre-3-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933073458,
+          "access_filetime": 134372910933073458,
+          "write_filetime": 134372910933073458,
+          "bytes": 4096,
+          "alternate_name": "MKTE~5NB.BIN"
+        },
+        "mktemp-mre-3-before-tls-index.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933073458,
+          "access_filetime": 134372910933073458,
+          "write_filetime": 134372910933073458,
+          "bytes": 4,
+          "alternate_name": "MKTE~KPL.BIN"
+        },
+        "mre-file-observer.inc": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 9585,
+          "alternate_name": "MRE-~PHQ.INC"
+        },
+        "mre-observer.inc": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 18879,
+          "alternate_name": "MRE-~DWT.INC"
+        },
+        "mre-observer.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 24,
+          "alternate_name": "MRE-~M3W.TXT"
+        },
+        "mre-sort-observer.inc": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 7625,
+          "alternate_name": "MRE-~N3D.INC"
+        },
+        "MSPDB50.DLL": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 167424,
+          "alternate_name": ""
+        },
+        "MSVCRT.DLL": {
+          "attributes": 32,
+          "creation_filetime": 134372910900234147,
+          "access_filetime": 134372910900234147,
+          "write_filetime": 134372910900234147,
+          "bytes": 277776,
+          "alternate_name": ""
+        },
+        "pgmptr.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910910833925,
+          "access_filetime": 134372910910833925,
+          "write_filetime": 134372910910833925,
+          "bytes": 42,
+          "alternate_name": ""
+        },
+        "reference-debugger.c": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 42421,
+          "alternate_name": "REFE~JTU.C"
+        },
+        "reference-debugger.exe": {
+          "attributes": 32,
+          "creation_filetime": 134372910900274146,
+          "access_filetime": 134372910900274146,
+          "write_filetime": 134372910900274146,
+          "bytes": 112640,
+          "alternate_name": "REFE~ABV.EXE"
+        },
+        "resource-0001-after.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912513889,
+          "access_filetime": 134372910912513889,
+          "write_filetime": 134372910912513889,
+          "bytes": 256,
+          "alternate_name": "RESO~0Y1.BIN"
+        },
+        "resource-0001-before.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912473890,
+          "access_filetime": 134372910912473890,
+          "write_filetime": 134372910912473890,
+          "bytes": 256,
+          "alternate_name": "RESO~JRX.BIN"
+        },
+        "resource-0002-after.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912553889,
+          "access_filetime": 134372910912553889,
+          "write_filetime": 134372910912553889,
+          "bytes": 256,
+          "alternate_name": "RESO~KK3.BIN"
+        },
+        "resource-0002-before.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912553889,
+          "access_filetime": 134372910912513889,
+          "write_filetime": 134372910912553889,
+          "bytes": 256,
+          "alternate_name": "RESO~MQV.BIN"
+        },
+        "resource-events.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910912553889,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910912553889,
+          "bytes": 206,
+          "alternate_name": "RESO~IJL.TXT"
+        },
+        "stderr.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912553889,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910912553889,
+          "bytes": 61,
+          "alternate_name": ""
+        },
+        "stdout.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910905634034,
+          "access_filetime": 134372910905634034,
+          "write_filetime": 134372910905634034,
+          "bytes": 0,
+          "alternate_name": ""
+        },
+        "streams-compare-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910957032955,
+          "access_filetime": 134372910957032955,
+          "write_filetime": 134372910957032955,
+          "bytes": 96,
+          "alternate_name": "STRE~5YQ.BIN"
+        },
+        "streams-compare-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910956992956,
+          "access_filetime": 134372910956992956,
+          "write_filetime": 134372910956992956,
+          "bytes": 108,
+          "alternate_name": "STRE~00P.BIN"
+        },
+        "streams-compare-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910956992956,
+          "access_filetime": 134372910956992956,
+          "write_filetime": 134372910956992956,
+          "bytes": 36,
+          "alternate_name": "STRE~TN1.BIN"
+        },
+        "streams-compare-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910956992956,
+          "access_filetime": 134372910956992956,
+          "write_filetime": 134372910956992956,
+          "bytes": 32,
+          "alternate_name": "STRE~PY0.BIN"
+        },
+        "streams-compare-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910956992956,
+          "access_filetime": 134372910956992956,
+          "write_filetime": 134372910956992956,
+          "bytes": 4,
+          "alternate_name": "STRE~KPB.BIN"
+        },
+        "streams-compare-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910956992956,
+          "access_filetime": 134372910956992956,
+          "write_filetime": 134372910956992956,
+          "bytes": 4096,
+          "alternate_name": "STRE~P2K.BIN"
+        },
+        "streams-compare-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910957032955,
+          "access_filetime": 134372910957032955,
+          "write_filetime": 134372910957032955,
+          "bytes": 1299,
+          "alternate_name": "STRE~1OE.JSO"
+        },
+        "streams-compare-before-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 96,
+          "alternate_name": "STRE~FGV.BIN"
+        },
+        "streams-compare-before-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 108,
+          "alternate_name": "STRE~AQU.BIN"
+        },
+        "streams-compare-before-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 36,
+          "alternate_name": "STRE~2DD.BIN"
+        },
+        "streams-compare-before-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 32,
+          "alternate_name": "STRE~VG5.BIN"
+        },
+        "streams-compare-before-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 4,
+          "alternate_name": "STRE~V5I.BIN"
+        },
+        "streams-compare-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910953393031,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953393031,
+          "bytes": 4096,
+          "alternate_name": "STRE~VCP.BIN"
+        },
+        "streams-compare-before.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910953433030,
+          "access_filetime": 134372910953393031,
+          "write_filetime": 134372910953433030,
+          "bytes": 1299,
+          "alternate_name": "STRE~LRS.JSO"
+        },
+        "streams-entry-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 96,
+          "alternate_name": "STRE~1C4.BIN"
+        },
+        "streams-entry-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 108,
+          "alternate_name": "STRE~OGI.BIN"
+        },
+        "streams-entry-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 36,
+          "alternate_name": "STRE~JCY.BIN"
+        },
+        "streams-entry-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 32,
+          "alternate_name": "STRE~LCU.BIN"
+        },
+        "streams-entry-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 4,
+          "alternate_name": "STRE~SJ1.BIN"
+        },
+        "streams-entry-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910911873903,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911873903,
+          "bytes": 4096,
+          "alternate_name": "STRE~LGE.BIN"
+        },
+        "streams-entry.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910911913902,
+          "access_filetime": 134372910911873903,
+          "write_filetime": 134372910911913902,
+          "bytes": 1298,
+          "alternate_name": "STRE~S1P.JSO"
+        },
+        "streams-lower-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910948033144,
+          "access_filetime": 134372910948033144,
+          "write_filetime": 134372910948033144,
+          "bytes": 96,
+          "alternate_name": "STRE~VYX.BIN"
+        },
+        "streams-lower-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910948033144,
+          "access_filetime": 134372910948033144,
+          "write_filetime": 134372910948033144,
+          "bytes": 108,
+          "alternate_name": "STRE~QVE.BIN"
+        },
+        "streams-lower-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910948033144,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910948033144,
+          "bytes": 36,
+          "alternate_name": "STRE~GA1.BIN"
+        },
+        "streams-lower-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910947993145,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910947993145,
+          "bytes": 32,
+          "alternate_name": "STRE~FY3.BIN"
+        },
+        "streams-lower-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910948033144,
+          "access_filetime": 134372910948033144,
+          "write_filetime": 134372910948033144,
+          "bytes": 4,
+          "alternate_name": "STRE~UPU.BIN"
+        },
+        "streams-lower-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910947993145,
+          "access_filetime": 134372910947993145,
+          "write_filetime": 134372910947993145,
+          "bytes": 4096,
+          "alternate_name": "STRE~F2N.BIN"
+        },
+        "streams-lower-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910948073143,
+          "access_filetime": 134372910948033144,
+          "write_filetime": 134372910948073143,
+          "bytes": 1299,
+          "alternate_name": "STRE~LWT.JSO"
+        },
+        "streams-lower-before-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943713234,
+          "access_filetime": 134372910943713234,
+          "write_filetime": 134372910943713234,
+          "bytes": 96,
+          "alternate_name": "STRE~UNN.BIN"
+        },
+        "streams-lower-before-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943713234,
+          "access_filetime": 134372910943713234,
+          "write_filetime": 134372910943713234,
+          "bytes": 108,
+          "alternate_name": "STRE~TAD.BIN"
+        },
+        "streams-lower-before-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943713234,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943713234,
+          "bytes": 36,
+          "alternate_name": "STRE~X4O.BIN"
+        },
+        "streams-lower-before-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943673235,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943673235,
+          "bytes": 32,
+          "alternate_name": "STRE~ENH.BIN"
+        },
+        "streams-lower-before-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943713234,
+          "access_filetime": 134372910943713234,
+          "write_filetime": 134372910943713234,
+          "bytes": 4,
+          "alternate_name": "STRE~FEA.BIN"
+        },
+        "streams-lower-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910943673235,
+          "access_filetime": 134372910943673235,
+          "write_filetime": 134372910943673235,
+          "bytes": 4096,
+          "alternate_name": "STRE~EJX.BIN"
+        },
+        "streams-lower-before.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910943713234,
+          "access_filetime": 134372910943713234,
+          "write_filetime": 134372910943713234,
+          "bytes": 1299,
+          "alternate_name": "STRE~MES.JSO"
+        },
+        "streams-mre-1-after-copy-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918993753,
+          "access_filetime": 134372910918993753,
+          "write_filetime": 134372910918993753,
+          "bytes": 96,
+          "alternate_name": "STRE~VR4.BIN"
+        },
+        "streams-mre-1-after-copy-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918993753,
+          "access_filetime": 134372910918993753,
+          "write_filetime": 134372910918993753,
+          "bytes": 108,
+          "alternate_name": "STRE~CHG.BIN"
+        },
+        "streams-mre-1-after-copy-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918953754,
+          "access_filetime": 134372910918953754,
+          "write_filetime": 134372910918953754,
+          "bytes": 36,
+          "alternate_name": "STRE~PI4.BIN"
+        },
+        "streams-mre-1-after-copy-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918953754,
+          "access_filetime": 134372910918953754,
+          "write_filetime": 134372910918953754,
+          "bytes": 32,
+          "alternate_name": "STRE~FRU.BIN"
+        },
+        "streams-mre-1-after-copy-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918953754,
+          "access_filetime": 134372910918953754,
+          "write_filetime": 134372910918953754,
+          "bytes": 4,
+          "alternate_name": "STRE~GF2.BIN"
+        },
+        "streams-mre-1-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910918953754,
+          "access_filetime": 134372910918953754,
+          "write_filetime": 134372910918953754,
+          "bytes": 4096,
+          "alternate_name": "STRE~FVE.BIN"
+        },
+        "streams-mre-1-after-copy-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910919033753,
+          "access_filetime": 134372910918993753,
+          "write_filetime": 134372910919033753,
+          "bytes": 1299,
+          "alternate_name": "STRE~OST.JSO"
+        },
+        "streams-mre-1-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915393829,
+          "bytes": 96,
+          "alternate_name": "STRE~LWB.BIN"
+        },
+        "streams-mre-1-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915393829,
+          "bytes": 108,
+          "alternate_name": "STRE~LZ5.BIN"
+        },
+        "streams-mre-1-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915393829,
+          "bytes": 36,
+          "alternate_name": "STRE~Z3B.BIN"
+        },
+        "streams-mre-1-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915393829,
+          "bytes": 32,
+          "alternate_name": "STRE~1WL.BIN"
+        },
+        "streams-mre-1-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915393829,
+          "bytes": 4,
+          "alternate_name": "STRE~J1N.BIN"
+        },
+        "streams-mre-1-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910915393829,
+          "access_filetime": 134372910915353830,
+          "write_filetime": 134372910915393829,
+          "bytes": 4096,
+          "alternate_name": "STRE~1S1.BIN"
+        },
+        "streams-mre-1-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910915433828,
+          "access_filetime": 134372910915393829,
+          "write_filetime": 134372910915433828,
+          "bytes": 1299,
+          "alternate_name": "STRE~ZJM.JSO"
+        },
+        "streams-mre-1-before-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912673886,
+          "access_filetime": 134372910912673886,
+          "write_filetime": 134372910912673886,
+          "bytes": 96,
+          "alternate_name": "STRE~HGT.BIN"
+        },
+        "streams-mre-1-before-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912673886,
+          "access_filetime": 134372910912673886,
+          "write_filetime": 134372910912673886,
+          "bytes": 108,
+          "alternate_name": "STRE~I3X.BIN"
+        },
+        "streams-mre-1-before-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912673886,
+          "access_filetime": 134372910912673886,
+          "write_filetime": 134372910912673886,
+          "bytes": 36,
+          "alternate_name": "STRE~IPD.BIN"
+        },
+        "streams-mre-1-before-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912633887,
+          "access_filetime": 134372910912633887,
+          "write_filetime": 134372910912633887,
+          "bytes": 32,
+          "alternate_name": "STRE~XGZ.BIN"
+        },
+        "streams-mre-1-before-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912673886,
+          "access_filetime": 134372910912673886,
+          "write_filetime": 134372910912673886,
+          "bytes": 4,
+          "alternate_name": "STRE~J52.BIN"
+        },
+        "streams-mre-1-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910912633887,
+          "access_filetime": 134372910912633887,
+          "write_filetime": 134372910912633887,
+          "bytes": 4096,
+          "alternate_name": "STRE~XCJ.BIN"
+        },
+        "streams-mre-1-before.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910912713885,
+          "access_filetime": 134372910912673886,
+          "write_filetime": 134372910912713885,
+          "bytes": 1299,
+          "alternate_name": "STRE~1JV.JSO"
+        },
+        "streams-mre-2-after-copy-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929353536,
+          "access_filetime": 134372910929353536,
+          "write_filetime": 134372910929353536,
+          "bytes": 96,
+          "alternate_name": "STRE~FRG.BIN"
+        },
+        "streams-mre-2-after-copy-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929313537,
+          "access_filetime": 134372910929313537,
+          "write_filetime": 134372910929313537,
+          "bytes": 108,
+          "alternate_name": "STRE~PWQ.BIN"
+        },
+        "streams-mre-2-after-copy-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929313537,
+          "access_filetime": 134372910929313537,
+          "write_filetime": 134372910929313537,
+          "bytes": 36,
+          "alternate_name": "STRE~LQX.BIN"
+        },
+        "streams-mre-2-after-copy-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929313537,
+          "access_filetime": 134372910929313537,
+          "write_filetime": 134372910929313537,
+          "bytes": 32,
+          "alternate_name": "STRE~VRM.BIN"
+        },
+        "streams-mre-2-after-copy-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929313537,
+          "access_filetime": 134372910929313537,
+          "write_filetime": 134372910929313537,
+          "bytes": 4,
+          "alternate_name": "STRE~WX0.BIN"
+        },
+        "streams-mre-2-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910929313537,
+          "access_filetime": 134372910929313537,
+          "write_filetime": 134372910929313537,
+          "bytes": 4096,
+          "alternate_name": "STRE~VV2.BIN"
+        },
+        "streams-mre-2-after-copy-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910929393535,
+          "access_filetime": 134372910929353536,
+          "write_filetime": 134372910929393535,
+          "bytes": 1299,
+          "alternate_name": "STRE~VST.JSO"
+        },
+        "streams-mre-2-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 96,
+          "alternate_name": "STRE~0VN.BIN"
+        },
+        "streams-mre-2-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 108,
+          "alternate_name": "STRE~JBN.BIN"
+        },
+        "streams-mre-2-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 36,
+          "alternate_name": "STRE~0VM.BIN"
+        },
+        "streams-mre-2-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 32,
+          "alternate_name": "STRE~KVH.BIN"
+        },
+        "streams-mre-2-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 4,
+          "alternate_name": "STRE~RAN.BIN"
+        },
+        "streams-mre-2-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 4096,
+          "alternate_name": "STRE~KRX.BIN"
+        },
+        "streams-mre-2-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910925073626,
+          "access_filetime": 134372910925073626,
+          "write_filetime": 134372910925073626,
+          "bytes": 1299,
+          "alternate_name": "STRE~2IO.JSO"
+        },
+        "streams-mre-2-before-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921633698,
+          "access_filetime": 134372910921633698,
+          "write_filetime": 134372910921633698,
+          "bytes": 96,
+          "alternate_name": "STRE~PMQ.BIN"
+        },
+        "streams-mre-2-before-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921593699,
+          "access_filetime": 134372910921593699,
+          "write_filetime": 134372910921593699,
+          "bytes": 108,
+          "alternate_name": "STRE~415.BIN"
+        },
+        "streams-mre-2-before-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921593699,
+          "access_filetime": 134372910921593699,
+          "write_filetime": 134372910921593699,
+          "bytes": 36,
+          "alternate_name": "STRE~TPD.BIN"
+        },
+        "streams-mre-2-before-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921593699,
+          "access_filetime": 134372910921593699,
+          "write_filetime": 134372910921593699,
+          "bytes": 32,
+          "alternate_name": "STRE~5M0.BIN"
+        },
+        "streams-mre-2-before-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921593699,
+          "access_filetime": 134372910921593699,
+          "write_filetime": 134372910921593699,
+          "bytes": 4,
+          "alternate_name": "STRE~P5H.BIN"
+        },
+        "streams-mre-2-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910921593699,
+          "access_filetime": 134372910921593699,
+          "write_filetime": 134372910921593699,
+          "bytes": 4096,
+          "alternate_name": "STRE~5IK.BIN"
+        },
+        "streams-mre-2-before.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910921633698,
+          "access_filetime": 134372910921633698,
+          "write_filetime": 134372910921633698,
+          "bytes": 1299,
+          "alternate_name": "STRE~TEE.JSO"
+        },
+        "streams-mre-3-after-copy-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 96,
+          "alternate_name": "STRE~VRO.BIN"
+        },
+        "streams-mre-3-after-copy-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 108,
+          "alternate_name": "STRE~LGC.BIN"
+        },
+        "streams-mre-3-after-copy-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 36,
+          "alternate_name": "STRE~LY4.BIN"
+        },
+        "streams-mre-3-after-copy-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 32,
+          "alternate_name": "STRE~FRE.BIN"
+        },
+        "streams-mre-3-after-copy-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 4,
+          "alternate_name": "STRE~GFY.BIN"
+        },
+        "streams-mre-3-after-copy-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910941833274,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941833274,
+          "bytes": 4096,
+          "alternate_name": "STRE~FVU.BIN"
+        },
+        "streams-mre-3-after-copy-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910941873273,
+          "access_filetime": 134372910941833274,
+          "write_filetime": 134372910941873273,
+          "bytes": 1299,
+          "alternate_name": "STRE~2ST.JSO"
+        },
+        "streams-mre-3-after-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 96,
+          "alternate_name": "STRE~1UJ.BIN"
+        },
+        "streams-mre-3-after-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 108,
+          "alternate_name": "STRE~LJN.BIN"
+        },
+        "streams-mre-3-after-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 36,
+          "alternate_name": "STRE~1VI.BIN"
+        },
+        "streams-mre-3-after-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 32,
+          "alternate_name": "STRE~LUD.BIN"
+        },
+        "streams-mre-3-after-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 4,
+          "alternate_name": "STRE~ZJN.BIN"
+        },
+        "streams-mre-3-after-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910937993355,
+          "access_filetime": 134372910937993355,
+          "write_filetime": 134372910937993355,
+          "bytes": 4096,
+          "alternate_name": "STRE~LQT.BIN"
+        },
+        "streams-mre-3-after.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910938033354,
+          "access_filetime": 134372910938033354,
+          "write_filetime": 134372910938033354,
+          "bytes": 1299,
+          "alternate_name": "STRE~YIM.JSO"
+        },
+        "streams-mre-3-before-iob.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933153456,
+          "access_filetime": 134372910933153456,
+          "write_filetime": 134372910933153456,
+          "bytes": 96,
+          "alternate_name": "STRE~HER.BIN"
+        },
+        "streams-mre-3-before-lowio.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933153456,
+          "access_filetime": 134372910933113457,
+          "write_filetime": 134372910933153456,
+          "bytes": 108,
+          "alternate_name": "STRE~MZX.BIN"
+        },
+        "streams-mre-3-before-parameters.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933113457,
+          "access_filetime": 134372910933113457,
+          "write_filetime": 134372910933113457,
+          "bytes": 36,
+          "alternate_name": "STRE~0PD.BIN"
+        },
+        "streams-mre-3-before-peb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933113457,
+          "access_filetime": 134372910933113457,
+          "write_filetime": 134372910933113457,
+          "bytes": 32,
+          "alternate_name": "STRE~XE1.BIN"
+        },
+        "streams-mre-3-before-pioinfo-slot.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933113457,
+          "access_filetime": 134372910933113457,
+          "write_filetime": 134372910933113457,
+          "bytes": 4,
+          "alternate_name": "STRE~N5O.BIN"
+        },
+        "streams-mre-3-before-teb.bin": {
+          "attributes": 32,
+          "creation_filetime": 134372910933113457,
+          "access_filetime": 134372910933113457,
+          "write_filetime": 134372910933113457,
+          "bytes": 4096,
+          "alternate_name": "STRE~XAL.BIN"
+        },
+        "streams-mre-3-before.json": {
+          "attributes": 32,
+          "creation_filetime": 134372910933193455,
+          "access_filetime": 134372910933153456,
+          "write_filetime": 134372910933193455,
+          "bytes": 1299,
+          "alternate_name": "STRE~TAU.JSO"
+        },
+        "test.obj": {
+          "attributes": 32,
+          "creation_filetime": 134372910900194148,
+          "access_filetime": 134372910900194148,
+          "write_filetime": 134372910900194148,
+          "bytes": 275,
+          "alternate_name": ""
+        },
+        "trace.txt": {
+          "attributes": 32,
+          "creation_filetime": 134372910956952957,
+          "access_filetime": 134372910905594035,
+          "write_filetime": 134372910956952957,
+          "bytes": 942,
+          "alternate_name": ""
+        }
+      },
+      "cwd": "S:\\vc5.10\\cl\\comparator-1-original\\",
+      "image": "S:\\vc5.10\\cl\\comparator-1-original\\CL.EXE",
+      "command": "\"S:\\vc5.10\\cl\\comparator-1-original\\CL.EXE\" /nologo /Gm /Zi /c /DVALUE=7 /Fdcase.pdb test.obj",
+      "pass_environment": null
+    },
+    "x87_before_hex": "7f02ffff0000ffffffffffff0000000023000000000000002b00ffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "x87_after_hex": "7f02ffff0000ffffffffffff0000000023000000000000002b00ffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "qsort_caller": {
+      "qualified": "MSVCRT!qsort",
+      "actual_call": 2013418775,
+      "actual_return": 2013418782
+    },
+    "input_qualification": "Two actual initialized owned NUL strings and exact array slot pointers. Executing hash-bound helper validates live signature array bounds; full array contents were not independently dumped in this capture."
+  },
+  "raw_capture": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-original/capture.json",
+    "sha256": "3d543194748ad29d78b8d39285cac196cba19057d1872758f2c7e9228710970f"
+  },
+  "complete_body_analysis": {
+    "calls": [],
+    "writes": "EAX/ECX/EDX only; no stores, locale/error/global/FP accesses",
+    "equality_return": "2db32 xor eax,eax;2db34 ret",
+    "mismatch_return": "2db35 sbb eax,eax;shl eax,1;inc eax;ret",
+    "all_mismatch_edges": "Every byte mismatch branches to2db35, producing normalized signed -1 or+1 from unsigned byte comparison",
+    "control_flow": "Complete aligned DWORD loop plus leading byte/WORD alignment paths, all terminate at equality or mismatch returns"
+  },
+  "requested_scope": "Shared explicit510 strcmp mapping returning canonical normalized -1/0/+1 on valid terminated input, retaining error/x87 state; no target source normalization. Maintainer/root determine bounded supported scope.",
+  "limitations": [
+    "Only callback first normal return recorded, not every internal qsort comparison.",
+    "Initialized strings only; allocation tails unobserved.",
+    "No local native API success or fourth MRE provider enabled."
+  ]
+}

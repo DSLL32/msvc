@@ -118,7 +118,8 @@
     "_start_timer",
     "_stop_timer",
     "_option_signature",
-    "_option_matching_selector"
+    "_option_matching_selector",
+    "_compare_option_strings"
   ],
   "driver": [
     {
@@ -2057,10 +2058,12 @@
       "native_symbol": "compare_option_strings",
       "start": 4209481,
       "end": 4209501,
-      "state": "named trap; statically identified, not reconstructed/accepted",
+      "state": "Implemented20B callback, fresh first-return/fourth-MRE boundary proof pending",
       "evidence": {
         "kind": "Separate20B qsort callback, cdecl int(constvoid*,constvoid*)",
-        "range": "00403b49..00403b5d"
+        "range": "00403b49..00403b5d",
+        "source": "src/signature.c",
+        "scope": "Actual strcmp import and cdecl int(constvoid*,constvoid*) preserved; unaccepted pending genuine callback/state/nextboundary evidence"
       }
     },
     {

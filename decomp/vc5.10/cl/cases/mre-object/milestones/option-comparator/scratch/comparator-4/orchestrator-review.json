@@ -1,0 +1,15 @@
+{
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/integration-parent-review.json",
+    "sha256": "9b01237a493034b9d45e855319a9ab10e1e45968a616d7379fb28ea75431c966"
+  },
+  "reviewed_inputs": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/integration-manifest.json",
+    "sha256": "deee1ea35200549a161f0e00519a9fac68f183e6a7f56879f346496e9eb1068f"
+  },
+  "failed_native_evidence": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/failed-native-retention.json",
+    "sha256": "0fbe84d5e8a800b13c0655e6db505d393a72da21c1d19511025e08b291dd8478"
+  },
+  "qualification": "Additive retention links; original independent review/raw receipts unchanged"
+}

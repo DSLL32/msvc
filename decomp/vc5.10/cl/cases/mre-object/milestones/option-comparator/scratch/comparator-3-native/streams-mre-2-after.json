@@ -1,0 +1,67 @@
+{
+  "pid": 2301721,
+  "crt": [
+    {
+      "handle": 1,
+      "type": 2,
+      "role": "stdin",
+      "position": null,
+      "device": 6,
+      "inode": 4
+    },
+    {
+      "handle": 2,
+      "type": 1,
+      "role": "stdout",
+      "position": 0,
+      "device": 139,
+      "inode": 11224841
+    },
+    {
+      "handle": 3,
+      "type": 1,
+      "role": "stdout",
+      "position": 0,
+      "device": 139,
+      "inode": 11224841
+    }
+  ],
+  "win32": [
+    {
+      "handle": 1,
+      "type": 2,
+      "role": "stdin",
+      "position": null,
+      "device": 6,
+      "inode": 4
+    },
+    {
+      "handle": 2,
+      "type": 1,
+      "role": "stdout",
+      "position": 0,
+      "device": 139,
+      "inode": 11224841
+    },
+    {
+      "handle": 3,
+      "type": 1,
+      "role": "stdout",
+      "position": 0,
+      "device": 139,
+      "inode": 11224841
+    }
+  ],
+  "osfile": [
+    193,
+    129,
+    129
+  ],
+  "errors": {
+    "errno": 2,
+    "doserrno": 2,
+    "last_error": 0,
+    "x87_control_word": 639
+  },
+  "mre_calls": 2
+}

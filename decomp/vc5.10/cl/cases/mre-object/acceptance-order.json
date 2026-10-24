@@ -21,6 +21,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/selector-3/pair.json",
         "sha256": "a18a8c24102977eae2ff63626629ad497cad0a72d10b621d13ed42746803874b"
       }
+    },
+    {
+      "order": 3,
+      "candidate": "_compare_option_strings",
+      "class": "application",
+      "extent_bytes": 20,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-4/pair.json",
+        "sha256": "12c7cc23523862f5aea30664cbe63a305c205d6709c657e66fee404c52700a09"
+      }
     }
   ]
 }

@@ -19,6 +19,7 @@ static WCHAR *initial_os_environment;
 static unsigned initial_os_units;
 static unsigned char *configuration, *cursor, *limit, *idb_bytes;
 static unsigned configuration_size, idb_size;
+static PendingWork *pending_work;
 extern unsigned mre_call_count;
 
 static void fail(const char *why) { recon_unsupported(why); }
@@ -181,6 +182,12 @@ static void observe(unsigned kind,void *owner_out,const char *path,void *error_o
     cwd=getcwd(NULL,0);
     if (!cwd) fail("MRE native CWD observation");
     text(file,cwd);free(cwd);
+    if (kind==7 || kind==8) {
+        if (!pending_work) fail("missing MRE fourth-call record");
+        word(file,(unsigned)(uintptr_t)pending_work);
+        if (fwrite(pending_work,1,sizeof(*pending_work),file)!=sizeof(*pending_work))
+            fail("MRE pending input observation");
+    }
     if (fclose(file) || !bytes || size>2*1024*1024) fail("MRE request completion");
     exchange(kind,bytes,(unsigned)size);free(bytes);
     errno=saved_errno;recon_doserrno=saved_dos;recon_SetLastError(saved_last);
@@ -272,4 +279,20 @@ void mre_init(MreDriver *mre_driver)
     observe(5,NULL,NULL,NULL,NULL,FALSE,FALSE,NULL,NULL,mre_driver);
     phase=3;++mre_call_count;
     observe(6,NULL,NULL,NULL,NULL,FALSE,FALSE,NULL,NULL,mre_driver);
+}
+
+/* Exact fourth external response only: no pending work or file changes. The
+ * controller authenticates every actual input before acknowledging this call. */
+BOOL mre_files_out_of_date(MreDriver *mre_driver,void *work)
+{
+    if (channel<0 || phase!=3 || mre_driver!=(MreDriver*)(roles+4) || !work)
+        fail("unknown MRE FilesOutOfDate inputs or lifecycle");
+    pending_work=(PendingWork*)work;
+    if (pending_work->outdated || pending_work->sources || pending_work->compiled ||
+        pending_work->recycled || pending_work->failed)
+        fail("unobserved nonempty MRE pending input");
+    observe(7,NULL,NULL,NULL,NULL,FALSE,FALSE,NULL,NULL,mre_driver);
+    phase=4;++mre_call_count;
+    observe(8,NULL,NULL,NULL,NULL,FALSE,FALSE,NULL,NULL,mre_driver);
+    return TRUE;
 }

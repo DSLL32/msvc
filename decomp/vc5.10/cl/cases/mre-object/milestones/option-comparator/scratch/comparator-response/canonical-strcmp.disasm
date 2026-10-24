@@ -1,0 +1,61 @@
+
+/root/msvc2/toolchains/5.10/bin/MSVCRT.DLL:     file format pei-i386
+
+
+Disassembly of section .text:
+
+7802daf2 <.text+0x2caf2>:
+7802daf2:	8b 54 24 04          	mov    0x4(%esp),%edx
+7802daf6:	8b 4c 24 08          	mov    0x8(%esp),%ecx
+7802dafa:	f7 c2 03 00 00 00    	test   $0x3,%edx
+7802db00:	75 39                	jne    0x7802db3b
+7802db02:	8b 02                	mov    (%edx),%eax
+7802db04:	3a 01                	cmp    (%ecx),%al
+7802db06:	75 2d                	jne    0x7802db35
+7802db08:	0a c0                	or     %al,%al
+7802db0a:	74 26                	je     0x7802db32
+7802db0c:	3a 61 01             	cmp    0x1(%ecx),%ah
+7802db0f:	75 24                	jne    0x7802db35
+7802db11:	0a e4                	or     %ah,%ah
+7802db13:	74 1d                	je     0x7802db32
+7802db15:	c1 e8 10             	shr    $0x10,%eax
+7802db18:	3a 41 02             	cmp    0x2(%ecx),%al
+7802db1b:	75 18                	jne    0x7802db35
+7802db1d:	0a c0                	or     %al,%al
+7802db1f:	74 11                	je     0x7802db32
+7802db21:	3a 61 03             	cmp    0x3(%ecx),%ah
+7802db24:	75 0f                	jne    0x7802db35
+7802db26:	83 c1 04             	add    $0x4,%ecx
+7802db29:	83 c2 04             	add    $0x4,%edx
+7802db2c:	0a e4                	or     %ah,%ah
+7802db2e:	75 d2                	jne    0x7802db02
+7802db30:	8b c0                	mov    %eax,%eax
+7802db32:	33 c0                	xor    %eax,%eax
+7802db34:	c3                   	ret
+7802db35:	1b c0                	sbb    %eax,%eax
+7802db37:	d1 e0                	shl    $1,%eax
+7802db39:	40                   	inc    %eax
+7802db3a:	c3                   	ret
+7802db3b:	f7 c2 01 00 00 00    	test   $0x1,%edx
+7802db41:	74 14                	je     0x7802db57
+7802db43:	8a 02                	mov    (%edx),%al
+7802db45:	42                   	inc    %edx
+7802db46:	3a 01                	cmp    (%ecx),%al
+7802db48:	75 eb                	jne    0x7802db35
+7802db4a:	41                   	inc    %ecx
+7802db4b:	0a c0                	or     %al,%al
+7802db4d:	74 e3                	je     0x7802db32
+7802db4f:	f7 c2 02 00 00 00    	test   $0x2,%edx
+7802db55:	74 ab                	je     0x7802db02
+7802db57:	66 8b 02             	mov    (%edx),%ax
+7802db5a:	83 c2 02             	add    $0x2,%edx
+7802db5d:	3a 01                	cmp    (%ecx),%al
+7802db5f:	75 d4                	jne    0x7802db35
+7802db61:	0a c0                	or     %al,%al
+7802db63:	74 cd                	je     0x7802db32
+7802db65:	3a 61 01             	cmp    0x1(%ecx),%ah
+7802db68:	75 cb                	jne    0x7802db35
+7802db6a:	0a e4                	or     %ah,%ah
+7802db6c:	74 c4                	je     0x7802db32
+7802db6e:	83 c1 02             	add    $0x2,%ecx
+7802db71:	eb 8f                	jmp    0x7802db02

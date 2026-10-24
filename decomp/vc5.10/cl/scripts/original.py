@@ -64,14 +64,16 @@ def mre_response_mode(config,baseline,case,others,enabled):
     assert '_prepare_jobs'in config['accepted'] and '_execute_pass'in config['accepted'], 'MRE response cannot restore unaccepted caller sites'
     if '_option_signature'in config['accepted']:
         if '_option_matching_selector'in config['accepted']:
-            assert '_compare_option_strings'not in config['accepted'],'Selector candidate must stop at genuine comparator'
+            if '_compare_option_strings'in config['accepted']:
+                assert '_jobs_from_deferred'not in config['accepted'],'Sort candidate must leave genuine jobs frontier masked'
+                return 'CL_MRE_SORT_RESPONSE_V1\n'
             return 'CL_MRE_SELECTOR_RESPONSE_V1\n'
         return 'CL_MRE_SIGNATURE_RESPONSE_V1\n'
     return 'CL_MRE_PREFIX_RESPONSE_V2\n'
 
 
-def mre_copy_phase(line,completed,enabled):
-    assert enabled and type(completed)is int and 0<=completed<3, 'unexpected original file-copy request'
+def mre_copy_phase(line,completed,enabled,sort=False):
+    assert enabled and type(completed)is int and type(sort)is bool and 0<=completed<(4 if sort else 3), 'unexpected original file-copy request'
     phase='mre-%d-after'%(completed+1)
     assert line in(('MRE_FILE '+phase+'\n').encode(),('MRE_FILE '+phase+'\r\n').encode()), 'unexpected original file-copy request'
     return phase
@@ -132,6 +134,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     shutil.copyfile(HERE/'export-reader.h',directory/'export-reader.h')
     shutil.copyfile(HERE/'clock-observer.inc',directory/'clock-observer.inc')
     shutil.copyfile(HERE/'mre-observer.inc',directory/'mre-observer.inc')
+    shutil.copyfile(HERE/'mre-sort-observer.inc',directory/'mre-sort-observer.inc')
     shutil.copyfile(HERE/'mre-file-observer.inc',directory/'mre-file-observer.inc')
     controller_source=store_blob(Path(__file__).read_bytes())
     helper_source=store_blob((HERE/'reference-debugger.c').read_bytes())
@@ -162,7 +165,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
             assert remaining>0 and selector.select(remaining),'bounded original capture produced no debugger response'
             line=process.stdout.readline();first+=line
             if line.startswith(b'MRE_FILE '):
-                phase=mre_copy_phase(line,file_copies,mre_response)
+                phase=mre_copy_phase(line,file_copies,mre_response,response_marker=='CL_MRE_SORT_RESPONSE_V1\n')
                 from mre_file import copy_stopped_file,publish_ack
                 copied=copy_stopped_file(directory,phase)
                 publish_ack(directory,phase,copied);file_copies+=1
@@ -173,15 +176,18 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
                 if mre_response:
                     signature=response_marker=='CL_MRE_SIGNATURE_RESPONSE_V1\n'
                     selector=response_marker=='CL_MRE_SELECTOR_RESPONSE_V1\n'
-                    assert file_copies==3,'MRE response missed intermediate file copies'
-                    if selector:
+                    sort=response_marker=='CL_MRE_SORT_RESPONSE_V1\n'
+                    assert file_copies==(4 if sort else 3),'MRE response missed intermediate file copies'
+                    if sort:
+                        assert(address,stack[0])==(0x403b5d,0x403697),'Sort candidate missed genuine deferred-jobs frontier'
+                    elif selector:
                         assert address==0x403b49 and stack[1] and stack[2],'Selector candidate missed genuine comparator frontier'
                     else:
                         assert(address,stack[0])==((0x4010f7,0x403989)if signature else(0x40393a,0x4035f2)),'MRE response did not reach its genuine selected frontier'
                     # Observation-only while the typed native provider is held.
                     # Complete formal/hidden driver, option, scratch, CRT and
                     # file state is in the addressed C observer records.
-                    (directory/'mre-frontier.json').write_text(json.dumps({'kind':'observation-only; not acceptance','symbol':'compare_option_strings'if selector else'option_matching_selector'if signature else'option_signature','address':address,'return_address':stack[0],'formals':{'left':stack[1],'right':stack[2]}if selector else{'option':stack[1],'selectors':stack[2]}if signature else{'state':stack[1]},'file_copies':file_copies},indent=2)+'\n')
+                    (directory/'mre-frontier.json').write_text(json.dumps({'kind':'observation-only; not acceptance','symbol':'jobs_from_deferred'if sort else'compare_option_strings'if selector else'option_matching_selector'if signature else'option_signature','address':address,'return_address':stack[0],'formals':{'inputs':stack[1]}if sort else{'left':stack[1],'right':stack[2]}if selector else{'option':stack[1],'selectors':stack[2]}if signature else{'state':stack[1]},'file_copies':file_copies},indent=2)+'\n')
                 else:
                     from frontier_state import capture_original
                     capture_original(directory,address,stack,process)
@@ -210,7 +216,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
         'helper_sha256':sha((directory/'reference-debugger.exe').read_bytes()),'helper_build':helper_build,
         **paired,'build_dependency_hashes':dependency_hashes,
         'helper_source_sha256':sha((HERE/'reference-debugger.c').read_bytes()),
-        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc','clock-observer.inc','mre-observer.inc','mre-file-observer.inc','export-reader.h')},
+        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc','clock-observer.inc','mre-observer.inc','mre-file-observer.inc','mre-sort-observer.inc','export-reader.h')},
         'controller_source':controller_source,'helper_source':helper_source,'mre_transport_source':transport_source,
         'command':command,'environment':{k:env[k] for k in ('WINEPREFIX','WINEDLLOVERRIDES','INCLUDE','LIB','WINEPATH','TMP','TEMP')},
         'timing':{'setup_seconds':setup,'reference_execution_seconds':run_time},

@@ -67,3 +67,9 @@ int option_matching_selector(Option *option, const char *selectors)
     const char *match = strpbrk(option->matching, selectors);
     return match ? (unsigned char)*match : 0;
 }
+
+/* 00403b49..00403b5d: comparator for the array of signature strings. */
+int compare_option_strings(const void *left, const void *right)
+{
+    return strcmp(*(char * const *)left, *(char * const *)right);
+}

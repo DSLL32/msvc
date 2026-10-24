@@ -1,0 +1,12 @@
+{
+  "seconds": 6.54735641926527,
+  "status": 0,
+  "command": [
+    "make",
+    "-j4",
+    "native",
+    "native-trace",
+    "original"
+  ],
+  "shared_pin": "5a8cb5ac92899546946119757a7bea42fcc9b60a"
+}

@@ -14,9 +14,9 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 106 accepted application functions /18,169 original extent bytes
-(95.32% of whole `.text`, 97.97% of the 18,545-byte application extent).
-There are 106/112 application functions accepted, with six functions/376 bytes
+There are now 107 accepted application functions /18,189 original extent bytes
+(95.42% of whole `.text`, 98.08% of the 18,545-byte application extent).
+There are 107/112 application functions accepted, with five functions/356 bytes
 remaining. `cases/code-partition.json` and its independent review classify all
 19,062 bytes without overlaps: 18,545 application, 476 support, 41 literalCC padding.
 These are accepted function extents, not branch or input-domain coverage. The response-file/options/help case adds five driver functions with 56 actual
@@ -338,42 +338,24 @@ or nonpreferred-base test has run here.
 source/themes were copied from vc1.0; all arguments, IR, traces and expected
 artifacts need fresh 5.10 capture. No vc1.0 oracle is reused.
 
-Minimal-rebuild investigation now reaches the real option-signature entry after
-three observed MSPDB calls. The actual shared rule/error scratch buffer and
-signature pointer type are corrected; the signature builder, comparator and
-selector remain named traps. Native MRE success is held for the exact IDB file,
-descriptor/noinherit and lifetime contract. Source-C analysis and the earlier
-no-MRE dry run remain distinct. This checkpoint adds no application credit;
-all 13 previous native fixtures pass in 3.24 seconds after the source corrections.
+The object-only `/Gm /Zi` case now reaches `jobs_from_deferred(NULL)` after
+four genuine MSPDB calls. Its Linux host validates the complete arguments,
+opaque engine/driver aliases, initialized pending record, public CRT/OS state,
+streams and real descriptor/file effects before replaying each response.
+Release, Close and subsequent lifetime effects remain unsupported. This is a
+partial case, with no frontend or normal MRE completion credit.
 
-The separate object-only MRE case now records Open/Query/Init through the genuine
-option-signature trap, including complete intermediate IDB bytes and preserved
-child state. The metadata-only Windows identity check and independent Linux
-NOATIME content copy are explicit observer contracts; Windows file IDs are never
-compared numerically to Linux inodes. Four failed transports remain retained.
-The reviewed prefix took 3.856 seconds; its native provider is awaiting genuine
-shared descriptor/noinherit support. No function has been accepted for this
-checkpoint: application coverage remains 104/112 functions, 17609/18545 bytes
-(94.95%); CRT/import support is separate.
+The accepted signature builder (527 bytes), selector (33 bytes) and comparator
+(20 bytes) have separate proofs under `cases/mre-object/milestones/`.
+The latest proof observes the first qsort callback's two owned strings and
+normal return; it does not claim a complete original array/comparison census.
+The shared explicit510 `strcmp` contract is pinned at `5a8cb5ac92`. The first
+native return already matched before that remap; no libc mismatch is claimed.
+Private provider objects, CRT lock/heap/thread state and allocation tails remain
+unobserved. Three native controller/checker failures are retained separately.
 
-The initial object-only MRE dependency prefix now matches on Linux with real
-descriptor/file effects and typed before/after state checks. The bounded
-provider/evidence are under `cases/mre-object/`; later MRE operations remain
-denied. This adds no application credit: eight application frontiers remain.
-
-The 527-byte option-signature builder is now accepted through the genuine selector
-frontier. Fresh proof binds all 37 options, include inputs, both saved caller frames
-and the three typed MRE calls with real file/descriptor effects. Evidence is under
-`cases/mre-object/milestones/option-signature/`; no MRE completion is claimed.
-The original capture took 4.906 seconds, native GDB capture 1.213 seconds and audit
-0.685 seconds. All 13 cached Linux fixtures pass in 3.292 seconds. The next selector
-and comparator remain named traps; lowercase behavior is still unsupported.
-
-The 33-byte option selector is accepted through the real qsort comparator trap.
-`cases/mre-object/milestones/option-selector/` binds the complete owned 16-item
-signature array, comparator arguments, original argument-slot reuse and the one
-reached lowercase API. The shared CP0 ASCII implementation is pinned at 4021ad7386.
-Its public buffer/alias/error/FP effects match; private CRT lock/heap/thread state
-and allocation tails are unclaimed. Original capture took 6.324 s, native GDB
-1.569 s and audit 0.658 s. All 13 cached fixtures pass in 3.265 s. The 36 new native
-mutation controls took 51.061 s once; unchanged controls can be reused by hash.
+The comparator's original capture took 7.549 s, native GDB capture/checks 1.633 s
+and audit 0.665 s. The parallel original/native build took 6.547 s; all 13 cached
+Linux fixtures passed in 3.587 s. The 27 affected native rejection checks took
+44.430 s once and the 31 raw-response checks 23.099 s. Unchanged transport and
+protocol checks are reused with their hashes; cached regressions invoke no Wine.

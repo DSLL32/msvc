@@ -1,0 +1,72 @@
+{
+  "scope": "Actual20B comparator candidate and exact fourth MRE response; not complete MRE case",
+  "candidate": "_compare_option_strings",
+  "pair": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-4/pair.json",
+  "shared_pin": "5a8cb5ac92899546946119757a7bea42fcc9b60a",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-original",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-4-native",
+  "original_reuse": "Unchanged authenticated original candidate/mask/input/helper response; only native host/shared implementation/observer retries.",
+  "native_failures": [
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native",
+      "seconds": 0.6906813895329833,
+      "gdb_status": 1,
+      "controller_error": "AssertionError('MRE mandatory1/1/1 inventory failed')"
+    },
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native",
+      "seconds": 0.6823885226622224,
+      "gdb_status": -11,
+      "controller_error": "AssertionError('MRE mandatory1/1/1 inventory failed')"
+    },
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native",
+      "seconds": 1.5910346321761608,
+      "gdb_status": 0,
+      "controller_error": "KeyError(4294954780)"
+    }
+  ],
+  "failure_qualification": "Native1 actual strcmp result was already1; no libc magnitude mismatch. Native2 internal GDB crash from deleting active breakpoint. Native3 correct flow but12B return-word dump absent; native4 captures it.",
+  "input_qualification": "Original first callback actual two initialized owned strings/slot identities and helper-enforced array bounds; original complete array contents not dumped in this capture. Native independently dumps its live array; no complete original-array equality claim.",
+  "unknowns": "Release/Close/later APIs and object private contents/lifetime remain denied; IDB open through actual jobs(NULL) frontier only.",
+  "prepromotion_counts": {
+    "application_functions": 106,
+    "total_application_functions": 112,
+    "application_bytes": 18169,
+    "total_application_bytes": 18545,
+    "candidate_bytes": 20,
+    "separate_support_records": 15,
+    "separate_support_bytes": 476
+  },
+  "timings": {
+    "original": {
+      "setup_seconds": 0.03998585045337677,
+      "reference_execution_seconds": 7.549166640266776
+    },
+    "native_capture_and_checks_seconds": 1.6331176394596696,
+    "build": {
+      "seconds": 6.54735641926527,
+      "status": 0,
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "original"
+      ],
+      "shared_pin": "5a8cb5ac92899546946119757a7bea42fcc9b60a"
+    },
+    "native_controls": {
+      "count": 27,
+      "seconds": 44.430451792664826
+    },
+    "original_controls": {
+      "count": 31,
+      "seconds": 23.09889978542924
+    },
+    "cached_fixture_wall": {
+      "seconds": 3.651414602994919,
+      "status": 0
+    }
+  }
+}

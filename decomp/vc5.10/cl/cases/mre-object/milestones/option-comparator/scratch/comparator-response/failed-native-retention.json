@@ -1,0 +1,817 @@
+{
+  "kind": "Three distinct held native controller/checker failures; zero application credit and no libc-magnitude mismatch",
+  "files": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/capture.json",
+      "sha256": "8ddaa3147907349ac71109cda2f16912d8d9736509749f680bfc25c98b32f908"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-lower-before.json",
+      "sha256": "f62a6d12e3e11161325c495a7c69dc4a6fb58683f4ed96c9bf082c51eb290586"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-mre-3-after-gdb.json",
+      "sha256": "09b4e28a3008715e72e5fce2ee2e8cd88d40d65e1d5ed78756010ee88f115a0d"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-compare-before.json",
+      "sha256": "f62a6d12e3e11161325c495a7c69dc4a6fb58683f4ed96c9bf082c51eb290586"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/trace-filter.txt",
+      "sha256": "e200b3dca8dae3be3fc972eafb23ba6ddb25d169e36d2a2102f4b8258f6da447"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-1-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-3-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-build.json",
+      "sha256": "44c165c0d8675594cea9ba42c76a547dce4a41e5e16a2fde7d3fb50ea28d5018"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-3-after.json",
+      "sha256": "f62a6d12e3e11161325c495a7c69dc4a6fb58683f4ed96c9bf082c51eb290586"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-2-before.json",
+      "sha256": "a8d6fe917fdc5c3d71bbe19a87cef7c80857597779ad12028c6fb1a4380fc5ef"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-lower-before-gdb.json",
+      "sha256": "4663dcb2f8c51c0f1d94ab006037ed22a9a26fc1eed30358d93fd66ef9fb7a87"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/config.json",
+      "sha256": "31a7e2174c8228e5297148358cdd1d730429ba1358d4f90898cdadbb53df3258"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-process.json",
+      "sha256": "467d98aded0e82db8b857787c9c6c9d0df01cb18c6b591eccc02d26c41afb52a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-1-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-mre-1-after-gdb.json",
+      "sha256": "b9a7ee881a66fa89694b65a61efd885327369622ec5a01812ff6e33098da1ec4"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-lower-after.json",
+      "sha256": "f62a6d12e3e11161325c495a7c69dc4a6fb58683f4ed96c9bf082c51eb290586"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-entry-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-3-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-entry-errors.json",
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-prefix.json",
+      "sha256": "5adf91c2b8e1df24e26d19f36d362a9aea6cf8817009377365733d0d3ad83eb9"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/mre-native.json",
+      "sha256": "4c443910c648c126b9355343461b40f535eee5659612d60f7c42350ce8af2982"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-1-after.json",
+      "sha256": "a8d6fe917fdc5c3d71bbe19a87cef7c80857597779ad12028c6fb1a4380fc5ef"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-compare-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-mre-1-before-gdb.json",
+      "sha256": "66af4cfadfafc3b4e10eeafec322a22cd8cf9d403c9bfc962c2334f5e9efef59"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/mre-response.json",
+      "sha256": "3cb777c921e9faeccaaa4282ef4538922af22bc07f3dfd51a770ffee566cea6b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/resources.bin",
+      "sha256": "18a0a7a878846acd3d40008dcc38a2f3d7a0bd6a275900afabc578be136c037f"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/exec-wrapper.py",
+      "sha256": "e8a8d3f1ec9479af2eecc038218fe20edb5ac3c0319c07bc501e50b00ead3888"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/case.idb",
+      "sha256": "3f1b520ae0082129d51a6977553e1adac5ce5ed6869385a1ddfaa193414f163b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-2-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-lower-after-gdb.json",
+      "sha256": "e2c86405fb7db3a8b14745163a37897dc606324cb205d4a35e7b5fad6d17df5d"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-execution.json",
+      "sha256": "03277ea822b3899fa706e2122e05dccba66c443aaa7ff3d86832729aad0d45ca"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-mktemp-gdb.json",
+      "sha256": "23b8fde7c7ba6f13bc35f520d6127cb5d956840b7b5fd16478c456a91d99c48a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/mktemp-expected.json",
+      "sha256": "82d5790dff202cf362efce456d8c62816cd5b64c7b5a96362a3c6d99cfc6b972"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/gdb_mre.py",
+      "sha256": "f8d825349aecd1e31879a8065a510c5807c1361088a44549e1650c1016c22fca"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-lower-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-compare-after.json",
+      "sha256": "f62a6d12e3e11161325c495a7c69dc4a6fb58683f4ed96c9bf082c51eb290586"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-compare-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-1-before.json",
+      "sha256": "ea0984961bbd549b29b7c2f57c338463ed4a056a4dbe59bbf724c6ce706fe572"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/stderr.bin",
+      "sha256": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/trace-seen.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-mre-3-before-gdb.json",
+      "sha256": "0cf1e43481b890fab39470d91be290a8815762b833408d73da4c514a8253280d"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/gdb-frontier.py",
+      "sha256": "0761ef911f602ad85e28255a31c38eac5615de9968049a2b10de720e30af7329"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-2-after.json",
+      "sha256": "0b5f52fdb376361c526a62fd378f9095ec5e08c5648629c4547e55c02e4212fa"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/mre-binding.bin",
+      "sha256": "de055bb63b5558df8c0d2ba18160a52640744b349ed2405b9e16fdf43bb26ee1"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-mre-2-after-gdb.json",
+      "sha256": "54c24a1550572be8333c237c505d3f60778d98b994cebe9eb239b625fd27cb0a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-compare-before-gdb.json",
+      "sha256": "bbfa9731bd5fdfc51a91bc56b5feb955e1454c6509b97c2ecce9591a580705b3"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/test.obj",
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/trace.txt",
+      "sha256": "1ed0c55a5d5a597af2ecbddb8568bf4be4c5203ee5d6ccbb215cf49dadf49c04"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/gdb-entry.py",
+      "sha256": "86395aa894d02e8632ffbdd9e5fbe6f4d03243fd2eb42fed4d5205cb7483e0a5"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/debugger.txt",
+      "sha256": "2292e19253a0340588f7d1ccc55aec561351fccc183de18dce21042b21dd0b80"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-lower-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-3-before.json",
+      "sha256": "0b5f52fdb376361c526a62fd378f9095ec5e08c5648629c4547e55c02e4212fa"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-mre-2-before-gdb.json",
+      "sha256": "c419eb7fd7a82a331a7ea06e13bc25ebfd817a66169b22886c241932c291394f"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-entry.json",
+      "sha256": "d4e2ed8e3cdf4680f8567ab41a6eb7328ed961c85a9897826d5dc0f94321f37b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/streams-mre-2-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/gdb_streams.py",
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-compare-after-gdb.json",
+      "sha256": "dda0dd0863c70ff0797667c32c9137d136381d77ccd32e0a3c36608f93a4063b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/__pycache__/gdb_entry.cpython-313.pyc",
+      "sha256": "03e1039881ce8da7ecdd764157b08af325ff0425f1870ba7280dcc8da63410b6"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/__pycache__/gdb_mre.cpython-313.pyc",
+      "sha256": "868e368a84f19213dfe2abc2add957e2acba06f0c4bbcb318a7b024be80e6aa5"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/__pycache__/gdb_streams.cpython-313.pyc",
+      "sha256": "1e9c1ac6324db9228e0aa98cbc8aa66edc5bba445dff66614d1a477c4039fe65"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/__pycache__/gdb_mktemp.cpython-313.pyc",
+      "sha256": "860cd539fe047eb5a8f9c934a498d0665f3c6eb62df750113eb86196bfa67d98"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/capture.json",
+      "sha256": "d86bf123106bbd6b62c83c16456a56713ff22727e7bb16efa3bce0f21b3a02b9"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-mre-3-after-gdb.json",
+      "sha256": "ded2aeb1fd5018ee9d05266b11097ed48f9903b89d9b8f3ded8f50f707b9e643"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-build.json",
+      "sha256": "6fe91405de347e21ed932a2a3b53ebe55b8b231dabb8fdc34362d6326eae73ab"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-compare-before.json",
+      "sha256": "e0ab2eaad59a586d1a02f0b0c4573ed61e09820e429f002fcfcbd1f835c851e7"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/gdb_mre.py",
+      "sha256": "a2ede6236338cb7d7c71738e5b62ced8ae868cf36446431f55e40441962c60b0"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/exec-wrapper.py",
+      "sha256": "41a604fc2b62f34ba72e03428375fe9482333665929228f1fb1980e65def9be9"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-1-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-1-after.json",
+      "sha256": "63a6d99b70e714030098a822ee7263a9aca46b838c853316cf86a8845a4ecdae"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/case.idb",
+      "sha256": "3f1b520ae0082129d51a6977553e1adac5ce5ed6869385a1ddfaa193414f163b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-entry-errors.json",
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-entry-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/resources.bin",
+      "sha256": "18a0a7a878846acd3d40008dcc38a2f3d7a0bd6a275900afabc578be136c037f"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-1-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-lower-after.json",
+      "sha256": "e0ab2eaad59a586d1a02f0b0c4573ed61e09820e429f002fcfcbd1f835c851e7"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-compare-after.json",
+      "sha256": "e0ab2eaad59a586d1a02f0b0c4573ed61e09820e429f002fcfcbd1f835c851e7"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/gdb_streams.py",
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-3-before.json",
+      "sha256": "6a91c3131101fb5bc251bbd45d825ecd39bb1b4fb903172e5f1d47d7705661fc"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-lower-before-gdb.json",
+      "sha256": "b5ab2cbfb548d5936a27945f9d0a1437b8e9d3b62989205c81dbf7074f79fc97"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/mre-binding.bin",
+      "sha256": "de055bb63b5558df8c0d2ba18160a52640744b349ed2405b9e16fdf43bb26ee1"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-mre-1-after-gdb.json",
+      "sha256": "a59549a144810df3ad5ed9bf97a266359c07a878a5ee5b0aecab4768af2840fe"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/gdb-frontier.py",
+      "sha256": "6e35f5f1f964dad0226ad5ffb0741c01747e7fcb001a7c61f33302a5e4b74cf5"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-3-after.json",
+      "sha256": "e0ab2eaad59a586d1a02f0b0c4573ed61e09820e429f002fcfcbd1f835c851e7"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-1-before.json",
+      "sha256": "ae8a8ee2d9ea3c11231fb951451205c69e3eb2afd7fab4a18a3d9017599b4b32"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-3-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-3-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/test.obj",
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/trace-seen.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/stderr.bin",
+      "sha256": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-prefix.json",
+      "sha256": "e5aa69e4775cab73c905dfd585124cbb19ec3f767ae8ff7de41c244733ae104f"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-2-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-compare-before-gdb.json",
+      "sha256": "8c57675f21d6dbce116ea9be733cdc934caefaae0735a1c7334e6e2684648c5f"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-mre-2-before-gdb.json",
+      "sha256": "eb36fe1f647be90f5d4015d5027927cc04fe4adee0b12067351c1c452de66263"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/trace-filter.txt",
+      "sha256": "e200b3dca8dae3be3fc972eafb23ba6ddb25d169e36d2a2102f4b8258f6da447"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/config.json",
+      "sha256": "31a7e2174c8228e5297148358cdd1d730429ba1358d4f90898cdadbb53df3258"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/trace.txt",
+      "sha256": "1ed0c55a5d5a597af2ecbddb8568bf4be4c5203ee5d6ccbb215cf49dadf49c04"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-2-before.json",
+      "sha256": "63a6d99b70e714030098a822ee7263a9aca46b838c853316cf86a8845a4ecdae"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-2-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-compare-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-lower-before.json",
+      "sha256": "e0ab2eaad59a586d1a02f0b0c4573ed61e09820e429f002fcfcbd1f835c851e7"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-lower-after-gdb.json",
+      "sha256": "8eff11a77595b2d18d0589d37fe24bdf24639d13351893943c3159cd8b0ab8a1"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-mre-3-before-gdb.json",
+      "sha256": "0ba404a69bc6f4967dcd7300d3a8e2319a0a5c7b31b6602a53a6ee9288d83ce8"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/gdb-entry.py",
+      "sha256": "a7946035dbb0fa13b4396a5002502f4020ea4b0760d54623b17cb647bdef8c7a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/debugger.txt",
+      "sha256": "f5e036772b284ad01b3f7107e4c56dc8cb59b2f12369188c47bd9656ba82b428"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/mre-response.json",
+      "sha256": "3cb777c921e9faeccaaa4282ef4538922af22bc07f3dfd51a770ffee566cea6b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-mre-2-after.json",
+      "sha256": "6a91c3131101fb5bc251bbd45d825ecd39bb1b4fb903172e5f1d47d7705661fc"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-mktemp-gdb.json",
+      "sha256": "23b8fde7c7ba6f13bc35f520d6127cb5d956840b7b5fd16478c456a91d99c48a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-compare-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/mktemp-expected.json",
+      "sha256": "82d5790dff202cf362efce456d8c62816cd5b64c7b5a96362a3c6d99cfc6b972"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-lower-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-compare-after-gdb.json",
+      "sha256": "96e422e1fdc2263d1c43a1319c47afd1c238284a2d1fbd6d2456a94cfb7a3fca"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-process.json",
+      "sha256": "32432027f21f9d154e9f9fdfb042271c3984ac415772624b2f6f4def32b5f33c"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-lower-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-mre-2-after-gdb.json",
+      "sha256": "d342bd8a7a6108a1b6c0f533fba3f7d9c728a14d629467df0099c420431cf547"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-execution.json",
+      "sha256": "b27c63d8cb52b35a6e5db6be88879cea846a1431df52729d2e4d2989541d865e"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/mre-native.json",
+      "sha256": "4b5531e994d75ef788a33c55e6b02bcb2689d144e34654117a34e9efe34dce4a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/native-mre-1-before-gdb.json",
+      "sha256": "27c866879b23efdfd1d02833a19cfe72abab6095b2d3fa3d905aa1bac6ec984a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/streams-entry.json",
+      "sha256": "7a7fc73825e4b868f314bc9b212110f1adf11ab82109db331e0b6c1a3bf18d0d"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/__pycache__/gdb_entry.cpython-313.pyc",
+      "sha256": "48d533738ea3cd59c98212b59ec41d9bba13f0b42f930a806828987d0de43c8b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/__pycache__/gdb_mktemp.cpython-313.pyc",
+      "sha256": "fc5f24f48c6bb4ed50ca311745ed4444d6731c75a4127ee4d95ee481fad3f0af"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/__pycache__/gdb_mre.cpython-313.pyc",
+      "sha256": "ac39edaedc7f563073584c2beef89ad6210eaaa275f8bc6790acf2da4d1ffde1"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-2-native/__pycache__/gdb_streams.cpython-313.pyc",
+      "sha256": "08cb3350b38028314243f7ed818bccd173e45e532113ea5b652e551a462e3edf"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/capture.json",
+      "sha256": "fee9a1bae36ba176de9066134ca9e3e8ac997d01e0e8d047f51cd14ccf79884d"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-1-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-2-before.json",
+      "sha256": "6543e15494bad7a5b8d3dae5455218546c1cea24ca2cdd40f7dd194da097aad3"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-frontier-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/mre-binding.bin",
+      "sha256": "de055bb63b5558df8c0d2ba18160a52640744b349ed2405b9e16fdf43bb26ee1"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/trace-seen.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/gdb-frontier.py",
+      "sha256": "85af0f076e6ceabc3da2ecc2c5d46c32e258b8d2d8f7e64dee959bfac290d76a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-compare-before-gdb.json",
+      "sha256": "2cc4ad5acdbc5cc30afcf20f9fc291301aefc5017542d9f3cb69b684f98a8089"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-lower-after-gdb.json",
+      "sha256": "7c4c1b2b45fa6d9fb7edd3bd6c63d0f32eef9b9d71b342275ce7d62f1fbaad4e"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/gdb_streams.py",
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/stderr.bin",
+      "sha256": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-2-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/case.idb",
+      "sha256": "3f1b520ae0082129d51a6977553e1adac5ce5ed6869385a1ddfaa193414f163b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/mktemp-expected.json",
+      "sha256": "82d5790dff202cf362efce456d8c62816cd5b64c7b5a96362a3c6d99cfc6b972"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-lower-before.json",
+      "sha256": "fb20f9095f56f4672a3aa3f79f77a26a8d5def71466e5eaa512f632e65b38323"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-compare-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-4-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/test.obj",
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/gdb_mre.py",
+      "sha256": "1768347c82ab5e1351d07da4fcdca7d71e7a3d026676eaccb58db057873213fd"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-lower-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-build.json",
+      "sha256": "6fe91405de347e21ed932a2a3b53ebe55b8b231dabb8fdc34362d6326eae73ab"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-3-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-mre-2-after-gdb.json",
+      "sha256": "63ed1b95e17f3ca7ca8f56e36d06a976a50e9ada3b22297ba1a9588313cebeec"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-prefix.json",
+      "sha256": "8c6e4a6e034f8a0a88c02a1e5b00208d31769ee717822fb994e861da3a3f27ad"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/exec-wrapper.py",
+      "sha256": "26eca080b35021a48a4562e74f53557b315d481dc79d3f85b56ace7b8c22de25"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-mre-4-before-gdb.json",
+      "sha256": "379f308cc3ddf4c3aea7d215f8b38a3cc1a8a3ee77aab93265c9dc92ad38680d"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/trace-filter.txt",
+      "sha256": "e200b3dca8dae3be3fc972eafb23ba6ddb25d169e36d2a2102f4b8258f6da447"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-entry-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-4-before.json",
+      "sha256": "fb20f9095f56f4672a3aa3f79f77a26a8d5def71466e5eaa512f632e65b38323"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-2-after.json",
+      "sha256": "1f075839c94f2eb6a9e429522798cc67fa96a1be9b68839cce55c5692b451e1c"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-lower-before-gdb.json",
+      "sha256": "0922170dd32f8a5e8ac4bb970ee6caa5b27407ad2d52212d373b8fe44ce05dd6"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/resources.bin",
+      "sha256": "18a0a7a878846acd3d40008dcc38a2f3d7a0bd6a275900afabc578be136c037f"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/trace.txt",
+      "sha256": "1ed0c55a5d5a597af2ecbddb8568bf4be4c5203ee5d6ccbb215cf49dadf49c04"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-mre-3-before-gdb.json",
+      "sha256": "931896ca0d14fcb7378f601dadea25045953344ae149f3514f6db5557e072876"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-compare-after.json",
+      "sha256": "fb20f9095f56f4672a3aa3f79f77a26a8d5def71466e5eaa512f632e65b38323"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-3-after.json",
+      "sha256": "fb20f9095f56f4672a3aa3f79f77a26a8d5def71466e5eaa512f632e65b38323"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-frontier.json",
+      "sha256": "758562894dc4f66ae0564a18b221b893237b6355cd220dad10efa8b82c458170"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-1-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/gdb-entry.py",
+      "sha256": "0d0d70a78fc80dd1e22e85f121c84ed6538c9dd0e84b87c629d1dda788c399ff"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/debugger.txt",
+      "sha256": "6fe59f92f58050f74e405d8a296f0da4bff242266cfe4ce0967316517fdfc24b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-4-after.json",
+      "sha256": "758562894dc4f66ae0564a18b221b893237b6355cd220dad10efa8b82c458170"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-mre-4-after-gdb.json",
+      "sha256": "80703cd9667c2c4465b474022f2a0ea428295a0371f4cf4e95069d3c9213a440"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-4-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-mre-2-before-gdb.json",
+      "sha256": "543ead3ed58d1cb6b874660f24885bdb15cbebc454ae8d9c30549d392b04df5e"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-2-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-mre-3-after-gdb.json",
+      "sha256": "0fb44a18f983c06ac71961816f77f1ef3b055823bfd3d55a5ec1828c332ce0e7"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-execution.json",
+      "sha256": "f64176c6fb25eca514d6b352f099d212580518f91c491eaa6af88ab90577a375"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/mre-native.json",
+      "sha256": "3a6182c33955661e31e99c4b10d243b6d86bd6a82c406f33cf572ae77f126e38"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-compare-before.json",
+      "sha256": "fb20f9095f56f4672a3aa3f79f77a26a8d5def71466e5eaa512f632e65b38323"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-compare-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-mre-1-before-gdb.json",
+      "sha256": "35e350ac83cb4728ca367bed9129993ad4d7c8f3fec41b4bef70b99a7002f8ab"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-compare-after-gdb.json",
+      "sha256": "82ea9266042732dbb54080fb6bfb943506423063e71d699ad19f482902534352"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-mktemp-gdb.json",
+      "sha256": "23b8fde7c7ba6f13bc35f520d6127cb5d956840b7b5fd16478c456a91d99c48a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-entry.json",
+      "sha256": "a3eb70aa7a485bfc2875260521f8d26fea38ed0c266bbcd704e43f5b690b6329"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-1-after.json",
+      "sha256": "6543e15494bad7a5b8d3dae5455218546c1cea24ca2cdd40f7dd194da097aad3"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-3-before.json",
+      "sha256": "1f075839c94f2eb6a9e429522798cc67fa96a1be9b68839cce55c5692b451e1c"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-3-after-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-entry-errors.json",
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-mre-1-after-gdb.json",
+      "sha256": "71043b8b974df1dae2edec98d3138d8087c31284d88134be9151c85c961b34fa"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-mre-frontier-gdb.json",
+      "sha256": "eb7fc96efd452e31248623553d91f5972eafb19f0a0ca870683498b9ac262104"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/mre-response.json",
+      "sha256": "3cb777c921e9faeccaaa4282ef4538922af22bc07f3dfd51a770ffee566cea6b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/native-process.json",
+      "sha256": "df4c56837081d6845795239b72017cf5061b71b3b52fe607404b0664257ef58f"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-lower-before-iob.bin",
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/config.json",
+      "sha256": "31a7e2174c8228e5297148358cdd1d730429ba1358d4f90898cdadbb53df3258"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-lower-after.json",
+      "sha256": "fb20f9095f56f4672a3aa3f79f77a26a8d5def71466e5eaa512f632e65b38323"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/streams-mre-1-before.json",
+      "sha256": "c4eaf4d3a33859690e51a4e43e5cd0a27056708f1e8b96bd1bde437e44671002"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/__pycache__/gdb_mktemp.cpython-313.pyc",
+      "sha256": "acb430b6771e7ee08a9972358cb86b85278fb6b24793577a40e2435718e77ca2"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/__pycache__/gdb_streams.cpython-313.pyc",
+      "sha256": "4bc8d56ac61f21b55bf8adf6a316a2775fa407ba7b8c527bcbb217558667543c"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/__pycache__/gdb_entry.cpython-313.pyc",
+      "sha256": "dba8146c04a071a0cfa95003b84330941a279da2b9829b4c6bb661a52293ce79"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-3-native/__pycache__/gdb_mre.cpython-313.pyc",
+      "sha256": "fb45a33dad0cc61873010e240dee895385dc880c90eb2893f6a44df64d512dd7"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-CL.EXE",
+      "sha256": "2d907f6bc65a8053ec4f3d6e26dc4a32e366cc60cd1300883b7e63384c5f422d"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/failure-preservation.json",
+      "sha256": "8d0e7495e11b2e82c5b4b7ca6c8fb55188783aabcdd344796f1ae95f749c5744"
+    }
+  ]
+}

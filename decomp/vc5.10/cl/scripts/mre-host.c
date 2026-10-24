@@ -5,6 +5,7 @@
 extern BOOL mre_open(Mre **,const char *,int *,char *,BOOL,BOOL);
 extern DWORD mre_query(Mre *,MreDriver **);
 extern void mre_init(MreDriver *);
+extern BOOL mre_files_out_of_date(MreDriver *,void *);
 unsigned mre_call_count;
 static void unavailable(void)
 {
@@ -25,7 +26,7 @@ void WINAPI MREDrvOneTimeInit(MreDriver *driver)
 }
 BOOL WINAPI MREDrvFFilesOutOfDate(MreDriver *driver,void *work)
 {
-    (void)driver;(void)work;unavailable();return FALSE;
+    return mre_files_out_of_date(driver,work);
 }
 BOOL WINAPI MREDrvFRelease(MreDriver *driver)
 {

@@ -1,0 +1,290 @@
+{
+  "schema": 1,
+  "platform": "native",
+  "case": "mre-object",
+  "arguments": [
+    "/nologo",
+    "/Gm",
+    "/Zi",
+    "/c",
+    "/DVALUE=7",
+    "/Fdcase.pdb",
+    "test.obj"
+  ],
+  "inputs": [
+    {
+      "name": "test.obj",
+      "source": "cases/minimal-c/reference/test.obj",
+      "bytes": 275,
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    }
+  ],
+  "native_sha256": "2d907f6bc65a8053ec4f3d6e26dc4a32e366cc60cd1300883b7e63384c5f422d",
+  "rebuilt_sha256": "704d015eba7cafafa4d06fc3f350e868a3817c38e099057704e4315fea210427",
+  "config_sha256": "31a7e2174c8228e5297148358cdd1d730429ba1358d4f90898cdadbb53df3258",
+  "native_build": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-native/native-build.json",
+    "sha256": "44c165c0d8675594cea9ba42c76a547dce4a41e5e16a2fde7d3fb50ea28d5018"
+  },
+  "controller_sha256": "76c57746f6fcc0857eda55c9f03db184af27f86d2c64235adfa73343fc9ff682",
+  "gdb_status": 1,
+  "seconds": 0.6906813895329833,
+  "controller_error": "AssertionError('MRE mandatory1/1/1 inventory failed')",
+  "mre_signature_response": false,
+  "mre_selector_response": false,
+  "mre_sort_response": true,
+  "files": {
+    "streams-lower-before.json": {
+      "sha256": "f62a6d12e3e11161325c495a7c69dc4a6fb58683f4ed96c9bf082c51eb290586",
+      "bytes": 1039
+    },
+    "native-mre-3-after-gdb.json": {
+      "sha256": "09b4e28a3008715e72e5fce2ee2e8cd88d40d65e1d5ed78756010ee88f115a0d",
+      "bytes": 319389
+    },
+    "streams-compare-before.json": {
+      "sha256": "f62a6d12e3e11161325c495a7c69dc4a6fb58683f4ed96c9bf082c51eb290586",
+      "bytes": 1039
+    },
+    "gdb_entry.py": {
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb",
+      "bytes": 794
+    },
+    "trace-filter.txt": {
+      "sha256": "e200b3dca8dae3be3fc972eafb23ba6ddb25d169e36d2a2102f4b8258f6da447",
+      "bytes": 1468
+    },
+    "streams-mre-1-after-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "streams-mre-3-before-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "native-build.json": {
+      "sha256": "44c165c0d8675594cea9ba42c76a547dce4a41e5e16a2fde7d3fb50ea28d5018",
+      "bytes": 19320
+    },
+    "streams-mre-3-after.json": {
+      "sha256": "f62a6d12e3e11161325c495a7c69dc4a6fb58683f4ed96c9bf082c51eb290586",
+      "bytes": 1039
+    },
+    "streams-mre-2-before.json": {
+      "sha256": "a8d6fe917fdc5c3d71bbe19a87cef7c80857597779ad12028c6fb1a4380fc5ef",
+      "bytes": 1039
+    },
+    "native-lower-before-gdb.json": {
+      "sha256": "4663dcb2f8c51c0f1d94ab006037ed22a9a26fc1eed30358d93fd66ef9fb7a87",
+      "bytes": 321614
+    },
+    "config.json": {
+      "sha256": "31a7e2174c8228e5297148358cdd1d730429ba1358d4f90898cdadbb53df3258",
+      "bytes": 87503
+    },
+    "native-process.json": {
+      "sha256": "467d98aded0e82db8b857787c9c6c9d0df01cb18c6b591eccc02d26c41afb52a",
+      "bytes": 17
+    },
+    "streams-mre-1-before-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "native-mre-1-after-gdb.json": {
+      "sha256": "b9a7ee881a66fa89694b65a61efd885327369622ec5a01812ff6e33098da1ec4",
+      "bytes": 322294
+    },
+    "streams-lower-after.json": {
+      "sha256": "f62a6d12e3e11161325c495a7c69dc4a6fb58683f4ed96c9bf082c51eb290586",
+      "bytes": 1039
+    },
+    "streams-entry-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "streams-mre-3-after-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "native-entry-errors.json": {
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c",
+      "bytes": 80
+    },
+    "native-prefix.json": {
+      "sha256": "5adf91c2b8e1df24e26d19f36d362a9aea6cf8817009377365733d0d3ad83eb9",
+      "bytes": 1279
+    },
+    "mre-native.json": {
+      "sha256": "4c443910c648c126b9355343461b40f535eee5659612d60f7c42350ce8af2982",
+      "bytes": 490095
+    },
+    "streams-mre-1-after.json": {
+      "sha256": "a8d6fe917fdc5c3d71bbe19a87cef7c80857597779ad12028c6fb1a4380fc5ef",
+      "bytes": 1039
+    },
+    "streams-compare-after-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "native-mre-1-before-gdb.json": {
+      "sha256": "66af4cfadfafc3b4e10eeafec322a22cd8cf9d403c9bfc962c2334f5e9efef59",
+      "bytes": 322038
+    },
+    "mre-response.json": {
+      "sha256": "3cb777c921e9faeccaaa4282ef4538922af22bc07f3dfd51a770ffee566cea6b",
+      "bytes": 836596
+    },
+    "resources.bin": {
+      "sha256": "18a0a7a878846acd3d40008dcc38a2f3d7a0bd6a275900afabc578be136c037f",
+      "bytes": 5655
+    },
+    "exec-wrapper.py": {
+      "sha256": "e8a8d3f1ec9479af2eecc038218fe20edb5ac3c0319c07bc501e50b00ead3888",
+      "bytes": 355
+    },
+    "case.idb": {
+      "sha256": "3f1b520ae0082129d51a6977553e1adac5ce5ed6869385a1ddfaa193414f163b",
+      "bytes": 25600
+    },
+    "streams-mre-2-after-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "native-lower-after-gdb.json": {
+      "sha256": "e2c86405fb7db3a8b14745163a37897dc606324cb205d4a35e7b5fad6d17df5d",
+      "bytes": 321613
+    },
+    "native-execution.json": {
+      "sha256": "03277ea822b3899fa706e2122e05dccba66c443aaa7ff3d86832729aad0d45ca",
+      "bytes": 1428
+    },
+    "native-mktemp-gdb.json": {
+      "sha256": "23b8fde7c7ba6f13bc35f520d6127cb5d956840b7b5fd16478c456a91d99c48a",
+      "bytes": 381
+    },
+    "mktemp-expected.json": {
+      "sha256": "82d5790dff202cf362efce456d8c62816cd5b64c7b5a96362a3c6d99cfc6b972",
+      "bytes": 409
+    },
+    "gdb_mre.py": {
+      "sha256": "f8d825349aecd1e31879a8065a510c5807c1361088a44549e1650c1016c22fca",
+      "bytes": 15098
+    },
+    "streams-lower-before-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "streams-compare-after.json": {
+      "sha256": "f62a6d12e3e11161325c495a7c69dc4a6fb58683f4ed96c9bf082c51eb290586",
+      "bytes": 1039
+    },
+    "streams-compare-before-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "streams-mre-1-before.json": {
+      "sha256": "ea0984961bbd549b29b7c2f57c338463ed4a056a4dbe59bbf724c6ce706fe572",
+      "bytes": 1039
+    },
+    "stderr.bin": {
+      "sha256": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b",
+      "bytes": 61
+    },
+    "trace-seen.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native-mre-3-before-gdb.json": {
+      "sha256": "0cf1e43481b890fab39470d91be290a8815762b833408d73da4c514a8253280d",
+      "bytes": 319390
+    },
+    "gdb-frontier.py": {
+      "sha256": "0761ef911f602ad85e28255a31c38eac5615de9968049a2b10de720e30af7329",
+      "bytes": 232
+    },
+    "streams-mre-2-after.json": {
+      "sha256": "0b5f52fdb376361c526a62fd378f9095ec5e08c5648629c4547e55c02e4212fa",
+      "bytes": 1039
+    },
+    "mre-binding.bin": {
+      "sha256": "de055bb63b5558df8c0d2ba18160a52640744b349ed2405b9e16fdf43bb26ee1",
+      "bytes": 32199
+    },
+    "native-mre-2-after-gdb.json": {
+      "sha256": "54c24a1550572be8333c237c505d3f60778d98b994cebe9eb239b625fd27cb0a",
+      "bytes": 319483
+    },
+    "native-compare-before-gdb.json": {
+      "sha256": "bbfa9731bd5fdfc51a91bc56b5feb955e1454c6509b97c2ecce9591a580705b3",
+      "bytes": 331000
+    },
+    "test.obj": {
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e",
+      "bytes": 275
+    },
+    "trace.txt": {
+      "sha256": "1ed0c55a5d5a597af2ecbddb8568bf4be4c5203ee5d6ccbb215cf49dadf49c04",
+      "bytes": 942
+    },
+    "stdout.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "gdb-entry.py": {
+      "sha256": "86395aa894d02e8632ffbdd9e5fbe6f4d03243fd2eb42fed4d5205cb7483e0a5",
+      "bytes": 354
+    },
+    "debugger.txt": {
+      "sha256": "2292e19253a0340588f7d1ccc55aec561351fccc183de18dce21042b21dd0b80",
+      "bytes": 746
+    },
+    "streams-lower-after-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "streams-mre-3-before.json": {
+      "sha256": "0b5f52fdb376361c526a62fd378f9095ec5e08c5648629c4547e55c02e4212fa",
+      "bytes": 1039
+    },
+    "gdb_mktemp.py": {
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f",
+      "bytes": 1855
+    },
+    "native-mre-2-before-gdb.json": {
+      "sha256": "c419eb7fd7a82a331a7ea06e13bc25ebfd817a66169b22886c241932c291394f",
+      "bytes": 319416
+    },
+    "streams-entry.json": {
+      "sha256": "d4e2ed8e3cdf4680f8567ab41a6eb7328ed961c85a9897826d5dc0f94321f37b",
+      "bytes": 1039
+    },
+    "streams-mre-2-before-iob.bin": {
+      "sha256": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+      "bytes": 96
+    },
+    "gdb_streams.py": {
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5",
+      "bytes": 2190
+    },
+    "native-compare-after-gdb.json": {
+      "sha256": "dda0dd0863c70ff0797667c32c9137d136381d77ccd32e0a3c36608f93a4063b",
+      "bytes": 331922
+    },
+    "__pycache__/gdb_entry.cpython-313.pyc": {
+      "sha256": "03e1039881ce8da7ecdd764157b08af325ff0425f1870ba7280dcc8da63410b6",
+      "bytes": 1782
+    },
+    "__pycache__/gdb_mre.cpython-313.pyc": {
+      "sha256": "868e368a84f19213dfe2abc2add957e2acba06f0c4bbcb318a7b024be80e6aa5",
+      "bytes": 25385
+    },
+    "__pycache__/gdb_streams.cpython-313.pyc": {
+      "sha256": "1e9c1ac6324db9228e0aa98cbc8aa66edc5bba445dff66614d1a477c4039fe65",
+      "bytes": 4839
+    },
+    "__pycache__/gdb_mktemp.cpython-313.pyc": {
+      "sha256": "860cd539fe047eb5a8f9c934a498d0665f3c6eb62df750113eb86196bfa67d98",
+      "bytes": 4334
+    }
+  }
+}

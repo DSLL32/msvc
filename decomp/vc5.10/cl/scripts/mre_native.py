@@ -28,7 +28,7 @@ def configuration(identity,environment,os_block,idb):
     return result+struct.pack('<I',len(os_block)//2)+os_block+struct.pack('<I',len(idb))+idb
 
 
-def decode(payload):
+def decode(payload,sort=False):
     reader=Reader(payload)
     fields=dict(zip(('errno','doserrno','last_error','controlfp','fmode','commode','mb_cur_max','mb_codepage','lc_codepage'),reader.words(9)))
     fields['lc_handles']=reader.words(6)
@@ -61,7 +61,10 @@ def decode(payload):
     fields['pdb']=text()
     fields['owner_out']=reader.word();fields['path']=text()
     fields.update(zip(('error_out','message','reproducible_arg','write_arg','engine','driver_out','mre_driver','owner_value','error_value','driver_value'),reader.words(10)))
-    fields['cwd']=text();reader.finish();return fields
+    fields['cwd']=text()
+    if sort:
+        fields['pending_work']=reader.word();fields['pending_words']=reader.words(5)
+    reader.finish();return fields
 
 
 class Pointers:
@@ -75,12 +78,16 @@ class Pointers:
 
 
 class Provider:
-    def __init__(self,original,directory,signature_candidate=False,selector_candidate=False):
+    def __init__(self,original,directory,signature_candidate=False,selector_candidate=False,sort_candidate=False):
         self.original=Path(original).resolve();self.directory=Path(directory).resolve()
         self.signature_candidate=signature_candidate
-        assert type(signature_candidate)is bool and type(selector_candidate)is bool and not(signature_candidate and selector_candidate)
+        assert all(type(v)is bool for v in(signature_candidate,selector_candidate,sort_candidate))and sum((signature_candidate,selector_candidate,sort_candidate))<=1
+        self.sort_candidate=sort_candidate
         self.selector_candidate=selector_candidate
-        if selector_candidate:
+        if sort_candidate:
+            from mre_sort_packet import decode as sort_response
+            self.packet=sort_response(self.original)
+        elif selector_candidate:
             from mre_selector_packet import decode as selector_response
             self.packet=selector_response(self.original)
         elif signature_candidate:
@@ -129,9 +136,9 @@ class Provider:
                 assert self.pid in(None,pid);self.pid=pid
                 assert self._read(self.server,64)==self.identity.encode()
                 payload=self._read(self.server,size)
-                assert kind==self.phase and kind<=6,'MRE missing/extra/ordering violation'
+                assert kind==self.phase and kind<=(8 if self.sort_candidate else 6),'MRE missing/extra/ordering violation'
                 if kind==0:assert payload==self.config,'actual MRE configuration differs'
-                else:self.validate(kind,decode(payload))
+                else:self.validate(kind,decode(payload,sort=kind>=7))
                 self.requests.append({'kind':kind,'pid':pid,'payload_hex':payload.hex()})
                 self.phase+=1;self.server.sendall(struct.pack('<4sI',b'RMA1',kind))
         except Exception as error:
@@ -211,19 +218,23 @@ class Provider:
         else:
             bind(call['arguments'][0],native['mre_driver'])
             assert not any(native[n]for n in('owner_out','error_out','message','engine','driver_out','driver_value','owner_value','error_value','reproducible_arg','write_arg'))and native['path']['text']is None
+        if index==3:
+            bind(call['arguments'][1],native['pending_work'])
+            assert native['pending_words']==[0]*5,'unknown MRE pending payload'
         if kind==1:self.native_before=native
         if kind==2:self.native_after=native
         if kind>=2:
             for name in('file_words','streams','environment','initial_environment','os_environment','pctype','driver','driver_words','options','scratch'):
+                if kind>=7 and name in('driver_words','scratch'):continue
                 assert native[name]==self.native_before[name],'MRE target state reseed/mutation '+name
 
     def finish(self,pid):
         result={'schema':1,'pid':pid,'response_sha256':self.identity,'config_sha256':sha(self.config),
                 'original_capture_sha256':self.packet['capture_sha256'],'requests':self.requests,'errors':self.errors,
-                'scope':'Fresh selector-candidate MRE response'if self.selector_candidate else'Fresh signature-candidate MRE response'if self.signature_candidate else'Initial MRE prefix only; no acceptance or later lifecycle success'}
+                'scope':'Fresh comparator-candidate four-call MRE response'if self.sort_candidate else'Fresh selector-candidate MRE response'if self.selector_candidate else'Fresh signature-candidate MRE response'if self.signature_candidate else'Initial MRE prefix only; no acceptance or later lifecycle success'}
         (self.directory/'mre-native.json').write_bytes(encoded(result))
         assert not self.errors,self.errors
-        assert self.pid==pid and self.phase==7 and [r['kind']for r in self.requests]==list(range(7)),'MRE mandatory1/1/1 inventory failed'
+        assert self.pid==pid and self.phase==(9 if self.sort_candidate else 7) and [r['kind']for r in self.requests]==list(range(9 if self.sort_candidate else 7)),'MRE mandatory1/1/1 inventory failed'
         assert (self.directory/'case.idb').read_bytes()==self.idb
         return result
 

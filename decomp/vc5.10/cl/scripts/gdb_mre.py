@@ -58,13 +58,49 @@ def observe(directory,phase,arguments,call=None):
         read(ebp,12);slot=int(signature.read_var('state').address)&0xffffffff
         read(slot,4);assert int(signature.read_var('state'))&0xffffffff==driver
         arguments={**arguments,'signature_ebp':ebp,'state_slot':slot,'state':driver}
+    elif call==6:
+        sp=value('$esp');raw=struct.unpack('<3I',read(sp,12))
+        qsort=frame.older();assert qsort.name()=='recon_qsort'
+        qsort_ebp=int(qsort.read_register('ebp'))&0xffffffff;read(qsort_ebp,8)
+        comparator=int(qsort.read_var('compare'))&0xffffffff
+        compare_slot=int(qsort.read_var('compare').address)&0xffffffff;read(compare_slot,4)
+        signature=qsort.older();assert signature.name()=='option_signature'
+        signature_ebp=int(signature.read_register('ebp'))&0xffffffff;read(signature_ebp,12)
+        driver_state=int(signature.read_var('state'))&0xffffffff
+        slot=int(signature.read_var('state').address)&0xffffffff;read(slot,4);assert driver_state==driver
+        items=int(signature.read_var('items'))&0xffffffff;count=int(signature.read_var('count'))
+        items_slot=int(signature.read_var('items').address)&0xffffffff;count_slot=int(signature.read_var('count').address)&0xffffffff
+        read(items_slot,4);read(count_slot,4);assert 2<=count<=64
+        pointers=struct.unpack('<%dI'%count,read(items,count*4))
+        for pointer in pointers:text(pointer)
+        left,right=raw[1:];read(left,4);read(right,4)
+        caller=signature.older();assert caller.name()=='prepare_jobs'
+        pending=int(caller.read_var('pending'))&0xffffffff;read(pending,20)
+        arguments={'stack':sp,'return':raw[0],'state':driver_state,'slot':slot,'caller':'recon_qsort',
+            'signature_ebp':signature_ebp,'qsort_ebp':qsort_ebp,'comparator':comparator,'compare_slot':compare_slot,
+            'items':items,'count':count,'items_slot':items_slot,'count_slot':count_slot,
+            'left':left,'right':right,'left_slot':sp+4,'right_slot':sp+8,'pending':pending}
+    elif call==5:
+        read(arguments['stack'],12)
+        # First callback normal return: frame is now qsort, while its caller's
+        # owned array/strings remain live. Read the saved actual callback slots.
+        for name in('left_slot','right_slot','items_slot','count_slot','slot','compare_slot'):
+            read(arguments[name],4)
+        read(arguments['left'],4);read(arguments['right'],4)
+        text(struct.unpack('<I',read(arguments['left'],4))[0])
+        text(struct.unpack('<I',read(arguments['right'],4))[0])
+        read(arguments['qsort_ebp'],8);read(arguments['signature_ebp'],12)
+        pointers=struct.unpack('<%dI'%arguments['count'],read(arguments['items'],4*arguments['count']))
+        for pointer in pointers:text(pointer)
+        read(arguments['pending'],20)
     elif call is not None:
-        size=(6,2,1)[call];read(arguments['stack'],4*(size+1))
+        size=(6,2,1,0,2)[call];read(arguments['stack'],4*(size+1))
         args=arguments['values']
         if call==0:
             text(args[1]);read(args[3],1024)
             if phase.endswith('after'):read(args[0],4);read(args[2],4)
         elif call==1 and phase.endswith('after'):read(args[1],4)
+        elif call==4:read(args[1],20)
     else:
         # Actual saved caller words are included in every new observation.
         # Initial-prefix evidence predating this remains explicitly qualified.
@@ -90,6 +126,11 @@ def observe(directory,phase,arguments,call=None):
             arguments={'state':state,'slot':slot,'caller':'recon_qsort','signature_ebp':signature_ebp,'qsort_ebp':qsort_ebp,
                 'comparator':comparator,'compare_slot':compare_slot,'items':items,'count':count,'items_slot':items_slot,'count_slot':count_slot,
                 'left':left,'right':right,'left_slot':left_slot,'right_slot':right_slot}
+        elif frame.name()=='jobs_from_deferred':
+            inputs=int(frame.read_var('inputs'))&0xffffffff
+            slot=int(frame.read_var('inputs').address)&0xffffffff;read(slot,4)
+            caller=frame.older();assert caller.name()=='prepare_jobs'
+            arguments={'inputs':inputs,'slot':slot,'caller':'prepare_jobs'}
         elif frame.name()=='option_matching_selector':
             option=int(frame.read_var('option'))&0xffffffff
             selectors=int(frame.read_var('selectors'))&0xffffffff
@@ -136,20 +177,20 @@ def observe(directory,phase,arguments,call=None):
 
 def install(directory):
     calls=[]
-    names=('MREFOpenByName','MREQueryMreDrv','MREDrvOneTimeInit')
+    names=('MREFOpenByName','MREQueryMreDrv','MREDrvOneTimeInit','MREDrvFFilesOutOfDate')
     class Return(gdb.Breakpoint):
         def __init__(self,address,index,arguments):
             super().__init__('*%#x'%address,temporary=True,internal=True);self.index=index;self.arguments=arguments
-        def stop(self):observe(directory,'mre-%d-after'%(self.index+1),self.arguments,self.index);return False
+        def stop(self):observe(directory,'mre-%d-after'%(self.index+1),self.arguments,4 if self.index==3 else self.index);return False
     class Entry(gdb.Breakpoint):
         def __init__(self,index):super().__init__('*'+names[index],internal=True);self.index=index
         def stop(self):
             assert self.index==len(calls),'extra/unordered native MRE entry'
             frame=gdb.newest_frame();assert frame.name()==names[self.index]and frame.older().name()=='prepare_jobs'
             sp=int(gdb.parse_and_eval('$esp'))&0xffffffff
-            words=struct.unpack('<%dI'%((6,2,1)[self.index]+1),bytes(gdb.selected_inferior().read_memory(sp,4*((6,2,1)[self.index]+1))))
+            words=struct.unpack('<%dI'%((6,2,1,2)[self.index]+1),bytes(gdb.selected_inferior().read_memory(sp,4*((6,2,1,2)[self.index]+1))))
             arguments={'stack':sp,'return':words[0],'values':list(words[1:])};calls.append(self.index)
-            observe(directory,'mre-%d-before'%(self.index+1),arguments,self.index)
+            observe(directory,'mre-%d-before'%(self.index+1),arguments,4 if self.index==3 else self.index)
             Return(words[0],self.index,arguments);return False
     for i in range(3):Entry(i)
     class LowerReturn(gdb.Breakpoint):
@@ -167,3 +208,25 @@ def install(directory):
             observe(directory,'lower-before',arguments,3);LowerReturn(words[0],arguments);return False
     config=json.loads((Path(directory)/'config.json').read_bytes())
     if '_option_matching_selector'in config['accepted']:LowerEntry()
+    if '_compare_option_strings'in config['accepted'] and '_jobs_from_deferred'not in config['accepted']:
+        Entry(3)
+        class CompareReturn(gdb.Breakpoint):
+            def __init__(self,address,arguments):
+                super().__init__('*%#x'%address,temporary=False,internal=True);self.arguments=arguments
+            def stop(self):
+                observe(directory,'compare-after',self.arguments,5)
+                self.enabled=False
+                expected=json.loads((Path(directory)/'mre-response.json').read_bytes())['comparator_call']['result']
+                # Stop before any later external call if the actual CRT result
+                # differs; retain the native failure as a public ABI mismatch.
+                return (int(gdb.parse_and_eval('$eax'))&0xffffffff)!=expected
+        class CompareEntry(gdb.Breakpoint):
+            def __init__(self):super().__init__('*compare_option_strings',internal=True);self.calls=0
+            def stop(self):
+                if self.calls:return False
+                self.calls+=1
+                observe(directory,'compare-before',{},6)
+                record=json.loads((Path(directory)/'native-compare-before-gdb.json').read_bytes())
+                ret=record['arguments']['return']
+                CompareReturn(ret,record['arguments']);return False
+        CompareEntry()

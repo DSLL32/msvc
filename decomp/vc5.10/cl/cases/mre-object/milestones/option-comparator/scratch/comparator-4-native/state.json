@@ -1,0 +1,482 @@
+{
+  "projection": "cl-option-comparator-frontier-v1",
+  "fields": {
+    "frontier": "jobs_from_deferred",
+    "case_inputs": {
+      "case": "mre-object",
+      "arguments": [
+        "/nologo",
+        "/Gm",
+        "/Zi",
+        "/c",
+        "/DVALUE=7",
+        "/Fdcase.pdb",
+        "test.obj"
+      ],
+      "inputs": [
+        {
+          "name": "test.obj",
+          "source": "cases/minimal-c/reference/test.obj",
+          "bytes": 275,
+          "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+        }
+      ]
+    },
+    "parameters": {
+      "inputs": null,
+      "caller": "prepare_jobs",
+      "pending": "five NULL pointers"
+    },
+    "driver_input": {
+      "options": [
+        {
+          "flags": 1,
+          "matching": "1P2",
+          "name": "il",
+          "value": "%t",
+          "origin_role": 0
+        },
+        {
+          "flags": 1,
+          "matching": "1P2",
+          "name": "f",
+          "value": "%f",
+          "origin_role": 1
+        },
+        {
+          "flags": 1,
+          "matching": "1P2M",
+          "name": "W",
+          "value": "1",
+          "origin_role": 2
+        },
+        {
+          "flags": 1,
+          "matching": "1PM",
+          "name": "Ze",
+          "value": null,
+          "origin_role": 3
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "D",
+          "value": "_MSC_EXTENSIONS",
+          "origin_role": 3
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "Zp",
+          "value": "8",
+          "origin_role": 4
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "ZB",
+          "value": "64",
+          "origin_role": 5
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "D",
+          "value": "_INTEGRAL_MAX_BITS=64",
+          "origin_role": 5
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "GB",
+          "value": null,
+          "origin_role": 6
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "D",
+          "value": "_M_IX86=500",
+          "origin_role": 6
+        },
+        {
+          "flags": 1,
+          "matching": "1P2M",
+          "name": "G5",
+          "value": null,
+          "origin_role": 6
+        },
+        {
+          "flags": 1,
+          "matching": "1P",
+          "name": "Gs",
+          "value": null,
+          "origin_role": 7
+        },
+        {
+          "flags": 5,
+          "matching": "2M",
+          "name": "Gs",
+          "value": "4096",
+          "origin_role": 7
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "GR-",
+          "value": null,
+          "origin_role": 8
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "GX-",
+          "value": null,
+          "origin_role": 9
+        },
+        {
+          "flags": 1,
+          "matching": "1PM",
+          "name": "Ot",
+          "value": null,
+          "origin_role": 10
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "Ob",
+          "value": "0",
+          "origin_role": 11
+        },
+        {
+          "flags": 1,
+          "matching": "2",
+          "name": "dos",
+          "value": null,
+          "origin_role": 12
+        },
+        {
+          "flags": 5,
+          "matching": "D1P2",
+          "name": "Fo",
+          "value": "%b.obj",
+          "origin_role": 13
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "bo",
+          "value": "",
+          "origin_role": 13
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "Fe",
+          "value": "%b.%X",
+          "origin_role": 14
+        },
+        {
+          "flags": 5,
+          "matching": "C",
+          "name": "out:",
+          "value": "%b.%X",
+          "origin_role": 14
+        },
+        {
+          "flags": 1,
+          "matching": "1P",
+          "name": "pc",
+          "value": "\\:/",
+          "origin_role": 15
+        },
+        {
+          "flags": 1,
+          "matching": "2M",
+          "name": "ML",
+          "value": null,
+          "origin_role": 16
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "ZM",
+          "value": null,
+          "origin_role": 17
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "D",
+          "value": "_MSC_VER=1100",
+          "origin_role": null
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "D",
+          "value": "_WIN32",
+          "origin_role": null
+        },
+        {
+          "flags": 0,
+          "matching": "1P",
+          "name": "nologo",
+          "value": null,
+          "origin_role": 19
+        },
+        {
+          "flags": 0,
+          "matching": "C",
+          "name": "nologo",
+          "value": null,
+          "origin_role": 19
+        },
+        {
+          "flags": 1,
+          "matching": "DP",
+          "name": "Gm",
+          "value": null,
+          "origin_role": 20
+        },
+        {
+          "flags": 0,
+          "matching": "1P",
+          "name": "Zi",
+          "value": null,
+          "origin_role": 21
+        },
+        {
+          "flags": 4,
+          "matching": "2",
+          "name": "",
+          "value": "Zi",
+          "origin_role": 21
+        },
+        {
+          "flags": 4,
+          "matching": "C",
+          "name": "",
+          "value": "debug",
+          "origin_role": 21
+        },
+        {
+          "flags": 0,
+          "matching": "D",
+          "name": "bd",
+          "value": "C",
+          "origin_role": 22
+        },
+        {
+          "flags": 4,
+          "matching": "1PM",
+          "name": "D",
+          "value": "VALUE=7",
+          "origin_role": null
+        },
+        {
+          "flags": 4,
+          "matching": "1P",
+          "name": "Fd",
+          "value": "case.pdb",
+          "origin_role": 23
+        },
+        {
+          "flags": 4,
+          "matching": "D2",
+          "name": "Fd",
+          "value": "case.idb",
+          "origin_role": 23
+        }
+      ],
+      "include": "R:\\toolchains\\5.10\\include",
+      "use_standard_include": 1,
+      "deferred_queue": "empty, tail aliases Driver.deferred_inputs"
+    },
+    "MRE": {
+      "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "calls": [
+        {
+          "name": "_MREFOpenByName@24",
+          "ordinal": 75,
+          "stdcall_bytes": 24
+        },
+        {
+          "name": "_MREQueryMreDrv@8",
+          "ordinal": 79,
+          "stdcall_bytes": 8
+        },
+        {
+          "name": "_MREDrvOneTimeInit@4",
+          "ordinal": 70,
+          "stdcall_bytes": 4
+        },
+        {
+          "name": "_MREDrvFFilesOutOfDate@8",
+          "ordinal": 65,
+          "stdcall_bytes": 8
+        }
+      ],
+      "IDB": {
+        "bytes": 25600,
+        "sha256": "3f1b520ae0082129d51a6977553e1adac5ce5ed6869385a1ddfaa193414f163b",
+        "descriptor": 3,
+        "position": 1024,
+        "binary": true,
+        "noinherit": true,
+        "access": "readwrite",
+        "lifetime": "open through frontier; later calls denied"
+      },
+      "errors": {
+        "errno": 2,
+        "doserrno": 2,
+        "last_error": 0
+      },
+      "CW": 639,
+      "CRT_profile": {
+        "fmode": 0,
+        "commode": 0,
+        "mb_cur_max": 1,
+        "mb_codepage": 0,
+        "lc_codepage": 0,
+        "lc_handles": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "all_captured_CRT_OS_FILE_handle_aliases_preserved": true
+    },
+    "lowercase": {
+      "before_hex": "2d696e633d523a5c746f6f6c636861696e735c352e31305c696e636c75646500",
+      "after_hex": "2d696e633d723a5c746f6f6c636861696e735c352e31305c696e636c75646500",
+      "initialized_bytes": 32,
+      "errors": {
+        "lower-before": {
+          "errno": 2,
+          "doserrno": 2,
+          "last_error": 0
+        },
+        "lower-after": {
+          "errno": 2,
+          "doserrno": 2,
+          "last_error": 0
+        }
+      },
+      "calls": 1,
+      "result_alias": true,
+      "qualified": "MSVCRT!_mbslwr",
+      "profile": "CP0/default-C",
+      "full_FP_preserved": true
+    },
+    "formal_slot_qualification": "Original low byte reused for finalselector0; native formal remains actual Driver*, authenticated separately",
+    "comparator": {
+      "values_hex": [
+        "2d5a6500",
+        "2d47733430393600"
+      ],
+      "result": 1,
+      "observed_returns": 1,
+      "qualified": "MSVCRT!strcmp",
+      "cdecl_bytes": 8,
+      "errors": {
+        "errno": 2,
+        "doserrno": 2,
+        "last_error": 0
+      },
+      "full_FP_preserved": true,
+      "qualification": "Two actual initialized owned NUL strings and exact array slot pointers. Executing hash-bound helper validates live signature array bounds; full array contents were not independently dumped in this capture."
+    }
+  },
+  "decoder_sha256": "074ba20625394bc6e2c45562d439007038fb46853e9cdadf51426a249398395a",
+  "derivation_sources": {
+    "mre_sort_packet.py": "f2a9752351a86c0d06d466ed71fad95225909a8c96e9d8ba22ded5b54bac20c4",
+    "mbslwr_sort_packet.py": "f403ce7b3f035d1d6c21d62ec7aa1b602799d5f7ed61f815364cf7eeec58a077",
+    "sort_native_state.py": "c2bf89202778555057dfcee7628c6ed52913c428994f04cd35dc7ee07c4e2694",
+    "mre_projection.py": "074ba20625394bc6e2c45562d439007038fb46853e9cdadf51426a249398395a",
+    "mre_native.py": "9699ec1fca7df59699ff74cedf1d067b4fddda40bdcf45c26ab524a02f014b6e",
+    "mre_state.py": "faa1f12dc92f493f552fe558a4eb1c48f8e85aef2f72ada1bbedb9bf2dccd730",
+    "mre_elf.py": "57e5031f9291cc2749e862ff25aa353f394aae2e155e2d236e5a7780bed8ecfe",
+    "dependency_response.py": "d0c452c223cc9ff7f9f3f13f260b0060998785aaa117dad8ce324f7862443292",
+    "mktemp_state.py": "b71d1d6ae0925fed854b4de1a0f4557be20ac23a419b86da9a96523976cdc1d8"
+  },
+  "raw_inputs": {
+    "capture.json": "40e23e390c09d978d8202d60a248e31713826222f35dfcd8df4aa02068cbe4d3",
+    "gdb_entry.py": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb",
+    "trace-filter.txt": "e200b3dca8dae3be3fc972eafb23ba6ddb25d169e36d2a2102f4b8258f6da447",
+    "streams-mre-4-before-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "streams-mre-4-before.json": "e4ccaf6f8252ba39d2c9a1a5e2b6796ba8558bab8a4464866e36be05a4b65549",
+    "gdb_mktemp.py": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f",
+    "native-mre-4-before-gdb.json": "8233e6f663a6a33eef969d42238da642c0b640ed57d489c5b028b26b583a5f83",
+    "gdb-frontier.py": "abf86727817dc997bc08f5f4f360b0717d5c1743c2367c283507fb664d77d4ee",
+    "streams-mre-3-before-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "mre-binding.bin": "de055bb63b5558df8c0d2ba18160a52640744b349ed2405b9e16fdf43bb26ee1",
+    "native-mre-3-after-gdb.json": "321308e43e622c429721c3a1c55b6f2e0e85fbc12a14a5bab4dfa31ebae41052",
+    "streams-compare-before.json": "e4ccaf6f8252ba39d2c9a1a5e2b6796ba8558bab8a4464866e36be05a4b65549",
+    "streams-mre-4-after-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "native-lower-before-gdb.json": "16f1334f69a7babaf9cc877c52dd54aa57863095fd6dc32658570d3dbd08e088",
+    "native-mre-4-after-gdb.json": "61fdb7c4588231a18046bf3bee052e7565d719f20a47252eda1a50d5637f0b0a",
+    "streams-mre-1-after-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "streams-mre-2-after.json": "b80001e3ab128f18fa8d86d3f74916415bb50aaded5b6fe295c21ad422144a4e",
+    "streams-compare-before-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "streams-mre-frontier-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "streams-compare-after.json": "e4ccaf6f8252ba39d2c9a1a5e2b6796ba8558bab8a4464866e36be05a4b65549",
+    "streams-mre-1-before-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "streams-mre-3-after-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "native-prefix.json": "7c054eab7c67deff1c8d71fdf6dad637b5270d709598dcabe2bfc18feba4f207",
+    "exec-wrapper.py": "71089b8fba072437642fd0d4778cd648315a5b88360ff7289086bad066c5116d",
+    "streams-lower-before.json": "e4ccaf6f8252ba39d2c9a1a5e2b6796ba8558bab8a4464866e36be05a4b65549",
+    "native-compare-before-gdb.json": "fdb371a40191fe05d6d7687649ad4e57482a9319498b48dbc966034afcb39b0c",
+    "streams-mre-2-before.json": "9b99784c400f4c2fd3f6a8ffd4dd6089917e827232050dac3c66159775ad95aa",
+    "streams-entry-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "native-state-verification.json": "76025ced5d370b7e51ab2493fdcf7af803f73d7695551b22fc8a5140a66187f9",
+    "trace.txt": "1ed0c55a5d5a597af2ecbddb8568bf4be4c5203ee5d6ccbb215cf49dadf49c04",
+    "native-mre-1-after-gdb.json": "90f4e8e10302ec8fbe589dd4138bd5a806fc1bdc53a725890c0a1708fed0f44c",
+    "resources.bin": "18a0a7a878846acd3d40008dcc38a2f3d7a0bd6a275900afabc578be136c037f",
+    "native-build.json": "6fe91405de347e21ed932a2a3b53ebe55b8b231dabb8fdc34362d6326eae73ab",
+    "mktemp-expected.json": "82d5790dff202cf362efce456d8c62816cd5b64c7b5a96362a3c6d99cfc6b972",
+    "native-lower-after-gdb.json": "738a19c6560c1e9da8a5a1d74ad3be83fa18b7fe16a9798ab9d6804a15e804ad",
+    "native-mre-1-before-gdb.json": "95e3f4e696283f8241bb7d596df9cf2a34e3e16bd04f50e31c7eb51888844eda",
+    "gdb_mre.py": "7eb985d13b2927309c76a31449cbef88e8b03028079bb1909e9cf14bb94343bb",
+    "streams-compare-after-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "streams-mre-1-before.json": "c5ba8b0e0d0511d6f82d8cad56e6f144795c1599ce64da7985fdf0bfe661c5fc",
+    "streams-mre-4-after.json": "779233a144c5f658fea457c50423bbfe2e81ab360d0fc956dfc8b549daa96458",
+    "config.json": "31a7e2174c8228e5297148358cdd1d730429ba1358d4f90898cdadbb53df3258",
+    "native-execution.json": "75aa512e5d91dac7a788d2a7589a43fd2fbb831f443d1587b36422d825cc4194",
+    "native-mre-frontier-gdb.json": "e3fd8ff29016d8ccaadc9d315c85793a358676620928e208a596cc7289226cf3",
+    "streams-mre-3-after.json": "e4ccaf6f8252ba39d2c9a1a5e2b6796ba8558bab8a4464866e36be05a4b65549",
+    "test.obj": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e",
+    "streams-mre-3-before.json": "b80001e3ab128f18fa8d86d3f74916415bb50aaded5b6fe295c21ad422144a4e",
+    "mre-native.json": "46f2c7517093e0ef07df5d9f7b83a302f5a5f2d5d59fc0d1b86639ae448ff6f8",
+    "streams-lower-before-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "streams-mre-2-after-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-mre-2-after-gdb.json": "1a03b6bd3506a9d02622b6a0604ae2649f465963be4717fb9d05a4354fac0379",
+    "native-mktemp-gdb.json": "23b8fde7c7ba6f13bc35f520d6127cb5d956840b7b5fd16478c456a91d99c48a",
+    "mre-response.json": "3cb777c921e9faeccaaa4282ef4538922af22bc07f3dfd51a770ffee566cea6b",
+    "streams-lower-after.json": "e4ccaf6f8252ba39d2c9a1a5e2b6796ba8558bab8a4464866e36be05a4b65549",
+    "streams-lower-after-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "case.idb": "3f1b520ae0082129d51a6977553e1adac5ce5ed6869385a1ddfaa193414f163b",
+    "native-process.json": "06142bf583126ac615b683b469ef264d1e667f6579a8bd4c0a5118e6615a8960",
+    "native-mre-3-before-gdb.json": "3de5011c6663255991787c46445e447eefe278b5dac1111f71a9265fa738d810",
+    "trace-seen.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "streams-entry.json": "55f43abad8cc4a84030d5d8df251b4393418044b1d681c09e65813066bb5f01f",
+    "native-compare-after-gdb.json": "40333e40e1bcdc9cd9b78a38913655b7a539a0978de3795ab0478395c0de5fca",
+    "gdb_streams.py": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5",
+    "streams-mre-1-after.json": "9b99784c400f4c2fd3f6a8ffd4dd6089917e827232050dac3c66159775ad95aa",
+    "gdb-entry.py": "54b880235c31d75c4000b8b99b1dc2904c92ddea952c4e05ab5a22f08eafc2f1",
+    "debugger.txt": "8b3e6d37aeb6344db3ab3156853cf26ede3eebcba3110ef030aac98754e88a94",
+    "stderr.bin": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b",
+    "native-entry-errors.json": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c",
+    "streams-mre-2-before-iob.bin": "bc550fb31c3f720ef18dd6ef042d923757754c48fb49359ff4e38afe97d32291",
+    "native-mre-2-before-gdb.json": "7e61df2dbf965e6f94d9ef91b2a3c1633dfdec76fe38e207f3a20cd39a94c89f",
+    "streams-mre-frontier.json": "779233a144c5f658fea457c50423bbfe2e81ab360d0fc956dfc8b549daa96458",
+    "__pycache__/gdb_mktemp.cpython-313.pyc": "1c3ca0062d26429a1db1679c7f00457f4702ae6291c0754b97c7a05092cb5636",
+    "__pycache__/gdb_entry.cpython-313.pyc": "1dc612ad65a7d97b7e5632428d4a1236d952cf7c618b05c213879323e7163dfc",
+    "__pycache__/gdb_mre.cpython-313.pyc": "3892e8f8b8c55a8b6d28d741729745ea0a6252225c20965c76954f2ba395765c",
+    "__pycache__/gdb_streams.cpython-313.pyc": "ad3318f168f36d03f5705710e6b8f92106bd9e753d0d2f9926a307ccd60238ac"
+  }
+}

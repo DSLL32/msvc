@@ -2,9 +2,6 @@
 #include "cl.h"
 #include <recon.h>
 
-int compare_option_strings(const void *left, const void *right) { __asm int 3
-    return 0;
-}
 Job *jobs_from_deferred(DeferredInput *inputs) { __asm int 3
     return NULL;
 }

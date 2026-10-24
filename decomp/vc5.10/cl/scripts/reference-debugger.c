@@ -421,7 +421,7 @@ int main(int argc,char **argv)
             if (event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
             if (observe_mre && (!mre_analysis_observer || mre_response_observer)) {
                 BYTE call[6];DWORD slot;
-                for (i=mre_response_observer?3:0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i) {
+                for (i=mre_sort_observer?4:mre_response_observer?3:0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i) {
                     memory(target_base+mre_sites[i],call,sizeof(call));
                     if (call[0]==0xcc) continue;
                     memcpy(&slot,call+2,4);
@@ -490,7 +490,7 @@ int main(int argc,char **argv)
                 if (address==target_base+access_sites[i]) access_site=i;
                 if (access_pending==(int)i && address==target_base+access_sites[i]+(i==1 || i==2 ? 2 : 6)) { access_site=i;access_return=1; }
             }
-            if (observe_mre && (!mre_analysis_observer || mre_response_observer)) for (i=mre_response_observer?3:0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i)
+            if (observe_mre && (!mre_analysis_observer || mre_response_observer)) for (i=mre_sort_observer?4:mre_response_observer?3:0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i)
                 if (address==target_base+mre_sites[i]) mre_site=1;
             for (i=0;i<entry_count;++i)
                 if (!entry_guards[i].seen && target_base+entry_guards[i].rva==address) guard=entry_guards+i;
@@ -511,6 +511,8 @@ int main(int argc,char **argv)
                     fwrite(&context,1,sizeof(context),snapshot);fwrite(stack,1,sizeof(stack),snapshot);fclose(snapshot);
                 }
                 fprintf(events,"entry event=%lu address=%08lx name=%s\n",event_number,address,guard->name);fflush(events);
+                if (mre_sort_observer && guard->rva==0x3b49)
+                    mre_compare_enter(teb,event.dwThreadId,&context,input,out,err);
                 fprintf(trace,"%s\n",guard->name);fflush(trace);guard->seen=1;
                 if (observe_pass_state && !strcmp(guard->name,"show_help")) {
                     if (address!=target_base+0x52a5) return 134;
@@ -556,6 +558,14 @@ int main(int argc,char **argv)
                 dependency_trap(point,address,teb,event.dwThreadId,&context,input,out,err);
                 if (!SetThreadContext(thread,&context) && !(point==5 && !dependency_complete)) return 100;
             } else if (code==EXCEPTION_BREAKPOINT && mre_site) {
+                if (mre_sort_observer) {
+                    thread=NULL;teb=0;
+                    for (i=0;i<threads_count;++i) if (thread_ids[i]==event.dwThreadId) {thread=threads[i];teb=thread_tebs[i];}
+                    if (!thread) return 195;
+                    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
+                    if (!GetThreadContext(thread,&context)) return 196;
+                    mre_sort_unknown(address,teb,event.dwThreadId,&context,input,out,err);
+                }
                 ++mre_calls;
                 fprintf(events,"mre-unexpected-call address=%08lx\n",address);fflush(events);
                 TerminateProcess(child,0x7002);

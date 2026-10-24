@@ -5,7 +5,7 @@ RECON = ../../../lib/recon
 NATIVE_CC ?= clang
 LLVM_DLLTOOL ?= llvm-dlltool
 # Freeze the shared release actually compiled, independently of concurrent WIP.
-RECON_SHARED_REVISION ?= 4021ad738647d7d9d35ec8a274133a0ed144689b
+RECON_SHARED_REVISION ?= 5a8cb5ac92899546946119757a7bea42fcc9b60a
 export RECON_SHARED_REVISION
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TEST -DRECON_NATIVE_ENTRY_CONTROLFP_53 -DRECON_DEFAULT_FMODE=0 -DRECON_CRT_PROFILE_MSVCRT_510 -I$(RECON)/include -I$(RECON)/native
 NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
@@ -69,7 +69,7 @@ fixtures:
 	$(PYTHON) scripts/fixtures.py
 
 # Explicit original-only debugger, never a native fixture prerequisite.
-build/reference-debugger.obj: scripts/reference-debugger.c scripts/dependency-observer.inc scripts/clock-observer.inc scripts/mre-observer.inc scripts/mre-file-observer.inc scripts/export-reader.h | build
+build/reference-debugger.obj: scripts/reference-debugger.c scripts/dependency-observer.inc scripts/clock-observer.inc scripts/mre-observer.inc scripts/mre-file-observer.inc scripts/mre-sort-observer.inc scripts/export-reader.h | build
 	$(TOOL) CL.EXE /nologo /c /W3 /Od /MT /Fobuild/reference-debugger.obj $<
 build/reference-debugger.exe: build/reference-debugger.obj scripts/helper-build.py
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<

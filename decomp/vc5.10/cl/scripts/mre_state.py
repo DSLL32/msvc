@@ -68,7 +68,7 @@ def state(record):
     return fields,memory
 
 
-def verify(original,directory,provider=None,signature_candidate=False,selector_candidate=False):
+def verify(original,directory,provider=None,signature_candidate=False,selector_candidate=False,sort_candidate=False):
     directory=Path(directory);raw=json.loads((directory/'mre-native.json').read_bytes())
     own_provider=provider is None
     if own_provider:
@@ -89,7 +89,10 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
             execution=Path(index['execution_directory'])
             assert execution.is_absolute()and execution.parent==Path('/root/.ai-tmp/msvc2/vc5.10/cl')and execution.name.startswith('mre-provider-native-')
             provider.directory=execution;provider.artifact_directory=directory.resolve()
-        if selector_candidate:
+        if sort_candidate:
+            from mre_sort_packet import decode as sort_response
+            provider.packet=sort_response(provider.original)
+        elif selector_candidate:
             from mre_selector_packet import decode as selector_response
             provider.packet=selector_response(provider.original)
         elif signature_candidate:
@@ -113,7 +116,7 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
     assert len(actual)==len(expected)==1
     for name in('template','result','before','after'):assert actual[0][name]==expected[0][name],'native mktemp contract differs: '+name
     assert actual[0]['result_alias']is True
-    assert raw['errors']==[]and [r['kind']for r in raw['requests']]==list(range(7))
+    assert raw['errors']==[]and [r['kind']for r in raw['requests']]==list(range(9 if sort_candidate else 7))
     from mre_elf import Layout
     execution=directory/'native-execution.json'
     report=json.loads((execution if execution.exists()else directory/'native-prefix.json').read_bytes())
@@ -123,16 +126,16 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
     pid=raw['pid'];assert all(r['pid']==pid for r in raw['requests'])
     assert bytes.fromhex(raw['requests'][0]['payload_hex'])==provider.config
     previous=None;observations=[]
-    for kind in range(1,7):
+    for kind in range(1,9 if sort_candidate else 7):
         index=(kind-1)//2;after=not(kind&1);phase='mre-%d-%s'%(index+1,'after'if after else'before')
         record=json.loads((directory/('native-'+phase+'-gdb.json')).read_bytes())
         assert record['phase']==phase and record['pid']==pid
         layout.bind(record)
-        derived,memory=state(record);request=decode(bytes.fromhex(raw['requests'][kind]['payload_hex']))
+        derived,memory=state(record);request=decode(bytes.fromhex(raw['requests'][kind]['payload_hex']),sort=kind>=7)
         # Actual bytes read at the real function boundary must independently
         # agree with all corresponding fields the response host reported.
         for name,value in derived.items():assert value==request[name],'GDB disagrees with MRE request: '+name
-        registers=record['general'];arguments=record['arguments'];argc=(6,2,1)[index]
+        registers=record['general'];arguments=record['arguments'];argc=(6,2,1,2)[index]
         assert memory.words(arguments['stack'],argc+1)==[arguments['return'],*arguments['values']]
         if after:
             assert registers['eip']==arguments['return']and registers['esp']==arguments['stack']+4*(argc+1)
@@ -140,7 +143,7 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
             assert before['arguments']==arguments
             assert all(before['general'][name]==registers[name]for name in('ebx','esi','edi','ebp')),'native MRE stdcall nonvolatile changed'
             assert before['x87']==record['x87'],'native MRE changed full live x87 state'
-            if index==0:assert registers['eax']==1
+            if index in(0,3):assert registers['eax']==1
             if index==1:assert registers['eax']==request['driver_value'] # ignored semantic word, actual alias only
         else:
             assert registers['esp']==arguments['stack']
@@ -154,7 +157,10 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
         elif index==1:
             assert args==[request['engine'],request['driver_out']]
             if after:assert memory.word(args[1])==request['driver_value']
-        else:assert args==[request['mre_driver']]
+        elif index==2:assert args==[request['mre_driver']]
+        else:
+            assert args==[request['mre_driver'],request['pending_work']]
+            assert memory.words(args[1],5)==request['pending_words']==[0]*5
         original_context=(provider.original/('observer/'+phase+'-context.bin')).read_bytes()
         compare_fp(original_context[28:140].hex(),record['x87'])
         assert memory.word(record['symbols']['mre_call_count'])==(kind//2)
@@ -175,7 +181,7 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
             assert fd=={'handle':handle['handle'],'device':handle['device'],'inode':handle['inode'],
                 'size':25600,'position':1024,'flags':os.O_CLOEXEC|os.O_RDWR}
             assert memory.word(record['data_addresses']['recon_osfhnd']+12)==fd['handle']
-        if signature_candidate or selector_candidate:
+        if signature_candidate or selector_candidate or sort_candidate:
             wanted=provider.packet['target_objects'][phase]['include_input']
             assert memory.word(record['symbols']['use_standard_include'])==wanted['use_standard_include']
             assert memory.text(derived['driver_words'][9])==wanted['text']
@@ -184,6 +190,9 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
             # created output; do not pretend it is the earlier filesystem.
             provider.validate(kind,request,live=False)
         observations.append(record);previous=request
+    if sort_candidate:
+        from sort_native_state import verify_tail
+        return verify_tail(provider,directory,layout,pid,observations,previous)
     if selector_candidate:
         from selector_native_state import verify_tail
         return verify_tail(provider,directory,layout,pid,observations,previous)

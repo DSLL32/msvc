@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "Initial MRE dependency prefix observed and natively matched; subsequent function trials pending",
+  "state": "Signature, selector and comparator accepted; exact four-call dependency prefix matched through jobs_from_deferred(NULL); case incomplete",
   "arguments": [
     "/nologo",
     "/Gm",
@@ -21,26 +21,27 @@
     "formal": "Driver *state; actual formal pointer and bounded44-byte driver/linked options recorded",
     "hidden_state": "actual shared option_buffer1024B at0x4091b8, linked input/option identities, CRT/OS/errors/FILE/lowio/FP state"
   },
-  "dependency_scope": "Only three observed original Open/Query/Init calls; all later MRE calls and execute_pass are guarded. No frontend absence or complete MRE success assumed.",
+  "dependency_scope": "Exact Open/Query/Init/FilesOutOfDate sequence1/1/1/1 supported under complete actual input/state/file/ABI proof. Release/Close and later calls remain denied.",
   "file_transport": {
     "phase_inventory": [
       "mre-1-after",
       "mre-2-after",
-      "mre-3-after"
+      "mre-3-after",
+      "mre-4-after"
     ],
     "source": "Exact owned fixed S: capture directory plus actual case.idb argument and matched actual child CWD",
     "thread_stop": "Synchronous inside outstanding EXCEPTION_DEBUG_EVENT, before ContinueDebugEvent; pid/tid guard; all debuggee threads suspended",
     "windows": "Query-only duplicate of actual fd3; independently opened METADATA-ONLY desiredAccess0 path handle full FileInfo equality, actual descriptor read/write granted access observed separately; no Windows data-sharing claim, reads or shared cursor movement",
     "linux": "Independent O_NOATIME|O_NOFOLLOW open of anchored owned case.idb; complete bounded regular bytes; unchanged fstat/stat identity/size/all timestamps; record independent POSIX identity without comparing it numerically to Windows FileId",
     "preservation": "C repeats both Windows FileInfo/lowio/position/thread CONTEXT checks and a full target CRT/OS/FILE/error/FP snapshot after exact bounded request acknowledgement",
-    "limits": "At most3 copies,16MiB each;8s Linux read budget,10s C acknowledgement,45s complete controller deadline; sharing/identity/NOATIME/metadata failures deny, raw preserved",
+    "limits": "At most4 copies,16MiB each;8s Linux read budget,10s C acknowledgement,45s complete controller deadline; sharing/identity/NOATIME/metadata failures deny, raw preserved",
     "acknowledgement": "Original-only per-phase atomic exclusive ack file under owned observer/: exact32-byte current request+phase NUL, created after full bytes and host receipt, C strict bounded binary/EOF check under10s deadline; no stdin peek or fallback."
   },
   "native_hold": [
-    "Initial three-call dependency prefix is supported and independently reviewed; this gives zero app/normal-completion credit.",
-    "All later MRE APIs and normal close/release remain denied until their actual effects are captured and reviewed.",
-    "Fresh candidate acceptance requires its own candidate-inclusive original/native evidence and exact provider/ABI/state/inventory checks."
+    "The exact four-call dependency prefix is supported and independently reviewed; dependency support itself gives zero application/normal-completion credit.",
+    "Release/Close and later lifetime effects remain denied until actual effects are captured and reviewed.",
+    "Fresh candidate acceptance requires candidate-inclusive original/native evidence and exact provider/ABI/state/inventory checks."
   ],
   "prior_source_case": "mre-prefix remains separately hash-bound analysis; no oracle reused",
-  "acceptance": "mre_response unconditionally rejected until typed provider/native comparator implemented and reviewed"
+  "acceptance": "Only exact supported masked response families with full fresh typed native/original/audit proof; baseline/analysis/unknown families rejected."
 }

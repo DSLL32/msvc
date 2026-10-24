@@ -32,9 +32,15 @@ def file_info(raw):
             'index_high':value[11],'index_low':value[12]}
 
 
+def allowed_phase(directory,phase):
+    if re.fullmatch('mre-[123]-after',phase):return True
+    marker=Path(directory)/'mre-observer.txt'
+    return phase=='mre-4-after'and marker.is_file()and marker.read_bytes()==b'CL_MRE_SORT_RESPONSE_V1\n'
+
+
 def request(directory,phase):
     directory=Path(directory).absolute()
-    assert re.fullmatch('mre-[123]-after',phase),'unknown MRE copy phase'
+    assert allowed_phase(directory,phase),'unknown MRE copy phase'
     assert directory.parent==CAPTURES and re.fullmatch('[a-z0-9-]{1,80}',directory.name),'unowned capture directory'
     assert directory.resolve(strict=True)==directory,'capture path traverses symlinks'
     drive=PREFIX/'dosdevices/s:'

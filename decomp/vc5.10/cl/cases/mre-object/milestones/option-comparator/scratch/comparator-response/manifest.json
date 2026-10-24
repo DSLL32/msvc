@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "scope": "Frozen current comparator original-response/canonical strcmp proposal; zero native/app acceptance",
+  "files": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/packet.json",
+      "bytes": 836596,
+      "sha256": "5187d2877b746909b773ac10fb5a20b075c3123889dd2c98e4b38ed2a772762c"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/controls.json",
+      "bytes": 1628,
+      "sha256": "f211180ed07e3139fba1bc835eb49c2c810e0f6fa1872f9888ec024d6823cd02"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/strcmp-proposal.json",
+      "bytes": 121923,
+      "sha256": "e7b55c9d76e9cd43d6a4a5068ba16a6012128a2edf31156606129e416662e977"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/canonical-strcmp.bin",
+      "bytes": 129,
+      "sha256": "4b31452c3fe0fd48872e745a17d11582cbb0ca160b359dae9cbf3e791aee444b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-response/canonical-strcmp.disasm",
+      "bytes": 2770,
+      "sha256": "0b0ec87862a68c4d38ec686302af462cb04e523e82dd55a50d41930cb7e3a6d2"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_sort_packet.py",
+      "bytes": 22484,
+      "sha256": "f2a9752351a86c0d06d466ed71fad95225909a8c96e9d8ba22ded5b54bac20c4"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mbslwr_sort_packet.py",
+      "bytes": 4574,
+      "sha256": "f403ce7b3f035d1d6c21d62ec7aa1b602799d5f7ed61f815364cf7eeec58a077"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/check-mre-sort.py",
+      "bytes": 4615,
+      "sha256": "2b09d9599322bc6cc564eeda2f71bd009022d346c4a3e1082ae08f9a447b5266"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_packet.py",
+      "bytes": 11557,
+      "sha256": "6f5e08d57cdcd412638fde8f461f76818ec111aa57f8d711029d209385d25274"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/dependency_response.py",
+      "bytes": 28492,
+      "sha256": "d0c452c223cc9ff7f9f3f13f260b0060998785aaa117dad8ce324f7862443292"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mktemp_state.py",
+      "bytes": 11046,
+      "sha256": "b71d1d6ae0925fed854b4de1a0f4557be20ac23a419b86da9a96523976cdc1d8"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_file.py",
+      "bytes": 7871,
+      "sha256": "d4036e75d1e06cb244fcc2cc349c3afa4b5b2674d3a24a358d37abab59090d1b"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mask.py",
+      "bytes": 3393,
+      "sha256": "176f5d6dc952979a271269de7a35e6f846b1201c61fbf83eb7a09a96f41a857e"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/case_inputs.py",
+      "bytes": 4773,
+      "sha256": "3b8dde32c7b7eb6eb4a8bfe60f4ea5fc44fdc991945862ccbfb270550dc1b366"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/import_residuals.py",
+      "bytes": 2728,
+      "sha256": "960867a4906caa45807251fc9baf2402289d18a4ea29a36e20228944a5876936"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/binary.py",
+      "bytes": 4920,
+      "sha256": "356f8d1b3bed342add82ff34037f2479c57f5277dcc20402fc18d5ea1fd54956"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/src/signature.c",
+      "bytes": 2646,
+      "sha256": "40c686a3a1f39a6b8ab0b9c83b65e286e0f78e85cdb302c806ac2bb94711c449"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-1-original/capture.json",
+      "bytes": 402535,
+      "sha256": "3d543194748ad29d78b8d39285cac196cba19057d1872758f2c7e9228710970f"
+    },
+    {
+      "path": "/root/msvc2/toolchains/5.10/include/STRING.H",
+      "bytes": 8878,
+      "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024"
+    },
+    {
+      "path": "/root/msvc2/toolchains/5.10/bin/MSVCRT.DLL",
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    }
+  ]
+}

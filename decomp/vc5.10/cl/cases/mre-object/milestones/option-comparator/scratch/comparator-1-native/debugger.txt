@@ -1,0 +1,13 @@
+Temporary breakpoint 1 at 0xa280: file /root/msvc2/decomp/vc5.10/cl/src/main.c, line 36.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 1, main (argc=8, argv=0xffffd6c4, envp=0x565ad8a0) at /root/msvc2/decomp/vc5.10/cl/src/main.c:36
+36	{
+NATIVE_PROCESS_PID=2295807
+
+Temporary breakpoint -17, 0x5657473f in recon_qsort (array=0x565b99c0, count=16, width=4, compare=0x565631e0 <compare_option_strings>) at /root/msvc2/lib/recon/src/crt.c:1988
+1988	                do ++left; while (left<=hi && compare(base+left*width,base+lo*width)<=0);
+Python Exception <class 'AssertionError'>: 
+Python Exception <class 'AssertionError'>: 
+Error occurred in Python.

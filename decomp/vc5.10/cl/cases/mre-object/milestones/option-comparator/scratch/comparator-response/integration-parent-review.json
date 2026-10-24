@@ -1,0 +1,29 @@
+{
+  "review": "Independent actual CL20B comparator/native four-call MRE integration",
+  "manifest_sha256": "deee1ea35200549a161f0e00519a9fac68f183e6a7f56879f346496e9eb1068f",
+  "verified_file_bindings": 50,
+  "independent_full_accept_review_only": true,
+  "elapsed_seconds": 4.883,
+  "pair_sha256": "12c7cc23523862f5aea30664cbe63a305c205d6709c657e66fee404c52700a09",
+  "shared_pin": "5a8cb5ac92899546946119757a7bea42fcc9b60a",
+  "concrete_source_review": [
+    "Target comparator genuine strcmp call, no local return normalization",
+    "Host API4 exact phase3/opaque driver/PendingWork20 initializedNULL guard, mandatory1/1/1/1, true result and no public mutation",
+    "Python complete actual input/config/provider/owned IDB/FD/state before acknowledgment and exact sequence0..8",
+    "Actual callback indirect qsort caller, two live array slots and initialized strings, genuine shared strcmp target, EAX1/RET0/ESP/nonvol/FP before-after",
+    "Actual API4 stdcall8 and full public state/FD/file/lifetime, real jobs_from_deferred(NULL) named INT3",
+    "Current build/source/candidate inclusive audits and immutable original-reuse binding"
+  ],
+  "affected_controls_recorded": 27,
+  "original_controls_recorded": 31,
+  "fixture_count": 13,
+  "fixture_wall_seconds": 3.651,
+  "qualifications": [
+    "Actual native first comparator result1 matched original even before remap; no observed current-input libc mismatch",
+    "Only first comparator return and two strings originally captured, not full array/comparison census",
+    "Native failures1 duplicate breakpoint,2 GDB deletion crash,3 missing dump preserved independently",
+    "Release/Close and private MSPDB object layout/later lifetime remain denied",
+    "No new Wine/original merely for native observer retries/shared changes"
+  ],
+  "release": "Promote20B comparator, retain current native4 successful packet. Proceed49B jobs_from_deferred and bounded pre-use Release/Close observer planning; future provider success remains held pending concrete actual contract."
+}
