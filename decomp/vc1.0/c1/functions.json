@@ -1067,7 +1067,16 @@
     "_materialize_based_symbol@4",
     "_based_segment_symbol_name@4",
     "_add_legacy_type_fixup@12",
-    "_get_intrinsic_fallback_symbol@4"
+    "_get_intrinsic_fallback_symbol@4",
+    "_clone_vector@8",
+    "_clone_vector_with_extra@12",
+    "_clone_vector_with_slot@8",
+    "_vector_contains@8",
+    "_first_vector_item@4",
+    "_vectors_equal@8",
+    "_valid_vector@4",
+    "_join_truncated_names@8",
+    "_make_pointer_model_type@8"
   ],
   "driver": [
     {
@@ -3438,6 +3447,11 @@
       "end": 205824
     },
     {
+      "name": "_valid_vector@4",
+      "start": 205952,
+      "end": 205995
+    },
+    {
       "name": "_new_vector@8",
       "start": 206016,
       "end": 206205
@@ -3453,6 +3467,21 @@
       "end": 206381
     },
     {
+      "name": "_clone_vector_with_extra@12",
+      "start": 206384,
+      "end": 206508
+    },
+    {
+      "name": "_clone_vector@8",
+      "start": 206512,
+      "end": 206532
+    },
+    {
+      "name": "_clone_vector_with_slot@8",
+      "start": 206544,
+      "end": 206564
+    },
+    {
       "name": "_copy_vector@12",
       "start": 206576,
       "end": 206676
@@ -3466,6 +3495,21 @@
       "name": "_append_vector@8",
       "start": 206720,
       "end": 206760
+    },
+    {
+      "name": "_vector_contains@8",
+      "start": 206768,
+      "end": 206841
+    },
+    {
+      "name": "_first_vector_item@4",
+      "start": 206848,
+      "end": 206860
+    },
+    {
+      "name": "_vectors_equal@8",
+      "start": 206864,
+      "end": 206930
     },
     {
       "name": "_hash_pointer_low12",
@@ -3863,6 +3907,11 @@
       "name": "_new_named_entity@16",
       "start": 219328,
       "end": 219404
+    },
+    {
+      "name": "_join_truncated_names@8",
+      "start": 219408,
+      "end": 219532
     },
     {
       "name": "_initialize_translation_state",
@@ -4497,6 +4546,11 @@
       "name": "_prepend_interned_type_shape@16",
       "start": 263088,
       "end": 263126
+    },
+    {
+      "name": "_make_pointer_model_type@8",
+      "start": 263136,
+      "end": 263300
     },
     {
       "name": "_assign_unpooled_literal_segment@8",
@@ -6592,6 +6646,11 @@
       "accepted_from": 1056,
       "accepted_count": 1057,
       "expected_exit": 0
+    },
+    "forced-container-context": {
+      "accepted_from": 1063,
+      "accepted_count": 1063,
+      "expected_exit": 0
     }
   },
   "buffered_streams": [
@@ -6667,6 +6726,13 @@
       "public_reachability": false,
       "manifest": "cases/legacy-type-support/manifest.json",
       "description": "Actual parsed named segment, zeroed permanent constructor, owned debug/intrinsic support workflow."
+    },
+    "forced-container-support": {
+      "accepted_from": 1063,
+      "accepted_count": 1072,
+      "public_reachability": false,
+      "units": 8,
+      "manifest": "cases/forced-container-support/manifest.json"
     }
   }
 }

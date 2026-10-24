@@ -1,0 +1,25 @@
+{
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/container-unit3-native-entry-1",
+  "function": "first_vector_item",
+  "arguments": [
+    0
+  ],
+  "formals": [
+    "vector"
+  ],
+  "body": false,
+  "buffered_streams": [
+    "expression_file",
+    "symbol_file",
+    "line_file",
+    "global_file",
+    "debug_file",
+    "pch_file",
+    "browser_output"
+  ],
+  "kind": "container-support",
+  "marker": "finish_declarations",
+  "owner_name": "forced_source_inputs",
+  "unit": 3,
+  "context_owner_name": "forced_source_inputs"
+}

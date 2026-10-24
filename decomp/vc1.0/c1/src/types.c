@@ -5,6 +5,28 @@
 #include "parser.h"
 #include <recon.h>
 
+/* Original 0x403e0..0x40484, RET8. Keep the source pointer model on
+   the new outer shape, and apply the requested model to its base type. */
+CType *__stdcall make_pointer_model_type(unsigned short model, CType *type)
+{
+    TypeDescription *description;
+    unsigned short old_model, effective;
+    unsigned parameter = 0;
+    if (type->related && !(type->related->flags & 7))
+        type = drop_first_type_shape(type);
+    old_model = type->attributes & 7;
+    model &= 7;
+    effective = model ? model : normalize_type_attributes(1, 0);
+    if ((type->attributes ^ effective) & 7) {
+        description = copy_type_description(type);
+        description->attributes = (description->attributes & ~7) | model;
+        type = intern_type(description);
+        --type_description_depth;
+    }
+    return make_qualified_type(type, 1,
+        normalize_type_attributes(1, old_model), &parameter);
+}
+
 TypeEntry **type_descriptor_buckets; /* original 0x6b7d0 */
 TypeShapeEntry **type_shape_buckets;  /* original 0x6b658 */
 ParameterEntry **parameter_buckets;  /* original 0x6b64c */

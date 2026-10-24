@@ -1,0 +1,127 @@
+python3 scripts/check-native.py --trace 
+minimal: native pass 0.013276s
+hello-win32: native pass 0.086909s
+hello-dll: native pass 0.086530s
+numeric-varargs: native pass 0.017896s
+pch-create: native pass 0.014310s
+pch-use: native pass 0.011924s
+do-while: native pass 0.010754s
+seh: native pass 0.010981s
+inline-asm: native pass 0.011147s
+browser: native pass 0.014201s
+preprocessor-E: native pass 0.009365s
+preprocessor-EP: native pass 0.010441s
+preprocessor-P: native pass 0.009482s
+comments: native pass 0.008429s
+prototypes: native pass 0.008448s
+automatic-pch-create: native pass 0.013615s
+automatic-pch-reuse: native pass 0.013367s
+automatic-pch-changed: native pass 0.015982s
+embedded-codeview: native pass 0.011203s
+inlining-ob1: native pass 0.012662s
+inlining-ob2: native pass 0.010557s
+combined-types-literals: native pass 0.011450s
+debug-pch-create: native pass 0.015577s
+debug-pch-use: native pass 0.016379s
+inline-asm-rich: native pass 0.012676s
+storage-pragmas: native pass 0.010767s
+diagnostic-recovery: native pass 0.012275s
+based-record-arena: native pass 0.013148s
+pdb-pch-binding-create: native pass 0.018220s
+pdb-pch-binding-use: native pass 0.018195s
+legacy-callback-adapter: native pass 0.012379s
+inline-asm-expressions: native pass 0.011442s
+browser-pch-create: native pass 0.016365s
+browser-pch-use: native pass 0.020599s
+asm-diagnostic-recovery: native pass 0.014284s
+calibration-table: native pass 0.011569s
+packet-view-adapter: native pass 0.013446s
+arena-api-compile: native pass 0.012412s
+arena-api-prototypes: native pass 0.009377s
+portability-diagnostics: native pass 0.014285s
+explicit-base-control: native pass 0.010861s
+typed-x87-bitscan: native pass 0.009191s
+generated-header-missing: native pass 0.011214s
+generated-header-incomplete: native pass 0.012049s
+protocol-parser-repair: native pass 0.014203s
+asm-parser-repair: native pass 0.013116s
+hdrstop-create: native pass 0.018304s
+hdrstop-use: native pass 0.020383s
+dispatch-type-diagnostics: native pass 0.013897s
+prototype-scope-registry: native pass 0.014388s
+browser-index-limit: native pass 0.452108s
+callback-body-recovery: native pass 0.012032s
+legacy-pdb-cleanup: native pass 0.012868s
+quickc-regions: native pass 0.011025s
+legacy-counted-records: native pass 0.011481s
+legacy-prefix-diagnostic: native pass 0.011754s
+ide-debug-pch-create: native pass 0.017312s
+ide-debug-pch-use: native pass 0.014967s
+forced-container-context: native pass 0.017760s
+Evidence: /root/.ai-tmp/msvc2/vc1.0/c1/validation/native-check-i9sw4uti/receipt.json
+python3 scripts/check-direct.py
+Direct assembler support: 15 passed 4.000189619138837 seconds; no public source reachability claim
+python3 scripts/check-expression-tests.py
+Direct expression support: 6 passed 0.149997s; no public source reachability claim
+python3 scripts/check-pdb-objects.py
+{
+  "status": "pass",
+  "units": [
+    {
+      "unit": 0,
+      "name": "existing-writable",
+      "status": "pass",
+      "setup_seconds": 0.004269777797162533,
+      "execution_seconds": 0.00824709516018629,
+      "checks_seconds": 0.0038566729053854942
+    },
+    {
+      "unit": 1,
+      "name": "existing-readonly",
+      "status": "pass",
+      "setup_seconds": 0.003925725817680359,
+      "execution_seconds": 0.008021267130970955,
+      "checks_seconds": 0.003479413688182831
+    },
+    {
+      "unit": 2,
+      "name": "create-new",
+      "status": "pass",
+      "setup_seconds": 0.0035662101581692696,
+      "execution_seconds": 0.00798169244080782,
+      "checks_seconds": 0.0032647093757987022
+    },
+    {
+      "unit": 3,
+      "name": "missing-readonly",
+      "status": "pass",
+      "setup_seconds": 0.003563263453543186,
+      "execution_seconds": 0.004150294698774815,
+      "checks_seconds": 0.0012778816744685173
+    },
+    {
+      "unit": 4,
+      "name": "reload-existing",
+      "status": "pass",
+      "setup_seconds": 0.0038032401353120804,
+      "execution_seconds": 0.007978556677699089,
+      "checks_seconds": 0.005181505344808102
+    },
+    {
+      "unit": 5,
+      "name": "reload-short-header",
+      "status": "pass",
+      "setup_seconds": 0.0038594286888837814,
+      "execution_seconds": 0.00800610426813364,
+      "checks_seconds": 0.004944738000631332
+    }
+  ],
+  "reference_seconds": 0.08495999220758677,
+  "total_seconds": 0.22039713617414236,
+  "executable_sha256": "3f1e6a7162af8ce1efaad7c67d642f2dc9029e713e080fc5b4564b9664e77188",
+  "scope": "Six direct external method units; no established public trigger. Native i386 only; no Wine, debugger, or cache refresh."
+}
+python3 scripts/check-support.py
+Direct legacy support: 13 passed; 3.6509797610342503 seconds
+python3 scripts/check-container.py
+Direct container support: 8 passed; 2.291941534727812 seconds

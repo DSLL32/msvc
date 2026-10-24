@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "a1ee702d5a16d1ff5dce34ff3ea0b6d7e60bca6fade10e594694a4b84ef82c89",
+    "functions.json": "66c18d675557f02722445436aba663925e9a1b2082e164c18a7dbcd5bbf02e26",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "fbeb30d82fabe8d48580bd8d4dd46d59d369f12adf8ddfacf6060182d136fdab"
+    "sha256": "ff6df528155b84fcd6d7fdad42b8dac7a64f3caf692d042381ee3594ee32a997"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "758cd04f100b359171ed63190cd3575a22ac7655e8f0f32cafccdd007be310a9"
+    "sha256": "70c60c1ecbab05cc08ae184c189c65125ad5378234332a5ac3a54b21c4b57c38"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -624,6 +624,18 @@
     "clear_type_attributes": {
       "logical": "_clear_type_attributes@8",
       "source": "src/types.c"
+    },
+    "clone_vector": {
+      "logical": "_clone_vector@8",
+      "source": "src/vectors.c"
+    },
+    "clone_vector_with_extra": {
+      "logical": "_clone_vector_with_extra@12",
+      "source": "src/vectors.c"
+    },
+    "clone_vector_with_slot": {
+      "logical": "_clone_vector_with_slot@8",
+      "source": "src/vectors.c"
     },
     "close_intermediate": {
       "logical": "_close_intermediate",
@@ -1501,6 +1513,10 @@
       "logical": "_finish_try_block",
       "source": "src/seh.c"
     },
+    "first_vector_item": {
+      "logical": "_first_vector_item@4",
+      "source": "src/vectors.c"
+    },
     "fit_string_initializer": {
       "logical": "_fit_string_initializer@8",
       "source": "src/initializers.c"
@@ -1817,6 +1833,10 @@
       "logical": "_is_void_pointer_type@4",
       "source": "src/types.c"
     },
+    "join_truncated_names": {
+      "logical": "_join_truncated_names@8",
+      "source": "src/declarations.c"
+    },
     "layout_bitfield_member": {
       "logical": "_layout_bitfield_member@12",
       "source": "src/declarations.c"
@@ -2015,6 +2035,10 @@
     },
     "make_pointer_base_type": {
       "logical": "_make_pointer_base_type@12",
+      "source": "src/types.c"
+    },
+    "make_pointer_model_type": {
+      "logical": "_make_pointer_model_type@8",
       "source": "src/types.c"
     },
     "make_qualified_type": {
@@ -3497,6 +3521,10 @@
       "logical": "_usual_arithmetic_type@12",
       "source": "src/expressions.c"
     },
+    "valid_vector": {
+      "logical": "_valid_vector@4",
+      "source": "src/vectors.c"
+    },
     "validate_asm_operand_count": {
       "logical": "_validate_asm_operand_count",
       "source": "src/asm-validation.c"
@@ -3513,12 +3541,20 @@
       "logical": "_validate_self_based_source@4",
       "source": "src/stubs.c"
     },
+    "vector_contains": {
+      "logical": "_vector_contains@8",
+      "source": "src/vectors.c"
+    },
     "vector_count": {
       "logical": "_vector_count@4",
       "source": "src/vectors.c"
     },
     "vector_storage_bytes": {
       "logical": "_vector_storage_bytes@4",
+      "source": "src/vectors.c"
+    },
+    "vectors_equal": {
+      "logical": "_vectors_equal@8",
       "source": "src/vectors.c"
     },
     "visit_pragma_names": {
@@ -4645,7 +4681,16 @@
     "materialize_based_symbol",
     "based_segment_symbol_name",
     "add_legacy_type_fixup",
-    "get_intrinsic_fallback_symbol"
+    "get_intrinsic_fallback_symbol",
+    "clone_vector",
+    "clone_vector_with_extra",
+    "clone_vector_with_slot",
+    "vector_contains",
+    "first_vector_item",
+    "vectors_equal",
+    "valid_vector",
+    "join_truncated_names",
+    "make_pointer_model_type"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6325,6 +6370,16 @@
       "expected": [
         "restore_pch_separate_debug"
       ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "forced-container-context": {
+      "first": 1063,
+      "last": 1063,
+      "seen_count": 919,
+      "expected": [],
       "terminal": {
         "kind": "exit",
         "code": 0

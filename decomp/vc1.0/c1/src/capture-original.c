@@ -687,6 +687,8 @@ static int direct_active;
 static DWORD direct_stack, direct_marker;
 static CONTEXT direct_saved;
 
+#include "capture-container-unit.h"
+
 /* Direct literal support uses the genuine stopped initializer arguments.
    Only debugger breakpoints and an owned call stack are changed. */
 static DWORD literal_return, literal_storage, literal_token, literal_writer;
@@ -948,6 +950,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
                 sprintf(line,"support-type-depth before %lu\n",depth);WriteFile(log,line,strlen(line),&written,0);
             }
         }
+        if(container_unit>=0&&!container_prepare(process,log,base))return -1;
         for (index=0;index<8;++index) words[index]=0xa5a5a5a5;
         words[0]=site;
         for (index=0;index<direct_count;++index) words[index+1]=direct_arguments[index];
@@ -990,6 +993,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
            !ReadProcessMemory(process,(void *)(base+0x4ff18),&depth,4,&got)||got!=4)return -1;
         sprintf(line,"support-type-depth after %lu\n",depth);WriteFile(log,line,strlen(line),&written,0);
     }
+    if(container_unit>=0&&!container_return(process,log,base,current.Eax))return -1;
     dump_asm_operand(process,log,base,"direct-return");
     if (buffers) dump_stream_buffers(process,log,base,buffers);
     TerminateProcess(process,99);
@@ -1037,7 +1041,7 @@ int main(int argc, char **argv)
     if (flag_option) {
         if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx,%lx",&direct_marker_rva,
                 &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1],&direct_arguments[2]) < 5 ||
-                direct_count>3 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT"))) return 2;
+                direct_count>3 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT") && !getenv("C1_CONTAINER_UNIT"))) return 2;
     }
     flag_option=getenv("C1_SUPPORT_UNIT");
     if(flag_option) {
@@ -1049,6 +1053,17 @@ int main(int argc, char **argv)
                direct_target_rva!=targets[support_unit]||direct_count!=counts[support_unit]||
                direct_arguments[0]!=(support_unit<3?0x800:support_unit==4?2:support_unit==12?172:0)||
                (support_unit==6&&direct_arguments[1]!=7))return 2;
+        }
+    }
+    flag_option=getenv("C1_CONTAINER_UNIT");
+    if(flag_option) {
+        container_unit=atoi(flag_option);
+        {
+            static DWORD targets[]={0x226b0,0x226d0,0x227b0,0x22800,0x22810,0x22480,0x25910,0x303e0};
+            static unsigned counts[]={2,2,2,1,2,1,2,2};
+            if(container_unit<0||container_unit>7||support_unit>=0||getenv("C1_TEMPLATE_UNIT")||direct_marker_rva!=0x262c0||
+               direct_target_rva!=targets[container_unit]||direct_count!=counts[container_unit]||direct_arguments[0]!=(container_unit==7?2:0)||
+               direct_arguments[1]!=(container_unit<2?1:0))return 2;
         }
     }
     flag_option=getenv("C1_TEMPLATE_UNIT");

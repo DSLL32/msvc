@@ -4,6 +4,74 @@
 #include "pch.h"
 #include <recon.h>
 
+/* Original 0x326b0..0x326c4, RET8. Item ownership stays with the source. */
+Vector *__stdcall clone_vector(Vector *source, int arena)
+{
+    return clone_vector_with_extra(source, 0, arena);
+}
+
+/* Original 0x326d0..0x326e4, RET8. The extra slot is capacity only. */
+Vector *__stdcall clone_vector_with_slot(Vector *source, int arena)
+{
+    return clone_vector_with_extra(source, 1, arena);
+}
+
+/* Original 0x327b0..0x327f9, RET8. Membership compares item identity. */
+int __stdcall vector_contains(Vector *vector, void *item)
+{
+    short index = 0;
+    while (index < vector->count)
+        if (vector->items[index++] == item) return 1;
+    return 0;
+}
+
+/* Original 0x32800..0x3280c, RET4. The caller owns the nonempty check. */
+void *__stdcall first_vector_item(Vector *vector)
+{
+    return vector->items[0];
+}
+
+/* Original 0x32810..0x32852, RET8. Only the used pointer bytes are compared. */
+int __stdcall vectors_equal(Vector *left, Vector *right)
+{
+    unsigned bytes, index;
+    unsigned char *first, *second;
+    if (left->count != right->count) return 0;
+    bytes = vector_storage_bytes(left);
+    first = (unsigned char *)left->items;
+    second = (unsigned char *)right->items;
+    for (index = 0; index < bytes; ++index)
+        if (first[index] != second[index]) return 0;
+    return 1;
+}
+
+/* Original 0x32480..0x324ab, RET4. Storage is deliberately not inspected. */
+int __stdcall valid_vector(Vector *vector)
+{
+    return vector && vector->count >= 0 && vector->capacity >= 0 &&
+        vector->capacity >= vector->count;
+}
+
+/* Original 0x32630..0x326ac, RET12. Copy only initialized item slots;
+   capacity is a signed short, while the negative-extra check uses int. */
+Vector *__stdcall clone_vector_with_extra(Vector *source, short extra, int arena)
+{
+    Vector *copy;
+    unsigned bytes, index;
+    unsigned char *from, *to;
+    if ((int)vector_count(source) + (int)extra < (int)vector_count(source))
+        fatal_error(1, pch_diagnostic_name, 106);
+    copy = new_vector((short)(vector_count(source) + extra), arena);
+    copy->count = source->count;
+    if (copy->count > 0) {
+        bytes = vector_storage_bytes(source);
+        from = (unsigned char *)source->items;
+        to = (unsigned char *)copy->items;
+        for (index = 0; index < bytes; ++index) to[index] = from[index];
+    }
+    return copy;
+}
+
 /* Original 0x324c0..0x3257d. */
 Vector *__stdcall new_vector(short capacity, int arena)
 {

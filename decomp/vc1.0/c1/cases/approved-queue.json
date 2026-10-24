@@ -2,7 +2,7 @@
   "authorization": "Root-approved substantial standalone QuickC and legacy declaration/literal cases; real parsed flags, frozen originals and native-only regression.",
   "baseline_commit": "160ef1dcc8e61a9227cfdee0ffaa43102f1cec27",
   "baseline_accepted_count": 1015,
-  "status": "IDE/-Yd PCH public case complete; remaining application/support analysis continues",
+  "status": "Forced-header/container/type support case complete; residual application survey remains active",
   "cases": [
     {
       "case": "legacy-pdb-object",
@@ -27,15 +27,21 @@
     },
     {
       "case": "legacy-type-support",
-      "phase": "direct",
+      "phase": "direct/literal-float/literal-double/direct-v3",
       "authorization": "Root approved direct support in genuinely parsed declaration context; no forced parser/global/token state",
-      "status": "Eight helpers/739 B across two checkpoints, real parsed owners, original/native outputs/RET/nonvolatiles and first-entry order verified; dormant public producer remains unknown"
+      "status": "Fourteen helpers/1304B across13 units; defined real owners/constructor results, complete outputs/ABIs/fresh entry order and58public+40direct regressions pass; no public producer claimed."
     },
     {
       "case": "ide-debug-pch",
       "phase": "c1-create/c1-use",
       "authorization": "Root approved coherent genuine -ide/-Yd debug PCH workflow, no synthetic IDE globals",
       "status": "Six whole app functions/286 B; untouched originals repeat, native generated PCH dependency/raw outputs and ordinary first-entry traces pass"
+    },
+    {
+      "case": "forced-container-support",
+      "phase": "context and direct container/type support",
+      "authorization": "Root approved one coherent case; real parsed names/types and populated vectors, actual constructor-created owned test records; preserve public/direct distinction and no CRT-by-location assumption.",
+      "status": "Complete public context and8direct units;9new application functions646B;1072accepted entries;59public+48direct cached native checks pass. Direct support does not establish public producers."
     }
   ]
 }

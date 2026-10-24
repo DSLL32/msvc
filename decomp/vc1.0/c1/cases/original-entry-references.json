@@ -232,6 +232,10 @@
     "ide-debug-pch-use": {
       "receipt": "cases/ide-debug-pch/evidence/use-entries-1057/receipt.json",
       "sha256": "086e8c3ff5ec47031e8e9b0c4e95d8722554a8764d9cb2805d15268e99fbb1bb"
+    },
+    "forced-container-context": {
+      "receipt": "cases/forced-container-support/evidence/context-entries/receipt.json",
+      "sha256": "2a780478f4355bae95073905a94de3e3f3f9c49ad136c4cb619229426de7caf2"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

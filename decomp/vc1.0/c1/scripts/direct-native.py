@@ -14,35 +14,41 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--function',choices=['report_asm_expected_token','asm_recovery_value'])
     parser.add_argument('--support-unit',type=int,choices=range(13))
+    parser.add_argument('--container-unit',type=int,choices=range(8))
     parser.add_argument('--seen-count',type=int,help='Explicit accepted-prefix seed for support entry tracing')
     parser.add_argument('--arguments',nargs='+',type=lambda v:int(v,0))
     parser.add_argument('--directory',required=True,type=Path)
     parser.add_argument('--body',action='store_true')
-    parser.add_argument('--frontier',choices=['based_segment_symbol_name'],help='Stop at the known candidate parent callee, without accepting either body')
+    parser.add_argument('--frontier',choices=['based_segment_symbol_name','clone_vector_with_extra'],help='Stop at the known candidate parent callee, without accepting either body')
     parser.add_argument('--exe',type=Path,default=BINARY/'build/native/C13232.EXE')
     options=parser.parse_args();start=time.perf_counter();directory=options.directory.resolve();directory.mkdir(parents=True,exist_ok=False)
     support=options.support_unit is not None
-    assert support or (options.function is not None and options.arguments is not None)
-    assert not support or (options.function is None and options.arguments is None)
-    case=BINARY/('cases/legacy-type-support'if support else'cases/asm-direct-callbacks');manifest=json.loads((case/'manifest.json').read_text());phase=manifest['phases'][manifest['direct_plan'][options.support_unit].get('phase','direct')if support else'c1']
-    if support:
-        plan=manifest['direct_plan'][options.support_unit]
+    container=options.container_unit is not None
+    assert not (support and container)
+    direct=support or container
+    unit=options.support_unit if support else options.container_unit
+    assert direct or (options.function is not None and options.arguments is not None)
+    assert not direct or (options.function is None and options.arguments is None)
+    case=BINARY/('cases/forced-container-support'if container else'cases/legacy-type-support'if support else'cases/asm-direct-callbacks');manifest=json.loads((case/'manifest.json').read_text());phase=manifest['phases'][manifest['direct_plan'][unit].get('phase','direct')if direct else'c1']
+    if direct:
+        plan=manifest['direct_plan'][unit]
         options.function=plan['function'][1:].split('@')[0]
         options.arguments=plan['request_arguments']if'request_arguments'in plan else([plan['kind'],0]if options.support_unit<2 else[plan['kind']])
     work,paths=native_work(directory,phase['canonical_working_directory'])
     for item in phase['inputs']:
-        data=(case/item['path']).read_bytes();assert hashlib.sha256(data).hexdigest()==item['sha256'];(work/Path(item['path']).name).write_bytes(data)
+        data=(case/item['path']).read_bytes();assert hashlib.sha256(data).hexdigest()==item['sha256'];target=work/Path(item['path']).name;target.write_bytes(data)
+        if 'mtime_ns'in item:os.utime(target,ns=(item['mtime_ns'],item['mtime_ns']))
     for item in phase['toolchain_dependencies']:
         assert hashlib.sha256((ROOT/item['path']).read_bytes()).hexdigest()==item['sha256']
     env=dict(LC_ALL='C',TZ='PST8PDT',RECON_PROGRAM_PATH=windows(ROOT/phase['target']),MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(bin=windows(ROOT/'toolchains/1.0-nt/bin'),include=windows(ROOT/'toolchains/1.0-nt/include')));env.update(paths)
     assert phase.get('stdio',{}).get('stderr_to_stdout'), 'This direct workflow requires the captured CL stream alias'
     (directory/'stderr').write_bytes(b'')
-    config=json.loads((BINARY/'functions.json').read_text());formals=plan.get('formals',(['kind','name']if options.support_unit<2 else['kind']))if support else(['actual','expected']if options.function=='report_asm_expected_token'else['token'])
+    config=json.loads((BINARY/'functions.json').read_text());formals=plan.get('formals',(['kind','name']if unit<2 else['kind']))if direct else(['actual','expected']if options.function=='report_asm_expected_token'else['token'])
     assert len(formals)==len(options.arguments) and all(0<=v<=0xffffffff for v in options.arguments)
     settings=dict(directory=str(directory),function=options.function,arguments=options.arguments,formals=formals,body=options.body,buffered_streams=[r['name'][1:]for r in config['buffered_streams']])
     trace=None;run_options={}
-    if support:
-        settings.update(kind='legacy-support',marker=plan.get('marker','_finish_declarations')[1:].split('@')[0],owner_name=plan['owner'],unit=options.support_unit,context_owner_name=plan.get('context_owner',plan['owner']))
+    if direct:
+        settings.update(kind='container-support'if container else'legacy-support',marker=plan.get('marker','_finish_declarations')[1:].split('@')[0],owner_name=plan['owner'],unit=unit,context_owner_name=plan.get('context_owner',plan['owner']))
         if options.support_unit in(8,9):settings.update(literal_writer=plan['accepts'][1:],literal_width=4 if options.support_unit==8 else 8)
         cache=json.loads((BINARY/'cases/native-traces.json').read_text())
         seen_count=options.seen_count if options.seen_count is not None else manifest['baseline_accepted_count']
@@ -54,7 +60,7 @@ def main():
         trace=(directory/'entries').open('wb');run_options['pass_fds']=(trace.fileno(),)
         env.update(RECON_TRACE_FD=str(trace.fileno()),RECON_TRACE_FILTER=str(directory/'filter'),RECON_TRACE_SEEN=str(directory/'seen'))
     if options.frontier:
-        assert options.support_unit==10 and options.body
+        assert options.body and ((support and unit==10 and options.frontier=='based_segment_symbol_name')or(container and unit==0 and options.frontier=='clone_vector_with_extra'))
         settings['frontier']=options.frontier
     (directory/'settings.json').write_text(json.dumps(settings,indent=2)+'\n')
     command=['gdb','--nx','--batch','-ex','set $direct_settings = '+json.dumps(str(directory/'settings.json')),'-ex','source '+str(BINARY/'scripts/direct-gdb.py'),str(options.exe.resolve())]

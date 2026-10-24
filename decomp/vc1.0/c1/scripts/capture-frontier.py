@@ -34,6 +34,7 @@ def main():
     parser.add_argument('--direct-function',help='Explicit debugger-only support callback after real marker; no public-reach claim')
     parser.add_argument('--direct-arguments',nargs='*',type=lambda s:int(s,0))
     parser.add_argument('--support-unit',type=int,choices=range(13),help='Direct legacy support method using genuinely parsed owners')
+    parser.add_argument('--container-unit',type=int,choices=range(8),help='Explicit direct container unit over actual parsed forced headers')
     parser.add_argument('--expression-unit',type=int,choices=range(6),help='External direct expression unit; owned test input, not target-global seeding')
     parser.add_argument('--direct-body',action='store_true',help='Restore exactly selected candidate body/shared text for explicit direct verification')
     parser.add_argument('--restore-function',action='append',default=[],help='Explicit candidate body/shared-text restoration, without accepting it')
@@ -177,10 +178,15 @@ def main():
         if options.restore_function:target.write_bytes(data)
     direct = None
     if options.direct_function:
-        assert options.stop_function and not options.unmasked and (not entry_mode or options.support_unit is not None)
+        assert options.stop_function and not options.unmasked and (not entry_mode or options.support_unit is not None or options.container_unit is not None)
         direct = next(r for r in config['driver'] if r['name']==options.direct_function)
         assert options.direct_arguments is not None
-        if options.support_unit is not None:
+        if options.container_unit is not None:
+            assert case.name=='forced-container-support'and options.support_unit is None and options.expression_unit is None
+            container_plan=json.loads((case/'manifest.json').read_text())['direct_plan'][options.container_unit]
+            assert options.phase==container_plan['phase']and options.stop_function=='_finish_declarations'
+            assert options.direct_function==container_plan['function']and options.direct_arguments==container_plan['request_arguments']
+        elif options.support_unit is not None:
             assert case.name=='legacy-type-support' and options.expression_unit is None
             support_plan=json.loads((case/'manifest.json').read_text())['direct_plan'][options.support_unit]
             assert options.phase==support_plan.get('phase','direct')
@@ -204,7 +210,7 @@ def main():
     else:
         assert not options.direct_body and options.direct_arguments is None
     if options.stop_function:
-        assert not options.unmasked and (not entry_mode or options.support_unit is not None)
+        assert not options.unmasked and (not entry_mode or options.support_unit is not None or options.container_unit is not None)
         probe = next(r for r in config['driver'] if r['name']==options.stop_function)
         assert probe['name'] in config['accepted']
         data[original.offset(probe['start'])] = 0xcc
@@ -230,6 +236,8 @@ def main():
     host_environment.pop('C1_ASM_SEGMENT_PROBE',None)
     host_environment.pop('C1_ASM_OPERAND_PROBE',None)
     host_environment.pop('C1_DIRECT_CALL',None)
+    host_environment.pop('C1_CONTAINER_UNIT',None)
+    if options.container_unit is not None:host_environment['C1_CONTAINER_UNIT']=str(options.container_unit)
     host_environment.pop('C1_SUPPORT_UNIT',None)
     if options.support_unit is not None:host_environment['C1_SUPPORT_UNIT']=str(options.support_unit)
     host_environment.pop('C1_TEMPLATE_UNIT',None)
@@ -254,7 +262,7 @@ def main():
     if direct:
         args = options.direct_arguments + [0]*(3-len(options.direct_arguments))
         host_environment['C1_DIRECT_CALL'] = '%x,%x,%d,%x,%x,%x'%(probe['start']-original.base,direct['start']-original.base,len(options.direct_arguments),*args)
-        if options.support_unit is None:host_environment['C1_ASM_OPERAND_PROBE']='1'
+        if options.support_unit is None and options.container_unit is None:host_environment['C1_ASM_OPERAND_PROBE']='1'
 
     if options.trace_asm_segment:
         host_environment['C1_ASM_SEGMENT_PROBE']='1'
@@ -305,7 +313,7 @@ def main():
         assert 'entry-divergence' not in events
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
-    receipt = dict(restored_functions=options.restore_function,pdb_cleanup_probe=options.pdb_cleanup_probe,expression_unit=options.expression_unit,support_unit=options.support_unit,aborted_function_probe=options.trace_aborted_function,browser_limit_probe=options.trace_browser_limit,declaration_scope_probe=options.trace_declaration_scope,complete_type_probe=options.trace_complete_type,strdup_probe=options.trace_strdup,direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
+    receipt = dict(container_unit=options.container_unit,restored_functions=options.restore_function,pdb_cleanup_probe=options.pdb_cleanup_probe,expression_unit=options.expression_unit,support_unit=options.support_unit,aborted_function_probe=options.trace_aborted_function,browser_limit_probe=options.trace_browser_limit,declaration_scope_probe=options.trace_declaration_scope,complete_type_probe=options.trace_complete_type,strdup_probe=options.trace_strdup,direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
                    enum_callback_trace=options.trace_enum_callbacks,enum_callback_function=enum_callback if options.trace_enum_callbacks else None,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,timestamp_probe=options.trace_timestamps,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),

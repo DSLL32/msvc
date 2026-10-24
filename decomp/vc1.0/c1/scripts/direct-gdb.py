@@ -12,6 +12,8 @@ def number(expression):
 def memory(address, size):
     return bytes(gdb.selected_inferior().read_memory(address,size))
 def snapshot():
+    if settings.get('kind')=='container-support':
+        return container_snapshot()
     if settings.get('kind')=='legacy-support':
         return support_snapshot()
     operand=gdb.parse_and_eval('asm_operand').dereference()
@@ -34,6 +36,35 @@ def snapshot():
                 type_0000=number('type_0000'),
                 asm_state=[number('asm_operand_count'),int(operand['size']),int(operand['flags']),int(address['displacement']),int(address['address_flags']),int(address['flags']),int(address['first_register']),int(address['second_register']),int(bool(int(symbol))),int(declaration['storage'][0]) if declaration else 0,int(declaration['index']) if declaration else 0],
                 asm_name=declaration['name'].string() if declaration else '',buffers=buffers)
+
+def vector_snapshot(address):
+    assert address
+    vector=gdb.parse_and_eval('(Vector *)'+str(address)).dereference()
+    count=int(vector['count']);capacity=int(vector['capacity'])
+    assert count==3 and count<=capacity<=256
+    items=[int(vector['items'][i])for i in range(count)]
+    names=[gdb.parse_and_eval('(char *)'+str(item)).string()for item in items]
+    assert names==['forced-a.h','forced-b.h','forced-c.h']
+    return dict(address=address,count=count,capacity=capacity,arena=int(vector['arena']),items=int(vector['items']),values=items,names=names)
+
+def container_snapshot():
+    buffers={}
+    for name in settings['buffered_streams']:
+        stream=number(name)
+        if not stream:buffers[name]=None;continue
+        pointer,count,base=struct.unpack('<III',memory(stream,12))
+        assert 0<=pointer-base<=65536
+        buffers[name]=memory(base,pointer-base).hex()if pointer>base else''
+    result=dict(registers={r:number('$'+r)for r in registers},owner=container_owner,vector=vector_snapshot(container_owner),error_count=number('error_count'),buffers=buffers)
+    if settings['unit']==7:result['type']=container_type_snapshot(container_type)
+    return result
+
+def container_type_snapshot(address):
+    type=gdb.parse_and_eval('(CType *)'+str(address)).dereference();shapes=[];shape=type['related']
+    while int(shape):
+        assert len(shapes)<3
+        item=shape.dereference();shapes.append(dict(address=int(shape),flags=int(item['flags']),attributes=int(item['attributes']),related=int(item['related'])));shape=item['related']
+    return dict(address=address,flags=int(type['flags']),attributes=int(type['attributes']),related=int(type['related']),depth=number('type_description_depth'),shapes=shapes)
 
 def find_support_owner(name):
     scope=gdb.parse_and_eval('global_scope').dereference()
@@ -157,13 +188,22 @@ def run_literal():
 gdb.execute('set pagination off')
 gdb.execute('set confirm off')
 gdb.execute('set disable-randomization off')
-if settings.get('unit',-1)in(8,9):
+if settings.get('kind')=='legacy-support'and settings.get('unit',-1)in(8,9):
     run_literal()
     gdb.execute('quit')
 marker_name=settings.get('marker','report_asm_operand_error')
 marker=gdb.Breakpoint('*'+marker_name,internal=True)
 gdb.execute('run >'+str(output/'stdout')+' 2>&1')
 assert number('$eip')==number('(unsigned)'+marker_name)
+if settings.get('kind')=='container-support':
+    container_owner=number('forced_source_inputs')
+    assert container_owner==number('options.forced_includes')
+    actual=vector_snapshot(container_owner)
+    assert actual['capacity']==40 and actual['arena']==-1
+    if settings['unit']==7:
+        container_type=int(find_support_owner('container_result').dereference()['type'])
+        assert container_type and len(container_type_snapshot(container_type)['shapes'])==1
+    settings['arguments']={0:[container_owner,1],1:[container_owner,1],2:[container_owner,actual['values'][2]],3:[container_owner],4:[container_owner,container_owner],5:[container_owner],6:[actual['values'][0],actual['values'][2]],7:[2,container_type]if settings['unit']==7 else[]}[settings['unit']]
 if settings.get('kind')=='legacy-support':
     support_owner=find_support_owner(settings.get('context_owner_name',settings['owner_name']))
     if settings['unit']in(10,11):
@@ -202,7 +242,11 @@ if settings['body']:
         assert number('$eip')==number('(unsigned)'+settings['frontier'])
         argument=struct.unpack('<I',memory(number('$esp')+4,4))[0]
         assert argument==before['owner'],'candidate callee lost the real parsed owner'
-        report.update(status='callee-entry',frontier=dict(function=settings['frontier'],argument=argument,context=snapshot()))
+        frontier=dict(function=settings['frontier'],argument=argument,context=snapshot())
+        if settings['frontier']=='clone_vector_with_extra':
+            frontier['arguments']=list(struct.unpack('<III',memory(number('$esp')+4,12)))
+            assert frontier['arguments']==[before['owner'],0,1]
+        report.update(status='callee-entry',frontier=frontier)
         (output/'state.json').write_text(json.dumps(report,indent=2)+'\n')
         nested.delete();marker.delete();gdb.execute('kill');gdb.execute('quit')
     gdb.execute('continue')
@@ -214,6 +258,12 @@ if settings['body']:
     canary=memory(stack+4+4*len(slots),16)
     assert canary==b'\xa5'*16,'direct stack canary overwritten'
     report.update(after=after,canary=canary.hex(),status='returned')
+    if settings.get('kind')=='container-support'and settings['unit']<2:
+        report['result']=vector_snapshot(after['registers']['eax'])
+    if settings.get('kind')=='container-support'and settings['unit']==6:
+        report['name_result']=gdb.parse_and_eval('(char *)'+str(after['registers']['eax'])).string()
+    if settings.get('kind')=='container-support'and settings['unit']==7:
+        report['type_result']=container_type_snapshot(after['registers']['eax'])
     if settings.get('kind')=='legacy-support' and settings['unit']==11:
         fixup=gdb.parse_and_eval('legacy_type_fixups');assert int(fixup) and int(fixup)==number('legacy_type_fixup_tail')
         item=fixup.dereference()

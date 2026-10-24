@@ -8,6 +8,25 @@
 #include "debug-info.h"
 #include <recon.h>
 
+/* Original 0x35910..0x3598c, RET8. The complete suffix is retained;
+   only the prefix is shortened to the compiler's 246-character limit. */
+char *__stdcall join_truncated_names(char *prefix, char *suffix)
+{
+    int prefix_length = 0, suffix_length = 0;
+    unsigned index;
+    char *result;
+    while (prefix[prefix_length]) ++prefix_length;
+    while (suffix[suffix_length]) ++suffix_length;
+    if (prefix_length + suffix_length > 246)
+        prefix_length = 246 - suffix_length;
+    result = allocate_permanent((prefix_length + suffix_length + 4) & ~3);
+    for (index = 0; index < (unsigned)prefix_length; ++index) result[index] = prefix[index];
+    for (index = 0; index < (unsigned)suffix_length; ++index) result[prefix_length + index] = suffix[index];
+    result[prefix_length + suffix_length] = 0;
+    return result;
+}
+
+
 int default_thread_storage; /* original 0x6bc44 */
 
 /* Original 0x339f0..0x33cdb. */

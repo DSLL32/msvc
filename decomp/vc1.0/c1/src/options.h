@@ -197,5 +197,13 @@ void apply_option(OptionRule *rule, char *value, int copy);
 int parse_option_number(char *value);
 void __stdcall append_vector(Vector *vector, void *item);
 Vector *__stdcall grow_vector(Vector *vector);
+Vector *__stdcall clone_vector(Vector *source, int arena);
+Vector *__stdcall clone_vector_with_extra(Vector *source, short extra, int arena);
+Vector *__stdcall clone_vector_with_slot(Vector *source, int arena);
+int __stdcall vector_contains(Vector *vector, void *item);
+void *__stdcall first_vector_item(Vector *vector);
+int __stdcall vectors_equal(Vector *left, Vector *right);
+int __stdcall valid_vector(Vector *vector);
+char *__stdcall join_truncated_names(char *prefix, char *suffix);
 unsigned __stdcall vector_storage_bytes(Vector *vector);
 #endif

@@ -60,7 +60,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'legacy-counted-records':('legacy-segment-literals','c1'),
          'legacy-prefix-diagnostic':('legacy-segment-literals','c1-prefix-diagnostic'),
          'ide-debug-pch-create':('ide-debug-pch','c1-create'),
-         'ide-debug-pch-use':('ide-debug-pch','c1-use')}
+         'ide-debug-pch-use':('ide-debug-pch','c1-use'),
+         'forced-container-context':('forced-container-support','context')}
 
 
 CASE_DEPENDENCIES = {

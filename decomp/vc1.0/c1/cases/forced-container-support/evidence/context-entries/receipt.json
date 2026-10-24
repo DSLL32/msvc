@@ -1,0 +1,127 @@
+{
+  "restored_functions": [],
+  "pdb_cleanup_probe": false,
+  "expression_unit": null,
+  "support_unit": null,
+  "aborted_function_probe": false,
+  "browser_limit_probe": false,
+  "declaration_scope_probe": false,
+  "complete_type_probe": false,
+  "strdup_probe": false,
+  "direct_call": null,
+  "asm_segment_probe": false,
+  "return8_probe": false,
+  "stop_function": null,
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/forced-container-support",
+  "phase": "context",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 1063,
+  "accepted_sha256": "5f722c3c31f53bbf2da04c2566b5477156cd209aaf8fbeb50a2e051d1bb8952a",
+  "executable_sha256": "7a8b789a6d1b0a6937a67ba801ab6552cdcce48a1007d0e5c71e029a0c0c6c76",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "2fc08d91f3ddaa40e37fccd60893557e2f4c0684858d86a93cc9227cbfe47cb2",
+  "debugger_memory_request": "4b024:4,4b140:4,4b148:1,4b228:4,4b244:4,4ff14:4,50064:4,50228:4,50798:4,5b7f4:4,5b7f8:4,5bb44:4,5bb48:4,5ce6c:1",
+  "debugger_string_request": "4b588:100,4d5b8:100,5be68:100",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f containers.c -Ze -Zp8 -Gs -Focontainers.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -FR browser.sbr -FI forced-a.h -FI forced-b.h -FI forced-c.h -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\forced-container-support",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/forced-container-support",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.0824453691020608,
+  "execution_seconds": 1.029887543991208,
+  "total_seconds": 1.1123361000791192,
+  "files": [
+    {
+      "name": "browser.sbr",
+      "bytes": 1494,
+      "sha256": "4d8fea1c419d5495f4594327872dc2e3878391a7ec6314ec4407bdec59d00126"
+    },
+    {
+      "name": "containers.c",
+      "bytes": 1373,
+      "sha256": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30"
+    },
+    {
+      "name": "depth-a.h",
+      "bytes": 153,
+      "sha256": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e"
+    },
+    {
+      "name": "depth-b.h",
+      "bytes": 151,
+      "sha256": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4"
+    },
+    {
+      "name": "depth-c.h",
+      "bytes": 350,
+      "sha256": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06"
+    },
+    {
+      "name": "forced-a.h",
+      "bytes": 364,
+      "sha256": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2"
+    },
+    {
+      "name": "forced-b.h",
+      "bytes": 302,
+      "sha256": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d"
+    },
+    {
+      "name": "forced-c.h",
+      "bytes": 253,
+      "sha256": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388"
+    },
+    {
+      "name": "irdb",
+      "bytes": 499,
+      "sha256": "27beb28f2a99447f312bbec17dce23eb4a7bc580cbfa45d12b97ed988f167aae"
+    },
+    {
+      "name": "irex",
+      "bytes": 1761,
+      "sha256": "0bb373f8123df9443f6c428156dc599750c97bbfcb53280776ec9826407fead8"
+    },
+    {
+      "name": "irgl",
+      "bytes": 549,
+      "sha256": "109560c5ac2a82e905de91c4186760a001418acc9e904f6423b7dacb62251c8a"
+    },
+    {
+      "name": "irin",
+      "bytes": 223,
+      "sha256": "3cbd5115e3614adf590f95e877445181c2d1ae3e039ae940ff7429ec4661e9c3"
+    },
+    {
+      "name": "irsy",
+      "bytes": 334,
+      "sha256": "2d1256adc8afee4e0579095944575c0632110db6c86aca020b5910fc4f698b5d"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 1063,
+    "accepted_count": 1063,
+    "expected": [],
+    "observed": [],
+    "seeded_prefix_sha256": "5f722c3c31f53bbf2da04c2566b5477156cd209aaf8fbeb50a2e051d1bb8952a",
+    "plan_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  }
+}
