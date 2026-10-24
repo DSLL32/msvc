@@ -639,9 +639,3 @@ void __fastcall mark_debug_section(unsigned section)
 {
     __asm { int 3 }
 }
-
-unsigned __fastcall append_output_table(C2OutputTable *table, void *item)
-{
-    __asm { int 3 }
-    return 0;
-}

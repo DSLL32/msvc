@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 80 application functions (17596 bytes) and five CRT
+Current reconstruction has 81 application functions (17674 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at generic output-table insertion, with the exact caller-owned
-24-byte section descriptor initialized through its flags, before name/index writes. Four import thunks (24 bytes) and contextual text tables
-(725 bytes) remain separate. The 18034 source bytes are 3.146% of 573183 `.text`
+currently stops at COFF section initialization with index1/flags0xa00, after
+the generic table insertion and caller descriptor name/index writes. Four import thunks (24 bytes) and contextual text tables
+(725 bytes) remain separate. The 18112 source bytes are 3.160% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -411,3 +411,13 @@ controls take24.394s and two storage-bound controls0.005s, separately from
 6fresh/147reused protocol controls7.375s. Original/native/helper builds take
 5.815/2.790/1.302s; original/native captures2.793/.622s, audit.857s, native
 help2.597ms execution. Exact snapshots and timings are retained in0085.
+
+Source86 reconstructs the78-byte generic output-table append routine. Page
+allocation preserves capacity*4+8 and circular insertion order; the item stays
+void*, with no universal pointee layout. The fresh pair verifies count/used1,
+the first page item, the caller24-byte descriptor index/name writes, and the
+creator DWORD section index1. Both actual initializer formals and creator
+aliases match. Twenty-one affected controls take23.720s, separately from
+6fresh/147reused protocol controls7.273s. No failed capture/setup occurred.
+Original/native/helper builds take1.534/2.785/1.907s; full separate capture,
+audit and native fixture accounting is retained in0086.

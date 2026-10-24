@@ -1,0 +1,37 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041ef35 <.text+0x1df35>:
+  41ef35:	56                   	push   esi
+  41ef36:	8b f1                	mov    esi,ecx
+  41ef38:	33 c0                	xor    eax,eax
+  41ef3a:	57                   	push   edi
+  41ef3b:	66 8b 46 04          	mov    ax,WORD PTR [esi+0x4]
+  41ef3f:	8b 4e 08             	mov    ecx,DWORD PTR [esi+0x8]
+  41ef42:	3b c8                	cmp    ecx,eax
+  41ef44:	8b fa                	mov    edi,edx
+  41ef46:	73 19                	jae    0x41ef61
+  41ef48:	8b 46 08             	mov    eax,DWORD PTR [esi+0x8]
+  41ef4b:	8b 4e 1c             	mov    ecx,DWORD PTR [esi+0x1c]
+  41ef4e:	89 7c 81 04          	mov    DWORD PTR [ecx+eax*4+0x4],edi
+  41ef52:	8b 4e 08             	mov    ecx,DWORD PTR [esi+0x8]
+  41ef55:	8b 06                	mov    eax,DWORD PTR [esi]
+  41ef57:	41                   	inc    ecx
+  41ef58:	40                   	inc    eax
+  41ef59:	89 4e 08             	mov    DWORD PTR [esi+0x8],ecx
+  41ef5c:	89 06                	mov    DWORD PTR [esi],eax
+  41ef5e:	5f                   	pop    edi
+  41ef5f:	5e                   	pop    esi
+  41ef60:	c3                   	ret
+  41ef61:	8d 0c 85 08 00 00 00 	lea    ecx,[eax*4+0x8]
+  41ef68:	ff 15 88 7d 49 00    	call   DWORD PTR ds:0x497d88
+  41ef6e:	8b 4e 1c             	mov    ecx,DWORD PTR [esi+0x1c]
+  41ef71:	89 46 1c             	mov    DWORD PTR [esi+0x1c],eax
+  41ef74:	c7 46 08 00 00 00 00 	mov    DWORD PTR [esi+0x8],0x0
+  41ef7b:	8b 11                	mov    edx,DWORD PTR [ecx]
+  41ef7d:	89 10                	mov    DWORD PTR [eax],edx
+  41ef7f:	89 01                	mov    DWORD PTR [ecx],eax
+  41ef81:	eb c5                	jmp    0x41ef48

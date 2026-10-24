@@ -1,0 +1,127 @@
+{
+  "directive_callsite_proof": {
+    "elf_sha256": "3a097ca9d9416ec760784bae8f6b63f4016eb8ad48ae9beae7240afd2c2c7979",
+    "owner": "write_output_directives",
+    "symbol_start": 58224,
+    "symbol_size": 115,
+    "offset": 73,
+    "bytes": "ffd0"
+  },
+  "case_id": "numeric-control-flow",
+  "case_inputs": {
+    "a01068ex": "83f26fe13a042a6e5d7139babe23634230edd2fdf4199bebf8b9effcbe29e67a",
+    "a01068gl": "c38e259adbc644283c8f2b9431df0832c17dc74729cdd890df7afd1541c74f7b",
+    "a01068in": "0bbcf997e2cac60b2509b03e4fce81e88a8625eb1952fd1097fc727f83c70b7c",
+    "a01068sy": "7c82aa3c8e48c34374fe30020c45baf03f0784991935a2b8a46f85596af79176",
+    "numeric-control-flow.c": "408a915312a72cbb496a884d696f84e70fb4c8850d50e4697e1d482e5cb7a7d4"
+  },
+  "artifacts": [
+    {
+      "output_name": "numeric-control-flow.obj",
+      "present": true,
+      "path": "artifact-0.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "target_environment_sha256": "4b7aec9e20f9354d5788aeccf96821a9a53a7d8a0de26caaa3473bfc72df4105",
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "resource_sha256": "bba673f819e7f365e1914b6e261a33993611fa172aaf4308ae1ea330996198d8",
+  "kind": "native-linux-gdb",
+  "command": [
+    "/usr/bin/gdb",
+    "-nx",
+    "-batch",
+    "-ex",
+    "set pagination off",
+    "-ex",
+    "set confirm off",
+    "-ex",
+    "set displaced-stepping off",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/append86-native/gdb-prefix.py",
+    "-ex",
+    "run  > /root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/append86-native/stdout.bin 2> /root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/append86-native/stderr.bin",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/append86-native/gdb-state.py",
+    "/root/msvc2/decomp/vc5.10/c2/build/native/c2"
+  ],
+  "candidates": [
+    "@append_output_table@8"
+  ],
+  "base_configuration_sha256": "c7f4dc6831934340aecef37c8c87ada5287eaceef3986f6f5c56dcb460ad1f4e",
+  "configuration_sha256": "6d4c4d84de6caae6fa6b8ddc0fc776b163f6611e4213d41523144def342d67d1",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "native_sha256": "3a097ca9d9416ec760784bae8f6b63f4016eb8ad48ae9beae7240afd2c2c7979",
+  "binary_snapshot_sha256": "3a097ca9d9416ec760784bae8f6b63f4016eb8ad48ae9beae7240afd2c2c7979",
+  "rebuilt_sha256": "05811f45c3616c3b6cc6a14888a84cb73e4355c3b8536edd4f96f335804de4e4",
+  "audit_inputs": {
+    "runtime.json": "7d01cfa8d413a1721dd1639e345a5e0b12fe2707f9d9e9b2bc5704414cb3e577",
+    "build/runtime.json": "e985e0792a3926ca8e7c0fe9fb21f7e091d3033390dd4e9bfd20f4bf3be84e7c",
+    "build/c2.map": "13537a9df2afc20701979a618ba4f7131f078f0ba845cecdb844969425bac627",
+    "build/graph-metadata.json": "a9cc7d317e0d28d7b07f2df987d01673d73a8f57de35da106bcf2e916e0ba747",
+    "graph-audit": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "06bb0be767661a9b93ee74bb44b6c3f55c1ca114f0988dfa40911a0e04a25259",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "e450532797d53f975c94788da78d1fe4b93aed84e5f4daacbfe888c6316ce842",
+    "src/cleanup.c": "ade05818abf0d7dae3de9cdadc21230199beb44759ca8b9a67e98155650cbf5a",
+    "src/coff-output.c": "15144223bb6dcafa92606c0720233fa3d2a29fa9ce69b45caa03d317c149e938",
+    "src/coff-output.h": "4547bd21f439470a73cf5088afd986e16e3f40c9042550f3f750424f81db5e9c",
+    "src/constants.c": "b15da6f76b83a5504621b849605f7b3a69a9064befb4083bd9388e8c344e30b6",
+    "src/diagnostics.c": "95c93ae8c982b7d0f86c5827de2609f74d5586844560869de470a93fcc371fdd",
+    "src/environment.c": "eb7ec037cd1193bdd340a3423461a3fee04d2142c0247d7892747f4a2c0f8cc7",
+    "src/functions.c": "4ed0aad71fc1dcaccecec04f40a741a10c766fe8fb19bc0d3b2de2299317b0d3",
+    "src/functions.h": "549b28e0612f3ccb1e87da95d31c76740a6547c0d67a323b2251a6dfb2cf51a7",
+    "src/il-files.c": "58a7ac5d8f13c7dda8d1dc913562dda04a48633c46c8b2b9573c91d2a226259c",
+    "src/il-input.c": "4e88e1770d37b78dbd5f9cffc95e6a6e1a7ce92b14fa11698368fd6a4fcafc2c",
+    "src/integer-option.c": "88278a1164a17a3a538e614bed713a66d91bef094a140237feed18084e06906a",
+    "src/intrinsics.c": "5c7b33b8f4309a5f52f06ffa39ef7400a64ffde859ec5015192e45bc821915fe",
+    "src/machine-init.c": "b1146313f5683f5014b5d0893e3e766824678334907dd476ef59f4da98663c20",
+    "src/main.c": "091e15ac31d1388207df0c888ae894625d2ee699585f5976e1d3dacc1a4f36b0",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/nodes.c": "76bcc8f03ed1abe6cf73ecddb85d905a55662a66fbbd2461f9e94f2b9454f782",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "9dcb15481f9116e3c301e09c7f2aef04237aeed52bed08a4e7accee6de341ccb",
+    "src/output-callbacks.c": "2586c778163cde5851e6acab099bc5babce73acaf1827730e30e55c0d2834f70",
+    "src/output-callbacks.h": "6a010a0a8213a8dace42fb5c082518f8ad20884df4cda5290bea3ff352ae8791",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/records.c": "c95e36c886048735f81d61a54fba94ceb03df2c1d730be75229e31c4173f8024",
+    "src/sections.c": "59f244022c83efe8aeab955811a5160b824fa68f89b4e813788ecb9e9bc7a6a7",
+    "src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "src/stubs.c": "7295460d2dfa1ff28bc6e6d8a1c36344c9c00a9328d843f793cb72526f750130",
+    "src/symbol-input.c": "e3c4754dfad405f33eb404c18e00525761c8cdff9f24a09578cb4fb4c7bd8360",
+    "src/symbols.c": "3a41f5802e277ca41f13e3280f2e05822967ba2fe9630f5f8cfbe50a0c369efd"
+  },
+  "state_sha256": "c5a6d20a31cbcd7817ba6b794d83b705e8ce986746dca06136eb8dcacfc47e7c",
+  "provenance_sha256": "19f7d925f7c98928c159d998acd945ca2ce084aa42a7942412052fdbdffb19d4",
+  "gdb_inputs": {
+    "gdb-prefix.py": "b30d7903bcf9d4da8d9cfb6df1c0d1cbb7f8a788edef8129cdead3181ec7820c",
+    "gdb-state.py": "c59c29c20c9a646a930c72737c55ca285befdc4102e8e5c7657ace3700219975",
+    "data-model.json": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425"
+  },
+  "gdb_outputs": {
+    "gdb.stdout": "d196613272c4c3f04692fe2c88c5081ef1c432ad4cd067db5c5ef8a3035839c5",
+    "gdb.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-maps.txt": "41604cfb8b148e6e57ec2b6d3353f432be47c86ad8b4e0e4d111a769a955df5b"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 "
+  },
+  "helper_status": 0,
+  "seconds": {
+    "execution": 0.4925113255158067,
+    "total": 0.6323163034394383
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

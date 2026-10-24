@@ -422,3 +422,19 @@ unsigned short __fastcall add_coff_section(char *name, unsigned flags, int flag8
     section->name = name;
     return section->index;
 }
+
+unsigned __fastcall append_output_table(C2OutputTable *table, void *item)
+{
+    C2OutputPage *page, *last;
+    if (table->used >= table->capacity) {
+        page = output_allocate(table->capacity * sizeof(void *) + sizeof(C2OutputPage));
+        last = table->last;
+        table->last = page;
+        table->used = 0;
+        page->next = last->next;
+        last->next = page;
+    }
+    table->last->items[table->used] = item;
+    ++table->used;
+    return ++table->count;
+}

@@ -1,0 +1,55 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 1.5340642146766186,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 2.7853537453338504,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": 1.9067885931581259,
+      "status": 0
+    }
+  ],
+  "original_capture": {
+    "setup": 0.9479268882423639,
+    "execution": 1.9951634537428617,
+    "total": 2.991480558179319
+  },
+  "native_capture": {
+    "execution": 0.4925113255158067,
+    "total": 0.6323163034394383
+  },
+  "audit_seconds": 0.8535393765196204,
+  "protocol_controls": {
+    "fresh": 6,
+    "reused": 147,
+    "seconds": 7.27279454562813
+  },
+  "fresh_affected_controls": {
+    "input": {
+      "fresh": 21,
+      "seconds": 23.71985776349902
+    }
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.010615788400173187,
+      "execution": 0.002001979388296604,
+      "checks": 0.00021123234182596207,
+      "total": 0.013292054645717144
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "failures": "No failed original/native execution or setup for this candidate; actual first freshpair matches."
+}

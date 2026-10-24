@@ -50,7 +50,7 @@ ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})
 ROOTS['coff_reuse_sections']=(0x49e6e0,'coff_reuse_sections')
 
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False):
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False):
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
     pool_words = struct.unpack('<12I', read(addresses['pools'], 48))
     head, cursor, remaining = pool_words[:3]
@@ -193,7 +193,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         assert later_pools[:6] == (0,) * 6, 'unencountered pools5/6 changed'
         writer_head, writer_cursor, writer_remaining = later_pools[6:]
         assert writer_head and writer_head not in (head, directive_head)
-        expected_cursor=(1908 if append_pending else 1884 if symbols_complete else 1872 if source_pending else 1852 if list_constructed else 1344 if list_pending else 1320)if initialized_output else 64
+        expected_cursor=(1908 if append_pending or append_complete else 1884 if symbols_complete else 1872 if source_pending else 1852 if list_constructed else 1344 if list_pending else 1320)if initialized_output else 64
         expected_remaining=4096-expected_cursor
         assert writer_cursor == writer_head + expected_cursor and writer_remaining == expected_remaining
         data = bytearray(read(writer_head, 4096))
@@ -216,9 +216,14 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         assert data[36] == 0
         struct.pack_into('<II', data, 16, 0x60000028, 0x40000006)
         if initialized_output:
-            assert struct.unpack_from('<IH2x6I',data,64)==(0,300,0,0,0,0,writer_head+96,writer_head+96)
+            assert struct.unpack_from('<IH2x6I',data,64)==(1 if append_complete else 0,300,1 if append_complete else 0,0,0,0,writer_head+96,writer_head+96)
             struct.pack_into('<II',data,88,0x60000060,0x60000060)
-            assert data[96:1320]==bytes(1224),'new page/storage initial bytes differ'
+            if append_complete:
+                assert struct.unpack_from('<II',data,96)==(0,writer_head+1884),'first generic table item differs'
+                struct.pack_into('<I',data,100,0x6000075c)
+                assert data[104:1320]==bytes(1216),'remaining page/storage initialized bytes differ'
+            else:
+                assert data[96:1320]==bytes(1224),'new page/storage initial bytes differ'
         if list_constructed:
             assert struct.unpack_from('<6I',data,1320)==(1,0,0,0,0,writer_head+1344)
             assert struct.unpack_from('<I',data,1344)[0]==writer_head+1344
@@ -280,5 +285,16 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
             expected_record=struct.pack('<IIIIHHBBH',0,0,0xa00,0,0,8,0,0,0)
             assert data[1884:1908]==expected_record,'new24B section fields/unwritten allocator bytes differ'
             result['coff_allocations']['pending_section']={'offset':1884,'bytes':24,'data_null':True,'name_null':True,'characteristics':0xa00,'base_offset':0,'index':0,'flags':8,'selection':0,'pending21':'allocator zeroing only; uninterpreted','association':0}
+        if append_complete:
+            name=u32(head+1892+24)
+            expected_record=struct.pack('<IIIIHHBBH',0,name,0xa00,0,1,8,0,0,0)
+            assert data[1884:1908]==expected_record,'inserted section fields/borrowed name/index differ'
+            assert u32(head+1892+70)==1,'actual creator section index DWORD differs'
+            name_id,name_text=string(name)
+            assert name_text=='.drectve'
+            struct.pack_into('<I',data,1888,name_id)
+            result['writer']['pool_bytes']=data.hex()
+            result['coff_allocations']['inserted_section']={'offset':1884,'bytes':24,'data_null':True,'name':name_text,'name_section_alias':True,'characteristics':0xa00,'base_offset':0,'index':1,'flags':8,'selection':0,'pending21':'allocator zeroing only; uninterpreted','association':0}
+            result['coff_allocations']['table_state']={'count':1,'used':1,'capacity':300,'first_offset':96,'last_offset':96,'first_item_offset':1884,'remaining_items':'allocator zeroing only'}
         result['coff'] = copied
     return result
