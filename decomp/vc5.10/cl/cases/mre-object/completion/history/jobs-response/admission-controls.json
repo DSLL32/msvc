@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "count": 12,
+  "controls": [
+    "baseline",
+    "wrong case",
+    "analysis flag",
+    "other dependency",
+    "unmasked",
+    "unknown marker",
+    "helper failure",
+    "cache requires exact Jobs family",
+    "owned initial IDB",
+    "owned final IDB",
+    "owned namespace",
+    "owned oracle"
+  ],
+  "seconds": 0.17545940075069666,
+  "sources": {
+    "check-mre-jobs-admission.py": "1f904658d13b9e0fd377ca61c88dbaada35c935d58cf7e9b430586a000f11994",
+    "accept.py": "7543bd226a18af3073ac34a49f2b0dd0ceea00661e66b9e9d7d44448f81badfc",
+    "mre_native.py": "2d6f760395a364972c2a91b36d50686f57c9615aa9cc3efa0d2d3d831dfe7caa"
+  },
+  "cached_contract_sha256": "9a4d0197ca8536ca23e9c1d16b9b5d72e55ed0b746961fb4ac226fc2cd2479ee"
+}

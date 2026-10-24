@@ -1,0 +1,1 @@
+Historical pre-use/source review manifests are informational provenance, preserving original paths/hash bytes. Actual executed target/helper/input/source closures remain in final original capture and native receipts. Old workspace path hashes are never silently rebound.

@@ -1,0 +1,521 @@
+{
+  "candidate": "_jobs_from_deferred",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "18e6943378d4f104c2a680c1c613feb8ef52dbf785e72013d97070b1bda22a15",
+  "rebuilt_sha256": "d31099eab7520d2d968396ceb4edff917249ae4c40fa61f407045b38df03f00e",
+  "trial_mask_sha256": "db74881706677eb6f5ca53db26967b996675d74e4b1c56795af44e464de08f45",
+  "platform": "native",
+  "trial_identity": "ef145bc1e23baf569847bf556ab48b465042f7a5a54a9a67856766647ad322ea",
+  "config_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/config.json",
+    "sha256": "492f11a5d9880f299d4031195f70b0cad7dda2dc13a25a6ad093f045c5a1b052"
+  },
+  "case": "mre-object",
+  "arguments": [
+    "/nologo",
+    "/Gm",
+    "/Zi",
+    "/c",
+    "/DVALUE=7",
+    "/Fdcase.pdb",
+    "test.obj"
+  ],
+  "files": {
+    "stdout": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/stdout.bin",
+      "sha256": "21e6f366ad477da99f24c65c932736f96032ae3b9ec925d1ece8a3085dc5fcb0"
+    },
+    "stderr": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/stderr.bin",
+      "sha256": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b"
+    },
+    "state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/state.json",
+      "sha256": "9a0b11d09920ec88e4b226ae5910f2a7f819f92398f45fb72b9c164189b140af"
+    },
+    "trace": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/trace.txt",
+      "sha256": "3190882dc0250823c604bdc47077c4622f197610fec91712b072b59bd40002fd"
+    },
+    "debugger": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/debugger.txt",
+      "sha256": "7dacf1a3f28e86dfc736caaa3114a96388eed9eacd23239fa65c5f48c4714685"
+    },
+    "raw:trace-filter.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/trace-filter.txt",
+      "sha256": "36c846e7ed538aed01d4e0e90774ca5ac3cef52cb41a422a68dcc3f439449592"
+    },
+    "raw:trace-seen.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/trace-seen.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw:exec-wrapper.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/exec-wrapper.py",
+      "sha256": "21a21323b2e1b69b1174342c5dbbf91cfd3331ad7b3fd894b3f1ffc6c41b8b58"
+    },
+    "resource_provider": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/resources.bin",
+      "sha256": "3e97a6c6c3d1dacf1f7bd887299d7c771cf642ee190517a1979b878dd596fcd8"
+    },
+    "raw:capture.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/capture.json",
+      "sha256": "955cf0c3fc030707d5987ead02d2532484a759bf8dfdcbe615c613097fcae2c2"
+    },
+    "raw:streams-mre-1-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-1-before-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:streams-mre-5-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-5-after.json",
+      "sha256": "67d5bed4caf3e2008770b2cea7831d631791c9de54c6a4651b98ecd8404f4bfc"
+    },
+    "raw:streams-lower-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-lower-before.json",
+      "sha256": "ca284bdf281f6ae1c24a0d8082b2faa3c7a7c6c19e603be41bc16e8f356f4acd"
+    },
+    "raw:native-mre-6-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-6-before-gdb.json",
+      "sha256": "538634752d4e9e26a561086b51569d7fdd8200a59bb4f1cc750b56bce7be490a"
+    },
+    "raw:gdb-frontier.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/gdb-frontier.py",
+      "sha256": "d3045f46e7952fb5da492b635be44de95dc827c084cc44f9586a4daa045bcc5a"
+    },
+    "raw:mre-binding.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/mre-binding.bin",
+      "sha256": "f855afa391d15969c0fbc8e5036e044c094fee71c9300a41cd08b39dbddfe238"
+    },
+    "raw:streams-jobs-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-jobs-after-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:streams-mre-6-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-6-before-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:resources.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/resources.bin",
+      "sha256": "3e97a6c6c3d1dacf1f7bd887299d7c771cf642ee190517a1979b878dd596fcd8"
+    },
+    "raw:native-driver-exit-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-driver-exit-gdb.json",
+      "sha256": "195925eeb244e285c9e85184299657eb6acd382fe7bc55f1f0c3ba21939fcb64"
+    },
+    "raw:native-mre-3-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-3-after-gdb.json",
+      "sha256": "7d3b4590f3f94e6d51844af0883d1a2cdf90f28443db42885c8306e2bf62bb92"
+    },
+    "raw:streams-entry-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-entry-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:streams-compare-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-compare-before.json",
+      "sha256": "ca284bdf281f6ae1c24a0d8082b2faa3c7a7c6c19e603be41bc16e8f356f4acd"
+    },
+    "raw:streams-mre-4-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-4-after-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:streams-mre-2-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-2-after.json",
+      "sha256": "c206ee8f11c3df630d395de20f7e76cceace632bba50bddafc96b3192696e887"
+    },
+    "raw:native-mre-4-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-4-after-gdb.json",
+      "sha256": "42d9ba76264272f87706217678baebaf7c76b61221268166e7983a06b33acdca"
+    },
+    "raw:streams-mre-2-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-2-before.json",
+      "sha256": "08fa54a5c39225e628da6bffde05a8a37de5f2c3fd356eb5d70b7c035cb69230"
+    },
+    "raw:mre-response.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/mre-response.json",
+      "sha256": "ca99a3a940fea085cc685f46effce6da455dacb1b0741a5fcb220eed27026ae4"
+    },
+    "raw:streams-compare-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-compare-after-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:case.idb": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/case.idb",
+      "sha256": "4469e5baa30d6e00dd593a3c6d09af1dd2d6ca47d88a11f21fa9772772bee82c"
+    },
+    "raw:streams-mre-1-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-1-after-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:native-compare-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-compare-after-gdb.json",
+      "sha256": "4c3411c6b6a87d1c50eb4d2f9d7652edecd34f9d4caf06c7e38570fa4d2eead5"
+    },
+    "raw:test.obj": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/test.obj",
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    "raw:streams-mre-4-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-4-before-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:streams-driver-exit.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-driver-exit.json",
+      "sha256": "268f2ecf7346857ae6aef6f47d6abc2cc95a13dee0f7796e598dd78a372e655a"
+    },
+    "raw:streams-entry.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-entry.json",
+      "sha256": "be8fa9071dbd7af9cdb0bb3c42a3b93a46936bb09194355639200c3500be8faf"
+    },
+    "raw:streams-mre-4-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-4-before.json",
+      "sha256": "ca284bdf281f6ae1c24a0d8082b2faa3c7a7c6c19e603be41bc16e8f356f4acd"
+    },
+    "raw:streams-mre-3-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-3-after-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:streams-mre-3-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-3-before-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:gdb_entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    "raw:streams-mre-6-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-6-after-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:native-mre-4-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-4-before-gdb.json",
+      "sha256": "faae22ca89d9b288a48eb647f06e410daecc0d90082711cbeedd911912535a1e"
+    },
+    "raw:streams-jobs-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-jobs-before-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:terminal-status.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/terminal-status.bin",
+      "sha256": "cddf633c4f16b1b9c26c98158336cd94d0e761142bbbd3b3cb9edae14585f65e"
+    },
+    "raw:streams-mre-6-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-6-before.json",
+      "sha256": "67d5bed4caf3e2008770b2cea7831d631791c9de54c6a4651b98ecd8404f4bfc"
+    },
+    "raw:native-mre-6-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-6-after-gdb.json",
+      "sha256": "b421b620c01f1e4fd7365f287d490b655d124d1839c7a73c2f5178436abea617"
+    },
+    "raw:native-mre-1-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-1-after-gdb.json",
+      "sha256": "eced2b480a61342d3f01a9fa74bcd7f2987c8ad5cf49e9a04ce538394c090f3f"
+    },
+    "raw:native-mre-5-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-5-before-gdb.json",
+      "sha256": "e14bdbee9a3326910489003ca7d1c250876de3e401881ce7d3eeeac29cd4718b"
+    },
+    "raw:gdb_mktemp.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    },
+    "raw:mktemp-expected.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/mktemp-expected.json",
+      "sha256": "742cc83a3ab65723662b4f74ff177dda855c6686c5d2f84def8337b9e2238b54"
+    },
+    "raw:native-lower-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-lower-before-gdb.json",
+      "sha256": "5f0e5205b096c257172db0f9983b4bf535f125518582c2431f8309439a222910"
+    },
+    "raw:trace.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/trace.txt",
+      "sha256": "3190882dc0250823c604bdc47077c4622f197610fec91712b072b59bd40002fd"
+    },
+    "raw:native-jobs-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-jobs-before-gdb.json",
+      "sha256": "5553c0c081c9c6bfaf41ab9f72923965751659e0724a821288a9bae86df345e8"
+    },
+    "raw:native-build.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-build.json",
+      "sha256": "3cda21320deba3f3973d4e0715eba8c495acb710f02673b3ca6f839866496234"
+    },
+    "raw:streams-compare-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-compare-before-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:native-lower-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-lower-after-gdb.json",
+      "sha256": "ea5ed1941e280718f545f4c2bf8325c1b259d04e945e1114abb65390d41e77de"
+    },
+    "raw:gdb_streams.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/gdb_streams.py",
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    "raw:status_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/status_reader.py",
+      "sha256": "c024324ec793ad97838fbc040b5d6c2873422764441611bd3918d3e0e3397a65"
+    },
+    "raw:streams-mre-5-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-5-before.json",
+      "sha256": "7f53d7290a7589482c2d318e9c42c79b544e8731c0b54de9e4fcdfbb2da248f0"
+    },
+    "raw:streams-driver-exit-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-driver-exit-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:streams-mre-1-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-1-after.json",
+      "sha256": "08fa54a5c39225e628da6bffde05a8a37de5f2c3fd356eb5d70b7c035cb69230"
+    },
+    "raw:native-mre-3-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-3-before-gdb.json",
+      "sha256": "9dc68dcd6809f503efe2f5822fba943b701e41fe06f765b2c9ab98f260937502"
+    },
+    "raw:native-entry-errors.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-entry-errors.json",
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c"
+    },
+    "raw:native-mktemp-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mktemp-gdb.json",
+      "sha256": "df3dc77e05e5d49b7d6270918d79248e8e5c7e74b28d498e5defdc2924dd2611"
+    },
+    "raw:mre-native.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/mre-native.json",
+      "sha256": "9be507059daa3a7596420ac2efd5891abddde59d560c9b4a7962909fa97fc31d"
+    },
+    "raw:streams-mre-6-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-6-after.json",
+      "sha256": "3513e810dde148b61ac0e95b56a8c763081425a2dde7202bd123139ae36d51ad"
+    },
+    "raw:native-compare-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-compare-before-gdb.json",
+      "sha256": "7eb0fe4b7f3aed49d5d6b9b777213dad7409649a0d24880fbdce44c2e9f04530"
+    },
+    "raw:gdb_mre.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/gdb_mre.py",
+      "sha256": "584b543271190060cb92874af3f43992d27fc7593b7b8b4c7c142ec2d74e02f8"
+    },
+    "raw:streams-jobs-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-jobs-after.json",
+      "sha256": "7f53d7290a7589482c2d318e9c42c79b544e8731c0b54de9e4fcdfbb2da248f0"
+    },
+    "raw:streams-mre-5-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-5-before-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:native-state-verification.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-state-verification.json",
+      "sha256": "e111caa488635bb83f1c2c902a6d6a312c08d3ba0b9b399060fbf191cf109acc"
+    },
+    "raw:native-jobs-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-jobs-after-gdb.json",
+      "sha256": "3d342b5f9207e94d52b3c76739c6e430c28cc1c4e42ffa5b82eac8fb78ee82c3"
+    },
+    "raw:streams-mre-2-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-2-before-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:native-mre-2-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-2-before-gdb.json",
+      "sha256": "9619702b7c221dcc8f54d15db187216d382f3d3947870d7074b95ec9521f0214"
+    },
+    "raw:config.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/config.json",
+      "sha256": "492f11a5d9880f299d4031195f70b0cad7dda2dc13a25a6ad093f045c5a1b052"
+    },
+    "raw:streams-compare-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-compare-after.json",
+      "sha256": "ca284bdf281f6ae1c24a0d8082b2faa3c7a7c6c19e603be41bc16e8f356f4acd"
+    },
+    "raw:streams-lower-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-lower-after.json",
+      "sha256": "ca284bdf281f6ae1c24a0d8082b2faa3c7a7c6c19e603be41bc16e8f356f4acd"
+    },
+    "raw:debugger.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/debugger.txt",
+      "sha256": "7dacf1a3f28e86dfc736caaa3114a96388eed9eacd23239fa65c5f48c4714685"
+    },
+    "raw:gdb-entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/gdb-entry.py",
+      "sha256": "32b316ecaeb93d2b586fd54f14aeedf2033d86967b8daffc511fbb2fba970942"
+    },
+    "raw:streams-mre-2-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-2-after-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:native-mre-2-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-2-after-gdb.json",
+      "sha256": "8244283735740371192d0127837e01d0883b7a94eec25a1cf5786f834eb024ea"
+    },
+    "raw:streams-mre-1-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-1-before.json",
+      "sha256": "bf924c921771ddee1270bb0cc7024efa57bc65800682392c06b6b7ba30a24709"
+    },
+    "raw:native-prefix.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-prefix.json",
+      "sha256": "88c887ebf303f0dcac2c5a14125bc952605d1b7db9709318b351363210027dd7"
+    },
+    "raw:native-mre-1-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-1-before-gdb.json",
+      "sha256": "b6bdf95fc9591d6e7a88b6ca6ea466febf3ce43dafcb4a6adc0faa086b93a211"
+    },
+    "raw:streams-lower-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-lower-after-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:stderr.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/stderr.bin",
+      "sha256": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b"
+    },
+    "raw:native-mre-5-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-mre-5-after-gdb.json",
+      "sha256": "365d01d9539a0c0b7211462c5a6891a49055d26bb04cba0f7fc6ee1149a064b8"
+    },
+    "raw:native-process.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-process.json",
+      "sha256": "9d1551e76e6d302e4c768ed0e3a13e1691b57da85049466a54b8da584c091fbb"
+    },
+    "raw:streams-mre-5-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-5-after-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:streams-mre-3-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-3-after.json",
+      "sha256": "ca284bdf281f6ae1c24a0d8082b2faa3c7a7c6c19e603be41bc16e8f356f4acd"
+    },
+    "raw:streams-jobs-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-jobs-before.json",
+      "sha256": "7f53d7290a7589482c2d318e9c42c79b544e8731c0b54de9e4fcdfbb2da248f0"
+    },
+    "raw:streams-mre-3-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-3-before.json",
+      "sha256": "c206ee8f11c3df630d395de20f7e76cceace632bba50bddafc96b3192696e887"
+    },
+    "raw:native-execution.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-execution.json",
+      "sha256": "d95cf686699d7b756b6d176315c75a448147d95fb3df0bd0cb786f9d44266d77"
+    },
+    "raw:streams-mre-4-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-mre-4-after.json",
+      "sha256": "7f53d7290a7589482c2d318e9c42c79b544e8731c0b54de9e4fcdfbb2da248f0"
+    },
+    "raw:streams-lower-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/streams-lower-before-iob.bin",
+      "sha256": "b2b2fb0d6d0513566e2e1c6c467e9f525b60f3a3d5d7ff431aeefd9742d8b901"
+    },
+    "raw:stdout.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/stdout.bin",
+      "sha256": "21e6f366ad477da99f24c65c932736f96032ae3b9ec925d1ece8a3085dc5fcb0"
+    },
+    "raw:__pycache__/gdb_entry.cpython-313.pyc": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/__pycache__/gdb_entry.cpython-313.pyc",
+      "sha256": "c282115b16ab0871af14458d784b0d951010130385490388641ba9e29c06c71e"
+    },
+    "raw:__pycache__/gdb_mktemp.cpython-313.pyc": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/__pycache__/gdb_mktemp.cpython-313.pyc",
+      "sha256": "934092604a8e071dda9550ac2d6463b69220546ac08c58393dc7d54e987853f8"
+    },
+    "raw:__pycache__/gdb_streams.cpython-313.pyc": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/__pycache__/gdb_streams.cpython-313.pyc",
+      "sha256": "63bfe87b248b6abe74e4b1a642f766fcfc349ee578637b463d0bf6edd18e8fd5"
+    },
+    "raw:__pycache__/gdb_mre.cpython-313.pyc": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/__pycache__/gdb_mre.cpython-313.pyc",
+      "sha256": "40abf517d2e1d0445534ef068a0f09e2e6ab0538b5e2f9d89ab0a5e0deafcd39"
+    },
+    "raw:__pycache__/status_reader.cpython-313.pyc": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/__pycache__/status_reader.cpython-313.pyc",
+      "sha256": "10aa991f68a68d4bb3246956d6a865fa19281a64af3aa53830451c6e9e85d32c"
+    },
+    "raw:source-snapshots/sort_native_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/sort_native_state.py",
+      "sha256": "ec9d0882afde3bc5df23fb8229a890c4aed0a77c12656e1e8f9285c18b94b9b8"
+    },
+    "raw:source-snapshots/gdb_mre.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/gdb_mre.py",
+      "sha256": "584b543271190060cb92874af3f43992d27fc7593b7b8b4c7c142ec2d74e02f8"
+    },
+    "raw:source-snapshots/mbslwr_sort_packet.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/mbslwr_sort_packet.py",
+      "sha256": "b1ad291b251fc97f588908463bf716235188e14305c0fb3e6918b479f9a3c637"
+    },
+    "raw:source-snapshots/mre_jobs_controls.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/mre_jobs_controls.py",
+      "sha256": "27dde949f5876b04563d7d2762e62aae38a82a191698dfa63b24667a2455f362"
+    },
+    "raw:source-snapshots/mre_jobs_outcome.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/mre_jobs_outcome.py",
+      "sha256": "81465fae00484aed9082fccb8e89ed2e216021b1da12b89c901623bd5a384106"
+    },
+    "raw:source-snapshots/mre_elf.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/mre_elf.py",
+      "sha256": "5bc0e640ba10e494489dc87cc5ee8b4b7abae876aeb2661e455776263a81c9c6"
+    },
+    "raw:source-snapshots/mre_native.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/mre_native.py",
+      "sha256": "6acc8388a78ad674f654e701346a71f5f59d2c1f073d45e15f2f2f1838e5f41c"
+    },
+    "raw:source-snapshots/gdb_streams.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/gdb_streams.py",
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    "raw:source-snapshots/mre_jobs_lifecycle.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/mre_jobs_lifecycle.py",
+      "sha256": "b18c29bc52efb4b1333a022921b95364925a15ca04522453930e5fca0e6a70b0"
+    },
+    "raw:source-snapshots/dependency_packet.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/dependency_packet.py",
+      "sha256": "d358cae7b7aca10ace1ff375cea2da40cbaade33ef5e88e9bdee75f57225c9e2"
+    },
+    "raw:source-snapshots/selector_native_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/selector_native_state.py",
+      "sha256": "d23360eda82b0702fc73dba3dc164cbf86fcc7ea0b84a715445f0d218358a40e"
+    },
+    "raw:source-snapshots/mktemp_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/mktemp_state.py",
+      "sha256": "b71d1d6ae0925fed854b4de1a0f4557be20ac23a419b86da9a96523976cdc1d8"
+    },
+    "raw:source-snapshots/native-mre-prefix.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/native-mre-prefix.py",
+      "sha256": "abc66e3656c895a190e4afbb4c8b0596c17ae27016b4141f4c8d082357e8f2d0"
+    },
+    "raw:source-snapshots/mre_jobs_packet.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/mre_jobs_packet.py",
+      "sha256": "1c7963051bb79b638ee11c2f589b90e45a8a69602a34827eb111ff0db998645f"
+    },
+    "raw:source-snapshots/gdb_entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    "raw:source-snapshots/native_status.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/native_status.py",
+      "sha256": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d"
+    },
+    "raw:source-snapshots/case_inputs.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/case_inputs.py",
+      "sha256": "3b8dde32c7b7eb6eb4a8bfe60f4ea5fc44fdc991945862ccbfb270550dc1b366"
+    },
+    "raw:source-snapshots/jobs_native_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/jobs_native_state.py",
+      "sha256": "26aac9add34c88605582b143d141257b7e2d0e07ceaeeef770cb8b6e287b060d"
+    },
+    "raw:source-snapshots/dependency_response.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/dependency_response.py",
+      "sha256": "b7418089b7327d58a1e57e2ad78c2aa6540c4dd8203886e2d23a0bc9bcb41bc1"
+    },
+    "raw:source-snapshots/gdb_mktemp.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    },
+    "raw:source-snapshots/mre_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/mre_state.py",
+      "sha256": "6695dfe6b5338f593af6a812d0475062195f1e68c00033664fa14978e33d670f"
+    },
+    "raw:source-snapshots/dependency_native.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/source-snapshots/dependency_native.py",
+      "sha256": "0a6b97790bf4d1585c58eb93958e7b5afa8487ac05c44c44c10f00fa1cae7961"
+    }
+  },
+  "native_build": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-build.json",
+    "sha256": "3cda21320deba3f3973d4e0715eba8c495acb710f02673b3ca6f839866496234"
+  }
+}

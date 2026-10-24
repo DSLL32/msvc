@@ -4,7 +4,7 @@
 #include <recon.h>
 
 /* External MSPDB50 objects remain opaque. Only the exported call ABI is
- * established here; no successful native MRE operation is implemented. */
+ * established here; case-bound native responses live in the external host. */
 typedef struct Mre Mre;
 typedef struct MreDriver MreDriver;
 DECLSPEC_IMPORT BOOL WINAPI MREFOpenByName(Mre **, const char *, int *, char *, BOOL, BOOL);

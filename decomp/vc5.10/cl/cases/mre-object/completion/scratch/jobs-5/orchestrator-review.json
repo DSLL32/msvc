@@ -1,0 +1,15 @@
+{
+  "manifest_sha256": "a8e9bbc60b93097832c592614a3523a11f45b55687659d52663f24f12329a044",
+  "verified_bindings": 52,
+  "independent_current_accept_review_only_seconds": 6.921028828248382,
+  "positive_sha256": "d82e1e2e0bac56e4a6927b6fdc52f28077d69fe1a3bd66255d352b2688daf9b6",
+  "source_review": "Readable49B jobs application function and strict external provider only: JobsRCM1v2 exact initial/final25600B, genuine existing sopen/write/seek/close, mandatory6 calls/12typed boundary kinds, exact opaque roles/state/input and lifecycle; no manual flags/app/error reseed on Release/Close. Original Win32 source/IAT graph remains genuine.",
+  "actual_native_proof": "Fresh native5 exact entry/return ESP/args/nonvolatile/FP/state/FILE/stdaliases, ACTUAL callerEBP+16 pending pointer+20B at Release/Close, jobs NULL arg/return and own driver_exit relations. Full original public observation ends postClose, native exit own relations explicitly separate.",
+  "outcome": "Actual50B stdout/61Bstderr/72app entries/DWORD0/final25600B match, one mktemp actualtemplate/alias/errors. Prior count48 correction1ba75e99 retained.",
+  "controls": "35 final fresh affected controls source-before/after guarded,12 admission/cache controls and35protocol,40 originalrawguard+3outcome provenance reviewed. Preliminary mixed32 campaign superseded honestly with historical exact source recovery. Parent reran fullcurrentacceptreview only, not70s campaign or14fixtures.",
+  "resources": "Independently reverified original actualAPI buffers and rebuilt Win32 resources, contextual4021 record45318/lang1033/19UTF16 chars, normal shared encountered-only provider5690B. No bulk resources/app credit.",
+  "cached_fixture": "Independent74 owned payload hashes and canonicalpacket identity verified. No raw decoder/GDB/Wine in execution; complete actual protocol/input/state/output/file/status/trace/mktemp checked. Cached flag explicitly rejected as fresh. Worker14fixtures4.1205s,latestMRE.2567s/ELF.06457s; no parentfixture rerun.",
+  "qualifications": "Private provider object/heap/lock/thread/alloc tails and full qsortarray/census unobserved, no universal conformance or compile-case claim. Last original fullpublic snapshot postClose. External state replay only at authenticated dependency boundary.",
+  "release": "Release ordinary successful whole49B application acceptance/scoped commit and current case completion. No new original/broad reruns for review; next console-case concrete plan separately reviewed.",
+  "review_setup": "Cache canonical hash check initially added an incorrectnewline; corrected parent to real encoded() serializer, immutable bytes unchanged."
+}

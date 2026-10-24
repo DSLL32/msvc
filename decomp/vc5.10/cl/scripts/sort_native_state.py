@@ -14,9 +14,9 @@ def indirect_call(layout,address,owner):
     return pc+layout.bias
 
 
-def verify_tail(provider,directory,layout,pid,observations,previous):
+def verify_tail(provider,directory,layout,pid,observations,previous,jobs=False):
     directory=Path(directory);packet=provider.packet;original=provider.original
-    assert packet['signature_frontier']['symbol']=='jobs_from_deferred'
+    if not jobs:assert packet['signature_frontier']['symbol']=='jobs_from_deferred'
     from mre_native import decode
     response=json.loads((directory/'mre-native.json').read_bytes())
     previous=decode(bytes.fromhex(response['requests'][6]['payload_hex']))
@@ -104,6 +104,9 @@ def verify_tail(provider,directory,layout,pid,observations,previous):
             first_memory=state(first)[1]
             assert m.words(a['items'],a['count'])==first_memory.words(a['items'],a['count'])
         callback_records.append(r)
+    if jobs:
+        from jobs_native_state import verify_tail as verify_jobs
+        return verify_jobs(provider,directory,layout,pid,observations,callback_call)
     r=json.loads((directory/'native-mre-frontier-gdb.json').read_bytes());derived,m=common(r,'mre-frontier');a=r['arguments'];g=r['general']
     pc=g['eip']-layout.bias-1
     assert layout.instructions[pc]==b'\xcc'and layout.owners[pc]=='jobs_from_deferred','not authentic deferred-jobs INT3'

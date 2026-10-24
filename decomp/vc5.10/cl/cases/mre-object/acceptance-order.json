@@ -31,6 +31,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/comparator-4/pair.json",
         "sha256": "12c7cc23523862f5aea30664cbe63a305c205d6709c657e66fee404c52700a09"
       }
+    },
+    {
+      "order": 4,
+      "candidate": "_jobs_from_deferred",
+      "class": "application",
+      "extent_bytes": 49,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5/pair.json",
+        "sha256": "3f2bdf0ccea5d98d419837735f06e54d4ded6816ad6177c2566c9b93032ea2ed"
+      }
     }
   ]
 }

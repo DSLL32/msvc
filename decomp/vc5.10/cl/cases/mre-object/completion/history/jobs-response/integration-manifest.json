@@ -1,0 +1,277 @@
+{
+  "schema": 1,
+  "scope": "Final Jobs49B plus actual six-call MRE completion/cached Linux fixture; application index still unchanged",
+  "files": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5/pair.json",
+      "sha256": "3f2bdf0ccea5d98d419837735f06e54d4ded6816ad6177c2566c9b93032ea2ed",
+      "bytes": 47382
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-response/packet.json",
+      "sha256": "79cbddc5d1b5f343a60c7a569a201d2c5c2368adf4c321d43fc1e8a040a1f71e",
+      "bytes": 1353282
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-response/parent-review.json",
+      "sha256": "7912e104242e1907d59eaeaa913983679d01652919c7e755b15ec3b4c240d360",
+      "bytes": 1994
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-response/controls.json",
+      "sha256": "1282a9eb295489cf6417a35f63175742de434b54f634c188ae732063d9720348",
+      "bytes": 2024
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-response/outcome-controls.json",
+      "sha256": "b7f952c48ef5289ce96fea2c1c1aee436d2e70f35a8e49c808a4a60b4a81d5d8",
+      "bytes": 714
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-response/native-controls-v2.json",
+      "sha256": "304c154e42601c2c18eb545eb91539d2574c706853d5ab7a8f2df7baab7f594b",
+      "bytes": 2162
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-response/admission-controls.json",
+      "sha256": "ba6c86dbbc999e67038c07f69c5da90ef97e74ba4a4737c0532a832dfcd3f111",
+      "bytes": 752
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-response/protocol-controls.json",
+      "sha256": "6f3510e99d7ef47d7b708beefa20906031cc8642f45f6ce3f59fecc55d682b53",
+      "bytes": 626
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-response/prepare-mre-reference-v1.py",
+      "sha256": "df93d7d5a65930354dec6c9851e9d7b5e13757d88ac94ac3452e849291e45158",
+      "bytes": 2068
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-1-original/capture.json",
+      "sha256": "5a77963d9fec273c9790ce12c452e128cd04e205a4520367f2ae6642de62fa7b",
+      "bytes": 554701
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/capture.json",
+      "sha256": "955cf0c3fc030707d5987ead02d2532484a759bf8dfdcbe615c613097fcae2c2",
+      "bytes": 18137
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-prefix.json",
+      "sha256": "88c887ebf303f0dcac2c5a14125bc952605d1b7db9709318b351363210027dd7",
+      "bytes": 1409
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-execution.json",
+      "sha256": "d95cf686699d7b756b6d176315c75a448147d95fb3df0bd0cb786f9d44266d77",
+      "bytes": 6351
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-5-native/native-state-verification.json",
+      "sha256": "e111caa488635bb83f1c2c902a6d6a312c08d3ba0b9b399060fbf191cf109acc",
+      "bytes": 880
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/build/fixture-times.json",
+      "sha256": "9195838591e2dca9ee14ac1cdf58313d4f303388453e45f7b06949bce1a81210",
+      "bytes": 8117
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/build/fixture-mre-times.json",
+      "sha256": "e9975f767d5f083743ab9f0c0821cad75b259e726c759fdadbf592d8839fa715",
+      "bytes": 510
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-provider.c",
+      "sha256": "972a9bac5aeaf883106db3b961dcefeea8c9c17b358164e946d688591f17bf06",
+      "bytes": 15258
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-host.c",
+      "sha256": "11cc279aa5bf63cb3a74bcf19d347d85c9361b01337997f5d8f2d9f2244d1a62",
+      "bytes": 1546
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/native-host.c",
+      "sha256": "912cfc5d912a525d67cc20ba8f467dbb43f5d45446c6461a3652fdb8379cca4e",
+      "bytes": 6095
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_native.py",
+      "sha256": "6acc8388a78ad674f654e701346a71f5f59d2c1f073d45e15f2f2f1838e5f41c",
+      "bytes": 18816
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_state.py",
+      "sha256": "6695dfe6b5338f593af6a812d0475062195f1e68c00033664fa14978e33d670f",
+      "bytes": 17231
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_projection.py",
+      "sha256": "ac35abebad5d4b5c35a67ab534c5cda4d758419f99519974cf9d6e9d939940b7",
+      "bytes": 7688
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_jobs_projection.py",
+      "sha256": "8bba304eb7648418371a96db2d0ee20af773202a0daef3d2f20be36e69011f25",
+      "bytes": 2369
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/jobs_native_state.py",
+      "sha256": "26aac9add34c88605582b143d141257b7e2d0e07ceaeeef770cb8b6e287b060d",
+      "bytes": 4526
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/sort_native_state.py",
+      "sha256": "ec9d0882afde3bc5df23fb8229a890c4aed0a77c12656e1e8f9285c18b94b9b8",
+      "bytes": 8163
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_elf.py",
+      "sha256": "5bc0e640ba10e494489dc87cc5ee8b4b7abae876aeb2661e455776263a81c9c6",
+      "bytes": 5731
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/gdb_mre.py",
+      "sha256": "584b543271190060cb92874af3f43992d27fc7593b7b8b4c7c142ec2d74e02f8",
+      "bytes": 17609
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/native-mre-prefix.py",
+      "sha256": "abc66e3656c895a190e4afbb4c8b0596c17ae27016b4141f4c8d082357e8f2d0",
+      "bytes": 11064
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/native_status.py",
+      "sha256": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d",
+      "bytes": 1072
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_jobs_packet.py",
+      "sha256": "1c7963051bb79b638ee11c2f589b90e45a8a69602a34827eb111ff0db998645f",
+      "bytes": 22760
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_jobs_lifecycle.py",
+      "sha256": "b18c29bc52efb4b1333a022921b95364925a15ca04522453930e5fca0e6a70b0",
+      "bytes": 7210
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_jobs_outcome.py",
+      "sha256": "81465fae00484aed9082fccb8e89ed2e216021b1da12b89c901623bd5a384106",
+      "bytes": 1628
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_jobs_controls.py",
+      "sha256": "27dde949f5876b04563d7d2762e62aae38a82a191698dfa63b24667a2455f362",
+      "bytes": 767
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/check-mre-jobs-native.py",
+      "sha256": "9e29c57221fe77fad8369c9ee754eba10ed72282028c78ebe02921d22f3f2394",
+      "bytes": 4741
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/check-mre-jobs-admission.py",
+      "sha256": "1f904658d13b9e0fd377ca61c88dbaada35c935d58cf7e9b430586a000f11994",
+      "bytes": 2473
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/check-mre-jobs-response.py",
+      "sha256": "05a9d9d94c7388954ca1ff7e8245601e9fd38180230a3d0e3ea90cd5902b6796",
+      "bytes": 5097
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/prepare-mre-reference.py",
+      "sha256": "e9eeb6603e3d83e2aa9513d1acff69b8bb4642ad64f64c749e9b2c9c4f9cfec8",
+      "bytes": 3393
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/fixture-mre.py",
+      "sha256": "d16113795dc080e020076f618e6d85a284987fef1de61f2a95e977004fff775d",
+      "bytes": 5222
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/fixtures.py",
+      "sha256": "931d9ab8a118d7e70e611d4a240f57d953fdcf5f9bd08258202f025a17bf916f",
+      "bytes": 1490
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/accept.py",
+      "sha256": "7543bd226a18af3073ac34a49f2b0dd0ceea00661e66b9e9d7d44448f81badfc",
+      "bytes": 19936
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/state.py",
+      "sha256": "78642e02f35c34eebd71334a1224d91fa2f6210a59ae49064614394620fa319e",
+      "bytes": 17928
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/pair.py",
+      "sha256": "fe971d1a99a5a0bde180b2ce4b3201300955ccf28b5f1601c5f671fe776b8572",
+      "bytes": 9614
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/dependency_response.py",
+      "sha256": "b7418089b7327d58a1e57e2ad78c2aa6540c4dd8203886e2d23a0bc9bcb41bc1",
+      "bytes": 28789
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mbslwr_sort_packet.py",
+      "sha256": "b1ad291b251fc97f588908463bf716235188e14305c0fb3e6918b479f9a3c637",
+      "bytes": 4736
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/resources.py",
+      "sha256": "9f814601d1e0d247ceaba77a24b3eb3dda74817598b910d2976ddf98cdf6d389",
+      "bytes": 9517
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/src/jobs.c",
+      "sha256": "13764b608d4a813f662479a844152057e35c924a7b64fc9581470c4babdcecfa",
+      "bytes": 547
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/src/messages.rc",
+      "sha256": "d656b4500db240f65157c9a622e5069fba62cb29f0c6c2b37afba897aaa46e52",
+      "bytes": 5382
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/resources.json",
+      "sha256": "2eb68e42e78cd3a38ed3be894920eb72d57a5b795dc795aa4e2d2175af84f9e5",
+      "bytes": 2054
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/reference/fixture.json",
+      "sha256": "7d929be9c7790c9da2ffade6bd314a7cf697c90339e4475173091efe5151671b",
+      "bytes": 4789
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/reference/cached-contract.json",
+      "sha256": "9a4d0197ca8536ca23e9c1d16b9b5d72e55ed0b746961fb4ac226fc2cd2479ee",
+      "bytes": 12822
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/reference/manifest.json",
+      "sha256": "93c0416f426272706278788fc6fc48d69e1676ed12e025b52b1521ac5c7a91bc",
+      "bytes": 383
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/reference/packet.json",
+      "sha256": "ca99a3a940fea085cc685f46effce6da455dacb1b0741a5fcb220eed27026ae4",
+      "bytes": 1353282
+    }
+  ],
+  "guard_costs": {
+    "native_fresh": 2.066183155402541,
+    "native_affected35": 70.66762169450521,
+    "original_affected40": 39.14289165660739,
+    "original_additive3": 1.2391474535688758,
+    "protocol35": "passed, elapsed not separately measured",
+    "admission12": 0.17545940075069666
+  },
+  "history": "Native1 rejected schema assumptions;2/3 valid early integration;4 valid pre-pending-slot-strengthening;5 final full caller-slot proof. Preliminary32 controls superseded after source changed during run; final35 source-before/after guard passes. Original raw never changed or recaptured.",
+  "cached_qualification": "Actual protocol/complete inputs/mandatorysix/full public request state/effects/status/streams/trace/mktemp/file freshly checked; cached mode rejected by fresh verifier; no GDB/internal-state census claimed for fixture.",
+  "limits": "Last original public snapshot post-Close. Native driver_exit checks own identity/lifetime relations only. Private provider objects/lock/heap/thread and allocation tails/full qsort census remain unobserved."
+}

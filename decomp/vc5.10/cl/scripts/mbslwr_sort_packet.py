@@ -9,7 +9,7 @@ from mktemp_state import CRT_SHA,original_states
 from mask import construct
 sha=lambda b:hashlib.sha256(b).hexdigest()
 
-def decode(directory):
+def decode(directory, jobs=False):
  d=Path(directory);raw=(d/'capture.json').read_bytes();c=json.loads(raw)
  assert c['case']=='mre-object'and c['mre_response']is True and c['baseline']is False and c['controller_error']is None
  assert c['helper_status']in(0,188)and c['command'][-2]=='1'
@@ -17,9 +17,9 @@ def decode(directory):
   b=(d/name).read_bytes();assert c['files'][name]=={'bytes':len(b),'sha256':sha(b)},'changed raw '+name
   return b
  for n in c['files']:read(n)
- assert read('mre-observer.txt')==b'CL_MRE_SORT_RESPONSE_V1\n'
+ assert read('mre-observer.txt')==(b'CL_MRE_JOBS_RESPONSE_V1\n'if jobs else b'CL_MRE_SORT_RESPONSE_V1\n')
  config=json.loads(read('config.json'));assert sha(read('config.json'))==c['config_sha256']
- assert {'_option_signature','_option_matching_selector'}<=set(config['accepted'])and'_compare_option_strings'in config['accepted']and'_jobs_from_deferred'not in config['accepted']
+ assert {'_option_signature','_option_matching_selector'}<=set(config['accepted'])and'_compare_option_strings'in config['accepted']and(('_jobs_from_deferred'in config['accepted']and'_deferred_from_jobs'not in config['accepted'])if jobs else'_jobs_from_deferred'not in config['accepted'])
  assert sha(construct(config))==sha(read('loaded-target.bin'))==c['original_mask_sha256']
  assert sha(read('loaded-msvcrt.bin'))==c['loaded_msvcrt_sha256']==CRT_SHA
  assert sha(read('reference-debugger.exe'))==c['helper_sha256']==c['helper_build']['binary']['sha256']

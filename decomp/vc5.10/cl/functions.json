@@ -119,7 +119,8 @@
     "_stop_timer",
     "_option_signature",
     "_option_matching_selector",
-    "_compare_option_strings"
+    "_compare_option_strings",
+    "_jobs_from_deferred"
   ],
   "driver": [
     {
@@ -1644,10 +1645,29 @@
     {
       "name": "_jobs_from_deferred",
       "start": 4209501,
-      "end": 4209502,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "jobs_from_deferred"
+      "end": 4209550,
+      "pending_extent": false,
+      "state": "Implemented49B intrusive-list conversion; fresh lifecycle boundary proof pending",
+      "native_symbol": "jobs_from_deferred",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Job *",
+        "stack_arguments": [
+          {
+            "name": "inputs",
+            "type": "DeferredInput *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Full49B body reads sole stack input, assigns EAX/ECX/EDX before use and saves/restoresESI; Job.deferred offset12."
+      },
+      "evidence": {
+        "kind": "Complete49B intrusive container-list conversion",
+        "range": "00403b5d..00403b8e",
+        "source": "src/jobs.c",
+        "scope": "NULL and full list paths reconstructed; no acceptance until genuine fresh original/native candidate and dependency lifecycle proof."
+      }
     },
     {
       "name": "_advance_jobs",
@@ -2058,12 +2078,12 @@
       "native_symbol": "compare_option_strings",
       "start": 4209481,
       "end": 4209501,
-      "state": "Implemented20B callback, fresh first-return/fourth-MRE boundary proof pending",
+      "state": "Accepted20B callback through exact four-call MRE prefix",
       "evidence": {
         "kind": "Separate20B qsort callback, cdecl int(constvoid*,constvoid*)",
         "range": "00403b49..00403b5d",
         "source": "src/signature.c",
-        "scope": "Actual strcmp import and cdecl int(constvoid*,constvoid*) preserved; unaccepted pending genuine callback/state/nextboundary evidence"
+        "scope": "Genuine strcmp/cdecl ABI; first actual callback return and full public state match, original full-array census unclaimed. See owned option-comparator milestone."
       }
     },
     {

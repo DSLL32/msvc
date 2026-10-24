@@ -14,9 +14,9 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 107 accepted application functions /18,189 original extent bytes
-(95.42% of whole `.text`, 98.08% of the 18,545-byte application extent).
-There are 107/112 application functions accepted, with five functions/356 bytes
+There are now 108 accepted application functions /18,238 original extent bytes
+(95.68% of whole `.text`, 98.34% of the 18,545-byte application extent).
+There are 108/112 indexed application functions accepted, with four identified functions/307 bytes
 remaining. `cases/code-partition.json` and its independent review classify all
 19,062 bytes without overlaps: 18,545 application, 476 support, 41 literalCC padding.
 These are accepted function extents, not branch or input-domain coverage. The response-file/options/help case adds five driver functions with 56 actual
@@ -338,24 +338,27 @@ or nonpreferred-base test has run here.
 source/themes were copied from vc1.0; all arguments, IR, traces and expected
 artifacts need fresh 5.10 capture. No vc1.0 oracle is reused.
 
-The object-only `/Gm /Zi` case now reaches `jobs_from_deferred(NULL)` after
-four genuine MSPDB calls. Its Linux host validates the complete arguments,
-opaque engine/driver aliases, initialized pending record, public CRT/OS state,
-streams and real descriptor/file effects before replaying each response.
-Release, Close and subsequent lifetime effects remain unsupported. This is a
-partial case, with no frontend or normal MRE completion credit.
+The object-only `/Gm /Zi /c` case now completes after six genuine MSPDB calls.
+Its native host validates complete inputs, opaque engine/driver aliases, the
+initialized pending record, public CRT/OS/FILE state and genuine descriptor/file
+effects. Release retains fd3 at1024; Close writes the observed25600-byte IDB and
+closes it using the shared seek/write/close APIs. Unknown later calls fail.
+No frontend/backend executes. The actual normal outcome is72 application entries,
+status0,50 stdout bytes,61 stderr bytes and the exact final IDB.
 
-The accepted signature builder (527 bytes), selector (33 bytes) and comparator
-(20 bytes) have separate proofs under `cases/mre-object/milestones/`.
-The latest proof observes the first qsort callback's two owned strings and
-normal return; it does not claim a complete original array/comparison census.
-The shared explicit510 `strcmp` contract is pinned at `5a8cb5ac92`. The first
-native return already matched before that remap; no libc mismatch is claimed.
-Private provider objects, CRT lock/heap/thread state and allocation tails remain
-unobserved. Three native controller/checker failures are retained separately.
+Signature527B, selector33B, comparator20B and jobs49B have separate fresh proofs.
+The complete proof uses ordinary owned files under `cases/mre-object/completion/`;
+existing earlier archives are untouched. The shared explicit510 contracts stay
+pinned at `5a8cb5ac92`; no new shim was needed for release/close. First comparator
+return already matched before strcmp remapping, so no libc mismatch is claimed.
+Only the first original qsort callback was observed; private provider objects,
+lock/heap/thread state and allocation tails remain unclaimed. The last original
+full public snapshot is post-Close, with normal output/status measured separately.
 
-The comparator's original capture took 7.549 s, native GDB capture/checks 1.633 s
-and audit 0.665 s. The parallel original/native build took 6.547 s; all 13 cached
-Linux fixtures passed in 3.587 s. The 27 affected native rejection checks took
-44.430 s once and the 31 raw-response checks 23.099 s. Unchanged transport and
-protocol checks are reused with their hashes; cached regressions invoke no Wine.
+The original jobs capture took10.012s, latest native GDB proof2.066s and audit
+0.731s. The35 affected native controls are a one-time acceptance cost; the cached
+MRE fixture takes about0.257s total/64.6ms ELF. All14 cached Linux fixtures pass in
+4.121s. Cached replay validates every actual dependency request/state/effect and
+complete output against an immutable owned packet, without GDB/Wine/raw decoding;
+it is explicitly rejected as fresh acceptance evidence. Prior failed observations
+and the superseded mixed-source control run are retained with their qualifications.

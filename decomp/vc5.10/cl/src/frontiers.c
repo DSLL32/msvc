@@ -2,9 +2,6 @@
 #include "cl.h"
 #include <recon.h>
 
-Job *jobs_from_deferred(DeferredInput *inputs) { __asm int 3
-    return NULL;
-}
 DeferredInput *deferred_from_jobs(Job *jobs) { __asm int 3
     return NULL;
 }

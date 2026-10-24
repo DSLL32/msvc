@@ -15,13 +15,14 @@ parser.add_argument('--original',type=Path,required=True);parser.add_argument('-
 parser.add_argument('--signature-candidate',action='store_true')
 parser.add_argument('--selector-candidate',action='store_true')
 parser.add_argument('--sort-candidate',action='store_true')
+parser.add_argument('--jobs-candidate',action='store_true')
 args=parser.parse_args();original=args.original.resolve();directory=args.directory.resolve()
 assert not directory.exists();directory.mkdir()
 case=load('mre-object');copy_inputs(case,directory)
 shutil.copyfile(original/'config.json',directory/'config.json')
 binary=PROJECT/'build/native-trace/CL.EXE';build_path=Path(str(binary)+'.build.json');build_raw=build_path.read_bytes();build=json.loads(build_raw)
 verify_native_build(build,sha(binary),PROJECT);(directory/'native-build.json').write_bytes(build_raw)
-provider=Provider(original,directory,signature_candidate=args.signature_candidate,selector_candidate=args.selector_candidate,sort_candidate=args.sort_candidate)
+provider=Provider(original,directory,signature_candidate=args.signature_candidate,selector_candidate=args.selector_candidate,sort_candidate=args.sort_candidate,jobs_candidate=args.jobs_candidate)
 argv=vector(original/'argv.bin')[1];assert argv[1:]==case['arguments']
 env=os.environ.copy()
 for key,value in environment(provider.environment_text).items():
@@ -46,47 +47,63 @@ env['RECON_MKTEMP_PRESTATE']=','.join(str(call['before'][key])for key in('errno'
 for name in('gdb_entry.py','gdb_streams.py','gdb_mktemp.py','gdb_mre.py'):
     shutil.copyfile(PROJECT/'scripts'/name,directory/name)
 wrapper=directory/'exec-wrapper.py'
+status='fd=os.open('+repr(str(directory/'terminal-status.bin'))+',os.O_CREAT|os.O_TRUNC|os.O_RDWR,0o600)\nos.ftruncate(fd,24)\nos.set_inheritable(fd,True)\nos.environ["RECON_STATUS_FD"]=str(fd)\n'if args.jobs_candidate else''
+if args.jobs_candidate:(directory/'status_reader.py').write_bytes(subprocess.check_output(['git','show',build['shared_revision']+':lib/recon/status.py'],cwd=ROOT))
 wrapper.write_text('#!/usr/bin/python3\nimport os,sys\n'+
     'fd=os.open('+repr(str(directory/'trace.txt'))+',os.O_CREAT|os.O_WRONLY|os.O_TRUNC,0o600)\nos.set_inheritable(fd,True)\nos.environ["RECON_TRACE_FD"]=str(fd)\n'+
-    'os.execv(sys.argv[1],'+repr(argv)+')\n');wrapper.chmod(0o755)
+    status+'os.execv(sys.argv[1],'+repr(argv)+')\n');wrapper.chmod(0o755)
 config=json.loads((original/'config.json').read_text());names=[r['native_symbol']for r in config['driver']if r['name']in config['accepted']]
 (directory/'trace-filter.txt').write_text(''.join(name+'\n'for name in names));(directory/'trace-seen.txt').write_text('')
 env['RECON_TRACE_FILTER']=str(directory/'trace-filter.txt');env['RECON_TRACE_SEEN']=str(directory/'trace-seen.txt')
 entry=directory/'gdb-entry.py';entry.write_text('import sys\nsys.path.insert(0,'+repr(str(directory))+')\nfrom gdb_entry import capture\ncapture('+repr(str(directory))+')\nfrom gdb_mktemp import install\ninstall('+repr(str(directory))+')\nfrom gdb_mre import install\ninstall('+repr(str(directory))+')\n')
+if args.jobs_candidate:
+    with entry.open('a')as script:script.write('import gdb\ndef completed(event):\n    code=getattr(event,"exit_code",None)\n    if code is not None:print("NATIVE_COMPLETION_STATUS="+str(code))\ngdb.events.exited.connect(completed)\n')
 frontier_name='jobs_from_deferred'if args.sort_candidate else'compare_option_strings'if args.selector_candidate else'option_matching_selector'if args.signature_candidate else'option_signature'
 frontier=directory/'gdb-frontier.py';frontier.write_text('from gdb_mre import observe\nimport gdb\nassert gdb.newest_frame().name()=='+repr(frontier_name)+'\nprint("NATIVE_FRONTIER_SYMBOL="+gdb.newest_frame().name())\nobserve('+repr(str(directory))+',"mre-frontier",{})\n')
 command=['/usr/bin/gdb','-q','-nx','-batch','-ex','set pagination off','-ex','set exec-wrapper '+str(wrapper),'-ex','set args '+subprocess.list2cmdline(case['arguments']),
-    '-ex','tbreak *main','-ex','run > '+str(directory/'stdout.bin')+' 2> '+str(directory/'stderr.bin'),'-ex','source '+str(entry),'-ex','continue','-ex','source '+str(frontier),'--args',str(binary)]
-execution={'kind':'Native MRE execution binding','signature_candidate':args.signature_candidate,'selector_candidate':args.selector_candidate,'sort_candidate':args.sort_candidate,
+    '-ex','tbreak *main','-ex','run > '+str(directory/'stdout.bin')+' 2> '+str(directory/'stderr.bin'),'-ex','source '+str(entry),'-ex','continue',*([]if args.jobs_candidate else['-ex','source '+str(frontier)]),'--args',str(binary)]
+execution={'kind':'Native MRE execution binding','signature_candidate':args.signature_candidate,'selector_candidate':args.selector_candidate,'sort_candidate':args.sort_candidate,'jobs_candidate':args.jobs_candidate,
     'native_sha256':sha(binary),'rebuilt_sha256':sha(PROJECT/'build/cl.exe'),
     'native_build_sha256':sha(directory/'native-build.json'),'config_sha256':sha(directory/'config.json'),
     'resource_sha256':sha(directory/'resources.bin'),
     'original_capture':{'path':str(original/'capture.json'),'sha256':sha(original/'capture.json')},
-    'sources':{name:sha(PROJECT/'scripts'/name)for name in('mre_native.py','mre_state.py','mre_elf.py','selector_native_state.py','sort_native_state.py','native-mre-prefix.py','gdb_mre.py')}}
+    'sources':{name:sha(PROJECT/'scripts'/name)for name in('mre_native.py','mre_state.py','mre_elf.py','selector_native_state.py','sort_native_state.py','native-mre-prefix.py','gdb_mre.py','jobs_native_state.py','native_status.py')}}
+snapshot_names=set(execution['sources'])|{'native-mre-prefix.py','gdb_entry.py','gdb_mktemp.py','gdb_streams.py','mre_native.py','mre_jobs_packet.py','mre_jobs_lifecycle.py','mre_jobs_outcome.py','mre_jobs_controls.py','mbslwr_sort_packet.py','dependency_native.py','dependency_packet.py','dependency_response.py','mktemp_state.py','case_inputs.py'}
+execution['script_snapshots']={}
+for name in sorted(snapshot_names):
+    source=PROJECT/'scripts'/name;destination=directory/'source-snapshots'/name;destination.parent.mkdir(exist_ok=True);shutil.copyfile(source,destination)
+    execution['script_snapshots'][name]={'path':str(destination),'sha256':sha(destination)}
 (directory/'native-execution.json').write_text(json.dumps(execution,indent=2)+'\n')
 started=time.perf_counter();error=None
 try:
     result=subprocess.run(command,cwd=directory,env=env,stdin=subprocess.DEVNULL,capture_output=True,pass_fds=provider.descriptors(),timeout=30)
     (directory/'debugger.txt').write_bytes(result.stdout+result.stderr)
     pid=json.loads((directory/'native-process.json').read_bytes())['pid'];provider.finish(pid)
-    assert (directory/'native-mre-frontier-gdb.json').exists(),'native real signature frontier missing'
-    assert (directory/'stdout.bin').read_bytes()==b''and(directory/'stderr.bin').read_bytes()==(original/'stderr.bin').read_bytes()
+    if args.jobs_candidate:
+        assert result.returncode==0 and b'NATIVE_COMPLETION_STATUS=0\n'in result.stdout
+        from native_status import read as read_status
+        assert read_status(directory,0)==0
+        assert (directory/'native-driver-exit-gdb.json').exists(),'native actual exit observation missing'
+    else:assert (directory/'native-mre-frontier-gdb.json').exists(),'native real signature frontier missing'
+    assert (directory/'stdout.bin').read_bytes()==((original/'stdout.bin').read_bytes()if args.jobs_candidate else b'')and(directory/'stderr.bin').read_bytes()==(original/'stderr.bin').read_bytes()
     from mre_state import verify
-    verification=verify(original,directory,provider,signature_candidate=args.signature_candidate,selector_candidate=args.selector_candidate,sort_candidate=args.sort_candidate)
+    verification=verify(original,directory,provider,signature_candidate=args.signature_candidate,selector_candidate=args.selector_candidate,sort_candidate=args.sort_candidate,jobs_candidate=args.jobs_candidate)
     (directory/'native-state-verification.json').write_text(json.dumps(verification,indent=2)+'\n')
 except Exception as failure:error=repr(failure)
 finally:provider.close()
-report={'kind':'Fresh native comparator-candidate observation'if args.sort_candidate else'Fresh native selector-candidate observation'if args.selector_candidate else'Fresh native signature-candidate observation'if args.signature_candidate else'Initial native MRE prefix experiment, NOT acceptance','seconds':time.perf_counter()-started,
+report={'kind':'Fresh native Jobs/lifecycle observation'if args.jobs_candidate else'Fresh native comparator-candidate observation'if args.sort_candidate else'Fresh native selector-candidate observation'if args.selector_candidate else'Fresh native signature-candidate observation'if args.signature_candidate else'Initial native MRE prefix experiment, NOT acceptance','seconds':time.perf_counter()-started,
     'original_capture_sha256':sha(original/'capture.json'),'native_sha256':sha(binary),'native_build_sha256':sha(directory/'native-build.json'),
-    'sources':{name:sha(PROJECT/'scripts'/name)for name in('mre_native.py','mre-provider.c','mre-host.c','native-host.c','native-mre-prefix.py','gdb_mre.py','mre_state.py','selector_native_state.py','sort_native_state.py')},'error':error}
+    'sources':{name:sha(PROJECT/'scripts'/name)for name in('mre_native.py','mre-provider.c','mre-host.c','native-host.c','native-mre-prefix.py','gdb_mre.py','mre_state.py','selector_native_state.py','sort_native_state.py','jobs_native_state.py','native_status.py')},'error':error}
 assert sha(binary)==execution['native_sha256']and sha(PROJECT/'build/cl.exe')==execution['rebuilt_sha256']and build_path.read_bytes()==build_raw,'paired build changed during native capture'
 assert sha(directory/'resources.bin')==execution['resource_sha256']
+for name,item in execution['script_snapshots'].items():
+    assert sha(PROJECT/'scripts'/name)==item['sha256']==sha(Path(item['path'])),'native controller source changed during run'
 (directory/'native-prefix.json').write_text(json.dumps(report,indent=2)+'\n')
 capture={'schema':1,'platform':'native',**case,'native_sha256':execution['native_sha256'],
     'rebuilt_sha256':execution['rebuilt_sha256'],'config_sha256':execution['config_sha256'],
     'native_build':{'path':str(directory/'native-build.json'),'sha256':execution['native_build_sha256']},
     'controller_sha256':sha(Path(__file__)),'gdb_status':result.returncode,'seconds':report['seconds'],
-    'controller_error':error,'mre_signature_response':args.signature_candidate,'mre_selector_response':args.selector_candidate,'mre_sort_response':args.sort_candidate,
+    'controller_error':error,'mre_signature_response':args.signature_candidate,'mre_selector_response':args.selector_candidate,'mre_sort_response':args.sort_candidate,'mre_jobs_response':args.jobs_candidate,
     'files':{p.relative_to(directory).as_posix():{'sha256':sha(p),'bytes':p.stat().st_size}for p in directory.rglob('*')if p.is_file()}}
 (directory/'capture.json').write_text(json.dumps(capture,indent=2)+'\n')
 print(json.dumps(report,indent=2));assert error is None,error

@@ -1,0 +1,83 @@
+{
+  "schema": 2,
+  "phase": "mre-6-after",
+  "event": 108,
+  "tid": 2068,
+  "debuggee_pid": 1672,
+  "stop": "outstanding EXCEPTION_DEBUG_EVENT before ContinueDebugEvent; all threads suspended",
+  "windows_path": "S:\\vc5.10\\cl\\jobs-1-original\\case.idb",
+  "descriptor": 3,
+  "handle": 4294967295,
+  "closed": true,
+  "position": null,
+  "granted_access": null,
+  "windows_information": {
+    "attributes": 32,
+    "creation_time": 134372947561658414,
+    "access_time": 134372947485300011,
+    "write_time": 134372947561658414,
+    "volume": 1392508928,
+    "bytes": 25600,
+    "links": 1,
+    "index_high": 0,
+    "index_low": 11393747
+  },
+  "last_live_windows_information": {
+    "attributes": 32,
+    "creation_time": 134372947485300011,
+    "access_time": 134372947485300011,
+    "write_time": 134372947485300011,
+    "volume": 1392508928,
+    "bytes": 25600,
+    "links": 1,
+    "index_high": 0,
+    "index_low": 11393747
+  },
+  "path_identity_access": 0,
+  "windows_data_read_sharing_observed": false,
+  "request_sha256": "7edd4236cd5fbd8a3632d69e33a24e4215514d337ba07e0b1d2b2e62c1053513",
+  "fixed_drive": {
+    "link": "/root/.ai-tmp/vc1.0-capture/wine/dosdevices/s:",
+    "target": "/root/.ai-tmp/msvc2"
+  },
+  "posix_before": {
+    "dev": 139,
+    "ino": 11393747,
+    "mode": 33188,
+    "nlink": 1,
+    "uid": 0,
+    "gid": 0,
+    "size": 25600,
+    "atime_ns": 1792821148530001197,
+    "mtime_ns": 1792821156165841452,
+    "ctime_ns": 1792821156165841452
+  },
+  "posix_after": {
+    "dev": 139,
+    "ino": 11393747,
+    "mode": 33188,
+    "nlink": 1,
+    "uid": 0,
+    "gid": 0,
+    "size": 25600,
+    "atime_ns": 1792821148530001197,
+    "mtime_ns": 1792821156165841452,
+    "ctime_ns": 1792821156165841452
+  },
+  "posix_path_after": {
+    "dev": 139,
+    "ino": 11393747,
+    "mode": 33188,
+    "nlink": 1,
+    "uid": 0,
+    "gid": 0,
+    "size": 25600,
+    "atime_ns": 1792821148530001197,
+    "mtime_ns": 1792821156165841452,
+    "ctime_ns": 1792821156165841452
+  },
+  "bytes": 25600,
+  "sha256": "4469e5baa30d6e00dd593a3c6d09af1dd2d6ca47d88a11f21fa9772772bee82c",
+  "identity_bridge": "fixed owned S: path; current closed-slot path matches last authenticated live Windows FileId; independent POSIX path/open match",
+  "seconds": 0.007518465630710125
+}

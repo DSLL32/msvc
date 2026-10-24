@@ -1,0 +1,208 @@
+{
+  "schema": 1,
+  "functions": {
+    "_mainCRTStartup": {
+      "original": {
+        "roots": [
+          4217326,
+          4217347
+        ],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [
+          4228126,
+          4228147
+        ],
+        "text_data": [],
+        "switches": {}
+      }
+    },
+    "_main": {
+      "original": {
+        "roots": [
+          4201109,
+          4201139
+        ],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [
+          4217726,
+          4217774
+        ],
+        "text_data": [],
+        "switches": {}
+      }
+    },
+    "_execute_pass": {
+      "original": {
+        "roots": [
+          4216535,
+          4216565
+        ],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [
+          4205698,
+          4205746
+        ],
+        "text_data": [],
+        "switches": {}
+      },
+      "register_imports": {
+        "require_all_register_calls_resolved": false
+      }
+    },
+    "_read_option": {
+      "original": {
+        "roots": [],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": [
+          [
+            4223512,
+            4223566
+          ]
+        ],
+        "switches": {
+          "4223089": [
+            4223184,
+            4223162,
+            4223140,
+            4223118,
+            4223096,
+            4223206
+          ]
+        }
+      }
+    },
+    "_format_message": {
+      "original": {
+        "roots": [],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": [
+          [
+            4218843,
+            4218885
+          ]
+        ],
+        "switches": {
+          "4218344": [
+            4218624,
+            4218555,
+            4218351,
+            4218555,
+            4218662
+          ]
+        }
+      }
+    },
+    "_expand_word": {
+      "original": {
+        "roots": [],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": [
+          [
+            4220562,
+            4220698
+          ]
+        ],
+        "switches": {
+          "4220308": [
+            4220315,
+            4220334,
+            4220315,
+            4220395,
+            4220315,
+            4220315,
+            4220452,
+            4220329,
+            4220497,
+            4220315,
+            4220527
+          ]
+        }
+      }
+    },
+    "_prepare_inputs": {
+      "original": {
+        "roots": [],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": [
+          [
+            4224796,
+            4224812
+          ]
+        ],
+        "switches": {
+          "4224629": [
+            4224636,
+            4224650,
+            4224664,
+            4224764
+          ]
+        }
+      }
+    },
+    "_write_link_message": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    }
+  },
+  "callback_tables": [],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "GetProcAddress"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/minimal-c/getprocaddress-preservation.json",
+          "sha256": "180daba153ba2f9d5ae606bb93d08ebbc46861df365ace65b9a9c415004159c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_write"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/link-object/write-preservation.json",
+          "sha256": "f852cbfa0cbb0a4df2e8a85592a088c52a431a9281172150a9ce6ed94ca67b9a"
+        }
+      }
+    ]
+  }
+}

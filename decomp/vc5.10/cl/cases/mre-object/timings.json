@@ -1,0 +1,22 @@
+{
+  "original": {
+    "setup_seconds": 0.10775865893810987,
+    "reference_execution_seconds": 10.011799626983702
+  },
+  "native_fresh": 2.066183155402541,
+  "audit": 0.7308290880173445,
+  "native_affected35_controls": 70.66762169450521,
+  "original_affected40_controls": 39.14289165660739,
+  "additional_outcome3_controls_with_decode": 1.2385136717930436,
+  "admission12": 0.17545940075069666,
+  "generic_protocol35": "passed; elapsed not separately measured",
+  "cached_fixture": {
+    "build": 0.008143628016114235,
+    "setup": 0.09841159638017416,
+    "execution": 0.0645673954859376,
+    "checks": 0.006293849088251591,
+    "total": 0.2566950935870409
+  },
+  "all_cached14_total": 4.120506756007671,
+  "qualifications": "Fresh costs include controller/GDB/independent checks as named; cached fixture has no raw decode/GDB/Wine. Preliminary mixed-source32 controls are not current source proof."
+}

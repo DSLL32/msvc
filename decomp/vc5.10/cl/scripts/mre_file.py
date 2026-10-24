@@ -35,7 +35,9 @@ def file_info(raw):
 def allowed_phase(directory,phase):
     if re.fullmatch('mre-[123]-after',phase):return True
     marker=Path(directory)/'mre-observer.txt'
-    return phase=='mre-4-after'and marker.is_file()and marker.read_bytes()==b'CL_MRE_SORT_RESPONSE_V1\n'
+    if not marker.is_file():return False
+    family=marker.read_bytes()
+    return (phase=='mre-4-after'and family in(b'CL_MRE_SORT_RESPONSE_V1\n',b'CL_MRE_JOBS_RESPONSE_V1\n'))or(phase in('mre-5-after','mre-6-after')and family==b'CL_MRE_JOBS_RESPONSE_V1\n')
 
 
 def request(directory,phase):
@@ -49,6 +51,7 @@ def request(directory,phase):
     read=lambda name:Path(str(base)+name).read_bytes()
     raw=read('request.bin');assert len(raw)==32
     schema,event,tid,slot,handle,low,high,pid=struct.unpack('<8I',raw)
+    if schema==2:return closed_request(directory,phase,read,raw)
     assert schema==1 and event and tid and slot and handle and pid and high==0,'invalid stopped-event request'
     descriptor_raw=read('descriptor.bin');path_raw=read('path.bin')
     assert descriptor_raw==path_raw,'independent Windows path and fd3 identities differ'
@@ -72,6 +75,39 @@ def request(directory,phase):
             'path_identity_access':0,'windows_data_read_sharing_observed':False,
             'request_sha256':hashlib.sha256(raw).hexdigest(),
             'fixed_drive':{'link':str(drive),'target':str(drive.resolve())}}
+
+
+def closed_request(directory,phase,read,raw):
+    """Exact closed-slot branch; no live cursor or granted-access assertion."""
+    assert phase in('mre-5-after','mre-6-after')and(directory/'mre-observer.txt').read_bytes()==b'CL_MRE_JOBS_RESPONSE_V1\n'
+    schema,event,tid,slot,handle,low,high,pid=struct.unpack('<8I',raw)
+    assert schema==2 and event and tid and slot and pid and handle==0xffffffff and low==high==0
+    lowio=read('lowio.bin');assert len(lowio)==36 and struct.unpack_from('<I',lowio)[0]==handle and not lowio[4]&1
+    info=file_info(read('path.bin'));last_raw=read('last-live.bin');last=file_info(last_raw)
+    assert info['bytes']<=MAX_BYTES and not info['attributes']&0x410
+    assert tuple(info[n]for n in('volume','index_high','index_low'))==tuple(last[n]for n in('volume','index_high','index_low'))
+    # Bind the cache to the last completed genuinely OPEN copy in this run.
+    previous=[]
+    for i in range(1,int(phase[4])):
+        base=directory/'observer'/('mre-files-idb-mre-%d-after-'%i)
+        get=lambda suffix:Path(str(base)+suffix)
+        if get('request.bin').exists()and struct.unpack('<8I',get('request.bin').read_bytes())[0]==1:
+            assert get('context-after.bin').exists()and get('host.json').exists()and get('path-reopened.bin').exists()
+            previous.append((struct.unpack('<8I',get('request.bin').read_bytes())[3],get('descriptor.bin').read_bytes()))
+    assert previous and previous[-1]==(slot,last_raw),'closed path/slot not bound to last authenticated live FileId'
+    expected='S:\\vc5.10\\cl\\'+directory.name
+    cwd=read('cwd.bin').decode('utf-16le');assert cwd.endswith('\0')and'\0'not in cwd[:-1]and cwd[:-1].rstrip('\\').lower()==expected.lower()
+    assert read('dos-path.bin')==(expected+'\\case.idb\0').encode('ascii')
+    opened=struct.unpack('<6I',read('path-open.bin'))
+    assert opened[0]not in(0,0xffffffff)and opened[2]==1 and opened[4:]==(0,7)
+    drive=PREFIX/'dosdevices/s:'
+    return {'schema':2,'phase':phase,'event':event,'tid':tid,'debuggee_pid':pid,
+        'stop':'outstanding EXCEPTION_DEBUG_EVENT before ContinueDebugEvent; all threads suspended',
+        'windows_path':expected+'\\case.idb','descriptor':3,'handle':handle,'closed':True,
+        'position':None,'granted_access':None,'windows_information':info,'last_live_windows_information':last,
+        'path_identity_access':0,'windows_data_read_sharing_observed':False,
+        'request_sha256':hashlib.sha256(raw).hexdigest(),
+        'fixed_drive':{'link':str(drive),'target':str(drive.resolve())}}
 
 
 def copy_stopped_file(directory,phase):
@@ -101,7 +137,7 @@ def copy_stopped_file(directory,phase):
     with destination.open('xb')as file:file.write(raw)
     receipt.update(posix_before=metadata(before),posix_after=metadata(after),
                    posix_path_after=metadata(after_path),bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),
-                   identity_bridge='fixed owned S: path; fd3 duplicate and independent Win32 path handle match; independent POSIX path/open match',
+                   identity_bridge=('fixed owned S: path; current closed-slot path matches last authenticated live Windows FileId; independent POSIX path/open match'if receipt.get('closed')else'fixed owned S: path; fd3 duplicate and independent Win32 path handle match; independent POSIX path/open match'),
                    seconds=time.monotonic()-started)
     Path(str(base)+'host.json').write_text(json.dumps(receipt,indent=2)+'\n')
     return receipt

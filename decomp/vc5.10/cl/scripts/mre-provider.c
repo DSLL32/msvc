@@ -19,6 +19,8 @@ static WCHAR *initial_os_environment;
 static unsigned initial_os_units;
 static unsigned char *configuration, *cursor, *limit, *idb_bytes;
 static unsigned configuration_size, idb_size;
+static unsigned jobs_enabled;
+static unsigned char *final_idb_bytes;
 static PendingWork *pending_work;
 extern unsigned mre_call_count;
 
@@ -182,7 +184,7 @@ static void observe(unsigned kind,void *owner_out,const char *path,void *error_o
     cwd=getcwd(NULL,0);
     if (!cwd) fail("MRE native CWD observation");
     text(file,cwd);free(cwd);
-    if (kind==7 || kind==8) {
+    if (kind>=7 && kind<=12) {
         if (!pending_work) fail("missing MRE fourth-call record");
         word(file,(unsigned)(uintptr_t)pending_work);
         if (fwrite(pending_work,1,sizeof(*pending_work),file)!=sizeof(*pending_work))
@@ -200,7 +202,7 @@ char **mre_bind_entry(int argc,char **argv,char **envp)
     char *end;
     FILE *file;
     long size,fd;
-    unsigned i,count;
+    unsigned i,count,version;
     if (!fd_text && !path) {
         if (profile && !strcmp(profile,"mre-object-canonical-msvcrt-v1")) fail("unbound MRE case");
         return envp;
@@ -216,7 +218,9 @@ char **mre_bind_entry(int argc,char **argv,char **envp)
     if (!configuration || fread(configuration,1,configuration_size,file)!=configuration_size || fclose(file))
         fail("incomplete MRE host configuration");
     cursor=configuration;limit=cursor+configuration_size;
-    if (memcmp(take(4),"RCM1",4) || number()!=1) fail("unknown MRE binding format");
+    if (memcmp(take(4),"RCM1",4)) fail("unknown MRE binding format");
+    version=number();if (version!=1 && version!=2) fail("unknown MRE binding version");
+    jobs_enabled=version==2;
     memcpy(identity,take(64),64);
     for (i=0;i<64;++i) if (!strchr("0123456789abcdef",identity[i])) fail("invalid MRE binding identity");
     exchange(0,configuration,configuration_size);
@@ -233,6 +237,10 @@ char **mre_bind_entry(int argc,char **argv,char **envp)
     idb_size=number();
     if (idb_size!=25600) fail("unknown MRE IDB size");
     idb_bytes=take(idb_size);
+    if (jobs_enabled) {
+        if (number()!=idb_size) fail("unknown closed MRE IDB size");
+        final_idb_bytes=take(idb_size);
+    }
     if (cursor!=limit) fail("trailing MRE configuration bytes");
     recon_crt_bind_arguments(argc,argv,initial_environment);
     *recon_p_initenv()=initial_environment;
@@ -294,5 +302,29 @@ BOOL mre_files_out_of_date(MreDriver *mre_driver,void *work)
     observe(7,NULL,NULL,NULL,NULL,FALSE,FALSE,NULL,NULL,mre_driver);
     phase=4;++mre_call_count;
     observe(8,NULL,NULL,NULL,NULL,FALSE,FALSE,NULL,NULL,mre_driver);
+    return TRUE;
+}
+
+/* These two responses are available only in the separately bound six-call
+ * case. The dependency's opaque objects are never dereferenced by the target. */
+BOOL mre_release(MreDriver *mre_driver)
+{
+    if (!jobs_enabled || channel<0 || phase!=4 || mre_driver!=(MreDriver*)(roles+4))
+        fail("unknown MRE Release inputs or lifecycle");
+    observe(9,NULL,NULL,NULL,NULL,FALSE,FALSE,NULL,NULL,mre_driver);
+    phase=5;++mre_call_count;
+    observe(10,NULL,NULL,NULL,NULL,FALSE,FALSE,NULL,NULL,mre_driver);
+    return TRUE;
+}
+BOOL mre_close(Mre *owner,BOOL commit)
+{
+    if (!jobs_enabled || channel<0 || phase!=5 || owner!=(Mre*)roles || commit!=TRUE)
+        fail("unknown MRE Close inputs or lifecycle");
+    observe(11,NULL,NULL,NULL,NULL,FALSE,commit,owner,NULL,NULL);
+    if (recon_osfile[3]!=0x11 || recon_lseek(3,0,SEEK_SET)!=0 ||
+        recon_write(3,final_idb_bytes,idb_size)!=(int)idb_size || recon_close(3))
+        fail("MRE genuine close/file response mismatch");
+    phase=6;++mre_call_count;
+    observe(12,NULL,NULL,NULL,NULL,FALSE,commit,owner,NULL,NULL);
     return TRUE;
 }

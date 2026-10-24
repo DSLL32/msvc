@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "generic_controls": 35,
+  "output": "acceptance protocol positive control and 35 negative controls pass; no persisted acceptance",
+  "seconds": "not separately measured",
+  "scope": "Unchanged generic synthetic protocol bodies. Current Jobs admission separately12controls; current real ABI/state separately33controls.",
+  "sources": {
+    "check-acceptance.py": "3ab4e2851efeb84ca50a9d4e9c3225225a5b54b787e3062ab177a771a89fe536",
+    "accept.py": "7543bd226a18af3073ac34a49f2b0dd0ceea00661e66b9e9d7d44448f81badfc",
+    "state.py": "78642e02f35c34eebd71334a1224d91fa2f6210a59ae49064614394620fa319e"
+  }
+}

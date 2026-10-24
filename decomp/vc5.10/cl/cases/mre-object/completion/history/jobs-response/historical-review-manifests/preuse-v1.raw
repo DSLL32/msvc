@@ -1,0 +1,176 @@
+{
+  "schema": 1,
+  "scope": "Next required49B jobs candidate with bounded actual Release/Close continuation; native success held",
+  "files": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-preuse/plan.json",
+      "sha256": "ac7eb90bc3a4d160b43b4e817fa8de74a76c1d1cf89ed8c5edfd07e94a0cf100",
+      "bytes": 3351
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-preuse/delta.patch",
+      "sha256": "c27509b3f8cd2f828ae79f0ab4c8d65d690a3eac4d3a8a06f79da3cab576c882",
+      "bytes": 26026
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-preuse/trial.json",
+      "sha256": "492f11a5d9880f299d4031195f70b0cad7dda2dc13a25a6ad093f045c5a1b052",
+      "bytes": 88350
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-preuse/audit.json",
+      "sha256": "4f6ea8c1239cbb36af2fcbc977bb68c9bca08716a310b03ce56a42dfd8a19ac8",
+      "bytes": 19555
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-preuse/audit.receipt.json",
+      "sha256": "935fa15ec419f181e497df97b3dffbf9cdf7377c7534904c5ba814b781d4c207",
+      "bytes": 42467
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-mode-controls.json",
+      "sha256": "dac06cb1dcb665781c454d6141aa1a0f3cc24d4b35639b88479e7eeb435f6a50",
+      "bytes": 2430
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/Makefile",
+      "sha256": "006b6266d6a7bdcf980b821692104b35d2527847efc1181f94e6fa9519cf07c0",
+      "bytes": 5294
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/functions.json",
+      "sha256": "ed47624b7e4b8559e4c4f0be66b53787489b26d12c89b8d1e7ab1cac9aac8f17",
+      "bytes": 88323
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/graph-metadata.json",
+      "sha256": "fc067cfd43284c6c2566880bac0324ec2cd459b3f4876d85d82f8aa934ed1a5a",
+      "bytes": 3967
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/build/runtime.json",
+      "sha256": "c9772002d348fb339e10d879f02487dc9ab08756ed902e915ebb258ae4d54ed5",
+      "bytes": 15181
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/build/cl.exe",
+      "sha256": "9a2e5f5d7f5de5c7a9eb933b68c93fc365ab7e82e73ba0cb77c4f10e89916147",
+      "bytes": 54272
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/build/cl.map",
+      "sha256": "630f9b198aa406aa5c4b79cb307b474f9882b2481d8019985c4863f38fb74b04",
+      "bytes": 22455
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/build/native-trace/CL.EXE",
+      "sha256": "1e067c6544c6efb296bf83323a72c579d001e86133f42d8c33a5f2244ac8933f",
+      "bytes": 520232
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/build/native-trace/CL.EXE.build.json",
+      "sha256": "371ef0841792b08f44bc26e5afcc69c4a494bf67e2ef35117c00c24a5dc63db3",
+      "bytes": 19809
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/build/reference-debugger.exe",
+      "sha256": "34346f4b275c5d782dd72201dbaf3a5260a37ad2e0d2f33ce81552e1aaf9f6c1",
+      "bytes": 119296
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/build/reference-debugger-build.json",
+      "sha256": "8ce8d40d87df9e46d8c1062c8751cf4e63b4d9d899a8c5659c31cf8cc6dfe1e2",
+      "bytes": 1249
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/src/jobs.c",
+      "sha256": "13764b608d4a813f662479a844152057e35c924a7b64fc9581470c4babdcecfa",
+      "bytes": 547
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/src/frontiers.c",
+      "sha256": "7ae6e01d49d38d2a635728c816796eb068fbe084b978d2a1e219b56c17a80000",
+      "bytes": 436
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/src/mre.h",
+      "sha256": "ccbd8213bee900657a921b50785484c14a242cced18786926ed34c14d9d13fe2",
+      "bytes": 1118
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/original.py",
+      "sha256": "05d346363a30bad647ce4cdaaf3a88faba2c1c978857efbce2cc3244e71248ef",
+      "bytes": 20009
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/helper-build.py",
+      "sha256": "18c7815ff0fd09b7f9e5c935910f3a119c715f58afebef80923f6d98e5d7bcbc",
+      "bytes": 925
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre_file.py",
+      "sha256": "5ad1f66c8804762ff46bb83472a1cdac0219b3cadfb585a5621649c6eb5dbecd",
+      "bytes": 10802
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-file-observer.inc",
+      "sha256": "5351ae35027929865ddc737091f0bbdf1d6370287fa717dd44f0e0e26b44453e",
+      "bytes": 9859
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-closed-file-observer.inc",
+      "sha256": "11401fc19113d1a1feb9b1d7020058ade8c0fa68754e3ed46ad3c3bfa0186364",
+      "bytes": 5663
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-observer.inc",
+      "sha256": "bc5aba0163768310bf6356e253a3fc44eafc10aafb87b80dfbc13757cb9d974d",
+      "bytes": 19712
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-sort-observer.inc",
+      "sha256": "09c4c63204dc25447571a603999b9bf717dccefd30c1db7aefcd9f673fe804e0",
+      "bytes": 7625
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-jobs-observer.inc",
+      "sha256": "eb8510b9b498b7e61b050abe4fa12a3a6afa0e474f59656d00b02e8cd863f1b7",
+      "bytes": 5837
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/reference-debugger.c",
+      "sha256": "08ba901a885c39cc0433fabcaf9057f41a364c79b2757fc68090243cb8f33b34",
+      "bytes": 42625
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/dependency-observer.inc",
+      "sha256": "158e39ace380a10a61f4ad25f64216ad1573422c33561c5b5ef8aa92b169801d",
+      "bytes": 20863
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/clock-observer.inc",
+      "sha256": "a8ac78cd30746c3981794c56569ce70b42efdfb1f9536ab3830ea040907eec98",
+      "bytes": 4828
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/export-reader.h",
+      "sha256": "5757ccb3bbb39aaf8fbd0ca1e650e50d1ff2a4cee243cf251f8e3b654f9a362c",
+      "bytes": 5031
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/check-mre-jobs-mode.py",
+      "sha256": "6a7e134247d834ec66b9af49dc88aeee23be91c506a0f43763e74c7fb6504eeb",
+      "bytes": 8598
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/accept.py",
+      "sha256": "f2fbc3351634db99908e1179a6e9fc5bcadc9f67ee23143507d0faab83a867ff",
+      "bytes": 19907
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/mre-host.c",
+      "sha256": "c45096b77102377fd0e6d1bb0a94229f079f4307cda37e766c24887688679652",
+      "bytes": 1507
+    }
+  ]
+}

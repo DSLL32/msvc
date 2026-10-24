@@ -25,7 +25,7 @@ CHILD_PHASES=PHASES[:-1]+('free-before','c1-entry-0','free-after','putenv-2-befo
 digest = lambda value: hashlib.sha256(value).hexdigest()
 
 
-def phase_snapshot(directory, read, phase, errors, mre_prefix=False):
+def phase_snapshot(directory, read, phase, errors, mre_prefix=False, mre_closed=False):
     """Decode addressed original records, including the distinct handle tables."""
     events = read('observer/mre-events.txt'if mre_prefix else'observer/events.txt').decode('ascii')
     matches = re.findall(r'^snapshot phase=' + phase + r' event=(\d+) tid=(\d+) eax=([0-9a-f]{8}) esp=([0-9a-f]{8}) ebp=([0-9a-f]{8})$', events, re.M)
@@ -68,7 +68,11 @@ def phase_snapshot(directory, read, phase, errors, mre_prefix=False):
     assert u32(read('streams-' + phase + '-pioinfo-slot.bin'), 0) == streams['lowio']
     assert u32(read('observer/' + phase + '-pioinfo-pointers.bin'), 0) == streams['lowio']
     descriptors = json.loads(read('observer/' + phase + '-open-descriptors.json'))
-    expected_fds=[0,1,2,3]if mre_prefix and phase!='mre-1-before'else[0,1,2]
+    if mre_closed:
+        assert mre_prefix and phase in('mre-6-after','mre-6-after-copy-after')
+        assert read('mre-observer.txt')==b'CL_MRE_JOBS_RESPONSE_V1\n'
+        assert u32(lowio,108)==0xffffffff and not lowio[112]&1,'fd3 is not actually closed'
+    expected_fds=[0,1,2,3]if mre_prefix and phase!='mre-1-before'and not mre_closed else[0,1,2]
     assert [item['fd'] for item in descriptors] == expected_fds
     for index in range(3):
         assert lowio[index * 36 + 4] & 1

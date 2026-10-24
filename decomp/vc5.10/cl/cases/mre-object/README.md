@@ -1,17 +1,21 @@
-The object-only `/Gm /Zi /c` case reaches three MSPDB calls and the masked `option_signature` entry. The compiler warns that `test.obj` is ignored; CL invokes no frontend or backend before this frontier.
+The object-only `/nologo /Gm /Zi /c /DVALUE=7 /Fdcase.pdb test.obj` case is complete.
+It runs six actual MSPDB operations, no frontend/backend, then exits0 with72
+application entries,50 stdout bytes,61 stderr bytes and the exact25600-byte IDB.
 
-`prefix-packet.json` derives the actual Open/Query/Init arguments and state from owned raw evidence. Each return has an independently copied 25600-byte IDB with Windows identity/cursor and child-state preservation checks. Metadata-only path handles make no data-sharing claim. Four failed transport attempts remain separately retained. Native MRE success and later lifecycle effects remain disabled pending review and shared descriptor support. No application coverage was added.
+The local typed host validates complete arguments, pending20B, aliases, namespaces,
+CRT/FILE/standard-handle state and real descriptor lifetime before each response.
+Release preserves the open binary/noinherit fd3 at1024; Close writes the observed
+final IDB and closes fd3 through genuine shared APIs. Unknown operations deny.
+Fresh GDB independently checks actual entries/returns, ordinary nonvolatiles,
+full FP, actual caller pending slot, jobs return and native driver_exit state.
 
-The initial three-call prefix now matches natively using sharedc11fa6763's
-create-absent binary/noinherit lease. The local host validates complete input
-and actual prestate, creates a real descriptor, writes the captured IDB and
-seeks to1024. Independent GDB reads authenticate RET24/8/4, nonvolatiles, FP,
-FILE/handle aliases, namespaces, tables and the real signature trap.
+`completion/` owns the final ordinary raw/build/source evidence and parent review.
+`reference/` owns the immutable cached packet and74 payloads. Regression runs are
+Linux-only, without GDB/Wine/raw decoding; cached mode cannot serve acceptance.
+Earlier `analysis/`, `native-prefix/` and `milestones/` retain their original
+prefix-only scope. Old failures and mixed-source test accounting are preserved.
+No private provider-object/lock/heap/thread or allocation-tail claim is made.
+Only the first original qsort comparison was observed. The last original full
+public snapshot is post-Close; final status/streams/trace/file are separately real.
 
-`native-prefix/` retains ordinary owned evidence, exact ELF and pinned source
-references. The initial frontier saved return was not dumped; ELF/INT3/static
-caller ownership and the recorded frame assertion qualify this prefix. The next
-required candidate capture adds those saved caller words. Native prefix with
-GDB/state checks took0.646s;57 affected negatives20.30s,11 extra PC checks11.90s,
-audits1.106s and all13 existing native fixtures3.250s. Later MRE/normal close
-remain denied. This support milestone adds no application credit.
+Latest fixture:0.257s total,64.6ms executable. All14 cached cases:4.121s.

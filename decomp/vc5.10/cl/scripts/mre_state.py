@@ -68,8 +68,9 @@ def state(record):
     return fields,memory
 
 
-def verify(original,directory,provider=None,signature_candidate=False,selector_candidate=False,sort_candidate=False):
+def verify(original,directory,provider=None,signature_candidate=False,selector_candidate=False,sort_candidate=False,jobs_candidate=False):
     directory=Path(directory);raw=json.loads((directory/'mre-native.json').read_bytes())
+    assert raw.get('cached',False)is False,'cached replay cannot be fresh acceptance'
     own_provider=provider is None
     if own_provider:
         # Pure offline verifier: no socket/thread or configuration generation.
@@ -89,7 +90,10 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
             execution=Path(index['execution_directory'])
             assert execution.is_absolute()and execution.parent==Path('/root/.ai-tmp/msvc2/vc5.10/cl')and execution.name.startswith('mre-provider-native-')
             provider.directory=execution;provider.artifact_directory=directory.resolve()
-        if sort_candidate:
+        if jobs_candidate:
+            from mre_jobs_packet import decode as jobs_response
+            provider.packet=jobs_response(provider.original)
+        elif sort_candidate:
             from mre_sort_packet import decode as sort_response
             provider.packet=sort_response(provider.original)
         elif selector_candidate:
@@ -103,12 +107,13 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
         provider.config_path=directory/'mre-binding.bin';provider.config=provider.config_path.read_bytes()
         provider.idb=(provider.original/provider.packet['intermediate_files'][0]['owned_contents']).read_bytes()
         provider.os_block=(provider.original/'observer/mre-1-before-os-environment.bin').read_bytes()
+        provider.jobs_candidate=jobs_candidate
         provider.native_before=provider.native_after=None
         assert raw['response_sha256']==sha(encoded(provider.packet))and raw['config_sha256']==sha(provider.config)
         assert raw['original_capture_sha256']==provider.packet['capture_sha256']
         from dependency_packet import vector
         unused,environment=vector((provider.original/'environment.bin').read_bytes())
-        assert provider.config==configuration(raw['response_sha256'],[value.decode('latin1')for pointer,value in environment],provider.os_block,provider.idb),'different actual MRE binding bytes'
+        assert provider.config==configuration(raw['response_sha256'],[value.decode('latin1')for pointer,value in environment],provider.os_block,provider.idb,(provider.original/provider.packet['intermediate_files'][-1]['owned_contents']).read_bytes()if jobs_candidate else None),'different actual MRE binding bytes'
     entry=json.loads((directory/'native-entry-errors.json').read_bytes())
     assert entry==provider.packet['entry_profile'],'different native main-entry profile'
     temporary=json.loads((directory/'native-mktemp-gdb.json').read_bytes())
@@ -116,7 +121,7 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
     assert len(actual)==len(expected)==1
     for name in('template','result','before','after'):assert actual[0][name]==expected[0][name],'native mktemp contract differs: '+name
     assert actual[0]['result_alias']is True
-    assert raw['errors']==[]and [r['kind']for r in raw['requests']]==list(range(9 if sort_candidate else 7))
+    assert raw['errors']==[]and [r['kind']for r in raw['requests']]==list(range(13 if jobs_candidate else 9 if sort_candidate else 7))
     from mre_elf import Layout
     execution=directory/'native-execution.json'
     report=json.loads((execution if execution.exists()else directory/'native-prefix.json').read_bytes())
@@ -126,7 +131,7 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
     pid=raw['pid'];assert all(r['pid']==pid for r in raw['requests'])
     assert bytes.fromhex(raw['requests'][0]['payload_hex'])==provider.config
     previous=None;observations=[]
-    for kind in range(1,9 if sort_candidate else 7):
+    for kind in range(1,13 if jobs_candidate else 9 if sort_candidate else 7):
         index=(kind-1)//2;after=not(kind&1);phase='mre-%d-%s'%(index+1,'after'if after else'before')
         record=json.loads((directory/('native-'+phase+'-gdb.json')).read_bytes())
         assert record['phase']==phase and record['pid']==pid
@@ -135,7 +140,7 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
         # Actual bytes read at the real function boundary must independently
         # agree with all corresponding fields the response host reported.
         for name,value in derived.items():assert value==request[name],'GDB disagrees with MRE request: '+name
-        registers=record['general'];arguments=record['arguments'];argc=(6,2,1,2)[index]
+        registers=record['general'];arguments=record['arguments'];argc=(6,2,1,2,1,2)[index]
         assert memory.words(arguments['stack'],argc+1)==[arguments['return'],*arguments['values']]
         if after:
             assert registers['eip']==arguments['return']and registers['esp']==arguments['stack']+4*(argc+1)
@@ -143,7 +148,7 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
             assert before['arguments']==arguments
             assert all(before['general'][name]==registers[name]for name in('ebx','esi','edi','ebp')),'native MRE stdcall nonvolatile changed'
             assert before['x87']==record['x87'],'native MRE changed full live x87 state'
-            if index in(0,3):assert registers['eax']==1
+            if index in(0,3,4,5):assert registers['eax']==1
             if index==1:assert registers['eax']==request['driver_value'] # ignored semantic word, actual alias only
         else:
             assert registers['esp']==arguments['stack']
@@ -158,6 +163,12 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
             assert args==[request['engine'],request['driver_out']]
             if after:assert memory.word(args[1])==request['driver_value']
         elif index==2:assert args==[request['mre_driver']]
+        elif index in(4,5):
+            assert arguments['pending_slot']==registers['ebp']+16
+            assert memory.word(arguments['pending_slot'])==arguments['pending']==request['pending_work']
+            assert memory.words(arguments['pending'],5)==request['pending_words']==[0]*5
+            if index==4:assert args==[request['mre_driver']]
+            else:assert args==[request['engine'],request['write_arg']]and args[1]==1
         else:
             assert args==[request['mre_driver'],request['pending_work']]
             assert memory.words(args[1],5)==request['pending_words']==[0]*5
@@ -175,13 +186,15 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
                 table='recon_osfhnd'if family=='crt'else'standard_handles'
                 assert memory.word(record['data_addresses'][table]+4*i)==expected['handle']
         fd=record['descriptor3']
-        if kind==1:assert fd is None
+        if kind in(1,12):
+            assert fd is None and request['fd3']is None
+            if kind==12:assert memory.word(record['data_addresses']['recon_osfhnd']+12)==0xffffffff
         else:
             expected=request['fd3'];handle=expected['handle']
             assert fd=={'handle':handle['handle'],'device':handle['device'],'inode':handle['inode'],
                 'size':25600,'position':1024,'flags':os.O_CLOEXEC|os.O_RDWR}
             assert memory.word(record['data_addresses']['recon_osfhnd']+12)==fd['handle']
-        if signature_candidate or selector_candidate or sort_candidate:
+        if signature_candidate or selector_candidate or sort_candidate or jobs_candidate:
             wanted=provider.packet['target_objects'][phase]['include_input']
             assert memory.word(record['symbols']['use_standard_include'])==wanted['use_standard_include']
             assert memory.text(derived['driver_words'][9])==wanted['text']
@@ -190,6 +203,9 @@ def verify(original,directory,provider=None,signature_candidate=False,selector_c
             # created output; do not pretend it is the earlier filesystem.
             provider.validate(kind,request,live=False)
         observations.append(record);previous=request
+    if jobs_candidate:
+        from sort_native_state import verify_tail
+        return verify_tail(provider,directory,layout,pid,observations[:8],previous,jobs=True)
     if sort_candidate:
         from sort_native_state import verify_tail
         return verify_tail(provider,directory,layout,pid,observations,previous)

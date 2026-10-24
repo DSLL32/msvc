@@ -1,0 +1,27 @@
+{
+  "kind": "Native MRE execution binding",
+  "signature_candidate": false,
+  "selector_candidate": false,
+  "sort_candidate": false,
+  "jobs_candidate": true,
+  "native_sha256": "18e6943378d4f104c2a680c1c613feb8ef52dbf785e72013d97070b1bda22a15",
+  "rebuilt_sha256": "d31099eab7520d2d968396ceb4edff917249ae4c40fa61f407045b38df03f00e",
+  "native_build_sha256": "3cda21320deba3f3973d4e0715eba8c495acb710f02673b3ca6f839866496234",
+  "config_sha256": "492f11a5d9880f299d4031195f70b0cad7dda2dc13a25a6ad093f045c5a1b052",
+  "resource_sha256": "3e97a6c6c3d1dacf1f7bd887299d7c771cf642ee190517a1979b878dd596fcd8",
+  "original_capture": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-1-original/capture.json",
+    "sha256": "5a77963d9fec273c9790ce12c452e128cd04e205a4520367f2ae6642de62fa7b"
+  },
+  "sources": {
+    "mre_native.py": "d016081b5810dfbd8e0db8b27684b29d059ccaddd4c36b540707a0af56562725",
+    "mre_state.py": "d188ca58e4cfbc4f9d8b118e89368fe0113378f40302eb32f4841595064d5d55",
+    "mre_elf.py": "5bc0e640ba10e494489dc87cc5ee8b4b7abae876aeb2661e455776263a81c9c6",
+    "selector_native_state.py": "d23360eda82b0702fc73dba3dc164cbf86fcc7ea0b84a715445f0d218358a40e",
+    "sort_native_state.py": "ec9d0882afde3bc5df23fb8229a890c4aed0a77c12656e1e8f9285c18b94b9b8",
+    "native-mre-prefix.py": "88e7872eb79dae48c85bc675bf62628fcfb69a59d63381f8259578ff7026299b",
+    "gdb_mre.py": "d42d2396ba797bce819ffb6413fbd1e6fa5fe436b56f7aef1e56ca3c838fdd40",
+    "jobs_native_state.py": "aa5777bf6488798d6fa325c8b5a0893f9d90dbd1a106a088aeb91436d8d38d41",
+    "native_status.py": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d"
+  }
+}

@@ -65,15 +65,17 @@ def mre_response_mode(config,baseline,case,others,enabled):
     if '_option_signature'in config['accepted']:
         if '_option_matching_selector'in config['accepted']:
             if '_compare_option_strings'in config['accepted']:
-                assert '_jobs_from_deferred'not in config['accepted'],'Sort candidate must leave genuine jobs frontier masked'
+                if '_jobs_from_deferred'in config['accepted']:
+                    assert '_deferred_from_jobs'not in config['accepted'],'Jobs slice must leave later app frontier masked'
+                    return 'CL_MRE_JOBS_RESPONSE_V1\n'
                 return 'CL_MRE_SORT_RESPONSE_V1\n'
             return 'CL_MRE_SELECTOR_RESPONSE_V1\n'
         return 'CL_MRE_SIGNATURE_RESPONSE_V1\n'
     return 'CL_MRE_PREFIX_RESPONSE_V2\n'
 
 
-def mre_copy_phase(line,completed,enabled,sort=False):
-    assert enabled and type(completed)is int and type(sort)is bool and 0<=completed<(4 if sort else 3), 'unexpected original file-copy request'
+def mre_copy_phase(line,completed,enabled,sort=False,jobs=False):
+    assert enabled and type(completed)is int and type(sort)is bool and type(jobs)is bool and not(sort and jobs)and 0<=completed<(6 if jobs else 4 if sort else 3), 'unexpected original file-copy request'
     phase='mre-%d-after'%(completed+1)
     assert line in(('MRE_FILE '+phase+'\n').encode(),('MRE_FILE '+phase+'\r\n').encode()), 'unexpected original file-copy request'
     return phase
@@ -135,6 +137,8 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     shutil.copyfile(HERE/'clock-observer.inc',directory/'clock-observer.inc')
     shutil.copyfile(HERE/'mre-observer.inc',directory/'mre-observer.inc')
     shutil.copyfile(HERE/'mre-sort-observer.inc',directory/'mre-sort-observer.inc')
+    shutil.copyfile(HERE/'mre-jobs-observer.inc',directory/'mre-jobs-observer.inc')
+    shutil.copyfile(HERE/'mre-closed-file-observer.inc',directory/'mre-closed-file-observer.inc')
     shutil.copyfile(HERE/'mre-file-observer.inc',directory/'mre-file-observer.inc')
     controller_source=store_blob(Path(__file__).read_bytes())
     helper_source=store_blob((HERE/'reference-debugger.c').read_bytes())
@@ -165,7 +169,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
             assert remaining>0 and selector.select(remaining),'bounded original capture produced no debugger response'
             line=process.stdout.readline();first+=line
             if line.startswith(b'MRE_FILE '):
-                phase=mre_copy_phase(line,file_copies,mre_response,response_marker=='CL_MRE_SORT_RESPONSE_V1\n')
+                phase=mre_copy_phase(line,file_copies,mre_response,response_marker=='CL_MRE_SORT_RESPONSE_V1\n',response_marker=='CL_MRE_JOBS_RESPONSE_V1\n')
                 from mre_file import copy_stopped_file,publish_ack
                 copied=copy_stopped_file(directory,phase)
                 publish_ack(directory,phase,copied);file_copies+=1
@@ -174,6 +178,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
                 address=int(line.split()[1],16)
                 stack=struct.unpack_from('<16I',(directory/'context.bin').read_bytes(),204)
                 if mre_response:
+                    assert response_marker!='CL_MRE_JOBS_RESPONSE_V1\n','Jobs response hit unknown app frontier; raw held'
                     signature=response_marker=='CL_MRE_SIGNATURE_RESPONSE_V1\n'
                     selector=response_marker=='CL_MRE_SELECTOR_RESPONSE_V1\n'
                     sort=response_marker=='CL_MRE_SORT_RESPONSE_V1\n'
@@ -194,6 +199,8 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
                 process.stdin.write(b'DONE\n');process.stdin.flush()
             break
         stdout,stderr=process.communicate(timeout=max(.1,deadline-time.monotonic()))
+        if response_marker=='CL_MRE_JOBS_RESPONSE_V1\n':
+            assert file_copies==6 and process.returncode==0,'Jobs lifecycle incomplete; raw held'
     except Exception as error:
         controller_error=repr(error)
         try:
@@ -216,7 +223,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
         'helper_sha256':sha((directory/'reference-debugger.exe').read_bytes()),'helper_build':helper_build,
         **paired,'build_dependency_hashes':dependency_hashes,
         'helper_source_sha256':sha((HERE/'reference-debugger.c').read_bytes()),
-        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc','clock-observer.inc','mre-observer.inc','mre-file-observer.inc','mre-sort-observer.inc','export-reader.h')},
+        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc','clock-observer.inc','mre-observer.inc','mre-file-observer.inc','mre-sort-observer.inc','mre-jobs-observer.inc','mre-closed-file-observer.inc','export-reader.h')},
         'controller_source':controller_source,'helper_source':helper_source,'mre_transport_source':transport_source,
         'command':command,'environment':{k:env[k] for k in ('WINEPREFIX','WINEDLLOVERRIDES','INCLUDE','LIB','WINEPATH','TMP','TEMP')},
         'timing':{'setup_seconds':setup,'reference_execution_seconds':run_time},

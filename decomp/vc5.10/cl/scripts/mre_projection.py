@@ -5,6 +5,7 @@ from case_inputs import load
 from mre_signature_packet import decode as signature_response
 from mre_selector_packet import decode as selector_response
 from mre_sort_packet import decode as sort_response
+from mre_jobs_packet import decode as jobs_response
 from mre_state import verify
 
 PROJECT=Path(__file__).resolve().parents[1]
@@ -12,6 +13,9 @@ sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
 def fields(packet):
+    if packet['normal_completion']:
+        from mre_jobs_projection import fields as jobs_fields
+        return jobs_fields(packet)
     objects=packet['target_objects']['mre-frontier'];options=objects['options']
     selector=packet['signature_frontier']['symbol']=='compare_option_strings'
     sort=packet['signature_frontier']['symbol']=='jobs_from_deferred'
@@ -54,25 +58,32 @@ def fields(packet):
 def project(platform,directory):
     directory=Path(directory)
     if platform=='original':
+        jobs=(directory/'mre-observer.txt').read_bytes()==b'CL_MRE_JOBS_RESPONSE_V1\n'
         selector=(directory/'mre-observer.txt').read_bytes()==b'CL_MRE_SELECTOR_RESPONSE_V1\n'
         sort=(directory/'mre-observer.txt').read_bytes()==b'CL_MRE_SORT_RESPONSE_V1\n'
-        packet=(sort_response if sort else selector_response if selector else signature_response)(directory)
+        packet=(jobs_response if jobs else sort_response if sort else selector_response if selector else signature_response)(directory)
         capture=json.loads((directory/'capture.json').read_bytes())
         names=['capture.json',*capture['files']]
     else:
         assert platform=='native'
         execution=json.loads((directory/'native-execution.json').read_bytes())
+        jobs=execution.get('jobs_candidate',False)
+        if jobs:
+            assert execution.get('script_snapshots'),'missing immutable native script provenance'
+            for name,item in execution['script_snapshots'].items():
+                path=directory/'source-snapshots'/name
+                assert Path(item['path']).name==name and sha(path)==item['sha256']
         selector=execution.get('selector_candidate',False)
         sort=execution.get('sort_candidate',False)
-        assert all(type(v)is bool for v in(selector,sort,execution['signature_candidate']))and sum((selector,sort,execution['signature_candidate']))==1
+        assert all(type(v)is bool for v in(jobs,selector,sort,execution['signature_candidate']))and sum((jobs,selector,sort,execution['signature_candidate']))==1
         original=Path(execution['original_capture']['path']).parent
         assert sha(original/'capture.json')==execution['original_capture']['sha256']
-        packet=(sort_response if sort else selector_response if selector else signature_response)(original)
+        packet=(jobs_response if jobs else sort_response if sort else selector_response if selector else signature_response)(original)
         assert packet==json.loads((directory/'mre-response.json').read_bytes())
         assert sha(directory/'config.json')==packet['config_sha256']==execution['config_sha256']
-        verify(original,directory,signature_candidate=not(selector or sort),selector_candidate=selector,sort_candidate=sort)
+        verify(original,directory,signature_candidate=not(jobs or selector or sort),selector_candidate=selector,sort_candidate=sort,jobs_candidate=jobs)
         capture=json.loads((directory/'capture.json').read_bytes())
-        assert capture['controller_error']is None and capture.get('mre_sort_response'if sort else'mre_selector_response'if selector else'mre_signature_response')is True
+        assert capture['controller_error']is None and capture.get('mre_jobs_response'if jobs else'mre_sort_response'if sort else'mre_selector_response'if selector else'mre_signature_response')is True
         assert capture['native_sha256']==execution['native_sha256']and capture['rebuilt_sha256']==execution['rebuilt_sha256']
         assert sha(directory/'native-build.json')==execution['native_build_sha256']
         names=['capture.json',*capture['files']]
@@ -80,8 +91,8 @@ def project(platform,directory):
     for name,item in capture['files'].items():
         value=(directory/name).read_bytes()
         assert item=={'bytes':len(value),'sha256':hashlib.sha256(value).hexdigest()},'changed actual MRE raw capture '+name
-    decoders=('mre_sort_packet.py','mbslwr_sort_packet.py','sort_native_state.py')if sort else('mre_selector_packet.py','mbslwr_packet.py','selector_native_state.py')if selector else('mre_signature_packet.py',)
+    decoders=('mre_jobs_packet.py','mre_jobs_lifecycle.py','mre_jobs_outcome.py','mre_jobs_controls.py','mre_jobs_projection.py','jobs_native_state.py','mbslwr_sort_packet.py','sort_native_state.py','native_status.py')if jobs else('mre_sort_packet.py','mbslwr_sort_packet.py','sort_native_state.py')if sort else('mre_selector_packet.py','mbslwr_packet.py','selector_native_state.py')if selector else('mre_signature_packet.py',)
     decoders+=('mre_projection.py','mre_native.py','mre_state.py','mre_elf.py','dependency_response.py','mktemp_state.py')
-    return {'projection':'cl-option-comparator-frontier-v1'if sort else'cl-option-selector-frontier-v1'if selector else'cl-option-signature-frontier-v1','fields':fields(packet),
+    return {'projection':'cl-jobs-mre-completion-v1'if jobs else'cl-option-comparator-frontier-v1'if sort else'cl-option-selector-frontier-v1'if selector else'cl-option-signature-frontier-v1','fields':fields(packet),
         'decoder_sha256':sha(Path(__file__)),'derivation_sources':{name:sha(PROJECT/'scripts'/name)for name in decoders},
         'raw_inputs':{name:sha(directory/name)for name in names}}

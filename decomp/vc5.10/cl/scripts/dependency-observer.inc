@@ -97,6 +97,7 @@ static void dependency_state(const char *phase,DWORD teb,DWORD tid,CONTEXT *cont
     memory(target_base+0x9020,execution+3,4);
     memory(execution[3]+8,execution+4,4);
     dependency_save(phase,"execution-words.bin",execution,sizeof(execution));
+    mre_jobs_control_snapshot(phase);
     sprintf(name,"observer\\%s-crt-environment.bin",phase);raw_vector(name,words[1],-1);
     if (dependency_argv) { sprintf(name,"observer\\%s-caller-argv.bin",phase);raw_vector(name,dependency_argv,-1); }
     if (dependency_pass) { memory(dependency_pass,stack,36);dependency_save(phase,"caller-pass.bin",stack,36); }

@@ -64,7 +64,7 @@ class Layout:
         assert target==self.symbol(callee),'wrong actual native call target'
 
     def entry(self,record,index):
-        names=('MREFOpenByName','MREQueryMreDrv','MREDrvOneTimeInit','MREDrvFFilesOutOfDate')
+        names=('MREFOpenByName','MREQueryMreDrv','MREDrvOneTimeInit','MREDrvFFilesOutOfDate','MREDrvFRelease','MREFClose')
         self.bind(record)
         assert record['general']['eip']==self.bias+self.symbol(names[index]),'wrong actual native MRE entry PC'
         self.call(record['arguments']['return'],names[index])

@@ -1,0 +1,25 @@
+{
+  "case": "mre-object",
+  "scope": "Fresh Jobs candidate; full six-call external contract and actual normal outcome",
+  "calls": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "jobs_formal": [
+    null
+  ],
+  "jobs_return": null,
+  "lowercase_calls": 1,
+  "observed_comparator_returns": 1,
+  "native_pid": 2347042,
+  "actual_native_ABI_state_and_file_match": true,
+  "callback_call": 1448561741,
+  "status_DWORD": 0,
+  "final_idb_sha256": "4469e5baa30d6e00dd593a3c6d09af1dd2d6ca47d88a11f21fa9772772bee82c",
+  "file_lifetime": "Real fd3 owned by provider, open through Release, written/closed by Close; other descriptors/FILE/standard-handle aliases retained.",
+  "exit_state_qualification": "Original last full public state is post-Close. Native exit additionally validates its own same-native lifetime/alias/state relations; no unobserved original exit snapshot claimed."
+}

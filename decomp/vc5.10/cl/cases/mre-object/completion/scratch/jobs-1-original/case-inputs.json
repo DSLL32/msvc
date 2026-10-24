@@ -1,0 +1,20 @@
+{
+  "case": "mre-object",
+  "arguments": [
+    "/nologo",
+    "/Gm",
+    "/Zi",
+    "/c",
+    "/DVALUE=7",
+    "/Fdcase.pdb",
+    "test.obj"
+  ],
+  "inputs": [
+    {
+      "name": "test.obj",
+      "source": "cases/minimal-c/reference/test.obj",
+      "bytes": 275,
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    }
+  ]
+}

@@ -94,13 +94,25 @@ def observe(directory,phase,arguments,call=None):
         for pointer in pointers:text(pointer)
         read(arguments['pending'],20)
     elif call is not None:
-        size=(6,2,1,0,2)[call];read(arguments['stack'],4*(size+1))
+        size={0:6,1:2,2:1,4:2,7:1,8:2,9:1,10:1}[call];read(arguments['stack'],4*(size+1))
         args=arguments['values']
         if call==0:
             text(args[1]);read(args[3],1024)
             if phase.endswith('after'):read(args[0],4);read(args[2],4)
         elif call==1 and phase.endswith('after'):read(args[1],4)
         elif call==4:read(args[1],20)
+        elif call in(7,8):
+            caller=frame.older()if phase.endswith('before')else frame
+            assert caller.name()=='prepare_jobs'
+            ebp=int(caller.read_register('ebp'))&0xffffffff
+            pending=int(caller.read_var('pending'))&0xffffffff
+            read(ebp+16,4);read(pending,20)
+            arguments={**arguments,'pending':pending,'pending_slot':ebp+16}
+        elif call==9:
+            caller=frame.older()if phase=='jobs-before'else frame
+            assert caller.name()=='prepare_jobs'
+            pending=int(caller.read_var('pending'))&0xffffffff;read(pending,20)
+            arguments={**arguments,'pending':pending}
     else:
         # Actual saved caller words are included in every new observation.
         # Initial-prefix evidence predating this remains explicitly qualified.
@@ -177,20 +189,20 @@ def observe(directory,phase,arguments,call=None):
 
 def install(directory):
     calls=[]
-    names=('MREFOpenByName','MREQueryMreDrv','MREDrvOneTimeInit','MREDrvFFilesOutOfDate')
+    names=('MREFOpenByName','MREQueryMreDrv','MREDrvOneTimeInit','MREDrvFFilesOutOfDate','MREDrvFRelease','MREFClose')
     class Return(gdb.Breakpoint):
         def __init__(self,address,index,arguments):
             super().__init__('*%#x'%address,temporary=True,internal=True);self.index=index;self.arguments=arguments
-        def stop(self):observe(directory,'mre-%d-after'%(self.index+1),self.arguments,4 if self.index==3 else self.index);return False
+        def stop(self):observe(directory,'mre-%d-after'%(self.index+1),self.arguments,(4 if self.index==3 else self.index+3 if self.index>=4 else self.index));return False
     class Entry(gdb.Breakpoint):
         def __init__(self,index):super().__init__('*'+names[index],internal=True);self.index=index
         def stop(self):
             assert self.index==len(calls),'extra/unordered native MRE entry'
             frame=gdb.newest_frame();assert frame.name()==names[self.index]and frame.older().name()=='prepare_jobs'
             sp=int(gdb.parse_and_eval('$esp'))&0xffffffff
-            words=struct.unpack('<%dI'%((6,2,1,2)[self.index]+1),bytes(gdb.selected_inferior().read_memory(sp,4*((6,2,1,2)[self.index]+1))))
+            words=struct.unpack('<%dI'%((6,2,1,2,1,2)[self.index]+1),bytes(gdb.selected_inferior().read_memory(sp,4*((6,2,1,2,1,2)[self.index]+1))))
             arguments={'stack':sp,'return':words[0],'values':list(words[1:])};calls.append(self.index)
-            observe(directory,'mre-%d-before'%(self.index+1),arguments,4 if self.index==3 else self.index)
+            observe(directory,'mre-%d-before'%(self.index+1),arguments,(4 if self.index==3 else self.index+3 if self.index>=4 else self.index))
             Return(words[0],self.index,arguments);return False
     for i in range(3):Entry(i)
     class LowerReturn(gdb.Breakpoint):
@@ -208,7 +220,7 @@ def install(directory):
             observe(directory,'lower-before',arguments,3);LowerReturn(words[0],arguments);return False
     config=json.loads((Path(directory)/'config.json').read_bytes())
     if '_option_matching_selector'in config['accepted']:LowerEntry()
-    if '_compare_option_strings'in config['accepted'] and '_jobs_from_deferred'not in config['accepted']:
+    if '_compare_option_strings'in config['accepted']:
         Entry(3)
         class CompareReturn(gdb.Breakpoint):
             def __init__(self,address,arguments):
@@ -230,3 +242,30 @@ def install(directory):
                 ret=record['arguments']['return']
                 CompareReturn(ret,record['arguments']);return False
         CompareEntry()
+
+    if '_jobs_from_deferred'in config['accepted']:
+        Entry(4);Entry(5)
+        class JobsReturn(gdb.Breakpoint):
+            def __init__(self,address,arguments):
+                super().__init__('*%#x'%address,temporary=True,internal=True);self.arguments=arguments
+            def stop(self):observe(directory,'jobs-after',self.arguments,9);return False
+        class JobsEntry(gdb.Breakpoint):
+            def __init__(self):super().__init__('*jobs_from_deferred',internal=True);self.calls=0
+            def stop(self):
+                assert self.calls==0 and gdb.newest_frame().name()=='jobs_from_deferred'
+                assert gdb.newest_frame().older().name()=='prepare_jobs'
+                self.calls+=1;sp=int(gdb.parse_and_eval('$esp'))&0xffffffff
+                words=struct.unpack('<2I',bytes(gdb.selected_inferior().read_memory(sp,8)))
+                arguments={'stack':sp,'return':words[0],'values':[words[1]]}
+                observe(directory,'jobs-before',arguments,9)
+                JobsReturn(words[0],arguments);return False
+        class ExitEntry(gdb.Breakpoint):
+            def __init__(self):super().__init__('*driver_exit',internal=True);self.calls=0
+            def stop(self):
+                assert self.calls==0 and gdb.newest_frame().name()=='driver_exit'
+                assert gdb.newest_frame().older().name()=='main'
+                self.calls+=1;sp=int(gdb.parse_and_eval('$esp'))&0xffffffff
+                words=struct.unpack('<2I',bytes(gdb.selected_inferior().read_memory(sp,8)))
+                observe(directory,'driver-exit',{'stack':sp,'return':words[0],'values':[words[1]]},10)
+                return False
+        JobsEntry();ExitEntry()

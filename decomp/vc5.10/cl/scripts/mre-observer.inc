@@ -10,6 +10,11 @@ static void mre_compare_enter(DWORD,DWORD,CONTEXT *,HANDLE,HANDLE,HANDLE);
 static void mre_sort_trap(int,DWORD,DWORD,DWORD,CONTEXT *,HANDLE,HANDLE,HANDLE,HANDLE);
 static void mre_sort_frontier(DWORD,DWORD,DWORD,CONTEXT *,HANDLE,HANDLE,HANDLE);
 static void mre_sort_unknown(DWORD,DWORD,DWORD,CONTEXT *,HANDLE,HANDLE,HANDLE);
+static int mre_jobs_mask(BYTE,BYTE,BYTE,BYTE);
+static void mre_jobs_install(void);
+static int mre_jobs_point(DWORD);
+static void mre_jobs_enter(DWORD,DWORD,CONTEXT *,HANDLE,HANDLE,HANDLE);
+static void mre_jobs_trap(int,DWORD,DWORD,DWORD,CONTEXT *,HANDLE,HANDLE,HANDLE,HANDLE);
 static DWORD mre_provider_base,mre_analysis_calls,mre_analysis_ebp;
 static int mre_analysis_pending[3];
 static BYTE mre_analysis_returns[3];
@@ -19,6 +24,14 @@ static DWORD mre_analysis_slots[3]={0xa300,0xa314,0xa304};
 static DWORD mre_analysis_bytes[3]={24,8,4};
 static const char *mre_analysis_exports[3]={"_MREFOpenByName@24","_MREQueryMreDrv@8","_MREDrvOneTimeInit@4"};
 
+/* New family only: this CL scalar is consumed by both lifecycle callers. */
+static void mre_jobs_control_snapshot(const char *phase)
+{
+    DWORD first_scan;
+    if (!mre_jobs_observer) return;
+    memory(target_base+0x9018,&first_scan,4);
+    dependency_save(phase,"first-dependency-scan.bin",&first_scan,4);
+}
 static int mre_observation_mode(int masked,int other_family)
 {
     return masked==0 && other_family==0;
@@ -38,7 +51,7 @@ static int mre_observation_response_marker(const char *line)
     return !strcmp(line,"CL_MRE_PREFIX_RESPONSE_V2\n") ||
         !strcmp(line,"CL_MRE_SIGNATURE_RESPONSE_V1\n") ||
         !strcmp(line,"CL_MRE_SELECTOR_RESPONSE_V1\n") ||
-        !strcmp(line,"CL_MRE_SORT_RESPONSE_V1\n");
+        !strcmp(line,"CL_MRE_SORT_RESPONSE_V1\n") || !strcmp(line,"CL_MRE_JOBS_RESPONSE_V1\n");
 }
 static int mre_observation_frontier_mode(int signature,BYTE signature_entry,BYTE selector_entry)
 {
@@ -55,7 +68,8 @@ static void mre_observation_install(int masked)
     output_path(path,"mre-observer.txt");file=fopen(path,"rb");if (!file) return;
     if (!fgets(line,sizeof(line),file) || fgetc(file)!=EOF) ExitProcess(160);
     mre_response_observer=mre_observation_response_marker(line);
-    mre_sort_observer=!strcmp(line,"CL_MRE_SORT_RESPONSE_V1\n");
+    mre_jobs_observer=!strcmp(line,"CL_MRE_JOBS_RESPONSE_V1\n");
+    mre_sort_observer=mre_jobs_observer || !strcmp(line,"CL_MRE_SORT_RESPONSE_V1\n");
     mre_selector_observer=mre_sort_observer || !strcmp(line,"CL_MRE_SELECTOR_RESPONSE_V1\n");
     mre_signature_observer=mre_selector_observer || !strcmp(line,"CL_MRE_SIGNATURE_RESPONSE_V1\n");
     if (mre_response_observer) {
@@ -85,7 +99,7 @@ static void mre_observation_install(int masked)
             memory(target_base+0x3b49,&comparator,1);
             if (mre_sort_observer) {
                 BYTE jobs;memory(target_base+0x3b5d,&jobs,1);
-                if (!mre_sort_mask(entry,selector,comparator,jobs)) ExitProcess(163);
+                if (!(mre_jobs_observer ? mre_jobs_mask(entry,selector,comparator,jobs) : mre_sort_mask(entry,selector,comparator,jobs))) ExitProcess(163);
             } else if (!mre_selector_frontier_mode(entry,selector,comparator)) ExitProcess(163);
             memory(target_base+0x3abb,call,6);
             if (!mre_observation_call(call,target_base,0xa26c)) ExitProcess(163);
@@ -93,12 +107,14 @@ static void mre_observation_install(int masked)
             if (mre_lower_return!=0x8b) ExitProcess(163);
             patch_byte(target_base+0x3abb,0xcc);
             if (mre_sort_observer) mre_sort_install();
+            if (mre_jobs_observer) mre_jobs_install();
         } else if (!mre_observation_frontier_mode(mre_signature_observer,entry,selector)) ExitProcess(163);
     }
 }
 static int mre_observation_point(DWORD address)
 {
-    unsigned i;if (!mre_analysis_observer) return -1;
+    unsigned i;int jobs_point;if (!mre_analysis_observer) return -1;
+    jobs_point=mre_jobs_point(address);if (jobs_point>=0) return jobs_point;
     if (!mre_response_observer && address==target_base+0x393a) return 3;
     if (mre_sort_observer && (address==target_base+0x3686 || (mre_sort_pending && address==target_base+0x368c))) return 6;
     if (mre_sort_observer && mre_compare_pending && address==crt_base+0x2551e) return 7;
@@ -201,6 +217,7 @@ static void mre_lower_trap(DWORD address,DWORD teb,DWORD tid,CONTEXT *context,HA
 static void mre_observation_trap(int point,DWORD address,DWORD teb,DWORD tid,CONTEXT *context,HANDLE thread,HANDLE input,HANDLE out,HANDLE err)
 {
     DWORD actual,stack[16],words[4],argument;char phase[64];BYTE message[1024];int after;
+    if (point>=8) { mre_jobs_trap(point,address,teb,tid,context,thread,input,out,err);return; }
     if (point==6 || point==7) { mre_sort_trap(point,address,teb,tid,context,thread,input,out,err);return; }
     if (point==4) { mre_lower_trap(address,teb,tid,context,input,out,err);return; }
     if (point==3) {
@@ -258,6 +275,7 @@ static void mre_observation_frontier(DWORD address,DWORD teb,DWORD tid,CONTEXT *
 {
     DWORD arguments[3],state,first_option,frame[3];char selectors[3];
     if (!mre_response_observer) return;
+    if (mre_jobs_observer) return; /* Unknown app traps stay raw and held. */
     if (mre_sort_observer) {mre_sort_frontier(address,teb,tid,context,input,out,err);return;}
     if (mre_analysis_calls!=3 || mre_analysis_pending[0] || mre_analysis_pending[1] || mre_analysis_pending[2]) ExitProcess(188);
     memory(context->Esp,arguments,sizeof(arguments));
@@ -308,3 +326,5 @@ static void mre_observation_frontier(DWORD address,DWORD teb,DWORD tid,CONTEXT *
 }
 
 #include "mre-sort-observer.inc"
+
+#include "mre-jobs-observer.inc"

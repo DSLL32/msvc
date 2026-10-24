@@ -21,6 +21,25 @@
         "before_sha256": "09f70f071f13d8e332ae6577e959a78a44f4609495466c173ac68ccd38738b01",
         "after_sha256": "9703ecc7849cedcc89a51e542fd6ad3cdee25def96c4745d95d06fc02f697357"
       }
+    },
+    {
+      "id": 4021,
+      "language": 1033,
+      "type": 6,
+      "record_file_offset": 45318,
+      "length_utf16": 19,
+      "utf16le": "6e006f00200061006300740069006f006e00200070006500720066006f0072006d0065006400",
+      "text": "no action performed",
+      "codepage": 0,
+      "encounter": {
+        "capture_path": "/root/.ai-tmp/msvc2/vc5.10/cl/jobs-1-original/capture.json",
+        "capture_sha256": "5a77963d9fec273c9790ce12c452e128cd04e205a4520367f2ae6642de62fa7b",
+        "entry_context_sha256": "2406b44a0ab4f22c1472ecdb1fed8fe4437f17a5a91d6974728a6909533223a7",
+        "api_events_sha256": "820b65655b019fb58d9ec1ddae528a220642afe2a8bd0358d1ff58218ffdba82",
+        "sequence": 4,
+        "before_sha256": "09f70f071f13d8e332ae6577e959a78a44f4609495466c173ac68ccd38738b01",
+        "after_sha256": "312d8119f659ce69d439ccbdef1d5e8ee4f5bd8265a8bf9d631f8b6195ba3b2d"
+      }
     }
   ]
 }

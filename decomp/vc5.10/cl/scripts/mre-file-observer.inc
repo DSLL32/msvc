@@ -1,6 +1,10 @@
 /* Original-only hybrid copy. Called synchronously inside an outstanding
  * EXCEPTION_DEBUG_EVENT: Windows suspends every debuggee thread until the
  * enclosing debugger loop calls ContinueDebugEvent. No duplicate is read. */
+static BY_HANDLE_FILE_INFORMATION mre_file_last_live;
+static DWORD mre_file_last_slot;
+static int mre_file_have_live;
+static int mre_jobs_observer;
 static int mre_file_label(const char *name)
 {
     unsigned i;if (!name[0] || strlen(name)>80) return 0;
@@ -127,4 +131,7 @@ static void mre_file_copy(const char *phase,DWORD teb,DWORD tid,HANDLE thread,
     CloseHandle(independent);CloseHandle(duplicate);
     sprintf(path,"%s-copy-after",phase);dependency_state(path,teb,tid,&after_context,input,out,err);
     fprintf(dependency_events,"file-copy phase=%s event=%lu tid=%lu all-threads-held=debug-event position=%lu:%lu\n",phase,event_number,tid,position[1],position[0]);fflush(dependency_events);
+    mre_file_last_live=descriptor_info;mre_file_last_slot=slot;mre_file_have_live=1;
 }
+
+#include "mre-closed-file-observer.inc"
