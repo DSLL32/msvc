@@ -1,0 +1,48 @@
+{
+  "kind": "Independent initial CL MRE native typed dependency integration review",
+  "review_manifest_sha256": "782b0851056e318bfe904339064f95f77da83078089b4ff4a56063b8730f22cf",
+  "verified_bound_files": 75,
+  "independent_verification": {
+    "seconds": 1.0487353410571814,
+    "result": {
+      "case": "mre-object",
+      "scope": "initial prefix, no acceptance/normal close credit",
+      "calls": [
+        1,
+        1,
+        1
+      ],
+      "frontier": "option_signature",
+      "native_pid": 2195335,
+      "actual_native_ABI_state_and_file_match": true,
+      "frontier_caller_authentication": {
+        "native_module_bias": 1448431616,
+        "unique_static_caller": "prepare_jobs",
+        "static_return": 1448466404,
+        "saved_return_word": "Not independently dumped in initial prefix; actual older-frame assertion is capture-source authenticated. Next required candidate native capture must include saved EBP/return bytes."
+      }
+    }
+  },
+  "decision": "PASS; exact initial Open/Query/Init dependency prefix may be traversed in future ordinary fresh application trials. No function/completion credit from this experiment.",
+  "review": [
+    "Exact typed stdcall24/8/4 real entries and returns, independent data-derived ELF PIE bias and actual direct-call windows, all nonvolatiles/errors/architecturalFP",
+    "Genuine sharedfd3 RDWR/CLOEXEC/lowio11, owned complete25600B file/position1024, FILE/Winstd aliases/otherdescriptors/namespace/fulltables/targetinputs and program scratch validated before capturedeffects",
+    "Opaqueengine/driver roles and offset4 only, no object layout/contents/later lifetime support",
+    "Socket PID/config/response identity and mandatory1/1/1 before-after inventory, unknown calls/inputs/state failclosed",
+    "Full actual addressed GDB state agrees independently with response payload; same original raw authenticated",
+    "Monotonic11 PC controls fresh; prior57 controls truthfully reused, actual capture sourcehash retained separately from current validator",
+    "Native-only fixtures remain Linux;13 cachedcases3.250s. Experiment prefix0.646s GDB+verification and original3.856s are separate measured costs"
+  ],
+  "qualifications": [
+    "No normal completion or later MRE lifetime/close credit.",
+    "Original Windows identity/timestamps are retained observer identity/preservation evidence; Linux inode/time values are not equated to them. Real native file bytes/size/binary/noinherit/RDWR/position/ownership are enforced.",
+    "Exact inert x87 selector qualification reused only under actual empty tags/zero IP+DP/zero data/no target consumer. All remaining fields and within-native preservation strict.",
+    "Current mre_state.py adds monotonic offline configuration/main/mktemp/message-alias checks after native-5 execution. Its prior actual execution-source hash remains unchanged in native-prefix.json; no native raw relabel.",
+    "Initial frontier saved caller EBP/return were not independently dumped. Exact hash-bound ELF/bias/INT3/formal slot, unique static prepare_jobs edge and capture-source older-frame assertion authenticate this narrower zero-credit prefix. Next required candidate native observation must add the8B raw read."
+  ],
+  "next_requirements": [
+    "Next actual app candidate uses normal fresh masked-original/native acceptance and candidate-inclusive audit, not this zero-credit receipt",
+    "Next required native capture adds actual8-byte savedcaller read; no new capture for current limited prefix review",
+    "Future MREcalls/close/fileeffects unknown and denied; dependency responses must remain complete-input/prestate/ownedfile bound"
+  ]
+}

@@ -1,0 +1,281 @@
+{
+  "schema": 1,
+  "kind": "Ordinary owned native prefix evidence; no acceptance",
+  "execution_directory": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-provider-native-5",
+  "native_receipt_sha256": "41e8d97fa550b3b3d45376b109344cde7e8c585d02c8a220aa83327e3cb5c9cb",
+  "historical_paths": "Raw CWD/source paths are unmodified historical inputs. Storage location does not replace execution CWD.",
+  "files": {
+    "streams-mre-2-before.json": {
+      "bytes": 1039,
+      "sha256": "ac18d10766b4a14d146b294d6463c7fb21a64f4471c6080a51ffc94900294855"
+    },
+    "streams-mre-1-after.json": {
+      "bytes": 1039,
+      "sha256": "ac18d10766b4a14d146b294d6463c7fb21a64f4471c6080a51ffc94900294855"
+    },
+    "gdb_mre.py": {
+      "bytes": 6001,
+      "sha256": "f3bd02820d5f8f1990b069fe190e4dd2b06363547623cc9430f3f54f2b3fd080"
+    },
+    "native-entry-errors.json": {
+      "bytes": 80,
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c"
+    },
+    "native-mre-1-after-gdb.json": {
+      "bytes": 320512,
+      "sha256": "1bf936cc54158624de1ea3e4c823e0cb127489f16b13aecb71cc2cb95374ad73"
+    },
+    "streams-mre-3-before-iob.bin": {
+      "bytes": 96,
+      "sha256": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea"
+    },
+    "mktemp-expected.json": {
+      "bytes": 409,
+      "sha256": "726d069b07b8ca2db013bfdf7d24f402ebfd2ec90506e7bb19814794bd22d3c2"
+    },
+    "streams-mre-3-after-iob.bin": {
+      "bytes": 96,
+      "sha256": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea"
+    },
+    "mre-native.json": {
+      "bytes": 490135,
+      "sha256": "6923fffd42c4ee91aba2ffdbfc3badc3ad86bad27dcd09e7192bdcdf9f80413a"
+    },
+    "native-mre-3-after-gdb.json": {
+      "bytes": 317607,
+      "sha256": "46196d798f10aabd9eea42c1a9f6c9d9a21ec05e49af9f04e2ed0faad09f76b1"
+    },
+    "streams-mre-frontier-iob.bin": {
+      "bytes": 96,
+      "sha256": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea"
+    },
+    "mre-provider-audit.json": {
+      "bytes": 171,
+      "sha256": "ad09ea38a45d35e13ac76e29a0b3931a1c4eb61788d1ac71d87a65307c32e369"
+    },
+    "streams-mre-3-after.json": {
+      "bytes": 1039,
+      "sha256": "f524f58f09f1c1d789d76bc79f4620b912cf82da73cb036c4d83480601a4b476"
+    },
+    "debugger.txt": {
+      "bytes": 589,
+      "sha256": "3ca63caa18b40d89ac17ef85ea2957b652d3213d22ad2e44bdded33a4d932f8c"
+    },
+    "gdb-entry.py": {
+      "bytes": 362,
+      "sha256": "6a0ead97b19c84774e61b5b1b00babb29afef8f806bf8e2d1269c8266f9f8dc0"
+    },
+    "streams-mre-1-before-iob.bin": {
+      "bytes": 96,
+      "sha256": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea"
+    },
+    "streams-entry-iob.bin": {
+      "bytes": 96,
+      "sha256": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea"
+    },
+    "stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "trace.txt": {
+      "bytes": 836,
+      "sha256": "442a582012ea22b0bfd93289738d8ced0cf1ad539650ede42fed122d5319b06c"
+    },
+    "streams-mre-1-after-iob.bin": {
+      "bytes": 96,
+      "sha256": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea"
+    },
+    "native-prefix.json": {
+      "bytes": 1039,
+      "sha256": "41e8d97fa550b3b3d45376b109344cde7e8c585d02c8a220aa83327e3cb5c9cb"
+    },
+    "native-state-verification.json": {
+      "bytes": 238,
+      "sha256": "4924218775b24acd9ecd79d949955e7a2b6991402545e7f45ccca856ff7ed937"
+    },
+    "native-build.json": {
+      "bytes": 18815,
+      "sha256": "4b0a22fa9861de30d142ba04975c1463c5ff3c7fa711618621ec4032fb538563"
+    },
+    "stderr.bin": {
+      "bytes": 61,
+      "sha256": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b"
+    },
+    "native-mktemp-gdb.json": {
+      "bytes": 381,
+      "sha256": "1ce5b15b2b54c168d4690f83c5ad4575f2f66c355b0f0b40fb204571125a45c6"
+    },
+    "trace-seen.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "native-mre-1-before-gdb.json": {
+      "bytes": 320256,
+      "sha256": "ab38908888ecbac4662d3e100d732ac42abc989ef20a2f198ac429fdf5d9b9e6"
+    },
+    "native-process.json": {
+      "bytes": 17,
+      "sha256": "5d3c7c1c084fbc3c94c51b5ad805a0c80406e5ffb72ff2fd05c95cc589410409"
+    },
+    "streams-mre-frontier.json": {
+      "bytes": 1039,
+      "sha256": "f524f58f09f1c1d789d76bc79f4620b912cf82da73cb036c4d83480601a4b476"
+    },
+    "resources.bin": {
+      "bytes": 5655,
+      "sha256": "18a0a7a878846acd3d40008dcc38a2f3d7a0bd6a275900afabc578be136c037f"
+    },
+    "gdb-frontier.py": {
+      "bytes": 173,
+      "sha256": "3983bcc23def5568ec4e5d112f508e651418fabd343623fbc724952c9a512099"
+    },
+    "mre-binding.bin": {
+      "bytes": 32199,
+      "sha256": "2fd7d3d4b67d15de7864320da4b1c3dbb568b7f9a524f23e6994840639a60123"
+    },
+    "streams-mre-2-after.json": {
+      "bytes": 1039,
+      "sha256": "3dd8f856dbbf7cc74cd7fc8dc93803b5077dda8057a13e3f5bc978b1590434fe"
+    },
+    "native-mre-frontier-gdb.json": {
+      "bytes": 317715,
+      "sha256": "732a72686942f0c48f93a0103f3bca65e02c777b3ccd0a2c46ef82187a910800"
+    },
+    "native-mre-2-after-gdb.json": {
+      "bytes": 317701,
+      "sha256": "c2fb73b2c91d2bb9ae4493763738716e07821c94cc8208167dd37533e547864f"
+    },
+    "gdb_entry.py": {
+      "bytes": 794,
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    "mre-pc-controls.json": {
+      "bytes": 604,
+      "sha256": "e3c8df9975e8bb2dd4070183fa5b5a8a4ea1ee628566934886cac7c893a2fe0f"
+    },
+    "compiled-source-references.json": {
+      "bytes": 10023,
+      "sha256": "57789fd9ed830c8f042f336003326e8a54bc45a7ea397de8a83eb538d64ec9d5"
+    },
+    "test.obj": {
+      "bytes": 275,
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    "gdb_streams.py": {
+      "bytes": 2190,
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    "mre-native-controls-v2.json": {
+      "bytes": 2081,
+      "sha256": "cee560d5f4c887dbe8c21b0a8dfe524cc16d070e85578364a855d754fc38a42c"
+    },
+    "case.idb": {
+      "bytes": 25600,
+      "sha256": "4c97424c8baed3e1261bce5f95816ba01a995f752c1e9887466ddec58266cb15"
+    },
+    "mre-provider-fixtures.json": {
+      "bytes": 7537,
+      "sha256": "6ad2d776e726c898712f4e8859750a10686e6f08fe791f40e27e0f74eccdc4f3"
+    },
+    "mre-response.json": {
+      "bytes": 368371,
+      "sha256": "0e27aae3091c8d5430c7e27656f21a47abc731859b618952a947cc1b5e2ee37d"
+    },
+    "native-mre-3-before-gdb.json": {
+      "bytes": 317608,
+      "sha256": "e44677f63c7200045d126ff11080087f750dbbb28319b3fbc0f8cadba1c5a427"
+    },
+    "exec-wrapper.py": {
+      "bytes": 355,
+      "sha256": "604a938c938c169b9fc60a189df314b75abe6ad48dafcdd0aeaa513d28744ba0"
+    },
+    "streams-entry.json": {
+      "bytes": 1039,
+      "sha256": "3304d39e76256d060070cf6e5d81731b98141c413ab24cf4925efac729ba2a53"
+    },
+    "streams-mre-3-before.json": {
+      "bytes": 1039,
+      "sha256": "3dd8f856dbbf7cc74cd7fc8dc93803b5077dda8057a13e3f5bc978b1590434fe"
+    },
+    "streams-mre-2-after-iob.bin": {
+      "bytes": 96,
+      "sha256": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea"
+    },
+    "mre-native-parent-review-v2.json": {
+      "bytes": 3657,
+      "sha256": "4ba8400b15ddd94746c33c3f9dcab11b25c1abf3d2cd65242ff44097ea8d318a"
+    },
+    "config.json": {
+      "bytes": 86568,
+      "sha256": "8f5cbd7ee6cb840aa8b8a54d7a4bce8fc9cbab3bd25bb5efc628b6b6797d47d8"
+    },
+    "gdb_mktemp.py": {
+      "bytes": 1855,
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    },
+    "streams-mre-1-before.json": {
+      "bytes": 1039,
+      "sha256": "5bdb69c80afeae36f402b84c86340bcdb62c9dd567efbc7f0d919c697f70d8bd"
+    },
+    "trace-filter.txt": {
+      "bytes": 1403,
+      "sha256": "d35dd5f2387367e76715d313880621bd53c4709f892fa2cd28bcb1d1030a0515"
+    },
+    "native-CL.EXE": {
+      "bytes": 515896,
+      "sha256": "0199a512edc8f10ca7b93964944094dc739878fb98a4e08104d74912c7b6796c"
+    },
+    "streams-mre-2-before-iob.bin": {
+      "bytes": 96,
+      "sha256": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea"
+    },
+    "native-mre-2-before-gdb.json": {
+      "bytes": 317634,
+      "sha256": "7d0798f542a4aae6e27cca9418e4e50146021e6bb163e37a0954a4a13ab6d34d"
+    },
+    "execution-sources/native-host.c": {
+      "bytes": 6095,
+      "sha256": "912cfc5d912a525d67cc20ba8f467dbb43f5d45446c6461a3652fdb8379cca4e"
+    },
+    "execution-sources/native-mre-prefix.py": {
+      "bytes": 5960,
+      "sha256": "69ecd2104bff2b4a87a0dd8bfa12957a500116565342ab66d335decdb41ef051"
+    },
+    "execution-sources/mre_native.py": {
+      "bytes": 14859,
+      "sha256": "be02e477689a54897589b50bc2d2046fc12ac7f540ce169b958c0c604b1cb399"
+    },
+    "execution-sources/gdb_mre.py": {
+      "bytes": 6001,
+      "sha256": "f3bd02820d5f8f1990b069fe190e4dd2b06363547623cc9430f3f54f2b3fd080"
+    },
+    "execution-sources/mre-provider.c": {
+      "bytes": 12729,
+      "sha256": "7d3f75e9d5c7fe730b2bf954089f5fd6957cdd2dc0ac1d627e6856a383bd2cf9"
+    },
+    "execution-sources/mre-host.c": {
+      "bytes": 1461,
+      "sha256": "e0e6452ccf44f718c743881be4b92ed3b603748cdd6338def7e11d3041c74873"
+    },
+    "execution-sources/mre_state.py": {
+      "bytes": 10818,
+      "sha256": "a1ca80622c0225a5bda6d04fc3164886edc4851068a5c63dcbc2aeb8795a733e"
+    },
+    "compiled-inputs/decomp/vc5.10/cl/Makefile": {
+      "bytes": 5166,
+      "sha256": "08182325772ee836967aae0f7039385731436959d2ab5baed289b77a3857a0e9"
+    },
+    "compiled-inputs/decomp/vc5.10/cl/scripts/mre-host.c": {
+      "bytes": 1461,
+      "sha256": "e0e6452ccf44f718c743881be4b92ed3b603748cdd6338def7e11d3041c74873"
+    },
+    "compiled-inputs/decomp/vc5.10/cl/scripts/native-host.c": {
+      "bytes": 6095,
+      "sha256": "912cfc5d912a525d67cc20ba8f467dbb43f5d45446c6461a3652fdb8379cca4e"
+    },
+    "compiled-inputs/decomp/vc5.10/cl/scripts/mre-provider.c": {
+      "bytes": 12729,
+      "sha256": "7d3f75e9d5c7fe730b2bf954089f5fd6957cdd2dc0ac1d627e6856a383bd2cf9"
+    }
+  }
+}

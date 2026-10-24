@@ -1,0 +1,11 @@
+Temporary breakpoint 1 at 0xa3a0: file /root/msvc2/decomp/vc5.10/cl/src/main.c, line 36.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 1, main (argc=8, argv=0xffffd6c4, envp=0x565ad8a0) at /root/msvc2/decomp/vc5.10/cl/src/main.c:36
+36	{
+NATIVE_PROCESS_PID=2195335
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655f0f2 in option_signature (state=0x56592408 <driver_storage>) at /root/msvc2/decomp/vc5.10/cl/src/frontiers.c:5
+5	char *option_signature(Driver *state) { __asm int 3

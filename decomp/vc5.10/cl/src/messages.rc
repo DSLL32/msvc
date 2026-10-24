@@ -78,6 +78,7 @@ BEGIN
     571 "/LD Create .DLL                          /F<num> set stack size\n"
     572 "/LDd Create .DLL debug libary            /link [linker options and libraries]\n"
     4025 "overriding '/%s%s' with '/%s%s'"
+    4027 "source file '%s' ignored"
     302 "Command line warning D%d : "
     4002 "ignoring unknown option '%s'"
     303 "Command line error D%d : "

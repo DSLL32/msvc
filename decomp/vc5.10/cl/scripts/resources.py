@@ -52,8 +52,8 @@ def extract(identifier):
 
 def encounter(identifier,capture):
     capture=Path(capture)
-    state=json.loads((capture/'state.json').read_text())
-    terminal=state['fields'].get('frontier')=='load_string' and state['fields'].get('parameters',{}).get('id')==identifier
+    state=json.loads((capture/'state.json').read_text())if(capture/'state.json').exists()else{}
+    terminal=state.get('fields',{}).get('frontier')=='load_string' and state['fields'].get('parameters',{}).get('id')==identifier
     actual_call=re.search(r'^call sequence=(\d+) id='+str(identifier)+r' module=00400000 output=00409698 capacity=256$',(capture/'resource-events.txt').read_text(),re.M) if (capture/'resource-events.txt').exists() else None
     assert terminal or actual_call,'not an encountered LoadString frontier or actual API call'
     case=json.loads((capture/'capture.json').read_text())['case']
@@ -62,7 +62,8 @@ def encounter(identifier,capture):
         'target_sha256':sha(ROOT/'toolchains/5.10/bin/CL.EXE'),'resources':[]}
     assert identifier not in {r['id']for r in resource_proof()['resources']},'resource already defined'
     item=extract(identifier)
-    item['encounter']={'state_path':str(capture/'state.json'),'state_sha256':sha(capture/'state.json')}
+    item['encounter']=({'state_path':str(capture/'state.json'),'state_sha256':sha(capture/'state.json')}
+        if(capture/'state.json').exists()else{'capture_path':str(capture/'capture.json'),'capture_sha256':sha(capture/'capture.json')})
     for role,name in [('context','context.bin'),('entry_context','main-entry-context.bin'),('memory','frontier-memory.json')]:
         if (capture/name).exists():item['encounter'][role+'_sha256']=sha(capture/name)
     if actual_call:

@@ -29,6 +29,7 @@ static void __attribute__((constructor)) configure_module(void)
 extern int __real_main(int, char **, char **);
 extern char **cl_dependency_bind_entry(int, char **, char **);
 extern char **link_bind_entry(int, char **, char **);
+extern char **mre_bind_entry(int, char **, char **);
 int __wrap_main(int argc, char **argv, char **envp)
 {
     int result;
@@ -97,10 +98,16 @@ int __wrap_main(int argc, char **argv, char **envp)
         !strcmp(argv[5],"/link") && !strcmp(argv[6],"/ENTRY:main") &&
         !strcmp(argv[7],"/SUBSYSTEM:CONSOLE") && !strcmp(argv[8],"/NODEFAULTLIB"))
         entry_error = 0;
+    else if (profile && !strcmp(profile,"mre-object-canonical-msvcrt-v1") &&
+        argc==8 && !strcmp(argv[1],"/nologo") && !strcmp(argv[2],"/Gm") &&
+        !strcmp(argv[3],"/Zi") && !strcmp(argv[4],"/c") && !strcmp(argv[5],"/DVALUE=7") &&
+        !strcmp(argv[6],"/Fdcase.pdb") && !strcmp(argv[7],"test.obj"))
+        entry_error=0;
     else
         recon_unsupported("unknown CL native entry profile");
     envp = cl_dependency_bind_entry(argc, argv, envp);
     envp = link_bind_entry(argc, argv, envp);
+    envp = mre_bind_entry(argc, argv, envp);
     errno = 0;
     recon_doserrno = 0;
     recon_SetLastError(entry_error);

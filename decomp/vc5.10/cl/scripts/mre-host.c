@@ -1,7 +1,10 @@
-/* Uninstrumented external dependency boundary; no MSPDB response is supplied. */
+/* Uninstrumented external dependency boundary; unknown operations fail closed. */
 #include "../src/mre.h"
 #include <recon.h>
 
+extern BOOL mre_open(Mre **,const char *,int *,char *,BOOL,BOOL);
+extern DWORD mre_query(Mre *,MreDriver **);
+extern void mre_init(MreDriver *);
 unsigned mre_call_count;
 static void unavailable(void)
 {
@@ -10,16 +13,15 @@ static void unavailable(void)
 }
 BOOL WINAPI MREFOpenByName(Mre **owner,const char *path,int *error,char *message,BOOL reproducible,BOOL write)
 {
-    (void)owner;(void)path;(void)error;(void)message;(void)reproducible;(void)write;
-    unavailable();return FALSE;
+    return mre_open(owner,path,error,message,reproducible,write);
 }
 DWORD WINAPI MREQueryMreDrv(Mre *owner,MreDriver **driver)
 {
-    (void)owner;(void)driver;unavailable();return FALSE;
+    return mre_query(owner,driver);
 }
 void WINAPI MREDrvOneTimeInit(MreDriver *driver)
 {
-    (void)driver;unavailable();
+    mre_init(driver);
 }
 BOOL WINAPI MREDrvFFilesOutOfDate(MreDriver *driver,void *work)
 {

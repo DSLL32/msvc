@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "resources": [
+    {
+      "id": 4027,
+      "language": 1033,
+      "type": 6,
+      "record_file_offset": 45612,
+      "length_utf16": 24,
+      "utf16le": "73006f0075007200630065002000660069006c006500200027002500730027002000690067006e006f00720065006400",
+      "text": "source file '%s' ignored",
+      "codepage": 0,
+      "encounter": {
+        "capture_path": "cases/mre-object/analysis/observed-prefix-5/original/capture.json",
+        "capture_sha256": "f19dc1f4916ea5f2dac8e29189f85438a92146e5e48ac693cf4500dd5351a3fb",
+        "context_sha256": "8a251962694045e24655979473234f09adc6908b6965cd249a3d5aea5b1a95f2",
+        "entry_context_sha256": "2406b44a0ab4f22c1472ecdb1fed8fe4437f17a5a91d6974728a6909533223a7",
+        "api_events_sha256": "a4b71d24b820c930b8c7c9ca10c3fa63cdc60e1b04f197400bb3d8de9c0f72de",
+        "sequence": 2,
+        "before_sha256": "09f70f071f13d8e332ae6577e959a78a44f4609495466c173ac68ccd38738b01",
+        "after_sha256": "9703ecc7849cedcc89a51e542fd6ad3cdee25def96c4745d95d06fc02f697357"
+      }
+    }
+  ]
+}
