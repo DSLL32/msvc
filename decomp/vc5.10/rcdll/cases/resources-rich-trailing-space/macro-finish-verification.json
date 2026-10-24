@@ -679,5 +679,10 @@
     "Current live WINVER is found through actual bucket219 chain after depth0 restore; retired row1 bytes retained but not labeled active. Intermediate node only its actual next DWORD field claimed.",
     "Two-word value object is8B, only lowDWORD initialized. Original/native upper4B raw tails and upper16 WCHAR argument slot bits retained unclaimed; full32 based-kind formal is compared.",
     "Rich resource case remains in progress; final3672B output is not yet produced by reconstruction. No new CRT source/data/exception behavior claim."
-  ]
+  ],
+  "compiled_shared_source_verification": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/finish-build-corrected/compiled-shared-source-verification.json",
+    "sha256": "99311cbf773ee7c2396fc7a1906016ddf4c0b3bbc58a7aef9f4b99f6b3888a4f",
+    "scope": "Actual frozen compiled-source contents, all internally SHA-verified; published4021ad738 exactcrt7def and headers previously bound. Earlier stable-shared-inputs before/after maps were empty due a shallow glob and provide no independent whole-tree stability proof. Held source window plus Makefile-produced immutable source/ELF snapshots establish consumed content; no original/raw/source relabel."
+  }
 }

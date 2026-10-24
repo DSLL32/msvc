@@ -2840,3 +2840,58 @@ def finish_reference_reuse(original,native):
     # Original raw gate still independently reconstructs/readback-checks every
     # restored byte, actual module, helper, environment and current ABI/state.
     return note
+
+
+def based_kind_trial(original,native):
+    """Integer-only leaf followed by the genuine inactive-conditional boundary."""
+    import subprocess
+    config=read_configuration(original/'functions.json');assert config['trial_function']=='rc_based_integer_kind'and len(config['accepted'])==90
+    old,new,proof=checkpoint(original,native,'rc_skip_inactive',('rc_input_temporary','rc_output_temporary'))
+    args=new['arguments'];kind_rows=args['integer_kinds'];assert kind_rows==json.loads((native/'integer-kinds.json').read_text())
+    kinds=[row for row in kind_rows if row['function']=='rc_based_integer_kind'];assert len(kinds)==1;kind=kinds[0]
+    assert kind['caller']=='rc_read_number'and kind['value']==1024 and kind['formal_bytes']==4
+    assert kind['result']==kind['raw_eax']&255==7 and kind['return_esp']==kind['entry_esp']+8
+    text=(original/'events.txt').read_text();entries=re.findall(r'^integer-kind-entry value=(\d+) esp=([0-9a-f]+)$',text,re.M);returns=re.findall(r'^integer-kind-return value=(\d+) raw=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M)
+    assert len(entries)==len(returns)==2 and entries[1][0]=='1024'and returns[1][:2]==('7','00000007')and int(returns[1][2],16)==int(entries[1][1],16)+8
+    relocated=(original/'relocated-text.bin').read_bytes();expected=bytes.fromhex('33c0817c2404ffffff7f0f9ec04883e00283c007c20400')
+    assert relocated[0x11698:0x116af]==expected
+    assert relocated[0x11386:0x1138e]==bytes.fromhex('e80d0300008845fc') # CALL then only AL is stored.
+    assembly=subprocess.check_output(['objdump','-d',str(native/'captured-native.elf'),'--disassemble=rc_read_number'],text=True)
+    assert re.search(r'call\s+[0-9a-f]+ <rc_based_integer_kind>\n[^\n]*83 ec 04[^\n]*\n[^\n]*0f b6 c0\s+movzbl\s+%al,%eax',assembly)
+    body=subprocess.check_output(['objdump','-d',str(native/'captured-native.elf'),'--disassemble=rc_based_integer_kind'],text=True)
+    assert re.search(r'ret\s+\$0x4',body)
+    calls=re.findall(r'call\s+[0-9a-f]+ <([^>]+)>',body);assert calls==['rc_based_integer_kind+0xd','__cyg_profile_func_enter','__cyg_profile_func_exit']
+    assert re.search(r'e8 00 00 00 00\s+call[^\n]*\n[^\n]*5b\s+pop\s+%ebx',body) # Compiler PIC address acquisition, not an application call.
+    assert not re.search(r'\s(?:fld|fst|fadd|fsub|fmul|fdiv|fnst|fnsave|frstor|ldmxcsr|stmxcsr)\w*\s',body)
+    scope=args['observer_scope'];assert scope==json.loads((native/'observer-scope.json').read_text())and scope['trigger']==kind and scope['retired_breakpoints']
+    assert {'MacroCopyEntered','CharacterClassScope','MacroExpansionEntered'}<=set(scope['retired_breakpoints'])
+    state=args['skip_inactive'];assert state['formals']==[dict(name='level',value=5,bytes=4)]and state['caller']=='rc_handle_directive'
+    assert old['words'][0]==0x71c264d5 and old['words'][1]==5
+    assert re.findall(r'^skip-inactive-entry level=(\d+) caller=([0-9a-f]+) depth=(\d+)$',text,re.M)==[('5','71c264d5','2')]
+    raw=(original/'globals.bin').read_bytes();g=args['preprocessor']['globals'];assert args['preprocessor']['macros']==[]
+    for row in json.loads((native/'preprocess-data.json').read_text())['globals']:
+        if row['kind']in ['integer','byte-buffer']:
+            rva=int(row['original_rva'],16);assert raw[rva-0x14000:rva-0x14000+row['bytes']].hex()==g[row['name']]['bytes'],row['name']
+    assert state['source_depth']==int.from_bytes(raw[0x14a10-0x14000:0x14a14-0x14000],'little')==2
+    frame_old=struct.unpack('<9I',raw_bytes(text,'skip-source-frame'));frame_new=struct.unpack('<9I',bytes.fromhex(state['source_frame']))
+    assert tuple(frame_old[i]for i in [0,2,6,7,8])==tuple(frame_new[i]for i in [0,2,6,7,8])==(4098,73,4098,1,0)
+    assert state['source_owner_bytes']==8206 and frame_new[5]==state['source_buffer']
+    source=raw_bytes(text,'skip-source-block');assert len(source)==8206 and source[:8]==bytes(8)and source.hex()==state['source_payload']
+    blocks=[row for row in new['heap_identity']['blocks']if row['payload']+8==state['source_buffer']];assert len(blocks)==1;block=blocks[0]
+    assert block['bytes']==8206 and block['flags']==9 and block['owner']==new['heap_identity']['handle']and block['contents']==state['source_payload']
+    original_cursor=int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little');assert original_cursor-frame_old[5]==state['cursor']-frame_new[5]==6224
+    current_word=int.from_bytes(source[8+6224:8+6226],'little');assert current_word==10 # Actual LF in the initialized SDK input.
+    filename=raw_bytes(text,'skip-source-filename');assert filename.hex()==state['filename']and filename.decode('utf-16le')=='R:\\toolchains\\5.10\\include/winresrc.h\0'
+    assert Path(state['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/WINRESRC.H').resolve()
+    a=struct.unpack('<8I',raw_bytes(text,'skip-source-file'));b=struct.unpack('<8I',bytes.fromhex(g['rc_source_file']['file_state']))
+    assert a[1:2]+a[3:]==b[1:2]+b[3:]==(510,9,7,0,4096,0)and a[0]-a[2]==b[0]-b[2]==2
+    assert raw_bytes(text,'skip-source-buffer')[:512]==bytes.fromhex(g['rc_source_file']['file_buffer'])[:512]
+    assert re.findall(r'^skip-source-position (\d+)$',text,re.M)==re.findall(r'^pos:\s*(\d+)$',state['file_fdinfo'],re.M)==['12804']
+    a=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));b=struct.unpack('<8I',bytes.fromhex(g['rc_cpp_output_file']['file_state']));defined=a[0]-a[2]
+    assert a[1:2]+a[3:]==b[1:2]+b[3:]and defined==b[0]-b[2]==2664
+    assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(g['rc_cpp_output_file']['file_buffer'])[:defined]
+    assert new['crt_errors']==dict(errno=2,last_error=0)
+    assert proof['application_trace'][-1]=='rc_based_integer_kind'
+    prior=HERE/'cases/resources-rich-trailing-space/macro-finish-verification.json'
+    proof.update(trial='rc_based_integer_kind',based_kind=dict(value=1024,input_bits=32,result=7,result_bits=8,cleanup=4,original_raw_return=returns[1][1],native_raw_return=hex(kind['raw_eax']),body_bytes=23,architectural_scope='Canonical complete23B leaf has only integer operations, one stack input read and RET4; no stores/calls/FP instructions. No measured per-call108B FP or error pair claimed; native instrumentation/support outside application graph. Caller consumes only AL, raw upperEAX retained unclaimed.'),next_formals=state['formals'],next_hidden_inputs='None read before the new pending directive-scanner call: skip_inactive initializes own nesting/register locals and uses its fullDWORD mode formal later. Current source/FILE/output/control state retained freshly for its future consumer.',source=dict(depth=2,owned_bytes=8206,cursor_offset=6224,current_word=current_word,FILE_position=12804,FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=3584,filename=filename.hex()),output_defined_bytes=defined,observer_scope=scope,reused_controls=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged initial D/R lifecycle, initial two primary calls, source/heap/SEH/transport/number guards retain exact prior hashes. Later per-call allocation/copy/macro observations explicitly retired after real based-kind return; full current input files/artifacts, actual entry trace, next formal and current source/FILE/output/scalars are fresh.'),limits='Full rich output and inactive-skip body remain pending. No live global macro dictionary comparison or later per-call auxiliary equivalence claim; native copy/allocation guards remain compiled. No stale numeric caller-frame/upperEAX/FILE-tail bytes compared.')
+    return proof

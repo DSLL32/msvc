@@ -93,7 +93,8 @@
     "rc_push_macro",
     "rc_select_macro_text",
     "rc_resume_input",
-    "rc_finish_macro_frame"
+    "rc_finish_macro_frame",
+    "rc_based_integer_kind"
   ],
   "functions": [
     {
@@ -1370,8 +1371,7 @@
       "end": "0x126af",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_decimal_integer_kind",

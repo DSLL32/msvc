@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighty-eight application functions (24,611 original code bytes), two embedded CRT functions
+Eighty-nine application functions (24,634 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_based_integer_kind`.
+currently matches at the next named trap, `rc_skip_inactive(5)`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 37.12% (88 functions). This denominator
+bytes. Current accepted application extent coverage is 37.16% (89 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -758,3 +758,12 @@ object are initialized; its raw tail remains unclaimed.
 records32 fresh affected rejections, four production-binary state/guard checks
 and explicit original reuse after correction of an unvisited pending call edge.
 The native cached help fixture takes about9ms; the rich case is still in progress.
+
+Nondecimal integer classification is accepted (23 bytes): actual input1024 returns
+BYTE7 with RET4. The signed comparison follows the original; caller AL consumption
+and raw upper-return bits are recorded separately. Both runs now reach
+`rc_skip_inactive(5)` with matching current WINRESRC source, FILE and2664 buffered
+output bytes. [Integer-kind verification](cases/resources-rich-trailing-space/based-kind-verification.json)
+records16 fresh rejections and the finite auxiliary-observer scope. Retiring old
+observers after the actual leaf return brings the native debugger capture back
+to14.9s, while application entry tracing and production traps remain active.

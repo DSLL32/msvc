@@ -187,11 +187,6 @@ int __stdcall rc_read_macro_identifier(WCHAR first)
 }
 
 
-unsigned char __stdcall rc_based_integer_kind(int value)
-{
-    __asm int 3
-    return 0;
-}
 
 unsigned char __stdcall rc_long_integer_kind(int value)
 {

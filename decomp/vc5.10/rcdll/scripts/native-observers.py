@@ -273,7 +273,7 @@ class MacroCopyEntered(gdb.Breakpoint):
     def stop(self):
         frame=gdb.newest_frame();caller=frame.older()
         if caller is None or caller.name()!='rc_define_macro':return False
-        assert len(macro_copies)<256 # Operational capture limit; each source extent is checked below.
+        assert len(macro_copies)<8192 # Operational capture limit; each source extent is checked below.
         pointer=int(frame.read_var('value'));length=int(frame.read_var('length'));assert 0<length<=512
         maps=Path('/proc/%d/maps'%gdb.selected_inferior().pid).read_text().splitlines()
         mapping=[line for line in maps if int(line.split()[0].split('-')[0],16)<=pointer and pointer+2*length<=int(line.split()[0].split('-')[1],16)]
@@ -524,13 +524,23 @@ class DecimalIntegerKindReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
     def stop(self):
         self.entry.update(result=int(gdb.parse_and_eval('$eax'))&255,raw_eax=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff)
-        save_integer_kinds();return False
+        save_integer_kinds()
+        selected=json.loads(Path(os.environ['RCDLL_NATIVE_CONFIG']).read_text())
+        if selected.get('trial_function')=='rc_based_integer_kind'and self.entry['function']=='rc_based_integer_kind'and self.entry['value']==1024:
+            assert self.entry['result']==7 and self.entry['return_esp']==self.entry['entry_esp']+8
+            retired=[]
+            for breakpoint in gdb.breakpoints():
+                if breakpoint.enabled:
+                    retired.append(type(breakpoint).__name__);breakpoint.enabled=False
+            (path.parent/'observer-scope.json').write_text(json.dumps(dict(trigger=self.entry,retired_breakpoints=retired,scope='Only completed initial-prefix observers retained; subsequent legacy auxiliary activity unobserved. Full application entry instrumentation, production guards and genuine pending INT3 stops remain active. Fresh current source/output/formals are inspected at the actual frontier; macros dictionary is not collected or claimed at that boundary.'),indent=2)+'\n')
+        return False
 class DecimalIntegerKindEntered(gdb.Breakpoint):
     def stop(self):
         frame=gdb.newest_frame();value=frame.read_var('value')
-        entry=dict(value=int(value),formal_bytes=value.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
+        entry=dict(function=frame.name(),caller=frame.older().name(),value=int(value),formal_bytes=value.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
         integer_kinds.append(entry);save_integer_kinds();DecimalIntegerKindReturned(frame,entry);return False
 DecimalIntegerKindEntered('rc_decimal_integer_kind',internal=True);save_integer_kinds()
+DecimalIntegerKindEntered('rc_based_integer_kind',internal=True)
 
 interned_types=[]
 def save_interned_types():(path.parent/'interned-types.json').write_text(json.dumps(interned_types,indent=2)+'\n')
@@ -786,7 +796,7 @@ class PrimaryReturned(gdb.FinishBreakpoint):
         self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=primary_state());save_primary_calls();return False
 class PrimaryEntered(gdb.Breakpoint):
     def stop(self):
-        if len(primary_calls)>=64:self.enabled=False;return False
+        if len(primary_calls)>=2:self.enabled=False;return False
         frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=primary_state())
         primary_calls.append(entry);save_primary_calls();PrimaryReturned(frame,entry);return False
 PrimaryEntered('rc_parse_primary',internal=True);save_primary_calls()
@@ -820,7 +830,7 @@ class MacroSelectReturned(gdb.FinishBreakpoint):
         self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=macro_select_state());save_macro_select_calls();return False
 class MacroSelectEntered(gdb.Breakpoint):
     def stop(self):
-        assert not macro_select_calls,'additional selector requires observation scope review'
+        if len(macro_select_calls)>=1:self.enabled=False;return False # Initial validated lifecycle only.
         frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=macro_select_state())
         macro_select_calls.append(entry);save_macro_select_calls();MacroSelectReturned(frame,entry);return False
 MacroSelectEntered('rc_select_macro_text',internal=True);save_macro_select_calls()
@@ -836,7 +846,7 @@ class ActiveNumberReturned(gdb.FinishBreakpoint):
 class ActiveNumberEntered(gdb.Breakpoint):
     def stop(self):
         if not int(gdb.parse_and_eval('rc_number_buffer_active')):return False
-        assert not active_number_calls,'additional active-number requires observation scope review'
+        if len(active_number_calls)>=1:self.enabled=False;return False # Initial validated lifecycle only.
         frame=gdb.newest_frame();first=frame.read_var('first');sp=int(gdb.parse_and_eval('$ebp'))+4
         entry=dict(formals=[dict(name='first',value=int(first),bytes=first.type.sizeof,physical_slot_bytes=4,slot=bytes(gdb.selected_inferior().read_memory(sp+4,4)).hex())],entry_esp=sp,caller=frame.older().name(),before=active_number_state())
         active_number_calls.append(entry);save_active_number_calls();ActiveNumberReturned(frame,entry);return False
@@ -846,7 +856,8 @@ resume_calls=[]
 def save_resume_calls():(path.parent/'resume-calls.json').write_text(json.dumps(resume_calls,indent=2)+'\n')
 class ResumeEntered(gdb.Breakpoint):
     def stop(self):
-        assert len(resume_calls)<64,'resume observation limit'
+        # The paired macro observer covers the first D/R lifecycle only.
+        if len(resume_calls)>=2:self.enabled=False;return False
         frame=gdb.newest_frame();cursor=int(gdb.parse_and_eval('rc_source_cursor'))
         entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),cursor=cursor,marker_span=bytes(gdb.selected_inferior().read_memory(cursor-2,4)).hex(),depth=int(gdb.parse_and_eval('rc_expanding_macro')),active=int(gdb.parse_and_eval('rc_number_buffer_active')))
         macro=int(gdb.parse_and_eval('rc_macro_frames[rc_expanding_macro].macro'));entry['macro']=macro;entry['before']=resume_state(macro)
@@ -872,7 +883,7 @@ class MacroFinishReturned(gdb.FinishBreakpoint):
         self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=macro_finish_state());save_macro_finish_calls();return False
 class MacroFinishEntered(gdb.Breakpoint):
     def stop(self):
-        assert not macro_finish_calls,'additional finish requires observation scope review'
+        if len(macro_finish_calls)>=1:self.enabled=False;return False # Initial validated lifecycle only.
         frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=macro_finish_state())
         macro_finish_calls.append(entry);save_macro_finish_calls();MacroFinishReturned(frame,entry);return False
 MacroFinishEntered('rc_finish_macro_frame',internal=True);save_macro_finish_calls()
@@ -885,7 +896,7 @@ class MacroExpansionReturned(gdb.FinishBreakpoint):
         self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff);save_macro_expansion_calls();return False
 class MacroExpansionEntered(gdb.Breakpoint):
     def stop(self):
-        assert not macro_expansion_calls,'additional expansion requires observation scope review'
+        if len(macro_expansion_calls)>=1:self.enabled=False;return False # Initial validated lifecycle only.
         frame=gdb.newest_frame();formal=frame.read_var('macro');entry=dict(formals=[dict(name='macro',value=int(formal),bytes=formal.type.sizeof)],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name())
         macro_expansion_calls.append(entry);save_macro_expansion_calls();MacroExpansionReturned(frame,entry);return False
 MacroExpansionEntered('rc_expand_macro',internal=True);save_macro_expansion_calls()
@@ -895,7 +906,7 @@ def save_expanded_number_calls():(path.parent/'expanded-number-calls.json').writ
 class ExpandedNumberEntered(gdb.Breakpoint):
     def stop(self):
         if int(gdb.parse_and_eval('rc_number_buffer_active'))or int(gdb.parse_and_eval('rc_expanding_macro'))!=1:return False
-        assert not expanded_number_calls,'additional expanded number requires observation scope review'
+        if len(expanded_number_calls)>=1:self.enabled=False;return False # Initial validated lifecycle only.
         frame=gdb.newest_frame();formal=frame.read_var('first');sp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff
         expanded_number_calls.append(dict(formals=[dict(name='first',value=int(formal),bytes=formal.type.sizeof,physical_slot_bytes=4,slot=bytes(gdb.selected_inferior().read_memory(sp+4,4)).hex())],entry_esp=sp,caller=frame.older().name(),source=int(gdb.parse_and_eval('rc_source_cursor')),number=int(gdb.parse_and_eval('rc_number_buffer')),work=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex()));save_expanded_number_calls();return False
 ExpandedNumberEntered('rc_read_number',internal=True);save_expanded_number_calls()

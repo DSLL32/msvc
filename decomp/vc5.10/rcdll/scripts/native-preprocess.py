@@ -24,7 +24,7 @@ def macro_owned_bytes(pointer):
         heap=heap.dereference()['next']
     raise AssertionError('macro text has no live requested owner')
 
-def capture_preprocessor(path):
+def capture_preprocessor(path,include_macros=True):
     specification=json.loads(path.read_text());state={}
     for row in specification['globals']:
         value=gdb.parse_and_eval(row.get('native_expression',row['name']));address=int(value.address)
@@ -50,10 +50,10 @@ def capture_preprocessor(path):
             records.append(record)
         tables[label]=dict(address=int(gdb.parse_and_eval('&'+table['name'])),rows=records)
     macros=[]
-    for bucket in range(256):
+    for bucket in range(256)if include_macros else []:
         node=gdb.parse_and_eval('rc_macro_buckets[%d]'%bucket)
         while int(node):
-            assert len(macros)<256,'macro-table cycle/capture limit'
+            assert len(macros)<8192,'macro-table cycle/capture limit'
             value=node.dereference();name=int(value['name']);text=int(value['text']);name_bytes=wide_bytes(name)
             macros.append(dict(bucket=bucket,pointer=int(node),next=int(value['next']),name=name,text=text,
                 parameters=int(value['parameters']),flags=int(value['flags']),reserved=int(value['reserved']),
