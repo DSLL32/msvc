@@ -7899,13 +7899,16 @@
       "native": "checksum_words",
       "symbol": "_checksum_words",
       "original": 180432,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        180432,
+        180828
+      ],
       "abi": "unsigned long checksum_words(unsigned long,const unsigned short *,unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0152-checksum_words/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7929,7 +7932,26 @@
           "kind": "integer",
           "bits": 32
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          },
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "image_nt_header",
@@ -7944,7 +7966,15 @@
       "stack_cleanup": 4,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "image",
+          "slot": 1,
+          "kind": "mapped-image",
+          "length_slot": 8
+        }
+      ]
     }
   ],
   "review": {
@@ -8877,6 +8907,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 151
+    },
+    {
+      "function": "checksum_words",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 152
     }
   ],
   "support_unmasked": [
@@ -9547,7 +9583,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "f157e7782b34f46038df7851533c4f2142831914272360888a08a697b0a1e071"
+    "evidence_sha256": "af0cd388e61d58865f45453ed092b28471381908c04d847016ae2f4a149f5f96"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9623,6 +9659,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "917c472af46600f835b22233009032c09178f68c3565a0b7d92188049c55237a"
+    "sha256": "4fd9d56c347ac91fa14ea21daf120417540e93bfdc182ff4a0a310702dd29542"
   }
 }

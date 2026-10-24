@@ -882,6 +882,10 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
                     if (words[0] != 0x2be88 || slot != 2 || !input || pointer != context->Ebp ||
                         words[8] != 0x2bfce || words[9] != pointer || words[3] > sizeof(walk_bytes)/2 || words[10] != words[3]*2) return 0;
                     size = words[3]*2;
+                } else if (entry == 0x2bff0) {
+                    if (words[0] != 0x2be94 || slot != 1 || !input || pointer != context->Ebp ||
+                        words[6] != 0x2bfce || words[7] != pointer) return 0;
+                    size = words[8];
                 } else return 0;
                 observed = walk_bytes;
             }

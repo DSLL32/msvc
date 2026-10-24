@@ -30,7 +30,7 @@ unsigned short write_output(const void *buffer,unsigned short size) { __asm { in
 
 unsigned long write_old_packed_types(void) { __asm { int 3 } return 0; }
 
-unsigned long checksum_words(unsigned long sum,const unsigned short *data,unsigned long words) { __asm { int 3 } return 0; }
+
 void *WINAPI image_nt_header(void *image) { __asm { int 3 } return NULL; }
 
 

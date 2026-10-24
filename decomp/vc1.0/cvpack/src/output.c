@@ -781,4 +781,19 @@ void *checksum_image(void *image, unsigned long size, unsigned long *old_sum,
     }
     return header;
 }
+
+/* End-around carries, equivalent to the original unrolled DWORD accumulator. */
+unsigned long checksum_words(unsigned long sum, const unsigned short *data,
+                             unsigned long words)
+{
+    unsigned long previous;
+    words = (words << 1) >> 1;  /* Original byte-count conversion is 32-bit. */
+    while (words--) {
+        previous = sum;
+        sum += *data++;
+        if (sum < previous) ++sum;
+    }
+    sum = (sum & 0xffff)+(sum >> 16);
+    return (sum+(sum >> 16)) & 0xffff;
+}
 #undef OUTPUT_BYTES
