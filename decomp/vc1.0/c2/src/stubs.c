@@ -192,7 +192,6 @@ void __fastcall add_protected_flow_edge(WorkItem *work, WorkItem *successor) { _
 unsigned __fastcall reference_assembly_flow_symbol(SymbolHeader *symbol, void *context) { __asm int 3 }
 ExceptionScope *__fastcall lookup_exception_scope(ExceptionScope *scopes, long identifier) { __asm int 3 }
 
-unsigned __fastcall normalize_assembly_flow_symbol(SymbolHeader *symbol, void *context) { __asm int 3 }
 
 
 

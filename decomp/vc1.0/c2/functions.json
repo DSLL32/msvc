@@ -1319,7 +1319,8 @@
     "@register_partial_write_safe@4",
     "@extract_assembly_labels@4",
     "@visit_machine_symbols@12",
-    "@collect_assembly_reference@8"
+    "@collect_assembly_reference@8",
+    "@normalize_assembly_flow_symbol@8"
   ],
   "driver": [
     {
@@ -5119,8 +5120,26 @@
     {
       "name": "@normalize_assembly_flow_symbol@8",
       "start": 373200,
-      "end": 373201,
-      "provisional": true
+      "end": 373249,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          },
+          {
+            "name": "context",
+            "location": "EDX",
+            "type": "opaque callback context (unused)"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/normalize-assembly-abi/validation.json",
+        "scope": "Whole49B, kindbyte+12 gates accepted flow lookup; canonical pointer+4 and label+0 choose original or redirected LabelSymbol, referencesDWORD+44 incremented, alias returns identifierDWORD+28 else0. Actualkind1 andNULLopaquecontext both formals observed with exact caller-slot/scope ownership; no hidden inputs/contextdereference. Kind3 branch controls separate from first actual entry."
+      }
     },
     {
       "name": "@connect_flow_blocks@8",

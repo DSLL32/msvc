@@ -1059,3 +1059,12 @@ assertion was corrected to allow the now-accepted callback, retaining its failed
 the64.515s audit and7.262s check batches; actual fixture loop took .689s. Normal
 native-only refresh5.960s. Next normalization49B remains a named trap. Full
 evidence/timing: cases/seh-collect-reference-checkpoint.json.
+
+At1316 the whole49-byte assembly-label normalization callback is accepted.
+Actual kind1/cached symbol-slot identity and unusedNULL context match.720
+whole original/canonical controls cover label redirects, self/alias references,
+full identifiers, wrapping counts and postlookup mutations; first actual entry
+skips that label branch. Original /W3, audits and17 native cases pass. Next
+28-byte flow-reference callback remains named trap. Build4.843s, controls
+6.586s, audit/coverage32.098s, original1.350s/native.274s. Receipt and limits:
+cases/seh-normalize-assembly-checkpoint.json.

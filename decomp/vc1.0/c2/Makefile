@@ -109,6 +109,7 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-assembly-references.py --abi-only
 	$(PYTHON) scripts/check-machine-symbol-visitor.py --abi-only
 	$(PYTHON) scripts/check-collect-reference.py --abi-only
+	$(PYTHON) scripts/check-normalize-assembly.py --abi-only
 	$(PYTHON) scripts/check-omf-module-end.py --abi-only
 	$(PYTHON) scripts/check-omf-modend.py --abi-only
 
@@ -256,6 +257,7 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-assembly-references.py
 	$(PYTHON) scripts/check-machine-symbol-visitor.py
 	$(PYTHON) scripts/check-collect-reference.py
+	$(PYTHON) scripts/check-normalize-assembly.py
 	$(PYTHON) scripts/check-omf-module-end.py
 	$(PYTHON) scripts/check-omf-modend.py
 	$(PYTHON) scripts/check-float-peephole-data.py

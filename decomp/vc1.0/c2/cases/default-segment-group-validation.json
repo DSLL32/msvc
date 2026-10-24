@@ -1,6 +1,6 @@
 {
   "matched": true,
-  "accepted": 1315,
+  "accepted": 1316,
   "original": {
     "pointer": "0x84fd4",
     "object_start": "0x84fc8",
@@ -38,8 +38,8 @@
         "0x6a2c1"
       ],
       "canonical": [
-        "0x1517e",
-        "0x151d5"
+        "0x1516a",
+        "0x151c1"
       ]
     },
     {
@@ -48,7 +48,7 @@
         "0x6a16c"
       ],
       "canonical": [
-        "0x152fa"
+        "0x152e6"
       ]
     }
   ],
@@ -59,9 +59,9 @@
   ],
   "image_sha256": {
     "original": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "canonical": "c8558f19dddbd3130dc8049787172b459695daaeadf383d6e64f8bafd52d0dfe"
+    "canonical": "854c5fee541fcc62a57d9ae0926d05c9399c389b1e3a549890402e4fc0b7ba29"
   },
   "negative": "Binding default pointer to separate zero normal group is rejected despite equal contents; empty-string object initializer rejected by named target binding.",
-  "seconds": 0.5053044948726892,
+  "seconds": 0.5075395796447992,
   "scope": "Loaded original/canonical PE initial pointer/typed8-byte zero object, no synthetic group input or string padding. Execute real segment_defaults then actual B7 initializer and both real index bodies, no mocked calls, producing group0/segment1. Original/public extent unchanged; typed fields/layout/identity and actual path only, not all group producer coverage. Fresh real finalizer input and15 native cases separately required."
 }

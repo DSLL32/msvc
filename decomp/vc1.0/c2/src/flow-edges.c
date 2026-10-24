@@ -272,3 +272,21 @@ void __fastcall visit_machine_symbols(MachineInstruction *instruction,
         }
     }
 }
+
+/* Original [0005b1d0,0005b201). Count assembly label uses and return a
+   replacement identifier only when the flow table redirects the label.
+   The generic visitor context is unused. */
+unsigned __fastcall normalize_assembly_flow_symbol(SymbolHeader *symbol, void *context)
+{
+    FlowLabel *label;
+    if (symbol->kind == 3) {
+        label = lookup_flow_label(symbol);
+        if (label->canonical != label) {
+            symbol = label->canonical->label;
+            ++((LabelSymbol *)symbol)->references;
+            return symbol->identifier;
+        }
+        ++((LabelSymbol *)symbol)->references;
+    }
+    return 0;
+}

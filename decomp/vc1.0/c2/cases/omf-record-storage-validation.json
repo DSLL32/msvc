@@ -44,14 +44,14 @@
     },
     {
       "side": "build/native-trace/C23232.EXE",
-      "owner": 902520,
-      "empty": 902520,
-      "pool": 902524,
+      "owner": 906616,
+      "empty": 906616,
+      "pool": 906620,
       "slots": [
-        902524,
-        903528,
-        904532,
-        905536
+        906620,
+        907624,
+        908628,
+        909632
       ],
       "bytes": 4020,
       "zero_bytes": 4020
@@ -183,6 +183,6 @@
   ],
   "canonical_section": "OMFREC",
   "source_sha256": "d7a5fc644197375ad28ff96d30bc129a23739a714fccc572fcbbb961e866c98c",
-  "seconds": 0.28985556587576866,
+  "seconds": 0.3237857325002551,
   "scope": "One genuine4020B typed owner: original loader-zero empty-nameDWORD and four1004B records. Canonical dedicated initialized-zero PE section changes file representation only; native BSS explicitly aligned8. Actual member/slot identities and every modulo8, map/nm single definitions and canonical relocation def/use bound. No extra code/function credit."
 }
