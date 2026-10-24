@@ -11,6 +11,26 @@ unsigned file_record_count, file_window_limit;
 FileRecord *mapped_files[16];
 unsigned char file_mapping_enabled;
 
+#pragma intrinsic(memcpy)
+unsigned __stdcall mapped_read(FileRecord *record,void *buffer,unsigned bytes)
+{
+    DWORD error=0;
+    LONG end=(LONG)((DWORD)record->file_size+bytes);
+    if (record->mapping_size<end) {
+        if (!(record->flags & 2)) return 0;
+        if (!resize_file_mapping(record,end,&error))
+            link_fatal(record->name,1106,(DWORD)record->file_size+bytes);
+    }
+    memcpy(buffer,(char *)record->view+record->file_size,bytes);
+    record->file_size=(LONG)((DWORD)record->file_size+bytes);
+    return bytes;
+}
+BYTE __stdcall resize_file_mapping(FileRecord *record,LONG minimum,DWORD *error)
+{
+    __asm { int 3 }
+    return 0;
+}
+
 void __stdcall initialize_file_cache(unsigned mapped_slots, unsigned mapped_limit,
                                     unsigned ordinary_slots, unsigned ordinary_limit)
 {

@@ -6,7 +6,6 @@ extern "C" void __cdecl finish_alpha_branches(void) { __asm { int 3 } }
 extern "C" void __stdcall seek_file(int file,long offset,int origin,DWORD *upper) { __asm { int 3 } }
 extern "C" unsigned __stdcall buffered_read(FileRecord *file,void *buffer,unsigned bytes) { __asm { int 3 } return 0; }
 extern "C" unsigned __stdcall buffered_write(FileRecord *file,const void *buffer,unsigned bytes) { __asm { int 3 } return 0; }
-extern "C" unsigned __stdcall mapped_read(FileRecord *file,void *buffer,unsigned bytes) { __asm { int 3 } return 0; }
 extern "C" unsigned __stdcall mapped_write(FileRecord *file,const void *buffer,unsigned bytes) { __asm { int 3 } return 0; }
 extern "C" void __cdecl record_file_access(void) { __asm { int 3 } }
 extern "C" void * __stdcall map_file_range(int file,long offset,unsigned bytes) { __asm { int 3 } return 0; }

@@ -20,6 +20,7 @@ def original_contract():
     assert hashlib.sha256(pe.read(0x402e68,8)).hexdigest()==proof['sha256']
     assert hashlib.sha256(pe.read(0x45cd40,185)).hexdigest()==proof['body_sha256']
     assert proof['bytes']==proof['comparison_count']==8
+    assert pe.read(0x4498e5,2).hex()=='84c0' # Actual caller consumes AL, not upper EAX.
     assert pe.read(0x45cdc7,10).hex()=='b908000000bf682e4000'
     assert pe.read(0x45cdd1,8).hex()=='8d74240833d2f3a6'
     output=json.loads((binary/'cases/hello-win32/mapped-read-output-contract.json').read_text())
@@ -27,6 +28,9 @@ def original_contract():
     assert hashlib.sha256(body).hexdigest()==output['body_sha256']
     from capstone import Cs,CS_ARCH_X86,CS_MODE_32
     instructions=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(body,0x40cab0))
+    archive=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(pe.read(0x45cd40,185),0x45cd40))
+    assert sum(i.size for i in archive)==185
+    assert [(i.address,int(i.op_str,0))for i in archive if i.mnemonic=='ret']==[(0x45cdec,8),(0x45cdf6,8)]
     assert sum(i.size for i in instructions)==135
     assert [(i.address,int(i.op_str,0))for i in instructions if i.mnemonic=='ret']==[(0x40cb2a,12),(0x40cb34,12)]
     # The destination argument is loaded only AFTER either resize/error call.
@@ -85,14 +89,17 @@ def compare(original,state,trap,events,native_directory,oslots,nslots):
     lists={e['name']:e for e in events if e['event']=='argument_list'}
     assert entry==dict(event='archive_entry',stack_pointer=reader['stack_pointer']-24,
         formals=[lists['link_files']['nodes'][0]['words'][0],14],hidden_inputs=[])
-    assert trap['archive_entry_stack']==entry['stack_pointer']
-    assert trap['esp']==entry['stack_pointer']-32 and trap['stack'][0]==0x45cd7a
+    completed=state['function']=='is_mac_resource_file'
+    if not completed:
+        assert trap['archive_entry_stack']==entry['stack_pointer']
+        assert trap['esp']==entry['stack_pointer']-32 and trap['stack'][0]==0x45cd7a
     buffer=entry['stack_pointer']-8
     formals=[oslots[14],buffer,8]
-    assert trap['stack'][1:4]==formals
-    assert trap['mapped_read_formals']==dict(formals=formals,hidden_inputs=[])
-    assert trap['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
-    assert len((original/'archive-output-before.bin').read_bytes())==8
+    if not completed:
+        assert trap['stack'][1:4]==formals
+        assert trap['mapped_read_formals']==dict(formals=formals,hidden_inputs=[])
+        assert trap['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
+    assert len((original/('archive-read-0-before.bin'if completed else'archive-output-before.bin')).read_bytes())==8
     nentry=state['archive_entry'];read=state['mapped_read_entry'];output=state['archive_output']
     nbuffer=nentry['stack_pointer']+offset
     assert output==dict(address=nbuffer,bytes=8,owner_local_address=nbuffer,owner_local_bytes=8,
@@ -100,10 +107,68 @@ def compare(original,state,trap,events,native_directory,oslots,nslots):
     assert len(bytes.fromhex(output['before']))==8 # Own uninitialized bytes; never cross-equated.
     assert read['stack_pointer']<nbuffer and nbuffer+8<nentry['stack_pointer']
     assert read['formals']==[nslots[14],nbuffer,8]and read['hidden_inputs']==[]
-    assert state['frontier_inputs']==dict(formals=read['formals'],hidden_register_inputs=[])
+    if not completed:assert state['frontier_inputs']==dict(formals=read['formals'],hidden_register_inputs=[])
     assert state['archive_member_offset']==0 and (original/'archive-member-offset.bin').read_bytes()==bytes(4)
     # The original snapshot reads this actual one-byte global at the current
     # trap even though the surrounding caller-local metadata is historical.
     assert trap['file_record_formals']['file_access_statistics']==state['archive_statistics_enabled']==0
     assert globals_['archive_member_offset']!=globals_['file_access_statistics']
+    if completed:
+        compare_completed(original,state,trap,events,directory,reader,entry,formals,read,output)
+        return None # This array is now expired; only its actual earlier observations are used.
     return dict(original_base=buffer,native_base=nbuffer,bytes=8)
+
+
+def compare_completed(original,state,trap,events,directory,reader,entry,formals,read,output):
+    """Return-time output is historical here; never read the expired array."""
+    call,=[e for e in events if e['event']=='archive_read_call']
+    returned,=[e for e in events if e['event']=='archive_read_return']
+    assert call==dict(event='archive_read_call',index=0,entry_stack=entry['stack_pointer']-32,
+        formals=formals,hidden_inputs=[])
+    assert returned==dict(event='archive_read_return',index=0,entry_stack=call['entry_stack'],
+        return_stack=call['entry_stack']+16,result=8)
+    binary=Path(__file__).resolve().parents[1]
+    pe=PE(binary.parents[2]/'toolchains/5.10/bin/LINK.EXE')
+    probe=json.loads((binary/'cases/hello-win32/mac-resource-input-contract.json').read_text())
+    assert hashlib.sha256(pe.read(0x44e620,138)).hexdigest()==probe['body_sha256']
+    assert probe['formals']==['int file']and probe['hidden_inputs']==[]
+    from capstone import Cs,CS_ARCH_X86,CS_MODE_32
+    instructions=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(pe.read(0x44e620,138),0x44e620))
+    assert sum(i.size for i in instructions)==138
+    assert [[i.address,int(i.op_str,0)]for i in instructions if i.mnemonic=='ret']==probe['returns']
+    assert all(cleanup==4 for address,cleanup in probe['returns'])and len(probe['returns'])==4
+    master=json.loads((original/'case.json').read_text())['inputs'][0]
+    data=(binary/master['path']).read_bytes()
+    assert len(data)==master['bytes']==2262 and hashlib.sha256(data).hexdigest()==master['sha256']
+    signature=data[:8];assert signature!=b'!<arch>\n'
+    assert (original/'archive-read-0-after.bin').read_bytes()==signature
+    assert (original/'archive-read-0-record-after.bin').read_bytes()==(original/'file-record-14.bin').read_bytes()
+    assert len(state['archive_read_returns'])==1
+    nreturn,=state['archive_read_returns']
+    assert nreturn==dict(read,normal_return=True,return_stack=read['stack_pointer']+16,result=8,
+        output=dict(output,after=signature.hex(),record_after=state['file_records'][14]))
+    predicate,=[e for e in events if e['event']=='archive_predicate_call']
+    finished,=[e for e in events if e['event']=='archive_predicate_return']
+    assert predicate==dict(event='archive_predicate_call',entry_stack=entry['stack_pointer'],
+        formals=entry['formals'],hidden_inputs=[])
+    assert finished==dict(event='archive_predicate_return',entry_stack=entry['stack_pointer'],
+        return_stack=entry['stack_pointer']+12,raw_result=finished['raw_result'],result=0)
+    assert len(state['archive_returns'])==1
+    nfinished,=state['archive_returns']
+    assert nfinished==dict(state['archive_entry'],normal_return=True,
+        return_stack=state['archive_entry']['stack_pointer']+12,raw_result=nfinished['raw_result'],result=0)
+    for raw in (finished['raw_result'],nfinished['raw_result']):
+        assert 0<=raw<=0xffffffff and raw&255==0
+    # Only AL belongs to this return ABI. The original caller's TEST AL and
+    # both original RET8 sites were bound above; verify the compiled-source
+    # BYTE declaration/definition too. Retain each complete observed EAX.
+    receipt=json.loads((directory/'receipt.json').read_text())
+    for filename in ('input.c','input.h'):
+        source=(directory/'source/project'/filename).read_bytes()
+        assert hashlib.sha256(source).hexdigest()==receipt['source_files']['src/'+filename]
+        assert b'BYTE __stdcall is_archive('in source
+    assert trap['esp']==reader['stack_pointer']-20 and trap['stack'][:2]==[0x44994e,14]
+    assert trap['mac_resource_formals']==dict(formals=[14],hidden_inputs=[])
+    assert state['mac_resource_entry']==dict(stack_pointer=state['read_input_entry']['stack_pointer']-48,
+        formals=[14],hidden_inputs=[])
+    assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[14],hidden_register_inputs=[])

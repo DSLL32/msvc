@@ -100,7 +100,8 @@
     "_next_library@4",
     "LinkContext::LoadInputArgument",
     "_read_input_argument@12",
-    "_is_archive@8"
+    "_is_archive@8",
+    "_mapped_read@12"
   ],
   "driver": [
     {
@@ -1219,11 +1220,11 @@
     {
       "name": "_mapped_read@12",
       "start": 4246192,
-      "end": 4246193,
-      "source": "src/full-link-stubs.cpp",
-      "status": "stub",
-      "abi": "stdcall unsigned(FileRecord *file,void *buffer,unsigned bytes); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
-      "pending_extent": true,
+      "end": 4246327,
+      "source": "src/files.c",
+      "status": "implemented",
+      "abi": "stdcall unsigned(FileRecord*,void* output,unsigned bytes); RET12; no hidden inputs",
+      "pending_extent": false,
       "native_symbol": "mapped_read"
     },
     {
@@ -2749,6 +2750,16 @@
       "status": "stub",
       "native_symbol": "read_object_file",
       "abi": "stdcall OutputModule*(InputArgument*,LinkContext*,OutputLibrary*); RET12; actual inputs observed when reached"
+    },
+    {
+      "name": "_resize_file_mapping@12",
+      "start": 4246672,
+      "end": 4246673,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/files.c",
+      "native_symbol": "resize_file_mapping",
+      "abi": "stdcall BYTE(FileRecord*,LONG minimum,DWORD* error); RET12, result consumed in AL; actual formals observed when reached"
     }
   ],
   "text_data": [

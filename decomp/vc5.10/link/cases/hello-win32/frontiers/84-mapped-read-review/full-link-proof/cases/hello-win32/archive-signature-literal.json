@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "address": 4206184,
+  "bytes": 8,
+  "sha256": "f0a17a43c74d2fe5474fa2fd29c8f14799e777d7d75a2cc4d11c20a6e7b161c5",
+  "scope": "is_archive exact8-byte inline comparison; trailingNUL not read and remains masked",
+  "instruction": 4574668,
+  "comparison_count": 8,
+  "body_sha256": "c55eb8ca368fec73f3abd2bbad599ba9e6ecec9f930833c97d76924c6e7bc159",
+  "source": "src/input.c literal at memcmp point of use, no named string global"
+}

@@ -32,6 +32,8 @@ extern unsigned char file_mapping_enabled;
 FileRecord *__cdecl new_file_record(void);
 void *__stdcall zero_allocate(unsigned bytes);
 void __cdecl out_of_memory(void);
+unsigned __stdcall mapped_read(FileRecord *,void *,unsigned);
+BYTE __stdcall resize_file_mapping(FileRecord *,LONG,DWORD *);
 #ifdef __cplusplus
 }
 #endif

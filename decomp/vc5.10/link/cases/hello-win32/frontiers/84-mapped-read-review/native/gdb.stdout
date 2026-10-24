@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804f4ff in is_mac_resource_file (file=14) at src/input.c:63
+63	BYTE __stdcall is_mac_resource_file(int file) { __asm { int 3 } return 0; }
