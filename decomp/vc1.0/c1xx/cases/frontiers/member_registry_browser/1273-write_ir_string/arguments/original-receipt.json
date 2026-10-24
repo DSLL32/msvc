@@ -1,0 +1,74 @@
+{
+  "case": "member_registry_browser",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1273,
+  "terminal": "_write_ir_string",
+  "candidate": null,
+  "pending_accepted": [],
+  "configuration_sha256": "6265396da6de8551662ee585d9023222df02d60549afec6f5529b7e800430b13",
+  "capture_seconds": 0.6657799510285258,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "registry.h": {
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    },
+    "registry.sbt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "registry.cpp": {
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32",
+  "ownership_register_observations": [
+    {
+      "register": "eax",
+      "value": 8367228,
+      "read_succeeded": true
+    }
+  ],
+  "ownership_entry_projection": {
+    "accepted_first": 1257,
+    "accepted_last": 1273,
+    "accepted_prefix_sha256": "e3ce7160ccb323390545639c5c7ac9d46064714bd2c1ee9ebbcaf8112c66234e",
+    "expected": [
+      "_serialize_browser_record@8"
+    ],
+    "observed": [
+      "_serialize_browser_record@8"
+    ],
+    "events_sha256": "7bebbaf64f957460404535f404b5f90609efdaeedd1a7f6256a331681662422d",
+    "plan_sha256": "e62bc6db5cb9440d66532b4c8dc0d49e1c5112707b6a5aa9a64456f399e030d5",
+    "scope": "single explicitly selected accepted ownership caller entry; not a full case trace"
+  }
+}

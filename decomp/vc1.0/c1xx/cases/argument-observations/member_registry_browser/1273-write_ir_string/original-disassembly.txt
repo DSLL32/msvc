@@ -1,0 +1,35 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000741a0 <.text+0x5d1a0>:
+   741a0:	53                   	push   ebx
+   741a1:	56                   	push   esi
+   741a2:	8b 74 24 0c          	mov    esi,DWORD PTR [esp+0xc]
+   741a6:	2b db                	sub    ebx,ebx
+   741a8:	a1 ac 29 0a 00       	mov    eax,ds:0xa29ac
+   741ad:	ff 48 04             	dec    DWORD PTR [eax+0x4]
+   741b0:	a1 ac 29 0a 00       	mov    eax,ds:0xa29ac
+   741b5:	39 58 04             	cmp    DWORD PTR [eax+0x4],ebx
+   741b8:	7c 0f                	jl     0x741c9
+   741ba:	8b 00                	mov    eax,DWORD PTR [eax]
+   741bc:	8a 0e                	mov    cl,BYTE PTR [esi]
+   741be:	88 08                	mov    BYTE PTR [eax],cl
+   741c0:	a1 ac 29 0a 00       	mov    eax,ds:0xa29ac
+   741c5:	ff 00                	inc    DWORD PTR [eax]
+   741c7:	eb 12                	jmp    0x741db
+   741c9:	a1 ac 29 0a 00       	mov    eax,ds:0xa29ac
+   741ce:	50                   	push   eax
+   741cf:	0f be 06             	movsx  eax,BYTE PTR [esi]
+   741d2:	50                   	push   eax
+   741d3:	e8 18 df 00 00       	call   0x820f0
+   741d8:	83 c4 08             	add    esp,0x8
+   741db:	8b c6                	mov    eax,esi
+   741dd:	46                   	inc    esi
+   741de:	38 18                	cmp    BYTE PTR [eax],bl
+   741e0:	75 c6                	jne    0x741a8
+   741e2:	5e                   	pop    esi
+   741e3:	5b                   	pop    ebx
+   741e4:	c3                   	ret

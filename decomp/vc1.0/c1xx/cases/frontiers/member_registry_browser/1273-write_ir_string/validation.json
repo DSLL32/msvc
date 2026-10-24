@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_write_ir_string",
+    "start": 475552,
+    "end": 475621
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1273-write_ir_string/arguments/validation.json",
+  "distinct_direct_callees": [
+    "__flsbuf"
+  ],
+  "next_frontier": "_browser_open_file",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 1.1845073476433754,
+  "total_operation_seconds": 6.105696247890592,
+  "original_capture_seconds": 2.069610081613064
+}

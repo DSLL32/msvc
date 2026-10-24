@@ -240,6 +240,7 @@ void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols
 {
     unsigned index;
     unsigned short line;
+    char *directory;
     putc((signed char)record->header.kind, auxiliary_ir_stream);
     switch (record->header.kind) {
     case 0:
@@ -247,7 +248,8 @@ void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols
         putc(0, auxiliary_ir_stream);
         putc(7, auxiliary_ir_stream);
         putc(0, auxiliary_ir_stream);
-        write_ir_string(browser_working_directory());
+        directory = browser_working_directory();
+        write_ir_string(directory);
         break;
     case 1: case 15:
         write_ir_string(record->name);

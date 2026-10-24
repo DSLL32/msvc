@@ -61,3 +61,12 @@ void write_ir_short(short *value)
         putc(bytes[1], auxiliary_ir_stream);
     }
 }
+
+/* Original 0x741a0..0x741e4. This is the distinct browse/global string
+   writer, retaining its own entry despite sharing the filename encoding. */
+void write_ir_string(char *text)
+{
+    do {
+        putc((signed char)*text, auxiliary_ir_stream);
+    } while (*text++);
+}

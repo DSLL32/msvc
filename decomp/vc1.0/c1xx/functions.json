@@ -1277,7 +1277,8 @@
     "_emit_browser_record@4",
     "_serialize_browser_record@8",
     "_browser_working_directory",
-    "__getcwd"
+    "__getcwd",
+    "_write_ir_string"
   ],
   "driver": [
     {
@@ -9505,8 +9506,8 @@
           "original": 585720
         }
       ],
-      "terminal": "_write_ir_string",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1271-browser_working_directory/original-events.txt",
+      "terminal": "_browser_open_file",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1273-write_ir_string/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
         "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
@@ -9524,7 +9525,8 @@
         "cases/frontiers/member_registry_browser/1269-emit_browser_record-4/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1270-serialize_browser_record-8/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1271-browser_working_directory/frontier-extension.json",
-        "cases/frontiers/member_registry_browser/1272-getcwd-library/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1272-getcwd-library/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1273-write_ir_string/frontier-extension.json"
       ],
       "transient_outputs": [
         {
