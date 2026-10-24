@@ -583,3 +583,15 @@ retry binds the unchanged original995500 prefix. Full audits and15 cached native
 cases pass (14 complete); next group definition6a850.340869/399693 accepted
 extent bytes, app/support322569B and1156functions exclude5 historical CRT bodies.
 Detailed limits/failed attempts/timings: cases/omf-alignment-index-checkpoint.json.
+
+Checkpoint1273 adds52-byte group declaration and67-byte fixup-thread writer.
+Actual group data/default ownership and8-byte descriptor match; DOS1 branch
+skips explicit member append.64 whole group controls verify group store before
+lookup, cold member path and post-child reloads.32 thread controls verify byte
+CL/DL/tag truncation versus full32-bit returned thread and target, callee-saved
+registers/RET8; all4 actual formals observed. Original/W3, graph/extent/ABI/data
+and15 cached native cases pass (14 complete). A source-scope assertion failure
+from counting subsequent functions' returns is retained and fixed without target
+changes. Next selection callback6b6a0.340988/399693 accepted extent bytes;
+app/support322688B and1158functions exclude5 historical CRT bodies. Detailed
+branch limits and measured attempts: cases/omf-group-thread-checkpoint.json.

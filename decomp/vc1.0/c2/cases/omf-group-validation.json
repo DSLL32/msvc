@@ -1,0 +1,561 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing group formal",
+    "wrong group owner",
+    "wrong segment owner",
+    "changed DOS predicate",
+    "wrong group words",
+    "wrong order",
+    "hidden input"
+  ],
+  "states": 32,
+  "cases": [
+    {
+      "dos": 0,
+      "after_child_dos": 0,
+      "order": 2,
+      "count": 0,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          2
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 0,
+      "order": 2,
+      "count": 0,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4275878552
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 0,
+      "order": 2,
+      "count": 4294967295,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          2
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 0,
+      "order": 2,
+      "count": 4294967295,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4275878552
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 0,
+      "order": 4294967295,
+      "count": 0,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 0,
+      "order": 4294967295,
+      "count": 0,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4275878552
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 0,
+      "order": 4294967295,
+      "count": 4294967295,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 0,
+      "order": 4294967295,
+      "count": 4294967295,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4275878552
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 1,
+      "order": 2,
+      "count": 0,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 1,
+      "order": 2,
+      "count": 0,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 1,
+      "order": 2,
+      "count": 4294967295,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 1,
+      "order": 2,
+      "count": 4294967295,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 1,
+      "order": 4294967295,
+      "count": 0,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 1,
+      "order": 4294967295,
+      "count": 0,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 1,
+      "order": 4294967295,
+      "count": 4294967295,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 0,
+      "after_child_dos": 1,
+      "order": 4294967295,
+      "count": 4294967295,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 0,
+      "order": 2,
+      "count": 0,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          2
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 0,
+      "order": 2,
+      "count": 0,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4275878552
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 0,
+      "order": 2,
+      "count": 4294967295,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          2
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 0,
+      "order": 2,
+      "count": 4294967295,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4275878552
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 0,
+      "order": 4294967295,
+      "count": 0,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 0,
+      "order": 4294967295,
+      "count": 0,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4275878552
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 0,
+      "order": 4294967295,
+      "count": 4294967295,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 0,
+      "order": 4294967295,
+      "count": 4294967295,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ],
+        [
+          "index",
+          4275878552
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 1,
+      "order": 2,
+      "count": 0,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 1,
+      "order": 2,
+      "count": 0,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 1,
+      "order": 2,
+      "count": 4294967295,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 1,
+      "order": 2,
+      "count": 4294967295,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 1,
+      "order": 4294967295,
+      "count": 0,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 1,
+      "order": 4294967295,
+      "count": 0,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 1,
+      "order": 4294967295,
+      "count": 4294967295,
+      "child_mutates_order": false,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    },
+    {
+      "dos": 1,
+      "after_child_dos": 1,
+      "order": 4294967295,
+      "count": 4294967295,
+      "child_mutates_order": true,
+      "events": [
+        [
+          "begin",
+          154,
+          "segment",
+          "group-stored"
+        ]
+      ]
+    }
+  ],
+  "seconds": 0.6203818693757057,
+  "scope": "Whole52-byte original/canonical GRPDEF helper; group alias stored before begin child,9a/Segment arguments, DOS global and order reload after child, explicitFF member prefix/count wrap/cursor before index, all72 Segment/8 group/1004 record bytes and callee-saved/RET0 checked.64 controls mock begin/index only; actual dos1 branch does not execute non-DOS append, cold branch has bounded control proof rather than case execution credit."
+}

@@ -1,0 +1,328 @@
+{
+  "checkpoint": 1273,
+  "previous_checkpoint": 1271,
+  "new_application": [
+    {
+      "name": "@omf_write_group_definition@8",
+      "start": 436304,
+      "end": 436356,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "segment",
+            "location": "ECX",
+            "type": "Segment pointer"
+          },
+          {
+            "name": "group",
+            "location": "EDX",
+            "type": "OmfGroup pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-group-definition-abi/validation.json",
+        "scope": "Actual data_segment/default-group aliases,72-byte Segment and8-byte group extent,group words2/1,order2,dos1 observed. Segment.field18 is overwritten before child; only non-DOS branch consumes order and appends member. No hidden/register/stack/x87/flags input."
+      }
+    },
+    {
+      "name": "@omf_define_fixup_thread@16",
+      "start": 436224,
+      "end": 436291,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "flags",
+            "location": "CL",
+            "type": "unsigned8"
+          },
+          {
+            "name": "method",
+            "location": "DL",
+            "type": "unsigned8"
+          },
+          {
+            "name": "target",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          },
+          {
+            "name": "thread",
+            "location": "entryESP+8",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 8,
+        "entry_observation": "cases/omf-thread-abi/validation.json",
+        "scope": "Actual flags0/method0/target3/thread0 observed, full original ECX/EDX/stack words retained. Byte flags/method/tag truncation but full32-bit thread result; RET8, no hidden/register/flags/x87 input."
+      }
+    }
+  ],
+  "new_extent_bytes": 119,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1273,
+    "accepted_code_bytes": 340988,
+    "original_code_bytes": 399693,
+    "percentage": 85.31247732634797,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 621
+  },
+  "application_graph_rows": 1163,
+  "reconstructed_application_support_functions": 1158,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 322688,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "_omf_select_segment",
+  "next_original_va": "0x6b6a0",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "_omf_select_segment"
+  },
+  "controls": [
+    "cases/omf-group-validation.json",
+    "cases/omf-thread-validation.json"
+  ],
+  "timings": {
+    "omf1272-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 28.982352606020868,
+      "returncode": 0,
+      "log_sha256": "fc9a5c8ae809c1f907f4a99fa8bc87977a63e326568137280106c2c724e02921"
+    },
+    "omf1272-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.7930078506469727,
+      "returncode": 0,
+      "log_sha256": "e141702a4f0bc2b34ebe7b8116790d6c3749678da33a2c693dfe682535403c66"
+    },
+    "omf1272-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1271.json",
+        "--extend-after",
+        "cases/omf-original-1272.json"
+      ],
+      "seconds": 0.32287992257624865,
+      "returncode": 0,
+      "log_sha256": "b94f74c92d63792692b9f3ebfc796f99425adde98a8e32375a44a1d9470f7665"
+    },
+    "omf1272-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-group-entry.py"
+      ],
+      "seconds": 1.5178358694538474,
+      "returncode": 0,
+      "log_sha256": "e7afb60c2ef5275584f89c8f219f5ad9e5006fa79ef8c3209de6c428b93a8e5b"
+    },
+    "omf1272-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1272.json"
+      ],
+      "seconds": 0.22457469999790192,
+      "returncode": 0,
+      "log_sha256": "2acfd27e7314e98f764afa6643c51e81526d07cd8368d5c3d3a6515f208d4946"
+    },
+    "omf1272-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.84916140884161,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1272-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1272.json"
+      ],
+      "seconds": 1.0997248701751232,
+      "returncode": 0,
+      "log_sha256": "37f9b130b90ccb9721c04997743f29ed6dcd1a1ef1d4718944649b3a05972b6c"
+    },
+    "omf1272-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.278568279929459,
+      "returncode": 0,
+      "log_sha256": "edc07dbea9864b7ff6229ea086ee747ef3a0800573423a1db9bcae2651f5ce3e"
+    },
+    "omf1273-audit-retry-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 30.058386631309986,
+      "returncode": 0,
+      "log_sha256": "e73bd37d9143bd9adae4708c80c2ba668976d10f73afcc7e2f1ebf64a52bf835"
+    },
+    "omf1273-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 27.54512351192534,
+      "returncode": 2,
+      "log_sha256": "972ecde4850304d75f38537dc07e937b98ec0ac6d05ed9140fdf7a0dc22c3805"
+    },
+    "omf1273-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 3.2197269294410944,
+      "returncode": 0,
+      "log_sha256": "7ad5a0bd26f66fdfed513e9a98d6a67248a4c49c3ff2c8c4c5f18c6fcbe0ad53"
+    },
+    "omf1273-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1272.json",
+        "--extend-after",
+        "cases/omf-original-1273.json"
+      ],
+      "seconds": 0.31575791724026203,
+      "returncode": 0,
+      "log_sha256": "b94f74c92d63792692b9f3ebfc796f99425adde98a8e32375a44a1d9470f7665"
+    },
+    "omf1273-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-scalar-entry.py",
+        "--profile",
+        "omf",
+        "--function",
+        "@omf_define_fixup_thread@16",
+        "--parameter",
+        "flags:unsigned8",
+        "--parameter",
+        "method:unsigned8",
+        "--parameter",
+        "target:unsigned32",
+        "--parameter",
+        "thread:unsigned32",
+        "--stack-cleanup",
+        "8",
+        "--receipt",
+        "cases/omf-thread-abi",
+        "--no-hidden-inputs-proof",
+        "CL flags and DL method are byte-width formals; stack entryESP+4 target and+8 thread are unsigned32, RET8. Incoming upper ECX/EDX bits are retained raw but not consumed. Output returns full32-bit thread after begin9d/NULL, one tagged byte and signed-index helper; no other hidden pointer/register/flags/x87 input."
+      ],
+      "seconds": 1.6360861109569669,
+      "returncode": 0,
+      "log_sha256": "fcc4e15364f0f7da938eeebaae570e387a2b4c276d1b0934cc84a6f05042576e"
+    },
+    "omf1273-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8980903066694736,
+      "returncode": 0,
+      "log_sha256": "78be0b83bc8ba4f8bbcd955a3cf5048acf55c172c90ddb5347e29c950eea6228"
+    },
+    "omf1273-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1273.json"
+      ],
+      "seconds": 0.24387169536203146,
+      "returncode": 0,
+      "log_sha256": "15a276fb3a597d645d48024a05c3d6ae50e67e46984a4bc1575cf0a8d10e5802"
+    },
+    "omf1273-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1273.json"
+      ],
+      "seconds": 1.0757630793377757,
+      "returncode": 0,
+      "log_sha256": "2b578b8fb0418e51706a7e1134e015cd1d0ba82ae1949e4afef016d93680508c"
+    },
+    "omf1273-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.1209049364551902,
+      "returncode": 0,
+      "log_sha256": "1b132f0a78f829b85f51946deae3edaac91c96fd66ff04bea22a5741f2cadec3"
+    }
+  },
+  "limits": [
+    "Whole52-byte group writer preserves group pointer store at Segment+24 before begin9a/Segment; DOS global/order reloaded after child.64 original/canonical controls and7 actual ABI rejects, full72/8/1004-byte Segment/group/record checks. Actual data/default-group aliases/groupwords2,1/order2/dos1 observed; current case omits non-DOS explicitFF member append. Cold branch is controlled proof, not real execution credit.",
+    "Whole67-byte thread writer consumes CL flags/DL method, entryESP+4 target/+8 thread and RET8. Actual0/0/3/0 observed.32 original/canonical controls and6 actual ABI rejects cover ignored upper24 register bits, byte tag shift/OR truncation, count wrap/cursor, full targetbits to child and full thread EAX despite mocked child clobber; stack sentinel/callee-saved checked. No extra range guards.",
+    "Generic scalar observer now supports unsigned/signed8 byte formals; full original registers/stack words retained raw. New original debugger captures serialized with temporary cross-project msvc2-original-capture lock (actual command path in timing ledger); native fixtures unchanged.",
+    "First1273 audit failed because alignment source-scope checker counted return statements in subsequently appended functions. Corrected checker ends at alignment closing brace; source/ABI untouched. Failed27.545s log retained and full corrected30.058s audit passes. No repeated original capture required for checker correction.",
+    "Original/W3/full graph/extent/ABI/data and15 cached native cases pass (14 complete), fresh pair reaches select callback6b6a0. Full OMF artifact remains pending. Analysis/edit unmeasured; measured capture/build/debug/checks split in receipts."
+  ]
+}

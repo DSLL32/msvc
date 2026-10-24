@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case at1271: SEGDEF/alignment/index writer reconstructed; matching original/native group definition6a850.14 prior cases complete.",
+  "status": "Derived OMF case at1273: segment/group/thread module setup reconstructed; matching original/native segment-selection callback6b6a0.14 prior cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,8 +487,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@omf_write_group_definition@8",
-  "current_checkpoint": 1271,
+  "current_application_frontier": "_omf_select_segment",
+  "current_checkpoint": 1273,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",

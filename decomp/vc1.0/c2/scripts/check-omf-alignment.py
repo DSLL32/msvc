@@ -39,7 +39,7 @@ unsupported=[]
 for alignment in [0,3,8,32,0xffffffff]:
  for eax in [0,raw_entry_eax,0xffffffff]:
   assert run(original,row['start'],alignment,eax)==eax;unsupported.append(dict(alignment=alignment,incoming_eax=eax,returned_eax=eax))
-source=Path('src/omf-output.c').read_text();body=source[source.index('unsigned __fastcall omf_alignment(unsigned alignment)\n{'):];assert '#ifdef RECON_NATIVE_TEST\n    __asm int 3\n#endif' in body and body.count('return ')==4
+source=Path('src/omf-output.c').read_text();body=source[source.index('unsigned __fastcall omf_alignment(unsigned alignment)\n{'):].split('\n}\n',1)[0];assert '#ifdef RECON_NATIVE_TEST\n    __asm int 3\n#endif' in body and body.count('return ')==4
 native_guard=None
 if args.native_guard:
  from case_paths import C2_SCRATCH,native_work,windows

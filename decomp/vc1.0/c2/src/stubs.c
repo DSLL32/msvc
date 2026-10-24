@@ -108,9 +108,8 @@ void omf_write_fixups(void) { __asm int 3 }
 unsigned char __fastcall omf_comdat_selection(unsigned char selection) { __asm int 3 }
 
 void __fastcall omf_pad_record(OmfRecord *record, unsigned bytes) { __asm int 3 }
-void __fastcall omf_write_group_definition(Segment *segment, OmfGroup *group) { __asm int 3 }
-unsigned __fastcall omf_define_fixup_thread(unsigned char flags, unsigned char method,
-    unsigned target, unsigned thread) { __asm int 3 }
+
+
 #include "coff-output.h"
 void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm int 3 }
 #include "coff-writer.h"

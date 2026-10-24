@@ -3369,6 +3369,6 @@
       }
     }
   ],
-  "seconds": 2.2341586388647556,
+  "seconds": 2.0428916551172733,
   "scope": "Whole78-byte original/canonical COMENT wrapper: lowCL class with high24 bits poisoned, empty/1/20/255 strings, count wrap/cursor offset, begin first and its return pointer,0/class prefix before strlen including source-alias overwrite, exact byte helper pointer/count, all spare bytes and callee-save/ESP preserved. Children mocked; actual classDF/head-owned20-char user string observed independently, no other classes claimed executed."
 }

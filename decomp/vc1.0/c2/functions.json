@@ -1275,7 +1275,9 @@
     "@omf_intern_name@8",
     "@omf_write_segment_definition@4",
     "@omf_alignment@4",
-    "@omf_write_index@8"
+    "@omf_write_index@8",
+    "@omf_write_group_definition@8",
+    "@omf_define_fixup_thread@16"
   ],
   "driver": [
     {
@@ -8557,14 +8559,60 @@
     {
       "name": "@omf_write_group_definition@8",
       "start": 436304,
-      "end": 436305,
-      "provisional": true
+      "end": 436356,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "segment",
+            "location": "ECX",
+            "type": "Segment pointer"
+          },
+          {
+            "name": "group",
+            "location": "EDX",
+            "type": "OmfGroup pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-group-definition-abi/validation.json",
+        "scope": "Actual data_segment/default-group aliases,72-byte Segment and8-byte group extent,group words2/1,order2,dos1 observed. Segment.field18 is overwritten before child; only non-DOS branch consumes order and appends member. No hidden/register/stack/x87/flags input."
+      }
     },
     {
       "name": "@omf_define_fixup_thread@16",
       "start": 436224,
-      "end": 436225,
-      "provisional": true
+      "end": 436291,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "flags",
+            "location": "CL",
+            "type": "unsigned8"
+          },
+          {
+            "name": "method",
+            "location": "DL",
+            "type": "unsigned8"
+          },
+          {
+            "name": "target",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          },
+          {
+            "name": "thread",
+            "location": "entryESP+8",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 8,
+        "entry_observation": "cases/omf-thread-abi/validation.json",
+        "scope": "Actual flags0/method0/target3/thread0 observed, full original ECX/EDX/stack words retained. Byte flags/method/tag truncation but full32-bit thread result; RET8, no hidden/register/flags/x87 input."
+      }
     },
     {
       "name": "@omf_begin_record@8",

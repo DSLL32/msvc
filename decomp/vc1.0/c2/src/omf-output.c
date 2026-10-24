@@ -642,3 +642,35 @@ void __fastcall omf_write_index(OmfRecord *record, int index)
         record->cursor = cursor;
     }
 }
+
+/* Original [0006a850,0006a884). Set the context's group before record lookup;
+   the DOS flat-group mode does not append explicit segment members. */
+void __fastcall omf_write_group_definition(Segment *segment, OmfGroup *group)
+{
+    OmfRecord *record;
+    unsigned char *cursor;
+    segment->symbol.field18.pointer = group;
+    record = omf_begin_record(0x9a, segment);
+    if (!dos_object) {
+        cursor = record->cursor;
+        ++record->count;
+        *cursor++ = 0xff;
+        record->cursor = cursor;
+        omf_write_index(record, segment->identity.order);
+    }
+}
+
+/* Original [0006a800,0006a843). The wire tag truncates method/thread to a
+   byte, while the caller receives the complete thread number in EAX. */
+unsigned __fastcall omf_define_fixup_thread(unsigned char flags, unsigned char method,
+    unsigned target, unsigned thread)
+{
+    OmfRecord *record = omf_begin_record(0x9d, NULL);
+    unsigned char *cursor;
+    ++record->count;
+    cursor = record->cursor;
+    *cursor++ = (unsigned char)((method << 2) | (unsigned char)thread | flags);
+    record->cursor = cursor;
+    omf_write_index(record, (int)target);
+    return thread;
+}

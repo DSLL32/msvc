@@ -1,0 +1,752 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing stack formal",
+    "wrong method register",
+    "wrong target",
+    "wrong thread",
+    "wrong RET cleanup",
+    "invented hidden input"
+  ],
+  "states": 32,
+  "cases": [
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 3,
+      "thread": 0,
+      "count": 0,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            3
+          ]
+        ],
+        "tag": 0,
+        "returned_thread": 0
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 3,
+      "thread": 0,
+      "count": 0,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            3
+          ]
+        ],
+        "tag": 0,
+        "returned_thread": 0
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 3,
+      "thread": 0,
+      "count": 4294967295,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            3
+          ]
+        ],
+        "tag": 0,
+        "returned_thread": 0
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 3,
+      "thread": 0,
+      "count": 4294967295,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            3
+          ]
+        ],
+        "tag": 0,
+        "returned_thread": 0
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 2,
+      "thread": 1,
+      "count": 0,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            2
+          ]
+        ],
+        "tag": 1,
+        "returned_thread": 1
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 2,
+      "thread": 1,
+      "count": 0,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            2
+          ]
+        ],
+        "tag": 1,
+        "returned_thread": 1
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 2,
+      "thread": 1,
+      "count": 4294967295,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            2
+          ]
+        ],
+        "tag": 1,
+        "returned_thread": 1
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 2,
+      "thread": 1,
+      "count": 4294967295,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            2
+          ]
+        ],
+        "tag": 1,
+        "returned_thread": 1
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 1,
+      "thread": 2,
+      "count": 0,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            1
+          ]
+        ],
+        "tag": 2,
+        "returned_thread": 2
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 1,
+      "thread": 2,
+      "count": 0,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            1
+          ]
+        ],
+        "tag": 2,
+        "returned_thread": 2
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 1,
+      "thread": 2,
+      "count": 4294967295,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            1
+          ]
+        ],
+        "tag": 2,
+        "returned_thread": 2
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 1,
+      "thread": 2,
+      "count": 4294967295,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            1
+          ]
+        ],
+        "tag": 2,
+        "returned_thread": 2
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 4,
+      "thread": 3,
+      "count": 0,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            4
+          ]
+        ],
+        "tag": 3,
+        "returned_thread": 3
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 4,
+      "thread": 3,
+      "count": 0,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            4
+          ]
+        ],
+        "tag": 3,
+        "returned_thread": 3
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 4,
+      "thread": 3,
+      "count": 4294967295,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            4
+          ]
+        ],
+        "tag": 3,
+        "returned_thread": 3
+      }
+    },
+    {
+      "flags": 0,
+      "method": 0,
+      "target": 4,
+      "thread": 3,
+      "count": 4294967295,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            4
+          ]
+        ],
+        "tag": 3,
+        "returned_thread": 3
+      }
+    },
+    {
+      "flags": 64,
+      "method": 1,
+      "target": 1,
+      "thread": 0,
+      "count": 0,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            1
+          ]
+        ],
+        "tag": 68,
+        "returned_thread": 0
+      }
+    },
+    {
+      "flags": 64,
+      "method": 1,
+      "target": 1,
+      "thread": 0,
+      "count": 0,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            1
+          ]
+        ],
+        "tag": 68,
+        "returned_thread": 0
+      }
+    },
+    {
+      "flags": 64,
+      "method": 1,
+      "target": 1,
+      "thread": 0,
+      "count": 4294967295,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            1
+          ]
+        ],
+        "tag": 68,
+        "returned_thread": 0
+      }
+    },
+    {
+      "flags": 64,
+      "method": 1,
+      "target": 1,
+      "thread": 0,
+      "count": 4294967295,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            1
+          ]
+        ],
+        "tag": 68,
+        "returned_thread": 0
+      }
+    },
+    {
+      "flags": 255,
+      "method": 255,
+      "target": 4294967295,
+      "thread": 4294967295,
+      "count": 0,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "tag": 255,
+        "returned_thread": 4294967295
+      }
+    },
+    {
+      "flags": 255,
+      "method": 255,
+      "target": 4294967295,
+      "thread": 4294967295,
+      "count": 0,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "tag": 255,
+        "returned_thread": 4294967295
+      }
+    },
+    {
+      "flags": 255,
+      "method": 255,
+      "target": 4294967295,
+      "thread": 4294967295,
+      "count": 4294967295,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "tag": 255,
+        "returned_thread": 4294967295
+      }
+    },
+    {
+      "flags": 255,
+      "method": 255,
+      "target": 4294967295,
+      "thread": 4294967295,
+      "count": 4294967295,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            4294967295
+          ]
+        ],
+        "tag": 255,
+        "returned_thread": 4294967295
+      }
+    },
+    {
+      "flags": 1,
+      "method": 64,
+      "target": 128,
+      "thread": 305419896,
+      "count": 0,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            128
+          ]
+        ],
+        "tag": 121,
+        "returned_thread": 305419896
+      }
+    },
+    {
+      "flags": 1,
+      "method": 64,
+      "target": 128,
+      "thread": 305419896,
+      "count": 0,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            128
+          ]
+        ],
+        "tag": 121,
+        "returned_thread": 305419896
+      }
+    },
+    {
+      "flags": 1,
+      "method": 64,
+      "target": 128,
+      "thread": 305419896,
+      "count": 4294967295,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            128
+          ]
+        ],
+        "tag": 121,
+        "returned_thread": 305419896
+      }
+    },
+    {
+      "flags": 1,
+      "method": 64,
+      "target": 128,
+      "thread": 305419896,
+      "count": 4294967295,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            128
+          ]
+        ],
+        "tag": 121,
+        "returned_thread": 305419896
+      }
+    },
+    {
+      "flags": 128,
+      "method": 128,
+      "target": 2147483648,
+      "thread": 2882400002,
+      "count": 0,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "tag": 130,
+        "returned_thread": 2882400002
+      }
+    },
+    {
+      "flags": 128,
+      "method": 128,
+      "target": 2147483648,
+      "thread": 2882400002,
+      "count": 0,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "tag": 130,
+        "returned_thread": 2882400002
+      }
+    },
+    {
+      "flags": 128,
+      "method": 128,
+      "target": 2147483648,
+      "thread": 2882400002,
+      "count": 4294967295,
+      "incoming_upper24": 0,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "tag": 130,
+        "returned_thread": 2882400002
+      }
+    },
+    {
+      "flags": 128,
+      "method": 128,
+      "target": 2147483648,
+      "thread": 2882400002,
+      "count": 4294967295,
+      "incoming_upper24": 11259375,
+      "result": {
+        "events": [
+          [
+            "begin",
+            157,
+            0
+          ],
+          [
+            "index",
+            2147483648
+          ]
+        ],
+        "tag": 130,
+        "returned_thread": 2882400002
+      }
+    }
+  ],
+  "seconds": 0.626112325116992,
+  "scope": "Whole67-byte original/canonical thread writer; byteCL/DL ignores incoming upper24, methodshift/tagOR/thread truncation, count wrap/cursor exact byte, index request retains full targetbits, full32-bit thread returned despite clobbered child EAX, callee-saved and RET8 stack/sentinel verified.32 controls mock begin/index bodies; actual first flags0/method0/target3/thread0 observed separately, no arbitrary wire semantic validity or completed artifact claim."
+}

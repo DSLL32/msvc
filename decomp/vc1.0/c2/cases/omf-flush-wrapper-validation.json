@@ -170,6 +170,6 @@
       "child_mutates_tag": true
     }
   ],
-  "seconds": 0.6645165383815765,
+  "seconds": 0.6572238011285663,
   "scope": "Whole11-byte original tail transfer vs canonical C call/return.32 controls forward exact current slot/child EAX result and retain every pool/current byte except explicit child mutation. Actual defined34-byte record input observed separately; no child body or completed artifact acceptance."
 }

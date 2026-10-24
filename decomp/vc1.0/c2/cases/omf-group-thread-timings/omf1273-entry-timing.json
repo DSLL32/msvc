@@ -1,0 +1,27 @@
+{
+  "command": [
+    "python3",
+    "scripts/observe-scalar-entry.py",
+    "--profile",
+    "omf",
+    "--function",
+    "@omf_define_fixup_thread@16",
+    "--parameter",
+    "flags:unsigned8",
+    "--parameter",
+    "method:unsigned8",
+    "--parameter",
+    "target:unsigned32",
+    "--parameter",
+    "thread:unsigned32",
+    "--stack-cleanup",
+    "8",
+    "--receipt",
+    "cases/omf-thread-abi",
+    "--no-hidden-inputs-proof",
+    "CL flags and DL method are byte-width formals; stack entryESP+4 target and+8 thread are unsigned32, RET8. Incoming upper ECX/EDX bits are retained raw but not consumed. Output returns full32-bit thread after begin9d/NULL, one tagged byte and signed-index helper; no other hidden pointer/register/flags/x87 input."
+  ],
+  "seconds": 1.6360861109569669,
+  "returncode": 0,
+  "log_sha256": "fcc4e15364f0f7da938eeebaae570e387a2b4c276d1b0934cc84a6f05042576e"
+}

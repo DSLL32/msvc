@@ -1,0 +1,8 @@
+enter @omf_write_group_definition@8 eax 0007a8dc args 007b13b4 00084fb8
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_group segment 007b13b4 segment_owner 007b13b4 group 00084fb8 group_owner 00084fb8 dos 1
+omf_group_segment_hex 000000000000000000000000090000002050080000000000c84f08000200000000000000fc137b00d80c080000000000040000000002010005000000d60000000200000006000000
+omf_group_hex 0200000001000000
+entry_end
