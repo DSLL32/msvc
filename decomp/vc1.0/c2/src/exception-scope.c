@@ -4,6 +4,7 @@
 ExceptionScope *prepared_exception_scopes;
 Node *exception_return_label;
 unsigned exception_finally_depth, next_exception_scope_identifier;
+unsigned exception_scope_stack_depth; /* 00084e84, separate active-scope stack cursor */
 
 /* Original [000656e0,00065725). The established provisional symbol name
    predates recovery of this SEH path. The neighboring routines are separate
@@ -18,4 +19,11 @@ void __fastcall prepare_inline_function(Function *function)
     collect_exception_scopes(function);
     reset_exception_scope_stack();
     rewrite_exception_expressions(function);
+}
+
+/* Original [00065af0,00065afb). Old depth and all incoming registers are
+   unused. The two preparation callers consume no EAX return value. */
+void __cdecl reset_exception_scope_stack(void)
+{
+    exception_scope_stack_depth = 0;
 }

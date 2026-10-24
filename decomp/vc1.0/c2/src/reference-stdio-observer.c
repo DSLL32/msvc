@@ -475,6 +475,10 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"alignment8_segment pointer %08lx member %08lx identifier %lu index %lu alignment %lu combine %lu position %lu object_section %lu\n",segment,member,id,index,read_word(process,segment+48),read_byte(process,segment+53),read_word(process,segment+4),read_word(process,segment+56));log_line(line);
         dump_bytes(process,"alignment8_segment_name_hex",read_word(process,segment+16),string_bytes(process,read_word(process,segment+16)));
     }
+    if(!strcmp(call->name,"_reset_exception_scope_stack")) {
+        sprintf(line,"seh_reset return_address %08lx\n",call->return_address);log_line(line);
+        /* MOV fixedDWORD,0; RET consumes no formal, old cell or register. */
+    }
     if(!strcmp(call->name,"@prepare_inline_function@4")) {
         sprintf(line,"seh_prepare function %08lx current %08lx parent %08lx return_address %08lx\n",
             call->args[0],read_word(process,image_base+0x731b4),context->Ebx,call->return_address);log_line(line);

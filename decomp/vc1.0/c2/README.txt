@@ -1116,3 +1116,15 @@ remain named traps. Original /W3, audits, fresh pair and all 17 cached expected
 terminals pass. Build 12.341s includes native header fanout, controls 1.824s,
 audit/coverage 33.588s, fixture wrapper 1.023s. Explicit source/ELF identity,
 corrected extents and split timing: cases/seh-prepare-checkpoint.json.
+
+At 1320 the separate 11-byte scope-stack reset is accepted. Exact MOV/RET
+proves no formal, hidden input or old cursor read. The actual wrapper caller
+matches; both known callers ignore EAX, so no zero/preserved return is invented.
+Twenty-five whole original/canonical controls and eight ABI rejects check
+poisoned old values/registers, RET0/nonvolatile and unchanged adjacent storage.
+The cursor is an original initialized-data zero DWORD; an initial checker
+BSS assumption failed before semantic controls and was corrected without a
+source change. Its failed log is retained. Original /W3, audits, fresh pair
+and all 17 expected native terminals pass. Build 2.610s, full controls .803s,
+audit/coverage 33.979s, fixture wrapper .971s. Next discovery pass is a separate
+550-byte function, still trapped. Receipt: cases/seh-reset-checkpoint.json.

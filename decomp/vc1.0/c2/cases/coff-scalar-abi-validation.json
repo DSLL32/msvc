@@ -37,7 +37,7 @@
         ],
         [
           {
-            "site": "0x5bd59",
+            "site": "0x5bd61",
             "cleanup": 8
           }
         ]
@@ -72,7 +72,7 @@
         ],
         [
           {
-            "site": "0x59893",
+            "site": "0x5989b",
             "cleanup": 0
           }
         ]
@@ -103,7 +103,7 @@
         ],
         [
           {
-            "site": "0x5bbf2",
+            "site": "0x5bbfa",
             "cleanup": 0
           }
         ]
@@ -128,7 +128,7 @@
         ],
         [
           {
-            "site": "0x5bada",
+            "site": "0x5bae2",
             "cleanup": 0
           }
         ]
@@ -159,7 +159,7 @@
         ],
         [
           {
-            "site": "0x5bb26",
+            "site": "0x5bb2e",
             "cleanup": 0
           }
         ]
@@ -185,7 +185,7 @@
         ],
         [
           {
-            "site": "0x54a3e",
+            "site": "0x54a46",
             "cleanup": 0
           }
         ]
@@ -211,7 +211,7 @@
         ],
         [
           {
-            "site": "0x550cf",
+            "site": "0x550d7",
             "cleanup": 0
           }
         ]
@@ -243,7 +243,7 @@
         ],
         [
           {
-            "site": "0x5a0c9",
+            "site": "0x5a0d1",
             "cleanup": 0
           }
         ]
@@ -269,7 +269,7 @@
         ],
         [
           {
-            "site": "0x54b78",
+            "site": "0x54b80",
             "cleanup": 0
           }
         ]
@@ -328,6 +328,6 @@
     "@write_debug_scopes@4: unknown pointer input",
     "@write_debug_scopes@4: wrong symbol name"
   ],
-  "seconds": 0.28715026192367077,
+  "seconds": 0.2842895332723856,
   "scope": "All actual scalar formals, no-hidden-input proof, immutable original raw binding and original/canonical CFG RET cleanup. Legacy logical spelling only allowed by explicit same-VA callback correction metadata. No blanket unvisited input equivalence."
 }

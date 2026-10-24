@@ -300,6 +300,5 @@ int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm
 int inherit_float_motion_uses(void) { __asm int 3 }
 
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
-void __cdecl reset_exception_scope_stack(void) { __asm int 3 }
 void __fastcall collect_exception_scopes(Function *function) { __asm int 3 }
 void __fastcall rewrite_exception_expressions(Function *function) { __asm int 3 }

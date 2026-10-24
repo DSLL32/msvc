@@ -1323,7 +1323,8 @@
     "@normalize_assembly_flow_symbol@8",
     "@reference_assembly_flow_symbol@8",
     "@function_allows_frame_register@4",
-    "@prepare_inline_function@4"
+    "@prepare_inline_function@4",
+    "_reset_exception_scope_stack"
   ],
   "driver": [
     {
@@ -9875,8 +9876,15 @@
     {
       "name": "_reset_exception_scope_stack",
       "start": 416496,
-      "end": 416497,
-      "provisional": true
+      "end": 416507,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/seh-reset-abi/validation.json",
+        "scope": "Exact original65af0..65afb is MOV DWORD PTR[84e84],0; RET. No incomingGPR/flags/stack/x87/oldcell read, no outputpointer or formal. RET0; cdecl(noformal) spelling, indistinguishable machinecleanup from any zero-arg convention. Actual firstcaller65af0return65710 is wrapperprepare_inline_function; only two originaldirectcalls6570b/65717, after eachcaller reloadsECXbefore children65b00/65730 which initialize their ownEAX beforeuse. No observed EAXreturn contract or preservation assumption. New namedfixed unsigneddepth owner; no array/table initialized or copied."
+      }
     },
     {
       "name": "@collect_exception_scopes@4",

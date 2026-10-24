@@ -523,8 +523,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "_reset_exception_scope_stack",
-  "current_checkpoint": 1319,
+  "current_application_frontier": "@collect_exception_scopes@4",
+  "current_checkpoint": 1320,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",
     "correction": "shared cabec0d10",
@@ -573,5 +573,5 @@
     }
   ],
   "last_completed": "omf-comdat-communal",
-  "next_action": "Observe no-formal reset entry/caller then reconstruct exact11B scope-stack-depth reset; collect/rewrite remain independent named traps."
+  "next_action": "Observe closed Function.expression input graph and label aliases, reconstruct whole550B scope discovery pass; new scope-query/allocation/pop children stay named traps."
 }

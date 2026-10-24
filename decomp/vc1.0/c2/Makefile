@@ -113,6 +113,7 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-reference-assembly.py --abi-only
 	$(PYTHON) scripts/check-frame-allow.py --abi-only
 	$(PYTHON) scripts/check-seh-prepare.py --abi-only
+	$(PYTHON) scripts/check-seh-reset.py --abi-only
 	$(PYTHON) scripts/check-omf-module-end.py --abi-only
 	$(PYTHON) scripts/check-omf-modend.py --abi-only
 
@@ -264,6 +265,7 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-reference-assembly.py
 	$(PYTHON) scripts/check-frame-allow.py
 	$(PYTHON) scripts/check-seh-prepare.py
+	$(PYTHON) scripts/check-seh-reset.py
 	$(PYTHON) scripts/check-omf-module-end.py
 	$(PYTHON) scripts/check-omf-modend.py
 	$(PYTHON) scripts/check-float-peephole-data.py
