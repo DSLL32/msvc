@@ -109,7 +109,7 @@ def normal(call,cleanup):
 def compare(original,state,trap,events,native_directory=None):
     verify() # The mapped opener consumes only the low BYTE of physical arg3.
     loader_contract()
-    if state['function']in ('is_archive','mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file'):reader_contract()
+    if state['function']in ('is_archive','mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword'):reader_contract()
     from collision_state import compare as compare_collision
     compare_collision(original,state,trap,events)
     directory=Path(native_directory)
@@ -327,7 +327,7 @@ def compare(original,state,trap,events,native_directory=None):
     ranges.extend(dict(original_base=a,native_base=b,bytes=40)for a,b in zip(oslots,nslots))
     ranges.append(dict(original_base=struct.unpack('<I',(original/'file-pointers.bin').read_bytes()[:4])[0],native_base=state['file_globals']['file_slots'],bytes=64))
     ranges.append(dict(original_base=0x4670c4,native_base=globals_['current_phase'],bytes=32))
-    if state['function']in ('mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file'):
+    if state['function']in ('mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword'):
         from archive_state import compare as compare_archive
         live_output=compare_archive(original,state,trap,events,native_directory,oslots,nslots)
         if live_output is not None:ranges.append(live_output)

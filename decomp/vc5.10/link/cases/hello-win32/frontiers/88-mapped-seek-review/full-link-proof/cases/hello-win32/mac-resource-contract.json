@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "address": 4515360,
+  "bytes": 138,
+  "body_sha256": "1cc3b982339ca5a8b0b3e9ba58b8177980e76fd25de7ace6838417ba426eed76",
+  "former_analysis": {
+    "path": "cases/hello-win32/mac-resource-input-contract.json",
+    "sha256": "93268e87a66eb129ac45c701461ac891f90038af368cb7757b6485f2fd26d94b",
+    "scope": "Historical pending-input84 proof remains immutable, not standalone body acceptance."
+  },
+  "formals": [
+    "int file"
+  ],
+  "hidden_inputs": [],
+  "returns": [
+    [
+      4515390,
+      4
+    ],
+    [
+      4515435,
+      4
+    ],
+    [
+      4515476,
+      4
+    ],
+    [
+      4515495,
+      4
+    ]
+  ],
+  "arithmetic": "Signed LONG size gate >=256; DWORD wrapped additions in resource header offsets and length equality",
+  "source": "src/input.c is_mac_resource_file; readable six direct calls, no imports or data ownership",
+  "actual_case": "First ordinary call reaches get_file_length(file14) before any classifier data reads or mutation."
+}

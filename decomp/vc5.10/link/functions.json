@@ -104,7 +104,8 @@
     "_mapped_read@12",
     "_is_mac_resource_file@4",
     "_get_file_length@4",
-    "_seek_file@16"
+    "_seek_file@16",
+    "_seek_mapped_file@16"
   ],
   "driver": [
     {
@@ -2678,10 +2679,10 @@
     {
       "name": "_seek_mapped_file@16",
       "start": 4246032,
-      "end": 4246033,
+      "end": 4246178,
       "source": "src/files.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "seek_mapped_file",
       "abi": "stdcall long(FileRecord *record,long offset,int origin,DWORD *error); four stack formals,RET16; no hidden inputs; observed when reached"
     },

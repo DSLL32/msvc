@@ -72,8 +72,8 @@
     ]
   },
   "rebuilt": {
-    "pe_sha256": "ec4cced01d5a8a2ea664c3c5ae12865f5dcaa02a2ac04761a902ab897360e1c0",
-    "map_sha256": "a4480d81c5fcadc767a980ee2150270ebafc7f25b87e32bd55cb95546b315173",
+    "pe_sha256": "7b15fe71908c15651c7a35ecf4f82d75289fc1bd525d062e8cf329eeb85df087",
+    "map_sha256": "34a27b7d4aa8cf138f3bbad95e6de74cc6db8e6d1bf07c387adaa0ba0d58066e",
     "slot": 4260904,
     "symbol": "?image_write_headers@@3P8LinkContext@@AEXH@ZQ1@",
     "code_reference_count": 3,
@@ -106,7 +106,7 @@
         "prefix": "c705"
       }
     ],
-    "required_preservation_call": 4244321,
+    "required_preservation_call": 4244481,
     "debug_metadata_references": [
       {
         "object": "build/full-link.obj",

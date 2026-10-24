@@ -1,0 +1,7 @@
+{
+  "actual_returns": "Four distinct real inner and outer return snapshots; query current/end/restore/reset yield8,2262,8,0; first-seen logical tracing remains separate.",
+  "error_owners": "A/B/B/C: get_file_length.current_error, reused get_file_length.end_error, then Mac classifier DWORD error scratch whose current source variable name upper is historical. No high-word interpretation.",
+  "expired": "All first-three error locals cease to be live after file_length returns. They are compared only from actual return-time snapshots. No later stack reread and no extra live allocation range.",
+  "future_name": "The historical Mac source name upper will be renamed to error alongside the next ordinary input.c function reconstruction/build/capture; current exact ELF/DWARF/source is retained.",
+  "retention": "Own original-only helper EXE/source retained for this substantial observer checkpoint; no provided original/module/auditor binary bundle."
+}

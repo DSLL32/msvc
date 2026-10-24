@@ -89,7 +89,7 @@ def compare(original,state,trap,events,native_directory,oslots,nslots):
     lists={e['name']:e for e in events if e['event']=='argument_list'}
     assert entry==dict(event='archive_entry',stack_pointer=reader['stack_pointer']-24,
         formals=[lists['link_files']['nodes'][0]['words'][0],14],hidden_inputs=[])
-    completed=state['function']in ('is_mac_resource_file','get_file_length','seek_file','seek_mapped_file')
+    completed=state['function']in ('is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword')
     if not completed:
         assert trap['archive_entry_stack']==entry['stack_pointer']
         assert trap['esp']==entry['stack_pointer']-32 and trap['stack'][0]==0x45cd7a
@@ -141,11 +141,14 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
     assert len(data)==master['bytes']==2262 and hashlib.sha256(data).hexdigest()==master['sha256']
     signature=data[:8];assert signature!=b'!<arch>\n'
     assert (original/'archive-read-0-after.bin').read_bytes()==signature
-    assert (original/'archive-read-0-record-after.bin').read_bytes()==(original/'file-record-14.bin').read_bytes()
+    from mapped_seek_state import with_cursor
+    historical=with_cursor((original/'file-record-14.bin').read_bytes(),8)
+    nhistorical=with_cursor(state['file_records'][14],8).hex()
+    assert (original/'archive-read-0-record-after.bin').read_bytes()==historical
     assert len(state['archive_read_returns'])==1
     nreturn,=state['archive_read_returns']
     assert nreturn==dict(read,normal_return=True,return_stack=read['stack_pointer']+16,result=8,
-        output=dict(output,after=signature.hex(),record_after=state['file_records'][14]))
+        output=dict(output,after=signature.hex(),record_after=nhistorical))
     predicate,=[e for e in events if e['event']=='archive_predicate_call']
     finished,=[e for e in events if e['event']=='archive_predicate_return']
     assert predicate==dict(event='archive_predicate_call',entry_stack=entry['stack_pointer'],
@@ -166,11 +169,15 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
         source=(directory/'source/project'/filename).read_bytes()
         assert hashlib.sha256(source).hexdigest()==receipt['source_files']['src/'+filename]
         assert b'BYTE __stdcall is_archive('in source
+    if state['function']=='read_big_endian_dword':
+        from mapped_seek_state import compare as compare_seeks
+        compare_seeks(original,state,trap,events,directory,reader,formals[0],read['formals'][0])
+        return None # All preceding output-local observations are historical here.
     if state['function']=='is_mac_resource_file':
         assert trap['esp']==reader['stack_pointer']-20 and trap['stack'][:2]==[0x44994e,14]
         assert trap['mac_resource_formals']==dict(formals=[14],hidden_inputs=[])
     else:
-        assert state['function']in ('get_file_length','seek_file','seek_mapped_file')
+        assert state['function']in ('get_file_length','seek_file','seek_mapped_file','read_big_endian_dword')
         current,=[e for e in events if e['event']=='mac_resource_entry']
         assert current==dict(event='mac_resource_entry',stack_pointer=reader['stack_pointer']-20,formals=[14],hidden_inputs=[])
         if state['function']=='get_file_length':
@@ -222,7 +229,7 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
         assert pe.read(0x44e629,5)==b'\xe8'+struct.pack('<i',0x40c080-0x44e62e)
     assert state['mac_resource_entry']==dict(stack_pointer=state['read_input_entry']['stack_pointer']-48,
         formals=[14],hidden_inputs=[])
-    if state['function']not in ('seek_file','seek_mapped_file'):
+    if state['function']not in ('seek_file','seek_mapped_file','read_big_endian_dword'):
         assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[14],hidden_register_inputs=[])
     else:
         seek=json.loads((binary/'cases/hello-win32/seek-file-input-contract.json').read_text())

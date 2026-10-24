@@ -1,0 +1,12 @@
+[
+  {
+    "path": "orchestrator-review.json",
+    "sha256": "e952164e4c10506dd991910eed9f5beb4bb2788d788e3fa41c769e3f8b8f150a",
+    "bytes": 1479
+  },
+  {
+    "path": "promotion.log",
+    "sha256": "f4b2d6db931360bcfa9402eb44dee031caa61b4899e4169c888e5cec36272131",
+    "bytes": 447174
+  }
+]

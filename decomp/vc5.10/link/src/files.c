@@ -227,7 +227,23 @@ FileRecord *__cdecl get_available_file_record(void)
 }
 int __stdcall close_buffered_file(FileRecord *record) { __asm { int 3 } return -1; }
 BOOL __stdcall close_mapped_file(FileRecord *record) { __asm { int 3 } return 0; }
-long __stdcall seek_mapped_file(FileRecord *record,long offset,int origin,DWORD *error) { __asm { int 3 } return -1; }
+LONG __stdcall seek_mapped_file(FileRecord *record,LONG offset,int origin,DWORD *error)
+{
+    if (origin==FILE_BEGIN) record->file_size=offset;
+    else if (origin==FILE_CURRENT)
+        record->file_size=(LONG)((DWORD)record->file_size+(DWORD)offset);
+    else if (origin==FILE_END)
+        record->file_size=(LONG)((DWORD)record->size+(DWORD)offset);
+    if (record->file_size>record->mapping_size &&
+        !resize_file_mapping(record,record->file_size,error)) {
+        if (!record->base) {
+            if (*error==112) link_fatal(record->name,1180);
+            link_fatal(record->name,1106,record->file_size);
+        }
+        return -1;
+    }
+    return record->file_size;
+}
 unsigned char __stdcall initialize_file_mapping(FileRecord *record,unsigned char resize,DWORD *error)
 {
     HANDLE mapping;

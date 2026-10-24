@@ -24,6 +24,9 @@ static DWORD archive_entry_stack,archive_arguments[2];
 static DWORD mac_resource_entry_stack,mac_resource_argument;
 static DWORD file_length_entry_stack,file_length_argument;
 static DWORD seek_file_entry_stack,seek_file_entry_arguments[4];
+static DWORD seek_call_stack,seek_call_arguments[4],seek_call_record,seek_call_count;
+static DWORD mapped_seek_stack,mapped_seek_arguments[4],mapped_seek_count;
+static DWORD length_call_stack,length_call_argument;
 static DWORD archive_read_stack,archive_read_arguments[3],archive_read_count;
 static DWORD archive_predicate_stack,archive_predicate_arguments[2];
 static DWORD library_create_entry_stack,library_create_arguments[3];
@@ -258,7 +261,7 @@ static int snapshot_file_records(const char *phase)
 static int snapshot(DWORD address)
 {
     CONTEXT context;
-    int input_read_boundary=address==base+0x498d0||address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10;
+    int input_read_boundary=address==base+0x498d0||address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0;
     DWORD got, stack[32];
     unsigned index, argument_index;
     unsigned char bytes[65536];
@@ -376,7 +379,7 @@ static int snapshot(DWORD address)
             if(address!=base+0x4b860 && address!=base+0x49a50)fprintf(events,"\"hidden_register_inputs\":[],");
             fprintf(events,"\"formals\":[");
             if(address==base+0xc030||address==base+0xca10)fprintf(events,"%lu,%lu,%lu,%lu",stack[1],stack[2],stack[3],stack[4]);
-            else if(address==base+0x4e620||address==base+0xc080)fprintf(events,"%lu",stack[1]);
+            else if(address==base+0x4e620||address==base+0xc080||address==base+0x4e5c0)fprintf(events,"%lu",stack[1]);
             else if(address==base+0xcab0)fprintf(events,"%lu,%lu,%lu",stack[1],stack[2],stack[3]);
             else if(address==base+0x5cd40)fprintf(events,"%lu,%lu",stack[1],stack[2]);
             else if(input_read_boundary)fprintf(events,"%lu,%lu,%lu",stack[1],stack[2],stack[3]);
@@ -574,14 +577,14 @@ static int snapshot(DWORD address)
         fprintf(events,",\"library_enum_input\":{\"address\":%lu,\"bytes\":16,\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",library_enum_arguments[0],library_enum_arguments[0],library_enum_arguments[1]);
     }
     if((address==base+0x49a50 || input_read_boundary)) {
-        DWORD library=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10)?read_input_arguments[1]:stack[2],array,current;
+        DWORD library=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0)?read_input_arguments[1]:stack[2],array,current;
         if(!ReadProcessMemory(process,(void *)(library+4),&array,4,&got)||got!=4||
            !ReadProcessMemory(process,(void *)(base+0x7f0a8),&current,4,&got)||got!=4||
            !save_memory(library,68,"command-line-library.bin")||!save_memory(array,20,"command-line-library-array.bin"))return 0;
         fprintf(events,",\"load_input_formals\":{\"this\":%lu,\"formals\":[%lu,%lu],\"other_hidden_inputs\":[]},\"command_line_library\":{\"address\":%lu,\"modules\":%lu,\"global_slot\":%lu,\"current\":%lu},\"library_enum_input\":{\"address\":%lu,\"bytes\":16,\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",(input_read_boundary?load_input_receiver:context.Ecx),(input_read_boundary?load_input_arguments[0]:stack[1]),(input_read_boundary?load_input_arguments[1]:stack[2]),library,array,base+0x7f0a8,current,library_enum_arguments[0],library_enum_arguments[0],library_enum_arguments[1]);
     }
     if(input_read_boundary) {
-        DWORD *actual=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10)?read_input_arguments:stack+1;
+        DWORD *actual=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030||address==base+0xca10||address==base+0x4e5c0)?read_input_arguments:stack+1;
         fprintf(events,",\"read_input_formals\":{\"formals\":[%lu,%lu,%lu],\"hidden_inputs\":[]}",actual[0],actual[1],actual[2]);
     }
     if(address==base+0xcab0) {
@@ -601,6 +604,9 @@ static int snapshot(DWORD address)
     if(address==base+0xca10) {
         if(!save_memory(stack[4],4,"file-length-upper-before.bin"))return 0;
         fprintf(events,",\"seek_mapped_formals\":{\"formals\":[%lu,%lu,%lu,%lu],\"hidden_inputs\":[]}",stack[1],stack[2],stack[3],stack[4]);
+    }
+    if(address==base+0x4e5c0) {
+        fprintf(events,",\"big_endian_formals\":{\"formals\":[%lu],\"hidden_inputs\":[]}",stack[1]);
     }
     if(parser_allocation)fprintf(events,",\"parsed_switch_pointer\":%lu",parser_allocation);
     if(duplicate_result)fprintf(events,",\"duplicate_pointer\":%lu",duplicate_result);
@@ -912,6 +918,62 @@ int main(int argc, char **argv)
                         fprintf(events,"}\n");
                         if(!rearm_observer(before?"observe:collision_compare_return":"observe:collision_compare_call")){failed=6;break;}
                         if(!before)++collision_compare_count;
+                    } else if(!strncmp(entries[index].name,"observe:seek_",13)) {
+                        DWORD got,slots;char name[128],rearm[128];unsigned j;
+                        int before=strstr(entries[index].name,"_call")!=NULL;
+                        if(seek_call_count>=64){failed=6;break;}
+                        if(before) {
+                            seek_call_stack=context.Esp-4;
+                            if(!ReadProcessMemory(process,(void *)context.Esp,seek_call_arguments,16,&got)||got!=16||seek_call_arguments[0]>=16||
+                               !ReadProcessMemory(process,(void *)(base+0x67538),&slots,4,&got)||got!=4||
+                               !ReadProcessMemory(process,(void *)(slots+4*seek_call_arguments[0]),&seek_call_record,4,&got)||got!=4){failed=6;break;}
+                        } else if(context.Esp!=seek_call_stack+20){failed=6;break;}
+                        sprintf(name,"seek-%u-error-%s.bin",seek_call_count,before?"before":"after");
+                        if(!save_memory(seek_call_arguments[3],4,name)){failed=6;break;}
+                        sprintf(name,"seek-%u-record-%s.bin",seek_call_count,before?"before":"after");
+                        if(!save_memory(seek_call_record,40,name)){failed=6;break;}
+                        fprintf(events,"{\"event\":\"seek_%s\",\"index\":%lu,\"site\":%lu,\"entry_stack\":%lu,\"formals\":[",before?"call":"return",seek_call_count,site,seek_call_stack);
+                        for(j=0;j<4;++j)fprintf(events,"%s%lu",j?",":"",seek_call_arguments[j]);
+                        fprintf(events,"],\"hidden_inputs\":[],\"record\":%lu",seek_call_record);
+                        if(!before)fprintf(events,",\"return_stack\":%lu,\"result\":%lu",context.Esp,context.Eax);
+                        fprintf(events,"}\n");
+                        strcpy(rearm,entries[index].name);strcpy(strrchr(rearm,'_')+1,before?"return":"call");
+                        if(!rearm_observer(rearm)){failed=6;break;}
+                        if(!before)++seek_call_count;
+                    } else if(!strcmp(entries[index].name,"observe:mapped_seek_call")||!strcmp(entries[index].name,"observe:mapped_seek_return")) {
+                        DWORD got;char name[128];unsigned j;
+                        int before=!strcmp(entries[index].name,"observe:mapped_seek_call");
+                        if(mapped_seek_count>=64){failed=6;break;}
+                        if(before) {
+                            mapped_seek_stack=context.Esp-4;
+                            if(!ReadProcessMemory(process,(void *)context.Esp,mapped_seek_arguments,16,&got)||got!=16){failed=6;break;}
+                        } else if(context.Esp!=mapped_seek_stack+20){failed=6;break;}
+                        sprintf(name,"mapped-seek-%u-error-%s.bin",mapped_seek_count,before?"before":"after");
+                        if(!save_memory(mapped_seek_arguments[3],4,name)){failed=6;break;}
+                        sprintf(name,"mapped-seek-%u-record-%s.bin",mapped_seek_count,before?"before":"after");
+                        if(!save_memory(mapped_seek_arguments[0],40,name)){failed=6;break;}
+                        fprintf(events,"{\"event\":\"mapped_seek_%s\",\"index\":%lu,\"site\":%lu,\"entry_stack\":%lu,\"formals\":[",before?"call":"return",mapped_seek_count,site,mapped_seek_stack);
+                        for(j=0;j<4;++j)fprintf(events,"%s%lu",j?",":"",mapped_seek_arguments[j]);
+                        fprintf(events,"],\"hidden_inputs\":[]");
+                        if(!before)fprintf(events,",\"return_stack\":%lu,\"result\":%lu",context.Esp,context.Eax);
+                        fprintf(events,"}\n");
+                        if(!rearm_observer(before?"observe:mapped_seek_return":"observe:mapped_seek_call")){failed=6;break;}
+                        if(!before)++mapped_seek_count;
+                    } else if(!strcmp(entries[index].name,"observe:file_length_call")||!strcmp(entries[index].name,"observe:file_length_return")) {
+                        DWORD got,slots,record;
+                        int before=!strcmp(entries[index].name,"observe:file_length_call");
+                        if(before) {
+                            length_call_stack=context.Esp-4;
+                            if(!ReadProcessMemory(process,(void *)context.Esp,&length_call_argument,4,&got)||got!=4){failed=6;break;}
+                        } else if(context.Esp!=length_call_stack+8){failed=6;break;}
+                        fprintf(events,"{\"event\":\"file_length_%s\",\"entry_stack\":%lu,\"formals\":[%lu],\"hidden_inputs\":[]",before?"call":"return",length_call_stack,length_call_argument);
+                        if(!before) {
+                            if(length_call_argument>=16||!ReadProcessMemory(process,(void *)(base+0x67538),&slots,4,&got)||got!=4||
+                               !ReadProcessMemory(process,(void *)(slots+4*length_call_argument),&record,4,&got)||got!=4||!save_memory(record,40,"file-length-record-after.bin")){failed=6;break;}
+                            fprintf(events,",\"return_stack\":%lu,\"result\":%lu",context.Esp,context.Eax);
+                        }
+                        fprintf(events,"}\n");
+                        if(!rearm_observer(before?"observe:file_length_return":"observe:file_length_call")){failed=6;break;}
                     } else if(!strcmp(entries[index].name,"observe:archive_read_call")) {
                         DWORD got;char name[96];archive_read_stack=context.Esp-4;
                         if(!ReadProcessMemory(process,(void *)context.Esp,archive_read_arguments,12,&got)||got!=12||archive_read_arguments[2]!=8){failed=6;break;}
