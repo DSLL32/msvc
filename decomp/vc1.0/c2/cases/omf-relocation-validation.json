@@ -2679,6 +2679,6 @@
     "0x6b044",
     "0x6b170"
   ],
-  "seconds": 1.226780230179429,
+  "seconds": 1.0679520843550563,
   "scope": "Whole489-byte original/canonical dispatcher plus32-byte8-slot bounds/target proof; all kinds1..8/outside, preselection conditions, cached kind/post-begin operand reloads, signed short multiplication low32, repeated/byte/scalar exact child ABI, lookup flags cached before mutation and addend/kind reloaded, LE32/fixup(-4), signed remainder ONE-byte padding behavior and FFFFFFFF sentinel, initialized zero4 local under poison guards, RET4/callee-saved and all owned node/Segment/reference/data/record bytes checked. Children mocked; zero/negative/huge repeat/width/padding cases are request-shape/arithmetic controls only, no physical oversized copy success or valid frontend claim. Invalid divisor0/INT_MIN%-1 not executed or guarded; invalid tags/references/labels stop actual1fe/1da/1c8 diagnostics, no returning-fatal/local seed claim. Actual first type6/38B/repeat1 and3 caller-owned formals observed separately, unused Symbol formal still captured."
 }

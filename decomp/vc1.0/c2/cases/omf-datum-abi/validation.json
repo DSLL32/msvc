@@ -1,0 +1,62 @@
+{
+  "matched": true,
+  "function": "@omf_write_datum@8",
+  "original_va": "0x6b2d0",
+  "formals": [
+    {
+      "name": "record",
+      "location": "ECX",
+      "type": "OmfRecord pointer",
+      "original": 501980,
+      "native": 1449231708
+    },
+    {
+      "name": "initializer",
+      "location": "EDX",
+      "type": "Initializer pointer",
+      "original": 8066528,
+      "native": 1449342644
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6b2d0..6b3c5 consumes ECX record/EDX initializer, RET0, returns sign-extended current width after writes/child. Width/type+8/+10, active inline value+12 and record count/cursor consumed, no other incoming registers/flags/x87/stack inputs. Caller return6b0a4/EBX initializer/EDI record and native omf_output_relocation locals prove identities; current four-slot record/defined source width observed. Old destination bytes are write-only, not input.",
+  "shape": {
+    "slot": 0,
+    "type": 2,
+    "width": 4,
+    "value_hex": "03000000",
+    "count": 40,
+    "cursor_offset": 68
+  },
+  "original": {
+    "record": 501980,
+    "initializer": 8066528,
+    "current": 501980,
+    "base": 501980,
+    "return_address": 438436,
+    "initializer_owner": 8066528,
+    "record_owner": 501980,
+    "header_hex": "02000400",
+    "value_hex": "03000000",
+    "count": 40,
+    "cursor": 502048
+  },
+  "native": {
+    "record": 1449231708,
+    "initializer": 1449342644,
+    "current": 1449231708,
+    "base": 1449231708,
+    "initializer_owner": 1449342644,
+    "record_owner": 1449231708,
+    "header_hex": "02000400",
+    "value_hex": "03000000",
+    "count": 40,
+    "cursor": 1449231776,
+    "caller": "omf_output_relocation"
+  },
+  "original_execution_seconds": 1.7342501860111952,
+  "native_debug_seconds": 0.15301338210701942,
+  "total_seconds": 2.144360387697816,
+  "scope": "Actual two-formal/caller ownership and active width value only, no union/tail or destination snapshot. No cold-width/child/fatal-return/artifact success inferred."
+}

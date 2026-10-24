@@ -1286,7 +1286,8 @@
     "@omf_emit_external@4",
     "@omf_output_relocation@12",
     "@omf_write_byte_array@16",
-    "@omf_pad_record@8"
+    "@omf_pad_record@8",
+    "@omf_write_datum@8"
   ],
   "driver": [
     {
@@ -9176,8 +9177,26 @@
     {
       "name": "@omf_write_datum@8",
       "start": 438992,
-      "end": 438993,
-      "provisional": true
+      "end": 439237,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "OmfRecord pointer"
+          },
+          {
+            "name": "initializer",
+            "location": "EDX",
+            "type": "Initializer pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-datum-abi/validation.json",
+        "scope": "Original6b2d0..6b3c5 consumes ECX record/EDX initializer, RET0, returns sign-extended current width after writes/child. Width/type+8/+10, active inline value+12 and record count/cursor consumed, no other incoming registers/flags/x87/stack inputs. Caller return6b0a4/EBX initializer/EDI record and native omf_output_relocation locals prove identities; current four-slot record/defined source width observed. Old destination bytes are write-only, not input."
+      }
     }
   ],
   "cases": {

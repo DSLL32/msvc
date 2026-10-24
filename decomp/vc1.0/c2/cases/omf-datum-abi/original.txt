@@ -1,0 +1,9 @@
+enter @omf_write_datum@8 eax 0007a8dc args 0007a8dc 007b15e0
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_datum record 0007a8dc initializer 007b15e0 current 0007a8dc base 0007a8dc return_address 0006b0a4 initializer_owner 007b15e0 record_owner 0007a8dc
+omf_datum_header_hex 02000400
+omf_datum_value_hex 03000000
+omf_datum_count_cursor_hex 2800000020a90700
+entry_end

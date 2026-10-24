@@ -694,3 +694,13 @@ status inference of a direct null-array call. Old destination is write-only,
 not observed or seeded. Original/W3/full audits and15 native cases pass(14
 complete), next datum6b2d0.342482/399693 extent bytes; app/support324182B and
 1167functions exclude5 historical CRT. Timing: cases/omf-pad-checkpoint.json.
+
+Checkpoint1283 adds245-byte datum writer.277 original/canonical controls/9
+actual ABI rejects cover LE integer widths, unchanged floating bit copies,
+append ABI, count wrap and signed width reloaded after child mutation. Actual
+type2/width4/value3/count40/cursor68 and two caller-owned formals match; only
+active source fields observed, destination old bytes write-only. Checker-only
+NUL literal length failure retained; no target change for it. Original/W3/full
+audits and15 native cases pass(14 complete), next absolute-reference6b2c0.
+342727/399693 extent bytes; app/support324427B/1168functions exclude5 historical
+CRT. Timings/limits: cases/omf-datum-checkpoint.json.

@@ -277,6 +277,16 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
     }
+    if(!strcmp(call->name,"@omf_write_datum@8")) {
+        DWORD record=call->args[0],node=call->args[1];
+        long width=(short)(read_word(process,node+8)>>16);
+        if(width!=1&&width!=2&&width!=4&&width!=8&&width!=10)exit(296);
+        sprintf(line,"omf_datum record %08lx initializer %08lx current %08lx base %08lx return_address %08lx initializer_owner %08lx record_owner %08lx\n",
+            record,node,read_word(process,image_base+0x6b88c),image_base+0x6a8dc,call->return_address,context->Ebx,context->Edi);log_line(line);
+        dump_bytes(process,"omf_datum_header_hex",node+8,4);
+        dump_bytes(process,"omf_datum_value_hex",node+12,width);
+        dump_bytes(process,"omf_datum_count_cursor_hex",record+12,8);
+    }
     if(!strcmp(call->name,"@omf_pad_record@8")) {
         DWORD record=call->args[0];
         sprintf(line,"omf_pad record %08lx bytes %lu current %08lx base %08lx return_address %08lx\n",

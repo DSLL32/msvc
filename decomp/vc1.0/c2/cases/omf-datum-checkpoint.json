@@ -1,0 +1,195 @@
+{
+  "checkpoint": 1283,
+  "previous_checkpoint": 1282,
+  "new_application": [
+    {
+      "name": "@omf_write_datum@8",
+      "start": 438992,
+      "end": 439237,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "OmfRecord pointer"
+          },
+          {
+            "name": "initializer",
+            "location": "EDX",
+            "type": "Initializer pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-datum-abi/validation.json",
+        "scope": "Original6b2d0..6b3c5 consumes ECX record/EDX initializer, RET0, returns sign-extended current width after writes/child. Width/type+8/+10, active inline value+12 and record count/cursor consumed, no other incoming registers/flags/x87/stack inputs. Caller return6b0a4/EBX initializer/EDI record and native omf_output_relocation locals prove identities; current four-slot record/defined source width observed. Old destination bytes are write-only, not input."
+      }
+    }
+  ],
+  "new_extent_bytes": 245,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1283,
+    "accepted_code_bytes": 342727,
+    "original_code_bytes": 399693,
+    "percentage": 85.74756125326188,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 632
+  },
+  "application_graph_rows": 1173,
+  "reconstructed_application_support_functions": 1168,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 324427,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "@omf_output_bytes@8",
+  "next_original_va": "0x6b2c0",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "@omf_output_bytes@8"
+  },
+  "controls": [
+    "cases/omf-datum-validation.json"
+  ],
+  "timings": {
+    "omf1283-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 31.793029744178057,
+      "returncode": 0,
+      "log_sha256": "966a843c18232a356749a8cc569b02ed3c5e1b3f67c7256ee889c78d61b35f18"
+    },
+    "omf1283-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.6604971764609218,
+      "returncode": 0,
+      "log_sha256": "747f6ae2a14b7182db93bf5edcaa6ad4d80ac45d8172c735c63d9ea61fa2ed28"
+    },
+    "omf1283-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1282.json",
+        "--extend-after",
+        "cases/omf-original-1283.json"
+      ],
+      "seconds": 0.33913059812039137,
+      "returncode": 0,
+      "log_sha256": "3941ba3017071c2cef10d460e41fd74979dd623b73fa4b43b03f01f609073355"
+    },
+    "omf1283-controls-string-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-datum.py"
+      ],
+      "seconds": 3.736054064705968,
+      "returncode": 0,
+      "log_sha256": "8a587477932dbb0b20dc5713b93001ad19b227e601e32fe143c898f4c6c53639"
+    },
+    "omf1283-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-datum.py"
+      ],
+      "seconds": 4.281168156303465,
+      "returncode": 1,
+      "log_sha256": "ddf1b86664d7944a6b25c503ac8579d72a3d8e6a2ad9bd7869f1e35725c5a998"
+    },
+    "omf1283-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-datum-entry.py"
+      ],
+      "seconds": 2.210046992637217,
+      "returncode": 0,
+      "log_sha256": "0200398c85db8a97065b2f9dc70b1f433f834ccf20dad00e8ae0c5df41184d6c"
+    },
+    "omf1283-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8774637654423714,
+      "returncode": 0,
+      "log_sha256": "a774eea28d0966353d27e669b57eba4defa8c5de8fde8de2a150cfe16f76bdd0"
+    },
+    "omf1283-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1283.json"
+      ],
+      "seconds": 0.22328901663422585,
+      "returncode": 0,
+      "log_sha256": "256b7d5e17900e29a1783ad49d8f5f47bd79bd7bf65a05b87f6fbd3f24b90024"
+    },
+    "omf1283-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 4.101209654472768,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1283-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1283.json"
+      ],
+      "seconds": 1.1277522221207619,
+      "returncode": 0,
+      "log_sha256": "0ae916f01673d1a3555dcbd57a2ed0204905fb95dde4708e8f2434ae3a63773c"
+    },
+    "omf1283-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 0.9574233274906874,
+      "returncode": 0,
+      "log_sha256": "3aa7d8fbc9c8ccdf6dc2bfcf6c0de7b53977404b0742ebf3ba28cd216e7a59d8"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole245-byte datum writer and277 original/canonical controls/9 ABI negatives pass. Width1/2/4 LE integers and raw4(type5)/8/10 byte append, source patterns/countwrap/cursor guards, exact append stack ABI and post-child signed-width reload(-5 included), actual diagnostic242, RET0/callee-saved/full owned-byte guards. Raw floating values copied, not numerical conversions. Children mocked and fatal stops; no returning-fatal or invalid-width success.",
+    "Actual record=current slot0,initializer parent EBX/native caller local, type2/width4/value3, count40/cursor68; return6b0a4. All two formals and consumed header/value/count/cursor observed with caller record alias; only active source bytes, no union tails or old write-only destination. First control attempt failed checker-only diagnostic literal length14 vs actual15 includingNUL; corrected len(literal) with target source unchanged; failed4.281s and passing3.736s retained.",
+    "Original/W3/full graph/extents/RET/ABI/storage/data audits, fresh original/native pair to existing absolute-reference callback6b2c0 and15 native cases pass(14 complete). Build2.660s,audit31.793s,original1.128s,native.223s,fixtures.877s wrapper times; split phases in receipts, analysis/edit unmeasured. Full exact OMF artifacts still pending."
+  ]
+}

@@ -941,3 +941,50 @@ void __fastcall omf_pad_record(OmfRecord *record, unsigned bytes)
         record->cursor = cursor;
     }
 }
+
+/* Original [0006b2d0,0006b3c5). Integer widths are emitted little-endian;
+   floating bit patterns are copied unchanged. Return the width reloaded after
+   the append child, since that child is an observable call boundary. */
+unsigned __fastcall omf_write_datum(OmfRecord *record, Initializer *initializer)
+{
+    unsigned value, count;
+    unsigned char *cursor;
+    switch (initializer->content.datum.bytes) {
+    case 1:
+        ++record->count;
+        cursor = record->cursor;
+        *cursor++ = initializer->content.datum.value.byte;
+        record->cursor = cursor;
+        break;
+    case 2:
+        value = (unsigned short)initializer->content.datum.value.word;
+        count = record->count + 1;
+        cursor = record->cursor;
+        record->count = count; *cursor++ = (unsigned char)value; record->cursor = cursor;
+        record->count = ++count; *cursor++ = (unsigned char)(value >> 8); record->cursor = cursor;
+        break;
+    case 4:
+        if (initializer->content.datum.type == 5)
+            omf_append_bytes(record, (char *)&initializer->content.datum.value, 4);
+        else {
+            value = initializer->content.datum.value.integer;
+            count = record->count + 1;
+            cursor = record->cursor;
+            record->count = count; *cursor++ = (unsigned char)value; record->cursor = cursor;
+            record->count = ++count; *cursor++ = (unsigned char)(value >> 8); record->cursor = cursor;
+            record->count = ++count; *cursor++ = (unsigned char)(value >> 16); record->cursor = cursor;
+            record->count = ++count; *cursor++ = (unsigned char)(value >> 24); record->cursor = cursor;
+        }
+        break;
+    case 8:
+        omf_append_bytes(record, (char *)&initializer->content.datum.value, 8);
+        break;
+    case 10:
+        omf_append_bytes(record, (char *)&initializer->content.datum.value, 10);
+        break;
+    default:
+        compiler_internal_error("@(#)omf.c:1.10", 0x242);
+        break;
+    }
+    return initializer->content.datum.bytes;
+}

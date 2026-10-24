@@ -1,0 +1,12 @@
+{
+  "logical": "@omf_output_bytes@8",
+  "matched": true,
+  "executable_sha256": "1b2fd6db72c21bc86aed7ade5c88f8a8cda29e3ecab60897134495e2ea56f93c",
+  "config_sha256": "92355d9f79844c50fab1ec2f5aa5d920246f2eb6b7ecb29e4e2e9d9183fa2fe4",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\omftypes",
+  "setup_seconds": 0.007337141782045364,
+  "execution_seconds": 0.136692532338202,
+  "seconds": 0.15702689718455076,
+  "log_sha256": "7f384d3c93fb74423023d729c0e0310c6044b87512f17f54ed0f14a71f1594c3",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/omf-gdb-zsov_8xt"
+}
