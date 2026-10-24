@@ -21,6 +21,7 @@ int target_cpu, target_cpu_mask;
 char token_buffer[7936];
 char *source_filename = token_buffer; /* original 0x9fc50 */
 char *source_buffer_cursor = token_buffer; /* original 0x9fc4c: copy cursor, then closed-source name */
+char *source_buffer_end = token_buffer + sizeof(token_buffer); /* original 0x9fc54 */
 FILE *diagnostic_trace_file, *listing_file;
 LexerTextStorage lexer_text_storage; /* original 0x8c158..0x8c1dc */
 CType *type_0000, *type_4041, *type_0064;

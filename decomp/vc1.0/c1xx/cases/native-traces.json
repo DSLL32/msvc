@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "730ed884c65b7c5e1aa7258ea618d8191cc31741bba117c1f68932f6fcba7306",
+    "functions.json": "c209a8a5992441bebec50d5daf2013efac5df077f064c8cfdb3ca010e9808905",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "72fc3c66d259844d269d50b719d21eb9ef3e54866483e2e4d577cb820e5be6a9",
-    "cases/canonical-map.txt": "4ab65b782c6efdf2dc03f2c644e9f915675c7d5c53b2356b7d8bdbbb98daf356",
+    "cases/original-entry-references.json": "96670c72545753478c14a5a4fd1a06ad8d7a678c1e4a0b63c93520e827837d45",
+    "cases/canonical-map.txt": "416b8ec8872dffa2f70a30154dc9edb4c7335c76513af1eea4e59088ff9c478e",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -78,9 +78,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1279-fill_browser_symbol-8/entry-reference/original-receipt.json": "278f30c0ca7ad5ff4b81361d1926c227ce3fcdb4469a534e0abf7fe05d330147",
-    "cases/frontiers/member_registry_browser/1279-fill_browser_symbol-8/entry-reference/original-events.txt": "951e9e5d0f5e5253b50ed9ee0e6a966a968da874f1aa9c16830c6b47a1df87e8",
-    "cases/frontiers/member_registry_browser/1279-fill_browser_symbol-8/entry-reference/original-entries.plan": "81762110194b9a8de29cac652c17982928a52b7f6d828357ef571498fa3b7540"
+    "cases/frontiers/member_registry_browser/1280-search_source_include-4/entry-reference/original-receipt.json": "ea04208ce655109134c3729b503cb8eb8d43e73de81a667a12dd8bcc35b8dd42",
+    "cases/frontiers/member_registry_browser/1280-search_source_include-4/entry-reference/original-events.txt": "ca58c2617214f929464e144f1293cd3b32197528459a999bbbbcf275c2fe6cd1",
+    "cases/frontiers/member_registry_browser/1280-search_source_include-4/entry-reference/original-entries.plan": "f3b11948efe8394a50a1867874ef5d75f089084770f0beeb93f433b08248ab92"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -5525,7 +5525,7 @@
     },
     "search_source_include": {
       "logical": "_search_source_include@4",
-      "source": "src/stubs.c"
+      "source": "src/source-input.c"
     },
     "second_browser_record": {
       "logical": "_second_browser_record",
@@ -7298,7 +7298,8 @@
     "duplicate_browser_text",
     "browser_declaration",
     "fill_browser_declaration",
-    "fill_browser_symbol"
+    "fill_browser_symbol",
+    "search_source_include"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13729,7 +13730,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1280,
+      "last": 1281,
       "seen": [
         "main",
         "message_text",
@@ -14907,12 +14908,13 @@
         "browser_declaration",
         "fill_browser_declaration",
         "fill_browser_symbol",
-        "search_source_include"
+        "search_source_include",
+        "read_macro_replacement"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_search_source_include@4",
-        "native": "search_source_include",
+        "logical": "_read_macro_replacement",
+        "native": "read_macro_replacement",
         "signal": 5
       }
     }

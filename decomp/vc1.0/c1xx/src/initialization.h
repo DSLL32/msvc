@@ -30,7 +30,7 @@ extern int optimization_enabled;
 extern int normalized_Oq, normalized_Gn, normalized_Ol;
 extern int target_cpu, target_cpu_mask;
 extern char token_buffer[7936];
-extern char *source_filename, *source_buffer_cursor;
+extern char *source_filename, *source_buffer_cursor, *source_buffer_end;
 extern FILE *diagnostic_trace_file, *listing_file;
 /* Source number/literal workspace ends at the preprocessor FILE pointer.
    Long text uses that same four-byte boundary, as in the original layout. */

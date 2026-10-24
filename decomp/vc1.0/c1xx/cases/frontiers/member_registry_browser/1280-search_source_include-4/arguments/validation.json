@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_search_source_include@4",
+  "case": "member_registry_browser",
+  "accepted_before": 1280,
+  "configuration_sha256": "182b3da6c96531f3931c0f1697dd0dd07487bf6e515b8d8b69163141ef8300c7",
+  "native_entry": "search_source_include",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "filename",
+      "stack_index": 0,
+      "native_field": "raw_filename",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 585748,
+        "offset": 7925,
+        "native_anchor_field": "token_owner",
+        "native_object_address": 1449230608
+      },
+      "original_raw": 593673,
+      "native_raw": 1449238533,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      126080,
+      126370
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 int RET4; SUB4 and saved EBX/ESI/EDI/EBP",
+    "proof": "Whole290B formal entryESP+4 loaded at adjustedESP+24. Active SourceFile chain supplies filenames and next pointers. Track last path separator, independently rescan source/include NUL lengths (inline loops, no strlen call), unsigned32B end check against original9fc54, copy source prefix through last separator plus whole include name/NUL, try open_source_file(copy,0), restore name cursor on failure/advance saved parent, optional record_pch_open_include on success. All4 outgoing callees already accepted: strchr/fatal_error/open_source_file/record_pch_open_include. No hidden/register/flags/x87 inputs/new literals. Current registry.h+NUL occupies token_buffer[7925..7935] from accepted read_include_name backward copy using actual9fc54 end pointer; both reader globals corrected from erroneous source_text_cursor to source_buffer_end. Actual caller PUSH ESI23956/CALL23957 returnVA2395c proves forwarded filename; no frozenheap pointer. Fresh buffer-end observation and overlapping4/4/2/2B spelling reads bind exactly registry.h/NUL within the actual11B argument-owned tail, without reading past token_buffer. Native owner is its genuine source_buffer_end alias, not source_text_cursor; earlier content-only references remain historical evidence.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "b971e1de1bbcbeb125e5e7191f12c49a056c85a5c48c9e62426a7b2f65d4a90d",
+  "capture_timing": {
+    "original_capture_seconds": 1.5686728907749057,
+    "native_capture_seconds": 0.17694803699851036,
+    "total_operation_seconds": 2.037369485013187
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "03a3f0d8311327d8bed8534d31a06c2d70c5f37365cfc81280711d2cac2ea1bd",
+    "native-commands.gdb": "7195dfab7635f582e68dfe6ffc8a684120c7f52db956ab16067d068d6f899409",
+    "native-gdb.log": "feaa27e3ff64c0427123fbd71ba4d42ecc73a98b950b2cdb90f2c1d45e410ae5",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "b77fadd5dd5bcf126beae041d3b7cde8a514a17a57bed3c43eb4b035e0447e9a",
+    "original-configuration.json": "182b3da6c96531f3931c0f1697dd0dd07487bf6e515b8d8b69163141ef8300c7",
+    "original-disassembly.txt": "bd718f77715622f8a417ce28d53d532924d7ddbabd31a772ee23ee7bd20bc24b",
+    "original-events.txt": "cea63ce60e1143aab3ab98ccd71ad10fcc78ca1f21038fb334060dab9ee14f5c",
+    "original-receipt.json": "b41e63403381c8949d69eb4e6c3f195b3bbe2252a6115622992578e5d0cd3bce",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "f00bde3e793534ab1d581aaac9cde6f32c06a13f3f34d8bc7ca281773124888d"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

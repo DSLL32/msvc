@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "function": "_search_source_include@4",
+  "native_entry": "search_source_include",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_filename": "(unsigned)filename",
+    "token_owner": "(unsigned)&token_buffer[0]",
+    "filename_buffer_end": "(unsigned)source_buffer_end",
+    "include_spelling_0": "*(unsigned int *)(filename+0)",
+    "include_spelling_1": "*(unsigned int *)(filename+4)",
+    "include_spelling_2": "*(unsigned short *)(filename+8)",
+    "include_spelling_3": "*(unsigned short *)(filename+9)"
+  },
+  "formals": [
+    {
+      "name": "filename",
+      "stack_index": 0,
+      "native_field": "raw_filename",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 585748,
+        "offset": 7925,
+        "native_anchor_field": "token_owner"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      126080,
+      126370
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 int RET4; SUB4 and saved EBX/ESI/EDI/EBP",
+    "proof": "Whole290B formal entryESP+4 loaded at adjustedESP+24. Active SourceFile chain supplies filenames and next pointers. Track last path separator, independently rescan source/include NUL lengths (inline loops, no strlen call), unsigned32B end check against original9fc54, copy source prefix through last separator plus whole include name/NUL, try open_source_file(copy,0), restore name cursor on failure/advance saved parent, optional record_pch_open_include on success. All4 outgoing callees already accepted: strchr/fatal_error/open_source_file/record_pch_open_include. No hidden/register/flags/x87 inputs/new literals. Current registry.h+NUL occupies token_buffer[7925..7935] from accepted read_include_name backward copy using actual9fc54 end pointer; both reader globals corrected from erroneous source_text_cursor to source_buffer_end. Actual caller PUSH ESI23956/CALL23957 returnVA2395c proves forwarded filename; no frozenheap pointer. Fresh buffer-end observation and overlapping4/4/2/2B spelling reads bind exactly registry.h/NUL within the actual11B argument-owned tail, without reading past token_buffer. Native owner is its genuine source_buffer_end alias, not source_text_cursor; earlier content-only references remain historical evidence."
+  },
+  "original_observations": [
+    {
+      "name": "filename_buffer_end",
+      "original": 654420
+    },
+    {
+      "name": "include_spelling_0",
+      "original": 593673,
+      "bytes": 4
+    },
+    {
+      "name": "include_spelling_1",
+      "original": 593677,
+      "bytes": 4
+    },
+    {
+      "name": "include_spelling_2",
+      "original": 593681,
+      "bytes": 2
+    },
+    {
+      "name": "include_spelling_3",
+      "original": 593682,
+      "bytes": 2
+    }
+  ]
+}

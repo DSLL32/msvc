@@ -191,7 +191,7 @@ char *read_angle_include_name(void)
     if (source_buffer_cursor != begin)
         source_buffer_cursor = trim_filename_space(begin, source_buffer_cursor);
     *source_buffer_cursor++ = 0;
-    name = source_text_cursor;
+    name = source_buffer_end;
     do { *--name = *--source_buffer_cursor; }
     while (source_buffer_cursor != begin);
     return name;
@@ -211,7 +211,7 @@ char *read_include_name(void)
     options.option_E = saved_output;
     if (current_token_code == 3) {
         if (current_token_value.string.flags & 1) report_syntax_error(2);
-        name = source_text_cursor;
+        name = source_buffer_end;
         do { *--name = (char)*--text_work_cursor; }
         while (text_work_cursor != (unsigned char *)current_token_value.string.text);
         return name;

@@ -1,0 +1,32 @@
+{
+  "scope": "Read-only actual11B include-name tail ownership/read/content checks; no original execution or promotion",
+  "proof": "cases/argument-observations/member_registry_browser/1280-search_source_include-4/validation.json",
+  "proof_sha256": "62a14b6e055138e1c2312a0edd07575fafbad8d21ef32db8fdc10ea5dd441b0f",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified"
+    },
+    {
+      "test": "wrong-owner",
+      "result": "held",
+      "reason": "spelling observation has wrong owner"
+    },
+    {
+      "test": "wrong-end-offset",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "wrong-string-content",
+      "result": "held",
+      "reason": "include spelling differs"
+    },
+    {
+      "test": "short-spelling-read",
+      "result": "held",
+      "reason": ""
+    }
+  ],
+  "seconds": 0.000529351644217968
+}

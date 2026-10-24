@@ -401,3 +401,45 @@ void refill_source_or_error(void)
     }
     fatal_error(final_newline_emitted ? 10 : 4);
 }
+
+/* Original 0x1ec80..0x1eda1. Try the directory of each active source,
+   retaining the prior name-workspace cursor after an unsuccessful open. */
+int __stdcall search_source_include(char *filename)
+{
+    SourceFile *input = active_input;
+    char *source, *cursor, *last, *copy;
+    unsigned source_length, name_length;
+    do {
+        source = input->filename;
+        input = input->next;
+        last = 0;
+        cursor = source;
+        while (*cursor) {
+            if (strchr(options.path_characters, (unsigned char)*cursor)) last = cursor;
+            ++cursor;
+        }
+        cursor = source;
+        while (*cursor) ++cursor;
+        source_length = cursor - source;
+        cursor = filename;
+        while (*cursor) ++cursor;
+        name_length = cursor - filename;
+        if ((unsigned)source_buffer_cursor + source_length + name_length + 1 >
+            (unsigned)source_buffer_end)
+            fatal_error(14, include_depth + 1);
+        copy = source_buffer_cursor;
+        if (last && (unsigned)last >= (unsigned)source) {
+            do { *source_buffer_cursor++ = *source++; }
+            while (source <= last);
+        }
+        cursor = filename;
+        do { *source_buffer_cursor++ = *cursor++; }
+        while (source_buffer_cursor[-1]);
+        if (open_source_file(copy, 0)) {
+            if (pch_mode == 1) record_pch_open_include(copy);
+            return 1;
+        }
+        source_buffer_cursor = copy;
+    } while (input);
+    return 0;
+}
