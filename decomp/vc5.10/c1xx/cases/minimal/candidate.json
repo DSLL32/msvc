@@ -95,7 +95,7 @@
     "_new_option_vector",
     "_next_argument"
   ],
-  "trial": null,
+  "trial": "_match_option",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -865,8 +865,26 @@
       "start_rva": 234536,
       "end_rva": 234570,
       "entry": 1
+    },
+    {
+      "owner": "_match_option",
+      "start_rva": 234570,
+      "end_rva": 234978,
+      "entry": 1
+    },
+    {
+      "owner": "_match_option",
+      "start_rva": 468339,
+      "end_rva": 468361,
+      "entry": 0
+    },
+    {
+      "owner": "_match_option",
+      "start_rva": 234984,
+      "end_rva": 235058,
+      "entry": 0,
+      "kind": "text_data"
     }
   ],
-  "stage": "_next_argument accepted; next frontier _match_option",
-  "test_seed": "restore-nonzero"
+  "stage": "whole430B matcher under reconstruction; own normalCPP rawCRC adoption pending; original unchanged34B leaf history remains restore-only"
 }

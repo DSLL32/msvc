@@ -1,0 +1,156 @@
+{
+  "kind": "fresh affected matcher/current-pointer/publicCPP controls; no executable or original invocation",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-restore-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-matcher-restore-native-1",
+  "original_receipt_sha256": "9221631b9944405d58d756b9ab5c0932a8b2ff837aa5aeaf813c9c9b5fc89397",
+  "native_receipt_sha256": "29bba3ea2fede022591cade7045c015c9e1cd1f57ba48be06a7eac62a0bc8b7b",
+  "positive": {
+    "frontier": "_apply_option_action",
+    "code_bytes": 430,
+    "table_data_bytes": 74,
+    "table_code_credit": 0,
+    "new_BSS_semantic_bytes": 4,
+    "argument": "borrowed Invoke[1] -il",
+    "value": "borrowed Invoke[2]",
+    "argc_before": 25,
+    "argc_after": 24,
+    "rule_index": 31,
+    "rule_action": 34,
+    "signature": null,
+    "prefix": {
+      "frontier": "_match_option",
+      "code_bytes": 34,
+      "executed_case": "actual normal/restore accepted-prefix iterator checkpoint",
+      "normal_case": "ordinary matcher continuation; no additional iterator acceptance",
+      "argc_before": 26,
+      "argc_after": 25,
+      "argv_advance_bytes": 4,
+      "result": "borrowed Invoke argv[1] -il NUL",
+      "matcher_formals": 4,
+      "vector_prefix": {}
+    },
+    "unmodeled_initialized_bytes": 6031
+  },
+  "count": 28,
+  "cases": [
+    {
+      "case": "current-default",
+      "rejection": "option matcher: original zeroBSS default"
+    },
+    {
+      "case": "current-phase",
+      "rejection": "option matcher: new pointer participates in genuine BSS reset before semantic consumer"
+    },
+    {
+      "case": "current-final",
+      "rejection": "option matcher: entire typed final state differs only encountered borrowed pointer/cursor"
+    },
+    {
+      "case": "current-owner",
+      "rejection": "option matcher: whole candidate input guard changes only borrowed current argument before callback"
+    },
+    {
+      "case": "callback-return-pointer",
+      "rejection": "option matcher: actual native indirect callback/RET0/nonvolatile/result"
+    },
+    {
+      "case": "callback-return-stack",
+      "rejection": "option matcher: actual native indirect callback/RET0/nonvolatile/result"
+    },
+    {
+      "case": "callback-return-register",
+      "rejection": "option matcher: actual native indirect callback/RET0/nonvolatile/result"
+    },
+    {
+      "case": "callback-return-byte",
+      "rejection": "option matcher: actual native indirect callback/RET0/nonvolatile/result"
+    },
+    {
+      "case": "callback-return-owner",
+      "rejection": "option matcher: complete native provider owners/tables/errors/FP continuity"
+    },
+    {
+      "case": "callback-return-FP",
+      "rejection": "option matcher: complete native provider owners/tables/errors/FP continuity"
+    },
+    {
+      "case": "action-rule",
+      "rejection": "option matcher: complete genuine action boundary: actual rule/value/copy physical inputs"
+    },
+    {
+      "case": "action-value",
+      "rejection": "option matcher: complete genuine action boundary: actual rule/value/copy physical inputs"
+    },
+    {
+      "case": "action-copy",
+      "rejection": "option matcher: complete genuine action boundary: actual rule/value/copy physical inputs"
+    },
+    {
+      "case": "action-formal",
+      "rejection": "option matcher: complete genuine action boundary: actual rule/value/copy physical inputs"
+    },
+    {
+      "case": "action-caller",
+      "rejection": "option matcher: complete genuine action boundary: actual rule/value/copy physical inputs"
+    },
+    {
+      "case": "action-PC",
+      "rejection": "option matcher: complete genuine action boundary: actual rule/value/copy physical inputs"
+    },
+    {
+      "case": "action-owner",
+      "rejection": "option matcher: complete native provider owners/tables/errors/FP continuity"
+    },
+    {
+      "case": "action-neighbor",
+      "rejection": "option matcher: entire target/saved/external native guard at callback return/action"
+    },
+    {
+      "case": "argument-owner-all-matcher-phases",
+      "rejection": "argument cursor: native locale/owners/namespace/errors/architecturalFP"
+    },
+    {
+      "case": "final-cursor",
+      "rejection": "option matcher: entire typed final state differs only encountered borrowed pointer/cursor"
+    },
+    {
+      "case": "final-count",
+      "rejection": "option matcher: entire typed final state differs only encountered borrowed pointer/cursor"
+    },
+    {
+      "case": "table-range",
+      "rejection": "option matcher: complete430B+74data, padding excluded"
+    },
+    {
+      "case": "table-entry",
+      "rejection": "option matcher: complete430B+74data, padding excluded"
+    },
+    {
+      "case": "table-byte",
+      "rejection": "option matcher: exact74 relocated jump+selector data"
+    },
+    {
+      "case": "original-action-argument",
+      "rejection": "option matcher: complete genuine action boundary: actual rule/value/copy physical inputs"
+    },
+    {
+      "case": "seed-owned-pointer",
+      "rejection": "option matcher: explicit nonzero owned-pointer reset input"
+    },
+    {
+      "case": "native-seed-owned-pointer",
+      "rejection": "option matcher: explicit nonzero owned-pointer reset input"
+    },
+    {
+      "case": "native-phase-pointer",
+      "rejection": "option matcher: new pointer participates in genuine BSS reset before semantic consumer"
+    }
+  ],
+  "seconds": 5.342207156121731,
+  "checkers": {
+    "argument_state.py": "0e302b5bc40d8190214eed312439aea437c057b4937e404941c4281b4382c7f4",
+    "matcher_state.py": "b69545573e5693de1665cf67adf4efbecdaee6cbbfd8ff6fc0c0a23373104e86",
+    "signature_call_state.py": "96af9672ff0451a37694998106bf3386b1a6279b6a5aeef769fdd877d557c661",
+    "check-matcher-negative.py": "2fa01908198687e3c584483a7dcba318c325af34b5dbd255832f39cde56719f6"
+  }
+}

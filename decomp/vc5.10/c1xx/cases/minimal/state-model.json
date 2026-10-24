@@ -1,5 +1,5 @@
 {
-  "schema": 36,
+  "schema": 37,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -3936,6 +3936,17 @@
       "original_default": "zero BSS WORD256",
       "component_type": "unsigned short[256]",
       "evidence": "own initializer393ca..39413/cold7242c..72436 and filename canonicalizer398cd..3990d; exact512-byte map/FFFF lead sentinel/slash forcedbackslash"
+    },
+    {
+      "name": "current_argument",
+      "class": "bss",
+      "original_address": 273410412,
+      "bytes": 4,
+      "native_expression": "frontend_bss.current_argument",
+      "original_default": 0,
+      "component_type": "char *",
+      "pointer_identity": "borrowed current matcher input; never owned/freed, diagnostic consumer reads same argument",
+      "evidence": "matcher39463 stores actual input; apply diagnostics7260d reads it; original zero BSS/reset full snapshot; actual next candidate captures validate default/nonzeroclear/inputowner"
     }
   ],
   "initializers": [
@@ -4518,5 +4529,32 @@
     "new_BSS_semantic_bytes": 512,
     "native_BSS_bytes": 2824,
     "unknown_initialized_bytes": 6031
+  },
+  "argument_match_projection": {
+    "original_rva": 780652,
+    "native_offset": 2824,
+    "bytes": 4,
+    "default": 0,
+    "reset": "original BSS clear/native named pointerNULL",
+    "initialized_snapshot": false,
+    "pointee": "borrowed actual Invoke string; no extra storage",
+    "code_chunks": [
+      [
+        234570,
+        234978
+      ],
+      [
+        468339,
+        468361
+      ]
+    ],
+    "text_data": [
+      [
+        234984,
+        235058
+      ]
+    ],
+    "original_code_bytes": 430,
+    "original_table_bytes": 74
   }
 }

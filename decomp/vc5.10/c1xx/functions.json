@@ -1148,10 +1148,22 @@
     {
       "name": "_match_option",
       "start": 272864330,
-      "end": 272864331,
-      "pending_extent": true,
-      "source": "src/options.c",
-      "abi": "cdecl16"
+      "end": 272864738,
+      "source": "src/option-matcher.c",
+      "abi": "cdecl16",
+      "code_chunks": [
+        [
+          273098099,
+          273098121
+        ]
+      ],
+      "shared": [
+        [
+          272864744,
+          272864818
+        ]
+      ],
+      "evidence": "Whole430B grammar matcher; hot408+cold22. Exact74B jump/selector table data excludes6B padding. Actual four cdecl formals, named suffix/action helpers and public Sig import."
     },
     {
       "name": "_resolve_option_path",
@@ -1201,6 +1213,24 @@
       "source": "src/options.c",
       "abi": "cdecl0",
       "evidence": "actual cold72439 noarg call; returns char** append slot, helper remains unaccepted"
+    },
+    {
+      "name": "_apply_option_action",
+      "start": 272864818,
+      "end": 272864819,
+      "source": "src/option-matcher.c",
+      "pending_extent": true,
+      "abi": "cdecl12",
+      "evidence": "Actual complete matcher caller ABI; named trap before unknown helper semantics."
+    },
+    {
+      "name": "_match_option_suffix",
+      "start": 272865111,
+      "end": 272865112,
+      "source": "src/option-matcher.c",
+      "pending_extent": true,
+      "abi": "cdecl12",
+      "evidence": "Actual complete matcher caller ABI; named trap before unknown helper semantics."
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",

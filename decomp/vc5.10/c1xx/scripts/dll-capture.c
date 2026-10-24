@@ -383,6 +383,9 @@ static void save_frontend_state(const char *suffix)
     DWORD values[36];
     BYTE data[8520];
     char name[80];
+    if(getenv("C1XX_OBSERVE_MATCHER")) {
+        DWORD current;readmem(base+0xbe96c,&current,4);sprintf(name,"current-argument-%s.bin",suffix);save_blob(name,&current,4);
+    }
     if (getenv("C1XX_OBSERVE_OPTIONS")) {
         BYTE *all = (BYTE *)malloc(0xf69c), projected[100];
         unsigned i, offset = 0;
@@ -909,7 +912,7 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     save_state();
     if(pool_cycle_active) {
         fprintf(events,"pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,context->Ebx,context->Esi,context->Edi,context->Ebp);
-        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394 || address==base+0x393ca || address==base+0x39413 || address==base+0x682f || address==base+0x39428 || address==base+0x3944a) {
+        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394 || address==base+0x393ca || address==base+0x39413 || address==base+0x682f || address==base+0x39428 || address==base+0x3944a || address==base+0x39632) {
             BYTE *blob=(BYTE *)malloc(0x10000);char name[80];DWORD committed;
             if(!blob)fail("pool entry full BSS observation");
             readmem(base+0xb9000,blob,0xf69c);sprintf(name,"pool-bss-%03u.bin",sequence);save_blob(name,blob,0xf69c);
@@ -1291,7 +1294,11 @@ int main(int argc, char **argv)
                 }
                 if(address==base+0x682f && getenv("C1XX_OBSERVE_ENV_ARGUMENTS"))locale_snapshot("env-next",&context,thread,event.dwThreadId);
                 if(address==base+0x39428)argument_enter(&context,thread,event.dwThreadId);
-                if(address==base+0x3944a && getenv("C1XX_OBSERVE_ARGUMENT"))locale_snapshot("argument-next",&context,thread,event.dwThreadId);
+                if(address==base+0x3944a && getenv("C1XX_OBSERVE_ARGUMENT")) {
+                    locale_snapshot("argument-next",&context,thread,event.dwThreadId);
+                    if(getenv("C1XX_OBSERVE_MATCHER"))matcher_record("entry",address,&context,thread,event.dwThreadId);
+                }
+                if(address==base+0x39632 && getenv("C1XX_OBSERVE_MATCHER"))matcher_record("action",address,&context,thread,event.dwThreadId);
                 if(address==base+0x682f)vector_enter(&context,thread,event.dwThreadId);
                 if(address==base+0x1d738 && vector_started)vector_member_enter(&context,thread,event.dwThreadId);
 
@@ -1566,6 +1573,10 @@ int main(int argc, char **argv)
                     }
                     readmem(base + 0xb9000, bss, sizeof(bss));
                     save_blob(address == base + 0x38ab7 ? "prototype-bss-entry.bin" : "prototype-bss-result.bin", bss, sizeof(bss));
+                }
+                if(address==base+0x38550 && getenv("C1XX_OBSERVE_MATCHER") && getenv("C1XX_TEST_INIT_RESTORE")) {
+                    DWORD owned,current;readmem(base+0xc4d50,&owned,4);if(!owned)fail("current argument nonzero seed ownership");current=owned+4096;write_mem(base+0xbe96c,&current,4);
+                    fprintf(events,"current-argument-seed owned-snapshot+4096 never-dereferenced=1 no-code-mock=1\n");
                 }
                 if (address == base + 0x38550) seed_options_restore();
                 if (address == base + 0x38550 && getenv("C1XX_TEST_PDB_CONTEXT")) {

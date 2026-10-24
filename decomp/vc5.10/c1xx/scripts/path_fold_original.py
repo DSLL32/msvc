@@ -25,14 +25,14 @@ def record(path):
 def check(directory):
     started=time.perf_counter();directory=directory.resolve()
     spec=importlib.util.spec_from_file_location('fold_prerequisite',Path(__file__).with_name('check-isolated-multibyte.py'));m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);prior=m.check(directory)
-    trial=json.loads((directory/'trial.json').read_text());need(trial['trial'] in ('_initialize_lowercase_table','_read_env_arguments','_new_option_vector','_next_argument'),'actual folded-prefix candidate')
+    trial=json.loads((directory/'trial.json').read_text());need(trial['trial'] in ('_initialize_lowercase_table','_read_env_arguments','_new_option_vector','_next_argument','_match_option'),'actual folded-prefix candidate')
     plan={'entry_rva':0x393ca,'return_rva':0x38fee,'IAT_rva':0xc9054,'public_entry_rva':0xa5d3,'provider_hot_bytes':54,'provider_case_table_rva':0x3f7f8,'provider_case_table_bytes':256,'target_map_rva':0xc13f8,'target_map_bytes':512,'next_rva':0x39413,'scope':'all actual unsigned-byte public calls/ABI/errors/fullFP and fullmap output; provider success unclaimed until reviewed'}
     need(trial.get('lowercase_observers')==plan,'exact observer contract')
     target=directory/'loaded-target.bin';provider=directory/'loaded-msvcrt.bin';text=(directory/'events.txt').read_text()
     need(export_rva(provider,'_mbctolower')==0xa5d3 and (directory/'mbctolower-provider.bin').read_bytes()==pe_read(provider,0xa5d3,54),'actual public body/export identity')
     need(pe_read(target,0x393cc,6)==b'\x8b\x2d'+struct.pack('<I',0x104c9054)and pe_read(target,0x393f1,2)==b'\xff\xd5','own cached EBP call/IAT')
     need(text.count('path-fold-observer entry=000393ca iat=000c9054 provider=0000a5d3 table=000c13f8 bytes=512 no-query-calls=1\n')==1,'actual observer inventory')
-    need(re.findall(r'^frontier rva=(\w+)$',text,re.M)==(['0003944a']if trial['trial']=='_next_argument'else(['00039428']if trial.get('test_seed')else[])if trial['trial']=='_new_option_vector'else['0000682f']if trial['trial']=='_read_env_arguments'else['00039413']),'actual final named frontier')
+    need(re.findall(r'^frontier rva=(\w+)$',text,re.M)==(['00039632']if trial['trial']=='_match_option'else['0003944a']if trial['trial']=='_next_argument'else(['00039428']if trial.get('test_seed')else[])if trial['trial']=='_new_option_vector'else['0000682f']if trial['trial']=='_read_env_arguments'else['00039413']),'actual final named frontier')
     fp=(directory/'locale-mb-next-fp.bin').read_bytes();ref=list(struct.unpack('<18I',(directory/'locale-mb-next-words.bin').read_bytes()));crt=ref[0];module=0x10400000;offset=0xc13f8-0xb9000
     entered=(directory/'locale-mb-next-target-BSS.bin').read_bytes();completed=(directory/'locale-fold-complete-target-BSS.bin').read_bytes();final=(directory/'locale-fold-next-target-BSS.bin').read_bytes()
     classes=(directory/'frontend-data-locale-mb-next.bin').read_bytes()[8:264];arguments=[i for i in range(256)if classes[i]!=35];seed=bool(trial.get('test_seed'))

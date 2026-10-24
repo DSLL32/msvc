@@ -186,6 +186,7 @@ int initialize_compiler_pass(void)
         frontend_bss.break_into_debugger = 0;
         frontend_bss.command_argc = 0;
         frontend_bss.command_argv = NULL;
+        frontend_bss.current_argument = NULL;
         for (i = 0; i < 2; ++i) {
             frontend_bss.work_buffers[i].data = NULL;
             frontend_bss.work_buffers[i].limit = NULL;

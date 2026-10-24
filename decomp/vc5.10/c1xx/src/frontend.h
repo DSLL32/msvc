@@ -171,6 +171,8 @@ typedef struct FrontendBss {
     CompilerChecksumTables checksum_tables;
     /* Filename canonicalization: FFFF preserves a multibyte lead byte. */
     WORD filename_case_map[256];
+    /* Borrowed option text retained for diagnostics while matching. */
+    char *current_argument;
 } FrontendBss;
 
 #ifdef __cplusplus

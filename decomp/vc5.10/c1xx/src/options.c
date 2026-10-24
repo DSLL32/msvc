@@ -390,7 +390,6 @@ char *next_argument(void)
         return *++frontend_bss.command_argv;
     return NULL;
 }
-int match_option(CompilerOptionRule *rules, char *argument, char *(__cdecl *next)(void), int copy) { __asm { int 3 } return 0; }
 char *resolve_option_path(char *output, const char *input, unsigned capacity) { __asm { int 3 } return NULL; }
 void disable_multibyte_identifiers(void) { __asm { int 3 } }
 void initialize_packing(void) { __asm { int 3 } }

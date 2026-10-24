@@ -67,6 +67,10 @@ if frame.name()=='new_option_vector' and value['pc']==int(gdb.parse_and_eval('(u
     words=list(struct.unpack('<3I',gdb.selected_inferior().read_memory(value['esp'],12)))
     value['args']={'capacity':words[1],'arena_index':struct.unpack('<i',struct.pack('<I',words[2]))[0]}
     value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
+if frame.name()=='match_option' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&match_option')):
+    words=list(struct.unpack('<5I',gdb.selected_inferior().read_memory(value['esp'],20)))
+    value['args']=dict(zip(('rules','argument','next','copy'),words[1:]))
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
 if frame.name()=='recon_mspdb_SigForPbCb' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&recon_mspdb_SigForPbCb')):
     words=list(struct.unpack('<4I',gdb.selected_inferior().read_memory(value['esp'],16)))
     value['args']={'bytes':words[1],'byte_count':struct.unpack('<i',struct.pack('<I',words[2]))[0],'signature':words[3]}
@@ -286,6 +290,9 @@ if 'filename_case_map'in value['frontend']['declared_fields']['bss']:
     obj=gdb.parse_and_eval('frontend_bss.filename_case_map');address=int(obj.address)
     value['frontend']['filename_case_map']=list(struct.unpack('<256H',gdb.selected_inferior().read_memory(address,512)))
     value['frontend']['storage']['filename_case_map']=[address,512]
+if 'current_argument'in value['frontend']['declared_fields']['bss']:
+    value['frontend']['current_argument']=int(gdb.parse_and_eval('(unsigned int)frontend_bss.current_argument'))
+    value['frontend']['storage']['current_argument']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.current_argument')),4]
 if 'scanner'in value['frontend']['declared_fields']['initialized']:
     obj=gdb.parse_and_eval('frontend_data.scanner');address=int(obj.address);raw=gdb.selected_inferior().read_memory(address,512).tobytes()
     saved=gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&frontend_bss.saved_state->scanner')),512).tobytes()if value['frontend']['saved_state']else None
@@ -336,6 +343,8 @@ end
         options_seed+="python\nobj=gdb.parse_and_eval('frontend_bss.checksum_tables');gdb.selected_inferior().write_memory(int(obj.address),bytes([0xa5])*768)\nend\n"
     if model['schema']>=35 and trial.get('test_seed'):
         options_seed+="python\nfor expression,start in [('frontend_data.scanner',31),('frontend_bss.saved_state->scanner',11)]:\n    obj=gdb.parse_and_eval(expression);gdb.selected_inferior().write_memory(int(obj.address),bytes((69*7+i+start)&255 for i in range(512)))\nend\n"
+    if model['schema']>=37 and trial.get('test_seed'):
+        options_seed+="python\nobj=gdb.parse_and_eval('frontend_bss.current_argument');owned=int(gdb.parse_and_eval('(unsigned int)frontend_bss.saved_state'));gdb.selected_inferior().write_memory(int(obj.address),struct.pack('<I',owned+4096))\nend\n"
     if model['schema']>=36 and trial.get('test_seed'):
         options_seed+="python\nobj=gdb.parse_and_eval('frontend_bss.filename_case_map');gdb.selected_inferior().write_memory(int(obj.address),struct.pack('<256H',*[(0x8101+37*i)&65535 for i in range(256)]))\nend\n"
     observer='break *initialize_compiler_pass\ncommands\nsilent\n'+pdb_seed+options_seed+'source '+str(pre)+'\ncontinue\nend\n'
@@ -555,7 +564,7 @@ end
         observer+=env_observer;scaler_finish+=env_finish
     if trial.get('vector_observers'):
         from vector_probe import setup as setup_vector
-        vector_observer,vector_finish=setup_vector(output,binary,collector,bool(trial.get("argument_observers")))
+        vector_observer,vector_finish=setup_vector(output,binary,collector,bool(trial.get("argument_observers")),bool(trial.get("matcher_observers")))
         observer+=vector_observer;scaler_finish+=vector_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
