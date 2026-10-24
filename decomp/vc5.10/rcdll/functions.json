@@ -87,7 +87,8 @@
     "rc_parse_unary",
     "rc_accept_expression_token",
     "rc_evaluate_defined",
-    "rc_skip_expression_space"
+    "rc_skip_expression_space",
+    "rc_parse_primary"
   ],
   "functions": [
     {
@@ -1606,7 +1607,12 @@
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",
-      "stub": true
+      "text_data": [
+        [
+          "0x1224",
+          "0x1228"
+        ]
+      ]
     },
     {
       "name": "rc_evaluate_defined",

@@ -555,3 +555,27 @@ done:
     }
     return found;
 }
+
+int __cdecl rc_parse_primary(void)
+{
+    int value,message;
+
+    if(rc_accept_expression_token(113)){
+        ++rc_expression_parentheses;
+        value=rc_parse_conditional_expression();
+        if(rc_accept_expression_token(121)){
+            --rc_expression_parentheses;
+            return value;
+        }
+        message=1012;
+        rc_error_template=rc_message(message);
+        rc_format(rc_error_text,2048,rc_error_template,L")");
+    }else{
+        if(rc_accept_expression_token(7))return rc_expression_value;
+        message=1017;
+        rc_error_template=rc_message(message);
+        rc_format(rc_error_text,2048,rc_error_template);
+    }
+    rc_input_fatal(message);
+    return rc_expression_value;
+}

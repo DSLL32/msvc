@@ -401,6 +401,14 @@
       "original_rva": "0x16cd4",
       "kind": "byte-buffer",
       "bytes": 2
+    },
+    {
+      "name": "rc_macro_output_cursor",
+      "original_rva": "0x14a84",
+      "kind": "address-identity",
+      "bytes": 4,
+      "pointee_rva": "0x16f08",
+      "identity": "rc_string_buffer"
     }
   ],
   "options": {

@@ -54,8 +54,13 @@ void __cdecl rc_search_include_directories(void)
 #ifdef RECON_NATIVE_TEST
             /* Only the identified interior work area and nonempty owned
              * directory names are available to native concatenation. */
-            if(!*prefix || rc_number_buffer!=&rc_string_buffer[1024] ||
-               wcslen(prefix)+wcslen(path)+2>1021){ __asm int 3 }
+            if(!*prefix || ((DWORD)rc_number_buffer&1) ||
+               rc_number_buffer<&rc_string_buffer[1024] ||
+               rc_number_buffer>=&rc_string_buffer[2045] ||
+               wcslen(prefix)+wcslen(path)+2>
+                   (unsigned)(&rc_string_buffer[2045]-rc_number_buffer)){
+                __asm int 3
+            }
 #endif
             destination=rc_number_buffer;
             do *destination++=*prefix; while(*prefix++);

@@ -632,7 +632,7 @@ def save_include_opens():(path.parent/'include-opens.json').write_text(json.dump
 class IncludeOpenReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
     def stop(self):
-        self.entry.update(result=int(self.return_value)&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,errno_after=int(gdb.parse_and_eval('*(int *)&errno')),last_error_after=int(gdb.parse_and_eval('last_error')))
+        self.entry.update(result=int(self.return_value)&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,errno_after=int(gdb.parse_and_eval('*(int *)&errno')),last_error_after=int(gdb.parse_and_eval('last_error')),thread_after=list(gdb.selected_thread().ptid))
         save_include_opens();return False
 class IncludeOpenEntered(gdb.Breakpoint):
     def stop(self):
@@ -644,6 +644,7 @@ class IncludeOpenEntered(gdb.Breakpoint):
             if word==b'\0\0':break
         else:raise AssertionError('unbounded include open path')
         entry=dict(index=int(parent.read_var('index')),remaining=int(parent.read_var('remaining')),path=int(pointer),path_bytes=raw.hex(),first=int(frame.read_var('first')),formal_bytes=dict(path=pointer.type.sizeof,first=frame.read_var('first').type.sizeof),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,errno_before=int(gdb.parse_and_eval('*(int *)&errno')),last_error_before=int(gdb.parse_and_eval('last_error')))
+        entry['thread']=list(gdb.selected_thread().ptid)
         include_opens.append(entry);save_include_opens();IncludeOpenReturned(frame,entry);return False
 IncludeOpenEntered('rc_open_source',internal=True);save_include_opens()
 
@@ -774,3 +775,18 @@ class ExpressionSpaceEntered(gdb.Breakpoint):
         frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=expression_space_state())
         expression_spaces.append(entry);save_expression_spaces();ExpressionSpaceReturned(frame,entry);return False
 ExpressionSpaceEntered('rc_skip_expression_space',internal=True);save_expression_spaces()
+
+primary_calls=[]
+def save_primary_calls():(path.parent/'primary-calls.json').write_text(json.dumps(primary_calls,indent=2)+'\n')
+def primary_state():
+    return dict(cursor=int(gdb.parse_and_eval('rc_source_cursor')),value=int(gdb.parse_and_eval('rc_expression_value')),balance=int(gdb.parse_and_eval('rc_expression_parentheses')),token=int(gdb.parse_and_eval('rc_expression_token')),lexer=int(gdb.parse_and_eval('rc_token_kind')))
+class PrimaryReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=primary_state());save_primary_calls();return False
+class PrimaryEntered(gdb.Breakpoint):
+    def stop(self):
+        if len(primary_calls)>=64:self.enabled=False;return False
+        frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=primary_state())
+        primary_calls.append(entry);save_primary_calls();PrimaryReturned(frame,entry);return False
+PrimaryEntered('rc_parse_primary',internal=True);save_primary_calls()

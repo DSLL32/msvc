@@ -1,0 +1,22 @@
+{
+  "name": "rc_macro_output_cursor",
+  "original_rva": "0x14a84",
+  "width": 4,
+  "target_sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+  "section": ".data",
+  "file_offset": 81540,
+  "initialized_bytes": "086fc371",
+  "relocations": [
+    {
+      "type": 3,
+      "page": "0x14000",
+      "entry_file_offset": 106778
+    }
+  ],
+  "alias": "rc_string_buffer",
+  "alias_rva": "0x16f08",
+  "reached_consumer": "rc_expand_macro5329 reads DWORD and saves it to22aa4 before first helper; later context helpers update/restore this output cursor",
+  "native_initializer": "WCHAR *rc_macro_output_cursor=rc_string_buffer;",
+  "prior_failed_assumption": "New native04 placeholder0 was rejected by the first typed positive gate; this was never accepted. Original .data and all raw captures consistently contained pointer71c36f08.",
+  "scope": "One newly encountered current input pointer, no broad global discovery or additional data extent credit"
+}

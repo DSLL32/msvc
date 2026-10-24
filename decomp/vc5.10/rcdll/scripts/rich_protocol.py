@@ -2297,3 +2297,159 @@ def defined_operator_trial(original,native):
 
 def expression_space_trial(original,native):
     return _include_search_checkpoint(original,native,lookup=True,evaluate=True,conditional=True,logical_or=True,logical_and=True,bitwise_or=True,bitwise_xor=True,bitwise_and=True,equality=True,relational=True,shift=True,additive=True,multiplicative=True,unary=True,expression_space=True)
+
+
+def macro_output_initialization(data,address,pointee):
+    """One encountered initialized pointer and its actual HIGHLOW relocation."""
+    pe=struct.unpack_from('<I',data,0x3c)[0];optional=pe+24;base=struct.unpack_from('<I',data,optional+28)[0]
+    def offset(rva):
+        matches=[]
+        for index in range(struct.unpack_from('<H',data,pe+6)[0]):
+            at=optional+struct.unpack_from('<H',data,pe+20)[0]+index*40
+            virtual,start,size,raw=struct.unpack_from('<4I',data,at+8)
+            if start<=rva<start+size:matches.append(raw+rva-start)
+        assert len(matches)==1
+        return matches[0]
+    field=offset(address-base);assert data[field:field+4]==struct.pack('<I',pointee)
+    reloc,size=struct.unpack_from('<II',data,optional+96+40);cursor=offset(reloc);end=cursor+size;hits=[]
+    while cursor<end:
+        page,length=struct.unpack_from('<II',data,cursor);assert length>=8 and cursor+length<=end
+        for at in range(cursor+8,cursor+length,2):
+            entry=struct.unpack_from('<H',data,at)[0]
+            if page+(entry&4095)==address-base:hits.append((entry>>12,at))
+        cursor+=length
+    assert len(hits)==1 and hits[0][0]==3
+    return dict(address=hex(address),pointee=hex(pointee),field_file_offset=field,relocation_file_offset=hits[0][1],relocation_type='HIGHLOW')
+
+def primary_trial(original,native):
+    """Primary returns and its actual next macro-expansion ABI/state."""
+    import subprocess
+    config=read_configuration(original/'functions.json')
+    assert config['trial_function']=='rc_parse_primary'and len(config['accepted'])==84
+    a,b,proof=checkpoint(original,native,'rc_expand_macro',('rc_input_temporary','rc_output_temporary'))
+    text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes();args=b['arguments'];x=args['macro_expand'];globals=args['preprocessor']['globals']
+    assert a['words'][0]==0x71c236ec and x['caller']=='rc_next_token'
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_next_token\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert x['formals']==[dict(name='macro',value=next(row['pointer']for row in args['preprocessor']['macros']if row['name']==x['name']),bytes=4)]and x['macro_bytes']==16
+    pointer=x['formals'][0]['value'];old_node=raw_bytes(text,'expand-macro-record');node=bytes.fromhex(x['record']);fields=struct.unpack('<4I',old_node[8:]);native_fields=struct.unpack('<4I',node[8:])
+    assert len(old_node)==len(node)==24 and old_node[:8]==node[:8]==bytes(8)and fields[0]==native_fields[0]==fields[3]==native_fields[3]==0
+    assert native_fields[1:3]==(x['name'],x['text'])
+    assert raw_bytes(text,'expand-macro-name')==bytes.fromhex(x['name_bytes'])=='WINVER\0'.encode('utf-16le')
+    assert raw_bytes(text,'expand-macro-text')==bytes.fromhex(x['text_owner'])==bytes(8)+'0x0400\0D\0'.encode('utf-16le')
+    for address,size,contents in [(pointer,24,node),(x['name'],24,bytes(8)+'WINVER\0\0'.encode('utf-16le')),(x['text'],26,bytes.fromhex(x['text_owner']))]:
+        owner=next(v for v in b['heap_identity']['blocks']if v['payload']+8==address)
+        assert owner['owner']==b['heap_identity']['handle']and owner['flags']==9 and owner['bytes']==size and bytes.fromhex(owner['contents'])==contents
+    # The old WINVER owner predates this include, but its CURRENT actual pointer,
+    # fields, name and complete requested text object were read at this frontier.
+    assert a['words'][1]>0 and fields[1]>0 and fields[2]>0
+    returns=re.findall(r'^macro-copy-return (\d+) result=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M)
+    name_copies=[int(index)for index,address,sp in returns if int(address,16)==fields[1]];assert len(name_copies)==1
+    assert raw_bytes(text,'macro-copy-result-%d'%name_copies[0])==bytes(8)+'WINVER\0\0'.encode('utf-16le')
+    assert raw[0x16cec-0x14000]==int.from_bytes(bytes.fromhex(globals['rc_macro_hash']['bytes']),'little')==219
+    assert bytes.fromhex(globals['rc_macro_name']['bytes'])[:14]=='WINVER\0'.encode('utf-16le')
+    # Compare all currently encountered scalar/defined byte fields. Pointer
+    # identities have separate typed ownership checks instead of numeric equality.
+    for row in json.loads((native/'preprocess-data.json').read_text())['globals']:
+        if row['kind']in ['integer','byte-buffer']:
+            rva=int(row['original_rva'],16);assert raw[rva-0x14000:rva-0x14000+row['bytes']].hex()==globals[row['name']]['bytes'],row['name']
+    assert x['source_depth']==int.from_bytes(raw[0x14a10-0x14000:0x14a14-0x14000],'little')==2
+    old_frame=struct.unpack('<9I',raw_bytes(text,'expand-source-frame'));new_frame=struct.unpack('<9I',bytes.fromhex(x['source_frame']))
+    assert tuple(old_frame[i]for i in [0,2,6,7,8])==tuple(new_frame[i]for i in [0,2,6,7,8])==(4098,73,4098,1,0)
+    assert raw[0x18e80-0x14000+72:0x18e80-0x14000+108]==raw_bytes(text,'expand-source-frame')
+    assert bytes.fromhex(globals['rc_source_frames']['bytes'])[72:108]==bytes.fromhex(x['source_frame'])
+    old_cursor=int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little');assert old_cursor-old_frame[5]==x['source_cursor']-new_frame[5]==8156
+    master=(ROOT/'toolchains/5.10/include/WINRESRC.H').read_bytes();source=bytes(8)+master[:4098].decode('cp1252').encode('utf-16le')+bytes(2)
+    assert raw_bytes(text,'expand-source-block')==source and len(source)==8206 and struct.unpack_from('<H',source,8164)[0]==32
+    owner=next(v for v in b['heap_identity']['blocks']if v['payload']+8==new_frame[5]);assert owner['owner']==b['heap_identity']['handle']and owner['flags']==9 and owner['bytes']==8206 and bytes.fromhex(owner['contents'])==source
+    old_file=struct.unpack('<8I',raw_bytes(text,'expand-source-file'));new_file=struct.unpack('<8I',bytes.fromhex(globals['rc_source_file']['file_state']))
+    assert old_frame[1]==int.from_bytes(raw[0x21e88-0x14000:0x21e8c-0x14000],'little')and new_frame[1]==int.from_bytes(bytes.fromhex(globals['rc_source_file']['bytes']),'little')
+    assert old_file[1:2]+old_file[3:]==new_file[1:2]+new_file[3:]==(510,9,7,0,4096,0)and old_file[0]-old_file[2]==new_file[0]-new_file[2]==2
+    assert raw_bytes(text,'expand-source-buffer')[:512]==bytes.fromhex(globals['rc_source_file']['file_buffer'])[:512]==master[4096:4608]
+    assert re.findall(r'^expand-source-position (\d+)$',text,re.M)==re.findall(r'^pos:\s*(\d+)$',x['file_fdinfo'],re.M)==['4608']
+    assert Path(x['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/WINRESRC.H').resolve()
+    assert raw_bytes(text,'expand-source-filename')==bytes.fromhex(args['filename'])==('R:\\toolchains\\5.10\\include/winresrc.h\0').encode('utf-16le')+bytes(514-76)
+    work=raw_bytes(text,'expand-work-buffer');assert len(work)==x['string_buffer_bytes']==4090 and work==bytes.fromhex(x['work_buffer'])
+    assert work[2048:2056]=='()()'.encode('utf-16le')and work[2056:2132]==('R:\\toolchains\\5.10\\include/winresrc.h\0').encode('utf-16le')
+    assert int.from_bytes(raw[0x14a80-0x14000:0x14a84-0x14000],'little')==0x71c37710 and x['number_pointer']==x['string_buffer']+2056
+    assert args['current_line']==int.from_bytes(raw[0x16ce8-0x14000:0x16cec-0x14000],'little')==161
+    assert args['prepared_lines']==int.from_bytes(raw[0x29458-0x14000:0x2945c-0x14000],'little')==279
+    assert b['crt_errors']==dict(errno=2,last_error=0)
+    output_old=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));output_new=struct.unpack('<8I',bytes.fromhex(globals['rc_cpp_output_file']['file_state']));defined=output_old[0]-output_old[2]
+    assert output_old[1:2]+output_old[3:]==output_new[1:2]+output_new[3:]and defined==output_new[0]-output_new[2]==1466
+    assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(globals['rc_cpp_output_file']['file_buffer'])[:defined]
+    # Newly reached hidden DWORD input: static initialized pointer relocation
+    # plus actual current workspace-base alias; no new pointee extent credit.
+    symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'captured-native.elf')],text=True)
+    frontier=re.findall(r'^([0-9a-f]+) [0-9a-f]+ T rc_expand_macro$',symbols,re.M);runtime=re.findall(r'^Symbol "rc_expand_macro" is a function at address (0x[0-9a-f]+)',(native/'gdb.stdout').read_text(),re.M);assert len(frontier)==len(runtime)==1
+    bias=int(runtime[0],16)-int(frontier[0],16)
+    rows=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] rc_macro_output_cursor$',symbols,re.M);assert len(rows)==1
+    assert x['output_cursor_bytes']==int(rows[0][1],16)==4 and x['output_cursor_address']==int(rows[0][0],16)+bias
+    assert raw[0x14a84-0x14000:0x14a88-0x14000]==struct.pack('<I',0x71c36f08)and x['output_cursor']==x['string_buffer']
+    assert x['output_cursor_address']==globals['rc_macro_output_cursor']['address']and int.from_bytes(bytes.fromhex(globals['rc_macro_output_cursor']['bytes']),'little')==globals['rc_macro_output_cursor']['identity_address']==x['string_buffer']
+    for name,rva,width,expected in [('rc_expression_parentheses',0x18e7c,4,1),('rc_expression_token',0x149dc,1,1),('rc_expression_value',0x18e78,4,0),('rc_token_kind',0x144f4,1,113)]:
+        value=x['expression'][name];matches=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] '+name+r'$',symbols,re.M);assert len(matches)==1
+        assert value['bytes']==int(matches[0][1],16)==width and value['address']==int(matches[0][0],16)+bias
+        assert value['value']==int.from_bytes(raw[rva-0x14000:rva-0x14000+width],'little')==expected
+    assert x['expression']['rc_expression_token']['address']!=x['expression']['rc_token_kind']['address']
+    initialized_original=macro_output_initialization((original/'loaded-target.bin').read_bytes(),0x71c34a84,0x71c36f08)
+    mapping=(HERE/'build/rcdll.map').read_text()
+    initialized_addresses=[]
+    for name in ['rc_macro_output_cursor','rc_string_buffer']:
+        values=re.findall(r'\s_'+name+r'\s+([0-9a-fA-F]{8})\b',mapping);assert len(values)==1
+        initialized_addresses.append(int(values[0],16))
+    initialized_rebuilt=macro_output_initialization((HERE/'build/RCDLL.DLL').read_bytes(),*initialized_addresses)
+    calls=args['primary_calls'];assert calls==json.loads((native/'primary-calls.json').read_text())and len(calls)==3
+    entries=re.findall(r'^primary-entry index=(\d+) cursor=([0-9a-f]+) value=(-?\d+) balance=(-?\d+) token=(\d+) lexer=(\d+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M)
+    completed=re.findall(r'^primary-return index=(\d+) result=(-?\d+) cursor=([0-9a-f]+) value=(-?\d+) balance=(-?\d+) token=(\d+) lexer=(\d+) esp=([0-9a-f]+)$',text,re.M);assert len(entries)==3 and len(completed)==2
+    old_parent=struct.unpack_from('<9I',raw,0x18e80-0x14000+36);new_parent=struct.unpack_from('<9I',bytes.fromhex(globals['rc_source_frames']['bytes']),36)
+    for index,(entry,row)in enumerate(zip(entries,calls)):
+        ordinal,cursor,value,balance,token,lexer,sp,caller=entry;assert int(ordinal)==index and row['formals']==[]and row['caller']=='rc_parse_unary'
+        base_old,base_new=(old_parent[5],new_parent[5])if index<2 else(old_frame[5],new_frame[5])
+        before=row['before'];assert int(cursor,16)-base_old==before['cursor']-base_new==[4702,4712,8144][index]
+        assert (int(value),int(balance),int(token),int(lexer))==(before['value'],before['balance'],before['token'],before['lexer'])==[(1,0,7,63),(1,0,1,55),(0,0,113,113)][index]
+        assert int(caller,16)==[0x71c22f9e,0x71c22ffd,0x71c22f9e][index]
+        if index<2:
+            ordinal,result,cursor,value,balance,token,lexer,end=completed[index];after=row['after'];assert int(ordinal)==index and int(result)==row['result']==[1,0][index]
+            assert int(end,16)==int(sp,16)+4 and row['return_esp']==row['entry_esp']+4
+            assert int(cursor,16)-base_old==after['cursor']-base_new==[4702,4746][index]
+            assert(int(value),int(balance),int(token),int(lexer))==(after['value'],after['balance'],after['token'],after['lexer'])==[(1,0,1,63),(0,0,1,55)][index]
+        else:assert not any(key in row for key in ['result','return_esp','after']),'third primary is genuinely pending at its macro-expansion child'
+    include=include_open_lifo(text,args['include_opens']);assert args['include_opens']==json.loads((native/'include-opens.json').read_text())
+    proof.update(trial='rc_parse_primary',primary=dict(formals=[],normal_returns=[1,0],cleanup=0,entries=3,third_return_pending=True,current_parentheses=1,current_lookahead=1,current_lexer_token=113,current_expression_value=0),macro_frontier=dict(name='WINVER',physical_formal_bytes=4,macro_record_bytes=16,owner_header_bytes=8,name_bytes=14,text_owner_bytes=26,parameters=0,flags=0,reserved=0,output_cursor=dict(original_rva='0x14a84',bytes=4,alias='rc_string_buffer',native_address=x['output_cursor_address'],initialization='Canonical .data initialized pointer71c36f08 with HIGHLOW relocation14a84; actual current raw pointer separately observed',pointee_extent='Existing contextual4090B workspace, no additional extent credit'),source_depth=2,source_cursor_offset=8156,current_source_word=32,source_owner_bytes=8206,defined_FILE_buffer_bytes=512,uninitialized_FILE_tail_bytes=3584,number_buffer_offset=2056,work_buffer_bytes=4090,primary_parent_local='value not initialized yet and deliberately not observed',additional_register_inputs='No incoming register/out-pointer/parent-frame formal identified; prologue overwrites scratch registers, saves caller registers and initializes its own locals.'),nested_include_opens=include,output_cursor_static=dict(original=initialized_original,rebuilt=initialized_rebuilt),output_defined_bytes=defined,current_macro_table_scope='111 native nodes are retained; only the reached WINVER original node/name/text ownership is compared at this boundary. Other current original node fields are not claimed from pointer equality.')
+    prior=HERE/'cases/resources-rich-trailing-space/expression-space-verification.json';prior_record=json.loads(prior.read_text())
+    proof['reused_controls']=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=prior_record['validation_versions'],reason='Unchanged source-copy SEH, transport hFile reader, lexical-table/default identity, marker and macro ownership controls retain exact earlier proof hashes. New primary returns/recursion, nested include call stack, advanced work-pointer guard and actual next macro ABI have fresh affected checks.')
+    return proof
+
+def include_open_lifo(text,rows):
+    """Raw thread/entryESP/return role, not uniqueness of a return address."""
+    assert len(rows)==8
+    entries=re.findall(r'^search-open attempt=(\d+) index=(\d+) path=([0-9a-f]+) first=(\d+) esp=([0-9a-f]+) errno=(\d+) last-error=([0-9a-f]+)$',text,re.M)
+    returns=re.findall(r'^search-open-return attempt=(\d+) result=([0-9a-f]+) esp=([0-9a-f]+) errno=(\d+) last-error=([0-9a-f]+)$',text,re.M);assert len(entries)==8 and len(returns)==6
+    frames=re.findall(r'^search-open-frame attempt=(\d+) thread=([0-9a-f]+) depth=(\d+) return=([0-9a-f]+) entry-esp=([0-9a-f]+)$',text,re.M);assert len(frames)==8
+    thread=frames[0][1];native_thread=rows[0]['thread'];assert native_thread and all(row['thread']==native_thread for row in rows)
+    active=[];returned=[]
+    for line in text.splitlines():
+        if line.startswith('search-open-frame '):
+            m=re.fullmatch(r'search-open-frame attempt=(\d+) thread=([0-9a-f]+) depth=(\d+) return=([0-9a-f]+) entry-esp=([0-9a-f]+)',line);assert m
+            number,tid,depth,pc,sp=m.groups();assert tid==thread and int(pc,16)==0x71c26c1f and int(depth)==len(active)+1
+            active.append((int(number),int(sp,16)))
+        elif line.startswith('search-open-unwind '):
+            m=re.fullmatch(r'search-open-unwind attempt=(\d+) thread=([0-9a-f]+) depth=(\d+) return=([0-9a-f]+)',line);assert m
+            number,tid,depth,pc=m.groups();assert active and int(number)==active[-1][0]and tid==thread and int(pc,16)==0x71c26c1f
+            returned.append(active.pop());assert int(depth)==len(active)
+    assert [number for number,sp in active]==[3,7]and [number for number,sp in returned]==[0,1,2,4,5,6]
+    byreturn={int(row[0]):row for row in returns}
+    expected=['./windows.h','./windows.h','include/windows.h','R:\\toolchains\\5.10\\include/windows.h','./winresrc.h','./winresrc.h','include/winresrc.h','R:\\toolchains\\5.10\\include/winresrc.h']
+    for index,(entry,frame,row,path)in enumerate(zip(entries,frames,rows,expected)):
+        ordinal,slot,pointer,first,sp,error,last=entry;_,_,depth,pc,entry_sp=frame
+        assert int(ordinal)==index and int(slot)==row['index']==99-index%4 and row['remaining']==96 and row['first']==int(first)==0
+        assert row['formal_bytes']==dict(path=4,first=4)and int(entry_sp,16)==int(sp,16)-4
+        assert raw_bytes(text,'search-open-path-%d'%index)==bytes.fromhex(row['path_bytes'])==(path+'\0').encode('utf-16le')
+        assert int(pointer,16)==[0x71c37708,0x71c37710][index//4]
+        assert int(error)==row['errno_before']and int(last,16)==row['last_error_before']
+        if index in byreturn:
+            _,result,after,error,last=byreturn[index];assert int(result,16)==row['result']==0
+            assert int(after,16)==int(sp,16)+8 and row['return_esp']==row['entry_esp']+12 and row['thread_after']==native_thread
+            assert int(error)==row['errno_after']==2 and int(last,16)==row['last_error_after']==2
+        else:assert not any(key in row for key in ['result','return_esp','errno_after','last_error_after','thread_after'])
+    return dict(entries=8,failed_returns=6,pending_entries=[3,7],maximum_depth=2,original_thread=thread,native_thread=native_thread,return_role='Actual shared callsite6c1a→rc_open_source/return6c1f, each RET8 leaves entryESP+12; current pending successful opens have no invented return')

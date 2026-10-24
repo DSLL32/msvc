@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighty-two application functions (22,896 original code bytes), two embedded CRT functions
+Eighty-three application functions (23,043 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_parse_primary`.
+currently matches at the next named trap, `rc_expand_macro`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -705,3 +705,14 @@ records24 affected controls, both builds, graph/ABI checks and cached native hel
 The original default unary tail jump and native C call retain different raw
 frames; exact instruction/return evidence binds their logical chains explicitly.
 Primary and final conditional-expression results remain pending.
+
+Primary-expression parsing is reconstructed (147 bytes). Two invocations return1
+and0 for the SDK's defined tests; the next invocation enters parenthesized
+`WINVER` evaluation and reaches the real macro-expansion stub.
+[Verification](cases/resources-rich-trailing-space/primary-verification.json)
+records22 affected semantic controls, seven native workspace-guard probes,
+nested include thread/ESP/LIFO checks, both builds, graph/ABI checks and native
+help. The new macro-output cursor uses its actual initialized work-buffer alias;
+[its field mapping](cases/resources-rich-trailing-space/primary-hidden-inputs.json)
+records the original pointer relocation and the rejected zero assumption.
+The third primary result and complete rich resource case remain pending.

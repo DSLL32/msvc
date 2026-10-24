@@ -111,11 +111,6 @@ int __stdcall rc_skip_inactive(int level)
     return 0;
 }
 
-int __cdecl rc_parse_primary(void)
-{
-    __asm int 3
-    return 0;
-}
 
 void __cdecl rc_skip_line(void)
 {
