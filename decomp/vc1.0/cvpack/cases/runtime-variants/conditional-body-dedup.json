@@ -1,0 +1,37 @@
+{
+  "policy_records": 9,
+  "cached_body_checks": 1,
+  "uncached_body_checks": 9,
+  "cached_seconds": 0.09949295222759247,
+  "uncached_seconds": 0.4791261861100793,
+  "identical_results": true,
+  "rejected": [
+    "warm-cache-policy-name",
+    "warm-cache-policy-mode",
+    "warm-cache-policy-share",
+    "warm-cache-wrong-phase",
+    "warm-cache-input-hash",
+    "warm-cache-body-evidence-key",
+    "warm-cache-changed-actual-body",
+    "fresh-context-changed-callee",
+    "fresh-context-changed-ownership"
+  ],
+  "seams_sha256": "01827b78e1804d9a795bdd1557a630f8da03b8d4e5b0728c3081a5b86af229c1",
+  "scope": "Only identical fullbody/CFG/callee/ownership facts deduplicated within one approved() call; complete config/runtime/data/decode/source/PE fingerprint. Every case/name/input/mode/share/phase checked each record; direct validate remains uncached.",
+  "native_10_fixture_seconds": {
+    "before": {
+      "setup": 5.335828687995672,
+      "execution": 0.24726656265556812,
+      "checks": 0.1313619650900364,
+      "total": 5.714490620419383
+    },
+    "after": {
+      "setup": 1.4366091173142195,
+      "execution": 0.2425197008997202,
+      "checks": 0.12479427456855774,
+      "total": 1.8039552066475153
+    }
+  },
+  "reference_runs": 0,
+  "historical_pipeline_runs": 0
+}

@@ -19,7 +19,7 @@ def check_policy_snapshot(directory,expected,path=None):
     assert current==expected==(sha(saved)if saved.exists()else None),'conditional support changed during run or capture'
 
 
-def validate(config,pe,runtime,record):
+def validate(config,pe,runtime,record,_bodies=None):
     assert record['classification']=='reviewed-case-specific-CRT-variant'
     assert record['application_coverage'] is False and record['unconditionally_unmask'] is False
     assert record['case']in('hello-debug-dll','dos-codeview16','legacy-nb02-rejected','buffered-multitu-cache','two-pdb-providers') and record['name']=='__sopen'
@@ -68,28 +68,37 @@ def validate(config,pe,runtime,record):
     assert hashlib.sha256(pe.read(record['start'],record['end']-record['start'])).hexdigest()==record['body_sha256'],'changed conditional CRT body'
     proof=BINARY/record['evidence']
     assert proof.is_file() and hashlib.sha256(proof.read_bytes()).hexdigest()==record['evidence_sha256'],'changed conditional CRT evidence'
-    analysis=json.loads(proof.read_text())
-    cfg=graph(pe,record['start'],record['end'])
-    assert cfg['returns']=={0} and set(cfg['edges'])=={r['address']for r in analysis['original_callees']}
-    identities={(r['start'],r['name'])for r in runtime['functions']+runtime['imports']}
-    assert all((r['address'],r['identity'])in identities for r in analysis['original_callees']),'unidentified conditional CRT callee'
-    assert analysis['original_sha256']==record['body_sha256']
     target=ROOT/record['input']['path']
     assert target.stat().st_size==record['input']['bytes']
     assert hashlib.sha256(target.read_bytes()).hexdigest()==record['input']['sha256']
-    # The normal ownership validator can check geometry without advertising the
-    # variant as an exact-library identity or adding it to any unmask closure.
-    from audit import validate_ownership
-    ownership=dict(config,support_unmasked=[*config.get('support_unmasked',[]),dict(name=record['name'],start=record['start'],end=record['end'])])
-    catalogue=dict(runtime,functions=[*runtime['functions'],dict(name=record['name'],start=record['start'],end=record['end'])])
-    validate_ownership(ownership,pe,catalogue,json.loads((BINARY/'data.json').read_text()))
+    # Only shared immutable code/identity/ownership facts may be reused within
+    # this one approved() call. Every policy/input check above still runs.
+    key=(_bodies[0] if _bodies else None,record['name'],record['start'],record['end'],
+         record['target_sha256'],record['body_sha256'],record['evidence_sha256'])
+    if _bodies is None or key not in _bodies[1]:
+        analysis=json.loads(proof.read_text())
+        cfg=graph(pe,record['start'],record['end'])
+        assert cfg['returns']=={0} and set(cfg['edges'])=={r['address']for r in analysis['original_callees']}
+        identities={(r['start'],r['name'])for r in runtime['functions']+runtime['imports']}
+        assert all((r['address'],r['identity'])in identities for r in analysis['original_callees']),'unidentified conditional CRT callee'
+        assert analysis['original_sha256']==record['body_sha256']
+        from audit import validate_ownership
+        ownership=dict(config,support_unmasked=[*config.get('support_unmasked',[]),dict(name=record['name'],start=record['start'],end=record['end'])])
+        catalogue=dict(runtime,functions=[*runtime['functions'],dict(name=record['name'],start=record['start'],end=record['end'])])
+        validate_ownership(ownership,pe,catalogue,_bodies[2]if _bodies else json.loads((BINARY/'data.json').read_text()))
+        if _bodies is not None:_bodies[1].add(key)
     return record
 
 
 def approved(config,pe,runtime,case=None):
     path=BINARY/'runtime-support.json'
     records=json.loads(path.read_text())if path.exists()else []
-    result=[validate(config,pe,runtime,record)for record in records]
+    import capstone
+    data=json.loads((BINARY/'data.json').read_text())
+    dependencies={p:sha(BINARY/p)for p in ('scripts/seams.py','scripts/graph.py','scripts/audit.py','scripts/binary.py')}
+    identity=hashlib.sha256(json.dumps([config,runtime,data,dependencies,capstone.__version__,hashlib.sha256(pe.data).hexdigest()],sort_keys=True).encode()).hexdigest()
+    bodies=(identity,set(),data)
+    result=[validate(config,pe,runtime,record,bodies)for record in records]
     assert [r['phase']for r in result if r['case']=='hello-debug-dll']==[1,2,3],'conditional DLL phase inventory/order differs'
     assert [r['phase']for r in result if r['case']=='dos-codeview16']==[1],'conditional DOS phase inventory/order differs'
     assert [r['phase']for r in result if r['case']=='legacy-nb02-rejected']==[1],'conditional NB02 phase inventory/order differs'
