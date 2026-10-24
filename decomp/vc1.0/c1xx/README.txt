@@ -41,7 +41,7 @@ streams, status and complete frontend artifacts against the cached original.
 state_machine_debug remains a partial case at flush_current_function: its valid
 input encounters the unsupported native empty-closed-scope stale-local path.
 member_registry_browser is the separate partial WIP checkpoint described above;
-io.bin stores both final six-artifact oracle and partial file/presence assertions.
+capture.bin stores both final six-artifact oracle and partial file/presence assertions.
 Its exact visible cwd S:\vc1.0\c1xx\member-registry-browser-driver is real input,
 not normalization. Inputs include registry.cpp and registry.h unchanged.
 
