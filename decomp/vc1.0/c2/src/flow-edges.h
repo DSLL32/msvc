@@ -6,10 +6,14 @@
 /* Source exception-scope records are distinct from the optimizer region tree. */
 typedef struct ExceptionScope {
     struct ExceptionScope *next;
-    unsigned kind, state, identifier, field10;
+    unsigned kind, state, identifier, finally_depth;
     long parent_identifier;
     SymbolHeader *handler_label, *filter_label, *alternate_label;
+    unsigned field24; /* Cleared constructor word; its meaning is not yet known. */
+    struct ExceptionLocalSet *locals; /* Sixteen-bucket scope-local symbol set. */
+    unsigned flags;
 } ExceptionScope;
+typedef char ExceptionScope_size_is_48[sizeof(ExceptionScope) == 48 ? 1 : -1];
 typedef unsigned (__fastcall *MachineSymbolVisitor)(SymbolHeader *symbol, void *context);
 void __fastcall add_flow_predecessor(WorkItem *work, WorkItem *predecessor);
 void __fastcall add_flow_successor(WorkItem *work, WorkItem *successor);

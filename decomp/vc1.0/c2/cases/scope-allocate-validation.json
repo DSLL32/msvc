@@ -1,0 +1,2222 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "invented formal",
+    "hidden register",
+    "wrong cleanup",
+    "wrong parent caller",
+    "wrong allocation arena",
+    "short allocation",
+    "wrong actual node",
+    "lost node alias",
+    "native record not cleared",
+    "native allocation not owned",
+    "invented return"
+  ],
+  "states": 66,
+  "cases": [
+    {
+      "identifier": 0,
+      "depth": 0,
+      "parent_id": null,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000000000000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 0,
+      "parent_id": null,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000000000000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 0,
+      "parent_id": null,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000000000000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 0,
+      "parent_id": 0,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 0,
+      "parent_id": 0,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 0,
+      "parent_id": 0,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 0,
+      "parent_id": 4275878552,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000000000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 0,
+      "parent_id": 4275878552,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000000000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 0,
+      "parent_id": 4275878552,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000000000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 3,
+      "parent_id": null,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000000003000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 3,
+      "parent_id": null,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000000003000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 3,
+      "parent_id": null,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000000003000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 3,
+      "parent_id": 0,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 3,
+      "parent_id": 0,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 3,
+      "parent_id": 0,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 3,
+      "parent_id": 4275878552,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000300000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 3,
+      "parent_id": 4275878552,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000300000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 0,
+      "depth": 3,
+      "parent_id": 4275878552,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000000300000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 1,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 0,
+      "parent_id": null,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff00000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 0,
+      "parent_id": null,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff00000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 0,
+      "parent_id": null,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff00000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 0,
+      "parent_id": 0,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 0,
+      "parent_id": 0,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 0,
+      "parent_id": 0,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 0,
+      "parent_id": 4275878552,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0000000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 0,
+      "parent_id": 4275878552,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0000000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 0,
+      "parent_id": 4275878552,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0000000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 3,
+      "parent_id": null,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff03000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 3,
+      "parent_id": null,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff03000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 3,
+      "parent_id": null,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff03000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 3,
+      "parent_id": 0,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 3,
+      "parent_id": 0,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 3,
+      "parent_id": 0,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 3,
+      "parent_id": 4275878552,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0300000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 3,
+      "parent_id": 4275878552,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0300000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 4294967295,
+      "depth": 3,
+      "parent_id": 4275878552,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000ffffffff0300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000ffffffff0300000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 0,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 0,
+      "parent_id": null,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000008000000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 0,
+      "parent_id": null,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000008000000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 0,
+      "parent_id": null,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000008000000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 0,
+      "parent_id": 0,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 0,
+      "parent_id": 0,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 0,
+      "parent_id": 0,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 0,
+      "parent_id": 4275878552,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800000000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 0,
+      "parent_id": 4275878552,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800000000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 0,
+      "parent_id": 4275878552,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800000000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 0,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 3,
+      "parent_id": null,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000008003000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 3,
+      "parent_id": null,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000008003000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 3,
+      "parent_id": null,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "0000000000000000000000000000008003000000ffffffff000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 3,
+      "parent_id": 0,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 3,
+      "parent_id": 0,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 3,
+      "parent_id": 0,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 3,
+      "parent_id": 4275878552,
+      "list_count": 0,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800300000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 3,
+      "parent_id": 4275878552,
+      "list_count": 1,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800300000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 2147483648,
+      "depth": 3,
+      "parent_id": 4275878552,
+      "list_count": 3,
+      "mutation": "none",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000000000800300000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "000000000000000000000000000000800300000098badcfe000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 2147483649,
+        "finally_depth": 3,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 0,
+      "mutation": "parent-state",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 1985229328,
+        "finally_depth": 305419896,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 1,
+      "mutation": "parent-state",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 1985229328,
+        "finally_depth": 305419896,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 3,
+      "mutation": "parent-state",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 1985229328,
+        "finally_depth": 305419896,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 0,
+      "mutation": "replace-head",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4210688,
+          4198400
+        ],
+        "identifier": 8,
+        "finally_depth": 4,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 1,
+      "mutation": "replace-head",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4210688,
+          4198400
+        ],
+        "identifier": 8,
+        "finally_depth": 4,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 3,
+      "mutation": "replace-head",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4210688,
+          4198400
+        ],
+        "identifier": 8,
+        "finally_depth": 4,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 0,
+      "mutation": "replace-tail",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4198400
+        ],
+        "identifier": 8,
+        "finally_depth": 4,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 1,
+      "mutation": "replace-tail",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4210688,
+          4198400
+        ],
+        "identifier": 8,
+        "finally_depth": 4,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 3,
+      "mutation": "replace-tail",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000000000000",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4210688,
+          4198400
+        ],
+        "identifier": 8,
+        "finally_depth": 4,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 0,
+      "mutation": "scope-state",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000032547698",
+        "chain": [
+          4198400
+        ],
+        "identifier": 8,
+        "finally_depth": 4,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 1,
+      "mutation": "scope-state",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000032547698",
+        "chain": [
+          4206592,
+          4198400
+        ],
+        "identifier": 8,
+        "finally_depth": 4,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    },
+    {
+      "identifier": 7,
+      "depth": 4,
+      "parent_id": 13,
+      "list_count": 3,
+      "mutation": "scope-state",
+      "result": {
+        "events": [
+          [
+            "allocate",
+            1,
+            48
+          ],
+          [
+            "parent",
+            "000000000000000000000000070000000400000000000000000000000000000000000000000000000000000000000000"
+          ],
+          [
+            "push",
+            4198400
+          ]
+        ],
+        "record": "00000000000000000000000007000000040000000d000000000000000000000000000000000000000000000032547698",
+        "chain": [
+          4206592,
+          4206656,
+          4206720,
+          4198400
+        ],
+        "identifier": 8,
+        "finally_depth": 4,
+        "adjacent_untouched": true,
+        "return_pointer": 4198400
+      }
+    }
+  ],
+  "seconds": 1.3577757645398378,
+  "scope": "Whole114B original/canonical constructor with mocked children. Exact arena1/48 request, twelve-word clear with adjacent poisons, id wrapping/depth/parent identifier, NULL -1 parent, fresh list head/tail after push, child-mutated globals/record, EAX pointer/RET0/nonvolatile. Actual native execution currently reaches only parent-query boundary; full-return/list controls are independent synthetic model evidence, not native real-case return claim."
+}

@@ -1,5 +1,6 @@
 /* Structured-exception scope discovery and expression preparation. */
 #include "exception-scope.h"
+#include "backend.h"
 #include "expression-fields.h"
 #include "tree-rewrite.h"
 #include "instruction-selection.h"
@@ -110,4 +111,26 @@ void __fastcall collect_exception_scopes(Function *function)
     new_label = new_internal_label();
     exception_return_label->right.symbol = &new_label->symbol;
     insert_tree_expression(function->expressions, return_marker->tree, exception_return_label);
+}
+
+/* Original [000661c0,00066232). All twelve words belong to the newly
+   allocated scope. Keep the clear here rather than adding a CRT call edge. */
+ExceptionScope *__cdecl allocate_exception_scope(void)
+{
+    ExceptionScope *scope, *parent, **link;
+    unsigned char *clear;
+    unsigned bytes;
+    scope = arena_alloc(1, sizeof *scope);
+    clear = (unsigned char *)scope;
+    for (bytes = sizeof *scope; bytes; --bytes) *clear++ = 0;
+    scope->kind = 0;
+    scope->identifier = next_exception_scope_identifier++;
+    scope->finally_depth = exception_finally_depth;
+    parent = enclosing_try_scope();
+    scope->parent_identifier = parent ? (long)parent->identifier : -1;
+    push_exception_scope(scope);
+    for (link = &prepared_exception_scopes; *link; link = &(*link)->next)
+        ;
+    *link = scope;
+    return scope;
 }

@@ -22,6 +22,7 @@ static char printf_format[64],stop_entry[80],stop_return[80];
 static int observe_input;
 static int observe_entry;
 static int alignment_eax_capture;
+static int scope_allocator_capture;
 static DWORD rearm_address;
 static DWORD read_word(HANDLE process,DWORD address)
 {
@@ -83,6 +84,20 @@ static void input_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
     dump_bytes(process,"file_buffer_hex",fields[2],valid);
     dump_bytes(process,"destination_hex",call->args[0],256);
     log_line("input_end\n");
+}
+/* A48-byte SEH record is the arena1 allocator's last small allocation.
+   Read only its defined constructor bytes and descriptor lifetime bounds. */
+static void scope_record_snapshot(HANDLE process,DWORD record,char *phase)
+{
+    DWORD descriptor=image_base+0x760a0,block=read_word(process,descriptor);
+    DWORD next=read_word(process,descriptor+4),remaining=read_word(process,descriptor+8);
+    char line[256];
+    if(!record||record+48!=next||record<block+4||next>block+1024||remaining!=block+1024-next)exit(328);
+    sprintf(line,"scope_record phase %s pointer %08lx block %08lx next %08lx remaining %lu\n",phase,record,block,next,remaining);log_line(line);
+    dump_bytes(process,"scope_record_hex",record,48);
+    sprintf(line,"scope_state phase %s head %08lx next_identifier %lu finally_depth %lu stack_depth %lu\n",phase,
+        read_word(process,image_base+0x6b998),read_word(process,image_base+0x6b9a4),
+        read_word(process,image_base+0x6b9a0),read_word(process,image_base+0x74e84));log_line(line);
 }
 static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
 {
@@ -474,6 +489,24 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"alignment8 eax %08lx alignment %lu record %08lx current %08lx base %08lx count %lu cursor %08lx return_address %08lx\n",context->Eax,call->args[0],record,read_word(process,image_base+0x6b88c),image_base+0x6a8dc,read_word(process,record+12),read_word(process,record+16),call->return_address);log_line(line);
         sprintf(line,"alignment8_segment pointer %08lx member %08lx identifier %lu index %lu alignment %lu combine %lu position %lu object_section %lu\n",segment,member,id,index,read_word(process,segment+48),read_byte(process,segment+53),read_word(process,segment+4),read_word(process,segment+56));log_line(line);
         dump_bytes(process,"alignment8_segment_name_hex",read_word(process,segment+16),string_bytes(process,read_word(process,segment+16)));
+    }
+    if(scope_allocator_capture&&!strcmp(call->name,"_allocate_exception_scope")) {
+        unsigned i;
+        sprintf(line,"scope_allocate head %08lx next_identifier %lu finally_depth %lu expression %08lx tree %08lx opcode %lu return_address %08lx\n",
+            read_word(process,image_base+0x6b998),read_word(process,image_base+0x6b9a4),read_word(process,image_base+0x6b9a0),
+            context->Esi,context->Edi,read_word(process,context->Edi),call->return_address);log_line(line);
+        /* Arm the allocation/query observations only inside this constructor. */
+        for(i=0;i<observed_count;++i)
+            if(!strcmp(observed_calls[i].name,"@arena_alloc@8")||!strcmp(observed_calls[i].name,"_enclosing_try_scope"))
+                write_byte(process,image_base+observed_calls[i].rva,0xcc);
+    }
+    if(scope_allocator_capture&&!strcmp(call->name,"@arena_alloc@8")) {
+        if(call->args[0]!=1||call->args[1]!=48||call->return_address!=image_base+0x561d1)exit(329);
+        sprintf(line,"scope_request arena %lu bytes %lu return_address %08lx\n",call->args[0],call->args[1],call->return_address);log_line(line);
+    }
+    if(scope_allocator_capture&&!strcmp(call->name,"_enclosing_try_scope")) {
+        if(call->return_address!=image_base+0x561fc)exit(330);
+        scope_record_snapshot(process,context->Esi,"before_query");
     }
     if(!strcmp(call->name,"@collect_exception_scopes@4")) {
         DWORD function=call->args[0],expression=read_word(process,function+16),index=0;
@@ -919,6 +952,7 @@ static void install_plan(HANDLE process,DWORD base)
     GetEnvironmentVariableA("C2_STOP_RETURN",stop_return,sizeof(stop_return));
     observe_input=GetEnvironmentVariableA("C2_STREAM_INPUT",path,sizeof(path))!=0;
     observe_entry=GetEnvironmentVariableA("C2_ENTRY_INPUT",path,sizeof(path))!=0;
+    scope_allocator_capture=GetEnvironmentVariableA("C2_SCOPE_ALLOC_CAPTURE",path,sizeof(path))!=0;
     alignment_eax_capture=GetEnvironmentVariableA("C2_ALIGNMENT_EAX_CAPTURE",path,sizeof(path))?atoi(path):0;
     if(!GetEnvironmentVariableA("C2_CRT_CAPTURE",path,sizeof(path)))exit(249);
     observation_log=CreateFileA(path,GENERIC_WRITE,0,0,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,0);
@@ -928,7 +962,8 @@ static void install_plan(HANDLE process,DWORD base)
         ObservedCall *call=&observed_calls[observed_count++];
         call->rva=rva;call->first=(unsigned char)first;call->fastcall=(nargs&0x100)!=0;call->nargs=nargs&255;
         if(call->nargs>8||(read_word(process,base+rva)&255)!=first)exit(252);
-        write_byte(process,base+rva,0xcc);
+        if(!scope_allocator_capture||(strcmp(call->name,"@arena_alloc@8")&&strcmp(call->name,"_enclosing_try_scope")))
+            write_byte(process,base+rva,0xcc);
     }
     fclose(plan);if(!observed_count)exit(253);
 }
@@ -946,7 +981,9 @@ static void capture_crt(HANDLE process,HANDLE thread,DWORD base,DWORD address)
             call=0;
             for(i=0;i<observed_count;++i)if(observed_calls[i].entered&&!observed_calls[i].returned&&observed_calls[i].return_address==address&&(!call||observed_calls[i].entry_order>call->entry_order))call=&observed_calls[i];
             if(!call)break;
-            snapshot(process,call,"return",c.Eax);if(printf_format[0])numeric_snapshot(process,call,"return",&c);if(observe_input)input_snapshot(process,call,&c);call->returned=1;
+            snapshot(process,call,"return",c.Eax);
+            if(scope_allocator_capture&&!strcmp(call->name,"_allocate_exception_scope"))scope_record_snapshot(process,c.Eax,"returned");
+            if(printf_format[0])numeric_snapshot(process,call,"return",&c);if(observe_input)input_snapshot(process,call,&c);call->returned=1;
             if(call->return_byte!=0xcc)restored=call->return_byte;
             if(!strcmp(call->name,"_printf"))finish=1;
             if(stop_return[0]&&!strcmp(call->name,stop_return))finish=1;

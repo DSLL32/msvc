@@ -1325,7 +1325,8 @@
     "@function_allows_frame_register@4",
     "@prepare_inline_function@4",
     "_reset_exception_scope_stack",
-    "@collect_exception_scopes@4"
+    "@collect_exception_scopes@4",
+    "_allocate_exception_scope"
   ],
   "driver": [
     {
@@ -9921,13 +9922,32 @@
     {
       "name": "_allocate_exception_scope",
       "start": 418240,
-      "end": 418241,
-      "provisional": true
+      "end": 418354,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/scope-allocate-abi/validation.json",
+        "scope": "Original661c0..66232 consumes no formal/incomingGPR/stack/flags/x87 input; passes arena1/size48 to accepted arena_alloc, clears all48 owned resultbytes, reads nextidentifier7b9a4 and increments, copies finallydepth7b9a0, queries enclosingtry outputidentifier or-1, pushes newrecord and appends to current preparedscope list7b998. Only linkedlist.next inputs read for append, actual headNULL; no inputcontext/Function pointer despite callerregistervalues. ESI/EDI restored/RET0. Globals are inputs, not invented formals; childoutputs/lifetimes observed separately."
+      }
     },
     {
       "name": "_pop_exception_scope",
       "start": 417472,
       "end": 417473,
+      "provisional": true
+    },
+    {
+      "name": "_enclosing_try_scope",
+      "start": 418688,
+      "end": 418689,
+      "provisional": true
+    },
+    {
+      "name": "@push_exception_scope@4",
+      "start": 417520,
+      "end": 417521,
       "provisional": true
     }
   ],

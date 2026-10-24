@@ -1,3 +1,7 @@
+C2 ACTIVE1322: whole114B exception-scope allocator accepted; next enclosing_try_scope66380.
+Scope/arena actual lifetime proof and timings: cases/scope-allocate-checkpoint.json.
+SEH incomplete; all17 expected native terminals pass. Continue approved SEH case.
+
 C2 ACTIVE1228 accepted /1118 application graphs; matching write_listing_displacement2a7c0.
 333435/399693=83.422777% code-extent union, not branch coverage.
 Three whole comment/prefix/type bodies437B plus68B switch data; all14native cases pass(13complete+debug expectedtrap).

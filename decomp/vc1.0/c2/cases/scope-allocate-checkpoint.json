@@ -1,0 +1,170 @@
+{
+  "checkpoint": 1322,
+  "status": "Whole114B allocator accepted; actual case stops at separate enclosing-scope query.",
+  "function": {
+    "name": "_allocate_exception_scope",
+    "start": "0x661c0",
+    "end": "0x66232",
+    "bytes": 114,
+    "source": "src/exception-scope.c"
+  },
+  "actual_abi": "cases/scope-allocate-abi/validation.json",
+  "controls": "cases/scope-allocate-validation.json",
+  "fresh_before": "cases/seh-original-1321.json",
+  "fresh_after": "cases/seh-original-1322.json",
+  "native_after": "cases/seh-original-1322-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "build_inputs": "cases/seh-1322-build-inputs.json",
+  "shared_publication": "f086d3fd2; before/after exact source hashes unchanged",
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1322,
+    "accepted_code_bytes": 348794,
+    "original_code_bytes": 399693,
+    "percentage": 87.26547625302419,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 662
+  },
+  "timings": {
+    "seh-1322-controls": {
+      "command": [
+        "python3",
+        "scripts/check-scope-allocate.py"
+      ],
+      "seconds": 1.531649469397962,
+      "returncode": 0,
+      "log_sha256": "0200c0158b04a841382ab6977708c5113421db4c7b917805a8946586a32df068"
+    },
+    "seh-1322-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "seh",
+        "--reference",
+        "cases/seh-original-1322.json"
+      ],
+      "seconds": 0.4097126889973879,
+      "returncode": 0,
+      "log_sha256": "cb140dc55041bb9ca722638d9ead4b3699ada179d38f62c9ca2c687047595275"
+    },
+    "seh-1322-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "seh",
+        "--receipt",
+        "cases/seh-original-1322.json"
+      ],
+      "seconds": 1.9859989266842604,
+      "returncode": 0,
+      "log_sha256": "427ec087aeedc20ff3942e547760da4160664f5a74d39b1cf727299babd54157"
+    },
+    "seh-1322-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 34.31163361109793,
+      "returncode": 0,
+      "log_sha256": "868cf5b87341f79926bc44b4c96062f69daf9bd2a76271ba7ee51b22dd1fc3cf"
+    },
+    "seh-1322-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 1.0306199043989182,
+      "returncode": 0,
+      "log_sha256": "cc8559e41fb86911e682a6b16de622dfec8c41fcd0f51c1bd1d45203213fdb8f"
+    },
+    "seh-1322-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 14.322987840510905,
+      "returncode": 0,
+      "log_sha256": "c5b7ef23c16374feb809d6a7cf729961ee2f500d5e8d7074326d704d0ed11b34"
+    },
+    "seh-1322-native-record": {
+      "command": [
+        "python3",
+        "scripts/observe-scope-allocate-native.py"
+      ],
+      "seconds": 0.21526891272515059,
+      "returncode": 0,
+      "log_sha256": "4bac7cbbecee55796630b0a18658ca8d484741b2c7a87d55c3409f4e6616eedc"
+    },
+    "seh-1322-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/seh-original-1321.json",
+        "--extend-after",
+        "cases/seh-original-1322.json"
+      ],
+      "seconds": 0.3283042097464204,
+      "returncode": 0,
+      "log_sha256": "e8cc593c6a009c238296ac2454cf5470ccc8d35938388c3599412e6b5142dd5b"
+    },
+    "seh-1322-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "exception-scope"
+      ],
+      "seconds": 1.6422299453988671,
+      "returncode": 0,
+      "log_sha256": "40a1b36b59c9a15d7e7271054e2358984b79d5736f76a9e8e2fc41655953f12c"
+    },
+    "seh-scope-allocate-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 4.381150353699923,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "seh-scope-allocate-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-scope-allocate-entry.py"
+      ],
+      "seconds": 2.0713512171059847,
+      "returncode": 0,
+      "log_sha256": "0ab4adc091ef5d12acb27c59d67b7de99191e4f4c7b670832e015d5f52ccb421"
+    }
+  },
+  "scope": "No formal/hidden inputs. Actual parent node8f/Expression identity/globalheadNULL/id0/depth0, arena1/48 request, record ownership/arena bounds and cleared48B bytes beforequery match original/native. Untouched original fullconstructor return/head/depth is retained separately.120 whole original/canonical controls and11 ABI rejects prove all48 clear against poison/adjacent-byte ownership, id wrapping/depth/parent or-1, child-state mutations, freshhead/tail append, pointer return/RET0/nonvolatile. Fullreturn/list bodies are synthetic controlled evidence; actual native execution stops at enclosing-query, not claimed whole-return execution. Prefix offsets retained; constructor-cleared word36 remains unknown, bucket-set pointer40 and flags44 contextual. No memset CRT graph edge or new shim.",
+  "case_completion": false,
+  "next_frontier": "_enclosing_try_scope",
+  "timing_limits": "Analysis not continuously measured. Build14.323s; W3 1.642s; controls1.532s; ordinary audit+coverage34.312s, Rust-only unmeasured. Original1.986s/native.410s; nativeownedrecord.215s; cache.328s;17-case wrapper1.031s, percase setup/run/check in native-all-validation. Observerbuild4.381s and actualinputoriginal/native observation2.071s. No repeated whole older grids."
+}

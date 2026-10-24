@@ -1143,3 +1143,15 @@ all 17 cached native terminals pass. Audit/coverage 35.022s and fixture wrapper
 preflight mistakenly continued into that build; stable exact owner-confirmed
 bytes, honest postbuild source sampling and ELF/PE hashes are preserved. They
 were published unchanged as f086d3fd2. Full receipt: cases/seh-collect-checkpoint.json.
+
+At1322 the whole114-byte exception-scope allocator is accepted. The actual
+no-formal entry, arena1/48 request, owned record/arena cursor lifetime and48
+cleared bytes before the parent query match original/native. The full48-byte
+typed record retains its existing prefix, with contextual constructor-cleared
+word36, local-set pointer40 and flags44. No new CRT call edge supplies the clear.
+120 whole original/canonical controls and11 ABI rejects cover poison/adjacent
+bytes, wrapping IDs, parent IDs, child mutations and fresh list append. Original
+full return is retained, while actual native execution stops at the separate
+enclosing-query trap. All17 cached expected terminals, original/W3 and structural
+audits pass. Build14.323s, audit/coverage34.312s, fixture wrapper1.031s are
+separately measured. Receipt: cases/scope-allocate-checkpoint.json.
