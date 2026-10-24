@@ -20,26 +20,6 @@ use std::{
     sync::atomic::{AtomicI32, Ordering},
     time::{Duration, Instant},
 };
-// Registered before dlopen/setup so later application atexit handlers run first.
-// Unit-test helper exits deliberately bypass application process shutdown.
-static mut OUTPUT_ENV_CAPTURE: Option<(PathBuf, Vec<String>)> = None;
-extern "C" fn capture_output_environment() {
-    let result = (|| -> Result<()> {
-        let Some((root, keys)) = (unsafe { (&*std::ptr::addr_of!(OUTPUT_ENV_CAPTURE)).as_ref() })
-        else {
-            return Ok(());
-        };
-        let values: std::collections::BTreeMap<String, Option<String>> = keys
-            .iter()
-            .map(|k| (k.clone(), std::env::var(k).ok()))
-            .collect();
-        fs::write(root.join("output-env"), serde_json::to_vec(&values)?)?;
-        Ok(())
-    })();
-    if let Err(e) = result {
-        eprintln!("recon-tool: output environment observer failed: {e:#}");
-    }
-}
 pub(crate) static SIGNAL: AtomicI32 = AtomicI32::new(0);
 extern "C" fn signal(sig: i32) {
     SIGNAL.store(sig, Ordering::Relaxed);
@@ -281,13 +261,6 @@ fn checks(f: &Fixture, cwd: &Path, root: &Path) -> Result<()> {
             bail!("unexpected output: {extra}")
         }
     }
-    if !f.output_env.is_empty() {
-        let got: std::collections::BTreeMap<String, Option<String>> =
-            serde_json::from_slice(&fs::read(root.join("output-env"))?)?;
-        if got != f.output_env {
-            bail!("output environment differs")
-        }
-    }
     Ok(())
 }
 fn open_stream(path: &Path) -> Result<File> {
@@ -376,14 +349,6 @@ unsafe fn executor(
         }
     }
     std::env::set_current_dir(cwd)?;
-    if !tests && !f.output_env.is_empty() {
-        unsafe {
-            OUTPUT_ENV_CAPTURE = Some((root.to_owned(), f.output_env.keys().cloned().collect()));
-        }
-        if unsafe { libc::atexit(capture_output_environment) } != 0 {
-            bail!("register output environment observer")
-        }
-    }
     let loaded = unsafe { Loaded::open(case_path) }?;
     fs::write(root.join("descriptor"), serde_json::to_vec(&loaded.info)?)?;
     if let Some(setup) = loaded.case.setup {
@@ -796,7 +761,6 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
                 scoped.stdout = p.stdout.clone();
                 scoped.stderr = p.stderr.clone();
                 scoped.output_files = p.output_files.clone();
-                scoped.output_env = p.output_env.clone();
                 scoped.reject_unexpected_files = p.reject_unexpected_files;
                 if let Err(e) = checks(&scoped, &cwd, &root) {
                     errors.push(format!("partial oracle: {e:#}"))

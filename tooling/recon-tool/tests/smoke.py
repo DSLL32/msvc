@@ -21,6 +21,12 @@ scratch = Path(tempfile.mkdtemp(prefix='recon-tool-test-', dir=scratch_root))
 try:
     missing=subprocess.run([TOOL,'run',CASES/'0000-io'],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
     assert missing.returncode!=0 and 'requires capture.bin' in missing.stdout
+    # Environment is input-only; obsolete output assertions must not be ignored.
+    for fixture in [dict(output_env={'OLD':'value'}), dict(partial=dict(output_env={}))]:
+        source = scratch/'obsolete-env.json'
+        source.write_text(json.dumps(fixture))
+        result = subprocess.run([TOOL,'capture','pack',source,scratch/'obsolete-env.bin'],capture_output=True,text=True)
+        assert result.returncode != 0 and 'output_env' in result.stderr
     def run(name, number, fixture, *, passed=True):
         source = scratch / (name + '.json')
         packed = scratch / (name + '-capture.bin')
@@ -51,7 +57,6 @@ try:
         action=dict(kind='stdin', data='text:hello\n')), dict(after_ms=0, action=dict(kind='close_stdin'))]))
     run('direct', '0005', dict(stdout='text:', stderr='text:', exit_code=0, reject_unexpected_files=True))
     run('atexit','0006',dict(args=['fixture','atexit'],stdout='text:bye\n',stderr='text:',exit_code=0,
-        env={'RECON_EXIT_VALUE':'before'},output_env={'RECON_EXIT_VALUE':'after'},
         output_files=[dict(path='exit.txt',data='text:closed')],reject_unexpected_files=True))
     run('default-argv','0004',dict(env={'RECON_CHECK_ARGV':'1'},stdout='text:argc=1 argv0=fixture\n',stderr='text:',exit_code=0))
     run('wrong-frontier','0007',dict(args=['fixture','backtrap']),passed=False)

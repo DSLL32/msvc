@@ -701,7 +701,6 @@ fn capture_executor(
             stdout: Some(stdout),
             stderr: Some(stderr),
             output_files: files,
-            output_env: Default::default(),
             reject_unexpected_files: f.reject_unexpected_files,
         });
     } else {
@@ -785,10 +784,6 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
     anyhow::ensure!(
         f.events.is_empty(),
         "original timed/console events are not implemented; native replay may use saved events"
-    );
-    anyhow::ensure!(
-        f.output_env.is_empty(),
-        "original output_env capture requires an explicit in-process observer; not implemented"
     );
     let root = native::create_workspace()?;
     let mut owned_cwd = None;

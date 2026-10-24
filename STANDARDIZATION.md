@@ -136,7 +136,7 @@ be required to produce final outputs before the missing code is reconstructed.
 
 `capture.bin` is an uncompressed, versioned binary fixture. Applicable fields include
 arguments, stdin, expected stdout/stderr, input files and metadata, expected
-output paths/hashes, environment, exit code and synchronized input events such
+output paths/hashes, input environment, exit code and synchronized input events such
 as Ctrl+C. Distinguish missing values/files from present-but-empty ones. Check
 unexpected and deleted outputs where relevant. Normalize only specifically
 identified nondeterministic fields, such as established clock fields.
@@ -146,9 +146,8 @@ construct and deconstruct `capture.bin`, preserving arbitrary bytes and the
 distinction between absent and empty values. Authoring files and unpacked
 contents belong outside the committed case directory.
 
-Output environment assertions require observation inside the invoked process;
-changes to a child's environment do not propagate to its parent. Captured
-dependency responses must verify the request and inputs before replay.
+Environment variables are inputs only. Captured dependency responses must verify
+the request and inputs before replay.
 
 IO execution uses a standard binary adapter: reconstructed main for an EXE,
 or attach, typed export invocation and detach for a DLL. Existing DLL export
@@ -328,8 +327,7 @@ remain separate. Direct calls use ECX/EDX and stack words for ordinary MSVC ABIs
 not arbitrary register conventions such as Watcom watcall.
 
 Current original transport is single-threaded, ANSI/ASCII-path/argument based,
-and uses regular-file stdin. It rejects pipe/timed-console events and generic
-output-environment capture rather than silently changing them. Native replay can
-still exercise saved interactive cases. DLLs without an entry point and repeated
+and uses regular-file stdin. It rejects pipe/timed-console events rather than
+silently changing them. Native replay can still exercise saved interactive cases. DLLs without an entry point and repeated
 target-module reload are unsupported. SIGKILL of a supervisor can leave a folder;
 its `.owner` marker and saved workspace path support explicit manual cleanup.

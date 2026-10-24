@@ -7,6 +7,7 @@ use std::{
 };
 
 const MAGIC: &[u8; 8] = b"RECONIO\0";
+const VERSION: u32 = 2;
 #[derive(Clone, Default, Debug, PartialEq, Eq)]
 pub struct Bytes(pub Vec<u8>);
 impl Serialize for Bytes {
@@ -116,8 +117,6 @@ pub struct Partial {
     #[serde(default)]
     pub output_files: Vec<OutputFile>,
     #[serde(default)]
-    pub output_env: BTreeMap<String, Option<String>>,
-    #[serde(default)]
     pub reject_unexpected_files: bool,
 }
 #[derive(Clone, Copy, Serialize, Deserialize, Debug, Default, PartialEq, Eq)]
@@ -151,8 +150,6 @@ pub struct Fixture {
     #[serde(default)]
     pub env: BTreeMap<String, Option<String>>,
     #[serde(default)]
-    pub output_env: BTreeMap<String, Option<String>>,
-    #[serde(default)]
     pub events: Vec<Event>,
     #[serde(default)]
     pub reject_unexpected_files: bool,
@@ -168,7 +165,7 @@ pub struct Fixture {
     pub readonly_dependencies: Vec<Dependency>,
 }
 fn version() -> u32 {
-    1
+    VERSION
 }
 fn timeout() -> u64 {
     30000
@@ -191,7 +188,7 @@ pub fn safe_relative(s: &str) -> Result<()> {
 }
 impl Fixture {
     pub fn validate(&self) -> Result<()> {
-        if self.version != 1 {
+        if self.version != VERSION {
             bail!("unsupported fixture version {}", self.version)
         }
         if self.timeout_ms == 0 {
@@ -208,7 +205,6 @@ impl Fixture {
             f.stdout = p.stdout.clone();
             f.stderr = p.stderr.clone();
             f.output_files = p.output_files.clone();
-            f.output_env = p.output_env.clone();
             f.reject_unexpected_files = p.reject_unexpected_files;
             f.validate()?;
         }
@@ -244,7 +240,7 @@ impl Fixture {
                 }
             }
         }
-        for (k, v) in self.env.iter().chain(&self.output_env) {
+        for (k, v) in &self.env {
             if k.is_empty()
                 || k.contains(['=', '\0'])
                 || v.as_ref().is_some_and(|s| s.contains('\0'))
@@ -289,7 +285,7 @@ impl Fixture {
 }
 pub fn read(path: &Path) -> Result<Fixture> {
     let b = fs::read(path).with_context(|| format!("read {}", path.display()))?;
-    if b.len() < 20 || &b[..8] != MAGIC || u32::from_le_bytes(b[8..12].try_into()?) != 1 {
+    if b.len() < 20 || &b[..8] != MAGIC || u32::from_le_bytes(b[8..12].try_into()?) != VERSION {
         bail!("invalid capture.bin header")
     }
     let len = u64::from_le_bytes(b[12..20].try_into()?);
@@ -309,7 +305,7 @@ pub fn write(path: &Path, f: &Fixture) -> Result<()> {
     let mut data = vec![];
     ciborium::into_writer(f, &mut data)?;
     let mut b = MAGIC.to_vec();
-    b.extend(1u32.to_le_bytes());
+    b.extend(VERSION.to_le_bytes());
     b.extend((data.len() as u64).to_le_bytes());
     b.extend(data);
     fs::write(path, b)?;

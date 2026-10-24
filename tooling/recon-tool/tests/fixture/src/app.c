@@ -16,7 +16,6 @@ void fixture_on_exit(void)
     fputs("closed", f);
     fclose(f);
     puts("bye");
-    setenv("RECON_EXIT_VALUE", "after", 1);
 }
 int fixture_main(int argc, char **argv)
 {

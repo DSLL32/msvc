@@ -113,7 +113,7 @@ before checking outputs and deleting its owned workspace. Timeouts also kill
 descendants that moved to another process group. SIGKILL of the supervisor itself
 cannot guarantee cleanup.
 
-## capture.bin version 1
+## capture.bin version 2
 
 Eight-byte `RECONIO\0`, little-endian u32 version, little-endian u64 payload
 length, then uncompressed CBOR. No trailing bytes are accepted. The payload's
@@ -147,9 +147,9 @@ special output files are rejected. Relative fixture paths cannot contain `..`.
 its private drive root (for example S); T always maps to this run's private root.
 The physical cwd uses the canonical path suffix. Explicit `readonly_dependencies`
 contain host absolute `path` and `sha256`, verified before and after execution;
-these are inputs, not undisclosed implicit references. Native `output_env`
-observations run during normal process exit, after application exit callbacks.
-Abrupt termination such as `_exit` bypasses that observation.
+these are inputs, not undisclosed implicit references. Environment variables are
+inputs only; output-environment assertions are not supported. Version 2 removes
+the former output-environment fields; version 1 captures must be repacked.
 
 Events are ordered. Each has optional `after_ms`, optional `stdout_contains`
 (both conditions must hold if present), and an `action` object:
@@ -159,7 +159,7 @@ Set `stdin_kind:"pipe"` for stdin/close events. Signals go to the executor proce
 claim of arbitrary Win32 console-event equivalence.
 
 Top-level expected outputs describe successful completion. Optional `partial`
-has its own stdout/stderr/output_files/output_env/reject_unexpected_files and
+has its own stdout/stderr/output_files/reject_unexpected_files and
 applies at an expected current frontier. Final expectations are retained intact.
 
 Run `python3 tests/smoke.py` for focused native integration tests. Ordinary IO
@@ -238,11 +238,11 @@ The original backend supports PE32 i386 images. CF payloads and the Watcom gatew
 remain in their existing separate capture tooling. Direct calls support ordinary
 MSVC ECX/EDX/stack conventions, not arbitrary register ABIs such as Watcom watcall.
 
-Current limits: original pipe stdin, timed/console events, generic output_env
-observation, new target threads, zero-entry DLLs and repeated target-module reload
+Current limits: original pipe stdin, timed/console events, new target threads,
+zero-entry DLLs and repeated target-module reload
 are rejected/unsupported. ANSI transport requires ASCII paths, arguments and
 explicit environment strings; arbitrary file/stream bytes are preserved. Native
-replay supports saved pipe/events and returned-adapter output_env observations.
+replay supports saved pipe/events.
 Arguments are a complete argv vector, defaulting to `[binary_descriptor.name]`.
 `stdin_kind` is `file` by default; set `pipe` for stdin/close events. Normal IO
 completion uses libc exit with application tracing active through atexit callbacks.
