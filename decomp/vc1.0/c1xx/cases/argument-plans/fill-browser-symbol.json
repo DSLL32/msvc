@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "function": "_fill_browser_symbol@8",
+  "native_entry": "fill_browser_symbol",
+  "argument_words": 4,
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    178176,
+    178821
+  ],
+  "native_caller_locals": {
+    "caller_symbol": {
+      "frame": 1,
+      "function": "fill_browser_declaration",
+      "local": "symbol"
+    }
+  },
+  "native_expressions": {
+    "raw_record": "(unsigned)record",
+    "raw_symbol": "(unsigned)symbol",
+    "ring_owner": "(unsigned)&browser_records[0]"
+  },
+  "formals": [
+    {
+      "name": "record",
+      "stack_index": 0,
+      "native_field": "raw_record",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 609092,
+        "offset": 264,
+        "native_anchor_field": "ring_owner"
+      }
+    },
+    {
+      "name": "symbol",
+      "stack_index": 1,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 112706,
+        "original_owner_function": "_fill_browser_declaration@8",
+        "native_owner_field": "caller_symbol",
+        "native_owner_function": "fill_browser_declaration",
+        "native_owner_local": "symbol",
+        "identity": "Accepted fill_browser_declaration entry loads actual formal symbol intoEDI atVA2b803, PUSH EDI2b83b/PUSH ESIrecord2b83c/CALL2b83d returnVA2b842/RVA1b842. Native immediate caller real symbol formal binds the same logical declaration, whose header/type role was freshly established at the preceding accepted frontier. No cross-process heap-address equality or new pointee extent is inferred."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      178128,
+      178166
+    ],
+    "argument_bytes": 8,
+    "convention": "frameless stdcall8 void RET8",
+    "proof": "Whole38B reads actual symbol entryESP+8/indexDWORD+16, writes record entryESP+4/indexDWORD+8. If record.nameDWORD+12 isNULL, clear only flagsWORD+2 bit2, copy symbol.nameDWORD+8 to record.name+12/name_identity+16; else retain existing name and flags. No calls, data, hidden register/flags/x87 inputs. Accepted append sets current ring slot11 nameNULL and flags; accepted new_declarator writes actual name, apply_declaration_type/resolver writes index before browser wrapper. Symbol is the actual initialized52B declaration, not a16B overload wrapper."
+  }
+}

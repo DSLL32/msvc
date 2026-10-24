@@ -447,3 +447,15 @@ void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol
         record->category = browser_declaration_categories[kind];
     }
 }
+
+/* Original 0x2b7d0..0x2b7f5. Existing record names retain their ownership
+   flag and identity; an absent name takes the symbol's interned spelling. */
+void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol)
+{
+    record->symbol_index = symbol->index;
+    if (!record->name) {
+        record->header.flags &= ~2;
+        record->name = symbol->name;
+        record->name_identity = symbol->name;
+    }
+}
