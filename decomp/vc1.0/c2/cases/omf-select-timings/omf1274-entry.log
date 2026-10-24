@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/observe-omf-select-entry.py", line 24, in <module>
+    raw=bytes.fromhex(observed['segment_hex']);other=bytes.fromhex(native['segment_hex']);assert len(raw)==len(other)==72 and raw[53]==other[53]==2
+                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

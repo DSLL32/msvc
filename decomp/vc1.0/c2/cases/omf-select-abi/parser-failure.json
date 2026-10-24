@@ -1,0 +1,6 @@
+{
+  "reason": "Original/native debug Segment combine bytes both0; copied observer assumed2. Ownership and raw72-byte inputs already agree; no target divergence. Correct parser on retained raw evidence, no recapture or raw file edits.",
+  "native_executable_sha256": "4f4d35950afbf173f97340c8af9a6349e2fed2c514942b76765f6dae2204b7b5",
+  "native_log_sha256": "ee3f8bdbfb49008df98e3dfedcbd15b22dfef95b141eaa540f6d48fbd810ea9a",
+  "timing": "omf1274-entry-timing.json"
+}

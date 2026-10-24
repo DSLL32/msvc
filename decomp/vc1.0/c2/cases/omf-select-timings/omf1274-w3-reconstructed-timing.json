@@ -1,0 +1,11 @@
+{
+  "command": [
+    "python3",
+    "scripts/check-canonical-warnings.py",
+    "omf-output",
+    "output"
+  ],
+  "seconds": 2.5472684213891625,
+  "returncode": 0,
+  "log_sha256": "0971c5d9b7ccadc2e73dc66fbb121161f0cb1b45052a380bfed0cbf560966afa"
+}

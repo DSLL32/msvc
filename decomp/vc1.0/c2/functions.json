@@ -1277,7 +1277,8 @@
     "@omf_alignment@4",
     "@omf_write_index@8",
     "@omf_write_group_definition@8",
-    "@omf_define_fixup_thread@16"
+    "@omf_define_fixup_thread@16",
+    "@omf_select_segment@4"
   ],
   "driver": [
     {
@@ -2245,10 +2246,23 @@
       "provisional": true
     },
     {
-      "name": "_omf_select_segment",
+      "name": "@omf_select_segment@4",
       "start": 439968,
-      "end": 439969,
-      "provisional": true
+      "end": 439999,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "segment",
+            "location": "ECX",
+            "type": "Segment pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-select-abi/validation.json",
+        "scope": "Actual debug_symbols_segment owner/full72-byte raw descriptor/combine0 observed. Reads byte53 only then passes Segment to begin_record(a1/c3); no other register/stack/flags/x87 input, RET0. Current record is overwritten with returned pointer."
+      }
     },
     {
       "name": "_omf_output_data",

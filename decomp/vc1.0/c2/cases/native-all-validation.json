@@ -1,7 +1,7 @@
 {
   "method": "native application entry and captured-output check",
   "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
-  "executable_sha256": "3971caa2a916f67c3223414b73ce5204bb61ba4ff212a4be6331c8aec7bc198b",
+  "executable_sha256": "8c015e9f7855855c5995e04919e60fcf9d6a1bf240ba0a661a904311d37efec8",
   "trace_enabled": true,
   "shared_hashes": {
     "lib/recon/include/recon.h": "efd2cf980852100e00b4f137584d0ee2ef36edf9d52d144ca162a0c8ea10f8f4",
@@ -25,7 +25,7 @@
     "lib/recon/src/compat.c": "9f175cae12c4bfb56bab6dc0ee8000388b945559568eb12c2dbab2e801046d12",
     "lib/recon/src/crt.c": "e7ffcaea6a7084332f204ace662afdfc0bf8a8ae0fd84831c5c2ca8af92da0e2",
     "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
-    "lib/recon/src/entry.c": "77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b",
+    "lib/recon/src/entry.c": "33f47565b8fd09dcbdf5254cd47bb895de22eaf8c073668a1f2abf2bfe942db0",
     "lib/recon/src/process.c": "885ae0c197f2f64933598b3d1435af156086f63c664a04b5b99cbae52d89a42d",
     "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
     "lib/recon/src/win32.c": "9efe3109c97039271d66574e6274f639a9405c837c341e67a4417a72f610fd8f"
@@ -46,10 +46,10 @@
           4
         ]
       },
-      "setup_seconds": 0.02501688152551651,
-      "execution_seconds": 0.012272830121219158,
-      "check_seconds": 0.001454629935324192,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/minimal"
+      "setup_seconds": 0.02490969467908144,
+      "execution_seconds": 0.006072103977203369,
+      "check_seconds": 0.001967969350516796,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/minimal"
     },
     {
       "profile": "hello",
@@ -66,10 +66,10 @@
           4
         ]
       },
-      "setup_seconds": 0.019158439710736275,
-      "execution_seconds": 0.010927487164735794,
-      "check_seconds": 0.0018541086465120316,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/hello"
+      "setup_seconds": 0.02138862293213606,
+      "execution_seconds": 0.011521452106535435,
+      "check_seconds": 0.0019109640270471573,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/hello"
     },
     {
       "profile": "loops",
@@ -86,10 +86,10 @@
           4
         ]
       },
-      "setup_seconds": 0.015111907385289669,
-      "execution_seconds": 0.008246120065450668,
-      "check_seconds": 0.0012109950184822083,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/loops"
+      "setup_seconds": 0.019487297162413597,
+      "execution_seconds": 0.008457360789179802,
+      "check_seconds": 0.0014225626364350319,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/loops"
     },
     {
       "profile": "pressure",
@@ -106,10 +106,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014387463219463825,
-      "execution_seconds": 0.009209885261952877,
-      "check_seconds": 0.0011449893936514854,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/pressure"
+      "setup_seconds": 0.015827861614525318,
+      "execution_seconds": 0.010417251847684383,
+      "check_seconds": 0.001289854757487774,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/pressure"
     },
     {
       "profile": "aliasing",
@@ -126,10 +126,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014629056677222252,
-      "execution_seconds": 0.007290284149348736,
-      "check_seconds": 0.0012252917513251305,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/aliasing"
+      "setup_seconds": 0.01686505600810051,
+      "execution_seconds": 0.008390313014388084,
+      "check_seconds": 0.0011510029435157776,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/aliasing"
     },
     {
       "profile": "floating",
@@ -146,10 +146,10 @@
           4
         ]
       },
-      "setup_seconds": 0.015104979276657104,
-      "execution_seconds": 0.008053036406636238,
-      "check_seconds": 0.0012104390189051628,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/floating"
+      "setup_seconds": 0.014396561309695244,
+      "execution_seconds": 0.007332257926464081,
+      "check_seconds": 0.00117593165487051,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/floating"
     },
     {
       "profile": "i386",
@@ -166,10 +166,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014740349724888802,
-      "execution_seconds": 0.008714952506124973,
-      "check_seconds": 0.0010806964710354805,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/i386"
+      "setup_seconds": 0.014055769890546799,
+      "execution_seconds": 0.008232376538217068,
+      "check_seconds": 0.0010678302496671677,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/i386"
     },
     {
       "profile": "x87",
@@ -186,10 +186,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014649893157184124,
-      "execution_seconds": 0.008200700394809246,
-      "check_seconds": 0.001212594099342823,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/x87"
+      "setup_seconds": 0.01376455370336771,
+      "execution_seconds": 0.006723940372467041,
+      "check_seconds": 0.0010803593322634697,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/x87"
     },
     {
       "profile": "i486",
@@ -206,10 +206,10 @@
           4
         ]
       },
-      "setup_seconds": 0.015191987156867981,
-      "execution_seconds": 0.007771684788167477,
-      "check_seconds": 0.0011189449578523636,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/i486"
+      "setup_seconds": 0.013598298653960228,
+      "execution_seconds": 0.006524254567921162,
+      "check_seconds": 0.0011059185490012169,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/i486"
     },
     {
       "profile": "combined",
@@ -226,10 +226,10 @@
           4
         ]
       },
-      "setup_seconds": 0.015315409749746323,
-      "execution_seconds": 0.015765197575092316,
-      "check_seconds": 0.0011812420561909676,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/combined"
+      "setup_seconds": 0.013949980027973652,
+      "execution_seconds": 0.014972898177802563,
+      "check_seconds": 0.0010995017364621162,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/combined"
     },
     {
       "profile": "joins87",
@@ -246,10 +246,10 @@
           4
         ]
       },
-      "setup_seconds": 0.01467164233326912,
-      "execution_seconds": 0.014062294736504555,
-      "check_seconds": 0.0011827647686004639,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/joins87"
+      "setup_seconds": 0.013605997897684574,
+      "execution_seconds": 0.012654767371714115,
+      "check_seconds": 0.00109038595110178,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/joins87"
     },
     {
       "profile": "remat386",
@@ -266,10 +266,10 @@
           4
         ]
       },
-      "setup_seconds": 0.01453851256519556,
-      "execution_seconds": 0.011783172376453876,
-      "check_seconds": 0.001229461282491684,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/remat386"
+      "setup_seconds": 0.013450990431010723,
+      "execution_seconds": 0.011219216510653496,
+      "check_seconds": 0.0011122506111860275,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/remat386"
     },
     {
       "profile": "inlrec",
@@ -286,10 +286,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014630662277340889,
-      "execution_seconds": 0.02707694936543703,
-      "check_seconds": 0.0011671455577015877,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/inlrec"
+      "setup_seconds": 0.013523215427994728,
+      "execution_seconds": 0.025613317266106606,
+      "check_seconds": 0.0011428333818912506,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/inlrec"
     },
     {
       "profile": "dbglist",
@@ -322,22 +322,22 @@
           }
         ]
       },
-      "setup_seconds": 0.015304004773497581,
-      "execution_seconds": 0.007576849311590195,
-      "check_seconds": 0.001925494521856308,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/dbglist"
+      "setup_seconds": 0.014352865517139435,
+      "execution_seconds": 0.007051556371152401,
+      "check_seconds": 0.0017315633594989777,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/dbglist"
     },
     {
       "profile": "omf",
-      "terminal": "_omf_select_segment",
+      "terminal": "_omf_output_data",
       "returncode": -5,
-      "application_entries": 23,
+      "application_entries": 24,
       "seeded_entries": 1136,
       "output": null,
-      "setup_seconds": 0.014906776137650013,
-      "execution_seconds": 0.005406617186963558,
-      "check_seconds": 0.0007001692429184914,
-      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-fucf96sj/omf"
+      "setup_seconds": 0.014054900035262108,
+      "execution_seconds": 0.004531568847596645,
+      "check_seconds": 0.0006900038570165634,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-vtu66fur/omf"
     }
   ],
   "rejected": [
@@ -345,8 +345,8 @@
     "non-clock object corruption",
     "changed captured IR input"
   ],
-  "fixture_seconds": 0.6148354569450021,
-  "suite_setup_seconds": 0.15462243743240833,
-  "negative_check_seconds": 0.02657416183501482,
+  "fixture_seconds": 0.606968630105257,
+  "suite_setup_seconds": 0.16254041250795126,
+  "negative_check_seconds": 0.02400127984583378,
   "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
 }

@@ -1,0 +1,7 @@
+enter @omf_select_segment@4 eax 0007a8dc args 007b148c
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_select segment 007b148c owner 007b148c
+omf_select_segment_hex 00000000000000000000000009000000fc4f080000000000c84f08000700000000000000d4147b00685008000000000001000000010004000a000000fa000000050000000b000000
+entry_end

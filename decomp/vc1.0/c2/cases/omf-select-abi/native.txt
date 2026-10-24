@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3f67: file src/stubs.c, line 95.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_select_segment (segment=0x56632560) at src/stubs.c:95
+95	void __fastcall omf_select_segment(Segment *segment) { __asm int 3 }
+C2_SELECT {"segment": 1449338208, "owner": 1449338208, "segment_hex": "0000000000000000000000000900000056425f5600000000cd475f560700000000000000a825635660425f560000000001000000010004000a000000fa000000050000000b000000", "segment_size": 72}

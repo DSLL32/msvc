@@ -1,9 +1,10 @@
 """COFF line writer: actual two-input ABI and whole-body circular-list shapes."""
 from pathlib import Path
-import copy,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import UC_X86_REG_EAX,UC_X86_REG_ECX,UC_X86_REG_EDX,UC_X86_REG_EIP,UC_X86_REG_ESP
 from pe_indexes import indexes,publics
+ap=argparse.ArgumentParser();ap.add_argument("--abi-only",action="store_true");args=ap.parse_args()
 started=time.perf_counter();original,canonical,config,left,right=indexes();names=publics();name='@coff_write_lines@8';row=next(r for r in config['driver']if r['name']==name);path=Path(row['abi']['entry_observation']);receipt=json.loads(path.read_text());binding=json.loads(path.with_name('original-binding.json').read_text());sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();assert receipt['binding']==binding and all(sha(path.parent/n)==v for n,v in binding['files'].items())
 def validate(r):
     assert r['matched']and r['function']==name and r['original_va']=='0x6f040'and r['no_hidden_inputs_proof']
@@ -27,6 +28,8 @@ for label,change in [('missing base input',lambda r:r['formals'].pop()),('wrong 
     try:validate(bad)
     except(AssertionError,KeyError):rejected.append(label)
     else:raise AssertionError('Accepted bad COFF line ABI '+label)
+assert row['start']==0x6f040 and row['end']==0x6f108 and original.read(0x6f107,1)==b'\xc3'
+if args.abi_only:print('COFF line actual2-input ABI,8 rejects,extent and defined contribution/ring/aux storage pass');raise SystemExit
 fields={'coff_debug':0x7905c,'coff_symbol_entries':0x851a8,'coff_file':0x79064,'coff_error_handler':0x790f4,'coff_free_lines':0x851cc}
 def run(image,is_canonical,counts,debug,base,short,mutate):
     globals={n:names['_'+n]if is_canonical else a for n,a in fields.items()};u=Uc(UC_ARCH_X86,UC_MODE_32)

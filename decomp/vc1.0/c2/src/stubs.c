@@ -92,7 +92,7 @@ void __fastcall write_codeview_constant(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_block(FunctionSymbol *symbol, unsigned offset, unsigned bytes) { __asm int 3 }
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
 __declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_output_symbol) __asm int 3 }
-__declspec(naked) void omf_select_segment(void) { RECON_TRACE_NAKED_ENTRY(omf_select_segment) __asm int 3 }
+
 __declspec(naked) void omf_output_data(void) { RECON_TRACE_NAKED_ENTRY(omf_output_data) __asm int 3 }
 __declspec(naked) void omf_output_debug_pair(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_pair) __asm int 3 }
 __declspec(naked) void omf_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_record) __asm int 3 }

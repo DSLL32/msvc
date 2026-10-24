@@ -64,6 +64,6 @@
       "abi": "fastcall two register arguments"
     }
   ],
-  "seconds": 0.26397324353456497,
+  "seconds": 0.2605819320306182,
   "tail": "Original initializer tail-jumps to object-name writer; both use cdecl(void) with no callee stack cleanup"
 }

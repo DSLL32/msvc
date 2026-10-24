@@ -1,9 +1,10 @@
 """Actual empty-name formal and whole index-output wrapper controls."""
 from pathlib import Path
-import copy,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
+ap=argparse.ArgumentParser();ap.add_argument("--abi-only",action="store_true");args=ap.parse_args()
 start=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_name_index@4';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);e=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
 def validate(e):
  assert e['matched']and e['function']==name and e['no_hidden_inputs_proof']and e['hidden_inputs']==row['abi']['hidden_inputs']==[]and e['callee_stack_cleanup']==row['abi']['callee_stack_cleanup']==0
@@ -16,6 +17,7 @@ for label,change in [('missing name',lambda e:e.update(formals=[])),('wrong regi
  except(AssertionError,KeyError):rejected.append(label)
  else:raise AssertionError('Accepted '+label)
 assert row['start']==0x6a940 and row['end']==0x6a971 and original.read(0x6a970,1)==b'\xc3'
+if args.abi_only:print('OMF name-index actual name ABI,6 rejects and49-byte extent pass');raise SystemExit
 def run(image,native,text,found,index,change):
  u=Uc(UC_ARCH_X86,UC_MODE_32)
  for a,n in [(0x10000,0x100000),(0x300000,0x10000),(0x400000,0x10000),(0x500000,0x1000)]:u.mem_map(a,n)

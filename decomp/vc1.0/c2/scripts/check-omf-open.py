@@ -1,9 +1,10 @@
 """Whole OMF opener controls, zero-input ABI and contextual data identities."""
 from pathlib import Path
-import copy,hashlib,itertools,json,struct,time
+import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import UC_X86_REG_EAX,UC_X86_REG_ECX,UC_X86_REG_EDX,UC_X86_REG_EIP,UC_X86_REG_ESP
 from pe_indexes import indexes,publics
+ap=argparse.ArgumentParser();ap.add_argument("--abi-only",action="store_true");args=ap.parse_args()
 started=time.perf_counter();original,canonical,config,left,right=indexes();names=publics();name='_omf_open_module';row=next(r for r in config['driver']if r['name']==name);path=Path(row['abi']['entry_observation']);receipt=json.loads(path.read_text());binding=json.loads(path.with_name('original-binding.json').read_text());sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();assert all(sha(path.parent/n)==h for n,h in binding['files'].items())
 def validate(r):
     assert r['matched']and r['function']==name and r['profile']=='omf'and r['no_hidden_inputs_proof']
@@ -25,6 +26,8 @@ canonical_group=word_image(canonical,names['_omf_default_group']);assert canonic
 fields={'object_file':0x84fb0,'object_filename':0x80600,'source_filename':0x805ec,'generated_source':0x85db4,'object_generation_started':0x83158,'floating_frontend':0x83150,'codeview_debug':0x8313c,'dos_object':0x80684,'target_segment_group':0x7b8e4,'code_segment':0x7b8d4,'data_segment':0x7b8d8,'const_segment':0x7b8dc,'bss_segment':0x7b8d0,'debug_symbols_segment':0x7914c,'debug_types_segment':0x7b8e0,'segment_list':0x84fac,'omf_default_group':0x84fc4,'omf_empty_name':0x7a8d8,'omf_next_group':0x8507c,'omf_next_segment':0x85080,'omf_next_frame_thread':0x85088,'omf_next_target_thread':0x8508c}
 for n,a in [('omf_next_group',0x8507c),('omf_next_segment',0x85080),('omf_next_frame_thread',0x85088),('omf_next_target_thread',0x8508c)]:assert word_image(original,a)==word_image(canonical,names['_'+n])==(1 if n in ['omf_next_group','omf_next_segment']else 0)
 assert word_image(original,0x80d40)==word_image(canonical,names['_listing_column'])==0xffffffff
+assert row['start']==0x6a350 and row['end']==0x6a7e5 and original.read(0x6a7e4,1)==b'\xc3'
+if args.abi_only:print('OMF opener actual no-input ABI,5 rejects,extent/group storage/counter PE identities pass');raise SystemExit
 calls={'init':('_omf_initialize_records',0x6a9a0),'header':('@omf_write_module_header@4',0x6a980),'directive':('@add_module_directive@8',0x69120),'directives':('_write_module_directives',0x69420),'flush':('_omf_flush_records',0x6a7f0),'name':('@omf_name_index@4',0x6a940),'segment':('@omf_write_segment_definition@4',0x6a890),'group':('@omf_write_group_definition@8',0x6a850),'thread':('@omf_define_fixup_thread@16',0x6a800),'display':('@symbol_display_name@4',0x4e000),'fopen':('_fopen',0x71fd0),'ftell':('_ftell',0x71d50),'error':('@report_context_error@12',0x70840)}
 def run(image,is_canonical,debug,floating,dos,extra,open_fail,mutate):
     u=Uc(UC_ARCH_X86,UC_MODE_32)

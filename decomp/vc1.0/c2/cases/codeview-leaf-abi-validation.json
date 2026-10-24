@@ -135,6 +135,6 @@
     "unknown zero-formal register",
     "missing zero-formal proof"
   ],
-  "seconds": 0.27699426747858524,
+  "seconds": 0.27795134764164686,
   "scope": "Actual named inline-asm label at current scope list index1, not an invented head alias. Defined44-byte prefix projection/name/COFF+byte-block/function flags/stdio/x87 and original/canonical cleanup. Unrelated hash/instruction addresses remain raw; no general deep alias or unvisited leaf claim."
 }

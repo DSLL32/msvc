@@ -674,3 +674,10 @@ unsigned __fastcall omf_define_fixup_thread(unsigned char flags, unsigned char m
     omf_write_index(record, (int)target);
     return thread;
 }
+
+/* Original [0006b6a0,0006b6bf). The byte subtract/borrow sequence selects
+   COMDAT32 exactly for combine7; ordinary segments use LEDATA32. */
+void __fastcall omf_select_segment(Segment *segment)
+{
+    omf_current_record = omf_begin_record(segment->combine == 7 ? 0xc3 : 0xa1, segment);
+}

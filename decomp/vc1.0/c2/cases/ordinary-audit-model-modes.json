@@ -1,0 +1,82 @@
+{
+  "controls": [
+    {
+      "script": "check-omf-open.py",
+      "mode": "full",
+      "seconds": 3.699392565526068,
+      "stdout": "128 whole original/canonical OMF open states and5 ABI rejects pass\n"
+    },
+    {
+      "script": "check-omf-open.py",
+      "mode": "abi-only",
+      "seconds": 0.3399941585958004,
+      "stdout": "OMF opener actual no-input ABI,5 rejects,extent/group storage/counter PE identities pass\n"
+    },
+    {
+      "script": "check-coff-write-lines.py",
+      "mode": "full",
+      "seconds": 2.947578826919198,
+      "stdout": "160 whole original/canonical COFF line writes,8 ABI rejects match\n"
+    },
+    {
+      "script": "check-coff-write-lines.py",
+      "mode": "abi-only",
+      "seconds": 0.33807259518653154,
+      "stdout": "COFF line actual2-input ABI,8 rejects,extent and defined contribution/ring/aux storage pass\n"
+    },
+    {
+      "script": "check-omf-comment.py",
+      "mode": "full",
+      "seconds": 1.8872768273577094,
+      "stdout": "153 whole OMF COMENT controls and7 ABI rejects pass\n"
+    },
+    {
+      "script": "check-omf-comment.py",
+      "mode": "abi-only",
+      "seconds": 0.3147361418232322,
+      "stdout": "OMF COMENT actual byte-class/string ABI,7 rejects and78-byte extent pass\n"
+    },
+    {
+      "script": "check-omf-bytes.py",
+      "mode": "full",
+      "seconds": 0.9650226514786482,
+      "stdout": "79 bounded OMF byte-copy/error frontiers and7 ABI rejects pass\n"
+    },
+    {
+      "script": "check-omf-bytes.py",
+      "mode": "abi-only",
+      "seconds": 0.3327119844034314,
+      "stdout": "OMF bytes actual3-input/RET4 ABI,7 rejects,record/source storage and75-byte extent pass\n"
+    },
+    {
+      "script": "check-omf-name-index.py",
+      "mode": "full",
+      "seconds": 0.8731279419735074,
+      "stdout": "72 whole OMF name-index wrapper controls and6 ABI rejects pass\n"
+    },
+    {
+      "script": "check-omf-name-index.py",
+      "mode": "abi-only",
+      "seconds": 0.32211320381611586,
+      "stdout": "OMF name-index actual name ABI,6 rejects and49-byte extent pass\n"
+    }
+  ],
+  "scope": "Same current canonical/original snapshot: each unchanged default full semantic sweep and new actual ABI/structural-only mode passes once. No Wine, capture, native fixture or source reconstruction performed by these scripts.",
+  "adjusted_batch": {
+    "command": [
+      "make",
+      "-j4",
+      "-o",
+      "Makefile",
+      "audit",
+      "coverage"
+    ],
+    "seconds": 20.055452661588788,
+    "baseline_seconds": 30.058386631309986,
+    "baseline_checkpoint": 1273,
+    "current_checkpoint": 1274,
+    "graph_only_seconds": null,
+    "build_seconds": null,
+    "note": "Baseline prior checkpoint has31 fewer application bytes. No reconstructed build in adjusted batch; no graph-only split measured. All five full/default and ABI-only modes measured on same current inputs."
+  }
+}

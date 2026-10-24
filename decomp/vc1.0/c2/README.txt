@@ -586,7 +586,7 @@ Detailed limits/failed attempts/timings: cases/omf-alignment-index-checkpoint.js
 
 Checkpoint1273 adds52-byte group declaration and67-byte fixup-thread writer.
 Actual group data/default ownership and8-byte descriptor match; DOS1 branch
-skips explicit member append.64 whole group controls verify group store before
+skips explicit member append.32 whole group controls verify group store before
 lookup, cold member path and post-child reloads.32 thread controls verify byte
 CL/DL/tag truncation versus full32-bit returned thread and target, callee-saved
 registers/RET8; all4 actual formals observed. Original/W3, graph/extent/ABI/data
@@ -595,3 +595,22 @@ from counting subsequent functions' returns is retained and fixed without target
 changes. Next selection callback6b6a0.340988/399693 accepted extent bytes;
 app/support322688B and1158functions exclude5 historical CRT bodies. Detailed
 branch limits and measured attempts: cases/omf-group-thread-checkpoint.json.
+
+Checkpoint1274 reconstructs31-byte typed fastcall segment selection: exactly
+combine7 chooses COMDAT32, all other bytes LEDATA32.16 original/canonical
+controls/5 actual ABI negatives pass; actual debug segment combine0 observed.
+Initial observer guessed2; retained raw observations both0, corrected parser
+validates immutable bindings without recapture. All15 cached native cases pass
+(14 complete), next data callback6b6c0. Original build/W3 reconstructed modules
+and graph/extent/ABI/data checks pass. Existing return-valued INT3 stubs produce
+known C4035 warnings under a broad W3 request; reviewed separately, no fabricated
+returns.341019/399693 accepted extent bytes; app/support322719B/1159functions
+exclude5 historical CRT bodies. Receipt: cases/omf-select-checkpoint.json.
+
+Ordinary audit retains actual ABI/negatives/extent/storage/layout proofs while
+older whole-body open/COFF-lines/comment/bytes/name-index/wire semantic sweeps
+remain explicit in audit-data. New body controls still run at acceptance. Five
+full/default models pass once on the same snapshot:10.372s total vs1.648s for
+structural modes. Full adjusted audit+coverage20.055s vs prior30.058s, graph-only
+split unmeasured; no source build in those batches. See ordinary-audit-model-
+modes.json. Prior group-control prose corrected64->32; raw results always32.

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python3",
+    "scripts/observe-omf-select-entry.py",
+    "--parse-only"
+  ],
+  "seconds": 0.08562037069350481,
+  "returncode": 0,
+  "log_sha256": "b66eaa7f27b74b2dbf60fcbd29df89851aee7275aa7d9092460721d50bb9160b"
+}
