@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_pop_first_browser_record",
+  "case": "member_registry_browser",
+  "accepted_before": 1268,
+  "configuration_sha256": "7c7168a97c633e69937e6fc84e10a4fb1283ef79113fce684f7f73047c5a6479",
+  "native_entry": "pop_first_browser_record",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      179792,
+      179854
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl0 pointer EAX RET0",
+    "proof": "Whole62B: count94b3c exactlyzero\u2192NULL/RET; otherwise actualoldhead94b40 times24+ring94b44\u2192EAX, thenincrementhead/decrementcount, signednewhead>=32\u2192head0; RET. No calls/formals/hiddenregister/flags/x87inputs. Doesnotclear/releasepayload; resultisstilllive ringstorage for calleremit. Currentgenuinequeue has3records andhead0; preserveslogicalringowner alreadyaudited. No newdata/guards.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "9d902f36ea25c63cc61757374b81aa628d6534000e13523f013656fd2726367a",
+  "capture_timing": {
+    "original_capture_seconds": 1.5687023578211665,
+    "native_capture_seconds": 0.1792265558615327,
+    "total_operation_seconds": 2.0231661833822727
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "78b963a8febb31bed64ac9c0389e85579a75ea1a533569cf8e919411ac58f559",
+    "native-commands.gdb": "99d3dfeb9eedaebf7983b4b2d5ca4dbf2cd32becedcdfde5fab6ff060e138a09",
+    "native-gdb.log": "1556a9f499a550da7be8bcd3e5cb39d5f0dd7294127eef424ffe9e4c73dbe55a",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "6fd307c16a4c4cb1afdb91f49efa41fa5be97193c5ec253d0c7cd31623addd8c",
+    "original-configuration.json": "7c7168a97c633e69937e6fc84e10a4fb1283ef79113fce684f7f73047c5a6479",
+    "original-disassembly.txt": "5417e4423bde0ab42de40d8295f6133874ac051bd749dd5001ed8c5dddb589ed",
+    "original-events.txt": "549d505a5fe550f4d5feed31c3e9951fecc0997c4404a19f46670f5617750bea",
+    "original-receipt.json": "8703d67d71c8700299295f59f33bfe147819a8b46fb73478ad4c8f888da601c0",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "3964b3344d3b91911a62d5930c29654aa5f1d229935a1fc220af49cc6b9da494"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

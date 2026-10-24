@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_pop_first_browser_record",
+    "start": 179792,
+    "end": 179854
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1268-pop_first_browser_record/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_emit_browser_record@4",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8844263460487127,
+  "total_operation_seconds": 5.298546773381531,
+  "original_capture_seconds": 1.8694843081757426
+}

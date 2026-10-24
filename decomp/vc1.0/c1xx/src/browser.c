@@ -166,3 +166,16 @@ void __stdcall fill_browser_macro(BrowserRecord *record, MacroDefinition *macro)
     record->symbol_index = macro->browser_index;
     record->header.kind = 3;
 }
+
+/* Original 0x2be50..0x2be8d. Remove the oldest live record without
+   overwriting its payload, so the caller can emit it after removal. */
+BrowserRecordHeader *pop_first_browser_record(void)
+{
+    BrowserRecordHeader *record;
+    if (!browser_record_count) return 0;
+    record = &browser_records[browser_record_head].header;
+    ++browser_record_head;
+    --browser_record_count;
+    if (browser_record_head >= 32) browser_record_head = 0;
+    return record;
+}
