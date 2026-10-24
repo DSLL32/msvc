@@ -1221,7 +1221,7 @@ static const uint32_t seen[] = {
 
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "member_registry_browser",
-    "Partial browser case; five application functions freshly validated through primary; paused at reference_browser_macro; trace compares unseeded encounters with explicit per-case seed",
+    "Partial browser case; pragma packing and queued declaration tracking validated; trace compares unseeded encounters with explicit per-case seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
     RECON_IO, RECON_FRONTIER, 0x1c490,
     NULL, invoke, NULL, NULL, 0
