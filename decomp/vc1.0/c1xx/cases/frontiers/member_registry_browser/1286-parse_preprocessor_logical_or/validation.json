@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_parse_preprocessor_logical_or",
+    "start": 100144,
+    "end": 100226
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1286-parse_preprocessor_logical_or/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_accept_preprocessor_token@4",
+    "_evaluate_preprocessor_binary@12",
+    "_parse_preprocessor_logical_and"
+  ],
+  "next_frontier": "_parse_preprocessor_logical_and",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 1.2492553731426597,
+  "total_operation_seconds": 5.324377529323101,
+  "original_capture_seconds": 1.168138992972672
+}

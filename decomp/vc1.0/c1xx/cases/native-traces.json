@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "5fc85a31da24f6645806dbca7e62b4b7bde12aa2a449ba46fe1148981aa4bc86",
+    "functions.json": "bb1ffa35852cb2f675f74b1fd37d5e3fbcb8717bbda4e63b4980e7619454fb68",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "ea01ebc572da989fd0338d86ebc210945c70861c2605b41e63bfec292fc28a61",
-    "cases/canonical-map.txt": "a5632284536f6ca6e777718822a0ae6d2ea1263adad33ea0e2a1ce2e913d9bdc",
+    "cases/original-entry-references.json": "eed961c54f089a902cacb4b4dc95b48b6e618cdd594cd01bec7f3e1c38aaad95",
+    "cases/canonical-map.txt": "4c1b23d472959b390562ff78c92378ff47482f00d3b303b2d3c8dba7489c1568",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -78,9 +78,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1285-parse_preprocessor_conditional/entry-reference/original-receipt.json": "9815498eb9e1eace188fe36c2995a61bac7c3925093a735683819078ea34f6a2",
-    "cases/frontiers/member_registry_browser/1285-parse_preprocessor_conditional/entry-reference/original-events.txt": "7e44b7f2f08d134260f9dcedb34522c7e420d2002eb319bffd3bb762c5de6936",
-    "cases/frontiers/member_registry_browser/1285-parse_preprocessor_conditional/entry-reference/original-entries.plan": "49b0fb1635428040d29ee13a79a18f5964d517eeaf6613649cd2f6729d22f2b3"
+    "cases/frontiers/member_registry_browser/1286-parse_preprocessor_logical_or/entry-reference/original-receipt.json": "dff1d147cf5ef064ea59c5c5c3612a47d717b9c4772a85afcd011806365fef00",
+    "cases/frontiers/member_registry_browser/1286-parse_preprocessor_logical_or/entry-reference/original-events.txt": "ce3ac2e718e05d492128457d9cca2bca437fa380dc4363114609fa84e11a6e22",
+    "cases/frontiers/member_registry_browser/1286-parse_preprocessor_logical_or/entry-reference/original-entries.plan": "ddfa5159eeaa1440b1f319087ab35726c4e64235210ddf9bce0aa719211d8f9f"
   },
   "application_definitions": {
     "accept_preprocessor_token": {
@@ -2307,6 +2307,10 @@
       "logical": "_evaluate_integer_constant@4",
       "source": "src/constants.c"
     },
+    "evaluate_preprocessor_binary": {
+      "logical": "_evaluate_preprocessor_binary@12",
+      "source": "src/stubs.c"
+    },
     "evaluate_preprocessor_expression": {
       "logical": "_evaluate_preprocessor_expression",
       "source": "src/preprocessor-expressions.c"
@@ -4435,9 +4439,13 @@
       "logical": "_parse_preprocessor_conditional",
       "source": "src/preprocessor-expressions.c"
     },
+    "parse_preprocessor_logical_and": {
+      "logical": "_parse_preprocessor_logical_and",
+      "source": "src/stubs.c"
+    },
     "parse_preprocessor_logical_or": {
       "logical": "_parse_preprocessor_logical_or",
-      "source": "src/stubs.c"
+      "source": "src/preprocessor-expressions.c"
     },
     "parse_translation_unit": {
       "logical": "_parse_translation_unit",
@@ -7324,7 +7332,8 @@
     "read_macro_parameters",
     "find_macro_parameter",
     "evaluate_preprocessor_expression",
-    "parse_preprocessor_conditional"
+    "parse_preprocessor_conditional",
+    "parse_preprocessor_logical_or"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13755,7 +13764,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1286,
+      "last": 1287,
       "seen": [
         "main",
         "message_text",
@@ -14939,12 +14948,13 @@
         "find_macro_parameter",
         "evaluate_preprocessor_expression",
         "parse_preprocessor_conditional",
-        "parse_preprocessor_logical_or"
+        "parse_preprocessor_logical_or",
+        "parse_preprocessor_logical_and"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_parse_preprocessor_logical_or",
-        "native": "parse_preprocessor_logical_or",
+        "logical": "_parse_preprocessor_logical_and",
+        "native": "parse_preprocessor_logical_and",
         "signal": 5
       }
     }

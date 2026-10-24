@@ -40,3 +40,21 @@ PreprocessorValue *parse_preprocessor_conditional(void)
 #endif
     return condition->value ? yes : no;
 }
+
+int preprocessor_skip_evaluation; /* original 0x9783c: nested short-circuit state */
+
+/* Original 0x18730..0x18781. Keep the accumulated suppression depth
+   until the entire logical-OR chain has been parsed, then restore it. */
+PreprocessorValue *parse_preprocessor_logical_or(void)
+{
+    int saved = preprocessor_skip_evaluation;
+    PreprocessorValue *left, *right;
+    left = parse_preprocessor_logical_and();
+    while (accept_preprocessor_token(0x58)) {
+        if (left->value) ++preprocessor_skip_evaluation;
+        right = parse_preprocessor_logical_and();
+        left = evaluate_preprocessor_binary(0x58, left, right);
+    }
+    preprocessor_skip_evaluation = saved;
+    return left;
+}
