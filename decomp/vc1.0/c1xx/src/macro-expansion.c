@@ -4,6 +4,7 @@
 #include "characters.h"
 #include "text-format.h"
 #include "function-definitions.h"
+#include "keywords.h"
 #include <recon.h>
 
 MacroExpansionFrame macro_expansion_frames[256]; /* original0x9578c */
@@ -308,4 +309,214 @@ int finish_macro_expansion(void)
     --frame->definition->flags;
     --macro_expansion_active;
     return 0;
+}
+
+/* Original 0x205d0..0x20900; class dispatch 0x20904..0x209bb.
+   The shared C1 frontend algorithm is retained after checking this whole
+   C1XX body and its real buffer/frame aliases. Collect actual arguments
+   before activating their replacement/rescan frame. */
+void __stdcall expand_macro_arguments(MacroDefinition *definition, int parameter_count)
+{
+    char *saved_expansion = macro_expansion_start, *begin, *saved_output, *saved_start;
+    int depth = 0, argument_mode;
+    unsigned flags;
+    unsigned char character, classification;
+    *macro_work_midpoint++ = source_text_cursor[-1];
+    for (;;) {
+        if (macro_work_buffer + macro_work_bytes - 5 <= macro_work_midpoint)
+            macro_expansion_error(56);
+        for (;;) {
+            if (!skip_macro_space()) return;
+            if (character_class[(unsigned char)*source_text_cursor] != CC_SLASH) {
+                begin = macro_work_midpoint;
+                break;
+            }
+            ++source_text_cursor;
+            if (skip_source_comment()) continue;
+            begin = macro_work_midpoint;
+            *macro_work_midpoint++ = '/';
+            break;
+        }
+        argument_mode = 0;
+        for (;;) {
+            character = (unsigned char)*source_text_cursor++;
+            classification = character_class[character];
+            switch (classification) {
+            case CC_SPACE: case CC_CARRIAGE_RETURN: case CC_NEWLINE:
+                --source_text_cursor;
+                if (!skip_macro_space()) return;
+                continue;
+            case CC_SLASH:
+                if (skip_source_comment()) {
+                    if (macro_work_midpoint[-1] == ' ') continue;
+                    character = ' ';
+                }
+                break;
+            case CC_ESCAPE_OR_END:
+                saved_output = macro_work_midpoint;
+                saved_start = macro_expansion_start;
+                flags = recover_special_character();
+                if (flags & 0xa) return;
+                macro_expansion_start = saved_start;
+                macro_work_midpoint = saved_output;
+                if (!(flags & 0x50)) continue;
+                break;
+            case CC_APOSTROPHE: case CC_QUOTE:
+                macro_work_midpoint = copy_macro_literal(macro_work_midpoint,
+                    macro_work_buffer + macro_work_bytes - 5, character);
+                continue;
+            case CC_COMMA:
+                if (!depth) goto finish_argument;
+                break;
+            case CC_RIGHT_PAREN:
+                if (--depth < 0) goto finish_argument;
+                break;
+            case CC_LEFT_PAREN:
+                ++depth;
+                break;
+            case CC_MACRO_STRING:
+                emit_macro_string('"', read_macro_parameter());
+                continue;
+            case CC_MACRO_TOKEN:
+                emit_macro_string('\'', read_macro_parameter());
+                continue;
+            case CC_IDENTIFIER: case CC_WIDE_PREFIX:
+                *macro_work_midpoint++ = character;
+                character = (unsigned char)*source_text_cursor++;
+                while (character_flags[character] & CF_IDENTIFIER) {
+                    if (macro_work_buffer + macro_work_bytes - 5 <= macro_work_midpoint)
+                        macro_expansion_error(56);
+                    *macro_work_midpoint++ = character;
+                    character = (unsigned char)*source_text_cursor++;
+                }
+                if (character_class[character] != CC_MACRO_PARAMETER) {
+                    --source_text_cursor;
+                    continue;
+                }
+                argument_mode = 1;
+                /* An adjacent formal uses the concatenated-identifier form. */
+            case CC_MACRO_PARAMETER:
+                emit_macro_text(select_macro_argument(&argument_mode));
+                continue;
+            }
+            *macro_work_midpoint++ = character;
+        }
+finish_argument:
+        if (character_class[(unsigned char)macro_work_midpoint[-1]] == CC_SPACE &&
+            character_class[(unsigned char)macro_work_midpoint[-2]] != CC_MACRO_END)
+            --macro_work_midpoint;
+        if (macro_work_midpoint > begin) {
+            ++macro_argument_state;
+            save_macro_argument_text(begin, macro_work_midpoint);
+        }
+        *macro_work_midpoint++ = character;
+        if (depth < 0) break;
+    }
+    macro_argument_start = saved_expansion;
+    if (macro_argument_state > parameter_count) compiler_warning(1, 2, interned_name);
+    else if (macro_argument_state < parameter_count) compiler_warning(1, 3, interned_name);
+    if (definition->replacement) {
+        push_macro_expansion(definition);
+        advance_macro_argument();
+    } else {
+        macro_expansion_start = macro_argument_start;
+        macro_work_midpoint = macro_replacement_start;
+    }
+}
+
+
+/* Actual arguments are span-linked records in the first buffer half.
+   Their variable text starts immediately after the signed WORD span. */
+typedef struct MacroArgument {
+    short bytes;
+    char text[1];
+} MacroArgument;
+typedef char MacroArgumentTextOffsetMustBe2[
+    offsetof(MacroArgument, text) == 2 ? 1 : -1];
+
+/* Original 0x20a60..0x20ad3. Copy from the separate work half, then
+   append the NUL/A rescan marker and advance the argument-storage cursor. */
+void __stdcall save_macro_argument_text(char *start, char *end)
+{
+    unsigned length = end - start, index;
+    MacroArgument *argument;
+    if ((unsigned)(macro_work_buffer + (macro_work_bytes >> 1) - 2) <=
+        (unsigned)(macro_expansion_start + length)) macro_expansion_error(56);
+    argument = (MacroArgument *)macro_expansion_start;
+    for (index = 0; index < length; ++index) argument->text[index] = start[index];
+    argument->text[length] = 0;
+    argument->text[length + 1] = 'A';
+    argument->bytes = (short)(length + 4);
+    macro_expansion_start += length + 4;
+}
+
+/* Original 0x20d60..0x20d8c. The frame's count/index bytes compare
+   signed, while the selected actual is passed as a byte index. */
+void advance_macro_argument(void)
+{
+    MacroExpansionFrame *frame = &macro_expansion_frames[macro_expansion_active];
+    if ((signed char)frame->argument_state > (signed char)frame->flags) {
+        ++frame->flags;
+        activate_macro_argument(frame->flags);
+    } else rescan_macro_replacement();
+}
+
+/* Original 0x20d30..0x20d5a. Actuals are numbered from one and
+   traversed by their signed WORD spans. */
+void __stdcall activate_macro_argument(unsigned char index)
+{
+    MacroArgument *argument = (MacroArgument *)
+        macro_expansion_frames[macro_expansion_active].argument_start;
+    while (--index) argument = (MacroArgument *)((char *)argument + argument->bytes);
+    source_text_cursor = argument->text;
+}
+
+/* Original 0x20e40..0x20ffb. Assemble identifier text across formal
+   substitutions, preserving any counted marker that prevents re-expansion. */
+int __stdcall scan_macro_name(unsigned char first)
+{
+    char *begin = macro_work_midpoint, *argument;
+    int valid = 1, argument_mode = 0, disabled_length = -1;
+    unsigned char character = first;
+    for (;;) {
+        if (character_class[character] == CC_MACRO_PARAMETER) {
+            argument = select_macro_argument(&argument_mode);
+            if (argument) {
+                while (*argument) {
+                    if (!(character_flags[(unsigned char)*argument] & CF_IDENTIFIER)) valid = 0;
+                    if (macro_work_buffer + macro_work_bytes - 5 <= macro_work_midpoint)
+                        macro_expansion_error(56);
+                    *macro_work_midpoint++ = *argument++;
+                }
+            }
+        } else *macro_work_midpoint++ = character;
+        for (;;) {
+            character = (unsigned char)*source_text_cursor++;
+            while (character_flags[character] & CF_IDENTIFIER) {
+                if (macro_work_buffer + macro_work_bytes - 5 <= macro_work_midpoint)
+                    macro_expansion_error(56);
+                *macro_work_midpoint++ = character;
+                character = (unsigned char)*source_text_cursor++;
+            }
+            if (character_class[character] != CC_MACRO_END) break;
+            disabled_length = (unsigned char)*source_text_cursor++;
+        }
+        if (character_class[character] != CC_MACRO_PARAMETER) break;
+        argument_mode = 1;
+    }
+    --source_text_cursor;
+    if (valid) {
+        if (disabled_length != -1 && macro_work_midpoint - begin == disabled_length) {
+            valid = 0;
+            *macro_work_midpoint++ = 4;
+            *macro_work_midpoint++ = (unsigned char)disabled_length;
+            *macro_work_midpoint = 0;
+        }
+        if (valid) {
+            *macro_work_midpoint = 0;
+            interned_name = intern_identifier(begin);
+            return 1;
+        }
+    }
+    return valid;
 }

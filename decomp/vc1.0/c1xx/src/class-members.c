@@ -1287,3 +1287,19 @@ void __stdcall validate_pure_specifier(IrToken *expression)
     if ((expression->flags & 7) != 3 || expression->kind != 7 ||
         !(expression->flags & 0x80)) report_syntax_error(258);
 }
+
+/* Original 0x2fba0..0x2fc0e. Only virtual declarations in a class
+   (rather than a union) can mark the member and owner abstract. */
+void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage)
+{
+    if (!(storage.flags & 0x200)) {
+        report_syntax_error(253, member->name);
+        return;
+    }
+    if (CLASS_TAG->flags & 0x80) {
+        report_syntax_error(283, member->name, type_kind_name(CLASS_TAG->type->flags));
+        return;
+    }
+    owner->detail.class_info->flags |= 0x80;
+    member->cpp.parts.member_flags |= 4;
+}

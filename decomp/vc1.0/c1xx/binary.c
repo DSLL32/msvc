@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1327 historical frontiers/1221 App bodies.
+ * Current reviewed boundary:1336 historical frontiers/1230 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -769,10 +769,13 @@ static const ReconFunction functions[] = {
     {
         .name = "_expand_macro_arguments@8",
         .entry_rva = 0x105d0,
-        .code = (const ReconExtent[]) { { 0x105d0, 0x105d1 } },
+        .code = (const ReconExtent[]) { { 0x105d0, 0x10901 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "expand_macro_arguments",
+        .text_data = (const ReconExtent[]) { { 0x10904, 0x109bc } },
+        .text_data_count = 1,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_macro_expansion",
@@ -786,10 +789,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_save_macro_argument_text@8",
         .entry_rva = 0x10a60,
-        .code = (const ReconExtent[]) { { 0x10a60, 0x10a61 } },
+        .code = (const ReconExtent[]) { { 0x10a60, 0x10ad4 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "save_macro_argument_text",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_macro_string@8",
@@ -828,18 +832,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_advance_macro_argument",
         .entry_rva = 0x10d60,
-        .code = (const ReconExtent[]) { { 0x10d60, 0x10d61 } },
+        .code = (const ReconExtent[]) { { 0x10d60, 0x10d8d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "advance_macro_argument",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_scan_macro_name@4",
         .entry_rva = 0x10e40,
-        .code = (const ReconExtent[]) { { 0x10e40, 0x10e41 } },
+        .code = (const ReconExtent[]) { { 0x10e40, 0x10ffc } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "scan_macro_name",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_read_macro_parameter",
@@ -1635,6 +1641,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "fill_browser_base",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_fill_browser_generated_symbol@4",
@@ -1706,6 +1713,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "pop_last_browser_record",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_pop_first_browser_record",
@@ -1815,10 +1823,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_browser_base_class@4",
         .entry_rva = 0x1c400,
-        .code = (const ReconExtent[]) { { 0x1c400, 0x1c401 } },
+        .code = (const ReconExtent[]) { { 0x1c400, 0x1c40f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_base_class",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_browser_friend_reference@4",
@@ -2232,10 +2241,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_set_pure_virtual_member@12",
         .entry_rva = 0x1fba0,
-        .code = (const ReconExtent[]) { { 0x1fba0, 0x1fba1 } },
+        .code = (const ReconExtent[]) { { 0x1fba0, 0x1fc0f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "set_pure_virtual_member",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_declare_friend_member@24",
@@ -16076,6 +16086,23 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "flush_browser_records",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_select_macro_argument@4",
+        .entry_rva = 0x10dd0,
+        .code = (const ReconExtent[]) { { 0x10dd0, 0x10dd1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "select_macro_argument",
+    },
+    {
+        .name = "_activate_macro_argument@4",
+        .entry_rva = 0x10d30,
+        .code = (const ReconExtent[]) { { 0x10d30, 0x10d5b } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "activate_macro_argument",
         .implementation = RECON_IMPLEMENTED,
     },
 };

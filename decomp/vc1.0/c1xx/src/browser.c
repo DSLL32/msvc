@@ -1,6 +1,7 @@
 /* Browse-information stream setup and record transport. */
 #include "browser.h"
 #include "initialization.h"
+#include "cpp-context.h"
 #include <direct.h>
 #include <recon.h>
 
@@ -582,4 +583,34 @@ void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol)
     }
     fill_browser_symbol(record, symbol);
     record->header.kind = 4;
+}
+
+/* Original 0x2be20..0x2be4f. The payload remains valid after removal. */
+BrowserRecordHeader *pop_last_browser_record(void)
+{
+    int index = browser_record_head + browser_record_count - 1;
+    BrowserRecordHeader *record;
+    if (!browser_record_count) return 0;
+    if (index >= 32) index -= 32;
+    record = &browser_records[index].header;
+    --browser_record_count;
+    return record;
+}
+
+/* Original 0x2c400..0x2c40e, stdcall4. */
+void __stdcall browser_base_class(BaseClassLink *base)
+{
+    queue_browser_record(12, base);
+}
+
+/* Original 0x9ec10..0x9ec13, indexed only by the two access bits. */
+static unsigned char browser_base_categories[4] = { 0, 2, 8, 4 };
+
+/* Original 0x2bb10..0x2bb4d. The base link names its class through
+   the existing context index; virtual-base state adds the low category bit. */
+void __stdcall fill_browser_base(BrowserRecord *record, BaseClassLink *base)
+{
+    fill_browser_symbol(record, cpp_context_stack->items[base->context_index]);
+    record->category = browser_base_categories[base->flags & 3];
+    if (base->state & 1) record->category |= 1;
 }

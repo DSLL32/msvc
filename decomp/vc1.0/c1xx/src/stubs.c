@@ -108,7 +108,6 @@ void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned
 
 /* Complete yacc semantic callees, still unaccepted. */
 
-void __stdcall browser_base_class(BaseClassLink *base) { __asm { int 3 } }
 void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
 
 
@@ -211,10 +210,9 @@ void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
 unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
 int scan_macro_identifier(void) { __asm { int 3 } return 0; }
-void __stdcall expand_macro_arguments(MacroDefinition *definition, int count) { __asm { int 3 } }
+char *__stdcall select_macro_argument(int *mode) { __asm { int 3 } return 0; }
 void __stdcall emit_macro_string(unsigned char delimiter, char *text) { __asm { int 3 } }
 void __stdcall emit_macro_text(char *text) { __asm { int 3 } }
-int __stdcall scan_macro_name(unsigned char first) { __asm { int 3 } return 0; }
 char *read_macro_parameter(void) { __asm { int 3 } return 0; }
 char *__stdcall copy_macro_literal(char *cursor, char *limit, unsigned char delimiter) { __asm { int 3 } return 0; }
 void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
@@ -266,7 +264,6 @@ void __stdcall report_lookahead_error(char *unused_text) { __asm { int 3 } }
 
 int __stdcall has_qualified_this_type(CType *type) { __asm { int 3 } return 0; }
 
-void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage) { __asm { int 3 } }
 
 
 
@@ -530,8 +527,6 @@ IrToken * __stdcall make_virtual_method_pointer(CType *type, IrToken *function, 
 IrToken * __stdcall make_general_method_pointer(CType *type, IrToken *function, IrToken *adjustment, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset, IrToken *virtual_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_general_data_member_pointer(CType *type, IrToken *offset, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
-void __stdcall save_macro_argument_text(char *start, char *end) { __asm { int 3 } }
-void advance_macro_argument(void) { __asm { int 3 } }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
 char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
 int add_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
@@ -568,9 +563,7 @@ IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CTyp
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
 void finish_line_record_debug_info(void) { __asm { int 3 } }
-void __stdcall fill_browser_base(BrowserRecord *record, void *base) { __asm { int 3 } }
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { int 3 } }
-BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }
 
 void suppress_browser_records(void) { __asm { int 3 } }
 CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }

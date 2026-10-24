@@ -44,7 +44,7 @@ void __stdcall set_browser_access(unsigned short *attributes, unsigned char acce
 void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol);
 void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol);
 void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol);
-void __stdcall fill_browser_base(BrowserRecord *record, void *base);
+void __stdcall fill_browser_base(BrowserRecord *record, BaseClassLink *base);
 void __stdcall fill_browser_macro(BrowserRecord *record, MacroDefinition *macro);
 void __stdcall fill_browser_macro_reference(BrowserRecord *record, MacroDefinition *definition);
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record);
