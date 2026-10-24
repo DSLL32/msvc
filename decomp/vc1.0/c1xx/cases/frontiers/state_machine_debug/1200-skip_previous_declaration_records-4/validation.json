@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_skip_previous_declaration_records@4",
+    "start": 270432,
+    "end": 270468
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1200-skip_previous_declaration_records-4/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_new_symbol_reference@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8382225167006254,
+  "total_operation_seconds": 4.359325528144836,
+  "original_capture_seconds": 1.0672187423333526
+}

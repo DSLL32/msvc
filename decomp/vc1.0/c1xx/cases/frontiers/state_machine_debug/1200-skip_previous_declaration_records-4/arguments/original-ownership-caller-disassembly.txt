@@ -1,0 +1,46 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00041d7a <.text+0x2ad7a>:
+   41d7a:	8b 7c 24 18          	mov    edi,DWORD PTR [esp+0x18]
+   41d7e:	0b ff                	or     edi,edi
+   41d80:	74 53                	je     0x41dd5
+   41d82:	57                   	push   edi
+   41d83:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   41d86:	8b 5c 24 14          	mov    ebx,DWORD PTR [esp+0x14]
+   41d8a:	50                   	push   eax
+   41d8b:	8b 03                	mov    eax,DWORD PTR [ebx]
+   41d8d:	50                   	push   eax
+   41d8e:	e8 4d fc ff ff       	call   0x419e0
+   41d93:	89 03                	mov    DWORD PTR [ebx],eax
+   41d95:	8a 06                	mov    al,BYTE PTR [esi]
+   41d97:	a8 80                	test   al,0x80
+   41d99:	74 15                	je     0x41db0
+   41d9b:	83 ff 02             	cmp    edi,0x2
+   41d9e:	75 10                	jne    0x41db0
+   41da0:	8b 46 10             	mov    eax,DWORD PTR [esi+0x10]
+   41da3:	50                   	push   eax
+   41da4:	8b 03                	mov    eax,DWORD PTR [ebx]
+   41da6:	50                   	push   eax
+   41da7:	e8 d4 00 00 00       	call   0x41e80
+   41dac:	89 03                	mov    DWORD PTR [ebx],eax
+   41dae:	eb 25                	jmp    0x41dd5
+   41db0:	a8 40                	test   al,0x40
+   41db2:	74 21                	je     0x41dd5
+   41db4:	83 ff 01             	cmp    edi,0x1
+   41db7:	75 1c                	jne    0x41dd5
+   41db9:	8b 4c 24 1c          	mov    ecx,DWORD PTR [esp+0x1c]
+   41dbd:	8b 41 08             	mov    eax,DWORD PTR [ecx+0x8]
+   41dc0:	50                   	push   eax
+   41dc1:	8b 46 10             	mov    eax,DWORD PTR [esi+0x10]
+   41dc4:	8b 40 08             	mov    eax,DWORD PTR [eax+0x8]
+   41dc7:	50                   	push   eax
+   41dc8:	68 6a 01 00 00       	push   0x16a
+   41dcd:	e8 ae 13 03 00       	call   0x73180
+   41dd2:	83 c4 0c             	add    esp,0xc
+   41dd5:	8b 46 0c             	mov    eax,DWORD PTR [esi+0xc]
+   41dd8:	50                   	push   eax
+   41dd9:	e8 82 02 00 00       	call   0x42060

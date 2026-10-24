@@ -485,3 +485,12 @@ FrontendRecord *__stdcall walk_goto_cleanup(IrToken **expression,
         return record->previous;
     }
 }
+
+/* Original 0x42060..0x42083, stdcall4. Keep the cursor immediately
+   after the last predecessor that is not a declaration expression. */
+FrontendRecord *__stdcall skip_previous_declaration_records(FrontendRecord *from)
+{
+    while ((from->previous->kind & 0x3f) == 0x0d)
+        from = from->previous;
+    return from;
+}
