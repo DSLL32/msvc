@@ -1,0 +1,58 @@
+{
+  "scope": "Typed unsigned int cdecl(unsigned int) _mbctolower declaration/remap and always125 body only; no case/codepage mapping or hosttolower",
+  "packet": {
+    "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/path-fold-imports.json",
+    "sha256": "8885aefbbca4095a1f7e787a32687640299061ae80b0afa9e42c39b0067adfd8",
+    "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-surface/path-fold-imports.json"
+  },
+  "binaries": [
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-surface/clang-510-reviewed",
+      "sha256": "e65179391665f69f4320a8ca5092ee41fbe1d00d2cbfaface34b3151bf6d0f75"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-surface/clang-default-reviewed",
+      "sha256": "05cc7bc9421d1b02e0bd31a55da081da1b26300ac7615210f8963030a032e4ec"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-surface/gcc-510-reviewed",
+      "sha256": "897727a296c38d234e778b4f62a1ee1e8fcc33e4f5b6e4e58b1ab4a28c656308"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-surface/gcc-default-reviewed",
+      "sha256": "67cfb6b90777582a0f2a65794a2153cd5e7f45633f9489c86e3fe2c9b219a081"
+    }
+  ],
+  "checks": "GCC/Clang default510 fourprobes: link/type32/uncalled0, all6 inputscopes0/65/128/255/256/UINTMAX deny125. Defaultnativecheck and bothC++typedheader checks pass.",
+  "CXX_check": "-m32 -nostdinc++ as existing repository CXX targets; initial unqualified C++check lacked installed32bit libstdc++ headers and failed before shimcheck, no environment/install/source change. Correct repository include mode passes.",
+  "frozen_manifest": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-surface/receipt.json",
+    "sha256": "594f288032da0d5c9e715849ae9ccfceefd89958c47069ba546d49ce6c12d864"
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbctolower-surface/orchestrator-review.json",
+    "sha256": "37d90fa1c3ea047977cfd7e34484019a269d039e3f5460352ec24fb45293c500"
+  },
+  "sources": [
+    {
+      "path": "/root/msvc2/lib/recon/src/crt.c",
+      "sha256": "3d1028e546049d639f2cbd957ae78d8b25a73cf435df8177351e8367cbe50f33"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/include/recon.h",
+      "sha256": "2d9b3215967d79d405d4f620d6ffe10fc35048584d6b20f5e4259f84df15aa61"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/native/mbstring.h",
+      "sha256": "cf11b4d4700550c5cd9190d5ca66e15fdbaafde332b395856abe6ebfd85a3393"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/mbctolower-surface.c",
+      "sha256": "38199c5ec311d2d8dffeb28d0262ff425a2d6d05c29d7f6dee3ffd2770a741bf"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-mbctolower-surface.py",
+      "sha256": "f74490345fd45a6208f486ca21b87bdc5f05dc3c888053366e63aeeeddb6fab7"
+    }
+  ]
+}

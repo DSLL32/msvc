@@ -2250,6 +2250,9 @@ WEAK unsigned char *recon_mbsstr(const unsigned char *text,const unsigned char *
      * borrowed from text, including text itself for an empty needle. */
     return (unsigned char *)strstr((const char *)text,(const char *)needle);
 }
+/* Typed unvisited code-unit mapping boundary; no host tolower fallback. */
+WEAK unsigned int __cdecl recon_mbctolower(unsigned int character)
+{ (void)character; recon_unsupported("unreviewed _mbctolower"); return 0; }
 WEAK unsigned char *recon_mbsupr(unsigned char *text)
 { (void)text; recon_unsupported("unreviewed _mbsupr"); return NULL; }
 WEAK unsigned char *recon_mbspbrk(const unsigned char *text,const unsigned char *accept)

@@ -978,3 +978,7 @@ LastError remains the caller's incoming value, including a preceding mapped
 SetEndOfFile failure1224. The existing highword, ambiguous0xffffffff and failure
 behavior remains separate. This changes no startup FP policy; direct native
 drivers needing the observed53-bit startup select its existing opt-in flag.
+
+_mbctolower has the canonical unsigned int cdecl(unsigned int) native link
+surface. Every input fails125 until its own reached locale/codepage mapping
+contract is reviewed; it never substitutes host tolower.

@@ -548,3 +548,9 @@ build/seek-last-error-probe: tests/seek-last-error-probe.c $(SOURCES) $(HEADERS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_NATIVE_STARTUP_CONTROLFP_53 tests/seek-last-error-probe.c $(SOURCES) -o $@
 seek-last-error-check: build/seek-last-error-probe
 	$(PYTHON) tests/check-seek-last-error.py build/seek-last-error-probe
+
+.PHONY: mbctolower-surface-check
+build/mbctolower-surface: tests/mbctolower-surface.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/mbctolower-surface.c $(SOURCES) -o $@
+mbctolower-surface-check: build/mbctolower-surface
+	$(PYTHON) tests/check-mbctolower-surface.py build/mbctolower-surface
