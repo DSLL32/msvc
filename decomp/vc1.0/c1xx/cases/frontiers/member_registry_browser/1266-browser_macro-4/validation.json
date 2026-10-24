@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_browser_macro@4",
+    "start": 181344,
+    "end": 181362
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1266-browser_macro-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_queue_browser_record@8"
+  ],
+  "next_frontier": "_fill_browser_macro@8",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8736785007640719,
+  "total_operation_seconds": 5.10775038972497,
+  "original_capture_seconds": 1.718545276671648
+}

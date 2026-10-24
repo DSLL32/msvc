@@ -1,6 +1,7 @@
 #ifndef BROWSER_H
 #define BROWSER_H
 #include "source-input.h"
+#include "macros.h"
 #include <recon.h>
 /* Original ring entries are 24 bytes. The common header is also used by
    queue coalescing; bytes 1 and 23 are ordinary structure padding. */
@@ -35,7 +36,7 @@ void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol
 void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol);
 void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol);
 void __stdcall fill_browser_base(BrowserRecord *record, void *base);
-void __stdcall fill_browser_macro(BrowserRecord *record, void *macro);
+void __stdcall fill_browser_macro(BrowserRecord *record, MacroDefinition *macro);
 void __stdcall fill_browser_scope_end(BrowserRecord *record, CppSymbol *symbol);
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record);
 extern int browser_record_count;

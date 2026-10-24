@@ -116,7 +116,7 @@ void __stdcall fill_browser_record(BrowserRecord *record, void *subject)
     case 11: fill_browser_symbol(record, (CppSymbol *)subject); break;
     case 12: fill_browser_base(record, subject); break;
     case 13: fill_browser_symbol(record, (CppSymbol *)subject); break;
-    case 0xfd: fill_browser_macro(record, subject); break;
+    case 0xfd: fill_browser_macro(record, (MacroDefinition *)subject); break;
     case 0xfe: fill_browser_scope_end(record, (CppSymbol *)subject); break;
     case 0xff: fill_browser_generated_symbol(record); break;
     }
@@ -146,4 +146,10 @@ BrowserRecordHeader *__stdcall browser_record_from_end(int index)
     if (index + 1 > browser_record_count) return 0;
     if (slot >= 32) slot -= 32;
     return &browser_records[slot].header;
+}
+
+/* Original 0x2c460..0x2c471. Queue a newly assigned macro identity. */
+void __stdcall browser_macro(MacroDefinition *definition)
+{
+    queue_browser_record(0xfd, definition);
 }

@@ -81,7 +81,6 @@ void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
 int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count) { __asm { int 3 } return 0; }
 int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { __asm { int 3 } return 0; }
-void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 void write_ir_string(char *text) { __asm { int 3 } }
@@ -593,7 +592,7 @@ void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol
 void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_base(BrowserRecord *record, void *base) { __asm { int 3 } }
-void __stdcall fill_browser_macro(BrowserRecord *record, void *macro) { __asm { int 3 } }
+void __stdcall fill_browser_macro(BrowserRecord *record, MacroDefinition *macro) { __asm { int 3 } }
 void __stdcall fill_browser_scope_end(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { int 3 } }
 BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }

@@ -1,0 +1,40 @@
+{
+  "buffers": [
+    "00",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "states": [
+    0,
+    1,
+    0,
+    0,
+    4294967295,
+    0,
+    0,
+    0,
+    100,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "function": "browser_macro",
+  "signal": 5,
+  "declared_arguments": [
+    "definition"
+  ],
+  "raw_definition": 1449335948,
+  "caller_locals": {
+    "caller_definition": {
+      "function": "define_macro",
+      "local": "definition",
+      "fields": [],
+      "value": 1449335948
+    }
+  }
+}
