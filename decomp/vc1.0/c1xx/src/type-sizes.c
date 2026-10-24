@@ -165,3 +165,20 @@ unsigned __stdcall member_function_pointer_size(TypeShape *shape)
         return 0;
     }
 }
+
+/* Original 0x4e190..0x4e1e4, stdcall4. Data-member pointers contain
+   only integer offset fields, with extra fields for virtual inheritance. */
+unsigned __stdcall data_member_pointer_size(TypeShape *shape)
+{
+    switch (member_pointer_class_kind(shape->data.tag_symbol)) {
+    case 1:
+    case 2:
+        return builtin_integer_type()->flags & 15;
+    case 3:
+        return 2 * (builtin_integer_type()->flags & 15);
+    case 4:
+        return 3 * (builtin_integer_type()->flags & 15);
+    default:
+        return 0;
+    }
+}
