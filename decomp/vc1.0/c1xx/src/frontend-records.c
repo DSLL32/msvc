@@ -1149,3 +1149,21 @@ void end_do_statement(void)
     closing->previous = &loop->header;
     if (ir_record_error_context == recovery) ir_record_error_context = 0;
 }
+
+/* Original 0x3fbc0..0x3fc18. Discard an empty do-condition region
+   or retain its fully initialized closing delimiter. */
+void end_do_condition_region(void)
+{
+    FrontendRecord record;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x22) {
+        remove_last_frontend_record();
+        return;
+    }
+    record.kind = 0x23;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
