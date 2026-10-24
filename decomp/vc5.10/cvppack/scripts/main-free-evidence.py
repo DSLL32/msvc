@@ -92,7 +92,7 @@ def prove(config):
                         assert operand.mem.disp in {0x415368,0x415338,0x415634,0x415648,0x4161ac},'source index consumes/compares/escapes retired source root'
                         absolute.append(dict(site=instruction.address,address=operand.mem.disp,width=operand.size))
             intervals.append(row)
-        source_prefix=dict(intervals=intervals,absolute_operands=absolute,new_family_validator_sha256=sha(BINARY/'scripts/source-index-complete.py'),no_released_root_consumer=True)
+        source_prefix=dict(intervals=intervals,absolute_operands=absolute,new_family_validator_sha256=sha(BINARY/'scripts/source-index-complete.py'),source_allocation_roles_validator_sha256=sha(BINARY/'scripts/source-allocation-roles.py'),no_released_root_consumer=True)
     if config.get('observe_output_directory'):
         assert policy.get('output_directory') is True
         prefix=policy['writer_prefix'];complete_sort=bool(config.get('observe_complete_directory_sort'));assert bool(policy.get('complete_directory_sort'))==complete_sort
@@ -127,6 +127,15 @@ def prove(config):
                     assert all(operand.mem.disp in allowed for i in code for operand in i.operands if operand.type==X86_OP_MEM and not operand.mem.base and not operand.mem.index),'publicpadding consumes retired global'
                     source_prefix[key]=proof
                 source_prefix['public_padding_validator_sha256']=sha(BINARY/'scripts/public-padding-state.py')
+                if config.get('observe_name_hash'):
+                    assert policy.get('name_hash') is True
+                    proof=policy['name_hash_prefix'];assert (proof['start'],proof['end'])==(0x40e920,0x40ebc0)
+                    body=pe.read(proof['start'],proof['end']-proof['start']);assert hashlib.sha256(body).hexdigest()==proof['sha256']
+                    code=list(decoder.disasm(body,proof['start']));assert sum(i.size for i in code)==len(body)
+                    assert not any(i.mnemonic.startswith(('f','v','xsave','xrstor')) for i in code),'namehash consumes rawFP state'
+                    assert not any(o.type==X86_OP_MEM and not o.mem.base and not o.mem.index for i in code for o in i.operands),'namehash consumes unreviewed old global'
+                    assert [(i.address,i.op_str) for i in code if i.mnemonic=='call']==[(0x40e9aa,'0x40fb60'),(0x40e9e9,'0x40fb90'),(0x40eb0a,'0x40fb90'),(0x40eba0,'0x40ff60'),(0x40ebb0,'0x40ff80'),(0x40ebbb,'0x410010')]
+                    source_prefix['name_hash_prefix']=proof;source_prefix['name_hash_validator_sha256']=sha(BINARY/'scripts/name-hash-state.py')
         if subsections:
             row=policy['subsection_writer'];assert (row['start'],row['end'])==(0x4068a0,0x4069da)
             assert hashlib.sha256(pe.read(row['start'],314)).hexdigest()==row['sha256']

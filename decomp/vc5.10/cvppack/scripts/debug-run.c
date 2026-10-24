@@ -18,7 +18,7 @@ static unsigned char probe_bytes[128];
 static unsigned probe_count = 6;
 static DWORD active_teb, active_thread_id, loaded_crt_base;
 static HANDLE active_thread;
-static int complete_sort_mode, output_buffer_mode, subsection_mode, public_writer_mode, public_padding_mode;
+static int complete_sort_mode, output_buffer_mode, subsection_mode, public_writer_mode, public_padding_mode, name_hash_mode;
 static int probes_enabled, pending_probe = -1;
 static DWORD watched_address[256], watched_size[256], watch_count;
 static DWORD argument_entry[64], argument_slot[64], argument_count;
@@ -58,6 +58,7 @@ static void configure(void)
     subsection_mode = getenv("VC510_CVPACK_SUBSECTIONS") != NULL;
     public_writer_mode = getenv("VC510_CVPACK_PUBLIC_WRITER") != NULL;
     public_padding_mode = getenv("VC510_CVPACK_PUBLIC_PADDING") != NULL;
+    name_hash_mode = getenv("VC510_CVPACK_NAME_HASH") != NULL;
     value = getenv("VC510_CVPACK_DATA");
     while (value && *value && watch_count < 256) {
         if (sscanf(value, "%lx:%lu", &watched_address[watch_count], &watched_size[watch_count]) != 2) break;
@@ -125,6 +126,7 @@ static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size)
 #include "output-buffer-observer.inc"
 #include "subsection-observer.inc"
 #include "public-padding-observer.inc"
+#include "name-hash-observer.inc"
 
 /* Saved PRE-free typed roots may identify still-live child nodes. This observer
  * never fetches a released table from the child or logs it as current memory. */
@@ -328,6 +330,10 @@ static void widen_state(FILE *log, HANDLE process, CONTEXT *context, DWORD site)
 static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int full_graphs)
 {
     DWORD i, j, value, count, item;
+    if (name_hash_mode && !name_hash_started && (entry == 0x40ff9d || entry == 0x40ffa2 || entry == 0x40ffaa || entry == 0x40ffaf)) return;
+    if (name_hash_mode && name_hash_started && (entry == 0x40e9aa || entry == 0x40e9af || entry == 0x40e9e9 || entry == 0x40e9ee || entry == 0x40eb0a || entry == 0x40eb0f || entry == 0x40eba0 || entry == 0x40eba5 || entry == 0x40ebb0 || entry == 0x40ebb5 || entry == 0x40ff9d || entry == 0x40ffa2 || entry == 0x40ffaa || entry == 0x40ffaf)) { name_hash_observation(log, process, context, entry); return; }
+    if (name_hash_mode && entry == 0x40e920) name_hash_observation(log, process, context, entry);
+    if (name_hash_mode && entry == 0x410010 && full_graphs) name_hash_observation(log, process, context, entry);
     if (public_padding_mode && entry == 0x40fad1) {
         fprintf(log, "public-padding-return %lu %08lx %08lx %08lx %08lx %08lx\n", context->Eax, context->Esp, context->Ebx, context->Esi, context->Edi, context->Ebp); return;
     }
@@ -346,7 +352,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     fprintf(log, "registers %08lx %08lx %08lx %08lx %08lx %08lx %08lx %08lx\n",
             context->Eax, context->Ebx, context->Ecx, context->Edx,
             context->Esi, context->Edi, context->Ebp, context->Esp);
-    memory(log, process, context->Esp, 128);
+    memory(log, process, context->Esp, name_hash_mode && entry == 0x410010 ? 256 : 128);
     memory(log, process, 0x412124, 28);
     memory(log, process, 0x412988, 12);
     memory(log, process, 0x412588, 1024);
@@ -545,7 +551,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
                 memory(log, process, value, (DWORD)length + 2);
         }
         if (argument_kind[i] == 'P' && value) memory(log, process, value, 4);
-        if (argument_kind[i] == 'F' && value && argument_buffer_count[i] <= 16)
+        if (argument_kind[i] == 'F' && value && argument_buffer_count[i] <= 24)
             memory(log, process, value, argument_buffer_count[i]);
         if ((argument_kind[i] == 'B' || argument_kind[i] == 'C') && value &&
             read_bytes(process, context->Esp + argument_buffer_count[i]*4, &count, 4)) {
@@ -746,7 +752,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         fprintf(log, "source-family-free-return %08lx %08lx\n", entry, context->Esp);
         ++source_family_frees;
     }
-    if ((entry == 0x4069e0 || (output_directory_mode && entry == 0x4063f0) || (complete_sort_mode && entry == 0x4100e0) || (output_buffer_mode && entry == 0x4068a0) || (subsection_mode && entry == 0x40d600) || (public_writer_mode && entry == 0x40f960) || (public_padding_mode && entry == 0x40e920)) && full_graphs) {
+    if ((entry == 0x4069e0 || (output_directory_mode && entry == 0x4063f0) || (complete_sort_mode && entry == 0x4100e0) || (output_buffer_mode && entry == 0x4068a0) || (subsection_mode && entry == 0x40d600) || (public_writer_mode && entry == 0x40f960) || (public_padding_mode && entry == 0x40e920) || (name_hash_mode && entry == 0x410010)) && full_graphs) {
         DWORD pointer, size, k;
         unsigned char *bytes;
         if (source_family_count != 3 || source_family_frees != 2 ||
@@ -760,7 +766,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         for (k = 0; k < size; ++k) fprintf(log, "%02x", bytes[k]);
         fputc('\n', log); free(bytes);
     }
-    if (output_buffer_mode && (entry == 0x4068a0 || (subsection_mode && entry == 0x40d600) || (public_writer_mode && entry == 0x40f960) || (public_padding_mode && entry == 0x40e920)) && full_graphs) output_buffer_state(log, process, context);
+    if (output_buffer_mode && (entry == 0x4068a0 || (subsection_mode && entry == 0x40d600) || (public_writer_mode && entry == 0x40f960) || (public_padding_mode && entry == 0x40e920) || (name_hash_mode && entry == 0x410010)) && full_graphs) output_buffer_state(log, process, context);
     if (entry == 0x40f183) {
         if (main_free_count != 12 || !read_bytes(process, context->Esp, &source_index_size, 4) || source_index_size < 8 || source_index_size > 262148) {
             fprintf(log, "source-index-observation-failed\n"); return;

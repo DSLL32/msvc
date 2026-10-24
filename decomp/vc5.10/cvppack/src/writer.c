@@ -109,11 +109,99 @@ unsigned insert_symbol_page_padding(PublicSymbol **buckets, unsigned reserve)
     return added;
 }
 
+/* CodeView name hash, method 10 [0040e920,0040edbb).
+ * Buckets retain twelve entries inline and chain five-entry overflow nodes. */
+void build_symbol_name_hash(SymbolKeyProc key, unsigned short *method,
+    unsigned *bytes, TypeArena *stream, unsigned count, PublicSymbol **buckets)
+{
+    NameHashBucket **pages, *bucket;
+    NameHashOverflow *overflow_pages[10] = { 0 }, **link;
+    PublicSymbol *node;
+    unsigned short hash_count, page_count, entries, slot;
+    unsigned index, page, size, position = 0, overflow_count = 0, ordinal;
+    unsigned offset;
+    if (!count) return;
+    index = count / 10;
+    if (index >= 0xffff) index = 0xffff;
+    if (index <= 6) index = 6;
+    hash_count = (unsigned short)((index + 1) & 0xfffe);
+    page_count = (unsigned short)(hash_count / 629 + 1);
+    pages = allocate_bytes((unsigned)page_count * sizeof(*pages));
+    for (page = 0; page < page_count; ++page) {
+        size = page == page_count - 1 ? ((unsigned)hash_count * sizeof(NameHashBucket)) % 65416 : 65416;
+        pages[page] = allocate_cleared(size);
+    }
+    for (index = 0; index < 4096; ++index) {
+        for (node = buckets[index]; node; node = node->next) {
+            size = *(unsigned short *)node->record + 2;
+            if (*(unsigned short *)(node->record + 2) == 0x402) {
+                position += size;
+                continue;
+            }
+            ordinal = node->hash % hash_count;
+            bucket = &pages[ordinal / 629][ordinal % 629];
+            if (bucket->count < 12) {
+                bucket->entries[bucket->count].offset = position;
+                bucket->entries[bucket->count].hash = node->hash;
+            } else {
+                slot = (unsigned short)((bucket->count - 12) % 5);
+                link = &bucket->overflow;
+                while (*link) {
+                    if (slot && !(*link)->next) break;
+                    link = &(*link)->next;
+                }
+                if (!slot) {
+                    ordinal = (unsigned short)overflow_count;
+                    page = ordinal / 1488;
+                    if (!overflow_pages[page]) overflow_pages[page] = allocate_cleared(65504);
+                    *link = &overflow_pages[page][ordinal % 1488];
+                    ++overflow_count;
+                }
+                (*link)->entries[slot].offset = position;
+                (*link)->entries[slot].hash = node->hash;
+            }
+            ++bucket->count;
+            position += size;
+        }
+    }
+    initialize_arena(stream, 4096);
+    copy_type_arena(stream, (const unsigned char *)&hash_count, 2);
+    fill_type_arena(stream, 0, 2);
+    offset = 0;
+    for (index = 0; index < hash_count; ++index) {
+        bucket = &pages[index / 629][index % 629];
+        copy_type_arena(stream, (const unsigned char *)&offset, 4);
+        offset += (unsigned)bucket->count * 8;
+    }
+    for (index = 0; index < hash_count; ++index) {
+        bucket = &pages[index / 629][index % 629];
+        copy_type_arena(stream, (const unsigned char *)&bucket->count, 2);
+        fill_type_arena(stream, 0, 2);
+    }
+    for (index = 0; index < hash_count; ++index) {
+        bucket = &pages[index / 629][index % 629];
+        entries = bucket->count;
+        size = entries > 12 ? 12 : entries;
+        copy_type_arena(stream, (const unsigned char *)bucket->entries, size * sizeof(NameHashPair));
+        entries = (unsigned short)(entries - size);
+        for (link = &bucket->overflow; entries; link = &(*link)->next) {
+            size = entries > 5 ? 5 : entries;
+            copy_type_arena(stream, (const unsigned char *)(*link)->entries, size * sizeof(NameHashPair));
+            entries = (unsigned short)(entries - size);
+        }
+    }
+    *method = 10;
+    *bytes = 4 + (count + hash_count) * 8;
+    for (page = 0; page < page_count; ++page) free(pages[page]);
+    free(pages);
+    for (page = 0; page < 10; ++page) free(overflow_pages[page]);
+}
+
 void write_publics(CodeViewDirectoryEntry *entry, unsigned offset)
 {
     SymbolHashHeader header;
-    HashOutputStream names, addresses;
-    HashOutputBlock *block;
+    TypeArena names, addresses;
+    TypeArenaBlock *block;
     PublicSymbol *node;
     unsigned bucket, added, padding = 0;
     unsigned short written;

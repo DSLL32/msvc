@@ -69,7 +69,8 @@ unsigned write_global_types(void) { __asm { int 3 } return 0; }
 unsigned write_cached_file(int file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }
 void resize_cached_file(int file, unsigned size) { __asm { int 3 } }
 
-void build_symbol_name_hash(SymbolKeyProc key, unsigned short *method, unsigned *bytes, HashOutputStream *stream, unsigned count, PublicSymbol **buckets) { __asm { int 3 } }
-void build_symbol_address_hash(unsigned short *method, unsigned *bytes, HashOutputStream *stream, unsigned count, PublicSymbol **buckets) { __asm { int 3 } }
-HashOutputBlock *first_hash_output_block(HashOutputStream *stream) { __asm { int 3 } return NULL; }
-HashOutputBlock *next_hash_output_block(HashOutputBlock *block) { __asm { int 3 } return NULL; }
+void build_symbol_address_hash(unsigned short *method, unsigned *bytes, TypeArena *stream, unsigned count, PublicSymbol **buckets) { __asm { int 3 } }
+TypeArenaBlock *first_hash_output_block(TypeArena *stream) { __asm { int 3 } return NULL; }
+TypeArenaBlock *next_hash_output_block(TypeArenaBlock *block) { __asm { int 3 } return NULL; }
+
+unsigned char *fill_type_arena(TypeArena *arena, unsigned value, unsigned size) { __asm { int 3 } return NULL; }

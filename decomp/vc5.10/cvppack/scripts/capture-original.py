@@ -124,6 +124,9 @@ def main():
     if config.get('observe_source_index_entry') or config.get('observe_source_index_complete'):
         env['VC510_CVPACK_PROBES']+=',40f183:source-index-allocation-entry,40f188:source-index-allocation-result'
     if config.get('observe_public_writer_prefix'):env['VC510_CVPACK_PUBLIC_WRITER']='1'
+    if config.get('observe_name_hash'):
+        env['VC510_CVPACK_NAME_HASH']='1'
+        env['VC510_CVPACK_PROBES']+=',40e9aa:namehash-malloc-call,40e9af:namehash-malloc-return,40e9e9:namehash-clear-call,40e9ee:namehash-clear-return,40eb0a:namehash-overflow-call,40eb0f:namehash-overflow-return,40eba0:namehash-init-call,40eba5:namehash-init-return,40ebb0:namehash-copy-call,40ebb5:namehash-copy-return,40ff9d:namehash-block-call,40ffa2:namehash-block-return,40ffaa:namehash-payload-call,40ffaf:namehash-payload-return'
     if config.get('observe_public_padding'):
         env['VC510_CVPACK_PUBLIC_PADDING']='1'
         env['VC510_CVPACK_PROBES']+=',40fad1:public-padding-return'

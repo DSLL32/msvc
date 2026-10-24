@@ -1,0 +1,7 @@
+{
+  "seconds": 0.10225387755781412,
+  "native_sha256": "032026b5cc96b2190e3befb06ba2b89695556f917cbdc83f9080a53570f5ec92",
+  "rebuilt_sha256": "6407ff5bd969be881528b0ec89d1f304c57f6448785a5573643836f0a421f9f0",
+  "published_shared": "0e8a3d3fc",
+  "scope": "Native observer union-layout correction and current published shared headers/source; original target/mask/candidate/config/execution inputs unchanged. Original is explicitly reused; no new original reference."
+}

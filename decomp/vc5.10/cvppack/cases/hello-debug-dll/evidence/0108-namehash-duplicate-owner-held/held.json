@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "status": "static ownership rejected; no original execution; no acceptance",
+  "mistake": "Introduced initialize_hash_stream40ff60/write_hash_stream40ff80 despite existing accepted initialize_arena/copy_type_arena at those addresses. Strict ownership rejected duplicate logical vertices. Corrected source reuses canonical functions and TypeArena/TypeArenaBlock. Genuine first unknown is fill_type_arena410010 after actual contextual init+2B copy.",
+  "source_drafts": "Provisional source edits were not capture snapshots; retained build/rejection logs are actual historical artifacts. Current corrected source must not be relabeled as the rejected draft.",
+  "promotion": false
+}

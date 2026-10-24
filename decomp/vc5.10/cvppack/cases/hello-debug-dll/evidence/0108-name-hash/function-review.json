@@ -1,0 +1,195 @@
+{
+  "schema": 1,
+  "candidate": "build_symbol_name_hash",
+  "accepted_functions": 108,
+  "application_extent_bytes": 36069,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 57.56120136605917,
+  "qualification": "Application extents / whole text including CRT/unknown/padding; not non-CRT or branch coverage.",
+  "source_extent": [
+    4253984,
+    4255163
+  ],
+  "associated_switch_bytes_total": 784,
+  "associated_callback_bytes_total": 324,
+  "support": {
+    "crt_bodies": 4,
+    "crt_extent_bytes": 400,
+    "import_thunks": 5,
+    "import_extent_bytes": 30
+  },
+  "next_frontier": "fill_type_arena(names24,value0,size2)",
+  "fresh_pair": true,
+  "fresh_negative_count": 57,
+  "controls": {
+    "path": "cases/hello-debug-dll/evidence/0108-name-hash/name-hash-checks.json",
+    "sha256": "85cdba747cd508222fd55267cae597f8bbb8fbcbb937fb42309978c16bd353c9"
+  },
+  "reused_controls": {
+    "path": "cases/hello-debug-dll/evidence/0107-public-page-padding/padding-checks.json",
+    "scope": "Historical33 padding and earlier public/copy/allocation/sort controls retain prior scopes; fresh57 cover actual new generations, source roles, initialized tables, reused arena ABI/formals and true fill boundary."
+  },
+  "source_review": [
+    "Whole1179B readable C routine: even bucket count from count/10,104B bucket pages (629/page), twelve inline offset/hash pairs and five-pair44B overflow nodes (1488/page), then existing arena initialization/copy, hash headers/offsets/counts/pairs and ordinary temporary frees. Callback key is genuinely unused by this routine; no fabricated callback edge. Exact source divisions independently match all65536 bounded reciprocal inputs; count/10 has a full uint32 quotient/remainder bound. No generated assembly/new helper vertices; five NOP gap bytes excluded.",
+    "initialize_arena40ff60 and copy_type_arena40ff80 are genuine already-accepted functions; canonical TypeArena/TypeArenaBlock types are reused. An earlier provisional duplicate-name draft was rejected by ownership before reference execution and is retained as an explicit held diagnostic, zero credit.",
+    "Fresh actual incoming six-argument entry binds callback, WORD/DWORD output fields, parent names24 arena, count64 and existing public buckets. Original compiler later reuses its sixth incoming stackslot as a node cursor and leaves0; native C retains its incoming pointer. Incoming entry evidence is compared, while that dead local storage value is retained without a cross-side equality claim. Hash-bound whole original after-collection operand inventory and readable source show no later bucket-argument consumer through the true first fill frontier.",
+    "Actual current65 public nodes include64 hashed records/2108 bytes plus8B end marker. Six bucket counts8,13,12,13,10,8 and overflow allocation order3,1 derive from actual current record hash/stream positions. Complete pointer table4B, cleared bucket624B and cleared overflow65504B are compared with exact per-side pointer identities and all initialized zero spare; no copied source data image.",
+    "Five observed fresh allocation generations have exact app call/return sites, requests4/624/65504/12/4096, results, owners/context, cdecl wrapper cleanup and all4 nonvolatiles. They remain outside historical address-keyed aliases. Full-capacity overlap checks protect all prior live owners, live source output, current directory912B, packed output65512B and mapped input2MB. Actual old retired-address reuse/coalescing is recorded separately per side; old roots remain identity-only and generic retired reads still reject.",
+    "Source family exception uses exactly three consecutive actual owner/role events plus independently matched original after12free generation; it no longer assumes those allocations are the last events. New namehash owners have their own finite five-event inventory. Five fresh controls reject wrong owner/generation/original mapping/nonconsecutive/extra source events; unrelated live-generation uniqueness remains intact.",
+    "Contextual canonical initializer/copy are freshly observed at actual entry/return, with named formal widths, cdecl versus true fastcall cleanup, source WORD06 and exact pointer/result/nonvolatiles. names24 arena initializes as4096,0,0,0,0,0, then becomes4096,1,newblock,newpayload+2,4094,newblock; fully initialized12B block is2,newpayload,0 and only2 payload bytes0600 are read. Remaining4094 bytes remain own unwritten, and the second24B arena remains uninitialized/unseeded/uncompared.",
+    "Actual GDB DWARF member addresses/types prove canonical24B TypeArena and its20B anonymous fields[] alias, plus NameHashBucket104/Overflow44/Pair8 layouts and WORD/scalar locals. Original-only256B stack transport reaches the live ancestor header/args; incidental own second-stream bits are excluded from typed comparison and a positive control varies them. No metadata-only formal self-confirmation.",
+    "Finite672B original prefix plus canonical24B initializer/138B copy are integer-only, use no retired global root and preserve the prior actual own fullFP/errors to first fill_type_arena(arena,value0,size2). Generic case FP scope remains027f/status0/all-empty plus each-own raw preservation. Later stream writes, temporary frees and future consumers remain held until their fresh observations; no CRT/PDB/internal behavior credit.",
+    "Compilation content snapshots are byte-identical at original build/capture and all completed native observer refreshes; ELF and Win32 PE hashes are unchanged. Shared0e8 identical bytes were published, current make check was a0.102s no-op, not a new build. Native receipt reused_original_capture=false correctly reflects unchanged binaries; a fresh current static sidecar nevertheless binds the unchanged original and final native capture. No repeated original reference was needed for observer fixes."
+  ],
+  "actual_state": {
+    "input_nodes": 65,
+    "hashed_records": 64,
+    "hash_bucket_counts": [
+      8,
+      13,
+      12,
+      13,
+      10,
+      8
+    ],
+    "new_owners": 5,
+    "pointer_table_initialized_bytes": 4,
+    "bucket_initialized_bytes": 624,
+    "overflow_initialized_bytes": 65504,
+    "used_overflow_nodes": 2,
+    "cleared_overflow_spare_bytes": 65416,
+    "own_uninitialized_stream_bytes_uncompared": 24,
+    "initialized_arena_bytes": 24,
+    "initialized_block_bytes": 12,
+    "initialized_payload_bytes": 2,
+    "own_unwritten_payload_bytes": 4094,
+    "next_consumer": "fill_type_arena(names24,value0,size2)",
+    "original_dead_mutated_bucket_argument_slot": 0,
+    "retired_payload_reopened": false,
+    "actual_retired_address_reuse": [
+      {
+        "side": "original",
+        "new_owner": 2,
+        "retired_sequence": 11,
+        "retired_address": 13422504,
+        "new_address": 13488032
+      },
+      {
+        "side": "original",
+        "new_owner": 4,
+        "retired_sequence": 10,
+        "retired_address": 13349120,
+        "new_address": 13349120
+      },
+      {
+        "side": "native",
+        "new_owner": 0,
+        "retired_sequence": 7,
+        "retired_address": 1464122560,
+        "new_address": 1464122560
+      },
+      {
+        "side": "native",
+        "new_owner": 0,
+        "retired_sequence": 12,
+        "retired_address": 1464122560,
+        "new_address": 1464122560
+      },
+      {
+        "side": "native",
+        "new_owner": 1,
+        "retired_sequence": 7,
+        "retired_address": 1464122560,
+        "new_address": 1464122784
+      },
+      {
+        "side": "native",
+        "new_owner": 3,
+        "retired_sequence": 7,
+        "retired_address": 1464122560,
+        "new_address": 1464123424
+      },
+      {
+        "side": "native",
+        "new_owner": 4,
+        "retired_sequence": 2,
+        "retired_address": 1464314576,
+        "new_address": 1464314576
+      },
+      {
+        "side": "native",
+        "new_owner": 4,
+        "retired_sequence": 3,
+        "retired_address": 1464315712,
+        "new_address": 1464314576
+      }
+    ]
+  },
+  "review_packet": {
+    "path": "cases/hello-debug-dll/evidence/0108-name-hash/name-hash-review.json",
+    "sha256": "cd6766a3b1969a9dc3a8628d1971e0d5554e989f1c0c20c0ad20e49bd428d2e1"
+  },
+  "parent_review": {
+    "path": "cases/hello-debug-dll/evidence/0108-name-hash/parent-review.json",
+    "sha256": "d6ab2641816b64a190832eed69f05a072132aca19859367843d3fdf1fc5641b7"
+  },
+  "audit": {
+    "path": "cases/hello-debug-dll/evidence/0108-name-hash/final-audit/audit.json",
+    "sha256": "9872387cc2288cb048e506989702f3535be25d3711b6139ceb52d97d4e0236df"
+  },
+  "promotion": {
+    "path": "cases/hello-debug-dll/evidence/0108-name-hash/promotion.json",
+    "sha256": "8cc1e7a4028d8887ca52f4c9a4348bdb907070f7acd3068a9754837d4d544204"
+  },
+  "original_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0108-name-hash/original/receipt.json",
+    "sha256": "8a761111f153e249d371a449d5c3db2909b3a37ee31e3da36915aa24a67ed451"
+  },
+  "native_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0108-name-hash/native-layout-corrected/receipt.json",
+    "sha256": "3fcb728a59a85828f32e66f53dd6fd0dceadeaff38cbb96e8c5856ad2fb4bc0c"
+  },
+  "seconds": {
+    "initial_stages": {
+      "original_build": 8.242516588419676,
+      "native_build": 3.1045565083622932,
+      "graph_tool_build": 0.042087930254638195,
+      "original_capture": 22.536239428445697,
+      "native_capture": 5.486401081085205
+    },
+    "final_native": {
+      "direct_execution": 0.019620269536972046,
+      "gdb_execution": 5.715776362456381,
+      "total": 5.860609992407262
+    },
+    "initial_union_corrected_native": {
+      "direct_execution": 0.01917138509452343,
+      "gdb_execution": 5.663374962285161,
+      "total": 5.814449138008058
+    },
+    "published_source_make_check": 0.10225387755781412,
+    "final_static_audit": 1.529613514430821,
+    "final_pair_check": "not separately timed",
+    "fresh_controls": 6.325919481925666,
+    "native_fixtures": {
+      "help": {
+        "total": 0.015631173737347126,
+        "preparation": 0.0026422040536999702,
+        "execution": 0.00381278432905674,
+        "checks": 0.0031706830486655235
+      },
+      "hello_debug_dll": {
+        "total": 7.6570908995345235,
+        "preparation": 0.0027518542483448982,
+        "execution": 5.796229028142989,
+        "checks": 0.004854386672377586
+      },
+      "scope": "Native-only make -j4 check; partial debug includes GDB. Total includes capture/observer/check orchestration beyond individually measured stages."
+    }
+  },
+  "retained_diagnostics": [
+    "First native GDB attempt correctly trapped fill but rejected the known TypeArena anonymous union because a flat field-list guard was inappropriate. Guard now uses actual named member storage offsets/types and the independently addressed20B alias without reading the uninitialized arena. Original raw already contained all required observations; native-only refresh.",
+    "First corrected native capture accidentally overwrote stored header_layout metadata with the arena layout in a reused Python variable. Full comparison rejected it; actual header fields/type assertion had been correct. native-corrected and union-field-shadow-audit/pair artifacts remain; final native-layout-corrected uses a separate arena_layout variable. No target source/binary or original rerun.",
+    "Formal-type strengthening and full-range namespace controls are pure checker refinements; prior positive static report remains before-formal-contract-audit/pair, current strict sidecar and fresh57 controls bind final code. No changed-state acceptance from those provisional results."
+  ]
+}

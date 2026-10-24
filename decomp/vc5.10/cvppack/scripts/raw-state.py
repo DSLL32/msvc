@@ -14,9 +14,30 @@ def decode(events):
     frontier_line_index,address = frontiers[0]
     memory,strings = {},{}
     public_padding={}
+    name_hash_allocations=[];name_hash_owned={};name_hash_entry={};name_hash_reused_calls={}
     file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[];image_allocations=[];checked_allocations=[];module_allocations=[];cleared_allocations=[]
     for line in lines:
-        if line.startswith('public-padding-entry '):
+        if line.startswith('namehash-entry '):
+            assert not name_hash_entry,'namehash entry repeated';f=line.split();name_hash_entry=dict(esp=int(f[1],16),stack=[int(v,16) for v in f[2:]])
+        elif line.startswith('namehash-arena-init-call '):
+            f=line.split();assert 'initialize_arena' not in name_hash_reused_calls;name_hash_reused_calls['initialize_arena']=dict(entry_esp=int(f[1],16),arena=int(f[2],16),capacity=int(f[3]),before_nonvolatile=[int(v,16) for v in f[4:]])
+        elif line.startswith('namehash-arena-init-return '):
+            f=line.split();name_hash_reused_calls['initialize_arena'].update(exit_esp=int(f[1],16),return_arena=int(f[2],16),return_capacity=int(f[3]),after_nonvolatile=[int(v,16) for v in f[4:]])
+        elif line.startswith('namehash-arena-initialized '):name_hash_reused_calls['initialize_arena']['after_arena']=struct.pack('<6I',*(int(v,16) for v in line.split()[1:]))
+        elif line.startswith('namehash-arena-copy-call '):
+            f=line.split();assert 'copy_type_arena' not in name_hash_reused_calls;name_hash_reused_calls['copy_type_arena']=dict(entry_esp=int(f[1],16),arena=int(f[2],16),data=int(f[3],16),size=int(f[4]),input=int(f[5],16).to_bytes(2,'little'),before_nonvolatile=[int(v,16) for v in f[6:]])
+        elif line.startswith('namehash-arena-before-copy '):name_hash_reused_calls['copy_type_arena']['before_arena']=struct.pack('<6I',*(int(v,16) for v in line.split()[1:]))
+        elif line.startswith('namehash-arena-after-copy '):name_hash_reused_calls['copy_type_arena']['after_arena']=struct.pack('<6I',*(int(v,16) for v in line.split()[1:]))
+        elif line.startswith('namehash-arena-copy-return '):
+            f=line.split();name_hash_reused_calls['copy_type_arena'].update(exit_esp=int(f[1],16),result=int(f[2],16),after_nonvolatile=[int(v,16) for v in f[3:]])
+        elif line.startswith('namehash-allocation-call '):
+            f=line.split();name_hash_allocations.append(dict(site=int(f[1],16),size=int(f[2]),after_frees=int(f[3]),source_frees=int(f[4]),entry_esp=int(f[5],16),before_nonvolatile=[int(v,16) for v in f[6:]]))
+        elif line.startswith('namehash-allocation-return '):
+            f=line.split();assert name_hash_allocations and 'address' not in name_hash_allocations[-1];name_hash_allocations[-1].update(return_site=int(f[1],16),address=int(f[2],16),exit_esp=int(f[3],16),after_nonvolatile=[int(v,16) for v in f[4:]])
+        elif line.startswith('namehash-owned-bytes '):
+            _,location,size,payload=line.split();location=int(location,16);assert location not in name_hash_owned and len(bytes.fromhex(payload))==int(size),'namehash duplicate/truncated initialized allocation';name_hash_owned[location]=bytes.fromhex(payload)
+        elif line.startswith('namehash-observation-failed'):raise AssertionError('incomplete namehash current-owner observation')
+        elif line.startswith('public-padding-entry '):
             assert not public_padding,'public padding entry repeated'
             f=line.split();public_padding.update(entry_esp=int(f[1],16),return_pc=int(f[2],16),buckets_address=int(f[3],16),reserve=int(f[4]),remaining=int(f[5]),cursor=int(f[6],16),before_nonvolatile=[int(v,16) for v in f[7:]],nodes=[])
         elif line.startswith('public-padding-buckets '):public_padding['buckets']=bytes.fromhex(line.split()[1])
@@ -326,12 +347,13 @@ def decode(events):
     stack = memory[registers[-1]]
     # Separate pre-padding typed input history from mutable current nodes.
 
-    assert len(stack) == 128
-    return dict(public_padding=public_padding,address=address,memory=memory,strings=strings,output_buffer_allocations=output_buffer_allocations,output_buffer_state=output_buffer_state,subsection_calls=subsection_calls,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
-                registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
+    assert len(stack) == (256 if address==0x410010 else 128)
+    return dict(name_hash_reused_calls=name_hash_reused_calls,name_hash_entry=name_hash_entry,name_hash_allocations=name_hash_allocations,name_hash_owned=name_hash_owned,public_padding=public_padding,address=address,memory=memory,strings=strings,output_buffer_allocations=output_buffer_allocations,output_buffer_state=output_buffer_state,subsection_calls=subsection_calls,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+                registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<%dI'%(len(stack)//4),stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
 def compare(config,data,events,native,artifacts=None,views=None):
+    import importlib.util
     original = decode(events)
     record = next(r for r in config['functions'] if r['original']==original['address'])
     assert native['function'] == record['native_symbol']
@@ -616,7 +638,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
             if item.get('initialized'):
                 assert len(original['memory'][value])==item['width']
                 raw=original['memory'][value]
-                if item.get('widen_output'):
+                if item.get('arena_output'):
+                    words=list(struct.unpack('<6I',raw));owners=original['name_hash_allocations'];assert len(owners)==5 and words[2]==words[5]==owners[3]['address'] and words[3]==owners[4]['address']+2,'arena output argument actual original new-owner aliases differ'
+                    parameters[item['name']]['description']=dict(capacity=words[0],blocks=words[1],remaining=words[4],last='namehash-output-block',first='namehash-output-block',cursor_owner='namehash-output-payload',cursor_offset=2)
+                elif item.get('widen_output'):
                     assert item['width']==16
                     words=struct.unpack('<4I',raw)
                     def root(name):return int.from_bytes(original['memory'][next(row['original'] for row in data if row['name']==name)],'little')
@@ -781,12 +806,19 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert left['size']==right['size'] and left['address'] and right['address'],'actual image allocation request/result differs'
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(),'live image allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
+    name_hash_owners=None
+    if config.get('observe_name_hash'):
+        spec=importlib.util.spec_from_file_location('name_hash_state',Path(__file__).with_name('name-hash-state.py'))
+        name_hash_state=importlib.util.module_from_spec(spec);spec.loader.exec_module(name_hash_state)
+        name_hash_owners=name_hash_state.generations(original,native)
     assert len(original['checked_allocations'])==len(native.get('checked_allocations',[])),'checked allocator request inventory differs'
+    source_checked_indices=set()
+    if config.get('observe_source_index_complete'):
+        spec=importlib.util.spec_from_file_location('source_allocation_roles',Path(__file__).with_name('source-allocation-roles.py'))
+        source_roles=importlib.util.module_from_spec(spec);spec.loader.exec_module(source_roles)
+        source_checked_indices=source_roles.source_family_indices(original,native)
     for ordinal,(left,right) in enumerate(zip(original['checked_allocations'],native.get('checked_allocations',[]))):
-        if config.get('observe_source_index_complete') and ordinal>=len(original['checked_allocations'])-3:
-            index=ordinal-(len(original['checked_allocations'])-3);old=original['source_family_allocations'];new=native['source_family_allocations']
-            assert len(old)==len(new)==3 and left['address']==old[index]['address'] and left['size']==old[index]['size'] and right==new[index] and old[index]['after_frees']==right['after_frees']==12,'source family checked allocator generation ledger differs'
-            continue
+        if ordinal in source_checked_indices or (name_hash_owners and ordinal in name_hash_owners['checked_indices']):continue
         if config.get('observe_source_index_entry') and ordinal==len(original['checked_allocations'])-1:
             old=original['source_index_allocations'];new=native['source_index_allocations']
             assert len(old)==len(new)==1 and left['address']==old[0]['address'] and left['size']==old[0]['size'] and right==new[0] and right['after_frees']==old[0]['after_frees']==12,'source-index allocator generation ledger differs'
@@ -795,7 +827,8 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(),'live checked allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
     assert len(original['cleared_allocations'])==len(native.get('cleared_allocations',[])), 'cleared allocator inventory differs'
-    for left,right in zip(original['cleared_allocations'],native.get('cleared_allocations',[])):
+    for ordinal,(left,right) in enumerate(zip(original['cleared_allocations'],native.get('cleared_allocations',[]))):
+        if name_hash_owners and ordinal in name_hash_owners['cleared_indices']:continue
         assert left['size']==right['size'] and left['address'] and right['address'], 'cleared allocation request/result differs'
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(), 'live cleared allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
@@ -1457,6 +1490,8 @@ def compare(config,data,events,native,artifacts=None,views=None):
         spec=importlib.util.spec_from_file_location('public_padding_state',Path(__file__).with_name('public-padding-state.py'))
         padding=importlib.util.module_from_spec(spec);spec.loader.exec_module(padding)
         public_padding_proof=padding.validate(config,data,original,native,image_aliases,image_sizes)
+    name_hash_proof=None
+    if config.get('observe_name_hash'):name_hash_proof=name_hash_state.validate(config,data,original,native,name_hash_owners)
     native_parameters=dict(native['parameters'])
     for item,value in object_parameters:
         actual=native_parameters[item['name']]
@@ -1506,4 +1541,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert typed_records_checked==global_integer('type_record_count') and recursive_type_nodes_checked and interned_type_nodes_checked,'historical typed table validation incomplete'
         free_lifetimes['historical_typed_table_bytes_checked']=free_lifetimes.pop('historical_typed_table_bytes_pending')
         free_lifetimes['historical_table_proof_roles']=sorted(historical_tables_used)
-    return dict(parameters=parameters,caller_state=caller_state,output_buffer=output_buffer_proof,subsection_output=subsection_proof,public_writer=public_writer_proof,public_padding=public_padding_proof,output_directory=output_directory_proof,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,output_buffer=output_buffer_proof,subsection_output=subsection_proof,public_writer=public_writer_proof,public_padding=public_padding_proof,name_hash=name_hash_proof,output_directory=output_directory_proof,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

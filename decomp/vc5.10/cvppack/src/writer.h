@@ -12,23 +12,26 @@ typedef struct SymbolHashHeader {
     unsigned short name_method, address_method;
     unsigned symbol_bytes, name_bytes, address_bytes;
 } SymbolHashHeader;
-typedef struct HashOutputBlock {
-    unsigned used;
-    unsigned char *data;
-    struct HashOutputBlock *next;
-} HashOutputBlock;
-typedef struct HashOutputStream {
-    /* The first five words are owned by the hash-builder routines. */
-    unsigned state[5];
-    HashOutputBlock *first;
-} HashOutputStream;
+typedef struct NameHashPair {
+    unsigned offset, hash;
+} NameHashPair;
+typedef struct NameHashOverflow {
+    struct NameHashOverflow *next;
+    NameHashPair entries[5];
+} NameHashOverflow;
+typedef struct NameHashBucket {
+    unsigned short count, reserved;
+    NameHashOverflow *overflow;
+    NameHashPair entries[12];
+} NameHashBucket;
+unsigned char *fill_type_arena(TypeArena *arena, unsigned value, unsigned size);
 unsigned insert_symbol_page_padding(PublicSymbol **buckets, unsigned reserve);
 void build_symbol_name_hash(SymbolKeyProc key, unsigned short *method,
-    unsigned *bytes, HashOutputStream *stream, unsigned count, PublicSymbol **buckets);
+    unsigned *bytes, TypeArena *stream, unsigned count, PublicSymbol **buckets);
 void build_symbol_address_hash(unsigned short *method, unsigned *bytes,
-    HashOutputStream *stream, unsigned count, PublicSymbol **buckets);
-HashOutputBlock *first_hash_output_block(HashOutputStream *stream);
-HashOutputBlock *next_hash_output_block(HashOutputBlock *block);
+    TypeArena *stream, unsigned count, PublicSymbol **buckets);
+TypeArenaBlock *first_hash_output_block(TypeArena *stream);
+TypeArenaBlock *next_hash_output_block(TypeArenaBlock *block);
 extern PackedSignature packed_signature;
 extern unsigned output_capacity, output_used;
 extern unsigned char *output_buffer;

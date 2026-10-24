@@ -113,7 +113,8 @@
     "begin_buffered_output",
     "write_subsection",
     "write_publics",
-    "insert_symbol_page_padding"
+    "insert_symbol_page_padding",
+    "build_symbol_name_hash"
   ],
   "functions": [
     {
@@ -3774,8 +3775,11 @@
       "symbol": "_build_symbol_name_hash",
       "native_symbol": "build_symbol_name_hash",
       "original": 4253984,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4253984,
+        4255163
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3836,7 +3840,8 @@
           "nullable": false,
           "native_pointee_width": 4
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0108-name-hash/promotion.json"
     },
     {
       "name": "build_symbol_address_hash",
@@ -3867,6 +3872,39 @@
       "extent": null,
       "ret": 0,
       "parameters": []
+    },
+    {
+      "name": "fill_type_arena",
+      "symbol": "_fill_type_arena",
+      "native_symbol": "fill_type_arena",
+      "original": 4259856,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "arena",
+          "slot": 1,
+          "kind": "caller-local-pointer",
+          "owner": "write_publics",
+          "local": "names",
+          "width": 24,
+          "owner_return": 4254656,
+          "original_delta": 176,
+          "initialized": true,
+          "arena_output": true
+        },
+        {
+          "name": "value",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ]
     }
   ],
   "support_unmasked": [
@@ -4118,8 +4156,8 @@
   "observe_widen_release": true,
   "observe_main_frees": true,
   "main_free_policy": {
-    "path": "cases/hello-debug-dll/public-padding-lifetimes.json",
-    "sha256": "4d408d4167ee4bf80ad2f199f668fbfd525264f56ce361c2867173a9dbe0642d"
+    "path": "cases/hello-debug-dll/name-hash-lifetimes.json",
+    "sha256": "8aee865e3279aa0bb12d29701d7ed508154044e8101510964e7d6f6c1a658a68"
   },
   "observe_widen_frees": true,
   "observe_derived_finalize_entry": false,
@@ -4131,5 +4169,6 @@
   "observe_output_buffer_init": true,
   "observe_subsection_output": true,
   "observe_public_writer_prefix": true,
-  "observe_public_padding": true
+  "observe_public_padding": true,
+  "observe_name_hash": true
 }

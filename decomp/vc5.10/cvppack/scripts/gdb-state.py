@@ -30,6 +30,9 @@ source_family_frees=[]
 output_buffer_allocations=[]
 subsection_calls=[]
 public_padding={}
+name_hash_allocations=[]
+name_hash_entry={}
+name_hash_reused_calls={}
 output_directory_before={}
 output_directory_sort={}
 output_directory_complete={}
@@ -184,9 +187,11 @@ def install(configuration):
                 directory_allocation['size']=size;record=directory_allocation
             elif owner.name()=='allocate_cleared':
                 record=dict(size=size);cleared_allocations.append(record)
+                if config.get('observe_name_hash') and owner.older() is not None and (owner.older().name()=='build_symbol_name_hash' or owner.older().name()=='copy_type_arena' and owner.older().older() is not None and owner.older().older().name()=='build_symbol_name_hash'):record.update(owner=owner.older().name(),context='build_symbol_name_hash')
             elif owner.name()=='allocate_bytes':
                 record=dict(size=size);checked_allocations.append(record)
                 caller=owner.older()
+                if config.get('observe_name_hash') and caller is not None and (caller.name()=='build_symbol_name_hash' or caller.name()=='copy_type_arena' and caller.older() is not None and caller.older().name()=='build_symbol_name_hash'):record.update(owner=caller.name(),context='build_symbol_name_hash')
                 if config.get('observe_source_index_complete') and caller is not None and caller.name() in ('build_source_file_index','append_source_name'):
                     assert len(main_free_calls)==12 and all(row.get('returned') for row in main_free_calls) and not source_family_frees,'source family allocation lifetime order differs'
                     role=['module','name','output'][len(source_family_allocations)]
@@ -287,6 +292,59 @@ def install(configuration):
                 return False
         DirectorySort()
 
+    if config.get('observe_name_hash'):
+        class NameHashEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('*build_symbol_name_hash',internal=True)
+            def stop(self):
+                assert not name_hash_entry and gdb.newest_frame().older().name()=='write_publics','namehash actual entry owner/inventory differs'
+                esp=int(gdb.parse_and_eval('$esp'));name_hash_entry.update(esp=esp,stack=list(struct.unpack('<7I',bytes(gdb.selected_inferior().read_memory(esp,28)))));return False
+        NameHashEntered()
+        class ReusedArenaReturned(gdb.FinishBreakpoint):
+            def __init__(self,record):self.record=record;super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                r=self.record;r.update(exit_esp=int(gdb.parse_and_eval('$esp')),after_nonvolatile=[int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')],after_arena=bytes(gdb.selected_inferior().read_memory(r['arena'],24)).hex())
+                if r['name']=='copy_type_arena':r['result']=int(self.return_value)&0xffffffff
+                return False
+        class ReusedArenaEntered(gdb.Breakpoint):
+            def __init__(self,name):self.name=name;super().__init__('*'+name,internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();caller=frame.older()
+                if caller is None or caller.name()!='build_symbol_name_hash':return False
+                assert self.name not in name_hash_reused_calls,'namehash contextual arena call repeated'
+                block=frame.block()
+                while block is not None and block.function is None:block=block.superblock
+                formals={s.name:s.type.strip_typedefs() for s in block if s.is_argument};expected={'arena','capacity'} if self.name=='initialize_arena' else {'arena','data','size'}
+                assert set(formals)==expected and formals['arena'].code==gdb.TYPE_CODE_PTR and formals['arena'].sizeof==4 and formals['arena'].target().sizeof==24,'namehash reused actual arena formal differs'
+                esp=int(gdb.parse_and_eval('$esp'));stack=bytes(gdb.selected_inferior().read_memory(esp,12))
+                arena=int.from_bytes(stack[4:8],'little') if self.name=='initialize_arena' else int(gdb.parse_and_eval('$ecx'))&0xffffffff
+                record=dict(name=self.name,owner=caller.name(),entry_esp=esp,arena=arena,before_nonvolatile=[int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')],formal_types={name:str(kind) for name,kind in formals.items()})
+                if self.name=='initialize_arena':
+                    assert formals['capacity'].code==gdb.TYPE_CODE_INT and formals['capacity'].sizeof==4;record['capacity']=int.from_bytes(stack[8:12],'little')
+                else:
+                    assert formals['data'].code==gdb.TYPE_CODE_PTR and formals['data'].target().sizeof==1 and formals['size'].code==gdb.TYPE_CODE_INT and formals['size'].sizeof==4
+                    record.update(data=int(gdb.parse_and_eval('$edx'))&0xffffffff,size=int.from_bytes(stack[4:8],'little'),before_arena=bytes(gdb.selected_inferior().read_memory(record['arena'],24)).hex())
+                    value=caller.read_var('hash_count');assert value.type.sizeof==2 and int(value.address)==record['data'] and record['size']==2,'namehash actual reused copy WORD input owner differs';record['input']=bytes(gdb.selected_inferior().read_memory(record['data'],2)).hex()
+                name_hash_reused_calls[self.name]=record;ReusedArenaReturned(record);return False
+        ReusedArenaEntered('initialize_arena');ReusedArenaEntered('copy_type_arena')
+        class HashAllocationReturned(gdb.FinishBreakpoint):
+            def __init__(self,record):
+                self.record=record;super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                self.record.update(address=int(self.return_value)&0xffffffff,exit_esp=int(gdb.parse_and_eval('$esp')),after_nonvolatile=[int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')]);return False
+        class HashAllocationEntered(gdb.Breakpoint):
+            def __init__(self,name):self.name=name;super().__init__('*'+name,internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();caller=frame.older()
+                if caller is None or not(caller.name()=='build_symbol_name_hash' or caller.name()=='copy_type_arena' and caller.older() is not None and caller.older().name()=='build_symbol_name_hash'):return False
+                block=frame.block()
+                while block is not None and block.function is None:block=block.superblock
+                formals={s.name:s.type.strip_typedefs() for s in block if s.is_argument}
+                assert set(formals)=={'size'} and formals['size'].sizeof==4 and formals['size'].code==gdb.TYPE_CODE_INT,'namehash allocation actual size formal differs'
+                esp=int(gdb.parse_and_eval('$esp'));size=int.from_bytes(bytes(gdb.selected_inferior().read_memory(esp+4,4)),'little')
+                assert len(main_free_calls)==12 and len(source_family_frees)==2 and all(row.get('returned') for row in main_free_calls+source_family_frees),'namehash new allocation before cleanup completion'
+                record=dict(sequence=len(name_hash_allocations),owner=caller.name(),context='build_symbol_name_hash',kind='checked' if self.name=='allocate_bytes' else 'cleared',size=size,after_frees=12,source_frees=2,entry_esp=esp,before_nonvolatile=[int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')],formal_inventory={'size':str(formals['size'])})
+                name_hash_allocations.append(record);HashAllocationReturned(record);return False
+        HashAllocationEntered('allocate_bytes');HashAllocationEntered('allocate_cleared')
     if config.get('observe_public_padding'):
         class PaddingReturned(gdb.FinishBreakpoint):
             def __init__(self):super().__init__(gdb.newest_frame(),internal=True)
@@ -786,7 +844,10 @@ def capture(configuration,data_file,output):
             if item.get('field'):parameters[item['name']]['field']=item['field']
             if item.get('initialized'):
                 raw=bytes(inferior.read_memory(address,item['width']))
-                if item.get('widen_output'):
+                if item.get('arena_output'):
+                    words=list(struct.unpack('<6I',raw));assert len(name_hash_allocations)==5 and words[2]==words[5]==name_hash_allocations[3]['address'] and words[3]==name_hash_allocations[4]['address']+2,'arena output argument actual new-owner aliases differ'
+                    parameters[item['name']]['description']=dict(capacity=words[0],blocks=words[1],remaining=words[4],last='namehash-output-block',first='namehash-output-block',cursor_owner='namehash-output-payload',cursor_offset=2)
+                elif item.get('widen_output'):
                     words=[int.from_bytes(raw[i:i+4],'little') for i in range(0,16,4)]
                     assert item['width']==16 and words[2]==int(gdb.parse_and_eval('pack_buffer')) and words[3]==int(gdb.parse_and_eval('pack_fixups')),'widen output actual allocation aliases differ'
                     assert 0<=words[0]<=int(gdb.parse_and_eval('pack_buffer_size')) and 0<=words[1]<=int(gdb.parse_and_eval('pack_fixup_count')),'widen output actual capacities exceed owned allocations'
@@ -839,7 +900,9 @@ def capture(configuration,data_file,output):
         caller_state[item['name']]=dict(owner=owner.name(),local=item['local'],width=int(actual.sizeof),native_type=str(actual),value=int(value))
     state['caller_state']=caller_state
     if config.get('observe_public_writer_prefix'):
-        owner=frame.older();assert owner is not None and owner.name()=='write_publics' and owner.older() is not None and owner.older().name()=='flush_packed_file','public writer actual parent scope differs'
+        owner=frame.older()
+        while owner is not None and owner.name()!='write_publics':owner=owner.older()
+        assert owner is not None and owner.older() is not None and owner.older().name()=='flush_packed_file','public writer actual parent scope differs'
         header=owner.read_var('header');actual=header.type.strip_typedefs();assert actual.code==gdb.TYPE_CODE_STRUCT and actual.sizeof==16,'public writer header actual type/extent differs'
         layout={field.name:dict(offset=int(field.bitpos)//8,width=int(field.type.strip_typedefs().sizeof)) for field in actual.fields()}
         assert layout=={'name_method':dict(offset=0,width=2),'address_method':dict(offset=2,width=2),'symbol_bytes':dict(offset=4,width=4),'name_bytes':dict(offset=8,width=4),'address_bytes':dict(offset=12,width=4)},'public writer actual header field layout differs'
@@ -850,9 +913,29 @@ def capture(configuration,data_file,output):
         streams=[]
         for local in ('names','addresses'):
             value=owner.read_var(local);kind=value.type.strip_typedefs();assert kind.code==gdb.TYPE_CODE_STRUCT and kind.sizeof==24,'public writer actual stream extent differs'
-            fields={field.name:field for field in kind.fields()};assert set(fields)=={'state','first'} and fields['first'].bitpos==160 and fields['first'].type.strip_typedefs().sizeof==4,'public writer actual stream first-pointer layout differs'
+            base=int(value.address);arena_layout={name:dict(offset=int(value[name].address)-base,width=int(value[name].type.sizeof)) for name in ('capacity','block_count','last','cursor','remaining','first')}
+            assert arena_layout=={name:dict(offset=index*4,width=4) for index,name in enumerate(('capacity','block_count','last','cursor','remaining','first'))},'public writer actual arena member layout differs'
+            alias=value['fields'];assert int(alias.address)-base==4 and alias.type.strip_typedefs().code==gdb.TYPE_CODE_ARRAY and alias.type.sizeof==20 and alias.type.target().sizeof==4,'public writer actual anonymous arena alias differs'
             streams.append(dict(local=local,address=int(value.address),width=int(kind.sizeof),first_offset=20))
-        state['public_writer_frame']=dict(owner=owner.name(),caller=owner.older().name(),header_address=int(header.address),header=bytes(inferior.read_memory(header.address,16)).hex(),header_layout=layout,padding_address=int(padding.address),padding=int(padding),entry=int(owner.read_var('entry')),offset=int(owner.read_var('offset')),uninitialized_streams=streams,uninitialized_stream_bytes_uncompared=sum(row['width'] for row in streams))
+        state['public_writer_frame']=dict(owner=owner.name(),caller=owner.older().name(),header_address=int(header.address),header=bytes(inferior.read_memory(header.address,16)).hex(),header_layout=layout,padding_address=int(padding.address),padding=int(padding),entry=int(owner.read_var('entry')),offset=int(owner.read_var('offset')),stream_objects=streams,uninitialized_streams=streams[1:] if config.get('observe_name_hash') else streams,uninitialized_stream_bytes_uncompared=24 if config.get('observe_name_hash') else sum(row['width'] for row in streams))
+    if config.get('observe_name_hash'):
+        owner=frame.older();assert owner is not None and owner.name()=='build_symbol_name_hash' and owner.older().name()=='write_publics','namehash actual frame owner differs'
+        scalars={};scalar_addresses={}
+        for name,width in [('hash_count',2),('page_count',2),('position',4),('overflow_count',4)]:
+            value=owner.read_var(name);kind=value.type.strip_typedefs();assert kind.code==gdb.TYPE_CODE_INT and kind.sizeof==width,'namehash actual scalar extent differs';scalars[name]=int(value);scalar_addresses[name]=int(value.address)
+        block=owner.block()
+        while block is not None and block.function is None:block=block.superblock
+        formal_types={symbol.name:symbol.type.strip_typedefs() for symbol in block if symbol.is_argument}
+        assert set(formal_types)=={'key','method','bytes','stream','count','buckets'},'namehash actual six formal inventory differs'
+        for name in formal_types:
+            kind=formal_types[name];assert kind.sizeof==4 and kind.code==(gdb.TYPE_CODE_INT if name=='count' else gdb.TYPE_CODE_PTR),'namehash actual formal kind/width differs'
+        assert formal_types['key'].target().strip_typedefs().code==gdb.TYPE_CODE_FUNC and {name:int(formal_types[name].target().sizeof) for name in ('method','bytes','stream','buckets')}=={'method':2,'bytes':4,'stream':24,'buckets':4},'namehash actual formal pointed extent differs'
+        arguments={name:int(owner.read_var(name))&0xffffffff for name in formal_types}
+        pages=owner.read_var('pages');kind=pages.type.strip_typedefs();assert kind.code==gdb.TYPE_CODE_PTR and kind.sizeof==4 and kind.target().strip_typedefs().code==gdb.TYPE_CODE_PTR and kind.target().target().sizeof==104,'namehash actual bucket pointer type differs'
+        overflow=owner.read_var('overflow_pages');kind=overflow.type.strip_typedefs();assert kind.code==gdb.TYPE_CODE_ARRAY and kind.sizeof==40 and kind.target().sizeof==4 and kind.target().target().sizeof==44,'namehash actual overflow pointer array differs'
+        def layout(typename):
+            kind=gdb.lookup_type(typename).strip_typedefs();return dict(width=int(kind.sizeof),fields={f.name:dict(offset=int(f.bitpos)//8,width=int(f.type.sizeof)) for f in kind.fields()})
+        state['name_hash_frame']=dict(owner=owner.name(),caller=owner.older().name(),arguments=arguments,formal_types={name:str(kind) for name,kind in formal_types.items()},scalars=scalars,scalar_addresses=scalar_addresses,arena_bytes=bytes(actual_inferior.read_memory(owner.read_var('stream'),24)).hex(),pages=int(pages),overflow_pages=bytes(actual_inferior.read_memory(overflow.address,40)).hex(),layouts={name:layout(name) for name in ('NameHashBucket','NameHashOverflow','NameHashPair')},initialized_allocations={str(row['address']):bytes(actual_inferior.read_memory(row['address'],2 if index==4 else row['size'])).hex() for index,row in enumerate(name_hash_allocations)})
     state['file_calls']=file_calls
     state['mapping_calls']=mapping_calls
     state['file_reads']=file_reads
@@ -864,6 +947,9 @@ def capture(configuration,data_file,output):
     state['output_buffer_allocations']=output_buffer_allocations
     state['subsection_calls']=subsection_calls
     state['public_padding']=public_padding
+    state['name_hash_allocations']=name_hash_allocations
+    state['name_hash_entry']=name_hash_entry
+    state['name_hash_reused_calls']=name_hash_reused_calls
     state['directory_before_writer']=output_directory_before
     state['directory_sort_input']=output_directory_sort
     state['directory_sort_complete']=output_directory_complete

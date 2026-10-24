@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "disposition": "Release whole1179B build_symbol_name_hash for ordinary promotion/commit",
+  "independent_pair": "accept.py --candidate build_symbol_name_hash --check-only with current final-audit PASS; no execution/build",
+  "review": [
+    "Readable whole source, reused TypeArena identities and complete name-hash-state.py/source-allocation-roles.py predicates read. No new duplicate target functions.",
+    "Exact five generations4/624/65504/12/4096 with actualcalls/results/cleanup/nonvol/owners. Source-family events exactly three consecutive independently matched roles, not final-three assumption. New owners separate from old address aliases; priorlive packed-output/directory/mapping fullcapacities guarded.",
+    "Actual65 inputnodes/64 hashedrecords derive bucketcounts8,13,12,13,10,8 and overfloworder3,1. Complete624+65504 initializedclear bytes and pointers verified; only2B of4096payload initialized.",
+    "Actual reused initializer/copy ABI/type/owner/entryreturn proof binds24B arena and12B block; true fill_type_arena3formals namesarena/value0/size2, stillINT3 zero bodycredit. Second24Bstream ownuninitialized/uncompared.",
+    "Old incoming bucket stackslot reused as deadcompiler cursor preserved as raw, never cross-side equality. Prefix static no rawFP/retiredroot consumer; futurewrites/frees hold until fresh nextcandidate.",
+    "Compiledsource/PE/ELF unchanged, original never rerun for observer corrections; failednative/duplicatepreflight retained."
+  ],
+  "worker_controls": {
+    "affected_negative": 57,
+    "own_uninitialized_second_stream_positive": true
+  },
+  "limits": [
+    "No unwritten4094B payload/secondstream initializeddata credit.",
+    "No pendingfill or futurestreamwrite/free behavior claim."
+  ],
+  "bindings": {
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0108-name-hash/name-hash-review.json": "cd6766a3b1969a9dc3a8628d1971e0d5554e989f1c0c20c0ad20e49bd428d2e1",
+    "/root/msvc2/decomp/vc5.10/cvppack/src/writer.c": "00b6faa3414bb9b5f9e273ab4be0c1c72fe246a4ed2cfbb9b2fff7cc23f02b0c",
+    "/root/msvc2/decomp/vc5.10/cvppack/src/writer.h": "7f8bf2e9231fddd93e30caf164006dfb51b061eda95b7678ebd4cf0bd69f921e",
+    "/root/msvc2/decomp/vc5.10/cvppack/src/types.h": "a937219499e19de837e5be8238eabbe80a75c10b8b43843738fa30453b92a170",
+    "/root/msvc2/decomp/vc5.10/cvppack/src/types.c": "9da6fbe8e32fbc856dc346f4a7d23fffd83a2bc39442d1127c88f56036e6fe7e",
+    "/root/msvc2/decomp/vc5.10/cvppack/src/type-arena.c": "01d96c2d078aa30e5cd1ac6736480eb4cf70e9ea799df6542fedadf2ad209ea3",
+    "/root/msvc2/decomp/vc5.10/cvppack/src/stubs.c": "a71e0af352f445196efcb94ffe526078aef1adcf58de376156d3341906bb8f6a",
+    "/root/msvc2/decomp/vc5.10/cvppack/scripts/name-hash-state.py": "12d9dd6e5d584894280224efaedf7a998b62bdf4b32592eee8159f00dcd8f2c4",
+    "/root/msvc2/decomp/vc5.10/cvppack/scripts/source-allocation-roles.py": "430ab4c52df3c359da525f9dcfc7605d40f27aef3111791d23efc27ea51ae77c",
+    "/root/msvc2/decomp/vc5.10/cvppack/scripts/public-writer-state.py": "ab974e9142a953c0583fad972e3b4fefcbb65de182ab4162d797c4e158807c8b",
+    "/root/msvc2/decomp/vc5.10/cvppack/scripts/public-padding-state.py": "5224f1d5e5f2c5b6ec4358c889ee04a6b0ea0fc5bede099ebd5fdc04f69accf4",
+    "/root/msvc2/decomp/vc5.10/cvppack/scripts/raw-state.py": "d4488d8f3f37f4c33ec2d38b3a3c8e1a88fbc255945870e0065c03e74f049f3c",
+    "/root/msvc2/decomp/vc5.10/cvppack/scripts/gdb-state.py": "e2514862e252540592b307293854142bab0abe5ff6af3f8c14de8bce93a04791",
+    "/root/msvc2/decomp/vc5.10/cvppack/scripts/name-hash-observer.inc": "37eaabc0ee6c41e91a70b93aec89aaa8936e57c708501aef27adfa978b6a372f",
+    "/root/msvc2/decomp/vc5.10/cvppack/scripts/debug-run.c": "716dd9c7f478305013c9c72f5af59c62abe12d1866a69b5affaffa376ebdea8c",
+    "/root/msvc2/decomp/vc5.10/cvppack/scripts/main-free-evidence.py": "b3fded63e7abe0953994d02314afcf12e5ca482ee7e70a1bccc55dc6958049fe",
+    "/root/msvc2/decomp/vc5.10/cvppack/scripts/name-hash-evidence.py": "39dce7b2087eaed39d44a85776bce03768cd2969d24055fce6370af2bd3551c1",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/name-hash-lifetimes.json": "8aee865e3279aa0bb12d29701d7ed508154044e8101510964e7d6f6c1a658a68",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0108-name-hash/original/receipt.json": "8a761111f153e249d371a449d5c3db2909b3a37ee31e3da36915aa24a67ed451",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0108-name-hash/native-layout-corrected/receipt.json": "3fcb728a59a85828f32e66f53dd6fd0dceadeaff38cbb96e8c5856ad2fb4bc0c",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0108-name-hash/final-audit/audit.json": "9872387cc2288cb048e506989702f3535be25d3711b6139ceb52d97d4e0236df",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0108-name-hash/final-pair-check.log": "a60e9f64dc673c76857d4fcf94210c6ca781c00de18b176e363ebc875cfa463e",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0108-name-hash/name-hash-checks.json": "85cdba747cd508222fd55267cae597f8bbb8fbcbb937fb42309978c16bd353c9",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0108-name-hash/build-source-inputs.json": "5e0b5c554bf70fcaa9f47fcc976b3d701da99d0e529bd3906329f38047ebba58",
+    "/root/.ai-tmp/msvc2/vc5.10/cvppack/namehash108-parent-pair.json": "a60e9f64dc673c76857d4fcf94210c6ca781c00de18b176e363ebc875cfa463e"
+  }
+}
