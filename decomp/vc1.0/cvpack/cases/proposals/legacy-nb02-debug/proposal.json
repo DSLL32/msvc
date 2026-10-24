@@ -1,0 +1,69 @@
+{
+  "status": "proposed-root-review",
+  "case": "legacy-nb02-debug",
+  "input_plan": "Use the genuine37096B NB02 debug block of the already shipped Watcom CFIG386.EXE as a detached .dbg input: byte-exact contiguous extraction [43479,80575), no header/signature/record rewriting. Do not run CFIG386 or resume Watcom reconstruction.",
+  "source": {
+    "path": "toolchains/watcom10.0a/bin/CFIG386.EXE",
+    "bytes": 80575,
+    "sha256": "c9adb1a1b7c9a37f8ea2f365bf4d21b1220855e01436f981b3d3430a002cfc5f",
+    "debug_start": 43479,
+    "debug_bytes": 37096,
+    "debug_sha256": "2e01fe1d2d150f1e20352225636081e0373cae3d79c8b601d8482a4cedc4ddf4",
+    "directory_offset": 34966,
+    "directory_entries": 212,
+    "subsections": {
+      "0x101": {
+        "entries": 98,
+        "bytes": 2291
+      },
+      "0x102": {
+        "entries": 98,
+        "bytes": 5781
+      },
+      "0x103": {
+        "entries": 5,
+        "bytes": 12780
+      },
+      "0x104": {
+        "entries": 5,
+        "bytes": 8202
+      },
+      "0x109": {
+        "entries": 5,
+        "bytes": 5892
+      },
+      "0x106": {
+        "entries": 1,
+        "bytes": 12
+      }
+    }
+  },
+  "argv": [
+    "/nologo",
+    "/cvnew",
+    "/verbose",
+    "cfig386.dbg"
+  ],
+  "why_detached": "Original DOS header e_lfarlc0x1e makes read_image_debug mark unusual_dos and intentionally reject NB02 MZ wrappers. Its unchanged detached NB02 stream has no MZ wrapper and follows the original supported no-PE debug-file/trailer route (same representation produced by /strip). This is an explicit source slice, never relabelled as an unmodified DOS EXE. Successful original CVPACK validation is required before reconstruction.",
+  "static_leads": {
+    "read_old_directory": 309,
+    "read_old_module": 783,
+    "prepare_old_types": 153,
+    "pack_old_types": 458,
+    "compact_old_type": 1785,
+    "read_old_global_types": 108,
+    "read_lines": 136,
+    "pack_new_lines": 1573
+  },
+  "static_estimate_scope": "~5305B leads, not promised gain; actual symbol/types format and old line subsection must be validated with original before reconstruction. read_symbols/prepare_symbols/pack_new_symbols are additional potential paths without current reliable extent estimate.",
+  "validation": "Root review first, explicit standalone unmasked CVPACK success then freeze exact owned slice/master and actual directory inventory. If detached NB02 is rejected, report actual limitation before choosing changes; never patch input headers/signatures. Reuse native cached fixtures and existing exact first-open guarded variant under separately approved input identity; no historical suite or API campaign.",
+  "inventory": {
+    "accepted_application_functions": 178,
+    "accepted_extent_bytes": 55424,
+    "whole_text_bytes": 111678,
+    "whole_text_extent_percent": 49.63,
+    "named_stubs": 25,
+    "non_CRT_denominator": null,
+    "uncertainty": "Remaining native/support and unusedCRT/padding not yet fully classified."
+  }
+}
