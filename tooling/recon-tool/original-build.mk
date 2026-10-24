@@ -10,6 +10,15 @@ endif
 ifneq ($(filter-out %.c %.cpp,$(ORIGINAL_SOURCES)),)
 $(error ORIGINAL_SOURCES supports .c and .cpp sources)
 endif
+# The toolchain name selects the shared launcher/environment. No local wrapper.
+ifneq ($(strip $(ORIGINAL_TOOLCHAIN)),)
+# Keep source/library arguments relative so old Windows tools can read them.
+ORIGINAL_TOOLCHAIN_ROOT := $(shell realpath -m --relative-to="$(CURDIR)" "$(RECON_TOOL_DIR)/../../toolchains/$(ORIGINAL_TOOLCHAIN)")
+ORIGINAL_EXTRA_DEPS += $(RECON_TOOL_DIR)/src/toolchain.rs $(RECON_TOOL_DIR)/src/wine.rs
+ORIGINAL_CC ?= $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) CL.EXE --
+ORIGINAL_LINK ?= $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) LINK.EXE --
+$(ORIGINAL_OBJECTS) $(ORIGINAL_OUTPUT): | $(RECON_TOOL)
+endif
 ORIGINAL_CFLAGS ?= /nologo /c /Od
 # Override either command for a non-MSVC toolchain. These are recursive variables
 # so automatic target/source variables are evaluated in the actual recipe.

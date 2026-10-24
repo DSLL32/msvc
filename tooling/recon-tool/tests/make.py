@@ -165,6 +165,13 @@ local-audit:
                     '--output', str(root/'cycles.mk'), 'src/cycle.c'], cwd=root, check=True)
     first = (root/'cycles.mk').read_text().splitlines()[0]
     assert all(name in first for name in ['cycle-a.h', 'cycle-b.h', 'nested.h'])
+    # Selecting a named toolchain needs no local compiler/linker wrapper.
+    makefile = (root/'Makefile').read_text()
+    makefile = makefile.replace(f'ORIGINAL_CC := python3 {wrapper} original\n', '')
+    makefile = makefile.replace(f'ORIGINAL_LINK := python3 {wrapper} original\n', '')
+    (root/'Makefile').write_text('ORIGINAL_TOOLCHAIN := 1.0-nt\n' + makefile)
+    dry = make('-n', 'win32')
+    assert 'original tool 1.0-nt CL.EXE --' in dry and 'original tool 1.0-nt LINK.EXE --' in dry
     make('clean')
     assert not (root/'.build').exists() and not (root/'original').exists()
     assert all(not path.parent.exists() for path in cases)

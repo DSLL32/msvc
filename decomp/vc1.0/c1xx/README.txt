@@ -18,7 +18,7 @@ Build and run
     make -j4 check           # eight native-only saved-reference cases
     make -j4 unit            # narrow forked native policy/control tests
     make -j4 win32           # explicit original-compiler build, uses shared Wine
-    make -j4 audit           # separate static graph/ABI, data and grammar checks
+    make -j4 audit           # inherited Rust graph/ABI/callback checks
 
 The shared recon-tool.mk discovers numbered cases and owns native/original
 object mapping, case builds, replay and unit targets. The shared recon-tool owns
@@ -34,6 +34,8 @@ Native builds use the current shared lib/recon sources directly; no historical
 shim snapshots or per-build copies are retained.
 RECON_NATIVE_STARTUP_CONTROLFP_53 and binary-default fmode0x8000 are retained.
 Original compilation still uses the historical Win32 source and BINMODE.OBJ.
+ORIGINAL_TOOLCHAIN=1.0-nt selects the shared recon-tool launcher; no local Wine
+wrapper is retained.
 
 Cases and provenance
 --------------------
@@ -53,6 +55,10 @@ The historical captures did not record full independent order for later cases.
 Import/CRT/shim/case-test glue entries are excluded. binary.c is the single
 function registry; the audit configuration is generated from that descriptor.
 policy-data.json retains target data/grammar/callback and native-limit policies.
+Shared registry export projects callback metadata for the inherited graph audit.
+The grammar generators remain build dependencies; original table/data comparison
+scripts were one-time verification and are retired in Git history. Routine
+regression uses the native cases, rather than rerunning those proof scripts.
 runtime.json is the read-only library/member-identification audit input, with no
 application implementation credit; binary.c remains the discovered-function registry.
 

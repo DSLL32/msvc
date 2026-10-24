@@ -34,12 +34,16 @@ ifneq ($(strip $(RECON_AUDIT_PROFILE)),)
 RECON_REPO_ROOT ?= $(abspath $(RECON_TOOL_DIR)/../..)
 RECON_REGISTRY ?= $(BINARY_BUILD)/functions.json
 RECON_AUDIT_REPORT ?= $(ORIGINAL_BUILD)/graph-audit.json
+ifeq ($(RECON_AUDIT_REGISTRY_METADATA),1)
+RECON_AUDIT_METADATA ?= $(ORIGINAL_BUILD)/graph-metadata.json
+endif
 include $(RECON_TOOL_DIR)/../graph-audit/graph-audit.mk
-$(RECON_REGISTRY): binary.c Makefile $(RECON_TOOL_DIR)/recon-tool.mk $(RECON_POLICY) $(RECON_TOOL) | $(firstword $(CASE_TARGETS))
+RECON_REGISTRY_OUTPUTS := $(RECON_REGISTRY) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_METADATA)),$(RECON_AUDIT_METADATA))
+$(RECON_REGISTRY_OUTPUTS) &: binary.c Makefile $(RECON_TOOL_DIR)/recon-tool.mk $(RECON_POLICY) $(RECON_TOOL) | $(firstword $(CASE_TARGETS))
 	@test -n "$(CASE_DIRS)" || { echo 'Registry export needs a numbered case' >&2; exit 1; }
 	@test -n "$(RECON_IMAGE_BASE)" || { echo 'Set RECON_IMAGE_BASE for registry export' >&2; exit 1; }
-	@mkdir -p $(@D)
-	$(RECON_TOOL) registry-export $(firstword $(CASE_DIRS)) --image-base $(RECON_IMAGE_BASE) $(if $(RECON_POLICY),--policy $(RECON_POLICY)) --output $@
+	@mkdir -p $(dir $(RECON_REGISTRY_OUTPUTS))
+	$(RECON_TOOL) registry-export $(firstword $(CASE_DIRS)) --image-base $(RECON_IMAGE_BASE) $(if $(RECON_POLICY),--policy $(RECON_POLICY)) --output $(RECON_REGISTRY) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_METADATA)),--metadata-output $(RECON_AUDIT_METADATA))
 .PHONY: audit recon-graph-audit
 audit: recon-graph-audit
 recon-graph-audit: $(GRAPH_AUDIT_BIN) $(RECON_REGISTRY) $(RECON_AUDIT_METADATA) $(RECON_AUDIT_PREREQUISITES)

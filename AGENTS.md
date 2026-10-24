@@ -55,7 +55,10 @@ cross-project decisions to the orchestrating agent. Include `<recon.h>` last
 in each reconstructed C/header file's include list; it is empty in the Win32 build.
 Keep host compatibility in this shared layer and compile its C files directly at
 native final link. Use `make -j4`. Wine is for explicit original-toolchain builds
-and reference capture, outside fixture execution.
+and reference capture, outside fixture execution. Use
+`recon-tool original tool TOOLCHAIN TOOL -- ARGS` for original-toolchain commands;
+it selects the shared prefix and toolchain environment. Do not add per-binary
+Wine launcher scripts.
 
 Regressions compare native entry traces, status, streams and artifacts against
 cached original references. Never silently recapture or run originals on each

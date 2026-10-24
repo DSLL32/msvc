@@ -5,18 +5,17 @@ import struct
 import sys
 from collections import defaultdict
 from pathlib import Path
-from importlib.machinery import SourceFileLoader
 from binary import PE, COFF, archive, match_section
 from win32_indexes import imports
 
-wt = SourceFileLoader('wine_tool', str(Path(__file__).with_name('wine-tool.py'))).load_module()
-path = sys.argv[1] if len(sys.argv) > 1 else wt.TC / 'bin/C1XX3232.EXE'
+TC = Path(__file__).resolve().parents[4] / 'toolchains/1.0-nt'
+path = sys.argv[1] if len(sys.argv) > 1 else TC / 'bin/C1XX3232.EXE'
 pe = PE(path)
 section = next(s for s in pe.sections if s['name'] == '.text')
 code = pe.data[section['off']:section['off']+section['virtual_size']]
 candidates = []
-objects = list(archive(wt.TC / 'lib/LIBC.LIB'))
-objects += [('SETARGV.OBJ', (wt.TC / 'lib/SETARGV.OBJ').read_bytes())]
+objects = list(archive(TC / 'lib/LIBC.LIB'))
+objects += [('SETARGV.OBJ', (TC / 'lib/SETARGV.OBJ').read_bytes())]
 for name, data in objects:
     obj = COFF(data)
     for text in obj.sections:

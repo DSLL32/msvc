@@ -252,13 +252,21 @@ unchanged cases. Build a single case by naming its `.build/case.so` target from
 the binary root.
 C-only libraries do not require libstdc++.
 
-Optional original builds use a separate `ORIGINAL_SOURCES` list plus
-`ORIGINAL_BUILD`, `ORIGINAL_OUTPUT` and compiler/linker flags. Shared rules derive
-objects with full source paths and track literal include dependencies in one
+Optional original builds select `ORIGINAL_TOOLCHAIN` by name and use a separate
+`ORIGINAL_SOURCES` list plus `ORIGINAL_BUILD`, `ORIGINAL_OUTPUT` and compiler/linker
+flags. `recon-tool original tool TOOLCHAIN TOOL -- ARGS` owns shared-prefix and
+toolchain environment setup; binary-specific Wine wrappers are unnecessary.
+Shared rules derive objects with full source paths and track literal include dependencies in one
 memoized scan; target-specific generators and special include dependencies stay
 local. Optional audit profile/image-base/policy variables enable common registry
-projection and the existing Rust graph checker; binary-specific data/grammar
-checks remain local. Concrete variables are documented in the tool README.
+projection and the existing Rust graph checker; target-specific build inputs
+remain local. `audit` inherits the Rust function-graph/ABI checks from the
+shared include; registry export can also generate callback-table metadata.
+Keep parser/data generators needed for builds. One-time comparisons against
+original parser tables or data belong in scratch work, not a routine audit on
+every reconstruction turn. Use case replay and narrow behavior tests for routine
+regression; revisit generator verification when the generator/grammar changes.
+Concrete variables are documented in the tool README.
 
 The CLI provides `run`, `test`, `inspect`, `registry-export`, and `capture pack/unpack`.
 `registry-export` generates the existing graph auditor's config from `binary.c`,

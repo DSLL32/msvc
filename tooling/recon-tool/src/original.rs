@@ -1,69 +1,17 @@
 //! Explicit original capture only. This module is never called by native replay.
+use crate::wine::command;
 use anyhow::{Context, Result, bail};
 use std::{
     fs,
     path::{Path, PathBuf},
-    process::Command,
 };
-pub fn prefix() -> Result<PathBuf> {
-    Ok(
-        PathBuf::from(std::env::var_os("HOME").context("HOME unset")?)
-            .join(".ai-tmp/vc1.0-capture/wine"),
-    )
-}
-pub fn windows(path: &Path, repo: &Path) -> Result<String> {
-    let scratch =
-        PathBuf::from(std::env::var_os("HOME").context("HOME unset")?).join(".ai-tmp/msvc2");
-    for (base, drive) in [
-        (repo, 'R'),
-        (scratch.as_path(), 'S'),
-        (Path::new("/tmp/recon"), 'T'),
-    ] {
-        if let Ok(relative) = path.strip_prefix(base) {
-            anyhow::ensure!(
-                relative.as_os_str().is_ascii(),
-                "original ANSI transport currently requires ASCII paths"
-            );
-            return Ok(format!(
-                "{drive}:\\{}",
-                relative
-                    .to_str()
-                    .context("non-UTF8 Windows path")?
-                    .replace('/', "\\")
-            ));
-        }
-    }
-    bail!(
-        "original path outside shared R:/S:/T: mappings: {}",
-        path.display()
-    )
-}
-pub fn command(repo: &Path) -> Result<Command> {
-    let prefix = prefix()?;
-    for (drive, expected) in [
-        ("r:", repo.to_owned()),
-        (
-            "s:",
-            PathBuf::from(std::env::var_os("HOME").context("HOME unset")?).join(".ai-tmp/msvc2"),
-        ),
-        ("t:", PathBuf::from("/tmp/recon")),
-    ] {
-        let actual = prefix
-            .join("dosdevices")
-            .join(drive)
-            .canonicalize()
-            .with_context(|| format!("shared Wine drive {drive}"))?;
-        if actual != expected.canonicalize()? {
-            bail!("shared Wine drive {drive} differs from expected mapping")
-        }
-    }
-    let mut c = Command::new("wine");
-    c.env("WINEPREFIX", prefix)
-        .env("WINEARCH", "win32")
-        .env("WINEDEBUG", "-all")
-        .env_remove("CL")
-        .env_remove("_CL_");
-    Ok(c)
+fn windows(path: &Path, repo: &Path) -> Result<String> {
+    let path = crate::wine::windows(path, repo)?;
+    anyhow::ensure!(
+        path.is_ascii(),
+        "original ANSI transport currently requires ASCII paths"
+    );
+    Ok(path)
 }
 pub fn build_helper(repo: &Path) -> Result<PathBuf> {
     let repo = repo.canonicalize()?;
@@ -72,15 +20,11 @@ pub fn build_helper(repo: &Path) -> Result<PathBuf> {
     fs::create_dir_all(&build)?;
     let exe = build.join("wine-broker.exe");
     let object = build.join("wine-broker.obj");
-    let mut c = command(&repo)?;
-    c.arg("R:\\toolchains\\1.0-nt\\bin\\CL.EXE")
-        .args(["/nologo", "/Od", "/G3"])
+    let mut c = crate::toolchain::command(&repo, "1.0-nt", "CL.EXE")?;
+    c.args(["/nologo", "/Od", "/G3"])
         .arg(format!("/Fe{}", windows(&exe, &repo)?))
         .arg(format!("/Fo{}", windows(&object, &repo)?))
         .arg(windows(&root.join("wine/broker.c"), &repo)?)
-        .env("INCLUDE", "R:\\toolchains\\1.0-nt\\include")
-        .env("LIB", "R:\\toolchains\\1.0-nt\\lib")
-        .env("WINEPATH", "R:\\toolchains\\1.0-nt\\bin")
         .current_dir(&build);
     let result = c.output()?;
     fs::write(

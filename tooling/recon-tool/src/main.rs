@@ -6,7 +6,9 @@ mod fixture;
 mod native;
 mod original;
 mod original_image;
+mod toolchain;
 mod trap;
+mod wine;
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use std::{fs, path::PathBuf};
@@ -30,6 +32,9 @@ enum Command {
         image_base: u32,
         #[arg(long)]
         policy: Option<PathBuf>,
+        /// Project declared callback tables for graph-audit alongside the registry.
+        #[arg(long)]
+        metadata_output: Option<PathBuf>,
         #[arg(short, long)]
         output: Option<PathBuf>,
     },
@@ -74,6 +79,8 @@ enum Command {
 }
 #[derive(Subcommand)]
 enum OriginalCommand {
+    /// Run an original compiler/linker/tool in the shared Wine prefix.
+    Tool(toolchain::Tool),
     Capture(original::Capture),
     BuildHelper {
         #[arg(long, default_value = ".")]
@@ -108,6 +115,7 @@ fn execute() -> Result<()> {
             case,
             image_base,
             policy,
+            metadata_output,
             output,
         } => {
             let path = if case.is_dir() {
@@ -160,6 +168,36 @@ fn execute() -> Result<()> {
                 drivers.push(row);
             }
             v["driver"] = serde_json::to_value(drivers)?;
+            if let Some(path) = metadata_output {
+                let mut tables = vec![];
+                for table in v["tables"].as_array().into_iter().flatten() {
+                    if table["kind"] != "function_pointers" {
+                        continue;
+                    }
+                    let functions = table["functions"]
+                        .as_array()
+                        .context("callback table functions")?;
+                    let begin = table["original"]
+                        .as_u64()
+                        .context("callback table original address")?;
+                    let end = begin
+                        .checked_add(
+                            (functions.len() as u64)
+                                .checked_mul(4)
+                                .context("callback table size overflow")?,
+                        )
+                        .context("callback table extent overflow")?;
+                    let name = table["name"].as_str().context("callback table name")?;
+                    tables.push(serde_json::json!({"label":name,"original":[begin,end],"rebuilt_begin":name,"count":functions.len(),"require_accepted":false}));
+                }
+                anyhow::ensure!(!tables.is_empty(), "missing declared callback tables");
+                fs::write(
+                    path,
+                    serde_json::to_string_pretty(
+                        &serde_json::json!({"schema":1,"functions":{},"callback_tables":tables}),
+                    )? + "\n",
+                )?;
+            }
             let text = serde_json::to_string_pretty(&v)? + "\n";
             if let Some(output) = output {
                 fs::write(output, text)?
@@ -168,6 +206,7 @@ fn execute() -> Result<()> {
             }
         }
         Command::Original { command } => match command {
+            OriginalCommand::Tool(options) => toolchain::run(options)?,
             OriginalCommand::Capture(options) => original::capture(options)?,
             OriginalCommand::BuildHelper { repo } => {
                 println!("{}", original::build_helper(&repo)?.display())

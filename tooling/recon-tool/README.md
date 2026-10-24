@@ -18,7 +18,8 @@ the inferred fixture for a single case. `--report` writes timing/results outside
 the ephemeral workspace; keep authoring JSON and reports outside case folders.
 `inspect CASE.so` prints descriptors. `registry-export CASE --image-base 65536
 --policy policy-data.json --output .build/functions.json` projects the binary's
-single registry for the existing graph auditor. Policy data must not duplicate
+single registry for the existing graph auditor. `--metadata-output PATH` also
+projects declared callback tables for the graph audit. Policy data must not duplicate
 `target`, `accepted`, or `driver`. Original-compiler builds and audits remain
 separate. Native execution never invokes Wine.
 
@@ -39,17 +40,15 @@ BINARY_SUPPORT_SOURCES := $(addprefix ../../../lib/recon/src/,compat.c crt.c ent
 NATIVE_CPPFLAGS := -I../../../lib/recon/include -I../../../lib/recon/native -Isrc
 
 # Optional original build: lists can differ from the native build.
+ORIGINAL_TOOLCHAIN := 1.0-nt
 ORIGINAL_SOURCES := $(BINARY_SOURCES) src/runtime.c
 ORIGINAL_BUILD := build
 ORIGINAL_OUTPUT := build/example.exe
-ORIGINAL_CC := python3 scripts/wine-tool.py CL.EXE
-ORIGINAL_LINK := python3 scripts/wine-tool.py LINK.EXE
 ORIGINAL_CPPFLAGS := /Isrc /I../../../lib/recon/include
 ORIGINAL_CFLAGS := /nologo /c /Od /G3
 ORIGINAL_LDFLAGS := /nologo /subsystem:console
-ORIGINAL_LDLIBS := ../../../toolchains/1.0-nt/lib/BINMODE.OBJ
-ORIGINAL_INCLUDE_DIRS := src ../../../lib/recon/include ../../../toolchains/1.0-nt/include
-ORIGINAL_EXTRA_DEPS := scripts/wine-tool.py
+ORIGINAL_LDLIBS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/BINMODE.OBJ
+ORIGINAL_INCLUDE_DIRS = src ../../../lib/recon/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 include $(RECON_TOOL_DIR)/recon-tool.mk
 # Local generated-source rules and target-specific audits follow.
 ```
@@ -74,6 +73,10 @@ native targets never depend on the original build.
 and each discovered case's `.build`.
 
 `win32`/`recon-original` build `ORIGINAL_OUTPUT` when `ORIGINAL_SOURCES` is set.
+`ORIGINAL_TOOLCHAIN` selects the shared compiler/linker launcher; MSVC defaults
+are CL.EXE and LINK.EXE. No binary-specific Wine wrapper is needed.
+`ORIGINAL_TOOLCHAIN_ROOT` is the derived toolchain path relative to the binary.
+Source flags, libraries and generated-source rules remain binary-specific.
 `ORIGINAL_OBJECTS` (also `OBJECTS`) retains source paths and extensions, for example
 `src/options.c` → `build/obj/src/options.c.obj`. Sources are binary-root-relative,
 without `..` components. `binary.c` and native-only shim files are not added to
@@ -92,10 +95,13 @@ and optional `RECON_POLICY` before including `recon-tool.mk`. `RECON_REGISTRY`
 defaults to `.build/functions.json`; projection comes from the first discovered
 case and the single binary registry. `RECON_AUDIT_FLAGS`,
 `RECON_AUDIT_METADATA`, and `RECON_AUDIT_PREREQUISITES` configure target-specific
-checks/input generation. `RECON_AUDIT_REPORT` defaults to
+checks/input generation. `RECON_AUDIT_REGISTRY_METADATA=1` projects declared
+function-pointer tables into callback metadata during the same registry export;
+no local adapter script or metadata rule is needed. `RECON_AUDIT_REPORT` defaults to
 `$(ORIGINAL_BUILD)/graph-audit.json`. `audit` depends on `recon-graph-audit`, which
-uses the graph tool's quiet build include. Append local data/grammar targets or an
-`audit` recipe without duplicating the graph invocation.
+uses the graph tool's quiet build include. One-time comparisons against original
+parser tables or data belong in scratch; routine regression uses case replay and
+narrow behavior tests.
 
 The executor loads the library, applies fixture environment and cwd, and runs
 optional `setup` once. Setup must remain single-threaded and create no children.
@@ -163,7 +169,9 @@ Top-level expected outputs describe successful completion. Optional `partial`
 has its own stdout/stderr/output_files/reject_unexpected_files and
 applies at an expected current frontier. Final expectations are retained intact.
 
-Run `python3 tests/smoke.py` for focused native integration tests. Ordinary IO
+Run `python3 tests/smoke.py` for focused native integration tests.
+`python3 tests/toolchain.py` checks launcher profiles and argument/status handling
+using a stand-in Wine executable, without starting Windows processes. Ordinary IO
 runs require an inferred or explicit capture.bin, even if it only contains `{}`;
 DIRECT and unit-only runs may omit the file when self-contained.
 
@@ -187,6 +195,26 @@ whether the case passed. Debug timing includes the time spent in GDB.
 The shared make rules build the release runner incrementally. `build-quiet.sh` retains
 successful Cargo output in scratch and prints diagnostics only when building
 fails. It never launches Wine.
+
+## Original toolchain launcher
+
+```sh
+recon-tool original tool 1.0-nt CL.EXE -- /nologo /c test.c
+recon-tool original tool 5.10 LINK.EXE -- /nologo /out:test.exe test.obj
+```
+
+Only the toolchain name, tool name and original arguments are required. The
+repository is inferred from cwd or the recon-tool executable location; `--repo`
+can override it. The shared R:/S:/T: Wine prefix is validated, never created or
+remapped. The launcher sets toolchain include/library/search paths, clears
+inherited compiler option variables and preserves cwd, arguments, streams, exit
+status and signals. It adds no ASCII restriction to tool arguments.
+
+Profiles cover `1.0-nt`, `5.10` (native MSVCRT override), and `watcom10.0a`
+(Win32 binnt stubs, WATCOM root and the documented hash-verified GS-patched WLINK).
+Tool names are case-insensitive and may omit `.EXE`. This command is for explicit
+original builds/runs only; native replay never invokes it. `original build-helper`
+uses the same shared toolchain setup.
 
 ## Explicit original capture
 
