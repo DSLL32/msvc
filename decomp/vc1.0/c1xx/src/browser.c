@@ -121,3 +121,10 @@ void __stdcall fill_browser_record(BrowserRecord *record, void *subject)
     case 0xff: fill_browser_generated_symbol(record); break;
     }
 }
+
+/* Original 0x2bd90..0x2bdaf. The oldest live ring entry. */
+BrowserRecordHeader *first_browser_record(void)
+{
+    if (browser_record_count < 1) return 0;
+    return &browser_records[browser_record_head].header;
+}

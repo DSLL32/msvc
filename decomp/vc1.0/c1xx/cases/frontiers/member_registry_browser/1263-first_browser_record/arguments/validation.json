@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_first_browser_record",
+  "case": "member_registry_browser",
+  "accepted_before": 1263,
+  "configuration_sha256": "2a248fd4b87a533b9511da19e593311a5b3e71392d71cf778e6f2120d3387d06",
+  "native_entry": "first_browser_record",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      179600,
+      179632
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl0 pointer EAX RET0",
+    "proof": "Whole32B/noincomingformals or register/x87/flagsinputs. Signedcount94b3c<1 returnsNULL, otherwise head94b40 times24 plusring94b44. No calls/payload reads/newdata. Current livecount1/head0 comes from accepted append/fill; result is commonheader at actualring[head]. No invented wrap/clamp/domain guard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "8e6286fc1cb65cf25dd69c1dd6febc8ab9b0e2f247126e9f67f46b775ed82706",
+  "capture_timing": {
+    "original_capture_seconds": 1.7189618600532413,
+    "native_capture_seconds": 0.1742037944495678,
+    "total_operation_seconds": 2.13153853174299
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "98725aa5e126ee36c0ec430494d6e3dc5e6448a5e9a3848dcc5b9842ab839627",
+    "native-commands.gdb": "d54fe2c85a97cc9641d2535a77a4cf090b9b4ecd0d174cda3c11b2f2b0840341",
+    "native-gdb.log": "fc098f4cdfd610c123a4249ab5944fc0f3cb97bb9da6e5549e613bb4c781f716",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "dd98730ba1c89398449ff6c6c59e1de2b96c3ba185c0a96e9b94be683ee8035b",
+    "original-configuration.json": "2a248fd4b87a533b9511da19e593311a5b3e71392d71cf778e6f2120d3387d06",
+    "original-disassembly.txt": "c6091d8d06b167cd0e5dcc5d9d27acaf8cc72dcbe6bfb9123d9a1c62fe7ae2d6",
+    "original-events.txt": "3bab068b4803fe6a13a4f6039f2284910dea2a6373b0f8a1359669679cb27d64",
+    "original-receipt.json": "9db55987cae64dd925d0ccab99f39085e0bef2fd87bfad32ebcbe5ef8a114fd3",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "be330690b908f92d9f07a81490098b694507346d1e3b4a52aa2bc1ff351c1113"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

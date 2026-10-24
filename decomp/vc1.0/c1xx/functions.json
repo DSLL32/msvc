@@ -1267,7 +1267,8 @@
     "_begin_browser_records",
     "_queue_browser_record@8",
     "_append_browser_record@12",
-    "_fill_browser_record@8"
+    "_fill_browser_record@8",
+    "_first_browser_record"
   ],
   "driver": [
     {
@@ -9479,8 +9480,8 @@
           "original": 585720
         }
       ],
-      "terminal": "_first_browser_record",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1262-fill_browser_record-8/original-events.txt",
+      "terminal": "_second_browser_record",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1263-first_browser_record/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
         "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
@@ -9488,7 +9489,8 @@
         "cases/frontiers/member_registry_browser/1259-begin_browser_records/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1261-append_browser_record-12/frontier-extension.json",
-        "cases/frontiers/member_registry_browser/1262-fill_browser_record-8/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1262-fill_browser_record-8/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1263-first_browser_record/frontier-extension.json"
       ],
       "transient_outputs": [
         {

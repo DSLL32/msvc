@@ -1,0 +1,58 @@
+{
+  "case": "member_registry_browser",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1263,
+  "terminal": "_second_browser_record",
+  "candidate": "_first_browser_record",
+  "pending_accepted": [],
+  "configuration_sha256": "2a248fd4b87a533b9511da19e593311a5b3e71392d71cf778e6f2120d3387d06",
+  "capture_seconds": 1.8693576715886593,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "registry.h": {
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    },
+    "registry.sbt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "registry.cpp": {
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32",
+  "first_entry_projection": {
+    "accepted_first": 1257,
+    "accepted_last": 1264,
+    "accepted_prefix_sha256": "97381523694ec5a1e0609fbd1d40ec9e11460e43b29484289535875c4ac5c9d3",
+    "expected": [
+      "_begin_browser_output",
+      "_format_browser_temporary_name@4",
+      "_begin_browser_records",
+      "_queue_browser_record@8",
+      "_append_browser_record@12",
+      "_fill_browser_record@8",
+      "_first_browser_record"
+    ],
+    "observed": [
+      "_begin_browser_output",
+      "_format_browser_temporary_name@4",
+      "_begin_browser_records",
+      "_queue_browser_record@8",
+      "_append_browser_record@12",
+      "_fill_browser_record@8",
+      "_first_browser_record"
+    ],
+    "events_sha256": "51dd832a90708391e50c65294f51647200980200f9848e396e7900c8bfcd60cb",
+    "plan_sha256": "c160a3dd7768a0d1a2f006194f81070a4251468f0918a99c3c134f1fe045fdce"
+  }
+}

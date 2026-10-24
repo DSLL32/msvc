@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_first_browser_record",
+  "native_entry": "first_browser_record",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      179600,
+      179632
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl0 pointer EAX RET0",
+    "proof": "Whole32B/noincomingformals or register/x87/flagsinputs. Signedcount94b3c<1 returnsNULL, otherwise head94b40 times24 plusring94b44. No calls/payload reads/newdata. Current livecount1/head0 comes from accepted append/fill; result is commonheader at actualring[head]. No invented wrap/clamp/domain guard."
+  }
+}

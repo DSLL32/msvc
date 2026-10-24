@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "2a248fd4b87a533b9511da19e593311a5b3e71392d71cf778e6f2120d3387d06",
+    "functions.json": "1fe39eba6d6fc8f4b05c2e0a499e181e70ecc70fb6df45f6cd8410715bc3f4c9",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "5bd660b0c968ebc8782cafd7d382d10b429e032ecafc150455096a1dc1d379c2",
-    "cases/canonical-map.txt": "638a964149c49d85d20a38be5fe8451418ac3816a837f402b39f8a2c555e8193",
+    "cases/original-entry-references.json": "725d224f18c631aaad0674aeae75718652ec9dcef742f87eb27906e5532b0d45",
+    "cases/canonical-map.txt": "f8077f6f2e81edc8488eeadd05ee764801352c633ca36080687e95f4c3aff8d1",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -67,9 +67,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1262-fill_browser_record-8/entry-reference/original-receipt.json": "129268a5866da1c10652a53f782f242234f8211541e3cd5fbeb8d5a3e8f9d710",
-    "cases/frontiers/member_registry_browser/1262-fill_browser_record-8/entry-reference/original-events.txt": "fefab3340e009c6896882e499715a13aa07b1f4eef9210a01d62b5d7c4f1018d",
-    "cases/frontiers/member_registry_browser/1262-fill_browser_record-8/entry-reference/original-entries.plan": "b25dc725202bce7f088a126493b75c7e79c9cbfe1a9faa2694d7226b35a5d557"
+    "cases/frontiers/member_registry_browser/1263-first_browser_record/entry-reference/original-receipt.json": "556b45cb97137579a68a00a4c4f5ad3719544c64fa7889d30034dd109d78d3f8",
+    "cases/frontiers/member_registry_browser/1263-first_browser_record/entry-reference/original-events.txt": "51dd832a90708391e50c65294f51647200980200f9848e396e7900c8bfcd60cb",
+    "cases/frontiers/member_registry_browser/1263-first_browser_record/entry-reference/original-entries.plan": "c160a3dd7768a0d1a2f006194f81070a4251468f0918a99c3c134f1fe045fdce"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2722,7 +2722,7 @@
     },
     "first_browser_record": {
       "logical": "_first_browser_record",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "first_vector_item": {
       "logical": "_first_vector_item@4",
@@ -7247,7 +7247,8 @@
     "begin_browser_records",
     "queue_browser_record",
     "append_browser_record",
-    "fill_browser_record"
+    "fill_browser_record",
+    "first_browser_record"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13677,7 +13678,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1263,
+      "last": 1264,
       "seen": [
         "main",
         "message_text",
@@ -14839,12 +14840,13 @@
         "queue_browser_record",
         "append_browser_record",
         "fill_browser_record",
-        "first_browser_record"
+        "first_browser_record",
+        "second_browser_record"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_first_browser_record",
-        "native": "first_browser_record",
+        "logical": "_second_browser_record",
+        "native": "second_browser_record",
         "signal": 5
       }
     }
