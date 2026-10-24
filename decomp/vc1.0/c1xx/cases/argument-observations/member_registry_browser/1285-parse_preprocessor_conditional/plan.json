@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "function": "_parse_preprocessor_conditional",
+  "native_entry": "parse_preprocessor_conditional",
+  "argument_words": 4,
+  "original_observations": [
+    {
+      "name": "pp_parentheses",
+      "original": 645044
+    }
+  ],
+  "native_expressions": {
+    "pp_parentheses": "preprocessor_expression_parentheses"
+  },
+  "state_requirements": [
+    {
+      "index": 14,
+      "native_field": "pp_parentheses",
+      "equals": 0
+    }
+  ],
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      100064,
+      100138
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals PreprocessorValue* EAX, SUB4/saveESI+EDI8, RET0",
+    "proof": "Complete74B calls logical-or parser cdecl0, accept_preprocessor_token std4BYTE token5f, optionally secondlogical-or, accepttoken3f and optionally thirdlogical-or, selecting actual true/false pointer by firstvalueDWORD+4. Fresh actual accepted wrapper explicitly initializes token93/depth0 before entry; depth observed0. Two distinct outgoing callees independently complete extents82B/57B, namedstubs; accept helper conditionaltail transfers18180 to separate195B scanner std4 with matching cleanup, registered separately. No formal/register/flags/x87 input/newdata/CRT. Exact missing-colon falsecondition native guard preserves original uninitialized entryESP-4 pointer, no initialization/blanketguard. Current helper stops at mandatory firstlogical-or, not a ternary-path equivalence claim."
+  }
+}

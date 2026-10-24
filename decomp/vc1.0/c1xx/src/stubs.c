@@ -591,4 +591,7 @@ void suppress_browser_records(void) { __asm { int 3 } }
 CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall set_browser_access(unsigned short *attributes, unsigned char access) { __asm { int 3 } }
 
-PreprocessorValue *parse_preprocessor_conditional(void) { __asm { int 3 } return 0; }
+
+PreprocessorValue *parse_preprocessor_logical_or(void) { __asm { int 3 } return 0; }
+int __stdcall accept_preprocessor_token(unsigned char token) { __asm { int 3 } return 0; }
+int __stdcall scan_preprocessor_token(unsigned char token) { __asm { int 3 } return 0; }

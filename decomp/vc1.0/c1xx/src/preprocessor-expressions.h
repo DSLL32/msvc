@@ -13,4 +13,6 @@ typedef char PreprocessorValueLayoutMustMatch[
 extern unsigned char preprocessor_expression_token;
 extern int preprocessor_expression_parentheses;
 PreprocessorValue *parse_preprocessor_conditional(void);
+PreprocessorValue *parse_preprocessor_logical_or(void);
+int __stdcall accept_preprocessor_token(unsigned char token);
 #endif

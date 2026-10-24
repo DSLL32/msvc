@@ -1,10 +1,10 @@
 C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 ==========================================================
 
-PARTIAL binary reconstruction: 1285 accepted frontiers, including 1179 frontend
+PARTIAL binary reconstruction: 1286 accepted frontiers, including 1180 frontend
 functions and seven older CRT functions reconstructed as source.
 Complete cases: cpp_basic, virtual_diamond, copy_assignment, stack_lifetime, new_delete, state_machine_defined_debug.
-Active case member_registry_browser stops at _parse_preprocessor_conditional, original VA 0x186e0.
+Active case member_registry_browser stops at _parse_preprocessor_logical_or, original VA 0x18730.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would
@@ -78,7 +78,7 @@ The distinct defined-debug successor keeps the scalar cache and adds substantial
 multiple-base member-pointer conversions, round trips and virtual calls.
 cases/reconstruction-queue.json records completion and subsequent case review.
 
-Accepted original extents cover 313423 / 476418 code-section bytes (65.787397%).
+Accepted original extents cover 313497 / 476418 code-section bytes (65.802929%).
 The union includes function bodies, shared text data, positively identified CRT and import
 thunks, clipped to section VirtualSize (backed raw size only if zero). This is
 not branch coverage. Whole functions include statically recovered unvisited paths.
@@ -124,7 +124,7 @@ cases/original-entry-references.json binds fresh original first-entry plans,
 raw events and capture receipts. Each debugger first-entry trap is checked,
 restored, instruction-cache flushed and EIP rewound. Missing/out-of-order entries,
 unexpected exceptions and early exit reject the capture. functions.json retains
-the ordered 1285-entry acceptance provenance and full original extents; the cache
+the ordered 1286-entry acceptance provenance and full original extents; the cache
 also classifies exact CRT/import entries. The projection cache is rebuilt only
 explicitly after verified metadata changes:
 
@@ -303,3 +303,10 @@ advance-frontier runs graph checks and cached native fixtures, not those audits.
 The formal-name lookup's exact original span 0x1ff30..0x1ff93 is 99 bytes;
 older prose calling that helper 97 bytes was a size-description error. The
 recorded extent and current whole-body proof use the correct endpoints.
+
+A missing ':' in a preprocessor conditional leaves the original false-result
+pointer unwritten at entryESP-4. Win32 retains that local. Native execution traps
+only when a false condition would consume it, after the real parser side effects;
+a true condition still returns its defined result. Public reachability is unknown.
+evidence/preprocessor-expressions/conditional-missing-colon.json records the
+complete 74-byte def-use proof and false/true/valid-colon focused controls.

@@ -23,3 +23,20 @@ int evaluate_preprocessor_expression(void)
     release_arena(4);
     return value;
 }
+
+/* Original 0x186e0..0x18729. The original leaves the false result
+   unwritten when ':' is absent. Its true result remains usable. */
+PreprocessorValue *parse_preprocessor_conditional(void)
+{
+    PreprocessorValue *condition, *yes, *no;
+    condition = parse_preprocessor_logical_or();
+    if (!accept_preprocessor_token(0x5f)) return condition;
+    yes = parse_preprocessor_logical_or();
+    if (accept_preprocessor_token(0x3f)) no = parse_preprocessor_logical_or();
+#ifdef RECON_NATIVE_TEST
+    /* entryESP-4 has no writer on the original missing-colon branch.
+       Only a false condition consumes that unwritten result pointer. */
+    else if (!condition->value) { __asm { int 3 } }
+#endif
+    return condition->value ? yes : no;
+}

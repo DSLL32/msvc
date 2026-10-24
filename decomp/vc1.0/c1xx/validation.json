@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1285,
-  "driver_functions": 1179,
+  "accepted_frontiers": 1286,
+  "driver_functions": 1180,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 1186,
-  "current_frontier": "_parse_preprocessor_conditional",
-  "original_frontier_va": "0x186e0",
+  "reconstructed_source_functions": 1187,
+  "current_frontier": "_parse_preprocessor_logical_or",
+  "original_frontier_va": "0x18730",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_parse_preprocessor_conditional",
-    "original_va": "0x186e0"
+    "current_frontier": "_parse_preprocessor_logical_or",
+    "original_va": "0x18730"
   },
-  "current_native_application_entries": 28,
+  "current_native_application_entries": 29,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 313423,
+    "accepted_code_bytes": 313497,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 65.78739678181765,
-    "accepted_frontiers": 1285,
-    "source_functions": 1186,
-    "accepted_source_text_and_switch_bytes": 297874,
+    "accepted_code_percent": 65.80292936035163,
+    "accepted_frontiers": 1286,
+    "source_functions": 1187,
+    "accepted_source_text_and_switch_bytes": 297948,
     "section_ranges": [
       [
         94208,
@@ -227,16 +227,29 @@
         "authorization": "Root approved bounded encountered prefix and exact unsupported-data-domain trap",
         "evidence": "evidence/browser-declaration/analysis.json",
         "coverage_note": "Unknown historical full table extent and pseudo-kind lookup reachability; no original-UB or malformed-only classification. Current genuine operator-new symbol is kind7; kind11 suppression and storage7/type4/member7 bypasses retain original ordering."
+      },
+      {
+        "function": "_parse_preprocessor_conditional",
+        "original": [
+          100064,
+          100138
+        ],
+        "condition": "ternary '?' accepted, ':' not accepted, and condition->value==0",
+        "behavior": "Exact native-only INT3 after genuine preceding parser calls, before consuming unwritten false-result pointer",
+        "win32": "Original uninitialized false-result pointer remains uninitialized",
+        "authorization": "Root confirms established exact original-uninitialized-output policy after complete74B prologue/def-use analysis",
+        "evidence": "evidence/preprocessor-expressions/conditional-missing-colon.json",
+        "coverage_note": "SUB4/saveESI+EDI8 makes original18710 [adjustedESP+8] equalentryESP-4, with no writer. On true condition1871a overwrites/discards that load, so no blanket missing-colon guard. Public reachability UNKNOWN; current case has no ternary at this frontier, no malformed-only or stack-equivalence claim."
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 313423,
+    "accepted_code_bytes": 313497,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 65.78739678181765,
-    "accepted_frontiers": 1285,
-    "source_functions": 1186,
-    "accepted_source_text_and_switch_bytes": 297874,
+    "accepted_code_percent": 65.80292936035163,
+    "accepted_frontiers": 1286,
+    "source_functions": 1187,
+    "accepted_source_text_and_switch_bytes": 297948,
     "section_ranges": [
       [
         94208,
@@ -438,13 +451,26 @@
         "authorization": "Root approved bounded encountered prefix and exact unsupported-data-domain trap",
         "evidence": "evidence/browser-declaration/analysis.json",
         "coverage_note": "Unknown historical full table extent and pseudo-kind lookup reachability; no original-UB or malformed-only classification. Current genuine operator-new symbol is kind7; kind11 suppression and storage7/type4/member7 bypasses retain original ordering."
+      },
+      {
+        "function": "_parse_preprocessor_conditional",
+        "original": [
+          100064,
+          100138
+        ],
+        "condition": "ternary '?' accepted, ':' not accepted, and condition->value==0",
+        "behavior": "Exact native-only INT3 after genuine preceding parser calls, before consuming unwritten false-result pointer",
+        "win32": "Original uninitialized false-result pointer remains uninitialized",
+        "authorization": "Root confirms established exact original-uninitialized-output policy after complete74B prologue/def-use analysis",
+        "evidence": "evidence/preprocessor-expressions/conditional-missing-colon.json",
+        "coverage_note": "SUB4/saveESI+EDI8 makes original18710 [adjustedESP+8] equalentryESP-4, with no writer. On true condition1871a overwrites/discards that load, so no blanket missing-colon guard. Public reachability UNKNOWN; current case has no ternary at this frontier, no malformed-only or stack-equivalence claim."
       }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "member_registry_browser",
   "status": "member_registry_browser reconstruction in progress",
-  "latest_verification": "cases/frontiers/member_registry_browser/1284-evaluate_preprocessor_expression/validation.json",
+  "latest_verification": "cases/frontiers/member_registry_browser/1285-parse_preprocessor_conditional/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -483,11 +509,11 @@
     },
     "member_registry_browser": {
       "status": "partial",
-      "frontier": "_parse_preprocessor_conditional",
-      "latest_verification": "cases/frontiers/member_registry_browser/1284-evaluate_preprocessor_expression/validation.json"
+      "frontier": "_parse_preprocessor_logical_or",
+      "latest_verification": "cases/frontiers/member_registry_browser/1285-parse_preprocessor_conditional/validation.json"
     }
   },
-  "next_operation": "Continue _parse_preprocessor_conditional reconstruction",
+  "next_operation": "Continue _parse_preprocessor_logical_or reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {
@@ -684,6 +710,19 @@
       "authorization": "Root approved bounded encountered prefix and exact unsupported-data-domain trap",
       "evidence": "evidence/browser-declaration/analysis.json",
       "coverage_note": "Unknown historical full table extent and pseudo-kind lookup reachability; no original-UB or malformed-only classification. Current genuine operator-new symbol is kind7; kind11 suppression and storage7/type4/member7 bypasses retain original ordering."
+    },
+    {
+      "function": "_parse_preprocessor_conditional",
+      "original": [
+        100064,
+        100138
+      ],
+      "condition": "ternary '?' accepted, ':' not accepted, and condition->value==0",
+      "behavior": "Exact native-only INT3 after genuine preceding parser calls, before consuming unwritten false-result pointer",
+      "win32": "Original uninitialized false-result pointer remains uninitialized",
+      "authorization": "Root confirms established exact original-uninitialized-output policy after complete74B prologue/def-use analysis",
+      "evidence": "evidence/preprocessor-expressions/conditional-missing-colon.json",
+      "coverage_note": "SUB4/saveESI+EDI8 makes original18710 [adjustedESP+8] equalentryESP-4, with no writer. On true condition1871a overwrites/discards that load, so no blanket missing-colon guard. Public reachability UNKNOWN; current case has no ternary at this frontier, no malformed-only or stack-equivalence claim."
     }
   ],
   "shared_pin_refresh": {
