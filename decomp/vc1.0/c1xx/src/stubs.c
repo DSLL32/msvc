@@ -284,7 +284,6 @@ void __stdcall emit_generated_copy_constructor(CppSymbol *symbol, int context, u
 void __stdcall emit_generated_assignment(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 
 unsigned __stdcall data_member_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
-unsigned __stdcall member_function_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
 
 
 

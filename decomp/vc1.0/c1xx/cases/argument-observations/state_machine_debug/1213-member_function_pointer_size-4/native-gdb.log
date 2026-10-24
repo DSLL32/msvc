@@ -1,0 +1,18 @@
+Breakpoint 1 at 0x7c069: file src/type-sizes.c, line 153.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, member_function_pointer_size (shape=0x566321b0) at src/type-sizes.c:153
+153	    unsigned bytes = pointer_kind_size(shape->attributes);
+#0  member_function_pointer_size (shape=0x566321b0) at src/type-sizes.c:153
+#1  0x565d0cf0 in type_size (type=0x5663230c) at src/type-sizes.c:38
+#2  0x565768a1 in write_global_record (tag=1, symbol=0x56655978) at src/global-ir.c:152
+#3  0x565abecd in emit_symbol_declaration (symbol=0x56655978) at src/symbol-output.c:150
+#4  0x565ac7d9 in serialize_scope (scope=0x56655964) at src/function-finalization.c:137
+#5  0x565ac5bd in finish_function_output () at src/function-finalization.c:92
+#6  0x565ac3b2 in finish_function_body (recovering=0) at src/function-finalization.c:54
+#7  0x565ac1b4 in end_function_definition () at src/function-finalization.c:22
+#8  0x565b9e85 in parse_translation_unit () at src/parser-declaration-actions.inc:120
+#9  0x5655dedf in compile_translation_unit () at src/frontend.c:73
+#10 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#11 0x56558894 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

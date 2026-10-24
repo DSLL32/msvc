@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_member_function_pointer_size@4",
+  "native_entry": "member_function_pointer_size",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_shape": "(unsigned)shape"
+  },
+  "formals": [
+    {
+      "name": "shape",
+      "stack_index": 0,
+      "native_field": "raw_shape",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 258561,
+        "original_owner_function": "_type_size@4",
+        "native_owner_function": "type_size",
+        "native_owner_field": "caller_shape",
+        "native_owner_local": "shape",
+        "identity": "Accepted type_size actual shape local livesinESI afteroptionalbasedprefixskip; flag20 branch PUSH ESI4f1fb/CALL4f1fc/return4f201. Native actual immediatecaller shape local binds same logicalTypeShape, nottheCTypepointer."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "esi",
+  "ownership_caller_extent": [
+    323936,
+    324097
+  ],
+  "native_caller_locals": {
+    "caller_shape": {
+      "frame": 1,
+      "function": "type_size",
+      "local": "shape"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      319984,
+      320107
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 unsigned returnEAX",
+    "proof": "Whole123B saveESIEDI8; shapeadjustedESP+12, allRET4. No incomingGPR/x87/CPUflagsformal. Existingpointer_kind_size(shape.attributesWORD+2) setsbase; existingmember_pointer_class_kind(shape.data.tag_symbol+8) returnszeroextendedBYTE. Model0/1base,2base+integerwidth,3base+2width,4base+3width; othermodels0. Widthonlyfor2/3/4 fromexisting builtin_integer_type flagsWORD&15; no hardcoded4 ornewtable. ActualESI/nativecallershape binding. No newdata/CRTbody."
+  }
+}

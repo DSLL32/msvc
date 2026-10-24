@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_member_function_pointer_size@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1213,
+  "configuration_sha256": "5e549db085796269593b4159a11b3c6cb43f513447812298bf62c45559df3328",
+  "native_entry": "member_function_pointer_size",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "shape",
+      "stack_index": 0,
+      "native_field": "raw_shape",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 258561,
+        "original_owner_function": "_type_size@4",
+        "native_owner_function": "type_size",
+        "native_owner_field": "caller_shape",
+        "native_owner_local": "shape",
+        "identity": "Accepted type_size actual shape local livesinESI afteroptionalbasedprefixskip; flag20 branch PUSH ESI4f1fb/CALL4f1fc/return4f201. Native actual immediatecaller shape local binds same logicalTypeShape, nottheCTypepointer.",
+        "original_owner_value": 8311216,
+        "native_owner_value": 1449337264
+      },
+      "original_raw": 8311216,
+      "native_raw": 1449337264,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      319984,
+      320107
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 unsigned returnEAX",
+    "proof": "Whole123B saveESIEDI8; shapeadjustedESP+12, allRET4. No incomingGPR/x87/CPUflagsformal. Existingpointer_kind_size(shape.attributesWORD+2) setsbase; existingmember_pointer_class_kind(shape.data.tag_symbol+8) returnszeroextendedBYTE. Model0/1base,2base+integerwidth,3base+2width,4base+3width; othermodels0. Widthonlyfor2/3/4 fromexisting builtin_integer_type flagsWORD&15; no hardcoded4 ornewtable. ActualESI/nativecallershape binding. No newdata/CRTbody.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "b37113ed89e1fcdc74219611e5665e684ccd05ce5bd36a92cdae679b00ecf69f",
+  "capture_timing": {
+    "original_capture_seconds": 1.6685833120718598,
+    "native_capture_seconds": 0.2075358284637332,
+    "total_operation_seconds": 2.1746012652292848
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "5166acb4d59d949984c9899241009fa21f5dacda75e921110c5669505173c9d8",
+    "native-commands.gdb": "6b78fa06e1915d4efe518226315970b1ca01f05dbd08a188be55401a3caa5597",
+    "native-gdb.log": "0bffe6f8401bd64e2d9e92e6d8b9d3ef0d3098d15b4c6c3717e494ab5c8e49b7",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "1789078b8536b90e32cb517d7b2210e57658099321e29a76ada50cc8d219a645",
+    "original-configuration.json": "5e549db085796269593b4159a11b3c6cb43f513447812298bf62c45559df3328",
+    "original-disassembly.txt": "4e8fc4d3a55af7ed4853cef5b7c4b0035eaf9f1164ee3ebf2eb66ac04e157db3",
+    "original-entries.plan": "ec1bb2bd1753a0869b52ff0a455cfff70368ebed7d87149482b21977058620e6",
+    "original-events.txt": "16d1e034a7ffd56bfbe1a427265e70626b4323b76cd5b9eff5aa7a172444a4e7",
+    "original-ownership-caller-disassembly.txt": "cad68f55d92f24c5696abec044728e98ac3ab60b0f246327c8b9faa851b8e702",
+    "original-receipt.json": "2394c9ba4f640df5852a6e03b1c099506db92b41cad4fb5cabd6242f8095705e",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "afb11236f5eb965905a0d367a8dfbd5b5f36f75c896474604262f5d16ffaf12a"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

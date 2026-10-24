@@ -1,0 +1,66 @@
+{
+  "case": "state_machine_debug",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1213,
+  "terminal": "_member_function_pointer_size@4",
+  "candidate": null,
+  "pending_accepted": [],
+  "configuration_sha256": "5e549db085796269593b4159a11b3c6cb43f513447812298bf62c45559df3328",
+  "capture_seconds": 1.6685833120718598,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state-machine.cpp": {
+      "bytes": 3831,
+      "sha256": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-debug",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "8a5dd15b3b68c276752c474a84e9c4d5d7f165fd80f473e1d1bb6333638564b2",
+  "ownership_register_observations": [
+    {
+      "register": "esi",
+      "value": 8311216,
+      "read_succeeded": true
+    }
+  ],
+  "ownership_entry_projection": {
+    "accepted_first": 997,
+    "accepted_last": 1213,
+    "accepted_prefix_sha256": "c920a2f6b0556f19006cb063d9d95544a38ccea161851061a80396f6de6f2fac",
+    "expected": [
+      "_type_size@4"
+    ],
+    "observed": [
+      "_type_size@4"
+    ],
+    "events_sha256": "16d1e034a7ffd56bfbe1a427265e70626b4323b76cd5b9eff5aa7a172444a4e7",
+    "plan_sha256": "ec1bb2bd1753a0869b52ff0a455cfff70368ebed7d87149482b21977058620e6",
+    "scope": "single explicitly selected accepted ownership caller entry; not a full case trace"
+  }
+}

@@ -1,5 +1,6 @@
 /* Sizes of base types, arrays, pointers and C++ member pointers. */
 #include "type-sizes.h"
+#include "ir.h"
 #include <recon.h>
 
 /* Original 0x4f2d0..0x4f321, stdcall4. Skip an indirect declaration's
@@ -142,5 +143,25 @@ unsigned __stdcall inner_type_size(unsigned short flags, CppSymbol *tag, TypeSha
         default:
             return 0;
         }
+    }
+}
+
+/* Original 0x4e1f0..0x4e26a, stdcall4. A method pointer stores its
+   callable address followed by the inheritance model's integer adjustments. */
+unsigned __stdcall member_function_pointer_size(TypeShape *shape)
+{
+    unsigned bytes = pointer_kind_size(shape->attributes);
+    switch (member_pointer_class_kind(shape->data.tag_symbol)) {
+    case 0:
+    case 1:
+        return bytes;
+    case 2:
+        return bytes + (builtin_integer_type()->flags & 15);
+    case 3:
+        return bytes + 2 * (builtin_integer_type()->flags & 15);
+    case 4:
+        return bytes + 3 * (builtin_integer_type()->flags & 15);
+    default:
+        return 0;
     }
 }
