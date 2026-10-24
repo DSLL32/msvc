@@ -334,3 +334,12 @@ int __cdecl rc_parse_bitwise_xor(void)
         value^=rc_parse_bitwise_and();
     return value;
 }
+
+int __cdecl rc_parse_bitwise_and(void)
+{
+    int value;
+    value=rc_parse_equality();
+    while(rc_accept_expression_token(44))
+        value&=rc_parse_equality();
+    return value;
+}
