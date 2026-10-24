@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_apply_member_pointer@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1178,
+  "configuration_sha256": "f1eace323be435afddc680713752b1cb14e894f8965a3c5cedfa66e15138c811",
+  "native_entry": "apply_member_pointer",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 322943,
+        "original_owner_function": "_builtin_binary_expression@12",
+        "native_owner_function": "builtin_binary_expression",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Accepted builtin_binary_expression keeps actual expression in original EBP; PUSH EBP5ed79/CALL5ed7a/return5ed7f. EBP is that original caller-owned pointer, not a claim about native frame-pointer equality. Native immediate caller expression local owns exactly the argument.",
+        "original_owner_value": 8363120,
+        "native_owner_value": 1449374264
+      },
+      "original_raw": 8363120,
+      "native_raw": 1449374264,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      305424,
+      305616
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 EAX pointer",
+    "proof": "Whole192B/saveEBXESIEDIEBP16: expression adjustedESP+20; allRET4. No incoming GPR/x87/CPUflagsformal. Capture left/right/original low8 operation before normalization;9d becomes9e andleft usesbuiltin unary3a. Boolean object-conversion helper4b1e0..4b260 independently reviewed (128B/RET4/oneformal), namedtrap untilreached. Failure reports647 using preserved originalleft/right types/low8op thenNULL. Data shape10 dispatches inheritance1/2\u2192simple,3\u2192virtual,4\u2192general, othermodelsNULL (definedoriginalreturn, no invented trap). Function-member expression keepsnode andclearstype. Three childbodies whole39/124/328B independentlyreviewed oneformalRET4/no incoming register ABI formals; downstream out-pointer state uncredited, namedtraps untilreached. No newdata or ABI transport.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "6007c82a07a9cdb4880cced7e2e7342adf77ae43334a14f97e31496304b1cec6",
+  "capture_timing": {
+    "original_capture_seconds": 1.6186783332377672,
+    "native_capture_seconds": 0.17760736029595137,
+    "total_operation_seconds": 2.093342778272927
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "1e9013aecd16c9f7350b0dca96f0e737404c94884271c0fe3a1f06aa37894635",
+    "native-commands.gdb": "a343c54fcada18428916f2cebaf559d741313d066dc1aa65e415a435b5b75d53",
+    "native-gdb.log": "c41cc47e05b64c1d9948ce0f3afa43ea55dbaa0edc448ff49d5fbd3dfbf86b4e",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "235643b36ae89844b00e11e5d8d327ea62f7cafcacb736371ba668fe012eb595",
+    "original-configuration.json": "f1eace323be435afddc680713752b1cb14e894f8965a3c5cedfa66e15138c811",
+    "original-disassembly.txt": "845d350cf84934ade38c7a44961ee790a9b17792e4b02e335fab86ba04bc04c2",
+    "original-entries.plan": "06af61bdb7064b08168e9c95dc6376c01be0731acee905fc3144cdff89bd8077",
+    "original-events.txt": "ae21831faba7b40bb359858777154485c0f0841572ee8d6f9526df9bfd9b26d0",
+    "original-ownership-caller-disassembly.txt": "bd6d0a9779f3f639cddcb09e91f502bddab14a327b82aa7da42c9cd4590f992d",
+    "original-receipt.json": "8a7fe6ca82b514f40e203f8ce3062d0daaa96eab38d5110f9f77172260e3ba88",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "8bc79b08bb959eed3c71d673680ae68748e5d75ef010b25c46f1e107870b2e4c"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

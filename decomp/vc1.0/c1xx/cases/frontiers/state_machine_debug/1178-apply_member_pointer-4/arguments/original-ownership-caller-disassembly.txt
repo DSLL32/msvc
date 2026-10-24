@@ -1,0 +1,9 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0005ed79 <.text+0x47d79>:
+   5ed79:	55                   	push   ebp
+   5ed7a:	e8 91 bb fe ff       	call   0x4a910

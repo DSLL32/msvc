@@ -31,6 +31,11 @@ IrToken *__stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset
 IrToken *__stdcall make_general_data_member_pointer(CType *type, IrToken *offset,
     int vbptr_offset, IrToken *vbtable_offset);
 
+int __stdcall convert_member_pointer_object(IrToken *expression);
+IrToken *__stdcall apply_simple_data_member_pointer(IrToken *expression);
+IrToken *__stdcall apply_virtual_data_member_pointer(IrToken *expression);
+IrToken *__stdcall apply_general_data_member_pointer(IrToken *expression);
+
 int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
 int __stdcall equal_member_function_parameters(FunctionParameters *source,
     FunctionParameters *target);
@@ -309,4 +314,37 @@ IrToken *__stdcall member_pointer_expression(QualifiedDeclarator *qualifier)
 #endif
         return unsupported_result;
     }
+}
+
+/* Original 0x4a910..0x4a9cf, stdcall4. Normalize object/member
+   application before selecting its data-member inheritance representation.
+   Function members retain this expression for later call lowering. */
+IrToken *__stdcall apply_member_pointer(IrToken *expression)
+{
+    IrToken *left = (IrToken *)expression->value.pointer;
+    IrToken *right = expression->tail.right;
+    unsigned char operation = expression->kind;
+    if (operation == 0x9d) {
+        expression->kind = 0x9e;
+        expression->value.pointer = builtin_unary_expression(0x3a, left);
+    }
+    if (!convert_member_pointer_object(expression)) {
+        report_type_conversion(647, 0, operation, right->type, left->type);
+        return 0;
+    }
+    if (right->type->related->flags & 0x10) {
+        switch (member_pointer_inheritance_model(right->type)) {
+        case 1:
+        case 2:
+            return apply_simple_data_member_pointer(expression);
+        case 3:
+            return apply_virtual_data_member_pointer(expression);
+        case 4:
+            return apply_general_data_member_pointer(expression);
+        default:
+            return 0;
+        }
+    }
+    expression->type = 0;
+    return expression;
 }

@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "ba403aa08a6e9c63660acdc2224c234f672fbcbbeca3ede32dfee92cef904ca9",
+    "functions.json": "e8a6964e654487861e0f69490c0d9dd768c3a771790717859dc4b45d47ace0b6",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "fdcd34d4ca54a73dc9194420884597f21d9b214fb393d98c6e89f1db6bcbe3c8",
-    "cases/canonical-map.txt": "53bfcb2690aa273ead8043c2afc91a3b899e6fb1621ccd3784bd09e79cf1693d",
+    "cases/original-entry-references.json": "c6bc5e85dce0a1ce5d38f024551a55c94faf7b834f913c8617745c18413a8213",
+    "cases/canonical-map.txt": "1537f7b424d5053c5a53cb8bec31141986fb1c1168ee99651c6336e0ed10871d",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1177-prepare_do_body/entry-reference/original-receipt.json": "b176a8359ec6ac0bdafc1ec128c64db5349bd107955124710a3955b96942aadc",
-    "cases/frontiers/state_machine_debug/1177-prepare_do_body/entry-reference/original-events.txt": "56ca51672bb9a7f86cd60671e2df07844ce2b92d40b380270bc584c8440735eb",
-    "cases/frontiers/state_machine_debug/1177-prepare_do_body/entry-reference/original-entries.plan": "21acd2407a6cc6db911b786927f31d677b27a5b8a94849ef9a0b485a3c8d3357"
+    "cases/frontiers/state_machine_debug/1178-apply_member_pointer-4/entry-reference/original-receipt.json": "95e169eec1413a662f19cbfa5688f80897983936051bbb75416866bf970f7e78",
+    "cases/frontiers/state_machine_debug/1178-apply_member_pointer-4/entry-reference/original-events.txt": "b326bbde5588a5ab4bfb2a586765eb429a48330a9b7ead76dfd6272211c8e8b3",
+    "cases/frontiers/state_machine_debug/1178-apply_member_pointer-4/entry-reference/original-entries.plan": "e04107f84b505feacfad4422b359e4be7ce4f5b32042bce0b94c1adccd9d1ed4"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -274,6 +274,10 @@
       "logical": "_apply_default_vtordisp@4",
       "source": "src/tags.c"
     },
+    "apply_general_data_member_pointer": {
+      "logical": "_apply_general_data_member_pointer@4",
+      "source": "src/stubs.c"
+    },
     "apply_inheritance_model": {
       "logical": "_apply_inheritance_model@4",
       "source": "src/tags.c"
@@ -288,11 +292,15 @@
     },
     "apply_member_pointer": {
       "logical": "_apply_member_pointer@4",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "apply_option": {
       "logical": "_apply_option",
       "source": "src/options.c"
+    },
+    "apply_simple_data_member_pointer": {
+      "logical": "_apply_simple_data_member_pointer@4",
+      "source": "src/stubs.c"
     },
     "apply_symbol_based_type": {
       "logical": "_apply_symbol_based_type@8",
@@ -301,6 +309,10 @@
     "apply_type_symbol": {
       "logical": "_apply_type_symbol@12",
       "source": "src/type-specifiers.c"
+    },
+    "apply_virtual_data_member_pointer": {
+      "logical": "_apply_virtual_data_member_pointer@4",
+      "source": "src/stubs.c"
     },
     "arithmetic_promotion_type": {
       "logical": "_arithmetic_promotion_type@4",
@@ -1229,6 +1241,10 @@
     "convert_member_pointer_initializer": {
       "logical": "_convert_member_pointer_initializer@8",
       "source": "src/numeric-conversion.c"
+    },
+    "convert_member_pointer_object": {
+      "logical": "_convert_member_pointer_object@4",
+      "source": "src/stubs.c"
     },
     "convert_member_pointer_representation": {
       "logical": "_convert_member_pointer_representation@16",
@@ -6832,7 +6848,8 @@
     "check_switch_case_initialization",
     "begin_do_statement",
     "begin_do_body_region",
-    "prepare_do_body"
+    "prepare_do_body",
+    "apply_member_pointer"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10955,7 +10972,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1178,
+      "last": 1179,
       "seen": [
         "main",
         "message_text",
@@ -12032,12 +12049,13 @@
         "begin_do_statement",
         "begin_do_body_region",
         "prepare_do_body",
-        "apply_member_pointer"
+        "apply_member_pointer",
+        "convert_member_pointer_object"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_apply_member_pointer@4",
-        "native": "apply_member_pointer",
+        "logical": "_convert_member_pointer_object@4",
+        "native": "convert_member_pointer_object",
         "signal": 5
       }
     }
