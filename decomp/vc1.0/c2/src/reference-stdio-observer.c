@@ -271,6 +271,19 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
     }
+    if(!strcmp(call->name,"@omf_mark_symbol@4")) {
+        DWORD symbol=call->args[0],identifier=read_word(process,symbol+28);
+        DWORD name=read_word(process,symbol+16),bucket=identifier&63,index=0;
+        DWORD member=read_word(process,image_base+0x6c158+4*bucket);
+        DWORD flags=read_word(process,symbol+34)&65535,kind=read_word(process,symbol+12)&255;
+        while(member&&member!=symbol&&index<1024){member=read_word(process,member);++index;}
+        if(!member||index==1024)exit(290);
+        sprintf(line,"omf_mark pointer %08lx bucket %lu index %lu member %08lx\n",symbol,bucket,index,member);log_line(line);
+        dump_bytes(process,"omf_mark_header_hex",symbol+12,4);
+        dump_bytes(process,"omf_mark_identity_hex",symbol+24,8);
+        dump_bytes(process,"omf_mark_flags_hex",symbol+34,((flags&5)==4&&(kind==1||kind==4))?6:2);
+        dump_bytes(process,"omf_mark_name_hex",name,string_bytes(process,name));
+    }
     if(!strcmp(call->name,"@omf_reserve_bytes@8")) {
         DWORD current=read_word(process,image_base+0x6b88c);
         DWORD record=call->args[0],used=read_word(process,record+16)-record;

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python3",
+    "scripts/observe-omf-mark-entry.py",
+    "--native-only"
+  ],
+  "seconds": 0.24309786781668663,
+  "returncode": 0,
+  "log_sha256": "34c5bb432cc7d04fa7417dfdc88f64f068505676e095e843b0d2290f65172d57"
+}

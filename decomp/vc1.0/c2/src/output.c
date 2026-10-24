@@ -100,7 +100,7 @@ void initialize_output_callbacks(void)
     output_callbacks.finish_module = (OutputRoutine)omf_finish_module;
     output_callbacks.relocation = omf_output_relocation;
     output_callbacks.record = omf_output_record;
-    output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))omf_mark_symbol;
+    output_callbacks.mark_symbol = omf_mark_symbol;
         if (codeview_debug || line_debug) {
     output_callbacks.debug_pair = (void (__fastcall *)(char *))omf_output_debug_pair;
     output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))omf_output_debug_record;

@@ -1280,7 +1280,8 @@
     "@omf_define_fixup_thread@16",
     "@omf_select_segment@4",
     "@omf_output_data@8",
-    "@omf_reserve_bytes@8"
+    "@omf_reserve_bytes@8",
+    "@omf_mark_symbol@4"
   ],
   "driver": [
     {
@@ -2364,10 +2365,23 @@
       }
     },
     {
-      "name": "_omf_mark_symbol",
+      "name": "@omf_mark_symbol@4",
       "start": 437024,
-      "end": 437025,
-      "provisional": true
+      "end": 437431,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-mark-native-abi/validation.json",
+        "scope": "Actual _omf_callback global descriptor,kind1/flags980/output_flags4/attributesa3/segmentid2/identifier121 and closed global hash owner observed; consumed ranges only, no uninitialized descriptor tail. Sole ECX pointer/RET0, no hidden register/stack/flags/x87 input. Non-COMDAT actual path calls lookup then public emitter."
+      }
     },
     {
       "name": "_default_runtime_library",
@@ -8993,6 +9007,48 @@
         "entry_observation": "cases/omf-reserve-abi/validation.json",
         "scope": "Actual record aliases current A1 slot0/debug context/count0/cursor+28 and bytecount4 observed; signed32 remaining/count compare, RET0, no hidden stack/register/flags/x87 input. Raw28 owned bytes retained, no uninitialized tail reads."
       }
+    },
+    {
+      "name": "@omf_emit_public@8",
+      "start": 438000,
+      "end": 438001,
+      "provisional": true
+    },
+    {
+      "name": "@omf_emit_external@4",
+      "start": 437632,
+      "end": 437633,
+      "provisional": true
+    },
+    {
+      "name": "@omf_emit_local_external@4",
+      "start": 437696,
+      "end": 437697,
+      "provisional": true
+    },
+    {
+      "name": "@omf_emit_comdat_external@4",
+      "start": 437760,
+      "end": 437761,
+      "provisional": true
+    },
+    {
+      "name": "@omf_local_name_index@4",
+      "start": 437840,
+      "end": 437841,
+      "provisional": true
+    },
+    {
+      "name": "@omf_emit_communal@4",
+      "start": 437904,
+      "end": 437905,
+      "provisional": true
+    },
+    {
+      "name": "@omf_emit_weak_external@4",
+      "start": 437440,
+      "end": 437441,
+      "provisional": true
     }
   ],
   "cases": {

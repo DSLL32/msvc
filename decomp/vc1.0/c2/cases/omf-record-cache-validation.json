@@ -135,6 +135,6 @@
       ]
     }
   ],
-  "seconds": 0.2782209310680628,
+  "seconds": 0.2682378999888897,
   "scope": "Whole34-byte original/canonical function, exact four tag writes/current-record assignment and every other pool byte unchanged under four poison patterns. Original/canonical globals lie in BSS, zero implicit initial storage; no raw data/section copy.1004-byte slot stride/end from original initializer and cache lookup;20-byte header/context/count/cursor and serialized wire bytes from6c060/6c330 producers. These later functions remain unaccepted; analysis establishes layout only. True zero-argument/hidden-input ABI observed separately; no buffer output or case completion claimed."
 }

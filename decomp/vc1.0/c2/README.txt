@@ -626,3 +626,16 @@ native-only observer reuses original, no recapture. Original/W3/ordinary full
 audits and15 native cases pass (14 complete), next mark-symbol6ab20.341084/
 399693 accepted extent bytes; app/support322784B and1161functions exclude5
 historical CRT bodies. Split timings/limits: cases/omf-data-reserve-checkpoint.json.
+
+Checkpoint1277 reconstructs407-byte symbol marking with all original storage/
+COMDAT/function/weak dispatch edges and named unaccepted emitter children.126
+whole original/canonical controls and8 actual ABI rejects pass, including
+post-child reloads and full bounded state/callee-saved checks. Actual global
+_omf_callback kind1/flags980/output4/attributesa3/segment2 has closed bucket57
+member0 owner; only consumed ranges/name observed. Cold COMDAT/function branches
+are controlled separately. Original/W3/full audits and15 cached native cases
+pass (14 complete), next public emitter6aef0.341491/399693 accepted extent bytes;
+app/support323191B and1162functions exclude5 historical CRT bodies. The55.297s
+audit command includes126 canonical recompiles/link/index, so build/check
+within it is unsplit, not audit-only; model2.073s. Other measured/failed attempts
+and scope: cases/omf-mark-checkpoint.json.

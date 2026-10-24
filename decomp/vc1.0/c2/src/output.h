@@ -83,7 +83,7 @@ void omf_output_size(void);
 void omf_finish_module(void);
 unsigned __fastcall omf_output_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment);
 void __fastcall omf_output_record(ModuleDirective *directive);
-void omf_mark_symbol(void);
+void __fastcall omf_mark_symbol(SymbolHeader *symbol);
 unsigned count_function_saved_registers(void);
 void __fastcall write_function_frame_record(FunctionSymbol *symbol, unsigned offset, unsigned bytes, unsigned locals, unsigned short parameters, unsigned char prologue, unsigned char saved, unsigned char frame, unsigned char base_pointer);
 #endif

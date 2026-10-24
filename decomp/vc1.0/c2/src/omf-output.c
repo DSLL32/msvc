@@ -2,6 +2,7 @@
 #include "omf-output.h"
 #include "options.h"
 #include "records.h"
+#include "machine.h"
 #include <recon.h>
 extern int floating_frontend, codeview_debug, dos_object;
 extern char *generated_source;
@@ -24,6 +25,13 @@ void omf_write_fixups(void);
 OmfRecord *__fastcall omf_reserve_bytes(OmfRecord *record, unsigned bytes);
 void __fastcall omf_write_comment(unsigned char kind, char *text);
 int __fastcall omf_intern_name(char *name, unsigned *index);
+void __fastcall omf_emit_public(SymbolHeader *symbol, Segment *segment);
+void __fastcall omf_emit_external(SymbolHeader *symbol);
+void __fastcall omf_emit_local_external(SymbolHeader *symbol);
+void __fastcall omf_emit_comdat_external(SymbolHeader *symbol);
+unsigned __fastcall omf_local_name_index(char *name);
+void __fastcall omf_emit_communal(SymbolHeader *symbol);
+void __fastcall omf_emit_weak_external(FunctionSymbol *symbol);
 /* Original name interner: hash first five signed bytes into16 buckets.
    Nodes allocated at6c5ad have name/index/next at0/4/8 and size12. */
 typedef struct OmfName {
@@ -698,4 +706,62 @@ OmfRecord *__fastcall omf_reserve_bytes(OmfRecord *record, unsigned bytes)
     if ((long)((unsigned)record - (unsigned)record->cursor + 998) <= (int)bytes)
         return omf_initialize_record(record, record->type, record->context);
     return record;
+}
+
+/* Original [0006ab20,0006acb7). OMF only marks queued, not-yet-emitted
+   symbols. COMDATs refer to their segment name; ordinary variable/function
+   storage classes choose public, external, local-external or communal records. */
+void __fastcall omf_mark_symbol(SymbolHeader *symbol)
+{
+    BackendSymbol *backend = (BackendSymbol *)symbol;
+    Segment *segment;
+    unsigned storage;
+    if (!(backend->output_flags & 4) || (backend->output_flags & 1)) return;
+    backend->output_flags |= 1;
+    if (symbol->kind == 1) {
+        if (symbol->field0e & 0x20) {
+            segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+            if (!segment->object_section) {
+                if ((backend->attributes & 0x780) == 0x200) {
+                    segment->object_attributes.omf_comdat.flags |= 4;
+                    segment->object_section = omf_local_name_index(symbol_display_name(symbol));
+                } else segment->object_section = omf_name_index(symbol_display_name(symbol));
+            }
+            omf_emit_comdat_external(symbol);
+        } else {
+            storage = backend->attributes;
+            if (((storage & 0x780) >> 7) == 1) {
+                segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+                omf_emit_public(symbol, segment);
+            } else if (((storage & 0x780) >> 7) == 2)
+                omf_emit_external(symbol);
+            else if (((storage & 0x780) >> 7) == 3) {
+                if ((storage & 0x70) == 0x40) {
+                    segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+                    omf_emit_public(symbol, segment);
+                } else omf_emit_communal(symbol);
+            }
+        }
+    } else if (symbol->kind == 4) {
+        if (symbol->field0e & 0x20) {
+            segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+            if (!segment->object_section) {
+                if ((backend->attributes & 0xf0) == 0x50)
+                    segment->object_section = omf_name_index(symbol_display_name(symbol));
+                else {
+                    segment->object_attributes.omf_comdat.flags |= 4;
+                    segment->object_section = omf_local_name_index(symbol_display_name(symbol));
+                }
+            }
+            omf_emit_comdat_external(symbol);
+        } else {
+            storage = (backend->attributes & 0xf0) >> 4;
+            if (storage == 2 || storage == 3) omf_emit_local_external(symbol);
+            else if (storage == 4 || storage == 5) {
+                omf_emit_external(symbol);
+                if (backend->attributes & 0x8000)
+                    omf_emit_weak_external((FunctionSymbol *)symbol);
+            }
+        }
+    }
 }

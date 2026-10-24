@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python3",
+    "scripts/debug-frontier.py",
+    "--profile",
+    "omf",
+    "--reference",
+    "cases/omf-original-1277.json"
+  ],
+  "seconds": 0.21923341788351536,
+  "returncode": 0,
+  "log_sha256": "89ee19a14c05199a30aa1fa736ff8ab561e2cc5e811e8e4f63bd0c3b0493f61e"
+}
