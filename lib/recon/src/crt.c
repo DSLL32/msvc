@@ -1816,6 +1816,9 @@ char *recon_getpath(const char *path,char *out,int capacity)
     out[n]=0; return (char *)(*path?path+1:path);
 }
 int recon_isctype(int c,int flags) { return c>=-1 && c<256?(recon_pctype[c]&flags):0; }
+/* Typed unvisited WCHAR16/count32 boundary; no host wchar32 fallback. */
+WEAK int __cdecl recon_wcsncmp(const WCHAR *left,const WCHAR *right,size_t count)
+{ (void)left;(void)right;(void)count;recon_unsupported("unreviewed UTF16 wcsncmp");return 0; }
 int recon_wcscmp(const WCHAR *a,const WCHAR *b)
 {
     while (*a && *a==*b) { ++a; ++b; }

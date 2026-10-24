@@ -1,0 +1,15 @@
+{
+  "scope": "Native WCHAR16/count32 int cdecl wcsncmp declaration/remap and always125 body, including count0. No hostwchar32 fallback or success semantics. OriginalWin32 genuineSDK import unchanged.",
+  "frozen_receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/wcsncmp-surface/receipt.json",
+    "sha256": "614958ad78214a340c436eec803b2199f8e72fb2b9e753533ab3a35e044d71e6"
+  },
+  "static_review": "SDKSTRING.H225/qualifiedRCDLLIAT10cc/call4df7/pops12/canonicalMSVCRTordinal742/hot8b2f/count0fb2c authenticated; targetimport unexecuted in staticfrontier packet.",
+  "native_checks": "Four frozenGCCClangdefault510 probes: WCHAR16/size_t32/cdecl pointer compile,8NULL/count0/empty/equal/highWORD/maxcount denials each; no hostwcsncmp import;corePASS.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/wcsncmp-surface-parent-review.json",
+    "sha256": "5df8a1478d44418197c94fce5304db074861284e9791deb3914148608eb80a03",
+    "result": "PASS28sourcebindings/4frozenprobes and independentSDK/target/provider/ABI review"
+  },
+  "actual_success": "Not implemented. RCDLL nextordinary import observations and separate semantic review required."
+}
