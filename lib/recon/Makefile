@@ -561,3 +561,10 @@ build/mbctolower-byte-probe: tests/mbctolower-byte-probe.c $(SOURCES) $(HEADERS)
 mbctolower-byte-check: build/mbctolower-byte-probe
 	test -n "$(MBCTOLOWER_REFERENCE)"
 	$(PYTHON) tests/check-mbctolower-byte.py build/mbctolower-byte-probe "$(MBCTOLOWER_REFERENCE)"
+
+.PHONY: sopen-lease-check
+build/sopen-lease-probe: tests/sopen-lease-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+sopen-lease-check: build/sopen-lease-probe
+	test -n "$(SOPEN_LEASE_REFERENCE)"
+	$(PYTHON) tests/check-sopen-lease.py build/sopen-lease-probe "$(SOPEN_LEASE_REFERENCE)"

@@ -81,7 +81,7 @@ WEAK long recon_osfhnd[256];
 #define os_handles recon_osfhnd
 char *recon_decimal_point=".";
 static int pushed_byte[256];
-/* Nonzero only for the isolated, reviewed _fsopen binary sharing contract.
+/* Nonzero only for reviewed isolated binary _fsopen/_sopen leases.
  * Values are Win32 share flags plus one, not a general sharing emulator. */
 DWORD recon_fsopen_shares[256];
 static int fsopen_active;
@@ -712,8 +712,26 @@ WEAK int recon_sopen(const char *name,int mode,int sharing,...)
 {
     DWORD access,disposition;
     HANDLE handle;
-    int fd;
+    int fd,restricted=0;
     DWORD share=FILE_SHARE_READ|FILE_SHARE_WRITE;
+    if (!fsopen_active && (mode&0x80)) {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+        char path[PATH_MAX];struct stat existing;int permission,saved_errno=errno;va_list args;
+        if(mode!=0x8182 || sharing!=0x10)
+            recon_unsupported("unreviewed noinherit _sopen tuple");
+        va_start(args,sharing);permission=va_arg(args,int);va_end(args);
+        if(permission!=0x180)
+            recon_unsupported("unreviewed noinherit _sopen permission");
+        recon_fsopen_check_mappings();
+        if(recon_host_path(name,path,sizeof(path)) || !lstat(path,&existing) || errno!=ENOENT)
+            recon_unsupported("noinherit _sopen requires absent path");
+        /* An isolated single-process lease reuses the existing inode guard;
+         * later aliases, dup and mappings remain explicit unsupported paths. */
+        fsopen_preflight(name);errno=saved_errno;share=0;restricted=1;
+#else
+        recon_unsupported("noinherit _sopen requires MSVCRT510 profile");
+#endif
+    }
     if (fsopen_active) share=sharing==0x20?FILE_SHARE_READ:0;
     access=(mode&3)==2?GENERIC_READ|GENERIC_WRITE:(mode&1)?GENERIC_WRITE:GENERIC_READ;
     disposition=(mode&0x500)==0x500?CREATE_NEW:(mode&0x300)==0x300?CREATE_ALWAYS:
@@ -725,6 +743,7 @@ WEAK int recon_sopen(const char *name,int mode,int sharing,...)
     if (recon_set_osfhnd(fd,(long)handle)) recon_unsupported("sopen descriptor ownership");
     recon_osfile[fd]=1|((mode&0x8000)?0:(mode&0x4000 || recon_fmode!=0x8000)?0x80:0);
     if (mode&8) recon_osfile[fd]|=0x20;
+    if (restricted) {recon_osfile[fd]|=0x10;recon_fsopen_shares[fd]=1;}
     pushed_byte[fd]=-1;
     return fd;
 }

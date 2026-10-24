@@ -1,0 +1,380 @@
+{
+  "scope": "Explicit MSVCRT510 exact sopen flags8182/share10/permission180, absent path, isolated singleprocess restricted lease; real file/descriptor/RDWR/CLOEXEC+lowio0x10; no general sharing emulator, MRE provider, cached file content, WindowsERROR32 or child inheritance model",
+  "references": [
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/prefix-packet.json",
+      "sha256": "87bb815753fcd92f716ec154b0cbff03ab7735d7f0d1f30d443e1d813ecbb67c",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/reference/prefix-packet.json"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/native-boundary-plan.json",
+      "sha256": "b970e265b706323460cc660b243d90e5ad687a749f045a9ad8e1650a32138f22",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/reference/native-boundary-plan.json"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-object-preuse/prefix-parent-review-v2.json",
+      "sha256": "b59cd83cd3dfb1524c15c3f1fd7a0d76942fea56992d537571ef585f28ca1ca3",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/reference/prefix-parent-review-v2.json"
+    },
+    {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/sharing-evidence.json",
+      "sha256": "142bf002dd53b57926ee8276556aea90e4ef48d097687d29737dc3762f830565",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/reference/sharing-evidence.json"
+    }
+  ],
+  "original_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/original-review.json",
+    "sha256": "f1ab4ad5d0a91caff05b17385bfb0d8d6b02b85b919d96437aa357348ad0c1e2"
+  },
+  "supported_test": "Actual observed25600 bytes loaded by test host, genuine open/write/seek1024, fullfile match, fd3/stdio/stdhandle/otherdescriptor preservation, empty/live108FP+errors; cleanup releases marker and prior8002 path unchanged",
+  "denials": [
+    "NULL",
+    "flags",
+    "access",
+    "share",
+    "permission",
+    "existing",
+    "dangling",
+    "directory",
+    "prior mapping",
+    "hardlink alias",
+    "repeat",
+    "dup",
+    "dup2",
+    "mapping",
+    "raw alias"
+  ],
+  "profile_default": "all17 new probe paths deny; historical fsopen fourfile positives+nine denials independently unchanged for allfour compiler/profiles",
+  "no_new_api_binder_or_registry": true,
+  "receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/receipt.json",
+    "sha256": "8a84aac1146e521ef7e036179191a5897ec7283874130624ebe4b4fcaff5d346"
+  },
+  "sources": [
+    {
+      "path": "/root/msvc2/lib/recon/src/crt.c",
+      "sha256": "390ea919dafdf5ffa2e6b5aa06de54fd464771b4b552b161febf4747d5cc1cbd"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/sopen-lease-probe.c",
+      "sha256": "fed0bac914fe2ba135fd61c5d34f32786e52dec7a68ba33ca49210a3ed4e00f4"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-sopen-lease.py",
+      "sha256": "6935546594fd36404bcc8b4cadc9d02094f42a5391207f4a5343f26a98dd451b"
+    }
+  ],
+  "executables": [
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-510",
+      "sha256": "0b52f8d49c43b6eba1c9910f4e7fe5fe78067509c899f079add3d1178fd3dd44",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/native",
+        "-DRECON_CRT_PROFILE_MSVCRT_510",
+        "-DRECON_NATIVE_STARTUP_CONTROLFP_53",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/sopen-lease-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-510"
+      ],
+      "build_seconds": 1.4720374550670385,
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/check-sopen-lease.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-510",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/reference/prefix-packet.json"
+          ],
+          "seconds": 0.09433743823319674,
+          "stdout": "genuine actual25600B lease/empty+live108FP/errors/stdio/descriptor aliases +15denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/check-fsopen.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-510-old-fsopen"
+          ],
+          "seconds": 0.07434446085244417,
+          "stdout": "canonical binary fsopen streams/files/retained FILE fields exact; nine scope controls pass (0.012s)\n"
+        }
+      ],
+      "old_fsopen": {
+        "binary": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-510-old-fsopen",
+        "sha256": "6e267f779a86cd7c397e8a0e73b70522eca652b173b8d8764fefaa0ca26be4b5",
+        "command": [
+          "gcc",
+          "-m32",
+          "-std=gnu89",
+          "-O0",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-DRECON_NATIVE_TEST",
+          "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/include",
+          "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/native",
+          "-DRECON_CRT_PROFILE_MSVCRT_510",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/fsopen-probe.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/crt.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/win32.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/process.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/compat.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/entry.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/decimal.c",
+          "-o",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-510-old-fsopen"
+        ]
+      }
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-510",
+      "sha256": "34d4e8ad1d525356e9c766b2f2e65d53c8a80aca8d972d61b850ec58c847c254",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/native",
+        "-DRECON_CRT_PROFILE_MSVCRT_510",
+        "-DRECON_NATIVE_STARTUP_CONTROLFP_53",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/sopen-lease-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-510"
+      ],
+      "build_seconds": 1.591746600344777,
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/check-sopen-lease.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-510",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/reference/prefix-packet.json"
+          ],
+          "seconds": 0.09309251047670841,
+          "stdout": "genuine actual25600B lease/empty+live108FP/errors/stdio/descriptor aliases +15denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/check-fsopen.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-510-old-fsopen"
+          ],
+          "seconds": 0.07498180959373713,
+          "stdout": "canonical binary fsopen streams/files/retained FILE fields exact; nine scope controls pass (0.015s)\n"
+        }
+      ],
+      "old_fsopen": {
+        "binary": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-510-old-fsopen",
+        "sha256": "ab848f253d27168ffab92dddba09702282b51adf9cd7ebb58bbed678bd6138d0",
+        "command": [
+          "clang",
+          "-m32",
+          "-std=gnu89",
+          "-O0",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-DRECON_NATIVE_TEST",
+          "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/include",
+          "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/native",
+          "-DRECON_CRT_PROFILE_MSVCRT_510",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/fsopen-probe.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/crt.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/win32.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/process.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/compat.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/entry.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/decimal.c",
+          "-o",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-510-old-fsopen"
+        ]
+      }
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-default",
+      "sha256": "caad17b755a9c378938ff4d170f0af29d464a7998355486c4713b62d3d6e8120",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/native",
+        "-DRECON_NATIVE_STARTUP_CONTROLFP_53",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/sopen-lease-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-default"
+      ],
+      "build_seconds": 1.376522557809949,
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/check-sopen-lease.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-default",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/reference/prefix-packet.json",
+            "default"
+          ],
+          "seconds": 0.09097306709736586,
+          "stdout": "default17denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/check-fsopen.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-default-old-fsopen"
+          ],
+          "seconds": 0.08068790566176176,
+          "stdout": "canonical binary fsopen streams/files/retained FILE fields exact; nine scope controls pass (0.014s)\n"
+        }
+      ],
+      "old_fsopen": {
+        "binary": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-default-old-fsopen",
+        "sha256": "c537d377f2d61ca72aefbe49c1edc6743735ef29a77dbe1449769c1af082fd83",
+        "command": [
+          "gcc",
+          "-m32",
+          "-std=gnu89",
+          "-O0",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-DRECON_NATIVE_TEST",
+          "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/include",
+          "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/native",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/fsopen-probe.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/crt.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/win32.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/process.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/compat.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/entry.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/decimal.c",
+          "-o",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/gcc-default-old-fsopen"
+        ]
+      }
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-default",
+      "sha256": "e004b7279067515077d8a40f839ef7213e7d135e711e95ef05502646daacf1d0",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/native",
+        "-DRECON_NATIVE_STARTUP_CONTROLFP_53",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/sopen-lease-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-default"
+      ],
+      "build_seconds": 1.4923751717433333,
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/check-sopen-lease.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-default",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/reference/prefix-packet.json",
+            "default"
+          ],
+          "seconds": 0.09060242958366871,
+          "stdout": "default17denials PASS\n"
+        },
+        {
+          "command": [
+            "python3",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/check-fsopen.py",
+            "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-default-old-fsopen"
+          ],
+          "seconds": 0.07420744746923447,
+          "stdout": "canonical binary fsopen streams/files/retained FILE fields exact; nine scope controls pass (0.012s)\n"
+        }
+      ],
+      "old_fsopen": {
+        "binary": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-default-old-fsopen",
+        "sha256": "db7040036a3f8d046b65ae4fbbe737ead238649d777dfc75979dcc45b685915d",
+        "command": [
+          "clang",
+          "-m32",
+          "-std=gnu89",
+          "-O0",
+          "-g",
+          "-Wall",
+          "-Wextra",
+          "-DRECON_NATIVE_TEST",
+          "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/include",
+          "-I/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/native",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/tests/fsopen-probe.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/crt.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/win32.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/process.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/compat.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/entry.c",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/sources/src/decimal.c",
+          "-o",
+          "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/clang-default-old-fsopen"
+        ]
+      }
+    }
+  ],
+  "affected_default_check": {
+    "command": "make -j4 -C lib/recon check",
+    "log": "/root/.ai-tmp/msvc2/recon-maintenance/sopen-lease/affected-default-check.log",
+    "sha256": "d5920a4ac278da675cc6aeb0fe6dea0b9c7636dde55cc32383d2f928a6003612",
+    "result": "PASS",
+    "build_and_execution_seconds": 1.287980827
+  },
+  "remaining": "Actual CL typed external-MRE initial-prefix native adoption remains required before application acceptance. No remaining shared publication hold; no general Windows sharing/error32, MRE implementation or later lifecycle claim.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-object-preuse/sopen-parent-review.json",
+    "sha256": "7144085ce0fbbad37c12830b8e0db57d6ab68009a383ddf9a255f3e7d4d8d598",
+    "result": "PASS exact390ea919 source/refs/all8frozenELFs, allnew/default/oldfsopen checker reruns in0.667s; no source correction"
+  }
+}
