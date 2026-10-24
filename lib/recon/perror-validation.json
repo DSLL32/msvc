@@ -1,0 +1,58 @@
+{
+  "scope": "Shared public perror for observed VC1 default-C errno2/DOS3/Last3 and registered writable regular text fd2; ASCII prefix or NULL/empty. Unknown profiles, messages, descriptor states and write failures deny125.",
+  "frozen_receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/perror/receipt.json",
+    "sha256": "dd6d0d1df342087741fb476e555d0bb2e97dc901eef6252e6234ba0d717ef197"
+  },
+  "canonical_proof": "Complete shipped PERROR.OBJ144B with resolved relocations: optional nonempty prefix and colon-space, selected sys_errlist[2] literal, LF, four direct lowio writes. No FILE buffering or FP instructions. Actual original44B CRLF and preserved2/3/3 boundary retained.",
+  "native_behavior": "Uses genuine recon_write text output. Prevalidates ASCII prefix and actual regular writable registered fd2 before any output. No hoststrerror, allocation, FILE operations or target error reseeding. Successful existing regular-file lowio writes preserve errors naturally.",
+  "focused_checks": "Four frozen GCC/Clang default/510 suites. Default four prefix forms times empty/live full108FP, all20 FILE records and pending bytes/256 lowio flags+handles/input tails/current tables preserved; exact physical output and position.17 scope denials plus pipe, including actual write failure. Explicit510 denies all tested calls. Shared core passes.",
+  "limits": "Initial known message/locale/error tuple only; no general arbitrary strerror or lowio failure equivalence, no canonical private locking reconstruction or target CRT function credit. Actual LINK boundary adoption and independent review pass; later setbuf and whole-case acceptance remain separate.",
+  "history": "Original native libc perror changed errno2 to22 and emitted LF43B versus canonical CRLF44B. Prior missing-parent error and selected free-FILE fixes remain separate reviewed publications.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/perror-parent-review.json",
+    "sha256": "da2fe802dd2d6a7c5cb76a3385afbf950ef35dd6dbc73d996931fc79a5304f84",
+    "result": "PASS:28 live/frozen source bindings,11 reference bindings and all four frozen GCC/Clang suites independently rerun."
+  },
+  "actual_LINK_adoption": {
+    "result": "Native-only retry against unchanged masked-k7dgus3j matches all13 actual observations, caller-qualified recon_perror entry/return, errors2/3/3/fullFILE/flags/guards/ABI/FP027f, physical44B CRLF stderr and empty db.log. Both stop at matching setbuf; no whole-case acceptance implied.",
+    "files": [
+      {
+        "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-debug-log/acceptance/perror-fixed/comparison.json",
+        "sha256": "d730bda87a3ba622ca18e4e57534d9f8b972cd347a8b057750b0a134f22a2dec"
+      },
+      {
+        "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-debug-log/acceptance/perror-fixed/native-receipt.json",
+        "sha256": "688ccfc116c9ffe9dfb5f02268c152cd3da748a602a63eb55b73d4309c99f0ba"
+      },
+      {
+        "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-debug-log/acceptance/perror-fixed/native-stderr.bin",
+        "sha256": "9411a7b6f5516e273977cd080c6d70bb3b356e5f239b75f9d595ec40d94efda1"
+      },
+      {
+        "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-debug-log/acceptance/perror-fixed/native-stdout.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-debug-log/acceptance/perror-fixed/native.json",
+        "sha256": "f1f9210ef192043f288425fcaf12c62a5f51c230f2a30274799c6dfc94a9a108"
+      },
+      {
+        "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-debug-log/acceptance/perror-fixed/original-receipt.json",
+        "sha256": "e577df1856366396f967efb9dca643a4cacf4140804d2f25da01777f18fd1424"
+      },
+      {
+        "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-debug-log/acceptance/perror-fixed/original-stderr.bin",
+        "sha256": "9411a7b6f5516e273977cd080c6d70bb3b356e5f239b75f9d595ec40d94efda1"
+      },
+      {
+        "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-debug-log/acceptance/perror-fixed/original-stdout.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-debug-log/acceptance/perror-fixed/original.jsonl",
+        "sha256": "3e71d1ad6136503c30504fdbce34723f372a315f5b6a22009ddaa331f089e6ff"
+      }
+    ]
+  }
+}

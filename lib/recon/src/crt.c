@@ -881,6 +881,43 @@ int recon_write(int fd,const void *buffer,unsigned count)
     if (n && write_raw(fd,translated,n)<0) return -1;
     return count;
 }
+/* Observed VC1 default-C perror: direct text lowio output, not FILE I/O.
+ * Only the proved ENOENT message and successful regular stderr route apply. */
+WEAK void __cdecl recon_perror(const char *prefix)
+{
+#if defined(RECON_CRT_PROFILE_MSVCRT_510) || defined(RECON_CRT_PROFILE_WATCOM_100A)
+    (void)prefix;recon_unsupported("unreviewed perror CRT profile");
+#else
+    const char *cursor;size_t length=0;unsigned n;long handle;int flags;
+    struct stat info;
+    if (errno!=ENOENT || recon_doserrno!=3 || recon_GetLastError()!=3 ||
+        recon_mb_codepage || recon_mb_codepage_gate || recon_lc_codepage ||
+        recon_mb_cur_max!=1 || recon_pctype!=character_flags+1)
+        recon_unsupported("perror message/error/default-C state");
+    for (n=0;n<6;++n) if(recon_lc_handle[n])
+        recon_unsupported("perror locale handles");
+    if (recon_nhandle<=2 || recon_osfile[2]!=0x81 ||
+        (handle=os_handles[2])<=0 || handle>=65536)
+        recon_unsupported("perror registered text stderr");
+    flags=fcntl((int)handle-1,F_GETFL);
+    if (flags<0 || (flags&O_ACCMODE)==O_RDONLY || (flags&O_APPEND) ||
+        fstat((int)handle-1,&info) || !S_ISREG(info.st_mode))
+        recon_unsupported("perror writable regular stderr");
+    if (prefix) for(cursor=prefix;*cursor;++cursor) {
+        if ((unsigned char)*cursor>=128 || ++length>INT_MAX)
+            recon_unsupported("perror ASCII prefix span");
+    }
+    if (length && (recon_write(2,prefix,(unsigned)length)!=(int)length ||
+                   recon_write(2,": ",2)!=2))
+        recon_unsupported("perror prefix write failure");
+    if (recon_write(2,"No such file or directory",25)!=25 || recon_write(2,"\n",1)!=1)
+        recon_unsupported("perror message write failure");
+    /* The existing successful regular-file lowio route preserves these slots;
+     * do not reseed them after writes or accept an unproved failure path. */
+    if (errno!=ENOENT || recon_doserrno!=3 || recon_GetLastError()!=3)
+        recon_unsupported("perror lowio error-state change");
+#endif
+}
 int recon_access(const char *name,int mode)
 {
     char path[PATH_MAX],parent[PATH_MAX],*separator;

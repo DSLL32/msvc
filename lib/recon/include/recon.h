@@ -346,6 +346,7 @@ int recon_cenvarg(const char *const *,const char *const *,char **,char **,const 
 time_t recon_time(time_t *);
 void recon_assert(void *,void *,unsigned);
 void recon_exit(int);
+void __cdecl recon_perror(const char *);
 void recon_record_terminal_status(uint32_t);
 /* Resolve DOS paths with explicit RECON_DRIVE_X mappings (Z defaults to /).
  * No Wine prefix or executable discovery is performed. */
@@ -525,6 +526,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define __dllonexit recon_dllonexit
 #define _assert recon_assert
 #define exit recon_exit
+#define perror recon_perror
 #define _open recon_open
 #define _sopen recon_sopen
 #define _setmode recon_setmode
