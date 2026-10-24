@@ -86,7 +86,8 @@
     "rc_parse_multiplicative",
     "rc_parse_unary",
     "rc_accept_expression_token",
-    "rc_evaluate_defined"
+    "rc_evaluate_defined",
+    "rc_skip_expression_space"
   ],
   "functions": [
     {
@@ -1627,13 +1628,21 @@
       "end": "0x60f0",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_collect_macro_identifier",
       "start": "0x5e09",
       "end": "0x6001",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_macro_buffer_fatal",
+      "start": "0x60f0",
+      "end": "0x6135",
       "abi": "stdcall",
       "stack_bytes": 4,
       "kind": "application",

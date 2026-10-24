@@ -13,6 +13,14 @@ def raw_bytes(text,label):
     assert len(value)==int(size),'wrong byte length '+label
     return value
 
+def expression_primary_tail_bytes(relocated,masked):
+    """Exact default-unary tail edge, separate from raw transport integrity."""
+    assert relocated[0x2029:0x202e]==masked[0x2029:0x202e]==bytes.fromhex('e900000000')
+    call=relocated[0x1f99:0x1f9e]
+    assert call[0]==0xe8 and 0x2f9e+struct.unpack('<i',call[1:])[0]==0x2fed
+    assert relocated[0x20c0]==0xc3
+    return call
+
 def resource_inputs(original,native,b):
     r=json.loads((original/'receipt.json').read_text())
     assert r['case']in ['resources-rich','resources-rich-trailing-space']
@@ -1841,14 +1849,14 @@ def angle_name_trial(original,native):
     proof['trial']='rc_parse_angle_name';return proof
 
 
-def _include_search_checkpoint(original,native,comment=False,matcher=False,block=False,push=False,define=False,replacement=False,bounds=False,lookup=False,evaluate=False,conditional=False,logical_or=False,logical_and=False,bitwise_or=False,bitwise_xor=False,bitwise_and=False,equality=False,relational=False,shift=False,additive=False,multiplicative=False,unary=False,lexer_correction=False,expression_match=False,defined_operator=False):
-    trial='rc_evaluate_defined'if defined_operator else'rc_accept_expression_token'if expression_match else'rc_parse_unary'if unary else'rc_parse_multiplicative'if multiplicative else'rc_parse_additive'if additive else'rc_parse_shift'if shift else'rc_parse_relational'if relational else'rc_parse_equality'if equality else'rc_parse_bitwise_and'if bitwise_and else'rc_parse_bitwise_xor'if bitwise_xor else'rc_parse_bitwise_or'if bitwise_or else'rc_parse_logical_and'if logical_and else'rc_parse_logical_or'if logical_or else'rc_parse_conditional_expression'if conditional else'rc_evaluate_condition'if evaluate else'rc_find_macro_parameter'if lookup else'rc_check_macro_space'if bounds else'rc_read_macro_replacement'if replacement else'rc_parse_define'if define else'rc_push_condition'if push else'rc_skip_block_comment'if block else'rc_match_logical_character'if matcher else'rc_scan_comment'if comment else'rc_search_include_directories';frontier='rc_skip_expression_space'if defined_operator else'rc_evaluate_defined'if expression_match else'rc_accept_expression_token'if unary else'rc_parse_unary'if multiplicative else'rc_parse_multiplicative'if additive else'rc_parse_additive'if shift else'rc_parse_shift'if relational else'rc_parse_relational'if equality else'rc_parse_equality'if bitwise_and else'rc_parse_bitwise_and'if bitwise_xor else'rc_parse_bitwise_xor'if bitwise_or else'rc_parse_bitwise_or'if logical_and else'rc_parse_logical_and'if logical_or else'rc_parse_logical_or'if conditional else'rc_parse_conditional_expression'if evaluate else'rc_evaluate_condition'if lookup else'rc_find_macro_parameter'if bounds else'rc_check_macro_space'if replacement else'rc_read_macro_replacement'if define else'rc_parse_define'if push else'rc_push_condition'if block else'rc_skip_block_comment'if matcher else'rc_match_logical_character'if comment else'rc_scan_comment';caller='rc_evaluate_defined'if defined_operator else'rc_accept_expression_token'if expression_match else'rc_parse_unary'if unary else'rc_parse_multiplicative'if multiplicative else'rc_parse_additive'if additive else'rc_parse_shift'if shift else'rc_parse_relational'if relational else'rc_parse_equality'if equality else'rc_parse_bitwise_and'if bitwise_and else'rc_parse_bitwise_xor'if bitwise_xor else'rc_parse_bitwise_or'if bitwise_or else'rc_parse_logical_and'if logical_and else'rc_parse_logical_or'if logical_or else'rc_parse_conditional_expression'if conditional else'rc_evaluate_condition'if evaluate else'rc_handle_directive'if lookup else'rc_read_macro_replacement'if bounds or replacement else'rc_parse_define'if define else'rc_handle_directive'if block or push else'rc_scan_comment'if comment or matcher else'rc_scan_line_start';source_offset=4678 if expression_match or defined_operator else 4662 if lookup else 592 if bounds else 580 if replacement else 578 if define else 492 if push else 476 if block else 4 if matcher else 2;source_word=40 if expression_match or defined_operator else 32 if lookup else 35 if bounds else 120 if replacement else 48 if define else 32 if push else 10 if block else 43 if matcher else 42
+def _include_search_checkpoint(original,native,comment=False,matcher=False,block=False,push=False,define=False,replacement=False,bounds=False,lookup=False,evaluate=False,conditional=False,logical_or=False,logical_and=False,bitwise_or=False,bitwise_xor=False,bitwise_and=False,equality=False,relational=False,shift=False,additive=False,multiplicative=False,unary=False,lexer_correction=False,expression_match=False,defined_operator=False,expression_space=False):
+    trial='rc_skip_expression_space'if expression_space else'rc_evaluate_defined'if defined_operator else'rc_accept_expression_token'if expression_match else'rc_parse_unary'if unary else'rc_parse_multiplicative'if multiplicative else'rc_parse_additive'if additive else'rc_parse_shift'if shift else'rc_parse_relational'if relational else'rc_parse_equality'if equality else'rc_parse_bitwise_and'if bitwise_and else'rc_parse_bitwise_xor'if bitwise_xor else'rc_parse_bitwise_or'if bitwise_or else'rc_parse_logical_and'if logical_and else'rc_parse_logical_or'if logical_or else'rc_parse_conditional_expression'if conditional else'rc_evaluate_condition'if evaluate else'rc_find_macro_parameter'if lookup else'rc_check_macro_space'if bounds else'rc_read_macro_replacement'if replacement else'rc_parse_define'if define else'rc_push_condition'if push else'rc_skip_block_comment'if block else'rc_match_logical_character'if matcher else'rc_scan_comment'if comment else'rc_search_include_directories';frontier='rc_parse_primary'if expression_space else'rc_skip_expression_space'if defined_operator else'rc_evaluate_defined'if expression_match else'rc_accept_expression_token'if unary else'rc_parse_unary'if multiplicative else'rc_parse_multiplicative'if additive else'rc_parse_additive'if shift else'rc_parse_shift'if relational else'rc_parse_relational'if equality else'rc_parse_equality'if bitwise_and else'rc_parse_bitwise_and'if bitwise_xor else'rc_parse_bitwise_xor'if bitwise_or else'rc_parse_bitwise_or'if logical_and else'rc_parse_logical_and'if logical_or else'rc_parse_logical_or'if conditional else'rc_parse_conditional_expression'if evaluate else'rc_evaluate_condition'if lookup else'rc_find_macro_parameter'if bounds else'rc_check_macro_space'if replacement else'rc_read_macro_replacement'if define else'rc_parse_define'if push else'rc_push_condition'if block else'rc_skip_block_comment'if matcher else'rc_match_logical_character'if comment else'rc_scan_comment';caller='rc_parse_unary'if expression_space else'rc_evaluate_defined'if defined_operator else'rc_accept_expression_token'if expression_match else'rc_parse_unary'if unary else'rc_parse_multiplicative'if multiplicative else'rc_parse_additive'if additive else'rc_parse_shift'if shift else'rc_parse_relational'if relational else'rc_parse_equality'if equality else'rc_parse_bitwise_and'if bitwise_and else'rc_parse_bitwise_xor'if bitwise_xor else'rc_parse_bitwise_or'if bitwise_or else'rc_parse_logical_and'if logical_and else'rc_parse_logical_or'if logical_or else'rc_parse_conditional_expression'if conditional else'rc_evaluate_condition'if evaluate else'rc_handle_directive'if lookup else'rc_read_macro_replacement'if bounds or replacement else'rc_parse_define'if define else'rc_handle_directive'if block or push else'rc_scan_comment'if comment or matcher else'rc_scan_line_start';source_offset=4702 if expression_space else 4678 if expression_match or defined_operator else 4662 if lookup else 592 if bounds else 580 if replacement else 578 if define else 492 if push else 476 if block else 4 if matcher else 2;source_word=32 if expression_space else 40 if expression_match or defined_operator else 32 if lookup else 35 if bounds else 120 if replacement else 48 if define else 32 if push else 10 if block else 43 if matcher else 42
     config=read_configuration(original/'functions.json')
     if lexer_correction:
         assert unary and not config.get('trial_function')and len(config['accepted'])==81 and config['accepted'][-1]=='rc_parse_unary'
-    else:assert config.get('trial_function')==trial and len(config['accepted'])==(82 if defined_operator else 81 if expression_match else 80 if unary else 79 if multiplicative else 78 if additive else 77 if shift else 76 if relational else 75 if equality else 74 if bitwise_and else 73 if bitwise_xor else 72 if bitwise_or else 71 if logical_and else 70 if logical_or else 69 if conditional else 68 if evaluate else 67 if lookup else 66 if bounds else 65 if replacement else 64 if define else 63 if push else 62 if block else 61 if matcher else 60 if comment else 59)
+    else:assert config.get('trial_function')==trial and len(config['accepted'])==(83 if expression_space else 82 if defined_operator else 81 if expression_match else 80 if unary else 79 if multiplicative else 78 if additive else 77 if shift else 76 if relational else 75 if equality else 74 if bitwise_and else 73 if bitwise_xor else 72 if bitwise_or else 71 if logical_and else 70 if logical_or else 69 if conditional else 68 if evaluate else 67 if lookup else 66 if bounds else 65 if replacement else 64 if define else 63 if push else 62 if block else 61 if matcher else 60 if comment else 59)
     a,b,proof=checkpoint(original,native,frontier,('rc_input_temporary','rc_output_temporary'))
-    assert a['words'][0]==(0x71c26e1d if defined_operator else 0x71c27073 if expression_match else 0x71c22ff4 if unary else 0x71c22f9e if multiplicative else 0x71c22f6a if additive else 0x71c22f34 if shift else 0x71c22ec2 if relational else 0x71c22e82 if equality else 0x71c22e62 if bitwise_and else 0x71c22e42 if bitwise_xor else 0x71c22e22 if bitwise_or else 0x71c22df5 if logical_and else 0x71c22dcc if logical_or else 0x71c22d8d if conditional else 0x71c22cd7 if evaluate else 0x71c264a8 if lookup else 0x71c250a4 if bounds else 0x71c24e3c if replacement else 0x71c249eb if define else 0x71c2651c if push else 0x71c2674b if block else 0x71c32a12 if matcher else 0x71c32a09 if comment else 0x71c3216d)and re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert a['words'][0]==(0x71c22f9e if expression_space else 0x71c26e1d if defined_operator else 0x71c27073 if expression_match else 0x71c22ff4 if unary else 0x71c22f9e if multiplicative else 0x71c22f6a if additive else 0x71c22f34 if shift else 0x71c22ec2 if relational else 0x71c22e82 if equality else 0x71c22e62 if bitwise_and else 0x71c22e42 if bitwise_xor else 0x71c22e22 if bitwise_or else 0x71c22df5 if logical_and else 0x71c22dcc if logical_or else 0x71c22d8d if conditional else 0x71c22cd7 if evaluate else 0x71c264a8 if lookup else 0x71c250a4 if bounds else 0x71c24e3c if replacement else 0x71c249eb if define else 0x71c2651c if push else 0x71c2674b if block else 0x71c32a12 if matcher else 0x71c32a09 if comment else 0x71c3216d)and re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     assert proof['application_trace'][-1]==trial
     text=(original/'events.txt').read_text();args=b['arguments'];old_globals=(original/'globals.bin').read_bytes();globals=args['preprocessor']['globals'];calls=args['include_opens']
     assert calls==json.loads((native/'include-opens.json').read_text())and len(calls)==4
@@ -1864,7 +1872,7 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
             attempt,result,after,errno_value,error=returns[index];assert int(attempt)==index and int(result,16)==row['result']==0 and int(after,16)==int(sp,16)+8 and row['return_esp']==row['entry_esp']+12
             assert int(errno_value)==row['errno_after']==2 and int(error,16)==row['last_error_after']==2
         else:assert not any(key in row for key in ['result','return_esp','errno_after','last_error_after']),'fourth open is genuinely pending at a child frontier, not a matching unchecked result'
-    c=args['comment'];assert c['formals']==([]if defined_operator else[dict(name='name',value=args['defined_operator']['name'],bytes=4)]if expression_match else[dict(name='token',value=55,bytes=1)]if unary else[dict(name='name',value=args['macro_parameter']['pointer'],bytes=4)]if bounds else[dict(name='character',value=42,bytes=4)]if comment else[])and c['caller']==caller and c['depth']==1
+    c=args['comment'];assert c['formals']==([]if defined_operator or expression_space else[dict(name='name',value=args['defined_operator']['name'],bytes=4)]if expression_match else[dict(name='token',value=55,bytes=1)]if unary else[dict(name='name',value=args['macro_parameter']['pointer'],bytes=4)]if bounds else[dict(name='character',value=42,bytes=4)]if comment else[])and c['caller']==caller and c['depth']==1
     if comment:assert args['character_match']==dict(character=42,formal_bytes=4,stack_slot_bytes=4,comparison_bits=32)and a['words'][1]==42
     assert re.findall(r'^comment-depth (\d+)$',text,re.M)==['1']
     old=struct.unpack('<9I',raw_bytes(text,'comment-frame'));new=struct.unpack('<9I',bytes.fromhex(c['frame']));old_parent=struct.unpack('<9I',raw_bytes(text,'comment-parent-frame'));new_parent=struct.unpack('<9I',bytes.fromhex(c['parent_frame']))
@@ -1880,6 +1888,7 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
     storage=bytearray(4090);storage[:26]='resources.rc\0'.encode('utf-16le');path=bytes.fromhex(calls[3]['path_bytes']);storage[2048:2048+len(path)]=path
     if bounds:storage[:14]='0x0400\0'.encode('utf-16le')
     if lookup:storage[:16]='0x0400\0D'.encode('utf-16le')
+    if expression_space:storage[2048:2052]='()'.encode('utf-16le')
     assert raw_bytes(text,'comment-work-buffer')==bytes.fromhex(c['work_buffer'])==bytes(storage)
     old_file=struct.unpack('<8I',raw_bytes(text,'comment-source-file'));new_file=struct.unpack('<8I',bytes.fromhex(c['source_file']))
     assert old_file[1:2]+old_file[3:]==new_file[1:2]+new_file[3:]==(510,9,6,0,4096,0)and old_file[0]-old_file[2]==new_file[0]-new_file[2]==2
@@ -2042,7 +2051,7 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
         if not defined_operator:assert a['registers']['esi']==1 # Later helper owns its own ESI; it is not a whitespace-helper input.
         for name,rva,value in [('rc_cpp_active',0x1811c,0),('rc_in_condition_expression',0x18e6c,1),('rc_in_directive',0x18530,1)]:assert struct.unpack_from('<I',old_globals,rva-0x14000)[0]==value
         condition=args['condition_entry'];assert condition['formals']==[]and condition['caller']=='rc_handle_directive'and condition['nesting']==struct.unpack('<i',raw_bytes(text,'condition-nesting'))[0]==1 and condition['directive']==0 and condition['word']==condition['macro']
-        identifier='defined'if expression_match or defined_operator else'if';identifier_bytes=(identifier+'\0').encode('utf-16le');identifier_hash=sum(ord(c)&0x5f for c in identifier)&255
+        identifier='RC_INVOKED'if expression_space else'defined'if expression_match or defined_operator else'if';identifier_bytes=(identifier+'\0').encode('utf-16le');identifier_hash=sum(ord(c)&0x5f for c in identifier)&255
         assert raw_bytes(text,'condition-word')==bytes.fromhex(condition['macro_bytes'])and raw_bytes(text,'condition-word')[:len(identifier_bytes)]==identifier_bytes
         assert raw_bytes(text,'condition-state')==bytes.fromhex(condition['state'])==struct.pack('<II',1,1)+bytes(120)
         assert struct.unpack_from('<I',old_globals,0x16ce0-0x14000)[0]==struct.unpack('<I',bytes.fromhex(globals['rc_macro_name_length']['bytes']))[0]==len(identifier)+1 and old_globals[0x16cec-0x14000]==bytes.fromhex(globals['rc_macro_hash']['bytes'])[0]==identifier_hash
@@ -2081,7 +2090,7 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
         proof['parameter_lookup']=dict(formal_bytes=4,cleanup=4,name='x0400',name_bytes=12,name_alias='rc_string_buffer+2',parameter_count=0,result=-1,no_parameter_table_read=True,subsequent_definitions=['WINVER','_INC_WINDOWS'],complete_macro_nodes=6,WINVER_text_allocation_bytes=26,string_buffer_prefix_bytes=16,string_buffer_untouched_bytes=4074,SDK_line=71,SDK_source_offset=source_offset,next_formals=[],next_hidden_inputs=dict(saved_output=1,output_active=0,in_expression=1,in_directive=1,identifier=identifier,identifier_hash=identifier_hash,nesting=1),retired_define_locals='Not reread; all three returns are actual prior snapshots.',line_marker=line_marker.decode('utf-16le'),scope='Count-zero lookup returns-1/ret4, numeric macro replacement completes with initialized16-byte serialization and exact requested26-byte copied owner. #if has not been evaluated.')
     if evaluate:
         state=args['condition_evaluation'];assert set(state)=={'formals','caller','parentheses','token_kind','expression_token_address','lexer_token_address','token_bytes','lexer_token'}
-        assert state['formals']==([]if defined_operator else[dict(name='name',value=args['defined_operator']['name'],bytes=4)]if expression_match else[dict(name='token',value=55,bytes=1)]if unary else[])and state['caller']==caller and state['parentheses']==0 and state['token_kind']==1
+        assert state['formals']==([]if defined_operator or expression_space else[dict(name='name',value=args['defined_operator']['name'],bytes=4)]if expression_match else[dict(name='token',value=55,bytes=1)]if unary else[])and state['caller']==caller and state['parentheses']==0 and state['token_kind']==(7 if expression_space else 1)
         assert state['expression_token_address']!=state['lexer_token_address']and state['token_bytes']==1
         assert state['lexer_token_address']==globals['rc_token_kind']['address']
         def data_symbol(name):
@@ -2101,7 +2110,7 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
                 assert globals[control]['address']-control_elf==int(frontier_runtime[0],16)-int(frontier_elf[0],16)
                 assert globals[control]['bytes']==old_globals[rva-0x14000:rva-0x14000+4].hex()
         assert state['lexer_token']==old_globals[0x144f4-0x14000]==bytes.fromhex(globals['rc_token_kind']['bytes'])[0]
-        assert raw_bytes(text,'expression-parentheses')==struct.pack('<i',0)and raw_bytes(text,'expression-token')==bytes([1])
+        assert raw_bytes(text,'expression-parentheses')==struct.pack('<i',0)and raw_bytes(text,'expression-token')==bytes([7 if expression_space else 1])
         assert struct.unpack_from('<i',old_globals,0x18e7c-0x14000)[0]==state['parentheses']and old_globals[0x149dc-0x14000]==state['token_kind']
         proof['condition_evaluation']=dict(formals=[],return_pending=True,parentheses=0,token_kind=1,counter_original_rva='0x18e7c',token_original_rva='0x149dc',lexer_token_original_rva='0x144f4',distinct_token_storage=True,token_bytes=1,next_formals=[],next_hidden_inputs=proof['parameter_lookup']['next_hidden_inputs'],scope='Wrapper resets parenthesis count0 and the distinct expression lookahead byte1 before calling the conditional-expression parser. Parser entry is the actual named INT3; no expression result or diagnostic branch traversal claimed.')
         if conditional:proof['condition_evaluation']['scope']='Conditional-expression parser enters logical-OR with no formals and unchanged source/counter/token/flags/macros. First child INT3 is before any expression result or ternary dispatch; uninitialized alternate local is not consumed or observed.'
@@ -2115,7 +2124,7 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
         if shift:proof['condition_evaluation']['scope']='Shift parser enters additive parser with no formals and unchanged live source/counter/token/flags/macros. Original signed i386 shift dispatch retained; no operand, shift-count, operator return or expression result claimed.'
         if additive:proof['condition_evaluation']['scope']='Additive parser enters multiplicative parser with no formals and unchanged live source/counter/distinct lookahead/lexer/flags/macros. No operand, arithmetic/operator return or expression result claimed.'
         if multiplicative:proof['condition_evaluation']['scope']='Multiplicative parser enters unary parser with no formals and unchanged live source/counter/distinct lookahead/lexer/flags/macros. Original signed i386 multiply/divide/remainder loop retained; no arithmetic operand/operator return, division exception or expression result claimed.'
-        if unary and not(expression_match or defined_operator):
+        if unary and not(expression_match or defined_operator or expression_space):
             match=args['expression_match'];assert match['token']==55 and match['formal_bytes']==1 and match['physical_slot_bytes']==4 and match['formal_address']==match['physical_slot_address']and match['caller']==caller
             assert raw_bytes(text,'expression-match-slot')==bytes.fromhex(match['physical_slot'])==struct.pack('<I',a['words'][1])==struct.pack('<I',55)
             proof['condition_evaluation'].update(next_formals=[dict(name='token',formal_bytes=1,physical_slot_bytes=4,consumed_bits=8,physical_raw=match['physical_slot'],value=match['token'])],scope='Unary parser reaches token matcher55 before any operand. Actual one-byte formal and full physical4-byte slot captured, with distinct expression lookahead149dc/lexer144f4 and initialized source/frame/macros. No matcher result, prefetch or unary result claimed.')
@@ -2152,6 +2161,62 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
             literal=next(row for row in config['functions']if row['name']=='rc_evaluate_defined');assert ['0x130c','0x131c']in literal['text_data']
             proof['condition_evaluation'].update(next_formals=[],scope='Defined helper compares the actual identifier and reaches its first no-argument whitespace dependency with two initialized parent locals0. Source remains4678/left-parenthesis40; number-buffer pointer is the existing string-buffer+2048 alias, no writes yet. Expression value0 is distinct and pending. Other uninitialized parent locals are not read; alternate mode is production-held and unclaimed.')
             proof['defined_operator']=dict(parent_name='defined',parent_name_bytes=16,parent_name_alias='rc_macro_name',parent_initialized=dict(parenthesized=0,result=0),uninitialized_locals='remaining,message,character deliberately unobserved',next_formals=[],source_offset=source_offset,current_word=source_word,alternate_mode=0,number_buffer_offset=2048,string_buffer_bytes=4090,buffer_writes=0,literal_rva='0x130c',literal_bytes=16,literal_prior_owner='rc_define_macro1304..131c',new_literal_mask_bytes=0,return_pending=True)
+
+        if expression_space:
+            rows=args['expression_spaces'];assert rows==json.loads((native/'expression-spaces.json').read_text())and len(rows)==2
+            entries=re.findall(r'^expression-space-entry index=(\d+) cursor=([0-9a-f]+) number=([0-9a-f]+) line=(\d+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M)
+            returns=re.findall(r'^expression-space-return index=(\d+) result=(-?\d+) cursor=([0-9a-f]+) number=([0-9a-f]+) line=(\d+) esp=([0-9a-f]+)$',text,re.M)
+            assert len(entries)==len(returns)==2
+            parent=args['expression_primary'];assert set(parent)=={'formals','caller','caller_parent','expression_value','expression_value_address','expression_value_bytes','alternate_mode','number_pointer','string_buffer','string_buffer_bytes'}
+            assert parent['formals']==[]and parent['caller']=='rc_parse_unary'and parent['caller_parent']=='rc_parse_multiplicative'
+            assert parent['string_buffer_bytes']==4090 and parent['number_pointer']==parent['string_buffer']+2052
+            assert int.from_bytes(bytes.fromhex(globals['rc_number_buffer']['bytes']),'little')==parent['number_pointer']
+            assert globals['rc_number_buffer']['identity_address']==parent['string_buffer']+2048 # Static alias anchor, not the advanced live pointer.
+            assert struct.unpack_from('<I',old_globals,0x14a80-0x14000)[0]==0x71c3770c
+            assert parent['alternate_mode']==struct.unpack_from('<i',old_globals,0x21e90-0x14000)[0]==0
+            value_elf,value_width=data_symbol('rc_expression_value');assert value_width==parent['expression_value_bytes']==4
+            assert parent['expression_value_address']-value_elf==int(frontier_runtime[0],16)-int(frontier_elf[0],16)
+            assert raw_bytes(text,'expression-value')==old_globals[0x18e78-0x14000:0x18e7c-0x14000]==struct.pack('<i',parent['expression_value'])==struct.pack('<i',1)
+            for index,(entry,returned,row)in enumerate(zip(entries,returns,rows)):
+                ordinal,cursor,number,line,sp,return_to=entry;ordinal_after,result,cursor_after,number_after,line_after,end_sp=returned
+                assert int(ordinal)==int(ordinal_after)==index and int(return_to,16)==[0x71c26e1d,0x71c26e5b][index]
+                assert row['formals']==[]and row['caller']=='rc_evaluate_defined'and int(result)==row['result']==1
+                assert int(end_sp,16)==int(sp,16)+4 and row['return_esp']==row['entry_esp']+4
+                before=bytearray(storage);before[2048:2052]=path[:4]
+                if index:before[2048:2050]='('.encode('utf-16le')
+                for phase,original_cursor,original_number,original_line in [('before',cursor,number,line),('after',cursor_after,number_after,line_after)]:
+                    observed=row[phase];assert set(observed)=={'cursor','number','line','buffer'}
+                    assert int(original_cursor,16)-old[5]==observed['cursor']-new[5]==[4678,4680][index]
+                    assert struct.unpack_from('<H',expected_source,8+int(original_cursor,16)-old[5])[0]==[40,82][index]
+                    assert int(original_number,16)-0x71c36f08==observed['number']-parent['string_buffer']==2048+2*index
+                    assert int(original_line)==observed['line']==71
+                    assert raw_bytes(text,'expression-space-%s-%d'%(phase,index))==bytes.fromhex(observed['buffer'])==bytes(before)
+                assert row['before']==row['after']
+            # The original default unary branch tail-jumps to primary, whereas
+            # the instrumented native C build keeps the ordinary unary frame.
+            # Bind both real chains; never compare their raw return slots equal.
+            old_call=expression_primary_tail_bytes(relocated,masked)
+            for name in ['rc_parse_primary','rc_parse_unary']:
+                metadata=next(v for v in config['functions']if v['name']==name);assert metadata['abi']=='cdecl'and metadata['stack_bytes']==0
+            loadbias=int(frontier_runtime[0],16)-int(frontier_elf[0],16)
+            def elf_code(address,size):
+                spans=[]
+                for index in range(count):
+                    kind,file_offset,start,_,length=struct.unpack_from('<IIIII',elf,phoff+phsize*index)
+                    if kind==1 and start<=address<address+size<=start+length:spans.append(elf[file_offset+address-start:file_offset+address-start+size])
+                assert len(spans)==1
+                return spans[0]
+            chain=[]
+            for frame,owner,target in [(1,'rc_parse_unary','rc_parse_primary'),(2,'rc_parse_multiplicative','rc_parse_unary')]:
+                frame_rows=re.findall(r'^#'+str(frame)+r'\s+(0x[0-9a-f]+) in '+owner+r'\s*\(',(native/'gdb.stdout').read_text(),re.M);assert len(frame_rows)==1
+                pc=int(frame_rows[0],16)-loadbias
+                owner_rows=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) T '+owner+r'$',symbols,re.M);target_rows=re.findall(r'^([0-9a-f]+) [0-9a-f]+ T '+target+r'$',symbols,re.M);assert len(owner_rows)==len(target_rows)==1
+                owner_start,owner_size=[int(v,16)for v in owner_rows[0]];assert owner_start<=pc-5<pc<=owner_start+owner_size
+                call=elf_code(pc-5,5);assert call[0]==0xe8 and pc+struct.unpack('<i',call[1:])[0]==int(target_rows[0],16)
+                chain.append(dict(frame=frame,owner=owner,target=target,return_pc=hex(pc+loadbias),ELF_return_pc=hex(pc),call_bytes=call.hex()))
+            proof['expression_space']=dict(formals=[],normal_returns=2,result=1,cleanup=0,source_offsets=[4678,4680],source_words=[40,82],number_offsets=[2048,2050],line=71,each_call_buffer_untouched_bytes=4090,parent_subsequent_writes=dict(offset=2048,bytes=4,text='()'),current_number_offset=2052,current_source_offset=4702,current_word=32,current_expression_value=1,current_lookahead=7,current_lexer_token=state['lexer_token'],next_formals=[],next_result_pending=True)
+            proof['primary_tail_projection']=dict(original_tail_rva='0x3029',original_tail_bytes='e900000000',original_destination_rva='0x302e',original_forwarded_return=hex(a['words'][0]),original_multiplicative_call=old_call.hex(),original_raw_stack=a['words'],native_actual_frames=chain,scope='No-formal cdecl/RET0 primary is still a named entry trap. Original default unary tail jump forwards multiplicative return; native ordinary C retains unary then multiplicative frames. No hidden/register/out-pointer/parent-frame input is consumed before this frontier. Raw stacks are retained, not equated; primary body and later return remain pending.')
+            proof['condition_evaluation'].update(token_kind=7,next_formals=[],scope='The two whitespace calls return1/RET0 without changing their owned cursor, line or4090B buffer. Defined operator then writes parentheses, looks up existing RC_INVOKED, returns1 and matcher prefills expression value1/lookahead7. Actual primary entry has no formals, distinct lexer token63, current source4702/space32 and validated number-buffer+2052 alias; no primary or final expression result claimed.')
 
     proof['trial']=trial;return proof
 
@@ -2228,3 +2293,7 @@ def expression_match_trial(original,native):
 
 def defined_operator_trial(original,native):
     return _include_search_checkpoint(original,native,lookup=True,evaluate=True,conditional=True,logical_or=True,logical_and=True,bitwise_or=True,bitwise_xor=True,bitwise_and=True,equality=True,relational=True,shift=True,additive=True,multiplicative=True,unary=True,defined_operator=True)
+
+
+def expression_space_trial(original,native):
+    return _include_search_checkpoint(original,native,lookup=True,evaluate=True,conditional=True,logical_or=True,logical_and=True,bitwise_or=True,bitwise_xor=True,bitwise_and=True,equality=True,relational=True,shift=True,additive=True,multiplicative=True,unary=True,expression_space=True)

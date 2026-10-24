@@ -759,3 +759,18 @@ class ParameterLookupEntered(gdb.Breakpoint):
         entry=dict(pointer=int(name),formal_bytes=name.type.sizeof,bytes=raw.hex(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),parameter_count=int(gdb.parse_and_eval('rc_macro_parameter_count')),buffer=int(gdb.parse_and_eval('&rc_string_buffer')))
         parameter_lookups.append(entry);save_parameter_lookups();ParameterLookupReturned(frame,entry);return False
 ParameterLookupEntered('rc_find_macro_parameter',internal=True);save_parameter_lookups()
+
+expression_spaces=[]
+def save_expression_spaces():(path.parent/'expression-spaces.json').write_text(json.dumps(expression_spaces,indent=2)+'\n')
+def expression_space_state():
+    return dict(cursor=int(gdb.parse_and_eval('rc_source_cursor')),number=int(gdb.parse_and_eval('rc_number_buffer')),line=int(gdb.parse_and_eval('rc_preparing_line')),buffer=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex())
+class ExpressionSpaceReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=expression_space_state())
+        save_expression_spaces();return False
+class ExpressionSpaceEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=expression_space_state())
+        expression_spaces.append(entry);save_expression_spaces();ExpressionSpaceReturned(frame,entry);return False
+ExpressionSpaceEntered('rc_skip_expression_space',internal=True);save_expression_spaces()

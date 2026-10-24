@@ -513,3 +513,45 @@ int __stdcall rc_evaluate_defined(const WCHAR *name)
     }
     return result;
 }
+
+int __cdecl rc_skip_expression_space(void)
+{
+    int found=0,skipped=0,resumed;
+    unsigned short token;
+    WCHAR character;
+
+    for(;;){
+        character=*rc_source_cursor++;
+        token=rc_character_token(character);
+        switch(token){
+        case 0:
+        case 1:
+            skipped=1;
+            continue;
+        case 3:
+            resumed=rc_resume_input();
+            if(resumed&10)goto done;
+            if(resumed!=16)continue;
+            break;
+        case 5:
+            if(rc_in_directive){
+                --rc_source_cursor;
+                goto done;
+            }
+            ++rc_preparing_line;
+            skipped=1;
+            continue;
+        }
+        --rc_source_cursor;
+        found=1;
+        break;
+    }
+done:
+    if(skipped){
+        if(rc_number_buffer>=&rc_string_buffer[2043])
+            rc_macro_buffer_fatal(10056);
+        if(rc_number_buffer[-1]!=L' ')
+            *rc_number_buffer++=L' ';
+    }
+    return found;
+}
