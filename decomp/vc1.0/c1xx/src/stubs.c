@@ -72,7 +72,6 @@ void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { 
 void generate_inline_queries(void) { __asm { int 3 } }
 void finish_browser_output(void) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
-void begin_browser_output(void) { __asm { int 3 } }
 void initialize_inline_queries(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
 void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
@@ -588,3 +587,5 @@ IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CTyp
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
 void finish_line_record_debug_info(void) { __asm { int 3 } }
+void __stdcall format_browser_temporary_name(char *filename) { __asm { int 3 } }
+void begin_browser_records(void) { __asm { int 3 } }

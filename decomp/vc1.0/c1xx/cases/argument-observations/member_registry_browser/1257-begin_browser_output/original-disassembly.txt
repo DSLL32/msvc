@@ -1,0 +1,39 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0002bfe0 <.text+0x14fe0>:
+   2bfe0:	81 ec 00 01 00 00    	sub    esp,0x100
+   2bfe6:	8d 44 24 00          	lea    eax,[esp+0x0]
+   2bfea:	50                   	push   eax
+   2bfeb:	e8 e0 ec ff ff       	call   0x2acd0
+   2bff0:	8d 44 24 00          	lea    eax,[esp+0x0]
+   2bff4:	68 1c ec 09 00       	push   0x9ec1c
+   2bff9:	50                   	push   eax
+   2bffa:	e8 71 66 05 00       	call   0x82670
+   2bfff:	83 c4 08             	add    esp,0x8
+   2c002:	a3 f8 ef 08 00       	mov    ds:0x8eff8,eax
+   2c007:	0b c0                	or     eax,eax
+   2c009:	75 22                	jne    0x2c02d
+   2c00b:	8d 44 24 00          	lea    eax,[esp+0x0]
+   2c00f:	50                   	push   eax
+   2c010:	68 54 01 00 00       	push   0x154
+   2c015:	e8 e6 8a 04 00       	call   0x74b00
+   2c01a:	83 c4 04             	add    esp,0x4
+   2c01d:	50                   	push   eax
+   2c01e:	6a 53                	push   0x53
+   2c020:	e8 1b 72 04 00       	call   0x73240
+   2c025:	83 c4 0c             	add    esp,0xc
+   2c028:	a1 f8 ef 08 00       	mov    eax,ds:0x8eff8
+   2c02d:	a3 f8 ef 08 00       	mov    ds:0x8eff8,eax
+   2c032:	68 00 10 00 00       	push   0x1000
+   2c037:	6a 00                	push   0x0
+   2c039:	6a 00                	push   0x0
+   2c03b:	50                   	push   eax
+   2c03c:	e8 3f 65 05 00       	call   0x82580
+   2c041:	83 c4 10             	add    esp,0x10
+   2c044:	e8 a7 03 00 00       	call   0x2c3f0
+   2c049:	81 c4 00 01 00 00    	add    esp,0x100
+   2c04f:	c3                   	ret

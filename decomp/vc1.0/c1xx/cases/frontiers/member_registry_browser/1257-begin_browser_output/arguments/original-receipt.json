@@ -1,0 +1,29 @@
+{
+  "case": "member_registry_browser",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1257,
+  "terminal": "_begin_browser_output",
+  "candidate": null,
+  "pending_accepted": [],
+  "configuration_sha256": "55415d0bb843fe88cd4f33e675437425a21a932e551f4c1c63671c82b569106b",
+  "capture_seconds": 1.6186590269207954,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "registry.h": {
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    },
+    "registry.cpp": {
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32"
+}

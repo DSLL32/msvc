@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_begin_browser_output",
+  "case": "member_registry_browser",
+  "accepted_before": 1257,
+  "configuration_sha256": "55415d0bb843fe88cd4f33e675437425a21a932e551f4c1c63671c82b569106b",
+  "native_entry": "begin_browser_output",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      180192,
+      180304
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl void/noformals RET0",
+    "proof": "Whole112B SUBESP256 localfilename; no incoming formal/register/x87/flags input, RET0. format_browser_temporary_name(filename) std4; fopen(filename,existing literalw+) cdecl8 into existing browser_file8eff8; ifNULL report_fatal83(message_text340,filename); setvbuf(browser_file,NULL,0,4096), begin_browser_records. Original BINMODE default remains binary; exact originalw+ literal retained atpointuse, no wb substitution. Six distinct callees: _fopen/_setvbuf compatible shipped/old-retainedCRT seam plus message_text/report_fatal, new104B formatter2acd0..2ad38 std4 output-onlybuffer and10B begin_browser_records2c3f0..2c3fa cdecl0 remain namedstubs/no credit. Existing browserFILE global already encountered source-input.c gains explicit pendingbuffer observation for this case only, unopened/null distinguished fromopened-empty. No new data/CRT body/nativeguard.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "eb1024af8691383a0c99d5f7000c8d6fd3fd4832e56d8ab4999bca2a2deecec0",
+  "capture_timing": {
+    "original_capture_seconds": 1.6186590269207954,
+    "native_capture_seconds": 0.17002809885889292,
+    "total_operation_seconds": 2.064412286505103
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "cb934e8d11fd9c0ca8bb9f385f2f312629ec97a29f62ee6cb62b4446ae55d940",
+    "native-commands.gdb": "d15a00a80a668f72799ddebde3bfe286b0a4e319b0c05f11039a19f8006676ef",
+    "native-gdb.log": "3ba923f100c115414b73e204996dd16adc22bc2750a95a78f7b2b5fc30e6ee34",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "91db3a5ef174f32f1ebee2188e62756abc860bd057074145e50ac4bef753166f",
+    "original-configuration.json": "55415d0bb843fe88cd4f33e675437425a21a932e551f4c1c63671c82b569106b",
+    "original-disassembly.txt": "81da4abdcc8c3bc9ac4cfaf47c433fee7fbd6634b3b8db2a330b3aafcc624e15",
+    "original-events.txt": "663fa8b9e1be588f08c082c9c70575dfa5c70ff5e0b0f9c9ddc3301c977f60e5",
+    "original-receipt.json": "24d237777245b91c6e82a5c6e229979214533345725299223902a47bf8791574",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "98da07189c7b4cb6b1231258d63ea848ebd54617e90a58369440ed9e8538fa62"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

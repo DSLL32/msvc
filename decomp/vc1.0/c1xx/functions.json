@@ -1261,7 +1261,8 @@
     "_format_qualified_tag_name@8",
     "_emit_debug_array_type@8",
     "_emit_debug_bit_field@4",
-    "_finish_debug_info"
+    "_finish_debug_info",
+    "_begin_browser_output"
   ],
   "driver": [
     {
@@ -1597,7 +1598,7 @@
     {
       "name": "_begin_browser_output",
       "start": 180192,
-      "end": 180193
+      "end": 180304
     },
     {
       "name": "_open_intermediate",
@@ -8814,6 +8815,16 @@
       "name": "_finish_line_record_debug_info",
       "start": 461136,
       "end": 461215
+    },
+    {
+      "name": "_format_browser_temporary_name@4",
+      "start": 175312,
+      "end": 175416
+    },
+    {
+      "name": "_begin_browser_records",
+      "start": 181232,
+      "end": 181242
     }
   ],
   "cases": {
@@ -9360,11 +9371,18 @@
         {
           "name": "_debug_file",
           "original": 576700
+        },
+        {
+          "name": "_browser_file",
+          "original": 585720
         }
       ],
-      "terminal": "_begin_browser_output",
-      "terminal_evidence": "cases/member_registry_browser-seed/original-events.txt",
-      "original_seed": "cases/member_registry_browser-seed"
+      "terminal": "_format_browser_temporary_name@4",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1257-begin_browser_output/original-events.txt",
+      "original_seed": "cases/member_registry_browser-seed",
+      "frontier_extensions": [
+        "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json"
+      ]
     }
   },
   "runtime_data": [

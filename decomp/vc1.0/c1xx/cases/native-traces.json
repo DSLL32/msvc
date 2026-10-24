@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "6bbded077d4a765df321c6ca07564c4acebef6442d950614a3fa414118c41810",
+    "functions.json": "e1714364370e048832a3751418cf53df142f14c2ff548d8a94fe369abce90faa",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "b768108f6ecb77ebc6f9e46a0981ffe0f7ae07e0672587ec87f8a8cabf4eb157",
-    "cases/canonical-map.txt": "1f1176109826926f54576e31edf91b1945311bef89221be333104444731bbde1",
+    "cases/original-entry-references.json": "e3794b2d439dc4aa126eda8472376bcdc765a507bb58fa99f54a8ddddec9fe1f",
+    "cases/canonical-map.txt": "6bb3dab6c166d3dce70601fd7f5d46c26c5484a70fc9dec315ff91f6d3710af6",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -67,9 +67,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/member_registry_browser-seed/entry-reference/original-receipt.json": "8be5058f7a4553071506f09d4606fe808301c96e101c4d02174bf244b18a05be",
-    "cases/member_registry_browser-seed/entry-reference/original-events.txt": "94e940c654fcdd62523c2664a710403d779301fdba4142531e0b0ebc842271df",
-    "cases/member_registry_browser-seed/entry-reference/original-entries.plan": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "cases/frontiers/member_registry_browser/1257-begin_browser_output/entry-reference/original-receipt.json": "7c100e9e87cdcc463e9fe96a353173efc6bf62ce6e64676008e4bdb7f0c410fb",
+    "cases/frontiers/member_registry_browser/1257-begin_browser_output/entry-reference/original-events.txt": "231e51ab55d987aa7edcd3c379daee183b72668b7dd4c6d53ca1fe55505e991e",
+    "cases/frontiers/member_registry_browser/1257-begin_browser_output/entry-reference/original-entries.plan": "e46868f70e4d2c719770e5e4ab7e8877c1bac8499781ab3fd6c73d64e314254f"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -382,6 +382,10 @@
     },
     "begin_browser_output": {
       "logical": "_begin_browser_output",
+      "source": "src/browser.c"
+    },
+    "begin_browser_records": {
+      "logical": "_begin_browser_records",
       "source": "src/stubs.c"
     },
     "begin_builtin_operand_types": {
@@ -2714,6 +2718,10 @@
     },
     "format_based_declaration": {
       "logical": "_format_based_declaration@8",
+      "source": "src/stubs.c"
+    },
+    "format_browser_temporary_name": {
+      "logical": "_format_browser_temporary_name@4",
       "source": "src/stubs.c"
     },
     "format_declaration_base_type": {
@@ -7165,7 +7173,8 @@
     "format_qualified_tag_name",
     "emit_debug_array_type",
     "emit_debug_bit_field",
-    "finish_debug_info"
+    "finish_debug_info",
+    "begin_browser_output"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13595,7 +13604,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1257,
+      "last": 1258,
       "seen": [
         "main",
         "message_text",
@@ -14751,12 +14760,13 @@
         "finish_debug_info"
       ],
       "expected": [
-        "begin_browser_output"
+        "begin_browser_output",
+        "format_browser_temporary_name"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_begin_browser_output",
-        "native": "begin_browser_output",
+        "logical": "_format_browser_temporary_name@4",
+        "native": "format_browser_temporary_name",
         "signal": 5
       }
     }
