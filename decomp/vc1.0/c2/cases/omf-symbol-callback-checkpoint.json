@@ -1,0 +1,182 @@
+{
+  "checkpoint": 1292,
+  "previous_checkpoint": 1291,
+  "new_application": [
+    {
+      "name": "@omf_output_symbol@4",
+      "start": 440080,
+      "end": 440108,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "FunctionSymbol pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-symbol-callback-abi/validation.json",
+        "scope": "Original6b710..6b72c sole ECX symbol, RET0. No EDX/stack/flags/x87/out pointer. Actual pointer aliases current_symbol original831ac/native and caller emit_machine_instructions; flags1/conditional segment identifier5 observed. Lookup result is child output, not invented input; original public call retained even if lookup changes symbol flags/identifier."
+      }
+    }
+  ],
+  "new_extent_bytes": 28,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1292,
+    "accepted_code_bytes": 344098,
+    "original_code_bytes": 399693,
+    "percentage": 86.09057451594099,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 638
+  },
+  "application_graph_rows": 1182,
+  "reconstructed_application_support_functions": 1177,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 325798,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "_omf_output_debug_record",
+  "next_original_va": "0x6b740",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "_omf_output_debug_record"
+  },
+  "controls": [
+    "cases/omf-symbol-callback-validation.json"
+  ],
+  "timings": {
+    "omf1292-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 23.52583595365286,
+      "returncode": 0,
+      "log_sha256": "2cda5fca00922b4548b0c1b2247496e898d10a05a4609f4a58a9606987ae50fe"
+    },
+    "omf1292-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 15.799327897839248,
+      "returncode": 0,
+      "log_sha256": "0618af7e7c6a2e58362882de019a6c1f1a9292e23f324e1f8aa57da0a9b224ee"
+    },
+    "omf1292-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1291.json",
+        "--extend-after",
+        "cases/omf-original-1292.json"
+      ],
+      "seconds": 0.3133038692176342,
+      "returncode": 0,
+      "log_sha256": "36cb1379d9dea49b8f95052ada2a03f0ada94c8f2e52956690d30b216e6df239"
+    },
+    "omf1292-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-symbol-callback.py"
+      ],
+      "seconds": 1.1545428521931171,
+      "returncode": 0,
+      "log_sha256": "39797142a5d6c35741f97b0fd3bccd15368e7686e2e94782de79470fa0b784b8"
+    },
+    "omf1292-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-symbol-entry.py"
+      ],
+      "seconds": 1.9409692035987973,
+      "returncode": 0,
+      "log_sha256": "2e928277d942e9bc6cb7bc4d2a135b3426449ca7197f1a6ebc10dd6f9eff2abe"
+    },
+    "omf1292-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.854321064427495,
+      "returncode": 0,
+      "log_sha256": "0564bf18e98b594fd0e35ab32a36eada9d6476b609d05b940fa15d655b36e4d9"
+    },
+    "omf1292-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1292.json"
+      ],
+      "seconds": 0.21695954725146294,
+      "returncode": 0,
+      "log_sha256": "732c8b1899ab2c88ee1539221a460899bd98f4c678be0e901265284eac91503a"
+    },
+    "omf1292-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.571191237308085,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1292-original-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1292.json"
+      ],
+      "seconds": 0.9710559714585543,
+      "returncode": 0,
+      "log_sha256": "0404f37e180caa694cf918e8d31a6a8e2451fc38e0660b71c76351ae390fc140"
+    },
+    "omf1292-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output",
+        "output"
+      ],
+      "seconds": 2.1060526873916388,
+      "returncode": 0,
+      "log_sha256": "78983a89ed7c4d69bd9b2b3c4c2cae213958cebb29b43396e4f2823f34bdf396"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole28-byte conditional public callback, sole typed ECX FunctionSymbol pointer/current_symbol alias, flags1/segmentID5 and caller emit_machine_instructions matched. Direct typed callback assignment replaces cast, no assembly adapter. Only wrapper-consumed fields observed, child segment output not invented incoming input.",
+    "54 full original/canonical controls/7 ABI negatives cover flag20 versus other bits/unsignedIDs, lookup mutations proving no re-test/relookup and exact returned segment/original symbol forwarding. RET0/saved-register/stack/full owned guards pass. Children mocked, no cold public body execution claim.",
+    "Canonical/W3/ordinary graph/extents/RET/ABI/storage/fresh masked-original/native line callback6b740 and15 native cases pass(14 complete). New full controls1.155s, ordinary historical structural audit23.526s, build15.799s,/W32.106s,reference.971s,native.217s,fixtures.854s wrappers. Split phases retained; analysis/edit unmeasured. Full exact OMF output pending."
+  ]
+}

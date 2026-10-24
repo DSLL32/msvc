@@ -71,7 +71,7 @@ void coff_finish_module(void);
 unsigned __fastcall coff_output_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment);
 void __fastcall coff_output_record(ModuleDirective *directive);
 void __fastcall coff_mark_symbol(SymbolHeader *symbol);
-void omf_output_symbol(void);
+void __fastcall omf_output_symbol(FunctionSymbol *symbol);
 void __fastcall omf_select_segment(Segment *segment);
 void __fastcall omf_output_data(void *data, unsigned bytes);
 void __fastcall omf_output_debug_pair(char *filename);

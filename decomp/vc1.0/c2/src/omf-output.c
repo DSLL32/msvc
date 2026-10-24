@@ -1223,3 +1223,13 @@ void __fastcall omf_write_fixup(OmfFixup *fixup)
         record->count = ++count; *cursor++ = (unsigned char)(addend >> 24); record->cursor = cursor;
     }
 }
+
+/* Original [0006b710,0006b72c). Non-COMDAT function public declaration. */
+void __fastcall omf_output_symbol(FunctionSymbol *symbol)
+{
+    Segment *segment;
+    if (!(symbol->symbol.field0e & 0x20)) {
+        segment = (Segment *)lookup_global_symbol(symbol->symbol.field18.identifier);
+        omf_emit_public(&symbol->symbol, segment);
+    }
+}

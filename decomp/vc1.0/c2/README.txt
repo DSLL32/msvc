@@ -801,3 +801,11 @@ ordinary audits/fresh pair and15 native cases pass(14 complete), next public
 symbol callback6b710.344070/399693 extent bytes; app/support325770B/1176functions
 exclude5 historical CRT. New full controls20.839s, ordinary structural audit
 23.228s, full object pending. cases/omf-fixup-entry-checkpoint.json.
+
+Checkpoint1292 adds28-byte conditional public callback as typed fastcall C.
+Actual current-function alias/flags1/segmentID5 match;54 full controls/7 ABI
+rejects verify bit20 gating, lookup-result forwarding and no re-test after child
+mutation. Original/W3/ordinary audits/fresh pair and15 native cases pass
+(14 complete), next line callback6b740.344098/399693 extent bytes; app/support
+325798B/1177functions exclude5 historical CRT. Ordinary audit23.526s, full
+object pending. Timings/limits: cases/omf-symbol-callback-checkpoint.json.

@@ -93,7 +93,7 @@ void initialize_output_callbacks(void)
     output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))output_noop_debug;
         }
     } else {
-    output_callbacks.symbol = (void (__fastcall *)(FunctionSymbol *))omf_output_symbol;
+    output_callbacks.symbol = omf_output_symbol;
     output_callbacks.function = (void (__fastcall *)(FunctionSymbol *))output_noop_symbol;
     output_callbacks.begin_function = output_noop_function;
     output_callbacks.select_segment = omf_select_segment;

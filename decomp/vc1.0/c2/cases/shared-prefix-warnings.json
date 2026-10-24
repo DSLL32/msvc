@@ -2,9 +2,14 @@
   "modules": [
     {
       "module": "omf-output",
-      "seconds": 1.6784669226035476,
+      "seconds": 1.1075564688071609,
+      "returncode": 0
+    },
+    {
+      "module": "output",
+      "seconds": 0.9479837883263826,
       "returncode": 0
     }
   ],
-  "seconds": 1.6786813009530306
+  "seconds": 2.0558281438425183
 }

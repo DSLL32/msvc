@@ -1295,7 +1295,8 @@
     "@omf_emit_local_external@4",
     "@omf_output_debug_pair@4",
     "_omf_write_fixups",
-    "@omf_write_fixup@4"
+    "@omf_write_fixup@4",
+    "@omf_output_symbol@4"
   ],
   "driver": [
     {
@@ -2285,10 +2286,23 @@
       "end": 446480
     },
     {
-      "name": "_omf_output_symbol",
+      "name": "@omf_output_symbol@4",
       "start": 440080,
-      "end": 440081,
-      "provisional": true
+      "end": 440108,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "FunctionSymbol pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-symbol-callback-abi/validation.json",
+        "scope": "Original6b710..6b72c sole ECX symbol, RET0. No EDX/stack/flags/x87/out pointer. Actual pointer aliases current_symbol original831ac/native and caller emit_machine_instructions; flags1/conditional segment identifier5 observed. Lookup result is child output, not invented input; original public call retained even if lookup changes symbol flags/identifier."
+      }
     },
     {
       "name": "@omf_select_segment@4",
