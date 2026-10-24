@@ -1416,3 +1416,33 @@ void __fastcall omf_emit_comdat_external(SymbolHeader *symbol)
     *cursor++ = 0;
     record->cursor = cursor;
 }
+
+/* Original [0006c2f0,0006c329). Return only the byte consumed by COMDAT
+   headers. Unsupported selection codes take the original diagnostic edge. */
+unsigned char __fastcall omf_comdat_selection(unsigned char selection)
+{
+    switch (selection) {
+    case 1: return 0x10;
+    case 2: return 0;
+    case 3: return 0x20;
+    case 4: return 0x30;
+    default:
+        compiler_internal_error("@(#)omf.c:1.10", 0x541);
+        return 0;
+    }
+}
+
+/* Original [0006b7f0,0006b85e). LINSYM32 has the same six-byte
+   line/offset payload but its distinct COMDAT record context/header. */
+void __fastcall omf_write_comdat_line(unsigned short line, unsigned offset, Segment *segment)
+{
+    OmfRecord *record = omf_begin_record(0xc5, segment);
+    unsigned count = record->count + 1;
+    unsigned char *cursor = record->cursor;
+    record->count = count; *cursor++ = (unsigned char)line; record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(line >> 8); record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)offset; record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(offset >> 8); record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(offset >> 16); record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(offset >> 24); record->cursor = cursor;
+}

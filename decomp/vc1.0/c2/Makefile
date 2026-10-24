@@ -63,6 +63,7 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-name-index.py --abi-only
 	$(PYTHON) scripts/check-omf-local-name.py --abi-only
 	$(PYTHON) scripts/check-omf-comdat-external.py --abi-only
+	$(PYTHON) scripts/check-omf-comdat-selection.py --abi-only
 	$(PYTHON) scripts/check-omf-interner.py --abi-only
 	$(PYTHON) scripts/check-omf-segment.py --abi-only
 	$(PYTHON) scripts/check-omf-alignment.py --abi-only
@@ -96,6 +97,7 @@ audit: build/runtime.json runtime.json $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-symbol-callback.py --abi-only
 	$(PYTHON) scripts/check-omf-line-callback.py --abi-only
 	$(PYTHON) scripts/check-omf-line-entry.py --abi-only
+	$(PYTHON) scripts/check-omf-comdat-line.py --abi-only
 	$(PYTHON) scripts/check-omf-size.py --abi-only
 	$(PYTHON) scripts/check-codeview-block.py --abi-only
 	$(PYTHON) scripts/check-omf-relative.py --abi-only
@@ -143,6 +145,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-name-index.py --abi-only
 	$(PYTHON) scripts/check-omf-local-name.py --abi-only
 	$(PYTHON) scripts/check-omf-comdat-external.py --abi-only
+	$(PYTHON) scripts/check-omf-comdat-selection.py --abi-only
 	$(PYTHON) scripts/check-omf-interner.py --abi-only
 	$(PYTHON) scripts/check-omf-segment.py --abi-only
 	$(PYTHON) scripts/check-omf-alignment.py --abi-only
@@ -176,6 +179,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-omf-symbol-callback.py --abi-only
 	$(PYTHON) scripts/check-omf-line-callback.py --abi-only
 	$(PYTHON) scripts/check-omf-line-entry.py --abi-only
+	$(PYTHON) scripts/check-omf-comdat-line.py --abi-only
 	$(PYTHON) scripts/check-omf-size.py --abi-only
 	$(PYTHON) scripts/check-codeview-block.py --abi-only
 	$(PYTHON) scripts/check-omf-relative.py --abi-only
@@ -190,6 +194,7 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-omf-name-index.py
 	$(PYTHON) scripts/check-omf-local-name.py
 	$(PYTHON) scripts/check-omf-comdat-external.py
+	$(PYTHON) scripts/check-omf-comdat-selection.py
 	$(PYTHON) scripts/check-omf-wire.py
 	$(PYTHON) scripts/check-omf-begin.py
 	$(PYTHON) scripts/check-omf-find.py
@@ -230,6 +235,7 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-omf-symbol-callback.py
 	$(PYTHON) scripts/check-omf-line-callback.py
 	$(PYTHON) scripts/check-omf-line-entry.py
+	$(PYTHON) scripts/check-omf-comdat-line.py
 	$(PYTHON) scripts/check-omf-size.py
 	$(PYTHON) scripts/check-codeview-block.py
 	$(PYTHON) scripts/check-omf-relative.py

@@ -960,3 +960,14 @@ controls and6/7 ABI negatives, original/W3/audits/fresh pair/native16cases
 pass. No outputfield14 or uninitialized localindex input snapshots. Next
 COMDAT selection mapper6c2f0. Exact1962B object pending; split receipts in
 cases/comdat-local-name-checkpoint.json and comdat-external-checkpoint.json.
+
+At1309 the57B COMDAT selection mapper and110B LINSYM writer are accepted.
+Actual selection2 is lowCL and returnlowAL; original caller bytes prove this
+unsignedchar ABI.1536 full byte/upperECX/diagnostic controls retain exact541
+error edge and post-callAL0, no error execution claim. Initial test-only
+actual1 assertion and midcall callee-saved assertion failures retained, corrected
+without target changes or original recapture. LINSYM actual line14/offset0/
+closed segment183 and216 wholecontrols/8 negatives pass. Original/W3/audits/
+fresh pairs/native16cases pass; next CodeView register69880. Fullcontrols
+29.058s/5.700s and all failed timing receipts in cases/comdat-selection-
+checkpoint.json and cases/comdat-line-checkpoint.json. Final object pending.

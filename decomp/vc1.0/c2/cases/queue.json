@@ -512,8 +512,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@omf_comdat_selection@4",
-  "current_checkpoint": 1307,
+  "current_application_frontier": "@write_codeview_register@4",
+  "current_checkpoint": 1309,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",

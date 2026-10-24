@@ -1,0 +1,6 @@
+enter @omf_write_comdat_line@12 eax 007b2750 args 0000000e 00000000 007b2750
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_line_entry line 14 offset 00000000 segment 007b2750 identifier 183 bucket 55 index 0 member 007b2750 current_segment_id 183 return_address 0006b76f
+entry_end

@@ -2,7 +2,7 @@
   "schema": 2,
   "description": "Fresh shared-prefix original entry projection; no capture or Wine in fixtures",
   "metadata_sha256": {
-    "functions.json": "7a4ce81f0104b4d8fe7204a995674fa453f92ddce65fadc2345624acc7f9bfe8",
+    "functions.json": "b185c2ba651fba9b47141fcc266f253c557aaec8f725a885ca69473598a3fbd0",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -3120,7 +3120,7 @@
     },
     "omf_comdat_selection": {
       "logical": "@omf_comdat_selection@4",
-      "source": "src/stubs.c"
+      "source": "src/omf-output.c"
     },
     "omf_define_fixup_thread": {
       "logical": "@omf_define_fixup_thread@16",
@@ -3256,7 +3256,7 @@
     },
     "omf_write_comdat_line": {
       "logical": "@omf_write_comdat_line@12",
-      "source": "src/stubs.c"
+      "source": "src/omf-output.c"
     },
     "omf_write_comment": {
       "logical": "@omf_write_comment@8",
@@ -42597,6 +42597,208 @@
               "total_seconds": 1.8402652749791741
             }
           }
+        },
+        {
+          "accepted_function": "@omf_comdat_selection@4",
+          "accepted_kind": "application",
+          "previous_logical": "@omf_comdat_selection@4",
+          "original_extent": [
+            "0x6c2f0",
+            "0x6c329"
+          ],
+          "before": {
+            "path": "cases/comdat-original-1307.json",
+            "sha256": "66839d7003e25a3ecd3d0974b7dcd379e306d8842222bcc3481dbadcc5f49465",
+            "capture": {
+              "label": "comdat-original-1307",
+              "profile": "comdat",
+              "accepted": 1307,
+              "events": "exception 80000003 rva 0005c2f0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "475ca215199303dc396f7c28670e88a542fff82d3492ded3bfcd563c279a05fb",
+              "config_sha256": "7a4ce81f0104b4d8fe7204a995674fa453f92ddce65fadc2345624acc7f9bfe8",
+              "manifest_sha256": "0b6c374b507b4499a8664aea856c2f5986fa4292ce4c572f31f40cae011654bd",
+              "debugger_sha256": "f3f34b0453e01e6cc059a59cead4c6fa8901ef91b89af79081c646e96fa7ba92",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "983b7f23154d0ec9bfbb7e92752a6d5b8348eea1987b11355e5f12478426b623",
+                "c2/irsy": "67fd71032496f38bdf769fc512ec5bfea6446a4218981d1c2349340d572d0894",
+                "c2/irin": "dc661134263211069bf244b1fee4d24465615ec269b7a7c55f9bffed03b9aecd",
+                "c2/irgl": "cd85d646ba9e86feb2ce06d2e33ca72371d9d03e5d94c28f2db7174125cd43fd",
+                "c2/irdb": "1adc1f58fc6821ba24f66554729ecca4c8a021e396092fd7c6f2356c4ad1cf41",
+                "c2/packets.c": "706a8c493310f99436cc2322bee6b20a5972c2a2999d24a24787fd928db1ce5b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f packets.c -W 1 -dos -Fopackets.obj -ML -Gs4096 -Gy -G5 -Zi -omf "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-comdat-4315k9p0",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\packets",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@omf_comdat_selection@4",
+              "original_va": "0x6c2f0",
+              "setup_seconds": 0.24527613911777735,
+              "execution_seconds": 1.5687589794397354,
+              "check_seconds": 0.026229746639728546,
+              "total_seconds": 1.8402652749791741
+            }
+          },
+          "after": {
+            "path": "cases/comdat-original-1308.json",
+            "sha256": "63c4c854c36f808aafef7eb92829f580441655fe69af64ae5bc281ac18779c24",
+            "capture": {
+              "label": "comdat-original-1308",
+              "profile": "comdat",
+              "accepted": 1308,
+              "events": "exception 80000003 rva 0005b7f0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "cda8c8367cf6bc99a162cfa8a55c37d3e5c3bdb08503f765840956cdc0216852",
+              "config_sha256": "d1528b798b4ec7ea2c3eda05c71c18b16b40637ab44484d50ed586a88a64b0a5",
+              "manifest_sha256": "0b6c374b507b4499a8664aea856c2f5986fa4292ce4c572f31f40cae011654bd",
+              "debugger_sha256": "f3f34b0453e01e6cc059a59cead4c6fa8901ef91b89af79081c646e96fa7ba92",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "983b7f23154d0ec9bfbb7e92752a6d5b8348eea1987b11355e5f12478426b623",
+                "c2/irsy": "67fd71032496f38bdf769fc512ec5bfea6446a4218981d1c2349340d572d0894",
+                "c2/irin": "dc661134263211069bf244b1fee4d24465615ec269b7a7c55f9bffed03b9aecd",
+                "c2/irgl": "cd85d646ba9e86feb2ce06d2e33ca72371d9d03e5d94c28f2db7174125cd43fd",
+                "c2/irdb": "1adc1f58fc6821ba24f66554729ecca4c8a021e396092fd7c6f2356c4ad1cf41",
+                "c2/packets.c": "706a8c493310f99436cc2322bee6b20a5972c2a2999d24a24787fd928db1ce5b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f packets.c -W 1 -dos -Fopackets.obj -ML -Gs4096 -Gy -G5 -Zi -omf "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-comdat-lsmfegfx",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\packets",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@omf_write_comdat_line@12",
+              "original_va": "0x6b7f0",
+              "setup_seconds": 0.25383473094552755,
+              "execution_seconds": 0.8705453630536795,
+              "check_seconds": 0.0268704267218709,
+              "total_seconds": 1.1512509267777205
+            }
+          }
+        },
+        {
+          "accepted_function": "@omf_write_comdat_line@12",
+          "accepted_kind": "application",
+          "previous_logical": "@omf_write_comdat_line@12",
+          "original_extent": [
+            "0x6b7f0",
+            "0x6b85e"
+          ],
+          "before": {
+            "path": "cases/comdat-original-1308.json",
+            "sha256": "63c4c854c36f808aafef7eb92829f580441655fe69af64ae5bc281ac18779c24",
+            "capture": {
+              "label": "comdat-original-1308",
+              "profile": "comdat",
+              "accepted": 1308,
+              "events": "exception 80000003 rva 0005b7f0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "cda8c8367cf6bc99a162cfa8a55c37d3e5c3bdb08503f765840956cdc0216852",
+              "config_sha256": "d1528b798b4ec7ea2c3eda05c71c18b16b40637ab44484d50ed586a88a64b0a5",
+              "manifest_sha256": "0b6c374b507b4499a8664aea856c2f5986fa4292ce4c572f31f40cae011654bd",
+              "debugger_sha256": "f3f34b0453e01e6cc059a59cead4c6fa8901ef91b89af79081c646e96fa7ba92",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "983b7f23154d0ec9bfbb7e92752a6d5b8348eea1987b11355e5f12478426b623",
+                "c2/irsy": "67fd71032496f38bdf769fc512ec5bfea6446a4218981d1c2349340d572d0894",
+                "c2/irin": "dc661134263211069bf244b1fee4d24465615ec269b7a7c55f9bffed03b9aecd",
+                "c2/irgl": "cd85d646ba9e86feb2ce06d2e33ca72371d9d03e5d94c28f2db7174125cd43fd",
+                "c2/irdb": "1adc1f58fc6821ba24f66554729ecca4c8a021e396092fd7c6f2356c4ad1cf41",
+                "c2/packets.c": "706a8c493310f99436cc2322bee6b20a5972c2a2999d24a24787fd928db1ce5b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f packets.c -W 1 -dos -Fopackets.obj -ML -Gs4096 -Gy -G5 -Zi -omf "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-comdat-lsmfegfx",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\packets",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@omf_write_comdat_line@12",
+              "original_va": "0x6b7f0",
+              "setup_seconds": 0.25383473094552755,
+              "execution_seconds": 0.8705453630536795,
+              "check_seconds": 0.0268704267218709,
+              "total_seconds": 1.1512509267777205
+            }
+          },
+          "after": {
+            "path": "cases/comdat-original-1309.json",
+            "sha256": "81c60a53c6938a84e33ad92b454f30f2959202442ffca25c32613295cf5004c9",
+            "capture": {
+              "label": "comdat-original-1309",
+              "profile": "comdat",
+              "accepted": 1309,
+              "events": "exception 80000003 rva 00059880 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "a0cd865b54de4942784ccf4e2792061b85a555e37987ce7ae881f48b57cd21b4",
+              "config_sha256": "b185c2ba651fba9b47141fcc266f253c557aaec8f725a885ca69473598a3fbd0",
+              "manifest_sha256": "0b6c374b507b4499a8664aea856c2f5986fa4292ce4c572f31f40cae011654bd",
+              "debugger_sha256": "f3f34b0453e01e6cc059a59cead4c6fa8901ef91b89af79081c646e96fa7ba92",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "983b7f23154d0ec9bfbb7e92752a6d5b8348eea1987b11355e5f12478426b623",
+                "c2/irsy": "67fd71032496f38bdf769fc512ec5bfea6446a4218981d1c2349340d572d0894",
+                "c2/irin": "dc661134263211069bf244b1fee4d24465615ec269b7a7c55f9bffed03b9aecd",
+                "c2/irgl": "cd85d646ba9e86feb2ce06d2e33ca72371d9d03e5d94c28f2db7174125cd43fd",
+                "c2/irdb": "1adc1f58fc6821ba24f66554729ecca4c8a021e396092fd7c6f2356c4ad1cf41",
+                "c2/packets.c": "706a8c493310f99436cc2322bee6b20a5972c2a2999d24a24787fd928db1ce5b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f packets.c -W 1 -dos -Fopackets.obj -ML -Gs4096 -Gy -G5 -Zi -omf "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-comdat-av4bn2j8",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\packets",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@write_codeview_register@4",
+              "original_va": "0x69880",
+              "setup_seconds": 0.2454788852483034,
+              "execution_seconds": 1.0419097589328885,
+              "check_seconds": 0.028685917146503925,
+              "total_seconds": 1.316074931062758
+            }
+          }
         }
       ]
     }
@@ -56746,7 +56948,7 @@
     },
     "comdat": {
       "first": 1300,
-      "last": 1307,
+      "last": 1309,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -57942,9 +58144,11 @@
         "expand_zero_extension",
         "omf_local_name_index",
         "omf_emit_comdat_external",
-        "omf_comdat_selection"
+        "omf_comdat_selection",
+        "omf_write_comdat_line",
+        "write_codeview_register"
       ],
-      "terminal": "@omf_comdat_selection@4",
+      "terminal": "@write_codeview_register@4",
       "terminal_kind": "application",
       "returncode": -5,
       "pending_runtime": false

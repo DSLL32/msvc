@@ -295,7 +295,7 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             read_word(process,image_base+0x6e8a4),read_word(process,image_base+0x6e8a8),flags,symbol_flags,call->return_address);log_line(line);
         /* All formals are unused by RET8; no pointee payload is read. */
     }
-    if(!strcmp(call->name,"@omf_write_line@12")) {
+    if(!strcmp(call->name,"@omf_write_line@12")||!strcmp(call->name,"@omf_write_comdat_line@12")) {
         DWORD segment=call->args[2],id=read_word(process,segment+28),bucket=id&63,index=0;
         DWORD member=read_word(process,image_base+0x6c158+4*bucket),symbol=read_word(process,image_base+0x731ac);
         while(member&&member!=segment&&index<1024){member=read_word(process,member);++index;}
@@ -464,6 +464,9 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             record,call->args[1],read_word(process,image_base+0x6b88c),image_base+0x6a8dc,call->return_address);log_line(line);
         /* Only the count/cursor are consumed; old destination bytes are write-only. */
         dump_bytes(process,"omf_pad_count_cursor_hex",record+12,8);
+    }
+    if(!strcmp(call->name,"@omf_comdat_selection@4")) {
+        sprintf(line,"omf_selection value %lu segment %08lx owner_selection %lu return_address %08lx\n",call->args[0]&255,context->Edi,read_byte(process,context->Edi+68),call->return_address);log_line(line);
     }
     if(!strcmp(call->name,"@omf_emit_comdat_external@4")) {
         DWORD symbol=call->args[0],id=read_word(process,symbol+28),target_id=read_word(process,symbol+24);

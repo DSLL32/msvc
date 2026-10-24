@@ -1,0 +1,35 @@
+{
+  "matched": true,
+  "function": "@omf_comdat_selection@4",
+  "original_va": "0x6c2f0",
+  "formals": [
+    {
+      "name": "selection",
+      "location": "CL",
+      "type": "unsigned8",
+      "original": 2,
+      "native": 2
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "return_contract": "unsigned8 inAL, upperEAX unspecified/unconsumed",
+  "no_hidden_inputs_proof": "Original6c2f0..6c329 first clearsEAX then copiesCL, consumes only low8 selection, RET0. No incoming upperECX/EDX/stack/flags/x87/out pointer. Actual original6c184 loadCL[EDI+68]/callreturn6c18c and native callerSegment.omf_comdat.selection bind the byte. Return AL consumed by original caller store at6c190; other EAX bits not part of unsignedchar result.",
+  "original": {
+    "value": 2,
+    "segment": 8070996,
+    "owner_selection": 2,
+    "return_address": 442764,
+    "ecx": 501762
+  },
+  "native": {
+    "value": 2,
+    "segment": 1449367620,
+    "owner_selection": 2,
+    "caller": "omf_initialize_record"
+  },
+  "original_execution_seconds": 0.6685401601716876,
+  "native_debug_seconds": 0.13508194871246815,
+  "total_seconds": 1.0865507973358035,
+  "scope": "Actual unsignedbyte formal/caller-field alias only; no unrelated Segment/context/output snapshots. Whole57B mapper/default diagnostic controls and fresh matching pending."
+}

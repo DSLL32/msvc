@@ -1311,7 +1311,9 @@
     "_record_debug_register_locations",
     "@expand_zero_extension@4",
     "@omf_local_name_index@4",
-    "@omf_emit_comdat_external@4"
+    "@omf_emit_comdat_external@4",
+    "@omf_comdat_selection@4",
+    "@omf_write_comdat_line@12"
   ],
   "driver": [
     {
@@ -9127,8 +9129,21 @@
     {
       "name": "@omf_comdat_selection@4",
       "start": 443120,
-      "end": 443121,
-      "provisional": true
+      "end": 443177,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "selection",
+            "location": "CL",
+            "type": "unsigned8"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-comdat-selection-abi/validation.json",
+        "scope": "Original6c2f0..6c329 first clearsEAX then copiesCL, consumes only low8 selection, RET0. No incoming upperECX/EDX/stack/flags/x87/out pointer. Actual original6c184 loadCL[EDI+68]/callreturn6c18c and native callerSegment.omf_comdat.selection bind the byte. Return AL consumed by original caller store at6c190; other EAX bits not part of unsignedchar result."
+      }
     },
     {
       "name": "@omf_alignment@4",
@@ -9596,8 +9611,31 @@
     {
       "name": "@omf_write_comdat_line@12",
       "start": 440304,
-      "end": 440305,
-      "provisional": true
+      "end": 440414,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "line",
+            "location": "CX",
+            "type": "unsigned16"
+          },
+          {
+            "name": "offset",
+            "location": "EDX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "segment",
+            "location": "entryESP+4",
+            "type": "Segment pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/omf-comdat-line-abi/validation.json",
+        "scope": "Original6b7f0..6b85e consumes low16 CXline, EDXoffset and stack+4segment, RET4. No other register/flags/x87/out pointer; highECX unused. Actual line/offset/context aliases caller lookup result and closed global-scope segment/current segmentID observed. Segment passed only as begin-record context, no incoming pointee payload; returned record is future child output, not fabricated input."
+      }
     },
     {
       "name": "_omf_write_module_end",

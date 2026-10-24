@@ -1,0 +1,204 @@
+{
+  "checkpoint": 1308,
+  "status": "57B COMDAT selection mapper accepted; next COMDAT lines6b7f0",
+  "new_function": {
+    "name": "@omf_comdat_selection@4",
+    "start": 443120,
+    "end": 443177,
+    "abi": {
+      "convention": "fastcall",
+      "parameters": [
+        {
+          "name": "selection",
+          "location": "CL",
+          "type": "unsigned8"
+        }
+      ],
+      "hidden_inputs": [],
+      "callee_stack_cleanup": 0,
+      "entry_observation": "cases/omf-comdat-selection-abi/validation.json",
+      "scope": "Original6c2f0..6c329 first clearsEAX then copiesCL, consumes only low8 selection, RET0. No incoming upperECX/EDX/stack/flags/x87/out pointer. Actual original6c184 loadCL[EDI+68]/callreturn6c18c and native callerSegment.omf_comdat.selection bind the byte. Return AL consumed by original caller store at6c190; other EAX bits not part of unsignedchar result."
+    }
+  },
+  "extent_delta": 57,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1308,
+    "accepted_code_bytes": 346827,
+    "original_code_bytes": 399693,
+    "percentage": 86.77334854500829,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 649
+  },
+  "actual_abi": "cases/omf-comdat-selection-abi/validation.json",
+  "focused_controls": "cases/omf-comdat-selection-validation.json",
+  "fresh_before": "cases/comdat-original-1307.json",
+  "fresh_after": "cases/comdat-original-1308.json",
+  "native_after": "cases/comdat-original-1308-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "timings": {
+    "comdat-selection-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.2477254373952746,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "comdat-selection-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-comdat-selection-entry.py"
+      ],
+      "seconds": 1.15429225564003,
+      "returncode": 0,
+      "log_sha256": "db0b32713282298281f3636e9d96e6ccce97f91804d9a26ae816e46efa539495"
+    },
+    "comdat-1308-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.9547319458797574,
+      "returncode": 0,
+      "log_sha256": "27b3e8467f86db4e058e57d9550a308795ab7c840bd906ed99d38c51bdbcca3d"
+    },
+    "comdat-1308-controls": {
+      "command": [
+        "python3",
+        "scripts/check-omf-comdat-selection.py"
+      ],
+      "seconds": 0.334078268148005,
+      "returncode": 1,
+      "log_sha256": "57d593f2fd07bd8520fa01e3a92e421d06cc5bbdccdbe07a7e32a556ec825300"
+    },
+    "comdat-1308-controls-corrected": {
+      "command": [
+        "python3",
+        "scripts/check-omf-comdat-selection.py"
+      ],
+      "seconds": 0.34360858239233494,
+      "returncode": 1,
+      "log_sha256": "7997e60df8bb6c204d8a66c8b62fc6debf2867ec23b181116bd5ddaa536a862e"
+    },
+    "comdat-1308-controls-abi-return": {
+      "command": [
+        "python3",
+        "scripts/check-omf-comdat-selection.py"
+      ],
+      "seconds": 29.057874334044755,
+      "returncode": 0,
+      "log_sha256": "332bbdc24df0c068736d24fd44ef523cd80592586b4e81c82333532a948d5172"
+    },
+    "comdat-1308-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.0224534785375,
+      "returncode": 0,
+      "log_sha256": "1241b88773d6357b7e08f65db032606679089b88938b51f199bd0be53bea0bd7"
+    },
+    "comdat-1308-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 17.522911361418664,
+      "returncode": 2,
+      "log_sha256": "a97a2dacc469403aced726b31d656188741280868c3b4915f11eb787472fa7be"
+    },
+    "comdat-1308-audit-corrected": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 30.671946053393185,
+      "returncode": 0,
+      "log_sha256": "29f8affa8077979c67748103e509b19869c90522275f26011134a665871da38f"
+    },
+    "comdat-1308-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "comdat",
+        "--receipt",
+        "cases/comdat-original-1308.json"
+      ],
+      "seconds": 1.2220452232286334,
+      "returncode": 0,
+      "log_sha256": "63c4c854c36f808aafef7eb92829f580441655fe69af64ae5bc281ac18779c24"
+    },
+    "comdat-1308-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1308.json"
+      ],
+      "seconds": 0.2464099759235978,
+      "returncode": 0,
+      "log_sha256": "6c302b33ecfc49ee920792584fc107adda08b66144dbfeea3d41e6bd0faa9ebe"
+    },
+    "comdat-1308-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/comdat-original-1307.json",
+        "--extend-after",
+        "cases/comdat-original-1308.json"
+      ],
+      "seconds": 0.32835308089852333,
+      "returncode": 0,
+      "log_sha256": "9e624c0cb2668c850b916c1cc78cb83098694f33c6633c572adbeb0ba571eafb"
+    },
+    "comdat-1308-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.9959210958331823,
+      "returncode": 0,
+      "log_sha256": "2b08129381a0f49514052fa35de18f0dcb874303f8e5a7bfb77b5c5d49f3567e"
+    }
+  },
+  "failed_attempts": [
+    "Initial focused/ordinary test wrongly asserted actual1 instead of retained original/native2; target source unchanged, fixed check and its mutants against observed2.",
+    "Next focused harness incorrectly required parent callee-saved registers before parent return at diagnostic-entry stop; moved preservation assertion to actual parent-return paths only. Retained both failures; no target-source correction or original recapture."
+  ],
+  "scope": "1536 whole original/canonical controls (all256 bytes x3 ignoredupperECX x diagnosticstop/mockreturn).1/2/3/4 map10/0/20/30, default actual541 diagnostic and explicitpostreturnAL0. Actualselection2/CL and caller+68field/returnALstore bind strictbyteABI; upperEAXunclaimed. Diagnostic remainsnamedtrap/unvisitedactualcase. Original/W3/audits/fresh pair/native16cases pass. Fullcontrols29.058s once, ordinary structural only; no default historicalfullsweep. Exact1962B completedobject pending. Analysis/edit time unmeasured."
+}

@@ -1,0 +1,179 @@
+{
+  "checkpoint": 1309,
+  "status": "110B COMDAT line writer accepted; next CodeView register69880",
+  "new_function": {
+    "name": "@omf_write_comdat_line@12",
+    "start": 440304,
+    "end": 440414,
+    "abi": {
+      "convention": "fastcall",
+      "parameters": [
+        {
+          "name": "line",
+          "location": "CX",
+          "type": "unsigned16"
+        },
+        {
+          "name": "offset",
+          "location": "EDX",
+          "type": "unsigned32"
+        },
+        {
+          "name": "segment",
+          "location": "entryESP+4",
+          "type": "Segment pointer"
+        }
+      ],
+      "hidden_inputs": [],
+      "callee_stack_cleanup": 4,
+      "entry_observation": "cases/omf-comdat-line-abi/validation.json",
+      "scope": "Original6b7f0..6b85e consumes low16 CXline, EDXoffset and stack+4segment, RET4. No other register/flags/x87/out pointer; highECX unused. Actual line/offset/context aliases caller lookup result and closed global-scope segment/current segmentID observed. Segment passed only as begin-record context, no incoming pointee payload; returned record is future child output, not fabricated input."
+    }
+  },
+  "extent_delta": 110,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1309,
+    "accepted_code_bytes": 346937,
+    "original_code_bytes": 399693,
+    "percentage": 86.80086966746978,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 650
+  },
+  "actual_abi": "cases/omf-comdat-line-abi/validation.json",
+  "focused_controls": "cases/omf-comdat-line-validation.json",
+  "fresh_before": "cases/comdat-original-1308.json",
+  "fresh_after": "cases/comdat-original-1309.json",
+  "timings": {
+    "comdat-line-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.4439962906762958,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "comdat-line-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-comdat-line-entry.py"
+      ],
+      "seconds": 1.625135668553412,
+      "returncode": 0,
+      "log_sha256": "19c230879df5cd13a2b6b1ba00bad18a5464508b569c2fd9eb3a47237519ca10"
+    },
+    "comdat-1309-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 3.1757703740149736,
+      "returncode": 0,
+      "log_sha256": "27b3e8467f86db4e058e57d9550a308795ab7c840bd906ed99d38c51bdbcca3d"
+    },
+    "comdat-1309-controls": {
+      "command": [
+        "python3",
+        "scripts/check-omf-comdat-line.py"
+      ],
+      "seconds": 5.70040228869766,
+      "returncode": 0,
+      "log_sha256": "600636cf73bec70407418b82a7436644a1d426a2376ac46a92340c50378b2624"
+    },
+    "comdat-1309-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.169992164708674,
+      "returncode": 0,
+      "log_sha256": "d630eb8e5bc07bf9b787615b2d0a53283fe0a88936d21f642abd86afdf13cc2a"
+    },
+    "comdat-1309-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 30.66774885635823,
+      "returncode": 0,
+      "log_sha256": "744a6e247e4b43e020a132ce41c12ebab7af6a952f8a8695e6618ff9db194266"
+    },
+    "comdat-1309-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "comdat",
+        "--receipt",
+        "cases/comdat-original-1309.json"
+      ],
+      "seconds": 1.3890025010332465,
+      "returncode": 0,
+      "log_sha256": "81c60a53c6938a84e33ad92b454f30f2959202442ffca25c32613295cf5004c9"
+    },
+    "comdat-1309-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1309.json"
+      ],
+      "seconds": 0.24256762955337763,
+      "returncode": 0,
+      "log_sha256": "eb2bceb0e58e2ff8e684dcef738cb50198c4127520a9de8c5827b608f6930cd8"
+    },
+    "comdat-1309-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/comdat-original-1308.json",
+        "--extend-after",
+        "cases/comdat-original-1309.json"
+      ],
+      "seconds": 0.33814833499491215,
+      "returncode": 0,
+      "log_sha256": "9e624c0cb2668c850b916c1cc78cb83098694f33c6633c572adbeb0ba571eafb"
+    },
+    "comdat-1309-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 1.0364861246198416,
+      "returncode": 0,
+      "log_sha256": "98334dd8c7f61e3548d50a2c683ca3db70afb2a3c26389bea09ceb21b5bed81f"
+    }
+  },
+  "scope": "216 full original/canonical controls/8 ABI rejects; actual line14/offset0/closed segment183. Exact six-byteWORDline/DWORDoffset,c5contextonly,RET4 and segmentnonread guard. Parent record result future child output, no incoming destination snapshot. Original/W3/audits/fresh pair/native16 cases pass; nextregister69880, final1962B object pending. Analysis/edit time unmeasured.",
+  "native_after": "cases/comdat-original-1309-native.json",
+  "native_suite": "cases/native-all-validation.json"
+}

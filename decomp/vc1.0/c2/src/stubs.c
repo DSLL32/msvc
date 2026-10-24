@@ -94,7 +94,6 @@ __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_ou
 
 
 
-void __fastcall omf_write_comdat_line(unsigned short line, unsigned offset, Segment *segment) { __asm int 3 }
 __declspec(naked) void omf_output_value(void) { RECON_TRACE_NAKED_ENTRY(omf_output_value) __asm int 3 }
 
 
@@ -105,7 +104,6 @@ __declspec(naked) void omf_output_value(void) { RECON_TRACE_NAKED_ENTRY(omf_outp
 void __fastcall omf_emit_weak_external(FunctionSymbol *symbol) { __asm int 3 }
 
 
-unsigned char __fastcall omf_comdat_selection(unsigned char selection) { __asm int 3 }
 
 
 

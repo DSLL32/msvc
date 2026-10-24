@@ -1,0 +1,12 @@
+{
+  "logical": "@write_codeview_register@4",
+  "matched": true,
+  "executable_sha256": "855eb3bf92f1603dbf850cb6275bfba1c406bd31241c900b83442de0dc7e083a",
+  "config_sha256": "b185c2ba651fba9b47141fcc266f253c557aaec8f725a885ca69473598a3fbd0",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\packets",
+  "setup_seconds": 0.012160340324044228,
+  "execution_seconds": 0.13108527101576328,
+  "seconds": 0.1637524450197816,
+  "log_sha256": "f7a15c2911d4fa599367513d2fec6d8121fd117d1d833f00263c62bda4bf40dc",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/comdat-gdb-zsm6zo6e"
+}
