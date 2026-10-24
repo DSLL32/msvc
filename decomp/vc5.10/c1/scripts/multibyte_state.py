@@ -30,7 +30,7 @@ def validate(original,native,candidate,report,stage_state=None):
  project=Path(__file__).resolve().parents[1];fields=json.loads((project/candidate['field_map']).read_text());expected_fields(fields)
  following=stage_state is not None
  if following:
-  assert candidate.get('path_fold_observers')and (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('path-fold-complete',0x12f87),('environment-arguments-complete',0x11e3c)]
+  assert candidate.get('path_fold_observers')and (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('path-fold-complete',0x12f87),('environment-arguments-complete',0x11e3c),('option-vectors-complete',0x12f9c)]
  else:assert candidate['expected_frontier']==dict(rva=0x12f3e,native_symbol='initialize_option_input_12f3e',kind='multibyte-scanner-complete',calling_convention='cdecl',native_args=[],caller=dict(native_symbol='parse_command_line',return_rva=0x12b80))
  spec=importlib.util.spec_from_file_location('own_original_locale',project/'scripts/check-isolated-locale.py');checker=importlib.util.module_from_spec(spec);spec.loader.exec_module(checker);own=checker.check(original)
  binary=captured_native_binary(native);names=symbols(binary);events=(original/'events.txt').read_text();module=0x10600000
@@ -118,7 +118,8 @@ def validate(original,native,candidate,report,stage_state=None):
   else:assert boundary==before
  probe=json.loads((original/'receipt.json').read_text())['probe'];validate_prefix(original,native,fields,state,int(next_at),probe)
  assert state['compiler_state']['multibyte_state']==entry['compiler_state']['multibyte_state']
- transcript=(native/'gdb.txt').read_text();assert'Program received signal SIGTRAP'in transcript and'recon_unsupported'not in transcript and'NativeLocaleEntry'in(native/'commands.gdb').read_text()
+ from frontier_contract import validate_native_stop
+ validate_native_stop(native,candidate);assert'NativeLocaleEntry'in(native/'commands.gdb').read_text()
  grouped=None
  if(native/'grouped-equivalence.jsonl').exists():
   rows=[json.loads(line)for line in(native/'grouped-equivalence.jsonl').read_text().splitlines()];assert rows and all((row['equal']is True if row['legacy_seconds']is not None else row['equal']is None and row.get('mode')=='grouped-only')and not row['padding_semantics_claimed']for row in rows)

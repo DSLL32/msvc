@@ -89,3 +89,30 @@ unsigned char *RECON_THISCALL CompilerPool::Refill(unsigned minimum_bytes)
     return cursor;
 }
 
+
+/* This C-ABI allocator calls the existing genuine thiscall arena member;
+ * compiling the actual function as C++ preserves that call without a wrapper.
+ * The count slot is consumed as a signed WORD, as stored in the header. */
+extern "C" CompilerVector *__cdecl new_option_vector(unsigned count, int mode)
+{
+    CompilerArena *arena = &c1_bss.arenas[mode];
+    CompilerVector *vector = (CompilerVector *)arena->cursor;
+    unsigned char *items;
+    int bytes;
+
+    arena->cursor += sizeof(CompilerVector);
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    vector->count = 0;
+    vector->capacity = (short)count;
+    vector->arena_kind = mode;
+    bytes = (int)vector->capacity * sizeof(void *);
+    if (bytes) {
+        items = arena->cursor;
+        arena->cursor += (bytes + 3) & ~3;
+        if (arena->cursor > arena->committed_limit)
+            arena->CommitExtent();
+        vector->items = (void **)items;
+    }
+    return vector;
+}

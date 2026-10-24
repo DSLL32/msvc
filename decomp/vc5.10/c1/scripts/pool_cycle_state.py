@@ -33,6 +33,7 @@ def validate(original,native,fields,entry,state,entry_sequence,sequence,module,c
     old={};old_returns={};new_returns={}
     for key,(file,symbol,linkage,rva,cleanup)in METHODS.items():
         old[key]=re.findall(r'^trap seq=(\d+) rva=%08x esp=([0-9a-f]+) eax=([0-9a-f]+) ecx=([0-9a-f]+) stack=([0-9a-f,]+)$'%rva,events,re.M)
+        old[key]=[row for row in old[key]if int(row[0])<sequence]
         count=1 if key=='commit'else 9;assert len(old[key])==len(tables[key])==count
         if key=='set-arena':
             old_returns[key]=[re.findall(r'^trap seq=(\d+) rva=%08x esp=([0-9a-f]+) eax=([0-9a-f]+) ecx=([0-9a-f]+) stack=([0-9a-f,]+)$'%(0x12acf+i*12),events,re.M)for i in range(9)]

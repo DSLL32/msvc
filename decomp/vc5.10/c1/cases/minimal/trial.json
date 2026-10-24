@@ -79,7 +79,8 @@
     "_initialize_checksums",
     "_initialize_multibyte_scanner",
     "_initialize_path_fold_table",
-    "_read_env_arguments"
+    "_read_env_arguments",
+    "_new_option_vector"
   ],
   "driver": [
     {
@@ -724,6 +725,18 @@
         [
           274925532,
           274925849
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_new_option_vector",
+      "start": 274800188,
+      "end": 274800292,
+      "code_chunks": [
+        [
+          274923882,
+          274923894
         ]
       ],
       "role": "application"

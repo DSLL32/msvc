@@ -329,7 +329,7 @@ char **__cdecl get_argument_append_slot(void)
 char *__cdecl duplicate_argument(const char *argument, int copy) { __asm { int 3 } return NULL; }
 void __cdecl report_response_error(int code, ...) { __asm { int 3 } }
 void __cdecl stop_compiler(int status, int detail) { __asm { int 3 } }
-struct CompilerVector *__cdecl new_option_vector(unsigned count, int mode) { __asm { int 3 } return NULL; }
+
 char *__cdecl next_argument(void) { __asm { int 3 } return NULL; }
 int __cdecl match_option(CompilerOptionRule *rules, char *argument, char *(__cdecl *next)(void), int copy) { __asm { int 3 } return 0; }
 char *__cdecl resolve_option_path(char *output, const char *input, unsigned size) { __asm { int 3 } return NULL; }

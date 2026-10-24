@@ -37,6 +37,7 @@ class PoolCommitApiEntry(gdb.Breakpoint):
     def stop(self):
         frame=gdb.newest_frame();caller=frame.older()
         if caller.name()!='CompilerArena::CommitExtent':return False
+        if int(caller.read_var('this').cast(gdb.lookup_type('unsigned int')))!=int(gdb.parse_and_eval('(unsigned int)&c1_bss.arenas[0]')):return False
         esp=int(gdb.parse_and_eval('(unsigned int)$esp'));words=list(struct.unpack('<5I',gdb.selected_inferior().read_memory(esp,20).tobytes()))
         block=gdb.block_for_pc(int(gdb.parse_and_eval('(unsigned int)$pc')))
         while block and not block.function:block=block.superblock

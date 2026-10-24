@@ -42,7 +42,8 @@ def validate(original,native,candidate,report,stage_state=None):
  assert get['compiler_state']==got['compiler_state']==end['compiler_state']and get['crt']==got['crt']
  assert semantic(get['fp'])==semantic(got['fp'])==semantic(end['fp'])and get['crt_state']==got['crt_state']==end['crt_state']
  assert own['second_getenv_proof']['kind']=='authenticated original call-site plus directly observed next-consumer result; not a separate original API entry or RET observation'
- transcript=(native/'gdb.txt').read_text();assert'Program received signal SIGTRAP'in transcript and'recon_unsupported'not in transcript
+ from frontier_contract import validate_native_stop
+ validate_native_stop(native,candidate)
  assert state['invocation']==entry['invocation']and state['pass_mode']==entry['compiler_state']['pass_mode']
  for key,value in entry['crt_state'].items():assert end['crt_state'][key]==state[key]==value
  if own['probe']=='restore':

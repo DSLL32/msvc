@@ -32,7 +32,7 @@ def validate(original,native,candidate,report,public_state=None):
  project=Path(__file__).resolve().parents[1];fields=json.loads((project/candidate['field_map']).read_text())
  expected_fields(fields);stage=public_state is not None
  if stage:
-  assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('multibyte-scanner-complete',0x12f3e),('path-fold-complete',0x12f87),('environment-arguments-complete',0x11e3c)]
+  assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('multibyte-scanner-complete',0x12f3e),('path-fold-complete',0x12f87),('environment-arguments-complete',0x11e3c),('option-vectors-complete',0x12f9c)]
   expected=dict(kind='public-crt-entry',rva=0x5729,provider='MSVCRT.dll',native_symbol='recon_setlocale',calling_convention='cdecl',native_args=['category','locale'],iat_rva=0x5d120,caller=dict(native_symbol='parse_command_line',return_rva=0x12b73),following_target_stub_rva=0x12f08,projection_frontier_rva=0x12f08)
  else:expected=candidate['expected_frontier']
  assert expected==dict(kind='public-crt-entry',rva=0x5729,provider='MSVCRT.dll',native_symbol='recon_setlocale',calling_convention='cdecl',native_args=['category','locale'],iat_rva=0x5d120,caller=dict(native_symbol='parse_command_line',return_rva=0x12b73),following_target_stub_rva=0x12f08,projection_frontier_rva=0x12f08)
@@ -116,7 +116,10 @@ def validate(original,native,candidate,report,public_state=None):
  if not stage:assert'Program received signal'not in transcript
  # The original's later locale return / target trap are separate original-only
  # analysis. Native stops BEFORE the unsupported provider body; no locale success.
- assert match(events,r'^frontier rva=([0-9a-f]+)$')==('%08x'%candidate['expected_frontier']['rva']if stage else'00012f08')
+ if candidate['expected_frontier']['kind']=='option-vectors-complete':
+  from frontier_contract import validate_original_frontier
+  validate_original_frontier(events,candidate,probe)
+ else: assert match(events,r'^frontier rva=([0-9a-f]+)$')==('%08x'%candidate['expected_frontier']['rva']if stage else'00012f08')
  for item in candidate.get('imports',[]):
   assert raw[item['start_rva']-0x1000:item['end_rva']-0x1000]==b'\xff\x25'+struct.pack('<I',module+item['iat_rva'])
  return dict(status='matching genuine public CRT entry; no locale behavior accepted',native_symbol=state['symbol'],public_frontier=dict(provider='MSVCRT.dll',name='setlocale',rva=0x5729,category=2,locale_bytes=[0]),generated_bss_bytes=768,initialized_known_bytes=fields['main_fields']['initialized_known_bytes'],initialized_unmodeled_bytes=fields['main_fields']['initialized_unknown_bytes'],promotion='held for concrete public-entry proof review',execution_receipts={side:sha(directory/'receipt.json')for side,directory in [('original',original),('native',native)]})

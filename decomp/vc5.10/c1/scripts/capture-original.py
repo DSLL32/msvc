@@ -146,6 +146,9 @@ def main():
         shutil.copy2(PROJECT/"scripts/path-fold-observer.inc",output/"path-fold-observer.inc")
     if candidate.get("environment_argument_observers"):
         (output/"environment-argument-observers.txt").write_text("12f87 12bb3 11e3c\n")
+    if candidate.get("vector_observers"):
+        (output/"vector-observers.txt").write_text("11e3c 28 1\n")
+        shutil.copy2(PROJECT/"scripts/vector-observer.inc",output/"vector-observer.inc")
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))
@@ -154,7 +157,7 @@ def main():
             ranges.append("%x %x 1\n" % (rva, rva + 1))
     (output / "ranges.txt").write_text("".join(ranges))
     freeze([PROJECT / "scripts/dll-capture.c", PROJECT / "scripts/capture-original.py",
-            PROJECT / "scripts/wine_tool_support.py", PROJECT / "scripts/locale-observer.inc", PROJECT/"scripts/path-fold-observer.inc"], output / "source-snapshot.json")
+            PROJECT / "scripts/wine_tool_support.py", PROJECT / "scripts/locale-observer.inc", PROJECT/"scripts/path-fold-observer.inc",PROJECT/"scripts/vector-observer.inc"], output / "source-snapshot.json")
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
     shutil.copy2(CRT, output / "MSVCRT.DLL")
     shutil.copy2(PROJECT / ("cases/" + args.case + "/candidate.json"), output / "candidate.json")

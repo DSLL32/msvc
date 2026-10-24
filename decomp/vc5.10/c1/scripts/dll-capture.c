@@ -10,6 +10,9 @@ static HANDLE child;
 static FILE *events;
 static DWORD base, entry_rva, code_rva, code_size, image_size;
 static DWORD crt_base, return_address, return_reason;
+static DWORD mspdb_base;
+static int vector_probe,vector_started;
+static void prepare_vector_observer(void);
 static BYTE return_saved;
 static int return_active;
 static unsigned sequence;
@@ -261,6 +264,10 @@ static void module_loaded(DWORD address, HANDLE file)
     if (!_stricmp(name, "kernelbase.dll")) {
         if (!file || !same_file(file, "C:\\windows\\system32\\kernelbase.dll", "loaded-kernelbase.bin")) fail("KernelBase loaded file identity");
     }
+    if (!_stricmp(name,"mspdb50.dll")) {
+        if(!file || mspdb_base || !same_file(file,"R:\\toolchains\\5.10\\bin\\MSPDB50.DLL","loaded-mspdb50.bin"))fail("MSPDB loaded identity");
+        mspdb_base=address;
+    }
     if (strcmp(name, "c1n32_l.dll")) return;
     if (!file || target_seen || !same_file(file, target_path, "loaded-target.bin")) fail("target file identity");
     target_seen = 1; base = address;
@@ -463,6 +470,7 @@ static void prepare_mask(void)
             patch(base + 0x12b66, 0xcc); checksum_return_active = 1;
             prepare_isolated_locale_observer();
             path_fold_prepare();
+            prepare_vector_observer();
         }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
@@ -567,6 +575,7 @@ static void save_frontend_state(const char *phase)
 }
 #include "locale-observer.inc"
 #include "path-fold-observer.inc"
+#include "vector-observer.inc"
 
 /* Labeled auxiliary values: the stream and relocation callback are never
  * dereferenced/invoked. Only their mapped pointer identities are exercised. */
@@ -1300,6 +1309,7 @@ int main(int argc, char **argv)
                 else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && vector_boundary(address,&context,thread,event.dwThreadId)) {
             } else if (code == EXCEPTION_BREAKPOINT && path_fold_boundary(address,&context,thread,event.dwThreadId)) {
                 /* Genuine public call/return or owned helper return. */
             } else if (code == EXCEPTION_BREAKPOINT && checksum_return_active && address == base + 0x12b66) {
@@ -1507,10 +1517,15 @@ int main(int argc, char **argv)
                         }
                     }
                 }
-                if (pool_cycle_probe && pool_observer_index(address) >= 0) observe_pool_commit(&context, address, thread);
+                if (pool_cycle_probe && pool_observer_index(address) >= 0) {
+                    if(vector_started)observe_vector_commit(&context,address,thread);
+                    else observe_pool_commit(&context,address,thread);
+                }
                 if(isolated_locale_probe && mb_complete && address==base+0x12f3e)locale_snapshot("next",&context,thread,event.dwThreadId);
                 if(path_fold_probe && address==base+0x12f3e)path_fold_enter(&context);
                 if(path_fold_probe && address==base+0x12f87)environment_enter(&context);
+                if(vector_probe && address==base+0x11e3c)vector_enter(&context);
+                if(vector_probe && address==base+0x9883)vector_member_enter(&context);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;

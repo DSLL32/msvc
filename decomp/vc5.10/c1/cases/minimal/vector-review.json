@@ -1,0 +1,146 @@
+{
+  "status": "fresh full normal/restore proofs and37 focused controls pass; held for requested public-boundary review",
+  "application_candidate": "_new_option_vector",
+  "application_bytes": 116,
+  "code_chunks": [
+    [
+      73276,
+      73380
+    ],
+    [
+      196970,
+      196982
+    ]
+  ],
+  "accepted_before": {
+    "application_functions": 72,
+    "application_code_bytes": 5230
+  },
+  "after_trial": {
+    "application_functions": 73,
+    "application_code_bytes": 5346,
+    "all_source_functions": 75,
+    "all_code_bytes": 5809,
+    "text_data_bytes": 16
+  },
+  "layout": {
+    "size": 12,
+    "count": "signed short at0",
+    "capacity": "signed short at2",
+    "arena_kind": "int at4",
+    "items": "void ** at8"
+  },
+  "inputs": {
+    "calls": 3,
+    "count": 40,
+    "arena_kind": 1
+  },
+  "state": {
+    "initialized_known": 2348,
+    "initialized_UNMODELED": 4200,
+    "native_BSS": 2372,
+    "new_global_fields": false,
+    "committed_bytes": 32768,
+    "reserved_tail": "opaque PROT_NONE; no contents/address-order claim"
+  },
+  "frontiers": {
+    "normal": "genuine authenticated MSPDB50!SigForPbCb entry, C/1/ffffffff; provider not executed",
+    "restore": "genuine next_argument12f9c; c9_il9 skips public import"
+  },
+  "proofs": {
+    "cases/minimal/evidence/option-vectors/raw-references.json": "43b50aaf1ccd8cc2a6acc9a9ce66d15721975f058b9bd6b9455bc8fcb594de05",
+    "cases/minimal/evidence/option-vectors/vectors-negative-1.json": "23c56c13a542f0772cc7f5afe13c5d9acda2a3a6c813e53b7ede0ffca52d0b65",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-header-002.bin": "1c9f340e8ecf81d7ca0c664cefa386700522a69cb6d2150e6cb4eff02c5220b4",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-header-002.bin": "e64f7e4addb19eb66b13f1343105218a9ab73bbca30788610007e94bb3b5158e",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-001-vector-returns.json": "461c69e439c8e1acfcf46a256025b3d6050373ba7d9cafb90b77516cf2479da8",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-001-vector-entries.json": "6a5039498c4a6c0bd54847161d0b5deb0277964225e08f3a42548c2e4b579ff0",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-001-vector-api-returns.json": "65f79ebe0a9c55151e7a9f8de627057182e06c689e9248cd094072799cae7a0f",
+    "cases/minimal/evidence/option-vectors/vectors-normal-validation-1.json": "bc26e709efebb5d17b20780b9c607dc5ca301f3a7db79b75148dddf560b6fd4a",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-2-return-registers.bin": "da52a454a91b1043cf2e468a4cd1b8335c65e973be3c1ef130e916fc8936d013",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-001-vector-api-entries.json": "05f27eaa3eed4f4e2b38a9e3761c4d649a3c4cc281315a67472104b10fbab9c8",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-2-entry-registers.bin": "252911126f9803d9f45e7c711771826818022e2eab670a0cb007246a8cb979a9",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-restore-001-vector-commit-returns.json": "08779d3c29da05b762f3c52242dea1590080ce368e8f19f6143b109212c2e348",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-restore-001-vector-commit-entries.json": "e37c64b4fd36923ea992c148794837cb2dcd3d984ab49c5c1d026707f7c232a8",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-2-return-fp.bin": "34eb57f2698b2727418a1eee6da89714b07536b1cf7ec80917985fa642a01419",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-member-return-fp.bin": "a7bcc92cce85c22d0f3a04e1bf21813e67be129dff515926a31df8af1c8ca5cf",
+    "cases/minimal/evidence/option-vectors/vectors-restore-validation-1.json": "b88e6bd7154b2a2f45727038c3b14e40dcd98cf875e2ee5c2eae09ce7a6014fb",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-2-return-registers.bin": "5838736d1ff955ee01d4be2cd6f472f7569dfc5b3dd83d411b5bcadddef18bcd",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-0-entry-registers.bin": "ab557ac741a07a5d38c736ef6e5a16a03f03ad9431bf4e4f6f5eb17059839a0c",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-restore-001-vector-api-returns.json": "325c40827a6f2ea04d20bea2a94b732b3e096fd6959277b2b7e695d533fc79e2",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-restore-001-vector-api-entries.json": "072b54c3a656cacc6616fc6ae0ac8e4ae45d332a2781dd51948392f6218c1165",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-0-return-fp.bin": "34eb57f2698b2727418a1eee6da89714b07536b1cf7ec80917985fa642a01419",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-1-return-fp.bin": "a7bcc92cce85c22d0f3a04e1bf21813e67be129dff515926a31df8af1c8ca5cf",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-2-entry-fp.bin": "34eb57f2698b2727418a1eee6da89714b07536b1cf7ec80917985fa642a01419",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-2-entry-fp.bin": "a7bcc92cce85c22d0f3a04e1bf21813e67be129dff515926a31df8af1c8ca5cf",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-1-entry-registers.bin": "dd81fa8572e3f6278e829b913ab4a548b22cd47f20fa3cfbeb3bfae18952b6aa",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-1-entry-fp.bin": "a7bcc92cce85c22d0f3a04e1bf21813e67be129dff515926a31df8af1c8ca5cf",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-1-entry-fp.bin": "34eb57f2698b2727418a1eee6da89714b07536b1cf7ec80917985fa642a01419",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-0-entry-fp.bin": "a7bcc92cce85c22d0f3a04e1bf21813e67be129dff515926a31df8af1c8ca5cf",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-0-entry-fp.bin": "34eb57f2698b2727418a1eee6da89714b07536b1cf7ec80917985fa642a01419",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-1-return-registers.bin": "72f1caa329ee090a1a73a4674f629ddb8e3a1197967cfae562d819634ec38e74",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-signature-entry-registers.bin": "da98c7e3d41569b7280234247d893059d5a7084c11aedaf8161ea27d7846736a",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-header-000.bin": "e90ea8c4f004d2a90997cc215b7df602ca8c512233533fee77e48647565e937e",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-header-000.bin": "748e8cf0b5c58b8a7162c389698d9b07c66a70b0ac46c85ef501fed7418b4986",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-1-return-fp.bin": "34eb57f2698b2727418a1eee6da89714b07536b1cf7ec80917985fa642a01419",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-2-entry-registers.bin": "1722118aaa6459446159fc08045401fa7846714453bec0d888c22b475d7c7156",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-0-return-fp.bin": "a7bcc92cce85c22d0f3a04e1bf21813e67be129dff515926a31df8af1c8ca5cf",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-member-return-registers.bin": "7c272cad4c8284346b64ba4d9e620ac1f03321da73f4b3effbb6bc10128ccced",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-0-return-registers.bin": "346d6611d8858070270e9308f4f4c5d22f829eace693f0b7388d40f15f7832db",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-member-entry-fp.bin": "a7bcc92cce85c22d0f3a04e1bf21813e67be129dff515926a31df8af1c8ca5cf",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-001-vector-commit-entries.json": "06fdc497bb4ea4266d31324ae39586bbb96d1470fa59edc0e239c82ace7dad4e",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-001-vector-commit-returns.json": "ea950bdd886734ff626b55d25b83f993a5472bab3790fcd181c7f0f0b5c287cb",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-0-entry-registers.bin": "ab557ac741a07a5d38c736ef6e5a16a03f03ad9431bf4e4f6f5eb17059839a0c",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-member-entry-registers.bin": "fb574caa481b7fcfb317447e7f80c3e2ee1f0b4b14df32b57c270cbd940ab3c3",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-member-return-fp.bin": "34eb57f2698b2727418a1eee6da89714b07536b1cf7ec80917985fa642a01419",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-0-return-registers.bin": "839d64b50d6007b98268bfc04f2684d782b599b57ce99261c9e7b8aba41645bb",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-2-return-fp.bin": "a7bcc92cce85c22d0f3a04e1bf21813e67be129dff515926a31df8af1c8ca5cf",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-member-entry-fp.bin": "34eb57f2698b2727418a1eee6da89714b07536b1cf7ec80917985fa642a01419",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-restore-001-vector-entries.json": "13855533060a2496ce4564aadd9e4797e51dbd439303099706de86069a0e14e0",
+    "cases/minimal/evidence/option-vectors/native-minimal-vectors-restore-001-vector-returns.json": "dc0d31912793eb22030f8dc0996ab216d7049d7ad3469bbc3eb3096ad6911089",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-1-return-registers.bin": "88f91165c7fe8eb17d2db2d634cb76ffae0a012d6c09523e56b49cdbc271e658",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-header-001.bin": "4f1340c99ca976373b549f6fff2b1e485434a085966f2afb88694c9e76d3d378",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-header-001.bin": "88a10806bdd10944365f82f679fab41b3049cd141ef004d9de3dd5c9fa7944b3",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-restore-002-vector-1-entry-registers.bin": "12168948b015e4d82e6bce0e499c745d4bad82d5fdc46118be25f824944192c5",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-member-return-registers.bin": "f118158feb26314d9c5a5892f74b06e0ee4d4952d8f06464333982a080898481",
+    "cases/minimal/evidence/option-vectors/minimal-vectors-002-vector-member-entry-registers.bin": "a18cca3dafd2f7a3dbb576c682940df7a86c775f2598ecc4425b58e54fb8e43f"
+  },
+  "current_inputs": {
+    "src/pools.cpp": "f7211bfedee3134776c8597112e2e8d4861e33e99cab8a3f646d0ad2c37bbf8e",
+    "src/command-line.h": "ce7d5e201f777e1a06500694fd3248216f2b1ea26f29cab9916def844e731179",
+    "src/command-line.c": "eb092ebfb06bd2204f4a63dc46e0d3760dc45f8cd13adce669d16b760da8332d",
+    "cases/minimal/candidate.json": "e4aa3f721838b78f2320438cf3276a8e95a003cf348c1f4e26f12160f9e307ac",
+    "cases/minimal/trial.json": "2f337d58c8196e91cec976fc786b5a0d72156bedbc4f5c03d8f8c8cccb1f1db5",
+    "cases/minimal/field-map.json": "d47e734b932f7aa11c1a4eb45718f35fedf6edf548f0a840f1fd8d2c35d08192",
+    "scripts/vector_state.py": "5ceec2d8488ba2027c3e8c62b2705f21df4083cb855754c00ced3281310e2d9f",
+    "scripts/vector_probe.py": "29d227114e07c96e11570d433b5213da596c3b727916aac7ecd42c1aabfd8112",
+    "scripts/vector-observer.inc": "d4cfe511010dcb8d35848d106d85736b599d992aa09ad4b9fd820b89d1d2fe98",
+    "scripts/frontier_contract.py": "94fad2f3e6d453cb7aef91e2f1e9109856cb0e081282f9970eccccea23c5ca29",
+    "scripts/capture-native.py": "20b4e66930eaf44da4c161ff5534e57d0ea9c84c065a62401fe520e2b4b2e31a",
+    "scripts/dll-capture.c": "cae1a4b1ac5cf5a8e60873e42fbce922eb60476837d4e3e71039db41d3500f7b",
+    "cases/minimal/signature-entry.json": "88ab48f839f544b0e78c3e2acdae8758996330ad0e5941a3bd53b055f48fe483"
+  },
+  "native_build": {
+    "sha256": "099d4fe86bee93c8bed40875aefb529453f8b158f5e4f80b0a46e500787097b7",
+    "seconds": 2.1470092767849565,
+    "shared_crt_sha256": "ee55a842081fcee814bc344fb662ba7eca0d0da40ceeea7dd470a2d2570d6030",
+    "published_support": "61155226d"
+  },
+  "timings": {
+    "original_normal": 7.182533926330507,
+    "original_restore": 6.877471840940416,
+    "native_normal": 6.700506712310016,
+    "native_restore": 7.936137417331338,
+    "audit": 0.04750995710492134,
+    "validator_normal": 6.507252547889948,
+    "validator_restore": 7.636921612545848,
+    "controls": 6.305285090580583,
+    "lifecycle_fixture": 0.004070074297487736
+  },
+  "reused": "unchanged core protocol and API controls retain previous hash-bound receipts; complete current prefix positives rerun",
+  "initial_failures": "both original001 captures stopped after successful32KiB commit because observer wrongly expected64KiB; unmodified receipts retained; corrected exact descriptor0x8000 guard then freshpair",
+  "limits": [
+    "no provider result or dependency-body reconstruction",
+    "4200 initialized bytes unmodeled and guarded",
+    "minimal compilation incomplete"
+  ]
+}

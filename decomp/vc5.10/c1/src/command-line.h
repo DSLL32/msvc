@@ -2,7 +2,14 @@
 #define C1_COMMAND_LINE_H
 #include <recon.h>
 
-struct CompilerVector;
+/* Arena-owned pointer vector. Growth/element semantics are separate pending
+ * functions; this header is established by its allocation and append code. */
+typedef struct CompilerVector {
+    short count;
+    short capacity;
+    int arena_kind;
+    void **items;
+} CompilerVector;
 struct CompilerPacking;
 struct CompilerIncludeAlias;
 /* The list root contains one link; node names/layout are recovered separately. */

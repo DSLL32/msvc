@@ -1,0 +1,52 @@
+{
+  "kind": "qualified public dependency entry only; no provider instructions/result credited",
+  "provider": {
+    "canonical_path": "toolchains/5.10/bin/MSPDB50.DLL",
+    "bytes": 167424,
+    "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "actual_loaded_hFile": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-vectors-002/loaded-mspdb50.bin",
+    "name": "SigForPbCb",
+    "ordinal": 127,
+    "rva": 61997
+  },
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "iat_rva": 381396,
+    "import_name": "SigForPbCb",
+    "import_by_ordinal": false,
+    "call_rva": 76843,
+    "return_rva": 76849,
+    "input_rva": 405900,
+    "input_bytes_hex": "43",
+    "byte_count": 1,
+    "signature": 4294967295
+  },
+  "ABI": {
+    "convention": "cdecl",
+    "formals": [
+      [
+        "const void *",
+        "bytes"
+      ],
+      [
+        "long",
+        "byte_count"
+      ],
+      [
+        "unsigned long",
+        "signature"
+      ]
+    ],
+    "stack_slots": 3,
+    "provider_not_entered_beyond_first_guard": true
+  },
+  "rebuilt_import": [
+    "268447828",
+    {
+      "dll": "mspdb50.dll",
+      "name": "SigForPbCb"
+    }
+  ],
+  "audit_report_sha256": "158e825edaa579ccc5040d5e1d9b14ea43a001421126e9a35bf5f33543385f37"
+}

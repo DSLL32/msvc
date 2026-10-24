@@ -10,18 +10,19 @@ from path_fold_state import validate as validate_path_fold
 WARNINGS=[(1,5),(69,5),(611,5),(226,14),(233,14),(234,14),(235,14),(168,5),(169,5),(530,5)]
 
 def original_state(original,candidate):
- assert candidate['functions'][-1]['name']=='_read_env_arguments'and candidate['functions'][-1]['chunks']==[[0x12f87,0x12f9c],[0x307dc,0x30919]]
- assert candidate['expected_frontier']==dict(rva=0x11e3c,native_symbol='new_option_vector',kind='environment-arguments-complete',calling_convention='cdecl',native_args=['count','mode'],caller=dict(native_symbol='parse_command_line',return_rva=0x12beb))
+ tokenizers=[row for row in candidate['functions']if row['name']=='_read_env_arguments'];assert len(tokenizers)==1 and tokenizers[0]['chunks']==[[0x12f87,0x12f9c],[0x307dc,0x30919]]
+ if candidate['expected_frontier']['kind']!='option-vectors-complete':assert candidate['expected_frontier']==dict(rva=0x11e3c,native_symbol='new_option_vector',kind='environment-arguments-complete',calling_convention='cdecl',native_args=['count','mode'],caller=dict(native_symbol='parse_command_line',return_rva=0x12beb))
  assert candidate['environment_argument_observers']==dict(entry_rva=0x12f87,return_rva=0x12bb3,argument=None,accepted_input_scope='NULL only; full non-NULL tokenizer body retained, allocator pending')
  events=(original/'events.txt').read_text();assert'failure 'not in events
- assert re.findall(r'^frontier rva=(\w+)$',events,re.M)==['00011e3c']
+ from frontier_contract import validate_original_frontier
+ validate_original_frontier(events,candidate,json.loads((original/'receipt.json').read_text())['probe'])
  module=int(re.findall(r'^module name=c1n32_l.dll actual=(\w+) ',events,re.M)[0],16);assert module==0x10600000
  a,b=[list(struct.unpack('<12I',(original/('environment-'+phase+'-registers.bin')).read_bytes()))for phase in ('entry','return')]
  assert a[1]==module+0x12f87 and a[8:10]==[module+0x12bb3,0]and a[10:]==[a[2],module]
  assert b[1]==module+0x12bb3 and b[2]==a[2]+4 and b[4:8]==a[4:8]and b[10:]==a[10:]
  entry=re.findall(r'^trap seq=(\d+) rva=00012f87 esp=(\w+).*stack=([\w,]+)$',events,re.M);assert len(entry)==1
  assert int(entry[0][0])==a[0]and int(entry[0][1],16)==a[2]and[int(v,16)for v in entry[0][2].split(',')][:2]==a[8:10]
- final=re.findall(r'^trap seq=(\d+) rva=00011e3c esp=(\w+).*stack=([\w,]+)$',events,re.M);assert len(final)==1
+ final=re.findall(r'^trap seq=(\d+) rva=00011e3c esp=(\w+).*stack=([\w,]+)$',events,re.M);assert len(final)==(3 if candidate.get('vector_observers')else 1)
  seq=int(final[0][0]);words=[int(v,16)for v in final[0][2].split(',')];assert words[:3]==[module+0x12beb,40,1]
  assert a[0]<b[0]<seq
  source=(original/'relocated-text.bin').read_bytes()
@@ -40,7 +41,7 @@ def original_state(original,candidate):
  assert(original/'environment-return-target-snapshot.bin').read_bytes()==(original/('compiler-snapshot-%03d.bin'%seq)).read_bytes()
  return dict(entry=a,returned=b,final_sequence=seq,warnings=read_options(bytes(expected),DATA,0x5e000)['warning_levels'])
 
-def validate_native_boundary(original,native,candidate,entries,returns,state):
+def validate_native_boundary(original,native,candidate,entries,returns,state,following=False):
  raw=original_state(original,candidate);binary=captured_native_binary(native);names=symbols(binary)
  assert len(entries)==len(returns)==1
  entry,end=entries[0],returns[0]
@@ -57,7 +58,8 @@ def validate_native_boundary(original,native,candidate,entries,returns,state):
  for index,flags in WARNINGS:wanted['option_state']['initialized']['warning_levels'][index]=flags
  assert state['compiler_state']==wanted
  assert wanted['option_state']['initialized']['warning_levels']==raw['warnings']
- assert state['symbol']=='new_option_vector'and names['new_option_vector'][0]<state['pc']<=sum(names['new_option_vector'])
+ assert state['symbol']=='new_option_vector'
+ assert state['pc']==names['new_option_vector'][0]if following else names['new_option_vector'][0]<state['pc']<=sum(names['new_option_vector'])
  assert state['args']==dict(count=40,mode=1)and state['formal_inventory']==[dict(name='count',type='unsigned int'),dict(name='mode',type='int')]
  assert state['caller']['symbol']=='parse_command_line'and state['caller']['args']==entry['caller']['args'];call(binary,state['caller']['pc'],names['new_option_vector'][0])
  assert semantic(state['command_line_fp'])==semantic(end['fp'])
@@ -66,8 +68,8 @@ def validate_native_boundary(original,native,candidate,entries,returns,state):
  assert state['pass_mode']==entry['compiler_state']['pass_mode']
  return stage
 
-def validate(original,native,candidate,report):
- entries=json.loads((native/'environment-entries.json').read_text());returns=json.loads((native/'environment-returns.json').read_text());state=json.loads((native/'state.json').read_text())
- stage=validate_native_boundary(original,native,candidate,entries,returns,state)
+def validate(original,native,candidate,report,stage_state=None):
+ entries=json.loads((native/'environment-entries.json').read_text());returns=json.loads((native/'environment-returns.json').read_text());state=stage_state if stage_state is not None else json.loads((native/'state.json').read_text())
+ stage=validate_native_boundary(original,native,candidate,entries,returns,state,following=stage_state is not None)
  prefix=validate_path_fold(original,native,candidate,report,stage_state=stage)
  return dict(status='matching real NULL tokenizer entry and return, warning stores and complete next vector-allocation ABI',application_candidate='_read_env_arguments',candidate_code_bytes=338,reached_input=None,non_NULL_path='full source/graph only; genuine append-slot allocator remains pending',initialized_known_bytes=2348,initialized_unmodeled_bytes=4200,native_bss_bytes=2372,CRT_code_credit=0,prefix=prefix,execution_receipts=dict(original=sha(original/'receipt.json'),native=sha(native/'receipt.json')))

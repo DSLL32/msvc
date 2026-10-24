@@ -79,11 +79,14 @@ def main():
     import_boundary = candidate.get("expected_frontier", {}).get("kind") == "import-boundary"
     public_boundary = candidate.get('expected_frontier',{}).get('kind')=='public-crt-entry'
     breakpoint_command = "break *recon_setlocale\n" if public_boundary else "break recon_initterm\n" if import_boundary else ""
+    signature_boundary=bool(candidate.get('vector_observers'))and not args.restore_probe
+    if signature_boundary:breakpoint_command="break *recon_mspdb_SigForPbCb\n"
     if args.stop_before_mbctolower:breakpoint_command="break *recon_mbctolower\n"
     pass_boundary = candidate.get("expected_frontier", {}).get("kind") == "compiler-pass-entry"
     arguments = (("argc", "argv", "mode") if pass_boundary else
                  ("begin", "end") if import_boundary else ("module", "reason", "reserved"))
     arguments = tuple(candidate.get("expected_frontier", {}).get("native_args", arguments))
+    if signature_boundary:arguments=("bytes","byte_count","signature")
     commands = """set pagination off
 set confirm off
 %s\
@@ -259,6 +262,11 @@ def capture_modeled():
             commands=commands.replace(save_line,final_observation(output)+save_line)
         if candidate.get('environment_argument_observers'):
             from environment_argument_probe import definitions,final_observation
+            allocation_probe=allocation_probe.replace('\nend\n','\n'+definitions(binary,output)+'end\n')
+            save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')
+            commands=commands.replace(save_line,final_observation(output)+save_line)
+        if candidate.get('vector_observers'):
+            from vector_probe import definitions,final_observation
             allocation_probe=allocation_probe.replace('\nend\n','\n'+definitions(binary,output)+'end\n')
             save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')
             commands=commands.replace(save_line,final_observation(output)+save_line)
@@ -567,7 +575,7 @@ ActualArenaMemberEntry('*0x%x')
                     from pool_cycle_probe import record_returns
                     pool_probe=record_returns(pool_probe,'set-arena','pool_arena_entries')
                 default_probe+=pool_probe
-                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete'):
+                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete'):
                     refill_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN12CompilerPool6RefillEj$',table,re.M)[1],16)
                     refill_base=pool_probe
                     if candidate.get('pool_cycle_observers'):
@@ -577,7 +585,7 @@ ActualArenaMemberEntry('*0x%x')
                     if candidate.get('pool_cycle_observers'):
                         refill_probe=record_returns(refill_probe,'refill','pool_refill_entries')
                     default_probe+=refill_probe
-                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete'):
+                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete'):
                         page_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN13CompilerArena13AllocatePagesEjPj$',table,re.M)[1],16)
                         page_base=refill_probe
                         if candidate.get('pool_cycle_observers'):
@@ -592,6 +600,8 @@ ActualArenaMemberEntry('*0x%x')
                             commit_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN13CompilerArena12CommitExtentEv$',table,re.M)[1],16)
                             commit_probe=page_base.replace('pool_refill_entries','pool_commit_entries').replace('ActualPoolRefillEntry','ActualPoolCommitEntry').replace("'boundary_rva':0xaa9c","'boundary_rva':0x9883").replace('*0x%x'%refill_address,'*0x%x'%commit_address)
                             commit_probe=commit_probe.replace("struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes())","struct.unpack('<I',gdb.selected_inferior().read_memory(esp,4).tobytes())").replace(",'minimum_bytes':words[1]",'').replace("for key in ('this','arena_index')","for key in ('this','pages','available_bytes')")
+                            if candidate.get('vector_observers'):
+                                commit_probe=commit_probe.replace('        esp=int(',"        if gdb.newest_frame().older().name()!='CompilerArena::AllocatePages':return False\n        esp=int(",1)
                             default_probe+=record_returns(commit_probe,'commit','pool_commit_entries')
                             from pool_cycle_probe import definitions
                             default_probe=definitions(binary,output)+default_probe
@@ -608,9 +618,9 @@ ActualArenaMemberEntry('*0x%x')
         if candidate.get('default_pool_order'):
             for name,expression in [('default-pools-entry.json','default_pool_entries'),('pool-arena-entries.json','pool_arena_entries')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete'):
+        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(pool_refill_entries,indent=2)+'\\n')\n"%str(output/'pool-refill-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete'):
+        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete','path-fold-complete','environment-arguments-complete','option-vectors-complete'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_page_entries,indent=2)+'\\n')\n"%str(output/'arena-page-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('pool_cycle_observers'):
             for name,expression in [('pool-cycle-events.json','pool_cycle_events'),('pool-cycle-returns.json','pool_cycle_returns'),('pool-commit-entries.json','pool_commit_entries'),('pool-commit-api-entries.json','pool_commit_api_entries'),('pool-commit-api-returns.json','pool_commit_api_returns')]:
@@ -1046,6 +1056,9 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
         # from the actual cdecl entry stack, with no target instruction run.
         marker="assert {row['name'] for row in formals}==set(args), 'omitted or invented native formal'"
         commands=commands.replace(marker,marker+"\npublic_words=struct.unpack('<3I',gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)$esp')),12).tobytes())\nargs={'category':public_words[1],'locale':public_words[2]}\nvalue['args']=args")
+    if signature_boundary:
+        marker="assert {row['name'] for row in formals}==set(args), 'omitted or invented native formal'"
+        commands=commands.replace(marker,marker+"\npublic_words=list(struct.unpack('<4I',gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)$esp')),16).tobytes()))\nargs={'bytes':public_words[1],'byte_count':public_words[2],'signature':public_words[3]}\nvalue['args']=args\nvalue['dependency_entry']={'stack':public_words,'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),'preserved':pool_cycle_preserved(),'input':list(gdb.selected_inferior().read_memory(args['bytes'],args['byte_count']).tobytes()),'errors':[int(gdb.parse_and_eval('(int)errno')),int(gdb.parse_and_eval('recon_doserrno')),int(gdb.parse_and_eval('last_error'))]}")
     if args.stop_before_mbctolower:
         marker="assert {row['name'] for row in formals}==set(args), 'omitted or invented native formal'"
         commands=commands.replace(marker,marker+"\npublic_words=struct.unpack('<2I',gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)$esp')),8).tobytes())\nargs={'character':public_words[1]}\nvalue['args']=args")
@@ -1092,6 +1105,8 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     assert result.returncode == 0
     if args.stop_before_mbctolower:
         assert re.search(rb'Breakpoint \d+, recon_mbctolower \(',result.stdout)
+    elif signature_boundary:
+        assert re.search(rb'Breakpoint \d+, recon_mspdb_SigForPbCb \(',result.stdout)
     elif public_boundary:
         assert re.search(rb'Breakpoint \d+, recon_setlocale \(',result.stdout)
     elif import_boundary:

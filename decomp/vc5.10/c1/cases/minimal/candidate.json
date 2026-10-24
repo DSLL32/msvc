@@ -28,6 +28,11 @@
       "entry": 1
     },
     {
+      "start_rva": 73276,
+      "end_rva": 73380,
+      "entry": 1
+    },
+    {
       "start_rva": 73770,
       "end_rva": 73934,
       "entry": 1
@@ -450,6 +455,11 @@
     {
       "start_rva": 189724,
       "end_rva": 189739,
+      "entry": 0
+    },
+    {
+      "start_rva": 196970,
+      "end_rva": 196982,
       "entry": 0
     },
     {
@@ -1634,8 +1644,25 @@
           198937
         ]
       ],
-      "status": "trial body; not yet accepted",
+      "status": "accepted prefix",
       "source": "src/command-line.c"
+    },
+    {
+      "name": "_new_option_vector",
+      "native_symbol": "new_option_vector",
+      "role": "application",
+      "chunks": [
+        [
+          73276,
+          73380
+        ],
+        [
+          196970,
+          196982
+        ]
+      ],
+      "status": "trial body; not accepted",
+      "source": "src/pools.cpp"
     }
   ],
   "text_data": [
@@ -1657,18 +1684,28 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 73276,
-    "native_symbol": "new_option_vector",
-    "kind": "environment-arguments-complete",
+    "kind": "option-vectors-complete",
+    "rva": 77724,
+    "native_symbol": "next_argument",
+    "native_args": [],
     "calling_convention": "cdecl",
-    "native_args": [
-      "count",
-      "mode"
-    ],
     "caller": {
       "native_symbol": "parse_command_line",
-      "return_rva": 76779
-    }
+      "return_rva": 76869
+    },
+    "normal_dependency": {
+      "module": "MSPDB50.dll",
+      "rva": 61997,
+      "iat_rva": 381396,
+      "native_symbol": "recon_mspdb_SigForPbCb",
+      "native_args": [
+        "bytes",
+        "byte_count",
+        "signature"
+      ],
+      "caller_return_rva": 76849
+    },
+    "restore_frontier": "actual next_argument; c9_il=9 skips signature import"
   },
   "imports": [
     {
@@ -1953,7 +1990,7 @@
     },
     "path_fold": "labeled reset-before-clear and helper-entry nonzero WORD table seeds; no snapshot ownership"
   },
-  "staging_role": "sole338-byte environment argument tokenizer candidate; actual reached NULL path followed by first40,1 vector allocation",
+  "staging_role": "sole116-byte pointer vector allocator; exact three40x4 arrays and owned arena1 commit; next real argument cursor pending",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -2154,5 +2191,18 @@
     "return_rva": 76723,
     "argument": null,
     "accepted_input_scope": "NULL only; full non-NULL tokenizer body retained, allocator pending"
+  },
+  "vector_observers": {
+    "entry_rva": 73276,
+    "return_rvas": [
+      76779,
+      76796,
+      76813
+    ],
+    "count": 3,
+    "capacity": 40,
+    "arena_kind": 1,
+    "header_bytes": 12,
+    "item_bytes": 160
   }
 }
