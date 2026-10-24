@@ -7,6 +7,7 @@ mod native;
 mod original;
 mod original_image;
 mod runtime;
+mod status;
 mod toolchain;
 mod trap;
 mod wine;

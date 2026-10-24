@@ -2,7 +2,7 @@ use crate::{
     abi::{self, Loaded},
     debug,
     fixture::{self, Action, Fixture},
-    trap,
+    status, trap,
 };
 use anyhow::{Context, Result, bail};
 use serde::{Deserialize, Serialize};
@@ -94,6 +94,7 @@ pub struct Report {
     pub workspace: String,
     pub pass: bool,
     pub terminal: String,
+    pub logical_exit_code: Option<u32>,
     pub first_entry_order: Vec<u32>,
     pub tests: bool,
     pub trap_rva: Option<u32>,
@@ -349,7 +350,15 @@ unsafe fn executor(
         }
     }
     std::env::set_current_dir(cwd)?;
+    let receipt = status::Receipt::create(root)?;
     let loaded = unsafe { Loaded::open(case_path) }?;
+    let recorder = unsafe {
+        loaded
+            .library
+            .get::<status::Recorder>(b"recon_record_terminal_status\0")
+    }
+    .ok();
+    receipt.supported(root, recorder.is_some())?;
     fs::write(root.join("descriptor"), serde_json::to_vec(&loaded.info)?)?;
     if let Some(setup) = loaded.case.setup {
         if unsafe { setup() } == 0 {
@@ -479,12 +488,11 @@ unsafe fn executor(
             args.push(std::ptr::null_mut());
             unsafe { loaded.case.io.unwrap()(strings.len() as i32, args.as_mut_ptr()) }
         } else {
-            if unsafe { loaded.case.direct.unwrap()() } != 0 {
-                0
-            } else {
-                1
-            }
+            let passed = unsafe { loaded.case.direct.unwrap()() } != 0;
+            fs::write(root.join("direct-return"), if passed { b"1" } else { b"0" })?;
+            if passed { 0 } else { 1 }
         };
+        receipt.returned(recorder.as_ref().map(|record| **record), exit as u32)?;
         // A returned EXE main / typed DLL adapter must take the normal C exit
         // path. Keep application tracing active through its atexit callbacks.
         unsafe {
@@ -712,6 +720,19 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
         }
         let mut trap_rva = None;
         let mut trap_site = None;
+        let logical_exit_code = if !tests && libc::WIFEXITED(status) {
+            match status::completed(&root, pid as u32, libc::WEXITSTATUS(status)) {
+                Ok(code) => Some(code),
+                Err(error) => {
+                    errors.push(format!("{error:#}"));
+                    None
+                }
+            }
+        } else {
+            None
+        };
+        let terminal =
+            logical_exit_code.map_or_else(|| code(status), |code| format!("exit:{code}"));
         if !tests {
             if order != info.first_entry_order {
                 errors.push(format!(
@@ -720,13 +741,16 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
                 ))
             }
             let terminal_ok = if info.terminal == 0 {
-                libc::WIFEXITED(status)
-                    && libc::WEXITSTATUS(status)
-                        == if info.execution == 1 {
-                            0
-                        } else {
-                            f.exit_code.unwrap_or(0)
-                        }
+                let returned_direct = info.execution == 1 && root.join("direct-return").exists();
+                if returned_direct && fs::read(root.join("direct-return"))? != b"1" {
+                    errors.push("direct callback assertions failed".into());
+                }
+                let expected = if returned_direct {
+                    0
+                } else {
+                    f.exit_code.unwrap_or(0) as u32
+                };
+                libc::WIFEXITED(status) && logical_exit_code == Some(expected)
             } else {
                 if libc::WIFSIGNALED(status) && libc::WTERMSIG(status) == libc::SIGTRAP {
                     match trap::owner(&root) {
@@ -750,7 +774,7 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
                 }
             };
             if !terminal_ok {
-                errors.push(format!("unexpected terminal {}", code(status)))
+                errors.push(format!("unexpected terminal {terminal}"))
             }
             if info.terminal == 0 {
                 if let Err(e) = checks(f, &cwd, &root) {
@@ -776,7 +800,8 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             case: info.case,
             workspace: root.display().to_string(),
             pass: errors.is_empty(),
-            terminal: code(status),
+            terminal,
+            logical_exit_code,
             first_entry_order: order,
             tests,
             trap_rva,

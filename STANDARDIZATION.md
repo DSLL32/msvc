@@ -166,6 +166,14 @@ input to construct the necessary objects. Their expected results can also be
 saved as fixture data. A generated state report is test output, not ordinary
 user-visible tool output; direct acceptance does not establish public reach.
 
+Native live-state probes use shared `recon-native.h` entry hooks linked once into
+`libbinary.so`. `recon_native_at_entry` runs real input to a single function entry,
+then redirects to an exact-ABI typed callback with live stack/register arguments.
+The callback asserts state and calls `recon_native_entry_finish`, returning to the
+shared checkpoint without resuming parser mutation. The marker is recorded in
+the application trace; ordinary traps and original entry bytes/actions are
+preserved. This is single-threaded host test glue, never reconstructed app logic.
+
 Additional `tests.c` tests are optional and as narrow as necessary. `fork` is
 true unless the test is pure. Forked tests start from a defined setup state;
 fork alone does not isolate filesystem changes or inherited file offsets.
@@ -188,6 +196,14 @@ An application adapter returning normally must take the normal process-exit
 path, including registered application exit callbacks and stream cleanup. Keep
 case tracing active through those callbacks; `_exit` is for harness helpers,
 not a replacement for returning from the application's `main`.
+
+For CRT-equipped modules, the runner supplies the existing shim's full-DWORD
+terminal receipt before module load, checks owner/header/state and POSIX low-byte
+agreement, and compares expected signed JSON codes as 32-bit bit patterns.
+Returning adapters publish their status before normal exit. A raw host `_exit`
+used as direct-test completion must explicitly publish through
+`recon_record_terminal_status` first. Returning DIRECT booleans remain assertion
+success/failure; genuine non-returning target exits use the captured status.
 
 This handles executor exit/crashes. Killing the supervisor itself can leave a
 workspace behind; stale-run cleanup is needed for that case.
@@ -350,10 +366,11 @@ file and its actual module base/entry.
 
 The current direct-capture prototype exports `case_original_direct(ReconOriginal*)`
 from Linux glue and uses remote memory/register-call operations through the broker.
-Only synthetic harness tests use it; no migrated reconstruction case does. It
-still differs from the intended flow: compile typed setup/invocation code for
-both Win32 and native execution, letting each compiler handle target-call ABIs.
-Resolve that difference before introducing a real direct case.
+Only synthetic harness tests use that original transport. Migrated native direct
+probes can replay existing captured original results. Fresh original direct
+capture still needs the intended typed Win32 setup/invocation counterpart,
+letting each compiler handle target-call ABIs; the native hook does not solve
+that remaining transport gap.
 
 The original backend supports PE32 i386 images; CF payloads/Watcom gateway capture
 remain separate. Direct calls use ECX/EDX and stack words for ordinary MSVC ABIs,

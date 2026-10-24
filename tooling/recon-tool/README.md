@@ -319,3 +319,30 @@ replay historical reconstruction evidence or alter existing cases.
 
 `python3 tests/make.py` checks shared case discovery, parallel/incremental builds,
 original-header dependencies, and optional audit wiring without Wine.
+
+## Native live-state direct probes
+
+`binary.mk` links the tool's uninstrumented entry-hook support once into
+`libbinary.so`. Include `recon-native.h` in direct glue and call
+`recon_native_at_entry(entry, typed_callback, invoke, argument)`. `invoke` runs the
+real main/parser; the one-shot callback has exactly the marker's ABI and receives
+its live stack/register arguments. After narrow assertions it calls
+`recon_native_entry_finish(passed)`, which returns to the shared checkpoint without
+resuming parser mutation. Test `at_entry(...) == 1`: zero means missed/failed,
+minus one is a configuration error with errno. Returning from the typed callback
+fails closed. Only one hook may be active, on a single native thread.
+
+The marker is recorded through the existing application tracer, despite skipping
+its entry instrumentation. The original entry byte and previous signal action are
+restored; unrelated traps retain their original PC/cause and observer behavior.
+This support is host test glue, with no changes to reconstructed functions.
+`python3 tests/native-hook.py` exercises actual i386 cdecl/stdcall/fastcall paths.
+
+Native replay supplies the existing shim's `RECON_STATUS_FD` before module load.
+For CRT-equipped modules, full 32-bit terminal status requires a valid PID-owned
+receipt matching POSIX's low byte; expected signed JSON values compare as DWORD
+bit patterns. Normal adapter returns are recorded before libc exit, avoiding an
+identical existing receipt. Tiny modules without the receipt API use POSIX status.
+A returned DIRECT boolean always means assertion success/failure; genuine
+non-returning target exits compare the capture's expected status, including
+`0x8000`. A false boolean cannot be made successful by expecting exit one.
