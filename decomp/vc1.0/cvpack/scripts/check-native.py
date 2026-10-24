@@ -158,6 +158,8 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' root=int(gdb.parse_and_eval(description["root"]));argument=parameters[description["name"]]\n'
         ' if not root or root!=argument["address"]: raise RuntimeError("argument differs from published table owner")\n'
         ' argument["owner"]=dict(root=description["root"],address=root,requested_size=int(gdb.parse_and_eval(description["size_global"]))if description.get("size_global")else description["requested_size"])\n'
+        ' if description["root"]=="derived_types":\n'
+        '  assert current.name()=="checked_realloc"and current.older().name()=="add_derived_type";argument["owner"]["context"]=dict(capacity=int(gdb.parse_and_eval("derived_type_capacity")),count=int(gdb.parse_and_eval("derived_type_count")),stride=int(gdb.lookup_type("TypeDerivation").sizeof))\n'
         ' if description.get("input_bytes")==48 and description["root"]=="current_module":\n'
         '  assert current.read_var(description["name"]).type.target().sizeof==48;argument["bytes"]=bytes(gdb.selected_inferior().read_memory(root,48)).hex()\n'
         'for description in frontier.get("parameters",[]):\n'

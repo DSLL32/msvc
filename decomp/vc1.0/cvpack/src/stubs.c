@@ -59,7 +59,6 @@ void read_lines(unsigned long directory,const CvDirectoryEntry * entry) { __asm 
 
 void read_source_module(unsigned long directory,const CvDirectoryEntry * entry) { __asm { int 3 } }
 
-void save_precompiled(ModuleInfo * module) { __asm { int 3 } }
 
 void prepare_symbols(void * symbols,unsigned long size) { __asm { int 3 } }
 

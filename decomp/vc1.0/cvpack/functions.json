@@ -2140,13 +2140,16 @@
       "native": "save_precompiled",
       "symbol": "_save_precompiled",
       "original": 155840,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        155840,
+        156279
+      ],
       "abi": "void save_precompiled(ModuleInfo *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/pch-cpp-shared-types/evidence/0168-save_precompiled/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -5331,8 +5334,11 @@
         {
           "name": "block",
           "slot": 1,
-          "kind": "pointer",
-          "bits": 32
+          "kind": "global-owner",
+          "bits": 32,
+          "root": "derived_types",
+          "original_root": 211244,
+          "requested_size": 1536
         },
         {
           "name": "size",
@@ -9198,6 +9204,12 @@
       "case": "pch-cpp-shared-types",
       "kind": "application",
       "sequence": 167
+    },
+    {
+      "function": "save_precompiled",
+      "case": "pch-cpp-shared-types",
+      "kind": "application",
+      "sequence": 168
     }
   ],
   "support_unmasked": [
@@ -9900,15 +9912,15 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "456cc72ff3d6a1a897331830e546c1986d4d67c06c2f20e444117e7499338f40"
+    "evidence_sha256": "7b018adbacbb53a4abf5c0c661fe5a242745dd753793e1cf7bc3d6036de554fb"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "49ac4bfe9a2d3939b1f723e9f1252b14a6b3ce1f0a84aa3312f848b6ab406d53"
+    "evidence_sha256": "665834e06811dc676245bd2127a12c5b7693aded4307778a9abef7c76423808e"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
-    "evidence_sha256": "00eaa65a007e8cbf911b57e93131835c08eec86828072ae7aac180619d7d89b7"
+    "evidence_sha256": "b49760f6b241a209e034f1689bde647edf2a7dd6e4fbebf7b32c51a6baf8e160"
   },
   "external_inputs": {
     "evidence": "cases/abi/pdb-input.json",
@@ -9936,51 +9948,51 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "a29a8c1ed54be2017a097b6b4252d8363d019196d6ea04eee04382c8d8bc5941"
+    "evidence_sha256": "d22dd9182fa605b4829f96a24bbbbda8293012e582c30ef40eed439e2f7a34bd"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "947e0e24bc28dc305116cf90f680a7d0c617401fc474a095ded67b7eecc6922f"
+    "evidence_sha256": "6a28ff37782de9c6c2c91de36a7bd7eae0c60cbb1ba60be3f4d71dbb51e19ce3"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "74a0a9f5777799af849377a88c68c7dd4cf76e4aded8a08a500c58ad25a163f3"
+    "evidence_sha256": "c9d2d7270b25b895092c8b1f616d99cce4307eee63960d5b5c89900c79f38bdd"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "eee9a3cb896ea33c980e42951fe71b64a3683c43ce3e2bf331f0b040d38bb316"
+    "evidence_sha256": "f3d6b25b6cca95f7b44dd71bcd08bfb828b9c31ce982c6c46425d49ad8b32742"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "f159e073527587ad0a6e6d6eca656d90f8b6c9e06da7c9501ca68501c1e2b91a"
+    "evidence_sha256": "c5581617745bc9b28e1d95ceb316cecec0b8c85df21e10335c75f8ef294621e4"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "ab187a529baef43e3d68724adc0689367b9726c5a5d55f2f05d28ac4cfd21cfc"
+    "evidence_sha256": "d8ec02608778c0f08a5d82e77ff4ed71c223a5f7e59904287ed0ee838106ea30"
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "ecfc0450cb41ad8c80826a12e1821ef1a8a878808fa130d421796d457be6a713"
+    "evidence_sha256": "b30760041c771b9bc61c2c93703e9de39d321a688fc8b576f503b6138f743ac1"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "2a4b76844ceceb809daba0a04e5e0b0edde09468e276a69451f393827a4f17b4"
+    "evidence_sha256": "938437cff3bf307de495b0f1cf85b1a0d3c7c63622b13cfa711be8ffd5766cda"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "b4ea7ad262c05d31d0a0491c8b8bd6a1c8662a35fa3d2a506961d81c20b65298"
+    "evidence_sha256": "6b31d2bd3ab5d287b69a10933701b4849e43951024573278305fa5637eb2cdf0"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "17afcb78f760714127eea9704925b08b5ae0963edfda4f7e31330d0eba7723b9"
+    "evidence_sha256": "901d50706bc5d17c591fb04f33c46dc0d756a42f6ddea65d50bd69ca2ddedf32"
   },
   "symbol_reference_observations": {
     "evidence": "cases/abi/symbol-references.json",
-    "evidence_sha256": "6bb2b29b34a7ca165101b6a7606aa1f1728217e626998f2c14cc494deac6ccd2"
+    "evidence_sha256": "6383983995756566cd9680a3860b7f6a1b0ec1a87442cc427050f64f085b3ee2"
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "a07854e3b90b7ae763abd9d0673b9cdb9d7888739b081f27e819c77ee7e92388"
+    "sha256": "d463fd06a4f9d80d09f211539b69f29e35f7b6be6fe50d4fa089ee2b14c47bc0"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

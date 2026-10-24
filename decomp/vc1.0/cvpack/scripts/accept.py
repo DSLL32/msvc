@@ -66,6 +66,15 @@ def compare_global_owner(item,words,actual,events):
         assert root==words[item['slot']]!=0 and 0<used<=capacity<=65512 and words[item['length_slot']]==used,'output argument/count outside live allocation'
         owner=actual['owner'];assert owner==dict(root='output_buffer',address=actual['address'],requested_size=capacity)and not actual['null'],'native output owner/capacity differs'
         return dict(original_address=root,native_address=actual['address'],owner='output_buffer',requested_size=capacity,defined_prefix=used,scope='initialize_output live allocation; exact defined payload compared by output_buffer walk, no capacity-tail reads')
+    if item['root']=='derived_types':
+        assert(item['original_root'],item['requested_size'])==(0x3392c,1536)and words[0]==0x1c574,'unreviewed derived table lifetime/caller'
+        def scalar(address,size):
+            rows=re.findall(r'^memory %08x ([0-9a-f]+)$'%address,events,re.M);assert len(rows)==1 and len(bytes.fromhex(rows[0]))==size
+            return int.from_bytes(bytes.fromhex(rows[0]),'little')
+        root=scalar(0x3392c,4);capacity=scalar(0x33928,2);count=scalar(0x3718c,2)
+        assert root==words[item['slot']]!=0 and capacity==256 and count==128 and words[2]==3072,'first derived table growth differs'
+        assert actual['owner']==dict(root='derived_types',address=actual['address'],requested_size=1536,context=dict(capacity=capacity,count=count,stride=12))and not actual['null'],'native derived table owner differs'
+        return dict(original_address=root,native_address=actual['address'],owner='derived_types',requested_size=1536,new_requested_size=3072,capacity=capacity,count=count,scope='Actual first128-to256 derived table growth. initialize_type_tables checked_zero(128*12) publishes this root; no prior checked_realloc can return while its entry is masked. add_derived_type updates capacity before this exact call. Wrapper consumes ownership and size, not nested list payloads; no general heap proof.')
     if item['root']=='current_module':
         assert(item['original_root'],item['requested_size'],item['input_bytes'])==(0x33050,48,48),'unknown current module contract'
         roots=re.findall(r'^memory 00033050 ([0-9a-f]+)$',events,re.M);raws=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%words[item['slot']],events,re.M)

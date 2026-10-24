@@ -2267,3 +2267,42 @@ void __fastcall add_old_type(const unsigned char *record, int is_new,
     }
     entry->flags = (entry->flags & ~0x4000) | (forward<<14);
 }
+
+/* Original [000260c0,00026277): save mappings before the dependent module. */
+void save_precompiled(ModuleInfo *module)
+{
+    PrecompiledTypes *saved;
+    TypeRecord *entry;
+    unsigned short i, unused, kind, index;
+    module->precompiled_bytes = (unsigned short)(module_flags*2-0x1ff4);
+    module->precompiled = malloc(module->precompiled_bytes);
+    if (!module->precompiled) fatal_error(14, NULL, NULL);
+    saved = module->precompiled;
+    /* Keep the original second check after reloading the published pointer. */
+    if (!saved) fatal_error(14, NULL, NULL);
+    memset(saved, 0, module->precompiled_bytes);
+    saved->signature = module->precompiled_signature;
+    saved->count = (unsigned short)(module_flags-0x1000);
+    saved->first = 0x1000;
+    for (i = 0; (int)module_flags-0x1000 > i; ++i) {
+        if (!type_signature && first_user_type == (unsigned short)(0xffff-i))
+            entry = empty_type;
+        else {
+            entry = &local_type_records[i];
+            if (entry->flags & 0x1000)
+                entry = get_type_record((unsigned short)(entry->forward_index-0x1000), &unused);
+        }
+        if (entry->flags & 6) index = entry->index;
+        else {
+            kind = *(unsigned short *)(entry->data+2);
+            if ((kind >= 1 && kind <= 15) || kind == 17 || kind == 0x202 ||
+                kind == 0x206 || (kind >= 0x208 && kind <= 0x20c))
+                index = convert_new_type((unsigned short)(i+0x1000));
+            else if (kind == 0x201)
+                index = compact_type_list((unsigned short)(i+0x1000), *(unsigned short *)(entry->data+4));
+            else continue;
+        }
+        saved->indices[i] = index;
+    }
+    module_flags = 0;
+}

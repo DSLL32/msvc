@@ -1,5 +1,6 @@
 #ifndef CVPACK_IMAGE_H
 #define CVPACK_IMAGE_H
+#include <stddef.h>
 #include "cvpack.h"
 #include <recon.h>
 
@@ -28,6 +29,13 @@ extern CvDirectoryHeader cv_directory_header;
 extern long cv_directory_offset;
 extern CvDirectoryEntry *directory_entries;
 extern unsigned long directory_entry_count;
+/* Saved precompiled type-index translation, including its initialized spare word. */
+typedef struct PrecompiledTypes {
+    unsigned short first, count;
+    unsigned long signature;
+    unsigned short reserved, indices[1];
+} PrecompiledTypes;
+
 typedef struct ModuleInfo {
     unsigned short module;
     unsigned short reserved;
@@ -39,7 +47,8 @@ typedef struct ModuleInfo {
     unsigned long symbol_size;
     unsigned char *lines;
     unsigned long line_size;
-    unsigned char state_after_lines[8];
+    PrecompiledTypes *precompiled;
+    unsigned short precompiled_bytes, reserved_state;
     struct ModuleInfo *next;
 } ModuleInfo;
 
@@ -68,6 +77,8 @@ typedef struct ModuleIndex {
 } ModuleIndex;
 
 typedef char ModuleInfoSize[(sizeof(ModuleInfo)==48)?1:-1];
+typedef char ModulePrecompiledOffset[(offsetof(ModuleInfo,precompiled)==36)?1:-1];
+typedef char ModulePrecompiledBytesOffset[(offsetof(ModuleInfo,precompiled_bytes)==40)?1:-1];
 typedef char ModuleIndexSize[(sizeof(ModuleIndex)==12)?1:-1];
 extern ModuleIndex *module_index;
 extern ModuleInfo *module_list;

@@ -17,8 +17,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "save_precompiled",
-    "native_function": "save_precompiled",
+    "logical": "checked_realloc",
+    "native_function": "checked_realloc",
     "application_trace": [
       "main",
       "parse_options",
@@ -56,15 +56,37 @@
       "reset_local_types",
       "add_old_type",
       "reset_type_hash",
-      "save_precompiled"
+      "save_precompiled",
+      "convert_new_type",
+      "compact_new_type",
+      "find_named_type",
+      "find_global_type",
+      "store_type",
+      "hash_type",
+      "save_type",
+      "append_buffer",
+      "compact_type_list",
+      "compact_pointer",
+      "add_recursive_offset",
+      "intern_type",
+      "hash_recursive_type",
+      "commit_recursive_type",
+      "publish_recursive_type",
+      "hash_referenced_type",
+      "publish_packed_type",
+      "record_derived_types",
+      "finish_recursive_types",
+      "add_derived_type",
+      "compare_recursive_type",
+      "numeric_leaf_size",
+      "checked_realloc"
     ],
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "proof_mode": "entry-flow",
     "observed_globals": [
-      "module_flags",
-      "local_type_count",
-      "previous_type_count"
+      "derived_type_count",
+      "derived_type_capacity"
     ],
     "observed_walks": [],
     "artifacts": []

@@ -1,0 +1,18 @@
+{
+  "positive": true,
+  "controls": [
+    {
+      "mutation": "wrong-caller",
+      "rejected": true
+    },
+    {
+      "mutation": "wrong-size",
+      "rejected": true
+    },
+    {
+      "mutation": "wrong-owner-count",
+      "rejected": true
+    }
+  ],
+  "scope": "Affected first derived table realloc owner/caller/count only; no payload/heap replay."
+}
