@@ -159,6 +159,24 @@ def prepare(checked,destination,available=None):
         metadata['functions']['_free_widen_buffers']=dict(register_imports=dict(require_all_register_calls_resolved=True))
     if any(row['name']=='free_type_tables' for row in checked):
         metadata['functions']['_free_type_tables']=dict(register_imports=dict(require_all_register_calls_resolved=True))
+    if any(row['name']=='build_symbol_address_hash' for row in checked):
+        path=BINARY/'cases/hello-debug-dll/address-hash-qsort-import.json';claim=json.loads(path.read_text())
+        assert claim['qualified_import']==dict(dll='msvcrt.dll',name='qsort') and claim['preserves']==['ebx']
+        assert claim['provider']['sha256']==sha(provider) and claim['provider']['extent']==[0x7802543d,0x780255e2] and claim['provider']['actual_export']==dict(name='qsort',ordinal=674,rva=0x2543d)
+        begin,end=claim['provider']['extent'];assert hashlib.sha256(module.read(begin,end-begin)).hexdigest()==claim['provider']['function_sha256']
+        assert module.read(0x7802544a,1)==bytes.fromhex('53') and module.read(0x780254ed,1)==bytes.fromhex('5b') and module.read(0x780254f4,1)==bytes.fromhex('c3')
+        assert sha(ROOT/claim['sdk']['path'])==claim['sdk']['sha256']
+        witness=claim['target'];assert witness['sha256']==sha(ROOT/witness['path']) and witness['extent']==[0x40ede0,0x40f0c6]
+        assert hashlib.sha256(target.read(0x40ede0,742)).hexdigest()==witness['function_sha256']
+        assert target.read(0x40ef35,6)==bytes.fromhex(witness['load_bytes'])==bytes.fromhex('8b1df4614100') and target.read(0x40ef4b,2)==bytes.fromhex('ffd3')
+        observed=claim['executed'];assert sha(BINARY/observed['events'])==observed['events_sha256'] and sha((BINARY/observed['events']).parent/'receipt.json')==observed['receipt_sha256'] and observed['ebx_before']==observed['ebx_after']
+        inherited=claim['inherits_edi'];assert inherited['register']=='edi' and sha(BINARY/inherited['path'])==inherited['sha256']
+        callback=claim['callback'];assert callback['extent']==[0x40edc0,0x40edd7] and hashlib.sha256(target.read(0x40edc0,23)).hexdigest()==callback['sha256']
+        existing=[row for row in metadata['register_imports']['preservation_contracts'] if row['target']=={'import':claim['qualified_import']}]
+        assert len(existing)==1 and existing[0]['preserves']==['edi'] and existing[0]['evidence']==dict(path=inherited['path'],sha256=inherited['sha256'])
+        existing[0].update(preserves=['edi','ebx'],evidence=dict(path=str(path.relative_to(BINARY)),sha256=sha(path)))
+        metadata['functions']['_build_symbol_address_hash']=dict(register_imports=dict(require_all_register_calls_resolved=True))
+        proof['address_hash_qsort_ebx_evidence_sha256']=sha(path)
     metadata['functions']['_main']=dict(register_imports=dict(require_all_register_calls_resolved=False))
     if any(row['name']=='pack_module' for row in checked):
         path=BINARY/'build/pack.obj';obj=COFF(path.read_bytes())
@@ -272,9 +290,18 @@ def check_import_sites(graph):
         imported={site:name for site,name in source['rebuilt']['direct_import_calls'].items() if name==identity}
         assert len(imported)==2,'source-index rebuilt two frees missing'
         source_index_sites=dict(original=[0x40f3ce,0x40f3e7],rebuilt=sorted(map(int,imported)))
+    address_hash_sites=None
+    if '_build_symbol_address_hash' in graph['functions']:
+        report=graph['functions']['_build_symbol_address_hash']['register_imports'];qsort=dict(dll='msvcrt.dll',name='qsort')
+        expected={str(0x40ef4b):qsort,str(0x40f09b):identity,str(0x40f0b9):identity}
+        assert report['original']['resolved_register_calls']==expected and not report['original']['unresolved_register_calls'] and not report['original']['other_unresolved_calls'],'addresshash exact cached qsort/free inventory differs'
+        assert not report['rebuilt']['resolved_register_calls'] and not report['rebuilt']['unresolved_register_calls'] and not report['rebuilt']['other_unresolved_calls'],'addresshash rebuilt unknown call'
+        imported=list(report['rebuilt']['direct_import_calls'].values());assert imported.count(qsort)==1 and imported.count(identity)==2 and len(imported)==3,'addresshash rebuilt qualified import inventory differs'
+        address_hash_sites=dict(original_qsort=0x40ef4b,original_free=[0x40f09b,0x40f0b9],all_register_sites_resolved=True)
     result=dict(source_index_free_sites=source_index_sites,scratch_cleanup_free_sites=scratch_sites,evidence_sha256=sha(evidence),original_free_sites=witness['target']['sites'],
         original_checksum_callback=witness['dynamic_callback']['site'],rebuilt_free_sites=sorted(map(int,calls)),
         rebuilt_checksum_callback=callback,
         scope='Per-site report checks; no secondary CFG or import inference.')
     if reference_sites is not None:result['type_reference_sites']=reference_sites
+    if address_hash_sites is not None:result['address_hash_sites']=address_hash_sites
     return result

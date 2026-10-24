@@ -3,7 +3,9 @@ import struct
 
 
 def validate(config,data,original,native,owners,initial):
-    assert original['address']==0x40ede0 and original['stack'][0]==0x40d68f and native['frontier_caller']=='write_publics','completed namehash actual next child differs'
+    if config.get('observe_address_hash'):
+        assert original['address']==0x40edc0 and original['stack'][0]==original['module_bases']['msvcrt.dll']+0x2551e and native['frontier_caller']=='recon_qsort','completed namehash actual address callback differs'
+    else:assert original['address']==0x40ede0 and original['stack'][0]==0x40d68f and native['frontier_caller']=='write_publics','completed namehash actual next child differs'
     # These are actual observations taken while all five allocations were live,
     # not current-state reads of the three subsequently released temporaries.
     snapshot=original['name_hash_first_fill_stack'];assert len(snapshot['bytes'])==256,'missing complete first-fill stack observation'
@@ -91,4 +93,4 @@ def validate(config,data,original,native,owners,initial):
                     address=int(address);payload=bytes.fromhex(payload) if is_native else payload
                     assert max(base,address)>=min(base+size,address+len(payload)),'namehash current generic namespace overlaps private generation'
     assert native['public_writer_frame']['header']==(struct.pack('<HHIII',10,0,2116,564,0)).hex(),'namehash header method/byte consumption differs'
-    return dict(before_first_fill=prefix,actual_copy_calls=21,actual_fill_calls=7,initialized_output_bytes=564,own_unwritten_output_bytes_uncompared=3532,own_uninitialized_second_stream_bytes_uncompared=24,temporary_free_calls=12,ended_temporary_allocations=3,prefree_initialized_bytes=66132,retired=retired,retired_payload_reinstalled=False,next_consumer='build_symbol_address_hash(WORDout,DWORDout,addresses24,count64,buckets)')
+    return dict(before_first_fill=prefix,actual_copy_calls=21,actual_fill_calls=7,initialized_output_bytes=564,own_unwritten_output_bytes_uncompared=3532,own_uninitialized_second_stream_bytes_uncompared=24,temporary_free_calls=12,ended_temporary_allocations=3,prefree_initialized_bytes=66132,retired=retired,retired_payload_reinstalled=False,next_consumer='compare_symbol_address(first8,second8)' if config.get('observe_address_hash') else 'build_symbol_address_hash(WORDout,DWORDout,addresses24,count64,buckets)')

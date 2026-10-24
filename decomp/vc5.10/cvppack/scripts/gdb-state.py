@@ -36,6 +36,9 @@ name_hash_reused_calls={}
 name_hash_first_frame={}
 name_hash_stream_calls=[]
 name_hash_temp_frees=[]
+address_hash_entry={}
+address_hash_allocations=[]
+address_hash_sort={}
 output_directory_before={}
 output_directory_sort={}
 output_directory_complete={}
@@ -210,6 +213,7 @@ def install(configuration):
             elif owner.name()=='allocate_cleared':
                 record=dict(size=size);cleared_allocations.append(record)
                 if config.get('observe_name_hash') and owner.older() is not None and (owner.older().name()=='build_symbol_name_hash' or owner.older().name()=='copy_type_arena' and owner.older().older() is not None and owner.older().older().name()=='build_symbol_name_hash'):record.update(owner=owner.older().name(),context='build_symbol_name_hash')
+                if config.get('observe_address_hash') and owner.older() is not None and owner.older().name()=='build_symbol_address_hash':record.update(owner='build_symbol_address_hash',context='build_symbol_address_hash')
             elif owner.name()=='allocate_bytes':
                 record=dict(size=size);checked_allocations.append(record)
                 caller=owner.older()
@@ -313,6 +317,50 @@ def install(configuration):
                     sort_environments['before']=sort_environment();DirectorySortReturned(gdb.newest_frame(),internal=True)
                 return False
         DirectorySort()
+
+    if config.get('observe_address_hash'):
+        class AddressHashEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('*build_symbol_address_hash',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();owner=frame.older();assert not address_hash_entry and owner.name()=='write_publics'
+                esp=int(gdb.parse_and_eval('$esp'));scope=frame.block()
+                while scope is not None and scope.function is None:scope=scope.superblock
+                types={symbol.name:symbol.type.strip_typedefs() for symbol in scope if symbol.is_argument}
+                assert set(types)=={'method','bytes','stream','count','buckets'} and types['count'].code==gdb.TYPE_CODE_INT and types['count'].sizeof==4
+                for name,width in [('method',2),('bytes',4),('stream',24),('buckets',4)]:assert types[name].code==gdb.TYPE_CODE_PTR and types[name].sizeof==4 and types[name].target().sizeof==width
+                address_hash_entry.update(esp=esp,owner=owner.name(),stack=list(struct.unpack('<6I',bytes(gdb.selected_inferior().read_memory(esp,24)))),formal_types={name:str(kind) for name,kind in types.items()},checked_count=len(checked_allocations),cleared_count=len(cleared_allocations),after_namehash_frees=len(name_hash_temp_frees));return False
+        AddressHashEntered()
+        class AddressHashAllocationReturned(gdb.FinishBreakpoint):
+            def __init__(self,record):self.record=record;super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                self.record.update(address=int(self.return_value)&0xffffffff,exit_esp=int(gdb.parse_and_eval('$esp')),after_nonvolatile=[int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')]);return False
+        class AddressHashAllocationEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('*allocate_cleared',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();caller=frame.older()
+                if caller is None or caller.name()!='build_symbol_address_hash':return False
+                scope=frame.block()
+                while scope is not None and scope.function is None:scope=scope.superblock
+                formals={symbol.name:symbol.type.strip_typedefs() for symbol in scope if symbol.is_argument};assert set(formals)=={'size'} and formals['size'].code==gdb.TYPE_CODE_INT and formals['size'].sizeof==4
+                esp=int(gdb.parse_and_eval('$esp'));size=int.from_bytes(bytes(gdb.selected_inferior().read_memory(esp+4,4)),'little');assert len(name_hash_temp_frees)==12 and all(row.get('returned') for row in name_hash_temp_frees)
+                row=dict(sequence=len(address_hash_allocations),owner=caller.name(),size=size,entry_esp=esp,after_namehash_frees=len(name_hash_temp_frees),before_nonvolatile=[int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ('ebx','esi','edi','ebp')],formal_types={'size':str(formals['size'])});address_hash_allocations.append(row);AddressHashAllocationReturned(row);return False
+        AddressHashAllocationEntered()
+        class AddressHashSortEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('*recon_qsort',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();owner=frame.older()
+                if owner is None or owner.name()!='build_symbol_address_hash':return False
+                assert not address_hash_sort and len(address_hash_allocations)==4,'addresshash new qsort call needs fresh contract'
+                inferior=gdb.selected_inferior();esp=int(gdb.parse_and_eval('$esp'));args=struct.unpack('<4I',bytes(inferior.read_memory(esp+4,16)))
+                assert args[3]==int(gdb.parse_and_eval('&compare_symbol_address'))
+                def layout(typename):
+                    kind=gdb.lookup_type(typename).strip_typedefs();return dict(width=int(kind.sizeof),fields={field.name:dict(offset=int(field.bitpos)//8,width=int(field.type.sizeof)) for field in kind.fields()})
+                scalars={}
+                for name,width in [('maximum_segment',2),('absolute_count',4),('position',4),('segment',4)]:
+                    value=owner.read_var(name);assert value.type.strip_typedefs().code==gdb.TYPE_CODE_INT and value.type.sizeof==width;scalars[name]=int(value)
+                groups=owner.read_var('groups');assert groups.type.strip_typedefs().code==gdb.TYPE_CODE_PTR and groups.type.target().sizeof==12
+                address_hash_sort.update(entry_esp=esp,args=list(args),owner=owner.name(),groups=int(groups),scalars=scalars,layouts={name:layout(name) for name in ('AddressHashEntry','AddressHashGroup')},before_owned={str(row['address']):bytes(inferior.read_memory(row['address'],row['size'])).hex() for row in address_hash_allocations});return False
+        AddressHashSortEntered()
 
     if config.get('observe_name_hash'):
         class NameHashEntered(gdb.Breakpoint):
@@ -870,6 +918,11 @@ def capture(configuration,data_file,output):
             assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==item.get('native_stage',1) and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==0,'opaque object provider lifetime/state differs'
             state.setdefault('widen_object_arguments',{})[item['name']]=dict(address=int(value),output_slot=int(owner.read_var(item['local']).address))
             parameters[item['name']]=dict(provider='MSPDB50.DLL',instance=1,state=item.get('state','created'),owner=item['owner'],local=item['local'])
+        elif item['kind']=='address-hash-entry':
+            assert frame.older() is not None and frame.older().name()=='recon_qsort' and address_hash_sort,'addresshash callback lacks actual qsort frame'
+            root,count,width,callback=address_hash_sort['args'];address=int(value)
+            assert width==8 and root<=address<root+count*8 and (address-root)%8==0,'addresshash callback pointer exceeds actual sort owner'
+            parameters[item['name']]=dict(segment=1,index=(address-root)//8,width=8)
         elif item['kind']=='packed-directory-entry':
             root=int(gdb.parse_and_eval('directory_entries'));count=int(gdb.parse_and_eval('directory_count'));address=int(value)
             assert gdb.lookup_type('CodeViewDirectoryEntry').sizeof==12 and root<=address<root+count*12 and (address-root)%12==0,'packed directory argument exceeds initialized active rows'
@@ -985,7 +1038,9 @@ def capture(configuration,data_file,output):
         if config.get('observe_name_hash_complete'):
             assert name_hash_first_frame,'missing actual namehash before-fill frame'
             state['name_hash_frame']=name_hash_first_frame
-            owner=frame.older();assert owner.name()=='write_publics'
+            owner=frame.older()
+            while owner is not None and owner.name()!='write_publics':owner=owner.older()
+            assert owner is not None
             arena=owner.read_var('names');raw=bytes(actual_inferior.read_memory(arena.address,24));words=struct.unpack('<6I',raw);blockbytes=bytes(actual_inferior.read_memory(words[2],12));used,address,nextblock=struct.unpack('<3I',blockbytes);assert used==564
             state['name_hash_complete']=dict(arena_address=int(arena.address),arena=raw.hex(),block_address=words[2],block=blockbytes.hex(),payload_address=address,payload=bytes(actual_inferior.read_memory(address,used)).hex())
         else:
@@ -1007,6 +1062,12 @@ def capture(configuration,data_file,output):
     state['name_hash_reused_calls']=name_hash_reused_calls
     state['name_hash_stream_calls']=name_hash_stream_calls
     state['name_hash_temp_frees']=name_hash_temp_frees
+    state['address_hash_entry']=address_hash_entry
+    state['address_hash_allocations']=address_hash_allocations
+    state['address_hash_sort']=address_hash_sort
+    if config.get('observe_address_hash'):
+        assert address_hash_sort and len(address_hash_allocations)==4
+        state['address_hash_current_owned']={str(row['address']):bytes(actual_inferior.read_memory(row['address'],row['size'])).hex() for row in address_hash_allocations}
     state['directory_before_writer']=output_directory_before
     state['directory_sort_input']=output_directory_sort
     state['directory_sort_complete']=output_directory_complete

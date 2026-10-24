@@ -14,10 +14,25 @@ def decode(events):
     frontier_line_index,address = frontiers[0]
     memory,strings = {},{}
     public_padding={}
-    name_hash_allocations=[];name_hash_owned={};name_hash_entry={};name_hash_reused_calls={};name_hash_first_fill_stack={};name_hash_stream_calls=[];name_hash_temp_frees=[];name_hash_complete={}
+    name_hash_allocations=[];name_hash_owned={};name_hash_entry={};name_hash_reused_calls={};name_hash_first_fill_stack={};name_hash_stream_calls=[];name_hash_temp_frees=[];name_hash_complete={};address_hash_entry={};address_hash_allocations=[];address_hash_sort={};address_hash_owned={}
     file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[];image_allocations=[];checked_allocations=[];module_allocations=[];cleared_allocations=[]
     for line in lines:
-        if line.startswith('namehash-first-fill-stack '):
+        if line.startswith('addresshash-entry '):
+            assert not address_hash_entry;f=line.split();address_hash_entry=dict(esp=int(f[1],16),stack=[int(v,16) for v in f[2:]],checked_count=len(checked_allocations),cleared_count=len(cleared_allocations))
+        elif line.startswith('addresshash-parent-stack '):
+            _,location,size,payload=line.split();assert int(location,16)==address_hash_entry['esp'] and len(bytes.fromhex(payload))==int(size)==128;address_hash_entry['parent_stack']=bytes.fromhex(payload)
+        elif line.startswith('addresshash-allocation-call '):
+            f=line.split();address_hash_allocations.append(dict(site=int(f[1],16),size=int(f[2]),after_namehash_frees=int(f[3]),entry_esp=int(f[4],16),before_nonvolatile=[int(v,16) for v in f[5:]]))
+        elif line.startswith('addresshash-allocation-return '):
+            f=line.split();row=address_hash_allocations[-1];assert 'address' not in row;row.update(return_site=int(f[1],16),address=int(f[2],16),exit_esp=int(f[3],16),after_nonvolatile=[int(v,16) for v in f[4:]])
+        elif line.startswith('addresshash-sort-locals '):
+            assert not address_hash_sort;f=line.split();address_hash_sort=dict(scalars=dict(maximum_segment=int(f[1]),absolute_count=int(f[2]),position=int(f[3]),segment=int(f[4])),groups=int(f[5],16))
+        elif line.startswith('addresshash-sort-call '):
+            assert address_hash_sort and 'args' not in address_hash_sort;f=line.split();address_hash_sort.update(entry_esp=int(f[1],16),args=[int(f[2],16),int(f[3]),int(f[4]),int(f[5],16)],provider=int(f[6],16))
+        elif line.startswith('addresshash-owned '):
+            _,phase,location,size,payload=line.split();assert phase in ('before-sort','first-callback');rows=address_hash_owned.setdefault(phase,{});location=int(location,16);assert location not in rows and len(bytes.fromhex(payload))==int(size);rows[location]=bytes.fromhex(payload)
+        elif line.startswith('addresshash-observation-failed'):raise AssertionError('incomplete addresshash observation')
+        elif line.startswith('namehash-first-fill-stack '):
             assert not name_hash_first_fill_stack;_,location,size,payload=line.split();assert int(size)==len(bytes.fromhex(payload))==256;name_hash_first_fill_stack=dict(address=int(location,16),bytes=bytes.fromhex(payload))
         elif line.startswith('namehash-stream-call '):
             f=line.split();name_hash_stream_calls.append(dict(kind=int(f[1]),site=int(f[2],16),entry_esp=int(f[3],16),arena=int(f[4],16),value=int(f[5],16),size=int(f[6]),before_nonvolatile=[int(v,16) for v in f[7:]]))
@@ -367,7 +382,7 @@ def decode(events):
     # Separate pre-padding typed input history from mutable current nodes.
 
     assert len(stack) == (256 if address==0x410010 else 128)
-    return dict(name_hash_first_fill_stack=name_hash_first_fill_stack,name_hash_stream_calls=name_hash_stream_calls,name_hash_temp_frees=name_hash_temp_frees,name_hash_complete=name_hash_complete,name_hash_reused_calls=name_hash_reused_calls,name_hash_entry=name_hash_entry,name_hash_allocations=name_hash_allocations,name_hash_owned=name_hash_owned,public_padding=public_padding,address=address,memory=memory,strings=strings,output_buffer_allocations=output_buffer_allocations,output_buffer_state=output_buffer_state,subsection_calls=subsection_calls,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(address_hash_entry=address_hash_entry,address_hash_allocations=address_hash_allocations,address_hash_sort=address_hash_sort,address_hash_owned=address_hash_owned,name_hash_first_fill_stack=name_hash_first_fill_stack,name_hash_stream_calls=name_hash_stream_calls,name_hash_temp_frees=name_hash_temp_frees,name_hash_complete=name_hash_complete,name_hash_reused_calls=name_hash_reused_calls,name_hash_entry=name_hash_entry,name_hash_allocations=name_hash_allocations,name_hash_owned=name_hash_owned,public_padding=public_padding,address=address,memory=memory,strings=strings,output_buffer_allocations=output_buffer_allocations,output_buffer_state=output_buffer_state,subsection_calls=subsection_calls,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<%dI'%(len(stack)//4),stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -641,6 +656,9 @@ def compare(config,data,events,native,artifacts=None,views=None):
             after=native['widen_factory_calls'][0];argument=native['widen_object_arguments'][item['name']]
             assert after['object']==argument['address'] and after['output_argument']==argument['output_slot'],'opaque native factory output/argument alias differs'
             parameters[item['name']]=dict(provider='MSPDB50.DLL',instance=1,state=item.get('state','created'),owner=item['owner'],local=item['local'])
+        elif item['kind']=='address-hash-entry':
+            root,count,width,callback=original['address_hash_sort']['args'];assert width==8 and root<=value<root+count*8 and (value-root)%8==0,'original addresshash callback argument lacks actual array owner'
+            parameters[item['name']]=dict(segment=1,index=(value-root)//8,width=8)
         elif item['kind']=='packed-directory-entry':
             row=next(row for row in data if row['name']=='directory_entries');root=int.from_bytes(original['memory'][row['original']],'little');count=original['directory_sort_input']['count']
             assert root<=value<root+count*12 and (value-root)%12==0,'original packed directory callback argument exceeds active rows'
@@ -825,6 +843,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert left['size']==right['size'] and left['address'] and right['address'],'actual image allocation request/result differs'
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(),'live image allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
+    address_hash_owners=None
+    if config.get('observe_address_hash'):
+        spec=importlib.util.spec_from_file_location('address_hash_state',Path(__file__).with_name('address-hash-state.py'));address_hash_state=importlib.util.module_from_spec(spec);spec.loader.exec_module(address_hash_state)
+        address_hash_owners=address_hash_state.generations(original,native)
     name_hash_owners=None
     if config.get('observe_name_hash'):
         spec=importlib.util.spec_from_file_location('name_hash_state',Path(__file__).with_name('name-hash-state.py'))
@@ -847,7 +869,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
     assert len(original['cleared_allocations'])==len(native.get('cleared_allocations',[])), 'cleared allocator inventory differs'
     for ordinal,(left,right) in enumerate(zip(original['cleared_allocations'],native.get('cleared_allocations',[]))):
-        if name_hash_owners and ordinal in name_hash_owners['cleared_indices']:continue
+        if name_hash_owners and ordinal in name_hash_owners['cleared_indices'] or address_hash_owners and ordinal in address_hash_owners['cleared_indices']:continue
         assert left['size']==right['size'] and left['address'] and right['address'], 'cleared allocation request/result differs'
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(), 'live cleared allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
@@ -856,7 +878,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
         import importlib.util
         spec=importlib.util.spec_from_file_location('main_free_state',Path(__file__).with_name('main-free-state.py'))
         free_state=importlib.util.module_from_spec(spec);spec.loader.exec_module(free_state)
-        retired,free_lifetimes=free_state.validate(config,data,original,native,image_aliases,image_sizes,reads,name_hash_owners['cleared_indices'] if name_hash_owners else ())
+        retired,free_lifetimes=free_state.validate(config,data,original,native,image_aliases,image_sizes,reads,(name_hash_owners['cleared_indices'] if name_hash_owners else set()) | (address_hash_owners['cleared_indices'] if address_hash_owners else set()))
     def historical_segment(base):
         # Only former-input initialization/extent proof uses the saved PRE-free
         # observation. It is not current payload state and is never reinstalled
@@ -1514,6 +1536,8 @@ def compare(config,data,events,native,artifacts=None,views=None):
         spec=importlib.util.spec_from_file_location('complete_name_hash',Path(__file__).with_name('name-hash-complete-state.py'));complete_name_hash=importlib.util.module_from_spec(spec);spec.loader.exec_module(complete_name_hash)
         name_hash_proof=complete_name_hash.validate(config,data,original,native,name_hash_owners,name_hash_state)
     elif config.get('observe_name_hash'):name_hash_proof=name_hash_state.validate(config,data,original,native,name_hash_owners)
+    address_hash_proof=None
+    if config.get('observe_address_hash'):address_hash_proof=address_hash_state.validate(config,data,original,native,address_hash_owners)
     native_parameters=dict(native['parameters'])
     for item,value in object_parameters:
         actual=native_parameters[item['name']]
@@ -1563,4 +1587,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert typed_records_checked==global_integer('type_record_count') and recursive_type_nodes_checked and interned_type_nodes_checked,'historical typed table validation incomplete'
         free_lifetimes['historical_typed_table_bytes_checked']=free_lifetimes.pop('historical_typed_table_bytes_pending')
         free_lifetimes['historical_table_proof_roles']=sorted(historical_tables_used)
-    return dict(parameters=parameters,caller_state=caller_state,output_buffer=output_buffer_proof,subsection_output=subsection_proof,public_writer=public_writer_proof,public_padding=public_padding_proof,name_hash=name_hash_proof,output_directory=output_directory_proof,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,output_buffer=output_buffer_proof,subsection_output=subsection_proof,public_writer=public_writer_proof,public_padding=public_padding_proof,name_hash=name_hash_proof,address_hash=address_hash_proof,output_directory=output_directory_proof,source_index_context=source_index_proof,main_free_lifetimes=free_lifetimes,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

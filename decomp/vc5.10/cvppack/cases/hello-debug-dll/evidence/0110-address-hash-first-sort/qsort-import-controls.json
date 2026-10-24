@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "scope": "Same exact strict current common graph command/PE/MAP/config/runtime/metadata; remove only newEBX bit while retaining inheritedEDI, and replaceEBX withESI. Both reject exact unknown cached qsort40ef4b. Positive has exactoneqsort+twofree sites and zero unknowns. No other assumption masks changed.",
+  "controls": [
+    {
+      "name": "qsort-ebx-removed",
+      "status": 1,
+      "seconds": 0.1356562850996852,
+      "reason": "graph-audit: original _build_symbol_address_hash register imports: unresolved register import calls: {4255563}",
+      "metadata_sha256": "aee418c1d87efb55e5ae1807eb76c9278af88652f3c8dac619c4ef37700627aa"
+    },
+    {
+      "name": "qsort-ebx-substituted",
+      "status": 1,
+      "seconds": 0.1351225385442376,
+      "reason": "graph-audit: original _build_symbol_address_hash register imports: unresolved register import calls: {4255563}",
+      "metadata_sha256": "0f32fe41845b03fffa73f2d21aef561918e60b3605ed801ae862dbb53b8555d1"
+    }
+  ],
+  "seconds": 0.2726019714027643,
+  "graph_command": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--profile",
+    "cl",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/cvppack",
+    "--repo",
+    "/root/msvc2",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/CVPACK.EXE",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/CVPACK.EXE",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/cvpack.map",
+    "--config",
+    "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/review-audit/graph-config.json",
+    "--runtime",
+    "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/review-audit/graph-runtime.json",
+    "--rebuilt-runtime",
+    "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/review-audit/graph-runtime.json",
+    "--metadata",
+    "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/review-audit/graph-metadata.json",
+    "--discovery",
+    "cfg",
+    "--check-imports",
+    "--resolve-register-imports",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "positive_audit_sha256": "88f92ff8f70000741384814e94688c083c44b7bfccd627b69db2a2812e8b6dfe",
+  "positive_metadata_sha256": "60645ab32233dc0837a17861797f39651d3acd975fd589d9133a862df16f49dc",
+  "graph_tool_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+  "rebuilt_sha256": "d0038692b759cf84d25e5f8fd6f77bcbc8defb0a7ff210e43d2b52a5d482be69",
+  "map_sha256": "a1d9caf4a80e68101c7907a58adfe1968fa3f526be226eac45beb46d69b68f16",
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "evidence_sha256": "18fec2d6faa5548164e364389ddf1d792d9e64ff06363aff07d9bbdd3c98b454",
+  "exact_site_inventory": {
+    "original_qsort": 4255563,
+    "original_free": [
+      4255899,
+      4255929
+    ],
+    "all_register_sites_resolved": true
+  }
+}

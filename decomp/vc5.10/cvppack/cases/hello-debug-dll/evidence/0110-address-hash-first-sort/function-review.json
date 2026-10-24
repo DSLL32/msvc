@@ -1,0 +1,250 @@
+{
+  "schema": 1,
+  "candidate": "build_symbol_address_hash",
+  "accepted_functions": 110,
+  "application_extent_bytes": 36980,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 59.015033034374895,
+  "qualification": "Application extents / whole text including CRT/unknown/padding; not non-CRT or branch coverage.",
+  "source_extent": [
+    4255200,
+    4255942
+  ],
+  "extent_bytes": 742,
+  "excluded_gap_bytes": 10,
+  "associated_switch_bytes_total": 784,
+  "associated_callback_bytes_total": 324,
+  "support": {
+    "crt_bodies": 4,
+    "crt_extent_bytes": 400,
+    "import_thunks": 5,
+    "import_extent_bytes": 30
+  },
+  "next_frontier": "compare_symbol_address(first8,second8), actual canonical qsort row1/row0",
+  "fresh_pair": true,
+  "fresh_negative_count": 53,
+  "qsort_necessity_controls": 2,
+  "reused_probe_controls": 10,
+  "source_review": [
+    "Whole742B readable ordinary cdecl5 C routine: find maximum non-alignment segment, count absolute records and per-segment symbols, allocate12B group descriptors and8B(pointer,stream-offset) rows, collect bucket-order stream positions, genuine qsort by symbol offset, then canonical arena initialization/copy/fill, method12 serialization and temporary frees. Signed per-group count/written fields and typed PublicSymbol pointers express actual layout. Original repeated strength reductions are normal C arithmetic. Ten NOP gap bytes excluded, no extra helpers/assembly/data images.",
+    "Current dynamic prefix stops at the FIRST genuine comparator23B named INT3, through canonical qsort(count27,width8). The comparator remains masked/unaccepted/zero credit; its canonical body is used only for actual function-pointer/ABI analysis and finite ordinary-return preservation evidence. No sort completion, new address-stream initialization, serialization or frees from the unreached builder suffix are dynamically claimed.",
+    "Actual original addresshash-entry marker independently records the generic allocator EVENT INDICES checked300/cleared110 before this new body allocates. Native records the same actual entry counters and five real formal types. Historical five-owner namehash validation reads only these bounded earlier ledgers; it does not broadly filter owner names or rewind current state. Four later allocations remain separately current and are checked against exact event positions110..113 plus app call/return sites, sizes, source owner, completed12namehash frees, cdecl stack and all4 nonvolatile registers.",
+    "New current owners36/216/232/64 are fully initialized548B, pairwise disjoint at full capacity and protected from every prior live generation, directory912B, packed-output65512B and mapped-input2MB. Parent review caught overly general ended-range containment. It is replaced by exact16 historical allocation event identities (image0..3; checked1,2,295,296,298; cleared0,2,7,8,14,107,108), each linked to actual matching free address/size on BOTH sides plus source/name owner and typed event evidence. Every other event remains live regardless of address reuse. Four new controls place later live image/checked/cleared/module events inside an older ended range overlapping a current owner: all now reject. Exact freed-generation/source-role mutation controls also reject. No old payload is read or reinstalled; native/original raw unchanged.",
+    "All65 current public nodes and complete initialized records derive segment groups27/29/8, absolute0, oneS_ALIGNskip and2116total stream bytes. Full36B descriptors contain exact count/written values and owned row pointers; complete216/232/64 before-sort arrays bind actual live PublicSymbol identity and stream position. Native Dwarf proves AddressHashEntry8/AddressHashGroup12 field offsets and WORD maximum_segment/DWORD count/position scalars.",
+    "At actual first callback, only the canonical first-array pivot exchange0/13 has occurred. Complete initialized arrays on BOTH sides match that exchange; two remaining groups/descriptors remain unchanged. Actual comparator pointer arguments are rows1/0 of the current segment1 array, full two constvoid* formal inventory and real canonical caller return2551e. This is newly observed width8/count27 behavior, not inferred from earlier width12 sorting. Existing shared sort matches; no shim or general schedule claim.",
+    "Caller stack/header proof uses actual retained128B addresshash-entry transport and real native write_publics ancestor, not a fabricated current frame. Incoming five arguments independently bind WORDaddress_method, DWORDaddress_bytes, own-uninitialized addresses24, count64 and live public buckets. Name method10/bytes564 and symbolbytes2116 remain unchanged. The actual prior live name arena/block/output stay separate from ended temporary tables;3532 own output-tail bytes and second24B stream remain unread/uncredited. A positive varies those unknown second-stream bits in the actual parent-entry transport.",
+    "Strict common110-function graph/import/reference/ownership/extent audit plus109 strictRET projection retains only the preapproved8B Release residual. Cached qsort40ef4b and two frees40f09b/40f0b9 are exactly resolved with zero unknowns. New qsort EBX normal-return bit merges with inheritedEDI into one qualified import, bound actual canonical export ordinal674/RVA2543d, whole421B save/restore/soleRET0, SDK and prior375callback full-return ABI hashes. RemovingEBX or substitutingESI both reject exact unknown40ef4b; independent parent review approved. No provider internals/app credit.",
+    "Actual fresh original139/256 probe inventory is complete. Prior10 native-compiled parser/owner-guard controls are reused by identical relevant fragment hashes; current helper adds new observations only. Full production positive repeats all375 directory-sort callbacks,28 name-stream calls,12 temporary frees and58 subsection copies under the existing narrow empty-x87/own-full-raw/error predicate.",
+    "Original/native compiled-source content snapshots are identical and retain the prior approved shared source consumed by the immutable ELF. Later shared strcmp WIP/publication does not relabel this proof or force a new original; no newer shared bytes were rebuilt or consumed for this candidate. All fixtures/runtime/dependency handling remain native only.",
+    "An initial state comparison had only a tuple-versus-list container equality mistake at the final otherwise-matching callback alias assertion. The exact failed log remains; converting that observed stack slice to a list changes no raw/target/native execution. A fresh current strict static sidecar binds unchanged raw under corrected checker. Early qsort static failure and duplicate-contract draft are retained; final metadata merges the existing identity rather than broadening flags."
+  ],
+  "actual_state": {
+    "current_new_owners": 4,
+    "fully_initialized_capacity_bytes": 548,
+    "segment_counts": [
+      27,
+      29,
+      8
+    ],
+    "input_nodes": 65,
+    "absolute_records": 0,
+    "skipped_alignment_records": 1,
+    "input_symbol_bytes": 2116,
+    "actual_first_sort": {
+      "segment": 1,
+      "count": 27,
+      "width": 8,
+      "pivot_exchange": [
+        0,
+        13
+      ],
+      "argument_rows": [
+        1,
+        0
+      ]
+    },
+    "complete_sort_result_unclaimed": true,
+    "own_uninitialized_address_stream_bytes_uncompared": 24,
+    "prior_name_stream_initialized_bytes": 564,
+    "prior_name_stream_own_unwritten_bytes_uncompared": 3532,
+    "ended_allocation_events": [
+      {
+        "kind": "checked",
+        "index": 1
+      },
+      {
+        "kind": "checked",
+        "index": 2
+      },
+      {
+        "kind": "checked",
+        "index": 295
+      },
+      {
+        "kind": "checked",
+        "index": 296
+      },
+      {
+        "kind": "checked",
+        "index": 298
+      },
+      {
+        "kind": "cleared",
+        "index": 0
+      },
+      {
+        "kind": "cleared",
+        "index": 2
+      },
+      {
+        "kind": "cleared",
+        "index": 7
+      },
+      {
+        "kind": "cleared",
+        "index": 8
+      },
+      {
+        "kind": "cleared",
+        "index": 14
+      },
+      {
+        "kind": "cleared",
+        "index": 107
+      },
+      {
+        "kind": "cleared",
+        "index": 108
+      },
+      {
+        "kind": "image",
+        "index": 0
+      },
+      {
+        "kind": "image",
+        "index": 1
+      },
+      {
+        "kind": "image",
+        "index": 2
+      },
+      {
+        "kind": "image",
+        "index": 3
+      }
+    ],
+    "historical_namehash_entry_checked_bound": 300,
+    "historical_namehash_entry_cleared_bound": 110,
+    "actual_ended_address_reuse": [
+      {
+        "side": "native",
+        "new_owner": 0,
+        "ended_sequence": 7,
+        "original_address": 1458048176,
+        "current_address": 1458049056
+      },
+      {
+        "side": "native",
+        "new_owner": 1,
+        "ended_sequence": 7,
+        "original_address": 1458048176,
+        "current_address": 1458049104
+      },
+      {
+        "side": "native",
+        "new_owner": 2,
+        "ended_sequence": 7,
+        "original_address": 1458048176,
+        "current_address": 1458049328
+      },
+      {
+        "side": "native",
+        "new_owner": 3,
+        "ended_sequence": 7,
+        "original_address": 1458048176,
+        "current_address": 1458049568
+      }
+    ],
+    "retired_payload_reinstalled": false,
+    "next_consumer": "compare_symbol_address(two initialized8B rows, actual live PublicSymbol owners)"
+  },
+  "review_packet": {
+    "path": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/generation-review.json",
+    "sha256": "980244cc169cfbedb25b5a935b752776198336b13abf769a3726a98655718147"
+  },
+  "parent_review": {
+    "path": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/parent-review.json",
+    "sha256": "4a5d1029142bc30642e681b53f61fffb56abd1a845a2a1fca9975c4cac3f6897"
+  },
+  "audit": {
+    "path": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/generation-review-audit/audit.json",
+    "sha256": "276b0f987c84b5615f1f1e77b0b1d1d16146fae7883ac23d2ef6a3df1c08e659"
+  },
+  "promotion": {
+    "path": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/promotion.json",
+    "sha256": "4c3cdbd26dd161080c0eeaa0149390aee4da1245968e406a5db70f794be27fba"
+  },
+  "original_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/original/receipt.json",
+    "sha256": "db5b9fc99ac96e0f3a322d71bd2f69ac0d421de1250a84c18f3285cda50b9016"
+  },
+  "native_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/native/receipt.json",
+    "sha256": "3ebf24155fd83bdd08508a66752e18999760376c99ccbf63c48632c6691f48ab"
+  },
+  "controls": {
+    "path": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/address-hash-checks.json",
+    "sha256": "8b4eee110bacae204eba0bacf68905612c8944580a9a1550365c87eae8531dbb"
+  },
+  "qsort_controls": {
+    "path": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/qsort-import-controls.json",
+    "sha256": "ac965c9bc2b1c09e33071e249c9788926bc8ac397dcf2808e32afb09c5c1c25e"
+  },
+  "probe_control_reuse": {
+    "path": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/reused-probe-controls.json",
+    "sha256": "fb5f152d014fff43b3749e4489f3bb6208d000f8089798d8d2b30284c982f80f"
+  },
+  "seconds": {
+    "capture": {
+      "original_capture": {
+        "seconds": 23.16868214122951,
+        "exit": 0
+      },
+      "native_capture": {
+        "seconds": 5.884061049669981,
+        "exit": 0
+      }
+    },
+    "native": {
+      "direct_execution": 0.01880257111042738,
+      "gdb_execution": 5.663010682910681,
+      "total": 5.8094431376084685
+    },
+    "affected_controls": 6.241968639194965,
+    "qsort_necessity": 0.2726019714027643,
+    "native_fixtures": {
+      "help": {
+        "preparation": 0.002466818317770958,
+        "execution": 0.00635810662060976,
+        "checks": 0.003065643832087517,
+        "total": 0.03413411322981119
+      },
+      "hello-debug-dll": {
+        "preparation": 0.0026255054399371147,
+        "execution": 5.9270631447434425,
+        "checks": 0.004947734996676445,
+        "total": 8.006002271547914
+      }
+    },
+    "build": {
+      "elapsed": null,
+      "qualification": "Original/native and original-only observer builds succeeded; retained build110.log/build110-observers.log. Separate elapsed build timing was not retained; do not infer it from capture timing."
+    }
+  },
+  "retained_diagnostics": [
+    "Preflight cached qsort import failure and duplicate-qualified-identity draft retained; final contract merges only EBX with inherited EDI.",
+    "tuple-versus-list-held.log retains checker container-type error; raw unchanged.",
+    "pre-review-generation-classifier retains original held packet/checker/control snapshots; exact generation classifier plus six new controls replaces broad ended-range containment. Raw unchanged.",
+    "Initial promotion shell redirect accidentally created an empty promotion.json before the controller could write its own proof. Controller refused invalid empty JSON before mutation; empty output removed and retried with separate promotion-command.log. Current promotion.json was written by the guarded controller."
+  ]
+}

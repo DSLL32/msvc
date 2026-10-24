@@ -7,7 +7,9 @@ def validate(config,data,original,native):
     def root(name):return int.from_bytes(original['memory'][rows[name]['original']],'little')
     def other(name):return int.from_bytes(bytes.fromhex(native['globals'][name]),'little')
     public_prefix=bool(config.get('observe_public_writer_prefix'))
-    if config.get('observe_name_hash_complete'):
+    if config.get('observe_address_hash'):
+        assert original['address']==0x40edc0 and original['stack'][0]==original['module_bases']['msvcrt.dll']+0x2551e and native['frontier_caller']=='recon_qsort','addresshash actual callback boundary differs'
+    elif config.get('observe_name_hash_complete'):
         assert original['address']==0x40ede0 and original['stack'][0]==0x40d68f and native['frontier_caller']=='write_publics','namehash completion next child differs'
     elif config.get('observe_name_hash'):
         assert original['address']==0x410010 and original['stack'][0]==0x40ebc0 and native['frontier_caller']=='build_symbol_name_hash','subsection next stream-init differs'
@@ -54,4 +56,4 @@ def validate(config,data,original,native):
         assert len(current)==840 and current==expected,'subsection current directory offsets/tail differ from actual calls'
     assert original['output_buffer_state']['bytes']==bytes.fromhex(native['output_buffer_state']['bytes'])==bytes(output),'subsection complete initialized output buffer differs'
     assert root('output_padding_size')==other('output_padding_size')==4,'subsection final shared padding count differs'
-    return dict(calls=58,actual_complete_cdecl_nonvolatile_source_inputs=True,source_initialized_bytes=input_bytes,alignment_bytes=alignment_bytes,initialized_output_prefix_bytes=len(output),own_unwritten_capacity_bytes=65512-len(output),rewritten_directory_rows=58,unchanged_initialized_tail_bytes=144,unwritten_directory_spare_bytes=72,sorted_pointer_history_separate_from_current_relative_offsets=True,next_consumer='build_symbol_address_hash' if config.get('observe_name_hash_complete') else 'fill_type_arena' if config.get('observe_name_hash') else 'build_symbol_name_hash' if config.get('observe_public_padding') else 'insert_symbol_page_padding' if public_prefix else 'write_publics(spare entry58,offset5056)')
+    return dict(calls=58,actual_complete_cdecl_nonvolatile_source_inputs=True,source_initialized_bytes=input_bytes,alignment_bytes=alignment_bytes,initialized_output_prefix_bytes=len(output),own_unwritten_capacity_bytes=65512-len(output),rewritten_directory_rows=58,unchanged_initialized_tail_bytes=144,unwritten_directory_spare_bytes=72,sorted_pointer_history_separate_from_current_relative_offsets=True,next_consumer='compare_symbol_address' if config.get('observe_address_hash') else 'build_symbol_address_hash' if config.get('observe_name_hash_complete') else 'fill_type_arena' if config.get('observe_name_hash') else 'build_symbol_name_hash' if config.get('observe_public_padding') else 'insert_symbol_page_padding' if public_prefix else 'write_publics(spare entry58,offset5056)')

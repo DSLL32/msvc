@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 264, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 234, in main
+    result = validate_pair(args.config, args.original, args.native,args.audit)
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 210, in validate_pair
+    typed = decoder.compare(config,json.loads((original_dir/'data.json').read_text()),events,state,
+        {name:(original_dir/('artifact-'+name)).read_bytes() for name in case['artifacts']},
+        dict(original={p.name:p.read_bytes() for p in original_dir.glob('events-view-*.bin')},
+             native={p.name:p.read_bytes() for p in native_dir.glob('native-view-*.bin')}))
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/raw-state.py", line 1540, in compare
+    if config.get('observe_address_hash'):address_hash_proof=address_hash_state.validate(config,data,original,native,address_hash_owners)
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/address-hash-state.py", line 95, in validate
+    assert original['stack'][1:3]==[old_roots[1]+8,old_roots[1]] and native['parameters']==dict(first=dict(segment=1,index=1,width=8),second=dict(segment=1,index=0,width=8)),'addresshash actual first comparator argument aliases differ'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: addresshash actual first comparator argument aliases differ

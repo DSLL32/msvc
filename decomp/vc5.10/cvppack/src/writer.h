@@ -24,6 +24,15 @@ typedef struct NameHashBucket {
     NameHashOverflow *overflow;
     NameHashPair entries[12];
 } NameHashBucket;
+typedef struct AddressHashEntry {
+    PublicSymbol *symbol;
+    unsigned stream_offset;
+} AddressHashEntry;
+typedef struct AddressHashGroup {
+    int count, written;
+    AddressHashEntry *entries;
+} AddressHashGroup;
+int __cdecl compare_symbol_address(const void *first, const void *second);
 unsigned char *fill_type_arena(TypeArena *arena, unsigned value, unsigned size);
 unsigned insert_symbol_page_padding(PublicSymbol **buckets, unsigned reserve);
 void build_symbol_name_hash(SymbolKeyProc key, unsigned short *method,

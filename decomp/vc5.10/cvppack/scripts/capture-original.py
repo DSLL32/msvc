@@ -127,6 +127,9 @@ def main():
     if config.get('observe_name_hash'):
         env['VC510_CVPACK_NAME_HASH']='1'
         env['VC510_CVPACK_PROBES']+=',40e9aa:namehash-malloc-call,40e9af:namehash-malloc-return,40e9e9:namehash-clear-call,40e9ee:namehash-clear-return,40eb0a:namehash-overflow-call,40eb0f:namehash-overflow-return,40eba0:namehash-init-call,40eba5:namehash-init-return,40ebb0:namehash-copy-call,40ebb5:namehash-copy-return,40ff9d:namehash-block-call,40ffa2:namehash-block-return,40ffaa:namehash-payload-call,40ffaf:namehash-payload-return'
+    if config.get('observe_address_hash'):
+        env['VC510_CVPACK_ADDRESS_HASH']='1'
+        env['VC510_CVPACK_PROBES']+=',40ee42:addresshash-group-call,40ee47:addresshash-group-return,40eeaf:addresshash-entries-call,40eeb4:addresshash-entries-return,40ef4b:addresshash-qsort-call'
     if config.get('observe_name_hash_complete'):
         env['VC510_CVPACK_NAME_HASH_COMPLETE']='1'
         env['VC510_CVPACK_PROBES']+=',40ec07:stream-copy-call,40ec0c:stream-copy-return,40ec60:stream-copy-call,40ec65:stream-copy-return,40ecdc:stream-copy-call,40ece1:stream-copy-return,40ed1d:stream-copy-call,40ed22:stream-copy-return,40ebbb:stream-fill-call,40ebc0:stream-fill-return,40ec6a:stream-fill-call,40ec6f:stream-fill-return,40ed87:namehash-free-call,40ed89:namehash-free-return,40ed97:namehash-free-call,40ed99:namehash-free-return,40eda8:namehash-free-call,40edaa:namehash-free-return'

@@ -21,8 +21,8 @@ def validate(config,data,original,native,objects):
     complete_sort=bool(config.get('observe_complete_directory_sort'))
     if complete_sort:
         public_prefix=bool(config.get('observe_public_writer_prefix'))
-        expected=(0x40ede0,0x40d68f) if config.get('observe_name_hash_complete') else (0x410010,0x40ebc0) if config.get('observe_name_hash') else (0x40e920,0x40d66a) if config.get('observe_public_padding') else (0x40f960,0x40d62f) if public_prefix else (0x40d600,0x406c5a) if config.get('observe_subsection_output') else (0x4068a0,0x406c17) if config.get('observe_output_buffer_init') else (0x4100e0,0x406b84)
-        assert (original['address'],original['stack'][0])==expected and native['frontier_caller']==('write_publics' if config.get('observe_name_hash_complete') else 'build_symbol_name_hash' if config.get('observe_name_hash') else 'write_publics' if public_prefix else 'flush_packed_file'),'complete sort unknown next consumer'
+        expected=(0x40edc0,original['module_bases']['msvcrt.dll']+0x2551e) if config.get('observe_address_hash') else (0x40ede0,0x40d68f) if config.get('observe_name_hash_complete') else (0x410010,0x40ebc0) if config.get('observe_name_hash') else (0x40e920,0x40d66a) if config.get('observe_public_padding') else (0x40f960,0x40d62f) if public_prefix else (0x40d600,0x406c5a) if config.get('observe_subsection_output') else (0x4068a0,0x406c17) if config.get('observe_output_buffer_init') else (0x4100e0,0x406b84)
+        assert (original['address'],original['stack'][0])==expected and native['frontier_caller']==('recon_qsort' if config.get('observe_address_hash') else 'write_publics' if config.get('observe_name_hash_complete') else 'build_symbol_name_hash' if config.get('observe_name_hash') else 'write_publics' if public_prefix else 'flush_packed_file'),'complete sort unknown next consumer'
     else:assert original['stack'][0]==original['module_bases']['msvcrt.dll']+0x2551e and native['frontier_caller']=='recon_qsort','output directory actual canonical qsort callback site differs'
     expected=[];actual=[];roles=[];seen=set();info=integer('module_list')
     while info:

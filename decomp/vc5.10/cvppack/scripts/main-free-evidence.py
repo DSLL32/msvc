@@ -147,6 +147,14 @@ def prove(config):
                             source_prefix[key]=row
                         source_prefix['name_hash_complete_validator_sha256']=sha(BINARY/'scripts/name-hash-complete-state.py')
 
+        if config.get('observe_address_hash'):
+            assert policy.get('address_hash') is True
+            row=policy['address_hash_prefix'];assert (row['start'],row['end'])==(0x40ede0,0x40ef4d)
+            body=pe.read(row['start'],row['end']-row['start']);assert hashlib.sha256(body).hexdigest()==row['sha256']
+            code=list(decoder.disasm(body,row['start']));assert sum(i.size for i in code)==len(body)
+            assert not any(i.mnemonic.startswith(('f','v','xsave','xrstor')) for i in code),'addresshash prefix rawFP consumer'
+            assert [(i.address,o.mem.disp,o.size) for i in code for o in i.operands if o.type==X86_OP_MEM and not o.mem.base and not o.mem.index]==[(0x40ef35,0x4161f4,4)],'addresshash prefix retired global consumer'
+            source_prefix['address_hash_prefix']=row;source_prefix['address_hash_validator_sha256']=sha(BINARY/'scripts/address-hash-state.py')
         if subsections:
             row=policy['subsection_writer'];assert (row['start'],row['end'])==(0x4068a0,0x4069da)
             assert hashlib.sha256(pe.read(row['start'],314)).hexdigest()==row['sha256']

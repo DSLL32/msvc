@@ -115,7 +115,8 @@
     "write_publics",
     "insert_symbol_page_padding",
     "build_symbol_name_hash",
-    "fill_type_arena"
+    "fill_type_arena",
+    "build_symbol_address_hash"
   ],
   "functions": [
     {
@@ -3849,8 +3850,11 @@
       "symbol": "_build_symbol_address_hash",
       "native_symbol": "build_symbol_address_hash",
       "original": 4255200,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4255200,
+        4255942
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3904,7 +3908,8 @@
           "nullable": false,
           "native_pointee_width": 4
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/promotion.json"
     },
     {
       "name": "first_hash_output_block",
@@ -3962,6 +3967,27 @@
         }
       ],
       "acceptance_proof": "cases/hello-debug-dll/evidence/0109-fill-name-stream/promotion.json"
+    },
+    {
+      "name": "compare_symbol_address",
+      "symbol": "_compare_symbol_address",
+      "native_symbol": "compare_symbol_address",
+      "original": 4255168,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "first",
+          "slot": 1,
+          "kind": "address-hash-entry"
+        },
+        {
+          "name": "second",
+          "slot": 2,
+          "kind": "address-hash-entry"
+        }
+      ]
     }
   ],
   "support_unmasked": [
@@ -4213,8 +4239,8 @@
   "observe_widen_release": true,
   "observe_main_frees": true,
   "main_free_policy": {
-    "path": "cases/hello-debug-dll/name-hash-complete-lifetimes.json",
-    "sha256": "2050bfe6e727a54d9285a5d40b3cc961a4eae2950121f2ecf7e9f10ff6b0192c"
+    "path": "cases/hello-debug-dll/address-hash-lifetimes.json",
+    "sha256": "b5e654943ae03ebb47af69ef3d5662e00249a550ca5dee47cc1ed8f705a52d3a"
   },
   "observe_widen_frees": true,
   "observe_derived_finalize_entry": false,
@@ -4228,5 +4254,6 @@
   "observe_public_writer_prefix": true,
   "observe_public_padding": true,
   "observe_name_hash": true,
-  "observe_name_hash_complete": true
+  "observe_name_hash_complete": true,
+  "observe_address_hash": true
 }

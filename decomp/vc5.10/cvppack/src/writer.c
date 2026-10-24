@@ -197,6 +197,73 @@ void build_symbol_name_hash(SymbolKeyProc key, unsigned short *method,
     for (page = 0; page < 10; ++page) free(overflow_pages[page]);
 }
 
+/* CodeView address hash, method 12 [0040ede0,0040f0c6). */
+void build_symbol_address_hash(unsigned short *method, unsigned *bytes,
+    TypeArena *stream, unsigned count, PublicSymbol **buckets)
+{
+    AddressHashGroup *groups, *group;
+    PublicSymbol *node;
+    unsigned short maximum_segment = 0;
+    unsigned absolute_count = 0, position = 0, offset;
+    unsigned bucket;
+    int segment, index;
+    if (!count) return;
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (node = buckets[bucket]; node; node = node->next) {
+            if (*(unsigned short *)(node->record + 2) != 0x402 && node->segment > maximum_segment)
+                maximum_segment = node->segment;
+        }
+    }
+    groups = allocate_cleared((unsigned)maximum_segment * sizeof(AddressHashGroup));
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (node = buckets[bucket]; node; node = node->next) {
+            if (*(unsigned short *)(node->record + 2) == 0x402) continue;
+            if (!node->segment) ++absolute_count;
+            else ++groups[node->segment - 1].count;
+        }
+    }
+    for (segment = 0; segment < maximum_segment; ++segment) {
+        if (groups[segment].count)
+            groups[segment].entries = allocate_cleared((unsigned)groups[segment].count * sizeof(AddressHashEntry));
+    }
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (node = buckets[bucket]; node; node = node->next) {
+            if (*(unsigned short *)(node->record + 2) != 0x402 && node->segment) {
+                group = &groups[node->segment - 1];
+                group->entries[group->written].symbol = node;
+                group->entries[group->written].stream_offset = position;
+                ++group->written;
+            }
+            position += *(unsigned short *)node->record + 2;
+        }
+    }
+    for (segment = 0; segment < maximum_segment; ++segment)
+        qsort(groups[segment].entries, groups[segment].count, sizeof(AddressHashEntry), compare_symbol_address);
+    initialize_arena(stream, 4096);
+    copy_type_arena(stream, (const unsigned char *)&maximum_segment, 2);
+    fill_type_arena(stream, 0, 2);
+    offset = 0;
+    for (segment = 0; segment < maximum_segment; ++segment) {
+        copy_type_arena(stream, (const unsigned char *)&offset, 4);
+        offset += groups[segment].count * 8;
+    }
+    for (segment = 0; segment < maximum_segment; ++segment) {
+        copy_type_arena(stream, (const unsigned char *)&groups[segment].count, 2);
+        fill_type_arena(stream, 0, 2);
+    }
+    for (segment = 0; segment < maximum_segment; ++segment) {
+        for (index = 0; index < groups[segment].count; ++index) {
+            copy_type_arena(stream, (const unsigned char *)&groups[segment].entries[index].stream_offset, 4);
+            copy_type_arena(stream, (const unsigned char *)&groups[segment].entries[index].symbol->offset, 4);
+        }
+    }
+    *method = 12;
+    *bytes = 4 + (count - absolute_count + maximum_segment) * 8;
+    for (segment = 0; segment < maximum_segment; ++segment)
+        if (groups[segment].entries) free(groups[segment].entries);
+    free(groups);
+}
+
 void write_publics(CodeViewDirectoryEntry *entry, unsigned offset)
 {
     SymbolHashHeader header;

@@ -6,6 +6,11 @@ def generations(original,native):
     old=original['name_hash_allocations'];new=native['name_hash_allocations']
     assert len(old)==len(new)==5,'namehash new generation inventory differs'
     checked=[];cleared=[];mapping={};sizes={}
+    limits=None
+    if original.get('address_hash_entry') or native.get('address_hash_entry'):
+        assert original.get('address_hash_entry') and native.get('address_hash_entry'),'missing actual addresshash event bound'
+        limits={kind:original['address_hash_entry'][kind+'_count'] for kind in ('checked','cleared')}
+        assert limits=={kind:native['address_hash_entry'][kind+'_count'] for kind in ('checked','cleared')},'namehash historical event bound differs'
     for index,(a,b) in enumerate(zip(old,new)):
         site=(0x40e9aa,0x40e9e9,0x40eb0a,0x40ff9d,0x40ffaa)[index];size=(4,624,65504,12,4096)[index];kind='checked' if index in (0,4) else 'cleared'
         assert a['site']==site and a['return_site']==site+5 and a['size']==b['size']==size and a['address'] and b['address'],'namehash actual allocator call/size/result differs'
@@ -13,7 +18,7 @@ def generations(original,native):
         assert a['after_frees']==b['after_frees']==12 and a['source_frees']==b['source_frees']==2,'namehash actual allocation generation ordering differs'
         assert a['entry_esp']==a['exit_esp'] and b['exit_esp']==b['entry_esp']+4,'namehash actual allocator cdecl return stack differs'
         assert len(a['before_nonvolatile'])==len(b['before_nonvolatile'])==4 and a['before_nonvolatile']==a['after_nonvolatile'] and b['before_nonvolatile']==b['after_nonvolatile'],'namehash actual allocator return registers differ'
-        records=original[kind+'_allocations'];partners=native[kind+'_allocations'];assert len(records)==len(partners),'namehash generic allocator inventory differs'
+        records=original[kind+'_allocations'][:limits[kind]] if limits else original[kind+'_allocations'];partners=native[kind+'_allocations'][:limits[kind]] if limits else native[kind+'_allocations'];assert len(records)==len(partners),'namehash generic allocator inventory differs'
         indices=[i for i,row in enumerate(partners) if row.get('context')=='build_symbol_name_hash']
         expected_index=(0,0,1,2,1)[index]
         assert len(indices)==(2 if kind=='checked' else 3),'namehash typed/generic allocator event inventory differs'
@@ -33,7 +38,7 @@ def generations(original,native):
             for other in fresh[index+1:]:
                 assert not max(base,other['address'])<min(base+size,other['address']+other['size']),'namehash new allocations overlap each other'
             for kind in ('image','checked','cleared','module','subsection'):
-                for ordinal,previous in enumerate(state[kind+'_allocations']):
+                for ordinal,previous in enumerate(state[kind+'_allocations'][:limits[kind]] if limits and kind in limits else state[kind+'_allocations']):
                     if kind=='checked' and ordinal in checked or kind=='cleared' and ordinal in cleared:continue
                     before,extent=previous['address'],previous['size']
                     # Identify source generations by native event owner+role and

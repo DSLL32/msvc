@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56624685 in compare_symbol_address (first=0x56e81058, second=0x56e81050) at src/stubs.c:74
+74	int __cdecl compare_symbol_address(const void *first, const void *second) { __asm { int 3 } return 0; }

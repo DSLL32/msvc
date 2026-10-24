@@ -1,0 +1,9 @@
+{
+  "review": "Finite canonical qsort ordinary-return EBX contract for address hash",
+  "packet_sha256": "18fec2d6faa5548164e364389ddf1d792d9e64ff06363aff07d9bbdd3c98b454",
+  "independent_bindings": "Target742B whole owner/load/call, canonical421B export ordinal674/RVA2543d, SDK, pending23B callback, inherited EDI witness and prior accepted actual events/receipt hashes verified",
+  "independent_semantics": "Canonical qsort savesEBX at7802544a and restores780254ed before soleRET0 at780254f4; all internal/callback calls rely only on known ordinary ABI. Whole body read, no recursive provider implementation proof. Pending typed cdecl2 comparator does not write EBX/EDI.",
+  "scope": "Add EBX only to existing qualified qsort preservation, one merged import identity; current exact register-call40ef4b. No callback schedule/pending body credit.",
+  "controls_recorded": "Same frozen positive report exact qsort+twofree sites/zero unknowns; removing EBX or substituting ESI rejects exact40ef4b.",
+  "release": "Finite static witness approved. Whole fresh original/native state/ownership/callback frontier and ordinary candidate acceptance still required before address-hash promotion."
+}
