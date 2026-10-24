@@ -1,0 +1,4 @@
+{
+  "status": "superseded-native-only",
+  "reason": "Correct direct-main startup selector was corrected during an already-running standalone make. Later incremental make did not invalidate the newer cached ELF; actual native baseline remains037f. Preserve this receipt and run forced native rebuild under stable STARTUP_CONTROLFP_53, then native-only recapture/re-audit against unchanged complete original. Generic sort-wrapper probe label also decoder-corrected to exact before/after records."
+}

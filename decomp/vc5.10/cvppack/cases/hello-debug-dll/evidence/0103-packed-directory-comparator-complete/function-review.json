@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "candidate": "compare_packed_directory_entries",
+  "accepted_functions": 103,
+  "application_extent_bytes": 33201,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 52.98426478567553,
+  "qualification": "Application extents / whole text including CRT/unknown/padding; not non-CRT or branch coverage.",
+  "source_extent": [
+    4219888,
+    4219995
+  ],
+  "associated_switch_bytes_total": 784,
+  "associated_callback_bytes_total": 324,
+  "support": {
+    "crt_bodies": 4,
+    "crt_extent_bytes": 400,
+    "import_thunks": 5,
+    "import_extent_bytes": 30
+  },
+  "next_frontier": "begin_buffered_output",
+  "fresh_pair": true,
+  "fresh_fullsort_controls": 28,
+  "fresh_guard_controls": 4,
+  "old28_reuse_qualification": "Original fresh28 retained; exact old069ae4 controller recovered/pinned and monotonic additional guard/report-only diff proves reuse for strengthened final predicate. No removed predicate; four new semantic controls +own whole-ST7 positive.",
+  "review_packet": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/comparator-review.json",
+    "sha256": "8af9e241c3323463a681d487cd2a8ddf717e9b8a5157f58038d7799cb137dd2c"
+  },
+  "guard_packet": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/empty-fp-review.json",
+    "sha256": "73f03942c4f40572b7f1c1ebff4598072a3ffea968fa4a6352dad4cdb0591dbd"
+  },
+  "parent_review": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/parent-review.json",
+    "sha256": "48af9a66a7f24435362b25f14537cbc042e11b85a9bb9c807cfec31a7215737b"
+  },
+  "audit": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/empty-fp-audit/audit.json",
+    "sha256": "7ed9c70737b29c1ca1fbd85c2ecf8112fd056182410adace1b8370fbef8b5a83"
+  },
+  "promotion": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/promotion.json",
+    "sha256": "2b9d5526c41bbd700dd44a6f85e4c791e1c5aecca7122ca68734a339b2480f6b"
+  },
+  "source_review": [
+    "Whole107B readable cdecl comparator prioritizes sstModule120, then compares unsigned module/subsection WORDs. No child calls, generated assembly or bulk data. Actual2pointer DWARF formal inventory, initialized12B row inputs, fullDWORD signed result, RET0 and EBX/ESI/EDI/EBP ordinary return preservation checked for all375 calls.",
+    "Canonical qsort/shortsort375callbacks have exactly matching order, per-call row indices/pointer-owned bytes/results and final840B initialized array. All58 active rows sorted, retained12row144Btail unchanged and72Bspare unobserved. Shared VC1-derived qsort happens to match actual canonicalVC5; this is actual complete5.10 evidence, no provider substitution or inferred schedule.",
+    "Actual canonicalCRT error access observed read-only: verified_errno/__doserrno9B leaves and relocatedgetptdTLSindex literal, actualFSselector/eventTEB/self/tid/TLSslot/PTD identity and initialized16B PTD prefix. errno/doserrno/LastError all0 throughout; no remote target helper calls or dependency reconstruction.",
+    "Raw112B original FloatSave and16raw native x87 registers preserved at wrapper and every callback. Known control/status/tag startup fields equal027f/0/ffff. Side-specific unused raw register payloads/selectors/transport fields retain own baseline; own-unusedST7positive proves no seeding from Windows.",
+    "New native direct-main startup53 selection consumes existing shared constructor only. Older native037f and incomplete first59callback attempt explicitly retained/not promoted. No shared source change or app credit for CRT qsort/errno/startup support."
+  ],
+  "finite_scope": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/empty-fp-scope.json",
+    "sha256": "546b5bd35128872307329911a759311219619ad3cf9774dc47413c2def37c94f"
+  },
+  "original_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/original/receipt.json",
+    "sha256": "444a3867f8ae3145fc57befe283d86fe880e6ba8bb776c880ac30ba9ef583d7a"
+  },
+  "native_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/native53/receipt.json",
+    "sha256": "93f6e81e4e970943d453c997b269da0a98ed2ae754d1ead080615d28904069da"
+  },
+  "seconds": {
+    "original_build": 0.04700665455311537,
+    "native_build_incremental": 0.03823372535407543,
+    "native_forced_rebuild": "passed; commands retained, elapsed not independently serialized",
+    "original_capture": {
+      "setup": 1.4838706273585558,
+      "execution": 20.338339403271675,
+      "total": 22.067546021193266
+    },
+    "native53_capture": {
+      "direct_execution": 0.01962835993617773,
+      "gdb_execution": 4.601059609092772,
+      "total": 4.738231660798192
+    },
+    "final_static_audit": 1.419043811969459,
+    "fresh_fullsort_controls": 37.9593832725659,
+    "fresh_guard_controls": 7.827198084443808,
+    "help_fixture": {
+      "preparation": 0.0025102151557803154,
+      "execution": 0.00372322928160429,
+      "checks": 0.00304355937987566,
+      "total": 0.015006591565907001
+    },
+    "debug_fixture": {
+      "preparation": 0.0025219954550266266,
+      "execution": 4.676359700039029,
+      "checks": 0.004969689063727856,
+      "total": 6.254929794929922
+    }
+  },
+  "fixture_build_qualification": "Direct native-only fixture scripts execute frozen prior approved native53 ELF0904f4; no relink/shared mbctolower WIP consumed. Fixture temporary capture source snapshots are bookkeeping, not replacement acceptance/build evidence. Both fixture traces/status/streams/complete artifact and typed state pass.",
+  "retained_limits": [
+    "0103-packed-directory-comparator: exact4B shortsort CALL requires return2560c; first59callback records then explicit observation failures. Incomplete raw never promoted.",
+    "Initial correct-complete native remained037f due selector edit during already-running make; stable forced native rebuild/source receipt native53 fixes it. Supersedednative/source-limit receipt retained.",
+    "Generic probe labels collided with custom sort-return/wrapper prefixes; decoder uses exactcustom formats. TLS index name initially shadowed frontier line index; renamed frontier_line_index, same raw revalidated."
+  ]
+}

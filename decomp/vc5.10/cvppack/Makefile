@@ -5,7 +5,7 @@ TOOL = $(PYTHON) scripts/wine-tool.py
 NATIVE_CC ?= clang
 NATIVE_CXX ?= clang++
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I$(RECON)/include -I$(RECON)/native -Isrc
 SOURCES = $(wildcard src/*.c)
 CPP_SOURCES = $(wildcard src/*.cpp)
 HEADERS = $(wildcard src/*.h)
@@ -56,7 +56,7 @@ build/native/driver.o: scripts/native-driver.c $(NATIVE_HEADERS) Makefile | buil
 build/native/CVPACK: $(NATIVE_OBJECTS) build/native/driver.o build/native/widen-factory-host.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) $(NATIVE_HOST) $(NATIVE_HOST_HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/native/driver.o build/native/widen-factory-host.o $(NATIVE_HOST) $(NATIVE_SHIMS) -o $@
 
-build/debug-run.obj: scripts/debug-run.c | build
+build/debug-run.obj: scripts/debug-run.c scripts/sort-observer.inc | build
 	$(TOOL) CL.EXE /nologo /c /MD /Od /W3 /Fo$@ $<
 
 build/debug-run.exe: build/debug-run.obj

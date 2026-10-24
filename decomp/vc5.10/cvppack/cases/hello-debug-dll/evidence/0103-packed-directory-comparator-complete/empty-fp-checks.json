@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "fresh_negative_count": 4,
+  "rejected": [
+    {
+      "name": "coherent-nonempty-st0-zero-tag",
+      "diagnostic": "sort inert empty x87 projection requires exact observed027f/zero-status/all-empty tags"
+    },
+    {
+      "name": "coherent-nonzero-status",
+      "diagnostic": "sort inert empty x87 projection requires exact observed027f/zero-status/all-empty tags"
+    },
+    {
+      "name": "coherent-wrong-control",
+      "diagnostic": "sort inert empty x87 projection requires exact observed027f/zero-status/all-empty tags"
+    },
+    {
+      "name": "changed-poststate-only-unused-ST7",
+      "diagnostic": "sort wrapper changed native error/x87 state"
+    }
+  ],
+  "consistent_own_empty_tag_ST7_positive": true,
+  "baseline": {
+    "callbacks": 375,
+    "complete_callback_input_result_stack_sequence": true,
+    "complete_initialized_postsort_bytes": 840,
+    "active_sorted_rows": 58,
+    "ordinary_callback_nonvolatile_registers": [
+      "ebx",
+      "esi",
+      "edi",
+      "ebp"
+    ],
+    "error_values": {
+      "errno": 0,
+      "doserrno": 0,
+      "last_error": 0
+    },
+    "actual_original_thread": {
+      "teb": 1073618944,
+      "tid": 2028,
+      "tls_index": 1,
+      "ptd": 9044224
+    },
+    "original_x87_control": 639,
+    "native_x87_control": 639,
+    "original_x87_status": 0,
+    "original_x87_tags": 65535,
+    "native_x87_status": 0,
+    "native_x87_tags": 65535,
+    "original_x87_raw_bytes": 112,
+    "native_x87_raw_registers": [
+      "fctrl",
+      "fioff",
+      "fiseg",
+      "fooff",
+      "fop",
+      "foseg",
+      "fstat",
+      "ftag",
+      "st0",
+      "st1",
+      "st2",
+      "st3",
+      "st4",
+      "st5",
+      "st6",
+      "st7"
+    ],
+    "x87_preserved_with_each_side_own_raw_baseline": true,
+    "inert_empty_payload_projection_scope": "hello-debug-dll integer sort through begin_buffered_output only; no reached FP-state consumer",
+    "all_eight_x87_tags_empty_throughout": true
+  },
+  "seconds": 7.827198084443808,
+  "old_controller": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/complete-sort-state-before-empty-guard.py",
+    "sha256": "069ae4d288ddcc897435f57ba4cbd132a414bc75fa3395d32c0941f7ab730b33"
+  },
+  "monotonic_guard_delta": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/empty-fp-guard.diff",
+    "sha256": "20aa4f9c098feca90cfe54a198b6c814dcd5181481920b5c5e160a6ce3474bd3"
+  },
+  "checker_sha256": "53af625b50a52a0276ca378695b5bd57c62fffc9464624f8d6e2898d846d9c68",
+  "validator_sha256": "4dbc3a10d18fa663a4a6f6a531b007860a3de7b5386363525561d946c2ddf07d",
+  "decoder_sha256": "4eab486d6923cb68dcb1f3bc204f0e8438bfbe59f7a2f5b4a625ac95074f1639",
+  "original_receipt_sha256": "444a3867f8ae3145fc57befe283d86fe880e6ba8bb776c880ac30ba9ef583d7a",
+  "native_receipt_sha256": "93f6e81e4e970943d453c997b269da0a98ed2ae754d1ead080615d28904069da",
+  "reused": {
+    "path": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/sort-checks.json",
+    "sha256": "8405ad0f3a4146a686d16371855c7d7c5f16cf50d722570760bddb1e043a0055",
+    "scope": "28 old controls reused under monotonic guard-only controller refinement: exact old controller069ae4 recovered/hash-verified; delta adds only exact empty-FP assertion/report fields and scope documentation, removes no old predicate. Captures/checker/target source unchanged. Four fresh semantic controls; no original/native execution."
+  }
+}

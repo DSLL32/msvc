@@ -1,0 +1,4 @@
+{
+  "status": "not-promoted",
+  "reason": "Actual fullsort observation caught shortsort callback returnpc+2560c (4B indirectCALL), not predicted+2560f. First59 actual callbacks captured, later observations explicitlyfailed; corrected exact allowedsite requires completefreshcapture. Native initial x87control037f differs actualcanonical027f; enabling existing shared native-entry53-bit profile, no appsource workaround or new shim."
+}

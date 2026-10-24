@@ -1,6 +1,7 @@
 """GDB-side typed state capture, copied into each raw native evidence directory."""
 import json
 import struct
+import re
 import os
 import stat
 import hashlib
@@ -28,6 +29,9 @@ source_family_allocations=[]
 source_family_frees=[]
 output_directory_before={}
 output_directory_sort={}
+output_directory_complete={}
+sort_calls=[]
+sort_environments={}
 lookup_calls=[]
 lookup_stack=[]
 type_compare_calls=[]
@@ -205,6 +209,45 @@ def install(configuration):
             AllocationReturned(record);return False
     AllocationEntered()
 
+    def sort_environment():
+        selected={};names={'st'+str(i) for i in range(8)}|{'fctrl','fstat','ftag','fiseg','fioff','foseg','fooff','fop'}
+        for line in gdb.execute('maintenance print raw-registers',to_string=True).splitlines():
+            fields=line.split()
+            if fields and fields[0] in names:
+                assert len(fields)==7 and fields[-1].startswith('0x'),'unavailable native raw x87 register'
+                selected[fields[0]]=fields[-1]
+        assert set(selected)==names,'incomplete native raw x87 state'
+        return dict(errno=int(gdb.parse_and_eval('(int)errno')),doserrno=int(gdb.parse_and_eval('recon_doserrno')),last_error=int(gdb.parse_and_eval("'win32.c'::last_error")),
+            errno_address=int(gdb.parse_and_eval('&errno')),doserrno_address=int(gdb.parse_and_eval('&recon_doserrno')),last_error_address=int(gdb.parse_and_eval("&'win32.c'::last_error")),fp=selected,nonvolatile=[int(gdb.parse_and_eval('$'+name))&0xffffffff for name in ['ebx','esi','edi','ebp']])
+
+    if config.get('observe_complete_directory_sort'):
+        class CompareReturned(gdb.FinishBreakpoint):
+            def __init__(self,record):
+                self.record=record
+                super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                self.record.update(result=int(self.return_value),exit_esp=int(gdb.parse_and_eval('$esp')),after=sort_environment())
+                return False
+        class CompareEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('*compare_packed_directory_entries',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();parent=frame.older()
+                assert parent is not None and parent.name()=='recon_qsort' and len(sort_calls)<4096,'unmodeled comparator callback owner/count'
+                block=frame.block()
+                while block is not None and block.function is None:block=block.superblock
+                formals={symbol.name:symbol.type.strip_typedefs() for symbol in block if symbol.is_argument}
+                assert set(formals)=={'first','second'} and all(value.code==gdb.TYPE_CODE_PTR and value.sizeof==4 and value.target().strip_typedefs().code==gdb.TYPE_CODE_VOID for value in formals.values()),'sort actual DWARF comparator ABI differs'
+                stack=int(gdb.parse_and_eval('$esp'));args=struct.unpack('<3I',bytes(gdb.selected_inferior().read_memory(stack,12)));root=int(gdb.parse_and_eval('directory_entries'));count=int(gdb.parse_and_eval('directory_count'))
+                assert all(root<=value<root+count*12 and (value-root)%12==0 for value in args[1:]),'sort callback argument outside initialized active array'
+                record=dict(sequence=len(sort_calls),entry_esp=stack,return_pc=args[0],first=args[1],second=args[2],records=(bytes(gdb.selected_inferior().read_memory(args[1],12))+bytes(gdb.selected_inferior().read_memory(args[2],12))).hex(),before=sort_environment(),formal_inventory={name:str(value) for name,value in formals.items()})
+                sort_calls.append(record);CompareReturned(record);return False
+        CompareEntered()
+        class DirectorySortReturned(gdb.FinishBreakpoint):
+            def stop(self):
+                root=int(gdb.parse_and_eval('directory_entries'));output_directory_complete.update(address=root,count=int(gdb.parse_and_eval('directory_count')),capacity=directory_allocation['size'],bytes=bytes(gdb.selected_inferior().read_memory(root,output_directory_before['count']*12)).hex(),exit_esp=int(gdb.parse_and_eval('$esp')))
+                sort_environments['after']=sort_environment()
+                return False
+
     if config.get('observe_output_directory'):
         class DirectoryBefore(gdb.Breakpoint):
             def __init__(self):super().__init__('*flush_packed_file',internal=True)
@@ -224,6 +267,9 @@ def install(configuration):
                 stack=int(gdb.parse_and_eval('$esp'));args=struct.unpack('<4I',bytes(gdb.selected_inferior().read_memory(stack+4,16)))
                 assert args[0]==int(gdb.parse_and_eval('directory_entries')) and args[1]==int(gdb.parse_and_eval('directory_count')) and args[2]==12 and args[3]==int(gdb.parse_and_eval('&compare_packed_directory_entries')),'directory native qsort complete arguments differ'
                 output_directory_sort.update(address=args[0],count=args[1],capacity=directory_allocation['size'],width=args[2],callback=args[3],bytes=bytes(gdb.selected_inferior().read_memory(args[0],output_directory_before['count']*12)).hex())
+                if config.get('observe_complete_directory_sort'):
+                    output_directory_sort['entry_esp']=stack
+                    sort_environments['before']=sort_environment();DirectorySortReturned(gdb.newest_frame(),internal=True)
                 return False
         DirectorySort()
 
@@ -735,6 +781,9 @@ def capture(configuration,data_file,output):
     state['source_family_frees']=source_family_frees
     state['directory_before_writer']=output_directory_before
     state['directory_sort_input']=output_directory_sort
+    state['directory_sort_complete']=output_directory_complete
+    state['sort_calls']=sort_calls
+    state['sort_environments']=sort_environments
     if config.get('observe_source_index_complete'):
         assert len(source_family_allocations)==3 and len(source_family_frees)==2 and all(row.get('returned') for row in source_family_frees),'source family completion inventory differs'
         allocation=source_family_allocations[2];address=int(gdb.parse_and_eval('source_file_index'));size=int(gdb.parse_and_eval('source_file_index_size'))

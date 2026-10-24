@@ -16,7 +16,9 @@ static DWORD probe_sites[128] = { 0x407667, 0x407669, 0x407641, 0x407647, 0x4076
 static char probe_names[128][64] = { "resource-call", "resource-return", "getproc-call", "getproc-return", "loadlibrary-call", "loadlibrary-return" };
 static unsigned char probe_bytes[128];
 static unsigned probe_count = 6;
-static DWORD active_teb;
+static DWORD active_teb, active_thread_id, loaded_crt_base;
+static HANDLE active_thread;
+static int complete_sort_mode;
 static int probes_enabled, pending_probe = -1;
 static DWORD watched_address[256], watched_size[256], watch_count;
 static DWORD argument_entry[64], argument_slot[64], argument_count;
@@ -51,6 +53,7 @@ static void configure(void)
 {
     char *value, *next;
     output_directory_mode = getenv("VC510_CVPACK_OUTPUT_DIRECTORY") != NULL;
+    complete_sort_mode = getenv("VC510_CVPACK_COMPLETE_SORT") != NULL;
     value = getenv("VC510_CVPACK_DATA");
     while (value && *value && watch_count < 256) {
         if (sscanf(value, "%lx:%lu", &watched_address[watch_count], &watched_size[watch_count]) != 2) break;
@@ -113,6 +116,8 @@ static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size)
     DWORD actual;
     return ReadProcessMemory(process, (void *)address, data, size, &actual) && actual == size;
 }
+
+#include "sort-observer.inc"
 
 /* Saved PRE-free typed roots may identify still-live child nodes. This observer
  * never fetches a released table from the child or logs it as current memory. */
@@ -316,6 +321,11 @@ static void widen_state(FILE *log, HANDLE process, CONTEXT *context, DWORD site)
 static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int full_graphs)
 {
     DWORD i, j, value, count, item;
+    if (complete_sort_mode && (entry == 0x4063f4 || entry == 0x406418 || entry == 0x40642c ||
+        entry == 0x40643e || entry == 0x406447 || entry == 0x406454 || entry == 0x40645a)) {
+        sort_callback(log, process, context, entry);
+        return;
+    }
     fprintf(log, "registers %08lx %08lx %08lx %08lx %08lx %08lx %08lx %08lx\n",
             context->Eax, context->Ebx, context->Ecx, context->Edx,
             context->Esi, context->Edi, context->Ebp, context->Esp);
@@ -719,7 +729,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         fprintf(log, "source-family-free-return %08lx %08lx\n", entry, context->Esp);
         ++source_family_frees;
     }
-    if ((entry == 0x4069e0 || (output_directory_mode && entry == 0x4063f0)) && full_graphs) {
+    if ((entry == 0x4069e0 || (output_directory_mode && entry == 0x4063f0) || (complete_sort_mode && entry == 0x4100e0)) && full_graphs) {
         DWORD pointer, size, k;
         unsigned char *bytes;
         if (source_family_count != 3 || source_family_frees != 2 ||
@@ -760,7 +770,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         fputc('\n', log);
         free(bytes);
     }
-    if (output_directory_mode && (entry == 0x4069e0 || entry == 0x406b34)) {
+    if (output_directory_mode && (entry == 0x4069e0 || entry == 0x406b34 || (complete_sort_mode && entry == 0x406b3a))) {
         DWORD address, count, arguments[4], size, k;
         unsigned char *bytes;
         if (!read_bytes(process, 0x4153b8, &address, 4) || !read_bytes(process, 0x415640, &count, 4) ||
@@ -773,9 +783,14 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         if (entry == 0x406b34) fprintf(log, "directory-qsort-arguments %08lx %lu %lu %08lx\n", arguments[0], arguments[1], arguments[2], arguments[3]);
         bytes = malloc(size);
         if (!bytes || !read_bytes(process, address, bytes, size)) { free(bytes); fprintf(log, "output-directory-observation-failed\n"); return; }
-        fprintf(log, "%s %08lx %lu %lu ", entry == 0x4069e0 ? "directory-before-writer" : "directory-qsort-input", address, count, directory_capacity);
+        fprintf(log, "%s %08lx %lu %lu ", entry == 0x4069e0 ? "directory-before-writer" : entry == 0x406b34 ? "directory-qsort-input" : "directory-qsort-complete", address, count, directory_capacity);
         for (k = 0; k < size; ++k) fprintf(log, "%02x", bytes[k]);
         fprintf(log, "\n"); free(bytes);
+    }
+    if (complete_sort_mode && (entry == 0x406b34 || entry == 0x406b3a)) {
+        if (entry == 0x406b3a && (sort_inflight || !sort_sequence)) fprintf(log, "sort-observation-failed\n");
+        fprintf(log, "sort-wrapper-%s %08lx %lu\n", entry == 0x406b34 ? "before" : "after", context->Esp, sort_sequence);
+        sort_environment(log, process, context, entry == 0x406b34 ? "before" : "after");
     }
     widen_state(log, process, context, entry);
 }
@@ -803,6 +818,7 @@ static int module(FILE *log, HANDLE process, LOAD_DLL_DEBUG_INFO *info, const ch
         name[sizeof(name)-1] = 0;
     }
     fprintf(log, "module %08lx %s\n", base, name);
+    if (!_stricmp(name, "MSVCRT.dll")) loaded_crt_base = base;
     if (_stricmp(name, "MSVCRT.dll")) {
         if (_stricmp(name, "mspdb50.dll") || !getenv("VC510_CVPACK_PDB_PROVIDER")) return 1;
         provider = getenv("VC510_CVPACK_PDB_PROVIDER");
@@ -903,9 +919,10 @@ int main(int argc, char **argv)
             thread = NULL;
             for (i = 0; i < thread_count; ++i) if (thread_ids[i] == event.dwThreadId) {
                 thread = threads[i]; active_teb = thread_tebs[i];
+                active_thread = thread; active_thread_id = event.dwThreadId;
             }
             memset(&context, 0, sizeof(context));
-            context.ContextFlags = CONTEXT_FULL;
+            context.ContextFlags = CONTEXT_FULL | (complete_sort_mode ? CONTEXT_FLOATING_POINT : 0);
             if (!thread || !GetThreadContext(thread, &context)) return 94;
             if (status == EXCEPTION_SINGLE_STEP && pending_probe >= 0) {
                 context.EFlags &= ~0x100;

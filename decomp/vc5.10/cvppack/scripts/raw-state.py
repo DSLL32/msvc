@@ -11,7 +11,7 @@ def decode(events):
     frontiers = [(index,int(line.split()[1],16)) for index,line in enumerate(lines)
                  if re.fullmatch(r'frontier [0-9a-f]{8}',line)]
     assert len(frontiers) == 1, 'expected one raw original frontier'
-    index,address = frontiers[0]
+    frontier_line_index,address = frontiers[0]
     memory,strings = {},{}
     file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[];image_allocations=[];checked_allocations=[];module_allocations=[];cleared_allocations=[]
     for line in lines:
@@ -79,7 +79,7 @@ def decode(events):
             all_strings[int(location,16)]=raw
     for call in file_calls:call['pathname']=all_strings[call.pop('pointer')]
 
-    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];main_free_calls=[];source_index_allocations=[];source_index_module=None;source_family_allocations=[];source_family_frees=[];source_family_output=None;directory_before_writer={};directory_sort_input={};probe_observed={};widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
+    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];main_free_calls=[];source_index_allocations=[];source_index_module=None;source_family_allocations=[];source_family_frees=[];source_family_output=None;directory_before_writer={};directory_sort_input={};directory_sort_complete={};sort_calls=[];sort_environments={};sort_crt_abi=None;sort_wrapper={};probe_observed={};widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
     for ordinal,line in enumerate(lines):
         if line.startswith('file-read-call '):widen_read_count+=1
         if line.startswith('module '):
@@ -91,15 +91,43 @@ def decode(events):
             _,probe_address,contents=line.split()
             probe_observed[int(probe_address,16)]=bytes.fromhex(contents)
             if int(probe_address,16)==probe_regs[-1]:probe_stack=bytes.fromhex(contents)
+        elif line.startswith('sort-crt-abi '):
+            _,base,payload=line.split();assert sort_crt_abi is None,'duplicate sort CRT ABI observation';sort_crt_abi=dict(base=int(base,16),bytes=bytes.fromhex(payload))
+        elif line.startswith(('sort-wrapper-before ','sort-wrapper-after ')):
+            phase,esp,count=line.split();phase=phase.removeprefix('sort-wrapper-');assert phase in ('before','after') and phase not in sort_wrapper
+            sort_wrapper[phase]=dict(esp=int(esp,16),calls=int(count))
+        elif line.startswith('sort-callback-call '):
+            _,sequence,esp,return_pc,first,second,payload=line.split();assert int(sequence)==len(sort_calls) and (not sort_calls or 'result' in sort_calls[-1]),'sort callback entry sequence differs'
+            sort_calls.append(dict(sequence=int(sequence),entry_esp=int(esp,16),return_pc=int(return_pc,16),first=int(first,16),second=int(second,16),records=bytes.fromhex(payload)))
+        elif line.startswith('sort-callback-return ') and ' eax ' not in line:
+            _,sequence,esp,return_pc,result=line.split();assert sort_calls and int(sequence)==sort_calls[-1]['sequence'] and 'result' not in sort_calls[-1],'sort callback return sequence differs'
+            sort_calls[-1].update(exit_esp=int(esp,16),return_pc_after=int(return_pc,16),result=int(result))
+        elif line.startswith(('sort-errors ','sort-fp ','sort-registers ')):
+            fields=line.split();kind,phase=fields[:2];assert phase in ('before','entry','return','after'),'unmodeled sort observation phase'
+            if phase in ('entry','return'):
+                assert sort_calls and (phase=='entry' or 'result' in sort_calls[-1]),'sort callback state out of order'
+                target=sort_calls[-1].setdefault('before' if phase=='entry' else 'after',{})
+            else:target=sort_environments.setdefault(phase,{})
+            if kind=='sort-errors':
+                assert 'raw_errors' not in target,'duplicate sort error observation'
+                _,_,teb,tid,index,slot,ptd,payload=fields
+                target.update(teb=int(teb,16),tid=int(tid),tls_index=int(index),tls_slot=int(slot,16),ptd=int(ptd,16),raw_errors=bytes.fromhex(payload))
+            elif kind=='sort-fp':
+                assert 'fp' not in target,'duplicate sort FP observation';target['fp']=bytes.fromhex(fields[2])
+            else:
+                assert 'nonvolatile' not in target,'duplicate sort register observation';target['nonvolatile']=[int(value,16) for value in fields[2:]]
+        elif line=='sort-observation-failed':raise AssertionError('incomplete sort callback/error/FP observation')
         elif line.startswith('directory-qsort-arguments '):
             _,location,count,width,callback=line.split();assert not directory_sort_input,'qsort arguments out of order'
             directory_sort_input=dict(address=int(location,16),count=int(count),width=int(width),callback=int(callback,16))
-        elif line.startswith(('directory-before-writer ','directory-qsort-input ')):
+        elif line.startswith(('directory-before-writer ','directory-qsort-input ','directory-qsort-complete ')):
             tag,location,count,capacity,payload=line.split();record=dict(address=int(location,16),count=int(count),capacity=int(capacity),bytes=bytes.fromhex(payload))
             if tag=='directory-before-writer':
                 assert not directory_before_writer,'duplicate before-writer directory observation';directory_before_writer=record
-            else:
+            elif tag=='directory-qsort-input':
                 assert directory_sort_input and 'bytes' not in directory_sort_input and directory_sort_input['address']==record['address'] and directory_sort_input['count']==record['count'],'directory qsort actual argument/input differs';directory_sort_input.update(record)
+            else:
+                assert not directory_sort_complete,'duplicate complete sort observation';directory_sort_complete=record
         elif line=='output-directory-observation-failed':raise AssertionError('incomplete output directory observation')
         elif line.startswith('source-family-allocation-call '):
             _,site,size,ended=line.split();assert int(ended)==len(main_free_calls)==12 and all('exit_esp' in row for row in main_free_calls),'source family allocation before prior free returns'
@@ -233,7 +261,7 @@ def decode(events):
             lookup_stack.pop().update(result=int(result,16),output=int(output,16))
 
     registers = None
-    for line in lines[index+1:]:
+    for line in lines[frontier_line_index+1:]:
         if line.startswith('registers '):
             registers = [int(value,16) for value in line.split()[1:]]
         elif line.startswith('memory '):
@@ -257,7 +285,7 @@ def decode(events):
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 

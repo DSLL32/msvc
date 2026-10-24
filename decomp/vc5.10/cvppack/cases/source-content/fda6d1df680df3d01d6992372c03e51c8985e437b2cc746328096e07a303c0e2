@@ -1,0 +1,80 @@
+/* Target-specific, read-only canonical CRT error/x87 and callback observer.
+ * This code runs in the original-reference debugger, never in the target. */
+static DWORD sort_sequence, sort_inflight, sort_callback_esp, sort_callback_return;
+static int sort_crt_observed;
+
+static int sort_environment(FILE *log, HANDLE process, CONTEXT *context, const char *phase)
+{
+    LDT_ENTRY selector;
+    DWORD teb, tls_slot, tls_index, ptd, values[8], i;
+    unsigned char code[22];
+    if (!loaded_crt_base || !active_thread ||
+        !GetThreadSelectorEntry(active_thread, context->SegFs, &selector)) goto failed;
+    teb = selector.BaseLow | ((DWORD)selector.HighWord.Bytes.BaseMid << 16) |
+        ((DWORD)selector.HighWord.Bytes.BaseHi << 24);
+    if (teb != active_teb ||
+        !read_bytes(process, loaded_crt_base + 0x6436, code, 9) ||
+        !read_bytes(process, loaded_crt_base + 0x642d, code + 9, 9) ||
+        !read_bytes(process, loaded_crt_base + 0x15ce, code + 18, 4) ||
+        memcmp(code, "\xe8\x88\xb1\xff\xff\x83\xc0\x08\xc3", 9) ||
+        memcmp(code + 9, "\xe8\x91\xb1\xff\xff\x83\xc0\x0c\xc3", 9)) goto failed;
+    memcpy(&tls_slot, code + 18, 4);
+    if (tls_slot != loaded_crt_base + 0x3d004 ||
+        !read_bytes(process, tls_slot, &tls_index, 4) || tls_index >= 64 ||
+        !read_bytes(process, teb + 0xe10 + tls_index * 4, &ptd, 4) || !ptd ||
+        !read_bytes(process, teb + 0x18, values, 4) ||
+        !read_bytes(process, teb + 0x24, values + 1, 4) ||
+        !read_bytes(process, teb + 0x34, values + 2, 4) ||
+        !read_bytes(process, ptd, values + 4, 16)) goto failed;
+    values[3] = ptd;
+    if (values[0] != teb || values[1] != active_thread_id || values[4] != active_thread_id) goto failed;
+    if (!sort_crt_observed) {
+        fprintf(log, "sort-crt-abi %08lx ", loaded_crt_base);
+        for (i = 0; i < sizeof(code); ++i) fprintf(log, "%02x", code[i]);
+        fputc('\n', log); sort_crt_observed = 1;
+    }
+    fprintf(log, "sort-errors %s %08lx %lu %lu %08lx %08lx ", phase, teb,
+        active_thread_id, tls_index, tls_slot, ptd);
+    for (i = 0; i < sizeof(values); ++i) fprintf(log, "%02x", ((unsigned char *)values)[i]);
+    fputc('\n', log);
+    fprintf(log, "sort-registers %s %08lx %08lx %08lx %08lx\n", phase,
+        context->Ebx, context->Esi, context->Edi, context->Ebp);
+    fprintf(log, "sort-fp %s ", phase);
+    for (i = 0; i < sizeof(context->FloatSave); ++i)
+        fprintf(log, "%02x", ((unsigned char *)&context->FloatSave)[i]);
+    fputc('\n', log);
+    return 1;
+failed:
+    fprintf(log, "sort-observation-failed\n");
+    return 0;
+}
+
+static void sort_callback(FILE *log, HANDLE process, CONTEXT *context, DWORD entry)
+{
+    DWORD args[3], i;
+    unsigned char records[24];
+    if (entry == 0x4063f4) {
+        if (sort_inflight || sort_sequence >= 4096 ||
+            !read_bytes(process, context->Esp, args, sizeof(args)) ||
+            (args[0] != loaded_crt_base + 0x2551e && args[0] != loaded_crt_base + 0x25534 &&
+             args[0] != loaded_crt_base + 0x2560f) ||
+            !read_bytes(process, args[1], records, 12) ||
+            !read_bytes(process, args[2], records + 12, 12)) goto failed;
+        sort_inflight = 1; sort_callback_esp = context->Esp; sort_callback_return = args[0];
+        fprintf(log, "sort-callback-call %lu %08lx %08lx %08lx %08lx ", sort_sequence,
+            context->Esp, args[0], args[1], args[2]);
+        for (i = 0; i < sizeof(records); ++i) fprintf(log, "%02x", records[i]);
+        fputc('\n', log);
+        sort_environment(log, process, context, "entry");
+    } else {
+        if (!sort_inflight || context->Esp != sort_callback_esp ||
+            !read_bytes(process, context->Esp, args, 4) || args[0] != sort_callback_return) goto failed;
+        fprintf(log, "sort-callback-return %lu %08lx %08lx %ld\n", sort_sequence,
+            context->Esp, args[0], (LONG)context->Eax);
+        sort_environment(log, process, context, "return");
+        sort_inflight = 0; ++sort_sequence;
+    }
+    return;
+failed:
+    fprintf(log, "sort-observation-failed\n");
+}

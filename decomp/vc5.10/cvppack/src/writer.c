@@ -22,6 +22,21 @@ unsigned total_packed_source_bytes, packed_file_length;
     } else (result_) = buffered_write(input_, count_); \
 } while (0)
 
+/* Sort module records first, then unsigned module/subsection order.
+ * [004063f0,0040645b), ordinary cdecl comparator. */
+int __cdecl compare_packed_directory_entries(const void *first, const void *second)
+{
+    const CodeViewDirectoryEntry *a = first, *b = second;
+    if (a->subsection == 0x120 || b->subsection == 0x120) {
+        if (a->subsection != 0x120) return 1;
+        if (b->subsection != 0x120) return -1;
+    }
+    if (a->module < b->module) return -1;
+    if (a->module > b->module) return 1;
+    if (a->subsection < b->subsection) return -1;
+    return a->subsection > b->subsection;
+}
+
 void flush_packed_file(void)
 {
     ModuleInfo *info;

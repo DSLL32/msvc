@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0102-packed-file-writer-sort/original",
-  "reference_receipt_sha256": "56b541b61be6cfbce3da518ee0cd6f29195b51e11f59812582aa113f7f1491c2",
+  "reference": "cases/hello-debug-dll/evidence/0103-packed-directory-comparator-complete/original",
+  "reference_receipt_sha256": "444a3867f8ae3145fc57befe283d86fe880e6ba8bb776c880ac30ba9ef583d7a",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -108,6 +108,7 @@
     "build_source_file_index",
     "append_source_name",
     "flush_packed_file",
-    "compare_packed_directory_entries"
+    "compare_packed_directory_entries",
+    "begin_buffered_output"
   ]
 }

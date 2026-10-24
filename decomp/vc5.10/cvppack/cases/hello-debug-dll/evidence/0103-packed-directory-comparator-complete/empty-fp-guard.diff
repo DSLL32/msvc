@@ -1,0 +1,21 @@
+--- old-controller
++++ current-controller
+@@ -1,4 +1,10 @@
+-"""Full canonical qsort callback/return/array/error/x87 evidence for this case."""
++"""Full canonical qsort callback/return/array/error/x87 evidence for this case.
++
++Only the hello-debug-dll integer sort through begin_buffered_output permits
++cross-platform unused-register payload differences. All eight tags must stay
++empty, status zero and control027f; each side still preserves its full own raw
++baseline. This is not a general CL/CRT or live-x87 compatibility rule.
++"""
+ import struct
+ import re
+ 
+@@ -60,4 +66,5 @@
+     assert control==native_control,'native startup x87 control differs from canonical CRT baseline'
+     original_status,original_tags=[struct.unpack('<I',before['fp'][offset:offset+4])[0]&0xffff for offset in (4,8)]
+     assert original_status==(int(native_before['fp']['fstat'],16)&0xffff) and original_tags==(int(native_before['fp']['ftag'],16)&0xffff),'native startup x87 status/tags differ from canonical CRT baseline'
+-    return dict(callbacks=len(old),complete_callback_input_result_stack_sequence=True,complete_initialized_postsort_bytes=840,active_sorted_rows=58,ordinary_callback_nonvolatile_registers=['ebx','esi','edi','ebp'],error_values=dict(errno=errors[0],doserrno=errors[1],last_error=errors[2]),actual_original_thread=dict(teb=before['teb'],tid=before['tid'],tls_index=before['tls_index'],ptd=before['ptd']),original_x87_control=control,native_x87_control=native_control,original_x87_status=original_status,original_x87_tags=original_tags,native_x87_status=int(native_before['fp']['fstat'],16)&0xffff,native_x87_tags=int(native_before['fp']['ftag'],16)&0xffff,original_x87_raw_bytes=112,native_x87_raw_registers=sorted(native_before['fp']),x87_preserved_with_each_side_own_raw_baseline=True)
++    assert control==0x027f and original_status==0 and original_tags==0xffff,'sort inert empty x87 projection requires exact observed027f/zero-status/all-empty tags'
++    return dict(callbacks=len(old),complete_callback_input_result_stack_sequence=True,complete_initialized_postsort_bytes=840,active_sorted_rows=58,ordinary_callback_nonvolatile_registers=['ebx','esi','edi','ebp'],error_values=dict(errno=errors[0],doserrno=errors[1],last_error=errors[2]),actual_original_thread=dict(teb=before['teb'],tid=before['tid'],tls_index=before['tls_index'],ptd=before['ptd']),original_x87_control=control,native_x87_control=native_control,original_x87_status=original_status,original_x87_tags=original_tags,native_x87_status=int(native_before['fp']['fstat'],16)&0xffff,native_x87_tags=int(native_before['fp']['ftag'],16)&0xffff,original_x87_raw_bytes=112,native_x87_raw_registers=sorted(native_before['fp']),x87_preserved_with_each_side_own_raw_baseline=True,inert_empty_payload_projection_scope='hello-debug-dll integer sort through begin_buffered_output only; no reached FP-state consumer',all_eight_x87_tags_empty_throughout=True)

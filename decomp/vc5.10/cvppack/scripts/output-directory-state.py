@@ -4,6 +4,8 @@ The initialized70-row input history remains separate from current58 active rows
 and their unchanged12-row tail. Six allocation spare rows remain unwritten.
 """
 import struct
+import importlib.util
+from pathlib import Path
 
 
 def validate(config,data,original,native,objects):
@@ -16,7 +18,10 @@ def validate(config,data,original,native,objects):
     assert len(old['bytes'])==len(bytes.fromhex(new['bytes']))==840,'output directory historical initialized input incomplete'
     assert left['count']==right['count']==integer('directory_count')==58 and left['width']==right['width']==12,'output directory qsort count/width differs'
     assert left['callback']==0x4063f0 and right['callback']==native['function_addresses']['compare_packed_directory_entries'],'output directory actual typed comparator identity differs'
-    assert original['stack'][0]==original['module_bases']['msvcrt.dll']+0x2551e and native['frontier_caller']=='recon_qsort','output directory actual canonical qsort callback site differs'
+    complete_sort=bool(config.get('observe_complete_directory_sort'))
+    if complete_sort:
+        assert original['address']==0x4100e0 and original['stack'][0]==0x406b84 and native['frontier_caller']=='flush_packed_file','complete sort unknown next consumer'
+    else:assert original['stack'][0]==original['module_bases']['msvcrt.dll']+0x2551e and native['frontier_caller']=='recon_qsort','output directory actual canonical qsort callback site differs'
     expected=[];actual=[];roles=[];seen=set();info=integer('module_list')
     while info:
         assert info not in seen and len(seen)<128,'output directory live module input cycle'
@@ -49,7 +54,13 @@ def validate(config,data,original,native,objects):
     permutation_old=permutation(current[:696],expected);permutation_new=permutation(current_native[:696],actual)
     assert permutation_old==permutation_new,'canonical/native qsort first-callback directory permutation differs'
     assert current[696:]==old['bytes'][696:] and current_native[696:]==bytes.fromhex(new['bytes'])[696:],'qsort changed inactive initialized input tail'
-    expected_permutation=list(range(58));expected_permutation[0],expected_permutation[29]=29,0
-    assert permutation_old==expected_permutation,'unmodeled canonical qsort first-callback prefix'
-    assert native['parameters']=={'first':dict(index=1,width=12),'second':dict(index=0,width=12)},'output directory first callback argument roles differ'
-    return dict(active_rows=58,element_bytes=12,active_initialized_bytes=696,historical_initialized_rows=70,complete_initialized_capacity_bytes=840,retained_initialized_tail_bytes=144,own_unwritten_spare_capacity_bytes=72,module_rows=35,symbol_rows=22,source_rows=1,canonical_callback_rva=0x2551e,actual_pre_first_callback_swapped_rows=[0,29],first_callback_argument_rows=[1,0],future_callbacks_unobserved=True)
+    complete=None
+    if complete_sort:
+        spec=importlib.util.spec_from_file_location('complete_sort_state',Path(__file__).with_name('complete-sort-state.py'))
+        complete_state=importlib.util.module_from_spec(spec);spec.loader.exec_module(complete_state)
+        complete=complete_state.validate(config,original,native,expected,actual,current,current_native,permutation_old)
+    else:
+        expected_permutation=list(range(58));expected_permutation[0],expected_permutation[29]=29,0
+        assert permutation_old==expected_permutation,'unmodeled canonical qsort first-callback prefix'
+        assert native['parameters']=={'first':dict(index=1,width=12),'second':dict(index=0,width=12)},'output directory first callback argument roles differ'
+    return dict(complete_sort=complete,active_rows=58,element_bytes=12,active_initialized_bytes=696,historical_initialized_rows=70,complete_initialized_capacity_bytes=840,retained_initialized_tail_bytes=144,own_unwritten_spare_capacity_bytes=72,module_rows=35,symbol_rows=22,source_rows=1,canonical_callback_rva=0x2551e,actual_pre_first_callback_swapped_rows=[0,29],first_callback_argument_rows=[1,0],future_callbacks_unobserved=not complete_sort)

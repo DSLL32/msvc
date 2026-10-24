@@ -1,0 +1,182 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "fresh_negative_count": 28,
+  "rejected": [
+    {
+      "name": "missing-last-callback",
+      "diagnostic": "complete sort callback inventory differs"
+    },
+    {
+      "name": "wrong-callback-sequence",
+      "diagnostic": "sort actual callback sequence/provider site differs"
+    },
+    {
+      "name": "wrong-comparator-signed-result",
+      "diagnostic": "sort actual comparator signed return differs"
+    },
+    {
+      "name": "wrong-callback-row-index",
+      "diagnostic": "sort actual callback argument row/owner differs"
+    },
+    {
+      "name": "changed-callback-live-data-owner",
+      "diagnostic": "sort actual callback typed row input differs"
+    },
+    {
+      "name": "wrong-callback-ret-cleanup",
+      "diagnostic": "sort actual callback cdecl stack/return differs"
+    },
+    {
+      "name": "wrong-native-formal-inventory",
+      "diagnostic": "sort actual callback formal inventory differs"
+    },
+    {
+      "name": "native-callee-EDI-clobber",
+      "diagnostic": "sort callback normal-return registers differ"
+    },
+    {
+      "name": "native-callback-errno-change",
+      "diagnostic": "sort callback changed native error/x87 state"
+    },
+    {
+      "name": "native-wrapper-doserrno-change",
+      "diagnostic": "sort wrapper changed native error/x87 state"
+    },
+    {
+      "name": "native-callback-LastError-change",
+      "diagnostic": "sort callback changed native error/x87 state"
+    },
+    {
+      "name": "native-error-storage-identity-change",
+      "diagnostic": "sort callback changed native error/x87 state"
+    },
+    {
+      "name": "missing-native-x87-register",
+      "diagnostic": "incomplete native sort x87/register schema"
+    },
+    {
+      "name": "truncated-native-x87-register",
+      "diagnostic": "native raw x87 register width/encoding differs"
+    },
+    {
+      "name": "changed-native-x87-status",
+      "diagnostic": "sort callback changed native error/x87 state"
+    },
+    {
+      "name": "changed-native-final-x87-register",
+      "diagnostic": "sort wrapper changed native error/x87 state"
+    },
+    {
+      "name": "wrong-qsort-wrapper-stack",
+      "diagnostic": "sort native wrapper cdecl return differs"
+    },
+    {
+      "name": "truncated-completed-array",
+      "diagnostic": "sort completed initialized array/current identity differs"
+    },
+    {
+      "name": "preserved-but-wrong-native-startup-precision",
+      "diagnostic": "native startup x87 control differs from canonical CRT baseline"
+    },
+    {
+      "name": "preserved-but-wrong-native-startup-tags",
+      "diagnostic": "native startup x87 status/tags differ from canonical CRT baseline"
+    },
+    {
+      "name": "raw-wrong-canonical-errno-instructions",
+      "diagnostic": "sort canonical CRT error-access ABI differs"
+    },
+    {
+      "name": "raw-original-callback-errno-change",
+      "diagnostic": "sort callback changed original error identity/state"
+    },
+    {
+      "name": "raw-original-callback-TLS-index-change",
+      "diagnostic": "sort callback changed original error identity/state"
+    },
+    {
+      "name": "raw-truncated-original-FloatSave",
+      "diagnostic": "incomplete original sort error/FP/register state"
+    },
+    {
+      "name": "raw-original-callee-ESI-clobber",
+      "diagnostic": "sort callback normal-return registers differ"
+    },
+    {
+      "name": "raw-original-wrong-return-address",
+      "diagnostic": "sort actual callback cdecl stack/return differs"
+    },
+    {
+      "name": "raw-original-incomplete-wrapper-count",
+      "diagnostic": "sort original wrapper call/stack/count differs"
+    },
+    {
+      "name": "raw-missing-per-callback-FP-state",
+      "diagnostic": "'fp'"
+    }
+  ],
+  "baseline": {
+    "callbacks": 375,
+    "complete_callback_input_result_stack_sequence": true,
+    "complete_initialized_postsort_bytes": 840,
+    "active_sorted_rows": 58,
+    "ordinary_callback_nonvolatile_registers": [
+      "ebx",
+      "esi",
+      "edi",
+      "ebp"
+    ],
+    "error_values": {
+      "errno": 0,
+      "doserrno": 0,
+      "last_error": 0
+    },
+    "actual_original_thread": {
+      "teb": 1073618944,
+      "tid": 2028,
+      "tls_index": 1,
+      "ptd": 9044224
+    },
+    "original_x87_control": 639,
+    "native_x87_control": 639,
+    "original_x87_status": 0,
+    "original_x87_tags": 65535,
+    "native_x87_status": 0,
+    "native_x87_tags": 65535,
+    "original_x87_raw_bytes": 112,
+    "native_x87_raw_registers": [
+      "fctrl",
+      "fioff",
+      "fiseg",
+      "fooff",
+      "fop",
+      "foseg",
+      "fstat",
+      "ftag",
+      "st0",
+      "st1",
+      "st2",
+      "st3",
+      "st4",
+      "st5",
+      "st6",
+      "st7"
+    ],
+    "x87_preserved_with_each_side_own_raw_baseline": true
+  },
+  "own_empty_tag_unused_x87_payload_positive": true,
+  "seconds": 37.9593832725659,
+  "original_receipt_sha256": "444a3867f8ae3145fc57befe283d86fe880e6ba8bb776c880ac30ba9ef583d7a",
+  "native_receipt_sha256": "93f6e81e4e970943d453c997b269da0a98ed2ae754d1ead080615d28904069da",
+  "checker_sha256": "cc9afab02d58d594579e758cf2b9838a5dba2b46fbace4ddd14c5c7318b097f1",
+  "validator_sha256": "069ae4d288ddcc897435f57ba4cbd132a414bc75fa3395d32c0941f7ab730b33",
+  "decoder_sha256": "4eab486d6923cb68dcb1f3bc204f0e8438bfbe59f7a2f5b4a625ac95074f1639",
+  "source_sha256": "fb3665f19adecb7bdc42291e35516fc64010140ed5bbcea12bf01855b9b06eb3",
+  "observer_sha256": "3a21a7084341720c6830c2b7b1c68a7b6b83a9603416480531ff9062b372716c",
+  "reused": {
+    "path": "cases/hello-debug-dll/evidence/0102-packed-file-writer-sort/directory-checks.json",
+    "sha256": "9ea1b6b6483a324067578c757809068b895a2c98250378e3370dc5b93ee2d7e9",
+    "scope": "21 input-history/owned12Barray/permutation/firstcallback/DWARF/import-site controls retained;28 fresh fullsort/returns/errors/TLS/nonvol/x87/completion controls here."
+  }
+}

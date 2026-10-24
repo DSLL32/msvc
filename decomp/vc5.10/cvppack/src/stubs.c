@@ -64,7 +64,6 @@ void __fastcall find_type_server(void *name, unsigned mode, void *first, void *s
 void begin_buffered_output(int file) { __asm { int 3 } }
 unsigned short buffered_write(const void *data, unsigned size) { __asm { int 3 } return 0; }
 unsigned short end_buffered_output(void) { __asm { int 3 } return 0; }
-int __cdecl compare_packed_directory_entries(const void *first, const void *second) { __asm { int 3 } return 0; }
 void write_subsection(unsigned index) { __asm { int 3 } }
 void write_publics(CodeViewDirectoryEntry *entry, unsigned offset) { __asm { int 3 } }
 void write_globals(CodeViewDirectoryEntry *entry, unsigned offset) { __asm { int 3 } }
