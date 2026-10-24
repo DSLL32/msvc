@@ -2301,6 +2301,8 @@ WEAK unsigned int __cdecl recon_mbctolower(unsigned int character)
 }
 WEAK unsigned char *recon_mbsupr(unsigned char *text)
 { (void)text; recon_unsupported("unreviewed _mbsupr"); return NULL; }
+WEAK unsigned char *__cdecl recon_mbslwr(unsigned char *text)
+{ (void)text; recon_unsupported("unreviewed _mbslwr"); return NULL; }
 WEAK unsigned char *recon_mbspbrk(const unsigned char *text,const unsigned char *accept)
 {
     const unsigned char *cursor,*set;

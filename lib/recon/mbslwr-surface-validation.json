@@ -1,0 +1,236 @@
+{
+  "scope": "SDK unsigned char* cdecl _mbslwr(unsigned char*) declaration/remap and explicit125-only body; no lowercase mutation/provider success/locale or profile widening",
+  "packet": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/cl-static-packet.json",
+    "sha256": "11f23d20b975defdcb149e088dfb88f1cc052456894f4e2d8612c7faa0fb065c"
+  },
+  "static_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/static-review.json",
+    "sha256": "1213b3be2078bb653fe62953a93bd89fd1ddfb34937f07f58193251290f449c8"
+  },
+  "executables": [
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/gcc-510",
+      "sha256": "560b6cddf3f2346d1bd9b724f23d30899d06498940844e4383691ddd5d360418",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/native",
+        "-DRECON_CRT_PROFILE_MSVCRT_510",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/tests/mbslwr-surface-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/gcc-510"
+      ],
+      "build_seconds": 1.3815678087994456,
+      "check": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/tests/check-mbslwr-surface.py",
+          "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/gcc-510"
+        ],
+        "seconds": 0.04421520419418812,
+        "stdout": "SDK unsignedchar* cdecl(unsignedchar*) link surface,4input scopes deny125\n"
+      }
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/clang-510",
+      "sha256": "cceeb5d1b985c19b5932ac1af20cb6589ad19da1ae7fc7def79ee8b1cb6f9675",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/native",
+        "-DRECON_CRT_PROFILE_MSVCRT_510",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/tests/mbslwr-surface-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/clang-510"
+      ],
+      "build_seconds": 1.4503511134535074,
+      "check": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/tests/check-mbslwr-surface.py",
+          "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/clang-510"
+        ],
+        "seconds": 0.042843268252909184,
+        "stdout": "SDK unsignedchar* cdecl(unsignedchar*) link surface,4input scopes deny125\n"
+      }
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/gcc-default",
+      "sha256": "385c2d2947f418481151270184124b3facfd43f50e194cbeb769db550410da50",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/native",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/tests/mbslwr-surface-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/gcc-default"
+      ],
+      "build_seconds": 1.2814052943140268,
+      "check": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/tests/check-mbslwr-surface.py",
+          "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/gcc-default"
+        ],
+        "seconds": 0.04430800210684538,
+        "stdout": "SDK unsignedchar* cdecl(unsignedchar*) link surface,4input scopes deny125\n"
+      }
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/clang-default",
+      "sha256": "94fcecc32b49f67cb412cab5c29c064282515659b3a2b2ea6476a8c2cfb0055e",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/native",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/tests/mbslwr-surface-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/clang-default"
+      ],
+      "build_seconds": 1.3951131720095873,
+      "check": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/tests/check-mbslwr-surface.py",
+          "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/clang-default"
+        ],
+        "seconds": 0.04293184168636799,
+        "stdout": "SDK unsignedchar* cdecl(unsignedchar*) link surface,4input scopes deny125\n"
+      }
+    }
+  ],
+  "cpp_header_checks": [
+    {
+      "command": [
+        "g++",
+        "-m32",
+        "-std=gnu++98",
+        "-nostdinc++",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/native",
+        "-x",
+        "c++",
+        "-c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/tests/mbslwr-surface-probe.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/g++-header.o"
+      ],
+      "object": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/g++-header.o",
+      "sha256": "1f01c77068ae48628fe75eae6f794ef28c4fa0a724a073c929e7675e780cc586"
+    },
+    {
+      "command": [
+        "clang++",
+        "-m32",
+        "-std=gnu++98",
+        "-nostdinc++",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/native",
+        "-x",
+        "c++",
+        "-c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/sources/tests/mbslwr-surface-probe.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/clang++-header.o"
+      ],
+      "object": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/clang++-header.o",
+      "sha256": "cbd7d390cc6986e22db6eeaf9f63d4f1ab0d208ed51b44df7d91fa44528c2b3e"
+    }
+  ],
+  "runtime_inputs": "NULL/empty/ASCII/nonASCII all125 before implementation; noinput semantics claimed",
+  "original_execution": false,
+  "receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/receipt.json",
+    "sha256": "9b196d737775b152b16f7152b6f7e9b741520c49c5fbb6eff81297cd1e74d3f4"
+  },
+  "sources": [
+    {
+      "path": "/root/msvc2/lib/recon/src/crt.c",
+      "sha256": "1f6ca79f6ffd4e68f4245c48055a3247bb76b60d4a2301865db318e2c88d6f8c"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/include/recon.h",
+      "sha256": "f2b44b6dcef88ba1ceb27c4571dc3e2b30abe91a55589fbea1b1f1a8d6853bd9"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/native/mbstring.h",
+      "sha256": "9f9b8f200a6e7559a4cda5d5ef61f339cc8f4be7076ae44347ea9ce2903021d3"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/mbslwr-surface-probe.c",
+      "sha256": "2a6053543555ba900ca0f53a38137f968e17a13e960498a51a1e57bd658a5e4f"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-mbslwr-surface.py",
+      "sha256": "1bb6eef5f2179dcf3d23b56175206f9d1441230e50eeeb2bd7d0e05a27e3a63f"
+    }
+  ],
+  "affected_core": {
+    "command": "make -j4 -C lib/recon check",
+    "log": "/root/.ai-tmp/msvc2/recon-maintenance/mbslwr-surface/affected-core.log",
+    "sha256": "d5920a4ac278da675cc6aeb0fe6dea0b9c7636dde55cc32383d2f928a6003612",
+    "result": "PASS",
+    "build_and_execution_seconds": 1.291638155
+  },
+  "remaining": "Actual _mbslwr behavior remains125 until an encountered input/provider/state contract is reviewed; no lowercase success/default/profile widening. No remaining shared typed-surface publication hold.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/signature-preuse/mbslwr-parent-review.json",
+    "sha256": "d74a49ff5ef3f080663a36bb185e9881f7863548e62529e37627328dd5675d01",
+    "result": "PASS exactlive/frozenSDKprototype/remap/always125-only; allfour immutableGCC/Clang default510 probes verified/rerun"
+  }
+}

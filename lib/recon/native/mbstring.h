@@ -11,6 +11,7 @@ int _mbsnbicmp(const unsigned char *,const unsigned char *,size_t);
 unsigned char *_mbspbrk(const unsigned char *,const unsigned char *);
 unsigned char *_mbsrchr(const unsigned char *,unsigned int);
 unsigned char *_mbsupr(unsigned char *);
+unsigned char *_mbslwr(unsigned char *);
 unsigned int _mbctolower(unsigned int);
 unsigned char *_mbsstr(const unsigned char *,const unsigned char *);
 unsigned char *_mbschr(const unsigned char *,unsigned int);

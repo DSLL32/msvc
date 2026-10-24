@@ -575,3 +575,9 @@ build/signature-crc-probe: tests/signature-crc-probe.c $(SOURCES) $(HEADERS) | b
 signature-crc-check: build/signature-crc-probe
 	test -n "$(SIGNATURE_CRC_REFERENCE)"
 	$(PYTHON) tests/check-signature-crc.py build/signature-crc-probe "$(SIGNATURE_CRC_REFERENCE)"
+
+.PHONY: mbslwr-surface-check
+build/mbslwr-surface-probe: tests/mbslwr-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mbslwr-surface-check: build/mbslwr-surface-probe
+	$(PYTHON) tests/check-mbslwr-surface.py build/mbslwr-surface-probe
