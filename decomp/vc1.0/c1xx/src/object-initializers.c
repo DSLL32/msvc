@@ -547,7 +547,8 @@ void __stdcall finish_local_static_initialization(CppSymbol *symbol)
             emit_atexit_registration(function);
             saved_mode = declaration_mode;
             declaration_mode = 0;
-            defer_object_definition(symbol_alias(symbol));
+            object = symbol_alias(symbol);
+            defer_object_definition(object);
             defer_object_definition(function);
             declaration_mode = saved_mode;
         }

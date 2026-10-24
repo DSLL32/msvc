@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1222,
+  "accepted": "_defer_object_definition@4",
+  "terminal": "_append_default_call_argument@8",
+  "original_capture": "cases/frontiers/state_machine_debug/1222-defer_object_definition-4/original-receipt.json",
+  "original_capture_sha256": "fcf2ac0cf3a34a2943c81f6397c0ced7698553777e104b776766c11066e9b117",
+  "original_events": "cases/frontiers/state_machine_debug/1222-defer_object_definition-4/original-events.txt",
+  "original_events_sha256": "4c1f8e59f3fc1e7ececc76fcc7a06242675e7cfb4119c1fee856c5e4768a5edf",
+  "original_configuration": "cases/frontiers/state_machine_debug/1222-defer_object_definition-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -10,6 +10,7 @@
 #include "return-statements.h"
 #include "symbol-output.h"
 #include "cpp-context.h"
+#include "special-members.h"
 #include <recon.h>
 
 /* Lazily allocated by the aggregate-data initializer at original 0x45f00;
@@ -461,4 +462,15 @@ void __stdcall emit_atexit_registration(CppSymbol *function)
     call = new_left_typed_expression(0x7a, callee, arguments);
     call->type = type_0064;
     emit_expression_statement(call);
+}
+
+/* Original 0x4f370..0x4f3b6, stdcall4. Retain the definition in its
+   declaration-mode list and ensure any synthesized destructor is emitted. */
+void __stdcall defer_object_definition(CppSymbol *symbol)
+{
+    WorkList *item = push_work_list(&pending_cleanup_by_scope[declaration_mode],
+        declaration_mode != 0);
+    item->value.pointer = symbol;
+    if (is_unqualified_class_type(symbol->type))
+        defer_generated_member(lookup_complete_object_destructor(symbol->type));
 }
