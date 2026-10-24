@@ -1,0 +1,24 @@
+[
+  {
+    "case": "embedded-cpp-mapped",
+    "terminal": "trap",
+    "status": -5,
+    "function": "add_derived_type",
+    "executable_sha256": "4c78e7f00430fe2d47dd8c566b23a54d686439b3663deb89f4ce745a3cbec3ef",
+    "configuration_sha256": "ca2567bd812bef1b6093a5f1a81afbfbfe5f1a3b61886e3da6085522f20b9ab4",
+    "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "conditional_support_sha256": "4d882e3c906e7e74da827059156327944d468c0f1054c461fc7dbde1cadbeae5",
+    "native_host_allocator": null,
+    "process_boundary": {
+      "requests": [],
+      "errors": []
+    },
+    "seconds": {
+      "setup": 0.22994767036288977,
+      "execution": 0.017800224013626575,
+      "debugging": 0.579758076928556,
+      "checks": 0.019276940263807774,
+      "total": 0.8467878457158804
+    }
+  }
+]

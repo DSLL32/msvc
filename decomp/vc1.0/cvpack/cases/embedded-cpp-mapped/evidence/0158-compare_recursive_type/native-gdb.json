@@ -1,0 +1,1 @@
+{"signal": 5, "frames": ["add_derived_type", "record_derived_types", "commit_recursive_type", "commit_recursive_type", "intern_type", "compact_new_type", "convert_new_type", "convert_procedure32", "pack_new_types", "pack_module", "main"], "parameters": {"type": 4126, "base": 4101}, "globals": {}, "walks": {}, "later_heap_equality": false}

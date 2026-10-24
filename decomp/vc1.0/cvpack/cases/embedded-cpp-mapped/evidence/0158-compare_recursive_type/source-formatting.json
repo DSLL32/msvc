@@ -1,0 +1,6 @@
+{
+  "change": "Only terminal blank lines removed after acceptance. Current source tokens/lines and compared behavior unchanged.",
+  "captured_source_sha256": "755572233a4392dd513529a4c554d3865bcc10ce8c36e7724365fbdef7b3c1be",
+  "current_source_sha256": "263b5a00ff1c04d773cca8f8f2792cdf59c251f21c6964c1c1ac6326b6469f9d",
+  "scope": "Root-approved EOF-only formatting bookkeeping; keep actual original/native pair and frozen configuration. No original repeat."
+}

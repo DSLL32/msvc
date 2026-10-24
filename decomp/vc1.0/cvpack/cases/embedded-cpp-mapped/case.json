@@ -17,8 +17,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "compare_recursive_type",
-    "native_function": "compare_recursive_type",
+    "logical": "add_derived_type",
+    "native_function": "add_derived_type",
     "application_trace": [
       "main",
       "parse_options",
@@ -90,7 +90,8 @@
       "finish_recursive_types",
       "convert_bp_relative32",
       "end_symbol_block",
-      "compare_recursive_type"
+      "compare_recursive_type",
+      "add_derived_type"
     ],
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",

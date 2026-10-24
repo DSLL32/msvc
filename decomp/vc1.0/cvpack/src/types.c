@@ -2033,3 +2033,99 @@ void finalize_derived_types(void)
         } else *(unsigned short *)(owner+8) = node->index;
     }
 }
+
+/* Original [0001e780,0001eab5): compare bytes outside unresolved type links,
+   then recursively compare those links with their published global records. */
+int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type,
+                                      unsigned char *record, unsigned short index)
+{
+    unsigned char *original, marks;
+    unsigned short length, position, number, next, count, i;
+    unsigned short offset, relative, unused, global_type, flags;
+    unsigned short *field;
+    TypeRecord *referenced;
+    unsigned char *global_record;
+    int page, slot, global_relative, matched;
+
+    entry->index = index;
+    original = entry->data;
+    entry->flags |= 1;
+    length = (unsigned short)(*(unsigned short *)original + 2);
+    number = position = 0;
+#ifdef RECON_NATIVE_TEST
+    /* Expanded recursive arrays still require their reached ownership proof. */
+    if ((entry->flags & 0x100) || entry->recursive_count > 12) __asm { int 3 }
+#endif
+    while (position < length) {
+        while (number != entry->recursive_count) {
+            marks = entry->flags & 0x100 ? entry->recursion.large.marks[number>>3] :
+                entry->recursion.small[8];
+            if (!(marks & (0x80 >> ((entry->flags & 0x100) ? (number&7) : number))))
+                break;
+            ++number;
+        }
+        if (number == entry->recursive_count) next = length;
+        else {
+            next = entry->flags & 0x100 ? entry->recursion.large.offsets[number] :
+                entry->recursion.small[number];
+            ++number;
+        }
+        count = (unsigned short)(next-position);
+        if (count) {
+            /* The original intrinsic compares this same byte interval. */
+            for (i = 0; i < count; ++i)
+                if (original[position+i] != record[position+i]) goto different;
+            position = next;
+        }
+        position += 2;
+    }
+    for (number = 0; number < entry->recursive_count; ++number) {
+        marks = entry->flags & 0x100 ? entry->recursion.large.marks[number>>3] :
+            entry->recursion.small[8];
+        if (marks & (0x80 >> ((entry->flags & 0x100) ? (number&7) : number)))
+            continue;
+        offset = entry->flags & 0x100 ? entry->recursion.large.offsets[number] :
+            entry->recursion.small[number];
+        field = (unsigned short *)(original+offset);
+        relative = *field-first_user_type;
+        if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+            referenced = empty_type;
+        else {
+#ifdef RECON_NATIVE_TEST
+            if (relative >= local_type_capacity) __asm { int 3 }
+#endif
+            referenced = &local_type_records[relative];
+            if (referenced->flags & 0x1000)
+                referenced = get_type_record((unsigned short)(referenced->forward_index-0x1000), &unused);
+        }
+        global_type = *(unsigned short *)(record+offset);
+        if (global_type < first_user_type) goto different;
+        global_relative = (int)global_type-0x1000;
+        page = global_relative/512;
+        slot = global_relative%512;
+#ifdef RECON_NATIVE_TEST
+        if (page < 0 || page >= 120 || slot < 0) __asm { int 3 }
+#endif
+        global_record = type_pages[page][slot];
+        if (global_type < first_user_type) matched = 0;
+        else {
+            flags = referenced->flags;
+            if (flags & 1) matched = referenced->index == global_type;
+            else if (flags & 2) matched = 1;
+            else {
+                flags &= 4;
+                if (flags) matched = 1;
+                /* Keep the original repeated, now-zero flag test. */
+                else if (referenced->index == global_type && flags) matched = 1;
+                else matched = compare_recursive_type(referenced, *field, global_record, global_type);
+            }
+        }
+        if (!matched) goto different;
+    }
+    entry->flags &= ~1;
+    entry->flags |= 2;
+    return 1;
+different:
+    entry->flags &= ~1;
+    return 0;
+}

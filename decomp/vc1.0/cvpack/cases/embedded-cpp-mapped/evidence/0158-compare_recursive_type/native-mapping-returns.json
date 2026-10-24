@@ -1,0 +1,27 @@
+[
+  {
+    "stage": 1,
+    "slot": 1471253552,
+    "arguments": {
+      "file": 4,
+      "security": 0,
+      "protection": 4,
+      "high": 0,
+      "low": 2097152,
+      "name": 0
+    },
+    "value": 1471253632
+  },
+  {
+    "stage": 2,
+    "slot": 1471253552,
+    "arguments": {
+      "handle": 1471253632,
+      "access": 983071,
+      "high": 0,
+      "low": 0,
+      "bytes": 0
+    },
+    "value": 4155912192
+  }
+]
