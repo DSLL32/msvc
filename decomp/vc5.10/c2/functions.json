@@ -97,7 +97,8 @@
     "@create_coff_section@4",
     "@add_coff_section@16",
     "@append_output_table@8",
-    "@initialize_coff_section@8"
+    "@initialize_coff_section@8",
+    "@lookup_output_table@8"
   ],
   "driver": [
     {
@@ -246,7 +247,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "419f90f9468f40dba23ba3070ef950b0be18c3fe298e219d4267480cdbe024dd",
+            "lifetime_sha256": "76666d514a3c7637b5f6c7a2c584b7dfe4799d438f13c17e7bb9b530718da630",
             "instructions": [
               {
                 "offset": 212,
@@ -649,7 +650,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "cd96219d16cf36c1f9aad813042d1238f0523014dc19088a9b499670ea638040",
+            "lifetime_sha256": "db1cb414b9bc9237d05b485616a0f0cc8057bc3ead04e8531fd5118634e5d341",
             "instructions": [
               {
                 "offset": 38,
@@ -710,7 +711,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "18fa7a2a8385154b4d85662649ca132e96740d4471a64f2a93609ce31ccbdfdc",
+            "lifetime_sha256": "4d86d8226f0bf1decd16296a568a6046fdfdf019bb8055169c8c155b7c13baa6",
             "instructions": [
               {
                 "offset": 46,
@@ -1488,7 +1489,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "293c46d055768201c33145bb47fd0c645997f5f0a349e88e426b2b49a64100f8"
+            "lifetime_sha256": "8ba8252df5aab8e92619cd72c48fd2fb46d5e4c4d738b1c2e66aa634cc31cc8e"
           }
         }
       ]
@@ -1678,7 +1679,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "d5be36b4037f01f63fa33524bdfed84f6af4ed647e08b12343468354e11800ed"
+            "lifetime_sha256": "60742e4717e1264a0b75b519862d96ccf4ad705dd8dcb96c8a83ae2ce56ba037"
           }
         }
       ]
@@ -4115,7 +4116,7 @@
               6,
               827
             ],
-            "lifetime_sha256": "038c237ec5a2f5f8b2307bf2ef491fa9882b44f1956a3bda5b776fbc3356fb8a",
+            "lifetime_sha256": "3ca57e92092ab2805820d2e163851ff07b17e7b888237e011403674358e618d6",
             "instructions": [
               {
                 "offset": 6,
@@ -4375,7 +4376,7 @@
               27,
               145
             ],
-            "lifetime_sha256": "930d23dd9408378bb617e898bf9df7683a26c3d2ce9b90c86ef5e7d7d04c96d9",
+            "lifetime_sha256": "6c8bfbbccc85342a35b421b5d837d6a82a6d7116feee0ca56a1965ed225bfd80",
             "instructions": [
               {
                 "offset": 27,
@@ -5569,7 +5570,7 @@
               6,
               489
             ],
-            "lifetime_sha256": "3ae9c864fcc5c3fef157ecb10e308064c4d99b1eabb724344b693676162bc4ed",
+            "lifetime_sha256": "98835819f65112941b4d8b947575624124809753effdafae42f17455f53506b8",
             "instructions": [
               {
                 "offset": 6,
@@ -5824,7 +5825,7 @@
               6,
               315
             ],
-            "lifetime_sha256": "3d27d96fc628588670e29c6fbcb02aec4c2241099dd33664dd1bad0c15967cc2",
+            "lifetime_sha256": "ebedad65378c46265c856e5a6d2c4b53ccdc117e163552698405d8c49aa75fa1",
             "instructions": [
               {
                 "offset": 6,
@@ -6816,7 +6817,7 @@
         "-G5"
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "symbol": "_read_initializers",
       "evidence": "cases/analysis/read-initializers-disassembly.txt:11B4532fa..453305 loads c2_input intoECX and tailjumps4523d2. Prior scaffold-name described registers incorrectly; original logicalID preserved, actualsource/Win32name read_initializers. Cdecl noargs, inheritedRET0 from fastcallFILE reader; reader remains unaccepted/trapped."
     },
@@ -7012,7 +7013,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7286,7 +7287,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7482,7 +7483,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7670,7 +7671,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7865,7 +7866,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8059,7 +8060,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8251,7 +8252,7 @@
       "expected_argv": [
         "-G5"
       ],
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "frontier_contract": "output-directives-complete",
       "code_chunks": [
         [
@@ -8486,7 +8487,7 @@
         "-G5"
       ],
       "frontier_contract": "object-writer-input",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "code_chunks": [
         [
           4672729,
@@ -8719,7 +8720,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-table-input",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e"
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9"
     },
     {
       "name": "_writer_callback_41eb8a",
@@ -8909,7 +8910,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-allocate-input",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e"
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9"
     },
     {
       "name": "_initialize_coff_lists",
@@ -9097,7 +9098,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-lists-input",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e"
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9"
     },
     {
       "name": "@new_output_list@8",
@@ -9285,7 +9286,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-list-input",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e"
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9"
     },
     {
       "name": "_new_output_chunk",
@@ -9473,7 +9474,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-chunk-input",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "code_chunks": [
         [
           4626548,
@@ -9673,7 +9674,7 @@
           4670578
         ]
       ],
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e"
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9"
     },
     {
       "name": "@add_coff_symbol@4",
@@ -9861,7 +9862,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e"
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9"
     },
     {
       "name": "_write_output_directives",
@@ -10044,7 +10045,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10235,7 +10236,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10455,7 +10456,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10651,7 +10652,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10841,7 +10842,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11126,7 +11127,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11168,6 +11169,25 @@
         [
           4626872,
           4627067
+        ]
+      ],
+      "source": "src/coff-output.c"
+    },
+    {
+      "name": "@lookup_output_table@8",
+      "native": "lookup_output_table",
+      "symbol": "@lookup_output_table@8",
+      "start": 4321413,
+      "end": 4321476,
+      "pending_extent": false,
+      "pending_signature": false,
+      "kind": "application",
+      "abi": "fastcall C2OutputTable*tableECX,unsignedindexEDX; void*EAX,RET0",
+      "evidence": "cases/analysis/lookup-output-table-analysis.json",
+      "code_chunks": [
+        [
+          4627067,
+          4627091
         ]
       ],
       "source": "src/coff-output.c"
@@ -12646,7 +12666,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e"
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9"
     },
     {
       "name": "@reserve_incremental_symbols@12",
@@ -12834,7 +12854,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e"
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9"
     },
     {
       "name": "_grow_coff_symbol_buffer",
@@ -13029,7 +13049,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -13143,15 +13163,15 @@
       "evidence": "cases/analysis/create-coff-section-analysis.json"
     },
     {
-      "name": "@lookup_output_table@8",
-      "native": "lookup_output_table",
-      "symbol": "@lookup_output_table@8",
-      "start": 4321413,
-      "end": 4321414,
+      "name": "@initialize_coff_symbols@4",
+      "native": "initialize_coff_symbols",
+      "symbol": "@initialize_coff_symbols@4",
+      "start": 4321476,
+      "end": 4321477,
       "pending_extent": true,
       "pending_signature": false,
       "kind": "application",
-      "abi": "fastcall C2OutputTable*tableECX,unsignedindexEDX; void*EAX,RET0",
+      "abi": "fastcall C2CoffSectionData*dataECX; callerignoresresultRET0",
       "evidence": "cases/analysis/initialize-coff-section-analysis.json",
       "state_policy": "globals-complete",
       "state": [
@@ -13330,20 +13350,8 @@
         "-G5"
       ],
       "frontier_contract": "coff-section-input",
-      "section_caller": "initialize_coff_section",
-      "state_model_sha256": "09d2cbaae0d5ffb7a8cda5d32b9d1815a170dfc7d6d04df9fc9c96c24bc24f4e"
-    },
-    {
-      "name": "@initialize_coff_symbols@4",
-      "native": "initialize_coff_symbols",
-      "symbol": "@initialize_coff_symbols@4",
-      "start": 4321476,
-      "end": 4321477,
-      "pending_extent": true,
-      "pending_signature": false,
-      "kind": "application",
-      "abi": "fastcall C2CoffSectionData*dataECX; callerignoresresultRET0",
-      "evidence": "cases/analysis/initialize-coff-section-analysis.json"
+      "section_caller": "lookup_output_table",
+      "state_model_sha256": "78519cd69bf2c3c1e6dc8accb2409206daaa37f43fb7aaba64f08a35b9c52cf9"
     },
     {
       "name": "@register_coff_storage@4",
@@ -13636,7 +13644,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13648,7 +13656,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13660,7 +13668,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13672,7 +13680,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13684,7 +13692,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13696,7 +13704,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13708,7 +13716,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13720,7 +13728,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13732,7 +13740,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13744,7 +13752,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13758,7 +13766,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13770,7 +13778,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13785,7 +13793,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13797,7 +13805,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13809,7 +13817,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13821,7 +13829,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13833,7 +13841,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13845,7 +13853,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13860,7 +13868,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13875,7 +13883,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13887,7 +13895,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13899,7 +13907,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13911,7 +13919,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {
@@ -13926,7 +13934,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f67907bfbf2e2a3764b9fc2ff88081dfe1555a47688ed2d7c3d7d4169dbcd34a"
+          "sha256": "4618792c99859f10a8cca8269df1c66c764faaed0d53d20cc688195bfd9e2ea2"
         }
       },
       {

@@ -512,3 +512,21 @@ initialized:
     ++coff_section_count;
     return 1;
 }
+
+void *__fastcall lookup_output_table(C2OutputTable *table, unsigned index)
+{
+    C2OutputPage *page;
+    unsigned capacity, limit;
+    if (index > table->count)
+        return NULL;
+    page = table->first;
+    capacity = table->capacity;
+    limit = capacity;
+    while (index > limit) {
+        if (!page)
+            c2_report_internal("E:\\utc\\src\\\\P2\\coffemit.c", 3551);
+        page = page->next;
+        limit += capacity;
+    }
+    return page->items[index - 1 - (limit - capacity)];
+}

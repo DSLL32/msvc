@@ -1,0 +1,51 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041f085 <.text+0x1e085>:
+  41f085:	8b 01                	mov    eax,DWORD PTR [ecx]
+  41f087:	55                   	push   ebp
+  41f088:	8b ea                	mov    ebp,edx
+  41f08a:	3b e8                	cmp    ebp,eax
+  41f08c:	0f 87 e9 a9 04 00    	ja     0x469a7b
+  41f092:	57                   	push   edi
+  41f093:	56                   	push   esi
+  41f094:	53                   	push   ebx
+  41f095:	8b 79 18             	mov    edi,DWORD PTR [ecx+0x18]
+  41f098:	33 db                	xor    ebx,ebx
+  41f09a:	66 8b 59 04          	mov    bx,WORD PTR [ecx+0x4]
+  41f09e:	8b f3                	mov    esi,ebx
+  41f0a0:	3b ee                	cmp    ebp,esi
+  41f0a2:	77 0e                	ja     0x41f0b2
+  41f0a4:	4d                   	dec    ebp
+  41f0a5:	2b f3                	sub    esi,ebx
+  41f0a7:	2b ee                	sub    ebp,esi
+  41f0a9:	5b                   	pop    ebx
+  41f0aa:	5e                   	pop    esi
+  41f0ab:	8b 44 af 04          	mov    eax,DWORD PTR [edi+ebp*4+0x4]
+  41f0af:	5f                   	pop    edi
+  41f0b0:	5d                   	pop    ebp
+  41f0b1:	c3                   	ret
+  41f0b2:	85 ff                	test   edi,edi
+  41f0b4:	0f 84 c5 a9 04 00    	je     0x469a7f
+  41f0ba:	8b 3f                	mov    edi,DWORD PTR [edi]
+  41f0bc:	03 f3                	add    esi,ebx
+  41f0be:	3b f5                	cmp    esi,ebp
+  41f0c0:	72 f0                	jb     0x41f0b2
+  41f0c2:	eb e0                	jmp    0x41f0a4
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00469a7b <.text+0x68a7b>:
+  469a7b:	33 c0                	xor    eax,eax
+  469a7d:	5d                   	pop    ebp
+  469a7e:	c3                   	ret
+  469a7f:	ba df 0d 00 00       	mov    edx,0xddf
+  469a84:	b9 0c d6 49 00       	mov    ecx,0x49d60c
+  469a89:	e8 ae d0 01 00       	call   0x486b3c
+  469a8e:	e9 27 56 fb ff       	jmp    0x41f0ba

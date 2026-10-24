@@ -1,0 +1,19 @@
+{
+  "logical": "@lookup_output_table@8",
+  "hot": [
+    4321413,
+    4321476
+  ],
+  "cold": [
+    [
+      4627067,
+      4627091
+    ]
+  ],
+  "bytes": 87,
+  "abi": "fastcall C2OutputTable*tableECX,unsignedindexEDX; void*EAX,RET0",
+  "role": "Generic1-basedlookup, NULLwhenindex>count, pagecapacity walk; absentintermediatepage internalerror3551 then continue, index0 preservesoriginalunsignedunderflow/noinventedguard.",
+  "next": "initialize_coff_symbols C2CoffSectionData*ECX; actualdata1908 owner1884/backlink, currentrecord60B/list24B/chunk508B/reloc508B/lines308B; poolcursor3316/rem780.",
+  "source_sha256": "047d97ab2432ccad2958778aad612998b1078bd7ca7b8906c5c2eabf98596136",
+  "disassembly_sha256": "b6fb39c2a4546e581810869ee2fa62a36107a0512892a739436b3cb9ed79397b"
+}

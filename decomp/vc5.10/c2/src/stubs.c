@@ -635,11 +635,6 @@ void __fastcall mark_debug_section(unsigned section)
     __asm { int 3 }
 }
 
-void *__fastcall lookup_output_table(C2OutputTable *table, unsigned index)
-{
-    __asm { int 3 }
-    return 0;
-}
 void __fastcall initialize_coff_symbols(C2CoffSectionData *data)
 {
     __asm { int 3 }

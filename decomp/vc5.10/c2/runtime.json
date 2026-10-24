@@ -1148,14 +1148,6 @@
     "evidence": null
   },
   {
-    "name": "@lookup_output_table@8",
-    "start": 4321413,
-    "end": 4321414,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@initialize_coff_symbols@4",
     "start": 4321476,
     "end": 4321477,

@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 82 application functions (18127 bytes) and five CRT
+Current reconstruction has 83 application functions (18214 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at generic table lookup index1, called by section initialization,
-after the generic table insertion and caller descriptor name/index writes. Four import thunks (24 bytes) and contextual text tables
-(725 bytes) remain separate. The 18565 source bytes are 3.239% of 573183 `.text`
+currently stops at section-symbol initialization, after the60-byte data record,
+its output list and relocation/line buffer prefixes have been initialized. Four import thunks (24 bytes) and contextual text tables
+(725 bytes) remain separate. The 18652 source bytes are 3.254% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -433,3 +433,5 @@ actual ECX/EDX, initializer ushort/flags and creator aliases checked. Sixteen
 affected controls take18.952s;6fresh/147reused protocol controls7.460s.
 Original/native/helper builds take6.405/2.813/1.615s; full separate capture,
 audit and native fixture accounting is retained in0087.
+
+Source88 reconstructs the87-byte generic1-based table lookup and its cold internal-error path. The first pair continues through the accepted section allocator/list constructors, proving the actual60-byte record,24-byte list,508-byte chunk and508/308-byte block prefixes with exact caller/table/backlink identities. Full4096-byte comparison relies on the already proved allocator zero writer; uninterpreted gaps/tails receive no new layout/payload credit. Twenty-one affected controls take23.977s;6fresh/147reused protocol controls7.316s. Original/native/helper builds take2.185/2.037/2.252s. Exact separate capture/audit/native-fixture timings are in0088.
