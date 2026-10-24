@@ -1,0 +1,51 @@
+{
+  "matched": true,
+  "function": "@omf_output_debug_pair@4",
+  "previous_provisional_name": "_omf_output_debug_pair",
+  "original_va": "0x6b730",
+  "formals": [
+    {
+      "name": "filename",
+      "location": "ECX",
+      "type": "char pointer",
+      "original": 8071536,
+      "native": 1449359976
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6b730..6b735 is tail JMP6a980, whose accepted fastcall header writer consumes sole ECX source C string and RET0. No EDX/stack/flags/x87/out pointer. Actual filename aliases original emit_machine_instructions ESI record+12/current7901c/listing7e8a0 with source-record opcode5/closed machine list owner/return6856d, and native corresponding caller record/globals; full filename+NUL observed. Child does not inspect return address, so ordinary C call preserves logical edge/ABI without assembly.",
+  "shape": {
+    "opcode": 5,
+    "list_index": 1,
+    "filename_hex": "6f6d6674797065732e6300"
+  },
+  "original": {
+    "source": 8071536,
+    "current": 8071536,
+    "listing": 8071536,
+    "instruction": 8072860,
+    "record_source": 8071536,
+    "opcode": 5,
+    "list_index": 1,
+    "member": 8072860,
+    "return_address": 427373,
+    "filename_hex": "6f6d6674797065732e6300"
+  },
+  "native": {
+    "source": 1449359976,
+    "current": 1449359976,
+    "listing": 1449359976,
+    "instruction": 1449361312,
+    "record_source": 1449359976,
+    "opcode": 5,
+    "list_index": 1,
+    "member": 1449361312,
+    "filename_hex": "6f6d6674797065732e6300",
+    "caller": "emit_machine_instructions"
+  },
+  "original_execution_seconds": 1.8094730218872428,
+  "native_debug_seconds": 0.1427113777026534,
+  "total_seconds": 2.2108440417796373,
+  "scope": "Actual filename object/sole formal and record/current/listing pointer identity, no record tail dump.1024 list bound is observation-only.5-byte whole body forwarding/header child behavior still requires focused/canonical/fresh matching; no physical tail-frame/return-address equivalence claim."
+}

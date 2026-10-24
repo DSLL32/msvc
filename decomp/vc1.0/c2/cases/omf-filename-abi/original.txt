@@ -1,0 +1,7 @@
+enter @omf_output_debug_pair@4 eax 007b2970 args 007b2970
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_filename source 007b2970 current 007b2970 listing 007b2970 instruction 007b2e9c record_source 007b2970 opcode 5 list_index 1 member 007b2e9c return_address 0006856d
+omf_filename_hex 6f6d6674797065732e6300
+entry_end

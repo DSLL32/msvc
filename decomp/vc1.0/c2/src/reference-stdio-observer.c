@@ -277,6 +277,16 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
     }
+    if(!strcmp(call->name,"@omf_output_debug_pair@4")) {
+        DWORD source=call->args[0],instruction=context->Esi;
+        DWORD node=read_word(process,image_base+0x6b940),index=0;
+        while(node&&node!=instruction&&index<1024){node=read_word(process,node);++index;}
+        if(node!=instruction||index==1024)exit(301);
+        sprintf(line,"omf_filename source %08lx current %08lx listing %08lx instruction %08lx record_source %08lx opcode %lu list_index %lu member %08lx return_address %08lx\n",
+            source,read_word(process,image_base+0x6901c),read_word(process,image_base+0x6e8a0),instruction,
+            read_word(process,instruction+12),read_word(process,instruction+8),index,node,call->return_address);log_line(line);
+        dump_bytes(process,"omf_filename_hex",source,string_bytes(process,source));
+    }
     if(!strcmp(call->name,"@output_noop_function@16")) {
         DWORD symbol=read_word(process,image_base+0x731ac),function=read_word(process,image_base+0x731b4);
         DWORD flags=read_word(process,function+40),symbol_flags=read_word(process,symbol+12)>>16;

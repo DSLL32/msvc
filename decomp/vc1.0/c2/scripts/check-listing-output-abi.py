@@ -18,6 +18,15 @@ for name in config['accepted'][1162:1189]+[n for n in config['accepted'][1206:]i
     sides=[]
     for image,records in [(original,left),(canonical,right)]:
         row=next(r for r in records if r['name']==name);graph.edges(image,records,row);instructions=list(observed[-1].visited.values());returns=[dict(address=hex(a),stack_bytes=int(op,0)if op else 0)for a,size,mn,op in instructions if mn.split()[-1]=='ret']
+        if not returns and name=='@omf_output_debug_pair@4':
+            # Original whole body is a tail JMP, not a RET. Prove its sole
+            # accepted target's cleanup; canonical may use an ordinary CALL.
+            assert len(instructions)==1 and instructions[0][2]=='jmp'
+            target=int(instructions[0][3],0)
+            child=next(r for r in records if r['name']=='@omf_write_module_header@4')
+            assert target==child['start'] and row['end']-row['start']==5
+            graph.edges(image,records,child)
+            returns=[dict(address=hex(a),stack_bytes=int(op,0)if op else 0,via_tail='@omf_write_module_header@4')for a,size,mn,op in observed[-1].visited.values()if mn.split()[-1]=='ret']
         assert returns and all(r['stack_bytes']==expected for r in returns),(name,returns)
         sides.append(returns)
     checked.append(dict(name=name,original=sides[0],canonical=sides[1],callee_stack_bytes=expected,abi='fastcall ECX/EDX with any additional arguments callee-cleaned; byte/word widths declared in original prototypes'))

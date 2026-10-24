@@ -1163,3 +1163,10 @@ void __fastcall omf_emit_local_external(SymbolHeader *symbol)
     *cursor++ = 0;
     record->cursor = cursor;
 }
+
+/* Original [0006b730,0006b735): filename callback tail-forwards to THEADR.
+   The accepted header writer receives only ECX, with no return-address input. */
+void __fastcall omf_output_debug_pair(char *filename)
+{
+    omf_write_module_header(filename);
+}

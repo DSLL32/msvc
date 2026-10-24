@@ -1292,7 +1292,8 @@
     "@omf_add_fixup@16",
     "_omf_allocate_fixup",
     "@output_noop_function@16",
-    "@omf_emit_local_external@4"
+    "@omf_emit_local_external@4",
+    "@omf_output_debug_pair@4"
   ],
   "driver": [
     {
@@ -2331,10 +2332,23 @@
       }
     },
     {
-      "name": "_omf_output_debug_pair",
+      "name": "@omf_output_debug_pair@4",
       "start": 440112,
-      "end": 440113,
-      "provisional": true
+      "end": 440117,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "filename",
+            "location": "ECX",
+            "type": "char pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-filename-abi/validation.json",
+        "scope": "Original6b730..6b735 is tail JMP6a980, whose accepted fastcall header writer consumes sole ECX source C string and RET0. No EDX/stack/flags/x87/out pointer. Actual filename aliases original emit_machine_instructions ESI record+12/current7901c/listing7e8a0 with source-record opcode5/closed machine list owner/return6856d, and native corresponding caller record/globals; full filename+NUL observed. Child does not inspect return address, so ordinary C call preserves logical edge/ABI without assembly."
+      }
     },
     {
       "name": "_omf_output_debug_record",

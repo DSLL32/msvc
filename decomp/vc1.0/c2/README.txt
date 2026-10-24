@@ -772,3 +772,13 @@ audits/new focused controls/fresh pair and15 native cases pass(14 complete),
 next debug filename wrapper6b730.343704/399693 extent bytes; app/support325404B/
 1173functions exclude5 historical CRT. Audit21.908s, historical full grids stay
 explicit. Timings/scope: cases/omf-local-external-checkpoint.json.
+
+Checkpoint1289 adds whole5-byte filename tail adapter as typed C; actual
+omftypes.c ECX pointer aliases current/listing/machine record owner.15 forwarding
+controls/10 ABI rejects, original/W3/graph/extents/ABI/storage checks, fresh pair
+and15 native cases pass(14 complete), next fixup writer6c400. Return-only audit
+first rejected tail JMP; corrected exact target/extent proof verifies accepted
+header RET0. Failure3.481s retained; corrected ordinary audit22.226s. Physical
+tail/call return frames are not input identity.343709/399693 extent bytes;
+app/support325409B/1174functions exclude5 historical CRT. Full object pending.
+Timings/limits: cases/omf-filename-checkpoint.json.

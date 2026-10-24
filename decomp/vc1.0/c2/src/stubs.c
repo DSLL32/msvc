@@ -93,7 +93,6 @@ __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_ou
 __declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_output_symbol) __asm int 3 }
 
 
-__declspec(naked) void omf_output_debug_pair(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_pair) __asm int 3 }
 __declspec(naked) void omf_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_record) __asm int 3 }
 __declspec(naked) void omf_output_value(void) { RECON_TRACE_NAKED_ENTRY(omf_output_value) __asm int 3 }
 __declspec(naked) void omf_output_offset(void) { RECON_TRACE_NAKED_ENTRY(omf_output_offset) __asm int 3 }
