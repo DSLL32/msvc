@@ -1,5 +1,5 @@
 {
-  "status": "proposed-root-review",
+  "status": "approved-root",
   "case": "dos-codeview16",
   "input_plan": "Use existing authentic Watcom10.0a WinNT-hosted16-bit WCC/WCL/WLINK to build a small DOS MZ executable with CodeView debug types, locals, publics and source lines. CVPACK itself and reconstruction source remain VC1 Win32; generated DOS code is never executed by fixtures.",
   "producer_plan": "Start with supported compiler CodeView/debug flags after local help validation; link real DOS format. Inspect actual end-trailer NB05/directory/subsections before freezing. WLINK binary contains NB05; its optional CODEVIEW.DLL contains NB09, so automatic packing is an explicit uncertainty to resolve with genuine producer options, never signature relabeling.",
@@ -39,5 +39,6 @@
     "named_stubs": 31,
     "non_CRT_denominator": null,
     "uncertainty": "Remaining native/support versus unusedCRT/padding/data is not fully classified; the named stubs are still application/support candidates."
-  }
+  },
+  "actual_producer": "Existing WinNT WCC/WLINK succeeded without new patches; genuine NB05 and two source-line127 subsections; standalone CVPACK exit0. See owned cases/dos-codeview16/build-provenance."
 }

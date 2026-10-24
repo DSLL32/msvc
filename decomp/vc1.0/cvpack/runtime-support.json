@@ -85,5 +85,34 @@
     "access": 3221225472,
     "guard_version": 2,
     "phase": 3
+  },
+  {
+    "name": "__sopen",
+    "classification": "reviewed-case-specific-CRT-variant",
+    "case": "dos-codeview16",
+    "application_coverage": false,
+    "unconditionally_unmask": false,
+    "target_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "start": 187568,
+    "end": 188576,
+    "body_sha256": "b7fdcb2af4a8c2dc7acb300de553cec15ecc7fa126d0aed46ad2e8c359c7fb12",
+    "evidence": "cases/runtime-variants/sopen-analysis.json",
+    "evidence_sha256": "b0c1dcc543dc7ba8b08da658bb99db579e00105352cde002a9ec850b4c138040",
+    "guard": {
+      "mode": 32770,
+      "share": 64,
+      "name": "dos-cv.exe",
+      "every_invocation": true
+    },
+    "input": {
+      "name": "dos-cv.exe",
+      "bytes": 5577,
+      "sha256": "5dd0e8f3fc09ad257ea86b7dcaf2112b50d0d939c8f2a249f8f78bf3f7633c47",
+      "path": "decomp/vc1.0/cvpack/cases/dos-codeview16/input/dos-cv.exe"
+    },
+    "policy_approval": "Root approved exact DOS input successful8002/share40 variant reuse, one initial invocation only; same reviewed body, every-entry guard, full input/return/descriptor/error/CreateFile observations; no CRT/app acceptance. Unknown modes/files/phases fail. Inheritance remains originalTRUE/nativeFALSE under singleprocess/nochild scope.",
+    "access": 3221225472,
+    "guard_version": 2,
+    "phase": 1
   }
 ]

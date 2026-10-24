@@ -1,0 +1,104 @@
+{
+  "name": "dos-codeview16",
+  "argv": [
+    "/nologo",
+    "/cvnew",
+    "/verbose",
+    "dos-cv.exe"
+  ],
+  "inputs": [
+    {
+      "name": "dos-cv.exe",
+      "bytes": 5577,
+      "sha256": "5dd0e8f3fc09ad257ea86b7dcaf2112b50d0d939c8f2a249f8f78bf3f7633c47",
+      "path": "decomp/vc1.0/cvpack/cases/dos-codeview16/input/dos-cv.exe"
+    }
+  ],
+  "status": "active",
+  "current": {
+    "terminal": "trap",
+    "original": 153184,
+    "native_function": "convert_global_data16",
+    "stdout": "frontier.stdout",
+    "stderr": "frontier.stderr",
+    "artifacts": [
+      {
+        "name": "dos-cv.exe",
+        "bytes": 5577,
+        "sha256": "5dd0e8f3fc09ad257ea86b7dcaf2112b50d0d939c8f2a249f8f78bf3f7633c47"
+      }
+    ],
+    "proof_mode": "entry-flow",
+    "application_trace": [
+      "main",
+      "parse_options",
+      "files_initialize",
+      "new_page",
+      "new_file_slot",
+      "open_file",
+      "find_cached_file",
+      "acquire_file_slot",
+      "move_file_slot",
+      "open_buffered_file",
+      "seek_buffered_file",
+      "allocate_file_page",
+      "attach_page",
+      "read_file_page",
+      "touch_page",
+      "initialize_type_tables",
+      "checked_zero",
+      "initialize_buffer",
+      "checked_alloc",
+      "read_image_debug",
+      "seek_file",
+      "read_file",
+      "read_buffered_file",
+      "tell_file",
+      "read_cv_signature",
+      "read_new_directory",
+      "compare_directory",
+      "initialize_modules",
+      "read_subsection",
+      "find_module",
+      "pack_module",
+      "read_module",
+      "read_global_types",
+      "read_new_global_types",
+      "reset_local_types",
+      "reset_type_hash",
+      "read_publics",
+      "read_types",
+      "read_source_module",
+      "advance_file_page",
+      "release_page",
+      "flush_file_page",
+      "pack_public_symbols",
+      "convert_new_type",
+      "intern_public",
+      "hash_public",
+      "allocate_symbol",
+      "index_new_types",
+      "reserve_extra_type",
+      "has_extra_type",
+      "pack_new_types",
+      "write_search_symbol",
+      "convert_object_name",
+      "convert_global_data16"
+    ],
+    "observed_globals": [],
+    "observed_walks": []
+  },
+  "complete_reference": {
+    "terminal": "exit",
+    "exit": 0,
+    "artifacts": [
+      {
+        "name": "dos-cv.exe",
+        "bytes": 6864,
+        "sha256": "26fdcf679374ee3ac97ad2a99d44f9bda153f0b013e234bf3bc89738b0c128f2"
+      }
+    ],
+    "stdout": "reference/stdout",
+    "stderr": "reference/stderr"
+  }
+}

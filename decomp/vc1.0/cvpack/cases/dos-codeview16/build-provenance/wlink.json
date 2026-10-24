@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "wine",
+    "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+    "@dos-cv.lnk"
+  ],
+  "status": 0,
+  "elapsed_seconds": 0.5100362962111831,
+  "WATCOM": "R:\\toolchains\\watcom10.0a",
+  "cwd": "/root/.ai-tmp/vc1.0-cvpack/dos-codeview16-build"
+}

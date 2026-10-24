@@ -56,7 +56,7 @@ void read_symbols(unsigned long directory,const CvDirectoryEntry * entry) { __as
 void read_lines(unsigned long directory,const CvDirectoryEntry * entry) { __asm { int 3 } }
 
 
-void read_source_module(unsigned long directory,const CvDirectoryEntry * entry) { __asm { int 3 } }
+
 
 
 void prepare_symbols(void * symbols,unsigned long size) { __asm { int 3 } }

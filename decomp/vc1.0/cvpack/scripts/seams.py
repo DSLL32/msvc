@@ -22,9 +22,13 @@ def check_policy_snapshot(directory,expected,path=None):
 def validate(config,pe,runtime,record):
     assert record['classification']=='reviewed-case-specific-CRT-variant'
     assert record['application_coverage'] is False and record['unconditionally_unmask'] is False
-    assert record['case']=='hello-debug-dll' and record['name']=='__sopen'
+    assert record['case']in('hello-debug-dll','dos-codeview16') and record['name']=='__sopen'
     guard=record['guard']
-    if guard['name']=='hello-debug.dll':
+    if record['case']=='dos-codeview16':
+        assert guard==dict(mode=0x8002,share=0x40,name='dos-cv.exe',every_invocation=True)
+        assert record['phase']==1 and record['input']==dict(path='decomp/vc1.0/cvpack/cases/dos-codeview16/input/dos-cv.exe',name='dos-cv.exe',bytes=5577,sha256='5dd0e8f3fc09ad257ea86b7dcaf2112b50d0d939c8f2a249f8f78bf3f7633c47'),'unapproved DOS input/phase'
+        access=0xc0000000
+    elif guard['name']=='hello-debug.dll':
         assert guard==dict(mode=0x8002,share=0x40,name='hello-debug.dll',every_invocation=True)
         assert record['phase']in(1,3),'unapproved DLL open phase'
         if record['phase']==1:assert record['input']==dict(path='decomp/vc1.0/cvpack/cases/hello-debug-dll/input/hello-debug.dll',name='hello-debug.dll',bytes=2097152,sha256='81a603fcfffc6229f408dc056a54441d3806b09c8526cab8b3a1b5de74959036'),'unapproved initial DLL input'
@@ -64,7 +68,8 @@ def approved(config,pe,runtime,case=None):
     path=BINARY/'runtime-support.json'
     records=json.loads(path.read_text())if path.exists()else []
     result=[validate(config,pe,runtime,record)for record in records]
-    assert [r['phase']for r in result]==[1,2,3],'conditional phase inventory/order differs'
+    assert [r['phase']for r in result if r['case']=='hello-debug-dll']==[1,2,3],'conditional DLL phase inventory/order differs'
+    assert [r['phase']for r in result if r['case']=='dos-codeview16']==[1],'conditional DOS phase inventory/order differs'
     return [r for r in result if case is None or r['case']==case]
 
 

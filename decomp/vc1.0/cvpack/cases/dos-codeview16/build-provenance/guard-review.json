@@ -1,0 +1,6 @@
+{
+  "root_policy": "Exact DOS successful8002/share40/first phase; unknown file/mode/phase denied; zero application/CRT credit",
+  "maintainer_review": "/root/.ai-tmp/msvc2/recon-maintenance/cvpack-dos-open/review.json",
+  "sha256": "8730e2e890f8164f065e1047841ecbb7299b6e6a225f25f3a94aef450e91fe7a",
+  "result": "PASS; technical review and five small offline affected controls; no further original or historical replay"
+}

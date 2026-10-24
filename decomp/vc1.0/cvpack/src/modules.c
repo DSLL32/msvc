@@ -559,3 +559,16 @@ SourceName *add_source_name(const unsigned char *name, SourceName *tail,
     /* The original never publishes item into source_name_hash[bucket]. */
     return item;
 }
+
+void read_source_module(unsigned long directory, const CvDirectoryEntry *entry)
+{
+    if (cv_read_offset != (unsigned long)entry->location.offset) {
+        cv_read_offset = entry->location.offset;
+        ++subsection_reads;
+        seek_file(input_file, cv_file_offset+cv_read_offset, 0);
+    }
+    if (read_file(input_file, module_data, entry->size) != entry->size)
+        fatal_error(17, "Source Module", module_name(current_module));
+    cv_read_offset += entry->size;
+    line_directory = directory;
+}

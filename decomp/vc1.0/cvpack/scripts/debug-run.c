@@ -74,6 +74,7 @@ static int finish_spawn(HANDLE child, HANDLE thread, HANDLE log)
 
 /* Case-specific original CRT observation. Not reconstruction source. */
 static DWORD sopen_start, sopen_end, sopen_offset, sopen_return, sopen_step;
+static DWORD sopen_limit;
 static DWORD sopen_saved_tf, sopen_create_step, sopen_create_tf, sopen_create_seen;
 static DWORD child_teb, sopen_access, last_sopen_fd, sopen_completed;
 static char sopen_reopen_master[1024];
@@ -137,6 +138,7 @@ static int begin_sopen(HANDLE child, HANDLE original, HANDLE log, HANDLE thread)
     line[used++] = '\n';
     WriteFile(log, line, used, &written, 0);
     if (sopen_return || sopen_step || (context.EFlags & 0x100)) return denied_sopen(log, "nested-or-TF");
+    if (sopen_limit && sopen_completed >= sopen_limit) return denied_sopen(log, "phase-limit");
     if (!strcmp(name, sopen_name)) {
         if (words[2] != 0x8002) return denied_sopen(log, "mode");
         sopen_active_input = sopen_input;
@@ -1253,9 +1255,10 @@ int main(int argc, char **argv)
         if (sscanf(program, "%lx:%lx:%lx", &sopen_start, &sopen_end, &sopen_offset) != 3 ||
             sopen_start != 0x2dcb0 || sopen_end != 0x2e0a0 ||
             !GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_NAME", sopen_name, sizeof(sopen_name)) ||
-            strcmp(sopen_name, "hello-debug.dll") ||
+            (strcmp(sopen_name, "hello-debug.dll") && strcmp(sopen_name, "dos-cv.exe")) ||
             !GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_INPUT", sopen_master, sizeof(sopen_master)) ||
             strlen(argv[6])+strlen(sopen_name)+2 >= sizeof(sopen_input)) return 14;
+        if (!strcmp(sopen_name, "dos-cv.exe")) sopen_limit = 1;
         sprintf(sopen_input, "%s\\%s", argv[6], sopen_name);
         GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_REOPEN_INPUT", sopen_reopen_master, sizeof(sopen_reopen_master));
         if (GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_PDB_NAME", sopen_pdb_name, sizeof(sopen_pdb_name))) {
