@@ -432,3 +432,25 @@ void __fastcall write_codeview_block(FunctionSymbol *symbol, unsigned offset, un
     output_callbacks.size((unsigned)-7, &symbol->symbol);
     debug_symbols_segment->symbol.field04 += 23;
 }
+
+/* Original [00069f30,00069fef). Global data/TLS differs from the local
+   writer in its record kind, retaining the same typed address/name layout. */
+void __fastcall write_codeview_global_data(SymbolHeader *symbol)
+{
+    CodeViewDataRecord record;
+    char *name = format_function_name(symbol), *end;
+    unsigned length;
+    output_callbacks.select_segment(debug_symbols_segment);
+    end = name;
+    while (*end++) ;
+    length = (unsigned)(end - name) + 10;
+    record.length = (unsigned short)length;
+    record.kind = symbol->kind == 1 && (symbol->field0e & 0x1000) ? 0x20e : 0x202;
+    record.offset = coff_object && !byte_block_first ? symbol->field04 : 0;
+    record.section = 0;
+    record.type = ((BackendSymbol *)symbol)->field20;
+    copy_codeview_string(record.name, name);
+    output_callbacks.data(&record, length + 2);
+    output_callbacks.size(2 - length, symbol);
+    debug_symbols_segment->symbol.field04 += length + 2;
+}

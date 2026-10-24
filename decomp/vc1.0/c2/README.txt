@@ -852,3 +852,13 @@ aliases observed.15 controls/8 ABI rejects, original/W3/ordinary audits/fresh
 pair and15 native cases pass(14 complete), next global CodeView data69f30.
 344423/399693 extent bytes; app/support326123B/1182functions exclude5 historical
 CRT. Audit24.542s, full object pending. cases/omf-relative-checkpoint.json.
+
+Checkpoint1298 adds191-byte global data/TLS CodeView writer with existing
+shared typed record layout. Actual sole symbolID116/name_omf_unknown/flags2304/
+type117/coff0/debugoffset559 match; inactive nonCOFF offset and descriptor tails
+not dumped.768 full independent wire controls/10 ABI rejects, original/W3/
+ordinary audits/fresh pair and15 native cases pass(14 complete), next module
+finalizer6a9d0.344614/399693 extent bytes; app/support326314B/1183functions
+exclude5 historical CRT. Full new controls19.541s, structural audit25.780s;
+names>255 original length behavior still unexercised, no guard/normalization.
+Full exact object pending. cases/codeview-global-data-checkpoint.json.

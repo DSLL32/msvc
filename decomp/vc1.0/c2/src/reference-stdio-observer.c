@@ -375,6 +375,19 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             symbol,call->args[1],call->args[2],context->Ebx,read_word(process,symbol+4),scope,
             read_word(process,scope+4),read_word(process,scope+8),debug,read_word(process,debug+4),call->return_address);log_line(line);
     }
+    if(!strcmp(call->name,"@write_codeview_global_data@4")) {
+        DWORD symbol=call->args[0],id=read_word(process,symbol+28),bucket=id&63,index=0;
+        DWORD member=read_word(process,image_base+0x6c158+4*bucket),debug=read_word(process,image_base+0x6914c);
+        DWORD coff=read_word(process,image_base+0x706f4),byte_first=read_word(process,image_base+0x706f0),name=read_word(process,symbol+16);
+        while(member&&member!=symbol&&index<1024){member=read_word(process,member);++index;}
+        if(member!=symbol||index==1024)exit(306);
+        sprintf(line,"codeview_global symbol %08lx identifier %lu bucket %lu index %lu member %08lx kind %lu flags %lu type %lu coff %lu byte_first %lu debug %08lx debug_offset %08lx return_address %08lx\n",
+            symbol,id,bucket,index,member,read_byte(process,symbol+12),read_word(process,symbol+12)>>16,
+            read_word(process,symbol+32)&65535,coff,byte_first,debug,read_word(process,debug+4),call->return_address);log_line(line);
+        dump_bytes(process,"codeview_global_name_hex",name,string_bytes(process,name));
+        if(coff&&!byte_first){sprintf(line,"codeview_global_offset %08lx\n",read_word(process,symbol+4));log_line(line);}
+        /* No descriptor/padding/output snapshot, only consumed scalar/name inputs. */
+    }
     if(!strcmp(call->name,"@omf_output_offset@8")) {
         DWORD symbol=call->args[1],id=read_word(process,symbol+28),bucket=id&63,index=0;
         DWORD member=read_word(process,image_base+0x6c158+4*bucket);

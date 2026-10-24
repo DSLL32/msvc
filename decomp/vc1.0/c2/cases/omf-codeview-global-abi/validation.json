@@ -1,0 +1,73 @@
+{
+  "matched": true,
+  "function": "@write_codeview_global_data@4",
+  "original_va": "0x69f30",
+  "formals": [
+    {
+      "name": "symbol",
+      "location": "ECX",
+      "type": "SymbolHeader pointer",
+      "original": 8073256,
+      "native": 1449365812
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original69f30..69fef sole ECXsymbol, RET0; no other incoming register/stack/flags/x87/out pointer. Actual closed global hash and native write_debug_symbol formal alias. Kind/flags/full name/typeWORD and COFF/byte-block conditional offset, debug segment global/defined offset observed. Name provider uses only name/kind/convention flags on actual non-C++ input; no opaque descriptor or output buffer.",
+  "shape": {
+    "identifier": 116,
+    "bucket": 52,
+    "index": 0,
+    "kind": 1,
+    "flags": 2304,
+    "type": 117,
+    "coff": 0,
+    "byte_first": 0,
+    "debug_offset": 559,
+    "name_hex": "5f6f6d665f756e6b6e6f776e00",
+    "payload": {}
+  },
+  "original": {
+    "state": {
+      "symbol": 8073256,
+      "identifier": 116,
+      "bucket": 52,
+      "index": 0,
+      "member": 8073256,
+      "kind": 1,
+      "flags": 2304,
+      "type": 117,
+      "coff": 0,
+      "byte_first": 0,
+      "debug": 8066196,
+      "debug_offset": 559,
+      "return_address": 432695,
+      "name_hex": "5f6f6d665f756e6b6e6f776e00"
+    },
+    "payload": {}
+  },
+  "native": {
+    "state": {
+      "symbol": 1449365812,
+      "identifier": 116,
+      "bucket": 52,
+      "index": 0,
+      "member": 1449365812,
+      "kind": 1,
+      "flags": 2304,
+      "type": 117,
+      "coff": 0,
+      "byte_first": 0,
+      "debug": 1449358704,
+      "debug_offset": 559,
+      "name_hex": "5f6f6d665f756e6b6e6f776e00",
+      "caller": "write_debug_symbol",
+      "caller_symbol": 1449365812
+    },
+    "payload": {}
+  },
+  "original_execution_seconds": 1.611917364411056,
+  "native_debug_seconds": 0.14547313004732132,
+  "total_seconds": 2.0160939041525126,
+  "scope": "Actual pointer/owner and active scalar/name/context only, no unused offset under nonCOFF/descriptor tail/stack record dump or seed. Child format/select/copy may change later state; preserve original reload/order. Full body/control/canonical/fresh matching pending."
+}

@@ -1301,7 +1301,8 @@
     "@omf_write_line@12",
     "@omf_output_size@8",
     "@write_codeview_block@12",
-    "@omf_output_offset@8"
+    "@omf_output_offset@8",
+    "@write_codeview_global_data@4"
   ],
   "driver": [
     {
@@ -8645,8 +8646,21 @@
     {
       "name": "@write_codeview_global_data@4",
       "start": 433968,
-      "end": 433969,
-      "provisional": true
+      "end": 434159,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-codeview-global-abi/validation.json",
+        "scope": "Original69f30..69fef sole ECXsymbol, RET0; no other incoming register/stack/flags/x87/out pointer. Actual closed global hash and native write_debug_symbol formal alias. Kind/flags/full name/typeWORD and COFF/byte-block conditional offset, debug segment global/defined offset observed. Name provider uses only name/kind/convention flags on actual non-C++ input; no opaque descriptor or output buffer."
+      }
     },
     {
       "name": "@write_codeview_label@4",
