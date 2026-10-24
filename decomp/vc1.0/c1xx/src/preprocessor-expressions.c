@@ -76,3 +76,17 @@ PreprocessorValue *parse_preprocessor_logical_and(void)
     preprocessor_skip_evaluation = saved;
     return left;
 }
+
+PreprocessorValue *parse_preprocessor_bitwise_xor(void);
+
+/* Original 0x187f0..0x18821. */
+PreprocessorValue *parse_preprocessor_bitwise_or(void)
+{
+    PreprocessorValue *left, *right;
+    left = parse_preprocessor_bitwise_xor();
+    while (accept_preprocessor_token(0x56)) {
+        right = parse_preprocessor_bitwise_xor();
+        left = evaluate_preprocessor_binary(0x56, left, right);
+    }
+    return left;
+}

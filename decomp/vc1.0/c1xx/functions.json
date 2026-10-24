@@ -1292,7 +1292,8 @@
     "_evaluate_preprocessor_expression",
     "_parse_preprocessor_conditional",
     "_parse_preprocessor_logical_or",
-    "_parse_preprocessor_logical_and"
+    "_parse_preprocessor_logical_and",
+    "_parse_preprocessor_bitwise_or"
   ],
   "driver": [
     {
@@ -9034,6 +9035,11 @@
       "name": "_parse_preprocessor_bitwise_or",
       "start": 100336,
       "end": 100386
+    },
+    {
+      "name": "_parse_preprocessor_bitwise_xor",
+      "start": 100400,
+      "end": 100450
     }
   ],
   "cases": {
@@ -9586,8 +9592,8 @@
           "original": 585720
         }
       ],
-      "terminal": "_parse_preprocessor_bitwise_or",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1287-parse_preprocessor_logical_and/original-events.txt",
+      "terminal": "_parse_preprocessor_bitwise_xor",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1288-parse_preprocessor_bitwise_or/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
         "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
@@ -9620,7 +9626,8 @@
         "cases/frontiers/member_registry_browser/1284-evaluate_preprocessor_expression/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1285-parse_preprocessor_conditional/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1286-parse_preprocessor_logical_or/frontier-extension.json",
-        "cases/frontiers/member_registry_browser/1287-parse_preprocessor_logical_and/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1287-parse_preprocessor_logical_and/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1288-parse_preprocessor_bitwise_or/frontier-extension.json"
       ],
       "transient_outputs": [
         {

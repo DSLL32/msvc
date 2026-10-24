@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_parse_preprocessor_bitwise_or",
+    "start": 100336,
+    "end": 100386
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1288-parse_preprocessor_bitwise_or/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_accept_preprocessor_token@4",
+    "_evaluate_preprocessor_binary@12",
+    "_parse_preprocessor_bitwise_xor"
+  ],
+  "next_frontier": "_parse_preprocessor_bitwise_xor",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 1.2135004391893744,
+  "total_operation_seconds": 5.6586720161139965,
+  "original_capture_seconds": 1.5685190642252564
+}

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_parse_preprocessor_bitwise_or",
+  "case": "member_registry_browser",
+  "accepted_before": 1288,
+  "configuration_sha256": "8dc0724f15ac09a89e22f0cb416213c530788c84777bb599f445d8ad0dc2dc00",
+  "native_entry": "parse_preprocessor_bitwise_or",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      100336,
+      100386
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals PreprocessorValue*EAX, savedESI, RET0",
+    "proof": "Whole50B mandatory bitwiseXOR cdecl0pointer result\u2192ESI, accept std4BYTE56; loop parsesright then binary std12(BYTE56,left,right), storesreturnedleft, repeats. No own global/stackformal/register/flags/x87 input, allocation/newdata/CRT. BitwiseXOR next50B independently read threecallee graph (bitwiseAND cdecl0pointer/accept std4BYTE64/binary std12) remains namedINT3; sharedaccept andbinary completeextents already known. Real condition/value owners become relevant only at reached binary frontier; this function firsttraps mandatory child.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "c9e57652ed4df233c841b047aeb72887b1e45cd6136b25a27194bcf6c91779fb",
+  "capture_timing": {
+    "original_capture_seconds": 1.1678729997947812,
+    "native_capture_seconds": 0.2056089909747243,
+    "total_operation_seconds": 1.6175209740176797
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "8559d87cf9af0d38a2191616e89b0e6f00e1ab147474a79650200dd2b38e9b9d",
+    "native-commands.gdb": "ac16f9f573fdabed534812aeedad76273b8b2456eb0761128e926a491fd658e1",
+    "native-gdb.log": "735758ef924d3cb7f3d910cb4e4e56a04fffb5cee73fc6b28252a044bde1357e",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "98f3e7ba1b08d1145f3f88d057732f85ed196ca51f9b3fc9e626c3c01a687aa8",
+    "original-configuration.json": "8dc0724f15ac09a89e22f0cb416213c530788c84777bb599f445d8ad0dc2dc00",
+    "original-disassembly.txt": "0f6006976253616505d3d39bd5ca0f1c1172a9b637a6a7d541b37fd668256bcf",
+    "original-events.txt": "7d4e6adf2fe5f3de81dcf5002d311e607fe0cc3a8797af9be1c0b7e58f3eb0f8",
+    "original-receipt.json": "9ce813cc8b6e697ee740449826b68ec1cd2eba799ab0b7c25b1a42b3c0a160e2",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "87001ddd8e54a5a1e3eec6d7aa71db6ac6ea87219cc368739795c5c332074875"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
