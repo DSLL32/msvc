@@ -14,7 +14,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
     def read(name):return json.loads((native/(name+'.json')).read_text())
     analysis=json.loads((original/'options-analysis.json').read_text());target=original/'loaded-target.bin'
     require(s.sha(target)==analysis['original_sha256'],'target inventory changed')
-    require(trial['trial']in ('_process_compiler_options','_push_declaration_context') and trial['options_parser_observers']['frontier_rva']==0x2b834,'wrong parser trial contract')
+    require(trial['trial']in ('_process_compiler_options','_push_declaration_context','_initialize_include_aliases') and trial['options_parser_observers']['frontier_rva']==0x2b834,'wrong parser trial contract')
     names=symbols(native/'native-executable.elf');layout=read('options-grammar-layout');patterns=read('options-native-patterns')
     if (native/'options-abi-refinement.json').exists():
         from options_abi_refinement import check as check_refinement
@@ -74,6 +74,9 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
             if '*'in typ and value:
                 if seed:
                     require(owned<=value<owned+8520 and actual==nowned+value-owned,'owned data-only pointer identity differs '+name)
+                elif name=='include_aliases'and '_initialize_include_aliases'in trial['accepted']:
+                    oldbase=struct.unpack_from('<I',(original/('arenas-'+final+'.bin')).read_bytes(),8)[0];newbase=state['frontend']['arenas'][2];reserve=state['frontend']['arenas'][5]
+                    require(oldbase<=value<oldbase+reserve and actual==newbase+value-oldbase,'owned arena suballocation root identity differs')
                 else:
                     require(name in LITERALS and value==BASE+LITERALS[name][0] and actual==defaults[name]['address'],'literal pointer identity differs '+name)
             else:require(value==actual,'typed semantic value differs '+name)

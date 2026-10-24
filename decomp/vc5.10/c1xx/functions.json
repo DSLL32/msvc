@@ -89,7 +89,8 @@
     "CompilerArena::AllocatePages",
     "CompilerArena::CommitExtent",
     "_process_compiler_options",
-    "_push_declaration_context"
+    "_push_declaration_context",
+    "_initialize_include_aliases"
   ],
   "driver": [
     {
@@ -1031,10 +1032,16 @@
     {
       "name": "_initialize_include_aliases",
       "start": 272863874,
-      "end": 272863875,
-      "pending_extent": true,
-      "source": "src/options.c",
-      "abi": "cdecl0"
+      "end": 272863912,
+      "source": "src/arenas.cpp",
+      "abi": "cdecl0",
+      "code_chunks": [
+        [
+          273097739,
+          273097754
+        ]
+      ],
+      "evidence": "own four-byte arena0 cursor bump/unsigned limit check/real thiscall CommitExtent cold member/root pointer assignment; no pointee write"
     },
     {
       "name": "_initialize_checksums",
@@ -5018,6 +5025,57 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 23.462575648911297,
         "native_seconds": 5.90078856702894
+      }
+    },
+    {
+      "name": "_initialize_include_aliases",
+      "classification": "application source",
+      "source": "src/arenas.cpp",
+      "source_sha256": "1a661be2e769fc86bc0384ac79f40085d0f5d00d6682743d0e5be13a25dfab9a",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-include-aliases-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-include-aliases-native-1",
+      "original_receipt_sha256": "3d3ccb5d040ef5bca3345cd4f049d77cbf49d7936d41516626189ee4f7565512",
+      "native_receipt_sha256": "c21a22e9d541067fe93c828fb745aef9249325769ee432921bc73a81a95489ad",
+      "trial_sha256": "27bd291b38ae39888c73a227c3a7d604c5e259d5a7976e71ffd3fef77b5687c3",
+      "audit_sha256": "69d00519b7d7b8add6e45523d06c0564a2dbecebdf861220655ab2f0918d28ef",
+      "code_chunks": [
+        [
+          234114,
+          234152
+        ],
+        [
+          467979,
+          467994
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_include_aliases",
+        "frontier": "_initialize_checksums",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1513,
+        "native_bss_size": 1544,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 6543,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 22.304406334646046,
+        "native_seconds": 6.177830656990409
       }
     }
   ],

@@ -131,7 +131,9 @@ def check(s,d,original,native,trial,text,state,final,traps):
     start,size=names['c1xx_main'];require(start<cli['return_pc']<start+size,'wrong main-to-options caller');call(cli['return_pc'],cli['pc']);require(cli['formal_inventory']==[dict(name='argc',type='int'),dict(name='argv',type='char **')],'actual options entry formal inventory differs')
     if '_process_compiler_options'not in trial['accepted']:require(state['symbol']=='process_compiler_options'and state['args']==dict(argc=26,argv=native_vector),'next named stub arguments differ')
     same(cli,old)
-    require(state['frontend']['arenas']==list(struct.unpack_from('<72I',native_bss,arena_offset)),'final serialized arenas differ from exact writes')
+    serialized_arenas=state['frontend']['arenas']
+    if '_initialize_include_aliases'in trial['accepted']:serialized_arenas=list(struct.unpack_from('<72I',bytes.fromhex(cli['guard']['bss']),arena_offset))
+    require(serialized_arenas==list(struct.unpack_from('<72I',native_bss,arena_offset)),'actual pool-boundary serialized arenas differ from exact writes')
     for i in range(10):
         cursor,remaining,minimum,receiver=struct.unpack_from('<4I',native_bss,storage['pool_%02d.cursor'%(i+1)][0]-native_start)
         require(state['frontend']['pools'][i]==dict(cursor=cursor,remaining=remaining,minimum_pages=minimum,arena=receiver),'final serialized pool differs from exact writes')

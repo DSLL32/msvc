@@ -35,17 +35,25 @@ def setup(output,binary):
 options_helper_entries=[]
 options_helper_returns=[]
 options_next_entries=[]
+options_alias_returns=[]
 class OptionsHelperReturn(gdb.Breakpoint):
     def __init__(self,address,entry_esp):
         super(OptionsHelperReturn,self).__init__('*0x%x'%address,internal=True);self.entry_esp=entry_esp
     def stop(self):
         row=scaler_context();row.update(entry_esp=self.entry_esp,guard=scaler_guard());options_helper_returns.append(row);self.enabled=False;return False
+class OptionsAliasReturn(gdb.Breakpoint):
+    def __init__(self,address,entry_esp):
+        super(OptionsAliasReturn,self).__init__('*0x%x'%address,internal=True);self.entry_esp=entry_esp
+    def stop(self):
+        row=scaler_context();row.update(entry_esp=self.entry_esp,guard=scaler_guard());options_alias_returns.append(row);self.enabled=False;return False
 class OptionsNextEntry(gdb.Breakpoint):
     def stop(self):
         row=scaler_context();row.update(return_pc=struct.unpack('<I',gdb.selected_inferior().read_memory(row['esp'],4))[0],guard=scaler_guard())
         block=gdb.block_for_pc(row['pc'])
         while block and not block.function:block=block.superblock
-        row['formal_inventory']=[{'name':item.name,'type':str(item.type)}for item in block if item.is_argument];options_next_entries.append(row);return False
+        row['formal_inventory']=[{'name':item.name,'type':str(item.type)}for item in block if item.is_argument]
+        if @@ALIAS@@ and row['pc']==@@NEXT_ALIAS@@:OptionsAliasReturn(row['return_pc'],row['esp'])
+        options_next_entries.append(row);return False
 class OptionsHelperEntry(gdb.Breakpoint):
     def stop(self):
         if @@LANGUAGE_AUX@@:
@@ -82,7 +90,8 @@ OptionsHelperEntry('*0x%x'%@@ENTRY@@,internal=True)
 if @@LANGUAGE@@:
     OptionsNextEntry('*0x%x'%@@NEXT_ALIAS@@,internal=True);OptionsNextEntry('*0x%x'%@@NEXT_CHECKSUM@@,internal=True)
 end
-'''.replace('@@OUTPUT@@',repr(str(output))).replace('@@ENTRY@@',str(names['push_declaration_context'][0])).replace('@@LITERALS@@',repr(literal_defaults(binary))).replace('@@LANGUAGE@@',repr('_push_declaration_context'in __import__('json').loads((output/'trial.json').read_text())['accepted'])).replace('@@NEXT_ALIAS@@',str(names['initialize_include_aliases'][0])).replace('@@NEXT_CHECKSUM@@',str(names['initialize_checksums'][0])).replace('@@LANGUAGE_AUX@@',repr(bool(__import__('json').loads((output/'trial.json').read_text()).get('language_context_observers'))and bool(__import__('json').loads((output/'trial.json').read_text()).get('test_seed'))))
+'''.replace('@@OUTPUT@@',repr(str(output))).replace('@@ENTRY@@',str(names['push_declaration_context'][0])).replace('@@LITERALS@@',repr(literal_defaults(binary))).replace('@@LANGUAGE@@',repr('_push_declaration_context'in __import__('json').loads((output/'trial.json').read_text())['accepted'])).replace('@@NEXT_ALIAS@@',str(names['initialize_include_aliases'][0])).replace('@@ALIAS@@',repr('_initialize_include_aliases'in __import__('json').loads((output/'trial.json').read_text())['accepted'])).replace('@@NEXT_CHECKSUM@@',str(names['initialize_checksums'][0])).replace('@@LANGUAGE_AUX@@',repr(bool(__import__('json').loads((output/'trial.json').read_text()).get('language_context_observers'))and bool(__import__('json').loads((output/'trial.json').read_text()).get('test_seed'))))
     finish='python\nopen('+repr(str(output/'options-helper-entries.json'))+',"w").write(json.dumps(options_helper_entries,indent=2)+"\\n")\nend\n'
     finish+="python\nopen("+repr(str(output/'options-helper-returns.json'))+",'w').write(json.dumps(options_helper_returns,indent=2)+'\\n')\nopen("+repr(str(output/'options-next-entries.json'))+",'w').write(json.dumps(options_next_entries,indent=2)+'\\n')\nend\n"
+    finish+="python\nopen("+repr(str(output/'options-alias-returns.json'))+",'w').write(json.dumps(options_alias_returns,indent=2)+'\\n')\nend\n"
     return code,finish

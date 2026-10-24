@@ -34,6 +34,9 @@ static int return_active, restore_observer, pool_return_observer;
 static int language_return_active;
 static DWORD language_return_pc;
 static BYTE language_return_byte;
+static int alias_return_active;
+static DWORD alias_return_pc;
+static BYTE alias_return_byte;
 static BYTE restore_observer_byte;
 static DWORD aux_old_base, aux_new_base;
 static int aux_returned;
@@ -1114,6 +1117,14 @@ int main(int argc, char **argv)
                 patch(return_address, return_saved); return_active = 0;
                 context.Eip = address;
                 if (!SetThreadContext(thread, &context)) fail("CRT return context");
+            } else if (code == EXCEPTION_BREAKPOINT && alias_return_active && address == alias_return_pc) {
+                BYTE *bss=(BYTE *)malloc(0xf69c);
+                if (!bss) fail("alias return observer allocation");
+                fprintf(events,"alias-return pc=%08lx esp=%08lx eax=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx error=%lu\n",address,context.Esp,context.Eax,context.Ebx,context.Esi,context.Edi,context.Ebp,thread_error(&context,thread));
+                save_frontend_state("alias-return");readmem(base+0xb9000,bss,0xf69c);save_blob("alias-return-bss.bin",bss,0xf69c);free(bss);
+                save_blob("alias-return-fp.bin",&context.FloatSave,sizeof(context.FloatSave));
+                patch(address,alias_return_byte);alias_return_active=0;context.Eip=address;
+                if(!SetThreadContext(thread,&context))fail("alias return context");
             } else if (code == EXCEPTION_BREAKPOINT && language_return_active && address == language_return_pc) {
                 BYTE *bss=(BYTE *)malloc(0xf69c);
                 if (!bss) fail("language return observer allocation");
@@ -1153,6 +1164,14 @@ int main(int argc, char **argv)
                     prepare_mask();
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
+                if (address == base + 0x39282 && getenv("C1XX_OBSERVE_ALIAS_ROOT")) {
+                    if (alias_return_active) fail("duplicate alias initializer");
+                    readmem(context.Esp,&alias_return_pc,4);
+                    if(alias_return_pc!=base+0x38fcf)fail("alias initializer caller");
+                    alias_return_byte=snapshot[alias_return_pc-base-code_rva];
+                    if(alias_return_byte!=0xe8)fail("alias return opcode");
+                    patch(alias_return_pc,0xcc);alias_return_active=1;
+                }
                 if (address == base + 0x2b834 && getenv("C1XX_OBSERVE_LANGUAGE_CONTEXT")) {
                     if (language_return_active) fail("duplicate language context call");
                     if (getenv("C1XX_TEST_INIT_RESTORE")) {

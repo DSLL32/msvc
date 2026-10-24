@@ -147,6 +147,8 @@ def main():
         if trial.get('options_parser_observers'):environment['C1XX_OBSERVE_OPTIONS']='1'
         environment.pop('C1XX_OBSERVE_LANGUAGE_CONTEXT',None)
         if trial.get('language_context_observers'):environment['C1XX_OBSERVE_LANGUAGE_CONTEXT']='1'
+        environment.pop('C1XX_OBSERVE_ALIAS_ROOT',None)
+        if trial.get('alias_root_observers'):environment['C1XX_OBSERVE_ALIAS_ROOT']='1'
         environment.pop('C1XX_TEST_ARENA_RESET',None)
         if trial.get('test_arena_reset_seed'):environment['C1XX_TEST_ARENA_RESET']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)

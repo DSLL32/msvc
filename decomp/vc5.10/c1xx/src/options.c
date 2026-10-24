@@ -317,7 +317,7 @@ void push_declaration_context(int context)
         report_compiler_error(45);
     frontend_bss.language_contexts[frontend_data.language_context_depth] = context;
 }
-void initialize_include_aliases(void) { __asm { int 3 } }
+
 void initialize_checksums(void) { __asm { int 3 } }
 void initialize_multibyte_categories(void) { __asm { int 3 } }
 void initialize_lowercase_table(void) { __asm { int 3 } }

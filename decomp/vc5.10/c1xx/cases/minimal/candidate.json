@@ -86,7 +86,8 @@
     "CompilerArena::AllocatePages",
     "CompilerArena::CommitExtent",
     "_process_compiler_options",
-    "_push_declaration_context"
+    "_push_declaration_context",
+    "_initialize_include_aliases"
   ],
   "trial": null,
   "ranges": [
@@ -786,7 +787,19 @@
       "start_rva": 430998,
       "end_rva": 431013,
       "entry": 0
+    },
+    {
+      "owner": "_initialize_include_aliases",
+      "start_rva": 234114,
+      "end_rva": 234152,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_include_aliases",
+      "start_rva": 467979,
+      "end_rva": 467994,
+      "entry": 0
     }
   ],
-  "stage": "_push_declaration_context accepted; next frontier _initialize_include_aliases"
+  "stage": "_initialize_include_aliases accepted; next frontier _initialize_checksums"
 }

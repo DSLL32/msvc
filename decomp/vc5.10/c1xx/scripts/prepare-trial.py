@@ -142,6 +142,8 @@ def prepare():
     if '_push_declaration_context' in accepted:
         trial['language_context_observers']={'entry_rva':0x2b834,'caller_return_rva':0x38fbe,'argument':0,'depth_rva':0xcd580,'slots_rva':0xc13d0,'slots':10,'scope':'scalar language context; actual first NULL-independent zero push, no mocked call'}
         if trial.get('test_seed'):trial['language_context_auxiliary']={'initializer_live_depth':7,'initializer_saved_depth':3,'initializer_slots':[1+(i&1)for i in range(10)],'helper_entry_slots':[1+(i&1)for i in range(10)],'helper_argument_unchanged':0,'code_or_helper_mock':False}
+    if '_initialize_include_aliases'in accepted:
+        trial['alias_root_observers']={'entry_rva':0x39282,'return_rva':0x38fcf,'request_bytes':4,'arena':0,'pointee_layout':'UNMODELED; bytes untouched','source_formals':[],'ABI':'cdecl0/RET0'}
     trial['test_arena_reset_seed']=bool(candidate.get('test_arena_reset_seed'))
     if trial['test_arena_reset_seed']:
         if trial_name!='CompilerArena::Reset':raise ValueError('Reset seed requires sole Reset candidate')

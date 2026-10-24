@@ -116,3 +116,15 @@ void RECON_THISCALL CompilerArena::CommitExtent(void)
     committed_limit += bytes;
     committed_bytes += bytes;
 }
+
+/* The four-byte root is allocated here, but its contents are not initialized
+ * or interpreted until a later alias consumer. */
+extern "C" void initialize_include_aliases(void)
+{
+    CompilerArena *arena = &frontend_bss.arenas[0];
+    unsigned char *root = arena->cursor;
+    arena->cursor += 4;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    frontend_data.options.include_aliases = (CompilerIncludeAliases *)root;
+}

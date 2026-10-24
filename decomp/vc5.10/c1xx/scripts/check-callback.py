@@ -28,7 +28,7 @@ def check(original,native,require_audit=True,audit_path=None):
     allocation_candidate=trial['trial']=='_reserve_work_buffer'
     early_options_candidate=trial['trial']=='_initialize_intermediate_files'
     early_switch_candidate=trial['trial']=='_process_early_option'
-    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context')
+    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context','_initialize_include_aliases')
     scaler_candidate=reset_candidate or trial['trial']=='_calculate_arena_reservation'
     reserve_arena_candidate=trial['trial']=='CompilerArena::Reserve'
     default_arena_candidate=trial['trial']=='_initialize_default_arena'
@@ -132,6 +132,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if 'CompilerArena::CommitExtent' in trial['accepted']:path += [('CompilerPool::BindArena',0x38f94),('CompilerPool::Refill',0x1ee29),('CompilerArena::AllocatePages',0x1ee58)]*9+[('process_compiler_options',0x38fad)]
     if '_process_compiler_options' in trial['accepted']:path.append(('push_declaration_context',0x2b834))
     if '_push_declaration_context' in trial['accepted']:path.append(('initialize_checksums',0x392a8)if seed else('initialize_include_aliases',0x39282))
+    if '_initialize_include_aliases'in trial['accepted']and not seed:path.append(('initialize_checksums',0x392a8))
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -270,6 +271,9 @@ def check(original,native,require_audit=True,audit_path=None):
     if model['schema']>=33:
         from language_context_state import check as check_language
         check_language(s,d,original,native,trial,text,pre,phase,state,seed,final,traps)
+    if '_initialize_include_aliases'in trial['accepted']:
+        from include_alias_state import check as check_alias
+        check_alias(s,d,original,native,trial,text,state,final,traps)
     if require_audit:s.audit(trial,audit_path)
     return {'trial':trial['trial'],'frontier':'_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else '_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],

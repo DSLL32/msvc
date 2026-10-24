@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "kind": "fresh affected semantics after complete paired/strict positive; no raw receipt mutation",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-include-aliases-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-include-aliases-native-1",
+  "bindings": {
+    "original_receipt_sha256": "3d3ccb5d040ef5bca3345cd4f049d77cbf49d7936d41516626189ee4f7565512",
+    "native_receipt_sha256": "c21a22e9d541067fe93c828fb745aef9249325769ee432921bc73a81a95489ad"
+  },
+  "count": 25,
+  "cases": [
+    {
+      "case": "request",
+      "rejection": "include-alias root: wrong allocation observer/candidate/auxiliary scope"
+    },
+    {
+      "case": "entry-formal",
+      "rejection": "include-alias root: actual named entry/next noarg ABI differs"
+    },
+    {
+      "case": "entry-PC",
+      "rejection": "include-alias root: actual named entry/next noarg ABI differs"
+    },
+    {
+      "case": "native-root-prestate",
+      "rejection": "include-alias root: actual existing arena cursor/limit/root/committed state differs"
+    },
+    {
+      "case": "original-root-prestate",
+      "rejection": "include-alias root: original owned arena offset/caller/root differs"
+    },
+    {
+      "case": "native-out-cursor",
+      "rejection": "include-alias root: allocation changed native neighbor/padding/saved/external state beyond cursor/root writes"
+    },
+    {
+      "case": "native-out-root",
+      "rejection": "include-alias root: allocation changed native neighbor/padding/saved/external state beyond cursor/root writes"
+    },
+    {
+      "case": "native-unknown-neighbor",
+      "rejection": "include-alias root: allocation changed native neighbor/padding/saved/external state beyond cursor/root writes"
+    },
+    {
+      "case": "original-unknown-BSS",
+      "rejection": "include-alias root: original full BSS changed beyond cursor+4"
+    },
+    {
+      "case": "original-unknown-data",
+      "rejection": "include-alias root: original initialized/unknown bytes changed beyond root pointer"
+    },
+    {
+      "case": "saved-snapshot",
+      "rejection": "include-alias root: original complete saved internal snapshot changed"
+    },
+    {
+      "case": "native-RET",
+      "rejection": "include-alias root: native actual return/RET0/nonvolatile/error differs"
+    },
+    {
+      "case": "native-nonvolatile",
+      "rejection": "include-alias root: native actual return/RET0/nonvolatile/error differs"
+    },
+    {
+      "case": "original-RET",
+      "rejection": "include-alias root: original RET0/nonvolatile/error differs"
+    },
+    {
+      "case": "original-nonvolatile",
+      "rejection": "include-alias root: original RET0/nonvolatile/error differs"
+    },
+    {
+      "case": "FP",
+      "rejection": "include-alias root: architectural FP state changed"
+    },
+    {
+      "case": "next-formal",
+      "rejection": "include-alias root: actual named entry/next noarg ABI differs"
+    },
+    {
+      "case": "next-PC",
+      "rejection": "include-alias root: actual named entry/next noarg ABI differs"
+    },
+    {
+      "case": "next-caller",
+      "rejection": "include-alias root: native real CALL/ownership differs"
+    },
+    {
+      "case": "next-name",
+      "rejection": "include-alias root: actual named entry/next noarg ABI differs"
+    },
+    {
+      "case": "next-args",
+      "rejection": "include-alias root: actual named entry/next noarg ABI differs"
+    },
+    {
+      "case": "serialized-cursor",
+      "rejection": "include-alias root: serialized actual suballocation/root/snapshot identities differ"
+    },
+    {
+      "case": "serialized-root",
+      "rejection": "include-alias root: serialized actual suballocation/root/snapshot identities differ"
+    },
+    {
+      "case": "allocation-contents",
+      "rejection": "include-alias root: owned committed bytes changed; root contents were not written"
+    },
+    {
+      "case": "original-caller",
+      "rejection": "include-alias root: original owned arena offset/caller/root differs"
+    }
+  ],
+  "seconds": 2.723943735472858,
+  "checker_sha256": "1edddf293d0ddd0a058fb4e36fed474391090279b04fd7a7400305abf77151de",
+  "semantic_checker_sha256": "09daf419cbc9125b93dd7d965e2c8a3461fc05b9f530e0490e8d6d25325b3823"
+}
