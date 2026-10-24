@@ -535,3 +535,10 @@ build/isolated-ctype-probe: tests/isolated-ctype-probe.c $(SOURCES) $(HEADERS) |
 isolated-ctype-check: build/isolated-ctype-probe
 	test -n "$(ISOLATED_CTYPE_REFERENCE)"
 	$(PYTHON) tests/check-isolated-ctype.py build/isolated-ctype-probe "$(ISOLATED_CTYPE_REFERENCE)"
+
+.PHONY: locale-codepage-check
+build/locale-codepage-probe: tests/locale-codepage-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 tests/locale-codepage-probe.c $(SOURCES) -o $@
+locale-codepage-check: build/locale-codepage-probe
+	test -n "$(LOCALE_CODEPAGE_REFERENCE)"
+	$(PYTHON) tests/check-locale-codepage.py build/locale-codepage-probe "$(LOCALE_CODEPAGE_REFERENCE)"

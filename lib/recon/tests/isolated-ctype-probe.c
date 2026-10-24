@@ -59,7 +59,7 @@ int main(int argc,char **argv)
     if(!strcmp(mode,"query")) name=NULL;
     if(!strcmp(mode,"name")) name="English_United States.1252";
     errno=!strcmp(mode,"errno")?1:0;recon_doserrno=!strcmp(mode,"doserrno")?1:0;
-    recon_SetLastError(!strcmp(mode,"last")?0:203);
+    recon_SetLastError(!strcmp(mode,"last")?2:203);
     save_fp(fp_before);result=recon_setlocale(category,name);save_fp(fp_after);
     assert(!memcmp(fp_before,fp_after,108));
     assert(errno==0 && recon_doserrno==0 && recon_GetLastError()==203);

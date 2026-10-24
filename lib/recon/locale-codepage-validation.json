@@ -1,0 +1,101 @@
+{
+  "scope": "Add observed Last0 isolated LC_CTYPE tuple, then one _setmbcp(-4) only from bound supported post-selection/error0 state; set internalMBcp from LC1252, incrementmb_calls, preserve gate0/tables/owners/result/errors/fullFP. CLcombined independent and other states/selectors/repeats denied.",
+  "design_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/multibyte-shared-followup-parent-review.json",
+    "sha256": "25e3792335a45e5722a3ea4de2030e331c2874b83b342a1aabef7c1f8bdc2b22"
+  },
+  "original_receipts": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-multibyte-001/receipt.json",
+      "sha256": "d2dbc20e792aaba5b168a4c9c4c233ee306b407770d5be7527b5fdd204b857d5"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-multibyte-restore-001/receipt.json",
+      "sha256": "224af79880cc992c95621c89c2ee807d6468f58685b8d3d8161871736cd1ec79"
+    }
+  ],
+  "binaries": [
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/clang-510-combined-reviewed",
+      "sha256": "c777fb98aedcc35ea7b2b9d2048af5ccc165077da172f70e545374ec71849b57"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/clang-510-new-reviewed",
+      "sha256": "650e7e56166434d9d60367a3c192a36061f3a562da48e091f0f19803bf472ffb"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/clang-510-old203-reviewed",
+      "sha256": "53d6a38df592fe7a4a1fb48de5d2ffb805ec230486834bf007789866820a74dc"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/clang-default-combined-reviewed",
+      "sha256": "f8c5a4d5874163ba018532f84d4e5f841aed96ebb2d269ce7c50f78c1315435e"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/clang-default-new-reviewed",
+      "sha256": "789fe1db2ec1d4e726cbe1dda8d49b5aaf84dadb4d73a6b61e4dd4f6630fd7d1"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/clang-default-old203-reviewed",
+      "sha256": "ae8d33a6abfe6c8ec469e51e0996ea002c710c718fddf6ff713b9f6d5827d03d"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/gcc-510-combined-reviewed",
+      "sha256": "a3c2ebe3c837df82e41296bced99dc2f764c32239da522a7338025801b097f7a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/gcc-510-new-reviewed",
+      "sha256": "b45b5911b21ad77fdef2e85d48021a1c112b1ccf59fbfcb665c031c26006cf26"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/gcc-510-old203-reviewed",
+      "sha256": "aa648149451976aa84d60d8f8402b8e258e5381c0ca28bb6667ff8e1b5b57445"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/gcc-default-combined-reviewed",
+      "sha256": "296590c77ba7f8e59b6772793b8e44ec0dd96e8bba5afb9e2ca25c070501deab"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/gcc-default-new-reviewed",
+      "sha256": "0a9a3fd17282ec2257ad3abfdbb418a66485e6479eae5d64036b4b4476003b15"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/gcc-default-old203-reviewed",
+      "sha256": "dd9ecc644c0fb3ddbdf97e8b8dee26b65f1398364aaf75bf42f63223702414e4"
+    }
+  ],
+  "checks": "GCC/Clang default510: new normal+restore twofullstate/liveFP positives21denials; default23denials. OldLast203 twofullstate26denials/default28closure and CLcombined fulltables14denials/defaultclosure pass.",
+  "history": "Previous f96537bfe frozen binaries/checker retained. Its last-error negative now uses unsupportedLast2; newly supportedLast0 has independent C1 positives, not old evidence relabeled.",
+  "frozen_manifest": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/receipt.json",
+    "sha256": "863beb432ce116318a08e74cf34270d0b5f3d8906d6af12ee41f3ac1d6439600"
+  },
+  "sources": [
+    {
+      "path": "/root/msvc2/lib/recon/src/crt.c",
+      "sha256": "d620f01f5bf8602bd3dcc1401b1f96c4ff75dce662de301c6c8178aa0fbc6263"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/include/recon.h",
+      "sha256": "74d3f0113eb55817d186daac144cbda896e98a953ca4b251aa37d2599e795298"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/locale-codepage-probe.c",
+      "sha256": "99026dbee436ccca9a28f3f35354a394b9f770cd6d7dae06a8caf0ba82da3aac"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-locale-codepage.py",
+      "sha256": "63b3fa7320a9c153aeeb7af9f9e0d9f3bf645d31b2a440f21bd766cdae9b1bf1"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/isolated-ctype-probe.c",
+      "sha256": "b23bda5b9353b63d5201a3137fe5243c4d05f60b30e37a720538b7c55e052c86"
+    }
+  ],
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage/orchestrator-review.json",
+    "sha256": "f1ae027f7b45b4bd820b545f9eba4a0a077c1ee6c7004120172f1ea867bef2d2"
+  },
+  "affected_checks": "Default native, unbound MB surface and68624oldpost1252 rows+23denials pass",
+  "remaining": "Own actual C1 native normal/restore adoption required before application acceptance; no _getmbcp API or other codepage behavior enabled."
+}

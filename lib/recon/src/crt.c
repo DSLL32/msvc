@@ -233,7 +233,7 @@ void recon_crt_bind_empty_ctype_1252(const char *provider,const char *reference)
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     unsigned n;
     if(!provider || strcmp(provider,"e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210") ||
-       !reference || strlen(reference)!=64 || ctype_selection.bound || ctype_selection.calls)
+       !reference || strlen(reference)!=64 || ctype_selection.bound || ctype_selection.calls || ctype_selection.mb_calls)
         recon_unsupported("isolated LC_CTYPE binding identity/inventory");
     for(n=0;n<64;++n)
         if(!((reference[n]>='0' && reference[n]<='9') || (reference[n]>='a' && reference[n]<='f')))
@@ -2368,12 +2368,36 @@ WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
     return (size_t)(cursor-text);
 }
 
-/* Build-only public codepage boundary. Do not infer its state transition
- * from an existing combined locale profile or forward it to host libc. */
+/* Only the reached SBCS selection from the already established LC_CTYPE
+ * is supported. Other codepages never forward to a host locale operation. */
 WEAK int __cdecl recon_setmbcp(int codepage)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    unsigned char mb[257];unsigned short table[257];unsigned n;
+    if(codepage!=-4 || ctype_selection.bound!=1 || ctype_selection.calls!=1 ||
+       ctype_selection.mb_calls || !locale_profile_applied ||
+       !locale_ctype_510 || recon_pctype!=locale_ctype_510+1 ||
+       recon_lc_codepage!=1252 || recon_mb_codepage || recon_mb_codepage_gate ||
+       recon_mb_cur_max!=1 || !ctype_selection.result ||
+       strcmp(ctype_selection.result,"English_United States.1252"))
+        recon_unsupported("unreviewed _setmbcp selection");
+    if(errno || recon_doserrno || recon_GetLastError())
+        recon_unsupported("SBCS locale codepage entry errors");
+    for(n=0;n<6;++n) if(recon_lc_handle[n]!=(n==2?1033:0))
+        recon_unsupported("SBCS locale codepage handles");
+    msvcrt510_mb_flags(mb);msvcrt510_locale_ctype(mb,table);
+    if(memcmp(recon_mbctype,mb,sizeof(mb)) ||
+       memcmp(recon_pctype-1,table,sizeof(table)) ||
+       memcmp(character_flags,initial_ctype_510,sizeof(character_flags)))
+        recon_unsupported("SBCS locale codepage tables");
+    /* The existing static SBCS byte flags need no regeneration; no lead/trail
+     * gate is enabled. The public _getmbcp representation remains distinct. */
+    recon_mb_codepage=(int)recon_lc_codepage;++ctype_selection.mb_calls;
+    return 0;
+#else
     (void)codepage;
     recon_unsupported("unreviewed _setmbcp selection");return -1;
+#endif
 }
 
 /* Empty LC_CTYPE selection has one explicit captured native-host profile.
@@ -2383,11 +2407,11 @@ WEAK char *recon_setlocale(int category,const char *locale)
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     unsigned short table[257],*allocated;char *result;
     int saved=errno;unsigned long dos=recon_doserrno;DWORD error=recon_GetLastError();
-    if(ctype_selection.bound!=1 || ctype_selection.calls || category!=2 || !locale || *locale)
+    if(ctype_selection.bound!=1 || ctype_selection.calls || ctype_selection.mb_calls || category!=2 || !locale || *locale)
         recon_unsupported("unreviewed setlocale selection");
-    /* Only the first isolated C1XX call has this complete error-state proof.
-     * Other callers need their own reached evidence before this can widen. */
-    if(saved || dos || error!=203)
+    /* Independently captured C1XX and C1 calls preserve these exact tuples;
+     * no other entry-error behavior is inferred. */
+    if(saved || dos || (error!=203 && error!=0))
         recon_unsupported("isolated LC_CTYPE entry errors");
     isolated_ctype_initial_state();
     msvcrt510_locale_ctype(recon_mbctype,table);

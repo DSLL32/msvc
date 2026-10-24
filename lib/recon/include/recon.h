@@ -142,6 +142,7 @@ typedef struct ReconCrtCtypeSelection {
  unsigned bound,calls;
  char reference_sha256[65];
  char *result;
+ unsigned mb_calls;
 } ReconCrtCtypeSelection;
 void recon_crt_bind_empty_ctype_1252(const char *,const char *);
 const ReconCrtCtypeSelection *recon_crt_ctype_selection_state(void);

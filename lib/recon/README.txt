@@ -949,14 +949,13 @@ frontier/completion; the generic clock remains unconstrained.
 
 The native mbctype.h surface exposes the encountered Microsoft _M1 bit and
 _MB_CP_LOCALE selector. _mbctype aliases the existing shared257-byte table;
-_setmbcp has its cdecl int(int) signature but every selection fails125 until
-the reached provider's independent codepage/state transition is established.
+_setmbcp has its cdecl int(int) signature; unbound selections fail125.
 
 An explicit MSVCRT510 native host can bind one isolated empty LC_CTYPE selection
 with recon_crt_bind_empty_ctype_1252(canonical_provider_sha256, actual_receipt_sha256).
 Binding leaves locale state unchanged. The actual setlocale(2, "") call requires
 the captured initial tables/static pctype, MBcodepage/gate0, MBmax1, all handles0
-and errno/DOS0/LastError203. It allocates a writable514-byte ctype table and a
+and errno/DOS0/LastError203 or0. It allocates a writable514-byte ctype table and a
 distinct persistent writable "English_United States.1252" result; only LCcodepage,
 handle2 and pctype change. Old static ctype and all MB state remain unchanged.
 Queries, repeat calls, other names/categories/prestates and mixing with the CL
@@ -964,3 +963,12 @@ combined dependency profile fail125. The read-only ctype-selection state exposes
 the host reference, bound/call inventory and returned owner. Original ownership
 proof covers observed initialized spans/lifetime, without claiming heap extents.
 Focused checks use make isolated-ctype-check ISOLATED_CTYPE_REFERENCE=<retained-raw-directory>.
+
+After that bound selection, one _setmbcp(-4) accepts only the captured C1
+SBCS state: exact old/new tables, LCcodepage1252/handle2=409, internal MBcodepage
+and gate0, MBmax1 and errors0/0/0. It selects the established locale codepage
+into recon_mb_codepage and advances mb_calls; all tables/owners, gate, result,
+errors and FP remain unchanged. Other selectors, repeats, states and combined
+CL-profile calls fail125. No general codepage conversion or _getmbcp API is
+enabled. Focused checks use make locale-codepage-check
+LOCALE_CODEPAGE_REFERENCE=<retained-C1-raw-directory>.
