@@ -32,13 +32,15 @@ def expected_code(candidate):
         if function['name']==NAME:
             assert chunks==[[0x12900,0x12984],[0x304ad,0x30501],TABLE]
             chunks.remove(TABLE)
+        for table in function.get('text_data_chunks',[]):
+            assert table in chunks;chunks.remove(table)
         result[function['name']]=[[BASE+a,BASE+b] for a,b in chunks]
     for item in candidate.get('imports',[]):
         result[item['name']]=[[BASE+item['start_rva'],BASE+item['end_rva']]]
     return result
 
 def text_bytes(candidate):
-    return 16 if any(f['name']==NAME for f in candidate['functions']) else 0
+    return (16 if any(f['name']==NAME for f in candidate['functions']) else 0)+sum(b-a for f in candidate['functions']for a,b in f.get('text_data_chunks',[]))
 
 def validate_config(directory,candidate,execution_inputs):
     key='decomp/vc5.10/c1/'+candidate['audit_config']

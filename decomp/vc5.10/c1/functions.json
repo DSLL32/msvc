@@ -81,7 +81,8 @@
     "_initialize_path_fold_table",
     "_read_env_arguments",
     "_new_option_vector",
-    "_next_argument"
+    "_next_argument",
+    "_match_option"
   ],
   "driver": [
     {
@@ -746,6 +747,24 @@
       "name": "_next_argument",
       "start": 274804636,
       "end": 274804670,
+      "role": "application"
+    },
+    {
+      "name": "_match_option",
+      "start": 274804670,
+      "end": 274805087,
+      "code_chunks": [
+        [
+          274925849,
+          274925871
+        ]
+      ],
+      "shared": [
+        [
+          274805088,
+          274805162
+        ]
+      ],
       "role": "application"
     }
   ],

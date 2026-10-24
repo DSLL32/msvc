@@ -6,7 +6,7 @@ RECON = ../../../lib/recon
 TOOL = $(PYTHON) scripts/wine-tool.py
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -O0 -g -fno-pie -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_ENTRY=c1_native_host -DRECON_NATIVE_ENTRY_TWO_ARGS -Isrc -I$(RECON)/include -I$(RECON)/native
 SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
-NATIVE_NAMES = dllmain exports native-crt pass compiler-state initializers buffers pdb pools pch-state main work-buffers options arenas command-line checksums scanner
+NATIVE_NAMES = dllmain exports native-crt pass compiler-state initializers buffers pdb pools pch-state main work-buffers options arenas command-line checksums scanner option-matcher
 GRAPH_CONFIG ?= functions.json
 GRAPH_METADATA ?=
 NATIVE_HEADERS = $(wildcard $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
@@ -41,8 +41,8 @@ build/%.obj: src/%.cpp $(wildcard src/*.h) | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /G5 /GR- /GX- /Isrc /I$(RECON)/include /Fo$@ $<
 build/mspdb50.lib: scripts/mspdb50.def | build
 	$(TOOL) LIB.EXE /nologo /def:$< /machine:IX86 /out:$@
-build/c1n32_l.dll: build/dllmain.obj build/exports.obj build/native-crt.obj build/pass.obj build/compiler-state.obj build/initializers.obj build/buffers.obj build/pdb.obj build/pools.obj build/pch-state.obj build/main.obj build/work-buffers.obj build/options.obj build/arenas.obj build/command-line.obj build/checksums.obj build/scanner.obj build/mspdb50.lib scripts/c1.def
-	$(TOOL) LINK.EXE /nologo /dll /nodefaultlib /entry:_DllMainCRTStartup@12 /def:scripts/c1.def /map:build/c1.map /out:$@ build/dllmain.obj build/exports.obj build/native-crt.obj build/pass.obj build/compiler-state.obj build/initializers.obj build/buffers.obj build/pdb.obj build/pools.obj build/pch-state.obj build/main.obj build/work-buffers.obj build/options.obj build/arenas.obj build/command-line.obj build/checksums.obj build/scanner.obj build/mspdb50.lib $(TC)/lib/MSVCRT.LIB $(TC)/lib/KERNEL32.LIB
+build/c1n32_l.dll: build/dllmain.obj build/exports.obj build/native-crt.obj build/pass.obj build/compiler-state.obj build/initializers.obj build/buffers.obj build/pdb.obj build/pools.obj build/pch-state.obj build/main.obj build/work-buffers.obj build/options.obj build/arenas.obj build/command-line.obj build/checksums.obj build/scanner.obj build/option-matcher.obj build/mspdb50.lib scripts/c1.def
+	$(TOOL) LINK.EXE /nologo /dll /nodefaultlib /entry:_DllMainCRTStartup@12 /def:scripts/c1.def /map:build/c1.map /out:$@ build/dllmain.obj build/exports.obj build/native-crt.obj build/pass.obj build/compiler-state.obj build/initializers.obj build/buffers.obj build/pdb.obj build/pools.obj build/pch-state.obj build/main.obj build/work-buffers.obj build/options.obj build/arenas.obj build/command-line.obj build/checksums.obj build/scanner.obj build/option-matcher.obj build/mspdb50.lib $(TC)/lib/MSVCRT.LIB $(TC)/lib/KERNEL32.LIB
 build/c1.dll: build/c1n32_l.dll
 	cp $< $@
 

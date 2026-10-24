@@ -4,7 +4,7 @@ RVA=0x55928
 OFFSET=1860
 COUNT=256
 SIZE=512
-BSS_SIZE=2372
+BSS_SIZE=2376
 
 def field_rows():
  return [dict(name='path_fold',original_rva=RVA,bytes=SIZE,native_field='c1_bss.path_fold',native_offset=OFFSET,default=[0]*COUNT,c_type='WORD[256]',snapshot=False,default_proof='complete own canonical pre-entry BSS; initializer12f3e fills every WORD; path consumer1344d indexes unsigned byte and testsffff')]

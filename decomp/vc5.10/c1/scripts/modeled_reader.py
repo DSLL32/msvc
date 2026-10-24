@@ -78,7 +78,7 @@ def schema():
   for root in ROOTS:
    symbol=gdb.lookup_global_symbol(root);require(symbol is not None,'missing global '+root)
    result[root]=scalar_schema(symbol.type)
-  require(result['c1_data']['size']==2348 and result['c1_bss']['size']==2372,'current source object sizeof')
+  require(result['c1_data']['size']==2348 and result['c1_bss']['size']==_field_map['native_bss_size'],'current source object sizeof')
   require(result['c1_pdb_context']['size']==result['c1_output_pdb_context']['size']==24,'persistent object sizes')
   require(result['c1_initialization_callbacks']['size']==136 and result['c1_arena_descriptors']['size']==120,'source table extents')
   require(_field_map is not None,'field map absent')

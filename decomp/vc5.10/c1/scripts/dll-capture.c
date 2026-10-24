@@ -899,6 +899,7 @@ static void seed_restore_state(void)
     }
     seed_command_line_live(data, saved);
     if(path_fold_probe)path_fold_seed("reset",0x8101);
+    if(option_match_probe) { DWORD borrowed=saved+4096;write_mem(base+0x538b0,&borrowed,4); }
     if (checksum_tables_probe) {
         BYTE table[256];
         unsigned table_index, byte_index;
@@ -1527,6 +1528,8 @@ int main(int argc, char **argv)
                 if(vector_probe && address==base+0x11e3c)vector_enter(&context);
                 if(vector_probe && address==base+0x9883)vector_member_enter(&context);
                 if(vector_probe && address==base+0x12f9c)argument_cursor_enter(&context);
+                if(option_match_probe && address==base+0x12fbe)option_match_record("entry",address,&context);
+                if(option_match_probe && address==base+0x131aa)option_match_record("action",address,&context);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
@@ -1557,6 +1560,7 @@ int main(int argc, char **argv)
                     } else if (baseline && address == base + entry_rva) {
                         patch(address, 0x53);
                     } else {
+                        if(signature_continue && (!signature_reference_complete || address!=base+0x131aa))fail("ordinary signature/matcher controlled stop");
                         if(signature_reference && (!signature_reference_complete || address!=base+0x12f9c))fail("signature reference controlled next_argument stop");
                         fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
                         TerminateProcess(child, 125); return 125;

@@ -6078,6 +6078,17 @@
       "c_type": "WORD[256]",
       "snapshot": false,
       "default_proof": "complete own canonical pre-entry BSS; initializer12f3e fills every WORD; path consumer1344d indexes unsigned byte and testsffff"
+    },
+    {
+      "name": "current_argument",
+      "original_rva": 342192,
+      "bytes": 4,
+      "native_field": "c1_bss.current_argument",
+      "native_offset": 2372,
+      "default": 0,
+      "c_type": "char *",
+      "snapshot": false,
+      "default_proof": "own initial loaded BSS0; matcher12fd7 stores borrowed original argument, diagnostics consumers retain exact identity"
     }
   ],
   "outside_bss": [
@@ -6498,7 +6509,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 77758,
+    "hard_frontier_rva": 78250,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -6833,7 +6844,7 @@
       "type_evidence": "238c advances cursor/decrements remaining; aa9c uses minimum_pages;12b30 installs arena pointer"
     }
   ],
-  "native_bss_size": 2372,
+  "native_bss_size": 2376,
   "empty_record_prototype": {
     "original_rva": 364368,
     "native_offset": 688,
@@ -6982,11 +6993,11 @@
     "initialized_known_bytes": 1836,
     "initialized_unknown_bytes": 4712,
     "native_initialized_size": 2348,
-    "native_bss_size": 2372,
+    "native_bss_size": 2376,
     "initialized_offset": 64,
     "bss_offset": 996,
     "persistent_current_pdb_rva": 376936,
-    "unknown_semantic_consumer_frontier": 77758,
+    "unknown_semantic_consumer_frontier": 78250,
     "option_rule_rva": 404344,
     "option_rule_count": 85,
     "z_rule_rva": 404200,
@@ -7052,7 +7063,7 @@
     "original_rva": 350504,
     "bytes": 512,
     "native_offset": 1860,
-    "native_bss_size": 2372,
+    "native_bss_size": 2376,
     "initializer_chunks": [
       [
         77630,
@@ -7065,5 +7076,30 @@
     ],
     "consumer_rva": 78925,
     "snapshot": false
+  },
+  "option_match": {
+    "current_argument_rva": 342192,
+    "native_offset": 2372,
+    "bytes": 4,
+    "default": 0,
+    "bss_reset": true,
+    "initialized_snapshot": false,
+    "source_chunks": [
+      [
+        77758,
+        78175
+      ],
+      [
+        198937,
+        198959
+      ]
+    ],
+    "text_data": [
+      [
+        78176,
+        78250
+      ]
+    ],
+    "next_semantic_frontier": 78250
   }
 }

@@ -336,7 +336,7 @@ char *__cdecl next_argument(void)
         return *++c1_bss.command_argv;
     return NULL;
 }
-int __cdecl match_option(CompilerOptionRule *rules, char *argument, char *(__cdecl *next)(void), int copy) { __asm { int 3 } return 0; }
+
 char *__cdecl resolve_option_path(char *output, const char *input, unsigned size) { __asm { int 3 } return NULL; }
 void __cdecl disable_multibyte_identifiers(void) { __asm { int 3 } }
 void __cdecl initialize_packing(void) { __asm { int 3 } }

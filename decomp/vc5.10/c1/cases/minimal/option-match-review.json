@@ -1,0 +1,130 @@
+{
+  "status": "fresh corrected normal/restore fullproof and53affected+2oldcounterpart rejection controls PASS; awaiting independent reuse/API spotcheck before promotion",
+  "application_candidate": "_match_option",
+  "application_code_bytes": 439,
+  "code_chunks": [
+    [
+      77758,
+      78175
+    ],
+    [
+      198937,
+      198959
+    ]
+  ],
+  "separate_text_data_bytes": 74,
+  "text_data": [
+    [
+      78176,
+      78250
+    ]
+  ],
+  "excluded_padding": [
+    78175,
+    78176
+  ],
+  "accepted_before": {
+    "application_functions": 74,
+    "application_code_bytes": 5380
+  },
+  "after_trial": {
+    "application_functions": 75,
+    "application_code_bytes": 5819,
+    "source_functions": 77,
+    "all_code_bytes": 6282,
+    "separate_text_data_bytes": 90
+  },
+  "state": {
+    "initialized_known": 2348,
+    "initialized_UNMODELED": 4200,
+    "native_bss": 2376,
+    "new_field": {
+      "name": "current_argument",
+      "original_rva": 342192,
+      "native_offset": 2372,
+      "bytes": 4,
+      "default": 0,
+      "type": "char *",
+      "lifetime": "borrowed BSS reset; excluded from initialized snapshot"
+    },
+    "reset": "nonzero owned snapshot-interior sentinel+4096 actually cleared before use; original/native defaults and full field nonoverlap proved"
+  },
+  "source_corrections": {
+    "suffix": "actual action byte DL provenance, not literal asterisk",
+    "end_pattern": "following-value hash rejoins conditional original-argument hash",
+    "runtime_status": "both corrected branches are unexecuted by first -il$ action frontier; whole source and graph still preserved",
+    "original_reuse": "root-approved exact unchanged original target/mask/helper/case/argv/env/BOOL/providers/frontier; no historical metadata edits",
+    "native_attempts": "first two native receipts remain unpromoted and current checker rejects them"
+  },
+  "frontier": {
+    "name": "apply_option_action",
+    "rva": 78250,
+    "formals": [
+      "CompilerOptionRule *rule",
+      "char *value",
+      "int copy"
+    ],
+    "rule_index": 31,
+    "grammar": "-il$",
+    "value": "borrowed Invoke argv[2] .\\minimal",
+    "handler_executed": false,
+    "caller_formals": "actual GDB #1 frame independently contains all four matcher formals; current JSON genericcaller args remains empty and is not relabeled"
+  },
+  "public_support": {
+    "provider": "MSPDB50.DLL!SigForPbCb",
+    "normal": {
+      "input": "C",
+      "count": 1,
+      "seed": 4294967295,
+      "result": 3257401432,
+      "actual_once": true,
+      "both_third_incoming_slots": "actually mutate to result; exact caller discards12 before any read/escape",
+      "unchanged": "all owned32KiB, current typed/neighbor/snapshot state, full original112FP/native architecturalFP, three errors, full LC/MB tables and identities, private namespace vectors"
+    },
+    "restore": "actual c9_il9 skips call; no provider execution claimed",
+    "application_credit": 0
+  },
+  "timings": {
+    "native_first_build": 2.177803006954491,
+    "native_corrected_build": 1.6805606093257666,
+    "original_build": "VC5 original DLL/helper builds passed; elapsed not retained",
+    "original_normal": 7.882630077190697,
+    "original_restore": 7.983490167185664,
+    "native_first_normal": 7.381579875014722,
+    "native_first_restore": 8.078472507186234,
+    "native_corrected_normal": 7.363899301737547,
+    "native_corrected_restore": 8.020497706718743,
+    "complete_normal_validation": 6.93080470059067,
+    "complete_restore_validation": 8.058519418351352,
+    "new53_controls": 6.770570125430822,
+    "old_native_rejections": 0.878939407877624,
+    "audit": 0.04772052355110645,
+    "cached_native_lifecycle": 0.003984004259109497
+  },
+  "source_hashes": {
+    "src/option-matcher.c": "5cb44ad98abd6478be76ef05d15070b7957bf762c99ce63b54cbfecb7587f88a",
+    "src/compiler-state.h": "6a28b9d9aa71c4642d99333bc0671bf021d86cf7bb4d08995f07d4228eb78358",
+    "scripts/option_match_state.py": "41e1c2ca5e4e046c3ff8c4034540c5d7b596771a605217c8e398b37113b74e8e",
+    "scripts/option_match_fields.py": "da1de041d543c4ee15a9ecbdb92cca178699bdd577ef524b15f04697da3a1fb8",
+    "scripts/signature_call_state.py": "eae108bc1cf1037906bd7301630ad50b7845fe96ccc61c83ba58707112343640",
+    "scripts/counterpart_correction.py": "b6a8c9114d73e5819a2a33428c3f64f2527da368e7e7cf832f620683a7b06abb",
+    "scripts/option_match_probe.py": "1d9f9bcae58c148b39747f455d534b3ae2ffebed57a977808ecb69d48f0d8a67",
+    "scripts/vector-observer.inc": "85c1efd7771224b7dd605ac204f0d2d108a9a57207edfa37c08331b793d64d50",
+    "scripts/check-option-match-negative.py": "146f10d8c015768d4ba778d063be73904154f6088ed0c297d5ec68d18b33d271"
+  },
+  "reuse_packet": {
+    "path": "cases/minimal/matcher-native-correction.json",
+    "sha256": "3fe2f0a890677276da68a87b7fcf1a65160b03fae0c888a47ae96b2ed1f37fb0"
+  },
+  "proofs": {
+    "cases/minimal/evidence/option-match/raw-references.json": "15fbc18d1c7fb921312c080b7bc0265725bde3d79804bbaf3f4f0b00ab49f526",
+    "cases/minimal/evidence/option-match/option-match-restore-validation-1.json": "5c17716a2dc4f46ecb83ca36a3834a009e54b739d356cdc0637d3c0a1c90012e",
+    "cases/minimal/evidence/option-match/option-match-normal-validation-1.json": "f38fe13956830ce5e78df427f555cb39596832cfd910db4cae3e2091e82bdcd5",
+    "cases/minimal/evidence/option-match/option-match-old-native-rejected.json": "3184b336c5250539f543586957755be785e52d0d005225707d738bb929ebf7e7",
+    "cases/minimal/evidence/option-match/native-build.json": "eccfbef2a569ce2ab4226ee5e8f57a2e9d1db9c8e4583b85b260332bb085328f",
+    "cases/minimal/evidence/option-match/trial-audit-binding.json": "4df7712c60b87fdb2b7c00510fd051acf9910f2460b6b81018e77a5cdf7c4db2",
+    "cases/minimal/evidence/option-match/trial-audit.json": "cdef1b8360747ec168bee4c0e678f438a5771342c136329786d00c303f527725",
+    "cases/minimal/evidence/option-match/option-match-negative-1.json": "150c6032edafe3c8306fe090dea5b13f92d6cabe4e652400ad8e5812c5aaebfe"
+  },
+  "retained_prior_controls": "unchanged ordinary prefix/protocol controls retained with existing dependency-hash provenance;53affected body/field/ABI/publicAPI/reuse controls and2oldnative denials fresh"
+}

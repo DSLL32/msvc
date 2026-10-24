@@ -133,13 +133,6 @@
     "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
   },
   {
-    "name": "_match_option",
-    "start": 274804670,
-    "end": 274804671,
-    "pending_extent": true,
-    "evidence": "actual whole command-line parser direct call identity; named typed INT3 stub, no accepted body credit"
-  },
-  {
     "name": "_resolve_option_path",
     "start": 274805595,
     "end": 274805596,
@@ -180,5 +173,19 @@
     "end": 274983824,
     "pending_extent": true,
     "evidence": "actual no-argument allocation/append-slot helper called by read_env_arguments non-NULL branch; typed named INT3 only"
+  },
+  {
+    "name": "_match_option_suffix",
+    "start": 274805463,
+    "end": 274805464,
+    "pending_extent": true,
+    "evidence": "matcher suffix pattern/argument/marker call at1303e; typed named INT3 stub only"
+  },
+  {
+    "name": "_apply_option_action",
+    "start": 274805162,
+    "end": 274805163,
+    "pending_extent": true,
+    "evidence": "three-formal rule/value/copy handler called at130b7/130f3/13140; typed named INT3 stub only"
   }
 ]

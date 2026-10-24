@@ -11,7 +11,7 @@ WARNINGS=[(1,5),(69,5),(611,5),(226,14),(233,14),(234,14),(235,14),(168,5),(169,
 
 def original_state(original,candidate):
  tokenizers=[row for row in candidate['functions']if row['name']=='_read_env_arguments'];assert len(tokenizers)==1 and tokenizers[0]['chunks']==[[0x12f87,0x12f9c],[0x307dc,0x30919]]
- if candidate['expected_frontier']['kind']not in ('option-vectors-complete','argument-cursor-complete'):assert candidate['expected_frontier']==dict(rva=0x11e3c,native_symbol='new_option_vector',kind='environment-arguments-complete',calling_convention='cdecl',native_args=['count','mode'],caller=dict(native_symbol='parse_command_line',return_rva=0x12beb))
+ if candidate['expected_frontier']['kind']not in ('option-vectors-complete','argument-cursor-complete','option-match-action'):assert candidate['expected_frontier']==dict(rva=0x11e3c,native_symbol='new_option_vector',kind='environment-arguments-complete',calling_convention='cdecl',native_args=['count','mode'],caller=dict(native_symbol='parse_command_line',return_rva=0x12beb))
  assert candidate['environment_argument_observers']==dict(entry_rva=0x12f87,return_rva=0x12bb3,argument=None,accepted_input_scope='NULL only; full non-NULL tokenizer body retained, allocator pending')
  events=(original/'events.txt').read_text();assert'failure 'not in events
  from frontier_contract import validate_original_frontier
@@ -72,4 +72,4 @@ def validate(original,native,candidate,report,stage_state=None):
  entries=json.loads((native/'environment-entries.json').read_text());returns=json.loads((native/'environment-returns.json').read_text());state=stage_state if stage_state is not None else json.loads((native/'state.json').read_text())
  stage=validate_native_boundary(original,native,candidate,entries,returns,state,following=stage_state is not None)
  prefix=validate_path_fold(original,native,candidate,report,stage_state=stage)
- return dict(status='matching real NULL tokenizer entry and return, warning stores and complete next vector-allocation ABI',application_candidate='_read_env_arguments',candidate_code_bytes=338,reached_input=None,non_NULL_path='full source/graph only; genuine append-slot allocator remains pending',initialized_known_bytes=2348,initialized_unmodeled_bytes=4200,native_bss_bytes=2372,CRT_code_credit=0,prefix=prefix,execution_receipts=dict(original=sha(original/'receipt.json'),native=sha(native/'receipt.json')))
+ return dict(status='matching real NULL tokenizer entry and return, warning stores and complete next vector-allocation ABI',application_candidate='_read_env_arguments',candidate_code_bytes=338,reached_input=None,non_NULL_path='full source/graph only; genuine append-slot allocator remains pending',initialized_known_bytes=2348,initialized_unmodeled_bytes=4200,native_bss_bytes=state['compiler_state']['native_layout']['bss_size'],CRT_code_credit=0,prefix=prefix,execution_receipts=dict(original=sha(original/'receipt.json'),native=sha(native/'receipt.json')))

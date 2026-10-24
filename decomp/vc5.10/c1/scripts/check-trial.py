@@ -45,6 +45,9 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
             ignored = {captured_tool_path} | ({native_path} if receipt["kind"] == "explicit-original-capture" else set())
             execution_inputs = {path: value for path, value in captured_binding["inputs"].items() if path not in ignored}
             execution_inputs = validate_config(directory,candidate,execution_inputs)
+            if receipt['kind']=='explicit-original-capture':
+                from counterpart_correction import audit_inputs as corrected_counterpart_inputs
+                execution_inputs=corrected_counterpart_inputs(directory,execution_inputs)
             assert all(pair.sha(pair.ROOT / path) == value for path, value in execution_inputs.items())
             assert pair.sha(directory / "audit.json") == captured_binding["report_sha256"]
             captured_inputs.append(execution_inputs)
@@ -92,6 +95,12 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
                                               "native": pair.sha(native / "receipt.json")}})
         return result
     assert o["exit"] == 125 and n["kind"] == ("native-prospective-tail-chain" if prospective_tail_chain else "native-gdb-frontier")
+    if expected.get('kind')=='option-match-action':
+        assert not prospective_tail_chain
+        from option_match_state import validate as validate_vectors
+        result=validate_vectors(original,native,candidate,report)
+        result.update(rust_checked_functions=report['checked_functions'],rust_owned_code_bytes=owned['declared_code_bytes'],rust_owned_text_data_bytes=text_bytes(candidate),rust_owned_original_bytes=owned['declared_code_bytes']+text_bytes(candidate),current_auditor_sha256=binding['inputs'][tool_path],current_audit_report_sha256=binding['report_sha256'])
+        return result
     if expected.get('kind')=='argument-cursor-complete':
         assert not prospective_tail_chain
         from argument_cursor_state import validate as validate_vectors

@@ -162,6 +162,8 @@ def main():
         (output/"signature-reference.txt").write_text("f22d 12c31 12f9c\n")
     if candidate.get("argument_cursor_observers"):
         (output/"argument-cursor-observers.txt").write_text("12f9c 12c45 12fbe\n")
+    if candidate.get('option_match_observers'):
+        (output/'option-match-observers.txt').write_text('12fbe 131aa 12c31\n')
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

@@ -29,8 +29,15 @@ def checked_receipt(directory):
                       ("functions_sha256", candidate.get("audit_config", "functions.json"))]
     if receipt["kind"] != "explicit-original-capture":
         bindings.append(("native_sha256", "build/native/c1-host"))
+    correction=None
+    if receipt['kind']=='explicit-original-capture':
+        from counterpart_correction import validate as validate_correction
+        correction=validate_correction(directory)
     for key, file in bindings:
-        if key == 'functions_sha256':
+        if key=='rebuilt_sha256'and correction is not None:
+            assert receipt[key]==correction['row']['old_rebuilt_sha256']
+            assert sha(PROJECT/file)==correction['packet']['allowed_audit_deltas']['decomp/vc5.10/c1/build/c1.dll']['new']
+        elif key == 'functions_sha256':
             from audit_roles import current_config
             assert receipt[key] == sha(directory/'functions.json'), 'captured config identity changed'
             assert current_config(json.loads((directory/'functions.json').read_text())) == json.loads((PROJECT/file).read_text()), 'stale or wrong trial: accepted data roles'

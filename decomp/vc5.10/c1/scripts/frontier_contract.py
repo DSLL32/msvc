@@ -5,7 +5,10 @@ def validate_original_frontier(events,candidate,probe):
  target=re.findall(r'^frontier rva=(\w+)$',events,re.M)
  dependency=re.findall(r'^dependency-frontier module=(\S+) rva=(\w+) seq=(\d+)$',events,re.M)
  expected=candidate['expected_frontier']
- if expected['kind']in ('option-vectors-complete','argument-cursor-complete'):
+ if expected['kind']=='option-match-action':
+  assert expected==dict(kind='option-match-action',rva=0x131aa,native_symbol='apply_option_action',native_args=['rule','value','copy'],calling_convention='cdecl',caller=dict(native_symbol='match_option',return_rva=0x130bc))
+  assert target==['000131aa']and not dependency
+ elif expected['kind']in ('option-vectors-complete','argument-cursor-complete'):
   assert candidate['vector_observers']==dict(entry_rva=0x11e3c,return_rvas=[0x12beb,0x12bfc,0x12c0d],count=3,capacity=40,arena_kind=1,header_bytes=12,item_bytes=160)
   cursor=expected['kind']=='argument-cursor-complete'
   assert expected==dict(kind='argument-cursor-complete'if cursor else'option-vectors-complete',rva=0x12fbe if cursor else 0x12f9c,native_symbol='match_option'if cursor else'next_argument',native_args=['rules','argument','next','copy']if cursor else[],calling_convention='cdecl',caller=dict(native_symbol='parse_command_line',return_rva=0x12c50 if cursor else 0x12c45),normal_dependency=dict(module='MSPDB50.dll',rva=0xf22d,iat_rva=0x5d1d4,native_symbol='recon_mspdb_SigForPbCb',native_args=['bytes','byte_count','signature'],caller_return_rva=0x12c31),restore_frontier='actual match_option after next_argument; c9_il9 skips signature import'if cursor else'actual next_argument; c9_il=9 skips signature import')

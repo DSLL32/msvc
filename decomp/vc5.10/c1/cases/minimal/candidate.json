@@ -448,6 +448,16 @@
       "entry": 1
     },
     {
+      "start_rva": 77758,
+      "end_rva": 78175,
+      "entry": 1
+    },
+    {
+      "start_rva": 78176,
+      "end_rva": 78250,
+      "entry": 0
+    },
+    {
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
@@ -556,6 +566,11 @@
       "start_rva": 198620,
       "end_rva": 198937,
       "entry": 0
+    },
+    {
+      "start_rva": 198937,
+      "end_rva": 198959,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1679,8 +1694,35 @@
           77758
         ]
       ],
-      "status": "trial body; restore path only, normal remains public dependency hold",
+      "status": "accepted prefix",
       "source": "src/command-line.c"
+    },
+    {
+      "name": "_match_option",
+      "native_symbol": "match_option",
+      "role": "application",
+      "chunks": [
+        [
+          77758,
+          78175
+        ],
+        [
+          198937,
+          198959
+        ],
+        [
+          78176,
+          78250
+        ]
+      ],
+      "text_data_chunks": [
+        [
+          78176,
+          78250
+        ]
+      ],
+      "status": "trial whole439B matcher;74B shared jump+selector table, no padding credit",
+      "source": "src/option-matcher.c"
     }
   ],
   "text_data": [
@@ -1702,33 +1744,19 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "kind": "argument-cursor-complete",
-    "rva": 77758,
-    "native_symbol": "match_option",
+    "kind": "option-match-action",
+    "rva": 78250,
+    "native_symbol": "apply_option_action",
     "native_args": [
-      "rules",
-      "argument",
-      "next",
+      "rule",
+      "value",
       "copy"
     ],
     "calling_convention": "cdecl",
     "caller": {
-      "native_symbol": "parse_command_line",
-      "return_rva": 76880
-    },
-    "normal_dependency": {
-      "module": "MSPDB50.dll",
-      "rva": 61997,
-      "iat_rva": 381396,
-      "native_symbol": "recon_mspdb_SigForPbCb",
-      "native_args": [
-        "bytes",
-        "byte_count",
-        "signature"
-      ],
-      "caller_return_rva": 76849
-    },
-    "restore_frontier": "actual match_option after next_argument; c9_il9 skips signature import"
+      "native_symbol": "match_option",
+      "return_rva": 78012
+    }
   },
   "imports": [
     {
@@ -2233,5 +2261,12 @@
     "return_rva": 76869,
     "argument_index": 1,
     "returned_bytes_hex": "2d696c00"
+  },
+  "option_match_observers": {
+    "entry_rva": 77758,
+    "action_rva": 78250,
+    "argument_index": 1,
+    "value_index": 2,
+    "rule_index": 31
   }
 }

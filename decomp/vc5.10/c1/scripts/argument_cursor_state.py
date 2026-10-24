@@ -24,7 +24,7 @@ def validate(original,native,candidate,report):
     proof=validate_boundary(original,native,candidate,entry,end,state)
     return dict(status='matching real argument iterator return and complete matcher frontier',candidate='_next_argument',candidate_executed=True,candidate_code_bytes=34,proof=proof,prefix=prefix,execution_receipts=dict(original=sha(original/'receipt.json'),native=sha(native/'receipt.json')))
 
-def validate_boundary(original,native,candidate,entry,end,state):
+def validate_boundary(original,native,candidate,entry,end,state,following=False):
     binary=captured_native_binary(native);names=symbols(binary)
     before,after=[list(struct.unpack('<12I',(original/('argument-cursor-'+phase+'-registers.bin')).read_bytes()))for phase in ('entry','return')]
     assert before[1]==0x10612f9c and before[8:]==[0x10612c45,before[2],0x10600000,0]
@@ -57,7 +57,8 @@ def validate_boundary(original,native,candidate,entry,end,state):
     for row in (entry,end):
         assert row['errors']==[0,0,0] and row['invocation']==entry['invocation'] and row['crt_state']==entry['crt_state']
         assert semantic(row['fp'])==semantic(entry['fp'])
-    assert state['symbol']=='match_option' and names['match_option'][0]<state['pc']<=sum(names['match_option'])
+    assert state['symbol']=='match_option'
+    assert state['pc']==names['match_option'][0] if following else names['match_option'][0]<state['pc']<=sum(names['match_option'])
     assert state['formal_inventory']==[dict(name=k,type=t)for k,t in [('rules','CompilerOptionRule *'),('argument','char *'),('next','char *(*)(void)'),('copy','int')]]
     assert state['args']==dict(rules=names['option_rules'][0],argument=end['eax'],next=names['next_argument'][0],copy=0)
     assert state['caller']['symbol']=='parse_command_line' and state['caller']['args']==entry['caller']['args'];call(binary,state['caller']['pc'],names['match_option'][0])

@@ -69,9 +69,9 @@ def validate_allocation_state(original,native,candidate,entries,returns,state,fi
  assert state['compiler_state']==expected
  if receipt['probe']=='normal':
   validate_dependency(original,native,state,names,binary)
-  sequence=int(role['dependency'][0][2]);assert expected['initialized']['c9_il']==0
+  sequence=(list(struct.unpack('<12I',(original/'signature-entry-registers.bin').read_bytes()))[0]if candidate.get('option_match_observers')else int(role['dependency'][0][2]));assert expected['initialized']['c9_il']==0
  else:
-  rows=re.findall(r'^trap seq=(\d+) rva=00012f9c .*stack=([\w,]+)$',events,re.M);assert len(rows)==1
+  rows=re.findall(r'^trap seq=(\d+) rva=00012f9c .*stack=([\w,]+)$',events,re.M);rows=[r for r in rows if int(r[1].split(',')[0],16)==0x10612c45];assert len(rows)==1
   sequence=int(rows[0][0]);assert int(rows[0][1].split(',')[0],16)==0x10612c45
   assert expected['initialized']['c9_il']==9 and state['symbol']=='next_argument'and state['args']=={}and state['formal_inventory']==[]
   assert state['pc']==names['next_argument'][0]if following else names['next_argument'][0]<state['pc']<=sum(names['next_argument'])

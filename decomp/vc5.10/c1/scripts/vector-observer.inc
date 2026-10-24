@@ -8,6 +8,9 @@ static BYTE vector_member_saved;
 static int vector_member_active;
 static DWORD signature_entry;
 static int argument_cursor_probe,argument_cursor_active;
+static int option_match_probe,signature_continue,option_next_active;
+static DWORD option_next_esp;
+static BYTE option_next_return_saved;
 static DWORD argument_cursor_esp;
 static BYTE argument_cursor_saved;
 static int signature_reference,signature_return_active,signature_reference_complete;
@@ -47,6 +50,22 @@ static void prepare_vector_observer(void)
             fail("argument cursor observer plan");
         fclose(file);argument_cursor_probe=1;argument_cursor_saved=snapshot[0x12c45-code_rva];
         if(argument_cursor_saved!=0x50)fail("argument cursor return ownership");
+    }
+    file=fopen("option-match-observers.txt","r");
+    if(file) {
+        DWORD entry,action,returned;
+        if(signature_reference || baseline || fscanf(file,"%lx %lx %lx",&entry,&action,&returned)!=3 || entry!=0x12fbe || action!=0x131aa || returned!=0x12c31 || fgetc(file)!='\n' || fgetc(file)!=EOF)
+            fail("option matcher observer plan");
+        fclose(file);option_match_probe=1;signature_continue=!restore_probe;
+        signature_return_saved=snapshot[0x12c31-code_rva];
+        if(signature_return_saved!=0x83)fail("ordinary signature caller ownership");
+        if(signature_continue) {
+            save_remote_state("signature-provider-body",0,signature_entry,53);
+            save_remote_state("signature-provider-table",0,mspdb_base+0x21a30,1024);
+        }
+        option_next_return_saved=snapshot[0x130ae-code_rva];
+        if(option_next_return_saved!=0x8b)fail("matcher callback return ownership");
+        fprintf(events,"option-match-plan ordinary-candidate=1 signature-continue=%d action-frontier=000131aa\n",signature_continue);
     }
     patch(signature_entry,0xcc);signature_entry_active=1;
     fprintf(events,"vector-observer entry=00011e3c capacity=40 arena=1 header=12 items=160 signature-iat=0005d1d4 provider=0000f22d\n");
@@ -134,12 +153,12 @@ static void signature_reference_record(const char *phase,DWORD address,CONTEXT *
     words[7]=context->Esi;words[8]=context->Edi;words[9]=context->Ebp;
     words[10]=base+0x12c31;words[11]=mspdb_base;
     memcpy(words+12,arguments,sizeof(arguments));words[15]=context->EFlags;
-    sprintf(name,"signature-reference-%s-registers.bin",phase);save_blob(name,words,sizeof(words));
-    sprintf(name,"signature-reference-%s-input",phase);save_remote_state(name,0,signature_input,2);
+    sprintf(name,signature_reference?"signature-reference-%s-registers.bin":"signature-call-%s-registers.bin",phase);save_blob(name,words,sizeof(words));
+    sprintf(name,signature_reference?"signature-reference-%s-input":"signature-call-%s-input",phase);save_remote_state(name,0,signature_input,2);
     readmem(base+0x58fd0,arena,sizeof(arena));
     if(!arena[2] || arena[3]!=0x8000)fail("signature reference owned vector span");
-    sprintf(name,"signature-reference-%s-vector",phase);save_remote_state(name,0,arena[2],arena[3]);
-    fprintf(events,"signature-reference phase=%s seq=%u pc=%08lx esp=%08lx eax=%08lx arguments=%08lx,%08lx,%08lx\n",phase,sequence,address,context->Esp,context->Eax,arguments[0],arguments[1],arguments[2]);
+    sprintf(name,signature_reference?"signature-reference-%s-vector":"signature-call-%s-vector",phase);save_remote_state(name,0,arena[2],arena[3]);
+    fprintf(events,signature_reference?"signature-reference phase=%s seq=%u pc=%08lx esp=%08lx eax=%08lx arguments=%08lx,%08lx,%08lx\n":"signature-call phase=%s seq=%u pc=%08lx esp=%08lx eax=%08lx arguments=%08lx,%08lx,%08lx\n",phase,sequence,address,context->Esp,context->Eax,arguments[0],arguments[1],arguments[2]);
 }
 
 static void argument_cursor_record(const char *phase,DWORD address,CONTEXT *context)
@@ -154,12 +173,31 @@ static void argument_cursor_record(const char *phase,DWORD address,CONTEXT *cont
     sprintf(name,"argument-cursor-%s",phase);save_frontend_state(name);
     fprintf(events,"argument-cursor phase=%s seq=%u pc=%08lx esp=%08lx\n",phase,sequence,address,context->Esp);
 }
+static void option_match_record(const char *phase,DWORD address,CONTEXT *context)
+{
+    DWORD words[16];char name[100];
+    words[0]=sequence;words[1]=address;words[2]=context->Esp;words[3]=context->Eax;
+    words[4]=context->Ecx;words[5]=context->Edx;words[6]=context->Ebx;
+    words[7]=context->Esi;words[8]=context->Edi;words[9]=context->Ebp;
+    readmem(context->Esp,words+10,20);words[15]=base;
+    sprintf(name,"option-match-%s-registers.bin",phase);save_blob(name,words,sizeof(words));
+    sprintf(name,"option-match-%s-fp.bin",phase);save_blob(name,&context->FloatSave,sizeof(context->FloatSave));
+    sprintf(name,"option-match-%s",phase);save_frontend_state(name);
+    if(!strcmp(phase,"next-return"))save_remote_state("option-match-value",0,context->Eax,10);
+    fprintf(events,"option-match phase=%s seq=%u pc=%08lx esp=%08lx\n",phase,sequence,address,context->Esp);
+}
+
 static void argument_cursor_enter(CONTEXT *context)
 {
     DWORD caller;
     if(!argument_cursor_probe)return;
     readmem(context->Esp,&caller,4);
-    if(!restore_probe || argument_cursor_active || caller!=base+0x12c45)fail("argument cursor reached branch/caller");
+    if(option_match_probe && caller==base+0x130ae) {
+        if(option_next_active)fail("duplicate matcher callback");
+        option_next_esp=context->Esp;option_match_record("next-entry",base+0x12f9c,context);
+        patch(base+0x130ae,0xcc);option_next_active=1;return;
+    }
+    if((!restore_probe && !option_match_probe) || argument_cursor_active || caller!=base+0x12c45)fail("argument cursor reached branch/caller");
     argument_cursor_esp=context->Esp;argument_cursor_record("entry",base+0x12f9c,context);
     patch(base+0x12c45,0xcc);argument_cursor_active=1;
 }
@@ -168,12 +206,16 @@ static int vector_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWORD ti
 {
     DWORD header[3],words[12],stack[4],arena[8];char name[100];
     if(!vector_probe)return 0;
-    if(argument_cursor_active && address==base+0x12c45) {
+    if(option_next_active && address==base+0x130ae) {
+        if(context->Esp!=option_next_esp+4)fail("matcher callback RET0");
+        option_match_record("next-return",address,context);save_state();
+        patch(address,option_next_return_saved);option_next_active=0;
+    } else if(argument_cursor_active && address==base+0x12c45) {
         argument_cursor_record("return",address,context);
         save_remote_state("argument-cursor-result",0,context->Eax,4);save_state();
         patch(address,argument_cursor_saved);argument_cursor_active=0;
     } else if(signature_return_active && address==base+0x12c31) {
-        if(!signature_reference || signature_reference_complete || context->Esp!=signature_api_esp+4)fail("signature actual RET0/order");
+        if((!signature_reference && !signature_continue) || signature_reference_complete || context->Esp!=signature_api_esp+4)fail("signature actual RET0/order");
         signature_reference_record("return",address,context,1);
         save_remote_state("signature-provider-table-after",0,mspdb_base+0x21a30,1024);
         locale_snapshot("signature-return",context,thread,tid);save_state();
@@ -198,12 +240,12 @@ static int vector_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWORD ti
         memcpy(words+7,stack,sizeof(stack));words[11]=mspdb_base;
         save_blob("signature-entry-registers.bin",words,sizeof(words));
         save_remote_state("signature-input",0,stack[1],2);
-        if(signature_reference) {
+        if(signature_reference || signature_continue) {
             signature_api_esp=context->Esp;signature_input=stack[1];
             signature_reference_record("entry",address,context,0);
         }
         locale_snapshot("signature-entry",context,thread,tid);save_state();
-        if(signature_reference) {
+        if(signature_reference || signature_continue) {
             patch(base+0x12c31,0xcc);signature_return_active=1;
             patch(address,0x55);signature_entry_active=0;
         } else {

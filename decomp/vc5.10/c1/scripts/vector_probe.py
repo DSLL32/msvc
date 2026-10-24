@@ -73,7 +73,9 @@ class ArgumentCursorReturn(gdb.Breakpoint):
         argument_cursor_returns.append(row);self.enabled=False;return False
 class ArgumentCursorEntry(gdb.Breakpoint):
     def stop(self):
-        row=vector_abi(vector_snapshot(),1);caller=gdb.newest_frame().older()
+        caller=gdb.newest_frame().older()
+        if caller.name()!='parse_command_line':return False
+        row=vector_abi(vector_snapshot(),1)
         row['args']={};row['caller']['args']={key:int(caller.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('argc','argv')}
         identity=gdb.parse_and_eval('*c1_host_identity')
         row.update(module_identity=dict({key:identity[key].string()for key in ('name','path','sha256')},flags=int(identity['flags'])),module_token=int(gdb.parse_and_eval('(unsigned int)c1_host_module')))

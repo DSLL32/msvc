@@ -49,7 +49,7 @@ def validate(original,native,candidate,report,stage_state=None):
  if own['probe']=='restore':
   observations=json.loads((native/'restore-observations.json').read_text());assert observations['pre_seed']['path_fold']==[0]*256 and observations['before']['path_fold']==seed('reset')and observations['post_restore']['path_fold']==[0]*256
  grouped=prefix['grouped_decoder'];assert grouped and grouped['legacy_seconds']is None
- return dict(status='matching complete path-fold initializer and genuine qualified CRT calls',application_candidate='_initialize_path_fold_table',candidate_code_bytes=83,path_table_bytes=512,initialized_known_bytes=2348,initialized_unmodeled_bytes=4200,native_bss_bytes=2372,public_CRT_calls=own['calls'],second_getenv_original_scope=own['second_getenv_proof'],layout_label_derivation=layout_derivation,CRT_code_credit=0,grouped_decoder=grouped,execution_receipts=dict(original=sha(original/'receipt.json'),native=sha(native/'receipt.json')))
+ return dict(status='matching complete path-fold initializer and genuine qualified CRT calls',application_candidate='_initialize_path_fold_table',candidate_code_bytes=83,path_table_bytes=512,initialized_known_bytes=2348,initialized_unmodeled_bytes=4200,native_bss_bytes=fields['native_bss_size'],public_CRT_calls=own['calls'],second_getenv_original_scope=own['second_getenv_proof'],layout_label_derivation=layout_derivation,CRT_code_credit=0,grouped_decoder=grouped,execution_receipts=dict(original=sha(original/'receipt.json'),native=sha(native/'receipt.json')))
 
 def validate_calls(original,native,calls,binary,own):
  names=symbols(binary);assert len(calls)==own['calls']

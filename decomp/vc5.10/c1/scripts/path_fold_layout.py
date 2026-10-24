@@ -26,7 +26,7 @@ def command_line_model(fields):
 
 def validate_native_schema(native,binary_size):
  schema=json.loads((native/'grouped-layout.json').read_text());bss=schema['c1_bss'];row=bss['fields']['path_fold'];node=row['schema']
- assert binary_size==bss['size']==2372 and row['offset']==1860 and node['kind']=='array'and node['size']==512 and node['count']==256
+ assert binary_size==bss['size'] and binary_size==(2376 if 'current_argument'in bss['fields']else 2372) and row['offset']==1860 and node['kind']=='array'and node['size']==512 and node['count']==256
  assert node['element']['size']==2 and node['element']['signed']is False
 
 def validate_bound_inputs(original,native):
