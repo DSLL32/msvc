@@ -508,3 +508,20 @@ CppSymbol *__stdcall find_label(char *name)
     }
     return 0;
 }
+
+/* Original 0x3b490..0x3b4d7, stdcall4. Named labels use function
+   arena one; untouched fields retain the arena allocator's cleared state. */
+CppSymbol *__stdcall new_label(char *name)
+{
+    ArenaPool *pool = &compiler_arena.pools[1];
+    CppSymbol *label;
+    if (pool->remaining < (int)sizeof(CppSymbol)) refill_arena(&compiler_arena, pool);
+    label = (CppSymbol *)pool->next;
+    pool->remaining -= sizeof(CppSymbol);
+    pool->next += sizeof(CppSymbol);
+    label->kind = 8;
+    label->name = name;
+    label->detail.value = 0;
+    label->type = type_0000;
+    return label;
+}

@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_new_label@4",
+  "native_entry": "new_label",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_name": "(unsigned)name"
+  },
+  "formals": [
+    {
+      "name": "name",
+      "stack_index": 0,
+      "native_field": "raw_name",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 102144,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_name",
+        "native_owner_local": "goto_name",
+        "identity": "Actual parser action221 reloads same right[-1].name intoEAX28ef7/PUSH28efa/CALL28efb/return28f00. Accepted find_label is read-only with respect to semantic name/stack. Native immediate caller usesactual goto_name local assignedfromthat semanticfield beforelookup; no savedheapaddress or arbitrary parserprojection."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      242832,
+      242904
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 EAX pointer",
+    "proof": "Whole72B no savedGPR/frame, nameentryESP+4; RET4/EAXlabel. No hidden/incomingGPR,x87orCPUflagsinput. Existing compiler_arena.pool1 remaining compare52/refill, consumeexact52B CppSymbol, then onlykind8/name+8/detail.value+32zero/type+12 writes. Existing refill_arena zeroes actual block data before handoff includingreusedusedspan; no invented perlabelmemset or initialization. Typepointer9f298 independently identified by69481 flags0/interncall69487/store6948c, hence existingtype_0000 (not void). Addonly its encountered statealias, no newsourceglobal/data copy."
+  },
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    167671,
+    167680
+  ],
+  "native_caller_locals": {
+    "caller_name": {
+      "frame": 1,
+      "function": "parse_translation_unit",
+      "local": "goto_name"
+    }
+  }
+}

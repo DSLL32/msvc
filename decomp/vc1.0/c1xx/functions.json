@@ -1193,7 +1193,8 @@
     "_record_break_statement",
     "_record_continue_statement",
     "_record_default_label",
-    "_find_label@4"
+    "_find_label@4",
+    "_new_label@4"
   ],
   "driver": [
     {
@@ -3077,7 +3078,7 @@
     {
       "name": "_new_label@4",
       "start": 242832,
-      "end": 242833
+      "end": 242904
     },
     {
       "name": "_new_unary_ir_expression@8",
@@ -8686,7 +8687,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_new_label@4",
+      "terminal": "_record_goto@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8709,7 +8710,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1188-find_label-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1189-new_label-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8903,7 +8904,8 @@
         "cases/frontiers/state_machine_debug/1185-record_break_statement/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1186-record_continue_statement/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1187-record_default_label/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1188-find_label-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1188-find_label-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1189-new_label-4/frontier-extension.json"
       ]
     }
   },
@@ -11484,6 +11486,18 @@
       "original": 654376,
       "kind": "bytes",
       "bytes": 20
+    },
+    {
+      "name": "_type_0000",
+      "kind": "state",
+      "original": 651928,
+      "fields": [
+        {
+          "name": "_type_0000",
+          "original": 651928,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [

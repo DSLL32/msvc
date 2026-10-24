@@ -189,7 +189,7 @@
             symbol = find_label(goto_name);
             i = symbol != 0;
             if (!symbol) {
-                symbol = new_label(right[-1].name);
+                symbol = new_label(goto_name);
                 register_label(symbol);
             }
             record_goto(symbol, i);

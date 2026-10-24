@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "2e491a21d8cc002249bdafef9dfa4da1dbebb4bb0cc2cc04e0972635fa815fbf",
+    "functions.json": "fed0ccd526a06a67a05206665acdc0bf36154939d8e1ac8ddb4a57279e852f85",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "43c8a501b8a9de47fdee502f0f78a4309fa1f222b256918a4213e24fea5de5e9",
-    "cases/canonical-map.txt": "ecbfc0742582a3a5e7ec5047ae0ee058589555980bb593103ba6f13868c49613",
+    "cases/original-entry-references.json": "683d2b46b19fb3a474568ba02eb8be2d646a2984172c6af7dddb95068f47ec4a",
+    "cases/canonical-map.txt": "4fa6ec22ca887ca749161b95c273c1e0ffb65402cc0011f1a42efc7c91956f15",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1188-find_label-4/entry-reference/original-receipt.json": "015525141e7328011f472cae0c21cb78894158aa8626e91ac212b3efe098018b",
-    "cases/frontiers/state_machine_debug/1188-find_label-4/entry-reference/original-events.txt": "e77194c96838011da032dc2967022b0cbc7de016970b3e74be5058d9d15de8ef",
-    "cases/frontiers/state_machine_debug/1188-find_label-4/entry-reference/original-entries.plan": "476fee5ee2f841771500776003eb08b3ab043734374701c14fadc8f189f163c4"
+    "cases/frontiers/state_machine_debug/1189-new_label-4/entry-reference/original-receipt.json": "9bb769a10e3fbba3a5be3686a2d3b602a67676bc069eb46bf33af0a1ce18135f",
+    "cases/frontiers/state_machine_debug/1189-new_label-4/entry-reference/original-events.txt": "040f27f2ba7462ed73a8186c68edbeb5ae39254941d900d543b6b07e3d80434e",
+    "cases/frontiers/state_machine_debug/1189-new_label-4/entry-reference/original-entries.plan": "15365aad07a9c7f4a83194b4a60f0e33f7319b03fbce71dc65511daec1960565"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3928,7 +3928,7 @@
     },
     "new_label": {
       "logical": "_new_label@4",
-      "source": "src/stubs.c"
+      "source": "src/ir.c"
     },
     "new_left_typed_expression": {
       "logical": "_new_left_typed_expression@12",
@@ -6883,7 +6883,8 @@
     "record_break_statement",
     "record_continue_statement",
     "record_default_label",
-    "find_label"
+    "find_label",
+    "new_label"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -11006,7 +11007,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1189,
+      "last": 1190,
       "seen": [
         "main",
         "message_text",
@@ -12094,12 +12095,13 @@
         "record_continue_statement",
         "record_default_label",
         "find_label",
-        "new_label"
+        "new_label",
+        "record_goto"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_new_label@4",
-        "native": "new_label",
+        "logical": "_record_goto@8",
+        "native": "record_goto",
         "signal": 5
       }
     }

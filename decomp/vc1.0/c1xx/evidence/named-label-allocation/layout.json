@@ -1,0 +1,37 @@
+{
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "extent": [
+    242832,
+    242904
+  ],
+  "allocation": {
+    "pool": 1,
+    "bytes": 52,
+    "initialized_offsets": {
+      "kind": [
+        0,
+        1
+      ],
+      "name": [
+        8,
+        4
+      ],
+      "type": [
+        12,
+        4
+      ],
+      "detail_value": [
+        32,
+        4
+      ]
+    },
+    "remaining_state": "existing refill_arena cleared span; no added memset"
+  },
+  "type": {
+    "name": "_type_0000",
+    "global_address": 651928,
+    "flags_write": 431233,
+    "intern_call": 431239,
+    "global_store": 431244
+  }
+}
