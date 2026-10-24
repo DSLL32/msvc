@@ -32,12 +32,20 @@ def compare(original,state,trap,events,directory):
     assert [[i.address,int(i.op_str,0)]for i in decoded if i.mnemonic=='ret']==proof['returns']==[[0x41046d,8],[0x410491,8],[0x41051f,8]]
     assert proof['formals']==['LinkContext *context','InputArgument *argument']and proof['hidden_inputs']==[]
     entry,=[e for e in events if e['event']=='input_machine_entry'];formals=entry['formals']
-    assert trap['esp']==entry['stack_pointer']-20 and trap['stack'][:3]==[0x410541]+formals
+    if state['function']=='detect_input_machine':
+        assert trap['esp']==entry['stack_pointer']-20 and trap['stack'][:3]==[0x410541]+formals
+        assert trap['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
+    else:
+        detected,=[e for e in events if e['event']=='detect_machine_entry']
+        assert detected==dict(event='detect_machine_entry',stack_pointer=entry['stack_pointer']-20,formals=formals,hidden_inputs=[])
     assert trap['detect_machine_formals']==dict(formals=formals,hidden_inputs=[])
-    assert trap['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
     receipt=json.loads((directory/'receipt.json').read_text());frame=native_caller(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
     native=state['input_machine_entry'];formals=native['formals']
     assert state['detect_machine_entry']==dict(stack_pointer=native['stack_pointer']-frame,formals=formals,hidden_inputs=[])
-    assert state['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
+    if state['function']=='detect_input_machine':assert state['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
     # Both pointees are already owned completely by the inherited typed
     # context/argument contracts. No pending detector body or output credit.
+
+    if state['function']=='initialize_machine':
+        from machine_result_state import compare as compare_result
+        compare_result(original,state,trap,events,directory)

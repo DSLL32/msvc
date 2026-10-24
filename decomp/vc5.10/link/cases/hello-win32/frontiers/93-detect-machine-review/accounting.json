@@ -1,0 +1,32 @@
+{
+  "candidate": "_detect_input_machine@8",
+  "application_functions_if_promoted": 93,
+  "application_extent_bytes_if_promoted": 34619,
+  "support_functions": 13,
+  "support_extent_bytes": 522,
+  "original_capture_seconds": 2.4386063469573855,
+  "native_capture_seconds": 0.9246473116800189,
+  "audit_seconds": 0.6046646405011415,
+  "audit_including_setup_seconds": 1.1214263262227178,
+  "full_graph_bodies": 106,
+  "strict_graph_bodies": 99,
+  "fresh_affected_controls": 70,
+  "fresh_controls_elapsed": {
+    "positive": 1.376526003703475,
+    "negatives_and_scope_positives": 7.644902126863599,
+    "total": 9.021431497298181
+  },
+  "historical_controls": "Earlier campaigns preserved, not rerun/relabeled; checker hashes/deltas explicit.",
+  "scope_positives": [
+    "arbitrary own upperWORD/voidEAX retained, lowAX semantics bound",
+    "arbitrary own incoming uninitialized signaturebytes"
+  ],
+  "shared_ready": "0e8a3d3fc exact crt1f6ca79f/headerf2b44b6d/compat13d89; no new sharedgap or source-onlyretry",
+  "native_help_fixture": {
+    "setup": 0.06108334753662348,
+    "execution": 0.0038848351687192917,
+    "checks": 0.00040269922465085983,
+    "total": 0.06868638005107641
+  },
+  "build": "Original/native/runtime+currenthelper compiled withmake-j4; no separatebuildtiming."
+}

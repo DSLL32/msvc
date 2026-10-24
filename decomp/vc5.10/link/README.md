@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 92 application
-functions (34,313 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 93 application
+functions (34,619 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `detect_input_machine`; hello-win32 has not completed.
+next frontier is `initialize_machine`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -547,3 +547,14 @@ original/native pair takes 2.164/0.927 s and the audit 0.601 s. The reference
 runner now rejects a stale helper before execution. Shared READY b534 binds
 identical frozen bytes. Native help is 64.83 ms including 3.735 ms execution.
 Proofs and full failure/timing accounting are in `frontiers/92-check-input-machine-review`.
+
+The complete 306-byte machine detector is accepted. Its fifth seek and separate
+four-byte mapped read retain live local ownership and actual normal returns.
+The WORD result is compared through the original caller's TEST AX and WORD store,
+with both full EAX values retained individually. The whole 664-byte context
+changes exactly its two-byte Machine field from zero to 0x14c; the next initializer
+has one actual context-pointer input and remains trapped. Both builds and
+106 full/99 strict graph bodies pass. Seventy fresh affected controls take
+9.021 s; original/native/audit times are 2.439/0.925/0.605 s. Native help takes
+68.69 ms, including 3.885 ms execution. The independent review and retained
+module-location policy are in `frontiers/93-detect-machine-review`.

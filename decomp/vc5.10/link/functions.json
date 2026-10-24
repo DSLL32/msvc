@@ -109,7 +109,8 @@
     "_read_big_endian_dword@4",
     "_byte_swap_dword@4",
     "_read_object_file@12",
-    "_check_input_machine@8"
+    "_check_input_machine@8",
+    "_detect_input_machine@8"
   ],
   "driver": [
     {
@@ -2862,11 +2863,11 @@
     {
       "name": "_detect_input_machine@8",
       "start": 4260848,
-      "end": 4260849,
-      "pending_extent": true,
+      "end": 4261154,
+      "pending_extent": false,
       "source": "src/input-machine.cpp",
       "native_symbol": "detect_input_machine",
-      "status": "stub",
+      "status": "implemented",
       "abi": "stdcall WORD(LinkContext *,InputArgument *); two full pointer slots,RET8,no hidden inputs; pending306B/3RET8 sites"
     },
     {
@@ -2879,6 +2880,26 @@
       "status": "stub",
       "abi": "thiscall void LinkContext::CheckMachine(const char *,WORD); ECXreceiver+two physicalDWORDslots,RET8; rawsecondslot/meaningfulwidth must be observed when reached, no case/body credit",
       "symbol": "?CheckMachine@LinkContext@@QAEXPBDG@Z"
+    },
+    {
+      "name": "_convert_omf_input@8",
+      "start": 4259680,
+      "end": 4259681,
+      "pending_extent": true,
+      "source": "src/input-machine.cpp",
+      "native_symbol": "convert_omf_input",
+      "status": "stub",
+      "abi": "stdcall void(InputArgument *,WORD *machine); RET8, both actual read paths write2B; conversion/reopen behavior pending; returnEAXmeaning must requalify if encountered"
+    },
+    {
+      "name": "_convert_input_object@12",
+      "start": 4260736,
+      "end": 4260737,
+      "pending_extent": true,
+      "source": "src/input-machine.cpp",
+      "native_symbol": "convert_input_object",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *,InputArgument *,WORD *machine); RET12, both actual read paths write2B; full112B readonly pending analysis"
     }
   ],
   "text_data": [
