@@ -1,0 +1,20 @@
+{
+  "scope": "SDK constant declarations only; no runtime behavior",
+  "sdk": {
+    "path": "toolchains/5.10/include/WINNT.H",
+    "sha256": "31f29de1afa8ab5b899c6affcd9744a1306e1b248b88063aaae6e512068bdddc"
+  },
+  "constants": {
+    "IMAGE_SCN_TYPE_NO_PAD": 8,
+    "IMAGE_SCN_LNK_REMOVE": 2048
+  },
+  "source": {
+    "path": "lib/recon/include/win32.h",
+    "sha256": "2f632c34d9af7f726aa0a1a0eb5605c812ab91b205048d0f07e31c4e5174dbd3"
+  },
+  "checks": [
+    "GCC and Clang i386 header compile exactvalues and composedflags0xa00/0x42000048",
+    "make -j4 check passed"
+  ],
+  "original_execution": "none"
+}
