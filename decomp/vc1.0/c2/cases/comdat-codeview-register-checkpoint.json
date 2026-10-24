@@ -1,0 +1,169 @@
+{
+  "checkpoint": 1310,
+  "status": "124B CodeView register record accepted; next register-number child69900",
+  "new_function": {
+    "name": "@write_codeview_register@4",
+    "start": 432256,
+    "end": 432380,
+    "abi": {
+      "convention": "fastcall",
+      "parameters": [
+        {
+          "name": "symbol",
+          "location": "ECX",
+          "type": "SymbolHeader pointer"
+        }
+      ],
+      "hidden_inputs": [],
+      "callee_stack_cleanup": 0,
+      "entry_observation": "cases/codeview-register-abi/validation.json",
+      "scope": "Original69880..698fc consumes soleECXsymbol, RET0; no other incoming register/stack/flags/x87/out pointer. Actual current lexical DebugScope.records member/caller-symbol identity, kind/conventionflags/decoratedname/typeWORD and debugsegment global/definedoffset, select/data callback logical identities observed. Size/registerWORD are future register-number child inputs recorded contextually, not parent reads. Local308B record is output-only and never dumped/seeded at entry."
+    }
+  },
+  "extent_delta": 124,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1310,
+    "accepted_code_bytes": 347061,
+    "original_code_bytes": 399693,
+    "percentage": 86.83189347824455,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 651
+  },
+  "actual_abi": "cases/codeview-register-abi/validation.json",
+  "focused_controls": "cases/codeview-register-validation.json",
+  "fresh_before": "cases/comdat-original-1309.json",
+  "fresh_after": "cases/comdat-original-1310.json",
+  "native_after": "cases/comdat-original-1310-native.json",
+  "native_suite": "cases/native-all-validation.json",
+  "timings": {
+    "comdat-register-observer-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.408473919145763,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "comdat-register-entry": {
+      "command": [
+        "python3",
+        "scripts/observe-codeview-register-entry.py"
+      ],
+      "seconds": 2.2284415615722537,
+      "returncode": 0,
+      "log_sha256": "fbcb664cc0c61415bc729049dd8d9de49d0936ed41377e9f1cac6e6cd9e9b439"
+    },
+    "comdat-1310-build": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 11.418242506682873,
+      "returncode": 0,
+      "log_sha256": "237cd616d8127bdfccbc3d5fc156038c9fafe419128fca9a583a91285187aa95"
+    },
+    "comdat-1310-controls": {
+      "command": [
+        "python3",
+        "scripts/check-codeview-register.py"
+      ],
+      "seconds": 2.8005939098075032,
+      "returncode": 0,
+      "log_sha256": "6842d42af4f1120f6681cb393ec80cb1d8c45f14b12b282327de06cffa7d773c"
+    },
+    "comdat-1310-warnings": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "codeview-output"
+      ],
+      "seconds": 2.2843813905492425,
+      "returncode": 0,
+      "log_sha256": "26f197151b01d23b6b1e950b399d7ea78d651596658fe076d784018dc3c7c5c6"
+    },
+    "comdat-1310-audit": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 29.867578850127757,
+      "returncode": 0,
+      "log_sha256": "527ecae8c74f72a821e3b159785f0280aeb38832c4f173cf20a41c3784342ec1"
+    },
+    "comdat-1310-original": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "comdat",
+        "--receipt",
+        "cases/comdat-original-1310.json"
+      ],
+      "seconds": 1.8913469910621643,
+      "returncode": 0,
+      "log_sha256": "7198839b2bf03b58b2fe8cc0269b4065c098a2b65a9f25d6478f5f0d74063c60"
+    },
+    "comdat-1310-native": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "comdat",
+        "--reference",
+        "cases/comdat-original-1310.json"
+      ],
+      "seconds": 0.23237359151244164,
+      "returncode": 0,
+      "log_sha256": "745695967fa8b2d1adf0bd2def38d082ccec58dd1c8f70460cbf96f82b2a8105"
+    },
+    "comdat-1310-cache": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/comdat-original-1309.json",
+        "--extend-after",
+        "cases/comdat-original-1310.json"
+      ],
+      "seconds": 0.3453541612252593,
+      "returncode": 0,
+      "log_sha256": "2f55d7396bfa71b9a7cda335eeb3c46b8fdc7f1e65086cf82e1f94abec690026"
+    },
+    "comdat-1310-fixtures": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 1.0125413797795773,
+      "returncode": 0,
+      "log_sha256": "be51c0c03ea80eadd0bc36e0fc11e1e2eb1c76c7333a2262b3bf68722c6f89a3"
+    }
+  },
+  "scope": "108 whole original/canonical packed S_REGISTER controls/9 ABI rejects. Actual lexical scope queued _value/type116/size4/reg1/debugoffset109 and exact select/data logical callbacks observed, no bulk descriptor or localoutput snapshot. TypeWORD postselect/pre-register timing, AL/AX childresult boundary, callback-order and late debugsegment pointer/offset reload prove full124B C body. New46B child69900 remains namedtrap; no childimplementation/extra data. Original/W3/audits/fresh pair/native16 cases pass; exact completedobject pending. Analysis/edit time unmeasured."
+}

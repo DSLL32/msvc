@@ -1,0 +1,523 @@
+{
+  "matched": true,
+  "rows": [
+    {
+      "eax": 1449334140,
+      "ecx": 16,
+      "esp": 4294957756,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 16,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 3,
+      "return_esp": 4294957760,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 4,
+      "esp": 4294957756,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 4,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 5,
+      "return_esp": 4294957760,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 4,
+      "esp": 4294957756,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 4,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 5,
+      "return_esp": 4294957760,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 4,
+      "esp": 4294957756,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 4,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 5,
+      "return_esp": 4294957760,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 1,
+      "esp": 4294957756,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449329556,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 1,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 1,
+      "return_esp": 4294957760,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449329556,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 1,
+      "esp": 4294957756,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449329556,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 1,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 1,
+      "return_esp": 4294957760,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449329556,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 4,
+      "esp": 4294957756,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449329556,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 4,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 5,
+      "return_esp": 4294957760,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449329556,
+        "edi": 4160736096,
+        "ebp": 4294957816
+      }
+    },
+    {
+      "eax": 0,
+      "ecx": 16,
+      "esp": 4294957580,
+      "caller": "omf_initialize_record",
+      "producer": 0,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 14,
+        "edi": 1,
+        "ebp": 4294957640
+      },
+      "incoming_eax": 0,
+      "alignment": 16,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 3,
+      "return_esp": 4294957584,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 14,
+        "edi": 1,
+        "ebp": 4294957640
+      }
+    },
+    {
+      "eax": 0,
+      "ecx": 16,
+      "esp": 4294957580,
+      "caller": "omf_initialize_record",
+      "producer": 0,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 23,
+        "edi": 1,
+        "ebp": 4294957640
+      },
+      "incoming_eax": 0,
+      "alignment": 16,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 3,
+      "return_esp": 4294957584,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 23,
+        "edi": 1,
+        "ebp": 4294957640
+      }
+    },
+    {
+      "eax": 0,
+      "ecx": 16,
+      "esp": 4294957580,
+      "caller": "omf_initialize_record",
+      "producer": 0,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 30,
+        "edi": 1,
+        "ebp": 4294957640
+      },
+      "incoming_eax": 0,
+      "alignment": 16,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 3,
+      "return_esp": 4294957584,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 30,
+        "edi": 1,
+        "ebp": 4294957640
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 16,
+      "esp": 4294957868,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 16,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 3,
+      "return_esp": 4294957872,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 8,
+      "esp": 4294957868,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 8,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 1449334140,
+      "return_esp": 4294957872,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 4,
+      "esp": 4294957868,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 4,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 5,
+      "return_esp": 4294957872,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 4,
+      "esp": 4294957868,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 4,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 5,
+      "return_esp": 4294957872,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 1,
+      "esp": 4294957868,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 1,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 1,
+      "return_esp": 4294957872,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 1,
+      "esp": 4294957868,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 1,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 1,
+      "return_esp": 4294957872,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      }
+    },
+    {
+      "eax": 1449334140,
+      "ecx": 4,
+      "esp": 4294957868,
+      "caller": "omf_write_segment_definition",
+      "producer": 1449334140,
+      "nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      },
+      "incoming_eax": 1449334140,
+      "alignment": 4,
+      "pool": 1449334140,
+      "slots": [
+        1449334140,
+        1449335144,
+        1449336148,
+        1449337152
+      ],
+      "return_eax": 5,
+      "return_esp": 4294957872,
+      "return_nonvol": {
+        "ebx": 1449324532,
+        "esi": 1449190399,
+        "edi": 4160736096,
+        "ebp": 4294957928
+      }
+    }
+  ],
+  "native_execution_seconds": 0.17568193934857845,
+  "total_seconds": 0.18004710972309113,
+  "executable_sha256": "44ed9123cef3d042abd5142845f22f61648d609d4e24828ea1800472bb054bdc",
+  "manifest_sha256": "0b6c374b507b4499a8664aea856c2f5986fa4292ce4c572f31f40cae011654bd",
+  "source_sha256": "ae80ff597066270db6a4715564932dc1742e875f78e6a5fa9678e6a38b61ebf3",
+  "gdb_sha256": "a108f336ee0645514becaef8859a0bfd0b18a3073149bab53004b5d9f4d068a5",
+  "object_sha256": "2dcb42c74d07c84c7aa7f25a1724dd70b43ea06b1dca747a5e257ff544557783",
+  "scope": "Raw function entry EAX/ECX and actual caller record/full selection producer, then native regcall C formals after automatic entry hook and full EAX/ESP/nonvol at return. Both actual callers, traced ELF; exact complete1962B object. Breakpoints only; no register/value injection."
+}

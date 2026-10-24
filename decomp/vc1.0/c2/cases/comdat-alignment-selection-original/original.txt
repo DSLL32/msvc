@@ -1,0 +1,11 @@
+enter @omf_alignment@4 eax 00000000 args 00000010
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+alignment8 eax 00000000 alignment 16 record 0007a8dc current 0007a8dc base 0007a8dc count 3 cursor 0007a8f5 return_address 0006c1a3
+alignment8_segment pointer 007b2750 member 007b2750 identifier 183 index 0 alignment 16 combine 7 position 0 object_section 17
+alignment8_segment_name_hex 5f7061636b65745f7374657000
+entry_end
+return @omf_alignment@4 eax 00000003 args 00000010
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 

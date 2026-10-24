@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python3",
+    "-c",
+    "import runpy; runpy.run_path(\"scripts/check-omf-segment.py\",run_name=\"__main__\")"
+  ],
+  "seconds": 0.0904866810888052,
+  "returncode": 1,
+  "log_sha256": "4e7facfb9c19f3f5bcc8674c5f13e5af2df325a7e34aef05a6bddbd3a21f1f2f"
+}

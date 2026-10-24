@@ -40,6 +40,11 @@ def publics():
     for line in Path('build/c2.map').read_text().splitlines():
         m = re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})', line)
         if m: result[m[1]] = int(m[2],16)
+    # Genuine adjacent typed storage: preserve the old object names as audited
+    # member aliases for data checks; these are not independent zero globals.
+    if '_omf_record_storage' in result:
+        result['_omf_empty_name'] = result['_omf_record_storage']
+        result['_omf_records'] = result['_omf_record_storage'] + 4
     return result
 
 def indexes():

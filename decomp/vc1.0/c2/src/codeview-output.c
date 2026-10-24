@@ -6,7 +6,9 @@
 #include "machine.h"
 #include "listing.h"
 #include "input.h"
+#include "function-input.h"
 #include <string.h>
+#include <stddef.h>
 #include <recon.h>
 int codeview_output_started; /* original84fd8 */
 extern int optimize_global, coff_object, byte_block_first, cpu_model, floating_frontend;
@@ -453,4 +455,46 @@ void __fastcall write_codeview_global_data(SymbolHeader *symbol)
     output_callbacks.data(&record, length + 2);
     output_callbacks.size(2 - length, symbol);
     debug_symbols_segment->symbol.field04 += length + 2;
+}
+
+#pragma pack(2)
+typedef struct CodeViewRegisterRecord {
+    unsigned short length, kind, type, register_number;
+    unsigned char name[300];
+} CodeViewRegisterRecord;
+#pragma pack()
+typedef char CodeViewRegisterLayoutCheck[sizeof(CodeViewRegisterRecord) == 308 &&
+    offsetof(CodeViewRegisterRecord, length) == 0 &&
+    offsetof(CodeViewRegisterRecord, kind) == 2 &&
+    offsetof(CodeViewRegisterRecord, type) == 4 &&
+    offsetof(CodeViewRegisterRecord, register_number) == 6 &&
+    offsetof(CodeViewRegisterRecord, name) == 8 ? 1 : -1];
+/* Original [00069880,000698fc). S_REGISTER has no address relocation.
+   Length precedes the bounded counted-name copy, just as other writers. */
+void __fastcall write_codeview_register(SymbolHeader *symbol)
+{
+    CodeViewRegisterRecord record;
+    char *name = format_function_name(symbol), *end;
+    unsigned length;
+    output_callbacks.select_segment(debug_symbols_segment);
+    end = name;
+    while (*end++) ;
+    length = (unsigned)(end - name) + 6;
+    record.length = (unsigned short)length;
+    record.kind = 2;
+    record.type = ((BackendSymbol *)symbol)->field20;
+    record.register_number = codeview_register_number(symbol);
+    copy_codeview_string(record.name, name);
+    output_callbacks.data(&record, length + 2);
+    debug_symbols_segment->symbol.field04 += length + 2;
+}
+
+/* Original [00069900,0006992e). Byte/word/DWORD register families start
+   at1/9/17. The signed shift and final WORD wrap also retain cold inputs. */
+unsigned short __fastcall codeview_register_number(SymbolHeader *symbol)
+{
+    long bytes = symbol->value;
+    if (bytes > 4) compiler_internal_error("@(#)emit.c:1.20", 0x2fb);
+    return (unsigned short)(((unsigned)(bytes >> 1) << 3) +
+        ((TemporarySymbol *)symbol)->field28 + 1);
 }

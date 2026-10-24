@@ -1,0 +1,558 @@
+{
+  "states": [
+    {
+      "inputs": {
+        "type": 195,
+        "occupied": 0,
+        "slot": 0,
+        "count": 0,
+        "null": false,
+        "position": 2309737967,
+        "alignment": 8,
+        "name": 291,
+        "old_name": 291,
+        "order": 309,
+        "selection": 1,
+        "flags": 2,
+        "group_name": 295,
+        "group_number": 564,
+        "owner_type": 305463295
+      },
+      "result": {
+        "slot": 0,
+        "events": [
+          [
+            "selection",
+            1,
+            1,
+            24,
+            "c396b503"
+          ],
+          [
+            "alignment",
+            8,
+            3,
+            25,
+            "c396b50310"
+          ],
+          [
+            "index",
+            4294967295,
+            7,
+            30,
+            "c396b503107befcdab89"
+          ],
+          [
+            "index",
+            564,
+            8,
+            31,
+            "c396b503107befcdab896f"
+          ],
+          [
+            "index",
+            309,
+            9,
+            32,
+            "c396b503107befcdab896f64"
+          ],
+          [
+            "index",
+            291,
+            10,
+            33,
+            "c396b503107befcdab896f6465"
+          ]
+        ],
+        "pool_sha256": "c0f4ac1d6edf262cfd7d5b83b2ba8e7730b91e6822203fd406b86e565359d974",
+        "cached_flags": "02",
+        "cached_name": 291
+      }
+    },
+    {
+      "inputs": {
+        "type": 195,
+        "occupied": 0,
+        "slot": 0,
+        "count": 0,
+        "null": false,
+        "position": 2309737967,
+        "alignment": 16,
+        "name": 291,
+        "old_name": 291,
+        "order": 309,
+        "selection": 1,
+        "flags": 2,
+        "group_name": 295,
+        "group_number": 564,
+        "owner_type": 305463295
+      },
+      "result": {
+        "slot": 0,
+        "events": [
+          [
+            "selection",
+            1,
+            1,
+            24,
+            "c396b503"
+          ],
+          [
+            "alignment",
+            16,
+            3,
+            25,
+            "c396b50310"
+          ],
+          [
+            "index",
+            4294967295,
+            7,
+            30,
+            "c396b503107befcdab89"
+          ],
+          [
+            "index",
+            564,
+            8,
+            31,
+            "c396b503107befcdab896f"
+          ],
+          [
+            "index",
+            309,
+            9,
+            32,
+            "c396b503107befcdab896f64"
+          ],
+          [
+            "index",
+            291,
+            10,
+            33,
+            "c396b503107befcdab896f6465"
+          ]
+        ],
+        "pool_sha256": "c0f4ac1d6edf262cfd7d5b83b2ba8e7730b91e6822203fd406b86e565359d974",
+        "cached_flags": "02",
+        "cached_name": 291
+      }
+    },
+    {
+      "inputs": {
+        "type": 195,
+        "occupied": 0,
+        "slot": 0,
+        "count": 0,
+        "null": false,
+        "position": 2309737967,
+        "alignment": 8,
+        "name": 291,
+        "old_name": 291,
+        "order": 309,
+        "selection": 2,
+        "flags": 2,
+        "group_name": 295,
+        "group_number": 564,
+        "owner_type": 305463295
+      },
+      "result": {
+        "slot": 0,
+        "events": [
+          [
+            "selection",
+            2,
+            1,
+            24,
+            "c396b503"
+          ],
+          [
+            "alignment",
+            8,
+            3,
+            25,
+            "c396b50300"
+          ],
+          [
+            "index",
+            4294967295,
+            7,
+            30,
+            "c396b503007befcdab89"
+          ],
+          [
+            "index",
+            564,
+            8,
+            31,
+            "c396b503007befcdab896f"
+          ],
+          [
+            "index",
+            309,
+            9,
+            32,
+            "c396b503007befcdab896f64"
+          ],
+          [
+            "index",
+            291,
+            10,
+            33,
+            "c396b503007befcdab896f6465"
+          ]
+        ],
+        "pool_sha256": "d42accbf34b0d404f223e31973b7cd232a819393de0c2a47ee6b56a25e6f5485",
+        "cached_flags": "02",
+        "cached_name": 291
+      }
+    },
+    {
+      "inputs": {
+        "type": 195,
+        "occupied": 0,
+        "slot": 0,
+        "count": 0,
+        "null": false,
+        "position": 2309737967,
+        "alignment": 16,
+        "name": 291,
+        "old_name": 291,
+        "order": 309,
+        "selection": 2,
+        "flags": 2,
+        "group_name": 295,
+        "group_number": 564,
+        "owner_type": 305463295
+      },
+      "result": {
+        "slot": 0,
+        "events": [
+          [
+            "selection",
+            2,
+            1,
+            24,
+            "c396b503"
+          ],
+          [
+            "alignment",
+            16,
+            3,
+            25,
+            "c396b50300"
+          ],
+          [
+            "index",
+            4294967295,
+            7,
+            30,
+            "c396b503007befcdab89"
+          ],
+          [
+            "index",
+            564,
+            8,
+            31,
+            "c396b503007befcdab896f"
+          ],
+          [
+            "index",
+            309,
+            9,
+            32,
+            "c396b503007befcdab896f64"
+          ],
+          [
+            "index",
+            291,
+            10,
+            33,
+            "c396b503007befcdab896f6465"
+          ]
+        ],
+        "pool_sha256": "d42accbf34b0d404f223e31973b7cd232a819393de0c2a47ee6b56a25e6f5485",
+        "cached_flags": "02",
+        "cached_name": 291
+      }
+    },
+    {
+      "inputs": {
+        "type": 195,
+        "occupied": 0,
+        "slot": 0,
+        "count": 0,
+        "null": false,
+        "position": 2309737967,
+        "alignment": 8,
+        "name": 291,
+        "old_name": 291,
+        "order": 309,
+        "selection": 3,
+        "flags": 2,
+        "group_name": 295,
+        "group_number": 564,
+        "owner_type": 305463295
+      },
+      "result": {
+        "slot": 0,
+        "events": [
+          [
+            "selection",
+            3,
+            1,
+            24,
+            "c396b503"
+          ],
+          [
+            "alignment",
+            8,
+            3,
+            25,
+            "c396b50320"
+          ],
+          [
+            "index",
+            4294967295,
+            7,
+            30,
+            "c396b503207befcdab89"
+          ],
+          [
+            "index",
+            564,
+            8,
+            31,
+            "c396b503207befcdab896f"
+          ],
+          [
+            "index",
+            309,
+            9,
+            32,
+            "c396b503207befcdab896f64"
+          ],
+          [
+            "index",
+            291,
+            10,
+            33,
+            "c396b503207befcdab896f6465"
+          ]
+        ],
+        "pool_sha256": "a3273d4267bb9a0638280d3d3a1e8526d6da459f02f243ae5e68c89e0512461d",
+        "cached_flags": "02",
+        "cached_name": 291
+      }
+    },
+    {
+      "inputs": {
+        "type": 195,
+        "occupied": 0,
+        "slot": 0,
+        "count": 0,
+        "null": false,
+        "position": 2309737967,
+        "alignment": 16,
+        "name": 291,
+        "old_name": 291,
+        "order": 309,
+        "selection": 3,
+        "flags": 2,
+        "group_name": 295,
+        "group_number": 564,
+        "owner_type": 305463295
+      },
+      "result": {
+        "slot": 0,
+        "events": [
+          [
+            "selection",
+            3,
+            1,
+            24,
+            "c396b503"
+          ],
+          [
+            "alignment",
+            16,
+            3,
+            25,
+            "c396b50320"
+          ],
+          [
+            "index",
+            4294967295,
+            7,
+            30,
+            "c396b503207befcdab89"
+          ],
+          [
+            "index",
+            564,
+            8,
+            31,
+            "c396b503207befcdab896f"
+          ],
+          [
+            "index",
+            309,
+            9,
+            32,
+            "c396b503207befcdab896f64"
+          ],
+          [
+            "index",
+            291,
+            10,
+            33,
+            "c396b503207befcdab896f6465"
+          ]
+        ],
+        "pool_sha256": "a3273d4267bb9a0638280d3d3a1e8526d6da459f02f243ae5e68c89e0512461d",
+        "cached_flags": "02",
+        "cached_name": 291
+      }
+    },
+    {
+      "inputs": {
+        "type": 195,
+        "occupied": 0,
+        "slot": 0,
+        "count": 0,
+        "null": false,
+        "position": 2309737967,
+        "alignment": 8,
+        "name": 291,
+        "old_name": 291,
+        "order": 309,
+        "selection": 4,
+        "flags": 2,
+        "group_name": 295,
+        "group_number": 564,
+        "owner_type": 305463295
+      },
+      "result": {
+        "slot": 0,
+        "events": [
+          [
+            "selection",
+            4,
+            1,
+            24,
+            "c396b503"
+          ],
+          [
+            "alignment",
+            8,
+            3,
+            25,
+            "c396b50330"
+          ],
+          [
+            "index",
+            4294967295,
+            7,
+            30,
+            "c396b503307befcdab89"
+          ],
+          [
+            "index",
+            564,
+            8,
+            31,
+            "c396b503307befcdab896f"
+          ],
+          [
+            "index",
+            309,
+            9,
+            32,
+            "c396b503307befcdab896f64"
+          ],
+          [
+            "index",
+            291,
+            10,
+            33,
+            "c396b503307befcdab896f6465"
+          ]
+        ],
+        "pool_sha256": "f181d79bb47e09e62085883f47ee129469fd55474b6b575283d183c21b9fc2b6",
+        "cached_flags": "02",
+        "cached_name": 291
+      }
+    },
+    {
+      "inputs": {
+        "type": 195,
+        "occupied": 0,
+        "slot": 0,
+        "count": 0,
+        "null": false,
+        "position": 2309737967,
+        "alignment": 16,
+        "name": 291,
+        "old_name": 291,
+        "order": 309,
+        "selection": 4,
+        "flags": 2,
+        "group_name": 295,
+        "group_number": 564,
+        "owner_type": 305463295
+      },
+      "result": {
+        "slot": 0,
+        "events": [
+          [
+            "selection",
+            4,
+            1,
+            24,
+            "c396b503"
+          ],
+          [
+            "alignment",
+            16,
+            3,
+            25,
+            "c396b50330"
+          ],
+          [
+            "index",
+            4294967295,
+            7,
+            30,
+            "c396b503307befcdab89"
+          ],
+          [
+            "index",
+            564,
+            8,
+            31,
+            "c396b503307befcdab896f"
+          ],
+          [
+            "index",
+            309,
+            9,
+            32,
+            "c396b503307befcdab896f64"
+          ],
+          [
+            "index",
+            291,
+            10,
+            33,
+            "c396b503307befcdab896f6465"
+          ]
+        ],
+        "pool_sha256": "f181d79bb47e09e62085883f47ee129469fd55474b6b575283d183c21b9fc2b6",
+        "cached_flags": "02",
+        "cached_name": 291
+      }
+    }
+  ],
+  "seconds": 0.5850709117949009,
+  "scope": "Original/canonical whole initializer with valid selection1..4 full EAX results as independently proved mapper outputs, alignments8/16. Alignment child hook requires exact full EAX producer as well as existing ECX/count/cursor/output/stack/nonvolatile controls. Mocked child results; not evidence actual case executes COMDAT8."
+}

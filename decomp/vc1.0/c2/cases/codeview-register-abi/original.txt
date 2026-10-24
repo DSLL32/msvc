@@ -1,0 +1,9 @@
+enter @write_codeview_register@4 eax 00000010 args 007b2d68
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+codeview_register symbol 007b2d68 caller_symbol 007b2d68 scope 007b2d1c record 007b2d94 record_symbol 007b2d68 record_index 0 return_address 00069a46
+codeview_register_fields kind 1 flags 256 type 116 size 00000004 register_number 1 debug 007b149c debug_offset 0000006d
+codeview_register_callbacks select 0006b6a0 data 0006b6c0
+codeview_register_name_hex 5f76616c756500
+entry_end

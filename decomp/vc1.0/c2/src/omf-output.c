@@ -18,7 +18,14 @@ OmfRecord *__fastcall omf_initialize_record(OmfRecord *record, unsigned type, vo
 void __fastcall omf_pad_record(OmfRecord *record, unsigned bytes);
 void __fastcall omf_write_index(OmfRecord *record, int index);
 unsigned char __fastcall omf_comdat_selection(unsigned char selection);
+#ifdef RECON_NATIVE_TEST
+/* Recovered EAX input on the same logical symbol; Clang spills both regcall
+   formals before its automatic entry hook. No wrapper or extra graph vertex. */
+unsigned __attribute__((regcall)) omf_alignment(unsigned incoming_eax,
+    unsigned alignment) __asm__("omf_alignment");
+#else
 unsigned __fastcall omf_alignment(unsigned alignment);
+#endif
 void __fastcall omf_append_bytes(OmfRecord *record, char *bytes, unsigned count);
 void __fastcall omf_write_record(OmfRecord *record);
 void omf_write_fixups(void);
@@ -53,7 +60,6 @@ unsigned omf_next_name = 1; /* 00085084, original PE initializer */
 OmfGroup omf_group_storage;
 OmfGroup *omf_default_group = &omf_group_storage;
 OmfFixupThreads omf_fixup_threads; /* 0007a8c4..0007a8d8 */
-unsigned omf_empty_name; /* 0007a8d8 */
 unsigned omf_next_external = 1; /* 00085078, original PE initializer */
 unsigned omf_next_group = 1; /* 0008507c */
 unsigned omf_next_segment = 1; /* 00085080 */
@@ -64,7 +70,17 @@ OmfFixup omf_fixups[250]; /* 00079154..0007a8c4, original BSS pool */
 typedef char OmfFixupPoolSizeCheck[sizeof(omf_fixups) == 6000 ? 1 : -1];
 int omf_fixup_count; /* 00085094, pending fixup entries */
 unsigned omf_last_comdat_name; /* 0007e8b0, last LINSYM name index */
-OmfRecord omf_records[4]; /* 0007a8dc..0007b88c, original BSS */
+/* Original7a8d8..7b88c is loader-zero storage. VC1 has no alignment
+   attribute; a dedicated data segment gives this genuine typed owner a PE
+   section boundary. Explicit zeros change only its file representation.
+   Native alignment and actual PE/ELF placement are independently checked. */
+#ifdef RECON_NATIVE_TEST
+OmfRecordStorage omf_record_storage __attribute__((aligned(8)));
+#else
+#pragma data_seg("OMFREC")
+OmfRecordStorage omf_record_storage = {0};
+#pragma data_seg()
+#endif
 OmfRecord *omf_current_record; /* 0007b88c, original BSS */
 /* Original [0006a9a0,0006a9c2). Tags alone are reset; buffered fields and
    serialized bytes retain their previous contents when the cache is reused. */
@@ -246,6 +262,9 @@ OmfRecord *__fastcall omf_initialize_record(OmfRecord *record, unsigned type, vo
 {
     Segment *segment = (Segment *)context, *parent;
     unsigned value;
+#ifndef RECON_NATIVE_TEST
+    unsigned alignment_value;
+#endif
     if (record->type) record = omf_flush_record(record);
     record->type = type;
     record->context = context;
@@ -273,7 +292,23 @@ OmfRecord *__fastcall omf_initialize_record(OmfRecord *record, unsigned type, vo
         OMF_RECORD_BYTE(record, omf_comdat_flags | (segment->symbol.field04 != 0));
         value = omf_comdat_selection(segment->object_attributes.omf_comdat.selection);
         OMF_RECORD_BYTE(record, value);
-        OMF_RECORD_BYTE(record, omf_alignment(segment->alignment));
+        /* Original6c197 increments the alignment byte's count beforecall. */
+        ++record->count;
+#ifdef RECON_NATIVE_TEST
+        value = omf_alignment(value, segment->alignment);
+#else
+        /* Original6c18c..6c19e retains the full selection result in EAX.
+           Ordinary fastcall C cannot express this second, hidden input. */
+        alignment_value = segment->alignment;
+        __asm {
+            mov eax, value
+            mov ecx, alignment_value
+            call omf_alignment
+            mov value, eax
+        }
+#endif
+        *record->cursor = (unsigned char)value;
+        ++record->cursor;
         value = segment->symbol.field04;
         OMF_RECORD_BYTE(record, value);
         OMF_RECORD_BYTE(record, value >> 8);
@@ -596,6 +631,9 @@ void __fastcall omf_write_segment_definition(Segment *segment)
 {
     OmfRecord *record;
     unsigned count, value;
+#ifndef RECON_NATIVE_TEST
+    unsigned alignment_value;
+#endif
     unsigned char *cursor, attributes;
     if (segment->identity.order != omf_next_segment)
         compiler_internal_error("@(#)omf.c:1.10", 0x5b2);
@@ -604,7 +642,19 @@ void __fastcall omf_write_segment_definition(Segment *segment)
     count = record->count;
     record->count = ++count;
     cursor = record->cursor;
-    attributes = (unsigned char)omf_alignment(segment->alignment);
+#ifdef RECON_NATIVE_TEST
+    value = omf_alignment((unsigned)record, segment->alignment);
+#else
+    /* Original6a8c2..6a8d6 retains begin_record's pointer in EAX. */
+    alignment_value = segment->alignment;
+    __asm {
+        mov eax, record
+        mov ecx, alignment_value
+        call omf_alignment
+        mov value, eax
+    }
+#endif
+    attributes = (unsigned char)value;
     attributes = (unsigned char)((attributes << 3) | segment->combine);
     attributes = (unsigned char)((attributes << 2) | 1);
     *cursor++ = attributes;
@@ -619,13 +669,23 @@ void __fastcall omf_write_segment_definition(Segment *segment)
     omf_write_index(record, omf_empty_name);
 }
 
-/* Original [0006a310,0006a346). Only these four alignment values have
-   defined results. The original default RET does not assign EAX: preserve the
-   Win32 missing return rather than initialize a made-up result. Native callers
-   outside this proved producer contract trap explicitly; a real such case
-   requires its incoming-register ABI to be recovered before proceeding. */
+/* Original [0006a310,0006a346). The four explicit mappings assign EAX;
+   the default RET at6a324 preserves its incoming value. Win32 retains the
+   original missing C return, with only the hidden-register transport expressed
+   in assembly. Native regcall makes EAX/ECX explicit C inputs on this symbol.
+   Only the actually witnessed8 path is enabled outside the four mappings;
+   other unsupported native values remain a named, machine-audited boundary. */
+#ifdef RECON_NATIVE_TEST
+unsigned __attribute__((regcall)) omf_alignment(unsigned incoming_eax,
+    unsigned alignment)
+#else
 unsigned __fastcall omf_alignment(unsigned alignment)
+#endif
 {
+#ifndef RECON_NATIVE_TEST
+    unsigned incoming_eax;
+    __asm mov incoming_eax, eax
+#endif
     switch (alignment) {
     case 1: return 1;
     case 2: return 2;
@@ -633,7 +693,10 @@ unsigned __fastcall omf_alignment(unsigned alignment)
     case 16: return 3;
     }
 #ifdef RECON_NATIVE_TEST
+    if (alignment == 8) return incoming_eax;
     __asm int 3
+#else
+    __asm mov eax, incoming_eax
 #endif
 }
 

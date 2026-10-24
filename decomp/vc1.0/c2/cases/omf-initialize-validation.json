@@ -5593,6 +5593,6 @@
       }
     }
   ],
-  "seconds": 2.991487014107406,
+  "seconds": 4.977269280701876,
   "scope": "Whole483-byte original/canonical initializer: all8 prefix categories and default, every header/prefix/payload byte in4016-byte cache, occupied flush returning another slot, pointer/ESP/RET4/GPR preservation, counter overflow/reset and every child args/count/cursor/prefix at call boundary. Index/selection/alignment/flush bodies mocked, not accepted or claimed actual cold execution. Actual slot0/type80/NULL path has no children and defined zero header."
 }

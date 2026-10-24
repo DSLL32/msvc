@@ -21,6 +21,7 @@ static DWORD image_base;
 static char printf_format[64],stop_entry[80],stop_return[80];
 static int observe_input;
 static int observe_entry;
+static int alignment_eax_capture;
 static DWORD rearm_address;
 static DWORD read_word(HANDLE process,DWORD address)
 {
@@ -465,6 +466,29 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* Only the count/cursor are consumed; old destination bytes are write-only. */
         dump_bytes(process,"omf_pad_count_cursor_hex",record+12,8);
     }
+    if(alignment_eax_capture&&!strcmp(call->name,"@omf_alignment@4")) {
+        DWORD segment=alignment_eax_capture==2?context->Edi:context->Ebp,record=context->Esi,id=read_word(process,segment+28);
+        DWORD member=read_word(process,image_base+0x6c158+(id&63)*4),index=0;
+        while(member&&member!=segment&&++index<1024)member=read_word(process,member);
+        if(member!=segment||index==1024)exit(321);
+        sprintf(line,"alignment8 eax %08lx alignment %lu record %08lx current %08lx base %08lx count %lu cursor %08lx return_address %08lx\n",context->Eax,call->args[0],record,read_word(process,image_base+0x6b88c),image_base+0x6a8dc,read_word(process,record+12),read_word(process,record+16),call->return_address);log_line(line);
+        sprintf(line,"alignment8_segment pointer %08lx member %08lx identifier %lu index %lu alignment %lu combine %lu position %lu object_section %lu\n",segment,member,id,index,read_word(process,segment+48),read_byte(process,segment+53),read_word(process,segment+4),read_word(process,segment+56));log_line(line);
+        dump_bytes(process,"alignment8_segment_name_hex",read_word(process,segment+16),string_bytes(process,read_word(process,segment+16)));
+    }
+    if(!strcmp(call->name,"@codeview_register_number@4")) {
+        DWORD symbol=call->args[0];
+        sprintf(line,"codeview_register_number symbol %08lx size %08lx register_number %lu parent_symbol %08lx return_address %08lx\n",symbol,read_word(process,symbol+8),read_word(process,symbol+40)&65535,context->Esi,call->return_address);log_line(line);
+    }
+    if(!strcmp(call->name,"@write_codeview_register@4")) {
+        DWORD symbol=call->args[0],scope=read_word(process,image_base+0x6e8ac);
+        DWORD record=scope?read_word(process,scope+12):0,index=0,debug=read_word(process,image_base+0x6914c);
+        while(record&&read_word(process,record+4)!=symbol&&++index<1024)record=read_word(process,record);
+        if(!record||index==1024)exit(320);
+        sprintf(line,"codeview_register symbol %08lx caller_symbol %08lx scope %08lx record %08lx record_symbol %08lx record_index %lu return_address %08lx\n",symbol,context->Esi,scope,record,read_word(process,record+4),index,call->return_address);log_line(line);
+        sprintf(line,"codeview_register_fields kind %lu flags %lu type %lu size %08lx register_number %lu debug %08lx debug_offset %08lx\n",read_byte(process,symbol+12),read_word(process,symbol+12)>>16,read_word(process,symbol+32)&65535,read_word(process,symbol+8),read_word(process,symbol+40)&65535,debug,read_word(process,debug+4));log_line(line);
+        sprintf(line,"codeview_register_callbacks select %08lx data %08lx\n",read_word(process,image_base+0x6b918),read_word(process,image_base+0x6b914));log_line(line);
+        dump_bytes(process,"codeview_register_name_hex",read_word(process,symbol+16),string_bytes(process,read_word(process,symbol+16)));
+    }
     if(!strcmp(call->name,"@omf_comdat_selection@4")) {
         sprintf(line,"omf_selection value %lu segment %08lx owner_selection %lu return_address %08lx\n",call->args[0]&255,context->Edi,read_byte(process,context->Edi+68),call->return_address);log_line(line);
     }
@@ -780,6 +804,7 @@ static void install_plan(HANDLE process,DWORD base)
     GetEnvironmentVariableA("C2_STOP_RETURN",stop_return,sizeof(stop_return));
     observe_input=GetEnvironmentVariableA("C2_STREAM_INPUT",path,sizeof(path))!=0;
     observe_entry=GetEnvironmentVariableA("C2_ENTRY_INPUT",path,sizeof(path))!=0;
+    alignment_eax_capture=GetEnvironmentVariableA("C2_ALIGNMENT_EAX_CAPTURE",path,sizeof(path))?atoi(path):0;
     if(!GetEnvironmentVariableA("C2_CRT_CAPTURE",path,sizeof(path)))exit(249);
     observation_log=CreateFileA(path,GENERIC_WRITE,0,0,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,0);
     if(!GetEnvironmentVariableA("C2_CRT_PLAN",path,sizeof(path)))exit(250);
@@ -823,6 +848,12 @@ static void capture_crt(HANDLE process,HANDLE thread,DWORD base,DWORD address)
                 write_byte(process,address,call->first);rearm_address=address;
                 c.Eip=address;c.EFlags|=0x100;if(!SetThreadContext(thread,&c))exit(263);return;
             }
+        }
+        if(alignment_eax_capture&&!strcmp(call->name,"@omf_alignment@4")&&
+            ((alignment_eax_capture==1&&c.Ecx!=8)||
+             (alignment_eax_capture==2&&read_word(process,c.Esp)!=image_base+0x5c1a3))) {
+            write_byte(process,address,call->first);rearm_address=address;
+            c.Eip=address;c.EFlags|=0x100;if(!SetThreadContext(thread,&c))exit(263);return;
         }
         call->entered=1;call->entry_order=++entered_count;call->return_address=read_word(process,c.Esp);
         if(call->fastcall) {

@@ -971,3 +971,38 @@ closed segment183 and216 wholecontrols/8 negatives pass. Original/W3/audits/
 fresh pairs/native16cases pass; next CodeView register69880. Fullcontrols
 29.058s/5.700s and all failed timing receipts in cases/comdat-selection-
 checkpoint.json and cases/comdat-line-checkpoint.json. Final object pending.
+
+COMDAT/communal OMF completes at 1311: exact 1962-byte object SHA256
+2dcb42c74d07c84c7aa7f25a1724dd70b43ea06b1dca747a5e257ff544557783,
+without normalization, empty streams and exit 0. Eleven new functions cover
+2214 bytes, including the CodeView register writer (124) and register-number
+helper (46). Original /W3, graph/ABI/storage audits, focused whole-function
+controls and all 16 cached native cases and negatives pass.
+
+Actual SEGDEF alignment 8 exposed the original missing-return EAX behavior:
+the record pointer survives the default RET and its low three bits enter the
+attribute. Native regcall makes EAX/ECX explicit C formals on the same symbol,
+with compiler tracing and RET 0. Win32 retains one fastcall formal and the
+missing C return; narrow assembly transports EAX at the two callers and the
+callee. Other unsupported native alignments still trap.
+
+The genuine adjacent empty-name DWORD and four 1004-byte records now have
+one 4020-byte contextual owner. VC1 lacks align/bss_seg; the approved OMFREC
+initialized-zero section changes the file representation, preserving original
+loader values. Native uses alignment 8. Actual PE/ELF member identities, all
+slot strides and address remainders, zero fields and canonical relocations are
+checked. The storage change adds no function or code credit. Historical
+alignment-4 ABI evidence keeps its original defined-branch scope; conditional
+EAX evidence is separate.
+
+Whole-function controls caught a count increment moved after the alignment
+call despite matching final bytes. The corrected count is 3 before the COMDAT
+call, with cursor offset 25. Failed guard/partial-object evidence, placement
+probes, comparisons and repeated checks are retained. Final audit plus coverage
+took 29.545 seconds (Rust alone was not timed); the 16-case wrapper took 1.000.
+COMDAT setup/run/check took .0141/.00819/.00106 seconds. Accepted extent union
+is 347107/399693 = 86.8434%, not branch coverage. Application/support source
+covers 328807 bytes in 1196 functions; five historical CRT bodies cover 1776
+bytes separately. A reliable non-CRT denominator is unavailable because 43887
+bytes remain unclassified. Split timings, failures and the next-work inventory
+are in cases/comdat-completion-checkpoint.json and remaining-code-inventory.json.

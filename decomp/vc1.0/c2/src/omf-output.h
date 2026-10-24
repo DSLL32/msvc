@@ -38,10 +38,23 @@ typedef struct OmfRecord {
     unsigned char bytes[984];
 } OmfRecord;
 typedef char OmfRecordSizeCheck[sizeof(OmfRecord) == 1004 ? 1 : -1];
-extern OmfRecord omf_records[4], *omf_current_record;
+/* Original adjacent BSS objects7a8d8..7b88c. Keep the real leading name
+   index and record slots together: the missing-return alignment ABI exposes
+   the record pointer's low three bits. There are no synthetic padding fields. */
+typedef struct OmfRecordStorage {
+    unsigned empty_name;
+    OmfRecord records[4];
+} OmfRecordStorage;
+typedef char OmfRecordStorageLayoutCheck[
+    offsetof(OmfRecordStorage, records) == 4 &&
+    sizeof(OmfRecordStorage) == 4020 ? 1 : -1];
+extern OmfRecordStorage omf_record_storage;
+#define omf_empty_name omf_record_storage.empty_name
+#define omf_records omf_record_storage.records
+extern OmfRecord *omf_current_record;
 extern OmfGroup *omf_default_group;
 extern OmfFixupThreads omf_fixup_threads;
-extern unsigned omf_empty_name, omf_next_group, omf_next_segment;
+extern unsigned omf_next_group, omf_next_segment;
 extern unsigned omf_next_frame_thread, omf_next_target_thread;
 extern OmfFixup omf_fixups[250];
 extern int omf_fixup_count;

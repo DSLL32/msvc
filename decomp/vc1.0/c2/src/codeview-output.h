@@ -10,6 +10,7 @@ void __fastcall write_debug_symbol(SymbolHeader *symbol);
 void __fastcall write_codeview_block(FunctionSymbol *symbol, unsigned offset, unsigned bytes);
 void __fastcall write_codeview_frame_variable(SymbolHeader *symbol);
 void __fastcall write_codeview_register(SymbolHeader *symbol);
+unsigned short __fastcall codeview_register_number(SymbolHeader *symbol);
 void __fastcall write_codeview_local_data(SymbolHeader *symbol);
 void __fastcall write_codeview_global_data(SymbolHeader *symbol);
 void __fastcall write_codeview_label(SymbolHeader *symbol);

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python3",
+    "scripts/check-omf-initialize.py",
+    "--eax-contract"
+  ],
+  "seconds": 0.6881802761927247,
+  "returncode": 0,
+  "log_sha256": "d87584811abbed0217b38459a6544fb68632a678e319588092c5e7b2ce718ad2"
+}

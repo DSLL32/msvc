@@ -1,0 +1,71 @@
+{
+  "matched": true,
+  "function": "@write_codeview_register@4",
+  "original_va": "0x69880",
+  "formals": [
+    {
+      "name": "symbol",
+      "location": "ECX",
+      "type": "SymbolHeader pointer",
+      "original": 8072552,
+      "native": 1449369184
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original69880..698fc consumes soleECXsymbol, RET0; no other incoming register/stack/flags/x87/out pointer. Actual current lexical DebugScope.records member/caller-symbol identity, kind/conventionflags/decoratedname/typeWORD and debugsegment global/definedoffset, select/data callback logical identities observed. Size/registerWORD are future register-number child inputs recorded contextually, not parent reads. Local308B record is output-only and never dumped/seeded at entry.",
+  "shape": {
+    "record_index": 0,
+    "kind": 1,
+    "flags": 256,
+    "type": 116,
+    "size": 4,
+    "register_number": 1,
+    "debug_offset": 109,
+    "name_hex": "5f76616c756500"
+  },
+  "original": {
+    "symbol": 8072552,
+    "caller_symbol": 8072552,
+    "scope": 8072476,
+    "record": 8072596,
+    "record_symbol": 8072552,
+    "record_index": 0,
+    "return_address": 432710,
+    "kind": 1,
+    "flags": 256,
+    "type": 116,
+    "size": 4,
+    "register_number": 1,
+    "debug": 8066204,
+    "debug_offset": 109,
+    "select": 439968,
+    "data": 440000,
+    "name_hex": "5f76616c756500"
+  },
+  "native": {
+    "symbol": 1449369184,
+    "caller_symbol": 1449369184,
+    "scope": 1449369108,
+    "record": 1449369228,
+    "record_symbol": 1449369184,
+    "record_index": 0,
+    "kind": 1,
+    "flags": 256,
+    "type": 116,
+    "size": 4,
+    "register_number": 1,
+    "debug": 1449362800,
+    "debug_offset": 109,
+    "name_hex": "5f76616c756500",
+    "select": 1448765296,
+    "data": 1448765376,
+    "select_owner": 1448765296,
+    "data_owner": 1448765376,
+    "caller": "write_debug_symbol"
+  },
+  "original_execution_seconds": 1.7496948344632983,
+  "native_debug_seconds": 0.14988961163908243,
+  "total_seconds": 2.1556733017787337,
+  "scope": "Actual sole formal/closed lexical owner/minimal conditional scalar/name/globalcallback context only. No descriptor/tail or localrecord snapshot. Whole124B/packed308B controls and fresh pair pending; new46B register-number child stays named trap."
+}

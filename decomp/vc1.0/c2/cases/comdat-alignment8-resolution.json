@@ -1,0 +1,70 @@
+{
+  "status": "ABI hold resolved by original/canonical/native proof; case1311 final cached suite follows separately",
+  "last_verified_before_hold": 1310,
+  "candidate_checkpoint": 1311,
+  "old_config_sha256": "7eec78e92b78ed9e5274e58fa9c27c5b5349700e057ba6209d8cb41fdeb4b235",
+  "new_config_sha256": "ebefd8aa836396e015a9fa3bda2647cb95d6aff44cc3edd8f95bce4309fe5e99",
+  "before_alignment_abi": {
+    "convention": "fastcall",
+    "parameters": [
+      {
+        "name": "alignment",
+        "location": "ECX",
+        "type": "unsigned32"
+      }
+    ],
+    "hidden_inputs": [],
+    "callee_stack_cleanup": 0,
+    "entry_observation": "cases/omf-alignment-abi/validation.json",
+    "scope": "Actual4 observed.1/2/4/16 have defined EAX1/2/5/3; unsupported original RET retains incoming EAX/missing-return source behavior. Native exact unsupported default traps; reachability beyond bounded known Segment producers is unproved, any real other value holds for incoming-EAX ABI treatment."
+  },
+  "after_alignment_abi": {
+    "convention": "fastcall",
+    "parameters": [
+      {
+        "name": "alignment",
+        "location": "ECX",
+        "type": "unsigned32"
+      }
+    ],
+    "hidden_inputs": [
+      {
+        "name": "incoming_eax",
+        "location": "EAX",
+        "type": "unsigned32",
+        "condition": "alignment outside1/2/4/16",
+        "native_supported_condition": "alignment==8"
+      }
+    ],
+    "callee_stack_cleanup": 0,
+    "entry_observation": "cases/omf-alignment-abi/validation.json",
+    "scope": "Historical actual4 observation remains defined-branch-only. Real COMDAT case SEGDEF8 exposes hidden incomingEAX, actual logicalrecordpointer slot0, return unchanged; native two-formal regcall same symbol and Win32 narrow caller/callee transport preserve it. Both original callers/producers, rawentry/afterhook/return actualnative state and pointerplacement are independently proved. Native passthrough onlywitnessed8; other unsupported values remain explicitINT3. No sourcefunction/extent credit added.",
+    "native_support": {
+      "defined_alignments": [
+        1,
+        2,
+        4,
+        16
+      ],
+      "hidden_eax_passthrough": [
+        8
+      ],
+      "other_alignments": "explicit native INT3; original missing-return EAX behavior retained in Win32"
+    },
+    "conditional_hidden_eax_evidence": "cases/comdat-alignment8-validation.json"
+  },
+  "metadata_change_proof": "Replacing ONLY current alignment ABI with before_alignment_abi reproduces old cache metadata SHA exactly. Accepted order, function extents, inputs and other rows unchanged. New canonical storage changes no original masked bytes; old/new original1311 mask hashes equal.",
+  "fresh_original_mask_sha256": "8cc8e2c672ddf498130ef9a818867895a73f317548a5d001a00249f4744f7cb4",
+  "proofs": {
+    "cases/comdat-alignment8-validation.json": "fbcf07f1cc8984511491dbb7771ebe7d6cb4331cfadac6eaf9af00642f839d0f",
+    "cases/comdat-alignment8-native/validation.json": "bdd00d69b281d0c54856e3fc6a9885d59945759c05a6d4054c48688bf0ec38c1",
+    "cases/omf-record-storage-validation.json": "2e168928c1c99ece02263a9853d06102dd596f2586bda9e5a6932d7bf2b2d1e9",
+    "cases/omf-initialize-validation.json": "841467b3cdb4cf25250f6d514f812c69722787ed721ade146780ad72687a7fd0",
+    "cases/omf-segment-validation.json": "f8fa4966f501a2dc003f1b40c142dbbfb20e21fda9185d982afd9f6f2f6bd513",
+    "cases/comdat-original-1311-abi.json": "479cc10eff2fd48f98e3f645ef7b3a8f861457b3c4aac0b4d1a079cac7e1d43f"
+  },
+  "remaining_native_limit": "explicit native INT3; original missing-return EAX behavior retained in Win32",
+  "application_extent_delta_for_abi_storage_fix": 0,
+  "failed_hold": "cases/comdat-alignment8-HOLD.json",
+  "count_order_failure_log_sha256": "962b39f72ed5796b921b80432c9dbeb8bc2e8280c1c6888a3c2d8dededb2aae2"
+}

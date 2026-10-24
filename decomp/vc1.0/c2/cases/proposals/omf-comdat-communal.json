@@ -1,5 +1,5 @@
 {
-  "status": "Original validated/frozen; first full communal writer accepted1301; next size encoder6c600.",
+  "status": "Complete at1311: all five target OMF families, exact1962B object, all16 native cached cases pass.",
   "after_checkpoint": 1300,
   "case": "omf-comdat-communal",
   "source": {
@@ -71,5 +71,6 @@
   ],
   "non_targets": "No CRT reconstruction/synthetic native body attribution/weak-external promise. Flags/source accepted unchanged; actual five record families present.",
   "authorization": "Root approved this single case after reviewing source/proposal; no weak-externals promise, adjust unsupported size/representation only with retained evidence.",
-  "fixture_manifest": "../fixtures/c2-omf-comdat-communal/manifest.json"
+  "fixture_manifest": "../fixtures/c2-omf-comdat-communal/manifest.json",
+  "completion": "cases/comdat-completion-checkpoint.json"
 }

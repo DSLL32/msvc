@@ -15,7 +15,9 @@ for label,change in [('invented formal',lambda r:r.update(formals=['unknown'])),
  except AssertionError:rejected.append(label)
  else:raise AssertionError('Accepted '+label)
 for image,pool,current in [(original,0x7a8dc,0x7b88c),(canonical,names['_omf_records'],names['_omf_current_record'])]:
- for a,n in [(pool,4*1004),(current,4)]:assert any(s['flags']&0x80 and image.base+s['rva']<=a and a+n<=image.base+s['rva']+s['virtual_size']for s in image.sections)
+ for a,n in [(pool,4*1004),(current,4)]:
+  section=next(s for s in image.sections if image.base+s['rva']<=a and a+n<=image.base+s['rva']+s['virtual_size'])
+  assert section['flags']&0x80 or (image is canonical and a==pool and section['name']=='OMFREC'and image.read(a,n)==bytes(n))
 def run(image,side,poison):
  u=Uc(UC_ARCH_X86,UC_MODE_32);u.mem_map(0x10000,0x100000);u.mem_map(0x300000,0x10000);u.mem_map(0x400000,0x1000)
  for s in image.sections:
@@ -35,4 +37,4 @@ def run(image,side,poison):
 rows=[]
 for poison in [0,1,0x5a,0xff]:
  a=run(original,False,poison);b=run(canonical,True,poison);assert a==b;rows.append(dict(poison=poison,writes=a))
-Path('cases/omf-record-cache-validation.json').write_text(json.dumps(dict(actual_zero_input_abi=True,rejected=rejected,records=4,record_bytes=1004,typed_header_bytes=20,wire_storage_bytes_per_record=984,original_pool=['0x7a8dc','0x7b88c'],controls=rows,seconds=time.perf_counter()-started,scope='Whole34-byte original/canonical function, exact four tag writes/current-record assignment and every other pool byte unchanged under four poison patterns. Original/canonical globals lie in BSS, zero implicit initial storage; no raw data/section copy.1004-byte slot stride/end from original initializer and cache lookup;20-byte header/context/count/cursor and serialized wire bytes from6c060/6c330 producers. These later functions remain unaccepted; analysis establishes layout only. True zero-argument/hidden-input ABI observed separately; no buffer output or case completion claimed.'),indent=2)+'\n');print('4 whole OMF cache resets,3 ABI rejects, typed BSS/slot identities pass')
+Path('cases/omf-record-cache-validation.json').write_text(json.dumps(dict(actual_zero_input_abi=True,rejected=rejected,records=4,record_bytes=1004,typed_header_bytes=20,wire_storage_bytes_per_record=984,original_pool=['0x7a8dc','0x7b88c'],controls=rows,seconds=time.perf_counter()-started,scope='Whole34-byte original/canonical function, exact four tag writes/current-record assignment and every other pool byte unchanged under four poison patterns. Original globals and canonical current-record lie in loader-zero BSS; canonical typed pool is explicitly zero in its dedicated OMFREC section, preserving original initial bytes; no raw data/section copy.1004-byte slot stride/end from original initializer and cache lookup;20-byte header/context/count/cursor and serialized wire bytes from6c060/6c330 producers. These later functions remain unaccepted; analysis establishes layout only. True zero-argument/hidden-input ABI observed separately; no buffer output or case completion claimed.'),indent=2)+'\n');print('4 whole OMF cache resets,3 ABI rejects, typed zero-storage/slot identities pass')

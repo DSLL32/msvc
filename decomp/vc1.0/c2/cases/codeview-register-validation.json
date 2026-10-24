@@ -1,0 +1,2395 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing formal",
+    "wrong register",
+    "broken lexical identity",
+    "wrong typeWORD",
+    "wrong name",
+    "wrong childsize",
+    "wrong debug offset",
+    "wrong callback",
+    "invented stack record"
+  ],
+  "states": 108,
+  "cases": [
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 18,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002000000120000",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 18,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002003412120000",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 18,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002002143120000",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 18,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002000000120000",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 18,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002000000120000",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 18,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002000000120000",
+        "offsets": [
+          100,
+          309
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002000000ffff00",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002003412ffff00",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002002143ffff00",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002000000ffff00",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002000000ffff00",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002000000ffff00",
+        "offsets": [
+          100,
+          309
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 18,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002007400120000",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 18,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002003412120000",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 18,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002002143120000",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 18,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002007400120000",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 18,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002007400120000",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 18,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002007400120000",
+        "offsets": [
+          100,
+          309
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002007400ffff00",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002003412ffff00",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002002143ffff00",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002007400ffff00",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002007400ffff00",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002007400ffff00",
+        "offsets": [
+          100,
+          309
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 18,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "07000200ffff120000",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 18,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002003412120000",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 18,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002002143120000",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 18,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "07000200ffff120000",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 18,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "07000200ffff120000",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 18,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "07000200ffff120000",
+        "offsets": [
+          100,
+          309
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "07000200ffffffff00",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002003412ffff00",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "070002002143ffff00",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "07000200ffffffff00",
+        "offsets": [
+          109,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "07000200ffffffff00",
+        "offsets": [
+          100,
+          209
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 0,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "07000200ffffffff00",
+        "offsets": [
+          100,
+          309
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 18,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020000001200056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 18,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020034121200056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 18,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020021431200056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 18,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020000001200056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 18,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020000001200056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 18,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020000001200056162636465",
+        "offsets": [
+          100,
+          314
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002000000ffff056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002003412ffff056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002002143ffff056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002000000ffff056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002000000ffff056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002000000ffff056162636465",
+        "offsets": [
+          100,
+          314
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 18,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020074001200056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 18,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020034121200056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 18,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020021431200056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 18,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020074001200056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 18,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020074001200056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 18,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020074001200056162636465",
+        "offsets": [
+          100,
+          314
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002007400ffff056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002003412ffff056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002002143ffff056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002007400ffff056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002007400ffff056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002007400ffff056162636465",
+        "offsets": [
+          100,
+          314
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 18,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c000200ffff1200056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 18,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020034121200056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 18,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c00020021431200056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 18,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c000200ffff1200056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 18,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c000200ffff1200056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 18,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c000200ffff1200056162636465",
+        "offsets": [
+          100,
+          314
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c000200ffffffff056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002003412ffff056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c0002002143ffff056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c000200ffffffff056162636465",
+        "offsets": [
+          114,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c000200ffffffff056162636465",
+        "offsets": [
+          100,
+          214
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 5,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0c000200ffffffff056162636465",
+        "offsets": [
+          100,
+          314
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 18,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020000001200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 18,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020034121200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 18,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020021431200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 18,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020000001200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 18,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020000001200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 18,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020000001200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          564
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102000000ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102003412ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102002143ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102000000ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102000000ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 0,
+        "register": 2882404351,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102000000ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          564
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 18,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020074001200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 18,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020034121200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 18,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020021431200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 18,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020074001200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 18,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020074001200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 18,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020074001200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          564
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102007400ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102003412ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102002143ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102007400ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102007400ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 116,
+        "register": 2882404351,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102007400ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          564
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 18,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "06010200ffff1200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 18,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020034121200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 18,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "0601020021431200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 18,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "06010200ffff1200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 18,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "06010200ffff1200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 18,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "06010200ffff1200ff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          564
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "none"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "06010200ffffffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "format"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102003412ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "select"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "060102002143ffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "register"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "06010200ffffffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          364,
+          200
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "copy"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "06010200ffffffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          464
+        ]
+      }
+    },
+    {
+      "inputs": {
+        "length": 255,
+        "type": 65535,
+        "register": 2882404351,
+        "mutation": "data"
+      },
+      "result": {
+        "events": [
+          "format",
+          "select",
+          "register",
+          "copy",
+          "data"
+        ],
+        "record_hex": "06010200ffffffffff6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475767778797a6162636465666768696a6b6c6d6e6f707172737475",
+        "offsets": [
+          100,
+          564
+        ]
+      }
+    }
+  ],
+  "seconds": 2.689376560971141,
+  "scope": "Whole124B original/canonical S_REGISTER writer versus packed8B+countedname model.108 states length0/5/255,typeWORD,AX-only registerreturn, exactformat/select/register/copy/data order, postselecttype/pre-registertype timing, late globaldebugpointer/offset reload afterdata, owned44B symbol/name/stackguard/callee-saved/RET0 checked. All5 children mocked; actual lexical _value/type116/size4/reg1/debugoffset109 observed. Names>255 original pretruncation length issue remains unexercised/unmodified, no new guard or normalization.308B typed localrecord not entry input/seed; only emitted initialized span read."
+}

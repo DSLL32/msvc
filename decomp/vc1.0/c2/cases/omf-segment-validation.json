@@ -8913,6 +8913,6 @@
       }
     }
   ],
-  "seconds": 2.7469866005703807,
+  "seconds": 4.233651717193425,
   "scope": "Whole176-byte original/canonical SEGDEF writer: counter guard/wrap,99/NULL begin, count increment before alignment, cached cursor/count surviving mocked child mutation, lowAL and byte53 combine truncation,32-bit LE position, three reloaded index fields and exact unchanged other bytes. Alignment/index/begin bodies mocked; invalid-order controls stop at actual5b2 diagnostic, no returning-error claim. Actual code_segment six fields and two scalars independently observed; legacy JSON word_size key is source Segment.combine, no historical raw rewrite."
 }

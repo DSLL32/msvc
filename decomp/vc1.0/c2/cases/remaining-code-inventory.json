@@ -1,14 +1,14 @@
 {
-  "checkpoint": 1300,
+  "checkpoint": 1311,
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
   "metric": "Index inventory, not recovered function/branch coverage. Group unions may overlap and are not additive. Provisional entries do not measure bodies.",
   "application": {
-    "indexed_rows": 1335,
-    "accepted_rows": 1190,
-    "accepted_union_bytes": 328369,
-    "unaccepted_rows": 145,
-    "unaccepted_provisional_rows": 140,
-    "unaccepted_indexed_extent_bytes": 634,
+    "indexed_rows": 1337,
+    "accepted_rows": 1201,
+    "accepted_union_bytes": 330583,
+    "unaccepted_rows": 136,
+    "unaccepted_provisional_rows": 131,
+    "unaccepted_indexed_extent_bytes": 625,
     "unaccepted_nonprovisional_indexed_extent_bytes": 416,
     "label": "Driver index, including five historical handwritten CRT bodies; use source_application_support for application source credit."
   },
@@ -31,8 +31,8 @@
     "unaccepted_nonprovisional_indexed_extent_bytes": 66
   },
   "source_application_support": {
-    "accepted_functions": 1185,
-    "accepted_union_bytes": 326593,
+    "accepted_functions": 1196,
+    "accepted_union_bytes": 328807,
     "denominator_all_original_code_bytes": 399693,
     "noncrt_denominator": null,
     "noncrt_denominator_status": "Unavailable: remaining unclassified ranges have no proven library/application identity.",
@@ -74,8 +74,8 @@
     ]
   },
   "original_code_bytes": 399693,
-  "unclassified_code_union_bytes": 46092,
-  "unclassified_ranges": 712,
+  "unclassified_code_union_bytes": 43887,
+  "unclassified_ranges": 714,
   "largest_unclassified_ranges": [
     {
       "start": "0x49231",
@@ -106,11 +106,6 @@
       "start": "0x6f621",
       "end": "0x6fb70",
       "bytes": 1359
-    },
-    {
-      "start": "0x24741",
-      "end": "0x24c00",
-      "bytes": 1215
     },
     {
       "start": "0x1c681",
@@ -176,6 +171,11 @@
       "start": "0x32800",
       "end": "0x32a20",
       "bytes": 544
+    },
+    {
+      "start": "0x3b903",
+      "end": "0x3bb20",
+      "bytes": 541
     }
   ],
   "limit": "Unclassified ranges can include application/support functions, code data and alignment; no CRT/stdlib attribution without identity evidence.",
@@ -505,13 +505,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@expand_zero_extension@4",
-      "start": 149312,
-      "end": 149313,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@coff_define_weak_symbol@28",
       "start": 453408,
       "end": 453409,
@@ -725,13 +718,6 @@
       "name": "@record_region_register@16",
       "start": 305984,
       "end": 305985,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_record_debug_register_locations",
-      "start": 176560,
-      "end": 176561,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1128,13 +1114,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@write_codeview_register@4",
-      "start": 432256,
-      "end": 432257,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@write_codeview_constant@4",
       "start": 433536,
       "end": 433537,
@@ -1142,51 +1121,9 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@omf_comdat_selection@4",
-      "start": 443120,
-      "end": 443121,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_emit_comdat_external@4",
-      "start": 437760,
-      "end": 437761,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_local_name_index@4",
-      "start": 437840,
-      "end": 437841,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_emit_communal@4",
-      "start": 437904,
-      "end": 437905,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@omf_emit_weak_external@4",
       "start": 437440,
       "end": 437441,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_write_iterated_data@16",
-      "start": 438736,
-      "end": 438737,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_write_comdat_line@12",
-      "start": 440304,
-      "end": 440305,
       "provisional": true,
       "extent_status": "entry placeholder"
     }

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "-o",
+    "Makefile",
+    "audit",
+    "coverage"
+  ],
+  "seconds": 30.61064736638218,
+  "returncode": 0,
+  "log_sha256": "a8a55a1c21b039c1d381d68311189b0a6e49cec91abb94a8951de8a7cc3b2f0e"
+}

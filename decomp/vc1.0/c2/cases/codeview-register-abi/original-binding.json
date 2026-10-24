@@ -1,0 +1,16 @@
+{
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "manifest_sha256": "0b6c374b507b4499a8664aea856c2f5986fa4292ce4c572f31f40cae011654bd",
+  "config_sha256": "b185c2ba651fba9b47141fcc266f253c557aaec8f725a885ca69473598a3fbd0",
+  "observer_source_sha256": "0a4cd1790f6b7e8ef5db46bd49b2ac7cd8fd54ff38831a96b6106b4ccd2fd12f",
+  "observer_sha256": "52646f61cab3f95815249dfc4a096fd83d2beaeddf0b185aa82bff9691fa83b7",
+  "files": {
+    "entry-plan.txt": "b88f9bb877a10bbb824eba9feeb1506a6894661f3401128cad5235ffec68b922",
+    "original.txt": "e2e03fad67dfe471509f1aa285a643b06be669deb6802e90367a56dbe3d28834",
+    "original.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original.events": "785b143e74b60213f636d161a7d41c03b6abd264ce502e300657ee90a0364653",
+    "observer.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "observer.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

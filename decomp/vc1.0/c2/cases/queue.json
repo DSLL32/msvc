@@ -1,5 +1,5 @@
 {
-  "active": "omf-comdat-communal",
+  "active": null,
   "queued": [
     {
       "case": "hello-win32",
@@ -310,10 +310,12 @@
       "case": "omf-comdat-communal",
       "after": "omf-typed-debug",
       "phase": "c2",
-      "status": "active",
+      "status": "complete",
       "fixture_manifest": "../fixtures/c2-omf-comdat-communal/manifest.json",
       "accepted_from": 1300,
-      "description": "Actual original CL /O2 /Ob0 /Gy /G5 /Z7 transport, derived standalone -omf; genuine COMDAT/CEXTDEF/LINSYM/COMDEF/LIDATA."
+      "description": "Actual original CL /O2 /Ob0 /Gy /G5 /Z7 transport, derived standalone -omf; genuine COMDAT/CEXTDEF/LINSYM/COMDEF/LIDATA.",
+      "completion": "cases/comdat-completion-checkpoint.json",
+      "expected_object_sha256": "2dcb42c74d07c84c7aa7f25a1724dd70b43ea06b1dca747a5e257ff544557783"
     }
   ],
   "completed": [
@@ -512,9 +514,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@write_codeview_register@4",
-  "current_checkpoint": 1309,
-  "current_hold": null,
+  "current_application_frontier": null,
+  "current_checkpoint": 1311,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",
     "correction": "shared cabec0d10",
@@ -531,9 +532,17 @@
         4,
         16
       ],
-      "actual_input": 4,
-      "unsupported_native": "Exact default INT3; original unsupported missing return retains incoming EAX. Hold any real newly reached other alignment for explicit incoming-register ABI treatment.",
-      "evidence": "cases/omf-alignment-index-checkpoint.json"
+      "unsupported_native": "Other nonstandard values retain exact nativeINT3; original Win32 missing-return EAX semantics preserved. COMDAT8 not executed; current actual COMDAT16 producer0 proved, SEGDEF8 actual poolslot0 pointer.",
+      "evidence": "cases/comdat-alignment8-resolution.json",
+      "actual_inputs": [
+        1,
+        4,
+        8,
+        16
+      ],
+      "hidden_eax_passthrough": [
+        8
+      ]
     },
     {
       "function": "@omf_emit_public@8",
@@ -553,5 +562,7 @@
       "first_difference": 636,
       "evidence": "cases/default-segment-group-checkpoint.json"
     }
-  ]
+  ],
+  "last_completed": "omf-comdat-communal",
+  "next_action": "Propose one substantial case from remaining non-CRT/native/support rows to root for review; no extra case started."
 }

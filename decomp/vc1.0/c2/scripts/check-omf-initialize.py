@@ -4,7 +4,7 @@ import argparse,copy,hashlib,itertools,json,struct,time
 from unicorn import Uc,UC_ARCH_X86,UC_MODE_32,UC_HOOK_CODE
 from unicorn.x86_const import *
 from pe_indexes import indexes,publics
-ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');args=ap.parse_args();start=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_initialize_record@12';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);actual=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
+ap=argparse.ArgumentParser();ap.add_argument('--abi-only',action='store_true');ap.add_argument('--eax-contract',action='store_true');args=ap.parse_args();start=time.perf_counter();original,canonical,cfg,_,_=indexes();names=publics();name='@omf_initialize_record@12';row=next(r for r in cfg['driver']if r['name']==name);p=Path(row['abi']['entry_observation']);actual=json.loads(p.read_text());binding=json.loads(p.with_name('original-binding.json').read_text());assert all(hashlib.sha256((p.parent/n).read_bytes()).hexdigest()==h for n,h in binding['files'].items())
 def abi(e):
  assert e['matched']and e['function']==name and e['no_hidden_inputs_proof']and e['hidden_inputs']==row['abi']['hidden_inputs']==[]and e['callee_stack_cleanup']==row['abi']['callee_stack_cleanup']==4
  assert [{k:a[k]for k in ['name','location','type']}for a in e['formals']]==row['abi']['parameters']==[dict(name='record',location='ECX',type='omf_record_slot32'),dict(name='type',location='EDX',type='unsigned32'),dict(name='context',location='entryESP+4',type='null32')]
@@ -48,7 +48,8 @@ def run(image,native,c):
   elif kind=='index':
    assert ecx==r;ev+=[edx,count,cursor-r,bytes(u.mem_read(r+20,cursor-r-20)).hex()];u.mem_write(cursor,bytes([0x60+(edx&15)]));u.mem_write(r+12,struct.pack('<I',(count+1)&0xffffffff));u.mem_write(r+16,struct.pack('<I',cursor+1));result=0xabcdef98
   else:
-   ev+=[ecx&255 if kind=='selection'else ecx,count,cursor-r,bytes(u.mem_read(r+20,cursor-r-20)).hex()];result=0xabcdef5c if kind=='selection'else 0xc0d0e07b
+   ev+=[ecx&255 if kind=='selection'else ecx,count,cursor-r,bytes(u.mem_read(r+20,cursor-r-20)).hex()];result=({1:0x10,2:0,3:0x20,4:0x30}[c['selection']]if args.eax_contract else 0xabcdef5c)if kind=='selection'else 0xc0d0e07b
+   if args.eax_contract and kind=='alignment':assert m.reg_read(UC_X86_REG_EAX)=={1:0x10,2:0,3:0x20,4:0x30}[c['selection']]
   events.append(ev);m.reg_write(UC_X86_REG_EAX,result);m.reg_write(UC_X86_REG_ECX,0x123456);m.reg_write(UC_X86_REG_EDX,0x234567);m.reg_write(UC_X86_REG_EIP,struct.unpack('<I',m.mem_read(esp,4))[0]);m.reg_write(UC_X86_REG_ESP,esp+4)
  u.hook_add(UC_HOOK_CODE,hook);u.emu_start(names[name]if native else row['start'],0,count=10000)
  assert u.reg_read(UC_X86_REG_EIP)==0x500000 and u.reg_read(UC_X86_REG_ESP)==0x300808 and u.reg_read(UC_X86_REG_EAX)==pool+target*1004 and all(u.reg_read(r)==v for r,v in saved)
@@ -58,6 +59,11 @@ def run(image,native,c):
  for i in range(4):struct.pack_into('<I',output,i*1004+16,struct.unpack_from('<I',output,i*1004+16)[0]-pool)
  return dict(slot=target,events=events,pool_sha256=hashlib.sha256(output).hexdigest(),cached_flags=bytes(u.mem_read(flags,1)).hex(),cached_name=struct.unpack('<I',u.mem_read(cached,4))[0])
 rows=[]
+if args.eax_contract:
+ for selection,alignment in itertools.product([1,2,3,4],[8,16]):
+  c=dict(type=0xc3,occupied=0,slot=0,count=0,null=False,position=0x89abcdef,alignment=alignment,name=0x123,old_name=0x123,order=0x135,selection=selection,flags=2,group_name=0x127,group_number=0x234,owner_type=0x1234ffff)
+  a=run(original,False,c);b=run(canonical,True,c);assert a==b,(c,a,b);rows.append(dict(inputs=c,result=a))
+ Path('cases/omf-initialize-eax-validation.json').write_text(json.dumps(dict(states=rows,seconds=time.perf_counter()-start,scope='Original/canonical whole initializer with valid selection1..4 full EAX results as independently proved mapper outputs, alignments8/16. Alignment child hook requires exact full EAX producer as well as existing ECX/count/cursor/output/stack/nonvolatile controls. Mocked child results; not evidence actual case executes COMDAT8.'),indent=2)+'\n');print('8 original/canonical COMDAT caller full-EAX producer controls pass');raise SystemExit
 for type,occupied,slot,count in itertools.product([0,0x80,0x91,0x95,0xb7,0x9a,0xa1,0xa3,0xc3,0xc5,0xffffffff],[0,0x99],[0,3],[0,7,0xffffffff]):
  c=dict(type=type,occupied=occupied,slot=slot,count=count,null=False,position=0x89abcdef,alignment=4,name=0x123,old_name=0x123,order=0x135,selection=3,flags=2,group_name=0x127,group_number=0x234,owner_type=0x1234ffff)
  a=run(original,False,c);b=run(canonical,True,c);assert a==b,(c,a,b);rows.append(dict(inputs=c,result=a))

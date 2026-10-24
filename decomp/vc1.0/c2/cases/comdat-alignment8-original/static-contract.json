@@ -1,0 +1,25 @@
+{
+  "direct_relative_call_sites": [
+    "0x6a8d6",
+    "0x6c19e"
+  ],
+  "caveat": "Raw E8 scan candidates individually confirmed against recovered whole callers; no claim about hypothetical computed target synthesis.",
+  "absolute_va_references_file_offsets": [],
+  "export_directory_rva": 0,
+  "original_pool_base": "0x7a8dc",
+  "canonical_pool_base": "0x94180",
+  "native_pool_symbols": {
+    "build/native/C23232.EXE": "0xc6564",
+    "build/native-trace/C23232.EXE": "0xdc574"
+  },
+  "pool_base_mod8": {
+    "original": 4,
+    "canonical": 0,
+    "build/native/C23232.EXE": 4,
+    "build/native-trace/C23232.EXE": 4
+  },
+  "implicit_eax_producers": {
+    "SEGDEF": "begin_record returns logical OmfRecord pointer, moves through ESI but EAX not overwritten beforecall6a8d6; originalrecordbase+slot1004 low3bits observable afterAL shifts.",
+    "COMDAT": "previous omf_comdat_selection valid1..4 returns fullEAX0x10/0/0x20/0x30 (initialXOREAX); originalcaller6c19e preservesEAX through byte-store/counter updates then setsECXalignment."
+  }
+}
