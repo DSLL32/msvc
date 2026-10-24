@@ -1556,6 +1556,7 @@ int main(int argc, char **argv)
                     } else if (baseline && address == base + entry_rva) {
                         patch(address, 0x53);
                     } else {
+                        if(signature_reference && (!signature_reference_complete || address!=base+0x12f9c))fail("signature reference controlled next_argument stop");
                         fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
                         TerminateProcess(child, 125); return 125;
                     }

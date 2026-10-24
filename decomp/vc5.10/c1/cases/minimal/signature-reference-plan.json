@@ -1,0 +1,60 @@
+{
+  "status": "frozen pre-use single required normal reference observation; no execution yet",
+  "case": "minimal normal only",
+  "accepted_application_prefix": {
+    "functions": 73,
+    "code_bytes": 5346
+  },
+  "purpose": "capture exact public dependency response at existing genuine boundary; no provider/app function acceptance",
+  "provider": {
+    "path": "toolchains/5.10/bin/MSPDB50.DLL",
+    "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "actual_loaded_hFile_required": true,
+    "export": "SigForPbCb",
+    "ordinal": 127,
+    "rva": 61997,
+    "body_bytes": 53,
+    "body_sha256": "0c863c2888221375919652e30969b70894039b67288033e727d321c29ef8f77c",
+    "readonly_table_rva": 137776,
+    "readonly_table_bytes": 1024
+  },
+  "target": {
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "iat_rva": 381396,
+    "call_rva": 76843,
+    "return_rva": 76849,
+    "caller_discard_bytes": 12,
+    "signature_store_rva": 76852,
+    "signature_global_rva": 347616,
+    "next_trap_rva": 77724,
+    "next_trap": "next_argument"
+  },
+  "input": {
+    "complete_defined_literal_hex": "4300",
+    "consumed_byte_count": 1,
+    "signature": 4294967295,
+    "convention": "cdecl",
+    "arguments": [
+      "const void *",
+      "long",
+      "unsigned long"
+    ],
+    "callback_count": 0
+  },
+  "observations": [
+    "authenticate full actual provider hFile/name import/export and relocated53B body; retain immutable table bytes",
+    "entry+realRET0: physicalPC/ESP/EAX/ECX/EDX/nonvolatile registers; all3 raw argument slots and return address",
+    "entry and return: complete defined C literal2bytes, full112-byte FP/errors/locale tables/scalars/owners/vectors, full target rawdata/BSS/snapshot",
+    "entry and return: own committed32KiB vector arena region unchanged",
+    "actual third incoming signature slot is writable private parameter storage; record its changed value without assuming unchanged stack",
+    "caller ADDESP12 discards all3 argument slots; exact source/disassembly plus next named trap proves only consumed EAX is stored to54de0",
+    "stop at genuine named next_argument before its source body; original-only reference receipt rejected by ordinary app acceptance"
+  ],
+  "limits": [
+    "no parameter-slot immutability claim",
+    "no provider graph/source reconstruction or CRC/table implementation",
+    "no newAPI success before actual packet review",
+    "no extra campaign or native/original recapture for bookkeeping"
+  ],
+  "coordination": "C1XX owns separate CPP/3 payload and its own provider/input/raw provenance; shared transport semantics only"
+}

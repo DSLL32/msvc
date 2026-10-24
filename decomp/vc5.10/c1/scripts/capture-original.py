@@ -74,7 +74,9 @@ def main():
     parser.add_argument("--prospective-tail-chain", action="store_true", help="bounded raw-only input observation, never acceptance")
     parser.add_argument("--negative-value", action="store_true", help="labeled negative signed-value auxiliary input")
     parser.add_argument("--pdb-reuse", type=int, choices=(0,1), default=0, help="labeled persistent-context helper reuse branch")
+    parser.add_argument("--signature-reference",action="store_true",help="one original-only public dependency response observation; never app acceptance")
     args = parser.parse_args()
+    assert not args.signature_reference or (args.mode=="masked"and args.case=="minimal"and not args.restore_probe and not args.prospective_tail_chain)
     assert not args.restore_probe or args.case == "minimal"
     assert not args.negative_value or args.restore_probe
     assert not args.pdb_reuse or args.restore_probe
@@ -149,6 +151,15 @@ def main():
     if candidate.get("vector_observers"):
         (output/"vector-observers.txt").write_text("11e3c 28 1\n")
         shutil.copy2(PROJECT/"scripts/vector-observer.inc",output/"vector-observer.inc")
+    if args.signature_reference:
+        plan=PROJECT/"cases/minimal/signature-reference-plan.json"
+        assert sha(plan)=="e2555a9047c4793567e6cc69486d4f7f577b3c489f4480ef2a77c55a697c2334"
+        config=json.loads((PROJECT/candidate["audit_config"]).read_text());accepted=json.loads((PROJECT/"functions.json").read_text())
+        assert config==accepted and len([r for r in config["driver"]if r.get("role")=="application"])==73
+        assert "_next_argument"not in config["accepted"]and candidate["functions"][-1]["name"]=="_new_option_vector"
+        assert not any(r["start_rva"]<=0x12f9c<r["end_rva"]for r in candidate["ranges"])
+        shutil.copy2(plan,output/"signature-reference-plan.json")
+        (output/"signature-reference.txt").write_text("f22d 12c31 12f9c\n")
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))
@@ -190,9 +201,10 @@ def main():
         assert sha(loaded) == sha(TARGET)
     if loaded_crt.exists():
         assert sha(loaded_crt) == CRT_HASH
-    receipt = {"schema": 1, "kind": "original-prospective-tail-chain" if args.prospective_tail_chain else "explicit-original-capture",
+    receipt = {"schema": 1, "kind": "original-dependency-reference"if args.signature_reference else "original-prospective-tail-chain" if args.prospective_tail_chain else "explicit-original-capture",
                "candidate_path": "cases/" + args.case + "/candidate.json",
                "probe": "restore" if args.restore_probe else "normal",
+               "signature_reference_plan_sha256":sha(output/"signature-reference-plan.json")if args.signature_reference else None,
                "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None,
                "pdb_reuse": args.pdb_reuse if args.restore_probe else None, "mode": args.mode,
                "command": command, "cwd": windows(output), "exit": result.returncode,

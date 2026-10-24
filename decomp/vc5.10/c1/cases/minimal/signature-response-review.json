@@ -1,0 +1,56 @@
+{
+  "status": "original-only bounded external response proved; no shared success before concrete review",
+  "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+  "provider_export": {
+    "name": "SigForPbCb",
+    "ordinal": 127,
+    "rva": 61997
+  },
+  "input": {
+    "bytes_hex": "43",
+    "byte_count": 1,
+    "signature": 4294967295
+  },
+  "response": {
+    "EAX": 3257401432,
+    "hex": "c2280058",
+    "private_parameter_slot3": 3257401432
+  },
+  "ownership": {
+    "input": "C literal2definedbytes inclNUL; APIconsumes1",
+    "private_stack": "changed third incoming slot; caller discards12 without slot read/escape; onlyEAXconsumed",
+    "target": "no change through API; caller then only4B pdb_signature at54de0",
+    "provider_body": "actual53B + immutabletable observed; no reconstruction or genericCRC"
+  },
+  "scope": {
+    "accepted_application_functions": 73,
+    "new_application_credit": 0,
+    "shared_success": false,
+    "normal_API_calls": 1,
+    "final_trap": "masked next_argument12f9c",
+    "receipt_kind": "original-dependency-reference"
+  },
+  "files": {
+    "cases/minimal/evidence/signature-reference/raw-reference.json": "424bceaf0a577677d5da23e557b59e56fb5bd124b48f6742094627f2a6aec04b",
+    "cases/minimal/evidence/signature-reference/signature-provider-body-000.bin": "0c863c2888221375919652e30969b70894039b67288033e727d321c29ef8f77c",
+    "cases/minimal/evidence/signature-reference/signature-reference-entry-registers.bin": "cde6d3160806eff3e8d1330774edb6faea9d9310eda59578fb8aaeae4c96e5f2",
+    "cases/minimal/evidence/signature-reference/signature-reference-validation-1.json": "850e40492e1825b95f944e88ac213ec00162c8d53c0be530dce50d9d96c865c6",
+    "cases/minimal/evidence/signature-reference/signature-reference-return-registers.bin": "48af474c545aa03b5e5535e3173ff5201ae2719f5cb1cefdc4283699e3cb7269",
+    "cases/minimal/evidence/signature-reference/signature-reference-entry-input-000.bin": "7e46dde720f00e74467c313a1142b572a18a5f03561bc08d6633de9a09d9eaa6",
+    "cases/minimal/evidence/signature-reference/signature-reference-negative-1.json": "81264b5345eaa18bede8b8399cd71738fee4792902edc669413aa8f9bf5509fa",
+    "cases/minimal/evidence/signature-reference/signature-reference-return-input-000.bin": "7e46dde720f00e74467c313a1142b572a18a5f03561bc08d6633de9a09d9eaa6",
+    "cases/minimal/evidence/signature-reference/signature-reference-transport-parent-review.json": "65a6bac5079135b754bee5aaaaa6daa862724d3242cbfbe2db431e27dd600fc8",
+    "cases/minimal/evidence/signature-reference/signature-reference-transport-review.json": "4fd7a987b5725c43e528f1209142bdd035f1a14e943ce94af374c136343d6530"
+  },
+  "validator": {
+    "path": "scripts/check-signature-reference.py",
+    "sha256": "68a104042c38ad4ab355a8a91c28820af4c7653796f84eab6b7fd6b8c9c64dab"
+  },
+  "timings": {
+    "original_capture": 8.784296286292374,
+    "read_only_validation": 0.3776010312139988,
+    "affected14_negative_controls": 9.641972991637886
+  },
+  "shared_request": "once-only provider/ownreceipt/input/count/seed-bound external response; rejectunknown/unbound/repeats, no CRC/table implementation",
+  "next": "parent+shared maintainer concrete review; restore34B next_argument may continue independently"
+}
