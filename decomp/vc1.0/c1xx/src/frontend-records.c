@@ -1443,3 +1443,22 @@ void end_for_statement(void)
     closing->previous = &loop->header;
     if (ir_record_error_context == recovery) ir_record_error_context = 0;
 }
+
+/* Original 0x3ff60..0x3ffc5. Complete the for-body's pending
+   evaluation, retaining a delimiter only for a nonempty region. */
+void end_for_body_region(void)
+{
+    FrontendRecord record;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x2a) {
+        remove_last_frontend_record();
+        return;
+    }
+    record.kind = 0x2b;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    emit_nonnull_expression_statement(process_expression_records(0));
+}

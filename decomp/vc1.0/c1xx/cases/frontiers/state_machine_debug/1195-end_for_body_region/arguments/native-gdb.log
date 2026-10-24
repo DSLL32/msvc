@@ -1,0 +1,12 @@
+Breakpoint 1 at 0x61a57: file src/frontend-records.c, line 1452.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, end_for_body_region () at src/frontend-records.c:1452
+1452	    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x2a) {
+#0  end_for_body_region () at src/frontend-records.c:1452
+#1  0x565b66cc in end_for_statement () at src/frontend-records.c:1387
+#2  0x565bcc38 in parse_translation_unit () at src/parser-statement-actions.inc:90
+#3  0x5655de9f in compile_translation_unit () at src/frontend.c:73
+#4  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#5  0x56558894 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20
