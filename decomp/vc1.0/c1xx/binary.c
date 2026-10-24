@@ -1717,10 +1717,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_browser_name_reference@8",
         .entry_rva = 0x1bed0,
-        .code = (const ReconExtent[]) { { 0x1bed0, 0x1bed1 } },
+        .code = (const ReconExtent[]) { { 0x1bed0, 0x1bf05 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_name_reference",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_queue_browser_record@8",
@@ -1767,10 +1768,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_browser_begin_tag",
         .entry_rva = 0x1c360,
-        .code = (const ReconExtent[]) { { 0x1c360, 0x1c361 } },
+        .code = (const ReconExtent[]) { { 0x1c360, 0x1c370 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_begin_tag",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_browser_symbol_rollover",
@@ -15863,10 +15865,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_classify_pragma@4",
         .entry_rva = 0xf500,
-        .code = (const ReconExtent[]) { { 0xf500, 0xf501 } },
+        .code = (const ReconExtent[]) { { 0xf500, 0xf595 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "classify_pragma",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_warn_bad_pragma",
@@ -15879,18 +15882,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_read_pragma_token",
         .entry_rva = 0x115c0,
-        .code = (const ReconExtent[]) { { 0x115c0, 0x115c1 } },
+        .code = (const ReconExtent[]) { { 0x115c0, 0x115da } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "read_pragma_token",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_pragma_open_parenthesis",
         .entry_rva = 0x115e0,
-        .code = (const ReconExtent[]) { { 0x115e0, 0x115e1 } },
+        .code = (const ReconExtent[]) { { 0x115e0, 0x11616 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "pragma_open_parenthesis",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_read_parenthesized_pragma_argument@4",
@@ -15919,10 +15924,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_process_pack_pragma",
         .entry_rva = 0x11a50,
-        .code = (const ReconExtent[]) { { 0x11a50, 0x11a51 } },
+        .code = (const ReconExtent[]) { { 0x11a50, 0x11c5a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "process_pack_pragma",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_synchronize_pch_pragma",
@@ -15995,6 +16001,40 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "unpack_option_flags",
+    },
+    {
+        .name = "_validate_packing@4",
+        .entry_rva = 0x118e0,
+        .code = (const ReconExtent[]) { { 0x118e0, 0x1191d } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "validate_packing",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_push_pragma_packing@8",
+        .entry_rva = 0x11920,
+        .code = (const ReconExtent[]) { { 0x11920, 0x11921 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "push_pragma_packing",
+    },
+    {
+        .name = "_pop_pragma_packing@8",
+        .entry_rva = 0x11960,
+        .code = (const ReconExtent[]) { { 0x11960, 0x11961 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "pop_pragma_packing",
+    },
+    {
+        .name = "_find_browser_declaration@4",
+        .entry_rva = 0x1be90,
+        .code = (const ReconExtent[]) { { 0x1be90, 0x1bec5 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "find_browser_declaration",
+        .implementation = RECON_IMPLEMENTED,
     },
 };
 

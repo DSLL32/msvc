@@ -473,3 +473,40 @@ void __stdcall fill_browser_macro_reference(BrowserRecord *record, MacroDefiniti
     record->header.kind = 4;
     record->symbol_index = definition->browser_index;
 }
+
+/* Original 0x2bed0..0x2bf04. Only a pending declaration with the same
+   interned name can have its reference attribute changed. */
+int __stdcall browser_name_reference(int reference, char *name)
+{
+    BrowserRecord *record = find_browser_declaration(name);
+    if (!record) return 0;
+    if (reference) record->attributes |= 0x20;
+    else record->attributes &= ~0x20;
+    return 1;
+}
+
+/* Original 0x2be90..0x2bec4. Stop at the newest declaration, even if
+   its interned name differs; older declarations are not candidates. */
+BrowserRecord *__stdcall find_browser_declaration(char *name)
+{
+    int index = 0;
+    BrowserRecord *record;
+    record = (BrowserRecord *)browser_record_from_end(index);
+    while (record) {
+        if (record->header.kind == 3) {
+            if (record->name_identity == name) return record;
+            return 0;
+        }
+        record = (BrowserRecord *)browser_record_from_end(++index);
+    }
+    return 0;
+}
+
+int browser_tag_depth; /* original 0x9ec14 */
+
+/* Original 0x2c360..0x2c36f. */
+void browser_begin_tag(void)
+{
+    ++browser_tag_depth;
+    queue_browser_record(8, 0);
+}

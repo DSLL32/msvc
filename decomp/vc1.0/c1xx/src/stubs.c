@@ -235,8 +235,6 @@ CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall flush_current_function(int retain) { __asm { int 3 } }
 CppSymbol *__stdcall find_tag_in_chain(char *name, CppSymbol *first) { __asm { int 3 } return 0; }
 void __stdcall defer_nested_tag(CppSymbol *owner, CppSymbol *tag) { __asm { int 3 } }
-void browser_begin_tag(void) { __asm { int 3 } }
-int __stdcall browser_name_reference(int reference, char *name) { __asm { int 3 } return 0; }
 void __stdcall browser_enter_tag(CppSymbol *tag) { __asm { int 3 } }
 
 
@@ -586,14 +584,10 @@ void __stdcall set_browser_access(unsigned short *attributes, unsigned char acce
 
 /* Newly encountered pragma callees; bodies remain unaccepted entry traps. */
 void __stdcall pragma_message(char *text) { __asm { int 3 } }
-int __stdcall classify_pragma(char *name) { __asm { int 3 } return 0; }
 void warn_bad_pragma(void) { __asm { int 3 } }
-unsigned char read_pragma_token(void) { __asm { int 3 } return 0; }
-int pragma_open_parenthesis(void) { __asm { int 3 } return 0; }
 int __stdcall read_parenthesized_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
 void __stdcall visit_pragma_names(void (__stdcall *callback)(char *)) { __asm { int 3 } }
 int __stdcall read_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
-void process_pack_pragma(void) { __asm { int 3 } }
 void synchronize_pch_pragma(void) { __asm { int 3 } }
 void __stdcall set_warning_level(int number, int level) { __asm { int 3 } }
 void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
@@ -603,3 +597,6 @@ void __stdcall disable_intrinsic_function(char *name) { __asm { int 3 } }
 void __stdcall set_default_inheritance_policy(int general) { __asm { int 3 } }
 void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
 void unpack_option_flags(unsigned flags) { __asm { int 3 } }
+
+void __stdcall push_pragma_packing(int alignment, char *label) { __asm { int 3 } }
+void __stdcall pop_pragma_packing(int alignment, char *label) { __asm { int 3 } }

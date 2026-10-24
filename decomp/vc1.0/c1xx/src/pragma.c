@@ -519,3 +519,130 @@ warning_group_done: ;
     }
     finish_directive("pragma");
 }
+
+/* Original0x215c0..0x215d9: EOF is fatal inside a pragma. */
+unsigned char read_pragma_token(void)
+{
+    unsigned char token = read_parser_token();
+    if (!token) fatal_error(4);
+    return token;
+}
+
+/* Encountered vocabulary: original35 suffix pointers at0x9e3e8,
+   their35 result kinds at0x9e498 and the29 initial-letter bounds at0x9e478.
+   The caller supplies an interned identifier; the supported alphabet is the
+   same underscore/lowercase directory used by intrinsic-name lookup. */
+typedef struct PragmaName { char *suffix; int kind; } PragmaName;
+static PragmaName pragma_names[] = {
+    { "uto_inline", 27 }, { "lloc_text", 5 },
+    { "omment", 19 }, { "ode_seg", 24 },
+    { "heck_stack", 0 }, { "heck_pointer", 7 },
+    { "ata_seg", 22 }, { "unction", 4 }, { "drstop", 29 },
+    { "ntrinsic", 3 }, { "nline_recursion", 26 },
+    { "nline_depth", 25 }, { "nit_seg", 30 },
+    { "oop_opt", 1 }, { "inesize", 16 }, { "essage", 18 },
+    { "ative_caller", 23 }, { "ptimize", 21 },
+    { "ointers_to_members", 33 }, { "lmn", 9 }, { "lmf", 10 },
+    { "agesize", 15 }, { "age", 11 }, { "ack", 2 },
+    { "witch_check", 8 }, { "ubtitle", 13 }, { "tring_pooling", 34 },
+    { "kip", 12 }, { "etlocale", 32 }, { "egment", 20 },
+    { "earch_lib", 17 }, { "ame_seg", 6 }, { "itle", 14 },
+    { "tordisp", 31 }, { "arning", 28 }
+};
+static signed char pragma_name_groups[29] = {
+    0,0,0,2,2,6,7,7,8,8,9,13,13,13,15,16,17,18,24,24,24,32,33,33,34,35,35,35,35
+};
+
+/* Original0x1f500..0x1f594, stdcall4. Compare only the candidates
+   selected by the first identifier byte; the result is the dispatcher kind. */
+int __stdcall classify_pragma(char *name)
+{
+    signed char first = (signed char)*name++;
+    int index, end;
+    char *left, *right;
+    if (first < '_') return -1;
+    index = pragma_name_groups[first - '_'];
+    end = pragma_name_groups[first - '_' + 1];
+    for (; index != end; ++index) {
+        left = pragma_names[index].suffix;
+        right = name;
+        while (*left == *right && *left) { ++left; ++right; }
+        if (*left == *right) return pragma_names[index].kind;
+    }
+    return -1;
+}
+
+/* Original0x21a50..0x21c59. pack(n), reset, and labeled push/pop
+   retain their distinct token-consumption and repeated validation calls. */
+void process_pack_pragma(void)
+{
+    int action = 0, alignment = 0, match;
+    char *label = 0;
+    PackingEntry *entry;
+    if (!pragma_open_parenthesis()) return;
+    read_pragma_token();
+    switch (current_token_code) {
+    case 2:
+        PRAGMA_TEXT_IS(current_token_value.name, "push", match);
+        if (match) action = 1;
+        else {
+            PRAGMA_TEXT_IS(current_token_value.name, "pop", match);
+            if (!match) goto malformed;
+            action = 2;
+        }
+        read_pragma_token();
+        if (current_token_code == 0x88) goto apply;
+        if (current_token_code != 0x40) goto malformed;
+        read_pragma_token();
+        if (current_token_code == 2) {
+            label = current_token_value.name;
+            read_pragma_token();
+            if (current_token_code == 0x88) goto apply;
+            if (current_token_code != 0x40) goto malformed;
+            read_pragma_token();
+            if (current_token_code != 7) goto malformed;
+            goto number;
+        }
+        if (current_token_code == 7) goto number;
+        goto apply;
+    case 0x88:
+        alignment = options.option_Zp == -1 ? 8 : options.option_Zp;
+        goto apply;
+    case 7:
+number:
+        alignment = validate_packing(current_token_value.expression->value.integer);
+        if (read_pragma_token() != 0x88) goto malformed;
+        goto apply;
+    default:
+        goto malformed;
+    }
+apply:
+    if (!action) {
+        entry = top_packing(packing_stack);
+        entry->alignment = validate_packing(alignment);
+    } else if (action == 1) push_pragma_packing(alignment, label);
+    else pop_pragma_packing(alignment, label);
+    return;
+malformed:
+    compiler_warning(1, 110, token_spellings[current_token_code]);
+}
+
+/* Original0x215e0..0x21615. A bad opening token consumes the rest
+   of the directive before returning failure to its individual handler. */
+int pragma_open_parenthesis(void)
+{
+    if (read_pragma_token() == 0x80) return 1;
+    compiler_warning(1, 83, token_spellings[current_token_code]);
+    skip_source_line();
+    return 0;
+}
+
+/* Original0x218e0..0x2191c, stdcall4. Invalid packings retain the
+   current stack entry's alignment after issuing the level-one warning. */
+int __stdcall validate_packing(int alignment)
+{
+    if (alignment == 1 || alignment == 2 || alignment == 4 ||
+        alignment == 8 || alignment == 16) return alignment;
+    compiler_warning(1, 86);
+    return top_packing(packing_stack)->alignment;
+}

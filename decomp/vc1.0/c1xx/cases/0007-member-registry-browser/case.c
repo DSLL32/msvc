@@ -55,6 +55,14 @@ static const uint32_t order[] = {
     0x8250, /* evaluate_preprocessor_binary */
     0x11c60, /* process_pragma */
     0x115c0, /* read_pragma_token */
+    0xf500, /* classify_pragma */
+    0x11a50, /* process_pack_pragma */
+    0x115e0, /* pragma_open_parenthesis */
+    0x118e0, /* validate_packing */
+    0x1bed0, /* browser_name_reference */
+    0x1be90, /* find_browser_declaration */
+    0x1c360, /* browser_begin_tag */
+    0x1c490, /* browser_enter_tag */
 };
 static const uint32_t seen[] = {
     0x59630, /* main */
@@ -1215,6 +1223,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "member_registry_browser",
     "Partial browser case; five application functions freshly validated through primary; paused at reference_browser_macro; trace compares unseeded encounters with explicit per-case seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x115c0,
+    RECON_IO, RECON_FRONTIER, 0x1c490,
     NULL, invoke, NULL, NULL, 0
 };
