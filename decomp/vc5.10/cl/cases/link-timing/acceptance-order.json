@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "case": "link-timing",
+  "entries": [
+    {
+      "order": 1,
+      "candidate": "_start_timer",
+      "class": "application",
+      "extent_bytes": 13,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-fp2/pair.json",
+        "sha256": "b47ebce88afa8691e812eba03b7d8c529f6048f85ce8d9fbacfd189ec54fb87c"
+      }
+    }
+  ]
+}

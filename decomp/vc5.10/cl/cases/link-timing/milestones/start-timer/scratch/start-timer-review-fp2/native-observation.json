@@ -1,0 +1,265 @@
+{
+  "candidate": "_start_timer",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "b8c2e69d7404337734eb6ed52cd0a5c4c9939d9c2ea6fd6461c5e81952ef7a73",
+  "rebuilt_sha256": "7dcef2ec46abebbd9f678e580b4ec4fa78da9354170b8f04957236728d9c8ac9",
+  "trial_mask_sha256": "d78183f11f8555059363466a44d6a59f7697600ba65213d4698e5feadbc66ddd",
+  "platform": "native",
+  "trial_identity": "9b2b1be6b1788933ae5a282f48815b2cf3e5675a3f7b5d51161d44a8d44ae2b2",
+  "config_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/config.json",
+    "sha256": "86732684988ac3adf32a24f1e5d485a48e1531bffe865b4584d2da116cc8a822"
+  },
+  "case": "link-timing",
+  "arguments": [
+    "/nologo",
+    "/Bt",
+    "/Fetest.exe",
+    "test.obj",
+    "/link",
+    "/ENTRY:main",
+    "/SUBSYSTEM:CONSOLE",
+    "/NODEFAULTLIB"
+  ],
+  "files": {
+    "stdout": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/state-fp-v2-def442af095f37a4.json",
+      "sha256": "def442af095f37a4812377a6f99e441ebe2e6378f9ff52c8f1c8891df6d8efd3"
+    },
+    "trace": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/trace.txt",
+      "sha256": "339b42a3070ed818e61e4722e1c1fe013c7f9ca41268280c145c2ac400ee389d"
+    },
+    "debugger": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/debugger.txt",
+      "sha256": "7f3f678e5c130ed82f3487ce068a52a087f705a7a0baf4166eea080d5ee746fa"
+    },
+    "raw:trace-filter.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/trace-filter.txt",
+      "sha256": "065033088102a9cd912e402a95e5b575e39d3271cc2c9501ea51c65ef40f65bd"
+    },
+    "raw:trace-seen.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/trace-seen.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw:exec-wrapper.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/exec-wrapper.py",
+      "sha256": "8a90175bb589a825790bfc9725e524d6499b0f53bf8f38d9467d978da76eee9f"
+    },
+    "resource_provider": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/resources.bin",
+      "sha256": "9e98c325540241a981223ad34839b3b4d9c78b54d94dbba4f770b29dffac3e50"
+    },
+    "raw:frontier-memory.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/frontier-memory.json",
+      "sha256": "e4464cc0689a3c88b9023894fd1124dc04529bfbf45c2e03093313b6a94a93da"
+    },
+    "raw:debugger.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/debugger.txt",
+      "sha256": "7f3f678e5c130ed82f3487ce068a52a087f705a7a0baf4166eea080d5ee746fa"
+    },
+    "raw:gdb-capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/gdb-capture.py",
+      "sha256": "8dbe6036fb52b6dbf97196e85182cf4fdd564050613c866ccec189b47d8deb89"
+    },
+    "raw:gdb_capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/gdb_capture.py",
+      "sha256": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97"
+    },
+    "raw:frontier_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/frontier_state.py",
+      "sha256": "57cf28120dcb36d63bbd703a12328ca6e46349205f7ad0b73ffd718fad3883bb"
+    },
+    "raw:clock-native.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/clock-native.json",
+      "sha256": "a646f0f06847ae8a9493c7b8189bc0edc2071369881a64826ce4b23f851f4204"
+    },
+    "raw:clock-response.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/clock-response.json",
+      "sha256": "0fb1c3fa8176e4f5df5c38ad30f11b1a27d8d69a8fb73f60b85264fc6f9307dd"
+    },
+    "raw:clock-host-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/clock-host-inputs.json",
+      "sha256": "bfc23ef27f29c0d746b0c8ff7a1f7c2859f195e864cb87c0c45a028bd27ac382"
+    },
+    "raw:link-response.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/link-response.json",
+      "sha256": "0fb1c3fa8176e4f5df5c38ad30f11b1a27d8d69a8fb73f60b85264fc6f9307dd"
+    },
+    "raw:link-binding.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/link-binding.bin",
+      "sha256": "06498679156612d22b85a6435f26d1f96df29c87d06afeec46abf0a79746c8f6"
+    },
+    "raw:gdb_clock.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/gdb_clock.py",
+      "sha256": "604b6689564beece849e68fe64300612f093b47d0641da84b340c01e65306503"
+    },
+    "raw:gdb_link.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/gdb_link.py",
+      "sha256": "99ceb2cd8797e8317343bee82ab4958e558e6ac8ccc3afd8d2105961a7e3080d"
+    },
+    "raw:clock_provider.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/clock_provider.py",
+      "sha256": "a57759a138daf998ddefddff8c6c733357d716c238a8d90238d2b5c5a73b1c07"
+    },
+    "raw:clock_packet.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/clock_packet.py",
+      "sha256": "d36d8a99ef191b8e0fd95056c537e82d06dd783fc91b7a155c1127073f12941f"
+    },
+    "raw:clock_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/clock_state.py",
+      "sha256": "55607e06f6bf9065afe99462df42a722e735dd9542d35c6042001abb22b0616e"
+    },
+    "raw:link_provider.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/link_provider.py",
+      "sha256": "60fd36cb57bb999a4fd7b6c22cfea84abf9185766c68caaee18e781006ca0739"
+    },
+    "raw:link_response.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/link_response.py",
+      "sha256": "16316d67446ad68e293a072b67214d8e8fb6ab27cc821ac18ee09470d57bebec"
+    },
+    "raw:link_state.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/link_state.py",
+      "sha256": "162cf75f1f5794104a2045a3856efd720f01add14f1ce98383dab417ca174e5f"
+    },
+    "raw:spawn_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/spawn_reader.py",
+      "sha256": "1291d343a241e08970d399145196be11a983254b509b3422615895deffda43b4"
+    },
+    "raw:native-clock-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/native-clock-gdb.json",
+      "sha256": "82f6d20690a53664b0bf4c21d985a02b0eef4bb7bc9bf910e2dc9d9b2d55e39d"
+    },
+    "raw:test.exe": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/test.exe",
+      "sha256": "ef18393c00ce8bf1a7672b82e5f2e1b9b5e538c430adbb51e6bda44fe1af924d"
+    },
+    "raw:native-link-after-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/native-link-after-gdb.json",
+      "sha256": "7b81544482cd95dab49508533585a75a033b81fdbdf46485cead32d6b86e8921"
+    },
+    "raw:native-link-before-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/native-link-before-gdb.json",
+      "sha256": "d65fd45a127695fb23bf49bf74df2ec87d77ee48701f046a42160f992030e11a"
+    },
+    "raw:streams-link-after-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/streams-link-after-iob.bin",
+      "sha256": "4e711d24d07166eb1db211a6194f15df3421b711ac67f36b6aca551e0ea326a9"
+    },
+    "raw:streams-link-before.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/streams-link-before.json",
+      "sha256": "9e41db876f559f5b8d3d3b8756665c883beecfb31169b55b326bf689fc7a40e6"
+    },
+    "raw:streams-link-before-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/streams-link-before-iob.bin",
+      "sha256": "4e711d24d07166eb1db211a6194f15df3421b711ac67f36b6aca551e0ea326a9"
+    },
+    "raw:streams-link-after.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/streams-link-after.json",
+      "sha256": "a09b0020b91fc2fea8df03fea8f75641efa48f5d709cf82a3ef8fd5aa44508dd"
+    },
+    "raw:streams-frontier.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/streams-frontier.json",
+      "sha256": "a09b0020b91fc2fea8df03fea8f75641efa48f5d709cf82a3ef8fd5aa44508dd"
+    },
+    "raw:streams-frontier-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/streams-frontier-iob.bin",
+      "sha256": "4e711d24d07166eb1db211a6194f15df3421b711ac67f36b6aca551e0ea326a9"
+    },
+    "raw:dependency-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/dependency-inputs.json",
+      "sha256": "ae5b183a14ac0e3438a8d47765d21b31c754f0ede99a0cb26bc4ffb89021ad0a"
+    },
+    "raw:LINK.EXE": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/LINK.EXE",
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+    },
+    "raw:case-inputs.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/case-inputs.json",
+      "sha256": "da47ccda0ade754aeb27e89021429256194ce2fd23eac16249b46baf82fce424"
+    },
+    "raw:test.obj": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/test.obj",
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    },
+    "raw:native-entry-errors.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/native-entry-errors.json",
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c"
+    },
+    "raw:gdb_entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    "raw:gdb-entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/gdb-entry.py",
+      "sha256": "d15f11d788ad305badb5b2d3aef41db4ef433df8ce2fea2ec8f324ef0c75cea6"
+    },
+    "raw:native-process.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/native-process.json",
+      "sha256": "ef3b5c1cc641a87d89584b6a0a6c1fa8eb4cfcf537bd4387ca9a2a3fcf974256"
+    },
+    "raw:entry-profile.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/entry-profile.json",
+      "sha256": "45308e78c79af8062605c1fe1490254d800750b0537a38ac499c498aea814e3d"
+    },
+    "raw:streams-entry.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/streams-entry.json",
+      "sha256": "8d7bf97f49297b18215d9b931ea23b49bb38f968e646b55f15a7e7b7e5f5c054"
+    },
+    "raw:streams-entry-iob.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/streams-entry-iob.bin",
+      "sha256": "4e711d24d07166eb1db211a6194f15df3421b711ac67f36b6aca551e0ea326a9"
+    },
+    "raw:gdb_streams.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/gdb_streams.py",
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5"
+    },
+    "raw:mktemp-expected.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/mktemp-expected.json",
+      "sha256": "a2084d87c9addb9d2621340d90ba56d84f63cb7e57fc2c7f6da45ea50d829e16"
+    },
+    "raw:mktemp-receipt.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/mktemp-receipt.bin",
+      "sha256": "acf626f997b98941c5d689e883bf4ea4a72ff48f4f97f2dd520fb444f88fb400"
+    },
+    "raw:mktemp_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/mktemp_reader.py",
+      "sha256": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570"
+    },
+    "raw:native-mktemp-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/native-mktemp-gdb.json",
+      "sha256": "1b85c5bd6e26ce15cc05bd4a900644333f7dee468a24fb76973220ca44927800"
+    },
+    "raw:native-build.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/native-build.json",
+      "sha256": "be79d4759ac04443ede15c3a3d6b901a8577acbed989701f285bb889a693c4a5"
+    },
+    "raw:gdb_mktemp.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    }
+  },
+  "native_build": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/native-build.json",
+    "sha256": "be79d4759ac04443ede15c3a3d6b901a8577acbed989701f285bb889a693c4a5"
+  },
+  "validator_refresh": {
+    "prior_observation": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/observation.json",
+      "sha256": "14e7e861082a91bb937fa480b78e9b05e905ee5ea85baee2c016bfe452b16ea0"
+    },
+    "prior_state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-1-native/state.json",
+      "sha256": "974c8b800267aec02a99e785dc7c8fd89fe630299a483af8b286ac77f65cb541"
+    },
+    "reason": "Read-only cross-image FP strengthening and exact inert selector qualification; raw execution/config/binaries unchanged."
+  }
+}

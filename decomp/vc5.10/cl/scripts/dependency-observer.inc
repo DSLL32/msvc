@@ -2,6 +2,7 @@
 static int dependency_analysis;
 static int dependency_link_response;
 static int dependency_clock_analysis;
+static int dependency_clock_response;
 static int dependency_complete;
 static int dependency_response;
 static FILE *dependency_events;
@@ -168,6 +169,7 @@ static void dependency_install(int masked)
     output_path(path,"dependency-observer.txt");file=fopen(path,"rb");if (!file) return;
     if (!fgets(line,sizeof(line),file)) ExitProcess(94);
     if (!strcmp(line,"CL_LINK_CLOCK_ANALYSIS_V1\n")) { dependency_link_response=1;dependency_clock_analysis=1;dependency_complete=1; }
+    else if (!strcmp(line,"CL_LINK_CLOCK_RESPONSE_V1\n")) { dependency_link_response=1;dependency_clock_response=1;dependency_response=1;dependency_complete=1; }
     else if (!strcmp(line,"CL_LINK_RESPONSE_V1\n")) { dependency_link_response=1;dependency_response=1;dependency_complete=1; }
     else if (!strcmp(line,"CL_DEPENDENCY_RESPONSE_V1\n")) { dependency_response=1;dependency_complete=1; }
     else if (!strcmp(line,"CL_DEPENDENCY_ANALYSIS_V2_COMPLETE\n")) dependency_complete=1;

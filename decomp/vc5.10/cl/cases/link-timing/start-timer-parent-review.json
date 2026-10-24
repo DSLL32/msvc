@@ -1,0 +1,36 @@
+{
+  "status": "approved actual13B start_timer acceptance to genuine stop_timer frontier",
+  "manifest": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-fp-review-v2/manifest.json",
+    "sha256": "cb95448cf23b5197698c5a2b518ab6549b2abcede8c801e5968e20a96379ae9f"
+  },
+  "fresh_pair": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-fp2/pair.json",
+    "sha256": "b47ebce88afa8691e812eba03b7d8c529f6048f85ce8d9fbacfd189ec54fb87c"
+  },
+  "independent_fp_check": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-independent-fp-check.json",
+    "sha256": "1d4dbc7f0d1ddc96484534b396f96c4b65c7b31897ef8b0c9a9b1055b7c547b0"
+  },
+  "positive": "Independently ran accept.py _start_timer current derived pair --review-only; accepted index unchanged, full fresh candidate evidence passes",
+  "review": [
+    "Manifest v2 hashes and all original integration records validated, with only two explicitly superseded FP validator files",
+    "Whole13B readable timer body preserves original _ftime call and static12B timer_started storage",
+    "Strict complete actual child command/inputs/env/state/1024B PE; one exact clock call bound by existing shared counter, unknowns fail",
+    "Explicit host TZ=UTC/TZDIR plus zonefile SHA, target CRT/OS TZ absent; failed UTC0 native receipt retained, no errno reset/shared behavior change",
+    "Original complete112B FloatSave pre/post strict and native16-register pre/post strict",
+    "Cross-image CW/status/tags/eight80B registers/opcode/FIP/FDP strict; independent21 read-only corruptions/coherent premise controls rejected",
+    "Only observed original CS23/DS2b versus native0/0 qualified with emptytagsFFFF, status0, zero pointers/data; root approved exact unconsumed metadata scope",
+    "Validator-only refresh checks every old raw hash, preserves prior states/receipts, adds only FP_scope interpretation",
+    "Acceptance guards reject analysis and ambiguous modes, require actual masked clock markers and mandatory typed response verification"
+  ],
+  "qualified_limits": [
+    "No full-byte cross-image FloatSave equality claim; selectors remain explicit",
+    "No timezone-name equality: original Greenwich and native PST/PDT names unconsumed within proved whole timer/caller scope",
+    "stop_timer still named trap; no completed timing case or stop implementation credit",
+    "Any nonempty/nonzero-pointer or actual selector/timezone-name consumer requires new semantic treatment"
+  ],
+  "controls": "Prior42 original/71 native/12 clockhost/14 LINKhost/35 protocol/30 mode reused under unchanged premises/hashes;21 new FP controls inspected and independently reproduced without mutating retained files",
+  "execution": "No new original/native execution performed for this review; current pair reused fresh original and legitimate native-only TZ retry",
+  "root_policy": "Exact inert selector pair approved; no further gate after concrete independent review"
+}

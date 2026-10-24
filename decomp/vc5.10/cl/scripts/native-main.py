@@ -97,6 +97,15 @@ def capture(original,directory):
         env.update(provider.environment())
         for name in ('link_provider.py','link_response.py','link_state.py','gdb_link.py'):
             shutil.copyfile(PROJECT/'scripts'/name,directory/name)
+    if receipt.get('clock_response'):
+        assert provider is None,'ambiguous timing dependency provider'
+        from clock_provider import Provider
+        spawn_reader=directory/'spawn_reader.py'
+        spawn_reader.write_bytes(subprocess.check_output(['git','show',build['shared_revision']+':lib/recon/spawn.py'],cwd=ROOT))
+        provider=Provider(original,directory,spawn_reader);env.update(provider.environment())
+        for name in ('clock_provider.py','clock_packet.py','clock_state.py','gdb_clock.py',
+                'link_provider.py','link_response.py','link_state.py','gdb_link.py'):
+            shutil.copyfile(PROJECT/'scripts'/name,directory/name)
     temporary=None
     if (original/'mktemp-before.bin').exists():
         from mktemp_state import original as temporary_state
@@ -121,8 +130,10 @@ def capture(original,directory):
     (directory/'gdb-entry.py').write_text('import sys\nsys.path.insert(0,'+repr(str(directory))+')\nfrom gdb_entry import capture\ncapture('+repr(str(directory))+')\nfrom gdb_mktemp import install\ninstall('+repr(str(directory))+')\nfrom gdb_unlink import install\ninstall('+repr(str(directory))+')\nfrom gdb_exit import install\ninstall('+repr(str(directory))+')\n')
     if(directory/'pass-state-observer.txt').exists():
         with(directory/'gdb-entry.py').open('a')as script:script.write('from gdb_pass import install\ninstall('+repr(str(directory))+')\n')
-    if receipt.get('link_response'):
+    if receipt.get('link_response')or receipt.get('clock_response'):
         with(directory/'gdb-entry.py').open('a')as script:script.write('from gdb_link import install\ninstall('+repr(str(directory))+')\n')
+    if receipt.get('clock_response'):
+        with(directory/'gdb-entry.py').open('a')as script:script.write('from gdb_clock import install\ninstall('+repr(str(directory))+')\n')
     # argv[0] is supplied as captured Win32 data while the executable is ELF.
     commands=['/usr/bin/gdb','-q','-nx','-batch','-ex','set pagination off',
         '-ex','set exec-wrapper /usr/bin/env',

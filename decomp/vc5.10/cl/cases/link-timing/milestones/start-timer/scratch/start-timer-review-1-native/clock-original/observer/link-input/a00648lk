@@ -1,0 +1,6 @@
+/nologo
+/out:test.exe
+/ENTRY:main
+/SUBSYSTEM:CONSOLE
+/NODEFAULTLIB
+test.obj

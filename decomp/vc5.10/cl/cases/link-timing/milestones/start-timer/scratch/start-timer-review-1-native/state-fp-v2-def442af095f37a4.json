@@ -1,0 +1,1390 @@
+{
+  "projection": "cl-application-frontier-v1: typed parameters and reconstructed driver state; temporary-name-boundary-v1",
+  "fields": {
+    "frontier": "stop_timer",
+    "parameters": {
+      "name": "S:\\vc5.10\\cl\\start-timer-1-original\\link.exe"
+    },
+    "crt_mb": {
+      "codepage": 0,
+      "mb_cur_max": 1
+    },
+    "timer_started": {
+      "time": 1792802084,
+      "millitm": 594,
+      "timezone": 0,
+      "dstflag": 0,
+      "padding_hex": "0000"
+    },
+    "globals": {
+      "dll_options_enabled": 1,
+      "default_macros": 1,
+      "response_depth": 0,
+      "response_first_line": 1,
+      "no_logo": 1,
+      "echo_response": 0,
+      "help_requested": 0,
+      "cleanup_temporaries": 0,
+      "is_dll": 0,
+      "first_option_pass": 0,
+      "map_requested": 0,
+      "bk_requested": 0,
+      "reproducible": 0,
+      "timing_requested": 1,
+      "bz_requested": 0,
+      "minimal_rebuild": 0,
+      "allow_pch": 1,
+      "keep_preprocessor_output": 1,
+      "use_standard_include": 1,
+      "source_count": 0,
+      "options_after_link": 0,
+      "link_warning": 0,
+      "show_commands": 0,
+      "message_capacity": 2048,
+      "debug_exceptions": 0,
+      "error_count": 0,
+      "output_produced": 1,
+      "default_c_language": 0,
+      "first_dependency_scan": 0,
+      "first_stage_notice": 1,
+      "object_name": "test.obj",
+      "image_name": "test.exe",
+      "ir_prefix": ".\\a00648",
+      "map_name": null,
+      "pdb_name": "vc50.idb",
+      "browser_name": null,
+      "free_options": {
+        "available_nodes": 5
+      },
+      "driver": {
+        "options": [
+          {
+            "id": 1,
+            "flags": 1,
+            "matching": "1P2",
+            "name": "il",
+            "value": "%t",
+            "origin": {
+              "id": 2,
+              "flags": 1,
+              "matching": null,
+              "name": "il",
+              "value": "%t",
+              "origin": {
+                "rule": {
+                  "index": 109,
+                  "pattern": "^il!+",
+                  "add": "1P2=*:*",
+                  "conflict": null,
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 3,
+            "flags": 1,
+            "matching": "1P2",
+            "name": "f",
+            "value": "%f",
+            "origin": {
+              "id": 4,
+              "flags": 1,
+              "matching": null,
+              "name": "f",
+              "value": "%f",
+              "origin": {
+                "rule": {
+                  "index": 83,
+                  "pattern": "^f!+",
+                  "add": "1P2=f:%f",
+                  "conflict": null,
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 5,
+            "flags": 1,
+            "matching": "1P2M",
+            "name": "W",
+            "value": "1",
+            "origin": {
+              "id": 6,
+              "flags": 1,
+              "matching": null,
+              "name": "W",
+              "value": "1",
+              "origin": {
+                "rule": {
+                  "index": 151,
+                  "pattern": "W!*d[0-4,1]",
+                  "add": "1P2M=*:*",
+                  "conflict": null,
+                  "replace": "=W:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 7,
+            "flags": 1,
+            "matching": "1PM",
+            "name": "Ze",
+            "value": null,
+            "origin": {
+              "id": 8,
+              "flags": 1,
+              "matching": null,
+              "name": "Ze",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 160,
+                  "pattern": "Ze",
+                  "add": "1PM=*,-D!_MSC_EXTENSIONS",
+                  "conflict": "=Za",
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 9,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "D",
+            "value": "_MSC_EXTENSIONS",
+            "origin": {
+              "ref": 8
+            }
+          },
+          {
+            "id": 10,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "Zp",
+            "value": "8",
+            "origin": {
+              "id": 11,
+              "flags": 1,
+              "matching": null,
+              "name": "Zp",
+              "value": "8",
+              "origin": {
+                "rule": {
+                  "index": 172,
+                  "pattern": "Zp:$d[1,2,4,16,8]",
+                  "add": "1PM=*!(*|1)",
+                  "conflict": null,
+                  "replace": "=*:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 12,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "ZB",
+            "value": "64",
+            "origin": {
+              "id": 13,
+              "flags": 1,
+              "matching": null,
+              "name": "ZB",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 161,
+                  "pattern": "ZB:$d[32,128,64]",
+                  "add": "1PM=*!(*|64),-D!_INTEGRAL_MAX_BITS=(*|64)",
+                  "conflict": null,
+                  "replace": "=*:?,=D!_INTEGRAL_MAX_BITS=?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 14,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "D",
+            "value": "_INTEGRAL_MAX_BITS=64",
+            "origin": {
+              "ref": 13
+            }
+          },
+          {
+            "id": 15,
+            "flags": 1,
+            "matching": "D",
+            "name": "GB",
+            "value": null,
+            "origin": {
+              "id": 16,
+              "flags": 1,
+              "matching": null,
+              "name": "GB",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 22,
+                  "pattern": "GB",
+                  "add": "D=*,1PM-D!_M_IX86=500,1P2M-G5",
+                  "conflict": null,
+                  "replace": "=G3,=G4,=G5,=G6,=D!_M_IX86=?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 17,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "D",
+            "value": "_M_IX86=500",
+            "origin": {
+              "ref": 16
+            }
+          },
+          {
+            "id": 18,
+            "flags": 1,
+            "matching": "1P2M",
+            "name": "G5",
+            "value": null,
+            "origin": {
+              "ref": 16
+            }
+          },
+          {
+            "id": 19,
+            "flags": 1,
+            "matching": "1P",
+            "name": "Gs",
+            "value": null,
+            "origin": {
+              "id": 20,
+              "flags": 1,
+              "matching": null,
+              "name": "Gs",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 28,
+                  "pattern": "Gs:$x[0,10-4294967295,4096]",
+                  "add": "1P=*,2M=*!(*|4096)",
+                  "conflict": null,
+                  "replace": "=Ge,=Gs:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 21,
+            "flags": 5,
+            "matching": "2M",
+            "name": "Gs",
+            "value": "4096",
+            "origin": {
+              "ref": 20
+            }
+          },
+          {
+            "id": 22,
+            "flags": 1,
+            "matching": "D",
+            "name": "GR-",
+            "value": null,
+            "origin": {
+              "id": 23,
+              "flags": 1,
+              "matching": null,
+              "name": "GR-",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 102,
+                  "pattern": "GR-",
+                  "add": "D=*",
+                  "conflict": null,
+                  "replace": "=GR,=D!_CPPRTTI",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 24,
+            "flags": 1,
+            "matching": "D",
+            "name": "GX-",
+            "value": null,
+            "origin": {
+              "id": 25,
+              "flags": 1,
+              "matching": null,
+              "name": "GX-",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 31,
+                  "pattern": "GX-",
+                  "add": "D=*",
+                  "conflict": null,
+                  "replace": "=GX,=D!_CPPUNWIND,=EHa,=EHs",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 26,
+            "flags": 1,
+            "matching": "1PM",
+            "name": "Ot",
+            "value": null,
+            "origin": {
+              "id": 27,
+              "flags": 1,
+              "matching": null,
+              "name": "Ot",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 46,
+                  "pattern": "Ot",
+                  "add": "1PM=*",
+                  "conflict": null,
+                  "replace": "=Os",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 28,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "Ob",
+            "value": "0",
+            "origin": {
+              "id": 29,
+              "flags": 1,
+              "matching": null,
+              "name": "Ob",
+              "value": "0",
+              "origin": {
+                "rule": {
+                  "index": 41,
+                  "pattern": "Ob!$d[0-2]",
+                  "add": "1PM=*!*",
+                  "conflict": null,
+                  "replace": "=Ob:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 30,
+            "flags": 1,
+            "matching": "2",
+            "name": "dos",
+            "value": null,
+            "origin": {
+              "id": 31,
+              "flags": 1,
+              "matching": null,
+              "name": "dos",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 5,
+                  "pattern": "^dos",
+                  "add": "2=*",
+                  "conflict": null,
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 32,
+            "flags": 5,
+            "matching": "D1P2",
+            "name": "Fo",
+            "value": "%b.obj",
+            "origin": {
+              "id": 33,
+              "flags": 1,
+              "matching": null,
+              "name": "Fo",
+              "value": "%b.obj",
+              "origin": {
+                "rule": {
+                  "index": 90,
+                  "pattern": "Fo:#",
+                  "add": "D1P2=*!(*|%b)<obj,D-bo:Fo Fo (*|%b)",
+                  "conflict": null,
+                  "replace": "=*:?,=bo:Fo?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 34,
+            "flags": 1,
+            "matching": "D",
+            "name": "bo",
+            "value": "",
+            "origin": {
+              "ref": 33
+            }
+          },
+          {
+            "id": 35,
+            "flags": 1,
+            "matching": "1P",
+            "name": "pc",
+            "value": "\\:/",
+            "origin": {
+              "id": 36,
+              "flags": 1,
+              "matching": null,
+              "name": "pc",
+              "value": "\\:/",
+              "origin": {
+                "rule": {
+                  "index": 133,
+                  "pattern": "^pc!+",
+                  "add": "1P=*:*",
+                  "conflict": null,
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 37,
+            "flags": 1,
+            "matching": "2M",
+            "name": "ML",
+            "value": null,
+            "origin": {
+              "id": 38,
+              "flags": 1,
+              "matching": null,
+              "name": "ML",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 115,
+                  "pattern": "ML",
+                  "add": "2M=*",
+                  "conflict": null,
+                  "replace": "=MD,=MT,=MLd,=MTd,=MDd,-D!_DEBUG,-D!_MT,-D!_DLL",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 39,
+            "flags": 5,
+            "matching": "1P",
+            "name": "Fd",
+            "value": "vc50.pdb",
+            "origin": {
+              "id": 40,
+              "flags": 1,
+              "matching": null,
+              "name": "Fd",
+              "value": "vc50.pdb",
+              "origin": {
+                "rule": {
+                  "index": 85,
+                  "pattern": "Fd:#",
+                  "add": "1P=*!(*|vc50)<pdb,D2=*!(*|vc50)<<idb",
+                  "conflict": null,
+                  "replace": "=Fd:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 41,
+            "flags": 5,
+            "matching": "D2",
+            "name": "Fd",
+            "value": "vc50.idb",
+            "origin": {
+              "ref": 40
+            }
+          },
+          {
+            "id": 42,
+            "flags": 1,
+            "matching": "D",
+            "name": "ZM",
+            "value": null,
+            "origin": {
+              "id": 43,
+              "flags": 1,
+              "matching": null,
+              "name": "ZM",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 168,
+                  "pattern": "ZM",
+                  "add": "D-*",
+                  "conflict": null,
+                  "replace": "-ZM-,-Yc:?,-YX:?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 44,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "D",
+            "value": "_MSC_VER=1100",
+            "origin": null
+          },
+          {
+            "id": 45,
+            "flags": 5,
+            "matching": "1PM",
+            "name": "D",
+            "value": "_WIN32",
+            "origin": null
+          },
+          {
+            "id": 46,
+            "flags": 0,
+            "matching": "1P",
+            "name": "nologo",
+            "value": null,
+            "origin": {
+              "id": 47,
+              "flags": 0,
+              "matching": null,
+              "name": "nologo",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 122,
+                  "pattern": "nologo",
+                  "add": "1P=*,C=nologo",
+                  "conflict": null,
+                  "replace": "=nologo-",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 48,
+            "flags": 0,
+            "matching": "C",
+            "name": "nologo",
+            "value": null,
+            "origin": {
+              "ref": 47
+            }
+          },
+          {
+            "id": 49,
+            "flags": 0,
+            "matching": "D",
+            "name": "Bt",
+            "value": null,
+            "origin": {
+              "id": 50,
+              "flags": 0,
+              "matching": null,
+              "name": "Bt",
+              "value": null,
+              "origin": {
+                "rule": {
+                  "index": 74,
+                  "pattern": "Bt",
+                  "add": "D=*",
+                  "conflict": null,
+                  "replace": null,
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 51,
+            "flags": 0,
+            "matching": "D",
+            "name": "Fe",
+            "value": "test.exe",
+            "origin": {
+              "id": 52,
+              "flags": 0,
+              "matching": null,
+              "name": "Fe",
+              "value": "test.exe",
+              "origin": {
+                "rule": {
+                  "index": 87,
+                  "pattern": "Fe:#",
+                  "add": "D=Fe:(*|%b)<%X,C=out\\:!(*|%b)<%X",
+                  "conflict": null,
+                  "replace": "=Fe:?,=out\\::?",
+                  "extra": null
+                }
+              }
+            }
+          },
+          {
+            "id": 53,
+            "flags": 4,
+            "matching": "C",
+            "name": "out:",
+            "value": "test.exe",
+            "origin": {
+              "ref": 52
+            }
+          },
+          {
+            "id": 54,
+            "flags": 8,
+            "matching": "C",
+            "name": "/ENTRY:main",
+            "value": null,
+            "origin": null
+          },
+          {
+            "id": 55,
+            "flags": 8,
+            "matching": "C",
+            "name": "/SUBSYSTEM:CONSOLE",
+            "value": null,
+            "origin": null
+          },
+          {
+            "id": 56,
+            "flags": 8,
+            "matching": "C",
+            "name": "/NODEFAULTLIB",
+            "value": null,
+            "origin": null
+          }
+        ],
+        "other_options": [
+          {
+            "ref": 2
+          },
+          {
+            "ref": 4
+          },
+          {
+            "ref": 6
+          },
+          {
+            "ref": 8
+          },
+          {
+            "ref": 11
+          },
+          {
+            "ref": 13
+          },
+          {
+            "ref": 16
+          },
+          {
+            "ref": 20
+          },
+          {
+            "ref": 23
+          },
+          {
+            "ref": 25
+          },
+          {
+            "ref": 27
+          },
+          {
+            "ref": 29
+          },
+          {
+            "ref": 31
+          },
+          {
+            "ref": 33
+          },
+          {
+            "id": 57,
+            "flags": 17,
+            "matching": null,
+            "name": "Fe",
+            "value": "%b.%X",
+            "origin": {
+              "rule": {
+                "index": 87,
+                "pattern": "Fe:#",
+                "add": "D=Fe:(*|%b)<%X,C=out\\:!(*|%b)<%X",
+                "conflict": null,
+                "replace": "=Fe:?,=out\\::?",
+                "extra": null
+              }
+            }
+          },
+          {
+            "ref": 36
+          },
+          {
+            "ref": 38
+          },
+          {
+            "ref": 40
+          },
+          {
+            "id": 58,
+            "flags": 1,
+            "matching": null,
+            "name": "Zn",
+            "value": null,
+            "origin": {
+              "rule": {
+                "index": 171,
+                "pattern": "Zn",
+                "add": "1PM=*",
+                "conflict": null,
+                "replace": null,
+                "extra": "=FR:?,=Fr:?"
+              }
+            }
+          },
+          {
+            "id": 59,
+            "flags": 1,
+            "matching": null,
+            "name": "EHc",
+            "value": null,
+            "origin": {
+              "rule": {
+                "index": 10,
+                "pattern": "EHc",
+                "add": "PM=*",
+                "conflict": null,
+                "replace": "=EHc-",
+                "extra": "=EHa,=EHs,=GX"
+              }
+            }
+          },
+          {
+            "ref": 43
+          },
+          {
+            "ref": 47
+          },
+          {
+            "ref": 50
+          },
+          {
+            "ref": 52
+          }
+        ],
+        "current_pass": {
+          "index": 4
+        },
+        "inputs": [
+          {
+            "id": 1,
+            "name": "test.obj",
+            "kind": 3,
+            "explicit_kind": 0,
+            "sequence": -1
+          }
+        ],
+        "current_jobs": [],
+        "current_input": [
+          {
+            "ref": 1
+          }
+        ],
+        "temporary": ".\\a00648",
+        "include_path": "R:\\toolchains\\5.10\\include",
+        "directory": "S:\\vc5.10\\cl\\start-timer-1-original\\"
+      },
+      "unrecognized_options": [],
+      "source_language": null,
+      "format_buffer": "test.obj\n"
+    },
+    "compiler_passes": [
+      {
+        "name": null,
+        "path": null,
+        "environment": null,
+        "prefix": "D-",
+        "flags": 1,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "c1",
+        "path": null,
+        "environment": "MSC_CMD_FLAGS=",
+        "prefix": "1-",
+        "flags": 1,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "c1xx",
+        "path": null,
+        "environment": "MSC_CMD_FLAGS=",
+        "prefix": "P-",
+        "flags": 1,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "c2",
+        "path": null,
+        "environment": "MSC_CMD_FLAGS=",
+        "prefix": "2-",
+        "flags": 1,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      },
+      {
+        "name": "S:\\vc5.10\\cl\\start-timer-1-original\\link.exe",
+        "path": null,
+        "environment": null,
+        "prefix": "C/",
+        "flags": 11,
+        "module": null,
+        "invoke": null,
+        "abort": null,
+        "options": null
+      }
+    ],
+    "clock_response": {
+      "case": "link-timing",
+      "child": {
+        "argv": [
+          "S:\\vc5.10\\cl\\start-timer-1-original\\link.exe",
+          "-link",
+          "@.\\a00648lk"
+        ],
+        "cwd": "S:\\vc5.10\\cl\\start-timer-1-original\\",
+        "environment": [
+          "TMUX=/tmp/tmux-0/default,230,0",
+          "CODEX_CI=1",
+          "USER=root",
+          "SSH_CLIENT=127.0.0.1 38608 22",
+          "SHLVL=3",
+          "MOTD_SHOWN=pam",
+          "OLDPWD=/root/msvc",
+          "TERM_PROGRAM_VERSION=3.5a",
+          "SSH_TTY=/dev/pts/1",
+          "INCLUDE=R:\\toolchains\\5.10\\include",
+          "PAGER=cat",
+          "LC_CTYPE=C.UTF-8",
+          "NO_COLOR=1",
+          "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus",
+          "COLORTERM=",
+          "CODEX_PERMISSION_PROFILE=:danger-full-access",
+          "LOGNAME=root",
+          "_=/usr/bin/python3",
+          "WINEPREFIX=/root/.ai-tmp/vc1.0-capture/wine",
+          "XDG_SESSION_CLASS=user",
+          "TERM=dumb",
+          "XDG_SESSION_ID=c1",
+          "CODEX_VERSION=0.160.0",
+          "CODEX_SESSION_ID=01a1602d-9ac4-7392-9901-9b69cb8ca3a5",
+          "XDG_RUNTIME_DIR=/run/user/0",
+          "LANG=C.UTF-8",
+          "GH_PAGER=cat",
+          "TERM_PROGRAM=tmux",
+          "SHELL=/bin/bash",
+          "LIB=R:\\toolchains\\5.10\\lib",
+          "CODEX_THREAD_ID=01a16811-d8be-7191-bcda-9aa46f6305f2",
+          "WINEDEBUG=-all",
+          "GIT_PAGER=cat",
+          "LC_ALL=C.UTF-8",
+          "CODEX_MANAGED_PACKAGE_ROOT=/usr/local/lib/node_modules/@openai/codex",
+          "SSH_CONNECTION=127.0.0.1 42936 127.0.0.1 22",
+          "WINEARCH=win32",
+          "CODEX_MANAGED_BY_NPM=1",
+          "TMUX_PANE=%64",
+          "ComSpec=C:\\windows\\system32\\cmd.exe",
+          "NUMBER_OF_PROCESSORS=48",
+          "OS=Windows_NT",
+          "PATH=R:\\toolchains\\5.10\\bin;C:\\windows\\system32;C:\\windows;C:\\windows\\system32\\wbem;C:\\windows\\system32\\WindowsPowershell\\v1.0",
+          "PATHEXT=.com;.exe;.bat;.cmd;.vbs;.vbe;.js;.jse;.wsf;.wsh",
+          "PROCESSOR_ARCHITECTURE=x86",
+          "PROCESSOR_IDENTIFIER=x86 Family 6 Model 62 Stepping 4, GenuineIntel",
+          "PROCESSOR_LEVEL=6",
+          "PROCESSOR_REVISION=3e04",
+          "windir=C:\\windows",
+          "winsysdir=C:\\windows\\system32",
+          "TEMP=.",
+          "TMP=.",
+          "APPDATA=C:\\users\\root\\AppData\\Roaming",
+          "CLIENTNAME=Console",
+          "HOMEDRIVE=C:",
+          "HOMEPATH=\\users\\root",
+          "LOCALAPPDATA=C:\\users\\root\\AppData\\Local",
+          "LOGONSERVER=\\\\USR-SCBETA",
+          "SESSIONNAME=Console",
+          "USERDOMAIN=USR-SCBETA",
+          "USERNAME=root",
+          "USERPROFILE=C:\\users\\root",
+          "ALLUSERSPROFILE=C:\\ProgramData",
+          "ProgramData=C:\\ProgramData",
+          "PUBLIC=C:\\users\\Public",
+          "ProgramFiles=C:\\Program Files",
+          "CommonProgramFiles=C:\\Program Files\\Common Files",
+          "COMPUTERNAME=USR-SCBETA",
+          "WINEDATADIR=\\??\\Z:\\usr\\share\\wine",
+          "WINEHOMEDIR=\\??\\Z:\\root",
+          "WINECONFIGDIR=\\??\\Z:\\root\\.ai-tmp\\vc1.0-capture\\wine",
+          "WINEDLLDIR0=\\??\\Z:\\usr\\lib\\i386-linux-gnu\\wine",
+          "WINELOADER=/usr/lib/wine/wine",
+          "WINEUSERNAME=root",
+          "WINEDLLOVERRIDES=msvcrt=n",
+          "WINEUSERLOCALE=C",
+          "SystemDrive=C:",
+          "SystemRoot=C:\\windows"
+        ],
+        "environment_source": "target-os",
+        "inputs": {
+          "a00648lk": {
+            "bytes": 82,
+            "sha256": "0787cfbbe0cf2084ef62258e3571b34b73b00b5f6c598f761019046fde0b471f"
+          },
+          "test.obj": {
+            "bytes": 275,
+            "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+          }
+        },
+        "linker_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+        "mode": 0,
+        "output": {
+          "bytes": 1024,
+          "name": "test.exe",
+          "sha256": "ef18393c00ce8bf1a7672b82e5f2e1b9b5e538c430adbb51e6bda44fe1af924d"
+        },
+        "path": "S:\\vc5.10\\cl\\start-timer-1-original\\link.exe",
+        "provider_inputs": {
+          "MSPDB50.DLL": {
+            "bytes": 167424,
+            "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+          },
+          "MSVCRT.DLL": {
+            "bytes": 277776,
+            "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+          }
+        },
+        "status": 0,
+        "stderr_hex": "",
+        "stdout_hex": ""
+      },
+      "parent_errors": {
+        "spawn-after": {
+          "doserrno": 0,
+          "errno": 0,
+          "last_error": 0
+        },
+        "spawn-before": {
+          "doserrno": 2,
+          "errno": 0,
+          "last_error": 0
+        }
+      },
+      "clock_input": "2026-10-24T00:34:44.594/0",
+      "clock_calls": [
+        {
+          "input": {
+            "dstflag": 0,
+            "millitm": 0,
+            "padding_hex": "0000",
+            "raw_hex": "000000000000000000000000",
+            "time": 0,
+            "timezone": 0
+          },
+          "output": {
+            "dstflag": 0,
+            "millitm": 594,
+            "padding_hex": "0000",
+            "raw_hex": "24fddb6a5202000000000000",
+            "time": 1792802084,
+            "timezone": 0
+          },
+          "before": {
+            "doserrno": 2,
+            "errno": 0,
+            "last_error": 0
+          },
+          "after": {
+            "doserrno": 2,
+            "errno": 0,
+            "last_error": 0
+          },
+          "CW": 639,
+          "live_FP_preserved": true
+        }
+      ],
+      "exact_clock_calls": 1,
+      "timezone_names_matched": false,
+      "FP_scope": {
+        "architectural_fields_matched": [
+          "CW",
+          "status",
+          "tag",
+          "all eight 80-bit registers",
+          "FIP",
+          "FDP",
+          "opcode"
+        ],
+        "selector_pair": {
+          "original": [
+            35,
+            43
+          ],
+          "native": [
+            0,
+            0
+          ]
+        },
+        "selector_premise": "Both saved pointers zero, status zero, all tags empty and register bytes zero; selectors unconsumed and do not escape. Full within-process FP preservation remains strict."
+      },
+      "CRT_OS_FILE_stream_ownership_unchanged": true,
+      "unlink_calls": 0,
+      "output_sha256": "ef18393c00ce8bf1a7672b82e5f2e1b9b5e538c430adbb51e6bda44fe1af924d"
+    },
+    "compiler_inputs": {
+      "case": "link-timing",
+      "role": "Inert exact original linker dependency input; native execution forbidden.",
+      "files": [
+        {
+          "name": "LINK.EXE",
+          "source": "toolchains/5.10/bin/LINK.EXE",
+          "bytes": 464896,
+          "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+        }
+      ]
+    },
+    "case_inputs": {
+      "case": "link-timing",
+      "arguments": [
+        "/nologo",
+        "/Bt",
+        "/Fetest.exe",
+        "test.obj",
+        "/link",
+        "/ENTRY:main",
+        "/SUBSYSTEM:CONSOLE",
+        "/NODEFAULTLIB"
+      ],
+      "inputs": [
+        {
+          "name": "test.obj",
+          "source": "cases/minimal-c/reference/test.obj",
+          "bytes": 275,
+          "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+        }
+      ]
+    },
+    "main_entry_errors": {
+      "errno": 0,
+      "doserrno": 0,
+      "last_error": 0,
+      "x87_control_word": 639
+    },
+    "streams": {
+      "entry": {
+        "crt": [
+          {
+            "type": 2,
+            "role": "stdin",
+            "position": null
+          },
+          {
+            "type": 1,
+            "role": "stdout",
+            "position": 0
+          },
+          {
+            "type": 1,
+            "role": "stderr",
+            "position": 0
+          }
+        ],
+        "win32": [
+          {
+            "type": 2,
+            "role": "stdin",
+            "position": null
+          },
+          {
+            "type": 1,
+            "role": "stdout",
+            "position": 0
+          },
+          {
+            "type": 1,
+            "role": "stderr",
+            "position": 0
+          }
+        ],
+        "crt_win32_slot_alias": [
+          true,
+          true,
+          true
+        ],
+        "osfile": [
+          193,
+          129,
+          129
+        ],
+        "files": [
+          {
+            "count": 0,
+            "flags": 257,
+            "descriptor": 0,
+            "character_buffer": 0,
+            "buffer_size": 4096,
+            "buffer": {
+              "present": true,
+              "position": 0,
+              "capacity": 4096,
+              "live_bytes": ""
+            },
+            "temporary": null
+          },
+          {
+            "count": 0,
+            "flags": 2,
+            "descriptor": 1,
+            "character_buffer": 0,
+            "buffer_size": 0,
+            "buffer": null,
+            "temporary": null
+          },
+          {
+            "count": 0,
+            "flags": 2,
+            "descriptor": 2,
+            "character_buffer": 0,
+            "buffer_size": 0,
+            "buffer": null,
+            "temporary": null
+          }
+        ],
+        "errors": {
+          "errno": 0,
+          "doserrno": 0,
+          "last_error": 0,
+          "x87_control_word": 639
+        }
+      },
+      "frontier": {
+        "crt": [
+          {
+            "type": 2,
+            "role": "stdin",
+            "position": null
+          },
+          {
+            "type": 1,
+            "role": "stdout",
+            "position": 0
+          },
+          {
+            "type": 1,
+            "role": "stdout",
+            "position": 0
+          }
+        ],
+        "win32": [
+          {
+            "type": 2,
+            "role": "stdin",
+            "position": null
+          },
+          {
+            "type": 1,
+            "role": "stdout",
+            "position": 0
+          },
+          {
+            "type": 1,
+            "role": "stdout",
+            "position": 0
+          }
+        ],
+        "crt_win32_slot_alias": [
+          true,
+          true,
+          true
+        ],
+        "osfile": [
+          193,
+          129,
+          129
+        ],
+        "files": [
+          {
+            "count": 0,
+            "flags": 257,
+            "descriptor": 0,
+            "character_buffer": 0,
+            "buffer_size": 4096,
+            "buffer": {
+              "present": true,
+              "position": 0,
+              "capacity": 4096,
+              "live_bytes": ""
+            },
+            "temporary": null
+          },
+          {
+            "count": 0,
+            "flags": 2,
+            "descriptor": 1,
+            "character_buffer": 0,
+            "buffer_size": 0,
+            "buffer": null,
+            "temporary": null
+          },
+          {
+            "count": 0,
+            "flags": 2,
+            "descriptor": 2,
+            "character_buffer": 0,
+            "buffer_size": 0,
+            "buffer": null,
+            "temporary": null
+          }
+        ],
+        "errors": {
+          "errno": 0,
+          "doserrno": 0,
+          "last_error": 0,
+          "x87_control_word": 639
+        }
+      }
+    },
+    "external_mre_calls": 0,
+    "temporary_name_boundary": {
+      "entry": {
+        "errno": 0,
+        "doserrno": 0,
+        "last_error": 0,
+        "x87_control_word": 639
+      },
+      "calls": [
+        {
+          "template": ".\\XXXXXX",
+          "result": ".\\a00648",
+          "result_alias": true,
+          "before": {
+            "errno": 0,
+            "doserrno": 0,
+            "last_error": 0
+          },
+          "after": {
+            "errno": 0,
+            "doserrno": 2,
+            "last_error": 2
+          }
+        }
+      ]
+    }
+  },
+  "decoder_sha256": "57cf28120dcb36d63bbd703a12328ca6e46349205f7ad0b73ffd718fad3883bb",
+  "raw_inputs": {
+    "frontier-memory.json": "e4464cc0689a3c88b9023894fd1124dc04529bfbf45c2e03093313b6a94a93da",
+    "debugger.txt": "7f3f678e5c130ed82f3487ce068a52a087f705a7a0baf4166eea080d5ee746fa",
+    "gdb-capture.py": "8dbe6036fb52b6dbf97196e85182cf4fdd564050613c866ccec189b47d8deb89",
+    "gdb_capture.py": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97",
+    "frontier_state.py": "57cf28120dcb36d63bbd703a12328ca6e46349205f7ad0b73ffd718fad3883bb",
+    "clock-native.json": "a646f0f06847ae8a9493c7b8189bc0edc2071369881a64826ce4b23f851f4204",
+    "clock-response.json": "0fb1c3fa8176e4f5df5c38ad30f11b1a27d8d69a8fb73f60b85264fc6f9307dd",
+    "clock-host-inputs.json": "bfc23ef27f29c0d746b0c8ff7a1f7c2859f195e864cb87c0c45a028bd27ac382",
+    "link-response.json": "0fb1c3fa8176e4f5df5c38ad30f11b1a27d8d69a8fb73f60b85264fc6f9307dd",
+    "link-binding.bin": "06498679156612d22b85a6435f26d1f96df29c87d06afeec46abf0a79746c8f6",
+    "gdb_clock.py": "604b6689564beece849e68fe64300612f093b47d0641da84b340c01e65306503",
+    "gdb_link.py": "99ceb2cd8797e8317343bee82ab4958e558e6ac8ccc3afd8d2105961a7e3080d",
+    "clock_provider.py": "a57759a138daf998ddefddff8c6c733357d716c238a8d90238d2b5c5a73b1c07",
+    "clock_packet.py": "d36d8a99ef191b8e0fd95056c537e82d06dd783fc91b7a155c1127073f12941f",
+    "clock_state.py": "55607e06f6bf9065afe99462df42a722e735dd9542d35c6042001abb22b0616e",
+    "link_provider.py": "60fd36cb57bb999a4fd7b6c22cfea84abf9185766c68caaee18e781006ca0739",
+    "link_response.py": "16316d67446ad68e293a072b67214d8e8fb6ab27cc821ac18ee09470d57bebec",
+    "link_state.py": "162cf75f1f5794104a2045a3856efd720f01add14f1ce98383dab417ca174e5f",
+    "spawn_reader.py": "1291d343a241e08970d399145196be11a983254b509b3422615895deffda43b4",
+    "native-clock-gdb.json": "82f6d20690a53664b0bf4c21d985a02b0eef4bb7bc9bf910e2dc9d9b2d55e39d",
+    "test.exe": "ef18393c00ce8bf1a7672b82e5f2e1b9b5e538c430adbb51e6bda44fe1af924d",
+    "native-link-after-gdb.json": "7b81544482cd95dab49508533585a75a033b81fdbdf46485cead32d6b86e8921",
+    "native-link-before-gdb.json": "d65fd45a127695fb23bf49bf74df2ec87d77ee48701f046a42160f992030e11a",
+    "streams-link-after-iob.bin": "4e711d24d07166eb1db211a6194f15df3421b711ac67f36b6aca551e0ea326a9",
+    "streams-link-before.json": "9e41db876f559f5b8d3d3b8756665c883beecfb31169b55b326bf689fc7a40e6",
+    "streams-link-before-iob.bin": "4e711d24d07166eb1db211a6194f15df3421b711ac67f36b6aca551e0ea326a9",
+    "streams-link-after.json": "a09b0020b91fc2fea8df03fea8f75641efa48f5d709cf82a3ef8fd5aa44508dd",
+    "streams-frontier.json": "a09b0020b91fc2fea8df03fea8f75641efa48f5d709cf82a3ef8fd5aa44508dd",
+    "streams-frontier-iob.bin": "4e711d24d07166eb1db211a6194f15df3421b711ac67f36b6aca551e0ea326a9",
+    "dependency-inputs.json": "ae5b183a14ac0e3438a8d47765d21b31c754f0ede99a0cb26bc4ffb89021ad0a",
+    "LINK.EXE": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+    "case-inputs.json": "da47ccda0ade754aeb27e89021429256194ce2fd23eac16249b46baf82fce424",
+    "test.obj": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e",
+    "native-entry-errors.json": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c",
+    "gdb_entry.py": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb",
+    "gdb-entry.py": "d15f11d788ad305badb5b2d3aef41db4ef433df8ce2fea2ec8f324ef0c75cea6",
+    "native-process.json": "ef3b5c1cc641a87d89584b6a0a6c1fa8eb4cfcf537bd4387ca9a2a3fcf974256",
+    "entry-profile.json": "45308e78c79af8062605c1fe1490254d800750b0537a38ac499c498aea814e3d",
+    "streams-entry.json": "8d7bf97f49297b18215d9b931ea23b49bb38f968e646b55f15a7e7b7e5f5c054",
+    "streams-entry-iob.bin": "4e711d24d07166eb1db211a6194f15df3421b711ac67f36b6aca551e0ea326a9",
+    "gdb_streams.py": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5",
+    "mktemp-expected.json": "a2084d87c9addb9d2621340d90ba56d84f63cb7e57fc2c7f6da45ea50d829e16",
+    "mktemp-receipt.bin": "acf626f997b98941c5d689e883bf4ea4a72ff48f4f97f2dd520fb444f88fb400",
+    "mktemp_reader.py": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570",
+    "native-mktemp-gdb.json": "1b85c5bd6e26ce15cc05bd4a900644333f7dee468a24fb76973220ca44927800",
+    "native-build.json": "be79d4759ac04443ede15c3a3d6b901a8577acbed989701f285bb889a693c4a5",
+    "gdb_mktemp.py": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+  },
+  "wrapper_decoder_sha256": "54c472db8acccc92f359ee50e47c1ab3cc2062925ad0f3ca9e47b76a26050b68",
+  "clock_decoder_hashes": {
+    "clock_provider.py": "d4e64db0d88659305002115c8761b1a6767e80b49212e7cc3bd1e918b9eecd59",
+    "clock_packet.py": "d36d8a99ef191b8e0fd95056c537e82d06dd783fc91b7a155c1127073f12941f",
+    "clock_state.py": "62169ce3555ce7c78ba032388565c8714d5d1c61ad24632209ba8125b03721f2",
+    "link_response.py": "16316d67446ad68e293a072b67214d8e8fb6ab27cc821ac18ee09470d57bebec",
+    "link_state.py": "162cf75f1f5794104a2045a3856efd720f01add14f1ce98383dab417ca174e5f"
+  },
+  "stream_decoder_sha256": "5c7c2c39f50ae2c974bf397f764d534778a52da76b85dc56a5456df9709fec4f",
+  "boundary_decoder_sha256": "815946f2ff07b4d19236b83a9774d1c58f3bc2fd7fe1505e6ba3bc7720457cd0"
+}

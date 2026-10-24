@@ -9,7 +9,7 @@ def install(directory):
     if not(directory/'clock-response.json').exists():return
     inferior=gdb.selected_inferior
     def value(expression):return int(gdb.parse_and_eval(expression))&0xffffffff
-    def observe(pointer):
+    def observe(pointer,index):
         process=inferior();ranges=[]
         def read(address,length):
             raw=bytes(process.read_memory(address,length))
@@ -18,6 +18,7 @@ def install(directory):
             'errno':'errno','doserrno':'recon_doserrno','last_error':'last_error',
             'counter':'local_clock_calls','timezone':'recon_timezone',
             'daylight':'recon_daylight','started':'timer_started'}.items()}
+        if index==2:symbols['stopped']=value('(unsigned)&timer_stopped')
         buffer=read(pointer,12)
         words={name:struct.unpack('<I',read(symbols[name],4))[0]
             for name in('errno','doserrno','last_error','timezone','daylight')}
@@ -38,7 +39,7 @@ def install(directory):
         def __init__(self,frame,record,pointer):
             super().__init__(frame,internal=True);self.record=record;self.pointer=pointer
         def stop(self):
-            self.record['after']=observe(self.pointer);save();return False
+            self.record['after']=observe(self.pointer,self.record['sequence']);save();return False
     class Entry(gdb.Breakpoint):
         def stop(self):
             frame=gdb.newest_frame();index=len(calls)
@@ -49,6 +50,6 @@ def install(directory):
             raw=bytes(inferior().read_memory(slot,4))
             assert struct.unpack('<I',raw)[0]==pointer
             record={'sequence':index+1,'caller':caller.name(),'argument_slot':slot,
-                'argument_slot_hex':raw.hex(),'before':observe(pointer)}
+                'argument_slot_hex':raw.hex(),'before':observe(pointer,index+1)}
             calls.append(record);save();Return(frame,record,pointer);return False
     Entry('recon_ftime',internal=True)

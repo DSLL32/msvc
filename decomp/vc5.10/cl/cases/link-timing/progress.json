@@ -1,0 +1,17 @@
+{
+  "status": "start_timer accepted to genuine stop_timer frontier; timing case incomplete",
+  "application_credit": 13,
+  "analysis_manifest": {
+    "path": "analysis/manifest.json",
+    "sha256": "218337956545382ac04e7a756b4e8f98a4c0b32ce29be6864e1564818f96032b"
+  },
+  "parent_review": {
+    "path": "start-timer-parent-review.json",
+    "sha256": "1e70ba183d573b74015f4d889044e5f9a8260242a3693ea4515b13ab90a2993a"
+  },
+  "original_capture_seconds": 1.915163,
+  "native_and_original_build": "passed",
+  "trial_audit_seconds": 0.6610008105635643,
+  "fresh_acceptance": "Approved own masked original + native typed clock/child/FP/state proof; one clock call, no normal completion claim",
+  "accepted_function": "start_timer"
+}

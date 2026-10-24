@@ -16,9 +16,14 @@ PHASES=('spawn-before','spawn-after','exit-before')
 digest=lambda data:hashlib.sha256(data).hexdigest()
 
 
-def decode(directory,clock_analysis=False):
+def decode(directory,clock_analysis=False,clock_response=False):
     directory=Path(directory);capture=json.loads((directory/'capture.json').read_bytes())
-    if clock_analysis:
+    assert not(clock_analysis and clock_response),'ambiguous clock evidence family'
+    timing=clock_analysis or clock_response
+    if clock_response:
+        assert capture.get('clock_response')is True and capture['baseline']is False and capture['case']=='link-timing'
+        assert not capture.get('link_response')and not capture.get('clock_analysis')
+    elif clock_analysis:
         assert capture.get('clock_analysis')is True and capture['baseline']is True and capture['case']=='link-timing'
         assert not capture.get('link_response')
     else:
@@ -33,8 +38,11 @@ def decode(directory,clock_analysis=False):
         raw=path.read_bytes();assert capture['files'][name]=={'bytes':len(raw),'sha256':digest(raw)},'changed LINK evidence: '+name
         return raw
     for name in capture['files']:read(name)
-    assert read('dependency-observer.txt')==(b'CL_LINK_CLOCK_ANALYSIS_V1\n'if clock_analysis else b'CL_LINK_RESPONSE_V1\n')
+    assert read('dependency-observer.txt')==(b'CL_LINK_CLOCK_RESPONSE_V1\n'if clock_response else b'CL_LINK_CLOCK_ANALYSIS_V1\n'if clock_analysis else b'CL_LINK_RESPONSE_V1\n')
     config=json.loads(read('config.json'));assert digest(read('config.json'))==capture['config_sha256']
+    completed=not clock_response or '_stop_timer'in config['accepted']
+    phase_names=PHASES if completed else PHASES[:2]
+    if clock_response:assert {'_start_timer','_link_pass','_execute_pass'}<=set(config['accepted'])
     image=(PROJECT_ORIGINAL.read_bytes()if clock_analysis else construct(config))
     assert digest(image)==capture['original_mask_sha256']==digest(read('CL.EXE'))==digest(read('loaded-target.bin'))
     assert capture['target_sha256']==config['target']['sha256']=='aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd'
@@ -46,7 +54,7 @@ def decode(directory,clock_analysis=False):
     assert b'if (strcmp(executable,argument)) ExitProcess(107);'in helper
     assert b'save_file(image,"observer\\\\spawn-executable.bin")'in helper
     assert b'dependency_link_paths(response,sizeof(response),destination,sizeof(destination))'in helper
-    case=load_case('link-timing'if clock_analysis else'link-object');assert all(capture[k]==case[k]for k in ('case','arguments','inputs'))
+    case=load_case('link-timing'if timing else'link-object');assert all(capture[k]==case[k]for k in ('case','arguments','inputs'))
     for item in case['inputs']:assert capture['files'][item['name']]=={k:item[k]for k in ('bytes','sha256')}
     dependency=verify_dependencies(directory);assert len(dependency['files'])==1 and dependency['files'][0]['name']=='LINK.EXE'
     linker_sha=dependency['files'][0]['sha256'];assert digest(read('LINK.EXE'))==digest(read('observer/spawn-executable.bin'))==linker_sha
@@ -54,16 +62,21 @@ def decode(directory,clock_analysis=False):
     assert digest(read('MSPDB50.DLL'))==digest(read('loaded-mspdb50.bin'))=='cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33'
 
     events=read('observer/events.txt').decode('ascii');target_events=read('events.txt').decode('ascii')
-    assert re.findall(r'^snapshot phase=(\S+)',events,re.M)==list(PHASES),'unexpected full-snapshot inventory'
-    assert re.findall(r'^exit .*status=(\d+)$',target_events,re.M)==['0']
-    assert not re.search(r'^trap |^exception ',target_events,re.M)
+    assert re.findall(r'^snapshot phase=(\S+)',events,re.M)==list(phase_names),'unexpected full-snapshot inventory'
+    assert re.findall(r'^exit .*status=(\d+)$',target_events,re.M)==(['0']if completed else['28673'])
+    if completed:assert not re.search(r'^trap |^exception ',target_events,re.M)
+    else:
+        assert re.findall(r'^trap .*address=([0-9a-f]{8}) ',target_events,re.M)==['0040540a']
+        assert not re.search(r'^exception ',target_events,re.M)
     assert events.count('observed-child family=link result=00000000 putenv_calls=0\n')==1
     assert 'analysis-c2-completed'not in events and 'invoke-call'not in events and 'c1-load'not in events
-    errors=original_states(directory,PHASES,'observer/events.txt');phases={};contexts={}
-    for phase in PHASES:phases[phase],contexts[phase]=phase_snapshot(directory,read,phase,errors[phase])
-    before,after,terminal=[phases[name]for name in PHASES]
-    assert before['event']<after['event']<terminal['event']
-    assert errors=={'spawn-before':{'errno':0,'doserrno':2,'last_error':0},'spawn-after':{'errno':0,'doserrno':0,'last_error':0},'exit-before':{'errno':0,'doserrno':0,'last_error':0}}
+    errors=original_states(directory,phase_names,'observer/events.txt');phases={};contexts={}
+    for phase in phase_names:phases[phase],contexts[phase]=phase_snapshot(directory,read,phase,errors[phase])
+    before,after=[phases[name]for name in phase_names[:2]]
+    terminal=phases['exit-before']if completed else after
+    assert before['event']<after['event'] and (not completed or after['event']<terminal['event'])
+    expected_errors={'spawn-before':{'errno':0,'doserrno':2,'last_error':0},'spawn-after':{'errno':0,'doserrno':0,'last_error':0},'exit-before':{'errno':0,'doserrno':0,'last_error':0}}
+    assert errors=={name:expected_errors[name]for name in phase_names}
     for phase,item in phases.items():
         assert (item['fmode'],item['commode'],item['mb_cur_max'],item['mb_codepage'],item['lc_codepage'],item['lc_handles'],item['x87_control_word'])==(0,0,1,0,0,[0]*6,639)
         assert item['pass_address']==0x4090a8+4*36 and item['pass_words'][2:]==[0,0x2f43,11,0,0,0,0]
@@ -73,7 +86,7 @@ def decode(directory,clock_analysis=False):
         assert execution==(0,item['pass_address'],0 if phase=='exit-before'else 1,0x4095d8,item['pass_address'])
         for field in ('cwd','image','command','pctype_address','mb_state_sha256','ctype_sha256','crt_environment_count','crt_environment_sha256','os_environment_sha256','file0_2_words'):
             assert item[field]==before[field],'unexpected LINK parent effect: '+field
-        if not clock_analysis or phase!='exit-before':
+        if not timing or phase!='exit-before':
             assert item['streams']==before['streams']
             assert item['open_descriptors']==before['open_descriptors']
         else:
@@ -104,7 +117,7 @@ def decode(directory,clock_analysis=False):
     assert read('observer/link-output/test.exe')==read('test.exe') and len(read('test.exe'))==1024
     assert response_name in before['directory'] and 'test.exe'not in before['directory']
     assert after['directory']['test.exe']['bytes']==1024 and after['directory'][response_name]==before['directory'][response_name]
-    assert response_name not in terminal['directory'] and terminal['directory']['test.exe']==after['directory']['test.exe']
+    assert (response_name not in terminal['directory'])is completed and terminal['directory']['test.exe']==after['directory']['test.exe']
     # The debugger writes these exact bounded transport records in the same
     # working directory. Retain their full raw metadata, but do not replay them
     # as target outputs. Every other directory entry participates in the delta.
@@ -112,43 +125,47 @@ def decode(directory,clock_analysis=False):
     def target_directory(item):
         result={}
         for name,metadata in item['directory'].items():
-            if observer_name.fullmatch(name)or(clock_analysis and re.fullmatch(r'mktemp-clock-[12]-(?:before|after)-(?:ptd|teb|tls-index)\.bin',name)):read(name)
+            if observer_name.fullmatch(name)or(timing and re.fullmatch(r'mktemp-clock-[12]-(?:before|after)-(?:ptd|teb|tls-index)\.bin',name)):read(name)
             else:result[name]=metadata
         return result
     before_files,after_files,terminal_files=[target_directory(item)for item in (before,after,terminal)]
     assert {name:item for name,item in before_files.items()if name!=response_name}=={name:item for name,item in after_files.items()if name not in (response_name,'test.exe')}
-    if clock_analysis:
+    if timing and completed:
         assert {name:item for name,item in after_files.items()if name not in (response_name,'stdout.bin')}=={name:item for name,item in terminal_files.items()if name!='stdout.bin'}
         assert after_files['stdout.bin']['bytes']==0 and terminal_files['stdout.bin']['bytes']==len(read('stdout.bin'))
         for field in ('attributes','access_filetime','alternate_name'):
             assert after_files['stdout.bin'][field]==terminal_files['stdout.bin'][field]
         assert read('stderr.bin')==b''
     else:
-        assert {name:item for name,item in after_files.items()if name!=response_name}==terminal_files
+        assert {name:item for name,item in after_files.items()if not completed or name!=response_name}==terminal_files
         assert read('stdout.bin')==read('stderr.bin')==b''
     unlink=re.findall(r'^unlink-call sequence=(\d+) function=([0-9a-f]{8}) argument=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)
-    assert len(unlink)==1 and unlink[0][0]=='1'
     provider=PE(directory/'loaded-msvcrt.bin')
     from dependency_packet import exports
-    assert int(unlink[0][1],16)==provider.base+exports(provider)['_unlink']['rva']
-    assert read('observer/unlink-1-before-filename.bin')==('.\\'+response_name+'\0').encode('ascii')
-    assert re.findall(r'^unlink-return sequence=1 result=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)==[('00000000',unlink[0][3])]
-    unlink_errors=original_states(directory,['unlink-1-before','unlink-1-after'],'observer/events.txt')
-    assert all(state==errors['spawn-after']for state in unlink_errors.values())
-    assert re.findall(r'^exit-call status=(\d+) function=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)==[('0','%08x'%(provider.base+exports(provider)['exit']['rva']),'%08x'%u32(contexts['exit-before'],196))]
-    assert u32(read('observer/exit-before-stack.bin'),0)==0
+    unlink_errors={}
+    if completed:
+        assert len(unlink)==1 and unlink[0][0]=='1'
+        assert int(unlink[0][1],16)==provider.base+exports(provider)['_unlink']['rva']
+        assert read('observer/unlink-1-before-filename.bin')==('.\\'+response_name+'\0').encode('ascii')
+        assert re.findall(r'^unlink-return sequence=1 result=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)==[('00000000',unlink[0][3])]
+        unlink_errors=original_states(directory,['unlink-1-before','unlink-1-after'],'observer/events.txt')
+        assert all(state==errors['spawn-after']for state in unlink_errors.values())
+        assert re.findall(r'^exit-call status=(\d+) function=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)==[('0','%08x'%(provider.base+exports(provider)['exit']['rva']),'%08x'%u32(contexts['exit-before'],196))]
+        assert u32(read('observer/exit-before-stack.bin'),0)==0
+    else:
+        assert not unlink and not re.search(r'^unlink-return |^exit-call ',events,re.M)
     assert before['cwd'].startswith('S:\\vc5.10\\cl\\') and all(part not in ('','.','..')for part in before['cwd'][3:].rstrip('\\').split('\\'))
     env_address,env=vector(read('observer/spawn-before-crt-environment.bin'))
     os_block=read('observer/spawn-before-os-environment.bin');assert os_block.endswith(b'\0\0\0\0')
     os_strings=os_block.decode('utf-16le')[:-2].split('\0');crt_strings=[text.decode('ascii')for pointer,text in env]
     assert crt_strings==os_strings,'this case requires exact matching CRT/OS contents and order'
     trace=read('trace.txt').decode('ascii').splitlines();assert len(trace)==len(set(trace)) and 'write_link_message'in trace
-    return {'kind':('baseline-only LINK-clock analysis; rejected by acceptance'if clock_analysis else'fresh masked LINK-only external response; acceptance still held'),'case':case['case'],
+    return {'kind':('fresh masked clock/LINK external response; acceptance still held'if clock_response else'baseline-only LINK-clock analysis; rejected by acceptance'if clock_analysis else'fresh masked LINK-only external response; acceptance still held'),'case':case['case'],
         'capture':{'path':str(Path('/root/.ai-tmp/msvc2').joinpath(*before['cwd'][3:].rstrip('\\').split('\\'))/'capture.json'),'sha256':digest((directory/'capture.json').read_bytes())},
         'config_sha256':capture['config_sha256'],'mask_sha256':capture['original_mask_sha256'],
         'child':{'mode':mode,'path':before['argv'][0],'argv':before['argv'],'cwd':before['cwd'],'environment_source':'target-os','environment':os_strings,'linker_sha256':linker_sha,'provider_inputs':{name:capture['files'][name]for name in ('MSVCRT.DLL','MSPDB50.DLL')},
             'inputs':{name:capture['files']['observer/link-input/'+name]for name in ('test.obj',response_name)},'status':0,'stdout_hex':'','stderr_hex':'','output':{'name':'test.exe',**capture['files']['test.exe']}},
-        'parent':{'phases':phases,'CRT_environment':crt_strings,'OS_environment_hex':os_block.hex(),'unlink_calls':1,'unlink_errors':unlink_errors,'status':0,'trace':trace}}
+        'parent':{'phases':phases,'CRT_environment':crt_strings,'OS_environment_hex':os_block.hex(),'unlink_calls':int(completed),'unlink_errors':unlink_errors,'status':0 if completed else None,'trace':trace}}
 
 
 if __name__=='__main__':

@@ -1,0 +1,13 @@
+{
+  "TZ": "UTC",
+  "TZDIR": "/usr/share/zoneinfo",
+  "clock_input": "2026-10-24T00:34:44.594/0",
+  "expected_calls": 1,
+  "response_sha256": "0fb1c3fa8176e4f5df5c38ad30f11b1a27d8d69a8fb73f60b85264fc6f9307dd",
+  "target_TZ": "absent; CRT and OS namespaces remain bound to the original",
+  "zonefile": {
+    "path": "/usr/share/zoneinfo/UTC",
+    "resolved_path": "/usr/share/zoneinfo/Etc/UTC",
+    "sha256": "8b85846791ab2c8a5463c83a5be3c043e2570d7448434d41398969ed47e3e6f2"
+  }
+}

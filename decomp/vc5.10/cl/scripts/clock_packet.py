@@ -1,4 +1,4 @@
-"""Strict baseline-only clock/child observation; never a fresh acceptance oracle."""
+"""Decode distinct baseline analysis or candidate-bound masked clock responses."""
 import datetime
 import hashlib
 import json
@@ -20,15 +20,23 @@ def timeb(raw):
     assert 0<=milliseconds<=999
     return {'time':seconds,'millitm':milliseconds,'timezone':zone,'dstflag':dst,'padding_hex':padding.hex(),'raw_hex':raw.hex()}
 
-def decode(directory):
+def decode(directory,response=False):
     directory=Path(directory);capture=json.loads((directory/'capture.json').read_bytes())
-    assert capture['baseline']is True and capture.get('clock_analysis')is True and not capture.get('link_response')
-    packet=link_response(directory,clock_analysis=True)
+    if response:
+        assert capture['baseline']is False and capture.get('clock_response')is True and not capture.get('clock_analysis')
+    else:assert capture['baseline']is True and capture.get('clock_analysis')is True and not capture.get('clock_response')
+    assert not capture.get('link_response')
+    packet=link_response(directory,clock_analysis=not response,clock_response=response)
+    config=json.loads((directory/'config.json').read_bytes())
+    count=2 if not response or '_stop_timer'in config['accepted']else 1
     def read(name):
         raw=(directory/name).read_bytes();assert capture['files'][name]=={'bytes':len(raw),'sha256':digest(raw)};return raw
-    assert read('clock-observer.txt')==b'CL_CLOCK_OBSERVER_V1\n'
+    assert read('clock-observer.txt')==(b'CL_CLOCK_RESPONSE_V1\n'if response else b'CL_CLOCK_OBSERVER_V1\n')
     helper=read('clock-observer.inc')
-    assert b'!clock_observation_mode(masked,dependency_link_response,dependency_clock_analysis)'in helper
+    if response:
+        assert b'!clock_response_observation_mode(masked,dependency_link_response,'in helper
+        assert b'return masked==1 && link_family==1 && analysis==0 && response==1;'in helper
+    else:assert b'!clock_observation_mode(masked,dependency_link_response,dependency_clock_analysis)'in helper
     assert b'if (clock_calls!=(DWORD)point) ExitProcess(143);'in helper
     assert b'patch_byte(target_base+clock_sites[point],0xcc);'in helper
     target=PE(ROOT/'toolchains/5.10/bin/CL.EXE');provider=PE(directory/'loaded-msvcrt.bin')
@@ -38,12 +46,12 @@ def decode(directory):
     ftime=provider.base+exports(provider)['_ftime']['rva'];assert ftime==0x78002a41
     for address in (0x405402,0x405431):assert target.read(address,6)==b'\xff\x15'+struct.pack('<I',0x40a2a4)
     assert target.data.count(struct.pack('<I',0x40a2a4))==2,'additional target _ftime slot reference'
-    phases=['clock-%d-%s'%(index,when)for index in (1,2)for when in ('before','after')]
+    phases=['clock-%d-%s'%(index,when)for index in range(1,count+1)for when in ('before','after')]
     events=read('observer/clock-events.txt').decode('ascii')
     parsed=re.findall(r'^ftime sequence=(\d) phase=(before|after) call=([0-9a-f]{8}) return=([0-9a-f]{8}) function=([0-9a-f]{8}) argument=([0-9a-f]{8}) esp=([0-9a-f]{8}) event=(\d+)$',events,re.M)
-    assert [(int(row[0]),row[1])for row in parsed]==[(1,'before'),(1,'after'),(2,'before'),(2,'after')]
+    assert [(int(row[0]),row[1])for row in parsed]==[(index,when)for index in range(1,count+1)for when in ('before','after')]
     errors=original_states(directory,phases,'observer/clock-events.txt');records=[];last_event=0;namespace=None;tz_identity=None
-    for index in (1,2):
+    for index in range(1,count+1):
         values={};contexts={}
         for when in ('before','after'):
             phase='clock-%d-%s'%(index,when);row=parsed[(index-1)*2+(when=='after')]
@@ -84,25 +92,37 @@ def decode(directory):
         assert values['after']['timeb']['timezone']==values['after']['timeb']['dstflag']==0
         assert values['after']['timeb']['padding_hex']=='0000'
         records.append(values)
-    first,last=records[0]['after']['timeb'],records[1]['after']['timeb']
-    start=bytes.fromhex(first['raw_hex']);assert read('observer/clock-2-before-started.bin')==read('observer/clock-2-after-started.bin')==start
+    first=records[0]['after']['timeb']
     assert read('observer/clock-1-before-stopped.bin')==read('observer/clock-1-after-stopped.bin')==bytes(12)
-    before,after,terminal=[packet['parent']['phases'][name]['event']for name in ('spawn-before','spawn-after','exit-before')]
-    assert records[0]['after']['event']<before<after<records[1]['before']['event']<records[1]['after']['event']<terminal
-    delta=(last['time']-first['time'])*1000+last['millitm']-first['millitm'];assert 0<=delta<2**31
-    seconds,milliseconds=divmod(delta,1000)
-    output=('time('+packet['child']['path']+')=%d.%03ds\r\n'%(seconds,milliseconds)).encode('ascii')
-    assert read('stdout.bin')==output and read('stderr.bin')==b''
+    before,after=[packet['parent']['phases'][name]['event']for name in ('spawn-before','spawn-after')]
+    assert records[0]['after']['event']<before<after
+    delta=None
+    if count==2:
+        last=records[1]['after']['timeb'];start=bytes.fromhex(first['raw_hex'])
+        assert read('observer/clock-2-before-started.bin')==read('observer/clock-2-after-started.bin')==start
+        terminal=packet['parent']['phases']['exit-before']['event']
+        assert after<records[1]['before']['event']<records[1]['after']['event']<terminal
+        delta=(last['time']-first['time'])*1000+last['millitm']-first['millitm'];assert 0<=delta<2**31
+        seconds,milliseconds=divmod(delta,1000)
+        output=('time('+packet['child']['path']+')=%d.%03ds\r\n'%(seconds,milliseconds)).encode('ascii')
+        assert read('stdout.bin')==output and read('stderr.bin')==b''
+    else:
+        assert not any(name.startswith('observer/clock-2-')for name in capture['files'])
+        assert read('stdout.bin')==read('stderr.bin')==b''
+        from frontier_state import decode as frontier
+        stopped=frontier(directory,'original')['fields']
+        assert stopped['frontier']=='stop_timer'and stopped['parameters']=={'name':packet['child']['path']}
+        assert stopped['timer_started']=={key:first[key]for key in('time','millitm','timezone','dstflag','padding_hex')}
     calendar=datetime.datetime.fromtimestamp(first['time'],datetime.timezone.utc)
-    configuration=calendar.strftime('%Y-%m-%dT%H:%M:%S')+'.%03d/%d'%(first['millitm'],delta)
-    return {'kind':'baseline-only original clock/LINK analysis; never acceptance','capture_sha256':digest((directory/'capture.json').read_bytes()),
+    configuration=calendar.strftime('%Y-%m-%dT%H:%M:%S')+'.%03d/%d'%(first['millitm'],delta if delta is not None else 0)
+    return {'kind':('fresh masked clock/LINK response; acceptance still held'if response else'baseline-only original clock/LINK analysis; never acceptance'),'capture_sha256':digest((directory/'capture.json').read_bytes()),
         'LINK':packet,'clock':{'qualified_import':slots[0x40a2a4],'provider_sha256':CRT_SHA,'function_rva':ftime-provider.base,'calls':records,
-            'clock_input':configuration,'expected_calls':2,'delta_milliseconds':delta,'CRT_environment':namespace,'timezone':tz_identity,
+            'clock_input':configuration,'expected_calls':count,'delta_milliseconds':delta,'CRT_environment':namespace,'timezone':tz_identity,
             'defined_timeb_fields_strict':True,'padding_observed_preserved':True,'native_timezone_names_matched':False,
             'timezone_name_scope':'Original Greenwich names retained; native PST/PDT labels are not matched. CL has no timezone-name/data import and its whole timer/caller bodies consume time/millitm, errors and CW only. No target/host table reseed.'}}
 
 if __name__=='__main__':
     import argparse
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('directory',type=Path);parser.add_argument('--output',type=Path);args=parser.parse_args();payload=json.dumps(decode(args.directory),indent=2)+'\n'
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('directory',type=Path);parser.add_argument('--output',type=Path);parser.add_argument('--response',action='store_true');args=parser.parse_args();payload=json.dumps(decode(args.directory,args.response),indent=2)+'\n'
     if args.output:args.output.write_text(payload)
     else:print(payload,end='')

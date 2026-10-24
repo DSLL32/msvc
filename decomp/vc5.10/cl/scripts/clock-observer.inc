@@ -16,12 +16,22 @@ static int clock_observation_mode(int masked,int link_family,int analysis)
 {
     return masked==0 && link_family==1 && analysis==1;
 }
+static int clock_response_observation_mode(int masked,int link_family,int analysis,int response)
+{
+    return masked==1 && link_family==1 && analysis==0 && response==1;
+}
 static void clock_install(int masked)
 {
     char path[MAX_PATH],line[80];FILE *file;unsigned i;BYTE call[6];
     output_path(path,"clock-observer.txt");file=fopen(path,"rb");if (!file) return;
-    if (!fgets(line,sizeof(line),file) || strcmp(line,"CL_CLOCK_OBSERVER_V1\n") ||
-        fgetc(file)!=EOF || !clock_observation_mode(masked,dependency_link_response,dependency_clock_analysis)) ExitProcess(140);
+    if (!fgets(line,sizeof(line),file) || fgetc(file)!=EOF) ExitProcess(140);
+    if (!strcmp(line,"CL_CLOCK_OBSERVER_V1\n")) {
+        if (!clock_observation_mode(masked,dependency_link_response,dependency_clock_analysis) ||
+            dependency_clock_response) ExitProcess(140);
+    } else if (!strcmp(line,"CL_CLOCK_RESPONSE_V1\n")) {
+        if (!clock_response_observation_mode(masked,dependency_link_response,
+            dependency_clock_analysis,dependency_clock_response)) ExitProcess(140);
+    } else ExitProcess(140);
     fclose(file);output_path(path,"observer\\clock-events.txt");clock_events=fopen(path,"wb");
     if (!clock_events) ExitProcess(141);
     for (i=0;i<2;++i) {

@@ -1,0 +1,302 @@
+ cl
+
+ Timestamp is 6adbff51 (Sat Oct 24 00:44:01 2026)
+
+ Preferred load address is 00400000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00007026H .text                   CODE
+ 0002:00000000 00000140H .idata$5                DATA
+ 0002:00000140 0000002cH .rdata                  DATA
+ 0002:0000016c 00000050H .idata$2                DATA
+ 0002:000001bc 00000014H .idata$3                DATA
+ 0002:000001d0 00000140H .idata$4                DATA
+ 0002:00000310 00000412H .idata$6                DATA
+ 0002:00000722 00000000H .edata                  DATA
+ 0003:00000000 00000004H .CRT$XCA                DATA
+ 0003:00000004 00000004H .CRT$XCZ                DATA
+ 0003:00000008 00000004H .CRT$XIA                DATA
+ 0003:0000000c 00000004H .CRT$XIZ                DATA
+ 0003:00000010 00002a74H .data                   DATA
+ 0003:00002a88 00000e30H .bss                    DATA
+ 0004:00000000 00000238H .rsrc$01                DATA
+ 0004:00000240 000022a8H .rsrc$02                DATA
+
+  Address         Publics by Value              Rva+Base     Lib:Object
+
+ 0001:00000000       _copy_option               00401000 f   arguments.obj
+ 0001:0000003e       _option_conflict           0040103e f   arguments.obj
+ 0001:000000c7       _c_input                   004010c7 f   arguments.obj
+ 0001:000000e5       _cpp_input                 004010e5 f   arguments.obj
+ 0001:00000103       _object_input              00401103 f   arguments.obj
+ 0001:00000121       _link_arguments            00401121 f   arguments.obj
+ 0001:000001c1       _typed_input               004011c1 f   arguments.obj
+ 0001:00000267       _split_arguments           00401267 f   arguments.obj
+ 0001:00000541       _count_arguments           00401541 f   arguments.obj
+ 0001:00000576       _has_nologo                00401576 f   arguments.obj
+ 0001:00000807       _classify_input            00401807 f   arguments.obj
+ 0001:00000899       _add_input                 00401899 f   arguments.obj
+ 0001:00000905       _create_input              00401905 f   arguments.obj
+ 0001:00000953       _parse_arguments           00401953 f   arguments.obj
+ 0001:00000a9d       _find_special              00401a9d f   arguments.obj
+ 0001:00000aef       _has_prefix                00401aef f   arguments.obj
+ 0001:00000b2b       _match_option              00401b2b f   arguments.obj
+ 0001:00000ea1       _skip_space                00401ea1 f   arguments.obj
+ 0001:00000eda       _append_literal            00401eda f   arguments.obj
+ 0001:00000f06       _append_escaped            00401f06 f   arguments.obj
+ 0001:00000fb0       _apply_special             00401fb0 f   arguments.obj
+ 0001:00001151       _apply_extension           00402151 f   arguments.obj
+ 0001:00001284       _find_last_separator       00402284 f   arguments.obj
+ 0001:000012e6       _quoted_length             004022e6 f   arguments.obj
+ 0001:000013c3       _quote_argument            004023c3 f   arguments.obj
+ 0001:00001572       _append_text               00402572 f   arguments.obj
+ 0001:0000159e       _read_response             0040259e f   arguments.obj
+ 0001:000017f0       _install_control_handler   004027f0 f   console.obj
+ 0001:00001802       _prepare_execution         00402802 f   console.obj
+ 0001:00001820       _driver_exit               00402820 f   driver.obj
+ 0001:0000183c       _delete_temporary          0040283c f   driver.obj
+ 0001:000018b3       _cleanup_files             004028b3 f   driver.obj
+ 0001:000019b1       _unload_pass               004029b1 f   driver.obj
+ 0001:000019ea       _execute_pass              004029ea f   driver.obj
+ 0001:00001da9       _write_link_response       00402da9 f   driver.obj
+ 0001:00002011       _link_pass                 00403011 f   driver.obj
+ 0001:00002239       _final_pass                00403239 f   driver.obj
+ 0001:00002889       _configure_pass            00403889 f   driver.obj
+ 0001:00002b20       _run_passes                00403b20 f   driver.obj
+ 0001:00002b9e       _run_jobs                  00403b9e f   driver.obj
+ 0001:00002f8f       _next_jobs                 00403f8f f   driver.obj
+ 0001:000032c0       _prepare_jobs              004042c0 f   driver.obj
+ 0001:00003539       _create_job                00404539 f   driver.obj
+ 0001:0000356d       _source_jobs               0040456d f   driver.obj
+ 0001:000035f2       _run_driver                004045f2 f   driver.obj
+ 0001:0000394c       _program_name              0040494c f   driver.obj
+ 0001:00003959       _initialize_driver         00404959 f   driver.obj
+ 0001:00003994       _program_directory         00404994 f   driver.obj
+ 0001:00003a5c       _duplicate                 00404a5c f   driver.obj
+ 0001:00003a91       _allocate                  00404a91 f   driver.obj
+ 0001:00003abc       _release                   00404abc f   driver.obj
+ 0001:00003ad4       _advance_jobs              00404ad4 f   driver.obj
+ 0001:00003b10       _expand_filename           00404b10 f   filenames.obj
+ 0001:00003eb2       _file_basename             00404eb2 f   filenames.obj
+ 0001:00003ed1       _join_text                 00404ed1 f   filenames.obj
+ 0001:00003f2c       _file_name                 00404f2c f   filenames.obj
+ 0001:00003f80       _find_file                 00404f80 f   filenames.obj
+ 0001:000040ce       _search_path               004050ce f   filenames.obj
+ 0001:00004224       _expanded_length           00405224 f   filenames.obj
+ 0001:000044f7       _file_directory            004054f7 f   filenames.obj
+ 0001:00004552       _make_map_name             00405552 f   filenames.obj
+ 0001:00004650       _file_timestamp            00405650 f   frontiers.obj
+ 0001:0000465e       _jobs_from_deferred        0040565e f   frontiers.obj
+ 0001:0000466c       _deferred_from_jobs        0040566c f   frontiers.obj
+ 0001:0000467a       _stop_timer                0040567a f   frontiers.obj
+ 0001:00004686       _console_control_handler@4 00405686 f   frontiers.obj
+ 0001:00004696       _toggle_pass               00405696 f   frontiers.obj
+ 0001:000046a2       _console_rows              004056a2 f   frontiers.obj
+ 0001:000046b0       _main                      004056b0 f   main.obj
+ 0001:00004bb0       _show_banner               00405bb0 f   messages.obj
+ 0001:00004bea       _load_string               00405bea f   messages.obj
+ 0001:00004c1c       _write_message             00405c1c f   messages.obj
+ 0001:00004c5f       _vwrite_message            00405c5f f   messages.obj
+ 0001:00004c95       _write_link_message        00405c95 f   messages.obj
+ 0001:00004cfd       _format_message            00405cfd f   messages.obj
+ 0001:00004fb5       _format_number             00405fb5 f   messages.obj
+ 0001:0000505d       _show_help                 0040605d f   messages.obj
+ 0001:00005122       _show_usage                00406122 f   messages.obj
+ 0001:00005154       _warning                   00406154 f   messages.obj
+ 0001:000051af       _fatal                     004061af f   messages.obj
+ 0001:00005230       _unlink_option             00406230 f   options.obj
+ 0001:00005276       _new_option                00406276 f   options.obj
+ 0001:000052fb       _append_option             004062fb f   options.obj
+ 0001:0000531a       _expand_options            0040631a f   options.obj
+ 0001:000054e6       _expand_word               004064e6 f   options.obj
+ 0001:000056ca       _detach_options            004066ca f   options.obj
+ 0001:000057e6       _delete_options            004067e6 f   options.obj
+ 0001:00005810       _options_match             00406810 f   options.obj
+ 0001:0000598f       _delete_option             0040698f f   options.obj
+ 0001:000059d5       _expand_alternative        004069d5 f   options.obj
+ 0001:00005a39       _finish_options            00406a39 f   options.obj
+ 0001:00005c52       _has_any_option            00406c52 f   options.obj
+ 0001:00005cc0       _find_rule                 00406cc0 f   rules.obj
+ 0001:00005d63       _match_pattern             00406d63 f   rules.obj
+ 0001:00005e1e       _read_option               00406e1e f   rules.obj
+ 0001:000061fe       _validate_value            004071fe f   rules.obj
+ 0001:000063a1       _define_macro              004073a1 f   rules.obj
+ 0001:00006503       _undefine_macro            00407503 f   rules.obj
+ 0001:00006550       _prepare_inputs            00407550 f   settings.obj
+ 0001:000066dc       _option_for_pass           004076dc f   settings.obj
+ 0001:00006700       _disable_pass              00407700 f   settings.obj
+ 0001:0000677c       _set_output_option         0040777c f   settings.obj
+ 0001:0000685a       _prepare_environment       0040785a f   settings.obj
+ 0001:0000694b       _configure_assembly        0040794b f   settings.obj
+ 0001:00006b92       _set_pass_name             00407b92 f   settings.obj
+ 0001:00006bfd       _enable_pass               00407bfd f   settings.obj
+ 0001:00006c64       _set_pass_suffix           00407c64 f   settings.obj
+ 0001:00006ccf       _undefine_defaults         00407ccf f   settings.obj
+ 0001:00006d51       _enable_dll                00407d51 f   settings.obj
+ 0001:00006e10       _start_timer               00407e10 f   timing.obj
+ 0001:00006e30       __setargv                  00407e30 f   SETARGV.OBJ
+ 0001:00006e40       _strlen                    00407e40 f   MSVCRT:MSVCRT.dll
+ 0001:00006e46       _strcat                    00407e46 f   MSVCRT:MSVCRT.dll
+ 0001:00006e4c       _memcpy                    00407e4c f   MSVCRT:MSVCRT.dll
+ 0001:00006e52       _strcpy                    00407e52 f   MSVCRT:MSVCRT.dll
+ 0001:00006e60       __except_handler3          00407e60 f   MSVCRT:MSVCRT.dll
+ 0001:00006e66       _memset                    00407e66 f   MSVCRT:MSVCRT.dll
+ 0001:00006e6c       _strcmp                    00407e6c f   MSVCRT:MSVCRT.dll
+ 0001:00006e80       ___setargv                 00407e80 f   MSVCRT:dll_argv.obj
+ 0001:00006e90       _mainCRTStartup            00407e90 f   MSVCRT:crtexe.obj
+ 0001:00006fe0       __XcptFilter               00407fe0 f   MSVCRT:MSVCRT.dll
+ 0001:00006fe6       __initterm                 00407fe6 f   MSVCRT:MSVCRT.dll
+ 0001:00006ff0       __setdefaultprecision      00407ff0 f   MSVCRT:fp8.obj
+ 0001:00007010       __matherr                  00408010 f   MSVCRT:merr.obj
+ 0001:00007020       __controlfp                00408020 f   MSVCRT:MSVCRT.dll
+ 0002:00000000       __imp__LoadLibraryA@4      00409000     kernel32:KERNEL32.dll
+ 0002:00000004       __imp__GetProcAddress@8    00409004     kernel32:KERNEL32.dll
+ 0002:00000008       __imp__FreeLibrary@4       00409008     kernel32:KERNEL32.dll
+ 0002:0000000c       __imp__GetModuleHandleA@4  0040900c     kernel32:KERNEL32.dll
+ 0002:00000010       __imp__SetConsoleCtrlHandler@8 00409010     kernel32:KERNEL32.dll
+ 0002:00000014       \177KERNEL32_NULL_THUNK_DATA 00409014     kernel32:KERNEL32.dll
+ 0002:00000018       __imp__MREDrvFSuccessfulCompile@16 00409018     mspdb50:MSPDB50.DLL
+ 0002:0000001c       __imp__MREDrvFUpdateTargetFile@12 0040901c     mspdb50:MSPDB50.DLL
+ 0002:00000020       __imp__MREDrvOneTimeInit@4 00409020     mspdb50:MSPDB50.DLL
+ 0002:00000024       __imp__MREDrvFFilesOutOfDate@8 00409024     mspdb50:MSPDB50.DLL
+ 0002:00000028       __imp__MREQueryMreDrv@8    00409028     mspdb50:MSPDB50.DLL
+ 0002:0000002c       __imp__MREFOpenByName@24   0040902c     mspdb50:MSPDB50.DLL
+ 0002:00000030       __imp__MREFClose@8         00409030     mspdb50:MSPDB50.DLL
+ 0002:00000034       __imp__MREDrvFRelease@4    00409034     mspdb50:MSPDB50.DLL
+ 0002:00000038       \177MSPDB50_NULL_THUNK_DATA 00409038     mspdb50:MSPDB50.DLL
+ 0002:0000003c       __imp__fclose              0040903c     MSVCRT:MSVCRT.dll
+ 0002:00000040       __imp___mbschr             00409040     MSVCRT:MSVCRT.dll
+ 0002:00000044       __imp__strstr              00409044     MSVCRT:MSVCRT.dll
+ 0002:00000048       __imp__fgets               00409048     MSVCRT:MSVCRT.dll
+ 0002:0000004c       __imp__strlen              0040904c     MSVCRT:MSVCRT.dll
+ 0002:00000050       __imp__fopen               00409050     MSVCRT:MSVCRT.dll
+ 0002:00000054       __imp__strncmp             00409054     MSVCRT:MSVCRT.dll
+ 0002:00000058       __imp___stricmp            00409058     MSVCRT:MSVCRT.dll
+ 0002:0000005c       __imp___splitpath          0040905c     MSVCRT:MSVCRT.dll
+ 0002:00000060       __imp__strcat              00409060     MSVCRT:MSVCRT.dll
+ 0002:00000064       __imp__isdigit             00409064     MSVCRT:MSVCRT.dll
+ 0002:00000068       __imp__strchr              00409068     MSVCRT:MSVCRT.dll
+ 0002:0000006c       __imp__memcpy              0040906c     MSVCRT:MSVCRT.dll
+ 0002:00000070       __imp___mbsrchr            00409070     MSVCRT:MSVCRT.dll
+ 0002:00000074       __imp___mbclen             00409074     MSVCRT:MSVCRT.dll
+ 0002:00000078       __imp__memmove             00409078     MSVCRT:MSVCRT.dll
+ 0002:0000007c       __imp__strcpy              0040907c     MSVCRT:MSVCRT.dll
+ 0002:00000080       __imp__fseek               00409080     MSVCRT:MSVCRT.dll
+ 0002:00000084       __imp__ftell               00409084     MSVCRT:MSVCRT.dll
+ 0002:00000088       __imp___dup2               00409088     MSVCRT:MSVCRT.dll
+ 0002:0000008c       __imp__exit                0040908c     MSVCRT:MSVCRT.dll
+ 0002:00000090       __imp___unlink             00409090     MSVCRT:MSVCRT.dll
+ 0002:00000094       __imp___spawnvp            00409094     MSVCRT:MSVCRT.dll
+ 0002:00000098       __imp___errno              00409098     MSVCRT:MSVCRT.dll
+ 0002:0000009c       __imp___mbsinc             0040909c     MSVCRT:MSVCRT.dll
+ 0002:000000a0       __imp__memset              004090a0     MSVCRT:MSVCRT.dll
+ 0002:000000a4       __imp___mbccpy             004090a4     MSVCRT:MSVCRT.dll
+ 0002:000000a8       __imp___mbsspn             004090a8     MSVCRT:MSVCRT.dll
+ 0002:000000ac       __imp____p__pgmptr         004090ac     MSVCRT:MSVCRT.dll
+ 0002:000000b0       __imp__getenv              004090b0     MSVCRT:MSVCRT.dll
+ 0002:000000b4       __imp___mbsncmp            004090b4     MSVCRT:MSVCRT.dll
+ 0002:000000b8       __imp___strdup             004090b8     MSVCRT:MSVCRT.dll
+ 0002:000000bc       __imp__malloc              004090bc     MSVCRT:MSVCRT.dll
+ 0002:000000c0       __imp__free                004090c0     MSVCRT:MSVCRT.dll
+ 0002:000000c4       __imp___mbsupr             004090c4     MSVCRT:MSVCRT.dll
+ 0002:000000c8       __imp___makepath           004090c8     MSVCRT:MSVCRT.dll
+ 0002:000000cc       __imp___access             004090cc     MSVCRT:MSVCRT.dll
+ 0002:000000d0       __imp___write              004090d0     MSVCRT:MSVCRT.dll
+ 0002:000000d4       __imp___mbsdec             004090d4     MSVCRT:MSVCRT.dll
+ 0002:000000d8       __imp__getchar             004090d8     MSVCRT:MSVCRT.dll
+ 0002:000000dc       __imp___isatty             004090dc     MSVCRT:MSVCRT.dll
+ 0002:000000e0       __imp__strcmp              004090e0     MSVCRT:MSVCRT.dll
+ 0002:000000e4       __imp__strtoul             004090e4     MSVCRT:MSVCRT.dll
+ 0002:000000e8       __imp__strncpy             004090e8     MSVCRT:MSVCRT.dll
+ 0002:000000ec       __imp___mbsstr             004090ec     MSVCRT:MSVCRT.dll
+ 0002:000000f0       __imp___mktemp             004090f0     MSVCRT:MSVCRT.dll
+ 0002:000000f4       __imp___ftime              004090f4     MSVCRT:MSVCRT.dll
+ 0002:000000f8       __imp___exit               004090f8     MSVCRT:MSVCRT.dll
+ 0002:000000fc       __imp___XcptFilter         004090fc     MSVCRT:MSVCRT.dll
+ 0002:00000100       __imp____p___initenv       00409100     MSVCRT:MSVCRT.dll
+ 0002:00000104       __imp____getmainargs       00409104     MSVCRT:MSVCRT.dll
+ 0002:00000108       __imp___initterm           00409108     MSVCRT:MSVCRT.dll
+ 0002:0000010c       __imp____setusermatherr    0040910c     MSVCRT:MSVCRT.dll
+ 0002:00000110       __imp___adjust_fdiv        00409110     MSVCRT:MSVCRT.dll
+ 0002:00000114       __imp____p__commode        00409114     MSVCRT:MSVCRT.dll
+ 0002:00000118       __imp____p__fmode          00409118     MSVCRT:MSVCRT.dll
+ 0002:0000011c       __imp____set_app_type      0040911c     MSVCRT:MSVCRT.dll
+ 0002:00000120       __imp___controlfp          00409120     MSVCRT:MSVCRT.dll
+ 0002:00000124       __imp___ismbcspace         00409124     MSVCRT:MSVCRT.dll
+ 0002:00000128       __imp___putenv             00409128     MSVCRT:MSVCRT.dll
+ 0002:0000012c       __imp___flushall           0040912c     MSVCRT:MSVCRT.dll
+ 0002:00000130       __imp___except_handler3    00409130     MSVCRT:MSVCRT.dll
+ 0002:00000134       \177MSVCRT_NULL_THUNK_DATA 00409134     MSVCRT:MSVCRT.dll
+ 0002:00000138       __imp__LoadStringA@16      00409138     USER32:USER32.dll
+ 0002:0000013c       \177USER32_NULL_THUNK_DATA 0040913c     USER32:USER32.dll
+ 0002:0000016c       __IMPORT_DESCRIPTOR_USER32 0040916c     USER32:USER32.dll
+ 0002:00000180       __IMPORT_DESCRIPTOR_MSPDB50 00409180     mspdb50:MSPDB50.DLL
+ 0002:00000194       __IMPORT_DESCRIPTOR_MSVCRT 00409194     MSVCRT:MSVCRT.dll
+ 0002:000001a8       __IMPORT_DESCRIPTOR_KERNEL32 004091a8     kernel32:KERNEL32.dll
+ 0002:000001bc       __NULL_IMPORT_DESCRIPTOR   004091bc     USER32:USER32.dll
+ 0003:00000000       ___xc_a                    0040a000     MSVCRT:cinitexe.obj
+ 0003:00000004       ___xc_z                    0040a004     MSVCRT:cinitexe.obj
+ 0003:00000008       ___xi_a                    0040a008     MSVCRT:cinitexe.obj
+ 0003:0000000c       ___xi_z                    0040a00c     MSVCRT:cinitexe.obj
+ 0003:00000010       _response_first_line       0040a010     arguments.obj
+ 0003:00000170       _first_dependency_scan     0040a170     driver.obj
+ 0003:00000174       _first_stage_notice        0040a174     driver.obj
+ 0003:00000178       _temporary_suffixes        0040a178     driver.obj
+ 0003:000002c8       _driver                    0040a2c8     main.obj
+ 0003:000002cc       _show_commands             0040a2cc     main.obj
+ 0003:000002d0       _compiler_passes           0040a2d0     main.obj
+ 0003:000003b8       _input_kinds               0040a3b8     main.obj
+ 0003:000005c0       _message_capacity          0040a5c0     messages.obj
+ 0003:00000610       _option_rules              0040a610     rules.obj
+ 0003:00002808       _first_option_pass         0040c808     settings.obj
+ 0003:0000280c       _cleanup_temporaries       0040c80c     settings.obj
+ 0003:00002810       _keep_preprocessor_output  0040c810     settings.obj
+ 0003:00002814       _use_standard_include      0040c814     settings.obj
+ 0003:00002818       _driver_options            0040c818     settings.obj
+ 0003:00002998       _default_macros            0040c998     settings.obj
+ 0003:0000299c       _dll_options_enabled       0040c99c     settings.obj
+ 0003:00002a80       ___defaultmatherr          0040ca80     MSVCRT:merr.obj
+ 0003:000037dc       __dowildcard               0040d7dc     MSVCRT:wildcard.obj
+ 0003:000037e0       __newmode                  0040d7e0     MSVCRT:_newmode.obj
+ 0003:000037e4       __commode                  0040d7e4     MSVCRT:xncommod.obj
+ 0003:000037e8       __fmode                    0040d7e8     MSVCRT:xtxtmode.obj
+ 0003:000037ec       _image_name                0040d7ec     <common>
+ 0003:000037f0       _minimal_rebuild           0040d7f0     <common>
+ 0003:000037f4       _timing_requested          0040d7f4     <common>
+ 0003:000037f8       _map_requested             0040d7f8     <common>
+ 0003:000037fc       _pdb_name                  0040d7fc     <common>
+ 0003:00003800       _bk_requested              0040d800     <common>
+ 0003:00003804       _is_dll                    0040d804     <common>
+ 0003:00003808       _allow_pch                 0040d808     <common>
+ 0003:0000380c       _browser_name              0040d80c     <common>
+ 0003:00003810       _reproducible              0040d810     <common>
+ 0003:00003814       _bz_requested              0040d814     <common>
+ 0003:00003818       _object_name               0040d818     <common>
+ 0003:0000381c       _map_name                  0040d81c     <common>
+ 0003:00003820       _free_options              0040d820     <common>
+ 0003:00003824       _format_buffer             0040d824     <common>
+ 0003:00003840       _driver_storage            0040d840     <common>
+ 0003:0000386c       _no_logo                   0040d86c     <common>
+ 0003:00003870       _error_count               0040d870     <common>
+ 0003:00003874       _debug_exceptions          0040d874     <common>
+ 0003:00003878       _help_requested            0040d878     <common>
+ 0003:0000387c       _echo_response             0040d87c     <common>
+ 0003:00003880       _default_c_language        0040d880     <common>
+ 0003:00003884       _unrecognized_options      0040d884     <common>
+ 0003:00003888       _source_language           0040d888     <common>
+ 0003:0000388c       _output_produced           0040d88c     <common>
+ 0003:00003890       _interrupted               0040d890     <common>
+ 0003:00003894       _pass_running              0040d894     <common>
+ 0003:00003898       _active_pass               0040d898     <common>
+ 0003:0000389c       _source_count              0040d89c     <common>
+ 0003:000038a0       _response_depth            0040d8a0     <common>
+ 0003:000038a4       _options_after_link        0040d8a4     <common>
+ 0003:000038a8       _link_warning              0040d8a8     <common>
+ 0003:000038ac       ___onexitend               0040d8ac     <common>
+ 0003:000038b0       ___onexitbegin             0040d8b0     <common>
+ 0003:000038b4       __adjust_fdiv              0040d8b4     <common>
+
+ entry point at        0001:00006e90
+
+ Static symbols
+

@@ -115,6 +115,23 @@ def project(platform,directory):
         names=['pass-state-observer.txt','pass-state.bin','events.txt']if platform=='original'else['pass-state-observer.txt','pass-state.bin','pass-state-gdb.json','gdb_pass.py']
         result['raw_inputs'].update({name:sha(directory/name)for name in names})
         result['pass_decoder_sha256']=sha(Path(pass_state.__file__))
+    clock_mode=((directory/'clock-native.json').exists()if platform=='native'else
+        ((directory/'capture.json').exists()and json.loads((directory/'capture.json').read_text()).get('clock_response',False)))
+    if clock_mode:
+        import clock_provider,clock_packet,clock_state,link_response,link_state
+        response=clock_provider.response_packet(directory)if platform=='original'else None
+        result['fields']['clock_response']=(clock_provider.verify(directory)if platform=='native'else clock_provider.projection(response))
+        names=['capture.json']if platform=='original'else[
+            'clock-native.json','clock-response.json','clock-host-inputs.json','link-response.json','link-binding.bin',
+            'gdb_clock.py','gdb_link.py','clock_provider.py','clock_packet.py','clock_state.py',
+            'link_provider.py','link_response.py','link_state.py','spawn_reader.py','native-clock-gdb.json','test.exe']
+        if platform=='native':
+            names += [p.name for p in directory.glob('native-link-*-gdb.json')]
+            names += [p.name for p in directory.glob('streams-link-*')]
+            if(directory/'streams-frontier.json').exists():names+=['streams-frontier.json','streams-frontier-iob.bin']
+        result['raw_inputs'].update({name:sha(directory/name)for name in names})
+        result['clock_decoder_hashes']={Path(module.__file__).name:sha(Path(module.__file__))
+            for module in(clock_provider,clock_packet,clock_state,link_response,link_state)}
     link_mode=((directory/'link-native.json').exists()if platform=='native'else
         ((directory/'capture.json').exists()and json.loads((directory/'capture.json').read_text()).get('link_response',False)))
     if link_mode:

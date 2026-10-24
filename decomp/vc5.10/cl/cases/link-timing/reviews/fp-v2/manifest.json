@@ -1,0 +1,53 @@
+{
+  "kind": "Validator-only stronger FP scope v2; zero original/native execution reruns",
+  "records": {
+    "clock_state.py": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/clock_state.py",
+      "sha256": "62169ce3555ce7c78ba032388565c8714d5d1c61ad24632209ba8125b03721f2",
+      "bytes": 5985
+    },
+    "clock_provider.py": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/clock_provider.py",
+      "sha256": "d4e64db0d88659305002115c8761b1a6767e80b49212e7cc3bd1e918b9eecd59",
+      "bytes": 12587
+    },
+    "clock_packet.py": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/clock_packet.py",
+      "sha256": "d36d8a99ef191b8e0fd95056c537e82d06dd783fc91b7a155c1127073f12941f",
+      "bytes": 10217
+    },
+    "check-clock-fp.py": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/check-clock-fp.py",
+      "sha256": "43c45274e802840e8455c7a514f4ba5941e86f041d010652186aa82056fbc736",
+      "bytes": 2629
+    },
+    "refresh-clock-fp-review.py": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/scripts/refresh-clock-fp-review.py",
+      "sha256": "5134efa32d959d000091237a99a9860ca0c5721738b6fc700d3e0c2839da8a53",
+      "bytes": 2753
+    },
+    "pair.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-fp2/pair.json",
+      "sha256": "b47ebce88afa8691e812eba03b7d8c529f6048f85ce8d9fbacfd189ec54fb87c",
+      "bytes": 48953
+    },
+    "check.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-review-fp2/check.txt",
+      "sha256": "27f55124218d308216c0a247a4579ad5dfb664bb56c93fe342d0591fa2e0e5cf",
+      "bytes": 53
+    },
+    "start-timer-fp-controls.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-fp-controls.json",
+      "sha256": "a7c3461045ae38c24fd132f2f8f427ce73a5a581c1a9b553d5861073f10619d6",
+      "bytes": 933
+    },
+    "manifest.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/start-timer-integration-review/manifest.json",
+      "sha256": "c90313ec9e24f38ea8640f75959ad90ce4bfe00938bc776957021747052acd4b",
+      "bytes": 6749
+    }
+  },
+  "supersedes": "start-timer-integration-review FP validator scope only; prior raw/pair/projections remain unchanged",
+  "reused_checks": "42 original/71 native/12 clockhost/14 LINKhost/35 protocol/30 mode by prior frozen manifest, unchanged transport/body/counter premises;21 additional FP architectural/coherent-premise controls fresh",
+  "unmatched_fields": "Only actual inert selector tuple original23/2b/native0/0, with explicit emptyTAGffff/status0/FIP0/FDP0/registerdata0/opcode0/no consumer. No general selector mask."
+}

@@ -31,7 +31,7 @@ int main(int argc,char **argv) {
  puts("bound");return 0;
 }
 ''')
-    revision=subprocess.check_output(['git','rev-parse','094d818f'],cwd=ROOT,text=True).strip()
+    revision=subprocess.check_output(['git','rev-parse','2265dfaad'],cwd=ROOT,text=True).strip()
     shared=Path('/root/.ai-tmp/msvc2/vc5.10/cl/shared-source-checkouts')/revision/'lib/recon'
     sources=[path for path in(shared/'src').glob('*.c')if path.name!='trace.c']
     for path in sources:
@@ -40,7 +40,7 @@ int main(int argc,char **argv) {
         '-I'+str(shared/'include'),'-I'+str(shared/'native'),str(source),str(PROJECT/'scripts/link-host.c'),*map(str,sources),'-o',str(binary)]
     compiled=subprocess.run(command,cwd=PROJECT,capture_output=True)
     assert compiled.returncode==0,compiled.stderr.decode()
-    environment=os.environ.copy();environment.update(RECON_SHARED_REVISION='094d818f',CL_ENTRY_PROFILE='link-object-canonical-msvcrt-v1',CL_LINK_BINDING=str(config),CL_LINK_RESPONSE_ID=identity)
+    environment=os.environ.copy();environment.update(RECON_SHARED_REVISION='2265dfaad',CL_ENTRY_PROFILE='link-object-canonical-msvcrt-v1',CL_LINK_BINDING=str(config),CL_LINK_RESPONSE_ID=identity)
     args=[str(binary),*response['child']['argv'], 'a','b','c','d']
     assert len(args)==8
     def run(data=payload,change=None):

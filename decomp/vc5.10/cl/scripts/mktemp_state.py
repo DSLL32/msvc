@@ -97,6 +97,11 @@ def original(directory):
         assert (directory/'dependency-observer.txt').read_bytes()==b'CL_LINK_CLOCK_ANALYSIS_V1\n'
         assert (directory/'clock-observer.txt').read_bytes()==b'CL_CLOCK_OBSERVER_V1\n'
         controls|={'dependency-observer.txt','clock-observer.txt'}
+    if capture.get('clock_response'):
+        assert capture['case']=='link-timing'and capture['baseline']is False and not any(capture.get(k)for k in ('dependency_analysis','dependency_complete','dependency_response','link_response','clock_analysis'))
+        assert (directory/'dependency-observer.txt').read_bytes()==b'CL_LINK_CLOCK_RESPONSE_V1\n'
+        assert (directory/'clock-observer.txt').read_bytes()==b'CL_CLOCK_RESPONSE_V1\n'
+        controls|={'dependency-observer.txt','clock-observer.txt'}
     if capture.get('link_response'):
         assert capture['case']=='link-object' and capture['baseline'] is False and not capture['dependency_analysis'] and not capture['dependency_response']
         assert (directory/'dependency-observer.txt').read_bytes()==b'CL_LINK_RESPONSE_V1\n'

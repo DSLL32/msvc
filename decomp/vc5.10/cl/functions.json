@@ -114,7 +114,8 @@
     "_write_link_message",
     "_file_directory",
     "_make_map_name",
-    "_advance_jobs"
+    "_advance_jobs",
+    "_start_timer"
   ],
   "driver": [
     {

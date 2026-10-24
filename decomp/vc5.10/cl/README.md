@@ -14,8 +14,8 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 102 accepted application functions /17,457 original extent bytes
-(91.58% of whole `.text`); the non-CRT
+There are now 103 accepted application functions /17,470 original extent bytes
+(91.65% of whole `.text`); the non-CRT
 denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
 entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
@@ -36,9 +36,9 @@ and native executions stop at `start_timer`. A separate baseline-only analysis
 records both actual `_ftime` calls, the complete LINK request/result and a
 0.823-second diagnostic. `cases/link-timing/analysis/` owns the raw evidence and
 hash references to existing toolchain files; it is rejected as fresh acceptance.
-The 13-byte start helper is implemented and passes original/native compilation
-and graph/ABI/import audits, but remains unaccepted pending its fresh paired
-clock/child proof. `stop_timer` remains a named trap. The whole timer/caller
+The 13-byte start helper is accepted with its own fresh masked original/native
+clock/child/state proof and graph/ABI/import audits. Its original run took
+1.90 seconds and its native GDB capture 0.32 seconds. `stop_timer` remains a named trap. The whole timer/caller
 proof records that timezone-name labels are unconsumed; original Greenwich
 labels are retained, without claiming equality to the native provider labels.
 

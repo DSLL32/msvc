@@ -1,0 +1,39 @@
+{
+  "scope": "Only MSVCRT!_write preservation of ESI needed between the two cached calls in write_link_message.",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "identity": {
+    "dll": "msvcrt.dll",
+    "name": "_write"
+  },
+  "iat": 4235928,
+  "load": {
+    "address": 4215407,
+    "bytes": "8b3598a24000"
+  },
+  "calls": [
+    4215432,
+    4215452
+  ],
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "ordinal": 533,
+    "entry_rva": 13059,
+    "ranges": [
+      {
+        "start_rva": 13059,
+        "end_rva": 13153,
+        "bytes": "a1f0f70378568b742408573bf00f83528800008bc68bce83e01fc1f9058d14c08b048d60f40378f6449004010f843388000056e8b0fcffff8b4c24188b54241483c404515256e81300000083c40c8bf856e8f9fcffff83c4048bc75f5ec3",
+        "sha256": "ce4e2bc38ed1e04e509bdda6026ee748a5bc64c4b93a33e51e7a47917f316726"
+      },
+      {
+        "start_rva": 47976,
+        "end_rva": 48004,
+        "bytes": "e8c9a8ffffc70009000000e8b5a8ffffc700000000005f83c8ff5ec3",
+        "sha256": "91e05de6fdc540b760a4d4c41f0cb91c42fcf94140dd95caeb25766279566769"
+      }
+    ]
+  },
+  "preservation": "PUSH ESI at3308 saves caller ESI before overwrite. Both normal and invalid-fd returns restore it: POP ESI335f/RET3360 and POP ESIbb82/RETbb83. Complete wrapper hot/cold extents have no other returns. Cached target loads after format_message; only _write call crosses its lifetime.",
+  "source": "src/messages.c uses typed _write calls and reads only FILE._file; no graph workaround."
+}

@@ -12,6 +12,12 @@ unsigned link_initial_environment_count, link_initial_os_units;
 char link_response_identity[65];
 
 static const unsigned char *cursor, *limit;
+static unsigned clock_expected_calls;
+static void clock_finish(void)
+{
+    if (recon_local_clock_call_count()!=clock_expected_calls)
+        recon_unsupported("CL timing clock call inventory");
+}
 static unsigned read_word(void)
 {
     unsigned value;
@@ -26,6 +32,9 @@ char **link_bind_entry(int argc,char **argv,char **envp)
     const char *path=getenv("CL_LINK_BINDING");
     const char *identity=getenv("CL_LINK_RESPONSE_ID");
     const char *profile=getenv("CL_ENTRY_PROFILE");
+    const char *clock_count=getenv("CL_CLOCK_EXPECTED_CALLS");
+    const char *clock=getenv("RECON_LOCAL_CLOCK");
+    int timing=profile && !strcmp(profile,"link-timing-canonical-msvcrt-v1");
     unsigned length,i,count;
     unsigned char *bytes;
     FILE *file;
@@ -34,12 +43,21 @@ char **link_bind_entry(int argc,char **argv,char **envp)
     if (!path && !identity) {
         if (profile && !strcmp(profile,"link-object-canonical-msvcrt-v1"))
             recon_unsupported("unbound CL LINK native case");
+        if (clock_count) recon_unsupported("unbound CL timing clock inventory");
         return envp;
     }
     if (!path || !identity || strlen(identity)!=64 || !profile ||
-        strcmp(profile,"link-object-canonical-msvcrt-v1") || argc!=8 ||
+        (timing ? argc!=9 : strcmp(profile,"link-object-canonical-msvcrt-v1") || argc!=8) ||
         link_initial_environment)
         recon_unsupported("unknown CL LINK environment binding");
+    if (timing) {
+        if (!clock_count || !clock || !*clock ||
+            (strcmp(clock_count,"1") && strcmp(clock_count,"2")) ||
+            recon_local_clock_call_count()!=0)
+            recon_unsupported("unknown CL timing clock contract");
+        clock_expected_calls=(unsigned)(clock_count[0]-'0');
+        if (atexit(clock_finish)) recon_unsupported("CL clock finish registration");
+    } else if (clock_count) recon_unsupported("clock inventory outside timing case");
     for (i=0;i<64;++i)
         if (!((identity[i]>='0' && identity[i]<='9') ||
               (identity[i]>='a' && identity[i]<='f')))

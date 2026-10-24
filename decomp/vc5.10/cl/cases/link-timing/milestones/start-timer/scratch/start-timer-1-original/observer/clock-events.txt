@@ -1,0 +1,4 @@
+state phase=clock-1-before teb=3ffe2000 tid=648 tls_index=1 ptd=00890100
+ftime sequence=1 phase=before call=00405402 return=00405408 function=78002a41 argument=00409798 esp=0031f234 event=90
+state phase=clock-1-after teb=3ffe2000 tid=648 tls_index=1 ptd=00890100
+ftime sequence=1 phase=after call=00405402 return=00405408 function=78002a41 argument=00409798 esp=0031f234 event=91

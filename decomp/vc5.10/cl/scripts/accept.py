@@ -45,6 +45,12 @@ def checked_file(entry):
 
 
 def reconstruction_capture(capture):
+    if capture.get('clock_response'):
+        assert capture.get('case')=='link-timing'and not any(capture.get(name)for name in
+            ('baseline','clock_analysis','dependency_analysis','dependency_complete','dependency_response','link_response')), 'ambiguous clock response mode'
+        for name,marker in [('dependency-observer.txt',b'CL_LINK_CLOCK_RESPONSE_V1\n'),('clock-observer.txt',b'CL_CLOCK_RESPONSE_V1\n')]:
+            assert capture.get('files',{}).get(name)=={'sha256':hashlib.sha256(marker).hexdigest(),'bytes':len(marker)}, 'missing or different masked clock request'
+        assert capture['command'][-2]=='1','clock response original was not a masked trial'
     assert capture.get('baseline') is False and not capture.get('dependency_analysis') and not capture.get('clock_analysis'), 'analysis/reference baseline cannot be used as fresh reconstruction acceptance'
     assert capture['controller_error'] is None and capture['helper_status'] in (0,capture.get('expected_status',0)&255), 'original capture did not succeed'
     if capture.get('link_response'):
@@ -89,6 +95,8 @@ def observation(entry,trial,expected):
             reconstruction_capture(capture)
             if capture['case']=='link-object' and '_write_link_message'in trial['accepted']:
                 assert capture.get('link_response')is True,'LINK child candidate requires its complete actual response'
+            if capture['case']=='link-timing'and '_start_timer'in trial['accepted']:
+                assert capture.get('clock_response')is True,'timing candidate requires its complete actual clock/child response'
             assert capture['target_sha256']==expected['target_sha256'] and capture['original_mask_sha256']==expected['trial_mask_sha256'], 'original execution receipt image differs'
             assert capture['config_sha256']==digest(config_path), 'original execution receipt trial differs'
             assert capture['case']==raw['case'] and capture['arguments']==raw['arguments'], 'original execution receipt case differs'
