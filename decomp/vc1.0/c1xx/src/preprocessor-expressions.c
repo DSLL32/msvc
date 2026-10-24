@@ -58,3 +58,21 @@ PreprocessorValue *parse_preprocessor_logical_or(void)
     preprocessor_skip_evaluation = saved;
     return left;
 }
+
+PreprocessorValue *parse_preprocessor_bitwise_or(void);
+
+/* Original 0x18790..0x187e1. A false left operand suppresses evaluation
+   diagnostics while the remaining logical-AND chain is parsed. */
+PreprocessorValue *parse_preprocessor_logical_and(void)
+{
+    int saved = preprocessor_skip_evaluation;
+    PreprocessorValue *left, *right;
+    left = parse_preprocessor_bitwise_or();
+    while (accept_preprocessor_token(0x3b)) {
+        if (!left->value) ++preprocessor_skip_evaluation;
+        right = parse_preprocessor_bitwise_or();
+        left = evaluate_preprocessor_binary(0x3b, left, right);
+    }
+    preprocessor_skip_evaluation = saved;
+    return left;
+}

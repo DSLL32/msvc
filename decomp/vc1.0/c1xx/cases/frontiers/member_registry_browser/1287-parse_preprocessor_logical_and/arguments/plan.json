@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "function": "_parse_preprocessor_logical_and",
+  "native_entry": "parse_preprocessor_logical_and",
+  "argument_words": 4,
+  "original_observations": [
+    {
+      "name": "pp_skip_depth",
+      "original": 620604
+    }
+  ],
+  "native_expressions": {
+    "pp_skip_depth": "preprocessor_skip_evaluation"
+  },
+  "state_requirements": [
+    {
+      "index": 14,
+      "native_field": "pp_skip_depth",
+      "equals": 0
+    }
+  ],
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      100240,
+      100322
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals PreprocessorValue*EAX, savedEBX/ESI/EDI, RET0",
+    "proof": "Whole82B saves established suppressiondepth9783c, parses mandatory bitwise-OR pointer, accepts token3b loop, increments shareddepth iff current leftvalueDWORD+4 iszero, parsesright thenbinaryevaluate std12(BYTE3b,left,right); loop exit restores original saveddepth. No periteration decrement/boolean-result normalization. Three outgoingcallees: bitwiseOR50B cdecl0pointer/accept57B std4BYTE/binary865B+43DWORDstd12 as already independently analyzed; named pending implementations remainstubs. Fresh currentdepth0 observed, same independently audited state from previous OR acceptance; no newdata/grammar/CRT or incomingformal/register/flags/x87 input."
+  }
+}
