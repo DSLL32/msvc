@@ -47,6 +47,10 @@ def main():
         content=(BINARY/config['section_callback_storage_contract']).read_bytes()
         assert sha(content)==config['section_callback_storage_contract_sha256']
         (output/'section-callback-storage-contract.json').write_bytes(content)
+    if config.get('symbol_callback_contract'):
+        content=(BINARY/config['symbol_callback_contract']).read_bytes()
+        assert sha(content)==config['symbol_callback_contract_sha256']
+        (output/'symbol-callback-contract.json').write_bytes(content)
     if config.get('directive_callback_contract'):
         content=(BINARY/config['directive_callback_contract']).read_bytes()
         assert sha(content)==config['directive_callback_contract_sha256']

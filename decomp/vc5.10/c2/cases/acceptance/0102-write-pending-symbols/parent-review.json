@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "disposition": "Release exact497cec two-target callback typing gate and ordinary102promotion",
+  "manifest_sha256": "d62cb09107356240cb2e50698e95eb0158263ba51ecbeebe4c7a339abac29a23",
+  "bindings": {
+    "/root/.ai-tmp/msvc2/vc5.10/c2/symbols102-compare.json": {
+      "sha256": "b3769bfbaf8e242e581f2bde2f8aa210cb3a428cb8bd63b2ef80a41b00c71bff"
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/c2/symbols102-abi-packet.json": {
+      "sha256": "abe8b06b24bc47cad9ff1816ff535d2fbbcdb05b525c90308ae73ed156fb33b6"
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/c2/symbols102-input-controls.json": {
+      "sha256": "a958b90ef4a19f4969929787f9dcca8569c6614aaa60c9f30c176fdf2ec4eff5"
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/c2/symbols102-boundary-controls.json": {
+      "sha256": "63611294a290565e565ad3930d582bb582026fb44c9a5690e9024b4eab998363"
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/c2/symbols102-native-fixture.json": {
+      "sha256": "913c2a9ef33fd4ac968347b3b7b8831769b1c56bdaca72a60b6714fb0a2159ab"
+    },
+    "scripts/callback_evidence.py": {
+      "sha256": "891f8b0e25b77661030a619c4f5a04a2724fdc3b7c3c2703cdebe5d34d8d44bb"
+    },
+    "scripts/check-symbol-callback-boundary.py": {
+      "sha256": "19a1ac605bc118c0a701b69ffb520693978403b5ef9dbf98c94fe6aae0094206"
+    },
+    "scripts/accept.py": {
+      "sha256": "1c6b6bf8d680b9013a49e3e1f35429d14bb2b95acf8b84897db2dfb3b56affba"
+    },
+    "cases/analysis/symbol-callback-contract.json": {
+      "sha256": "0e4d455a160a3e3aa94e4042e5dc42079278002eb4f9e2156eb52c218d9ec3eb"
+    },
+    "cases/analysis/symbol-callback-disassembly.txt": {
+      "sha256": "029ef4f585fad99c6ceb21f7c7460c072c18b6e1682aca844f34b239ceb70f01"
+    },
+    "cases/analysis/symbol-callback-stack-disassembly.txt": {
+      "sha256": "e91c31c8028c25fdd0bcb3b4fba19c9dfed975a2e375f112f51374fd592d0f8b"
+    },
+    "cases/analysis/symbol-callback-call-inventory.txt": {
+      "sha256": "5915499251307d5581007b6efb85e3070a9c24ed5e3575f0a5a9939f94e294e4"
+    },
+    "cases/analysis/symbol-callback-direct-caller.txt": {
+      "sha256": "3a8474d24c5a3fa8c3493587194e9b89ec092fdcaff70e1a15a9dd6ac2963912"
+    },
+    "functions.json": {
+      "sha256": "fc581f3783f93ac3f0b71b8288ac989425454cce339dd8824d53556bb38b27a3"
+    }
+  },
+  "independent_checks": {
+    "manifesthashes": 14,
+    "full_current_compare": "PASS",
+    "finite_boundary_compile_semantic_controls": 29
+  },
+  "review": [
+    "Read whole originalhot/cold41fa04, full16B4849fa, exact2slot+2directcall inventory and childstackeffect packet. ECXsymbol only; no incomingEDX/stackargument or consumedresult. Own24Bframe and stagedoutgoingargs explainESP+32/+28 accesses, realchildrenRET0/RET16 bound; no childbodyreconstruction.",
+    "Finiteone4B/alignment4/offset0slot497cec keeps exact2initializeridentities, typedvoidfastcall(C2Symbol*) consumer reloadsactualsharedroot+4symbol/ECX; other19slotviews unchanged.",
+    "Actual canonicalECXsave/INT3/RET0 typedstubs and nativePICslot/ECXcall verified by emittedpacket/checker; originalallhot/coldtargetbytes maskedCC, zero bodycredit. No callbacks executed because currentqueueNULL.",
+    "Freshsource102 caller pair reachesrealnoargwrite_assembly_symbols with fullglobals/38Boutput; actualfuturecallbackexecution stillrequiresfreshinput/bodyacceptance."
+  ],
+  "scope": "Specific static callableview only; no generalABI guess, wrapper, importedproviderimplementation or acceptanceofpendingtargets.",
+  "packet_hashes": {
+    "/root/msvc2/decomp/vc5.10/c2/cases/analysis/symbol-callback-contract.json": "0e4d455a160a3e3aa94e4042e5dc42079278002eb4f9e2156eb52c218d9ec3eb",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/symbols102-parent-compare.json": "b3769bfbaf8e242e581f2bde2f8aa210cb3a428cb8bd63b2ef80a41b00c71bff",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/symbols102-parent-controls.json": "45474290bf6c41fd67da3018768b88d16c569603355b319c21b860791546fcb6"
+  }
+}

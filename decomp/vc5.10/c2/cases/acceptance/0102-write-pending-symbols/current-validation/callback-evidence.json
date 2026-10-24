@@ -1,0 +1,458 @@
+{
+  "symbol_callback": {
+    "contract_sha256": "0e4d455a160a3e3aa94e4042e5dc42079278002eb4f9e2156eb52c218d9ec3eb",
+    "slot": 4816108,
+    "canonical_slot": 4243968,
+    "canonical_callsite": 4222928,
+    "targets": [
+      {
+        "logical": "_output_callback_41fa04",
+        "original": 4323844,
+        "canonical": 4200135,
+        "pending": true,
+        "body_credit": 0
+      },
+      {
+        "logical": "_output_callback_4849fa",
+        "original": 4737530,
+        "canonical": 4200345,
+        "pending": true,
+        "body_credit": 0
+      }
+    ],
+    "scope": "Only497cec C2Symbol*ECX/RET0 callback view, exact two alternatives/fourcallers and typedconsumer. CurrentNULLqueue invokesneither. Other19slotguardspreserved; originaltargethashes areanalysis evidence, not unmask/acceptance."
+  },
+  "directive_data": {
+    "kind": "finite original/rebuilt switch-content, actual payload loads, named child, scalar and point-of-use literal certificate",
+    "original_table": [
+      4537916,
+      4537956
+    ],
+    "original_table_sha256": "3e5c62a1038dfc0920d56622e8003f94e2015289cd1b06080604818c5f484d8a",
+    "rebuilt_table": [
+      4224111,
+      4224151
+    ],
+    "rebuilt_table_sha256": "37282c21ae0cd94a72a3ba14d1335eb39a2075863ece3dd67837345962dc4c8d",
+    "rebuilt_labels": [
+      47,
+      175,
+      62,
+      84,
+      175,
+      106,
+      119,
+      175,
+      131,
+      153
+    ],
+    "source_sha256": "83c6c810a746ab4c2ffce56754eb2b3fc03c269bd1eedafee8126489bcd2788c",
+    "rebuilt_sha256": "4e4d3a51d150ce64342f5a999c83acf08d5ad056cf1f8f79dbe98f3fd4e9f2db",
+    "checker_sha256": "2c95048869e1a3e368e62b57d62d6cd12eb9aca6cdcf42b6cd30568a9fad75b2",
+    "limits": "Only encountered ten dispatch rows and their actual code/data/ABI operands; pending child extents/body credit unchanged. Common Rust owns all CFG/RET/extent discovery."
+  },
+  "kind": "finite callback identities; only reviewed directive slot callable; its body credit requires separate wholefunction audit",
+  "directive_contract_sha256": "4384150c815b8e610f2998eb4bb147457b0929a57bd8d51de45e4f0bcc89b0c2",
+  "section_storage_contract_sha256": "7f2075f4a013ec45b8e1e58a89b7d313a3b2ce7cd7c30b33eab3600a3ef7cd16",
+  "boundary_sha256": "382e89af4857ad65f809f17937da005a54be7097b9021cade438fa1e8ee6d7a9",
+  "original_references": [
+    4,
+    4320137,
+    4320288,
+    4322290,
+    4323844,
+    4407609,
+    4409039,
+    4412979,
+    4413368,
+    4414198,
+    4417898,
+    4467615,
+    4468001,
+    4468019,
+    4468879,
+    4469409,
+    4499357,
+    4537858,
+    4538867,
+    4541352,
+    4737522,
+    4737525,
+    4737530,
+    4739317,
+    4816860,
+    4822724,
+    4838636
+  ],
+  "original_calls": [
+    4537010,
+    4537044,
+    4537100,
+    4554247
+  ],
+  "slots": [
+    {
+      "original": 4816356,
+      "rebuilt": 4243960,
+      "native": "output_slot_497de4",
+      "initial": 0,
+      "alternatives": [
+        4468879,
+        4320137
+      ]
+    },
+    {
+      "original": 4823552,
+      "rebuilt": 4243936,
+      "native": "output_slot_499a00",
+      "initial": 0,
+      "alternatives": [
+        4469409,
+        4320137
+      ]
+    },
+    {
+      "original": 4816400,
+      "rebuilt": 4243924,
+      "native": "output_slot_497e10",
+      "initial": 0,
+      "alternatives": [
+        4541352,
+        4320137
+      ]
+    },
+    {
+      "original": 4816316,
+      "rebuilt": 4243972,
+      "native": "output_slot_497dbc",
+      "initial": 0,
+      "alternatives": [
+        4409039,
+        4320137
+      ]
+    },
+    {
+      "original": 4816352,
+      "rebuilt": 4243956,
+      "native": "output_slot_497de0",
+      "initial": 0,
+      "alternatives": [
+        4412979,
+        4320137
+      ]
+    },
+    {
+      "original": 4816364,
+      "rebuilt": 4243984,
+      "native": "output_slot_497dec",
+      "initial": 0,
+      "alternatives": [
+        4407609,
+        4737522
+      ]
+    },
+    {
+      "original": 4816304,
+      "rebuilt": 4243944,
+      "native": "output_slot_497db0",
+      "initial": 0,
+      "alternatives": [
+        4322290,
+        4320137
+      ]
+    },
+    {
+      "original": 4816340,
+      "rebuilt": 4243952,
+      "native": "output_slot_497dd4",
+      "initial": 0,
+      "alternatives": [
+        4322290,
+        4320137
+      ]
+    },
+    {
+      "original": 4816100,
+      "rebuilt": 4243940,
+      "native": "output_slot_497ce4",
+      "initial": 0,
+      "alternatives": [
+        4320288,
+        4320137
+      ]
+    },
+    {
+      "original": 4816348,
+      "rebuilt": 4243980,
+      "native": "output_slot_497ddc",
+      "initial": 0,
+      "alternatives": [
+        4468001,
+        4320137
+      ]
+    },
+    {
+      "original": 4816332,
+      "rebuilt": 4243976,
+      "native": "output_slot_497dcc",
+      "initial": 0,
+      "alternatives": [
+        4467615,
+        4320137
+      ]
+    },
+    {
+      "original": 4822864,
+      "rebuilt": 4243992,
+      "native": "output_slot_499750",
+      "initial": 0,
+      "alternatives": [
+        4739317,
+        4320137
+      ]
+    },
+    {
+      "original": 4788336,
+      "rebuilt": 4243912,
+      "native": "output_slot_491070",
+      "initial": 0,
+      "alternatives": [
+        4417898,
+        4320137
+      ]
+    },
+    {
+      "original": 4816308,
+      "rebuilt": 4243948,
+      "native": "output_slot_497db4",
+      "initial": 0,
+      "alternatives": [
+        4413368,
+        4320137
+      ]
+    },
+    {
+      "original": 4788344,
+      "rebuilt": 4243920,
+      "native": "output_slot_491078",
+      "initial": 0,
+      "alternatives": [
+        4414198,
+        4320137
+      ]
+    },
+    {
+      "original": 4816736,
+      "rebuilt": 4243932,
+      "native": "output_slot_497f60",
+      "initial": 0,
+      "alternatives": [
+        4468019,
+        4320137
+      ]
+    },
+    {
+      "original": 4816380,
+      "rebuilt": 4243988,
+      "native": "output_slot_497dfc",
+      "initial": 0,
+      "alternatives": [
+        4538867,
+        4320137
+      ]
+    },
+    {
+      "original": 4816720,
+      "rebuilt": 4243928,
+      "native": "output_slot_497f50",
+      "initial": 0,
+      "alternatives": [
+        4499357,
+        4737525
+      ]
+    },
+    {
+      "original": 4822812,
+      "rebuilt": 4243908,
+      "native": "output_slot_49971c",
+      "initial": 0,
+      "alternatives": [
+        4537858,
+        4320137
+      ]
+    },
+    {
+      "original": 4816108,
+      "rebuilt": 4243968,
+      "native": "output_slot_497cec",
+      "initial": 0,
+      "alternatives": [
+        4323844,
+        4737530
+      ]
+    }
+  ],
+  "targets": [
+    {
+      "logical": "_output_callback_41eb89",
+      "original": 4320137,
+      "rebuilt": 4200111,
+      "native": "output_callback_41eb89",
+      "signature": "UNRESOLVED; exact noarg RET0 view only at49971c"
+    },
+    {
+      "logical": "_output_callback_41ec20",
+      "original": 4320288,
+      "rebuilt": 4226228,
+      "native": "select_output_section",
+      "signature": "fastcall C2Section*ECX RET0 direct view; body separately audited; stored slot NOT callable"
+    },
+    {
+      "logical": "_output_callback_41f3f2",
+      "original": 4322290,
+      "rebuilt": 4200123,
+      "native": "output_callback_41f3f2",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_41fa04",
+      "original": 4323844,
+      "rebuilt": 4200135,
+      "native": "output_callback_41fa04",
+      "signature": "fastcall C2Symbol*ECX RET0; typed only at497cec; pendingINT3/no bodycredit"
+    },
+    {
+      "logical": "_output_callback_434139",
+      "original": 4407609,
+      "rebuilt": 4200153,
+      "native": "output_callback_434139",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_4346cf",
+      "original": 4409039,
+      "rebuilt": 4200165,
+      "native": "output_callback_4346cf",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_435633",
+      "original": 4412979,
+      "rebuilt": 4200177,
+      "native": "output_callback_435633",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_4357b8",
+      "original": 4413368,
+      "rebuilt": 4200189,
+      "native": "output_callback_4357b8",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_435af6",
+      "original": 4414198,
+      "rebuilt": 4200201,
+      "native": "output_callback_435af6",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_43696a",
+      "original": 4417898,
+      "rebuilt": 4200213,
+      "native": "output_callback_43696a",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_442b9f",
+      "original": 4467615,
+      "rebuilt": 4200225,
+      "native": "output_callback_442b9f",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_442d21",
+      "original": 4468001,
+      "rebuilt": 4200237,
+      "native": "output_callback_442d21",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_442d33",
+      "original": 4468019,
+      "rebuilt": 4200249,
+      "native": "output_callback_442d33",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_44308f",
+      "original": 4468879,
+      "rebuilt": 4200261,
+      "native": "output_callback_44308f",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_4432a1",
+      "original": 4469409,
+      "rebuilt": 4200273,
+      "native": "output_callback_4432a1",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_44a79d",
+      "original": 4499357,
+      "rebuilt": 4200285,
+      "native": "output_callback_44a79d",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_453e02",
+      "original": 4537858,
+      "rebuilt": 4223917,
+      "native": "emit_output_directive",
+      "signature": "fastcall C2OutputDirective*ECX RET0; body separately audited"
+    },
+    {
+      "logical": "_output_callback_4541f3",
+      "original": 4538867,
+      "rebuilt": 4200297,
+      "native": "output_callback_4541f3",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_454ba8",
+      "original": 4541352,
+      "rebuilt": 4200309,
+      "native": "output_callback_454ba8",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_4849f2",
+      "original": 4737522,
+      "rebuilt": 4200321,
+      "native": "output_callback_4849f2",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_4849f5",
+      "original": 4737525,
+      "rebuilt": 4200333,
+      "native": "output_callback_4849f5",
+      "signature": "UNRESOLVED; invocation forbidden"
+    },
+    {
+      "logical": "_output_callback_4849fa",
+      "original": 4737530,
+      "rebuilt": 4200345,
+      "native": "output_callback_4849fa",
+      "signature": "fastcall C2Symbol*ECX RET0; typed only at497cec; pendingINT3/no bodycredit"
+    },
+    {
+      "logical": "_output_callback_4850f5",
+      "original": 4739317,
+      "rebuilt": 4200363,
+      "native": "output_callback_4850f5",
+      "signature": "UNRESOLVED; invocation forbidden"
+    }
+  ]
+}

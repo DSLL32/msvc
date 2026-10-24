@@ -1,4 +1,5 @@
 #include "code-records.h"
+#include "output-callbacks.h"
 #include <recon.h>
 
 unsigned record_source_line;
@@ -217,5 +218,13 @@ void __fastcall align_pending_debug_symbols(C2DebugLink *symbols)
         half = (value % 8192) / 2;
         if (half / 32 == 0 && value >= 4096)
             symbol->value = value - half + 32;
+    }
+}
+
+void write_pending_debug_symbols(void)
+{
+    while (pending_debug_symbols) {
+        output_slot_497cec.target(pending_debug_symbols->symbol);
+        pending_debug_symbols = pending_debug_symbols->next;
     }
 }

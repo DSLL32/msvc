@@ -111,7 +111,8 @@
     "@prepare_function_records@4",
     "_prepare_global_records",
     "@process_records@4",
-    "@align_pending_debug_symbols@4"
+    "@align_pending_debug_symbols@4",
+    "_write_pending_debug_symbols"
   ],
   "driver": [
     {
@@ -12346,6 +12347,16 @@
       "kind": "application",
       "abi": "void __fastcall(C2DebugLink *symbolsECX),RET0; preservesnonvolatiles",
       "evidence": "cases/analysis/align-debug-symbols-analysis.json; complete113Bhot+13Bcold, exact signed value16 update. CurrentNULL path exits; nonNULLbody graph/ABI reconstructed, execution notclaimed."
+    },
+    {
+      "name": "_write_pending_debug_symbols",
+      "native": "write_pending_debug_symbols",
+      "start": 4322614,
+      "end": 4322649,
+      "kind": "application",
+      "abi": "void cdecl(void),RET0",
+      "evidence": "Whole35B original41f536..41f559; consumes497458 list, qualified497cec callback on symbol4 then reloads globalroot and advancesnext0; no cached root across callback. Typedcallbackcontract must pass review beforepromotion.",
+      "requires_symbol_callback_review": "cases/analysis/symbol-callback-review.json"
     }
   ],
   "stubs": [
@@ -13281,9 +13292,11 @@
       "end": 4323845,
       "pending_extent": true,
       "kind": "application",
-      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
-      "pending_signature": true,
-      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
+      "abi": "void fastcall C2Symbol*symbolECX; no stackargs/RET0/resultignored; body pendingonebyteINT3, zero credit",
+      "pending_signature": false,
+      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered.",
+      "symbol": "@output_callback_41fa04@4",
+      "abi_evidence": "cases/analysis/symbol-callback-contract.json actualqualifiedslot/callers+wholeoriginaltarget normal-return/stack evidence; no bodyacceptance."
     },
     {
       "name": "_output_callback_434139",
@@ -13468,9 +13481,11 @@
       "end": 4737531,
       "pending_extent": true,
       "kind": "application",
-      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
-      "pending_signature": true,
-      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
+      "abi": "void fastcall C2Symbol*symbolECX; no stackargs/RET0/resultignored; body pendingonebyteINT3, zero credit",
+      "pending_signature": false,
+      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered.",
+      "symbol": "@output_callback_4849fa@4",
+      "abi_evidence": "cases/analysis/symbol-callback-contract.json actualqualifiedslot/callers+wholeoriginaltarget normal-return/stack evidence; no bodyacceptance."
     },
     {
       "name": "_output_callback_4850f5",
@@ -14321,10 +14336,10 @@
       "evidence": "cases/analysis/prepare-global-records-analysis.json: actualwholecaller and boundedoriginalcallee parameter/result/cleanup evidence; genuine maskedINT3, zero bodycredit"
     },
     {
-      "name": "_write_pending_debug_symbols",
-      "native": "write_pending_debug_symbols",
-      "start": 4322614,
-      "end": 4322615,
+      "name": "_write_assembly_symbols",
+      "native": "write_assembly_symbols",
+      "start": 4322649,
+      "end": 4322650,
       "pending_extent": true,
       "kind": "application",
       "abi": "void cdecl(void),RET0",
@@ -14507,17 +14522,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-output-ready",
-      "section_caller": "align_pending_debug_symbols"
-    },
-    {
-      "name": "_write_assembly_symbols",
-      "native": "write_assembly_symbols",
-      "start": 4322649,
-      "end": 4322650,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "void cdecl(void),RET0",
-      "evidence": "cases/analysis/process-records-disassembly.txt actualcaller and fullcallee analysis; namedmaskedINT3, no bodycredit."
+      "section_caller": "write_pending_debug_symbols"
     },
     {
       "name": "@write_codeview_records@4",
@@ -14853,7 +14858,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14865,7 +14870,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14877,7 +14882,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14889,7 +14894,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14901,7 +14906,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14913,7 +14918,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14925,7 +14930,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14937,7 +14942,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14949,7 +14954,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14961,7 +14966,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14975,7 +14980,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -14987,7 +14992,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15002,7 +15007,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15014,7 +15019,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15026,7 +15031,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15038,7 +15043,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15050,7 +15055,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15062,7 +15067,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15077,7 +15082,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15092,7 +15097,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15104,7 +15109,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15116,7 +15121,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15128,7 +15133,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15143,7 +15148,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
+          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
         }
       },
       {
@@ -15170,5 +15175,7 @@
   "directive_callback_contract": "cases/analysis/directive-callback-contract.json",
   "directive_callback_contract_sha256": "4384150c815b8e610f2998eb4bb147457b0929a57bd8d51de45e4f0bcc89b0c2",
   "section_callback_storage_contract": "cases/analysis/section-callback-storage-contract.json",
-  "section_callback_storage_contract_sha256": "7f2075f4a013ec45b8e1e58a89b7d313a3b2ce7cd7c30b33eab3600a3ef7cd16"
+  "section_callback_storage_contract_sha256": "7f2075f4a013ec45b8e1e58a89b7d313a3b2ce7cd7c30b33eab3600a3ef7cd16",
+  "symbol_callback_contract": "cases/analysis/symbol-callback-contract.json",
+  "symbol_callback_contract_sha256": "0e4d455a160a3e3aa94e4042e5dc42079278002eb4f9e2156eb52c218d9ec3eb"
 }

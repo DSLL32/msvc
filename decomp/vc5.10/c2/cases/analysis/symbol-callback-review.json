@@ -1,0 +1,7 @@
+{
+  "approved": true,
+  "contract_sha256": "0e4d455a160a3e3aa94e4042e5dc42079278002eb4f9e2156eb52c218d9ec3eb",
+  "scope": "Only497cec two genuine named pending targets typedfastcallC2Symbol*ECX/RET0, four actualcallers, no stack/result. CurrentNULLqueue neitherexecutes, zero bodycredit; other19slots unchanged. Actual futurecallbackexecution needs ordinary fresh ABI/state/body proof.",
+  "review": "orchestrator-c2-symbol-callback-2026-10-24",
+  "parent_receipt_sha256": "df8a379bb4217d6a69427e2b1be8da195c8f8bb9f878e42c231a0c11baf4d9a9"
+}

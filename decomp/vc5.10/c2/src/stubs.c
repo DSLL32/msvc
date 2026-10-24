@@ -450,7 +450,7 @@ void output_callback_41f3f2()
     __asm { int 3 }
 }
 
-void output_callback_41fa04()
+void __fastcall output_callback_41fa04(C2Symbol *symbol)
 {
     __asm { int 3 }
 }
@@ -536,7 +536,7 @@ void output_callback_4849f5()
     __asm { int 3 }
 }
 
-void output_callback_4849fa()
+void __fastcall output_callback_4849fa(C2Symbol *symbol)
 {
     __asm { int 3 }
 }
@@ -631,10 +631,6 @@ int __fastcall initializer_is_static(C2InitRecord *record) { __asm { int 3 } ret
 C2DebugLink *new_symbol_link(void) { __asm { int 3 } return NULL; }
 
 
-void write_pending_debug_symbols(void)
-{
-    __asm { int 3 }
-}
 
 void write_assembly_symbols(void)
 {

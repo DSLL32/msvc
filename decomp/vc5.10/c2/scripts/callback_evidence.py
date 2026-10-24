@@ -40,6 +40,17 @@ def verify(config,graph):
         storage=json.loads(content)
         assert storage['entry']==0x41ec20 and storage['slot']==0x497ce4 and storage['logical']=='_output_callback_41ec20'
         assert storage['target_sha256']==sha(TARGET.read_bytes())
+    symbol_writer=None
+    if config.get('symbol_callback_contract'):
+        path=BINARY/config['symbol_callback_contract'];raw=path.read_bytes()
+        assert sha(raw)==config['symbol_callback_contract_sha256']
+        symbol_writer=json.loads(raw)
+        assert symbol_writer['target_sha256']==sha(TARGET.read_bytes())
+        assert symbol_writer['historical_identity_boundary_sha256']==config['output_callback_boundary_sha256']
+        assert symbol_writer['slot']==next(r for r in value['slots']if r['original']==0x497cec)
+        assert symbol_writer['type']=='void (__fastcall *)(C2Symbol *symbol)'
+        assert symbol_writer['fields']=={'bytes':4,'target_offset':0,'alignment':4}
+        assert [(r['logical'],r['entry'],r['symbol'])for r in symbol_writer['targets']]==[('_output_callback_41fa04',0x41fa04,'@output_callback_41fa04@4'),('_output_callback_4849fa',0x4849fa,'@output_callback_4849fa@4')]
     definitions={r['name']:r for r in config['driver']+config['stubs']}
 
     typed_body=False; direct_body=False
@@ -61,6 +72,12 @@ def verify(config,graph):
             if direct_body:
                 assert not item['pending_extent'] and r['logical']in graph['functions'],'direct callback identity needs ordinary wholefunction audit'
             else:assert item['end']==r['original']+1 and item['pending_extent']
+        elif symbol_writer and r['logical']in ('_output_callback_41fa04','_output_callback_4849fa'):
+            target=next(t for t in symbol_writer['targets']if t['logical']==r['logical'])
+            assert item['native']==target['native']==r['native']and item['symbol']==target['symbol']
+            assert not item['pending_signature']and item['pending_extent']and item['end']==r['original']+1
+            assert item['abi']=='void fastcall C2Symbol*symbolECX; no stackargs/RET0/resultignored; body pendingonebyteINT3, zero credit'
+            assert r['logical']not in config['accepted']+config['trial'],'typedpending target stillneeds ownwholefunction reconstruction'
         else:
             assert item['native']==r['native'] and item['end']==r['original']+1
             assert item['pending_extent'] and item['pending_signature']
@@ -121,7 +138,8 @@ def verify(config,graph):
                 assert len(slot)==1
                 name=slot[0]
                 typed=contract and name=='output_slot_49971c'
-                allowed_type='C2DirectiveCallback'if typed else'C2PendingCallback'
+                typed_symbol=symbol_writer and name=='output_slot_497cec'
+                allowed_type='C2SymbolCallback'if typed_symbol else'C2DirectiveCallback'if typed else'C2PendingCallback'
                 allowed_stores={name+'.target = '+target+';'for slot,target in expected if slot==name}
                 if storage and name=='output_slot_497ce4':
                     allowed_stores.remove(name+'.target = select_output_section;')
@@ -130,14 +148,16 @@ def verify(config,graph):
                     allowed_stores.remove(name+'.target = output_callback_41eb89;')
                     allowed_stores.add(name+'.target = (C2OutputDirectiveWriter) output_callback_41eb89;')
                     allowed_stores.add(name+'.target(directive);')
-                assert (path.name=='output-callbacks.c'and(line.strip()==allowed_type+' '+name+';'or line.strip()in allowed_stores))or(path.name=='output-callbacks.h'and line.strip()=='extern '+allowed_type+' '+name+';'),'pending callback use/escape requires reviewed actual callable ABI'
+                symbol_use=typed_symbol and path.name=='code-records.c'and line.strip()=='output_slot_497cec.target(pending_debug_symbols->symbol);'
+                assert symbol_use or(path.name=='output-callbacks.c'and(line.strip()==allowed_type+' '+name+';'or line.strip()in allowed_stores))or(path.name=='output-callbacks.h'and line.strip()=='extern '+allowed_type+' '+name+';'),'pending callback use/escape requires reviewed actual callable ABI'
             target=[name for name in targets if re.search(r'\b'+name+r'\b',line)]
             if target:
                 assert len(target)==1
                 name=target[0]
                 typed=contract and name==definitions['_output_callback_453e02']['native']
                 direct=storage and name==storage['target_native']
-                declaration='void __fastcall '+name+'(C2Section *section)'if direct else'void __fastcall '+name+'(C2OutputDirective *directive)'if typed else'void '+name+'()'
+                typed_symbol=symbol_writer and name in ('output_callback_41fa04','output_callback_4849fa')
+                declaration='void __fastcall '+name+'(C2Symbol *symbol)'if typed_symbol else'void __fastcall '+name+'(C2Section *section)'if direct else'void __fastcall '+name+'(C2OutputDirective *directive)'if typed else'void '+name+'()'
                 noop_cast=contract and name=='output_callback_41eb89'and line.strip()=='output_slot_49971c.target = (C2OutputDirectiveWriter) output_callback_41eb89;'
                 storage_use=direct and((path.name=='output-callbacks.c'and line.strip()=='output_slot_497ce4.target = (void (__cdecl *)()) select_output_section;')or(path.name=='coff-output.c'and line.strip()=='select_output_section(directive_section);'))
                 assert storage_use or noop_cast or(path.name=='output-callbacks.c'and re.fullmatch(r'output_slot_[0-9a-f]+\.target = '+name+r';',line.strip()))or(path.name=='output-callbacks.h'and line.strip()==declaration+';')or(path.name=='stubs.c'and line.strip()==declaration)or(typed and typed_body and path.name=='output-callbacks.c'and line.strip()==declaration)or(direct and direct_body and path.name=='coff-output.c'and line.strip()==declaration),'pending target invocation/escape requires actual ABI review'
@@ -152,12 +172,60 @@ def verify(config,graph):
         if not direct_body:assert 'void __fastcall select_output_section(C2Section *section)\n{\n    __asm { int 3 }\n}'in stub
         caller=(BINARY/'src/coff-output.c').read_text()
         assert caller.count('select_output_section(directive_section);')==1
+    symbol_certificate=verify_symbol_writer(symbol_writer,config,graph,maps,original,rebuilt)if symbol_writer else None
     from directive_data import verify as verify_directive_data
     directive_data=verify_directive_data(BINARY,config,graph)
-    return {'directive_data':directive_data,'kind':'finite callback identities; only reviewed directive slot callable; its body credit requires separate wholefunction audit'if contract else'stores-only pending function-address identities; zero callback body/ABI credit',
+    return {'symbol_callback':symbol_certificate,'directive_data':directive_data,'kind':'finite callback identities; only reviewed directive slot callable; its body credit requires separate wholefunction audit'if contract else'stores-only pending function-address identities; zero callback body/ABI credit',
             'directive_contract_sha256':config.get('directive_callback_contract_sha256'),
             'section_storage_contract_sha256':config.get('section_callback_storage_contract_sha256'),
             'boundary_sha256':config['output_callback_boundary_sha256'],
             'original_references':owned['references'],'original_calls':owned['calls'],
             'slots':[{'original':r['original'],'rebuilt':maps['_'+r['native']],'native':r['native'],'initial':0,'alternatives':r['alternatives']}for r in value['slots']],
-            'targets':[{'logical':r['logical'],'original':r['original'],'rebuilt':maps[definitions[r['logical']].get('symbol',r['logical'])],'native':definitions[r['logical']]['native'],'signature':(('fastcall C2OutputDirective*ECX RET0; body separately audited'if typed_body else'fastcall C2OutputDirective*ECX RET0; body pending')if contract and r['logical']=='_output_callback_453e02'else'UNRESOLVED; exact noarg RET0 view only at49971c'if contract and r['logical']=='_output_callback_41eb89'else'fastcall C2Section*ECX RET0 direct view; body separately audited; stored slot NOT callable'if storage and r['logical']=='_output_callback_41ec20'else'UNRESOLVED; invocation forbidden')}for r in value['targets']]}
+            'targets':[{'logical':r['logical'],'original':r['original'],'rebuilt':maps[definitions[r['logical']].get('symbol',r['logical'])],'native':definitions[r['logical']]['native'],'signature':(('fastcall C2OutputDirective*ECX RET0; body separately audited'if typed_body else'fastcall C2OutputDirective*ECX RET0; body pending')if contract and r['logical']=='_output_callback_453e02'else'UNRESOLVED; exact noarg RET0 view only at49971c'if contract and r['logical']=='_output_callback_41eb89'else'fastcall C2Section*ECX RET0 direct view; body separately audited; stored slot NOT callable'if storage and r['logical']=='_output_callback_41ec20'else'fastcall C2Symbol*ECX RET0; typed only at497cec; pendingINT3/no bodycredit'if symbol_writer and r['logical']in ('_output_callback_41fa04','_output_callback_4849fa')else'UNRESOLVED; invocation forbidden')}for r in value['targets']]}
+
+
+def verify_symbol_writer(contract,config,graph,maps,original,rebuilt):
+    """Finite declared slot/caller/ABI certificate; common Rust owns all CFG."""
+    assert sha((BINARY/'cases/analysis/symbol-callback-disassembly.txt').read_bytes())==contract['disassembly_sha256']
+    assert sha((BINARY/contract['stack_witness']['path']).read_bytes())==contract['stack_witness']['sha256']
+    assert sha((BINARY/contract['call_inventory']['path']).read_bytes())==contract['call_inventory']['sha256']
+    assert original(0x41f53f,9)==b'\x8b\x48\x04\xff\x15'+struct.pack('<I',0x497cec)
+    assert original(0x442f2f,2)==b'\x8b\xce'and original(0x442f45,6)==b'\xff\x15'+struct.pack('<I',0x497cec)
+    assert original(0x41fada,2)==b'\x8b\xcf'and original(0x41fadf,5)==b'\xe8'+struct.pack('<i',0x41fa04-0x41fae4)
+    assert original(0x43414f,2)==b'\x8b\xe9'and original(0x43415d,7)==b'\x8b\xcd\xe8'+struct.pack('<i',0x41fa04-0x434164)
+    assert [(r['call'],r['load'],r['stack_arguments'],r['return_cleanup'],r['result'])for r in contract['callers']]==[(0x41f542,0x41f53f,0,0,'ignored'),(0x442f45,0x442f2f,0,0,'ignored')]
+    assert contract['recursive_call']['call']==0x41fadf and contract['recursive_call']['target']==0x41fa04 and contract['recursive_call']['stack_arguments']==0 and contract['recursive_call']['result']=='ignored'
+    assert contract['additional_direct_call']['call']==0x43415f and contract['additional_direct_call']['target']==0x41fa04 and contract['additional_direct_call']['stack_arguments']==0 and contract['additional_direct_call']['result']=='ignored'
+    assert contract['stack_witness']['RET0_helpers']==[0x41fd8e,0x41fd9e]and contract['stack_witness']['RET16_helper']==0x41fcb0 and contract['stack_witness']['RET16_sites']==[0x41fd83,0x469e00,0x469e56]
+    for target in contract['targets']:
+        expected=([0x41fa04,0x41fc96],[[0x469d0c,0x469d5d]],[0x41faa7,0x41fb50,0x41fc66,0x469d36],[[0x41fca0,0x41fcb0]])if target['entry']==0x41fa04 else([0x4849fa,0x484a0a],[],[0x484a09],[])
+        assert (target['primary'],target['code_chunks'],target['normal_ret0_sites'],target['text_data'])==expected,'symbolcallback ABI proof interval/normalreturns differ'
+        start,end=target['primary'];assert start==target['entry']
+        assert sha(original(start,end-start))==target['body_sha256']
+        assert [sha(original(a,z-a))for a,z in target['code_chunks']]==target['extra_sha256s']
+        assert all(original(at,1)==b'\xc3'for at in target['normal_ret0_sites'])
+        stub='void __fastcall '+target['native']+'(C2Symbol *symbol)\n{\n    __asm { int 3 }\n}'
+        assert stub in (BINARY/'src/stubs.c').read_text(),'typedcallback target must remain genuine named INT3'
+    assert original(0x4849fa,16)==bytes.fromhex('8a41043c0174043c04750480493101c3')
+    assert struct.unpack('<4I',original(0x41fca0,16))==(0x41fbf7,0x41fc7d,0x41fc67,0x41fbed)
+    assert original(0x41fd9d,1)==b'\xc3'and all(original(at,3)==b'\xc2\x10\0'for at in (0x41fd83,0x469e00,0x469e56))
+    header=(BINARY/'src/output-callbacks.h').read_text()
+    assert 'typedef void (__fastcall *C2SymbolWriter)(C2Symbol *symbol);'in header
+    assert 'typedef struct C2SymbolCallback { C2SymbolWriter target; } C2SymbolCallback;'in header
+    source=(BINARY/'src/code-records.c').read_text()
+    exact='void write_pending_debug_symbols(void)\n{\n    while (pending_debug_symbols) {\n        output_slot_497cec.target(pending_debug_symbols->symbol);\n        pending_debug_symbols = pending_debug_symbols->next;\n    }\n}'
+    assert source.count(exact)==1 and source.count('output_slot_497cec.target(')==1,'typed497cec consumer must reload actualglobal root after callback'
+    owner='_write_pending_debug_symbols';assert owner in graph['functions']
+    site=contract['canonical_callsite'];assert site['owner']==owner
+    start=maps[owner];slot=maps['_output_slot_497cec']
+    root=maps['_pending_debug_symbols']
+    assert rebuilt(start+site['root_load_offset'],5)==b'\xa1'+struct.pack('<I',root),'canonical symbolcall must read actual sharedqueue'
+    assert rebuilt(start+site['reload_advance_offset'],14)==b'\x8b\x0d'+struct.pack('<I',root)+b'\x8b\x11\x89\x15'+struct.pack('<I',root),'canonical consumer must reload and advance actualglobalroot aftercallback'
+    assert rebuilt(start+site['offset'],6)==b'\xff\x15'+struct.pack('<I',slot),'canonical symbolcall must use exact qualified slot'
+    assert rebuilt(start+site['load_offset'],len(bytes.fromhex(site['load_bytes'])))==bytes.fromhex(site['load_bytes'])
+    assert bytes.fromhex(site['load_bytes']).endswith(b'\x8b\x48\x04'),'actual symbol must come from genuine link+4 intoECX'
+    for target in contract['targets']:
+        pattern=b'\xc7\x05'+struct.pack('<II',slot,maps[target['symbol']])
+        chunks=graph['owned_code_chunks']['rebuilt']['functions']['_initialize_pass_functions']
+        assert sum(rebuilt(a,z-a).count(pattern)for a,z in chunks)==1,'typed symboltarget initializer identity differs'
+    return {'contract_sha256':config['symbol_callback_contract_sha256'],'slot':0x497cec,'canonical_slot':slot,'canonical_callsite':start+site['offset'],'targets':[{'logical':r['logical'],'original':r['entry'],'canonical':maps[r['symbol']],'pending':True,'body_credit':0}for r in contract['targets']],'scope':'Only497cec C2Symbol*ECX/RET0 callback view, exact two alternatives/fourcallers and typedconsumer. CurrentNULLqueue invokesneither. Other19slotguardspreserved; originaltargethashes areanalysis evidence, not unmask/acceptance.'}

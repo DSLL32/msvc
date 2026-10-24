@@ -1,0 +1,4 @@
+  41f542:	ff 15 ec 7c 49 00    	call   DWORD PTR ds:0x497cec
+  41fadf:	e8 20 ff ff ff       	call   0x41fa04
+  43415f:	e8 a0 b8 fe ff       	call   0x41fa04
+  442f45:	ff 15 ec 7c 49 00    	call   DWORD PTR ds:0x497cec

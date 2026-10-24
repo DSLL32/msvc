@@ -1,0 +1,42 @@
+
+/root/msvc2/decomp/vc5.10/c2/build/native/c2:     file format elf32-i386
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000060a0 <output_callback_4849fa>:
+    60a0:	55                   	push   ebp
+    60a1:	89 e5                	mov    ebp,esp
+    60a3:	53                   	push   ebx
+    60a4:	83 ec 14             	sub    esp,0x14
+    60a7:	e8 00 00 00 00       	call   60ac <output_callback_4849fa+0xc>
+    60ac:	5b                   	pop    ebx
+    60ad:	81 c3 48 3f 03 00    	add    ebx,0x33f48
+    60b3:	89 5d f0             	mov    DWORD PTR [ebp-0x10],ebx
+    60b6:	89 4d f4             	mov    DWORD PTR [ebp-0xc],ecx
+    60b9:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    60bc:	8d 8b ac c0 fc ff    	lea    ecx,[ebx-0x33f54]
+    60c2:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    60c5:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    60c9:	e8 92 5b 02 00       	call   2bc60 <__cyg_profile_func_enter>
+    60ce:	8b 5d f0             	mov    ebx,DWORD PTR [ebp-0x10]
+    60d1:	8b 4d f4             	mov    ecx,DWORD PTR [ebp-0xc]
+    60d4:	89 4d f8             	mov    DWORD PTR [ebp-0x8],ecx
+    60d7:	cc                   	int3
+    60d8:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    60db:	8d 8b ac c0 fc ff    	lea    ecx,[ebx-0x33f54]
+    60e1:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    60e4:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    60e8:	e8 43 5d 02 00       	call   2be30 <__cyg_profile_func_exit>
+    60ed:	83 c4 14             	add    esp,0x14
+    60f0:	5b                   	pop    ebx
+    60f1:	5d                   	pop    ebp
+    60f2:	c3                   	ret
+
+Disassembly of section .fini:

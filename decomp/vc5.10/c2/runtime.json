@@ -1144,14 +1144,6 @@
     "evidence": null
   },
   {
-    "name": "_write_pending_debug_symbols",
-    "start": 4322614,
-    "end": 4322615,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_write_assembly_symbols",
     "start": 4322649,
     "end": 4322650,

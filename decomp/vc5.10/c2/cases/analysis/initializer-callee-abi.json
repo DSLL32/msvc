@@ -2,7 +2,7 @@
   "schema": 1,
   "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
   "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-  "rebuilt_sha256": "89fc6f448fca0b6eb4d22c90009ff25d29dfa2ea29fc316e8b8a03433feb18a3",
+  "rebuilt_sha256": "4e4d3a51d150ce64342f5a999c83acf08d5ad056cf1f8f79dbe98f3fd4e9f2db",
   "callee_preservation": [
     {
       "function": "@new_initializer@4",
@@ -291,7 +291,7 @@
       "review": "Complete16B noEDIwrite/save-slot escape. Actual MSPDB StreamQueryCb externalcdecl boundary and methodinterface nonvolatileEDI reviewed separately; only finite normalreturn claim.",
       "original_body_accepted": false,
       "source_symbol": "query_incremental_stream_size",
-      "rebuilt_entry": 4200375
+      "rebuilt_entry": 4200387
     },
     {
       "function": "@read_incremental_stream@8",
@@ -309,7 +309,7 @@
       "review": "Complete59B noEDIwrite. Actual MSPDB StreamRead externalcdecl boundary reviewed separately; error branch calls terminating diagnostic. Normal nonerrorreturn EAX from caller-owned DWORD stackslot; no address of EDI/savedcallerstate passed.",
       "original_body_accepted": false,
       "source_symbol": "read_incremental_stream",
-      "rebuilt_entry": 4200389
+      "rebuilt_entry": 4200401
     },
     {
       "function": "_read_incremental_byte",
@@ -327,7 +327,7 @@
       "review": "Complete16B noEDIwrite, no calls, oneRET0; only ECX/global cursor and AL are written.",
       "original_body_accepted": false,
       "source_symbol": "read_incremental_byte",
-      "rebuilt_entry": 4200414
+      "rebuilt_entry": 4200426
     },
     {
       "function": "_validate_incremental_options",
@@ -345,7 +345,7 @@
       "review": "Complete228B noEDIwrite or indirect calls. All return paths popESI/popECX/RET0. Actual called readers485316 and4852f1 are complete noEDIwrite/no-call leaves, included supplementalnormalreturn evidence.",
       "original_body_accepted": false,
       "source_symbol": "validate_incremental_options",
-      "rebuilt_entry": 4200428
+      "rebuilt_entry": 4200440
     },
     {
       "function": "_initialize_coff_lists",
@@ -363,7 +363,7 @@
       "review": "Complete33B writes only six globalDWORDs with EAX; no ESI write/call/stack escape; RET453de6.",
       "original_body_accepted": false,
       "source_symbol": "initialize_coff_lists",
-      "rebuilt_entry": 4225326
+      "rebuilt_entry": 4225374
     },
     {
       "function": "@new_output_list@8",
@@ -381,7 +381,7 @@
       "review": "Complete52B saves ESI41eb97 before all work/nested calls; common POPESI41ebc7 and RET41ebc9. No saved-register slot address escapes; ordinary child calls cannot alter caller saved slot. Second DWORD refined from zero-only context label to integer count-only flag using actual0/1 callers and fullDWORD consumer equality; ESI save/restore, original range and RET0 unchanged.",
       "original_body_accepted": false,
       "source_symbol": "new_output_list",
-      "rebuilt_entry": 4225391
+      "rebuilt_entry": 4225439
     },
     {
       "function": "_read_incremental_output",
@@ -399,7 +399,7 @@
       "review": "Complete2374B includes post-RET switch cases. PUSHESI4857a2 under fixed local frame; only normal exits restore POPESI48584c/485eee before RET485852/485ef9. Caller-frame writes and passed buffers stay above saved register slots; no saved-slot escape. External104B classmap+8-entry32B jump table separately pinned; all targets in this interval. No body/data unmask or source credit.",
       "original_body_accepted": false,
       "source_symbol": "read_incremental_output",
-      "rebuilt_entry": 4200515
+      "rebuilt_entry": 4200527
     }
   ],
   "free_site": {

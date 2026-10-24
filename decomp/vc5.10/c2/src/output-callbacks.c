@@ -25,7 +25,7 @@ C2PendingCallback output_slot_497f60;
 C2PendingCallback output_slot_497dfc;
 C2PendingCallback output_slot_497f50;
 C2DirectiveCallback output_slot_49971c;
-C2PendingCallback output_slot_497cec;
+C2SymbolCallback output_slot_497cec;
 
 void initialize_pass_functions(void)
 {
