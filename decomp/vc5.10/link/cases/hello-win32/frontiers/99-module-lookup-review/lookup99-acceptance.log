@@ -1,0 +1,70 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 572, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 539, in main
+    else:verify_frontier(args.original, args.native, args.expected_next, trial)
+         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 140, in verify_frontier
+    compare(expected_name, original, native, traps[0], state)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/boundary_state.py", line 501, in compare
+    compare_release(original,native_state,original_state,completed_options=name!='_release_memory@4',native_directory=native)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/hello_boundary.py", line 91, in compare_release
+    compare_configured(original,state,trap,events,canonical,search,native_directory=native_directory)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/hello_boundary.py", line 175, in compare_configured
+    advanced=compare_sections(original,state,trap,events,native_directory=native_directory)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/section_state.py", line 215, in compare
+    ranges+=compare_move(original,state,trap,events,native_directory=native_directory)
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/input_open_state.py", line 332, in compare
+    live_output=compare_archive(original,state,trap,events,native_directory,oslots,nslots)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/archive_state.py", line 117, in compare
+    return compare_completed(original,state,trap,events,directory,reader,entry,formals,read,output) # Archive array is expired; only a new genuinely live output may extend ownership.
+  File "/root/msvc2/decomp/vc5.10/link/scripts/archive_state.py", line 174, in compare_completed
+    compare_seeks(original,state,trap,events,directory,reader,formals[0],read['formals'][0])
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/mapped_seek_state.py", line 113, in compare
+    compare_read(original,state,trap,events,directory,original_record,native_record)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/big_endian_state.py", line 77, in compare
+    compare_result(original,state,trap,events,directory,entry,mac,output)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/swap_result_state.py", line 78, in compare
+    compare_machine(original,state,trap,events,directory)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/input_machine_state.py", line 62, in compare
+    compare_detect(original,state,trap,events,directory)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/detect_machine_state.py", line 51, in compare
+    compare_result(original,state,trap,events,directory)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/machine_result_state.py", line 108, in compare
+    compare_init(original,state,trap,events,directory)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/machine_init_state.py", line 78, in compare
+    compare_delay(original,state,trap,events,directory)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/delay_validator_state.py", line 66, in compare
+    compare_backend(original,state,trap,events,directory)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/x86_backend_state.py", line 107, in compare
+    compare_coff(original,state,trap,events,directory)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/coff_reader_state.py", line 139, in compare
+    compare_constructor(original,state,trap,events,directory,formals,nformals,expected)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/module_constructor_state.py", line 67, in compare
+    compare_enumerator(original,state,trap,events,directory,entry-32,nmethod)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/module_enumerator_state.py", line 30, in compare
+    receipt=json.loads((directory/'receipt.json').read_text());frame,offset=native_contract(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
+                                                                            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/module_enumerator_state.py", line 15, in native_contract
+    offsets=local_offsets(path,digest,'OutputLibrary::FindModule',('enumerator',));assert offsets==dict(enumerator=-24)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/mapped_seek_state.py", line 24, in local_offsets
+    symbol,=[r for r in rows if len(r)==4 and r[3]==owner]
+    ^^^^^^^
+ValueError: not enough values to unpack (expected 1, got 0)

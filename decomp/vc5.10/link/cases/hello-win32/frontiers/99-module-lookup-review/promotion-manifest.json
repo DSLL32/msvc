@@ -1,0 +1,12 @@
+[
+  {
+    "path": "promotion/current-acceptance-validation.json",
+    "bytes": 498149,
+    "sha256": "45e64a69abaaba9dc2d7ad5e38e66d64584d51a9123ce55fe23449ab5d6c05a0"
+  },
+  {
+    "path": "promotion/promotion.log",
+    "bytes": 498149,
+    "sha256": "45e64a69abaaba9dc2d7ad5e38e66d64584d51a9123ce55fe23449ab5d6c05a0"
+  }
+]

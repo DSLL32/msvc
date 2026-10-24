@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 98 application
-functions (36,614 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 99 application
+functions (36,754 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `OutputLibrary::FindModule`; hello-win32 has not completed.
+next frontier is `initialize_module_enumerator`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -626,3 +626,18 @@ Native help takes 68.63 ms including 3.742 ms execution. Independent review,
 source/layout proofs and observer corrections are retained in
 `frontiers/98-module-constructor-review`; no broad historical campaign was rerun.
 The pending 140-byte lookup remains masked with no body credit.
+
+The 140-byte module lookup is accepted. Its full identity/name-search loop uses
+the actual `_mbsicmp` import and ends the enumerator only after a match. The next
+initializer receives two actual arguments and the caller’s complete 16-byte
+output local. Native DWARF resolves the member definition through its
+specification/linkage identity and binds that local’s offset and full type size.
+The pending initializer writes all four DWORD slots before reading output data;
+its incoming arbitrary bytes remain each side’s own evidence. Only two necessary
+EBX contracts resolve the one cached import: canonical `_mbsicmp` and the
+call-free next-module helper. Both removals and eight finite witness controls
+reject; the helper and CRT have no new body credit. The 19 focused state negatives
+plus positives take 2.559 s; 112 full/105 strict graph bodies pass. Original/native/
+audit times are 1.569/0.973/0.658 s. Native help takes 72.02 ms including 3.767 ms
+execution. Evidence and the corrected C++ DWARF observer check are retained in
+`frontiers/99-module-lookup-review`.

@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "address": 4261168,
+  "bytes": 71,
+  "body_sha256": "3d71f712a48d3b1b1fd5252b9040e74ab280682f99858a2c28e3b37653af7926",
+  "formals": [
+    "LinkContext *context",
+    "InputArgument *argument"
+  ],
+  "hidden_inputs": [],
+  "returns": [
+    [
+      4261220,
+      8
+    ],
+    [
+      4261236,
+      8
+    ]
+  ],
+  "scope": "Read-only pending child71B; exact2incoming slots and RET8; no application body credit.",
+  "mode_refinement": {
+    "address": 4714544,
+    "bytes": 1,
+    "native_symbol": "machine_initialized",
+    "default": "PE data virtual-zero tail",
+    "store": {
+      "address": 4495260,
+      "raw": "c60530f0470001",
+      "value": 1
+    },
+    "read": {
+      "address": 4495349,
+      "raw": "a030f04700"
+    },
+    "all_literal_address_references": [
+      4495262,
+      4495350
+    ],
+    "prior_symbol": "object_read_mode, preserved in90 frozen source/checker; new name from actual initialize_machine store."
+  },
+  "module_layout": {
+    "bytes": 156,
+    "unchanged_name": 4,
+    "unchanged_library": 100,
+    "new_fields": {
+      "input_tag": 52,
+      "timestamp": 56,
+      "file_size": 60
+    }
+  }
+}

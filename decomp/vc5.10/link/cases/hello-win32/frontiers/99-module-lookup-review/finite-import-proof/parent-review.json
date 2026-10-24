@@ -1,0 +1,9 @@
+{
+  "review": "Finite EBX preservation for genuine library lookup cached _mbsicmp",
+  "packet_sha256": "d4462f9ac880fb872080fd61ec460329e969adce502c3585b022892f8ea33907",
+  "independent_exact_static_check": true,
+  "scope": "Only canonical qualified _mbsicmp ordinary cdecl EBX and exact next_module60B no calls/noEBXwrites/twoRET4. Rebuilt pending15B stub exact balanced EBXsave/restore/RET4 bound; must refresh when body reconstructed.",
+  "provider_basis": "Authenticated canonicalexport349/RVA632c and ownedhFile receipt/shipped SDK cdecl; no recursive provider body/semantics credit",
+  "required_control_scope": "Sole cached40f7ea\u2194one rebuilt direct/zero opaque; both contract removals reject, physicalEBXclobber+refreshedhash mutation rejects.",
+  "release": "Finite static contracts approved; actual full99case/typed enumerator frontier and ordinary acceptance still required."
+}

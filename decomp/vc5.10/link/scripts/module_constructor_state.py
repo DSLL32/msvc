@@ -27,12 +27,20 @@ def compare(original,state,trap,events,directory,formals,nformals,header):
     creator,=[r for r in config['driver']if r['name']=='_create_input_module@48']
     assert (creator['start'],creator['end'])==(0x40ea00,0x40edcc)
     method,=[r for r in config['driver']if r['name']=='OutputLibrary::FindModule']
-    assert method['pending_extent']and method['start']==0x40f7a0
+    child=state['function']=='initialize_module_enumerator'
+    assert method['start']==0x40f7a0
+    if child:assert not method['pending_extent']and method['end']==0x40f82c
+    else:assert method['pending_extent']
     original_entry,=[e for e in events if e['event']=='input_module_entry']
     entry=original_entry['stack_pointer'];expected=dict(this=formals[4],formals=[formals[1],formals[2]],other_hidden_inputs=[])
-    assert trap['esp']==entry-32 and trap['stack'][:3]==[0x40ea29]+expected['formals']
-    assert trap['module_find_formals']==expected and trap['ecx']==formals[4]
-    assert trap['frontier_inputs']==dict(formals=expected['formals'],hidden_register_inputs=[dict(register='ecx',value=formals[4])])
+    if child:
+        seen,=[e for e in events if e['event']=='module_find_entry']
+        assert seen==dict(event='module_find_entry',stack_pointer=entry-32,**expected)
+    else:
+        assert trap['esp']==entry-32 and trap['stack'][:3]==[0x40ea29]+expected['formals']
+        assert trap['ecx']==formals[4]
+        assert trap['frontier_inputs']==dict(formals=expected['formals'],hidden_register_inputs=[dict(register='ecx',value=formals[4])])
+    assert trap['module_find_formals']==expected
     assert (original/'module-find-header.bin').read_bytes()==header
     assert (original/'module-find-created.bin').read_bytes()==(original/'input-module-created-before.bin').read_bytes()
     assert (original/'module-mac-target.bin').read_bytes()==(original/'module-native-ppc.bin').read_bytes()==b'\0'
@@ -49,7 +57,11 @@ def compare(original,state,trap,events,directory,formals,nformals,header):
     nentry=state['input_module_entry']['stack_pointer']
     nmethod=dict(stack_pointer=nentry-frame,this=nformals[4],formals=[nformals[1],nformals[2]],other_hidden_inputs=[])
     assert state['module_find_entry']==nmethod
-    assert state['frontier_inputs']==dict(formals=nmethod['formals'],hidden_register_inputs=[dict(register='ecx',value=nmethod['this'])])
+    if not child:assert state['frontier_inputs']==dict(formals=nmethod['formals'],hidden_register_inputs=[dict(register='ecx',value=nmethod['this'])])
     assert state['module_find_state']==dict(header=header.hex(),created=state['input_module_created_output']['before'],mac_target=0,native_ppc_symbol_maps=0)
     # This lookup receives neither the caller's header nor created-output pointer;
     # both stay live in outer frames but unchanged before its first normal return.
+
+    if child:
+        from module_enumerator_state import compare as compare_enumerator
+        compare_enumerator(original,state,trap,events,directory,entry-32,nmethod)

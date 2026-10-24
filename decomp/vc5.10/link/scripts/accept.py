@@ -186,12 +186,12 @@ def audit_trial(path):
     inputs = [tool, ROOT/'toolchains/5.10/bin/LINK.EXE', BINARY/'build/link.exe',
               BINARY/'build/link.map',path,BINARY/'runtime.json',BINARY/'build/runtime.json',BINARY/'graph.json',BINARY/'build/graph.json']
     inputs.append(strict_path)
-    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','hello_boundary.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','section_state.py','group_state.py','collision_state.py','file_open_state.py','file_move_state.py','file_mapping_state.py','mapping_completion_state.py','library_creation_state.py','input_open_state.py','archive_state.py','mapped_seek_state.py','big_endian_state.py','swap_result_state.py','input_machine_state.py','detect_machine_state.py','machine_result_state.py','machine_init_state.py','delay_validator_state.py','x86_backend_state.py','coff_reader_state.py','module_constructor_state.py','mapped_input_contract.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py','case_inputs.py']]
+    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','hello_boundary.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','section_state.py','group_state.py','collision_state.py','file_open_state.py','file_move_state.py','file_mapping_state.py','mapping_completion_state.py','library_creation_state.py','input_open_state.py','archive_state.py','mapped_seek_state.py','big_endian_state.py','swap_result_state.py','input_machine_state.py','detect_machine_state.py','machine_result_state.py','machine_init_state.py','delay_validator_state.py','x86_backend_state.py','coff_reader_state.py','module_constructor_state.py','module_enumerator_state.py','mapped_input_contract.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py','case_inputs.py']]
     inputs.append(BINARY/'cases/hello-win32/mapped-open-byte-input.json')
     inputs.append(BINARY/'cases/hello-win32/input-loader-contract.json')
     inputs.append(BINARY/'cases/hello-win32/input-reader-contract.json')
     inputs.extend([BINARY/'cases/hello-win32/archive-signature-literal.json',BINARY/'cases/hello-win32/mapped-read-output-contract.json'])
-    inputs.extend([BINARY/'cases/hello-win32/mapped-read-contract.json',BINARY/'cases/hello-win32/mac-resource-input-contract.json',BINARY/'cases/hello-win32/mac-resource-contract.json',BINARY/'cases/hello-win32/file-length-input-contract.json',BINARY/'cases/hello-win32/file-length-contract.json',BINARY/'cases/hello-win32/seek-file-input-contract.json',BINARY/'cases/hello-win32/seek-file-contract.json',BINARY/'cases/hello-win32/mapped-seek-input-contract.json',BINARY/'cases/hello-win32/mapped-seek-contract.json',BINARY/'cases/hello-win32/big-endian-input-contract.json',BINARY/'cases/hello-win32/big-endian-contract.json',BINARY/'cases/hello-win32/swap-dword-input-contract.json',BINARY/'cases/hello-win32/object-reader-input-contract.json',BINARY/'cases/hello-win32/input-machine-input-contract.json',BINARY/'cases/hello-win32/detect-machine-input-contract.json',BINARY/'cases/hello-win32/initialize-machine-input-contract.json',BINARY/'cases/hello-win32/validate-delay-input-contract.json',BINARY/'cases/hello-win32/x86-backend-input-contract.json',BINARY/'cases/hello-win32/coff-header-input-contract.json',BINARY/'cases/hello-win32/create-module-input-contract.json',BINARY/'cases/hello-win32/find-module-input-contract.json',BINARY/'cases/hello-win32/coff-reader-unused-position.json'])
+    inputs.extend([BINARY/'cases/hello-win32/mapped-read-contract.json',BINARY/'cases/hello-win32/mac-resource-input-contract.json',BINARY/'cases/hello-win32/mac-resource-contract.json',BINARY/'cases/hello-win32/file-length-input-contract.json',BINARY/'cases/hello-win32/file-length-contract.json',BINARY/'cases/hello-win32/seek-file-input-contract.json',BINARY/'cases/hello-win32/seek-file-contract.json',BINARY/'cases/hello-win32/mapped-seek-input-contract.json',BINARY/'cases/hello-win32/mapped-seek-contract.json',BINARY/'cases/hello-win32/big-endian-input-contract.json',BINARY/'cases/hello-win32/big-endian-contract.json',BINARY/'cases/hello-win32/swap-dword-input-contract.json',BINARY/'cases/hello-win32/object-reader-input-contract.json',BINARY/'cases/hello-win32/input-machine-input-contract.json',BINARY/'cases/hello-win32/detect-machine-input-contract.json',BINARY/'cases/hello-win32/initialize-machine-input-contract.json',BINARY/'cases/hello-win32/validate-delay-input-contract.json',BINARY/'cases/hello-win32/x86-backend-input-contract.json',BINARY/'cases/hello-win32/coff-header-input-contract.json',BINARY/'cases/hello-win32/create-module-input-contract.json',BINARY/'cases/hello-win32/find-module-input-contract.json',BINARY/'cases/hello-win32/module-enumerator-input-contract.json',BINARY/'cases/hello-win32/coff-reader-unused-position.json'])
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
     register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8','_print_logo']if name in trial['accepted']]
@@ -201,7 +201,8 @@ def audit_trial(path):
     collision_candidate='_check_output_input_collision@8'in trial['accepted']
     mapping_candidate='_initialize_file_mapping@12'in trial['accepted']
     finder_candidate='_find_library@12'in trial['accepted']
-    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')and not(pass_one_candidate and name=='LinkContext::PassOne')and not(collision_candidate and name=='_check_output_input_collision@8')and not(mapping_candidate and name=='_initialize_file_mapping@12')and not(finder_candidate and name=='_find_library@12')]
+    lookup_candidate='OutputLibrary::FindModule'in trial['accepted']
+    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')and not(pass_one_candidate and name=='LinkContext::PassOne')and not(collision_candidate and name=='_check_output_input_collision@8')and not(mapping_candidate and name=='_initialize_file_mapping@12')and not(finder_candidate and name=='_find_library@12')and not(lookup_candidate and name=='OutputLibrary::FindModule')]
     import_path=path.parent/'direct-import-config.json'
     import_path.write_text(json.dumps(imported,indent=2)+'\n')
     inputs.append(import_path)
@@ -381,6 +382,25 @@ def audit_trial(path):
         packet=json.loads(finder_checker.PACKET.read_text());provider=packet['canonical_provider']
         inputs += [BINARY/provider['owned_receipt']]+[BINARY/item['path']for item in provider['owned_hfile_copies']]
         inputs += [ROOT/item['path']for imported in packet['imports']for item in imported['declarations']]
+    lookup_command=None
+    lookup_witness=None
+    if lookup_candidate:
+        import importlib
+        from binary import PE
+        lookup_checker=importlib.import_module('module-lookup-preservation')
+        lookup_witness=lookup_checker.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),PE(BINARY/'build/link.exe'),(BINARY/'build/link.map').read_text())
+        lookup_config=copy.deepcopy(trial);lookup_config['accepted']=[lookup_checker.OWNER]
+        lookup_config_path=path.parent/'lookup-import-config.json';lookup_config_path.write_text(json.dumps(lookup_config,indent=2)+'\n')
+        lookup_metadata=json.loads((BINARY/'build/graph.json').read_text())
+        lookup_metadata['functions'].setdefault(lookup_checker.OWNER,{})['register_imports']={'require_all_register_calls_resolved':True}
+        lookup_metadata['register_imports']={'preservation_contracts':lookup_checker.contracts()}
+        lookup_metadata_path=path.parent/'lookup-import-metadata.json';lookup_metadata_path.write_text(json.dumps(lookup_metadata,indent=2)+'\n')
+        lookup_command=command.copy();lookup_command[lookup_command.index('--config')+1]=str(lookup_config_path);lookup_command[lookup_command.index('--metadata')+1]=str(lookup_metadata_path)
+        lookup_command+=['--check-imports','--resolve-register-imports']
+        inputs += [lookup_config_path,lookup_metadata_path,lookup_checker.PACKET,BINARY/'scripts/module-lookup-preservation.py']
+        packet=json.loads(lookup_checker.PACKET.read_text());provider=packet['canonical_provider']
+        inputs += [BINARY/provider['owned_receipt']]+[BINARY/item['path']for item in provider['owned_hfile_copies']]
+        inputs += [ROOT/item['path']for imported in packet['imports']for item in imported['declarations']]
     delete_support=None
     if 'import:??3@YAXPAX@Z' in trial['accepted']:
         import importlib
@@ -456,6 +476,12 @@ def audit_trial(path):
         finder_report=json.loads(resolved.stdout)
         finder_audit=dict(command=finder_command,witness_binding=finder_witness,
             inventory=finder_checker.check_resolution(finder_report,PE(BINARY/'build/link.exe')),report=finder_report,stderr=resolved.stderr.decode())
+    lookup_audit=None
+    if lookup_command:
+        resolved=subprocess.run(lookup_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
+        lookup_report=json.loads(resolved.stdout)
+        lookup_audit=dict(command=lookup_command,witness_binding=lookup_witness,
+            inventory=lookup_checker.check_resolution(lookup_report,PE(BINARY/'build/link.exe')),report=lookup_report,stderr=resolved.stderr.decode())
     member_pointer_contract=None
     if 'LinkContext::Initialize' in trial['accepted']:
         from member_pointers import check_static
@@ -472,7 +498,7 @@ def audit_trial(path):
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,pass_one_import_audit=pass_one_audit,collision_import_audit=collision_audit,mapping_import_audit=mapping_audit,finder_import_audit=finder_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
+    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,pass_one_import_audit=pass_one_audit,collision_import_audit=collision_audit,mapping_import_audit=mapping_audit,finder_import_audit=finder_audit,module_lookup_import_audit=lookup_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,

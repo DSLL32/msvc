@@ -2,13 +2,23 @@
    member call without adding an adapter or changing the POD record layout. */
 #include <windows.h>
 #include <string.h>
+#include <mbstring.h>
 #include "input.h"
 #include "memory.h"
 #include "files.h"
 #include "full-link-functions.h"
 #include <recon.h>
 
+typedef struct ModuleEnumerator {
+    BYTE (__stdcall *next)(struct ModuleEnumerator *);
+    void (__stdcall *end)(struct ModuleEnumerator *);
+    OutputLibrary *library;
+    OutputModule *current;
+} ModuleEnumerator;
+typedef char ModuleEnumeratorSize[(sizeof(ModuleEnumerator)==16)?1:-1];
 extern "C" {
+void __stdcall initialize_module_enumerator(ModuleEnumerator *,OutputLibrary *);
+BYTE __stdcall next_module(ModuleEnumerator *);
 extern BYTE incremental_enabled, incremental_reuse, mac_target;
 extern MemoryArena *output_module_arena;
 MemoryArena *contribution_arena;
@@ -124,8 +134,28 @@ OutputModule *__stdcall create_input_module(const char *original_name,
 }
 OutputModule *RECON_THISCALL OutputLibrary::FindModule(const char *name,const void *identity)
 {
+    ModuleEnumerator enumerator;
+    OutputModule *module=NULL;
+    initialize_module_enumerator(&enumerator,this);
+    while (next_module(&enumerator)) {
+        if (identity ? identity==enumerator.current->identity :
+            !_mbsicmp((const unsigned char *)name,
+                (const unsigned char *)enumerator.current->name)) {
+            module=enumerator.current;
+            end_section_enumerator((SectionEnumerator *)&enumerator);
+            break;
+        }
+    }
+    return module;
+}
+void __stdcall initialize_module_enumerator(ModuleEnumerator *enumerator,OutputLibrary *library)
+{
     __asm { int 3 }
-    return NULL;
+}
+BYTE __stdcall next_module(ModuleEnumerator *enumerator)
+{
+    __asm { int 3 }
+    return 0;
 }
 void *__stdcall reallocate_memory(void *memory,unsigned bytes)
 {

@@ -115,7 +115,8 @@
     "_validate_delay_load_options@4",
     "_initialize_x86_backend@8",
     "_read_coff_header@16",
-    "_create_input_module@48"
+    "_create_input_module@48",
+    "OutputLibrary::FindModule"
   ],
   "driver": [
     {
@@ -3029,12 +3030,12 @@
     {
       "name": "OutputLibrary::FindModule",
       "start": 4257696,
-      "end": 4257697,
-      "pending_extent": true,
+      "end": 4257836,
+      "pending_extent": false,
       "source": "src/input-module.cpp",
       "native_symbol": "OutputLibrary::FindModule",
-      "status": "stub",
-      "abi": "thiscall OutputModule *(const char *name,const void *identity); ECXOutputLibrary*+2physicalslots,RET8; actual values required before promotion; complete140B readonly body",
+      "status": "implemented",
+      "abi": "thiscall OutputModule *(const char *name,const void *identity); ECXOutputLibrary*+2physicalDWORDslots,RET8; complete140B identity/name lookup with actual _mbsicmp and conditional enumerator cleanup",
       "symbol": "?FindModule@OutputLibrary@@QAEPAUOutputModule@@PBDPBX@Z"
     },
     {
@@ -3056,6 +3057,26 @@
       "native_symbol": "allocate_module_index",
       "status": "stub",
       "abi": "cdecl DWORD(void);no stackformal; globals actualinputs pendingunobserved; namedmaskedtrap/no bodycredit"
+    },
+    {
+      "name": "_initialize_module_enumerator@8",
+      "start": 4258656,
+      "end": 4258657,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/input-module.cpp",
+      "native_symbol": "initialize_module_enumerator",
+      "abi": "stdcall void(ModuleEnumerator*,OutputLibrary*);RET8,2physicalslots,nohidden; complete34B readonly output-only16B initializer"
+    },
+    {
+      "name": "_next_module@4",
+      "start": 4258704,
+      "end": 4258705,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/input-module.cpp",
+      "native_symbol": "next_module",
+      "abi": "stdcall BYTE(ModuleEnumerator*);RET4,1physicalslot,nohidden; complete60B readonly successor"
     }
   ],
   "text_data": [
