@@ -22,6 +22,7 @@ void __cdecl rc_select_macro_text(void);
 void __stdcall rc_pack_macro_argument(const WCHAR *begin,const WCHAR *end);
 void __cdecl rc_advance_macro_text(void);
 int __cdecl rc_finish_macro_frame(void);
+void __stdcall rc_emit_macro_reference(RcMacro *macro);
 void __stdcall rc_expand_macro_arguments(RcMacro *macro,int count);
 int __cdecl rc_macro_is_wide(void);
 void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,int wide);

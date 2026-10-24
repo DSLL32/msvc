@@ -52,15 +52,20 @@ def validation_versions():
     paths+=[HERE/'data.json']
     return {str(p.relative_to(ROOT)):sha(p) for p in paths if p.is_file()}
 
-def bind_current(snapshot,side):
+def bind_current(snapshot,side,reuse=None):
     saved=json.loads((snapshot/'candidate.json').read_text())
     current=candidate()
     irrelevant={'decomp/vc5.10/rcdll/build/native/rcdll-host','decomp/vc5.10/rcdll/build/help-resources.bin'} if side=='original' else {'decomp/vc5.10/rcdll/build/debug-original.exe'}
     for path,value in current['files'].items():
-        if path not in irrelevant:assert saved['files'].get(path)==value,'stale execution pin '+path
+        if path not in irrelevant:
+            if reuse is not None and path in reuse['allowed_changed_files']:
+                assert side=='original'and saved['files'][path]==reuse['previous']['files'][path]and value==reuse['current']['files'][path],'unbound original reuse '+path
+            else:assert saved['files'].get(path)==value,'stale execution pin '+path
     assert saved['schema']==current['schema']
     receipt=json.loads((snapshot/'receipt.json').read_text())
-    assert sha(snapshot/'functions.json')==receipt['candidate_sha256']==sha(HERE/'functions.json'),'wrong masked/native config'
+    assert sha(snapshot/'functions.json')==receipt['candidate_sha256'],'wrong capture config'
+    if reuse is None:assert receipt['candidate_sha256']==sha(HERE/'functions.json'),'wrong masked/native config'
+    else:assert side=='original'and receipt['candidate_sha256']==reuse['previous']['files']['decomp/vc5.10/rcdll/functions.json']
     for name,info in receipt['files'].items():
         path=snapshot/name
         assert path.is_file() and path.stat().st_size==info['bytes'] and sha(path)==info['sha256'],'changed raw capture '+name
@@ -81,8 +86,8 @@ def module_offset_reads(snapshot,text):
         proof[name]=dict(bytes=size,reads=len(rows),sha256=sha(snapshot/name),same_actual_hFile=True,explicit_offsets=True)
     return proof
 
-def original_raw(snapshot,complete=False):
-    receipt=bind_current(snapshot,'original')
+def original_raw(snapshot,complete=False,reuse=None):
+    receipt=bind_current(snapshot,'original',reuse)
     assert receipt['mode']=='masked' and not receipt['timed_out'] and receipt['status']==(0 if complete else 124)
     assert receipt['actual_target_verified'] and receipt['actual_crt_verified']
     assert sha(snapshot/'loaded-target.bin')==sha(ROOT/'toolchains/5.10/bin/RCDLL.DLL'),'actual loaded target bytes differ'

@@ -91,7 +91,8 @@
     "rc_expand_macro",
     "rc_push_macro",
     "rc_select_macro_text",
-    "rc_resume_input"
+    "rc_resume_input",
+    "rc_finish_macro_frame"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

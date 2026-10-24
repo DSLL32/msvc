@@ -80,8 +80,8 @@ def resource_inputs(original,native,b):
     assert raw_bytes(text,'process-cwd-utf16').decode('utf-16le').rstrip('\\')==r['child_cwd']
     return dict(count=6,before=[value.hex()for value in before],environment_sha256=sha(original/'environment-utf16.bin'),cwd=r['child_cwd'])
 
-def checkpoint(original,native,function,extra_special=()):
-    a=original_raw(original);b=native_raw(native)
+def checkpoint(original,native,function,extra_special=(),original_reuse=None):
+    a=original_raw(original,reuse=original_reuse);b=native_raw(native)
     config=read_configuration(original/'functions.json')
     assert a['function']==b['function']==function
     row=next(f for f in config['functions']if f['name']==function)
@@ -2661,3 +2661,182 @@ def macro_resume_transition(text,args,native,raw,x,frontier,symbols,bias):
     return dict(formals=[],entry_original_esp=hex(int(sp,16)),entry_native_esp=hex(row['entry_esp']),incoming_marker_offset=14,previous_word=0,marker=68,marker_width=2,depth=1,active=1,initialized_marker_span_bytes=6,consumed_bytes=2,next_source_offset=16,next_source_initialized_bytes=2,next_formals=[],next_hidden_inputs=dict(controls=hidden,expansion_depth=1,active_depth=1,current_macro='Owned WINVER, flags1, initialized18B text',current_source='text+16 initialized terminalNUL',number_buffer_offset=2068,frame_index=1,frame_stride=20,saved_source='SDKcursor8156',saved_number='work+2056',saved_output='workbase'),caller_projection='Native markerWCHAR68 comes from original initialized source bytes; original EDX0 is dispatched-marker subtraction, not raw WCHAR68. Cached depth1 is actual EAX1. Three pushed callee-saved registers plus child return explain16B stack delta.',scope='Resume remains pending in its genuine frame-finish child. No return/result, flag decrement, depth pop, copy or unvisited marker behavior assumed; retired outer token/saved_output/parameters not observed as live inputs.')
 
 def resume_input_trial(original,native):return primary_trial(original,native,expansion=True,push=True,selection=True,resume=True)
+
+def finish_macro_trial(original,native):
+    """Finish, D/R returns and the real new integer-kind input; no retired frames."""
+    import subprocess
+    config=read_configuration(original/'functions.json');assert config['trial_function']=='rc_finish_macro_frame'and len(config['accepted'])==89
+    reuse=finish_reference_reuse(original,native)if(native/'original-reuse.json').exists()else None
+    old,new,proof=checkpoint(original,native,'rc_based_integer_kind',('rc_input_temporary','rc_output_temporary'),original_reuse=reuse)
+    if reuse:proof['original_reference_reuse']=reuse
+    text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes();args=new['arguments'];g=args['preprocessor']['globals'];x=args['macro_expand'];kind=args['based_kind']
+    assert old['words'][0]==0x71c3238b and kind['caller']=='rc_read_number'and x['caller']=='rc_read_number'
+    assert kind['formals']==[dict(name='value',value=1024,bytes=4)]and old['words'][1]==1024
+    assert kind['parent_lexer']=='rc_next_token'and kind['lexer_character']==48 and kind['lexer_dispatch']==kind['character_token']==29 and kind['character_token_bytes']==2
+    for row in json.loads((native/'preprocess-data.json').read_text())['globals']:
+        if row['kind']in ['integer','byte-buffer']:
+            rva=int(row['original_rva'],16);assert raw[rva-0x14000:rva-0x14000+row['bytes']].hex()==g[row['name']]['bytes'],row['name']
+    symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'captured-native.elf')],text=True)
+    entry=re.findall(r'^([0-9a-f]+) [0-9a-f]+ T rc_based_integer_kind$',symbols,re.M);runtime=re.findall(r'^Symbol "rc_based_integer_kind" is a function at address (0x[0-9a-f]+)',(native/'gdb.stdout').read_text(),re.M);assert len(entry)==len(runtime)==1;bias=int(runtime[0],16)-int(entry[0],16)
+    def symbol(name,size,address):
+        rows=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] '+name+r'$',symbols,re.M);assert len(rows)==1 and int(rows[0][1],16)==size and int(rows[0][0],16)+bias==address,name
+    symbol('rc_string_buffer',4090,x['string_buffer']);symbol('rc_macro_frames',1280,g['rc_macro_frames']['address']);symbol('rc_macro_name',1024,kind['macro_name'])
+    assert kind['character_token_address']==int(re.findall(r'^([0-9a-f]+) [0-9a-f]+ [BbDd] rc_character_tokens$',symbols,re.M)[0],16)+bias+96
+    assert int.from_bytes(raw[0x14070-0x14000:0x14072-0x14000],'little')==29
+    frame_old=struct.unpack('<9I',raw_bytes(text,'expand-source-frame'));frame_new=struct.unpack('<9I',bytes.fromhex(x['source_frame']))
+    assert x['source_depth']==int.from_bytes(raw[0x14a10-0x14000:0x14a14-0x14000],'little')==2
+    assert tuple(frame_old[i]for i in [0,2,6,7,8])==tuple(frame_new[i]for i in [0,2,6,7,8])==(4098,73,4098,1,0)
+    assert int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little')-frame_old[5]==x['source_cursor']-frame_new[5]==8156
+    master=(ROOT/'toolchains/5.10/include/WINRESRC.H').read_bytes();source=bytes(8)+master[:4098].decode('cp1252').encode('utf-16le')+bytes(2)
+    assert raw_bytes(text,'expand-source-block')==source and len(source)==8206
+    def owner(address,size,contents):
+        matches=[row for row in new['heap_identity']['blocks']if row['payload']+8==address];assert len(matches)==1
+        row=matches[0];assert row['owner']==new['heap_identity']['handle']and row['flags']==9 and row['bytes']==size and bytes.fromhex(row['contents'])==contents
+    owner(frame_new[5],8206,source)
+    file_old=struct.unpack('<8I',raw_bytes(text,'expand-source-file'));file_new=struct.unpack('<8I',bytes.fromhex(g['rc_source_file']['file_state']))
+    assert file_old[1:2]+file_old[3:]==file_new[1:2]+file_new[3:]==(510,9,7,0,4096,0)and file_old[0]-file_old[2]==file_new[0]-file_new[2]==2
+    assert raw_bytes(text,'expand-source-buffer')[:512]==bytes.fromhex(g['rc_source_file']['file_buffer'])[:512]==master[4096:4608]
+    assert re.findall(r'^expand-source-position (\d+)$',text,re.M)==re.findall(r'^pos:\s*(\d+)$',x['file_fdinfo'],re.M)==['4608']
+    assert Path(x['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/WINRESRC.H').resolve()
+    assert args['current_line']==int.from_bytes(raw[0x16ce8-0x14000:0x16cec-0x14000],'little')==161 and args['prepared_lines']==279
+    assert new['crt_errors']==dict(errno=2,last_error=0)
+    node_old=raw_bytes(text,'expand-macro-record');node_new=bytes.fromhex(x['record']);fields=struct.unpack('<4I',node_old[8:]);nf=struct.unpack('<4I',node_new[8:])
+    assert len(node_old)==len(node_new)==24 and node_old[:8]==node_new[:8]==bytes(8)and fields[0]==fields[3]==nf[0]==nf[3]==0
+    assert nf[1:3]==(x['name'],x['text'])and x['formals']==[]and x['macro_bytes']==16
+    context=[row for row in args['preprocessor']['macros']if row['name']==x['name']];assert len(context)==1;context=context[0];pointer=context['pointer']
+    assert context['bucket']==219 and context['next']==context['parameters']==context['flags']==context['reserved']==0 and context['record']==x['record']
+    owner(pointer,24,node_new);owner(x['name'],24,bytes(8)+'WINVER\0\0'.encode('utf-16le'));owner(x['text'],26,bytes(8)+'0x0400\0D\0'.encode('utf-16le'))
+    assert raw_bytes(text,'expand-macro-name')=='WINVER\0'.encode('utf-16le')and raw_bytes(text,'expand-macro-text')==bytes.fromhex(x['text_owner'])==bytes(8)+'0x0400\0D\0'.encode('utf-16le')
+    chain=re.findall(r'^macro-context-link index=(\d+) node=([0-9a-f]+) next=([0-9a-f]+)$',text,re.M);bucket=re.findall(r'^macro-context-live-bucket index=219 head=([0-9a-f]+) node=([0-9a-f]+)$',text,re.M);assert len(bucket)==1 and len(chain)==2
+    old_macro=int(bucket[0][1],16);assert int(chain[0][1],16)==int(bucket[0][0],16)and chain[0][2]==chain[1][1]and int(chain[1][1],16)==old_macro and int(chain[1][2],16)==0
+    live=[row for row in args['preprocessor']['macros']if row['bucket']==219];assert len(live)==2 and live[0]['next']==live[1]['pointer']==pointer and live[1]['next']==0
+    expected_old_frame=struct.pack('<4IBBH',frame_old[5]+8156,0x71c36f08,0x71c37710,old_macro,0,0,0)
+    expected_new_frame=struct.pack('<4IBBH',frame_new[5]+8156,x['string_buffer'],x['string_buffer']+2056,pointer,0,0,0)
+    old_frames=bytes(20)+expected_old_frame+bytes(1240);new_frames=bytes(20)+expected_new_frame+bytes(1240)
+    assert raw[0x222a8-0x14000:0x227a8-0x14000]==old_frames and bytes.fromhex(g['rc_macro_frames']['bytes'])==new_frames
+    finish=args['macro_finish_calls'];assert finish==json.loads((native/'macro-finish-calls.json').read_text())and len(finish)==1;f=finish[0]
+    assert f['formals']==[]and f['caller']=='rc_resume_input'and f['result']==1 and f['return_esp']==f['entry_esp']+4
+    fe=re.findall(r'^macro-finish-entry esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);fr=re.findall(r'^macro-finish-return result=(-?\d+) esp=([0-9a-f]+)$',text,re.M);assert len(fe)==len(fr)==1 and int(fe[0][1],16)==0x71c2620b and int(fr[0][0])==1 and int(fr[0][1],16)==int(fe[0][0],16)+4
+    fs=re.findall(r'^macro-finish-state phase=(before|after) depth=(-?\d+) active=(-?\d+) source=([0-9a-f]+) number=([0-9a-f]+) macro=([0-9a-f]+)$',text,re.M);assert len(fs)==2
+    before=raw_bytes(text,'macro-finish-before-work');after=raw_bytes(text,'macro-finish-after-work');assert len(before)==len(after)==4090 and before[2056:2070]=='0x0400\0'.encode('utf-16le')
+    assert after==before[:2068]+'\0R'.encode('utf-16le')+before[2072:]
+    for phase,state,active,src,number in [('before',fs[0],1,fields[2]+16,0x71c3771c),('after',fs[1],0,0x71c37710,0x71c37720)]:
+        assert state==(phase,'1',str(active),format(src,'08x'),format(number,'08x'),format(old_macro,'08x'))
+        n=f[phase];assert n['depth']==1 and n['active']==active and n['macro']==pointer
+        assert n['source']==(x['text']+16 if phase=='before'else x['string_buffer']+2056)and n['number']==x['string_buffer']+(2068 if phase=='before'else 2072)
+        assert raw_bytes(text,'macro-finish-'+phase+'-frames')==old_frames and bytes.fromhex(n['frames'])==new_frames
+        a=raw_bytes(text,'macro-finish-'+phase+'-record');b=bytes.fromhex(n['record']);assert a==node_old[:21]+b'\1'+node_old[22:]and b==node_new[:21]+b'\1'+node_new[22:]
+        assert bytes.fromhex(n['work'])==(before if phase=='before'else after)
+    calls=args['resume_calls'];assert calls==json.loads((native/'resume-calls.json').read_text())and len(calls)==2
+    entries=re.findall(r'^resume-entry index=(\d+) cursor=([0-9a-f]+) previous=(\d+) current=(\d+) depth=(-?\d+) active=(-?\d+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M)
+    returns=re.findall(r'^resume-return index=(\d+) result=(-?\d+) esp=([0-9a-f]+)$',text,re.M);assert len(entries)==len(returns)==2
+    states=re.findall(r'^resume-state index=(\d+) phase=(before|after) depth=(-?\d+) active=(-?\d+) source=([0-9a-f]+) number=([0-9a-f]+) output=([0-9a-f]+) macro=([0-9a-f]+)$',text,re.M);assert len(states)==4
+    expected_states=[(1,1,fields[2]+14,0x71c3771c),(1,0,0x71c37710,0x71c37720),(1,0,0x71c3771e,0x71c37720),(0,0,frame_old[5]+8156,0x71c37708)]
+    native_states=[(1,1,x['text']+14,x['string_buffer']+2068),(1,0,x['string_buffer']+2056,x['string_buffer']+2072),(1,0,x['string_buffer']+2070,x['string_buffer']+2072),(0,0,frame_new[5]+8156,x['string_buffer']+2048)]
+    for index,row in enumerate(calls):
+        ordinal,cursor,previous,marker,depth,active,sp,caller=entries[index];ret_index,result,end=returns[index]
+        assert int(ordinal)==int(ret_index)==index and int(previous)==0 and int(marker)==[68,82][index]and int(depth)==1 and int(active)==[1,0][index]
+        assert int(caller,16)==[0x71c2549d,0x71c32b92][index]and int(result)==row['result']==[8,4][index]and int(end,16)==int(sp,16)+4
+        assert row['formals']==[]and row['caller']==['rc_expand_macro','rc_get_logical_character'][index]and row['return_esp']==row['entry_esp']+4
+        assert raw_bytes(text,'resume-marker-pair-'+str(index))==bytes.fromhex(row['marker_span'])==('\0'+chr([68,82][index])).encode('utf-16le')
+        assert row['depth']==1 and row['active']==[1,0][index]and row['macro']==pointer and row['cursor']==[x['text']+14,x['string_buffer']+2070][index]
+        for phase in ['before','after']:
+            at=index*2+int(phase=='after');state=states[at];od,oa,os,on=expected_states[at];nd,na,ns,nn=native_states[at]
+            assert state==(str(index),phase,str(od),str(oa),format(os,'08x'),format(on,'08x'),'71c36f08',format(old_macro,'08x'))
+            n=row[phase];assert (n['depth'],n['active'],n['source'],n['number'],n['output'],n['macro'])==(nd,na,ns,nn,x['string_buffer'],pointer)
+            expected_old=node_old if at==3 else node_old[:21]+b'\1'+node_old[22:];expected_new=node_new if at==3 else node_new[:21]+b'\1'+node_new[22:]
+            assert raw_bytes(text,'resume-'+phase+'-'+str(index)+'-record')==expected_old and bytes.fromhex(n['record'])==expected_new
+            assert raw_bytes(text,'resume-'+phase+'-'+str(index)+'-frames')==old_frames and bytes.fromhex(n['frames'])==new_frames
+            assert raw_bytes(text,'resume-'+phase+'-'+str(index)+'-work')==bytes.fromhex(n['work'])==(before if at==0 else after)
+    expansion=args['macro_expansion_calls'];assert expansion==json.loads((native/'macro-expansion-calls.json').read_text())and len(expansion)==1;e=expansion[0]
+    assert e['formals']==[dict(name='macro',value=pointer,bytes=4)]and e['caller']=='rc_next_token'and e['result']==1 and e['return_esp']==e['entry_esp']+8
+    ee=re.findall(r'^macro-expansion-entry macro=([0-9a-f]+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);er=re.findall(r'^macro-expansion-return result=(-?\d+) esp=([0-9a-f]+)$',text,re.M);assert len(ee)==len(er)==1 and int(ee[0][0],16)==old_macro and int(ee[0][2],16)==0x71c236ec and int(er[0][0])==1 and int(er[0][1],16)==int(ee[0][1],16)+8
+    assert x['work_buffer']==after.hex()==raw_bytes(text,'expand-work-buffer').hex()
+    assert x['number_pointer']==x['string_buffer']+2048 and int.from_bytes(raw[0x14a80-0x14000:0x14a84-0x14000],'little')==0x71c37708
+    assert int.from_bytes(raw[0x16f00-0x14000:0x16f04-0x14000],'little')==int.from_bytes(bytes.fromhex(g['rc_expanding_macro']['bytes']),'little')==0
+    assert int.from_bytes(raw[0x21e90-0x14000:0x21e94-0x14000],'little')==int.from_bytes(bytes.fromhex(g['rc_number_buffer_active']['bytes']),'little')==0
+    assert kind['begin']==kind['macro_name']and kind['cursor']==kind['begin']+8 and kind['radix']==16 and kind['token']==7 and kind['token_bytes']==1
+    assert kind['object_bytes']==8 and kind['initialized_bytes']==4 and len(bytes.fromhex(kind['payload']))==8 and int.from_bytes(bytes.fromhex(kind['payload'])[:4],'little')==1024
+    number=re.findall(r'^based-kind-number-frame bp=([0-9a-f]+) cursor=([0-9a-f]+) first=([0-9a-f]+) radix=(\d+) token=(\d+) begin=([0-9a-f]+) value=([0-9a-f]+)$',text,re.M);assert len(number)==1;bp,cursor,first,radix,token,begin,value=number[0]
+    assert int(bp,16)==old['registers']['ebp']and int(cursor,16)==old['registers']['ebx']==0x71c38130 and int(first,16)&65535==32 and int(radix)==16 and int(token)==7 and int(begin,16)==0x71c38128 and int(value,16)==1024
+    payload=raw_bytes(text,'based-kind-value-object');assert len(payload)==8 and payload[:4]==bytes.fromhex(kind['payload'])[:4]==struct.pack('<I',1024)
+    macro_name=raw[0x18128-0x14000:0x18528-0x14000];assert macro_name==bytes.fromhex(kind['macro_name_bytes'])and macro_name[:10]=='0400\0'.encode('utf-16le')and kind['current_source_word']==32
+    conversions=args['integer_conversions'];assert conversions==json.loads((native/'integer-conversions.json').read_text())and conversions[-1]['text']==kind['macro_name']and conversions[-1]['text_bytes']=='0400\0'.encode('utf-16le').hex()and conversions[-1]['radix']==16 and conversions[-1]['result']==1024 and conversions[-1]['return_esp']==conversions[-1]['entry_esp']+12
+    relocated=(original/'relocated-text.bin').read_bytes();assert relocated[0x11349:0x11356]==bytes.fromhex('ff75f4682881c371e854020000')and relocated[0x1135d:0x11360]==bytes.fromhex('8945ec')and relocated[0x11386:0x1138b]==bytes.fromhex('e80d030000')
+    proof.update(trial='rc_finish_macro_frame',finish=dict(formals=[],result=1,cleanup=0,active_before=1,active_after=0,depth_before=1,depth_after=1,write_begin=2068,write_end=2072,write_bytes=4,markers='NUL,R',flag_unchanged=1,frame_table_bytes=1280),resume_returns=[dict(marker='D',result=8,cleanup=0),dict(marker='R',result=4,cleanup=0,depth_before=1,depth_after=0,macro_flags_before=1,macro_flags_after=0,source_restored_offset=8156,number_reset_offset=2048)],expansion=dict(result=1,cleanup=4,caller='rc_next_token'),next_formals=kind['formals'],numeric_frontier=dict(value=1024,radix=16,token_before_kind=7,spelling='0400',value_object_bytes=8,initialized_value_bytes=4,raw_original_value_object=payload.hex(),raw_native_value_object=kind['payload'],source_cursor='Restored WINRESRC.H+8156, space32',retired_frames='Finish/resume/expansion frames have returned; only their actual entry/return records are used. Retained global row1 bytes remain unchanged but are no longer an active frame.'),macro_node=dict(original_address=hex(old_macro),native_address=hex(pointer),current_flags=0,live_bucket=219,link_fields_observed=2,scope='Current WINVER node remains live through the actual bucket chain; intermediate node only next-pointer field compared, no extra node fields or active-frame fiction.'),source=dict(depth=2,SDK='WINRESRC.H',owned_bytes=8206,cursor_offset=8156,FILE_position=4608,FILE_defined_bytes=512,FILE_uninitialized_tail_bytes=3584),scope='Normal one-frame finish plus actual D/R restoration path only. Whole rich case and based-kind result remain pending; raw upper numeric input-slot/return bits and uninitialized value[1] are retained, not normalized or compared.')
+    prior=HERE/'cases/resources-rich-trailing-space/macro-resume-verification.json';proof['reused_controls']=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged source/FILE/argv/SEH/transport, selector and first numeric-mode bounds controls retain exact prior hashes. Fresh finish writes, actual D/R/pop/return lifecycle and newly reached based-kind32-bit input/stack ownership controls.')
+    # Complete current packed argv and actual buffered output, with genuine
+    # capture-path bytes retained instead of a fixed length or path rewrite.
+    assert args['count']==len(args['argv'])==len(args['wide_vector'])==20 and args['wide_terminator']==0
+    old_base=int(re.findall(r'^wide-args 20 ([0-9a-f]+)$',text,re.M)[0],16);new_base=args['vector_pointer']
+    old_packed=raw_bytes(text,'wide-argument-block');packed_owner=next(row for row in new['heap_identity']['blocks']if row['payload']+8==new_base);packed=bytes.fromhex(packed_owner['contents'])
+    assert packed_owner['owner']==new['heap_identity']['handle']and packed_owner['flags']==9 and packed_owner['bytes']==len(old_packed)
+    assert old_packed[:8]==packed[:8]==bytes(8)and old_packed[92:]==packed[92:]and old_packed[88:92]==packed[88:92]==bytes(4)
+    old_pointers=[int(value,16)for value in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)];assert len(old_pointers)==20
+    for index,(argument,row)in enumerate(zip(args['argv'],args['wide_vector'])):
+        payload=(argument+'\0').encode('utf-16le');assert raw_bytes(text,'wide-argv-'+str(index))==bytes.fromhex(row['bytes'])==payload
+        offset=old_pointers[index]-old_base;assert offset==row['pointer']-new_base and 84<=offset and offset+len(payload)<=len(packed)-8
+        assert struct.unpack_from('<I',old_packed,8+4*index)[0]==old_pointers[index]and struct.unpack_from('<I',packed,8+4*index)[0]==row['pointer']
+        assert old_packed[8+offset:8+offset+len(payload)]==packed[8+offset:8+offset+len(payload)]==payload
+    output_old=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));output_new=struct.unpack('<8I',bytes.fromhex(g['rc_cpp_output_file']['file_state']));defined=output_old[0]-output_old[2]
+    assert output_old[1:2]+output_old[3:]==output_new[1:2]+output_new[3:]and defined==output_new[0]-output_new[2]
+    output=raw_bytes(text,'cpp-output-buffer');assert output==bytes.fromhex(g['rc_cpp_output_file']['file_buffer'])[:defined]
+    initial_line=('#line 1 "'+args['argv'][4].replace('\\','\\\\')+'"\r\n').encode('utf-16le');assert output.startswith(initial_line)and defined==len(initial_line)+1330
+    assert raw_bytes(text,'expand-source-filename')==bytes.fromhex(args['filename'])==('R:\\toolchains\\5.10\\include/winresrc.h\0').encode('utf-16le')+bytes(438)
+    expanded=args['expanded_number_calls'];assert expanded==json.loads((native/'expanded-number-calls.json').read_text())and len(expanded)==1;en=expanded[0]
+    assert en['formals'][0]['name']=='first'and en['formals'][0]['value']==48 and en['formals'][0]['bytes']==2 and en['formals'][0]['physical_slot_bytes']==4
+    assert int.from_bytes(bytes.fromhex(en['formals'][0]['slot'])[:2],'little')==48 and len(bytes.fromhex(en['formals'][0]['slot']))==4
+    assert en['caller']=='rc_next_token'and en['source']==x['string_buffer']+2058 and en['number']==x['string_buffer']+2072 and bytes.fromhex(en['work'])==after
+    ne=re.findall(r'^expanded-number-entry first=([0-9a-f]+) source=([0-9a-f]+) number=([0-9a-f]+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);assert len(ne)==1
+    assert int(ne[0][0],16)&65535==48 and int(ne[0][1],16)==0x71c37712 and int(ne[0][2],16)==0x71c37720 and int(ne[0][4],16)==0x71c2381e
+    assert raw_bytes(text,'expanded-number-input-work')==after
+    assembly=subprocess.check_output(['objdump','-d',str(native/'captured-native.elf'),'--disassemble=rc_read_number'],text=True)
+    stores=re.findall(r'call\s+[0-9a-f]+ <rc_parse_integer_value>\n[^\n]*\n\s*([0-9a-f]+):\s+(89 45 [0-9a-f]{2})\s+mov\s+%eax,-0x([0-9a-f]+)\(%ebp\)',assembly);assert len(stores)==1
+    store_pc,store_hex,displacement=stores[0];slot=-int(displacement,16);assert struct.unpack('b',bytes.fromhex(store_hex)[2:])[0]==slot
+    expected_owner=en['entry_esp']-4+slot
+    assert kind['owner']==expected_owner and new['registers']['ebp']<expected_owner<expected_owner+8<=en['entry_esp']-4
+    assert old['registers']['ebp']==int(ne[0][3],16)-4 and old['registers']['esp']<old['registers']['ebp']-20<old['registers']['ebp']-12
+    assert re.search(r'8b 45 '+format(slot&255,'02x')+r'\s+mov\s+-0x'+displacement+r'\(%ebp\),%eax\n[^\n]*\n[^\n]*call\s+[0-9a-f]+ <rc_based_integer_kind>',assembly)
+    proof['value_object_ownership']=dict(original_address=hex(old['registers']['ebp']-20),original_frame_offset=-20,native_address=hex(kind['owner']),native_frame_offset=slot,native_entry_esp=hex(en['entry_esp']),native_store_ELF_pc='0x'+store_pc,native_store_bytes=store_hex,object_bytes=8,initialized_bytes=4,scope='Actual observed ordinary-number entry ESP anchors the still-live frame; emitted ELF DWORD store after real conversion and later based-kind DWORD load use the same slot. Original current EBP is the same observed entry frame; exact original store is EBP-20. Upper4 raw object bytes retained unclaimed.')
+
+    controls=[]
+    for source_name,label,rva,expected in [('rc_apstudio','rc_macro_listing_enabled',0x25058,0),('rc_in_condition_expression','rc_in_condition_expression',0x18e6c,1)]:
+        row=g[label];symbol(source_name,4,row['address']);assert int.from_bytes(bytes.fromhex(row['bytes']),'little')==int.from_bytes(raw[rva-0x14000:rva-0x14000+4],'little')==expected
+        controls.append(dict(name=source_name,observer_alias=label,original_rva=hex(rva),native_address=hex(row['address']),bytes=4,value=expected))
+    proof.update(output_defined_bytes=defined,full_packed_wide_arguments=20,finish_controls=controls,expanded_numeric_entry=dict(original_raw_slot=ne[0][0],native_raw_slot=en['formals'][0]['slot'],input_bits_compared=16,source_work_offset=2058,number_work_offset=2072,scope='Initial WCHAR0 at actual ordinary reader entry, not the later overwritten first slot at based-kind frontier. Full raw upper16 retained unclaimed.'))
+    assert proof['application_trace'][-1]=='rc_finish_macro_frame'
+    return proof
+
+
+def finish_reference_reuse(original,native):
+    """One explicit unvisited-edge correction; original execution is unchanged."""
+    from protocol import candidate
+    note=json.loads((native/'original-reuse.json').read_text())
+    receipt=json.loads((native/'receipt.json').read_text())
+    assert receipt['files']['original-reuse.json']==dict(bytes=(native/'original-reuse.json').stat().st_size,sha256=sha(native/'original-reuse.json'))
+    previous=json.loads((original/'candidate.json').read_text());current=candidate()
+    assert note['schema']==1 and note['reason']=='finish-unvisited-reference-edge'and note['previous']==previous and note['current']==current
+    assert note['original_candidate_sha256']==sha(original/'candidate.json')
+    allowed=['decomp/vc5.10/rcdll/functions.json','decomp/vc5.10/rcdll/build/RCDLL.DLL','decomp/vc5.10/rcdll/build/rcdll.map','decomp/vc5.10/rcdll/build/native/rcdll-host']
+    assert note['allowed_changed_files']==allowed
+    assert {key for key in previous['files']if previous['files'][key]!=current['files'][key]}==set(allowed)
+    old=json.loads((original/'functions.json').read_text());new=json.loads((HERE/'functions.json').read_text())
+    assert old['trial_function']==new['trial_function']=='rc_finish_macro_frame'and old['accepted']==new['accepted']and len(old['accepted'])==89
+    pending=dict(name='rc_emit_macro_reference',start='0xbfe6',end='0xc036',abi='stdcall',stack_bytes=4,kind='application',stub=True)
+    expected=json.loads(json.dumps(old));expected['functions'].append(pending);assert expected==new
+    assert pending['name']not in new['accepted']and pending['name']!=new['trial_function']
+    # Frozen original source and current compiled source differ only by the real
+    # pending edge, its prototype and named trap; native shared delta is uncalled.
+    original_source=json.loads((original/'compiled-source.json').read_text());rebuilt=json.loads((HERE/'build/original-source.json').read_text())
+    changes={key for key in original_source['contents']if original_source['contents'][key]!=rebuilt['contents'][key]}
+    prefix='decomp/vc5.10/rcdll/src/'
+    assert changes=={prefix+name for name in ['macro-input.c','macro-expansion.h','stubs.c']}
+    a=original_source['contents'];b=rebuilt['contents']
+    assert a[prefix+'macro-input.c']['text'].replace('rc_list_macro(rc_macro_frames[rc_expanding_macro].macro);','rc_emit_macro_reference(rc_macro_frames[rc_expanding_macro].macro);')==b[prefix+'macro-input.c']['text']
+    assert a[prefix+'macro-expansion.h']['text'].replace('int __cdecl rc_finish_macro_frame(void);','int __cdecl rc_finish_macro_frame(void);\nvoid __stdcall rc_emit_macro_reference(RcMacro *macro);')==b[prefix+'macro-expansion.h']['text']
+    assert a[prefix+'stubs.c']['text']+'\nvoid __stdcall rc_emit_macro_reference(RcMacro *macro)\n{\n    __asm int 3\n}\n'==b[prefix+'stubs.c']['text']
+    assert note['original_source_sha256']==sha(original/'compiled-source.json')and note['rebuilt_source_sha256']==sha(HERE/'build/original-source.json')
+    assert note['masked_text_sha256']==sha(original/'masked-text.bin')and note['relocated_text_sha256']==sha(original/'relocated-text.bin')
+    # Original raw gate still independently reconstructs/readback-checks every
+    # restored byte, actual module, helper, environment and current ABI/state.
+    return note

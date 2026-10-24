@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighty-seven application functions (24,426 original code bytes), two embedded CRT functions
+Eighty-eight application functions (24,611 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_finish_macro_frame`.
+currently matches at the next named trap, `rc_based_integer_kind`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 36.84% (87 functions). This denominator
+bytes. Current accepted application extent coverage is 37.12% (88 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -748,3 +748,13 @@ and pending outer state. [Verification](cases/resources-rich-trailing-space/macr
 records17 affected negatives, exact marker/cursor/stack roles, the child’s noarg
 ABI and live controls, both builds, graph/ABI/native checks and unchanged-source
 shared publication. No frame pop, resume result or complete expansion is claimed.
+
+Macro-frame finish is accepted (185 bytes). Its actual D-marker path writes
+NUL/R, returns1 and allows the expansion to return; the later R-marker restores
+the SDK source cursor and releases the live macro flag. Both runs reach
+`rc_based_integer_kind(1024)`. Only four bytes of the caller’s eight-byte value
+object are initialized; its raw tail remains unclaimed.
+[Finish/lifetime verification](cases/resources-rich-trailing-space/macro-finish-verification.json)
+records32 fresh affected rejections, four production-binary state/guard checks
+and explicit original reuse after correction of an unvisited pending call edge.
+The native cached help fixture takes about9ms; the rich case is still in progress.

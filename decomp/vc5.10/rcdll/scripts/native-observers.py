@@ -846,8 +846,56 @@ resume_calls=[]
 def save_resume_calls():(path.parent/'resume-calls.json').write_text(json.dumps(resume_calls,indent=2)+'\n')
 class ResumeEntered(gdb.Breakpoint):
     def stop(self):
-        assert not resume_calls,'additional resume requires observation scope review'
+        assert len(resume_calls)<64,'resume observation limit'
         frame=gdb.newest_frame();cursor=int(gdb.parse_and_eval('rc_source_cursor'))
-        entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),cursor=cursor,marker_span=bytes(gdb.selected_inferior().read_memory(cursor-2,6)).hex(),depth=int(gdb.parse_and_eval('rc_expanding_macro')),active=int(gdb.parse_and_eval('rc_number_buffer_active')))
-        resume_calls.append(entry);save_resume_calls();return False
+        entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),cursor=cursor,marker_span=bytes(gdb.selected_inferior().read_memory(cursor-2,4)).hex(),depth=int(gdb.parse_and_eval('rc_expanding_macro')),active=int(gdb.parse_and_eval('rc_number_buffer_active')))
+        macro=int(gdb.parse_and_eval('rc_macro_frames[rc_expanding_macro].macro'));entry['macro']=macro;entry['before']=resume_state(macro)
+        resume_calls.append(entry);save_resume_calls();ResumeReturned(frame,entry);return False
 ResumeEntered('rc_resume_input',internal=True);save_resume_calls()
+
+def resume_state(macro):
+    return dict(depth=int(gdb.parse_and_eval('rc_expanding_macro')),active=int(gdb.parse_and_eval('rc_number_buffer_active')),source=int(gdb.parse_and_eval('rc_source_cursor')),number=int(gdb.parse_and_eval('rc_number_buffer')),output=int(gdb.parse_and_eval('rc_macro_output_cursor')),macro=macro,record=bytes(gdb.selected_inferior().read_memory(macro-8,24)).hex(),work=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex(),frames=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_macro_frames')),1280)).hex())
+class ResumeReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=resume_state(self.entry['macro']));save_resume_calls();return False
+
+macro_finish_calls=[]
+def save_macro_finish_calls():(path.parent/'macro-finish-calls.json').write_text(json.dumps(macro_finish_calls,indent=2)+'\n')
+def macro_finish_state():
+    depth=int(gdb.parse_and_eval('rc_expanding_macro'));assert 0<depth<64
+    macro=int(gdb.parse_and_eval('rc_macro_frames[%d].macro'%depth))
+    return dict(depth=depth,active=int(gdb.parse_and_eval('rc_number_buffer_active')),source=int(gdb.parse_and_eval('rc_source_cursor')),number=int(gdb.parse_and_eval('rc_number_buffer')),macro=macro,record=bytes(gdb.selected_inferior().read_memory(macro-8,24)).hex(),work=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex(),frames=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_macro_frames')),1280)).hex())
+class MacroFinishReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=macro_finish_state());save_macro_finish_calls();return False
+class MacroFinishEntered(gdb.Breakpoint):
+    def stop(self):
+        assert not macro_finish_calls,'additional finish requires observation scope review'
+        frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=macro_finish_state())
+        macro_finish_calls.append(entry);save_macro_finish_calls();MacroFinishReturned(frame,entry);return False
+MacroFinishEntered('rc_finish_macro_frame',internal=True);save_macro_finish_calls()
+
+macro_expansion_calls=[]
+def save_macro_expansion_calls():(path.parent/'macro-expansion-calls.json').write_text(json.dumps(macro_expansion_calls,indent=2)+'\n')
+class MacroExpansionReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value),return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff);save_macro_expansion_calls();return False
+class MacroExpansionEntered(gdb.Breakpoint):
+    def stop(self):
+        assert not macro_expansion_calls,'additional expansion requires observation scope review'
+        frame=gdb.newest_frame();formal=frame.read_var('macro');entry=dict(formals=[dict(name='macro',value=int(formal),bytes=formal.type.sizeof)],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name())
+        macro_expansion_calls.append(entry);save_macro_expansion_calls();MacroExpansionReturned(frame,entry);return False
+MacroExpansionEntered('rc_expand_macro',internal=True);save_macro_expansion_calls()
+
+expanded_number_calls=[]
+def save_expanded_number_calls():(path.parent/'expanded-number-calls.json').write_text(json.dumps(expanded_number_calls,indent=2)+'\n')
+class ExpandedNumberEntered(gdb.Breakpoint):
+    def stop(self):
+        if int(gdb.parse_and_eval('rc_number_buffer_active'))or int(gdb.parse_and_eval('rc_expanding_macro'))!=1:return False
+        assert not expanded_number_calls,'additional expanded number requires observation scope review'
+        frame=gdb.newest_frame();formal=frame.read_var('first');sp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff
+        expanded_number_calls.append(dict(formals=[dict(name='first',value=int(formal),bytes=formal.type.sizeof,physical_slot_bytes=4,slot=bytes(gdb.selected_inferior().read_memory(sp+4,4)).hex())],entry_esp=sp,caller=frame.older().name(),source=int(gdb.parse_and_eval('rc_source_cursor')),number=int(gdb.parse_and_eval('rc_number_buffer')),work=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex()));save_expanded_number_calls();return False
+ExpandedNumberEntered('rc_read_number',internal=True);save_expanded_number_calls()

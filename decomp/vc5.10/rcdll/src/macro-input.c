@@ -50,3 +50,29 @@ int __cdecl rc_resume_input(void)
         }
     }
 }
+
+int __cdecl rc_finish_macro_frame(void)
+{
+#ifdef RECON_NATIVE_TEST
+    if(rc_number_buffer_active!=1||rc_expanding_macro<1||rc_expanding_macro>=64||
+       ((DWORD)rc_number_buffer&1)||
+       (DWORD)rc_number_buffer<(DWORD)&rc_string_buffer[1024]||
+       (DWORD)rc_number_buffer>=(DWORD)&rc_string_buffer[2045]){ __asm int 3 }
+#endif
+    --rc_number_buffer_active;
+    if(!rc_number_buffer_active){
+        if(rc_number_buffer>=&rc_string_buffer[2043])rc_macro_buffer_fatal(10056);
+        if(rc_apstudio&&!rc_in_condition_expression&&
+           !rc_macro_frames[rc_expanding_macro].macro->parameters)
+            rc_emit_macro_reference(rc_macro_frames[rc_expanding_macro].macro);
+        *rc_number_buffer++=0;
+        *rc_number_buffer++=L'R';
+        rc_source_cursor=rc_macro_frames[rc_expanding_macro].number;
+        return 1;
+    }
+    rc_source_cursor=rc_macro_frames[rc_expanding_macro].source;
+    rc_macro_output_cursor=rc_macro_frames[rc_expanding_macro].output;
+    --rc_macro_frames[rc_expanding_macro].macro->flags;
+    --rc_expanding_macro;
+    return 0;
+}

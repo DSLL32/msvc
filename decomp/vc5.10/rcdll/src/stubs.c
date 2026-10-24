@@ -235,11 +235,6 @@ int __stdcall rc_collect_macro_identifier(WCHAR first)
     return 0;
 }
 
-int __cdecl rc_finish_macro_frame(void)
-{
-    __asm int 3
-    return 0;
-}
 void __stdcall rc_expand_macro_arguments(RcMacro *macro,int count)
 {
     __asm int 3
@@ -259,6 +254,11 @@ void __stdcall rc_pack_macro_argument(const WCHAR *begin,const WCHAR *end)
     __asm int 3
 }
 void __cdecl rc_advance_macro_text(void)
+{
+    __asm int 3
+}
+
+void __stdcall rc_emit_macro_reference(RcMacro *macro)
 {
     __asm int 3
 }

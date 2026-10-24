@@ -92,7 +92,8 @@
     "rc_expand_macro",
     "rc_push_macro",
     "rc_select_macro_text",
-    "rc_resume_input"
+    "rc_resume_input",
+    "rc_finish_macro_frame"
   ],
   "functions": [
     {
@@ -147,7 +148,6 @@
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",
-      "stub": false,
       "text_data": [
         [
           "0x11fc",
@@ -241,7 +241,8 @@
           "0x845c",
           "0x84c4"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_initialize",
@@ -286,13 +287,13 @@
       "abi": "stdcall",
       "stack_bytes": 4,
       "kind": "application",
-      "stub": false,
       "text_data": [
         [
           "0x1218",
           "0x1219"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_format",
@@ -337,7 +338,6 @@
       "abi": "stdcall",
       "stack_bytes": 4,
       "kind": "application",
-      "stub": false,
       "text_data": [
         [
           "0x1230",
@@ -387,7 +387,8 @@
           "0x1588",
           "0x159a"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_preprocess",
@@ -459,13 +460,13 @@
       "abi": "stdcall",
       "stack_bytes": 12,
       "kind": "application",
-      "stub": false,
       "text_data": [
         [
           "0x1fa0",
           "0x1fd1"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_detect_encoding",
@@ -510,13 +511,13 @@
       "abi": "stdcall",
       "stack_bytes": 8,
       "kind": "application",
-      "stub": false,
       "text_data": [
         [
           "0x11fc",
           "0x11fe"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_input_error",
@@ -570,13 +571,13 @@
       "kind": "application",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "stub": false,
       "text_data": [
         [
           "0x1e18",
           "0x1e1b"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_next_argument",
@@ -594,7 +595,6 @@
       "abi": "stdcall",
       "stack_bytes": 16,
       "kind": "application",
-      "stub": false,
       "text_data": [
         [
           "0x1e0c",
@@ -716,7 +716,8 @@
           "0x1d10",
           "0x1d14"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_open_preprocessor",
@@ -725,13 +726,13 @@
       "abi": "stdcall",
       "stack_bytes": 16,
       "kind": "application",
-      "stub": false,
       "text_data": [
         [
           "0x1264",
           "0x126e"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_run_preprocessor",
@@ -812,13 +813,13 @@
       "abi": "stdcall",
       "stack_bytes": 12,
       "kind": "application",
-      "stub": false,
       "text_data": [
         [
           "0x1304",
           "0x131c"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_undefine_macro",
@@ -836,7 +837,6 @@
       "abi": "stdcall",
       "stack_bytes": 8,
       "kind": "application",
-      "stub": false,
       "text_data": [
         [
           "0x1230",
@@ -846,7 +846,8 @@
           "0x1244",
           "0x1250"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_find_macro",
@@ -873,14 +874,14 @@
       "abi": "stdcall",
       "stack_bytes": 8,
       "kind": "application",
-      "stub": false,
       "extent_note": "Unaccepted SEH helper: entry+tail and local filter/handler ownership must be resolved before promotion; bounding range only.",
       "text_data": [
         [
           "0x1e20",
           "0x1e2c"
         ]
-      ]
+      ],
+      "stub": false
     },
     {
       "name": "rc_list_macro",
@@ -1252,8 +1253,7 @@
       "end": "0x624c",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_line_comment",
@@ -1669,8 +1669,7 @@
       "end": "0x5cd5",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_select_macro_text",
@@ -1678,8 +1677,7 @@
       "end": "0x5cf1",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_finish_macro_frame",
@@ -1687,8 +1685,7 @@
       "end": "0x5a87",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_expand_macro_arguments",
@@ -1732,6 +1729,15 @@
       "end": "0x5d4d",
       "abi": "cdecl",
       "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_emit_macro_reference",
+      "start": "0xbfe6",
+      "end": "0xc036",
+      "abi": "stdcall",
+      "stack_bytes": 4,
       "kind": "application",
       "stub": true
     }
