@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1196,
+  "accepted": "_define_named_label@4",
+  "terminal": "_record_label_definition@4",
+  "original_capture": "cases/frontiers/state_machine_debug/1196-define_named_label-4/original-receipt.json",
+  "original_capture_sha256": "6aae228338568abd65753cae92b4c67ddc38a223891bd8778010a022d95dc747",
+  "original_events": "cases/frontiers/state_machine_debug/1196-define_named_label-4/original-events.txt",
+  "original_events_sha256": "23795fff10b4c631e82e59f48118a7132d90e64dea2f564a54c07096ea523c7b",
+  "original_configuration": "cases/frontiers/state_machine_debug/1196-define_named_label-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

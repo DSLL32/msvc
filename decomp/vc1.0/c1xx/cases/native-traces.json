@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "a05d71c4de51eeaeaa23c71f50bcc57ab3579c0c4f97af652ffff041184e1ed7",
+    "functions.json": "172bcb936c432721b94e93e505118bcb4239fe6c559b97bab123557d1b912c43",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "d71ede425bab0d84f4bb3e9bea13479bc91d27b07573158ec05eaaa4d4f0fcf6",
-    "cases/canonical-map.txt": "d3975a3da5579b7ebf3b0837bc25c5a1b9e1e7010b5340aa11d05d57d37e5fc5",
+    "cases/original-entry-references.json": "0e612a80c9503ff12499c9667226a725d53a832e88333c4b02b7b3f34f342a91",
+    "cases/canonical-map.txt": "6a229d0411a4a2f0a7cbb5ab4da2f5f8f5f35536e157b8e01cb4a691421e470e",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1195-end_for_body_region/entry-reference/original-receipt.json": "397e0aa7bfaaa3759aab27158401a96e3e8ca54dc569073927a83f7425d10476",
-    "cases/frontiers/state_machine_debug/1195-end_for_body_region/entry-reference/original-events.txt": "59bddbcfe2b2ff80032731201af5256ab0046dcfb9873d79a24df85cb5575cac",
-    "cases/frontiers/state_machine_debug/1195-end_for_body_region/entry-reference/original-entries.plan": "457d0d5954ca7a1ea9c749efda8d8db356eb26bd1beedf57a5283064ede6d2de"
+    "cases/frontiers/state_machine_debug/1196-define_named_label-4/entry-reference/original-receipt.json": "6aae228338568abd65753cae92b4c67ddc38a223891bd8778010a022d95dc747",
+    "cases/frontiers/state_machine_debug/1196-define_named_label-4/entry-reference/original-events.txt": "23795fff10b4c631e82e59f48118a7132d90e64dea2f564a54c07096ea523c7b",
+    "cases/frontiers/state_machine_debug/1196-define_named_label-4/entry-reference/original-entries.plan": "aa4eda7aad7d8b796681c4b01ff451b6dd5e3abb8ebd70347e44fa2b7ba69371"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1576,7 +1576,7 @@
     },
     "define_named_label": {
       "logical": "_define_named_label@4",
-      "source": "src/stubs.c"
+      "source": "src/ir.c"
     },
     "define_source_macro": {
       "logical": "_define_source_macro",
@@ -3978,6 +3978,10 @@
       "logical": "_new_symbol@8",
       "source": "src/declarations.c"
     },
+    "new_symbol_reference": {
+      "logical": "_new_symbol_reference@12",
+      "source": "src/stubs.c"
+    },
     "new_tag_record": {
       "logical": "_new_tag_record@4",
       "source": "src/tags.c"
@@ -4584,6 +4588,10 @@
     },
     "record_initialized_temporary": {
       "logical": "_record_initialized_temporary@8",
+      "source": "src/stubs.c"
+    },
+    "record_label_definition": {
+      "logical": "_record_label_definition@4",
       "source": "src/stubs.c"
     },
     "record_line_information": {
@@ -6898,7 +6906,8 @@
     "end_switch_statement",
     "end_switch_body_region",
     "end_for_statement",
-    "end_for_body_region"
+    "end_for_body_region",
+    "define_named_label"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -11021,7 +11030,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1196,
+      "last": 1197,
       "seen": [
         "main",
         "message_text",
@@ -12116,12 +12125,13 @@
         "end_switch_body_region",
         "end_for_statement",
         "end_for_body_region",
-        "define_named_label"
+        "define_named_label",
+        "record_label_definition"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_define_named_label@4",
-        "native": "define_named_label",
+        "logical": "_record_label_definition@4",
+        "native": "record_label_definition",
         "signal": 5
       }
     }

@@ -10,7 +10,8 @@
             break;
         case 252:
             if (normalized_Ol && options.configuration.option_qc) record_qc_jump(0);
-            define_named_label(right[-1].name);
+            label_name = right[-1].name;
+            define_named_label(label_name);
             break;
         case 253:
             if (!right[-1].expression || !default_labels) report_syntax_error(46);

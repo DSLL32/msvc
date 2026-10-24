@@ -9,6 +9,8 @@
 #include <recon.h>
 
 int __stdcall compare_names_ignore_case(const char *left, const char *right);
+void __stdcall record_label_definition(CppSymbol *label);
+IrToken *__stdcall new_symbol_reference(unsigned char operation, CppSymbol *symbol, CType *type);
 
 CppSymbol *function_symbol; /* original 0x8c140 */
 CppSymbol *current_label_symbol; /* original 0x91384 */
@@ -524,4 +526,20 @@ CppSymbol *__stdcall new_label(char *name)
     label->detail.value = 0;
     label->type = type_0000;
     return label;
+}
+
+/* Original 0x3b4e0..0x3b531, stdcall4. Resolve a named definition,
+   retaining its source record before serializing the label reference. */
+void __stdcall define_named_label(char *name)
+{
+    CppSymbol *label = find_label(name);
+    if (label) {
+        if (label->flags & 4) report_syntax_error(45, name);
+    } else {
+        label = new_label(name);
+        label->attributes |= 0x20;
+        register_label(label);
+    }
+    record_label_definition(label);
+    emit_label(new_symbol_reference(2, label, 0));
 }
