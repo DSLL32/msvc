@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0100-source-file-index/original",
-  "reference_receipt_sha256": "3d6175374bc34a7cc221bc4d80609fad648be59ee8a824323870af176f24b472",
+  "reference": "cases/hello-debug-dll/evidence/0101-append-source-name-complete/original",
+  "reference_receipt_sha256": "22490c396ed17a924798dc8281de0c15b387b8ea89179a37216bc21acc7ac858",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -106,6 +106,7 @@
     "free_type_tables",
     "finalize_derived_types",
     "build_source_file_index",
-    "append_source_name"
+    "append_source_name",
+    "flush_packed_file"
   ]
 }

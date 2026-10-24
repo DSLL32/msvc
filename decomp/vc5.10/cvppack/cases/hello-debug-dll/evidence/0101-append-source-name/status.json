@@ -1,0 +1,4 @@
+{
+  "status": "not-promoted",
+  "reason": "Static policy hash used decimal26 instead of actual hexadecimal0x26 (38-byte) helper extent. Audit rejected before original execution; corrected exact bytes."
+}

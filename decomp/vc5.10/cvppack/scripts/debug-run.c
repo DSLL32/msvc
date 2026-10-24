@@ -41,6 +41,7 @@ static DWORD lookup_frames[64][3], lookup_depth;
 static DWORD main_free_addresses[12], main_free_sizes[12], main_free_count;
 static unsigned char *main_free_before[12];
 static DWORD source_index_size, source_index_address;
+static DWORD source_family_sizes[3], source_family_addresses[3], source_family_count, source_family_pending, source_family_frees;
 static DWORD pending_main_free, pending_main_size, pending_main_site;
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
 
@@ -678,6 +679,51 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         main_free_addresses[main_free_count] = pending_main_free;
         main_free_sizes[main_free_count++] = pending_main_size;
         pending_main_site = 0;
+    }
+    if (entry == 0x40f183 || entry == 0x40f0d2 || entry == 0x40f257) {
+        DWORD size;
+        if (!read_bytes(process, context->Esp, &size, 4) || source_family_count >= 3 || source_family_frees ||
+            entry != (source_family_count == 0 ? 0x40f183 : source_family_count == 1 ? 0x40f0d2 : 0x40f257)) {
+            fprintf(log, "source-family-observation-failed\n"); return;
+        }
+        source_family_pending = size;
+        fprintf(log, "source-family-allocation-call %08lx %lu %lu\n", entry, size, main_free_count);
+    } else if (entry == 0x40f188 || entry == 0x40f0d7 || entry == 0x40f25c) {
+        if (source_family_count >= 3 || !source_family_pending) { fprintf(log, "source-family-observation-failed\n"); return; }
+        source_family_addresses[source_family_count] = context->Eax;
+        source_family_sizes[source_family_count++] = source_family_pending;
+        source_family_pending = 0;
+        fprintf(log, "source-family-allocation-return %08lx %08lx\n", entry, context->Eax);
+    }
+    if (entry == 0x40f3ce || entry == 0x40f3e7) {
+        DWORD pointer, size, k;
+        unsigned char bytes[16];
+        if (source_family_count != 3 || source_family_frees >= 2 ||
+            entry != (source_family_frees == 0 ? 0x40f3ce : 0x40f3e7) ||
+            !read_bytes(process, context->Esp, &pointer, 4) || pointer != source_family_addresses[source_family_frees] ||
+            (size = source_family_sizes[source_family_frees]) > sizeof(bytes) || !read_bytes(process, pointer, bytes, size)) {
+            fprintf(log, "source-family-observation-failed\n"); return;
+        }
+        fprintf(log, "source-family-free-call %08lx %08lx %lu %08lx %08lx ", entry, pointer, size, context->Edi, context->Esp);
+        for (k = 0; k < size; ++k) fprintf(log, "%02x", bytes[k]);
+        fputc('\n', log);
+    } else if (entry == 0x40f3d0 || entry == 0x40f3e9) {
+        fprintf(log, "source-family-free-return %08lx %08lx\n", entry, context->Esp);
+        ++source_family_frees;
+    }
+    if (entry == 0x4069e0 && full_graphs) {
+        DWORD pointer, size, k;
+        unsigned char *bytes;
+        if (source_family_count != 3 || source_family_frees != 2 ||
+            !read_bytes(process, 0x415648, &pointer, 4) || !read_bytes(process, 0x415634, &size, 4) ||
+            pointer != source_family_addresses[2] || size != source_family_sizes[2] || size != 160) {
+            fprintf(log, "source-family-observation-failed\n"); return;
+        }
+        bytes = malloc(size);
+        if (!bytes || !read_bytes(process, pointer, bytes, size)) { free(bytes); fprintf(log, "source-family-observation-failed\n"); return; }
+        fprintf(log, "source-family-output %08lx ", pointer);
+        for (k = 0; k < size; ++k) fprintf(log, "%02x", bytes[k]);
+        fputc('\n', log); free(bytes);
     }
     if (entry == 0x40f183) {
         if (main_free_count != 12 || !read_bytes(process, context->Esp, &source_index_size, 4) || source_index_size < 8 || source_index_size > 262148) {

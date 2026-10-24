@@ -25,7 +25,8 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
     policy=json.loads(path.read_text())
     derived=bool(config.get('observe_derived_finalize_entry'));source_index=bool(config.get('observe_source_index_entry'))
     assert bool(policy.get('source_index_entry'))==source_index,'unreviewed source-index consumer policy'
-    frontier=dict(name='append_source_name',original=0x40f0d0,return_pc=0x40f1d7) if source_index else dict(name='print_statistics',original=0x40f100,return_pc=0x404771) if tables else dict(name='finalize_derived_types',original=0x40df60,return_pc=0x40b146) if derived else dict(name='free_type_tables',original=0x40b140,return_pc=0x404763) if scratch else dict(name='write_debug_directory',original=0x405230,return_pc=0x40475e)
+    complete=bool(config.get('observe_source_index_complete'));assert bool(policy.get('source_index_complete'))==complete,'unreviewed complete source-index policy'
+    frontier=dict(name='flush_packed_file',original=0x4069e0,return_pc=0x404776) if complete else dict(name='append_source_name',original=0x40f0d0,return_pc=0x40f1d7) if source_index else dict(name='print_statistics',original=0x40f100,return_pc=0x404771) if tables else dict(name='finalize_derived_types',original=0x40df60,return_pc=0x40b146) if derived else dict(name='free_type_tables',original=0x40b140,return_pc=0x404763) if scratch else dict(name='write_debug_directory',original=0x405230,return_pc=0x40475e)
     assert bool(policy.get('type_table_cleanup'))==tables,'unreviewed table cleanup consumer policy'
     assert bool(policy.get('type_finalize_entry'))==derived,'unreviewed type cleanup entry policy'
     assert bool(policy.get('widen_scratch_cleanup'))==scratch and policy['target_sha256']==config['target']['sha256'] and policy['allowed_frontiers']==[frontier],'unreviewed main free consumer policy'
@@ -103,7 +104,7 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
     if scratch:allowed.update(('pack_buffer','pack_fixups'))
     if tables:allowed.update(('type_hash_buckets','type_table_primary','type_table_secondary','type_table_pending','type_records'))
     for row in data:
-        if row['kind']!='pointer':continue
+        if row['kind']!='pointer' or (complete and row.get('source_index_output')):continue
         address=value(row['name']);other=actual(row['name'])
         owners=[(base,state) for base,state in retired.items() if base<=address<base+state['size']]
         if not owners:continue

@@ -106,7 +106,8 @@
     "write_debug_directory",
     "free_type_tables",
     "finalize_derived_types",
-    "print_statistics"
+    "print_statistics",
+    "append_source_name"
   ],
   "functions": [
     {
@@ -395,7 +396,8 @@
       "original": 4221408,
       "status": "stub",
       "extent": null,
-      "ret": 0
+      "ret": 0,
+      "parameters": []
     },
     {
       "name": "get_file_size",
@@ -3536,8 +3538,11 @@
       "symbol": "_append_source_name",
       "native_symbol": "append_source_name",
       "original": 4255952,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4255952,
+        4255990
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3563,7 +3568,8 @@
           "slot": 3
         }
       ],
-      "scope": "First encountered call: stack names sentinel. Later heap tail contexts require fresh observed widening."
+      "scope": "First encountered call: stack names sentinel. Later heap tail contexts require fresh observed widening.",
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0101-append-source-name-complete/promotion.json"
     }
   ],
   "support_unmasked": [
@@ -3815,11 +3821,12 @@
   "observe_widen_release": true,
   "observe_main_frees": true,
   "main_free_policy": {
-    "path": "cases/hello-debug-dll/source-index-lifetimes.json",
-    "sha256": "7144262b9b1d658a4a6b61711eebacdbcc2b0c4f9bbc739c8c9648ac5b82edd8"
+    "path": "cases/hello-debug-dll/source-index-complete-lifetimes.json",
+    "sha256": "a318df7c487f494efe5eabadca7ad8cc65c08e84cd5a56ce93c73086dc12fa17"
   },
   "observe_widen_frees": true,
   "observe_derived_finalize_entry": false,
   "observe_type_table_frees": true,
-  "observe_source_index_entry": true
+  "observe_source_index_entry": false,
+  "observe_source_index_complete": true
 }

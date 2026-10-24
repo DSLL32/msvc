@@ -8,7 +8,6 @@
 #include <recon.h>
 
 unsigned char *allocate_type_buffer(unsigned size) { __asm { int 3 } return NULL; }
-SourceNameIndex *append_source_name(const unsigned char *name, SourceNameIndex *tail, unsigned offset) { __asm { int 3 } return NULL; }
 void flush_packed_file(void) { __asm { int 3 } }
 unsigned int get_file_size(int file) { __asm { int 3 } return 0; }
 void *map_file_region(int file, unsigned int offset, unsigned int size) { __asm { int 3 } return NULL; }

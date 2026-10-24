@@ -1,0 +1,41 @@
+{
+  "approved": "Whole38B append helper plus bounded source-index family completion to real masked writer",
+  "packet": {
+    "path": "cases/hello-debug-dll/evidence/0101-append-source-name-complete/source-family-review.json",
+    "sha256": "12dd9ca54e4ec080899657208368891504bdb58f6cebcfaa1e367ee19d5330e9"
+  },
+  "independent_current_check": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cvppack101-parent-check.json",
+    "sha256": "17d13d450f8a1fe19f2a88a933db93b81ae92e4661852ef33cc76c93b9609201"
+  },
+  "bindings": {
+    "src/source-index.c": "dd8dc14eae763a283bfc818be873999b8534227628dcfeaef60ac6a0827e3aaa",
+    "scripts/source-index-complete.py": "ff8fdef583288dd82b3113260c06d9f2bc8f2cd4c34f9d1f8c83f88bb1a6ea1c",
+    "scripts/raw-state.py": "1cb6fc321c3f6f25505cdce72b5327e332d93dc78ec42ada6c6c29d30f1d0615",
+    "scripts/gdb-state.py": "bb60449fd36474a00eb48a7015acc11f9d18491d5b9fb638926fbbebc49c504f",
+    "scripts/debug-run.c": "9d64c0b94fa6c4d6c75290b3a3a2adeeab1ff6130dad98bbd51d3392163b50f0",
+    "cases/hello-debug-dll/source-index-complete-lifetimes.json": "a318df7c487f494efe5eabadca7ad8cc65c08e84cd5a56ce93c73086dc12fa17",
+    "cases/hello-debug-dll/evidence/0101-append-source-name-complete/original/receipt.json": "22490c396ed17a924798dc8281de0c15b387b8ea89179a37216bc21acc7ac858",
+    "cases/hello-debug-dll/evidence/0101-append-source-name-complete/original/events": "718b82d3b008c03f3df900207893cb3f5abb6cbd57748c1eb195d0ec1446014d",
+    "cases/hello-debug-dll/evidence/0101-append-source-name-complete/native-abi/receipt.json": "329fec080597f76680076b3af1f5baf1fe0ae9f79e3acf9b88ee2ef5ff48f384",
+    "cases/hello-debug-dll/evidence/0101-append-source-name-complete/abi-audit-bound/audit.json": "9acb3334eb73300de6c6b7c53e42e42cfb5ca41607c9fe1b611ce7e8f3defc3f",
+    "cases/hello-debug-dll/evidence/0101-append-source-name-complete/abi-check-only.json": "17d13d450f8a1fe19f2a88a933db93b81ae92e4661852ef33cc76c93b9609201",
+    "cases/hello-debug-dll/evidence/0101-append-source-name-complete/source-complete-checks.json": "93a85c397ceaf15ae2327a5ac1f9304dfc03553e80d3bfa1716605a1bfb3c386"
+  },
+  "review": [
+    "Whole38B original helper independently disassembled, matches readable cdecl3/nohidden inputs/RET0 and exact writes0,4,8/link at8; reserved4B untouched",
+    "All3 actual allocations12/16/160 authenticated at real callsites and owners, disjoint while simultaneously live; native old-region reuse is a NEW generation, old source roots remain historical/inaccessible",
+    "Actual original/native name/tail/offset and returned name_tail/names.next/module_head identities read, not guessed from matching own prototype",
+    "Two canonical free calls have actual arguments/provider/normalreturns/LastError, PRE-free module12/name12 initialized bytes typed; next pointersNULL, own reserved4B not equated",
+    "Full live output160B independently derived from all35modules and one full live source payload, exact header/arrays/fileoffset/countedname with no padding",
+    "Full-range retired temp exclusion and live-output typed namespace on both sides, old generic retired guards unchanged",
+    "Whole main/helper/builder no-consumer and actual owner/source-static inventories reviewed; next writer remains masked",
+    "Current check-only independently passes;29affected semantic negatives and own-reserved positive inspected"
+  ],
+  "limits": [
+    "No old/new-root numeric equality, allocator ordering or revival claim",
+    "Original-only data after retirement historical; own unwritten4B uncredited",
+    "No unknown writer/source consumer credit; later stale-root compare/read/free/escape or new consumer reopens typed lifetime boundary",
+    "No CRT body credit; finite ordinary free ABI witness retained"
+  ]
+}

@@ -119,7 +119,9 @@ def main():
         env['VC510_CVPACK_PROBES']+=',40523d:widen-free-entry,40523f:widen-free-exit,405249:widen-free-entry,40524b:widen-free-exit'
     if config.get('observe_type_table_frees'):
         env['VC510_CVPACK_PROBES']+=',40b152:type-free-entry,40b154:type-free-return,40b15e:type-free-entry,40b160:type-free-return,40b16a:type-free-entry,40b16c:type-free-return,40b175:type-free-entry,40b177:type-free-return,40b181:type-free-entry,40b183:type-free-return'
-    if config.get('observe_source_index_entry'):
+    if config.get('observe_source_index_complete'):
+        env['VC510_CVPACK_PROBES']+=',40f0d2:source-name-allocation-entry,40f0d7:source-name-allocation-result,40f257:source-output-allocation-entry,40f25c:source-output-allocation-result,40f3ce:source-module-free-entry,40f3d0:source-module-free-return,40f3e7:source-name-free-entry,40f3e9:source-name-free-return'
+    if config.get('observe_source_index_entry') or config.get('observe_source_index_complete'):
         env['VC510_CVPACK_PROBES']+=',40f183:source-index-allocation-entry,40f188:source-index-allocation-result'
     env['VC510_CVPACK_BLOBS']=','.join('%x:%d:%d:%d:%x:%d:%d'%(item['original'],item['blob'].get('size',0),
         item['blob'].get('pointers',[dict(offset=0xffffffff)])[0]['offset'],

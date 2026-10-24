@@ -1,0 +1,237 @@
+{
+  "schema": 1,
+  "status": "candidate-reviewed-awaiting-parent",
+  "candidate": "append_source_name",
+  "source_extent": [
+    4255952,
+    4255990
+  ],
+  "source_extent_bytes": 38,
+  "source_extent_sha256": "b66b916623c7fec63aefb7b9ab3ad3ec2ce153fb52c5467b4563c0373d626b02",
+  "source": {
+    "path": "src/source-index.c",
+    "sha256": "dd8dc14eae763a283bfc818be873999b8534227628dcfeaef60ac6a0827e3aaa"
+  },
+  "controller": {
+    "path": "scripts/source-index-complete.py",
+    "sha256": "ff8fdef583288dd82b3113260c06d9f2bc8f2cd4c34f9d1f8c83f88bb1a6ea1c"
+  },
+  "decoder": {
+    "path": "scripts/raw-state.py",
+    "sha256": "1cb6fc321c3f6f25505cdce72b5327e332d93dc78ec42ada6c6c29d30f1d0615"
+  },
+  "gdb_observer": {
+    "path": "scripts/gdb-state.py",
+    "sha256": "bb60449fd36474a00eb48a7015acc11f9d18491d5b9fb638926fbbebc49c504f"
+  },
+  "original_observer": {
+    "path": "scripts/debug-run.c",
+    "sha256": "9d64c0b94fa6c4d6c75290b3a3a2adeeab1ff6130dad98bbd51d3392163b50f0"
+  },
+  "policy": {
+    "path": "cases/hello-debug-dll/source-index-complete-lifetimes.json",
+    "sha256": "a318df7c487f494efe5eabadca7ad8cc65c08e84cd5a56ce93c73086dc12fa17"
+  },
+  "original_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0101-append-source-name-complete/original/receipt.json",
+    "sha256": "22490c396ed17a924798dc8281de0c15b387b8ea89179a37216bc21acc7ac858"
+  },
+  "original_events": {
+    "path": "cases/hello-debug-dll/evidence/0101-append-source-name-complete/original/events",
+    "sha256": "718b82d3b008c03f3df900207893cb3f5abb6cbd57748c1eb195d0ec1446014d"
+  },
+  "native_receipt": {
+    "path": "cases/hello-debug-dll/evidence/0101-append-source-name-complete/native-abi/receipt.json",
+    "sha256": "329fec080597f76680076b3af1f5baf1fe0ae9f79e3acf9b88ee2ef5ff48f384"
+  },
+  "audit": {
+    "path": "cases/hello-debug-dll/evidence/0101-append-source-name-complete/abi-audit-bound/audit.json",
+    "sha256": "9acb3334eb73300de6c6b7c53e42e42cfb5ca41607c9fe1b611ce7e8f3defc3f"
+  },
+  "check_only": {
+    "path": "cases/hello-debug-dll/evidence/0101-append-source-name-complete/abi-check-only.json",
+    "sha256": "17d13d450f8a1fe19f2a88a933db93b81ae92e4661852ef33cc76c93b9609201"
+  },
+  "controls": {
+    "path": "cases/hello-debug-dll/evidence/0101-append-source-name-complete/source-complete-checks.json",
+    "sha256": "93a85c397ceaf15ae2327a5ac1f9304dfc03553e80d3bfa1716605a1bfb3c386"
+  },
+  "canonical_abi": {
+    "cdecl_arguments": [
+      "const unsigned char *name",
+      "SourceNameIndex *tail",
+      "unsigned offset"
+    ],
+    "ret_cleanup": 0,
+    "caller_cleanup": 12,
+    "original_node_stores": [
+      0,
+      4,
+      8
+    ],
+    "reserved_own_unwritten": [
+      12,
+      16
+    ],
+    "original_argument_probe": 4255954,
+    "actual_return_identity_observation": 4256343,
+    "return_consumption": "40f1d7 stores EAX into caller name_tail; next allocation probe captures it and names.next equal actual16B allocation identity",
+    "native_abi": "Actual DWARF3formals/pointees1and16/integer4, actual parent names sentinel/16B before bytes and name_tail/names.next postaliases"
+  },
+  "finite_lifetime_scope": {
+    "previous_frees": 12,
+    "new_family_generations": 3,
+    "new_family_roles": [
+      "module12B",
+      "name16B",
+      "output160B"
+    ],
+    "temporary_free_calls": 2,
+    "temporary_initialized_bytes": 24,
+    "own_unwritten_name_reserved_bytes": 4,
+    "live_initialized_output_bytes": 160,
+    "original_free_sites": [
+      4256718,
+      4256743
+    ],
+    "main_consumer_interval": [
+      4212505,
+      4212598
+    ],
+    "source_builder_interval": [
+      4256000,
+      4256762
+    ],
+    "helper_interval": [
+      4255952,
+      4255990
+    ],
+    "next_unknown": "flush_packed_file4069e0",
+    "no_later_dead_consumer": "Each saved next pointer is NULL in actual initialized PRE-free content. Temp pointers stay only in ended builder frame; main immediately enters named writer stub. Whole builder/helper absolute operands exclude all old root slots. Future consumer/read/comparison/free/escape reopens finite proof."
+  },
+  "state_proof": {
+    "new_allocation_generations": 3,
+    "temporary_free_calls": 2,
+    "temporary_initialized_pre_free_bytes": 24,
+    "temporary_own_unwritten_tail_bytes": 4,
+    "live_output_initialized_bytes": 160,
+    "source_modules": 1,
+    "module_count": 35,
+    "source_name": {
+      "module": 2,
+      "source_offset": 36,
+      "bytes": "0b68656c6c6f2d646c6c2e63"
+    },
+    "actual_old_generation_address_reuse": [
+      {
+        "generation": 0,
+        "old_free": 7,
+        "original_overlap": false,
+        "native_overlap": true
+      },
+      {
+        "generation": 1,
+        "old_free": 7,
+        "original_overlap": false,
+        "native_overlap": true
+      },
+      {
+        "generation": 2,
+        "old_free": 7,
+        "original_overlap": false,
+        "native_overlap": true
+      }
+    ],
+    "retired_temporary_current_payload_compared": false,
+    "next_consumer": "flush_packed_file"
+  },
+  "original_family": [
+    {
+      "site": 4256131,
+      "size": 12,
+      "after_frees": 12,
+      "address": 9066128
+    },
+    {
+      "site": 4255954,
+      "size": 16,
+      "after_frees": 12,
+      "address": 9066144,
+      "arguments": {
+        "name": 9061188,
+        "tail": 3276180,
+        "offset": 0,
+        "tail_before": "00000000000000000000000000000000"
+      }
+    },
+    {
+      "site": 4256343,
+      "size": 160,
+      "after_frees": 12,
+      "after_append": {
+        "name_tail": 9066144,
+        "sentinel_next": 9066144,
+        "module_head": 9066128
+      },
+      "address": 9066160
+    }
+  ],
+  "native_family": [
+    {
+      "size": 12,
+      "owner": "build_source_file_index",
+      "role": "module",
+      "after_frees": 12,
+      "address": 1477541072
+    },
+    {
+      "size": 16,
+      "owner": "append_source_name",
+      "role": "name",
+      "after_frees": 12,
+      "arguments": {
+        "name": 1477904580,
+        "tail": 4294359040,
+        "offset": 0,
+        "tail_before": "00000000000000000000000000000000"
+      },
+      "address": 1477541088
+    },
+    {
+      "size": 160,
+      "owner": "build_source_file_index",
+      "role": "output",
+      "after_frees": 12,
+      "after_append": {
+        "name_tail": 1477541088,
+        "sentinel_next": 1477541088,
+        "module_head": 1477541072
+      },
+      "address": 1477541120
+    }
+  ],
+  "reuse": "Original fresh0101 actual mask/candidate/inputs unchanged. Native-only second observation adds independently read actual accepted-helper DWARF arguments and caller postreturn aliases already present in original raw stack. Old native initial observation retained as narrower proof; refreshed strict audit sidecar binds both identities. No source/target binary change or original rerun for observer refinement.",
+  "timing": {
+    "stages": {
+      "original_build": 0.03784505557268858,
+      "native_build": 0.03728204034268856,
+      "graph_tool_build": 0.03828380908817053,
+      "original_capture": 19.07077721785754,
+      "native_capture": 2.4987891856580973,
+      "pair_check": 2.426954003982246
+    },
+    "original": {
+      "setup": 1.3319848598912358,
+      "execution": 17.191292880102992,
+      "total": 18.783788326196373
+    },
+    "native_abi": {
+      "direct_execution": 0.019504038617014885,
+      "gdb_execution": 2.2763059930875897,
+      "total": 2.4174003712832928
+    },
+    "static_audit": 1.2697621379047632,
+    "fresh_controls": 34.86979989614338
+  },
+  "initial_attempt": "0101-append-source-name static policy helperhash decimal26 instead of0x26 rejected beforeoriginal execution; corrected exact38B extent in fresh attempt. Initial control runner output-crossing request also overlapped adjacent retired name allocation, correctly rejected at earlier stronger guard; test refined to interior output for distinct namespace condition. Historical diagnostics retained in scratch."
+}

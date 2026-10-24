@@ -8,6 +8,18 @@
 unsigned source_name_hash[50], source_file_index_size;
 unsigned char *source_file_index;
 
+/* Append one counted source filename [0040f0d0,0040f0f6).
+ * The fourth DWORD is reserved and remains the allocation's own value. */
+SourceNameIndex *append_source_name(const unsigned char *name, SourceNameIndex *tail, unsigned offset)
+{
+    SourceNameIndex *node = allocate_bytes(sizeof(SourceNameIndex));
+    node->name = name;
+    node->offset = offset;
+    node->next = NULL;
+    tail->next = node;
+    return node;
+}
+
 void build_source_file_index(void)
 {
     SourceModuleIndex modules, *module_tail = &modules, *block, *next_block;

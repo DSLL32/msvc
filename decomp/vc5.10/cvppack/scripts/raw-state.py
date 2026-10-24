@@ -79,7 +79,7 @@ def decode(events):
             all_strings[int(location,16)]=raw
     for call in file_calls:call['pathname']=all_strings[call.pop('pointer')]
 
-    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];main_free_calls=[];source_index_allocations=[];source_index_module=None;probe_observed={};widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
+    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];main_free_calls=[];source_index_allocations=[];source_index_module=None;source_family_allocations=[];source_family_frees=[];source_family_output=None;probe_observed={};widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
     for ordinal,line in enumerate(lines):
         if line.startswith('file-read-call '):widen_read_count+=1
         if line.startswith('module '):
@@ -91,6 +91,30 @@ def decode(events):
             _,probe_address,contents=line.split()
             probe_observed[int(probe_address,16)]=bytes.fromhex(contents)
             if int(probe_address,16)==probe_regs[-1]:probe_stack=bytes.fromhex(contents)
+        elif line.startswith('source-family-allocation-call '):
+            _,site,size,ended=line.split();assert int(ended)==len(main_free_calls)==12 and all('exit_esp' in row for row in main_free_calls),'source family allocation before prior free returns'
+            call=dict(site=int(site,16),size=int(size),after_frees=int(ended))
+            assert probe_stack is not None and len(probe_stack)==128,'source family call lacks actual stack'
+            words=struct.unpack('<32I',probe_stack)
+            if call['site']==0x40f0d2:
+                assert words[0]==16 and words[1]==0x40f1d7 and words[3]==probe_regs[-1]+68,'source append actual cdecl caller/sentinel differs'
+                call['arguments']=dict(name=words[2],tail=words[3],offset=words[4],tail_before=probe_stack[68:84])
+            if call['site']==0x40f257:
+                call['after_append']=dict(name_tail=words[6],sentinel_next=words[15],module_head=words[12])
+            source_family_allocations.append(call)
+        elif line.startswith('source-family-allocation-return '):
+            _,site,location=line.split();assert source_family_allocations and 'address' not in source_family_allocations[-1] and int(site,16)==source_family_allocations[-1]['site']+5,'source family allocation return order differs'
+            source_family_allocations[-1]['address']=int(location,16)
+        elif line.startswith('source-family-free-call '):
+            _,site,location,size,provider,esp,payload=line.split();assert len(source_family_allocations)==3 and len(source_family_frees)<2 and probe_stack is not None,'source family free order missing'
+            source_family_frees.append(dict(site=int(site,16),address=int(location,16),size=int(size),provider=int(provider,16),entry_esp=int(esp,16),stack_argument=struct.unpack('<I',probe_stack[:4])[0],before=bytes.fromhex(payload),entry_last_error=error))
+        elif line.startswith('source-family-free-return '):
+            _,site,esp=line.split();assert source_family_frees and int(site,16)==source_family_frees[-1]['site']+2 and 'exit_esp' not in source_family_frees[-1],'source family free return order differs'
+            source_family_frees[-1].update(exit_esp=int(esp,16),exit_last_error=error)
+        elif line.startswith('source-family-output '):
+            _,location,payload=line.split();assert source_family_output is None,'duplicate source output observation'
+            source_family_output=dict(address=int(location,16),bytes=bytes.fromhex(payload))
+        elif line=='source-family-observation-failed':raise AssertionError('incomplete source family observation')
         elif line.startswith('source-index-allocation-call '):
             _,size,ended=line.split();assert int(ended)==len(main_free_calls)==12 and all('exit_esp' in row for row in main_free_calls),'source-index allocation before actual old free returns'
             source_index_allocations.append(dict(size=int(size),after_frees=int(ended)))
@@ -223,7 +247,7 @@ def decode(events):
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -670,6 +694,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
     assert len(original['checked_allocations'])==len(native.get('checked_allocations',[])),'checked allocator request inventory differs'
     for ordinal,(left,right) in enumerate(zip(original['checked_allocations'],native.get('checked_allocations',[]))):
+        if config.get('observe_source_index_complete') and ordinal>=len(original['checked_allocations'])-3:
+            index=ordinal-(len(original['checked_allocations'])-3);old=original['source_family_allocations'];new=native['source_family_allocations']
+            assert len(old)==len(new)==3 and left['address']==old[index]['address'] and left['size']==old[index]['size'] and right==new[index] and old[index]['after_frees']==right['after_frees']==12,'source family checked allocator generation ledger differs'
+            continue
         if config.get('observe_source_index_entry') and ordinal==len(original['checked_allocations'])-1:
             old=original['source_index_allocations'];new=native['source_index_allocations']
             assert len(old)==len(new)==1 and left['address']==old[0]['address'] and left['size']==old[0]['size'] and right==new[0] and right['after_frees']==old[0]['after_frees']==12,'source-index allocator generation ledger differs'
@@ -934,7 +962,9 @@ def compare(config,data,events,native,artifacts=None,views=None):
             for index in range(count):
                 linked(int.from_bytes(raw[index*4:index*4+4],'little'),int.from_bytes(actual[index*4:index*4+4],'little'),shape)
         elif item['kind'] == 'pointer':
-            if item.get('recursive_types'):
+            if item.get('source_index_output') and config.get('observe_source_index_complete'):
+                assert int.from_bytes(raw,'little')==original['source_family_output']['address'] and int.from_bytes(actual,'little')==native['source_family_output']['address'],'source family global output alias differs'
+            elif item.get('recursive_types'):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 if pair(address,other):
                     assert image_aliases[address]==other and image_sizes[address]==16384,'recursive-type bucket allocation differs'
@@ -1298,6 +1328,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
     source_index_proof=None
     if config.get('observe_source_index_entry'):
         source_index_proof=source_index_state.validate(config,data,original,native,image_aliases,image_sizes,aliases,allocation_aliases)
+    if config.get('observe_source_index_complete'):
+        spec=importlib.util.spec_from_file_location('source_index_complete',Path(__file__).with_name('source-index-complete.py'))
+        source_complete=importlib.util.module_from_spec(spec);spec.loader.exec_module(source_complete)
+        source_index_proof=source_complete.validate(config,data,original,native,aliases,allocation_aliases)
     native_parameters=dict(native['parameters'])
     for item,value in object_parameters:
         actual=native_parameters[item['name']]

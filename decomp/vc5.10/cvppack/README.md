@@ -6,10 +6,10 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-source-name collection (`append_source_name`),
-after all 21 Widen lifetimes. There are 100 accepted application functions /
-29,950 extent bytes, plus 784 associated switch-data
-bytes. This is 47.80% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+the packed-file writer (`flush_packed_file`),
+after all 21 Widen lifetimes. There are 101 accepted application functions /
+29,988 extent bytes, plus 784 associated switch-data
+bytes. This is 47.86% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and five import thunks (30 bytes) remain separate support.
 

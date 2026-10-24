@@ -23,6 +23,8 @@ widen_release_calls=[]
 widen_sequence=[]
 main_free_calls=[]
 source_index_allocations=[]
+source_family_allocations=[]
+source_family_frees=[]
 lookup_calls=[]
 lookup_stack=[]
 type_compare_calls=[]
@@ -164,6 +166,22 @@ def install(configuration):
             elif owner.name()=='allocate_bytes':
                 record=dict(size=size);checked_allocations.append(record)
                 caller=owner.older()
+                if config.get('observe_source_index_complete') and caller is not None and caller.name() in ('build_source_file_index','append_source_name'):
+                    assert len(main_free_calls)==12 and all(row.get('returned') for row in main_free_calls) and not source_family_frees,'source family allocation lifetime order differs'
+                    role=['module','name','output'][len(source_family_allocations)]
+                    assert caller.name()==('append_source_name' if role=='name' else 'build_source_file_index'),'source family allocation owner differs'
+                    record.update(owner=caller.name(),role=role,after_frees=12)
+                    if role=='name':
+                        parent=caller.older();assert parent is not None and parent.name()=='build_source_file_index'
+                        block=caller.block()
+                        while block is not None and block.function is None:block=block.superblock
+                        formals={symbol.name:symbol.type.strip_typedefs() for symbol in block if symbol.is_argument}
+                        assert set(formals)=={'name','tail','offset'} and formals['name'].target().sizeof==1 and formals['tail'].target().sizeof==16 and formals['offset'].sizeof==4,'source append actual DWARF ABI differs'
+                        tail=int(caller.read_var('tail'));assert tail==int(parent.read_var('names').address),'source append native actual sentinel owner differs'
+                        record['arguments']=dict(name=int(caller.read_var('name')),tail=tail,offset=int(caller.read_var('offset')),tail_before=bytes(gdb.selected_inferior().read_memory(tail,16)).hex())
+                    if role=='output':
+                        record['after_append']=dict(name_tail=int(caller.read_var('name_tail')),sentinel_next=int(caller.read_var('names')['next']),module_head=int(caller.read_var('modules')['next']))
+                    source_family_allocations.append(record)
                 if config.get('observe_source_index_entry') and caller is not None and caller.name()=='build_source_file_index':
                     assert len(main_free_calls)==12 and all(row.get('returned') for row in main_free_calls),'source-index allocation before prior free returns'
                     record.update(owner='build_source_file_index',after_frees=12)
@@ -183,6 +201,26 @@ def install(configuration):
                 record=dict(size=size,entry_index=(entry-root)//12);(module_allocations if owner.name()=='initialize_single_module' else subsection_allocations).append(record)
             AllocationReturned(record);return False
     AllocationEntered()
+
+    if config.get('observe_source_index_complete'):
+        class SourceFreeReturned(gdb.FinishBreakpoint):
+            def __init__(self,record):
+                self.record=record
+                super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                self.record.update(returned=True,exit_esp=int(gdb.parse_and_eval('$esp')),exit_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                return False
+        class SourceFreeEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('recon_free',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();owner=frame.older()
+                if owner is None or owner.name()!='build_source_file_index':return False
+                index=len(source_family_frees);assert len(source_family_allocations)==3 and index<2,'source family free inventory differs'
+                allocation=source_family_allocations[index];pointer=int(frame.read_var('pointer'))
+                assert pointer==allocation['address'] and int(owner.read_var('block' if index==0 else 'name'))==pointer,'source family free actual local/owner differs'
+                record=dict(index=index,address=pointer,size=allocation['size'],owner=owner.name(),before=bytes(gdb.selected_inferior().read_memory(pointer,allocation['size'])).hex(),entry_esp=int(gdb.parse_and_eval('$ebp'))+4,entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                source_family_frees.append(record);SourceFreeReturned(record);return False
+        SourceFreeEntered()
 
     if config.get('observe_main_frees'):
         class MainFreeReturned(gdb.FinishBreakpoint):
@@ -419,7 +457,7 @@ def capture(configuration,data_file,output):
     class CurrentMemory:
         pid=actual_inferior.pid
         def read_memory(self,address,size):
-            assert not any(row.get('returned') and row['address'] and max(int(address),row['address'])<min(int(address)+int(size),row['address']+row['size']) for row in main_free_calls), 'current-state observer tried to dereference released payload'
+            assert not any(row.get('returned') and row['address'] and max(int(address),row['address'])<min(int(address)+int(size),row['address']+row['size']) for row in main_free_calls+source_family_frees), 'current-state observer tried to dereference released payload'
             return actual_inferior.read_memory(address,size)
     inferior=CurrentMemory()
     def historical_table(address,size,name):
@@ -663,6 +701,13 @@ def capture(configuration,data_file,output):
     state['directory_allocation']=directory_allocation
     state['main_free_calls']=main_free_calls
     state['source_index_allocations']=source_index_allocations
+    state['source_family_allocations']=source_family_allocations
+    state['source_family_frees']=source_family_frees
+    if config.get('observe_source_index_complete'):
+        assert len(source_family_allocations)==3 and len(source_family_frees)==2 and all(row.get('returned') for row in source_family_frees),'source family completion inventory differs'
+        allocation=source_family_allocations[2];address=int(gdb.parse_and_eval('source_file_index'));size=int(gdb.parse_and_eval('source_file_index_size'))
+        assert address==allocation['address'] and size==allocation['size']==160,'source family live output allocation identity differs'
+        state['source_family_output']=dict(address=address,bytes=bytes(actual_inferior.read_memory(address,size)).hex())
     state['widen_sequence']=widen_sequence
     state['widen_release_calls']=widen_release_calls
     state['widen_emit_calls']=widen_emit_calls

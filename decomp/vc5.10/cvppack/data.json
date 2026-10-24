@@ -1234,6 +1234,7 @@
     "name": "source_file_index",
     "original": 4281928,
     "size": 4,
-    "kind": "pointer"
+    "kind": "pointer",
+    "source_index_output": true
   }
 ]
