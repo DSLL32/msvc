@@ -16,6 +16,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <stdarg.h>
+#include "../include/recon-trace.h"
 
 #define UNINSTRUMENTED __attribute__((no_instrument_function))
 typedef struct TraceName {
@@ -34,8 +35,13 @@ static TraceName *names;
 static size_t name_count;
 static TraceSlot *slots;
 static size_t slot_mask;
-static int trace_active,trace_fd;
+static int trace_active,trace_fd,trace_configured;
 static unsigned char *shared_seen;
+static void *shared_mapping;
+static size_t shared_mapping_size;
+/* Only the filter records, strings and address table persist per config. */
+static struct { void *address;size_t size; } trace_mappings[3];
+static unsigned trace_mapping_count;
 
 static void UNINSTRUMENTED recon_trace_trace_error(const char *format,...)
 {
@@ -51,8 +57,12 @@ static void UNINSTRUMENTED recon_trace_trace_error(const char *format,...)
  * symbol/name allocations can become observable in historical CRT code. */
 static void *UNINSTRUMENTED recon_trace_allocate(size_t size)
 {
-    void *mapping=mmap(NULL,size,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+    void *mapping;
+    if (trace_mapping_count==3) recon_trace_trace_error("too many trace mappings");
+    mapping=mmap(NULL,size,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
     if (mapping==MAP_FAILED) recon_trace_trace_error("cannot allocate trace mapping");
+    trace_mappings[trace_mapping_count].address=mapping;
+    trace_mappings[trace_mapping_count++].size=size;
     return mapping;
 }
 static char *UNINSTRUMENTED recon_trace_map_file(int fd,struct stat *st,int writable)
@@ -195,6 +205,7 @@ static void UNINSTRUMENTED recon_trace_attach_shared_state(void)
     } else if (header[0]!=0x31545352u || header[1]!=1 ||
                header[2]!=name_count || header[3]!=hash)
         recon_trace_trace_error("shared trace state application filter mismatch");
+    shared_mapping=mapping;shared_mapping_size=length;
     shared_seen=mapping+32;
     for (n=0;n<name_count;++n) if (names[n].seen) shared_seen[n]=1;
 }
@@ -280,9 +291,76 @@ static void UNINSTRUMENTED __attribute__((constructor(101))) recon_trace_initial
     recon_trace_attach_shared_state();
     while (count<name_count*2) count*=2;
     slots=recon_trace_allocate(count*sizeof(*slots)); slot_mask=count-1;
-    recon_trace_load_symbols(); trace_active=1; errno=saved_errno;
+    recon_trace_load_symbols(); trace_configured=1;trace_active=1;errno=saved_errno;
 }
-void UNINSTRUMENTED __cyg_profile_func_enter(void *function,void *caller)
+static void UNINSTRUMENTED recon_trace_release_configuration(void)
+{
+    trace_active=0;trace_configured=0;
+    if (shared_mapping) munmap(shared_mapping,shared_mapping_size);
+    shared_mapping=NULL;shared_mapping_size=0;shared_seen=NULL;
+    while (trace_mapping_count) {
+        --trace_mapping_count;
+        munmap(trace_mappings[trace_mapping_count].address,
+               trace_mappings[trace_mapping_count].size);
+    }
+    names=NULL;name_count=0;slots=NULL;slot_mask=0;
+}
+void UNINSTRUMENTED recon_trace_configure(const ReconTraceEntry *entries,size_t count,int fd)
+{
+    int saved_errno=errno,flags;size_t n,bytes=0,capacity=1;char *strings;
+    if (count>100000 || (count && !entries))
+        recon_trace_trace_error("invalid explicit application registry");
+    flags=fcntl(fd,F_GETFL);
+    if (flags<0 || (flags&O_ACCMODE)==O_RDONLY)
+        recon_trace_trace_error("explicit trace fd is not writable");
+    for (n=0;n<count;++n) {
+        size_t length;
+        if (!entries[n].address || !entries[n].name || !*entries[n].name)
+            recon_trace_trace_error("invalid explicit application entry");
+        length=strlen(entries[n].name);
+        if (strchr(entries[n].name,'\n') || strchr(entries[n].name,'\r') ||
+            length>=SIZE_MAX/2 || bytes>SIZE_MAX/2-length-1)
+            recon_trace_trace_error("invalid explicit application label");
+        bytes+=length+1;
+    }
+    recon_trace_release_configuration();trace_fd=fd;name_count=count;
+    if (count) {
+        names=recon_trace_allocate(count*sizeof(*names));
+        strings=recon_trace_allocate(bytes*2);
+        for (n=0;n<count;++n) {
+            size_t length=strlen(entries[n].name);
+            names[n].name=strings;memcpy(strings,entries[n].name,length+1);strings+=length+1;
+            names[n].line=strings;memcpy(strings,entries[n].name,length);strings[length]='\n';strings+=length+1;
+            names[n].length=length+1;
+        }
+        recon_trace_sort_names();
+        for (n=1;n<count;++n) if (!strcmp(names[n-1].name,names[n].name))
+            recon_trace_trace_error("duplicate application function: %s",names[n].name);
+        shared_mapping=mmap(NULL,count,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0);
+        if (shared_mapping==MAP_FAILED) recon_trace_trace_error("cannot allocate shared trace state");
+        shared_mapping_size=count;shared_seen=shared_mapping;
+        while (capacity<count*2) capacity*=2;
+        slots=recon_trace_allocate(capacity*sizeof(*slots));slot_mask=capacity-1;
+        for (n=0;n<count;++n)
+            recon_trace_insert_symbol((uintptr_t)entries[n].address,recon_trace_find_name(entries[n].name));
+    }
+    trace_configured=1;errno=saved_errno;
+}
+void UNINSTRUMENTED recon_trace_enable(int enabled)
+{
+    if (enabled && !trace_configured) recon_trace_trace_error("tracing is not configured");
+    trace_active=enabled && name_count;
+}
+void UNINSTRUMENTED recon_trace_reset(void)
+{
+    size_t n;trace_active=0;
+    for (n=0;n<name_count;++n) names[n].seen=0;
+    if (shared_seen) memset(shared_seen,0,name_count);
+    if (slots) for (n=0;n<=slot_mask;++n) slots[n].seen=0;
+}
+/* libc exports no-op instrumentation hooks. Bind a dlopened application DSO's
+ * calls locally to its own state, without changing unrelated symbol binding. */
+void UNINSTRUMENTED __attribute__((visibility("protected"))) __cyg_profile_func_enter(void *function,void *caller)
 {
     uintptr_t address;
     size_t slot,done;
@@ -304,7 +382,7 @@ void UNINSTRUMENTED __cyg_profile_func_enter(void *function,void *caller)
     }
     errno=saved_errno;
 }
-void UNINSTRUMENTED __cyg_profile_func_exit(void *function,void *caller)
+void UNINSTRUMENTED __attribute__((visibility("protected"))) __cyg_profile_func_exit(void *function,void *caller)
 {
     (void)function; (void)caller;
 }

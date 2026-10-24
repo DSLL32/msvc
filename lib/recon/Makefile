@@ -161,6 +161,17 @@ build/trace-exec: build/trace-target.o src/trace.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -no-pie $^ -o $@
 trace-check: build/trace-pie build/trace-exec
 	python3 tests/check-trace.py build/trace-pie build/trace-exec
+build/trace-module.o: tests/trace-module.cpp include/recon-trace.h | build
+	$(CXX) -m32 -O0 -g -fPIC -fno-exceptions -fno-rtti -finstrument-functions -c $< -o $@
+build/trace-module-tracer.o: src/trace.c include/recon-trace.h | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -fPIC -c $< -o $@
+build/trace-module.so: build/trace-module.o build/trace-module-tracer.o
+	$(CC) -m32 -shared $^ -o $@
+build/trace-module-driver: tests/trace-module-driver.c include/recon-trace.h | build
+	$(CC) $(CFLAGS) $< -ldl -o $@
+.PHONY: trace-module-check
+trace-module-check: build/trace-module.so build/trace-module-driver
+	$(PYTHON) tests/check-trace-module.py build/trace-module.so build/trace-module-driver
 build/process-target.o: tests/process-target.c $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -finstrument-functions -c $< -o $@
 build/process-target: build/process-target.o $(SOURCES) src/trace.c
