@@ -1,0 +1,22 @@
+[
+  {
+    "path": "orchestrator-review.json",
+    "sha256": "8cbb36dd348e427626be342c2673a826eb05d85f81ddc2b169ac6ff26d803902",
+    "bytes": 1061
+  },
+  {
+    "path": "promotion.log",
+    "sha256": "5911f699f72597fbe20ee59f24b8540074324b5194e2efcd2c0abac00f2d70b3",
+    "bytes": 444636
+  },
+  {
+    "path": "shared-ready.json",
+    "sha256": "44401e0819b4f15d46bdee43956a92f524fc834f10896f2d442beca4f1b689f4",
+    "bytes": 451
+  },
+  {
+    "path": "fixtures.log",
+    "sha256": "215a8ae9f1a31a459fbb8d2cc857b3b6937c542f5e99f956b359bd27156bc1a5",
+    "bytes": 2008
+  }
+]

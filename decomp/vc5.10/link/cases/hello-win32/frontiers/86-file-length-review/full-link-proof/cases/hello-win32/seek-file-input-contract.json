@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "address": 4243504,
+  "bytes": 76,
+  "body_sha256": "533ee6b4ef59b34aaacdb6c885b5b70c7043ea6029adf2955883c9e39ddc6420",
+  "returns": [
+    [
+      4243558,
+      16
+    ],
+    [
+      4243577,
+      16
+    ]
+  ],
+  "formals": [
+    "int file",
+    "LONG offset",
+    "int origin",
+    "DWORD* error"
+  ],
+  "hidden_inputs": [],
+  "return_type": "LONG; exact original caller MOV EDI,EAX40c0b1 and MOV EBP,EAX40c0c6 consume return",
+  "scope": "Complete readonly pending76B ABI/input analysis; existing namedtrap zero body credit. First pointer input/output is own initialized4B error scratch."
+}

@@ -1,0 +1,8 @@
+{
+  "old_sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5",
+  "new_sha256": "3c770656063f8739a6a5a3cc45cd5a69f22e797b9f1c00a7a45ac91ccb82450b",
+  "name": "_seek_file@16",
+  "old_descriptive_abi": "stdcall void(int file,long offset,int origin,DWORD *upper); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+  "new_descriptive_abi": "stdcall LONG(int file,long offset,int origin,DWORD *upper); return EAX consumed by original get_file_length; callee RET16, no hidden inputs",
+  "scope": "Descriptive return type correction from actual consuming EAX caller40c0b1/40c0c6; original EDI bodies/RET16/provider/slot contract unchanged, pending seek remains zero body credit."
+}

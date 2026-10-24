@@ -22,6 +22,7 @@ static DWORD load_input_entry_stack,load_input_arguments[2],load_input_receiver;
 static DWORD read_input_entry_stack,read_input_arguments[3];
 static DWORD archive_entry_stack,archive_arguments[2];
 static DWORD mac_resource_entry_stack,mac_resource_argument;
+static DWORD file_length_entry_stack,file_length_argument;
 static DWORD archive_read_stack,archive_read_arguments[3],archive_read_count;
 static DWORD archive_predicate_stack,archive_predicate_arguments[2];
 static DWORD library_create_entry_stack,library_create_arguments[3];
@@ -256,7 +257,7 @@ static int snapshot_file_records(const char *phase)
 static int snapshot(DWORD address)
 {
     CONTEXT context;
-    int input_read_boundary=address==base+0x498d0||address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080;
+    int input_read_boundary=address==base+0x498d0||address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030;
     DWORD got, stack[32];
     unsigned index, argument_index;
     unsigned char bytes[65536];
@@ -373,7 +374,8 @@ static int snapshot(DWORD address)
             fprintf(events,",\"output_names\":[%lu,%lu],\"frontier_inputs\":{",mp,lp);
             if(address!=base+0x4b860 && address!=base+0x49a50)fprintf(events,"\"hidden_register_inputs\":[],");
             fprintf(events,"\"formals\":[");
-            if(address==base+0x4e620||address==base+0xc080)fprintf(events,"%lu",stack[1]);
+            if(address==base+0xc030)fprintf(events,"%lu,%lu,%lu,%lu",stack[1],stack[2],stack[3],stack[4]);
+            else if(address==base+0x4e620||address==base+0xc080)fprintf(events,"%lu",stack[1]);
             else if(address==base+0xcab0)fprintf(events,"%lu,%lu,%lu",stack[1],stack[2],stack[3]);
             else if(address==base+0x5cd40)fprintf(events,"%lu,%lu",stack[1],stack[2]);
             else if(input_read_boundary)fprintf(events,"%lu,%lu,%lu",stack[1],stack[2],stack[3]);
@@ -571,14 +573,14 @@ static int snapshot(DWORD address)
         fprintf(events,",\"library_enum_input\":{\"address\":%lu,\"bytes\":16,\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",library_enum_arguments[0],library_enum_arguments[0],library_enum_arguments[1]);
     }
     if((address==base+0x49a50 || input_read_boundary)) {
-        DWORD library=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080)?read_input_arguments[1]:stack[2],array,current;
+        DWORD library=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030)?read_input_arguments[1]:stack[2],array,current;
         if(!ReadProcessMemory(process,(void *)(library+4),&array,4,&got)||got!=4||
            !ReadProcessMemory(process,(void *)(base+0x7f0a8),&current,4,&got)||got!=4||
            !save_memory(library,68,"command-line-library.bin")||!save_memory(array,20,"command-line-library-array.bin"))return 0;
         fprintf(events,",\"load_input_formals\":{\"this\":%lu,\"formals\":[%lu,%lu],\"other_hidden_inputs\":[]},\"command_line_library\":{\"address\":%lu,\"modules\":%lu,\"global_slot\":%lu,\"current\":%lu},\"library_enum_input\":{\"address\":%lu,\"bytes\":16,\"formals\":[%lu,%lu],\"hidden_inputs\":[]}",(input_read_boundary?load_input_receiver:context.Ecx),(input_read_boundary?load_input_arguments[0]:stack[1]),(input_read_boundary?load_input_arguments[1]:stack[2]),library,array,base+0x7f0a8,current,library_enum_arguments[0],library_enum_arguments[0],library_enum_arguments[1]);
     }
     if(input_read_boundary) {
-        DWORD *actual=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080)?read_input_arguments:stack+1;
+        DWORD *actual=(address==base+0x5cd40||address==base+0xcab0||address==base+0x4e620||address==base+0xc080||address==base+0xc030)?read_input_arguments:stack+1;
         fprintf(events,",\"read_input_formals\":{\"formals\":[%lu,%lu,%lu],\"hidden_inputs\":[]}",actual[0],actual[1],actual[2]);
     }
     if(address==base+0xcab0) {
@@ -590,6 +592,10 @@ static int snapshot(DWORD address)
     }
     if(address==base+0xc080) {
         fprintf(events,",\"file_length_formals\":{\"formals\":[%lu],\"hidden_inputs\":[]}",stack[1]);
+    }
+    if(address==base+0xc030) {
+        if(!save_memory(stack[4],4,"file-length-upper-before.bin"))return 0;
+        fprintf(events,",\"seek_file_formals\":{\"formals\":[%lu,%lu,%lu,%lu],\"hidden_inputs\":[]}",stack[1],stack[2],stack[3],stack[4]);
     }
     if(parser_allocation)fprintf(events,",\"parsed_switch_pointer\":%lu",parser_allocation);
     if(duplicate_result)fprintf(events,",\"duplicate_pointer\":%lu",duplicate_result);
@@ -1373,6 +1379,11 @@ int main(int argc, char **argv)
                                 failed=6;break;
                             }
                             if(!save_memory(base+0x670c4,32,"input-diagnostic-before.bin")){failed=6;break;}
+                        }
+                        if(!strcmp(entries[index].name,"_get_file_length@4")) {
+                            DWORD got;file_length_entry_stack=context.Esp;
+                            if(!ReadProcessMemory(process,(void *)(context.Esp+4),&file_length_argument,4,&got)||got!=4){failed=6;break;}
+                            fprintf(events,"{\"event\":\"file_length_entry\",\"stack_pointer\":%lu,\"formals\":[%lu],\"hidden_inputs\":[]}\n",context.Esp,file_length_argument);
                         }
                         if(!strcmp(entries[index].name,"_is_mac_resource_file@4")) {
                             DWORD got;mac_resource_entry_stack=context.Esp;

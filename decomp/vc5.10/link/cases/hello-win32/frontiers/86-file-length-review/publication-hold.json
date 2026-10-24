@@ -1,0 +1,7 @@
+{
+  "status": "technical validation only, app promotion held pending shared READY",
+  "crt_sha256": "ee55a842081fcee814bc344fb662ba7eca0d0da40ceeea7dd470a2d2570d6030",
+  "header_sha256": "2d9b3215967d79d405d4f620d6ffe10fc35048584d6b20f5e4259f84df15aa61",
+  "prior_native": "/root/.ai-tmp/msvc2/vc5.10/link/native-l_k1xx4_",
+  "refinement": "Original ashds9z7 unchanged; new current native binds pure local/ABI parameter label correction to error scratch, no original highword interpretation."
+}

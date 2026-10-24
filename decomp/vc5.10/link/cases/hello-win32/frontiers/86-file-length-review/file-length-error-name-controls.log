@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/link/scripts/check-boundary.py", line 21, in <module>
+    compare(args.frontier,args.original,args.native,original,native)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/boundary_state.py", line 488, in compare
+    compare_release(original,native_state,original_state,completed_options=name!='_release_memory@4',native_directory=native)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/hello_boundary.py", line 91, in compare_release
+    compare_configured(original,state,trap,events,canonical,search,native_directory=native_directory)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/hello_boundary.py", line 175, in compare_configured
+    advanced=compare_sections(original,state,trap,events,native_directory=native_directory)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/section_state.py", line 215, in compare
+    ranges+=compare_move(original,state,trap,events,native_directory=native_directory)
+            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/input_open_state.py", line 332, in compare
+    live_output=compare_archive(original,state,trap,events,native_directory,oslots,nslots)
+  File "/root/msvc2/decomp/vc5.10/link/scripts/archive_state.py", line 117, in compare
+    return compare_completed(original,state,trap,events,directory,reader,entry,formals,read,output) # Archive array is expired; only a new genuinely live output may extend ownership.
+  File "/root/msvc2/decomp/vc5.10/link/scripts/archive_state.py", line 217, in compare_completed
+    assert seek['formals']==['int file','LONG offset','int origin','DWORD* upper']and seek['hidden_inputs']==[]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

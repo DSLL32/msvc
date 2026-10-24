@@ -11,8 +11,24 @@ unsigned file_record_count, file_window_limit;
 FileRecord *mapped_files[16];
 unsigned char file_mapping_enabled;
 
+extern BYTE file_access_statistics;
+void __cdecl record_file_access(void);
+
 #pragma intrinsic(memcpy)
-LONG __stdcall get_file_length(int file) { __asm { int 3 } return 0; }
+LONG __stdcall get_file_length(int file)
+{
+    LONG position,length;
+    DWORD current_error=0,end_error;
+    if (file_access_statistics) record_file_access();
+    position=seek_file(file,0,FILE_CURRENT,&current_error);
+    end_error=0;
+    length=seek_file(file,0,FILE_END,&end_error);
+    if (length!=position) {
+        end_error=0;
+        seek_file(file,position,FILE_BEGIN,&end_error);
+    }
+    return length;
+}
 unsigned __stdcall mapped_read(FileRecord *record,void *buffer,unsigned bytes)
 {
     DWORD error=0;
@@ -75,8 +91,6 @@ void *__stdcall zero_allocate(unsigned bytes)
 }
 void __cdecl out_of_memory(void) { __asm { int 3 } }
 
-extern unsigned char file_access_statistics;
-void __cdecl record_file_access(void);
 FileRecord *__stdcall acquire_file_record(const char *,int,int,unsigned char *);
 int __stdcall open_mapped_file(FileRecord *,int,unsigned char,DWORD *);
 void __cdecl initialize_file_buffers(void);

@@ -102,7 +102,8 @@
     "_read_input_argument@12",
     "_is_archive@8",
     "_mapped_read@12",
-    "_is_mac_resource_file@4"
+    "_is_mac_resource_file@4",
+    "_get_file_length@4"
   ],
   "driver": [
     {
@@ -1194,7 +1195,7 @@
       "end": 4243505,
       "source": "src/full-link-stubs.cpp",
       "status": "stub",
-      "abi": "stdcall void(int file,long offset,int origin,DWORD *upper); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "abi": "stdcall LONG(int file,LONG offset,int origin,DWORD *error); four physical DWORD inputs, RET16, return EAX consumed by file-length caller; no hidden inputs; pointer contents observed when reached",
       "pending_extent": true,
       "native_symbol": "seek_file"
     },
@@ -2765,9 +2766,9 @@
     {
       "name": "_get_file_length@4",
       "start": 4243584,
-      "end": 4243585,
-      "pending_extent": true,
-      "status": "stub",
+      "end": 4243691,
+      "pending_extent": false,
+      "status": "implemented",
       "source": "src/files.c",
       "native_symbol": "get_file_length",
       "abi": "stdcall LONG(int file); one physical DWORD input, RET4, no hidden inputs; observed when reached"

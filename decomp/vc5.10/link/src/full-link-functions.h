@@ -9,7 +9,6 @@
 extern "C" {
 #endif
 void __cdecl finish_alpha_branches(void);
-void __stdcall seek_file(int file,long offset,int origin,DWORD *upper);
 unsigned __stdcall buffered_read(FileRecord *file,void *buffer,unsigned bytes);
 unsigned __stdcall buffered_write(FileRecord *file,const void *buffer,unsigned bytes);
 unsigned __stdcall mapped_read(FileRecord *file,void *buffer,unsigned bytes);
