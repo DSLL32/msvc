@@ -537,7 +537,7 @@ IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object,
     }
     storage = member_pointer_component(member, 1, &saved);
     adjustment = member_pointer_adjustment_value(storage, member);
-    if ((owner->flags & 0x400) && !(owner->detail.class_info->flags & 0x10)) {
+    if ((owner->flags & 4) && !(owner->detail.class_info->flags & 0x10)) {
         adjusted = new_left_typed_expression(0x5a, object, adjustment);
     } else {
         prepare_member_pointer_object(object, &value, &address, prefix);
@@ -546,7 +546,7 @@ IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object,
         fallback = new_left_typed_expression(0x5a, first, second);
         storage = member_pointer_component(member, 1, &saved);
         virtual_offset = member_pointer_general_virtual_offset_value(storage, member);
-        if (owner->flags & 0x400) {
+        if (owner->flags & 4) {
             adjusted = adjust_virtual_member_pointer_object(value, address,
                 adjustment, virtual_offset, member->type);
         } else {

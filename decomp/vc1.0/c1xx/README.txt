@@ -14,6 +14,10 @@ streams and applicable partial-file assertions. Original builds, inherited
 function-graph/ABI checks, eight cached cases and15 unit groups pass.
 The final six-artifact oracle is unchanged; the partial case has not completed.
 No other binary or reconstruction case is being advanced.
+The70-function claim in commit ab264219f preceded its failed native result.
+The corrected eight-bit symbol flag mask then passed the unchanged original
+reference, fresh native run, original build, audit and eight cached cases;
+only that corrected result establishes the current70-function boundary.
 
 Macro-frame analysis corrected the whitespace writer to macro_work_midpoint
 (original0x956dc), separate from macro_expansion_start0x95780; prior captures did
