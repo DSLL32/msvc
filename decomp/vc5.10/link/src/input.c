@@ -153,7 +153,6 @@ BYTE __stdcall read_coff_header(int file,IMAGE_FILE_HEADER *header,void *alterna
     return is_import;
 }
 void __stdcall validate_import_object_header(void *header) { __asm { int 3 } }
-OutputModule *__stdcall create_input_module(const char *original_name,const char *name,const void *identity,IMAGE_FILE_HEADER *header,OutputLibrary *library,BYTE *created,BYTE copy_sections,DWORD section_offset,IMAGE_SECTION_HEADER *sections,BYTE *section_flags,void *optional_data,DWORD auxiliary) { __asm { int 3 } return NULL; }
 void __stdcall allocate_module_section_headers(OutputModule *module) { __asm { int 3 } }
 void __stdcall load_object_module(LinkContext *context,void *parent,OutputModule *module,WORD flags)
 {

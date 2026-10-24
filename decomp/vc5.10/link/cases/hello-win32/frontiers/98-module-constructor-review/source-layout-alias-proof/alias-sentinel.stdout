@@ -1,0 +1,5 @@
+
+Program stopped.
+0xf7fe36a0 in ?? () from /lib/ld-linux.so.2
+0x08054350	435	            else if (machine==0x601) mac_target=1;
+ALIAS_SENTINEL_PASS {"mac_target": 1, "ppc_after_mac_store": 114, "ppc_after_separate_store": 71}

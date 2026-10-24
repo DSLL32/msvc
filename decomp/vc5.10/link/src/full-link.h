@@ -27,18 +27,40 @@ struct OutputLibrary {
     DWORD reserved18;
     /* Opaque library-owned index buffers, released after input processing. */
     void *index_data[5];
-    DWORD flags, input_tag, reserved38;
+    DWORD flags, input_tag;
+    OutputModule *module_head;
     OutputLibrary *next;
     DWORD reserved40;
+#ifdef __cplusplus
+    OutputModule *RECON_THISCALL FindModule(const char *,const void *);
+#endif
 };
 struct OutputModule {
-    DWORD reserved00;
+    /* Duplicated original filename, or a borrowed opaque identity when absent. */
+    const void *identity;
     char *name;
-    BYTE reserved08[44];
-    DWORD input_tag, timestamp, file_size;
-    BYTE reserved40[36];
+    DWORD module_index, symbol_offset, symbol_count;
+    WORD optional_header_size, characteristics;
+    DWORD section_count;
+    BYTE reserved1c[16];
+    void *reserved2c;
+    DWORD reserved30, input_tag, timestamp, file_size;
+    DWORD section_offset;
+    void *optional_data;
+    IMAGE_SECTION_HEADER *section_headers;
+    BYTE *section_flags;
+    DWORD auxiliary;
+    BYTE reserved54[16];
     OutputLibrary *library;
-    BYTE reserved68[52];
+    /* Original allocation uses 64 bytes per section; the public Contribution
+       prefix does not yet describe that complete record. */
+    void *contributions;
+    OutputModule *next;
+    BYTE reserved70[20];
+    WORD *incremental_state;
+    DWORD reserved88;
+    DWORD *symbol_bits[2], *symbol_indices;
+    BYTE flags, reserved99[3];
 };
 struct OutputSection {
     char *name;
@@ -100,6 +122,15 @@ typedef char LibraryIndexDataAt1c[(offsetof(OutputLibrary,index_data)==0x1c)?1:-
 typedef char LibraryFlagsAt30[(offsetof(OutputLibrary,flags)==0x30)?1:-1];
 typedef char LibraryNextAt3c[(offsetof(OutputLibrary,next)==0x3c)?1:-1];
 typedef char OutputModuleSize[(sizeof(OutputModule)==156)?1:-1];
+typedef char ModuleConstructorFields[(offsetof(OutputModule,module_index)==8 &&
+    offsetof(OutputModule,symbol_offset)==12 && offsetof(OutputModule,symbol_count)==16 &&
+    offsetof(OutputModule,section_count)==24 && offsetof(OutputModule,section_offset)==64 &&
+    offsetof(OutputModule,optional_data)==68 && offsetof(OutputModule,section_headers)==72 &&
+    offsetof(OutputModule,section_flags)==76 && offsetof(OutputModule,auxiliary)==80 &&
+    offsetof(OutputModule,contributions)==104 && offsetof(OutputModule,next)==108 &&
+    offsetof(OutputModule,incremental_state)==132 && offsetof(OutputModule,symbol_bits)==140 &&
+    offsetof(OutputModule,symbol_indices)==148 && offsetof(OutputModule,flags)==152)?1:-1];
+typedef char LibraryModuleHeadAt38[(offsetof(OutputLibrary,module_head)==56)?1:-1];
 typedef char OutputModuleLibraryAt64[(offsetof(OutputModule,library)==0x64)?1:-1];
 typedef char SectionFlagsAt20[(offsetof(OutputSection,characteristics)==0x20)?1:-1];
 typedef char SectionFileOffsetAt18[(offsetof(OutputSection,file_offset)==0x18)?1:-1];

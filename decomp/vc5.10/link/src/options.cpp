@@ -13,7 +13,7 @@
 #include <recon.h>
 
 extern "C" {
-extern BYTE pdb_enabled, debug_option_present, incremental_enabled;
+extern BYTE pdb_enabled, debug_option_present, incremental_enabled, mac_target;
 extern BYTE reference_optimization_specified;
 extern DWORD debug_formats, maximum_image_size;
 extern char *repro_directory;
@@ -25,7 +25,7 @@ const char *import_library_name, *output_file_name, *pdb_file_name, *map_file_na
 const char *entry_point_name, *order_file_name;
 BYTE reproducible_build, mapped_debug, separate_types, verbose_link, verbose_libraries;
 BYTE mac_file_padding, incremental_requested, incremental_switch_set;
-BYTE export_directive_changed, linker_test, linker_time, cross_module_types, xoff;
+BYTE export_directive_changed, linker_test, linker_time, xoff;
 WORD warning_level = 1;
 DWORD edit_pad_size, icf_iterations = 2;
 ByteBuffer image_comments;
@@ -432,7 +432,7 @@ extern "C" void __stdcall configure_link_options(LinkContext *context,
             machine=parse_machine(context,FIRST);
             context->file_header.Machine=machine;
             if (machine==0x168) context->options.default144=0;
-            else if (machine==0x601) cross_module_types=1;
+            else if (machine==0x601) mac_target=1;
             else if (!machine) link_warning(file,4012,FIRST,"IX86, ALPHA, ARM, MIPS, MIPSR41XX, PPC, SH3, or SH4");
             context->specified_switches |= 0x1000; used=1;
             goto check_extra;

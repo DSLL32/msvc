@@ -1,0 +1,41 @@
+{
+  "positive": true,
+  "own_uninitialized_created_scope_positive": true,
+  "fresh_negative_count": 22,
+  "rejected": [
+    "native actualmethod stack_pointer",
+    "native actualmethod this",
+    "native actualmethod formals",
+    "native actualmethod other_hidden_inputs",
+    "nativephysicalformal0",
+    "nativephysicalformal1",
+    "original actualmethod this",
+    "original actualmethod formals",
+    "original actualmethod other_hidden_inputs",
+    "original rawECX mismatches receiver",
+    "original wrong methodreturn",
+    "original wrong stack",
+    "native missingfrontier formals",
+    "original missingfrontier formals",
+    "native missingfrontier hidden_register_inputs",
+    "original missingfrontier hidden_register_inputs",
+    "native unknown registerinput",
+    "native wrong formalidentity",
+    "current methodstate header",
+    "current methodstate created",
+    "current methodstate mac_target",
+    "current methodstate native_ppc_symbol_maps"
+  ],
+  "elapsed_seconds": {
+    "positive": 2.1332335667684674,
+    "affected_negatives_and_scope": 0.3339139949530363,
+    "total": 2.467152278870344
+  },
+  "premises": {
+    "scripts/check-module-constructor.py": "a28e3cd25cde0f58f903f9286cc5945eae88bcb877d2bfe09f15e03e951fe521",
+    "scripts/module_constructor_state.py": "27b545f824dfdbd34efae3a6aa876e0adb6eccf091f6493123bcf343de230b58",
+    "scripts/coff_reader_state.py": "2f7f267a0237de455f842a0d2f93ccd5b35fa6df1a2f028e28ac2294073f0dac",
+    "cases/hello-win32/create-module-input-contract.json": "aa643dd061b98fdeb8dea644f311e9d01c1dc4a8f296c4d3d1bc8a4365921df1",
+    "cases/hello-win32/find-module-input-contract.json": "4c2518ba07c17f1146890f1e9ec3c2ca2a618e6a39f83711aae667611c3754d2"
+  }
+}

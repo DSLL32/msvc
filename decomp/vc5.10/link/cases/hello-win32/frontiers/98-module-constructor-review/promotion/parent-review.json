@@ -1,0 +1,14 @@
+{
+  "review": "Independent LINK972B module constructor/current thiscall frontier and storage alias correction",
+  "manifest_sha256": "87e08c1daa977b31bb9d410fe9522e8ab0d3df65365a22c51802b7217ca8a1b7",
+  "verified_manifest_bindings": 949,
+  "independent_raw_mask_source_ELF_and_full_frontier_pair": true,
+  "pair_elapsed_seconds": 2.294,
+  "source_read": "Whole readable minimal C++ constructor preserves genuine nonvirtual thiscall without wrapper/vtable/implicit constructors, existing156B module/68B library layout and caller fields retained; first reached lookup before allocation/output mutation",
+  "next_frontier": "Actual OutputLibrary::FindModule ECX=library, stackname+NULLidentity, no other hidden inputs;140B/twoRET8 static ABI, pending masked/zero credit. Outer header20B+createdBYTE unchanged/live.",
+  "alias_correction": "494578 one source mac_target across options/FullLink/PassOne/currentconstructor, original store/reader bytes independently rebound;47f17c separate backend BYTE. Retired duplicate storage remains historical limited proof.",
+  "layout_source_proof": "Complete old/new FullLink,driver,PassOne object hashes bound with unchanged code/qualified relocations despite field naming/method declaration; no source graph wrapper.",
+  "alias_controls": "Actual emitted options store with distinct31/72sentinels modifies onlyMac1, separatePPC47 leavesMac1;6 static identity rejects retained.22 fresh typed frontier negatives plus scoped positive retained.",
+  "shared_snapshot": "Exact consumed crt8ad now published7070, header e284/win32d556 published; no original bookkeeping rerun",
+  "release": "Promote98/36,614app bytes,13support522 separate; continue actual140B lookup case. Future coldfield/allocator consumers require actual initialized-state evidence."
+}

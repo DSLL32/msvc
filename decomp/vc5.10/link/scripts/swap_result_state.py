@@ -70,9 +70,9 @@ def compare(original,state,trap,events,directory,entry,mac,output):
     data,=[s for s in pe.sections if s['name']=='.data']
     assert pe.base+data['rva']+data['size']<=0x47f030<pe.base+data['rva']+data['virtual_size']
     assert pe.read(0x4497f5,5).hex()=='a030f04700'
-    assert (original/('object-read-mode-entry.bin'if state['function']in ('read_coff_header','create_input_module')else 'object-read-mode.bin')).read_bytes()==bytes(1)
+    assert (original/('object-read-mode-entry.bin'if state['function']in ('read_coff_header','create_input_module','OutputLibrary::FindModule')else 'object-read-mode.bin')).read_bytes()==bytes(1)
     assert state['object_read_mode']==dict(address=mode,bytes=1,value=0)
 
-    if state['function']in ('check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module'):
+    if state['function']in ('check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module','OutputLibrary::FindModule'):
         from input_machine_state import compare as compare_machine
         compare_machine(original,state,trap,events,directory)

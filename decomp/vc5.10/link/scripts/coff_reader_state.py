@@ -106,15 +106,19 @@ def compare(original,state,trap,events,directory):
     nodes=next(e for e in events if e['event']=='argument_list'and e['name']=='link_files')['nodes'];argument=nodes[0]['words']
     name,original_name=argument[0:2];library=args[2];created=stack+4
     formals=[original_name,name,0,header,library,created,0,20,0,0,0,0]
-    assert trap['esp']==stack-84 and trap['stack'][:13]==[0x44985d]+formals
+    completed=state['function']=='OutputLibrary::FindModule'
+    if completed:
+        module,=[e for e in events if e['event']=='input_module_entry']
+        assert module==dict(event='input_module_entry',stack_pointer=stack-84,formals=formals,hidden_inputs=[])
+    else:assert trap['esp']==stack-84 and trap['stack'][:13]==[0x44985d]+formals
     assert trap['input_module_formals']==dict(formals=formals,hidden_inputs=[])
-    assert trap['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
+    if not completed:assert trap['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
     assert pe.read(0x4497e9,4).hex()=='8b742420'and pe.read(0x449842,4).hex()=='8d4c2438'
     assert (original/'input-module-created-before.bin').read_bytes()==bytes([args[0]&255])
     nname=state['canonicalized_arguments'][0]['result'];ncreated=nstack+coffset
     nformals=[nname,nname,0,nheader,nargs[2],ncreated,0,20,0,0,0,0]
     assert state['input_module_entry']==dict(stack_pointer=nstack-oframe,formals=nformals,hidden_inputs=[])
-    assert state['frontier_inputs']==dict(formals=nformals,hidden_register_inputs=[])
+    if not completed:assert state['frontier_inputs']==dict(formals=nformals,hidden_register_inputs=[])
     cout=state['input_module_created_output'];assert cout==dict(address=ncreated,bytes=1,owner_local_address=ncreated,owner_local_bytes=1,before=cout['before'],initial_value_contract='BYTE created output; own incoming byte retained, writes before consumption qualified separately')
     assert len(bytes.fromhex(cout['before']))==1 and ncreated+1<=nheader
     proof=json.loads((root/'cases/hello-win32/create-module-input-contract.json').read_text());body=pe.read(0x40ea00,972)
@@ -129,3 +133,7 @@ def compare(original,state,trap,events,directory):
     assert pe.read(0x40ea2b,17).hex()=='8b44242c85c0740933d285ed0f94c28810'
     # Both header20 and createdBYTE are actual current pointer owners. Returned
     # reader/error/initializer locals stay historical and add no current ranges.
+
+    if completed:
+        from module_constructor_state import compare as compare_constructor
+        compare_constructor(original,state,trap,events,directory,formals,nformals,expected)

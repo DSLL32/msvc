@@ -102,6 +102,6 @@ def compare(original,state,trap,events,directory):
     assert proof['formals']==['int file','IMAGE_FILE_HEADER *header','void *alternate_header','BYTE *alternate']and proof['hidden_inputs']==[]and proof['returns']==[[0x4611ce,16]]
     # The initializer's returned BYTE owner is historical, not a current range.
 
-    if state['function']=='create_input_module':
+    if state['function']in ('create_input_module','OutputLibrary::FindModule'):
         from coff_reader_state import compare as compare_coff
         compare_coff(original,state,trap,events,directory)

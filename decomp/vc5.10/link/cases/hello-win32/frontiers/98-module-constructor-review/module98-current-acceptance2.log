@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 546, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 523, in main
+    audit = audit_trial(args.native / 'functions.json')
+  File "/root/msvc2/decomp/vc5.10/link/scripts/accept.py", line 392, in audit_trial
+    before = {str(p):sha(p.read_bytes()) for p in inputs}
+                         ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'read_bytes'

@@ -1,0 +1,28 @@
+{
+  "candidate": "_create_input_module@48",
+  "application_functions_if_promoted": 98,
+  "application_extent_bytes_if_promoted": 36614,
+  "support_functions": 13,
+  "support_extent_bytes": 522,
+  "original_capture_seconds": 2.8695471910759807,
+  "native_capture_seconds": 0.9049530951306224,
+  "audit_seconds": 0.6447774022817612,
+  "fresh_affected_controls": 22,
+  "fresh_control_times": {
+    "positive": 2.1332335667684674,
+    "affected_negatives_and_scope": 0.3339139949530363,
+    "total": 2.467152278870344
+  },
+  "new_storage_alias_controls": "Actual compiled options store executed with distinctMac/PPCsentinels +6 focused static binding rejections; stdout/script/ELF/COFF anchors retained.",
+  "historical_campaign": "Inherited raw/checker campaigns preserved. Existing predicates have explicit stage extensions; earlier whole-file hashes are not relabeled as identical reuse and broad historical campaigns are not rerun. New receiver/formals/state/stack gates exercised directly after one whole-prefix positive.",
+  "shared_ready": "7070fb31f1a1b30d3505462274fa40628024e1d9 publishes exact consumed crt8ad1636e; header e284/win32d556 independently READY.",
+  "native_help_fixture": {
+    "setup": 0.06115162558853626,
+    "execution": 0.0037424759939312935,
+    "checks": 0.00040289293974637985,
+    "total": 0.06862976960837841
+  },
+  "build": "make-j4 original/native/runtime + original debugger; separate build duration unmeasured",
+  "preserved_failures": "Initial observer used signedECX and mangled expected GDB frame name; actual native4c8 corrected follows standard demangled convention and losslessDWORD receiver. Inherited stack guard corrected for actual additional32B methodcall frame; source-input list Path typo fixed before strictaudit. Failed acceptance logs retained. One make-q source-drift refusal preserved; unchanged originalc17g reused throughout.",
+  "retention": "Original hFile module dumps remain pinned at storage.json originalcapture; no repeated provided originals/audittool bundle. Native/source/COFF/helper snapshots retained for historical debugging."
+}

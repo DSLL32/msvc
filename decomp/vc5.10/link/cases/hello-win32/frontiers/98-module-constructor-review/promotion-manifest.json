@@ -1,0 +1,17 @@
+[
+  {
+    "path": "promotion/current-acceptance-validation.json",
+    "bytes": 462451,
+    "sha256": "c469f1abd51981c389248b6ebb1eb5cc47d3c4eed60c4e09b85651dab6288f95"
+  },
+  {
+    "path": "promotion/parent-review.json",
+    "bytes": 1788,
+    "sha256": "bc76fb4b3abf583c61d702adc6d8733102cb6b80cafa935244fcc45951cf8be2"
+  },
+  {
+    "path": "promotion/promotion.log",
+    "bytes": 462451,
+    "sha256": "c469f1abd51981c389248b6ebb1eb5cc47d3c4eed60c4e09b85651dab6288f95"
+  }
+]

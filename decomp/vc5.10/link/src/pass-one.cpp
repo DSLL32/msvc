@@ -147,7 +147,7 @@ extern "C" OutputLibrary *__stdcall create_library(const char *name,const char *
         else library=(OutputLibrary *)reserve_memory(&output_library_arena,sizeof(OutputLibrary));
         library->name=name?duplicate_link_string(name):NULL;
         library->path=path;
-        library->reserved38=0;
+        library->module_head=NULL;
         library->next=NULL;
         library->reserved40=0;
         library->module_capacity=5;

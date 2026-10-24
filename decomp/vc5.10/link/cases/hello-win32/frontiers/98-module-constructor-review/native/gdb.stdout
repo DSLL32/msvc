@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0805c9bb in OutputLibrary::FindModule (this=0xf7fb8044, name=0x80a2b40 "hello.obj", identity=0x0) at src/input-module.cpp:127
+127	    __asm { int 3 }

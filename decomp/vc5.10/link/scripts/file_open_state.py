@@ -26,7 +26,7 @@ def slot_symbols(path,expected_sha256):
 
 
 def compare(original,state,trap,events,native_directory=None):
-    if state['function']in ('open_mapped_file','initialize_file_mapping','create_library','find_library','initialize_library_enumerator','next_library','LinkContext::LoadInputArgument','read_input_argument','is_archive','mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module'):return # Full completed mutation contract is in file_move_state.
+    if state['function']in ('open_mapped_file','initialize_file_mapping','create_library','find_library','initialize_library_enumerator','next_library','LinkContext::LoadInputArgument','read_input_argument','is_archive','mapped_read','is_mac_resource_file','get_file_length','seek_file','seek_mapped_file','read_big_endian_dword','byte_swap_dword','read_object_file','check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options','initialize_x86_backend','read_coff_header','create_input_module','OutputLibrary::FindModule'):return # Full completed mutation contract is in file_move_state.
     entry,=[e for e in events if e['event']=='open_file_entry'];native=state['open_file_entry']
     expected=[trap['output_name_pointer'],0x8302,0x180]
     nexpected=[state['output_name_pointer'],0x8302,0x180]

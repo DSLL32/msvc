@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 97 application
-functions (35,642 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 98 application
+functions (36,614 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `create_input_module`; hello-win32 has not completed.
+next frontier is `OutputLibrary::FindModule`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -610,3 +610,19 @@ hash-reused. Current native capture/audit take 0.951/0.621 s; native help takes
 70.82 ms including 3.808 ms execution. Initial evidence, the stale-build rejection,
 review and current binding supplement are in `frontiers/97-coff-reader-review`.
 The 972-byte constructor remains a named trap with no accepted body credit.
+
+The 972-byte input-module constructor is accepted, reaching its genuine library
+`thiscall` lookup before any allocation or output mutation. All twelve constructor
+inputs, the live header and BYTE output, and the lookup’s receiver/two arguments
+are observed. Full cold incremental/copy/symbol-map logic is reconstructed, with
+unvisited children kept as named traps. The 156/68-byte record layouts gain
+encountered fields; previous FullLink, driver and PassOne complete code and
+relocation roles remain unchanged. An existing duplicate Mac-target flag model
+is corrected to one object; the distinct PowerPC flag stays separate. Actual
+compiled-store sentinel checks and six binding negatives cover that correction.
+The 22 focused boundary negatives plus positives take 2.467 s; 111 full and
+104 strict graph bodies pass. Original/native/audit times are 2.870/0.905/0.645 s.
+Native help takes 68.63 ms including 3.742 ms execution. Independent review,
+source/layout proofs and observer corrections are retained in
+`frontiers/98-module-constructor-review`; no broad historical campaign was rerun.
+The pending 140-byte lookup remains masked with no body credit.

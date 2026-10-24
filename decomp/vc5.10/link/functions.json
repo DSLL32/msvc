@@ -114,7 +114,8 @@
     "_initialize_machine@4",
     "_validate_delay_load_options@4",
     "_initialize_x86_backend@8",
-    "_read_coff_header@16"
+    "_read_coff_header@16",
+    "_create_input_module@48"
   ],
   "driver": [
     {
@@ -2847,12 +2848,12 @@
     {
       "name": "_create_input_module@48",
       "start": 4254208,
-      "end": 4254209,
-      "pending_extent": true,
-      "source": "src/input.c",
+      "end": 4255180,
+      "pending_extent": false,
+      "source": "src/input-module.cpp",
       "native_symbol": "create_input_module",
-      "status": "stub",
-      "abi": "stdcall OutputModule *(const char *,const char *,const void *,IMAGE_FILE_HEADER *,OutputLibrary *,BYTE *,BYTE,DWORD,IMAGE_SECTION_HEADER *,BYTE *,void *,DWORD); RET48; third+last roles provisional"
+      "status": "implemented",
+      "abi": "stdcall OutputModule *(12 physical DWORDslots), RET48; complete972B constructor including incremental/copy/symbol-map branches; first actual childthiscall method has ECXlibrary+name+identity"
     },
     {
       "name": "_allocate_module_section_headers@4",
@@ -3024,6 +3025,37 @@
       "status": "stub",
       "pending_extent": true,
       "abi": "stdcall void(void *header); onepointer,RET4,nohidden; complete113B pendinganalysis, actualinputsrequiredif reached, zero bodycredit"
+    },
+    {
+      "name": "OutputLibrary::FindModule",
+      "start": 4257696,
+      "end": 4257697,
+      "pending_extent": true,
+      "source": "src/input-module.cpp",
+      "native_symbol": "OutputLibrary::FindModule",
+      "status": "stub",
+      "abi": "thiscall OutputModule *(const char *name,const void *identity); ECXOutputLibrary*+2physicalslots,RET8; actual values required before promotion; complete140B readonly body",
+      "symbol": "?FindModule@OutputLibrary@@QAEPAUOutputModule@@PBDPBX@Z"
+    },
+    {
+      "name": "_reallocate_memory@8",
+      "start": 4521632,
+      "end": 4521633,
+      "pending_extent": true,
+      "source": "src/input-module.cpp",
+      "native_symbol": "reallocate_memory",
+      "status": "stub",
+      "abi": "stdcall void *(void *,unsigned);2physicalslots,RET8; actualinputs unobserved/masked promotionhold"
+    },
+    {
+      "name": "_allocate_module_index",
+      "start": 4398672,
+      "end": 4398673,
+      "pending_extent": true,
+      "source": "src/input-module.cpp",
+      "native_symbol": "allocate_module_index",
+      "status": "stub",
+      "abi": "cdecl DWORD(void);no stackformal; globals actualinputs pendingunobserved; namedmaskedtrap/no bodycredit"
     }
   ],
   "text_data": [
