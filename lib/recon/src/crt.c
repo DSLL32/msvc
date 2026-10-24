@@ -46,6 +46,9 @@ int recon_fmode=RECON_DEFAULT_FMODE,recon_commode,recon_cflush,recon_umaskval;
 unsigned long recon_doserrno,recon_lc_handle[6];
 unsigned recon_lc_codepage;
 int recon_mb_cur_max=1,recon_mb_codepage;
+/* Separate internal gate used by the canonical public _getmbcp. No public
+ * getter/selection semantics are inferred merely from this observed value. */
+unsigned recon_mb_codepage_gate;
 static unsigned short character_flags[257];
 unsigned short *recon_pctype=character_flags+1;
 unsigned char recon_mbctype[257];
@@ -123,6 +126,7 @@ static void fsopen_preflight(const char *name)
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
 static unsigned short initial_ctype_510[257];
 static int locale_profile_applied;
+static ReconCrtCtypeSelection ctype_selection;
 static unsigned short *locale_ctype_510;
 static void msvcrt510_mb_flags(unsigned char table[257])
 {
@@ -182,7 +186,7 @@ void recon_crt_apply_locale_profile(const ReconCrtLocaleProfile *profile)
     if (!profile || !profile->provider_sha256 ||
         strcmp(profile->provider_sha256,"e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210") ||
         profile->kind!=RECON_CRT_LOCALE_1252_EN_US || !profile->mbctype || !profile->ctype ||
-        profile->mbctype_count!=257 || profile->ctype_count!=257 || locale_profile_applied ||
+        profile->mbctype_count!=257 || profile->ctype_count!=257 || locale_profile_applied || ctype_selection.bound ||
         recon_mb_codepage || recon_lc_codepage || recon_mb_cur_max!=1 ||
         recon_pctype!=character_flags+1)
         recon_unsupported("locale profile identity/extent/initial state");
@@ -205,6 +209,49 @@ void recon_crt_apply_locale_profile(const ReconCrtLocaleProfile *profile)
     errno=saved; recon_doserrno=dos; recon_SetLastError(error);
 #else
     (void)profile;recon_unsupported("locale profile without explicit MSVCRT510 profile");
+#endif
+}
+
+
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static void isolated_ctype_initial_state(void)
+{
+    unsigned char mb[257];unsigned n;
+    if (locale_profile_applied || recon_mb_codepage || recon_mb_codepage_gate ||
+        recon_lc_codepage || recon_mb_cur_max!=1 || recon_pctype!=character_flags+1)
+        recon_unsupported("isolated LC_CTYPE initial scalar/pointer state");
+    for(n=0;n<6;++n) if(recon_lc_handle[n])
+        recon_unsupported("isolated LC_CTYPE initial handles");
+    msvcrt510_mb_flags(mb);
+    if(memcmp(recon_mbctype,mb,sizeof(mb)) ||
+       memcmp(character_flags,initial_ctype_510,sizeof(character_flags)))
+        recon_unsupported("isolated LC_CTYPE initial tables");
+}
+#endif
+void recon_crt_bind_empty_ctype_1252(const char *provider,const char *reference)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    unsigned n;
+    if(!provider || strcmp(provider,"e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210") ||
+       !reference || strlen(reference)!=64 || ctype_selection.bound || ctype_selection.calls)
+        recon_unsupported("isolated LC_CTYPE binding identity/inventory");
+    for(n=0;n<64;++n)
+        if(!((reference[n]>='0' && reference[n]<='9') || (reference[n]>='a' && reference[n]<='f')))
+            recon_unsupported("isolated LC_CTYPE reference SHA256");
+    isolated_ctype_initial_state();
+    memcpy(ctype_selection.reference_sha256,reference,65);ctype_selection.bound=1;
+#else
+    (void)provider;(void)reference;
+    recon_unsupported("isolated LC_CTYPE requires MSVCRT510 profile");
+#endif
+}
+const ReconCrtCtypeSelection *recon_crt_ctype_selection_state(void)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    return &ctype_selection;
+#else
+    static const ReconCrtCtypeSelection unbound;
+    return &unbound;
 #endif
 }
 
@@ -2321,8 +2368,6 @@ WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
     return (size_t)(cursor-text);
 }
 
-/* Typed link surface only: locale selection needs its reached provider/state
- * contract; never forward Microsoft category numbers to host libc. */
 /* Build-only public codepage boundary. Do not infer its state transition
  * from an existing combined locale profile or forward it to host libc. */
 WEAK int __cdecl recon_setmbcp(int codepage)
@@ -2331,10 +2376,37 @@ WEAK int __cdecl recon_setmbcp(int codepage)
     recon_unsupported("unreviewed _setmbcp selection");return -1;
 }
 
+/* Empty LC_CTYPE selection has one explicit captured native-host profile.
+ * Other selections never forward Microsoft category numbers to host libc. */
 WEAK char *recon_setlocale(int category,const char *locale)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    unsigned short table[257],*allocated;char *result;
+    int saved=errno;unsigned long dos=recon_doserrno;DWORD error=recon_GetLastError();
+    if(ctype_selection.bound!=1 || ctype_selection.calls || category!=2 || !locale || *locale)
+        recon_unsupported("unreviewed setlocale selection");
+    /* Only the first isolated C1XX call has this complete error-state proof.
+     * Other callers need their own reached evidence before this can widen. */
+    if(saved || dos || error!=203)
+        recon_unsupported("isolated LC_CTYPE entry errors");
+    isolated_ctype_initial_state();
+    msvcrt510_locale_ctype(recon_mbctype,table);
+    allocated=malloc(sizeof(table));
+    result=malloc(sizeof("English_United States.1252"));
+    if(!allocated || !result) recon_unsupported("isolated LC_CTYPE allocation failure");
+    memcpy(allocated,table,sizeof(table));
+    strcpy(result,"English_United States.1252");
+    /* Native ownership is explicit. Original proof covers initialized spans
+     * and their writable lifetime, without inferring original heap extents. */
+    locale_ctype_510=allocated;recon_pctype=allocated+1;
+    recon_lc_codepage=1252;recon_lc_handle[2]=1033;
+    locale_profile_applied=1;ctype_selection.result=result;ctype_selection.calls=1;
+    errno=saved;recon_doserrno=dos;recon_SetLastError(error);
+    return result;
+#else
     (void)category;(void)locale;
     recon_unsupported("unreviewed setlocale selection");return NULL;
+#endif
 }
 
 WEAK WCHAR *recon_wcschr(const WCHAR *text,WCHAR character)

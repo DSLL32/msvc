@@ -528,3 +528,10 @@ build/mb-codepage-surface: tests/mb-codepage-surface.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/mb-codepage-surface.c $(SOURCES) -o $@
 mb-codepage-surface-check: build/mb-codepage-surface
 	$(PYTHON) tests/check-mb-codepage-surface.py build/mb-codepage-surface
+
+.PHONY: isolated-ctype-check
+build/isolated-ctype-probe: tests/isolated-ctype-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 tests/isolated-ctype-probe.c $(SOURCES) -o $@
+isolated-ctype-check: build/isolated-ctype-probe
+	test -n "$(ISOLATED_CTYPE_REFERENCE)"
+	$(PYTHON) tests/check-isolated-ctype.py build/isolated-ctype-probe "$(ISOLATED_CTYPE_REFERENCE)"

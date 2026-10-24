@@ -951,3 +951,16 @@ The native mbctype.h surface exposes the encountered Microsoft _M1 bit and
 _MB_CP_LOCALE selector. _mbctype aliases the existing shared257-byte table;
 _setmbcp has its cdecl int(int) signature but every selection fails125 until
 the reached provider's independent codepage/state transition is established.
+
+An explicit MSVCRT510 native host can bind one isolated empty LC_CTYPE selection
+with recon_crt_bind_empty_ctype_1252(canonical_provider_sha256, actual_receipt_sha256).
+Binding leaves locale state unchanged. The actual setlocale(2, "") call requires
+the captured initial tables/static pctype, MBcodepage/gate0, MBmax1, all handles0
+and errno/DOS0/LastError203. It allocates a writable514-byte ctype table and a
+distinct persistent writable "English_United States.1252" result; only LCcodepage,
+handle2 and pctype change. Old static ctype and all MB state remain unchanged.
+Queries, repeat calls, other names/categories/prestates and mixing with the CL
+combined dependency profile fail125. The read-only ctype-selection state exposes
+the host reference, bound/call inventory and returned owner. Original ownership
+proof covers observed initialized spans/lifetime, without claiming heap extents.
+Focused checks use make isolated-ctype-check ISOLATED_CTYPE_REFERENCE=<retained-raw-directory>.

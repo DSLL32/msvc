@@ -1,0 +1,77 @@
+{
+  "scope": "Explicit once-bound MSVCRT510 isolated LC_CTYPE2 empty selection; exact entry errors0/0/203 only. New native writable514Bctype and distinct persistent result, oldstatic/MB/codepage0/gate0 preserved. Other selection states deny; combined CL unchanged.",
+  "api": "recon_crt_bind_empty_ctype_1252(provider_sha256,own_receipt_sha256); const ReconCrtCtypeSelection *recon_crt_ctype_selection_state(void)",
+  "original_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-checksum-locale-original-1/receipt.json",
+    "sha256": "ebdbb204d8af623e8e00defcad03832006960fa7f4c88ec22317b76c0c638568"
+  },
+  "original_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/original-review.json",
+    "sha256": "55bcea165ab1224c47dc6be88e4985793631e130985a018e2ddc15b1b4066b85"
+  },
+  "binaries": [
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/clang-510-reviewed",
+      "sha256": "227c8b7e356da0442eb2f6cb13951a62386150011dd4e70b2cebeaad17a352bc"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/clang-default-reviewed",
+      "sha256": "3eeb04798b1231a9b49bfb828fd8e0fb1e20c435e1fd1d850e907662ca2f9a87"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/gcc-510-reviewed",
+      "sha256": "f09bbdf80be8369daf8d4bbf53e7534220b31e73617b90ade83a2022579b12e4"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/gcc-default-reviewed",
+      "sha256": "003cbe1c4c531c2a134988754a4d9753bf0639bf27835d1e84f516834897fb41"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/clang-510-combined",
+      "sha256": "edfff577fb8355997750833cf4162a6edf79eceadb2bc3324bf0477bbb012636"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/clang-default-combined",
+      "sha256": "4b7ac039d9d6f828b1be7392795a9b8b9feca9dc8a200f29101d0c113f014b3b"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/gcc-510-combined",
+      "sha256": "2bcf3cb84d0dd7be3f3df145af9c98566f8223c76fab69cbe879d5a6b406d7b0"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/gcc-default-combined",
+      "sha256": "19f4f42cb0f8939bf3f3e5de0908c70867eab30d30f40d1798c06542afe2fbfd"
+    }
+  ],
+  "checks": "Both compilers: isolated two fulltables/lifetime/errors/full108FP/oldnewresult ownership positives plus26denials; default28denials. Old combined14denials+fulltables and defaultdenial pass.",
+  "initial_test_correction": "First trial checker expected the wrong unsupported stderr prefix and failed after correct125; only checker spelling corrected, unchanged source/trial ELFs then passed. Trials retained.",
+  "frozen_manifest": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/receipt.json",
+    "sha256": "a719e2ee7ad77c223974728d5f14a0f38b018ffb14c01528372b9e3daa61c873"
+  },
+  "sources": [
+    {
+      "path": "/root/msvc2/lib/recon/src/crt.c",
+      "sha256": "84324db718458cffb169e3fe95e2c687e47ce1a7ba1cdec683f746ff29e34e17"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/include/recon.h",
+      "sha256": "a2b78588c4de1e1ea9d21af711743710bc6885cf88d3d5bb15b7d3ab79b5adc7"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/isolated-ctype-probe.c",
+      "sha256": "2918f692d02175780b6105d5b072b0c24d0729e62df12448eac2a2011c8218b9"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-isolated-ctype.py",
+      "sha256": "fe9a1484cd662a9979caff9b35b8b236e138b6870c4f42dd44105f8cb960193d"
+    }
+  ],
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/isolated-ctype/orchestrator-review.json",
+    "sha256": "da1afd4aa538a9875eaddbc72b30a1660da36ed9ede86fdabbac73150a48d6df"
+  },
+  "affected_checks": "Default native check, typed codepage surface and68624 post1252ASCII rows+23denials pass.",
+  "ownership": "Original proof is initialized514Bctype and complete NUL-terminated result plus mapped writable distinct identities/lifetime; no original heap extents inferred. Native independent malloc objects have explicit owned extents; old static ctype and static MB identities retained.",
+  "remaining": "Actual C1XX native adoption required before application acceptance. C1 Last0 and _setmbcp transition are separate, not enabled here."
+}

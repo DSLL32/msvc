@@ -125,6 +125,7 @@ extern int recon_fmode,recon_commode,recon_cflush,recon_umaskval;
 extern unsigned long recon_doserrno,recon_lc_handle[6];
 extern unsigned recon_lc_codepage;
 extern int recon_mb_cur_max,recon_mb_codepage;
+extern unsigned recon_mb_codepage_gate;
 extern unsigned short *recon_pctype;
 extern unsigned char recon_mbctype[257];
 #define RECON_CRT_LOCALE_1252_EN_US 1
@@ -135,6 +136,15 @@ typedef struct ReconCrtLocaleProfile {
  const unsigned short *ctype; size_t ctype_count;
 } ReconCrtLocaleProfile;
 void recon_crt_apply_locale_profile(const ReconCrtLocaleProfile *);
+/* Host enables the captured empty LC_CTYPE selection; only the actual target
+ * call mutates locale state. Read-only inventory contains no captured address. */
+typedef struct ReconCrtCtypeSelection {
+ unsigned bound,calls;
+ char reference_sha256[65];
+ char *result;
+} ReconCrtCtypeSelection;
+void recon_crt_bind_empty_ctype_1252(const char *,const char *);
+const ReconCrtCtypeSelection *recon_crt_ctype_selection_state(void);
 char *recon_setlocale(int,const char *);
 int __cdecl recon_setmbcp(int);
 unsigned long __cdecl recon_mspdb_SigForPbCb(const void *,long,unsigned long);
