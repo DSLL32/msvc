@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_begin_do_body_region",
+  "native_entry": "begin_do_body_region",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      260800,
+      260858
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole58B SUB16/plainRET; zero incomingstack/GPR/x87/CPUflagsformal. Fully initializes16Bkind20/all15remainingbyteszero thenappend16; no suppressionguard at this entry. Accepted outerbegin_do_statement independently gatesitscall. Existingrecordtype/callee only; no newdata/hiddeninput."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_do_body_region",
+    "start": 260800,
+    "end": 260858
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1176-begin_do_body_region/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_append_frontend_record@8"
+  ],
+  "next_frontier": "_prepare_do_body",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8478209767490625,
+  "total_operation_seconds": 4.90179630741477,
+  "original_capture_seconds": 1.5687674637883902
+}

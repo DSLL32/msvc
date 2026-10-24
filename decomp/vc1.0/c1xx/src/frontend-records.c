@@ -1052,3 +1052,17 @@ void begin_do_statement(void)
         begin_do_body_region();
     }
 }
+
+/* Original 0x3fac0..0x3faf9. Open a fully initialized sixteen-byte
+   body delimiter after the do-loop's outer record. */
+void begin_do_body_region(void)
+{
+    FrontendRecord record;
+    record.kind = 0x20;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
