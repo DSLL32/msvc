@@ -4,11 +4,15 @@ import argparse,hashlib,json,os,shutil
 from pathlib import Path
 PROJECT=Path(__file__).resolve().parents[1];ROOT=PROJECT.parents[2]
 sha=lambda raw:hashlib.sha256(raw).hexdigest()
-parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('directory',type=Path);parser.add_argument('--label',required=True);parser.add_argument('--transport-failure',action='store_true');parser.add_argument('--observed-prefix',action='store_true');args=parser.parse_args()
-assert not(args.transport_failure and args.observed_prefix)
+parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('directory',type=Path);parser.add_argument('--label',required=True);parser.add_argument('--transport-failure',action='store_true');parser.add_argument('--observed-prefix',action='store_true');parser.add_argument('--candidate-failure',action='store_true');args=parser.parse_args()
+assert sum(bool(v)for v in(args.transport_failure,args.observed_prefix,args.candidate_failure))<=1
 assert Path(args.label).name==args.label and args.label not in('.','..')
 capture=json.loads((args.directory/'capture.json').read_bytes())
-if args.observed_prefix:
+if args.candidate_failure:
+ assert capture['case']=='mre-object'and capture['baseline']is False and capture.get('mre_response')is True and capture['helper_status']==188 and capture['controller_error']is None
+ assert (args.directory/'mre-observer.txt').read_bytes()==b'CL_MRE_SELECTOR_RESPONSE_V1\n'
+ kind='Rejected selector-candidate frontier observer predicate; complete API subrecords remain partial case evidence, no acceptance/native success'
+elif args.observed_prefix:
  assert capture['case']=='mre-object'and capture['baseline']is False and capture.get('mre_response')is True and capture['helper_status']==0 and capture['controller_error']is None
  kind='Fresh masked original-only MRE object prefix with intermediate file-preservation evidence; no native response, complete lifecycle or application credit'
 elif args.transport_failure:

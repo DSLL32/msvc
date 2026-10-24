@@ -108,7 +108,7 @@ def project(platform,directory):
     directory=Path(directory)
     if (directory/'capture.json').exists():
         capture=json.loads((directory/'capture.json').read_bytes())
-        signature=(capture.get('mre_response')and(directory/'mre-observer.txt').exists()and(directory/'mre-observer.txt').read_bytes()==b'CL_MRE_SIGNATURE_RESPONSE_V1\n')if platform=='original'else capture.get('mre_signature_response')
+        signature=(capture.get('mre_response')and(directory/'mre-observer.txt').exists()and(directory/'mre-observer.txt').read_bytes()in(b'CL_MRE_SIGNATURE_RESPONSE_V1\n',b'CL_MRE_SELECTOR_RESPONSE_V1\n'))if platform=='original'else(capture.get('mre_signature_response')or capture.get('mre_selector_response'))
         if signature:
             from mre_projection import project as mre_project
             return mre_project(platform,directory)

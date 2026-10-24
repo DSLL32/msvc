@@ -63,7 +63,8 @@ def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help',
     native_dir=SCRATCH/(label+'-native')
     if mre_response:
         import subprocess,sys
-        subprocess.run([sys.executable,str(PROJECT/'scripts/native-mre-prefix.py'),'--original',str(observed),'--directory',str(native_dir),'--signature-candidate'],cwd=PROJECT,check=True)
+        candidate_mode='--selector-candidate'if(observed/'mre-observer.txt').read_bytes()==b'CL_MRE_SELECTOR_RESPONSE_V1\n'else'--signature-candidate'
+        subprocess.run([sys.executable,str(PROJECT/'scripts/native-mre-prefix.py'),'--original',str(observed),'--directory',str(native_dir),candidate_mode],cwd=PROJECT,check=True)
         (native_dir/'state.json').write_text(json.dumps(project('native',native_dir),indent=2)+'\n')
     else:native.capture(observed,native_dir)
     native_state=project('native',native_dir)

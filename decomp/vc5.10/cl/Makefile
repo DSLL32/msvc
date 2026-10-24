@@ -5,7 +5,7 @@ RECON = ../../../lib/recon
 NATIVE_CC ?= clang
 LLVM_DLLTOOL ?= llvm-dlltool
 # Freeze the shared release actually compiled, independently of concurrent WIP.
-RECON_SHARED_REVISION ?= 0e8a3d3fc
+RECON_SHARED_REVISION ?= 4021ad738647d7d9d35ec8a274133a0ed144689b
 export RECON_SHARED_REVISION
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TEST -DRECON_NATIVE_ENTRY_CONTROLFP_53 -DRECON_DEFAULT_FMODE=0 -DRECON_CRT_PROFILE_MSVCRT_510 -I$(RECON)/include -I$(RECON)/native
 NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))

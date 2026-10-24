@@ -1,0 +1,18 @@
+{
+  "kind": "Fresh native selector-candidate observation",
+  "seconds": 1.5694782035425305,
+  "original_capture_sha256": "79680de860f1333b121e5b9c5ffccaef614abdce0893d8c64ec536eb05f3adbb",
+  "native_sha256": "a1d911f278af94dd88f6b8400678ec3a4644c919ba9c67c13c129164709b4bf5",
+  "native_build_sha256": "c05c31b3f58b8c02317f7c29296922adf186638eb91f932217e1e89f42f1bc0c",
+  "sources": {
+    "mre_native.py": "8ad631787678a8209fe58220f5876526db035f993acde7ca0f42247df8bedfe7",
+    "mre-provider.c": "7d3f75e9d5c7fe730b2bf954089f5fd6957cdd2dc0ac1d627e6856a383bd2cf9",
+    "mre-host.c": "e0e6452ccf44f718c743881be4b92ed3b603748cdd6338def7e11d3041c74873",
+    "native-host.c": "912cfc5d912a525d67cc20ba8f467dbb43f5d45446c6461a3652fdb8379cca4e",
+    "native-mre-prefix.py": "7b5e3769b5b6ef62fb74eb5adec335447047db48d43eb51dd9a99588025ae538",
+    "gdb_mre.py": "1b4859199ebf4f05057ca1515b7e95a69523709a7571a279a2e3ae3e641c171b",
+    "mre_state.py": "1adf83c148c90c6107ce4f433b8f60124cb9efa149a78a0f46864bd617c9a4d3",
+    "selector_native_state.py": "d23360eda82b0702fc73dba3dc164cbf86fcc7ea0b84a715445f0d218358a40e"
+  },
+  "error": null
+}

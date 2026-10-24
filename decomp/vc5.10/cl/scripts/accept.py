@@ -55,8 +55,9 @@ def reconstruction_capture(capture):
     if capture.get('mre_response'):
         assert capture.get('case')=='mre-object'and capture.get('baseline')is False,'wrong MRE candidate case/mode'
         assert not any(capture.get(name)for name in('mre_analysis','dependency_analysis','dependency_complete','dependency_response','link_response','clock_analysis','clock_response')),'ambiguous MRE candidate mode'
-        marker=b'CL_MRE_SIGNATURE_RESPONSE_V1\n'
-        assert capture.get('files',{}).get('mre-observer.txt')=={'bytes':len(marker),'sha256':hashlib.sha256(marker).hexdigest()},'only exact fresh signature response can serve candidate acceptance'
+        markers=(b'CL_MRE_SIGNATURE_RESPONSE_V1\n',b'CL_MRE_SELECTOR_RESPONSE_V1\n')
+        assert capture.get('files',{}).get('mre-observer.txt')in[
+            {'bytes':len(marker),'sha256':hashlib.sha256(marker).hexdigest()}for marker in markers],'only exact verified fresh MRE response can serve candidate acceptance'
         assert capture['command'][-2]=='1','MRE original is not masked'
         # state.project must independently decode the complete raw MRE response
         # and native ABI/state/inventory; this marker check alone is no success.

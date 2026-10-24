@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "disposition": "Release essential corrected selector-2 ordinary original capture; no diagnostic-only run",
+  "manifest_sha256": "5ce42061d9358a9a7816a5b721af43467a61ebbb7e4d4af11bbe4feb38daf9a8",
+  "independent_review": [
+    "All21 current manifest content hashes match; unchanged target/trial/source/native/audit versus original pre-use packet.",
+    "Original4039ca bytes884508 verified directly; CALLselector writesAL to low byteEBP+8 each iteration.",
+    "Independently decoded complete signature-1 original options; final nodeFd/matchingD2/case.idb exactly matches packet and returns selector0 for Mm.",
+    "Corrected predicate demands precise final modified wordstate&ffffff00; genuine savedparent/return/globalDriver/onecall/comparator/item bounds unchanged. Telemetry adds only existing owned reads; no debuggee mutation."
+  ],
+  "limits": [
+    "Failed selector-1 retained as partial original evidence.",
+    "Actual fresh corrected raw/frontier still mandatory; acceptance/new marker remains denied and shared_mbslwr has no success yet."
+  ]
+}

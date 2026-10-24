@@ -68,7 +68,7 @@ def state(record):
     return fields,memory
 
 
-def verify(original,directory,provider=None,signature_candidate=False):
+def verify(original,directory,provider=None,signature_candidate=False,selector_candidate=False):
     directory=Path(directory);raw=json.loads((directory/'mre-native.json').read_bytes())
     own_provider=provider is None
     if own_provider:
@@ -89,7 +89,10 @@ def verify(original,directory,provider=None,signature_candidate=False):
             execution=Path(index['execution_directory'])
             assert execution.is_absolute()and execution.parent==Path('/root/.ai-tmp/msvc2/vc5.10/cl')and execution.name.startswith('mre-provider-native-')
             provider.directory=execution;provider.artifact_directory=directory.resolve()
-        if signature_candidate:
+        if selector_candidate:
+            from mre_selector_packet import decode as selector_response
+            provider.packet=selector_response(provider.original)
+        elif signature_candidate:
             from mre_signature_packet import decode as signature_response
             provider.packet=signature_response(provider.original)
         else:provider.packet=original_packet(provider.original)
@@ -172,7 +175,7 @@ def verify(original,directory,provider=None,signature_candidate=False):
             assert fd=={'handle':handle['handle'],'device':handle['device'],'inode':handle['inode'],
                 'size':25600,'position':1024,'flags':os.O_CLOEXEC|os.O_RDWR}
             assert memory.word(record['data_addresses']['recon_osfhnd']+12)==fd['handle']
-        if signature_candidate:
+        if signature_candidate or selector_candidate:
             wanted=provider.packet['target_objects'][phase]['include_input']
             assert memory.word(record['symbols']['use_standard_include'])==wanted['use_standard_include']
             assert memory.text(derived['driver_words'][9])==wanted['text']
@@ -181,6 +184,9 @@ def verify(original,directory,provider=None,signature_candidate=False):
             # created output; do not pretend it is the earlier filesystem.
             provider.validate(kind,request,live=False)
         observations.append(record);previous=request
+    if selector_candidate:
+        from selector_native_state import verify_tail
+        return verify_tail(provider,directory,layout,pid,observations,previous)
     record=json.loads((directory/'native-mre-frontier-gdb.json').read_bytes())
     assert record['phase']=='mre-frontier'and record['pid']==pid
     caller_authentication=layout.frontier(record,signature_candidate)

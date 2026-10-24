@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "disposition": "Complete original selector/lower response review passes; native API and app acceptance remain pending",
+  "manifest_sha256": "0ecd8d108343ea05ed98ad0f2039e8fb4b35c2a20a6ca7dcfea58043f669362b",
+  "independent_checks": {
+    "manifest_records": 19,
+    "exact_complete_selector_decode": true,
+    "exact_complete_lower_decode": true,
+    "decode_seconds": 0.8624373506754637,
+    "review": "Read new complete selector decoder and API decoder against reviewed observer; helper0, exact mask/provider/export/IAT, realcomparator qsortcall/return, byvalueformal lowbyte reusedselector0,16initializeditems/formals positions1,0,12snapshots and3IDBcopies. Actual lower32B initialized NULspan aliases output; exact errors2/2/0/full112FP andCP0/MBmax1/static pctype/fulltables/handles unchanged."
+  },
+  "scope": "Root-approved direction only: smallest explicit510 defaultC CP0 ASCII in-place lower, exact observed errors; maintainer must assess lock25 initialized/single-thread/provider private effects before publication. No binder/counter/lock framework.",
+  "limits": [
+    "No allocation tails or general allocator extent claim.",
+    "Partial helper188 packet retained distinct from complete helper0 raw.",
+    "Real native adoption and fresh candidate pair still required; no app credit from original response decoding."
+  ],
+  "bindings": {
+    "/root/msvc2/decomp/vc5.10/cl/scripts/mre_selector_packet.py": {
+      "sha256": "c0aa5243a75d9f0520f7322f66ba9eb7526fa5e38b7af11f8c3798a78872569b",
+      "bytes": 20528
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/mbslwr_packet.py": {
+      "sha256": "e9d6c4bdcf155b96a750e09f4534f00be4182961fd6ec588172eb4995a2e141c",
+      "bytes": 4522
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/check-mre-selector.py": {
+      "sha256": "b950dbf60a770b3e0fbdb3b53c575ec7a8b2e88922c8e725e8ca0d3d426b9213",
+      "bytes": 3933
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/mre_signature_packet.py": {
+      "sha256": "968837cd4cbd44d704c51ab069dd59f7e2d0c12eb76e4151f13207c63a354224",
+      "bytes": 18707
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/dependency_response.py": {
+      "sha256": "d0c452c223cc9ff7f9f3f13f260b0060998785aaa117dad8ce324f7862443292",
+      "bytes": 28492
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/mre_packet.py": {
+      "sha256": "6f5e08d57cdcd412638fde8f461f76818ec111aa57f8d711029d209385d25274",
+      "bytes": 11557
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/mktemp_state.py": {
+      "sha256": "b71d1d6ae0925fed854b4de1a0f4557be20ac23a419b86da9a96523976cdc1d8",
+      "bytes": 11046
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/mre_file.py": {
+      "sha256": "640fbc996a7df13cd4070825ebe7edae94964ddc1933a18f97d39b5dd809cfcd",
+      "bytes": 7632
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/mask.py": {
+      "sha256": "176f5d6dc952979a271269de7a35e6f846b1201c61fbf83eb7a09a96f41a857e",
+      "bytes": 3393
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/case_inputs.py": {
+      "sha256": "3b8dde32c7b7eb6eb4a8bfe60f4ea5fc44fdc991945862ccbfb270550dc1b366",
+      "bytes": 4773
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/binary.py": {
+      "sha256": "356f8d1b3bed342add82ff34037f2479c57f5277dcc20402fc18d5ea1fd54956",
+      "bytes": 4920
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/original.py": {
+      "sha256": "e6a12329d33b6ed2d6c9a9277d4e21bf74b1cb4b8578c55f96ac7d46bee07a56",
+      "bytes": 18637
+    },
+    "/root/msvc2/decomp/vc5.10/cl/scripts/mre-observer.inc": {
+      "sha256": "6c409e7b3d63eb68582fdeb9ef8480b68bdf9728975cf91034df3cd1baaebfc0",
+      "bytes": 17538
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/cl/selector-preuse/selector-packet.json": {
+      "sha256": "32a24be2f48ceb6b414b5c0e75e7bacd50e49df321c011b0cdef8acb8a018d6a",
+      "bytes": 512324
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/cl/selector-preuse/mbslwr-complete-packet.json": {
+      "sha256": "d90da27e471ef1273df4ea7350a773810343f0b4f2ec5640ea0004976ab9dde4",
+      "bytes": 105674
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/cl/selector-preuse/raw-controls.json": {
+      "sha256": "9c9e03b611f4548c13a73c539d5f4be6e57ba6f8e153512b34a58a0244ff2ac6",
+      "bytes": 1141
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/cl/selector-preuse/slot-manifest.json": {
+      "sha256": "5ce42061d9358a9a7816a5b721af43467a61ebbb7e4d4af11bbe4feb38daf9a8",
+      "bytes": 5085
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/cl/selector-preuse/slot-parent-review.json": {
+      "sha256": "f417fb903b489b8ecacc001ca0907913bd373abf4e7931fb114164a79d02cb61",
+      "bytes": 1076
+    },
+    "/root/.ai-tmp/msvc2/vc5.10/cl/selector-2-original/capture.json": {
+      "sha256": "79680de860f1333b121e5b9c5ffccaef614abdce0893d8c64ec536eb05f3adbb",
+      "bytes": 289534
+    }
+  }
+}

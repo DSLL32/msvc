@@ -14,9 +14,9 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 105 accepted application functions /18,136 original extent bytes
-(95.14% of whole `.text`, 97.79% of the 18,545-byte application extent).
-There are 105/112 application functions accepted, with seven functions/409 bytes
+There are now 106 accepted application functions /18,169 original extent bytes
+(95.32% of whole `.text`, 97.97% of the 18,545-byte application extent).
+There are 106/112 application functions accepted, with six functions/376 bytes
 remaining. `cases/code-partition.json` and its independent review classify all
 19,062 bytes without overlaps: 18,545 application, 476 support, 41 literalCC padding.
 These are accepted function extents, not branch or input-domain coverage. The response-file/options/help case adds five driver functions with 56 actual
@@ -368,3 +368,12 @@ and the three typed MRE calls with real file/descriptor effects. Evidence is und
 The original capture took 4.906 seconds, native GDB capture 1.213 seconds and audit
 0.685 seconds. All 13 cached Linux fixtures pass in 3.292 seconds. The next selector
 and comparator remain named traps; lowercase behavior is still unsupported.
+
+The 33-byte option selector is accepted through the real qsort comparator trap.
+`cases/mre-object/milestones/option-selector/` binds the complete owned 16-item
+signature array, comparator arguments, original argument-slot reuse and the one
+reached lowercase API. The shared CP0 ASCII implementation is pinned at 4021ad7386.
+Its public buffer/alias/error/FP effects match; private CRT lock/heap/thread state
+and allocation tails are unclaimed. Original capture took 6.324 s, native GDB
+1.569 s and audit 0.658 s. All 13 cached fixtures pass in 3.265 s. The 36 new native
+mutation controls took 51.061 s once; unchanged controls can be reused by hash.

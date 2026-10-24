@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "phase": "mre-3-after",
+  "event": 91,
+  "tid": 1200,
+  "debuggee_pid": 1132,
+  "stop": "outstanding EXCEPTION_DEBUG_EVENT before ContinueDebugEvent; all threads suspended",
+  "windows_path": "S:\\vc5.10\\cl\\selector-2-original\\case.idb",
+  "descriptor": 3,
+  "handle": 116,
+  "position": 1024,
+  "granted_access": 1180063,
+  "windows_information": {
+    "attributes": 32,
+    "creation_time": 134372886547266518,
+    "access_time": 134372886547266518,
+    "write_time": 134372886547266518,
+    "volume": 1392508928,
+    "bytes": 25600,
+    "links": 1,
+    "index_high": 0,
+    "index_low": 11031873
+  },
+  "path_identity_access": 0,
+  "windows_data_read_sharing_observed": false,
+  "request_sha256": "04b62e43d8f25887df4d5a861a4c36d0615789019935ea40ebab285b04789de8",
+  "fixed_drive": {
+    "link": "/root/.ai-tmp/vc1.0-capture/wine/dosdevices/s:",
+    "target": "/root/.ai-tmp/msvc2"
+  },
+  "posix_before": {
+    "dev": 139,
+    "ino": 11031873,
+    "mode": 33188,
+    "nlink": 1,
+    "uid": 0,
+    "gid": 0,
+    "size": 25600,
+    "atime_ns": 1792815054726651814,
+    "mtime_ns": 1792815054726651814,
+    "ctime_ns": 1792815054726651814
+  },
+  "posix_after": {
+    "dev": 139,
+    "ino": 11031873,
+    "mode": 33188,
+    "nlink": 1,
+    "uid": 0,
+    "gid": 0,
+    "size": 25600,
+    "atime_ns": 1792815054726651814,
+    "mtime_ns": 1792815054726651814,
+    "ctime_ns": 1792815054726651814
+  },
+  "posix_path_after": {
+    "dev": 139,
+    "ino": 11031873,
+    "mode": 33188,
+    "nlink": 1,
+    "uid": 0,
+    "gid": 0,
+    "size": 25600,
+    "atime_ns": 1792815054726651814,
+    "mtime_ns": 1792815054726651814,
+    "ctime_ns": 1792815054726651814
+  },
+  "bytes": 25600,
+  "sha256": "7e84c84a5b6284975711fefc326d21ceb294fab9cce4f0a6b3d1a22a1bce794c",
+  "identity_bridge": "fixed owned S: path; fd3 duplicate and independent Win32 path handle match; independent POSIX path/open match",
+  "seconds": 0.002996498718857765
+}

@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "provider": "toolchains/5.10/bin/MSPDB50.DLL",
+  "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "exports": [
+    {
+      "name": "MREFOpenByName",
+      "export": "_MREFOpenByName@24",
+      "ordinal": 75,
+      "start_rva": 85530,
+      "end_rva": 85560,
+      "body_sha256": "2db6feab51bcaf5aaa09d0d0a3e54c1eb04eeb1823e24dd5a8277763f0037dc0",
+      "argument_bytes": 24,
+      "calling_convention": "stdcall",
+      "result": "BOOL",
+      "target_iat": 4236032,
+      "native_contract": "fail125 if called; no successful response authorized"
+    },
+    {
+      "name": "MREFClose",
+      "export": "_MREFClose@8",
+      "ordinal": 72,
+      "start_rva": 85560,
+      "end_rva": 85576,
+      "body_sha256": "60188136ccd4d8b8f99fc9b874e9612f8157c687fe7234f95e7f74d7e6ddbe9f",
+      "argument_bytes": 8,
+      "calling_convention": "stdcall",
+      "result": "BOOL",
+      "target_iat": 4236048,
+      "native_contract": "fail125 if called; no successful response authorized"
+    },
+    {
+      "name": "MREQueryMreDrv",
+      "export": "_MREQueryMreDrv@8",
+      "ordinal": 79,
+      "start_rva": 85576,
+      "end_rva": 85592,
+      "body_sha256": "0972b85b41faed59dff4b28ffc54edb25a137b48a292d993bcb19dd22531244e",
+      "argument_bytes": 8,
+      "calling_convention": "stdcall",
+      "result": "32-bit ignored by CL",
+      "target_iat": 4236052,
+      "native_contract": "fail125 if called; no successful response authorized"
+    },
+    {
+      "name": "MREDrvFFilesOutOfDate",
+      "export": "_MREDrvFFilesOutOfDate@8",
+      "ordinal": 65,
+      "start_rva": 85576,
+      "end_rva": 85592,
+      "body_sha256": "0972b85b41faed59dff4b28ffc54edb25a137b48a292d993bcb19dd22531244e",
+      "argument_bytes": 8,
+      "calling_convention": "stdcall",
+      "result": "BOOL",
+      "target_iat": 4236040,
+      "native_contract": "fail125 if called; no successful response authorized"
+    },
+    {
+      "name": "MREDrvFRelease",
+      "export": "_MREDrvFRelease@4",
+      "ordinal": 67,
+      "start_rva": 85764,
+      "end_rva": 85775,
+      "body_sha256": "d8de26100db27b82b3f3412815b88576a6d1680f2b075da3803f266a591f5e3c",
+      "argument_bytes": 4,
+      "calling_convention": "stdcall",
+      "result": "BOOL",
+      "target_iat": 4236044,
+      "native_contract": "fail125 if called; no successful response authorized"
+    },
+    {
+      "name": "MREDrvOneTimeInit",
+      "export": "_MREDrvOneTimeInit@4",
+      "ordinal": 70,
+      "start_rva": 85775,
+      "end_rva": 85787,
+      "body_sha256": "acd95050fa2ab42404a6ada14930bcf138ec45a466051810c4c4a9f91cf366e6",
+      "argument_bytes": 4,
+      "calling_convention": "stdcall",
+      "result": "unclaimed; EAX ignored by CL",
+      "target_iat": 4236036,
+      "native_contract": "fail125 if called; no successful response authorized"
+    },
+    {
+      "name": "MREDrvFSuccessfulCompile",
+      "export": "_MREDrvFSuccessfulCompile@16",
+      "ordinal": 68,
+      "start_rva": 85704,
+      "end_rva": 85728,
+      "body_sha256": "154c909cfe93571640c3a3cf5a189a1ca5cbb443a7da31e45ab46d46b3b6b3b5",
+      "argument_bytes": 16,
+      "calling_convention": "stdcall",
+      "result": "unclaimed EAX; DWORD ABI-sized declaration, ignored by CL",
+      "target_iat": 4236028,
+      "native_contract": "fail125 if called; no successful response authorized"
+    },
+    {
+      "name": "MREDrvFUpdateTargetFile",
+      "export": "_MREDrvFUpdateTargetFile@12",
+      "ordinal": 69,
+      "start_rva": 85744,
+      "end_rva": 85764,
+      "body_sha256": "f9429c264b7f0a119f551cd43f50ca5454694beb32919938936722f676119def",
+      "argument_bytes": 12,
+      "calling_convention": "stdcall",
+      "result": "BOOL: zero/nonzero EAX consumed",
+      "target_iat": 4236024,
+      "native_contract": "fail125 if called; no successful response authorized"
+    }
+  ],
+  "pointees": "Mre/MreDriver opaque; FFilesOutOfDate work record interpretation unclaimed beyond observed CL fields.",
+  "error_buffer_proof": "MREFOpenByName forwards6 original words and its calleeRVA1204f pushes constant1024 at12089 as bounded error-buffer capacity.",
+  "case_contract": "minimal-c /nologo /c test.c, minimal_rebuild0/first_dependency_scan0. All14 original guarded callsites require zero calls; eight native typed hosts fail125. No PDB behavior/runtime Wine.",
+  "first_dependency_scan": {
+    "original_address": 4231192,
+    "initial_dword": 1
+  }
+}

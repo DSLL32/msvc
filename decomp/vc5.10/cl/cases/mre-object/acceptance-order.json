@@ -11,6 +11,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/signature-2/pair.json",
         "sha256": "3ea35421f4944110e1dcd19c013d7d525188ae336316b0da2de30e19906581b4"
       }
+    },
+    {
+      "order": 2,
+      "candidate": "_option_matching_selector",
+      "class": "application",
+      "extent_bytes": 33,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/selector-3/pair.json",
+        "sha256": "a18a8c24102977eae2ff63626629ad497cad0a72d10b621d13ed42746803874b"
+      }
     }
   ]
 }

@@ -117,7 +117,8 @@
     "_advance_jobs",
     "_start_timer",
     "_stop_timer",
-    "_option_signature"
+    "_option_signature",
+    "_option_matching_selector"
   ],
   "driver": [
     {
@@ -2067,11 +2068,15 @@
       "native_symbol": "option_matching_selector",
       "start": 4198647,
       "end": 4198680,
-      "state": "named trap; statically identified, not reconstructed/accepted",
+      "state": "Accepted33B readable selector through genuine qsort comparator frontier",
       "evidence": {
         "kind": "Separate33B cdecl selector over Option.matching via qualified MSVCRT!strpbrk",
-        "range": "004010f7..00401118"
-      }
+        "range": "004010f7..00401118",
+        "source": "src/signature.c",
+        "scope": "Full strpbrk selector ABI and unsigned byte result; not accepted until fresh full candidate proof",
+        "acceptance": "cases/mre-object/milestones/option-selector/manifest.json"
+      },
+      "pending_extent": false
     }
   ],
   "runtime": [

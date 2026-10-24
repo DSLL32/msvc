@@ -75,11 +75,15 @@ class Pointers:
 
 
 class Provider:
-    def __init__(self,original,directory,signature_candidate=False):
+    def __init__(self,original,directory,signature_candidate=False,selector_candidate=False):
         self.original=Path(original).resolve();self.directory=Path(directory).resolve()
         self.signature_candidate=signature_candidate
-        assert type(signature_candidate)is bool
-        if signature_candidate:
+        assert type(signature_candidate)is bool and type(selector_candidate)is bool and not(signature_candidate and selector_candidate)
+        self.selector_candidate=selector_candidate
+        if selector_candidate:
+            from mre_selector_packet import decode as selector_response
+            self.packet=selector_response(self.original)
+        elif signature_candidate:
             from mre_signature_packet import decode as signature_response
             self.packet=signature_response(self.original)
         else:
@@ -216,7 +220,7 @@ class Provider:
     def finish(self,pid):
         result={'schema':1,'pid':pid,'response_sha256':self.identity,'config_sha256':sha(self.config),
                 'original_capture_sha256':self.packet['capture_sha256'],'requests':self.requests,'errors':self.errors,
-                'scope':'Fresh signature-candidate MRE response'if self.signature_candidate else'Initial MRE prefix only; no acceptance or later lifecycle success'}
+                'scope':'Fresh selector-candidate MRE response'if self.selector_candidate else'Fresh signature-candidate MRE response'if self.signature_candidate else'Initial MRE prefix only; no acceptance or later lifecycle success'}
         (self.directory/'mre-native.json').write_bytes(encoded(result))
         assert not self.errors,self.errors
         assert self.pid==pid and self.phase==7 and [r['kind']for r in self.requests]==list(range(7)),'MRE mandatory1/1/1 inventory failed'

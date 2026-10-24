@@ -60,3 +60,10 @@ char *option_signature(Driver *state)
     release(quoted);
     return result;
 }
+
+/* 004010f7..00401118: first matching selector byte, zero if absent. */
+int option_matching_selector(Option *option, const char *selectors)
+{
+    const char *match = strpbrk(option->matching, selectors);
+    return match ? (unsigned char)*match : 0;
+}

@@ -49,7 +49,16 @@ def observe(directory,phase,arguments,call=None):
         options=row[0]
     else:raise AssertionError('native MRE option list cycle')
     text(scalar('pdb_name'))
-    if call is not None:
+    if call==3:
+        read(arguments['stack'],8)
+        text(arguments['values'][0])
+        signature=frame.older()if phase=='lower-before'else frame
+        assert signature.name()=='option_signature'
+        ebp=int(signature.read_register('ebp'))&0xffffffff
+        read(ebp,12);slot=int(signature.read_var('state').address)&0xffffffff
+        read(slot,4);assert int(signature.read_var('state'))&0xffffffff==driver
+        arguments={**arguments,'signature_ebp':ebp,'state_slot':slot,'state':driver}
+    elif call is not None:
         size=(6,2,1)[call];read(arguments['stack'],4*(size+1))
         args=arguments['values']
         if call==0:
@@ -60,7 +69,28 @@ def observe(directory,phase,arguments,call=None):
         # Actual saved caller words are included in every new observation.
         # Initial-prefix evidence predating this remains explicitly qualified.
         frame_ebp=value('$ebp');read(frame_ebp,8)
-        if frame.name()=='option_matching_selector':
+        if frame.name()=='compare_option_strings':
+            qsort=frame.older();assert qsort.name()=='recon_qsort'
+            qsort_ebp=int(qsort.read_register('ebp'))&0xffffffff;read(qsort_ebp,8)
+            comparator=int(qsort.read_var('compare'))&0xffffffff
+            compare_slot=int(qsort.read_var('compare').address)&0xffffffff;read(compare_slot,4)
+            signature=qsort.older();assert signature.name()=='option_signature'
+            signature_ebp=int(signature.read_register('ebp'))&0xffffffff;read(signature_ebp,12)
+            state=int(signature.read_var('state'))&0xffffffff;slot=int(signature.read_var('state').address)&0xffffffff
+            read(slot,4);assert state==driver
+            items=int(signature.read_var('items'))&0xffffffff;count=int(signature.read_var('count'))
+            items_slot=int(signature.read_var('items').address)&0xffffffff;count_slot=int(signature.read_var('count').address)&0xffffffff
+            read(items_slot,4);read(count_slot,4);assert 2<=count<=64
+            pointers=struct.unpack('<%dI'%count,read(items,4*count))
+            for pointer in pointers:text(pointer)
+            left=int(frame.read_var('left'))&0xffffffff;right=int(frame.read_var('right'))&0xffffffff
+            left_slot=int(frame.read_var('left').address)&0xffffffff;right_slot=int(frame.read_var('right').address)&0xffffffff
+            read(left_slot,4);read(right_slot,4);read(left,4);read(right,4)
+            caller=signature.older();assert caller.name()=='prepare_jobs'
+            arguments={'state':state,'slot':slot,'caller':'recon_qsort','signature_ebp':signature_ebp,'qsort_ebp':qsort_ebp,
+                'comparator':comparator,'compare_slot':compare_slot,'items':items,'count':count,'items_slot':items_slot,'count_slot':count_slot,
+                'left':left,'right':right,'left_slot':left_slot,'right_slot':right_slot}
+        elif frame.name()=='option_matching_selector':
             option=int(frame.read_var('option'))&0xffffffff
             selectors=int(frame.read_var('selectors'))&0xffffffff
             option_slot=int(frame.read_var('option').address)&0xffffffff
@@ -122,3 +152,18 @@ def install(directory):
             observe(directory,'mre-%d-before'%(self.index+1),arguments,self.index)
             Return(words[0],self.index,arguments);return False
     for i in range(3):Entry(i)
+    class LowerReturn(gdb.Breakpoint):
+        def __init__(self,address,arguments):
+            super().__init__('*%#x'%address,temporary=True,internal=True);self.arguments=arguments
+        def stop(self):observe(directory,'lower-after',self.arguments,3);return False
+    class LowerEntry(gdb.Breakpoint):
+        def __init__(self):super().__init__('*recon_mbslwr',internal=True);self.calls=0
+        def stop(self):
+            assert self.calls==0 and gdb.newest_frame().name()=='recon_mbslwr'
+            assert gdb.newest_frame().older().name()=='option_signature'
+            self.calls+=1;sp=int(gdb.parse_and_eval('$esp'))&0xffffffff
+            words=struct.unpack('<2I',bytes(gdb.selected_inferior().read_memory(sp,8)))
+            arguments={'stack':sp,'return':words[0],'values':[words[1]]}
+            observe(directory,'lower-before',arguments,3);LowerReturn(words[0],arguments);return False
+    config=json.loads((Path(directory)/'config.json').read_bytes())
+    if '_option_matching_selector'in config['accepted']:LowerEntry()

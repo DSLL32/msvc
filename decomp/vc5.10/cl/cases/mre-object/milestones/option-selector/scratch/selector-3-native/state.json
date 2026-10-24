@@ -1,0 +1,471 @@
+{
+  "projection": "cl-option-selector-frontier-v1",
+  "fields": {
+    "frontier": "compare_option_strings",
+    "case_inputs": {
+      "case": "mre-object",
+      "arguments": [
+        "/nologo",
+        "/Gm",
+        "/Zi",
+        "/c",
+        "/DVALUE=7",
+        "/Fdcase.pdb",
+        "test.obj"
+      ],
+      "inputs": [
+        {
+          "name": "test.obj",
+          "source": "cases/minimal-c/reference/test.obj",
+          "bytes": 275,
+          "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+        }
+      ]
+    },
+    "parameters": {
+      "left": "-Ze",
+      "right": "-Gs4096",
+      "positions": [
+        1,
+        0
+      ],
+      "items": [
+        "-Gs4096",
+        "-Ze",
+        "-D_MSC_EXTENSIONS",
+        "-Zp8",
+        "-ZB64",
+        "-D_INTEGRAL_MAX_BITS=64",
+        "-D_M_IX86=500",
+        "-G5",
+        "-W1",
+        "-Ot",
+        "-Ob0",
+        "-ML",
+        "-D_MSC_VER=1100",
+        "-D_WIN32",
+        "-DVALUE=7",
+        "-inc=r:\\toolchains\\5.10\\include"
+      ],
+      "count": 16,
+      "caller": "qualified qsort callback"
+    },
+    "driver_input": {
+      "options": [
+        {
+          "flags": 1,
+          "matching": "1P2",
+          "name": "il",
+          "value": "%t",
+          "origin_role": 0
+        },
+        {
+          "flags": 1,
+          "matching": "1P2",
+          "name": "f",
+          "value": "%f",
+          "origin_role": 1
+        },
+        {
+          "flags": 1,
+          "matching": "1P2M",
+          "name": "W",
+          "value": "1",
+          "origin_role": 2
+        },
+        {
+          "flags": 1,
+          "matching": "1PM",
+          "name": "Ze",
+          "value": null,
+          "origin_role": 3
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "D",
+          "value": "_MSC_EXTENSIONS",
+          "origin_role": 3
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "Zp",
+          "value": "8",
+          "origin_role": 4
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "ZB",
+          "value": "64",
+          "origin_role": 5
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "D",
+          "value": "_INTEGRAL_MAX_BITS=64",
+          "origin_role": 5
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "GB",
+          "value": null,
+          "origin_role": 6
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "D",
+          "value": "_M_IX86=500",
+          "origin_role": 6
+        },
+        {
+          "flags": 1,
+          "matching": "1P2M",
+          "name": "G5",
+          "value": null,
+          "origin_role": 6
+        },
+        {
+          "flags": 1,
+          "matching": "1P",
+          "name": "Gs",
+          "value": null,
+          "origin_role": 7
+        },
+        {
+          "flags": 5,
+          "matching": "2M",
+          "name": "Gs",
+          "value": "4096",
+          "origin_role": 7
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "GR-",
+          "value": null,
+          "origin_role": 8
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "GX-",
+          "value": null,
+          "origin_role": 9
+        },
+        {
+          "flags": 1,
+          "matching": "1PM",
+          "name": "Ot",
+          "value": null,
+          "origin_role": 10
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "Ob",
+          "value": "0",
+          "origin_role": 11
+        },
+        {
+          "flags": 1,
+          "matching": "2",
+          "name": "dos",
+          "value": null,
+          "origin_role": 12
+        },
+        {
+          "flags": 5,
+          "matching": "D1P2",
+          "name": "Fo",
+          "value": "%b.obj",
+          "origin_role": 13
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "bo",
+          "value": "",
+          "origin_role": 13
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "Fe",
+          "value": "%b.%X",
+          "origin_role": 14
+        },
+        {
+          "flags": 5,
+          "matching": "C",
+          "name": "out:",
+          "value": "%b.%X",
+          "origin_role": 14
+        },
+        {
+          "flags": 1,
+          "matching": "1P",
+          "name": "pc",
+          "value": "\\:/",
+          "origin_role": 15
+        },
+        {
+          "flags": 1,
+          "matching": "2M",
+          "name": "ML",
+          "value": null,
+          "origin_role": 16
+        },
+        {
+          "flags": 1,
+          "matching": "D",
+          "name": "ZM",
+          "value": null,
+          "origin_role": 17
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "D",
+          "value": "_MSC_VER=1100",
+          "origin_role": null
+        },
+        {
+          "flags": 5,
+          "matching": "1PM",
+          "name": "D",
+          "value": "_WIN32",
+          "origin_role": null
+        },
+        {
+          "flags": 0,
+          "matching": "1P",
+          "name": "nologo",
+          "value": null,
+          "origin_role": 19
+        },
+        {
+          "flags": 0,
+          "matching": "C",
+          "name": "nologo",
+          "value": null,
+          "origin_role": 19
+        },
+        {
+          "flags": 1,
+          "matching": "DP",
+          "name": "Gm",
+          "value": null,
+          "origin_role": 20
+        },
+        {
+          "flags": 0,
+          "matching": "1P",
+          "name": "Zi",
+          "value": null,
+          "origin_role": 21
+        },
+        {
+          "flags": 4,
+          "matching": "2",
+          "name": "",
+          "value": "Zi",
+          "origin_role": 21
+        },
+        {
+          "flags": 4,
+          "matching": "C",
+          "name": "",
+          "value": "debug",
+          "origin_role": 21
+        },
+        {
+          "flags": 0,
+          "matching": "D",
+          "name": "bd",
+          "value": "C",
+          "origin_role": 22
+        },
+        {
+          "flags": 4,
+          "matching": "1PM",
+          "name": "D",
+          "value": "VALUE=7",
+          "origin_role": null
+        },
+        {
+          "flags": 4,
+          "matching": "1P",
+          "name": "Fd",
+          "value": "case.pdb",
+          "origin_role": 23
+        },
+        {
+          "flags": 4,
+          "matching": "D2",
+          "name": "Fd",
+          "value": "case.idb",
+          "origin_role": 23
+        }
+      ],
+      "include": "R:\\toolchains\\5.10\\include",
+      "use_standard_include": 1,
+      "deferred_queue": "empty, tail aliases Driver.deferred_inputs"
+    },
+    "MRE": {
+      "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "calls": [
+        {
+          "name": "_MREFOpenByName@24",
+          "ordinal": 75,
+          "stdcall_bytes": 24
+        },
+        {
+          "name": "_MREQueryMreDrv@8",
+          "ordinal": 79,
+          "stdcall_bytes": 8
+        },
+        {
+          "name": "_MREDrvOneTimeInit@4",
+          "ordinal": 70,
+          "stdcall_bytes": 4
+        }
+      ],
+      "IDB": {
+        "bytes": 25600,
+        "sha256": "7e84c84a5b6284975711fefc326d21ceb294fab9cce4f0a6b3d1a22a1bce794c",
+        "descriptor": 3,
+        "position": 1024,
+        "binary": true,
+        "noinherit": true,
+        "access": "readwrite",
+        "lifetime": "open through frontier; later calls denied"
+      },
+      "errors": {
+        "errno": 2,
+        "doserrno": 2,
+        "last_error": 0
+      },
+      "CW": 639,
+      "CRT_profile": {
+        "fmode": 0,
+        "commode": 0,
+        "mb_cur_max": 1,
+        "mb_codepage": 0,
+        "lc_codepage": 0,
+        "lc_handles": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "all_captured_CRT_OS_FILE_handle_aliases_preserved": true
+    },
+    "lowercase": {
+      "before_hex": "2d696e633d523a5c746f6f6c636861696e735c352e31305c696e636c75646500",
+      "after_hex": "2d696e633d723a5c746f6f6c636861696e735c352e31305c696e636c75646500",
+      "initialized_bytes": 32,
+      "errors": {
+        "lower-before": {
+          "errno": 2,
+          "doserrno": 2,
+          "last_error": 0
+        },
+        "lower-after": {
+          "errno": 2,
+          "doserrno": 2,
+          "last_error": 0
+        }
+      },
+      "calls": 1,
+      "result_alias": true,
+      "qualified": "MSVCRT!_mbslwr",
+      "profile": "CP0/default-C",
+      "full_FP_preserved": true
+    },
+    "formal_slot_qualification": "Original low byte reused for finalselector0; native formal remains actual Driver*, authenticated separately"
+  },
+  "decoder_sha256": "f4fa908b091662102ff98e0ab67e63966250c79b3306f7b18168de9c502b94d7",
+  "derivation_sources": {
+    "mre_selector_packet.py": "c0aa5243a75d9f0520f7322f66ba9eb7526fa5e38b7af11f8c3798a78872569b",
+    "mbslwr_packet.py": "e9d6c4bdcf155b96a750e09f4534f00be4182961fd6ec588172eb4995a2e141c",
+    "selector_native_state.py": "d23360eda82b0702fc73dba3dc164cbf86fcc7ea0b84a715445f0d218358a40e",
+    "mre_projection.py": "f4fa908b091662102ff98e0ab67e63966250c79b3306f7b18168de9c502b94d7",
+    "mre_native.py": "8ad631787678a8209fe58220f5876526db035f993acde7ca0f42247df8bedfe7",
+    "mre_state.py": "1adf83c148c90c6107ce4f433b8f60124cb9efa149a78a0f46864bd617c9a4d3",
+    "mre_elf.py": "144cae04e70421b1f957518b658b80865394bbcac1fc754753f832a6181bd651",
+    "dependency_response.py": "d0c452c223cc9ff7f9f3f13f260b0060998785aaa117dad8ce324f7862443292",
+    "mktemp_state.py": "b71d1d6ae0925fed854b4de1a0f4557be20ac23a419b86da9a96523976cdc1d8"
+  },
+  "raw_inputs": {
+    "capture.json": "7c8c9cdc96533bcfcd4f7d94f3f9aa70bdc237a3cb0b37316aa989e1b759fd8d",
+    "native-mre-1-before-gdb.json": "61f82764248a793aa6a3b16ee5c4995b2a52ba173df2509899232853bd46ff1a",
+    "native-mktemp-gdb.json": "12684fe12ce17d10919f5e9dc3a67367df74d961c8b3537f6f9e898b78425311",
+    "trace.txt": "ed6773b12e7df43ad9dd6a7799c0f9d1a16e450c0638104737ae6c7f61fcb3df",
+    "case.idb": "7e84c84a5b6284975711fefc326d21ceb294fab9cce4f0a6b3d1a22a1bce794c",
+    "streams-entry.json": "a8e4fbd0a425f03b560870180e369326fbc13fda5fa3de07f89d818d9a2ec092",
+    "native-lower-after-gdb.json": "75a0f62ae9a776f842def4025573ac55cdfa84040673178c0b0b6f6221ab6ff2",
+    "streams-mre-2-after-iob.bin": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea",
+    "gdb_mre.py": "1b4859199ebf4f05057ca1515b7e95a69523709a7571a279a2e3ae3e641c171b",
+    "native-process.json": "ca4d527fd8078ff22f7127a46f793497e3525f078249c7f47ffb78181b784431",
+    "mre-native.json": "3cd7b9af2c75872988e5f717927cad9fcc6043587f12b920aba8eb81bebd373c",
+    "native-mre-frontier-gdb.json": "fbe45e8de0b62403d1cb3538460ba8af02d610d323bac363d41e40415f208e69",
+    "mktemp-expected.json": "588e23e784478c5f60fc198b00105a8697ee1744c7ebd12d5f7571653aed1820",
+    "mre-response.json": "79128e47708510279e7e37efce89d010b2279f84cab8181fefd20335c66b1a13",
+    "streams-lower-before-iob.bin": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea",
+    "streams-mre-3-after.json": "880b3fdfb5f63b9512e4a27b83ba95893fa716ae6da3f318c4dafdb404a2c72a",
+    "resources.bin": "18a0a7a878846acd3d40008dcc38a2f3d7a0bd6a275900afabc578be136c037f",
+    "trace-seen.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "config.json": "150a1584f93ad8306aa8ec8f28feebd9bc365d2ce0cbe7298447c3d8d522a5c3",
+    "stderr.bin": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b",
+    "streams-lower-after-iob.bin": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea",
+    "native-execution.json": "d6c8dbf057542baa55d7584d8c2d90cb96f6736eb748606e6de3f4e28ef71986",
+    "gdb_mktemp.py": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f",
+    "streams-lower-before.json": "880b3fdfb5f63b9512e4a27b83ba95893fa716ae6da3f318c4dafdb404a2c72a",
+    "native-mre-3-before-gdb.json": "89fb5d494ef84e78a2382600c28e10d8ebec91df53721a7330df8ee7ca37928d",
+    "native-mre-2-after-gdb.json": "dfb771c3f25f3ac8ef70156497ed0c93bd7ef916d5f6f9da0933ad20113cfbd5",
+    "streams-lower-after.json": "880b3fdfb5f63b9512e4a27b83ba95893fa716ae6da3f318c4dafdb404a2c72a",
+    "test.obj": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e",
+    "gdb_entry.py": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb",
+    "streams-mre-2-before.json": "f81d245eec1ce4f4e7bbbfc606716a8d6d300660f4cf2b811ae1c9de715f7b4b",
+    "streams-mre-2-before-iob.bin": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea",
+    "native-mre-2-before-gdb.json": "3d44334b3048e0f2932eadcf75fbe31b931f4782cedcd18f7dd8ab0146ceef11",
+    "streams-mre-1-after.json": "f81d245eec1ce4f4e7bbbfc606716a8d6d300660f4cf2b811ae1c9de715f7b4b",
+    "native-entry-errors.json": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c",
+    "gdb_streams.py": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5",
+    "stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mre-binding.bin": "45d65b7bf31bd7467f4a942cb9b879a43df91876400c5b1ed1bd0f8e3eb86044",
+    "debugger.txt": "78e0ff27408fe18864766a9bddecadd9cc13506762d0dbe966d02372ece13af7",
+    "gdb-entry.py": "adfffd399e6f3b055cdd0290202eafa0732c294e703ec42170c05ba1e2f296e0",
+    "gdb-frontier.py": "c7bf8d423bc2d5ac701e5c5833ea6c37c072dae27f330a4b9faa4b43ca257b0c",
+    "streams-mre-3-before-iob.bin": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea",
+    "native-state-verification.json": "0e86b40aaba47284cb3f7b94f351a873a619b25acd795dddb6b2e25d45136c6a",
+    "native-prefix.json": "288c9c43ffa4e897a3ad8e673d071d1a74995a30c36247c06f2c4b2c49f29e64",
+    "native-build.json": "c05c31b3f58b8c02317f7c29296922adf186638eb91f932217e1e89f42f1bc0c",
+    "streams-mre-1-before.json": "e6db94339099d1712775113f3db18a03515a780158534a01b22d2ef844ac9b09",
+    "streams-entry-iob.bin": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea",
+    "streams-mre-1-after-iob.bin": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea",
+    "streams-mre-3-before.json": "2e6bcd775c2d8730ed4db67babddd467a67ad15f9fe6cadd39754391c986a95b",
+    "native-lower-before-gdb.json": "fb9adff8993b017f8d0d1ef7110bd1c9184dabf4cfde971db660315b4db1d81d",
+    "native-mre-3-after-gdb.json": "90cfcc5d6f3aa88c3a9156e78fe24ab1d9ca65fbcaf68a0162964eddae72d238",
+    "streams-mre-1-before-iob.bin": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea",
+    "exec-wrapper.py": "756df7be86239dd7718985b6c51e7f0e6a6da68334c917a5aad5717e9afc4c15",
+    "streams-mre-frontier-iob.bin": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea",
+    "streams-mre-3-after-iob.bin": "133fcf6756e1559d2b4360042cc9229913ba0f245b73c5c7641a0ffbc5244aea",
+    "streams-mre-2-after.json": "2e6bcd775c2d8730ed4db67babddd467a67ad15f9fe6cadd39754391c986a95b",
+    "trace-filter.txt": "1b04c17c66b051eb54f2aab99aa699d058fcea663b922400c80858f045d7e2f0",
+    "native-mre-1-after-gdb.json": "7468d32bb961aa9982a404865c2ddc1c5b16e0eb807c230b93da609413587651",
+    "streams-mre-frontier.json": "880b3fdfb5f63b9512e4a27b83ba95893fa716ae6da3f318c4dafdb404a2c72a",
+    "__pycache__/gdb_streams.cpython-313.pyc": "4b1ae898a18c3a1f86e2bf6a54ffb7f6de749fd0ed546641451f8ce3247a6d0d",
+    "__pycache__/gdb_mktemp.cpython-313.pyc": "7a7c0574d2c82529ca6006cfb52c34aff56631a0ea001739fddc99957487a6fb",
+    "__pycache__/gdb_mre.cpython-313.pyc": "8f3c6c40930ef6be6f30dc28c497b6ca03423b57388fd6fd054a14dbef30aeb3",
+    "__pycache__/gdb_entry.cpython-313.pyc": "7a7d5c333a47dd06b4009ce2eab7266743d608d04d881a149af041debfdda794"
+  }
+}

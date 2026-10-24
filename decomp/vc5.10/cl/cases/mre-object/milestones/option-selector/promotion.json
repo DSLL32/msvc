@@ -1,0 +1,89 @@
+{
+  "kind": "33B application promotion through authentic comparator; partial MRE case",
+  "accepted_application_functions": 106,
+  "application_extent_bytes": 18169,
+  "application_extent_denominator": 18545,
+  "application_extent_percent": 97.97249932596387,
+  "remaining_functions": 6,
+  "remaining_extent_bytes": 376,
+  "separate_support_records": 15,
+  "separate_support_bytes": 476,
+  "evidence_manifest_sha256": "c66b46444c4f4050dec1feed93f8f76096e86e6dc7c049b501a8861654c0afda",
+  "review_records": {
+    "review/parent-review.json": {
+      "sha256": "29f74ab1a265313822bee0cf0083e3619589a63a5925720a3b8ad155fafbb5df",
+      "bytes": 33533
+    },
+    "review/integration-review.json": {
+      "sha256": "507ca8ed6c6c240d18375b95ed01b4ae33585e924c7b701ec3f691fcacd24c98",
+      "bytes": 32726
+    },
+    "review/native-controls.json": {
+      "sha256": "cd10105af9ec309724f44b2adb58d5cfa796daa6e78cd94ada3fd2d3a369345a",
+      "bytes": 2624
+    },
+    "review/fixtures.log": {
+      "sha256": "56e014b466f04ffd78447582a2f046f35314e9cf8ca290837fed44bbd78cdded",
+      "bytes": 7528
+    },
+    "review/promotion.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "review/accept-review-restored.log": {
+      "sha256": "27f55124218d308216c0a247a4579ad5dfb664bb56c93fe342d0591fa2e0e5cf",
+      "bytes": 53
+    },
+    "review/selector-packet.json": {
+      "sha256": "32a24be2f48ceb6b414b5c0e75e7bacd50e49df321c011b0cdef8acb8a018d6a",
+      "bytes": 512324
+    },
+    "review/mbslwr-complete-packet.json": {
+      "sha256": "d90da27e471ef1273df4ea7350a773810343f0b4f2ec5640ea0004976ab9dde4",
+      "bytes": 105674
+    },
+    "review/response-review.json": {
+      "sha256": "0ecd8d108343ea05ed98ad0f2039e8fb4b35c2a20a6ca7dcfea58043f669362b",
+      "bytes": 4343
+    },
+    "review/response-parent-review.json": {
+      "sha256": "a9794b62df12b8e10556567ed13e9c0c6d2861e4a3394790d25f04662ecc9cda",
+      "bytes": 4767
+    },
+    "review/raw-controls.json": {
+      "sha256": "9c9e03b611f4548c13a73c539d5f4be6e57ba6f8e153512b34a58a0244ff2ac6",
+      "bytes": 1141
+    },
+    "review/final-mode-controls.json": {
+      "sha256": "da620ccceef38605b551f9ca4ee3e8ff1411dfd951d94ba36005c089d5383c95",
+      "bytes": 1915
+    },
+    "review/protocol35.log": {
+      "sha256": "cbdcf5391ef3b1bd6076cde0491a690160b3cb7156372b885cab2786431fb361",
+      "bytes": 92
+    },
+    "review/slot-parent-review.json": {
+      "sha256": "f417fb903b489b8ecacc001ca0907913bd373abf4e7931fb114164a79d02cb61",
+      "bytes": 1076
+    }
+  },
+  "times": {
+    "original_setup": 0.022026446647942066,
+    "original_execution": 6.323753625154495,
+    "native_capture": 1.5694782035425305,
+    "audit": 0.6582556664943695,
+    "native_controls": 51.0610230891034,
+    "original_controls": 13.10047309473157,
+    "fixtures": 3.26496441103518
+  },
+  "shared_support": {
+    "commit": "4021ad738647d7d9d35ec8a274133a0ed144689b",
+    "path": "lib/recon/mbslwr-ascii-validation.json",
+    "sha256": "baf7121f24e2ebfdd3ed0c5bdd056b324de3c6a9bbeee3e3143457172a02bc12"
+  },
+  "qualification": "Strict public32B/alias/errors/FP/state; provider-private lock/heap/threadcount unobserved, no concurrent targetlocale mutation; no allocationtail claim; original argument-slot lowbyte reuse independentlyauthenticated",
+  "gaps": [
+    "Comparator remains namedtrap; genuine new MRE4/release/close responses unknown/denied.",
+    "No completed MREcase or laterfdlifetime claim."
+  ]
+}
