@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "UNPROMOTED: both complete immutable normal/restore pairs pass fresh current strict audit/decoder;122 affected controls pass; final independent transport/source review requested",
+  "status": "ACCEPTED _apply_option_action after independent complete source/transport review and successful actual normal promotion; restore remains auxiliary",
   "function": "_apply_option_action",
   "source": "src/option-matcher.c",
   "source_sha256": "2e7697fe5f9a826e591f2d908ae0184e3b914d2fc7ce1e6696f843f3f48a7a6c",
@@ -213,5 +213,19 @@
         "caller": "match_option"
       }
     ]
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/action-parent-review.json",
+    "sha256": "1d8082a5c126effd6e61f4e2661bed16dc9baabcbbfe4cc3bede09d3227718d8",
+    "reviewed_stable_commit": "85ce4b77e"
+  },
+  "promotion": {
+    "exit_status": 0,
+    "accepted_count": 93,
+    "promoted_functions": [
+      "_apply_option_action"
+    ],
+    "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-actions-original-2",
+    "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-actions-native-1"
   }
 }

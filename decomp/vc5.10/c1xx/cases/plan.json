@@ -3,7 +3,7 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "autonomous minimal C++ reconstruction:373B option-action source/strict normal+restore proofs/122 controls complete, unpromoted pending independent transport review;92 boundaries accepted",
+  "state": "autonomous minimal C++ reconstruction:373B option action accepted after complete paired/independent review;93 boundaries accepted, next numeric parser",
   "cases": [
     {
       "id": "dll-lifecycle-and-exports",
@@ -29,7 +29,7 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active: own three option actions reach parse_option_integer(\"1\"); source/paired proof complete, action unpromoted",
+      "status": "active: three option actions accepted; current genuine frontier parse_option_integer(\"1\"), next135B leaf being recovered",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",

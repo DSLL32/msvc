@@ -390,3 +390,13 @@ See `cases/minimal/OPTION-MATCHER.md`/`matcher-trial.json`;66 affected controls
 reject and immutable history revalidation invokes no binaries. Current88 APP
 functions/6353B plus historical CRT451B/import12B total6816/751216 whole code
 bytes; switch data74B has no code credit. The next option action remains a trap.
+
+The373-byte option action is accepted. Three real matches/actions and six
+argument callbacks pass complete normal/restore state/ABI checks to the numeric
+parser trap with borrowed `"1"`. Persistent indexed observations authenticate
+all three normal/two restore CRC calls, retaining raw third-slot mutations and
+complete provider/target/saved/neighbor guards.122 focused mutations reject.
+See `cases/minimal/OPTION-ACTIONS.md`/`option-action-trial.json`; current89 APP
+functions/6726B plus historical CRT451B/import12B total7189/751216 whole code
+bytes.71B switch data has no code credit. Cached lifecycle replay remains native
+only:13.76ms total,2.01ms execution, zero Wine.

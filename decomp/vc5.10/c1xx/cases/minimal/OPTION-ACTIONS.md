@@ -54,12 +54,11 @@ The separate cached lifecycle fixture took13.760ms total, including2.007ms
 execution and no Wine. Compile/link and GDB phase accounting are recorded in
 `option-action-trial.json`; these rich observations are not fixture timings.
 
-The candidate is unpromoted pending independent review of the source and new
-observation transport. Current accepted count remains92 boundaries/88 application
-functions/6353 application bytes, plus historical CRT451B/import12B. If promoted,
-the totals become93 boundaries/89 application functions/6726 application bytes,
-or7189/751216 whole code-section bytes. The denominator includes CRT and is not
-non-CRT coverage.
+Independent review passed and actual normal promotion completed with
+accepted_count93. Totals are89 application functions/6726 application bytes plus
+historical CRT451B/import12B, or7189/751216 whole code-section bytes. The
+denominator includes CRT and is not non-CRT coverage. The numeric parser and
+other pending helpers remain unaccepted.
 
 Read-only revalidation of both frozen roles invokes no binaries:
 

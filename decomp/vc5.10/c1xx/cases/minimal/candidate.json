@@ -94,9 +94,10 @@
     "_read_env_arguments",
     "_new_option_vector",
     "_next_argument",
-    "_match_option"
+    "_match_option",
+    "_apply_option_action"
   ],
-  "trial": "_apply_option_action",
+  "trial": null,
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -906,6 +907,5 @@
       "kind": "text_data"
     }
   ],
-  "stage": "complete373B option action candidate; fresh paired repeated argument/CRC evidence pending",
-  "test_seed": "restore-nonzero"
+  "stage": "_apply_option_action accepted; next frontier _parse_option_integer"
 }
