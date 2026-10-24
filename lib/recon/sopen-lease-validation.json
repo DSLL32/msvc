@@ -371,10 +371,60 @@
     "result": "PASS",
     "build_and_execution_seconds": 1.287980827
   },
-  "remaining": "Actual CL typed external-MRE initial-prefix native adoption remains required before application acceptance. No remaining shared publication hold; no general Windows sharing/error32, MRE implementation or later lifecycle claim.",
+  "remaining": "Initial CL external MRE prefix actual adoption is independently reviewed and recorded. Future application acceptance needs an ordinary candidate-inclusive pair; later MRE/close lifecycle remains denied and no wholecase/app credit is claimed.",
   "independent_review": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-object-preuse/sopen-parent-review.json",
     "sha256": "7144085ce0fbbad37c12830b8e0db57d6ab68009a383ddf9a255f3e7d4d8d598",
     "result": "PASS exact390ea919 source/refs/all8frozenELFs, allnew/default/oldfsopen checker reruns in0.667s; no source correction"
+  },
+  "actual_CL_MRE_prefix_adoption": {
+    "commits": [
+      "7badb7b029610df24577967b66520f1bcb1971f1",
+      "f593604ebe835cad79d19e7a764fcc5d45078c44"
+    ],
+    "scope": "Actual initial Open/Query/Init external dependency prefix only; no app, wholecase or normalclose credit",
+    "parent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-native-parent-review-v2.json",
+      "sha256": "4ba8400b15ddd94746c33c3f9dcab11b25c1abf3d2cd65242ff44097ea8d318a"
+    },
+    "retention_delta": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/mre-native-retention-final.json",
+      "sha256": "5ac961a1ccb0937f2785f58c8ce51bfc6b50353db8c557c79b1f07df669c627d"
+    },
+    "original_packet": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/prefix-packet.json",
+      "sha256": "87bb815753fcd92f716ec154b0cbff03ab7735d7f0d1f30d443e1d813ecbb67c"
+    },
+    "owned_native_manifest": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/native-prefix/native-retention.json",
+      "sha256": "ea397b10fa0c6636e55a36bc97e517f1974e82a81fba1c0add43fd56f86786ac",
+      "files_verified": 68
+    },
+    "native_receipt": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/native-prefix/native-prefix.json",
+      "sha256": "41e8d97fa550b3b3d45376b109344cde7e8c585d02c8a220aa83327e3cb5c9cb",
+      "seconds": 0.6462887078523636
+    },
+    "native_build": {
+      "path": "/root/msvc2/decomp/vc5.10/cl/cases/mre-object/native-prefix/native-build.json",
+      "sha256": "4b0a22fa9861de30d142ba04975c1463c5ff3c7fa711618621ec4032fb538563",
+      "native_elf_sha256": "0199a512edc8f10ca7b93964944094dc739878fb98a4e08104d74912c7b6796c",
+      "shared_revision": "c11fa676334418d274b456a0206f6dd960764db2",
+      "source_contents_verified": 35
+    },
+    "actual_effects": "Genuinefd3/RDWR/CLOEXEC/lowio0x11/full25600B/position1024,1/1/1typed stdcall entries/returns/nonvol/errors/FP/wholeobserved state match",
+    "qualifications": [
+      "No normal completion or later MRE lifetime/close credit.",
+      "Original Windows identity/timestamps are retained observer identity/preservation evidence; Linux inode/time values are not equated to them. Real native file bytes/size/binary/noinherit/RDWR/position/ownership are enforced.",
+      "Exact inert x87 selector qualification reused only under actual empty tags/zero IP+DP/zero data/no target consumer. All remaining fields and within-native preservation strict.",
+      "Current mre_state.py adds monotonic offline configuration/main/mktemp/message-alias checks after native-5 execution. Its prior actual execution-source hash remains unchanged in native-prefix.json; no native raw relabel.",
+      "Initial frontier saved caller EBP/return were not independently dumped. Exact hash-bound ELF/bias/INT3/formal slot, unique static prepare_jobs edge and capture-source older-frame assertion authenticate this narrower zero-credit prefix. Next required candidate native observation must add the8B raw read."
+    ],
+    "next_requirements": [
+      "Next actual app candidate uses normal fresh masked-original/native acceptance and candidate-inclusive audit, not this zero-credit receipt",
+      "Next required native capture adds actual8-byte savedcaller read; no new capture for current limited prefix review",
+      "Future MREcalls/close/fileeffects unknown and denied; dependency responses must remain complete-input/prestate/ownedfile bound"
+    ],
+    "metadata_check": "Read-only owned receipt/manifest/compiled-source/retention hashes verified; no target execution/rebuild/reference replay; no private environment values emitted"
   }
 }
