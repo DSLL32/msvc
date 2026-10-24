@@ -28,7 +28,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     executable = BINARY / 'build/native/CVPACK.EXE'
     executable_hash=sha(executable)
     expected = record['current']
-    debug=(debug or reference_completion or scalar_completion)and expected['terminal']=='trap'
+    debug=(debug or reference_completion or scalar_completion)and(expected['terminal']=='trap'or expected.get('proof_mode')=='entry-flow')
     assert not scalar_completion or(name=="hello-debug-dll"and next(r for r in config["functions"]if r["name"]=="begin_symbol_block")["status"]in("candidate","accepted")),"only98 scalar slice"
     assert not reference_completion or(name=='hello-debug-dll'and next(r for r in config['functions']if r['name']=='create_symbol_reference')['status']in('candidate','accepted')),'completion mode restricted to reviewed function97'
     data=json.loads((BINARY/'data.json').read_text())
@@ -282,7 +282,13 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if expected.get("proof_mode")=="scalar-callback-return-plus-entry-progress"and not(reference_completion or scalar_completion):
         import runpy
         runpy.run_path(str(BINARY/"scripts/scalar-progression-debug.py"))["write"](script,directory,policies)
-    if expected.get('proof_mode')=='entry-flow'and not(reference_completion or scalar_completion):
+    if expected.get('proof_mode')=='entry-flow'and expected['terminal']=='exit':
+        # Ordinary terminal debug run: retain CRT boundary observations and exit,
+        # never inspect application allocations after cleanup.
+        marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
+        prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\njson.dump(dict(signal=0,exit=int(gdb.parse_and_eval("$_exitcode")),frames=[],parameters={},globals={},walks={},later_heap_equality=False),open('+repr(str(report))+',"w"))\nend\nquit\n'
+        script.write_text(prefix)
+    if expected.get('proof_mode')=='entry-flow'and expected['terminal']=='trap'and not(reference_completion or scalar_completion):
         marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
         frontier=next(r for r in config['functions']if r['native']==expected['native_function'])
         assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner','function','symbol-sort-key','file-slot')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
@@ -389,8 +395,10 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     assert [n for n in entries if n in application]==expected.get('application_trace',[]),entries
     if debug:
         actual=json.loads(report.read_text())
-        assert actual['signal']==5,actual
-        assert expected['native_function'] in actual['frames'],actual
+        if expected['terminal']=='exit':assert actual['signal']==0 and actual['exit']==expected['exit']and not actual['frames'],actual
+        else:
+            assert actual['signal']==5,actual
+            assert expected['native_function'] in actual['frames'],actual
     for stream in ('stdout','stderr'):
         reference = BINARY / 'cases' / name / expected[stream]
         assert (directory/stream).read_bytes()==reference.read_bytes(), stream+' mismatch'

@@ -502,3 +502,30 @@ int close_file(int handle, unsigned char release)
     if (slot->flags & 8) return close_mapped_file(slot);
     return release_file_slot(slot);
 }
+
+int release_file_slot(FileSlot *slot)
+{
+    Page *page = used_pages, *next;
+    int result;
+    while (page) {
+        next = page->next;
+        if (page->handle == slot->handle) {
+            if (page == slot->cursor.page) slot->cursor.page->flags &= ~16UL;
+            release_page(page);
+        }
+        page = next;
+    }
+    result = _close(slot->source.descriptor);
+    if (result == -1) file_failure(12, NULL, NULL);
+    free(slot->name);
+    slot->name = NULL;
+    slot->source.descriptor = -1;
+    slot->flags = 0;
+    slot->contents.capacity = 0;
+    slot->cursor.page = NULL;
+    slot->length = 0;
+    slot->allocated = 0;
+    free(slot->storage.pages);
+    slot->storage.pages = NULL;
+    return result;
+}

@@ -15,8 +15,7 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "release_file_slot",
-    "native_function": "release_file_slot",
+    "logical": "update_image_checksum",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -166,42 +165,21 @@
       "truncate_file",
       "truncate_buffered_file",
       "close_file",
-      "release_file_slot"
+      "release_file_slot",
+      "update_image_checksum"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
-    "observed_globals": [
-      "strip_handle",
-      "strip_symbol_offset",
-      "strip_read_offset",
-      "strip_file_header",
-      "type_recursion_error",
-      "derived_type_count",
-      "source_name_hash",
-      "source_file_index_size",
-      "directory_entry_count",
-      "source_line_bytes",
-      "cv_file_offset",
-      "output_capacity",
-      "output_used",
-      "output_handle",
-      "output_padding",
-      "public_symbols_count",
-      "public_symbols_size",
-      "global_symbols_count",
-      "global_symbols_size",
-      "local_symbol_references",
-      "local_symbol_reference_bytes",
-      "packed_file_size"
-    ],
+    "observed_globals": [],
     "observed_walks": [],
     "artifacts": [
       {
         "name": "hello-debug.dll",
         "bytes": 71800,
-        "sha256": "9923281e32ce38e6a8d5bb3222eca7ce8588df97c0ce5d1a34b47564716bfd0d"
+        "sha256": "e08a1752ab0990c401b98c889ddf5ffc0d071ea9fb5865025cf415bbe1e52c1b"
       }
-    ]
+    ],
+    "native_function": "update_image_checksum"
   },
   "complete_reference": {
     "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/packed.dll",

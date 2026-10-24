@@ -538,7 +538,28 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "stack-input",
+          "evidence": "cases/abi/main-checksum-name-input.json",
+          "evidence_sha256": "5199f750a2789f13ce98953bca3251c505763b53919e1843580bc3249b31ff57"
+        },
+        {
+          "name": "length",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "read_only",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 8
+        }
+      ]
     },
     {
       "name": "new_page",
@@ -749,13 +770,16 @@
       "native": "release_file_slot",
       "symbol": "_release_file_slot",
       "original": 171856,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        171856,
+        172028
+      ],
       "abi": "int release_file_slot(FileSlot *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0149-release_file_slot/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -764,7 +788,21 @@
           "slot": 1,
           "kind": "file-slot"
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "seek_buffered_file",
@@ -8683,6 +8721,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 148
+    },
+    {
+      "function": "release_file_slot",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 149
     }
   ],
   "support_unmasked": [
@@ -9305,7 +9349,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "676a6dcfc74d6a25059d606faf7b31a40e5b1fe95e694591f8befbeff2e2811d"
+    "evidence_sha256": "3295d013906acca6b856b46f070462f60d30cd4348600218304ebb109b2082aa"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9329,7 +9373,7 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "cba83f3f0ef11e55e45aa58742b601b08a821b8208633d1e678c7cf59d64cd43"
+    "evidence_sha256": "b1faf18d0dbda3c7c6b19ca48523f2d1d953f446fa74d82bfd985e53ad02c240"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
@@ -9381,6 +9425,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "5139540ff763bab6ebb34fc9b49be36f87a35b7d7b385efab228000ed9d73e8d"
+    "sha256": "acf908e987f056137135a6c5548d5130e2edfb6b0ad0cc6ffe3b4157cc3e0b10"
   }
 }
