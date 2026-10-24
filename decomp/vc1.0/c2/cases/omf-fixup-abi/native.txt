@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3fa2: file src/stubs.c, line 101.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_add_fixup (symbol=0x56635198, type=9 '\t', displacement=4294967292, relative=0) at src/stubs.c:101
+101	    unsigned displacement, int relative) { __asm int 3 }
+C2_FIXUP {"state": {"symbol": 1449349528, "type": 9, "displacement": 4294967292, "relative": 0, "owner_symbol": 1449349528, "identifier": 118, "bucket": 54, "index": 0, "member": 1449349528, "current": 1449231708, "base": 1449231708, "count": 124, "dos": 1, "caller": "omf_output_bytes"}, "threads": {"group_frame": 0, "bss_target": 3, "data_target": 1, "const_target": 0, "code_target": 2}, "payload": {"kind": 1, "offset": 40, "flags": 10624, "attributes": 8742, "storage": 4}, "segment": {"identifier": 2, "pointer": 1449342088, "order": 2, "bucket": 2, "index": 0}}

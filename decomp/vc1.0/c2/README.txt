@@ -717,3 +717,17 @@ pointee dereference or child behavior inferred. Original/W3/full audits and15
 native cases pass(14 complete), next fixup6b990.342743/399693 extent bytes;
 app/support324443B/1169functions exclude5 historical CRT. Timings/scope:
 cases/omf-absolute-checkpoint.json.
+
+Checkpoint1285 adds840-byte fixup constructor and contextual24-byte typed
+entry, preserving reserved bytes and high old flags.296 whole original/
+canonical controls/10 ABI negatives cover relative0->bit0, index/code truncation,
+lookup cached flags/addend/thread reloads and true diagnostic/cold label paths.
+Actual4 formals/id118/storage4/section2/current count124/segment2 match. First
+model exposed wrong new section-to-thread selection; corrected2=data,4=const,
+6=bss, with failed model/wrong-body WIP build retained and no earlier promotion.
+Only accepted same-domain thread initialization exists, already correct. Original/
+W3/full audits/fresh pair and15 native cases pass(14 complete), next allocator
+6bd10.343583/399693 extent bytes; app/support325283B/1170functions exclude5
+historical CRT. No real old entry dump/seed or cold execution claim. Corrected
+build41.159s includes126 canonical recompiles; audit41.853s separately. Details:
+cases/omf-fixup-checkpoint.json.

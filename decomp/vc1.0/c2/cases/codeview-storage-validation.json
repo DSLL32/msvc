@@ -1,9 +1,9 @@
 {
   "mapping": {
-    "0x7e8ac": "0x91a18",
-    "0x84ff8": "0x91a24",
-    "0x7b8ec": "0x91a20",
-    "0x85d9c": "0x91a28"
+    "0x7e8ac": "0x92a18",
+    "0x84ff8": "0x92a24",
+    "0x7b8ec": "0x92a20",
+    "0x85d9c": "0x92a28"
   },
   "bindings": [
     {
@@ -20,8 +20,8 @@
       ],
       "canonical": [
         {
-          "site": "0x15c96",
-          "storage": "0x91a28",
+          "site": "0x15c8e",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
@@ -43,8 +43,8 @@
       ],
       "canonical": [
         {
-          "site": "0x12963",
-          "storage": "0x91a28",
+          "site": "0x1295b",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
@@ -66,40 +66,40 @@
       ],
       "canonical": [
         {
+          "site": "0x12d3d",
+          "storage": "0x92a28",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
           "site": "0x12d45",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12d4d",
-          "storage": "0x91a28",
+          "site": "0x12d54",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12d5c",
-          "storage": "0x91a28",
+          "site": "0x12d5e",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12d66",
-          "storage": "0x91a28",
-          "mnemonic": "mov",
-          "operand": 1,
-          "type": "memory",
-          "width": 4
-        },
-        {
-          "site": "0x12d77",
-          "storage": "0x91a28",
+          "site": "0x12d6f",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -129,32 +129,40 @@
       ],
       "canonical": [
         {
+          "site": "0x12d90",
+          "storage": "0x92a28",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
           "site": "0x12d98",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12da0",
-          "storage": "0x91a28",
+          "site": "0x12da7",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12daf",
-          "storage": "0x91a28",
+          "site": "0x12db3",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12dbb",
-          "storage": "0x91a28",
+          "site": "0x12dd0",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -162,47 +170,39 @@
         },
         {
           "site": "0x12dd8",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12de0",
-          "storage": "0x91a28",
+          "site": "0x12de7",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12def",
-          "storage": "0x91a28",
+          "site": "0x12df3",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12dfb",
-          "storage": "0x91a28",
-          "mnemonic": "mov",
-          "operand": 1,
-          "type": "memory",
-          "width": 4
-        },
-        {
-          "site": "0x12e07",
-          "storage": "0x91a28",
+          "site": "0x12dff",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12dc7",
-          "storage": "0x91a28",
+          "site": "0x12dbf",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -248,32 +248,40 @@
       ],
       "canonical": [
         {
+          "site": "0x12e27",
+          "storage": "0x92a28",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
           "site": "0x12e2f",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12e37",
-          "storage": "0x91a28",
+          "site": "0x12e3e",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12e46",
-          "storage": "0x91a28",
+          "site": "0x12e4a",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12e52",
-          "storage": "0x91a28",
+          "site": "0x12e67",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -281,31 +289,31 @@
         },
         {
           "site": "0x12e6f",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12e77",
-          "storage": "0x91a28",
+          "site": "0x12e7e",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12e86",
-          "storage": "0x91a28",
+          "site": "0x12e8a",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12e92",
-          "storage": "0x91a28",
+          "site": "0x12ea7",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -313,31 +321,31 @@
         },
         {
           "site": "0x12eaf",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12eb7",
-          "storage": "0x91a28",
+          "site": "0x12ebe",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12ec6",
-          "storage": "0x91a28",
+          "site": "0x12eca",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12ed2",
-          "storage": "0x91a28",
+          "site": "0x12ee7",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -345,63 +353,55 @@
         },
         {
           "site": "0x12eef",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12ef7",
-          "storage": "0x91a28",
+          "site": "0x12efe",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12f06",
-          "storage": "0x91a28",
+          "site": "0x12f0a",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12f12",
-          "storage": "0x91a28",
-          "mnemonic": "mov",
-          "operand": 1,
-          "type": "memory",
-          "width": 4
-        },
-        {
-          "site": "0x12f1e",
-          "storage": "0x91a28",
+          "site": "0x12f16",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12ede",
-          "storage": "0x91a28",
+          "site": "0x12ed6",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12e9e",
-          "storage": "0x91a28",
+          "site": "0x12e96",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12e5e",
-          "storage": "0x91a28",
+          "site": "0x12e56",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -423,8 +423,8 @@
       ],
       "canonical": [
         {
-          "site": "0x1566b",
-          "storage": "0x91a28",
+          "site": "0x15663",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
@@ -470,32 +470,40 @@
       ],
       "canonical": [
         {
+          "site": "0x12f3d",
+          "storage": "0x92a28",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
           "site": "0x12f45",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12f4d",
-          "storage": "0x91a28",
+          "site": "0x12f54",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12f5c",
-          "storage": "0x91a28",
+          "site": "0x12f60",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12f68",
-          "storage": "0x91a28",
+          "site": "0x12f7d",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -503,31 +511,31 @@
         },
         {
           "site": "0x12f85",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12f8d",
-          "storage": "0x91a28",
+          "site": "0x12f94",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12f9c",
-          "storage": "0x91a28",
+          "site": "0x12fa0",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12fa8",
-          "storage": "0x91a28",
+          "site": "0x12fdc",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -535,31 +543,31 @@
         },
         {
           "site": "0x12fe4",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12fec",
-          "storage": "0x91a28",
+          "site": "0x12ff3",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12ffb",
-          "storage": "0x91a28",
+          "site": "0x12fff",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13007",
-          "storage": "0x91a28",
+          "site": "0x1301c",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -567,63 +575,55 @@
         },
         {
           "site": "0x13024",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1302c",
-          "storage": "0x91a28",
+          "site": "0x13033",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1303b",
-          "storage": "0x91a28",
+          "site": "0x1303f",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13047",
-          "storage": "0x91a28",
-          "mnemonic": "mov",
-          "operand": 1,
-          "type": "memory",
-          "width": 4
-        },
-        {
-          "site": "0x13053",
-          "storage": "0x91a28",
+          "site": "0x1304b",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13013",
-          "storage": "0x91a28",
+          "site": "0x1300b",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12fb4",
-          "storage": "0x91a28",
+          "site": "0x12fac",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12f74",
-          "storage": "0x91a28",
+          "site": "0x12f6c",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -677,32 +677,40 @@
       ],
       "canonical": [
         {
+          "site": "0x13165",
+          "storage": "0x92a28",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
           "site": "0x1316d",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13175",
-          "storage": "0x91a28",
+          "site": "0x1317c",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13184",
-          "storage": "0x91a28",
+          "site": "0x13188",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13190",
-          "storage": "0x91a28",
+          "site": "0x131bd",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -710,31 +718,31 @@
         },
         {
           "site": "0x131c5",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x131cd",
-          "storage": "0x91a28",
+          "site": "0x131d4",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x131dc",
-          "storage": "0x91a28",
+          "site": "0x131e0",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x131e8",
-          "storage": "0x91a28",
+          "site": "0x131fd",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -742,31 +750,31 @@
         },
         {
           "site": "0x13205",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1320d",
-          "storage": "0x91a28",
+          "site": "0x13214",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1321c",
-          "storage": "0x91a28",
+          "site": "0x13220",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13228",
-          "storage": "0x91a28",
+          "site": "0x1323d",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -774,31 +782,31 @@
         },
         {
           "site": "0x13245",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1324d",
-          "storage": "0x91a28",
+          "site": "0x13254",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1325c",
-          "storage": "0x91a28",
+          "site": "0x13260",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13268",
-          "storage": "0x91a28",
+          "site": "0x1327d",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -806,71 +814,63 @@
         },
         {
           "site": "0x13285",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1328d",
-          "storage": "0x91a28",
+          "site": "0x13294",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1329c",
-          "storage": "0x91a28",
+          "site": "0x132a0",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x132a8",
-          "storage": "0x91a28",
-          "mnemonic": "mov",
-          "operand": 1,
-          "type": "memory",
-          "width": 4
-        },
-        {
-          "site": "0x132b4",
-          "storage": "0x91a28",
+          "site": "0x132ac",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13274",
-          "storage": "0x91a28",
+          "site": "0x1326c",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13234",
-          "storage": "0x91a28",
+          "site": "0x1322c",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x131f4",
-          "storage": "0x91a28",
+          "site": "0x131ec",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1319c",
-          "storage": "0x91a28",
+          "site": "0x13194",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -900,40 +900,40 @@
       ],
       "canonical": [
         {
+          "site": "0x1309a",
+          "storage": "0x92a28",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
           "site": "0x130a2",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x130aa",
-          "storage": "0x91a28",
+          "site": "0x130b1",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x130b9",
-          "storage": "0x91a28",
+          "site": "0x130bf",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x130c7",
-          "storage": "0x91a28",
-          "mnemonic": "mov",
-          "operand": 1,
-          "type": "memory",
-          "width": 4
-        },
-        {
-          "site": "0x130d3",
-          "storage": "0x91a28",
+          "site": "0x130cb",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -971,32 +971,40 @@
       ],
       "canonical": [
         {
+          "site": "0x132d3",
+          "storage": "0x92a28",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
           "site": "0x132db",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x132e3",
-          "storage": "0x91a28",
+          "site": "0x132ea",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x132f2",
-          "storage": "0x91a28",
+          "site": "0x132f6",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x132fe",
-          "storage": "0x91a28",
+          "site": "0x1332c",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -1004,31 +1012,31 @@
         },
         {
           "site": "0x13334",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1333c",
-          "storage": "0x91a28",
+          "site": "0x13343",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1334b",
-          "storage": "0x91a28",
+          "site": "0x1334f",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13357",
-          "storage": "0x91a28",
+          "site": "0x1336c",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -1036,55 +1044,47 @@
         },
         {
           "site": "0x13374",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1337c",
-          "storage": "0x91a28",
+          "site": "0x13383",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1338b",
-          "storage": "0x91a28",
+          "site": "0x1338f",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13397",
-          "storage": "0x91a28",
-          "mnemonic": "mov",
-          "operand": 1,
-          "type": "memory",
-          "width": 4
-        },
-        {
-          "site": "0x133a3",
-          "storage": "0x91a28",
+          "site": "0x1339b",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x13363",
-          "storage": "0x91a28",
+          "site": "0x1335b",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1330a",
-          "storage": "0x91a28",
+          "site": "0x13302",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -1106,8 +1106,8 @@
       ],
       "canonical": [
         {
-          "site": "0x54138",
-          "storage": "0x91a18",
+          "site": "0x54130",
+          "storage": "0x92a18",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
@@ -1145,32 +1145,32 @@
       ],
       "canonical": [
         {
-          "site": "0x54055",
-          "storage": "0x91a20",
+          "site": "0x5404d",
+          "storage": "0x92a20",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x5405a",
-          "storage": "0x91a20",
+          "site": "0x54052",
+          "storage": "0x92a20",
           "mnemonic": "cmp",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x54076",
-          "storage": "0x91a20",
+          "site": "0x5406e",
+          "storage": "0x92a20",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x54081",
-          "storage": "0x91a20",
+          "site": "0x54079",
+          "storage": "0x92a20",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -1200,48 +1200,48 @@
       ],
       "canonical": [
         {
-          "site": "0x160d6",
-          "storage": "0x91a28",
+          "site": "0x160ce",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x160f2",
-          "storage": "0x91a28",
+          "site": "0x160ea",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x16117",
-          "storage": "0x91a28",
+          "site": "0x1610f",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x16133",
-          "storage": "0x91a28",
+          "site": "0x1612b",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x16126",
-          "storage": "0x91a28",
+          "site": "0x1611e",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x160e5",
-          "storage": "0x91a28",
+          "site": "0x160dd",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
@@ -1263,8 +1263,8 @@
       ],
       "canonical": [
         {
-          "site": "0x133cb",
-          "storage": "0x91a28",
+          "site": "0x133c3",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -1294,40 +1294,40 @@
       ],
       "canonical": [
         {
+          "site": "0x1343f",
+          "storage": "0x92a28",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
           "site": "0x13447",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1344f",
-          "storage": "0x91a28",
+          "site": "0x13456",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1345e",
-          "storage": "0x91a28",
+          "site": "0x13464",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x1346c",
-          "storage": "0x91a28",
-          "mnemonic": "mov",
-          "operand": 1,
-          "type": "memory",
-          "width": 4
-        },
-        {
-          "site": "0x13478",
-          "storage": "0x91a28",
+          "site": "0x13470",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -1357,40 +1357,40 @@
       ],
       "canonical": [
         {
+          "site": "0x12ce3",
+          "storage": "0x92a28",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
           "site": "0x12ceb",
-          "storage": "0x91a28",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12cf3",
-          "storage": "0x91a28",
+          "site": "0x12cfa",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12d02",
-          "storage": "0x91a28",
+          "site": "0x12d08",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x12d10",
-          "storage": "0x91a28",
-          "mnemonic": "mov",
-          "operand": 1,
-          "type": "memory",
-          "width": 4
-        },
-        {
-          "site": "0x12d1c",
-          "storage": "0x91a28",
+          "site": "0x12d14",
+          "storage": "0x92a28",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -1484,64 +1484,64 @@
       ],
       "canonical": [
         {
-          "site": "0x5415b",
-          "storage": "0x91a18",
+          "site": "0x54153",
+          "storage": "0x92a18",
           "mnemonic": "cmp",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x5416d",
-          "storage": "0x91a18",
+          "site": "0x54165",
+          "storage": "0x92a18",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x54178",
-          "storage": "0x91a18",
+          "site": "0x54170",
+          "storage": "0x92a18",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x541fa",
-          "storage": "0x91a18",
+          "site": "0x541f2",
+          "storage": "0x92a18",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x5422c",
-          "storage": "0x91a18",
+          "site": "0x54224",
+          "storage": "0x92a18",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x54253",
-          "storage": "0x91a18",
+          "site": "0x5424b",
+          "storage": "0x92a18",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x54260",
-          "storage": "0x91a18",
+          "site": "0x54258",
+          "storage": "0x92a18",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x5426b",
-          "storage": "0x91a18",
+          "site": "0x54263",
+          "storage": "0x92a18",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
@@ -1603,48 +1603,48 @@
       ],
       "canonical": [
         {
-          "site": "0x544c8",
-          "storage": "0x91a24",
+          "site": "0x544c0",
+          "storage": "0x92a24",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x54503",
-          "storage": "0x91a24",
+          "site": "0x544fb",
+          "storage": "0x92a24",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x54354",
-          "storage": "0x91a24",
+          "site": "0x5434c",
+          "storage": "0x92a24",
           "mnemonic": "cmp",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x5436f",
-          "storage": "0x91a24",
+          "site": "0x54367",
+          "storage": "0x92a24",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x5440e",
-          "storage": "0x91a24",
+          "site": "0x54406",
+          "storage": "0x92a24",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x543ce",
-          "storage": "0x91a24",
+          "site": "0x543c6",
+          "storage": "0x92a24",
           "mnemonic": "cmp",
           "operand": 0,
           "type": "memory",
@@ -1666,8 +1666,8 @@
       ],
       "canonical": [
         {
-          "site": "0x53fbb",
-          "storage": "0x91a28",
+          "site": "0x53fb3",
+          "storage": "0x92a28",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
@@ -1681,6 +1681,6 @@
     "missing allocation def-use",
     "short cursor access"
   ],
-  "seconds": 0.46006263140589,
+  "seconds": 0.46272042393684387,
   "scope": "Original zero-initialized7e8ac DebugScope cursor and84ff8 allocation DWORD plus7b8ec db FILE owner bind to distinct existing typed canonical storage. All accepted CFG direct-memory/address-construction operands including displacement/base/index forms checked; byte filter only selects candidates. No arbitrary indirect alias/deep scope traversal proof. Actual entry cursor/head/override observations separate."
 }

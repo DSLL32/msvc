@@ -503,6 +503,6 @@
       }
     }
   ],
-  "seconds": 0.9005690040066838,
+  "seconds": 1.4263134207576513,
   "scope": "Whole28-byte original/canonical loop, no child calls:0/1/2/17/256 requests, five bounded cursor positions including exact1004 end, unsigned count wrap, zero-only destination writes and unchanged full owned-record guards, RET0/callee-saved/stack checked against independent bytes/count/cursor expectation. Synthetic destination patterns are overwrite guards, not captured old input. Actual request2/count38/cursor66/current slot0 observed; caller originalreturn6bf15/nativeomf_find_record. No unbounded/oversized request success, capacity reservation or invisible destination old bytes assumed."
 }

@@ -223,6 +223,6 @@
       }
     }
   ],
-  "seconds": 0.3792418856173754,
+  "seconds": 0.499491018243134,
   "scope": "Whole16-byte original/canonical wrapper, exact displacement/symbol permutation to ECXsymbol/DL9/two stack words(displacement,0), childRET8 and parentRET0/callee-saved/stack guards. Symbol pointers opaque/unmapped in request-shape controls prove no wrapper dereference, not valid child/frontend inputs. Upper EDX bits outside childunsigned8 contract, no fabricated native hidden formal. Actual displacement-4 and closed globallookup member id118/bucket54 observed; child remains named unaccepted trap, no behavior/return/artifact credit."
 }

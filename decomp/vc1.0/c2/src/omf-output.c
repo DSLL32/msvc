@@ -32,6 +32,7 @@ void __fastcall omf_emit_comdat_external(SymbolHeader *symbol);
 unsigned __fastcall omf_local_name_index(char *name);
 void __fastcall omf_emit_communal(SymbolHeader *symbol);
 void __fastcall omf_emit_weak_external(FunctionSymbol *symbol);
+OmfFixup *omf_allocate_fixup(void);
 void __fastcall omf_add_fixup(SymbolHeader *symbol, unsigned char type, unsigned displacement, int relative);
 void __fastcall omf_write_byte_array(Segment *segment, unsigned bytes, unsigned repeat, void *data);
 void __fastcall omf_write_iterated_data(Segment *segment, int repeat, unsigned bytes, void *data);
@@ -994,4 +995,137 @@ unsigned __fastcall omf_write_datum(OmfRecord *record, Initializer *initializer)
 void __fastcall omf_output_bytes(unsigned displacement, SymbolHeader *symbol)
 {
     omf_add_fixup(symbol, 9, displacement, 0);
+}
+
+/* Original [0006b990,0006bcd8). Old entry flags are deliberately preserved
+   except for the named bits. Each branch keeps its original cached-versus-
+   reloaded flag ordering across lookup calls. No entry-wide initialization. */
+void __fastcall omf_add_fixup(SymbolHeader *symbol, unsigned char type,
+    unsigned displacement, int relative)
+{
+    OmfFixup *fixup = omf_allocate_fixup();
+    unsigned flags, storage, section;
+    unsigned short symbol_flags;
+    unsigned char frame;
+    Segment *segment;
+    fixup->type = type;
+    fixup->location = (unsigned short)(omf_current_record->count + displacement);
+    flags = (fixup->flags & ~OMF_FIXUP_SEGMENT_RELATIVE) | (relative == 0);
+    flags |= OMF_FIXUP_FRAME_THREAD;
+    fixup->flags = flags;
+    frame = (unsigned char)omf_fixup_threads.group_frame;
+    fixup->frame_code = frame;
+    fixup->frame_datum = 0;
+    switch (symbol->kind) {
+    case 1:
+        symbol_flags = symbol->field0e;
+        storage = symbol_flags & 0x20 ? 2 :
+            (((BackendSymbol *)symbol)->attributes & 0x780) >> 7;
+        if (storage == 1 || storage == 4) {
+            section = (((BackendSymbol *)symbol)->attributes & 0x70) >> 4;
+            switch (section) {
+            case 2:
+                if (symbol_flags & 0x200) {
+                    if (symbol_flags & 0x20)
+                        compiler_internal_error("@(#)omf.c:1.10", 0x33e);
+                    segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+                    fixup->flags = flags & ~OMF_FIXUP_TARGET_THREAD;
+                    fixup->target_code = 4;
+                    fixup->target_datum = (unsigned short)segment->identity.order;
+                } else {
+                    segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+                    if (segment->identity.order != 2)
+                        compiler_internal_error("@(#)omf.c:1.10", 0x358);
+                    fixup->flags = flags | OMF_FIXUP_TARGET_THREAD;
+                    fixup->target_code = (unsigned char)omf_fixup_threads.data_target;
+                }
+                break;
+            case 4:
+                if (symbol_flags & 0x200) {
+                    if (symbol_flags & 0x20)
+                        compiler_internal_error("@(#)omf.c:1.10", 0x315);
+                    segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+                    fixup->flags = flags & ~OMF_FIXUP_TARGET_THREAD;
+                    fixup->target_code = 4;
+                    fixup->target_datum = (unsigned short)segment->identity.order;
+                } else {
+                    segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+                    if (segment->identity.order != 3)
+                        compiler_internal_error("@(#)omf.c:1.10", 0x322);
+                    fixup->flags = flags | OMF_FIXUP_TARGET_THREAD;
+                    fixup->target_code = (unsigned char)omf_fixup_threads.const_target;
+                }
+                break;
+            case 6:
+                segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+                if (segment->identity.order != 4)
+                    compiler_internal_error("@(#)omf.c:1.10", 0x336);
+                fixup->flags = flags | OMF_FIXUP_TARGET_THREAD;
+                fixup->target_code = (unsigned char)omf_fixup_threads.bss_target;
+                break;
+            default:
+                compiler_internal_error("@(#)omf.c:1.10", 0x35e);
+                break;
+            }
+            fixup->flags &= ~OMF_FIXUP_NO_ADDEND;
+            fixup->addend = symbol->field04;
+        } else if (storage == 2 || storage == 3) {
+            if (!dos_object) {
+                fixup->flags = flags & ~OMF_FIXUP_FRAME_THREAD;
+                fixup->frame_code = 5;
+            }
+            fixup->flags &= ~OMF_FIXUP_TARGET_THREAD;
+            fixup->target_code = 6;
+            fixup->target_datum = (unsigned short)symbol->field14;
+            fixup->flags |= OMF_FIXUP_NO_ADDEND;
+        } else compiler_internal_error("@(#)omf.c:1.10", 0x368);
+        break;
+    case 3:
+        if (dos_object) {
+            fixup->flags = flags | OMF_FIXUP_FRAME_THREAD;
+            fixup->frame_code = frame;
+        } else {
+            fixup->flags = flags & ~OMF_FIXUP_FRAME_THREAD;
+            fixup->frame_code = 5;
+        }
+        if (current_symbol->symbol.field0e & 0x20) {
+            fixup->flags &= ~OMF_FIXUP_TARGET_THREAD;
+            fixup->target_code = 6;
+            fixup->target_datum = (unsigned short)current_symbol->symbol.field14;
+            fixup->flags |= OMF_FIXUP_NO_ADDEND;
+        } else if (current_symbol->symbol.field0e & 0x200) {
+            flags = fixup->flags & ~OMF_FIXUP_TARGET_THREAD;
+            fixup->flags = flags;
+            fixup->target_code = 4;
+            segment = (Segment *)lookup_global_symbol(current_symbol->symbol.field18.identifier);
+            fixup->target_datum = (unsigned short)segment->identity.order;
+            fixup->flags = flags & ~OMF_FIXUP_NO_ADDEND;
+            fixup->addend = symbol->field04;
+        } else {
+            flags = fixup->flags | OMF_FIXUP_TARGET_THREAD;
+            fixup->flags = flags;
+            fixup->target_code = (unsigned char)omf_fixup_threads.code_target;
+            fixup->flags = flags & ~OMF_FIXUP_NO_ADDEND;
+            fixup->addend = symbol->field04;
+        }
+        break;
+    case 4:
+        if (dos_object) {
+            fixup->flags = flags | OMF_FIXUP_FRAME_THREAD;
+            fixup->frame_code = frame;
+        } else {
+            fixup->flags = flags & ~OMF_FIXUP_FRAME_THREAD;
+            fixup->frame_code = 5;
+        }
+        fixup->flags &= ~OMF_FIXUP_TARGET_THREAD;
+        fixup->target_code = 6;
+        fixup->target_datum = (unsigned short)symbol->field14;
+        fixup->flags |= OMF_FIXUP_NO_ADDEND;
+        if ((((BackendSymbol *)symbol)->attributes & 0xf0) == 0x20)
+            compiler_error(0x81, format_function_name(symbol));
+        break;
+    default:
+        compiler_internal_error("@(#)omf.c:1.10", 0x3a5);
+        break;
+    }
 }

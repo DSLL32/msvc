@@ -2,6 +2,7 @@
 #define OMF_OUTPUT_H
 #include "coff-output.h"
 #include "output.h"
+#include <stddef.h>
 #include <recon.h>
 typedef struct OmfGroup {
     unsigned name_index, number;
@@ -9,6 +10,27 @@ typedef struct OmfGroup {
 typedef struct OmfFixupThreads {
     unsigned group_frame, bss_target, data_target, const_target, code_target;
 } OmfFixupThreads;
+/* Constructor6b990 and allocator6bd10 use24-byte fixup entries. The first
+   word and natural alignment padding are untouched here, not initialized. */
+typedef struct OmfFixup {
+    unsigned reserved00;
+    unsigned char type;
+    unsigned short location;
+    unsigned flags;
+    unsigned char frame_code, target_code;
+    unsigned short frame_datum, target_datum;
+    unsigned addend;
+} OmfFixup;
+typedef char OmfFixupSizeCheck[sizeof(OmfFixup) == 24 ? 1 : -1];
+typedef char OmfFixupLayoutCheck[offsetof(OmfFixup, type) == 4 &&
+    offsetof(OmfFixup, location) == 6 && offsetof(OmfFixup, flags) == 8 &&
+    offsetof(OmfFixup, frame_code) == 12 && offsetof(OmfFixup, target_code) == 13 &&
+    offsetof(OmfFixup, frame_datum) == 14 && offsetof(OmfFixup, target_datum) == 16 &&
+    offsetof(OmfFixup, addend) == 20 ? 1 : -1];
+enum {
+    OMF_FIXUP_SEGMENT_RELATIVE = 1, OMF_FIXUP_FRAME_THREAD = 2,
+    OMF_FIXUP_TARGET_THREAD = 4, OMF_FIXUP_NO_ADDEND = 8
+};
 /* Four reusable wire-record buffers. The twenty-byte header is followed by
    serialized record/header/checksum space; original slots are1004 bytes. */
 typedef struct OmfRecord {

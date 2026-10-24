@@ -1,0 +1,221 @@
+{
+  "checkpoint": 1285,
+  "previous_checkpoint": 1284,
+  "new_application": [
+    {
+      "name": "@omf_add_fixup@16",
+      "start": 440720,
+      "end": 441560,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          },
+          {
+            "name": "type",
+            "location": "DL",
+            "type": "unsigned8"
+          },
+          {
+            "name": "displacement",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          },
+          {
+            "name": "relative",
+            "location": "entryESP+8",
+            "type": "signed32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 8,
+        "entry_observation": "cases/omf-fixup-abi/validation.json",
+        "scope": "Original6b990..6bcd8 saves ECX symbol/DLtype, consumes displacement stack+4/relative stack+8, RET8. No other incoming register/flags/x87/out pointer. Actual original EBP/globalhash symbol identity and wrapper return6b2cf, native omf_output_bytes formal aliases match. Defined consumed descriptor fields/current record count/named five fixup threads/dos option and segment lookup identity when used observed. Allocator-returned entry is a future child result, not invented incoming pointer/data; no old output fixup bytes captured or seeded."
+      }
+    }
+  ],
+  "new_extent_bytes": 840,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1285,
+    "accepted_code_bytes": 343583,
+    "original_code_bytes": 399693,
+    "percentage": 85.96172562441674,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 633
+  },
+  "application_graph_rows": 1175,
+  "reconstructed_application_support_functions": 1170,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 325283,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "_omf_allocate_fixup",
+  "next_original_va": "0x6bd10",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "_omf_allocate_fixup"
+  },
+  "controls": [
+    "cases/omf-fixup-validation.json"
+  ],
+  "timings": {
+    "omf1285-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 41.853279766626656,
+      "returncode": 0,
+      "log_sha256": "b792847bafe43629fa29fd3b321521dbbfc2a73afda6ab4ef754aafcfe63f310"
+    },
+    "omf1285-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1284.json",
+        "--extend-after",
+        "cases/omf-original-1285.json"
+      ],
+      "seconds": 0.34078108612447977,
+      "returncode": 0,
+      "log_sha256": "243f1d944bfc4c0e3f6527bef806e9f9bc91956abf697cfb89e9548590a44633"
+    },
+    "omf1285-controls-thread-map-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-fixup.py"
+      ],
+      "seconds": 6.391175861470401,
+      "returncode": 0,
+      "log_sha256": "4aad231f009f656a7f81ca3aacc5c1792289011746283ca06022668f0187840d"
+    },
+    "omf1285-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-fixup.py"
+      ],
+      "seconds": 0.3443522620946169,
+      "returncode": 1,
+      "log_sha256": "ef643e9e7ce4d10ca924af920738b09309b6075940542a914964598d08e891d0"
+    },
+    "omf1285-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-fixup-entry.py"
+      ],
+      "seconds": 1.7817213768139482,
+      "returncode": 0,
+      "log_sha256": "01d6868f3769ac170f1ac6f89fb25a31ee822abbf47421a6198815940cd8e2d8"
+    },
+    "omf1285-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8491334114223719,
+      "returncode": 0,
+      "log_sha256": "4b3ed22f2b18fc1d61c9e10fe86303485bbe381fe6df3b0e683f4acc3d2aeb11"
+    },
+    "omf1285-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1285.json"
+      ],
+      "seconds": 0.22531130444258451,
+      "returncode": 0,
+      "log_sha256": "7e2d20f7519b9c009c4f4c3fb055273523905a607efc73f5c3511b7948b830d1"
+    },
+    "omf1285-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 3.3043499747291207,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1285-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1285.json"
+      ],
+      "seconds": 2.0827455138787627,
+      "returncode": 0,
+      "log_sha256": "1c30f0a1a0edb6f3a7e061d25a046fa8b21c52a5538e4c3da7b10d81052e5c6c"
+    },
+    "omf1285-thread-map-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 41.15940490644425,
+      "returncode": 0,
+      "log_sha256": "9ae6a4b8e92f5b0cc7ea54a4d76bc8b90c3ee0384b0cdc4ad89c2468c42619cd"
+    },
+    "omf1285-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 2.271059760823846,
+      "returncode": 0,
+      "log_sha256": "0f27a376b45dfcb78b54e450d9296a588ef84644906b182850ba08320ec383b2"
+    },
+    "omf1285-wip-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 11.388178063556552,
+      "returncode": 0,
+      "log_sha256": "512a4efdd5b35d3b95ec417fd595e58c4792c5cc50ce0b1234bcb70b909b803d"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole840-byte constructor and296 original/canonical states/10 actual ABI negatives pass. Typed24-byte fields with sizeof/offsetof original/native compile assertions; old high flags/reserved/padding bytes remain untouched except actual writes, no bulk entry initialization. Relative==0 sets bit0; frame/target/no-addend masks, code/index/location truncation and cached flags vs memory reloads preserved across all reached lookup branches.",
+    "Actual four formals type9/displacement-4/relative0, descriptorid118/kind1/storage4/section2/offset40/flags2980/attrs2226, current slot0/count124 and five named threads plus segmentid2/order2 match with closed pointer/caller ownership. Allocator output is future child result, no real old fixup bytes captured/seeded as ABI input. Label/current_symbol and most branches are controlled cold cases, not actual execution coverage.",
+    "Independent original execution caught first candidate/model thread mapping: section2 originalcode66 vs wrong55 under distinct synthetic threads. Corrected new constructor only: section2->7a8cc/data_target/order2,section4->7a8d0/const_target/order3,section6->7a8c8/bss_target/order4. Search of same accepted domain finds only already-matching initialization assignments, no older selection to repair. Failed.344s model, wrong-body WIPbuild11.388s and corrected41.159s build retained honestly; no mask acceptance/cache extension before correction.",
+    "Controls include allocator post-return record/descriptor/thread reload, lookup flags/addend/thread mutations, kind1 storage1/4/2/3, forcedflag20, label ordinary/COMDAT/external, kind4 format/error path, real invalid kind/storage/section/segment order. Exact child state and return ABI, original/canonical full owned descriptors/globals guards. Children mocked; fatal/compiler_error cases stop at actual entry, no returning-fatal or callee behavior claim.33e/315 asserts retained statically but flags20 forces storage2, so they are not dynamically claimed.",
+    "Original/W3/full graph/extents/RET/ABI/storage/data audits, fresh original/native match to allocator6bd10 and15 cached native cases pass(14 complete). Corrected build41.159s includes126 canonical compiler commands; audit41.853s(compile count separately recorded), focused6.391s,/W32.271s,reference2.083s,native.225s,fixtures.849s wrappers. Subphases in receipts; analysis/edit unmeasured. Full exact OMF artifacts still pending."
+  ],
+  "corrective_build_original_compile_commands": 126
+}

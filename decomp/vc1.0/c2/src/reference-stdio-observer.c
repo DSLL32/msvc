@@ -277,6 +277,35 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
     }
+    if(!strcmp(call->name,"@omf_add_fixup@16")) {
+        DWORD symbol=call->args[0],kind=read_byte(process,symbol+12);
+        DWORD id=read_word(process,symbol+28),bucket=id&63,index=0;
+        DWORD member=read_word(process,image_base+0x6c158+4*bucket);
+        DWORD current=read_word(process,image_base+0x6b88c),flags=0,attributes=0,storage=0;
+        while(member&&read_word(process,member+28)!=id&&index<1024){member=read_word(process,member);++index;}
+        if(!member||index==1024)exit(298);
+        sprintf(line,"omf_fixup symbol %08lx type %lu displacement %08lx relative %lu return_address %08lx owner_symbol %08lx identifier %lu bucket %lu index %lu member %08lx current %08lx base %08lx count %lu dos %lu\n",
+            symbol,call->args[1]&255,call->args[2],call->args[3],call->return_address,context->Ebp,id,bucket,index,member,
+            current,image_base+0x6a8dc,read_word(process,current+12),read_word(process,image_base+0x70684));log_line(line);
+        sprintf(line,"omf_fixup_threads group_frame %lu bss_target %lu data_target %lu const_target %lu code_target %lu\n",
+            read_word(process,image_base+0x6a8c4),read_word(process,image_base+0x6a8c8),read_word(process,image_base+0x6a8cc),read_word(process,image_base+0x6a8d0),read_word(process,image_base+0x6a8d4));log_line(line);
+        if(kind==1) {
+            DWORD target,target_id,target_member,target_bucket,target_index;
+            flags=read_word(process,symbol+12)>>16;attributes=read_word(process,symbol+36);storage=flags&0x20?2:(attributes>>7)&15;
+            sprintf(line,"omf_fixup_symbol kind %lu offset %lu flags %lu attributes %lu storage %lu\n",kind,read_word(process,symbol+4),flags,attributes,storage);log_line(line);
+            if(storage==1||storage==4) {
+                target_id=read_word(process,symbol+24);target_bucket=target_id&63;target_index=0;
+                target=read_word(process,image_base+0x6c158+4*target_bucket);target_member=target;
+                while(target_member&&read_word(process,target_member+28)!=target_id&&target_index<1024){target_member=read_word(process,target_member);++target_index;}
+                if(!target_member||target_index==1024)exit(299);
+                sprintf(line,"omf_fixup_segment identifier %lu pointer %08lx order %lu bucket %lu index %lu\n",target_id,target_member,read_word(process,target_member+64),target_bucket,target_index);log_line(line);
+            } else if(storage==2||storage==3) {
+                sprintf(line,"omf_fixup_external_index %lu\n",read_word(process,symbol+20));log_line(line);
+            }
+        } else if(kind==4) {
+            sprintf(line,"omf_fixup_symbol kind %lu index %lu attributes %lu\n",kind,read_word(process,symbol+20),read_word(process,symbol+36));log_line(line);
+        } else exit(300); /* Extend only when a real label input is encountered. */
+    }
     if(!strcmp(call->name,"@omf_output_bytes@8")) {
         DWORD symbol=call->args[1],node=context->Ebx;
         DWORD id=read_word(process,node+8),bucket=id&63,index=0;

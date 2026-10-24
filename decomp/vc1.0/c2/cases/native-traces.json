@@ -2,7 +2,7 @@
   "schema": 2,
   "description": "Fresh shared-prefix original entry projection; no capture or Wine in fixtures",
   "metadata_sha256": {
-    "functions.json": "055d593526d95161d74dbdd07b6483d0c49c1411ee21e2c907a8cb4ef52bc41e",
+    "functions.json": "6678d247dce91759ea72fad2ab7f44d27391e609aaaf2f27ab9ccfa4b16aba9e",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -3092,11 +3092,15 @@
     },
     "omf_add_fixup": {
       "logical": "@omf_add_fixup@16",
-      "source": "src/stubs.c"
+      "source": "src/omf-output.c"
     },
     "omf_alignment": {
       "logical": "@omf_alignment@4",
       "source": "src/omf-output.c"
+    },
+    "omf_allocate_fixup": {
+      "logical": "_omf_allocate_fixup",
+      "source": "src/stubs.c"
     },
     "omf_allocate_record": {
       "logical": "@omf_allocate_record@8",
@@ -40190,6 +40194,107 @@
               "total_seconds": 1.513015559874475
             }
           }
+        },
+        {
+          "accepted_function": "@omf_add_fixup@16",
+          "accepted_kind": "application",
+          "previous_logical": "@omf_add_fixup@16",
+          "original_extent": [
+            "0x6b990",
+            "0x6bcd8"
+          ],
+          "before": {
+            "path": "cases/omf-original-1284.json",
+            "sha256": "145869104df8f3e19b84a13f4adc2ee3bd5af66fe71d34cb9b566c169072a0b7",
+            "capture": {
+              "label": "omf-original-1284",
+              "profile": "omf",
+              "accepted": 1284,
+              "events": "exception 80000003 rva 0005b990 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "fb985fcf40d67332e5515cf75b74a25ef067366cb4580153a47781b5013ae385",
+              "config_sha256": "055d593526d95161d74dbdd07b6483d0c49c1411ee21e2c907a8cb4ef52bc41e",
+              "manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "395e786de6a26030afcc441d1d11d04a8f85b8abab38060604f1dd49dea3c5aa",
+                "c2/irsy": "0b3a799be0db2972db58e90fd2ec1520efab2e35bb955c2c765a95a21394f05c",
+                "c2/irin": "82b22309d925a3a85e272bef0458d4039dc0ce28a8070bf457e482f4491d4d73",
+                "c2/irgl": "52031f9a3c6340e0a25da1c4d53010087ffa3085f0ee39a85193508927ba165d",
+                "c2/irdb": "d3c0534748ace8f53ef6674f5167c9fcffb1a743b84e9bf2daf05d04c01f4b7a",
+                "c2/omftypes.c": "74a4182f1b2da6b99c453dfd9401d47839946a478009d045ebebbdffa1a13dac"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f omftypes.c -W 1 -Gs4096 -dos -Foomftypes.obj -ML -G3 -Zi -omf "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-omf-fj2_ja3r",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\omftypes",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@omf_add_fixup@16",
+              "original_va": "0x6b990",
+              "setup_seconds": 0.33231687545776367,
+              "execution_seconds": 1.1532640922814608,
+              "check_seconds": 0.027434158138930798,
+              "total_seconds": 1.513015559874475
+            }
+          },
+          "after": {
+            "path": "cases/omf-original-1285.json",
+            "sha256": "1c30f0a1a0edb6f3a7e061d25a046fa8b21c52a5538e4c3da7b10d81052e5c6c",
+            "capture": {
+              "label": "omf-original-1285",
+              "profile": "omf",
+              "accepted": 1285,
+              "events": "exception 80000003 rva 0005bd10 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "dbc24e92783bbbf3adbe7cfba61185c7e785ed5c9953277ebfb548cd5bdc5c2a",
+              "config_sha256": "6678d247dce91759ea72fad2ab7f44d27391e609aaaf2f27ab9ccfa4b16aba9e",
+              "manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "395e786de6a26030afcc441d1d11d04a8f85b8abab38060604f1dd49dea3c5aa",
+                "c2/irsy": "0b3a799be0db2972db58e90fd2ec1520efab2e35bb955c2c765a95a21394f05c",
+                "c2/irin": "82b22309d925a3a85e272bef0458d4039dc0ce28a8070bf457e482f4491d4d73",
+                "c2/irgl": "52031f9a3c6340e0a25da1c4d53010087ffa3085f0ee39a85193508927ba165d",
+                "c2/irdb": "d3c0534748ace8f53ef6674f5167c9fcffb1a743b84e9bf2daf05d04c01f4b7a",
+                "c2/omftypes.c": "74a4182f1b2da6b99c453dfd9401d47839946a478009d045ebebbdffa1a13dac"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f omftypes.c -W 1 -Gs4096 -dos -Foomftypes.obj -ML -G3 -Zi -omf "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-omf-z_81myin",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\omftypes",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "_omf_allocate_fixup",
+              "original_va": "0x6bd10",
+              "setup_seconds": 0.2567681223154068,
+              "execution_seconds": 1.7276039812713861,
+              "check_seconds": 0.027452812530100346,
+              "total_seconds": 2.011825376190245
+            }
+          }
         }
       ]
     }
@@ -53142,7 +53247,7 @@
     },
     "omf": {
       "first": 1251,
-      "last": 1284,
+      "last": 1285,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -54315,9 +54420,10 @@
         "omf_pad_record",
         "omf_write_datum",
         "omf_output_bytes",
-        "omf_add_fixup"
+        "omf_add_fixup",
+        "omf_allocate_fixup"
       ],
-      "terminal": "@omf_add_fixup@16",
+      "terminal": "_omf_allocate_fixup",
       "terminal_kind": "application",
       "returncode": -5,
       "pending_runtime": false

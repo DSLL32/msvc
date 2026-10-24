@@ -1,8 +1,8 @@
 {
   "mapping": {
-    "0x805ec": "0x909cc",
-    "0x7901c": "0x90850",
-    "0x85db4": "0x96080"
+    "0x805ec": "0x919cc",
+    "0x7901c": "0x91850",
+    "0x85db4": "0x97080"
   },
   "bindings": [
     {
@@ -19,8 +19,8 @@
       ],
       "canonical": [
         {
-          "site": "0x12058",
-          "storage": "0x96080",
+          "site": "0x12050",
+          "storage": "0x97080",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -42,16 +42,16 @@
       ],
       "canonical": [
         {
-          "site": "0x4f2c8",
-          "storage": "0x909cc",
+          "site": "0x4f2c0",
+          "storage": "0x919cc",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x4f2d2",
-          "storage": "0x909cc",
+          "site": "0x4f2ca",
+          "storage": "0x919cc",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -73,8 +73,8 @@
       ],
       "canonical": [
         {
-          "site": "0x297e0",
-          "storage": "0x90850",
+          "site": "0x297d8",
+          "storage": "0x91850",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
@@ -96,16 +96,16 @@
       ],
       "canonical": [
         {
-          "site": "0x52315",
-          "storage": "0x90850",
+          "site": "0x5230d",
+          "storage": "0x91850",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x5231a",
-          "storage": "0x90850",
+          "site": "0x52312",
+          "storage": "0x91850",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -127,16 +127,16 @@
       ],
       "canonical": [
         {
-          "site": "0x57e19",
-          "storage": "0x909cc",
+          "site": "0x58321",
+          "storage": "0x919cc",
           "mnemonic": "cmp",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x57e33",
-          "storage": "0x909cc",
+          "site": "0x5833b",
+          "storage": "0x919cc",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -166,24 +166,24 @@
       ],
       "canonical": [
         {
-          "site": "0x5761e",
-          "storage": "0x96080",
+          "site": "0x57b26",
+          "storage": "0x97080",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x57670",
-          "storage": "0x909cc",
+          "site": "0x57b78",
+          "storage": "0x919cc",
           "mnemonic": "cmp",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x57682",
-          "storage": "0x909cc",
+          "site": "0x57b8a",
+          "storage": "0x919cc",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -213,16 +213,16 @@
       ],
       "canonical": [
         {
-          "site": "0x55c19",
-          "storage": "0x96080",
+          "site": "0x55c11",
+          "storage": "0x97080",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x55c33",
-          "storage": "0x909cc",
+          "site": "0x55c2b",
+          "storage": "0x919cc",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -244,16 +244,16 @@
       ],
       "canonical": [
         {
-          "site": "0x18500",
-          "storage": "0x90850",
+          "site": "0x184f8",
+          "storage": "0x91850",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
         },
         {
-          "site": "0x18505",
-          "storage": "0x90850",
+          "site": "0x184fd",
+          "storage": "0x91850",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -275,8 +275,8 @@
       ],
       "canonical": [
         {
-          "site": "0x194ec",
-          "storage": "0x90850",
+          "site": "0x194e4",
+          "storage": "0x91850",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
@@ -298,8 +298,8 @@
       ],
       "canonical": [
         {
-          "site": "0x5b360",
-          "storage": "0x90850",
+          "site": "0x5b868",
+          "storage": "0x91850",
           "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
@@ -321,8 +321,8 @@
       ],
       "canonical": [
         {
-          "site": "0x562d7",
-          "storage": "0x96080",
+          "site": "0x562cf",
+          "storage": "0x97080",
           "mnemonic": "mov",
           "operand": 1,
           "type": "memory",
@@ -332,12 +332,12 @@
     }
   ],
   "option_original": "0x80884",
-  "option_canonical": "0x9642c",
+  "option_canonical": "0x9742c",
   "rejected": [
     "same-valued separate source storage",
     "wrong function filename domain",
     "wrong current-source store domain"
   ],
-  "seconds": 0.5163340382277966,
+  "seconds": 0.5087572848424315,
   "scope": "Three existing distinct typed storages: primary805ec, current7901c, diagnostic85db4. Initial PE values/string and actual-f# option destination/action. All accepted original/canonical CFG instruction memory/address operands, including base/index displacement and address escape constructions, bind to the same domain sets per function. Does not prove arbitrary indirect aliases or unaccepted code. Failed begin-lines handle10/12 and callback formal pointer evidence retained separately; no handle normalization or new initialization."
 }

@@ -1288,7 +1288,8 @@
     "@omf_write_byte_array@16",
     "@omf_pad_record@8",
     "@omf_write_datum@8",
-    "@omf_output_bytes@8"
+    "@omf_output_bytes@8",
+    "@omf_add_fixup@16"
   ],
   "driver": [
     {
@@ -9220,7 +9221,41 @@
     {
       "name": "@omf_add_fixup@16",
       "start": 440720,
-      "end": 440721,
+      "end": 441560,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          },
+          {
+            "name": "type",
+            "location": "DL",
+            "type": "unsigned8"
+          },
+          {
+            "name": "displacement",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          },
+          {
+            "name": "relative",
+            "location": "entryESP+8",
+            "type": "signed32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 8,
+        "entry_observation": "cases/omf-fixup-abi/validation.json",
+        "scope": "Original6b990..6bcd8 saves ECX symbol/DLtype, consumes displacement stack+4/relative stack+8, RET8. No other incoming register/flags/x87/out pointer. Actual original EBP/globalhash symbol identity and wrapper return6b2cf, native omf_output_bytes formal aliases match. Defined consumed descriptor fields/current record count/named five fixup threads/dos option and segment lookup identity when used observed. Allocator-returned entry is a future child result, not invented incoming pointer/data; no old output fixup bytes captured or seeded."
+      }
+    },
+    {
+      "name": "_omf_allocate_fixup",
+      "start": 441616,
+      "end": 441617,
       "provisional": true
     }
   ],

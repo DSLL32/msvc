@@ -1,0 +1,65 @@
+{
+  "status": "Accepted checkpoint1285:296 controls/10 ABI negatives, original/W3/full audits/fresh match to allocator6bd10 and15 native cases pass. Full OMF output pending.",
+  "function": "@omf_add_fixup@16",
+  "extent": [
+    440720,
+    441560
+  ],
+  "body_bytes": 840,
+  "body_sha256": "a15292b4926719a59ade66d9a45f6123c71726e20a13c77aa773765f1f90eafb",
+  "abi": {
+    "ecx": "SymbolHeader pointer",
+    "dl": "unsigned8 type",
+    "stack4": "unsigned displacement",
+    "stack8": "signed32 relative",
+    "ret": 8
+  },
+  "source": "src/omf-output.c",
+  "inputs": "cases/omf-fixup-abi/validation.json",
+  "structure": {
+    "bytes": 24,
+    "fields": {
+      "reserved00": 0,
+      "type": 4,
+      "location": 6,
+      "flags": 8,
+      "frame_code": 12,
+      "target_code": 13,
+      "frame_datum": 14,
+      "target_datum": 16,
+      "addend": 20
+    },
+    "provenance": "Constructor writes4/6/8/12/13/14/16/20; allocator6bd10 uses pool index*24; writer6c400 uses24 stride. First4 bytes/padding not consumed or initialized by constructor; remain reserved typed layout, not snapshots."
+  },
+  "flag_provenance": {
+    "1": "cmp relative,1;sbb;neg sets segment-relative bit iff relative==0, preserves other flags",
+    "2": "frame-thread initial set, cleared for !dos external/label paths and frame_code5",
+    "4": "target-thread set for predefined bss/data/const/code codes; cleared for explicit segment/external target",
+    "8": "no-addend set for external target indices; cleared for own offset/addend"
+  },
+  "children": {
+    "allocator": "6bd10 no parameters/RET0, returns typed entry; remains stub",
+    "lookup": "4dce0 accepted fastcall id",
+    "format_name": "4df70 accepted format_function_name",
+    "diagnostic": "6fb70 internal3a5/368/35e/33e/358/315/322/336; true compiler_error70210(code81,format_function_name) stays existing stub"
+  },
+  "limits": [
+    "Cached allocator-return flags across lookup versus explicit later memory reloads must remain branch-specific. relative0 sets bit1; no synthetic initialization of old entry bits or fields.",
+    "Actual kind1/storage4/type9/displacement-4/relative0, id118,segmentid2/order2 and current record count124 observed. Label/current_symbol branches cold; no incoming hidden ABI supplied.",
+    "Allocator is a future child result, not incoming ABI pointer. No real old output-entry bytes observed/seeded; child mocking controls only. No fixup pool defined until its allocator is actually reached."
+  ],
+  "mapping_correction": {
+    "failed_receipt": "/root/.ai-tmp/msvc2/vc1.0/c2/omf1285-controls-timing.json",
+    "actual_first_failure": "original target_code66, wrong candidate/model55 under distinct named thread values",
+    "correct_domain": {
+      "section2": "7a8cc data_target, order2",
+      "section4": "7a8d0 const_target, order3",
+      "section6": "7a8c8 bss_target, order4"
+    },
+    "source_scope": "Only new constructor used wrong selector mapping. Search of accepted same-domain uses finds only already-matching thread initialization assignments; no other accepted selection to correct. Existing field identities preserved.",
+    "failed_log": {
+      "path": "cases/omf-fixup-failed-thread-map.txt",
+      "sha256": "ef643e9e7ce4d10ca924af920738b09309b6075940542a914964598d08e891d0"
+    }
+  }
+}
