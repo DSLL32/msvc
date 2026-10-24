@@ -270,7 +270,7 @@
     "sha256": "dedd7c66d5117e632fcfc8102a1874012d1dd1a12f1fa9252665fa45f89110e8",
     "result": "PASS: default core, six unbound unsigned input denials,68624 ASCII rows+23 denials, old combined table/identity/errors+14 denials/default"
   },
-  "remaining": "C1 own normal/restore adoption accepted; C1XX own normal/restore actual adoption remains before application acceptance.",
+  "remaining": "Both C1 and C1XX own normal/restore byte-mapping adoption accepted; no remaining shared or current application-adoption hold for this slice.",
   "independent_review": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/mbctolower-byte-parent-review.json",
     "sha256": "e40902f7cce0e6251e22a96785b4d781ef800fcc042339cf165ccfbe86d5ead7",
@@ -349,5 +349,230 @@
       "kind": "native observer asserted its old sole getenv caller after successful256 lowercalls; fixed by explicit independent caller inventories, same original and ELF"
     },
     "remaining": "C1XX own actual normal/restore adoption remains pending; no claim beyond supported byte API or completed C1 compilation."
+  },
+  "adoption_C1XX": {
+    "commit": "5498d49da",
+    "status": "accepted exactly one83B application function after full normal/restore proofs, reviewed reset-only refinement and six added owner controls",
+    "application_function": "_initialize_lowercase_table",
+    "application_bytes": 83,
+    "packet": {
+      "path": "/root/msvc2/decomp/vc5.10/c1xx/cases/minimal/path-fold-trial.json",
+      "sha256": "bd18e15eea308969003eded86fdc2e13704fb8f638f45c50d2c76abd740e44b1"
+    },
+    "parent_final_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/pathfold-parent-final-review.json",
+      "sha256": "50422e9a98f174313a588ae03ecc3e00c35bbe67b956e5c50b9ef79470bf0292",
+      "reviewed_pre_promotion_packet_sha256": "fdfafd26d97c9ab5c377e84bb19117fec29196898e360fd997c6a515915491fc"
+    },
+    "shared_CRT_adoption": {
+      "publication": "61155226d",
+      "crt_c_sha256": "ee55a842081fcee814bc344fb662ba7eca0d0da40ceeea7dd470a2d2570d6030",
+      "canonical_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "public_input_domain": [
+        0,
+        255
+      ],
+      "actual_call_counts": [
+        256,
+        255
+      ],
+      "error_tuple_preserved": [
+        0,
+        0,
+        203
+      ],
+      "full_original112_FP_preserved": true,
+      "native_FP_claim": "architectural/live x87 values, no OS-specific IP/DP/payload equality",
+      "application_credit": 0
+    },
+    "pairs": [
+      {
+        "role": "normal",
+        "calls": 256,
+        "original_receipt": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-2/receipt.json",
+          "sha256": "407c8063150937f6fb78aa13ddea9bbfa3059843b04782a5218b618bd2480efd",
+          "seconds": 31.029884698800743
+        },
+        "native_receipt": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/receipt.json",
+          "sha256": "3f72a10416c5c40b5d2cd8e54dd6d64df9fca85a3b503f8cf1ed73d6a18a53ec",
+          "GDB_seconds": 9.89383604656905
+        },
+        "compiled_build": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-native-1/build-provenance.json",
+          "sha256": "be7b33b0cae9b5f60e37ea3dd7c7ee5104154f30f27259d71ce790ddd86b067c",
+          "sources_verified": 63
+        },
+        "native_elf_sha256": "ccd981dbde4097577f8dc27c65d18a9358e90ea221718aa53e59280f98bbbcbf",
+        "source_reset_derivation": {
+          "kind": "checked filename-map reset-only compiled source correction; identical original target/mask/case/config/ABI/runtime inputs",
+          "rule_path": "/root/msvc2/decomp/vc5.10/c1xx/cases/minimal/path-fold-reset-refinement.json",
+          "rule_sha256": "8a795cec8456a1efceda8c1bb62d7c639089e85fe80cff99f95bf204bd73d0c2",
+          "original_receipt_sha256": "407c8063150937f6fb78aa13ddea9bbfa3059843b04782a5218b618bd2480efd",
+          "original_trial_sha256": "88cf64f8c134b6df3671357ff662d3785a7f9e646f4211c355f991eb87f4edf1",
+          "native_trial_sha256": "e4998650d540f6f5571bc389fc7a5e883efdc84249d8b07126ed7f3ad9a3125d",
+          "old_compiled_source": "77c0d8fb4e332dc1c5cc997ec2ea53373546724bdccc35a2d94e4b5886a43b28",
+          "new_compiled_source": "797a2e1b8d1defb4098e2a2975a96bb0c1c5c9b6a195ca629f51abb11c87fe26",
+          "allowed_build_bindings": [
+            "build/c1n32_l.dll",
+            "build/c1xx.map",
+            "build/native/c1xx-host"
+          ],
+          "old_ELF": "03302cad17a80d2f5308cd1e96c095d3701be58dd10e9a5e237063f7de45096a",
+          "new_ELF": "ccd981dbde4097577f8dc27c65d18a9358e90ea221718aa53e59280f98bbbcbf",
+          "semantic_correctness_claimed": false,
+          "current_strict_audit_required": true,
+          "validator_sha256": "1c719b419b297a6381ff6428549b5cbb74a01e51a5698ceadba64e5405b12ebe"
+        }
+      },
+      {
+        "role": "restore",
+        "calls": 255,
+        "original_receipt": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-original-1/receipt.json",
+          "sha256": "efa1b836f576e9d876c4024ace9376194d4e4b131fc3dcb1aeaf2ed6d6efbb85",
+          "seconds": 30.928809862583876
+        },
+        "native_receipt": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/receipt.json",
+          "sha256": "00fa1026c305fc9321a23dc1f52c4fab211378ccf207ee74f537fd11d998006d",
+          "GDB_seconds": 10.41404018457979
+        },
+        "compiled_build": {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-5/build-provenance.json",
+          "sha256": "be7b33b0cae9b5f60e37ea3dd7c7ee5104154f30f27259d71ce790ddd86b067c",
+          "sources_verified": 63
+        },
+        "native_elf_sha256": "ccd981dbde4097577f8dc27c65d18a9358e90ea221718aa53e59280f98bbbcbf",
+        "source_reset_derivation": {
+          "kind": "checked filename-map reset-only compiled source correction; identical original target/mask/case/config/ABI/runtime inputs",
+          "rule_path": "/root/msvc2/decomp/vc5.10/c1xx/cases/minimal/path-fold-reset-refinement.json",
+          "rule_sha256": "8a795cec8456a1efceda8c1bb62d7c639089e85fe80cff99f95bf204bd73d0c2",
+          "original_receipt_sha256": "efa1b836f576e9d876c4024ace9376194d4e4b131fc3dcb1aeaf2ed6d6efbb85",
+          "original_trial_sha256": "97641669fe754a581b1a56ffa0188f02f593fc7fbe6b61e1d769c29c868e6dc5",
+          "native_trial_sha256": "fdf9d5b521eb90859e41b04956e9327f73c7e1238dbd19e71e952425ce789298",
+          "old_compiled_source": "77c0d8fb4e332dc1c5cc997ec2ea53373546724bdccc35a2d94e4b5886a43b28",
+          "new_compiled_source": "797a2e1b8d1defb4098e2a2975a96bb0c1c5c9b6a195ca629f51abb11c87fe26",
+          "allowed_build_bindings": [
+            "build/c1n32_l.dll",
+            "build/c1xx.map",
+            "build/native/c1xx-host"
+          ],
+          "old_ELF": "03302cad17a80d2f5308cd1e96c095d3701be58dd10e9a5e237063f7de45096a",
+          "new_ELF": "ccd981dbde4097577f8dc27c65d18a9358e90ea221718aa53e59280f98bbbcbf",
+          "semantic_correctness_claimed": false,
+          "current_strict_audit_required": true,
+          "validator_sha256": "abc6b019fd130c68fc173539489072c76cbda57cbd95e8f3d35671f453d90546"
+        }
+      }
+    ],
+    "owner_identity_followup": {
+      "semantic_checker_sha256": "2d30be0ee1baf075dc2768f34891c86268b3e4ed2c6ddac217a925eb5b03b1e4",
+      "guard": "sameactualPC; fold-entry pctype/old_pctype/static_ctype/result_pointer/fullselection/CRTargc+argv/environment records equal immediately preceding authenticated scanner-next",
+      "fresh_positives": [
+        {
+          "role": "normal",
+          "result": {
+            "trial": "_initialize_lowercase_table",
+            "frontier": "_read_env_arguments",
+            "seed": null,
+            "modeled_context_fields": 35,
+            "original_default_context": [
+              0,
+              0,
+              0
+            ],
+            "typed_bss_bytes": 2793,
+            "native_bss_size": 2824,
+            "native_c_padding_bytes": 31,
+            "output_constructor_fields_checked": 72,
+            "cleanup_registration_checked": true,
+            "nonzero_output_constructor_input_checked": false,
+            "token_semantic_bytes_checked": 17,
+            "token_pointer_arm_tested": false,
+            "token_unknown_tail_bytes_each": 32,
+            "deferred_work_pointer_checked": true,
+            "nonzero_deferred_constructor_input_checked": false,
+            "nonzero_expanded_BSS_restore_checked": false,
+            "original_unmodeled_snapshot_bytes": 6031,
+            "native_snapshot_byte_equivalence_claimed": false,
+            "whole_mask_bytes_checked": 751216,
+            "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+            "original_seconds": 31.029884698800743,
+            "native_seconds": 9.89383604656905
+          },
+          "current_audit": "/root/msvc2/decomp/vc5.10/c1xx/build/historical-audit-proof.json",
+          "seconds": 9.905051451176405
+        },
+        {
+          "role": "restore",
+          "result": {
+            "trial": "_initialize_lowercase_table",
+            "frontier": "_read_env_arguments",
+            "seed": "restore-nonzero",
+            "modeled_context_fields": 35,
+            "original_default_context": [
+              0,
+              0,
+              0
+            ],
+            "typed_bss_bytes": 2793,
+            "native_bss_size": 2824,
+            "native_c_padding_bytes": 31,
+            "output_constructor_fields_checked": 72,
+            "cleanup_registration_checked": true,
+            "nonzero_output_constructor_input_checked": false,
+            "token_semantic_bytes_checked": 17,
+            "token_pointer_arm_tested": false,
+            "token_unknown_tail_bytes_each": 32,
+            "deferred_work_pointer_checked": true,
+            "nonzero_deferred_constructor_input_checked": false,
+            "nonzero_expanded_BSS_restore_checked": true,
+            "original_unmodeled_snapshot_bytes": 6031,
+            "native_snapshot_byte_equivalence_claimed": false,
+            "whole_mask_bytes_checked": 751216,
+            "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+            "original_seconds": 30.928809862583876,
+            "native_seconds": 10.41404018457979
+          },
+          "current_audit": "/root/msvc2/decomp/vc5.10/c1xx/build/historical-audit-proof.json",
+          "seconds": 9.85763079021126
+        }
+      ],
+      "fresh_controls": "cases/minimal/evidence/path-fold-owner-controls-1.json",
+      "unchanged_base_controls_reused": "23normal+4restore remain bound to their recorded previous checker hash; parent requested only added-owner controls, no rerun",
+      "no_original_or_native_execution": true
+    },
+    "retained_failed_attempts": [
+      {
+        "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-original-1",
+        "scope": "old helper lacked required API observations; not acceptance"
+      },
+      {
+        "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-1",
+        "scope": "newly reached second getenv rejected by old observer"
+      },
+      {
+        "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-2",
+        "scope": "actual frontier reached; typed newfield reset incorrectly remained8101; source corrected"
+      },
+      {
+        "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-3",
+        "scope": "setup rejected changed rebuilt DLL/MAP provenance; no target execution"
+      },
+      {
+        "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-path-fold-restore-native-4",
+        "scope": "second profile setup gate rejected same provenance delta; no target execution"
+      }
+    ],
+    "later_validator_only_reuse": {
+      "commit": "ccb005731",
+      "path": "/root/msvc2/decomp/vc5.10/c1xx/cases/minimal/path-fold-callsite-reuse.json",
+      "sha256": "e76b94922a0d4f61c73134065f509dd71337dd945ee80eb837a5604c4a5229d9",
+      "scope": "ELF authenticated once, one exact callsite opcode/target validated once; every row must match that returnPC. Every per-row input/result/stack/register/state/vector check stays. No cross-capture/global mutable cache."
+    },
+    "checks": "Read-only packet/control/actual receipt/compiled source-content identities verified; no build, native execution, or original replay",
+    "limits": "Only original initialized spans/lifetime and architectural native FP claims retained; no cross-platform private context/pointer equivalence or completed compilation claim."
   }
 }
