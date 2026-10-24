@@ -9,6 +9,9 @@
 #include <setjmp.h>
 #include <recon.h>
 
+FrontendRecord *__stdcall walk_goto_cleanup(IrToken **expression,
+    FrontendRecord *record, int mode, CppSymbol *label);
+
 /* Original 0xa0a38: adjacent entries describe both directions of each pair.
    The pairs group compound, selection, iteration and switch delimiters. */
 const unsigned char frontend_record_mates[36] = {
@@ -406,4 +409,36 @@ IrToken *__stdcall append_expression_destructor(IrToken *expression, IrToken *ob
     if (expression)
         return new_right_typed_expression(0x40, expression, destructor);
     return destructor;
+}
+
+/* Original 0x41bc0..0x41d04, stdcall12. Walk the two predecessor
+   chains by sequence number until their common cleanup context is reached. */
+void __stdcall resolve_goto_cleanup(FrontendRecord *from, FrontendRecord *to, int mode)
+{
+    IrToken *expression = 0;
+    CppSymbol *label;
+    jmp_buf recovery;
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        if (ir_records_suppressed) return;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return;
+        }
+    }
+    label = ((LabelFrontendRecord *)to)->label;
+    from = from->previous;
+    to = to->previous;
+    while (from != to) {
+        if (to->sequence < from->sequence)
+            from = walk_goto_cleanup(&expression, from,
+                (mode == 2 || mode == 3) ? 2 : 0, label);
+        else
+            to = walk_goto_cleanup(&expression, to,
+                (mode == 1 || mode == 3) ? 1 : 0, label);
+    }
+    if (!expression && (cpp_parser_flags & 0x40000000UL))
+        cpp_parser_flags |= 0x80000000UL;
+    emit_nonnull_expression_statement(expression);
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
 }

@@ -1,0 +1,15 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559e31 in walk_goto_cleanup (expression=0xffffd50c, record=0x5665494c, mode=1, label=0x56654840) at src/stubs.c:435
+435	FrontendRecord *__stdcall walk_goto_cleanup(IrToken **expression, FrontendRecord *record, int mode, CppSymbol *label) { __asm { int 3 } return 0; }
+#0  0x56559e31 in walk_goto_cleanup (expression=0xffffd50c, record=0x5665494c, mode=1, label=0x56654840) at src/stubs.c:435
+#1  0x5657f7a5 in resolve_goto_cleanup (from=0x56654820, to=0x5665494c, mode=1) at src/record-processing.c:437
+#2  0x5657f0c1 in process_expression_records (expression=0x0) at src/record-processing.c:218
+#3  0x565b6e68 in record_label_definition (label=0x56654840) at src/frontend-records.c:1484
+#4  0x56564916 in define_named_label (name=0x56626cda "finished") at src/ir.c:543
+#5  0x565bdb22 in parse_translation_unit () at src/parser-expression-actions.inc:14
+#6  0x5655deaf in compile_translation_unit () at src/frontend.c:73
+#7  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#8  0x56558894 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

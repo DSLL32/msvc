@@ -1202,7 +1202,8 @@
     "_end_for_statement",
     "_end_for_body_region",
     "_define_named_label@4",
-    "_record_label_definition@4"
+    "_record_label_definition@4",
+    "_resolve_goto_cleanup@12"
   ],
   "driver": [
     {
@@ -5459,7 +5460,7 @@
     {
       "name": "_resolve_goto_cleanup@12",
       "start": 269248,
-      "end": 269249
+      "end": 269573
     },
     {
       "name": "_append_symbol_destructor@8",
@@ -8515,6 +8516,11 @@
       "name": "_new_symbol_reference@12",
       "start": 398096,
       "end": 398097
+    },
+    {
+      "name": "_walk_goto_cleanup@16",
+      "start": 269584,
+      "end": 269585
     }
   ],
   "cases": {
@@ -8715,7 +8721,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_resolve_goto_cleanup@12",
+      "terminal": "_walk_goto_cleanup@16",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8738,7 +8744,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1197-record_label_definition-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1198-resolve_goto_cleanup-12/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8941,7 +8947,8 @@
         "cases/frontiers/state_machine_debug/1194-end_for_statement/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1195-end_for_body_region/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1196-define_named_label-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1197-record_label_definition-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1197-record_label_definition-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1198-resolve_goto_cleanup-12/frontier-extension.json"
       ]
     }
   },

@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_resolve_goto_cleanup@12",
+    "start": 269248,
+    "end": 269573
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1198-resolve_goto_cleanup-12/arguments/validation.json",
+  "distinct_direct_callees": [
+    "__setjmp",
+    "_emit_nonnull_expression_statement@4",
+    "_walk_goto_cleanup@16"
+  ],
+  "next_frontier": "_walk_goto_cleanup@16",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8140706773847342,
+  "total_operation_seconds": 4.314209098927677,
+  "original_capture_seconds": 1.0174134690314531
+}

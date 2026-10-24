@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1198,
+  "accepted": "_resolve_goto_cleanup@12",
+  "terminal": "_walk_goto_cleanup@16",
+  "original_capture": "cases/frontiers/state_machine_debug/1198-resolve_goto_cleanup-12/original-receipt.json",
+  "original_capture_sha256": "b68f00a9c5b49f55d2736070aff65c843204a62a1a9bbe40e2bdad664f588122",
+  "original_events": "cases/frontiers/state_machine_debug/1198-resolve_goto_cleanup-12/original-events.txt",
+  "original_events_sha256": "d10fffea059351fa03ff7e1d31d7fc87cf5754adfd3b238f633f6942c4b3f6cc",
+  "original_configuration": "cases/frontiers/state_machine_debug/1198-resolve_goto_cleanup-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}
