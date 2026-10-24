@@ -58,6 +58,7 @@ def plan(accepted,case="help"):
                        (0xb898,'observe:file_name_call'),(0xb89d,'observe:file_name_return')])
     if '_initialize_library_enumerator@8'in accepted:result.append((0xf674,'observe:library_enum_return'))
     if '_next_library@4'in accepted:result.extend([(0xf67e,'observe:library_next_return'),(0xede7,'observe:library_find_return'),(0x4b906,'observe:library_create_return'),(0xee4b,'observe:library_array_call'),(0xee50,'observe:library_array_return')])
+    if 'LinkContext::LoadInputArgument'in accepted:result.extend([(0x49a88,'observe:input_open_call'),(0x49a8d,'observe:input_open_return'),(0x4b94f,'observe:load_input_call'),(0x4b954,'observe:load_input_return')])
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]
@@ -73,5 +74,5 @@ def plan(accepted,case="help"):
     if '_open_mapped_file@16'in accepted:
         result.extend([(0xc914,'observe:mapped_create_call'),(0xc91a,'observe:mapped_create_return')])
     if '_initialize_file_mapping@12'in accepted:
-        result.extend([(0xc9cf,'observe:mapping_function_return'),(0xb84a,'observe:mapped_open_return'),(0x4b8e5,'observe:output_open_return'),(0xcd44,'observe:mapping_create_call'),(0xcd4a,'observe:mapping_create_return'),(0xcd95,'observe:mapping_view_call'),(0xcd9b,'observe:mapping_view_return'),(0xcdc9,'observe:mapping_close_call'),(0xcdcf,'observe:mapping_close_return')])
+        result.extend([(0xb845,'observe:mapped_open_call'),(0xc9ca,'observe:mapping_function_call'),(0xc9cf,'observe:mapping_function_return'),(0xb84a,'observe:mapped_open_return'),(0x4b8e5,'observe:output_open_return'),(0xcd44,'observe:mapping_create_call'),(0xcd4a,'observe:mapping_create_return'),(0xcd95,'observe:mapping_view_call'),(0xcd9b,'observe:mapping_view_return'),(0xcdc9,'observe:mapping_close_call'),(0xcdcf,'observe:mapping_close_return')])
     return result

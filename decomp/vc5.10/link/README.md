@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 80 application
-functions (32,768 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 81 application
+functions (32,915 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `LinkContext::LoadInputArgument`; hello-win32 has not completed.
+next frontier is `read_input_argument`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -457,3 +457,18 @@ Evidence and both campaign timings are under `frontiers/73-get-available-file-re
 A separate `current-tool-audit.json` revalidates the identical frozen pair with
 READY `cd5375ce`; the prior-tool validation remains unchanged. This static-only
 update took 1.007 s and ran neither executable.
+
+The 147-byte `LinkContext::LoadInputArgument` is accepted through the reader's
+three actual stack inputs. Both independent opens and live caller-local/normal
+returns are recorded: output record15 and readonly input record14 remain on the
+pending list, with free records 0 through 13. Complete 524288-byte
+zero output and 2262-byte object views match their artifacts/input master. The
+existing diagnostic storage models only an observed 32-byte prefix; every loader
+call holds longer names before copying, without claiming original capacity.
+The distinct status DWORD and reuse BYTE retain their own widths/defaults.
+Both builds, 94 full/87 strict graph bodies and 218 fresh state negatives pass;
+final shared-header-only refresh adds a fresh positive and 6 affected controls,
+reusing the unchanged predicate campaign by exact hashes. Independent review,
+failed repeated-snapshot history and final READYf965 binding are under
+`frontiers/81-load-input-{review,current,ready}`. Final native help is 65.24 ms,
+including 3.779 ms ELF execution. Hello-win32 remains incomplete.

@@ -1,0 +1,39 @@
+{
+  "approved_scope": "Source/typed/repeat-call scope approved; final production promotion waits only exact shared READY and unchanged current technical proof",
+  "packet": {
+    "path": "cases/hello-win32/frontiers/81-load-input-review",
+    "manifest_sha256": "afff351a83e84320b232e3d67584050cb22682602f479d4064d89144c5e9c64c",
+    "request_sha256": "5b3a324b624e761bcbbe1006a0bd33d2c8eabb8a9d5cd8c2377f023bd2dc6b57"
+  },
+  "independent_validation": "Verified797owned files8,201,700B; actual receipt-named original mask/target+CRT hFile/all raw binding; both current native and original bind_capture plus typed verify_frontier PASS",
+  "native_refresh": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/link/native-grwsq_qh",
+    "receipt_sha256": "5fdba2b18a47d33dc673925debb790f3c57bc13b22bdf628efdac891868d7339",
+    "controls_sha256": "875c57a955ee8029d8c33e2351a636e7bbe155c679974eb499054c86fcc812a6"
+  },
+  "sources": {
+    "src/pass-one.cpp": "16643eaf5dbc395e96dcaa5d0baf7e4560d1976cf5bba21e94d7b8dcb3e0020d",
+    "src/input.c": "1170836fb6dc9479a97f94df0eaf29e22f2df1e29b967c289405f2620d293480",
+    "cases/hello-win32/input-loader-contract.json": "3f9d243a7295a3222dd908a34b57c52646114666c479639a835329bfdf084042",
+    "scripts/input_open_state.py": "aac21fb0e94655fdf22b156c16a1b473bb47ced059bebe3c5ab963dd30168ca6",
+    "scripts/capture-help.c": "167e6f9895e2dd9062739ea9d0c491284bb8f26352593989a139642ad3908d75",
+    "scripts/native-frontier.py": "d1d0ba8f6debe40923b3fbdaf1a00f62ee0e8a4f6f47aa3e9943cf6d4f17af94",
+    "scripts/observers.py": "44cad4676cebe94cea674e1b9ec129b4992b2977f73cdb9b8d1b9bab3a7771b1"
+  },
+  "review": [
+    "Readable whole147B real member LoadInputArgument preserves thiscall ECX/two stackargs/RET8 and5callees",
+    "Distinct genuine DWORDincremental_status/BYTEreuse, current file index and existing current_phase storage retained",
+    "Only known32B diagnostic prefix modeled; original total capacity explicitlyUNKNOWN, no MAX_PATH enlargement; native everyentry and rearmed actualPassOne callsite guard before copying largerinput",
+    "Two separate per-invocation open/mapped/mapping CALL/normalRET chains,16records/pending order, two mapping lifetimes/handles/errors/own name buffers/locals checked",
+    "Full524288B output view/backing and2262B exact input view survive mapping handle closes; source-driven original/native full inputs checked",
+    "All3 actual reader formals point to same argument/library/context ownership, no hidden input omitted; old section/group/library/context comparisons retained",
+    "First-seen logical entry trace unchanged; repeated observers independent names/physical invocations",
+    "Fresh218 semantic controls reviewed; current6affected controls retained, old218 reuse bound to exact7premise bytes"
+  ],
+  "limits": [
+    "Hello case incomplete; read_input_argument remains namedtrap",
+    "No original diagnostic capacity beyond32B inferred, future longer/unknown caller holds",
+    "Frozen packet deliberately omits module copies; live original capture remains necessary for raw hFile reproducibility per storage.json",
+    "No promotion while exact native shared source snapshot remains unpublished WIP; no extra original replay for shared header drift"
+  ]
+}

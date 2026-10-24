@@ -1,0 +1,414 @@
+{
+  "native/acceptance-validation.json": {
+    "bytes": 438551,
+    "sha256": "04ed9e9601e6ea5e37c8e9294d93dff4444ca29c9132359e749bb2db57408445"
+  },
+  "native/artifacts/hello.exe": {
+    "bytes": 524288,
+    "sha256": "07854d2fef297a06ba81685e660c332de36d5d18d546927d30daad6d7fda1541"
+  },
+  "native/capture.gdb.py": {
+    "bytes": 99203,
+    "sha256": "67f1ebc2651259ef3be77348c711b83a228934f1e85969dc873d32f21e19b12b"
+  },
+  "native/case.json": {
+    "bytes": 716,
+    "sha256": "6edb617255d5f68fd4e231344ebe65bfdd52f61b5a946b642fb1a60533e21570"
+  },
+  "native/collision-register-import-config.json": {
+    "bytes": 187314,
+    "sha256": "59d0b87515a0cdab939d2699742dd5d7653c337686ba77f6108e847db1f276b7"
+  },
+  "native/collision-register-import-metadata.json": {
+    "bytes": 2583,
+    "sha256": "b43e5618d6fe375e0d080dd27097d39d155da2e81a73a919826cfdec12bbeabf"
+  },
+  "native/compiled/native-LINK.EXE": {
+    "bytes": 526556,
+    "sha256": "4bc5f83fb24cac10abb3ec5109405af6a5b3395ca1c3eebe5cd15ba08d4abb1b"
+  },
+  "native/compiled/original-toolchain-link.exe": {
+    "bytes": 59392,
+    "sha256": "11efe484f9fa2e9602ee8512e774ae2ab92aeea5d39dd9882f4ce70d6233a93f"
+  },
+  "native/compiled/original-toolchain-link.map": {
+    "bytes": 43589,
+    "sha256": "ffdd04261b379b74fdef5c127a46a05c33676a967f6ecf0687f8fb67e709f493"
+  },
+  "native/created-mapping-view.bin": {
+    "bytes": 524288,
+    "sha256": "07854d2fef297a06ba81685e660c332de36d5d18d546927d30daad6d7fda1541"
+  },
+  "native/direct-import-config.json": {
+    "bytes": 189566,
+    "sha256": "6a961612030076ae11fdd7366bdd766000f11bbd0699cf617d24a13fa7bf211c"
+  },
+  "native/environment/binding.json": {
+    "bytes": 379,
+    "sha256": "306caa3b2858bd93eb97e3d5043ade5b96d8a99ff538e8db525a317e3b5517a8"
+  },
+  "native/environment/events.jsonl": {
+    "bytes": 107177,
+    "sha256": "92c7094125f84eff3c31357b138e832137e4d6225cb6da6a8444ef899d1e0612"
+  },
+  "native/environment/memory-after.bin": {
+    "bytes": 32,
+    "sha256": "6fb3fae806d242e9f5de0253e0300806dd873dc416686cea9f7a886dfb9a6252"
+  },
+  "native/environment/memory-before.bin": {
+    "bytes": 32,
+    "sha256": "67d07d78588a1cce40395d2ce2d624fee17d023b7f4b3c4aee78ff85aadee159"
+  },
+  "native/environment/reference-receipt.json": {
+    "bytes": 98770,
+    "sha256": "b8f7607b1a5f58b87c048b3f29c1785ad11f75d9c472522bd5fbbd97c91500f9"
+  },
+  "native/environment/system-after.bin": {
+    "bytes": 36,
+    "sha256": "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57"
+  },
+  "native/environment/system-before.bin": {
+    "bytes": 36,
+    "sha256": "20bb58fa6d6f9ed8cdf31f346a039b1f74e2825442b9ea0eb85a39fe90a6fbf5"
+  },
+  "native/environment/system-profile.bin": {
+    "bytes": 136,
+    "sha256": "29e4c83f538633565c45c1b5f2113b49a7807b28f3ef3837f5914a6411ad9241"
+  },
+  "native/finder-import-config.json": {
+    "bytes": 187299,
+    "sha256": "7328d467da59720ec6d854499fe945442c888b2a98c7c3e0a30d54f7162c0537"
+  },
+  "native/finder-import-metadata.json": {
+    "bytes": 2537,
+    "sha256": "2c1517d5aeed4c0669310ab81daa61faa22cf06846a67398424dd8ccc5635ad5"
+  },
+  "native/full-link-register-import-config.json": {
+    "bytes": 187315,
+    "sha256": "766c3af590c8d81ca31bdb0c0c83e1855ff579bdbcd5255c75e24691a0d76747"
+  },
+  "native/full-link-register-import-metadata.json": {
+    "bytes": 13038,
+    "sha256": "e442fcda138ee1c91cbdd9390548ea35926d699db04a6171ba9ef9ea310dced5"
+  },
+  "native/functions.json": {
+    "bytes": 189924,
+    "sha256": "5ba49a04c811f64a3cfc2692b630295ca5960613d7be7a50c56a11f14167e2a0"
+  },
+  "native/gdb.stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "native/gdb.stdout": {
+    "bytes": 313,
+    "sha256": "9a8657120708d6cadb051befd551abd5d7c76054baccf8994f78f05381ab4704"
+  },
+  "native/mapping-01-view.bin": {
+    "bytes": 2262,
+    "sha256": "20701a5314397f51bbb5bfbecba73de8f8c7a1988ecca1a746f5656a0df19632"
+  },
+  "native/mapping-import-config.json": {
+    "bytes": 187310,
+    "sha256": "e711f5519197b7eb6b64433279b4020fb5c7ee71994135eacc02b8f95833dc92"
+  },
+  "native/mapping-import-metadata.json": {
+    "bytes": 1814,
+    "sha256": "497a8e2954bc254fb8bacda370d3a03e6e6c29ff8b12a01aa4e316424a492bc2"
+  },
+  "native/native-refresh-state-controls.json": {
+    "bytes": 1658,
+    "sha256": "adf25981923a9240a4ec01e77dd27bb74a46ce7e270475e8fa79f39e5f09a603"
+  },
+  "native/pass-one-register-import-config.json": {
+    "bytes": 187303,
+    "sha256": "597a9a6ae37b2080eda9b9bc194c90798f022f452872ad76b41c18b237fef811"
+  },
+  "native/pass-one-register-import-metadata.json": {
+    "bytes": 2128,
+    "sha256": "29263d4cce930e88f917a3fca801b4e435b4a7c5664c1f943398a3f97cb52d08"
+  },
+  "native/receipt.json": {
+    "bytes": 13846,
+    "sha256": "142e150faa01fceb9b7744b71e82c94cb191f32a9011b2082525fe01ad15115f"
+  },
+  "native/register-import-config.json": {
+    "bytes": 187351,
+    "sha256": "f950f20b9ea4c8027fa2a1940320f3b176658fdb9c5621bcadf465ca1d5485df"
+  },
+  "native/register-import-metadata.json": {
+    "bytes": 5638,
+    "sha256": "dc48f7511f344cbc89a3db3f57639417db5c62c253aac8606f16d33884870107"
+  },
+  "native/runtime.json": {
+    "bytes": 3749,
+    "sha256": "4ed4659005dc3df4f555d8e8fe32cb54fb9db46b4807d8d2f348209a09dc7b6d"
+  },
+  "native/source/harness/native-host.c": {
+    "bytes": 1006,
+    "sha256": "e9be5d83bb52ee543ac393971566dcaed8f2882f7fffccf20504226a3cc69de0"
+  },
+  "native/source/project/arguments.c": {
+    "bytes": 8120,
+    "sha256": "bdd35e1a9961404e7fc0a05901ae7c70b0ce4b67704bdc7f3d280cd16e0ee17c"
+  },
+  "native/source/project/arguments.h": {
+    "bytes": 1229,
+    "sha256": "81c849986964434f12308f0d3444d19a358c5facfa4d9f4c82a3e61e0484b6b1"
+  },
+  "native/source/project/comdat.c": {
+    "bytes": 234,
+    "sha256": "c2353afce9b7487e163896dea7efede4a8ef848d0a5abc05a8a3a018408c0dfa"
+  },
+  "native/source/project/crt-imports.h": {
+    "bytes": 377,
+    "sha256": "fdd2bbde51b429c9106b37136d7a62f5ab706ad7216b412be3c157574a8c3616"
+  },
+  "native/source/project/driver-stubs.c": {
+    "bytes": 2421,
+    "sha256": "f8afdc0b8eaddcfacf0d68834799ee1dcd88ba3e555bfc53c9789577667e02eb"
+  },
+  "native/source/project/driver.c": {
+    "bytes": 5077,
+    "sha256": "9528710fbcb0a12bd278f267356563620c983eaaaa5455edfcc2101d95e82d18"
+  },
+  "native/source/project/files.c": {
+    "bytes": 8995,
+    "sha256": "f7ca44430ed30d58f2f5c6355ee7dcd60ed29026f4db3441248002c6976241c1"
+  },
+  "native/source/project/files.h": {
+    "bytes": 1168,
+    "sha256": "f19c392520a28b9045773f8a408b058a959af8ceea760048a179022e481860bf"
+  },
+  "native/source/project/full-link-functions.h": {
+    "bytes": 4916,
+    "sha256": "e821021ca8ec8c48799400e58424f899e4aadf09008e09c6054ca0510206933e"
+  },
+  "native/source/project/full-link-init.c": {
+    "bytes": 2010,
+    "sha256": "49ead8be045a1372d27d74c1b4ce4405bd09ef2e17d6970c7d07179c3dd29cb3"
+  },
+  "native/source/project/full-link-stubs.cpp": {
+    "bytes": 9872,
+    "sha256": "30b2ce08416da79295d445580391722742668dde2cd632bb7da253e47ab00324"
+  },
+  "native/source/project/full-link.cpp": {
+    "bytes": 26358,
+    "sha256": "e78f910053dda34a5b8cdbbe9521563c80710ffd2f6703d2b9414e741385ba2a"
+  },
+  "native/source/project/full-link.h": {
+    "bytes": 4580,
+    "sha256": "da75b604a317ff6ef049c4e7a640d21248e912d53fb0b392d1502771661cc997"
+  },
+  "native/source/project/initializers.c": {
+    "bytes": 2656,
+    "sha256": "c3b67115ae5a209e9850c45f3e9b968c0041b438d9c20332eb844835dfca0f92"
+  },
+  "native/source/project/initializers.h": {
+    "bytes": 1447,
+    "sha256": "d685e8a15655f68d46b0c6a2204caa4e2927490b2820541f477eb84ed436c562"
+  },
+  "native/source/project/input.c": {
+    "bytes": 503,
+    "sha256": "1170836fb6dc9479a97f94df0eaf29e22f2df1e29b967c289405f2620d293480"
+  },
+  "native/source/project/input.h": {
+    "bytes": 807,
+    "sha256": "b94934cbcf1e1f1b8f3d0894591580c52f5f8a2c47c279e7bfb2c8e34c4218a8"
+  },
+  "native/source/project/libraries.c": {
+    "bytes": 1703,
+    "sha256": "ac168ef388bc150d4bf903060f320d5d2a339dc00c98c4de234a86431d0ebe96"
+  },
+  "native/source/project/link-driver.cpp": {
+    "bytes": 16605,
+    "sha256": "c83bac5fb766f61acd25dafd01a01a19d9801e935706eda7a4e00f94eb0a9176"
+  },
+  "native/source/project/link-driver.h": {
+    "bytes": 8240,
+    "sha256": "e83a35872181618f522b9e368a2a63445018915ae2795d15e6d24bb1ff37f1e6"
+  },
+  "native/source/project/link.h": {
+    "bytes": 1199,
+    "sha256": "c3d31fa73b10466f528721e3e4dc653ca6cc1c3ba05aeb7879e2e3343ea3ad5e"
+  },
+  "native/source/project/memory.c": {
+    "bytes": 2161,
+    "sha256": "edc5d4efc11fc1a4ac029f45944058f54994fb46fbc9597525153b733a85dca6"
+  },
+  "native/source/project/memory.h": {
+    "bytes": 675,
+    "sha256": "6e5f89ffe071583c325f96540dc73c16d80cbc174b22d6c4914534bf342c2dcc"
+  },
+  "native/source/project/option-stubs.c": {
+    "bytes": 2313,
+    "sha256": "774a81bc522414063a4536010199a3f818d64e8602ba4a0bacc72fd919ee1995"
+  },
+  "native/source/project/options.cpp": {
+    "bytes": 40346,
+    "sha256": "e0bfe765aff656f78d8efc93852c219ca2b97bb40a83206320ef69e66d70c116"
+  },
+  "native/source/project/options.h": {
+    "bytes": 2472,
+    "sha256": "a71e3bf518fa8fbbf18ae90502ab22d0529e68eeade468a1f170010cdb487c3c"
+  },
+  "native/source/project/pass-one.cpp": {
+    "bytes": 8836,
+    "sha256": "16643eaf5dbc395e96dcaa5d0baf7e4560d1976cf5bba21e94d7b8dcb3e0020d"
+  },
+  "native/source/project/pass-one.h": {
+    "bytes": 1488,
+    "sha256": "373f097027ac61ba0290241e7bdc838fe02be5b390cb50802a708bf57bab3866"
+  },
+  "native/source/project/reproduction.c": {
+    "bytes": 1091,
+    "sha256": "34154837f20ec08f076a9b0c62d3e56d14d4798a560e9455de840fbd6674a0e3"
+  },
+  "native/source/project/section-driver.cpp": {
+    "bytes": 1749,
+    "sha256": "6a2b44462baafdda5ba9c1740df5d05d50fd750c391c1e83e6eda15a47e082a5"
+  },
+  "native/source/project/sections.c": {
+    "bytes": 5796,
+    "sha256": "77748ed20573b0e11e67211ddaf43c4df498d447e4ac3420c246087c9647d999"
+  },
+  "native/source/project/sections.h": {
+    "bytes": 1663,
+    "sha256": "6f82c4e616eb40958fa0b823dd119ca0cf0a9a14fbfdaa8d81e9338bed22a71e"
+  },
+  "native/source/project/symbols.c": {
+    "bytes": 1886,
+    "sha256": "7ce0d8d03032f9c3e01178303bbb76fdd80cc385d237a6338054c9be0b08f064"
+  },
+  "native/source/project/symbols.h": {
+    "bytes": 1623,
+    "sha256": "5509f6e3a6c69cc2552569c5be2bc94603da1ab54a2d7b671a56da7bd1f73629"
+  },
+  "native/source/recon/include/recon.h": {
+    "bytes": 29022,
+    "sha256": "a2b78588c4de1e1ea9d21af711743710bc6885cf88d3d5bb15b7d3ab79b5adc7"
+  },
+  "native/source/recon/include/trace-abi.h": {
+    "bytes": 1058,
+    "sha256": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7"
+  },
+  "native/source/recon/include/win32.h": {
+    "bytes": 13199,
+    "sha256": "d221d3befe079427f612f1a3ffdc286415bb22471e883a300663a19f0f51ffa8"
+  },
+  "native/source/recon/native/direct.h": {
+    "bytes": 148,
+    "sha256": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e"
+  },
+  "native/source/recon/native/excpt.h": {
+    "bytes": 198,
+    "sha256": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660"
+  },
+  "native/source/recon/native/fcntl.h": {
+    "bytes": 611,
+    "sha256": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a"
+  },
+  "native/source/recon/native/float.h": {
+    "bytes": 1009,
+    "sha256": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42"
+  },
+  "native/source/recon/native/io.h": {
+    "bytes": 140,
+    "sha256": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b"
+  },
+  "native/source/recon/native/locale.h": {
+    "bytes": 508,
+    "sha256": "a4bcba0ad40ff971717170453d1725d8b4452ddfd8411d1a8ed309809d55a13c"
+  },
+  "native/source/recon/native/malloc.h": {
+    "bytes": 406,
+    "sha256": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21"
+  },
+  "native/source/recon/native/mbctype.h": {
+    "bytes": 413,
+    "sha256": "4207df36c7093b86502916601050bef8538d5d32a615498e22144d23500c7b7f"
+  },
+  "native/source/recon/native/mbstring.h": {
+    "bytes": 1024,
+    "sha256": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34"
+  },
+  "native/source/recon/native/process.h": {
+    "bytes": 128,
+    "sha256": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a"
+  },
+  "native/source/recon/native/setjmp.h": {
+    "bytes": 2495,
+    "sha256": "1063e154c5b2277afe91cad791706358b5cc5163b3374e2f2367b8cfd4e7c7a4"
+  },
+  "native/source/recon/native/share.h": {
+    "bytes": 161,
+    "sha256": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b"
+  },
+  "native/source/recon/native/signal.h": {
+    "bytes": 806,
+    "sha256": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150"
+  },
+  "native/source/recon/native/sys/stat.h": {
+    "bytes": 378,
+    "sha256": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb"
+  },
+  "native/source/recon/native/sys/timeb.h": {
+    "bytes": 466,
+    "sha256": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d"
+  },
+  "native/source/recon/native/windows.h": {
+    "bytes": 88,
+    "sha256": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a"
+  },
+  "native/source/recon/src/compat.c": {
+    "bytes": 18456,
+    "sha256": "12db85b894e15e950eaabebd6e07b3bc60e7d709281bcf89fd6d9380caf26f49"
+  },
+  "native/source/recon/src/crt.c": {
+    "bytes": 115818,
+    "sha256": "84324db718458cffb169e3fe95e2c687e47ce1a7ba1cdec683f746ff29e34e17"
+  },
+  "native/source/recon/src/decimal.c": {
+    "bytes": 12018,
+    "sha256": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4"
+  },
+  "native/source/recon/src/entry.c": {
+    "bytes": 2444,
+    "sha256": "33f47565b8fd09dcbdf5254cd47bb895de22eaf8c073668a1f2abf2bfe942db0"
+  },
+  "native/source/recon/src/process.c": {
+    "bytes": 13138,
+    "sha256": "885ae0c197f2f64933598b3d1435af156086f63c664a04b5b99cbae52d89a42d"
+  },
+  "native/source/recon/src/trace.c": {
+    "bytes": 13917,
+    "sha256": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328"
+  },
+  "native/source/recon/src/win32.c": {
+    "bytes": 58119,
+    "sha256": "9efe3109c97039271d66574e6274f639a9405c837c341e67a4417a72f610fd8f"
+  },
+  "native/state.json": {
+    "bytes": 371197,
+    "sha256": "5b3572bcd001a1d881ec14ac2598252fd0f37b69185d8f6718368d09d2f2f46f"
+  },
+  "native/stderr.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "native/stdout.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "native/strict-ret-config.json": {
+    "bytes": 189768,
+    "sha256": "10f2404f2312f353959711d2f13143ad0a2f26f8e8b48d8e60a007062675e3f4"
+  },
+  "native-help-fixture.log": {
+    "bytes": 2005,
+    "sha256": "37cd28e238bbd5f91f753183efb9f9a42a9163caeeb2b07a97aeb56daeb088fd"
+  },
+  "ready-validation.json": {
+    "bytes": 3580,
+    "sha256": "58761bb2bb71d9710d1ac4c070b142f8b1dec34509076215abdf30d9270ea976"
+  }
+}

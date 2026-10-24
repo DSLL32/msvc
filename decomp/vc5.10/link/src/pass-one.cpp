@@ -10,10 +10,11 @@
 #include "full-link-functions.h"
 #include "pass-one.h"
 #include "memory.h"
+#include "input.h"
 #include <recon.h>
 
 extern "C" {
-extern BYTE verbose_link,mac_target;
+extern BYTE verbose_link,mac_target,incremental_reuse;
 extern BYTE module_section_pools_ready,incremental_enabled;
 extern MemoryArena *output_library_arena;
 extern const char *output_file_name,*entry_point_name,*definition_file;
@@ -29,7 +30,7 @@ BYTE output_file_open,arch_data_ignored;
 int current_image_file=-1;
 }
 
-#pragma intrinsic(strcmp)
+#pragma intrinsic(strcmp,strcpy)
 void RECON_THISCALL LinkContext::PassOne(void)
 {
     InputArgument *argument;
@@ -172,7 +173,19 @@ extern "C" void __stdcall check_output_input_collision(const char *output,InputA
         inputs=inputs->next;
     }
 }
-void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,OutputLibrary *library) { __asm { int 3 } }
+void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,OutputLibrary *library)
+{
+    OutputModule *module;
+    strcpy(current_phase,argument->name);
+    current_input_file=open_argument_file(argument->original_name,0x8000,0);
+    module=read_input_argument(argument,library,this);
+    if (module) {
+        load_object_module(this,NULL,module,0);
+        if (incremental_reuse && incremental_status_code) return;
+        if (!output_file_name) infer_output_file_name(this,argument);
+    }
+    close_argument_file(current_input_file,0);
+}
 extern "C" void __stdcall check_input_modules(LinkContext *context,OutputLibrary *library) { __asm { int 3 } }
 extern "C" void __stdcall resolve_weak_externals(LinkContext *context,DWORD flags) { __asm { int 3 } }
 extern "C" void __stdcall search_libraries(LinkContext *context) { __asm { int 3 } }

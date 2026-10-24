@@ -72,15 +72,15 @@
     ]
   },
   "rebuilt": {
-    "pe_sha256": "9669b6e38d168c97007fb971efad947ef25efb0d04f43b4c6dbef03289405f30",
-    "map_sha256": "7a4e424fdeafa09ed4a6de9550fd58078a0515afc4342f199229f238e3e167ed",
+    "pe_sha256": "11efe484f9fa2e9602ee8512e774ae2ab92aeea5d39dd9882f4ce70d6233a93f",
+    "map_sha256": "ffdd04261b379b74fdef5c127a46a05c33676a967f6ecf0687f8fb67e709f493",
     "slot": 4260888,
     "symbol": "?image_write_headers@@3P8LinkContext@@AEXH@ZQ1@",
     "code_reference_count": 3,
     "code_references": [
       {
         "object": "build/full-link.obj",
-        "object_sha256": "1e04f9c3830f47b90b70fec06227ae4b9e3b83d1c41d7f9238d57d602ae67d01",
+        "object_sha256": "dd2f61b18c0ffb78f564d55aee33c29ec3e7b2163336c1104312356faafadaf5",
         "section": ".text",
         "offset": 9315,
         "relocation_kind": 6,
@@ -89,7 +89,7 @@
       },
       {
         "object": "build/link-driver.obj",
-        "object_sha256": "264f87cb17cf908b79f20bf0c410ec6993fb0a815c306c221d6d0c8fb42778f9",
+        "object_sha256": "90502fb3b9a8bb5e474f975a09b2b91b678bb29946cc8c3e0605211b6ef5634b",
         "section": ".text",
         "offset": 2576,
         "relocation_kind": 6,
@@ -98,7 +98,7 @@
       },
       {
         "object": "build/link-driver.obj",
-        "object_sha256": "264f87cb17cf908b79f20bf0c410ec6993fb0a815c306c221d6d0c8fb42778f9",
+        "object_sha256": "90502fb3b9a8bb5e474f975a09b2b91b678bb29946cc8c3e0605211b6ef5634b",
         "section": ".text",
         "offset": 2622,
         "relocation_kind": 6,
@@ -106,11 +106,11 @@
         "prefix": "c705"
       }
     ],
-    "required_preservation_call": 4243249,
+    "required_preservation_call": 4243297,
     "debug_metadata_references": [
       {
         "object": "build/full-link.obj",
-        "object_sha256": "1e04f9c3830f47b90b70fec06227ae4b9e3b83d1c41d7f9238d57d602ae67d01",
+        "object_sha256": "dd2f61b18c0ffb78f564d55aee33c29ec3e7b2163336c1104312356faafadaf5",
         "section": ".debug$S",
         "offset": 1654,
         "relocation_kind": 11,
@@ -118,7 +118,7 @@
       },
       {
         "object": "build/full-link.obj",
-        "object_sha256": "1e04f9c3830f47b90b70fec06227ae4b9e3b83d1c41d7f9238d57d602ae67d01",
+        "object_sha256": "dd2f61b18c0ffb78f564d55aee33c29ec3e7b2163336c1104312356faafadaf5",
         "section": ".debug$S",
         "offset": 1658,
         "relocation_kind": 10,
@@ -126,7 +126,7 @@
       },
       {
         "object": "build/link-driver.obj",
-        "object_sha256": "264f87cb17cf908b79f20bf0c410ec6993fb0a815c306c221d6d0c8fb42778f9",
+        "object_sha256": "90502fb3b9a8bb5e474f975a09b2b91b678bb29946cc8c3e0605211b6ef5634b",
         "section": ".debug$S",
         "offset": 2621,
         "relocation_kind": 11,
@@ -134,7 +134,7 @@
       },
       {
         "object": "build/link-driver.obj",
-        "object_sha256": "264f87cb17cf908b79f20bf0c410ec6993fb0a815c306c221d6d0c8fb42778f9",
+        "object_sha256": "90502fb3b9a8bb5e474f975a09b2b91b678bb29946cc8c3e0605211b6ef5634b",
         "section": ".debug$S",
         "offset": 2625,
         "relocation_kind": 10,

@@ -96,11 +96,22 @@ def compare(original,state,trap,events,native_directory):
     lists={e['name']:e for e in events if e['event']=='argument_list'}
     argument=lists['link_files']['nodes'][0]['address'];nargument=state['argument_lists']['link_files']['header'][0]
     assert trap['load_input_formals']==dict(this=context,formals=[argument,pointer],other_hidden_inputs=[])
-    assert trap['stack'][:3]==[0x44b954,argument,pointer]and trap['ecx']==context
-    assert trap['esp']==create['stack_pointer']+4
     load=state['load_input_entry'];assert load['stack_pointer']==nc['stack_pointer']<state['pass_one_entry']['stack_pointer']
     assert load['this']==ncontext and load['formals']==[nargument,npointer]and load['other_hidden_inputs']==[]
-    assert trap['frontier_inputs']==dict(formals=[argument,pointer],hidden_register_inputs=[dict(register='ecx',value=context)])
-    assert state['frontier_inputs']==dict(formals=[nargument,npointer],hidden_register_inputs=[dict(register='ecx',value=ncontext)])
+    if state['function']=='read_input_argument':
+        observed,=[e for e in events if e['event']=='load_input_entry']
+        call,=[e for e in events if e['event']=='load_input_call']
+        assert observed==dict(event='load_input_entry',stack_pointer=create['stack_pointer']+4,this=context,formals=[argument,pointer],other_hidden_inputs=[])
+        assert call==dict(event='load_input_call',site=0x44b94f,stack=observed['stack_pointer']+4,this=context,formals=[argument,pointer],other_hidden_inputs=[])
+        assert trap['esp']==observed['stack_pointer']-32 and trap['stack'][:4]==[0x449a9e,argument,pointer,context]
+        assert trap['read_input_formals']==dict(formals=[argument,pointer,context],hidden_inputs=[])
+        assert state['read_input_entry']==dict(stack_pointer=load['stack_pointer']-48,formals=[nargument,npointer,ncontext],hidden_inputs=[])
+        assert trap['frontier_inputs']==dict(formals=[argument,pointer,context],hidden_register_inputs=[])
+        assert state['frontier_inputs']==dict(formals=[nargument,npointer,ncontext],hidden_register_inputs=[])
+    else:
+        assert trap['stack'][:3]==[0x44b954,argument,pointer]and trap['ecx']==context
+        assert trap['esp']==create['stack_pointer']+4
+        assert trap['frontier_inputs']==dict(formals=[argument,pointer],hidden_register_inputs=[dict(register='ecx',value=context)])
+        assert state['frontier_inputs']==dict(formals=[nargument,npointer],hidden_register_inputs=[dict(register='ecx',value=ncontext)])
     assert trap['output_file']==state['output_file']==15
     return dict(original_base=array,native_base=narray,bytes=20)

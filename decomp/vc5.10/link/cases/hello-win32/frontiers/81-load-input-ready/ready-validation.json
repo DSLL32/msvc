@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "accepted_application_functions": 81,
+  "accepted_original_extent_bytes": 32915,
+  "candidate_original_bytes": 147,
+  "next_frontier": "_read_input_argument@12",
+  "case_complete": false,
+  "independent_review": {
+    "path": "cases/hello-win32/frontiers/81-load-input-current/orchestrator-review.json",
+    "sha256": "8fed9ba41ef36292f8e96b72279e27a237ff21f44631e5426c57d4e6c35981db"
+  },
+  "prior_owned_packet": {
+    "path": "cases/hello-win32/frontiers/81-load-input-review",
+    "manifest_sha256": "afff351a83e84320b232e3d67584050cb22682602f479d4064d89144c5e9c64c",
+    "records": 797
+  },
+  "intermediate_shared_wip": "cases/hello-win32/frontiers/81-load-input-current",
+  "shared_ready": {
+    "commit": "f96537bfe",
+    "header_sha256": "a2b78588c4de1e1ea9d21af711743710bc6885cf88d3d5bb15b7d3ab79b5adc7",
+    "crt_sha256": "84324db718458cffb169e3fe95e2c687e47ce1a7ba1cdec683f746ff29e34e17",
+    "scope": "isolated host-bound locale203 absent from LINK; final declaration visibility correction required native-only catalog refresh"
+  },
+  "original": "Same exact masked aix12k6u execution retained; target,actual CRT hFile,mask,prefix,argv,input,CWD all freshly rebound. No publication-only original recapture.",
+  "negative_controls": {
+    "original": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-aix12k6u",
+    "native": "/root/.ai-tmp/msvc2/vc5.10/link/native-iop7nhl0",
+    "positive": true,
+    "fresh_affected_negative_count": 6,
+    "rejected": [
+      "reader arguments",
+      "pending input link",
+      "mapping ownership",
+      "readonly mode",
+      "DWORD code width",
+      "input diagnostic tail"
+    ],
+    "reused_control_count": 218,
+    "reuse": "Previous exact checker/contract predicate bytes unchanged; native-only shared publication refresh, prior218 campaign receipt/generator immutable.",
+    "elapsed_seconds": {
+      "positive": 0.26021773740649223,
+      "affected_negative_checks": 0.31682823598384857
+    },
+    "premise_sha256": {
+      "scripts/boundary_state.py": "25b8fc6eba81e0eeb37c677a479368489629e1e6787b0e8ecee4ab2aa6661561",
+      "scripts/hello_boundary.py": "6093fc07dd8233cde86a908b9cee180cb298611173b0f3a189668c9697a8b34f",
+      "scripts/section_state.py": "e9f79ff284c8c25fdf7bda9d10dcdae538ed845c92d4afadd43b8c0cc3c9ab76",
+      "scripts/library_creation_state.py": "cc67e3325f6bc84a3ce084fe64936610d97cfe028dfffffb14a713eb656e7fd0",
+      "scripts/input_open_state.py": "aac21fb0e94655fdf22b156c16a1b473bb47ced059bebe3c5ab963dd30168ca6",
+      "scripts/check-boundary.py": "70865e20a86e6a7b072aa60eab5e4e8b4787b9f814ee4c0985b582eaabd86657",
+      "cases/hello-win32/input-loader-contract.json": "3f9d243a7295a3222dd908a34b57c52646114666c479639a835329bfdf084042"
+    },
+    "prior_receipt_sha256": "c75ca9c672bfc91795adf293ca940065ca49ccb457da13af8819127c7cea7805",
+    "shared_ready": "f96537bfe",
+    "shared_header_sha256": "a2b78588c4de1e1ea9d21af711743710bc6885cf88d3d5bb15b7d3ab79b5adc7"
+  },
+  "elapsed_seconds": {
+    "original_capture": 2.475791,
+    "native_capture": 0.8051374042406678,
+    "static_audit": 0.5876562157645822,
+    "fixture": {
+      "setup": 0.057912168093025684,
+      "execution": 0.003779488615691662,
+      "checks": 0.00037844106554985046,
+      "total": 0.06524065323174
+    },
+    "build": "not separately timed; make-j4 logs retained in receipt-named scratch"
+  },
+  "evidence": "Owned original raw/helper and unchanged218-control campaign remain at prior packets. Current6 affected controls are fresh; counts are not added as distinct cumulative coverage."
+}

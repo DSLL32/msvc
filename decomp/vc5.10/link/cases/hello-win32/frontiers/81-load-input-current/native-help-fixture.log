@@ -1,0 +1,130 @@
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/option-stubs.c -o build/native/option-stubs.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/symbols.c -o build/native/symbols.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/arguments.c -o build/native/arguments.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/reproduction.c -o build/native/reproduction.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/memory.c -o build/native/memory.o
+src/arguments.c:32:26: warning: 'recon_strcpy' is not a recognized builtin; consider including <intrin.h> to access non-builtin intrinsics [-Wignored-pragma-intrinsic]
+   32 | #pragma intrinsic(strlen,strcpy)
+      |                          ^
+../../../lib/recon/include/recon.h:536:16: note: expanded from macro 'strcpy'
+  536 | #define strcpy recon_strcpy
+      |                ^
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/files.c -o build/native/files.o
+src/arguments.c:183:26: warning: 'recon_strcpy' is not a recognized builtin; consider including <intrin.h> to access non-builtin intrinsics [-Wignored-pragma-intrinsic]
+  183 | #pragma intrinsic(strlen,strcpy)
+      |                          ^
+../../../lib/recon/include/recon.h:536:16: note: expanded from macro 'strcpy'
+  536 | #define strcpy recon_strcpy
+      |                ^
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/driver-stubs.c -o build/native/driver-stubs.o
+2 warnings generated.
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions -Dmain=link_main -c src/driver.c -o build/native/driver.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/initializers.c -o build/native/initializers.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/full-link-init.c -o build/native/full-link-init.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/comdat.c -o build/native/comdat.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/sections.c -o build/native/sections.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/libraries.c -o build/native/libraries.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions  -c src/input.c -o build/native/input.o
+clang++ -m32 -fms-extensions -fasm-blocks -O0 -g -fno-pie -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions -c src/link-driver.cpp -o build/native/link-driver.o
+clang++ -m32 -fms-extensions -fasm-blocks -O0 -g -fno-pie -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions -c src/options.cpp -o build/native/options.o
+src/libraries.c:11:26: warning: 'recon_strcpy' is not a recognized builtin; consider including <intrin.h> to access non-builtin intrinsics [-Wignored-pragma-intrinsic]
+   11 | #pragma intrinsic(strlen,strcpy,strcat)
+      |                          ^
+../../../lib/recon/include/recon.h:536:16: note: expanded from macro 'strcpy'
+  536 | #define strcpy recon_strcpy
+      |                ^
+1 warning generated.
+clang++ -m32 -fms-extensions -fasm-blocks -O0 -g -fno-pie -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions -c src/full-link.cpp -o build/native/full-link.o
+clang++ -m32 -fms-extensions -fasm-blocks -O0 -g -fno-pie -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions -c src/full-link-stubs.cpp -o build/native/full-link-stubs.o
+src/link-driver.cpp:187:19: warning: 'recon_strcpy' is not a recognized builtin; consider including <intrin.h> to access non-builtin intrinsics [-Wignored-pragma-intrinsic]
+  187 | #pragma intrinsic(strcpy,memset)
+      |                   ^
+../../../lib/recon/include/recon.h:536:16: note: expanded from macro 'strcpy'
+  536 | #define strcpy recon_strcpy
+      |                ^
+src/options.cpp:46:33: warning: 'recon_strcpy' is not a recognized builtin; consider including <intrin.h> to access non-builtin intrinsics [-Wignored-pragma-intrinsic]
+   46 | #pragma intrinsic(strlen,strcmp,strcpy,strcat,memset)
+      |                                 ^
+../../../lib/recon/include/recon.h:536:16: note: expanded from macro 'strcpy'
+  536 | #define strcpy recon_strcpy
+      |                ^
+1 warning generated.
+clang++ -m32 -fms-extensions -fasm-blocks -O0 -g -fno-pie -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions -c src/section-driver.cpp -o build/native/section-driver.o
+1 warning generated.
+clang++ -m32 -fms-extensions -fasm-blocks -O0 -g -fno-pie -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -DRECON_NATIVE_TRACE -finstrument-functions -c src/pass-one.cpp -o build/native/pass-one.o
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -c scripts/native-host.c -o build/native/native-host.o
+src/pass-one.cpp:33:26: warning: 'recon_strcpy' is not a recognized builtin; consider including <intrin.h> to access non-builtin intrinsics [-Wignored-pragma-intrinsic]
+   33 | #pragma intrinsic(strcmp,strcpy)
+      |                          ^
+../../../lib/recon/include/recon.h:536:16: note: expanded from macro 'strcpy'
+  536 | #define strcpy recon_strcpy
+      |                ^
+1 warning generated.
+clang -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -no-pie build/native/option-stubs.o build/native/symbols.o build/native/arguments.o build/native/reproduction.o build/native/memory.o build/native/files.o build/native/driver-stubs.o build/native/driver.o build/native/initializers.o build/native/full-link-init.o build/native/comdat.o build/native/sections.o build/native/libraries.o build/native/input.o build/native/link-driver.o build/native/options.o build/native/full-link.o build/native/full-link-stubs.o build/native/section-driver.o build/native/pass-one.o build/native/native-host.o ../../../lib/recon/src/compat.c ../../../lib/recon/src/crt.c ../../../lib/recon/src/decimal.c ../../../lib/recon/src/entry.c ../../../lib/recon/src/process.c ../../../lib/recon/src/trace.c ../../../lib/recon/src/win32.c -o build/native/LINK.EXE
+python3 scripts/check-native.py
+{
+  "case": "help",
+  "status": "passed",
+  "logical_status": 1100,
+  "posix_status": 76,
+  "native_pid": 2057100,
+  "terminal_record_hex": "52545331010000008c631f00010000004c04000000000000",
+  "application_entries": 45,
+  "application_trace": [
+    "_initialize_buffer12",
+    "_allocate_buffer12",
+    "_register_buffer12_cleanup",
+    "_initialize_buffer8",
+    "_allocate_buffer8",
+    "_register_buffer8_cleanup",
+    "_initialize_buffer4",
+    "_allocate_buffer4",
+    "_register_buffer4_cleanup",
+    "_initialize_timing",
+    "_setup_timing",
+    "_register_timing_cleanup",
+    "_main",
+    "_initialize_debug@8",
+    "_initialize_file_cache@16",
+    "_get_debug_flag@4",
+    "_zero_allocate@4",
+    "_new_file_record",
+    "_initialize_memory",
+    "_run_linker@8",
+    "_initialize_repro",
+    "_collect_file_arguments@16",
+    "_parse_command_line@16",
+    "_parse_argument@8",
+    "_is_libpath@4",
+    "_append_argument@8",
+    "_append_argument_record@12",
+    "_has_switch@4",
+    "_allocate_link_memory@8",
+    "LinkContext::Initialize",
+    "_create_string_table@12",
+    "_initialize_hash_table@20",
+    "_hash_allocate@16",
+    "_reserve_memory@8",
+    "_create_memory_arena@4",
+    "_allocate_memory@4",
+    "_configure_link_options@12",
+    "_parse_switch@8",
+    "_duplicate_argument@4",
+    "_linker_usage",
+    "_print_logo",
+    "_close_timing",
+    "_free_buffer4",
+    "_free_buffer8",
+    "_free_buffer12"
+  ],
+  "native_sha256": "2391fedfded2bba67b86f45191fb0992664d69d825d70afc20ae5dd19306c3c0",
+  "reference_receipt_sha256": "1f53bf40f53951c31c76ecdb0ccd9a11103499ccce36b790d1c6cf6b8640331d",
+  "work_directory": "/root/.ai-tmp/msvc2/vc5.10/link/fixture-help-eaczsq1s",
+  "elapsed_seconds": {
+    "setup": 0.06132274493575096,
+    "execution": 0.0038464339450001717,
+    "checks": 0.00037405453622341156,
+    "total": 0.0687893470749259
+  },
+  "build": "Makefile native prerequisite, outside these runner timings; no original/ref recapture."
+}

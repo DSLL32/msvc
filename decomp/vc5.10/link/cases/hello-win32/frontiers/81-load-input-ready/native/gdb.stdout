@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804f105 in read_input_argument (argument=0x809eb50, library=0xf7fb8044, context=0x809ebc0) at src/input.c:10
+10	    __asm { int 3 }

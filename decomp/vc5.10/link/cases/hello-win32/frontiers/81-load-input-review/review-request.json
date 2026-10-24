@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "candidate": "LinkContext::LoadInputArgument",
+  "accepted_before": 80,
+  "application_original_extent_bytes": 147,
+  "promotion": "held for parent typed-data/repeated-call review",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-aix12k6u",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/link/native-adgk8n5n",
+  "earlier_native": "/root/.ai-tmp/msvc2/vc5.10/link/native-bd1r_5mi",
+  "failed_original": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-aa_gi7nq",
+  "failure": "First repeated CreateFile observation reused CREATE_NEW snapshot name; helper6 preserved, no acceptance. Current independent per-invocation names/caller-site observations fix it.",
+  "native_only_retry_reason": "Shared READY97e164bd3 header drift; old make-q rejection preserved, exact original unchanged; current native/strict audit fresh.",
+  "negative_controls": {
+    "fresh": 218,
+    "reused": 0,
+    "elapsed_seconds": {
+      "positive": 0.27523920498788357,
+      "negative_checks": 8.117249015718699,
+      "total": 8.392492460086942
+    },
+    "generator_sha256": "70865e20a86e6a7b072aa60eab5e4e8b4787b9f814ee4c0985b582eaabd86657"
+  },
+  "fixture_times": "pending current native help regression",
+  "diagnostic_name_scope": "Existing current_phase storage reused; 32B observed native prefix, original capacity unknown. Every real loader invocation is guarded before copying >32B.",
+  "scope": "Hello-win32 remains incomplete, no original code-extent denominator claim. Pending reader177B and all other pending callees remain traps."
+}

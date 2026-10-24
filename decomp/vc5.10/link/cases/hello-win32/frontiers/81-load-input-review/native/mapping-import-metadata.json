@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "functions": {
+    "_mainCRTStartup": {
+      "original": {
+        "roots": [
+          4608910,
+          4608931
+        ],
+        "text_data": []
+      },
+      "rebuilt": {
+        "roots": [
+          4248718,
+          4248739
+        ],
+        "text_data": []
+      }
+    },
+    "_main": {
+      "original": {
+        "roots": [
+          4251873,
+          4251918
+        ],
+        "text_data": []
+      },
+      "rebuilt": {
+        "roots": [
+          4206314,
+          4206378
+        ],
+        "text_data": []
+      }
+    },
+    "_print_logo": {
+      "original": {
+        "text_data": [
+          [
+            4593260,
+            4593280
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": []
+      }
+    },
+    "_initialize_file_mapping@12": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    }
+  },
+  "callback_tables": [
+    {
+      "label": "application constructors",
+      "original": [
+        4616192,
+        4616212
+      ],
+      "rebuilt_begin": "___xc_a",
+      "rebuilt_end": "___xc_z",
+      "require_accepted": false
+    },
+    {
+      "label": "C initializers",
+      "original": [
+        4616216,
+        4616220
+      ],
+      "rebuilt_begin": "___xi_a",
+      "rebuilt_end": "___xi_z",
+      "require_accepted": false
+    }
+  ],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "CloseHandle"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/mapping-import-preservation.json",
+          "sha256": "c702bf9c528d4194fe110fa03526682ee3fdb8a38081d22c700f9680dd0cf82a"
+        }
+      }
+    ]
+  }
+}

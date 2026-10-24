@@ -97,7 +97,8 @@
     "_create_library@12",
     "_find_library@12",
     "_initialize_library_enumerator@8",
-    "_next_library@4"
+    "_next_library@4",
+    "LinkContext::LoadInputArgument"
   ],
   "driver": [
     {
@@ -2437,12 +2438,11 @@
     {
       "name": "LinkContext::LoadInputArgument",
       "start": 4495952,
-      "end": 4495953,
+      "end": 4496099,
       "source": "src/pass-one.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
       "native_symbol": "LinkContext::LoadInputArgument",
-      "abi": "thiscall void(LinkContext *this; InputArgument *argument,OutputLibrary *library);ECX,two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached",
+      "abi": "thiscall void(LinkContext *this; InputArgument *argument,OutputLibrary *library); actual ECX and two physical DWORD inputs, RET8; no other hidden inputs.",
       "symbol": "?LoadInputArgument@LinkContext@@QAEXPAUInputArgument@@PAUOutputLibrary@@@Z"
     },
     {
@@ -2686,6 +2686,36 @@
       "status": "implemented",
       "native_symbol": "initialize_file_mapping",
       "abi": "stdcall BYTE(FileRecord *record,BYTE resize,DWORD *error); three physical DWORD stack slots,RET12; only low byte of resize consumed; no hidden inputs; observed when reached"
+    },
+    {
+      "name": "_read_input_argument@12",
+      "start": 4495568,
+      "end": 4495569,
+      "status": "stub",
+      "pending_extent": true,
+      "source": "src/input.c",
+      "native_symbol": "read_input_argument",
+      "abi": "stdcall OutputModule *(InputArgument *,OutputLibrary *,LinkContext *); three physical DWORD inputs, RET12; no hidden inputs; formal observations required when reached."
+    },
+    {
+      "name": "_load_object_module@16",
+      "start": 4586640,
+      "end": 4586641,
+      "status": "stub",
+      "pending_extent": true,
+      "source": "src/input.c",
+      "native_symbol": "load_object_module",
+      "abi": "stdcall void(LinkContext *,void *,OutputModule *,WORD); four physical DWORD slots, RET16; no hidden inputs; raw fourth word and actual consumer width must be observed when reached."
+    },
+    {
+      "name": "_infer_output_file_name@8",
+      "start": 4495760,
+      "end": 4495761,
+      "status": "stub",
+      "pending_extent": true,
+      "source": "src/input.c",
+      "native_symbol": "infer_output_file_name",
+      "abi": "stdcall void(LinkContext *,InputArgument *); two physical DWORD inputs, RET8; no hidden inputs; observations required when reached."
     }
   ],
   "text_data": [
