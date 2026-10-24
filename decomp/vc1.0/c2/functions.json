@@ -1297,7 +1297,8 @@
     "_omf_write_fixups",
     "@omf_write_fixup@4",
     "@omf_output_symbol@4",
-    "@omf_output_debug_record@8"
+    "@omf_output_debug_record@8",
+    "@omf_write_line@12"
   ],
   "driver": [
     {
@@ -9387,8 +9388,31 @@
     {
       "name": "@omf_write_line@12",
       "start": 440192,
-      "end": 440193,
-      "provisional": true
+      "end": 440302,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "line",
+            "location": "CX",
+            "type": "unsigned16"
+          },
+          {
+            "name": "offset",
+            "location": "EDX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "segment",
+            "location": "entryESP+4",
+            "type": "Segment pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/omf-line-entry-abi/validation.json",
+        "scope": "Original6b780..6b7ee consumes low16 CXline, EDXoffset and stack+4segment, RET4. No other register/flags/x87/out pointer; highECX unused. Actual line34/offset0/context aliases caller lookup result and closed global-scope segment/current segmentID5 observed. Segment passed only as begin-record context, no incoming pointee payload; returned record is future child output, not fabricated input."
+      }
     },
     {
       "name": "@omf_write_comdat_line@12",

@@ -295,6 +295,15 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             read_word(process,image_base+0x6e8a4),read_word(process,image_base+0x6e8a8),flags,symbol_flags,call->return_address);log_line(line);
         /* All formals are unused by RET8; no pointee payload is read. */
     }
+    if(!strcmp(call->name,"@omf_write_line@12")) {
+        DWORD segment=call->args[2],id=read_word(process,segment+28),bucket=id&63,index=0;
+        DWORD member=read_word(process,image_base+0x6c158+4*bucket),symbol=read_word(process,image_base+0x731ac);
+        while(member&&member!=segment&&index<1024){member=read_word(process,member);++index;}
+        if(member!=segment||index==1024)exit(303);
+        sprintf(line,"omf_line_entry line %lu offset %08lx segment %08lx identifier %lu bucket %lu index %lu member %08lx current_segment_id %lu return_address %08lx\n",
+            call->args[0]&65535,call->args[1],segment,id,bucket,index,member,read_word(process,symbol+24),call->return_address);log_line(line);
+        /* Segment is context pointer; no pointee payload consumed by writer. */
+    }
     if(!strcmp(call->name,"@omf_output_debug_record@8")) {
         DWORD symbol=read_word(process,image_base+0x731ac);
         sprintf(line,"omf_line line %lu offset %08lx source_line %lu caller_offset %08lx symbol %08lx flags %lu segment_id %lu return_address %08lx\n",

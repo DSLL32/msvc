@@ -818,3 +818,12 @@ actual normal branch advances to6b780. Original/W3/ordinary audits/fresh pair
 and15 native cases pass(14 complete).344162/399693 extent bytes; app/support
 325862B/1178functions exclude5 historical CRT. Audit23.369s, full object pending.
 cases/omf-line-callback-checkpoint.json retains split timings and scope.
+
+Checkpoint1294 adds110-byte LINNUM32 writer. Actual word34/offset0/stack
+segment and caller lookup result/closed hashID5 match; no segment payload or
+incoming record input.216 full six-byte wire controls/8 ABI rejects verify
+count/cursor guards, input preservation across begin95 and RET4. Original/W3/
+ordinary audits/fresh pair and15 native cases pass(14 complete), next size
+reference6bd00.344272/399693 extent bytes; app/support325972B/1179functions
+exclude5 historical CRT. Audit23.894s, full object pending.
+cases/omf-line-entry-checkpoint.json retains split timings and limits.

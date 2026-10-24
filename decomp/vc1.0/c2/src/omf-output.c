@@ -1244,3 +1244,18 @@ void __fastcall omf_output_debug_record(unsigned line, unsigned offset)
     else
         omf_write_line((unsigned short)line, offset, segment);
 }
+
+/* Original [0006b780,0006b7ee). LINNUM32 contains the source WORD followed
+   by the four-byte offset, with the segment supplied only as record context. */
+void __fastcall omf_write_line(unsigned short line, unsigned offset, Segment *segment)
+{
+    OmfRecord *record = omf_begin_record(0x95, segment);
+    unsigned count = record->count + 1;
+    unsigned char *cursor = record->cursor;
+    record->count = count; *cursor++ = (unsigned char)line; record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(line >> 8); record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)offset; record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(offset >> 8); record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(offset >> 16); record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(offset >> 24); record->cursor = cursor;
+}
