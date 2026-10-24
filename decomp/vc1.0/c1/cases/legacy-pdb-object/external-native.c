@@ -77,6 +77,8 @@ ProgramDatabase *__wrap_open_program_database(char *path,char *mode,unsigned sig
     tracking=1;
     return __real_open_program_database(path,mode,signature);
 }
+
+#include "../pdb-record-interface/external-native.h"
 static void execute_unit(void)
 {
     unsigned before_stack,after_stack,i;
@@ -100,7 +102,7 @@ static void execute_unit(void)
     native_emit(0,line,strlen(line));
     if(before_stack!=after_stack||before_control!=after_control)fail();
     handle=database->handle;
-    if(selected_unit>=4) {
+    if(selected_unit>=4&&selected_unit<=5) {
         if(result!=1||handle<0)fail();
         pdb_database(&observer,"reload-before",(unsigned)database,1);
         if(selected_unit==5&&_chsize(handle,32))fail();
@@ -122,6 +124,12 @@ static void execute_unit(void)
     if(handle>=0) {
         sprintf(line,"pdb-offset %u\n",(unsigned)_lseek(handle,0,1));
         native_emit(0,line,strlen(line));
+    }
+    if(selected_unit>=6) {
+        for(i=0;i<16;++i)
+            if(unit_stack[i]!=0xa5||unit_stack[65536+16+i]!=0xa5)fail();
+        native_emit(0,"pdb-native-stack-guards intact\n",31);
+        execute_query();
     }
     for(i=0;i<16;++i)
         if(unit_stack[i]!=0xa5||unit_stack[65536+16+i]!=0xa5)fail();
@@ -152,7 +160,7 @@ int __wrap_main(int argc,char **argv,char **environment)
     unsigned entry=(unsigned)create_program_database;
     if(argc!=3)return 89;
     selected_unit=strtoul(argv[1],&end,10);
-    if(*end||selected_unit>5)return 89;
+    if(*end||selected_unit>14)return 89;
     report_descriptor=syscall(SYS_open,argv[2],577,0600);
     if(report_descriptor<0)return 89;
     if(pthread_getattr_np(pthread_self(),&attributes)||pthread_attr_getstack(&attributes,&main_stack,&main_stack_bytes)||

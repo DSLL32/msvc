@@ -1,0 +1,9 @@
+{
+  "unit": 14,
+  "exit": 0,
+  "setup_seconds": 0.004386821761727333,
+  "execution_seconds": 0.1606944054365158,
+  "executable_sha256": "d64617b3f7f19012f47d7b42f98db65a1b9e6cc2cbec1cd7993916d94a97623b",
+  "work": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-u14-native-body/vc1.0/c1/pdb-record-interface",
+  "scope": "Fixed PDB interface ABI observation; genuine constructor/open owner, controlled external stack, no public-producer claim."
+}

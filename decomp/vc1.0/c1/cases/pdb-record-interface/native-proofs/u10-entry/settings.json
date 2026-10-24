@@ -1,0 +1,8 @@
+{
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-u10-native-entry",
+  "unit": 10,
+  "function": "copy_program_database_type_record",
+  "arguments": 4,
+  "pop": 0,
+  "entry_only": true
+}

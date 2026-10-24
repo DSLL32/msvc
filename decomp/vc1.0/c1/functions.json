@@ -1099,7 +1099,16 @@
     "_current_aggregate_tag",
     "_current_aggregate_name",
     "_layout_type_member@4",
-    "_validate_symbol_storage@4"
+    "_validate_symbol_storage@4",
+    "@query_program_database_record@12",
+    "@copy_program_database_record@20",
+    "@close_program_database_handle@4",
+    "_program_database_type_record",
+    "_copy_program_database_type_record",
+    "_program_database_magic",
+    "_program_database_first_type",
+    "_program_database_last_type",
+    "_program_database_payload_bytes"
   ],
   "driver": [
     {
@@ -1173,9 +1182,24 @@
       "end": 96612
     },
     {
+      "name": "@query_program_database_record@12",
+      "start": 96624,
+      "end": 96705
+    },
+    {
+      "name": "@copy_program_database_record@20",
+      "start": 96720,
+      "end": 96880
+    },
+    {
       "name": "@write_program_database@4",
       "start": 96880,
       "end": 97074
+    },
+    {
+      "name": "@close_program_database_handle@4",
+      "start": 97088,
+      "end": 97133
     },
     {
       "name": "_open_program_database",
@@ -1188,9 +1212,24 @@
       "end": 97759
     },
     {
+      "name": "_program_database_type_record",
+      "start": 97760,
+      "end": 97844
+    },
+    {
+      "name": "_copy_program_database_type_record",
+      "start": 97856,
+      "end": 98016
+    },
+    {
       "name": "_close_program_database",
       "start": 98016,
       "end": 98219
+    },
+    {
+      "name": "_program_database_magic",
+      "start": 98224,
+      "end": 98230
     },
     {
       "name": "_program_database_signature",
@@ -1201,6 +1240,21 @@
       "name": "_program_database_age",
       "start": 98256,
       "end": 98264
+    },
+    {
+      "name": "_program_database_first_type",
+      "start": 98272,
+      "end": 98281
+    },
+    {
+      "name": "_program_database_last_type",
+      "start": 98288,
+      "end": 98297
+    },
+    {
+      "name": "_program_database_payload_bytes",
+      "start": 98304,
+      "end": 98328
     },
     {
       "name": "_commit_program_database",
@@ -6861,6 +6915,13 @@
       "public_reachability": false,
       "units": 31,
       "manifest": "cases/forced-container-support/manifest.json"
+    },
+    "pdb-record-interface": {
+      "accepted_from": 1095,
+      "accepted_count": 1104,
+      "public_reachability": false,
+      "units": 9,
+      "manifest": "cases/pdb-record-interface/manifest.json"
     }
   }
 }

@@ -1,0 +1,24 @@
+{
+  "status": "entry",
+  "calls": [
+    {
+      "function": "close_program_database_handle",
+      "registers": {
+        "eip": 1449429504,
+        "esp": 1470899772,
+        "ecx": 1470833968,
+        "edx": 12,
+        "ebx": 1450045428,
+        "esi": 1450138664,
+        "edi": 1471113180,
+        "ebp": 1470900536,
+        "fctrl": 895
+      },
+      "return_address": 1449857105,
+      "callee_pop": 0,
+      "arguments": [],
+      "owner": 1470833968,
+      "object_before": "4d6963726f736f667420432f432b2b2070726f6772616d20646174616261736520312e30300d0a1a4a4700005c0d0e00d7cedb6a0100000000100810a00000001070cdf7c027af574027ab57d067af57a00000005027ab57e087af5760000000d067af5709000000010000000100000001000000"
+    }
+  ]
+}

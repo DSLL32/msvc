@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5668cf31 in create_program_database (self=0x5669b833 <recon_time+99>, unused_edx=1470563616, path=0x566c7a38 <database_path> "S:\\vc1.0\\c1\\pdb-record-interface\\msvc.pdb", signature=1449829573) at src/program-database.c:157
+157	{
+[Inferior 1 (process 2190687) exited with code 0143]

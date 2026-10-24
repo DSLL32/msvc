@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "fa7192e2832203f01ba33570b4db3887d841aef0cb84be2abecab9cd05b8a437",
+    "functions.json": "56f815e861117cec65a0149d3d7a08d7ef4937021a4f01b45c5d657f353657db",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "1bda085d20f8de0d38d013b5146f52dc0af937d0f32def5816ec99c187f2f9d7"
+    "sha256": "ed9643a7aee0f96811023c92df73527a37668a6c4efb3c50686a0d4ede49efd7"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -653,6 +653,10 @@
       "logical": "_close_program_database",
       "source": "src/program-database.c"
     },
+    "close_program_database_handle": {
+      "logical": "@close_program_database_handle@4",
+      "source": "src/program-database.c"
+    },
     "close_source_file": {
       "logical": "_close_source_file",
       "source": "src/source-input.c"
@@ -856,6 +860,14 @@
     "copy_pch_stream": {
       "logical": "_copy_pch_stream@12",
       "source": "src/pch-files.c"
+    },
+    "copy_program_database_record": {
+      "logical": "@copy_program_database_record@20",
+      "source": "src/program-database.c"
+    },
+    "copy_program_database_type_record": {
+      "logical": "_copy_program_database_type_record",
+      "source": "src/program-database.c"
     },
     "copy_quoted_literal": {
       "logical": "_copy_quoted_literal@4",
@@ -2889,8 +2901,28 @@
       "logical": "_program_database_age",
       "source": "src/program-database.c"
     },
+    "program_database_first_type": {
+      "logical": "_program_database_first_type",
+      "source": "src/program-database.c"
+    },
+    "program_database_last_type": {
+      "logical": "_program_database_last_type",
+      "source": "src/program-database.c"
+    },
+    "program_database_magic": {
+      "logical": "_program_database_magic",
+      "source": "src/program-database.c"
+    },
+    "program_database_payload_bytes": {
+      "logical": "_program_database_payload_bytes",
+      "source": "src/program-database.c"
+    },
     "program_database_signature": {
       "logical": "_program_database_signature",
+      "source": "src/program-database.c"
+    },
+    "program_database_type_record": {
+      "logical": "_program_database_type_record",
       "source": "src/program-database.c"
     },
     "promote_integer_expression": {
@@ -2944,6 +2976,10 @@
     "qualify_member_type": {
       "logical": "_qualify_member_type@8",
       "source": "src/types.c"
+    },
+    "query_program_database_record": {
+      "logical": "@query_program_database_record@12",
+      "source": "src/program-database.c"
     },
     "queue_completed_scope": {
       "logical": "_queue_completed_scope@4",
@@ -4797,7 +4833,16 @@
     "current_aggregate_tag",
     "current_aggregate_name",
     "layout_type_member",
-    "validate_symbol_storage"
+    "validate_symbol_storage",
+    "query_program_database_record",
+    "copy_program_database_record",
+    "close_program_database_handle",
+    "program_database_type_record",
+    "copy_program_database_type_record",
+    "program_database_magic",
+    "program_database_first_type",
+    "program_database_last_type",
+    "program_database_payload_bytes"
   ],
   "excluded_accepted": {
     "CRT": [

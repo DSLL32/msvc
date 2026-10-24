@@ -78,25 +78,28 @@ static int pdb_heap_event(HANDLE process,HANDLE thread,HANDLE log,DWORD code,DWO
     return 0;
 }
 static int pdb_launch(HANDLE process,HANDLE thread,HANDLE log,DWORD target,DWORD self,
-                      unsigned args,DWORD a,DWORD b,DWORD c,unsigned pop)
+                      unsigned args,DWORD a,DWORD b,DWORD c,unsigned pop,DWORD d)
 {
     CONTEXT state=pdb_saved;
     DWORD frame[12],written;
     char line[160];
     unsigned i;
-    if(pdb_stack<pdb_external_base+8192||pdb_stack+sizeof(frame)>pdb_external_base+65536||args>3||pop>12)return -1;
+    if(pdb_stack<pdb_external_base+8192||pdb_stack+sizeof(frame)>pdb_external_base+65536||args>4||pop>12)return -1;
     for(i=0;i<12;++i)frame[i]=0xa5a5a5a5;
     frame[0]=pdb_marker;
     if(args>0)frame[1]=a;
     if(args>1)frame[2]=b;
     if(args>2)frame[3]=c;
+    if(args>3)frame[4]=d;
     if(!WriteProcessMemory(process,(void *)pdb_stack,frame,sizeof(frame),&written)||written!=sizeof(frame))return -1;
     state.Eip=target;state.Esp=pdb_stack;state.Ecx=self;
     pdb_call_pop=pop;pdb_call_args=args;
     sprintf(line,"pdb-call %u %08lx %08lx %08lx %u %08lx %08lx %08lx %u\n",pdb_call_count++,target,self,pdb_stack,args,a,b,c,pop);
     WriteFile(log,line,strlen(line),&written,0);
+    if(args==4){sprintf(line,"pdb-fourth %08lx\n",d);WriteFile(log,line,strlen(line),&written,0);}
     return SetThreadContext(thread,&state)?1:-1;
 }
+#include "capture-pdb-query.h"
 static int pdb_unit_event(HANDLE process,HANDLE thread,HANDLE log,DWORD code,DWORD site,DWORD base)
 {
     CONTEXT c;
@@ -151,7 +154,7 @@ static int pdb_unit_event(HANDLE process,HANDLE thread,HANDLE log,DWORD code,DWO
         pdb_memory(&pdb_observer,"arguments",allocation+4096,sizeof(arguments));
         if(pdb_observer.failed||pdb_heap_error)return -1;
         pdb_stage=1;
-        return pdb_launch(process,thread,log,base+0x7150,pdb_self,3,allocation+4096,allocation+4096+((pdb_unit==1||pdb_unit==3)?12:9),pdb_signature,12);
+        return pdb_launch(process,thread,log,base+0x7150,pdb_self,3,allocation+4096,allocation+4096+((pdb_unit==1||pdb_unit==3)?12:9),pdb_signature,12,0);
     }
     sprintf(line,"pdb-return %u %08lx %08lx %08lx %u %08lx %08lx\n",pdb_stage,c.Eax,c.Edx,c.Esp,
         c.Ebx==pdb_saved.Ebx&&c.Esi==pdb_saved.Esi&&c.Edi==pdb_saved.Edi&&c.Ebp==pdb_saved.Ebp,c.FloatSave.ControlWord,pdb_saved.FloatSave.ControlWord);
@@ -162,19 +165,20 @@ static int pdb_unit_event(HANDLE process,HANDLE thread,HANDLE log,DWORD code,DWO
     if(c.Ebx!=pdb_saved.Ebx||c.Esi!=pdb_saved.Esi||c.Edi!=pdb_saved.Edi||c.Ebp!=pdb_saved.Ebp||
        c.FloatSave.ControlWord!=pdb_saved.FloatSave.ControlWord)return -1;
     if(!ReadProcessMemory(process,(void *)(pdb_self+100),&handle,4,&got)||got!=4)return -1;
-    if(pdb_stage==1&&pdb_unit>=4) {
+    if(pdb_stage>=10)return pdb_query_return(process,thread,log,base,&c);
+    if(pdb_stage==1&&pdb_unit>=4&&pdb_unit<=5) {
         if(c.Eax!=1)return -1;
         pdb_database(&pdb_observer,"reload-before",pdb_self,1);
-        if(pdb_unit==5) {pdb_stage=2;return pdb_launch(process,thread,log,base+0x44030,0,2,handle,32,0,0);}
-        pdb_stage=3;return pdb_launch(process,thread,log,base+0x41570,0,3,handle,0,0,0);
+        if(pdb_unit==5) {pdb_stage=2;return pdb_launch(process,thread,log,base+0x44030,0,2,handle,32,0,0,0);}
+        pdb_stage=3;return pdb_launch(process,thread,log,base+0x41570,0,3,handle,0,0,0,0);
     }
     if(pdb_stage==2) {
         if(c.Eax)return -1;
-        pdb_stage=3;return pdb_launch(process,thread,log,base+0x41570,0,3,handle,0,0,0);
+        pdb_stage=3;return pdb_launch(process,thread,log,base+0x41570,0,3,handle,0,0,0,0);
     }
     if(pdb_stage==3) {
         if(c.Eax)return -1;
-        pdb_stage=4;return pdb_launch(process,thread,log,base+0x72c0,pdb_self,0,0,0,0,0);
+        pdb_stage=4;return pdb_launch(process,thread,log,base+0x72c0,pdb_self,0,0,0,0,0,0);
     }
     if(pdb_stage!=5) {
         pdb_unit_errors(process,log,base,"result");
@@ -182,11 +186,12 @@ static int pdb_unit_event(HANDLE process,HANDLE thread,HANDLE log,DWORD code,DWO
         for(i=0;i<pdb_allocation_count;++i) {
             sprintf(label,"allocation-after-%u",i);pdb_memory(&pdb_observer,label,pdb_allocations[i],pdb_allocation_bytes[i]<256?pdb_allocation_bytes[i]:256);
         }
-        if((int)handle>=0) {pdb_stage=5;return pdb_launch(process,thread,log,base+0x41570,0,3,handle,0,1,0);}
+        if((int)handle>=0) {pdb_stage=5;return pdb_launch(process,thread,log,base+0x41570,0,3,handle,0,1,0,0);}
     } else {
         sprintf(line,"pdb-offset %lu\n",c.Eax);WriteFile(log,line,strlen(line),&written,0);
     }
     if(pdb_observer.failed||pdb_heap_error)return -1;
+    if(pdb_unit>=6)return pdb_query_begin(process,thread,log,base);
     TerminateProcess(process,99);return 1;
 }
 #endif

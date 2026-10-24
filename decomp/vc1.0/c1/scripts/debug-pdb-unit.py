@@ -15,11 +15,23 @@ runner=importlib.util.module_from_spec(spec);spec.loader.exec_module(runner)
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--unit',type=int,choices=range(6),required=True)
+    parser.add_argument('--unit',type=int,choices=range(15),required=True)
     parser.add_argument('--directory',type=Path,required=True)
+    parser.add_argument('--entry-only',action='store_true')
     options=parser.parse_args()
     directory,work,environment,setup=runner.prepare(options.unit,options.directory)
     output=directory/'report';stdout=directory/'stdout';state=directory/'state.json'
+    if options.unit>=6:
+        case=runner.BINARY/'cases/pdb-record-interface';manifest=json.loads((case/'manifest.json').read_text());plan=manifest['direct_plan'][options.unit-6]
+        counts=[1,3,0,2,4,0,1,1,1];pops=[4,12,0,0,0,0,0,0,0]
+        settings=dict(directory=str(directory),unit=options.unit,function=plan['function'][1:].split('@')[0],arguments=counts[options.unit-6],pop=pops[options.unit-6],entry_only=options.entry_only)
+        settings_path=directory/'settings.json';settings_path.write_text(json.dumps(settings,indent=2)+'\n')
+        executable=runner.BINARY/'build/pdb-tests/C13232.EXE';start=time.perf_counter()
+        command=['gdb','--nx','-q','--batch','-ex','set $pdb_query_settings = '+json.dumps(str(settings_path)),'-ex','source '+str(HERE/'pdb-query-gdb.py'),str(executable)]
+        result=subprocess.run(command,cwd=work,env=environment,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=30);(directory/'gdb.log').write_bytes(result.stdout);(directory/'stderr').write_bytes(b'')
+        receipt=dict(unit=options.unit,exit=result.returncode,setup_seconds=setup,execution_seconds=time.perf_counter()-start,executable_sha256=runner.sha(executable),work=str(work),scope='Fixed PDB interface ABI observation; genuine constructor/open owner, controlled external stack, no public-producer claim.')
+        (directory/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');assert result.returncode==0 and state.exists(),result.stdout.decode('latin1');print(receipt);return
+
     script='''set pagination off
 set confirm off
 set disable-randomization off

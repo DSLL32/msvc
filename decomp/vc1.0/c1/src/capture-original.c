@@ -1039,7 +1039,7 @@ int main(int argc, char **argv)
     flag_option=getenv("C1_PDB_UNIT");
     if(flag_option) {
         pdb_unit=atoi(flag_option);pdb_signature=0x31415926;
-        if(pdb_unit<0||pdb_unit>5||argc==11)return 2;
+        if(pdb_unit<0||pdb_unit>14||(argc==11&&pdb_unit<6))return 2;
     }
     flag_option = getenv("C1_DIRECT_CALL");
     if (flag_option) {
@@ -1113,6 +1113,7 @@ int main(int argc, char **argv)
     }
 
     if (argc < 6 || argc > 11) return 2;
+    if(pdb_unit>=6)pdb_query_stream_locations=argc>=9?argv[8]:0;
     if (argc >= 8) {
         if (strlen(argv[7]) + 2 > sizeof(child_environment)) return 2;
         strcpy(child_environment, argv[7]);

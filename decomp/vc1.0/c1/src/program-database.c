@@ -6,6 +6,9 @@
 #include "debug-info.h"
 #include <recon.h>
 
+/* The original record-copy bodies inline this CRT operation. */
+#pragma intrinsic(memcpy)
+
 /* Both database-opening methods copy the same original header at0x6a028. */
 static const PdbHeader initial_header = {
     "Microsoft C/C++ program database 1.00\r\n\032JG", 0x000e0d5c,
@@ -409,4 +412,99 @@ int close_program_database(ProgramDatabase *self)
         free(self);
     }
     return valid;
+}
+
+/* Original 0x17970..0x179c1, ECX this plus one stack operand, RET4.
+   Cumulative loading owns the index-to-record vector used by this interface. */
+unsigned char *__fastcall query_program_database_record(ProgramDatabase *self,
+    unsigned unused_edx, unsigned short index)
+{
+    if (!self->cumulative || index < self->header.first_type ||
+        index >= self->header.last_type)
+        fatal_error(1, "typesrvr.cpp", 349);
+    return self->type_offsets[(unsigned)index - 0x1000];
+}
+
+/* Original 0x179d0..0x17a70, ECX this and three stack operands, RET12.
+   The length output is the required size even when only a prefix is copied. */
+unsigned __fastcall copy_program_database_record(ProgramDatabase *self,
+    unsigned unused_edx, unsigned short index, unsigned char *output, unsigned *bytes)
+{
+    unsigned char *record;
+    unsigned required, copy_bytes;
+    if (!self->cumulative || index < self->header.first_type ||
+        index >= self->header.last_type)
+        fatal_error(1, "typesrvr.cpp", 349);
+    record = self->type_offsets[(unsigned)index - 0x1000];
+    required = (unsigned short)(*(unsigned short *)(record + 2) + 2);
+    copy_bytes = *bytes;
+    if (required <= copy_bytes) copy_bytes = required;
+    memcpy(output, record + 2, copy_bytes);
+    *bytes = required;
+    return required;
+}
+
+/* Original 0x17b40..0x17b6d, ECX this/RET0. Closing the descriptor
+   leaves the database object and its loaded allocation chains alive. */
+int __fastcall close_program_database_handle(ProgramDatabase *self)
+{
+    int valid;
+    if (self->handle < 0) return 1;
+    valid = _close(self->handle) >= 0;
+    self->handle = -1;
+    return valid;
+}
+
+/* Original 0x17de0..0x17e34. This cdecl interface inlines its lookup
+   and omits the two-byte stored hash from the returned record view. */
+unsigned char *program_database_type_record(ProgramDatabase *self, unsigned short index)
+{
+    if (!self->cumulative || index < self->header.first_type ||
+        index >= self->header.last_type)
+        fatal_error(1, "typesrvr.cpp", 349);
+    return self->type_offsets[(unsigned)index - 0x1000] + 2;
+}
+
+/* Original 0x17e40..0x17ee0. The cdecl copy interface also inlines
+   its method rather than calling the separate ECX entry. */
+unsigned copy_program_database_type_record(ProgramDatabase *self, unsigned short index,
+    unsigned char *output, unsigned *bytes)
+{
+    unsigned char *record;
+    unsigned required, copy_bytes;
+    if (!self->cumulative || index < self->header.first_type ||
+        index >= self->header.last_type)
+        fatal_error(1, "typesrvr.cpp", 349);
+    record = self->type_offsets[(unsigned)index - 0x1000];
+    required = (unsigned short)(*(unsigned short *)(record + 2) + 2);
+    copy_bytes = *bytes;
+    if (required <= copy_bytes) copy_bytes = required;
+    memcpy(output, record + 2, copy_bytes);
+    *bytes = required;
+    return required;
+}
+
+/* Original 0x17fb0..0x17fb6. */
+unsigned program_database_magic(void)
+{
+    return 0x000e0d5c;
+}
+
+/* Original 0x17fe0..0x17fe9 and 0x17ff0..0x17ff9. The function
+   result is sixteen bits (AX); upper EAX bits are not part of this ABI. */
+unsigned short program_database_first_type(ProgramDatabase *self)
+{
+    return self->header.first_type;
+}
+
+unsigned short program_database_last_type(ProgramDatabase *self)
+{
+    return self->header.last_type;
+}
+
+/* Original 0x18000..0x18018. The interface record view excludes the
+   two-byte hash stored alongside every indexed type record. */
+unsigned program_database_payload_bytes(ProgramDatabase *self)
+{
+    return self->records.count + 2U * (self->header.first_type - self->header.last_type);
 }

@@ -76,27 +76,30 @@ build/native-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
 
 NATIVE_CASES = $(if $(filter all,$(CASE)),,$(foreach case,$(CASE),--case $(case)))
-native-direct-check: native native-trace native-expression-tests native-pdb-tests
+native-direct-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests
 	$(PYTHON) scripts/check-direct.py
 	$(PYTHON) scripts/check-expression-tests.py
 	$(PYTHON) scripts/check-pdb-objects.py
 	$(PYTHON) scripts/check-support.py
 	$(PYTHON) scripts/check-container.py
+	$(PYTHON) scripts/check-pdb-queries.py
 
-native-check: native native-trace native-expression-tests native-pdb-tests
+native-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests
 	$(PYTHON) scripts/check-native.py $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-objects.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-support.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-container.py,@true)
-native-trace-check: native native-trace native-expression-tests native-pdb-tests
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-queries.py,@true)
+native-trace-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests
 	$(PYTHON) scripts/check-native.py --trace $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-objects.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-support.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-container.py,@true)
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-queries.py,@true)
 
 # Private oracle mutations; no new fixture inputs or original execution.
 native-adoption-check: native native-trace native-expression-tests native-pdb-tests native-quickc-tests
@@ -119,10 +122,17 @@ src/asm-grammar.h: src/asm-grammar.c
 native-pdb-tests: build/pdb-tests/C13232.EXE
 build/pdb-tests:
 	mkdir -p $@
-build/pdb-tests/external.o: cases/legacy-pdb-object/external-native.c cases/legacy-pdb-object/external.h $(NATIVE_HEADERS) Makefile | build/pdb-tests
+build/pdb-tests/external.o: cases/legacy-pdb-object/external-native.c cases/legacy-pdb-object/external.h cases/pdb-record-interface/external-native.h $(NATIVE_HEADERS) Makefile | build/pdb-tests
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -pthread -c $< -o $@
 build/pdb-tests/C13232.EXE: $(NATIVE_OBJECTS) build/pdb-tests/external.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -pthread -rdynamic $(NATIVE_OBJECTS) build/pdb-tests/external.o $(NATIVE_SHIMS) -Wl,--wrap=main,--wrap=open_program_database,--wrap=malloc -ldl -o $@
+
+.PHONY: native-pdb-trace-tests
+native-pdb-trace-tests: build/pdb-tests-trace/C13232.EXE
+build/pdb-tests-trace:
+	mkdir -p $@
+build/pdb-tests-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) build/pdb-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile | build/pdb-tests-trace
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -pthread -rdynamic $(NATIVE_TRACE_OBJECTS) build/pdb-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main,--wrap=open_program_database,--wrap=malloc -ldl -o $@
 
 .PHONY: native-expression-tests
 native-expression-tests: build/expression-tests/C13232.EXE

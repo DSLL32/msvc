@@ -1,0 +1,103 @@
+{
+  "container_unit": null,
+  "restored_functions": [
+    "_program_database_first_type"
+  ],
+  "pdb_cleanup_probe": false,
+  "expression_unit": null,
+  "support_unit": null,
+  "aborted_function_probe": false,
+  "browser_limit_probe": false,
+  "declaration_scope_probe": false,
+  "complete_type_probe": false,
+  "strdup_probe": false,
+  "direct_call": null,
+  "asm_segment_probe": false,
+  "return8_probe": false,
+  "stop_function": "@create_program_database@16",
+  "terminal_exit": 99,
+  "expected_exit": 99,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/pdb-record-interface",
+  "phase": "context",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 1096,
+  "accepted_sha256": "c250ee1befe398415d66f398c4cd108769991f44b3408482eec13f94fae63f9f",
+  "executable_sha256": "21b437a53aac260986bff56f59684b74c1cae390be9cd47086d64c095acecdb8",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "ea3e800b8d098f619231f973c4114f1b8c79ce621f53e8bb4d4a176607b7432f",
+  "debugger_memory_request": "4b024:4,4b140:4,4b148:1,4b228:4,4b244:4,4ff14:4,50064:4,50228:4,50798:4,5b7f4:4,5b7f8:4,5bb44:4,5bb48:4,5ce6c:1",
+  "debugger_string_request": "4b588:100,4d5b8:100,5be68:100",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\pdb-record-interface",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Actual original CL child handles alias fd1/fd2."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-record-interface",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05375532899051905,
+  "execution_seconds": 0.8945643920451403,
+  "total_seconds": 0.9483218444511294,
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "test.c",
+      "bytes": 327,
+      "sha256": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+    },
+    {
+      "name": "unit.pdb",
+      "bytes": 224,
+      "sha256": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+    }
+  ],
+  "pdb_unit": {
+    "unit": 12,
+    "signature": 826366246,
+    "external_input": {
+      "name": "unit.pdb",
+      "path": "data/valid.pdb",
+      "bytes": 224,
+      "sha256": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+    },
+    "public_reachability": false,
+    "ownership": "Actual constructor malloc returns116/12/12; no target-global initialization."
+  }
+}

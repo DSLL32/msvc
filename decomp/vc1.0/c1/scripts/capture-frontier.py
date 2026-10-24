@@ -39,7 +39,7 @@ def main():
     parser.add_argument('--direct-body',action='store_true',help='Restore exactly selected candidate body/shared text for explicit direct verification')
     parser.add_argument('--restore-function',action='append',default=[],help='Explicit candidate body/shared-text restoration, without accepting it')
     parser.add_argument('--pdb-cleanup-probe',action='store_true',help='Observe real PDB list owner and free sequence at cleanup')
-    parser.add_argument('--pdb-unit',type=int,choices=range(6),help='External owned database open/reload unit at the natural constructor')
+    parser.add_argument('--pdb-unit',type=int,choices=range(15),help='External owned database open/reload unit at the natural constructor')
     parser.add_argument('--trace-qc-options',action='store_true',help='Untouched preflight: observe four real QuickC option words at initializer entry/return')
     parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
     parser.add_argument('--trace-flags',help='Logical function whose full scanner/parser words are observed at entry/return')
@@ -135,9 +135,9 @@ def main():
     pdb_external_input = None
     if options.pdb_unit is not None:
         assert options.stop_function == '@create_program_database@16'
-        assert not options.unmasked and not entry_mode and not options.direct_function
-        assert options.phase == 'context' and case.name == 'legacy-pdb-object'
-        if options.pdb_unit in (0,1,4,5):
+        assert not options.unmasked and (not entry_mode or options.pdb_unit>=6) and not options.direct_function
+        assert options.phase=='context' and case.name==('legacy-pdb-object'if options.pdb_unit<6 else'pdb-record-interface')
+        if options.pdb_unit in (0,1,4,5) or options.pdb_unit>=6:
             item=json.loads((case/'manifest.json').read_text())['direct_inputs'][0]
             source=case/item['path']
             assert sha(source)==item['sha256'] and source.stat().st_size==item['bytes']
@@ -210,7 +210,7 @@ def main():
     else:
         assert not options.direct_body and options.direct_arguments is None
     if options.stop_function:
-        assert not options.unmasked and (not entry_mode or options.support_unit is not None or options.container_unit is not None)
+        assert not options.unmasked and (not entry_mode or options.support_unit is not None or options.container_unit is not None or options.pdb_unit is not None and options.pdb_unit>=6)
         probe = next(r for r in config['driver'] if r['name']==options.stop_function)
         assert probe['name'] in config['accepted']
         data[original.offset(probe['start'])] = 0xcc

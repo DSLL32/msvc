@@ -175,6 +175,18 @@ unsigned short intern_program_database_type(ProgramDatabase *self, unsigned char
 int __fastcall write_program_database(ProgramDatabase *self);
 int commit_program_database(ProgramDatabase *self);
 int close_program_database(ProgramDatabase *self);
+unsigned char *__fastcall query_program_database_record(ProgramDatabase *self,
+    unsigned unused_edx, unsigned short index);
+unsigned __fastcall copy_program_database_record(ProgramDatabase *self,
+    unsigned unused_edx, unsigned short index, unsigned char *output, unsigned *bytes);
+int __fastcall close_program_database_handle(ProgramDatabase *self);
+unsigned char *program_database_type_record(ProgramDatabase *self, unsigned short index);
+unsigned copy_program_database_type_record(ProgramDatabase *self, unsigned short index,
+    unsigned char *output, unsigned *bytes);
+unsigned program_database_magic(void);
+unsigned short program_database_first_type(ProgramDatabase *self);
+unsigned short program_database_last_type(ProgramDatabase *self);
+unsigned program_database_payload_bytes(ProgramDatabase *self);
 ProgramDatabase *open_program_database(char *path, char *mode, unsigned signature);
 void initialize_pdb_record_buffer(void);
 void write_program_database_reference(void);

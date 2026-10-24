@@ -1,0 +1,30 @@
+{
+  "checks": [
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit-win32",
+        "native",
+        "native-trace",
+        "native-expression-tests",
+        "native-pdb-tests",
+        "native-pdb-trace-tests"
+      ],
+      "seconds": 13.502436447888613,
+      "exit": 0,
+      "log": "check-0.log"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native-trace-check"
+      ],
+      "seconds": 0.10759444255381823,
+      "exit": 2,
+      "log": "check-1.log"
+    }
+  ],
+  "shared_unchanged": true
+}

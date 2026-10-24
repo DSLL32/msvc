@@ -1,0 +1,221 @@
+{
+  "note": "Generated masked EXEs retained in scratch. Fixtures require committed observations/owned files only; compact mask recipe reproduces each hash.",
+  "files": [
+    {
+      "original_case_path": "original-u6-accepted/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u6-accepted/original-masked.exe",
+      "sha256": "fd20fa3f491f9a4e32e396ec14087c394810d7a443b1b5b0f729b13d8116c9bc",
+      "bytes": 389632,
+      "receipt_path": "original-u6-accepted/receipt.json",
+      "receipt_sha256": "e6b1c003210621c64db36d0fa5f6c5ceafd59d297396a4692a240b1c3d513b06"
+    },
+    {
+      "original_case_path": "original-u6-body/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u6-body/original-masked.exe",
+      "sha256": "bfaaa2de100e136f7f882278b1f159d1cfb953a6bde30d5964ebf2a8da4a9b49",
+      "bytes": 389632,
+      "receipt_path": "original-u6-body/receipt.json",
+      "receipt_sha256": "ff9d9a55af4b7d2582389e57827ea68647f00648b2b84f84abd94ef6e5628ea1"
+    },
+    {
+      "original_case_path": "original-u6-entry/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u6-entry/original-masked.exe",
+      "sha256": "38316e04efc19b34d5c5f048d159b608a88b585ffb9dd4b53209528caa592b0d",
+      "bytes": 389632,
+      "receipt_path": "original-u6-entry/receipt.json",
+      "receipt_sha256": "a537556f38283b71f61e5095994db2786e20f3dca9ac10286bca660f08a333d9"
+    },
+    {
+      "original_case_path": "original-u10-accepted/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u10-accepted/original-masked.exe",
+      "sha256": "c59541c70f9c0d906595b66186f744ab09f6aa07785107b5fe4179a58b115e8d",
+      "bytes": 389632,
+      "receipt_path": "original-u10-accepted/receipt.json",
+      "receipt_sha256": "53b432bd885df259f3b57f64f6bc6642f93d7fc770ac7f7cccb745641928d98f"
+    },
+    {
+      "original_case_path": "original-u10-body/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u10-body/original-masked.exe",
+      "sha256": "87b8f3bf312ba605e0198d669e4dbb6b99868864995d59dfc950f12dfd6461a2",
+      "bytes": 389632,
+      "receipt_path": "original-u10-body/receipt.json",
+      "receipt_sha256": "812a785ba99f6cadd5850c82868ed0054fcc1bc08a6d5dac3787256042bf4d6b"
+    },
+    {
+      "original_case_path": "original-u10-entry/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u10-entry/original-masked.exe",
+      "sha256": "bfaaa2de100e136f7f882278b1f159d1cfb953a6bde30d5964ebf2a8da4a9b49",
+      "bytes": 389632,
+      "receipt_path": "original-u10-entry/receipt.json",
+      "receipt_sha256": "7de176e6cc9c5ad6d8d32f7a9acaf62fac4a6ba8eeb2498ad37ddc96e4cf7bbc"
+    },
+    {
+      "original_case_path": "original-u11-accepted/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u11-accepted/original-masked.exe",
+      "sha256": "bf42176f593d01b4d51ffcbf2690a75fbd515b607f4f4014ace45987cba9bed0",
+      "bytes": 389632,
+      "receipt_path": "original-u11-accepted/receipt.json",
+      "receipt_sha256": "ad682552360b784d860973c27132dd0b13744a1c8bb1c3a80edddca54cba46aa"
+    },
+    {
+      "original_case_path": "original-u11-body/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u11-body/original-masked.exe",
+      "sha256": "9d211133bb073623bd85c7af2a597cbdd66074e8b8d15e05fed37b7167508a1a",
+      "bytes": 389632,
+      "receipt_path": "original-u11-body/receipt.json",
+      "receipt_sha256": "83c852cf3cfcf175817bae87192fb6b3b250183f7fba1b412633e7a28f1de070"
+    },
+    {
+      "original_case_path": "original-u11-entry/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u11-entry/original-masked.exe",
+      "sha256": "bfaaa2de100e136f7f882278b1f159d1cfb953a6bde30d5964ebf2a8da4a9b49",
+      "bytes": 389632,
+      "receipt_path": "original-u11-entry/receipt.json",
+      "receipt_sha256": "984c2c67e36c7065e7746a1c68cf74281a6ae5b3ce87fd3ada44f74eb5ef9c3f"
+    },
+    {
+      "original_case_path": "original-u12-accepted/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u12-accepted/original-masked.exe",
+      "sha256": "25c0ffdab563f7ce06d76b9a85101a4d2034a05ce005dee6b893611c0d3fe6b5",
+      "bytes": 389632,
+      "receipt_path": "original-u12-accepted/receipt.json",
+      "receipt_sha256": "5d734d2cb9c5444ad46abe3172f72032af214661f3a23a82e7074a7130a52162"
+    },
+    {
+      "original_case_path": "original-u12-body/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u12-body/original-masked.exe",
+      "sha256": "21b437a53aac260986bff56f59684b74c1cae390be9cd47086d64c095acecdb8",
+      "bytes": 389632,
+      "receipt_path": "original-u12-body/receipt.json",
+      "receipt_sha256": "c80e119e8b84d1a1f76520babf46d25305c6777aca9963f21f74da9474f32217"
+    },
+    {
+      "original_case_path": "original-u12-entry/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u12-entry/original-masked.exe",
+      "sha256": "bfaaa2de100e136f7f882278b1f159d1cfb953a6bde30d5964ebf2a8da4a9b49",
+      "bytes": 389632,
+      "receipt_path": "original-u12-entry/receipt.json",
+      "receipt_sha256": "0f5a4b233e4945da873862676c9b48c1143bf587c32334a2ce90f5972957aa40"
+    },
+    {
+      "original_case_path": "original-u13-accepted/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u13-accepted/original-masked.exe",
+      "sha256": "df3da2ed46ab665234d10569cf2afe0b516c9c0cbf6b5eaf9b1c19352333cb19",
+      "bytes": 389632,
+      "receipt_path": "original-u13-accepted/receipt.json",
+      "receipt_sha256": "23a7e3e0cd31c45345dc4ea6c650716a99622d0c31afdd3a851f755f3e2f3606"
+    },
+    {
+      "original_case_path": "original-u13-body/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u13-body/original-masked.exe",
+      "sha256": "9c5f764a404d4b3aba7c610053f51bb04a6211b3b6d50f2ca9cd80d14812938d",
+      "bytes": 389632,
+      "receipt_path": "original-u13-body/receipt.json",
+      "receipt_sha256": "53a27d69214cc30d78a417e100f70be1660ae6af111fd781ce3b527e3416ef3c"
+    },
+    {
+      "original_case_path": "original-u13-entry/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u13-entry/original-masked.exe",
+      "sha256": "bfaaa2de100e136f7f882278b1f159d1cfb953a6bde30d5964ebf2a8da4a9b49",
+      "bytes": 389632,
+      "receipt_path": "original-u13-entry/receipt.json",
+      "receipt_sha256": "9ea849b5eb957a9741905ee01630e0320d7c8fffd1fcb0c338e826925fe5691b"
+    },
+    {
+      "original_case_path": "original-u14-accepted/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u14-accepted/original-masked.exe",
+      "sha256": "e0241cef7291a04144da2b8a400ddd9f6f26356e6d05be219fdbee50ff64dc2d",
+      "bytes": 389632,
+      "receipt_path": "original-u14-accepted/receipt.json",
+      "receipt_sha256": "092d4ab5ca1e1c5574a7fbd163028c0d91693281f4fc943d51b0f3f3c7ff787a"
+    },
+    {
+      "original_case_path": "original-u14-body/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u14-body/original-masked.exe",
+      "sha256": "6a5aae79289dd4c3bccfc05eb06cbe84429b8d5a745adc37c14afd7d542298c0",
+      "bytes": 389632,
+      "receipt_path": "original-u14-body/receipt.json",
+      "receipt_sha256": "2d61e03e7e72cc5f3e9cf0e062eaba95a77bd175a826a141d2a604f7211017c5"
+    },
+    {
+      "original_case_path": "original-u14-entry/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u14-entry/original-masked.exe",
+      "sha256": "bfaaa2de100e136f7f882278b1f159d1cfb953a6bde30d5964ebf2a8da4a9b49",
+      "bytes": 389632,
+      "receipt_path": "original-u14-entry/receipt.json",
+      "receipt_sha256": "7e30b70e2be0c45dfcdfda8399953d6ecb7097deb9c9ff7b2cb3401870956f93"
+    },
+    {
+      "original_case_path": "original-u7-accepted/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u7-accepted/original-masked.exe",
+      "sha256": "2262d78d631e6db5b86613fe31fba606bec62fafd2eb3ddbd5f52baea0ef60d0",
+      "bytes": 389632,
+      "receipt_path": "original-u7-accepted/receipt.json",
+      "receipt_sha256": "59ff57fa9cb2f0558db7a34b8110b82ee4be92d1ce97587ae70bf6d53d44b801"
+    },
+    {
+      "original_case_path": "original-u7-body/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u7-body/original-masked.exe",
+      "sha256": "a295864d7b9d1af4b8c7ed01504ced426daa4ca2fe0cdf2a43e7746624ca147c",
+      "bytes": 389632,
+      "receipt_path": "original-u7-body/receipt.json",
+      "receipt_sha256": "99ed04b143d3099dd9651a49fff21a5ae5184af94590e824c791056af7842f4c"
+    },
+    {
+      "original_case_path": "original-u7-entry/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u7-entry/original-masked.exe",
+      "sha256": "bfaaa2de100e136f7f882278b1f159d1cfb953a6bde30d5964ebf2a8da4a9b49",
+      "bytes": 389632,
+      "receipt_path": "original-u7-entry/receipt.json",
+      "receipt_sha256": "8eb7d08be7aa40d8d4684c2b456a84db019668e732a43525138accf59ac018e3"
+    },
+    {
+      "original_case_path": "original-u8-accepted/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u8-accepted/original-masked.exe",
+      "sha256": "93afdab766d78dce0d18bb175f5d8d16d928025e9c112f5314f80a63a5d73078",
+      "bytes": 389632,
+      "receipt_path": "original-u8-accepted/receipt.json",
+      "receipt_sha256": "0a54dcfe0177f0b76ebcf32acae8f4d2fc161832fcbbaa4f7b8b27f8855f4080"
+    },
+    {
+      "original_case_path": "original-u8-body/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u8-body/original-masked.exe",
+      "sha256": "b5a0c4fa0b03eea51e5a22b1fc1c0837ae828b2e4e2627fac39c5c7b2329af4e",
+      "bytes": 389632,
+      "receipt_path": "original-u8-body/receipt.json",
+      "receipt_sha256": "f6baf1d0528b0a2a109bac3af306253e9a9847943cecbd462ac12e4091727a66"
+    },
+    {
+      "original_case_path": "original-u8-entry/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u8-entry/original-masked.exe",
+      "sha256": "bfaaa2de100e136f7f882278b1f159d1cfb953a6bde30d5964ebf2a8da4a9b49",
+      "bytes": 389632,
+      "receipt_path": "original-u8-entry/receipt.json",
+      "receipt_sha256": "303d97a86d15db64cc7747dff80b17275196e2915775fab38f0a1e8436a84089"
+    },
+    {
+      "original_case_path": "original-u9-accepted/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u9-accepted/original-masked.exe",
+      "sha256": "bc6262a9dbcf319c633aec1fab7dc9cd5a9038553cdc60945b937606629c7c77",
+      "bytes": 389632,
+      "receipt_path": "original-u9-accepted/receipt.json",
+      "receipt_sha256": "2bbe24b345933f8cb8975669759ccf27efd2f0073c1123209878d8493f737899"
+    },
+    {
+      "original_case_path": "original-u9-body/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u9-body/original-masked.exe",
+      "sha256": "920cf5480092975547422d649582782236b2258a2765569550b7868c21da22e7",
+      "bytes": 389632,
+      "receipt_path": "original-u9-body/receipt.json",
+      "receipt_sha256": "effa34b3839b69f5ff4585f597ba1a6bdcac54ed77dd3784e929d3a4b7223ccd"
+    },
+    {
+      "original_case_path": "original-u9-entry/original-masked.exe",
+      "retained_path": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-query-generated-executables/original-u9-entry/original-masked.exe",
+      "sha256": "bfaaa2de100e136f7f882278b1f159d1cfb953a6bde30d5964ebf2a8da4a9b49",
+      "bytes": 389632,
+      "receipt_path": "original-u9-entry/receipt.json",
+      "receipt_sha256": "1345f09a8d90a79864d5be1fc4967b7bee6bf2a2e491009e43e634f52da74db3"
+    }
+  ]
+}
