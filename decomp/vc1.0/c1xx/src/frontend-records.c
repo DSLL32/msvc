@@ -10,6 +10,7 @@
 #include <recon.h>
 
 void begin_for_increment_region(void);
+void end_for_increment_region(void);
 
 FrontendRecord *ir_record_head; /* original 0xa0a00 */
 FrontendRecord *ir_record_tail; /* original 0xa0a04 */
@@ -839,6 +840,22 @@ void begin_for_increment_region(void)
 {
     FrontendRecord record;
     record.kind = 0x28;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
+
+/* Original 0x3ff10..0x3ff57. Close increment evaluation before opening
+   the for-loop body; record suppression skips both operations. */
+void begin_for_body(void)
+{
+    FrontendRecord record;
+    if (ir_records_suppressed) return;
+    end_for_increment_region();
+    record.kind = 0x2a;
     record.flags = 0;
     record.field02 = 0;
     record.sequence = 0;

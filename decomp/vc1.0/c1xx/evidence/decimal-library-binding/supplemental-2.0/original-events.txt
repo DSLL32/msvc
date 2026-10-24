@@ -1,0 +1,5 @@
+exception 80000003 rva 00074cf0 base 00010000 first 1
+exception 80000003 rva 00064b57 base 00010000 first 1
+exception 80000003 rva 00074cf0 base 00010000 first 1
+exception 80000003 rva 00064b57 base 00010000 first 1
+exit 99

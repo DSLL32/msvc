@@ -1,0 +1,12 @@
+{
+  "text": "322e3000",
+  "after_text": "322e3000",
+  "output": "00000000000000800040",
+  "result": 0,
+  "entry": "recon_atoldbl",
+  "entry_pc": 1449004876,
+  "caller": "convert_floating_literal",
+  "output_matches_caller_parsed": true,
+  "output_prestate": "unread/uncredited",
+  "defined_output_bytes": 10
+}
