@@ -47,6 +47,10 @@ def main():
         content=(BINARY/config['section_callback_storage_contract']).read_bytes()
         assert sha(content)==config['section_callback_storage_contract_sha256']
         (output/'section-callback-storage-contract.json').write_bytes(content)
+    if config.get('register_model'):
+        content=(BINARY/config['register_model']).read_bytes()
+        assert sha(content)==config['register_model_sha256']
+        (output/'register-model.json').write_bytes(content)
     if config.get('assembly_visitor_contract'):
         content=(BINARY/config['assembly_visitor_contract']).read_bytes()
         assert sha(content)==config['assembly_visitor_contract_sha256']
@@ -148,6 +152,8 @@ def main():
     for stream in ('stdout','stderr'):
         path=output/(stream+'.bin')
         receipt[stream]={'bytes':path.stat().st_size,'sha256':sha(path.read_bytes())}if path.exists()else None
+    if config.get('register_model'):
+        receipt['register_state_hashes']={name:sha((output/name).read_bytes())for name in ['registers-before.bin','registers-after.bin']}
     (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     assert result.returncode==0, 'original debugger failed; preserved '+str(output)
     assert provider.exists() and receipt['provider_sha256']==CANONICAL_CRT,'canonical provider not proved; preserved '+str(output)

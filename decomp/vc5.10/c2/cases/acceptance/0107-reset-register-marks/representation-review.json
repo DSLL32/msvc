@@ -1,0 +1,17 @@
+{
+  "review": "Independent concrete partial register-descriptor storage release under root policy",
+  "packet_sha256": "731fb14c9e36d63469430f774d61128ea448953b341a1eec88b80718642cebf1",
+  "before_plan_sha256": "29e9b8eafebae7d468eefbae7af04089157bea6220e5fe83ba4184d3c7ea798f",
+  "independent_exact_checks": [
+    "Canonical target/provider table6000B matches frozen actual begin106 before slice/hash",
+    "Actual rowbase494758/end495ec8/count75/stride80/flags+5, no494750 prefix ownership",
+    "All75 initialized flagbytes0; full5925other bytes UNMODELED",
+    "Complete24B helper instructions read only flags and clear0x10, exactloop75/RET0/no pointerescape",
+    "All87 recorded base/flag/end instruction witnesses independently decoded",
+    "Current accepted code/support extents inspected for immediate/memory reference anywhere in6000B table: none"
+  ],
+  "release": "Implement only bounded partial C2MachineRegister pending00[5]/flags/pending06[74] array75 and genuine reset helper. Native implicit reserved zeros are storage representation only, no initialized/default/data equivalence credit.",
+  "required_acceptance": "Next ordinary pair captures each side own6000B before/after, only75flags crosscompared, each own5925 untouched; actual symbol/size/offset/bounds; nonzero flags/padding/canary and livealias/unknownconsumer guards. Real noarg initialize_function_records remains named INT3 before its pool allocation.",
+  "hard_hold": "Any unknown field access, table/rowpointer escape or new consumer until actual semantic fields/ABI/state are recovered. Additional fields only positive type/data evidence, no bulk table dump.",
+  "credit_limit": "75 initialized flags only; no whole6000B or5925unknown bytes credit. This releases representation/implementation, not yet candidate acceptance."
+}

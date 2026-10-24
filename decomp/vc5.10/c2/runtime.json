@@ -1196,14 +1196,6 @@
     "evidence": null
   },
   {
-    "name": "_reset_register_marks",
-    "start": 4359746,
-    "end": 4359747,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_initialize_function_records",
     "start": 4359770,
     "end": 4359771,

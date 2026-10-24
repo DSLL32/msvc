@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 101 application functions (20922 bytes) and five CRT
+Current reconstruction has 102 application functions (20946 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at reset_register_marks(void), before setup writes for selected _mix_unsigned
+currently stops at initialize_function_records(void), after the register flag reset and before setup writes for selected _mix_unsigned
 and the 38-byte directive payload/counters matched. Four import thunks (24 bytes) and contextual text tables
-(812 bytes) remain separate. The 21360 source bytes are 3.727% of 573183 `.text`
+(812 bytes) remain separate. The 21384 source bytes are 3.731% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -473,3 +473,7 @@ Source104 reconstructs the 37-byte record-initializer producer, correcting its e
 Source105 reconstructs the whole56B assembly-record producer, with exact serialECX lookup and returned initializer pointer forwardedEAX->ECX. Its new typed children remain named masked INT3s. The lookup prefix/successRET and existing separate extent-known internal-error helper are all masked/unaccepted; no overlapping body or helper credit is claimed. Seven finite call/source/auxiliary controls pass. After the disabled assembly path, the controller selects mix_unsigned85, sets its additional_flags28->2a, removes it from the pending root and sets the volatile pass limit128. The full initialized arena/output state and actual noarg begin_function_input/compile_functions formals match; sixteen affected selection mutations pass, with a bounded exact-premise reuse certificate after correcting non-executable helper-status prose. This reaches100 reconstructed application functions.
 
 Source106 reconstructs the whole76B function-input setup wrapper and keeps all four noarg children as genuine masked INT3s. It reuses existing current_function and code_generation_state storage. The additional function-input flag has actual DWORD storage, but this entry clears only its low byte; explicit unsigned-char access preserves the other three bytes. Twenty-four fresh actual frontier/controller/setup-state controls pass at the first reset_register_marks child, before any setup writes. Six compiled auxiliary/operand controls verify nonzero upper-byte preservation, shared aliases, call order and optional listing path. No register-table data or child body is reconstructed. The source105100-application-function milestone also passed independent orchestrator review.
+
+Source107 reconstructs the24B reset_register_marks loop: actual75 rows/80Bstride/flagbyte+5 clearbit0x10. Only75 initialized flags are modeled;5925 pending backing bytes receive no default/layout/data credit, remain individually untouched, and unknown fields/rowpointer escape hard-fail before acceptance. Fresh original/native stop at real noarg initialize_function_records before allocation. Nonzero pendingbytes, canaryrows, livealiases, full finite87-site owner/source-use guards and actual raw before/after mutations pass102 focused controls;6 generic controls fresh/147 reused. Historical CRT438B/import24B/textdata812B separate.
+
+Register-table data is separately limited to75 encountered flag bytes, with5925 other backing bytes explicitly unmodeled. They are checked only against each side's own before state, never as cross-side/default equivalence. The finite table-use/source guard holds any new consumer or pointer escape until the corresponding fields are reconstructed.

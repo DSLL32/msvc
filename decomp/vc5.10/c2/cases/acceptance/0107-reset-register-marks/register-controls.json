@@ -1,0 +1,637 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/register107-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/register107-original/graph-audit.json",
+    "matched": "_initialize_function_records",
+    "original": "0x42865a",
+    "native": "initialize_function_records",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "initialize_function_records",
+      "symbol_start": "0x6d60",
+      "symbol_size": 74,
+      "static_pc": "0x6d8f",
+      "int3_sites": [
+        "0x6d8e"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output",
+      "@initialize_coff_output@4",
+      "@new_output_table@4",
+      "_writer_callback_41eb8a",
+      "_initialize_coff_lists",
+      "@new_output_list@8",
+      "_new_output_chunk",
+      "@add_output_source@4",
+      "@add_coff_symbol@4",
+      "_write_output_directives",
+      "_output_callback_453e02",
+      "@write_coff_directive@16",
+      "_output_callback_41ec20",
+      "@create_coff_section@4",
+      "@add_coff_section@16",
+      "@append_output_table@8",
+      "@initialize_coff_section@8",
+      "@lookup_output_table@8",
+      "@initialize_coff_symbols@4",
+      "@register_coff_storage@4",
+      "@record_output_section@4",
+      "@select_coff_section@4",
+      "@query_coff_position@4",
+      "@output_list_position@4",
+      "@write_output_bytes@8",
+      "@write_output_byte@4",
+      "@initialize_source_output@4",
+      "@prepare_function_records@4",
+      "_prepare_global_records",
+      "@process_records@4",
+      "@align_pending_debug_symbols@4",
+      "_write_pending_debug_symbols",
+      "_write_assembly_symbols",
+      "@write_codeview_records@4",
+      "@write_assembly_records@4",
+      "_begin_function_input",
+      "_reset_register_marks"
+    ],
+    "candidates": [
+      "_reset_register_marks"
+    ],
+    "acceptance": false
+  },
+  "count": 102,
+  "controls": [
+    {
+      "control": "actual75 nonzero flags/5925pendingbytes/canary/livealias",
+      "build_seconds": 0.33716381434351206,
+      "execution_seconds": 0.001901424489915371
+    },
+    {
+      "control": "extra row",
+      "build_seconds": 0.3485154900699854,
+      "execution_seconds": 0.0025115469470620155
+    },
+    {
+      "control": "row before",
+      "build_seconds": 0.34347166679799557,
+      "execution_seconds": 0.0014850599691271782
+    },
+    {
+      "control": "wrong mask",
+      "build_seconds": 0.3400465836748481,
+      "execution_seconds": 0.0024404460564255714
+    },
+    {
+      "control": "clobber other bits",
+      "build_seconds": 0.33537502959370613,
+      "execution_seconds": 0.0023496346548199654
+    },
+    {
+      "control": "pending write",
+      "build_seconds": 0.34394304268062115,
+      "execution_seconds": 0.0014779549092054367
+    },
+    {
+      "control": "unknown use machine_registers[0].pending00[0]",
+      "reason": "unmodeled register consumer or pointer escape",
+      "seconds": 0.0009643901139497757
+    },
+    {
+      "control": "unknown use machine_registers[0].pending06[0]",
+      "reason": "unmodeled register consumer or pointer escape",
+      "seconds": 0.0007816916331648827
+    },
+    {
+      "control": "unknown use return machine_registers;",
+      "reason": "unmodeled register consumer or pointer escape",
+      "seconds": 0.0009622946381568909
+    },
+    {
+      "control": "unknown use C2MachineRegister *escaped;",
+      "reason": "unmodeled register consumer or pointer escape",
+      "seconds": 0.0009553590789437294
+    },
+    {
+      "control": "unmodeled consumer 0040d974",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.0012033767998218536
+    },
+    {
+      "control": "unmodeled consumer 0040e08e",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.0010178126394748688
+    },
+    {
+      "control": "unmodeled consumer 0040e0b1",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.001116916537284851
+    },
+    {
+      "control": "unmodeled consumer 0040e0d4",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.0012095030397176743
+    },
+    {
+      "control": "unmodeled consumer 00410468",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.0014870734885334969
+    },
+    {
+      "control": "unmodeled consumer 00410485",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.0017903512343764305
+    },
+    {
+      "control": "unmodeled consumer 0041389d",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.00202137790620327
+    },
+    {
+      "control": "unmodeled consumer 0041399e",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.002313782460987568
+    },
+    {
+      "control": "unmodeled consumer 00413a6c",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.0025256527587771416
+    },
+    {
+      "control": "unmodeled consumer 00417a05",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.0028150463476777077
+    },
+    {
+      "control": "unmodeled consumer 00417c96",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.003084181807935238
+    },
+    {
+      "control": "unmodeled consumer 0041b908",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.0034202318638563156
+    },
+    {
+      "control": "unmodeled consumer 0041dd77",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.0036590388044714928
+    },
+    {
+      "control": "unmodeled consumer 0042958a",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.004408298991620541
+    },
+    {
+      "control": "unmodeled consumer 00429691",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.004714434966444969
+    },
+    {
+      "control": "unmodeled consumer 004296b7",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.004921233281493187
+    },
+    {
+      "control": "unmodeled consumer 00429a20",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.0055090757086873055
+    },
+    {
+      "control": "unmodeled consumer 0042a49b",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.005552005022764206
+    },
+    {
+      "control": "unmodeled consumer 0042a4fa",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.005754497833549976
+    },
+    {
+      "control": "unmodeled consumer 0042a5ba",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.006052176468074322
+    },
+    {
+      "control": "unmodeled consumer 0042a6cd",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.00632445327937603
+    },
+    {
+      "control": "unmodeled consumer 0042aa8a",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.00672175083309412
+    },
+    {
+      "control": "unmodeled consumer 0042aebe",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.006823194213211536
+    },
+    {
+      "control": "unmodeled consumer 0042aec4",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.007085944525897503
+    },
+    {
+      "control": "unmodeled consumer 0042aef1",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.007383381947875023
+    },
+    {
+      "control": "unmodeled consumer 0042aef7",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.007610739208757877
+    },
+    {
+      "control": "unmodeled consumer 0042b13f",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.008016519248485565
+    },
+    {
+      "control": "unmodeled consumer 0042b145",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.008217434398829937
+    },
+    {
+      "control": "unmodeled consumer 0042b1d7",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.00879019033163786
+    },
+    {
+      "control": "unmodeled consumer 0042b1e0",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.00870476383715868
+    },
+    {
+      "control": "unmodeled consumer 0042b360",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.008959934115409851
+    },
+    {
+      "control": "unmodeled consumer 0042b6bc",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.009250779636204243
+    },
+    {
+      "control": "unmodeled consumer 0042b6c2",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.009483733214437962
+    },
+    {
+      "control": "unmodeled consumer 0042bf31",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.009749670512974262
+    },
+    {
+      "control": "unmodeled consumer 0042bf4e",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.010060915723443031
+    },
+    {
+      "control": "unmodeled consumer 0042bf54",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.010315635241568089
+    },
+    {
+      "control": "unmodeled consumer 004307fd",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.010664379224181175
+    },
+    {
+      "control": "unmodeled consumer 00432175",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.01085219718515873
+    },
+    {
+      "control": "unmodeled consumer 004334c2",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.01143298763781786
+    },
+    {
+      "control": "unmodeled consumer 004334c8",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.011452318169176579
+    },
+    {
+      "control": "unmodeled consumer 00433503",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.011760368011891842
+    },
+    {
+      "control": "unmodeled consumer 0043353c",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.015594370663166046
+    },
+    {
+      "control": "unmodeled consumer 00435c25",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.012280509807169437
+    },
+    {
+      "control": "unmodeled consumer 00435c31",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.012527280487120152
+    },
+    {
+      "control": "unmodeled consumer 00435f58",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.012727263383567333
+    },
+    {
+      "control": "unmodeled consumer 00435f65",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.013025759719312191
+    },
+    {
+      "control": "unmodeled consumer 00435f6b",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.013407095335423946
+    },
+    {
+      "control": "unmodeled consumer 00435ff6",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.013475660234689713
+    },
+    {
+      "control": "unmodeled consumer 0043a44f",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.013883963227272034
+    },
+    {
+      "control": "unmodeled consumer 00448335",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.014155746437609196
+    },
+    {
+      "control": "unmodeled consumer 0044847c",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.014399392530322075
+    },
+    {
+      "control": "unmodeled consumer 0044c87c",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.014954783953726292
+    },
+    {
+      "control": "unmodeled consumer 0044c882",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.01491981279104948
+    },
+    {
+      "control": "unmodeled consumer 0044c8d2",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.015216068364679813
+    },
+    {
+      "control": "unmodeled consumer 0044c8d8",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.015513019636273384
+    },
+    {
+      "control": "unmodeled consumer 0044c926",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.015655784867703915
+    },
+    {
+      "control": "unmodeled consumer 0044c92c",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.015953870490193367
+    },
+    {
+      "control": "unmodeled consumer 0044e002",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.01616664696484804
+    },
+    {
+      "control": "unmodeled consumer 0044e01e",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.016598385758697987
+    },
+    {
+      "control": "unmodeled consumer 0044e3d5",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.017231902107596397
+    },
+    {
+      "control": "unmodeled consumer 0044e517",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.017089939676225185
+    },
+    {
+      "control": "unmodeled consumer 0045a9b0",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.01763192843645811
+    },
+    {
+      "control": "unmodeled consumer 0045a9f7",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.01763241458684206
+    },
+    {
+      "control": "unmodeled consumer 0045aa00",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.01779159065335989
+    },
+    {
+      "control": "unmodeled consumer 0045aa5e",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.018127492628991604
+    },
+    {
+      "control": "unmodeled consumer 0045cf88",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.018532286398112774
+    },
+    {
+      "control": "unmodeled consumer 0045d8b4",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.019163504242897034
+    },
+    {
+      "control": "unmodeled consumer 0045f082",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.019450210966169834
+    },
+    {
+      "control": "unmodeled consumer 004605b0",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.019162924028933048
+    },
+    {
+      "control": "unmodeled consumer 004608e5",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.019730261527001858
+    },
+    {
+      "control": "unmodeled consumer 00462164",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.019779962487518787
+    },
+    {
+      "control": "unmodeled consumer 0046c20b",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.01995119545608759
+    },
+    {
+      "control": "unmodeled consumer 0046c6f2",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.020240912213921547
+    },
+    {
+      "control": "unmodeled consumer 0046c6fb",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.02062966860830784
+    },
+    {
+      "control": "unmodeled consumer 0046c701",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.023987185209989548
+    },
+    {
+      "control": "unmodeled consumer 0046defc",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.021816030144691467
+    },
+    {
+      "control": "unmodeled consumer 0046e2de",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.021710775792598724
+    },
+    {
+      "control": "unmodeled consumer 0046f302",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.022325552068650723
+    },
+    {
+      "control": "unmodeled consumer 004783a7",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.022284364327788353
+    },
+    {
+      "control": "unmodeled consumer 004783f0",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.022588809952139854
+    },
+    {
+      "control": "unmodeled consumer 004783f9",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.022665386088192463
+    },
+    {
+      "control": "unmodeled consumer 00478454",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.022809378802776337
+    },
+    {
+      "control": "unmodeled consumer 00479a56",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.02317984029650688
+    },
+    {
+      "control": "unmodeled consumer 0047b087",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.023152081295847893
+    },
+    {
+      "control": "unmodeled consumer 0047d804",
+      "reason": "unknown register field/escape consumer requires reconstruction first",
+      "seconds": 0.023612921126186848
+    },
+    {
+      "control": "raw n/registers-after.bin byte0",
+      "reason": "own unmodeled register bytes were modified",
+      "seconds": 0.004924444481730461
+    },
+    {
+      "control": "raw o/registers-after.bin byte0",
+      "reason": "own unmodeled register bytes were modified",
+      "seconds": 0.003429921343922615
+    },
+    {
+      "control": "raw n/registers-after.bin byte5",
+      "reason": "register flag bit-clear behavior differs",
+      "seconds": 0.005810726433992386
+    },
+    {
+      "control": "raw o/registers-after.bin byte5",
+      "reason": "register flag bit-clear behavior differs",
+      "seconds": 0.004360286518931389
+    },
+    {
+      "control": "raw n/registers-before.bin byte85",
+      "reason": "register flag bit-clear behavior differs",
+      "seconds": 0.006034787744283676
+    },
+    {
+      "control": "raw o/registers-before.bin byte85",
+      "reason": "register flag bit-clear behavior differs",
+      "seconds": 0.004435530863702297
+    },
+    {
+      "control": "wrong live table alias",
+      "reason": "register live storage alias/extent differs",
+      "seconds": 0.03817890863865614
+    }
+  ],
+  "seconds": 5.554178616963327,
+  "checker_sha256": "4e0becf176ee26b91b02e0d47e8c31f3db4b5c41d7cd9eee33d2d2ef8970579c",
+  "model_sha256": "5faa911c420815862899bfbc97c975e49d4eca83b7002684aa9f29f3e5e75780",
+  "scope": "Actual compiled loop with declaration-only auxiliary storage redirection. Only75flags credit;5925pendingbytes own-side untouched, nonzero/canary/livealias proof. All finite unmodeled consumers held."
+}

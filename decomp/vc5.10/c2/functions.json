@@ -116,7 +116,8 @@
     "_write_assembly_symbols",
     "@write_codeview_records@4",
     "@write_assembly_records@4",
-    "_begin_function_input"
+    "_begin_function_input",
+    "_reset_register_marks"
   ],
   "driver": [
     {
@@ -265,7 +266,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "37f714392302f87d514dbb30d4756e78085bd0c402bb7f44400ec771a1da50d0",
+            "lifetime_sha256": "da94c3d2891a261d730c431b161942742a69ad666189a98cc690ee5219d5835a",
             "instructions": [
               {
                 "offset": 212,
@@ -668,7 +669,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "7f235dffab1fc545eeacc9261298fc8f74995e8d23e915b156922525b5b16346",
+            "lifetime_sha256": "076f2ea14b2123ad49e91ccd83abb0cd8f12d63b8741566b4d395ab45346dda9",
             "instructions": [
               {
                 "offset": 38,
@@ -729,7 +730,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "3801a4e34257f055faf8f49f41e0a8f9ccc90257fe3260806de48a2b55ff9a3a",
+            "lifetime_sha256": "2380ccd3c3ece2fc02742fd301e506c3f816cf61569f266fb939e9302496a04e",
             "instructions": [
               {
                 "offset": 46,
@@ -1507,7 +1508,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "ec566b605f15423875bd16a590378a1f99919b165e007ba3dc1d39ffe483332e"
+            "lifetime_sha256": "4f1922ad471bff4a665151cdde15bad01a4f22ec46120628b773f1714b274712"
           }
         }
       ]
@@ -1697,7 +1698,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "33aef68bfdad982d0ca43414f74739bc37d1a5bcf61b324f8066c18348ab0fdd"
+            "lifetime_sha256": "0a6cd61046fba029accf869801bb1d0ecd4daf5ea99c68dbb8b963d0185fa8f6"
           }
         }
       ]
@@ -4134,7 +4135,7 @@
               6,
               827
             ],
-            "lifetime_sha256": "6dd5979f9f4c8237e7be912a1664c029125121a2ada0f7ef85328bb78d8d80b8",
+            "lifetime_sha256": "06ed0a63993e841991308a445bec0dbfb6bc33bc187bb57e71be41a99029731e",
             "instructions": [
               {
                 "offset": 6,
@@ -4394,7 +4395,7 @@
               27,
               145
             ],
-            "lifetime_sha256": "bd1166d445f645d60d3ca095a95787d427707f0cde672733675e6aaa2ea10584",
+            "lifetime_sha256": "068bfed16e5d425d097c97180973852f095ab3e725dcb9772b258f7eb8f2d0a2",
             "instructions": [
               {
                 "offset": 27,
@@ -5588,7 +5589,7 @@
               6,
               489
             ],
-            "lifetime_sha256": "40e4fe228cedf29189aee0130d2f36a24c8e6807908b521d582307d08a7d8b91",
+            "lifetime_sha256": "411fc16b7c2f792b35df269012570ad93f059e8b64c600748e15f26b74e7a8b5",
             "instructions": [
               {
                 "offset": 6,
@@ -5843,7 +5844,7 @@
               6,
               315
             ],
-            "lifetime_sha256": "d465240ad2c7b76e1e06b86e16a52303cee7edaf8501c0cc1808cf444346e63c",
+            "lifetime_sha256": "402dc0eb8608e3277826867ab78ad11cae83c8dd548185ceb9834aafc28c799a",
             "instructions": [
               {
                 "offset": 6,
@@ -12416,6 +12417,15 @@
       "kind": "application",
       "abi": "voidcdecl(void),RET0",
       "evidence": "cases/analysis/begin-function-input-analysis.json whole66Bhot+10Bcold; four genuine noarg children, existing globals plus realDWORD lowbyte clear, no register table/data/body credit."
+    },
+    {
+      "name": "_reset_register_marks",
+      "native": "reset_register_marks",
+      "start": 4359746,
+      "end": 4359770,
+      "kind": "application",
+      "abi": "voidcdecl(void),RET0",
+      "evidence": "cases/analysis/register-flags-model.json actual75x80/+5 knownflag bit10 clear only. Partialstaticbacking policy approved;5925otherbytes UNMODELED/notdefaults, unknownconsumer/escape held."
     }
   ],
   "stubs": [
@@ -14466,10 +14476,10 @@
       "evidence": "cases/analysis/assembly-records-analysis.json exactcaller+boundedcallee ABI; genuine masked INT3/no bodycredit."
     },
     {
-      "name": "_reset_register_marks",
-      "native": "reset_register_marks",
-      "start": 4359746,
-      "end": 4359747,
+      "name": "_initialize_function_records",
+      "native": "initialize_function_records",
+      "start": 4359770,
+      "end": 4359771,
       "pending_extent": true,
       "kind": "application",
       "abi": "voidcdecl(void),RET0",
@@ -14649,17 +14659,7 @@
       ],
       "frontier_contract": "coff-output-ready",
       "controller_selected_function": true,
-      "section_caller": "begin_function_input"
-    },
-    {
-      "name": "_initialize_function_records",
-      "native": "initialize_function_records",
-      "start": 4359770,
-      "end": 4359771,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "voidcdecl(void),RET0",
-      "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit."
+      "section_caller": "reset_register_marks"
     },
     {
       "name": "_clear_function_input_state",
@@ -14995,7 +14995,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15007,7 +15007,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15019,7 +15019,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15031,7 +15031,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15043,7 +15043,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15055,7 +15055,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15067,7 +15067,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15079,7 +15079,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15091,7 +15091,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15103,7 +15103,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15117,7 +15117,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15129,7 +15129,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15144,7 +15144,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15156,7 +15156,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15168,7 +15168,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15180,7 +15180,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15192,7 +15192,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15204,7 +15204,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15219,7 +15219,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15234,7 +15234,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15246,7 +15246,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15258,7 +15258,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15270,7 +15270,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15285,7 +15285,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1fbd09ebf8696c575eb99728f50cfd9de365afe9b4aae8778364d22e15cbf96"
+          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
         }
       },
       {
@@ -15316,5 +15316,7 @@
   "symbol_callback_contract": "cases/analysis/symbol-callback-contract.json",
   "symbol_callback_contract_sha256": "0e4d455a160a3e3aa94e4042e5dc42079278002eb4f9e2156eb52c218d9ec3eb",
   "assembly_visitor_contract": "cases/analysis/assembly-visitor-contract.json",
-  "assembly_visitor_contract_sha256": "0884b6f5188928aca336f9839087897409846eb94e7df16504ef7769a7d46317"
+  "assembly_visitor_contract_sha256": "0884b6f5188928aca336f9839087897409846eb94e7df16504ef7769a7d46317",
+  "register_model": "cases/analysis/register-flags-model.json",
+  "register_model_sha256": "5faa911c420815862899bfbc97c975e49d4eca83b7002684aa9f29f3e5e75780"
 }

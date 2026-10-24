@@ -667,10 +667,6 @@ void __fastcall write_assembly_initializer(C2InitRecord *record)
     __asm { int 3 }
 }
 
-void reset_register_marks(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_function_records(void)
 {
