@@ -175,6 +175,10 @@ external inputs/timeouts, waits and reaps until `ECHILD` (retrying `EINTR`), the
 checks outputs and removes its workspace. On timeout, terminate remaining case
 processes and finish reaping before cleanup. Save requested reports or original
 references outside the workspace before deleting it.
+An application adapter returning normally must take the normal process-exit
+path, including registered application exit callbacks and stream cleanup. Keep
+case tracing active through those callbacks; `_exit` is for harness helpers,
+not a replacement for returning from the application's `main`.
 
 This handles executor exit/crashes. Killing the supervisor itself can leave a
 workspace behind; stale-run cleanup is needed for that case.

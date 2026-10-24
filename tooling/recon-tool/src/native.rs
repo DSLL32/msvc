@@ -19,25 +19,45 @@ use std::{
     sync::atomic::{AtomicI32, Ordering},
     time::{Duration, Instant},
 };
-static SIGNAL: AtomicI32 = AtomicI32::new(0);
+// Registered before dlopen/setup so later application atexit handlers run first.
+// Unit-test helper exits deliberately bypass application process shutdown.
+static mut OUTPUT_ENV_CAPTURE: Option<(PathBuf, Vec<String>)> = None;
+extern "C" fn capture_output_environment() {
+    let result = (|| -> Result<()> {
+        let Some((root, keys)) = (unsafe { (&*std::ptr::addr_of!(OUTPUT_ENV_CAPTURE)).as_ref() })
+        else {
+            return Ok(());
+        };
+        let values: std::collections::BTreeMap<String, Option<String>> = keys
+            .iter()
+            .map(|k| (k.clone(), std::env::var(k).ok()))
+            .collect();
+        fs::write(root.join("output-env"), serde_json::to_vec(&values)?)?;
+        Ok(())
+    })();
+    if let Err(e) = result {
+        eprintln!("recon-tool: output environment observer failed: {e:#}");
+    }
+}
+pub(crate) static SIGNAL: AtomicI32 = AtomicI32::new(0);
 extern "C" fn signal(sig: i32) {
     SIGNAL.store(sig, Ordering::Relaxed);
 }
-fn signals() {
+pub(crate) fn signals() {
     unsafe {
         libc::signal(libc::SIGINT, signal as *const () as usize);
         libc::signal(libc::SIGTERM, signal as *const () as usize);
         libc::signal(libc::SIGPIPE, libc::SIG_IGN);
     }
 }
-fn fork() -> Result<i32> {
+pub(crate) fn fork() -> Result<i32> {
     let p = unsafe { libc::fork() };
     if p < 0 {
         bail!("fork: {}", std::io::Error::last_os_error())
     }
     Ok(p)
 }
-fn wait(pid: i32) -> Result<i32> {
+pub(crate) fn wait(pid: i32) -> Result<i32> {
     let mut status = 0;
     loop {
         let n = unsafe { libc::waitpid(pid, &mut status, 0) };
@@ -49,7 +69,7 @@ fn wait(pid: i32) -> Result<i32> {
         }
     }
 }
-fn receive_child(pid: i32, mut reader: File) -> Result<Vec<u8>> {
+pub(crate) fn receive_child(pid: i32, mut reader: File) -> Result<Vec<u8>> {
     let fd = reader.as_raw_fd();
     let flags = unsafe { libc::fcntl(fd, libc::F_GETFL) };
     if unsafe { libc::fcntl(fd, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0 {
@@ -109,7 +129,7 @@ fn descendants(pid: i32, out: &mut Vec<i32>) {
         }
     }
 }
-fn kill_descendants() {
+pub(crate) fn kill_descendants() {
     let mut pids = vec![];
     descendants(unsafe { libc::getpid() }, &mut pids);
     for pid in pids {
@@ -118,7 +138,7 @@ fn kill_descendants() {
         }
     }
 }
-fn dependencies(f: &Fixture) -> Result<()> {
+pub(crate) fn dependencies(f: &Fixture) -> Result<()> {
     for d in &f.readonly_dependencies {
         let data = fs::read(&d.path).with_context(|| format!("read dependency {}", d.path))?;
         if fixture::hex(&Sha256::digest(&data)) != d.sha256.to_lowercase() {
@@ -127,7 +147,7 @@ fn dependencies(f: &Fixture) -> Result<()> {
     }
     Ok(())
 }
-fn workspace_cwd(f: &Fixture, root: &Path) -> Result<PathBuf> {
+pub(crate) fn workspace_cwd(f: &Fixture, root: &Path) -> Result<PathBuf> {
     if let Some(cwd) = &f.logical_cwd {
         let bytes = cwd.as_bytes();
         if bytes.len() < 3 || bytes[1] != b':' || !matches!(bytes[2], b'\\' | b'/') {
@@ -149,7 +169,7 @@ fn workspace_cwd(f: &Fixture, root: &Path) -> Result<PathBuf> {
         Ok(root.join("work"))
     }
 }
-fn create_workspace() -> Result<PathBuf> {
+pub(crate) fn create_workspace() -> Result<PathBuf> {
     fs::create_dir_all("/tmp/recon")?;
     let template = CString::new("/tmp/recon/run-XXXXXX")?;
     let mut b = template.into_bytes_with_nul();
@@ -160,7 +180,7 @@ fn create_workspace() -> Result<PathBuf> {
     fs::write(root.join(".owner"), unsafe { libc::getpid() }.to_string())?;
     Ok(root)
 }
-fn materialize(f: &Fixture, cwd: &Path) -> Result<()> {
+pub(crate) fn materialize(f: &Fixture, cwd: &Path) -> Result<()> {
     fs::create_dir_all(cwd)?;
     for input in &f.input_files {
         let path = cwd.join(&input.path);
@@ -184,7 +204,7 @@ fn materialize(f: &Fixture, cwd: &Path) -> Result<()> {
     }
     Ok(())
 }
-fn output_paths(root: &Path, relative: &Path, out: &mut BTreeSet<String>) -> Result<()> {
+pub(crate) fn output_paths(root: &Path, relative: &Path, out: &mut BTreeSet<String>) -> Result<()> {
     for e in fs::read_dir(root.join(relative))? {
         let e = e?;
         let rel = relative.join(e.file_name());
@@ -351,6 +371,14 @@ unsafe fn executor(
         }
     }
     std::env::set_current_dir(cwd)?;
+    if !tests && !f.output_env.is_empty() {
+        unsafe {
+            OUTPUT_ENV_CAPTURE = Some((root.to_owned(), f.output_env.keys().cloned().collect()));
+        }
+        if unsafe { libc::atexit(capture_output_environment) } != 0 {
+            bail!("register output environment observer")
+        }
+    }
     let loaded = unsafe { Loaded::open(case_path) }?;
     fs::write(root.join("descriptor"), serde_json::to_vec(&loaded.info)?)?;
     if let Some(setup) = loaded.case.setup {
@@ -468,18 +496,10 @@ unsafe fn executor(
                 1
             }
         };
-        if let Ok(enable) = unsafe { loaded.library.get::<Enable>(b"recon_trace_enable\0") } {
-            unsafe { enable(0) }
-        }
-        let env: std::collections::BTreeMap<String, Option<String>> = f
-            .output_env
-            .keys()
-            .map(|k| (k.clone(), std::env::var(k).ok()))
-            .collect();
-        fs::write(root.join("output-env"), serde_json::to_vec(&env)?)?;
+        // A returned EXE main / typed DLL adapter must take the normal C exit
+        // path. Keep application tracing active through its atexit callbacks.
         unsafe {
-            libc::fflush(std::ptr::null_mut());
-            libc::_exit(exit & 255);
+            libc::exit(exit & 255);
         }
     }
     unsafe {

@@ -48,6 +48,9 @@ try:
         stderr='text:', events=[dict(stdout_contains='text:ready\n',
         action=dict(kind='stdin', data='text:hello\n')), dict(after_ms=0, action=dict(kind='close_stdin'))]))
     run('direct', '0005', dict(stdout='text:', stderr='text:', exit_code=0, reject_unexpected_files=True))
+    run('atexit','0006',dict(args=['fixture','atexit'],stdout='text:bye\n',stderr='text:',exit_code=0,
+        env={'RECON_EXIT_VALUE':'before'},output_env={'RECON_EXIT_VALUE':'after'},
+        output_files=[dict(path='exit.txt',data='text:closed')],reject_unexpected_files=True))
     run('wrong-output', '0000', dict(args=['fixture'], stdin='text:x\n', stdout='text:WRONG'), passed=False)
     run('missing-is-not-empty', '0005', dict(output_files=[dict(path='missing', data='hex:')]), passed=False)
     # A signal sent only to the CLI must reach its cleanup supervisor promptly.

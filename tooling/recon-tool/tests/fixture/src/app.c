@@ -5,9 +5,15 @@
 #include <sys/wait.h>
 int fixture_add(int a, int b) { return a+b; }
 int fixture_trap(void) { __asm__ volatile("int3"); return 0; }
+void fixture_on_exit(void)
+{
+    FILE *f=fopen("exit.txt","wb");fputs("closed",f);fclose(f);
+    puts("bye");setenv("RECON_EXIT_VALUE","after",1);
+}
 int fixture_main(int argc,char **argv)
 {
     char line[128]; FILE *f;
+    if(argc>1 && !strcmp(argv[1],"atexit")){atexit(fixture_on_exit);return 0;}
     if(argc>1 && !strcmp(argv[1],"trap")) return fixture_trap();
     if(argc>1 && !strcmp(argv[1],"orphan")) {
         if(!fork()) { if(!fork()) {usleep(30000);f=fopen("grandchild.txt","wb");fputs("done",f);fclose(f);_exit(0);} _exit(0); }
