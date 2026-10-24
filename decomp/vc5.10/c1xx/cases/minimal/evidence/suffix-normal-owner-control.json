@@ -1,0 +1,90 @@
+{
+  "kind": "one fresh coherent all-later-phase owner control; earlier numeric proof untouched, no execution",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-suffix-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-suffix-native-2",
+  "original_receipt_sha256": "40e11c286155fb61f24a74787152339fefc5b8bd5746efbd26cc6a62a7b0c938",
+  "native_receipt_sha256": "9a650c2e1f01473566a1f862a75635db57d36032cd928c80a6898d6c85bdbeca",
+  "checker_sha256": "d655f57809f206c576a8e279c39845cb108060174b4500f9d126dd949f235898",
+  "control_sha256": "62393461825c4d83e9d8c1355de11ec91a93cc77ef8856345f2d6755a6023435",
+  "positive": {
+    "frontier": "_append_option_vector",
+    "candidate": "_match_option_suffix",
+    "code_bytes": 112,
+    "actual_suffix_calls": 1,
+    "pattern": "star NUL",
+    "argument": "borrowed Invoke[7]+2 e NUL",
+    "action_slot": 35,
+    "action_slot_consumed": false,
+    "result": 1,
+    "appended": false,
+    "append_formals": 2,
+    "actual_match_calls": 5,
+    "actual_action_entries": 5,
+    "actual_action_returns": 4,
+    "actual_signature_calls": 6,
+    "unvisited_scope": "78B cold suffix comparison source+graph only",
+    "unknown_initialized_bytes": 6031,
+    "dependency_credit": 0,
+    "prefix": {}
+  },
+  "mutations": [
+    {
+      "file": "suffix-entries.json",
+      "first_row": 0,
+      "rows": 1
+    },
+    {
+      "file": "suffix-returns.json",
+      "first_row": 0,
+      "rows": 1
+    },
+    {
+      "file": "suffix-append-entries.json",
+      "first_row": 0,
+      "rows": 1
+    },
+    {
+      "file": "actions-entries.json",
+      "first_row": 3,
+      "rows": 2
+    },
+    {
+      "file": "actions-returns.json",
+      "first_row": 3,
+      "rows": 1
+    },
+    {
+      "file": "actions-match-returns.json",
+      "first_row": 3,
+      "rows": 1
+    },
+    {
+      "file": "actions-outer-entries.json",
+      "first_row": 4,
+      "rows": 1
+    },
+    {
+      "file": "actions-outer-returns.json",
+      "first_row": 4,
+      "rows": 1
+    },
+    {
+      "file": "actions-matches.json",
+      "first_row": 4,
+      "rows": 1
+    },
+    {
+      "file": "actions-signatures.json",
+      "first_row": 5,
+      "rows": 1
+    },
+    {
+      "file": "actions-signature-returns.json",
+      "first_row": 5,
+      "rows": 1
+    }
+  ],
+  "rejection": "option suffix: same real first suffix checkpoint and already validated owners/namespace/FP/state",
+  "count": 1,
+  "seconds": 0.41335600707679987
+}

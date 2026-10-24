@@ -71,6 +71,14 @@ if frame.name()=='match_option' and value['pc']==int(gdb.parse_and_eval('(unsign
     words=list(struct.unpack('<5I',gdb.selected_inferior().read_memory(value['esp'],20)))
     value['args']=dict(zip(('rules','argument','next','copy'),words[1:]))
     value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
+if frame.name()=='match_option_suffix' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&match_option_suffix')):
+    words=list(struct.unpack('<4I',gdb.selected_inferior().read_memory(value['esp'],16)))
+    value['args']=dict(zip(('pattern','argument','action'),words[1:]))
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
+if frame.name()=='append_option_vector' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&append_option_vector')):
+    words=list(struct.unpack('<3I',gdb.selected_inferior().read_memory(value['esp'],12)))
+    value['args']=dict(zip(('vector','value'),words[1:]))
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
 if frame.name()=='parse_option_integer' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&parse_option_integer')):
     words=list(struct.unpack('<2I',gdb.selected_inferior().read_memory(value['esp'],8)))
     value['args']={'value':words[1]}
@@ -582,6 +590,10 @@ end
         from integer_probe import setup as setup_integer
         integer_observer,integer_finish=setup_integer(output,binary,collector)
         observer+=integer_observer;scaler_finish+=integer_finish
+    if trial.get('suffix_observers'):
+        from suffix_probe import setup as setup_suffix
+        suffix_observer,suffix_finish=setup_suffix(output,binary,collector)
+        observer+=suffix_observer;scaler_finish+=suffix_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):

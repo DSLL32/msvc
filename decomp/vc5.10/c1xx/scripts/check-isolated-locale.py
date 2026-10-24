@@ -69,7 +69,7 @@ def check(directory):
         path = directory / name
         require(Path(name).name == name and path.is_file() and path.stat().st_size == row['size'] and sha(path) == row['sha256'], 'capture artifact drift: ' + name)
     trial = json.loads((directory / 'trial.json').read_text())
-    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector','_next_argument','_match_option','_apply_option_action','_parse_option_integer'), 'not a genuine encountered checksum/scanner candidate')
+    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector','_next_argument','_match_option','_apply_option_action','_parse_option_integer','_match_option_suffix'), 'not a genuine encountered checksum/scanner candidate')
     for name, digest in trial['case_inputs'].items():
         require(sha(directory / Path(name).name) == digest, 'case input drift: ' + name)
     schema = json.loads((directory / 'locale-schema.json').read_text())
@@ -84,7 +84,7 @@ def check(directory):
         # Removing exactly that addition must reproduce the authenticated old
         # observer byte for byte; every locale read/phase remains unchanged.
         added = b',{"isspace",0x1c0be,0},{"isdigit",0x1c065,0},{"atol",0x5d30,0}'
-        require(trial['trial'] == '_parse_option_integer' and trial.get('integer_observers') and
+        require(trial['trial'] in ('_parse_option_integer','_match_option_suffix') and trial.get('integer_observers') and
                 transport.count(added) == 1, 'unknown compiled observer extension')
         prior = transport.replace(added, b'', 1)
         require(hashlib.sha256(prior).hexdigest() == schema['transport_source']['sha256'],
@@ -109,7 +109,7 @@ def check(directory):
     base = int(re.search(r'^module name=MSVCRT.dll actual=(\w+) ', text, re.M | re.I)[1], 16)
     require(int(entry[1], 16) == base + schema['exports']['setlocale'] and int(entry[3], 16) == int(returned[1], 16) == 0x10400000 + call['caller_return_rva'], 'public entry/return PCs')
     require(int(entry[4]) == 2 and int(entry[5], 16) == call['arguments'][1] and int(returned[2], 16) == int(entry[2], 16) + 4 and returned[3] == entry[2] and returned[0] == entry[0] and entry[6:] == returned[5:], 'cdecl arguments/RET0/nonvolatile ABI')
-    expected_frontier={'_parse_option_integer':'00039757','_apply_option_action':'00039779','_match_option':'00039632','_next_argument':'0003944a','_read_env_arguments':'0000682f','_initialize_lowercase_table':'00039413','_initialize_multibyte_categories':'000393ca'}.get(trial['trial'],'00039394')
+    expected_frontier={'_match_option_suffix':'000100ea','_parse_option_integer':'00039757','_apply_option_action':'00039779','_match_option':'00039632','_next_argument':'0003944a','_read_env_arguments':'0000682f','_initialize_lowercase_table':'00039413','_initialize_multibyte_categories':'000393ca'}.get(trial['trial'],'00039394')
     expected_frontiers=[expected_frontier]
     if trial['trial']=='_new_option_vector':
         expected_frontiers=['00039428']if trial.get('test_seed')else[]

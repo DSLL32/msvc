@@ -103,8 +103,22 @@ hash_original:
 
 int match_option_suffix(const char *pattern, char *argument, unsigned action)
 {
-    __asm { int 3 }
-    return 0;
+    const char *pattern_end = pattern + 1;
+    char *argument_end = argument;
+
+    /* The caller supplies the action slot; this helper does not read it. */
+    (void)action;
+    if (!*pattern_end)
+        return 1;
+    while (pattern_end[1])
+        ++pattern_end;
+    while (argument_end[1])
+        ++argument_end;
+    while (*argument_end == *pattern_end) {
+        --argument_end;
+        --pattern_end;
+    }
+    return pattern_end == pattern && argument_end >= argument;
 }
 
 void apply_option_action(CompilerOptionRule *rule, char *value, int copy)

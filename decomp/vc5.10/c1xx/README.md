@@ -411,3 +411,13 @@ controls retain historical provenance. See `cases/minimal/OPTION-INTEGER.md`,
 `integer-trial.json` and `integer-acceptance.json`. Current90 APP functions/6861B
 plus historical CRT451B/import12B total7324/751216 whole code bytes. The pending
 112-byte suffix helper receives no credit; minimal compilation remains incomplete.
+
+The112-byte suffix helper is accepted after independent normal/restore review,
+including its78-byte cold comparison as source/graph coverage. Actual empty
+suffix returns1 with complete three-slot ABI, then known -Ze store, CRC and
+borrowed iterator reach real append_option_vector(vector,value). Its12-byte
+header/160-byte items/full32KiB allocation remain unchanged; the append body
+receives no credit.80 new affected controls include coherent same-boundary
+owner substitutions. See `cases/minimal/OPTION-SUFFIX.md`/`suffix-acceptance.json`.
+Current91 APP functions/6973B plus historical CRT451B/import12B total7436/751216
+whole code bytes; all6031 unknown initialized bytes remain unmodeled.

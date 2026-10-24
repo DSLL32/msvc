@@ -152,17 +152,20 @@ def prepare():
         trial['lowercase_observers']={'entry_rva':0x393ca,'return_rva':0x38fee,'IAT_rva':0xc9054,'public_entry_rva':0xa5d3,'provider_hot_bytes':54,'provider_case_table_rva':0x3f7f8,'provider_case_table_bytes':256,'target_map_rva':0xc13f8,'target_map_bytes':512,'next_rva':0x39413,'scope':'all actual unsigned-byte public calls/ABI/errors/fullFP and fullmap output; provider success unclaimed until reviewed'}
     if '_new_option_vector' in accepted:
         trial['vector_observers']={'entry_rva':0x682f,'calls':3,'arguments':[40,1],'header_bytes':12,'items_bytes':160,'arena_index':1,'committed_bytes':32768,'normal_frontier':'public:mspdb50!SigForPbCb','restore_frontier':'_next_argument','provider_execution':False}
-    if trial_name in ('_next_argument','_match_option','_apply_option_action','_parse_option_integer'):
+    if trial_name in ('_next_argument','_match_option','_apply_option_action','_parse_option_integer','_match_option_suffix'):
         trial['argument_observers']={'entry_rva':0x39428,'end_rva':0x3944a,'return_rva':0x390b3,'next_rva':0x3944a,'scope':'restore-only actual Invoke26 to25, borrowed argv[1], real four-formal matcher; normal held at historical dependency entry'}
-    if trial_name in ('_match_option','_apply_option_action','_parse_option_integer'):
+    if trial_name in ('_match_option','_apply_option_action','_parse_option_integer','_match_option_suffix'):
         trial['matcher_observers']={'entry_rva':0x3944a,'action_rva':0x39632,'next_callback_return_rva':0x3957b,'signature_return_rva':0x3909f,'original_table_rvas':[[0x395e8,0x39632]],'scope':'ordinary complete matcher candidate; own CPP Sig53B/table1024 pre/post then real apply action frontier, no standalone API-only role'}
-    if trial_name=='_parse_option_integer':
+    if trial_name=='_parse_option_integer' or '_parse_option_integer' in accepted:
         trial['case_inputs']['cases/minimal/integer-imports.json']=sha(PROJECT/'cases/minimal/integer-imports.json')
-    if trial_name in ('_apply_option_action','_parse_option_integer'):
+    if trial_name in ('_apply_option_action','_parse_option_integer','_match_option_suffix'):
         trial['option_action_observers']={'entry_rva':0x39632,'frontier_rva':0x39779,'matches':3,'actions':3,'action_returns':2,'outer_calls':3,'inner_calls':3,'signature_returns':[0x3909f,0x395af,0x39565],'scope':'complete own373B candidate; persistent indexed true argument/matcher/action/public entry+RET inventory, no response replay or per-API run'}
-    if trial_name=='_parse_option_integer':
+    if trial_name in ('_parse_option_integer','_match_option_suffix'):
         trial['option_action_observers'].update(frontier_rva=0x39757,matches=4,action_returns=3,outer_calls=4,scope='accepted373B action prefix continues through own numeric candidate to real suffix frontier')
         trial['integer_observers']={'entry_rva':0x39779,'return_rva':0x39694,'calls':1,'argument':'borrowed Invoke[6] 1 NUL','provider_names':['isspace','isdigit','atol'],'provider_rvas':[0x1c0be,0x1c065,0x5d30],'IAT_rvas':[0xc9154,0xc9090,0xc9000],'API_return_rvas':[0x39793,0x397a9,0x397bb],'frontier_rva':0x39757,'ctype_consumption':'zero versus nonzero only; raw provider masks retained separately;SBCS1 input49'}
+    if trial_name=='_match_option_suffix':
+        trial['option_action_observers'].update(frontier_rva=0x100ea,matches=5,actions=5,action_returns=4,outer_calls=5,scope='accepted numeric/action prefix continues through one real suffix call to append_option_vector')
+        trial['suffix_observers']={'entry_rva':0x39757,'return_rva':0x394cf,'calls':1,'arguments':[{'rule':29,'Invoke_slot':7,'offset':2,'action':35}],'frontier_rva':0x100ea,'frontier_formals':['CompilerVector *vector','char *value'],'scope':'whole112B suffix candidate, one actual empty suffix; cold path source+graph only'}
     if '_read_env_arguments' in accepted:
         trial['environment_argument_observers']={'entry_rva':0x39413,'return_rva':0x39021,'next_rva':0x682f,'argument':None,'next_arguments':[40,1],'scope':'actual NULL input/RET0/no state mutation, then owned caller warning writes and genuine allocation frontier; nonNULL path source+graph only'}
     if '_initialize_multibyte_categories' in accepted:

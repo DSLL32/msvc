@@ -41,7 +41,8 @@ def check(s, d, original, native, trial, text, state, prefix):
         need(count == 26 and at == len(data), 'full independent Invoke26 ownership')
         return root, values
 
-    need(trial['trial'] == '_parse_option_integer' and trial['integer_observers'] == {
+    continuation = trial['trial'] == '_match_option_suffix' and bool(trial.get('suffix_observers'))
+    need(trial['trial'] in ('_parse_option_integer','_match_option_suffix') and trial['integer_observers'] == {
         'entry_rva': 0x39779, 'return_rva': 0x39694, 'calls': 1,
         'argument': 'borrowed Invoke[6] 1 NUL',
         'provider_names': list(KINDS), 'provider_rvas': list(PROVIDERS),
@@ -208,7 +209,8 @@ def check(s, d, original, native, trial, text, state, prefix):
     outer, outer_ends = load('actions-outer-entries'), load('actions-outer-returns')
     calls, results = load('actions-signatures'), load('actions-signature-returns')
     need([len(r) for r in (actions, action_ends, matches, match_ends, outer, outer_ends, calls, results)] ==
-         [3, 3, 4, 3, 4, 4, 4 if seed else 5, 4 if seed else 5],
+         ([5, 4, 5, 4, 5, 5, 5 if seed else 6, 5 if seed else 6] if continuation else
+          [3, 3, 4, 3, 4, 4, 4 if seed else 5, 4 if seed else 5]),
          'complete subsequent loop/API observations, with no extra hidden calls')
     write('options.warning_level', 1, 1)
     ar = reg('actions-action-return-2')
@@ -250,7 +252,7 @@ def check(s, d, original, native, trial, text, state, prefix):
          matches[3]['argument'] == args[7][1].hex(), 'fourth matcher actual four ABI inputs')
     write('current_argument', oldargs[7][0], args[7][0])
     tail = re.findall(r'^trap seq=(\d+) rva=00039757 esp=(\w+).*stack=([0-9a-f,]+)$', text, re.M)
-    need(len(tail) == 1 and re.findall(r'^frontier rva=(\w+)$', text, re.M) == ['00039757'],
+    need(len(tail) == 1 and re.findall(r'^frontier rva=(\w+)$', text, re.M) == (['000100ea'] if continuation else ['00039757']),
          'actual final pending suffix trap')
     sequence = int(tail[0][0]);stack = [int(v, 16) for v in tail[0][2].split(',')]
     rule = pe_read(original / 'loaded-target.bin', 0xd6160 + 29 * 12, 12)
@@ -275,11 +277,16 @@ def check(s, d, original, native, trial, text, state, prefix):
     need(suffix['args'][0] == native_pattern + 2, 'native literal rule29+2 identity')
     call(suffix['return_pc'], suffix['pc'])
     need(state['symbol'] == 'match_option_suffix' and state['args'] ==
-         dict(zip(('pattern', 'argument', 'action'), suffix['args'])) and
-         names['match_option_suffix'][0] < state['pc'] <= sum(names['match_option_suffix']) and
-         d.elf_byte(native, state['pc'] - 1) == 0xcc and
-         b'Program received signal SIGTRAP' in (native / 'gdb.txt').read_bytes(),
-         'real native INT3 and actual pending three-formal source boundary')
+         dict(zip(('pattern', 'argument', 'action'), suffix['args'])),
+         'actual suffix three source formals')
+    if continuation:
+        need(state['pc'] == suffix['pc'] and state['esp'] == suffix['esp'],
+             'real first suffix pre-body checkpoint, no synthetic INT3')
+    else:
+        need(names['match_option_suffix'][0] < state['pc'] <= sum(names['match_option_suffix']) and
+             d.elf_byte(native, state['pc'] - 1) == 0xcc and
+             b'Program received signal SIGTRAP' in (native / 'gdb.txt').read_bytes(),
+             'real native INT3 suffix boundary')
     need(suffix['guard'] == expected and semantic(suffix['fp']) == floating and
          {k: v for k, v in suffix['locale'].items() if k != 'maps'} == locale and suffix['last_error'] == 203,
          'complete final native state/owners/errors/FP')
@@ -290,7 +297,7 @@ def check(s, d, original, native, trial, text, state, prefix):
          'direct final original entire state/unknown neighbors/architectural FP')
     final_front = copy.deepcopy(front)
     final_front.update(command_argc=19, command_argv=root + 28,
-                       current_argument=args[7][0], source_signature=results[-1]['eax'])
+                       current_argument=args[7][0], source_signature=results[(3 if seed else 4)]['eax'])
     final_front['options_data']['warning_level'] = 1
     need(state['frontend'] == final_front and state['invocation'] == entry_state['invocation'] and
          state['target_state'] == entry_state['target_state'],
@@ -301,6 +308,6 @@ def check(s, d, original, native, trial, text, state, prefix):
     return dict(frontier='_match_option_suffix', candidate='_parse_option_integer', code_bytes=135,
                 numeric_input='1', numeric_result=1, public_calls=predicates,
                 final_suffix_formals=['pattern', 'argument', 'action'], suffix_action=35,
-                actual_matches=4, actual_actions=3, actual_signature_calls=len(calls),
+                actual_matches=4, actual_actions=3, actual_signature_calls=4 if seed else 5,
                 unknown_initialized_bytes=6031, unvisited_paths='whitespace/invalid/range source+graph only',
                 CRT_code_credit=0, prefix=prefix)

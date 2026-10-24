@@ -1,0 +1,24 @@
+{
+  "status": "ACCEPTED after independent final source/pairedproof review",
+  "candidate": "_match_option_suffix",
+  "accepted_count": 95,
+  "application_functions": 91,
+  "application_code_bytes": 6973,
+  "historical_CRT_support_bytes": 451,
+  "generated_import_bytes": 12,
+  "whole_code_bytes": 7436,
+  "whole_code_denominator": 751216,
+  "reviewed_frozen_packet": "cases/minimal/suffix-trial.json",
+  "reviewed_frozen_packet_sha256": "4f7cf2cd210899e3ff7a651041eb1c745429a032e88de31e66ff096c9db90277",
+  "parent_review": "/root/.ai-tmp/msvc2/vc5.10/c1xx/suffix-parent-review.json",
+  "parent_review_sha256": "890406d911753187abdb8fa590ffae721c3e53eddb33a4dda5aaf74fdf904201",
+  "acceptance_result": {
+    "accepted": "_match_option_suffix",
+    "accepted_count": 95,
+    "promoted_functions": [
+      "_match_option_suffix"
+    ]
+  },
+  "audit_proof_sha256": "76d25e3b6529c996778c7ae23fd13ce3560b684d14f8adae12be021a91f31292",
+  "next_frontier": "_append_option_vector; real pending cdecl8 twoformals, no body credit"
+}

@@ -574,6 +574,7 @@ static void seed_output_buffer(unsigned index, const char *role)
 #include "vector-observer.inc"
 #include "option-action-observer.inc"
 #include "integer-observer.inc"
+#include "suffix-observer.inc"
 
 static void seed_options_restore(void)
 {
@@ -916,7 +917,7 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     save_state();
     if(pool_cycle_active) {
         fprintf(events,"pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,context->Ebx,context->Esi,context->Edi,context->Ebp);
-        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394 || address==base+0x393ca || address==base+0x39413 || address==base+0x682f || address==base+0x39428 || address==base+0x3944a || address==base+0x39632 || address==base+0x39779 || address==base+0x39757) {
+        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394 || address==base+0x393ca || address==base+0x39413 || address==base+0x682f || address==base+0x39428 || address==base+0x3944a || address==base+0x39632 || address==base+0x39779 || address==base+0x39757 || address==base+0x100ea) {
             BYTE *blob=(BYTE *)malloc(0x10000);char name[80];DWORD committed;
             if(!blob)fail("pool entry full BSS observation");
             readmem(base+0xb9000,blob,0xf69c);sprintf(name,"pool-bss-%03u.bin",sequence);save_blob(name,blob,0xf69c);
@@ -1182,6 +1183,8 @@ int main(int argc, char **argv)
                 save_frontend_state("checksum-return");readmem(base+0xb9000,bss,0xf69c);save_blob("checksum-return-BSS.bin",bss,0xf69c);free(bss);
                 save_blob("checksum-return-fp.bin",&context.FloatSave,sizeof(context.FloatSave));
                 patch(address,checksum_return_byte);checksum_return_active=0;context.Eip=address;if(!SetThreadContext(thread,&context))fail("checksum return context");
+            } else if(code==EXCEPTION_BREAKPOINT && suffix_boundary(address,&context,thread,event.dwThreadId)) {
+                /* Actual suffix return observer. */
             } else if(code==EXCEPTION_BREAKPOINT && integer_boundary(address,&context,thread,event.dwThreadId)) {
                 /* Actual numeric/public entry and RET observations. */
             } else if(code==EXCEPTION_BREAKPOINT && option_action_boundary(address,&context,thread,event.dwThreadId)) {
@@ -1308,6 +1311,7 @@ int main(int argc, char **argv)
                 }
                 if(!option_action_probe && address==base+0x39632 && getenv("C1XX_OBSERVE_MATCHER"))matcher_record("action",address,&context,thread,event.dwThreadId);
                 observe_option_action_entry(address,&context,thread,event.dwThreadId);
+                if(address==base+0x39757)suffix_enter(address,&context,thread,event.dwThreadId);
                 if(address==base+0x39779)integer_enter(&context,thread,event.dwThreadId);
                 if(address==base+0x682f)vector_enter(&context,thread,event.dwThreadId);
                 if(address==base+0x1d738 && vector_started)vector_member_enter(&context,thread,event.dwThreadId);
@@ -1684,7 +1688,7 @@ int main(int argc, char **argv)
                     if (!SetThreadContext(thread, &context)) fail("aux mock return context");
                     ContinueDebugEvent(event.dwProcessId, event.dwThreadId, status); continue;
                 } else {
-                    check_option_action_stop(address);check_integer_stop();
+                    check_option_action_stop(address);check_integer_stop();check_suffix_stop(address,&context,thread,event.dwThreadId);
                     fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
                     TerminateProcess(child, 125); return 125;
                 }

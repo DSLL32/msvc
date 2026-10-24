@@ -99,7 +99,8 @@
     "_next_argument",
     "_match_option",
     "_apply_option_action",
-    "_parse_option_integer"
+    "_parse_option_integer",
+    "_match_option_suffix"
   ],
   "driver": [
     {
@@ -1240,11 +1241,16 @@
     {
       "name": "_match_option_suffix",
       "start": 272865111,
-      "end": 272865112,
+      "end": 272865145,
       "source": "src/option-matcher.c",
-      "pending_extent": true,
       "abi": "cdecl12",
-      "evidence": "Actual complete matcher caller ABI; named trap before unknown helper semantics."
+      "evidence": "Own112B suffix matcher34hot+78cold; empty suffix succeeds, otherwise compares pattern/argument endings backwards and requires remaining argument prefix; third action slot genuinely unread.",
+      "code_chunks": [
+        [
+          273098275,
+          273098353
+        ]
+      ]
     },
     {
       "name": "_parse_option_integer",
@@ -5869,6 +5875,184 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 71.92010911274701,
         "native_seconds": 11.62006316985935
+      }
+    },
+    {
+      "name": "_match_option_suffix",
+      "classification": "application source",
+      "source": "src/option-matcher.c",
+      "source_sha256": "36bf981cf95af3d180e2f49734ab3e352dcbfe1c4adb4fdab7625e8b1010912c",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-suffix-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-suffix-native-2",
+      "original_receipt_sha256": "40e11c286155fb61f24a74787152339fefc5b8bd5746efbd26cc6a62a7b0c938",
+      "native_receipt_sha256": "9a650c2e1f01473566a1f862a75635db57d36032cd928c80a6898d6c85bdbeca",
+      "trial_sha256": "672f9fc1e2762d211151a1cf92770949c6ee3d98f1e0ca56506bba6c05678910",
+      "audit_sha256": "76d25e3b6529c996778c7ae23fd13ce3560b684d14f8adae12be021a91f31292",
+      "code_chunks": [
+        [
+          235351,
+          235385
+        ],
+        [
+          468515,
+          468593
+        ]
+      ],
+      "comparison": {
+        "matcher_boundary": {
+          "frontier": "_append_option_vector",
+          "candidate": "_match_option_suffix",
+          "code_bytes": 112,
+          "actual_suffix_calls": 1,
+          "pattern": "star NUL",
+          "argument": "borrowed Invoke[7]+2 e NUL",
+          "action_slot": 35,
+          "action_slot_consumed": false,
+          "result": 1,
+          "appended": false,
+          "append_formals": 2,
+          "actual_match_calls": 5,
+          "actual_action_entries": 5,
+          "actual_action_returns": 4,
+          "actual_signature_calls": 6,
+          "unvisited_scope": "78B cold suffix comparison source+graph only",
+          "unknown_initialized_bytes": 6031,
+          "dependency_credit": 0,
+          "prefix": {
+            "frontier": "_match_option_suffix",
+            "candidate": "_parse_option_integer",
+            "code_bytes": 135,
+            "numeric_input": "1",
+            "numeric_result": 1,
+            "public_calls": [
+              {
+                "kind": "isspace",
+                "argument_role": 49,
+                "original_raw": 0,
+                "native_raw": 0,
+                "comparison": "zero/nonzero only",
+                "code_credit": 0
+              },
+              {
+                "kind": "isdigit",
+                "argument_role": 49,
+                "original_raw": 4,
+                "native_raw": 2048,
+                "comparison": "zero/nonzero only",
+                "code_credit": 0
+              },
+              {
+                "kind": "atol",
+                "argument_role": "borrowed Invoke[6]",
+                "original_raw": 1,
+                "native_raw": 1,
+                "comparison": "exact signed32",
+                "code_credit": 0
+              }
+            ],
+            "final_suffix_formals": [
+              "pattern",
+              "argument",
+              "action"
+            ],
+            "suffix_action": 35,
+            "actual_matches": 4,
+            "actual_actions": 3,
+            "actual_signature_calls": 5,
+            "unknown_initialized_bytes": 6031,
+            "unvisited_paths": "whitespace/invalid/range source+graph only",
+            "CRT_code_credit": 0,
+            "prefix": {
+              "frontier": "_parse_option_integer",
+              "code_bytes": 373,
+              "table_data_bytes": 71,
+              "table_code_credit": 0,
+              "matches": 3,
+              "actions": 3,
+              "returned_actions": 2,
+              "outer_callbacks": 3,
+              "inner_callbacks": 3,
+              "signature_calls": 3,
+              "final_argument": "borrowed Invoke[6] 1 NUL",
+              "argc_after": 20,
+              "unknown_initialized_bytes": 6031,
+              "prefix": {
+                "frontier": "_apply_option_action",
+                "code_bytes": 430,
+                "table_data_bytes": 74,
+                "table_code_credit": 0,
+                "new_BSS_semantic_bytes": 4,
+                "argument": "borrowed Invoke[1] -il",
+                "value": "borrowed Invoke[2]",
+                "argc_before": 25,
+                "argc_after": 24,
+                "rule_index": 31,
+                "rule_action": 34,
+                "signature": {
+                  "input_hex": "435050",
+                  "defined_literal_hex": "43505000",
+                  "count": 3,
+                  "seed": 4294967295,
+                  "result": 2746358228,
+                  "result_hex": "a3b219d4",
+                  "provider_code_bytes": 53,
+                  "provider_table_bytes": 1024,
+                  "private_stack": "all3 slots observed pre/post, third equals result on both; caller ADD12 before any slot read/escape, only EAX consumed",
+                  "provider_application_credit": 0
+                },
+                "prefix": {
+                  "frontier": "_match_option",
+                  "code_bytes": 34,
+                  "executed_case": "actual normal/restore accepted-prefix iterator checkpoint",
+                  "normal_case": "ordinary matcher continuation; no additional iterator acceptance",
+                  "argc_before": 26,
+                  "argc_after": 25,
+                  "argv_advance_bytes": 4,
+                  "result": "borrowed Invoke argv[1] -il NUL",
+                  "matcher_formals": 4,
+                  "vector_prefix": {
+                    "frontier": "public:mspdb50!SigForPbCb",
+                    "code_bytes": 116,
+                    "calls": 3,
+                    "object_bytes": 36,
+                    "pointer_storage_bytes": 480,
+                    "commit_bytes": 32768,
+                    "provider_executed": false,
+                    "provider_return_claimed": false
+                  }
+                },
+                "unmodeled_initialized_bytes": 6031
+              }
+            }
+          }
+        },
+        "trial": "_match_option_suffix",
+        "frontier": "_append_option_vector",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 2797,
+        "native_bss_size": 2828,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 6031,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 80.7125255940482,
+        "native_seconds": 11.546103905886412
       }
     }
   ],

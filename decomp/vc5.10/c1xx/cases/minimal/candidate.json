@@ -96,7 +96,8 @@
     "_next_argument",
     "_match_option",
     "_apply_option_action",
-    "_parse_option_integer"
+    "_parse_option_integer",
+    "_match_option_suffix"
   ],
   "trial": null,
   "ranges": [
@@ -918,7 +919,19 @@
       "start_rva": 468593,
       "end_rva": 468630,
       "entry": 0
+    },
+    {
+      "owner": "_match_option_suffix",
+      "start_rva": 235351,
+      "end_rva": 235385,
+      "entry": 1
+    },
+    {
+      "owner": "_match_option_suffix",
+      "start_rva": 468515,
+      "end_rva": 468593,
+      "entry": 0
     }
   ],
-  "stage": "_parse_option_integer accepted; next frontier _match_option_suffix"
+  "stage": "_match_option_suffix accepted; next frontier _append_option_vector"
 }

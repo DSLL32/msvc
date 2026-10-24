@@ -35,7 +35,8 @@ def check(s, d, original, native, trial, text, state, prefix):
         need(count == 26 and at == len(data), 'whole separate Invoke26 input')
         return root, result
 
-    prefix_mode = trial['trial'] == '_parse_option_integer' and bool(trial.get('integer_observers'))
+    suffix_mode = trial['trial'] == '_match_option_suffix' and bool(trial.get('suffix_observers'))
+    prefix_mode = trial['trial'] in ('_parse_option_integer','_match_option_suffix') and bool(trial.get('integer_observers'))
     contract = {
         'entry_rva': 0x39632, 'frontier_rva': 0x39779, 'matches': 3,
         'actions': 3, 'action_returns': 2, 'outer_calls': 3, 'inner_calls': 3,
@@ -45,7 +46,9 @@ def check(s, d, original, native, trial, text, state, prefix):
     if prefix_mode:
         contract.update(frontier_rva=0x39757, matches=4, action_returns=3, outer_calls=4,
                         scope='accepted373B action prefix continues through own numeric candidate to real suffix frontier')
-    need(trial['trial'] in ('_apply_option_action','_parse_option_integer') and trial['option_action_observers'] == contract,
+    if suffix_mode:
+        contract.update(frontier_rva=0x100ea,matches=5,actions=5,action_returns=4,outer_calls=5,scope='accepted numeric/action prefix continues through one real suffix call to append_option_vector')
+    need(trial['trial'] in ('_apply_option_action','_parse_option_integer','_match_option_suffix') and trial['option_action_observers'] == contract,
          'exact candidate/observer contract')
     need([r for r in trial['ranges'] if r['owner'] == '_apply_option_action'] == [
         {'owner': '_apply_option_action', 'start_rva': 0x39632, 'end_rva': 0x3970d, 'entry': 1},
@@ -67,7 +70,8 @@ def check(s, d, original, native, trial, text, state, prefix):
     integers = rows('integer-entries')
     need([len(v) for v in (matches, matched, actions, returned, outer, outer_done,
                           inner, inner_done, calls, results, integers)] ==
-         ([4, 3, 3, 3, 4, 4, 3, 3, 4 if seed else 5, 4 if seed else 5, 1] if prefix_mode else
+         ([5, 4, 5, 4, 5, 5, 3, 3, 5 if seed else 6, 5 if seed else 6, 1] if suffix_mode else
+          [4, 3, 3, 3, 4, 4, 3, 3, 4 if seed else 5, 4 if seed else 5, 1] if prefix_mode else
           [3, 2, 3, 2, 3, 3, 3, 3, 2 if seed else 3, 2 if seed else 3, 1]),
          'complete ordered entry/return/API inventories')
     # Only the real first numeric entry completes this accepted-source prefix.
@@ -232,7 +236,7 @@ def check(s, d, original, native, trial, text, state, prefix):
          'new named stub exact actual physical one-formal ABI')
     tail = re.findall(r'^trap seq=(\d+) rva=00039779 .*stack=([0-9a-f,]+)$', text, re.M)
     need(len(tail) == 1 and [int(v, 16) for v in tail[0][1].split(',')][:2] ==
-         [0x10439694, oldargs[6][0]] and re.findall(r'^frontier rva=(\w+)$', text, re.M) == (['00039757'] if prefix_mode else ['00039779']),
+         [0x10439694, oldargs[6][0]] and re.findall(r'^frontier rva=(\w+)$', text, re.M) == (['000100ea'] if suffix_mode else ['00039757'] if prefix_mode else ['00039779']),
          'actual original integer-call frontier and argument')
     need(state['symbol'] == 'parse_option_integer' and state['args'] == {'value': args[6][0]},
          'actual numeric source formals')
