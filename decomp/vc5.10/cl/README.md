@@ -14,9 +14,9 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 104 accepted application functions /17,609 original extent bytes
-(92.38% of whole `.text`, 94.95% of the 18,545-byte application extent).
-There are 104/112 application functions accepted, with eight functions/936 bytes
+There are now 105 accepted application functions /18,136 original extent bytes
+(95.14% of whole `.text`, 97.79% of the 18,545-byte application extent).
+There are 105/112 application functions accepted, with seven functions/409 bytes
 remaining. `cases/code-partition.json` and its independent review classify all
 19,062 bytes without overlaps: 18,545 application, 476 support, 41 literalCC padding.
 These are accepted function extents, not branch or input-domain coverage. The response-file/options/help case adds five driver functions with 56 actual
@@ -360,3 +360,11 @@ The initial object-only MRE dependency prefix now matches on Linux with real
 descriptor/file effects and typed before/after state checks. The bounded
 provider/evidence are under `cases/mre-object/`; later MRE operations remain
 denied. This adds no application credit: eight application frontiers remain.
+
+The 527-byte option-signature builder is now accepted through the genuine selector
+frontier. Fresh proof binds all 37 options, include inputs, both saved caller frames
+and the three typed MRE calls with real file/descriptor effects. Evidence is under
+`cases/mre-object/milestones/option-signature/`; no MRE completion is claimed.
+The original capture took 4.906 seconds, native GDB capture 1.213 seconds and audit
+0.685 seconds. All 13 cached Linux fixtures pass in 3.292 seconds. The next selector
+and comparator remain named traps; lowercase behavior is still unsupported.

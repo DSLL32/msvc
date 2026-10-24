@@ -68,7 +68,7 @@ def state(record):
     return fields,memory
 
 
-def verify(original,directory,provider=None):
+def verify(original,directory,provider=None,signature_candidate=False):
     directory=Path(directory);raw=json.loads((directory/'mre-native.json').read_bytes())
     own_provider=provider is None
     if own_provider:
@@ -89,7 +89,11 @@ def verify(original,directory,provider=None):
             execution=Path(index['execution_directory'])
             assert execution.is_absolute()and execution.parent==Path('/root/.ai-tmp/msvc2/vc5.10/cl')and execution.name.startswith('mre-provider-native-')
             provider.directory=execution;provider.artifact_directory=directory.resolve()
-        provider.packet=original_packet(provider.original);provider.pointer=Pointers();provider.inputs=load('mre-object')['inputs']
+        if signature_candidate:
+            from mre_signature_packet import decode as signature_response
+            provider.packet=signature_response(provider.original)
+        else:provider.packet=original_packet(provider.original)
+        provider.pointer=Pointers();provider.inputs=load('mre-object')['inputs']
         provider.config_path=directory/'mre-binding.bin';provider.config=provider.config_path.read_bytes()
         provider.idb=(provider.original/provider.packet['intermediate_files'][0]['owned_contents']).read_bytes()
         provider.os_block=(provider.original/'observer/mre-1-before-os-environment.bin').read_bytes()
@@ -108,7 +112,8 @@ def verify(original,directory,provider=None):
     assert actual[0]['result_alias']is True
     assert raw['errors']==[]and [r['kind']for r in raw['requests']]==list(range(7))
     from mre_elf import Layout
-    report=json.loads((directory/'native-prefix.json').read_bytes())
+    execution=directory/'native-execution.json'
+    report=json.loads((execution if execution.exists()else directory/'native-prefix.json').read_bytes())
     binary=directory/'native-CL.EXE'
     if not binary.exists():binary=Path(__file__).resolve().parents[1]/'build/native-trace/CL.EXE'
     layout=Layout(binary,report['native_sha256'])
@@ -167,6 +172,10 @@ def verify(original,directory,provider=None):
             assert fd=={'handle':handle['handle'],'device':handle['device'],'inode':handle['inode'],
                 'size':25600,'position':1024,'flags':os.O_CLOEXEC|os.O_RDWR}
             assert memory.word(record['data_addresses']['recon_osfhnd']+12)==fd['handle']
+        if signature_candidate:
+            wanted=provider.packet['target_objects'][phase]['include_input']
+            assert memory.word(record['symbols']['use_standard_include'])==wanted['use_standard_include']
+            assert memory.text(derived['driver_words'][9])==wanted['text']
         if own_provider:
             # Absence was asserted live before Open. Offline state contains the
             # created output; do not pretend it is the earlier filesystem.
@@ -174,9 +183,23 @@ def verify(original,directory,provider=None):
         observations.append(record);previous=request
     record=json.loads((directory/'native-mre-frontier-gdb.json').read_bytes())
     assert record['phase']=='mre-frontier'and record['pid']==pid
-    caller_authentication=layout.frontier(record)
+    caller_authentication=layout.frontier(record,signature_candidate)
     frontier,memory=state(record);arguments=record['arguments']
-    assert arguments['state']==frontier['driver']==memory.word(arguments['slot'])and arguments['caller']=='prepare_jobs'
+    assert arguments['state']==frontier['driver']==memory.word(arguments['slot'])
+    if signature_candidate:
+        ebp=record['general']['ebp'];signature_ebp=arguments['signature_ebp']
+        assert memory.word(ebp)==signature_ebp
+        selector_return=memory.word(ebp+4);layout.call(selector_return,'option_matching_selector','option_signature')
+        assert arguments['option_slot']==ebp+8 and arguments['selectors_slot']==ebp+12
+        assert memory.word(arguments['option_slot'])==arguments['option']==frontier['driver_words'][0]
+        assert memory.word(arguments['selectors_slot'])==arguments['selectors']and memory.text(arguments['selectors'])=='Mm'
+        assert arguments['slot']==signature_ebp+8
+        assert memory.word(signature_ebp)==observations[-1]['general']['ebp']
+        layout.call(memory.word(signature_ebp+4),'option_signature','prepare_jobs')
+        wanted=provider.packet['target_objects']['mre-frontier']['include_input']
+        assert memory.word(record['symbols']['use_standard_include'])==wanted['use_standard_include']
+        assert memory.text(frontier['driver_words'][9])==wanted['text']
+    else:assert arguments['caller']=='prepare_jobs'
     assert memory.read(arguments['pending'],20)==bytes(20)
     assert memory.word(record['symbols']['mre_call_count'])==3
     expected=list(previous['driver_words']);expected[5]=0;expected[6]=frontier['driver']+20
@@ -190,4 +213,4 @@ def verify(original,directory,provider=None):
     assert (directory/'stdout.bin').read_bytes()==b''and(directory/'stderr.bin').read_bytes()==(provider.original/'stderr.bin').read_bytes()
     assert (directory/'case.idb').read_bytes()==provider.idb
     return {'case':'mre-object','scope':'initial prefix, no acceptance/normal close credit','calls':[1,1,1],
-            'frontier':'option_signature','native_pid':pid,'actual_native_ABI_state_and_file_match':True,'frontier_caller_authentication':caller_authentication}
+            'frontier':'option_matching_selector'if signature_candidate else'option_signature','native_pid':pid,'actual_native_ABI_state_and_file_match':True,'frontier_caller_authentication':caller_authentication}

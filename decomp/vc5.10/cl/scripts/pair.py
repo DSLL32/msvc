@@ -22,8 +22,8 @@ sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def binding(path):return {'path':str(path),'sha256':sha(path)}
 
 
-def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help',dependency_response=False,link_response=False,clock_response=False):
-    assert sum(bool(v)for v in(dependency_response,link_response,clock_response))<=1,'ambiguous child response mode'
+def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help',dependency_response=False,link_response=False,clock_response=False,mre_response=False):
+    assert sum(bool(v)for v in(dependency_response,link_response,clock_response,mre_response))<=1,'ambiguous child response mode'
     assert name.startswith('_'),'explicit indexed candidate required'
     index=json.loads((PROJECT/'functions.json').read_text());base=copy.deepcopy(index)
     if reverify_accepted:
@@ -36,7 +36,7 @@ def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help',
     report=work/'audit.json';assert audit(config,report)==0
     graph=json.loads(report.with_suffix('.receipt.json').read_text())
     if reuse_original is None:
-        observed,receipt=original.capture(label+'-original',config,case_name=case_name,dependency_response=dependency_response,link_response=link_response,clock_response=clock_response)
+        observed,receipt=original.capture(label+'-original',config,case_name=case_name,dependency_response=dependency_response,link_response=link_response,clock_response=clock_response,mre_response=mre_response)
     else:
         observed=Path(reuse_original).resolve()
         receipt=json.loads((observed/'capture.json').read_text())
@@ -44,6 +44,7 @@ def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help',
         assert bool(receipt.get('dependency_response'))==dependency_response,'reused original response mode differs'
         assert bool(receipt.get('link_response'))==link_response,'reused original LINK mode differs'
         assert bool(receipt.get('clock_response'))==clock_response,'reused original clock mode differs'
+        assert bool(receipt.get('mre_response'))==mre_response,'reused original MRE mode differs'
     reconstruction_capture(receipt)
     assert receipt['case']==case_name,'reused original belongs to a different case'
     projection=project('original',observed)
@@ -59,7 +60,12 @@ def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help',
         else:original_state.write_text(payload)
     spec=importlib.util.spec_from_file_location('native_main_capture',PROJECT/'scripts/native-main.py')
     native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
-    native_dir=SCRATCH/(label+'-native');native.capture(observed,native_dir)
+    native_dir=SCRATCH/(label+'-native')
+    if mre_response:
+        import subprocess,sys
+        subprocess.run([sys.executable,str(PROJECT/'scripts/native-mre-prefix.py'),'--original',str(observed),'--directory',str(native_dir),'--signature-candidate'],cwd=PROJECT,check=True)
+        (native_dir/'state.json').write_text(json.dumps(project('native',native_dir),indent=2)+'\n')
+    else:native.capture(observed,native_dir)
     native_state=project('native',native_dir)
     assert projection['fields']==native_state['fields'],'original/native state differs; both raw captures retained'
     assert index==json.loads((PROJECT/'functions.json').read_text()),'accepted index changed during trial'
@@ -120,5 +126,6 @@ if __name__=='__main__':
     parser.add_argument('--case',default='help')
     parser.add_argument('--dependency-response',action='store_true',help='Capture the actual C1 response during this fresh masked candidate trial')
     parser.add_argument('--link-response',action='store_true',help='Observe the actual LINK-only child in the masked candidate trial')
+    parser.add_argument('--mre-response',action='store_true',help='Exact supported masked MRE signature-candidate prefix')
     parser.add_argument('--clock-response',action='store_true',help='Bind this timing candidate to its actual clock and LINK response')
-    args=parser.parse_args();run(args.candidate,args.label,args.reuse_original,args.reverify_accepted,args.case,args.dependency_response,args.link_response,args.clock_response)
+    args=parser.parse_args();run(args.candidate,args.label,args.reuse_original,args.reverify_accepted,args.case,args.dependency_response,args.link_response,args.clock_response,args.mre_response)

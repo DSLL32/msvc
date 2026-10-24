@@ -56,10 +56,10 @@ class Layout:
         else:assert bias==self.bias,'changed module relocation bias'
         return bias
 
-    def call(self,return_address,callee):
+    def call(self,return_address,callee,caller='prepare_jobs'):
         address=return_address-self.bias-5
         instruction=self.instructions[address]
-        assert self.owners[address]=='prepare_jobs'and len(instruction)==5 and instruction[:1]==b'\xe8','return is not an authentic prepare_jobs direct call'
+        assert self.owners[address]==caller and len(instruction)==5 and instruction[:1]==b'\xe8','return is not an authentic prepare_jobs direct call'
         target=address+5+struct.unpack_from('<i',instruction,1)[0]
         assert target==self.symbol(callee),'wrong actual native call target'
 
@@ -69,8 +69,12 @@ class Layout:
         assert record['general']['eip']==self.bias+self.symbol(names[index]),'wrong actual native MRE entry PC'
         self.call(record['arguments']['return'],names[index])
 
-    def frontier(self,record):
+    def frontier(self,record,signature_candidate=False):
         self.bind(record);address=record['general']['eip']-self.bias-1
+        if signature_candidate:
+            assert self.instructions[address]==b'\xcc'and self.owners[address]=='option_matching_selector','not the authentic selector INT3 PC'
+            assert record['arguments']['caller']=='option_signature'
+            return {'native_module_bias':self.bias,'caller_chain':['prepare_jobs','option_signature','option_matching_selector'],'saved_return_word':'Both actual saved caller frames independently dumped; checked by addressed state decoder.'}
         assert self.instructions[address]==b'\xcc'and self.owners[address]=='option_signature','not the authentic option_signature INT3 PC'
         assert record['arguments']['slot']==record['general']['ebp']+8,'wrong actual cdecl formal slot'
         calls=[]

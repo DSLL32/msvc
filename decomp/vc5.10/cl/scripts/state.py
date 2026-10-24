@@ -105,7 +105,14 @@ def basic_project(platform,directory):
 
 
 def project(platform,directory):
-    directory=Path(directory);result=basic_project(platform,directory)
+    directory=Path(directory)
+    if (directory/'capture.json').exists():
+        capture=json.loads((directory/'capture.json').read_bytes())
+        signature=(capture.get('mre_response')and(directory/'mre-observer.txt').exists()and(directory/'mre-observer.txt').read_bytes()==b'CL_MRE_SIGNATURE_RESPONSE_V1\n')if platform=='original'else capture.get('mre_signature_response')
+        if signature:
+            from mre_projection import project as mre_project
+            return mre_project(platform,directory)
+    result=basic_project(platform,directory)
     result['wrapper_decoder_sha256']=sha(Path(__file__))
     if(directory/'pass-state-observer.txt').exists():
         import pass_state

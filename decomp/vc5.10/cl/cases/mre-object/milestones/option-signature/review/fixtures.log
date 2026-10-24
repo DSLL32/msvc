@@ -1,0 +1,247 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "schema": 1,
+      "case": "help",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 50,
+      "stdout_bytes": 3976,
+      "stderr_bytes": 141,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.008452948182821274,
+        "setup": 0.0017535723745822906,
+        "execution": 0.003832821734249592,
+        "checks": 0.0006572753190994263,
+        "total": 0.03204610198736191
+      }
+    },
+    {
+      "case": "minimal-c",
+      "passed": true,
+      "mode": "cached native regression; fresh GDB proof separate",
+      "application_entries": 75,
+      "status": 0,
+      "object_bytes": 275,
+      "C1_calls": 1,
+      "C2_calls": 1,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "held_trial": false,
+      "seconds": {
+        "setup": 0.8108122944831848,
+        "execution": 0.06443541683256626,
+        "checks": 0.3616594774648547,
+        "total": 1.2369400672614574
+      }
+    },
+    {
+      "schema": 1,
+      "case": "response-options",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 56,
+      "stdout_bytes": 3976,
+      "stderr_bytes": 0,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.009523986838757992,
+        "setup": 0.0020163170993328094,
+        "execution": 0.007982468232512474,
+        "checks": 0.000683157704770565,
+        "total": 0.03468336258083582
+      }
+    },
+    {
+      "schema": 1,
+      "case": "usage",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 14,
+      "stdout_bytes": 61,
+      "stderr_bytes": 141,
+      "mktemp_calls": 0,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.007621278055012226,
+        "setup": 0.001708383671939373,
+        "execution": 0.003925362601876259,
+        "checks": 0.0005811387673020363,
+        "total": 0.027764007449150085
+      }
+    },
+    {
+      "schema": 1,
+      "case": "unknown-option",
+      "passed": true,
+      "full_dword_status": 2,
+      "application_entries": 56,
+      "stdout_bytes": 0,
+      "stderr_bytes": 139,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.008216648362576962,
+        "setup": 0.0017451802268624306,
+        "execution": 0.0037598637863993645,
+        "checks": 0.0006021400913596153,
+        "total": 0.02747685182839632
+      }
+    },
+    {
+      "schema": 1,
+      "case": "preprocessor-pass-options",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 53,
+      "stdout_bytes": 3976,
+      "stderr_bytes": 0,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.008417220786213875,
+        "setup": 0.0017440039664506912,
+        "execution": 0.00797937624156475,
+        "checks": 0.0006820708513259888,
+        "total": 0.03297664038836956
+      }
+    },
+    {
+      "schema": 1,
+      "case": "explicit-inputs",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 57,
+      "stdout_bytes": 3976,
+      "stderr_bytes": 0,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.009251141920685768,
+        "setup": 0.001719045452773571,
+        "execution": 0.007992183789610863,
+        "checks": 0.0006553633138537407,
+        "total": 0.033000548370182514
+      }
+    },
+    {
+      "schema": 1,
+      "case": "macro-language-conflict",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 54,
+      "stdout_bytes": 3976,
+      "stderr_bytes": 58,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.007154209539294243,
+        "setup": 0.0017819348722696304,
+        "execution": 0.007890072651207447,
+        "checks": 0.0006625652313232422,
+        "total": 0.03085208684206009
+      }
+    },
+    {
+      "schema": 1,
+      "case": "optimization-defaults",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 52,
+      "stdout_bytes": 3976,
+      "stderr_bytes": 0,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.007195586338639259,
+        "setup": 0.0017348062247037888,
+        "execution": 0.007911814376711845,
+        "checks": 0.0006962418556213379,
+        "total": 0.030689680017530918
+      }
+    },
+    {
+      "passed": true,
+      "case": "link-object",
+      "mode": "cached native regression; fresh GDB proof separate",
+      "application_entries": 69,
+      "status": 0,
+      "object_input_bytes": 275,
+      "response_input_bytes": 82,
+      "executable_output_bytes": 1024,
+      "LINK_calls": 1,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.007253773510456085,
+        "setup": 0.20771351177245378,
+        "execution": 0.016221778467297554,
+        "checks": 0.2553307609632611,
+        "total": 0.5535312378779054
+      }
+    },
+    {
+      "passed": true,
+      "case": "link-timing",
+      "mode": "cached native regression; fresh GDB proof separate",
+      "application_entries": 72,
+      "status": 0,
+      "object_input_bytes": 275,
+      "response_input_bytes": 82,
+      "executable_output_bytes": 1024,
+      "LINK_calls": 1,
+      "mktemp_calls": 1,
+      "clock_calls": 2,
+      "clock_inventory": "Actual uninstrumented host finish requires shared configured-clock counter2",
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.007161129266023636,
+        "setup": 0.045058950781822205,
+        "execution": 0.016134483739733696,
+        "checks": 0.040778808295726776,
+        "total": 0.1678912742063403
+      }
+    },
+    {
+      "schema": 1,
+      "case": "link-naming",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 72,
+      "stdout_bytes": 199,
+      "stderr_bytes": 0,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.009254169650375843,
+        "setup": 0.0067014144733548164,
+        "execution": 0.0037872763350605965,
+        "checks": 0.0030964557081460953,
+        "total": 0.03732280898839235
+      }
+    },
+    {
+      "schema": 1,
+      "case": "grouped-dry-run",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 75,
+      "stdout_bytes": 792,
+      "stderr_bytes": 0,
+      "mktemp_calls": 1,
+      "native_sha256": "241d41d63a439e594a8076670a43d402130ee9d3524340e28db68a17a21df618",
+      "seconds": {
+        "build": 0.00938596110790968,
+        "setup": 0.045591057278215885,
+        "execution": 0.008013063110411167,
+        "checks": 0.006013793870806694,
+        "total": 0.08362352196127176
+      }
+    }
+  ],
+  "total_seconds": 3.2919941982254386
+}

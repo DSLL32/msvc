@@ -62,7 +62,9 @@ def mre_response_mode(config,baseline,case,others,enabled):
     if not enabled:return None
     assert not baseline and case=='mre-object'and not any(others), 'MRE response requires distinct masked object-only prefix'
     assert '_prepare_jobs'in config['accepted'] and '_execute_pass'in config['accepted'], 'MRE response cannot restore unaccepted caller sites'
-    assert '_option_signature'not in config['accepted'], 'Initial MRE transport capture is limited to the real signature frontier'
+    if '_option_signature'in config['accepted']:
+        assert '_option_matching_selector'not in config['accepted'], 'Signature candidate must stop at genuine unaccepted selector'
+        return 'CL_MRE_SIGNATURE_RESPONSE_V1\n'
     return 'CL_MRE_PREFIX_RESPONSE_V2\n'
 
 
@@ -167,11 +169,12 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
                 address=int(line.split()[1],16)
                 stack=struct.unpack_from('<16I',(directory/'context.bin').read_bytes(),204)
                 if mre_response:
-                    assert address==0x40393a and stack[0]==0x4035f2 and file_copies==3,'MRE response did not reach its genuine initial frontier'
+                    signature=response_marker=='CL_MRE_SIGNATURE_RESPONSE_V1\n'
+                    assert (address,stack[0])==((0x4010f7,0x403989)if signature else(0x40393a,0x4035f2))and file_copies==3,'MRE response did not reach its genuine selected frontier'
                     # Observation-only while the typed native provider is held.
                     # Complete formal/hidden driver, option, scratch, CRT and
                     # file state is in the addressed C observer records.
-                    (directory/'mre-frontier.json').write_text(json.dumps({'kind':'observation-only; not acceptance','symbol':'option_signature','address':address,'return_address':stack[0],'formals':{'state':stack[1]},'file_copies':file_copies},indent=2)+'\n')
+                    (directory/'mre-frontier.json').write_text(json.dumps({'kind':'observation-only; not acceptance','symbol':'option_matching_selector'if signature else'option_signature','address':address,'return_address':stack[0],'formals':{'option':stack[1],'selectors':stack[2]}if signature else{'state':stack[1]},'file_copies':file_copies},indent=2)+'\n')
                 else:
                     from frontier_state import capture_original
                     capture_original(directory,address,stack,process)

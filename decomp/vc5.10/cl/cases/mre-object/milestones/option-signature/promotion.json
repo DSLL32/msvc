@@ -1,0 +1,59 @@
+{
+  "kind": "527B application promotion; partial MRE case, not normal completion",
+  "accepted_application_functions": 105,
+  "application_extent_bytes": 18136,
+  "application_extent_denominator": 18545,
+  "application_extent_percent": 97.79455378808304,
+  "remaining_functions": 7,
+  "remaining_extent_bytes": 409,
+  "separate_support_records": 15,
+  "separate_support_bytes": 476,
+  "evidence_manifest_sha256": "86a9239a0f9908a20459f27db4dcea7336e6538cdbb55e73cd7c097ecbba43b6",
+  "review_records": {
+    "review/parent-review.json": {
+      "sha256": "246376900df9b8bf153c2c6dd602adbbc0a27b5b680547969c33c6262cd6c527",
+      "bytes": 24207
+    },
+    "review/integration-review.json": {
+      "sha256": "f1c63a7f32ca5b0083bdaf06f55e26518e598c303c5a1203fb61c7b6940ac145",
+      "bytes": 30794
+    },
+    "review/affected-controls.json": {
+      "sha256": "66fe4b18a041c9f0fb9649604841f62bd975df9fb93b127cf4073c2c2c1c0dd7",
+      "bytes": 1815
+    },
+    "review/accept-review-final.log": {
+      "sha256": "27f55124218d308216c0a247a4579ad5dfb664bb56c93fe342d0591fa2e0e5cf",
+      "bytes": 53
+    },
+    "review/fixtures.log": {
+      "sha256": "07375786300ff00dd3af2770051f2d0e5a6981df038828ec3b8421eed5037a59",
+      "bytes": 7539
+    },
+    "review/promotion.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "review/signature-protocol35.log": {
+      "sha256": "cbdcf5391ef3b1bd6076cde0491a690160b3cb7156372b885cab2786431fb361",
+      "bytes": 92
+    },
+    "review/mre-signature-protocol-controls.json": {
+      "sha256": "d459fd8bd1ed581c067ecf36107f46b389ee0d5e5254a2dc83c7cc81719ac130",
+      "bytes": 561
+    }
+  },
+  "timings": {
+    "original_setup": 0.021481214091181755,
+    "original_execution": 4.905954321846366,
+    "native_capture": 1.2125914581120014,
+    "audit": 0.684584585018456,
+    "affected_controls": 29.11711109895259,
+    "fixtures": 3.2919941982254386
+  },
+  "gaps": [
+    "Actual next frontier option_matching_selector still traps.",
+    "Lowercase _mbslwr typed declaration remains unsupported until reached API evidence.",
+    "Later MRE calls/close/lifecycle remain denied."
+  ]
+}

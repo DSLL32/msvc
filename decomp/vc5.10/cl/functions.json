@@ -116,7 +116,8 @@
     "_make_map_name",
     "_advance_jobs",
     "_start_timer",
-    "_stop_timer"
+    "_stop_timer",
+    "_option_signature"
   ],
   "driver": [
     {
@@ -1625,14 +1626,17 @@
       "name": "_option_signature",
       "start": 4208954,
       "end": 4209481,
-      "pending_extent": true,
-      "state": "named trap; recovered signature type and bounded actual extent; not accepted",
+      "pending_extent": false,
+      "state": "Accepted527B readable body through genuine selector frontier; remaining selector/comparator calls trap",
       "native_symbol": "option_signature",
       "evidence": {
-        "kind": "Complete527B signature builder and actual MRE signature-entry caller; no body reconstructed",
+        "kind": "Complete readable527B option signature builder, verified allocation/selection/format/sort/release control flow",
         "range": "0040393a..00403b49",
-        "previous_unaccepted_identifier": "file_timestamp",
-        "result": "owned char* sorted option signature, not a timestamp"
+        "source": "src/signature.c",
+        "inputs": "Driver.options, Driver.include_path and use_standard_include; new capture must bind all consumed input strings/scalars",
+        "return": "Owned char* signature; zero-entry out[-1] behavior retained, not repaired",
+        "scope": "Implementation is not acceptance; selector/comparator remain named traps",
+        "acceptance": "cases/mre-object/milestones/option-signature/manifest.json"
       }
     },
     {

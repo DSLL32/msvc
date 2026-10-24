@@ -2,9 +2,6 @@
 #include "cl.h"
 #include <recon.h>
 
-char *option_signature(Driver *state) { __asm int 3
-    return NULL;
-}
 int compare_option_strings(const void *left, const void *right) { __asm int 3
     return 0;
 }

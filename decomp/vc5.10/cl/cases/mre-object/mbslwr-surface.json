@@ -1,0 +1,44 @@
+{
+  "kind": "Static SDK/qualified import surface only; no behavior or dynamic use claimed",
+  "target": {
+    "path": "/root/msvc2/toolchains/5.10/bin/CL.EXE",
+    "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+  },
+  "header": {
+    "path": "/root/msvc2/toolchains/5.10/include/MBSTRING.H",
+    "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+    "declaration": [
+      "_CRTIMP unsigned char * __cdecl _mbslwr(unsigned char *);"
+    ]
+  },
+  "qualified_IAT": {
+    "slot": "0x40a26c",
+    "dll": "msvcrt.dll",
+    "name": "_mbslwr"
+  },
+  "caller": "option_signature527B",
+  "abi": "cdecl unsigned char*(unsigned char*), caller cleanup4",
+  "ranges": [
+    {
+      "start": "0x403a24",
+      "end": "0x403a2e",
+      "raw_hex": "ff75f4ff156ca2400059",
+      "sha256": "66c369febb6a6b09afc139ce6f85acbe6f434a0b73c3f2163b268894f34c8959",
+      "callsite": "0x403a27",
+      "stack_argument": "One pointer: temporary absolute path or include signature buffer",
+      "caller_cleanup": 4,
+      "return": "EAX pointer ABI from SDK; target ignores its value"
+    },
+    {
+      "start": "0x403aba",
+      "end": "0x403ac8",
+      "raw_hex": "57ff156ca240008b45f00175f859",
+      "sha256": "1da576bab9da8fc29df0e330819361e4382763173728bf42842fbabd5b338e04",
+      "callsite": "0x403abb",
+      "stack_argument": "One pointer: temporary absolute path or include signature buffer",
+      "caller_cleanup": 4,
+      "return": "EAX pointer ABI from SDK; target ignores its value"
+    }
+  ],
+  "implementation_request": "SDK declaration/remap/fail125 only. Actual API behavior will require encountered input/provider/state evidence."
+}

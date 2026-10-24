@@ -1,0 +1,269 @@
+{
+  "schema": 1,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "start": 4219712,
+  "record_size": 20,
+  "count": 174,
+  "record_bytes_sha256": "4c8f9a7a52f7af68a055c791af0228fe6a347f06e014019e774aa34e769366c7",
+  "layout": [
+    "pattern:string",
+    "add:string|null",
+    "conflict:string|null",
+    "replace:string|null",
+    "extra: @ mode cdecl callback, otherwise requirement string|null"
+  ],
+  "callbacks": [
+    {
+      "address": 4205612,
+      "name": "define_macro",
+      "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+    },
+    {
+      "address": 4205489,
+      "name": "link_arguments",
+      "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+    },
+    {
+      "address": 4205860,
+      "name": "c_input",
+      "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+    },
+    {
+      "address": 4205886,
+      "name": "cpp_input",
+      "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+    },
+    {
+      "address": 4205834,
+      "name": "object_input",
+      "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+    }
+  ],
+  "driver_settings": {
+    "start": 4218880,
+    "count": 31,
+    "record_size": 12,
+    "record_bytes_sha256": "d620ba0f176194f9446e4081fcc98232df5bd67eec664a6e0c1bffd4d6a6e22d",
+    "records": [
+      {
+        "name": "Fo",
+        "action": 3,
+        "target": "object_name",
+        "original_target": 4232640,
+        "target_kind": "char * storage"
+      },
+      {
+        "name": "Fe",
+        "action": 3,
+        "target": "image_name",
+        "original_target": 4232772,
+        "target_kind": "char * storage"
+      },
+      {
+        "name": "bA",
+        "action": 4,
+        "target": "configure_assembly",
+        "original_target": 4204083,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "ba",
+        "action": 4,
+        "target": "enable_pass",
+        "original_target": 4203570,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "bc",
+        "action": 4,
+        "target": "toggle_pass",
+        "original_target": 4203673,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "bd",
+        "action": 4,
+        "target": "disable_pass",
+        "original_target": 4203608,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "bE",
+        "action": 9,
+        "target": "default_c_language",
+        "original_target": 4232656,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "bh",
+        "action": 9,
+        "target": "help_requested",
+        "original_target": 4232796,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "bil",
+        "action": 3,
+        "target": "driver_storage.temporary",
+        "original_target": 4232696,
+        "target_kind": "char * storage",
+        "target_symbol": "driver_storage",
+        "target_offset": 32
+      },
+      {
+        "name": "bm",
+        "action": 9,
+        "target": "map_requested",
+        "original_target": 4232716,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "bo",
+        "action": 12,
+        "target": "set_output_option",
+        "original_target": 4203924,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "bx",
+        "action": 12,
+        "target": "set_pass_suffix",
+        "original_target": 4203515,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "bp",
+        "action": 12,
+        "target": "set_pass_name",
+        "original_target": 4203460,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "br",
+        "action": 10,
+        "target": "keep_preprocessor_output",
+        "original_target": 4231204,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "bt",
+        "action": 11,
+        "target": "source_language",
+        "original_target": 4232632,
+        "target_kind": "char * storage"
+      },
+      {
+        "name": "bU",
+        "action": 4,
+        "target": "undefine_macro",
+        "original_target": 4203786,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "bu",
+        "action": 4,
+        "target": "undefine_defaults",
+        "original_target": 4203838,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "bv",
+        "action": 9,
+        "target": "debug_exceptions",
+        "original_target": 4232648,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "Bk",
+        "action": 9,
+        "target": "bk_requested",
+        "original_target": 4232808,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "Brepro",
+        "action": 9,
+        "target": "reproducible",
+        "original_target": 4232708,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "Bt",
+        "action": 9,
+        "target": "timing_requested",
+        "original_target": 4232780,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "Bz",
+        "action": 9,
+        "target": "bz_requested",
+        "original_target": 4232644,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "Fm",
+        "action": 3,
+        "target": "map_name",
+        "original_target": 4232760,
+        "target_kind": "char * storage"
+      },
+      {
+        "name": "LD",
+        "action": 12,
+        "target": "enable_dll",
+        "original_target": 4204495,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "LDd",
+        "action": 12,
+        "target": "enable_dll",
+        "original_target": 4204495,
+        "target_kind": "cdecl void(Option *) callback"
+      },
+      {
+        "name": "X",
+        "action": 10,
+        "target": "use_standard_include",
+        "original_target": 4231184,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "Fd",
+        "action": 3,
+        "target": "pdb_name",
+        "original_target": 4232636,
+        "target_kind": "char * storage"
+      },
+      {
+        "name": "Gm",
+        "action": 9,
+        "target": "minimal_rebuild",
+        "original_target": 4232812,
+        "target_kind": "int storage"
+      },
+      {
+        "name": "FR",
+        "action": 3,
+        "target": "browser_name",
+        "original_target": 4232776,
+        "target_kind": "char * storage"
+      },
+      {
+        "name": "Fr",
+        "action": 3,
+        "target": "browser_name",
+        "original_target": 4232776,
+        "target_kind": "char * storage"
+      },
+      {
+        "name": "ZM",
+        "action": 9,
+        "target": "allow_pch",
+        "original_target": 4232816,
+        "target_kind": "int storage"
+      }
+    ]
+  }
+}

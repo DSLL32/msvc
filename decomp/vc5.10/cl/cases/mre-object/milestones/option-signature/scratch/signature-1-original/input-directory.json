@@ -1,0 +1,79 @@
+{
+  "entries": [
+    {
+      "name": "CL.EXE",
+      "bytes": 46080,
+      "sha256": "ce8c336638d5870bdffd032357bc1479158dac5ca6c96572ea2392a736be75b3"
+    },
+    {
+      "name": "MSPDB50.DLL",
+      "bytes": 167424,
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    {
+      "name": "MSVCRT.DLL",
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    {
+      "name": "case-inputs.json",
+      "bytes": 361,
+      "sha256": "792dc1b85edf7e00bb88b50fd5479d944d1bcee35a0fd8b5b30a50bb0775fb0c"
+    },
+    {
+      "name": "clock-observer.inc",
+      "bytes": 4828,
+      "sha256": "a8ac78cd30746c3981794c56569ce70b42efdfb1f9536ab3830ea040907eec98"
+    },
+    {
+      "name": "config.json",
+      "bytes": 86841,
+      "sha256": "59c2ee6a6bb98ebff108a416c40ad6e30dc4d28d352f752b38acd915aeecb8e4"
+    },
+    {
+      "name": "dependency-observer.inc",
+      "bytes": 20863,
+      "sha256": "158e39ace380a10a61f4ad25f64216ad1573422c33561c5b5ef8aa92b169801d"
+    },
+    {
+      "name": "entries.txt",
+      "bytes": 2291,
+      "sha256": "97e49af3a466e6fcee9e834ec5754d800f83134a8d5e9117c180313b644a626f"
+    },
+    {
+      "name": "export-reader.h",
+      "bytes": 5031,
+      "sha256": "5757ccb3bbb39aaf8fbd0ca1e650e50d1ff2a4cee243cf251f8e3b654f9a362c"
+    },
+    {
+      "name": "mre-file-observer.inc",
+      "bytes": 9585,
+      "sha256": "72e8bc1ecc39c38115215acb9dce8c4c99e77d2f22c7c3098650a1f12b6bb269"
+    },
+    {
+      "name": "mre-observer.inc",
+      "bytes": 11966,
+      "sha256": "7efdea3634cf3d439f96d89f1b9bab5c7d3c9610cd2c7f980368fcb758f45ae0"
+    },
+    {
+      "name": "mre-observer.txt",
+      "bytes": 29,
+      "sha256": "6da9c9f95e5a70005400e524d7258740b1ecd4eaa90884270e0de1bc9dc4ab99"
+    },
+    {
+      "name": "reference-debugger.c",
+      "bytes": 41690,
+      "sha256": "bc95ab84024490cfea29bf7b71c08425b31e36511a8630fad6bbf8a489fb036a"
+    },
+    {
+      "name": "reference-debugger.exe",
+      "bytes": 104960,
+      "sha256": "efea33d29eec7b77a661012a1982b0a02e2a2eba61256747033d0f5527b53479"
+    },
+    {
+      "name": "test.obj",
+      "bytes": 275,
+      "sha256": "2040516d842f22c779e5db2732ceb733253117abb861b601a081b3cb4287ab9e"
+    }
+  ]
+}

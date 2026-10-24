@@ -1,5 +1,5 @@
 /* Original-only bounded Open/Query/Init observation, ending before signature logic. */
-static int mre_analysis_observer,mre_analysis_stopped,mre_response_observer;
+static int mre_analysis_observer,mre_analysis_stopped,mre_response_observer,mre_signature_observer;
 static DWORD mre_provider_base,mre_analysis_calls,mre_analysis_ebp;
 static int mre_analysis_pending[3];
 static BYTE mre_analysis_returns[3];
@@ -25,14 +25,21 @@ static int mre_observation_response_mode(int masked,int other_family)
 }
 static int mre_observation_response_marker(const char *line)
 {
-    return !strcmp(line,"CL_MRE_PREFIX_RESPONSE_V2\n");
+    return !strcmp(line,"CL_MRE_PREFIX_RESPONSE_V2\n") ||
+        !strcmp(line,"CL_MRE_SIGNATURE_RESPONSE_V1\n");
+}
+static int mre_observation_frontier_mode(int signature,BYTE signature_entry,BYTE selector_entry)
+{
+    return (signature==0 && signature_entry==0xcc) ||
+        (signature==1 && signature_entry==0x55 && selector_entry==0xcc);
 }
 static void mre_observation_install(int masked)
 {
-    char path[MAX_PATH],line[80];FILE *file;unsigned i;BYTE call[6],entry;
+    char path[MAX_PATH],line[80];FILE *file;unsigned i;BYTE call[6],entry,selector;
     output_path(path,"mre-observer.txt");file=fopen(path,"rb");if (!file) return;
     if (!fgets(line,sizeof(line),file) || fgetc(file)!=EOF) ExitProcess(160);
     mre_response_observer=mre_observation_response_marker(line);
+    mre_signature_observer=!strcmp(line,"CL_MRE_SIGNATURE_RESPONSE_V1\n");
     if (mre_response_observer) {
         if (!mre_observation_response_mode(masked,dependency_analysis) || !mre_file_directory(directory)) ExitProcess(160);
     } else if (strcmp(line,"CL_MRE_PREFIX_ANALYSIS_V2\n") ||
@@ -55,7 +62,8 @@ static void mre_observation_install(int masked)
         memory(target_base+0x393a,&entry,1);if (entry!=0x55) ExitProcess(163);
         patch_byte(target_base+0x393a,0xcc);
     } else {
-        memory(target_base+0x393a,&entry,1);if (entry!=0xcc) ExitProcess(163);
+        memory(target_base+0x393a,&entry,1);memory(target_base+0x10f7,&selector,1);
+        if (!mre_observation_frontier_mode(mre_signature_observer,entry,selector)) ExitProcess(163);
     }
 }
 static int mre_observation_point(DWORD address)
@@ -87,6 +95,12 @@ static void mre_observation_target(const char *phase,int initialized)
     if (!state || state!=arguments[0]) ExitProcess(165);
     memory(state,words,44);dependency_save(phase,"driver.bin",words,44);
     memory(target_base+0x91b8,bytes,sizeof(bytes));dependency_save(phase,"shared-scratch.bin",bytes,sizeof(bytes));
+    if (mre_signature_observer) {
+        DWORD include_flag;
+        memory(target_base+0x9010,&include_flag,4);
+        dependency_save(phase,"use-standard-include.bin",&include_flag,4);
+        if (words[9]) mre_observation_string(phase,"include-path.bin",words[9],1024);
+    }
     if (initialized) {
         memory(arguments[2],bytes,20);dependency_save(phase,"pending.bin",bytes,20);
     }
@@ -172,14 +186,25 @@ static void mre_observation_trap(int point,DWORD address,DWORD teb,DWORD tid,CON
 
 static void mre_observation_frontier(DWORD address,DWORD teb,DWORD tid,CONTEXT *context,HANDLE input,HANDLE out,HANDLE err)
 {
-    DWORD arguments[2],state;
+    DWORD arguments[3],state,first_option,frame[3];char selectors[3];
     if (!mre_response_observer) return;
-    if (address!=target_base+0x393a || mre_analysis_calls!=3 || mre_analysis_pending[0] || mre_analysis_pending[1] || mre_analysis_pending[2]) ExitProcess(188);
+    if (mre_analysis_calls!=3 || mre_analysis_pending[0] || mre_analysis_pending[1] || mre_analysis_pending[2]) ExitProcess(188);
     memory(context->Esp,arguments,sizeof(arguments));
     memory(target_base+0x9020,&state,4);
-    if (arguments[0]!=target_base+0x35f2 || arguments[1]!=state) ExitProcess(188);
+    if (mre_signature_observer) {
+        if (address!=target_base+0x10f7 || arguments[0]!=target_base+0x3989) ExitProcess(188);
+        memory(state,&first_option,4);
+        if (!first_option || arguments[1]!=first_option || !arguments[2]) ExitProcess(188);
+        memory(arguments[2],selectors,sizeof(selectors));
+        if (memcmp(selectors,"Mm",3)) ExitProcess(188);
+        memory(context->Ebp,frame,sizeof(frame));
+        if (frame[0]!=mre_analysis_ebp || frame[1]!=target_base+0x35f2 || frame[2]!=state) ExitProcess(188);
+        dependency_save("mre-frontier","signature-frame.bin",frame,sizeof(frame));
+        dependency_save("mre-frontier","selectors.bin",selectors,sizeof(selectors));
+    } else if (address!=target_base+0x393a || arguments[0]!=target_base+0x35f2 || arguments[1]!=state) ExitProcess(188);
     dependency_state("mre-frontier",teb,tid,context,input,out,err);
     mre_observation_target("mre-frontier",1);
-    dependency_save("mre-frontier","formal-arguments.bin",arguments+1,4);
-    fprintf(dependency_events,"response-frontier kind=option-signature address=%08lx calls=%lu event=%lu\n",address,mre_analysis_calls,event_number);fflush(dependency_events);
+    dependency_save("mre-frontier","formal-arguments.bin",arguments+1,mre_signature_observer?8:4);
+    fprintf(dependency_events,"response-frontier kind=%s address=%08lx calls=%lu event=%lu\n",
+        mre_signature_observer?"option-selector":"option-signature",address,mre_analysis_calls,event_number);fflush(dependency_events);
 }

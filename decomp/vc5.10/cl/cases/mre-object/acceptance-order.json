@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "case": "mre-object",
+  "entries": [
+    {
+      "order": 1,
+      "candidate": "_option_signature",
+      "class": "application",
+      "extent_bytes": 527,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/signature-2/pair.json",
+        "sha256": "3ea35421f4944110e1dcd19c013d7d525188ae336316b0da2de30e19906581b4"
+      }
+    }
+  ]
+}

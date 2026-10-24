@@ -18,7 +18,7 @@ def observe(directory,phase,arguments,call=None):
         'recon_doserrno','last_error','recon_fmode','recon_commode','recon_mb_cur_max','recon_mb_codepage',
         'recon_lc_codepage','recon_lc_handle','recon_pctype','recon_crt_environment','recon_crt_initenv',
         'recon_crt_os_environment','recon_crt_os_environment_units','recon_crt_environment_updates',
-        'driver','minimal_rebuild','reproducible','first_dependency_scan','interrupted','pass_running','pdb_name','mre_call_count')}
+        'driver','use_standard_include','minimal_rebuild','reproducible','first_dependency_scan','interrupted','pass_running','pdb_name','mre_call_count')}
     symbols['errno']=value('(unsigned)&errno')
     for name,address in symbols.items():read(address,24 if name=='recon_lc_handle' else 4)
     read(global_address('recon_mbctype'),257);read(scalar('recon_pctype')-2,514)
@@ -40,6 +40,7 @@ def observe(directory,phase,arguments,call=None):
     read(scalar('recon_crt_os_environment'),2*scalar('recon_crt_os_environment_units'))
     driver=scalar('driver');words=struct.unpack('<11I',read(driver,44))
     read(global_address('option_buffer'),1024)
+    text(words[9])
     options=words[0]
     for count in range(4096):
         if not options:break
@@ -56,13 +57,33 @@ def observe(directory,phase,arguments,call=None):
             if phase.endswith('after'):read(args[0],4);read(args[2],4)
         elif call==1 and phase.endswith('after'):read(args[1],4)
     else:
-        state=int(frame.read_var('state'))&0xffffffff
-        slot=int(frame.read_var('state').address)&0xffffffff
-        read(slot,4);assert state==driver
-        caller=frame.older();assert caller.name()=='prepare_jobs'
+        # Actual saved caller words are included in every new observation.
+        # Initial-prefix evidence predating this remains explicitly qualified.
+        frame_ebp=value('$ebp');read(frame_ebp,8)
+        if frame.name()=='option_matching_selector':
+            option=int(frame.read_var('option'))&0xffffffff
+            selectors=int(frame.read_var('selectors'))&0xffffffff
+            option_slot=int(frame.read_var('option').address)&0xffffffff
+            selectors_slot=int(frame.read_var('selectors').address)&0xffffffff
+            read(option_slot,4);read(selectors_slot,4);read(option,24);text(selectors)
+            signature=frame.older();assert signature.name()=='option_signature'
+            signature_ebp=int(signature.read_register('ebp'))&0xffffffff
+            read(signature_ebp,12)
+            state=int(signature.read_var('state'))&0xffffffff
+            slot=int(signature.read_var('state').address)&0xffffffff
+            read(slot,4);assert state==driver
+            caller=signature.older();assert caller.name()=='prepare_jobs'
+            arguments={'state':state,'slot':slot,'caller':'option_signature','signature_ebp':signature_ebp,
+                'option':option,'selectors':selectors,'option_slot':option_slot,'selectors_slot':selectors_slot}
+        else:
+            assert frame.name()=='option_signature'
+            state=int(frame.read_var('state'))&0xffffffff
+            slot=int(frame.read_var('state').address)&0xffffffff
+            read(slot,4);assert state==driver
+            caller=frame.older();assert caller.name()=='prepare_jobs'
+            arguments={'state':state,'slot':slot,'caller':'prepare_jobs'}
         pending=int(caller.read_var('pending'))&0xffffffff
-        read(pending,20)
-        arguments={'state':state,'slot':slot,'pending':pending,'caller':'prepare_jobs'}
+        read(pending,20);arguments['pending']=pending
     registers={name:frame.read_register(name).bytes.hex()for name in
         ['fctrl','fstat','ftag','fiseg','fioff','foseg','fooff','fop']+['st%d'%i for i in range(8)]}
     general={name:value('$'+name)for name in('eip','esp','eax','ebx','esi','edi','ebp')}
