@@ -51,7 +51,7 @@ ROOTS['coff_reuse_sections']=(0x49e6e0,'coff_reuse_sections')
 ROOTS['coff_section_buckets']=(0x497d00,'coff_section_buckets')
 
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False):
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False, section_selected=False):
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
     pool_words = struct.unpack('<12I', read(addresses['pools'], 48))
     head, cursor, remaining = pool_words[:3]
@@ -251,6 +251,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
             output_error_handler=addresses['writer_error'], output_clock_handler=addresses['writer_clock'],
             coff_new_output=1, coff_machine=0x14c, coff_source_name=writer_head+40,
             coff_output=output, coff_pending04=0xffffffff, coff_debug=0, coff_pending_c90=1, function_option_23=1, coff_reuse_index=0xffffffff,coff_section_count=1 if storage_complete else 0)
+        if section_selected:expected.update(coff_flags=1,coff_current_section=writer_head+1884,coff_current_list=writer_head+1968)
         if initialized_output:
             allocation=u32(addresses['coff_symbol_buffer'])
             assert allocation and all(not start<=allocation<start+4096 for start in (head,directive_head,writer_head))
@@ -266,6 +267,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
                 ('output_error_handler',0x50000002),('output_clock_handler',0x50000003),
                 ('coff_source_name',0x60000028),('coff_output',0x40000006)):
             copied[key] = normalized
+        if section_selected:copied.update(coff_current_section=0x6000075c,coff_current_list=0x600007b0)
         if initialized_output:
             copied.update(coff_table=0x60000040,coff_storage=0x60000518,coff_symbol_buffer=0x70000001)
             result['coff_allocations']={'table_offset':64,'table_bytes':32,'page_offset':96,'page_bytes':1208,'storage_offset':1304,'storage_bytes':16,'symbol_buffer':{'kind':'malloc','requested_bytes':4096,'payload':'UNMODELED; unread, no content/default credit'}}

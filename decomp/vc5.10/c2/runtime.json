@@ -1092,14 +1092,6 @@
     "evidence": null
   },
   {
-    "name": "@select_coff_section@4",
-    "start": 4321696,
-    "end": 4321697,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@query_coff_position@4",
     "start": 4321781,
     "end": 4321782,

@@ -636,3 +636,21 @@ void __fastcall record_output_section(C2Section *section)
     coff_section_buckets[bucket] = link;
     link->next = previous;
 }
+
+unsigned short __fastcall select_coff_section(unsigned short section)
+{
+    C2OutputSection *entry;
+    C2CoffSectionData *data;
+    unsigned short previous;
+    entry = lookup_output_table(coff_table, section);
+    if (!entry)
+        return coff_default_flags;
+    if (!(entry->flags & 2))
+        return coff_default_flags;
+    previous = coff_flags;
+    coff_current_section = entry;
+    data = entry->data;
+    coff_flags = section;
+    coff_current_list = data->output;
+    return previous;
+}

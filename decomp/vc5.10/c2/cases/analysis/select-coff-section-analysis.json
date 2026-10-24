@@ -1,0 +1,19 @@
+{
+  "logical": "@select_coff_section@4",
+  "hot": [
+    4321696,
+    4321781
+  ],
+  "cold": [
+    [
+      4627338,
+      4627356
+    ]
+  ],
+  "bytes": 103,
+  "abi": "fastcall unsignedshortsectionCX; unsignedshortpreviousAX,RET0; callerignoresresult",
+  "role": "Lookupindex; missing/inactive returnsdefault. Savepreviousushort, storecurrentsection, loaditsdata, storeselectedindex, selectdata.output list; returnoldindex.",
+  "next": "query_coff_position ushortCX1,unsignedEAXRET0; selected globalsindex1/currentsection1884/currentlist1968, allotherinitializedstateunchanged.",
+  "source_sha256": "176c2470fad08000a01e7f85ca3e3d0db87c8189a6e509d3fdc6661dc3cf3d98",
+  "disassembly_sha256": "077255eccee574f51a88f3916c5515945b5b32a7c40c8108388f25c869e32fa0"
+}

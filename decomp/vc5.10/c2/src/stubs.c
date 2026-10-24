@@ -600,11 +600,6 @@ void __fastcall emit_incremental_string(char *value) { __asm { int 3 } }
 void __fastcall write_output_bytes(const void *data, unsigned bytes) { __asm { int 3 } }
 void __fastcall write_output_byte(unsigned char value) { __asm { int 3 } }
 
-unsigned short __fastcall select_coff_section(unsigned short section)
-{
-    __asm { int 3 }
-    return 0;
-}
 unsigned __fastcall query_coff_position(unsigned short section)
 {
     __asm { int 3 }
