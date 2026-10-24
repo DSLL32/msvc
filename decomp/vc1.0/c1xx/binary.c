@@ -810,10 +810,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_push_macro_expansion@4",
         .entry_rva = 0x10c60,
-        .code = (const ReconExtent[]) { { 0x10c60, 0x10c61 } },
+        .code = (const ReconExtent[]) { { 0x10c60, 0x10cde } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "push_macro_expansion",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_rescan_macro_replacement",
@@ -1605,12 +1606,13 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
-        .name = "_fill_browser_scope_end@8",
+        .name = "_fill_browser_macro_reference@8",
         .entry_rva = 0x1ba90,
         .code = (const ReconExtent[]) { { 0x1ba90, 0x1baa4 } },
         .code_count = 1,
         .definition = RECON_APP,
-        .native_symbol = "fill_browser_scope_end",
+        .native_symbol = "fill_browser_macro_reference",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_fill_browser_reference@8",
@@ -1836,10 +1838,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_reference_browser_macro@4",
         .entry_rva = 0x1c440,
-        .code = (const ReconExtent[]) { { 0x1c440, 0x1c441 } },
+        .code = (const ReconExtent[]) { { 0x1c440, 0x1c452 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "reference_browser_macro",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_browser_macro@4",

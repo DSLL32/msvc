@@ -249,8 +249,25 @@ int skip_macro_space(void)
     }
     if (macro_intertoken_space) {
         if ((unsigned)(macro_work_buffer + macro_work_bytes - 5) <=
-            (unsigned)macro_expansion_start) macro_expansion_error(56);
-        if (macro_expansion_start[-1] != ' ') *macro_expansion_start++ = ' ';
+            (unsigned)macro_work_midpoint) macro_expansion_error(56);
+        if (macro_work_midpoint[-1] != ' ') *macro_work_midpoint++ = ' ';
     }
     return available;
+}
+
+/* Original 0x20c60..0x20cdd. Frame zero is reserved; each nested
+   expansion saves its real source/argument cursors and the replacement mark. */
+void __stdcall push_macro_expansion(MacroDefinition *definition)
+{
+    MacroExpansionFrame *frame;
+    if (++macro_expansion_active >= 256) fatal_error(9);
+    ++macro_rescan_depth;
+    frame = &macro_expansion_frames[macro_expansion_active];
+    frame->definition = definition;
+    frame->argument_start = macro_argument_start;
+    frame->argument_state = (unsigned char)macro_argument_state;
+    frame->flags = 0;
+    frame->source_cursor = source_text_cursor;
+    macro_work_midpoint = macro_replacement_start;
+    frame->replacement_start = macro_work_midpoint;
 }

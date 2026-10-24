@@ -46,7 +46,7 @@ void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol);
 void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol);
 void __stdcall fill_browser_base(BrowserRecord *record, void *base);
 void __stdcall fill_browser_macro(BrowserRecord *record, MacroDefinition *macro);
-void __stdcall fill_browser_scope_end(BrowserRecord *record, CppSymbol *symbol);
+void __stdcall fill_browser_macro_reference(BrowserRecord *record, MacroDefinition *definition);
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record);
 extern int browser_record_count;
 void __stdcall append_browser_record(unsigned char kind, void *subject, unsigned line);

@@ -213,8 +213,6 @@ void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
 unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
 int scan_macro_identifier(void) { __asm { int 3 } return 0; }
-void __stdcall reference_browser_macro(MacroDefinition *definition) { __asm { int 3 } }
-void __stdcall push_macro_expansion(MacroDefinition *definition) { __asm { int 3 } }
 void rescan_macro_replacement(void) { __asm { int 3 } }
 int finish_macro_expansion(void) { __asm { int 3 } return 0; }
 void __stdcall expand_macro_arguments(MacroDefinition *definition, int count) { __asm { int 3 } }
@@ -581,7 +579,6 @@ IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int d
 void finish_line_record_debug_info(void) { __asm { int 3 } }
 void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_base(BrowserRecord *record, void *base) { __asm { int 3 } }
-void __stdcall fill_browser_scope_end(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { int 3 } }
 BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }
 

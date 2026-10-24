@@ -118,7 +118,7 @@ void __stdcall fill_browser_record(BrowserRecord *record, void *subject)
     case 12: fill_browser_base(record, subject); break;
     case 13: fill_browser_symbol(record, (CppSymbol *)subject); break;
     case 0xfd: fill_browser_macro(record, (MacroDefinition *)subject); break;
-    case 0xfe: fill_browser_scope_end(record, (CppSymbol *)subject); break;
+    case 0xfe: fill_browser_macro_reference(record, (MacroDefinition *)subject); break;
     case 0xff: fill_browser_generated_symbol(record); break;
     }
 }
@@ -458,4 +458,18 @@ void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol)
         record->name = symbol->name;
         record->name_identity = symbol->name;
     }
+}
+
+/* Original 0x2c440..0x2c451, stdcall4. */
+void __stdcall reference_browser_macro(MacroDefinition *definition)
+{
+    queue_browser_record(0xfe, definition);
+}
+
+/* Original 0x2ba90..0x2baa3. Kind FE carries a MacroDefinition,
+   not a scope symbol: its browser identity is the DWORD at offset 16. */
+void __stdcall fill_browser_macro_reference(BrowserRecord *record, MacroDefinition *definition)
+{
+    record->header.kind = 4;
+    record->symbol_index = definition->browser_index;
 }

@@ -1,6 +1,20 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+PARTIAL reconstruction, active member_registry_browser completion.
+Current verified boundary: 1305 frontiers / 1199 application source functions,
+plus seven unchanged historical CRT source functions. Current frontier:
+rescan_macro_replacement RVA0x10ce0. Three further bodies are accepted after the
+five-function trial: macro-reference wrapper18B, macro-reference filler20B and
+macro-frame push126B. The filler uses its actual MacroDefinition subject;
+the earlier guessed scope-end name/type is corrected. Whole-body frame analysis
+also corrected skip_macro_space's unvisited output branch to macro_work_midpoint
+(original0x956dc), distinct from macro_expansion_start0x95780. Prior captures did
+not validate that whitespace branch; no additional acceptance credit is claimed.
+Fresh shared original/native pairs, original compilation, graph/ABI checks and
+eight cached native cases pass. Reconstruction continues only on this case.
+
+Previous bounded trial:
 PARTIAL reconstruction, PAUSED after the five-function shared-harness trial.
 Reviewed baseline: 3c751d03a, 1297 frontiers / 1191 application source functions.
 Current: 1302 / 1196 application functions plus seven unchanged historical CRT
