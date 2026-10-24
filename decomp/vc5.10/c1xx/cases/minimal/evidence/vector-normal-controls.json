@@ -1,0 +1,141 @@
+{
+  "kind": "fresh affected vector/arena/provider entry controls; reused prior raw controller campaigns",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-vector-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-vector-native-3",
+  "bindings": {
+    "original_receipt_sha256": "ad956046f805775b29ba49782fa7cca351ca966c1916c53e0166de15fec8e667",
+    "native_receipt_sha256": "1ddb0b218cd5127d97a25693536a211a14a6b25b738f3497ada6be55a5eaaead"
+  },
+  "positive": {
+    "trial": "_new_option_vector",
+    "frontier": "public:mspdb50!SigForPbCb",
+    "seed": null,
+    "modeled_context_fields": 35,
+    "original_default_context": [
+      0,
+      0,
+      0
+    ],
+    "typed_bss_bytes": 2793,
+    "native_bss_size": 2824,
+    "native_c_padding_bytes": 31,
+    "output_constructor_fields_checked": 72,
+    "cleanup_registration_checked": true,
+    "nonzero_output_constructor_input_checked": false,
+    "token_semantic_bytes_checked": 17,
+    "token_pointer_arm_tested": false,
+    "token_unknown_tail_bytes_each": 32,
+    "deferred_work_pointer_checked": true,
+    "nonzero_deferred_constructor_input_checked": false,
+    "nonzero_expanded_BSS_restore_checked": false,
+    "original_unmodeled_snapshot_bytes": 6031,
+    "native_snapshot_byte_equivalence_claimed": false,
+    "whole_mask_bytes_checked": 751216,
+    "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+    "original_seconds": 36.8300551995635,
+    "native_seconds": 10.520615403540432
+  },
+  "positive_seconds": 9.011189732700586,
+  "count": 24,
+  "cases": [
+    {
+      "case": "call-count",
+      "rejection": "vector allocation: complete three-call inventory"
+    },
+    {
+      "case": "capacity-formal",
+      "rejection": "vector allocation: actual input PC/formals/40/1/caller"
+    },
+    {
+      "case": "layout",
+      "rejection": "vector allocation: exact encountered12-byte typed header/field widths"
+    },
+    {
+      "case": "returned-owner",
+      "rejection": "vector allocation: real native header/returned owned object/pointer storage"
+    },
+    {
+      "case": "header-count",
+      "rejection": "vector allocation: real native header/returned owned object/pointer storage"
+    },
+    {
+      "case": "pointer-array",
+      "rejection": "vector allocation: real native header/returned owned object/pointer storage"
+    },
+    {
+      "case": "committed-tail",
+      "rejection": "vector allocation: complete owned committed bytes/three headers/remaining zero pointer arrays and tail"
+    },
+    {
+      "case": "member-this",
+      "rejection": "vector allocation: real first-header CommitExtent thiscall receiver/formals"
+    },
+    {
+      "case": "member-RET",
+      "rejection": "vector allocation: actual CommitExtent RET0/nonvolatiles"
+    },
+    {
+      "case": "API-input",
+      "rejection": "vector allocation: actual complete commit API arguments/result/RET16/nonvolatiles"
+    },
+    {
+      "case": "API-result",
+      "rejection": "vector allocation: actual complete commit API arguments/result/RET16/nonvolatiles"
+    },
+    {
+      "case": "API-cleanup",
+      "rejection": "vector allocation: actual complete commit API arguments/result/RET16/nonvolatiles"
+    },
+    {
+      "case": "owned-reserve",
+      "rejection": "vector allocation: commit result stays in exact existing owned reservation"
+    },
+    {
+      "case": "commit-zero",
+      "rejection": "vector allocation: complete actual32KiB zero committed output"
+    },
+    {
+      "case": "final-neighbor",
+      "rejection": "vector allocation: final complete modeled state differs beyond arena1+three actual vector pointer stores"
+    },
+    {
+      "case": "public-PC",
+      "rejection": "vector allocation: genuine public adapter entry/read-only CPP/signedlong count/signature formals"
+    },
+    {
+      "case": "public-count",
+      "rejection": "vector allocation: genuine public adapter entry/read-only CPP/signedlong count/signature formals"
+    },
+    {
+      "case": "public-seed",
+      "rejection": "vector allocation: genuine public adapter entry/read-only CPP/signedlong count/signature formals"
+    },
+    {
+      "case": "public-input",
+      "rejection": "vector allocation: genuine public adapter entry/read-only CPP/signedlong count/signature formals"
+    },
+    {
+      "case": "public-formal",
+      "rejection": "vector allocation: genuine public adapter entry/read-only CPP/signedlong count/signature formals"
+    },
+    {
+      "case": "final-raw-ABI",
+      "rejection": "vector allocation: real pre-prologue raw public ABI, not DWARF guessed values"
+    },
+    {
+      "case": "unknown-target-suffix",
+      "rejection": "vector allocation: complete actual target function suffix chronology, no hidden/extra target frontier"
+    },
+    {
+      "case": "query-state",
+      "rejection": "vector allocation: original actual committed+opaque reservedtail VirtualQuery closure"
+    },
+    {
+      "case": "all-vector-owner",
+      "rejection": "vector allocation: same actual pre-body phase and already-validated provider/vector owner identity"
+    }
+  ],
+  "seconds": 1.66941671166569,
+  "checker_sha256": "021f6729c2275f01e0ddbe01705517e8743aa8307496159eec98937c1bfc52d8",
+  "semantic_checker_sha256": "db8c11e1be47f3b63a00b3c68438bef724d889de0b2eeef5ddc63b51c36a633e"
+}

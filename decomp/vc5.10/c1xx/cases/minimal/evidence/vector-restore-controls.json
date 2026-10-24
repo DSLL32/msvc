@@ -1,0 +1,65 @@
+{
+  "kind": "fresh affected vector/arena/provider entry controls; reused prior raw controller campaigns",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-vector-restore-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-vector-restore-native-1",
+  "bindings": {
+    "original_receipt_sha256": "dc5b0a2d5b1a6e32dca9177c48071abb238ad952a4bf9763e66af7d1f5d810ef",
+    "native_receipt_sha256": "8465fb6e1a1f0cab43a68ac483dad1cb906691d78d94b7b91ef92a1c8b1e8ae9"
+  },
+  "positive": {
+    "trial": "_new_option_vector",
+    "frontier": "_next_argument",
+    "seed": "restore-nonzero",
+    "modeled_context_fields": 35,
+    "original_default_context": [
+      0,
+      0,
+      0
+    ],
+    "typed_bss_bytes": 2793,
+    "native_bss_size": 2824,
+    "native_c_padding_bytes": 31,
+    "output_constructor_fields_checked": 72,
+    "cleanup_registration_checked": true,
+    "nonzero_output_constructor_input_checked": false,
+    "token_semantic_bytes_checked": 17,
+    "token_pointer_arm_tested": false,
+    "token_unknown_tail_bytes_each": 32,
+    "deferred_work_pointer_checked": true,
+    "nonzero_deferred_constructor_input_checked": false,
+    "nonzero_expanded_BSS_restore_checked": true,
+    "original_unmodeled_snapshot_bytes": 6031,
+    "native_snapshot_byte_equivalence_claimed": false,
+    "whole_mask_bytes_checked": 751216,
+    "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+    "original_seconds": 35.148068693466485,
+    "native_seconds": 10.625330213457346
+  },
+  "positive_seconds": 9.034171155653894,
+  "count": 5,
+  "cases": [
+    {
+      "case": "final-neighbor",
+      "rejection": "vector allocation: final complete modeled state differs beyond arena1+three actual vector pointer stores"
+    },
+    {
+      "case": "next-formal",
+      "rejection": "vector allocation: real target next stub/no source formals"
+    },
+    {
+      "case": "restore-discriminator",
+      "rejection": "vector allocation: final complete modeled state differs beyond arena1+three actual vector pointer stores"
+    },
+    {
+      "case": "derived-tail",
+      "rejection": "vector allocation: original actual next noarg caller; outer pending matcher arguments are not callee formals"
+    },
+    {
+      "case": "next-caller",
+      "rejection": "vector allocation: actual application caller/CALL encoding"
+    }
+  ],
+  "seconds": 0.6147019080817699,
+  "checker_sha256": "021f6729c2275f01e0ddbe01705517e8743aa8307496159eec98937c1bfc52d8",
+  "semantic_checker_sha256": "db8c11e1be47f3b63a00b3c68438bef724d889de0b2eeef5ddc63b51c36a633e"
+}

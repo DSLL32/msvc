@@ -31,7 +31,7 @@ def check(directory):
     spec.loader.exec_module(locale)
     prerequisite = locale.check(directory)
     trial = json.loads((directory / 'trial.json').read_text())
-    require(trial['trial'] in ('_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments') and trial['multibyte_observers'] == {'entry_rva':0x39394,'return_rva':0x38fe9,'public_entry_rva':0x2257,'IAT_rva':0xc9184,'data_IAT_rva':0xc90c4,'codepage':-4,'next_rva':0x393ca,'flags_rva':0xcc108,'classes_rva':0xcc008,'bytes':512,'selection_support':'unclaimed until own203 captured and reviewed'}, 'wrong actual candidate/observer contract')
+    require(trial['trial'] in ('_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector') and trial['multibyte_observers'] == {'entry_rva':0x39394,'return_rva':0x38fe9,'public_entry_rva':0x2257,'IAT_rva':0xc9184,'data_IAT_rva':0xc90c4,'codepage':-4,'next_rva':0x393ca,'flags_rva':0xcc108,'classes_rva':0xcc008,'bytes':512,'selection_support':'unclaimed until own203 captured and reviewed'}, 'wrong actual candidate/observer contract')
     provider, target = directory / 'loaded-msvcrt.bin', directory / 'loaded-target.bin'
     require(export_rva(provider, '_setmbcp') == 0x2257 and pe_read(target, 0x39398, 6) == bytes.fromhex('ff1584914c10') and pe_read(target, 0x39396, 2) == bytes.fromhex('6afc'), 'actual canonical public import/call/argument')
     require((directory / 'mb-provider-entry.bin').read_bytes() == pe_read(provider, 0x2257, 16), 'actual loaded provider entry bytes')
@@ -69,7 +69,7 @@ def check(directory):
             require(read(name) == (directory / ('locale-mb-before-' + name + '.bin')).read_bytes(), 'actual thread/PTD lifetime: ' + name)
         for prefix, suffix in (('frontend-data-locale-','.bin'),('frontend-snapshot-locale-','.bin'),('locale-','-target-BSS.bin')):
             expected_target=(directory / (prefix+'next'+suffix)).read_bytes()
-            if trial['trial'] in ('_initialize_lowercase_table','_read_env_arguments') and trial.get('test_seed') and phase=='mb-next' and prefix=='locale-':
+            if trial['trial'] in ('_initialize_lowercase_table','_read_env_arguments','_new_option_vector') and trial.get('test_seed') and phase=='mb-next' and prefix=='locale-':
                 # A labeled later helper-entry DATA seed follows the MB helper
                 # return; it is not an API effect or a relaxed neighbor guard.
                 require(text.count('path-fold-seed phase=helper bytes=512 first=4303 step=37\n')==1 and (directory/'path-fold-helper-before-seed.bin').read_bytes()==bytes(512),'explicit later512-byte auxiliary handoff')
@@ -83,7 +83,7 @@ def check(directory):
     require(pe_read(target,0xcc008,512) == actual_defaults, 'own full semantic/default canonical table identity')
     data = json.loads((directory/'scanner-data.json').read_text())
     require(data['full_default_sha256'] == hashlib.sha256(actual_defaults).hexdigest() and data['target_sha256'] == sha(target), 'case default metadata target binding')
-    compiled_hash=trial['bound_inputs']['build/c1n32_l.dll'] if trial['trial']=='_read_env_arguments' else data['compiled_original_DLL']['artifact_sha256']
+    compiled_hash=trial['bound_inputs']['build/c1n32_l.dll'] if trial['trial']in ('_read_env_arguments','_new_option_vector') else data['compiled_original_DLL']['artifact_sha256']
     require(sha(directory/'c1n32_l.dll') == compiled_hash and pe_read(directory/'c1n32_l.dll',data['compiled_original_DLL']['frontend_data_rva']+2028,512) == actual_defaults, 'actual frozen original-compiler DLL/contextual initializer bytes')
     if not trial.get('test_seed'):
         require((directory/'frontend-data-locale-mb-next.bin').read_bytes()[8:520] == actual_defaults, 'natural complete512B target table result')

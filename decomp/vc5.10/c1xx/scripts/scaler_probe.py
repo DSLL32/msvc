@@ -113,6 +113,7 @@ class ArenaPoolEntry(gdb.Breakpoint):
         scaler_pool_entries.append(row);return False
 class ArenaCommitEntry(gdb.Breakpoint):
     def stop(self):
+        if @@VECTOR_ONLY@@ and gdb.newest_frame().older().name()=='new_option_vector':return False
         row=scaler_context();row.update(return_pc=struct.unpack("<I",gdb.selected_inferior().read_memory(row["esp"],4))[0],args=[],guard=scaler_guard())
         block=gdb.block_for_pc(row["pc"])
         while block and not block.function:block=block.superblock
@@ -183,6 +184,7 @@ end
     if trial.get('pool_cycle_observers'):
         from pool_cycle_probe import definitions
         body=body.replace("ScalerInitial('*0x%x'",definitions(binary,output)+"ScalerInitial('*0x%x'",1)
+    body=body.replace('@@VECTOR_ONLY@@',repr(bool(trial.get('vector_observers'))))
     for key,value in replace.items():body=body.replace(key,value)
     script=output/'observe-scaler.gdb';body=body[:-4]
     if '_initialize_pool_arenas' in trial['accepted']:body+="PoolBindEntry('*0x%x',internal=True)\n"%names['_ZN12CompilerPool9BindArenaEj'][0]

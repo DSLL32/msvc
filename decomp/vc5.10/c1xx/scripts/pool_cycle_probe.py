@@ -36,6 +36,7 @@ class PoolCommitApiEntry(gdb.Breakpoint):
     def stop(self):
         caller=gdb.newest_frame().older()
         if caller.name()!='CompilerArena::CommitExtent':return False
+        if @@VECTORS@@ and int(caller.read_var('this'))==int(gdb.parse_and_eval('&frontend_bss.arenas[1]')):return False
         row=scaler_context();words=list(struct.unpack('<5I',gdb.selected_inferior().read_memory(row['esp'],20)))
         if pool_commit_api_entries:raise RuntimeError('extra commit API call')
         row.update(return_pc=words[0],args=words[1:],caller=caller.name(),caller_this=int(caller.read_var('this')),guard=scaler_guard())
@@ -53,7 +54,7 @@ class PoolCycleCLI(gdb.Breakpoint):
 PoolCommitApiEntry('*0x%x'%@@API@@,internal=True)
 PoolCycleCLI('*0x%x'%@@CLI@@,internal=True)
 '''
-    return code.replace('@@COMMITTED@@',repr(str(output/'pool-committed.bin'))).replace('@@API@@',str(names['recon_VirtualAlloc'][0])).replace('@@CLI@@',str(names['process_compiler_options'][0]))
+    return code.replace('@@COMMITTED@@',repr(str(output/'pool-committed.bin'))).replace('@@API@@',str(names['recon_VirtualAlloc'][0])).replace('@@CLI@@',str(names['process_compiler_options'][0])).replace('@@VECTORS@@',repr(__import__('json').loads((output/'trial.json').read_text()).get('vector_observers') is not None))
 
 
 def finish(output):

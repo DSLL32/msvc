@@ -2,7 +2,13 @@
 #define C1XX_OPTIONS_H
 #include <recon.h>
 
-struct CompilerVector;
+/* Header and separately reserved pointer array, recovered at682f. */
+typedef struct CompilerVector {
+    short count;
+    short capacity;
+    int arena_index;
+    void **items;
+} CompilerVector;
 struct CompilerPacking;
 struct CompilerIncludeAliases;
 

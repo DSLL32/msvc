@@ -25,6 +25,7 @@ class EnvArgumentsEntry(gdb.Breakpoint):
         row=env_argument_row('env-entry',1);env_argument_entries.append(row);EnvArgumentsReturn(row);return False
 class EnvArgumentsNext(gdb.Breakpoint):
     def stop(self):
+        if env_argument_next:return False
         env_argument_next.append(env_argument_row('env-next',2));return False
 EnvArgumentsEntry('*0x%x'%@@ENTRY@@,internal=True)
 EnvArgumentsNext('*0x%x'%@@NEXT@@,internal=True)

@@ -4,7 +4,7 @@ RECON = ../../../lib/recon
 TOOL = $(PYTHON) scripts/wine-tool.py
 NATIVE_CC ?= clang
 NATIVE_CXX ?= clang++
-CPP_SOURCES = src/pools.cpp src/pch.cpp src/arenas.cpp
+CPP_SOURCES = src/pools.cpp src/pch.cpp src/arenas.cpp src/vectors.cpp
 SOURCES = src/startup.c src/dllmain.c src/exports.c src/frontend.c src/initializers.c src/output.c src/pdb-context.c src/types.c src/options.c src/checksum.c src/scanner.c
 HEADERS = src/c1xx.h src/frontend.h src/output.h src/pdb-context.h src/options.h src/scanner.h $(RECON)/include/recon.h
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES)) $(patsubst src/%.cpp,build/%.obj,$(CPP_SOURCES))
@@ -39,7 +39,7 @@ build/%.obj: src/%.cpp $(HEADERS) scripts/record-build.py | build
 	$(PYTHON) scripts/record-build.py --record $@.build.json --artifact $@ -- $(TOOL) CL.EXE /nologo /c /MD /Od /GR- /GX- /W3 /I$(RECON)/include /Fo$@ $<
 
 # Original-only debugger/host, outside native fixture dependencies.
-build/dll-capture.obj: scripts/dll-capture.c scripts/invoke-arguments.h scripts/options-fields.h scripts/locale-observer.inc scripts/path-fold-observer.inc | build
+build/dll-capture.obj: scripts/dll-capture.c scripts/invoke-arguments.h scripts/options-fields.h scripts/locale-observer.inc scripts/path-fold-observer.inc scripts/vector-observer.inc | build
 	$(TOOL) CL.EXE /nologo /c /MD /Od /W3 /I$(RECON)/include /Fo$@ $<
 
 build/dll-capture.exe: build/dll-capture.obj

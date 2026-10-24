@@ -1124,10 +1124,16 @@
     {
       "name": "_new_option_vector",
       "start": 272656431,
-      "end": 272656432,
-      "pending_extent": true,
-      "source": "src/options.c",
-      "abi": "cdecl8"
+      "end": 272656535,
+      "source": "src/vectors.cpp",
+      "abi": "cdecl8",
+      "code_chunks": [
+        [
+          272970415,
+          272970427
+        ]
+      ],
+      "evidence": "own104B hot+12B cold;12-byte short-count/short-capacity/arena-index/pointer header, signedlow16 capacity*4 and aligned pointer-storage reservation; two real CommitExtent edges"
     },
     {
       "name": "_next_argument",

@@ -12,7 +12,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
         need(len(rows)==1,'one actual '+name+' observation');return rows[0]
     entry,returned,next_entry=(row(name)for name in ('entries','returns','next'))
     names=symbols(native/'native-executable.elf')
-    need(trial['trial']=='_read_env_arguments' and trial['environment_argument_observers']=={'entry_rva':0x39413,'return_rva':0x39021,'next_rva':0x682f,'argument':None,'next_arguments':[40,1],'scope':'actual NULL input/RET0/no state mutation, then owned caller warning writes and genuine allocation frontier; nonNULL path source+graph only'},'exact bounded natural contract')
+    need(trial['trial']in ('_read_env_arguments','_new_option_vector') and trial['environment_argument_observers']=={'entry_rva':0x39413,'return_rva':0x39021,'next_rva':0x682f,'argument':None,'next_arguments':[40,1],'scope':'actual NULL input/RET0/no state mutation, then owned caller warning writes and genuine allocation frontier; nonNULL path source+graph only'},'exact bounded natural contract')
     need(entry['pc']==names['read_env_arguments'][0] and entry['args']==[0] and entry['formal_inventory']==[{'name':'arguments','type':'char *'}],'actual parser PC/formal/NULL input')
     need(next_entry['pc']==names['new_option_vector'][0] and next_entry['args']==[40,1] and next_entry['formal_inventory']==[{'name':'capacity','type':'unsigned int'},{'name':'arena_index','type':'int'}] and state['symbol']=='new_option_vector' and state['args']=={'capacity':40,'arena_index':1},'actual next allocator PC/complete formals/inputs')
     fold=json.loads((native/'path-fold-next-entries.json').read_text())
@@ -41,22 +41,24 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
     warnings=json.loads((original/'options-analysis.json').read_text())['warning_defaults']
     # The actual caller writes these ten already-modeled warning bytes after
     # return and before its first allocator. No allocation result is mocked.
+    next_phase='vector-0-entry'if trial.get('vector_observers')else'env-next'
     old_data=bytearray((original/'frontend-data-locale-env-return.bin').read_bytes())
     guard=copy.deepcopy(returned['guard']);new_data=bytearray.fromhex(guard['data'])
     offset=200+state['frontend']['options_data_layout']['fields']['warning_levels'][0]
     for code,flags in warnings:
         old_data[0xccb84-0xcc000+code]=flags;new_data[offset+code]=flags
     guard['data']=new_data.hex()
-    need(bytes(old_data)==(original/'frontend-data-locale-env-next.bin').read_bytes(),'only ten known warning writes in full original initialized data')
+    need(bytes(old_data)==(original/('frontend-data-locale-'+next_phase+'.bin')).read_bytes(),'only ten known warning writes in full original initialized data')
     need(next_entry['guard']==guard and next_entry['map']==returned['map'] and next_entry['classes']==returned['classes'],'only ten known warning writes in full native target/saved/external state')
-    need((original/'frontend-snapshot-locale-env-return.bin').read_bytes()==(original/'frontend-snapshot-locale-env-next.bin').read_bytes() and (original/'locale-env-return-target-BSS.bin').read_bytes()==(original/'locale-env-next-target-BSS.bin').read_bytes(),'original caller preserves full saved/BSS state')
+    need((original/'frontend-snapshot-locale-env-return.bin').read_bytes()==(original/('frontend-snapshot-locale-'+next_phase+'.bin')).read_bytes() and (original/'locale-env-return-target-BSS.bin').read_bytes()==(original/('locale-'+next_phase+'-target-BSS.bin')).read_bytes(),'original caller preserves full saved/BSS state')
     for suffix in ('words','mbctype','ctype','old-ctype','result','fp','errors','CRT-argv','CRT-environment','Invoke-argv'):
-        need((original/('locale-env-return-'+suffix+'.bin')).read_bytes()==(original/('locale-env-next-'+suffix+'.bin')).read_bytes(),'original caller provider/vector preservation '+suffix)
+        need((original/('locale-env-return-'+suffix+'.bin')).read_bytes()==(original/('locale-'+next_phase+'-'+suffix+'.bin')).read_bytes(),'original caller provider/vector preservation '+suffix)
     expected_fp=semantic(fp((original/'locale-fold-next-fp.bin').read_bytes()))
     for current in (returned,next_entry):
         need(current['locale']==entry['locale'] and current['last_error']==203 and semantic(current['fp'])==semantic(entry['fp'])==expected_fp,'native provider/owner/vector/error/full architectural FP preserved')
     for label in ('env-entry','env-return','env-next'):
         for name,baseline in (('CRT-argv','native-crt-argv.bin'),('CRT-environment','native-crt-environment.bin')):
             need((native/('locale-native-'+label+'-'+name+'.bin')).read_bytes()==(native/baseline).read_bytes(),'native private ordered vector content/lifetime')
-    need([int(v,16)for v in traps[-1][2].split(',')][:3]==[0x10439059,40,1],'original actual next allocator two arguments/caller')
+    next_trap=next(row for row in traps if row[1]=='0000682f')
+    need([int(v,16)for v in next_trap[2].split(',')][:3]==[0x10439059,40,1],'original actual next allocator two arguments/caller')
     return dict(code_bytes=338,natural_NULL_path=True,nonNULL_runtime_exercised=False,new_modeled_data_bytes=0,known_caller_warning_writes=len(warnings),next_arguments=[40,1])

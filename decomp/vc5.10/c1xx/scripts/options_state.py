@@ -14,7 +14,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
     def read(name):return json.loads((native/(name+'.json')).read_text())
     analysis=json.loads((original/'options-analysis.json').read_text());target=original/'loaded-target.bin'
     require(s.sha(target)==analysis['original_sha256'],'target inventory changed')
-    require(trial['trial']in ('_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments') and trial['options_parser_observers']['frontier_rva']==0x2b834,'wrong parser trial contract')
+    require(trial['trial']in ('_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector') and trial['options_parser_observers']['frontier_rva']==0x2b834,'wrong parser trial contract')
     names=symbols(native/'native-executable.elf');layout=read('options-grammar-layout');patterns=read('options-native-patterns')
     if (native/'options-abi-refinement.json').exists():
         from options_abi_refinement import check as check_refinement

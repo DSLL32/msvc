@@ -125,7 +125,7 @@ def main():
         for row in trial["ranges"]))
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
     shutil.copy2(PROJECT / "build/native/c1xx-host", output / "native-executable.elf")
-    for source in ("dll-capture.c", "invoke-arguments.h", "options-fields.h", "locale-observer.inc", "path-fold-observer.inc"):
+    for source in ("dll-capture.c", "invoke-arguments.h", "options-fields.h", "locale-observer.inc", "path-fold-observer.inc", "vector-observer.inc"):
         shutil.copy2(PROJECT / "scripts" / source, output / source)
     environment = transport.environment()
     if trial["case"] == "minimal":
@@ -163,6 +163,7 @@ def main():
         environment.pop('C1XX_OBSERVE_LOWERCASE',None)
         if trial.get('lowercase_observers'):environment['C1XX_OBSERVE_LOWERCASE']='1'
         if trial.get('environment_argument_observers'):environment['C1XX_OBSERVE_ENV_ARGUMENTS']='1'
+        if trial.get('vector_observers'):environment['C1XX_OBSERVE_VECTORS']='1'
         environment.pop('C1XX_TEST_ARENA_RESET',None)
         if trial.get('test_arena_reset_seed'):environment['C1XX_TEST_ARENA_RESET']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)

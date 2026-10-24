@@ -1,0 +1,217 @@
+{
+  "schema": 1,
+  "status": "UNPROMOTED116B application candidate; concrete normal public-entry + restore target-frontier review requested",
+  "function": "_new_option_vector",
+  "source": "src/vectors.cpp",
+  "source_sha256": "55f5a3b194b2ffac03d7aa1ae8cc76c84812b54d980cec949e58689e1c93f27a",
+  "type_source": "src/options.h",
+  "type_source_sha256": "c65e3357d911c114f80d7646415230ea17358e12fa10fcdce890609f4607b892",
+  "chunks": [
+    [
+      26671,
+      26775
+    ],
+    [
+      340655,
+      340667
+    ]
+  ],
+  "code_bytes": 116,
+  "proofs": {
+    "normal": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-vector-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-vector-native-3",
+      "original_receipt_sha256": "ad956046f805775b29ba49782fa7cca351ca966c1916c53e0166de15fec8e667",
+      "native_receipt_sha256": "1ddb0b218cd5127d97a25693536a211a14a6b25b738f3497ada6be55a5eaaead",
+      "trial_sha256": "dddeeac66dcabfd77dcf66d3b4c7d5508693d71511e097afe6938f69a00fb4e5",
+      "original_helper_sha256": "dddda75105295c4478403988eb0b5eb4404104467e013ed0a3d23d015d004019",
+      "original_helper_source_sha256": "5d7754971baff724afebdc323344fe3bfbd70eaba7246b51d1eef6b18796f8e4",
+      "original_vector_observer_sha256": "82b185d0a1b3aedf5f312899ac4469668351e54ccf2645cb3af9b41f80042619",
+      "native_ELF_sha256": "2bb18d6fb30bc6ef3af29ae2a77ddfa988e780b659afe9fdc60b76c3e4ba93d2",
+      "native_compiled_source_provenance_sha256": "9961ba3e4b2e7e7e889c2dec1faf1d98926053f1208f281a6b7d1a92996a16f2",
+      "native_actual_probe_sha256": "799ba1139f2adc0b94da6c85ce5cb6f6e4a240be859ae4cfe3d0ebdd7072b70d",
+      "native_collector_body_sha256": "576ad101a8f18f29becd519bc6dc7b71b41976888aed05245a9bd0c35b14ef31",
+      "original_seconds": 36.8300551995635,
+      "native_GDB_seconds": 10.520615403540432,
+      "native_outer_accounting": {
+        "snapshot_provenance_setup_seconds": 0.03575807996094227,
+        "execution_seconds": 10.520615403540432,
+        "post_execution_verification_seconds": 4.941673216409981,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_accounting": {
+        "source_command_seconds": 4.219070318154991,
+        "source_command_count": 58,
+        "gdb_total_seconds": 10.520615403540432,
+        "startup_seconds": 0.09779569320380688,
+        "breakpoint_setup_seconds": 0.7106405487284064,
+        "collection_seconds": 4.5982493525370955,
+        "serialization_io_seconds": 0.12295059952884912,
+        "residual_inferior_debugger_seconds": 4.9909792095422745,
+        "collector_count": 65,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      },
+      "validation": "cases/minimal/evidence/vector-normal-validation.json",
+      "validation_sha256": "e2cd0a34aa1a61b620c568278b94673dadff3098b3b37cdca0eef26c0cc56e82",
+      "controls": "cases/minimal/evidence/vector-normal-controls.json",
+      "controls_sha256": "989346dc191599a26d5613f3a2824e6b0730c0563dd19f8c4872f8f180e777e6",
+      "fresh_control_count": 24,
+      "control_seconds": 1.66941671166569,
+      "positive_seconds": 9.011189732700586,
+      "frontier": "public:mspdb50!SigForPbCb"
+    },
+    "restore": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-vector-restore-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-vector-restore-native-1",
+      "original_receipt_sha256": "dc5b0a2d5b1a6e32dca9177c48071abb238ad952a4bf9763e66af7d1f5d810ef",
+      "native_receipt_sha256": "8465fb6e1a1f0cab43a68ac483dad1cb906691d78d94b7b91ef92a1c8b1e8ae9",
+      "trial_sha256": "e1dc3bf5b5980473bc5679e867e58024394ac46a155f48215347a74ac634e095",
+      "original_helper_sha256": "dddda75105295c4478403988eb0b5eb4404104467e013ed0a3d23d015d004019",
+      "original_helper_source_sha256": "5d7754971baff724afebdc323344fe3bfbd70eaba7246b51d1eef6b18796f8e4",
+      "original_vector_observer_sha256": "82b185d0a1b3aedf5f312899ac4469668351e54ccf2645cb3af9b41f80042619",
+      "native_ELF_sha256": "2bb18d6fb30bc6ef3af29ae2a77ddfa988e780b659afe9fdc60b76c3e4ba93d2",
+      "native_compiled_source_provenance_sha256": "9961ba3e4b2e7e7e889c2dec1faf1d98926053f1208f281a6b7d1a92996a16f2",
+      "native_actual_probe_sha256": "ca21e61f1312d24d89a2a874c764d4da5970d089d42b3c9ad4039495fc9b13a8",
+      "native_collector_body_sha256": "576ad101a8f18f29becd519bc6dc7b71b41976888aed05245a9bd0c35b14ef31",
+      "original_seconds": 35.148068693466485,
+      "native_GDB_seconds": 10.625330213457346,
+      "native_outer_accounting": {
+        "snapshot_provenance_setup_seconds": 0.036869900301098824,
+        "execution_seconds": 10.625330213457346,
+        "post_execution_verification_seconds": 4.953716550022364,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      },
+      "native_GDB_accounting": {
+        "source_command_seconds": 3.994324997998774,
+        "source_command_count": 58,
+        "gdb_total_seconds": 10.625330213457346,
+        "startup_seconds": 0.09346864558756351,
+        "breakpoint_setup_seconds": 1.0385567834600806,
+        "collection_seconds": 4.283347340300679,
+        "serialization_io_seconds": 0.1305041778832674,
+        "residual_inferior_debugger_seconds": 5.079453266225755,
+        "collector_count": 65,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      },
+      "validation": "cases/minimal/evidence/vector-restore-validation.json",
+      "validation_sha256": "e39de09ac59878128f69ed675a8cb321866aa00fa145380f941f3902fbf1dc51",
+      "controls": "cases/minimal/evidence/vector-restore-controls.json",
+      "controls_sha256": "2426255df5bbc21063976661b0854cd45ac2fc75d230131f9c8339c6db7d69cc",
+      "fresh_control_count": 5,
+      "control_seconds": 0.6147019080817699,
+      "positive_seconds": 9.034171155653894,
+      "frontier": "_next_argument"
+    }
+  },
+  "application_credit_added": 0,
+  "durable_accepted_count": 89,
+  "prospective_accepted_count": 90,
+  "new_global_modeled_bytes": 0,
+  "dynamic_objects": {
+    "header_bytes": 12,
+    "pointer_storage_bytes": 160,
+    "calls": 3,
+    "arena_index": 1,
+    "committed_bytes": 32768,
+    "original_reserve_bytes": 10485760,
+    "scope": "three actual positive40/1 calls; zero capacity/negative low16/second expansion paths statically reconstructed but unexercised"
+  },
+  "prefix_scope": "genuine first-vector-entry structured checkpoint + exact original raw prefix, no invented frontier/old acceptance relabel; current full mask/candidate/audit still covers vector body; distinct real final event owned by vector_state",
+  "provider_boundary": {
+    "provider": "toolchains/5.10/bin/MSPDB50.DLL",
+    "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "name": "SigForPbCb",
+    "ordinal": 127,
+    "rva": 61997,
+    "IAT_rva": 823860,
+    "entry_bytes": 53,
+    "input_hex": "43505000",
+    "count": 3,
+    "signature": 4294967295,
+    "return_observed": false,
+    "body_executed": false,
+    "provider_success": false,
+    "application_credit": 0,
+    "native_surface": "existing typed shared recon_mspdb_SigForPbCb; stopped at genuine adapter entry before fail125 body",
+    "normal_formals": [
+      "const void *",
+      "long",
+      "unsigned long"
+    ],
+    "original_identity": "actual debugDLLLOAD hFile explicit-offsetdump comparescanonicalR path; current raw hashes/name/export53B+IAT/actualPC validated"
+  },
+  "restore_continuity": {
+    "kind": "derived provider continuity, not an extra original table/vector observer",
+    "directly_observed": "actual final target BSS/initialized/snapshot/nonzero c9il, next stub caller/noarg source formals/Last203/full architecturalFP",
+    "executed_intervals": [
+      [
+        233595,
+        233612
+      ],
+      [
+        233639,
+        233651
+      ]
+    ],
+    "scope": "exact decoded nonzero JNE path: only known forced_includes pointer store + callerstack changes before final next_argument; armed provider entry never hit"
+  },
+  "shared_provenance": {
+    "commit": "c11fa6763",
+    "crt_sha256": "390ea919dafdf5ffa2e6b5aa06de54fd464771b4b552b161febf4747d5cc1cbd",
+    "publication": "exact coherent WIP compiled before READY, unchanged after reviewedpublication; no provider semantics from this CL-only sharedslice",
+    "header_sha256": "2d9b3215967d79d405d4f620d6ffe10fc35048584d6b20f5e4259f84df15aa61"
+  },
+  "source_validation_hashes": {
+    "scripts/vector_state.py": "db8c11e1be47f3b63a00b3c68438bef724d889de0b2eeef5ddc63b51c36a633e",
+    "scripts/vector_probe.py": "ca21e61f1312d24d89a2a874c764d4da5970d089d42b3c9ad4039495fc9b13a8",
+    "scripts/vector-observer.inc": "82b185d0a1b3aedf5f312899ac4469668351e54ccf2645cb3af9b41f80042619",
+    "scripts/check-callback.py": "5e619b6c317236887cd82aa4661528cc8dc34a8b198422489f6f5c8c85bce6fa",
+    "scripts/check-vector-negative.py": "021f6729c2275f01e0ddbe01705517e8743aa8307496159eec98937c1bfc52d8",
+    "scripts/env_arguments_state.py": "a1d5ec1e40680f42e83f209ac63eb66ff478ea1eae39d4b3b0c48a49bb8c4b38"
+  },
+  "fixture": {
+    "path": "cases/minimal/evidence/vector-lifecycle-fixture.txt",
+    "sha256": "c0a79602bab9fa7d2bf8e90cf5c20fc9eeb086471af9ed1f220d37ade4e3cd2a"
+  },
+  "build_steps": {
+    "build/vectors.obj.build.json": {
+      "seconds": 0.7156039504334331,
+      "receipt_sha256": "cd8a66446ba40596157096dd25ccaa4e16721ff97f7d1240b1e157e9facdbd69"
+    },
+    "build/native/vectors.o.build.json": {
+      "seconds": 0.1310351975262165,
+      "receipt_sha256": "eb9cd2f934c8cc91c2cdc2f6dba26f1ce38453fc8ec0a7b5980647da29ff8b3d"
+    },
+    "build/win32-provenance.json": {
+      "seconds": 0.7097290838137269,
+      "receipt_sha256": "b82c38334496993c7f02f3f01111193407727849c68a627eb315f041dc7ee0a1"
+    },
+    "build/native/provenance.json": {
+      "seconds": 1.588856654241681,
+      "receipt_sha256": "9961ba3e4b2e7e7e889c2dec1faf1d98926053f1208f281a6b7d1a92996a16f2"
+    }
+  },
+  "failed_native_attempts": [
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-vector-native-1",
+      "scope": "correct actual public raw entry but generic final DWARF values beforeprologue were wrong; no promotion"
+    },
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-vector-native-2",
+      "scope": "direct ESP final ABI corrected, but actual structured first-vector prefix checkpoint was not yet present; analysis-only"
+    }
+  ],
+  "old_controls": "unchanged controller/protocol rejectioncampaigns retained at original prioraccepted packets; fresh24normal+5restore vector-boundary controls are separate",
+  "data_limits": {
+    "initialized_semantic_bytes": 2489,
+    "initialized_padding_bytes": 51,
+    "original_unknown_initialized_bytes": 6031,
+    "BSS_semantic_bytes": 2793,
+    "BSS_padding_bytes": 31
+  },
+  "current_normal_audit": {
+    "path": "build/audit-proof.json",
+    "sha256": "17e7835a1604bb155d3fb38f07f7d4d7d6fbc6a3f31e9c83a9d47499d4a60308",
+    "seconds": 0.12263794429600239
+  }
+}

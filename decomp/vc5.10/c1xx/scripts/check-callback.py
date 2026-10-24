@@ -20,6 +20,18 @@ def context(directory,suffix,name='context_stack'):
 
 def check(original,native,require_audit=True,audit_path=None):
     o,n,trial,text,state=s.pair(original,native)
+    vector_checkpoint=bool(trial.get('vector_observers'))
+    if vector_checkpoint:
+        actual_text,actual_state=text,state
+        state=json.loads((native/'vector-prefix-state.json').read_text())
+        # This is the actual first allocator entry before its body. Select
+        # only that observed prefix, without inventing a target frontier.
+        matches=list(re.finditer(r'^trap seq=(\d+) rva=0000682f .*$',text,re.M))
+        s.require(len(matches)==3,'three actual vector entries absent')
+        following=re.search(r'^locale-state phase=vector-member-entry ',text[matches[0].end():],re.M)
+        s.require(following is not None,'real first vector member phase absent')
+        text=text[:matches[0].end()+following.start()]
+
     constructor_match=re.fullmatch(r'_initialize_output_buffer_(\d{2})',trial['trial'] or '')
     constructor_number=int(constructor_match[1]) if constructor_match else 0
     constructor=constructor_number==1
@@ -28,7 +40,7 @@ def check(original,native,require_audit=True,audit_path=None):
     allocation_candidate=trial['trial']=='_reserve_work_buffer'
     early_options_candidate=trial['trial']=='_initialize_intermediate_files'
     early_switch_candidate=trial['trial']=='_process_early_option'
-    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments')
+    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context','_initialize_include_aliases','_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector')
     scaler_candidate=reset_candidate or trial['trial']=='_calculate_arena_reservation'
     reserve_arena_candidate=trial['trial']=='CompilerArena::Reserve'
     default_arena_candidate=trial['trial']=='_initialize_default_arena'
@@ -148,18 +160,19 @@ def check(original,native,require_audit=True,audit_path=None):
         s.require(int(observer[0][0])==env_sequence-1,'non-entry return observation sequence differs')
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
-    s.require([row[:2] for row in traps]==expected and re.findall(r'^frontier rva=(\w+)$',text,re.M)==[expected_frontier],
-              'original callback did not advance to exact next callback')
+    s.require([row[:2] for row in traps]==expected and (vector_checkpoint or re.findall(r'^frontier rva=(\w+)$',text,re.M)==[expected_frontier]),
+              'original callback prefix/actual frontier differs')
     s.require([int(word,16) for word in traps[4][2].split(',')][1:4]==[26,pointer,1],'original raw Invoke ABI differs')
     trace=['DllMain','InvokeCompilerPass','initialize_compiler_pass']+([] if seed else ['checked_malloc'])
     for name,_ in path:
         if name=='support:_ftol':continue
         trace_name=records[name]['native_symbol'] if name in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else name
         if trace_name not in trace:trace.append(trace_name)
+    if vector_checkpoint and seed:trace.append('next_argument')
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     registered=sum(name=='register_cleanup' for name,_ in path[:-1])
     s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation','process_compiler_options','push_declaration_context','initialize_include_aliases','initialize_checksums','initialize_multibyte_categories','initialize_lowercase_table','read_env_arguments','new_option_vector') or state['args']=={}) and
-              'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
+              (vector_checkpoint or 'Program received signal SIGTRAP' in (native/'gdb.txt').read_text()),'not a real native callback frontier')
     if frontier=='new_option_vector':
         s.require(state['args']=={'capacity':40,'arena_index':1} and [int(word,16)for word in traps[-1][2].split(',')][:3]==[0x10439059,40,1],'actual option vector constructor source formals/arguments/caller differ')
     if frontier=='read_env_arguments':
@@ -171,7 +184,7 @@ def check(original,native,require_audit=True,audit_path=None):
     native_frontier=records[frontier]['native_symbol'] if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else frontier
     match=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+native_frontier+'$',symbols,re.M)
     s.require(match is not None,'missing native callback02 symbol');start,size=[int(word,16) for word in match.groups()]
-    s.require(start<state['pc']<=start+size and d.elf_byte(native,state['pc']-1)==0xcc,'false native callback INT3 PC')
+    s.require((state['pc']==start and state.get('raw_entry_abi',{}).get('stack_arguments')==[40,1])if vector_checkpoint else(start<state['pc']<=start+size and d.elf_byte(native,state['pc']-1)==0xcc),'actual entry checkpoint or native callback INT3 differs')
     s.require(all(context(original,'000',name)==[0]*counts[name] for name in context_names) and d.original_fields(original,'000')=={
         'first_invocation':1,'saved_state':0,'cleanup_count':0,'restore_mode':0,'cleanup_callbacks':[0]*32},
         'original context/default field evidence differs')
@@ -290,10 +303,10 @@ def check(original,native,require_audit=True,audit_path=None):
     if '_initialize_include_aliases'in trial['accepted'] and not seed:
         from include_alias_state import check as check_alias
         check_alias(s,d,original,native,trial,text,state,final,traps)
-    if model['schema'] >= 34 and trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments'):
+    if model['schema'] >= 34 and trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector'):
         from checksum_state import check as check_checksum
         check_checksum(s,d,original,native,trial,text,pre,phase,state,seed,final,traps)
-    if model['schema']>=35 and trial['trial'] in ('_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments'):
+    if model['schema']>=35 and trial['trial'] in ('_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector'):
         from scanner_state import check as check_scanner
         check_scanner(s,d,original,native,trial,text,pre,phase,state,seed,final,traps)
     if require_audit:s.audit(trial,audit_path)
@@ -303,7 +316,11 @@ def check(original,native,require_audit=True,audit_path=None):
     if trial.get('environment_argument_observers'):
         from env_arguments_state import check as check_env_arguments
         check_env_arguments(s,d,original,native,trial,text,pre,phase,state,seed,final,traps)
-    return {'trial':trial['trial'],'frontier':'_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else '_'+frontier,'seed':seed,
+    vector_result=None
+    if vector_checkpoint:
+        from vector_state import check as check_vector
+        vector_result=check_vector(s,d,original,native,trial,actual_text,actual_state,state)
+    return {'trial':trial['trial'],'frontier':vector_result['frontier']if vector_result else '_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else '_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],
             'typed_bss_bytes':state['frontend']['known_sizes']['bss']-(model['native_padding']['bytes'] if model['schema']>=6 else 0),
             'native_bss_size':state['frontend']['known_sizes']['bss'],

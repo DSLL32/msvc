@@ -69,7 +69,7 @@ def check(directory):
         path = directory / name
         require(Path(name).name == name and path.is_file() and path.stat().st_size == row['size'] and sha(path) == row['sha256'], 'capture artifact drift: ' + name)
     trial = json.loads((directory / 'trial.json').read_text())
-    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments'), 'not a genuine encountered checksum/scanner candidate')
+    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector'), 'not a genuine encountered checksum/scanner candidate')
     for name, digest in trial['case_inputs'].items():
         require(sha(directory / Path(name).name) == digest, 'case input drift: ' + name)
     schema = json.loads((directory / 'locale-schema.json').read_text())
@@ -94,7 +94,14 @@ def check(directory):
     require(int(entry[1], 16) == base + schema['exports']['setlocale'] and int(entry[3], 16) == int(returned[1], 16) == 0x10400000 + call['caller_return_rva'], 'public entry/return PCs')
     require(int(entry[4]) == 2 and int(entry[5], 16) == call['arguments'][1] and int(returned[2], 16) == int(entry[2], 16) + 4 and returned[3] == entry[2] and returned[0] == entry[0] and entry[6:] == returned[5:], 'cdecl arguments/RET0/nonvolatile ABI')
     expected_frontier={'_read_env_arguments':'0000682f','_initialize_lowercase_table':'00039413','_initialize_multibyte_categories':'000393ca'}.get(trial['trial'],'00039394')
-    require('locale-observer canonical-export=00005729 actual=%08x iat=000c914c no-query-calls=1 no-seeds=1' % (base + 0x5729) in text and re.findall(r'^frontier rva=(\w+)$', text, re.M) == [expected_frontier], 'isolated transport/final target frontier')
+    expected_frontiers=[expected_frontier]
+    if trial['trial']=='_new_option_vector':
+        expected_frontiers=['00039428']if trial.get('test_seed')else[]
+        if not trial.get('test_seed'):
+            public=struct.unpack('<12I',(directory/'signature-entry-registers.bin').read_bytes())
+            provider_file=directory/'loaded-mspdb50.bin'
+            require(sha(provider_file)=='cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33'and export_rva(provider_file,'SigForPbCb')==0xf22d and public[1]==public[11]+0xf22d and list(public[7:11])==[0x1043909f,0x104d6620,3,0xffffffff]and(directory/'signature-input.bin').read_bytes()==b'CPP\0'and(directory/'signature-provider-entry.bin').read_bytes()==pe_read(provider_file,0xf22d,53)and re.findall(r'^dependency-frontier module=MSPDB50.dll rva=0000f22d seq=(\d+)$',text,re.M)==[str(public[0])],'authenticated actual signature entry only, no provider execution')
+    require('locale-observer canonical-export=00005729 actual=%08x iat=000c914c no-query-calls=1 no-seeds=1' % (base + 0x5729) in text and re.findall(r'^frontier rva=(\w+)$', text, re.M) == expected_frontiers, 'isolated transport/final target frontier')
     require((directory / 'locale-provider-entry.bin').read_bytes() == pe_read(provider, 0x5729, 16), 'actual loaded provider entry bytes')
     observed, private = {}, {}
     first_words = None

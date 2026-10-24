@@ -93,7 +93,7 @@
     "_initialize_lowercase_table",
     "_read_env_arguments"
   ],
-  "trial": null,
+  "trial": "_new_option_vector",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -845,7 +845,19 @@
       "start_rva": 468022,
       "end_rva": 468339,
       "entry": 0
+    },
+    {
+      "owner": "_new_option_vector",
+      "start_rva": 26671,
+      "end_rva": 26775,
+      "entry": 1
+    },
+    {
+      "owner": "_new_option_vector",
+      "start_rva": 340655,
+      "end_rva": 340667,
+      "entry": 0
     }
   ],
-  "stage": "_read_env_arguments accepted; next frontier _new_option_vector"
+  "stage": "full116B vector allocator candidate; three real40/1 calls then actual role-specific public/target frontier"
 }

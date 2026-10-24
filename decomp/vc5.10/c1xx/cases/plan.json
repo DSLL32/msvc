@@ -61,7 +61,8 @@
       "include_aliases_validation": "minimal/include-aliases-trial.json",
       "scanner_validation": "minimal/scanner-trial.json",
       "filename_case_validation": "minimal/path-fold-trial.json",
-      "environment_arguments_validation": "minimal/env-arguments-trial.json"
+      "environment_arguments_validation": "minimal/env-arguments-trial.json",
+      "pending_vector_review": "minimal/vector-trial.json"
     },
     {
       "id": "cpp-basic",

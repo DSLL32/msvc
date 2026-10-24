@@ -63,6 +63,17 @@ while block is not None and not block.is_global and not block.is_static:
     for symbol in block:
         if symbol.is_argument: value['args'][symbol.name]=int(frame.read_var(symbol))
     block=block.superblock
+if frame.name()=='new_option_vector' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&new_option_vector')):
+    words=list(struct.unpack('<3I',gdb.selected_inferior().read_memory(value['esp'],12)))
+    value['args']={'capacity':words[1],'arena_index':struct.unpack('<i',struct.pack('<I',words[2]))[0]}
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
+if frame.name()=='recon_mspdb_SigForPbCb' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&recon_mspdb_SigForPbCb')):
+    words=list(struct.unpack('<4I',gdb.selected_inferior().read_memory(value['esp'],16)))
+    value['args']={'bytes':words[1],'byte_count':struct.unpack('<i',struct.pack('<I',words[2]))[0],'signature':words[3]}
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
+    formal_block=gdb.block_for_pc(value['pc'])
+    while formal_block and not formal_block.function:formal_block=formal_block.superblock
+    value['formal_inventory']=[{'name':item.name,'type':str(item.type)}for item in formal_block if item.is_argument]
 if frame.name()=='reserve_work_buffer' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&reserve_work_buffer')):
     value['args']={'reserve_bytes':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)')),'commit_bytes':int(gdb.parse_and_eval('*(unsigned int *)($esp+8)'))}
     value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[value['args']['reserve_bytes'],value['args']['commit_bytes']]}
@@ -542,6 +553,10 @@ end
         from env_arguments_probe import setup as setup_env_arguments
         env_observer,env_finish=setup_env_arguments(output,binary)
         observer+=env_observer;scaler_finish+=env_finish
+    if trial.get('vector_observers'):
+        from vector_probe import setup as setup_vector
+        vector_observer,vector_finish=setup_vector(output,binary,collector)
+        observer+=vector_observer;scaler_finish+=vector_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):
@@ -562,6 +577,7 @@ end
         timing=json.loads((output/'gdb-timing.json').read_text());collect=sum(row['collection_seconds'] for row in timing['collectors']);serialize=sum(row['serialization_io_seconds'] for row in timing['collectors'])
         timing['summary']={'source_command_seconds':sum(row['seconds'] for row in timing['source_commands']),'source_command_count':len(timing['source_commands']),'gdb_total_seconds':elapsed,'startup_seconds':timing['first_command']-started,'breakpoint_setup_seconds':timing['before_run']-timing['first_command'],'collection_seconds':collect,'serialization_io_seconds':serialize,'residual_inferior_debugger_seconds':elapsed-(timing['before_run']-started)-collect-serialize,'collector_count':len(timing['collectors']),'scope':'residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution'}
         (output/'gdb-timing.json').write_text(json.dumps(timing,indent=2)+'\n')
-    if result.returncode or b'Program received signal SIGTRAP' not in result.stdout:
+    public_stop=bool(trial.get('vector_observers'))and not trial.get('test_seed')and b'C1XX_PUBLIC_FRONTIER MSPDB50!SigForPbCb'in result.stdout
+    if result.returncode or (b'Program received signal SIGTRAP' not in result.stdout and not public_stop):
         raise ValueError('native pass has no actual INT3 frontier; '+result.stdout.decode(errors='replace'))
     return result,elapsed
