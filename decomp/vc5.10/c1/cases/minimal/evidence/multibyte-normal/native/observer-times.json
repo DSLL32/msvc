@@ -1,0 +1,32 @@
+{
+  "gdb_startup_seconds": 0.10163508262485266,
+  "source_loading_seconds": 1.0194738432765007,
+  "phases": {
+    "x87_reads": {
+      "seconds": 0.03135092556476593,
+      "calls": 167
+    },
+    "breakpoint_callbacks": {
+      "seconds": 13.492282182909548,
+      "calls": 253
+    },
+    "json_serialization": {
+      "seconds": 0.24789320304989815,
+      "calls": 269
+    },
+    "modeled_state_reads": {
+      "seconds": 13.334857921116054,
+      "calls": 219
+    },
+    "run_including_callbacks": {
+      "seconds": 13.581750625744462,
+      "calls": 1
+    },
+    "stopped_collection_restore": {
+      "seconds": 0.5148226395249367,
+      "calls": 0
+    }
+  },
+  "seconds_since_first_python": 15.1160471085459,
+  "scope": "Run includes breakpoint callbacks. Callback/state/x87/serialization totals overlap and must not be added. Stopped time includes explicit restore/read/serialization commands. No collector optimization."
+}

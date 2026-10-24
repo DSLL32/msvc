@@ -1,0 +1,18 @@
+{
+  "kind": "actualGetSystemInfo-only originalresponse closure",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-multibyte-restore-001",
+  "original_receipt_sha256": "224af79880cc992c95621c89c2ee807d6468f58685b8d3d8161871736cd1ec79",
+  "candidate_sha256": "c54b3cb2ad404b36504213baf66d58ffb2a7b4a10804d56646b0f3191937cc6d",
+  "environment_sha256": "c6c5823449968c3f87ca6c1b5790d97addce00d74378e4e854aa533cf2e720ca",
+  "canonical_target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+  "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "provider_hfile_sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733",
+  "provider_export_rva": 51084,
+  "system_info_sha256": "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57",
+  "profile_sha256": "2994403144302c405ed3f5eb2187bc9469aedfa0530787f51595cc7824754818",
+  "profile_bytes": 104,
+  "encoder_path": "lib/recon/system_profile.py",
+  "encoder_sha256": "0c305d70c5a9e538bac2ab8d930546a989012daf01c2781f70453122c895c173",
+  "factory_sha256": "5be56c0f419ae5e29c918764251f630ad84a5c94627df02c280dd459eb09215b",
+  "memory_status_supplied": false
+}

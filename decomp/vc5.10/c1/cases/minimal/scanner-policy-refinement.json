@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "kind": "validator-only scanner frontier refinement; no execution-input changes",
+  "allowed_paths": [
+    [
+      "value_copy",
+      "hard_frontier_rva"
+    ],
+    [
+      "command_line",
+      "unknown_semantic_consumer_frontier"
+    ]
+  ],
+  "old_rva": 77576,
+  "new_rva": 77630,
+  "old_field_map": {
+    "path": "cases/minimal/evidence/scanner-policy/original-field-map.json",
+    "sha256": "95192c01c2c523a033df862ad5eef7047d8c8417e94c76cca2c068275ab25af2"
+  },
+  "new_field_map": {
+    "path": "cases/minimal/field-map.json",
+    "sha256": "3601e390c7798488cd2ce7a6511a3194d51a0fd3d5c3ccad23f7b1bc00f1a48d"
+  },
+  "candidate_sha256": "c54b3cb2ad404b36504213baf66d58ffb2a7b4a10804d56646b0f3191937cc6d",
+  "config_sha256": "4351341f9566c5a613c7640a87be07aded4084451d45110230ea013ca12d11b1",
+  "ranges_sha256": "726ed450b0f64d894c4883376266cc5b1bb2af338cee9081de84a1a2dcf8a0bc",
+  "helper_sha256": "c69268b1c7413332dfdecf42590b907205fa8246ccdb2a1736cc6dfd4c67c272",
+  "rebuilt_sha256": "02d184fd77bb63452f1fbdb5d8c86d5aa49530d91f12117f52f03f150a6ff18a",
+  "source_hashes": {
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/arenas.cpp": "69e0f91cbf39e06279d960be62d256f8ad30e6847573b52aaed5f0611604bbd6",
+    "src/buffers.c": "bfa97caa452f3b58cff31f344c2ebba04d8687cf559211e299df03532aeacb71",
+    "src/c1.h": "a0e4d738331b2e2ec07d687717bbd79a99a04301a54b376babb0d4960ce56509",
+    "src/checksums.c": "cc1b58ca2eb1dbd168389886ab5cd55435f5e1dcebd32dd1eb72fd3164f4b685",
+    "src/command-line.c": "ab51b93bec7e0ebc626f373b8d1df9d979838ebda9698ee6eeb72b0549806251",
+    "src/command-line.h": "dfa68a861a4e858e927dbddb98db0a4541917a3d970d091f41a1b333b44f55eb",
+    "src/compiler-state.c": "fa9a0886789bcdbe8246016a6265bf8e1405ec49a629bc48a2fd2bb5f78f64cf",
+    "src/compiler-state.h": "0b4f40f9b06662505be5b9bf039d669160ad288319187c081f46ed203407ca50",
+    "src/dllmain.c": "7f72154db8c07b8d1492be392f6ce45099eee864fdcc78850573a84f59bf69eb",
+    "src/exports.c": "34ea6194b62f5f3f734e59bee170cbd840a4d7df460f6d74e9b705c443eab80c",
+    "src/initializers.c": "cd8f1ea78690c6ca3c9cab9d1c99e1de3eb7f23e5e4e215d57c1446a7f244f78",
+    "src/main.c": "fb269b23cd9d024ae68abefe2b653754973dda30112549ff16905782e5bf874c",
+    "src/native-crt.c": "6a4ddd20674b97d411e3718c46b0045d563e4739c650c9b7c95a2c9083c37cd9",
+    "src/options.c": "ceba36600487c2484d881a8773be8f96c4fb56f07bccaeed93991960521269e0",
+    "src/pass.c": "99a89a75d592bae027bdfefcdd9a4030e0ff10d4089956126c8fe1e76ccdbea4",
+    "src/pch-state.cpp": "423e9bccf8dc65cbc3cd1cdda6830df38298fab625df6a9fa4e403aaa7c3b42d",
+    "src/pdb.c": "9e3e8142268551274696fe47af8644d9b497c5aab561ff2e865498ce7cb15e82",
+    "src/pools.cpp": "928915c70e78c24394710fa6a6881a7deff971bed36763a0bfd3635e64113833",
+    "src/scanner.c": "17955f65270e606d6b14cfe26d8c6e2a9c591d1848bc7b47853a6dc088d8f820",
+    "src/scanner.h": "e936b77a1bc50d56bebfd88c61f1a88a6bd2de3f03657e3d7cda8d61b7a47109",
+    "src/work-buffers.c": "577d0be78aecb73770c6b35b28c4729e1d1e38751e2efb72611983114c97ed8e"
+  },
+  "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "semantic_code_chunks": [
+    {
+      "start": 77576,
+      "end": 77630,
+      "bytes": "53566afcff1548d165108b0d94d0651083c40433c0b204b3808bf081e6ff00000084540e010f858dd80100403d000100007ce65e5bc3"
+    },
+    {
+      "start": 198592,
+      "end": 198610,
+      "bytes": "089808e16510c68008e0651023e96127feff"
+    }
+  ],
+  "semantic_memory": {
+    "target_read_write": [
+      [
+        385032,
+        385544
+      ]
+    ],
+    "other_target_reads": "only canonical function/data IAT slots5d148/5d094",
+    "external": "qualified MSVCRT._setmbcp and full witnessed257-byte _mbctype; no original literal tail or unmodeled initialized state",
+    "unknown_consumers_reached": false
+  },
+  "originals": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-multibyte-001",
+      "receipt_sha256": "d2dbc20e792aaba5b168a4c9c4c233ee306b407770d5be7527b5fdd204b857d5"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-multibyte-restore-001",
+      "receipt_sha256": "224af79880cc992c95621c89c2ee807d6468f58685b8d3d8161871736cd1ec79"
+    }
+  ],
+  "scope": "Validation label only: exact original mask/ranges/accepted trial/source/ABI/defaults/storage remain unchanged; current12f3e is genuine named masked next guard. Previous raw/audits are immutable, current audits use corrected labels."
+}

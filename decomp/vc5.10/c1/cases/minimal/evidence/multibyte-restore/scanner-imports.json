@@ -1,0 +1,69 @@
+{
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/MBCTYPE.H",
+    "sha256": "dca3939ec72c6936e199ce602cd6f5e8f63a675ff749a2585ff4a2616d66ff66",
+    "declarations": [
+      "_CRTIMP int __cdecl _setmbcp(int);",
+      "_CRTIMP extern unsigned char _mbctype[];"
+    ],
+    "constants": {
+      "_MB_CP_LOCALE": -4,
+      "_M1": 4
+    }
+  },
+  "caller": {
+    "name": "initialize_multibyte_scanner",
+    "hot": [
+      77576,
+      77630
+    ],
+    "cold": [
+      198592,
+      198610
+    ],
+    "code_bytes": 72,
+    "bytes": "53566afcff1548d165108b0d94d0651083c40433c0b204b3808bf081e6ff00000084540e010f858dd80100403d000100007ce65e5bc3",
+    "cold_bytes": "089808e16510c68008e0651023e96127feff",
+    "source_arguments": [
+      -4
+    ],
+    "return_ignored": true,
+    "callee_cleanup": 0,
+    "caller_cleanup": 4
+  },
+  "imports": [
+    {
+      "name": "_setmbcp",
+      "iat_rva": 381256,
+      "kind": "function",
+      "signature": "int __cdecl (int)",
+      "provider_export_rva": 8791
+    },
+    {
+      "name": "_mbctype",
+      "iat_rva": 381076,
+      "kind": "data",
+      "signature": "unsigned char [257]",
+      "provider_export_rva": 258504,
+      "access": "indices1..256, original unsignedchar cast, &0x04 lead bit"
+    }
+  ],
+  "provider_public_getter_analysis": {
+    "name": "_getmbcp",
+    "rva": 42355,
+    "end": 42373,
+    "bytes": "a17cf903788b0dc0f10378f7d81bc023c1c3",
+    "stored_codepage_rva": 258496,
+    "gate_flag_rva": 260476
+  },
+  "requested_native_surface": "Typed remaps/constants/header and explicit unsupported125 body only; no successful codepage selection until actual isolated own provider state is captured",
+  "status": "analysis/linkability only; application helper not reconstructed or accepted yet"
+}

@@ -1,0 +1,37 @@
+{
+  "status": "matching complete scanner and isolated public CRT transitions; supported SBCS1252 case only",
+  "native_symbol": "initialize_option_input_12f3e",
+  "application_candidate": "_initialize_multibyte_scanner",
+  "candidate_code_bytes": 72,
+  "initialized_known_bytes": 2348,
+  "initialized_unmodeled_bytes": 4200,
+  "scanner_table_bytes": 512,
+  "CRT_code_credit": 0,
+  "api_calls": [
+    "setlocale(2,empty)",
+    "_setmbcp(-4)"
+  ],
+  "errors": [
+    0,
+    0,
+    0
+  ],
+  "FP_unchanged": true,
+  "private_vector_contents_equal": true,
+  "grouped_decoder": {
+    "checkpoints": 219,
+    "new_seconds": 2.561532220803201,
+    "legacy_seconds": 10.327321075834334,
+    "schema_sha256": "c6787edada0b9e621753c67ea814f303a032552546e82063ef5ea9ca45aafb0d"
+  },
+  "execution_receipts": {
+    "original": "d2dbc20e792aaba5b168a4c9c4c233ee306b407770d5be7527b5fdd204b857d5",
+    "native": "d5029b5ef0a54b880968527fb88b63584f19db06eee88066ec2de6bab37fc84a"
+  },
+  "rust_checked_functions": 72,
+  "rust_owned_code_bytes": 5272,
+  "rust_owned_text_data_bytes": 16,
+  "rust_owned_original_bytes": 5288,
+  "current_auditor_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+  "current_audit_report_sha256": "0e7fbb18bea0b5eb282db2e2f9a57f716d8b6a3dae9850311c5ef418a9f7246d"
+}

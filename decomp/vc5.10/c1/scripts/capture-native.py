@@ -73,6 +73,7 @@ def main():
         prepare(args.system_info_reference,output,candidate)
     field_map = json.loads((PROJECT / candidate["field_map"]).read_text()) if candidate.get("field_map") else {}
     buffer_models = field_map.get("output_buffers", [])
+    use_grouped=args.case=="minimal"and bool(field_map.get("multibyte_scanner"))
     import_boundary = candidate.get("expected_frontier", {}).get("kind") == "import-boundary"
     public_boundary = candidate.get('expected_frontier',{}).get('kind')=='public-crt-entry'
     breakpoint_command = "break *recon_setlocale\n" if public_boundary else "break recon_initterm\n" if import_boundary else ""
@@ -202,7 +203,7 @@ class CompilerAllocation(gdb.Breakpoint):
 CompilerAllocation('allocate_compiler_memory')
 end
 """
-        if args.grouped_equivalence:
+        if use_grouped:
             assert args.case=='minimal'and field_map.get('multibyte_scanner')
             import shutil
             shutil.copy2(PROJECT/'scripts/modeled_reader.py',output/'modeled_reader.py')
@@ -218,13 +219,16 @@ def capture_modeled():
     reader=GroupedReader()
     result=eval(_modeled_grouped,dict(globals(),_reader=reader))
     new_seconds=time.perf_counter()-started
-    started=time.perf_counter()
-    legacy=eval(_modeled_legacy,globals())
-    legacy_seconds=time.perf_counter()-started
-    assert result==legacy,'fresh grouped/legacy modeled-state divergence'
+    legacy_seconds=None
+    if GROUPED_COMPARE:
+        started=time.perf_counter()
+        legacy=eval(_modeled_legacy,globals())
+        legacy_seconds=time.perf_counter()-started
+        assert result==legacy,'fresh grouped/legacy modeled-state divergence'
     reader.record(new_seconds,legacy_seconds)
     return result
 """%(str(output),str(output/'grouped-field-map.json'),modeled_expression,grouped_expression)
+            collector=collector.replace('GROUPED_COMPARE',str(bool(args.grouped_equivalence)))
             allocation_probe=allocation_probe.replace('allocations=[]',collector+'allocations=[]')
             commands=commands.replace("value['compiler_state']="+modeled_expression,"value['compiler_state']=capture_modeled()")
         else:
@@ -988,6 +992,9 @@ python
 open(%r,'w').write(json.dumps(restore_observations,indent=2)+'\\n')
 end
 continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output / 'restore-observations.json'))
+        if use_grouped:
+            assert "def capture_modeled():\n    return capture_modeled()\n" in setup
+            setup=setup.replace("def capture_modeled():\n    return capture_modeled()\n", "")
         buffer_probes = []
         for model in buffer_models:
             index, rva = model["index"], model["constructor_rva"]

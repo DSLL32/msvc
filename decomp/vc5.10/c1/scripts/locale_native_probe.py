@@ -32,6 +32,7 @@ def native_locale_snapshot(phase):
       'mb_gate':number('recon_mb_codepage_gate'),'mb_codepage':number('recon_mb_codepage'),
       'errors':[number('(int)errno'),number('recon_doserrno'),number('last_error')],
       'fp':capture_x87(),'compiler_state':capture_modeled(),'invocation':invocation,'crt_vectors':crt,
+      'crt_state':capture_command_line_crt_state(),
       'ctype_selection':{'bound':number('ctype_selection.bound'),'calls':number('ctype_selection.calls'),'mb_calls':number('ctype_selection.mb_calls'),
         'reference':gdb.parse_and_eval('ctype_selection.reference_sha256').string(),'result':number('(unsigned int)ctype_selection.result')}}
 class NativeLocaleReturn(gdb.Breakpoint):
@@ -65,6 +66,16 @@ class NativeLocaleEntry(gdb.Breakpoint):
           caller={'symbol':caller.name(),'pc':int(caller.pc()),'args':{key:int(caller.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('argc','argv')}if self.name=='setlocale'else{}},
           preserved=pool_cycle_preserved())
         if self.name=='setlocale':record['locale_bytes']=list(gdb.selected_inferior().read_memory(words[2],1).tobytes())
+        if self.name=='setlocale':
+            identity=gdb.parse_and_eval('*c1_host_identity')
+            state=dict(symbol=frame.name(),pc=pc,args={'category':words[1],'locale':words[2]},formal_inventory=formals,
+              invocation=record['invocation'],caller=record['caller'],compiler_state=record['compiler_state'],
+              command_line_fp=record['fp'],pass_mode=record['compiler_state']['pass_mode'],
+              module_identity=dict({key:identity[key].string()for key in ('name','path','sha256')},flags=int(identity['flags'])),
+              module_token=int(gdb.parse_and_eval('(unsigned int)c1_host_module')),
+              public_entry={'esp':esp,'stack':words,'return':words[0],'locale_bytes':record['locale_bytes'],'preserved':record['preserved']})
+            state.update(record['crt_state'])
+            open(LOCALE_OUTPUT+'/locale-native-setlocale-entry-state.json','w').write(json.dumps(state,indent=2)+'\n')
         locale_native_records.append(record);NativeLocaleReturn(self.name,words[0],esp);return False
 NativeLocaleEntry('setlocale',SETLOCALE_PC,2)
 NativeLocaleEntry('_setmbcp',SETMBCP_PC,1)

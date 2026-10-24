@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "kind": "independent exact two-label validator refinement review; no execution",
+  "packet_sha256": "c8dd0e45f5c58a183047cfe895196ec0e25abe1a32273f18238cbe0eab391de7",
+  "source_hashes": {
+    "decomp/vc5.10/c1/scripts/scanner_policy.py": "fe1fdb3af8b48a083225cc0d082fd5efefc794e8f0a44e3bf782f26e5eb930bb",
+    "decomp/vc5.10/c1/scripts/audit_roles.py": "462c8743e311b859592d54ae4830092e10a24d55e2aa790cf782a4a309d988c0",
+    "decomp/vc5.10/c1/scripts/check-scanner-policy.py": "8cc5f7a0d52fd268de8fba77647b74f2aebb3fbd6abe89eab7b771275b1034bf"
+  },
+  "allowed_delta": {
+    "value_copy.hard_frontier_rva": [
+      "0x12f08",
+      "0x12f3e"
+    ],
+    "command_line.unknown_semantic_consumer_frontier": [
+      "0x12f08",
+      "0x12f3e"
+    ]
+  },
+  "checks": [
+    "derive performs whole JSON equality after only two exact substitutions.",
+    "validate binds old/new field-map hashes, frozen candidate/config/ranges/helper/rebuilt/source set, authenticated target/provider bytes and exact scanner code/data footprint.",
+    "Caller changes only field-map validator input hash; surrounding execution protocol retains frozen mask/acceptedset/source/ABI and all other inputs.",
+    "Current scanner only touches declared512-byte table and qualified CRT boundary; no4200-byte unknown tail consumer; new frontier remains named masked12f3e.",
+    "Independently reran both original bindings and all22 forbidden-delta controls PASS."
+  ],
+  "restriction": "No target-body acceptance conferred; full ordinary current normal/restore matching still required."
+}

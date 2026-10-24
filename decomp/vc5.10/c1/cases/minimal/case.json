@@ -28,5 +28,5 @@
     "minimalin",
     "minimalsy"
   ],
-  "status": "69 application +2 historic CRT source functions accepted; checksum generator reaches genuine MSVCRT.setlocale entry, native provider remains unsupported; minimal compilation incomplete"
+  "status": "70 application +2 historic CRT source functions accepted; scanner and own isolated setlocale/_setmbcp SBCS1252 transitions reach named next12f3e; minimal compilation incomplete"
 }

@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "kind": "independent source and frozen normal/restore grouped collector review; no target execution",
+  "captures": [
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-multibyte-001",
+      "receipt_sha256": "d5029b5ef0a54b880968527fb88b63584f19db06eee88066ec2de6bab37fc84a",
+      "commands_sha256": "eb0a8e09c0936b21dfb46775a5931bcc57472abd80001d5b6f0c6ac22da5866a",
+      "checkpoints": 219,
+      "raw_bytes": 1504092,
+      "new_decoder_seconds": 2.561532220803201,
+      "legacy_decoder_seconds": 10.327321075834334,
+      "decoder_ratio": 4.031696728997643,
+      "total_dual_capture_seconds": 15.633215829730034,
+      "native_sha256": "db387b8d2998f977b2a012d8169e7015181cf7559b9e03bfee6dea3692b5f0de",
+      "layout_sha256": "c6787edada0b9e621753c67ea814f303a032552546e82063ef5ea9ca45aafb0d",
+      "comparison_sha256": "522c7e7e6a2cdaa97589110204d52e92e622e107c8c2103267fd2c4dbdce9d25"
+    },
+    {
+      "directory": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-multibyte-restore-002",
+      "receipt_sha256": "4d4fed819846b8778bd4f26ffdede05cc41f0d14900b56bae50740bdc8476ea4",
+      "commands_sha256": "20aba74cbfdb60c54a8d0a3342a31325ebceaa32487aedfbc690c1e849a60544",
+      "checkpoints": 242,
+      "raw_bytes": 1659708,
+      "new_decoder_seconds": 2.772845223546028,
+      "legacy_decoder_seconds": 10.800901717506349,
+      "decoder_ratio": 3.895241474637273,
+      "total_dual_capture_seconds": 16.7704483801499,
+      "native_sha256": "db387b8d2998f977b2a012d8169e7015181cf7559b9e03bfee6dea3692b5f0de",
+      "layout_sha256": "c6787edada0b9e621753c67ea814f303a032552546e82063ef5ea9ca45aafb0d",
+      "comparison_sha256": "0e570ba272e6380760c7ac4694c4e3b693595f8c7a414dfbe464358d326640e5"
+    }
+  ],
+  "source_hashes": {
+    "scripts/modeled_reader.py": "1ee0939f421c80f3a558f1637f978b514b4b2563e8ceb44c57fa1f506207f696",
+    "scripts/capture-native.py": "6f04154f6b0c5a42f9c8374d5970d411ba0822775415e7e40ffbc94b002202e6"
+  },
+  "conclusions": [
+    "Every Reader resolves addresses and reads storage fresh at each stopped checkpoint; cached schema only.",
+    "Immutable DWARF layout validates i386 widths, array extents, member offsets/types and field-map widths/offsets.",
+    "Only established global storage and 2348-byte typed prefix of proved 6548-byte snapshot are read. Raw padding has no semantic credit.",
+    "Legacy and grouped complete projected dictionaries are asserted equal at all 461 same-stop checkpoints.",
+    "Six retained layout/path rejection controls cover changed offsets/extents/missing names/out-of-bound indexes.",
+    "Approved for C1 normal collector adoption; next naturally required new-only capture supplies total timing."
+  ],
+  "controls_sha256": "3feb5622e90f877ee7846adbb0371e3aa312adc88cc027960f04fc1f5f99f1e4",
+  "seconds": 4.14591455925256
+}

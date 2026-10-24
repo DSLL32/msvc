@@ -143,5 +143,5 @@ class Reader:
    name='grouped-%03d-%s.bin'%(index,root);(_directory/name).write_bytes(raw)
    rows[root]=dict(address=self.addresses[root],bytes=len(raw),path=name,sha256=hashlib.sha256(raw).hexdigest())
   _records.append(dict(checkpoint=index,fresh_objects=rows,field_evaluations=self.calls,read_seconds=self.read_seconds,
-    new_seconds=new_seconds,legacy_seconds=legacy_seconds,equal=True,padding_semantics_claimed=False))
+    new_seconds=new_seconds,legacy_seconds=legacy_seconds,equal=True if legacy_seconds is not None else None,mode='equivalence'if legacy_seconds is not None else'grouped-only',padding_semantics_claimed=False))
   with (_directory/'grouped-equivalence.jsonl').open('a')as output:output.write(json.dumps(_records[-1])+'\n')

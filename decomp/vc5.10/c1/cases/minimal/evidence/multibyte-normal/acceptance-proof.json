@@ -1,0 +1,78 @@
+{
+  "kind": "sole72B scanner candidate with own isolated CRT transitions and complete512B typed data; no CRT code credit",
+  "promotion": true,
+  "application_candidate": {
+    "name": "_initialize_multibyte_scanner",
+    "chunks": [
+      [
+        77576,
+        77630
+      ],
+      [
+        198592,
+        198610
+      ]
+    ],
+    "code_bytes": 72
+  },
+  "case_scope": "SBCS1252/no lead bytes; cold source preserved and graph audited; no DBCS execution claim",
+  "initialized_known_bytes": 2348,
+  "initialized_unmodeled_bytes": 4200,
+  "candidate_sha256": "c54b3cb2ad404b36504213baf66d58ffb2a7b4a10804d56646b0f3191937cc6d",
+  "trial_sha256": "4351341f9566c5a613c7640a87be07aded4084451d45110230ea013ca12d11b1",
+  "field_map_sha256": "3601e390c7798488cd2ce7a6511a3194d51a0fd3d5c3ccad23f7b1bc00f1a48d",
+  "capture_inputs": {
+    "original": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-multibyte-001",
+      "receipt_sha256": "d2dbc20e792aaba5b168a4c9c4c233ee306b407770d5be7527b5fdd204b857d5"
+    },
+    "native": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-multibyte-001",
+      "receipt_sha256": "d5029b5ef0a54b880968527fb88b63584f19db06eee88066ec2de6bab37fc84a"
+    }
+  },
+  "strict_checks": [
+    "fullcandidate CFG/imports/RET/ownership/extents",
+    "complete typed snapshot/default/nonzero restore/full BSS/persistent state",
+    "own complete canonical API tables/errors/FP/owners/vectors and actual calls/formals/returns",
+    "real next named masked helper12f3e"
+  ],
+  "controls": {
+    "native_component": {
+      "path": "cases/minimal/evidence/multibyte-controls/multibyte-native-controls.json",
+      "fresh": 27
+    },
+    "original_API": {
+      "path": "cases/minimal/evidence/multibyte-controls/multibyte-isolated-controls.json",
+      "fresh": 22
+    },
+    "policy": {
+      "path": "cases/minimal/evidence/multibyte-controls/scanner-policy-controls.json",
+      "fresh": 22
+    },
+    "current_core": {
+      "path": "cases/minimal/evidence/multibyte-controls/multibyte-protocol-controls.json",
+      "fresh": 18
+    },
+    "static_layout": {
+      "path": "cases/minimal/evidence/multibyte-controls/grouped-layout-controls.json",
+      "fresh": 6
+    }
+  },
+  "shared_support": {
+    "commit": "b9863419d",
+    "app_code_credit": 0
+  },
+  "parent_reviews": {
+    "grouped-reader-parent-review.json": {
+      "path": "cases/minimal/evidence/scanner-policy/grouped-reader-parent-review.json",
+      "sha256": "e881319ca097647f6bc58a1c2fa1a9831e2e933b177f93874d5e4a63ab786ccc"
+    },
+    "scanner-policy-parent-review.json": {
+      "path": "cases/minimal/evidence/scanner-policy/scanner-policy-parent-review.json",
+      "sha256": "13cc8cd2435f3034428b39db893b8c7b9774e363f648a39812909f6afd1e6d39"
+    }
+  },
+  "validation_sha256": "1a4fa8ccb1536735fa969526826b84fd461268520739952aa05e11530417c45c",
+  "collector": "exact dual219/242 same-stop equivalence independently reviewed; default grouped-only adopted for NEXT required capture, no timing-only rerun"
+}

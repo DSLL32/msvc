@@ -34,6 +34,9 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
    command_line_state.validate_alias_initializer(original,native,json.loads((PROJECT/candidate['field_map']).read_text()),entry,state,at,sequence,module,candidate)
   return
  fields=json.loads((PROJECT/candidate['field_map']).read_text())
+ if fields.get('multibyte_scanner'):
+  from multibyte_state import validate_prefix
+  validate_prefix(original,native,fields,state,sequence,probe)
  for key,region in [('modeled_initialized',fields['original_initialized_region_rva']),('modeled_bss',fields['original_bss_region_rva'])]:
   rows=fields[key];ranges=sorted((r['original_rva'],r['original_rva']+r['bytes']) for r in rows)
   assert all(region[0]<=a<b<=region[1] for a,b in ranges)

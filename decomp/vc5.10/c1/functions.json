@@ -76,7 +76,8 @@
     "CompilerArena::CommitExtent",
     "_parse_command_line",
     "_initialize_include_aliases",
-    "_initialize_checksums"
+    "_initialize_checksums",
+    "_initialize_multibyte_scanner"
   ],
   "driver": [
     {
@@ -687,6 +688,18 @@
       "name": "_initialize_checksums",
       "start": 274804252,
       "end": 274804488,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_multibyte_scanner",
+      "start": 274804488,
+      "end": 274804542,
+      "code_chunks": [
+        [
+          274925504,
+          274925522
+        ]
+      ],
       "role": "application"
     }
   ],

@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "fresh_controls": 22,
+  "rejected": [
+    "stale-artifact",
+    "wrong-provider-export",
+    "wrong-target-call",
+    "wrong-codepage-argument",
+    "mb-RET-cleanup",
+    "mb-callee-save",
+    "mb-return-result",
+    "locale-conflated-MBcp",
+    "missing-mb-transition",
+    "wrong-MBflag",
+    "MB-table-tail",
+    "ctype-EOF",
+    "old-table-lifetime",
+    "result-lifetime",
+    "FP-status",
+    "actual-errno",
+    "target-state-neighbor",
+    "scanner-saved-byte",
+    "unmapped-result",
+    "omitted-vector-byte",
+    "missing-API-inventory",
+    "wrong-next-frontier"
+  ],
+  "seconds": 14.071715295314789,
+  "scope": "Original-only API contract/provenance controls; no native/app acceptance"
+}

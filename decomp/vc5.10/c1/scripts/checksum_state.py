@@ -28,9 +28,13 @@ def validate_prefix(original,native,fields,state,sequence,probe):
   assert observations['before']['checksum_state']==read((original/('compiler-bss-%03d.bin'%before)).read_bytes())==seed()
   assert observations['post_restore']['checksum_state']==read((original/('compiler-bss-%03d.bin'%after)).read_bytes())==zero
 
-def validate(original,native,candidate,report):
+def validate(original,native,candidate,report,public_state=None):
  project=Path(__file__).resolve().parents[1];fields=json.loads((project/candidate['field_map']).read_text())
- expected_fields(fields);expected=candidate['expected_frontier']
+ expected_fields(fields);stage=public_state is not None
+ if stage:
+  assert candidate['expected_frontier']['kind']=='multibyte-scanner-complete'and candidate['expected_frontier']['rva']==0x12f3e
+  expected=dict(kind='public-crt-entry',rva=0x5729,provider='MSVCRT.dll',native_symbol='recon_setlocale',calling_convention='cdecl',native_args=['category','locale'],iat_rva=0x5d120,caller=dict(native_symbol='parse_command_line',return_rva=0x12b73),following_target_stub_rva=0x12f08,projection_frontier_rva=0x12f08)
+ else:expected=candidate['expected_frontier']
  assert expected==dict(kind='public-crt-entry',rva=0x5729,provider='MSVCRT.dll',native_symbol='recon_setlocale',calling_convention='cdecl',native_args=['category','locale'],iat_rva=0x5d120,caller=dict(native_symbol='parse_command_line',return_rva=0x12b73),following_target_stub_rva=0x12f08,projection_frontier_rva=0x12f08)
  assert candidate['checksum_observers']==dict(entry_rva=0x12e1c,return_rva=0x12b66,provider_rva=0x5729,iat_rva=0x5d120,locale_rva=0x601c1,table_bytes=768)
  assert(original/'checksum-locale-observers.txt').read_text()=='12e1c 5d120 5729\n'
@@ -61,13 +65,13 @@ def validate(original,native,candidate,report):
  assert entry['pc']==names['initialize_checksums'][0] and entry['symbol']=='initialize_checksums'and entry['boundary_rva']==0x12e1c
  assert entry['args']=={} and entry['formal_inventory']==[] and entry['return']==entry['caller']['pc'] and entry['feedback_taps']==TAPS
  assert entry['caller']['symbol']=='parse_command_line';call(binary,entry['return'],entry['pc'])
- prefix=copy.deepcopy(candidate);prefix['projection_actual_frontier']=0x12f08
+ prefix=copy.deepcopy(candidate);prefix['projection_actual_frontier']=fields['value_copy']['hard_frontier_rva']
  prefix['expected_frontier']=dict(rva=0x12e1c,native_symbol='initialize_checksums',kind='command-line-helper',calling_convention='cdecl',native_args=[],caller=dict(native_symbol='parse_command_line',return_rva=0x12b66))
  from compiler_state import validate as validate_compiler
  probe=json.loads((original/'receipt.json').read_text())['probe']
  validate_compiler(original,native,entry,seq,module,prefix,prefix['expected_frontier'],probe)
  validate_prefix(original,native,fields,entry,seq,probe)
- state=json.loads((native/'state.json').read_text());wanted=copy.deepcopy(entry['compiler_state'])
+ state=public_state if stage else json.loads((native/'state.json').read_text());wanted=copy.deepcopy(entry['compiler_state'])
  generated=read((original/('compiler-bss-%03d.bin'%returned_seq)).read_bytes());assert set(generated)=={'transform','low','high'} and any(generated['transform'])
  wanted['checksum_state']=generated
  assert end['compiler_state']==state['compiler_state']==wanted
@@ -104,11 +108,15 @@ def validate(original,native,candidate,report):
  original_args=[(original/('invoke-arg-%03d.bin'%i)).read_bytes()for i in range(contract['argc'])]
  assert all(raw.endswith(b'\0')and b'\0'not in raw[:-1]for raw in original_args)
  assert[raw[:-1].decode('ascii')for raw in original_args]==actual['argv']==contract['argv']
- transcript=(native/'gdb.txt').read_text();assert re.search(r'Breakpoint \d+, recon_setlocale \(',transcript)and'break *recon_setlocale'in(native/'commands.gdb').read_text()
- assert'recon_unsupported'not in transcript and'Program received signal'not in transcript
+ transcript=(native/'gdb.txt').read_text()
+ if stage:
+  assert state==json.loads((native/'locale-native-setlocale-entry-state.json').read_text())and'NativeLocaleEntry'in(native/'commands.gdb').read_text()
+ else:assert re.search(r'Breakpoint \d+, recon_setlocale \(',transcript)and'break *recon_setlocale'in(native/'commands.gdb').read_text()
+ assert'recon_unsupported'not in transcript
+ if not stage:assert'Program received signal'not in transcript
  # The original's later locale return / target trap are separate original-only
  # analysis. Native stops BEFORE the unsupported provider body; no locale success.
- assert match(events,r'^frontier rva=([0-9a-f]+)$')=='00012f08'
+ assert match(events,r'^frontier rva=([0-9a-f]+)$')==('00012f3e'if stage else'00012f08')
  for item in candidate.get('imports',[]):
   assert raw[item['start_rva']-0x1000:item['end_rva']-0x1000]==b'\xff\x25'+struct.pack('<I',module+item['iat_rva'])
- return dict(status='matching genuine public CRT entry; no locale behavior accepted',native_symbol=state['symbol'],public_frontier=dict(provider='MSVCRT.dll',name='setlocale',rva=0x5729,category=2,locale_bytes=[0]),generated_bss_bytes=768,initialized_known_bytes=1836,initialized_unmodeled_bytes=4712,promotion='held for concrete public-entry proof review',execution_receipts={side:sha(directory/'receipt.json')for side,directory in [('original',original),('native',native)]})
+ return dict(status='matching genuine public CRT entry; no locale behavior accepted',native_symbol=state['symbol'],public_frontier=dict(provider='MSVCRT.dll',name='setlocale',rva=0x5729,category=2,locale_bytes=[0]),generated_bss_bytes=768,initialized_known_bytes=fields['main_fields']['initialized_known_bytes'],initialized_unmodeled_bytes=fields['main_fields']['initialized_unknown_bytes'],promotion='held for concrete public-entry proof review',execution_receipts={side:sha(directory/'receipt.json')for side,directory in [('original',original),('native',native)]})

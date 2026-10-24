@@ -1,0 +1,12 @@
+{
+  "kind": "actual HOST CRT vectors; separate from Invoke11 and Linux host controls",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-multibyte-restore-001",
+  "original_receipt_sha256": "224af79880cc992c95621c89c2ee807d6468f58685b8d3d8161871736cd1ec79",
+  "files": {
+    "original-crt-argv.bin": "729f9927a006c2d3de1a245b0dcd598b40e956f076734f57d9ac94aa2ce6388c",
+    "original-crt-environment.bin": "c6c5823449968c3f87ca6c1b5790d97addce00d74378e4e854aa533cf2e720ca"
+  },
+  "host_argc": 3,
+  "environment_count": 78,
+  "pass_argc": 11
+}

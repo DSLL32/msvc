@@ -56,4 +56,7 @@ def validate_config(directory,candidate,execution_inputs):
         metadata=json.loads((PROJECT/candidate['audit_metadata']).read_text())
         assert metadata['functions'][NAME]['original']['text_data']==[[BASE+x for x in TABLE]]
         assert metadata['functions'][NAME]['original']['switches']=={'274802963':[274802970,274924743,274803056,274924763]}
+    if candidate.get("isolated_locale_observers"):
+        from scanner_policy import validate as validate_scanner_policy
+        execution_inputs=validate_scanner_policy(directory,candidate,execution_inputs)
     return execution_inputs

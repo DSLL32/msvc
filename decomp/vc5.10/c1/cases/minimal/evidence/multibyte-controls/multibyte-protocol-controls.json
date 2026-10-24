@@ -1,0 +1,25 @@
+{
+  "count": 18,
+  "rejected": [
+    "stale-native",
+    "stale-rebuilt",
+    "wrong-trial",
+    "no-frontier",
+    "false-frontier",
+    "false-pc",
+    "wrong-module-token",
+    "wrong-module-hash",
+    "wrong-reason",
+    "wrong-attach-count",
+    "nonnull-raw-hook",
+    "wrong-last-error",
+    "wrong-x87-control",
+    "changed-original-state",
+    "prefix-only-audit",
+    "missing-cold-chunk",
+    "old-auditor-report",
+    "frozen-source-content"
+  ],
+  "seconds": 71.32464121188968,
+  "scope": "Fresh core campaign after whole scanner/API transition, derived policy and grouped transport change; no original/native process execution"
+}
