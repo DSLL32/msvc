@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "09fd60ba9b2cf3f108857b5941a5e83dcfd19ca2fa23509d885019d4149b4054",
+    "functions.json": "94c987fa7ecc7ed0baa27aab991d1557e7a9dfc0bb559a137ee1f3b0ab8b1bbf",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "45c6f2b84ddf0f2fbba4a84edabc0c836b2424b05ba1af9a386d6bfcfb4053e0",
-    "cases/canonical-map.txt": "c22d3b82aecb969aad49186ea19f70c7b3369b0b5063d84da93efc066db96b81",
+    "cases/original-entry-references.json": "1a4c7549e53d3535982515e6e076bbb40c1a2cec2a8fcbe9b69e30f8b50316c0",
+    "cases/canonical-map.txt": "7b33bb9c923a2069976938283db18b169b9242b009d7eaa41939fe197cd578d5",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -67,9 +67,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/entry-reference/original-receipt.json": "696c680c90d24315f75e923487f352af28762a607c2cf13913a0dfc09e20ce51",
-    "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/entry-reference/original-events.txt": "4eb37bacbc2f13b473f8ad6d2e02907bde383d764cf9b5c19de4be3e623909f3",
-    "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/entry-reference/original-entries.plan": "241d9e9fcd45d09d942d0666eed55ed7919ff727bf12bf822d5bd29b2dadf44d"
+    "cases/frontiers/member_registry_browser/1261-append_browser_record-12/entry-reference/original-receipt.json": "8d7ca63a9ff499cb2ceddf608cc56f8181e1c1a75139b364aa3312098d7989a9",
+    "cases/frontiers/member_registry_browser/1261-append_browser_record-12/entry-reference/original-events.txt": "f48d7cd40b701dbaf05cf1af7a96164ac7698e004d1ba1e0d8483eecf9f161db",
+    "cases/frontiers/member_registry_browser/1261-append_browser_record-12/entry-reference/original-entries.plan": "dd3e6ca75504ddc015b27ec37e76344f820dcb75e5e483f1310e41af8fb53344"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -198,7 +198,7 @@
     },
     "append_browser_record": {
       "logical": "_append_browser_record@12",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "append_builtin_operator_candidates": {
       "logical": "_append_builtin_operator_candidates@20",
@@ -2330,6 +2330,10 @@
     },
     "fatal_error": {
       "logical": "_fatal_error",
+      "source": "src/stubs.c"
+    },
+    "fill_browser_record": {
+      "logical": "_fill_browser_record@8",
       "source": "src/stubs.c"
     },
     "fill_source_buffer": {
@@ -7209,7 +7213,8 @@
     "begin_browser_output",
     "format_browser_temporary_name",
     "begin_browser_records",
-    "queue_browser_record"
+    "queue_browser_record",
+    "append_browser_record"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13639,7 +13644,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1261,
+      "last": 1262,
       "seen": [
         "main",
         "message_text",
@@ -14799,12 +14804,13 @@
         "format_browser_temporary_name",
         "begin_browser_records",
         "queue_browser_record",
-        "append_browser_record"
+        "append_browser_record",
+        "fill_browser_record"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_append_browser_record@12",
-        "native": "append_browser_record",
+        "logical": "_fill_browser_record@8",
+        "native": "fill_browser_record",
         "signal": 5
       }
     }

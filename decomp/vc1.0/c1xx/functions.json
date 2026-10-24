@@ -1265,7 +1265,8 @@
     "_begin_browser_output",
     "_format_browser_temporary_name@4",
     "_begin_browser_records",
-    "_queue_browser_record@8"
+    "_queue_browser_record@8",
+    "_append_browser_record@12"
   ],
   "driver": [
     {
@@ -8874,6 +8875,17 @@
           177828
         ]
       ]
+    },
+    {
+      "name": "_fill_browser_record@8",
+      "start": 179120,
+      "end": 179321,
+      "shared": [
+        [
+          179324,
+          179376
+        ]
+      ]
     }
   ],
   "cases": {
@@ -9426,14 +9438,15 @@
           "original": 585720
         }
       ],
-      "terminal": "_append_browser_record@12",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/original-events.txt",
+      "terminal": "_fill_browser_record@8",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1261-append_browser_record-12/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
         "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1258-format_browser_temporary_name-4/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1259-begin_browser_records/frontier-extension.json",
-        "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1261-append_browser_record-12/frontier-extension.json"
       ],
       "transient_outputs": [
         {
@@ -12106,6 +12119,42 @@
         {
           "name": "_browser_record_count",
           "original": 609084,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_record_head",
+      "original": 609088,
+      "fields": [
+        {
+          "name": "_browser_record_head",
+          "original": 609088,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_records",
+      "original": 609092,
+      "fields": [
+        {
+          "name": "_browser_records",
+          "original": 609092,
+          "bytes": 768
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_records_suppressed",
+      "original": 650196,
+      "fields": [
+        {
+          "name": "_browser_records_suppressed",
+          "original": 650196,
           "bytes": 4
         }
       ]

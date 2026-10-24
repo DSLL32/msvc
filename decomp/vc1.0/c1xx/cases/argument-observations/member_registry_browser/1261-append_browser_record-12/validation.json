@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_append_browser_record@12",
+  "case": "member_registry_browser",
+  "accepted_before": 1261,
+  "configuration_sha256": "a341e05993a7d0769cd726a7de14ceadc56b04b2a99133709de4b0952b31d2ee",
+  "native_entry": "append_browser_record",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "kind",
+      "stack_index": 0,
+      "native_field": "raw_kind",
+      "binding": {
+        "kind": "scalar",
+        "bits": 8
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    },
+    {
+      "name": "subject",
+      "stack_index": 1,
+      "native_field": "raw_subject",
+      "binding": {
+        "kind": "null-pointer"
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    },
+    {
+      "name": "line",
+      "stack_index": 2,
+      "native_field": "raw_line",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      179456,
+      179600
+    ],
+    "argument_bytes": 12,
+    "convention": "frameless stdcall12 void RET12",
+    "proof": "Whole144B: kindBYTEentryESP+4, subjectDWORD+8 and lineDWORD+12; one RET12. No incoming register/flags/x87 inputs. Suppression9ebd4 return; signed head94b40+count94b3c with one conditional subtract32; 24Bstride ring94b44. Writes kind0,line4,name12,name_identity16, clears only flagWORD2 bit1, attributesWORD20/categoryBYTE22/symbol_indexDWORD8, calls whole201B fill2bbb0 std8 then increments count. Fill has explicit32-bitrecord+subject formals, no hiddeninputs; body+13switchslots analyzed but namedstub/no credit. Payload names grounded in whole helper writes: source name copy2b7a0, symbol index+16/name+8 through2b7d0/2b800/2ba90, attributeWORD20/categoryBYTE22 through2b800. Commonheader offset0/2; all payload offsets/size24 compile-time checked with original+native compilers. Normal BSS32record array, no copied data/padding initialization/serialization claim. Current genuinequeue supplies kind0 NULLsubject source_line_number.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "362fd4100670e4b4e2b181944fbfe047bfad34f84faa98f8616e386a275ec700",
+  "capture_timing": {
+    "original_capture_seconds": 1.5179453287273645,
+    "native_capture_seconds": 0.17244130093604326,
+    "total_operation_seconds": 1.944908312521875
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "9950ba639865b3b0a035237981b0a543b05a5af22e6e9831d8f1850afe4a0dbe",
+    "native-commands.gdb": "3d1d58b315a4732d54e4606f3dda5f744ec49268e65bd98c69a8b551d751d480",
+    "native-gdb.log": "96ba0c2c37c0642ed67dc6aac7c07173b5dfe3ae3d8b2fc2a1f3fae531119915",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "4da2c781b0301c920db80bb2029284cb55f4ae7899bb202a246b0e1b26ba7797",
+    "original-configuration.json": "a341e05993a7d0769cd726a7de14ceadc56b04b2a99133709de4b0952b31d2ee",
+    "original-disassembly.txt": "8e180010a7fbd91213639adf38535e855015ad1be421abdf332ab8f647c515c0",
+    "original-events.txt": "7fda9a4925db373660c1e5c207cb899e2d5332e0324cb2748c4d144012d35b57",
+    "original-receipt.json": "d52cfd82216bc0f3444f6816d8222409c7df4c37042789854a391d701b8c1ae6",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "631f438d74eaab0b33ba86b455ceacd69b28a830ab083e7e1b8238ed42e1b2d2"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

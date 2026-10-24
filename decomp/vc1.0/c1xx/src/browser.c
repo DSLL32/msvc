@@ -73,3 +73,32 @@ void __stdcall queue_browser_record(unsigned char kind, void *subject)
             emit_browser_record(pop_first_browser_record());
     }
 }
+
+/* Original 0x94b40, 0x94b44..0x94e43 and 0x9ebd4. A shared 32-entry
+   ring, not a serialized byte image. Payload fields are encountered in the
+   append/fill helpers; structure padding has no runtime comparison credit. */
+int browser_record_head;
+BrowserRecord browser_records[32];
+int browser_records_suppressed;
+
+/* Original 0x2bd00..0x2bd8f. Initialize the next ring slot, retaining
+   flags other than owned-name bit 1, then fill it before publishing count. */
+void __stdcall append_browser_record(unsigned char kind, void *subject, unsigned line)
+{
+    int index;
+    BrowserRecord *record;
+    if (browser_records_suppressed) return;
+    index = browser_record_head + browser_record_count;
+    if (index >= 32) index -= 32;
+    record = &browser_records[index];
+    record->header.kind = kind;
+    record->line = line;
+    record->name = 0;
+    record->name_identity = 0;
+    record->header.flags &= ~2;
+    record->attributes = 0;
+    record->category = 0;
+    record->symbol_index = 0;
+    fill_browser_record(record, subject);
+    ++browser_record_count;
+}

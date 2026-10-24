@@ -1,0 +1,36 @@
+{
+  "buffers": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    ""
+  ],
+  "states": [
+    0,
+    1,
+    0,
+    0,
+    4294967295,
+    0,
+    0,
+    0,
+    100,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "function": "append_browser_record",
+  "signal": 5,
+  "declared_arguments": [
+    "kind",
+    "line",
+    "subject"
+  ],
+  "raw_kind": 0,
+  "raw_subject": 0,
+  "raw_line": 0
+}
