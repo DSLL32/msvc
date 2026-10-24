@@ -22,7 +22,7 @@ def seeded(which,allocation,first):
  return result
 
 def expected_fields(fields):
- assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_initialized']if not r['name'].startswith('options.')}==INITIALIZED
+ assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_initialized']if not r['name'].startswith(('options.','scanner.'))}==INITIALIZED
  rows={r['name']:r for r in fields['modeled_initialized']}
  for name,(rva,size,native) in INITIALIZED.items():
   row=rows[name];assert row['native_field']=='c1_data.'+name and row['snapshot_original_offset']==rva-0x5e000 and row['snapshot_native_offset']==native
@@ -30,6 +30,9 @@ def expected_fields(fields):
  model=fields['main_fields'];assert model['system_info_members']==SYSTEM_MEMBERS
  from command_line_fields import INITIALIZED_SIZE,BSS_SIZE
  initialized,bss=(INITIALIZED_SIZE,BSS_SIZE)if fields.get('command_line')else(64,996)
+ if fields.get('multibyte_scanner'):
+  import multibyte_fields
+  multibyte_fields.expected_fields(fields);initialized=multibyte_fields.INITIALIZED_SIZE
  assert model['initialized_known_bytes']==initialized and model['initialized_unknown_bytes']==6548-initialized
  assert (model['system_info_original_rva'],model['system_info_native_offset'],model['native_initialized_size'],model['native_bss_size'])==(0x5f508,16,initialized,bss)
  for name,(rva,size,native) in COMMAND.items():

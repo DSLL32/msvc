@@ -32,6 +32,7 @@ def main():
     parser.add_argument("--compiled-build", type=Path, help="verified prebuild source-content manifest for this exact ELF")
     parser.add_argument("--reuse-build-from", type=Path, help="prior verified capture of the same ELF and owned sources")
     parser.add_argument("--pdb-reuse", type=int, choices=(0,1), default=0, help="labeled persistent-context helper reuse branch")
+    parser.add_argument("--grouped-equivalence",action="store_true",help="compare fresh bounded typed-object decoder and legacy observer at each existing stopped checkpoint")
     args = parser.parse_args()
     assert not args.restore_probe or args.case == "minimal"
     assert not args.negative_value or args.restore_probe
@@ -140,6 +141,7 @@ value['compiler_state']={
  'output_pdb_context_layout':{'address':int(gdb.parse_and_eval('(unsigned int)&c1_output_pdb_context')),'size':int(gdb.parse_and_eval('sizeof(c1_output_pdb_context)')),'members':{key:int(gdb.parse_and_eval('(char*)&c1_output_pdb_context.'+key+'-(char*)&c1_output_pdb_context')) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')}},
  'option_state':capture_command_line_state(),
  'checksum_state':capture_checksum_state(),
+ 'multibyte_state':capture_multibyte_state(),
  'live_addresses':{'initialized':int(gdb.parse_and_eval('(unsigned int)&c1_data')),'bss':int(gdb.parse_and_eval('(unsigned int)&c1_bss'))},
  'initialized':{'first_call':int(gdb.parse_and_eval('c1_data.first_call')),'compiler_phase':int(gdb.parse_and_eval('c1_data.compiler_phase')),'c9_il':int(gdb.parse_and_eval('c1_data.c9_il')),'compiler_flags':int(gdb.parse_and_eval('(unsigned int)c1_data.compiler_flags')),'system_info':{key:int(gdb.parse_and_eval('(unsigned int)c1_data.system_info.'+key)) for key in SYS_KEYS},'internal_bm_flags':int(gdb.parse_and_eval('c1_data.internal_bm_flags')),'internal_zb_value':int(gdb.parse_and_eval('c1_data.internal_zb_value')),'memory_percent':int(gdb.parse_and_eval('c1_data.memory_percent'))},
  'bss':{'arenas':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.arenas[%%d].'%%i+key))for key in ('cursor','committed_limit','base','committed_bytes','descriptor','reserve_bytes','reset_value','mapped_view')}for i in range(6)],'work_buffers':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.work_buffers[%%d].'%%i+key)) for key in ('data','limit')} for i in range(2)],'debug_break':int(gdb.parse_and_eval('c1_bss.debug_break')),'command_argc':int(gdb.parse_and_eval('c1_bss.command_argc')),'command_argv':int(gdb.parse_and_eval('(unsigned int)c1_bss.command_argv')),'pch_state':{key:([int(gdb.parse_and_eval('(unsigned int)c1_bss.pch_state.mapping_handles[%%d]'%%i)) for i in range(6)] if key=='mapping_handles' else int(gdb.parse_and_eval(('(int)' if key in ('image_count','loaded_image_count') else '(unsigned int)')+'c1_bss.pch_state.'+key))) for key in PCH_KEYS},'empty_record_prototype':[int(gdb.parse_and_eval('c1_bss.empty_record_prototype[%%d]'%%i)) for i in range(20)],'pools':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.pools[%%d].'%%i+key)) for key in ('cursor','remaining','minimum_pages','arena')} for i in range(POOL_COUNT)],'pdb_signature':int(gdb.parse_and_eval('c1_bss.pdb_signature')),'literal':int(gdb.parse_and_eval('c1_bss.literal.integer')),'saved_literal':int(gdb.parse_and_eval('c1_bss.saved_literal.integer')),'saved_literal_available':int(gdb.parse_and_eval('c1_bss.saved_literal_available')),'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
@@ -200,7 +202,33 @@ class CompilerAllocation(gdb.Breakpoint):
 CompilerAllocation('allocate_compiler_memory')
 end
 """
-        allocation_probe=allocation_probe.replace('allocations=[]', 'def capture_modeled():\n    return '+modeled_expression+'\nallocations=[]')
+        if args.grouped_equivalence:
+            assert args.case=='minimal'and field_map.get('multibyte_scanner')
+            import shutil
+            shutil.copy2(PROJECT/'scripts/modeled_reader.py',output/'modeled_reader.py')
+            shutil.copy2(PROJECT/candidate['field_map'],output/'grouped-field-map.json')
+            grouped_expression=modeled_expression.replace('gdb.parse_and_eval(', '_reader.evaluate(')
+            collector="""from modeled_reader import Reader as GroupedReader,configure as configure_grouped_reader
+import time
+configure_grouped_reader(%r,%r)
+_modeled_legacy=compile(%r,'legacy-modeled-projection','eval')
+_modeled_grouped=compile(%r,'grouped-modeled-projection','eval')
+def capture_modeled():
+    started=time.perf_counter()
+    reader=GroupedReader()
+    result=eval(_modeled_grouped,dict(globals(),_reader=reader))
+    new_seconds=time.perf_counter()-started
+    started=time.perf_counter()
+    legacy=eval(_modeled_legacy,globals())
+    legacy_seconds=time.perf_counter()-started
+    assert result==legacy,'fresh grouped/legacy modeled-state divergence'
+    reader.record(new_seconds,legacy_seconds)
+    return result
+"""%(str(output),str(output/'grouped-field-map.json'),modeled_expression,grouped_expression)
+            allocation_probe=allocation_probe.replace('allocations=[]',collector+'allocations=[]')
+            commands=commands.replace("value['compiler_state']="+modeled_expression,"value['compiler_state']=capture_modeled()")
+        else:
+            allocation_probe=allocation_probe.replace('allocations=[]', 'def capture_modeled():\n    return '+modeled_expression+'\nallocations=[]')
         if candidate.get('include_alias_observers'):
             from alias_init_probe import definitions,final_observation
             allocation_probe=allocation_probe.replace('\nend\n','\n'+definitions(binary,output)+'end\n')
@@ -210,7 +238,12 @@ end
             from checksum_entry_probe import definitions,final_observation
             allocation_probe=allocation_probe.replace('\nend\n','\n'+definitions(binary,output)+'end\n')
             save_line="open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json')
-            commands=commands.replace(save_line,final_observation(output)+save_line)
+            if not candidate.get('isolated_locale_observers'):
+                commands=commands.replace(save_line,final_observation(output)+save_line)
+            else:
+                from locale_native_probe import definitions as locale_definitions,final_observation as locale_final
+                allocation_probe=allocation_probe.replace('\nend\n','\n'+locale_definitions(binary,output)+'end\n')
+                commands=commands.replace(save_line,locale_final(output)+save_line)
         if field_map.get("pools"):
             symbol = field_map["pools"][0]["native_linkage_symbol"]
             table = subprocess.check_output(["nm", "-S", "--defined-only", str(binary)], text=True)
@@ -516,7 +549,7 @@ ActualArenaMemberEntry('*0x%x')
                     from pool_cycle_probe import record_returns
                     pool_probe=record_returns(pool_probe,'set-arena','pool_arena_entries')
                 default_probe+=pool_probe
-                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry'):
+                if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete'):
                     refill_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN12CompilerPool6RefillEj$',table,re.M)[1],16)
                     refill_base=pool_probe
                     if candidate.get('pool_cycle_observers'):
@@ -526,7 +559,7 @@ ActualArenaMemberEntry('*0x%x')
                     if candidate.get('pool_cycle_observers'):
                         refill_probe=record_returns(refill_probe,'refill','pool_refill_entries')
                     default_probe+=refill_probe
-                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry'):
+                    if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete'):
                         page_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN13CompilerArena13AllocatePagesEjPj$',table,re.M)[1],16)
                         page_base=refill_probe
                         if candidate.get('pool_cycle_observers'):
@@ -557,9 +590,9 @@ ActualArenaMemberEntry('*0x%x')
         if candidate.get('default_pool_order'):
             for name,expression in [('default-pools-entry.json','default_pool_entries'),('pool-arena-entries.json','pool_arena_entries')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry'):
+        if candidate['expected_frontier']['kind'] in ('arena-page-allocation','arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(pool_refill_entries,indent=2)+'\\n')\n"%str(output/'pool-refill-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
-        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry'):
+        if candidate['expected_frontier']['kind'] in ('arena-commit','command-line-entry','command-line-helper','public-crt-entry','multibyte-scanner-complete'):
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_page_entries,indent=2)+'\\n')\n"%str(output/'arena-page-entries.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('pool_cycle_observers'):
             for name,expression in [('pool-cycle-events.json','pool_cycle_events'),('pool-cycle-returns.json','pool_cycle_returns'),('pool-commit-entries.json','pool_commit_entries'),('pool-commit-api-entries.json','pool_commit_api_entries'),('pool-commit-api-returns.json','pool_commit_api_returns')]:
@@ -861,6 +894,7 @@ gdb.execute('set var c1_pass_mode = 1')
 gdb.execute('set var c1_reuse_state = 9')
 seed_command_line_restore()
 seed_checksum_restore()
+seed_multibyte_restore()
 restore_observations['before']=capture_modeled()
 end
 break %s:%d
@@ -973,10 +1007,10 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     commands=commands.replace("PCH_KEYS",repr(tuple(field_map.get("pch_state",{}).get("members",PCH_MEMBERS))))
     commands = commands.replace("BUFFER_COUNT", str(len(buffer_models))).replace("POOL_COUNT", str(len(field_map.get("pools", []))))
     import shutil
-    for script in ('command_line_probe.py','command_line_fields.py','checksum_fields.py','checksum_probe.py'):
+    for script in ('command_line_probe.py','command_line_fields.py','checksum_fields.py','checksum_probe.py','multibyte_fields.py','multibyte_probe.py'):
         shutil.copy2(PROJECT/'scripts'/script,output/script)
     command_line_setup="python\nimport sys\nsys.path.insert(0,%r)\nfrom command_line_probe import capture as capture_command_line_state,seed_restore as seed_command_line_restore,invocation as capture_invocation,crt_state as capture_command_line_crt_state\nend\n"%str(output)
-    command_line_setup=command_line_setup.replace('from command_line_probe import', 'from checksum_probe import capture as capture_checksum_state,seed_restore as seed_checksum_restore\nfrom command_line_probe import')
+    command_line_setup=command_line_setup.replace('from command_line_probe import', 'from checksum_probe import capture as capture_checksum_state,seed_restore as seed_checksum_restore\nfrom multibyte_probe import capture as capture_multibyte_state,seed_restore as seed_multibyte_restore\nfrom command_line_probe import')
     commands=command_line_setup+commands
     if public_boundary:
         # Before the provider prologue, some DWARF formal locations still use
@@ -1001,6 +1035,10 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     environment.pop('RECON_C1_SYSTEM_INFO_PROFILE',None)
     environment.pop('RECON_C1_SYSTEM_INFO_REFERENCE',None)
     environment.pop('RECON_C1_X87_ENTRY_REFERENCE',None)
+    environment.pop('RECON_C1_ISOLATED_LOCALE_REFERENCE',None)
+    if candidate.get('isolated_locale_observers'):
+        from locale_reference import bind as bind_locale
+        environment['RECON_C1_ISOLATED_LOCALE_REFERENCE']=bind_locale(args.system_info_reference,output)
     environment.pop('RECON_C1_CRT_ARGV',None)
     environment.pop('RECON_C1_CRT_ENVIRONMENT',None)
     if candidate.get('crt_vectors'):

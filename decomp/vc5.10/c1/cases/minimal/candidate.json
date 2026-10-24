@@ -423,6 +423,11 @@
       "entry": 1
     },
     {
+      "start_rva": 77576,
+      "end_rva": 77630,
+      "entry": 1
+    },
+    {
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
@@ -510,6 +515,11 @@
     {
       "start_rva": 198577,
       "end_rva": 198592,
+      "entry": 0
+    },
+    {
+      "start_rva": 198592,
+      "end_rva": 198610,
       "entry": 0
     }
   ],
@@ -1555,6 +1565,23 @@
       ],
       "source": "src/checksums.c",
       "status": "candidate; hold for authenticated public-import entry proof"
+    },
+    {
+      "name": "_initialize_multibyte_scanner",
+      "native_symbol": "initialize_multibyte_scanner",
+      "role": "application",
+      "chunks": [
+        [
+          77576,
+          77630
+        ],
+        [
+          198592,
+          198610
+        ]
+      ],
+      "source": "src/scanner.c",
+      "status": "trial only; native locale/selection behavior held until shared contract and own actual paired evidence"
     }
   ],
   "text_data": [
@@ -1576,22 +1603,15 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "kind": "public-crt-entry",
-    "rva": 22313,
-    "provider": "MSVCRT.dll",
-    "native_symbol": "recon_setlocale",
+    "rva": 77630,
+    "native_symbol": "initialize_option_input_12f3e",
+    "kind": "multibyte-scanner-complete",
     "calling_convention": "cdecl",
-    "native_args": [
-      "category",
-      "locale"
-    ],
-    "iat_rva": 381216,
+    "native_args": [],
     "caller": {
       "native_symbol": "parse_command_line",
-      "return_rva": 76659
-    },
-    "following_target_stub_rva": 77576,
-    "projection_frontier_rva": 77576
+      "return_rva": 76672
+    }
   },
   "imports": [
     {
@@ -1875,7 +1895,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole53B include-alias arena allocation/global publication; full existing committed prefix remains unchanged; next checksum initializer named trap",
+  "staging_role": "real72-byte scanner candidate; no app acceptance until genuine native/reference pair matches; original-only CRT suffix is analysis",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -2045,5 +2065,20 @@
     "iat_rva": 381216,
     "locale_rva": 393665,
     "table_bytes": 768
+  },
+  "isolated_locale_observers": {
+    "schema": "cases/minimal/locale-schema.json",
+    "public_entries": [
+      "setlocale",
+      "_setmbcp"
+    ],
+    "state_phases": [
+      "before",
+      "after",
+      "mb-before",
+      "mb-after",
+      "next"
+    ],
+    "analysis_only_until_native_success": true
   }
 }

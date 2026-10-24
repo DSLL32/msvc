@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "c1.h"
 #include "command-line.h"
+#include "scanner.h"
 #include <recon.h>
 
 /* Only recovered semantic fields live here. Other historical bytes are
@@ -17,6 +18,7 @@ typedef struct CompilerInitializedState {
     int internal_zb_value;
     int memory_percent;
     CompilerOptionData options;
+    CompilerScannerTables scanner;
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
@@ -231,6 +233,7 @@ extern CompilerArenaDescriptor c1_arena_descriptors[6];
 void __cdecl parse_command_line(int, char **);
 void __cdecl initialize_include_aliases(void);
 void __cdecl initialize_checksums(void);
+void __cdecl initialize_multibyte_scanner(void);
 int __cdecl compile_translation_unit(void);
 #ifdef __cplusplus
 }

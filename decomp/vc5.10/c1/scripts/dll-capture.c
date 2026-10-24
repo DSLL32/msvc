@@ -75,6 +75,13 @@ static int hfile_offset_probe;
 static int checksum_tables_probe, locale_entry_active, locale_return_active;
 static DWORD locale_entry_address, locale_return_address, locale_entry_esp;
 static BYTE locale_entry_saved, locale_return_saved;
+static int scanner_tables_probe;
+static int isolated_locale_probe,locale_complete;
+static DWORD locale_old_pctype,locale_result;
+static int mb_entry_active,mb_return_active,mb_complete;
+static DWORD mb_entry_address,mb_return_address,mb_entry_esp;
+static BYTE mb_entry_saved,mb_return_saved;
+static void prepare_isolated_locale_observer(void);
 static int checksum_return_active;
 static BYTE checksum_return_saved;
 static DWORD pool_commit_address, pool_commit_bytes, pool_commit_esp, pool_commit_error;
@@ -452,6 +459,7 @@ static void prepare_mask(void)
             if (checksum_return_saved != 0x68 || checksum_return_saved != snapshot[0x12b66-code_rva])
                 fail("checksum return ownership");
             patch(base + 0x12b66, 0xcc); checksum_return_active = 1;
+            prepare_isolated_locale_observer();
         }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
@@ -539,6 +547,22 @@ static DWORD exported(DWORD module, const char *wanted)
     }
     fail("missing CRT environment export"); return 0;
 }
+
+static void save_blob(const char *name,const void *bytes,unsigned length)
+{
+    FILE *file=fopen(name,"wb");
+    if(!file || fwrite(bytes,1,length,file)!=length || fclose(file))fail("isolated observer write");
+}
+static void save_frontend_state(const char *phase)
+{
+    char name[100];BYTE *bytes;DWORD saved;
+    bytes=(BYTE *)malloc(0xa06c);if(!bytes)fail("isolated observer target buffer");
+    readmem(base+0x5e000,bytes,6548);sprintf(name,"%s-target-data.bin",phase);save_blob(name,bytes,6548);
+    readmem(base+0x57818,&saved,4);if(!saved)fail("isolated observer saved state");
+    readmem(saved,bytes,6548);sprintf(name,"%s-target-snapshot.bin",phase);save_blob(name,bytes,6548);
+    readmem(base+0x50000,bytes,0xa06c);sprintf(name,"%s-target-BSS.bin",phase);save_blob(name,bytes,0xa06c);free(bytes);
+}
+#include "locale-observer.inc"
 
 /* Labeled auxiliary values: the stream and relocation callback are never
  * dereferenced/invoked. Only their mapped pointer identities are exercised. */
@@ -770,6 +794,12 @@ static void seed_command_line_live(BYTE *data, DWORD saved)
     CommandLineSeed *row;
     if (!command_line_seed_count) return;
     seed_command_line_initialized(data, saved, 0);
+    if(scanner_tables_probe) {
+        unsigned table,byte;for(table=0;table<2;++table)for(byte=0;byte<256;++byte)
+            data[8+table*256+byte]=(BYTE)((69+table)*7+byte+31);
+        write_mem(base+0x5e008,data+8,512);
+        fprintf(events,"scanner-state-seed fields=2 bytes=512 snapshot=%08lx\n",saved);
+    }
     for (i = 0; i < command_line_seed_count; ++i) {
         row = &command_line_seeds[i];
         if (row->region == 'D')
@@ -835,6 +865,10 @@ static void seed_restore_state(void)
     if (!saved) fail("restore seed remote allocation");
     if (main_fields_probe) seed_main_initialized(data, saved, 1);
     seed_command_line_initialized(data, saved, 1);
+    if(scanner_tables_probe) {
+        unsigned table,byte;for(table=0;table<2;++table)for(byte=0;byte<256;++byte)
+            data[8+table*256+byte]=(BYTE)((69+table)*7+byte+11);
+    }
     file = fopen("restore-original-input.bin", "wb");
     if (!file || fwrite(data, 1, 6548, file) != 6548) fail("restore seed record");
     fclose(file);
@@ -977,6 +1011,7 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
                     host_argc, host_argv, environment_address, argc_address, argv_address, exported(crt_base, "_environ"));
         }
         if (stack[1] > 256) fail("Invoke argc too large");
+        if(isolated_locale_probe)save_vector(stack[2],stack[1]+1,"invoke-entry-argv.bin");
         for (argument = 0; argument <= stack[1]; ++argument) {
             readmem(stack[2] + argument * 4, &pointer, 4);
             if (argument == stack[1]) {
@@ -1284,7 +1319,9 @@ int main(int argc, char **argv)
                 fprintf(events, "pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n", sequence, context.Ebx, context.Esi, context.Edi, context.Ebp);
                 sprintf(name, "fpu-%03u.bin", sequence); floating = fopen(name, "wb");
                 if (!floating || fwrite(&context.FloatSave, 1, sizeof(context.FloatSave), floating) != sizeof(context.FloatSave)) fail("locale entry FP record");
-                fclose(floating); save_remote_state("setlocale-input", 0, words[2], 1); save_state();
+                fclose(floating); save_remote_state("setlocale-input", 0, words[2], 1);
+                if(isolated_locale_probe)locale_snapshot("before",&context,thread,event.dwThreadId);
+                save_state();
                 locale_entry_esp = context.Esp; locale_return_address = words[0];
                 readmem(locale_return_address, &locale_return_saved, 1);
                 if (locale_return_saved != snapshot[0x12b73-code_rva]) fail("locale return ownership");
@@ -1303,9 +1340,22 @@ int main(int argc, char **argv)
                 }
                 sprintf(name, "fpu-%03u.bin", sequence); floating = fopen(name, "wb");
                 if (!floating || fwrite(&context.FloatSave, 1, sizeof(context.FloatSave), floating) != sizeof(context.FloatSave)) fail("locale return FP record");
-                fclose(floating); save_state();
+                fclose(floating);
+                if(isolated_locale_probe){locale_result=context.Eax;locale_snapshot("after",&context,thread,event.dwThreadId);locale_complete=1;}
+                save_state();
                 patch(address, locale_return_saved); locale_return_active = 0; context.Eip = address;
                 if (!SetThreadContext(thread, &context)) fail("locale return context");
+            } else if(code==EXCEPTION_BREAKPOINT && mb_entry_active && address==mb_entry_address) {
+                DWORD words[2];readmem(context.Esp,words,sizeof(words));
+                if(!locale_complete || words[0]!=base+0x12f12 || words[1]!=(DWORD)-4)fail("actual _setmbcp caller/arguments");
+                fprintf(events,"mb-entry seq=%u pc=%08lx esp=%08lx return=%08lx codepage=%ld ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,address,context.Esp,words[0],(LONG)words[1],context.Ebx,context.Esi,context.Edi,context.Ebp);
+                locale_snapshot("mb-before",&context,thread,event.dwThreadId);mb_entry_esp=context.Esp;mb_return_address=words[0];
+                mb_return_saved=snapshot[0x12f12-code_rva];patch(mb_return_address,0xcc);mb_return_active=1;
+                patch(address,mb_entry_saved);mb_entry_active=0;context.Eip=address;if(!SetThreadContext(thread,&context))fail("mb entry context");
+            } else if(code==EXCEPTION_BREAKPOINT && mb_return_active && address==mb_return_address) {
+                fprintf(events,"mb-return seq=%u pc=%08lx esp=%08lx entry-esp=%08lx result=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,address,context.Esp,mb_entry_esp,context.Eax,context.Ebx,context.Esi,context.Edi,context.Ebp);
+                locale_snapshot("mb-after",&context,thread,event.dwThreadId);mb_complete=1;patch(address,mb_return_saved);mb_return_active=0;
+                context.Eip=address;if(!SetThreadContext(thread,&context))fail("mb return context");
             } else if (code == EXCEPTION_BREAKPOINT && parser_return_active && address == parser_return_address) {
                 fprintf(events, "internal-parser-return index=%lu seq=%u pc=%08lx esp=%08lx entry-esp=%08lx eax=%08lx\n", parser_calls, sequence, address, context.Esp, parser_entry_esp, context.Eax);
                 fprintf(events, "last-error=%lu\n", thread_error(&context, thread));
@@ -1451,6 +1501,7 @@ int main(int argc, char **argv)
                     }
                 }
                 if (pool_cycle_probe && pool_observer_index(address) >= 0) observe_pool_commit(&context, address, thread);
+                if(isolated_locale_probe && mb_complete && address==base+0x12f3e)locale_snapshot("next",&context,thread,event.dwThreadId);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;

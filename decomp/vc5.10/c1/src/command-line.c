@@ -125,7 +125,7 @@ static WarningDefault warning_defaults[] = {
 
 void __cdecl initialize_include_aliases(void);
 void __cdecl initialize_checksums(void);
-void __cdecl initialize_option_input_12f08(void);
+void __cdecl initialize_multibyte_scanner(void);
 void __cdecl initialize_option_input_12f3e(void);
 void __cdecl read_env_arguments(char *);
 char *__cdecl duplicate_argument(const char *, int);
@@ -154,7 +154,7 @@ void __cdecl parse_command_line(int argc, char **argv)
         initialize_include_aliases();
     initialize_checksums();
     setlocale(LC_CTYPE, c1_empty_string);
-    initialize_option_input_12f08();
+    initialize_multibyte_scanner();
     initialize_option_input_12f3e();
 
     if (argc > 1 && argv[1][0] == '@') {
@@ -264,7 +264,6 @@ void __cdecl parse_command_line(int argc, char **argv)
     }
 }
 
-void __cdecl initialize_option_input_12f08(void) { __asm { int 3 } }
 void __cdecl initialize_option_input_12f3e(void) { __asm { int 3 } }
 void __cdecl read_env_arguments(char *arguments) { __asm { int 3 } }
 char *__cdecl duplicate_argument(const char *argument, int copy) { __asm { int 3 } return NULL; }

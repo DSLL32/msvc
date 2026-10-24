@@ -9,6 +9,12 @@ thiscall members and their callers use small C++ translation units. The lifecycl
 fixture resolves both compiler exports; the minimal case calls InvokeCompilerPass.
 AbortCompilerPass remains a named INT3 stub.
 
+The next72-byte multibyte-scanner candidate and its512 contextual initialized
+lexer-table bytes are staged. Own original normal/restore captures reach12f3e
+and isolate the distinct setlocale/_setmbcp effects; native shared support and
+full paired acceptance remain pending. See `cases/minimal/MULTIBYTE-SCANNER.md`.
+Accepted counts below are unchanged.
+
 Accepted ownership is69 application functions /4737 original code bytes plus16
 owned switch-table bytes,2 CRT support
 functions /451 bytes and two6-byte import thunks:5216 of the `.text` virtual

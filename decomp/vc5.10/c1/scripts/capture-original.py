@@ -137,6 +137,10 @@ def main():
         (output/'include-alias-observers.txt').write_text('12df6 12e1c 5e414 4\n')
     if candidate.get('checksum_observers'):
         (output/'checksum-locale-observers.txt').write_text('12e1c 5d120 5729\n')
+    if candidate.get("isolated_locale_observers"):
+        (output/"isolated-locale-observers.txt").write_text("setlocale+setmbcp read-only canonical state\n")
+        for name in ("locale-observer.inc",):shutil.copy2(PROJECT/"scripts"/name,output/name)
+        shutil.copy2(PROJECT/"cases/minimal/locale-schema.json",output/"locale-schema.json")
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))
@@ -145,7 +149,7 @@ def main():
             ranges.append("%x %x 1\n" % (rva, rva + 1))
     (output / "ranges.txt").write_text("".join(ranges))
     freeze([PROJECT / "scripts/dll-capture.c", PROJECT / "scripts/capture-original.py",
-            PROJECT / "scripts/wine_tool_support.py"], output / "source-snapshot.json")
+            PROJECT / "scripts/wine_tool_support.py", PROJECT / "scripts/locale-observer.inc"], output / "source-snapshot.json")
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
     shutil.copy2(CRT, output / "MSVCRT.DLL")
     shutil.copy2(PROJECT / ("cases/" + args.case + "/candidate.json"), output / "candidate.json")

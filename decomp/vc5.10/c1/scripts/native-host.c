@@ -67,6 +67,7 @@ int c1_native_host(int argc, char **argv)
     if (argc == 2 && !strcmp(argv[1], "minimal")) {
         const char *crt_argv = recon_host_getenv("RECON_C1_CRT_ARGV");
         const char *crt_env = recon_host_getenv("RECON_C1_CRT_ENVIRONMENT");
+        const char *locale_reference = recon_host_getenv("RECON_C1_ISOLATED_LOCALE_REFERENCE");
         if (crt_argv || crt_env) {
             char **host_argv, **host_env;
             int host_argc;
@@ -75,6 +76,8 @@ int c1_native_host(int argc, char **argv)
             read_host_vector(crt_env, &host_env);
             recon_crt_bind_arguments(host_argc, host_argv, host_env);
         }
+        if (locale_reference)
+            recon_crt_bind_empty_ctype_1252("e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210", locale_reference);
         /* Captured direct-host case: the final slot is BOOL, not callbacks. */
         SetLastError(0);
         pass_result = InvokeCompilerPass(11, pass_args, TRUE);

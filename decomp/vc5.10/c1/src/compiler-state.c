@@ -82,7 +82,8 @@ CompilerInitializedState c1_data = {
         NULL, /* unrecognized_argument */
         0, /* debug_old_format */
         0, /* move_pch */
-    }
+    },
+    C1_SCANNER_DEFAULTS
 };
 CompilerBss c1_bss;
 int c1_reuse_state;
