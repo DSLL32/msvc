@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_prepare_do_body",
+  "case": "state_machine_debug",
+  "accepted_before": 1177,
+  "configuration_sha256": "fb89edfe825d40c1fb9ef0b01f6afdc3d39025a46fe8008a812194d6bb6182b2",
+  "native_entry": "prepare_do_body",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      329728,
+      329779
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole51B no frame/plainRET, zero incomingstack/GPR/x87/CPUflagsformals. Existing push_loop_label stdcall8 allocates control/continue/break heads with actual attributes5/7/6, then emit_label stdcall4 onnewcontrol head. No newstorage/hiddeninputs or conditional mode.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "797a2f6e08f1e2fc5aec942f3c4d1b88edad1c029c7762a8c9afb70dcb783b43",
+  "capture_timing": {
+    "original_capture_seconds": 1.3674996607005596,
+    "native_capture_seconds": 0.17299317847937346,
+    "total_operation_seconds": 1.8025099178776145
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "bd579851ab7dc0ddb6a8c3c86817191bf801a8c887cf132cc799a3d1ad605b0e",
+    "native-commands.gdb": "dc396156522258284bc53593a6c121acd25f97f2e0f5272150d3fa54f8cd0018",
+    "native-gdb.log": "ec149b15422a6cef14a82cb3dfda38368ef2710a48afa02e4d074e893152e7af",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "657595b4bc375824267f177759af25a48f4cf6e2015b233a4d8c41a7cbc576c6",
+    "original-configuration.json": "fb89edfe825d40c1fb9ef0b01f6afdc3d39025a46fe8008a812194d6bb6182b2",
+    "original-disassembly.txt": "8bc3826744cdea68e884132820fba17a204fceb4975be2c98db4147a773ae61f",
+    "original-events.txt": "159d0f04ab7d011c3d1b6467b4ffdff33053a5613b27dd0cd7d8f86880ec8425",
+    "original-receipt.json": "73a05201018d49bb3e29149267992ca4440d9223726947bc8e3128b0ecf79d4b",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "33f658945e4bbb1ac45f954ec9c775593aa97802fb73c2b1a1798bb2f4b8543a"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

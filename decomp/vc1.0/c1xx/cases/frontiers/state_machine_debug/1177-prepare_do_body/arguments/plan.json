@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_prepare_do_body",
+  "native_entry": "prepare_do_body",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      329728,
+      329779
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole51B no frame/plainRET, zero incomingstack/GPR/x87/CPUflagsformals. Existing push_loop_label stdcall8 allocates control/continue/break heads with actual attributes5/7/6, then emit_label stdcall4 onnewcontrol head. No newstorage/hiddeninputs or conditional mode."
+  }
+}

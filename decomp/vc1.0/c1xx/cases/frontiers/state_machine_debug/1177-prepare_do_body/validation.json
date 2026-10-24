@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_prepare_do_body",
+    "start": 329728,
+    "end": 329779
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1177-prepare_do_body/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_emit_label@4",
+    "_push_loop_label@8"
+  ],
+  "next_frontier": "_apply_member_pointer@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8001160165295005,
+  "total_operation_seconds": 4.234934473410249,
+  "original_capture_seconds": 0.9668487943708897
+}

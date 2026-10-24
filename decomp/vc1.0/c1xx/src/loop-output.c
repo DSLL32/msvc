@@ -197,3 +197,13 @@ void __stdcall add_case_label(IrToken *expression)
     if (previous) previous->next = entry;
     else default_labels->label = (IrToken *)entry;
 }
+
+/* Original 0x50800..0x50832, cdecl. A do-loop owns distinct entry,
+   continue and break labels before its body is compiled. */
+void prepare_do_body(void)
+{
+    push_loop_label(&control_labels, 5);
+    push_loop_label(&continue_labels, 7);
+    push_loop_label(&break_labels, 6);
+    emit_label(control_labels->label);
+}
