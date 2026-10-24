@@ -32,6 +32,7 @@ static void prepare_option_action_observer(void)
        (frontier!=0x39779 && frontier!=0x39757 && frontier!=0x100ea && frontier!=0x397db) || fgetc(file)!='\n' || fgetc(file)!=EOF)
         fail("option action observer plan");
     fclose(file);option_action_probe=1;option_append_probe=frontier==0x397db;option_suffix_probe=frontier==0x100ea || option_append_probe;option_integer_probe=frontier!=0x39779;
+    frontend_batch_reads=option_append_probe;
     fprintf(events,"option-actions-plan ordinary=1 no-seeds=1 action=00039632 frontier=%08lx\n",frontier);
     if(option_integer_probe)fprintf(events,"integer-plan actual-one-call=1 APIs=isspace,isdigit,atol suffix-frontier=00039757 legacy-first-prefix-only=1\n");
 }

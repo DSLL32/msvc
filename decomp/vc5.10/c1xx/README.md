@@ -433,3 +433,9 @@ functions/7016B plus historical CRT451B/import12B total7479/751216 whole code by
 resolve_option_path(output,vc50.pdb,520). Original observation cost338.931s,
 native GDB observation13.159s; these are acceptance captures, not fixture times.
 Further original captures are held for bounded observer-cost review.
+
+The original-only observer now has reviewed call-local stopped BSS/data views.
+Offline actual-C parity matches26,460 artifacts across270 complete points and
+reduces79 small remote reads to7, retaining all outputs and fresh external/heap
+reads. No target execution or measured capture speedup is claimed yet; see
+`cases/minimal/stopped-span-review.json`. Historical capture bytes remain unchanged.

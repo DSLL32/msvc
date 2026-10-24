@@ -380,19 +380,60 @@ static void save_blob(const char *name, const void *bytes, unsigned length)
     if (!file || fwrite(bytes, 1, length, file) != length || fclose(file)) fail("save frontend state");
 }
 
+/* Original-only observation views; no state survives this one stopped call. */
+static int frontend_batch_reads;
+typedef struct FrontendReadView {
+    BYTE *bss;
+    BYTE *initialized;
+} FrontendReadView;
+
+static void read_frontend_view(const FrontendReadView *view,DWORD address,
+                               void *buffer,DWORD bytes)
+{
+    DWORD start,length,offset;
+    unsigned part;
+    BYTE *data;
+    if(!bytes || address>0xffffffffUL-bytes || base>0xffffffffUL-0xce148)
+        fail("frontend observation address overflow");
+    for(part=0;part<2;++part) {
+        start=base+(part?0xcc000:0xb9000);
+        length=part?8520:0xf69c;
+        data=part?view->initialized:view->bss;
+        if(!data)continue;
+        if(address<start+length && address+bytes>start) {
+            if(address<start || bytes>length || (offset=address-start)>length-bytes)
+                fail("frontend observation crosses stopped span");
+            memcpy(buffer,data+offset,bytes);return;
+        }
+    }
+    /* External PDB/mode globals, descriptors and owned saved allocation stay
+     * actual fresh remote reads; no projection guesses their contents. */
+    readmem(address,buffer,bytes);
+}
+
 static void save_frontend_state(const char *suffix)
 {
     DWORD values[36];
     BYTE data[8520];
     char name[80];
+    FrontendReadView view;
+    view.bss=NULL;view.initialized=NULL;
+    if(frontend_batch_reads) {
+        if(base>0xffffffffUL-0xce148)fail("stopped frontend base overflow");
+        view.bss=(BYTE *)malloc(0xf69c);
+        view.initialized=(BYTE *)malloc(8520);
+        if(!view.bss || !view.initialized)fail("stopped frontend snapshot allocation");
+        readmem(base+0xb9000,view.bss,0xf69c);
+        readmem(base+0xcc000,view.initialized,8520);
+    }
     if(getenv("C1XX_OBSERVE_MATCHER")) {
-        DWORD current;readmem(base+0xbe96c,&current,4);sprintf(name,"current-argument-%s.bin",suffix);save_blob(name,&current,4);
+        DWORD current;read_frontend_view(&view,base+0xbe96c,&current,4);sprintf(name,"current-argument-%s.bin",suffix);save_blob(name,&current,4);
     }
     if (getenv("C1XX_OBSERVE_OPTIONS")) {
         BYTE *all = (BYTE *)malloc(0xf69c), projected[100];
         unsigned i, offset = 0;
         if (!all) fail("options observer allocation");
-        readmem(base + 0xb9000, all, 0xf69c);
+        read_frontend_view(&view,base + 0xb9000, all, 0xf69c);
         for (i = 0; i < sizeof(option_fields)/sizeof(option_fields[0]); ++i)
             if (!option_fields[i].initialized) {
                 memcpy(projected + offset, all + option_fields[i].rva - 0xb9000, option_fields[i].width);
@@ -404,133 +445,134 @@ static void save_frontend_state(const char *suffix)
     }
     if (getenv("C1XX_OBSERVE_LANGUAGE_CONTEXT")) {
         DWORD language[11];
-        readmem(base + 0xcd580, language, 4);
-        readmem(base + 0xc13d0, language + 1, 40);
+        read_frontend_view(&view,base + 0xcd580, language, 4);
+        read_frontend_view(&view,base + 0xc13d0, language + 1, 40);
         sprintf(name, "language-context-%s.bin", suffix); save_blob(name, language, sizeof(language));
     }
     if(getenv("C1XX_OBSERVE_CHECKSUM_TABLES")) {
-        readmem(base+0xc13f8,data,512);sprintf(name,"filename-case-map-%s.bin",suffix);save_blob(name,data,512);
-        readmem(base+0xbe970,data,768);sprintf(name,"checksum-tables-%s.bin",suffix);save_blob(name,data,768);
+        read_frontend_view(&view,base+0xc13f8,data,512);sprintf(name,"filename-case-map-%s.bin",suffix);save_blob(name,data,512);
+        read_frontend_view(&view,base+0xbe970,data,768);sprintf(name,"checksum-tables-%s.bin",suffix);save_blob(name,data,768);
     }
-    readmem(base + 0xcd7e0, values, 4);
-    readmem(base + 0xc4d50, values + 1, 8);
-    readmem(base + 0xcb06c, values + 3, 4);
-    readmem(base + 0xc4d58, values + 4, 128);
+    read_frontend_view(&view,base + 0xcd7e0, values, 4);
+    read_frontend_view(&view,base + 0xc4d50, values + 1, 8);
+    read_frontend_view(&view,base + 0xcb06c, values + 3, 4);
+    read_frontend_view(&view,base + 0xc4d58, values + 4, 128);
     sprintf(name, "frontend-state-%s.bin", suffix); save_blob(name, values, sizeof(values));
-    readmem(base + 0xba900, data, 12);
+    read_frontend_view(&view,base + 0xba900, data, 12);
     sprintf(name, "context-stack-%s.bin", suffix); save_blob(name, data, 12);
-    readmem(base + 0xba8f0, data, 12);
+    read_frontend_view(&view,base + 0xba8f0, data, 12);
     sprintf(name, "saved-context-stack-%s.bin", suffix); save_blob(name, data, 12);
-    readmem(base + 0xba858, data, 108);
+    read_frontend_view(&view,base + 0xba858, data, 108);
     sprintf(name, "nested-context-stacks-%s.bin", suffix); save_blob(name, data, 108);
-    readmem(base + 0xbecb0, data, 8);
+    read_frontend_view(&view,base + 0xbecb0, data, 8);
     sprintf(name, "source-position-%s.bin", suffix); save_blob(name, data, 8);
-    readmem(base + 0xbf5c0, data, 28);
-    readmem(base + 0xbf6e0, data + 28, 4);
-    readmem(base + 0xbf5dc, data + 32, 1);
+    read_frontend_view(&view,base + 0xbf5c0, data, 28);
+    read_frontend_view(&view,base + 0xbf6e0, data + 28, 4);
+    read_frontend_view(&view,base + 0xbf5dc, data + 32, 1);
     sprintf(name, "output-buffer-01-%s.bin", suffix); save_blob(name, data, 33);
-    readmem(base + 0xc0590, data, 28);
-    readmem(base + 0xc06b0, data + 28, 4);
-    readmem(base + 0xc05ac, data + 32, 1);
+    read_frontend_view(&view,base + 0xc0590, data, 28);
+    read_frontend_view(&view,base + 0xc06b0, data + 28, 4);
+    read_frontend_view(&view,base + 0xc05ac, data + 32, 1);
     sprintf(name, "output-buffer-02-%s.bin", suffix); save_blob(name, data, 33);
-    readmem(base + 0xbf358, data, 28);
-    readmem(base + 0xbf478, data + 28, 4);
-    readmem(base + 0xbf374, data + 32, 1);
+    read_frontend_view(&view,base + 0xbf358, data, 28);
+    read_frontend_view(&view,base + 0xbf478, data + 28, 4);
+    read_frontend_view(&view,base + 0xbf374, data + 32, 1);
     sprintf(name, "output-buffer-03-%s.bin", suffix); save_blob(name, data, 33);
-    readmem(base + 0xc0360, data, 28);
-    readmem(base + 0xc0480, data + 28, 4);
-    readmem(base + 0xc037c, data + 32, 1);
+    read_frontend_view(&view,base + 0xc0360, data, 28);
+    read_frontend_view(&view,base + 0xc0480, data + 28, 4);
+    read_frontend_view(&view,base + 0xc037c, data + 32, 1);
     sprintf(name, "output-buffer-04-%s.bin", suffix); save_blob(name, data, 33);
-    readmem(base + 0xc0840, data, 28);
-    readmem(base + 0xc0960, data + 28, 4);
-    readmem(base + 0xc085c, data + 32, 1);
+    read_frontend_view(&view,base + 0xc0840, data, 28);
+    read_frontend_view(&view,base + 0xc0960, data + 28, 4);
+    read_frontend_view(&view,base + 0xc085c, data + 32, 1);
     sprintf(name, "output-buffer-05-%s.bin", suffix); save_blob(name, data, 33);
-    readmem(base + 0xc0230, data, 28);
-    readmem(base + 0xc0350, data + 28, 4);
-    readmem(base + 0xc024c, data + 32, 1);
+    read_frontend_view(&view,base + 0xc0230, data, 28);
+    read_frontend_view(&view,base + 0xc0350, data + 28, 4);
+    read_frontend_view(&view,base + 0xc024c, data + 32, 1);
     sprintf(name, "output-buffer-06-%s.bin", suffix); save_blob(name, data, 33);
-    readmem(base + 0xc00f8, data, 28);
-    readmem(base + 0xc0218, data + 28, 4);
-    readmem(base + 0xc0114, data + 32, 1);
+    read_frontend_view(&view,base + 0xc00f8, data, 28);
+    read_frontend_view(&view,base + 0xc0218, data + 28, 4);
+    read_frontend_view(&view,base + 0xc0114, data + 32, 1);
     sprintf(name, "output-buffer-07-%s.bin", suffix); save_blob(name, data, 33);
-    readmem(base + 0xbf228, data, 28);
-    readmem(base + 0xbf348, data + 28, 4);
-    readmem(base + 0xbf244, data + 32, 1);
+    read_frontend_view(&view,base + 0xbf228, data, 28);
+    read_frontend_view(&view,base + 0xbf348, data + 28, 4);
+    read_frontend_view(&view,base + 0xbf244, data + 32, 1);
     sprintf(name, "output-buffer-08-%s.bin", suffix); save_blob(name, data, 33);
-    readmem(base + 0xc0578, data, 4);
+    read_frontend_view(&view,base + 0xc0578, data, 4);
     sprintf(name, "deferred-work-%s.bin", suffix); save_blob(name, data, 4);
-    readmem(base + 0xba8c8, data, 40);
+    read_frontend_view(&view,base + 0xba8c8, data, 40);
     sprintf(name, "token-source-%s.bin", suffix); save_blob(name, data, 40);
-    readmem(base + 0xc0b88, data, 40);
+    read_frontend_view(&view,base + 0xc0b88, data, 40);
     sprintf(name, "sentinel-payload-%s.bin", suffix); save_blob(name, data, 40);
-    readmem(base + 0xc0b80, data, 8);
+    read_frontend_view(&view,base + 0xc0b80, data, 8);
     sprintf(name, "sentinel-header-%s.bin", suffix); save_blob(name, data, 8);
-    readmem(base + 0xcb050, data, 28);
+    read_frontend_view(&view,base + 0xcb050, data, 28);
     sprintf(name, "pdb-context-02-%s.bin", suffix); save_blob(name, data, 28);
-    readmem(base + 0xcb030, data, 28);
+    read_frontend_view(&view,base + 0xcb030, data, 28);
     sprintf(name, "pdb-context-01-%s.bin", suffix); save_blob(name, data, 28);
-    readmem(base + 0xbf5b0, data, 16);
+    read_frontend_view(&view,base + 0xbf5b0, data, 16);
     sprintf(name, "pool-02-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xc0498, data, 16);
+    read_frontend_view(&view,base + 0xc0498, data, 16);
     sprintf(name, "pool-03-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xbf210, data, 16);
+    read_frontend_view(&view,base + 0xbf210, data, 16);
     sprintf(name, "pool-04-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xc06e8, data, 16);
+    read_frontend_view(&view,base + 0xc06e8, data, 16);
     sprintf(name, "pool-05-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xc0560, data, 16);
+    read_frontend_view(&view,base + 0xc0560, data, 16);
     sprintf(name, "pool-06-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xc04a8, data, 16);
+    read_frontend_view(&view,base + 0xc04a8, data, 16);
     sprintf(name, "pool-07-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xbf498, data, 16);
+    read_frontend_view(&view,base + 0xbf498, data, 16);
     sprintf(name, "pool-08-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xc0b00, data, 16);
+    read_frontend_view(&view,base + 0xc0b00, data, 16);
     sprintf(name, "pool-09-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xc0810, data, 16);
+    read_frontend_view(&view,base + 0xc0810, data, 16);
     sprintf(name, "pool-10-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xc0ac8, data, 16);
+    read_frontend_view(&view,base + 0xc0ac8, data, 16);
     sprintf(name, "pool-01-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xc4cc8, data, 65);
+    read_frontend_view(&view,base + 0xc4cc8, data, 65);
     sprintf(name, "primitive-type-rank-%s.bin", suffix); save_blob(name, data, 65);
-    readmem(base + 0xc4c80, data, 69);
+    read_frontend_view(&view,base + 0xc4c80, data, 69);
     sprintf(name, "complex-type-rank-%s.bin", suffix); save_blob(name, data, 69);
-    readmem(base + 0xc6b64, data, 4);
-    readmem(base + 0xc6ba8, data + 4, 74);
-    readmem(base + 0xc6cb8, data + 78, 4);
-    readmem(base + 0xc6c44, data + 82, 4);
+    read_frontend_view(&view,base + 0xc6b64, data, 4);
+    read_frontend_view(&view,base + 0xc6ba8, data + 4, 74);
+    read_frontend_view(&view,base + 0xc6cb8, data + 78, 4);
+    read_frontend_view(&view,base + 0xc6c44, data + 82, 4);
     sprintf(name, "generated-comment-%s.bin", suffix); save_blob(name, data, 86);
-    readmem(base + 0xcd5c0, data, 4);
-    readmem(base + 0xcd488, data + 4, 4);
-    readmem(base + 0xccf7c, data + 8, 4);
-    readmem(base + 0xcd7b8, data + 12, 36);
-    readmem(base + 0xc1704, data + 48, 12);
+    read_frontend_view(&view,base + 0xcd5c0, data, 4);
+    read_frontend_view(&view,base + 0xcd488, data + 4, 4);
+    read_frontend_view(&view,base + 0xccf7c, data + 8, 4);
+    read_frontend_view(&view,base + 0xcd7b8, data + 12, 36);
+    read_frontend_view(&view,base + 0xc1704, data + 48, 12);
     sprintf(name, "main-fields-%s.bin", suffix); save_blob(name, data, 60);
-    readmem(base + 0xba850, data, 4);
-    readmem(base + 0xb9020, data + 4, 4);
-    readmem(base + 0xba854, data + 8, 4);
-    readmem(base + 0xb9028, data + 12, 4);
+    read_frontend_view(&view,base + 0xba850, data, 4);
+    read_frontend_view(&view,base + 0xb9020, data + 4, 4);
+    read_frontend_view(&view,base + 0xba854, data + 8, 4);
+    read_frontend_view(&view,base + 0xb9028, data + 12, 4);
     sprintf(name, "work-buffers-%s.bin", suffix); save_blob(name, data, 16);
-    readmem(base + 0xc6500, data, 288);
+    read_frontend_view(&view,base + 0xc6500, data, 288);
     sprintf(name, "arenas-%s.bin", suffix); save_blob(name, data, 288);
-    readmem(base + 0xd5af8, data, 180);
+    read_frontend_view(&view,base + 0xd5af8, data, 180);
     sprintf(name, "arena-descriptors-%s.bin", suffix); save_blob(name, data, 180);
-    readmem(base + 0xc6d28, data, 12);
+    read_frontend_view(&view,base + 0xc6d28, data, 12);
     sprintf(name, "deferred-actions-%s.bin", suffix); save_blob(name, data, 12);
-    readmem(base + 0xc6b40, data, 12);
+    read_frontend_view(&view,base + 0xc6b40, data, 12);
     sprintf(name, "pending-groups-%s.bin", suffix); save_blob(name, data, 12);
-    readmem(base + 0xc64b8, data, 68);
+    read_frontend_view(&view,base + 0xc64b8, data, 68);
     sprintf(name, "pch-context-%s.bin", suffix); save_blob(name, data, 68);
-    readmem(base + 0xc64a0, data, 20);
+    read_frontend_view(&view,base + 0xc64a0, data, 20);
     sprintf(name, "empty-prototype-%s.bin", suffix); save_blob(name, data, 20);
-    readmem(base + 0xc4c78, data, 4);
+    read_frontend_view(&view,base + 0xc4c78, data, 4);
     sprintf(name, "type-ranks-ready-%s.bin", suffix); save_blob(name, data, 4);
-    readmem(base + 0xc0834, data, 4);
+    read_frontend_view(&view,base + 0xc0834, data, 4);
     sprintf(name, "source-signature-%s.bin", suffix); save_blob(name, data, 4);
-    readmem(base + 0xcc000, data, sizeof(data));
+    read_frontend_view(&view,base + 0xcc000, data, sizeof(data));
     sprintf(name, "frontend-data-%s.bin", suffix); save_blob(name, data, sizeof(data));
     if (values[1]) {
         readmem(values[1], data, sizeof(data));
         sprintf(name, "frontend-snapshot-%s.bin", suffix); save_blob(name, data, sizeof(data));
     }
+    free(view.initialized);free(view.bss);
 }
 
 static void save_aux_state(const char *suffix)
