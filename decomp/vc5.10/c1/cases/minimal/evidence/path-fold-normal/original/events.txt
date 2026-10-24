@@ -1,0 +1,2185 @@
+module name=ntdll.dll actual=7bcf0000 preferred=7bcf0000 entry=0000f760
+module name=KERNEL32.dll actual=7bb70000 preferred=7bb70000 entry=00013e60
+file-identity output=loaded-kernel32.bin actual-bytes=2008819 explicit-offset=1 equal=1
+module name=kernelbase.dll actual=7b600000 preferred=7b600000 entry=00015a00
+file-identity output=loaded-kernelbase.bin actual-bytes=6153638 explicit-offset=1 equal=1
+module name=MSVCRT.dll actual=78000000 preferred=78000000 entry=00001000
+file-identity output=loaded-msvcrt.bin actual-bytes=277776 explicit-offset=1 equal=1
+module name=<none> actual=10000000 preferred=10000000 entry=00000000
+module name=<none> actual=10000000 preferred=10000000 entry=00000000
+module name=c1n32_l.dll actual=10600000 preferred=10600000 entry=0001202a
+file-identity output=loaded-target.bin actual-bytes=565008 explicit-offset=1 equal=1
+guard rva=0001202a original=53
+module name=mspdb50.dll actual=10300000 preferred=10300000 entry=0001de70
+module name=user32.dll actual=7a1d0000 preferred=7a1d0000 entry=0001cd50
+module name=zlib1.dll actual=7a190000 preferred=7a190000 entry=000013b0
+module name=advapi32.dll actual=7b500000 preferred=7b500000 entry=00010ab0
+module name=sechost.dll actual=7b1a0000 preferred=7b1a0000 entry=00003fd0
+module name=ucrtbase.dll actual=7ae50000 preferred=7ae50000 entry=00015810
+module name=gdi32.dll actual=7a6c0000 preferred=7a6c0000 entry=00013520
+module name=win32u.dll actual=7a140000 preferred=7a140000 entry=0000ec90
+module name=imm32.dll actual=78640000 preferred=78640000 entry=00002860
+provider iat=0005d0e8 resolved=78001715
+provider iat=0005d0a8 resolved=78001498
+provider iat=0005d114 resolved=7800138a
+provider iat=0005d0ec resolved=7803f928
+allocation-provider iat=0005d1c4 resolved=7bb7e528
+ftol-provider iat=0005d0cc resolved=78004dc1
+isolated-locale-observer setlocale-iat=0005d120 setmbcp-iat=0005d148 exports=14 no-query-calls=1 no-seeds=1
+path-fold-observer entry=00012f3e iat=0005d05c provider=0000a5d3 table=00055928 bytes=512 no-query-calls=1
+mask snapshot=relocated-text.bin baseline=0 ranges=106
+fpu seq=0 rva=0001202a eax=1061202a edx=0031ff40 esp=0031ee80 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=0 rva=0001202a esp=0031ee80 eax=1061202a ecx=0031eef4 stack=7bcfbd02,10600000,00000001,00000000,00000000
+last-error=14007
+x87-control=ffff027f
+pool-registers seq=0 ebx=00343d18 esi=0031ee9c edi=00000000 ebp=0031ee9c
+state seq=0 heap-begin=00000000 heap-first=00000000
+fpu seq=1 rva=000120ce eax=00000001 edx=0031ff40 esp=0031ee60 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=1 rva=000120ce esp=0031ee60 eax=00000001 ecx=00000000 stack=106120be,10600000,00000001,00000000,00000000
+last-error=14007
+x87-control=ffff027f
+pool-registers seq=1 ebx=10600000 esi=00000001 edi=00000000 ebp=0031ee9c
+state seq=1 heap-begin=00000000 heap-first=00000000
+fpu seq=2 rva=00012223 eax=008a13c0 edx=000000dd esp=0031ee50 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=2 rva=00012223 esp=0031ee50 eax=008a13c0 ecx=780423d8 stack=10612124,1065c000,1065c004,00000001,106120be
+last-error=14007
+x87-control=ffff027f
+pool-registers seq=2 ebx=10600000 esi=00000001 edi=00000000 ebp=0031ee9c
+state seq=2 heap-begin=008a13c0 heap-first=00000000
+fpu seq=3 rva=0001218e eax=00000001 edx=000000dd esp=0031ee60 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=3 rva=0001218e esp=0031ee60 eax=00000001 ecx=780423d8 stack=10612063,10600000,00000001,00000000,00000000
+last-error=14007
+x87-control=ffff027f
+pool-registers seq=3 ebx=10600000 esi=00000001 edi=00000000 ebp=0031ee9c
+state seq=3 heap-begin=008a13c0 heap-first=00000000
+crt-return seq=4 reason=1 status=1 pc=7bcfbd02
+last-error=14007
+x87-control=ffff027f
+state seq=4 heap-begin=008a13c0 heap-first=00000000
+fpu seq=5 rva=00012229 eax=0031f0a0 edx=0000001b esp=0031f08c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=5 rva=00012229 esp=0031f08c eax=0031f0a0 ecx=008a1480 stack=0040a4e7,0000000b,0031f0a0,00000001,0031f314
+last-error=0
+x87-control=ffff027f
+pool-registers seq=5 ebx=3fff1000 esi=00000000 edi=00000000 ebp=0031f0e4
+host-crt argc=3 argv=008a0e90 environment=008a01a0 argc-export=7803fa84 argv-export=7803fa8c environment-export=7803f8fc
+invoke-arg index=0 address=0040fbac bytes=7
+invoke-arg index=1 address=0040fbb8 bytes=4
+invoke-arg index=2 address=0040fbc8 bytes=10
+invoke-arg index=3 address=0040fbd8 bytes=3
+invoke-arg index=4 address=0040fbe4 bytes=7
+invoke-arg index=5 address=0040fbf0 bytes=3
+invoke-arg index=6 address=0040fbf8 bytes=2
+invoke-arg index=7 address=0040fc00 bytes=4
+invoke-arg index=8 address=0040fc08 bytes=4
+invoke-arg index=9 address=0040fc14 bytes=5
+invoke-arg index=10 address=0040fc24 bytes=8
+state seq=5 heap-begin=008a13c0 heap-first=00000000
+fpu seq=6 rva=000122a5 eax=0031ff40 edx=0000001b esp=0031f054 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=6 rva=000122a5 esp=0031f054 eax=0031ff40 ecx=008a1480 stack=10612254,00000000,00000000,3fff1000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=6 ebx=3fff1000 esi=00000000 edi=00000000 ebp=0031f088
+state seq=6 heap-begin=008a13c0 heap-first=00000000
+fpu seq=7 rva=0000e799 eax=0031f078 edx=0000001b esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=7 rva=0000e799 esp=0031f00c eax=0031f078 ecx=008a1480 stack=106122ea,00001994,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=7 ebx=00000000 esi=00001994 edi=00000000 ebp=0031f050
+state seq=7 heap-begin=008a13c0 heap-first=00000000
+fpu seq=8 rva=00012365 eax=10612365 edx=00000400 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=8 rva=00012365 esp=0031f010 eax=10612365 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=8 ebx=ffffffff esi=10669004 edi=00000000 ebp=0031f050
+state seq=8 heap-begin=008a13c0 heap-first=00000000
+fpu seq=9 rva=00012377 eax=10612377 edx=00000400 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=9 rva=00012377 esp=0031f010 eax=10612377 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=9 ebx=ffffffff esi=10669008 edi=00000000 ebp=0031f050
+state seq=9 heap-begin=008a13c0 heap-first=00000000
+fpu seq=10 rva=00012389 eax=10612389 edx=00000400 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=10 rva=00012389 esp=0031f010 eax=10612389 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=10 ebx=ffffffff esi=1066900c edi=00000000 ebp=0031f050
+state seq=10 heap-begin=008a13c0 heap-first=00000000
+fpu seq=11 rva=000123a4 eax=106123a4 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=11 rva=000123a4 esp=0031f010 eax=106123a4 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=11 ebx=ffffffff esi=10669010 edi=00000000 ebp=0031f050
+state seq=11 heap-begin=008a13c0 heap-first=00000000
+fpu seq=12 rva=000123a5 eax=106123a5 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=12 rva=000123a5 esp=0031f010 eax=106123a5 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=12 ebx=ffffffff esi=10669014 edi=00000000 ebp=0031f050
+state seq=12 heap-begin=008a13c0 heap-first=00000000
+fpu seq=13 rva=000123a6 eax=106123a6 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=13 rva=000123a6 esp=0031f010 eax=106123a6 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=13 ebx=ffffffff esi=10669018 edi=00000000 ebp=0031f050
+state seq=13 heap-begin=008a13c0 heap-first=00000000
+fpu seq=14 rva=000123a7 eax=106123a7 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=14 rva=000123a7 esp=0031f010 eax=106123a7 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=14 ebx=ffffffff esi=1066901c edi=00000000 ebp=0031f050
+state seq=14 heap-begin=008a13c0 heap-first=00000000
+fpu seq=15 rva=000123ae eax=106123a7 edx=00000000 esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=15 rva=000123ae esp=0031f00c eax=106123a7 ecx=00000000 stack=106123ac,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=15 ebx=ffffffff esi=1066901c edi=00000000 ebp=0031f050
+state seq=15 heap-begin=008a13c0 heap-first=00000000
+fpu seq=16 rva=000123f6 eax=00000000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=16 rva=000123f6 esp=0031f008 eax=00000000 ecx=00000000 stack=106123f2,10623940,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=16 ebx=ffffffff esi=1066901c edi=00000000 ebp=0031f050
+state seq=16 heap-begin=008a13c0 heap-first=00000000
+fpu seq=17 rva=0001241c eax=1061241c edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=17 rva=0001241c esp=0031f010 eax=1061241c ecx=10623940 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=17 ebx=ffffffff esi=10669020 edi=00000000 ebp=0031f050
+state seq=17 heap-begin=008a13c0 heap-first=00000000
+fpu seq=18 rva=00012423 eax=1061241c edx=00000000 esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=18 rva=00012423 esp=0031f00c eax=1061241c ecx=10623940 stack=10612421,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=18 ebx=ffffffff esi=10669020 edi=00000000 ebp=0031f050
+state seq=18 heap-begin=008a13c0 heap-first=00000000
+fpu seq=19 rva=000123f6 eax=00000000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=19 rva=000123f6 esp=0031f008 eax=00000000 ecx=10623940 stack=10612467,10623939,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=19 ebx=ffffffff esi=10669020 edi=00000000 ebp=0031f050
+state seq=19 heap-begin=008a13c0 heap-first=00000000
+fpu seq=20 rva=0001246b eax=1061246b edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=20 rva=0001246b esp=0031f010 eax=1061246b ecx=10623939 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=20 ebx=ffffffff esi=10669024 edi=00000000 ebp=0031f050
+state seq=20 heap-begin=008a13c0 heap-first=00000000
+fpu seq=21 rva=00012472 eax=1061246b edx=00000000 esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=21 rva=00012472 esp=0031f00c eax=1061246b ecx=10623939 stack=10612470,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=21 ebx=ffffffff esi=10669024 edi=00000000 ebp=0031f050
+state seq=21 heap-begin=008a13c0 heap-first=00000000
+fpu seq=22 rva=000123f6 eax=00000000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=22 rva=000123f6 esp=0031f008 eax=00000000 ecx=10623939 stack=106124b6,10623932,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=22 ebx=ffffffff esi=10669024 edi=00000000 ebp=0031f050
+state seq=22 heap-begin=008a13c0 heap-first=00000000
+fpu seq=23 rva=000124ba eax=106124ba edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=23 rva=000124ba esp=0031f010 eax=106124ba ecx=10623932 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=23 ebx=ffffffff esi=10669028 edi=00000000 ebp=0031f050
+state seq=23 heap-begin=008a13c0 heap-first=00000000
+fpu seq=24 rva=000124c1 eax=106124ba edx=00000000 esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=24 rva=000124c1 esp=0031f00c eax=106124ba ecx=10623932 stack=106124bf,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=24 ebx=ffffffff esi=10669028 edi=00000000 ebp=0031f050
+state seq=24 heap-begin=008a13c0 heap-first=00000000
+fpu seq=25 rva=000123f6 eax=00000000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=25 rva=000123f6 esp=0031f008 eax=00000000 ecx=10623932 stack=10612505,1062392b,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=25 ebx=ffffffff esi=10669028 edi=00000000 ebp=0031f050
+state seq=25 heap-begin=008a13c0 heap-first=00000000
+fpu seq=26 rva=00012509 eax=10612509 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=26 rva=00012509 esp=0031f010 eax=10612509 ecx=1062392b stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=26 ebx=ffffffff esi=1066902c edi=00000000 ebp=0031f050
+state seq=26 heap-begin=008a13c0 heap-first=00000000
+fpu seq=27 rva=00012510 eax=10612509 edx=00000000 esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=27 rva=00012510 esp=0031f00c eax=10612509 ecx=1062392b stack=1061250e,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=27 ebx=ffffffff esi=1066902c edi=00000000 ebp=0031f050
+state seq=27 heap-begin=008a13c0 heap-first=00000000
+fpu seq=28 rva=000123f6 eax=00000000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=28 rva=000123f6 esp=0031f008 eax=00000000 ecx=1062392b stack=10612554,10623924,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=28 ebx=ffffffff esi=1066902c edi=00000000 ebp=0031f050
+state seq=28 heap-begin=008a13c0 heap-first=00000000
+fpu seq=29 rva=00012558 eax=10612558 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=29 rva=00012558 esp=0031f010 eax=10612558 ecx=10623924 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=29 ebx=ffffffff esi=10669030 edi=00000000 ebp=0031f050
+state seq=29 heap-begin=008a13c0 heap-first=00000000
+fpu seq=30 rva=0001255f eax=10612558 edx=00000000 esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=30 rva=0001255f esp=0031f00c eax=10612558 ecx=10623924 stack=1061255d,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=30 ebx=ffffffff esi=10669030 edi=00000000 ebp=0031f050
+state seq=30 heap-begin=008a13c0 heap-first=00000000
+fpu seq=31 rva=000123f6 eax=00000000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=31 rva=000123f6 esp=0031f008 eax=00000000 ecx=10623924 stack=106125a3,1062391d,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=31 ebx=ffffffff esi=10669030 edi=00000000 ebp=0031f050
+state seq=31 heap-begin=008a13c0 heap-first=00000000
+fpu seq=32 rva=000125a7 eax=106125a7 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=32 rva=000125a7 esp=0031f010 eax=106125a7 ecx=1062391d stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=32 ebx=ffffffff esi=10669034 edi=00000000 ebp=0031f050
+state seq=32 heap-begin=008a13c0 heap-first=00000000
+fpu seq=33 rva=000125ae eax=106125a7 edx=00000000 esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=33 rva=000125ae esp=0031f00c eax=106125a7 ecx=1062391d stack=106125ac,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=33 ebx=ffffffff esi=10669034 edi=00000000 ebp=0031f050
+state seq=33 heap-begin=008a13c0 heap-first=00000000
+fpu seq=34 rva=000123f6 eax=00000000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=34 rva=000123f6 esp=0031f008 eax=00000000 ecx=1062391d stack=106125f2,10623916,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=34 ebx=ffffffff esi=10669034 edi=00000000 ebp=0031f050
+state seq=34 heap-begin=008a13c0 heap-first=00000000
+fpu seq=35 rva=000125f6 eax=106125f6 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=35 rva=000125f6 esp=0031f010 eax=106125f6 ecx=10623916 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=35 ebx=ffffffff esi=10669038 edi=00000000 ebp=0031f050
+state seq=35 heap-begin=008a13c0 heap-first=00000000
+fpu seq=36 rva=000125fd eax=106125f6 edx=00000000 esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=36 rva=000125fd esp=0031f00c eax=106125f6 ecx=10623916 stack=106125fb,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=36 ebx=ffffffff esi=10669038 edi=00000000 ebp=0031f050
+state seq=36 heap-begin=008a13c0 heap-first=00000000
+fpu seq=37 rva=000123f6 eax=00000000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=37 rva=000123f6 esp=0031f008 eax=00000000 ecx=10623916 stack=10612641,106238dd,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=37 ebx=ffffffff esi=10669038 edi=00000000 ebp=0031f050
+state seq=37 heap-begin=008a13c0 heap-first=00000000
+fpu seq=38 rva=00012645 eax=10612645 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=38 rva=00012645 esp=0031f010 eax=10612645 ecx=106238dd stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=38 ebx=ffffffff esi=1066903c edi=00000000 ebp=0031f050
+state seq=38 heap-begin=008a13c0 heap-first=00000000
+fpu seq=39 rva=00012646 eax=10612646 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=39 rva=00012646 esp=0031f010 eax=10612646 ecx=106238dd stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=39 ebx=ffffffff esi=10669040 edi=00000000 ebp=0031f050
+state seq=39 heap-begin=008a13c0 heap-first=00000000
+fpu seq=40 rva=00012663 eax=10612663 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=40 rva=00012663 esp=0031f010 eax=10612663 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=40 ebx=ffffffff esi=10669044 edi=00000000 ebp=0031f050
+state seq=40 heap-begin=008a13c0 heap-first=00000000
+fpu seq=41 rva=00012664 eax=10612664 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=41 rva=00012664 esp=0031f010 eax=10612664 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=41 ebx=ffffffff esi=10669048 edi=00000000 ebp=0031f050
+state seq=41 heap-begin=008a13c0 heap-first=00000000
+fpu seq=42 rva=0001266f eax=1061266f edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=42 rva=0001266f esp=0031f010 eax=1061266f ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=42 ebx=ffffffff esi=1066904c edi=00000000 ebp=0031f050
+state seq=42 heap-begin=008a13c0 heap-first=00000000
+fpu seq=43 rva=00012676 eax=1061266f edx=00000000 esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=43 rva=00012676 esp=0031f00c eax=1061266f ecx=00000000 stack=10612674,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=43 ebx=ffffffff esi=1066904c edi=00000000 ebp=0031f050
+state seq=43 heap-begin=008a13c0 heap-first=00000000
+fpu seq=44 rva=000123f6 eax=00000000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=44 rva=000123f6 esp=0031f008 eax=00000000 ecx=00000000 stack=106126ab,106238dc,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=44 ebx=ffffffff esi=1066904c edi=00000000 ebp=0031f050
+state seq=44 heap-begin=008a13c0 heap-first=00000000
+fpu seq=45 rva=000126af eax=106126af edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=45 rva=000126af esp=0031f010 eax=106126af ecx=106238dc stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=45 ebx=ffffffff esi=10669050 edi=00000000 ebp=0031f050
+state seq=45 heap-begin=008a13c0 heap-first=00000000
+fpu seq=46 rva=000126b6 eax=106126af edx=00000000 esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=46 rva=000126b6 esp=0031f00c eax=106126af ecx=106238dc stack=106126b4,10612348,00000000,00000000,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=46 ebx=ffffffff esi=10669050 edi=00000000 ebp=0031f050
+state seq=46 heap-begin=008a13c0 heap-first=00000000
+fpu seq=47 rva=000123f6 eax=00000000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=47 rva=000123f6 esp=0031f008 eax=00000000 ecx=00000000 stack=106126eb,106238db,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=47 ebx=ffffffff esi=10669050 edi=00000000 ebp=0031f050
+state seq=47 heap-begin=008a13c0 heap-first=00000000
+fpu seq=48 rva=000126ef eax=106126ef edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=48 rva=000126ef esp=0031f010 eax=106126ef ecx=106238db stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=48 ebx=ffffffff esi=10669054 edi=00000000 ebp=0031f050
+state seq=48 heap-begin=008a13c0 heap-first=00000000
+fpu seq=49 rva=000126fc eax=106126ef edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=49 rva=000126fc esp=0031f008 eax=106126ef ecx=10655078 stack=106126fb,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=49 ebx=ffffffff esi=10669054 edi=00000000 ebp=0031f050
+state seq=49 heap-begin=008a13c0 heap-first=00000000
+pool-return seq=50 pc=106126fb eax=10655078 esp=0031f010 entry-esp=0031f008
+last-error=0
+x87-control=ffff027f
+state seq=50 heap-begin=008a13c0 heap-first=00000000
+fpu seq=51 rva=00012712 eax=10612712 edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=51 rva=00012712 esp=0031f010 eax=10612712 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=51 ebx=ffffffff esi=10669058 edi=00000000 ebp=0031f050
+state seq=51 heap-begin=008a13c0 heap-first=00000000
+fpu seq=52 rva=000126fc eax=10612712 edx=00000001 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=52 rva=000126fc esp=0031f008 eax=10612712 ecx=10654028 stack=1061271e,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=52 ebx=ffffffff esi=10669058 edi=00000000 ebp=0031f050
+state seq=52 heap-begin=008a13c0 heap-first=00000000
+pool-return seq=53 pc=1061271e eax=10654028 esp=0031f010 entry-esp=0031f008
+last-error=0
+x87-control=ffff027f
+state seq=53 heap-begin=008a13c0 heap-first=00000000
+fpu seq=54 rva=0001271f eax=1061271f edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=54 rva=0001271f esp=0031f010 eax=1061271f ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=54 ebx=ffffffff esi=1066905c edi=00000000 ebp=0031f050
+state seq=54 heap-begin=008a13c0 heap-first=00000000
+fpu seq=55 rva=000126fc eax=1061271f edx=00000001 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=55 rva=000126fc esp=0031f008 eax=1061271f ecx=10653d80 stack=1061272b,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=55 ebx=ffffffff esi=1066905c edi=00000000 ebp=0031f050
+state seq=55 heap-begin=008a13c0 heap-first=00000000
+pool-return seq=56 pc=1061272b eax=10653d80 esp=0031f010 entry-esp=0031f008
+last-error=0
+x87-control=ffff027f
+state seq=56 heap-begin=008a13c0 heap-first=00000000
+fpu seq=57 rva=0001272c eax=1061272c edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=57 rva=0001272c esp=0031f010 eax=1061272c ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=57 ebx=ffffffff esi=10669060 edi=00000000 ebp=0031f050
+state seq=57 heap-begin=008a13c0 heap-first=00000000
+fpu seq=58 rva=000126fc eax=1061272c edx=00000001 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=58 rva=000126fc esp=0031f008 eax=1061272c ecx=10654c98 stack=10612738,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=58 ebx=ffffffff esi=10669060 edi=00000000 ebp=0031f050
+state seq=58 heap-begin=008a13c0 heap-first=00000000
+pool-return seq=59 pc=10612738 eax=10654c98 esp=0031f010 entry-esp=0031f008
+last-error=0
+x87-control=ffff027f
+state seq=59 heap-begin=008a13c0 heap-first=00000000
+fpu seq=60 rva=00012739 eax=10612739 edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=60 rva=00012739 esp=0031f010 eax=10612739 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=60 ebx=ffffffff esi=10669064 edi=00000000 ebp=0031f050
+state seq=60 heap-begin=008a13c0 heap-first=00000000
+fpu seq=61 rva=000126fc eax=10612739 edx=00000001 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=61 rva=000126fc esp=0031f008 eax=10612739 ecx=10654b18 stack=10612745,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=61 ebx=ffffffff esi=10669064 edi=00000000 ebp=0031f050
+state seq=61 heap-begin=008a13c0 heap-first=00000000
+pool-return seq=62 pc=10612745 eax=10654b18 esp=0031f010 entry-esp=0031f008
+last-error=0
+x87-control=ffff027f
+state seq=62 heap-begin=008a13c0 heap-first=00000000
+fpu seq=63 rva=00012746 eax=10612746 edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=63 rva=00012746 esp=0031f010 eax=10612746 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=63 ebx=ffffffff esi=10669068 edi=00000000 ebp=0031f050
+state seq=63 heap-begin=008a13c0 heap-first=00000000
+fpu seq=64 rva=000126fc eax=10612746 edx=00000001 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=64 rva=000126fc esp=0031f008 eax=10612746 ecx=10654a60 stack=10612752,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=64 ebx=ffffffff esi=10669068 edi=00000000 ebp=0031f050
+state seq=64 heap-begin=008a13c0 heap-first=00000000
+pool-return seq=65 pc=10612752 eax=10654a60 esp=0031f010 entry-esp=0031f008
+last-error=0
+x87-control=ffff027f
+state seq=65 heap-begin=008a13c0 heap-first=00000000
+fpu seq=66 rva=00012753 eax=10612753 edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=66 rva=00012753 esp=0031f010 eax=10612753 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=66 ebx=ffffffff esi=1066906c edi=00000000 ebp=0031f050
+state seq=66 heap-begin=008a13c0 heap-first=00000000
+fpu seq=67 rva=000126fc eax=10612753 edx=00000001 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=67 rva=000126fc esp=0031f008 eax=10612753 ecx=10654000 stack=1061275f,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=67 ebx=ffffffff esi=1066906c edi=00000000 ebp=0031f050
+state seq=67 heap-begin=008a13c0 heap-first=00000000
+pool-return seq=68 pc=1061275f eax=10654000 esp=0031f010 entry-esp=0031f008
+last-error=0
+x87-control=ffff027f
+state seq=68 heap-begin=008a13c0 heap-first=00000000
+fpu seq=69 rva=00012760 eax=10612760 edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=69 rva=00012760 esp=0031f010 eax=10612760 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=69 ebx=ffffffff esi=10669070 edi=00000000 ebp=0031f050
+state seq=69 heap-begin=008a13c0 heap-first=00000000
+fpu seq=70 rva=000126fc eax=10612760 edx=00000001 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=70 rva=000126fc esp=0031f008 eax=10612760 ecx=106550b0 stack=1061276c,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=70 ebx=ffffffff esi=10669070 edi=00000000 ebp=0031f050
+state seq=70 heap-begin=008a13c0 heap-first=00000000
+pool-return seq=71 pc=1061276c eax=106550b0 esp=0031f010 entry-esp=0031f008
+last-error=0
+x87-control=ffff027f
+state seq=71 heap-begin=008a13c0 heap-first=00000000
+fpu seq=72 rva=0001276d eax=1061276d edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=72 rva=0001276d esp=0031f010 eax=1061276d ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=72 ebx=ffffffff esi=10669074 edi=00000000 ebp=0031f050
+state seq=72 heap-begin=008a13c0 heap-first=00000000
+fpu seq=73 rva=000126fc eax=1061276d edx=00000001 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=73 rva=000126fc esp=0031f008 eax=1061276d ecx=10654dc0 stack=10612779,00000001,10612348,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=73 ebx=ffffffff esi=10669074 edi=00000000 ebp=0031f050
+state seq=73 heap-begin=008a13c0 heap-first=00000000
+pool-return seq=74 pc=10612779 eax=10654dc0 esp=0031f010 entry-esp=0031f008
+last-error=0
+x87-control=ffff027f
+state seq=74 heap-begin=008a13c0 heap-first=00000000
+fpu seq=75 rva=0001277a eax=1061277a edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=75 rva=0001277a esp=0031f010 eax=1061277a ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=75 ebx=ffffffff esi=10669078 edi=00000000 ebp=0031f050
+state seq=75 heap-begin=008a13c0 heap-first=00000000
+fpu seq=76 rva=0001277b eax=1061277b edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=76 rva=0001277b esp=0031f010 eax=1061277b ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=76 ebx=ffffffff esi=1066907c edi=00000000 ebp=0031f050
+state seq=76 heap-begin=008a13c0 heap-first=00000000
+fpu seq=77 rva=0001279c eax=1061279c edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=77 rva=0001279c esp=0031f010 eax=1061279c ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=77 ebx=ffffffff esi=10669080 edi=00000000 ebp=0031f050
+state seq=77 heap-begin=008a13c0 heap-first=00000000
+fpu seq=78 rva=00011e2a eax=1061279c edx=00000001 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=78 rva=00011e2a esp=0031f010 eax=1061279c ecx=10658f68 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=78 ebx=ffffffff esi=10669080 edi=00000000 ebp=0031f050
+state seq=78 heap-begin=008a13c0 heap-first=00000000
+pch-member-entry seq=78 edi=00000000 inherited-return=10612348
+pch-member-return seq=79 pc=10612348 eax=10658f68 esp=0031f014 entry-esp=0031f010 edi=00000000 entry-edi=00000000
+last-error=0
+x87-control=ffff027f
+state seq=79 heap-begin=008a13c0 heap-first=00000000
+fpu seq=80 rva=000127a6 eax=106127a6 edx=10658f68 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=80 rva=000127a6 esp=0031f010 eax=106127a6 ecx=00000000 stack=10612348,00000000,00000000,3fff1000,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=80 ebx=ffffffff esi=10669084 edi=00000000 ebp=0031f050
+state seq=80 heap-begin=008a13c0 heap-first=00000000
+fpu seq=81 rva=000127a7 eax=00000001 edx=0000000b esp=0031f04c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=81 rva=000127a7 esp=0031f04c eax=00000001 ecx=0031f0a0 stack=10612274,0000000b,0031f0a0,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=81 ebx=3fff1000 esi=00000000 edi=00000000 ebp=0031f088
+state seq=81 heap-begin=008a13c0 heap-first=00000000
+fpu seq=82 rva=00012830 eax=00000001 edx=0000000b esp=0031f040 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=82 rva=00012830 esp=0031f040 eax=00000001 ecx=0031f0a0 stack=106127b8,00000000,00000000,10612274,0000000b
+last-error=0
+x87-control=ffff027f
+pool-registers seq=82 ebx=3fff1000 esi=00000000 edi=00000000 ebp=0031f088
+state seq=82 heap-begin=008a13c0 heap-first=00000000
+fpu seq=83 rva=00012873 eax=00000001 edx=0000000b esp=0031f034 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=83 rva=00012873 esp=0031f034 eax=00000001 ecx=0031f0a0 stack=1061283f,00500000,00004000,106127b8,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=83 ebx=3fff1000 esi=00000000 edi=00000000 ebp=0031f088
+allocation-helper-entry index=0 pc=10612873 esp=0031f034 edi=00000000 esi=00000000
+state seq=83 heap-begin=008a13c0 heap-first=00000000
+allocation-before index=0 pc=10612889 esp=0031f01c edi=7bb7e528 args=00000000,00500000,00002000,00000004
+fpu seq=84 rva=00012889 eax=00500000 edx=0000000b esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=84 rva=00012889 esp=0031f01c eax=00500000 ecx=0031f0a0 stack=00000000,00500000,00002000,00000004,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=84 ebx=3fff1000 esi=00000000 edi=7bb7e528 ebp=0031f088
+state seq=84 heap-begin=008a13c0 heap-first=00000000
+allocation-after index=0 pc=1061288b esp=0031f02c eax=00ea0000 edi=7bb7e528 before-esp=0031f01c before-edi=7bb7e528
+allocation-error index=0 value=0 fpu=ffff027f
+allocation-region index=0 part=0 base=00ea0000 allocation=00ea0000 allocation-protect=00000004 bytes=00500000 state=00002000 protect=00000000 type=00020000
+fpu seq=85 rva=0001288b eax=00ea0000 edx=00000000 esp=0031f02c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=85 rva=0001288b esp=0031f02c eax=00ea0000 ecx=7bcfbeac stack=00000000,00000000,1061283f,00500000,00004000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=85 ebx=3fff1000 esi=00000000 edi=7bb7e528 ebp=0031f088
+state seq=85 heap-begin=008a13c0 heap-first=00000000
+allocation-before index=1 pc=106128a2 esp=0031f01c edi=7bb7e528 args=00ea0000,00004000,00001000,00000004
+fpu seq=86 rva=000128a2 eax=00ea0000 edx=00000000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=86 rva=000128a2 esp=0031f01c eax=00ea0000 ecx=00004000 stack=00ea0000,00004000,00001000,00000004,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=86 ebx=3fff1000 esi=00ea0000 edi=7bb7e528 ebp=0031f088
+state seq=86 heap-begin=008a13c0 heap-first=00000000
+allocation-after index=1 pc=106128a4 esp=0031f02c eax=00ea0000 edi=7bb7e528 before-esp=0031f01c before-edi=7bb7e528
+allocation-error index=1 value=0 fpu=ffff027f
+allocation-region index=1 part=0 base=00ea0000 allocation=00ea0000 allocation-protect=00000004 bytes=00004000 state=00001000 protect=00000004 type=00020000
+allocation-region index=1 part=1 base=00ea4000 allocation=00ea0000 allocation-protect=00000004 bytes=004fc000 state=00002000 protect=00000000 type=00020000
+fpu seq=87 rva=000128a4 eax=00ea0000 edx=00000000 esp=0031f02c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=87 rva=000128a4 esp=0031f02c eax=00ea0000 ecx=7bcfbeac stack=00000000,00000000,1061283f,00500000,00004000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=87 ebx=3fff1000 esi=00ea0000 edi=7bb7e528 ebp=0031f088
+state seq=87 heap-begin=008a13c0 heap-first=00000000
+allocation-helper-return index=0 pc=1061283f esp=0031f038 eax=00ea0000 edi=00000000 esi=00000000
+fpu seq=88 rva=0001283f eax=00ea0000 edx=00000000 esp=0031f038 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=88 rva=0001283f esp=0031f038 eax=00ea0000 ecx=7bcfbeac stack=00500000,00004000,106127b8,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=88 ebx=3fff1000 esi=00000000 edi=00000000 ebp=0031f088
+state seq=88 heap-begin=008a13c0 heap-first=00000000
+fpu seq=89 rva=00012873 eax=00ea3ffb edx=00000000 esp=0031f034 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=89 rva=00012873 esp=0031f034 eax=00ea3ffb ecx=7bcfbeac stack=10612860,00500000,00004000,106127b8,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=89 ebx=3fff1000 esi=00000000 edi=00000000 ebp=0031f088
+allocation-helper-entry index=1 pc=10612873 esp=0031f034 edi=00000000 esi=00000000
+state seq=89 heap-begin=008a13c0 heap-first=00000000
+allocation-before index=2 pc=10612889 esp=0031f01c edi=7bb7e528 args=00000000,00500000,00002000,00000004
+fpu seq=90 rva=00012889 eax=00500000 edx=00000000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=90 rva=00012889 esp=0031f01c eax=00500000 ecx=7bcfbeac stack=00000000,00500000,00002000,00000004,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=90 ebx=3fff1000 esi=00000000 edi=7bb7e528 ebp=0031f088
+state seq=90 heap-begin=008a13c0 heap-first=00000000
+allocation-after index=2 pc=1061288b esp=0031f02c eax=013a0000 edi=7bb7e528 before-esp=0031f01c before-edi=7bb7e528
+allocation-error index=2 value=0 fpu=ffff027f
+allocation-region index=2 part=0 base=013a0000 allocation=013a0000 allocation-protect=00000004 bytes=00500000 state=00002000 protect=00000000 type=00020000
+fpu seq=91 rva=0001288b eax=013a0000 edx=00000000 esp=0031f02c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=91 rva=0001288b esp=0031f02c eax=013a0000 ecx=7bcfbeac stack=00000000,00000000,10612860,00500000,00004000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=91 ebx=3fff1000 esi=00000000 edi=7bb7e528 ebp=0031f088
+state seq=91 heap-begin=008a13c0 heap-first=00000000
+allocation-before index=3 pc=106128a2 esp=0031f01c edi=7bb7e528 args=013a0000,00004000,00001000,00000004
+fpu seq=92 rva=000128a2 eax=013a0000 edx=00000000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=92 rva=000128a2 esp=0031f01c eax=013a0000 ecx=00004000 stack=013a0000,00004000,00001000,00000004,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=92 ebx=3fff1000 esi=013a0000 edi=7bb7e528 ebp=0031f088
+state seq=92 heap-begin=008a13c0 heap-first=00000000
+allocation-after index=3 pc=106128a4 esp=0031f02c eax=013a0000 edi=7bb7e528 before-esp=0031f01c before-edi=7bb7e528
+allocation-error index=3 value=0 fpu=ffff027f
+allocation-region index=3 part=0 base=013a0000 allocation=013a0000 allocation-protect=00000004 bytes=00004000 state=00001000 protect=00000004 type=00020000
+allocation-region index=3 part=1 base=013a4000 allocation=013a0000 allocation-protect=00000004 bytes=004fc000 state=00002000 protect=00000000 type=00020000
+fpu seq=93 rva=000128a4 eax=013a0000 edx=00000000 esp=0031f02c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=93 rva=000128a4 esp=0031f02c eax=013a0000 ecx=7bcfbeac stack=00000000,00000000,10612860,00500000,00004000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=93 ebx=3fff1000 esi=013a0000 edi=7bb7e528 ebp=0031f088
+state seq=93 heap-begin=008a13c0 heap-first=00000000
+allocation-helper-return index=1 pc=10612860 esp=0031f038 eax=013a0000 edi=00000000 esi=00000000
+fpu seq=94 rva=00012860 eax=013a0000 edx=00000000 esp=0031f038 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=94 rva=00012860 esp=0031f038 eax=013a0000 ecx=7bcfbeac stack=00500000,00004000,106127b8,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=94 ebx=3fff1000 esi=00000000 edi=00000000 ebp=0031f088
+state seq=94 heap-begin=008a13c0 heap-first=00000000
+fpu seq=95 rva=000123f6 eax=013a3ffb edx=00000000 esp=0031f03c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=95 rva=000123f6 esp=0031f03c eax=013a3ffb ecx=7bcfbeac stack=106127c2,106238da,00000000,00000000,10612274
+last-error=0
+x87-control=ffff027f
+pool-registers seq=95 ebx=3fff1000 esi=00000000 edi=00000000 ebp=0031f088
+state seq=95 heap-begin=008a13c0 heap-first=00000000
+fpu seq=96 rva=000128b1 eax=00000000 edx=00000000 esp=0031f03c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=96 rva=000128b1 esp=0031f03c eax=00000000 ecx=106238da stack=106127df,0031f0a0,00000000,00000000,10612274
+last-error=0
+x87-control=ffff027f
+pool-registers seq=96 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=96 heap-begin=008a13c0 heap-first=00000000
+fpu seq=97 rva=00012900 eax=00000000 edx=00000000 esp=0031ee24 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=97 rva=00012900 esp=0031ee24 eax=00000000 ecx=0040fbb8 stack=106128d2,0040fbb8,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=97 ebx=3fff1000 esi=0031f0a4 edi=0000000b ebp=0031f088
+state seq=97 heap-begin=008a13c0 heap-first=00000000
+internal-parser-entry index=0 seq=97 argument=0040fbb8 mode=0 esp=0031ee24
+internal-parser-return index=0 seq=98 pc=106128d2 esp=0031ee28 entry-esp=0031ee24 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=98 heap-begin=008a13c0 heap-first=00000000
+fpu seq=99 rva=00012900 eax=00000000 edx=0040fbb8 esp=0031ee24 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=99 rva=00012900 esp=0031ee24 eax=00000000 ecx=0040fbc8 stack=106128d2,0040fbc8,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=99 ebx=3fff1000 esi=0031f0a8 edi=0000000b ebp=0031f088
+state seq=99 heap-begin=008a13c0 heap-first=00000000
+internal-parser-entry index=1 seq=99 argument=0040fbc8 mode=0 esp=0031ee24
+internal-parser-return index=1 seq=100 pc=106128d2 esp=0031ee28 entry-esp=0031ee24 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=100 heap-begin=008a13c0 heap-first=00000000
+fpu seq=101 rva=00012900 eax=00000000 edx=0040fbc8 esp=0031ee24 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=101 rva=00012900 esp=0031ee24 eax=00000000 ecx=0040fbd8 stack=106128d2,0040fbd8,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=101 ebx=3fff1000 esi=0031f0ac edi=0000000b ebp=0031f088
+state seq=101 heap-begin=008a13c0 heap-first=00000000
+internal-parser-entry index=2 seq=101 argument=0040fbd8 mode=0 esp=0031ee24
+internal-parser-return index=2 seq=102 pc=106128d2 esp=0031ee28 entry-esp=0031ee24 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=102 heap-begin=008a13c0 heap-first=00000000
+fpu seq=103 rva=00012900 eax=00000000 edx=0040fbd8 esp=0031ee24 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=103 rva=00012900 esp=0031ee24 eax=00000000 ecx=0040fbe4 stack=106128d2,0040fbe4,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=103 ebx=3fff1000 esi=0031f0b0 edi=0000000b ebp=0031f088
+state seq=103 heap-begin=008a13c0 heap-first=00000000
+internal-parser-entry index=3 seq=103 argument=0040fbe4 mode=0 esp=0031ee24
+internal-parser-return index=3 seq=104 pc=106128d2 esp=0031ee28 entry-esp=0031ee24 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=104 heap-begin=008a13c0 heap-first=00000000
+fpu seq=105 rva=00012900 eax=00000000 edx=0040fbe4 esp=0031ee24 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=105 rva=00012900 esp=0031ee24 eax=00000000 ecx=0040fbf0 stack=106128d2,0040fbf0,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=105 ebx=3fff1000 esi=0031f0b4 edi=0000000b ebp=0031f088
+state seq=105 heap-begin=008a13c0 heap-first=00000000
+internal-parser-entry index=4 seq=105 argument=0040fbf0 mode=0 esp=0031ee24
+internal-parser-return index=4 seq=106 pc=106128d2 esp=0031ee28 entry-esp=0031ee24 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=106 heap-begin=008a13c0 heap-first=00000000
+fpu seq=107 rva=00012900 eax=00000000 edx=0040fbf0 esp=0031ee24 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=107 rva=00012900 esp=0031ee24 eax=00000000 ecx=0040fbf8 stack=106128d2,0040fbf8,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=107 ebx=3fff1000 esi=0031f0b8 edi=0000000b ebp=0031f088
+state seq=107 heap-begin=008a13c0 heap-first=00000000
+internal-parser-entry index=5 seq=107 argument=0040fbf8 mode=0 esp=0031ee24
+internal-parser-return index=5 seq=108 pc=106128d2 esp=0031ee28 entry-esp=0031ee24 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=108 heap-begin=008a13c0 heap-first=00000000
+fpu seq=109 rva=00012900 eax=00000000 edx=0040fbf8 esp=0031ee24 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=109 rva=00012900 esp=0031ee24 eax=00000000 ecx=0040fc00 stack=106128d2,0040fc00,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=109 ebx=3fff1000 esi=0031f0bc edi=0000000b ebp=0031f088
+state seq=109 heap-begin=008a13c0 heap-first=00000000
+internal-parser-entry index=6 seq=109 argument=0040fc00 mode=0 esp=0031ee24
+internal-parser-return index=6 seq=110 pc=106128d2 esp=0031ee28 entry-esp=0031ee24 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=110 heap-begin=008a13c0 heap-first=00000000
+fpu seq=111 rva=00012900 eax=00000000 edx=0040fc00 esp=0031ee24 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=111 rva=00012900 esp=0031ee24 eax=00000000 ecx=0040fc08 stack=106128d2,0040fc08,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=111 ebx=3fff1000 esi=0031f0c0 edi=0000000b ebp=0031f088
+state seq=111 heap-begin=008a13c0 heap-first=00000000
+internal-parser-entry index=7 seq=111 argument=0040fc08 mode=0 esp=0031ee24
+internal-parser-return index=7 seq=112 pc=106128d2 esp=0031ee28 entry-esp=0031ee24 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=112 heap-begin=008a13c0 heap-first=00000000
+fpu seq=113 rva=00012900 eax=00000000 edx=0040fc08 esp=0031ee24 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=113 rva=00012900 esp=0031ee24 eax=00000000 ecx=0040fc14 stack=106128d2,0040fc14,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=113 ebx=3fff1000 esi=0031f0c4 edi=0000000b ebp=0031f088
+state seq=113 heap-begin=008a13c0 heap-first=00000000
+internal-parser-entry index=8 seq=113 argument=0040fc14 mode=0 esp=0031ee24
+internal-parser-return index=8 seq=114 pc=106128d2 esp=0031ee28 entry-esp=0031ee24 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=114 heap-begin=008a13c0 heap-first=00000000
+fpu seq=115 rva=00012900 eax=00000000 edx=0040fc14 esp=0031ee24 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=115 rva=00012900 esp=0031ee24 eax=00000000 ecx=0040fc24 stack=106128d2,0040fc24,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=115 ebx=3fff1000 esi=0031f0c8 edi=0000000b ebp=0031f088
+state seq=115 heap-begin=008a13c0 heap-first=00000000
+internal-parser-entry index=9 seq=115 argument=0040fc24 mode=0 esp=0031ee24
+internal-parser-return index=9 seq=116 pc=106128d2 esp=0031ee28 entry-esp=0031ee24 eax=00000000
+last-error=0
+x87-control=ffff027f
+state seq=116 heap-begin=008a13c0 heap-first=00000000
+internal-getenv seq=117 pc=106128ec provider=78006a94 name=MSC_CMD_FLAGS name-address=106631e8 result=00000000 parser-calls=10
+fpu seq=117 rva=000128ec eax=00000000 edx=00000000 esp=0031ee2c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=117 rva=000128ec esp=0031ee2c eax=00000000 ecx=008a0e20 stack=106631e8,0000000b,0031f0a0,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=117 ebx=3fff1000 esi=0031f0cc edi=00000000 ebp=0031f088
+state seq=117 heap-begin=008a13c0 heap-first=00000000
+fpu seq=118 rva=00012998 eax=00000000 edx=00000000 esp=0031f040 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=118 rva=00012998 esp=0031f040 eax=00000000 ecx=008a0e20 stack=106127e7,00000000,00000000,10612274,0000000b
+last-error=0
+x87-control=ffff027f
+pool-registers seq=118 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=118 heap-begin=008a13c0 heap-first=00000000
+systeminfo-before seq=119 pc=106127ec esp=0031f040 argument=1065f508 provider=7bb7c78c error=0 fpu=ffff027f
+fpu seq=119 rva=000127ec eax=00000000 edx=00000000 esp=0031f040 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=119 rva=000127ec esp=0031f040 eax=00000000 ecx=008a0e20 stack=1065f508,00000000,00000000,10612274,0000000b
+last-error=0
+x87-control=ffff027f
+pool-registers seq=119 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=119 heap-begin=008a13c0 heap-first=00000000
+systeminfo-after seq=120 pc=106127f2 esp=0031f044 before-esp=0031f040 error=0 before-error=0 fpu=ffff027f
+fpu seq=120 rva=000127f2 eax=0000024a edx=0000024a esp=0031f044 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=120 rva=000127f2 esp=0031f044 eax=0000024a ecx=00000030 stack=00000000,00000000,10612274,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=120 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=120 heap-begin=008a13c0 heap-first=00000000
+fpu seq=121 rva=00012999 eax=0000024a edx=0000024a esp=0031f040 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=121 rva=00012999 esp=0031f040 eax=0000024a ecx=00000030 stack=106127f7,00000000,00000000,10612274,0000000b
+last-error=0
+x87-control=ffff027f
+pool-registers seq=121 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=121 heap-begin=008a13c0 heap-first=00000000
+fpu seq=122 rva=000129db eax=0000024a edx=0000024a esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=122 rva=000129db esp=0031f030 eax=0000024a ecx=00000030 stack=106129a1,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=122 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=122 heap-begin=008a13c0 heap-first=00000000
+fpu seq=123 rva=00012a18 eax=ffffffff edx=0000024a esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=123 rva=00012a18 esp=0031f01c eax=ffffffff ecx=10658fb0 stack=10612a0f,10665780,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=123 ebx=3fff1000 esi=10665780 edi=10658fb0 ebp=0031f088
+state seq=123 heap-begin=008a13c0 heap-first=00000000
+fpu seq=124 rva=00012a7a eax=ffffffff edx=0000024a esp=0031f00c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=124 rva=00012a7a esp=0031f00c eax=ffffffff ecx=10658fb0 stack=10612a29,10665780,10658fb0,10665780,10612a0f
+last-error=0
+x87-control=ffff027f
+pool-registers seq=124 ebx=3fff1000 esi=10658fb0 edi=10665780 ebp=0031f088
+state seq=124 heap-begin=008a13c0 heap-first=00000000
+fpu seq=125 rva=00012a7f eax=10665780 edx=0000024a esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=125 rva=00012a7f esp=0031f008 eax=10665780 ecx=10658fb0 stack=10658fb0,10612a29,10665780,10658fb0,10665780
+last-error=0
+x87-control=ffff027f
+pool-registers seq=125 ebx=3fff1000 esi=10658fb0 edi=10665780 ebp=0031f088
+state seq=125 heap-begin=008a13c0 heap-first=00000000
+fpu seq=126 rva=00012a85 eax=10665780 edx=0000024a esp=0031f008 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=126 rva=00012a85 esp=0031f008 eax=10665780 ecx=10658fb0 stack=10658fb0,10612a29,10665780,10658fb0,10665780
+last-error=0
+x87-control=ffff027f
+pool-registers seq=126 ebx=3fff1000 esi=00010000 edi=10665780 ebp=0031f088
+state seq=126 heap-begin=008a13c0 heap-first=00000000
+fpu seq=127 rva=00012a8b eax=10665780 edx=0000024a esp=0031f008 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=127 rva=00012a8b esp=0031f008 eax=10665780 ecx=10658fb0 stack=10658fb0,10612a29,10665780,10658fb0,10665780
+last-error=0
+x87-control=ffff027f
+pool-registers seq=127 ebx=3fff1000 esi=00010000 edi=10665780 ebp=0031f088
+state seq=127 heap-begin=008a13c0 heap-first=00000000
+fpu seq=128 rva=00012aac eax=10665780 edx=0000024a esp=0031f004 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=128 rva=00012aac esp=0031f004 eax=10665780 ecx=10658fb0 stack=10612a96,10658fb0,10612a29,10665780,10658fb0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=128 ebx=3fff1000 esi=00010000 edi=10665780 ebp=0031f088
+state seq=128 heap-begin=008a13c0 heap-first=00000000
+fpu seq=129 rva=00012a96 eax=fce00000 edx=ffffffff esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=129 rva=00012a96 esp=0031f008 eax=fce00000 ecx=10658fb0 stack=10658fb0,10612a29,10665780,10658fb0,10665780
+last-error=0
+x87-control=ffff027f
+pool-registers seq=129 ebx=3fff1000 esi=00010000 edi=10665780 ebp=0031f088
+state seq=129 heap-begin=008a13c0 heap-first=00000000
+fpu seq=130 rva=00012a29 eax=03200000 edx=ffff0000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=130 rva=00012a29 esp=0031f010 eax=03200000 ecx=fce00000 stack=10665780,10658fb0,10665780,10612a0f,10665780
+last-error=0
+x87-control=ffff027f
+pool-registers seq=130 ebx=3fff1000 esi=10658fb0 edi=10665780 ebp=0031f088
+state seq=130 heap-begin=008a13c0 heap-first=00000000
+fpu seq=131 rva=00012a51 eax=03200000 edx=00000000 esp=0031f004 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=131 esp=0031f004 address=00000000 bytes=03200000 kind=00102000 protection=00000004 provider=7bb7e528 error=0
+trap seq=131 rva=00012a51 esp=0031f004 eax=03200000 ecx=00102000 stack=00000000,03200000,00102000,00000004,10658fb0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=131 ebx=3fff1000 esi=10658fb0 edi=10665780 ebp=0031f088
+state seq=131 heap-begin=008a13c0 heap-first=00000000
+fpu seq=132 rva=00012a57 eax=1ce00000 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=132 esp=0031f014 before-esp=0031f004 result=1ce00000 error=0 before-error=0
+arena-region base=1ce00000 allocation=1ce00000 allocation-protect=00000004 bytes=03200000 state=00002000 protect=00000000 type=00020000
+trap seq=132 rva=00012a57 esp=0031f014 eax=1ce00000 ecx=7bcfbeac stack=10658fb0,10665780,10612a0f,10665780,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=132 ebx=3fff1000 esi=10658fb0 edi=10665780 ebp=0031f088
+state seq=132 heap-begin=008a13c0 heap-first=00000000
+fpu seq=133 rva=00012ab2 eax=1ce00000 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=133 rva=00012ab2 esp=0031f010 eax=1ce00000 ecx=10658fb0 stack=10612a70,10658fb0,10665780,10612a0f,10665780
+last-error=0
+x87-control=ffff027f
+pool-registers seq=133 ebx=3fff1000 esi=10658fb0 edi=10665780 ebp=0031f088
+state seq=133 heap-begin=008a13c0 heap-first=00000000
+fpu seq=134 rva=00012a70 eax=1ce00000 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=134 rva=00012a70 esp=0031f014 eax=1ce00000 ecx=10658fb0 stack=10658fb0,10665780,10612a0f,10665780,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=134 ebx=3fff1000 esi=10658fb0 edi=10665780 ebp=0031f088
+state seq=134 heap-begin=008a13c0 heap-first=00000000
+fpu seq=135 rva=00012a0f eax=00000001 edx=00000000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=135 rva=00012a0f esp=0031f028 eax=00000001 ecx=10658fb0 stack=0000000b,0031f0a0,106129a1,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=135 ebx=3fff1000 esi=10665780 edi=10658fb0 ebp=0031f088
+state seq=135 heap-begin=008a13c0 heap-first=00000000
+fpu seq=136 rva=00012a18 eax=00000000 edx=00000000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=136 rva=00012a18 esp=0031f028 eax=00000000 ecx=10658fd0 stack=106129bc,10665794,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=136 ebx=3fff1001 esi=10665794 edi=10658fd0 ebp=0031f088
+state seq=136 heap-begin=008a13c0 heap-first=00000000
+fpu seq=137 rva=00012a7a eax=00000000 edx=00000000 esp=0031f018 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=137 rva=00012a7a esp=0031f018 eax=00000000 ecx=10658fd0 stack=10612a29,10665794,10658fd0,10665794,106129bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=137 ebx=3fff1001 esi=10658fd0 edi=10665794 ebp=0031f088
+state seq=137 heap-begin=008a13c0 heap-first=00000000
+fpu seq=138 rva=00012a7f eax=10665794 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=138 rva=00012a7f esp=0031f014 eax=10665794 ecx=10658fd0 stack=10658fd0,10612a29,10665794,10658fd0,10665794
+last-error=0
+x87-control=ffff027f
+pool-registers seq=138 ebx=3fff1001 esi=10658fd0 edi=10665794 ebp=0031f088
+state seq=138 heap-begin=008a13c0 heap-first=00000000
+fpu seq=139 rva=00012a85 eax=10665794 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=139 rva=00012a85 esp=0031f014 eax=10665794 ecx=10658fd0 stack=10658fd0,10612a29,10665794,10658fd0,10665794
+last-error=0
+x87-control=ffff027f
+pool-registers seq=139 ebx=3fff1001 esi=00008000 edi=10665794 ebp=0031f088
+state seq=139 heap-begin=008a13c0 heap-first=00000000
+fpu seq=140 rva=00012a8b eax=10665794 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=140 rva=00012a8b esp=0031f014 eax=10665794 ecx=10658fd0 stack=10658fd0,10612a29,10665794,10658fd0,10665794
+last-error=0
+x87-control=ffff027f
+pool-registers seq=140 ebx=3fff1001 esi=00008000 edi=10665794 ebp=0031f088
+state seq=140 heap-begin=008a13c0 heap-first=00000000
+fpu seq=141 rva=00012aac eax=10665794 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=141 rva=00012aac esp=0031f010 eax=10665794 ecx=10658fd0 stack=10612a96,10658fd0,10612a29,10665794,10658fd0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=141 ebx=3fff1001 esi=00008000 edi=10665794 ebp=0031f088
+state seq=141 heap-begin=008a13c0 heap-first=00000000
+fpu seq=142 rva=00012a96 eax=ff600000 edx=ffffffff esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=142 rva=00012a96 esp=0031f014 eax=ff600000 ecx=10658fd0 stack=10658fd0,10612a29,10665794,10658fd0,10665794
+last-error=0
+x87-control=ffff027f
+pool-registers seq=142 ebx=3fff1001 esi=00008000 edi=10665794 ebp=0031f088
+state seq=142 heap-begin=008a13c0 heap-first=00000000
+fpu seq=143 rva=00012a29 eax=00a00000 edx=ffff8000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=143 rva=00012a29 esp=0031f01c eax=00a00000 ecx=ff600000 stack=10665794,10658fd0,10665794,106129bc,10665794
+last-error=0
+x87-control=ffff027f
+pool-registers seq=143 ebx=3fff1001 esi=10658fd0 edi=10665794 ebp=0031f088
+state seq=143 heap-begin=008a13c0 heap-first=00000000
+fpu seq=144 rva=00012a51 eax=00a00000 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=144 esp=0031f010 address=00000000 bytes=00a00000 kind=00002000 protection=00000004 provider=7bb7e528 error=0
+trap seq=144 rva=00012a51 esp=0031f010 eax=00a00000 ecx=00002000 stack=00000000,00a00000,00002000,00000004,10658fd0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=144 ebx=3fff1001 esi=10658fd0 edi=10665794 ebp=0031f088
+state seq=144 heap-begin=008a13c0 heap-first=00000000
+fpu seq=145 rva=00012a57 eax=018a0000 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=145 esp=0031f020 before-esp=0031f010 result=018a0000 error=0 before-error=0
+arena-region base=018a0000 allocation=018a0000 allocation-protect=00000004 bytes=00a00000 state=00002000 protect=00000000 type=00020000
+trap seq=145 rva=00012a57 esp=0031f020 eax=018a0000 ecx=7bcfbeac stack=10658fd0,10665794,106129bc,10665794,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=145 ebx=3fff1001 esi=10658fd0 edi=10665794 ebp=0031f088
+state seq=145 heap-begin=008a13c0 heap-first=00000000
+fpu seq=146 rva=00012ab2 eax=018a0000 edx=00000000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=146 rva=00012ab2 esp=0031f01c eax=018a0000 ecx=10658fd0 stack=10612a70,10658fd0,10665794,106129bc,10665794
+last-error=0
+x87-control=ffff027f
+pool-registers seq=146 ebx=3fff1001 esi=10658fd0 edi=10665794 ebp=0031f088
+state seq=146 heap-begin=008a13c0 heap-first=00000000
+fpu seq=147 rva=00012a70 eax=018a0000 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=147 rva=00012a70 esp=0031f020 eax=018a0000 ecx=10658fd0 stack=10658fd0,10665794,106129bc,10665794,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=147 ebx=3fff1001 esi=10658fd0 edi=10665794 ebp=0031f088
+state seq=147 heap-begin=008a13c0 heap-first=00000000
+fpu seq=148 rva=000129bc eax=00000001 edx=00000000 esp=0031f034 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=148 rva=000129bc esp=0031f034 eax=00000001 ecx=10658fd0 stack=0000000b,0031f0a0,3fff1000,106127f7,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=148 ebx=3fff1001 esi=10665794 edi=10658fd0 ebp=0031f088
+state seq=148 heap-begin=008a13c0 heap-first=00000000
+fpu seq=149 rva=00012a18 eax=00000001 edx=00000000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=149 rva=00012a18 esp=0031f028 eax=00000001 ecx=10658ff0 stack=106129bc,106657a8,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=149 ebx=3fff1001 esi=106657a8 edi=10658ff0 ebp=0031f088
+state seq=149 heap-begin=008a13c0 heap-first=00000000
+fpu seq=150 rva=00012a7a eax=00000001 edx=00000000 esp=0031f018 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=150 rva=00012a7a esp=0031f018 eax=00000001 ecx=10658ff0 stack=10612a29,106657a8,10658ff0,106657a8,106129bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=150 ebx=3fff1001 esi=10658ff0 edi=106657a8 ebp=0031f088
+state seq=150 heap-begin=008a13c0 heap-first=00000000
+fpu seq=151 rva=00012a7f eax=106657a8 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=151 rva=00012a7f esp=0031f014 eax=106657a8 ecx=10658ff0 stack=10658ff0,10612a29,106657a8,10658ff0,106657a8
+last-error=0
+x87-control=ffff027f
+pool-registers seq=151 ebx=3fff1001 esi=10658ff0 edi=106657a8 ebp=0031f088
+state seq=151 heap-begin=008a13c0 heap-first=00000000
+fpu seq=152 rva=00012a85 eax=106657a8 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=152 rva=00012a85 esp=0031f014 eax=106657a8 ecx=10658ff0 stack=10658ff0,10612a29,106657a8,10658ff0,106657a8
+last-error=0
+x87-control=ffff027f
+pool-registers seq=152 ebx=3fff1001 esi=00008000 edi=106657a8 ebp=0031f088
+state seq=152 heap-begin=008a13c0 heap-first=00000000
+fpu seq=153 rva=00012a8b eax=106657a8 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=153 rva=00012a8b esp=0031f014 eax=106657a8 ecx=10658ff0 stack=10658ff0,10612a29,106657a8,10658ff0,106657a8
+last-error=0
+x87-control=ffff027f
+pool-registers seq=153 ebx=3fff1001 esi=00008000 edi=106657a8 ebp=0031f088
+state seq=153 heap-begin=008a13c0 heap-first=00000000
+fpu seq=154 rva=00012aac eax=106657a8 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=154 rva=00012aac esp=0031f010 eax=106657a8 ecx=10658ff0 stack=10612a96,10658ff0,10612a29,106657a8,10658ff0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=154 ebx=3fff1001 esi=00008000 edi=106657a8 ebp=0031f088
+state seq=154 heap-begin=008a13c0 heap-first=00000000
+fpu seq=155 rva=00012a96 eax=ff600000 edx=ffffffff esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=155 rva=00012a96 esp=0031f014 eax=ff600000 ecx=10658ff0 stack=10658ff0,10612a29,106657a8,10658ff0,106657a8
+last-error=0
+x87-control=ffff027f
+pool-registers seq=155 ebx=3fff1001 esi=00008000 edi=106657a8 ebp=0031f088
+state seq=155 heap-begin=008a13c0 heap-first=00000000
+fpu seq=156 rva=00012a29 eax=00a00000 edx=ffff8000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=156 rva=00012a29 esp=0031f01c eax=00a00000 ecx=ff600000 stack=106657a8,10658ff0,106657a8,106129bc,106657a8
+last-error=0
+x87-control=ffff027f
+pool-registers seq=156 ebx=3fff1001 esi=10658ff0 edi=106657a8 ebp=0031f088
+state seq=156 heap-begin=008a13c0 heap-first=00000000
+fpu seq=157 rva=00012a51 eax=00a00000 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=157 esp=0031f010 address=00000000 bytes=00a00000 kind=00002000 protection=00000004 provider=7bb7e528 error=0
+trap seq=157 rva=00012a51 esp=0031f010 eax=00a00000 ecx=00002000 stack=00000000,00a00000,00002000,00000004,10658ff0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=157 ebx=3fff1001 esi=10658ff0 edi=106657a8 ebp=0031f088
+state seq=157 heap-begin=008a13c0 heap-first=00000000
+fpu seq=158 rva=00012a57 eax=022a0000 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=158 esp=0031f020 before-esp=0031f010 result=022a0000 error=0 before-error=0
+arena-region base=022a0000 allocation=022a0000 allocation-protect=00000004 bytes=00a00000 state=00002000 protect=00000000 type=00020000
+trap seq=158 rva=00012a57 esp=0031f020 eax=022a0000 ecx=7bcfbeac stack=10658ff0,106657a8,106129bc,106657a8,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=158 ebx=3fff1001 esi=10658ff0 edi=106657a8 ebp=0031f088
+state seq=158 heap-begin=008a13c0 heap-first=00000000
+fpu seq=159 rva=00012ab2 eax=022a0000 edx=00000000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=159 rva=00012ab2 esp=0031f01c eax=022a0000 ecx=10658ff0 stack=10612a70,10658ff0,106657a8,106129bc,106657a8
+last-error=0
+x87-control=ffff027f
+pool-registers seq=159 ebx=3fff1001 esi=10658ff0 edi=106657a8 ebp=0031f088
+state seq=159 heap-begin=008a13c0 heap-first=00000000
+fpu seq=160 rva=00012a70 eax=022a0000 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=160 rva=00012a70 esp=0031f020 eax=022a0000 ecx=10658ff0 stack=10658ff0,106657a8,106129bc,106657a8,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=160 ebx=3fff1001 esi=10658ff0 edi=106657a8 ebp=0031f088
+state seq=160 heap-begin=008a13c0 heap-first=00000000
+fpu seq=161 rva=000129bc eax=00000001 edx=00000000 esp=0031f034 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=161 rva=000129bc esp=0031f034 eax=00000001 ecx=10658ff0 stack=0000000b,0031f0a0,3fff1000,106127f7,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=161 ebx=3fff1001 esi=106657a8 edi=10658ff0 ebp=0031f088
+state seq=161 heap-begin=008a13c0 heap-first=00000000
+fpu seq=162 rva=00012a18 eax=00000001 edx=00000000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=162 rva=00012a18 esp=0031f028 eax=00000001 ecx=10659010 stack=106129bc,106657bc,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=162 ebx=3fff1001 esi=106657bc edi=10659010 ebp=0031f088
+state seq=162 heap-begin=008a13c0 heap-first=00000000
+fpu seq=163 rva=00012a7a eax=00000001 edx=00000000 esp=0031f018 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=163 rva=00012a7a esp=0031f018 eax=00000001 ecx=10659010 stack=10612a29,106657bc,10659010,106657bc,106129bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=163 ebx=3fff1001 esi=10659010 edi=106657bc ebp=0031f088
+state seq=163 heap-begin=008a13c0 heap-first=00000000
+fpu seq=164 rva=00012a7f eax=106657bc edx=00000000 esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=164 rva=00012a7f esp=0031f014 eax=106657bc ecx=10659010 stack=10659010,10612a29,106657bc,10659010,106657bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=164 ebx=3fff1001 esi=10659010 edi=106657bc ebp=0031f088
+state seq=164 heap-begin=008a13c0 heap-first=00000000
+fpu seq=165 rva=00012a85 eax=106657bc edx=00000000 esp=0031f014 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=165 rva=00012a85 esp=0031f014 eax=106657bc ecx=10659010 stack=10659010,10612a29,106657bc,10659010,106657bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=165 ebx=3fff1001 esi=00004000 edi=106657bc ebp=0031f088
+state seq=165 heap-begin=008a13c0 heap-first=00000000
+fpu seq=166 rva=00012a8b eax=106657bc edx=00000000 esp=0031f014 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=166 rva=00012a8b esp=0031f014 eax=106657bc ecx=10659010 stack=10659010,10612a29,106657bc,10659010,106657bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=166 ebx=3fff1001 esi=00004000 edi=106657bc ebp=0031f088
+state seq=166 heap-begin=008a13c0 heap-first=00000000
+fpu seq=167 rva=00012aac eax=106657bc edx=00000000 esp=0031f010 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=167 rva=00012aac esp=0031f010 eax=106657bc ecx=10659010 stack=10612a96,10659010,10612a29,106657bc,10659010
+last-error=0
+x87-control=ffff027f
+pool-registers seq=167 ebx=3fff1001 esi=00004000 edi=106657bc ebp=0031f088
+state seq=167 heap-begin=008a13c0 heap-first=00000000
+fpu seq=168 rva=00012a96 eax=ffb00000 edx=ffffffff esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=168 rva=00012a96 esp=0031f014 eax=ffb00000 ecx=10659010 stack=10659010,10612a29,106657bc,10659010,106657bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=168 ebx=3fff1001 esi=00004000 edi=106657bc ebp=0031f088
+state seq=168 heap-begin=008a13c0 heap-first=00000000
+fpu seq=169 rva=00012a29 eax=00500000 edx=ffffc000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=169 rva=00012a29 esp=0031f01c eax=00500000 ecx=ffb00000 stack=106657bc,10659010,106657bc,106129bc,106657bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=169 ebx=3fff1001 esi=10659010 edi=106657bc ebp=0031f088
+state seq=169 heap-begin=008a13c0 heap-first=00000000
+fpu seq=170 rva=00012a51 eax=00500000 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=170 esp=0031f010 address=00000000 bytes=00500000 kind=00002000 protection=00000004 provider=7bb7e528 error=0
+trap seq=170 rva=00012a51 esp=0031f010 eax=00500000 ecx=00002000 stack=00000000,00500000,00002000,00000004,10659010
+last-error=0
+x87-control=ffff027f
+pool-registers seq=170 ebx=3fff1001 esi=10659010 edi=106657bc ebp=0031f088
+state seq=170 heap-begin=008a13c0 heap-first=00000000
+fpu seq=171 rva=00012a57 eax=02ca0000 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=171 esp=0031f020 before-esp=0031f010 result=02ca0000 error=0 before-error=0
+arena-region base=02ca0000 allocation=02ca0000 allocation-protect=00000004 bytes=00500000 state=00002000 protect=00000000 type=00020000
+trap seq=171 rva=00012a57 esp=0031f020 eax=02ca0000 ecx=7bcfbeac stack=10659010,106657bc,106129bc,106657bc,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=171 ebx=3fff1001 esi=10659010 edi=106657bc ebp=0031f088
+state seq=171 heap-begin=008a13c0 heap-first=00000000
+fpu seq=172 rva=00012ab2 eax=02ca0000 edx=00000000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=172 rva=00012ab2 esp=0031f01c eax=02ca0000 ecx=10659010 stack=10612a70,10659010,106657bc,106129bc,106657bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=172 ebx=3fff1001 esi=10659010 edi=106657bc ebp=0031f088
+state seq=172 heap-begin=008a13c0 heap-first=00000000
+fpu seq=173 rva=00012a70 eax=02ca0000 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=173 rva=00012a70 esp=0031f020 eax=02ca0000 ecx=10659010 stack=10659010,106657bc,106129bc,106657bc,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=173 ebx=3fff1001 esi=10659010 edi=106657bc ebp=0031f088
+state seq=173 heap-begin=008a13c0 heap-first=00000000
+fpu seq=174 rva=000129bc eax=00000001 edx=00000000 esp=0031f034 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=174 rva=000129bc esp=0031f034 eax=00000001 ecx=10659010 stack=0000000b,0031f0a0,3fff1000,106127f7,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=174 ebx=3fff1001 esi=106657bc edi=10659010 ebp=0031f088
+state seq=174 heap-begin=008a13c0 heap-first=00000000
+fpu seq=175 rva=00012a18 eax=00000001 edx=00000000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=175 rva=00012a18 esp=0031f028 eax=00000001 ecx=10659030 stack=106129bc,106657d0,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=175 ebx=3fff1001 esi=106657d0 edi=10659030 ebp=0031f088
+state seq=175 heap-begin=008a13c0 heap-first=00000000
+fpu seq=176 rva=00012a7a eax=00000001 edx=00000000 esp=0031f018 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=176 rva=00012a7a esp=0031f018 eax=00000001 ecx=10659030 stack=10612a29,106657d0,10659030,106657d0,106129bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=176 ebx=3fff1001 esi=10659030 edi=106657d0 ebp=0031f088
+state seq=176 heap-begin=008a13c0 heap-first=00000000
+fpu seq=177 rva=00012a7f eax=106657d0 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=177 rva=00012a7f esp=0031f014 eax=106657d0 ecx=10659030 stack=10659030,10612a29,106657d0,10659030,106657d0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=177 ebx=3fff1001 esi=10659030 edi=106657d0 ebp=0031f088
+state seq=177 heap-begin=008a13c0 heap-first=00000000
+fpu seq=178 rva=00012a85 eax=106657d0 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=178 rva=00012a85 esp=0031f014 eax=106657d0 ecx=10659030 stack=10659030,10612a29,106657d0,10659030,106657d0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=178 ebx=3fff1001 esi=00008000 edi=106657d0 ebp=0031f088
+state seq=178 heap-begin=008a13c0 heap-first=00000000
+fpu seq=179 rva=00012a8b eax=106657d0 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=179 rva=00012a8b esp=0031f014 eax=106657d0 ecx=10659030 stack=10659030,10612a29,106657d0,10659030,106657d0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=179 ebx=3fff1001 esi=00008000 edi=106657d0 ebp=0031f088
+state seq=179 heap-begin=008a13c0 heap-first=00000000
+fpu seq=180 rva=00012aac eax=106657d0 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=180 rva=00012aac esp=0031f010 eax=106657d0 ecx=10659030 stack=10612a96,10659030,10612a29,106657d0,10659030
+last-error=0
+x87-control=ffff027f
+pool-registers seq=180 ebx=3fff1001 esi=00008000 edi=106657d0 ebp=0031f088
+state seq=180 heap-begin=008a13c0 heap-first=00000000
+fpu seq=181 rva=00012a96 eax=ffb00000 edx=ffffffff esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=181 rva=00012a96 esp=0031f014 eax=ffb00000 ecx=10659030 stack=10659030,10612a29,106657d0,10659030,106657d0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=181 ebx=3fff1001 esi=00008000 edi=106657d0 ebp=0031f088
+state seq=181 heap-begin=008a13c0 heap-first=00000000
+fpu seq=182 rva=00012a29 eax=00500000 edx=ffff8000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=182 rva=00012a29 esp=0031f01c eax=00500000 ecx=ffb00000 stack=106657d0,10659030,106657d0,106129bc,106657d0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=182 ebx=3fff1001 esi=10659030 edi=106657d0 ebp=0031f088
+state seq=182 heap-begin=008a13c0 heap-first=00000000
+fpu seq=183 rva=00012a51 eax=00500000 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=183 esp=0031f010 address=00000000 bytes=00500000 kind=00002000 protection=00000004 provider=7bb7e528 error=0
+trap seq=183 rva=00012a51 esp=0031f010 eax=00500000 ecx=00002000 stack=00000000,00500000,00002000,00000004,10659030
+last-error=0
+x87-control=ffff027f
+pool-registers seq=183 ebx=3fff1001 esi=10659030 edi=106657d0 ebp=0031f088
+state seq=183 heap-begin=008a13c0 heap-first=00000000
+fpu seq=184 rva=00012a57 eax=031a0000 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=184 esp=0031f020 before-esp=0031f010 result=031a0000 error=0 before-error=0
+arena-region base=031a0000 allocation=031a0000 allocation-protect=00000004 bytes=00500000 state=00002000 protect=00000000 type=00020000
+trap seq=184 rva=00012a57 esp=0031f020 eax=031a0000 ecx=7bcfbeac stack=10659030,106657d0,106129bc,106657d0,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=184 ebx=3fff1001 esi=10659030 edi=106657d0 ebp=0031f088
+state seq=184 heap-begin=008a13c0 heap-first=00000000
+fpu seq=185 rva=00012ab2 eax=031a0000 edx=00000000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=185 rva=00012ab2 esp=0031f01c eax=031a0000 ecx=10659030 stack=10612a70,10659030,106657d0,106129bc,106657d0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=185 ebx=3fff1001 esi=10659030 edi=106657d0 ebp=0031f088
+state seq=185 heap-begin=008a13c0 heap-first=00000000
+fpu seq=186 rva=00012a70 eax=031a0000 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=186 rva=00012a70 esp=0031f020 eax=031a0000 ecx=10659030 stack=10659030,106657d0,106129bc,106657d0,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=186 ebx=3fff1001 esi=10659030 edi=106657d0 ebp=0031f088
+state seq=186 heap-begin=008a13c0 heap-first=00000000
+fpu seq=187 rva=000129bc eax=00000001 edx=00000000 esp=0031f034 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=187 rva=000129bc esp=0031f034 eax=00000001 ecx=10659030 stack=0000000b,0031f0a0,3fff1000,106127f7,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=187 ebx=3fff1001 esi=106657d0 edi=10659030 ebp=0031f088
+state seq=187 heap-begin=008a13c0 heap-first=00000000
+fpu seq=188 rva=00012a18 eax=00000001 edx=00000000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=188 rva=00012a18 esp=0031f028 eax=00000001 ecx=10659050 stack=106129bc,106657e4,00000000,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=188 ebx=3fff1001 esi=106657e4 edi=10659050 ebp=0031f088
+state seq=188 heap-begin=008a13c0 heap-first=00000000
+fpu seq=189 rva=00012a7a eax=00000001 edx=00000000 esp=0031f018 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=189 rva=00012a7a esp=0031f018 eax=00000001 ecx=10659050 stack=10612a29,106657e4,10659050,106657e4,106129bc
+last-error=0
+x87-control=ffff027f
+pool-registers seq=189 ebx=3fff1001 esi=10659050 edi=106657e4 ebp=0031f088
+state seq=189 heap-begin=008a13c0 heap-first=00000000
+fpu seq=190 rva=00012a7f eax=106657e4 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=190 rva=00012a7f esp=0031f014 eax=106657e4 ecx=10659050 stack=10659050,10612a29,106657e4,10659050,106657e4
+last-error=0
+x87-control=ffff027f
+pool-registers seq=190 ebx=3fff1001 esi=10659050 edi=106657e4 ebp=0031f088
+state seq=190 heap-begin=008a13c0 heap-first=00000000
+fpu seq=191 rva=00012a85 eax=106657e4 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=191 rva=00012a85 esp=0031f014 eax=106657e4 ecx=10659050 stack=10659050,10612a29,106657e4,10659050,106657e4
+last-error=0
+x87-control=ffff027f
+pool-registers seq=191 ebx=3fff1001 esi=00008000 edi=106657e4 ebp=0031f088
+state seq=191 heap-begin=008a13c0 heap-first=00000000
+fpu seq=192 rva=00012a8b eax=106657e4 edx=00000000 esp=0031f014 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=192 rva=00012a8b esp=0031f014 eax=106657e4 ecx=10659050 stack=10659050,10612a29,106657e4,10659050,106657e4
+last-error=0
+x87-control=ffff027f
+pool-registers seq=192 ebx=3fff1001 esi=00008000 edi=106657e4 ebp=0031f088
+state seq=192 heap-begin=008a13c0 heap-first=00000000
+fpu seq=193 rva=00012aac eax=106657e4 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff3820 tag=ffff3fff
+trap seq=193 rva=00012aac esp=0031f010 eax=106657e4 ecx=10659050 stack=10612a96,10659050,10612a29,106657e4,10659050
+last-error=0
+x87-control=ffff027f
+pool-registers seq=193 ebx=3fff1001 esi=00008000 edi=106657e4 ebp=0031f088
+state seq=193 heap-begin=008a13c0 heap-first=00000000
+fpu seq=194 rva=00012a96 eax=ffb00000 edx=ffffffff esp=0031f014 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=194 rva=00012a96 esp=0031f014 eax=ffb00000 ecx=10659050 stack=10659050,10612a29,106657e4,10659050,106657e4
+last-error=0
+x87-control=ffff027f
+pool-registers seq=194 ebx=3fff1001 esi=00008000 edi=106657e4 ebp=0031f088
+state seq=194 heap-begin=008a13c0 heap-first=00000000
+fpu seq=195 rva=00012a29 eax=00500000 edx=ffff8000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=195 rva=00012a29 esp=0031f01c eax=00500000 ecx=ffb00000 stack=106657e4,10659050,106657e4,106129bc,106657e4
+last-error=0
+x87-control=ffff027f
+pool-registers seq=195 ebx=3fff1001 esi=10659050 edi=106657e4 ebp=0031f088
+state seq=195 heap-begin=008a13c0 heap-first=00000000
+fpu seq=196 rva=00012a51 eax=00500000 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-before seq=196 esp=0031f010 address=00000000 bytes=00500000 kind=00002000 protection=00000004 provider=7bb7e528 error=0
+trap seq=196 rva=00012a51 esp=0031f010 eax=00500000 ecx=00002000 stack=00000000,00500000,00002000,00000004,10659050
+last-error=0
+x87-control=ffff027f
+pool-registers seq=196 ebx=3fff1001 esi=10659050 edi=106657e4 ebp=0031f088
+state seq=196 heap-begin=008a13c0 heap-first=00000000
+fpu seq=197 rva=00012a57 eax=036a0000 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+arena-allocation-after seq=197 esp=0031f020 before-esp=0031f010 result=036a0000 error=0 before-error=0
+arena-region base=036a0000 allocation=036a0000 allocation-protect=00000004 bytes=00500000 state=00002000 protect=00000000 type=00020000
+trap seq=197 rva=00012a57 esp=0031f020 eax=036a0000 ecx=7bcfbeac stack=10659050,106657e4,106129bc,106657e4,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=197 ebx=3fff1001 esi=10659050 edi=106657e4 ebp=0031f088
+state seq=197 heap-begin=008a13c0 heap-first=00000000
+fpu seq=198 rva=00012ab2 eax=036a0000 edx=00000000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=198 rva=00012ab2 esp=0031f01c eax=036a0000 ecx=10659050 stack=10612a70,10659050,106657e4,106129bc,106657e4
+last-error=0
+x87-control=ffff027f
+pool-registers seq=198 ebx=3fff1001 esi=10659050 edi=106657e4 ebp=0031f088
+state seq=198 heap-begin=008a13c0 heap-first=00000000
+fpu seq=199 rva=00012a70 eax=036a0000 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=199 rva=00012a70 esp=0031f020 eax=036a0000 ecx=10659050 stack=10659050,106657e4,106129bc,106657e4,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=199 ebx=3fff1001 esi=10659050 edi=106657e4 ebp=0031f088
+state seq=199 heap-begin=008a13c0 heap-first=00000000
+fpu seq=200 rva=000129bc eax=00000001 edx=00000000 esp=0031f034 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=200 rva=000129bc esp=0031f034 eax=00000001 ecx=10659050 stack=0000000b,0031f0a0,3fff1000,106127f7,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=200 ebx=3fff1001 esi=106657e4 edi=10659050 ebp=0031f088
+state seq=200 heap-begin=008a13c0 heap-first=00000000
+fpu seq=201 rva=00012ac3 eax=00000001 edx=00000000 esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=201 rva=00012ac3 esp=0031f030 eax=00000001 ecx=10659050 stack=106129d7,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=201 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=201 heap-begin=008a13c0 heap-first=00000000
+fpu seq=202 rva=00012b30 eax=00000001 edx=00000000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=202 rva=00012b30 esp=0031f028 eax=00000001 ecx=10654dc0 stack=10612acf,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=202 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=202 heap-begin=008a13c0 heap-first=00000000
+fpu seq=203 rva=0000aa9c eax=10658fb0 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=203 rva=0000aa9c esp=0031f020 eax=10658fb0 ecx=10654dc0 stack=10612b46,00000001,10612acf,00000000,106129d7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=203 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=203 heap-begin=008a13c0 heap-first=00000000
+fpu seq=204 rva=0000aacb eax=00000001 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=204 rva=0000aacb esp=0031f010 eax=00000001 ecx=10658fb0 stack=1060aac5,00000001,10654dc4,106657f8,10612b46
+last-error=0
+x87-control=ffff027f
+pool-registers seq=204 ebx=3fff1001 esi=10654dc0 edi=10659070 ebp=0031f088
+state seq=204 heap-begin=008a13c0 heap-first=00000000
+fpu seq=205 rva=00009883 eax=1ce01000 edx=1ce00000 esp=0031f004 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=205 rva=00009883 esp=0031f004 eax=1ce01000 ecx=10658fb0 stack=1060ab12,10659070,10654dc0,1060aac5,00000001
+last-error=0
+x87-control=ffff027f
+pool-registers seq=205 ebx=3fff1001 esi=1ce00000 edi=1ce01000 ebp=0031f088
+state seq=205 heap-begin=008a13c0 heap-first=00000000
+fpu seq=206 rva=000098b9 eax=ffff0000 edx=1ce01000 esp=0031efec cw=ffff027f sw=ffff0020 tag=ffffffff
+pool-commit-before seq=206 esp=0031efec address=1ce00000 bytes=00010000 kind=00001000 protection=00000004 provider=7bb7e528 error=0
+trap seq=206 rva=000098b9 esp=0031efec eax=ffff0000 ecx=1ce00000 stack=1ce00000,00010000,00001000,00000004,1ce01000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=206 ebx=3fff1001 esi=00010000 edi=10658fb0 ebp=0031f088
+state seq=206 heap-begin=008a13c0 heap-first=00000000
+fpu seq=207 rva=000098bf eax=1ce00000 edx=00000000 esp=0031effc cw=ffff027f sw=ffff0020 tag=ffffffff
+pool-commit-after seq=207 esp=0031effc before-esp=0031efec result=1ce00000 error=0 before-error=0
+pool-commit-region part=0 base=1ce00000 allocation=1ce00000 allocation-protect=00000004 bytes=00010000 state=00001000 protect=00000004 type=00020000
+pool-commit-region part=1 base=1ce10000 allocation=1ce00000 allocation-protect=00000004 bytes=031f0000 state=00002000 protect=00000000 type=00020000
+trap seq=207 rva=000098bf esp=0031effc eax=1ce00000 ecx=7bcfbeac stack=1ce01000,1ce00000,1060ab12,10659070,10654dc0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=207 ebx=3fff1001 esi=00010000 edi=10658fb0 ebp=0031f088
+state seq=207 heap-begin=008a13c0 heap-first=00000000
+fpu seq=208 rva=0000ab12 eax=00010000 edx=00000000 esp=0031f008 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=208 rva=0000ab12 esp=0031f008 eax=00010000 ecx=1ce10000 stack=10659070,10654dc0,1060aac5,00000001,10654dc4
+last-error=0
+x87-control=ffff027f
+pool-registers seq=208 ebx=3fff1001 esi=1ce00000 edi=1ce01000 ebp=0031f088
+state seq=208 heap-begin=008a13c0 heap-first=00000000
+fpu seq=209 rva=0000aac5 eax=1ce00000 edx=00000000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=209 rva=0000aac5 esp=0031f01c eax=1ce00000 ecx=1ce10000 stack=106657f8,10612b46,00000001,10612acf,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=209 ebx=3fff1001 esi=10654dc0 edi=10659070 ebp=0031f088
+state seq=209 heap-begin=008a13c0 heap-first=00000000
+fpu seq=210 rva=00012b46 eax=1ce00000 edx=00000000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=210 rva=00012b46 esp=0031f028 eax=1ce00000 ecx=1ce10000 stack=10612acf,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=210 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=210 heap-begin=008a13c0 heap-first=00000000
+fpu seq=211 rva=00012acf eax=1ce00000 edx=00000000 esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=211 rva=00012acf esp=0031f030 eax=1ce00000 ecx=1ce10000 stack=106129d7,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=211 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=211 heap-begin=008a13c0 heap-first=00000000
+fpu seq=212 rva=00012b30 eax=1ce00000 edx=00000000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=212 rva=00012b30 esp=0031f028 eax=1ce00000 ecx=106550b0 stack=10612adb,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=212 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=212 heap-begin=008a13c0 heap-first=00000000
+fpu seq=213 rva=0000aa9c eax=10658fb0 edx=00000000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=213 rva=0000aa9c esp=0031f020 eax=10658fb0 ecx=106550b0 stack=10612b46,00000001,10612adb,00000000,106129d7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=213 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=213 heap-begin=008a13c0 heap-first=00000000
+fpu seq=214 rva=0000aacb eax=00000001 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=214 rva=0000aacb esp=0031f010 eax=00000001 ecx=10658fb0 stack=1060aac5,00000001,106550b4,106657f8,10612b46
+last-error=0
+x87-control=ffff027f
+pool-registers seq=214 ebx=3fff1001 esi=106550b0 edi=10659070 ebp=0031f088
+state seq=214 heap-begin=008a13c0 heap-first=00000000
+fpu seq=215 rva=0000aac5 eax=1ce01000 edx=1ce10000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=215 rva=0000aac5 esp=0031f01c eax=1ce01000 ecx=10658fb0 stack=106657f8,10612b46,00000001,10612adb,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=215 ebx=3fff1001 esi=106550b0 edi=10659070 ebp=0031f088
+state seq=215 heap-begin=008a13c0 heap-first=00000000
+fpu seq=216 rva=00012b46 eax=1ce01000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=216 rva=00012b46 esp=0031f028 eax=1ce01000 ecx=10658fb0 stack=10612adb,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=216 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=216 heap-begin=008a13c0 heap-first=00000000
+fpu seq=217 rva=00012adb eax=1ce01000 edx=1ce10000 esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=217 rva=00012adb esp=0031f030 eax=1ce01000 ecx=10658fb0 stack=106129d7,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=217 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=217 heap-begin=008a13c0 heap-first=00000000
+fpu seq=218 rva=00012b30 eax=1ce01000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=218 rva=00012b30 esp=0031f028 eax=1ce01000 ecx=10655078 stack=10612ae7,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=218 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=218 heap-begin=008a13c0 heap-first=00000000
+fpu seq=219 rva=0000aa9c eax=10658fb0 edx=1ce10000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=219 rva=0000aa9c esp=0031f020 eax=10658fb0 ecx=10655078 stack=10612b46,00000001,10612ae7,00000000,106129d7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=219 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=219 heap-begin=008a13c0 heap-first=00000000
+fpu seq=220 rva=0000aacb eax=00000001 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=220 rva=0000aacb esp=0031f010 eax=00000001 ecx=10658fb0 stack=1060aac5,00000001,1065507c,106657f8,10612b46
+last-error=0
+x87-control=ffff027f
+pool-registers seq=220 ebx=3fff1001 esi=10655078 edi=10659070 ebp=0031f088
+state seq=220 heap-begin=008a13c0 heap-first=00000000
+fpu seq=221 rva=0000aac5 eax=1ce02000 edx=1ce10000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=221 rva=0000aac5 esp=0031f01c eax=1ce02000 ecx=10658fb0 stack=106657f8,10612b46,00000001,10612ae7,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=221 ebx=3fff1001 esi=10655078 edi=10659070 ebp=0031f088
+state seq=221 heap-begin=008a13c0 heap-first=00000000
+fpu seq=222 rva=00012b46 eax=1ce02000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=222 rva=00012b46 esp=0031f028 eax=1ce02000 ecx=10658fb0 stack=10612ae7,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=222 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=222 heap-begin=008a13c0 heap-first=00000000
+fpu seq=223 rva=00012ae7 eax=1ce02000 edx=1ce10000 esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=223 rva=00012ae7 esp=0031f030 eax=1ce02000 ecx=10658fb0 stack=106129d7,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=223 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=223 heap-begin=008a13c0 heap-first=00000000
+fpu seq=224 rva=00012b30 eax=1ce02000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=224 rva=00012b30 esp=0031f028 eax=1ce02000 ecx=10654028 stack=10612af3,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=224 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=224 heap-begin=008a13c0 heap-first=00000000
+fpu seq=225 rva=0000aa9c eax=10658fb0 edx=1ce10000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=225 rva=0000aa9c esp=0031f020 eax=10658fb0 ecx=10654028 stack=10612b46,00000001,10612af3,00000000,106129d7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=225 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=225 heap-begin=008a13c0 heap-first=00000000
+fpu seq=226 rva=0000aacb eax=00000001 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=226 rva=0000aacb esp=0031f010 eax=00000001 ecx=10658fb0 stack=1060aac5,00000001,1065402c,106657f8,10612b46
+last-error=0
+x87-control=ffff027f
+pool-registers seq=226 ebx=3fff1001 esi=10654028 edi=10659070 ebp=0031f088
+state seq=226 heap-begin=008a13c0 heap-first=00000000
+fpu seq=227 rva=0000aac5 eax=1ce03000 edx=1ce10000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=227 rva=0000aac5 esp=0031f01c eax=1ce03000 ecx=10658fb0 stack=106657f8,10612b46,00000001,10612af3,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=227 ebx=3fff1001 esi=10654028 edi=10659070 ebp=0031f088
+state seq=227 heap-begin=008a13c0 heap-first=00000000
+fpu seq=228 rva=00012b46 eax=1ce03000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=228 rva=00012b46 esp=0031f028 eax=1ce03000 ecx=10658fb0 stack=10612af3,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=228 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=228 heap-begin=008a13c0 heap-first=00000000
+fpu seq=229 rva=00012af3 eax=1ce03000 edx=1ce10000 esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=229 rva=00012af3 esp=0031f030 eax=1ce03000 ecx=10658fb0 stack=106129d7,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=229 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=229 heap-begin=008a13c0 heap-first=00000000
+fpu seq=230 rva=00012b30 eax=1ce03000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=230 rva=00012b30 esp=0031f028 eax=1ce03000 ecx=10653d80 stack=10612aff,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=230 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=230 heap-begin=008a13c0 heap-first=00000000
+fpu seq=231 rva=0000aa9c eax=10658fb0 edx=1ce10000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=231 rva=0000aa9c esp=0031f020 eax=10658fb0 ecx=10653d80 stack=10612b46,00000001,10612aff,00000000,106129d7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=231 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=231 heap-begin=008a13c0 heap-first=00000000
+fpu seq=232 rva=0000aacb eax=00000001 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=232 rva=0000aacb esp=0031f010 eax=00000001 ecx=10658fb0 stack=1060aac5,00000001,10653d84,106657f8,10612b46
+last-error=0
+x87-control=ffff027f
+pool-registers seq=232 ebx=3fff1001 esi=10653d80 edi=10659070 ebp=0031f088
+state seq=232 heap-begin=008a13c0 heap-first=00000000
+fpu seq=233 rva=0000aac5 eax=1ce04000 edx=1ce10000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=233 rva=0000aac5 esp=0031f01c eax=1ce04000 ecx=10658fb0 stack=106657f8,10612b46,00000001,10612aff,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=233 ebx=3fff1001 esi=10653d80 edi=10659070 ebp=0031f088
+state seq=233 heap-begin=008a13c0 heap-first=00000000
+fpu seq=234 rva=00012b46 eax=1ce04000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=234 rva=00012b46 esp=0031f028 eax=1ce04000 ecx=10658fb0 stack=10612aff,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=234 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=234 heap-begin=008a13c0 heap-first=00000000
+fpu seq=235 rva=00012aff eax=1ce04000 edx=1ce10000 esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=235 rva=00012aff esp=0031f030 eax=1ce04000 ecx=10658fb0 stack=106129d7,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=235 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=235 heap-begin=008a13c0 heap-first=00000000
+fpu seq=236 rva=00012b30 eax=1ce04000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=236 rva=00012b30 esp=0031f028 eax=1ce04000 ecx=10654c98 stack=10612b0b,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=236 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=236 heap-begin=008a13c0 heap-first=00000000
+fpu seq=237 rva=0000aa9c eax=10658fb0 edx=1ce10000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=237 rva=0000aa9c esp=0031f020 eax=10658fb0 ecx=10654c98 stack=10612b46,00000001,10612b0b,00000000,106129d7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=237 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=237 heap-begin=008a13c0 heap-first=00000000
+fpu seq=238 rva=0000aacb eax=00000001 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=238 rva=0000aacb esp=0031f010 eax=00000001 ecx=10658fb0 stack=1060aac5,00000001,10654c9c,106657f8,10612b46
+last-error=0
+x87-control=ffff027f
+pool-registers seq=238 ebx=3fff1001 esi=10654c98 edi=10659070 ebp=0031f088
+state seq=238 heap-begin=008a13c0 heap-first=00000000
+fpu seq=239 rva=0000aac5 eax=1ce05000 edx=1ce10000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=239 rva=0000aac5 esp=0031f01c eax=1ce05000 ecx=10658fb0 stack=106657f8,10612b46,00000001,10612b0b,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=239 ebx=3fff1001 esi=10654c98 edi=10659070 ebp=0031f088
+state seq=239 heap-begin=008a13c0 heap-first=00000000
+fpu seq=240 rva=00012b46 eax=1ce05000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=240 rva=00012b46 esp=0031f028 eax=1ce05000 ecx=10658fb0 stack=10612b0b,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=240 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=240 heap-begin=008a13c0 heap-first=00000000
+fpu seq=241 rva=00012b0b eax=1ce05000 edx=1ce10000 esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=241 rva=00012b0b esp=0031f030 eax=1ce05000 ecx=10658fb0 stack=106129d7,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=241 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=241 heap-begin=008a13c0 heap-first=00000000
+fpu seq=242 rva=00012b30 eax=1ce05000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=242 rva=00012b30 esp=0031f028 eax=1ce05000 ecx=10654b18 stack=10612b17,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=242 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=242 heap-begin=008a13c0 heap-first=00000000
+fpu seq=243 rva=0000aa9c eax=10658fb0 edx=1ce10000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=243 rva=0000aa9c esp=0031f020 eax=10658fb0 ecx=10654b18 stack=10612b46,00000001,10612b17,00000000,106129d7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=243 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=243 heap-begin=008a13c0 heap-first=00000000
+fpu seq=244 rva=0000aacb eax=00000001 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=244 rva=0000aacb esp=0031f010 eax=00000001 ecx=10658fb0 stack=1060aac5,00000001,10654b1c,106657f8,10612b46
+last-error=0
+x87-control=ffff027f
+pool-registers seq=244 ebx=3fff1001 esi=10654b18 edi=10659070 ebp=0031f088
+state seq=244 heap-begin=008a13c0 heap-first=00000000
+fpu seq=245 rva=0000aac5 eax=1ce06000 edx=1ce10000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=245 rva=0000aac5 esp=0031f01c eax=1ce06000 ecx=10658fb0 stack=106657f8,10612b46,00000001,10612b17,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=245 ebx=3fff1001 esi=10654b18 edi=10659070 ebp=0031f088
+state seq=245 heap-begin=008a13c0 heap-first=00000000
+fpu seq=246 rva=00012b46 eax=1ce06000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=246 rva=00012b46 esp=0031f028 eax=1ce06000 ecx=10658fb0 stack=10612b17,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=246 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=246 heap-begin=008a13c0 heap-first=00000000
+fpu seq=247 rva=00012b17 eax=1ce06000 edx=1ce10000 esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=247 rva=00012b17 esp=0031f030 eax=1ce06000 ecx=10658fb0 stack=106129d7,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=247 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=247 heap-begin=008a13c0 heap-first=00000000
+fpu seq=248 rva=00012b30 eax=1ce06000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=248 rva=00012b30 esp=0031f028 eax=1ce06000 ecx=10654a60 stack=10612b23,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=248 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=248 heap-begin=008a13c0 heap-first=00000000
+fpu seq=249 rva=0000aa9c eax=10658fb0 edx=1ce10000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=249 rva=0000aa9c esp=0031f020 eax=10658fb0 ecx=10654a60 stack=10612b46,00000001,10612b23,00000000,106129d7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=249 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=249 heap-begin=008a13c0 heap-first=00000000
+fpu seq=250 rva=0000aacb eax=00000001 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=250 rva=0000aacb esp=0031f010 eax=00000001 ecx=10658fb0 stack=1060aac5,00000001,10654a64,106657f8,10612b46
+last-error=0
+x87-control=ffff027f
+pool-registers seq=250 ebx=3fff1001 esi=10654a60 edi=10659070 ebp=0031f088
+state seq=250 heap-begin=008a13c0 heap-first=00000000
+fpu seq=251 rva=0000aac5 eax=1ce07000 edx=1ce10000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=251 rva=0000aac5 esp=0031f01c eax=1ce07000 ecx=10658fb0 stack=106657f8,10612b46,00000001,10612b23,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=251 ebx=3fff1001 esi=10654a60 edi=10659070 ebp=0031f088
+state seq=251 heap-begin=008a13c0 heap-first=00000000
+fpu seq=252 rva=00012b46 eax=1ce07000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=252 rva=00012b46 esp=0031f028 eax=1ce07000 ecx=10658fb0 stack=10612b23,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=252 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=252 heap-begin=008a13c0 heap-first=00000000
+fpu seq=253 rva=00012b23 eax=1ce07000 edx=1ce10000 esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=253 rva=00012b23 esp=0031f030 eax=1ce07000 ecx=10658fb0 stack=106129d7,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=253 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=253 heap-begin=008a13c0 heap-first=00000000
+fpu seq=254 rva=00012b30 eax=1ce07000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=254 rva=00012b30 esp=0031f028 eax=1ce07000 ecx=10654000 stack=10612b2f,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=254 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=254 heap-begin=008a13c0 heap-first=00000000
+fpu seq=255 rva=0000aa9c eax=10658fb0 edx=1ce10000 esp=0031f020 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=255 rva=0000aa9c esp=0031f020 eax=10658fb0 ecx=10654000 stack=10612b46,00000001,10612b2f,00000000,106129d7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=255 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=255 heap-begin=008a13c0 heap-first=00000000
+fpu seq=256 rva=0000aacb eax=00000001 edx=00000000 esp=0031f010 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=256 rva=0000aacb esp=0031f010 eax=00000001 ecx=10658fb0 stack=1060aac5,00000001,10654004,106657f8,10612b46
+last-error=0
+x87-control=ffff027f
+pool-registers seq=256 ebx=3fff1001 esi=10654000 edi=10659070 ebp=0031f088
+state seq=256 heap-begin=008a13c0 heap-first=00000000
+fpu seq=257 rva=0000aac5 eax=1ce08000 edx=1ce10000 esp=0031f01c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=257 rva=0000aac5 esp=0031f01c eax=1ce08000 ecx=10658fb0 stack=106657f8,10612b46,00000001,10612b2f,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=257 ebx=3fff1001 esi=10654000 edi=10659070 ebp=0031f088
+state seq=257 heap-begin=008a13c0 heap-first=00000000
+fpu seq=258 rva=00012b46 eax=1ce08000 edx=1ce10000 esp=0031f028 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=258 rva=00012b46 esp=0031f028 eax=1ce08000 ecx=10658fb0 stack=10612b2f,00000000,106129d7,0000000b,0031f0a0
+last-error=0
+x87-control=ffff027f
+pool-registers seq=258 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=258 heap-begin=008a13c0 heap-first=00000000
+fpu seq=259 rva=00012b2f eax=1ce08000 edx=1ce10000 esp=0031f030 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=259 rva=00012b2f esp=0031f030 eax=1ce08000 ecx=10658fb0 stack=106129d7,0000000b,0031f0a0,3fff1000,106127f7
+last-error=0
+x87-control=ffff027f
+pool-registers seq=259 ebx=3fff1001 esi=106657f8 edi=10659070 ebp=0031f088
+state seq=259 heap-begin=008a13c0 heap-first=00000000
+fpu seq=260 rva=00012b49 eax=1ce08000 edx=1ce10000 esp=0031f038 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=260 rva=00012b49 esp=0031f038 eax=1ce08000 ecx=10658fb0 stack=106127fe,0000000b,0031f0a0,00000000,00000000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=260 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=260 heap-begin=008a13c0 heap-first=00000000
+fpu seq=261 rva=00012df6 eax=00000000 edx=1ce10000 esp=0031e61c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=261 rva=00012df6 esp=0031e61c eax=00000000 ecx=10658fb0 stack=10612b61,0000000b,0031f0a0,0031f088,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=261 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=261 heap-begin=008a13c0 heap-first=00000000
+fpu seq=262 rva=00012e1c eax=1ce09004 edx=1ce10000 esp=0031e61c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=262 rva=00012e1c esp=0031e61c eax=1ce09004 ecx=1ce10000 stack=10612b66,0000000b,0031f0a0,0031f088,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=262 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+include-aliases seq=262 root=1ce09000 head=00000000 allocation=1ce00000 bytes=00010000
+state seq=262 heap-begin=008a13c0 heap-first=00000000
+checksum-return seq=263 pc=10612b66 esp=0031e620 error=0
+pool-registers seq=263 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=263 heap-begin=008a13c0 heap-first=00000000
+public-entry seq=264 module=MSVCRT.dll name=setlocale provider=78005729 rva=00005729 iat=0005d120 esp=0031e614 return=10612b73 category=2 locale=106601c1 error=0
+pool-registers seq=264 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+locale-state phase=before teb=3ffe2000 tid=1976 tls-index=1 ptd=008a0100 errno=0 doserrno=0 LastError=0
+state seq=264 heap-begin=008a13c0 heap-first=00000000
+public-return seq=265 module=MSVCRT.dll name=setlocale pc=10612b73 esp=0031e618 entry-esp=0031e614 result=008a1540 error=0
+locale-state phase=after teb=3ffe2000 tid=1976 tls-index=1 ptd=008a0100 errno=0 doserrno=0 LastError=0
+state seq=265 heap-begin=008a13c0 heap-first=00000000
+fpu seq=266 rva=00012f08 eax=008a1540 edx=00000001 esp=0031e61c cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=266 rva=00012f08 esp=0031e61c eax=008a1540 ecx=008a0f80 stack=10612b7b,0000000b,0031f0a0,0031f088,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=266 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=266 heap-begin=008a13c0 heap-first=00000000
+mb-entry seq=267 pc=78002257 esp=0031e60c return=10612f12 codepage=-4 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+locale-state phase=mb-before teb=3ffe2000 tid=1976 tls-index=1 ptd=008a0100 errno=0 doserrno=0 LastError=0
+mb-return seq=267 pc=10612f12 esp=0031e610 entry-esp=0031e60c result=00000000 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+locale-state phase=mb-after teb=3ffe2000 tid=1976 tls-index=1 ptd=008a0100 errno=0 doserrno=0 LastError=0
+fpu seq=267 rva=00012f3e eax=00000100 edx=0031e504 esp=0031e61c cw=ffff027f sw=ffff0020 tag=ffffffff
+locale-state phase=next teb=3ffe2000 tid=1976 tls-index=1 ptd=008a0100 errno=0 doserrno=0 LastError=0
+trap seq=267 rva=00012f3e esp=0031e61c eax=00000100 ecx=7803f1c8 stack=10612b80,0000000b,0031f0a0,0031f088,3fff1000
+last-error=0
+x87-control=ffff027f
+pool-registers seq=267 ebx=3fff1000 esi=0031f0a0 edi=0000000b ebp=0031f088
+state seq=267 heap-begin=008a13c0 heap-first=00000000
+path-fold-api phase=entry index=0 seq=268 pc=7800a5d3 esp=0031e604 argument=0 result=00000000
+path-fold-api phase=return index=0 seq=268 pc=10612f67 esp=0031e608 argument=0 result=00000000
+path-fold-api phase=entry index=1 seq=268 pc=7800a5d3 esp=0031e604 argument=1 result=00000001
+path-fold-api phase=return index=1 seq=268 pc=10612f67 esp=0031e608 argument=1 result=00000001
+path-fold-api phase=entry index=2 seq=268 pc=7800a5d3 esp=0031e604 argument=2 result=00000002
+path-fold-api phase=return index=2 seq=268 pc=10612f67 esp=0031e608 argument=2 result=00000002
+path-fold-api phase=entry index=3 seq=268 pc=7800a5d3 esp=0031e604 argument=3 result=00000003
+path-fold-api phase=return index=3 seq=268 pc=10612f67 esp=0031e608 argument=3 result=00000003
+path-fold-api phase=entry index=4 seq=268 pc=7800a5d3 esp=0031e604 argument=4 result=00000004
+path-fold-api phase=return index=4 seq=268 pc=10612f67 esp=0031e608 argument=4 result=00000004
+path-fold-api phase=entry index=5 seq=268 pc=7800a5d3 esp=0031e604 argument=5 result=00000005
+path-fold-api phase=return index=5 seq=268 pc=10612f67 esp=0031e608 argument=5 result=00000005
+path-fold-api phase=entry index=6 seq=268 pc=7800a5d3 esp=0031e604 argument=6 result=00000006
+path-fold-api phase=return index=6 seq=268 pc=10612f67 esp=0031e608 argument=6 result=00000006
+path-fold-api phase=entry index=7 seq=268 pc=7800a5d3 esp=0031e604 argument=7 result=00000007
+path-fold-api phase=return index=7 seq=268 pc=10612f67 esp=0031e608 argument=7 result=00000007
+path-fold-api phase=entry index=8 seq=268 pc=7800a5d3 esp=0031e604 argument=8 result=00000008
+path-fold-api phase=return index=8 seq=268 pc=10612f67 esp=0031e608 argument=8 result=00000008
+path-fold-api phase=entry index=9 seq=268 pc=7800a5d3 esp=0031e604 argument=9 result=00000009
+path-fold-api phase=return index=9 seq=268 pc=10612f67 esp=0031e608 argument=9 result=00000009
+path-fold-api phase=entry index=10 seq=268 pc=7800a5d3 esp=0031e604 argument=10 result=0000000a
+path-fold-api phase=return index=10 seq=268 pc=10612f67 esp=0031e608 argument=10 result=0000000a
+path-fold-api phase=entry index=11 seq=268 pc=7800a5d3 esp=0031e604 argument=11 result=0000000b
+path-fold-api phase=return index=11 seq=268 pc=10612f67 esp=0031e608 argument=11 result=0000000b
+path-fold-api phase=entry index=12 seq=268 pc=7800a5d3 esp=0031e604 argument=12 result=0000000c
+path-fold-api phase=return index=12 seq=268 pc=10612f67 esp=0031e608 argument=12 result=0000000c
+path-fold-api phase=entry index=13 seq=268 pc=7800a5d3 esp=0031e604 argument=13 result=0000000d
+path-fold-api phase=return index=13 seq=268 pc=10612f67 esp=0031e608 argument=13 result=0000000d
+path-fold-api phase=entry index=14 seq=268 pc=7800a5d3 esp=0031e604 argument=14 result=0000000e
+path-fold-api phase=return index=14 seq=268 pc=10612f67 esp=0031e608 argument=14 result=0000000e
+path-fold-api phase=entry index=15 seq=268 pc=7800a5d3 esp=0031e604 argument=15 result=0000000f
+path-fold-api phase=return index=15 seq=268 pc=10612f67 esp=0031e608 argument=15 result=0000000f
+path-fold-api phase=entry index=16 seq=268 pc=7800a5d3 esp=0031e604 argument=16 result=00000010
+path-fold-api phase=return index=16 seq=268 pc=10612f67 esp=0031e608 argument=16 result=00000010
+path-fold-api phase=entry index=17 seq=268 pc=7800a5d3 esp=0031e604 argument=17 result=00000011
+path-fold-api phase=return index=17 seq=268 pc=10612f67 esp=0031e608 argument=17 result=00000011
+path-fold-api phase=entry index=18 seq=268 pc=7800a5d3 esp=0031e604 argument=18 result=00000012
+path-fold-api phase=return index=18 seq=268 pc=10612f67 esp=0031e608 argument=18 result=00000012
+path-fold-api phase=entry index=19 seq=268 pc=7800a5d3 esp=0031e604 argument=19 result=00000013
+path-fold-api phase=return index=19 seq=268 pc=10612f67 esp=0031e608 argument=19 result=00000013
+path-fold-api phase=entry index=20 seq=268 pc=7800a5d3 esp=0031e604 argument=20 result=00000014
+path-fold-api phase=return index=20 seq=268 pc=10612f67 esp=0031e608 argument=20 result=00000014
+path-fold-api phase=entry index=21 seq=268 pc=7800a5d3 esp=0031e604 argument=21 result=00000015
+path-fold-api phase=return index=21 seq=268 pc=10612f67 esp=0031e608 argument=21 result=00000015
+path-fold-api phase=entry index=22 seq=268 pc=7800a5d3 esp=0031e604 argument=22 result=00000016
+path-fold-api phase=return index=22 seq=268 pc=10612f67 esp=0031e608 argument=22 result=00000016
+path-fold-api phase=entry index=23 seq=268 pc=7800a5d3 esp=0031e604 argument=23 result=00000017
+path-fold-api phase=return index=23 seq=268 pc=10612f67 esp=0031e608 argument=23 result=00000017
+path-fold-api phase=entry index=24 seq=268 pc=7800a5d3 esp=0031e604 argument=24 result=00000018
+path-fold-api phase=return index=24 seq=268 pc=10612f67 esp=0031e608 argument=24 result=00000018
+path-fold-api phase=entry index=25 seq=268 pc=7800a5d3 esp=0031e604 argument=25 result=00000019
+path-fold-api phase=return index=25 seq=268 pc=10612f67 esp=0031e608 argument=25 result=00000019
+path-fold-api phase=entry index=26 seq=268 pc=7800a5d3 esp=0031e604 argument=26 result=0000001a
+path-fold-api phase=return index=26 seq=268 pc=10612f67 esp=0031e608 argument=26 result=0000001a
+path-fold-api phase=entry index=27 seq=268 pc=7800a5d3 esp=0031e604 argument=27 result=0000001b
+path-fold-api phase=return index=27 seq=268 pc=10612f67 esp=0031e608 argument=27 result=0000001b
+path-fold-api phase=entry index=28 seq=268 pc=7800a5d3 esp=0031e604 argument=28 result=0000001c
+path-fold-api phase=return index=28 seq=268 pc=10612f67 esp=0031e608 argument=28 result=0000001c
+path-fold-api phase=entry index=29 seq=268 pc=7800a5d3 esp=0031e604 argument=29 result=0000001d
+path-fold-api phase=return index=29 seq=268 pc=10612f67 esp=0031e608 argument=29 result=0000001d
+path-fold-api phase=entry index=30 seq=268 pc=7800a5d3 esp=0031e604 argument=30 result=0000001e
+path-fold-api phase=return index=30 seq=268 pc=10612f67 esp=0031e608 argument=30 result=0000001e
+path-fold-api phase=entry index=31 seq=268 pc=7800a5d3 esp=0031e604 argument=31 result=0000001f
+path-fold-api phase=return index=31 seq=268 pc=10612f67 esp=0031e608 argument=31 result=0000001f
+path-fold-api phase=entry index=32 seq=268 pc=7800a5d3 esp=0031e604 argument=32 result=00000020
+path-fold-api phase=return index=32 seq=268 pc=10612f67 esp=0031e608 argument=32 result=00000020
+path-fold-api phase=entry index=33 seq=268 pc=7800a5d3 esp=0031e604 argument=33 result=00000021
+path-fold-api phase=return index=33 seq=268 pc=10612f67 esp=0031e608 argument=33 result=00000021
+path-fold-api phase=entry index=34 seq=268 pc=7800a5d3 esp=0031e604 argument=34 result=00000022
+path-fold-api phase=return index=34 seq=268 pc=10612f67 esp=0031e608 argument=34 result=00000022
+path-fold-api phase=entry index=35 seq=268 pc=7800a5d3 esp=0031e604 argument=35 result=00000023
+path-fold-api phase=return index=35 seq=268 pc=10612f67 esp=0031e608 argument=35 result=00000023
+path-fold-api phase=entry index=36 seq=268 pc=7800a5d3 esp=0031e604 argument=36 result=00000024
+path-fold-api phase=return index=36 seq=268 pc=10612f67 esp=0031e608 argument=36 result=00000024
+path-fold-api phase=entry index=37 seq=268 pc=7800a5d3 esp=0031e604 argument=37 result=00000025
+path-fold-api phase=return index=37 seq=268 pc=10612f67 esp=0031e608 argument=37 result=00000025
+path-fold-api phase=entry index=38 seq=268 pc=7800a5d3 esp=0031e604 argument=38 result=00000026
+path-fold-api phase=return index=38 seq=268 pc=10612f67 esp=0031e608 argument=38 result=00000026
+path-fold-api phase=entry index=39 seq=268 pc=7800a5d3 esp=0031e604 argument=39 result=00000027
+path-fold-api phase=return index=39 seq=268 pc=10612f67 esp=0031e608 argument=39 result=00000027
+path-fold-api phase=entry index=40 seq=268 pc=7800a5d3 esp=0031e604 argument=40 result=00000028
+path-fold-api phase=return index=40 seq=268 pc=10612f67 esp=0031e608 argument=40 result=00000028
+path-fold-api phase=entry index=41 seq=268 pc=7800a5d3 esp=0031e604 argument=41 result=00000029
+path-fold-api phase=return index=41 seq=268 pc=10612f67 esp=0031e608 argument=41 result=00000029
+path-fold-api phase=entry index=42 seq=268 pc=7800a5d3 esp=0031e604 argument=42 result=0000002a
+path-fold-api phase=return index=42 seq=268 pc=10612f67 esp=0031e608 argument=42 result=0000002a
+path-fold-api phase=entry index=43 seq=268 pc=7800a5d3 esp=0031e604 argument=43 result=0000002b
+path-fold-api phase=return index=43 seq=268 pc=10612f67 esp=0031e608 argument=43 result=0000002b
+path-fold-api phase=entry index=44 seq=268 pc=7800a5d3 esp=0031e604 argument=44 result=0000002c
+path-fold-api phase=return index=44 seq=268 pc=10612f67 esp=0031e608 argument=44 result=0000002c
+path-fold-api phase=entry index=45 seq=268 pc=7800a5d3 esp=0031e604 argument=45 result=0000002d
+path-fold-api phase=return index=45 seq=268 pc=10612f67 esp=0031e608 argument=45 result=0000002d
+path-fold-api phase=entry index=46 seq=268 pc=7800a5d3 esp=0031e604 argument=46 result=0000002e
+path-fold-api phase=return index=46 seq=268 pc=10612f67 esp=0031e608 argument=46 result=0000002e
+path-fold-api phase=entry index=47 seq=268 pc=7800a5d3 esp=0031e604 argument=47 result=0000002f
+path-fold-api phase=return index=47 seq=268 pc=10612f67 esp=0031e608 argument=47 result=0000002f
+path-fold-api phase=entry index=48 seq=268 pc=7800a5d3 esp=0031e604 argument=48 result=00000030
+path-fold-api phase=return index=48 seq=268 pc=10612f67 esp=0031e608 argument=48 result=00000030
+path-fold-api phase=entry index=49 seq=268 pc=7800a5d3 esp=0031e604 argument=49 result=00000031
+path-fold-api phase=return index=49 seq=268 pc=10612f67 esp=0031e608 argument=49 result=00000031
+path-fold-api phase=entry index=50 seq=268 pc=7800a5d3 esp=0031e604 argument=50 result=00000032
+path-fold-api phase=return index=50 seq=268 pc=10612f67 esp=0031e608 argument=50 result=00000032
+path-fold-api phase=entry index=51 seq=268 pc=7800a5d3 esp=0031e604 argument=51 result=00000033
+path-fold-api phase=return index=51 seq=268 pc=10612f67 esp=0031e608 argument=51 result=00000033
+path-fold-api phase=entry index=52 seq=268 pc=7800a5d3 esp=0031e604 argument=52 result=00000034
+path-fold-api phase=return index=52 seq=268 pc=10612f67 esp=0031e608 argument=52 result=00000034
+path-fold-api phase=entry index=53 seq=268 pc=7800a5d3 esp=0031e604 argument=53 result=00000035
+path-fold-api phase=return index=53 seq=268 pc=10612f67 esp=0031e608 argument=53 result=00000035
+path-fold-api phase=entry index=54 seq=268 pc=7800a5d3 esp=0031e604 argument=54 result=00000036
+path-fold-api phase=return index=54 seq=268 pc=10612f67 esp=0031e608 argument=54 result=00000036
+path-fold-api phase=entry index=55 seq=268 pc=7800a5d3 esp=0031e604 argument=55 result=00000037
+path-fold-api phase=return index=55 seq=268 pc=10612f67 esp=0031e608 argument=55 result=00000037
+path-fold-api phase=entry index=56 seq=268 pc=7800a5d3 esp=0031e604 argument=56 result=00000038
+path-fold-api phase=return index=56 seq=268 pc=10612f67 esp=0031e608 argument=56 result=00000038
+path-fold-api phase=entry index=57 seq=268 pc=7800a5d3 esp=0031e604 argument=57 result=00000039
+path-fold-api phase=return index=57 seq=268 pc=10612f67 esp=0031e608 argument=57 result=00000039
+path-fold-api phase=entry index=58 seq=268 pc=7800a5d3 esp=0031e604 argument=58 result=0000003a
+path-fold-api phase=return index=58 seq=268 pc=10612f67 esp=0031e608 argument=58 result=0000003a
+path-fold-api phase=entry index=59 seq=268 pc=7800a5d3 esp=0031e604 argument=59 result=0000003b
+path-fold-api phase=return index=59 seq=268 pc=10612f67 esp=0031e608 argument=59 result=0000003b
+path-fold-api phase=entry index=60 seq=268 pc=7800a5d3 esp=0031e604 argument=60 result=0000003c
+path-fold-api phase=return index=60 seq=268 pc=10612f67 esp=0031e608 argument=60 result=0000003c
+path-fold-api phase=entry index=61 seq=268 pc=7800a5d3 esp=0031e604 argument=61 result=0000003d
+path-fold-api phase=return index=61 seq=268 pc=10612f67 esp=0031e608 argument=61 result=0000003d
+path-fold-api phase=entry index=62 seq=268 pc=7800a5d3 esp=0031e604 argument=62 result=0000003e
+path-fold-api phase=return index=62 seq=268 pc=10612f67 esp=0031e608 argument=62 result=0000003e
+path-fold-api phase=entry index=63 seq=268 pc=7800a5d3 esp=0031e604 argument=63 result=0000003f
+path-fold-api phase=return index=63 seq=268 pc=10612f67 esp=0031e608 argument=63 result=0000003f
+path-fold-api phase=entry index=64 seq=268 pc=7800a5d3 esp=0031e604 argument=64 result=00000040
+path-fold-api phase=return index=64 seq=268 pc=10612f67 esp=0031e608 argument=64 result=00000040
+path-fold-api phase=entry index=65 seq=268 pc=7800a5d3 esp=0031e604 argument=65 result=00000041
+path-fold-api phase=return index=65 seq=268 pc=10612f67 esp=0031e608 argument=65 result=00000061
+path-fold-api phase=entry index=66 seq=268 pc=7800a5d3 esp=0031e604 argument=66 result=00000042
+path-fold-api phase=return index=66 seq=268 pc=10612f67 esp=0031e608 argument=66 result=00000062
+path-fold-api phase=entry index=67 seq=268 pc=7800a5d3 esp=0031e604 argument=67 result=00000043
+path-fold-api phase=return index=67 seq=268 pc=10612f67 esp=0031e608 argument=67 result=00000063
+path-fold-api phase=entry index=68 seq=268 pc=7800a5d3 esp=0031e604 argument=68 result=00000044
+path-fold-api phase=return index=68 seq=268 pc=10612f67 esp=0031e608 argument=68 result=00000064
+path-fold-api phase=entry index=69 seq=268 pc=7800a5d3 esp=0031e604 argument=69 result=00000045
+path-fold-api phase=return index=69 seq=268 pc=10612f67 esp=0031e608 argument=69 result=00000065
+path-fold-api phase=entry index=70 seq=268 pc=7800a5d3 esp=0031e604 argument=70 result=00000046
+path-fold-api phase=return index=70 seq=268 pc=10612f67 esp=0031e608 argument=70 result=00000066
+path-fold-api phase=entry index=71 seq=268 pc=7800a5d3 esp=0031e604 argument=71 result=00000047
+path-fold-api phase=return index=71 seq=268 pc=10612f67 esp=0031e608 argument=71 result=00000067
+path-fold-api phase=entry index=72 seq=268 pc=7800a5d3 esp=0031e604 argument=72 result=00000048
+path-fold-api phase=return index=72 seq=268 pc=10612f67 esp=0031e608 argument=72 result=00000068
+path-fold-api phase=entry index=73 seq=268 pc=7800a5d3 esp=0031e604 argument=73 result=00000049
+path-fold-api phase=return index=73 seq=268 pc=10612f67 esp=0031e608 argument=73 result=00000069
+path-fold-api phase=entry index=74 seq=268 pc=7800a5d3 esp=0031e604 argument=74 result=0000004a
+path-fold-api phase=return index=74 seq=268 pc=10612f67 esp=0031e608 argument=74 result=0000006a
+path-fold-api phase=entry index=75 seq=268 pc=7800a5d3 esp=0031e604 argument=75 result=0000004b
+path-fold-api phase=return index=75 seq=268 pc=10612f67 esp=0031e608 argument=75 result=0000006b
+path-fold-api phase=entry index=76 seq=268 pc=7800a5d3 esp=0031e604 argument=76 result=0000004c
+path-fold-api phase=return index=76 seq=268 pc=10612f67 esp=0031e608 argument=76 result=0000006c
+path-fold-api phase=entry index=77 seq=268 pc=7800a5d3 esp=0031e604 argument=77 result=0000004d
+path-fold-api phase=return index=77 seq=268 pc=10612f67 esp=0031e608 argument=77 result=0000006d
+path-fold-api phase=entry index=78 seq=268 pc=7800a5d3 esp=0031e604 argument=78 result=0000004e
+path-fold-api phase=return index=78 seq=268 pc=10612f67 esp=0031e608 argument=78 result=0000006e
+path-fold-api phase=entry index=79 seq=268 pc=7800a5d3 esp=0031e604 argument=79 result=0000004f
+path-fold-api phase=return index=79 seq=268 pc=10612f67 esp=0031e608 argument=79 result=0000006f
+path-fold-api phase=entry index=80 seq=268 pc=7800a5d3 esp=0031e604 argument=80 result=00000050
+path-fold-api phase=return index=80 seq=268 pc=10612f67 esp=0031e608 argument=80 result=00000070
+path-fold-api phase=entry index=81 seq=268 pc=7800a5d3 esp=0031e604 argument=81 result=00000051
+path-fold-api phase=return index=81 seq=268 pc=10612f67 esp=0031e608 argument=81 result=00000071
+path-fold-api phase=entry index=82 seq=268 pc=7800a5d3 esp=0031e604 argument=82 result=00000052
+path-fold-api phase=return index=82 seq=268 pc=10612f67 esp=0031e608 argument=82 result=00000072
+path-fold-api phase=entry index=83 seq=268 pc=7800a5d3 esp=0031e604 argument=83 result=00000053
+path-fold-api phase=return index=83 seq=268 pc=10612f67 esp=0031e608 argument=83 result=00000073
+path-fold-api phase=entry index=84 seq=268 pc=7800a5d3 esp=0031e604 argument=84 result=00000054
+path-fold-api phase=return index=84 seq=268 pc=10612f67 esp=0031e608 argument=84 result=00000074
+path-fold-api phase=entry index=85 seq=268 pc=7800a5d3 esp=0031e604 argument=85 result=00000055
+path-fold-api phase=return index=85 seq=268 pc=10612f67 esp=0031e608 argument=85 result=00000075
+path-fold-api phase=entry index=86 seq=268 pc=7800a5d3 esp=0031e604 argument=86 result=00000056
+path-fold-api phase=return index=86 seq=268 pc=10612f67 esp=0031e608 argument=86 result=00000076
+path-fold-api phase=entry index=87 seq=268 pc=7800a5d3 esp=0031e604 argument=87 result=00000057
+path-fold-api phase=return index=87 seq=268 pc=10612f67 esp=0031e608 argument=87 result=00000077
+path-fold-api phase=entry index=88 seq=268 pc=7800a5d3 esp=0031e604 argument=88 result=00000058
+path-fold-api phase=return index=88 seq=268 pc=10612f67 esp=0031e608 argument=88 result=00000078
+path-fold-api phase=entry index=89 seq=268 pc=7800a5d3 esp=0031e604 argument=89 result=00000059
+path-fold-api phase=return index=89 seq=268 pc=10612f67 esp=0031e608 argument=89 result=00000079
+path-fold-api phase=entry index=90 seq=268 pc=7800a5d3 esp=0031e604 argument=90 result=0000005a
+path-fold-api phase=return index=90 seq=268 pc=10612f67 esp=0031e608 argument=90 result=0000007a
+path-fold-api phase=entry index=91 seq=268 pc=7800a5d3 esp=0031e604 argument=91 result=0000005b
+path-fold-api phase=return index=91 seq=268 pc=10612f67 esp=0031e608 argument=91 result=0000005b
+path-fold-api phase=entry index=92 seq=268 pc=7800a5d3 esp=0031e604 argument=92 result=0000005c
+path-fold-api phase=return index=92 seq=268 pc=10612f67 esp=0031e608 argument=92 result=0000005c
+path-fold-api phase=entry index=93 seq=268 pc=7800a5d3 esp=0031e604 argument=93 result=0000005d
+path-fold-api phase=return index=93 seq=268 pc=10612f67 esp=0031e608 argument=93 result=0000005d
+path-fold-api phase=entry index=94 seq=268 pc=7800a5d3 esp=0031e604 argument=94 result=0000005e
+path-fold-api phase=return index=94 seq=268 pc=10612f67 esp=0031e608 argument=94 result=0000005e
+path-fold-api phase=entry index=95 seq=268 pc=7800a5d3 esp=0031e604 argument=95 result=0000005f
+path-fold-api phase=return index=95 seq=268 pc=10612f67 esp=0031e608 argument=95 result=0000005f
+path-fold-api phase=entry index=96 seq=268 pc=7800a5d3 esp=0031e604 argument=96 result=00000060
+path-fold-api phase=return index=96 seq=268 pc=10612f67 esp=0031e608 argument=96 result=00000060
+path-fold-api phase=entry index=97 seq=268 pc=7800a5d3 esp=0031e604 argument=97 result=00000061
+path-fold-api phase=return index=97 seq=268 pc=10612f67 esp=0031e608 argument=97 result=00000061
+path-fold-api phase=entry index=98 seq=268 pc=7800a5d3 esp=0031e604 argument=98 result=00000062
+path-fold-api phase=return index=98 seq=268 pc=10612f67 esp=0031e608 argument=98 result=00000062
+path-fold-api phase=entry index=99 seq=268 pc=7800a5d3 esp=0031e604 argument=99 result=00000063
+path-fold-api phase=return index=99 seq=268 pc=10612f67 esp=0031e608 argument=99 result=00000063
+path-fold-api phase=entry index=100 seq=268 pc=7800a5d3 esp=0031e604 argument=100 result=00000064
+path-fold-api phase=return index=100 seq=268 pc=10612f67 esp=0031e608 argument=100 result=00000064
+path-fold-api phase=entry index=101 seq=268 pc=7800a5d3 esp=0031e604 argument=101 result=00000065
+path-fold-api phase=return index=101 seq=268 pc=10612f67 esp=0031e608 argument=101 result=00000065
+path-fold-api phase=entry index=102 seq=268 pc=7800a5d3 esp=0031e604 argument=102 result=00000066
+path-fold-api phase=return index=102 seq=268 pc=10612f67 esp=0031e608 argument=102 result=00000066
+path-fold-api phase=entry index=103 seq=268 pc=7800a5d3 esp=0031e604 argument=103 result=00000067
+path-fold-api phase=return index=103 seq=268 pc=10612f67 esp=0031e608 argument=103 result=00000067
+path-fold-api phase=entry index=104 seq=268 pc=7800a5d3 esp=0031e604 argument=104 result=00000068
+path-fold-api phase=return index=104 seq=268 pc=10612f67 esp=0031e608 argument=104 result=00000068
+path-fold-api phase=entry index=105 seq=268 pc=7800a5d3 esp=0031e604 argument=105 result=00000069
+path-fold-api phase=return index=105 seq=268 pc=10612f67 esp=0031e608 argument=105 result=00000069
+path-fold-api phase=entry index=106 seq=268 pc=7800a5d3 esp=0031e604 argument=106 result=0000006a
+path-fold-api phase=return index=106 seq=268 pc=10612f67 esp=0031e608 argument=106 result=0000006a
+path-fold-api phase=entry index=107 seq=268 pc=7800a5d3 esp=0031e604 argument=107 result=0000006b
+path-fold-api phase=return index=107 seq=268 pc=10612f67 esp=0031e608 argument=107 result=0000006b
+path-fold-api phase=entry index=108 seq=268 pc=7800a5d3 esp=0031e604 argument=108 result=0000006c
+path-fold-api phase=return index=108 seq=268 pc=10612f67 esp=0031e608 argument=108 result=0000006c
+path-fold-api phase=entry index=109 seq=268 pc=7800a5d3 esp=0031e604 argument=109 result=0000006d
+path-fold-api phase=return index=109 seq=268 pc=10612f67 esp=0031e608 argument=109 result=0000006d
+path-fold-api phase=entry index=110 seq=268 pc=7800a5d3 esp=0031e604 argument=110 result=0000006e
+path-fold-api phase=return index=110 seq=268 pc=10612f67 esp=0031e608 argument=110 result=0000006e
+path-fold-api phase=entry index=111 seq=268 pc=7800a5d3 esp=0031e604 argument=111 result=0000006f
+path-fold-api phase=return index=111 seq=268 pc=10612f67 esp=0031e608 argument=111 result=0000006f
+path-fold-api phase=entry index=112 seq=268 pc=7800a5d3 esp=0031e604 argument=112 result=00000070
+path-fold-api phase=return index=112 seq=268 pc=10612f67 esp=0031e608 argument=112 result=00000070
+path-fold-api phase=entry index=113 seq=268 pc=7800a5d3 esp=0031e604 argument=113 result=00000071
+path-fold-api phase=return index=113 seq=268 pc=10612f67 esp=0031e608 argument=113 result=00000071
+path-fold-api phase=entry index=114 seq=268 pc=7800a5d3 esp=0031e604 argument=114 result=00000072
+path-fold-api phase=return index=114 seq=268 pc=10612f67 esp=0031e608 argument=114 result=00000072
+path-fold-api phase=entry index=115 seq=268 pc=7800a5d3 esp=0031e604 argument=115 result=00000073
+path-fold-api phase=return index=115 seq=268 pc=10612f67 esp=0031e608 argument=115 result=00000073
+path-fold-api phase=entry index=116 seq=268 pc=7800a5d3 esp=0031e604 argument=116 result=00000074
+path-fold-api phase=return index=116 seq=268 pc=10612f67 esp=0031e608 argument=116 result=00000074
+path-fold-api phase=entry index=117 seq=268 pc=7800a5d3 esp=0031e604 argument=117 result=00000075
+path-fold-api phase=return index=117 seq=268 pc=10612f67 esp=0031e608 argument=117 result=00000075
+path-fold-api phase=entry index=118 seq=268 pc=7800a5d3 esp=0031e604 argument=118 result=00000076
+path-fold-api phase=return index=118 seq=268 pc=10612f67 esp=0031e608 argument=118 result=00000076
+path-fold-api phase=entry index=119 seq=268 pc=7800a5d3 esp=0031e604 argument=119 result=00000077
+path-fold-api phase=return index=119 seq=268 pc=10612f67 esp=0031e608 argument=119 result=00000077
+path-fold-api phase=entry index=120 seq=268 pc=7800a5d3 esp=0031e604 argument=120 result=00000078
+path-fold-api phase=return index=120 seq=268 pc=10612f67 esp=0031e608 argument=120 result=00000078
+path-fold-api phase=entry index=121 seq=268 pc=7800a5d3 esp=0031e604 argument=121 result=00000079
+path-fold-api phase=return index=121 seq=268 pc=10612f67 esp=0031e608 argument=121 result=00000079
+path-fold-api phase=entry index=122 seq=268 pc=7800a5d3 esp=0031e604 argument=122 result=0000007a
+path-fold-api phase=return index=122 seq=268 pc=10612f67 esp=0031e608 argument=122 result=0000007a
+path-fold-api phase=entry index=123 seq=268 pc=7800a5d3 esp=0031e604 argument=123 result=0000007b
+path-fold-api phase=return index=123 seq=268 pc=10612f67 esp=0031e608 argument=123 result=0000007b
+path-fold-api phase=entry index=124 seq=268 pc=7800a5d3 esp=0031e604 argument=124 result=0000007c
+path-fold-api phase=return index=124 seq=268 pc=10612f67 esp=0031e608 argument=124 result=0000007c
+path-fold-api phase=entry index=125 seq=268 pc=7800a5d3 esp=0031e604 argument=125 result=0000007d
+path-fold-api phase=return index=125 seq=268 pc=10612f67 esp=0031e608 argument=125 result=0000007d
+path-fold-api phase=entry index=126 seq=268 pc=7800a5d3 esp=0031e604 argument=126 result=0000007e
+path-fold-api phase=return index=126 seq=268 pc=10612f67 esp=0031e608 argument=126 result=0000007e
+path-fold-api phase=entry index=127 seq=268 pc=7800a5d3 esp=0031e604 argument=127 result=0000007f
+path-fold-api phase=return index=127 seq=268 pc=10612f67 esp=0031e608 argument=127 result=0000007f
+path-fold-api phase=entry index=128 seq=268 pc=7800a5d3 esp=0031e604 argument=128 result=00000080
+path-fold-api phase=return index=128 seq=268 pc=10612f67 esp=0031e608 argument=128 result=00000080
+path-fold-api phase=entry index=129 seq=268 pc=7800a5d3 esp=0031e604 argument=129 result=00000081
+path-fold-api phase=return index=129 seq=268 pc=10612f67 esp=0031e608 argument=129 result=00000081
+path-fold-api phase=entry index=130 seq=268 pc=7800a5d3 esp=0031e604 argument=130 result=00000082
+path-fold-api phase=return index=130 seq=268 pc=10612f67 esp=0031e608 argument=130 result=00000082
+path-fold-api phase=entry index=131 seq=268 pc=7800a5d3 esp=0031e604 argument=131 result=00000083
+path-fold-api phase=return index=131 seq=268 pc=10612f67 esp=0031e608 argument=131 result=00000083
+path-fold-api phase=entry index=132 seq=268 pc=7800a5d3 esp=0031e604 argument=132 result=00000084
+path-fold-api phase=return index=132 seq=268 pc=10612f67 esp=0031e608 argument=132 result=00000084
+path-fold-api phase=entry index=133 seq=268 pc=7800a5d3 esp=0031e604 argument=133 result=00000085
+path-fold-api phase=return index=133 seq=268 pc=10612f67 esp=0031e608 argument=133 result=00000085
+path-fold-api phase=entry index=134 seq=268 pc=7800a5d3 esp=0031e604 argument=134 result=00000086
+path-fold-api phase=return index=134 seq=268 pc=10612f67 esp=0031e608 argument=134 result=00000086
+path-fold-api phase=entry index=135 seq=268 pc=7800a5d3 esp=0031e604 argument=135 result=00000087
+path-fold-api phase=return index=135 seq=268 pc=10612f67 esp=0031e608 argument=135 result=00000087
+path-fold-api phase=entry index=136 seq=268 pc=7800a5d3 esp=0031e604 argument=136 result=00000088
+path-fold-api phase=return index=136 seq=268 pc=10612f67 esp=0031e608 argument=136 result=00000088
+path-fold-api phase=entry index=137 seq=268 pc=7800a5d3 esp=0031e604 argument=137 result=00000089
+path-fold-api phase=return index=137 seq=268 pc=10612f67 esp=0031e608 argument=137 result=00000089
+path-fold-api phase=entry index=138 seq=268 pc=7800a5d3 esp=0031e604 argument=138 result=0000008a
+path-fold-api phase=return index=138 seq=268 pc=10612f67 esp=0031e608 argument=138 result=0000009a
+path-fold-api phase=entry index=139 seq=268 pc=7800a5d3 esp=0031e604 argument=139 result=0000008b
+path-fold-api phase=return index=139 seq=268 pc=10612f67 esp=0031e608 argument=139 result=0000008b
+path-fold-api phase=entry index=140 seq=268 pc=7800a5d3 esp=0031e604 argument=140 result=0000008c
+path-fold-api phase=return index=140 seq=268 pc=10612f67 esp=0031e608 argument=140 result=0000009c
+path-fold-api phase=entry index=141 seq=268 pc=7800a5d3 esp=0031e604 argument=141 result=0000008d
+path-fold-api phase=return index=141 seq=268 pc=10612f67 esp=0031e608 argument=141 result=0000008d
+path-fold-api phase=entry index=142 seq=268 pc=7800a5d3 esp=0031e604 argument=142 result=0000008e
+path-fold-api phase=return index=142 seq=268 pc=10612f67 esp=0031e608 argument=142 result=0000009e
+path-fold-api phase=entry index=143 seq=268 pc=7800a5d3 esp=0031e604 argument=143 result=0000008f
+path-fold-api phase=return index=143 seq=268 pc=10612f67 esp=0031e608 argument=143 result=0000008f
+path-fold-api phase=entry index=144 seq=268 pc=7800a5d3 esp=0031e604 argument=144 result=00000090
+path-fold-api phase=return index=144 seq=268 pc=10612f67 esp=0031e608 argument=144 result=00000090
+path-fold-api phase=entry index=145 seq=268 pc=7800a5d3 esp=0031e604 argument=145 result=00000091
+path-fold-api phase=return index=145 seq=268 pc=10612f67 esp=0031e608 argument=145 result=00000091
+path-fold-api phase=entry index=146 seq=268 pc=7800a5d3 esp=0031e604 argument=146 result=00000092
+path-fold-api phase=return index=146 seq=268 pc=10612f67 esp=0031e608 argument=146 result=00000092
+path-fold-api phase=entry index=147 seq=268 pc=7800a5d3 esp=0031e604 argument=147 result=00000093
+path-fold-api phase=return index=147 seq=268 pc=10612f67 esp=0031e608 argument=147 result=00000093
+path-fold-api phase=entry index=148 seq=268 pc=7800a5d3 esp=0031e604 argument=148 result=00000094
+path-fold-api phase=return index=148 seq=268 pc=10612f67 esp=0031e608 argument=148 result=00000094
+path-fold-api phase=entry index=149 seq=268 pc=7800a5d3 esp=0031e604 argument=149 result=00000095
+path-fold-api phase=return index=149 seq=268 pc=10612f67 esp=0031e608 argument=149 result=00000095
+path-fold-api phase=entry index=150 seq=268 pc=7800a5d3 esp=0031e604 argument=150 result=00000096
+path-fold-api phase=return index=150 seq=268 pc=10612f67 esp=0031e608 argument=150 result=00000096
+path-fold-api phase=entry index=151 seq=268 pc=7800a5d3 esp=0031e604 argument=151 result=00000097
+path-fold-api phase=return index=151 seq=268 pc=10612f67 esp=0031e608 argument=151 result=00000097
+path-fold-api phase=entry index=152 seq=268 pc=7800a5d3 esp=0031e604 argument=152 result=00000098
+path-fold-api phase=return index=152 seq=268 pc=10612f67 esp=0031e608 argument=152 result=00000098
+path-fold-api phase=entry index=153 seq=268 pc=7800a5d3 esp=0031e604 argument=153 result=00000099
+path-fold-api phase=return index=153 seq=268 pc=10612f67 esp=0031e608 argument=153 result=00000099
+path-fold-api phase=entry index=154 seq=268 pc=7800a5d3 esp=0031e604 argument=154 result=0000009a
+path-fold-api phase=return index=154 seq=268 pc=10612f67 esp=0031e608 argument=154 result=0000009a
+path-fold-api phase=entry index=155 seq=268 pc=7800a5d3 esp=0031e604 argument=155 result=0000009b
+path-fold-api phase=return index=155 seq=268 pc=10612f67 esp=0031e608 argument=155 result=0000009b
+path-fold-api phase=entry index=156 seq=268 pc=7800a5d3 esp=0031e604 argument=156 result=0000009c
+path-fold-api phase=return index=156 seq=268 pc=10612f67 esp=0031e608 argument=156 result=0000009c
+path-fold-api phase=entry index=157 seq=268 pc=7800a5d3 esp=0031e604 argument=157 result=0000009d
+path-fold-api phase=return index=157 seq=268 pc=10612f67 esp=0031e608 argument=157 result=0000009d
+path-fold-api phase=entry index=158 seq=268 pc=7800a5d3 esp=0031e604 argument=158 result=0000009e
+path-fold-api phase=return index=158 seq=268 pc=10612f67 esp=0031e608 argument=158 result=0000009e
+path-fold-api phase=entry index=159 seq=268 pc=7800a5d3 esp=0031e604 argument=159 result=0000009f
+path-fold-api phase=return index=159 seq=268 pc=10612f67 esp=0031e608 argument=159 result=000000ff
+path-fold-api phase=entry index=160 seq=268 pc=7800a5d3 esp=0031e604 argument=160 result=000000a0
+path-fold-api phase=return index=160 seq=268 pc=10612f67 esp=0031e608 argument=160 result=000000a0
+path-fold-api phase=entry index=161 seq=268 pc=7800a5d3 esp=0031e604 argument=161 result=000000a1
+path-fold-api phase=return index=161 seq=268 pc=10612f67 esp=0031e608 argument=161 result=000000a1
+path-fold-api phase=entry index=162 seq=268 pc=7800a5d3 esp=0031e604 argument=162 result=000000a2
+path-fold-api phase=return index=162 seq=268 pc=10612f67 esp=0031e608 argument=162 result=000000a2
+path-fold-api phase=entry index=163 seq=268 pc=7800a5d3 esp=0031e604 argument=163 result=000000a3
+path-fold-api phase=return index=163 seq=268 pc=10612f67 esp=0031e608 argument=163 result=000000a3
+path-fold-api phase=entry index=164 seq=268 pc=7800a5d3 esp=0031e604 argument=164 result=000000a4
+path-fold-api phase=return index=164 seq=268 pc=10612f67 esp=0031e608 argument=164 result=000000a4
+path-fold-api phase=entry index=165 seq=268 pc=7800a5d3 esp=0031e604 argument=165 result=000000a5
+path-fold-api phase=return index=165 seq=268 pc=10612f67 esp=0031e608 argument=165 result=000000a5
+path-fold-api phase=entry index=166 seq=268 pc=7800a5d3 esp=0031e604 argument=166 result=000000a6
+path-fold-api phase=return index=166 seq=268 pc=10612f67 esp=0031e608 argument=166 result=000000a6
+path-fold-api phase=entry index=167 seq=268 pc=7800a5d3 esp=0031e604 argument=167 result=000000a7
+path-fold-api phase=return index=167 seq=268 pc=10612f67 esp=0031e608 argument=167 result=000000a7
+path-fold-api phase=entry index=168 seq=268 pc=7800a5d3 esp=0031e604 argument=168 result=000000a8
+path-fold-api phase=return index=168 seq=268 pc=10612f67 esp=0031e608 argument=168 result=000000a8
+path-fold-api phase=entry index=169 seq=268 pc=7800a5d3 esp=0031e604 argument=169 result=000000a9
+path-fold-api phase=return index=169 seq=268 pc=10612f67 esp=0031e608 argument=169 result=000000a9
+path-fold-api phase=entry index=170 seq=268 pc=7800a5d3 esp=0031e604 argument=170 result=000000aa
+path-fold-api phase=return index=170 seq=268 pc=10612f67 esp=0031e608 argument=170 result=000000aa
+path-fold-api phase=entry index=171 seq=268 pc=7800a5d3 esp=0031e604 argument=171 result=000000ab
+path-fold-api phase=return index=171 seq=268 pc=10612f67 esp=0031e608 argument=171 result=000000ab
+path-fold-api phase=entry index=172 seq=268 pc=7800a5d3 esp=0031e604 argument=172 result=000000ac
+path-fold-api phase=return index=172 seq=268 pc=10612f67 esp=0031e608 argument=172 result=000000ac
+path-fold-api phase=entry index=173 seq=268 pc=7800a5d3 esp=0031e604 argument=173 result=000000ad
+path-fold-api phase=return index=173 seq=268 pc=10612f67 esp=0031e608 argument=173 result=000000ad
+path-fold-api phase=entry index=174 seq=268 pc=7800a5d3 esp=0031e604 argument=174 result=000000ae
+path-fold-api phase=return index=174 seq=268 pc=10612f67 esp=0031e608 argument=174 result=000000ae
+path-fold-api phase=entry index=175 seq=268 pc=7800a5d3 esp=0031e604 argument=175 result=000000af
+path-fold-api phase=return index=175 seq=268 pc=10612f67 esp=0031e608 argument=175 result=000000af
+path-fold-api phase=entry index=176 seq=268 pc=7800a5d3 esp=0031e604 argument=176 result=000000b0
+path-fold-api phase=return index=176 seq=268 pc=10612f67 esp=0031e608 argument=176 result=000000b0
+path-fold-api phase=entry index=177 seq=268 pc=7800a5d3 esp=0031e604 argument=177 result=000000b1
+path-fold-api phase=return index=177 seq=268 pc=10612f67 esp=0031e608 argument=177 result=000000b1
+path-fold-api phase=entry index=178 seq=268 pc=7800a5d3 esp=0031e604 argument=178 result=000000b2
+path-fold-api phase=return index=178 seq=268 pc=10612f67 esp=0031e608 argument=178 result=000000b2
+path-fold-api phase=entry index=179 seq=268 pc=7800a5d3 esp=0031e604 argument=179 result=000000b3
+path-fold-api phase=return index=179 seq=268 pc=10612f67 esp=0031e608 argument=179 result=000000b3
+path-fold-api phase=entry index=180 seq=268 pc=7800a5d3 esp=0031e604 argument=180 result=000000b4
+path-fold-api phase=return index=180 seq=268 pc=10612f67 esp=0031e608 argument=180 result=000000b4
+path-fold-api phase=entry index=181 seq=268 pc=7800a5d3 esp=0031e604 argument=181 result=000000b5
+path-fold-api phase=return index=181 seq=268 pc=10612f67 esp=0031e608 argument=181 result=000000b5
+path-fold-api phase=entry index=182 seq=268 pc=7800a5d3 esp=0031e604 argument=182 result=000000b6
+path-fold-api phase=return index=182 seq=268 pc=10612f67 esp=0031e608 argument=182 result=000000b6
+path-fold-api phase=entry index=183 seq=268 pc=7800a5d3 esp=0031e604 argument=183 result=000000b7
+path-fold-api phase=return index=183 seq=268 pc=10612f67 esp=0031e608 argument=183 result=000000b7
+path-fold-api phase=entry index=184 seq=268 pc=7800a5d3 esp=0031e604 argument=184 result=000000b8
+path-fold-api phase=return index=184 seq=268 pc=10612f67 esp=0031e608 argument=184 result=000000b8
+path-fold-api phase=entry index=185 seq=268 pc=7800a5d3 esp=0031e604 argument=185 result=000000b9
+path-fold-api phase=return index=185 seq=268 pc=10612f67 esp=0031e608 argument=185 result=000000b9
+path-fold-api phase=entry index=186 seq=268 pc=7800a5d3 esp=0031e604 argument=186 result=000000ba
+path-fold-api phase=return index=186 seq=268 pc=10612f67 esp=0031e608 argument=186 result=000000ba
+path-fold-api phase=entry index=187 seq=268 pc=7800a5d3 esp=0031e604 argument=187 result=000000bb
+path-fold-api phase=return index=187 seq=268 pc=10612f67 esp=0031e608 argument=187 result=000000bb
+path-fold-api phase=entry index=188 seq=268 pc=7800a5d3 esp=0031e604 argument=188 result=000000bc
+path-fold-api phase=return index=188 seq=268 pc=10612f67 esp=0031e608 argument=188 result=000000bc
+path-fold-api phase=entry index=189 seq=268 pc=7800a5d3 esp=0031e604 argument=189 result=000000bd
+path-fold-api phase=return index=189 seq=268 pc=10612f67 esp=0031e608 argument=189 result=000000bd
+path-fold-api phase=entry index=190 seq=268 pc=7800a5d3 esp=0031e604 argument=190 result=000000be
+path-fold-api phase=return index=190 seq=268 pc=10612f67 esp=0031e608 argument=190 result=000000be
+path-fold-api phase=entry index=191 seq=268 pc=7800a5d3 esp=0031e604 argument=191 result=000000bf
+path-fold-api phase=return index=191 seq=268 pc=10612f67 esp=0031e608 argument=191 result=000000bf
+path-fold-api phase=entry index=192 seq=268 pc=7800a5d3 esp=0031e604 argument=192 result=000000c0
+path-fold-api phase=return index=192 seq=268 pc=10612f67 esp=0031e608 argument=192 result=000000e0
+path-fold-api phase=entry index=193 seq=268 pc=7800a5d3 esp=0031e604 argument=193 result=000000c1
+path-fold-api phase=return index=193 seq=268 pc=10612f67 esp=0031e608 argument=193 result=000000e1
+path-fold-api phase=entry index=194 seq=268 pc=7800a5d3 esp=0031e604 argument=194 result=000000c2
+path-fold-api phase=return index=194 seq=268 pc=10612f67 esp=0031e608 argument=194 result=000000e2
+path-fold-api phase=entry index=195 seq=268 pc=7800a5d3 esp=0031e604 argument=195 result=000000c3
+path-fold-api phase=return index=195 seq=268 pc=10612f67 esp=0031e608 argument=195 result=000000e3
+path-fold-api phase=entry index=196 seq=268 pc=7800a5d3 esp=0031e604 argument=196 result=000000c4
+path-fold-api phase=return index=196 seq=268 pc=10612f67 esp=0031e608 argument=196 result=000000e4
+path-fold-api phase=entry index=197 seq=268 pc=7800a5d3 esp=0031e604 argument=197 result=000000c5
+path-fold-api phase=return index=197 seq=268 pc=10612f67 esp=0031e608 argument=197 result=000000e5
+path-fold-api phase=entry index=198 seq=268 pc=7800a5d3 esp=0031e604 argument=198 result=000000c6
+path-fold-api phase=return index=198 seq=268 pc=10612f67 esp=0031e608 argument=198 result=000000e6
+path-fold-api phase=entry index=199 seq=268 pc=7800a5d3 esp=0031e604 argument=199 result=000000c7
+path-fold-api phase=return index=199 seq=268 pc=10612f67 esp=0031e608 argument=199 result=000000e7
+path-fold-api phase=entry index=200 seq=268 pc=7800a5d3 esp=0031e604 argument=200 result=000000c8
+path-fold-api phase=return index=200 seq=268 pc=10612f67 esp=0031e608 argument=200 result=000000e8
+path-fold-api phase=entry index=201 seq=268 pc=7800a5d3 esp=0031e604 argument=201 result=000000c9
+path-fold-api phase=return index=201 seq=268 pc=10612f67 esp=0031e608 argument=201 result=000000e9
+path-fold-api phase=entry index=202 seq=268 pc=7800a5d3 esp=0031e604 argument=202 result=000000ca
+path-fold-api phase=return index=202 seq=268 pc=10612f67 esp=0031e608 argument=202 result=000000ea
+path-fold-api phase=entry index=203 seq=268 pc=7800a5d3 esp=0031e604 argument=203 result=000000cb
+path-fold-api phase=return index=203 seq=268 pc=10612f67 esp=0031e608 argument=203 result=000000eb
+path-fold-api phase=entry index=204 seq=268 pc=7800a5d3 esp=0031e604 argument=204 result=000000cc
+path-fold-api phase=return index=204 seq=268 pc=10612f67 esp=0031e608 argument=204 result=000000ec
+path-fold-api phase=entry index=205 seq=268 pc=7800a5d3 esp=0031e604 argument=205 result=000000cd
+path-fold-api phase=return index=205 seq=268 pc=10612f67 esp=0031e608 argument=205 result=000000ed
+path-fold-api phase=entry index=206 seq=268 pc=7800a5d3 esp=0031e604 argument=206 result=000000ce
+path-fold-api phase=return index=206 seq=268 pc=10612f67 esp=0031e608 argument=206 result=000000ee
+path-fold-api phase=entry index=207 seq=268 pc=7800a5d3 esp=0031e604 argument=207 result=000000cf
+path-fold-api phase=return index=207 seq=268 pc=10612f67 esp=0031e608 argument=207 result=000000ef
+path-fold-api phase=entry index=208 seq=268 pc=7800a5d3 esp=0031e604 argument=208 result=000000d0
+path-fold-api phase=return index=208 seq=268 pc=10612f67 esp=0031e608 argument=208 result=000000f0
+path-fold-api phase=entry index=209 seq=268 pc=7800a5d3 esp=0031e604 argument=209 result=000000d1
+path-fold-api phase=return index=209 seq=268 pc=10612f67 esp=0031e608 argument=209 result=000000f1
+path-fold-api phase=entry index=210 seq=268 pc=7800a5d3 esp=0031e604 argument=210 result=000000d2
+path-fold-api phase=return index=210 seq=268 pc=10612f67 esp=0031e608 argument=210 result=000000f2
+path-fold-api phase=entry index=211 seq=268 pc=7800a5d3 esp=0031e604 argument=211 result=000000d3
+path-fold-api phase=return index=211 seq=268 pc=10612f67 esp=0031e608 argument=211 result=000000f3
+path-fold-api phase=entry index=212 seq=268 pc=7800a5d3 esp=0031e604 argument=212 result=000000d4
+path-fold-api phase=return index=212 seq=268 pc=10612f67 esp=0031e608 argument=212 result=000000f4
+path-fold-api phase=entry index=213 seq=268 pc=7800a5d3 esp=0031e604 argument=213 result=000000d5
+path-fold-api phase=return index=213 seq=268 pc=10612f67 esp=0031e608 argument=213 result=000000f5
+path-fold-api phase=entry index=214 seq=268 pc=7800a5d3 esp=0031e604 argument=214 result=000000d6
+path-fold-api phase=return index=214 seq=268 pc=10612f67 esp=0031e608 argument=214 result=000000f6
+path-fold-api phase=entry index=215 seq=268 pc=7800a5d3 esp=0031e604 argument=215 result=000000d7
+path-fold-api phase=return index=215 seq=268 pc=10612f67 esp=0031e608 argument=215 result=000000d7
+path-fold-api phase=entry index=216 seq=268 pc=7800a5d3 esp=0031e604 argument=216 result=000000d8
+path-fold-api phase=return index=216 seq=268 pc=10612f67 esp=0031e608 argument=216 result=000000f8
+path-fold-api phase=entry index=217 seq=268 pc=7800a5d3 esp=0031e604 argument=217 result=000000d9
+path-fold-api phase=return index=217 seq=268 pc=10612f67 esp=0031e608 argument=217 result=000000f9
+path-fold-api phase=entry index=218 seq=268 pc=7800a5d3 esp=0031e604 argument=218 result=000000da
+path-fold-api phase=return index=218 seq=268 pc=10612f67 esp=0031e608 argument=218 result=000000fa
+path-fold-api phase=entry index=219 seq=268 pc=7800a5d3 esp=0031e604 argument=219 result=000000db
+path-fold-api phase=return index=219 seq=268 pc=10612f67 esp=0031e608 argument=219 result=000000fb
+path-fold-api phase=entry index=220 seq=268 pc=7800a5d3 esp=0031e604 argument=220 result=000000dc
+path-fold-api phase=return index=220 seq=268 pc=10612f67 esp=0031e608 argument=220 result=000000fc
+path-fold-api phase=entry index=221 seq=268 pc=7800a5d3 esp=0031e604 argument=221 result=000000dd
+path-fold-api phase=return index=221 seq=268 pc=10612f67 esp=0031e608 argument=221 result=000000fd
+path-fold-api phase=entry index=222 seq=268 pc=7800a5d3 esp=0031e604 argument=222 result=000000de
+path-fold-api phase=return index=222 seq=268 pc=10612f67 esp=0031e608 argument=222 result=000000fe
+path-fold-api phase=entry index=223 seq=268 pc=7800a5d3 esp=0031e604 argument=223 result=000000df
+path-fold-api phase=return index=223 seq=268 pc=10612f67 esp=0031e608 argument=223 result=000000df
+path-fold-api phase=entry index=224 seq=268 pc=7800a5d3 esp=0031e604 argument=224 result=000000e0
+path-fold-api phase=return index=224 seq=268 pc=10612f67 esp=0031e608 argument=224 result=000000e0
+path-fold-api phase=entry index=225 seq=268 pc=7800a5d3 esp=0031e604 argument=225 result=000000e1
+path-fold-api phase=return index=225 seq=268 pc=10612f67 esp=0031e608 argument=225 result=000000e1
+path-fold-api phase=entry index=226 seq=268 pc=7800a5d3 esp=0031e604 argument=226 result=000000e2
+path-fold-api phase=return index=226 seq=268 pc=10612f67 esp=0031e608 argument=226 result=000000e2
+path-fold-api phase=entry index=227 seq=268 pc=7800a5d3 esp=0031e604 argument=227 result=000000e3
+path-fold-api phase=return index=227 seq=268 pc=10612f67 esp=0031e608 argument=227 result=000000e3
+path-fold-api phase=entry index=228 seq=268 pc=7800a5d3 esp=0031e604 argument=228 result=000000e4
+path-fold-api phase=return index=228 seq=268 pc=10612f67 esp=0031e608 argument=228 result=000000e4
+path-fold-api phase=entry index=229 seq=268 pc=7800a5d3 esp=0031e604 argument=229 result=000000e5
+path-fold-api phase=return index=229 seq=268 pc=10612f67 esp=0031e608 argument=229 result=000000e5
+path-fold-api phase=entry index=230 seq=268 pc=7800a5d3 esp=0031e604 argument=230 result=000000e6
+path-fold-api phase=return index=230 seq=268 pc=10612f67 esp=0031e608 argument=230 result=000000e6
+path-fold-api phase=entry index=231 seq=268 pc=7800a5d3 esp=0031e604 argument=231 result=000000e7
+path-fold-api phase=return index=231 seq=268 pc=10612f67 esp=0031e608 argument=231 result=000000e7
+path-fold-api phase=entry index=232 seq=268 pc=7800a5d3 esp=0031e604 argument=232 result=000000e8
+path-fold-api phase=return index=232 seq=268 pc=10612f67 esp=0031e608 argument=232 result=000000e8
+path-fold-api phase=entry index=233 seq=268 pc=7800a5d3 esp=0031e604 argument=233 result=000000e9
+path-fold-api phase=return index=233 seq=268 pc=10612f67 esp=0031e608 argument=233 result=000000e9
+path-fold-api phase=entry index=234 seq=268 pc=7800a5d3 esp=0031e604 argument=234 result=000000ea
+path-fold-api phase=return index=234 seq=268 pc=10612f67 esp=0031e608 argument=234 result=000000ea
+path-fold-api phase=entry index=235 seq=268 pc=7800a5d3 esp=0031e604 argument=235 result=000000eb
+path-fold-api phase=return index=235 seq=268 pc=10612f67 esp=0031e608 argument=235 result=000000eb
+path-fold-api phase=entry index=236 seq=268 pc=7800a5d3 esp=0031e604 argument=236 result=000000ec
+path-fold-api phase=return index=236 seq=268 pc=10612f67 esp=0031e608 argument=236 result=000000ec
+path-fold-api phase=entry index=237 seq=268 pc=7800a5d3 esp=0031e604 argument=237 result=000000ed
+path-fold-api phase=return index=237 seq=268 pc=10612f67 esp=0031e608 argument=237 result=000000ed
+path-fold-api phase=entry index=238 seq=268 pc=7800a5d3 esp=0031e604 argument=238 result=000000ee
+path-fold-api phase=return index=238 seq=268 pc=10612f67 esp=0031e608 argument=238 result=000000ee
+path-fold-api phase=entry index=239 seq=268 pc=7800a5d3 esp=0031e604 argument=239 result=000000ef
+path-fold-api phase=return index=239 seq=268 pc=10612f67 esp=0031e608 argument=239 result=000000ef
+path-fold-api phase=entry index=240 seq=268 pc=7800a5d3 esp=0031e604 argument=240 result=000000f0
+path-fold-api phase=return index=240 seq=268 pc=10612f67 esp=0031e608 argument=240 result=000000f0
+path-fold-api phase=entry index=241 seq=268 pc=7800a5d3 esp=0031e604 argument=241 result=000000f1
+path-fold-api phase=return index=241 seq=268 pc=10612f67 esp=0031e608 argument=241 result=000000f1
+path-fold-api phase=entry index=242 seq=268 pc=7800a5d3 esp=0031e604 argument=242 result=000000f2
+path-fold-api phase=return index=242 seq=268 pc=10612f67 esp=0031e608 argument=242 result=000000f2
+path-fold-api phase=entry index=243 seq=268 pc=7800a5d3 esp=0031e604 argument=243 result=000000f3
+path-fold-api phase=return index=243 seq=268 pc=10612f67 esp=0031e608 argument=243 result=000000f3
+path-fold-api phase=entry index=244 seq=268 pc=7800a5d3 esp=0031e604 argument=244 result=000000f4
+path-fold-api phase=return index=244 seq=268 pc=10612f67 esp=0031e608 argument=244 result=000000f4
+path-fold-api phase=entry index=245 seq=268 pc=7800a5d3 esp=0031e604 argument=245 result=000000f5
+path-fold-api phase=return index=245 seq=268 pc=10612f67 esp=0031e608 argument=245 result=000000f5
+path-fold-api phase=entry index=246 seq=268 pc=7800a5d3 esp=0031e604 argument=246 result=000000f6
+path-fold-api phase=return index=246 seq=268 pc=10612f67 esp=0031e608 argument=246 result=000000f6
+path-fold-api phase=entry index=247 seq=268 pc=7800a5d3 esp=0031e604 argument=247 result=000000f7
+path-fold-api phase=return index=247 seq=268 pc=10612f67 esp=0031e608 argument=247 result=000000f7
+path-fold-api phase=entry index=248 seq=268 pc=7800a5d3 esp=0031e604 argument=248 result=000000f8
+path-fold-api phase=return index=248 seq=268 pc=10612f67 esp=0031e608 argument=248 result=000000f8
+path-fold-api phase=entry index=249 seq=268 pc=7800a5d3 esp=0031e604 argument=249 result=000000f9
+path-fold-api phase=return index=249 seq=268 pc=10612f67 esp=0031e608 argument=249 result=000000f9
+path-fold-api phase=entry index=250 seq=268 pc=7800a5d3 esp=0031e604 argument=250 result=000000fa
+path-fold-api phase=return index=250 seq=268 pc=10612f67 esp=0031e608 argument=250 result=000000fa
+path-fold-api phase=entry index=251 seq=268 pc=7800a5d3 esp=0031e604 argument=251 result=000000fb
+path-fold-api phase=return index=251 seq=268 pc=10612f67 esp=0031e608 argument=251 result=000000fb
+path-fold-api phase=entry index=252 seq=268 pc=7800a5d3 esp=0031e604 argument=252 result=000000fc
+path-fold-api phase=return index=252 seq=268 pc=10612f67 esp=0031e608 argument=252 result=000000fc
+path-fold-api phase=entry index=253 seq=268 pc=7800a5d3 esp=0031e604 argument=253 result=000000fd
+path-fold-api phase=return index=253 seq=268 pc=10612f67 esp=0031e608 argument=253 result=000000fd
+path-fold-api phase=entry index=254 seq=268 pc=7800a5d3 esp=0031e604 argument=254 result=000000fe
+path-fold-api phase=return index=254 seq=268 pc=10612f67 esp=0031e608 argument=254 result=000000fe
+path-fold-api phase=entry index=255 seq=268 pc=7800a5d3 esp=0031e604 argument=255 result=000000ff
+path-fold-api phase=return index=255 seq=268 pc=10612f67 esp=0031e608 argument=255 result=000000ff
+path-fold-helper-return seq=268 pc=10612b80 esp=0031e620 entry-esp=0031e61c calls=256
+state seq=268 heap-begin=008a13c0 heap-first=00000000
+fpu seq=269 rva=00012f87 eax=00000000 edx=00000000 esp=0031e618 cw=ffff027f sw=ffff0020 tag=ffffffff
+trap seq=269 rva=00012f87 esp=0031e618 eax=00000000 ecx=008a0e20 stack=10612bb3,00000000,0000000b,0031f0a0,0031f088
+last-error=0
+x87-control=ffff027f
+pool-registers seq=269 ebx=3fff1000 esi=0031f0a4 edi=0000000b ebp=0031f088
+state seq=269 heap-begin=008a13c0 heap-first=00000000
+frontier rva=00012f87

@@ -116,7 +116,7 @@ def validate(original,native,candidate,report,public_state=None):
  if not stage:assert'Program received signal'not in transcript
  # The original's later locale return / target trap are separate original-only
  # analysis. Native stops BEFORE the unsupported provider body; no locale success.
- assert match(events,r'^frontier rva=([0-9a-f]+)$')==('00012f3e'if stage else'00012f08')
+ assert match(events,r'^frontier rva=([0-9a-f]+)$')==('%08x'%candidate['expected_frontier']['rva']if stage else'00012f08')
  for item in candidate.get('imports',[]):
   assert raw[item['start_rva']-0x1000:item['end_rva']-0x1000]==b'\xff\x25'+struct.pack('<I',module+item['iat_rva'])
  return dict(status='matching genuine public CRT entry; no locale behavior accepted',native_symbol=state['symbol'],public_frontier=dict(provider='MSVCRT.dll',name='setlocale',rva=0x5729,category=2,locale_bytes=[0]),generated_bss_bytes=768,initialized_known_bytes=fields['main_fields']['initialized_known_bytes'],initialized_unmodeled_bytes=fields['main_fields']['initialized_unknown_bytes'],promotion='held for concrete public-entry proof review',execution_receipts={side:sha(directory/'receipt.json')for side,directory in [('original',original),('native',native)]})

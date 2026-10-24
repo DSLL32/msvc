@@ -6,6 +6,8 @@ def definitions(binary,output,restore):
  text=r'''path_fold_entries=[]
 path_fold_returns=[]
 path_fold_calls=[]
+path_fold_getenv_entries=[]
+path_fold_getenv_returns=[]
 def path_fold_api_snapshot():
     number=lambda expression:int(gdb.parse_and_eval(expression))
     inferior=gdb.selected_inferior()
@@ -55,11 +57,14 @@ class PathFoldEntry(gdb.Breakpoint):
         returned=struct.unpack('<I',gdb.selected_inferior().read_memory(esp,4).tobytes())[0]
         frame=gdb.newest_frame();caller=frame.older();block=gdb.block_for_pc(pc)
         while block and not block.function:block=block.superblock
+        identity=gdb.parse_and_eval('*c1_host_identity')
         record={'pc':pc,'esp':esp,'return':returned,'symbol':frame.name(),
           'formal_inventory':[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument],
           'caller':{'symbol':caller.name(),'pc':int(caller.pc()),'args':{key:int(caller.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('argc','argv')}},
           'preserved':pool_cycle_preserved(),'fp':capture_x87(),'crt_state':capture_command_line_crt_state(),
-          'pre_seed':capture_modeled(),'invocation':capture_invocation()}
+          'pre_seed':capture_modeled(),'invocation':capture_invocation(),
+          'module_identity':dict({key:identity[key].string()for key in ('name','path','sha256')},flags=int(identity['flags'])),
+          'module_token':int(gdb.parse_and_eval('(unsigned int)c1_host_module'))}
         locale_native_records.append(dict(native_locale_snapshot('next'),kind='next',name='path-fold-entry-before-auxiliary'))
         if PATH_RESTORE:
             from path_fold_fields import seed
@@ -68,8 +73,31 @@ class PathFoldEntry(gdb.Breakpoint):
         record['compiler_state']=capture_modeled();path_fold_entries.append(record)
         PathFoldReturn('*0x%x'%returned);return False
 PathFoldEntry('*0x%x'%PATH_INIT_PC)
+class PathFoldGetenvReturn(gdb.Breakpoint):
+    def stop(self):
+        path_fold_getenv_returns.append({'pc':int(gdb.parse_and_eval('(unsigned int)$pc')),
+          'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),
+          'preserved':pool_cycle_preserved(),'compiler_state':capture_modeled(),'crt':observed_crt_vectors(),
+          'fp':capture_x87(),'crt_state':capture_command_line_crt_state()})
+        self.enabled=False;return False
+class PathFoldGetenvEntry(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller.name()!='parse_command_line':return False
+        pc=int(gdb.parse_and_eval('(unsigned int)$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
+        words=list(struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes()))
+        block=gdb.block_for_pc(pc)
+        while block and not block.function:block=block.superblock
+        name=gdb.Value(words[1]).cast(gdb.lookup_type('char').pointer()).string()
+        path_fold_getenv_entries.append({'pc':pc,'esp':esp,'words':words,'name':name,
+          'formal_inventory':[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument],
+          'caller':{'symbol':caller.name(),'pc':int(caller.pc()),'args':{key:int(caller.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('argc','argv')}},
+          'preserved':pool_cycle_preserved(),'compiler_state':capture_modeled(),'crt':observed_crt_vectors(),
+          'fp':capture_x87(),'crt_state':capture_command_line_crt_state()})
+        PathFoldGetenvReturn('*0x%x'%words[0]);return False
+PathFoldGetenvEntry('*0x%x'%PATH_GETENV_PC)
 '''
- return text.replace('PATH_API_PC',str(names['recon_mbctolower'][0])).replace('PATH_INIT_PC',str(names['initialize_path_fold_table'][0])).replace('PATH_RESTORE',str(bool(restore)))
+ return text.replace('PATH_API_PC',str(names['recon_mbctolower'][0])).replace('PATH_INIT_PC',str(names['initialize_path_fold_table'][0])).replace('PATH_RESTORE',str(bool(restore))).replace('PATH_GETENV_PC',str(names['recon_getenv'][0]))
 
 def final_observation(output):
- return '\n'.join("open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')"%(str(output/file),value)for file,value in [('path-fold-entries.json','path_fold_entries'),('path-fold-returns.json','path_fold_returns'),('path-fold-calls.json','path_fold_calls')])+'\n'
+ return '\n'.join("open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')"%(str(output/file),value)for file,value in [('path-fold-entries.json','path_fold_entries'),('path-fold-returns.json','path_fold_returns'),('path-fold-calls.json','path_fold_calls'),('path-fold-getenv-entries.json','path_fold_getenv_entries'),('path-fold-getenv-returns.json','path_fold_getenv_returns')])+'\n'

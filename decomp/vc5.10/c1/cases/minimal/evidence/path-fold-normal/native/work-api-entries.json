@@ -1,0 +1,142 @@
+[
+  {
+    "index": 0,
+    "pc": 134620352,
+    "esp": 4294956444,
+    "return": 134531014,
+    "args": [
+      0,
+      5242880,
+      8192,
+      4
+    ],
+    "formal_inventory": [
+      {
+        "name": "address",
+        "type": "LPVOID"
+      },
+      {
+        "name": "bytes",
+        "type": "DWORD"
+      },
+      {
+        "name": "kind",
+        "type": "DWORD"
+      },
+      {
+        "name": "protection",
+        "type": "DWORD"
+      }
+    ],
+    "edi": 4160736096,
+    "esi": 134676228,
+    "ebx": 4160351764,
+    "last_error": 0,
+    "fpu": 639
+  },
+  {
+    "index": 1,
+    "pc": 134620352,
+    "esp": 4294956444,
+    "return": 134531072,
+    "args": [
+      4152807424,
+      16384,
+      4096,
+      4
+    ],
+    "formal_inventory": [
+      {
+        "name": "address",
+        "type": "LPVOID"
+      },
+      {
+        "name": "bytes",
+        "type": "DWORD"
+      },
+      {
+        "name": "kind",
+        "type": "DWORD"
+      },
+      {
+        "name": "protection",
+        "type": "DWORD"
+      }
+    ],
+    "edi": 4160736096,
+    "esi": 134676228,
+    "ebx": 4160351764,
+    "last_error": 0,
+    "fpu": 639
+  },
+  {
+    "index": 2,
+    "pc": 134620352,
+    "esp": 4294956444,
+    "return": 134531014,
+    "args": [
+      0,
+      5242880,
+      8192,
+      4
+    ],
+    "formal_inventory": [
+      {
+        "name": "address",
+        "type": "LPVOID"
+      },
+      {
+        "name": "bytes",
+        "type": "DWORD"
+      },
+      {
+        "name": "kind",
+        "type": "DWORD"
+      },
+      {
+        "name": "protection",
+        "type": "DWORD"
+      }
+    ],
+    "edi": 4160736096,
+    "esi": 134676228,
+    "ebx": 4160351764,
+    "last_error": 0,
+    "fpu": 639
+  },
+  {
+    "index": 3,
+    "pc": 134620352,
+    "esp": 4294956444,
+    "return": 134531072,
+    "args": [
+      4147564544,
+      16384,
+      4096,
+      4
+    ],
+    "formal_inventory": [
+      {
+        "name": "address",
+        "type": "LPVOID"
+      },
+      {
+        "name": "bytes",
+        "type": "DWORD"
+      },
+      {
+        "name": "kind",
+        "type": "DWORD"
+      },
+      {
+        "name": "protection",
+        "type": "DWORD"
+      }
+    ],
+    "edi": 4160736096,
+    "esi": 134676228,
+    "ebx": 4160351764,
+    "last_error": 0,
+    "fpu": 639
+  }
+]

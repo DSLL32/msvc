@@ -40,3 +40,26 @@ finite canonical provider contract. No EBP/RET/ownership checks are waived.
 Six affected static DWARF/layout guard rejections pass0.044150s without
 executing the target. Full native helper adoption and promotion are held
 until the shared API contract and own actual complete pair pass.
+
+## Accepted completion
+
+The preceding trial preparation is retained as history. Shared support61155226d
+and both complete native pairs now pass, and independent parent review released
+the sole83-byte application function. `accepted-path-fold.json` binds the exact
+review packet, parent receipt and durable accepted prefix. The original trial,
+field map and raw receipts remain unchanged; the two stale metadata labels have
+only the explicit checked validator derivations described in the review packet.
+
+The current native build took1.502610s. Normal and restore captures took
+6.729407s and7.355407s, observing224/247 grouped checkpoints and all256/255
+actual API calls. Full validation took6.179907s/7.320769s; strict audit took
+0.039985s. Fresh affected controls:19 original semantic rejections13.029868s,
+22 native API rejections1.481509s,15 forbidden layout deltas0.126348s and
+4 prefix-role rejections0.008576s. Unchanged core controls were reused with
+their existing bindings. The native lifecycle fixture passed in0.003864s.
+
+There are now71 accepted application functions/4892 code bytes, plus451 historic
+CRT code bytes and12 import-support code bytes;16 switch-data bytes remain
+separate. Native BSS is2372 bytes. Initialized state remains2348 modeled and
+4200 UNMODELED bytes. The genuine next frontier is read_env_arguments(NULL),
+not completion of minimal compilation.

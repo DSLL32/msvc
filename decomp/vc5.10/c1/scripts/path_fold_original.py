@@ -74,9 +74,18 @@ def check(directory):
  returned=re.findall(r'^path-fold-helper-return seq=(\d+) pc=(\w+) esp=(\w+) entry-esp=(\w+) calls=(\d+)$',events,re.M);need(len(returned)==1,'actual helper return inventory')
  seq,pc,esp,entryesp,calls=returned[0];seq=int(seq);need(int(pc,16)==module+0x12b80 and int(esp,16)==int(entryesp,16)+4 and int(calls)==len(arguments),'helperRET/caller/count')
  final=re.findall(r'^trap seq=(\d+) rva=00012f87 .*stack=([0-9a-f,]+)$',events,re.M);need(len(final)==1,'actual named final entry');finalseq=int(final[0][0]);stack=[int(x,16)for x in final[0][1].split(',')];need(stack[:2]==[module+0x12bb3,0],'actual getenv absence and next argument')
+ need(re.findall(r'^trap seq=%d rva=00012f87 .*eax=(\w+) '%finalseq,events,re.M)==['00000000'],'actual retained getenv result register')
+ chain=b'\x68'+struct.pack('<I',module+0x631e8)+b'\xff\x15'+struct.pack('<I',module+0x5d050)+b'\x83\xc4\x04\x50\xe8'+struct.pack('<i',0x12f87-0x12bb3)
+ need(source[0x12b9f-0x1000:0x12bb3-0x1000]==chain,'exact second getenv pushliteral/IAT/cleanup/PUSHEAX/consumer chain')
+ need(pe_read(target,0x631e8,14)==b'MSC_CMD_FLAGS\0','original lookup literal bytes')
+ from crt_vectors import vector
+ root,environment=vector(directory/'locale-next-CRT-environment.bin')
+ need(root==reference_state[15]and all(not value.upper().startswith(b'MSC_CMD_FLAGS=')for pointer,value in environment),'actual unchanged bound namespace finite absence')
+ _,arguments_vector=vector(directory/'invoke-entry-argv.bin')
+ need(len(arguments_vector)==11 and not arguments_vector[1][1].startswith(b'@'),'actual case takes direct environment path')
  need((directory/('compiler-bss-%03d.bin'%finalseq)).read_bytes()==completed,'next helper BSS equals genuine initializer return')
  need((directory/('fpu-%03d.bin'%seq)).read_bytes()==(directory/('fpu-%03d.bin'%finalseq)).read_bytes()==fp,'return and next fullFP')
- return dict(kind='own original-only actual path-fold/qualified CRT API proof; no native success or application acceptance',directory=str(directory),receipt_sha256=sha(directory/'receipt.json'),target_sha256=sha(target),provider_sha256=sha(provider),probe=receipt['probe'],calls=len(arguments),arguments=arguments,results=mapped,table_sha256=hashlib.sha256(struct.pack('<256H',*working)).hexdigest(),unchanged_errors=[0,0,0],full_FP_unchanged=True,seconds=time.perf_counter()-started)
+ return dict(kind='own original-only actual path-fold/qualified CRT API proof; no native success or application acceptance',directory=str(directory),receipt_sha256=sha(directory/'receipt.json'),target_sha256=sha(target),provider_sha256=sha(provider),probe=receipt['probe'],calls=len(arguments),arguments=arguments,results=mapped,table_sha256=hashlib.sha256(struct.pack('<256H',*working)).hexdigest(),unchanged_errors=[0,0,0],full_FP_unchanged=True,second_getenv_proof=dict(kind='authenticated original call-site plus directly observed next-consumer result; not a separate original API entry or RET observation',call_rva=0x12ba4,iat_rva=0x5d050,literal_rva=0x631e8,literal='MSC_CMD_FLAGS',consumer_rva=0x12f87,result=0,namespace_sha256=sha(directory/'locale-next-CRT-environment.bin')),seconds=time.perf_counter()-started)
 
 if __name__=='__main__':
  import argparse

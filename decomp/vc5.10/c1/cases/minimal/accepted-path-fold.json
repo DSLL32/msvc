@@ -1,0 +1,31 @@
+{
+  "status": "accepted",
+  "function": "_initialize_path_fold_table",
+  "application_bytes": 83,
+  "accepted_application_functions": 71,
+  "accepted_application_bytes": 4892,
+  "all_code_bytes": 5355,
+  "text_data_bytes": 16,
+  "text_denominator": 322288,
+  "next_frontier": {
+    "name": "_read_env_arguments",
+    "rva": "0x12f87",
+    "arguments": [
+      null
+    ]
+  },
+  "review_packet": {
+    "path": "cases/minimal/path-fold-review.json",
+    "sha256": "c5922842a87b42ab6813b4dcb10e06b60db26fa8dbd65a5a0dbd8e2e199af639"
+  },
+  "parent_review": {
+    "path": "cases/minimal/evidence/path-fold-controls/pathfold-parent-final-review.json",
+    "sha256": "88168fabb857480c6b4687e58b1e8abdf0c434ce61726c901e5788b829bac541"
+  },
+  "durable_functions_sha256": "4d2d141ee7eef4768b73c1e6f1e5d0df40534f015814938da1f141eed0d49a7e",
+  "limits": [
+    "4200 initialized bytes remain UNMODELED and guarded",
+    "No CRT application credit",
+    "Minimal compilation incomplete"
+  ]
+}

@@ -1,0 +1,486 @@
+Breakpoint 1 at 0x804ad09: file src/pass.c, line 39.
+Breakpoint 2 at 0x804cb40: file src/arenas.cpp, line 17.
+Breakpoint 3 at 0x804dab0: file src/checksums.c, line 9.
+Breakpoint 4 at 0x804dab0: file src/checksums.c, line 9.
+Breakpoint 5 at 0x805a4a0: file ../../../lib/recon/src/crt.c, line 2437.
+Breakpoint 6 at 0x805a290: file ../../../lib/recon/src/crt.c, line 2404.
+Breakpoint 7 at 0x804dc70: file src/scanner.c, line 14.
+Breakpoint 8 at 0x80599e0: file ../../../lib/recon/src/crt.c, line 2256.
+Breakpoint 9 at 0x804dd10: file src/scanner.c, line 26.
+Breakpoint 10 at 0x80505d0: file ../../../lib/recon/src/crt.c, line 288.
+Breakpoint 11 at 0x804be00: file src/pools.cpp, line 8.
+Breakpoint 12 at 0x804c430: file src/pch-state.cpp, line 7.
+Breakpoint 13 at 0x804c540: file src/main.c, line 7.
+Breakpoint 14 at 0x804d0a0: file src/command-line.c, line 145.
+Breakpoint 15 at 0x804cdf0: file src/arenas.cpp, line 52.
+Breakpoint 16 at 0x80624c0: file ../../../lib/recon/src/win32.c, line 844.
+Breakpoint 17 at 0x804c1c0: file src/pools.cpp, line 63.
+Breakpoint 18 at 0x804c320: file src/pools.cpp, line 76.
+Breakpoint 19 at 0x804c390: file src/pools.cpp, line 82.
+Breakpoint 20 at 0x804cff0: file src/arenas.cpp, line 89.
+Breakpoint 21 at 0x804cbb0: file src/arenas.cpp, line 105.
+Breakpoint 22 at 0x804c6f0: file src/work-buffers.c, line 6.
+Breakpoint 23 at 0x804c840: file src/options.c, line 7.
+Breakpoint 24 at 0x804c670: file src/main.c, line 33.
+Breakpoint 25 at 0x804cc80: file src/arenas.cpp, line 27.
+Breakpoint 26 at 0x804cd40: file src/arenas.cpp, line 40.
+Breakpoint 27 at 0x804a8f0: file src/native-crt.c, line 20.
+Breakpoint 28 at 0x804ced0: file src/arenas.cpp, line 68.
+Breakpoint 29 at 0x804cefe: file src/arenas.cpp, line 73.
+Breakpoint 30 at 0x804cf09: file src/arenas.cpp, line 74.
+Breakpoint 31 at 0x804cf0c: file src/arenas.cpp, line 73.
+Breakpoint 32 at 0x804cf0e: file src/arenas.cpp, line 73.
+Breakpoint 33 at 0x804cf14: file src/arenas.cpp, line 74.
+Breakpoint 34 at 0x804cf16: file src/arenas.cpp, line 73.
+Breakpoint 35 at 0x804cf26: file src/arenas.cpp, line 73.
+Breakpoint 36 at 0x804cf29: file src/arenas.cpp, line 73.
+Breakpoint 37 at 0x804cf2c: file src/arenas.cpp, line 73.
+Breakpoint 38 at 0x804cf2f: file src/arenas.cpp, line 73.
+Breakpoint 39 at 0x804cf90: file src/arenas.cpp, line 81.
+Breakpoint 40 at 0x80624c0: file ../../../lib/recon/src/win32.c, line 844.
+Breakpoint 41 at 0x804c780: file src/work-buffers.c, line 14.
+Breakpoint 42 at 0x804c940: file src/options.c, line 26.
+Breakpoint 43 at 0x80505d0: file ../../../lib/recon/src/crt.c, line 288.
+Breakpoint 44 at 0x805f700: file ../../../lib/recon/src/win32.c, line 317.
+Breakpoint 45 at 0x804abd6: file src/pass.c, line 8.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 45, initialize_compiler_pass () at src/pass.c:8
+8	{
+Breakpoint 46 at 0x804ac85: file src/pass.c, line 22.
+
+Breakpoint 46, initialize_compiler_pass () at src/pass.c:22
+22	        c1_reuse_state = !c1_pass_mode;
+Breakpoint 47 at 0x804ae36: file src/initializers.c, line 5.
+
+Breakpoint 47, initialize_state_12365 () at src/initializers.c:5
+5	{
+Breakpoint 48 at 0x804ae96: file src/initializers.c, line 12.
+
+Breakpoint 48, initialize_state_12377 () at src/initializers.c:12
+12	{
+Breakpoint 49 at 0x804aef6: file src/initializers.c, line 19.
+
+Breakpoint 49, initialize_state_12389 () at src/initializers.c:19
+19	{
+Breakpoint 50 at 0x804b606: file src/buffers.c, line 5.
+
+Breakpoint 50, initialize_output_buffer_123ae () at src/buffers.c:5
+5	{
+Breakpoint 51 at 0x804b6d6: file src/buffers.c, line 24.
+
+Breakpoint 51, initialize_output_buffer_12423 () at src/buffers.c:24
+24	{
+Breakpoint 52 at 0x804b7a6: file src/buffers.c, line 44.
+
+Breakpoint 52, initialize_output_buffer_12472 () at src/buffers.c:44
+44	{
+Breakpoint 53 at 0x804b876: file src/buffers.c, line 63.
+
+Breakpoint 53, initialize_output_buffer_124c1 () at src/buffers.c:63
+63	{
+Breakpoint 54 at 0x804b946: file src/buffers.c, line 82.
+
+Breakpoint 54, initialize_output_buffer_12510 () at src/buffers.c:82
+82	{
+Breakpoint 55 at 0x804ba16: file src/buffers.c, line 101.
+
+Breakpoint 55, initialize_output_buffer_1255f () at src/buffers.c:101
+101	{
+Breakpoint 56 at 0x804bae6: file src/buffers.c, line 120.
+
+Breakpoint 56, initialize_output_buffer_125ae () at src/buffers.c:120
+120	{
+Breakpoint 57 at 0x804bbb6: file src/buffers.c, line 139.
+
+Breakpoint 57, initialize_output_buffer_125fd () at src/buffers.c:139
+139	{
+Breakpoint 58 at 0x804b316: file src/initializers.c, line 93.
+
+Breakpoint 58, initialize_state_12646 () at src/initializers.c:93
+93	{
+Breakpoint 59 at 0x804b366: file src/initializers.c, line 99.
+
+Breakpoint 59, initialize_state_12663 () at src/initializers.c:99
+99	{
+Breakpoint 60 at 0x804b3a6: file src/initializers.c, line 103.
+
+Breakpoint 60, initialize_state_12664 () at src/initializers.c:103
+103	{
+Breakpoint 61 at 0x804b3e6: file src/initializers.c, line 108.
+
+Breakpoint 61, initialize_state_1266f () at src/initializers.c:108
+108	{
+Breakpoint 62 at 0x804bc86: file src/pdb.c, line 7.
+
+Breakpoint 62, initialize_pdb_context_12676 () at src/pdb.c:7
+7	{
+Breakpoint 63 at 0x804b436: file src/initializers.c, line 114.
+
+Breakpoint 63, initialize_state_126af () at src/initializers.c:114
+114	{
+Breakpoint 64 at 0x804bd46: file src/pdb.c, line 27.
+
+Breakpoint 64, initialize_pdb_context_126b6 () at src/pdb.c:27
+27	{
+Breakpoint 65 at 0x804be76: file src/pools.cpp, line 17.
+
+Breakpoint 65, initialize_state_126ef () at src/pools.cpp:17
+17	{
+Breakpoint 66 at 0x804b4c6: file src/initializers.c, line 140.
+Breakpoint 67 at 0x804bea3: file src/pools.cpp, line 18.
+Breakpoint 68 at 0x804bef6: file src/pools.cpp, line 23.
+Breakpoint 69 at 0x804bf56: file src/pools.cpp, line 28.
+Breakpoint 70 at 0x804bfb6: file src/pools.cpp, line 33.
+Breakpoint 71 at 0x804c016: file src/pools.cpp, line 38.
+Breakpoint 72 at 0x804c076: file src/pools.cpp, line 43.
+Breakpoint 73 at 0x804c0d6: file src/pools.cpp, line 48.
+Breakpoint 74 at 0x804c136: file src/pools.cpp, line 53.
+Breakpoint 75 at 0x804c199: file src/pools.cpp, line 58.
+
+Breakpoint 66, initialize_state_1277b () at src/initializers.c:140
+140	{
+Breakpoint 76 at 0x804c51c: file src/pch-state.cpp, line 27.
+Breakpoint 77 at 0x804c71f: file src/work-buffers.c, line 7.
+Breakpoint 78 at 0x804c7c6: file src/work-buffers.c, line 16.
+Breakpoint 79 at 0x804c800: file src/work-buffers.c, line 19.
+Breakpoint 80 at 0x804c747: file src/work-buffers.c, line 9.
+Breakpoint 81 at 0x804c7c6: file src/work-buffers.c, line 16.
+Breakpoint 82 at 0x804c800: file src/work-buffers.c, line 19.
+Breakpoint 83 at 0x804c88d: file src/options.c, line 13.
+Breakpoint 84 at 0x804c88d: file src/options.c, line 13.
+Breakpoint 85 at 0x804c88d: file src/options.c, line 13.
+Breakpoint 86 at 0x804c88d: file src/options.c, line 13.
+Breakpoint 87 at 0x804c88d: file src/options.c, line 13.
+Breakpoint 88 at 0x804c88d: file src/options.c, line 13.
+Breakpoint 89 at 0x804c88d: file src/options.c, line 13.
+Breakpoint 90 at 0x804c88d: file src/options.c, line 13.
+Breakpoint 91 at 0x804c88d: file src/options.c, line 13.
+Breakpoint 92 at 0x804c88d: file src/options.c, line 13.
+Breakpoint 93 at 0x804c8a9: file src/options.c, line 14.
+Breakpoint 94 at 0x804c5af: file src/main.c, line 15.
+Breakpoint 95 at 0x804cdb1: file src/arenas.cpp, line 44.
+Breakpoint 96 at 0x804ce33: file src/arenas.cpp, line 54.
+Breakpoint 97 at 0x804ce74: file src/arenas.cpp, line 55.
+Breakpoint 98 at 0x804ce9d: file src/arenas.cpp, line 62.
+Breakpoint 99 at 0x804ccf6: file src/arenas.cpp, line 32.
+Breakpoint 100 at 0x804ce33: file src/arenas.cpp, line 54.
+Breakpoint 101 at 0x804ce74: file src/arenas.cpp, line 55.
+Breakpoint 102 at 0x804ce9d: file src/arenas.cpp, line 62.
+Breakpoint 103 at 0x804ccf6: file src/arenas.cpp, line 32.
+Breakpoint 104 at 0x804ce33: file src/arenas.cpp, line 54.
+Breakpoint 105 at 0x804ce74: file src/arenas.cpp, line 55.
+Breakpoint 106 at 0x804ce9d: file src/arenas.cpp, line 62.
+Breakpoint 107 at 0x804ccf6: file src/arenas.cpp, line 32.
+Breakpoint 108 at 0x804ce33: file src/arenas.cpp, line 54.
+Breakpoint 109 at 0x804ce74: file src/arenas.cpp, line 55.
+Breakpoint 110 at 0x804ce9d: file src/arenas.cpp, line 62.
+Breakpoint 111 at 0x804ccf6: file src/arenas.cpp, line 32.
+Breakpoint 112 at 0x804ce33: file src/arenas.cpp, line 54.
+Breakpoint 113 at 0x804ce74: file src/arenas.cpp, line 55.
+Breakpoint 114 at 0x804ce9d: file src/arenas.cpp, line 62.
+Breakpoint 115 at 0x804ccf6: file src/arenas.cpp, line 32.
+Breakpoint 116 at 0x804ce33: file src/arenas.cpp, line 54.
+Breakpoint 117 at 0x804ce74: file src/arenas.cpp, line 55.
+Breakpoint 118 at 0x804ce9d: file src/arenas.cpp, line 62.
+Breakpoint 119 at 0x804c1fb: file src/pools.cpp, line 64.
+Breakpoint 120 at 0x804c36c: file src/pools.cpp, line 78.
+Breakpoint 121 at 0x804c3ff: file src/pools.cpp, line 88.
+Breakpoint 122 at 0x804d072: file src/arenas.cpp, line 101.
+Breakpoint 123 at 0x804cc3b: file src/arenas.cpp, line 113.
+Breakpoint 124 at 0x804c21b: file src/pools.cpp, line 65.
+Breakpoint 125 at 0x804c36c: file src/pools.cpp, line 78.
+Breakpoint 126 at 0x804c3ff: file src/pools.cpp, line 88.
+Breakpoint 127 at 0x804c238: file src/pools.cpp, line 66.
+Breakpoint 128 at 0x804c36c: file src/pools.cpp, line 78.
+Breakpoint 129 at 0x804c3ff: file src/pools.cpp, line 88.
+Breakpoint 130 at 0x804c258: file src/pools.cpp, line 67.
+Breakpoint 131 at 0x804c36c: file src/pools.cpp, line 78.
+Breakpoint 132 at 0x804c3ff: file src/pools.cpp, line 88.
+Breakpoint 133 at 0x804c278: file src/pools.cpp, line 68.
+Breakpoint 134 at 0x804c36c: file src/pools.cpp, line 78.
+Breakpoint 135 at 0x804c3ff: file src/pools.cpp, line 88.
+Breakpoint 136 at 0x804c298: file src/pools.cpp, line 69.
+Breakpoint 137 at 0x804c36c: file src/pools.cpp, line 78.
+Breakpoint 138 at 0x804c3ff: file src/pools.cpp, line 88.
+Breakpoint 139 at 0x804c2b8: file src/pools.cpp, line 70.
+Breakpoint 140 at 0x804c36c: file src/pools.cpp, line 78.
+Breakpoint 141 at 0x804c3ff: file src/pools.cpp, line 88.
+Breakpoint 142 at 0x804c2d8: file src/pools.cpp, line 71.
+Breakpoint 143 at 0x804c36c: file src/pools.cpp, line 78.
+Breakpoint 144 at 0x804c3ff: file src/pools.cpp, line 88.
+Breakpoint 145 at 0x804c2f8: file src/pools.cpp, line 72.
+Breakpoint 146 at 0x804c36c: file src/pools.cpp, line 78.
+Breakpoint 147 at 0x804c3ff: file src/pools.cpp, line 88.
+Breakpoint 148 at 0x804d0d8: file src/command-line.c, line 155.
+Breakpoint 149 at 0x804d0ee: file src/command-line.c, line 156.
+Breakpoint 150 at 0x804d0f3: file src/command-line.c, line 157.
+Breakpoint 151 at 0x804dc97: file src/scanner.c, line 17.
+Breakpoint 152 at 0x804d0f8: file src/command-line.c, line 159.
+Breakpoint 153 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 154 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 155 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 156 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 157 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 158 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 159 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 160 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 161 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 162 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 163 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 164 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 165 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 166 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 167 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 168 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 169 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 170 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 171 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 172 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 173 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 174 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 175 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 176 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 177 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 178 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 179 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 180 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 181 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 182 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 183 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 184 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 185 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 186 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 187 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 188 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 189 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 190 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 191 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 192 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 193 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 194 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 195 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 196 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 197 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 198 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 199 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 200 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 201 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 202 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 203 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 204 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 205 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 206 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 207 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 208 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 209 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 210 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 211 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 212 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 213 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 214 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 215 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 216 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 217 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 218 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 219 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 220 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 221 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 222 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 223 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 224 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 225 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 226 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 227 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 228 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 229 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 230 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 231 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 232 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 233 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 234 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 235 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 236 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 237 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 238 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 239 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 240 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 241 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 242 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 243 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 244 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 245 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 246 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 247 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 248 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 249 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 250 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 251 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 252 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 253 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 254 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 255 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 256 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 257 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 258 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 259 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 260 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 261 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 262 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 263 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 264 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 265 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 266 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 267 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 268 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 269 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 270 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 271 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 272 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 273 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 274 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 275 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 276 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 277 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 278 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 279 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 280 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 281 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 282 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 283 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 284 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 285 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 286 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 287 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 288 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 289 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 290 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 291 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 292 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 293 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 294 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 295 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 296 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 297 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 298 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 299 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 300 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 301 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 302 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 303 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 304 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 305 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 306 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 307 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 308 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 309 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 310 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 311 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 312 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 313 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 314 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 315 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 316 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 317 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 318 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 319 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 320 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 321 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 322 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 323 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 324 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 325 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 326 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 327 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 328 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 329 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 330 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 331 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 332 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 333 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 334 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 335 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 336 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 337 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 338 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 339 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 340 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 341 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 342 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 343 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 344 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 345 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 346 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 347 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 348 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 349 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 350 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 351 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 352 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 353 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 354 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 355 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 356 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 357 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 358 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 359 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 360 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 361 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 362 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 363 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 364 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 365 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 366 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 367 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 368 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 369 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 370 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 371 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 372 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 373 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 374 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 375 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 376 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 377 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 378 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 379 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 380 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 381 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 382 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 383 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 384 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 385 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 386 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 387 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 388 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 389 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 390 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 391 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 392 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 393 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 394 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 395 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 396 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 397 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 398 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 399 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 400 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 401 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 402 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 403 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 404 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 405 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 406 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 407 at 0x804dd68: file src/scanner.c, line 32.
+Breakpoint 408 at 0x804d295: file src/command-line.c, line 182.
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804d7ff in read_env_arguments (arguments=0x0) at src/command-line.c:266
+266	void __cdecl read_env_arguments(char *arguments) { __asm { int 3 } }
+#0  0x0804d7ff in read_env_arguments (arguments=0x0) at src/command-line.c:266
+#1  0x0804d29d in parse_command_line (argc=11, argv=0xffffd62c) at src/command-line.c:182
+#2  0x0804c5c9 in c1_main (argc=11, argv=0xffffd62c) at src/main.c:17
+#3  0x0804a864 in InvokeCompilerPass (argc=11, argv=0xffffd62c, mode=1) at src/exports.c:16
+#4  0x0804e11e in c1_native_host (argc=2, argv=0xffffd764) at scripts/native-host.c:83
+#5  0x0805cbb5 in main (argc=2, argv=0xffffd764) at ../../../lib/recon/src/entry.c:46

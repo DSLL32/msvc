@@ -774,7 +774,12 @@ class InternalGetenvReturn(gdb.Breakpoint):
         return False
 class InternalGetenvEntry(gdb.Breakpoint):
     def stop(self):
-        frame=gdb.newest_frame();assert frame.older().name()=='scan_internal_switches'
+        frame=gdb.newest_frame()
+        if PATH_FOLD_GETENV and frame.older().name()=='parse_command_line':
+            # Recorded independently by PathFoldGetenvEntry, not folded into
+            # the earlier scan_internal_switches call's inventory.
+            return False
+        assert frame.older().name()=='scan_internal_switches'
         pc=int(gdb.parse_and_eval('$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
         words=list(struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes()))
         name=gdb.Value(words[1]).cast(gdb.lookup_type('char').pointer()).string()
@@ -787,6 +792,7 @@ class InternalGetenvEntry(gdb.Breakpoint):
 InternalParserEntry('*0x%x')
 InternalGetenvEntry('*0x%x')
 """%(parser_address,getenv_address)
+            parser_probe=parser_probe.replace('PATH_FOLD_GETENV',str(bool(candidate.get('path_fold_observers'))))
             parser_probe=parser_probe.replace('CRT_OUTPUT',repr(str(output)))
             allocation_probe=allocation_probe.replace('\nend\n','\n'+parser_probe+'end\n')
             for name,expression in [('internal-parser-entries.json','internal_parser_entries'),('internal-parser-returns.json','internal_parser_returns'),('internal-getenv-entries.json','internal_getenv_entries'),('internal-getenv-returns.json','internal_getenv_returns')]:

@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "kind": "known durable joint-prefix label guards; no target execution",
+  "checker_sha256": "a5f800ec728176406297c05340f69473848a7b1485d2d17dfe8738797a2ddd6a",
+  "candidate_sha256": "d8e1cf7209e487420b462cbe9b13c1831aecd136cfbbab48bf8c44b7d57619f7",
+  "controls": [
+    {
+      "control": "trial",
+      "rejection": "assert member['status']==wrapper['status']and member['status']in('accepted-prefix','accepted prefix')"
+    },
+    {
+      "control": "joint-new-candidate",
+      "rejection": "assert member['status']==wrapper['status']and member['status']in('accepted-prefix','accepted prefix')"
+    },
+    {
+      "control": "prospective",
+      "rejection": "assert member['status']==wrapper['status']and member['status']in('accepted-prefix','accepted prefix')"
+    },
+    {
+      "control": "mismatched-known-spellings",
+      "rejection": "assert member['status']==wrapper['status']and member['status']in('accepted-prefix','accepted prefix')"
+    }
+  ],
+  "seconds": 0.008576393127441406
+}

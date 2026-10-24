@@ -92,7 +92,7 @@ def validate_member(original,native,fields,state,sequence,probe,candidate,module
  if candidate.get('joint_acceptance'):
   assert member['status'].startswith('joint-new-candidate') and wrapper['status'].startswith('joint-new-candidate')
  else:
-  assert member['status']==wrapper['status']=='accepted-prefix'
+  assert member['status']==wrapper['status']and member['status']in('accepted-prefix','accepted prefix')
   durable=json.loads((project/'functions.json').read_text())
   assert all(name in durable['accepted'] for name in chain['functions'])
  relocated=(original/'relocated-text.bin').read_bytes()

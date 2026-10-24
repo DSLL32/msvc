@@ -1,0 +1,21 @@
+{
+  "status": "approved83B application promotion",
+  "packet_sha256": "c5922842a87b42ab6813b4dcb10e06b60db26fa8dbd65a5a0dbd8e2e199af639",
+  "independent_full_positives": [
+    {
+      "role": "normal",
+      "seconds": 6.361625128425658,
+      "log_sha256": "d18f06325bfaecc051a774e0b9b37c4a0d9bbaf51c8315d7c6c63b17524f57ac"
+    },
+    {
+      "role": "restore",
+      "seconds": 7.458014713600278,
+      "log_sha256": "5ce2ddfda90a49b44b37904d7430f8e61bfbc21c301d8ede74eb1a91cf335493"
+    }
+  ],
+  "independent_total_seconds": 13.82002967223525,
+  "source_review": "Readable unsigned-byte256WORD pathfold/SC_LEAD35 skip/slashoverride; actualnormal256/restore255 authenticated publiccalls andcomplete512B partial/output/default/nonzero-reset/neighbor/localeowner/error/architecturalFP proof. Fulltable belongsBSS, not initialized CompilerState snapshot; initializedknown2348/unknown4200 unchanged. Ownsecondgetenv actualnativeentry/RET/namespace/result, originalstaticchain+nextconsumerNULL explicitlyqualified.",
+  "metadata_review": "Exactduplicated command_line native_bss_size1860\u21922372 derivation only; oldtop-level/fieldrow/DWARF2372+WORD256@1860 alreadycorrect; immutablefieldmap/captures/mask/source/ABI preserved,15forbiddendeltas. Durablejointprefix onlyaccepts2knownspellingaliases plus realacceptedmembership/history; no trial/prospective role waiver.",
+  "provenance": "Shared61155226d exactELF2174864c, originaloracles unchanged; failedfirstnative solegetenv observer retained. Groupedreader cachedonlyvalidatedimmutableDWARFlayout; everycheckpointfreshmutable reads. NoCRT appcredit.",
+  "limits": "4200unknown initializedbytes remainguarded; nofull6548nativeequivalence, unvisitednextread_env body stilltrap."
+}

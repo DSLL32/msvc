@@ -1,0 +1,21 @@
+{
+  "kind": "once-before-lifecycle captured architectural x87 input",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-path-fold-001",
+  "original_receipt_sha256": "8be7252b2181a2133ca2a8d161e30b1aec235f686f09671080170d7d8df77322",
+  "original_float_save_sha256": "5e502dd88e7a61ab6f35452fdb80490ee86fd50cd646cdf07ffbd95e7afc4b15",
+  "original_environment_sha256": "c6c5823449968c3f87ca6c1b5790d97addce00d74378e4e854aa533cf2e720ca",
+  "guard_rva": 73770,
+  "cw": 639,
+  "sw": 32,
+  "tag": 65535,
+  "top": 0,
+  "live_registers": [],
+  "excluded": [
+    "IP",
+    "DP",
+    "selectors",
+    "empty register payload",
+    "transport upper words",
+    "Cr0NpxState"
+  ]
+}

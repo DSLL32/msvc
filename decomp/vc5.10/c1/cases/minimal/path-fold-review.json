@@ -1,0 +1,89 @@
+{
+  "status": "complete candidate proofs; promotion held for requested independent final review",
+  "application_candidate": "_initialize_path_fold_table",
+  "application_bytes": 83,
+  "code_chunks": [
+    [
+      77630,
+      77703
+    ],
+    [
+      198610,
+      198620
+    ]
+  ],
+  "accepted_application_functions_before": 70,
+  "accepted_application_bytes_before": 4809,
+  "new_BSS_table_bytes": 512,
+  "initialized_known_bytes": 2348,
+  "initialized_unmodeled_bytes": 4200,
+  "native_BSS_bytes": 2372,
+  "word_table_snapshot_role": false,
+  "shared_support": {
+    "commit": "61155226d",
+    "native_elf_sha256": "2174864ce7f35355a236f42a23a0f662432d409fd1a17528dd313788274e30a4",
+    "build_seconds": 1.502610250376165
+  },
+  "validators": {
+    "normal": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/path-fold-normal-trial-validation-final-2.json",
+      "sha256": "411c02f82065ed4711513f2bb4c6f50c02b601876b88a76bedc00d851db2699e",
+      "seconds": 6.179906915873289
+    },
+    "restore": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/path-fold-restore-trial-validation-final-2.json",
+      "sha256": "4bf22490f58c9b09ca72822940bcee2d6f832d711f27cb32e298824b4bbf62fe",
+      "seconds": 7.320768795907497
+    }
+  },
+  "controls": {
+    "path-fold-original-negative-2.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/path-fold-original-negative-2.json",
+      "sha256": "bb2a90baa306f5605933f9dd796f39022c052b6cdded74ec218c4196d11917bc",
+      "count": 19,
+      "seconds": 13.029867980629206
+    },
+    "path-fold-native-negative.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/path-fold-native-negative.json",
+      "sha256": "7f51be46c97ad0e37f3a52e565dfd2f75bc52638936642cb72c73ee30467be66",
+      "count": 22,
+      "seconds": 1.4815086871385574
+    },
+    "path-fold-layout-negative.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/path-fold-layout-negative.json",
+      "sha256": "764e0f343b2964bc9d7ea32e3c0a243f065d9c7d4779a137ac40718e7ebec470",
+      "count": 15,
+      "seconds": 0.1263478547334671
+    },
+    "path-fold-prefix-label-controls.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/path-fold-prefix-label-controls.json",
+      "sha256": "881d758f4cd6d793277d211c1a1d002587071364bdb375f0c82497c9c26b2e9a",
+      "count": 4,
+      "seconds": 0.008576393127441406
+    }
+  },
+  "source": {
+    "src/scanner.c": "aab3c3e22747e15efe2165d716f3a543e89b7c938a93739b2539a888b61ef42c",
+    "src/scanner.h": "995cc0b7c564229605065b164ffdde41ce28cf0ae945466356edc28581576337",
+    "src/compiler-state.h": "1261ddec3112699045f8342226cdf18c7708dbf3e68e61abcbdd9e36c5ac520f",
+    "src/command-line.c": "619b119efd9b422a61cbc632a9af900ecac30c8495e492b7fbcec0186bfc04f1",
+    "cases/minimal/candidate.json": "d8e1cf7209e487420b462cbe9b13c1831aecd136cfbbab48bf8c44b7d57619f7",
+    "cases/minimal/trial.json": "4d2d141ee7eef4768b73c1e6f1e5d0df40534f015814938da1f141eed0d49a7e",
+    "cases/minimal/field-map.json": "18e64a2c8f4ccc6d14dad4bb7df135987d1c2a279cc8ab8d82dd37cdaa8d5ddc",
+    "cases/minimal/path-fold-layout-refinement.json": "e2982cd6f6db81b6f3b684dc7aeaa8381b6b20fc93c36ca3d4d9002ccfae15b8",
+    "scripts/path_fold_state.py": "e0d68586f3b4dbd5bb816a88e2f7eef0a01639c7ea212c839a1bfc37c325becb",
+    "scripts/path_fold_layout.py": "2a7e7a3da072713e55927b4f50d3d2791e235a727cac3a5554d1654255aff4f5",
+    "scripts/path_fold_original.py": "e9427dcd668abd61ae57531ba192180224985b550584275c138847685a6c082c",
+    "scripts/multibyte_state.py": "5029f7936b5c44b44633056a6b81d785a6b319631ec72d916c5828bb659b9091",
+    "scripts/checksum_state.py": "8e491a3a4c15b17dfe4baf54bfce860e39fe079a0ff15ecb9765966b85c77968",
+    "scripts/pch_state.py": "a5f800ec728176406297c05340f69473848a7b1485d2d17dfe8738797a2ddd6a",
+    "scripts/command_line_state.py": "841ccbe7b64210b2b43c202f9493659bbe7bc9fe3b000c2dc2233d61117dd58f",
+    "scripts/work_state.py": "bcb0c819a35d0039f54d0c172eace360a725261de01b6b8adffcd9629dc7e96b"
+  },
+  "context_hash_note": "Validation receipts preserve the then-current hash of archive-evidence.py as debugging context. Its later copying-only change is unrelated to validation/execution; every imported validator hash remains identical. No source/raw execution evidence was relabeled.",
+  "getenv_scope": "Original exact pushliteral/FF15/ADDESP/PUSHEAX chain and actual nextconsumerNULL; no invented separate original API-entry/RET event. Native independent secondcall rawABI/namespace/result proof is fuller.",
+  "failure_retained": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-path-fold-001",
+    "kind": "native observer asserted its old sole getenv caller after successful256 lowercalls; fixed by explicit independent caller inventories, same original and ELF"
+  }
+}

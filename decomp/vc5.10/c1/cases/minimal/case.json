@@ -28,5 +28,5 @@
     "minimalin",
     "minimalsy"
   ],
-  "status": "70 application +2 historic CRT source functions accepted; scanner and own isolated setlocale/_setmbcp SBCS1252 transitions reach named next12f3e; minimal compilation incomplete"
+  "status": "71 application +2 historic CRT source functions accepted; path-fold initializer and own CP1252 API vectors reach read_env_arguments(NULL)12f87; minimal compilation incomplete"
 }

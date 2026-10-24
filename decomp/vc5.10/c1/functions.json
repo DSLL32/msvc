@@ -77,7 +77,8 @@
     "_parse_command_line",
     "_initialize_include_aliases",
     "_initialize_checksums",
-    "_initialize_multibyte_scanner"
+    "_initialize_multibyte_scanner",
+    "_initialize_path_fold_table"
   ],
   "driver": [
     {
@@ -698,6 +699,18 @@
         [
           274925504,
           274925522
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_path_fold_table",
+      "start": 274804542,
+      "end": 274804615,
+      "code_chunks": [
+        [
+          274925522,
+          274925532
         ]
       ],
       "role": "application"

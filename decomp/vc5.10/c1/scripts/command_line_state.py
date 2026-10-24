@@ -10,7 +10,10 @@ from allocation_state import symbols,call
 from provenance import captured_native_binary
 
 def expected_fields(fields):
- model=fields['command_line']
+ if fields.get('path_fold'):
+  from path_fold_layout import command_line_model
+  model=command_line_model(fields)
+ else:model=fields['command_line']
  assert model==dict(initialized_known_bytes=INITIALIZED_SIZE,initialized_unknown_bytes=6548-INITIALIZED_SIZE,
   native_initialized_size=fields['main_fields']['native_initialized_size'],native_bss_size=fields['native_bss_size'],initialized_offset=64,bss_offset=996,
   persistent_current_pdb_rva=0x5c068,unknown_semantic_consumer_frontier=fields['value_copy']['hard_frontier_rva'],

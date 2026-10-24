@@ -1,0 +1,22 @@
+{
+  "decomp/vc5.10/c1/scripts/capture-original.py": {
+    "sha256": "90cb9d7697de4430a63aa30b8293b3286f2c598bda1f312502bc36e7634bc751",
+    "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/90cb9d7697de4430a63aa30b8293b3286f2c598bda1f312502bc36e7634bc751"
+  },
+  "decomp/vc5.10/c1/scripts/dll-capture.c": {
+    "sha256": "d41aaa258b30602c5c09f09778d06e8fc710125419af361af7711fd0e6fd1ab4",
+    "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/d41aaa258b30602c5c09f09778d06e8fc710125419af361af7711fd0e6fd1ab4"
+  },
+  "decomp/vc5.10/c1/scripts/locale-observer.inc": {
+    "sha256": "5c6cc79149e547fa3e2415a3232a6de05d358481a75d6fc544636ea1a871f669",
+    "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/5c6cc79149e547fa3e2415a3232a6de05d358481a75d6fc544636ea1a871f669"
+  },
+  "decomp/vc5.10/c1/scripts/path-fold-observer.inc": {
+    "sha256": "30dcb0a096861bcc1c1cf6be0ef1b26554a94c55458fbdcba8da6e16a7192c63",
+    "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/30dcb0a096861bcc1c1cf6be0ef1b26554a94c55458fbdcba8da6e16a7192c63"
+  },
+  "decomp/vc5.10/c1/scripts/wine_tool_support.py": {
+    "sha256": "9fcb647a065a3cd0b377e2d8d47facfd40eedf1ea648e7f6e71ae2637da670ee",
+    "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/9fcb647a065a3cd0b377e2d8d47facfd40eedf1ea648e7f6e71ae2637da670ee"
+  }
+}
