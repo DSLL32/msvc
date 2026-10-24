@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_null_member_function@4",
+    "start": 307984,
+    "end": 308013
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1205-make_null_member_function-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_make_integer_constant@4",
+    "_member_pointer_function_type@4"
+  ],
+  "next_frontier": "_member_pointer_function_type@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8049290040507913,
+  "total_operation_seconds": 5.079337744042277,
+  "original_capture_seconds": 1.7691753236576915
+}

@@ -1209,7 +1209,8 @@
     "_new_symbol_reference@12",
     "_compare_member_pointer_expression@4",
     "_make_null_member_pointer@4",
-    "_make_null_compact_method_pointer@4"
+    "_make_null_compact_method_pointer@4",
+    "_make_null_member_function@4"
   ],
   "driver": [
     {
@@ -8596,7 +8597,12 @@
     {
       "name": "_make_null_member_function@4",
       "start": 307984,
-      "end": 307985
+      "end": 308013
+    },
+    {
+      "name": "_member_pointer_function_type@4",
+      "start": 310512,
+      "end": 310513
     }
   ],
   "cases": {
@@ -8797,7 +8803,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_make_null_member_function@4",
+      "terminal": "_member_pointer_function_type@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8820,7 +8826,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1204-make_null_compact_method_pointer-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1205-make_null_member_function-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -9030,7 +9036,8 @@
         "cases/frontiers/state_machine_debug/1201-new_symbol_reference-12/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1202-compare_member_pointer_expression-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1203-make_null_member_pointer-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1204-make_null_compact_method_pointer-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1204-make_null_compact_method_pointer-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1205-make_null_member_function-4/frontier-extension.json"
       ]
     }
   },

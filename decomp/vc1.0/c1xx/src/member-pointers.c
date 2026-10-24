@@ -43,6 +43,7 @@ IrToken *__stdcall lower_virtual_inheritance_member_call(IrToken *object,
 IrToken *__stdcall lower_general_inheritance_member_call(IrToken *object,
     IrToken *member, CType *type, IrToken **prefix);
 
+CType *__stdcall member_pointer_function_type(CType *type);
 IrToken *__stdcall make_null_member_function(CType *type);
 IrToken *__stdcall make_null_compact_method_pointer(CType *type);
 IrToken *__stdcall make_null_simple_data_pointer(CType *type);
@@ -459,4 +460,13 @@ IrToken *__stdcall make_null_compact_method_pointer(CType *type)
     IrToken *adjustment = make_integer_constant(0);
     IrToken *function = make_null_member_function(type);
     return make_compact_method_pointer(type, function, adjustment);
+}
+
+/* Original 0x4b310..0x4b32c, stdcall4. The function-address zero
+   retains ordinary null flags while receiving its callable pointer type. */
+IrToken *__stdcall make_null_member_function(CType *type)
+{
+    IrToken *function = make_integer_constant(0);
+    function->type = member_pointer_function_type(type);
+    return function;
 }
