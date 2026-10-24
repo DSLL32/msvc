@@ -892,3 +892,21 @@ Original/W3/ordinary audits/fresh pair and15 native cases pass(14 complete),
 next26-byte MODEND writer6aad0.344867/399693 extent bytes; app/support326567B/
 1184functions exclude5 historical CRT. Full controls6.248s, structural audit
 26.330s; full exact object pending. cases/omf-module-end-checkpoint.json.
+
+The derived standalone OMF typed-data/debug case completes at1300. The final
+26-byte MODEND writer has actual no-formal/caller proof and54 full controls/
+5 ABI rejects. Original/W3/ordinary graph/extents/RET/ABI/storage pass. Fresh
+masked original and native both exit0 with empty streams and exact2594-byte
+omftypes.obj SHA df5cd7020fa23f611e9f0782c135ac2cee61cbc5b73b906028c9d9a8fb8cf6e9.
+No normalization. All15 cached native cases complete; strict OMF artifact/input
+negatives remain. The case adds49 application/support functions and8461 code/
+text-data extent bytes since1251, no branch-coverage claim.
+
+Accepted union344893/399693 bytes(86.2895%); app/support326593B/1185functions
+exclude5 historical CRT bodies. Remaining46,092 unclassified bytes/145 pending
+driver rows are not assigned to CRT or treated as measured bodies; non-CRT
+denominator unavailable. Final structural audit27.135s; native OMF setup.014184s/
+execution.005937s/check.001161s,15-case wrapper.848s. Full measured attempts,
+splits/oracle references/limits: cases/omf-completion-checkpoint.json. The earlier
+default-group divergence and true8-byte storage repair remain preserved, with
+no record-length/checksum compensation.

@@ -1,0 +1,210 @@
+{
+  "status": "OMF typed-data/debug case complete",
+  "checkpoint": 1300,
+  "previous_checkpoint": 1299,
+  "new_application": [
+    {
+      "name": "_omf_write_module_end",
+      "start": 436944,
+      "end": 436970,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-modend-abi/validation.json",
+        "scope": "Original6aad0..6aaea sets EDX0/ECX8a before begin_record, then uses only returned EAXrecord/cursor/count and returns RET0. No incoming register/stack/flags/x87/global/output pointer data consumed. Actual original caller return6aaac/native omf_finish_module observed; record is future child result, not an incoming snapshot or fabricated pointer."
+      }
+    }
+  ],
+  "new_extent_bytes": 26,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1300,
+    "accepted_code_bytes": 344893,
+    "original_code_bytes": 399693,
+    "percentage": 86.28947717373084,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 643
+  },
+  "application_graph_rows": 1190,
+  "reconstructed_application_support_functions": 1185,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 326593,
+  "code_denominator_bytes": 399693,
+  "noncrt_denominator": null,
+  "noncrt_denominator_reason": "46,092 remaining unclassified bytes can include application/support/code data/alignment; no proven complete non-CRT denominator.",
+  "case_start_checkpoint": 1251,
+  "new_case_application_functions": 49,
+  "new_case_accepted_extent_bytes": 8461,
+  "case": {
+    "profile": "omf",
+    "origin": "Derived standalone supported C2 -omf appended to exact original CL /Od /G3 /Z7 captured environment/IR; never claimed CL emitted -omf",
+    "manifest": "../fixtures/c2-omf-typed-debug/manifest.json",
+    "original": "cases/omf-original-1300.json",
+    "original_object": "cases/omf-original-1300/omftypes.obj",
+    "output": {
+      "name": "omftypes.obj",
+      "bytes": 2594,
+      "normalized_sha256": "df5cd7020fa23f611e9f0782c135ac2cee61cbc5b73b906028c9d9a8fb8cf6e9",
+      "ignored_timestamp": []
+    },
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "exit": 0
+  },
+  "native_suite": {
+    "path": "cases/native-all-validation.json",
+    "sha256": "0d4a95a79bf94315efaa8e1b7bbcb2221ad00f2bb890ffa1c460f7eae9bd6134",
+    "total": 15,
+    "complete": 15,
+    "omf_split": {
+      "setup_seconds": 0.014183509163558483,
+      "execution_seconds": 0.00593703705817461,
+      "check_seconds": 0.0011609122157096863
+    },
+    "suite_setup_seconds": 0.15263395756483078,
+    "fixture_seconds": 0.5731947273015976,
+    "negative_check_seconds": 0.02596992254257202
+  },
+  "controls": [
+    "cases/omf-modend-validation.json"
+  ],
+  "timings": {
+    "omf1300-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 27.13481485005468,
+      "returncode": 0,
+      "log_sha256": "e7d51a8dfc36ce1bf8363aa842f0861a5d1aa1c02e9643066289441aa5bb8641"
+    },
+    "omf1300-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 2.727821265347302,
+      "returncode": 0,
+      "log_sha256": "723f31441d6ba698bf70857a04b20e629593633bdda77d775a099b516550bf5d"
+    },
+    "omf1300-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1299.json",
+        "--extend-after",
+        "cases/omf-original-1300.json"
+      ],
+      "seconds": 0.3114140275865793,
+      "returncode": 0,
+      "log_sha256": "f73e27215c9cd8909ca2e5364cdfcb354273f22933247e3e6cc61d66ece1c6b1"
+    },
+    "omf1300-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-modend.py"
+      ],
+      "seconds": 1.1012617284432054,
+      "returncode": 0,
+      "log_sha256": "9f2cc181e0a8acae5f1af74a745f589fe3fe468c4c696220327660d6d18c6784"
+    },
+    "omf1300-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-modend-entry.py"
+      ],
+      "seconds": 1.239823142066598,
+      "returncode": 0,
+      "log_sha256": "92cfe2f8fa1c737ee8aea186fa6d0512cf68383129a4ecc1d76227036d8b07df"
+    },
+    "omf1300-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8480782266706228,
+      "returncode": 0,
+      "log_sha256": "6d4143aefe39b2fecc40301631f5a601dff09f51f473309c69bb5dd8c10372d0"
+    },
+    "omf1300-inventory-timing": {
+      "command": [
+        "python3",
+        "scripts/inventory.py"
+      ],
+      "seconds": 0.1282914336770773,
+      "returncode": 0,
+      "log_sha256": "c97455251633fd1a12cb038b1cb4afdfa32d3b4344a761079339a704aeff5a5c"
+    },
+    "omf1300-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 3.9088899344205856,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1300-original-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1300.json"
+      ],
+      "seconds": 1.7790010729804635,
+      "returncode": 0,
+      "log_sha256": "06d353d8c01b651a58a8c95325a994474d26c91027e03d0822c2ccae4f7205e5"
+    },
+    "omf1300-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.5207135081291199,
+      "returncode": 0,
+      "log_sha256": "4b083e438762e0531c747dd2f168ecde13342ead5ed150a4fbcf1e1b9d70558a"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "next_frontier": null,
+  "remaining_inventory": {
+    "path": "cases/remaining-code-inventory.json",
+    "sha256": "4a4d70522361541419d7a41be6261ffe67b63d87cddec7697c53bad93fd51a20",
+    "unclassified_bytes": 46092,
+    "pending_driver_rows": 145,
+    "pending_provisional_rows": 140
+  },
+  "limits": [
+    "Whole26-byte no-formal MODEND. Actual original return6aaac/native finalizer prove boundary; body replaces incoming EDX/ECX with0/8a then uses only future child record.54 original/canonical controls/5 ABI rejects cover countwrap/cursorlastbyte/two child result pointers/register poison and exact one-zero-byte/RET0/saved regs/owned guards. No incoming record or global snapshot/seed; memory hooks forbid record access before begin.",
+    "Canonical/W3/full ordinary graph/extents/RET/ABI/storage checks pass. Fresh masked original exits0/full object exactly2594B SHA df5cd7020fa23f611e9f0782c135ac2cee61cbc5b73b906028c9d9a8fb8cf6e9, no normalization, native exact same. All15 cached native cases now complete with transcript/status/streams/artifacts and strict16 OMF artifact/input negatives. No Wine in fixtures.",
+    "OMF case adds49 reconstructed application/support functions and8461 accepted code/text-data bytes since1251; this is extent union, not branch coverage. Full conditional/control bodies recovered with named cold traps and explicit unsupported contract limits; controlled cold-child mocks do not imply actual execution. Existing5 handwritten CRT bodies remain separate, native excluded.",
+    "Earlier actual buffer divergence/default-group data misclassification preserved in cases/default-segment-group-checkpoint.json and failed raw prefixes. Final exact oracle was not changed/normalized; actual default8-byte object/path corrected.",
+    "Final step build2.728s,/W31.521s,new focused controls1.101s,ordinary structural audit27.135s,original completion1.779s,15-case native wrapper.848s. OMF native setup.014184s/execution.005937s/check.001161s; all-suite setup.152634s/fixture.573195s/negative.025970s. Prior per-function and failed/corrective timings remain in their receipts; analysis/edit not measured."
+  ]
+}

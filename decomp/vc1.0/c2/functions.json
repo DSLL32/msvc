@@ -1303,7 +1303,8 @@
     "@write_codeview_block@12",
     "@omf_output_offset@8",
     "@write_codeview_global_data@4",
-    "_omf_finish_module"
+    "_omf_finish_module",
+    "_omf_write_module_end"
   ],
   "driver": [
     {
@@ -9507,8 +9508,15 @@
     {
       "name": "_omf_write_module_end",
       "start": 436944,
-      "end": 436945,
-      "provisional": true
+      "end": 436970,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-modend-abi/validation.json",
+        "scope": "Original6aad0..6aaea sets EDX0/ECX8a before begin_record, then uses only returned EAXrecord/cursor/count and returns RET0. No incoming register/stack/flags/x87/global/output pointer data consumed. Actual original caller return6aaac/native omf_finish_module observed; record is future child result, not an incoming snapshot or fabricated pointer."
+      }
     }
   ],
   "cases": {

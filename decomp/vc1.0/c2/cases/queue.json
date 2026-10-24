@@ -301,7 +301,7 @@
     {
       "case": "omf-typed-debug",
       "after": "debug-asm-listing",
-      "status": "active",
+      "status": "complete",
       "fixture_manifest": "../fixtures/c2-omf-typed-debug/manifest.json",
       "description": "Derived standalone original C2 -omf invocation, not emitted by CL; five actual original frontend IR/source dependencies, exact2594-byte OMF object with no normalization.",
       "capture_evidence": "../fixtures/c2-omf-typed-debug/capture/independent.json"
@@ -422,9 +422,19 @@
       "pdb_bytes": 564,
       "normalized_sha256": "91d647df04590819875175d14a963ffb9b2a0ab54c8aab8abce828de1814a5fd",
       "evidence": "cases/dbglist-completion-checkpoint.json"
+    },
+    {
+      "case": "omf-typed-debug",
+      "accepted_frontiers": 1300,
+      "reconstructed_functions": 1190,
+      "exit": 0,
+      "object_bytes": 2594,
+      "sha256": "df5cd7020fa23f611e9f0782c135ac2cee61cbc5b73b906028c9d9a8fb8cf6e9",
+      "normalization": [],
+      "evidence": "cases/omf-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case1299: module finalizer accepted, matching original/native MODEND writer6aad0.14 prior cases complete.",
+  "status": "All15 approved cases complete at1300; next substantial single case requires root review/authorization.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,8 +497,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "_omf_write_module_end",
-  "current_checkpoint": 1299,
+  "current_application_frontier": null,
+  "current_checkpoint": 1300,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",

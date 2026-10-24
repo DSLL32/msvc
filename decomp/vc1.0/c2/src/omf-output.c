@@ -1301,3 +1301,13 @@ void omf_finish_module(void)
     fclose(object_file);
     object_generation_started = 0;
 }
+
+/* Original [0006aad0,0006aaea). MODEND has one zero module-type byte. */
+void omf_write_module_end(void)
+{
+    OmfRecord *record = omf_begin_record(0x8a, NULL);
+    unsigned char *cursor = record->cursor;
+    ++record->count;
+    *cursor++ = 0;
+    record->cursor = cursor;
+}

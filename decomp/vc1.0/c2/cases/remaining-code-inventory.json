@@ -1,14 +1,14 @@
 {
-  "checkpoint": 1263,
+  "checkpoint": 1300,
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
   "metric": "Index inventory, not recovered function/branch coverage. Group unions may overlap and are not additive. Provisional entries do not measure bodies.",
   "application": {
-    "indexed_rows": 1316,
-    "accepted_rows": 1153,
-    "accepted_union_bytes": 323362,
-    "unaccepted_rows": 163,
-    "unaccepted_provisional_rows": 158,
-    "unaccepted_indexed_extent_bytes": 652,
+    "indexed_rows": 1335,
+    "accepted_rows": 1190,
+    "accepted_union_bytes": 328369,
+    "unaccepted_rows": 145,
+    "unaccepted_provisional_rows": 140,
+    "unaccepted_indexed_extent_bytes": 634,
     "unaccepted_nonprovisional_indexed_extent_bytes": 416,
     "label": "Driver index, including five historical handwritten CRT bodies; use source_application_support for application source credit."
   },
@@ -31,8 +31,8 @@
     "unaccepted_nonprovisional_indexed_extent_bytes": 66
   },
   "source_application_support": {
-    "accepted_functions": 1148,
-    "accepted_union_bytes": 321586,
+    "accepted_functions": 1185,
+    "accepted_union_bytes": 326593,
     "denominator_all_original_code_bytes": 399693,
     "noncrt_denominator": null,
     "noncrt_denominator_status": "Unavailable: remaining unclassified ranges have no proven library/application identity.",
@@ -74,8 +74,8 @@
     ]
   },
   "original_code_bytes": 399693,
-  "unclassified_code_union_bytes": 51081,
-  "unclassified_ranges": 700,
+  "unclassified_code_union_bytes": 46092,
+  "unclassified_ranges": 712,
   "largest_unclassified_ranges": [
     {
       "start": "0x49231",
@@ -111,16 +111,6 @@
       "start": "0x24741",
       "end": "0x24c00",
       "bytes": 1215
-    },
-    {
-      "start": "0x6ab21",
-      "end": "0x6afc0",
-      "bytes": 1183
-    },
-    {
-      "start": "0x6b861",
-      "end": "0x6bce0",
-      "bytes": 1151
     },
     {
       "start": "0x1c681",
@@ -168,14 +158,24 @@
       "bytes": 749
     },
     {
-      "start": "0x6c540",
-      "end": "0x6c820",
-      "bytes": 736
+      "start": "0x4aea1",
+      "end": "0x4b120",
+      "bytes": 639
     },
     {
-      "start": "0x6afc1",
-      "end": "0x6b2a0",
-      "bytes": 735
+      "start": "0x70871",
+      "end": "0x70ad0",
+      "bytes": 607
+    },
+    {
+      "start": "0x4a8f1",
+      "end": "0x4ab40",
+      "bytes": 591
+    },
+    {
+      "start": "0x32800",
+      "end": "0x32a20",
+      "bytes": 544
     }
   ],
   "limit": "Unclassified ranges can include application/support functions, code data and alignment; no CRT/stdlib attribution without identity evidence.",
@@ -274,13 +274,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "_output_noop_function",
-      "start": 429424,
-      "end": 429425,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "_output_noop_value",
       "start": 429440,
       "end": 429441,
@@ -316,93 +309,9 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "_omf_output_symbol",
-      "start": 440080,
-      "end": 440081,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_omf_select_segment",
-      "start": 439968,
-      "end": 439969,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_omf_output_data",
-      "start": 440000,
-      "end": 440001,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_omf_output_debug_pair",
-      "start": 440112,
-      "end": 440113,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_omf_output_debug_record",
-      "start": 440128,
-      "end": 440129,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "_omf_output_value",
       "start": 441568,
       "end": 441569,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_omf_output_bytes",
-      "start": 438976,
-      "end": 438977,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_omf_output_offset",
-      "start": 441584,
-      "end": 441585,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_omf_output_size",
-      "start": 441600,
-      "end": 441601,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_omf_finish_module",
-      "start": 436688,
-      "end": 436689,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_output_relocation@12",
-      "start": 438208,
-      "end": 438209,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_omf_output_record",
-      "start": 440416,
-      "end": 440417,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "_omf_mark_symbol",
-      "start": 437024,
-      "end": 437025,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1219,23 +1128,9 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@write_codeview_block@12",
-      "start": 432928,
-      "end": 432929,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@write_codeview_register@4",
       "start": 432256,
       "end": 432257,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@write_codeview_global_data@4",
-      "start": 433968,
-      "end": 433969,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
@@ -1247,48 +1142,6 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@omf_name_index@4",
-      "start": 436544,
-      "end": 436545,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_write_segment_definition@4",
-      "start": 436368,
-      "end": 436369,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_write_group_definition@8",
-      "start": 436304,
-      "end": 436305,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_define_fixup_thread@16",
-      "start": 436224,
-      "end": 436225,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_pad_record@8",
-      "start": 438944,
-      "end": 438945,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
-      "name": "@omf_write_index@8",
-      "start": 443056,
-      "end": 443057,
-      "provisional": true,
-      "extent_status": "entry placeholder"
-    },
-    {
       "name": "@omf_comdat_selection@4",
       "start": 443120,
       "end": 443121,
@@ -1296,23 +1149,44 @@
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@omf_alignment@4",
-      "start": 434960,
-      "end": 434961,
+      "name": "@omf_emit_comdat_external@4",
+      "start": 437760,
+      "end": 437761,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
     {
-      "name": "@omf_write_record@4",
-      "start": 443456,
-      "end": 443457,
+      "name": "@omf_local_name_index@4",
+      "start": 437840,
+      "end": 437841,
       "provisional": true,
       "extent_status": "entry placeholder"
     },
     {
-      "name": "_omf_write_fixups",
-      "start": 443392,
-      "end": 443393,
+      "name": "@omf_emit_communal@4",
+      "start": 437904,
+      "end": 437905,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@omf_emit_weak_external@4",
+      "start": 437440,
+      "end": 437441,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@omf_write_iterated_data@16",
+      "start": 438736,
+      "end": 438737,
+      "provisional": true,
+      "extent_status": "entry placeholder"
+    },
+    {
+      "name": "@omf_write_comdat_line@12",
+      "start": 440304,
+      "end": 440305,
       "provisional": true,
       "extent_status": "entry placeholder"
     }

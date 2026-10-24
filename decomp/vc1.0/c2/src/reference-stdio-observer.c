@@ -375,6 +375,10 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             symbol,call->args[1],call->args[2],context->Ebx,read_word(process,symbol+4),scope,
             read_word(process,scope+4),read_word(process,scope+8),debug,read_word(process,debug+4),call->return_address);log_line(line);
     }
+    if(!strcmp(call->name,"_omf_write_module_end")) {
+        sprintf(line,"omf_modend return_address %08lx\n",call->return_address);log_line(line);
+        /* No incoming formal/global data is read before begin8a/NULL. */
+    }
     if(!strcmp(call->name,"_omf_finish_module")) {
         DWORD file=read_word(process,image_base+0x74fb0),fields[8],got,used;
         DWORD handle,position,high=0,file_bytes,node=read_word(process,image_base+0x74fac),index=0;
