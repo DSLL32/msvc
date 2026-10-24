@@ -1,57 +1,27 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction, active member_registry_browser completion.
-Current verified boundary: 1305 frontiers / 1199 application source functions,
-plus seven unchanged historical CRT source functions. Current frontier:
-rescan_macro_replacement RVA0x10ce0. Three further bodies are accepted after the
-five-function trial: macro-reference wrapper18B, macro-reference filler20B and
-macro-frame push126B. The filler uses its actual MacroDefinition subject;
-the earlier guessed scope-end name/type is corrected. Whole-body frame analysis
-also corrected skip_macro_space's unvisited output branch to macro_work_midpoint
-(original0x956dc), distinct from macro_expansion_start0x95780. Prior captures did
-not validate that whitespace branch; no additional acceptance credit is claimed.
-Fresh shared original/native pairs, original compilation, graph/ABI checks and
-eight cached native cases pass. Reconstruction continues only on this case.
+PARTIAL reconstruction; member_registry_browser completion is active.
+Current verified boundary: 1309 historical frontiers / 1203 application source
+functions plus seven unchanged historical CRT source functions. The current
+case stops at read_pragma_token RVA0x115c0 after52 first entries beyond its seed.
+Seven further whole bodies are accepted since the five-function trial, including
+the5326-byte pragma dispatcher and its35-entry text switch. Discovered pragma
+helpers remain typed, named unimplemented stubs with entry-only extents.
 
-Previous bounded trial:
-PARTIAL reconstruction, PAUSED after the five-function shared-harness trial.
-Reviewed baseline: 3c751d03a, 1297 frontiers / 1191 application source functions.
-Current: 1302 / 1196 application functions plus seven unchanged historical CRT
-source functions. Five additional application bodies total 1084 original bytes:
+Fresh shared original/native pairs match actual entry order, owning INT3 frontier,
+streams and applicable partial-file assertions. Original builds, inherited
+function-graph/ABI checks, eight cached cases and14 existing unit groups pass.
+The final six-artifact oracle is unchanged; the partial case has not completed.
+No other binary or reconstruction case is being advanced.
 
-    accept_preprocessor_token    RVA0x08140..0x08179     57 bytes (retained WIP)
-    scan_preprocessor_token      RVA0x08180..0x08243    195 bytes (new source)
-    check_defined_macro          RVA0x14550..0x146d2    386 bytes (new source)
-    skip_macro_space             RVA0x11040..0x1116b    299 bytes (new source)
-    parse_preprocessor_primary   RVA0x08b10..0x08ba3    147 bytes (new source)
-
-Each received a fresh masked-original/native matching pair through recon-tool.
-The retained token-helper body is now accepted; earlier migration replay did
-not count as acceptance. The case now genuinely stops at reference_browser_macro,
-RVA0x1c440 (original VA0x2c440), with 45 unseeded first entries after its seed.
-Original/native order, owning INT3 frontier, streams and complete applicable
-partial-file assertions match. The final six-artifact oracle remains unchanged;
-the partial case has not completed. Original-compiler builds and graph/ABI audits
-pass, as do all eight cached native cases and the 14 existing narrow unit-test
-groups. No sixth function was reconstructed.
-
-Fresh original captures took 1.34--2.06 seconds each; native matched runs took
-19.8--21.3 ms, with about 12--14 ms setup, 3--4 ms execution and 4 ms checks.
-The final changed-function native build took 0.99 s, original build 2.78 s,
-and graph/ABI audit 1.84 s. The eight cached cases took about 0.16 s execution
-including setup/checks (0.26 s through make). Earlier combined native/original
-build measurements were not split. Diagnostic timing logs remain in scratch,
-not in case directories.
-
-The trial exposed one shared discovery issue, fixed in recon-tool: original
---progress permits a stale expected App frontier after candidate implementation;
-ordinary native replay remains strict. The scanner's already captured pair used
-a provisionally specified next frontier, independently confirmed by the actual
-original run; subsequent captures discovered their next frontier directly.
-The graph audit also rejected an extra strcmp edge in the first spelling-check
-draft. A local C comparison preserves the original inline comparison graph;
-the unchanged original capture was reused for fresh corrected-native validation.
+Macro-frame analysis corrected the whitespace writer to macro_work_midpoint
+(original0x956dc), separate from macro_expansion_start0x95780; prior captures did
+not validate that unvisited branch. The macro-reference filler now has its actual
+MacroDefinition parameter instead of the earlier guessed scope-symbol type.
+The pragma optimize bad-string branch has a precise native unsupported trap for
+its original unwritten entryESP-40 local, after the original diagnostic/skip
+calls. Win32 source retains the bug; this path is not reached by the pack case.
 
 Build and run
 -------------
@@ -121,7 +91,7 @@ not claims that all historical GDB injections remain fixtures.
 
 Boundaries
 ----------
-Sixteen exact native limitations remain in policy-data.json and source. They
+Seventeen exact native limitations remain in policy-data.json and source. They
 include original unwritten locals (lookahead, empty include/name, null overload
 iterators, debug-query/output scope and missing-colon false result), unknown
 internal type/member-pointer domains and the unmodeled browser category prefix.

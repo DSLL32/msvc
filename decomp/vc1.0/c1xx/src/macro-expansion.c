@@ -3,6 +3,7 @@
 #include "source-input.h"
 #include "characters.h"
 #include "text-format.h"
+#include "function-definitions.h"
 #include <recon.h>
 
 MacroExpansionFrame macro_expansion_frames[256]; /* original0x9578c */
@@ -270,4 +271,41 @@ void __stdcall push_macro_expansion(MacroDefinition *definition)
     frame->source_cursor = source_text_cursor;
     macro_work_midpoint = macro_replacement_start;
     frame->replacement_start = macro_work_midpoint;
+}
+
+/* Original 0x20ce0..0x20d2c. Without extensions, counted formal-name
+   prefixes precede the replacement body and must be skipped first. */
+void rescan_macro_replacement(void)
+{
+    MacroDefinition *definition = macro_expansion_frames[macro_expansion_active].definition;
+    int remaining;
+    source_text_cursor = definition->replacement;
+    if (!options.configuration.extensions_enabled) {
+        remaining = definition->parameter_count;
+        while (remaining-- > 0)
+            source_text_cursor += (unsigned char)*source_text_cursor;
+    }
+    ++definition->flags;
+}
+
+/* Original 0x209c0..0x20a57. The outermost replacement remains
+   active until its emitted R sentinel restores the saved source cursor. */
+int finish_macro_expansion(void)
+{
+    MacroExpansionFrame *frame;
+    if (!--macro_rescan_depth) {
+        if ((unsigned)(macro_work_buffer + macro_work_bytes - 5) <=
+            (unsigned)macro_work_midpoint) macro_expansion_error(56);
+        *macro_work_midpoint++ = 0;
+        *macro_work_midpoint++ = 'R';
+        source_text_cursor = macro_expansion_frames[macro_expansion_active].replacement_start;
+        browser_macro_end_suppressed = 1;
+        return 1;
+    }
+    frame = &macro_expansion_frames[macro_expansion_active];
+    source_text_cursor = frame->source_cursor;
+    macro_expansion_start = frame->argument_start;
+    --frame->definition->flags;
+    --macro_expansion_active;
+    return 0;
 }

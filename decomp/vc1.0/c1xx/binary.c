@@ -1,10 +1,8 @@
-/* Single original function registry; RVAs are relative to image base 0x10000.
- * Paused after the five-function shared-harness trial: 1302 historical accepted
- * frontiers / 1196 implemented application bodies. Baseline was 3c751d03a,
- * 1297 / 1191; the retained token-helper WIP received fresh acceptance here.
- * CRT/import entries carry no implementation credit. The seven historical
- * CRT source overrides remain qualified in README.txt. Unimplemented one-byte
- * extents are entry placeholders, not whole bodies. */
+/* Single original function registry; RVAs are relative to image base0x10000.
+ * Current reviewed boundary:1309 historical frontiers/1203 App bodies.
+ * CRT/import entries have no implementation credit. The seven historical CRT
+ * source overrides remain qualified in README.txt. Pending one-byte extents
+ * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
@@ -63,6 +61,7 @@ static const ReconFunction functions[] = {
         .text_data_count = 1,
         .definition = RECON_APP,
         .native_symbol = "evaluate_preprocessor_binary",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_evaluate_preprocessor_expression",
@@ -778,10 +777,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_finish_macro_expansion",
         .entry_rva = 0x109c0,
-        .code = (const ReconExtent[]) { { 0x109c0, 0x109c1 } },
+        .code = (const ReconExtent[]) { { 0x109c0, 0x10a58 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "finish_macro_expansion",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_save_macro_argument_text@8",
@@ -819,10 +819,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_rescan_macro_replacement",
         .entry_rva = 0x10ce0,
-        .code = (const ReconExtent[]) { { 0x10ce0, 0x10ce1 } },
+        .code = (const ReconExtent[]) { { 0x10ce0, 0x10d2d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "rescan_macro_replacement",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_advance_macro_argument",
@@ -946,10 +947,13 @@ static const ReconFunction functions[] = {
     {
         .name = "_process_pragma",
         .entry_rva = 0x11c60,
-        .code = (const ReconExtent[]) { { 0x11c60, 0x11c61 } },
+        .code = (const ReconExtent[]) { { 0x11c60, 0x1312e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "process_pragma",
+        .text_data = (const ReconExtent[]) { { 0x13130, 0x131bc } },
+        .text_data_count = 1,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_load_precompiled_header",
@@ -15847,6 +15851,150 @@ static const ReconFunction functions[] = {
         .definition = RECON_IMPORT_NAME,
         .import_dll = "KERNEL32.dll",
         .import_name = "GetFileInformationByHandle",
+    },
+    {
+        .name = "_pragma_message@4",
+        .entry_rva = 0xf2e0,
+        .code = (const ReconExtent[]) { { 0xf2e0, 0xf2e1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "pragma_message",
+    },
+    {
+        .name = "_classify_pragma@4",
+        .entry_rva = 0xf500,
+        .code = (const ReconExtent[]) { { 0xf500, 0xf501 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "classify_pragma",
+    },
+    {
+        .name = "_warn_bad_pragma",
+        .entry_rva = 0x115a0,
+        .code = (const ReconExtent[]) { { 0x115a0, 0x115a1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "warn_bad_pragma",
+    },
+    {
+        .name = "_read_pragma_token",
+        .entry_rva = 0x115c0,
+        .code = (const ReconExtent[]) { { 0x115c0, 0x115c1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "read_pragma_token",
+    },
+    {
+        .name = "_pragma_open_parenthesis",
+        .entry_rva = 0x115e0,
+        .code = (const ReconExtent[]) { { 0x115e0, 0x115e1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "pragma_open_parenthesis",
+    },
+    {
+        .name = "_read_parenthesized_pragma_argument@4",
+        .entry_rva = 0x11620,
+        .code = (const ReconExtent[]) { { 0x11620, 0x11621 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "read_parenthesized_pragma_argument",
+    },
+    {
+        .name = "_visit_pragma_names@4",
+        .entry_rva = 0x11640,
+        .code = (const ReconExtent[]) { { 0x11640, 0x11641 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "visit_pragma_names",
+    },
+    {
+        .name = "_read_pragma_argument@4",
+        .entry_rva = 0x116c0,
+        .code = (const ReconExtent[]) { { 0x116c0, 0x116c1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "read_pragma_argument",
+    },
+    {
+        .name = "_process_pack_pragma",
+        .entry_rva = 0x11a50,
+        .code = (const ReconExtent[]) { { 0x11a50, 0x11a51 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "process_pack_pragma",
+    },
+    {
+        .name = "_synchronize_pch_pragma",
+        .entry_rva = 0x133e0,
+        .code = (const ReconExtent[]) { { 0x133e0, 0x133e1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "synchronize_pch_pragma",
+    },
+    {
+        .name = "_set_warning_level@8",
+        .entry_rva = 0x134b0,
+        .code = (const ReconExtent[]) { { 0x134b0, 0x134b1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "set_warning_level",
+    },
+    {
+        .name = "_emit_listing_directive@4",
+        .entry_rva = 0x13530,
+        .code = (const ReconExtent[]) { { 0x13530, 0x13531 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_listing_directive",
+    },
+    {
+        .name = "_warn_expected_identifier",
+        .entry_rva = 0x2c910,
+        .code = (const ReconExtent[]) { { 0x2c910, 0x2c911 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "warn_expected_identifier",
+    },
+    {
+        .name = "_enable_intrinsic_function@4",
+        .entry_rva = 0x2d4e0,
+        .code = (const ReconExtent[]) { { 0x2d4e0, 0x2d4e1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "enable_intrinsic_function",
+    },
+    {
+        .name = "_disable_intrinsic_function@4",
+        .entry_rva = 0x2d580,
+        .code = (const ReconExtent[]) { { 0x2d580, 0x2d581 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "disable_intrinsic_function",
+    },
+    {
+        .name = "_set_default_inheritance_policy@4",
+        .entry_rva = 0x39c30,
+        .code = (const ReconExtent[]) { { 0x39c30, 0x39c31 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "set_default_inheritance_policy",
+    },
+    {
+        .name = "_assign_allocated_text@4",
+        .entry_rva = 0x453a0,
+        .code = (const ReconExtent[]) { { 0x453a0, 0x453a1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "assign_allocated_text",
+    },
+    {
+        .name = "_unpack_option_flags",
+        .entry_rva = 0x646c0,
+        .code = (const ReconExtent[]) { { 0x646c0, 0x646c1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "unpack_option_flags",
     },
 };
 

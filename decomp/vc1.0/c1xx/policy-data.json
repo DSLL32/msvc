@@ -3095,6 +3095,18 @@
       "authorization": "Root confirms established exact original-uninitialized-output policy after complete74B prologue/def-use analysis",
       "coverage_note": "SUB4/saveESI+EDI8 makes original18710 [adjustedESP+8] equalentryESP-4, with no writer. On true condition1871a overwrites/discards that load, so no blanket missing-colon guard. Public reachability UNKNOWN; current case has no ternary at this frontier, no malformed-only or stack-equivalence claim.",
       "historical_evidence": "17c78f8c6:evidence/preprocessor-expressions/conditional-missing-colon.json"
+    },
+    {
+      "function": "_process_pragma",
+      "original": [
+        138336,
+        143662
+      ],
+      "condition": "optimize pragma kind21; opening parenthesis accepted; next token is not string3",
+      "behavior": "Native-only INT3 after original warn/skip effects, before uninitialized optimization-string local consumption",
+      "win32": "Original unwritten ParserValue local remains unwritten",
+      "coverage_note": "Original SUB48+fourregister saves makes227bd [ESP+24] entryESP-40. Only successful-string225f9 writes that slot;225e8 bad-string branch bypasses it. Current pack case does not reach this branch; public reachability unvalidated, no stack equivalence claimed.",
+      "authorization": "Root confirms established exact original-uninitialized-local policy; no extra acceptance credit"
     }
   ]
 }

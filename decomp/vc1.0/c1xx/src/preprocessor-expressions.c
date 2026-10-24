@@ -333,3 +333,98 @@ PreprocessorValue *parse_preprocessor_primary(void)
     *value = preprocessor_literal;
     return value;
 }
+
+/* Original 0x18250..0x185b0; its 43-way token switch occupies
+   0x185b4..0x1865f. Values are machine DWORDs; unsigned arithmetic keeps
+   the original wrapping operations defined in the native C build. */
+PreprocessorValue *__stdcall evaluate_preprocessor_binary(unsigned char operation,
+    PreprocessorValue *left, PreprocessorValue *right)
+{
+    unsigned short left_type = left->type, width = left_type & 15;
+    int unsigned_mode = (left_type & 0x4000) || (right && (right->type & 0x4000));
+    if (right && (right->type & 15) > width) width = right->type & 15;
+    if (width == 1) unsigned_mode = 0;
+    switch (operation) {
+    case OP_BIT_AND: left->value &= right->value; break;
+    case OP_LOGICAL_AND:
+        left->value = left->value && right->value;
+        unsigned_mode = 0;
+        break;
+    case OP_DIVIDE:
+        if (!right->value) {
+            if (!preprocessor_skip_evaluation) report_syntax_error(124);
+        } else if (unsigned_mode)
+            left->value = (unsigned long)left->value / (unsigned long)right->value;
+        else left->value /= right->value;
+        break;
+    case OP_EQUAL:
+        left->value = left->value == right->value;
+        unsigned_mode = 0;
+        break;
+    case OP_NOT:
+        left->value = !left->value;
+        unsigned_mode = 0;
+        break;
+    case OP_GREATER:
+        left->value = unsigned_mode ?
+            (unsigned long)left->value > (unsigned long)right->value : left->value > right->value;
+        unsigned_mode = 0;
+        break;
+    case OP_GREATER_EQUAL:
+        left->value = unsigned_mode ?
+            (unsigned long)left->value >= (unsigned long)right->value : left->value >= right->value;
+        unsigned_mode = 0;
+        break;
+    case OP_SHIFT_LEFT:
+        unsigned_mode = (left_type & 0x4000) ||
+            (options.configuration.option_J && (left_type & 0x2fdf) == 0x41 && !(left_type & 0x8000));
+        left->value = (unsigned long)left->value << (right->value & 31);
+        break;
+    case OP_LESS:
+        left->value = unsigned_mode ?
+            (unsigned long)left->value < (unsigned long)right->value : left->value < right->value;
+        unsigned_mode = 0;
+        break;
+    case OP_LESS_EQUAL:
+        left->value = unsigned_mode ?
+            (unsigned long)left->value <= (unsigned long)right->value : left->value <= right->value;
+        unsigned_mode = 0;
+        break;
+    case OP_SUBTRACT:
+        left->value = (unsigned long)left->value - (unsigned long)right->value;
+        break;
+    case OP_REMAINDER:
+        if (!right->value) {
+            if (!preprocessor_skip_evaluation) report_syntax_error(124);
+        } else if (unsigned_mode)
+            left->value = (unsigned long)left->value % (unsigned long)right->value;
+        else left->value %= right->value;
+        break;
+    case OP_MULTIPLY:
+        left->value = (unsigned long)left->value * (unsigned long)right->value;
+        break;
+    case OP_NOT_EQUAL:
+        left->value = left->value != right->value;
+        unsigned_mode = 0;
+        break;
+    case OP_BIT_OR: left->value |= right->value; break;
+    case OP_LOGICAL_OR:
+        left->value = left->value || right->value;
+        unsigned_mode = 0;
+        break;
+    case OP_ADD:
+        left->value = (unsigned long)left->value + (unsigned long)right->value;
+        break;
+    case OP_SHIFT_RIGHT:
+        unsigned_mode = (left_type & 0x4000) ||
+            (options.configuration.option_J && (left_type & 0x2fdf) == 0x41 && !(left_type & 0x8000));
+        if (unsigned_mode) left->value = (unsigned long)left->value >> (right->value & 31);
+        else left->value >>= right->value & 31;
+        break;
+    case OP_COMPLEMENT: left->value = ~left->value; break;
+    case OP_NEGATE: left->value = 0UL - (unsigned long)left->value; break;
+    case OP_BIT_XOR: left->value ^= right->value; break;
+    }
+    left->type = unsigned_mode ? 0x4044 : 0x44;
+    return left;
+}

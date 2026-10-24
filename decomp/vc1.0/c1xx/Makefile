@@ -69,6 +69,7 @@ BINARY_SOURCES = src/c1xx.c \
     src/text-format.c \
     src/type-diagnostics.c \
     src/directives.c \
+    src/pragma.c \
     src/literals.c \
     src/virtual-table-output.c \
     src/special-member-lookup.c \

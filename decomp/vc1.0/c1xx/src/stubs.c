@@ -54,6 +54,7 @@
 #include "literals-internal.h"
 #include "type-diagnostics-internal.h"
 #include "preprocessor-expressions.h"
+#include "pragma.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
@@ -213,8 +214,6 @@ void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
 unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
 int scan_macro_identifier(void) { __asm { int 3 } return 0; }
-void rescan_macro_replacement(void) { __asm { int 3 } }
-int finish_macro_expansion(void) { __asm { int 3 } return 0; }
 void __stdcall expand_macro_arguments(MacroDefinition *definition, int count) { __asm { int 3 } }
 void __stdcall emit_macro_string(unsigned char delimiter, char *text) { __asm { int 3 } }
 void __stdcall emit_macro_text(char *text) { __asm { int 3 } }
@@ -473,7 +472,6 @@ int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm
 OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 
 void undefine_source_macro(void) { __asm { int 3 } }
-void process_pragma(void) { __asm { int 3 } }
 void capture_directive_text(void) { __asm { int 3 } }
 void __stdcall skip_directive_literal(unsigned char delimiter) { __asm { int 3 } }
 int __stdcall record_pch_condition(int condition) { __asm { int 3 } return 0; }
@@ -586,6 +584,22 @@ void suppress_browser_records(void) { __asm { int 3 } }
 CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall set_browser_access(unsigned short *attributes, unsigned char access) { __asm { int 3 } }
 
-
-
-PreprocessorValue *__stdcall evaluate_preprocessor_binary(unsigned char operation, PreprocessorValue *left, PreprocessorValue *right) { __asm { int 3 } return 0; }
+/* Newly encountered pragma callees; bodies remain unaccepted entry traps. */
+void __stdcall pragma_message(char *text) { __asm { int 3 } }
+int __stdcall classify_pragma(char *name) { __asm { int 3 } return 0; }
+void warn_bad_pragma(void) { __asm { int 3 } }
+unsigned char read_pragma_token(void) { __asm { int 3 } return 0; }
+int pragma_open_parenthesis(void) { __asm { int 3 } return 0; }
+int __stdcall read_parenthesized_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
+void __stdcall visit_pragma_names(void (__stdcall *callback)(char *)) { __asm { int 3 } }
+int __stdcall read_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
+void process_pack_pragma(void) { __asm { int 3 } }
+void synchronize_pch_pragma(void) { __asm { int 3 } }
+void __stdcall set_warning_level(int number, int level) { __asm { int 3 } }
+void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
+void warn_expected_identifier(void) { __asm { int 3 } }
+void __stdcall enable_intrinsic_function(char *name) { __asm { int 3 } }
+void __stdcall disable_intrinsic_function(char *name) { __asm { int 3 } }
+void __stdcall set_default_inheritance_policy(int general) { __asm { int 3 } }
+void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
+void unpack_option_flags(unsigned flags) { __asm { int 3 } }
