@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1317 historical frontiers/1211 App bodies.
+ * Current reviewed boundary:1327 historical frontiers/1221 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -1572,6 +1572,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "set_browser_access",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_duplicate_browser_text",
@@ -1625,6 +1626,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "fill_browser_reference",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_fill_browser_base@8",
@@ -1760,10 +1762,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_browser_end_tag",
         .entry_rva = 0x1c330,
-        .code = (const ReconExtent[]) { { 0x1c330, 0x1c331 } },
+        .code = (const ReconExtent[]) { { 0x1c330, 0x1c354 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_end_tag",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_browser_begin_tag",
@@ -1785,10 +1788,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_browser_include_end",
         .entry_rva = 0x1c3d0,
-        .code = (const ReconExtent[]) { { 0x1c3d0, 0x1c3d1 } },
+        .code = (const ReconExtent[]) { { 0x1c3d0, 0x1c3de } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_include_end",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_browser_open_file",
@@ -1827,10 +1831,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_browser_type_reference@4",
         .entry_rva = 0x1c420,
-        .code = (const ReconExtent[]) { { 0x1c420, 0x1c421 } },
+        .code = (const ReconExtent[]) { { 0x1c420, 0x1c42f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_type_reference",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_browser_declaration@4",
@@ -1870,10 +1875,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_browser_enter_tag@4",
         .entry_rva = 0x1c490,
-        .code = (const ReconExtent[]) { { 0x1c490, 0x1c491 } },
+        .code = (const ReconExtent[]) { { 0x1c490, 0x1c49f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_enter_tag",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_record_string_literal@4",
@@ -4459,10 +4465,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_validate_pure_specifier@4",
         .entry_rva = 0x2b350,
-        .code = (const ReconExtent[]) { { 0x2b350, 0x2b351 } },
+        .code = (const ReconExtent[]) { { 0x2b350, 0x2b37f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "validate_pure_specifier",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_find_expression_symbol@4",
@@ -11629,10 +11636,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_compiler_warning",
         .entry_rva = 0x633b0,
-        .code = (const ReconExtent[]) { { 0x633b0, 0x633b1 } },
+        .code = (const ReconExtent[]) { { 0x633b0, 0x6349e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compiler_warning",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_format_text",
@@ -16034,6 +16042,40 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_browser_declaration",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_warning_setting@4",
+        .entry_rva = 0x7000,
+        .code = (const ReconExtent[]) { { 0x7000, 0x701f } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "warning_setting",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_diagnostic_format@4",
+        .entry_rva = 0x62e90,
+        .code = (const ReconExtent[]) { { 0x62e90, 0x62e91 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "diagnostic_format",
+    },
+    {
+        .name = "_emit_diagnostic",
+        .entry_rva = 0x634a0,
+        .code = (const ReconExtent[]) { { 0x634a0, 0x634a1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_diagnostic",
+    },
+    {
+        .name = "_flush_browser_records",
+        .entry_rva = 0x1bfb0,
+        .code = (const ReconExtent[]) { { 0x1bfb0, 0x1bfc2 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "flush_browser_records",
         .implementation = RECON_IMPLEMENTED,
     },
 };

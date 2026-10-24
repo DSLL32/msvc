@@ -57,6 +57,7 @@ BrowserRecordHeader *__stdcall browser_record_from_end(int index);
 BrowserRecordHeader *pop_last_browser_record(void);
 BrowserRecordHeader *pop_first_browser_record(void);
 void __stdcall emit_browser_record(BrowserRecordHeader *record);
+void flush_browser_records(void);
 void begin_browser_output(void);
 void __stdcall format_browser_temporary_name(char *filename);
 void begin_browser_records(void);

@@ -510,3 +510,76 @@ void browser_begin_tag(void)
     ++browser_tag_depth;
     queue_browser_record(8, 0);
 }
+
+/* Original 0x2c490..0x2c49e, stdcall4. */
+void __stdcall browser_enter_tag(CppSymbol *tag)
+{
+    queue_browser_record(11, tag);
+}
+
+/* Original 0x2b6f0..0x2b740. Replace the mutually exclusive browse
+   access bits, retaining the original WORD stores. */
+void __stdcall set_browser_access(unsigned short *attributes, unsigned char access)
+{
+    if (access == 1) {
+        *attributes |= 0x400;
+        *attributes &= 0xf7bf;
+    } else if (access == 2) {
+        *attributes |= 0x800;
+        *attributes &= 0xfbbf;
+    } else {
+        *attributes |= 0x40;
+        *attributes &= 0xf3ff;
+    }
+}
+
+/* Original 0x2c330..0x2c353. Unmatched ends clamp the nesting depth
+   without emitting a closing record. */
+void browser_end_tag(void)
+{
+    if (browser_tag_depth <= 0) {
+        browser_tag_depth = 0;
+        return;
+    }
+    --browser_tag_depth;
+    queue_browser_record(9, 0);
+}
+
+/* Original 0x2c3d0..0x2c3dd. Drain the queue after publishing the
+   include-return record, before the caller restores its source context. */
+void browser_include_end(void)
+{
+    queue_browser_record(10, 0);
+    flush_browser_records();
+}
+
+/* Original 0x2bfb0..0x2bfc1. Remove each record before emitting it. */
+void flush_browser_records(void)
+{
+    BrowserRecordHeader *record;
+    while ((record = pop_first_browser_record()) != 0)
+        emit_browser_record(record);
+}
+
+/* Original 0x2c420..0x2c42e, stdcall4. */
+void __stdcall browser_type_reference(CppSymbol *symbol)
+{
+    queue_browser_record(4, symbol);
+}
+
+/* Original 0x2bab0..0x2bb0e. Repeated, hidden and implicit-this names
+   produce no record. Qualified names use the resolution's selected target. */
+void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol)
+{
+    unsigned kind;
+    record->header.kind = 0xfc;
+    if (symbol == browser_last_reference || (symbol->flags & 0x80) ||
+        symbol->name == name_this) return;
+    if ((symbol->kind & 31) == 18) {
+        symbol = (CppSymbol *)((QualifiedDeclarator *)symbol)->resolution->binding->target;
+        kind = symbol->kind & 31;
+        if (kind == 16 || kind == 17) return;
+    }
+    fill_browser_symbol(record, symbol);
+    record->header.kind = 4;
+}

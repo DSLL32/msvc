@@ -1278,3 +1278,12 @@ void __stdcall create_static_member_alias(CppSymbol *member)
     member->index = alias->index;
     register_static_member_alias(member, alias);
 }
+
+/* Original 0x3b350..0x3b37e. A missing initializer is allowed; an
+   explicit pure specifier must be the frontend's integral zero constant. */
+void __stdcall validate_pure_specifier(IrToken *expression)
+{
+    if (!expression) return;
+    if ((expression->flags & 7) != 3 || expression->kind != 7 ||
+        !(expression->flags & 0x80)) report_syntax_error(258);
+}

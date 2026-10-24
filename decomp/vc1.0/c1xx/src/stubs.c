@@ -55,12 +55,12 @@
 #include "type-diagnostics-internal.h"
 #include "preprocessor-expressions.h"
 #include "pragma.h"
+#include "diagnostics.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
-void compiler_warning(int level, unsigned code, ...) { __asm { int 3 } }
 void preprocess_translation_unit(void) { __asm { int 3 } }
 int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
 void begin_automatic_pch(void) { __asm { int 3 } }
@@ -187,7 +187,6 @@ unsigned char synchronize_tokens(unsigned first, ...) { __asm { int 3 } return 0
 unsigned short __stdcall validate_bit_field_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_extended_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags) { __asm { int 3 } return 0; }
-void __stdcall validate_pure_specifier(IrToken *expression) { __asm { int 3 } }
 void __stdcall report_inserted_token(int actual, int expected) { __asm { int 3 } }
 ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm { int 3 } return value; }
 void __stdcall report_parser_error(char *text) { __asm { int 3 } }
@@ -196,7 +195,6 @@ void __stdcall report_parser_error(char *text) { __asm { int 3 } }
 unsigned char read_deferred_argument_text(void) { __asm { int 3 } return 0; }
 void __stdcall restore_qualified_lookup(QualifierBinding *binding) { __asm { int 3 } }
 QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena) { __asm { int 3 } return 0; }
-void __stdcall browser_type_reference(CppSymbol *symbol) { __asm { int 3 } }
 
 
 
@@ -206,7 +204,6 @@ void __stdcall browser_type_reference(CppSymbol *symbol) { __asm { int 3 } }
 
 void skip_line_comment(void) { __asm { int 3 } }
 void copy_block_comment(void) { __asm { int 3 } }
-void browser_include_end(void) { __asm { int 3 } }
 void report_ide_source_end(void) { __asm { int 3 } }
 void finish_pch_output(void) { __asm { int 3 } }
 void chain_initializer_function(void) { __asm { int 3 } }
@@ -235,7 +232,6 @@ CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall flush_current_function(int retain) { __asm { int 3 } }
 CppSymbol *__stdcall find_tag_in_chain(char *name, CppSymbol *first) { __asm { int 3 } return 0; }
 void __stdcall defer_nested_tag(CppSymbol *owner, CppSymbol *tag) { __asm { int 3 } }
-void __stdcall browser_enter_tag(CppSymbol *tag) { __asm { int 3 } }
 
 
 CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }
@@ -271,7 +267,6 @@ void __stdcall report_lookahead_error(char *unused_text) { __asm { int 3 } }
 int __stdcall has_qualified_this_type(CType *type) { __asm { int 3 } return 0; }
 
 void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage) { __asm { int 3 } }
-void browser_end_tag(void) { __asm { int 3 } }
 
 
 
@@ -573,14 +568,12 @@ IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CTyp
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
 void finish_line_record_debug_info(void) { __asm { int 3 } }
-void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_base(BrowserRecord *record, void *base) { __asm { int 3 } }
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { int 3 } }
 BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }
 
 void suppress_browser_records(void) { __asm { int 3 } }
 CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
-void __stdcall set_browser_access(unsigned short *attributes, unsigned char access) { __asm { int 3 } }
 
 /* Newly encountered pragma callees; bodies remain unaccepted entry traps. */
 void __stdcall pragma_message(char *text) { __asm { int 3 } }
@@ -600,3 +593,6 @@ void unpack_option_flags(unsigned flags) { __asm { int 3 } }
 
 void __stdcall push_pragma_packing(int alignment, char *label) { __asm { int 3 } }
 void __stdcall pop_pragma_packing(int alignment, char *label) { __asm { int 3 } }
+
+char *__stdcall diagnostic_format(unsigned code) { __asm { int 3 } return 0; }
+void emit_diagnostic(unsigned category, unsigned code, char *format, va_list arguments) { __asm { int 3 } }
