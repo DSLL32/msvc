@@ -182,9 +182,16 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_apply_option_action",
-    "start": 268448387,
-    "end": 268448388,
+    "name": "_parse_option_integer",
+    "start": 268448928,
+    "end": 268448929,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_append_option_vector",
+    "start": 268448942,
+    "end": 268448943,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

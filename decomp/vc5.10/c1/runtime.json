@@ -182,10 +182,17 @@
     "evidence": "matcher suffix pattern/argument/marker call at1303e; typed named INT3 stub only"
   },
   {
-    "name": "_apply_option_action",
-    "start": 274805162,
-    "end": 274805163,
+    "name": "_parse_option_integer",
+    "start": 274805497,
+    "end": 274805498,
     "pending_extent": true,
-    "evidence": "three-formal rule/value/copy handler called at130b7/130f3/13140; typed named INT3 stub only"
+    "evidence": "numeric option value converter, one constchar* argument; actual call13207; named typed INT3 stub only"
+  },
+  {
+    "name": "_append_option_vector",
+    "start": 274800292,
+    "end": 274800293,
+    "pending_extent": true,
+    "evidence": "two cdecl args vector/item; actual pointer append and signedshort header consumers ground signature; named typed INT3 stub only"
   }
 ]

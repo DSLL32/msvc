@@ -458,6 +458,16 @@
       "entry": 0
     },
     {
+      "start_rva": 78250,
+      "end_rva": 78469,
+      "entry": 1
+    },
+    {
+      "start_rva": 78480,
+      "end_rva": 78551,
+      "entry": 0
+    },
+    {
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
@@ -570,6 +580,11 @@
     {
       "start_rva": 198937,
       "end_rva": 198959,
+      "entry": 1
+    },
+    {
+      "start_rva": 198959,
+      "end_rva": 199113,
       "entry": 1
     }
   ],
@@ -1721,7 +1736,34 @@
           78250
         ]
       ],
-      "status": "trial whole439B matcher;74B shared jump+selector table, no padding credit",
+      "status": "accepted prefix",
+      "source": "src/option-matcher.c"
+    },
+    {
+      "name": "_apply_option_action",
+      "native_symbol": "apply_option_action",
+      "role": "application",
+      "chunks": [
+        [
+          78250,
+          78469
+        ],
+        [
+          198959,
+          199113
+        ],
+        [
+          78480,
+          78551
+        ]
+      ],
+      "text_data_chunks": [
+        [
+          78480,
+          78551
+        ]
+      ],
+      "status": "trial whole373B option actions;71B shared dispatch/selector data,11padding excluded",
       "source": "src/option-matcher.c"
     }
   ],
@@ -1744,18 +1786,16 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "kind": "option-match-action",
-    "rva": 78250,
-    "native_symbol": "apply_option_action",
+    "kind": "option-action-integer",
+    "rva": 78585,
+    "native_symbol": "parse_option_integer",
     "native_args": [
-      "rule",
-      "value",
-      "copy"
+      "value"
     ],
     "calling_convention": "cdecl",
     "caller": {
-      "native_symbol": "match_option",
-      "return_rva": 78012
+      "native_symbol": "apply_option_action",
+      "return_rva": 78348
     }
   },
   "imports": [
@@ -2268,5 +2308,28 @@
     "argument_index": 1,
     "value_index": 2,
     "rule_index": 31
+  },
+  "option_action_observers": {
+    "action_entry_rva": 78250,
+    "action_return_rvas": [
+      78012,
+      78149
+    ],
+    "frontier_rva": 78585,
+    "first_rules": [
+      31,
+      12,
+      23
+    ],
+    "signature_returns": [
+      76849,
+      78050,
+      78113
+    ],
+    "borrowed_values": [
+      2,
+      4,
+      6
+    ]
   }
 }

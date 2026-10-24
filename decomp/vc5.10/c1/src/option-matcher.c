@@ -1,3 +1,4 @@
+#include <string.h>
 #include "compiler-state.h"
 #include <recon.h>
 
@@ -5,6 +6,8 @@ __declspec(dllimport) unsigned long __cdecl SigForPbCb(const void *, long,
                                                        unsigned long);
 int __cdecl match_option_suffix(const char *, char *, unsigned);
 void __cdecl apply_option_action(CompilerOptionRule *, char *, int);
+int __cdecl parse_option_integer(const char *);
+void __cdecl append_option_vector(CompilerVector *, void *);
 
 /* The punctuation belongs to the option grammar, rather than the input:
  * '-' accepts either switch introducer, '%' suppresses the signature,
@@ -108,7 +111,68 @@ int __cdecl match_option_suffix(const char *pattern, char *argument,
     return 0;
 }
 
+/* The table's actions describe the destination type, independently of the
+ * pattern punctuation. Copying is requested by the caller, not inferred from
+ * whether a string happens to reside in the command line. */
 void __cdecl apply_option_action(CompilerOptionRule *rule, char *value, int copy)
+{
+    CompilerZRule *letter;
+    char *name;
+    unsigned length;
+
+    switch (rule->action) {
+    case 1:
+        *(int *)rule->target = 1;
+        break;
+    case 5:
+        *(int *)rule->target = 0;
+        break;
+    case 0x27:
+        if (*(char **)rule->target) {
+            name = _strdup(rule->pattern);
+            for (length = 0; name[length]; ++length)
+                ;
+            name[length - 1] = '\0';
+            compiler_error(46, name, *(char **)rule->target, value);
+            return;
+        }
+        /* First occurrence follows the ordinary string-assignment action. */
+    case 0x22:
+        *(char **)rule->target = copy ? _strdup(value) : value;
+        break;
+    case 0x23:
+        for (; *value; ++value) {
+            letter = (CompilerZRule *)rule->target;
+            while (letter->letter &&
+                   (unsigned char)letter->letter != (unsigned char)*value)
+                ++letter;
+            if (letter->letter) {
+                if (letter->action == 1)
+                    *letter->target = 1;
+                else if (letter->action == 5)
+                    *letter->target = 0;
+            } else {
+                compiler_error(48, *value, c1_bss.current_argument);
+            }
+        }
+        break;
+    case 0x24:
+        *(int *)rule->target = parse_option_integer(value);
+        break;
+    case 0x26:
+        append_option_vector(*(CompilerVector **)rule->target,
+                             copy ? _strdup(value) : value);
+        break;
+    }
+}
+
+int __cdecl parse_option_integer(const char *value)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __cdecl append_option_vector(CompilerVector *vector, void *item)
 {
     __asm { int 3 }
 }
