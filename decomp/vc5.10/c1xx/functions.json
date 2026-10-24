@@ -98,7 +98,8 @@
     "_new_option_vector",
     "_next_argument",
     "_match_option",
-    "_apply_option_action"
+    "_apply_option_action",
+    "_parse_option_integer"
   ],
   "driver": [
     {
@@ -1248,11 +1249,16 @@
     {
       "name": "_parse_option_integer",
       "start": 272865145,
-      "end": 272865146,
+      "end": 272865243,
       "source": "src/option-matcher.c",
       "abi": "cdecl4",
-      "pending_extent": true,
-      "evidence": "Actual full option action direct caller identifies named pending boundary and physical stack formals; no body/credit."
+      "evidence": "Own135B numeric option parser:98hot+37cold; unsigned-byte public isspace/isdigit, signed32 atol, exclusive0..65534 range and diagnostic49 preserving parsed value.",
+      "code_chunks": [
+        [
+          273098353,
+          273098390
+        ]
+      ]
     },
     {
       "name": "_append_option_vector",
@@ -5706,6 +5712,164 @@
         ]
       ],
       "shared_text_data_code_credit": 0
+    },
+    {
+      "name": "_parse_option_integer",
+      "classification": "application source",
+      "source": "src/option-matcher.c",
+      "source_sha256": "6ca15d4e2a3ea390662c725d7f51afe164a1eea95acd7755e02c3288f4006719",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-numeric-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-numeric-native-2",
+      "original_receipt_sha256": "f1db902e7a46d3d2063531f509cada8a283f769a6efbb4bf1a67b5c15aad6531",
+      "native_receipt_sha256": "05854ca0f146e2c912afd35f7a5bafb362f21e14e16aa83c0209adaf67c49474",
+      "trial_sha256": "551278c991b8d70de6590a816270c3391e3b43f5eb1a4a83bba5cb10a3bd3acf",
+      "audit_sha256": "a3aa628bcb69d07fff8b91823b41a00fd005fde3536b8f77a37a4c385048a3b4",
+      "code_chunks": [
+        [
+          235385,
+          235483
+        ],
+        [
+          468593,
+          468630
+        ]
+      ],
+      "comparison": {
+        "matcher_boundary": {
+          "frontier": "_match_option_suffix",
+          "candidate": "_parse_option_integer",
+          "code_bytes": 135,
+          "numeric_input": "1",
+          "numeric_result": 1,
+          "public_calls": [
+            {
+              "kind": "isspace",
+              "argument_role": 49,
+              "original_raw": 0,
+              "native_raw": 0,
+              "comparison": "zero/nonzero only",
+              "code_credit": 0
+            },
+            {
+              "kind": "isdigit",
+              "argument_role": 49,
+              "original_raw": 4,
+              "native_raw": 2048,
+              "comparison": "zero/nonzero only",
+              "code_credit": 0
+            },
+            {
+              "kind": "atol",
+              "argument_role": "borrowed Invoke[6]",
+              "original_raw": 1,
+              "native_raw": 1,
+              "comparison": "exact signed32",
+              "code_credit": 0
+            }
+          ],
+          "final_suffix_formals": [
+            "pattern",
+            "argument",
+            "action"
+          ],
+          "suffix_action": 35,
+          "actual_matches": 4,
+          "actual_actions": 3,
+          "actual_signature_calls": 5,
+          "unknown_initialized_bytes": 6031,
+          "unvisited_paths": "whitespace/invalid/range source+graph only",
+          "CRT_code_credit": 0,
+          "prefix": {
+            "frontier": "_parse_option_integer",
+            "code_bytes": 373,
+            "table_data_bytes": 71,
+            "table_code_credit": 0,
+            "matches": 3,
+            "actions": 3,
+            "returned_actions": 2,
+            "outer_callbacks": 3,
+            "inner_callbacks": 3,
+            "signature_calls": 3,
+            "final_argument": "borrowed Invoke[6] 1 NUL",
+            "argc_after": 20,
+            "unknown_initialized_bytes": 6031,
+            "prefix": {
+              "frontier": "_apply_option_action",
+              "code_bytes": 430,
+              "table_data_bytes": 74,
+              "table_code_credit": 0,
+              "new_BSS_semantic_bytes": 4,
+              "argument": "borrowed Invoke[1] -il",
+              "value": "borrowed Invoke[2]",
+              "argc_before": 25,
+              "argc_after": 24,
+              "rule_index": 31,
+              "rule_action": 34,
+              "signature": {
+                "input_hex": "435050",
+                "defined_literal_hex": "43505000",
+                "count": 3,
+                "seed": 4294967295,
+                "result": 2746358228,
+                "result_hex": "a3b219d4",
+                "provider_code_bytes": 53,
+                "provider_table_bytes": 1024,
+                "private_stack": "all3 slots observed pre/post, third equals result on both; caller ADD12 before any slot read/escape, only EAX consumed",
+                "provider_application_credit": 0
+              },
+              "prefix": {
+                "frontier": "_match_option",
+                "code_bytes": 34,
+                "executed_case": "actual normal/restore accepted-prefix iterator checkpoint",
+                "normal_case": "ordinary matcher continuation; no additional iterator acceptance",
+                "argc_before": 26,
+                "argc_after": 25,
+                "argv_advance_bytes": 4,
+                "result": "borrowed Invoke argv[1] -il NUL",
+                "matcher_formals": 4,
+                "vector_prefix": {
+                  "frontier": "public:mspdb50!SigForPbCb",
+                  "code_bytes": 116,
+                  "calls": 3,
+                  "object_bytes": 36,
+                  "pointer_storage_bytes": 480,
+                  "commit_bytes": 32768,
+                  "provider_executed": false,
+                  "provider_return_claimed": false
+                }
+              },
+              "unmodeled_initialized_bytes": 6031
+            }
+          }
+        },
+        "trial": "_parse_option_integer",
+        "frontier": "_match_option_suffix",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 2797,
+        "native_bss_size": 2828,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 6031,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 71.92010911274701,
+        "native_seconds": 11.62006316985935
+      }
     }
   ],
   "imports": [

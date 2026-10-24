@@ -1,0 +1,31 @@
+{
+  "kind": "numeric-only exact export-cache refinement controls; no binary invocation",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-numeric-original-1",
+  "original_receipt_sha256": "f1db902e7a46d3d2063531f509cada8a283f769a6efbb4bf1a67b5c15aad6531",
+  "checker_sha256": "1110659882e686606ff91132360d558e3a1c135e3f2cb145853d4be00553b886",
+  "control_sha256": "d366382282dd6d909c0c70b7d6cd651f949b4555b6f7467b2cac9c3fc3352110",
+  "count": 5,
+  "cases": [
+    {
+      "case": "extra-source-byte",
+      "rejection": "isolated locale: observer delta exceeds three immutable numeric export entries"
+    },
+    {
+      "case": "wrong-new-RVA",
+      "rejection": "isolated locale: unknown compiled observer extension"
+    },
+    {
+      "case": "missing-new-export",
+      "rejection": "isolated locale: unknown compiled observer extension"
+    },
+    {
+      "case": "fourth-export",
+      "rejection": "isolated locale: observer delta exceeds three immutable numeric export entries"
+    },
+    {
+      "case": "wrong-candidate",
+      "rejection": "isolated locale: unknown compiled observer extension"
+    }
+  ],
+  "seconds": 15.372807706706226
+}

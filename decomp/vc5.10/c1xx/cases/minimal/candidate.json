@@ -95,7 +95,8 @@
     "_new_option_vector",
     "_next_argument",
     "_match_option",
-    "_apply_option_action"
+    "_apply_option_action",
+    "_parse_option_integer"
   ],
   "trial": null,
   "ranges": [
@@ -905,7 +906,19 @@
       "end_rva": 235351,
       "entry": 0,
       "kind": "text_data"
+    },
+    {
+      "owner": "_parse_option_integer",
+      "start_rva": 235385,
+      "end_rva": 235483,
+      "entry": 1
+    },
+    {
+      "owner": "_parse_option_integer",
+      "start_rva": 468593,
+      "end_rva": 468630,
+      "entry": 0
     }
   ],
-  "stage": "_apply_option_action accepted; next frontier _parse_option_integer"
+  "stage": "_parse_option_integer accepted; next frontier _match_option_suffix"
 }

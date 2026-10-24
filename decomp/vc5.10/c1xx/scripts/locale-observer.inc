@@ -7,7 +7,7 @@ static DWORD locale_export(const char *wanted)
         {"__mb_cur_max",0x3fba0,0},{"__lc_codepage",0x3f8f8,0},{"__lc_handle",0x3f1a8,0},
         {"_pctype",0x3fb9c,0},{"_mbctype",0x3f1c8,0},{"_ctype",0x3fba8,0},{"setlocale",0x5729,0},
         {"__argc",0x3fa84,0},{"__argv",0x3fa8c,0},{"_environ",0x3f8fc,0},
-        {"_errno",0x6436,0},{"__doserrno",0x642d,0},{"_getmbcp",0xa573,0},{"_setmbcp",0x2257,0},{"_mbctolower",0xa5d3,0}
+        {"_errno",0x6436,0},{"__doserrno",0x642d,0},{"_getmbcp",0xa573,0},{"_setmbcp",0x2257,0},{"_mbctolower",0xa5d3,0},{"isspace",0x1c0be,0},{"isdigit",0x1c065,0},{"atol",0x5d30,0}
     };
     static DWORD module;
     unsigned item; DWORD index,name,address,rva; WORD slot; char text[128];

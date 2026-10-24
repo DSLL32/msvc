@@ -69,7 +69,7 @@ def check(directory):
         path = directory / name
         require(Path(name).name == name and path.is_file() and path.stat().st_size == row['size'] and sha(path) == row['sha256'], 'capture artifact drift: ' + name)
     trial = json.loads((directory / 'trial.json').read_text())
-    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector','_next_argument','_match_option','_apply_option_action'), 'not a genuine encountered checksum/scanner candidate')
+    require(trial['trial'] in ('_initialize_checksums','_initialize_multibyte_categories','_initialize_lowercase_table','_read_env_arguments','_new_option_vector','_next_argument','_match_option','_apply_option_action','_parse_option_integer'), 'not a genuine encountered checksum/scanner candidate')
     for name, digest in trial['case_inputs'].items():
         require(sha(directory / Path(name).name) == digest, 'case input drift: ' + name)
     schema = json.loads((directory / 'locale-schema.json').read_text())
@@ -77,7 +77,23 @@ def check(directory):
     provider, target = directory / 'loaded-msvcrt.bin', directory / 'loaded-target.bin'
     require(sha(provider) == receipt['canonical_crt_sha256'] == schema['provider_sha256'] and provider.stat().st_size == schema['provider_bytes'], 'actual provider hFile identity')
     require(sha(target) == receipt['target_sha256'] == schema['target_sha256'], 'actual target hFile identity')
-    require(sha(directory / 'locale-observer.inc') == schema['transport_source']['sha256'], 'compiled observer source identity')
+    transport = (directory / 'locale-observer.inc').read_bytes()
+    transport_refinement = None
+    if hashlib.sha256(transport).hexdigest() != schema['transport_source']['sha256']:
+        # The numeric observer adds only these immutable export-cache entries.
+        # Removing exactly that addition must reproduce the authenticated old
+        # observer byte for byte; every locale read/phase remains unchanged.
+        added = b',{"isspace",0x1c0be,0},{"isdigit",0x1c065,0},{"atol",0x5d30,0}'
+        require(trial['trial'] == '_parse_option_integer' and trial.get('integer_observers') and
+                transport.count(added) == 1, 'unknown compiled observer extension')
+        prior = transport.replace(added, b'', 1)
+        require(hashlib.sha256(prior).hexdigest() == schema['transport_source']['sha256'],
+                'observer delta exceeds three immutable numeric export entries')
+        for name, rva in (('isspace', 0x1c0be), ('isdigit', 0x1c065), ('atol', 0x5d30)):
+            require(export_rva(provider, name) == rva, 'numeric canonical export identity: ' + name)
+        transport_refinement = dict(kind='exact three immutable export-cache entries only; no locale read/phase change',
+                                    compiled_sha256=hashlib.sha256(transport).hexdigest(),
+                                    prior_sha256=hashlib.sha256(prior).hexdigest())
     for name, rva in schema['exports'].items():
         require(export_rva(provider, name) == rva, 'canonical export identity: ' + name)
     for row in schema['canonical_instructions']:
@@ -93,7 +109,7 @@ def check(directory):
     base = int(re.search(r'^module name=MSVCRT.dll actual=(\w+) ', text, re.M | re.I)[1], 16)
     require(int(entry[1], 16) == base + schema['exports']['setlocale'] and int(entry[3], 16) == int(returned[1], 16) == 0x10400000 + call['caller_return_rva'], 'public entry/return PCs')
     require(int(entry[4]) == 2 and int(entry[5], 16) == call['arguments'][1] and int(returned[2], 16) == int(entry[2], 16) + 4 and returned[3] == entry[2] and returned[0] == entry[0] and entry[6:] == returned[5:], 'cdecl arguments/RET0/nonvolatile ABI')
-    expected_frontier={'_apply_option_action':'00039779','_match_option':'00039632','_next_argument':'0003944a','_read_env_arguments':'0000682f','_initialize_lowercase_table':'00039413','_initialize_multibyte_categories':'000393ca'}.get(trial['trial'],'00039394')
+    expected_frontier={'_parse_option_integer':'00039757','_apply_option_action':'00039779','_match_option':'00039632','_next_argument':'0003944a','_read_env_arguments':'0000682f','_initialize_lowercase_table':'00039413','_initialize_multibyte_categories':'000393ca'}.get(trial['trial'],'00039394')
     expected_frontiers=[expected_frontier]
     if trial['trial']=='_new_option_vector':
         expected_frontiers=['00039428']if trial.get('test_seed')else[]
@@ -160,7 +176,7 @@ def check(directory):
     for phase in ('before', 'after', 'next'):
         bss = (directory / ('locale-' + phase + '-target-BSS.bin')).read_bytes()
         require(len(bss) == 63132 and bss[0xbe970 - 0xb9000:0xbec70 - 0xb9000] == tables, 'full checksum tables to next target')
-    return dict(kind='original-only isolated canonical setlocale witness; no native success or function acceptance', original_directory=str(directory), original_receipt_sha256=sha(directory / 'receipt.json'), provider_sha256=sha(provider), target_sha256=sha(target), trial_sha256=sha(directory / 'trial.json'), schema_sha256=sha(directory / 'locale-schema.json'), checker_sha256=sha(Path(__file__)), phases=observed, private_vectors=private, complete_original_checksum_bytes=768, pointer_ownership='actual pointers/static-provider identities/mapped regions only; heap object extents UNPROVEN', full112_FP_unchanged=True, target_live_snapshot_BSS_unchanged=True, next_target_rva=0x39394, artifacts_checked=len(receipt['artifacts']), seconds=time.perf_counter() - start)
+    return dict(**({'transport_refinement': transport_refinement} if transport_refinement else {}), kind='original-only isolated canonical setlocale witness; no native success or function acceptance', original_directory=str(directory), original_receipt_sha256=sha(directory / 'receipt.json'), provider_sha256=sha(provider), target_sha256=sha(target), trial_sha256=sha(directory / 'trial.json'), schema_sha256=sha(directory / 'locale-schema.json'), checker_sha256=sha(Path(__file__)), phases=observed, private_vectors=private, complete_original_checksum_bytes=768, pointer_ownership='actual pointers/static-provider identities/mapped regions only; heap object extents UNPROVEN', full112_FP_unchanged=True, target_live_snapshot_BSS_unchanged=True, next_target_rva=int(expected_frontier,16), artifacts_checked=len(receipt['artifacts']), seconds=time.perf_counter() - start)
 
 
 if __name__ == '__main__':

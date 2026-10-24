@@ -1,4 +1,6 @@
 static int option_action_probe;
+static int option_integer_probe;
+static void integer_enter(CONTEXT *,HANDLE,DWORD);
 static void action_remote(const char *stem,DWORD unused,DWORD address,DWORD bytes)
 {char name[128];(void)unused;sprintf(name,"%s.bin",stem);vector_remote(name,address,bytes);}
 /* Original-only complete ordered option/action/callback/public-call inventory.
@@ -25,10 +27,11 @@ static void prepare_option_action_observer(void)
     if(!file)return;
     if(baseline || !getenv("C1XX_OBSERVE_MATCHER") || !vector_probe || 0 ||
        fscanf(file,"%lx %lx",&entry,&frontier)!=2 || entry!=0x39632 ||
-       frontier!=0x39779 || fgetc(file)!='\n' || fgetc(file)!=EOF)
+       (frontier!=0x39779 && frontier!=0x39757) || fgetc(file)!='\n' || fgetc(file)!=EOF)
         fail("option action observer plan");
-    fclose(file);option_action_probe=1;
-    fprintf(events,"option-actions-plan ordinary=1 no-seeds=1 action=00039632 frontier=00039779\n");
+    fclose(file);option_action_probe=1;option_integer_probe=frontier==0x39757;
+    fprintf(events,"option-actions-plan ordinary=1 no-seeds=1 action=00039632 frontier=%08lx\n",frontier);
+    if(option_integer_probe)fprintf(events,"integer-plan actual-one-call=1 APIs=isspace,isdigit,atol suffix-frontier=00039757 legacy-first-prefix-only=1\n");
 }
 
 static void action_registers(const char *tag,unsigned index,DWORD address,
@@ -66,7 +69,7 @@ static void observe_option_action_entry(DWORD address,CONTEXT *context,HANDLE th
     if(!option_action_probe || (address!=base+0x3944a && address!=base+0x39428 && address!=base+0x39632))return;
     readmem(context->Esp,stack,sizeof(stack));
     if(address==base+0x3944a) {
-        if(action_match_active || action_matches>=3 || stack[0]!=base+(action_matches?0x390dc:0x390be))
+        if(action_match_active || action_matches>=(option_integer_probe?4U:3U) || stack[0]!=base+(action_matches?0x390dc:0x390be))
             fail("matcher ordered caller/count");
         ++action_matches;action_match_active=1;action_match_esp=context->Esp;
         action_match_return=stack[0];action_match_saved=snapshot[action_match_return-base-code_rva];
@@ -77,7 +80,7 @@ static void observe_option_action_entry(DWORD address,CONTEXT *context,HANDLE th
     } else if(address==base+0x39428) {
         if(action_next_active)fail("nested option argument callback");
         if(stack[0]==base+(action_outer_calls?0x390d1:0x390b3)) {
-            if(action_outer_calls>=3)fail("outer option argument count");
+            if(action_outer_calls>=(option_integer_probe?4U:3U))fail("outer option argument count");
             action_next_kind=0;index=action_outer_calls++;
             if(!index){argument_entry_esp=context->Esp;argument_record("entry",address,context,thread,tid);}
             action_registers("outer-entry",index,address,context,thread,tid);
@@ -139,11 +142,11 @@ static int option_action_boundary(DWORD address,CONTEXT *context,HANDLE thread,D
     char name[100],text[1024];
     if(!option_action_probe)return 0;
     if(address==signature_entry) {
-        if(action_api_active || action_api_calls>=(getenv("C1XX_TEST_INIT_RESTORE")?2U:3U))fail("signature repeated count/nesting");
+        if(action_api_active || action_api_calls>=(option_integer_probe?(getenv("C1XX_TEST_INIT_RESTORE")?4U:5U):(getenv("C1XX_TEST_INIT_RESTORE")?2U:3U)))fail("signature repeated count/nesting");
         readmem(context->Esp,stack,sizeof(stack));
         index=action_api_calls;
         expected=(!getenv("C1XX_TEST_INIT_RESTORE")&&!index)?0x3909f:
-                 index==(getenv("C1XX_TEST_INIT_RESTORE")?0U:1U)?0x395af:0x39565;
+                 ((index-(getenv("C1XX_TEST_INIT_RESTORE")?0U:1U))%2)?0x39565:0x395af;
         if(stack[0]!=base+expected || stack[2]>1023)fail("signature repeated caller/length");
         remote_string(stack[1],text,sizeof(text));
         if(strlen(text)!=stack[2])fail("signature complete defined input span");
@@ -168,7 +171,7 @@ static int option_action_boundary(DWORD address,CONTEXT *context,HANDLE thread,D
         patch(address,action_api_saved);patch(signature_entry,0xcc);
         action_api_active=0;++action_api_returns;
     } else if(action_handler_active && address==action_handler_return) {
-        if(context->Esp!=action_handler_esp+4 || action_returns>=2)fail("option action RET0/count");
+        if(context->Esp!=action_handler_esp+4 || action_returns>=(option_integer_probe?3U:2U))fail("option action RET0/count");
         action_registers("action-return",action_returns,address,context,thread,tid);save_state();
         patch(address,action_handler_saved);action_handler_active=0;++action_returns;
     } else if(action_match_active && address==action_match_return) {
@@ -195,6 +198,10 @@ static int option_action_boundary(DWORD address,CONTEXT *context,HANDLE thread,D
 static void check_option_action_stop(DWORD address)
 {
     if(!option_action_probe)return;
+    if(option_integer_probe) {
+        if(address!=base+0x39757 || action_matches!=4 || action_calls!=3 || action_returns!=3 || action_outer_calls!=4 || action_outer_returns!=4 || action_inner_calls!=3 || action_inner_returns!=3 || action_api_calls!=(getenv("C1XX_TEST_INIT_RESTORE")?4U:5U) || action_api_returns!=action_api_calls || action_api_active || action_next_active || !action_match_active || action_handler_active)fail("complete numeric-to-suffix option loop inventory");
+        fprintf(events,"option-actions-complete matches=4 actions=3 returned=3 outer=4 inner=3 signatures=%u actual-frontier=00039757\n",action_api_calls);return;
+    }
     if(address!=base+0x39779 || action_matches!=3 || action_calls!=3 || action_returns!=2 ||
        action_outer_calls!=3 || action_outer_returns!=3 || action_inner_calls!=3 || action_inner_returns!=3 ||
        action_api_calls!=(getenv("C1XX_TEST_INIT_RESTORE")?2U:3U) || action_api_returns!=action_api_calls ||

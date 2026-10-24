@@ -71,6 +71,10 @@ if frame.name()=='match_option' and value['pc']==int(gdb.parse_and_eval('(unsign
     words=list(struct.unpack('<5I',gdb.selected_inferior().read_memory(value['esp'],20)))
     value['args']=dict(zip(('rules','argument','next','copy'),words[1:]))
     value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
+if frame.name()=='parse_option_integer' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&parse_option_integer')):
+    words=list(struct.unpack('<2I',gdb.selected_inferior().read_memory(value['esp'],8)))
+    value['args']={'value':words[1]}
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
 if frame.name()=='apply_option_action' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&apply_option_action')):
     words=list(struct.unpack('<4I',gdb.selected_inferior().read_memory(value['esp'],16)))
     value['args']=dict(zip(('rule','value','copy'),words[1:]))
@@ -574,6 +578,10 @@ end
         from option_action_probe import setup as setup_actions
         action_observer,action_finish=setup_actions(output,binary,collector)
         observer+=action_observer;scaler_finish+=action_finish
+    if trial.get('integer_observers'):
+        from integer_probe import setup as setup_integer
+        integer_observer,integer_finish=setup_integer(output,binary,collector)
+        observer+=integer_observer;scaler_finish+=integer_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):

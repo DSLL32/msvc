@@ -400,3 +400,14 @@ See `cases/minimal/OPTION-ACTIONS.md`/`option-action-trial.json`; current89 APP
 functions/6726B plus historical CRT451B/import12B total7189/751216 whole code
 bytes.71B switch data has no code credit. Cached lifecycle replay remains native
 only:13.76ms total,2.01ms execution, zero Wine.
+
+The135-byte numeric option leaf is accepted with its complete37-byte cold
+chunk and finite cached-isspace EDI witness. Own `1` conversion, three real
+public calls, subsequent warning store/CRC/borrowed iterator and genuine
+three-formal suffix frontier pass normal/restore fullstate/ABI audits. Original
+ctype mask4 and Linux2048 remain raw and only consumed nonzero is compared;
+`atol` is exact signed32.78 new affected controls reject; prior122 action
+controls retain historical provenance. See `cases/minimal/OPTION-INTEGER.md`,
+`integer-trial.json` and `integer-acceptance.json`. Current90 APP functions/6861B
+plus historical CRT451B/import12B total7324/751216 whole code bytes. The pending
+112-byte suffix helper receives no credit; minimal compilation remains incomplete.

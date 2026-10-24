@@ -1,0 +1,124 @@
+{
+  "kind": "unpromoted complete135B option integer candidate; own normal+declared restore pairs",
+  "proofs": {
+    "normal": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-numeric-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-numeric-native-2",
+      "original_receipt_sha256": "f1db902e7a46d3d2063531f509cada8a283f769a6efbb4bf1a67b5c15aad6531",
+      "native_receipt_sha256": "05854ca0f146e2c912afd35f7a5bafb362f21e14e16aa83c0209adaf67c49474",
+      "validation": "cases/minimal/evidence/integer-normal-validation.json",
+      "validation_sha256": "be1c88c5682003bb65780ce4ab68fbb59c214126e46b50411d744a001aaa812c",
+      "controls": "cases/minimal/evidence/integer-normal-controls.json",
+      "controls_sha256": "0f0911d9353389f68e4b38f8e271b5a04d800018e6c1225c3d445be8aceb665c"
+    },
+    "restore": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-numeric-restore-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-numeric-restore-native-1",
+      "original_receipt_sha256": "4400aa9f314f8798f16481f1b6cddc5eba0ebd6ca96068c4866a29ed77aede47",
+      "native_receipt_sha256": "67db100646e5e9663a000c3aa4f3a8b96b34d703c4bd5bad43704873c2fab658",
+      "validation": "cases/minimal/evidence/integer-restore-validation.json",
+      "validation_sha256": "3d6911f2cf60850a0a6bed122f07ddc81e5712f1123940239632e18caa8f8145",
+      "controls": "cases/minimal/evidence/integer-restore-controls.json",
+      "controls_sha256": "377d2668e8700db49a6d708760ce144654e106560c950b3254cbd680bae2d846"
+    }
+  },
+  "candidate": "_parse_option_integer",
+  "status": "UNPROMOTED; full own normal/restore proof ready for final independent review",
+  "application_code_bytes": 135,
+  "primary": [
+    235385,
+    235483
+  ],
+  "cold_chunks": [
+    [
+      468593,
+      468630
+    ]
+  ],
+  "support_credit": 0,
+  "files": {
+    "src/option-matcher.c": "6ca15d4e2a3ea390662c725d7f51afe164a1eea95acd7755e02c3288f4006719",
+    "functions.json": "41a157bd9bcc382fc4f659df40e38c9188e69b772822673671f5d0917728e6d1",
+    "graph-metadata.json": "ea888439761a97542d17702de9edaebb5e9071597a742594cbcf020829ade1af",
+    "scripts/integer_state.py": "812eca27ecf4c10abae60963cca8acfd9a0aa9377515ef13ad36d87da14ddb42",
+    "scripts/integer_probe.py": "90dca1202e8d24a1abfd68434dbba00a55fafb48542e1cfe8dd2499fdafaff83",
+    "scripts/integer-observer.inc": "9dbac7bb7ff6eead5139ee87b5ab2aa0f6214479d44d166e39e52a9933e232e4",
+    "scripts/option_action_state.py": "97f7f6d0d89d8f0242db20dabe67f226cc66ec6a8b0bc25db91ba29bba20eb57",
+    "scripts/option-action-observer.inc": "534fdab3ede546ce55a44a9e26b90e942a190847d3d87c6e9382019cf4e68516",
+    "scripts/check-integer-negative.py": "1b1d4168a9458737323a633b20ebf5c8b2308634944810fdec302e79ec986885",
+    "scripts/check-integer-history.py": "fda84a822704c7347e8ea00ce8f1171cce181add30df0bd86d4ddef323fd206c",
+    "scripts/check-isolated-locale.py": "31dfbfc8bcd5806339238557490b2d9bc0dd4d0ed85bdbbb10df07df36fb5265",
+    "scripts/check-integer-locale-transport-negative.py": "d366382282dd6d909c0c70b7d6cd651f949b4555b6f7467b2cac9c3fc3352110",
+    "scripts/prepare-trial.py": "473996523fe88c2958fb6c72ef97e9f6a83d13ed3a764079227435cd435a66fe",
+    "scripts/capture-original.py": "f50f905e93eb55df28c891f9a2a3b33dc01f3a519857a433434f2e036a3f9168",
+    "scripts/capture-minimal-native.py": "652393dacf6ae0212230e59fe799eced71fd0bca9647354b0ccac13aa0056cb2",
+    "scripts/check-callback.py": "f02fc05bd4117bdc540d3d651b100af2be2dd64d1224de4b4a2ab191921448ff",
+    "scripts/check-trial.py": "90df88976a97f64e4dd42870a39475e5291842de76a495f068eba3d2445cd3e3",
+    "cases/minimal/integer-imports.json": "e73e572f5404dca9c7ea17c97031d1544d7b1333ce27e1cc1a50fa4cdc8bfbdf",
+    "cases/minimal/integer-import-ablation.json": "ce60203d875c7bff67d4ad1f1e88e8a2c890eb19d0d79ea5e1a17c771e71ee57",
+    "cases/minimal/integer-native-libc.json": "6bf4382df8ae5d5f1ae504ea16653cab5fbd4e0944a7d5b0f30fb4217ea53446",
+    "cases/minimal/integer-locale-transport-review.json": "086337eaeab4c90ed405c43efd4ea1fb7ec93f7a120112af5cd4f454659c1d3f",
+    "cases/minimal/evidence/integer-locale-receipt-correction.json": "1f5ad317680d8820f1e5c19773ab375776f8053d830623cac6f4e4bc8dac4155"
+  },
+  "native_artifact_sha256": "ca7c49757d11b35c7e2b448bf434b03231c6f19f458ab1fc6137d1539fc1e844",
+  "shared_scope": "immutable published4021 CRT7defa7a2/headerf2b44b6d/compat13d89c42; later unrelated live shared changes not consumed",
+  "typed_projection": {
+    "initialized_semantic_bytes": 2489,
+    "initialized_UNMODELED_bytes": 6031,
+    "new_fields": 0
+  },
+  "ABI_scope": "one own value1; actual public isspace/isdigit finite unsignedbyte49/SBCS1 raw masks distinct, consumed zero/nonzero only; atol exact signed32; real preprologue raw slots/no fabricated external DWARF",
+  "frontier": {
+    "symbol": "match_option_suffix",
+    "rva": 235351,
+    "formals": [
+      "const char *pattern",
+      "char *argument",
+      "unsigned action"
+    ],
+    "pattern": "actual rule29 pattern+2 = star NUL",
+    "argument": "borrowed actual Invoke[7] -Ze +2 = e NUL",
+    "action": 35,
+    "pending_code_credit": 0
+  },
+  "failed_attempts": [
+    "initial helper link rejected peer undefined exported transport before any Wine execution; corrected locale_export",
+    "native1 pre-GDB observer source-SHA guard, retained",
+    "offline checker initial provider filename/native return filename/data-segment handling failures retained; decoder-only fixes, no observations rerun"
+  ],
+  "reused_controls": {
+    "packet": "cases/minimal/option-action-trial.json",
+    "sha256": "1d962c0d773c477ec3ff12bc81a659eccf71568312b0eff46ed966debbcadd21",
+    "count": 122,
+    "scope": "unchanged prior action-loop semantic controls remain historical; current affected numeric/expanded chronology 39normal+39restore freshly run"
+  },
+  "continuity": "original final fourth-matcher entry records full locale/CRT/Invoke/errors/112BFP; accepted matcher path to suffix has only known current_argument store and control/stack work, no public/dependency call. Complete final original target state/FP directly captured. Native suffix records full locale/owner/vector state; zero extra original API observation claimed.",
+  "timings": {
+    "win32_compile": 0.9190006135031581,
+    "win32_link": 0.713387287221849,
+    "native_compile": 0.12334458343684673,
+    "native_link": 1.6044096043333411,
+    "build_note": "per-command recorded durations, parallel -j4 wall time not reconstructed",
+    "original_normal": 71.92010911274701,
+    "original_restore": 67.14746273867786,
+    "native_normal": 11.62006316985935,
+    "native_restore": 11.647036638110876,
+    "offline_full_normal": 12.485995823517442,
+    "offline_full_restore": 11.91982916649431,
+    "controls_normal": 6.924216608516872,
+    "controls_restore": 6.612040721811354,
+    "lifecycle_fixture": "previous action checkpoint13.760ms total/2.007ms execution reused; numeric body unreachable there, no current rebuild/latest-shared claim"
+  },
+  "counts": {
+    "before_boundaries": 93,
+    "before_application_functions": 89,
+    "before_application_code_bytes": 6726,
+    "prospective_boundaries": 94,
+    "prospective_application_functions": 90,
+    "prospective_application_code_bytes": 6861,
+    "historical_CRT_support_bytes": 451,
+    "generated_import_bytes": 12,
+    "whole_code_denominator": 751216,
+    "prospective_whole_code_bytes": 7324
+  }
+}

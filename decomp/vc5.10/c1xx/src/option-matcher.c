@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include "frontend.h"
@@ -159,8 +160,22 @@ void apply_option_action(CompilerOptionRule *rule, char *value, int copy)
 
 int parse_option_integer(const char *value)
 {
-    __asm { int 3 }
-    return 0;
+    const char *digits = value;
+    int number = 0;
+
+    /* These are genuine public imports, rather than SDK ctype table macros. */
+    while ((isspace)((unsigned char)*digits))
+        ++digits;
+    if (!(isdigit)((unsigned char)*digits))
+        goto invalid;
+    number = (int)atol(digits);
+    if (number >= 65535 || number < 0)
+        goto invalid;
+    return number;
+
+invalid:
+    report_compiler_diagnostic(49, value);
+    return number;
 }
 
 void append_option_vector(CompilerVector *vector, char *value)

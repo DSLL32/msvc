@@ -95,6 +95,7 @@ def check(original, native, require_audit=True, audit_path=None):
                   '_next_argument':'check-callback.py',
                   '_match_option':'check-callback.py',
                   '_apply_option_action':'check-callback.py',
+                  '_parse_option_integer':'check-callback.py',
                   '_initialize_frontend_01':'check-callback.py'}.get(candidate['trial'])
         if (candidate['trial'] or '').startswith('_initialize_frontend_'):
             filename='check-callback.py'

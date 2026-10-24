@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9"
+  },
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/CTYPE.H",
+    "sha256": "91b8db05b72f8cd29cdb5991bf16f2973b555100bb812f5acc0015e7f7c859ff",
+    "declaration": "_CRTIMP int __cdecl isspace(int);"
+  },
+  "caller": {
+    "name": "_parse_option_integer",
+    "hot": [
+      235385,
+      235483
+    ],
+    "cold": [
+      468593,
+      468630
+    ],
+    "code_bytes": 135,
+    "hot_bytes": "53558b6c240c33c056578a45008b3d54914c105033db8bf5ffd783c40485c00f85de8e030033d28a1652ff1590904c1083c40485c00f84d28e030056ff1500904c108bd883c40481fbffff00000f8dba8e030085db0f8cb28e03005f5e8bc35d5bc3",
+    "cold_bytes": "83c40485c00f842271fcff4633c98a0e51ffd7ebeb556a31e807f4010083c408e93e71fcff",
+    "iat_rva": 823636,
+    "register": "edi",
+    "calls": [
+      235409,
+      468610
+    ],
+    "unsigned_byte_inputs": true,
+    "caller_cleanup": 4
+  },
+  "finite_preservation": {
+    "register": "edi",
+    "import_name": "isspace",
+    "module": "msvcrt.dll",
+    "provider_export_rva": 114878,
+    "provider_bytes": "833da0fb0378017e108b4424046a0850e8cde0ffff83c408c38b4c24048b159cfb03788a044a83e008c3",
+    "domain": {
+      "MB_CUR_MAX": 1,
+      "input_unsigned_byte": [
+        0,
+        255
+      ]
+    },
+    "basis": "Actual entire42-byte public export contains no EDI write. Own captured SBCS1 condition takes1c0d7..1c0e8 direct pctype load/AND8/RET with no call or state write. Alternate MBCS callee is outside this bounded witness; no execution/behavior claim for that branch.",
+    "existing_own_SBCS_reference": {
+      "path": "cases/minimal/option-action-trial.json",
+      "sha256": "1d962c0d773c477ec3ff12bc81a659eccf71568312b0eff46ed966debbcadd21"
+    },
+    "required_fresh_runtime": "At each actual public ctype entry/return require MB_CUR_MAX1/fulltable/owner/error/FP state and actual EDI/nonvolatile equality; no promotion from static evidence alone."
+  },
+  "other_public_imports": [
+    {
+      "name": "isdigit",
+      "iat_rva": 823440,
+      "provider_rva": 114789,
+      "provider_bytes": "833da0fb0378017e108b4424046a0450e826e1ffff83c408c38b4c24048b159cfb03788a044a83e004c3",
+      "return_consumed": "nonzero predicate only; raw Microsoft/glibc masks retained separately"
+    },
+    {
+      "name": "atol",
+      "iat_rva": 823296,
+      "provider_rva": 23856,
+      "provider_entry_bytes": "535556578b7c2414833da0fb0378010f",
+      "return_consumed": "signed32 long EAX, consumed by0..65534 range and int option store"
+    }
+  ]
+}

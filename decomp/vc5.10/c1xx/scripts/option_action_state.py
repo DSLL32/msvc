@@ -35,12 +35,18 @@ def check(s, d, original, native, trial, text, state, prefix):
         need(count == 26 and at == len(data), 'whole separate Invoke26 input')
         return root, result
 
-    need(trial['trial'] == '_apply_option_action' and trial['option_action_observers'] == {
+    prefix_mode = trial['trial'] == '_parse_option_integer' and bool(trial.get('integer_observers'))
+    contract = {
         'entry_rva': 0x39632, 'frontier_rva': 0x39779, 'matches': 3,
         'actions': 3, 'action_returns': 2, 'outer_calls': 3, 'inner_calls': 3,
         'signature_returns': [0x3909f, 0x395af, 0x39565],
         'scope': 'complete own373B candidate; persistent indexed true argument/matcher/action/public entry+RET inventory, no response replay or per-API run'
-    }, 'exact candidate/observer contract')
+    }
+    if prefix_mode:
+        contract.update(frontier_rva=0x39757, matches=4, action_returns=3, outer_calls=4,
+                        scope='accepted373B action prefix continues through own numeric candidate to real suffix frontier')
+    need(trial['trial'] in ('_apply_option_action','_parse_option_integer') and trial['option_action_observers'] == contract,
+         'exact candidate/observer contract')
     need([r for r in trial['ranges'] if r['owner'] == '_apply_option_action'] == [
         {'owner': '_apply_option_action', 'start_rva': 0x39632, 'end_rva': 0x3970d, 'entry': 1},
         {'owner': '_apply_option_action', 'start_rva': 0x72589, 'end_rva': 0x72623, 'entry': 0},
@@ -61,8 +67,13 @@ def check(s, d, original, native, trial, text, state, prefix):
     integers = rows('integer-entries')
     need([len(v) for v in (matches, matched, actions, returned, outer, outer_done,
                           inner, inner_done, calls, results, integers)] ==
-         [3, 2, 3, 2, 3, 3, 3, 3, 2 if seed else 3, 2 if seed else 3, 1],
+         ([4, 3, 3, 3, 4, 4, 3, 3, 4 if seed else 5, 4 if seed else 5, 1] if prefix_mode else
+          [3, 2, 3, 2, 3, 3, 3, 3, 2 if seed else 3, 2 if seed else 3, 1]),
          'complete ordered entry/return/API inventories')
+    # Only the real first numeric entry completes this accepted-source prefix.
+    # Full later loop/API observations remain owned by the numeric decoder.
+    prefix_result_count = 2 if seed else 3
+    prefix_last_result = results[prefix_result_count - 1]['eax']
     first = json.loads((native / 'first-action-state.json').read_text())
     front = first['frontend']
     expected = copy.deepcopy(outer[0]['guard'])
@@ -209,7 +220,7 @@ def check(s, d, original, native, trial, text, state, prefix):
                 check_signature(api_index, [4, 3][j], [0x395af, 0x39565][j], expected,
                                 old_bss, old_data, old_saved, calls, results, original, native, names,
                                 need, locale, floating, raw, original_phase, d, args, oldargs)
-            result = results[-1]['eax']
+            result = prefix_last_result
             write('source_signature', result, result)
         mr = phase('match-return', i, matched[i])
         returned_abi(matches[i], matched[i], me, mr, meaningful=True)
@@ -221,17 +232,22 @@ def check(s, d, original, native, trial, text, state, prefix):
          'new named stub exact actual physical one-formal ABI')
     tail = re.findall(r'^trap seq=(\d+) rva=00039779 .*stack=([0-9a-f,]+)$', text, re.M)
     need(len(tail) == 1 and [int(v, 16) for v in tail[0][1].split(',')][:2] ==
-         [0x10439694, oldargs[6][0]] and re.findall(r'^frontier rva=(\w+)$', text, re.M) == ['00039779'],
+         [0x10439694, oldargs[6][0]] and re.findall(r'^frontier rva=(\w+)$', text, re.M) == (['00039757'] if prefix_mode else ['00039779']),
          'actual original integer-call frontier and argument')
-    need(state['symbol'] == 'parse_option_integer' and state['args'] == {'value': args[6][0]} and
-         names['parse_option_integer'][0] < state['pc'] <= sum(names['parse_option_integer']) and
-         d.elf_byte(native, state['pc'] - 1) == 0xcc, 'actual native integer INT3 trap')
+    need(state['symbol'] == 'parse_option_integer' and state['args'] == {'value': args[6][0]},
+         'actual numeric source formals')
+    if prefix_mode:
+        need(state['pc'] == integer['pc'] and state['esp'] == integer['esp'],
+             'direct physical first numeric pre-body checkpoint; no synthetic INT3')
+    else:
+        need(names['parse_option_integer'][0] < state['pc'] <= sum(names['parse_option_integer']) and
+             d.elf_byte(native, state['pc'] - 1) == 0xcc, 'actual native integer INT3 trap')
     need(integer['guard'] == expected and state['frontend']['command_argc'] == 20 and
          state['frontend']['command_argv'] == root + 24 and
          state['frontend']['current_argument'] == args[5][0], 'complete final known state/borrowed cursor')
     final_front = copy.deepcopy(front)
     final_front.update(command_argc=20, command_argv=root + 24,
-                       current_argument=args[5][0], source_signature=results[-1]['eax'])
+                       current_argument=args[5][0], source_signature=prefix_last_result)
     final_front['options_data']['il_prefix'] = args[2][0]
     final_front['options_bss']['source_file'] = args[4][0]
     need(state['frontend'] == final_front and state['invocation'] == first['invocation'],
@@ -245,13 +261,14 @@ def check(s, d, original, native, trial, text, state, prefix):
          semantic(integer['fp']) == floating, 'actual final architectural FP')
     observed = [(tag, int(index), int(seq)) for tag, index, seq in re.findall(
         r'^option-action phase=(\S+) index=(\d+) seq=(\d+) ', text, re.M)]
+    if prefix_mode: observed = [r for r in observed if r[2] <= sequence]
     need(observed == chronology and all(a[2] < b[2] for a, b in zip(chronology, chronology[1:])),
          'complete unambiguous chronological action loop')
     data = (original / 'relocated-text.bin').read_bytes()[0x39710 - 0x1000:0x39757 - 0x1000]
     need(data == pe_read(original / 'loaded-target.bin', 0x39710, 71), 'exact restored71-byte switch data')
     return dict(frontier='_parse_option_integer', code_bytes=373, table_data_bytes=71,
                 table_code_credit=0, matches=3, actions=3, returned_actions=2,
-                outer_callbacks=3, inner_callbacks=3, signature_calls=len(calls),
+                outer_callbacks=3, inner_callbacks=3, signature_calls=prefix_result_count,
                 final_argument='borrowed Invoke[6] 1 NUL', argc_after=20,
                 unknown_initialized_bytes=6031, prefix=prefix)
 
