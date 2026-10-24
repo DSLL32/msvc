@@ -1,6 +1,6 @@
 {
   "case": "Forced-header/nested-macro/browser and direct container/type support",
-  "status": "v1/v2 complete:17direct units,18new whole application functions1082B;59public+57direct cached native regressions pass; prior references unchanged. Remaining unknown bodies are not CRT.",
+  "status": "v1/v2/v3 complete: public forced-header context plus31explicit direct container/type/declaration units; all references retained",
   "baseline_commit": "4c180d6c2f61e3e05947f9c11e541544fccf3411",
   "baseline_accepted_count": 1063,
   "authorization": "Root approved one coherent case; real parsed names/types and populated vectors, actual constructor-created owned test records; preserve public/direct distinction and no CRT-by-location assumption.",
@@ -484,6 +484,235 @@
       "phase": "direct",
       "status": "accepted; v2 explicit direct support, constructor ownership/ABI and actual parsed context checked",
       "convention": "cdecl"
+    },
+    {
+      "unit": 17,
+      "function": "_make_unsigned_integer_constant@4",
+      "arguments": 1,
+      "request_arguments": [
+        37
+      ],
+      "formals": [
+        "value"
+      ],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "unsigned-constant",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+    },
+    {
+      "unit": 18,
+      "function": "_make_right_typed_expression@12",
+      "arguments": 3,
+      "request_arguments": [
+        80,
+        0,
+        0
+      ],
+      "formals": [
+        "operation",
+        "left",
+        "right"
+      ],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "right-expression",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+      "constructor": "make_integer_constant(37), make_unsigned_integer_constant(11)"
+    },
+    {
+      "unit": 19,
+      "function": "_last_type_shape@4",
+      "arguments": 1,
+      "request_arguments": [
+        0
+      ],
+      "formals": [
+        "shape"
+      ],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "last-shape",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+    },
+    {
+      "unit": 20,
+      "function": "_identity_type@4",
+      "arguments": 1,
+      "request_arguments": [
+        0
+      ],
+      "formals": [
+        "type"
+      ],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "identity-type",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+    },
+    {
+      "unit": 21,
+      "function": "_identity_type_shape@4",
+      "arguments": 1,
+      "request_arguments": [
+        0
+      ],
+      "formals": [
+        "shape"
+      ],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "identity-shape",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+    },
+    {
+      "unit": 22,
+      "function": "_default_expression_conversion@8",
+      "arguments": 2,
+      "request_arguments": [
+        0,
+        0
+      ],
+      "formals": [
+        "target",
+        "operand"
+      ],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "conversion",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+      "constructor": "make_integer_constant(37)"
+    },
+    {
+      "unit": 23,
+      "function": "_can_convert_expression@8",
+      "arguments": 2,
+      "request_arguments": [
+        0,
+        0
+      ],
+      "formals": [
+        "target",
+        "operand"
+      ],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "conversion-predicate",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+      "constructor": "make_unsigned_integer_constant(11)"
+    },
+    {
+      "unit": 24,
+      "function": "_print_function_prototype@8",
+      "arguments": 2,
+      "request_arguments": [
+        0,
+        0
+      ],
+      "formals": [
+        "symbol",
+        "stream"
+      ],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "prototype",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+    },
+    {
+      "unit": 25,
+      "function": "_report_three_type_conflict@28",
+      "arguments": 7,
+      "request_arguments": [
+        248,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "formals": [
+        "code",
+        "symbol",
+        "context_type",
+        "name",
+        "detail",
+        "actual",
+        "expected"
+      ],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "three-type-diagnostic",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+    },
+    {
+      "unit": 26,
+      "function": "_take_unnamed_entity_index",
+      "arguments": 0,
+      "request_arguments": [],
+      "formals": [],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "entity-index",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+      "convention": "cdecl"
+    },
+    {
+      "unit": 27,
+      "function": "_current_aggregate_tag",
+      "arguments": 0,
+      "request_arguments": [],
+      "formals": [],
+      "owner": "actual live ContainerItem aggregate and current member",
+      "result_kind": "aggregate-tag",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+      "convention": "cdecl",
+      "marker": "_append_aggregate_member@4"
+    },
+    {
+      "unit": 28,
+      "function": "_current_aggregate_name",
+      "arguments": 0,
+      "request_arguments": [],
+      "formals": [],
+      "owner": "actual live ContainerItem aggregate and current member",
+      "result_kind": "aggregate-name",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+      "convention": "cdecl",
+      "marker": "_append_aggregate_member@4"
+    },
+    {
+      "unit": 29,
+      "function": "_layout_type_member@4",
+      "arguments": 1,
+      "request_arguments": [
+        0
+      ],
+      "formals": [
+        "type"
+      ],
+      "owner": "actual live ContainerItem aggregate and current member",
+      "result_kind": "aggregate-layout",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+      "marker": "_append_aggregate_member@4"
+    },
+    {
+      "unit": 30,
+      "function": "_validate_symbol_storage@4",
+      "arguments": 1,
+      "request_arguments": [
+        0
+      ],
+      "formals": [
+        "symbol"
+      ],
+      "owner": "actual parsed typed frontend context",
+      "result_kind": "symbol-storage",
+      "phase": "direct",
+      "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
     }
   ],
   "direct_oracles": [
@@ -1327,10 +1556,702 @@
         "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d"
       }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u17-accepted",
+      "input": {
+        "unit": 17,
+        "function": "_make_unsigned_integer_constant@4",
+        "arguments": 1,
+        "request_arguments": [
+          37
+        ],
+        "formals": [
+          "value"
+        ],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "unsigned-constant",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+      },
+      "accepted_from": 1081,
+      "accepted_count": 1082,
+      "accepted_functions": [
+        "_make_unsigned_integer_constant@4"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "7337f7c4fc3e49d61a3ee952fbc427172e6cdfeeaf3c9de1293db9a84a9078b5",
+        "entry-plan.txt": "fe4f3e05a33f8c7596d8dd789d6d375f0035893b7ad7c411f36a9b1e39286e47",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "85cd2fceb05185ef896ec1e94817f0d24da051f54b1cd86da1df919974277773",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "11f00d9d792ffa4c568cadddfb4af7065e6cb1b3f1d4e8fd8077215f2886d893",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u18-accepted",
+      "input": {
+        "unit": 18,
+        "function": "_make_right_typed_expression@12",
+        "arguments": 3,
+        "request_arguments": [
+          80,
+          0,
+          0
+        ],
+        "formals": [
+          "operation",
+          "left",
+          "right"
+        ],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "right-expression",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+        "constructor": "make_integer_constant(37), make_unsigned_integer_constant(11)"
+      },
+      "accepted_from": 1082,
+      "accepted_count": 1083,
+      "accepted_functions": [
+        "_make_right_typed_expression@12"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "0ce68386904f2a7118e3c1f33c71ab2007c0541a9d46e86c0e47940e5450acda",
+        "receipt.json": "fa0439b74ad78618c6ad2afe75ff371e074685e0c98264f0719a08399d58ce0c",
+        "capture-status.json": "25c607faa424ff7b374a5df69d9579a8b3f3ae340c7c6050e6c235975d8019b3",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "59da911e9fdf2e154b0db08b27decca0d17b86857f2ed8fb0a692f1ed30fc635",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u19-accepted",
+      "input": {
+        "unit": 19,
+        "function": "_last_type_shape@4",
+        "arguments": 1,
+        "request_arguments": [
+          0
+        ],
+        "formals": [
+          "shape"
+        ],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "last-shape",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+      },
+      "accepted_from": 1083,
+      "accepted_count": 1084,
+      "accepted_functions": [
+        "_last_type_shape@4"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "56b0760e5d70e74b5cdbce585a48ea0872cc6180eef1bb8840eafbc9480f8a1e",
+        "receipt.json": "91dea0179b0e1dbc78ccde507eecf4a77b7727635d04d0f54a1ca49486ea119c",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "3fda44641e39d6306742ca3aabe7d9c7baa0886ffa8bb1c71173e19b33333ea6",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "530cf4cae8af1e26db45b6a590cad8f4ac698031ab4a6c7946b338858ba7fc29",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u20-accepted",
+      "input": {
+        "unit": 20,
+        "function": "_identity_type@4",
+        "arguments": 1,
+        "request_arguments": [
+          0
+        ],
+        "formals": [
+          "type"
+        ],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "identity-type",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+      },
+      "accepted_from": 1084,
+      "accepted_count": 1085,
+      "accepted_functions": [
+        "_identity_type@4"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "events": "1f0b9f532e61cd64c01b373f81385a49dc4e8913f6d887c545f495a3a1bb158c",
+        "receipt.json": "2fd9defda95428a6bc8578d9e323095d9fadfc83f49d93b82e65d72993aee722",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "a1a555e6e21f11f8c9c4dc6e2f88f69b2ae4d379676339cdd749ef710e67d8a9",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "3ad4fcf985e1446b269094625b65204f8bf79eb2fa27077f9edcd1c90a72dbe2",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u21-accepted",
+      "input": {
+        "unit": 21,
+        "function": "_identity_type_shape@4",
+        "arguments": 1,
+        "request_arguments": [
+          0
+        ],
+        "formals": [
+          "shape"
+        ],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "identity-shape",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+      },
+      "accepted_from": 1085,
+      "accepted_count": 1086,
+      "accepted_functions": [
+        "_identity_type_shape@4"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "capture-status.json": "b8a85f5a24d76e892762e3aebeabd3dca85e788b2fa9e652dccace2277b3a189",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "f191b742abd11c0313b9f3837f37bfe59e31b4e9e96e49a17db06698db3a56dd",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "d919955c14f72e42f4249ce184e200b3f57e35deeee7532cc9c41e079cfe6214",
+        "events": "9f98fe2d0d657f3d72177f9e941101994b4245283f74f872b73fb13f0c6cac61",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u22-accepted",
+      "input": {
+        "unit": 22,
+        "function": "_default_expression_conversion@8",
+        "arguments": 2,
+        "request_arguments": [
+          0,
+          0
+        ],
+        "formals": [
+          "target",
+          "operand"
+        ],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "conversion",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+        "constructor": "make_integer_constant(37)"
+      },
+      "accepted_from": 1086,
+      "accepted_count": 1087,
+      "accepted_functions": [
+        "_default_expression_conversion@8"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "capture-status.json": "850d441617797616e56b670fa221c4c0babf690962e902605ba716411f175b72",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "6e13ab9f65be452a3293626dfb2e1cceba12035f744fd965275185f2b2d072bf",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "bb56abfb7a56073a4685cc27a058d23e5e833e11b911d8a85c24880c545f963d",
+        "entry-plan.txt": "29471f0962b6160c31e45701c970399aa60db82ce88c8109d2225e60f3e5db71",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u23-accepted",
+      "input": {
+        "unit": 23,
+        "function": "_can_convert_expression@8",
+        "arguments": 2,
+        "request_arguments": [
+          0,
+          0
+        ],
+        "formals": [
+          "target",
+          "operand"
+        ],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "conversion-predicate",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+        "constructor": "make_unsigned_integer_constant(11)"
+      },
+      "accepted_from": 1087,
+      "accepted_count": 1088,
+      "accepted_functions": [
+        "_can_convert_expression@8"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "events": "2e20bc1af86b2bc81ec624fb5da732d95af578af90b2182c8d10a35edf5fe37a",
+        "entry-plan.txt": "c3f7f4edbfb308f82e1426976cce21f889496e7fa494d69a0861c5b4be1c2454",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "0c0fcc806936315bfdf0ac06d3d7d252f37439b1726bf88c8ccbb818eb48bb73",
+        "receipt.json": "3ebeccc0ff9e1f997c0ebf002320c5e97161cb41116605a905c2ab2f0f6e35cc",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u24-accepted",
+      "input": {
+        "unit": 24,
+        "function": "_print_function_prototype@8",
+        "arguments": 2,
+        "request_arguments": [
+          0,
+          0
+        ],
+        "formals": [
+          "symbol",
+          "stream"
+        ],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "prototype",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+      },
+      "accepted_from": 1088,
+      "accepted_count": 1089,
+      "accepted_functions": [
+        "_print_function_prototype@8"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "5cd75220f732c6709d545d5a97ce5305754508eb5b956ad6af618711c8a71d23",
+        "events": "6f62941839076bbe633e4c7ec3e5deae10404f9edcb56efa9db070311048da26",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "597febc53ac09277e9a5febeb2ee4217ba2a5df1a7605778ccfddae1471baa46",
+        "entry-plan.txt": "fd8819cab552db95f2e44069e81df92d6bec2a21cad81c611678e13ae031b74f",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u25-accepted",
+      "input": {
+        "unit": 25,
+        "function": "_report_three_type_conflict@28",
+        "arguments": 7,
+        "request_arguments": [
+          248,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "formals": [
+          "code",
+          "symbol",
+          "context_type",
+          "name",
+          "detail",
+          "actual",
+          "expected"
+        ],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "three-type-diagnostic",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+      },
+      "accepted_from": 1089,
+      "accepted_count": 1090,
+      "accepted_functions": [
+        "_report_three_type_conflict@28"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "entry-plan.txt": "84601f89155d4682b8ad7e5a4296f3d5e0742088c1b17cb79c681973e7e773ac",
+        "receipt.json": "d342e6b9dbf7db4b8a7d89aa731abad800b44fedaba9fd3e1b8f2188121e89f4",
+        "stdout": "2c5c86d70eaecf4a7824a5b84e127f78f654a3dff49ba990285e4ac271815075",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "fb66f7756584103ee01ed88cd74ca6f2450fdbf3f2b5190d20b3f58613be99ab",
+        "capture-status.json": "d42322e4c0f6033bacc0ca49f5fae06e2d6b3b0bde27eae77cce16e5931afd01",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u26-accepted",
+      "input": {
+        "unit": 26,
+        "function": "_take_unnamed_entity_index",
+        "arguments": 0,
+        "request_arguments": [],
+        "formals": [],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "entity-index",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+        "convention": "cdecl"
+      },
+      "accepted_from": 1090,
+      "accepted_count": 1091,
+      "accepted_functions": [
+        "_take_unnamed_entity_index"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "c8bac1011567e53f47d9ac162577bff7aae7e2c5ae4942ecc68180cbcf89a79f",
+        "events": "8a2902578b77ce1dbab7d521c0491d56f1cd10b10df34cc644cd194683ab9d5b",
+        "capture-status.json": "db61ae7d2b9b0a1ca9968795c6c14e9151acdb10d01eaa9a2c98124b677a248f",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "171fa3e80557780d3938a49ad5a0e53533d6e810e91c010cdf7478df28108ffc",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u27-accepted",
+      "input": {
+        "unit": 27,
+        "function": "_current_aggregate_tag",
+        "arguments": 0,
+        "request_arguments": [],
+        "formals": [],
+        "owner": "actual live ContainerItem aggregate and current member",
+        "result_kind": "aggregate-tag",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+        "convention": "cdecl",
+        "marker": "_append_aggregate_member@4"
+      },
+      "accepted_from": 1091,
+      "accepted_count": 1092,
+      "accepted_functions": [
+        "_current_aggregate_tag"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "capture-status.json": "0796810f606b291c997ab7e6b01b9205ed1b29904d65888954eeaa605715fce3",
+        "receipt.json": "3ea48120ac175294259766e6f9efe37d6d00189dd3c9020402302212e3df0c42",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "f5b7d54ba7792c7b93c2a49184b8484dc8d03ef44a17ba19f3e9f40af4ea4f2c",
+        "events": "8459bf3ffb20f2629c4a2c851b99736a80619bb01cef16526e5219518833d66c",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u28-accepted",
+      "input": {
+        "unit": 28,
+        "function": "_current_aggregate_name",
+        "arguments": 0,
+        "request_arguments": [],
+        "formals": [],
+        "owner": "actual live ContainerItem aggregate and current member",
+        "result_kind": "aggregate-name",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+        "convention": "cdecl",
+        "marker": "_append_aggregate_member@4"
+      },
+      "accepted_from": 1092,
+      "accepted_count": 1093,
+      "accepted_functions": [
+        "_current_aggregate_name"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "receipt.json": "cd7d058c1d9e71c9fb9c3ddbb7f34a1d40863f0b03a17a364dc70e405ff18236",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "415916e781ada8b51ab53c3c77e3da8454b62e85aea652d5b10167719def423a",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "77be6f970f0f9877785910f5b97b61aa5e9fad25d32b7d9d6672307b3c7f1e25",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "11a6dada572bd68fab9561c74c9f1fd12b36664923e790e39126c0cf519f01ac",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u29-accepted",
+      "input": {
+        "unit": 29,
+        "function": "_layout_type_member@4",
+        "arguments": 1,
+        "request_arguments": [
+          0
+        ],
+        "formals": [
+          "type"
+        ],
+        "owner": "actual live ContainerItem aggregate and current member",
+        "result_kind": "aggregate-layout",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked",
+        "marker": "_append_aggregate_member@4"
+      },
+      "accepted_from": 1093,
+      "accepted_count": 1094,
+      "accepted_functions": [
+        "_layout_type_member@4"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "f8cfe9635a7ee653d7b2d374c885bd12ed67bdc92ce5639fa59d219aeadfb216",
+        "receipt.json": "021ee772c7ff7717a87c97643ecda37560c8ee8824c0d9b12f08eb61427d5998",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "f97fa3243df23496023c6f1df447113e5418ac9f3be21fc18034b9e7c03be805",
+        "entry-plan.txt": "dfd3e00ec35817b7dded34395e244ddafeb55568445a98c9882c0ad5b7807e01",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "original-u30-accepted",
+      "input": {
+        "unit": 30,
+        "function": "_validate_symbol_storage@4",
+        "arguments": 1,
+        "request_arguments": [
+          0
+        ],
+        "formals": [
+          "symbol"
+        ],
+        "owner": "actual parsed typed frontend context",
+        "result_kind": "symbol-storage",
+        "phase": "direct",
+        "status": "accepted; v3 explicit direct support, fresh whole body/ABI/output and first-entry projection checked"
+      },
+      "accepted_from": 1094,
+      "accepted_count": 1095,
+      "accepted_functions": [
+        "_validate_symbol_storage@4"
+      ],
+      "phase_sha256": "9d734305da27c2c834192f3db4c0413acd37de05f70471b48201d0bcdbc40951",
+      "files": {
+        "entry-plan.txt": "11b94885988e9fd6fc9358dfe5d1a5dd29257374ecc02f681d9927af521e794d",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "22ce38c8002ba9964f47dbdc950dd695ac6ddbc8cd4fe0e488d6be291e84dbc5",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "f0ae2baff98b3191b75504eca5043c6d693b1dc8faca9c434bbe24cee88a90a4",
+        "events": "f36f54cb4a524993b723c106f43080c0e969b17588d50445fbf4d2f7913c5e6c",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-c.h": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388",
+        "work/depth-b.h": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4",
+        "work/containers.c": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/depth-c.h": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06",
+        "work/forced-b.h": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d",
+        "work/depth-a.h": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/forced-a.h": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2"
+      }
     }
   ],
   "interface": "Standalone C1 parsed frontend interface; no CL/backend compatibility claim.",
   "retained_scaffold_failure": "First native fixture executed successfully but its artifact checker rejected missing output_name fields in new metadata. Output names were added explicitly; raw original/native files remain unchanged.",
   "extension_v2_authorization": "Root approved real vector iterators, constructor-owned bitset clone/difference/free and flag propagation over established owned records; accepted constructors and bound ABIs, no general stepper/global seeding.",
-  "retained_v2_scaffold_trial": "Initial iterator observation used a partial DWORD buffer with a subsequent short cast; changed to separately typed4B/2B reads before acceptance, retaining original trials. Affected original entries recaptured asentry-2; no target-state repair or evidence relabeling."
+  "retained_v2_scaffold_trial": "Initial iterator observation used a partial DWORD buffer with a subsequent short cast; changed to separately typed4B/2B reads before acceptance, retaining original trials. Affected original entries recaptured asentry-2; no target-state repair or evidence relabeling.",
+  "extension_v3_authorization": "Root approved coherent typed/declaration and genuine live ContainerItem aggregate support; bounded7argument48Bframe, existing return seam, no general marshaller/stepper/global seeding. Unproven byte copier remains unresolved."
 }

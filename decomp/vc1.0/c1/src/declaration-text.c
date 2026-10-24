@@ -52,6 +52,7 @@ short new_declaration_text(void)
 
 char *unprintable_declaration_type; /* original0x6d9e8 */
 int declaration_text_is_function; /* original0x6d9f0 */
+int declaration_output_override; /* original0x6d9f4; wrapper-owned switch */
 
 /* Original0x422e0..0x423c4. Print storage and a complete declarator;
    unsupported types retain a commented declaration and their diagnostic. */
@@ -476,4 +477,13 @@ void end_declaration_text(void)
     unsigned index;
     if (--declaration_text_depth) return;
     for (index = 0; index < 32; ++index) declaration_text_pool[index].handle = 0;
+}
+
+/* Original 0x422b0..0x422d6. This wrapper owns the output switch;
+   the existing declarator printer still performs all rendering and I/O. */
+void __stdcall print_function_prototype(FrontendSymbol *symbol, FILE *stream)
+{
+    declaration_output_override = 1;
+    print_function_declaration(symbol, stream);
+    declaration_output_override = 0;
 }

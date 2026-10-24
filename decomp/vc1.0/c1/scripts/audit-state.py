@@ -27,6 +27,8 @@ STATE = [
     ("_pch_event_buffer",0x5b56c,4),
     ("_pch_rebuild_reason",0x6de2c,4),
     ('_unprintable_declaration_type', 0x6d9e8, 4),
+    ('_declaration_output_override', 0x6d9f4, 4),
+    ('_unnamed_entity_next_index', 0x6ce70, 4),
     ('_declaration_text_is_function', 0x6d9f0, 4),
     ('_declaration_text_pool', 0x5fd10, 512),
     ('_next_declaration_text_handle', 0x6daa8, 4),

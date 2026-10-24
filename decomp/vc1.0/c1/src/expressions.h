@@ -79,6 +79,10 @@ unsigned __stdcall parameter_info_bytes(ParameterInfo *parameters);
 IrToken *__stdcall address_member_operand(IrToken *operand);
 IrToken *__stdcall convert_cast_expression(CType *type, IrToken *operand);
 unsigned __stdcall classify_expression_conversion(CType *target, IrToken *operand, unsigned mode, unsigned flags);
+unsigned __stdcall default_expression_conversion(CType *target, IrToken *operand);
+int __stdcall can_convert_expression(CType *target, IrToken *operand);
+void __stdcall report_three_type_conflict(unsigned code, FrontendSymbol *symbol,
+    CType *context_type, char *name, char *detail, CType *actual, CType *expected);
 IrToken *__stdcall finish_scalar_cast(unsigned char operation, CType *target, IrToken *operand);
 unsigned __stdcall classify_type_conversion(CType *target, CType *source, unsigned mode, unsigned flags);
 IrToken *__stdcall convert_pointer_expression(CType *target, IrToken *operand);

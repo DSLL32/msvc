@@ -865,3 +865,23 @@ CType *__stdcall clear_type_attributes(CType *type, unsigned short attributes)
     --type_description_depth;
     return result;
 }
+
+/* Original 0x40020..0x40027 and 0x40030..0x40037. Distinct identity
+   entries in the type interface; neither follows or changes its argument. */
+CType *__stdcall identity_type(CType *type)
+{
+    return type;
+}
+
+TypeShape *__stdcall identity_type_shape(TypeShape *shape)
+{
+    return shape;
+}
+
+/* Original 0x40cb0..0x40cc8. Empty chains have no final shape. */
+TypeShape *__stdcall last_type_shape(TypeShape *shape)
+{
+    while (shape && shape->related)
+        shape = shape->related;
+    return shape;
+}

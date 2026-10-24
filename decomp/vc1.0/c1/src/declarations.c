@@ -28,6 +28,7 @@ char *__stdcall join_truncated_names(char *prefix, char *suffix)
 
 
 int default_thread_storage; /* original 0x6bc44 */
+unsigned unnamed_entity_next_index = 65535; /* original 0x6ce70 */
 
 /* Original 0x339f0..0x33cdb. */
 FrontendSymbol *__stdcall declare_symbol(DeclarationSpec *declaration, FrontendSymbol *symbol)
@@ -2616,4 +2617,77 @@ char *__stdcall based_segment_symbol_name(FrontendSymbol *symbol)
     source = symbol->name;
     do { *destination++ = *source++; } while (destination[-1]);
     return intern_identifier(text);
+}
+
+/* Original 0x35890..0x358a0. Unnamed entities count down from the
+   image's initialized 65535 rather than sharing the ordinary symbol index. */
+unsigned take_unnamed_entity_index(void)
+{
+    return unnamed_entity_next_index--;
+}
+
+/* Original 0x2a230..0x2a247 and 0x2a250..0x2a26f. Both entries
+   use the current aggregate nesting level and accept an empty context. */
+FrontendSymbol *current_aggregate_tag(void)
+{
+    return aggregate_depth < 0 ? 0 : aggregate_contexts[aggregate_depth].tag;
+}
+
+char *current_aggregate_name(void)
+{
+    return aggregate_depth < 0 ? 0 : aggregate_contexts[aggregate_depth].tag->name;
+}
+
+/* Original 0x29220..0x29333. Lay out a type without a named member.
+   Unlike layout_data_member, this path always advances the current size. */
+unsigned __stdcall layout_type_member(CType *type)
+{
+    AggregateContext *context;
+    FrontendSymbol *tag;
+    unsigned bytes, alignment, offset;
+    bytes = type_size(type);
+    context = &aggregate_contexts[aggregate_depth];
+    if (context->tag->attributes & 0x100) {
+        tag = context->tag;
+        report_syntax_error(229, type_specifier_name(tag->type->flags), tag->name);
+        aggregate_contexts[aggregate_depth].tag->attributes &= ~0x100UL;
+    }
+    context = &aggregate_contexts[aggregate_depth];
+    if (context->bitfield_type) {
+        context->size += context->bitfield_type & 15;
+        context->bitfield_used_bits = 0;
+    }
+    if ((unsigned)top_packing(packing_stack)->alignment < (type->flags & 15))
+        alignment = top_packing(packing_stack)->alignment;
+    else alignment = type->flags & 15;
+    align_aggregate_member(alignment);
+    context = &aggregate_contexts[aggregate_depth];
+    offset = context->size;
+    context->size = offset + bytes;
+    if (context->size < offset) {
+        tag = context->tag;
+        report_syntax_error(89, tag->name, type_specifier_name(tag->type->flags));
+        return 0;
+    }
+    return add_member_offset(offset, 0);
+}
+
+/* Original 0x2d1d0..0x2d24a. The scanner's declaration mode limits
+   these storage restrictions; functions and typedefs remain valid. */
+int __stdcall validate_symbol_storage(FrontendSymbol *symbol)
+{
+    unsigned kind, storage;
+    if (!(scanner_flags & 0x20)) return 1;
+    kind = symbol->kind & 31;
+    if (kind == 6 || kind == 7) return 1;
+    if (kind == 2 || kind == 3) {
+        report_syntax_error(648, symbol->name);
+        return 0;
+    }
+    storage = symbol->storage[0] & 7;
+    if (storage >= 4 && storage <= 6) {
+        report_syntax_error(587, symbol->name);
+        return 0;
+    }
+    return 1;
 }

@@ -34,7 +34,7 @@ def main():
     parser.add_argument('--direct-function',help='Explicit debugger-only support callback after real marker; no public-reach claim')
     parser.add_argument('--direct-arguments',nargs='*',type=lambda s:int(s,0))
     parser.add_argument('--support-unit',type=int,choices=range(13),help='Direct legacy support method using genuinely parsed owners')
-    parser.add_argument('--container-unit',type=int,choices=range(17),help='Explicit direct container unit over actual parsed forced headers')
+    parser.add_argument('--container-unit',type=int,choices=range(31),help='Explicit direct container unit over actual parsed forced headers')
     parser.add_argument('--expression-unit',type=int,choices=range(6),help='External direct expression unit; owned test input, not target-global seeding')
     parser.add_argument('--direct-body',action='store_true',help='Restore exactly selected candidate body/shared text for explicit direct verification')
     parser.add_argument('--restore-function',action='append',default=[],help='Explicit candidate body/shared-text restoration, without accepting it')
@@ -184,7 +184,7 @@ def main():
         if options.container_unit is not None:
             assert case.name=='forced-container-support'and options.support_unit is None and options.expression_unit is None
             container_plan=json.loads((case/'manifest.json').read_text())['direct_plan'][options.container_unit]
-            assert options.phase==container_plan['phase']and options.stop_function=='_finish_declarations'
+            assert options.phase==container_plan['phase']and options.stop_function==container_plan.get('marker','_finish_declarations')
             assert options.direct_function==container_plan['function']and options.direct_arguments==container_plan['request_arguments']
         elif options.support_unit is not None:
             assert case.name=='legacy-type-support' and options.expression_unit is None
@@ -260,8 +260,9 @@ def main():
     if options.trace_complete_type:host_environment['C1_COMPLETE_TYPE_RETURN']='1'
     if options.trace_strdup:host_environment['C1_STRDUP_PROBE']='1'
     if direct:
-        args = options.direct_arguments + [0]*(3-len(options.direct_arguments))
-        host_environment['C1_DIRECT_CALL'] = '%x,%x,%d,%x,%x,%x'%(probe['start']-original.base,direct['start']-original.base,len(options.direct_arguments),*args)
+        assert len(options.direct_arguments)<=7
+        args = options.direct_arguments + [0]*(7-len(options.direct_arguments))
+        host_environment['C1_DIRECT_CALL'] = '%x,%x,%d,%x,%x,%x,%x,%x,%x,%x'%(probe['start']-original.base,direct['start']-original.base,len(options.direct_arguments),*args)
         if options.support_unit is None and options.container_unit is None:host_environment['C1_ASM_OPERAND_PROBE']='1'
 
     if options.trace_asm_segment:

@@ -1442,6 +1442,14 @@ IrToken *__stdcall make_ir_expression(unsigned char operation, IrToken *left, Ir
     return make_typed_ir_expression(operation, left, right, left->type);
 }
 
+/* Original 0x3f340..0x3f35b. The sibling constructor takes its
+   result type from the right operand. */
+IrToken *__stdcall make_right_typed_expression(unsigned char operation,
+    IrToken *left, IrToken *right)
+{
+    return make_typed_ir_expression(operation, left, right, right->type);
+}
+
 /* Original 0x3f360..0x3f3ad. The general two-child IR node constructor. */
 IrToken *__stdcall make_typed_ir_expression(unsigned char operation, IrToken *left, IrToken *right, CType *type)
 {

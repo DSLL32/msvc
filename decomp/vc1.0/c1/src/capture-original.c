@@ -681,7 +681,7 @@ static int observe_support_v3(HANDLE process,HANDLE log,DWORD base,const char *b
         head&255,head>>8,text,type,index,attributes,references,storage[0],storage[1],storage[2],found);
     return WriteFile(log,line,strlen(line),&written,0)&&written==strlen(line);
 }
-static DWORD direct_marker_rva, direct_target_rva, direct_arguments[3];
+static DWORD direct_marker_rva, direct_target_rva, direct_arguments[7];
 static unsigned direct_count;
 static int direct_active;
 static DWORD direct_stack, direct_marker;
@@ -867,7 +867,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
                         DWORD code, DWORD site, DWORD base, char *buffers)
 {
     CONTEXT current;
-    DWORD words[8], got, written;
+    DWORD words[12], got, written;
     unsigned char *storage;
     typedef LPVOID (WINAPI *AllocateInProcess)(HANDLE,LPVOID,DWORD,DWORD,DWORD);
     AllocateInProcess allocate;
@@ -953,14 +953,16 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         }
         if(container_unit>=0&&!container_prepare(process,log,base))return -1;
         if(container_stage)return container_call(process,thread,log,base,&current,1);
-        for (index=0;index<8;++index) words[index]=0xa5a5a5a5;
+        if(direct_count>7)return -1;
+        for (index=0;index<12;++index) words[index]=0xa5a5a5a5;
         words[0]=site;
         for (index=0;index<direct_count;++index) words[index+1]=direct_arguments[index];
         if (!WriteProcessMemory(process,(void *)direct_stack,words,sizeof(words),&written) || written!=sizeof(words)) return -1;
         sprintf(line,"direct-start target %08lx marker %08lx stack %08lx count %u args %08lx %08lx\n",
             base+direct_target_rva,site,direct_stack,direct_count,direct_arguments[0],direct_arguments[1]);
         WriteFile(log,line,strlen(line),&written,0);
-        if(direct_count==3){sprintf(line,"direct-third %08lx\n",direct_arguments[2]);WriteFile(log,line,strlen(line),&written,0);}
+        if(direct_count>=3){sprintf(line,"direct-third %08lx\n",direct_arguments[2]);WriteFile(log,line,strlen(line),&written,0);}
+        for(index=3;index<direct_count;++index){sprintf(line,"direct-argument %u %08lx\n",index+1,direct_arguments[index]);WriteFile(log,line,strlen(line),&written,0);}
         dump_context(process,thread,log);
         dump_requested_memory(process,log,base);
         dump_asm_operand(process,log,base,"direct-entry");
@@ -972,7 +974,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         return 1;
     }
     sprintf(line,"direct-return eax %08lx edx %08lx esp %08lx expected %08lx nonvolatile %u fctrl %08lx before %08lx\n",
-        current.Eax,current.Edx,current.Esp,direct_stack+4+4*(container_unit==15?0:direct_count),
+        current.Eax,current.Edx,current.Esp,direct_stack+4+4*((container_unit==15||(container_unit>=26&&container_unit<=28))?0:direct_count),
         current.Ebx==direct_saved.Ebx && current.Esi==direct_saved.Esi &&
         current.Edi==direct_saved.Edi && current.Ebp==direct_saved.Ebp,
         current.FloatSave.ControlWord,direct_saved.FloatSave.ControlWord);
@@ -1032,7 +1034,7 @@ int main(int argc, char **argv)
     int callback_step = 0, flag_result;
     char *flag_option;
     DWORD flag_entry_rva = 0, flag_scanner_rva = 0, flag_parser_rva = 0, flag_symbol_rva = 0;
-    unsigned callback_count = 0;
+    unsigned callback_count = 0, i;
 
     flag_option=getenv("C1_PDB_UNIT");
     if(flag_option) {
@@ -1041,9 +1043,10 @@ int main(int argc, char **argv)
     }
     flag_option = getenv("C1_DIRECT_CALL");
     if (flag_option) {
-        if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx,%lx",&direct_marker_rva,
-                &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1],&direct_arguments[2]) < 5 ||
-                direct_count>3 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")&&!getenv("C1_CONTAINER_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT") && !getenv("C1_CONTAINER_UNIT"))) return 2;
+        if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx,%lx,%lx,%lx,%lx,%lx",&direct_marker_rva,
+                &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1],&direct_arguments[2],
+                &direct_arguments[3],&direct_arguments[4],&direct_arguments[5],&direct_arguments[6]) < 5 ||
+                direct_count>7 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")&&!getenv("C1_CONTAINER_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT") && !getenv("C1_CONTAINER_UNIT"))) return 2;
     }
     flag_option=getenv("C1_SUPPORT_UNIT");
     if(flag_option) {
@@ -1061,13 +1064,17 @@ int main(int argc, char **argv)
     if(flag_option) {
         container_unit=atoi(flag_option);
         {
-            static DWORD targets[]={0x226b0,0x226d0,0x227b0,0x22800,0x22810,0x22480,0x25910,0x303e0,0x22860,0x22880,0x22410,0x22450,0x22400,0x2f950,0x224b0,0x228b0,0x17620};
-            static unsigned counts[]={2,2,2,1,2,1,2,2,2,1,1,2,1,2,1,1,0};
-            if(container_unit<0||container_unit>16||support_unit>=0||getenv("C1_TEMPLATE_UNIT")||direct_marker_rva!=0x262c0||
-               direct_target_rva!=targets[container_unit]||direct_count!=counts[container_unit]||direct_arguments[0]!=(container_unit==7?2:container_unit==14?1:0)||
-               direct_arguments[1]!=(container_unit<2?1:container_unit==13?0xf37f9:0))return 2;
+            static DWORD targets[]={0x226b0,0x226d0,0x227b0,0x22800,0x22810,0x22480,0x25910,0x303e0,0x22860,0x22880,0x22410,0x22450,0x22400,0x2f950,0x224b0,0x228b0,0x17620,0x17910,0x2f340,0x30cb0,0x30020,0x30030,0x318d0,0x318f0,0x322b0,0x2c290,0x25890,0x1a230,0x1a250,0x19220,0x1d1d0};
+            static unsigned counts[]={2,2,2,1,2,1,2,2,2,1,1,2,1,2,1,1,0,1,3,1,1,1,2,2,2,7,0,0,0,1,1};
+            if(container_unit<0||container_unit>30||support_unit>=0||getenv("C1_TEMPLATE_UNIT")||
+               direct_marker_rva!=(DWORD)(container_unit>=27&&container_unit<=29?0x1a4a0:0x262c0)||
+               direct_target_rva!=targets[container_unit]||direct_count!=counts[container_unit]||
+               direct_arguments[0]!=(DWORD)(container_unit==7?2:container_unit==14?1:container_unit==17?37:container_unit==18?80:container_unit==25?248:0)||
+               direct_arguments[1]!=(DWORD)(container_unit<2?1:container_unit==13?0xf37f9:0))return 2;
+            for(i=2;i<7;++i)if(direct_arguments[i])return 2;
         }
     }
+    if(direct_count>3&&container_unit!=25)return 2;
     flag_option=getenv("C1_TEMPLATE_UNIT");
     if(flag_option) {
         template_unit=atoi(flag_option);

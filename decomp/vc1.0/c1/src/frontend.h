@@ -73,6 +73,7 @@ int parse_translation_unit(void);
 void finish_declarations(void);
 void __stdcall write_ir_record(unsigned tag, void *value);
 IrToken *__stdcall make_integer_constant(unsigned value);
+IrToken *__stdcall make_unsigned_integer_constant(unsigned value);
 IrToken *__stdcall new_integer_constant(unsigned value);
 void finish_debug_info(void);
 void write_global_header(void);

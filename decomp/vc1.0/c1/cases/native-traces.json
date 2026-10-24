@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "64e13ea1b49afa91ea2fe04561a8b4e0e9993b11ee4520646fe2f51e169a06b7",
+    "functions.json": "fa7192e2832203f01ba33570b4db3887d841aef0cb84be2abecab9cd05b8a437",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "e266c714e7212afa235eec8e93c699248e3f30d764e0b72ed794c0935b85b878"
+    "sha256": "1bda085d20f8de0d38d013b5146f52dc0af937d0f32def5816ec99c187f2f9d7"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -477,6 +477,10 @@
       "logical": "_call_argument_bytes@4",
       "source": "src/calls.c"
     },
+    "can_convert_expression": {
+      "logical": "_can_convert_expression@8",
+      "source": "src/conversions.c"
+    },
     "capture_directive_text": {
       "logical": "_capture_directive_text",
       "source": "src/preprocessor-directives.c"
@@ -885,6 +889,14 @@
       "logical": "_create_tag@16",
       "source": "src/declarations.c"
     },
+    "current_aggregate_name": {
+      "logical": "_current_aggregate_name",
+      "source": "src/declarations.c"
+    },
+    "current_aggregate_tag": {
+      "logical": "_current_aggregate_tag",
+      "source": "src/declarations.c"
+    },
     "deactivate_symbol_scope": {
       "logical": "_deactivate_symbol_scope",
       "source": "src/scopes.c"
@@ -939,6 +951,10 @@
     },
     "default_argument_promotion": {
       "logical": "_default_argument_promotion@4",
+      "source": "src/conversions.c"
+    },
+    "default_expression_conversion": {
+      "logical": "_default_expression_conversion@8",
       "source": "src/conversions.c"
     },
     "defer_global_symbol": {
@@ -1661,6 +1677,14 @@
       "logical": "_ide_source_name",
       "source": "src/source-input.c"
     },
+    "identity_type": {
+      "logical": "_identity_type@4",
+      "source": "src/types.c"
+    },
+    "identity_type_shape": {
+      "logical": "_identity_type_shape@4",
+      "source": "src/types.c"
+    },
     "initialize_checksums": {
       "logical": "_initialize_checksums",
       "source": "src/checksums.c"
@@ -1845,12 +1869,20 @@
       "logical": "_join_truncated_names@8",
       "source": "src/declarations.c"
     },
+    "last_type_shape": {
+      "logical": "_last_type_shape@4",
+      "source": "src/types.c"
+    },
     "layout_bitfield_member": {
       "logical": "_layout_bitfield_member@12",
       "source": "src/declarations.c"
     },
     "layout_data_member": {
       "logical": "_layout_data_member@4",
+      "source": "src/declarations.c"
+    },
+    "layout_type_member": {
+      "logical": "_layout_type_member@4",
       "source": "src/declarations.c"
     },
     "leave_compound_scope": {
@@ -2057,6 +2089,10 @@
       "logical": "_make_reusable_zero",
       "source": "src/constants.c"
     },
+    "make_right_typed_expression": {
+      "logical": "_make_right_typed_expression@12",
+      "source": "src/parser.c"
+    },
     "make_sizeof_expression": {
       "logical": "_make_sizeof_expression@4",
       "source": "src/expressions.c"
@@ -2092,6 +2128,10 @@
     "make_unary_expression": {
       "logical": "_make_unary_expression@8",
       "source": "src/expressions.c"
+    },
+    "make_unsigned_integer_constant": {
+      "logical": "_make_unsigned_integer_constant@4",
+      "source": "src/constants.c"
     },
     "mark_builtin": {
       "logical": "_mark_builtin@8",
@@ -2817,6 +2857,10 @@
       "logical": "_print_function_declaration@8",
       "source": "src/declaration-text.c"
     },
+    "print_function_prototype": {
+      "logical": "_print_function_prototype@8",
+      "source": "src/declaration-text.c"
+    },
     "print_ide_status": {
       "logical": "_print_ide_status",
       "source": "src/diagnostics.c"
@@ -3201,6 +3245,10 @@
       "logical": "_report_syntax_error_arguments",
       "source": "src/diagnostics.c"
     },
+    "report_three_type_conflict": {
+      "logical": "_report_three_type_conflict@28",
+      "source": "src/conversions.c"
+    },
     "report_type_conflict": {
       "logical": "_report_type_conflict@20",
       "source": "src/conversions.c"
@@ -3489,6 +3537,10 @@
       "logical": "_synchronize_pch_pragma",
       "source": "src/pragma.c"
     },
+    "take_unnamed_entity_index": {
+      "logical": "_take_unnamed_entity_index",
+      "source": "src/declarations.c"
+    },
     "top_packing": {
       "logical": "_top_packing",
       "source": "src/packing.c"
@@ -3568,6 +3620,10 @@
     "validate_self_based_source": {
       "logical": "_validate_self_based_source@4",
       "source": "src/stubs.c"
+    },
+    "validate_symbol_storage": {
+      "logical": "_validate_symbol_storage@4",
+      "source": "src/declarations.c"
     },
     "vector_contains": {
       "logical": "_vector_contains@8",
@@ -4727,7 +4783,21 @@
     "merge_selected_flags",
     "new_empty_vector",
     "hash_pointer_low12",
-    "browser_macro_end"
+    "browser_macro_end",
+    "make_unsigned_integer_constant",
+    "make_right_typed_expression",
+    "last_type_shape",
+    "identity_type",
+    "identity_type_shape",
+    "default_expression_conversion",
+    "can_convert_expression",
+    "print_function_prototype",
+    "report_three_type_conflict",
+    "take_unnamed_entity_index",
+    "current_aggregate_tag",
+    "current_aggregate_name",
+    "layout_type_member",
+    "validate_symbol_storage"
   ],
   "excluded_accepted": {
     "CRT": [

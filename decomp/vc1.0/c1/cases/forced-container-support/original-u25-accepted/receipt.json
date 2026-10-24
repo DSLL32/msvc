@@ -1,0 +1,145 @@
+{
+  "container_unit": 25,
+  "restored_functions": [],
+  "pdb_cleanup_probe": false,
+  "expression_unit": null,
+  "support_unit": null,
+  "aborted_function_probe": false,
+  "browser_limit_probe": false,
+  "declaration_scope_probe": false,
+  "complete_type_probe": false,
+  "strdup_probe": false,
+  "direct_call": {
+    "function": "_report_three_type_conflict@28",
+    "arguments": [
+      248,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "body_restored": false,
+    "public_reachability": false
+  },
+  "asm_segment_probe": false,
+  "return8_probe": false,
+  "stop_function": "_finish_declarations",
+  "terminal_exit": 99,
+  "expected_exit": 99,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/forced-container-support",
+  "phase": "direct",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 1095,
+  "accepted_sha256": "4b1d5e8e38886d6b68f176b2bf0e68a6bdfb28852cd415133a40ab61b613110e",
+  "executable_sha256": "e9a9583ac1479858f8111d5ef5fb858cdb3dcc2e879fb070b3435bc31ae12a0d",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "76d53c1702902d7c2e3513ba3da0eb3dfadd5bbccab0116932ad52a468e7c8e2",
+  "debugger_memory_request": "4b024:4,4b140:4,4b148:1,4b228:4,4b244:4,4ff14:4,50064:4,50228:4,50798:4,5b7f4:4,5b7f8:4,5bb44:4,5bb48:4,5ce6c:1",
+  "debugger_string_request": "4b588:100,4d5b8:100,5be68:100",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f containers.c -Ze -Zp8 -Gs -Focontainers.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -FR browser.sbr -FI forced-a.h -FI forced-b.h -FI forced-c.h -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\forced-container-support",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/forced-container-support",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05722552351653576,
+  "execution_seconds": 1.7554728332906961,
+  "total_seconds": 1.8127003973349929,
+  "files": [
+    {
+      "name": "browser.sbt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "containers.c",
+      "bytes": 1373,
+      "sha256": "19d17be7529103e6ea4da78068dc5516359f06a634ae01fa4b65fa54f1db6d30"
+    },
+    {
+      "name": "depth-a.h",
+      "bytes": 153,
+      "sha256": "5608bbe3197f482d549000d0f55b652c8873f4b4f17d7b9dbcd1ebffb30fbc3e"
+    },
+    {
+      "name": "depth-b.h",
+      "bytes": 151,
+      "sha256": "397bfedbb962092c6b11492e1e8568928a5334a112f3db90755fa41621da23a4"
+    },
+    {
+      "name": "depth-c.h",
+      "bytes": 350,
+      "sha256": "750e52929e054ccdd1d99c2fd86d5cbf5129f919998aa1e38cc133f044d19c06"
+    },
+    {
+      "name": "forced-a.h",
+      "bytes": 364,
+      "sha256": "800e43845e0dff59d0781836984980e8b3ea9eb4117114669616a37a8e7299a2"
+    },
+    {
+      "name": "forced-b.h",
+      "bytes": 302,
+      "sha256": "9237ac07753ee52d2c432d9506b34c0ff60758b524ae6d8275af39d04b227f4d"
+    },
+    {
+      "name": "forced-c.h",
+      "bytes": 253,
+      "sha256": "d55a3b92621a2c78d50cfd40185b5a8d685ed6aa4a8a8279a397fb405aaff388"
+    },
+    {
+      "name": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "first_entry_projection": {
+    "accepted_from": 1089,
+    "accepted_count": 1090,
+    "expected": [
+      "_report_three_type_conflict@28"
+    ],
+    "observed": [
+      "_report_three_type_conflict@28"
+    ],
+    "seeded_prefix_sha256": "c981b79167f6c2a66545b335208802a69863e700d0e5770e3a0cb5a770c392c5",
+    "plan_sha256": "84601f89155d4682b8ad7e5a4296f3d5e0742088c1b17cb79c681973e7e773ac",
+    "source": "Explicit fresh shared-prefix original first-entry traps; one-byte restore/EIP rewind, complete accepted function bodies/shared text."
+  }
+}

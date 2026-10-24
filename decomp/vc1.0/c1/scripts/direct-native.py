@@ -14,7 +14,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--function',choices=['report_asm_expected_token','asm_recovery_value'])
     parser.add_argument('--support-unit',type=int,choices=range(13))
-    parser.add_argument('--container-unit',type=int,choices=range(17))
+    parser.add_argument('--container-unit',type=int,choices=range(31))
     parser.add_argument('--seen-count',type=int,help='Explicit accepted-prefix seed for support entry tracing')
     parser.add_argument('--arguments',nargs='+',type=lambda v:int(v,0))
     parser.add_argument('--directory',required=True,type=Path)

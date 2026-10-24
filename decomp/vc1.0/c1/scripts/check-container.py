@@ -24,6 +24,7 @@ def main():
         expected=row['accepted_functions'];assert config['accepted'][row['accepted_from']:row['accepted_count']]==expected
         phase=manifest['phases'][plan['phase']];assert hashlib.sha256(json.dumps(phase,sort_keys=True).encode()).hexdigest()==row['phase_sha256']
         receipt=json.loads((original/'receipt.json').read_text());assert receipt['original_sha256']==config['target']['sha256']and receipt['terminal_exit']==99 and receipt['container_unit']==unit and receipt['direct_call']['function']==plan['function']
+        assert receipt['stop_function']==plan.get('marker','_finish_declarations')
         trace=receipt['first_entry_projection'];assert trace['observed']==trace['expected']==expected
         assert (trace['accepted_from'],trace['accepted_count'])==(row['accepted_from'],row['accepted_count'])
         assert trace['seeded_prefix_sha256']==hashlib.sha256(json.dumps(config['accepted'][:row['accepted_from']]).encode()).hexdigest()

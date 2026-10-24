@@ -1,0 +1,46 @@
+{
+  "scope": "Bounded original-only helper compile and CLI rejection smoke; no original C1 process/reference captures or accepted bodies",
+  "build_seconds": 3.158855563029647,
+  "build_log_sha256": "c88e25478e9887b4ae3896c6d4ad070f7aedc3bf061a2316d5c60c617c02b6aa",
+  "helper_sha256": "11369a0250f42415b63cd5e5387a1fa0f5dff040ef5736bde95f56a87fe71f88",
+  "tests": [
+    {
+      "name": "count-eight",
+      "status": 2,
+      "seconds": 1.056509841233492,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "nonformatter-seven",
+      "status": 2,
+      "seconds": 1.0268778325989842,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "unknown-unit",
+      "status": 2,
+      "seconds": 1.2633364610373974,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "wrong-aggregate-marker",
+      "status": 2,
+      "seconds": 1.0037713814526796,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "valid-formatter-missing-cli",
+      "status": 2,
+      "seconds": 1.148984445258975,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "accepted_entries_unchanged": 1081,
+  "v3_captures": 0,
+  "v3_accepted": 0
+}

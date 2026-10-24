@@ -5,6 +5,9 @@ static DWORD container_vector;
 static DWORD container_type;
 static int container_stage;
 static DWORD container_owned[2],container_initial_flags;
+static int typed_prepare(HANDLE,HANDLE,DWORD);
+static int typed_constructed(HANDLE,HANDLE,HANDLE,DWORD,CONTEXT *,char *);
+static int typed_return(HANDLE,HANDLE,DWORD,DWORD);
 static int container_type_state(HANDLE process,HANDLE log,DWORD base,DWORD type,const char *boundary)
 {
     DWORD fields[2],shape[2],got,written,depth,index;
@@ -46,7 +49,7 @@ static int container_vector_state(HANDLE process,HANDLE log,DWORD vector,const c
 static int container_prepare(HANDLE process,HANDLE log,DWORD base)
 {
     DWORD got,items,symbol;
-    if(container_unit<0||container_unit>16||!ReadProcessMemory(process,(void *)(base+0x50494),&container_vector,4,&got)||got!=4||
+    if(container_unit<0||container_unit>30||!ReadProcessMemory(process,(void *)(base+0x50494),&container_vector,4,&got)||got!=4||
        !container_vector_state(process,log,container_vector,"before"))return 0;
     direct_arguments[0]=container_vector;
     if(container_unit==2) {
@@ -67,6 +70,7 @@ static int container_prepare(HANDLE process,HANDLE log,DWORD base)
     }
     if(container_unit>=8&&container_unit<=13)container_stage=1;
     if(container_unit==14)direct_arguments[0]=1;
+    if(container_unit>=17)return typed_prepare(process,log,base);
     return 1;
 }
 /* The v2 seam has only these fixed accepted constructor stages. It never
@@ -98,12 +102,16 @@ static int container_owned_state(HANDLE process,HANDLE log,const char *boundary)
 }
 static int container_call(HANDLE process,HANDLE thread,HANDLE log,DWORD base,CONTEXT *current,int constructor)
 {
-    DWORD words[8],written,target,argument;unsigned index,count;char line[256];
-    for(index=0;index<8;++index)words[index]=0xa5a5a5a5;
+    DWORD words[12],written,target,argument;unsigned index,count;char line[256];
+    for(index=0;index<12;++index)words[index]=0xa5a5a5a5;
     words[0]=direct_marker;
     if(constructor) {
         argument=container_unit==13?4:container_unit<10?8:31;
         target=base+(container_unit==13||container_unit<10?0x34ba0:0x223b0);
+        if(container_unit>=17) {
+            argument=container_unit==18&&container_stage==1?37:container_unit==22?37:11;
+            target=base+((container_unit==18&&container_stage==2)||container_unit==23?0x17910:0x178f0);
+        }
         count=1;words[1]=argument;
         sprintf(line,"container-constructor-start stage %d target %08lx argument %lu stack %08lx\n",container_stage,target,argument,direct_stack);
     } else {
@@ -112,6 +120,10 @@ static int container_call(HANDLE process,HANDLE thread,HANDLE log,DWORD base,CON
         sprintf(line,"direct-start target %08lx marker %08lx stack %08lx count %u args %08lx %08lx\n",target,direct_marker,direct_stack,count,direct_arguments[0],direct_arguments[1]);
     }
     WriteFile(log,line,strlen(line),&written,0);
+    if(!constructor&&count>=3) {
+        sprintf(line,"direct-third %08lx\n",direct_arguments[2]);WriteFile(log,line,strlen(line),&written,0);
+        for(index=3;index<count;++index){sprintf(line,"direct-argument %u %08lx\n",index+1,direct_arguments[index]);WriteFile(log,line,strlen(line),&written,0);}
+    }
     if(!WriteProcessMemory(process,(void *)direct_stack,words,sizeof(words),&written)||written!=sizeof(words))return -1;
     current->Eip=target;current->Esp=direct_stack;
     if(!SetThreadContext(thread,current))return -1;
@@ -128,6 +140,7 @@ static int container_constructor_return(HANDLE process,HANDLE thread,HANDLE log,
     container_owned[container_stage-1]=current->Eax;
     sprintf(line,"container-constructor-return stage %d address %08lx esp %08lx expected %08lx nonvolatile 1 fctrl %08lx before %08lx canary a5x16\n",container_stage,current->Eax,current->Esp,direct_stack+8,current->FloatSave.ControlWord,direct_saved.FloatSave.ControlWord);
     WriteFile(log,line,strlen(line),&written,0);
+    if(container_unit>=17)return typed_constructed(process,thread,log,base,current,buffers);
     if(container_unit<10) {
         if(!ReadProcessMemory(process,(void *)current->Eax,fields,8,&got)||got!=8||fields[0]||fields[1])return -1;
         fields[0]=container_vector;fields[1]=1;
@@ -158,6 +171,7 @@ static int container_constructor_return(HANDLE process,HANDLE thread,HANDLE log,
 static int container_return(HANDLE process,HANDLE log,DWORD base,DWORD result)
 {
     DWORD got,written,index;char text[512],line[600];
+    if(container_unit>=17)return typed_return(process,log,base,result);
     if(container_unit==6) {
         for(index=0;index<sizeof(text);++index) {
             if(!ReadProcessMemory(process,(void *)(result+index),text+index,1,&got)||got!=1)return 0;
@@ -183,3 +197,4 @@ static int container_return(HANDLE process,HANDLE log,DWORD base,DWORD result)
     return container_vector_state(process,log,container_vector,"after")&&
            (container_unit>1||container_vector_state(process,log,result,"result"));
 }
+#include "capture-typed-unit.h"

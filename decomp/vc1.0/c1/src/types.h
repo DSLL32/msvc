@@ -72,4 +72,7 @@ CType *__stdcall qualify_member_type(CType *type, unsigned short model);
 CType *__stdcall clear_type_attributes(CType *type, unsigned short attributes);
 CType *__stdcall make_pointer_model_type(unsigned short model, CType *type);
 int __stdcall merge_selected_flags(unsigned *target, unsigned added);
+TypeShape *__stdcall last_type_shape(TypeShape *shape);
+CType *__stdcall identity_type(CType *type);
+TypeShape *__stdcall identity_type_shape(TypeShape *shape);
 #endif

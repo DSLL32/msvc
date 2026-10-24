@@ -21,6 +21,7 @@ def type_state(text,boundary):
     return result
 
 def validate(original,native,plan,config):
+    if plan['unit']>=17:return validate_v3(original,native,plan,config)
     if plan['unit']>=8:return validate_v2(original,native,plan,config)
     text=(original/'events').read_text();state=json.loads((native/'state.json').read_text())
     before=vector(text,'before');actual=state['before']['vector']
@@ -201,3 +202,143 @@ def validate_v2(original,native,plan,config):
     receipt=json.loads((native/'receipt.json').read_text());work=Path(receipt['environment']['RECON_DRIVE_S']).joinpath(*canonical_parts(phase['canonical_working_directory']))
     assert {p.name:p.read_bytes()for p in(original/'work').iterdir()}=={p.name:p.read_bytes()for p in work.iterdir()},'complete direct owned files differ'
     return dict(status='pass',kind='direct constructor-owned container body/ABI/output'if returned else'fresh direct constructor-owned entry',public_reachability=False,unit=unit)
+
+def typed_state(text,boundary):
+    m=re.search(r'^typed-state '+boundary+r' errors (\d+) counter (\d+) override (\d+) parameters (\w+)$',text,re.M);assert m
+    return dict(errors=int(m[1]),counter=int(m[2]),override=int(m[3]),parameters=int(m[4],16))
+
+def typed_ir(text,label):
+    m=re.search(r'^typed-ir '+label+r' address (\w+) kind (\d+) flags (\d+) type (\w+) typeflags (\w+) value (\w+) right (\w+)$',text,re.M);assert m
+    return {key:int(value,10 if key in('kind','flags')else 16)for key,value in zip(['address','kind','flags','type','typeflags','value','right'],m.groups())}
+
+def typed_owners(text):
+    m=re.search(r'^typed-owners symbol (\w+) type (\w+) callback (\w+) callbacktype (\w+) shape (\w+) sinktype (\w+)$',text,re.M);assert m
+    return dict(zip(['symbol','type','callback','callbacktype','shape','sinktype'],[int(v,16)for v in m.groups()]))
+
+def typed_aggregate(text,boundary):
+    m=re.search(r'^typed-aggregate '+boundary+r' context (\w+) tag (\w+) last (\w+) type (\w+) size (\d+) bitfield (\d+) alignment (\d+) used (\d+) flags (\d+) member (\w+)$',text,re.M);assert m
+    keys=['context','tag','last','type','size','bitfield','alignment','used','flags','member']
+    result={k:int(v,10 if k in('size','bitfield','alignment','used','flags')else 16)for k,v in zip(keys,m.groups())}
+    m=re.search(r'^typed-member '+boundary+r' type (\w+) flags (\w+)$',text,re.M);assert m
+    result.update(member_type=int(m[1],16),member_flags=int(m[2],16));return result
+
+def validate_v3(original,native,plan,config):
+    # Extend semantic checks before accepting each subsequent unit.
+    unit=plan['unit'];assert 17<=unit<=30
+    text=(original/'events').read_text();state=json.loads((native/'state.json').read_text())
+    source=vector(text,'before');actual=state['before']['vector']
+    for value in(source,actual):assert(value['count'],value['capacity'],value['arena'],value['names'])==(3,40,-1,['forced-a.h','forced-b.h','forced-c.h'])
+    aggregate=27<=unit<=29
+    owners=native_owners={}
+    if aggregate:
+        aggregate_before=typed_aggregate(text,'before');native_aggregate=state['before']['typed']['aggregate']
+        for key in('size','bitfield','alignment','used','flags','member_flags'):assert aggregate_before[key]==native_aggregate[key]
+        assert re.search(r'^typed-name aggregate address \w+ text ContainerItem$',text,re.M)
+    else:
+        owners=typed_owners(text);native_owners=state['before']['typed']['owners'];assert all(owners.values())and all(native_owners.values())
+        if unit in(24,25):
+            for key,label in [('name','function'),('detail','callback')]:
+                m=re.search(r'^typed-name '+label+r' address (\w+) text (.+)$',text,re.M);assert m;owners[key]=int(m[1],16)
+            if unit==24:
+                m=re.search(r'^typed-output stream (\w+)$',text,re.M);assert m;owners['stream']=int(m[1],16)
+
+    constructors=[]
+    if unit in(18,22,23):
+        count=2 if unit==18 else 1
+        starts=re.findall(r'^container-constructor-start stage (\d+) target (\w+) argument (\d+) stack (\w+)$',text,re.M)
+        returns=re.findall(r'^container-constructor-return stage (\d+) address (\w+) esp (\w+) expected (\w+) nonvolatile 1 fctrl (\w+) before (\w+) canary a5x16$',text,re.M)
+        assert len(starts)==len(returns)==len(state['constructors'])==count
+        for index,(start,ret,constructor)in enumerate(zip(starts,returns,state['constructors'])):
+            unsigned=(unit==23 or unit==18 and index==1);argument=11 if unsigned else 37;name='make_unsigned_integer_constant'if unsigned else'make_integer_constant'
+            target=next(r['start']for r in config['driver']if r['name']=='_'+name+'@4')
+            assert int(start[0])==int(ret[0])==index+1 and int(start[1],16)==target and int(start[2])==argument
+            assert ret[2]==ret[3]and int(ret[2],16)==int(start[3],16)+8 and ret[4]==ret[5]
+            value=typed_ir(text,'constructor'+str(index+1));assert value['address']==int(ret[1],16)
+            assert constructor['function']==name and constructor['argument']==argument and constructor['address']==constructor['ir']['address']
+            for ir in(value,constructor['ir']):assert{key:ir[key]for key in('kind','flags','typeflags','value','right')}==dict(kind=7,flags=3,typeflags=0x4064 if unsigned else 0x64,value=argument,right=0)
+            constructors.append(value)
+    def arguments(owned,created,context):
+        if unit==24:return[owned['symbol'],owned['stream']]
+        if unit==25:return[248,owned['symbol'],0,owned['name'],owned['detail'],owned['sinktype'],owned['callbacktype']]
+        if unit in(26,27,28):return[]
+        if unit==29:return[context['member_type']]
+        if unit==30:return[owned['symbol']]
+        return [37]if unit==17 else[80,created[0]['address'],created[1]['address']]if unit==18 else[owned['shape']]if unit in(19,21)else[owned['type']]if unit==20 else[owned['sinktype'],created[0]['address']]
+    start=re.search(r'^direct-start target (\w+) marker (\w+) stack (\w+) count (\d+) args (\w+) (\w+)$',text,re.M);assert start
+    target=next(row for row in config['driver']if row['name']==plan['function'])
+    assert int(start[1],16)==target['start']and int(start[4])==plan['arguments']
+    original_args=[int(start[i],16)for i in range(5,5+min(2,plan['arguments']))]
+    if plan['arguments']>=3:
+        third=re.search(r'^direct-third (\w+)$',text,re.M);assert third;original_args.append(int(third[1],16))
+    if plan['arguments']>3:
+        rest=re.findall(r'^direct-argument (\d+) (\w+)$',text,re.M);assert [int(i)for i,v in rest]==list(range(4,plan['arguments']+1));original_args.extend(int(v,16)for i,v in rest)
+    assert original_args==arguments(owners,constructors,aggregate_before if aggregate else None)
+    native_created=[c['ir']for c in state.get('constructors',[])]
+    assert state['arguments']==state['formals']==arguments(native_owners,native_created,native_aggregate if aggregate else None)
+    before=typed_state(text,'before');native_before={k:state['before']['typed'][k]for k in before};assert before==native_before
+    if unit in(19,21):
+        before_type=type_state(text,'before');native_type=state['before']['typed']['type']
+        assert len(before_type['shapes'])==len(native_type['shapes'])==2
+        assert before_type['address']==owners['callbacktype']and native_type['address']==native_owners['callbacktype']
+        for left,right in zip(before_type['shapes'],native_type['shapes']):
+            for key in('flags','attributes'):assert left[key]==right[key]
+        for key in('flags','attributes','depth'):assert before_type[key]==native_type[key]
+    returned='direct-return eax 'in text
+    assert buffers(text.split('direct-return eax ')[0],config)==state['before']['buffers']
+    if returned:
+        assert vector(text,'after')==source and state['after']['vector']==actual
+        expected=dict(before)
+        if unit==25:expected['errors']+=1
+        if unit==26:expected['counter']=(expected['counter']-1)&0xffffffff
+        assert typed_state(text,'after')==expected and{k:state['after']['typed'][k]for k in before}==expected
+        ret=re.search(r'^direct-return eax (\w+) edx (\w+) esp (\w+) expected (\w+) nonvolatile (\d+) fctrl (\w+) before (\w+)$',text,re.M);assert ret
+        cleanup=0 if plan.get('convention')=='cdecl'else plan['arguments']
+        assert ret[3]==ret[4]and int(ret[3],16)==int(start[3],16)+4+4*cleanup and ret[5]=='1'and ret[6]==ret[7]
+        assert re.search(r'^direct-canary (.+)$',text,re.M)[1]=='a5a5a5a5 '*3+'a5a5a5a5'
+        assert state['status']=='returned'and state['canary']=='a5'*16 and state['after']['registers']['esp']==state['stack']+4+4*cleanup
+        for register in ['ebx','esi','edi','ebp','fctrl']:assert state['after']['registers'][register]==state['before']['registers'][register]
+        eax=int(ret[1],16);native_eax=state['after']['registers']['eax']
+        if unit in(17,18):
+            result=typed_ir(text,'result');native_result=state['typed_result']
+            assert result['address']==eax and native_result['address']==native_eax
+            for key in('kind','flags','typeflags'):assert result[key]==native_result[key]
+            if unit==17:
+                for value in(result,native_result):assert{key:value[key]for key in('kind','flags','typeflags','value','right')}==dict(kind=7,flags=3,typeflags=0x4064,value=37,right=0)
+            else:
+                for value,created in[(result,constructors),(native_result,native_created)]:assert value['kind']==80 and value['value']==created[0]['address']and value['right']==created[1]['address']and value['type']==created[1]['type']
+        elif unit in(19,21):
+            assert type_state(text,'after')==before_type and state['after']['typed']['type']==native_type
+            assert eax==(before_type['shapes'][-1]['address']if unit==19 else owners['shape'])
+            assert native_eax==(native_type['shapes'][-1]['address']if unit==19 else native_owners['shape'])
+        elif unit==20:assert eax==owners['type']and native_eax==native_owners['type']
+        elif unit in(22,23,30):
+            assert eax==native_eax
+            if unit==23:assert eax in(0,1)
+            if unit==30:assert eax==1
+        elif unit==26:assert eax==native_eax==before['counter']
+        elif aggregate:
+            after_aggregate=typed_aggregate(text,'after');native_after=state['after']['typed']['aggregate']
+            for initial,changed in[(aggregate_before,after_aggregate),(native_aggregate,native_after)]:
+                expected_context=dict(initial)
+                if unit==29:
+                    assert initial['bitfield']==0 and initial['used']==0 and initial['member_flags']&15==2 and initial['size']==2 and initial['alignment']==2
+                    expected_context['size']+=2
+                assert changed==expected_context
+            if unit==27:assert eax==aggregate_before['tag']and native_eax==native_aggregate['tag']
+            elif unit==28:
+                m=re.search(r'^typed-name result address (\w+) text (.+)$',text,re.M);assert m
+                assert int(m[1],16)==eax and m[2]==state['typed_name_result']=='ContainerItem'
+            else:assert eax==native_eax==2
+        # The prototype and explicit diagnostic intentionally change output.
+        final_buffers=buffers(text[text.index('direct-return eax '):],config)
+        assert final_buffers==state['after']['buffers']
+        if unit not in(24,25):assert final_buffers==state['before']['buffers']
+    else:
+        m=re.search(r'^exception 80000003 rva (\w+) base (\w+)',text,re.M);assert m
+        assert int(m[1],16)+int(m[2],16)==target['start']and state['status']=='entry'
+    for name in ['stdout','stderr']:assert(original/name).read_bytes()==(native/name).read_bytes()
+    from case_paths import canonical_parts
+    phase=json.loads((Path(__file__).resolve().parents[1]/'cases/forced-container-support/manifest.json').read_text())['phases'][plan['phase']]
+    receipt=json.loads((native/'receipt.json').read_text());work=Path(receipt['environment']['RECON_DRIVE_S']).joinpath(*canonical_parts(phase['canonical_working_directory']))
+    assert{p.name:p.read_bytes()for p in(original/'work').iterdir()}=={p.name:p.read_bytes()for p in work.iterdir()},'complete direct owned files differ'
+    return dict(status='pass',kind='direct typed helper body/ABI/output'if returned else'fresh direct typed helper entry',public_reachability=False,unit=unit)

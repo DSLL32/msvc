@@ -13,6 +13,15 @@ IrToken *__stdcall make_integer_constant(unsigned value)
     return constant;
 }
 
+/* Original 0x27910..0x27926. The unsigned wrapper retains the integer
+   constructor's token flags and changes only its interned type. */
+IrToken *__stdcall make_unsigned_integer_constant(unsigned value)
+{
+    IrToken *constant = make_integer_constant(value);
+    constant->type = type_4064_first;
+    return constant;
+}
+
 /* Original 0x278a0..0x278e5. */
 IrToken *__stdcall new_integer_constant(unsigned value)
 {

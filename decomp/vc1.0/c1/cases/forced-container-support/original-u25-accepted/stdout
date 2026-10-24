@@ -1,0 +1,1 @@
+containers.c(42) : error C2248: 'int __cdecl container_result(int (__cdecl *)(const struct ContainerItem *,int ),unsigned int )' : cannot access ContainerCallback volatile int  declared in class 'int (__cdecl *)(const struct ContainerItem *,int )'

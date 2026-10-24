@@ -16,6 +16,8 @@ short begin_declaration_text(void);
 short new_declaration_text(void);
 extern char *unprintable_declaration_type;
 extern int declaration_text_is_function;
+extern int declaration_output_override;
+void __stdcall print_function_prototype(FrontendSymbol *symbol, FILE *stream);
 short __stdcall build_declaration_text(FrontendSymbol *symbol, CType *type);
 char *__stdcall declaration_text_value(short handle);
 void __stdcall write_declaration_storage(unsigned storage, FILE *stream);

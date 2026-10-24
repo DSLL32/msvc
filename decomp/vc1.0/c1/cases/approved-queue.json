@@ -41,7 +41,7 @@
       "case": "forced-container-support",
       "phase": "context and direct container/type support",
       "authorization": "Root approved one coherent case; real parsed names/types and populated vectors, actual constructor-created owned test records; preserve public/direct distinction and no CRT-by-location assumption.",
-      "status": "v1/v2 complete: public context and17direct units,18new app functions1082B,1081accepted entries,59public+57direct pass. Explicit direct support; five named appstubs and unlisted candidates remain."
+      "status": "v1/v2/v3 complete: public context and31direct units,32new app functions1956B,1095accepted entries. Explicit direct support; five named appstubs and unlisted candidates remain. Final suite timing recorded in validation-v3.json."
     }
   ]
 }

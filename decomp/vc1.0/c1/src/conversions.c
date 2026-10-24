@@ -874,3 +874,46 @@ void __stdcall report_conversion_mismatch(unsigned char operation, CType *target
 {
     conversion_diagnostic(47,1,operation,target,source);
 }
+
+/* Original 0x418d0..0x418e6. Default assignment compatibility has
+   neither an explicit conversion mode nor additional classification flags. */
+unsigned __stdcall default_expression_conversion(CType *target, IrToken *operand)
+{
+    return classify_expression_conversion(target, operand, 0, 0);
+}
+
+/* Original 0x418f0..0x4190f. Classification codes below 0x400 are
+   accepted, including the nonzero conversion categories. */
+int __stdcall can_convert_expression(CType *target, IrToken *operand)
+{
+    return default_expression_conversion(target, operand) < 0x400;
+}
+
+/* Original 0x3c290..0x3c375, RET28. Render the two types before
+   selecting a symbol declarator, a context type, or the caller's name. */
+void __stdcall report_three_type_conflict(unsigned code, FrontendSymbol *symbol,
+    CType *context_type, char *name, char *detail, CType *actual, CType *expected)
+{
+    short actual_handle, expected_handle, first_handle;
+    char *actual_name, *expected_name, *first_name;
+    begin_declaration_text();
+    actual_handle = build_declaration_text(0, actual);
+    expected_handle = build_declaration_text(0, expected);
+    if (symbol) {
+        first_handle = build_declaration_text(symbol, 0);
+        expected_name = declaration_text_value(expected_handle);
+        actual_name = declaration_text_value(actual_handle);
+        first_name = declaration_text_value(first_handle);
+    } else if (context_type) {
+        first_handle = build_declaration_text(0, context_type);
+        expected_name = declaration_text_value(expected_handle);
+        actual_name = declaration_text_value(actual_handle);
+        first_name = declaration_text_value(first_handle);
+    } else {
+        expected_name = declaration_text_value(expected_handle);
+        actual_name = declaration_text_value(actual_handle);
+        first_name = name;
+    }
+    report_syntax_error(code, first_name, detail, actual_name, expected_name);
+    end_declaration_text();
+}

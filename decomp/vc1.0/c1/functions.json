@@ -1085,7 +1085,21 @@
     "_merge_selected_flags@8",
     "_new_empty_vector@4",
     "_hash_pointer_low12",
-    "_browser_macro_end"
+    "_browser_macro_end",
+    "_make_unsigned_integer_constant@4",
+    "_make_right_typed_expression@12",
+    "_last_type_shape@4",
+    "_identity_type@4",
+    "_identity_type_shape@4",
+    "_default_expression_conversion@8",
+    "_can_convert_expression@8",
+    "_print_function_prototype@8",
+    "_report_three_type_conflict@28",
+    "_take_unnamed_entity_index",
+    "_current_aggregate_tag",
+    "_current_aggregate_name",
+    "_layout_type_member@4",
+    "_validate_symbol_storage@4"
   ],
   "driver": [
     {
@@ -2414,6 +2428,11 @@
       "end": 162055
     },
     {
+      "name": "_make_unsigned_integer_constant@4",
+      "start": 162064,
+      "end": 162086
+    },
+    {
       "name": "_fold_binary_constants@12",
       "start": 162096,
       "end": 164232
@@ -2493,6 +2512,11 @@
       "name": "_layout_data_member@4",
       "start": 167808,
       "end": 168475
+    },
+    {
+      "name": "_layout_type_member@4",
+      "start": 168480,
+      "end": 168755
     },
     {
       "name": "_new_enumerator@8",
@@ -2578,6 +2602,16 @@
       "name": "_compare_work_stack@12",
       "start": 172336,
       "end": 172457
+    },
+    {
+      "name": "_current_aggregate_tag",
+      "start": 172592,
+      "end": 172615
+    },
+    {
+      "name": "_current_aggregate_name",
+      "start": 172624,
+      "end": 172655
     },
     {
       "name": "_aggregate_padding@4",
@@ -2907,6 +2941,11 @@
       "name": "_reference_identifier_symbol@4",
       "start": 184704,
       "end": 184782
+    },
+    {
+      "name": "_validate_symbol_storage@4",
+      "start": 184784,
+      "end": 184906
     },
     {
       "name": "_make_enumerator_constant@4",
@@ -3938,6 +3977,11 @@
       "end": 219277
     },
     {
+      "name": "_take_unnamed_entity_index",
+      "start": 219280,
+      "end": 219296
+    },
+    {
       "name": "_type_requires_intrinsic_fallback@4",
       "start": 219296,
       "end": 219320
@@ -4278,6 +4322,11 @@
       "end": 246401
     },
     {
+      "name": "_report_three_type_conflict@28",
+      "start": 246416,
+      "end": 246645
+    },
+    {
       "name": "_conversion_diagnostic@20",
       "start": 246656,
       "end": 246804
@@ -4426,6 +4475,11 @@
       "end": 258875
     },
     {
+      "name": "_make_right_typed_expression@12",
+      "start": 258880,
+      "end": 258907
+    },
+    {
       "name": "_make_typed_ir_expression@16",
       "start": 258912,
       "end": 258989
@@ -4551,6 +4605,16 @@
       "end": 262173
     },
     {
+      "name": "_identity_type@4",
+      "start": 262176,
+      "end": 262183
+    },
+    {
+      "name": "_identity_type_shape@4",
+      "start": 262192,
+      "end": 262199
+    },
+    {
       "name": "_replace_outer_type_shape@16",
       "start": 262208,
       "end": 262489
@@ -4662,6 +4726,11 @@
       "end": 265382
     },
     {
+      "name": "_last_type_shape@4",
+      "start": 265392,
+      "end": 265416
+    },
+    {
       "name": "_classify_void_pointer_conversion@12",
       "start": 265424,
       "end": 265479
@@ -4700,6 +4769,16 @@
       "name": "_convert_cast_expression@8",
       "start": 267488,
       "end": 268485
+    },
+    {
+      "name": "_default_expression_conversion@8",
+      "start": 268496,
+      "end": 268518
+    },
+    {
+      "name": "_can_convert_expression@8",
+      "start": 268528,
+      "end": 268559
     },
     {
       "name": "_finish_scalar_cast@12",
@@ -4755,6 +4834,11 @@
       "name": "_type_specifier_name@4",
       "start": 270720,
       "end": 271009
+    },
+    {
+      "name": "_print_function_prototype@8",
+      "start": 271024,
+      "end": 271062
     },
     {
       "name": "_print_function_declaration@8",
@@ -6773,9 +6857,9 @@
     },
     "forced-container-support": {
       "accepted_from": 1063,
-      "accepted_count": 1081,
+      "accepted_count": 1095,
       "public_reachability": false,
-      "units": 17,
+      "units": 31,
       "manifest": "cases/forced-container-support/manifest.json"
     }
   }

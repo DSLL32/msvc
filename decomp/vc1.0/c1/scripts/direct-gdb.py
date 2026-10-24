@@ -56,9 +56,60 @@ def container_snapshot():
         assert 0<=pointer-base<=65536
         buffers[name]=memory(base,pointer-base).hex()if pointer>base else''
     result=dict(registers={r:number('$'+r)for r in registers},owner=container_owner,vector=vector_snapshot(container_owner),error_count=number('error_count'),buffers=buffers)
+    if settings['unit']>=17:result['typed']=typed_snapshot()
     if settings['unit']==7:result['type']=container_type_snapshot(container_type)
     if 8<=settings['unit']<=13:result['owned']=container_owned_snapshot()
     return result
+
+def typed_ir_snapshot(address,binary=False):
+    kind,flags=struct.unpack('<BB',memory(address,2))
+    type=struct.unpack('<I',memory(address+4,4))[0]
+    return dict(address=address,kind=kind,flags=flags,type=type,typeflags=struct.unpack('<H',memory(type,2))[0],value=struct.unpack('<I',memory(address+12,4))[0],right=struct.unpack('<I',memory(address+16,4))[0]if binary else 0)
+
+def typed_aggregate_snapshot():
+    tag,last,type,size,bitfield,alignment,used,flags=struct.unpack('<IIIIHHBB',memory(typed_context,22))
+    member_type=struct.unpack('<I',memory(typed_member+12,4))[0]
+    return dict(context=typed_context,tag=tag,last=last,type=type,size=size,bitfield=bitfield,alignment=alignment,used=used,flags=flags,member=typed_member,member_type=member_type,member_flags=struct.unpack('<H',memory(member_type,2))[0])
+
+def typed_snapshot():
+    value=dict(errors=number('error_count'),counter=number('unnamed_entity_next_index'),override=number('declaration_output_override'),parameters=number('function_parameter_declarations'))
+    if 27<=settings['unit']<=29:value['aggregate']=typed_aggregate_snapshot()
+    else:
+        value['owners']=typed_owners
+        if settings['unit']in(19,21):value['type']=container_type_snapshot(typed_owners['callbacktype'])
+    return value
+
+def typed_prepare():
+    global typed_owners,typed_context,typed_member
+    unit=settings['unit']
+    if 27<=unit<=29:
+        depth=number('aggregate_depth');assert depth<16
+        typed_context=number('&aggregate_contexts')+depth*24
+        typed_member=struct.unpack('<I',memory(number('$esp')+4,4))[0]
+        context=typed_aggregate_snapshot();tag=context['tag'];name=struct.unpack('<I',memory(tag+8,4))[0]
+        assert gdb.parse_and_eval('(char *)'+str(name)).string()=='ContainerItem'
+        settings['arguments']=[struct.unpack('<I',memory(typed_member+12,4))[0]]if unit==29 else[]
+        return
+    symbol=find_support_owner('container_result');callback=find_support_owner('ContainerCallback');sink=find_support_owner('container_sink')
+    typed_owners=dict(symbol=int(symbol),type=int(symbol.dereference()['type']),callback=int(callback),callbacktype=int(callback.dereference()['type']),shape=int(callback.dereference()['type'].dereference()['related']),sinktype=int(sink.dereference()['type']))
+    assert all(typed_owners.values())
+    if unit in(18,22,23):
+        constructors=[]
+        specifications=[('make_integer_constant',37),('make_unsigned_integer_constant',11)]if unit==18 else[('make_integer_constant',37)]if unit==22 else[('make_unsigned_integer_constant',11)]
+        for name,argument in specifications:
+            address=int(gdb.parse_and_eval(name+'('+str(argument)+')'));value=typed_ir_snapshot(address)
+            assert value['kind']==7 and value['flags']==3 and value['value']==argument
+            assert value['typeflags']==(0x64 if name=='make_integer_constant'else 0x4064)
+            constructors.append(dict(function=name,argument=argument,address=address,ir=value))
+        settings['constructors']=constructors
+        settings['arguments']=[80,constructors[0]['address'],constructors[1]['address']]if unit==18 else[typed_owners['sinktype'],constructors[0]['address']]
+    else:
+        name=int(symbol.dereference()['name']);detail=int(callback.dereference()['name'])
+        settings['arguments']={17:[37],19:[typed_owners['shape']],20:[typed_owners['type']],21:[typed_owners['shape']],24:[int(symbol),number('global_file')],25:[248,int(symbol),0,name,detail,typed_owners['sinktype'],typed_owners['callbacktype']],26:[],30:[int(symbol)]}[unit]
+        if unit in(24,25):
+            assert number('function_parameter_declarations')==0 and name and detail
+            typed_owners.update(name=name,detail=detail)
+        if unit==24:typed_owners['stream']=number('global_file')
 
 def bitset_snapshot(address):
     count=struct.unpack('<I',memory(address,4))[0];assert count==31
@@ -236,7 +287,8 @@ if settings.get('kind')=='container-support':
     if settings['unit']==7:
         container_type=int(find_support_owner('container_result').dereference()['type'])
         assert container_type and len(container_type_snapshot(container_type)['shapes'])==1
-    if 8<=settings['unit']<=13:
+    if settings['unit']>=17:typed_prepare()
+    elif 8<=settings['unit']<=13:
         container_construct()
         settings['arguments']=[container_owned[0]]
         if settings['unit']==8:settings['arguments'].append(actual['values'][2])
@@ -261,7 +313,9 @@ assert storage
 assert snapshot()==before,'GDB allocation changed stopped compiler state'
 stack=storage+65536-512
 words=[number('$eip')]+settings['arguments']
-raw=struct.pack('<'+'I'*len(words),*words)+b'\xa5'*(32-4*len(words))
+assert len(settings['arguments'])<=7
+raw=struct.pack('<'+'I'*len(words),*words)+b'\xa5'*(48-4*len(words))
+assert len(raw)==48 and stack+len(raw)<=storage+65536
 gdb.selected_inferior().write_memory(stack,raw)
 function=settings['function']
 entry=gdb.Breakpoint(function,internal=True)
@@ -299,6 +353,8 @@ if settings['body']:
     canary=memory(stack+4+4*len(slots),16)
     assert canary==b'\xa5'*16,'direct stack canary overwritten'
     report.update(after=after,canary=canary.hex(),status='returned')
+    if settings.get('kind')=='container-support'and settings['unit']==28:report['typed_name_result']=gdb.parse_and_eval('(char *)'+str(after['registers']['eax'])).string()
+    if settings.get('kind')=='container-support'and settings['unit']in(17,18):report['typed_result']=typed_ir_snapshot(after['registers']['eax'],settings['unit']==18)
     if settings.get('kind')=='container-support'and settings['unit']<2:
         report['result']=vector_snapshot(after['registers']['eax'])
     if settings.get('kind')=='container-support'and settings['unit']==6:
