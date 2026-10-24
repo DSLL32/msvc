@@ -93,6 +93,12 @@ static const uint32_t order[] = {
     0x6bee0, /* class_virtual_base_pointer_offset */
     0x3a430, /* build_virtual_method_pointer */
     0x3b3b0, /* make_null_virtual_method_pointer */
+    0x3a570, /* make_general_method_pointer */
+    0x3b3e0, /* make_null_general_method_pointer */
+    0xdd20, /* scan_identifier_continuation */
+    0x3a710, /* make_virtual_data_member_pointer */
+    0x3b370, /* make_null_virtual_data_pointer */
+    0x3a7e0, /* make_general_data_member_pointer */
 };
 static const uint32_t seen[] = {
     0x59630, /* main */
@@ -1253,6 +1259,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "member_registry_browser",
     "Partial browser case; pragma packing, macro arguments and browser records validated; trace compares unseeded encounters with explicit per-case seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x3b3b0,
+    RECON_IO, RECON_FRONTIER, 0x3a7e0,
     NULL, invoke, NULL, browser_tests, 1
 };

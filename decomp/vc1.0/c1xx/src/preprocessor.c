@@ -2,6 +2,7 @@
 #include "preprocessor.h"
 #include "source-input.h"
 #include "characters.h"
+#include "lexer.h"
 #include <recon.h>
 
 PreprocessorSymbol **preprocessor_buckets; /* original 0x9f1e4 */
@@ -146,4 +147,56 @@ int scan_macro_identifier(void)
     interned_name = symbol->name;
     macro_text_next += length + 6;
     return length != disabled_length;
+}
+
+/* Original 0x1dd20..0x1df09. Continue an identifier across refills,
+   trigraphs and line escapes, retaining the caller's accumulated hash. */
+void scan_identifier_continuation(char *start, unsigned hash)
+{
+    char text[4096], *write;
+    unsigned length = source_text_cursor - start, index, remaining;
+    unsigned char character;
+    PreprocessorSymbol **bucket, **previous, *symbol;
+    for (index = 0; index < length; ++index) text[index] = start[index];
+    write = text + length;
+    for (;;) {
+        while (write < text + sizeof(text)) {
+            character = (unsigned char)*source_text_cursor++;
+            if (!(character_flags[character] & CF_IDENTIFIER)) break;
+            *write++ = character;
+            hash = hash * 4 + character + (hash >> 7);
+        }
+        if (write >= text + sizeof(text)) fatal_error(64);
+        if (!character) {
+            if (fill_source_buffer()) fatal_error(4);
+            continue;
+        }
+        if (character == '?' && (recover_trigraph() & ~0x40U)) continue;
+        if (character == '\\' && consume_line_escape()) continue;
+        --source_text_cursor;
+        break;
+    }
+    length = write - text;
+    bucket = &preprocessor_buckets[hash & 0x7ff];
+    previous = bucket;
+    for (symbol = *bucket; symbol; symbol = symbol->next) {
+        for (index = 0; index < length && text[index] == symbol->name[index]; ++index) ;
+        if (index == length && !symbol->name[length]) {
+            *previous = symbol->next;
+            symbol->next = *bucket;
+            *bucket = symbol;
+            interned_name = symbol->name;
+            return;
+        }
+        previous = &symbol->next;
+    }
+    remaining = macro_text_begin - macro_text_next + 8192;
+    if (remaining < length + 12) initialize_macro_text();
+    symbol = (PreprocessorSymbol *)macro_text_next;
+    symbol->next = *bucket;
+    *bucket = symbol;
+    for (index = 0; index < length; ++index) symbol->name[index] = text[index];
+    symbol->name[length] = 0;
+    interned_name = symbol->name;
+    macro_text_next += length + 6;
 }

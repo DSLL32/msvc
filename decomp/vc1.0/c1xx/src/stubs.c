@@ -218,7 +218,6 @@ long current_source_timestamp(void) { __asm { int 3 } return 0; }
 void report_ide_line(void) { __asm { int 3 } }
 void finish_pch_capture(void) { __asm { int 3 } }
 
-void scan_identifier_continuation(char *begin, unsigned hash) { __asm { int 3 } }
 
 void read_declspec_attributes(StorageSpec *storage) { __asm { int 3 } }
 CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
@@ -516,8 +515,6 @@ void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias) { __asm
 
 void __stdcall set_default_inheritance_model(int model) { __asm { int 3 } }
 CppSymbol * __stdcall enclosing_qualifier_class(QualifierBinding *binding) { __asm { int 3 } return 0; }
-IrToken * __stdcall make_general_method_pointer(CType *type, IrToken *function, IrToken *adjustment, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
-IrToken * __stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset, IrToken *virtual_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_general_data_member_pointer(CType *type, IrToken *offset, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
 char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
@@ -529,10 +526,7 @@ IrToken *__stdcall compare_general_data_pointer(IrToken *expression, unsigned ch
 IrToken *__stdcall compare_virtual_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
 IrToken *__stdcall compare_general_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall make_null_virtual_data_pointer(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_general_data_pointer(CType *type) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_null_virtual_method_pointer(CType *type) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_null_general_method_pointer(CType *type) { __asm { int 3 } return 0; }
 
 char *__stdcall make_local_static_destructor_name(CppSymbol *object, CppSymbol *function) { __asm { int 3 } return 0; }
 

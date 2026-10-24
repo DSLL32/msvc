@@ -953,3 +953,110 @@ IrToken *__stdcall build_virtual_method_pointer(CType *type, IrToken *function,
     return new_right_typed_expression(0x40, sequence,
         indirect_storage_expression(temporary));
 }
+
+/* Original 0x4b3b0..0x4b3d5. Each field is constructed explicitly;
+   the function component retains the target's ordinary null-function type. */
+IrToken *__stdcall make_null_virtual_method_pointer(CType *type)
+{
+    IrToken *table_offset = make_integer_constant(0);
+    IrToken *adjustment = make_integer_constant(0);
+    IrToken *function = make_null_member_function(type);
+    return build_virtual_method_pointer(type, function, adjustment, table_offset);
+}
+
+/* Original 0x4a570..0x4a709, stdcall20. The general representation
+   stores the function, this adjustment, vbptr offset and vbtable offset. */
+IrToken *__stdcall make_general_method_pointer(CType *type, IrToken *function,
+    IrToken *adjustment, int vbptr_offset, IrToken *vbtable_offset)
+{
+    unsigned index, function_bytes, pointer_displacement, table_displacement;
+    CType *function_type, *pointer_type, *integer_type;
+    IrToken *temporary, *offset, *storage, *first, *second, *third, *fourth, *sequence;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    function_type = drop_first_type_shape(type);
+    pointer_type = make_qualified_type(function_type, 3,
+        function_type->related->attributes & 0x0f77, 0);
+    function_bytes = pointer_kind_size(function_type->related->attributes & 0x0f77);
+    integer_type = builtin_integer_type();
+    pointer_displacement = function_bytes + (integer_type->flags & 15);
+    integer_type = builtin_integer_type();
+    table_displacement = pointer_displacement + (integer_type->flags & 15);
+    temporary = new_temporary_reference(index, type);
+    offset = make_integer_constant(0);
+    storage = clone_expression(temporary, 0);
+    first = new_ir_expression(0x5c, storage, offset, pointer_type);
+    first = new_left_typed_expression(0x3d, first, function);
+    integer_type = builtin_integer_type();
+    offset = make_integer_constant(function_bytes);
+    storage = clone_expression(temporary, 0);
+    second = new_ir_expression(0x5c, storage, offset, integer_type);
+    second = new_left_typed_expression(0x3d, second, adjustment);
+    integer_type = builtin_integer_type();
+    offset = make_integer_constant(pointer_displacement);
+    storage = clone_expression(temporary, 0);
+    third = new_ir_expression(0x5c, storage, offset, integer_type);
+    offset = make_integer_constant(vbptr_offset);
+    third = new_left_typed_expression(0x3d, third, offset);
+    integer_type = builtin_integer_type();
+    offset = make_integer_constant(table_displacement);
+    storage = clone_expression(temporary, 0);
+    fourth = new_ir_expression(0x5c, storage, offset, integer_type);
+    fourth = new_left_typed_expression(0x3d, fourth, vbtable_offset);
+    sequence = new_right_typed_expression(0x40, first, second);
+    sequence = new_right_typed_expression(0x40, sequence, third);
+    sequence = new_right_typed_expression(0x40, sequence, fourth);
+    return new_right_typed_expression(0x40, sequence,
+        indirect_storage_expression(temporary));
+}
+
+/* Original 0x4b3e0..0x4b407. A general null pointer uses the explicit
+   -1 vbtable sentinel, with zero this/vbptr adjustments. */
+IrToken *__stdcall make_null_general_method_pointer(CType *type)
+{
+    IrToken *table_offset = make_integer_constant(-1);
+    IrToken *adjustment = make_integer_constant(0);
+    IrToken *function = make_null_member_function(type);
+    return make_general_method_pointer(type, function, adjustment, 0, table_offset);
+}
+
+/* Original 0x4a710..0x4a7de, stdcall12. The virtual data-member
+   representation contains a byte displacement and a vbtable displacement. */
+IrToken *__stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset,
+    IrToken *virtual_offset)
+{
+    unsigned index, displacement;
+    CType *integer_type;
+    IrToken *temporary, *constant, *storage, *first, *second, *sequence;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    integer_type = builtin_integer_type();
+    displacement = integer_type->flags & 15;
+    temporary = new_temporary_reference(index, type);
+    integer_type = builtin_integer_type();
+    constant = make_integer_constant(0);
+    storage = clone_expression(temporary, 0);
+    first = new_ir_expression(0x5c, storage, constant, integer_type);
+    first = new_left_typed_expression(0x3d, first, offset);
+    integer_type = builtin_integer_type();
+    constant = make_integer_constant(displacement);
+    storage = clone_expression(temporary, 0);
+    second = new_ir_expression(0x5c, storage, constant, integer_type);
+    second = new_left_typed_expression(0x3d, second, virtual_offset);
+    sequence = new_right_typed_expression(0x40, first, second);
+    return new_right_typed_expression(0x40, sequence,
+        indirect_storage_expression(temporary));
+}
+
+/* Original 0x4b370..0x4b38c. Zero data displacement and a -1 virtual
+   displacement distinguish the null virtual data-member representation. */
+IrToken *__stdcall make_null_virtual_data_pointer(CType *type)
+{
+    IrToken *virtual_offset = make_integer_constant(-1);
+    IrToken *offset = make_integer_constant(0);
+    return make_virtual_data_member_pointer(type, offset, virtual_offset);
+}
