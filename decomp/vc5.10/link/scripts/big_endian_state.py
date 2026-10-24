@@ -71,6 +71,6 @@ def compare(original,state,trap,events,directory,original_record,native_record):
     # The DWORD is passed by value to the current pending helper. Earlier output
     # locals remain return-time history, with no extra live pointer input range.
 
-    if state['function']in ('read_object_file','check_input_machine'):
+    if state['function']in ('read_object_file','check_input_machine','detect_input_machine'):
         from swap_result_state import compare as compare_result
         compare_result(original,state,trap,events,directory,entry,mac,output)

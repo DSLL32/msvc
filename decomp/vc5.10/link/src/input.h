@@ -24,6 +24,7 @@ DWORD __stdcall read_big_endian_dword(int);
 DWORD __stdcall byte_swap_dword(DWORD);
 OutputModule *__stdcall read_object_file(InputArgument *,LinkContext *,OutputLibrary *);
 void __stdcall check_input_machine(LinkContext *,InputArgument *);
+WORD __stdcall detect_input_machine(LinkContext *,InputArgument *);
 void __stdcall initialize_machine(LinkContext *);
 BYTE __stdcall read_coff_header(int,IMAGE_FILE_HEADER *,void *,BYTE *);
 OutputModule *__stdcall create_input_module(const char *,const char *,const void *,IMAGE_FILE_HEADER *,OutputLibrary *,BYTE *,BYTE,DWORD,IMAGE_SECTION_HEADER *,BYTE *,void *,DWORD);

@@ -1,0 +1,21 @@
+{
+  "kind": "explicit prospective counterpart-only binding refresh; no original execution",
+  "original_semantics_unchanged": true,
+  "callee_counterpart_bytes_changed": [
+    "_seek_file@16"
+  ],
+  "old_sha256": {
+    "ordinary": "978a6a37e083fc02670de21218f0b572b8c4a182e884546540851f4210373710",
+    "callback": "03c5c728e6016212a117b7084d4085e5a59f944a19d5e26df8a1d0812d790d8f",
+    "metadata": "1012545d2d19aba523c03ed61962f25f6e6921a85ef0a33e11d9433729bf5eda"
+  },
+  "new_sha256": {
+    "ordinary": "507efa6e73b02005add84d3b76afe42655b85c11fc13a48386a9a7fa2f445ba4",
+    "callback": "27e3032e09650f6259e60d2f0de39991e7dacf9ae1b46354c1d0d6e41684631f",
+    "metadata": "cdb0e4a3ed3f98ac141df848e685b7f7fbe354e6f92036b3fdfc055f01e5630e"
+  },
+  "original_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+  "rebuilt_sha256": "57bed79a0327e36ffcc9a8414fcfa4c232354489cccd1c05b47662706404e7a7",
+  "map_sha256": "b489bca3f8cb1183b12f7f43e9c95835223bbc6e6c11f671b6e494c9fa79ab2f",
+  "qualification": "Existing original body/provider/SDK/closed-target semantics retained exactly. Current genuine trapping/free-wrapper counterparts have unchanged RET ABI and no own contracted-register write. New/changed nonvolatile or reconstructed bodies fail this refresh and need concrete proof."
+}

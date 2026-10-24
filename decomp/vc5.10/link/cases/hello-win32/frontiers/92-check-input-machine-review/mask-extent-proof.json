@@ -1,0 +1,17 @@
+{
+  "prior_configuration": "cases/hello-win32/frontiers/91-object-reader-review/native/functions.json",
+  "prior_configuration_sha256": "fa1b760c069f000786bf87bccaa99b00cdd935df4caa5e4001441444c4e111b4",
+  "current_configuration_sha256": "91579299a694599932c8864e93604806d5facadf29a3dc5faa35d8b388aecac1",
+  "logical_mask_changed_bytes": 71,
+  "logical_changed_range": [
+    4261168,
+    4261239
+  ],
+  "next_padding": {
+    "address": 4261239,
+    "bytes": 9,
+    "value": "INT3"
+  },
+  "text_data_added": 0,
+  "qualification": "Real entry/observer exact masks separately bound by acceptance; next detector306B and genuine thiscallmethod remain masked/no bodycredit."
+}

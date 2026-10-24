@@ -134,6 +134,7 @@ struct LinkContext {
     void RECON_THISCALL LoadInputArgument(InputArgument *argument,OutputLibrary *library);
     void RECON_THISCALL PassTwo(void);
     void RECON_THISCALL PrepareMacJumpTables(void);
+    void RECON_THISCALL CheckMachine(const char *name,WORD machine);
     void RECON_THISCALL ResolveMacImports(void);
     void RECON_THISCALL ResolveMacExports(void);
     void RECON_THISCALL PrepareMacResources(void);

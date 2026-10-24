@@ -125,6 +125,9 @@ def main():
     (capture / 'state-plan.txt').write_text(''.join('%s %x %d %s\n'%item for item in state_plan))
     (capture / 'entries.txt').write_text(''.join(entries))
     helper = BINARY / 'build/capture-help.exe'
+    # A new frontier observer is evidence only after this exact helper source
+    # has been compiled. Never run an older capture schema silently.
+    subprocess.run(['make','-q','build/capture-help.exe'],cwd=BINARY,check=True)
     command = ['wine', transport.windows(helper), transport.windows(ROOT / config['target']['path']),
                transport.windows(capture), transport.windows(capture / 'mask.bin') if args.mode != 'original' else '-',
                transport.windows(capture / 'entries.txt'), transport.windows(work)]

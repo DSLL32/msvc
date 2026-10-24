@@ -108,7 +108,8 @@
     "_seek_mapped_file@16",
     "_read_big_endian_dword@4",
     "_byte_swap_dword@4",
-    "_read_object_file@12"
+    "_read_object_file@12",
+    "_check_input_machine@8"
   ],
   "driver": [
     {
@@ -2811,11 +2812,11 @@
     {
       "name": "_check_input_machine@8",
       "start": 4261168,
-      "end": 4261169,
-      "pending_extent": true,
-      "source": "src/input.c",
+      "end": 4261239,
+      "pending_extent": false,
+      "source": "src/input-machine.cpp",
       "native_symbol": "check_input_machine",
-      "status": "stub",
+      "status": "implemented",
       "abi": "stdcall void(LinkContext *,InputArgument *); RET8; no hidden inputs; complete71B pending analysis"
     },
     {
@@ -2857,6 +2858,27 @@
       "native_symbol": "allocate_module_section_headers",
       "status": "stub",
       "abi": "stdcall void(OutputModule *); RET4; complete32B pending analysis"
+    },
+    {
+      "name": "_detect_input_machine@8",
+      "start": 4260848,
+      "end": 4260849,
+      "pending_extent": true,
+      "source": "src/input-machine.cpp",
+      "native_symbol": "detect_input_machine",
+      "status": "stub",
+      "abi": "stdcall WORD(LinkContext *,InputArgument *); two full pointer slots,RET8,no hidden inputs; pending306B/3RET8 sites"
+    },
+    {
+      "name": "LinkContext::CheckMachine",
+      "start": 4574912,
+      "end": 4574913,
+      "pending_extent": true,
+      "source": "src/input-machine.cpp",
+      "native_symbol": "_ZN11LinkContext12CheckMachineEPKct",
+      "status": "stub",
+      "abi": "thiscall void LinkContext::CheckMachine(const char *,WORD); ECXreceiver+two physicalDWORDslots,RET8; rawsecondslot/meaningfulwidth must be observed when reached, no case/body credit",
+      "symbol": "?CheckMachine@LinkContext@@QAEXPBDG@Z"
     }
   ],
   "text_data": [

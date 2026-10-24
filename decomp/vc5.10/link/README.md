@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 91 application
-functions (34,242 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 92 application
+functions (34,313 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `check_input_machine`; hello-win32 has not completed.
+next frontier is `detect_input_machine`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -534,3 +534,16 @@ prior campaigns stay historical with explicit checker/source deltas. Original/
 native/audit times are 1.526/0.864/0.592 s. Native help is 65.93 ms including
 3.962 ms execution. Evidence is in `frontiers/91-object-reader-review`; the
 71-byte next helper has zero accepted body credit.
+
+The 71-byte machine-check wrapper is accepted through the actual two-pointer
+machine detector. A small C++ translation unit expresses its original thiscall
+method without an adapter vertex or class-layout changes; the method stays a
+named trap. The one nonvirtual declaration was independently reviewed against
+all 716 qualified relocation roles and bit-identical existing owner code.
+Both builds, 105 full/98 strict graph bodies and 21 fresh affected controls pass;
+controls take 2.803 s. A stale original observer helper was correctly rejected
+for missing input dumps; its raw evidence remains historical. The replacement
+original/native pair takes 2.164/0.927 s and the audit 0.601 s. The reference
+runner now rejects a stale helper before execution. Shared READY b534 binds
+identical frozen bytes. Native help is 64.83 ms including 3.735 ms execution.
+Proofs and full failure/timing accounting are in `frontiers/92-check-input-machine-review`.

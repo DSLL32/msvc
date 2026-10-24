@@ -37,13 +37,17 @@ def compare(original,state,trap,events,directory):
     assert pe.read(0x410530,12).hex()=='568b742408578b7c24105756'
     assert pe.read(0x4103f0,12).hex()=='83ec0ca1f8ee47008d4c2408'
     entry,=[e for e in events if e['event']=='object_read_entry'];args=entry['formals'];formals=[args[1],args[0]]
-    assert trap['esp']==entry['stack_pointer']-44 and trap['stack'][:3]==[0x4497f5]+formals
+    if state['function']=='check_input_machine':
+        assert trap['esp']==entry['stack_pointer']-44 and trap['stack'][:3]==[0x4497f5]+formals
+        assert trap['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
+    else:
+        machine,=[e for e in events if e['event']=='input_machine_entry']
+        assert machine==dict(event='input_machine_entry',stack_pointer=entry['stack_pointer']-44,formals=formals,hidden_inputs=[])
     assert trap['input_machine_formals']==dict(formals=formals,hidden_inputs=[])
-    assert trap['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
     receipt=json.loads((directory/'receipt.json').read_text());frame=caller_contract(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
     nentry=state['object_reader_entry'];args=nentry['formals'];nformals=[args[1],args[0]]
     assert state['input_machine_entry']==dict(stack_pointer=nentry['stack_pointer']-frame,formals=nformals,hidden_inputs=[])
-    assert state['frontier_inputs']==dict(formals=nformals,hidden_register_inputs=[])
+    if state['function']=='check_input_machine':assert state['frontier_inputs']==dict(formals=nformals,hidden_register_inputs=[])
     mode=proof['mode_refinement'];assert pe.read(0x44979c,7).hex()==mode['store']['raw']=='c60530f0470001'
     section,=[s for s in pe.sections if s['name']=='.text'];raw=pe.read(pe.base+section['rva'],section['virtual_size']);needle=struct.pack('<I',0x47f030)
     assert [pe.base+section['rva']+i for i in range(len(raw))if raw.startswith(needle,i)]==mode['all_literal_address_references']==[0x44979e,0x4497f6]
@@ -52,3 +56,7 @@ def compare(original,state,trap,events,directory):
     for name,offset in [('input_tag','34'),('timestamp','38'),('file_size','3c')]:
         assert 'offsetof(OutputModule,%s)==0x%s'%(name,offset)in header
     assert proof['module_layout']==dict(bytes=156,unchanged_name=4,unchanged_library=100,new_fields=dict(input_tag=52,timestamp=56,file_size=60))
+
+    if state['function']=='detect_input_machine':
+        from detect_machine_state import compare as compare_detect
+        compare_detect(original,state,trap,events,directory)
