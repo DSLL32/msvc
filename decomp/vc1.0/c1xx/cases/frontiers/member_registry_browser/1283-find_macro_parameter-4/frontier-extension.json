@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1283,
+  "accepted": "_find_macro_parameter@4",
+  "terminal": "_evaluate_preprocessor_expression",
+  "original_capture": "cases/frontiers/member_registry_browser/1283-find_macro_parameter-4/original-receipt.json",
+  "original_capture_sha256": "81f3df7a79d2a99ba30cad4d1de9975ac4fe5a87c895d270b5b2e1f9b02681e8",
+  "original_events": "cases/frontiers/member_registry_browser/1283-find_macro_parameter-4/original-events.txt",
+  "original_events_sha256": "ad05341c1fad4610a934148cc2f96c3f004cda01283a62c47baa2ba6cc090003",
+  "original_configuration": "cases/frontiers/member_registry_browser/1283-find_macro_parameter-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

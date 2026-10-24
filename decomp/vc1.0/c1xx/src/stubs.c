@@ -590,5 +590,3 @@ BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }
 void suppress_browser_records(void) { __asm { int 3 } }
 CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall set_browser_access(unsigned short *attributes, unsigned char access) { __asm { int 3 } }
-
-int __stdcall find_macro_parameter(char *name) { __asm { int 3 } return 0; }

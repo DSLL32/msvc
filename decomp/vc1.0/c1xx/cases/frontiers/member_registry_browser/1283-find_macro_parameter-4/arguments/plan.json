@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "function": "_find_macro_parameter@4",
+  "native_entry": "find_macro_parameter",
+  "argument_words": 4,
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    128976,
+    129285
+  ],
+  "native_caller_locals": {
+    "caller_name": {
+      "frame": 1,
+      "function": "read_macro_parameters",
+      "local": "name"
+    }
+  },
+  "original_observations": [
+    {
+      "name": "formal_count",
+      "original": 612232
+    }
+  ],
+  "native_expressions": {
+    "raw_name": "(unsigned)name",
+    "formal_count": "macro_formal_count"
+  },
+  "state_requirements": [
+    {
+      "index": 14,
+      "native_field": "formal_count",
+      "equals": 0
+    }
+  ],
+  "formals": [
+    {
+      "name": "name",
+      "stack_index": 0,
+      "native_field": "raw_name",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 63522,
+        "original_owner_function": "_read_macro_parameters",
+        "native_owner_field": "caller_name",
+        "native_owner_function": "read_macro_parameters",
+        "native_owner_local": "name",
+        "identity": "Actual accepted reader initializes EDI=name at1f7dd from macro_replacement_text+1, writes identifier/NUL throughESI1f88d/1f8b0/1f8f5, PUSH EDI1f81c/CALL1f81d returnVA1f822/RVAf822. Native real immediate caller name local binds the same staged parameter. Fresh signed macro_formal_count=0 proves this actual lookup returns-1 before reading either name or record bytes; pointer ownership does not assert unused pointee contents/recursive state."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      130864,
+      130963
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 signed EAX index/-1, saved EBX/ESI/EDI, RET4",
+    "proof": "Complete99B (1ff30..1ff93) reads one name formal at entryESP+4 only when macro_formal_count>=1, otherwise returns-1. Counted record scan begins macro_work_buffer with byte stride and name atrecord+1; inline character equality loop terminates at sharedNUL, no strcmp/strlen/CRT/helper edges/newdata. Index1..signedcount, unsignedbyte recordstride; no hidden register/flags/x87 input. Existing accepted reader constructs length-prefixed names, global count initially reset0 by define_source_macro. Actual count0 branch freshly observed; other parameter reads become case evidence through subsequent ordinary calls/checkpoint."
+  }
+}

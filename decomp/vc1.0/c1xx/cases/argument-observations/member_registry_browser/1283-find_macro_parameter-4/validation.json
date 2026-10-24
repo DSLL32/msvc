@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_find_macro_parameter@4",
+  "case": "member_registry_browser",
+  "accepted_before": 1283,
+  "configuration_sha256": "26deff3809aab93b16a7301ee59036d9581ec3ee846866e27a85d6bef8fa7edb",
+  "native_entry": "find_macro_parameter",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "name",
+      "stack_index": 0,
+      "native_field": "raw_name",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 63522,
+        "original_owner_function": "_read_macro_parameters",
+        "native_owner_field": "caller_name",
+        "native_owner_function": "read_macro_parameters",
+        "native_owner_local": "name",
+        "identity": "Actual accepted reader initializes EDI=name at1f7dd from macro_replacement_text+1, writes identifier/NUL throughESI1f88d/1f8b0/1f8f5, PUSH EDI1f81c/CALL1f81d returnVA1f822/RVAf822. Native real immediate caller name local binds the same staged parameter. Fresh signed macro_formal_count=0 proves this actual lookup returns-1 before reading either name or record bytes; pointer ownership does not assert unused pointee contents/recursive state.",
+        "original_owner_value": 8391701,
+        "native_owner_value": 1449457313
+      },
+      "original_raw": 8391701,
+      "native_raw": 1449457313,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      130864,
+      130963
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 signed EAX index/-1, saved EBX/ESI/EDI, RET4",
+    "proof": "Complete99B (1ff30..1ff93) reads one name formal at entryESP+4 only when macro_formal_count>=1, otherwise returns-1. Counted record scan begins macro_work_buffer with byte stride and name atrecord+1; inline character equality loop terminates at sharedNUL, no strcmp/strlen/CRT/helper edges/newdata. Index1..signedcount, unsignedbyte recordstride; no hidden register/flags/x87 input. Existing accepted reader constructs length-prefixed names, global count initially reset0 by define_source_macro. Actual count0 branch freshly observed; other parameter reads become case evidence through subsequent ordinary calls/checkpoint.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "42d1ff0ff40edf064eaaf0cb611c51705a455a3ff633bdaa875524749ce94940",
+  "capture_timing": {
+    "original_capture_seconds": 1.8690937273204327,
+    "native_capture_seconds": 0.18725261464715004,
+    "total_operation_seconds": 2.3664326686412096
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "c34bfff7f8c594947622267517871394c6cfc5fb5c3d857d5090b381bdd4fd31",
+    "native-commands.gdb": "2f1b9805be942862086ea1c7137ddde70a16331a1cae827ce27184af8720d89e",
+    "native-gdb.log": "11f4491e1d86bfb486343c6bf2b2b4c8385dafa79a4bbd02e4f03996d0d6aaa9",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "059a6c3c6af8778bc9d1ca69f82052035b5132b7922f0f4b81259d8cbd73c638",
+    "original-configuration.json": "26deff3809aab93b16a7301ee59036d9581ec3ee846866e27a85d6bef8fa7edb",
+    "original-disassembly.txt": "0820e341742f79d6f1b55dd1179eb2e9c7e53baa8f2b98fb5c7e8410008034b1",
+    "original-entries.plan": "493f27713b0cc32478b8ec69b7383172e929cb127f992272c65210cf94da86de",
+    "original-events.txt": "90b1fdd1d7d46444552ddd9c3f6559c7beba2a38bc7d914041747b4b3d722aab",
+    "original-ownership-caller-disassembly.txt": "8d726bd22442c35c11690af797fd5074631394e169d8776529a7c7c706b77118",
+    "original-receipt.json": "c7264e3ce7c7775cab8a25485273e3af2532df608a519ae3914b282e5ac93a26",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "e6ff91415d2db4be5b85880b38850376897f02d74ff28018d4f92581056f9550"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [
+    {
+      "index": 14,
+      "native_field": "formal_count",
+      "equals": 0
+    }
+  ]
+}

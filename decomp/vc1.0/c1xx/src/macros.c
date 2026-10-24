@@ -505,3 +505,23 @@ read_identifier:
     *cursor++ = 0;
     goto next_character;
 }
+
+/* Original 0x1ff30..0x1ff92. Formal records retain their byte-sized
+   stride; the comparison is inline in the original, without a CRT call. */
+int __stdcall find_macro_parameter(char *name)
+{
+    char *record = macro_work_buffer;
+    char *left, *right;
+    int index;
+    for (index = 1; index <= macro_formal_count; ++index) {
+        left = name;
+        right = record + 1;
+        while (*left == *right) {
+            if (!*left) return index;
+            ++left;
+            ++right;
+        }
+        record += (unsigned char)*record;
+    }
+    return -1;
+}

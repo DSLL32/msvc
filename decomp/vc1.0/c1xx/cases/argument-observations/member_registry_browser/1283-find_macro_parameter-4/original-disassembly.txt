@@ -1,0 +1,47 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0001ff30 <.text+0x8f30>:
+   1ff30:	53                   	push   ebx
+   1ff31:	56                   	push   esi
+   1ff32:	57                   	push   edi
+   1ff33:	8b 15 88 18 09 00    	mov    edx,DWORD PTR ds:0x91888
+   1ff39:	b8 01 00 00 00       	mov    eax,0x1
+   1ff3e:	39 05 88 57 09 00    	cmp    DWORD PTR ds:0x95788,eax
+   1ff44:	7c 42                	jl     0x1ff88
+   1ff46:	8b 74 24 10          	mov    esi,DWORD PTR [esp+0x10]
+   1ff4a:	8b fe                	mov    edi,esi
+   1ff4c:	8d 5a 01             	lea    ebx,[edx+0x1]
+   1ff4f:	8a 0f                	mov    cl,BYTE PTR [edi]
+   1ff51:	3a 0b                	cmp    cl,BYTE PTR [ebx]
+   1ff53:	75 1b                	jne    0x1ff70
+   1ff55:	0a c9                	or     cl,cl
+   1ff57:	74 12                	je     0x1ff6b
+   1ff59:	8a 4f 01             	mov    cl,BYTE PTR [edi+0x1]
+   1ff5c:	3a 4b 01             	cmp    cl,BYTE PTR [ebx+0x1]
+   1ff5f:	75 0f                	jne    0x1ff70
+   1ff61:	83 c7 02             	add    edi,0x2
+   1ff64:	83 c3 02             	add    ebx,0x2
+   1ff67:	0a c9                	or     cl,cl
+   1ff69:	75 e4                	jne    0x1ff4f
+   1ff6b:	2b c9                	sub    ecx,ecx
+   1ff6d:	eb 06                	jmp    0x1ff75
+   1ff6f:	90                   	nop
+   1ff70:	1b c9                	sbb    ecx,ecx
+   1ff72:	83 d9 ff             	sbb    ecx,0xffffffff
+   1ff75:	0b c9                	or     ecx,ecx
+   1ff77:	74 14                	je     0x1ff8d
+   1ff79:	33 c9                	xor    ecx,ecx
+   1ff7b:	8a 0a                	mov    cl,BYTE PTR [edx]
+   1ff7d:	40                   	inc    eax
+   1ff7e:	03 d1                	add    edx,ecx
+   1ff80:	39 05 88 57 09 00    	cmp    DWORD PTR ds:0x95788,eax
+   1ff86:	7d c2                	jge    0x1ff4a
+   1ff88:	b8 ff ff ff ff       	mov    eax,0xffffffff
+   1ff8d:	5f                   	pop    edi
+   1ff8e:	5e                   	pop    esi
+   1ff8f:	5b                   	pop    ebx
+   1ff90:	c2 04 00             	ret    0x4

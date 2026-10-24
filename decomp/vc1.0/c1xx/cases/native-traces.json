@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "26deff3809aab93b16a7301ee59036d9581ec3ee846866e27a85d6bef8fa7edb",
+    "functions.json": "4b988f34d7e4bfb7ee83d851cb009acf6f013c67d3e0b41d035344ed677caba2",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "8cd426f38cf3304a52bc5464fd9bcd79312685ec2cb912d6de51726a0fa4dbad",
-    "cases/canonical-map.txt": "fe90d4081b9c09196539ff1c703a20abd48e7874dc7d373dcc24554b9167829b",
+    "cases/original-entry-references.json": "1b4aa84f8fc2f86658adba0f857ca996d61957570c6ba2f5261a8c2a97d4e8c4",
+    "cases/canonical-map.txt": "412dfa8efaab8e15bc5c503fa251b2c3fc3218d4e61528c785b7c4445e5ac628",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -78,9 +78,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1282-read_macro_parameters/entry-reference/original-receipt.json": "c3d80e2a5eef73c326cc243103a7276789108ee020bba357dd8c1eadc4a8672b",
-    "cases/frontiers/member_registry_browser/1282-read_macro_parameters/entry-reference/original-events.txt": "06579aea3ae644e6969bf56553f1bfb59e2c0e5250970e8431de8982e7e19aa4",
-    "cases/frontiers/member_registry_browser/1282-read_macro_parameters/entry-reference/original-entries.plan": "7c952f290970598a66b5899f47062eabda65f2a8167bea0320f719ea79175c99"
+    "cases/frontiers/member_registry_browser/1283-find_macro_parameter-4/entry-reference/original-receipt.json": "81f3df7a79d2a99ba30cad4d1de9975ac4fe5a87c895d270b5b2e1f9b02681e8",
+    "cases/frontiers/member_registry_browser/1283-find_macro_parameter-4/entry-reference/original-events.txt": "ad05341c1fad4610a934148cc2f96c3f004cda01283a62c47baa2ba6cc090003",
+    "cases/frontiers/member_registry_browser/1283-find_macro_parameter-4/entry-reference/original-entries.plan": "7afb60dc2fc49a9d5563687313f15289d184609a306074730c027d6041148ccf"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2497,7 +2497,7 @@
     },
     "find_macro_parameter": {
       "logical": "_find_macro_parameter@4",
-      "source": "src/stubs.c"
+      "source": "src/macros.c"
     },
     "find_matching_overload": {
       "logical": "_find_matching_overload@12",
@@ -7305,7 +7305,8 @@
     "fill_browser_symbol",
     "search_source_include",
     "read_macro_replacement",
-    "read_macro_parameters"
+    "read_macro_parameters",
+    "find_macro_parameter"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13736,7 +13737,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1283,
+      "last": 1284,
       "seen": [
         "main",
         "message_text",
@@ -14917,12 +14918,13 @@
         "search_source_include",
         "read_macro_replacement",
         "read_macro_parameters",
-        "find_macro_parameter"
+        "find_macro_parameter",
+        "evaluate_preprocessor_expression"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_find_macro_parameter@4",
-        "native": "find_macro_parameter",
+        "logical": "_evaluate_preprocessor_expression",
+        "native": "evaluate_preprocessor_expression",
         "signal": 5
       }
     }
