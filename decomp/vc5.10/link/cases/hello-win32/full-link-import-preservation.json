@@ -248,9 +248,17 @@
       },
       "rebuilt": {
         "symbol": "_seek_file@16",
-        "classification": "named trapping boundary",
-        "bytes": "558bec535657cc33c05f5e5b5dc21000",
-        "own_writes": []
+        "classification": "reconstructed application body",
+        "bytes": "558bec5133c0a03c05410085c07405e88ea600008b4d088b15a80841008b048a8945fc8b4dfc8b510483e20885d274178b4514508b4d10518b550c528b45fc50e8e4060000eb118b4d10518b550c528b45fc50e8060000008be55dc21000",
+        "own_writes": [],
+        "complete_bytes": 94,
+        "returns": [
+          {
+            "offset": 91,
+            "cleanup": 16
+          }
+        ],
+        "qualification": "Complete94B compiler counterpart established by common strict paired CFG/instruction export. No own EDI writes; soleRET16, all direct local branches close inside full body. Source/proper normal-call ABIs preserve EDI; no call target inference."
       },
       "qualification": "Finite inspected ordinary compiler ABI on normal return, with actual own register writes/saves/returns. Conditional save/restore paths and callees are reviewed in the complete hash-bound body; no recursive provider proof or ambient contract is registered."
     },

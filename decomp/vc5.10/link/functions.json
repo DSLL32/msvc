@@ -103,7 +103,8 @@
     "_is_archive@8",
     "_mapped_read@12",
     "_is_mac_resource_file@4",
-    "_get_file_length@4"
+    "_get_file_length@4",
+    "_seek_file@16"
   ],
   "driver": [
     {
@@ -1192,11 +1193,11 @@
     {
       "name": "_seek_file@16",
       "start": 4243504,
-      "end": 4243505,
-      "source": "src/full-link-stubs.cpp",
-      "status": "stub",
+      "end": 4243580,
+      "source": "src/files.c",
+      "status": "implemented",
       "abi": "stdcall LONG(int file,LONG offset,int origin,DWORD *error); four physical DWORD inputs, RET16, return EAX consumed by file-length caller; no hidden inputs; pointer contents observed when reached",
-      "pending_extent": true,
+      "pending_extent": false,
       "native_symbol": "seek_file"
     },
     {
@@ -2782,6 +2783,16 @@
       "source": "src/input.c",
       "native_symbol": "read_big_endian_dword",
       "abi": "stdcall DWORD(int file); one physical DWORD input, RET4, no hidden inputs; observed when reached"
+    },
+    {
+      "name": "_seek_buffered_file@12",
+      "start": 4243264,
+      "end": 4243265,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "seek_buffered_file",
+      "abi": "stdcall LONG(FileRecord*,LONG offset,int origin); three physical DWORD inputs,RET12,no hidden inputs; observe actual values when reached"
     }
   ],
   "text_data": [

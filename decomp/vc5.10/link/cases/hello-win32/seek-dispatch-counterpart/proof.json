@@ -1,0 +1,20 @@
+{
+  "status": "static finite normal-return counterpart witness, no app acceptance",
+  "owner": "_seek_file@16",
+  "original_bytes": 76,
+  "rebuilt_bytes": 94,
+  "old_packet_sha256": "dcc49697e253cdb3b2da195e2bb53a32d358ab3eda638d7d8256bd240968dcc3",
+  "new_packet_sha256": "80ac2fb54e737e3231fa792bc22e51c30a1e59bd8558d3a3a0e6596b0f68d0d3",
+  "export_sha256": "2a4c29c7b82125f2649b7dc8a8f89694c3746fa4f74ddc5740a496745070de4e",
+  "auditor_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+  "rebuilt_sha256": "ec4cced01d5a8a2ea664c3c5ae12865f5dcaa02a2ac04761a902ab897360e1c0",
+  "map_sha256": "a4480d81c5fcadc767a980ee2150270ebafc7f25b87e32bd55cb95546b315173",
+  "original_body_semantics_unchanged": true,
+  "compiled_no_edi_write": true,
+  "returns": [
+    {
+      "offset": 91,
+      "cleanup": 16
+    }
+  ]
+}

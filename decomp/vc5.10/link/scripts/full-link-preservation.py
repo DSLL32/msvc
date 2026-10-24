@@ -56,6 +56,13 @@ def check(original,rebuilt,map_text,configuration):
             if own:assert all(item['nearby_restores']for item in witness['returns'])
         compiled=function['rebuilt'];data=bytes.fromhex(compiled['bytes'])
         assert rebuilt.read(addresses[compiled['symbol']],len(data))==data,'callee compiled ABI changed; refresh review: '+function['name']
+        if function['name']=='_seek_file@16'and compiled['classification']=='reconstructed application body':
+            emitted=list(cs.disasm(data,0))
+            assert len(data)==compiled['complete_bytes']==sum(i.size for i in emitted)==94,'rebuilt seek counterpart complete body'
+            assert [i.address for i in emitted if {'edi','di','dil'}&{i.reg_name(r)for r in i.regs_access()[1]}]==compiled['own_writes']==[],'rebuilt seek counterpart writes EDI'
+            assert [dict(offset=i.address,cleanup=int(i.op_str,0))for i in emitted if i.mnemonic=='ret']==compiled['returns']==[dict(offset=91,cleanup=16)],'rebuilt seek counterpart RET ABI'
+            assert all(i.op_str.startswith('0x')and 0<=int(i.op_str,16)<len(data)for i in emitted if i.mnemonic.startswith('j')),'rebuilt seek counterpart local branch escapes'
+
     tick=packet['get_tick_count_contract'];hfile=tick['hfile']
     provider_file=BINARY/hfile['path'];data=provider_file.read_bytes()
     assert len(data)==hfile['bytes']and sha(data)==hfile['sha256']

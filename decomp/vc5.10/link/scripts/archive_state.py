@@ -89,7 +89,7 @@ def compare(original,state,trap,events,native_directory,oslots,nslots):
     lists={e['name']:e for e in events if e['event']=='argument_list'}
     assert entry==dict(event='archive_entry',stack_pointer=reader['stack_pointer']-24,
         formals=[lists['link_files']['nodes'][0]['words'][0],14],hidden_inputs=[])
-    completed=state['function']in ('is_mac_resource_file','get_file_length','seek_file')
+    completed=state['function']in ('is_mac_resource_file','get_file_length','seek_file','seek_mapped_file')
     if not completed:
         assert trap['archive_entry_stack']==entry['stack_pointer']
         assert trap['esp']==entry['stack_pointer']-32 and trap['stack'][0]==0x45cd7a
@@ -170,7 +170,7 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
         assert trap['esp']==reader['stack_pointer']-20 and trap['stack'][:2]==[0x44994e,14]
         assert trap['mac_resource_formals']==dict(formals=[14],hidden_inputs=[])
     else:
-        assert state['function']in ('get_file_length','seek_file')
+        assert state['function']in ('get_file_length','seek_file','seek_mapped_file')
         current,=[e for e in events if e['event']=='mac_resource_entry']
         assert current==dict(event='mac_resource_entry',stack_pointer=reader['stack_pointer']-20,formals=[14],hidden_inputs=[])
         if state['function']=='get_file_length':
@@ -179,19 +179,36 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
         else:
             length_entry,=[e for e in events if e['event']=='file_length_entry']
             assert length_entry==dict(event='file_length_entry',stack_pointer=current['stack_pointer']-24,formals=[14],hidden_inputs=[])
-            assert trap['esp']==length_entry['stack_pointer']-36
             upper=length_entry['stack_pointer']-4
             seek_formals=[14,0,1,upper]
-            assert trap['stack'][:5]==[0x40c0ad]+seek_formals
-            assert trap['seek_file_formals']==dict(formals=seek_formals,hidden_inputs=[])
+            if state['function']=='seek_file':
+                assert trap['esp']==length_entry['stack_pointer']-36
+                assert trap['stack'][:5]==[0x40c0ad]+seek_formals
+                assert trap['seek_file_formals']==dict(formals=seek_formals,hidden_inputs=[])
+            else:
+                assert state['function']=='seek_mapped_file'
+                seek_entry,=[e for e in events if e['event']=='seek_file_entry']
+                assert seek_entry==dict(event='seek_file_entry',stack_pointer=length_entry['stack_pointer']-36,formals=seek_formals,hidden_inputs=[])
+                assert trap['esp']==seek_entry['stack_pointer']-20
+                mapped_formals=[formals[0],0,1,upper]
+                assert trap['stack'][:5]==[0x40c066]+mapped_formals
+                assert trap['seek_mapped_formals']==dict(formals=mapped_formals,hidden_inputs=[])
+
             assert (original/'file-length-upper-before.bin').read_bytes()==bytes(4)
-            assert trap['frontier_inputs']==dict(formals=seek_formals,hidden_register_inputs=[])
+            assert trap['frontier_inputs']==dict(formals=seek_formals if state['function']=='seek_file'else mapped_formals,hidden_register_inputs=[])
             nlength=state['file_length_entry'];nseek=state['seek_file_entry'];noutput=state['file_length_output']
             offset,frame=native_length_output_contract(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
             nupper=nlength['stack_pointer']+offset
             assert nseek==dict(stack_pointer=nlength['stack_pointer']-frame,formals=[14,0,1,nupper],hidden_inputs=[])
             assert noutput==dict(address=nupper,bytes=4,owner_local_address=nupper,owner_local_bytes=4,before='00000000',initial_value_contract='initialized DWORD error scratch; no incoming-value assumption at pending seek')
-            assert state['frontier_inputs']==dict(formals=nseek['formals'],hidden_register_inputs=[])
+            if state['function']=='seek_file':
+                assert state['frontier_inputs']==dict(formals=nseek['formals'],hidden_register_inputs=[])
+            else:
+                bridge=native_seek_bridge_contract(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
+                nmapped=[read['formals'][0],0,1,nupper]
+                assert state['seek_mapped_entry']==dict(stack_pointer=nseek['stack_pointer']-bridge,formals=nmapped,hidden_inputs=[])
+                assert state['frontier_inputs']==dict(formals=nmapped,hidden_register_inputs=[])
+
         assert state['file_length_entry']==dict(stack_pointer=state['file_length_entry']['stack_pointer'],formals=[14],hidden_inputs=[])
         delta=native_classifier_contract(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
         assert state['file_length_entry']['stack_pointer']==state['mac_resource_entry']['stack_pointer']-delta
@@ -205,7 +222,7 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
         assert pe.read(0x44e629,5)==b'\xe8'+struct.pack('<i',0x40c080-0x44e62e)
     assert state['mac_resource_entry']==dict(stack_pointer=state['read_input_entry']['stack_pointer']-48,
         formals=[14],hidden_inputs=[])
-    if state['function']!='seek_file':
+    if state['function']not in ('seek_file','seek_mapped_file'):
         assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[14],hidden_register_inputs=[])
     else:
         seek=json.loads((binary/'cases/hello-win32/seek-file-input-contract.json').read_text())
@@ -216,6 +233,14 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
         assert [[i.address,int(i.op_str,0)]for i in decoded if i.mnemonic=='ret']==seek['returns']==[[0x40c066,16],[0x40c079,16]]
         assert seek['formals']==['int file','LONG offset','int origin','DWORD* error']and seek['hidden_inputs']==[]
         assert pe.read(0x40c0b1,2)==b'\x8b\xf8'and pe.read(0x40c0c6,2)==b'\x8b\xe8' # Actual EAX consumers, not void.
+        if state['function']=='seek_mapped_file':
+            mapped=json.loads((binary/'cases/hello-win32/mapped-seek-input-contract.json').read_text())
+            body=pe.read(0x40ca10,146)
+            assert hashlib.sha256(body).hexdigest()==mapped['body_sha256']
+            decoded=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(body,0x40ca10))
+            assert sum(i.size for i in decoded)==146
+            assert [[i.address,int(i.op_str,0)]for i in decoded if i.mnemonic=='ret']==mapped['returns']==[[0x40ca97,16],[0x40ca9f,16]]
+            assert mapped['formals']==['FileRecord* record','LONG offset','int origin','DWORD* error']and mapped['hidden_inputs']==[]
         return dict(original_base=upper,native_base=nupper,bytes=4)
 
 
@@ -257,3 +282,18 @@ def native_length_output_contract(path,digest):
     location=int(re.search(r'DW_OP_fbreg: (-?\d+)',local).group(1))
     assert location==-12 and raw[30:37]==b'\xc7\x45\xf4'+bytes(4)
     return location-4,4+40+4
+
+
+@functools.lru_cache(maxsize=8)
+def native_seek_bridge_contract(path,digest):
+    """Finite exact caller/frame anchor, with callee identity from named symbols."""
+    assert hashlib.sha256(Path(path).read_bytes()).hexdigest()==digest
+    rows=[x.split()for x in subprocess.check_output(['nm','-S','--defined-only',path],text=True).splitlines()]
+    caller,=[r for r in rows if len(r)==4 and r[3]=='seek_file']
+    callee,=[r for r in rows if len(r)==4 and r[3]=='seek_mapped_file']
+    address=int(caller[0],16);target=int(callee[0],16)
+    listing=subprocess.check_output(['objdump','-w','-d','--start-address='+str(address),'--stop-address='+str(address+114),path],text=True)
+    raw=b''.join(bytes.fromhex(m.group(1))for m in re.finditer(r'^\s*[0-9a-f]+:\s*((?:[0-9a-f]{2}\s+)+)',listing,re.M))
+    assert raw[:7]==b'\x55\x89\xe5\x56\x83\xec\x24'
+    assert raw[109:]==b'\xe8'+struct.pack('<i',target-address-114)
+    return 4+4+36+4

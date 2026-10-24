@@ -15,6 +15,19 @@ extern BYTE file_access_statistics;
 void __cdecl record_file_access(void);
 
 #pragma intrinsic(memcpy)
+LONG __stdcall seek_file(int file,LONG offset,int origin,DWORD *error)
+{
+    FileRecord *record;
+    if (file_access_statistics) record_file_access();
+    record=file_slots[file];
+    if (record->flags & 8) return seek_mapped_file(record,offset,origin,error);
+    return seek_buffered_file(record,offset,origin);
+}
+LONG __stdcall seek_buffered_file(FileRecord *record,LONG offset,int origin)
+{
+    __asm { int 3 }
+    return -1;
+}
 LONG __stdcall get_file_length(int file)
 {
     LONG position,length;

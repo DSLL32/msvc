@@ -1,0 +1,2762 @@
+[
+  {
+    "start": 4611210,
+    "end": 4611223,
+    "reason": "import string"
+  },
+  {
+    "start": 4610830,
+    "end": 4610864,
+    "reason": "import string"
+  },
+  {
+    "start": 4610864,
+    "end": 4610925,
+    "reason": "import string"
+  },
+  {
+    "start": 4611016,
+    "end": 4611048,
+    "reason": "import string"
+  },
+  {
+    "start": 4610926,
+    "end": 4610984,
+    "reason": "import string"
+  },
+  {
+    "start": 4610984,
+    "end": 4611016,
+    "reason": "import string"
+  },
+  {
+    "start": 4611178,
+    "end": 4611210,
+    "reason": "import string"
+  },
+  {
+    "start": 4611144,
+    "end": 4611177,
+    "reason": "import string"
+  },
+  {
+    "start": 4611112,
+    "end": 4611144,
+    "reason": "import string"
+  },
+  {
+    "start": 4611080,
+    "end": 4611111,
+    "reason": "import string"
+  },
+  {
+    "start": 4610796,
+    "end": 4610830,
+    "reason": "import string"
+  },
+  {
+    "start": 4611048,
+    "end": 4611080,
+    "reason": "import string"
+  },
+  {
+    "start": 4610284,
+    "end": 4610332,
+    "reason": "import lookup table including terminator"
+  },
+  {
+    "start": 4198556,
+    "end": 4198604,
+    "reason": "loader-written import address table including terminator"
+  },
+  {
+    "start": 4611302,
+    "end": 4611314,
+    "reason": "import string"
+  },
+  {
+    "start": 4611254,
+    "end": 4611301,
+    "reason": "import string"
+  },
+  {
+    "start": 4611238,
+    "end": 4611254,
+    "reason": "import string"
+  },
+  {
+    "start": 4611224,
+    "end": 4611237,
+    "reason": "import string"
+  },
+  {
+    "start": 4610780,
+    "end": 4610796,
+    "reason": "import lookup table including terminator"
+  },
+  {
+    "start": 4199052,
+    "end": 4199068,
+    "reason": "loader-written import address table including terminator"
+  },
+  {
+    "start": 4611386,
+    "end": 4611399,
+    "reason": "import string"
+  },
+  {
+    "start": 4611364,
+    "end": 4611386,
+    "reason": "import string"
+  },
+  {
+    "start": 4611342,
+    "end": 4611363,
+    "reason": "import string"
+  },
+  {
+    "start": 4611328,
+    "end": 4611342,
+    "reason": "import string"
+  },
+  {
+    "start": 4611314,
+    "end": 4611328,
+    "reason": "import string"
+  },
+  {
+    "start": 4610128,
+    "end": 4610148,
+    "reason": "import lookup table including terminator"
+  },
+  {
+    "start": 4198400,
+    "end": 4198420,
+    "reason": "loader-written import address table including terminator"
+  },
+  {
+    "start": 4612442,
+    "end": 4612453,
+    "reason": "import string"
+  },
+  {
+    "start": 4611728,
+    "end": 4611736,
+    "reason": "import string"
+  },
+  {
+    "start": 4611736,
+    "end": 4611747,
+    "reason": "import string"
+  },
+  {
+    "start": 4611748,
+    "end": 4611759,
+    "reason": "import string"
+  },
+  {
+    "start": 4611760,
+    "end": 4611770,
+    "reason": "import string"
+  },
+  {
+    "start": 4611770,
+    "end": 4611782,
+    "reason": "import string"
+  },
+  {
+    "start": 4611782,
+    "end": 4611796,
+    "reason": "import string"
+  },
+  {
+    "start": 4611716,
+    "end": 4611727,
+    "reason": "import string"
+  },
+  {
+    "start": 4611796,
+    "end": 4611805,
+    "reason": "import string"
+  },
+  {
+    "start": 4611806,
+    "end": 4611818,
+    "reason": "import string"
+  },
+  {
+    "start": 4611818,
+    "end": 4611827,
+    "reason": "import string"
+  },
+  {
+    "start": 4611828,
+    "end": 4611838,
+    "reason": "import string"
+  },
+  {
+    "start": 4611838,
+    "end": 4611848,
+    "reason": "import string"
+  },
+  {
+    "start": 4611848,
+    "end": 4611861,
+    "reason": "import string"
+  },
+  {
+    "start": 4611862,
+    "end": 4611869,
+    "reason": "import string"
+  },
+  {
+    "start": 4611870,
+    "end": 4611880,
+    "reason": "import string"
+  },
+  {
+    "start": 4611880,
+    "end": 4611888,
+    "reason": "import string"
+  },
+  {
+    "start": 4611888,
+    "end": 4611896,
+    "reason": "import string"
+  },
+  {
+    "start": 4611896,
+    "end": 4611904,
+    "reason": "import string"
+  },
+  {
+    "start": 4611904,
+    "end": 4611911,
+    "reason": "import string"
+  },
+  {
+    "start": 4611912,
+    "end": 4611921,
+    "reason": "import string"
+  },
+  {
+    "start": 4611922,
+    "end": 4611931,
+    "reason": "import string"
+  },
+  {
+    "start": 4611932,
+    "end": 4611939,
+    "reason": "import string"
+  },
+  {
+    "start": 4611940,
+    "end": 4611949,
+    "reason": "import string"
+  },
+  {
+    "start": 4611950,
+    "end": 4611958,
+    "reason": "import string"
+  },
+  {
+    "start": 4611958,
+    "end": 4611969,
+    "reason": "import string"
+  },
+  {
+    "start": 4611970,
+    "end": 4611992,
+    "reason": "import string"
+  },
+  {
+    "start": 4611992,
+    "end": 4612001,
+    "reason": "import string"
+  },
+  {
+    "start": 4612002,
+    "end": 4612014,
+    "reason": "import string"
+  },
+  {
+    "start": 4612014,
+    "end": 4612025,
+    "reason": "import string"
+  },
+  {
+    "start": 4611698,
+    "end": 4611706,
+    "reason": "import string"
+  },
+  {
+    "start": 4611690,
+    "end": 4611697,
+    "reason": "import string"
+  },
+  {
+    "start": 4612048,
+    "end": 4612058,
+    "reason": "import string"
+  },
+  {
+    "start": 4612286,
+    "end": 4612296,
+    "reason": "import string"
+  },
+  {
+    "start": 4612068,
+    "end": 4612079,
+    "reason": "import string"
+  },
+  {
+    "start": 4612080,
+    "end": 4612089,
+    "reason": "import string"
+  },
+  {
+    "start": 4612090,
+    "end": 4612105,
+    "reason": "import string"
+  },
+  {
+    "start": 4612106,
+    "end": 4612116,
+    "reason": "import string"
+  },
+  {
+    "start": 4612116,
+    "end": 4612136,
+    "reason": "import string"
+  },
+  {
+    "start": 4612136,
+    "end": 4612146,
+    "reason": "import string"
+  },
+  {
+    "start": 4612146,
+    "end": 4612156,
+    "reason": "import string"
+  },
+  {
+    "start": 4612156,
+    "end": 4612166,
+    "reason": "import string"
+  },
+  {
+    "start": 4612166,
+    "end": 4612176,
+    "reason": "import string"
+  },
+  {
+    "start": 4612176,
+    "end": 4612186,
+    "reason": "import string"
+  },
+  {
+    "start": 4612186,
+    "end": 4612196,
+    "reason": "import string"
+  },
+  {
+    "start": 4612196,
+    "end": 4612206,
+    "reason": "import string"
+  },
+  {
+    "start": 4612206,
+    "end": 4612214,
+    "reason": "import string"
+  },
+  {
+    "start": 4612214,
+    "end": 4612221,
+    "reason": "import string"
+  },
+  {
+    "start": 4612222,
+    "end": 4612229,
+    "reason": "import string"
+  },
+  {
+    "start": 4612230,
+    "end": 4612240,
+    "reason": "import string"
+  },
+  {
+    "start": 4612240,
+    "end": 4612248,
+    "reason": "import string"
+  },
+  {
+    "start": 4612248,
+    "end": 4612256,
+    "reason": "import string"
+  },
+  {
+    "start": 4612256,
+    "end": 4612266,
+    "reason": "import string"
+  },
+  {
+    "start": 4612266,
+    "end": 4612275,
+    "reason": "import string"
+  },
+  {
+    "start": 4612276,
+    "end": 4612286,
+    "reason": "import string"
+  },
+  {
+    "start": 4611706,
+    "end": 4611716,
+    "reason": "import string"
+  },
+  {
+    "start": 4612296,
+    "end": 4612306,
+    "reason": "import string"
+  },
+  {
+    "start": 4612306,
+    "end": 4612318,
+    "reason": "import string"
+  },
+  {
+    "start": 4612318,
+    "end": 4612325,
+    "reason": "import string"
+  },
+  {
+    "start": 4612326,
+    "end": 4612336,
+    "reason": "import string"
+  },
+  {
+    "start": 4612336,
+    "end": 4612345,
+    "reason": "import string"
+  },
+  {
+    "start": 4612346,
+    "end": 4612355,
+    "reason": "import string"
+  },
+  {
+    "start": 4612356,
+    "end": 4612370,
+    "reason": "import string"
+  },
+  {
+    "start": 4612370,
+    "end": 4612382,
+    "reason": "import string"
+  },
+  {
+    "start": 4612382,
+    "end": 4612391,
+    "reason": "import string"
+  },
+  {
+    "start": 4612392,
+    "end": 4612402,
+    "reason": "import string"
+  },
+  {
+    "start": 4612402,
+    "end": 4612415,
+    "reason": "import string"
+  },
+  {
+    "start": 4612416,
+    "end": 4612429,
+    "reason": "import string"
+  },
+  {
+    "start": 4612430,
+    "end": 4612441,
+    "reason": "import string"
+  },
+  {
+    "start": 4612454,
+    "end": 4612468,
+    "reason": "import string"
+  },
+  {
+    "start": 4612468,
+    "end": 4612478,
+    "reason": "import string"
+  },
+  {
+    "start": 4612478,
+    "end": 4612486,
+    "reason": "import string"
+  },
+  {
+    "start": 4612486,
+    "end": 4612500,
+    "reason": "import string"
+  },
+  {
+    "start": 4612500,
+    "end": 4612516,
+    "reason": "import string"
+  },
+  {
+    "start": 4612516,
+    "end": 4612532,
+    "reason": "import string"
+  },
+  {
+    "start": 4612532,
+    "end": 4612544,
+    "reason": "import string"
+  },
+  {
+    "start": 4612544,
+    "end": 4612563,
+    "reason": "import string"
+  },
+  {
+    "start": 4612564,
+    "end": 4612579,
+    "reason": "import string"
+  },
+  {
+    "start": 4612580,
+    "end": 4612595,
+    "reason": "import string"
+  },
+  {
+    "start": 4612596,
+    "end": 4612609,
+    "reason": "import string"
+  },
+  {
+    "start": 4612610,
+    "end": 4612627,
+    "reason": "import string"
+  },
+  {
+    "start": 4612628,
+    "end": 4612641,
+    "reason": "import string"
+  },
+  {
+    "start": 4611678,
+    "end": 4611690,
+    "reason": "import string"
+  },
+  {
+    "start": 4611662,
+    "end": 4611677,
+    "reason": "import string"
+  },
+  {
+    "start": 4611642,
+    "end": 4611661,
+    "reason": "import string"
+  },
+  {
+    "start": 4611634,
+    "end": 4611641,
+    "reason": "import string"
+  },
+  {
+    "start": 4611624,
+    "end": 4611634,
+    "reason": "import string"
+  },
+  {
+    "start": 4611614,
+    "end": 4611624,
+    "reason": "import string"
+  },
+  {
+    "start": 4611600,
+    "end": 4611613,
+    "reason": "import string"
+  },
+  {
+    "start": 4611590,
+    "end": 4611600,
+    "reason": "import string"
+  },
+  {
+    "start": 4611578,
+    "end": 4611590,
+    "reason": "import string"
+  },
+  {
+    "start": 4611568,
+    "end": 4611578,
+    "reason": "import string"
+  },
+  {
+    "start": 4611558,
+    "end": 4611567,
+    "reason": "import string"
+  },
+  {
+    "start": 4611548,
+    "end": 4611557,
+    "reason": "import string"
+  },
+  {
+    "start": 4611538,
+    "end": 4611548,
+    "reason": "import string"
+  },
+  {
+    "start": 4611528,
+    "end": 4611537,
+    "reason": "import string"
+  },
+  {
+    "start": 4611518,
+    "end": 4611527,
+    "reason": "import string"
+  },
+  {
+    "start": 4611508,
+    "end": 4611517,
+    "reason": "import string"
+  },
+  {
+    "start": 4611498,
+    "end": 4611507,
+    "reason": "import string"
+  },
+  {
+    "start": 4611490,
+    "end": 4611498,
+    "reason": "import string"
+  },
+  {
+    "start": 4611482,
+    "end": 4611490,
+    "reason": "import string"
+  },
+  {
+    "start": 4611472,
+    "end": 4611481,
+    "reason": "import string"
+  },
+  {
+    "start": 4611462,
+    "end": 4611471,
+    "reason": "import string"
+  },
+  {
+    "start": 4611448,
+    "end": 4611461,
+    "reason": "import string"
+  },
+  {
+    "start": 4611440,
+    "end": 4611448,
+    "reason": "import string"
+  },
+  {
+    "start": 4611430,
+    "end": 4611440,
+    "reason": "import string"
+  },
+  {
+    "start": 4611420,
+    "end": 4611430,
+    "reason": "import string"
+  },
+  {
+    "start": 4611410,
+    "end": 4611420,
+    "reason": "import string"
+  },
+  {
+    "start": 4611400,
+    "end": 4611410,
+    "reason": "import string"
+  },
+  {
+    "start": 4612026,
+    "end": 4612040,
+    "reason": "import string"
+  },
+  {
+    "start": 4612040,
+    "end": 4612048,
+    "reason": "import string"
+  },
+  {
+    "start": 4612058,
+    "end": 4612067,
+    "reason": "import string"
+  },
+  {
+    "start": 4610332,
+    "end": 4610780,
+    "reason": "import lookup table including terminator"
+  },
+  {
+    "start": 4198604,
+    "end": 4199052,
+    "reason": "loader-written import address table including terminator"
+  },
+  {
+    "start": 4613196,
+    "end": 4613209,
+    "reason": "import string"
+  },
+  {
+    "start": 4613114,
+    "end": 4613129,
+    "reason": "import string"
+  },
+  {
+    "start": 4612970,
+    "end": 4612982,
+    "reason": "import string"
+  },
+  {
+    "start": 4612956,
+    "end": 4612970,
+    "reason": "import string"
+  },
+  {
+    "start": 4613098,
+    "end": 4613114,
+    "reason": "import string"
+  },
+  {
+    "start": 4613130,
+    "end": 4613150,
+    "reason": "import string"
+  },
+  {
+    "start": 4612642,
+    "end": 4612659,
+    "reason": "import string"
+  },
+  {
+    "start": 4612660,
+    "end": 4612679,
+    "reason": "import string"
+  },
+  {
+    "start": 4613184,
+    "end": 4613196,
+    "reason": "import string"
+  },
+  {
+    "start": 4613168,
+    "end": 4613184,
+    "reason": "import string"
+  },
+  {
+    "start": 4613150,
+    "end": 4613167,
+    "reason": "import string"
+  },
+  {
+    "start": 4612920,
+    "end": 4612939,
+    "reason": "import string"
+  },
+  {
+    "start": 4612904,
+    "end": 4612919,
+    "reason": "import string"
+  },
+  {
+    "start": 4612710,
+    "end": 4612724,
+    "reason": "import string"
+  },
+  {
+    "start": 4612724,
+    "end": 4612738,
+    "reason": "import string"
+  },
+  {
+    "start": 4612694,
+    "end": 4612709,
+    "reason": "import string"
+  },
+  {
+    "start": 4613076,
+    "end": 4613097,
+    "reason": "import string"
+  },
+  {
+    "start": 4613050,
+    "end": 4613076,
+    "reason": "import string"
+  },
+  {
+    "start": 4613032,
+    "end": 4613050,
+    "reason": "import string"
+  },
+  {
+    "start": 4613012,
+    "end": 4613032,
+    "reason": "import string"
+  },
+  {
+    "start": 4612996,
+    "end": 4613011,
+    "reason": "import string"
+  },
+  {
+    "start": 4612982,
+    "end": 4612995,
+    "reason": "import string"
+  },
+  {
+    "start": 4612680,
+    "end": 4612694,
+    "reason": "import string"
+  },
+  {
+    "start": 4612844,
+    "end": 4612858,
+    "reason": "import string"
+  },
+  {
+    "start": 4612940,
+    "end": 4612955,
+    "reason": "import string"
+  },
+  {
+    "start": 4612830,
+    "end": 4612844,
+    "reason": "import string"
+  },
+  {
+    "start": 4612890,
+    "end": 4612904,
+    "reason": "import string"
+  },
+  {
+    "start": 4612866,
+    "end": 4612890,
+    "reason": "import string"
+  },
+  {
+    "start": 4612858,
+    "end": 4612866,
+    "reason": "import string"
+  },
+  {
+    "start": 4612754,
+    "end": 4612771,
+    "reason": "import string"
+  },
+  {
+    "start": 4612738,
+    "end": 4612753,
+    "reason": "import string"
+  },
+  {
+    "start": 4612808,
+    "end": 4612829,
+    "reason": "import string"
+  },
+  {
+    "start": 4612790,
+    "end": 4612808,
+    "reason": "import string"
+  },
+  {
+    "start": 4612772,
+    "end": 4612790,
+    "reason": "import string"
+  },
+  {
+    "start": 4610148,
+    "end": 4610284,
+    "reason": "import lookup table including terminator"
+  },
+  {
+    "start": 4198420,
+    "end": 4198556,
+    "reason": "loader-written import address table including terminator"
+  },
+  {
+    "start": 4610008,
+    "end": 4610128,
+    "reason": "import descriptors including terminator"
+  },
+  {
+    "start": 4232232,
+    "end": 4232244,
+    "reason": "CRTEXE.OBJ contextual SEH scope table"
+  },
+  {
+    "start": 4200424,
+    "end": 4200436,
+    "reason": "main SEH scope table: previous scope -1, filter 40e0e1, handler 40e10e"
+  },
+  {
+    "start": 4199740,
+    "end": 4199747,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'Linker\\x00'"
+  },
+  {
+    "start": 4199724,
+    "end": 4199740,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'Library Manager\\x00'"
+  },
+  {
+    "start": 4199716,
+    "end": 4199723,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'Dumper\\x00'"
+  },
+  {
+    "start": 4199708,
+    "end": 4199715,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'Editor\\x00'"
+  },
+  {
+    "start": 4199700,
+    "end": 4199707,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'Helper\\x00'"
+  },
+  {
+    "start": 4200416,
+    "end": 4200424,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'LINK_DB\\x00'"
+  },
+  {
+    "start": 4200376,
+    "end": 4200416,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'\\n%s : error : Internal error during %s\\n\\x00'"
+  },
+  {
+    "start": 4200232,
+    "end": 4200374,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'\\n  ExceptionCode            = %08lX\\n  Excepti'"
+  },
+  {
+    "start": 4200192,
+    "end": 4200229,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'  ExceptionInformation[%2u] = %08lX\\n\\x00'"
+  },
+  {
+    "start": 4199816,
+    "end": 4200190,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'\\nCONTEXT:\\n  Eax    = %08lX  Esp    = %08lX\\n  '"
+  },
+  {
+    "start": 4202228,
+    "end": 4202239,
+    "reason": "main ordinary string literal at its reconstructed point of use: b'SetupPhase\\x00'"
+  },
+  {
+    "start": 4203100,
+    "end": 4203103,
+    "reason": "initialize_debug sscanf format literal"
+  },
+  {
+    "start": 4199572,
+    "end": 4199578,
+    "reason": "file-cache environment probe literal"
+  },
+  {
+    "start": 4199580,
+    "end": 4199593,
+    "reason": "file-cache environment probe literal"
+  },
+  {
+    "start": 4228368,
+    "end": 4228375,
+    "reason": "run_linker direct contextual string argument b'_LINK_\\x00'"
+  },
+  {
+    "start": 4228360,
+    "end": 4228365,
+    "reason": "run_linker direct contextual string argument b'LINK\\x00'"
+  },
+  {
+    "start": 4205360,
+    "end": 4205364,
+    "reason": "run_linker direct contextual string argument b'vxd\\x00'"
+  },
+  {
+    "start": 4222496,
+    "end": 4222503,
+    "reason": "run_linker direct contextual string argument b'nologo\\x00'"
+  },
+  {
+    "start": 4228040,
+    "end": 4228049,
+    "reason": "run_linker direct contextual string argument b'PDB:NONE\\x00'"
+  },
+  {
+    "start": 4228344,
+    "end": 4228360,
+    "reason": "run_linker direct contextual string argument b'DEBUGTYPE:FIXUP\\x00'"
+  },
+  {
+    "start": 4228324,
+    "end": 4228341,
+    "reason": "run_linker direct contextual string argument b'SUBSYSTEM:NATIVE\\x00'"
+  },
+  {
+    "start": 4228304,
+    "end": 4228322,
+    "reason": "run_linker direct contextual string argument b'SUBSYSTEM:CONSOLE\\x00'"
+  },
+  {
+    "start": 4228284,
+    "end": 4228302,
+    "reason": "run_linker direct contextual string argument b'SUBSYSTEM:WINDOWS\\x00'"
+  },
+  {
+    "start": 4207612,
+    "end": 4207628,
+    "reason": "run_linker direct contextual string argument b'SUBSYSTEM:POSIX\\x00'"
+  },
+  {
+    "start": 4228264,
+    "end": 4228284,
+    "reason": "run_linker direct contextual string argument b'SUBSYSTEM:WINDOWSCE\\x00'"
+  },
+  {
+    "start": 4204884,
+    "end": 4204888,
+    "reason": "run_linker direct contextual string argument b'VXD\\x00'"
+  },
+  {
+    "start": 4199468,
+    "end": 4199472,
+    "reason": "run_linker direct contextual string argument b'ROM\\x00'"
+  },
+  {
+    "start": 4228244,
+    "end": 4228264,
+    "reason": "run_linker direct contextual string argument b'WINDOWSCE:EMULATION\\x00'"
+  },
+  {
+    "start": 4228224,
+    "end": 4228244,
+    "reason": "run_linker direct contextual string argument b'WINDOWSCE:NOCONVERT\\x00'"
+  },
+  {
+    "start": 4228076,
+    "end": 4228084,
+    "reason": "run_linker direct contextual string argument b'PROFILE\\x00'"
+  },
+  {
+    "start": 4204668,
+    "end": 4204674,
+    "reason": "run_linker direct contextual string argument b'FIXED\\x00'"
+  },
+  {
+    "start": 4494016,
+    "end": 4494052,
+    "reason": "run_linker nine-entry subsystem switch table"
+  },
+  {
+    "start": 4225652,
+    "end": 4225663,
+    "reason": "initialize_repro contextual literal b'LINK_REPRO\\x00'"
+  },
+  {
+    "start": 4225384,
+    "end": 4225386,
+    "reason": "initialize_repro contextual literal b'.\\x00'"
+  },
+  {
+    "start": 4225636,
+    "end": 4225652,
+    "reason": "initialize_repro contextual literal b'LINK_REPRO_NAME\\x00'"
+  },
+  {
+    "start": 4225624,
+    "end": 4225634,
+    "reason": "initialize_repro contextual literal b'\\\\link.rsp\\x00'"
+  },
+  {
+    "start": 4213652,
+    "end": 4213655,
+    "reason": "initialize_repro contextual literal b'wt\\x00'"
+  },
+  {
+    "start": 4231688,
+    "end": 4231691,
+    "reason": "parse_argument contextual literal b'?*\\x00'"
+  },
+  {
+    "start": 4231680,
+    "end": 4231685,
+    "reason": "parse_argument contextual literal b'.obj\\x00'"
+  },
+  {
+    "start": 4227552,
+    "end": 4227560,
+    "reason": "libpath predicate contextual prefix literal"
+  },
+  {
+    "start": 4202448,
+    "end": 4202468,
+    "reason": "Initialize contextual IMAGE_FILE_HEADER defaults"
+  },
+  {
+    "start": 4202472,
+    "end": 4202696,
+    "reason": "Initialize contextual IMAGE_OPTIONAL_HEADER defaults"
+  },
+  {
+    "start": 4202296,
+    "end": 4202404,
+    "reason": "Initialize contextual typed linker option defaults"
+  },
+  {
+    "start": 4202408,
+    "end": 4202444,
+    "reason": "Initialize specified-switch defaults"
+  },
+  {
+    "start": 4223196,
+    "end": 4223225,
+    "reason": "Initialize database signature literal"
+  },
+  {
+    "start": 4203048,
+    "end": 4203053,
+    "reason": "Initialize .dll extension literal"
+  },
+  {
+    "start": 4223064,
+    "end": 4223192,
+    "reason": "Initialize contextual DOS output-image template; typed header, output-only bootstrap and message"
+  },
+  {
+    "start": 4213812,
+    "end": 4213814,
+    "reason": "configure_link_options contextual literal '?'"
+  },
+  {
+    "start": 4228004,
+    "end": 4228010,
+    "reason": "configure_link_options contextual literal 'align'"
+  },
+  {
+    "start": 4222480,
+    "end": 4222485,
+    "reason": "configure_link_options contextual literal 'base'"
+  },
+  {
+    "start": 4227996,
+    "end": 4228001,
+    "reason": "configure_link_options contextual literal '.txt'"
+  },
+  {
+    "start": 4227976,
+    "end": 4227994,
+    "reason": "configure_link_options contextual literal 'base:@\".\\\\%s%s,%s\"'"
+  },
+  {
+    "start": 4205648,
+    "end": 4205651,
+    "reason": "configure_link_options contextual literal 'rt'"
+  },
+  {
+    "start": 4205152,
+    "end": 4205156,
+    "reason": "configure_link_options contextual literal '%li'"
+  },
+  {
+    "start": 4227968,
+    "end": 4227975,
+    "reason": "configure_link_options contextual literal 'brepro'"
+  },
+  {
+    "start": 4227960,
+    "end": 4227968,
+    "reason": "configure_link_options contextual literal 'comment'"
+  },
+  {
+    "start": 4227948,
+    "end": 4227958,
+    "reason": "configure_link_options contextual literal 'dbgimplib'"
+  },
+  {
+    "start": 4212592,
+    "end": 4212598,
+    "reason": "configure_link_options contextual literal 'debug'"
+  },
+  {
+    "start": 4227940,
+    "end": 4227947,
+    "reason": "configure_link_options contextual literal 'mapped'"
+  },
+  {
+    "start": 4227928,
+    "end": 4227938,
+    "reason": "configure_link_options contextual literal 'notmapped'"
+  },
+  {
+    "start": 4227920,
+    "end": 4227925,
+    "reason": "configure_link_options contextual literal 'full'"
+  },
+  {
+    "start": 4227912,
+    "end": 4227920,
+    "reason": "configure_link_options contextual literal 'partial'"
+  },
+  {
+    "start": 4227904,
+    "end": 4227912,
+    "reason": "configure_link_options contextual literal 'minimal'"
+  },
+  {
+    "start": 4213604,
+    "end": 4213609,
+    "reason": "configure_link_options contextual literal 'none'"
+  },
+  {
+    "start": 4227892,
+    "end": 4227902,
+    "reason": "configure_link_options contextual literal 'debugtype'"
+  },
+  {
+    "start": 4224712,
+    "end": 4224717,
+    "reason": "configure_link_options contextual literal 'coff'"
+  },
+  {
+    "start": 4224708,
+    "end": 4224711,
+    "reason": "configure_link_options contextual literal 'cv'"
+  },
+  {
+    "start": 4224700,
+    "end": 4224705,
+    "reason": "configure_link_options contextual literal 'both'"
+  },
+  {
+    "start": 4212848,
+    "end": 4212852,
+    "reason": "configure_link_options contextual literal 'fpo'"
+  },
+  {
+    "start": 4213728,
+    "end": 4213734,
+    "reason": "configure_link_options contextual literal 'fixup'"
+  },
+  {
+    "start": 4213680,
+    "end": 4213684,
+    "reason": "configure_link_options contextual literal 'map'"
+  },
+  {
+    "start": 4227888,
+    "end": 4227892,
+    "reason": "configure_link_options contextual literal 'def'"
+  },
+  {
+    "start": 4224676,
+    "end": 4224689,
+    "reason": "configure_link_options contextual literal 'def:\".\\\\%s%s\"'"
+  },
+  {
+    "start": 4227876,
+    "end": 4227887,
+    "reason": "configure_link_options contextual literal 'defaultlib'"
+  },
+  {
+    "start": 4227868,
+    "end": 4227874,
+    "reason": "configure_link_options contextual literal 'delay'"
+  },
+  {
+    "start": 4227860,
+    "end": 4227867,
+    "reason": "configure_link_options contextual literal 'nobind'"
+  },
+  {
+    "start": 4227852,
+    "end": 4227859,
+    "reason": "configure_link_options contextual literal 'unload'"
+  },
+  {
+    "start": 4227840,
+    "end": 4227850,
+    "reason": "configure_link_options contextual literal 'delayload'"
+  },
+  {
+    "start": 4227828,
+    "end": 4227840,
+    "reason": "configure_link_options contextual literal 'disallowlib'"
+  },
+  {
+    "start": 4227824,
+    "end": 4227828,
+    "reason": "configure_link_options contextual literal 'dll'"
+  },
+  {
+    "start": 4227816,
+    "end": 4227823,
+    "reason": "configure_link_options contextual literal 'system'"
+  },
+  {
+    "start": 4227808,
+    "end": 4227816,
+    "reason": "configure_link_options contextual literal 'dllchar'"
+  },
+  {
+    "start": 4227796,
+    "end": 4227805,
+    "reason": "configure_link_options contextual literal 'x86thunk'"
+  },
+  {
+    "start": 4227788,
+    "end": 4227795,
+    "reason": "configure_link_options contextual literal 'driver'"
+  },
+  {
+    "start": 4227780,
+    "end": 4227787,
+    "reason": "configure_link_options contextual literal 'uponly'"
+  },
+  {
+    "start": 4227776,
+    "end": 4227780,
+    "reason": "configure_link_options contextual literal 'wdm'"
+  },
+  {
+    "start": 4227760,
+    "end": 4227776,
+    "reason": "configure_link_options contextual literal 'editandcontinue'"
+  },
+  {
+    "start": 4227748,
+    "end": 4227759,
+    "reason": "configure_link_options contextual literal 'encpadsize'"
+  },
+  {
+    "start": 4227740,
+    "end": 4227746,
+    "reason": "configure_link_options contextual literal 'entry'"
+  },
+  {
+    "start": 4227732,
+    "end": 4227740,
+    "reason": "configure_link_options contextual literal 'exetype'"
+  },
+  {
+    "start": 4227724,
+    "end": 4227732,
+    "reason": "configure_link_options contextual literal 'dynamic'"
+  },
+  {
+    "start": 4205568,
+    "end": 4205575,
+    "reason": "configure_link_options contextual literal 'dev386'"
+  },
+  {
+    "start": 4227716,
+    "end": 4227723,
+    "reason": "configure_link_options contextual literal 'export'"
+  },
+  {
+    "start": 4227708,
+    "end": 4227714,
+    "reason": "configure_link_options contextual literal 'fixed'"
+  },
+  {
+    "start": 4222364,
+    "end": 4222367,
+    "reason": "configure_link_options contextual literal 'no'"
+  },
+  {
+    "start": 4227700,
+    "end": 4227706,
+    "reason": "configure_link_options contextual literal 'force'"
+  },
+  {
+    "start": 4227688,
+    "end": 4227697,
+    "reason": "configure_link_options contextual literal 'multiple'"
+  },
+  {
+    "start": 4227676,
+    "end": 4227687,
+    "reason": "configure_link_options contextual literal 'unresolved'"
+  },
+  {
+    "start": 4227664,
+    "end": 4227674,
+    "reason": "configure_link_options contextual literal 'fullbuild'"
+  },
+  {
+    "start": 4227656,
+    "end": 4227663,
+    "reason": "configure_link_options contextual literal 'gpsize'"
+  },
+  {
+    "start": 4227648,
+    "end": 4227656,
+    "reason": "configure_link_options contextual literal 'hdrsize'"
+  },
+  {
+    "start": 4222388,
+    "end": 4222393,
+    "reason": "configure_link_options contextual literal 'heap'"
+  },
+  {
+    "start": 4227640,
+    "end": 4227647,
+    "reason": "configure_link_options contextual literal 'ignore'"
+  },
+  {
+    "start": 4227632,
+    "end": 4227639,
+    "reason": "configure_link_options contextual literal 'implib'"
+  },
+  {
+    "start": 4227624,
+    "end": 4227632,
+    "reason": "configure_link_options contextual literal 'implib:'"
+  },
+  {
+    "start": 4227620,
+    "end": 4227624,
+    "reason": "configure_link_options contextual literal '\".\\\\'"
+  },
+  {
+    "start": 4200792,
+    "end": 4200794,
+    "reason": "configure_link_options contextual literal '\"'"
+  },
+  {
+    "start": 4227612,
+    "end": 4227619,
+    "reason": "configure_link_options contextual literal 'import'"
+  },
+  {
+    "start": 4227604,
+    "end": 4227609,
+    "reason": "configure_link_options contextual literal 'glue'"
+  },
+  {
+    "start": 4227600,
+    "end": 4227602,
+    "reason": "configure_link_options contextual literal '1'"
+  },
+  {
+    "start": 4227596,
+    "end": 4227600,
+    "reason": "configure_link_options contextual literal 'lib'"
+  },
+  {
+    "start": 4227588,
+    "end": 4227593,
+    "reason": "configure_link_options contextual literal 'weak'"
+  },
+  {
+    "start": 4224596,
+    "end": 4224607,
+    "reason": "configure_link_options contextual literal 'currentver'"
+  },
+  {
+    "start": 4224584,
+    "end": 4224594,
+    "reason": "configure_link_options contextual literal 'oldapiver'"
+  },
+  {
+    "start": 4224572,
+    "end": 4224583,
+    "reason": "configure_link_options contextual literal 'oldcodever'"
+  },
+  {
+    "start": 4227584,
+    "end": 4227586,
+    "reason": "configure_link_options contextual literal '_'"
+  },
+  {
+    "start": 4227576,
+    "end": 4227584,
+    "reason": "configure_link_options contextual literal 'include'"
+  },
+  {
+    "start": 4227564,
+    "end": 4227576,
+    "reason": "configure_link_options contextual literal 'incremental'"
+  },
+  {
+    "start": 4227560,
+    "end": 4227564,
+    "reason": "configure_link_options contextual literal 'yes'"
+  },
+  {
+    "start": 4222368,
+    "end": 4222386,
+    "reason": "configure_link_options contextual literal 'largeaddressaware'"
+  },
+  {
+    "start": 4224532,
+    "end": 4224545,
+    "reason": "configure_link_options contextual literal 'link50compat'"
+  },
+  {
+    "start": 4227548,
+    "end": 4227552,
+    "reason": "configure_link_options contextual literal 'mac'"
+  },
+  {
+    "start": 4227540,
+    "end": 4227545,
+    "reason": "configure_link_options contextual literal 'type'"
+  },
+  {
+    "start": 4227532,
+    "end": 4227540,
+    "reason": "configure_link_options contextual literal 'creator'"
+  },
+  {
+    "start": 4224488,
+    "end": 4224493,
+    "reason": "configure_link_options contextual literal 'init'"
+  },
+  {
+    "start": 4224480,
+    "end": 4224485,
+    "reason": "configure_link_options contextual literal 'term'"
+  },
+  {
+    "start": 4227524,
+    "end": 4227531,
+    "reason": "configure_link_options contextual literal 'bundle'"
+  },
+  {
+    "start": 4227512,
+    "end": 4227521,
+    "reason": "configure_link_options contextual literal 'nobundle'"
+  },
+  {
+    "start": 4227500,
+    "end": 4227509,
+    "reason": "configure_link_options contextual literal 'mfilepad'"
+  },
+  {
+    "start": 4227488,
+    "end": 4227499,
+    "reason": "configure_link_options contextual literal 'nomfilepad'"
+  },
+  {
+    "start": 4227480,
+    "end": 4227488,
+    "reason": "configure_link_options contextual literal 'macdata'"
+  },
+  {
+    "start": 4227472,
+    "end": 4227480,
+    "reason": "configure_link_options contextual literal 'machine'"
+  },
+  {
+    "start": 4224416,
+    "end": 4224468,
+    "reason": "configure_link_options contextual literal 'IX86, ALPHA, ARM, MIPS, MIPSR41XX, PPC, SH3, or SH4'"
+  },
+  {
+    "start": 4227464,
+    "end": 4227471,
+    "reason": "configure_link_options contextual literal 'macres'"
+  },
+  {
+    "start": 4227444,
+    "end": 4227464,
+    "reason": "configure_link_options contextual literal 'resntBinaryResource'"
+  },
+  {
+    "start": 4227428,
+    "end": 4227441,
+    "reason": "configure_link_options contextual literal 'map:\".\\\\%s%s\"'"
+  },
+  {
+    "start": 4227420,
+    "end": 4227428,
+    "reason": "configure_link_options contextual literal 'mapinfo'"
+  },
+  {
+    "start": 4213736,
+    "end": 4213744,
+    "reason": "configure_link_options contextual literal 'exports'"
+  },
+  {
+    "start": 4227412,
+    "end": 4227418,
+    "reason": "configure_link_options contextual literal 'lines'"
+  },
+  {
+    "start": 4227404,
+    "end": 4227411,
+    "reason": "configure_link_options contextual literal 'fixups'"
+  },
+  {
+    "start": 4227396,
+    "end": 4227402,
+    "reason": "configure_link_options contextual literal 'merge'"
+  },
+  {
+    "start": 4227384,
+    "end": 4227394,
+    "reason": "configure_link_options contextual literal 'miscrdata'"
+  },
+  {
+    "start": 4227368,
+    "end": 4227383,
+    "reason": "configure_link_options contextual literal 'mppc32bittypes'"
+  },
+  {
+    "start": 4221056,
+    "end": 4221061,
+    "reason": "configure_link_options contextual literal 'name'"
+  },
+  {
+    "start": 4227360,
+    "end": 4227368,
+    "reason": "configure_link_options contextual literal 'newglue'"
+  },
+  {
+    "start": 4224396,
+    "end": 4224406,
+    "reason": "configure_link_options contextual literal 'newimplib'"
+  },
+  {
+    "start": 4227348,
+    "end": 4227358,
+    "reason": "configure_link_options contextual literal 'newrelocs'"
+  },
+  {
+    "start": 4224380,
+    "end": 4224393,
+    "reason": "configure_link_options contextual literal 'nodefaultlib'"
+  },
+  {
+    "start": 4227344,
+    "end": 4227348,
+    "reason": "configure_link_options contextual literal 'nod'"
+  },
+  {
+    "start": 4227332,
+    "end": 4227344,
+    "reason": "configure_link_options contextual literal 'nodelayload'"
+  },
+  {
+    "start": 4227324,
+    "end": 4227332,
+    "reason": "configure_link_options contextual literal 'noentry'"
+  },
+  {
+    "start": 4227312,
+    "end": 4227323,
+    "reason": "configure_link_options contextual literal 'nooptidata'"
+  },
+  {
+    "start": 4227304,
+    "end": 4227311,
+    "reason": "configure_link_options contextual literal 'nopack'"
+  },
+  {
+    "start": 4227300,
+    "end": 4227304,
+    "reason": "configure_link_options contextual literal 'opt'"
+  },
+  {
+    "start": 4227296,
+    "end": 4227300,
+    "reason": "configure_link_options contextual literal 'icf'"
+  },
+  {
+    "start": 4227288,
+    "end": 4227294,
+    "reason": "configure_link_options contextual literal 'noicf'"
+  },
+  {
+    "start": 4227280,
+    "end": 4227286,
+    "reason": "configure_link_options contextual literal 'noref'"
+  },
+  {
+    "start": 4227276,
+    "end": 4227280,
+    "reason": "configure_link_options contextual literal 'ref'"
+  },
+  {
+    "start": 4227264,
+    "end": 4227273,
+    "reason": "configure_link_options contextual literal 'optidata'"
+  },
+  {
+    "start": 4222344,
+    "end": 4222354,
+    "reason": "configure_link_options contextual literal 'osversion'"
+  },
+  {
+    "start": 4227260,
+    "end": 4227264,
+    "reason": "configure_link_options contextual literal 'out'"
+  },
+  {
+    "start": 4227244,
+    "end": 4227257,
+    "reason": "configure_link_options contextual literal 'out:\".\\\\%s%s\"'"
+  },
+  {
+    "start": 4227240,
+    "end": 4227244,
+    "reason": "configure_link_options contextual literal 'pdb'"
+  },
+  {
+    "start": 4227224,
+    "end": 4227237,
+    "reason": "configure_link_options contextual literal 'pdb:\".\\\\%s%s\"'"
+  },
+  {
+    "start": 4227216,
+    "end": 4227224,
+    "reason": "configure_link_options contextual literal 'pdbtype'"
+  },
+  {
+    "start": 4227212,
+    "end": 4227216,
+    "reason": "configure_link_options contextual literal 'con'"
+  },
+  {
+    "start": 4227200,
+    "end": 4227212,
+    "reason": "configure_link_options contextual literal 'consolidate'"
+  },
+  {
+    "start": 4227192,
+    "end": 4227197,
+    "reason": "configure_link_options contextual literal 'sept'"
+  },
+  {
+    "start": 4227180,
+    "end": 4227189,
+    "reason": "configure_link_options contextual literal 'septypes'"
+  },
+  {
+    "start": 4227172,
+    "end": 4227180,
+    "reason": "configure_link_options contextual literal 'profile'"
+  },
+  {
+    "start": 4222328,
+    "end": 4222336,
+    "reason": "configure_link_options contextual literal 'release'"
+  },
+  {
+    "start": 4227168,
+    "end": 4227171,
+    "reason": "configure_link_options contextual literal 're'"
+  },
+  {
+    "start": 4227164,
+    "end": 4227168,
+    "reason": "configure_link_options contextual literal 'rom'"
+  },
+  {
+    "start": 4222320,
+    "end": 4222328,
+    "reason": "configure_link_options contextual literal 'section'"
+  },
+  {
+    "start": 4222312,
+    "end": 4222318,
+    "reason": "configure_link_options contextual literal 'stack'"
+  },
+  {
+    "start": 4227156,
+    "end": 4227161,
+    "reason": "configure_link_options contextual literal 'stub'"
+  },
+  {
+    "start": 4202212,
+    "end": 4202215,
+    "reason": "configure_link_options contextual literal 'rb'"
+  },
+  {
+    "start": 4222300,
+    "end": 4222310,
+    "reason": "configure_link_options contextual literal 'subsystem'"
+  },
+  {
+    "start": 4222292,
+    "end": 4222300,
+    "reason": "configure_link_options contextual literal 'console'"
+  },
+  {
+    "start": 4222284,
+    "end": 4222291,
+    "reason": "configure_link_options contextual literal 'native'"
+  },
+  {
+    "start": 4222276,
+    "end": 4222282,
+    "reason": "configure_link_options contextual literal 'posix'"
+  },
+  {
+    "start": 4205560,
+    "end": 4205568,
+    "reason": "configure_link_options contextual literal 'windows'"
+  },
+  {
+    "start": 4222264,
+    "end": 4222274,
+    "reason": "configure_link_options contextual literal 'windowsce'"
+  },
+  {
+    "start": 4222256,
+    "end": 4222264,
+    "reason": "configure_link_options contextual literal 'swaprun'"
+  },
+  {
+    "start": 4222252,
+    "end": 4222255,
+    "reason": "configure_link_options contextual literal 'cd'"
+  },
+  {
+    "start": 4222248,
+    "end": 4222252,
+    "reason": "configure_link_options contextual literal 'net'"
+  },
+  {
+    "start": 4227148,
+    "end": 4227153,
+    "reason": "configure_link_options contextual literal 'test'"
+  },
+  {
+    "start": 4227140,
+    "end": 4227145,
+    "reason": "configure_link_options contextual literal 'time'"
+  },
+  {
+    "start": 4224628,
+    "end": 4224638,
+    "reason": "configure_link_options contextual literal 'vc6compat'"
+  },
+  {
+    "start": 4224620,
+    "end": 4224628,
+    "reason": "configure_link_options contextual literal 'verbose'"
+  },
+  {
+    "start": 4222228,
+    "end": 4222236,
+    "reason": "configure_link_options contextual literal 'version'"
+  },
+  {
+    "start": 4227128,
+    "end": 4227137,
+    "reason": "configure_link_options contextual literal 'liborder'"
+  },
+  {
+    "start": 4227120,
+    "end": 4227127,
+    "reason": "configure_link_options contextual literal 'before'"
+  },
+  {
+    "start": 4227112,
+    "end": 4227117,
+    "reason": "configure_link_options contextual literal 'warn'"
+  },
+  {
+    "start": 4224616,
+    "end": 4224619,
+    "reason": "configure_link_options contextual literal 'WX'"
+  },
+  {
+    "start": 4227100,
+    "end": 4227110,
+    "reason": "configure_link_options contextual literal 'emulation'"
+  },
+  {
+    "start": 4227088,
+    "end": 4227098,
+    "reason": "configure_link_options contextual literal 'noconvert'"
+  },
+  {
+    "start": 4222224,
+    "end": 4222227,
+    "reason": "configure_link_options contextual literal 'ws'"
+  },
+  {
+    "start": 4222212,
+    "end": 4222223,
+    "reason": "configure_link_options contextual literal 'aggressive'"
+  },
+  {
+    "start": 4213556,
+    "end": 4213561,
+    "reason": "configure_link_options contextual literal 'xoff'"
+  },
+  {
+    "start": 4227080,
+    "end": 4227088,
+    "reason": "configure_link_options contextual literal 'order:@'"
+  },
+  {
+    "start": 4227064,
+    "end": 4227080,
+    "reason": "configure_link_options contextual literal 'order:@\".\\\\%s%s\"'"
+  },
+  {
+    "start": 4224608,
+    "end": 4224613,
+    "reason": "configure_link_options contextual literal '/%s\\n'"
+  },
+  {
+    "start": 4202244,
+    "end": 4202247,
+    "reason": "configure_link_options contextual literal ' \\t'"
+  },
+  {
+    "start": 4202240,
+    "end": 4202241,
+    "reason": "configure_link_options contextual literal ''"
+  },
+  {
+    "start": 4225804,
+    "end": 4227061,
+    "reason": "inline linker_usage puts help text"
+  },
+  {
+    "start": 4231980,
+    "end": 4232004,
+    "reason": "inline print_logo literal"
+  },
+  {
+    "start": 4231952,
+    "end": 4231978,
+    "reason": "inline print_logo literal"
+  },
+  {
+    "start": 4231928,
+    "end": 4231951,
+    "reason": "inline print_logo literal"
+  },
+  {
+    "start": 4231904,
+    "end": 4231928,
+    "reason": "inline print_logo literal"
+  },
+  {
+    "start": 4231872,
+    "end": 4231904,
+    "reason": "inline print_logo literal"
+  },
+  {
+    "start": 4231772,
+    "end": 4231870,
+    "reason": "inline print_logo literal"
+  },
+  {
+    "start": 4205732,
+    "end": 4205734,
+    "reason": "inline print_logo literal"
+  },
+  {
+    "start": 4216240,
+    "end": 4216243,
+    "reason": "inline print_logo literal"
+  },
+  {
+    "start": 4593260,
+    "end": 4593280,
+    "reason": "print_logo five-kind dispatch table"
+  },
+  {
+    "start": 4223472,
+    "end": 4223502,
+    "reason": "inline close_timing fprintf format"
+  },
+  {
+    "start": 4231676,
+    "end": 4231680,
+    "reason": "canonicalize_argument contextual LIB search-environment literal"
+  },
+  {
+    "start": 4228084,
+    "end": 4228088,
+    "reason": "validate_debug_options contextual diagnostic literal"
+  },
+  {
+    "start": 4228064,
+    "end": 4228076,
+    "reason": "validate_debug_options contextual diagnostic literal"
+  },
+  {
+    "start": 4228052,
+    "end": 4228062,
+    "reason": "validate_debug_options contextual diagnostic literal"
+  },
+  {
+    "start": 4228036,
+    "end": 4228040,
+    "reason": "validate_debug_options contextual diagnostic literal"
+  },
+  {
+    "start": 4228028,
+    "end": 4228034,
+    "reason": "validate_debug_options contextual diagnostic literal"
+  },
+  {
+    "start": 4228020,
+    "end": 4228028,
+    "reason": "validate_debug_options contextual diagnostic literal"
+  },
+  {
+    "start": 4228012,
+    "end": 4228018,
+    "reason": "validate_debug_options contextual diagnostic literal"
+  },
+  {
+    "start": 4200508,
+    "end": 4200532,
+    "reason": "initialize_output_modules encountered name literal linker defined library"
+  },
+  {
+    "start": 4200532,
+    "end": 4200555,
+    "reason": "initialize_output_modules encountered name literal linker defined module"
+  },
+  {
+    "start": 4202772,
+    "end": 4202776,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202768,
+    "end": 4202772,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202788,
+    "end": 4202792,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202784,
+    "end": 4202788,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202764,
+    "end": 4202768,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202760,
+    "end": 4202764,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202912,
+    "end": 4202916,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202916,
+    "end": 4202920,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202852,
+    "end": 4202856,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202848,
+    "end": 4202852,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202828,
+    "end": 4202832,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202836,
+    "end": 4202840,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202816,
+    "end": 4202820,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202820,
+    "end": 4202824,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202796,
+    "end": 4202800,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202792,
+    "end": 4202796,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202804,
+    "end": 4202808,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202800,
+    "end": 4202804,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202924,
+    "end": 4202928,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202920,
+    "end": 4202924,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202808,
+    "end": 4202812,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202812,
+    "end": 4202816,
+    "reason": "InitializeSections encountered section characteristics"
+  },
+  {
+    "start": 4202872,
+    "end": 4202876,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202880,
+    "end": 4202884,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202888,
+    "end": 4202892,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4202896,
+    "end": 4202900,
+    "reason": "InitializeSections encountered section name pointer"
+  },
+  {
+    "start": 4201672,
+    "end": 4201677,
+    "reason": "InitializeSections encountered section/group name .bss"
+  },
+  {
+    "start": 4203028,
+    "end": 4203035,
+    "reason": "InitializeSections encountered section/group name .sdata"
+  },
+  {
+    "start": 4201692,
+    "end": 4201699,
+    "reason": "InitializeSections encountered section/group name .rdata"
+  },
+  {
+    "start": 4201708,
+    "end": 4201714,
+    "reason": "InitializeSections encountered section/group name .data"
+  },
+  {
+    "start": 4202956,
+    "end": 4202963,
+    "reason": "InitializeSections encountered section/group name .pdata"
+  },
+  {
+    "start": 4202996,
+    "end": 4203003,
+    "reason": "InitializeSections encountered section/group name .edata"
+  },
+  {
+    "start": 4203020,
+    "end": 4203027,
+    "reason": "InitializeSections encountered section/group name .xdata"
+  },
+  {
+    "start": 4203012,
+    "end": 4203018,
+    "reason": "InitializeSections encountered section/group name .arch"
+  },
+  {
+    "start": 4202928,
+    "end": 4202936,
+    "reason": "InitializeSections encountered section/group name .ppcldr"
+  },
+  {
+    "start": 4203004,
+    "end": 4203011,
+    "reason": "InitializeSections encountered section/group name .debug"
+  },
+  {
+    "start": 4201800,
+    "end": 4201809,
+    "reason": "InitializeSections encountered section/group name .debug$S"
+  },
+  {
+    "start": 4201760,
+    "end": 4201769,
+    "reason": "InitializeSections encountered section/group name .debug$T"
+  },
+  {
+    "start": 4201772,
+    "end": 4201781,
+    "reason": "InitializeSections encountered section/group name .debug$P"
+  },
+  {
+    "start": 4201748,
+    "end": 4201757,
+    "reason": "InitializeSections encountered section/group name .debug$F"
+  },
+  {
+    "start": 4223432,
+    "end": 4223439,
+    "reason": "InitializeSections encountered section/group name .idata"
+  },
+  {
+    "start": 4225268,
+    "end": 4225275,
+    "reason": "InitializeSections encountered section/group name .didat"
+  },
+  {
+    "start": 4202840,
+    "end": 4202844,
+    "reason": "adjust_output_section_flags encountered resource section-name pointer"
+  },
+  {
+    "start": 4202964,
+    "end": 4202970,
+    "reason": "adjust_output_section_flags encountered resource section-name literal"
+  },
+  {
+    "start": 4225616,
+    "end": 4225622,
+    "reason": "FullLink actual PassOne phase string, excluding alignment padding"
+  },
+  {
+    "start": 4206184,
+    "end": 4206192,
+    "reason": "is_archive encountered exactly8 compared signature bytes, excluding unused trailingNUL"
+  },
+  {
+    "start": 4251280,
+    "end": 4252242,
+    "reason": "accepted _main"
+  },
+  {
+    "start": 4345440,
+    "end": 4345450,
+    "reason": "accepted _initialize_buffer12"
+  },
+  {
+    "start": 4398448,
+    "end": 4398458,
+    "reason": "accepted _initialize_buffer8"
+  },
+  {
+    "start": 4398560,
+    "end": 4398570,
+    "reason": "accepted _initialize_buffer4"
+  },
+  {
+    "start": 4476512,
+    "end": 4476522,
+    "reason": "accepted _initialize_timing"
+  },
+  {
+    "start": 4345456,
+    "end": 4345494,
+    "reason": "accepted _allocate_buffer12"
+  },
+  {
+    "start": 4345504,
+    "end": 4345518,
+    "reason": "accepted _register_buffer12_cleanup"
+  },
+  {
+    "start": 4345520,
+    "end": 4345539,
+    "reason": "accepted _free_buffer12"
+  },
+  {
+    "start": 4398464,
+    "end": 4398502,
+    "reason": "accepted _allocate_buffer8"
+  },
+  {
+    "start": 4398512,
+    "end": 4398526,
+    "reason": "accepted _register_buffer8_cleanup"
+  },
+  {
+    "start": 4398528,
+    "end": 4398547,
+    "reason": "accepted _free_buffer8"
+  },
+  {
+    "start": 4398576,
+    "end": 4398614,
+    "reason": "accepted _allocate_buffer4"
+  },
+  {
+    "start": 4398624,
+    "end": 4398638,
+    "reason": "accepted _register_buffer4_cleanup"
+  },
+  {
+    "start": 4398640,
+    "end": 4398659,
+    "reason": "accepted _free_buffer4"
+  },
+  {
+    "start": 4476528,
+    "end": 4476570,
+    "reason": "accepted _setup_timing"
+  },
+  {
+    "start": 4476576,
+    "end": 4476590,
+    "reason": "accepted _register_timing_cleanup"
+  },
+  {
+    "start": 4476592,
+    "end": 4476691,
+    "reason": "accepted _close_timing"
+  },
+  {
+    "start": 4280880,
+    "end": 4281071,
+    "reason": "accepted _initialize_debug@8"
+  },
+  {
+    "start": 4240736,
+    "end": 4240919,
+    "reason": "accepted _initialize_file_cache@16"
+  },
+  {
+    "start": 4519264,
+    "end": 4519338,
+    "reason": "accepted _initialize_memory"
+  },
+  {
+    "start": 4492464,
+    "end": 4494016,
+    "reason": "accepted _run_linker@8"
+  },
+  {
+    "start": 4593072,
+    "end": 4593258,
+    "reason": "accepted _print_logo"
+  },
+  {
+    "start": 4281072,
+    "end": 4281086,
+    "reason": "accepted _get_debug_flag@4"
+  },
+  {
+    "start": 4240992,
+    "end": 4241006,
+    "reason": "accepted _new_file_record"
+  },
+  {
+    "start": 4521584,
+    "end": 4521618,
+    "reason": "accepted _zero_allocate@4"
+  },
+  {
+    "start": 4476800,
+    "end": 4476843,
+    "reason": "accepted _linker_usage"
+  },
+  {
+    "start": 4475664,
+    "end": 4475955,
+    "reason": "accepted _initialize_repro"
+  },
+  {
+    "start": 4573856,
+    "end": 4573970,
+    "reason": "accepted _collect_file_arguments@16"
+  },
+  {
+    "start": 4573984,
+    "end": 4574134,
+    "reason": "accepted _parse_command_line@16"
+  },
+  {
+    "start": 4476704,
+    "end": 4476796,
+    "reason": "accepted _has_switch@4"
+  },
+  {
+    "start": 4521280,
+    "end": 4521343,
+    "reason": "accepted _allocate_link_memory@8"
+  },
+  {
+    "start": 4477232,
+    "end": 4490793,
+    "reason": "accepted _configure_link_options@12"
+  },
+  {
+    "start": 4490800,
+    "end": 4491235,
+    "reason": "accepted _validate_debug_options@4"
+  },
+  {
+    "start": 4405200,
+    "end": 4405604,
+    "reason": "accepted LinkContext::Initialize"
+  },
+  {
+    "start": 4468560,
+    "end": 4475449,
+    "reason": "accepted ?FullLink@LinkContext@@QAEHPAE@Z"
+  },
+  {
+    "start": 4247744,
+    "end": 4248125,
+    "reason": "accepted _parse_switch@8"
+  },
+  {
+    "start": 4521680,
+    "end": 4521712,
+    "reason": "accepted _duplicate_argument@4"
+  },
+  {
+    "start": 4521520,
+    "end": 4521537,
+    "reason": "accepted _release_memory@4"
+  },
+  {
+    "start": 4573056,
+    "end": 4573361,
+    "reason": "accepted _parse_argument@8"
+  },
+  {
+    "start": 4573008,
+    "end": 4573053,
+    "reason": "accepted _is_libpath@4"
+  },
+  {
+    "start": 4572752,
+    "end": 4573007,
+    "reason": "accepted _canonicalize_argument@8"
+  },
+  {
+    "start": 4241392,
+    "end": 4241520,
+    "reason": "accepted _open_argument_file@12"
+  },
+  {
+    "start": 4574528,
+    "end": 4574713,
+    "reason": "accepted _is_archive@8"
+  },
+  {
+    "start": 4574368,
+    "end": 4574387,
+    "reason": "accepted _append_argument@8"
+  },
+  {
+    "start": 4574208,
+    "end": 4574283,
+    "reason": "accepted _append_argument_record@12"
+  },
+  {
+    "start": 4596256,
+    "end": 4596316,
+    "reason": "accepted _create_string_table@12"
+  },
+  {
+    "start": 4521552,
+    "end": 4521584,
+    "reason": "accepted _allocate_memory@4"
+  },
+  {
+    "start": 4394096,
+    "end": 4394275,
+    "reason": "accepted _initialize_hash_table@20"
+  },
+  {
+    "start": 4394032,
+    "end": 4394084,
+    "reason": "accepted _hash_allocate@16"
+  },
+  {
+    "start": 4519392,
+    "end": 4519482,
+    "reason": "accepted _reserve_memory@8"
+  },
+  {
+    "start": 4519488,
+    "end": 4519554,
+    "reason": "accepted _create_memory_arena@4"
+  },
+  {
+    "start": 4257360,
+    "end": 4257682,
+    "reason": "accepted _find_library@12"
+  },
+  {
+    "start": 4572464,
+    "end": 4572742,
+    "reason": "accepted _search_library_paths@8"
+  },
+  {
+    "start": 4243504,
+    "end": 4243580,
+    "reason": "accepted _seek_file@16"
+  },
+  {
+    "start": 4246192,
+    "end": 4246327,
+    "reason": "accepted _mapped_read@12"
+  },
+  {
+    "start": 4252512,
+    "end": 4252578,
+    "reason": "accepted _initialize_contribution_pools"
+  },
+  {
+    "start": 4252592,
+    "end": 4252692,
+    "reason": "accepted _initialize_output_modules@4"
+  },
+  {
+    "start": 4253296,
+    "end": 4253437,
+    "reason": "accepted _find_contribution_group@8"
+  },
+  {
+    "start": 4258768,
+    "end": 4258804,
+    "reason": "accepted _initialize_section_enumerator@8"
+  },
+  {
+    "start": 4258816,
+    "end": 4258866,
+    "reason": "accepted _next_output_section@4"
+  },
+  {
+    "start": 4259216,
+    "end": 4259219,
+    "reason": "accepted _end_section_enumerator"
+  },
+  {
+    "start": 4448624,
+    "end": 4449078,
+    "reason": "accepted LinkContext::InitializeSections"
+  },
+  {
+    "start": 4503648,
+    "end": 4504880,
+    "reason": "accepted LinkContext::PassOne"
+  },
+  {
+    "start": 4599472,
+    "end": 4599483,
+    "reason": "accepted _initialize_comdats"
+  },
+  {
+    "start": 4521344,
+    "end": 4521429,
+    "reason": "accepted _duplicate_link_string@4"
+  },
+  {
+    "start": 4519344,
+    "end": 4519388,
+    "reason": "accepted _allocate_virtual_memory@16"
+  },
+  {
+    "start": 4255632,
+    "end": 4255775,
+    "reason": "accepted _create_output_section@20"
+  },
+  {
+    "start": 4253440,
+    "end": 4253599,
+    "reason": "accepted _create_contribution_group@8"
+  },
+  {
+    "start": 4256048,
+    "end": 4256299,
+    "reason": "accepted _find_matching_output_section@20"
+  },
+  {
+    "start": 4581408,
+    "end": 4581633,
+    "reason": "accepted _adjust_output_section_flags@12"
+  },
+  {
+    "start": 4253216,
+    "end": 4253285,
+    "reason": "accepted _resolve_output_section@4"
+  },
+  {
+    "start": 4258880,
+    "end": 4258914,
+    "reason": "accepted _initialize_group_enumerator@8"
+  },
+  {
+    "start": 4258928,
+    "end": 4258981,
+    "reason": "accepted _next_contribution_group@4"
+  },
+  {
+    "start": 4255184,
+    "end": 4255335,
+    "reason": "accepted _create_library@12"
+  },
+  {
+    "start": 4593728,
+    "end": 4593914,
+    "reason": "accepted _check_output_input_collision@8"
+  },
+  {
+    "start": 4495952,
+    "end": 4496099,
+    "reason": "accepted LinkContext::LoadInputArgument"
+  },
+  {
+    "start": 4258544,
+    "end": 4258578,
+    "reason": "accepted _initialize_library_enumerator@8"
+  },
+  {
+    "start": 4258592,
+    "end": 4258642,
+    "reason": "accepted _next_library@4"
+  },
+  {
+    "start": 4241520,
+    "end": 4241648,
+    "reason": "accepted _acquire_file_record@16"
+  },
+  {
+    "start": 4245632,
+    "end": 4246026,
+    "reason": "accepted _open_mapped_file@16"
+  },
+  {
+    "start": 4241760,
+    "end": 4241920,
+    "reason": "accepted _find_cached_file@4"
+  },
+  {
+    "start": 4241648,
+    "end": 4241754,
+    "reason": "accepted _get_available_file_record"
+  },
+  {
+    "start": 4245472,
+    "end": 4245624,
+    "reason": "accepted _move_file_record@24"
+  },
+  {
+    "start": 4246768,
+    "end": 4247023,
+    "reason": "accepted _initialize_file_mapping@12"
+  },
+  {
+    "start": 4495568,
+    "end": 4495745,
+    "reason": "accepted _read_input_argument@12"
+  },
+  {
+    "start": 4515360,
+    "end": 4515498,
+    "reason": "accepted _is_mac_resource_file@4"
+  },
+  {
+    "start": 4243584,
+    "end": 4243691,
+    "reason": "accepted _get_file_length@4"
+  },
+  {
+    "start": 4608640,
+    "end": 4608976,
+    "reason": "accepted _mainCRTStartup"
+  },
+  {
+    "start": 4608432,
+    "end": 4608438,
+    "reason": "accepted __except_handler3"
+  },
+  {
+    "start": 4609056,
+    "end": 4609072,
+    "reason": "accepted __setargv"
+  },
+  {
+    "start": 4609040,
+    "end": 4609056,
+    "reason": "accepted __matherr"
+  },
+  {
+    "start": 4609008,
+    "end": 4609040,
+    "reason": "accepted __setdefaultprecision"
+  },
+  {
+    "start": 4608988,
+    "end": 4608994,
+    "reason": "accepted __initterm"
+  },
+  {
+    "start": 4608982,
+    "end": 4608988,
+    "reason": "accepted __XcptFilter"
+  },
+  {
+    "start": 4609072,
+    "end": 4609078,
+    "reason": "accepted __controlfp"
+  },
+  {
+    "start": 4608524,
+    "end": 4608530,
+    "reason": "accepted import:??2@YAPAXI@Z"
+  },
+  {
+    "start": 4608592,
+    "end": 4608624,
+    "reason": "accepted _atexit"
+  },
+  {
+    "start": 4608544,
+    "end": 4608592,
+    "reason": "accepted __onexit"
+  },
+  {
+    "start": 4608976,
+    "end": 4608982,
+    "reason": "accepted ___dllonexit"
+  },
+  {
+    "start": 4608438,
+    "end": 4608444,
+    "reason": "accepted import:??3@YAXPAX@Z"
+  }
+]
