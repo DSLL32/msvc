@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_record_break_statement",
+    "start": 264800,
+    "end": 264910
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1185-record_break_statement/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_append_frontend_record@8",
+    "_emit_nonnull_expression_statement@4",
+    "_process_expression_records@4"
+  ],
+  "next_frontier": "_record_continue_statement",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.7863162159919739,
+  "total_operation_seconds": 3.9560926724225283,
+  "original_capture_seconds": 0.7664516996592283
+}

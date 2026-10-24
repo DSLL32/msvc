@@ -1167,3 +1167,22 @@ void end_do_condition_region(void)
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
 }
+
+/* Original 0x40a60..0x40acd. Keep a break's cleanup boundary unless
+   the preceding frontend record already terminates this sequence. */
+void record_break_statement(void)
+{
+    FrontendRecord record;
+    unsigned char kind;
+    if (ir_records_suppressed) return;
+    kind = ir_record_tail->kind & 0x3f;
+    if (kind == 9 || kind == 11 || (kind >= 0x36 && kind <= 0x39)) return;
+    record.kind = 0x39;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    emit_nonnull_expression_statement(process_expression_records(0));
+}
