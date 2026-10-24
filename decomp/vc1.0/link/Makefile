@@ -116,7 +116,7 @@ build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
 build/native/LINK.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HOST_LDFLAGS) -o $@
 
-native-check: native build/native/legacy-diagnostics build/native/ide-protocol build/native/comdat-diagnostics build/native/dispatcher build/native/cvtomf build/native/file-resize build/native/symbol-tables build/native/module-diagnostics build/native/image-checksum build/native/priority-archives build/native/bind-parser build/native/debug-log
+native-check: native build/native/legacy-diagnostics build/native/ide-protocol build/native/comdat-diagnostics build/native/dispatcher build/native/cvtomf build/native/file-resize build/native/symbol-tables build/native/module-diagnostics build/native/image-checksum build/native/priority-archives build/native/bind-parser build/native/debug-log build/native/rebase-fallback
 	$(PYTHON) scripts/check-native.py
 	$(PYTHON) scripts/check-legacy-diagnostics.py
 	$(PYTHON) scripts/check-ide-protocol.py
@@ -130,6 +130,7 @@ native-check: native build/native/legacy-diagnostics build/native/ide-protocol b
 	$(PYTHON) scripts/check-priority-archives.py
 	$(PYTHON) scripts/check-bind-parser.py
 	$(PYTHON) scripts/check-debug-log.py
+	$(PYTHON) scripts/check-rebase-fallback.py
 
 # Application entry tracing is separate from the uninstrumented A/B target.
 # The reconstructed CRT override and shared shims remain uninstrumented.
@@ -150,7 +151,7 @@ build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-tra
 build/native-trace/LINK.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HOST_LDFLAGS) -o $@
 
-native-trace-check: native-trace build/native-trace/legacy-diagnostics build/native-trace/ide-protocol build/native-trace/comdat-diagnostics build/native-trace/dispatcher build/native-trace/cvtomf build/native-trace/file-resize build/native-trace/symbol-tables build/native-trace/module-diagnostics build/native-trace/image-checksum build/native-trace/priority-archives build/native-trace/bind-parser build/native-trace/debug-log
+native-trace-check: native-trace build/native-trace/legacy-diagnostics build/native-trace/ide-protocol build/native-trace/comdat-diagnostics build/native-trace/dispatcher build/native-trace/cvtomf build/native-trace/file-resize build/native-trace/symbol-tables build/native-trace/module-diagnostics build/native-trace/image-checksum build/native-trace/priority-archives build/native-trace/bind-parser build/native-trace/debug-log build/native-trace/rebase-fallback
 	$(PYTHON) scripts/check-native.py --trace
 	$(PYTHON) scripts/check-legacy-diagnostics.py --trace
 	$(PYTHON) scripts/check-ide-protocol.py --trace
@@ -164,6 +165,7 @@ native-trace-check: native-trace build/native-trace/legacy-diagnostics build/nat
 	$(PYTHON) scripts/check-priority-archives.py --trace
 	$(PYTHON) scripts/check-bind-parser.py --trace
 	$(PYTHON) scripts/check-debug-log.py --trace
+	$(PYTHON) scripts/check-rebase-fallback.py --trace
 
 # Explicit original-only analysis helper. Never a native fixture dependency.
 .PHONY: capture-helper
@@ -323,3 +325,14 @@ build/native/debug-log: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIV
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_DEBUG_LOG_HOST) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
 build/native-trace/debug-log: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_DEBUG_LOG_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_DEBUG_LOG_HOST) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
+
+.PHONY: capture-rebase-fallback
+capture-rebase-fallback: prefix
+	$(PYTHON) -c "from pathlib import Path; import sys; sys.path.insert(0,'scripts'); from case_paths import SCRATCH; (SCRATCH/'vc1.0/link/tooling').mkdir(parents=True,exist_ok=True)"
+	$(TOOL) CL.EXE /nologo /Od /G3 /I$(RECON)/include '/FeS:\vc1.0\link\tooling\capture-rebase-fallback.exe' '/FoS:\vc1.0\link\tooling\capture-rebase-fallback.obj' src/capture-rebase-fallback.c
+
+NATIVE_REBASE_FALLBACK_HOST = scripts/native-rebase-fallback.c
+build/native/rebase-fallback: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_REBASE_FALLBACK_HOST) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_REBASE_FALLBACK_HOST) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
+build/native-trace/rebase-fallback: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_REBASE_FALLBACK_HOST) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_REBASE_FALLBACK_HOST) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@

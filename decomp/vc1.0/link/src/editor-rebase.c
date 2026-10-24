@@ -14,6 +14,52 @@ char rebase_symbol_directory[260];
 EditorWorkspace editor_workspace;
 RelocationProcessor rebase_relocation_processor;
 
+/* Original [00050430,000504fc), six-way relocation table [504fc,50514).
+ * Count includes the signed adjustment word following a HIGHADJ entry. */
+unsigned short *WINAPI fallback_process_relocations(void *page,
+    unsigned long count,unsigned short *words,long delta)
+{
+    unsigned char *fixup;
+    unsigned long value;
+    while (count--) {
+        fixup=(unsigned char *)page+(*words&0xfff);
+        switch (*words>>12) {
+        case IMAGE_REL_BASED_ABSOLUTE:
+            break;
+        case IMAGE_REL_BASED_HIGH:
+            value=(unsigned long)*(unsigned short *)fixup<<16;
+            value+=(unsigned long)delta;
+            *(unsigned short *)fixup=(unsigned short)((long)value>>16);
+            break;
+        case IMAGE_REL_BASED_LOW:
+            value=(long)*(short *)fixup+(unsigned long)delta;
+            *(unsigned short *)fixup=(unsigned short)value;
+            break;
+        case IMAGE_REL_BASED_HIGHLOW:
+            *(unsigned long *)fixup+=(unsigned long)delta;
+            break;
+        case IMAGE_REL_BASED_HIGHADJ:
+            value=(unsigned long)*(unsigned short *)fixup<<16;
+            ++words;
+            --count;
+            value+=(long)*(short *)words;
+            value+=(unsigned long)delta+0x8000;
+            *(unsigned short *)fixup=(unsigned short)((long)value>>16);
+            break;
+        case IMAGE_REL_BASED_MIPS_JMPADDR:
+            value=(*(unsigned long *)fixup&0x3ffffff)<<2;
+            value+=(unsigned long)delta;
+            *(unsigned long *)fixup=(*(unsigned long *)fixup&0xfc000000)
+                |(((long)value>>2)&0x3ffffff);
+            break;
+        default:
+            return NULL;
+        }
+        ++words;
+    }
+    return words;
+}
+
 /* Public REBASE diagnostic wrapper [000287a0,000287e1). The original
  * forwards one variadic word into its340-byte bounded message buffer. */
 void editor_rebase_error(const char *format,const void *value)

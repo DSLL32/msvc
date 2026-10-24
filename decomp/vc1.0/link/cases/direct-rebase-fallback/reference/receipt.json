@@ -1,0 +1,68 @@
+{
+  "mode": "original",
+  "trial": null,
+  "support": [],
+  "candidate": [],
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-rebase-fallback.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "S:\\vc1.0\\link\\new-captures\\direct-rebase-fallback\\original-hyz34q2j\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-rebase-fallback\\original-hyz34q2j\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-rebase-fallback\\original-hyz34q2j\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-rebase-fallback\\original-hyz34q2j\\events.jsonl",
+    "S:\\vc1.0\\link\\new-captures\\direct-rebase-fallback\\original-hyz34q2j\\results.bin",
+    "S:\\vc1.0\\link\\direct-rebase-fallback",
+    "R:\\decomp\\vc1.0\\link\\cases\\direct-rebase-fallback\\inputs\\payload.bin"
+  ],
+  "seconds": 1.9791466789320111,
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "stopped": 1,
+    "exit": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "files": [],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "86fd89ee9b674560919e1598d5e0dfd6e9bd9e5c9f4db44d4b02544ae25230fe",
+  "helper_source_sha256": "968185de0b50b33250300ac1454885ef277df103225047badd2b15b48aa1cf88",
+  "accepted_count": 1001,
+  "accepted_sha256": "488ad59fe0366d250942782ebd9ffd2344573609576309917a06797f58123654",
+  "canonical_cwd": "S:\\vc1.0\\link\\direct-rebase-fallback",
+  "scope": "External direct REBASE fallback, four actual stdcall formals, owned page/records/guards, real unchanged CRT continuation. No public reach/GPA failure/CRT reconstruction.",
+  "text.bin": {
+    "bytes": 282120,
+    "sha256": "4aae0ed6ec55f693b01abd4e9706190b516b15753e2cb2631043bddac98200ce"
+  },
+  "results.bin": {
+    "bytes": 20916,
+    "sha256": "30ba76d9909ecd401a31486f472bb6bd777bfb5a676d6ef4265de364c694dc41"
+  },
+  "stderr.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "events.jsonl": {
+    "bytes": 72903,
+    "sha256": "8732c72098fcbe5a1843d05ff0c71c664e77c8522f5a21637f72166dd98f4aea"
+  },
+  "host.stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "host.stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "controller.c": {
+    "bytes": 13732,
+    "sha256": "968185de0b50b33250300ac1454885ef277df103225047badd2b15b48aa1cf88"
+  }
+}

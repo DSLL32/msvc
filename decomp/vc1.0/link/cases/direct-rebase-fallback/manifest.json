@@ -1,0 +1,48 @@
+{
+  "status": "Fresh original/native wholebody acceptance; cached final checks recorded separately",
+  "reach": "Directsupport only; real callback assignment, no GPA failure/publicCLI claim",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "prefix_accepted_count": 1001,
+  "cwd": "S:\\vc1.0\\link\\direct-rebase-fallback",
+  "inputs": [
+    {
+      "path": "inputs/payload.bin",
+      "bytes": 4112,
+      "sha256": "41efdf4c24b66cab3eca921530ff552324c14ceee561831ef02ae739e835058a"
+    }
+  ],
+  "stdout": {
+    "path": "reference/stdout.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "path": "reference/stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "external_report": {
+    "path": "reference/results.bin",
+    "bytes": 20916,
+    "sha256": "30ba76d9909ecd401a31486f472bb6bd777bfb5a676d6ef4265de364c694dc41"
+  },
+  "original_events": {
+    "path": "reference/events.jsonl",
+    "bytes": 72903,
+    "sha256": "8732c72098fcbe5a1843d05ff0c71c664e77c8522f5a21637f72166dd98f4aea"
+  },
+  "original_receipt": {
+    "path": "reference/receipt.json",
+    "bytes": 2626,
+    "sha256": "6259452c81ad761b53b4a5e61f5a040e71ba8406e0a5e25ae90362cd2bc9e0ae"
+  },
+  "files": [],
+  "expected_application_entries": [
+    "fallback_process_relocations"
+  ],
+  "normalization": [],
+  "accepted_last": 1002,
+  "accepted_names": [
+    "_fallback_process_relocations@16"
+  ]
+}

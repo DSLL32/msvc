@@ -1,0 +1,17 @@
+{
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/rebase-fallback",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-gdb-48zokln6/observe.py"
+  ],
+  "seconds": 0.1456825276836753,
+  "status": 0,
+  "trial": false,
+  "ELF_sha256": "5aaa007d530a38f56dfb58373782c1e521aa5e1864f37d20d4308b2aa2c555b1",
+  "observer_sha256": "fe10b1e0f0ddfe95df9fb74f0dcfbe258a72f9adedf2a32c76a47c1ecd25f155"
+}

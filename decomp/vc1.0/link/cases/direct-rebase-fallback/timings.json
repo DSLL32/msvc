@@ -1,0 +1,166 @@
+{
+  "scope": "Single coherent untouchedoriginal baseline; one maskedstubfrontier and one maskedwholebodyclosure. NativeGDB outsidefixtures; cachedfixtures neverWine/GDB/reference refresh. Publicationwait unmeasured.",
+  "initial_build": {
+    "command": [
+      "make",
+      "-j4",
+      "capture-rebase-fallback",
+      "build/native/rebase-fallback"
+    ],
+    "status": 0,
+    "seconds": 1.773481136187911,
+    "scope": "Explicit original-helper compiler plus native stub driver build; no fixture/original execution"
+  },
+  "original_baseline": 1.9791466789320111,
+  "fresh_original": {
+    "frontier": 1.2325600432232022,
+    "complete": 1.3077878467738628
+  },
+  "native_GDB": {
+    "frontier": 0.1456825276836753,
+    "complete": 0.15613500028848648
+  },
+  "canonical_preacceptance": {
+    "command": [
+      "make",
+      "-j4",
+      "all",
+      "audit"
+    ],
+    "seconds": 7.184692475013435,
+    "status": 0,
+    "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-canonical.stdout",
+    "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-canonical.stderr"
+  },
+  "final_commands": [
+    {
+      "label": "build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "build/native/legacy-diagnostics",
+        "build/native/ide-protocol",
+        "build/native/comdat-diagnostics",
+        "build/native/dispatcher",
+        "build/native/cvtomf",
+        "build/native/file-resize",
+        "build/native/symbol-tables",
+        "build/native/module-diagnostics",
+        "build/native/image-checksum",
+        "build/native/priority-archives",
+        "build/native/bind-parser",
+        "build/native/debug-log",
+        "build/native/rebase-fallback",
+        "native-trace",
+        "build/native-trace/legacy-diagnostics",
+        "build/native-trace/ide-protocol",
+        "build/native-trace/comdat-diagnostics",
+        "build/native-trace/dispatcher",
+        "build/native-trace/cvtomf",
+        "build/native-trace/file-resize",
+        "build/native-trace/symbol-tables",
+        "build/native-trace/module-diagnostics",
+        "build/native-trace/image-checksum",
+        "build/native-trace/priority-archives",
+        "build/native-trace/bind-parser",
+        "build/native-trace/debug-log",
+        "build/native-trace/rebase-fallback"
+      ],
+      "seconds": 15.79540242254734,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-final/build.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-final/build.stderr"
+    },
+    {
+      "label": "trace-cache",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 1.1231007054448128,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-final/trace-cache.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-final/trace-cache.stderr"
+    },
+    {
+      "label": "cached91",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace-check"
+      ],
+      "seconds": 10.214291097596288,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-final/cached91.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-final/cached91.stderr"
+    },
+    {
+      "label": "new-output",
+      "command": [
+        "python3",
+        "scripts/check-rebase-fallback.py"
+      ],
+      "seconds": 0.08036296721547842,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-final/new-output.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-final/new-output.stderr"
+    },
+    {
+      "label": "cache-negatives",
+      "command": [
+        "python3",
+        "scripts/check-native-rejections.py"
+      ],
+      "seconds": 0.2822000337764621,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-final/cache-negatives.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-final/cache-negatives.stderr"
+    }
+  ],
+  "new_case_traced": {
+    "setup_seconds": 0.20428831223398447,
+    "trace_prepare_seconds": 0.18752915784716606,
+    "execution_seconds": 0.004140498116612434,
+    "oracle_seconds": 0.00041692517697811127,
+    "trace_seconds": 9.426753968000412e-05,
+    "total_seconds": 0.2089438335970044
+  },
+  "new_case_output": {
+    "setup_seconds": 0.008147475309669971,
+    "trace_prepare_seconds": 0,
+    "execution_seconds": 0.0019161198288202286,
+    "oracle_seconds": 0.00041862111538648605,
+    "trace_seconds": 5.634501576423645e-07,
+    "total_seconds": 0.010486304759979248
+  },
+  "trial_switch_native_build": "unmeasured; actual make-j4 command passed, no timing inferred",
+  "offline_controls_seconds": 0.03994044288992882,
+  "final_audit_commands": [
+    {
+      "label": "canonical",
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "audit"
+      ],
+      "status": 0,
+      "seconds": 6.41911428514868,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-audits/canonical.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-audits/canonical.stderr"
+    },
+    {
+      "label": "graph-controls",
+      "command": [
+        "python3",
+        "scripts/check-graph-audit.py"
+      ],
+      "status": 0,
+      "seconds": 18.796627812087536,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-audits/graph-controls.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/rebase-fallback-audits/graph-controls.stderr"
+    }
+  ]
+}

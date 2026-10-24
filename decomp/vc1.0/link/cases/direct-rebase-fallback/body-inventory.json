@@ -1,0 +1,32 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "family": "direct-rebase-fallback",
+  "method": "Whole204B conditional CFG decoder including all6 switchtargets/cleanNULL/default;24B inline semantic jump table separate;12B trailing alignment excluded. Static wholebody, not dynamic branchcoverage.",
+  "functions": {
+    "_fallback_process_relocations@16": {
+      "start": 328752,
+      "end": 328956,
+      "bytes": 204,
+      "internal_tables": [
+        {
+          "address": 328956,
+          "targets": [
+            328915,
+            328823,
+            328841,
+            328851,
+            328855,
+            328887
+          ]
+        }
+      ]
+    }
+  },
+  "function_count": 1,
+  "instruction_bytes": 204,
+  "accepted_extent_union_bytes": 228,
+  "internal_data_bytes": 24,
+  "extent_gap_ranges": [],
+  "alignment_bytes": 0,
+  "unresolved_jumps": []
+}

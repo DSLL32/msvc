@@ -1505,3 +1505,16 @@ Partial known body inventory is 194239/194916; 11883 unknown bytes remain, not C
 Cached 90-case proof uses the same ELFs for the preceding 89 passes and corrected
 regular-file runner. The initial PIPE failure and explicit native status-125
 denial are distinct evidence. See cases/direct-debug-log for full accounting.
+
+Direct relocation fallback checkpoint: original50430..504fc is the complete
+204-byte stdcall4/RET16 callback selected by accepted rebase_main only after
+NTDLL resolution fails. This direct-support workflow does not force that public
+failure. Semantic six-target table504fc..50514 is24B; padding50514..50520 excluded.
+Readable C switch preserves modular HIGH/LOW/HIGHLOW/HIGHADJ/MIPS writes and
+ABSOLUTE skip, count0/endptr and clean unsupportedtype NULL. Four cumulative
+calls retain wholepage/records/guards/strict errors and architecturalFP; full
+20916B report/streams/exit agree with one untouched baseline and fresh pair.
+No handwrittenCRT/support-credit or new behavioral shim. See cases/direct-rebase-
+fallback for source/ABI/table proof, raw state,17 controls,91native regressions
+and split timings. Current1002frontiers/803appfunctions; app-only229595B/81.5225%,
+support-inclusive260534B/92.5080%,16historicalCRT separate,11655unknownremaining.

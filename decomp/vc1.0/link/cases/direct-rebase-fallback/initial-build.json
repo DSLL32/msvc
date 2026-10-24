@@ -1,0 +1,11 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "capture-rebase-fallback",
+    "build/native/rebase-fallback"
+  ],
+  "status": 0,
+  "seconds": 1.773481136187911,
+  "scope": "Explicit original-helper compiler plus native stub driver build; no fixture/original execution"
+}

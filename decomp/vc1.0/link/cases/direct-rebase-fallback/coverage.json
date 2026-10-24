@@ -1,0 +1,20 @@
+{
+  "accepted_frontiers": 1002,
+  "application_functions": 803,
+  "public_CLI_functions": 759,
+  "direct_only_functions": 44,
+  "historical_CRT_overrides": 16,
+  "new_application_extent_bytes": 228,
+  "new_CFG_instruction_bytes": 204,
+  "new_inline_table_bytes": 24,
+  "excluded_trailing_padding_bytes": 12,
+  "new_CRT_functions": 0,
+  "app_only_extent_bytes": 229595,
+  "whole_text_denominator": 281634,
+  "app_only_percent": 81.52247242875505,
+  "support_inclusive_extent_bytes": 260534,
+  "support_inclusive_percent": 92.50800684576436,
+  "unaccepted_unclassified_bytes": 11655,
+  "full_nonCRT_denominator": null,
+  "limits": "Partial knownbody inventory; unknown is notCRT. Newfunction directsupport only/no forcedNTDLLfailure/publicreach. No new handwrittenCRT or shippedsupport acceptance;16historicaloverrides separate."
+}

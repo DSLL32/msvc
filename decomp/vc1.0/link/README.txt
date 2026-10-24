@@ -504,10 +504,22 @@ open_debug_log and set_debug_flag add 125 application extent bytes; _perror and
 _setbuf are verified shipped support, with no new CRT C or application credit.
 The native runner uses the original regular-file redirection contract. The first
 PIPE failure and explicit native status-125 denial remain preserved. The corrected
-new case and prior 89 pass on identical frozen ELFs; check/replay cover 90 cases.
-There are 1001 frontiers and 802 application functions (759 public, 43 direct):
+new case and prior 89 pass on identical frozen ELFs; that checkpoint covered90cases.
+At that checkpoint there were1001frontiers/802application functions (759public,43direct):
 229367 application bytes / 281634 = 81.4415%; with support, 260306 / 281634 =
 92.4271%. The existing 16 CRT overrides remain separate. The 11883 unaccepted,
 unclassified bytes are not called CRT. Original compiler, 839 CFG graphs,
 819 callbacks, 514 data definitions, 41 ECX ABIs and focused controls pass. See the
 case's receipts, timing/coverage records and historical debug_flags limitation.
+
+Direct relocation fallback is complete (cases/direct-rebase-fallback): one
+whole204-byte stdcall callback plus24-byte semantic table,12-byte padding excluded.
+Its real REBASE fallback assignment establishes ownership; direct tests do not
+force NTDLL failure or claim public CLI reach. Count0, cumulative positive/negative
+six-type relocations with a valid HIGHADJ pair, and clean type6 NULL return have
+exact original/native page/records/guards/return/errors/FP/report evidence.
+All91 native cached trace/output cases pass; check/replay remain native-only.
+Current1002frontiers/803application functions (759public,44direct),16historical
+CRT overrides separate. Application extent229595/281634=81.5225%; support-inclusive
+260534/281634=92.5080%. Partial known-body inventory194443/195120;11655unaccepted
+unclassified bytes remain. Full nonCRT denominator unavailable, unknown notCRT.

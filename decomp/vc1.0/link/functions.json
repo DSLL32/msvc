@@ -1000,7 +1000,8 @@
     "_open_debug_log",
     "_perror",
     "_setbuf",
-    "_set_debug_flag"
+    "_set_debug_flag",
+    "_fallback_process_relocations@16"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -8240,10 +8241,17 @@
     {
       "name": "_fallback_process_relocations@16",
       "start": 328752,
-      "end": 328753,
-      "implementation": "stub-C",
-      "source": "src/edit-stubs.c",
-      "abi": "stdcall unsigned short *(void *,unsigned long,unsigned short *,long)"
+      "end": 328956,
+      "implementation": "C",
+      "source": "src/editor-rebase.c",
+      "abi": "stdcall unsigned short *(void *,unsigned long,unsigned short *,long)",
+      "shared": [
+        [
+          328956,
+          328980
+        ]
+      ],
+      "evidence": "Whole204B original/stdcallRET16/no callees and24B semantic switchtable;12B trailingalignment excluded. Actual masked/native firstfrontier with4formals plus8freshentry/returnstates and complete20916B report exact in cases/direct-rebase-fallback. Directsupport only, no forcedGPAfailure/publicreach; originalcompiler/graph and cachednative closure retained separately."
     },
     {
       "name": "_editor_rebase_error",
@@ -9687,6 +9695,7 @@
     "direct-debug-log",
     "direct-debug-log",
     "direct-debug-log",
-    "direct-debug-log"
+    "direct-debug-log",
+    "direct-rebase-fallback"
   ]
 }

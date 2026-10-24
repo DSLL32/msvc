@@ -1,0 +1,75 @@
+{
+  "status": "pass",
+  "controls": [
+    {
+      "control": "missingbothstates",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongnativecaller",
+      "status": "rejected"
+    },
+    {
+      "control": "missingformal",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongcount",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongdeltasign",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongpointerowner",
+      "status": "rejected"
+    },
+    {
+      "control": "bothchangedpage",
+      "status": "rejected"
+    },
+    {
+      "control": "guardwrite",
+      "status": "rejected"
+    },
+    {
+      "control": "recordwrite",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongendpointer",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongNULLreturn",
+      "status": "rejected"
+    },
+    {
+      "control": "returnstack",
+      "status": "rejected"
+    },
+    {
+      "control": "nonvolatile",
+      "status": "rejected"
+    },
+    {
+      "control": "precisioncontrol",
+      "status": "rejected"
+    },
+    {
+      "control": "statusC0",
+      "status": "rejected"
+    },
+    {
+      "control": "nonemptytag",
+      "status": "rejected"
+    },
+    {
+      "control": "errorstate",
+      "status": "rejected"
+    }
+  ],
+  "seconds": 0.03994044288992882,
+  "scope": "Frozen actual8states; strictFP/errors/4formals/page/records/guards/endpointer/stack/nonvolatiles, no qualifications or runtime."
+}
