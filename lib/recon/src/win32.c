@@ -439,7 +439,19 @@ HANDLE WINAPI recon_CreateFileA(LPCSTR name,DWORD access,DWORD share,LPSECURITY_
     }
     if (!security || !security->bInheritHandle) flags|=O_CLOEXEC;
     fd=open(path,flags,attributes&FILE_ATTRIBUTE_READONLY?0444:0666);
-    if (fd<0) { last_error=error_code(errno); errno=saved_errno; return INVALID_HANDLE_VALUE; }
+    if (fd<0) {
+        int failure=errno;DWORD code=error_code(failure);char *slash;
+        /* Linux ENOENT covers both a missing leaf and a missing containing
+         * directory. Inspect only the parent on this failed-open path. */
+        if (failure==ENOENT && (slash=strrchr(path,'/'))!=NULL) {
+            struct stat parent;
+            if (slash==path) slash[1]=0; else *slash=0;
+            if (!stat(path,&parent)) {
+                if (!S_ISDIR(parent.st_mode)) code=ERROR_PATH_NOT_FOUND;
+            } else if (errno==ENOENT || errno==ENOTDIR) code=ERROR_PATH_NOT_FOUND;
+        }
+        last_error=code;errno=saved_errno;return INVALID_HANDLE_VALUE;
+    }
     if (attributes&FILE_FLAG_DELETE_ON_CLOSE) unlink(path);
     last_error=0; errno=saved_errno; return (HANDLE)(uintptr_t)(fd+1);
 }

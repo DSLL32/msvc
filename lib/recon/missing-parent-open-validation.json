@@ -1,0 +1,15 @@
+{
+  "scope": "Failure-only CreateFileA ENOENT containing-directory distinction: absent/ENOTDIR/nondirectoryparent\u2192PATH_NOT_FOUND3, extantdir/missingleaf2. Independentcallererrno preserved aftersecondaryhoststat, otherstaterrors/globalENOENTmap/success/otherfailures unchanged.",
+  "frozen_receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/missing-parent-open/receipt.json",
+    "sha256": "229159ca1fe611b32a7a0aaaed61912c7e569e63f56e949c323b091545f7f54e"
+  },
+  "focused_checks": "FourGCC/Clangdefault510 frozenprobes: fourpaths+invalidmode, APIindependenterrno/DOS and mappedfopenerrors, empty/live108FP andexistingnativeFILEstate; corecheckpassed.",
+  "actual_error_adoption": "LINK sameoriginal native-onlyretry nowmatchesfopenNULL/errors2/3/3/CW027f/fullownFP; earlier2/2/2failure retained. Exactinput/caller/rawreceipts bound.",
+  "known_separate_boundary": "Strict wholepacket remainsHOLD because failedfopen freeFILEslot3 originalfd-1/native0. ExistingnativeFILEregression check is NOT cross-image FILEfidelity. Separate approvedfopen free-slot selection reset follows this publication/C1stablewindow. Directopenfilefailure no-FILE-writes stays unchanged; perrorbody remainsheld.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/missing-parent-open-parent-review.json",
+    "sha256": "f6949961c6179cdc2b2c6d1ea9b8d5f118dbbb2cfaa96553ef1441df5eb392ea",
+    "result": "PASS28source/frozenhashes+10rawreferencebindings/fullsourceprobe/allfourGCCClangsuite reruns; separateFILEboundaryheld"
+  }
+}
