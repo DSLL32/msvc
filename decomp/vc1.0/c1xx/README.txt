@@ -3,14 +3,16 @@ C1XX3232.EXE (vc1.0 / 1.0-nt)
 
 PARTIAL reconstruction. Bounded five-function shared-harness trial in progress.
 Reviewed baseline: 3c751d03a, 1297 frontiers / 1191 application source functions
-plus seven historical CRT source functions. Current: 1299 / 1193 application.
+plus seven historical CRT source functions. Current: 1300 / 1194 application.
 
 accept_preprocessor_token (RVA0x8140, 57 bytes) reuses the tagged WIP body, now
 freshly validated with shared original --progress and native replay at scanner
 RVA0x8180, exact first-entry order and partial artifacts. Newly written scanner
 RVA0x8180..0x8243 (195 bytes) is also freshly matched at check_defined_macro
 RVA0x14550, including exact entry order and partial artifacts. The final oracle is
-unchanged. Original compilation, graph/ABI audit and all eight cached cases pass.
+unchanged. check_defined_macro (RVA0x14550..0x146d2, 386 bytes) now matches
+the fresh original at skip_macro_space RVA0x11040 with 43 first entries. Original
+compilation, graph/ABI audit and all eight cached cases pass.
 This fresh acceptance is separate from the earlier migration replay.
 
 Build and run

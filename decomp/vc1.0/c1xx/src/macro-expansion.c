@@ -164,3 +164,47 @@ rescan_expansion:
     }
     return expanded;
 }
+
+/* Original 0x24550..0x246d1. The spelling test is independent of the
+   interned-name identity; scan the operand without expanding its definition. */
+int __stdcall check_defined_macro(char *name)
+{
+    int defined = 0, parentheses = 0;
+    unsigned char character, classification;
+    char *spelling = "defined";
+    /* The original compiler expands this comparison in the caller. */
+    while (*name && *name == *spelling) { ++name; ++spelling; }
+    if (*name != *spelling) return 0;
+    if (!skip_macro_space() && !macro_rescan_depth) return 0;
+    if (*source_text_cursor == '(') {
+        ++source_text_cursor;
+        parentheses = 1;
+        if (!skip_macro_space() && !macro_rescan_depth) return 0;
+    }
+    character = (unsigned char)*source_text_cursor;
+    classification = character_class[character];
+    if (macro_rescan_depth > 0) {
+        if (classification == CC_MACRO_PARAMETER ||
+            classification == CC_IDENTIFIER || classification == CC_WIDE_PREFIX) {
+            ++source_text_cursor;
+            scan_macro_name(character);
+            defined = lookup_macro() != 0;
+        }
+    } else if (classification == CC_IDENTIFIER || classification == CC_WIDE_PREFIX) {
+        ++source_text_cursor;
+        if (macro_expansion_active > 0) scan_macro_identifier();
+        else scan_source_identifier();
+        defined = lookup_macro() != 0;
+    } else report_syntax_error(parentheses ? 4 : 3);
+    classification = character_class[(unsigned char)*source_text_cursor];
+    if ((classification == CC_SPACE || classification == CC_ESCAPE_OR_END) &&
+        !skip_macro_space()) return defined;
+    if (parentheses) {
+        if (character_class[(unsigned char)*source_text_cursor] == CC_RIGHT_PAREN) {
+            ++source_text_cursor;
+            --parentheses;
+        }
+    }
+    if (parentheses > 0 && !macro_rescan_depth) compiler_warning(1, 4);
+    return defined;
+}

@@ -1074,10 +1074,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_check_defined_macro@4",
         .entry_rva = 0x14550,
-        .code = (const ReconExtent[]) { { 0x14550, 0x14551 } },
+        .code = (const ReconExtent[]) { { 0x14550, 0x146d2 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "check_defined_macro",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_skip_source_line",

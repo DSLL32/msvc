@@ -224,7 +224,6 @@ void __stdcall emit_macro_text(char *text) { __asm { int 3 } }
 int __stdcall scan_macro_name(unsigned char first) { __asm { int 3 } return 0; }
 char *read_macro_parameter(void) { __asm { int 3 } return 0; }
 char *__stdcall copy_macro_literal(char *cursor, char *limit, unsigned char delimiter) { __asm { int 3 } return 0; }
-int __stdcall check_defined_macro(char *name) { __asm { int 3 } return 0; }
 void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
 long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
