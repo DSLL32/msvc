@@ -81,3 +81,10 @@ Only this83-byte application function is credited. The checkpoint has84
 application functions/5435B, historical CRT451B and generated imports12B:
 5898/751216 whole code bytes, not non-CRT coverage. Initialized unknown6031B
 and all future opaque consumers remain outside the claim.
+
+A later validator-only change reuses the one authenticated immutable native
+callsite within each check, while requiring every public row to use that exact
+site. Raw executions and result/schema hashes are unchanged. Offline normal
+validation fell9.905→8.682s and restore9.858→8.577s; one coherent later callsite
+substitution rejects. See `path-fold-callsite-reuse.json`. This is not native
+inferior timing and uses no cross-capture mutable cache.

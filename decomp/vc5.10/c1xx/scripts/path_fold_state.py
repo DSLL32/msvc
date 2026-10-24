@@ -31,6 +31,11 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
     before=copy.deepcopy(entry['before_seed']['guard']);bss=bytearray.fromhex(before['bss']);bss[2312:2824]=struct.pack('<256H',*working);before['bss']=bss.hex();need(before==entry['guard'],'helper seed changed only exact512 known bytes')
     classes=bytes.fromhex(entry['classes']);arguments=[i for i in range(256)if classes[i]!=35];need(arguments==[r[0]for r in reference['results']],'actual source byte domain/lead skips')
     expected_fp=semantic(fp((original/'locale-mb-next-fp.bin').read_bytes()));locale=entry['locale'];guard=copy.deepcopy(entry['guard']);previous=-1
+    need(s.sha(native/'native-executable.elf')==trial['bound_inputs']['build/native/c1xx-host'],'immutable captured ELF identity')
+    call_return_pc=calls[0]['return_pc'];start,size=names['initialize_lowercase_table']
+    need(start<call_return_pc<start+size,'actual public caller owner')
+    code=bytes(d.elf_byte(native,call_return_pc-5+i)for i in range(5))
+    need(code[0]==0xe8 and call_return_pc+struct.unpack_from('<i',code,1)[0]==names['recon_mbctolower'][0],'single authenticated public CALL encoding/target')
     for index,((character,result),a,b)in enumerate(zip(reference['results'],calls,returns)):
         for skipped in range(previous+1,character):need(classes[skipped]==35,'actual lead branch');working[skipped]=65535
         partial=struct.pack('<256H',*working);data=bytearray.fromhex(guard['bss']);data[2312:2824]=partial;guard['bss']=data.hex()
@@ -42,7 +47,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
         for suffix in ('before','after'):
             for kind,baseline in (('CRT-argv','native-crt-argv.bin'),('CRT-environment','native-crt-environment.bin')):
                 need((native/('locale-native-fold-api-%03d-%s-%s.bin'%(index,suffix,kind))).read_bytes()==(native/baseline).read_bytes(),'private vectors/content/identity/lifetime')
-        start,size=names['initialize_lowercase_table'];need(start<a['return_pc']<start+size,'actual public caller owner');code=bytes(d.elf_byte(native,a['return_pc']-5+i)for i in range(5));need(code[0]==0xe8 and a['return_pc']+struct.unpack_from('<i',code,1)[0]==a['pc'],'actual public CALL target')
+        need(a['return_pc']==call_return_pc,'actual public callsite differs from the single authenticated site')
         working[character]=result;previous=character
     for skipped in range(previous+1,256):need(classes[skipped]==35,'actual final lead branch');working[skipped]=65535
     working[47]=92;raw=struct.pack('<256H',*working);bss=bytearray.fromhex(guard['bss']);bss[2312:2824]=raw;guard['bss']=bss.hex()

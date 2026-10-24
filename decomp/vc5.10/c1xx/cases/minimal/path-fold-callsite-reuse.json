@@ -1,0 +1,40 @@
+{
+  "kind": "validator-only per-check authenticated immutable one-callsite reuse; no original/native execution",
+  "accepted_case_packet_sha256": "bd18e15eea308969003eded86fdc2e13704fb8f638f45c50d2c76abd740e44b1",
+  "before_checker_path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/path-fold-state-before-callsite.py",
+  "before_checker_sha256": "2d30be0ee1baf075dc2768f34891c86268b3e4ed2c6ddac217a925eb5b03b1e4",
+  "after_checker_path": "scripts/path_fold_state.py",
+  "after_checker_sha256": "7fa814f3f6fd1dd4e872d6d4854f9759245bd7eeb7e63df96cf2834f5c6488e9",
+  "scope": "ELF authenticated once, one exact callsite opcode/target validated once; every row must match that returnPC. Every per-row input/result/stack/register/state/vector check stays. No cross-capture/global mutable cache.",
+  "before_after": [
+    {
+      "role": "normal",
+      "before_seconds": 9.905051451176405,
+      "after_seconds": 8.682022046297789,
+      "unchanged_result_sha256": "2d4194c9cfb7e05f62295ecb5eab112be341791fa9af692d8cc496e98b4ed59e"
+    },
+    {
+      "role": "restore",
+      "before_seconds": 9.85763079021126,
+      "after_seconds": 8.577102552168071,
+      "unchanged_result_sha256": "24f03032547fbce49179737c034cba17131210408c0e6ba8f1c7b7c4197e0eee"
+    }
+  ],
+  "new_control": {
+    "path": "cases/minimal/evidence/path-fold-callsite-control-1.json",
+    "sha256": "99ada063317a45a3acbfe344f6f4de3d188a7a632af5cea081e60f5fa5d59f7f",
+    "count": 1
+  },
+  "unchanged_execution_receipts": {
+    "normal": {
+      "original_receipt_sha256": "407c8063150937f6fb78aa13ddea9bbfa3059843b04782a5218b618bd2480efd",
+      "native_receipt_sha256": "3f72a10416c5c40b5d2cd8e54dd6d64df9fca85a3b503f8cf1ed73d6a18a53ec",
+      "native_ELF_sha256": "ccd981dbde4097577f8dc27c65d18a9358e90ea221718aa53e59280f98bbbcbf"
+    },
+    "restore": {
+      "original_receipt_sha256": "efa1b836f576e9d876c4024ace9376194d4e4b131fc3dcb1aeaf2ed6d6efbb85",
+      "native_receipt_sha256": "00fa1026c305fc9321a23dc1f52c4fab211378ccf207ee74f537fd11d998006d",
+      "native_ELF_sha256": "ccd981dbde4097577f8dc27c65d18a9358e90ea221718aa53e59280f98bbbcbf"
+    }
+  }
+}

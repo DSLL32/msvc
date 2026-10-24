@@ -1,0 +1,12 @@
+{
+  "kind": "one coherent later call/return-PC substitution; unchanged immutable ELF and all per-row ABI/state values",
+  "bindings": {
+    "original_receipt_sha256": "407c8063150937f6fb78aa13ddea9bbfa3059843b04782a5218b618bd2480efd",
+    "native_receipt_sha256": "3f72a10416c5c40b5d2cd8e54dd6d64df9fca85a3b503f8cf1ed73d6a18a53ec"
+  },
+  "count": 1,
+  "rejection": "filename fold: actual public callsite differs from the single authenticated site",
+  "seconds": 2.14705759473145,
+  "checker_sha256": "bbaa1f14474083286a3b3c5a1614d39c7d20a4a090572b41d16a6327b7b4793e",
+  "semantic_checker_sha256": "7fa814f3f6fd1dd4e872d6d4854f9759245bd7eeb7e63df96cf2834f5c6488e9"
+}
