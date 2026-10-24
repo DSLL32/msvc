@@ -9,6 +9,7 @@
 #include <setjmp.h>
 #include <recon.h>
 
+void begin_do_body_region(void);
 void begin_for_increment_region(void);
 void end_for_increment_region(void);
 void begin_switch_condition_region(void);
@@ -1031,5 +1032,23 @@ void __stdcall check_switch_case_initialization(int is_case)
         } else if (kind == 0x10)
             record = find_frontend_record(record->previous, 0x0f, 1);
         record = record->previous;
+    }
+}
+
+/* Original 0x3fa60..0x3fabd. A do-loop opens its loop record
+   before the independently paired body-evaluation region. */
+void begin_do_statement(void)
+{
+    LoopFrontendRecord record;
+    record.header.kind = 0x1f;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = 0;
+    record.header.previous = 0;
+    record.condition_records = 0;
+    if (!ir_records_suppressed) {
+        append_frontend_record(&record.header, sizeof(record));
+        begin_do_body_region();
     }
 }

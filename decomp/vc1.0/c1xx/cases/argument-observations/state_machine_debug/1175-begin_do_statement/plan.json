@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_begin_do_statement",
+  "native_entry": "begin_do_statement",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      260704,
+      260798
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole94B SUB20/plainRET, zero incomingstack/GPR/x87/CPUflagsformal. Fully initializes20BLoopFrontendRecord kind1f/all19remainingbyteszero; suppression skips both calls. Normal path redundantly clearszero flags1/8/4 then appends20B and opens bodyregion3fac0. Whole58B downstream helper separately reviewed initializes16Bkind20 andall15remainingbyteszero/append/plainRET; namedtrapuntilreached. Existing looptype/globals/callees only; no newdata."
+  }
+}

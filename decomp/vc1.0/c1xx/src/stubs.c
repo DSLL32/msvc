@@ -124,7 +124,7 @@ void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDecl
 
 
 void begin_do_condition(void) { __asm { int 3 } }
-void begin_do_statement(void) { __asm { int 3 } }
+void begin_do_body_region(void) { __asm { int 3 } }
 void begin_else_body(void) { __asm { int 3 } }
 
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
