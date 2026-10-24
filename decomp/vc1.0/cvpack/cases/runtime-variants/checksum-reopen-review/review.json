@@ -1,0 +1,64 @@
+{
+  "status": "maintainer-technical-review-passed",
+  "scope": "Same successful binary existing-file CRT variant and singleprocess inheritance limitation; exact ordered three opens. No extra original denial probes or historical replay.",
+  "phase_order": [
+    {
+      "phase": 1,
+      "guard": {
+        "mode": 32770,
+        "share": 64,
+        "name": "hello-debug.dll",
+        "every_invocation": true
+      },
+      "input": {
+        "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/input/hello-debug.dll",
+        "name": "hello-debug.dll",
+        "bytes": 2097152,
+        "sha256": "81a603fcfffc6229f408dc056a54441d3806b09c8526cab8b3a1b5de74959036"
+      }
+    },
+    {
+      "phase": 2,
+      "guard": {
+        "mode": 32768,
+        "share": 64,
+        "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+        "every_invocation": true
+      },
+      "input": {
+        "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/input/msvc.pdb",
+        "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+        "bytes": 4204,
+        "sha256": "6421bc52a3c6b42958d229e92b0b4612dfb5335be933fe4ec995cd66fb30cd28"
+      }
+    },
+    {
+      "phase": 3,
+      "guard": {
+        "mode": 32770,
+        "share": 64,
+        "name": "hello-debug.dll",
+        "every_invocation": true
+      },
+      "input": {
+        "path": "decomp/vc1.0/cvpack/cases/runtime-variants/checksum-input.dll",
+        "name": "hello-debug.dll",
+        "bytes": 71800,
+        "sha256": "e08a1752ab0990c401b98c889ddf5ffc0d071ea9fb5865025cf415bbe1e52c1b"
+      }
+    }
+  ],
+  "policy_sha256": "4d882e3c906e7e74da827059156327944d468c0f1054c461fc7dbde1cadbeae5",
+  "identity_anchor": "9b2b8736eeccf714ae56c6e5c620ad3d62dd4e56b554e5fed32e0798430370da",
+  "original_receipt_sha256": "9a9308f696b8ef822ecbbb281cc18491eec35089f6035c4de71908609fa1b855",
+  "native_receipt_sha256": "4d2dcc9e18b8c39f94766471df11185b6d135fe7f0dd258682186d8e72cea330",
+  "native_frontier": "checksum_image",
+  "full_mapped_bytes": 71800,
+  "phase_controls": "ce2741d9c731093a30c08f6e3b5e6d952fbd054e892263572f5ea6e6194bde18",
+  "current_sources": {
+    "scripts/debug-run.c": "d79a45add1350bb0fccd130b663b4ae6b5c7160adbbe54a8fce49f037f149d94",
+    "scripts/seams.py": "8aa7df7a8aea51fff2346980afb8ed9dc086977f7f44ad75164b132bdaa1f3d0",
+    "scripts/native-debug.py": "cd8d4d8acc59f5b547e181119a084711ab76ded5def0991bd05ea4c784ad7d0b"
+  },
+  "maintainer_review_sha256": "49e4048216b5176ebf7366be128fb2fef182123b9aef20b784d9dbda866cc6a6"
+}

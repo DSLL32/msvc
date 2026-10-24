@@ -1,0 +1,22 @@
+{
+  "name": "__sopen",
+  "classification": "reviewed-variant-identity-only",
+  "extent": [
+    187568,
+    188576
+  ],
+  "original_sha256": "b7fdcb2af4a8c2dc7acb300de553cec15ecc7fa126d0aed46ad2e8c359c7fb12",
+  "analysis": {
+    "path": "cases/runtime-variants/sopen-analysis.json",
+    "sha256": "b0c1dcc543dc7ba8b08da658bb99db579e00105352cde002a9ec850b4c138040"
+  },
+  "accepted": false,
+  "unmask": false,
+  "application_coverage": false,
+  "review": "Root approved identity resolution ONLY: original __openfile and __fsopen qualify independently by complete shipped LIBC byte/relocation/callee match. Original __sopen remains a non-equivalent reviewed variant; this anchor never restores it or its callees. Every actual entry retains case-specific three-phase successful8002/8000 guards. No exact-LIBC/app coverage credit.",
+  "failed_frontier": {
+    "original": 188816,
+    "receipt_sha256": "4e61edcf7b9dbeb4896b253d34abce24b441074d571e1a674056bf6224de36b0"
+  },
+  "library_difference": "Original text-tail differs from shipped __sopen; see complete retained sopen-analysis. Approved binary paths never enter differing text tail."
+}

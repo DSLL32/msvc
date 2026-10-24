@@ -33,6 +33,6 @@ unsigned short strip_debug(int);
 void finalize_types(void);
 void build_source_file_index(void);
 void write_packed_debug(void);
-int update_image_checksum(const char *, unsigned long, unsigned char);
+int update_image_checksum(const char *, unsigned long *, unsigned long *);
 
 #endif

@@ -25,7 +25,8 @@
     },
     "policy_approval": "Root: only successful existing-file binary mode0x8002/share0x40, target/case-specific; no exact LIBC identity or app coverage. Guard/rearm every invocation, retain raw arguments and result/errno/osfile/type/position/input ownership; reject text/create/other-share requests before executing body. Shared maintainer reviews technical implementation.",
     "access": 3221225472,
-    "guard_version": 2
+    "guard_version": 2,
+    "phase": 1
   },
   {
     "name": "__sopen",
@@ -53,6 +54,36 @@
     },
     "policy_approval": "Root separately approves exact frozen4204-byte PDB, mode8000/share40/existing successfulbinaryreadonly path. Reviewed wholebody: sole active difference from DLL8002 is CreateFile GENERIC_READ vsREAD|WRITE. Perentry actual access/share/disposition/attrs, returnfd/osfile/type/position/errno/LastError/fullinput ownership and readonly state. InheritanceTRUE vsnativeCLOEXEC is unobserved singleprocess scope; all other outcomes fail. Zero exactLIBC/application credit.",
     "access": 2147483648,
-    "guard_version": 2
+    "guard_version": 2,
+    "phase": 2
+  },
+  {
+    "name": "__sopen",
+    "classification": "reviewed-case-specific-CRT-variant",
+    "case": "hello-debug-dll",
+    "application_coverage": false,
+    "unconditionally_unmask": false,
+    "target_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "start": 187568,
+    "end": 188576,
+    "body_sha256": "b7fdcb2af4a8c2dc7acb300de553cec15ecc7fa126d0aed46ad2e8c359c7fb12",
+    "evidence": "cases/runtime-variants/sopen-analysis.json",
+    "evidence_sha256": "b0c1dcc543dc7ba8b08da658bb99db579e00105352cde002a9ec850b4c138040",
+    "guard": {
+      "mode": 32770,
+      "share": 64,
+      "name": "hello-debug.dll",
+      "every_invocation": true
+    },
+    "input": {
+      "path": "decomp/vc1.0/cvpack/cases/runtime-variants/checksum-input.dll",
+      "name": "hello-debug.dll",
+      "bytes": 71800,
+      "sha256": "e08a1752ab0990c401b98c889ddf5ffc0d071ea9fb5865025cf415bbe1e52c1b"
+    },
+    "policy_approval": "Root approves ONLY third invocation after initial DLL8002 and PDB8000; exact71800-byte postcleanup DLL state, same successful8002/share40/body/access/outcome scope. No phase interchange, new mode, exact-LIBC or application credit. Existing inheritance/CLOEXEC singleprocess limitation retained.",
+    "access": 3221225472,
+    "guard_version": 2,
+    "phase": 3
   }
 ]

@@ -26,11 +26,15 @@ def validate(config,pe,runtime,record):
     guard=record['guard']
     if guard['name']=='hello-debug.dll':
         assert guard==dict(mode=0x8002,share=0x40,name='hello-debug.dll',every_invocation=True)
+        assert record['phase']in(1,3),'unapproved DLL open phase'
+        if record['phase']==1:assert record['input']==dict(path='decomp/vc1.0/cvpack/cases/hello-debug-dll/input/hello-debug.dll',name='hello-debug.dll',bytes=2097152,sha256='81a603fcfffc6229f408dc056a54441d3806b09c8526cab8b3a1b5de74959036'),'unapproved initial DLL input'
+        if record['phase']==3:assert record['input']==dict(path='decomp/vc1.0/cvpack/cases/runtime-variants/checksum-input.dll',name='hello-debug.dll',bytes=71800,sha256='e08a1752ab0990c401b98c889ddf5ffc0d071ea9fb5865025cf415bbe1e52c1b'),'unapproved postcleanup input'
         access=0xc0000000
     else:
         proof=json.loads((BINARY/'cases/abi/pdb-input.json').read_text())['inputs'][0]
         assert guard==dict(mode=0x8000,share=0x40,name=proof['windows'],every_invocation=True),'unapproved PDB guard'
         assert record['input']==dict(path='decomp/vc1.0/cvpack/'+proof['owned'],name=proof['windows'],bytes=proof['bytes'],sha256=proof['sha256'])
+        assert record['phase']==2,'PDB is only the second open phase'
         access=0x80000000
     assert record['access']==access and record['guard_version']==2,'conditional access policy differs'
     assert record['start']==0x2dcb0 and record['end']==0x2e0a0
@@ -60,6 +64,7 @@ def approved(config,pe,runtime,case=None):
     path=BINARY/'runtime-support.json'
     records=json.loads(path.read_text())if path.exists()else []
     result=[validate(config,pe,runtime,record)for record in records]
+    assert [r['phase']for r in result]==[1,2,3],'conditional phase inventory/order differs'
     return [r for r in result if case is None or r['case']==case]
 
 
@@ -72,7 +77,7 @@ def compare_returns(events,native,records,required=None):
             assert current is None,'nested conditional runtime entry'
             mode,share,permission=(int(value,16)for value in fields[2:5])
             name=bytes.fromhex(fields[5]).decode('latin1')
-            matches=[r for r in records if r['start']==address and r['guard']==dict(mode=mode,share=share,name=name,every_invocation=True)]
+            matches=[r for r in records if r['phase']==len(original)+1 and r['start']==address and r['guard']==dict(mode=mode,share=share,name=name,every_invocation=True)]
             assert len(matches)==1,'unapproved conditional runtime invocation'
             policy=matches[0]
             current=dict(mode=mode,share=share,name=name,permission=permission,stage='entry')
@@ -103,12 +108,12 @@ def compare_returns(events,native,records,required=None):
     if required is not None:
         assert [{key:r[key]for key in ('name','mode','share')}for r in original]==required,'mandatory conditional CRT invocation inventory differs'
     proof=[]
-    for old,new in zip(original,native):
+    for phase,(old,new)in enumerate(zip(original,native),1):
         assert not new.get('error'),new
         assert all(old[key]==new[key]for key in ('name','mode','share'))
         assert old['return']=={key:new['return'][key]for key in old['return']},('conditional CRT return state differs',old,new)
         assert old['return']['osfile']==1 and old['return']['type']==1 and old['return']['position']==0 and old['return']['owned'] and old['return']['input_matches']
-        policy=next(r for r in records if r['guard']['name']==old['name'] and r['guard']['mode']==old['mode'] and r['guard']['share']==old['share'])
+        policy=next(r for r in records if r['phase']==phase and r['guard']['name']==old['name'] and r['guard']['mode']==old['mode'] and r['guard']['share']==old['share'])
         call=dict(old['createfile']);call['inherit']=False
         assert new['createfile']==call,'native actual CreateFile args differ'
         assert new['return']['access_mode']==(0 if old['mode']==0x8000 else 2),'native file access differs'

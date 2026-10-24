@@ -17,6 +17,7 @@ extern long packed_file_size;
 extern unsigned long source_line_bytes;
 extern unsigned char *source_file_index;
 extern unsigned long source_file_index_size;
+void *checksum_image(void *,unsigned long,unsigned long *,unsigned long *);
 void initialize_output(int);
 unsigned short write_output(const void *,unsigned short);
 unsigned short flush_output(void);

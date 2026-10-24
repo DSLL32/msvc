@@ -75,7 +75,8 @@ static int finish_spawn(HANDLE child, HANDLE thread, HANDLE log)
 /* Case-specific original CRT observation. Not reconstruction source. */
 static DWORD sopen_start, sopen_end, sopen_offset, sopen_return, sopen_step;
 static DWORD sopen_saved_tf, sopen_create_step, sopen_create_tf, sopen_create_seen;
-static DWORD child_teb, sopen_access, last_sopen_fd;
+static DWORD child_teb, sopen_access, last_sopen_fd, sopen_completed;
+static char sopen_reopen_master[1024];
 static char sopen_pdb_name[260], sopen_pdb_master[1024];
 static const char *sopen_active_input, *sopen_active_master;
 
@@ -139,10 +140,12 @@ static int begin_sopen(HANDLE child, HANDLE original, HANDLE log, HANDLE thread)
     if (!strcmp(name, sopen_name)) {
         if (words[2] != 0x8002) return denied_sopen(log, "mode");
         sopen_active_input = sopen_input;
-        sopen_active_master = sopen_master;
+        if (sopen_reopen_master[0] && sopen_completed != 0 && sopen_completed != 2) return denied_sopen(log, "phase");
+        sopen_active_master = sopen_completed == 2 && sopen_reopen_master[0] ? sopen_reopen_master : sopen_master;
         sopen_access = GENERIC_READ|GENERIC_WRITE;
     } else if (sopen_pdb_name[0] && !strcmp(name, sopen_pdb_name)) {
         if (words[2] != 0x8000) return denied_sopen(log, "mode");
+        if (sopen_reopen_master[0] && sopen_completed != 1) return denied_sopen(log, "phase");
         sopen_active_input = sopen_pdb_name;
         sopen_active_master = sopen_pdb_master;
         sopen_access = GENERIC_READ;
@@ -303,6 +306,7 @@ static int finish_sopen(HANDLE child, HANDLE log, HANDLE thread)
     FlushInstructionCache(child, (void *)sopen_return, 1);
     context.Eip = sopen_return;
     sopen_return = 0;
+    ++sopen_completed;
     return SetThreadContext(thread, &context) ? 1 : denied_sopen(log, "return-resume");
 }
 
@@ -860,7 +864,8 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
 {
     char specifications[2048], *cursor;
     DWORD address, slot, size, bytes, written, i, input, pointer;
-    int consumed, used;
+    unsigned char *observed;
+    int consumed, used, mapped;
     if (!GetEnvironmentVariableA("CVPACK_CAPTURE_OUTPUTS", specifications, sizeof(specifications))) return 1;
     cursor = specifications;
     while (*cursor) {
@@ -868,6 +873,11 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
         if (address == entry) {
             if (slot>15 && slot!=256) return 0;
             pointer=slot==256?context->Edx:words[slot];
+            observed = original_bytes; mapped = size == 0xffffffff;
+            if (mapped) {
+                if (entry != 0x2be60 || words[0] != 0x2bfce || slot != 1 || !input || pointer != context->Ebx) return 0;
+                size = words[2]; observed = walk_bytes;
+            }
             if (!size) {
                 DWORD owner[12], parent;
                 int known;
@@ -889,10 +899,10 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
                     pointer, parent, owner[0]&0xffff, owner[7], owner[8]);
                 if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
             }
-            if (input > 1 || !size || size > 1024 ||
-                !ReadProcessMemory(child, (void *)pointer, original_bytes, size, &bytes) || bytes != size) return 0;
+            if (input > 1 || !size || size > (mapped ? sizeof(walk_bytes) : 1024) ||
+                !ReadProcessMemory(child, (void *)pointer, observed, size, &bytes) || bytes != size) return 0;
             used = sprintf(object_line, "%s-buffer %08lx ", input ? "input" : "output", pointer);
-            for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", original_bytes[i]);
+            for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", observed[i]);
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
             if ((entry == 0x2a450 || entry == 0x29c50 || entry == 0x29f50) && slot == 1 && size == 40 && input) {
@@ -1213,6 +1223,7 @@ int main(int argc, char **argv)
             !GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_INPUT", sopen_master, sizeof(sopen_master)) ||
             strlen(argv[6])+strlen(sopen_name)+2 >= sizeof(sopen_input)) return 14;
         sprintf(sopen_input, "%s\\%s", argv[6], sopen_name);
+        GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_REOPEN_INPUT", sopen_reopen_master, sizeof(sopen_reopen_master));
         if (GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_PDB_NAME", sopen_pdb_name, sizeof(sopen_pdb_name))) {
             if (!GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_PDB_INPUT", sopen_pdb_master, sizeof(sopen_pdb_master))) return 14;
         }

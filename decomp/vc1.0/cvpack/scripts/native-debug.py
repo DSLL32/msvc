@@ -43,9 +43,11 @@ def install_sopen_observer(output,work,policies):
             entry=dict(name=frame.read_var('name').string(),mode=int(frame.read_var('mode')),share=int(frame.read_var('sharing')),
                 permission=int.from_bytes(bytes(gdb.selected_inferior().read_memory(int(frame.read_var('sharing').address)+4,4)),'little'))
             events.append(entry);save()
-            matches=[p for p in policies if all(entry[key]==p[key]for key in ('name','mode','share'))]
+            matches=[p for p in policies if p['phase']==len(events)and all(entry[key]==p[key]for key in ('name','mode','share'))]
             if len(matches)!=1 or active:
                 entry['error']='unsupported native conditional CRT invocation';save();return True
+            if Path(matches[0]['input']).read_bytes()!=Path(matches[0]['master']).read_bytes():
+                entry['error']='conditional input mismatches exact next phase before open';save();return True
             active.append(entry);Returned(entry,matches[0]);return False
     class Created(gdb.Breakpoint):
         def __init__(self):super().__init__('recon_CreateFileA',internal=True)

@@ -55,7 +55,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     for seam in approved_seams(config,original,json.loads((BINARY/'runtime.json').read_text()),name):
         if seam['guard']['mode']==0x8002:prepared=directory/'debug-work'/seam['guard']['name']
         else:prepared=input_namespace(directory/'debug-work')/input_relative(dict(windows=seam['guard']['name']))
-        policies.append(dict(name=seam['guard']['name'],mode=seam['guard']['mode'],share=seam['guard']['share'],input=str(prepared),master=str(ROOT/seam['input']['path'])))
+        policies.append(dict(phase=seam['phase'],name=seam['guard']['name'],mode=seam['guard']['mode'],share=seam['guard']['share'],input=str(prepared),master=str(ROOT/seam['input']['path'])))
     canonical='Z:'+str(ROOT/config['target']['path']).replace('/','\\')
     script.write_text('set pagination off\nset confirm off\nset startup-with-shell on\n'
         'set disable-randomization off\nset args '+' '.join(map(shlex.quote,record['argv']))+'\n'
@@ -158,6 +158,16 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' root=int(gdb.parse_and_eval(description["root"]));argument=parameters[description["name"]]\n'
         ' if not root or root!=argument["address"]: raise RuntimeError("argument differs from published table owner")\n'
         ' argument["owner"]=dict(root=description["root"],address=root,requested_size=int(gdb.parse_and_eval(description["size_global"]))if description.get("size_global")else description["requested_size"])\n'
+        'for description in frontier.get("parameters",[]):\n'
+        ' if description["kind"]!="mapped-image": continue\n'
+        ' owner=current.older();argument=parameters[description["name"]];size=parameters[description["size_argument"]]\n'
+        ' if not owner or owner.name()!="update_image_checksum"or int(owner.read_var("view"))!=argument["address"]or not 0<size<=524288: raise RuntimeError("unproved mapped image caller/extent")\n'
+        ' view=gdb.parse_and_eval("views");matches=[]\n'
+        ' while int(view):\n'
+        '  if int(view["address"])==argument["address"]: matches.append(int(view["length"]))\n'
+        '  view=view["next"]\n'
+        ' if matches!=[size]: raise RuntimeError("mapped image is not registered full view")\n'
+        ' argument["mapping"]=dict(size=size,owner=owner.name());argument["bytes"]=bytes(gdb.selected_inferior().read_memory(argument["address"],size)).hex()\n'
         'for description in frontier.get("parameters",[]):\n'
         ' if description["kind"]!="file-slot": continue\n'
         ' argument=parameters[description["name"]];value=current.read_var(description["name"]);handle=int(value["handle"]);limit=int(gdb.parse_and_eval("file_limit"))\n'
@@ -291,7 +301,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if expected.get('proof_mode')=='entry-flow'and expected['terminal']=='trap'and not(reference_completion or scalar_completion):
         marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
         frontier=next(r for r in config['functions']if r['native']==expected['native_function'])
-        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner','function','symbol-sort-key','file-slot')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
+        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner','function','symbol-sort-key','file-slot','mapped-image')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
         observed=[r for r in data if r['name']in expected.get('observed_globals',[])]
         assert len(observed)==len(expected.get('observed_globals',[])),'unknown observed global'
         prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\nf=gdb.newest_frame();frames=[];frame=f\nwhile frame:frames.append(frame.name());frame=frame.older()\n'

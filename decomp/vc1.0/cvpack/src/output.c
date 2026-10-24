@@ -731,4 +731,25 @@ unsigned short flush_output(void)
     output_capacity = 0;
     return 1;
 }
+
+/* Optional output pointers request a read-only checksum instead of an update. */
+int update_image_checksum(const char *name, unsigned long *old_sum,
+                          unsigned long *new_sum)
+{
+    FILE *stream;
+    HANDLE mapping;
+    void *view;
+    stream = fopen(name, new_sum ? "rb" : "r+b");
+    if (!stream) return 1;
+    mapping = CreateFileMappingA((HANDLE)_get_osfhandle((_fileno)(stream)), NULL,
+                                new_sum ? PAGE_READONLY : PAGE_READWRITE, 0, 0, NULL);
+    if (!mapping) { fclose(stream); return 2; }
+    view = MapViewOfFile(mapping, new_sum ? FILE_MAP_READ : FILE_MAP_WRITE, 0, 0, 0);
+    CloseHandle(mapping);
+    if (!view) { fclose(stream); return 3; }
+    checksum_image(view, _filelength((_fileno)(stream)), old_sum, new_sum);
+    UnmapViewOfFile(view);
+    fclose(stream);
+    return 0;
+}
 #undef OUTPUT_BYTES

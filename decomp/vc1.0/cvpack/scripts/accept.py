@@ -54,6 +54,8 @@ def compare_symbol_sort_key(item,words,actual,events):
     assert offset==actual['symbol']['offset'],'consumed symbol address differs'
     return dict(original_cell=pointer,native_cell=actual['address'],array_index=array['index'],array_count=count,original_symbol=node,native_symbol=actual['symbol']['address'],consumed_offset=offset,original_raw=raw.hex(),native_raw=new.hex(),scope='Actual qsort array allocation/call; comparator consumes PublicSymbol offset DWORD12 only, no wider node/heap equality claimed')
 
+MAPPED_CHECKSUM_CALL_SHA = '3c19940d38e1d8221942b4f8665c685f0882bc982dc98bfa56199a231c55f32e'
+
 def compare_global_owner(item,words,actual,events):
     if item['root']=='output_buffer':
         assert (item['original_root'],item['size_global'])==(0x335c0,'output_capacity'),'unknown output allocation root'
@@ -142,6 +144,15 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
             callback=next(r for r in config['functions']if r['name']==item['target']);actual=state['parameters'][item['name']]
             assert words[item['slot']]==item['original_target']==callback['original']and actual['function']==callback['native']and not actual['null'],'callback ABI identity differs'
             parameters[item['name']]=dict(original_address=words[item['slot']],native_address=actual['address'],function=callback['name'])
+        elif item['kind']=='mapped-image':
+            pointer=words[item['slot']];actual=state['parameters'][item['name']];size=words[item['length_slot']]
+            assert words[0]==0x2bfce and pointer==words['ebx']and 0<size<=524288,'mapped image carrier/caller/extent differs'
+            assert __import__('hashlib').sha256(pe.read(0x2bf79,0x2bfce-0x2bf79)).hexdigest()==MAPPED_CHECKSUM_CALL_SHA,'mapped image original return/carrier proof changed'
+            assert actual['mapping']==dict(size=size,owner='update_image_checksum')and not actual['null'],'native mapped view ownership differs'
+            rows=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%pointer,events,re.M);assert len(rows)==1,'missing actual mapped input'
+            payload=bytes.fromhex(rows[0]);assert len(payload)==size and rows[0]==actual['bytes'],'full mapped image input differs'
+            assert payload==(original/'work/hello-debug.dll').read_bytes(),'mapped bytes differ from whole current file'
+            parameters[item['name']]=dict(original_address=pointer,native_address=actual['address'],size=size,sha256=__import__('hashlib').sha256(payload).hexdigest(),scope='Actual MapViewOfFile return carried in EBX at reviewed caller, registered native full view; every mapped input byte compared')
         elif item['kind']=='file-slot':
             pointer=words[item['slot']];actual=state['parameters'][item['name']]
             rows=re.findall(r'^file-slot-owner %08x (\d+) ([0-9a-f]+) (\d+)$'%pointer,events,re.M);assert len(rows)==1,'missing actual published FileSlot owner'

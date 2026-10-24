@@ -530,13 +530,16 @@
       "native": "update_image_checksum",
       "symbol": "_update_image_checksum",
       "original": 179968,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
-      "abi": "int update_image_checksum(const char *,unsigned long,unsigned char)",
+      "status": "accepted",
+      "extent": [
+        179968,
+        180199
+      ],
+      "abi": "int update_image_checksum(const char *,unsigned long *,unsigned long *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0150-update_image_checksum/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -548,18 +551,37 @@
           "evidence_sha256": "5199f750a2789f13ce98953bca3251c505763b53919e1843580bc3249b31ff57"
         },
         {
-          "name": "length",
+          "name": "old_sum",
           "slot": 2,
-          "kind": "integer",
-          "bits": 32
+          "kind": "pointer",
+          "null_only": true
         },
         {
-          "name": "read_only",
+          "name": "new_sum",
           "slot": 3,
-          "kind": "integer",
-          "bits": 8
+          "kind": "pointer",
+          "null_only": true
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          },
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "new_page",
@@ -7807,6 +7829,48 @@
           "kind": "file-slot"
         }
       ]
+    },
+    {
+      "name": "checksum_image",
+      "native": "checksum_image",
+      "symbol": "_checksum_image",
+      "original": 179808,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void *checksum_image(void *,unsigned long,unsigned long *,unsigned long *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "image",
+          "slot": 1,
+          "kind": "mapped-image",
+          "size_argument": "size",
+          "length_slot": 2
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "old_sum",
+          "slot": 3,
+          "kind": "pointer",
+          "null_only": true
+        },
+        {
+          "name": "new_sum",
+          "slot": 4,
+          "kind": "pointer",
+          "null_only": true
+        }
+      ]
     }
   ],
   "review": {
@@ -8727,6 +8791,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 149
+    },
+    {
+      "function": "update_image_checksum",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 150
     }
   ],
   "support_unmasked": [
@@ -9341,6 +9411,54 @@
       "start": 179788,
       "end": 179794,
       "evidence": "cases/hello-debug-dll/evidence/0147-truncate_buffered_file/proof.json"
+    },
+    {
+      "name": "_fopen",
+      "start": 188864,
+      "end": 188896,
+      "evidence": "cases/hello-debug-dll/evidence/0150-update_image_checksum/proof.json"
+    },
+    {
+      "name": "__fsopen",
+      "start": 188816,
+      "end": 188864,
+      "evidence": "cases/hello-debug-dll/evidence/0150-update_image_checksum/proof.json"
+    },
+    {
+      "name": "__getstream",
+      "start": 197056,
+      "end": 197136,
+      "evidence": "cases/hello-debug-dll/evidence/0150-update_image_checksum/proof.json"
+    },
+    {
+      "name": "__openfile",
+      "start": 196560,
+      "end": 197056,
+      "evidence": "cases/hello-debug-dll/evidence/0150-update_image_checksum/proof.json"
+    },
+    {
+      "name": "__fileno",
+      "start": 200400,
+      "end": 200416,
+      "evidence": "cases/hello-debug-dll/evidence/0150-update_image_checksum/proof.json"
+    },
+    {
+      "name": "import:CreateFileMappingA",
+      "start": 199228,
+      "end": 199234,
+      "evidence": "cases/hello-debug-dll/evidence/0150-update_image_checksum/proof.json"
+    },
+    {
+      "name": "import:MapViewOfFile",
+      "start": 199216,
+      "end": 199222,
+      "evidence": "cases/hello-debug-dll/evidence/0150-update_image_checksum/proof.json"
+    },
+    {
+      "name": "__filelength",
+      "start": 200416,
+      "end": 200528,
+      "evidence": "cases/hello-debug-dll/evidence/0150-update_image_checksum/proof.json"
     }
   ],
   "read_observations": {
@@ -9349,7 +9467,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "3295d013906acca6b856b46f070462f60d30cd4348600218304ebb109b2082aa"
+    "evidence_sha256": "f2d21ebbf92601b351a3ef2b89b04b1b975d521caf2d07c163f025d0aef07c7e"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9425,6 +9543,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "acf908e987f056137135a6c5548d5130e2edfb6b0ad0cc6ffe3b4157cc3e0b10"
+    "sha256": "ab0c5e74be545789af50761eb990a4d1e46258d21ddb6cb58e0f65401e898bcf"
   }
 }

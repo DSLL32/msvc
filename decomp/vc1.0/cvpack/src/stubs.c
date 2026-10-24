@@ -30,8 +30,8 @@ unsigned short write_output(const void *buffer,unsigned short size) { __asm { in
 
 unsigned long write_old_packed_types(void) { __asm { int 3 } return 0; }
 
-int update_image_checksum(const char *name, unsigned long length, unsigned char read_only)
-{ __asm { int 3 } return 0; }
+void *checksum_image(void *image,unsigned long size,unsigned long *old_sum,unsigned long *new_sum)
+{ __asm { int 3 } return NULL; }
 
 
 void grow_page_table(FileSlot *slot) { __asm { int 3 } }

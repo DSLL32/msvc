@@ -1,0 +1,5 @@
+initial/postcleanup phase interchange : rejected: conditional CRT input hash differs
+third open uses initial input identity : rejected: conditional CRT input hash differs
+both sides omit mandatory third observation : rejected: mandatory conditional CRT invocation inventory differs
+initial policy admits postcleanup master : rejected: unapproved initial DLL input
+Four focused phase controls passed; no execution or historical replay
