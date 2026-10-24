@@ -26,6 +26,10 @@ def main():
         content=(BINARY/config['output_callback_boundary']).read_bytes()
         assert sha(content)==config['output_callback_boundary_sha256']
         (output/'output-callback-boundary.json').write_bytes(content)
+    if config.get('directive_callback_contract'):
+        content=(BINARY/config['directive_callback_contract']).read_bytes()
+        assert sha(content)==config['directive_callback_contract_sha256']
+        (output/'directive-callback-contract.json').write_bytes(content)
     executable=BINARY/'build/native/c2'
     shutil.copyfile(executable,output/'native.elf')
     from case_inputs import manifest,materialize,artifacts
@@ -81,6 +85,28 @@ def process_exited(event):
         gdb.write('C2-PROCESS-EXIT %d\\n'%exit_status)
 gdb.events.exited.connect(process_exited)
 '''
+    if config.get('directive_callback_contract'):
+        contract=json.loads((BINARY/config['directive_callback_contract']).read_text())
+        assert contract['native_callsite']['elf_sha256']==sha(executable.read_bytes())
+        prefix_program+='''
+directive_abi=[]
+class DirectiveABI(gdb.Breakpoint):
+    def __init__(self,spec,role):
+        self.role=role
+        super().__init__(spec,internal=True)
+    def stop(self):
+        regs={name:int(gdb.parse_and_eval('$'+name))for name in ('pc','ecx','ebx','ebp','esi','edi','esp','eax')}
+        regs['role']=self.role
+        import struct
+        regs['stack']=list(struct.unpack('<4I',gdb.selected_inferior().read_memory(regs['esp'],16).tobytes()))
+        regs['slot_target']=int(gdb.parse_and_eval('output_slot_49971c.target'))
+        regs['directive_base']=int(gdb.parse_and_eval('c2_pools[1].blocks'))
+        directive_abi.append(regs)
+        gdb.write('C2-DIRECTIVE-ABI '+json.dumps(regs,sort_keys=True)+'\\n')
+        return False
+DirectiveABI('*write_output_directives+%d','call')
+DirectiveABI('*output_callback_453e02','entry')
+''' % contract['native_callsite']['offset']
     if any(r.get('state_policy')=='extended-store'for r in config['stubs'])or '_store_extended'in config['trial']:
         import re
         decoded=subprocess.check_output(['objdump','-d','-Mintel','--disassemble=store_extended',str(executable)],text=True)
@@ -547,7 +573,7 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
     complete_program="""if records and records[0].get('state_policy')=='globals-complete':
     exec(MODEL_SOURCE)
     addresses={key:int(gdb.parse_and_eval('&('+item[1]+')'))for key,item in ROOTS.items()}
-    info['globals_complete']=complete_globals(lambda address,size:gdb.selected_inferior().read_memory(address,size).tobytes(),addresses, directives=records[0].get('frontier_contract')in ('output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete'), writer=records[0].get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete'), coff=records[0].get('frontier_contract')in ('coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete'),initialized_output=records[0].get('frontier_contract')in ('coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete'),list_pending=records[0].get('frontier_contract')=='coff-chunk-input',list_constructed=records[0].get('frontier_contract')in ('coff-source-input','coff-symbol-input','coff-symbols-complete'),source_pending=records[0].get('frontier_contract')in ('coff-symbol-input','coff-symbols-complete'),symbols_complete=records[0].get('frontier_contract')=='coff-symbols-complete')
+    info['globals_complete']=complete_globals(lambda address,size:gdb.selected_inferior().read_memory(address,size).tobytes(),addresses, directives=records[0].get('frontier_contract')in ('output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input'), writer=records[0].get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input'), coff=records[0].get('frontier_contract')in ('coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input'),initialized_output=records[0].get('frontier_contract')in ('coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input'),list_pending=records[0].get('frontier_contract')=='coff-chunk-input',list_constructed=records[0].get('frontier_contract')in ('coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input'),source_pending=records[0].get('frontier_contract')in ('coff-symbol-input','coff-symbols-complete','coff-directive-input'),symbols_complete=records[0].get('frontier_contract')in ('coff-symbols-complete','coff-directive-input'))
     info['globals_complete']['formals']=[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument]
     info['globals_complete']['opaque_context_anchor_alias']=int(gdb.parse_and_eval('section_context'))==int(gdb.parse_and_eval('&section_context_identity'))
     if records[0].get('frontier_contract')=='initializer-input':
@@ -558,27 +584,28 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
         'active_globals_alias':int(gdb.parse_and_eval('c2_current_il'))==int(second),
         'input_bytes':gdb.selected_inferior().read_memory(first,32).tobytes().hex(),
         'closed_globals_bytes':gdb.selected_inferior().read_memory(second,32).tobytes().hex()}
-    if records[0].get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete'):
+    if records[0].get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input'):
         info['globals_complete']['streams']['active_input_alias']=int(gdb.parse_and_eval('c2_current_il'))==int(first)
         info['globals_complete']['streams']['valid_input_bytes']=gdb.selected_inferior().read_memory(first.dereference()['_base'],15).tobytes().hex()
-    if records[0].get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete'):
+    if records[0].get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input'):
         opened=[]
         for name in ('expression_input','function_symbol_input'):
             file=gdb.parse_and_eval(name)
             opened.append({'index':(int(file)-iob)//32,'bytes':gdb.selected_inferior().read_memory(file,32).tobytes().hex()})
         info['globals_complete']['streams']['backend_inputs']=opened
-    if records[0].get('frontier_contract')in ('output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete'):
+    if records[0].get('frontier_contract')in ('output-callbacks-selected','output-directive-input','output-directives-complete','object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input'):
         info['output_setup']={'group_name':gdb.parse_and_eval('output_group_name').string(),
             'enabled':int(gdb.parse_and_eval('output_enabled')),
             'slots':[{'address':int(gdb.parse_and_eval('&'+name)),
                 'target':int(gdb.parse_and_eval(name+'.target'))}for name in ['output_slot_497de4', 'output_slot_499a00', 'output_slot_497e10', 'output_slot_497dbc', 'output_slot_497de0', 'output_slot_497dec', 'output_slot_497db0', 'output_slot_497dd4', 'output_slot_497ce4', 'output_slot_497ddc', 'output_slot_497dcc', 'output_slot_499750', 'output_slot_491070', 'output_slot_497db4', 'output_slot_491078', 'output_slot_497f60', 'output_slot_497dfc', 'output_slot_497f50', 'output_slot_49971c', 'output_slot_497cec']]}
         gdb.write('C2-OUTPUT-SETUP '+json.dumps(info['output_setup'],sort_keys=True)+'\\n')
-    if records[0].get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete'):
+    if records[0].get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input'):
         contract=records[0].get('frontier_contract')
-        if contract=='coff-symbols-complete':argument=frame.older().read_var('writer');writer_owner=frame.older()
+        if contract=='coff-directive-input':argument=frame.older().older().read_var('writer');writer_owner=frame.older().older()
+        elif contract=='coff-symbols-complete':argument=frame.older().read_var('writer');writer_owner=frame.older()
         elif contract=='coff-symbol-input':argument=frame.older().older().read_var('writer');writer_owner=frame.older().older().older()
         elif contract=='object-writer-input':argument=frame.read_var('writer');writer_owner=frame.older()
-        elif contract in ('coff-table-input','coff-lists-input','coff-list-input','coff-source-input','coff-symbol-input','coff-symbols-complete'):argument=frame.older().read_var('writer');writer_owner=frame.older().older()
+        elif contract in ('coff-table-input','coff-lists-input','coff-list-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input'):argument=frame.older().read_var('writer');writer_owner=frame.older().older()
         else:argument=frame.older().older().read_var('writer');writer_owner=frame.older().older().older()
         pool=gdb.parse_and_eval('c2_pools[7]');file=gdb.parse_and_eval('object_output')
         info['object_writer']={'formals':[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument],
@@ -586,7 +613,7 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
             'caller_writer_alias':int(argument)==int(writer_owner.read_var('writer')),
             'file_index':(int(file)-iob)//32,
             'file_bytes':gdb.selected_inferior().read_memory(file,32).tobytes().hex()}
-        if contract=='coff-symbols-complete':
+        if contract in ('coff-symbols-complete','coff-directive-input'):
             info['object_writer'].pop('caller_writer_alias')
             info['object_writer']['caller_writer_pool_alias']=int(argument)==int(pool['blocks'])+8
         if records[0].get('frontier_contract')=='coff-table-input':info['object_writer']['capacity']=int(frame.read_var('capacity'))
@@ -595,6 +622,13 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
         if contract=='coff-chunk-input':info['object_writer'].update(buffered=int(frame.older().read_var('buffered')),count_only=int(frame.older().read_var('count_only')),list_offset=int(frame.older().read_var('list'))-int(pool['blocks']),caller_formals=[{'name':item.name,'type':str(item.type)}for item in frame.older().block()if item.is_argument])
         if contract=='coff-source-input':info['object_writer'].update(name=frame.read_var('name').string(),name_global_alias=int(frame.read_var('name'))==int(gdb.parse_and_eval('coff_source_name')),name_pool_offset=int(frame.read_var('name'))-int(pool['blocks']))
         if contract=='coff-symbol-input':info['object_writer'].update(record_offset=int(frame.read_var('record'))-int(pool['blocks']),caller_name=frame.older().read_var('name').string(),caller_name_global_alias=int(frame.older().read_var('name'))==int(gdb.parse_and_eval('coff_source_name')),caller_formals=[{'name':item.name,'type':str(item.type)}for item in frame.older().block()if item.is_argument])
+        if contract=='coff-directive-input':
+            directive=frame.read_var('directive');node=directive.dereference();base=int(gdb.parse_and_eval('c2_pools[1].blocks'))
+            info['directive_callback']={'formals':[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument],'offset':int(directive)-base,'next_offset':int(node['next'])-base,'kind':int(node['kind']),'value':node['value'].string(),'value_first_node_alias':int(node['value'])==int(gdb.parse_and_eval('output_directives->value')),'slot_target_alias':int(gdb.parse_and_eval('output_slot_49971c.target'))==int(gdb.parse_and_eval('&output_callback_453e02')),'caller':frame.older().name(),'caller_formals':[{'name':item.name,'type':str(item.type)}for item in frame.older().block()if item.is_argument]}
+            info['directive_callback_abi']=directive_abi
+            info['directive_callback_native_pointer']=int(directive)
+            gdb.write('C2-DIRECTIVE-POINTER %x\\n'%int(directive))
+            gdb.write('C2-DIRECTIVE-CALLBACK '+json.dumps(info['directive_callback'],sort_keys=True)+'\\n')
         gdb.write('C2-OBJECT-WRITER '+json.dumps(info['object_writer'],sort_keys=True)+'\\n')
     if records[0].get('frontier_contract')=='output-directive-input':
         argument=frame.read_var('value')

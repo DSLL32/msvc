@@ -24,7 +24,7 @@ C2PendingCallback output_slot_491078;
 C2PendingCallback output_slot_497f60;
 C2PendingCallback output_slot_497dfc;
 C2PendingCallback output_slot_497f50;
-C2PendingCallback output_slot_49971c;
+C2DirectiveCallback output_slot_49971c;
 C2PendingCallback output_slot_497cec;
 
 void initialize_pass_functions(void)
@@ -57,7 +57,7 @@ void initialize_pass_functions(void)
         output_slot_497dcc.target = output_callback_41eb89;
         output_slot_497dfc.target = output_callback_41eb89;
         output_slot_497f50.target = output_callback_4849f5;
-        output_slot_49971c.target = output_callback_41eb89;
+        output_slot_49971c.target = (C2OutputDirectiveWriter) output_callback_41eb89;
         output_slot_497cec.target = output_callback_4849fa;
         return;
     }
@@ -124,4 +124,11 @@ C2OutputDirective *__fastcall add_output_directive(int kind, char *value)
     node->value = value;
     *link = node;
     return node;
+}
+
+void write_output_directives(void)
+{
+    C2OutputDirective *directive;
+    for (directive = output_directives; directive; directive = directive->next)
+        output_slot_49971c.target(directive);
 }

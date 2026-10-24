@@ -1,0 +1,193 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/directive80-static-validation/receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/directive80-static-validation/graph-audit.json",
+    "matched": "_output_callback_453e02",
+    "original": "0x453e02",
+    "native": "output_callback_453e02",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "output_callback_453e02",
+      "symbol_start": "0x60c0",
+      "symbol_size": 83,
+      "static_pc": "0x60f8",
+      "int3_sites": [
+        "0x60f7"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output",
+      "@initialize_coff_output@4",
+      "@new_output_table@4",
+      "_writer_callback_41eb8a",
+      "_initialize_coff_lists",
+      "@new_output_list@8",
+      "_new_output_chunk",
+      "@add_output_source@4",
+      "@add_coff_symbol@4",
+      "_write_output_directives"
+    ],
+    "candidates": [
+      "_write_output_directives"
+    ],
+    "acceptance": false
+  },
+  "count": 23,
+  "rejected": [
+    {
+      "control": "actual directive formal omitted",
+      "reason": "actual directive formal/owner/slot/node aliases differ"
+    },
+    {
+      "control": "actual directive kind differs",
+      "reason": "actual directive formal/owner/slot/node aliases differ"
+    },
+    {
+      "control": "actual directive value differs",
+      "reason": "actual directive formal/owner/slot/node aliases differ"
+    },
+    {
+      "control": "next owned directive differs",
+      "reason": "actual directive formal/owner/slot/node aliases differ"
+    },
+    {
+      "control": "actual typed slot identity differs",
+      "reason": "actual directive formal/owner/slot/node aliases differ"
+    },
+    {
+      "control": "native incoming ECX differs",
+      "reason": ""
+    },
+    {
+      "control": "native callback return address differs",
+      "reason": ""
+    },
+    {
+      "control": "native callback ESP differs",
+      "reason": ""
+    },
+    {
+      "control": "native callback ESI not preserved",
+      "reason": ""
+    },
+    {
+      "control": "native callback slot target differs",
+      "reason": ""
+    },
+    {
+      "control": "native callback exact entry PC differs",
+      "reason": ""
+    },
+    {
+      "control": "original incoming ECX differs",
+      "reason": ""
+    },
+    {
+      "control": "original incoming EBX not preserved",
+      "reason": ""
+    },
+    {
+      "control": "original return address differs",
+      "reason": ""
+    },
+    {
+      "control": "unreviewed other member invocation",
+      "reason": "pending callback use/escape requires reviewed actual callable ABI"
+    },
+    {
+      "control": "typed slot unknown escape",
+      "reason": "pending callback use/escape requires reviewed actual callable ABI"
+    },
+    {
+      "control": "typed target direct escape",
+      "reason": "pending target invocation/escape requires actual ABI review"
+    },
+    {
+      "control": "cast generalized to other slot",
+      "reason": "pending callback use/escape requires reviewed actual callable ABI"
+    },
+    {
+      "control": "specific noarg cast omitted",
+      "reason": ""
+    },
+    {
+      "control": "consumer ownership changed",
+      "reason": "typed consumer ownership/body changed"
+    },
+    {
+      "control": "typed callback convention changed",
+      "reason": ""
+    },
+    {
+      "control": "shared noop global ABI marker erased",
+      "reason": "only one typed slot view permitted"
+    },
+    {
+      "control": "canonical call uses neighboring slot",
+      "reason": "exact emitted qualified slot binding"
+    }
+  ],
+  "seconds": 17.580267281271517,
+  "checker_sha256": "96830abc3c2a02af72bec266a84850f2728d3bf50e8db8d3ce15572b8cbd2020",
+  "original_receipt_sha256": "c8a1d1196e3fa1e7edfe7290b4f070e01f0fa64347c1fe0d4f65a255c061a0fa",
+  "native_receipt_sha256": "7fdd784240349a0209a38186e684b8bf7862e0dfa68312baced90e06ee9e6319",
+  "validation_sha256": "3dfa7ed8706b9a3b01279330a561faea78af686990119826ccfb15fb585a6c15"
+}

@@ -1,0 +1,16 @@
+{
+  "approved": true,
+  "contract_sha256": "32f823bfb38d0835cf9ea3a169ed0afd99f996f6413a8c0b1ae449dfdc1cf3c3",
+  "review": "Root one-slot cast approval and orchestrator concrete original27B/ECX/RET0 proposal review, 2026-10-24. No further parent gate if settled constraints met.",
+  "scope": "Only49971c typed callback/actual ECX directive; exact same sharednoargRET0 target cast, no wrapper or other slot ABI. All19 other slots/23 target identities remain; actual453e02 body still masked named trap zero credit.",
+  "fresh_compare": "/root/.ai-tmp/msvc2/vc5.10/c2/directive80-compare.json",
+  "fresh_compare_sha256": "3ebb8778b8fe50bd2f44e5f9f5ddbf5bf7f054bde394fc4e909d1e54094b386b",
+  "original_receipt_sha256": "c8a1d1196e3fa1e7edfe7290b4f070e01f0fa64347c1fe0d4f65a255c061a0fa",
+  "native_receipt_sha256": "7fdd784240349a0209a38186e684b8bf7862e0dfa68312baced90e06ee9e6319",
+  "constraints": "Canonical loadECX/CALL exactMAPslot verified; native exact callEAX and incomingECX/ESPreturn/nonvolatiles/qualifiedslot checked against real entry breakpoints and originalcallpoint; actual typed formal/kind4/valueLIBC/pool-owned next-node chain matched.",
+  "final_compare_sha256": "df817a0147c7719d2c34a0b69c3510bf8dff01782b9b6e12596fe04fa5a95387",
+  "final_validation_sha256": "3dfa7ed8706b9a3b01279330a561faea78af686990119826ccfb15fb585a6c15",
+  "affected_controls_sha256": "322f2323a6a5ce20683a23c0df026b9028fa2dc027aff4e7a52717d735c7822c",
+  "protocol_controls_sha256": "0297907f837624a5fd64ab2cd6625db70c445b1ff4512914dc97b1409c490883",
+  "compile_guards_sha256": "9ea0f5fdd61bdf6a9c5b50c9da65f1f0e8c9a5940bd7b222b116e388aa98536e"
+}

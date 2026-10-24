@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 74 application functions (16052 bytes) and five CRT
+Current reconstruction has 75 application functions (16079 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at directive dispatch after inserting three COFF slots and
-creating the directive/FPO sections. Four import thunks (24 bytes) and contextual text tables
-(616 bytes) remain separate. The 16490 source bytes are 2.877% of 573183 `.text`
+currently stops at the first typed directive callback with actualLIBC input,
+after inserting three COFF slots and creating the directive/FPO sections. Four import thunks (24 bytes) and contextual text tables
+(616 bytes) remain separate. The 16517 source bytes are 2.882% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -298,8 +298,8 @@ all4096 allocator-defined arena bytes, and actual char-pointer source formal
 with its global/pool alias. Other504 chunk bytes retain allocator-zeroing
 provenance without payload/layout credit; the separate malloc buffer stays
 unread. Fourteen focused controls and the refreshed/reused protocol controls
-pass with separate timings in0077. Future original debugger execution uses the
-shared capture flock; builds/native fixtures remain outside it.
+pass with separate timings in0077. At that checkpoint a temporary shared capture flock serialized original
+debugger execution; source80 removes it after the actual-hFile reader rollout.
 
 Source78 reconstructs the222-byte source-file symbol initializer, including
 both cold incremental paths. The encountered records are12-byte tagged nodes
@@ -325,3 +325,19 @@ Sixteen focused controls pass in16.781s; refreshed/reused protocol accounting
 and the0.148s auxiliary test are separate in0079. The actual loaded CRT dump
 now uses explicit same-hFile offsets with exact GetFileSize/count/full canonical
 SHA checks; no reopening or skipped bytes.
+
+Source80 reconstructs the27-byte directive dispatch loop. Only callback
+slot49971c gains the actual fastcall directive-pointer signature; its shared
+noargRET0 alternative uses the specifically reviewed period-C pointer cast.
+The other19 slots remain guarded, all23 callback targets still named masked
+INT3 functions with zero body credit, and all17 shared-noop aliases retain
+their original identities. No wrapper or new target vertex is introduced.
+Fresh actual call-site/entry observations prove ECX, exact qualified target,
+return address, ESP delta and unchanged nonvolatiles in both builds. The next
+trap has the actual typed directive formal, kind4/valueLIBC and owned
+LIBC->OLDNAMES chain. Canonical Win32 code independently loadsECX and calls
+the exact MAP slot. Twenty-three focused controls passed in17.580s;20 compile
+guards took2.815s, separately from8 fresh/145 reused protocol checks. Exact
+raw/static validation, approval scope and timing are in0080. Root released
+the temporary capture lock after all shared-hFile readers were corrected;
+future captures run concurrently with explicit-offset/full-size/hash guards.

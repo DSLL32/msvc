@@ -1,0 +1,124 @@
+{
+  "status": "PASS",
+  "boundary_sha256": "382e89af4857ad65f809f17937da005a54be7097b9021cade438fa1e8ee6d7a9",
+  "header_sha256": "9076a74fabcf95be28dd03b7a0cb7eb67cb871f4404531d5899f6a13a4a14f77",
+  "script_sha256": "f4164a5b34828c914d3fe274eff34b1a8daf3f5bfa51e26155bdca896bb37fcc",
+  "command_prefix": [
+    "clang",
+    "-m32",
+    "-std=gnu89",
+    "-fms-extensions",
+    "-fasm-blocks",
+    "-Wno-ignored-attributes",
+    "-DRECON_NATIVE_TEST",
+    "-I/root/msvc2/lib/recon/include",
+    "-I/root/msvc2/lib/recon/native",
+    "-I/root/msvc2/decomp/vc5.10/c2/src",
+    "-fsyntax-only"
+  ],
+  "positive_layout_compile": true,
+  "rejected": [
+    {
+      "slot": "output_slot_497de4",
+      "status": 1,
+      "diagnostic_sha256": "b6f8898e075e8b7abcf80ae7e0e5b5bd8ccbd7acb764291c5bc5a894b4e74457"
+    },
+    {
+      "slot": "output_slot_499a00",
+      "status": 1,
+      "diagnostic_sha256": "6875f281adc16f64a8a2b4120c33fccbbb03e08552b61fb9938619f973e85c8e"
+    },
+    {
+      "slot": "output_slot_497e10",
+      "status": 1,
+      "diagnostic_sha256": "f63409201089c50ee2dac31865675094d07e424e0bee731f4bdb6d24ff6cd831"
+    },
+    {
+      "slot": "output_slot_497dbc",
+      "status": 1,
+      "diagnostic_sha256": "074ac3249b8de875ce6a8096a94ab6e8479c4ea5dc53b9e179ed6cf38cbfde45"
+    },
+    {
+      "slot": "output_slot_497de0",
+      "status": 1,
+      "diagnostic_sha256": "3d349a0900ecf0d1524844b057b9a2defbcf8be12162261746e4556174cac3be"
+    },
+    {
+      "slot": "output_slot_497dec",
+      "status": 1,
+      "diagnostic_sha256": "a30bc9fe959e7366add9cd6d45b501ffb27997189fe5cd110771ec335c61777b"
+    },
+    {
+      "slot": "output_slot_497db0",
+      "status": 1,
+      "diagnostic_sha256": "2cfba8e029b8d027cf7888654d91245b924827f7b4187875b58471ef64d94c32"
+    },
+    {
+      "slot": "output_slot_497dd4",
+      "status": 1,
+      "diagnostic_sha256": "9e3d293430eb4c3e95d9da17e3344e809b97bd78631e845218b9e6efb12bed04"
+    },
+    {
+      "slot": "output_slot_497ce4",
+      "status": 1,
+      "diagnostic_sha256": "e90229d6047dbc09dfa116eed285c800962d65421043cc1a40a2d2195c512e83"
+    },
+    {
+      "slot": "output_slot_497ddc",
+      "status": 1,
+      "diagnostic_sha256": "64594925b343e1d2424a7b639163ad214faf6c581f8e93fe98fc2f9275d77ee3"
+    },
+    {
+      "slot": "output_slot_497dcc",
+      "status": 1,
+      "diagnostic_sha256": "7e81aaf6ccf894c22ab9fbd34eb569d68403743eeb289e1b34cd58fca9e56c89"
+    },
+    {
+      "slot": "output_slot_499750",
+      "status": 1,
+      "diagnostic_sha256": "f15fa6f1f2c98f68bd67246296cba941c7eb5c5791d2c160ce67b30cea0be60f"
+    },
+    {
+      "slot": "output_slot_491070",
+      "status": 1,
+      "diagnostic_sha256": "59697ca5183399bbcf00a71fa36cc71aa58e6a76f119d8d8a1afcfa44bd38404"
+    },
+    {
+      "slot": "output_slot_497db4",
+      "status": 1,
+      "diagnostic_sha256": "5ab7d3f18df7064a92b74240e31f1b2276da1afd69ebd4c8a4a4cf5dc247eb7e"
+    },
+    {
+      "slot": "output_slot_491078",
+      "status": 1,
+      "diagnostic_sha256": "944326bfe25578eb1bd1fd1201eae635880440f65b2dd6414a9f037b99aa5524"
+    },
+    {
+      "slot": "output_slot_497f60",
+      "status": 1,
+      "diagnostic_sha256": "bfaf909b0f0dc85971d750f0f04cd942548b694da67285ac9e22e0cd729a0044"
+    },
+    {
+      "slot": "output_slot_497dfc",
+      "status": 1,
+      "diagnostic_sha256": "919c9ec2566b1197b37a4bab49de012173abeaf3b273f109b288f7be6acd5186"
+    },
+    {
+      "slot": "output_slot_497f50",
+      "status": 1,
+      "diagnostic_sha256": "b155113b33b73aca44ff16a6f2cff728c6f5e5761368c31d2086c9495e08020b"
+    },
+    {
+      "slot": "output_slot_49971c",
+      "status": 1,
+      "diagnostic_sha256": "16fbf05ede5212ccd40f9489bb2648f38efb47142ef457347ea7dd733d8f8d2f"
+    },
+    {
+      "slot": "output_slot_497cec",
+      "status": 1,
+      "diagnostic_sha256": "d578014e9cfa87188f1e4933a0a41aa3ae274217bb66aa092763932870ad5cf9"
+    }
+  ],
+  "seconds": 2.8152113631367683,
+  "scope": "Actual sizeof4/offset0/alignment4 assertions compile; all20 direct slot invocations fail. .target invocation/escape remains an explicit review hold and finite source guard, no callable ABI assertion."
+}

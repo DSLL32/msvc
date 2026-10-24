@@ -89,7 +89,8 @@
     "@new_output_list@8",
     "_new_output_chunk",
     "@add_output_source@4",
-    "@add_coff_symbol@4"
+    "@add_coff_symbol@4",
+    "_write_output_directives"
   ],
   "driver": [
     {
@@ -9853,6 +9854,195 @@
       ],
       "frontier_contract": "coff-symbol-input",
       "state_model_sha256": "9b241acd80f9a7620c6df2fbdf93668d13a4ab6c79d64018589a01494235599a"
+    },
+    {
+      "name": "_write_output_directives",
+      "native": "write_output_directives",
+      "start": 4537831,
+      "end": 4537858,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "cdecl noargs, callerignoresresult RET0",
+      "evidence": "cases/analysis/directive-callback-contract.json",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "ee6c0ceca1af66ebc08b63665bb1fbe67235600c0610ced5e2b73944ca627acb",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-symbols-complete",
+      "requires_directive_callback_review": "cases/directive-callback-review.json"
     }
   ],
   "stubs": [
@@ -10972,165 +11162,10 @@
       "end": 4537859,
       "pending_extent": true,
       "kind": "application",
-      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
-      "pending_signature": true,
-      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
-    },
-    {
-      "name": "_output_callback_4541f3",
-      "native": "output_callback_4541f3",
-      "start": 4538867,
-      "end": 4538868,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
-      "pending_signature": true,
-      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
-    },
-    {
-      "name": "_output_callback_454ba8",
-      "native": "output_callback_454ba8",
-      "start": 4541352,
-      "end": 4541353,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
-      "pending_signature": true,
-      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
-    },
-    {
-      "name": "_output_callback_4849f2",
-      "native": "output_callback_4849f2",
-      "start": 4737522,
-      "end": 4737523,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
-      "pending_signature": true,
-      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
-    },
-    {
-      "name": "_output_callback_4849f5",
-      "native": "output_callback_4849f5",
-      "start": 4737525,
-      "end": 4737526,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
-      "pending_signature": true,
-      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
-    },
-    {
-      "name": "_output_callback_4849fa",
-      "native": "output_callback_4849fa",
-      "start": 4737530,
-      "end": 4737531,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
-      "pending_signature": true,
-      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
-    },
-    {
-      "name": "_output_callback_4850f5",
-      "native": "output_callback_4850f5",
-      "start": 4739317,
-      "end": 4739318,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
-      "pending_signature": true,
-      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
-    },
-    {
-      "name": "_initialize_codeview_output",
-      "native": "initialize_codeview_output",
-      "start": 4554247,
-      "end": 4554248,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl no parameters; void RET0",
-      "evidence": "Direct argument/return/cleanup in cases/analysis/output-initialization-disassembly.txt; pending genuine INT3, no target body credit."
-    },
-    {
-      "name": "_query_incremental_stream_size",
-      "native": "query_incremental_stream_size",
-      "start": 4766779,
-      "end": 4766780,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl noargs unsignedEAX RET0",
-      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
-    },
-    {
-      "name": "@read_incremental_stream@8",
-      "native": "read_incremental_stream",
-      "start": 4766795,
-      "end": 4766796,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall void*bufferECX unsignedbytesEDX; unsignedEAX RET0",
-      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
-    },
-    {
-      "name": "_read_incremental_byte",
-      "native": "read_incremental_byte",
-      "start": 4739862,
-      "end": 4739863,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl noargs unsignedcharAL RET0",
-      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
-    },
-    {
-      "name": "_validate_incremental_options",
-      "native": "validate_incremental_options",
-      "start": 4707690,
-      "end": 4707691,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl noargs intEAX RET0",
-      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
-    },
-    {
-      "name": "_prepare_output_486e67",
-      "native": "prepare_output_486e67",
-      "start": 4746855,
-      "end": 4746856,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl noargs, callerignoresresult RET0",
-      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
-    },
-    {
-      "name": "_prepare_output_486a23",
-      "native": "prepare_output_486a23",
-      "start": 4745763,
-      "end": 4745764,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl noargs, callerignoresresult RET0",
-      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
-    },
-    {
-      "name": "_prepare_output_48710f",
-      "native": "prepare_output_48710f",
-      "start": 4747535,
-      "end": 4747536,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl noargs, callerignoresresult RET0",
-      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
-    },
-    {
-      "name": "_write_output_directives",
-      "native": "write_output_directives",
-      "start": 4537831,
-      "end": 4537832,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl noargs, callerignoresresult RET0",
-      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence.",
+      "abi": "fastcall C2OutputDirective*directiveECX, return ignored, RET0; genuine pendingINT3 zero bodycredit",
+      "pending_signature": false,
+      "evidence": "cases/analysis/directive-callback-contract.json",
+      "symbol": "@output_callback_453e02@4",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -11308,7 +11343,153 @@
       "expected_argv": [
         "-G5"
       ],
-      "frontier_contract": "coff-symbols-complete"
+      "frontier_contract": "coff-directive-input"
+    },
+    {
+      "name": "_output_callback_4541f3",
+      "native": "output_callback_4541f3",
+      "start": 4538867,
+      "end": 4538868,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
+      "pending_signature": true,
+      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
+    },
+    {
+      "name": "_output_callback_454ba8",
+      "native": "output_callback_454ba8",
+      "start": 4541352,
+      "end": 4541353,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
+      "pending_signature": true,
+      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
+    },
+    {
+      "name": "_output_callback_4849f2",
+      "native": "output_callback_4849f2",
+      "start": 4737522,
+      "end": 4737523,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
+      "pending_signature": true,
+      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
+    },
+    {
+      "name": "_output_callback_4849f5",
+      "native": "output_callback_4849f5",
+      "start": 4737525,
+      "end": 4737526,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
+      "pending_signature": true,
+      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
+    },
+    {
+      "name": "_output_callback_4849fa",
+      "native": "output_callback_4849fa",
+      "start": 4737530,
+      "end": 4737531,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
+      "pending_signature": true,
+      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
+    },
+    {
+      "name": "_output_callback_4850f5",
+      "native": "output_callback_4850f5",
+      "start": 4739317,
+      "end": 4739318,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
+      "pending_signature": true,
+      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
+    },
+    {
+      "name": "_initialize_codeview_output",
+      "native": "initialize_codeview_output",
+      "start": 4554247,
+      "end": 4554248,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl no parameters; void RET0",
+      "evidence": "Direct argument/return/cleanup in cases/analysis/output-initialization-disassembly.txt; pending genuine INT3, no target body credit."
+    },
+    {
+      "name": "_query_incremental_stream_size",
+      "native": "query_incremental_stream_size",
+      "start": 4766779,
+      "end": 4766780,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl noargs unsignedEAX RET0",
+      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
+    },
+    {
+      "name": "@read_incremental_stream@8",
+      "native": "read_incremental_stream",
+      "start": 4766795,
+      "end": 4766796,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall void*bufferECX unsignedbytesEDX; unsignedEAX RET0",
+      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
+    },
+    {
+      "name": "_read_incremental_byte",
+      "native": "read_incremental_byte",
+      "start": 4739862,
+      "end": 4739863,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl noargs unsignedcharAL RET0",
+      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
+    },
+    {
+      "name": "_validate_incremental_options",
+      "native": "validate_incremental_options",
+      "start": 4707690,
+      "end": 4707691,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl noargs intEAX RET0",
+      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
+    },
+    {
+      "name": "_prepare_output_486e67",
+      "native": "prepare_output_486e67",
+      "start": 4746855,
+      "end": 4746856,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl noargs, callerignoresresult RET0",
+      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
+    },
+    {
+      "name": "_prepare_output_486a23",
+      "native": "prepare_output_486a23",
+      "start": 4745763,
+      "end": 4745764,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl noargs, callerignoresresult RET0",
+      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
+    },
+    {
+      "name": "_prepare_output_48710f",
+      "native": "prepare_output_48710f",
+      "start": 4747535,
+      "end": 4747536,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl noargs, callerignoresresult RET0",
+      "evidence": "Complete actual source71 caller argument/register/stack uses; pending namedINT3, no bodycredit. Return/formal refinements need actual consumer evidence."
     },
     {
       "name": "_writer_callback_48511c",
@@ -11993,7 +12174,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12005,7 +12186,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12017,7 +12198,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12029,7 +12210,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12041,7 +12222,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12053,7 +12234,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12065,7 +12246,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12077,7 +12258,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12089,7 +12270,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12101,7 +12282,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12115,7 +12296,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12127,7 +12308,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12142,7 +12323,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12154,7 +12335,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12166,7 +12347,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12178,7 +12359,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12190,7 +12371,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12202,7 +12383,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12217,7 +12398,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12232,7 +12413,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12244,7 +12425,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12256,7 +12437,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12268,7 +12449,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       },
       {
@@ -12283,7 +12464,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "34f5a891bb3bd02dc95fe4c9c4ce5ec2f3986b6a0351964dbf59aebb31c705bc"
+          "sha256": "dc7c28fbc6f5c4f46dac85e5de3c69ba71f6820ab4e9e27553b5f85a577572fb"
         }
       }
     ]
@@ -12291,5 +12472,7 @@
   "output_callback_boundary": "cases/analysis/output-callback-boundary.json",
   "output_callback_boundary_sha256": "382e89af4857ad65f809f17937da005a54be7097b9021cade438fa1e8ee6d7a9",
   "writer_callback_boundary": "cases/analysis/object-output-initialization.json",
-  "writer_callback_boundary_sha256": "cc18112226656971a1d3a1896281c0a2bc55e68e6f326e2099742cadea21690b"
+  "writer_callback_boundary_sha256": "cc18112226656971a1d3a1896281c0a2bc55e68e6f326e2099742cadea21690b",
+  "directive_callback_contract": "cases/analysis/directive-callback-contract.json",
+  "directive_callback_contract_sha256": "32f823bfb38d0835cf9ea3a169ed0afd99f996f6413a8c0b1ae449dfdc1cf3c3"
 }

@@ -1024,14 +1024,6 @@
     "evidence": null
   },
   {
-    "name": "_write_output_directives",
-    "start": 4537831,
-    "end": 4537832,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_writer_callback_48511c",
     "start": 4739356,
     "end": 4739357,

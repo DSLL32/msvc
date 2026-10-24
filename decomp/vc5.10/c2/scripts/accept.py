@@ -21,6 +21,9 @@ def preflight(name,original,native,validation=None):
     if records[0].get('requires_callback_review'):
         review=json.loads((BINARY/records[0]['requires_callback_review']).read_text())
         assert review['approved'] is True and review['boundary_sha256']==base['output_callback_boundary_sha256'],'finite callback boundary review pending'
+    if records[0].get('requires_directive_callback_review'):
+        review=json.loads((BINARY/records[0]['requires_directive_callback_review']).read_text())
+        assert review['approved']is True and review['contract_sha256']==base['directive_callback_contract_sha256'],'typed directive callback boundary review pending'
     result=compare(original,native,validation)
     assert result['matched']!=name,'candidate did not advance to a new frontier'
     audit=json.loads(Path(result['graph_report']).read_text())
@@ -63,6 +66,7 @@ def main():
     if(a.native/'data-model.json').exists():shutil.copyfile(a.native/'data-model.json',a.proof/'native/data-model.json')
     if(a.native/'intrinsic-model.json').exists():shutil.copyfile(a.native/'intrinsic-model.json',a.proof/'native/intrinsic-model.json')
     for side,source in [('original',a.original),('native',a.native)]:
+        if(source/'directive-callback-contract.json').exists():shutil.copyfile(source/'directive-callback-contract.json',a.proof/side/'directive-callback-contract.json')
         if(source/'writer-callback-boundary.json').exists():shutil.copyfile(source/'writer-callback-boundary.json',a.proof/side/'writer-callback-boundary.json')
         if(source/'output-callback-boundary.json').exists():shutil.copyfile(source/'output-callback-boundary.json',a.proof/side/'output-callback-boundary.json')
     if(a.original/'helper-inputs.json').exists():

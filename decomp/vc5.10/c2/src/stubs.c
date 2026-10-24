@@ -532,7 +532,7 @@ void output_callback_44a79d()
     __asm { int 3 }
 }
 
-void output_callback_453e02()
+void __fastcall output_callback_453e02(C2OutputDirective *directive)
 {
     __asm { int 3 }
 }
@@ -595,7 +595,6 @@ int validate_incremental_options(void)
 void prepare_output_486e67(void) { __asm { int 3 } }
 void prepare_output_486a23(void) { __asm { int 3 } }
 void prepare_output_48710f(void) { __asm { int 3 } }
-void write_output_directives(void) { __asm { int 3 } }
 void writer_callback_48511c() { __asm { int 3 } }
 void writer_callback_45477a() { __asm { int 3 } }
 

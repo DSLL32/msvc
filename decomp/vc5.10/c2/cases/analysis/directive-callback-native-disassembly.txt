@@ -1,0 +1,93 @@
+
+build/native/c2:     file format elf32-i386
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+0000de60 <write_output_directives>:
+    de60:	55                   	push   ebp
+    de61:	89 e5                	mov    ebp,esp
+    de63:	53                   	push   ebx
+    de64:	83 ec 14             	sub    esp,0x14
+    de67:	e8 00 00 00 00       	call   de6c <write_output_directives+0xc>
+    de6c:	5b                   	pop    ebx
+    de6d:	81 c3 88 91 02 00    	add    ebx,0x29188
+    de73:	89 5d f4             	mov    DWORD PTR [ebp-0xc],ebx
+    de76:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    de79:	8d 8b 6c 6e fd ff    	lea    ecx,[ebx-0x29194]
+    de7f:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    de82:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    de86:	e8 15 a9 01 00       	call   287a0 <__cyg_profile_func_enter>
+    de8b:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+    de8e:	8b 80 cc 42 00 00    	mov    eax,DWORD PTR [eax+0x42cc]
+    de94:	89 45 f8             	mov    DWORD PTR [ebp-0x8],eax
+    de97:	83 7d f8 00          	cmp    DWORD PTR [ebp-0x8],0x0
+    de9b:	74 18                	je     deb5 <write_output_directives+0x55>
+    de9d:	8b 5d f4             	mov    ebx,DWORD PTR [ebp-0xc]
+    dea0:	8b 83 c4 42 00 00    	mov    eax,DWORD PTR [ebx+0x42c4]
+    dea6:	8b 4d f8             	mov    ecx,DWORD PTR [ebp-0x8]
+    dea9:	ff d0                	call   eax
+    deab:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+    deae:	8b 00                	mov    eax,DWORD PTR [eax]
+    deb0:	89 45 f8             	mov    DWORD PTR [ebp-0x8],eax
+    deb3:	eb e2                	jmp    de97 <write_output_directives+0x37>
+    deb5:	8b 5d f4             	mov    ebx,DWORD PTR [ebp-0xc]
+    deb8:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    debb:	8d 8b 6c 6e fd ff    	lea    ecx,[ebx-0x29194]
+    dec1:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    dec4:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    dec8:	e8 a3 aa 01 00       	call   28970 <__cyg_profile_func_exit>
+    decd:	83 c4 14             	add    esp,0x14
+    ded0:	5b                   	pop    ebx
+    ded1:	5d                   	pop    ebp
+    ded2:	c3                   	ret
+
+Disassembly of section .fini:
+
+build/native/c2:     file format elf32-i386
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000060c0 <output_callback_453e02>:
+    60c0:	55                   	push   ebp
+    60c1:	89 e5                	mov    ebp,esp
+    60c3:	53                   	push   ebx
+    60c4:	83 ec 14             	sub    esp,0x14
+    60c7:	e8 00 00 00 00       	call   60cc <output_callback_453e02+0xc>
+    60cc:	5b                   	pop    ebx
+    60cd:	81 c3 28 0f 03 00    	add    ebx,0x30f28
+    60d3:	89 5d f0             	mov    DWORD PTR [ebp-0x10],ebx
+    60d6:	89 4d f4             	mov    DWORD PTR [ebp-0xc],ecx
+    60d9:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    60dc:	8d 8b cc f0 fc ff    	lea    ecx,[ebx-0x30f34]
+    60e2:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    60e5:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    60e9:	e8 b2 26 02 00       	call   287a0 <__cyg_profile_func_enter>
+    60ee:	8b 5d f0             	mov    ebx,DWORD PTR [ebp-0x10]
+    60f1:	8b 4d f4             	mov    ecx,DWORD PTR [ebp-0xc]
+    60f4:	89 4d f8             	mov    DWORD PTR [ebp-0x8],ecx
+    60f7:	cc                   	int3
+    60f8:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    60fb:	8d 8b cc f0 fc ff    	lea    ecx,[ebx-0x30f34]
+    6101:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    6104:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    6108:	e8 63 28 02 00       	call   28970 <__cyg_profile_func_exit>
+    610d:	83 c4 14             	add    esp,0x14
+    6110:	5b                   	pop    ebx
+    6111:	5d                   	pop    ebp
+    6112:	c3                   	ret
+
+Disassembly of section .fini:
