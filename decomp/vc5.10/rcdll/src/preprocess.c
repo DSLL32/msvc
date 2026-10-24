@@ -286,7 +286,6 @@ unsigned char __stdcall rc_hash_macro_name(const WCHAR *name)
 }
 
 RcMacro *rc_macro_buckets[256];
-int rc_macro_listing_enabled;
 
 void __stdcall rc_define_macro(const WCHAR *value,unsigned length,int parameters)
 {
@@ -321,7 +320,7 @@ void __stdcall rc_define_macro(const WCHAR *value,unsigned length,int parameters
         if(parameters==-2) macro->text[length-1]=0x44;
     }
     macro->parameters=(signed char)(parameters==-2 ? 0 : parameters);
-    if(rc_macro_listing_enabled && macro->parameters>=-2 && !macro->parameters)
+    if(rc_apstudio && macro->parameters>=-2 && !macro->parameters)
         rc_list_macro(macro);
     return;
 

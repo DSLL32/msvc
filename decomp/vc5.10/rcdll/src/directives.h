@@ -79,7 +79,7 @@ extern RcTokenExtra rc_token_extra;
 #define rc_string_length rc_token_extra.string_length
 extern void *rc_token_value;
 extern RcTokenInfo rc_token_info[256];
-extern int rc_keep_internal_marker,rc_number_buffer_active;
+extern int rc_number_buffer_active;
 void __cdecl rc_line_comment(void);
 void __cdecl rc_block_comment(void);
 int __cdecl rc_open_source_frame(void);

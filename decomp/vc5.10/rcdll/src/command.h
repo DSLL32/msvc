@@ -14,6 +14,7 @@ extern char *rc_error_template;
 extern char *rc_input_temporary;
 extern UINT rc_codepage,rc_saved_codepage;
 extern int rc_warnings;
+extern int rc_apstudio;
 extern WCHAR rc_filename_storage[257],*rc_filename;
 extern unsigned rc_preparing_line,rc_prepared_lines;
 unsigned __stdcall rc_write_bytes(FILE *,const void *,unsigned);

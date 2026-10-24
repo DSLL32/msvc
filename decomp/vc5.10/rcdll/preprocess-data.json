@@ -298,6 +298,8 @@
     },
     {
       "name": "rc_macro_listing_enabled",
+      "native_expression": "rc_apstudio",
+      "identity": "Historical observer label for the same APSTUDIO command/listing/marker state, not separate storage",
       "original_rva": "0x25058",
       "kind": "integer",
       "bytes": 4

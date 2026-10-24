@@ -431,13 +431,13 @@ def save_macro_listings():(path.parent/'macro-listings.json').write_text(json.du
 class MacroListingReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,entry):super().__init__(frame,internal=True);self.entry=entry
     def stop(self):
-        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=listing_memory(self.entry['pointer'],16),enabled_after=int(gdb.parse_and_eval('rc_macro_listing_enabled')))
+        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=listing_memory(self.entry['pointer'],16),enabled_after=int(gdb.parse_and_eval('rc_apstudio')))
         save_macro_listings();return False
 class MacroListingEntered(gdb.Breakpoint):
     def stop(self):
         if macro_listings:self.enabled=False;return False
         frame=gdb.newest_frame();macro=frame.read_var('macro');value=macro.dereference();parent=frame.older();marker=parent.read_var('marker')
-        entry=dict(pointer=int(macro),object=int(marker.address),object_bytes=marker.type.sizeof,formal_bytes=macro.type.sizeof,parent=parent.name(),record=listing_memory(int(macro),16),name=int(value['name']),name_bytes=listing_wide(int(value['name'])),text=int(value['text']),text_bytes=listing_wide(int(value['text'])),marker_global=int(gdb.parse_and_eval('&rc_source_marker')),marker_global_bytes=gdb.parse_and_eval('rc_source_marker').type.sizeof,enabled_before=int(gdb.parse_and_eval('rc_macro_listing_enabled')),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
+        entry=dict(pointer=int(macro),object=int(marker.address),object_bytes=marker.type.sizeof,formal_bytes=macro.type.sizeof,parent=parent.name(),record=listing_memory(int(macro),16),name=int(value['name']),name_bytes=listing_wide(int(value['name'])),text=int(value['text']),text_bytes=listing_wide(int(value['text'])),marker_global=int(gdb.parse_and_eval('&rc_source_marker')),marker_global_bytes=gdb.parse_and_eval('rc_source_marker').type.sizeof,enabled_before=int(gdb.parse_and_eval('rc_apstudio')),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
         macro_listings.append(entry);save_macro_listings();MacroListingReturned(frame,entry);return False
 MacroListingEntered('rc_list_macro',internal=True);save_macro_listings()
 

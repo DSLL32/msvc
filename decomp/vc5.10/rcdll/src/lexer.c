@@ -53,7 +53,7 @@ redispatch:
         token=0x34;break;
     case 3:                         /* Source boundary or a line splice. */
         if(rc_source_cursor[-1]==L'\\') goto splice;
-        if(!rc_source_depth){
+        if(!rc_expanding_macro){
             if(rc_refill_source()&&!rc_open_source_frame()){
                 RETURN_OPERATOR(0x66)
             }
@@ -229,7 +229,7 @@ dot_done:
         ++rc_source_cursor;
         goto read_character;
     case 40:                        /* Identifier, possibly a macro. */
-        if(rc_source_depth<1)rc_read_identifier(rc_source_cursor[-1]);
+        if(rc_expanding_macro<1)rc_read_identifier(rc_source_cursor[-1]);
         else if(!rc_read_macro_identifier(rc_source_cursor[-1]))goto identifier;
         macro=rc_find_macro();
         if(macro&&!macro->flags&&rc_expand_macro(macro))goto read_character;
@@ -246,7 +246,7 @@ identifier:
     case 41:
     case 43:                        /* Internal preprocessor markers. */
         character=rc_source_cursor[-1];
-        if((!rc_keep_internal_marker||character!=0xe001)&&character!=0xe000&&character!=0xe002)
+        if((!rc_apstudio||character!=0xe001)&&character!=0xe000&&character!=0xe002)
             goto invalid_character;
         rc_write_preprocessed(rc_source_cursor-1,2,1,rc_cpp_output_file);
         goto read_character;

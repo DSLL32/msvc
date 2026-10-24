@@ -14,7 +14,6 @@ int rc_condition_state[32];
 /* The lexer starts immediately after a newline token. */
 unsigned char rc_token_kind=1;
 RcTokenExtra rc_token_extra;
-int rc_keep_internal_marker;
 void *rc_token_value;
 
 void __cdecl rc_handle_directive(void)

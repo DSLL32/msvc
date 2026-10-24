@@ -46,7 +46,7 @@ void __stdcall rc_list_macro(RcMacro *macro)
 {
     int length;
 
-    if(!rc_macro_listing_enabled || !rc_cpp_output_file) return;
+    if(!rc_apstudio || !rc_cpp_output_file) return;
     if(!wcscmp(macro->name,L"APSTUDIO_READONLY_SYMBOLS"))
         rc_macro_listing_readonly=1;
     else if(!wcscmp(macro->name,L"APSTUDIO_HIDDEN_SYMBOLS"))

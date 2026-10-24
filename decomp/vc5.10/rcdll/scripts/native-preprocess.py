@@ -27,7 +27,7 @@ def macro_owned_bytes(pointer):
 def capture_preprocessor(path):
     specification=json.loads(path.read_text());state={}
     for row in specification['globals']:
-        value=gdb.parse_and_eval(row['name']);address=int(value.address)
+        value=gdb.parse_and_eval(row.get('native_expression',row['name']));address=int(value.address)
         record=dict(address=address,bytes=bytes(gdb.selected_inferior().read_memory(address,row['bytes'])).hex())
         if row['kind']=='address-identity':record['identity_address']=int(gdb.parse_and_eval('&'+row['identity']))
         if row['kind']=='wide-string':record['text']=wide_bytes(int(value))

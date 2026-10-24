@@ -1841,9 +1841,12 @@ def angle_name_trial(original,native):
     proof['trial']='rc_parse_angle_name';return proof
 
 
-def _include_search_checkpoint(original,native,comment=False,matcher=False,block=False,push=False,define=False,replacement=False,bounds=False,lookup=False,evaluate=False,conditional=False,logical_or=False,logical_and=False,bitwise_or=False,bitwise_xor=False,bitwise_and=False,equality=False,relational=False,shift=False,additive=False,multiplicative=False,unary=False):
+def _include_search_checkpoint(original,native,comment=False,matcher=False,block=False,push=False,define=False,replacement=False,bounds=False,lookup=False,evaluate=False,conditional=False,logical_or=False,logical_and=False,bitwise_or=False,bitwise_xor=False,bitwise_and=False,equality=False,relational=False,shift=False,additive=False,multiplicative=False,unary=False,lexer_correction=False):
     trial='rc_parse_unary'if unary else'rc_parse_multiplicative'if multiplicative else'rc_parse_additive'if additive else'rc_parse_shift'if shift else'rc_parse_relational'if relational else'rc_parse_equality'if equality else'rc_parse_bitwise_and'if bitwise_and else'rc_parse_bitwise_xor'if bitwise_xor else'rc_parse_bitwise_or'if bitwise_or else'rc_parse_logical_and'if logical_and else'rc_parse_logical_or'if logical_or else'rc_parse_conditional_expression'if conditional else'rc_evaluate_condition'if evaluate else'rc_find_macro_parameter'if lookup else'rc_check_macro_space'if bounds else'rc_read_macro_replacement'if replacement else'rc_parse_define'if define else'rc_push_condition'if push else'rc_skip_block_comment'if block else'rc_match_logical_character'if matcher else'rc_scan_comment'if comment else'rc_search_include_directories';frontier='rc_accept_expression_token'if unary else'rc_parse_unary'if multiplicative else'rc_parse_multiplicative'if additive else'rc_parse_additive'if shift else'rc_parse_shift'if relational else'rc_parse_relational'if equality else'rc_parse_equality'if bitwise_and else'rc_parse_bitwise_and'if bitwise_xor else'rc_parse_bitwise_xor'if bitwise_or else'rc_parse_bitwise_or'if logical_and else'rc_parse_logical_and'if logical_or else'rc_parse_logical_or'if conditional else'rc_parse_conditional_expression'if evaluate else'rc_evaluate_condition'if lookup else'rc_find_macro_parameter'if bounds else'rc_check_macro_space'if replacement else'rc_read_macro_replacement'if define else'rc_parse_define'if push else'rc_push_condition'if block else'rc_skip_block_comment'if matcher else'rc_match_logical_character'if comment else'rc_scan_comment';caller='rc_parse_unary'if unary else'rc_parse_multiplicative'if multiplicative else'rc_parse_additive'if additive else'rc_parse_shift'if shift else'rc_parse_relational'if relational else'rc_parse_equality'if equality else'rc_parse_bitwise_and'if bitwise_and else'rc_parse_bitwise_xor'if bitwise_xor else'rc_parse_bitwise_or'if bitwise_or else'rc_parse_logical_and'if logical_and else'rc_parse_logical_or'if logical_or else'rc_parse_conditional_expression'if conditional else'rc_evaluate_condition'if evaluate else'rc_handle_directive'if lookup else'rc_read_macro_replacement'if bounds or replacement else'rc_parse_define'if define else'rc_handle_directive'if block or push else'rc_scan_comment'if comment or matcher else'rc_scan_line_start';source_offset=4662 if lookup else 592 if bounds else 580 if replacement else 578 if define else 492 if push else 476 if block else 4 if matcher else 2;source_word=32 if lookup else 35 if bounds else 120 if replacement else 48 if define else 32 if push else 10 if block else 43 if matcher else 42
-    config=read_configuration(original/'functions.json');assert config.get('trial_function')==trial and len(config['accepted'])==(80 if unary else 79 if multiplicative else 78 if additive else 77 if shift else 76 if relational else 75 if equality else 74 if bitwise_and else 73 if bitwise_xor else 72 if bitwise_or else 71 if logical_and else 70 if logical_or else 69 if conditional else 68 if evaluate else 67 if lookup else 66 if bounds else 65 if replacement else 64 if define else 63 if push else 62 if block else 61 if matcher else 60 if comment else 59)
+    config=read_configuration(original/'functions.json')
+    if lexer_correction:
+        assert unary and not config.get('trial_function')and len(config['accepted'])==81 and config['accepted'][-1]=='rc_parse_unary'
+    else:assert config.get('trial_function')==trial and len(config['accepted'])==(80 if unary else 79 if multiplicative else 78 if additive else 77 if shift else 76 if relational else 75 if equality else 74 if bitwise_and else 73 if bitwise_xor else 72 if bitwise_or else 71 if logical_and else 70 if logical_or else 69 if conditional else 68 if evaluate else 67 if lookup else 66 if bounds else 65 if replacement else 64 if define else 63 if push else 62 if block else 61 if matcher else 60 if comment else 59)
     a,b,proof=checkpoint(original,native,frontier,('rc_input_temporary','rc_output_temporary'))
     assert a['words'][0]==(0x71c22ff4 if unary else 0x71c22f9e if multiplicative else 0x71c22f6a if additive else 0x71c22f34 if shift else 0x71c22ec2 if relational else 0x71c22e82 if equality else 0x71c22e62 if bitwise_and else 0x71c22e42 if bitwise_xor else 0x71c22e22 if bitwise_or else 0x71c22df5 if logical_and else 0x71c22dcc if logical_or else 0x71c22d8d if conditional else 0x71c22cd7 if evaluate else 0x71c264a8 if lookup else 0x71c250a4 if bounds else 0x71c24e3c if replacement else 0x71c249eb if define else 0x71c2651c if push else 0x71c2674b if block else 0x71c32a12 if matcher else 0x71c32a09 if comment else 0x71c3216d)and re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     assert proof['application_trace'][-1]==trial
@@ -1898,8 +1901,14 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
     if evaluate:
         # A new evaluator is appended after the complete prior translation unit;
         # the marker owner itself remains byte-for-byte source-identical.
-        assert new_source['contents'][key]['text'].startswith(old_source['contents'][key]['text'])
-        assert new_source['contents'][key]['text'][len(old_source['contents'][key]['text']):].startswith('\n/* Balance is reset before each preprocessing constant expression. */')
+        prior_text=old_source['contents'][key]['text']
+        # Explicit zero-credit alias correction removes only this unrelated
+        # duplicate declaration; the entire marker owner is still identical.
+        if 'int rc_keep_internal_marker;\n'not in new_source['contents'][key]['text']:
+            assert prior_text.count('int rc_keep_internal_marker;\n')==1
+            prior_text=prior_text.replace('int rc_keep_internal_marker;\n','',1)
+        assert new_source['contents'][key]['text'].startswith(prior_text)
+        assert new_source['contents'][key]['text'][len(prior_text):].startswith('\n/* Balance is reset before each preprocessing constant expression. */')
     else:assert old_source['contents'][key]==new_source['contents'][key]
     import subprocess
     symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'captured-native.elf')],text=True);symbol=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) T rc_handle_directive$',symbols,re.M);assert len(symbol)==1
@@ -2080,6 +2089,15 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
         frontier_elf=re.findall(r'^([0-9a-f]+) [0-9a-f]+ T '+re.escape(b['function'])+r'$',symbols,re.M);assert len(frontier_elf)==1
         frontier_runtime=re.findall(r'^Symbol "'+re.escape(b['function'])+r'" is a function at address (0x[0-9a-f]+)',(native/'gdb.stdout').read_text(),re.M);assert len(frontier_runtime)==1
         assert state['expression_token_address']-lookahead_elf==state['lexer_token_address']-lexer_elf==int(frontier_runtime[0],16)-int(frontier_elf[0],16)
+        listing_alias=next(row for row in json.loads((native/'preprocess-data.json').read_text())['globals']if row['name']=='rc_macro_listing_enabled')
+        if listing_alias.get('native_expression')=='rc_apstudio':
+            apstudio_elf,apstudio_width=data_symbol('rc_apstudio');assert apstudio_width==4
+            assert globals['rc_macro_listing_enabled']['address']-apstudio_elf==int(frontier_runtime[0],16)-int(frontier_elf[0],16)
+            assert globals['rc_macro_listing_enabled']['bytes']==b['globals']['rc_apstudio']==old_globals[0x25058-0x14000:0x2505c-0x14000].hex()
+            for control,rva in [('rc_expanding_macro',0x16f00),('rc_source_depth',0x14a10)]:
+                control_elf,control_width=data_symbol(control);assert control_width==4
+                assert globals[control]['address']-control_elf==int(frontier_runtime[0],16)-int(frontier_elf[0],16)
+                assert globals[control]['bytes']==old_globals[rva-0x14000:rva-0x14000+4].hex()
         assert state['lexer_token']==old_globals[0x144f4-0x14000]==bytes.fromhex(globals['rc_token_kind']['bytes'])[0]
         assert raw_bytes(text,'expression-parentheses')==struct.pack('<i',0)and raw_bytes(text,'expression-token')==bytes([1])
         assert struct.unpack_from('<i',old_globals,0x18e7c-0x14000)[0]==state['parentheses']and old_globals[0x149dc-0x14000]==state['token_kind']

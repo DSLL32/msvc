@@ -31,6 +31,10 @@ build/native/rcdll-host: $(NATIVE_OBJECTS) scripts/native-host.c $(NATIVE_SHIMS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/native-host.c $(NATIVE_SHIMS) -o $@
 	$(PYTHON) scripts/source-snapshot.py native build/native-source.json
 native: build/native/rcdll-host build/help-resources.bin
+
+build/native/lexer-state-host: $(NATIVE_OBJECTS) scripts/lexer-state-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/lexer-state-host.c $(NATIVE_SHIMS) -o $@
+	$(PYTHON) scripts/source-snapshot.py native build/native-lexer-state-source.json --host scripts/lexer-state-host.c
 fixtures check: native
 	$(PYTHON) scripts/fixtures.py
 build/debug-original.obj: scripts/debug-original.c | build

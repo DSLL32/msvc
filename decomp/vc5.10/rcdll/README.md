@@ -673,3 +673,10 @@ records seventeen affected semantic controls, both token globals' distinct
 storage/widths, full unchanged live source state, both builds, graph/ABI checks
 and cached native help. Matcher prefetch/result and primary/unary operands
 remain pending; the147-byte primary parser is a named dependency.
+
+The [lexer storage correction](cases/resources-rich-trailing-space/lexer-storage-correction.json)
+binds expansion depth16f00 separately from include depth14a10, and unifies
+command/listing/marker state25058 as `rc_apstudio`. Earlier source confused
+these identities. A bounded26-control address/width review, opposite-state
+production-object branch tests and coherent wrong-storage negatives check the
+correction. Historical raw stays unchanged; this adds no reconstruction credit.
