@@ -1164,13 +1164,16 @@
       "native": "write_file",
       "symbol": "_write_file",
       "original": 173680,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        173680,
+        173728
+      ],
       "abi": "int write_file(int,const void *,unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0144-write_file/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -1195,7 +1198,21 @@
           "kind": "integer",
           "bits": 32
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "truncate_file",
@@ -7490,6 +7507,80 @@
           }
         ]
       }
+    },
+    {
+      "name": "write_buffered_file",
+      "native": "write_buffered_file",
+      "symbol": "_write_buffered_file",
+      "original": 173136,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int write_buffered_file(FileSlot *,const void *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "file-slot"
+        },
+        {
+          "name": "buffer",
+          "slot": 2,
+          "kind": "global-owner",
+          "root": "output_buffer",
+          "original_root": 210368,
+          "size_global": "output_capacity",
+          "length_slot": 3
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "write_mapped_file",
+      "native": "write_mapped_file",
+      "symbol": "_write_mapped_file",
+      "original": 175104,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int write_mapped_file(FileSlot *,const void *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "file-slot"
+        },
+        {
+          "name": "buffer",
+          "slot": 2,
+          "kind": "global-owner",
+          "root": "output_buffer",
+          "original_root": 210368,
+          "size_global": "output_capacity",
+          "length_slot": 3
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
     }
   ],
   "review": {
@@ -8374,6 +8465,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 143
+    },
+    {
+      "function": "write_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 144
     }
   ],
   "support_unmasked": [
@@ -8984,7 +9081,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "0133e1b16566da980bd91f8bc8050fb08f53e210c423eee8f39b8abdebc35d0d"
+    "evidence_sha256": "ee29e94edcc03c760280d9cfe54d153d3cf3424145b853cc06cba01bac38fa75"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9008,7 +9105,7 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "fe62e3e7bd9d0d04fb634fd2a33cf6e3547d70bece9d944cce7e1fa3b183e20c"
+    "evidence_sha256": "a3cac8cc96124e599de2f64773afd446d7ff9d541eba73d020e0fcd63ee1d0f4"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
@@ -9060,6 +9157,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "e9e24f13a9257d8c93f50c0b8475b90d2cf33e43d238b3ae26bb3b5ece12c187"
+    "sha256": "7808f9e6bf30b236e52f580bb657068c69ee5c25b9efde0e7679dd0248ded468"
   }
 }

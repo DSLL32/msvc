@@ -421,3 +421,10 @@ unsigned char release_page(Page *page)
     free_pages = page;
     return 1;
 }
+
+int write_file(int handle, const void *buffer, unsigned long size)
+{
+    FileSlot *slot = file_slots[handle];
+    if (slot->flags & 8) return write_mapped_file(slot, buffer, size);
+    return write_buffered_file(slot, buffer, size);
+}

@@ -62,6 +62,8 @@ void grow_page_table(FileSlot *);
 Page *allocate_file_page(FileSlot *,long);
 void read_file_page(FileSlot *);
 int read_buffered_file(FileSlot *,void *,unsigned long);
+int write_buffered_file(FileSlot *,const void *,unsigned long);
+int write_mapped_file(FileSlot *,const void *,unsigned long);
 int read_mapped_file(FileSlot *,void *,unsigned long);
 void advance_file_page(FileSlot *);
 void flush_file_page(Page *);

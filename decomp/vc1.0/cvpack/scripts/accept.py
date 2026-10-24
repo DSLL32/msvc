@@ -142,6 +142,14 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
             callback=next(r for r in config['functions']if r['name']==item['target']);actual=state['parameters'][item['name']]
             assert words[item['slot']]==item['original_target']==callback['original']and actual['function']==callback['native']and not actual['null'],'callback ABI identity differs'
             parameters[item['name']]=dict(original_address=words[item['slot']],native_address=actual['address'],function=callback['name'])
+        elif item['kind']=='file-slot':
+            pointer=words[item['slot']];actual=state['parameters'][item['name']]
+            rows=re.findall(r'^file-slot-owner %08x (\d+) ([0-9a-f]+) (\d+)$'%pointer,events,re.M);assert len(rows)==1,'missing actual published FileSlot owner'
+            handle,table,limit=rows[0];handle,limit=int(handle),int(limit);assert actual['owner']==dict(handle=handle,limit=limit)and 0<=handle<limit<=64,'FileSlot table index/count differs'
+            raw=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%pointer,events,re.M);assert len(raw)==1,'missing FileSlot raw input'
+            old,new=bytes.fromhex(raw[0]),bytes.fromhex(actual['bytes']);assert len(old)==len(new)==40 and int.from_bytes(old[8:12],'little')==handle and not actual['null'],'FileSlot handle/extent differs'
+            assert old[4:20]==new[4:20]and old[28:32]==new[28:32]and not(old[4]&8),'FileSlot buffered scalar fields differ'
+            parameters[item['name']]=dict(original_address=pointer,native_address=actual['address'],handle=handle,table_limit=limit,original_raw=old.hex(),native_raw=new.hex(),compared_ranges=[[4,20],[28,32]],scope='Published file_slots[handle] identity and buffered scalar inputs; pointer raw retained, no all-page/heap equality claim')
         elif item['kind']=='global-owner':parameters[item['name']]=compare_global_owner(item,words,state['parameters'][item['name']],events)
         elif item['kind']in('directory-key','directory-output'):parameters[item['name']]=compare_directory_key(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='counted-string':parameters[item['name']]=compare_counted_name(item,words,state['parameters'][item['name']],events)
