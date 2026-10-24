@@ -458,3 +458,11 @@ int write_buffered_file(FileSlot *slot, const void *buffer, unsigned long size)
     }
     return size;
 }
+
+int truncate_file(int handle, long size)
+{
+    FileSlot *slot = file_slots[handle];
+    if (slot->length == size) return 0;
+    if (slot->flags & 8) return truncate_mapped_file(slot, size);
+    return truncate_buffered_file(slot, size);
+}

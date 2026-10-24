@@ -64,6 +64,8 @@ void read_file_page(FileSlot *);
 int read_buffered_file(FileSlot *,void *,unsigned long);
 int write_buffered_file(FileSlot *,const void *,unsigned long);
 int write_mapped_file(FileSlot *,const void *,unsigned long);
+int truncate_buffered_file(FileSlot *,long);
+int truncate_mapped_file(FileSlot *,long);
 int read_mapped_file(FileSlot *,void *,unsigned long);
 void advance_file_page(FileSlot *);
 void flush_file_page(Page *);

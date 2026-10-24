@@ -1219,13 +1219,16 @@
       "native": "truncate_file",
       "symbol": "_truncate_file",
       "original": 170912,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        170912,
+        170969
+      ],
       "abi": "int truncate_file(int,long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0146-truncate_file/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -1241,7 +1244,21 @@
           "kind": "integer",
           "bits": 32
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "read_cv_signature",
@@ -7598,6 +7615,62 @@
           "bits": 32
         }
       ]
+    },
+    {
+      "name": "truncate_buffered_file",
+      "native": "truncate_buffered_file",
+      "symbol": "_truncate_buffered_file",
+      "original": 171088,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int truncate_buffered_file(FileSlot *,long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "file-slot"
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "truncate_mapped_file",
+      "native": "truncate_mapped_file",
+      "symbol": "_truncate_mapped_file",
+      "original": 170976,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int truncate_mapped_file(FileSlot *,long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "file-slot"
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
     }
   ],
   "review": {
@@ -8494,6 +8567,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 145
+    },
+    {
+      "function": "truncate_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 146
     }
   ],
   "support_unmasked": [
@@ -9104,7 +9183,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "cdf372c491a331a15bce5f27901e4a55c82531c6a8b462ea4ca3475d2254b928"
+    "evidence_sha256": "4b07ac6a0b9135f115514731b25709fd5a0cffe2006ceeb4e37e9671e4e5bcea"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9128,7 +9207,7 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "49ac8449d703274c01325e5669fe5ea692cd33111d1c947aa702bb111feb5089"
+    "evidence_sha256": "3a67681e90b959b15db3d7b87a634f81c0a8ad0ae95d910ed5f14d528f2b5f1c"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
@@ -9180,6 +9259,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "55277fc460513da0a6dab24f3ae06965a654a06fd623b79cc8b841935f5922f0"
+    "sha256": "e93be4e85ec227d70156dcd81426e7658ffe22a32a04a8e22e899f0dca4f5b60"
   }
 }
