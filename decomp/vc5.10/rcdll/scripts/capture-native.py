@@ -13,7 +13,7 @@ HERE=Path(__file__).resolve().parents[1]
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def main():
     p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--argv0',required=True);p.add_argument('--module-path',required=True);p.add_argument('--negative-module-sha');p.add_argument('--configuration',type=Path);p.add_argument('--reference',type=Path);p.add_argument('--original-inputs',type=Path);p.add_argument('--compiler-frame',action='store_true')
-    p.add_argument('--errno-history',action='store_true');p.add_argument('--expression-probe',action='store_true')
+    p.add_argument('--errno-history',action='store_true');p.add_argument('--expression-probe',action='store_true');p.add_argument('--timeout',type=float,default=45)
     a=p.parse_args();out=a.output.resolve()
     if out.exists():p.error('output must be new')
     out.mkdir(parents=True)
@@ -90,7 +90,7 @@ def main():
     (out/'trace-filter.txt').write_text(''.join(native_name(name)+'\n'for name in names));(out/'trace-seen.txt').write_text('')
     with (out/'trace.txt').open('wb') as trace:
         env.update(RECON_TRACE_FD=str(trace.fileno()),RECON_TRACE_FILTER=str(out/'trace-filter.txt'),RECON_TRACE_SEEN=str(out/'trace-seen.txt'))
-        started=time.perf_counter();result=subprocess.run(command,cwd=cwd,env=env,capture_output=True,timeout=15,pass_fds=(trace.fileno(),));elapsed=time.perf_counter()-started
+        started=time.perf_counter();result=subprocess.run(command,cwd=cwd,env=env,capture_output=True,timeout=a.timeout,pass_fds=(trace.fileno(),));elapsed=time.perf_counter()-started
     (out/'gdb.stdout').write_bytes(result.stdout);(out/'gdb.stderr').write_bytes(result.stderr)
     report=dict(expression_store_probe=a.expression_probe,status=result.returncode,elapsed_seconds=elapsed,native_sha256=sha(native),candidate_sha256=sha(config),command=command,files={f.name:dict(bytes=f.stat().st_size,sha256=sha(f)) for f in out.iterdir() if f.is_file()})
     if a.reference:

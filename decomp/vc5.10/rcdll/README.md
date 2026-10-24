@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighty-four application functions (23,964 original code bytes), two embedded CRT functions
+Eighty-five application functions (24,119 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_push_macro`.
+currently matches at the next named trap, `rc_select_macro_text`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 36.15% (84 functions). This denominator
+bytes. Current accepted application extent coverage is 36.38% (85 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -724,3 +724,11 @@ array match. [Verification](cases/resources-rich-trailing-space/macro-expansion-
 records17 fresh semantic negatives, an opposite-state production-ELF store probe,
 both builds, graph/ABI checks and cached native help. Six named dependencies
 remain traps; no completed expansion or rich-case result is claimed.
+
+Macro-context push is reconstructed (155 bytes), returning with RET4 and saving
+the first typed20-byte frame. [Verification](cases/resources-rich-trailing-space/macro-push-verification.json)
+records the actual counter/pointer transitions, untouched frame/reserved bytes,
+18 affected negatives, a nonzero-state production probe, both builds, graph/ABI
+checks and native help. The next no-argument selector and whole expansion remain
+pending. The record retains an earlier15-second debugger timeout and native-only
+retry; native fixtures still take about9ms.

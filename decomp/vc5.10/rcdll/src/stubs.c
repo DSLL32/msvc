@@ -239,10 +239,6 @@ int __stdcall rc_collect_macro_identifier(WCHAR first)
     return 0;
 }
 
-void __stdcall rc_push_macro(RcMacro *macro)
-{
-    __asm int 3
-}
 void __cdecl rc_select_macro_text(void)
 {
     __asm int 3

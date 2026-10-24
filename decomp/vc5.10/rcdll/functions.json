@@ -89,7 +89,8 @@
     "rc_evaluate_defined",
     "rc_skip_expression_space",
     "rc_parse_primary",
-    "rc_expand_macro"
+    "rc_expand_macro",
+    "rc_push_macro"
   ],
   "functions": [
     {

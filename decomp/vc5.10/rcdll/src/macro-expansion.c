@@ -146,3 +146,24 @@ continue_expansion:
     }
     return result;
 }
+
+void __stdcall rc_push_macro(RcMacro *macro)
+{
+    ++rc_expanding_macro;
+    if(rc_expanding_macro>=64){
+        rc_error_template=rc_message(1009);
+        rc_format(rc_error_text,2048,rc_error_template,rc_macro_name);
+        rc_input_fatal(1009);
+    }
+#ifdef RECON_NATIVE_TEST
+    if(rc_expanding_macro<0||rc_expanding_macro>=64){ __asm int 3 }
+#endif
+    ++rc_number_buffer_active;
+    rc_macro_frames[rc_expanding_macro].macro=macro;
+    rc_macro_frames[rc_expanding_macro].output=rc_saved_macro_output;
+    rc_macro_frames[rc_expanding_macro].arguments=(unsigned char)rc_expanded_argument_count;
+    rc_macro_frames[rc_expanding_macro].expanded=0;
+    rc_macro_frames[rc_expanding_macro].source=rc_source_cursor;
+    rc_number_buffer=rc_saved_macro_number;
+    rc_macro_frames[rc_expanding_macro].number=rc_saved_macro_number;
+}

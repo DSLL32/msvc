@@ -790,3 +790,20 @@ class PrimaryEntered(gdb.Breakpoint):
         frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=primary_state())
         primary_calls.append(entry);save_primary_calls();PrimaryReturned(frame,entry);return False
 PrimaryEntered('rc_parse_primary',internal=True);save_primary_calls()
+
+macro_push_calls=[]
+def save_macro_push_calls():(path.parent/'macro-push-calls.json').write_text(json.dumps(macro_push_calls,indent=2)+'\n')
+def macro_push_state():
+    names=['rc_expanding_macro','rc_number_buffer_active','rc_source_cursor','rc_number_buffer','rc_saved_macro_number','rc_saved_macro_output','rc_expanded_argument_count']
+    result={name:dict(value=int(gdb.parse_and_eval(name)),address=int(gdb.parse_and_eval('&'+name)),bytes=gdb.parse_and_eval(name).type.sizeof)for name in names}
+    value=gdb.parse_and_eval('rc_macro_frames');result['frames']=dict(address=int(value.address),bytes=value.type.sizeof,contents=bytes(gdb.selected_inferior().read_memory(int(value.address),value.type.sizeof)).hex());return result
+class MacroPushReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,after=macro_push_state());save_macro_push_calls();return False
+class MacroPushEntered(gdb.Breakpoint):
+    def stop(self):
+        if len(macro_push_calls)>=64:self.enabled=False;return False
+        frame=gdb.newest_frame();formal=frame.read_var('macro');entry=dict(formals=[dict(name='macro',value=int(formal),bytes=formal.type.sizeof)],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),before=macro_push_state())
+        macro_push_calls.append(entry);save_macro_push_calls();MacroPushReturned(frame,entry);return False
+MacroPushEntered('rc_push_macro',internal=True);save_macro_push_calls()
