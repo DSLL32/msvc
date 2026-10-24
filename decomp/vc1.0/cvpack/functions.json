@@ -3064,7 +3064,8 @@
         {
           "name": "record",
           "register": "ecx",
-          "kind": "pointer"
+          "kind": "pointer",
+          "null_only": true
         },
         {
           "name": "is_new",

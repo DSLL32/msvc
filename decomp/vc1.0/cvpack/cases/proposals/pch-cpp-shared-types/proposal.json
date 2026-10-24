@@ -1,5 +1,5 @@
 {
-  "status": "proposed-root-review",
+  "status": "approved-and-original-validated",
   "case": "pch-cpp-shared-types",
   "input_plan": "Original VC1 two-translation-unit Win32 C++ DLL: create shared header PCH in firstTU with /Yc and reuse in second with /Yu, both /Od /Z7 /G3. Link genuine /debug:full /debugtype:cv /nopack. Preserve emitted original NB05/PCH subsection and signature identity; freeze only after successful unmasked standalone CVPACK.",
   "argv": [
@@ -36,5 +36,16 @@
     "reached_exact_runtime_import_union_bytes": 15799,
     "non_CRT_denominator": null,
     "uncertainty": "Unclassified remainder still includes native/support functions, unused CRT, padding and data. No nonCRT completion claim; CRT catalogue padding aliases prevent unconditional subtraction."
+  },
+  "actual_inventory": "cases/pch-cpp-shared-types/build-provenance/inventory.json",
+  "actual_precompiled_linkage": {
+    "producer_module": 3,
+    "producer_subsection": "0x12f",
+    "producer_bytes": 94524,
+    "consumer_module": 2,
+    "consumer_bytes": 3892,
+    "signature": "0x504e",
+    "consumer_reference": "pch-create.obj",
+    "type_count": "0x15e7"
   }
 }

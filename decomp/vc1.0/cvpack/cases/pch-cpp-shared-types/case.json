@@ -1,0 +1,89 @@
+{
+  "name": "pch-cpp-shared-types",
+  "argv": [
+    "/nologo",
+    "/cvnew",
+    "/verbose",
+    "/mapio",
+    "pch-cpp.dll"
+  ],
+  "inputs": [
+    {
+      "path": "decomp/vc1.0/cvpack/cases/pch-cpp-shared-types/input/pch-cpp.dll",
+      "name": "pch-cpp.dll",
+      "bytes": 2097152,
+      "sha256": "b54198873c4d98a7a247dbee97ec45d2a32ae3876ed364c9236b9fd6c8c3a5ae"
+    }
+  ],
+  "current": {
+    "terminal": "trap",
+    "logical": "add_old_type",
+    "native_function": "add_old_type",
+    "application_trace": [
+      "main",
+      "parse_options",
+      "files_initialize",
+      "new_page",
+      "new_file_slot",
+      "open_file",
+      "find_cached_file",
+      "acquire_file_slot",
+      "move_file_slot",
+      "open_mapped_file",
+      "map_file",
+      "initialize_type_tables",
+      "checked_zero",
+      "initialize_buffer",
+      "checked_alloc",
+      "read_image_debug",
+      "seek_file",
+      "seek_mapped_file",
+      "read_file",
+      "read_mapped_file",
+      "tell_file",
+      "read_cv_signature",
+      "read_new_directory",
+      "compare_directory",
+      "initialize_modules",
+      "read_subsection",
+      "find_module",
+      "pack_module",
+      "read_module",
+      "read_publics",
+      "read_types",
+      "read_global_types",
+      "read_new_global_types",
+      "reset_local_types",
+      "add_old_type"
+    ],
+    "stdout": "frontier.stdout",
+    "stderr": "frontier.stderr",
+    "proof_mode": "entry-flow",
+    "observed_globals": [],
+    "observed_walks": [],
+    "artifacts": []
+  },
+  "status": "active",
+  "complete_reference": {
+    "terminal": "exit",
+    "exit": 0,
+    "artifacts": [
+      {
+        "name": "pch-cpp.dll",
+        "bytes": 2097152,
+        "sha256": "9b75ce0f27ea6025cba82e1dc1ab97dcfbb06725c40ac5a30ac2c76ebbbabd1e"
+      }
+    ],
+    "stdout": "reference/stdout",
+    "stderr": "reference/stderr"
+  },
+  "native_host_allocator": {
+    "profile": "cases/pch-cpp-shared-types/native-host-allocator/profile.json",
+    "sha256": "eab58cfd82d89346b279d7544d10804b9ceb213f6c6e6ed14b8cd5f606b9ba86"
+  },
+  "initial_frontier": {
+    "original": "0x1e530",
+    "native": "add_old_type",
+    "scope": "Baseline named trap; actual ECX=NULL, EDX=1 and three stack values0. No new application acceptance."
+  }
+}

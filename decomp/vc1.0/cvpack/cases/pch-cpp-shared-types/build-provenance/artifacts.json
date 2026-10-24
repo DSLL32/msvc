@@ -1,0 +1,18 @@
+{
+  "pch-create.obj": {
+    "bytes": 465647,
+    "sha256": "e95d4ecd8e2e2d90fd516dd73c773f1ef3a8cb0461d389ad46b601e5a04d103a"
+  },
+  "pch-use.obj": {
+    "bytes": 230785,
+    "sha256": "b97b60d564b3124866def5d757d3ace2ead80c1e56a80543986c42e8557a6001"
+  },
+  "shared-types.pch": {
+    "bytes": 421222,
+    "sha256": "33e8cab078ab379aafc95e2b8b1ca03631ab2b79f93637fe26e475de833a09ca"
+  },
+  "pch-cpp.dll": {
+    "bytes": 2097152,
+    "sha256": "b54198873c4d98a7a247dbee97ec45d2a32ae3876ed364c9236b9fd6c8c3a5ae"
+  }
+}

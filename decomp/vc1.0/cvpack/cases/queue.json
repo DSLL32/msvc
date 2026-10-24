@@ -29,6 +29,17 @@
       ],
       "status": "complete",
       "completion": "cases/embedded-cpp-mapped/evidence/0166-close_mapped_file/proof.json"
+    },
+    {
+      "name": "pch-cpp-shared-types",
+      "argv": [
+        "/nologo",
+        "/cvnew",
+        "/verbose",
+        "/mapio",
+        "pch-cpp.dll"
+      ],
+      "status": "active"
     }
   ]
 }

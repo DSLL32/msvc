@@ -1,0 +1,563 @@
+{
+  "path": "/root/.ai-tmp/vc1.0-cvpack/pch-cpp-build/pch-cpp.dll",
+  "bytes": 2097152,
+  "sha256": "b54198873c4d98a7a247dbee97ec45d2a32ae3876ed364c9236b9fd6c8c3a5ae",
+  "debug": [
+    {
+      "kind": 1,
+      "size": 192737,
+      "rva": 0,
+      "offset": 55808
+    },
+    {
+      "kind": 2,
+      "size": 225982,
+      "rva": 0,
+      "offset": 331588,
+      "signature": "NB05",
+      "directory_header": [
+        16,
+        12,
+        80,
+        0,
+        0
+      ],
+      "subsection_counts": {
+        "0x120": 44,
+        "0x123": 18,
+        "0x124": 14,
+        "0x121": 1,
+        "0x12f": 1,
+        "0x128": 1,
+        "0x12d": 1
+      },
+      "entries": [
+        {
+          "subsection": "0x120",
+          "module": 1,
+          "offset": 189164,
+          "size": 20
+        },
+        {
+          "subsection": "0x120",
+          "module": 2,
+          "offset": 189184,
+          "size": 32
+        },
+        {
+          "subsection": "0x120",
+          "module": 3,
+          "offset": 189216,
+          "size": 35
+        },
+        {
+          "subsection": "0x120",
+          "module": 4,
+          "offset": 189251,
+          "size": 47
+        },
+        {
+          "subsection": "0x120",
+          "module": 5,
+          "offset": 189298,
+          "size": 46
+        },
+        {
+          "subsection": "0x120",
+          "module": 6,
+          "offset": 189344,
+          "size": 47
+        },
+        {
+          "subsection": "0x120",
+          "module": 7,
+          "offset": 189391,
+          "size": 47
+        },
+        {
+          "subsection": "0x120",
+          "module": 8,
+          "offset": 189438,
+          "size": 45
+        },
+        {
+          "subsection": "0x120",
+          "module": 9,
+          "offset": 189483,
+          "size": 46
+        },
+        {
+          "subsection": "0x120",
+          "module": 10,
+          "offset": 189529,
+          "size": 34
+        },
+        {
+          "subsection": "0x120",
+          "module": 11,
+          "offset": 189563,
+          "size": 49
+        },
+        {
+          "subsection": "0x120",
+          "module": 12,
+          "offset": 189612,
+          "size": 46
+        },
+        {
+          "subsection": "0x120",
+          "module": 13,
+          "offset": 189658,
+          "size": 49
+        },
+        {
+          "subsection": "0x120",
+          "module": 14,
+          "offset": 189707,
+          "size": 49
+        },
+        {
+          "subsection": "0x120",
+          "module": 15,
+          "offset": 189756,
+          "size": 47
+        },
+        {
+          "subsection": "0x120",
+          "module": 16,
+          "offset": 189803,
+          "size": 49
+        },
+        {
+          "subsection": "0x120",
+          "module": 17,
+          "offset": 189852,
+          "size": 49
+        },
+        {
+          "subsection": "0x120",
+          "module": 18,
+          "offset": 189901,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 19,
+          "offset": 189931,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 20,
+          "offset": 189961,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 21,
+          "offset": 189991,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 22,
+          "offset": 190021,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 23,
+          "offset": 190051,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 24,
+          "offset": 190081,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 25,
+          "offset": 190111,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 26,
+          "offset": 190141,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 27,
+          "offset": 190171,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 28,
+          "offset": 190201,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 29,
+          "offset": 190231,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 30,
+          "offset": 190261,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 31,
+          "offset": 190291,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 32,
+          "offset": 190321,
+          "size": 30
+        },
+        {
+          "subsection": "0x120",
+          "module": 33,
+          "offset": 190351,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 34,
+          "offset": 190393,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 35,
+          "offset": 190435,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 36,
+          "offset": 190477,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 37,
+          "offset": 190519,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 38,
+          "offset": 190561,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 39,
+          "offset": 190603,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 40,
+          "offset": 190645,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 41,
+          "offset": 190687,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 42,
+          "offset": 190729,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 43,
+          "offset": 190771,
+          "size": 42
+        },
+        {
+          "subsection": "0x120",
+          "module": 44,
+          "offset": 190813,
+          "size": 42
+        },
+        {
+          "subsection": "0x123",
+          "module": 1,
+          "offset": 190855,
+          "size": 32
+        },
+        {
+          "subsection": "0x123",
+          "module": 2,
+          "offset": 190887,
+          "size": 36
+        },
+        {
+          "subsection": "0x123",
+          "module": 3,
+          "offset": 190923,
+          "size": 31243
+        },
+        {
+          "subsection": "0x123",
+          "module": 4,
+          "offset": 222166,
+          "size": 32
+        },
+        {
+          "subsection": "0x123",
+          "module": 5,
+          "offset": 222198,
+          "size": 54
+        },
+        {
+          "subsection": "0x123",
+          "module": 6,
+          "offset": 222252,
+          "size": 90
+        },
+        {
+          "subsection": "0x123",
+          "module": 7,
+          "offset": 222342,
+          "size": 30
+        },
+        {
+          "subsection": "0x123",
+          "module": 8,
+          "offset": 222372,
+          "size": 77
+        },
+        {
+          "subsection": "0x123",
+          "module": 9,
+          "offset": 222449,
+          "size": 29
+        },
+        {
+          "subsection": "0x123",
+          "module": 10,
+          "offset": 222478,
+          "size": 164
+        },
+        {
+          "subsection": "0x123",
+          "module": 11,
+          "offset": 222642,
+          "size": 105
+        },
+        {
+          "subsection": "0x123",
+          "module": 12,
+          "offset": 222747,
+          "size": 110
+        },
+        {
+          "subsection": "0x123",
+          "module": 13,
+          "offset": 222857,
+          "size": 26
+        },
+        {
+          "subsection": "0x123",
+          "module": 14,
+          "offset": 222883,
+          "size": 26
+        },
+        {
+          "subsection": "0x123",
+          "module": 15,
+          "offset": 222909,
+          "size": 278
+        },
+        {
+          "subsection": "0x123",
+          "module": 16,
+          "offset": 223187,
+          "size": 466
+        },
+        {
+          "subsection": "0x123",
+          "module": 17,
+          "offset": 223653,
+          "size": 156
+        },
+        {
+          "subsection": "0x123",
+          "module": 18,
+          "offset": 223809,
+          "size": 889
+        },
+        {
+          "subsection": "0x124",
+          "module": 2,
+          "offset": 165511,
+          "size": 19196
+        },
+        {
+          "subsection": "0x124",
+          "module": 3,
+          "offset": 94532,
+          "size": 70979
+        },
+        {
+          "subsection": "0x124",
+          "module": 33,
+          "offset": 185226,
+          "size": 46
+        },
+        {
+          "subsection": "0x124",
+          "module": 34,
+          "offset": 185183,
+          "size": 43
+        },
+        {
+          "subsection": "0x124",
+          "module": 35,
+          "offset": 185134,
+          "size": 49
+        },
+        {
+          "subsection": "0x124",
+          "module": 36,
+          "offset": 185088,
+          "size": 46
+        },
+        {
+          "subsection": "0x124",
+          "module": 37,
+          "offset": 185043,
+          "size": 45
+        },
+        {
+          "subsection": "0x124",
+          "module": 38,
+          "offset": 184991,
+          "size": 52
+        },
+        {
+          "subsection": "0x124",
+          "module": 39,
+          "offset": 184945,
+          "size": 46
+        },
+        {
+          "subsection": "0x124",
+          "module": 40,
+          "offset": 184900,
+          "size": 45
+        },
+        {
+          "subsection": "0x124",
+          "module": 41,
+          "offset": 184855,
+          "size": 45
+        },
+        {
+          "subsection": "0x124",
+          "module": 42,
+          "offset": 184806,
+          "size": 49
+        },
+        {
+          "subsection": "0x124",
+          "module": 43,
+          "offset": 184751,
+          "size": 55
+        },
+        {
+          "subsection": "0x124",
+          "module": 44,
+          "offset": 184707,
+          "size": 44
+        },
+        {
+          "subsection": "0x121",
+          "module": 2,
+          "offset": 185272,
+          "size": 3892,
+          "signature": "01000000",
+          "head": "010000001a0013000010e7154e5000000e7063682d6372656174652e6f626af1060002000a00af1f",
+          "leaves": {
+            "0x13": 1,
+            "0x2": 480,
+            "0x201": 1,
+            "0x8": 1
+          },
+          "special": [
+            {
+              "offset": 4,
+              "leaf": "0x13",
+              "bytes": "1a0013000010e7154e5000000e7063682d6372656174652e6f626af1"
+            }
+          ]
+        },
+        {
+          "subsection": "0x12f",
+          "module": 3,
+          "offset": 8,
+          "size": 94524,
+          "signature": "01000000",
+          "head": "010000001600040006000d10060000000e1008000742617365313132060001000100001006000200",
+          "leaves": {
+            "0x4": 320,
+            "0x1": 640,
+            "0x2": 2241,
+            "0x201": 323,
+            "0x9": 1280,
+            "0x204": 322,
+            "0xa": 320,
+            "0x207": 960,
+            "0x5": 1,
+            "0x3": 1,
+            "0x7": 1,
+            "0x14": 1,
+            "0x8": 2
+          },
+          "special": [
+            {
+              "offset": 88072,
+              "leaf": "0x14",
+              "bytes": "060014004e500000"
+            }
+          ]
+        },
+        {
+          "subsection": "0x128",
+          "module": 65535,
+          "offset": 224698,
+          "size": 144
+        },
+        {
+          "subsection": "0x12d",
+          "module": 65535,
+          "offset": 224842,
+          "size": 164
+        }
+      ]
+    },
+    {
+      "kind": 3,
+      "size": 512,
+      "rva": 0,
+      "offset": 331076
+    }
+  ]
+}

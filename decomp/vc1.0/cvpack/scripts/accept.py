@@ -209,7 +209,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
         elif item['kind']=='global-owner':parameters[item['name']]=compare_global_owner(item,words,state['parameters'][item['name']],events)
         elif item['kind']in('directory-key','directory-output'):parameters[item['name']]=compare_directory_key(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='counted-string':parameters[item['name']]=compare_counted_name(item,words,state['parameters'][item['name']],events)
-        elif item['kind']=='pointer'and item.get('null_only'):parameters[item['name']]=compare_null_pointer(words[item['slot']],state['parameters'][item['name']])
+        elif item['kind']=='pointer'and item.get('null_only'):parameters[item['name']]=compare_null_pointer(words[item.get('register',item.get('slot'))],state['parameters'][item['name']])
         elif item['kind']in('stack-output','stack-input','allocation-output'):
             from stack_output import compare as compare_output
             parameters[item['name']]=compare_output(item,frontier['parameters'],words,state['parameters'],events,pe)
