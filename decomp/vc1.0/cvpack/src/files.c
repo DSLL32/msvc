@@ -659,3 +659,21 @@ int close_mapped_file(FileSlot *slot)
     slot->name = NULL;
     return result;
 }
+
+/* Evict the oldest page whose cursor is not pinned. */
+Page *remove_lru_page(void)
+{
+    Page *page = oldest_page;
+    while (page && (page->flags & 16)) page = page->newer;
+#ifdef RECON_NATIVE_TEST
+    /* The original dereferences NULL if all pages are pinned. */
+    if (!page) __asm { int 3 }
+#endif
+    if (page == oldest_page) oldest_page = page->newer;
+    else page->older->newer = page->newer;
+    if (page == newest_page) newest_page = page->older;
+    else page->newer->older = page->older;
+    page->older = NULL;
+    page->newer = NULL;
+    return page;
+}

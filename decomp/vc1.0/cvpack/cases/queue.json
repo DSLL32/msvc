@@ -111,6 +111,17 @@
       ],
       "status": "queued",
       "reason": "Not dispatched: genuine baseline preserved, sequential-page reuse disproves eviction lead; root stopped guard/restoration expansion. Keep queued/excluded from fixtures."
+    },
+    {
+      "name": "buffered-multitu-cache",
+      "argv": [
+        "/nologo",
+        "/cvnew",
+        "/verbose",
+        "cache.dll"
+      ],
+      "status": "complete",
+      "completion": "cases/buffered-multitu-cache/evidence/0186-remove_lru_page/proof.json"
     }
   ]
 }

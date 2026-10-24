@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "limitations": [
+    {
+      "function": "remove_lru_page",
+      "source": "src/files.c",
+      "condition": "oldest_page==NULL or every LRU Page has flags&16, leaving no eligible Page",
+      "native_behavior": "Explicit INT3 before original NULL dereference",
+      "Win32_behavior": "Original loop and NULL dereference remain unchanged; no unsupported-path equivalence or coverage claimed",
+      "validated_current_case": "buffered-multitu-cache",
+      "defined_entry_proof": "cases/buffered-multitu-cache/evidence/0186-entry-owners/proof.json",
+      "current_selected_owner": 14,
+      "current_flags": 5
+    }
+  ]
+}

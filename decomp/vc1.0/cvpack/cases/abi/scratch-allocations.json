@@ -10,7 +10,7 @@
   "sources": {
     "src/cvpack.h": "f7c98a1a1bf6ef94682861b3b564b2c1f2f4932d7752b92f6a711d061a8e137e",
     "src/diagnostics.c": "dec7033d81320b3f20367e61b035959c4a0743a7d65dc96e44ff715eaf698c65",
-    "src/files.c": "56929a66dc87805acaa042ada1bdd97d9c4a66a2281cff41591b911e88716fe4",
+    "src/files.c": "d08ba57234edfa9d0d848222655da11046b34e607ab9a86b77a7ba5da387620f",
     "src/files.h": "e5145e3746779308d3afc58eb4559a0061e68cdf20d97e548822398b23f66385",
     "src/image.c": "16236abc6b56fc1bdf1a26ffaf1aa48be4a40f67c10e6c297ad9bc969dc9ef6b",
     "src/image.h": "98fa2fadb7c4529fffb5490ff253f2a74ff86944fe4affeb77416353747bb02e",
@@ -23,7 +23,7 @@
     "src/pdb.h": "4985c836921a7bc48a27baf3647ffc9b967c49c17ec63b75d31ecc8934068e73",
     "src/strip.c": "ccb0eb975ad67fdbb7633ea4db4f773d691e88f9d87080ac95ea04e71365e6f9",
     "src/strip.h": "8110c284b1697c03fa2c7c4f9030d31625cff4726cbf7edb2d33987a5fdd01eb",
-    "src/stubs.c": "9a6fcf6c872a0ff15bfd7ffbe39045bd008429f2c6581f44c82e88db8623d7c4",
+    "src/stubs.c": "9816316e91a98d9c26b2265a7b7aea39f3218b0baf6dcd1cc00c071ece87b2b8",
     "src/types.c": "c793c9e497255e5b3b33995185bde050366d1b869888e710a24c03125f3f57a2",
     "src/types.h": "3a8ae1a4f3b47395fa6aa75b66266c4c17b5df4bb5c14270456191984bbf7f4a"
   },

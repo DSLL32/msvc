@@ -22,9 +22,13 @@ def check_policy_snapshot(directory,expected,path=None):
 def validate(config,pe,runtime,record):
     assert record['classification']=='reviewed-case-specific-CRT-variant'
     assert record['application_coverage'] is False and record['unconditionally_unmask'] is False
-    assert record['case']in('hello-debug-dll','dos-codeview16','legacy-nb02-rejected') and record['name']=='__sopen'
+    assert record['case']in('hello-debug-dll','dos-codeview16','legacy-nb02-rejected','buffered-multitu-cache') and record['name']=='__sopen'
     guard=record['guard']
-    if record['case']=='legacy-nb02-rejected':
+    if record['case']=='buffered-multitu-cache':
+        assert guard==dict(mode=0x8002,share=0x40,name='cache.dll',every_invocation=True)
+        assert record['phase']==1 and record['input']==dict(path='decomp/vc1.0/cvpack/cases/buffered-multitu-cache/input/cache.dll',name='cache.dll',bytes=2097152,sha256='a27d31c7f1da90e7f28c1d5b06cc538d1bfa92f5b421447e0ff493246e93f4b3'),'unapproved multi-TU input/phase'
+        access=0xc0000000
+    elif record['case']=='legacy-nb02-rejected':
         assert guard==dict(mode=0x8002,share=0x40,name='cfig386.dbg',every_invocation=True)
         assert record['phase']==1 and record['input']==dict(path='decomp/vc1.0/cvpack/cases/legacy-nb02-rejected/input/cfig386.dbg',name='cfig386.dbg',bytes=37096,sha256='2e01fe1d2d150f1e20352225636081e0373cae3d79c8b601d8482a4cedc4ddf4'),'unapproved NB02 input/phase'
         access=0xc0000000
@@ -75,6 +79,7 @@ def approved(config,pe,runtime,case=None):
     assert [r['phase']for r in result if r['case']=='hello-debug-dll']==[1,2,3],'conditional DLL phase inventory/order differs'
     assert [r['phase']for r in result if r['case']=='dos-codeview16']==[1],'conditional DOS phase inventory/order differs'
     assert [r['phase']for r in result if r['case']=='legacy-nb02-rejected']==[1],'conditional NB02 phase inventory/order differs'
+    assert [r['phase']for r in result if r['case']=='buffered-multitu-cache']==[1],'conditional multi-TU phase inventory differs'
     return [r for r in result if case is None or r['case']==case]
 
 

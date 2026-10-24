@@ -1,0 +1,87 @@
+{
+  "conditional_CRT_support": [
+    {
+      "original": {
+        "mode": 32770,
+        "share": 64,
+        "name": "cache.dll",
+        "permission": 0,
+        "createfile": {
+          "access": 3221225472,
+          "share": 3,
+          "disposition": 3,
+          "attrs": 128,
+          "inherit": true,
+          "name": "cache.dll"
+        },
+        "return": {
+          "descriptor": 3,
+          "errno": 0,
+          "osfile": 1,
+          "type": 1,
+          "position": 0,
+          "owned": true,
+          "input_matches": true,
+          "last_error": 0
+        }
+      },
+      "native": {
+        "name": "cache.dll",
+        "mode": 32770,
+        "share": 64,
+        "permission": 438,
+        "createfile": {
+          "name": "cache.dll",
+          "access": 3221225472,
+          "share": 3,
+          "disposition": 3,
+          "attrs": 128,
+          "inherit": false
+        },
+        "return": {
+          "descriptor": 3,
+          "errno": 0,
+          "last_error": 0,
+          "osfile": 1,
+          "type": 1,
+          "position": 0,
+          "owned": true,
+          "host_descriptor": 3,
+          "access_mode": 2,
+          "input_matches": true,
+          "input_sha256": "a27d31c7f1da90e7f28c1d5b06cc538d1bfa92f5b421447e0ff493246e93f4b3"
+        }
+      },
+      "permission": "inactive with exact binary existing modes8000/8002; both raw words retained",
+      "descriptor_identity": "logical CRT fd; host HANDLE/fd mapped to full owned case input",
+      "inheritance": "originalTRUE/nativeFALSE is retained; approved singleprocess/nochild scope only"
+    }
+  ],
+  "required_inventory": [
+    {
+      "name": "cache.dll",
+      "mode": 32770,
+      "share": 64
+    }
+  ],
+  "small_offline_controls": [
+    "wrong-mode",
+    "wrong-share",
+    "wrong-input",
+    "missing",
+    "extra"
+  ],
+  "source_hashes": {
+    "runtime-support.json": "a0e0f7343f7f087c9a1f0dc9060822c4e213cc8d4120cf911663d893ae2cebd8",
+    "scripts/seams.py": "ab1e2f722b8568f90503852b15f6f743f72e480faf4d5c918097ed2158de2233",
+    "scripts/debug-run.c": "179b0f226a59fd043fbd25e47683abd915c2320bd6b4deaf09f8d29142407fca"
+  },
+  "original_raw": "/root/.ai-tmp/vc1.0-cvpack/0185-multitu-frontier-original",
+  "native_raw": "/root/.ai-tmp/vc1.0-cvpack/0185-multitu-frontier-native/buffered-multitu-cache",
+  "scope": "Same1008B binary existing-file8002/share40 path, first/only exact2MB input. No create or exactLIBC/app credit; raw inactivepermission0/438 and inheritanceTRUE/FALSE nochild qualification retained.",
+  "maintainer_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/cvpack-multitu-open/review.json",
+    "sha256": "41c6acabc243936f30fb055885b730263c6a2bfe830a3b1dd221b9c612178f0c",
+    "status": "PASS both0185frontier and0186final"
+  }
+}

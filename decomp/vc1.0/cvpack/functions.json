@@ -1007,16 +1007,35 @@
       "native": "remove_lru_page",
       "symbol": "_remove_lru_page",
       "original": 173936,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        173936,
+        174063
+      ],
       "abi": "Page *remove_lru_page(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/buffered-multitu-cache/evidence/0186-remove_lru_page/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "alignment_padding": [
+        [
+          173995,
+          174000
+        ]
+      ],
+      "alignment_evidence": "Unreachable exact5B ADD EAX,0 between JMP2a7a9->2a7bc and branch target2a7b0; wholeCFG excludes gap.",
+      "required_conditional_calls_by_case": {
+        "buffered-multitu-cache": [
+          {
+            "name": "cache.dll",
+            "mode": 32770,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "release_page",
@@ -9552,6 +9571,12 @@
       "case": "dos-mapped-growth-feedback",
       "kind": "application",
       "sequence": 185
+    },
+    {
+      "function": "remove_lru_page",
+      "case": "buffered-multitu-cache",
+      "kind": "application",
+      "sequence": 186
     }
   ],
   "support_unmasked": [
@@ -10264,7 +10289,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "8be1e22073f7eb4f03824d303f15c684dbd5a00ad55a41164fdaa23d2c64957f"
+    "evidence_sha256": "b86e03cd33a312649c5eaaed885578133b16e702dafd43320083d396e20c7553"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -10288,7 +10313,7 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "1df3c48ebf3659994a073d57f18bf2bd2d155059049cb423cafcd3c3b3fad05d"
+    "evidence_sha256": "5847be99516bc931e72fe9c3ac37b5571999970bf06d0252da70f8f87b70a0c1"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
@@ -10340,7 +10365,7 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "995f79fb94a48214eb1851dda923795a2a3bdf69f2822c3bc91ce1befec54c85"
+    "sha256": "e8e3b4e40927b91faaaf3e398b3736b0607332088749fa204f29fb54ea9ae6a0"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

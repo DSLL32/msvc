@@ -1,5 +1,5 @@
 {
-  "status": "proposed-awaiting-root-review",
+  "status": "complete-actual-cache-eviction",
   "case": "buffered-multitu-cache",
   "purpose": "Reach real nonsequential buffered cache eviction with many independent original CodeView subsection endpoints, rather than infer cache usage from total file size.",
   "producer": "One genuine original VC1 producer:24 C++ TUs cache00.cpp..cache23.cpp, /Od /Z7 /G3; each defines a distinct512-int-field struct and exported function consuming its first/last fields, so a real class/fieldlist is retained. First TU provides the conventional DLL entry. LINK with established /dll /debug:full /debugtype:cv /nopack and original LIBC as required; no PCH and no /mapio.",
@@ -28,5 +28,6 @@
     "named_stubs": 22,
     "non_CRT_denominator": null
   },
-  "estimated_extent_gain": 127
+  "estimated_extent_gain": 127,
+  "actual": "One original24TU producer7.03s, predicted module11 actual real remove_lru_page entry,127B reconstructed and exact59188B master/131entries. Source-name index656Bfullyinitialized; defaultallocator. No producer variants."
 }
