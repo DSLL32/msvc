@@ -398,3 +398,27 @@ unsigned short __fastcall create_coff_section(C2Section *section)
     record_output_section(section);
     return (unsigned short)section->coff_section;
 }
+
+int coff_reuse_index = -1;
+C2OutputSection *coff_reuse_sections[8];
+
+unsigned short __fastcall add_coff_section(char *name, unsigned flags, int flag8, int reuse)
+{
+    C2OutputSection *section;
+    if (reuse && coff_reuse_index >= 0 &&
+        (section = coff_reuse_sections[coff_reuse_index])) {
+        ++coff_reuse_index;
+        if (flag8)
+            section->flags |= 8;
+        section->characteristics = flags;
+        section->name = name;
+        return section->index;
+    }
+    section = output_allocate(sizeof(*section));
+    if (flag8)
+        section->flags |= 8;
+    section->characteristics = flags;
+    section->index = (unsigned short)append_output_table(coff_table, section);
+    section->name = name;
+    return section->index;
+}

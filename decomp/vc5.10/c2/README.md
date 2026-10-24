@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 79 application functions (17459 bytes) and five CRT
+Current reconstruction has 80 application functions (17596 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at the COFF section allocation call with.drectve,flags0xa00,
-first stackflag1 and reuse0. Four import thunks (24 bytes) and contextual text tables
-(725 bytes) remain separate. The 17897 source bytes are 3.122% of 573183 `.text`
+currently stops at generic output-table insertion, with the exact caller-owned
+24-byte section descriptor initialized through its flags, before name/index writes. Four import thunks (24 bytes) and contextual text tables
+(725 bytes) remain separate. The 18034 source bytes are 3.146% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -399,3 +399,15 @@ orchestrator reviewed this finite boundary. Twenty-two section,12formal,
 12compiled-data and10provider/ablation controls pass, separately timed from
 9fresh/144reused generic controls. Full build/capture/audit/1.951ms-native-
 fixture timing and pre-execution setup corrections are retained in0084.
+
+Source85 reconstructs the137-byte hot/cold COFF section allocator. Its eight
+reuse pointers and signed initial-1 index are contextual typed storage; exact
+PE virtual-tail bounds and fresh32-byte zero state are proved. The24-byte
+section layout comes from the actual caller allocation/writers, while the next
+append routine retains its generic C2OutputTable*/void* signature. Fresh
+ECX/EDX formals, aliases, full defined arena and record flags match before
+insertion; name/index writes remain after insertion. Twenty-one affected
+controls take24.394s and two storage-bound controls0.005s, separately from
+6fresh/147reused protocol controls7.375s. Original/native/helper builds take
+5.815/2.790/1.302s; original/native captures2.793/.622s, audit.857s, native
+help2.597ms execution. Exact snapshots and timings are retained in0085.

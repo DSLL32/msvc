@@ -43,12 +43,14 @@ COFF_GLOBALS = {
     'coff_symbol_total': (0x497d4c,4), 'coff_next_symbol': (0x497d54,4),
     'coff_directive_option': (0x497dac,4),
     'function_option_23': (0x48fb60,4),
+    'coff_reuse_index': (0x49d5ec,4),
     'coff_reserved_symbols': (0x497d5c,4), 'coff_previous_source': (0x497f68,4),
 }
 ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})
+ROOTS['coff_reuse_sections']=(0x49e6e0,'coff_reuse_sections')
 
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False):
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False):
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
     pool_words = struct.unpack('<12I', read(addresses['pools'], 48))
     head, cursor, remaining = pool_words[:3]
@@ -191,7 +193,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         assert later_pools[:6] == (0,) * 6, 'unencountered pools5/6 changed'
         writer_head, writer_cursor, writer_remaining = later_pools[6:]
         assert writer_head and writer_head not in (head, directive_head)
-        expected_cursor=(1884 if symbols_complete else 1872 if source_pending else 1852 if list_constructed else 1344 if list_pending else 1320)if initialized_output else 64
+        expected_cursor=(1908 if append_pending else 1884 if symbols_complete else 1872 if source_pending else 1852 if list_constructed else 1344 if list_pending else 1320)if initialized_output else 64
         expected_remaining=4096-expected_cursor
         assert writer_cursor == writer_head + expected_cursor and writer_remaining == expected_remaining
         data = bytearray(read(writer_head, 4096))
@@ -237,7 +239,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         expected = dict(output_allocate=addresses['writer_allocator'],
             output_error_handler=addresses['writer_error'], output_clock_handler=addresses['writer_clock'],
             coff_new_output=1, coff_machine=0x14c, coff_source_name=writer_head+40,
-            coff_output=output, coff_pending04=0xffffffff, coff_debug=0, coff_pending_c90=1, function_option_23=1)
+            coff_output=output, coff_pending04=0xffffffff, coff_debug=0, coff_pending_c90=1, function_option_23=1, coff_reuse_index=0xffffffff)
         if initialized_output:
             allocation=u32(addresses['coff_symbol_buffer'])
             assert allocation and all(not start<=allocation<start+4096 for start in (head,directive_head,writer_head))
@@ -272,5 +274,11 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
             result['coff_allocations']['auxiliary_record']={'offset':1872,'bytes':12,'kind':5,'payload':'allocator zeroing only; unused for source auxiliary'}
             result['coff_allocations']['symbol_buffer']['initialized_entries']=[1852,1872,1872]
             result['coff_allocations']['symbol_buffer']['payload']='First12B only initialized entries; remaining4084B UNMODELED/unread'
+        assert read(addresses['coff_reuse_sections'],32)==bytes(32),'eight typed reuse slots differ from loader-defined NULL initialization'
+        result['coff_reuse_sections']=[None]*8
+        if append_pending:
+            expected_record=struct.pack('<IIIIHHBBH',0,0,0xa00,0,0,8,0,0,0)
+            assert data[1884:1908]==expected_record,'new24B section fields/unwritten allocator bytes differ'
+            result['coff_allocations']['pending_section']={'offset':1884,'bytes':24,'data_null':True,'name_null':True,'characteristics':0xa00,'base_offset':0,'index':0,'flags':8,'selection':0,'pending21':'allocator zeroing only; uninterpreted','association':0}
         result['coff'] = copied
     return result

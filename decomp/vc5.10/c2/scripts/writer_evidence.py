@@ -39,8 +39,11 @@ def verify(config,graph):
     if '@initialize_coff_output@4'in config['accepted']:
         from globals_state import COFF_GLOBALS
         for key,(address,size)in COFF_GLOBALS.items():
-            expected=(1 if key in ('coff_pending_c90','function_option_23')else 0).to_bytes(size,'little')
+            expected=(0xffffffff if key=='coff_reuse_index'else 1 if key in ('coff_pending_c90','function_option_23')else 0).to_bytes(size,'little')
             assert original(address,size)==rebuilt(maps['_'+key],size)==expected,'COFF global initial storage/width differs: '+key
+    if '@add_coff_section@16'in config['accepted']:
+        verify_reuse_array(TARGET,0x49e6e0)
+        verify_reuse_array(BINARY/'build/c2.exe',maps['_coff_reuse_sections'])
     fields={r['name']:r for r in value['record']['fields']if r['name'].startswith('output_')}
     assert {r['offset']for r in fields.values()}=={16,20,24}
     if typed:
@@ -87,3 +90,19 @@ def verify(config,graph):
         'boundary_sha256':config['writer_callback_boundary_sha256'],'allocator_abi_sha256':allocator.get('abi_evidence_sha256'),
         'fields':list(fields.values()),'targets':[{'original':r['original'],'rebuilt':maps[definitions[r['logical']].get('symbol','_'+r['native'])],'native':r['native']}for r in value['targets']],
         'original_graph':value['original_graph']}
+
+
+def verify_reuse_array(path,address):
+    """Eight contextual pointers, either explicit zero bytes or PE loader tail."""
+    import struct
+    try:
+        assert reader(path)(address,32)==bytes(32)
+        return
+    except AssertionError:
+        data=path.read_bytes();header=struct.unpack_from('<I',data,60)[0];opt=header+24
+        base=struct.unpack_from('<I',data,opt+28)[0];section=opt+struct.unpack_from('<H',data,header+20)[0]
+        tails=[]
+        for i in range(struct.unpack_from('<H',data,header+6)[0]):
+            virtual,rva,raw=struct.unpack_from('<III',data,section+i*40+8)
+            if base+rva+raw<=address and address+32<=base+rva+virtual:tails.append([base+rva+raw,base+rva+virtual])
+        assert len(tails)==1,'reuse array is neither file-zeroed nor in a proven PE zero-filled tail'

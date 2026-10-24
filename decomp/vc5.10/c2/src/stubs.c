@@ -615,11 +615,6 @@ void __fastcall write_output_fill(unsigned char value, unsigned count)
     __asm { int 3 }
 }
 
-unsigned short __fastcall add_coff_section(char *name, unsigned flags, int flag8, int reuse)
-{
-    __asm { int 3 }
-    return 0;
-}
 unsigned short __fastcall add_associative_coff_section(char *name, unsigned flags,
     unsigned char selection, unsigned short association, int flag8, int reuse)
 {
@@ -643,4 +638,10 @@ void __fastcall record_output_section(C2Section *section)
 void __fastcall mark_debug_section(unsigned section)
 {
     __asm { int 3 }
+}
+
+unsigned __fastcall append_output_table(C2OutputTable *table, void *item)
+{
+    __asm { int 3 }
+    return 0;
 }

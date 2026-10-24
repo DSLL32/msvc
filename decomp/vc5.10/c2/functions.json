@@ -94,7 +94,8 @@
     "_output_callback_453e02",
     "@write_coff_directive@16",
     "_output_callback_41ec20",
-    "@create_coff_section@4"
+    "@create_coff_section@4",
+    "@add_coff_section@16"
   ],
   "driver": [
     {
@@ -243,7 +244,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "e43022bc276f5138211f6860d33f24c119fd1bdeb1ecc4a5ae3192ac5ddc5e9d",
+            "lifetime_sha256": "419f90f9468f40dba23ba3070ef950b0be18c3fe298e219d4267480cdbe024dd",
             "instructions": [
               {
                 "offset": 212,
@@ -646,7 +647,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "222223479f803cb3777dead28af773ddabeaabe2c39922d551a45a780fe3bce3",
+            "lifetime_sha256": "cd96219d16cf36c1f9aad813042d1238f0523014dc19088a9b499670ea638040",
             "instructions": [
               {
                 "offset": 38,
@@ -707,7 +708,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "17ae616198fdb51df3975caf0b991886149465c6ffcf2580a1d24de09ee5d651",
+            "lifetime_sha256": "18fa7a2a8385154b4d85662649ca132e96740d4471a64f2a93609ce31ccbdfdc",
             "instructions": [
               {
                 "offset": 46,
@@ -1485,7 +1486,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "d5a656d93839058f6ffc4bb2de9f70a7b961e561389c48d93dd6375b608cba9c"
+            "lifetime_sha256": "293c46d055768201c33145bb47fd0c645997f5f0a349e88e426b2b49a64100f8"
           }
         }
       ]
@@ -1675,7 +1676,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "e6b8d61c2e08b8396271fe0d8a9bb8310bbf331edf87df51d29bb68a8a6856c0"
+            "lifetime_sha256": "d5be36b4037f01f63fa33524bdfed84f6af4ed647e08b12343468354e11800ed"
           }
         }
       ]
@@ -4112,7 +4113,7 @@
               6,
               827
             ],
-            "lifetime_sha256": "cd9e22e4aba27890e324805e7363ee356a62c362596566612ca51262ffc76c07",
+            "lifetime_sha256": "038c237ec5a2f5f8b2307bf2ef491fa9882b44f1956a3bda5b776fbc3356fb8a",
             "instructions": [
               {
                 "offset": 6,
@@ -4372,7 +4373,7 @@
               27,
               145
             ],
-            "lifetime_sha256": "896ffb5091177c4bea43bf616c48822d0db37b80911affc6c914ef4a99539eb3",
+            "lifetime_sha256": "930d23dd9408378bb617e898bf9df7683a26c3d2ce9b90c86ef5e7d7d04c96d9",
             "instructions": [
               {
                 "offset": 27,
@@ -5566,7 +5567,7 @@
               6,
               489
             ],
-            "lifetime_sha256": "137b1b875df30bfaea0bb53c4380b24c0640379cbbd79e27d6b17a21c5d0d20d",
+            "lifetime_sha256": "3ae9c864fcc5c3fef157ecb10e308064c4d99b1eabb724344b693676162bc4ed",
             "instructions": [
               {
                 "offset": 6,
@@ -5821,7 +5822,7 @@
               6,
               315
             ],
-            "lifetime_sha256": "48b40205846c04003193ee7afe669232dfb77b5ae1499dc2a87b446f8f8175da",
+            "lifetime_sha256": "3d27d96fc628588670e29c6fbcb02aec4c2241099dd33664dd1bad0c15967cc2",
             "instructions": [
               {
                 "offset": 6,
@@ -6813,7 +6814,7 @@
         "-G5"
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "symbol": "_read_initializers",
       "evidence": "cases/analysis/read-initializers-disassembly.txt:11B4532fa..453305 loads c2_input intoECX and tailjumps4523d2. Prior scaffold-name described registers incorrectly; original logicalID preserved, actualsource/Win32name read_initializers. Cdecl noargs, inheritedRET0 from fastcallFILE reader; reader remains unaccepted/trapped."
     },
@@ -7009,7 +7010,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7283,7 +7284,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7479,7 +7480,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7667,7 +7668,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7862,7 +7863,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8056,7 +8057,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8248,7 +8249,7 @@
       "expected_argv": [
         "-G5"
       ],
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "frontier_contract": "output-directives-complete",
       "code_chunks": [
         [
@@ -8483,7 +8484,7 @@
         "-G5"
       ],
       "frontier_contract": "object-writer-input",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "code_chunks": [
         [
           4672729,
@@ -8716,7 +8717,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-table-input",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e"
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c"
     },
     {
       "name": "_writer_callback_41eb8a",
@@ -8906,7 +8907,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-allocate-input",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e"
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c"
     },
     {
       "name": "_initialize_coff_lists",
@@ -9094,7 +9095,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-lists-input",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e"
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c"
     },
     {
       "name": "@new_output_list@8",
@@ -9282,7 +9283,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-list-input",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e"
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c"
     },
     {
       "name": "_new_output_chunk",
@@ -9470,7 +9471,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-chunk-input",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "code_chunks": [
         [
           4626548,
@@ -9670,7 +9671,7 @@
           4670578
         ]
       ],
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e"
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c"
     },
     {
       "name": "@add_coff_symbol@4",
@@ -9858,7 +9859,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e"
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c"
     },
     {
       "name": "_write_output_directives",
@@ -10041,7 +10042,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10232,7 +10233,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10452,7 +10453,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10648,7 +10649,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10838,7 +10839,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10939,6 +10940,203 @@
           }
         }
       }
+    },
+    {
+      "name": "@add_coff_section@16",
+      "native": "add_coff_section",
+      "symbol": "@add_coff_section@16",
+      "start": 4530924,
+      "end": 4530997,
+      "pending_extent": false,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall char*nameECX,unsignedflagsEDX,stackintflag8,intreuse; unsignedshortAX,RET8",
+      "evidence": "cases/analysis/add-coff-section-analysis.json",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-section-input",
+      "section_caller": "create_coff_section",
+      "code_chunks": [
+        [
+          4669778,
+          4669842
+        ]
+      ]
     }
   ],
   "stubs": [
@@ -12414,7 +12612,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e"
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c"
     },
     {
       "name": "@reserve_incremental_symbols@12",
@@ -12602,7 +12800,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e"
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c"
     },
     {
       "name": "_grow_coff_symbol_buffer",
@@ -12797,7 +12995,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -12863,16 +13061,76 @@
       "evidence": "cases/analysis/select-output-section-analysis.json"
     },
     {
-      "name": "@add_coff_section@16",
-      "native": "add_coff_section",
-      "symbol": "@add_coff_section@16",
-      "start": 4530924,
-      "end": 4530925,
+      "name": "@add_associative_coff_section@24",
+      "native": "add_associative_coff_section",
+      "symbol": "@add_associative_coff_section@24",
+      "start": 4325496,
+      "end": 4325497,
       "pending_extent": true,
       "kind": "application",
       "pending_signature": false,
-      "abi": "fastcall char*nameECX,unsignedflagsEDX,stackintflag8,intreuse; unsignedshortAX,RET8",
-      "evidence": "cases/analysis/create-coff-section-analysis.json",
+      "abi": "fastcall char*nameECX,unsignedflagsEDX,stackbyteselection,ushortassociation,intflag8,intreuse; unsignedshortAX,RET16",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "@coff_selection_code@4",
+      "native": "coff_selection_code",
+      "symbol": "@coff_selection_code@4",
+      "start": 4325425,
+      "end": 4325426,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall byteselectionCL,byteresultAL,RET0",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "@initialize_coff_section@8",
+      "native": "initialize_coff_section",
+      "symbol": "@initialize_coff_section@8",
+      "start": 4321155,
+      "end": 4321156,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall ushortsectionCX,unsignedflagsEDX; intEAX,RET0",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "@record_output_section@4",
+      "native": "record_output_section",
+      "symbol": "@record_output_section@4",
+      "start": 4321651,
+      "end": 4321652,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall C2Section*sectionECX; callerignoresresultRET0",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "@mark_debug_section@4",
+      "native": "mark_debug_section",
+      "symbol": "@mark_debug_section@4",
+      "start": 4746574,
+      "end": 4746575,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall unsignedsectionECX; callerignoresresultRET0",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "@append_output_table@8",
+      "native": "append_output_table",
+      "symbol": "@append_output_table@8",
+      "start": 4321077,
+      "end": 4321078,
+      "pending_extent": true,
+      "pending_signature": false,
+      "kind": "application",
+      "abi": "fastcall C2OutputTable*tableECX,void*itemEDX; unsignedEAX,RET0",
+      "evidence": "cases/analysis/add-coff-section-analysis.json",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -13045,73 +13303,13 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "c074ae8a48489f7831a8ed30daba186387713139b70e02f3df10bcf349728a2e",
+      "state_model_sha256": "d7797ec42cb0a789c0e3abfb03b6d3ae9b601e98683c645eaaaf85d0c082246c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
       ],
       "frontier_contract": "coff-section-input",
-      "section_caller": "create_coff_section"
-    },
-    {
-      "name": "@add_associative_coff_section@24",
-      "native": "add_associative_coff_section",
-      "symbol": "@add_associative_coff_section@24",
-      "start": 4325496,
-      "end": 4325497,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall char*nameECX,unsignedflagsEDX,stackbyteselection,ushortassociation,intflag8,intreuse; unsignedshortAX,RET16",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@coff_selection_code@4",
-      "native": "coff_selection_code",
-      "symbol": "@coff_selection_code@4",
-      "start": 4325425,
-      "end": 4325426,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall byteselectionCL,byteresultAL,RET0",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@initialize_coff_section@8",
-      "native": "initialize_coff_section",
-      "symbol": "@initialize_coff_section@8",
-      "start": 4321155,
-      "end": 4321156,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall ushortsectionCX,unsignedflagsEDX; intEAX,RET0",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@record_output_section@4",
-      "native": "record_output_section",
-      "symbol": "@record_output_section@4",
-      "start": 4321651,
-      "end": 4321652,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall C2Section*sectionECX; callerignoresresultRET0",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@mark_debug_section@4",
-      "native": "mark_debug_section",
-      "symbol": "@mark_debug_section@4",
-      "start": 4746574,
-      "end": 4746575,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall unsignedsectionECX; callerignoresresultRET0",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
+      "section_caller": "add_coff_section"
     }
   ],
   "text_data": [
@@ -13392,7 +13590,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13404,7 +13602,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13416,7 +13614,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13428,7 +13626,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13440,7 +13638,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13452,7 +13650,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13464,7 +13662,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13476,7 +13674,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13488,7 +13686,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13500,7 +13698,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13514,7 +13712,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13526,7 +13724,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13541,7 +13739,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13553,7 +13751,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13565,7 +13763,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13577,7 +13775,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13589,7 +13787,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13601,7 +13799,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13616,7 +13814,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13631,7 +13829,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13643,7 +13841,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13655,7 +13853,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13667,7 +13865,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {
@@ -13682,7 +13880,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a909d25c651093e82760c0df91ab226d67528122a476c40ad0ab17c90957676a"
+          "sha256": "b33eaab5510bf182633ddadc88af78c1c0a756bbfd7a061b5aaf8b5d1fc920f2"
         }
       },
       {

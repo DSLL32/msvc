@@ -1116,14 +1116,6 @@
     "evidence": null
   },
   {
-    "name": "@add_coff_section@16",
-    "start": 4530924,
-    "end": 4530925,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@add_associative_coff_section@24",
     "start": 4325496,
     "end": 4325497,
@@ -1159,6 +1151,14 @@
     "name": "@mark_debug_section@4",
     "start": 4746574,
     "end": 4746575,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@append_output_table@8",
+    "start": 4321077,
+    "end": 4321078,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

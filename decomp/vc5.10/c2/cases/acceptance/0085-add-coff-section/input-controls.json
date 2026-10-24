@@ -1,0 +1,190 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/add85-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/add85-original/graph-audit.json",
+    "matched": "@append_output_table@8",
+    "original": "0x41ef35",
+    "native": "append_output_table",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "append_output_table",
+      "symbol_start": "0x6ba0",
+      "symbol_size": 97,
+      "static_pc": "0x6be1",
+      "int3_sites": [
+        "0x6be0"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output",
+      "@initialize_coff_output@4",
+      "@new_output_table@4",
+      "_writer_callback_41eb8a",
+      "_initialize_coff_lists",
+      "@new_output_list@8",
+      "_new_output_chunk",
+      "@add_output_source@4",
+      "@add_coff_symbol@4",
+      "_write_output_directives",
+      "_output_callback_453e02",
+      "@write_coff_directive@16",
+      "_output_callback_41ec20",
+      "@create_coff_section@4",
+      "@add_coff_section@16"
+    ],
+    "candidates": [
+      "@add_coff_section@16"
+    ],
+    "acceptance": false
+  },
+  "count": 21,
+  "rejected": [
+    {
+      "control": "table formal omitted",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "generic item prototype incorrectly specialized",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "table pointer wrong owned offset",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "item pointer wrong allocation offset",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "table loses actual global alias",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "item loses actual caller allocation alias",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "caller record size differs",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "record characteristics differ",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "name written before table child returned",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "index written before table child returned",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "pre-insertion flag8 absent",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "caller-owned untouched byte21 differs",
+      "reason": "actual table/item formals, owned24B descriptor or caller alias differs"
+    },
+    {
+      "control": "new writer arena cursor differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "new writer arena remaining differs",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "parent borrowed name alias lost",
+      "reason": "actual section name/flags/stackarguments/owner alias differs"
+    },
+    {
+      "control": "original caller-owned characteristics differ",
+      "reason": "new24B section fields/unwritten allocator bytes differ"
+    },
+    {
+      "control": "original name prematurely assigned",
+      "reason": "new24B section fields/unwritten allocator bytes differ"
+    },
+    {
+      "control": "original reuse index advanced on reuse0",
+      "reason": "COFF copied/default global differs: coff_reuse_index"
+    },
+    {
+      "control": "original eight-slot initialization loses NULL",
+      "reason": "eight typed reuse slots differ from loader-defined NULL initialization"
+    },
+    {
+      "control": "actual table ECX NULL",
+      "reason": ""
+    },
+    {
+      "control": "actual generic item EDX NULL",
+      "reason": ""
+    }
+  ],
+  "seconds": 24.393757924437523,
+  "checker_sha256": "5ff53b95f913faf5e8625f867f28514540018491b7886c701032128cf47b19fc",
+  "original_receipt_sha256": "441fe849ecc14c5dd083a8b4abed6fc5be226eb27c320374bb19f32e78d663c8",
+  "native_receipt_sha256": "50d1eefb104802d135f5a0e948536f2591ae709f684be3065009219e6c292812",
+  "scope": "The item remains void*. Only this actual caller-owned24B allocation is interpreted; no generic table-pointee layout or unknown reuse content is invented."
+}

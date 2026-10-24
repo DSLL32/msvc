@@ -11,6 +11,22 @@ typedef struct C2OutputChunk C2OutputChunk;
 typedef struct C2OutputBlock508 C2OutputBlock508;
 typedef struct C2OutputBlock308 C2OutputBlock308;
 typedef struct C2OutputSection C2OutputSection;
+typedef struct C2CoffSectionData C2CoffSectionData;
+struct C2OutputSection {
+    C2CoffSectionData *data;
+    char *name;
+    unsigned characteristics, base_offset;
+    unsigned short index, flags;
+    unsigned char selection, pending21;
+    unsigned short association;
+};
+typedef char C2OutputSectionSizeCheck[sizeof(C2OutputSection) == 24 ? 1 : -1];
+typedef char C2OutputSectionNameCheck[offsetof(C2OutputSection, name) == 4 ? 1 : -1];
+typedef char C2OutputSectionCharacteristicsCheck[offsetof(C2OutputSection, characteristics) == 8 ? 1 : -1];
+typedef char C2OutputSectionIndexCheck[offsetof(C2OutputSection, index) == 16 ? 1 : -1];
+typedef char C2OutputSectionFlagsCheck[offsetof(C2OutputSection, flags) == 18 ? 1 : -1];
+typedef char C2OutputSectionSelectionCheck[offsetof(C2OutputSection, selection) == 20 ? 1 : -1];
+typedef char C2OutputSectionAssociationCheck[offsetof(C2OutputSection, association) == 22 ? 1 : -1];
 typedef struct C2CoffSource C2CoffSource;
 typedef struct C2CoffRecord C2CoffRecord;
 struct C2CoffSource {
@@ -138,4 +154,7 @@ unsigned char __fastcall coff_selection_code(unsigned char selection);
 int __fastcall initialize_coff_section(unsigned short section, unsigned flags);
 void __fastcall record_output_section(C2Section *section);
 void __fastcall mark_debug_section(unsigned section);
+extern int coff_reuse_index;
+extern C2OutputSection *coff_reuse_sections[8];
+unsigned __fastcall append_output_table(C2OutputTable *table, void *item);
 #endif
