@@ -1,0 +1,23 @@
+[
+  {
+    "slot": 4157288464,
+    "name": "embedded-cpp.dll",
+    "access": 3221225472,
+    "share": 0,
+    "security": 0,
+    "disposition": 4,
+    "attrs": 128,
+    "template": 0,
+    "return": {
+      "handle": 4,
+      "host_descriptor": 3,
+      "type": 1,
+      "size": 2097152,
+      "position": 0,
+      "access_mode": 2,
+      "owned": true,
+      "device": 139,
+      "inode": 10562037
+    }
+  }
+]

@@ -1,0 +1,49 @@
+[
+  {
+    "case": "embedded-cpp-mapped",
+    "terminal": "trap",
+    "status": -5,
+    "function": "truncate_mapped_file",
+    "executable_sha256": "93e12810b57e03e5a201f19c51180faea29bb4cb3894551ff657e99a384d696a",
+    "configuration_sha256": "e27521d61811979b5051da2631820436433a16a01f91e28d4113b8710036cd52",
+    "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "conditional_support_sha256": "4d882e3c906e7e74da827059156327944d468c0f1054c461fc7dbde1cadbeae5",
+    "native_host_allocator": {
+      "profile_sha256": "972c09dd9881ee687c82e32b5bd3689cb9ed48c9cdc116dcd0c08728b6cf710b",
+      "launch": {
+        "schema": 1,
+        "environment": {
+          "GLIBC_TUNABLES": "glibc.malloc.tcache_count=0:glibc.malloc.mmap_threshold=0:glibc.malloc.trim_threshold=0"
+        },
+        "libc": {
+          "path": "/lib32/libc.so.6",
+          "sha256": "f2ed349542c0be517ea7e66381f342eda08857e01772d6aa33916ca41702f61c",
+          "version": "Debian GLIBC 2.41-12+deb13u4"
+        },
+        "startup_define": "RECON_NATIVE_STARTUP_CONSUME_GLIBC_TUNABLES",
+        "scope": "Explicit native host allocator choice for embedded-cpp-mapped only. Actual208-byte source_file_index allocation and3-byte untouched alignment tail observed separately; no universal malloc initialization guarantee. Full output comparison exact, no normalization or target writes. Startup consumes host tunable before target main.",
+        "observation": {
+          "cases/embedded-cpp-mapped/native-host-allocator/observation/commands.gdb": "b74669077d5e7a85e2f24ad80d84e392b43ec5acd0ca4bd779c3ef543af2ba4b",
+          "cases/embedded-cpp-mapped/native-host-allocator/observation/exploratory-receipt.json": "90ec7027521be4a8d6d70f37c25ce53ee31f1924d8dd6f1e3bdd0930b0ef6180",
+          "cases/embedded-cpp-mapped/native-host-allocator/observation/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "cases/embedded-cpp-mapped/native-host-allocator/observation/allocation-observer.py": "ce37bb6a0dd54951234f5c295dc811683df525fa408faf4d8696b013423f4d05",
+          "cases/embedded-cpp-mapped/native-host-allocator/observation/host-environment.json": "4d4e109a69f3de7de6cd68d22941de30d3d67831e87c6ee6e7f031a2d6daca47",
+          "cases/embedded-cpp-mapped/native-host-allocator/observation/allocation.json": "beb5dc7fe6135e349d1cc067e47abe7f8d9528552726d8986898b40505109f6e",
+          "cases/embedded-cpp-mapped/native-host-allocator/observation/stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "cases/embedded-cpp-mapped/native-host-allocator/observation/gdb.json": "5a578ed98183ce53eba8d4a1f2c0c6be4080506e89b0b91b265a41860afd0ea9"
+        }
+      }
+    },
+    "process_boundary": {
+      "requests": [],
+      "errors": []
+    },
+    "seconds": {
+      "setup": 0.2574704149737954,
+      "execution": 0.025193634442985058,
+      "debugging": 1.3847228530794382,
+      "checks": 0.0427124360576272,
+      "total": 1.7101064901798964
+    }
+  }
+]

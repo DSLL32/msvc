@@ -611,3 +611,15 @@ int read_mapped_file(FileSlot *slot, void *buffer, unsigned long size)
     slot->cursor.position += size;
     return size;
 }
+
+/* Original [0002ac00,0002ac54): the copy is a compiler intrinsic. */
+int write_mapped_file(FileSlot *slot, const void *buffer, unsigned long size)
+{
+    if ((long)(slot->cursor.position + size) > slot->allocated)
+        grow_mapping(slot, slot->cursor.position + size);
+    if (slot->length < (long)(slot->cursor.position + size))
+        slot->length = slot->cursor.position + size;
+    memcpy(slot->contents.view + slot->cursor.position, buffer, size);
+    slot->cursor.position += size;
+    return size;
+}
