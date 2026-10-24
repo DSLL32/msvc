@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighty-six application functions (24,147 original code bytes), two embedded CRT functions
+Eighty-seven application functions (24,426 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_resume_input`.
+currently matches at the next named trap, `rc_finish_macro_frame`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 36.42% (86 functions). This denominator
+bytes. Current accepted application extent coverage is 36.84% (87 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -741,3 +741,10 @@ records22 fresh semantic controls, nine production bounds probes, unchanged
 Win32 section/relocation bytes, exact initialized D-marker provenance, both
 builds and graph/ABI/native checks. The next no-argument input-resume helper
 remains a trap; rich output and complete expansion are pending.
+
+Input resume is reconstructed (279 bytes). It consumes the initialized D marker
+and reaches the actual185-byte frame-finishing stub, preserving the frame, flag
+and pending outer state. [Verification](cases/resources-rich-trailing-space/macro-resume-verification.json)
+records17 affected negatives, exact marker/cursor/stack roles, the child’s noarg
+ABI and live controls, both builds, graph/ABI/native checks and unchanged-source
+shared publication. No frame pop, resume result or complete expansion is claimed.

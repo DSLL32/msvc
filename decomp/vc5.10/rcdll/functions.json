@@ -91,7 +91,8 @@
     "rc_parse_primary",
     "rc_expand_macro",
     "rc_push_macro",
-    "rc_select_macro_text"
+    "rc_select_macro_text",
+    "rc_resume_input"
   ],
   "functions": [
     {
@@ -1713,6 +1714,24 @@
       "end": "0x5bfa",
       "abi": "stdcall",
       "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_pack_macro_argument",
+      "start": "0x5a87",
+      "end": "0x5b07",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_advance_macro_text",
+      "start": "0x5d1e",
+      "end": "0x5d4d",
+      "abi": "cdecl",
+      "stack_bytes": 0,
       "kind": "application",
       "stub": true
     }

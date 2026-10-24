@@ -140,10 +140,6 @@ int __stdcall rc_change_codepage(UINT page)
 }
 
 
-int __cdecl rc_resume_input(void)
-{
-    __asm int 3
-}
 
 void __cdecl rc_line_comment(void)
 {
@@ -254,6 +250,15 @@ int __cdecl rc_macro_is_wide(void)
     return 0;
 }
 void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,int wide)
+{
+    __asm int 3
+}
+
+void __stdcall rc_pack_macro_argument(const WCHAR *begin,const WCHAR *end)
+{
+    __asm int 3
+}
+void __cdecl rc_advance_macro_text(void)
 {
     __asm int 3
 }

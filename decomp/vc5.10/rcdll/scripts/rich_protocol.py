@@ -2321,15 +2321,15 @@ def macro_output_initialization(data,address,pointee):
     assert len(hits)==1 and hits[0][0]==3
     return dict(address=hex(address),pointee=hex(pointee),field_file_offset=field,relocation_file_offset=hits[0][1],relocation_type='HIGHLOW')
 
-def primary_trial(original,native,expansion=False,push=False,selection=False):
+def primary_trial(original,native,expansion=False,push=False,selection=False,resume=False):
     """Primary returns and its actual next macro-expansion ABI/state."""
     import subprocess
     config=read_configuration(original/'functions.json')
-    trial='rc_select_macro_text'if selection else'rc_push_macro'if push else'rc_expand_macro'if expansion else'rc_parse_primary';frontier_name='rc_resume_input'if selection else'rc_select_macro_text'if push else'rc_push_macro'if expansion else'rc_expand_macro';caller='rc_expand_macro'if expansion or push else'rc_next_token'
-    assert config['trial_function']==trial and len(config['accepted'])==(87 if selection else 86 if push else 85 if expansion else 84)
+    trial='rc_resume_input'if resume else'rc_select_macro_text'if selection else'rc_push_macro'if push else'rc_expand_macro'if expansion else'rc_parse_primary';frontier_name='rc_finish_macro_frame'if resume else'rc_resume_input'if selection else'rc_select_macro_text'if push else'rc_push_macro'if expansion else'rc_expand_macro';caller='rc_resume_input'if resume else'rc_expand_macro'if expansion or push else'rc_next_token'
+    assert config['trial_function']==trial and len(config['accepted'])==(88 if resume else 87 if selection else 86 if push else 85 if expansion else 84)
     a,b,proof=checkpoint(original,native,frontier_name,('rc_input_temporary','rc_output_temporary'))
     text=(original/'events.txt').read_text();raw=(original/'globals.bin').read_bytes();args=b['arguments'];x=args['macro_expand'];globals=args['preprocessor']['globals']
-    assert a['words'][0]==(0x71c2549d if selection else 0x71c25386 if push else 0x71c25381 if expansion else 0x71c236ec)and x['caller']==caller
+    assert a['words'][0]==(0x71c2620b if resume else 0x71c2549d if selection else 0x71c25386 if push else 0x71c25381 if expansion else 0x71c236ec)and x['caller']==caller
     assert re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     pointer=next(row['pointer']for row in args['preprocessor']['macros']if row['name']==x['name'])
     assert x['formals']==([]if push else[dict(name='macro',value=pointer,bytes=4)])and x['macro_bytes']==16
@@ -2343,7 +2343,8 @@ def primary_trial(original,native,expansion=False,push=False,selection=False):
         assert owner['owner']==b['heap_identity']['handle']and owner['flags']==9 and owner['bytes']==size and bytes.fromhex(owner['contents'])==contents
     # The old WINVER owner predates this include, but its CURRENT actual pointer,
     # fields, name and complete requested text object were read at this frontier.
-    assert a['words'][1]>0 and fields[1]>0 and fields[2]>0
+    assert fields[1]>0 and fields[2]>0
+    if not push:assert a['words'][1]>0 # Actual macro formal; noarg children have callee-save/local slots instead.
     returns=re.findall(r'^macro-copy-return (\d+) result=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M)
     name_copies=[int(index)for index,address,sp in returns if int(address,16)==fields[1]];assert len(name_copies)==1
     assert raw_bytes(text,'macro-copy-result-%d'%name_copies[0])==bytes(8)+'WINVER\0\0'.encode('utf-16le')
@@ -2359,7 +2360,7 @@ def primary_trial(original,native,expansion=False,push=False,selection=False):
     assert tuple(old_frame[i]for i in [0,2,6,7,8])==tuple(new_frame[i]for i in [0,2,6,7,8])==(4098,73,4098,1,0)
     assert raw[0x18e80-0x14000+72:0x18e80-0x14000+108]==raw_bytes(text,'expand-source-frame')
     assert bytes.fromhex(globals['rc_source_frames']['bytes'])[72:108]==bytes.fromhex(x['source_frame'])
-    old_cursor=int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little');assert (old_cursor-fields[2]==x['source_cursor']-x['text']==14 if selection else old_cursor-old_frame[5]==x['source_cursor']-new_frame[5]==8156)
+    old_cursor=int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little');assert (old_cursor-fields[2]==x['source_cursor']-x['text']==(16 if resume else 14)if selection else old_cursor-old_frame[5]==x['source_cursor']-new_frame[5]==8156)
     master=(ROOT/'toolchains/5.10/include/WINRESRC.H').read_bytes();source=bytes(8)+master[:4098].decode('cp1252').encode('utf-16le')+bytes(2)
     assert raw_bytes(text,'expand-source-block')==source and len(source)==8206 and struct.unpack_from('<H',source,8164)[0]==32
     owner=next(v for v in b['heap_identity']['blocks']if v['payload']+8==new_frame[5]);assert owner['owner']==b['heap_identity']['handle']and owner['flags']==9 and owner['bytes']==8206 and bytes.fromhex(owner['contents'])==source
@@ -2439,15 +2440,17 @@ def primary_trial(original,native,expansion=False,push=False,selection=False):
     proof.update(trial=trial,primary=dict(formals=[],normal_returns=[1,0],cleanup=0,entries=3,third_return_pending=True,current_parentheses=1,current_lookahead=1,current_lexer_token=113,current_expression_value=0),macro_frontier=dict(name='WINVER',physical_formal_bytes=4,macro_record_bytes=16,owner_header_bytes=8,name_bytes=14,text_owner_bytes=26,parameters=0,flags=0,reserved=0,output_cursor=dict(original_rva='0x14a84',bytes=4,alias='rc_string_buffer',native_address=x['output_cursor_address'],initialization='Canonical .data initialized pointer71c36f08 with HIGHLOW relocation14a84; actual current raw pointer separately observed',pointee_extent='Existing contextual4090B workspace, no additional extent credit'),source_depth=2,source_cursor_offset=8156,current_source_word=32,source_owner_bytes=8206,defined_FILE_buffer_bytes=512,uninitialized_FILE_tail_bytes=3584,number_buffer_offset=2056,work_buffer_bytes=4090,primary_parent_local='value not initialized yet and deliberately not observed',additional_register_inputs='No incoming register/out-pointer/parent-frame formal identified; prologue overwrites scratch registers, saves caller registers and initializes its own locals.'),nested_include_opens=include,output_cursor_static=dict(original=initialized_original,rebuilt=initialized_rebuilt),output_defined_bytes=defined,current_macro_table_scope='111 native nodes are retained; only the reached WINVER original node/name/text ownership is compared at this boundary. Other current original node fields are not claimed from pointer equality.')
     if expansion or push:
         parent=args['expansion_parent']
-        assert set(parent)==({'formals','caller','result','result_bytes','parent_macro','saved_output','saved_output_bytes','character','character_bytes','token','token_bytes'}if selection else{'formals','caller','result','parameters','result_bytes','parameters_bytes','parent_macro'})
+        assert set(parent)==({'formals','caller','result','result_bytes','parent_macro','character','character_bytes'}if resume else{'formals','caller','result','result_bytes','parent_macro','saved_output','saved_output_bytes','character','character_bytes','token','token_bytes'}if selection else{'formals','caller','result','parameters','result_bytes','parameters_bytes','parent_macro'})
         assert parent['formals']==x['formals']and parent['caller']=='rc_expand_macro'and parent['parent_macro']==pointer
-        assert parent['result']==a['words'][5 if push else 6]==1 and parent['result_bytes']==4
-        if selection:
+        assert parent['result']==a['words'][(5 if push else 6)+(4 if resume else 0)]==1 and parent['result_bytes']==4
+        if resume:
+            assert parent['character']==a['registers']['esi']&0xffff==0 and parent['character_bytes']==2
+        elif selection:
             assert parent['saved_output']==a['registers']['edi']==0 and parent['saved_output_bytes']==4
             assert parent['character']==a['registers']['esi']&0xffff==0 and parent['character_bytes']==2
             assert parent['token']==a['registers']['eax']==3 and parent['token_bytes']==2
         else:assert parent['parameters']==a['registers']['edi']==0 and parent['parameters_bytes']==4
-        assert a['words'][7 if push else 8]==(int(re.findall(r'^macro-push-entry index=0 macro=([0-9a-f]+)',text,re.M)[0],16)if push else a['words'][1])and a['words'][6 if push else 7]==0x71c236ec
+        assert a['words'][(7 if push else 8)+(4 if resume else 0)]==(int(re.findall(r'^macro-push-entry index=0 macro=([0-9a-f]+)',text,re.M)[0],16)if push else a['words'][1])and a['words'][(6 if push else 7)+(4 if resume else 0)]==0x71c236ec
         expected=[('rc_saved_macro_number',0x14a88,4,x['string_buffer']+2056,0x71c37710),('rc_expansion_line',0x21e9c,4,161,161),('rc_expanded_argument_count',0x222a0,4,0,0),('rc_saved_macro_output',0x222a4,4,x['string_buffer'],0x71c36f08)]
         observed=[];addresses=[]
         for name,rva,width,value,old_value in expected:
@@ -2467,7 +2470,7 @@ def primary_trial(original,native,expansion=False,push=False,selection=False):
         proof['reused_controls']=dict(record='cases/resources-rich-trailing-space/primary-verification.json',sha256=sha(HERE/'cases/resources-rich-trailing-space/primary-verification.json'),checker_and_contract_versions=json.loads((HERE/'cases/resources-rich-trailing-space/primary-verification.json').read_text())['validation_versions'],reason='Primary returns, nested include LIFO/ESP/threads, advanced workspace/FILE/source, canonical output pointer relocation and earlier transport controls are unchanged hash-bound reuse; fresh positive raw checks still run. New expansion parent/global copies/default table and actual next macro-push inputs have affected controls.')
         if push:
             proof['macro_push']=push_proof
-            if selection:proof['macro_selection']=macro_selection_transition(text,args,native,raw,globals,x,pointer,fields,frames,a,original)
+            if selection:proof['macro_selection']=macro_selection_transition(text,args,native,raw,globals,x,pointer,fields,frames,a,original,resume)
             proof['macro_expansion']['frame_table']['all_current_bytes_zero']=False
             proof['macro_expansion']['frame_table']['default_scope']='Static full zero span; actual first row1 writes proved by fresh entry/return, row0 and rows2..63 unchanged.'
             proof['macro_expansion']['scope']='Parent result1/parameters0 remain initialized; push returned RET4 and first frame writes are bound. No select/helper result or final expansion return claimed.'
@@ -2483,6 +2486,12 @@ def primary_trial(original,native,expansion=False,push=False,selection=False):
             proof['macro_expansion']['scope']='Selector returned RET0, macro flags0→1, active numeric spelling result1/RET4 and14 initialized output bytes observed. Next resume is still a genuine noarg trap; no whole expansion result.'
             prior=HERE/'cases/resources-rich-trailing-space/macro-push-verification.json'
             proof['reused_controls']=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged push/parent/source/FILE/argv/transport and SEH controls retained by hash. Fresh affected selector, alternate-number ownership/aliases/writes and next resume hidden-input checks.')
+        if resume:
+            proof['macro_resume']=macro_resume_transition(text,args,native,raw,x,a,symbols,bias)
+            proof['macro_frontier']['source_cursor_offset']='Current initialized macro text+16; saved SDK cursor remains8156'
+            proof['macro_expansion']['scope']='Resume consumed initialized D marker and calls real finish dependency; no returned finish/resume/expansion result claimed.'
+            prior=HERE/'cases/resources-rich-trailing-space/macro-selection-verification.json'
+            proof['reused_controls']=dict(record=str(prior.relative_to(HERE)),sha256=sha(prior),checker_and_contract_versions=json.loads(prior.read_text())['validation_versions'],reason='Unchanged selector, numeric mode/guard, full owned spelling/workspace, push, primary/source/FILE/argv and transport/SEH controls retained by exact hashes. Fresh resume/noarg child hidden inputs and initialized marker/cursor controls.')
         assert proof['application_trace'][-1]==trial
         return proof
     prior=HERE/'cases/resources-rich-trailing-space/expression-space-verification.json';prior_record=json.loads(prior.read_text())
@@ -2572,7 +2581,7 @@ def macro_push_transition(text,args,native,raw,globals,x,pointer,fields,frames,s
 
 def push_macro_trial(original,native):return primary_trial(original,native,expansion=True,push=True)
 
-def macro_selection_transition(text,args,native,raw,globals,x,pointer,fields,frames,frontier,original):
+def macro_selection_transition(text,args,native,raw,globals,x,pointer,fields,frames,frontier,original,resume=False):
     """Actual selector return plus newly reached, owned alternate numeric mode."""
     calls=args['macro_select_calls'];assert calls==json.loads((native/'macro-select-calls.json').read_text())and len(calls)==1
     row=calls[0];assert row['formals']==[]and row['caller']=='rc_expand_macro'
@@ -2618,9 +2627,37 @@ def macro_selection_transition(text,args,native,raw,globals,x,pointer,fields,fra
     before=raw_bytes(text,'active-number-buffer-before');after=raw_bytes(text,'active-number-buffer-after');assert len(before)==len(after)==4090
     assert before==bytes.fromhex(number['before']['work'])and after==bytes.fromhex(number['after']['work'])==bytes.fromhex(x['work_buffer'])
     assert after==before[:2056]+'0x0400\0'.encode('utf-16le')+before[2070:]
-    assert x['source_cursor']==x['text']+14 and int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little')==fields[2]+14
+    assert x['source_cursor']==x['text']+(16 if resume else 14)and int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little')==fields[2]+(16 if resume else 14)
     assert initialized[8+14:8+18]=='D\0'.encode('utf-16le')
-    assert frontier['words'][0]==0x71c2549d and args['expansion_parent']['character']==0 and args['expansion_parent']['token']==3
+    assert frontier['words'][0]==(0x71c2620b if resume else 0x71c2549d)and args['expansion_parent']['character']==0
+    if not resume:assert args['expansion_parent']['token']==3
     return dict(selector=dict(formals=[],cleanup=0,flags_before=0,flags_after=1,source_alias='Owned current WINVER.text',record_bytes=16,original_source=hex(fields[2]),native_source=hex(x['text'])),initialized_text=dict(copy_index=int(index),copy_count_WCHAR=8,source_work_rva='0x16f08',source_bytes=16,allocation_bytes=26,header_bytes=8,initialized_text_bytes=18,spelling_NUL_offset=12,marker_offset=14,marker='D',final_NUL_offset=16,writer='rc_read_macro_replacement explicitly writes NUL,D; rc_copy_macro_text copies8 initialized WCHAR and appends its own NUL'),numeric_mode=dict(formals=formal,original_raw_slot=raw_first,original_raw_return=raw_return,compared_input_bits=16,compared_return_bits=8,result=1,cleanup=4,source_before=2,source_after=12,source_after_loop=14,number_before=2056,number_after=2068,write_begin=2056,write_end=2070,write_bytes=14,untouched_work_bytes=4076,guard_scope='Native active1, bounded current macro frame/text+1/first WCHAR alias, WCHAR-aligned existing4090B workspace and remaining full spelling+NUL capacity; no buffer growth/reset'),next_formals=[],next_hidden_inputs=dict(expansion_depth=1,active_input_depth=1,macro_flags=1,source_text_offset=14,source_word=68,initialized_source_remaining_bytes=4,number_offset=2068,frame_source='Saved SDK cursor8156',frame_output='work base',frame_number='work+2056',parent_character=0,parent_character_bits=16,parent_token=3,parent_saved_output=0),limits='Only reached normal spelling path; no fault/unknown mode/whole expansion or input-resume result. Raw upper16 input slot and upper24 return bits retained but unclaimed; callee/source WORD/BYTE consumption proved separately.')
 
 def select_macro_trial(original,native):return primary_trial(original,native,expansion=True,push=True,selection=True)
+
+
+def macro_resume_transition(text,args,native,raw,x,frontier,symbols,bias):
+    calls=args['resume_calls'];assert calls==json.loads((native/'resume-calls.json').read_text())and len(calls)==1
+    row=calls[0];assert set(row)=={'formals','entry_esp','caller','cursor','marker_span','depth','active'}
+    assert row['formals']==[]and row['caller']=='rc_expand_macro'and row['depth']==row['active']==1
+    entry=re.findall(r'^resume-entry cursor=([0-9a-f]+) previous=(\d+) current=(\d+) depth=(-?\d+) active=(-?\d+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);assert len(entry)==1
+    cursor,previous,current,depth,active,sp,caller=entry[0]
+    assert (int(previous),int(current),int(depth),int(active))==(0,68,1,1)and int(caller,16)==0x71c2549d
+    assert int.from_bytes(raw[0x18120-0x14000:0x18124-0x14000],'little')==int(cursor,16)+2
+    assert row['cursor']==x['text']+14 and x['source_cursor']==row['cursor']+2
+    assert raw_bytes(text,'resume-initialized-marker-span')==bytes.fromhex(row['marker_span'])=='\0D\0'.encode('utf-16le')
+    parent=args['resume_parent'];assert parent==dict(formals=[],caller='rc_resume_input',depth=1,depth_bytes=4,marker=68,marker_bytes=2)
+    assert frontier['registers']['eax']==1 and frontier['registers']['edx']==0
+    assert frontier['words'][0]==0x71c2620b and frontier['words'][4]==0x71c2549d
+    assert frontier['registers']['esp']==int(sp,16)-16
+    assert x['source_cursor']==x['text']+16 and bytes.fromhex(x['text_owner'])[24:26]==bytes(2)
+    hidden=[]
+    for name,observer,rva,expected in [('rc_apstudio','rc_macro_listing_enabled',0x25058,0),('rc_in_condition_expression','rc_in_condition_expression',0x18e6c,1)]:
+        control=args['preprocessor']['globals'][observer];symbol=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [BbDd] '+name+r'$',symbols,re.M);assert len(symbol)==1
+        assert control['address']==int(symbol[0][0],16)+bias and int(symbol[0][1],16)==4
+        assert int.from_bytes(raw[rva-0x14000:rva-0x14000+4],'little')==int.from_bytes(bytes.fromhex(control['bytes']),'little')==expected
+        hidden.append(dict(name=name,observer_alias=observer,original_rva=hex(rva),native_address=hex(control['address']),bytes=4,value=expected))
+
+    return dict(formals=[],entry_original_esp=hex(int(sp,16)),entry_native_esp=hex(row['entry_esp']),incoming_marker_offset=14,previous_word=0,marker=68,marker_width=2,depth=1,active=1,initialized_marker_span_bytes=6,consumed_bytes=2,next_source_offset=16,next_source_initialized_bytes=2,next_formals=[],next_hidden_inputs=dict(controls=hidden,expansion_depth=1,active_depth=1,current_macro='Owned WINVER, flags1, initialized18B text',current_source='text+16 initialized terminalNUL',number_buffer_offset=2068,frame_index=1,frame_stride=20,saved_source='SDKcursor8156',saved_number='work+2056',saved_output='workbase'),caller_projection='Native markerWCHAR68 comes from original initialized source bytes; original EDX0 is dispatched-marker subtraction, not raw WCHAR68. Cached depth1 is actual EAX1. Three pushed callee-saved registers plus child return explain16B stack delta.',scope='Resume remains pending in its genuine frame-finish child. No return/result, flag decrement, depth pop, copy or unvisited marker behavior assumed; retired outer token/saved_output/parameters not observed as live inputs.')
+
+def resume_input_trial(original,native):return primary_trial(original,native,expansion=True,push=True,selection=True,resume=True)

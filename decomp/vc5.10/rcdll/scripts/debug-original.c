@@ -379,6 +379,13 @@ static void active_number_begin(CONTEXT *context)
     fprintf(events,"active-number-entry first=%08lx source=%08lx number=%08lx active=%lu esp=%08lx caller=%08lx\n",words[1],cursor,number,active,context->Esp,words[0]);
     hexbytes("active-number-buffer-before",base+0x16f08,4090);point(words[0],97);
 }
+static void resume_begin(CONTEXT *context)
+{
+    DWORD caller,cursor,depth,active;WORD words[2];readmem(context->Esp,&caller,4);
+    readmem(base+0x18120,&cursor,4);readmem(base+0x16f00,&depth,4);readmem(base+0x21e90,&active,4);readmem(cursor-2,words,4);
+    fprintf(events,"resume-entry cursor=%08lx previous=%u current=%u depth=%ld active=%ld esp=%08lx caller=%08lx\n",cursor,words[0],words[1],(long)depth,(long)active,context->Esp,caller);
+    hexbytes("resume-initialized-marker-span",cursor-2,6);
+}
 static int trap(HANDLE thread,DWORD address,DWORD thread_id)
 {
     CONTEXT c;DWORD words[12];unsigned n;Point *p=NULL;
@@ -429,6 +436,7 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
             if(address==base+0x302e)primary_begin(&c);
             if(address==base+0x5c3a)macro_push_begin(&c);
             if(address==base+0x5cd5)macro_select_begin(&c);
+            if(address==base+0x6135)resume_begin(&c);
             if(address==base+0x12176)active_number_begin(&c);
             if(address==base+0x519f){readmem(c.Esp,words,8);parameter_sp=c.Esp;parameter_name=words[1];fprintf(events,"parameter-lookup-entry name=%08lx esp=%08lx caller=%08lx\n",words[1],c.Esp,words[0]);hexbytes("parameter-lookup-name",words[1],wide_string_bytes(words[1]));point(words[0],87);}
             if(address==base+0x51df)space_begin(&c);
@@ -682,7 +690,7 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
-        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd||address==base+0x26bb||address==base+0x11b2a||address==base+0x26f8||address==base+0x4c2f||address==base+0x4da5||address==base+0xbee2||address==base+0x3db4||address==base+0x4298||address==base+0xbebd||address==base+0x4240||address==base+0x91a4||address==base+0x41fb||address==base+0x2690||address==base+0xc036||address==base+0x1205d||address==base+0x6345||address==base+0x12a9b||address==base+0x11b44||address==base+0x26d9||address==base+0x478b||address==base+0x30c1||address==base+0x12176||address==base+0x12b67||address==base+0x125aa||address==base+0x126fb||address==base+0x126af||address==base+0x736b||address==base+0x72a2||address==base+0x11f3b||address==base+0x6c71||address==base+0x7341||address==base+0x629a||address==base+0x6b80||address==base+0x12a02||address==base+0x128e9||address==base+0x12a2b||address==base+0x624c||address==base+0x48c8||address==base+0x4e19||address==base+0x51df||address==base+0x519f||address==base+0x2cc0||address==base+0x2d83||address==base+0x2dc6||address==base+0x2def||address==base+0x2e1c||address==base+0x2e3c||address==base+0x2e5c||address==base+0x2e7c||address==base+0x2ebc||address==base+0x2f2e||address==base+0x2f64||address==base+0x2f98||address==base+0x2fed||address==base+0x6fce||address==base+0x6df3||address==base+0x6051||address==base+0x302e||address==base+0x52fa||address==base+0x5c3a||address==base+0x5cd5||address==base+0x6135){
+        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd||address==base+0x26bb||address==base+0x11b2a||address==base+0x26f8||address==base+0x4c2f||address==base+0x4da5||address==base+0xbee2||address==base+0x3db4||address==base+0x4298||address==base+0xbebd||address==base+0x4240||address==base+0x91a4||address==base+0x41fb||address==base+0x2690||address==base+0xc036||address==base+0x1205d||address==base+0x6345||address==base+0x12a9b||address==base+0x11b44||address==base+0x26d9||address==base+0x478b||address==base+0x30c1||address==base+0x12176||address==base+0x12b67||address==base+0x125aa||address==base+0x126fb||address==base+0x126af||address==base+0x736b||address==base+0x72a2||address==base+0x11f3b||address==base+0x6c71||address==base+0x7341||address==base+0x629a||address==base+0x6b80||address==base+0x12a02||address==base+0x128e9||address==base+0x12a2b||address==base+0x624c||address==base+0x48c8||address==base+0x4e19||address==base+0x51df||address==base+0x519f||address==base+0x2cc0||address==base+0x2d83||address==base+0x2dc6||address==base+0x2def||address==base+0x2e1c||address==base+0x2e3c||address==base+0x2e5c||address==base+0x2e7c||address==base+0x2ebc||address==base+0x2f2e||address==base+0x2f64||address==base+0x2f98||address==base+0x2fed||address==base+0x6fce||address==base+0x6df3||address==base+0x6051||address==base+0x302e||address==base+0x52fa||address==base+0x5c3a||address==base+0x5cd5||address==base+0x6135||address==base+0x59ce){
             DWORD pointer,count,vector,total,length;char label[80];
             if(address==base+0xbc80){count=words[1];vector=words[2];}
             else{count=cpp_count;vector=cpp_vector;}
@@ -694,8 +702,8 @@ static int trap(HANDLE thread,DWORD address,DWORD thread_id)
             if(address==base+0x6b80){DWORD frame[9],pointer,index,list[101];char label[80];readmem(base+0x18e80,frame,36);hexbytes("include-source-block",frame[5]-8,8206);hexbytes("include-macro-current",base+0x18128,1024);hexbytes("include-marker-current",base+0x16cf8,514);hexbytes("include-path-list",base+0x14828,404);readmem(base+0x14828,list,404);for(index=0;index<100;++index)if(list[index+1]){sprintf(label,"include-directory-%lu",index);hexbytes(label,list[index+1],wide_string_bytes(list[index+1]));}readmem(base+0x149bc,&pointer,4);hexbytes("include-path-characters",pointer,wide_string_bytes(pointer));crt_file_state(frame[1],"cpp-source",1);readmem(base+0x18e74,&pointer,4);crt_file_state(pointer,"cpp-output",0);}
             if(address==base+0x2d83||address==base+0x2dc6||address==base+0x2def||address==base+0x2e1c||address==base+0x2e3c||address==base+0x2e5c||address==base+0x2e7c||address==base+0x2ebc||address==base+0x2f2e||address==base+0x2f64||address==base+0x2f98||address==base+0x2fed||address==base+0x6fce||address==base+0x6df3||address==base+0x6051||address==base+0x302e){hexbytes("expression-parentheses",base+0x18e7c,4);hexbytes("expression-token",base+0x149dc,1);}
             if(address==base+0x6fce)hexbytes("expression-match-slot",c.Esp+4,4);
-            if(address==base+0x52fa||address==base+0x5c3a||address==base+0x5cd5||address==base+0x6135){DWORD fields[4],depth,frame[9],file,macro;
-                macro=words[1];if(address==base+0x5cd5||address==base+0x6135){readmem(base+0x16f00,&depth,4);if(depth>=64)fail("expand-macro-depth");readmem(base+0x222b4+depth*20,&macro,4);}
+            if(address==base+0x52fa||address==base+0x5c3a||address==base+0x5cd5||address==base+0x6135||address==base+0x59ce){DWORD fields[4],depth,frame[9],file,macro;
+                macro=words[1];if(address==base+0x5cd5||address==base+0x6135||address==base+0x59ce){readmem(base+0x16f00,&depth,4);if(depth>=64)fail("expand-macro-depth");readmem(base+0x222b4+depth*20,&macro,4);}
                 readmem(macro,fields,16);hexbytes("expand-macro-record",macro-8,24);
                 hexbytes("expand-macro-name",fields[1],wide_string_bytes(fields[1]));
                 if(fields[2])hexbytes("expand-macro-text",fields[2]-8,macro_owned_bytes(fields[2]));

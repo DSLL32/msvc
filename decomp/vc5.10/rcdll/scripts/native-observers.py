@@ -841,3 +841,13 @@ class ActiveNumberEntered(gdb.Breakpoint):
         entry=dict(formals=[dict(name='first',value=int(first),bytes=first.type.sizeof,physical_slot_bytes=4,slot=bytes(gdb.selected_inferior().read_memory(sp+4,4)).hex())],entry_esp=sp,caller=frame.older().name(),before=active_number_state())
         active_number_calls.append(entry);save_active_number_calls();ActiveNumberReturned(frame,entry);return False
 ActiveNumberEntered('rc_read_number',internal=True);save_active_number_calls()
+
+resume_calls=[]
+def save_resume_calls():(path.parent/'resume-calls.json').write_text(json.dumps(resume_calls,indent=2)+'\n')
+class ResumeEntered(gdb.Breakpoint):
+    def stop(self):
+        assert not resume_calls,'additional resume requires observation scope review'
+        frame=gdb.newest_frame();cursor=int(gdb.parse_and_eval('rc_source_cursor'))
+        entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name(),cursor=cursor,marker_span=bytes(gdb.selected_inferior().read_memory(cursor-2,6)).hex(),depth=int(gdb.parse_and_eval('rc_expanding_macro')),active=int(gdb.parse_and_eval('rc_number_buffer_active')))
+        resume_calls.append(entry);save_resume_calls();return False
+ResumeEntered('rc_resume_input',internal=True);save_resume_calls()

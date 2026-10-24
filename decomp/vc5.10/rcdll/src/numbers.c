@@ -13,7 +13,7 @@
 
 int rc_number_buffer_active;
 /* Alternate numeric spelling starts inside the encountered string work area.
- * Its numeric-mode behavior remains unaccepted and natively held below. */
+ * Only the encountered owned macro-text mode is permitted by the native guard. */
 WCHAR *rc_number_buffer=&rc_number_spelling_address_identity;
 
 unsigned char __stdcall rc_read_number(WCHAR first)
