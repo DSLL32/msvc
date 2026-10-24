@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_convert_member_pointer_object@4",
+  "native_entry": "convert_member_pointer_object",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_expression": "(unsigned)expression"
+  },
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 239929,
+        "original_owner_function": "_apply_member_pointer@4",
+        "native_owner_function": "apply_member_pointer",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted apply_member_pointer saves its expression formal to ESI4a914; PUSH ESI4a933/CALL4a934/return4a939 forwards that same node. Native immediate caller expression local is the actual owner; no hidden callee register input or object dump."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      307680,
+      307808
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 EAX boolean",
+    "proof": "Whole128B/saveEBXESIEDI12: expression adjustedESP+16; allRET4, EAX0/1. No incomingGPR/x87/CPUflagsformals. Compare right member-shape tag at+8 with currentcontext item selected by lefttype signedfield08; equal returns1. Otherwise actual lefttype.related pointer shape supplies flags/attrs and address of initialized shape.data+8 to make_qualified_type626e0/RET16 (not replace_first_type_shape62380). Existing can_initialize checks target versusactualleft; success invokes convert_initializer665a0(op1,target,left), replacesleft andbooleanizespointer; failure0. No newdata, speculative guards or ABI transport."
+  },
+  "ownership_register": "esi",
+  "ownership_caller_extent": [
+    305459,
+    305465
+  ],
+  "native_caller_locals": {
+    "caller_expression": {
+      "frame": 1,
+      "function": "apply_member_pointer",
+      "local": "expression"
+    }
+  }
+}

@@ -348,3 +348,21 @@ IrToken *__stdcall apply_member_pointer(IrToken *expression)
     expression->type = 0;
     return expression;
 }
+
+/* Original 0x4b1e0..0x4b25f, stdcall4. The object's pointer shape
+   is retained when a member requires conversion to its owning class. */
+int __stdcall convert_member_pointer_object(IrToken *expression)
+{
+    CType *object_type = ((IrToken *)expression->value.pointer)->type;
+    CppSymbol *owner = expression->tail.right->type->related->data.tag_symbol;
+    TypeShape *pointer;
+    CType *target;
+    if (owner == cpp_context_stack->items[object_type->field08]) return 1;
+    pointer = object_type->related;
+    target = make_qualified_type(owner->type, pointer->flags,
+        pointer->attributes, &pointer->data);
+    if (!can_initialize(target, (IrToken *)expression->value.pointer)) return 0;
+    expression->value.pointer = convert_initializer(1, target,
+        (IrToken *)expression->value.pointer);
+    return expression->value.pointer != 0;
+}
