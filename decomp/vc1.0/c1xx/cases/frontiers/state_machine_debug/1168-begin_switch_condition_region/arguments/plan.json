@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_begin_switch_condition_region",
+  "native_entry": "begin_switch_condition_region",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      262800,
+      262858
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole58B SUB16localrecord/plainRET/no savedGPR/no incomingstack,GPR,x87orflagsformal. Initializeskind2e andall15remainingbyteszero; solecallee append_frontend_record consumes16B. No suppressioncheck at thisentry; outerbegin_switch_condition gatesitsowncall. No newdata."
+  }
+}

@@ -904,3 +904,17 @@ void begin_switch_condition(void)
     ir_switch_records = ir_record_tail;
     begin_switch_condition_region();
 }
+
+/* Original 0x40290..0x402c9. The switch condition's evaluation
+   region is a fully defined sixteen-byte paired delimiter. */
+void begin_switch_condition_region(void)
+{
+    FrontendRecord record;
+    record.kind = 0x2e;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}

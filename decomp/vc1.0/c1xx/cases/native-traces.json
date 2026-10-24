@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "0324d5305019ee862c8ca8ac54e68bc2512a4d1269e1b9145ead7d9135053e11",
+    "functions.json": "c455893a5375eede6ec804e2dc017ce6d10256d0f83edbfefc94f6059d3a4f89",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "1ed6b46a759a66713ba1ee49d33e5297619fa613a16dd736acbfac5106923acb",
-    "cases/canonical-map.txt": "9a51036a7131304f076a4ff07bd7572b02f9be7ff3adf4e3a9c2eca46a3778c2",
+    "cases/original-entry-references.json": "8ecd80864b947a1951cb6482a8b00bbbf6c1561a6f98a09872a6be96c02999a8",
+    "cases/canonical-map.txt": "509c5a8314561d1fb7353fb1670cf9ea387c4fd1bbff3c8eaeb49e78314b6537",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1167-begin_switch_condition/entry-reference/original-receipt.json": "53208909674ced2fd62d3879e2578430bb3ab07f1d4cce609fc8bbf2d5cbf918",
-    "cases/frontiers/state_machine_debug/1167-begin_switch_condition/entry-reference/original-events.txt": "9bb7b62e4bfeef18aa12072dddf7b4a360cb995a3c0b30046525dd29318110f0",
-    "cases/frontiers/state_machine_debug/1167-begin_switch_condition/entry-reference/original-entries.plan": "051cd94afdd9d008dfc47d12cb204f685d864bca1046ea70c1c0d4a7de563fee"
+    "cases/frontiers/state_machine_debug/1168-begin_switch_condition_region/entry-reference/original-receipt.json": "47319ca225b3aca9d766c07416265e901faa5bc1aaf6ede0a80badef34d7805f",
+    "cases/frontiers/state_machine_debug/1168-begin_switch_condition_region/entry-reference/original-events.txt": "3737329ef12a83241fbdeabebcc1e2265843b86f231135ef7a1059175784c831",
+    "cases/frontiers/state_machine_debug/1168-begin_switch_condition_region/entry-reference/original-entries.plan": "d0c4f977b88cfcc0111049ecc69d848899f43fd926bb366982e03977a2a3da85"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -544,7 +544,7 @@
     },
     "begin_switch_condition_region": {
       "logical": "_begin_switch_condition_region",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
     },
     "begin_type_diagnostic": {
       "logical": "_begin_type_diagnostic",
@@ -6802,7 +6802,8 @@
     "begin_for_increment_region",
     "begin_for_body",
     "end_for_increment_region",
-    "begin_switch_condition"
+    "begin_switch_condition",
+    "begin_switch_condition_region"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10925,7 +10926,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1168,
+      "last": 1169,
       "seen": [
         "main",
         "message_text",
@@ -11992,12 +11993,13 @@
         "begin_for_body",
         "end_for_increment_region",
         "begin_switch_condition",
-        "begin_switch_condition_region"
+        "begin_switch_condition_region",
+        "begin_switch_body"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_begin_switch_condition_region",
-        "native": "begin_switch_condition_region",
+        "logical": "_begin_switch_body@4",
+        "native": "begin_switch_body",
         "signal": 5
       }
     }
