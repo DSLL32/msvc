@@ -1,0 +1,187 @@
+{
+  "checkpoint": 1293,
+  "previous_checkpoint": 1292,
+  "new_application": [
+    {
+      "name": "@omf_output_debug_record@8",
+      "start": 440128,
+      "end": 440192,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "line",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "offset",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-line-callback-abi/validation.json",
+        "scope": "Original6b740..6b780 two register formals line/offset, RET0. Actual34/0 alias current_source_location/caller offset, current_symbol flags1/segmentID5 observed; no other stack/register/flags/x87/output pointer. Current symbol reloaded after lookup; returned segment child output, line truncated to16 at selected child."
+      }
+    }
+  ],
+  "new_extent_bytes": 64,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1293,
+    "accepted_code_bytes": 344162,
+    "original_code_bytes": 399693,
+    "percentage": 86.10658680537313,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 639
+  },
+  "application_graph_rows": 1183,
+  "reconstructed_application_support_functions": 1178,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 325862,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "@omf_write_line@12",
+  "next_original_va": "0x6b780",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "@omf_write_line@12"
+  },
+  "controls": [
+    "cases/omf-line-callback-validation.json"
+  ],
+  "timings": {
+    "omf1293-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 23.369407118298113,
+      "returncode": 0,
+      "log_sha256": "e655456ffd96701476d1c46d46ff54730beb84851ac5db964b48e51a150584d6"
+    },
+    "omf1293-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 15.350161360576749,
+      "returncode": 0,
+      "log_sha256": "93009f389556bbaf47abcae27953633341a1fcf9f4d329d60712b884b3ffe5f6"
+    },
+    "omf1293-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1292.json",
+        "--extend-after",
+        "cases/omf-original-1293.json"
+      ],
+      "seconds": 0.31364572793245316,
+      "returncode": 0,
+      "log_sha256": "b9e63b52a39e0429568e48ec72ed126ab1b88fd6d92cdfc4127380291a127b7c"
+    },
+    "omf1293-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-line-callback.py"
+      ],
+      "seconds": 2.7274204278364778,
+      "returncode": 0,
+      "log_sha256": "a649150aed6192dd61b784c30d6bc08b1c5f596e7901152dbb06ccace6798842"
+    },
+    "omf1293-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-line-callback.py"
+      ],
+      "seconds": 2.3880732841789722,
+      "returncode": 0,
+      "log_sha256": "fac891d70a1cc0ce91d67f90b71d22ecf1902fae99c16425197cdad61ff0b74e"
+    },
+    "omf1293-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8382653333246708,
+      "returncode": 0,
+      "log_sha256": "e9609be3c4329fb70865b0f2b50ba77992fc966f7a1bb1cc86910f5c0c090b6f"
+    },
+    "omf1293-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1293.json"
+      ],
+      "seconds": 0.22160509321838617,
+      "returncode": 0,
+      "log_sha256": "a56f36717a33c63dfbc0ec69e6274243a616800248450ecce07331508f042d6f"
+    },
+    "omf1293-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 4.118816437199712,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1293-original-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1293.json"
+      ],
+      "seconds": 0.9742487212643027,
+      "returncode": 0,
+      "log_sha256": "6958b96f1544973988bbb2202f4c399e286ed3f9d3224222bb2ce0b4abbbeb2b"
+    },
+    "omf1293-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output",
+        "output"
+      ],
+      "seconds": 2.2114464808255434,
+      "returncode": 0,
+      "log_sha256": "ec91f030f2939351fe88e5ac94b78970659e833a6117380998468964b1141ca6"
+    }
+  },
+  "audit_original_compile_commands": 0,
+  "limits": [
+    "Whole64-byte line callback, typed ECXline/EDXoffset, RET0. Actual34/0 aliases current_source_location/caller offset, contextual current_symbol flags1/segmentID5 matched. Current symbol reloaded after lookup before bit20 branch; returned segment is child output. Line low16 forwarded to typed children, physical unused upperECX not asserted.",
+    "180 original/canonical controls/9 ABI negatives prove normal/COMDAT choice, in-place flags change and global current pointer swap across lookup, saved original line/offset/returned segment, both child RET4 and parent RET0/owned guards. Both new line writers remain named traps; cold COMDAT transformation not exercised by actual case. No invented input or assembly bridge.",
+    "Canonical/W3/ordinary graph/extents/RET/ABI/storage/fresh masked-original/native normal-line writer and15 native cases pass(14 complete). New full controls2.727s separate from ordinary structural audit23.369s; build15.350s,/W32.211s,reference.974s,native.222s,fixtures.838s wrappers. Split phases retained, analysis/edit unmeasured. Full exact OMF object pending."
+  ]
+}

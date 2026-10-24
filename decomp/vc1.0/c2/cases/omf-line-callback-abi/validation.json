@@ -1,0 +1,55 @@
+{
+  "matched": true,
+  "function": "@omf_output_debug_record@8",
+  "previous_provisional_name": "_omf_output_debug_record",
+  "original_va": "0x6b740",
+  "formals": [
+    {
+      "name": "line",
+      "location": "ECX",
+      "type": "unsigned32",
+      "original": 34,
+      "native": 34
+    },
+    {
+      "name": "offset",
+      "location": "EDX",
+      "type": "unsigned32",
+      "original": 0,
+      "native": 0
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6b740..6b780 consumes ECXline/EDXoffset, RET0; no stack/other register/flags/x87/out pointer. Actual current_source_location original8318c/callerEBXoffset/native caller aliases and current_symbol flags/segment identifier matched. Current symbol reloaded AFTER lookup child; child returned segment is future output. Line truncated to low16 only at final selected writer.",
+  "shape": {
+    "line": 34,
+    "offset": 0,
+    "flags": 1,
+    "segment_id": 5
+  },
+  "original": {
+    "line": 34,
+    "offset": 0,
+    "source_line": 34,
+    "caller_offset": 0,
+    "symbol": 8071564,
+    "flags": 1,
+    "segment_id": 5,
+    "return_address": 427060
+  },
+  "native": {
+    "line": 34,
+    "offset": 0,
+    "source_line": 34,
+    "caller_offset": 0,
+    "symbol": 1449360000,
+    "flags": 1,
+    "segment_id": 5,
+    "caller": "emit_machine_instructions"
+  },
+  "original_execution_seconds": 1.9200774524360895,
+  "native_debug_seconds": 0.14971950557082891,
+  "total_seconds": 2.3217091895639896,
+  "scope": "Actual two formals and caller/contextual fields only, no record/segment-result/destination snapshot or seed. Post-child current symbol may change, entry observation does not replace later reload. Full body/control/canonical/fresh matching pending."
+}

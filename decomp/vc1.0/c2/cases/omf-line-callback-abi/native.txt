@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3f40: file src/stubs.c, line 96.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_output_debug_record () at src/stubs.c:96
+96	__declspec(naked) void omf_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_record) __asm int 3 }
+C2_LINE {"line": 34, "offset": 0, "source_line": 34, "caller_offset": 0, "symbol": 1449360000, "flags": 1, "segment_id": 5, "caller": "emit_machine_instructions"}

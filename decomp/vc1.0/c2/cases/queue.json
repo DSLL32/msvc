@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Derived OMF case at1292: public-symbol callback accepted, matching original/native line callback6b740.14 prior cases complete.",
+  "status": "Derived OMF case at1293: source-line callback accepted, matching original/native normal line writer6b780.14 prior cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -487,8 +487,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "_omf_output_debug_record",
-  "current_checkpoint": 1292,
+  "current_application_frontier": "@omf_write_line@12",
+  "current_checkpoint": 1293,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",

@@ -93,7 +93,8 @@ __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_ou
 
 
 
-__declspec(naked) void omf_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_record) __asm int 3 }
+void __fastcall omf_write_line(unsigned short line, unsigned offset, Segment *segment) { __asm int 3 }
+void __fastcall omf_write_comdat_line(unsigned short line, unsigned offset, Segment *segment) { __asm int 3 }
 __declspec(naked) void omf_output_value(void) { RECON_TRACE_NAKED_ENTRY(omf_output_value) __asm int 3 }
 __declspec(naked) void omf_output_offset(void) { RECON_TRACE_NAKED_ENTRY(omf_output_offset) __asm int 3 }
 __declspec(naked) void omf_output_size(void) { RECON_TRACE_NAKED_ENTRY(omf_output_size) __asm int 3 }

@@ -295,6 +295,12 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             read_word(process,image_base+0x6e8a4),read_word(process,image_base+0x6e8a8),flags,symbol_flags,call->return_address);log_line(line);
         /* All formals are unused by RET8; no pointee payload is read. */
     }
+    if(!strcmp(call->name,"@omf_output_debug_record@8")) {
+        DWORD symbol=read_word(process,image_base+0x731ac);
+        sprintf(line,"omf_line line %lu offset %08lx source_line %lu caller_offset %08lx symbol %08lx flags %lu segment_id %lu return_address %08lx\n",
+            call->args[0],call->args[1],read_word(process,image_base+0x7318c),context->Ebx,symbol,
+            read_word(process,symbol+12)>>16,read_word(process,symbol+24),call->return_address);log_line(line);
+    }
     if(!strcmp(call->name,"@omf_output_symbol@4")) {
         DWORD symbol=call->args[0],flags=read_word(process,symbol+12)>>16;
         sprintf(line,"omf_symbol pointer %08lx current %08lx flags %lu return_address %08lx\n",

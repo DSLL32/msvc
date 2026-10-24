@@ -1296,7 +1296,8 @@
     "@omf_output_debug_pair@4",
     "_omf_write_fixups",
     "@omf_write_fixup@4",
-    "@omf_output_symbol@4"
+    "@omf_output_symbol@4",
+    "@omf_output_debug_record@8"
   ],
   "driver": [
     {
@@ -2367,10 +2368,28 @@
       }
     },
     {
-      "name": "_omf_output_debug_record",
+      "name": "@omf_output_debug_record@8",
       "start": 440128,
-      "end": 440129,
-      "provisional": true
+      "end": 440192,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "line",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "offset",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-line-callback-abi/validation.json",
+        "scope": "Original6b740..6b780 two register formals line/offset, RET0. Actual34/0 alias current_source_location/caller offset, current_symbol flags1/segmentID5 observed; no other stack/register/flags/x87/output pointer. Current symbol reloaded after lookup; returned segment child output, line truncated to16 at selected child."
+      }
     },
     {
       "name": "_omf_output_value",
@@ -9364,6 +9383,18 @@
         "entry_observation": "cases/omf-fixup-entry-abi/validation.json",
         "scope": "Original6c680..6c7b2 sole ECX typed fixup, RET0. No EDX/stack/flags/x87/out pointer. Actual pool slot0/count4/caller alias, type9/location120/flags7/frame0/target1/addend40 observed; conditional datum inputs not read under actual threads. Reserved/padding bytes never dumped/read/seeded. Child begin record is future output; preserve later reloads and cached flags."
       }
+    },
+    {
+      "name": "@omf_write_line@12",
+      "start": 440192,
+      "end": 440193,
+      "provisional": true
+    },
+    {
+      "name": "@omf_write_comdat_line@12",
+      "start": 440304,
+      "end": 440305,
+      "provisional": true
     }
   ],
   "cases": {

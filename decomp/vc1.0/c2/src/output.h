@@ -75,7 +75,7 @@ void __fastcall omf_output_symbol(FunctionSymbol *symbol);
 void __fastcall omf_select_segment(Segment *segment);
 void __fastcall omf_output_data(void *data, unsigned bytes);
 void __fastcall omf_output_debug_pair(char *filename);
-void omf_output_debug_record(void);
+void __fastcall omf_output_debug_record(unsigned line, unsigned offset);
 void omf_output_value(void);
 void __fastcall omf_output_bytes(unsigned displacement, SymbolHeader *symbol);
 void omf_output_offset(void);

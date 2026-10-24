@@ -809,3 +809,12 @@ mutation. Original/W3/ordinary audits/fresh pair and15 native cases pass
 (14 complete), next line callback6b740.344098/399693 extent bytes; app/support
 325798B/1177functions exclude5 historical CRT. Ordinary audit23.526s, full
 object pending. Timings/limits: cases/omf-symbol-callback-checkpoint.json.
+
+Checkpoint1293 adds64-byte source-line callback. Actual line34/offset0 and
+caller/current-symbol context match.180 full controls/9 ABI rejects prove saved
+inputs, current-symbol pointer/flags reload after lookup, low16 line, selected
+normal/COMDAT writer and RET4 child/RET0 parent. Both writers still named traps,
+actual normal branch advances to6b780. Original/W3/ordinary audits/fresh pair
+and15 native cases pass(14 complete).344162/399693 extent bytes; app/support
+325862B/1178functions exclude5 historical CRT. Audit23.369s, full object pending.
+cases/omf-line-callback-checkpoint.json retains split timings and scope.

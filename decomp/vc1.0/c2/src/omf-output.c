@@ -1233,3 +1233,14 @@ void __fastcall omf_output_symbol(FunctionSymbol *symbol)
         omf_emit_public(&symbol->symbol, segment);
     }
 }
+
+/* Original [0006b740,0006b780). Look up the current segment first, then
+   reload current_symbol before choosing the ordinary or COMDAT line writer. */
+void __fastcall omf_output_debug_record(unsigned line, unsigned offset)
+{
+    Segment *segment = (Segment *)lookup_global_symbol(current_symbol->symbol.field18.identifier);
+    if (current_symbol->symbol.field0e & 0x20)
+        omf_write_comdat_line((unsigned short)line, offset, segment);
+    else
+        omf_write_line((unsigned short)line, offset, segment);
+}
