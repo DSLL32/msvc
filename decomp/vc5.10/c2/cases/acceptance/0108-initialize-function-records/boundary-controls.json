@@ -1,0 +1,89 @@
+{
+  "count": 16,
+  "controls": [
+    {
+      "control": "actual whole initializer nonzero identities/ordered calls/exact one kind BYTE",
+      "build_seconds": 0.3608108628541231,
+      "execution_seconds": 0.001174519769847393
+    },
+    {
+      "control": "directory bytes",
+      "build_seconds": 0.34904279839247465,
+      "execution_seconds": 0.0013669701293110847
+    },
+    {
+      "control": "directory end",
+      "build_seconds": 0.3628629297018051,
+      "execution_seconds": 0.0017785616219043732
+    },
+    {
+      "control": "directory cursor",
+      "build_seconds": 0.34911542758345604,
+      "execution_seconds": 0.0013994071632623672
+    },
+    {
+      "control": "number reset",
+      "build_seconds": 0.3488005492836237,
+      "execution_seconds": 0.0011652866378426552
+    },
+    {
+      "control": "first-list reset",
+      "build_seconds": 0.34130197763442993,
+      "execution_seconds": 0.002460956573486328
+    },
+    {
+      "control": "last-list reset",
+      "build_seconds": 0.354155364446342,
+      "execution_seconds": 0.0020670080557465553
+    },
+    {
+      "control": "early deferred-list clear",
+      "build_seconds": 0.34765824396163225,
+      "execution_seconds": 0.0013625361025333405
+    },
+    {
+      "control": "reuse wrong block identity",
+      "build_seconds": 0.3522434802725911,
+      "execution_seconds": 0.001376505009829998
+    },
+    {
+      "control": "missing existing pending-list reset",
+      "build_seconds": 0.33893353678286076,
+      "execution_seconds": 0.0018458571285009384
+    },
+    {
+      "control": "wrong set pool",
+      "build_seconds": 0.34906876739114523,
+      "execution_seconds": 0.001443672925233841
+    },
+    {
+      "control": "wrong new-node kind",
+      "build_seconds": 0.3518893588334322,
+      "execution_seconds": 0.0011639557778835297
+    },
+    {
+      "control": "wrong marker kind",
+      "build_seconds": 0.3434159466996789,
+      "execution_seconds": 0.0013651549816131592
+    },
+    {
+      "control": "kind overwrites adjacent unknown byte",
+      "build_seconds": 0.35326480586081743,
+      "execution_seconds": 0.002062424086034298
+    },
+    {
+      "control": "clears wrong set",
+      "build_seconds": 0.3549751630052924,
+      "execution_seconds": 0.0017467355355620384
+    },
+    {
+      "control": "missing final child",
+      "build_seconds": 0.34942140709608793,
+      "execution_seconds": 0.0011892588809132576
+    }
+  ],
+  "seconds": 5.641347873955965,
+  "checker_sha256": "8bb0b3e0b28ac449213f4546c29b87c97ddbf4c8efb6726239d49c37d7189dc7",
+  "source_sha256": "2f1bde8078d9952c812391bd82577d33e41cc8d6cb2a87d05136102a8bd6513d",
+  "scope": "Actual initializer compiled unchanged, isolated observers supply distinct child-return address identities only. No child body/ABI or unreachable actual path credit. Full current natural first-child raw proof remains independent."
+}

@@ -58,8 +58,11 @@ ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})
 ROOTS['coff_reuse_sections']=(0x49e6e0,'coff_reuse_sections')
 ROOTS['coff_section_buckets']=(0x497d00,'coff_section_buckets')
 
+REGISTER_ROOTS = {'function_register_blocks': (4782220, 'function_register_blocks'), 'next_function_register_block': (4782760, 'next_function_register_block'), 'end_function_register_blocks': (4782756, 'end_function_register_blocks'), 'next_function_register_number': (4782736, 'next_function_register_number'), 'first_function_register_block': (4776664, 'first_function_register_block'), 'last_function_register_block': (4782752, 'last_function_register_block'), 'tracked_register_block': (4776656, 'tracked_register_block'), 'secondary_register_block': (4776652, 'secondary_register_block'), 'plain_register_block': (4776648, 'plain_register_block'), 'default_register_block': (4776636, 'default_register_block'), 'extra_register_block': (4776644, 'extra_register_block'), 'free_plain_register_nodes': (4776628, 'free_plain_register_nodes'), 'free_tracked_register_nodes': (4776632, 'free_tracked_register_nodes'), 'pending_debug_symbols': (4813912, 'pending_debug_symbols'), 'secondary_register_set': (4776640, 'secondary_register_set'), 'tracked_register_set': (4776660, 'tracked_register_set'), 'empty_function_register': (4813836, 'empty_function_register')}
+ROOTS.update(REGISTER_ROOTS)
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False, section_selected=False, output_bytes_written=False, output_directives_complete=False, function_selected=False):
+
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False, section_selected=False, output_bytes_written=False, output_directives_complete=False, function_selected=False, register_directory=False):
     payload=b'-defaultlib:LIBC -defaultlib:OLDNAMES 'if output_directives_complete else b'-defaultlib:LIBC'if output_bytes_written else b''
     written=len(payload);writes=6 if output_directives_complete else 2 if output_bytes_written else 0
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
@@ -189,7 +192,8 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
     if directives:
         directive_head, directive_cursor, directive_remaining = pool_words[3:6]
         assert directive_head and directive_head != head
-        assert directive_cursor == directive_head + 32 and directive_remaining == 4064
+        expected_cursor=4032 if register_directory else 32
+        assert directive_cursor == directive_head + expected_cursor and directive_remaining == 4096-expected_cursor
         assert u32(addresses['output_directives']) == directive_head + 8
         data = bytearray(read(directive_head, 4096))
         assert data[:8] == struct.pack('<II', 0, 4088)
@@ -205,8 +209,17 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         # The accepted allocator writes both header DWORDs and zeroes all4088
         # payload bytes; append writes only kind/value and the prior link.
         # The unwritten second link and remaining4064 bytes retain that zeroing.
-        result['directives'] = dict(head_offset=8, cursor_offset=32, remaining=4064,
+        result['directives'] = dict(head_offset=8, cursor_offset=expected_cursor, remaining=4096-expected_cursor,
             nodes=nodes, pool_bytes=data.hex())
+    if register_directory:
+        assert directives and function_selected
+        assert u32(addresses['function_register_blocks'])==directive_head+32
+        assert u32(addresses['next_function_register_block'])==directive_head+32
+        assert u32(addresses['end_function_register_blocks'])==directive_head+4032
+        pending={name:u32(addresses[name])for name in REGISTER_ROOTS if name not in ('function_register_blocks','next_function_register_block','end_function_register_blocks')}
+        assert all(v==0 for v in pending.values()),'unexecuted register constructors or reset state differ'
+        assert read(directive_head+32,4064)==bytes(4064),'allocated pointer directory or own untouched tail differs'
+        result['function_registers']={'directory_offset':32,'cursor_offset':32,'end_offset':4032,'capacity':1000,'allocation_bytes':4000,'pending':pending}
     if writer:
         assert directives
         later_pools = struct.unpack('<9I', read(addresses['pools'] + 60, 36))

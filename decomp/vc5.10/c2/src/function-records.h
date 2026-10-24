@@ -1,0 +1,30 @@
+#ifndef C2_FUNCTION_RECORDS_H
+#define C2_FUNCTION_RECORDS_H
+#include "functions.h"
+#include <recon.h>
+
+typedef struct C2RegisterBlock C2RegisterBlock;
+typedef struct C2RegisterSet C2RegisterSet;
+/* Only this encountered kind byte is used here. The actual allocator's80B
+ * records justify the extent; other fields/defaults remain unmodeled. */
+typedef struct C2FunctionRegister {
+    unsigned char pending00[4];
+    unsigned char kind;
+    unsigned char pending05[75];
+} C2FunctionRegister;
+typedef char C2FunctionRegisterSizeCheck[sizeof(C2FunctionRegister) == 80 ? 1 : -1];
+typedef char C2FunctionRegisterKindCheck[offsetof(C2FunctionRegister,kind) == 4 ? 1 : -1];
+extern C2RegisterBlock **function_register_blocks;
+extern C2RegisterBlock **next_function_register_block, **end_function_register_blocks;
+extern C2RegisterBlock *first_function_register_block, *last_function_register_block;
+extern unsigned next_function_register_number;
+extern C2RegisterBlock *tracked_register_block, *secondary_register_block;
+extern C2RegisterBlock *plain_register_block, *default_register_block, *extra_register_block;
+extern C2FunctionRegister *free_plain_register_nodes, *free_tracked_register_nodes;
+extern C2RegisterSet *secondary_register_set, *tracked_register_set;
+extern C2FunctionRegister *empty_function_register;
+C2RegisterBlock *new_register_block(void);
+C2RegisterSet *__fastcall new_register_set(int pool);
+C2FunctionRegister *__fastcall new_function_register(unsigned char kind);
+void __fastcall clear_register_set(C2RegisterSet *set);
+#endif

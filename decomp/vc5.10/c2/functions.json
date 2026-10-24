@@ -117,7 +117,8 @@
     "@write_codeview_records@4",
     "@write_assembly_records@4",
     "_begin_function_input",
-    "_reset_register_marks"
+    "_reset_register_marks",
+    "_initialize_function_records"
   ],
   "driver": [
     {
@@ -266,7 +267,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "da94c3d2891a261d730c431b161942742a69ad666189a98cc690ee5219d5835a",
+            "lifetime_sha256": "8d6eac996b3e8374f8609e0a659f5bc264d45e81c2010a40b1d9e125eb4590e7",
             "instructions": [
               {
                 "offset": 212,
@@ -669,7 +670,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "076f2ea14b2123ad49e91ccd83abb0cd8f12d63b8741566b4d395ab45346dda9",
+            "lifetime_sha256": "d809676955fa62ca5788ab99d9471ab19d8bd0f72c2bd465cfbf5cc6901b7d90",
             "instructions": [
               {
                 "offset": 38,
@@ -730,7 +731,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "2380ccd3c3ece2fc02742fd301e506c3f816cf61569f266fb939e9302496a04e",
+            "lifetime_sha256": "fdd6740a9ec727d76411c9b4abde127397c8fa140b1ace5df61b948873fddba3",
             "instructions": [
               {
                 "offset": 46,
@@ -1508,7 +1509,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "4f1922ad471bff4a665151cdde15bad01a4f22ec46120628b773f1714b274712"
+            "lifetime_sha256": "3649e8abf83556e2dc81b3d2c529b785335334fda6cd0e22b4f71ccf86d56793"
           }
         }
       ]
@@ -1698,7 +1699,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "0a6cd61046fba029accf869801bb1d0ecd4daf5ea99c68dbb8b963d0185fa8f6"
+            "lifetime_sha256": "a3efa259ef41aa670055f776e59fe5bc17695889a16b5b0d2bcc04a143ace3b5"
           }
         }
       ]
@@ -4135,7 +4136,7 @@
               6,
               827
             ],
-            "lifetime_sha256": "06ed0a63993e841991308a445bec0dbfb6bc33bc187bb57e71be41a99029731e",
+            "lifetime_sha256": "e0d532e82a3b04146b32c5759935f5e2f9f0e38ecac597adb30fa1ac037436c3",
             "instructions": [
               {
                 "offset": 6,
@@ -4395,7 +4396,7 @@
               27,
               145
             ],
-            "lifetime_sha256": "068bfed16e5d425d097c97180973852f095ab3e725dcb9772b258f7eb8f2d0a2",
+            "lifetime_sha256": "309b21e2ea37484ed602d07efda50fc76828979c34071b8039457df49daefd3b",
             "instructions": [
               {
                 "offset": 27,
@@ -5589,7 +5590,7 @@
               6,
               489
             ],
-            "lifetime_sha256": "411fc16b7c2f792b35df269012570ad93f059e8b64c600748e15f26b74e7a8b5",
+            "lifetime_sha256": "45b19d77add72071f37ec61c3c8fd7dcf6563c55affba91f01e15355d7edfd2b",
             "instructions": [
               {
                 "offset": 6,
@@ -5844,7 +5845,7 @@
               6,
               315
             ],
-            "lifetime_sha256": "402dc0eb8608e3277826867ab78ad11cae83c8dd548185ceb9834aafc28c799a",
+            "lifetime_sha256": "750b055c3db6bb3a6d379d189676af792aa7c4aeb8dcff15ae564e8aac217583",
             "instructions": [
               {
                 "offset": 6,
@@ -12426,6 +12427,15 @@
       "kind": "application",
       "abi": "voidcdecl(void),RET0",
       "evidence": "cases/analysis/register-flags-model.json actual75x80/+5 knownflag bit10 clear only. Partialstaticbacking policy approved;5925otherbytes UNMODELED/notdefaults, unknownconsumer/escape held."
+    },
+    {
+      "name": "_initialize_function_records",
+      "native": "initialize_function_records",
+      "start": 4359770,
+      "end": 4359949,
+      "kind": "application",
+      "abi": "voidcdecl(void),RET0",
+      "evidence": "cases/analysis/function-records-analysis.json whole179B initializer; first real child before blockcreation."
     }
   ],
   "stubs": [
@@ -14476,14 +14486,34 @@
       "evidence": "cases/analysis/assembly-records-analysis.json exactcaller+boundedcallee ABI; genuine masked INT3/no bodycredit."
     },
     {
-      "name": "_initialize_function_records",
-      "native": "initialize_function_records",
-      "start": 4359770,
-      "end": 4359771,
+      "name": "_clear_function_input_state",
+      "native": "clear_function_input_state",
+      "start": 4359949,
+      "end": 4359950,
       "pending_extent": true,
       "kind": "application",
       "abi": "voidcdecl(void),RET0",
-      "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit.",
+      "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit."
+    },
+    {
+      "name": "_reset_function_listing",
+      "native": "reset_function_listing",
+      "start": 4738794,
+      "end": 4738795,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "voidcdecl(void),RET0",
+      "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit."
+    },
+    {
+      "name": "_new_register_block",
+      "native": "new_register_block",
+      "start": 4245338,
+      "end": 4245339,
+      "kind": "application",
+      "pending_extent": true,
+      "abi": "cdecl(void),pointerEAX,RET0",
+      "evidence": "cases/analysis/function-records-analysis.json actual wholecallee/caller ABI; namedmaskedINT3, no bodycredit.",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -14651,35 +14681,46 @@
           "native": "(unsigned long)local_symbol_table"
         }
       ],
-      "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "b4a6d5a2d64d8b8d69b02fae7173baa07101844d5b690db9680eb96d42a7e0dd",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
       ],
       "frontier_contract": "coff-output-ready",
       "controller_selected_function": true,
-      "section_caller": "reset_register_marks"
+      "state_model": "scripts/globals_state.py",
+      "section_caller": "initialize_function_records",
+      "function_register_directory": true,
+      "state_model_sha256": "7a7a45e81990b32de89c6b843766574d5f3564390263b23e50cdabe5429c238b"
     },
     {
-      "name": "_clear_function_input_state",
-      "native": "clear_function_input_state",
-      "start": 4359949,
-      "end": 4359950,
-      "pending_extent": true,
+      "name": "@new_register_set@4",
+      "native": "new_register_set",
+      "start": 4200547,
+      "end": 4200548,
       "kind": "application",
-      "abi": "voidcdecl(void),RET0",
-      "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit."
+      "pending_extent": true,
+      "abi": "fastcall int poolECX, pointerEAX,RET0",
+      "evidence": "cases/analysis/function-records-analysis.json actual wholecallee/caller ABI; namedmaskedINT3, no bodycredit."
     },
     {
-      "name": "_reset_function_listing",
-      "native": "reset_function_listing",
-      "start": 4738794,
-      "end": 4738795,
-      "pending_extent": true,
+      "name": "@new_function_register@4",
+      "native": "new_function_register",
+      "start": 4201624,
+      "end": 4201625,
       "kind": "application",
-      "abi": "voidcdecl(void),RET0",
-      "evidence": "cases/analysis/begin-function-input-disassembly.txt completeboundedcallee noarg prologue/RET0; genuine namedmaskedINT3, no bodycredit."
+      "pending_extent": true,
+      "abi": "fastcall unsignedchar kindCL,pointerEAX,RET0; no EDX formal",
+      "evidence": "cases/analysis/function-records-analysis.json actual wholecallee/caller ABI; namedmaskedINT3, no bodycredit."
+    },
+    {
+      "name": "@clear_register_set@4",
+      "native": "clear_register_set",
+      "start": 4200807,
+      "end": 4200808,
+      "kind": "application",
+      "pending_extent": true,
+      "abi": "fastcall C2RegisterSet*ECX,void,RET0",
+      "evidence": "cases/analysis/function-records-analysis.json actual wholecallee/caller ABI; namedmaskedINT3, no bodycredit."
     }
   ],
   "text_data": [
@@ -14995,7 +15036,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15007,7 +15048,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15019,7 +15060,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15031,7 +15072,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15043,7 +15084,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15055,7 +15096,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15067,7 +15108,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15079,7 +15120,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15091,7 +15132,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15103,7 +15144,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15117,7 +15158,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15129,7 +15170,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15144,7 +15185,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15156,7 +15197,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15168,7 +15209,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15180,7 +15221,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15192,7 +15233,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15204,7 +15245,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15219,7 +15260,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15234,7 +15275,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15246,7 +15287,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15258,7 +15299,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15270,7 +15311,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {
@@ -15285,7 +15326,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "c2d3762d15251a1bdb504f758e6e8d8d6ea03f852b3ef3ef0e8c6d2c12dfddee"
+          "sha256": "c32594686050d4ffd3368f8660d16df83f54ad6f2e78440b347e92ed34c0046b"
         }
       },
       {

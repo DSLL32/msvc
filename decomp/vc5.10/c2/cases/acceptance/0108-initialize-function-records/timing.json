@@ -1,0 +1,75 @@
+{
+  "builds": {
+    "original": {
+      "seconds": 3.0713076051324606,
+      "status": 0
+    },
+    "native": {
+      "seconds": 2.981061514467001,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 1.6229167450219393,
+      "status": 0
+    }
+  },
+  "original_capture": {
+    "setup": 1.1580456728115678,
+    "execution": 3.396992056630552,
+    "total": 4.605583869852126
+  },
+  "native_capture": {
+    "execution": 0.5644620778039098,
+    "total": 1.0362993702292442
+  },
+  "audit_seconds": 1.051800787448883,
+  "protocol_controls": {
+    "fresh": 6,
+    "reused": 147,
+    "seconds": 8.523955394513905
+  },
+  "fresh_affected_controls": {
+    "input": {
+      "fresh": 25,
+      "seconds": 26.41746279131621
+    },
+    "compiled_whole_initializer": {
+      "fresh": 16,
+      "seconds": 5.641347873955965
+    }
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.011213365010917187,
+      "execution": 0.002621317282319069,
+      "checks": 0.0002079913392663002,
+      "total": 0.014497323893010616
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "failures": {
+    "original_build": "First4.582s parallel build found missing code-records.h declaration of existing pending_debug_symbols; included original owner header, no duplicate storage.",
+    "reference_helper": "First run helper275/Linux19: newfrontier missing5-entry COFF count selector. Failed raw/helper retained; correctedhelper+freshfinaloriginal.",
+    "native_setup": "Three dormant old-model entries caused pre-GDB all-stub hash assertion; moved same path+SHA check to actual observed frontier. Failed preexecution directory retained. Native-only current capture reuses exact unchanged finaloriginal.25 controls include wrongpath/hash and all3 stale dormant model rejection.",
+    "paths": [
+      "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/records108-original",
+      "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/records108-native-final"
+    ]
+  },
+  "failed_build": {
+    "original": {
+      "seconds": 4.581762204878032,
+      "status": 2
+    }
+  },
+  "failed_original_capture": {
+    "setup": 1.2260321862995625,
+    "execution": 3.115935099311173,
+    "total": 4.38993335980922
+  }
+}

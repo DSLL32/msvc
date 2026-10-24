@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 102 application functions (20946 bytes) and five CRT
+Current reconstruction has 103 application functions (21125 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at initialize_function_records(void), after the register flag reset and before setup writes for selected _mix_unsigned
+currently stops at new_register_block(void), after allocating the function register directory for selected _mix_unsigned
 and the 38-byte directive payload/counters matched. Four import thunks (24 bytes) and contextual text tables
-(812 bytes) remain separate. The 21384 source bytes are 3.731% of 573183 `.text`
+(812 bytes) remain separate. The 21563 source bytes are 3.762% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -477,3 +477,5 @@ Source106 reconstructs the whole76B function-input setup wrapper and keeps all f
 Source107 reconstructs the24B reset_register_marks loop: actual75 rows/80Bstride/flagbyte+5 clearbit0x10. Only75 initialized flags are modeled;5925 pending backing bytes receive no default/layout/data credit, remain individually untouched, and unknown fields/rowpointer escape hard-fail before acceptance. Fresh original/native stop at real noarg initialize_function_records before allocation. Nonzero pendingbytes, canaryrows, livealiases, full finite87-site owner/source-use guards and actual raw before/after mutations pass102 focused controls;6 generic controls fresh/147 reused. Historical CRT438B/import24B/textdata812B separate.
 
 Register-table data is separately limited to75 encountered flag bytes, with5925 other backing bytes explicitly unmodeled. They are checked only against each side's own before state, never as cross-side/default equivalence. The finite table-use/source guard holds any new consumer or pointer escape until the corresponding fields are reconstructed.
+
+Source108 reconstructs initialize_function_records (179 original bytes). The actual pool1 directory allocation is1000 pointers/4000B atoffset32; cursor4032/remaining64 and all defined4096poolbytes are checked. Fresh original/native reach genuine noarg new_register_block40c75a before constructor execution. Existing pending_debug_symbols497458 is reused. Four named constructors remain masked/zero bodycredit; caller signatures and deferred one-BYTE kind+4 writer are explicit.25 actual directory/state/model negatives26.417s,16 whole-source compiled nonzero identity/order/kind controls5.641s,6 generic fresh/147 reused8.524s. Actual frontier model path+SHA is checked when reached; dormant historical models stay failclosed. Failed build/helper/setup packets are retained.

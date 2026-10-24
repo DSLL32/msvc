@@ -96,6 +96,11 @@ def verify(config):
                 (0x48e008,'function_pass_state',2),(0x48e0dc,'function_pass_result',4),
                 (0x491064,'code_generation_state',4),(0x49106c,'generate_prologue',4),(0x491068,'generate_frame',4)]:
             assert reader(TARGET)(address,size)==reader(BINARY/'build/c2.exe')(maps['_'+name],size),'controller initial typed field differs'
+    if '_initialize_function_records'in config['accepted']+config['trial']:
+        layout=json.loads((BINARY/'cases/analysis/function-records-analysis.json').read_text())
+        assert layout['target_sha256']==sha(TARGET.read_bytes())
+        for row in layout['objects']:
+            assert reader(TARGET)(row['original'],4)==reader(BINARY/'build/c2.exe')(maps['_'+row['native']],4)==bytes(4),'function register global initial identity/width differs'
     if '_begin_function_input'in config['accepted']+config['trial']:
         for at,name in [(0x490be4,'function_input_flags'),(0x48fb3c,'function_analysis_available')]:
             assert reader(TARGET)(at,4)==reader(BINARY/'build/c2.exe')(maps['_'+name],4)==bytes(4),'function setup scalar initial storage/width differs'

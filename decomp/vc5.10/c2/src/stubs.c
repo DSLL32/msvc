@@ -1,5 +1,6 @@
 #include "code-records.h"
 #include "coff-output.h"
+#include "function-records.h"
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
@@ -668,10 +669,6 @@ void __fastcall write_assembly_initializer(C2InitRecord *record)
 }
 
 
-void initialize_function_records(void)
-{
-    __asm { int 3 }
-}
 
 void clear_function_input_state(void)
 {
@@ -679,6 +676,26 @@ void clear_function_input_state(void)
 }
 
 void reset_function_listing(void)
+{
+    __asm { int 3 }
+}
+
+C2RegisterBlock *new_register_block(void)
+{
+    __asm { int 3 }
+    return NULL;
+}
+C2RegisterSet *__fastcall new_register_set(int pool)
+{
+    __asm { int 3 }
+    return NULL;
+}
+C2FunctionRegister *__fastcall new_function_register(unsigned char kind)
+{
+    __asm { int 3 }
+    return NULL;
+}
+void __fastcall clear_register_set(C2RegisterSet *set)
 {
     __asm { int 3 }
 }

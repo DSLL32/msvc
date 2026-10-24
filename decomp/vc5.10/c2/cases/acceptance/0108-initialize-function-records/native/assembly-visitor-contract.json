@@ -1,0 +1,126 @@
+{
+  "logical": "_write_assembly_symbols",
+  "primary": [
+    4322649,
+    4322663
+  ],
+  "code_chunks": [
+    [
+      4627568,
+      4627646
+    ]
+  ],
+  "code_bytes": 92,
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "visitor": {
+    "entry": 4372993,
+    "name": "@visit_symbols@8",
+    "ABI": "voidfastcall(int localECX, provisionalfunctionaddressEDX),RET0; pointeeABI unresolved/non-callable foracceptedconsumer",
+    "body": "namedmaskedINT3/no bodycredit"
+  },
+  "passes": [
+    [
+      0,
+      4756682
+    ],
+    [
+      0,
+      4756886
+    ],
+    [
+      1,
+      4756886
+    ],
+    [
+      0,
+      4757139
+    ],
+    [
+      1,
+      4757139
+    ],
+    [
+      0,
+      4760145
+    ]
+  ],
+  "callbacks": [
+    {
+      "name": "_assembly_callback_4894ca",
+      "entry": 4756682,
+      "pending_signature": true,
+      "body": "namedmaskedINT3/address identity only"
+    },
+    {
+      "name": "_assembly_callback_489596",
+      "entry": 4756886,
+      "pending_signature": true,
+      "body": "namedmaskedINT3/address identity only"
+    },
+    {
+      "name": "_assembly_callback_489693",
+      "entry": 4757139,
+      "pending_signature": true,
+      "body": "namedmaskedINT3/address identity only"
+    },
+    {
+      "name": "_assembly_callback_48a251",
+      "entry": 4760145,
+      "pending_signature": true,
+      "body": "namedmaskedINT3/address identity only"
+    }
+  ],
+  "source_representation": "Provisional scalar functionpointer(voidcdecl*)() passed only as addressEDX, no call or argument interpretation. Explicitfinite source/preflight gate beforeactualvisitorconsumer acceptance. Fourunknownsignaturestubs do not claimCdecl/noargABI. No wrapper/struct-byvalue/newcode/dataarray.",
+  "actual_path": "assembly_output_active0 skipsall six address-passes. Genuine next41f567 write_codeview_records(C2DebugLink*NULL).",
+  "primary_sha256": "bca85f79357495a12c62721437709c2455aa85efa2602253eb5bad1d0442e0b0",
+  "cold_sha256": "6ceb7dcf852fe4822b8f07137903bcd7402fcafac2fb62f40f086e1810481c66",
+  "visitor_bytes": 62,
+  "visitor_sha256": "9e46b1eb885b4cfa9da447159fd2ae62ceb2689b567dfbf7a8ebb43f58ef47c6",
+  "source_sha256": "1be90ccfae62d82e4625c32b1b14b0c82e5b32a20161b9c754c1c792f239187b",
+  "prototype_limits": "ScalarpointerpassEBX/EDX value only; voidcdecl(*)() labels no actualcallback signature/return/cleanup. Do not call. Realiterator62B layout usesECXscopeflag/EDXpointer, savedEBX/ESI/EDI and ownRET0; itsbody unaccepted/masked, no callback invocation accepted.",
+  "disassembly_sha256": "47a03f85dd61488a3404a5d6fc509c226604305c3c76852cc0e2fba3341b3abe",
+  "canonical_passes": [
+    {
+      "flag": 0,
+      "original_target": 4756682,
+      "pointer_offset": 12,
+      "flag_offset": 17,
+      "call_offset": 19
+    },
+    {
+      "flag": 0,
+      "original_target": 4756886,
+      "pointer_offset": 24,
+      "flag_offset": 29,
+      "call_offset": 31
+    },
+    {
+      "flag": 1,
+      "original_target": 4756886,
+      "pointer_offset": 36,
+      "flag_offset": 41,
+      "call_offset": 46
+    },
+    {
+      "flag": 0,
+      "original_target": 4757139,
+      "pointer_offset": 51,
+      "flag_offset": 56,
+      "call_offset": 58
+    },
+    {
+      "flag": 1,
+      "original_target": 4757139,
+      "pointer_offset": 63,
+      "flag_offset": 68,
+      "call_offset": 73
+    },
+    {
+      "flag": 0,
+      "original_target": 4760145,
+      "pointer_offset": 78,
+      "flag_offset": 83,
+      "call_offset": 85
+    }
+  ]
+}
