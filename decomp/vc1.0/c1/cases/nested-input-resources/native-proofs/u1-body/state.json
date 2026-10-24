@@ -1,0 +1,34 @@
+{
+  "inferior_pid": 2220289,
+  "exit": 99,
+  "status": "completed",
+  "calls": [
+    {
+      "function": "release_input_handle",
+      "registers": {
+        "eip": 1449666720,
+        "esp": 4291163004,
+        "ebx": 1450098676,
+        "esi": 1450139990,
+        "edi": 1442840608,
+        "ebp": 4291163288,
+        "fctrl": 895
+      },
+      "frame": [
+        1449909689
+      ],
+      "returned_registers": {
+        "eip": 1449909689,
+        "esp": 4291163008,
+        "ebx": 1450098676,
+        "esi": 1450139990,
+        "edi": 1442840608,
+        "ebp": 4291163288,
+        "fctrl": 895,
+        "eax": 1
+      }
+    }
+  ],
+  "forwarded": [],
+  "exits": []
+}

@@ -234,3 +234,18 @@ void *__stdcall pop_work_list(void **head)
     *head = next;
     return next;
 }
+
+/* Original0x4a6b0..0x4a6df, RET4. The macro allocator allows exactly
+   one ordinary malloc retry before its fatal out-of-memory diagnostic. */
+void *__stdcall retry_malloc(unsigned bytes)
+{
+    void *memory = malloc(bytes);
+    if (!memory) {
+        memory = malloc(bytes);
+        if (!memory) {
+            fatal_error(60);
+            return 0;
+        }
+    }
+    return memory;
+}

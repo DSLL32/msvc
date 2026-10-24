@@ -1,0 +1,11 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+
+Program stopped.
+0xf7faf6a0 in ?? () from /lib/ld-linux.so.2
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, retry_malloc (bytes=83) at src/stubs.c:96
+96	void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
+Python Exception <class 'AttributeError'>: 'gdb.ExitedEvent' object has no attribute 'exit_code'
+[Inferior 1 (process 2214359) killed]

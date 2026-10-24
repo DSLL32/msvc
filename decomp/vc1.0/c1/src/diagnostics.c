@@ -408,3 +408,14 @@ void print_ide_status(char *format, ...)
     while (buffer[length]) ++length;
     _write(2,buffer,length);
 }
+
+/* Original0x4aa40..0x4aa83. Five fixed cdecl slots; the source location
+   follows the CRT error reason in the fatal formatter's argument list. */
+void report_error(unsigned code, char *kind, char *filename, char *source, unsigned line)
+{
+    char *reason;
+    if (!filename) filename = "";
+    if (!kind) kind = "";
+    reason = _strerror(0);
+    fatal_error(code, kind, filename, reason, source, line);
+}

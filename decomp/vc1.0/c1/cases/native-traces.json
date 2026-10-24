@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "56f815e861117cec65a0149d3d7a08d7ef4937021a4f01b45c5d657f353657db",
+    "functions.json": "b162c78822ed9c43ca99571d26e2c6619b1a5c3d3fb5105dbeddba9fb165a446",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "ed9643a7aee0f96811023c92df73527a37668a6c4efb3c50686a0d4ede49efd7"
+    "sha256": "f54e2e7256bc905a5b7533c39ac6524889b424b1d8e35a11df0f8c7010c8d301"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "70c60c1ecbab05cc08ae184c189c65125ad5378234332a5ac3a54b21c4b57c38"
+    "sha256": "c7d05c550b2e422a80a8263fd9e1229498e4408a4198a93662f3e8e96562a738"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -743,7 +743,7 @@
     },
     "compiler_signal": {
       "logical": "_compiler_signal",
-      "source": "src/stubs.c"
+      "source": "src/initialization.c"
     },
     "compiler_warning": {
       "logical": "_compiler_warning",
@@ -3163,7 +3163,7 @@
     },
     "release_input_handle": {
       "logical": "_release_input_handle",
-      "source": "src/stubs.c"
+      "source": "src/source-input.c"
     },
     "reload_program_database": {
       "logical": "@reload_program_database@4",
@@ -3235,7 +3235,7 @@
     },
     "report_error": {
       "logical": "_report_error",
-      "source": "src/stubs.c"
+      "source": "src/diagnostics.c"
     },
     "report_expected_token": {
       "logical": "_report_expected_token@8",
@@ -3359,7 +3359,7 @@
     },
     "retry_malloc": {
       "logical": "_retry_malloc@4",
-      "source": "src/stubs.c"
+      "source": "src/memory.c"
     },
     "rewind_source_file": {
       "logical": "_rewind_source_file",
@@ -4842,7 +4842,11 @@
     "program_database_magic",
     "program_database_first_type",
     "program_database_last_type",
-    "program_database_payload_bytes"
+    "program_database_payload_bytes",
+    "retry_malloc",
+    "release_input_handle",
+    "report_error",
+    "compiler_signal"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6535,6 +6539,26 @@
       "terminal": {
         "kind": "exit",
         "code": 0
+      }
+    },
+    "nested-input-valid": {
+      "first": 1104,
+      "last": 1104,
+      "seen_count": 960,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "nested-input-missing": {
+      "first": 1104,
+      "last": 1104,
+      "seen_count": 960,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
       }
     }
   }

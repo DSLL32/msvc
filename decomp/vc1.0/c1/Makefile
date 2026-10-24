@@ -76,15 +76,16 @@ build/native-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
 
 NATIVE_CASES = $(if $(filter all,$(CASE)),,$(foreach case,$(CASE),--case $(case)))
-native-direct-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests
+native-direct-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests
 	$(PYTHON) scripts/check-direct.py
 	$(PYTHON) scripts/check-expression-tests.py
 	$(PYTHON) scripts/check-pdb-objects.py
 	$(PYTHON) scripts/check-support.py
 	$(PYTHON) scripts/check-container.py
 	$(PYTHON) scripts/check-pdb-queries.py
+	$(PYTHON) scripts/check-resource-tests.py
 
-native-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests
+native-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests
 	$(PYTHON) scripts/check-native.py $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
@@ -92,7 +93,8 @@ native-check: native native-trace native-expression-tests native-pdb-tests nativ
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-support.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-container.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-queries.py,@true)
-native-trace-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-resource-tests.py,@true)
+native-trace-check: native native-trace native-expression-tests native-pdb-tests native-pdb-trace-tests native-resource-tests
 	$(PYTHON) scripts/check-native.py --trace $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
@@ -100,6 +102,7 @@ native-trace-check: native native-trace native-expression-tests native-pdb-tests
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-support.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-container.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-queries.py,@true)
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-resource-tests.py,@true)
 
 # Private oracle mutations; no new fixture inputs or original execution.
 native-adoption-check: native native-trace native-expression-tests native-pdb-tests native-quickc-tests
@@ -152,3 +155,15 @@ build/quickc-tests/guard.o: cases/quickc-regions/native-guard.c $(NATIVE_HEADERS
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
 build/quickc-tests/C13232.EXE: $(NATIVE_OBJECTS) build/quickc-tests/guard.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/quickc-tests/guard.o $(NATIVE_SHIMS) -Wl,--wrap=main -o $@
+
+# Fixed direct units borrow the actual missing-include owner stack.
+.PHONY: native-resource-tests
+native-resource-tests: build/resource-tests/C13232.EXE build/resource-tests-trace/C13232.EXE
+build/resource-tests build/resource-tests-trace:
+	mkdir -p $@
+build/resource-tests/external.o: cases/nested-input-resources/external-native.c $(NATIVE_HEADERS) Makefile | build/resource-tests
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
+build/resource-tests/C13232.EXE: $(NATIVE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) -Wl,--wrap=main,--wrap=report_fatal,--wrap=recon_exit -o $@
+build/resource-tests-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile | build/resource-tests-trace
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) build/resource-tests/external.o $(NATIVE_SHIMS) $(RECON)/src/trace.c -Wl,--wrap=main,--wrap=report_fatal,--wrap=recon_exit -o $@

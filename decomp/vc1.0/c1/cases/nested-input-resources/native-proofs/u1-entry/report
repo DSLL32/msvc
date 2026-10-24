@@ -1,0 +1,14 @@
+resource-state before depth 4 errno 2 dos 2
+resource-node before 0 57a2d90c 00001000 0000000d 00000003 566e610b 566ec3b4 566ec3b4 0000000a 000001a5 00000000 00000008 00000000 00000002 57a2d8d8
+resource-string before-0 566e610b resource4.h
+resource-node before 1 57a2d8d8 00001000 0000000c 00000003 566e60ff 566ec3b4 566ec3b4 0000ffff 00000000 0000003e 00000008 00000000 00000001 57a2d8a4
+resource-string before-1 566e60ff resource3.h
+resource-node before 2 57a2d8a4 00001000 0000000b 00000004 566e60f3 566eb408 566ec3b4 0000ffff 00000000 0000003e 00000008 00000000 00000000 57a2d870
+resource-string before-2 566e60f3 resource2.h
+resource-node before 3 57a2d870 00002000 0000000a 00000001 566e60e7 566ea3c4 566eb3b1 0000ffff 000000ab 00000000 00000008 00000000 ffffffff 57a2d83c
+resource-string before-3 566e60e7 resource1.h
+resource-node before 4 57a2d83c 00003000 00000009 00000000 566e60e0 00000000 566ea3ae 0000ffff 00000282 00000000 00000008 00000000 ffffffff 00000000
+resource-string before-4 566e60e0 test.c
+resource-string kind 566c645d include
+resource-string missing 566e7fce absent-resource.h
+resource-context unit 1 line 12

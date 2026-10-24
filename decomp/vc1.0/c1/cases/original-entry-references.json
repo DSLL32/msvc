@@ -236,6 +236,14 @@
     "forced-container-context": {
       "receipt": "cases/forced-container-support/evidence/context-entries/receipt.json",
       "sha256": "2a780478f4355bae95073905a94de3e3f3f9c49ad136c4cb619229426de7caf2"
+    },
+    "nested-input-valid": {
+      "receipt": "cases/nested-input-resources/original-valid-accepted/receipt.json",
+      "sha256": "efec321ba2215e453a300b43149b9109e061f7132f87a26017417fcfc34261c6"
+    },
+    "nested-input-missing": {
+      "receipt": "cases/nested-input-resources/original-missing-accepted/receipt.json",
+      "sha256": "ab9690e88ef2a696f1dee2212b0528e2d3bb42339843241aecb455253c6d8d1b"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

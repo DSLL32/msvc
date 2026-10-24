@@ -1108,7 +1108,11 @@
     "_program_database_magic",
     "_program_database_first_type",
     "_program_database_last_type",
-    "_program_database_payload_bytes"
+    "_program_database_payload_bytes",
+    "_retry_malloc@4",
+    "_release_input_handle",
+    "_report_error",
+    "_compiler_signal"
   ],
   "driver": [
     {
@@ -1479,7 +1483,7 @@
     {
       "name": "_release_input_handle",
       "start": 112080,
-      "end": 112081
+      "end": 112160
     },
     {
       "name": "_rewind_source_file",
@@ -5789,7 +5793,7 @@
     {
       "name": "_report_error",
       "start": 305728,
-      "end": 305729
+      "end": 305795
     },
     {
       "name": "_report_fatal",
@@ -6833,6 +6837,16 @@
       "accepted_from": 1063,
       "accepted_count": 1063,
       "expected_exit": 0
+    },
+    "nested-input-valid": {
+      "accepted_from": 1104,
+      "accepted_count": 1104,
+      "expected_exit": 0
+    },
+    "nested-input-missing": {
+      "accepted_from": 1104,
+      "accepted_count": 1104,
+      "expected_exit": 1
     }
   },
   "buffered_streams": [
@@ -6922,6 +6936,12 @@
       "public_reachability": false,
       "units": 9,
       "manifest": "cases/pdb-record-interface/manifest.json"
+    },
+    "nested-input-resources": {
+      "accepted_from": 1104,
+      "accepted_count": 1108,
+      "public_reachability": false,
+      "units": 4
     }
   }
 }

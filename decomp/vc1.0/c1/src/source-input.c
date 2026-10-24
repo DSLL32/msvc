@@ -431,3 +431,22 @@ void report_ide_line(void)
         print_ide_status("@I5%ld\n",line);
     }
 }
+
+/* Original0x1b5d0..0x1b620, cdecl integer result. Release the oldest
+   eligible include descriptor while keeping its real buffered owner alive. */
+int release_input_handle(void)
+{
+    short depth = include_depth;
+    SourceFile *input;
+    int status;
+    if (depth <= 2) return 0;
+    input = active_input;
+    while (depth > 2) {
+        if (input->next->handle == -1) break;
+        input = input->next;
+        --depth;
+    }
+    status = _close(input->handle);
+    input->handle = -1;
+    return (unsigned)status < 1;
+}

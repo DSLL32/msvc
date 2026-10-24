@@ -21,7 +21,7 @@
 #include "expressions.h"
 
 /* Original 0x43ea0. */
-void compiler_signal(int signal_number) { __asm { int 3 } }
+
 
 
 
@@ -68,7 +68,7 @@ void compiler_signal(int signal_number) { __asm { int 3 } }
 /* Original 0x27210. */
 
 /* Original 0x4aa40. */
-void report_error(unsigned code, ...) { __asm { int 3 } }
+
 
 /* Original 0x4a9d0. */
 
@@ -93,7 +93,6 @@ void report_error(unsigned code, ...) { __asm { int 3 } }
 
 
 
-void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 
 
 
@@ -101,7 +100,8 @@ void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 
 
 
-void release_input_handle(void) { __asm { int 3 } }
+
+
 
 
 

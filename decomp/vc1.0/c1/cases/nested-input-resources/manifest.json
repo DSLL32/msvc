@@ -1,0 +1,846 @@
+{
+  "case": "Nested input error/resource ownership",
+  "status": "complete: two exact public phases and four direct application functions213B; fresh owned entry/body/ABI/output/first-entry proof;61public+84direct cached regressions and original compiler/all audits pass",
+  "baseline_commit": "6e34c724ed0a35000909c546ec6f89880084b744",
+  "baseline_accepted_count": 1104,
+  "authorization": "Root approved two real public phases followed by four fixed direct phases over genuine report_fatal83/depth4 owners/ENOENT. No forced errors/globals, console automation or new shared API.",
+  "phases": {
+    "valid": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\nested-input-resources",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -FR browser.sbr -DRESOURCE_MISSING=0 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/resource1.h",
+          "bytes": 171,
+          "sha256": "434308c9f401a91f81db67bdb0c86f0bb218b05a228f2827699f88c1aff0ad5d",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource2.h",
+          "bytes": 140,
+          "sha256": "5b039fd3b430326ee5b443cc7dac57763d1d378deac16ed5e4fd8d0e500c3885",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource3.h",
+          "bytes": 155,
+          "sha256": "a3d6b875706a38273436899a7266498e2e3ce2a3fee48e00e4a282f9c2aefe95",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource4.h",
+          "bytes": 421,
+          "sha256": "9ad653389198229095ee756dadda119c1f68e8911af95fa1264e7bcb27350324",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/test.c",
+          "bytes": 642,
+          "sha256": "41c1c0ba34d702ccfbf003ad77130ba21cfd839d2171e9677b43b94350646748",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/valid/browser.sbr",
+          "bytes": 877,
+          "sha256": "14177580c7f54025edb3952b227e498b6986a35553880aaf1e930d0e872b0abd",
+          "output_name": "browser.sbr"
+        },
+        {
+          "path": "outputs/valid/irdb",
+          "bytes": 391,
+          "sha256": "c5011672a3126974971422f9c6616095500838e8903d789a65b08dc79972ebb4",
+          "output_name": "irdb"
+        },
+        {
+          "path": "outputs/valid/irex",
+          "bytes": 1461,
+          "sha256": "307e0f09d7389b3363d784acf9f9ad6774655b88bb549604a2f6bd3c51e84035",
+          "output_name": "irex"
+        },
+        {
+          "path": "outputs/valid/irgl",
+          "bytes": 331,
+          "sha256": "63f099d029f5d3ca9c4e4511383527a52e5ef8aae931f4f227b2a3bbd20458b2",
+          "output_name": "irgl"
+        },
+        {
+          "path": "outputs/valid/irin",
+          "bytes": 50,
+          "sha256": "418124e33e6d9b40c0be3cc7a823d849f7912b76b9a1e3098875185ad808d224",
+          "output_name": "irin"
+        },
+        {
+          "path": "outputs/valid/irsy",
+          "bytes": 301,
+          "sha256": "af95f16ad01dc8aa9c1c6adec6987763d699a17a4482651a915189d790015822",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "resource1.h",
+        "resource2.h",
+        "resource3.h",
+        "resource4.h",
+        "test.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "test.obj",
+        "test.exe"
+      ]
+    },
+    "missing": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\nested-input-resources",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -FR browser.sbr -DRESOURCE_MISSING=1 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/resource1.h",
+          "bytes": 171,
+          "sha256": "434308c9f401a91f81db67bdb0c86f0bb218b05a228f2827699f88c1aff0ad5d",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource2.h",
+          "bytes": 140,
+          "sha256": "5b039fd3b430326ee5b443cc7dac57763d1d378deac16ed5e4fd8d0e500c3885",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource3.h",
+          "bytes": 155,
+          "sha256": "a3d6b875706a38273436899a7266498e2e3ce2a3fee48e00e4a282f9c2aefe95",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource4.h",
+          "bytes": 421,
+          "sha256": "9ad653389198229095ee756dadda119c1f68e8911af95fa1264e7bcb27350324",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/test.c",
+          "bytes": 642,
+          "sha256": "41c1c0ba34d702ccfbf003ad77130ba21cfd839d2171e9677b43b94350646748",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/missing/irdb",
+          "bytes": 110,
+          "sha256": "78debe235edef5b9748819d9c2c130f48a2d416ce2259c76f004f87a224421e3",
+          "output_name": "irdb"
+        },
+        {
+          "path": "outputs/missing/irex",
+          "bytes": 1040,
+          "sha256": "4bb87c18e6e112ba4dc3c825e747757df4dcb3f30043ca0316fe0180c804df44",
+          "output_name": "irex"
+        },
+        {
+          "path": "outputs/missing/irgl",
+          "bytes": 27,
+          "sha256": "d0c621a8fc027c7e0f382b7bf01e32e1e0c7e9ba181939f8c30e18304c0977df",
+          "output_name": "irgl"
+        },
+        {
+          "path": "outputs/missing/irin",
+          "bytes": 3,
+          "sha256": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91",
+          "output_name": "irin"
+        },
+        {
+          "path": "outputs/missing/irsy",
+          "bytes": 94,
+          "sha256": "b208e6183b98fb617387399b81caf12ce0749ec36d9424d8f3c679a947909e65",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 1,
+      "expected_stdout": "resource4.h(12) : fatal error C1083: Cannot open include file: 'absent-resource.h': No such file or directory\r\n\r\n",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "resource1.h",
+        "resource2.h",
+        "resource3.h",
+        "resource4.h",
+        "test.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "test.obj",
+        "test.exe",
+        "browser.sbr"
+      ]
+    },
+    "direct-0": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\nested-input-resources",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -FR browser.sbr -DRESOURCE_MISSING=1 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/resource1.h",
+          "bytes": 171,
+          "sha256": "434308c9f401a91f81db67bdb0c86f0bb218b05a228f2827699f88c1aff0ad5d",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource2.h",
+          "bytes": 140,
+          "sha256": "5b039fd3b430326ee5b443cc7dac57763d1d378deac16ed5e4fd8d0e500c3885",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource3.h",
+          "bytes": 155,
+          "sha256": "a3d6b875706a38273436899a7266498e2e3ce2a3fee48e00e4a282f9c2aefe95",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource4.h",
+          "bytes": 421,
+          "sha256": "9ad653389198229095ee756dadda119c1f68e8911af95fa1264e7bcb27350324",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/test.c",
+          "bytes": 642,
+          "sha256": "41c1c0ba34d702ccfbf003ad77130ba21cfd839d2171e9677b43b94350646748",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/direct-0/browser.sbt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_name": "browser.sbt"
+        },
+        {
+          "path": "outputs/direct-0/irdb",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_name": "irdb"
+        },
+        {
+          "path": "outputs/direct-0/irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "output_name": "irex"
+        },
+        {
+          "path": "outputs/direct-0/irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_name": "irgl"
+        },
+        {
+          "path": "outputs/direct-0/irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_name": "irin"
+        },
+        {
+          "path": "outputs/direct-0/irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "resource1.h",
+        "resource2.h",
+        "resource3.h",
+        "resource4.h",
+        "test.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "test.obj",
+        "test.exe",
+        "browser.sbr"
+      ]
+    },
+    "direct-1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\nested-input-resources",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -FR browser.sbr -DRESOURCE_MISSING=1 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/resource1.h",
+          "bytes": 171,
+          "sha256": "434308c9f401a91f81db67bdb0c86f0bb218b05a228f2827699f88c1aff0ad5d",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource2.h",
+          "bytes": 140,
+          "sha256": "5b039fd3b430326ee5b443cc7dac57763d1d378deac16ed5e4fd8d0e500c3885",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource3.h",
+          "bytes": 155,
+          "sha256": "a3d6b875706a38273436899a7266498e2e3ce2a3fee48e00e4a282f9c2aefe95",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource4.h",
+          "bytes": 421,
+          "sha256": "9ad653389198229095ee756dadda119c1f68e8911af95fa1264e7bcb27350324",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/test.c",
+          "bytes": 642,
+          "sha256": "41c1c0ba34d702ccfbf003ad77130ba21cfd839d2171e9677b43b94350646748",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/direct-1/browser.sbt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_name": "browser.sbt"
+        },
+        {
+          "path": "outputs/direct-1/irdb",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_name": "irdb"
+        },
+        {
+          "path": "outputs/direct-1/irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+          "output_name": "irex"
+        },
+        {
+          "path": "outputs/direct-1/irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_name": "irgl"
+        },
+        {
+          "path": "outputs/direct-1/irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_name": "irin"
+        },
+        {
+          "path": "outputs/direct-1/irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "resource1.h",
+        "resource2.h",
+        "resource3.h",
+        "resource4.h",
+        "test.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "test.obj",
+        "test.exe",
+        "browser.sbr"
+      ]
+    },
+    "direct-2": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\nested-input-resources",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -FR browser.sbr -DRESOURCE_MISSING=1 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/resource1.h",
+          "bytes": 171,
+          "sha256": "434308c9f401a91f81db67bdb0c86f0bb218b05a228f2827699f88c1aff0ad5d",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource2.h",
+          "bytes": 140,
+          "sha256": "5b039fd3b430326ee5b443cc7dac57763d1d378deac16ed5e4fd8d0e500c3885",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource3.h",
+          "bytes": 155,
+          "sha256": "a3d6b875706a38273436899a7266498e2e3ce2a3fee48e00e4a282f9c2aefe95",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource4.h",
+          "bytes": 421,
+          "sha256": "9ad653389198229095ee756dadda119c1f68e8911af95fa1264e7bcb27350324",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/test.c",
+          "bytes": 642,
+          "sha256": "41c1c0ba34d702ccfbf003ad77130ba21cfd839d2171e9677b43b94350646748",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/direct-2/irdb",
+          "bytes": 110,
+          "sha256": "78debe235edef5b9748819d9c2c130f48a2d416ce2259c76f004f87a224421e3",
+          "output_name": "irdb"
+        },
+        {
+          "path": "outputs/direct-2/irex",
+          "bytes": 1040,
+          "sha256": "4bb87c18e6e112ba4dc3c825e747757df4dcb3f30043ca0316fe0180c804df44",
+          "output_name": "irex"
+        },
+        {
+          "path": "outputs/direct-2/irgl",
+          "bytes": 27,
+          "sha256": "d0c621a8fc027c7e0f382b7bf01e32e1e0c7e9ba181939f8c30e18304c0977df",
+          "output_name": "irgl"
+        },
+        {
+          "path": "outputs/direct-2/irin",
+          "bytes": 3,
+          "sha256": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91",
+          "output_name": "irin"
+        },
+        {
+          "path": "outputs/direct-2/irsy",
+          "bytes": 94,
+          "sha256": "b208e6183b98fb617387399b81caf12ce0749ec36d9424d8f3c679a947909e65",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 1,
+      "expected_stdout": "resource4.h(12) : fatal error C1083: Cannot open include file: 'absent-resource.h': No such file or directory\r\n\r\n",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "resource1.h",
+        "resource2.h",
+        "resource3.h",
+        "resource4.h",
+        "test.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "test.obj",
+        "test.exe",
+        "browser.sbr"
+      ]
+    },
+    "direct-3": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\nested-input-resources",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -FR browser.sbr -DRESOURCE_MISSING=1 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/resource1.h",
+          "bytes": 171,
+          "sha256": "434308c9f401a91f81db67bdb0c86f0bb218b05a228f2827699f88c1aff0ad5d",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource2.h",
+          "bytes": 140,
+          "sha256": "5b039fd3b430326ee5b443cc7dac57763d1d378deac16ed5e4fd8d0e500c3885",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource3.h",
+          "bytes": 155,
+          "sha256": "a3d6b875706a38273436899a7266498e2e3ce2a3fee48e00e4a282f9c2aefe95",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/resource4.h",
+          "bytes": 421,
+          "sha256": "9ad653389198229095ee756dadda119c1f68e8911af95fa1264e7bcb27350324",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/test.c",
+          "bytes": 642,
+          "sha256": "41c1c0ba34d702ccfbf003ad77130ba21cfd839d2171e9677b43b94350646748",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/direct-3/irdb",
+          "bytes": 110,
+          "sha256": "78debe235edef5b9748819d9c2c130f48a2d416ce2259c76f004f87a224421e3",
+          "output_name": "irdb"
+        },
+        {
+          "path": "outputs/direct-3/irex",
+          "bytes": 1040,
+          "sha256": "4bb87c18e6e112ba4dc3c825e747757df4dcb3f30043ca0316fe0180c804df44",
+          "output_name": "irex"
+        },
+        {
+          "path": "outputs/direct-3/irgl",
+          "bytes": 27,
+          "sha256": "d0c621a8fc027c7e0f382b7bf01e32e1e0c7e9ba181939f8c30e18304c0977df",
+          "output_name": "irgl"
+        },
+        {
+          "path": "outputs/direct-3/irin",
+          "bytes": 3,
+          "sha256": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91",
+          "output_name": "irin"
+        },
+        {
+          "path": "outputs/direct-3/irsy",
+          "bytes": 94,
+          "sha256": "b208e6183b98fb617387399b81caf12ce0749ec36d9424d8f3c679a947909e65",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 32768,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "resource1.h",
+        "resource2.h",
+        "resource3.h",
+        "resource4.h",
+        "test.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "test.obj",
+        "test.exe",
+        "browser.sbr"
+      ]
+    }
+  },
+  "direct_plan": [
+    {
+      "unit": 0,
+      "function": "_retry_malloc@4",
+      "phase": "direct-0",
+      "request_arguments": [
+        96
+      ],
+      "public_reachability": false,
+      "status": "accepted: genuine entry/wholebody/ABI/output and fresh first-entry evidence",
+      "start": 304816,
+      "provisional_end": 304863
+    },
+    {
+      "unit": 1,
+      "function": "_release_input_handle",
+      "phase": "direct-1",
+      "request_arguments": [],
+      "public_reachability": false,
+      "status": "accepted: genuine entry/wholebody/ABI/output and fresh first-entry evidence",
+      "start": 112080,
+      "provisional_end": 112160
+    },
+    {
+      "unit": 2,
+      "function": "_report_error",
+      "phase": "direct-2",
+      "request_arguments": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "public_reachability": false,
+      "status": "accepted: genuine entry/wholebody/ABI/output and fresh first-entry evidence",
+      "start": 305728,
+      "provisional_end": 305795
+    },
+    {
+      "unit": 3,
+      "function": "_compiler_signal",
+      "phase": "direct-3",
+      "request_arguments": [
+        2
+      ],
+      "public_reachability": false,
+      "status": "accepted: genuine entry/wholebody/ABI/output and fresh first-entry evidence",
+      "start": 278176,
+      "provisional_end": 278195
+    }
+  ],
+  "direct_oracles": [
+    {
+      "unit": 0,
+      "directory": "original-u0-accepted",
+      "input": {
+        "unit": 0,
+        "function": "_retry_malloc@4",
+        "phase": "direct-0",
+        "request_arguments": [
+          96
+        ],
+        "public_reachability": false,
+        "status": "accepted: genuine entry/wholebody/ABI/output and fresh first-entry evidence",
+        "start": 304816,
+        "provisional_end": 304863
+      },
+      "accepted_from": 1104,
+      "accepted_count": 1105,
+      "accepted_functions": [
+        "_retry_malloc@4"
+      ],
+      "phase_sha256": "2c9abf957d243fe1d28326578b2de9d6fd8830fb5a870fd24f262b7f9dedc0d7",
+      "files": {
+        "capture-status.json": "8e0d1261799d87bf1683331fbeb72c4575d063a951cfe07cec113d65ecc8c353",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "309b89e5ac10bb692956e54cef0deb2a56c59900a8deecc9080986308ef12770",
+        "events": "86e3cc84ec103bdae33fe49edcb085f806bbf03f7db1d0197dd40ca7191c100b",
+        "receipt.json": "6c4b1b37946108cc9f5332ce2b5a4f3387bad284d0bda7e8b847df039ef340e8",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/resource4.h": "9ad653389198229095ee756dadda119c1f68e8911af95fa1264e7bcb27350324",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/test.c": "41c1c0ba34d702ccfbf003ad77130ba21cfd839d2171e9677b43b94350646748",
+        "work/resource2.h": "5b039fd3b430326ee5b443cc7dac57763d1d378deac16ed5e4fd8d0e500c3885",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/resource3.h": "a3d6b875706a38273436899a7266498e2e3ce2a3fee48e00e4a282f9c2aefe95",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/resource1.h": "434308c9f401a91f81db67bdb0c86f0bb218b05a228f2827699f88c1aff0ad5d"
+      }
+    },
+    {
+      "unit": 1,
+      "directory": "original-u1-accepted",
+      "input": {
+        "unit": 1,
+        "function": "_release_input_handle",
+        "phase": "direct-1",
+        "request_arguments": [],
+        "public_reachability": false,
+        "status": "accepted: genuine entry/wholebody/ABI/output and fresh first-entry evidence",
+        "start": 112080,
+        "provisional_end": 112160
+      },
+      "accepted_from": 1105,
+      "accepted_count": 1106,
+      "accepted_functions": [
+        "_release_input_handle"
+      ],
+      "phase_sha256": "98a30b26ab17c64c9333be4f64071ebf3059852e09f0cc2a8b797dc4d6ed46a5",
+      "files": {
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "cefbe4128c85205ae6899ed2b1c7f4198380cfde0fdfe1eadb1542424a970581",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "69890e89794402a2675c65c81a0c64096cd263b2027d0a6c5a264f33e0b7cfd0",
+        "events": "d59e2fbadefe7048a9abf235131921fd0a42e826a1f3b6be10f10115e84d5303",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "cc91be06f16ee24d6e242b1bb4165a5eed52b00721a1b2fd53a90bc1eb43f89d",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/resource4.h": "9ad653389198229095ee756dadda119c1f68e8911af95fa1264e7bcb27350324",
+        "work/browser.sbt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/test.c": "41c1c0ba34d702ccfbf003ad77130ba21cfd839d2171e9677b43b94350646748",
+        "work/resource1.h": "434308c9f401a91f81db67bdb0c86f0bb218b05a228f2827699f88c1aff0ad5d",
+        "work/resource2.h": "5b039fd3b430326ee5b443cc7dac57763d1d378deac16ed5e4fd8d0e500c3885",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/resource3.h": "a3d6b875706a38273436899a7266498e2e3ce2a3fee48e00e4a282f9c2aefe95"
+      }
+    },
+    {
+      "unit": 2,
+      "directory": "original-u2-accepted",
+      "input": {
+        "unit": 2,
+        "function": "_report_error",
+        "phase": "direct-2",
+        "request_arguments": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "public_reachability": false,
+        "status": "accepted: genuine entry/wholebody/ABI/output and fresh first-entry evidence",
+        "start": 305728,
+        "provisional_end": 305795
+      },
+      "accepted_from": 1106,
+      "accepted_count": 1107,
+      "accepted_functions": [
+        "_report_error"
+      ],
+      "phase_sha256": "f5a0c180e6b1ad3e68b137a598855ff05a4684c12fae8288c27aa04297e0cfd9",
+      "files": {
+        "events": "c24fb8449694d5b5eb012c62870ee844ddf33fa1b6dd5155049c2773ed75aca9",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "7f43df56c40ccad15d759b4c110a735f3b7cd1f4338fa8ec61ef468f8d268fa3",
+        "receipt.json": "8a8d84cda2a7d3815f516a44456201abef95a8f741a2c4b8ad98402568eff1fc",
+        "stdout": "769d8428cea5905c196a8380adeb0e278006d78bdd8fcd4fb7c6245c9a55dc98",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "entry-plan.txt": "cfd81af5eb80ba872c6b89927aee413f5c7f8a457a35664dbfdd21886608640a",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/resource1.h": "434308c9f401a91f81db67bdb0c86f0bb218b05a228f2827699f88c1aff0ad5d",
+        "work/irgl": "d0c621a8fc027c7e0f382b7bf01e32e1e0c7e9ba181939f8c30e18304c0977df",
+        "work/resource3.h": "a3d6b875706a38273436899a7266498e2e3ce2a3fee48e00e4a282f9c2aefe95",
+        "work/irsy": "b208e6183b98fb617387399b81caf12ce0749ec36d9424d8f3c679a947909e65",
+        "work/resource2.h": "5b039fd3b430326ee5b443cc7dac57763d1d378deac16ed5e4fd8d0e500c3885",
+        "work/irex": "4bb87c18e6e112ba4dc3c825e747757df4dcb3f30043ca0316fe0180c804df44",
+        "work/irdb": "78debe235edef5b9748819d9c2c130f48a2d416ce2259c76f004f87a224421e3",
+        "work/irin": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91",
+        "work/test.c": "41c1c0ba34d702ccfbf003ad77130ba21cfd839d2171e9677b43b94350646748",
+        "work/resource4.h": "9ad653389198229095ee756dadda119c1f68e8911af95fa1264e7bcb27350324"
+      }
+    },
+    {
+      "unit": 3,
+      "directory": "original-u3-accepted",
+      "input": {
+        "unit": 3,
+        "function": "_compiler_signal",
+        "phase": "direct-3",
+        "request_arguments": [
+          2
+        ],
+        "public_reachability": false,
+        "status": "accepted: genuine entry/wholebody/ABI/output and fresh first-entry evidence",
+        "start": 278176,
+        "provisional_end": 278195
+      },
+      "accepted_from": 1107,
+      "accepted_count": 1108,
+      "accepted_functions": [
+        "_compiler_signal"
+      ],
+      "phase_sha256": "cb8ec6d8137e5e4edeb0493aeb55a6535ef5eb097d3df58c8ac9e77dd04122e1",
+      "files": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "capture-status.json": "1078b3648690d2ce8e54f7c948473dcb5a8b3bfe9975f7d0aa65cce5fb7549de",
+        "entry-plan.txt": "c571757501f8765564106e9ec122764d2a8a5e5331e471e36f286e881714b559",
+        "receipt.json": "45eef910cb39fb56b0c6ec9fafad8d2175a0245537b8219dd4d3c5948837b196",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "0a96312432ff6d356b7efac41e1f6a646abe78e21ced847924ecef00e3c4baf5",
+        "work/resource1.h": "434308c9f401a91f81db67bdb0c86f0bb218b05a228f2827699f88c1aff0ad5d",
+        "work/irsy": "b208e6183b98fb617387399b81caf12ce0749ec36d9424d8f3c679a947909e65",
+        "work/resource3.h": "a3d6b875706a38273436899a7266498e2e3ce2a3fee48e00e4a282f9c2aefe95",
+        "work/irgl": "d0c621a8fc027c7e0f382b7bf01e32e1e0c7e9ba181939f8c30e18304c0977df",
+        "work/resource2.h": "5b039fd3b430326ee5b443cc7dac57763d1d378deac16ed5e4fd8d0e500c3885",
+        "work/irex": "4bb87c18e6e112ba4dc3c825e747757df4dcb3f30043ca0316fe0180c804df44",
+        "work/irdb": "78debe235edef5b9748819d9c2c130f48a2d416ce2259c76f004f87a224421e3",
+        "work/irin": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91",
+        "work/resource4.h": "9ad653389198229095ee756dadda119c1f68e8911af95fa1264e7bcb27350324",
+        "work/test.c": "41c1c0ba34d702ccfbf003ad77130ba21cfd839d2171e9677b43b94350646748"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "unit": 2,
+  "exit": 1,
+  "full_terminal_status": 1,
+  "setup_seconds": 0.014569836668670177,
+  "execution_seconds": 0.01622797269374132,
+  "total_seconds": 0.031008516438305378,
+  "command": [
+    "/root/msvc2/decomp/vc1.0/c1/build/resource-tests-trace/C13232.EXE",
+    "2",
+    "/root/.ai-tmp/msvc2/vc1.0/c1/nested-resource-u2-native-accepted/report"
+  ],
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -Ze -Zp8 -Gs -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -FR browser.sbr -DRESOURCE_MISSING=1 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/nested-resource-u2-native-accepted",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\nested-input-resources",
+    "RECON_TRACE_FD": "3",
+    "RECON_TRACE_FILTER": "/root/.ai-tmp/msvc2/vc1.0/c1/nested-resource-u2-native-accepted/filter",
+    "RECON_TRACE_SEEN": "/root/.ai-tmp/msvc2/vc1.0/c1/nested-resource-u2-native-accepted/seen",
+    "RECON_STATUS_FD": "4"
+  },
+  "executable_sha256": "3136b0f2a4a5488b9f52edf0d5af5c5c86b4ff1ee7b30dd7b8b5846029b8273c",
+  "work": "/root/.ai-tmp/msvc2/vc1.0/c1/nested-resource-u2-native-accepted/vc1.0/c1/nested-input-resources",
+  "public_reachability": false,
+  "policy": "Owned native i386 process. Fixed genuine missing-include context; no Wine/original/reference refresh. GDB only for fresh acceptance when explicitly requested."
+}

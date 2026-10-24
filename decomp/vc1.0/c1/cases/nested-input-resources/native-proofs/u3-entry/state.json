@@ -1,0 +1,24 @@
+{
+  "inferior_pid": 2214626,
+  "status": "entry",
+  "calls": [
+    {
+      "function": "compiler_signal",
+      "registers": {
+        "eip": 1448466656,
+        "esp": 4294670012,
+        "ebx": 1449078772,
+        "esi": 1449120070,
+        "edi": 1459617824,
+        "ebp": 4294670280,
+        "fctrl": 895
+      },
+      "frame": [
+        1448888946,
+        2
+      ]
+    }
+  ],
+  "forwarded": [],
+  "exits": []
+}

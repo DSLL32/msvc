@@ -688,6 +688,7 @@ static DWORD direct_stack, direct_marker;
 static CONTEXT direct_saved;
 
 #include "capture-container-unit.h"
+#include "capture-resource-unit.h"
 
 /* Direct literal support uses the genuine stopped initializer arguments.
    Only debugger breakpoints and an owned call stack are changed. */
@@ -873,6 +874,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
     AllocateInProcess allocate;
     char line[512];
     unsigned index;
+    if(resource_unit>=2) { int observed=resource_terminal_event(process,thread,log,code,site,base,buffers); if(observed)return observed; }
     if(support_unit==8||support_unit==9)return literal_event(process,thread,log,code,site,base,buffers);
     if (!direct_marker_rva || code != EXCEPTION_BREAKPOINT ||
         site != base + direct_marker_rva) return 0;
@@ -951,6 +953,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
                 sprintf(line,"support-type-depth before %lu\n",depth);WriteFile(log,line,strlen(line),&written,0);
             }
         }
+        if(resource_unit>=0&&!resource_prepare(process,log,base,&current))return -1;
         if(container_unit>=0&&!container_prepare(process,log,base))return -1;
         if(container_stage)return container_call(process,thread,log,base,&current,1);
         if(direct_count>7)return -1;
@@ -974,7 +977,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         return 1;
     }
     sprintf(line,"direct-return eax %08lx edx %08lx esp %08lx expected %08lx nonvolatile %u fctrl %08lx before %08lx\n",
-        current.Eax,current.Edx,current.Esp,direct_stack+4+4*((container_unit==15||(container_unit>=26&&container_unit<=28))?0:direct_count),
+        current.Eax,current.Edx,current.Esp,direct_stack+4+4*((resource_unit==1||container_unit==15||(container_unit>=26&&container_unit<=28))?0:direct_count),
         current.Ebx==direct_saved.Ebx && current.Esi==direct_saved.Esi &&
         current.Edi==direct_saved.Edi && current.Ebp==direct_saved.Ebp,
         current.FloatSave.ControlWord,direct_saved.FloatSave.ControlWord);
@@ -997,6 +1000,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
            !ReadProcessMemory(process,(void *)(base+0x4ff18),&depth,4,&got)||got!=4)return -1;
         sprintf(line,"support-type-depth after %lu\n",depth);WriteFile(log,line,strlen(line),&written,0);
     }
+    if(resource_unit>=0&&!resource_snapshot(process,log,base,"after"))return -1;
     if(container_unit>=0&&!container_return(process,log,base,current.Eax))return -1;
     dump_asm_operand(process,log,base,"direct-return");
     if (buffers) dump_stream_buffers(process,log,base,buffers);
@@ -1046,7 +1050,7 @@ int main(int argc, char **argv)
         if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx,%lx,%lx,%lx,%lx,%lx",&direct_marker_rva,
                 &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1],&direct_arguments[2],
                 &direct_arguments[3],&direct_arguments[4],&direct_arguments[5],&direct_arguments[6]) < 5 ||
-                direct_count>7 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")&&!getenv("C1_CONTAINER_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT") && !getenv("C1_CONTAINER_UNIT"))) return 2;
+                direct_count>7 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")&&!getenv("C1_CONTAINER_UNIT")&&!getenv("C1_RESOURCE_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT") && !getenv("C1_CONTAINER_UNIT") && !getenv("C1_RESOURCE_UNIT"))) return 2;
     }
     flag_option=getenv("C1_SUPPORT_UNIT");
     if(flag_option) {
@@ -1074,7 +1078,17 @@ int main(int argc, char **argv)
             for(i=2;i<7;++i)if(direct_arguments[i])return 2;
         }
     }
-    if(direct_count>3&&container_unit!=25)return 2;
+    flag_option=getenv("C1_RESOURCE_UNIT");
+    if(flag_option) {
+        static DWORD targets[4]={0x3a6b0,0xb5d0,0x3aa40,0x33ea0};
+        static unsigned counts[4]={1,0,5,1};
+        resource_unit=atoi(flag_option);
+        if(resource_unit<0||resource_unit>3||support_unit>=0||container_unit>=0||
+           direct_marker_rva!=0x3aa90||direct_target_rva!=targets[resource_unit]||direct_count!=counts[resource_unit]||
+           direct_arguments[0]!=(DWORD)(resource_unit==0?96:resource_unit==3?2:0))return 2;
+        for(i=1;i<7;++i)if(direct_arguments[i])return 2;
+    }
+    if(direct_count>3&&container_unit!=25&&resource_unit!=2)return 2;
     flag_option=getenv("C1_TEMPLATE_UNIT");
     if(flag_option) {
         template_unit=atoi(flag_option);
@@ -1280,6 +1294,7 @@ int main(int argc, char **argv)
         } else if (ev.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {
             if (argc == 11 && next_entry != entry_count) failed = 5;
             if (flag_entry && (!flag_count || flag_active)) failed = 8;
+            if(resource_unit>=2&&direct_active&&ev.u.ExitProcess.dwExitCode!=99&&!resource_terminal_seen)failed=10;
             sprintf(line, "exit %lu\n", ev.u.ExitProcess.dwExitCode);
             WriteFile(log, line, strlen(line), &written, 0);
             ContinueDebugEvent(ev.dwProcessId, ev.dwThreadId, status);

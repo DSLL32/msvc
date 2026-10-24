@@ -1,4 +1,5 @@
 /* Frontend state, keyword exclusions, and builtin types initialized at 0x42f30. */
+#include <stdlib.h>
 #include <windows.h>
 #include <io.h>
 #include "initialization.h"
@@ -248,4 +249,12 @@ void cleanup_failed_compilation(void)
 {
     cleanup_precompiled_files();
     if (browser_filename) discard_browser_output();
+}
+
+/* Original0x43ea0..0x43eb3. COFF _exit at0x53530 is C exit/quick0;
+   C _exit is the distinct __exit at0x53550. Preserve normal CRT flushing. */
+void compiler_signal(int signal_number)
+{
+    cleanup_failed_compilation();
+    exit(0x8000);
 }

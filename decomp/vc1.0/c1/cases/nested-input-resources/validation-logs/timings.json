@@ -1,0 +1,50 @@
+{
+  "checks": [
+    {
+      "command": [
+        "make",
+        "-j4",
+        "audit-win32",
+        "native",
+        "native-trace",
+        "native-expression-tests",
+        "native-pdb-tests",
+        "native-pdb-trace-tests",
+        "native-resource-tests"
+      ],
+      "seconds": 14.207212551496923,
+      "exit": 0,
+      "log": "check-0.log"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native-trace-check"
+      ],
+      "seconds": 19.319287386722863,
+      "exit": 0,
+      "log": "check-1.log"
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native-adoption-check"
+      ],
+      "seconds": 9.02937996480614,
+      "exit": 0,
+      "log": "check-2.log"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/check-graph-audit.py"
+      ],
+      "seconds": 3.8291990561410785,
+      "exit": 0,
+      "log": "check-3.log"
+    }
+  ],
+  "shared_unchanged": true
+}

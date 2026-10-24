@@ -1,0 +1,36 @@
+{
+  "status": "pass",
+  "units": [
+    {
+      "unit": 0,
+      "status": "pass",
+      "setup_seconds": 0.011928610503673553,
+      "execution_seconds": 0.008019581437110901,
+      "checks_seconds": 0.005576396360993385
+    },
+    {
+      "unit": 1,
+      "status": "pass",
+      "setup_seconds": 0.009301300160586834,
+      "execution_seconds": 0.007883935235440731,
+      "checks_seconds": 0.004068000242114067
+    },
+    {
+      "unit": 2,
+      "status": "pass",
+      "setup_seconds": 0.009190008044242859,
+      "execution_seconds": 0.007867485284805298,
+      "checks_seconds": 0.0033339280635118484
+    },
+    {
+      "unit": 3,
+      "status": "pass",
+      "setup_seconds": 0.011245448142290115,
+      "execution_seconds": 0.00790390744805336,
+      "checks_seconds": 0.0033933576196432114
+    }
+  ],
+  "total_seconds": 0.14376746118068695,
+  "public_reachability": false,
+  "scope": "Four fixed native i386 units over genuine missing-include owners; cached original ABI/entries/states/streams/files/full terminal status; no Wine/debugger/original refresh."
+}
