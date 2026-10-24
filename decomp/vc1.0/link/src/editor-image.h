@@ -49,6 +49,7 @@ typedef char BoundImageListLayout[(sizeof(BoundImageList)==8)?1:-1];
 extern BoundImageList bind_images;
 extern int bind_read_only,bind_show_imports;
 extern char *bind_search_path;
+int parse_bind_arguments(int,char **);
 int map_bind_image(const char *,BoundImage *,int,int);
 void bind_imports(BoundImage *);
 void *mapped_bound_rva(unsigned long,BoundImage *);

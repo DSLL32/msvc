@@ -15,6 +15,33 @@ void editor_bind_error(const char *format,const void *value)
     fatal_message(program_name,0x35,message);
 }
 
+/* Original4faf0..4fbd6: independent BIND parser; state belongs to the caller. */
+int parse_bind_arguments(int argc,char **argv)
+{
+    int valid=1;
+    char *text;
+    while (--argc) {
+        text=*++argv;
+        if (*text!='/' && *text!='-') {
+            editor_image_name=text;
+            continue;
+        }
+        for (++text;*text;++text) {
+            switch (toupper(*text)) {
+            case '?': editor_usage_requested=1; break;
+            case 'P': --argc; bind_search_path=*++argv; break;
+            case 'U': bind_read_only=0; break;
+            case 'V': resource_verbose=1; break;
+            default:
+                fprintf(stderr,"BIND: Invalid switch - /%c\n",*text);
+                valid=0;
+            }
+        }
+    }
+    if (!editor_image_name) valid=0;
+    return valid;
+}
+
 /* Original4ed60..4f070; this embedded driver terminates the process. */
 int bind_main(int argc,char **argv,char **environment)
 {

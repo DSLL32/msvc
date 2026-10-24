@@ -483,3 +483,16 @@ originalVC1-j4 and834CFG/816callback/514data/41ECX checks pass. App-only229012/
 281634=81.3155%, support-inclusive259743=92.2271%;799app(759public/40direct),
 16historicalCRT separate.12446unclassified remaining bytes are not CRT. Details:
 cases/direct-priority-archives/README.txt and its validation/timing/coverage files.
+
+Direct standalone BIND parser checkpoint (997 frontiers)
+
+The independent230-byte parser uses genuine loader-zero/persisted BIND globals and
+four live owned argv/string blocks; its actual filename/mode feed real map/unmap/
+close before grouped verbosity and usage/unknown phases. Fourteen fresh state/ABI
+observations, exact27Bstderr/1344Bexternalreport/unchanged2MBimage/exit0 match with
+strict errors/FP and initialized BoundImage12..32 only. No public caller or private
+list setup is invented; unused first3workspace words stay raw without outputclaim.
+All89cached native, originalVC1-j4 and835CFG/817callback/514data/41ECX checks pass.
+App-only229242/281634=81.3971%; support-inclusive259973=92.3088%;800appfunctions
+(759public/41direct),16historicalCRT separate.12216unclassified bytes remain notCRT.
+See cases/direct-bind-parser/README.txt and its validation/timing/coverage records.

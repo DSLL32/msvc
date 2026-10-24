@@ -1472,3 +1472,16 @@ errors/CW/SW/tags/emptyregisters. No new CRT or shim work. All88nativecases and
 834commonCFG,816callback,514data,41ECX checks pass. App-only229012/281634=81.3155%,
 support-inclusive259743=92.2271%. Unknown12446bytes remain unclassified. Detailed
 raw paths/hashes, source/lifetime proof and timing split in the descriptive case.
+
+Direct embedded BIND parser, 997-frontier checkpoint
+
+4faf0..4fbd6 is independent cdecl int(int,char**),224CFGbytes+6alignment. No static
+caller/pointerxref; public bind_main owns a different inlineparser. Direct argc1,
+valid-u/-p actualimage/mapclose, grouped-Uv then-?Z use real loader-zero/persisted
+editor/BIND globals, no resets. Actual36B BoundImage initialized12..32 and live
+headers/sections are checked; raw0/4/8 untouched/unread are not invented outputs.
+One originalbaseline, maskedmatchingentry/full14states and finalnative reobserve
+match exactstderr/report/2MBfile/exit0, strict errors/CW/SW/tags/emptyregisters.
+All89native,835CFG/817callback/514data/41ECX anddenials pass; no newCRT/shim/support.
+App-only229242/281634=81.3971%, support-inclusive259973=92.3088%; remaining12216
+unclassified bytes notCRT. See direct-bind-parser for full evidence/timing/proof.

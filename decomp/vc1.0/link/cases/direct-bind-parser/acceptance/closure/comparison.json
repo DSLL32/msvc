@@ -1,0 +1,6 @@
+{
+  "status": "pass",
+  "matched_observations": 14,
+  "complete": true,
+  "scope": "Actualtypedformals/allownedargv+strings/definedglobals/initializedBoundImage12..32+realheaderssections/guards/ESP+nonvolatiles/returns/errors/CW+SW+tags+emptyregs strict. RawBoundImage0,4,8 and postcallbyvalueparameter slots retained, no invented outputequality."
+}

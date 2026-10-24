@@ -1,0 +1,127 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "control": "emptyinventory",
+      "status": "rejected"
+    },
+    {
+      "control": "missingformal",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongargc",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongvectorowner",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongvectorstring",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongglobalimageowner",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongpersistedpath",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongusage",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongverbose",
+      "status": "rejected"
+    },
+    {
+      "control": "mapwrongmode",
+      "status": "rejected"
+    },
+    {
+      "control": "mapwrongfilename",
+      "status": "rejected"
+    },
+    {
+      "control": "mapwrongworkspace",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongmappedbase",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongsectioncount",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongheaderbyte",
+      "status": "rejected"
+    },
+    {
+      "control": "wronglivemapping",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongunmapowner",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongcloseowner",
+      "status": "rejected"
+    },
+    {
+      "control": "guardwrite",
+      "status": "rejected"
+    },
+    {
+      "control": "sourceguardwrite",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongreturn",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongstack",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongnonvolatile",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongerrno",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongDOS",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongLast",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongCW",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongSW",
+      "status": "rejected"
+    },
+    {
+      "control": "wrongtags",
+      "status": "rejected"
+    }
+  ],
+  "allowed_controls": [
+    "rawpostcallbyvalueparameter",
+    "unread-unwritten-BoundImage-firstword"
+  ],
+  "seconds": 0.04260825179517269,
+  "scope": "Frozenactualpackets only; no runtime/original/Wine/GDB. No error orFP qualification."
+}

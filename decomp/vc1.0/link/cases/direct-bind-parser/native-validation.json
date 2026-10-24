@@ -1,0 +1,200 @@
+{
+  "status": "pass",
+  "case": "direct-bind-parser",
+  "cached_case_count": 89,
+  "external_suite_seconds": 9.877809326164424,
+  "suite_stdout": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-bind-parser/final/cached89.stdout",
+    "bytes": 5484,
+    "sha256": "04b6e6a8fd7a10dfd8fe1d709c18e1516194b979817b29d5f236dcbdeb680223"
+  },
+  "individual_receipts": [
+    {
+      "status": "pass",
+      "cases": 3,
+      "trace": true,
+      "seconds": 0.2537248292937875,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/legacy-cached-llz_wbq_/receipt.json"
+    },
+    {
+      "status": "pass",
+      "case": "ide-callback-protocol",
+      "trace": true,
+      "seconds": 0.24124674033373594,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/ide-cached-ruylgqj2/receipt.json"
+    },
+    {
+      "status": "pass",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/comdat-cached-i_w9mmb0/receipt.json",
+      "seconds": 0.23798650689423084
+    },
+    {
+      "status": "pass",
+      "phase": "helper",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-cached-4p8q4tuy/receipt.json",
+      "seconds": 0.22646485175937414
+    },
+    {
+      "status": "pass",
+      "phase": "direct",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-cached-9ei9t_rd/receipt.json",
+      "seconds": 0.22951066214591265
+    },
+    {
+      "status": "pass",
+      "case": "direct-cvtomf-codeview-no-lines",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-cached-pz0ya3w9/receipt.json",
+      "seconds": 0.21462841052561998
+    },
+    {
+      "status": "pass",
+      "phase": "mapped",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-cached-o3ga09oa/receipt.json",
+      "seconds": 0.2648305296897888
+    },
+    {
+      "status": "pass",
+      "phase": "buffered",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-cached-d55zj43g/receipt.json",
+      "seconds": 0.2240521116182208
+    },
+    {
+      "status": "pass",
+      "case": "direct-symbol-tables",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/symbol-tables-cached-dlymiqe1/receipt.json",
+      "seconds": 0.23196040093898773
+    },
+    {
+      "status": "pass",
+      "case": "direct-module-diagnostics",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/module-diagnostics-cached-er4f90gv/receipt.json",
+      "seconds": 0.2691286951303482
+    },
+    {
+      "status": "pass",
+      "case": "direct-image-checksum",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/image-checksum-cached-h6c_ujf2/receipt.json",
+      "seconds": 0.3458897452801466
+    },
+    {
+      "status": "pass",
+      "case": "direct-priority-archives",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/priority-archives-cached-500nk9rr/receipt.json",
+      "seconds": 0.22538140881806612
+    },
+    {
+      "status": "pass",
+      "case": "direct-bind-parser",
+      "trace": true,
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/bind-parser-cached-zg3_gz27/receipt.json",
+      "seconds": 0.24713817797601223
+    }
+  ],
+  "new_traced_fixture": {
+    "status": "pass",
+    "case": "direct-bind-parser",
+    "trace": true,
+    "entries": [
+      "parse_bind_arguments"
+    ],
+    "exit": 0,
+    "normalization": [],
+    "timing": {
+      "setup_seconds": 0.2332116635516286,
+      "trace_prepare_seconds": 0.2049396950751543,
+      "execution_seconds": 0.00506176333874464,
+      "oracle_seconds": 0.008720937184989452,
+      "trace_seconds": 0.00013898871839046478,
+      "total_seconds": 0.24713817797601223
+    },
+    "elf_sha256": "84650d74eda326f521d6eff2b30e31f8d658c30bb19f74daafc797299c779775",
+    "manifest_sha256": "0ad05edb0b0df10dd4f13987c046b624f842f43490d31b50551d2515005e0f81",
+    "scope": "Capturedreferences only; actualparsedargs/globals/scalarerrors externalreport, stderr/fullstatus, originalvalidPE+names unchanged, status/trace; noWine/debugger/compiler/originalrefresh."
+  },
+  "new_output_only": {
+    "status": "pass",
+    "case": "direct-bind-parser",
+    "trace": false,
+    "entries": null,
+    "exit": 0,
+    "normalization": [],
+    "timing": {
+      "setup_seconds": 0.028130443766713142,
+      "trace_prepare_seconds": 0,
+      "execution_seconds": 0.0026260949671268463,
+      "oracle_seconds": 0.0051987264305353165,
+      "trace_seconds": 6.863847374916077e-07,
+      "total_seconds": 0.035959407687187195
+    },
+    "elf_sha256": "11e736f1bcacb38921c2da089d77d283385477975ecba64ebacfd35efee80263",
+    "manifest_sha256": "0ad05edb0b0df10dd4f13987c046b624f842f43490d31b50551d2515005e0f81",
+    "scope": "Capturedreferences only; actualparsedargs/globals/scalarerrors externalreport, stderr/fullstatus, originalvalidPE+names unchanged, status/trace; noWine/debugger/compiler/originalrefresh."
+  },
+  "fresh_original_and_native": [
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-bind-parser/masked-79sh7zrc/receipt.json",
+        "bytes": 2770,
+        "sha256": "71fc9aed0eb2f7384bb92bec740e2f14f2714c4623ba30ee0da9756c3344bc63"
+      },
+      "artifacts": [
+        {
+          "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-bind-parser/masked-79sh7zrc/stdout.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-bind-parser/masked-79sh7zrc/stderr.bin",
+          "bytes": 27,
+          "sha256": "922137e9f4d934190ed12628d80249356399e720b48be52fdb9199f0fbba8838"
+        },
+        {
+          "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-bind-parser/masked-79sh7zrc/results.bin",
+          "bytes": 1344,
+          "sha256": "b0c3d1e862478ccdc2eb826c421d7626af80c9c8bd51397e838cc0ad36d8e5f0"
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/bind-parser-gdb-s4c7hs1d/receipt.json",
+        "bytes": 386,
+        "sha256": "92b71af85b30ac1e5fbcac3f44e127c4d9fb8d57b379f825ed40e8f76dc04572"
+      },
+      "artifacts": [
+        {
+          "path": "/root/.ai-tmp/msvc2/vc1.0/link/bind-parser-gdb-s4c7hs1d/stdout.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/root/.ai-tmp/msvc2/vc1.0/link/bind-parser-gdb-s4c7hs1d/stderr.bin",
+          "bytes": 27,
+          "sha256": "922137e9f4d934190ed12628d80249356399e720b48be52fdb9199f0fbba8838"
+        },
+        {
+          "path": "/root/.ai-tmp/msvc2/vc1.0/link/bind-parser-gdb-s4c7hs1d/results.bin",
+          "bytes": 1344,
+          "sha256": "b0c3d1e862478ccdc2eb826c421d7626af80c9c8bd51397e838cc0ad36d8e5f0"
+        }
+      ]
+    }
+  ],
+  "fullcomparison": "acceptance/final-native/comparison.json",
+  "scope": "Cached original references, No Wine/GDB/original/capture in fixtures; actualdirectparser/mapclose/CRTexit with allstreams/report/files exact and no normalization/statequalification.",
+  "ordinary_cached_suite_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-zc788j5n/receipt.json",
+    "bytes": 141679,
+    "sha256": "e5c8267be2b5adca091d99f86ae28b9b08aaf1ea0e35fe9ae4f3e2dfe58f6a1c"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "status": "pass",
+  "observations": 14,
+  "external_report_bytes": 1344,
+  "report_rows": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      4294967295,
+      4294967295,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      0,
+      0,
+      384,
+      352,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      2,
+      1,
+      0,
+      0,
+      0,
+      384,
+      352,
+      0,
+      0,
+      0,
+      4
+    ],
+    [
+      3,
+      1,
+      0,
+      0,
+      0,
+      384,
+      352,
+      0,
+      0,
+      0,
+      4
+    ],
+    [
+      4,
+      1,
+      0,
+      0,
+      0,
+      384,
+      352,
+      0,
+      0,
+      0,
+      4
+    ],
+    [
+      5,
+      1,
+      0,
+      0,
+      1,
+      576,
+      352,
+      0,
+      0,
+      0,
+      4
+    ],
+    [
+      6,
+      0,
+      1,
+      0,
+      1,
+      832,
+      352,
+      0,
+      0,
+      0,
+      4
+    ]
+  ],
+  "normalization": [],
+  "source_unchanged": true,
+  "initial_actual_globals": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "actual_return_results": [
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0
+  ],
+  "stderr": "BIND: Invalid switch - /Z\r\n",
+  "ownership": "Actual36B BoundImage and initialized12..32 fields; unusedfirst3words rawretained, no outputdefinition invented. CallerVirtualAlloc/BSSzero is actualprovided storage, not targetwrites. Fourdisjoint argcargv/stringblocks survive through normalCRT; no global resets.",
+  "limits": "No public caller, no slash-prefix trueedge/missing-P operand/nonASCII input/failure provider route exercised. The body is reconstructed wholly, branch reach remains bounded.",
+  "source_sha256": "2c92f7b485af6f6c475315024749fe605a123402c1e5687ab609a24816c2783a"
+}

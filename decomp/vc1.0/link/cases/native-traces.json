@@ -522,7 +522,7 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "9cac647ad5b907872734fdaa463034fe09aaca86350513cb2c184c7a48cde4ae",
+    "functions.json": "2b0db3cd9a37c2f11aeebcbf7a2be6daad2e1c833af46b66d03567f2e868a39a",
     "runtime.json": "75567dfa19b12934940c97f2eccf3941dd4201912d48e81ac33fc96c3736cb69",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
@@ -3507,6 +3507,11 @@
       "logical": "_pad_contribution",
       "implementation": "C"
     },
+    "parse_bind_arguments": {
+      "source": "src/editor-bind.c",
+      "logical": "_parse_bind_arguments",
+      "implementation": "C"
+    },
     "parse_definition_export": {
       "source": "src/definition-file.c",
       "logical": "_parse_definition_export",
@@ -5412,7 +5417,8 @@
     "print_module_debug_info",
     "checksum_image_file",
     "make_import_section_read_only",
-    "insert_other_input"
+    "insert_other_input",
+    "parse_bind_arguments"
   ],
   "excluded_accepted": {
     "CRT": [
