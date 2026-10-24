@@ -1274,7 +1274,8 @@
     "_browser_macro@4",
     "_fill_browser_macro@8",
     "_pop_first_browser_record",
-    "_emit_browser_record@4"
+    "_emit_browser_record@4",
+    "_serialize_browser_record@8"
   ],
   "driver": [
     {
@@ -8945,6 +8946,11 @@
           176472
         ]
       ]
+    },
+    {
+      "name": "_browser_working_directory",
+      "start": 432800,
+      "end": 432888
     }
   ],
   "cases": {
@@ -9497,8 +9503,8 @@
           "original": 585720
         }
       ],
-      "terminal": "_serialize_browser_record@8",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1269-emit_browser_record-4/original-events.txt",
+      "terminal": "_browser_working_directory",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1270-serialize_browser_record-8/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
         "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
@@ -9513,7 +9519,8 @@
         "cases/frontiers/member_registry_browser/1266-browser_macro-4/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1267-fill_browser_macro-8/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1268-pop_first_browser_record/frontier-extension.json",
-        "cases/frontiers/member_registry_browser/1269-emit_browser_record-4/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1269-emit_browser_record-4/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1270-serialize_browser_record-8/frontier-extension.json"
       ],
       "transient_outputs": [
         {
@@ -12273,6 +12280,24 @@
           "bytes": 24
         }
       ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_symbol_references",
+      "original": 577528,
+      "fields": [
+        {
+          "name": "_browser_symbol_references",
+          "original": 577528,
+          "bytes": 8192
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_browser_symbol_bit_masks",
+      "original": 650208,
+      "bytes": 8
     }
   ],
   "buffered_streams": [

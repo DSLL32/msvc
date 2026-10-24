@@ -34,6 +34,7 @@ extern unsigned browser_last_line, browser_output_pass;
 extern CppSymbol *browser_last_reference;
 extern BrowserRecord browser_record_template;
 void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols);
+char *browser_working_directory(void);
 void __stdcall fill_browser_record(BrowserRecord *record, void *subject);
 void fill_browser_filename(BrowserRecord *record);
 void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol);

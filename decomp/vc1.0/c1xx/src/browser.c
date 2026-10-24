@@ -212,3 +212,85 @@ void __stdcall emit_browser_record(BrowserRecordHeader *record)
     auxiliary_ir_stream = browser_file;
     serialize_browser_record(entry, browser_output_pass < 1U);
 }
+
+/* Original 0x8cff8..0x8eff7: one bit per 16-bit browse symbol index.
+   The eight masks at 0x9ebe0 are the encountered index&7 vocabulary. */
+unsigned char browser_symbol_references[8192];
+unsigned char browser_symbol_bit_masks[8] = { 1, 2, 4, 8, 16, 32, 64, 128 };
+
+/* The original expands this FILE word-write inline, including restoring
+   _cnt before the fwrite fallback. Keep it inline to preserve the graph. */
+#define BROWSER_WRITE_SHORT(value_) do { \
+    if ((auxiliary_ir_stream->_cnt -= 2) >= 0) { \
+        *(unsigned short *)auxiliary_ir_stream->_ptr = (value_); \
+        auxiliary_ir_stream->_ptr += 2; \
+    } else { \
+        auxiliary_ir_stream->_cnt += 2; \
+        fwrite(&(value_), 2, 1, auxiliary_ir_stream); \
+    } \
+} while (0)
+#define BROWSER_TRACK_INDEX(index_) \
+    (browser_symbol_references[(index_) >> 3] |= \
+        browser_symbol_bit_masks[(index_) & 7])
+
+/* Original 0x2ad40..0x2b115 and sixteen switch slots 0x2b118..0x2b157.
+   Browse records use their own fixed-width index and attribute encoding. */
+void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols)
+{
+    unsigned index;
+    unsigned short line;
+    putc((signed char)record->header.kind, auxiliary_ir_stream);
+    switch (record->header.kind) {
+    case 0:
+        putc(2, auxiliary_ir_stream);
+        putc(0, auxiliary_ir_stream);
+        putc(7, auxiliary_ir_stream);
+        putc(0, auxiliary_ir_stream);
+        write_ir_string(browser_working_directory());
+        break;
+    case 1: case 15:
+        write_ir_string(record->name);
+        break;
+    case 2:
+        line = (unsigned short)record->line;
+        BROWSER_WRITE_SHORT(line);
+        break;
+    case 3:
+        if (track_symbols && ((record->attributes & 1) ||
+            ((record->category == 1 || record->category == 4) &&
+                !(record->attributes & 0x20)) ||
+            record->category == 16 || record->category == 17)) {
+            index = record->symbol_index;
+            BROWSER_TRACK_INDEX(index);
+        }
+        putc((signed char)record->category, auxiliary_ir_stream);
+        BROWSER_WRITE_SHORT(record->attributes);
+        index = record->symbol_index;
+        putc((unsigned char)index, auxiliary_ir_stream);
+        putc((unsigned char)(index >> 8), auxiliary_ir_stream);
+        if (record->name) {
+            write_ir_string(record->name);
+            if (record->header.flags & 2) {
+                free(record->name);
+                record->name = 0;
+                record->header.flags &= ~2;
+            }
+        } else write_ir_string("");
+        break;
+    case 4: case 5: case 11: case 13:
+        index = record->symbol_index;
+        if (track_symbols) BROWSER_TRACK_INDEX(index);
+        putc((unsigned char)index, auxiliary_ir_stream);
+        putc((unsigned char)(index >> 8), auxiliary_ir_stream);
+        break;
+    case 12:
+        index = record->symbol_index;
+        if (track_symbols) BROWSER_TRACK_INDEX(index);
+        putc((unsigned char)index, auxiliary_ir_stream);
+        putc((unsigned char)(index >> 8), auxiliary_ir_stream);
+        putc((signed char)record->category, auxiliary_ir_stream);
+        break;
+    }
+}
+#undef BROWSER_TRACK_INDEX
+#undef BROWSER_WRITE_SHORT

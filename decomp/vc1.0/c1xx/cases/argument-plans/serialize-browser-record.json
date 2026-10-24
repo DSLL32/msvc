@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "function": "_serialize_browser_record@8",
+  "native_entry": "serialize_browser_record",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_record": "(unsigned)record",
+    "raw_track_symbols": "(unsigned)track_symbols",
+    "ring_owner": "(unsigned)&browser_records[0]"
+  },
+  "formals": [
+    {
+      "name": "record",
+      "stack_index": 0,
+      "native_field": "raw_record",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 609092,
+        "offset": 0,
+        "native_anchor_field": "ring_owner"
+      }
+    },
+    {
+      "name": "track_symbols",
+      "stack_index": 1,
+      "native_field": "raw_track_symbols",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      175424,
+      176406
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8void RET8",
+    "proof": "Whole982B SUB4/saveEBXESI8: recordadjustedESP+16=entryESP+4, track_symbols+20=entryESP+8. AllRET8; no incomingregister/hidden/x87/flagsinputs. Always putcsignedkind first; sixteen switchrows0..15; 0 emits2,0,7,0 thencwdstring;1/15 name;2 ushortline FILEfastword/fwritefallback;3 optionalindextracking byattributes/category then signedcategory/WORDattrs/low16index/name with ownednamefree/clear;4/5/11/13 optionaltrack+low16index;12 adds signedcategory;othersreturnafterkind. Indexmasktable9ebe0 exact8values1..128; bitset8cff8 logical8192B=65536bits, endsatbrowser_file8eff8; no copied data/surroundingmaskabsorption/domain guard. Actualkind0 ringbase fromacceptedappend/fill/pop/emit, track_symbols1 fromunsignedbrowser_output_pass0. Onlyconsumeskindinthiscall beforecwdhelper; no claim otherrecordfields frompointeralone. ThreeFILEshortfallback details:restorecntbeforefwrite; line localdeadread/fwritereturn stores have no output/returnABI effect. Five distinctcallees flsbuf/fwrite/free/write_ir_string plusnewbrowser_working_directory cdecl0pointer whole88B; nohandCRT."
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_serialize_browser_record@8",
+  "case": "member_registry_browser",
+  "accepted_before": 1270,
+  "configuration_sha256": "6275c06be9d13acfe8a7d0554700425b0137db9e4bc893a0ded8e07f2eb9658d",
+  "native_entry": "serialize_browser_record",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "record",
+      "stack_index": 0,
+      "native_field": "raw_record",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 609092,
+        "offset": 0,
+        "native_anchor_field": "ring_owner",
+        "native_object_address": 1449259256
+      },
+      "original_raw": 609092,
+      "native_raw": 1449259256,
+      "result": "match"
+    },
+    {
+      "name": "track_symbols",
+      "stack_index": 1,
+      "native_field": "raw_track_symbols",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 1,
+      "native_raw": 1,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      175424,
+      176406
+    ],
+    "argument_bytes": 8,
+    "convention": "stdcall8void RET8",
+    "proof": "Whole982B SUB4/saveEBXESI8: recordadjustedESP+16=entryESP+4, track_symbols+20=entryESP+8. AllRET8; no incomingregister/hidden/x87/flagsinputs. Always putcsignedkind first; sixteen switchrows0..15; 0 emits2,0,7,0 thencwdstring;1/15 name;2 ushortline FILEfastword/fwritefallback;3 optionalindextracking byattributes/category then signedcategory/WORDattrs/low16index/name with ownednamefree/clear;4/5/11/13 optionaltrack+low16index;12 adds signedcategory;othersreturnafterkind. Indexmasktable9ebe0 exact8values1..128; bitset8cff8 logical8192B=65536bits, endsatbrowser_file8eff8; no copied data/surroundingmaskabsorption/domain guard. Actualkind0 ringbase fromacceptedappend/fill/pop/emit, track_symbols1 fromunsignedbrowser_output_pass0. Onlyconsumeskindinthiscall beforecwdhelper; no claim otherrecordfields frompointeralone. ThreeFILEshortfallback details:restorecntbeforefwrite; line localdeadread/fwritereturn stores have no output/returnABI effect. Five distinctcallees flsbuf/fwrite/free/write_ir_string plusnewbrowser_working_directory cdecl0pointer whole88B; nohandCRT.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "0b8bd08b5ecc5eca548af51e584c3ef96f79ef3f0c4629ab01595cf13f56ef82",
+  "capture_timing": {
+    "original_capture_seconds": 1.7690849844366312,
+    "native_capture_seconds": 0.18510882183909416,
+    "total_operation_seconds": 2.2134425565600395
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "06315692fa40c0950bdb8cee0b9005839543a1faa68ddcfd2ae459858abdb8cb",
+    "native-commands.gdb": "b65216072dc7fe2dab7f82235f6523e4f15dfe85c487f77826d62f20885900e0",
+    "native-gdb.log": "8fb78b57619979d1ade054e1ecbe3f0f2812c616e3bc39dabf2dc17f5296c385",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "60ec634e4086cd9599f40985d4eb7df7b81f308e307e0d84ef77232c69649347",
+    "original-configuration.json": "6275c06be9d13acfe8a7d0554700425b0137db9e4bc893a0ded8e07f2eb9658d",
+    "original-disassembly.txt": "5df5b55b4efcd99dcb1b9deafa3f2da4e9d047faaac65cb3b587ac46a932775e",
+    "original-events.txt": "0b56e0cbd1e7db34975518f8013dab6a03bfdeb4d5e01843366299b0eb9b03d2",
+    "original-receipt.json": "eb1b33119767df0f674391ffabe7bfa6c8f8b4fd6b518fec86bbc44e224df773",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "689cd87938cdaf0c785ccc195972b5f18cf0a89dfbe754d8a986dfbf51829aff"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

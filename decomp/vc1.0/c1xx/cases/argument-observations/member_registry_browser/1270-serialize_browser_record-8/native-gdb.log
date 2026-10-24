@@ -1,0 +1,16 @@
+Breakpoint 1 at 0x37d7d: file src/browser.c, line 242.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, serialize_browser_record (record=0x5661f0f8 <browser_records>, track_symbols=1) at src/browser.c:242
+242	    putc((signed char)record->header.kind, auxiliary_ir_stream);
+#0  serialize_browser_record (record=0x5661f0f8 <browser_records>, track_symbols=1) at src/browser.c:242
+#1  0x5658caf8 in emit_browser_record (record=0x5661f0f8 <browser_records>) at src/browser.c:213
+#2  0x5658c72f in queue_browser_record (kind=253 '\375', subject=0x56633ca0) at src/browser.c:73
+#3  0x5658cd49 in browser_macro (definition=0x56633ca0) at src/browser.c:154
+#4  0x56575928 in define_macro (replacement=0x0, bytes=0, parameter_count=-4) at src/macros.c:280
+#5  0x5657523c in define_command_line_macros (definitions=0x5663c988) at src/macros.c:111
+#6  0x5655f355 in initialize_frontend () at src/initialization.c:241
+#7  0x5655dc1c in compile_translation_unit () at src/frontend.c:22
+#8  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#9  0x56558894 in main (argc=1, argv=0xffffd784, environment=0xffffd78c) at src/c1xx.c:20

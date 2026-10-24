@@ -1,0 +1,28 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_serialize_browser_record@8",
+    "start": 175424,
+    "end": 176406,
+    "shared": [
+      [
+        176408,
+        176472
+      ]
+    ]
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1270-serialize_browser_record-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "__flsbuf",
+    "_browser_working_directory",
+    "_free",
+    "_fwrite",
+    "_write_ir_string"
+  ],
+  "next_frontier": "_browser_working_directory",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8655735980719328,
+  "total_operation_seconds": 5.0288677690550685,
+  "original_capture_seconds": 1.668407779186964
+}

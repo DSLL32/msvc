@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "9f3b988e6c5802a822abe2a3988d5722f1f0266352831ccea63988855915e6ce",
+    "functions.json": "e8d8a39d33f7a8bc4ecbc6ad962493d95426b0192b1978b41e48f8da1a02640d",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "ce7206d06bbab2d9d7fc12180445d86f81d316f4ceeb02ee72b8003bf1fe4519",
-    "cases/canonical-map.txt": "1785425fe254b2c6624703e36ab6703ea8be48f21b5e99ce8ff8c11b5a0f9797",
+    "cases/original-entry-references.json": "0042a07a795a6cf4cbf92fe7bae59eb49927b931ce1a3dc18308e1d2f9519d57",
+    "cases/canonical-map.txt": "2ace5c527c3f5da91467f2a6b54f50437a9462208549d44f152cc2787294a665",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -67,9 +67,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1269-emit_browser_record-4/entry-reference/original-receipt.json": "9c196c6780b3d0f5770d3e7cfe5f6d9a9f4ca2976cce4d43e83ee16f20d06978",
-    "cases/frontiers/member_registry_browser/1269-emit_browser_record-4/entry-reference/original-events.txt": "cd0b61bab59bc44cbfdda509fb66f93e2c8d2e9fbc9005097dfa65108959cd92",
-    "cases/frontiers/member_registry_browser/1269-emit_browser_record-4/entry-reference/original-entries.plan": "18383b0a1326b9fcc788a868eabb87b725865296e6c3338a5defb13bb31b9865"
+    "cases/frontiers/member_registry_browser/1270-serialize_browser_record-8/entry-reference/original-receipt.json": "a8fb7f1725c56fd1d54d26fe6f2db12404c0d38729275f51fd1669dc9031e2d7",
+    "cases/frontiers/member_registry_browser/1270-serialize_browser_record-8/entry-reference/original-events.txt": "ec92c55179a6b20503810994726f5c2d7cfd7b2391ecd6f55f543938bebb3d7f",
+    "cases/frontiers/member_registry_browser/1270-serialize_browser_record-8/entry-reference/original-entries.plan": "8a5c872b686db935e7deb5180ffc85a571e7a24eb92d2fb773267cfb4d534512"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -690,6 +690,10 @@
     },
     "browser_type_reference": {
       "logical": "_browser_type_reference@4",
+      "source": "src/stubs.c"
+    },
+    "browser_working_directory": {
+      "logical": "_browser_working_directory",
       "source": "src/stubs.c"
     },
     "build_call_expression": {
@@ -5538,7 +5542,7 @@
     },
     "serialize_browser_record": {
       "logical": "_serialize_browser_record@8",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "serialize_scope": {
       "logical": "_serialize_scope@4",
@@ -7258,7 +7262,8 @@
     "browser_macro",
     "fill_browser_macro",
     "pop_first_browser_record",
-    "emit_browser_record"
+    "emit_browser_record",
+    "serialize_browser_record"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13688,7 +13693,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1270,
+      "last": 1271,
       "seen": [
         "main",
         "message_text",
@@ -14857,12 +14862,13 @@
         "fill_browser_macro",
         "pop_first_browser_record",
         "emit_browser_record",
-        "serialize_browser_record"
+        "serialize_browser_record",
+        "browser_working_directory"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_serialize_browser_record@8",
-        "native": "serialize_browser_record",
+        "logical": "_browser_working_directory",
+        "native": "browser_working_directory",
         "signal": 5
       }
     }

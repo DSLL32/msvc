@@ -595,4 +595,4 @@ void __stdcall fill_browser_base(BrowserRecord *record, void *base) { __asm { in
 void __stdcall fill_browser_scope_end(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { int 3 } }
 BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }
-void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols) { __asm { int 3 } }
+char *browser_working_directory(void) { __asm { int 3 } return 0; }
