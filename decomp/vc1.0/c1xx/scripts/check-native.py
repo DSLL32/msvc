@@ -118,6 +118,18 @@ def run(executable, directory, tracing, accounting, case_name='cpp_basic'):
     assert result.stdout == metadata['expected_stdout'].encode('latin1'), 'stdout differs'
     assert result.stderr == metadata['expected_stderr'].encode('latin1'), 'stderr differs'
     artifacts = []
+    if 'phase_output_presence' in metadata:
+        presence = metadata['phase_output_presence']
+        declared = {item['output_name'] for item in phase['outputs']}
+        assert len(presence) == len(declared) and {item['path'] for item in presence} == declared, 'incomplete declared output presence'
+        assert {item['path'] for item in presence if item['present']} == {item['path'] for item in metadata['outputs']}, 'presence/cache output list differs'
+        for item in presence:
+            assert (work/item['path']).exists() == item['present'], item['path'] + ': output presence differs'
+        visible = metadata['visible_files']
+        assert {item['path'] for item in visible} == {Path(item['path']).name for item in phase['inputs']} | {item['path'] for item in metadata['outputs']}, 'incomplete checkpoint visible inventory'
+        for item in visible:
+            data = (work/item['path']).read_bytes()
+            assert len(data) == item['bytes'] and sha(data) == item['sha256'], item['path'] + ': visible file differs'
     for item in metadata['outputs']:
         data = (work / item['path']).read_bytes()
         assert data == captured(reference / item['path'], item), item['path'] + ': visible bytes differ'

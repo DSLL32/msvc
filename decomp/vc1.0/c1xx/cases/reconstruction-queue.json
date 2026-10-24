@@ -5,10 +5,13 @@
   "target": "C1XX3232.EXE",
   "authorization": "User-selected autonomous queue; continue without routine confirmation",
   "current": {
-    "case": "state_machine_defined_debug",
-    "fixture": "../fixtures/c1xx-state-machine-defined-debug",
-    "status": "complete: original/native exit0 and five frozen IR outputs exact",
-    "verification": "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/validation.json"
+    "case": "member_registry_browser",
+    "family": "Direct all-model callback registry, browser and macro frontend",
+    "fixture": "../fixtures/c1xx-member-registry-browser",
+    "status": "v2 full original baseline validated; fresh native seed at begin_browser_output",
+    "proposal": "cases/proposals/member-registry-browser/proposal.json",
+    "seed": "cases/member_registry_browser-seed/validation.json",
+    "failed_version": "evidence/member-registry-v1-failure/receipt.json"
   },
   "pending": [
     {
@@ -22,6 +25,15 @@
       "proposal": "cases/proposals/state-machine-debug/proposal.json",
       "last_verified_boundary": "_flush_current_function@4",
       "limitation": "evidence/empty-output-scope/receipt.json"
+    },
+    {
+      "case": "member_registry_browser",
+      "family": "Direct all-model callback registry, browser and macro frontend",
+      "fixture": "../fixtures/c1xx-member-registry-browser",
+      "status": "v2 full original baseline validated; fresh native seed at begin_browser_output",
+      "proposal": "cases/proposals/member-registry-browser/proposal.json",
+      "seed": "cases/member_registry_browser-seed/validation.json",
+      "failed_version": "evidence/member-registry-v1-failure/receipt.json"
     }
   ],
   "requirements": [
@@ -32,7 +44,7 @@
     "At each substantial case boundary, review newer verified committed lib/recon fixes with its maintainer and deliberately refresh the shared-build pin where applicable"
   ],
   "completion": "Six complete frontend cases; frozen state_machine_debug remains explicitly unsupported beyond retained flush boundary",
-  "next_case": "member_registry_browser (concrete proposal pending root review; no baseline yet)",
+  "next_case": "member_registry_browser",
   "completed": [
     {
       "case": "cpp_basic",
@@ -101,7 +113,7 @@
   "after_selected_queue": {
     "intent": "Propose one substantial combined case targeting the largest remaining non-CRT application families, obtain root review before original execution, then repeat while application families remain",
     "authorization": "User authorized autonomous additional VC1.0 cases while away; root review requires concrete routines/known extents, public reachability, combined features and original validation plan",
-    "status": "Defined state-machine successor complete; review remaining non-CRT application families and concrete next source with root"
+    "status": "Root-approved v2 member registry baseline/seed frozen; proceed whole application functions autonomously"
   },
   "shared_fix_review_pending": {
     "commit": "6f61ec34",

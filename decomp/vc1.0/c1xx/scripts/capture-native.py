@@ -100,7 +100,7 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
         name = field['name'][1:]
         commands += ['    stream = gdb.parse_and_eval("'+name+'")',
                      '    length = int(stream["_ptr"]) - int(stream["_base"]) if int(stream) else 0',
-                     '    result["buffers"].append(bytes(gdb.selected_inferior().read_memory(int(stream["_base"]), length)).hex() if length else "")']
+                     '    result["buffers"].append(None if not int(stream) else (bytes(gdb.selected_inferior().read_memory(int(stream["_base"]), length)).hex() if length else ""))']
     for field in config['checkpoint_state']:
         name = field['name'][1:]
         commands += ['    value = int(gdb.parse_and_eval("*(unsigned int *)&'+name+'"))',

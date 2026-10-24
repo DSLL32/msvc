@@ -54,5 +54,13 @@
     "events_sha256": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "plan": "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan",
     "plan_sha256": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619"
+  },
+  "member_registry_browser": {
+    "receipt": "cases/member_registry_browser-seed/entry-reference/original-receipt.json",
+    "receipt_sha256": "8be5058f7a4553071506f09d4606fe808301c96e101c4d02174bf244b18a05be",
+    "events": "cases/member_registry_browser-seed/entry-reference/original-events.txt",
+    "events_sha256": "94e940c654fcdd62523c2664a710403d779301fdba4142531e0b0ebc842271df",
+    "plan": "cases/member_registry_browser-seed/entry-reference/original-entries.plan",
+    "plan_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   }
 }

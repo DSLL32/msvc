@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "scope": "Exact cwd-input mismatch diagnosis, no output normalization. Both SBR byte strings remain unchanged.",
+  "original": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/c1xx/fixture-stage-mn76lsar/c1xx-member-registry-browser/expected/registry.sbr",
+    "bytes": 5103,
+    "sha256": "036c0f3d47e4184fd31f98837dc6c1f5ab4afded678971e0f1af02b0b36bb435",
+    "cwd": "S:\\vc1.0\\c1xx\\member-registry-browser-driver"
+  },
+  "independent_before": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/c1xx/fixture-stage-mn76lsar/c1xx-member-registry-browser/validation/independent-c1-registry-before-path-fix.sbr",
+    "bytes": 5096,
+    "sha256": "ac184a40833688f6b8f56c09a22027d8bff6f5fa4ca402b79b6b0a8b2f1fc427",
+    "cwd": "S:\\vc1.0\\c1xx\\member-registry-browser"
+  },
+  "first_differing_byte": 42,
+  "unique_header_prefix_bytes": 5,
+  "remaining_bytes_exact_after_accounting_for_only_cwd_field": true,
+  "corrected_cwd": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "comparison_policy": "Reproduce full actual cwd input and compare every SBR byte; no path stripping or normalization",
+  "source_status": "v2 approved unchanged; full original driver+runtime0 and five independent original IR outputs already matched"
+}

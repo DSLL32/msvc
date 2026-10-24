@@ -260,13 +260,18 @@ def main():
         assert native['signal']==5,'native did not stop on INT3'
         assert native['function']==trace.native_name(original['terminal']),(original['terminal'],native['function'])
     events=(args.original/'events.txt').read_text()
-    buffers=[m[1] for m in re.findall(r'^buffer \d+ (\d+) ([0-9a-f]*)$',events,re.M)]
+    from checkpoint_buffers import original_buffers
+    buffers=original_buffers(events, 0 if complete else len(case.get('buffered_streams',config['buffered_streams'])))
     states=[int(s,16) for s in re.findall(r'^state \d+ ([0-9a-f]+)$',events,re.M)]
     assert buffers==native['buffers'],'pending output buffers differ'
     assert states==native['states'],'checkpoint state differs'
     for stream in ('stdout.bin','stderr.bin'):
         assert (args.original/stream).read_bytes()==(args.native/stream).read_bytes(),stream+' differs'
     expected={p.name:p.read_bytes() for p in (args.original/'case').iterdir() if p.is_file()}
+    phase = json.loads((fixture/'manifest.json').read_text())['phases']['c1']
+    declared = {item['output_name'] for item in phase['outputs']}
+    inputs = {Path(item['path']).name for item in phase['inputs']}
+    assert inputs <= expected.keys() <= inputs | declared, 'unknown/missing original checkpoint files'
     actual={p.name:p.read_bytes() for p in (args.native/'case').iterdir() if p.is_file()}
     assert expected==actual,'visible input/output files differ'
     if complete:
@@ -322,6 +327,9 @@ def main():
     metadata['canonical_map_sha256']=sha(snapshot)
     metadata['capture_seconds']=original['capture_seconds']
     metadata['scope']='%d accepted frontiers; explicit original-backed %s frontend terminal'%(len(config['accepted']),'completed' if complete else 'current partial')
+    metadata['phase_output_presence'] = [dict(path=item['output_name'], present=item['output_name'] in expected) for item in phase['outputs']]
+    metadata['visible_files'] = [dict(path=name, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()) for name,data in sorted(expected.items())]
+    metadata['outputs'] = [dict(path=item['output_name']) for item in phase['outputs'] if item['output_name'] in expected]
     for output in metadata['outputs']:
         path=reference/output['path']
         path.write_bytes(expected[output['path']])

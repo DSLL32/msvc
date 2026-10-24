@@ -215,7 +215,8 @@ def main():
                 item['environment'] = {'LIB':'{lib}'}
                 item['command_line_template'] = '{bin}\\link.exe @link.rsp'
                 item['arguments'] = ['@link.rsp']
-            item['canonical_working_directory'] = 'S:\\vc1.0\\c1xx\\'+slug+('' if phase=='c1' else '-'+phase)
+            case_cwd = slug + ('-driver' if slug == 'member-registry-browser' and phase == 'c1' else ('' if phase == 'c1' else '-'+phase))
+            item['canonical_working_directory'] = 'S:\\vc1.0\\c1xx\\'+case_cwd
             item['expected_exit']=0; item['expected_stdout']=''; item['expected_stderr']=''
         c1,c2,link = (manifest['phases'][p] for p in ('c1','c2','link'))
         c1['inputs'] = [record(stage/'c1'/input_source.name,stage) for input_source in sources]
@@ -236,7 +237,8 @@ def main():
         (stage/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
         validation = {}
         for phase,item in manifest['phases'].items():
-            phase_work = clear_work(slug+('' if phase=='c1' else '-'+phase))
+            case_cwd = slug + ('-driver' if slug == 'member-registry-browser' and phase == 'c1' else ('' if phase == 'c1' else '-'+phase))
+            phase_work = clear_work(case_cwd)
             for entry in item['inputs']:
                 path=stage/entry['path']; assert sha(path)==entry['sha256']; shutil.copyfile(path,phase_work/path.name)
             phase_env=env.copy()

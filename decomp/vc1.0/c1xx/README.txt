@@ -4,7 +4,7 @@ C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 PARTIAL binary reconstruction: 1257 accepted frontiers, including 1152 frontend
 functions and seven older CRT functions reconstructed as source.
 Complete cases: cpp_basic, virtual_diamond, copy_assignment, stack_lifetime, new_delete, state_machine_defined_debug.
-Next: seed the next approved C++ queue case.
+Active case member_registry_browser stops at _begin_browser_output, original VA 0x2bfe0.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would

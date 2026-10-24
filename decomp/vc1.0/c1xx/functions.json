@@ -9334,6 +9334,37 @@
         "cases/frontiers/state_machine_defined_debug/1255-emit_debug_bit_field-4/frontier-extension.json",
         "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/frontier-extension.json"
       ]
+    },
+    "member_registry_browser": {
+      "fixture": "../fixtures/c1xx-member-registry-browser",
+      "native_reference": "cases/native-member-registry-browser",
+      "frontiers": "cases/frontiers/member_registry_browser",
+      "accepted_from": 1257,
+      "buffered_streams": [
+        {
+          "name": "_expression_file",
+          "original": 577508
+        },
+        {
+          "name": "_symbol_file",
+          "original": 577512
+        },
+        {
+          "name": "_line_file",
+          "original": 577516
+        },
+        {
+          "name": "_global_file",
+          "original": 577520
+        },
+        {
+          "name": "_debug_file",
+          "original": 576700
+        }
+      ],
+      "terminal": "_begin_browser_output",
+      "terminal_evidence": "cases/member_registry_browser-seed/original-events.txt",
+      "original_seed": "cases/member_registry_browser-seed"
     }
   },
   "runtime_data": [

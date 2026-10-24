@@ -1,0 +1,67 @@
+{
+  "case": "member_registry_browser",
+  "scope": "explicit matching original/native initial frontier; accepted prefix seeded",
+  "reference_receipt": "cases/member_registry_browser-seed/original-receipt.json",
+  "reference_receipt_sha256": "8be5058f7a4553071506f09d4606fe808301c96e101c4d02174bf244b18a05be",
+  "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "canonical_map": "canonical-map.txt",
+  "canonical_map_sha256": "1f1176109826926f54576e31edf91b1945311bef89221be333104444731bbde1",
+  "terminal": {
+    "kind": "frontier",
+    "logical": "_begin_browser_output",
+    "native_signal": 5,
+    "original_exception": "80000003"
+  },
+  "expected_stdout": "",
+  "expected_stderr": "",
+  "outputs": [],
+  "normalization": "none; captured visible bytes, not unflushed CRT buffers",
+  "capture_seconds": 1.3676330521702766,
+  "dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/C1.ERR",
+      "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775",
+      "bytes": 57919,
+      "cached_path": "dependencies/C1.ERR"
+    }
+  ],
+  "canonical_map_note": "Canonical-link source ownership metadata stored as LF text with trailing whitespace stripped; target streams/artifacts remain exact raw bytes.",
+  "phase_output_presence": [
+    {
+      "path": "irex",
+      "present": false
+    },
+    {
+      "path": "irsy",
+      "present": false
+    },
+    {
+      "path": "irin",
+      "present": false
+    },
+    {
+      "path": "irgl",
+      "present": false
+    },
+    {
+      "path": "irdb",
+      "present": false
+    },
+    {
+      "path": "registry.sbr",
+      "present": false
+    }
+  ],
+  "visible_files": [
+    {
+      "path": "registry.cpp",
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    },
+    {
+      "path": "registry.h",
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    }
+  ]
+}

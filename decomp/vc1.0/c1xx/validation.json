@@ -3,16 +3,16 @@
   "driver_functions": 1152,
   "older_crt_functions": 7,
   "reconstructed_source_functions": 1159,
-  "current_frontier": "exit:0",
-  "original_frontier_va": null,
+  "current_frontier": "_begin_browser_output",
+  "original_frontier_va": "0x2bfe0",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "exit:0",
-    "original_va": null
+    "current_frontier": "_begin_browser_output",
+    "original_va": "0x2bfe0"
   },
-  "current_native_application_entries": 25,
+  "current_native_application_entries": 1,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -389,10 +389,10 @@
       }
     ]
   },
-  "complete_frontend_case": true,
-  "active_case": "state_machine_defined_debug",
-  "status": "state_machine_defined_debug reconstruction complete",
-  "latest_verification": "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/validation.json",
+  "complete_frontend_case": false,
+  "active_case": "member_registry_browser",
+  "status": "member_registry_browser reconstruction in progress",
+  "latest_verification": "cases/member_registry_browser-seed/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -428,9 +428,13 @@
       "status": "complete",
       "frontier": "exit:0",
       "latest_verification": "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/validation.json"
+    },
+    "member_registry_browser": {
+      "status": "partial",
+      "frontier": "_begin_browser_output"
     }
   },
-  "next_operation": "Seed the next approved C++ queue case",
+  "next_operation": "Continue _begin_browser_output reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

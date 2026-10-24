@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "scope": "Focused native-only negatives for the reached pre-output checkpoint.",
+  "checks": [
+    {
+      "test": "explicit-stream-states",
+      "result": "verified",
+      "actual": [
+        null,
+        "",
+        "aa"
+      ]
+    },
+    {
+      "test": "missing-stream",
+      "result": "held",
+      "reason": "missing original buffer observations"
+    },
+    {
+      "test": "duplicate-index",
+      "result": "held",
+      "reason": "duplicate/out-of-order original buffer observation"
+    },
+    {
+      "test": "unreadable-stream",
+      "result": "held",
+      "reason": "unreadable/invalid original FILE buffer"
+    },
+    {
+      "test": "short-buffer-read",
+      "result": "held",
+      "reason": "short/invalid original buffer read"
+    },
+    {
+      "test": "invalid-buffer",
+      "result": "held",
+      "reason": "unreadable/invalid original FILE buffer"
+    },
+    {
+      "test": "native-control",
+      "result": "verified",
+      "receipt": "cases/member_registry_browser-seed/native-fixture-receipt.json"
+    },
+    {
+      "test": "missing-presence-row",
+      "result": "held",
+      "reason": "incomplete declared output presence"
+    },
+    {
+      "test": "unexpected-output-presence",
+      "result": "held",
+      "reason": "presence/cache output list differs"
+    },
+    {
+      "test": "unknown-visible-file",
+      "result": "held",
+      "reason": "unexpected fixture files"
+    },
+    {
+      "test": "changed-input-bytes",
+      "result": "held",
+      "reason": "registry.h: visible file differs"
+    }
+  ],
+  "reference_manifest": "/root/msvc2/decomp/vc1.0/c1xx/cases/native-member-registry-browser/manifest.json",
+  "reference_manifest_sha256": "b9baa74404cc323e3ec3bb345b767bfebf1f18de2c5d0a731c7614cdc5f2dd20",
+  "configuration_sha256": "6bbded077d4a765df321c6ca07564c4acebef6442d950614a3fa414118c41810",
+  "native_executable_sha256": "288e1603b086f1d647fc65162c512f265149ddcf530ac92be50d6aa415883cda",
+  "native_control_receipt_sha256": "ec49eb2d9973c4f2673456b8456ed3da4e47a08630c1a18c739ff0ccbc35aa9f",
+  "checker_sha256": "24ef5d767b40d6296536c3788a199e8aa6e2599e5c66bc722b9d8eb64b9c7655",
+  "production_files": {
+    "scripts/checkpoint_buffers.py": "c06319aef8fcc92d77a01ec181f673ff1564102607af5d2db5712a58232ee31f",
+    "scripts/check-native.py": "6d712f889250a43fb1084228f3fd49b4f03aa1c773dc0ef47749d438ee6a360f",
+    "scripts/seed-case.py": "4d11ad4ac9af685b13f9f6358897f1df78be9722fde1f5b562fbf8bf3fd5bc31",
+    "scripts/advance-frontier.py": "db3fa74daca7ae4dbe258b75cfa4d4ef4a9d8e660d63aa3d46ab4c030a35da49"
+  },
+  "elapsed_seconds": 0.07706562243402004,
+  "scratch": "/root/.ai-tmp/msvc2/vc1.0/c1xx/registry-lifecycle-negatives-19jhmjk_",
+  "original_invocations": 0,
+  "production_cache_changes": false
+}

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "Revised concrete source for root review; no v2 original invocation/registration",
+  "status": "v2 full original pipeline/runtime validated; six-output frontend baseline frozen before fresh native seed",
   "case": "member_registry_browser",
   "source_files": [
     {
@@ -371,5 +371,9 @@
     ],
     "reason": "Original v1 runtime equality failed; source2->target3 original converter checks targetmodel insteadsource, losing source adjustment8. Additional outword uninitialized diagnosis remains qualified until genuine helper-state proof. No changed expected equality or pointer normalization. This v2 deliberately avoids all cross-model3/4 converters rather than pretending their outputs work."
   },
-  "direct_constructor_basis": "Original make_virtual_method_pointer4a3a0..4a422 NULL-vbase path explicitly creates integer0 VB-index then factory4a430..4a56d assigns function,adjustment,VB-index at exact pointer/integer widths. Diagnostic direct Virtual::reduce produced initialized-looking third0, but whole reached constructor/actual owner proof remains required before acceptance. Direct model4/PMD constructor whole bodies/formals will be checked when genuinely reached; no pre-credit from proposal."
+  "direct_constructor_basis": "Original make_virtual_method_pointer4a3a0..4a422 NULL-vbase path explicitly creates integer0 VB-index then factory4a430..4a56d assigns function,adjustment,VB-index at exact pointer/integer widths. Diagnostic direct Virtual::reduce produced initialized-looking third0, but whole reached constructor/actual owner proof remains required before acceptance. Direct model4/PMD constructor whole bodies/formals will be checked when genuinely reached; no pre-credit from proposal.",
+  "original_validation": "../fixtures/c1xx-member-registry-browser/validation.json",
+  "original_baseline_inventory": "../fixtures/c1xx-member-registry-browser/original-baseline-inventory.json",
+  "cwd_input_evidence": "evidence/member-registry-v2-path/validation.json",
+  "validated_source_unchanged": true
 }

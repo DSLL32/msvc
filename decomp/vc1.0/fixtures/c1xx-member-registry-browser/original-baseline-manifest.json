@@ -1,0 +1,243 @@
+{
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C1XX3232.EXE",
+      "sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+      "arguments": [],
+      "working_directory": "c1",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775",
+          "bytes": 57919,
+          "cached_path": "dependencies/C1.ERR"
+        }
+      ],
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il S:\\vc1.0\\c1xx\\member-registry-browser-driver\\001448 -f registry.cpp -W 1 -Ze -Zp8 -Gs -Foregistry.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -D_M_IX86=500 -G4 -Z7 -vmg -FR registry.sbr -I R:\\toolchains\\1.0-nt\\include ",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f registry.cpp -W 1 -Ze -Zp8 -Gs -Foregistry.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -D_M_IX86=500 -G4 -Z7 -vmg -FR registry.sbr -I {include} "
+      },
+      "command_line_template": "{bin}\\c1xx3232.exe",
+      "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c1/registry.cpp",
+          "bytes": 6998,
+          "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+        },
+        {
+          "path": "c1/registry.h",
+          "bytes": 703,
+          "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 13863,
+          "sha256": "d3e3189ee808dd8a26d9bea9d4905c80021e3bc398468c9d21c06188eedefba2",
+          "output_name": "irex"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 3803,
+          "sha256": "08e23791005aa2f63628799cdbaa8dc213d273a0b075d7aa7a9165819398ed90",
+          "output_name": "irsy"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 368,
+          "sha256": "ab0ae9b60c88849b51ee223e7b2408971514db4b04df0d501f9823bfad265392",
+          "output_name": "irin"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 3113,
+          "sha256": "38c4cb08c4071eceb3ac5481fd92ab8f2220aa9b0bea0bba652592caee32ee5f",
+          "output_name": "irgl"
+        },
+        {
+          "path": "c2/irdb",
+          "bytes": 3931,
+          "sha256": "926a7bf7c63f6130b15dcbe9c3afdfb896d9d0ff64fb0a2116fe895bd0a57831",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/registry.sbr",
+          "bytes": 5103,
+          "sha256": "036c0f3d47e4184fd31f98837dc6c1f5ab4afded678971e0f1af02b0b36bb435",
+          "output_name": "registry.sbr"
+        }
+      ]
+    },
+    "c2": {
+      "target": "toolchains/1.0-nt/bin/C23232.EXE",
+      "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "arguments": [],
+      "working_directory": "c2",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C23.ERR",
+          "sha256": "c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5",
+          "bytes": 6019,
+          "cached_path": "dependencies/C23.ERR"
+        }
+      ],
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il S:\\vc1.0\\c1xx\\member-registry-browser-driver\\001448 -f registry.cpp -W 1 -Gs4096 -dos -Foregistry.obj -ML -G5 -Zi ",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f registry.cpp -W 1 -Gs4096 -dos -Foregistry.obj -ML -G5 -Zi "
+      },
+      "command_line_template": "{bin}\\c23232.exe",
+      "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-c2",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 13863,
+          "sha256": "d3e3189ee808dd8a26d9bea9d4905c80021e3bc398468c9d21c06188eedefba2"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 3803,
+          "sha256": "08e23791005aa2f63628799cdbaa8dc213d273a0b075d7aa7a9165819398ed90"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 368,
+          "sha256": "ab0ae9b60c88849b51ee223e7b2408971514db4b04df0d501f9823bfad265392"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 3113,
+          "sha256": "38c4cb08c4071eceb3ac5481fd92ab8f2220aa9b0bea0bba652592caee32ee5f"
+        },
+        {
+          "path": "c2/irdb",
+          "bytes": 3931,
+          "sha256": "926a7bf7c63f6130b15dcbe9c3afdfb896d9d0ff64fb0a2116fe895bd0a57831"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/registry.obj",
+          "bytes": 35158,
+          "sha256": "29f9765616ed892b7b9b2a95177c17377df3ed98d213f5f081eef5f93a83ecd6",
+          "output_name": "registry.obj",
+          "ignored_fields": [
+            {
+              "offset": 4,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "57853911b189367d4e2b6a6f058e5c60e99dc2b499315c344d8b9c4044753ce9"
+        }
+      ]
+    },
+    "link": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "@link.rsp"
+      ],
+      "working_directory": "link",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/lib/LIBC.LIB",
+          "sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334"
+        }
+      ],
+      "generated_program": {
+        "path": "registry.exe",
+        "exit_status": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\link.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\link.exe -link @S:\\vc1.0\\c1xx\\member-registry-browser-driver\\001448lk",
+      "captured_LIB": "R:\\toolchains\\1.0-nt\\lib",
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "command_line_template": "{bin}\\link.exe @link.rsp",
+      "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-link",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "link/registry.obj",
+          "bytes": 35158,
+          "sha256": "29f9765616ed892b7b9b2a95177c17377df3ed98d213f5f081eef5f93a83ecd6"
+        },
+        {
+          "path": "link/link.rsp",
+          "bytes": 80,
+          "sha256": "e8b4e41848191e40739d12170ee1284acf0c10815a07f61208c964e34aaf68c6"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/registry.exe",
+          "bytes": 66284,
+          "sha256": "cd1308e635f3c2bc99939812260779a22c4331cf2b483c0de1eb36f47bbb7d40",
+          "output_name": "registry.exe",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 14340,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY type1 TimeDateStamp"
+            },
+            {
+              "offset": 14368,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY type2 TimeDateStamp"
+            },
+            {
+              "offset": 14396,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY type3 TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "cface27f3c9a5b028370ffa370754af3acdf8dc17716aa1efe2298b6e9cb578a"
+        }
+      ]
+    }
+  },
+  "case": "CL.EXE /nologo /Od /G5 /Z7 /vmg /FRregistry.sbr registry.cpp",
+  "capture": {
+    "method": "Fresh original CL CreateProcessA breakpoint; shared fixed R:/S: prefix",
+    "CL_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+    "arguments": "/nologo /Od /G5 /Z7 /vmg /FRregistry.sbr registry.cpp",
+    "downstream_capture_arguments": "/nologo /Od /G5 /Z7 /vmg /FRregistry.sbr registry.cpp",
+    "source_sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158",
+    "inherited_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+    "child_current_directory_parameter": null,
+    "raw_boundary_files": "capture/driver/",
+    "stdin": "closed",
+    "compiler_environment_keys": [
+      "MSC_CMD_FLAGS"
+    ],
+    "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "fixed_drives": {
+      "R:": "/root/msvc2",
+      "S:": "/root/.ai-tmp/msvc2"
+    },
+    "timing_receipt": "capture/driver-receipt.json"
+  }
+}

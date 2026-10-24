@@ -221,7 +221,8 @@ def main():
         validate_goto_cleanup_inputs(name, plan['formals'], anchors, checkpoint)
     assert states[:len(config['checkpoint_state'])] == checkpoint['states']
     assert len(states) == len(config['checkpoint_state']) + len(anchors)
-    assert [m[1] for m in re.findall(r'^buffer \d+ (\d+) ([0-9a-f]*)$', events, re.M)] == checkpoint['buffers']
+    from checkpoint_buffers import original_buffers
+    assert original_buffers(events, len(config['cases'][args.case].get('buffered_streams',config['buffered_streams']))) == checkpoint['buffers']
     for filename in ('receipt.json', 'events.txt', 'configuration.json', 'stdout.bin', 'stderr.bin'):
         shutil.copyfile(original/filename, out/('original-'+filename))
     if (original/'entries.plan').exists():

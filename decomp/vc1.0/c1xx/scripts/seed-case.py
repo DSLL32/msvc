@@ -38,9 +38,14 @@ def main():
     assert original['case']==args.case and original['candidate'] is None and original['accepted_count']==len(config['accepted'])
     assert native['signal']==5 and native['function']==re.sub(r'@\d+$','',original['terminal'][1:])
     events=(args.original/'events.txt').read_text()
-    assert native['buffers']==[m[1] for m in re.findall(r'^buffer \d+ (\d+) ([0-9a-f]*)$',events,re.M)]
+    from checkpoint_buffers import original_buffers
+    assert native['buffers']==original_buffers(events, len(case.get('buffered_streams',config['buffered_streams'])))
     assert native['states']==[int(x,16) for x in re.findall(r'^state \d+ ([0-9a-f]+)$',events,re.M)]
     expected={p.name:p.read_bytes() for p in (args.original/'case').iterdir() if p.is_file()}
+    phase = json.loads((fixture/'manifest.json').read_text())['phases']['c1']
+    declared = {item['output_name'] for item in phase['outputs']}
+    inputs = {Path(item['path']).name for item in phase['inputs']}
+    assert inputs <= expected.keys() <= inputs | declared, 'unknown/missing original checkpoint files'
     assert expected=={p.name:p.read_bytes() for p in (args.native/'case').iterdir() if p.is_file()}
     for filename in ('stdout.bin','stderr.bin'):
         assert (args.original/filename).read_bytes()==(args.native/filename).read_bytes()
@@ -61,9 +66,10 @@ def main():
         canonical_map_sha256=sha(snapshot),terminal=dict(kind='frontier',logical=original['terminal'],native_signal=5,original_exception='80000003'),
         expected_stdout=(args.original/'stdout.bin').read_bytes().decode('latin1'),expected_stderr=(args.original/'stderr.bin').read_bytes().decode('latin1'),
         capture_seconds=original['capture_seconds'])
-    phase=json.loads((fixture/'manifest.json').read_text())['phases']['c1']
     metadata['dependencies']=phase.get('toolchain_dependencies',[])
-    metadata['outputs']=[dict(path=item['output_name']) for item in phase['outputs']]
+    metadata['phase_output_presence'] = [dict(path=item['output_name'], present=item['output_name'] in expected) for item in phase['outputs']]
+    metadata['visible_files'] = [dict(path=name, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()) for name,data in sorted(expected.items())]
+    metadata['outputs']=[dict(path=item['output_name']) for item in phase['outputs'] if item['output_name'] in expected]
     for output in metadata['outputs']:
         target=reference/output['path'];target.write_bytes(expected[output['path']]);output.update(bytes=target.stat().st_size,sha256=sha(target))
     (reference/'manifest.json').write_text(json.dumps(metadata,indent=2)+'\n')
