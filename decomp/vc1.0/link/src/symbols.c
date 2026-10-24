@@ -5,6 +5,46 @@
 #pragma intrinsic(strcmp,strlen,strcpy)
 char short_symbol_name[9];
 
+/* Diagnostic enumeration retains the table's ordinary short-name workspace. */
+void print_external_table(SymbolTable *table)
+{
+    External *external;
+    const char *name;
+    printf("--- SYMBOL TABLE DUMP (%d. symbols) ---\n",count_externals(table));
+    begin_external_enumeration(table);
+    while ((external=next_external(table))!=NULL) {
+        printf(external->flags&EXTERNAL_DEFINED ? "d" : " ");
+        if (external->symbol.N.Name.Short)
+            name=strncpy(short_symbol_name,(const char *)&external->symbol,8);
+        else name=table->strings.data+external->symbol.N.Name.Long;
+        printf(": %s\n",name);
+    }
+    end_external_enumeration(table);
+    printf("--- END OF SYMBOL TABLE DUMP ---\n");
+}
+
+/* This projection collects names, leaving ordinary lookup entries undefined. */
+SymbolTable *copy_defined_names(SymbolTable *table)
+{
+    SymbolTable *result;
+    External *external;
+    unsigned short short_name;
+    unsigned char created,imports;
+    const char *name;
+    initialize_symbols(&result);
+    begin_external_enumeration(table);
+    while ((external=next_external(table))!=NULL) {
+        if (!(external->flags&EXTERNAL_DEFINED)) continue;
+        short_name=external->symbol.N.Name.Short!=0;
+        if (short_name)
+            name=strncpy(short_symbol_name,(const char *)&external->symbol,8);
+        else name=table->strings.data+external->symbol.N.Name.Long;
+        lookup_external(result,short_name,name,&created,&imports);
+    }
+    end_external_enumeration(table);
+    return result;
+}
+
 void initialize_hash(HashTable **output,unsigned long buckets,
                      unsigned long segments,HashKey key,unsigned short flags)
 {

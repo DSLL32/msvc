@@ -986,7 +986,9 @@
     "_resize_file",
     "__setmode",
     "_resize_buffered_file",
-    "_resize_mapped_file"
+    "_resize_mapped_file",
+    "_print_external_table",
+    "_copy_defined_names"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -8594,6 +8596,24 @@
       "evidence": "Whole3c3f0..3c466: actual owned40BFileSlot/long formals, populatedpagepool/table/cursor changes, cdeclreturn0/nonvolatiles/ESP, public_chsize2formals/return/errors/FP027f and exact4097B close/reopen output. Fresh original buffered-masked-av9lk7nw vs native file-resize-gdb-a0w81szm; shared c2a12ca40 exactcandidate READY, startup53 driver only. See cases/direct-file-resize/analysis/final-acceptance.json.",
       "implementation": "C",
       "abi": "cdecl int(FileSlot *,long)"
+    },
+    {
+      "name": "_print_external_table",
+      "start": 156944,
+      "end": 157104,
+      "source": "src/symbols.c",
+      "implementation": "C",
+      "abi": "cdecl void(SymbolTable *)",
+      "evidence": "Fresh direct-symbol-tables print acceptance: actual1formal/source immutable/full stdout pending/defined state and cdecl return match; same next copy_defined_names trap. C0-only qualification explicitly reviewed."
+    },
+    {
+      "name": "_copy_defined_names",
+      "start": 187632,
+      "end": 187780,
+      "source": "src/symbols.c",
+      "implementation": "C",
+      "abi": "cdecl SymbolTable *(SymbolTable *)",
+      "evidence": "Fresh direct-symbol-tables whole-case acceptance: all12 root entry/returns, actual table formal, source immutability/owned graph edges/returned new tables, exact1274stdout and1432externalreport, counts32/21/0/0; new entries intentionally undefined. C0-only qualification separately reviewed; direct support, not CLI."
     }
   ],
   "c_stub_references": [
@@ -9586,6 +9606,8 @@
     "direct-file-resize-mapped",
     "direct-file-resize-buffered",
     "direct-file-resize-buffered",
-    "direct-file-resize-mapped"
+    "direct-file-resize-mapped",
+    "direct-symbol-tables",
+    "direct-symbol-tables"
   ]
 }

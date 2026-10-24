@@ -418,3 +418,20 @@ proof. No target repair, normalization or new CRT C body. All84cachednativecases
 functions (759public/33direct),16historicalCRT separate;13462unclassified bytes
 remain pending, not CRT. Full suite8.289s; actual new traced ELF calls6.02/5.11ms.
 See cases/direct-file-resize for split accounting and ordinary evidence.
+
+Direct symbol-table checkpoint (989 frontiers)
+---------------------------------------------
+Two readable C support functions print populated/empty custom symbol tables and
+project only defined names into a new table, whose entries intentionally remain
+undefined. Their actual1formal/return/owned graph/source immutability and exact
+1274-byte stdout/1432-byte driver report pass fresh original/native observation.
+This is external direct support, not public CLI. Only reviewed dead x87 C0 differs
+between FCOMP/status and FUCOMIP/EFLAGS compiler sequences; all live FP state is
+strict and raw evidence/negative controls remain. No new CRT implementation.
+
+All85 cached native cases pass8.539s; newcase directELF5.75ms (trace total.228s).
+CanonicalVC1-j4 and828CFG/811callback/511data/41ECX audits pass. App-only extent
+228320/281634=81.0698%; total including support258923/281634=91.9360%. There are
+794appfunctions (759public/35direct) and16 historical CRT overrides separately.
+13154 unaccepted unclassified bytes remain pending; no full nonCRT denominator.
+See cases/direct-symbol-tables for precise scope, timings, proofs and references.

@@ -1,0 +1,216 @@
+{
+  "sample": "Single measured final suite; preparation attempts recorded separately, not benchmark medians",
+  "original_captures": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-symbol-tables/masked-6c580yst",
+      "mode": "masked",
+      "trial": null,
+      "seconds": 1.2558414619415998,
+      "status": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 2,
+        "exit": 17,
+        "phase": 3,
+        "stdout_bytes": 0,
+        "stderr_bytes": 0,
+        "counts": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-symbol-tables/masked-hv4zguga",
+      "mode": "masked",
+      "trial": "print_external_table",
+      "seconds": 1.6896649347618222,
+      "status": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 2,
+        "exit": 17,
+        "phase": 4,
+        "stdout_bytes": 0,
+        "stderr_bytes": 0,
+        "counts": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-symbol-tables/masked-zy17ghh5",
+      "mode": "masked",
+      "trial": "copy_defined_names",
+      "seconds": 0.9737003035843372,
+      "status": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 1,
+        "exit": 0,
+        "phase": 23,
+        "stdout_bytes": 1274,
+        "stderr_bytes": 0,
+        "counts": [
+          32,
+          21,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-symbol-tables/original-roc2yrgk",
+      "mode": "original",
+      "trial": null,
+      "seconds": 1.9601653777062893,
+      "status": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 1,
+        "exit": 0,
+        "phase": 23,
+        "stdout_bytes": 1274,
+        "stderr_bytes": 0,
+        "counts": [
+          32,
+          21,
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "original_capture_seconds": 5.879372077994049,
+  "native_GDB": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/symbol-tables-gdb-xxdtgtie",
+      "seconds": 0.2343556545674801,
+      "status": 0,
+      "trial": "copy_defined_names"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/symbol-tables-gdb-e6lel71a",
+      "seconds": 0.17884764075279236,
+      "status": 0,
+      "trial": "print_external_table"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/symbol-tables-gdb-87ttddca",
+      "seconds": 0.17200601659715176,
+      "status": 0,
+      "trial": null
+    }
+  ],
+  "native_GDB_seconds": 0.5852093119174242,
+  "canonical": {
+    "command": [
+      "make",
+      "-j4",
+      "all"
+    ],
+    "seconds": 20.91760249529034,
+    "status": 0
+  },
+  "audits": {
+    "command": [
+      "make",
+      "-j4",
+      "audit"
+    ],
+    "seconds": 6.930626899935305,
+    "status": 0
+  },
+  "graph_controls": {
+    "command": [
+      "python3",
+      "scripts/check-graph-audit.py"
+    ],
+    "seconds": 18.375991781242192,
+    "status": 0
+  },
+  "native": [
+    {
+      "label": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/native/legacy-diagnostics",
+        "build/native/ide-protocol",
+        "build/native/comdat-diagnostics",
+        "build/native/dispatcher",
+        "build/native/cvtomf",
+        "build/native/file-resize",
+        "build/native/symbol-tables",
+        "build/native-trace/legacy-diagnostics",
+        "build/native-trace/ide-protocol",
+        "build/native-trace/comdat-diagnostics",
+        "build/native-trace/dispatcher",
+        "build/native-trace/cvtomf",
+        "build/native-trace/file-resize",
+        "build/native-trace/symbol-tables"
+      ],
+      "seconds": 9.991092562675476,
+      "status": 0
+    },
+    {
+      "label": "trace-cache",
+      "command": [
+        "python3",
+        "scripts/native-traces.py"
+      ],
+      "seconds": 0.07860405184328556,
+      "status": 1
+    },
+    {
+      "label": "trace-cache-write",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 1.146479376591742,
+      "status": 0
+    },
+    {
+      "label": "cached85",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace-check"
+      ],
+      "seconds": 8.53876867517829,
+      "status": 0
+    }
+  ],
+  "initial_output_only": {
+    "setup_seconds": 0.008646142669022083,
+    "trace_prepare_seconds": 0,
+    "execution_seconds": 0.002914085052907467,
+    "oracle_seconds": 0.0005600927397608757,
+    "trace_seconds": 7.245689630508423e-07,
+    "total_seconds": 0.018632816150784492
+  },
+  "negative_controls_seconds": 0.10767927579581738,
+  "unmeasured": [
+    "Original controller compilation",
+    "Initial native stub/name-conflict builds and intermediate native function builds",
+    "Source/disassembly analysis and metadata preparation"
+  ],
+  "limits": "Native cached fixture totals separate setup/ELF/oracles/trace in native-validation; trace_prepare is subset ofsetup. Failed trace-cache load ran no fixture. No extra original repeats.",
+  "post_reference_binding_check": {
+    "setup_seconds": 0.22000242117792368,
+    "trace_prepare_seconds": 0.2101034987717867,
+    "execution_seconds": 0.006995285861194134,
+    "oracle_seconds": 0.001239832490682602,
+    "trace_seconds": 0.0002046283334493637,
+    "total_seconds": 0.23903365805745125
+  }
+}

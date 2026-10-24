@@ -1,0 +1,11 @@
+{
+  "status": "Initial strict full-status assertion held; qualification independently reviewed, raw snapshots retained",
+  "original": "acceptance/initial/original.jsonl",
+  "native": "acceptance/initial/native.json",
+  "original_architectural_status": 256,
+  "native_architectural_status": 0,
+  "original_control": 639,
+  "native_control": 639,
+  "tag": 65535,
+  "scope": "Only incomingC0(0x100) is dead; no exception/precision/TOP/tag or otherstatusbits relaxed. See fp-condition-scope.json and actual producer/read binding. No seeding/repeat solelytoalign compilerconditionflag."
+}

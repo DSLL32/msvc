@@ -1,0 +1,226 @@
+[
+  {
+    "index": 0,
+    "name": "Alpha",
+    "defined": false,
+    "short": true,
+    "offset": 32
+  },
+  {
+    "index": 1,
+    "name": "EightChr",
+    "defined": true,
+    "short": true,
+    "offset": 160
+  },
+  {
+    "index": 2,
+    "name": "S02",
+    "defined": true,
+    "short": true,
+    "offset": 288
+  },
+  {
+    "index": 3,
+    "name": "S03",
+    "defined": false,
+    "short": true,
+    "offset": 416
+  },
+  {
+    "index": 4,
+    "name": "S04",
+    "defined": true,
+    "short": true,
+    "offset": 544
+  },
+  {
+    "index": 5,
+    "name": "S05",
+    "defined": true,
+    "short": true,
+    "offset": 672
+  },
+  {
+    "index": 6,
+    "name": "S06",
+    "defined": false,
+    "short": true,
+    "offset": 800
+  },
+  {
+    "index": 7,
+    "name": "S07",
+    "defined": true,
+    "short": true,
+    "offset": 928
+  },
+  {
+    "index": 8,
+    "name": "S08",
+    "defined": true,
+    "short": true,
+    "offset": 1056
+  },
+  {
+    "index": 9,
+    "name": "S09",
+    "defined": false,
+    "short": true,
+    "offset": 1184
+  },
+  {
+    "index": 10,
+    "name": "S10",
+    "defined": true,
+    "short": true,
+    "offset": 1312
+  },
+  {
+    "index": 11,
+    "name": "S11",
+    "defined": true,
+    "short": true,
+    "offset": 1440
+  },
+  {
+    "index": 12,
+    "name": "S12",
+    "defined": false,
+    "short": true,
+    "offset": 1568
+  },
+  {
+    "index": 13,
+    "name": "S13",
+    "defined": true,
+    "short": true,
+    "offset": 1696
+  },
+  {
+    "index": 14,
+    "name": "S14",
+    "defined": true,
+    "short": true,
+    "offset": 1824
+  },
+  {
+    "index": 15,
+    "name": "S15",
+    "defined": false,
+    "short": true,
+    "offset": 1952
+  },
+  {
+    "index": 16,
+    "name": "ordinary_long_symbol_16",
+    "defined": true,
+    "short": false,
+    "offset": 2080
+  },
+  {
+    "index": 17,
+    "name": "ordinary_long_symbol_17",
+    "defined": true,
+    "short": false,
+    "offset": 2208
+  },
+  {
+    "index": 18,
+    "name": "ordinary_long_symbol_18",
+    "defined": false,
+    "short": false,
+    "offset": 2336
+  },
+  {
+    "index": 19,
+    "name": "ordinary_long_symbol_19",
+    "defined": true,
+    "short": false,
+    "offset": 2464
+  },
+  {
+    "index": 20,
+    "name": "ordinary_long_symbol_20",
+    "defined": true,
+    "short": false,
+    "offset": 2592
+  },
+  {
+    "index": 21,
+    "name": "ordinary_long_symbol_21",
+    "defined": false,
+    "short": false,
+    "offset": 2720
+  },
+  {
+    "index": 22,
+    "name": "ordinary_long_symbol_22",
+    "defined": true,
+    "short": false,
+    "offset": 2848
+  },
+  {
+    "index": 23,
+    "name": "ordinary_long_symbol_23",
+    "defined": true,
+    "short": false,
+    "offset": 2976
+  },
+  {
+    "index": 24,
+    "name": "ordinary_long_symbol_24",
+    "defined": false,
+    "short": false,
+    "offset": 3104
+  },
+  {
+    "index": 25,
+    "name": "ordinary_long_symbol_25",
+    "defined": true,
+    "short": false,
+    "offset": 3232
+  },
+  {
+    "index": 26,
+    "name": "ordinary_long_symbol_26",
+    "defined": true,
+    "short": false,
+    "offset": 3360
+  },
+  {
+    "index": 27,
+    "name": "ordinary_long_symbol_27",
+    "defined": false,
+    "short": false,
+    "offset": 3488
+  },
+  {
+    "index": 28,
+    "name": "ordinary_long_symbol_28",
+    "defined": true,
+    "short": false,
+    "offset": 3616
+  },
+  {
+    "index": 29,
+    "name": "ordinary_long_symbol_29",
+    "defined": true,
+    "short": false,
+    "offset": 3744
+  },
+  {
+    "index": 30,
+    "name": "ordinary_long_symbol_30",
+    "defined": false,
+    "short": false,
+    "offset": 3872
+  },
+  {
+    "index": 31,
+    "name": "ordinary_long_symbol_31",
+    "defined": true,
+    "short": false,
+    "offset": 4000
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "observations": 1,
+  "frontier": "print_external_table",
+  "FP_qualified_C0": [
+    {
+      "original_status": 256,
+      "native_status": 0,
+      "qualified_bit": 256
+    }
+  ],
+  "scope": "One formal per root, full typed tables and owned graph edges, live stdout/errors/guards, per-side source immutability and cdecl return/nonvolatiles; only dead incoming C0 qualified by explicit def-use proof."
+}

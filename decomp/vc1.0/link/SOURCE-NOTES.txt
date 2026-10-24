@@ -1401,3 +1401,18 @@ All84nativefixtures consume captured refs only; test reports/sentinels are
 external transport, not target output/callers/vertices. Readable target source
 stays Win32/originalVC1-compilable. See cases/direct-file-resize/README.txt,
 analysis/final-acceptance.json, cfg-bodies.json and timings.json.
+
+Direct custom-symbol table checkpoint, 989 frontiers
+---------------------------------------------------
+print_external_table26510..265b0 and copy_defined_names2dcf0..2dd84 use actual
+SymbolTable/HashTable/External objects and real accepted API setup. Whole readable
+C preserves name-only projection:21 source definitions become21 undefined lookup
+entries. One baseline plus actual masked/native entry+return order covers populated
+and empty phases with full output/guards/source immutability. Direct support only.
+The inferred old define_export description of25cd0 is corrected to lookup_external.
+Parent-reviewed dead C0-only qualification is scoped to this case's exact
+find_hash_entry FCOMP/FNSTSW producer and integer printf call paths, with all other
+FP state strict. Raw mismatches remain; no seed or original repeat for C0 alignment.
+Two functions add308extent/301instruction bytes, no CRT implementation/support
+frontier added. Native85suite/canonical/audits PASS; cases/direct-symbol-tables
+contains ordinary owned evidence files and external raw-log path/hash references.

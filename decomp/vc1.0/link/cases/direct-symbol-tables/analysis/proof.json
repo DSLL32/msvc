@@ -1,0 +1,37 @@
+{
+  "status": "Complete whole-function acceptance and85cachedcases/audits PASS; raw baseline and12entry/return observations frozen",
+  "reach": "External direct support, not public LINK CLI",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "functions": [
+    {
+      "name": "print_external_table",
+      "start": 156944,
+      "end": 157104,
+      "abi": "cdecl void(SymbolTable*)",
+      "raw_extent_bytes": 160,
+      "sha256": "702558987e081efa2481320b9e98b5694254061eb543b2a777ce28a0c0b51b61"
+    },
+    {
+      "name": "copy_defined_names",
+      "start": 187632,
+      "end": 187780,
+      "abi": "cdecl SymbolTable*(SymbolTable*)",
+      "raw_extent_bytes": 148,
+      "sha256": "1af2004b40e8c1fcdcb69eb5b17a24ccd0876d7154b423f37b25a31f0cc50ce3"
+    }
+  ],
+  "ownership": "Exact custom40B SymbolTable/44BHashTable/56BExternal/18BIMAGE_SYMBOL layout, existing initialize_symbols/lookup_external/set_external_defined/enumerators; no private-global/field seed",
+  "source_immutability": "Same-process source headers/nodes/string used bytes/undefined-list links before and after projection; physical pointer identities are retained, not serialized as output.",
+  "reserved_prefix": "intern_symbol_name reserves uninitialized4-byte COFF size prefix, then writes strings at offsets>=4. Neither new body consumes prefix; retain raw observations/per-side immutability, compare only defined name bytes across images. Never serialize/seed/normalize the reserved prefix.",
+  "behaviour": "Projection copies ONLY names of EXTERNAL_DEFINED entries into newly initialized table; new lookup entries remainundefined. No definition/type/value copy repair.",
+  "inputs": {
+    "path": "inputs/names.bin",
+    "bytes": 4096,
+    "sha256": "850fe3b4356a1c8a9e356ed74e16f4b602bbbcd8bbf2824e8b97ab97644b0b4f",
+    "records": 32,
+    "defined": 21
+  },
+  "workflow": "Initialize source, lookup32valid names/setdefined21 via accepted API, dump source, project, dump destination, initialize/dump/project/dumpempty, enumerate all4tables through real APIs, public fflush externaldriverphase.",
+  "FP": "Native host uses existing startup53 from outset; actualoriginal/native controls/status/tags/payload observed. Hash load-factor arithmetic is real target code.",
+  "limits": "308candidateextent bytes before CFG accounting, no branch coverage promise. Root formals eachoneownedtablepointer; lookup unsignedshort consumes16bits, unused local out bytes not read as inputs/results. Unknownprovenance groups unchanged."
+}

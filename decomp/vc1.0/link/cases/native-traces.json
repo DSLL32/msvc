@@ -522,7 +522,7 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "84227e3a4b12f652e10628069c842d8b4b0be29f814d72abc6c215f734d3575c",
+    "functions.json": "1e9018152165da46a6fd2ed9931d10c5fb02c7bd0c8100b5a64650d72b9a7b8c",
     "runtime.json": "7894cd38e5c6476a65e8f6402e57cc2d3bab15ea1438dcbfe07469fae6014b3b",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
@@ -965,6 +965,11 @@
     "copy_argument_node": {
       "source": "src/arguments.c",
       "logical": "_copy_argument_node",
+      "implementation": "C"
+    },
+    "copy_defined_names": {
+      "source": "src/symbols.c",
+      "logical": "_copy_defined_names",
       "implementation": "C"
     },
     "copy_resource_data": {
@@ -3572,6 +3577,11 @@
       "logical": "_print_dump_symbol_name",
       "implementation": "C"
     },
+    "print_external_table": {
+      "source": "src/symbols.c",
+      "logical": "_print_external_table",
+      "implementation": "C"
+    },
     "process_contribution_debug": {
       "source": "src/pass-two.c",
       "logical": "_process_contribution_debug",
@@ -5375,7 +5385,9 @@
     "omf_finish_debug_types",
     "resize_file",
     "resize_buffered_file",
-    "resize_mapped_file"
+    "resize_mapped_file",
+    "print_external_table",
+    "copy_defined_names"
   ],
   "excluded_accepted": {
     "CRT": [

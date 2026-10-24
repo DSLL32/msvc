@@ -1,0 +1,74 @@
+{
+  "mode": "masked",
+  "trial": "print_external_table",
+  "support": [],
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-symbol-tables.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "S:\\vc1.0\\link\\new-captures\\direct-symbol-tables\\masked-hv4zguga\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-symbol-tables\\masked-hv4zguga\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-symbol-tables\\masked-hv4zguga\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-symbol-tables\\masked-hv4zguga\\events.jsonl",
+    "S:\\vc1.0\\link\\new-captures\\direct-symbol-tables\\masked-hv4zguga\\tables.bin",
+    "S:\\vc1.0\\link\\direct-symbol-tables",
+    "R:\\decomp\\vc1.0\\link\\cases\\direct-symbol-tables\\inputs\\names.bin"
+  ],
+  "seconds": 1.6896649347618222,
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "stopped": 2,
+    "exit": 17,
+    "phase": 4,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "counts": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "files": [],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "ec1a9a71bdf23b860c6203d28ad03bfa4f4b3922d08784accdc5442baf2cdf10",
+  "helper_source_sha256": "c71842790bd9b0294be681914006638d6c4c792291b829357b20aa69afa2c9ee",
+  "accepted_count": 987,
+  "accepted_sha256": "87e830228cb00c4212b69c61e9bf8c94a7b246b323145bff2504780510892e43",
+  "canonical_cwd": "S:\\vc1.0\\link\\direct-symbol-tables",
+  "scope": "Explicit external direct support caller; actual symbol API setup, no private-global seeds, no public CLI claim",
+  "text.bin": {
+    "bytes": 282120,
+    "sha256": "36e9f95581e7f987b0e36d6bc5facec4da9412fcb8109da239c4b9656503e179"
+  },
+  "host.stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "events.jsonl": {
+    "bytes": 28803,
+    "sha256": "3c61dee333c1ac112008f1499c772c5d301f1ad12405ce4e93e290ef94d580b9"
+  },
+  "stderr.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "tables.bin": {
+    "bytes": 16,
+    "sha256": "06328d724d0f08380ede49d257c83c9cfc7bf50cc325d0549d4a8dd358593997"
+  },
+  "host.stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "controller.c": {
+    "bytes": 14498,
+    "sha256": "c71842790bd9b0294be681914006638d6c4c792291b829357b20aa69afa2c9ee"
+  },
+  "stdout.bin": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

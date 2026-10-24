@@ -1,0 +1,16 @@
+{
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/symbol-tables",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/symbol-tables-gdb-e6lel71a/observe.py"
+  ],
+  "seconds": 0.17884764075279236,
+  "status": 0,
+  "trial": "print_external_table",
+  "elf_sha256": "8fdfe67264a7076725879d0d1743cbd97fd7ceb04d5b4e775065112facdb7177"
+}

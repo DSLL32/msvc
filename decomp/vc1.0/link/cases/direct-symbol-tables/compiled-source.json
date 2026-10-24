@@ -1,0 +1,56 @@
+{
+  "status": "pass",
+  "files": [
+    {
+      "path": "src/symbols.c",
+      "bytes": 20686,
+      "sha256": "b6cc52fbaf66839c112c38af1bac5e2071c8ff82afd98433b76de64239e0a14b"
+    },
+    {
+      "path": "src/symbols.h",
+      "bytes": 5046,
+      "sha256": "8bf1a74018465200790ba8f41ceae75702a751e21d2be7c155daf9d158817fcc"
+    },
+    {
+      "path": "scripts/native-symbol-tables.c",
+      "bytes": 3473,
+      "sha256": "9e8b7cb9a5b4770f190bebe512d13516655497e513671fbfe86fa938cc2b6042"
+    },
+    {
+      "path": "scripts/native-module.c",
+      "bytes": 2826,
+      "sha256": "ce4e416ec3f04023e7aecad2b0ba3c51aebf60358e6b07afa1130cf3f3869ef3"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 16553,
+      "sha256": "9470b86b72662dc99b32abd45cd8d62635cbd0ad2a6a1147ae8698fbd7e5de74"
+    },
+    {
+      "path": "functions.json",
+      "bytes": 418735,
+      "sha256": "1e9018152165da46a6fd2ed9931d10c5fb02c7bd0c8100b5a64650d72b9a7b8c"
+    },
+    {
+      "path": "build/native/symbol-tables",
+      "bytes": 1446500,
+      "sha256": "1e5f6ca608927fee038a35aa0e91900e9eadcde709b4fbf58d3d4ab64c8744cc"
+    },
+    {
+      "path": "build/native-trace/symbol-tables",
+      "bytes": 1517980,
+      "sha256": "bcf293e25914d7aef2120c9b10847b372863f149261e1e1fe91cd0436c2f8ce9"
+    },
+    {
+      "path": "build/link.exe",
+      "bytes": 2097152,
+      "sha256": "50e16c14e9175553fde3d2225d6af3787a044a1f26f399037b4d52050aa42e32"
+    }
+  ],
+  "shared_inventory": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-symbol-tables/final/shared-before.json",
+    "bytes": 18576,
+    "sha256": "0c63f5a762bef63d33a1345d6c36b1c7223a5f0501b31682cdb2fb6d5af0c6fb"
+  },
+  "scope": "Path+hash references only. Shared candidate reviewed unchanged as61155226d. Source remains originalVC1-compilable; external drivers uninstrumented/no graph credit."
+}

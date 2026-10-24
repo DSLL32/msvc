@@ -1,0 +1,50 @@
+{
+  "status": "Whole original/native direct workflow accepted; frozen references, no normalization",
+  "reach": "Explicit external direct support, not public LINK CLI",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "input": {
+    "path": "inputs/names.bin",
+    "bytes": 4096,
+    "sha256": "850fe3b4356a1c8a9e356ed74e16f4b602bbbcd8bbf2824e8b97ab97644b0b4f",
+    "records": 32,
+    "defined": 21
+  },
+  "stdout": {
+    "path": "reference/stdout.bin",
+    "bytes": 1274,
+    "sha256": "2e9872ce1d1513c51dd45932db2a710ef9057f3f5237871cb74785d78ddd8eb7"
+  },
+  "stderr": {
+    "path": "reference/stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "external_report": {
+    "path": "reference/tables.bin",
+    "bytes": 1432,
+    "sha256": "7bcf8683f70f0f2c4fc148faf2b3bccaf7c4c3b5da16fe74fb59d0e6c5b0849c"
+  },
+  "original_receipt": {
+    "path": "reference/receipt.json",
+    "bytes": 2608,
+    "sha256": "c4c2c9fef789cce6da595aeaa282ccb6e295f58824666e97f658a84234125411"
+  },
+  "original_events": {
+    "path": "reference/events.jsonl",
+    "bytes": 175983,
+    "sha256": "4c3d1dd1c31b9ef03326d82aacbf92d1979683d0b796b484278790a1871a1474"
+  },
+  "expected_application_entries": [
+    "print_external_table",
+    "copy_defined_names"
+  ],
+  "prefix_accepted_count": 987,
+  "counts": [
+    32,
+    21,
+    0,
+    0
+  ],
+  "normalization": [],
+  "accepted_last": 989
+}

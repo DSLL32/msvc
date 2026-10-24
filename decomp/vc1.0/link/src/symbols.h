@@ -77,6 +77,8 @@ void end_hash_enumeration(HashTable *);
 void begin_external_enumeration(SymbolTable *);
 External *next_external(SymbolTable *);
 void end_external_enumeration(SymbolTable *);
+void print_external_table(SymbolTable *);
+SymbolTable *copy_defined_names(SymbolTable *);
 
 typedef struct HashSegment { HashNode **buckets; } HashSegment;
 struct HashTable {
