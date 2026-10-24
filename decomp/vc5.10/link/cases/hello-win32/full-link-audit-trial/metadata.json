@@ -484,7 +484,7 @@
           "slot": 4714192
         },
         "rebuilt": {
-          "site": 4243921,
+          "site": 4244097,
           "slot": 4260904
         },
         "preserves": [
@@ -492,7 +492,7 @@
         ],
         "evidence": {
           "path": "cases/hello-win32/full-link-closed-slot.json",
-          "sha256": "7ea61b1f52d45328f4f2a917087c60446d8f93503dfd16f1cd757188f5b75817"
+          "sha256": "2b7913029cfe09dec98b3954af952b19191950a277932aa17e84ca83dc14b03a"
         }
       }
     ]

@@ -60,7 +60,20 @@ OutputModule *__stdcall read_input_argument(InputArgument *argument,OutputLibrar
     return read_object_file(argument,context,library);
 }
 void __stdcall read_library_index(OutputLibrary *library,LinkContext *context) { __asm { int 3 } }
-BYTE __stdcall is_mac_resource_file(int file) { __asm { int 3 } return 0; }
+BYTE __stdcall is_mac_resource_file(int file)
+{
+    LONG length=get_file_length(file);
+    DWORD upper=0,map_offset,data_length,map_length;
+    if (length<256) return 0;
+    seek_file(file,0,0,&upper);
+    if (read_big_endian_dword(file)!=256) return 0;
+    map_offset=read_big_endian_dword(file);
+    data_length=read_big_endian_dword(file);
+    map_length=read_big_endian_dword(file);
+    if (map_offset!=data_length+256) return 0;
+    return (DWORD)length==map_length+256+data_length;
+}
+DWORD __stdcall read_big_endian_dword(int file) { __asm { int 3 } return 0; }
 OutputModule *__stdcall read_object_file(InputArgument *argument,LinkContext *context,OutputLibrary *library) { __asm { int 3 } return NULL; }
 void __stdcall load_object_module(LinkContext *context,void *parent,OutputModule *module,WORD flags)
 {

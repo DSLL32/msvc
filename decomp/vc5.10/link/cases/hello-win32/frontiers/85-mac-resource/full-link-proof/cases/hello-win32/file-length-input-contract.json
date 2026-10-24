@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "address": 4243584,
+  "bytes": 107,
+  "body_sha256": "dd6c66664ba63eaa420b27f63f3a111ec185e56c5bbd1c269b4fdbe9b076eac8",
+  "returns": [
+    [
+      4243688,
+      4
+    ]
+  ],
+  "formals": [
+    "int file"
+  ],
+  "hidden_inputs": [],
+  "caller": 4515369,
+  "caller_return": 4515374,
+  "scope": "Complete readonly pending107B ABI/input analysis; namedLONG/RET4 trap, zero body credit. Original size field remains2262, cursor8."
+}

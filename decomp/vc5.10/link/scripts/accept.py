@@ -191,7 +191,7 @@ def audit_trial(path):
     inputs.append(BINARY/'cases/hello-win32/input-loader-contract.json')
     inputs.append(BINARY/'cases/hello-win32/input-reader-contract.json')
     inputs.extend([BINARY/'cases/hello-win32/archive-signature-literal.json',BINARY/'cases/hello-win32/mapped-read-output-contract.json'])
-    inputs.extend([BINARY/'cases/hello-win32/mapped-read-contract.json',BINARY/'cases/hello-win32/mac-resource-input-contract.json'])
+    inputs.extend([BINARY/'cases/hello-win32/mapped-read-contract.json',BINARY/'cases/hello-win32/mac-resource-input-contract.json',BINARY/'cases/hello-win32/mac-resource-contract.json',BINARY/'cases/hello-win32/file-length-input-contract.json'])
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
     register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8','_print_logo']if name in trial['accepted']]

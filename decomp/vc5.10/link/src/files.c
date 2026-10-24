@@ -12,6 +12,7 @@ FileRecord *mapped_files[16];
 unsigned char file_mapping_enabled;
 
 #pragma intrinsic(memcpy)
+LONG __stdcall get_file_length(int file) { __asm { int 3 } return 0; }
 unsigned __stdcall mapped_read(FileRecord *record,void *buffer,unsigned bytes)
 {
     DWORD error=0;

@@ -19,6 +19,7 @@ OutputModule *__stdcall read_input_argument(InputArgument *,OutputLibrary *,Link
 BYTE __stdcall is_archive(const char *,int);
 void __stdcall read_library_index(OutputLibrary *,LinkContext *);
 BYTE __stdcall is_mac_resource_file(int);
+DWORD __stdcall read_big_endian_dword(int);
 OutputModule *__stdcall read_object_file(InputArgument *,LinkContext *,OutputLibrary *);
 void __stdcall load_object_module(LinkContext *,void *,OutputModule *,WORD);
 void __stdcall infer_output_file_name(LinkContext *,InputArgument *);

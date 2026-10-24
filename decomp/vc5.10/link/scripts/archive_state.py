@@ -89,7 +89,7 @@ def compare(original,state,trap,events,native_directory,oslots,nslots):
     lists={e['name']:e for e in events if e['event']=='argument_list'}
     assert entry==dict(event='archive_entry',stack_pointer=reader['stack_pointer']-24,
         formals=[lists['link_files']['nodes'][0]['words'][0],14],hidden_inputs=[])
-    completed=state['function']=='is_mac_resource_file'
+    completed=state['function']in ('is_mac_resource_file','get_file_length')
     if not completed:
         assert trap['archive_entry_stack']==entry['stack_pointer']
         assert trap['esp']==entry['stack_pointer']-32 and trap['stack'][0]==0x45cd7a
@@ -167,8 +167,43 @@ def compare_completed(original,state,trap,events,directory,reader,entry,formals,
         source=(directory/'source/project'/filename).read_bytes()
         assert hashlib.sha256(source).hexdigest()==receipt['source_files']['src/'+filename]
         assert b'BYTE __stdcall is_archive('in source
-    assert trap['esp']==reader['stack_pointer']-20 and trap['stack'][:2]==[0x44994e,14]
-    assert trap['mac_resource_formals']==dict(formals=[14],hidden_inputs=[])
+    if state['function']=='is_mac_resource_file':
+        assert trap['esp']==reader['stack_pointer']-20 and trap['stack'][:2]==[0x44994e,14]
+        assert trap['mac_resource_formals']==dict(formals=[14],hidden_inputs=[])
+    else:
+        assert state['function']=='get_file_length'
+        current,=[e for e in events if e['event']=='mac_resource_entry']
+        assert current==dict(event='mac_resource_entry',stack_pointer=reader['stack_pointer']-20,formals=[14],hidden_inputs=[])
+        assert trap['esp']==current['stack_pointer']-24 and trap['stack'][:2]==[0x44e62e,14]
+        assert trap['file_length_formals']==dict(formals=[14],hidden_inputs=[])
+        assert state['file_length_entry']==dict(stack_pointer=state['file_length_entry']['stack_pointer'],formals=[14],hidden_inputs=[])
+        delta=native_classifier_contract(str(directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
+        assert state['file_length_entry']['stack_pointer']==state['mac_resource_entry']['stack_pointer']-delta
+        length=json.loads((binary/'cases/hello-win32/file-length-input-contract.json').read_text())
+        body=pe.read(0x40c080,107)
+        assert hashlib.sha256(body).hexdigest()==length['body_sha256']
+        decoded=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(body,0x40c080))
+        assert sum(i.size for i in decoded)==107
+        assert [[i.address,int(i.op_str,0)]for i in decoded if i.mnemonic=='ret']==length['returns']==[[0x40c0e8,4]]
+        assert length['formals']==['int file']and length['hidden_inputs']==[]
+        assert pe.read(0x44e629,5)==b'\xe8'+struct.pack('<i',0x40c080-0x44e62e)
     assert state['mac_resource_entry']==dict(stack_pointer=state['read_input_entry']['stack_pointer']-48,
         formals=[14],hidden_inputs=[])
     assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=[14],hidden_register_inputs=[])
+
+
+@functools.lru_cache(maxsize=8)
+def native_classifier_contract(path,digest):
+    """Finite emitted caller/frame anchor for this genuine entry observation."""
+    assert hashlib.sha256(Path(path).read_bytes()).hexdigest()==digest
+    rows=[x.split()for x in subprocess.check_output(['nm','-S','--defined-only',path],text=True).splitlines()]
+    caller,=[r for r in rows if len(r)==4 and r[3]=='is_mac_resource_file']
+    callee,=[r for r in rows if len(r)==4 and r[3]=='get_file_length']
+    assert caller[2]==callee[2]=='T'
+    address=int(caller[0],16);target=int(callee[0],16)
+    listing=subprocess.check_output(['objdump','-d','--start-address='+str(address),'--stop-address='+str(address+41),path],text=True)
+    raw=b''.join(bytes.fromhex(m.group(1))for m in re.finditer(r'^\s*[0-9a-f]+:\s*((?:[0-9a-f]{2}\s+)+)',listing,re.M))
+    assert raw[:6]==b'\x55\x89\xe5\x83\xec\x38' # Saved EBP4 + fixed56B caller frame.
+    assert raw[30:36]==b'\x8b\x45\x08\x89\x04\x24' # Actual source file argument passed unchanged.
+    assert raw[36:]==b'\xe8'+struct.pack('<i',target-address-41)
+    return 4+56+4 # Saved EBP, caller local frame, actual CALL return word.

@@ -101,7 +101,8 @@
     "LinkContext::LoadInputArgument",
     "_read_input_argument@12",
     "_is_archive@8",
-    "_mapped_read@12"
+    "_mapped_read@12",
+    "_is_mac_resource_file@4"
   ],
   "driver": [
     {
@@ -2734,10 +2735,10 @@
     {
       "name": "_is_mac_resource_file@4",
       "start": 4515360,
-      "end": 4515361,
-      "pending_extent": true,
+      "end": 4515498,
+      "pending_extent": false,
       "source": "src/input.c",
-      "status": "stub",
+      "status": "implemented",
       "native_symbol": "is_mac_resource_file",
       "abi": "stdcall BYTE(int file); RET4; result consumed in AL; actual inputs observed when reached"
     },
@@ -2760,6 +2761,26 @@
       "source": "src/files.c",
       "native_symbol": "resize_file_mapping",
       "abi": "stdcall BYTE(FileRecord*,LONG minimum,DWORD* error); RET12, result consumed in AL; actual formals observed when reached"
+    },
+    {
+      "name": "_get_file_length@4",
+      "start": 4243584,
+      "end": 4243585,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/files.c",
+      "native_symbol": "get_file_length",
+      "abi": "stdcall LONG(int file); one physical DWORD input, RET4, no hidden inputs; observed when reached"
+    },
+    {
+      "name": "_read_big_endian_dword@4",
+      "start": 4515264,
+      "end": 4515265,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/input.c",
+      "native_symbol": "read_big_endian_dword",
+      "abi": "stdcall DWORD(int file); one physical DWORD input, RET4, no hidden inputs; observed when reached"
     }
   ],
   "text_data": [
