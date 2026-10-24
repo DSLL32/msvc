@@ -600,11 +600,6 @@ void __fastcall emit_incremental_string(char *value) { __asm { int 3 } }
 void __fastcall write_output_bytes(const void *data, unsigned bytes) { __asm { int 3 } }
 void __fastcall write_output_byte(unsigned char value) { __asm { int 3 } }
 
-unsigned short __fastcall create_coff_section(C2Section *section)
-{
-    __asm { int 3 }
-    return 0;
-}
 unsigned short __fastcall select_coff_section(unsigned short section)
 {
     __asm { int 3 }
@@ -616,6 +611,36 @@ unsigned __fastcall query_coff_position(unsigned short section)
     return 0;
 }
 void __fastcall write_output_fill(unsigned char value, unsigned count)
+{
+    __asm { int 3 }
+}
+
+unsigned short __fastcall add_coff_section(char *name, unsigned flags, int flag8, int reuse)
+{
+    __asm { int 3 }
+    return 0;
+}
+unsigned short __fastcall add_associative_coff_section(char *name, unsigned flags,
+    unsigned char selection, unsigned short association, int flag8, int reuse)
+{
+    __asm { int 3 }
+    return 0;
+}
+unsigned char __fastcall coff_selection_code(unsigned char selection)
+{
+    __asm { int 3 }
+    return 0;
+}
+int __fastcall initialize_coff_section(unsigned short section, unsigned flags)
+{
+    __asm { int 3 }
+    return 0;
+}
+void __fastcall record_output_section(C2Section *section)
+{
+    __asm { int 3 }
+}
+void __fastcall mark_debug_section(unsigned section)
 {
     __asm { int 3 }
 }

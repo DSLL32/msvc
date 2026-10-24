@@ -129,4 +129,13 @@ unsigned short __fastcall create_coff_section(C2Section *section);
 unsigned short __fastcall select_coff_section(unsigned short section);
 unsigned __fastcall query_coff_position(unsigned short section);
 void __fastcall write_output_fill(unsigned char value, unsigned count);
+extern int function_option_23;
+extern int c2_constant_strings, coff_directive_option;
+unsigned short __fastcall add_coff_section(char *name, unsigned flags, int flag8, int reuse);
+unsigned short __fastcall add_associative_coff_section(char *name, unsigned flags,
+    unsigned char selection, unsigned short association, int flag8, int reuse);
+unsigned char __fastcall coff_selection_code(unsigned char selection);
+int __fastcall initialize_coff_section(unsigned short section, unsigned flags);
+void __fastcall record_output_section(C2Section *section);
+void __fastcall mark_debug_section(unsigned section);
 #endif

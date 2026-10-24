@@ -611,8 +611,8 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
     if records[0].get('frontier_contract')in ('object-writer-input','coff-table-input','coff-allocate-input','coff-lists-input','coff-list-input','coff-chunk-input','coff-source-input','coff-symbol-input','coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'):
         contract=records[0].get('frontier_contract')
         if contract=='coff-section-input':
-            section_depth=1 if records[0].get('section_caller')=='select_output_section'else 0
-            section_frame=frame.older()if section_depth else frame
+            section_depth={'select_output_section':1,'create_coff_section':2}.get(records[0].get('section_caller'),0)
+            section_frame=frame.older().older()if section_depth==2 else frame.older()if section_depth else frame
             writer_owner=section_frame.older().older().older().older();argument=writer_owner.read_var('writer')
         elif contract=='coff-directive-output-input':argument=frame.older().older().older().read_var('writer');writer_owner=frame.older().older().older()
         elif contract=='coff-directive-input':argument=frame.older().older().read_var('writer');writer_owner=frame.older().older()
@@ -649,10 +649,14 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
             info['coff_directive_output']={'formals':[{'name':item.name,'type':str(item.type)}for item in output_frame.block()if item.is_argument],'prefix':output_frame.read_var('prefix').string(),'value':output_frame.read_var('value').string(),'suffix_null':int(output_frame.read_var('suffix'))==0,'quoted':int(output_frame.read_var('quoted')),'caller_value_alias':int(output_frame.read_var('value'))==int(directive.dereference()['value'])}
             gdb.write('C2-COFF-DIRECTIVE-OUTPUT '+json.dumps(info['coff_directive_output'],sort_keys=True)+'\\n')
         if contract=='coff-section-input':
-            section=frame.read_var('section');head=int(gdb.parse_and_eval('c2_pools[0].blocks'))
-            info['section_callback']={'formals':[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument],'section_offset':int(section)-head,'directive_global_alias':int(section)==int(gdb.parse_and_eval('directive_section')),'stored_target_alias':int(gdb.parse_and_eval('output_slot_497ce4.target'))==int(gdb.parse_and_eval('&select_output_section')),'caller':frame.older().name()}
+            section_owner=frame.older()if section_depth==2 else frame
+            section=section_owner.read_var('section');head=int(gdb.parse_and_eval('c2_pools[0].blocks'))
+            info['section_callback']={'formals':[{'name':item.name,'type':str(item.type)}for item in section_owner.block()if item.is_argument],'section_offset':int(section)-head,'directive_global_alias':int(section)==int(gdb.parse_and_eval('directive_section')),'stored_target_alias':int(gdb.parse_and_eval('output_slot_497ce4.target'))==int(gdb.parse_and_eval('&select_output_section')),'caller':section_owner.older().name()}
             if section_depth:info['section_callback'].update(caller_section_alias=int(section)==int(section_frame.read_var('section')),coff_section=int(section.dereference()['coff_section']))
             gdb.write('C2-SECTION-CALLBACK '+json.dumps(info['section_callback'],sort_keys=True)+'\\n')
+            if section_depth==2:
+                info['coff_section_output']={'formals':[{'name':item.name,'type':str(item.type)}for item in frame.block()if item.is_argument],'name':frame.read_var('name').string(),'flags':int(frame.read_var('flags')),'flag8':int(frame.read_var('flag8')),'reuse':int(frame.read_var('reuse')),'caller':frame.older().name(),'name_section_alias':int(frame.read_var('name'))==int(section.dereference()['symbol']['name'])}
+                gdb.write('C2-COFF-SECTION-OUTPUT '+json.dumps(info['coff_section_output'],sort_keys=True)+'\\n')
         gdb.write('C2-OBJECT-WRITER '+json.dumps(info['object_writer'],sort_keys=True)+'\\n')
     if records[0].get('frontier_contract')=='output-directive-input':
         argument=frame.read_var('value')

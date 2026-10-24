@@ -1,0 +1,95 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 2.785099543631077,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 1.9874796839430928,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": 1.9034842196851969,
+      "status": 0
+    }
+  ],
+  "original_capture": {
+    "setup": 0.9862092342227697,
+    "execution": 2.387411577627063,
+    "total": 3.4201898630708456
+  },
+  "native_capture": {
+    "execution": 0.48944862466305494,
+    "total": 0.649098857305944
+  },
+  "audit_seconds": 0.8967736223712564,
+  "protocol_controls": {
+    "fresh": 9,
+    "reused": 144,
+    "seconds": 10.079886444844306
+  },
+  "fresh_affected_controls": {
+    "section": {
+      "fresh": 22,
+      "seconds": 15.963725668378174
+    },
+    "input": {
+      "fresh": 12,
+      "seconds": 14.831420628353953
+    },
+    "data": {
+      "fresh": 12,
+      "seconds": 0.05798635259270668
+    },
+    "strncmp": {
+      "fresh": 10,
+      "seconds": 0.3281239699572325
+    }
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.010223716497421265,
+      "execution": 0.001951480284333229,
+      "checks": 0.00020059943199157715,
+      "total": 0.012832889333367348
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "preserved_failures": {
+    "scope": "Initialcompile failedtwo missingextern declarations; fixedbeforefirsttimedbuild. Staticchecker caught48fb60 initial1 before execution; correctedC/global/model/nativePEinitialguard. Twooriginalsetupaudits failedbeforeWine (staleintermediateimports/currentPE witness, then defaultscalar proofexpectedzero); no failedoriginaltargetexecution. Intermediatebuild timings retained separate, no raw relabel.",
+    "paths": {
+      "/root/.ai-tmp/msvc2/vc5.10/c2/create84-original-build.log": "5d209984241d095d0e7ae4a81c0c21194b14e09e9ad14b89f2c36cac896aea23",
+      "/root/.ai-tmp/msvc2/vc5.10/c2/create84-original.log": "37c5144bdba2730a7fdbfe155dd306ef0f6a53cd12a7a67074edaea86a9be847",
+      "/root/.ai-tmp/msvc2/vc5.10/c2/create84-original-2.log": "2bc53ca134f9dfeeb4ba945fb40c16ce51e13a21abdff4aad04328a7c570fd76",
+      "/root/.ai-tmp/msvc2/vc5.10/c2/create84-build-timing.json": "d27b4c25b8421ea944b57517d2cd84e3cf9d69b814f3d38deed6fdaac944e3c3",
+      "/root/.ai-tmp/msvc2/vc5.10/c2/create84-original-build-2.log": "f267f32268b1f148d24263e5c0b5665a85bc5a1fc34ad90b3ae3ef6e0a9b97f9",
+      "/root/.ai-tmp/msvc2/vc5.10/c2/create84-native-build-2.log": "720e7e3517307a22e8caab73a3fd5cf70fff620a4d3dd2714e8eceaa4b79b35b"
+    },
+    "intermediate_builds": [
+      {
+        "kind": "original",
+        "seconds": 5.708650192245841,
+        "status": 0
+      },
+      {
+        "kind": "native",
+        "seconds": 2.8282771967351437,
+        "status": 0
+      }
+    ],
+    "initial_failed_compile_seconds": "not separately measured"
+  },
+  "observer_controls_reuse": {
+    "path": "cases/acceptance/0083-select-output-section/observer-controls.json",
+    "sha256": "73975497b85f7d77f489033941e237661cc21e03488726ddf4a5a5aad9b2cb2c",
+    "review": "Currentinstruction verifier/checker/recordedFFD0offset73/actualELFreceipt and loadedbias/target checks unchanged; freshcurrentELFproof/raw checks positive. Noobserverpredicate modification thissource."
+  }
+}

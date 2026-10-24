@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 78 application functions (16485 bytes) and five CRT
+Current reconstruction has 79 application functions (17459 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at the COFF section creator with the directive section
-(.drectve), while retaining the writer inputs-defaultlib:,LIBC,NULL,quote0. Four import thunks (24 bytes) and contextual text tables
-(656 bytes) remain separate. The 16923 source bytes are 2.952% of 573183 `.text`
+currently stops at the COFF section allocation call with.drectve,flags0xa00,
+first stackflag1 and reuse0. Four import thunks (24 bytes) and contextual text tables
+(725 bytes) remain separate. The 17897 source bytes are 3.122% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -384,3 +384,18 @@ Twenty-two section controls and ten observer controls pass in15.294/7.742s;
 9fresh/144reused protocol controls take9.815s. Failed setup/incomplete original
 observer evidence is retained, with one corrected original capture. Full
 separate build/capture/audit/fixture and correction accounting is in0083.
+
+Source84 reconstructs the974-byte hot/cold COFF section creator. Its12-row
+jump table and21-byte class map add69 separately owned data bytes. Every
+class row, flags assignment, name operand and the new scalar's actual
+initialized1 value is checked against the real PE. Its five cached strncmp
+calls use one additional finite public-CRT EBP witness: exact canonical
+56-byte/no-call provider body, actual export702, shipped cdecl declaration
+and qualified IAT/load/call sites. Old13EBP/eightEDI/fiveESI witnesses remain
+unchanged; removing only the new witness makes strict Rust reject. No CRT
+source or body credit is added. A fresh pair proves all four actual output
+formals, owned.drectve name alias, flags0xa00, stackflag1 and reuse0. The
+orchestrator reviewed this finite boundary. Twenty-two section,12formal,
+12compiled-data and10provider/ablation controls pass, separately timed from
+9fresh/144reused generic controls. Full build/capture/audit/1.951ms-native-
+fixture timing and pre-execution setup corrections are retained in0084.

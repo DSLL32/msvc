@@ -1,0 +1,38 @@
+
+/root/msvc2/decomp/vc5.10/c2/../../../toolchains/5.10/bin/MSVCRT.DLL:     file format pei-i386
+
+
+Disassembly of section .text:
+
+7801ae7d <.text+0x19e7d>:
+7801ae7d:	55                   	push   ebp
+7801ae7e:	8b ec                	mov    ebp,esp
+7801ae80:	57                   	push   edi
+7801ae81:	56                   	push   esi
+7801ae82:	53                   	push   ebx
+7801ae83:	8b 4d 10             	mov    ecx,DWORD PTR [ebp+0x10]
+7801ae86:	e3 26                	jecxz  0x7801aeae
+7801ae88:	8b d9                	mov    ebx,ecx
+7801ae8a:	8b 7d 08             	mov    edi,DWORD PTR [ebp+0x8]
+7801ae8d:	8b f7                	mov    esi,edi
+7801ae8f:	33 c0                	xor    eax,eax
+7801ae91:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+7801ae93:	f7 d9                	neg    ecx
+7801ae95:	03 cb                	add    ecx,ebx
+7801ae97:	8b fe                	mov    edi,esi
+7801ae99:	8b 75 0c             	mov    esi,DWORD PTR [ebp+0xc]
+7801ae9c:	f3 a6                	repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]
+7801ae9e:	8a 46 ff             	mov    al,BYTE PTR [esi-0x1]
+7801aea1:	33 c9                	xor    ecx,ecx
+7801aea3:	3a 47 ff             	cmp    al,BYTE PTR [edi-0x1]
+7801aea6:	77 04                	ja     0x7801aeac
+7801aea8:	74 04                	je     0x7801aeae
+7801aeaa:	49                   	dec    ecx
+7801aeab:	49                   	dec    ecx
+7801aeac:	f7 d1                	not    ecx
+7801aeae:	8b c1                	mov    eax,ecx
+7801aeb0:	5b                   	pop    ebx
+7801aeb1:	5e                   	pop    esi
+7801aeb2:	5f                   	pop    edi
+7801aeb3:	c9                   	leave
+7801aeb4:	c3                   	ret

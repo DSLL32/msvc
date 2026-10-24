@@ -1,0 +1,68 @@
+{
+  "positive": {
+    "path": "cases/analysis/strncmp-ebp-contract.json",
+    "sha256": "1ff5defb3dd330606ebc995bb1e75477d66b430884bb6e998cf2f2e131ac9d30",
+    "scope": "one public cdecl strncmp EBP contract; old13EBP/8EDI/5ESI unchanged",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "body_sha256": "e2f944563c7483cd4085f1878325de050424e2b192c3220c5e73a802f698e0da",
+    "original_sites": [
+      4320446,
+      4320467,
+      4320488,
+      4320509,
+      4320530
+    ]
+  },
+  "count": 10,
+  "rejected": [
+    {
+      "control": "wrong provider body hash",
+      "reason": ""
+    },
+    {
+      "control": "wrong actual provider identity",
+      "reason": ""
+    },
+    {
+      "control": "wrong provider entry",
+      "reason": ""
+    },
+    {
+      "control": "wrong export ordinal",
+      "reason": ""
+    },
+    {
+      "control": "missing normal return",
+      "reason": ""
+    },
+    {
+      "control": "omitted live cached call",
+      "reason": ""
+    },
+    {
+      "control": "invented helper call",
+      "reason": ""
+    },
+    {
+      "control": "wrong public declaration",
+      "reason": ""
+    },
+    {
+      "control": "wrong preserved register mask",
+      "reason": "only independently proved EBP contract permitted"
+    },
+    {
+      "control": "remove only new strncmp EBP preservation contract",
+      "reason": "graph-audit: original @create_coff_section@4 register imports: unresolved register import calls: {4320467, 4320488, 4320509, 4320530}\n",
+      "seconds": 0.09633299428969622,
+      "config_sha256": "c79a5c85f1d5814e2fb73f423fd2b12ffbef8e44eddbfdd5af3a8a1b14f407ad",
+      "metadata_sha256": "fa02dd7a8b36bdf506d4ea5d0ebab122b168541b1b0d53c47201b535207f8a98",
+      "tool_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24"
+    }
+  ],
+  "seconds": 0.3281239699572325,
+  "checker_sha256": "e9e35ab653b11cd049587582bba260027c2a503ef112203df636be2f74c07191",
+  "predicate_sha256": "984f1e009012498711297665bda6531e16e27854331c9d3947c6811dfbb6a590",
+  "original_receipt_sha256": "36daed5dec970279336813d19cf7f5485d7610958c3fb29cbbaf26ccafa3f908",
+  "scope": "Newpublicstrncmp EBP only. Existing13EBP/8EDI/5ESI untouched; exact actual full84 Rust ablation rejects, no new targetexecution."
+}

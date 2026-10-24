@@ -18,7 +18,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     for name in ('original','native','output'):p.add_argument('--'+name,type=Path,required=True)
     a=p.parse_args();begin=time.monotonic();positive=compare(a.original,a.native);passed=[]
-    config=json.loads((a.original/'configuration.json').read_text());current=next(r for r in config['stubs']if r['name']==positive['matched']);entry='%08x'%current['start'];return_address='0041ec4c'if current.get('section_caller')=='select_output_section'else'00453ebd'
+    config=json.loads((a.original/'configuration.json').read_text());current=next(r for r in config['stubs']if r['name']==positive['matched']);entry='%08x'%current['start'];return_address='0041eedd'if current.get('section_caller')=='create_coff_section'else'0041ec4c'if current.get('section_caller')=='select_output_section'else'00453ebd'
     def write(path,value):path.write_text(json.dumps(value,indent=2)+'\n')
     def native(root,field,change):
         path=root/'n/state.json';state=json.loads(path.read_text());old=json.dumps(state[field],sort_keys=True);change(state[field]);assert old!=json.dumps(state[field],sort_keys=True);write(path,state)
@@ -40,7 +40,7 @@ def main():
         ('writer pool alias lost',lambda r:native(r,'object_writer',lambda v:v.__setitem__('caller_writer_pool_alias',False))),
         ('original actual section ECX NULL',lambda r:original(r,r'^(observe '+entry+r' eax=[0-9a-f]+ ecx=)[0-9a-f]+',r'\g<1>00000000')),
         ('original actual section return address changed',lambda r:original(r,r'^observe-stack '+return_address+' ',r'observe-stack 00000000 '))]
-    if current.get('section_caller')=='select_output_section':
+    if current.get('section_caller')in ('select_output_section','create_coff_section'):
         controls += [('new creator loses selector section alias',lambda r:native(r,'section_callback',lambda v:v.__setitem__('caller_section_alias',False))),('actual fullDWORD index no longer zero',lambda r:native(r,'section_callback',lambda v:v.__setitem__('coff_section',65536)))]
     with tempfile.TemporaryDirectory(prefix='section-callback-controls-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c2')as folder:
         root=Path(folder)

@@ -100,11 +100,43 @@ def verify_writer_provider(packet):
     # acquire EDI, including two publicCRT calls and four pending stream helpers.
 
 
+
+def verify_strncmp_provider(config,graph):
+    rows=[r for r in config['register_imports']['preservation_contracts']if r['evidence']['path']!='cases/analysis/initializer-callee-abi.json']
+    if '@create_coff_section@4'not in config['accepted']:
+        assert not rows;return None
+    assert len(rows)==1
+    row=rows[0];assert row['target']=={'import':{'dll':'msvcrt.dll','name':'strncmp'}}and row['preserves']==['ebp']
+    path=BINARY/row['evidence']['path'];raw=path.read_bytes();assert sha(raw)==row['evidence']['sha256']
+    proof=__import__('json').loads(raw);provider=TARGET.parent/'MSVCRT.DLL';assert sha(provider.read_bytes())==proof['provider_sha256']==CANONICAL_CRT
+    read=pe_read(provider);assert proof['entry']==0x7801ae7d and proof['body']==[0x7801ae7d,0x7801aeb5]
+    assert sha(read(0x7801ae7d,56))==proof['body_sha256']
+    assert read(0x7801ae7d,3)==bytes.fromhex('558bec')and read(0x7801aeb0,5)==bytes.fromhex('5b5e5fc9c3')
+    assert proof['calls']==[]and proof['normal_returns']==[0x7801aeb4]
+    header=ROOT/proof['header'];assert sha(header.read_bytes())==proof['header_sha256']
+    assert proof['declaration']=='_CRTIMP int     __cdecl strncmp(const char *, const char *, size_t);'
+    assert header.read_text(errors='replace').splitlines()[proof['header_line']-1]==proof['declaration']
+    data=provider.read_bytes();pe=struct.unpack_from('<I',data,60)[0];opt=pe+24;base=struct.unpack_from('<I',data,opt+28)[0]
+    exports=struct.unpack('<IIHHIIIIIII',read(base+struct.unpack_from('<I',data,opt+96)[0],40));ordinal,count,names,functions,table,ordinals=exports[5:]
+    from data_evidence import cstring
+    actual=[]
+    for i in range(names):
+        if cstring(read,base+struct.unpack('<I',read(base+table+i*4,4))[0])!='strncmp':continue
+        index=struct.unpack('<H',read(base+ordinals+i*2,2))[0];actual.append((ordinal+index,base+struct.unpack('<I',read(base+functions+index*4,4))[0]))
+    assert actual==[(702,0x7801ae7d)]and proof['ordinal']==702
+    original=pe_read(TARGET);assert original(0x41ecb0,6)==b'\x8b\x2d'+struct.pack('<I',0x48d0c4)
+    assert graph['import_catalogs']['original']['slots'][str(0x48d0c4)]=={'dll':'msvcrt.dll','name':'strncmp'}
+    assert proof['call_sites']==[0x41ecbe,0x41ecd3,0x41ece8,0x41ecfd,0x41ed12]
+    for site in proof['call_sites']:assert original(site,5)==bytes.fromhex('ffd583c40c')
+    return {'path':str(path.relative_to(BINARY)),'sha256':sha(raw),'scope':'one public cdecl strncmp EBP contract; old13EBP/8EDI/5ESI unchanged','provider_sha256':CANONICAL_CRT,'body_sha256':proof['body_sha256'],'original_sites':proof['call_sites']}
+
 def verify(config,graph):
     _,original,inventory=load();rebuilt=pe_read(BINARY/'build/c2.exe')
     maps={m[1]:int(m[2],16)for m in re.finditer(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',
             (BINARY/'build/c2.map').read_text(),re.M)}
     evidence=[]
+    strncmp_provider=verify_strncmp_provider(config,graph)
+    if strncmp_provider:evidence.append({'strncmp_provider':strncmp_provider})
     enabled=sorted(r['name']for r in config['driver']if r['name']in config['accepted'] and r.get('register_imports',{}).get('enabled'))
     if enabled:
         inputs=graph['register_import_inputs']
@@ -130,10 +162,13 @@ def verify(config,graph):
             base=record['start'] if side=='original' else maps[record.get('symbol',record['name'])]
             direct={str(base+int(site)):identity for site,identity in record['direct_import_offsets'][side].items()}
             assert observed['direct_import_calls']==direct, 'direct import site inventory differs'
+        if record['name']=='@create_coff_section@4':
+            assert strncmp_provider is not None
+            continue
         if record['name']=='@read_initializer_records@4':
             verify_free_provider(BINARY/record['provider_abi_evidence'],record['provider_abi_evidence_sha256'])
         else:assert record['name']in ('_initialize_object_output','@initialize_coff_output@4'),'unknown resolver proof owner'
-        contracts=config['register_imports']['preservation_contracts']
+        contracts=[v for v in config['register_imports']['preservation_contracts']if v['evidence']['path']=='cases/analysis/initializer-callee-abi.json']
         paths={entry['evidence']['path'] for entry in contracts}
         assert len(paths)==1, 'reader ABI witness scope changed'
         path=BINARY/next(iter(paths));content=path.read_bytes()

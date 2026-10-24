@@ -39,7 +39,7 @@ def verify(config,graph):
     if '@initialize_coff_output@4'in config['accepted']:
         from globals_state import COFF_GLOBALS
         for key,(address,size)in COFF_GLOBALS.items():
-            expected=(1 if key=='coff_pending_c90'else 0).to_bytes(size,'little')
+            expected=(1 if key in ('coff_pending_c90','function_option_23')else 0).to_bytes(size,'little')
             assert original(address,size)==rebuilt(maps['_'+key],size)==expected,'COFF global initial storage/width differs: '+key
     fields={r['name']:r for r in value['record']['fields']if r['name'].startswith('output_')}
     assert {r['offset']for r in fields.values()}=={16,20,24}

@@ -451,6 +451,7 @@ def compare(original,native,validation=None):
         if expected.get('frontier_contract')=='coff-directive-input':wanted['formals']=[{'name':'directive','type':'C2OutputDirective *'}]
         if expected.get('frontier_contract')=='coff-directive-output-input':wanted['formals']=[{'name':'prefix','type':'char *'},{'name':'value','type':'char *'},{'name':'suffix','type':'char *'},{'name':'quoted','type':'int'}]
         if expected.get('frontier_contract')=='coff-section-input':wanted['formals']=[{'name':'section','type':'C2Section *'}]
+        if expected.get('section_caller')=='create_coff_section':wanted['formals']=[{'name':'name','type':'char *'},{'name':'flags','type':'unsigned int'},{'name':'flag8','type':'int'},{'name':'reuse','type':'int'}]
         if expected.get('frontier_contract')=='coff-source-input':wanted['formals']=[{'name':'name','type':'char *'}]
         if expected.get('frontier_contract')=='coff-symbol-input':wanted['formals']=[{'name':'record','type':'C2CoffRecord *'}]
         if expected.get('frontier_contract')=='output-directive-input':
@@ -560,6 +561,7 @@ def compare(original,native,validation=None):
             assert re.findall(r'^observe-stack ([^\n]+)$',segment,re.M)[0].split()[0]=='0045274b'
         if expected.get('frontier_contract')in ('coff-symbols-complete','coff-directive-input','coff-directive-output-input','coff-section-input'):
             wanted['formals']=([{'name':'section','type':'C2Section *'}]if expected.get('frontier_contract')=='coff-section-input'else[{'name':'prefix','type':'char *'},{'name':'value','type':'char *'},{'name':'suffix','type':'char *'},{'name':'quoted','type':'int'}]if expected.get('frontier_contract')=='coff-directive-output-input'else[{'name':'directive','type':'C2OutputDirective *'}]if expected.get('frontier_contract')=='coff-directive-input'else[]);wanted.pop('caller_writer_alias');wanted['caller_writer_pool_alias']=True
+            if expected.get('section_caller')=='create_coff_section':wanted['formals']=[{'name':'name','type':'char *'},{'name':'flags','type':'unsigned int'},{'name':'flag8','type':'int'},{'name':'reuse','type':'int'}]
         assert state['object_writer']==wanted
         raw=re.findall(r'^C2-OBJECT-WRITER (.*)$',(native/'gdb.stdout').read_text(),re.M)
         assert len(raw)==1 and json.loads(raw[0])==wanted
@@ -580,17 +582,28 @@ def compare(original,native,validation=None):
         contract=(BINARY/config['section_callback_storage_contract']).read_bytes()
         assert all((directory/'section-callback-storage-contract.json').read_bytes()==contract for directory in (original,native))
         wanted={'formals':[{'name':'section','type':'C2Section *'}],'section_offset':1892,'directive_global_alias':True,'stored_target_alias':True,'caller':'write_coff_directive'}
-        if expected.get('section_caller')=='select_output_section':wanted.update(caller='select_output_section',caller_section_alias=True,coff_section=0)
+        if expected.get('section_caller')in ('select_output_section','create_coff_section'):wanted.update(caller='select_output_section',caller_section_alias=True,coff_section=0)
         assert state['section_callback']==wanted,'direct section formal/owned record/global/stored identity differs'
         raw=re.findall(r'^C2-SECTION-CALLBACK (.*)$',(native/'gdb.stdout').read_text(),re.M)
         assert len(raw)==1 and json.loads(raw[0])==wanted
-        raw=re.findall(r'^observe %08x eax=[0-9a-f]+ ecx=([0-9a-f]+) edx=[0-9a-f]+ esp=[0-9a-f]+$'%expected['start'],text,re.M)
+        context_start=0x41ec59 if expected.get('section_caller')=='create_coff_section'else expected['start']
+        raw=re.findall(r'^observe %08x eax=[0-9a-f]+ ecx=([0-9a-f]+) edx=[0-9a-f]+ esp=[0-9a-f]+$'%context_start,text,re.M)
         assert len(raw)==1 and int(raw[0],16)==head+1892
         assert struct.unpack('<I',read(0x4973fc,4))[0]==head+1892
         assert struct.unpack('<I',read(0x497ce4,4))[0]==0x41ec20
-        stack=re.findall(r'^observe-stack ([^\n]+)$',text.rsplit('observe %08x '%expected['start'],1)[1],re.M)
-        assert len(stack)==1 and stack[0].split()[0]==('0041ec4c'if expected.get('section_caller')=='select_output_section'else'00453ebd')
-        if expected.get('section_caller')=='select_output_section':assert struct.unpack('<I',read(head+1892+70,4))[0]==0
+        stack=re.findall(r'^observe-stack ([^\n]+)$',text.rsplit('observe %08x '%context_start,1)[1],re.M)
+        assert stack and stack[0].split()[0]==('0041ec4c'if expected.get('section_caller')in ('select_output_section','create_coff_section')else'00453ebd')
+        if expected.get('section_caller')in ('select_output_section','create_coff_section'):assert struct.unpack('<I',read(head+1892+70,4))[0]==0
+    if expected.get('section_caller')=='create_coff_section':
+        wanted={'formals':[{'name':'name','type':'char *'},{'name':'flags','type':'unsigned int'},{'name':'flag8','type':'int'},{'name':'reuse','type':'int'}],'name':'.drectve','flags':0xa00,'flag8':1,'reuse':0,'caller':'create_coff_section','name_section_alias':True}
+        assert state['coff_section_output']==wanted,'actual section name/flags/stackarguments/owner alias differs'
+        raw=re.findall(r'^C2-COFF-SECTION-OUTPUT (.*)$',(native/'gdb.stdout').read_text(),re.M)
+        assert len(raw)==1 and json.loads(raw[0])==wanted
+        raw=re.findall(r'^observe 004522ec eax=[0-9a-f]+ ecx=([0-9a-f]+) edx=([0-9a-f]+) esp=[0-9a-f]+$',text,re.M)
+        assert raw==[('00497d7c','00000a00')]
+        assert struct.unpack('<I',read(head+1892+24,4))[0]==0x497d7c
+        stack=re.findall(r'^observe-stack ([^\n]+)$',segment,re.M)
+        assert stack and stack[0].split()[:3]==['0041eedd','00000001','00000000']
     if expected.get('frontier_contract')in ('coff-directive-input','coff-directive-output-input','coff-section-input'):
         contract=(BINARY/config['directive_callback_contract']).read_bytes()
         assert all((directory/'directive-callback-contract.json').read_bytes()==contract for directory in (original,native))

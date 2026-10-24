@@ -42,6 +42,7 @@ COFF_GLOBALS = {
     'coff_pending_499690': (0x499690,4),
     'coff_symbol_total': (0x497d4c,4), 'coff_next_symbol': (0x497d54,4),
     'coff_directive_option': (0x497dac,4),
+    'function_option_23': (0x48fb60,4),
     'coff_reserved_symbols': (0x497d5c,4), 'coff_previous_source': (0x497f68,4),
 }
 ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})
@@ -236,7 +237,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         expected = dict(output_allocate=addresses['writer_allocator'],
             output_error_handler=addresses['writer_error'], output_clock_handler=addresses['writer_clock'],
             coff_new_output=1, coff_machine=0x14c, coff_source_name=writer_head+40,
-            coff_output=output, coff_pending04=0xffffffff, coff_debug=0, coff_pending_c90=1)
+            coff_output=output, coff_pending04=0xffffffff, coff_debug=0, coff_pending_c90=1, function_option_23=1)
         if initialized_output:
             allocation=u32(addresses['coff_symbol_buffer'])
             assert allocation and all(not start<=allocation<start+4096 for start in (head,directive_head,writer_head))

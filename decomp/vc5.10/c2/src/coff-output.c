@@ -280,3 +280,121 @@ void __fastcall select_output_section(C2Section *section)
     if (position < section->symbol.section_size)
         write_output_fill(0, section->symbol.section_size - position);
 }
+
+/* Function attribute bit23; its wider optimizer meaning is still pending. */
+int function_option_23 = 1;
+
+unsigned short __fastcall create_coff_section(C2Section *section)
+{
+    C2Section *base;
+    char *name;
+    unsigned flags;
+    unsigned short association;
+    int marked;
+    if (section->coff_section)
+        return (unsigned short)section->coff_section;
+    base = section->combine == 7 ? section->parent : section;
+    if (section->section_kind == 1 &&
+        !(section->combine == 7 && section->selection == 5)) {
+        name = base->symbol.name;
+        if (!strncmp(name, ".rdata", 6) || !strncmp(name, ".xdata", 6) ||
+            !strncmp(name, ".const", 6))
+            section->section_kind = 4;
+        else if (!strncmp(name, ".text", 5))
+            section->section_kind = 0;
+        else if (!strncmp(name, ".drectve", 8)) {
+            section->section_kind = 10;
+            section->alignment = directive_section->alignment;
+        }
+    }
+    switch (section->section_kind) {
+    case 0:
+        name = base->symbol.serial == 5 ||
+            (section->combine == 7 && section->selection == 5) ?
+            ".text" : base->symbol.name;
+        flags = IMAGE_SCN_CNT_CODE | IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_MEM_READ;
+        section->alignment = function_option_23 ? stack_alignment :
+            c2_constant_strings ? 2 : 1;
+        break;
+    case 1:
+        name = base->symbol.serial == 2 ||
+            (section->combine == 7 && section->selection == 5) ?
+            ".data" : base->symbol.name;
+        flags = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE;
+        break;
+    case 3:
+        name = base->symbol.serial == 4 ||
+            (section->combine == 7 && section->selection == 5) ?
+            ".bss" : base->symbol.name;
+        flags = IMAGE_SCN_CNT_UNINITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE;
+        break;
+    case 4:
+        name = base->symbol.serial == 3 ||
+            (section->combine == 7 && section->selection == 5) ?
+            ".rdata" : base->symbol.name;
+        flags = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ;
+        break;
+    case 9:
+        name = section->symbol.name;
+        flags = IMAGE_SCN_TYPE_NO_PAD | IMAGE_SCN_CNT_INITIALIZED_DATA |
+            IMAGE_SCN_MEM_DISCARDABLE | IMAGE_SCN_MEM_READ;
+        break;
+    case 10:
+        name = section->symbol.name;
+        flags = IMAGE_SCN_LNK_INFO | IMAGE_SCN_LNK_REMOVE;
+        break;
+    case 11:
+        name = base->symbol.serial == 9 ||
+            (section->combine == 7 && section->selection == 5) ?
+            ".tls$" : base->symbol.name;
+        flags = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE;
+        break;
+    case 17:
+        name = ".xdata$x";
+        flags = IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ;
+        break;
+    case 18:
+        name = ".text$x";
+        flags = IMAGE_SCN_CNT_CODE | IMAGE_SCN_MEM_EXECUTE | IMAGE_SCN_MEM_READ;
+        if (function_option_23)
+            section->alignment = stack_alignment;
+        break;
+    case 19:
+        name = base->symbol.serial == 7 ||
+            (section->combine == 7 && section->selection == 5) ?
+            ".debug$S" : base->symbol.name;
+        flags = IMAGE_SCN_TYPE_NO_PAD | IMAGE_SCN_CNT_INITIALIZED_DATA |
+            IMAGE_SCN_MEM_DISCARDABLE | IMAGE_SCN_MEM_READ;
+        break;
+    case 20:
+        if (base->symbol.serial == 8 ||
+            (section->combine == 7 && section->selection == 5))
+            name = coff_directive_option ? ".debug$P" : ".debug$T";
+        else
+            name = base->symbol.name;
+        flags = IMAGE_SCN_TYPE_NO_PAD | IMAGE_SCN_CNT_INITIALIZED_DATA |
+            IMAGE_SCN_MEM_DISCARDABLE | IMAGE_SCN_MEM_READ;
+        break;
+    default:
+        return coff_default_flags;
+    }
+    marked = 0;
+    if (c2_internal_listing && current_symbol &&
+        (current_symbol->association.section_serial == section->symbol.serial ||
+         (section->parent && current_symbol->association.section_serial ==
+             section->parent->symbol.serial)))
+        marked = 1;
+    if (section->combine == 7) {
+        association = section->selection == 5 ?
+            (unsigned short)section->parent->coff_section : 0;
+        section->coff_section = add_associative_coff_section(name,
+            flags | IMAGE_SCN_LNK_COMDAT, coff_selection_code(section->selection),
+            association, 1, marked);
+    } else
+        section->coff_section = add_coff_section(name, flags, 1, marked);
+    if (marked)
+        mark_debug_section(section->coff_section);
+    initialize_coff_section((unsigned short)section->coff_section, flags);
+    record_output_section(section);
+    return (unsigned short)section->coff_section;
+}

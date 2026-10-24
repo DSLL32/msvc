@@ -1092,14 +1092,6 @@
     "evidence": null
   },
   {
-    "name": "@create_coff_section@4",
-    "start": 4320345,
-    "end": 4320346,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@select_coff_section@4",
     "start": 4321696,
     "end": 4321697,
@@ -1119,6 +1111,54 @@
     "name": "@write_output_fill@8",
     "start": 4538588,
     "end": 4538589,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@add_coff_section@16",
+    "start": 4530924,
+    "end": 4530925,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@add_associative_coff_section@24",
+    "start": 4325496,
+    "end": 4325497,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@coff_selection_code@4",
+    "start": 4325425,
+    "end": 4325426,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@initialize_coff_section@8",
+    "start": 4321155,
+    "end": 4321156,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@record_output_section@4",
+    "start": 4321651,
+    "end": 4321652,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@mark_debug_section@4",
+    "start": 4746574,
+    "end": 4746575,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

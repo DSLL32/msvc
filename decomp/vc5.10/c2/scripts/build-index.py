@@ -100,7 +100,8 @@ def main():
                 '@c2_apply_option@12':(4,8,0x452e00,39),
                 '_format_diagnostic_args':(0,7,0x48cecc,51),
                 '@read_symbols@4':(0,11,0x4206a0,23),
-                '@read_initializer_records@4':(0,8,0x452498,17)
+                '@read_initializer_records@4':(0,8,0x452498,17),
+                '@create_coff_section@4':(0,12,0x41ef20,21)
             }[record['name']]
             terminal=b'\xc2'+struct.pack('<H',cleanup)if cleanup else b'\xc3'
             assert read(intervals[0][0]-len(terminal),len(terminal))==terminal,'expected final RET immediately precedes dispatch data'

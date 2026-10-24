@@ -1,0 +1,92 @@
+{
+  "positive": {
+    "scope": "Finite12 jump/21class rows,11 exact flagsets/point-of-use name operands and initialtypedscalar; common Rust owns all graph discovery",
+    "original_table_sha256": "6d636bc1054849bbed2c2b1a8a2ae9293db015c7c72bf191f92f22165f0b802b",
+    "rebuilt_table_sha256": "6d3588f42776e4cc53b568cafec09b6ceeb2032b6f6689357d62d66bd6f11601",
+    "original_targets": [
+      4320548,
+      4320700,
+      4320830,
+      4320736,
+      4320935,
+      4320948,
+      4626755,
+      4320778,
+      4320793,
+      4320855,
+      4320896,
+      4626860
+    ],
+    "rebuilt_labels": [
+      321,
+      436,
+      507,
+      578,
+      649,
+      670,
+      691,
+      762,
+      781,
+      821,
+      889,
+      975
+    ],
+    "source_sha256": "073fb59c73719f2b591ae4d1a5dd12ac69135f1bf6b2448b478c53f79639d232",
+    "checker_sha256": "6f92e827cf37effc4fff8d11bd2304f8b6f5439c786dcb229ac54e9ec8d383c7"
+  },
+  "count": 12,
+  "rejected": [
+    {
+      "control": "directive row redirected to data case",
+      "reason": "COFF creator jump targets differ"
+    },
+    {
+      "control": "classmap kind10 remapped to code",
+      "reason": "COFF creator classmap differs"
+    },
+    {
+      "control": "default hole remapped to data case",
+      "reason": "COFF creator classmap differs"
+    },
+    {
+      "control": "directive flags cleared",
+      "reason": "COFF creator case flags differ"
+    },
+    {
+      "control": "code flags changed",
+      "reason": "COFF creator case flags differ"
+    },
+    {
+      "control": "xdata name changed to text name",
+      "reason": "COFF creator case point-of-use names differ"
+    },
+    {
+      "control": "debug owner name field changed",
+      "reason": ""
+    },
+    {
+      "control": "default scalar owner shifted",
+      "reason": ""
+    },
+    {
+      "control": "original initializedone scalar wrongly zeroed",
+      "reason": "encountered function-option bit23 storage differs"
+    },
+    {
+      "control": "classmap declared tail shortened",
+      "reason": ""
+    },
+    {
+      "control": "external data ownership widened into padding",
+      "reason": ""
+    },
+    {
+      "control": "declared label identity altered",
+      "reason": ""
+    }
+  ],
+  "seconds": 0.05798635259270668,
+  "checker_sha256": "29f8466b99b1088b53abac9257dafb2403a7ba91c81744e87f899e751bfdbf19",
+  "predicate_sha256": "6f92e827cf37effc4fff8d11bd2304f8b6f5439c786dcb229ac54e9ec8d383c7",
+  "rebuilt_sha256": "14aaacaafc7add48a2169c19c231b3f9724916fe9b594984dd409b4325d6e8b2"
+}
