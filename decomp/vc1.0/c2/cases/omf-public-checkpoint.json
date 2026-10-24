@@ -1,0 +1,188 @@
+{
+  "checkpoint": 1278,
+  "previous_checkpoint": 1277,
+  "new_application": [
+    {
+      "name": "@omf_emit_public@8",
+      "start": 438000,
+      "end": 438206,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          },
+          {
+            "name": "segment",
+            "location": "EDX",
+            "type": "Segment pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-public-abi/validation.json",
+        "scope": "Actual _omf_callback kind1/offset136/type1014, global hash owner121 and data_segment alias observed. Offset cached before children; typeWORD signed load after output. Defined source kinds1/3/4 only; unsupported original kind uses uninitialized local type, no extra incoming parameter. Win32 assumption retained, exact unsupported native kind traps and real other kind holds; no invented type/init."
+      }
+    }
+  ],
+  "new_extent_bytes": 206,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1278,
+    "accepted_code_bytes": 341697,
+    "original_code_bytes": 399693,
+    "percentage": 85.4898634702134,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 626
+  },
+  "application_graph_rows": 1168,
+  "reconstructed_application_support_functions": 1163,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 323397,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "@omf_emit_external@4",
+  "next_original_va": "0x6ad80",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "@omf_emit_external@4"
+  },
+  "controls": [
+    "cases/omf-public-validation.json"
+  ],
+  "timings": {
+    "omf1278-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 24.957349844276905,
+      "returncode": 0,
+      "log_sha256": "251d8f8cc5a544a7db4bf4f5920b87c131f18f632c58ddb9d08c774d4f3c0801"
+    },
+    "omf1278-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 7.70438052341342,
+      "returncode": 0,
+      "log_sha256": "39aebcf14873b1a9f9da2a28d8b81a4839f2c9a25977931474df5a3795e82985"
+    },
+    "omf1278-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1277.json",
+        "--extend-after",
+        "cases/omf-original-1278.json"
+      ],
+      "seconds": 0.3079025223851204,
+      "returncode": 0,
+      "log_sha256": "27595ea9c634b85e9334071c13ce73ecb4b629c1cc7bc220f1a8e14bbab66f57"
+    },
+    "omf1278-controls-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-public.py",
+        "--native-guard"
+      ],
+      "seconds": 1.616751216351986,
+      "returncode": 0,
+      "log_sha256": "c3418f3a0a12d11099d8670ebf69c2e8413c46a789287bfad29aa9bf5cc617d2"
+    },
+    "omf1278-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-omf-public-entry.py"
+      ],
+      "seconds": 1.6335402354598045,
+      "returncode": 0,
+      "log_sha256": "a673e441df0bfcc737478939034fd6016f75a3f5701b20ac3f1795454647d61b"
+    },
+    "omf1278-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "-o",
+        "Makefile",
+        "check"
+      ],
+      "seconds": 0.8677121726796031,
+      "returncode": 0,
+      "log_sha256": "7ba890bf959de8d71a56e4403119e7bac3395566e7890d340d353aead2625084"
+    },
+    "omf1278-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1278.json"
+      ],
+      "seconds": 0.21133769676089287,
+      "returncode": 0,
+      "log_sha256": "8c7ceedb22b58eb162d9e9f57ddae85ba9b0e8033b5c36c0a07584e3c888a984"
+    },
+    "omf1278-observer-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "build/reference-stdio-observer.exe"
+      ],
+      "seconds": 2.3581786416471004,
+      "returncode": 0,
+      "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+    },
+    "omf1278-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1278.json"
+      ],
+      "seconds": 0.9583861110731959,
+      "returncode": 0,
+      "log_sha256": "b252ff5eca222ce9b9bac2d4508c59e92c15aeb512dd021c932700c57e3e9c32"
+    },
+    "omf1278-w3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.0003209169954062,
+      "returncode": 0,
+      "log_sha256": "79864baea3a3e956004f8779482e25ff221649369e66a28de007fb706e7560b6"
+    }
+  },
+  "limits": [
+    "Whole206-byte original/canonical defined-kind public emitter;83 controls/8 actual ABI rejects cover kind1/valid-label3/function4 public/local tag choice, genuine invalid-label638 diagnostic stop, cached entry32-bit offset despite child changes, record state reload after name children, LE32/count wrap, signed typeWORD reload after append, exact unchanged owned bytes/callee-saved/RET0. Children mocked; actual branch kind1 only, no cold branch execution credit or returning-fatal claim.",
+    "Actual _omf_callback kind1/offset136/type1014/global bucket57 member0/source name and data_segment context pointer match. Only relevant defined ranges4..8/12..16/24..40 observed; old local record type/uninitialized descriptor tail never dumped or seeded.",
+    "Original unsupported kinds reach6af14 uninitialized local [esp+0xc] without assigning record type. Win32 source preserves original uninitialized type, no invented init/default guard/result. Exact unsupported native-kind INT3, independently verified changing actual1 to2 at native GDB entry. This is an explicit unsupported-native boundary, not original equality or real frontend reach proof for kind2; any real other kind holds for contract/ABI treatment.",
+    "Bounded callers: marker6abdc/6ac04 are variable kind1 storage classes1/3; callback6b710 tests COMDAT flag but does not independently establish all kind producers. Public reach beyond1/3/4 remains unproved. Kind3.label_kind4 is genuine source assumption with original638 diagnostic if violated, distinct from unknown-kind uninitialized local.",
+    "Original/W3 warning-free, full graph/extents/RET/ABI/storage/data, fresh pair to external6ad80 and15 cached native cases pass (14 complete). Full OMF oracle still pending. Build7.704s, audit+coverage24.957s, focused controls/native guard1.617s and other phases recorded separately; analysis/edit unmeasured."
+  ]
+}

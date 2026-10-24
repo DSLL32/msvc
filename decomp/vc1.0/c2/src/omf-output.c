@@ -765,3 +765,34 @@ void __fastcall omf_mark_symbol(SymbolHeader *symbol)
         }
     }
 }
+
+/* Original [0006aef0,0006afbe). Offset is cached before all children,
+   but the type WORD is read after name/prefix output. The original assumes
+   kind1/3/4: other kinds use an uninitialized local record type. Preserve that
+   Win32 source assumption; unsupported native kinds trap rather than acquire
+   a guessed type. A real such input holds for contract/ABI review. */
+void __fastcall omf_emit_public(SymbolHeader *symbol, Segment *segment)
+{
+    unsigned type, value = symbol->field04, count;
+    OmfRecord *record;
+    unsigned char *cursor;
+    if (symbol->kind == 1) type = 0x91;
+    else if (symbol->kind == 3) {
+        if (((LabelSymbol *)symbol)->label_kind != 4)
+            compiler_internal_error("@(#)omf.c:1.10", 0x638);
+        type = 0xb7;
+    } else if (symbol->kind == 4)
+        type = (((FunctionSymbol *)symbol)->field24 & 0xf0) == 0x50 ? 0x91 : 0xb7;
+#ifdef RECON_NATIVE_TEST
+    else { __asm int 3 }
+#endif
+    record = omf_begin_record(type, segment);
+    omf_append_string(record, symbol_display_name(symbol));
+    count = record->count + 1;
+    cursor = record->cursor;
+    record->count = count; *cursor++ = (unsigned char)value; record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(value >> 8); record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(value >> 16); record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(value >> 24); record->cursor = cursor;
+    omf_write_index(record, (short)((BackendSymbol *)symbol)->field20);
+}

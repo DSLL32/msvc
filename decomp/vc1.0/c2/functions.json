@@ -1281,7 +1281,8 @@
     "@omf_select_segment@4",
     "@omf_output_data@8",
     "@omf_reserve_bytes@8",
-    "@omf_mark_symbol@4"
+    "@omf_mark_symbol@4",
+    "@omf_emit_public@8"
   ],
   "driver": [
     {
@@ -9011,8 +9012,26 @@
     {
       "name": "@omf_emit_public@8",
       "start": 438000,
-      "end": 438001,
-      "provisional": true
+      "end": 438206,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          },
+          {
+            "name": "segment",
+            "location": "EDX",
+            "type": "Segment pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-public-abi/validation.json",
+        "scope": "Actual _omf_callback kind1/offset136/type1014, global hash owner121 and data_segment alias observed. Offset cached before children; typeWORD signed load after output. Defined source kinds1/3/4 only; unsupported original kind uses uninitialized local type, no extra incoming parameter. Win32 assumption retained, exact unsupported native kind traps and real other kind holds; no invented type/init."
+      }
     },
     {
       "name": "@omf_emit_external@4",

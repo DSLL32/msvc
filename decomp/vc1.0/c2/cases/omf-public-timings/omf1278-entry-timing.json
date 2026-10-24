@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python3",
+    "scripts/observe-omf-public-entry.py"
+  ],
+  "seconds": 1.6335402354598045,
+  "returncode": 0,
+  "log_sha256": "a673e441df0bfcc737478939034fd6016f75a3f5701b20ac3f1795454647d61b"
+}

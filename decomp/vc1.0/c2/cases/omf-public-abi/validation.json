@@ -1,0 +1,65 @@
+{
+  "matched": true,
+  "function": "@omf_emit_public@8",
+  "original_va": "0x6aef0",
+  "formals": [
+    {
+      "name": "symbol",
+      "location": "ECX",
+      "type": "SymbolHeader pointer",
+      "original": 8073544,
+      "native": 1449349708
+    },
+    {
+      "name": "segment",
+      "location": "EDX",
+      "type": "Segment pointer",
+      "original": 8065972,
+      "native": 1449342088
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6aef0..6afbe consumes Symbol ECX/Segment EDX, caches offsetDWORD4 before children, reads kindbyte12, typeWORD32 after children and kind4 attrsDWORD36; kind3 additionally label_kind48 (cold here). No hidden incoming stack/register/flags/x87 or output pointer, RET0. Actual kind1 offset/type/name and closed global hash owner plus data_segment alias observed; context Segment passed to begin without parent dereference. Unsupported kind leaves original local type uninitialized, not an extra defined incoming stack argument.",
+  "original": {
+    "symbol": 8073544,
+    "segment": 8065972,
+    "segment_owner": 8065972,
+    "bucket": 57,
+    "index": 0,
+    "member": 8073544,
+    "offset_hex": "88000000",
+    "header_hex": "01008009",
+    "identity_hex": "0200000079000000",
+    "type_hex": "14100500a3000000",
+    "name_hex": "5f6f6d665f63616c6c6261636b00"
+  },
+  "native": {
+    "symbol": 1449349708,
+    "segment": 1449342088,
+    "segment_owner": 1449342088,
+    "bucket": 57,
+    "index": 0,
+    "member": 1449349708,
+    "offset_hex": "88000000",
+    "header_hex": "01008009",
+    "identity_hex": "0200000079000000",
+    "type_hex": "14100500a3000000",
+    "name_hex": "5f6f6d665f63616c6c6261636b00"
+  },
+  "observed_fields": {
+    "offset": 136,
+    "kind": 1,
+    "symbol_flags": 2432,
+    "segment_identifier": 2,
+    "identifier": 121,
+    "type": 4116,
+    "output_flags": 5,
+    "attributes": 163,
+    "name_hex": "5f6f6d665f63616c6c6261636b00"
+  },
+  "original_execution_seconds": 1.1518269572407007,
+  "native_debug_seconds": 0.14837128203362226,
+  "total_seconds": 1.5576682519167662,
+  "scope": "Actual _omf_callback global kind1, data_segment owner, source offset/type/name and known header/class context. Only defined relevant ranges4..8/12..16/24..40 observed; no descriptor tail/local record-type seed. Padding13 retained raw not compared. Cold function/label/unsupported kinds and child behavior require separate controlled evidence, no final artifact claim."
+}

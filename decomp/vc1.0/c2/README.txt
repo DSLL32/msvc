@@ -639,3 +639,15 @@ app/support323191B and1162functions exclude5 historical CRT bodies. The55.297s
 audit command includes126 canonical recompiles/link/index, so build/check
 within it is unsplit, not audit-only; model2.073s. Other measured/failed attempts
 and scope: cases/omf-mark-checkpoint.json.
+
+Checkpoint1278 adds206-byte public emitter.83 whole original/canonical controls
+and8 actual ABI negatives cover cached entry offset, post-child record/type
+reloads, LE32/count wrap, kind1/3/4 tag selection and genuine label diagnostic638.
+Actual _omf_callback offset136/type1014/global owner and data_segment match.
+Original unknown kinds use an uninitialized local type: Win32 source retains
+that assumption, no extra input/default value. Native exact unsupported kind
+traps (controlled1->2 proof); real other kind holds, public reach is unproved.
+The old uninitialized local is neither observed as ABI input nor seeded.
+Original/W3/full audits and15 native cases pass (14 complete); next external
+6ad80.341697/399693 accepted extent bytes; app/support323397B/1163functions
+exclude5 historical CRT bodies. Timings/limits: cases/omf-public-checkpoint.json.

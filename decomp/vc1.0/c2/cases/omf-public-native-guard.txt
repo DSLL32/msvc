@@ -1,0 +1,15 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x5124c: file src/omf-output.c, line 776.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_emit_public (symbol=0x5663524c, segment=0x56633488) at src/omf-output.c:776
+776	    unsigned type, value = symbol->field04, count;
+$1 = 1
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565a62cc in omf_emit_public (symbol=0x5663524c, segment=0x56633488) at src/omf-output.c:787
+787	    else { __asm int 3 }
+   0x565a62cb <omf_emit_public+155>:	int3
+#0  0x565a62cc in omf_emit_public (symbol=0x5663524c, segment=0x56633488) at src/omf-output.c:787
+#1  0x565a60a2 in omf_mark_symbol (symbol=0x5663524c) at src/omf-output.c:735

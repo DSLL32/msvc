@@ -1,0 +1,11 @@
+enter @omf_emit_public@8 eax 007b13b4 args 007b3148 007b13b4
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_public symbol 007b3148 segment 007b13b4 segment_owner 007b13b4 bucket 57 index 0 member 007b3148
+omf_public_offset_hex 88000000
+omf_public_header_hex 01008009
+omf_public_identity_hex 0200000079000000
+omf_public_type_hex 14100500a3000000
+omf_public_name_hex 5f6f6d665f63616c6c6261636b00
+entry_end
