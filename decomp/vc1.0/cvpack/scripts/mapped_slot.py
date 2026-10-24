@@ -1,9 +1,11 @@
 """Active Win32 HANDLE in the concretely reached mapped input slot."""
 import re
 
-def compare(pointer,old,new,actual,events,native,mapped_seek=False,mapped_write=False):
+def compare(pointer,old,new,actual,events,native,mapped_seek=False,mapped_write=False,mapped_close=False):
     assert len(old)==len(new)==40 and old[4:16]==new[4:16]and old[28:36]==new[28:36],'mapped slot scalar inputs differ'
-    assert old[36:40]==new[36:40]==bytes(4),'next slot not NULL'
+    # close_file already moved this slot onto the free list. close_mapped_file
+    # never reads/writes next(+36); retain raw links without equality credit.
+    if not mapped_close:assert old[36:40]==new[36:40]==bytes(4),'next slot not NULL'
     if not mapped_write:assert old[32:36]==new[32:36]==bytes(4),'initial cursor not zero'
     if mapped_seek:
         assert all(int.from_bytes(raw[i:i+4],'little')for raw in(old,new)for i in(20,24)),'mapping/view successful result missing'
@@ -18,7 +20,10 @@ def compare(pointer,old,new,actual,events,native,mapped_seek=False,mapped_write=
     assert int.from_bytes(old[:4],'little')==args[0]and args[1:]==[0xc0000000,0,0,4,128,0],'actual original mapped open differs'
     assert bytes.fromhex(request[4]).decode('latin1')=='embedded-cpp.dll'
     assert int(returned[2],16)==int(source[1],16)==int.from_bytes(old[16:20],'little')!=0,'slot source is not actual CreateFile result'
-    assert int(source[2])==1 and int(source[3])==int.from_bytes(old[12:16],'little')==int.from_bytes(old[28:32],'little')==2097152 and int(source[4])==int(source[5])==0,'original live file state differs'
+    assert int(source[2])==1 and int(source[3])==int.from_bytes(old[28:32],'little')==2097152 and int(source[4])==int(source[5]),'original live file state differs'
+    if mapped_close:
+        current=actual['current_source'];assert current==dict(handle=int.from_bytes(new[16:20],'little'),physical_size=int(source[3]),position=int(source[4]),owned=True),'current native handle state differs'
+    else:assert int.from_bytes(old[12:16],'little')==2097152 and int(source[4])==0,'initial live file size/position differs'
     call=native[0];assert not call.get('error')and call['slot']==actual['address'],'native mapped input slot differs'
     assert {k:call[k]for k in('name','access','share','security','disposition','attrs','template')}==dict(name='embedded-cpp.dll',access=0xc0000000,share=0,security=0,disposition=4,attrs=128,template=0),'actual native mapped open differs'
     state=call['return'];assert state['handle']==int.from_bytes(new[16:20],'little')!=0 and state['type']==1 and state['size']==2097152 and state['position']==0 and state['access_mode']==2 and state['owned'],'native live source HANDLE identity differs'

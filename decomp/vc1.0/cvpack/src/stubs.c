@@ -39,7 +39,6 @@ Page *remove_lru_page(void) { __asm { int 3 } return NULL; }
 
 
 
-int truncate_mapped_file(FileSlot *slot,long size) { __asm { int 3 } return -1; }
 void read_old_directory(void) { __asm { int 3 } }
 void read_packed_modules(void) { __asm { int 3 } }
 

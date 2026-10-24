@@ -756,3 +756,11 @@ def mapped_input_state(slot,count,destination=False):
     data=b'' if destination else bytes(gdb.selected_inferior().read_memory(base+cursor,count))
     if not destination:assert data==Path('embedded-cpp.dll').read_bytes()[:count]
     return dict(slot=pointer,mapping=mapping,view=base,extent=extent,cursor=cursor,count=count,bytes=data.hex(),registered_view=True,owned_mapping=True,source_host_descriptor=fd,device=actual.st_dev,inode=actual.st_ino)
+
+
+def mapped_current_source(slot):
+    slot=slot.dereference();handle=int(slot['source']['handle']);fd=handle-1;pid=gdb.selected_inferior().pid
+    actual=os.stat('/proc/%d/fd/%d'%(pid,fd));expected=os.stat('embedded-cpp.dll')
+    position=int(next(line.split()[1]for line in Path('/proc/%d/fdinfo/%d'%(pid,fd)).read_text().splitlines()if line.startswith('pos:')))
+    assert stat.S_ISREG(actual.st_mode)and (actual.st_dev,actual.st_ino)==(expected.st_dev,expected.st_ino)
+    return dict(handle=handle,physical_size=actual.st_size,position=position,owned=True)

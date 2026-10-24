@@ -7862,13 +7862,16 @@
       "native": "truncate_mapped_file",
       "symbol": "_truncate_mapped_file",
       "original": 170976,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        170976,
+        171078
+      ],
       "abi": "int truncate_mapped_file(FileSlot *,long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/embedded-cpp-mapped/evidence/0165-truncate_mapped_file/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7928,7 +7931,11 @@
         {
           "name": "slot",
           "slot": 1,
-          "kind": "file-slot"
+          "kind": "file-slot",
+          "source_win32_handle": true,
+          "mapped_seek": true,
+          "mapped_cursor": true,
+          "mapped_close": true
         }
       ]
     },
@@ -9162,6 +9169,12 @@
       "case": "embedded-cpp-mapped",
       "kind": "application",
       "sequence": 164
+    },
+    {
+      "function": "truncate_mapped_file",
+      "case": "embedded-cpp-mapped",
+      "kind": "application",
+      "sequence": 165
     }
   ],
   "support_unmasked": [
@@ -9862,7 +9875,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "b70635c3beb1f1f3b310e7cdacd99f7a9d3b275b88d2814224f528dac1bef0cd"
+    "evidence_sha256": "ad8f11e533fce3112a68bef7475473e8a12d61291d02c076f518c8f63538cfa9"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9886,7 +9899,7 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "1c6870915faf3c51830d6dfeedc72db653512f4055d2c35b04274792854af818"
+    "evidence_sha256": "39d2bf18e08c9433011e8a3580ad4490874234f7c5e8cbe253d7ce3f3f373ed7"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
@@ -9938,7 +9951,7 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "52de709f0c16d6b5f247d6c3a6ed4060c02f80b800ddfda9928eb13dddc47f72"
+    "sha256": "7bee7b639e1166261b3e352a036b89985aa67ef5d27435b013ddc31be84bfa11"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

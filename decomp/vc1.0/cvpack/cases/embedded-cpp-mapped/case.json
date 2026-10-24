@@ -17,8 +17,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "truncate_mapped_file",
-    "native_function": "truncate_mapped_file",
+    "logical": "close_mapped_file",
+    "native_function": "close_mapped_file",
     "application_trace": [
       "main",
       "parse_options",
@@ -151,7 +151,9 @@
       "write_file",
       "write_mapped_file",
       "truncate_file",
-      "truncate_mapped_file"
+      "truncate_mapped_file",
+      "close_file",
+      "close_mapped_file"
     ],
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
@@ -165,7 +167,7 @@
       {
         "name": "embedded-cpp.dll",
         "bytes": 2097152,
-        "sha256": "54236c7546d65a4f5423c686324800040e0d757473357ee984725124a3da8475"
+        "sha256": "f2eb22dde08839863cc7262d11d0735cbbfa35db947ee46c533e0fd4aca77c60"
       }
     ]
   },

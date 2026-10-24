@@ -70,7 +70,7 @@ static int dump_mapped_source(HANDLE child,HANDLE log,DWORD pointer,DWORD *slot)
     type=GetFileType(duplicate);position=SetFilePointer(duplicate,0,0,FILE_CURRENT);
     if(!GetFileInformationByHandle(duplicate,&info)) { CloseHandle(duplicate);return 0; }
     after=SetFilePointer(duplicate,0,0,FILE_CURRENT);CloseHandle(duplicate);
-    if(type!=FILE_TYPE_DISK || position!=0 || after!=position || info.nFileSizeHigh || info.nFileSizeLow!=slot[3])return 0;
+    if(type!=FILE_TYPE_DISK || position>0x200000 || after!=position || info.nFileSizeHigh || info.nFileSizeLow!=0x200000)return 0;
     sprintf(line,"mapped-slot-source slot %08lx handle %08lx type %lu size %lu position %lu after %lu volume %lu index %08lx%08lx attrs %lu\n",
         pointer,slot[4],type,info.nFileSizeLow,position,after,info.dwVolumeSerialNumber,
         info.nFileIndexHigh,info.nFileIndexLow,info.dwFileAttributes);

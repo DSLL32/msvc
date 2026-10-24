@@ -623,3 +623,18 @@ int write_mapped_file(FileSlot *slot, const void *buffer, unsigned long size)
     slot->cursor.position += size;
     return size;
 }
+
+/* Original [00029be0,00029c46): retain the mapping during truncation. */
+int truncate_mapped_file(FileSlot *slot, long size)
+{
+    unsigned char truncated = 1;
+    if (slot->length < size) grow_mapping(slot, size);
+    else {
+        if (slot->cursor.position >= size) slot->cursor.position = size;
+        SetFilePointer(slot->source.handle, size, NULL, FILE_BEGIN);
+        truncated = (unsigned char)SetEndOfFile(slot->source.handle);
+        SetFilePointer(slot->source.handle, slot->cursor.position, NULL, FILE_BEGIN);
+    }
+    slot->length = size;
+    return truncated < 1 ? -1 : 1;
+}

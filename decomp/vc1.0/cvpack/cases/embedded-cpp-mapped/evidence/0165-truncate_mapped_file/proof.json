@@ -1,0 +1,315 @@
+{
+  "function": "truncate_mapped_file",
+  "sequence": 165,
+  "case": "embedded-cpp-mapped",
+  "extent": [
+    170976,
+    171078
+  ],
+  "original_frontier": 175200,
+  "native_frontier": "close_mapped_file",
+  "application_entries": [
+    "main",
+    "parse_options",
+    "files_initialize",
+    "new_page",
+    "new_file_slot",
+    "open_file",
+    "find_cached_file",
+    "acquire_file_slot",
+    "move_file_slot",
+    "open_mapped_file",
+    "map_file",
+    "initialize_type_tables",
+    "checked_zero",
+    "initialize_buffer",
+    "checked_alloc",
+    "read_image_debug",
+    "seek_file",
+    "seek_mapped_file",
+    "read_file",
+    "read_mapped_file",
+    "tell_file",
+    "read_cv_signature",
+    "read_new_directory",
+    "compare_directory",
+    "initialize_modules",
+    "read_subsection",
+    "find_module",
+    "pack_module",
+    "read_module",
+    "read_publics",
+    "pack_public_symbols",
+    "convert_old_type",
+    "map_primitive",
+    "intern_public",
+    "hash_public",
+    "allocate_symbol",
+    "read_global_types",
+    "read_new_global_types",
+    "reset_local_types",
+    "reset_type_hash",
+    "read_types",
+    "convert_new_type",
+    "index_new_types",
+    "reserve_extra_type",
+    "has_extra_type",
+    "pack_new_types",
+    "write_search_symbol",
+    "convert_object_name",
+    "convert_procedure32",
+    "address_in_module",
+    "compact_new_type",
+    "find_named_type",
+    "find_global_type",
+    "store_type",
+    "hash_type",
+    "save_type",
+    "append_buffer",
+    "compact_type_list",
+    "compact_pointer",
+    "add_recursive_offset",
+    "intern_type",
+    "hash_recursive_type",
+    "hash_referenced_type",
+    "commit_recursive_type",
+    "publish_recursive_type",
+    "publish_packed_type",
+    "record_derived_types",
+    "finish_recursive_types",
+    "convert_bp_relative32",
+    "end_symbol_block",
+    "compare_recursive_type",
+    "add_derived_type",
+    "numeric_leaf_size",
+    "convert_udt_symbol",
+    "intern_global",
+    "convert_constant_symbol",
+    "convert_global_data32",
+    "convert_local_data32",
+    "link_symbol_scopes",
+    "record_symbol_offsets",
+    "create_symbol_reference",
+    "begin_symbol_block",
+    "strip_debug",
+    "initialize_strip_sections",
+    "read_coff_symbol",
+    "classify_coff_symbol",
+    "next_coff_symbol",
+    "collect_strip_records",
+    "find_first_coff_function",
+    "read_coff_auxiliary",
+    "fill_coff_function",
+    "read_coff_file_name",
+    "set_coff_function_name",
+    "assign_coff_function_module",
+    "read_coff_function_block",
+    "set_coff_function_section",
+    "set_coff_function_line",
+    "set_coff_function_offset",
+    "read_coff_function_lines",
+    "set_coff_function_end",
+    "publish_coff_function",
+    "find_next_coff_function",
+    "write_strip_records",
+    "free_strip_records",
+    "finalize_types",
+    "finalize_derived_types",
+    "type_scratch",
+    "build_source_file_index",
+    "find_source_name",
+    "hash_source_name",
+    "add_source_name",
+    "write_packed_debug",
+    "compare_output_directory",
+    "initialize_output",
+    "write_subsection",
+    "write_global_publics",
+    "pad_symbols",
+    "build_symbol_name_hash",
+    "append_fill",
+    "build_symbol_address_hash",
+    "compare_symbol_address",
+    "first_buffer_block",
+    "next_buffer_block",
+    "write_global_symbols",
+    "write_static_symbols",
+    "write_packed_types",
+    "build_type_offsets",
+    "flush_output",
+    "write_file",
+    "write_mapped_file",
+    "truncate_file",
+    "truncate_mapped_file",
+    "close_file",
+    "close_mapped_file"
+  ],
+  "matched_frontier_parameters": {
+    "slot": {
+      "null": false,
+      "address": 4157210640,
+      "owner": {
+        "handle": 15,
+        "limit": 16
+      },
+      "bytes": "10f0c9f70b0000000f000000c4ae00000400000010e0c9f700e0a9f700002000006a00001010caf7",
+      "current_source": {
+        "handle": 4,
+        "physical_size": 2097152,
+        "position": 7224,
+        "owned": true
+      }
+    }
+  },
+  "typed_frontier_parameters": {
+    "slot": {
+      "original_address": 7800804,
+      "native_address": 4157210640,
+      "handle": 15,
+      "table_limit": 16,
+      "original_raw": "100877000b0000000f000000c4ae000038000000440000000000870000002000006a0000b8077700",
+      "native_raw": "10f0c9f70b0000000f000000c4ae00000400000010e0c9f700e0a9f700002000006a00001010caf7",
+      "source_HANDLE": {
+        "original_request": [
+          "1172",
+          "007707e4",
+          "0024f9ac",
+          "00770810 c0000000 00000000 00000000 00000004 00000080 00000000",
+          "656d6265646465642d6370702e646c6c"
+        ],
+        "original_return": [
+          "1172",
+          "007707e4",
+          "00000038"
+        ],
+        "original_live_handle": [
+          "007707e4",
+          "00000038",
+          "1",
+          "2097152",
+          "7224",
+          "7224",
+          "1509949440",
+          "0000000000a1c1f6",
+          "32"
+        ],
+        "native": {
+          "slot": 4157210640,
+          "name": "embedded-cpp.dll",
+          "access": 3221225472,
+          "share": 0,
+          "security": 0,
+          "disposition": 4,
+          "attrs": 128,
+          "template": 0,
+          "return": {
+            "handle": 4,
+            "host_descriptor": 3,
+            "type": 1,
+            "size": 2097152,
+            "position": 0,
+            "access_mode": 2,
+            "owned": true,
+            "device": 139,
+            "inode": 10617367
+          }
+        },
+        "scope": "Actual CreateFileA request/result carried to published FileSlot.source; live original/native disk/size/position identity. Raw mapping/view results retained without contents or cross-image pointer equivalence; actual creation checked separately.",
+        "mapping_creation": {
+          "calls": [
+            {
+              "original_request": [
+                "1",
+                "1172",
+                "007707e4",
+                "0024f9a4",
+                "7bb81950",
+                "00000038 00000000 00000004 00000000 00200000 00000000"
+              ],
+              "original_return": [
+                "1",
+                "1172",
+                "007707e4",
+                "0024f9bc",
+                "00000044"
+              ],
+              "native": {
+                "stage": 1,
+                "slot": 4157210640,
+                "arguments": {
+                  "file": 4,
+                  "security": 0,
+                  "protection": 4,
+                  "high": 0,
+                  "low": 2097152,
+                  "name": 0
+                },
+                "value": 4157202448
+              }
+            },
+            {
+              "original_request": [
+                "2",
+                "1172",
+                "007707e4",
+                "0024f9a8",
+                "7bb7d254",
+                "00000044 000f001f 00000000 00000000 00000000"
+              ],
+              "original_return": [
+                "2",
+                "1172",
+                "007707e4",
+                "0024f9bc",
+                "00870000"
+              ],
+              "native": {
+                "stage": 2,
+                "slot": 4157210640,
+                "arguments": {
+                  "handle": 4157202448,
+                  "access": 983071,
+                  "high": 0,
+                  "low": 0,
+                  "bytes": 0
+                },
+                "value": 4155105280
+              }
+            }
+          ],
+          "scope": "Actual creation requests/results bound to the source slot. Non-NULL results prove neither view contents nor cross-image pointer equivalence; view is not dereferenced by the next seek function. Real extent/bytes/ownership required before later consumption."
+        }
+      },
+      "compared_ranges": [
+        [
+          4,
+          16
+        ],
+        [
+          28,
+          36
+        ]
+      ],
+      "scope": "Published file_slots[handle] identity and buffered scalar inputs; pointer raw retained, no all-page/heap equality claim"
+    }
+  },
+  "matched_application_globals": {
+    "suppressed_symbol_depth": "00000000",
+    "symbol_scope_depth": "00000000"
+  },
+  "observed_objects": {},
+  "conditional_CRT_support": [],
+  "freebuf_noop_boundary": null,
+  "runtime_unmasked": [],
+  "seconds": {
+    "setup": 0.2575586438179016,
+    "execution": 0.026171240024268627,
+    "debugging": 1.4192646937444806,
+    "checks": 0.023622588254511356,
+    "total": 1.7266222415491939
+  },
+  "classification": "routine-whole-function-and-genuine-next-entry",
+  "later_module_heap_equality": false,
+  "prior_module3": "cases/hello-debug-dll/evidence/0097-create_symbol_reference/proof.json",
+  "scope": "Root streamlined normal loop; actual formal/selected consumed globals checked, old full module3 contracts retained; additional state probes only for concrete ambiguities/mismatches"
+}
