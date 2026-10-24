@@ -734,3 +734,24 @@ def install_mapping_observer(output):
             events.append(event);save();Returned(event);return False
     Entered('recon_CreateFileMappingA',1,['file','security','protection','high','low','name'])
     Entered('recon_MapViewOfFile',2,['handle','access','high','low','bytes']);save()
+
+
+def mapped_input_state(slot,count):
+    """Bounded first DOS-header read; no unconsumed mapping payload dump."""
+    pointer=int(slot);slot=slot.dereference();base=int(slot['contents']['view']);mapping=int(slot['storage']['mapping'])
+    extent=int(slot['allocated']);cursor=int(slot['cursor']['position'])
+    assert extent==2097152 and cursor==0 and count==64
+    view=gdb.parse_and_eval("'win32.c'::views");matches=[]
+    while int(view):
+        if int(view['address'])==base:matches.append(int(view['length']))
+        view=view['next']
+    assert matches==[extent],'missing registered full mapped view'
+    entry=gdb.parse_and_eval("'win32.c'::mappings");matches=[]
+    while int(entry):
+        if int(entry)==mapping:matches.append(entry.dereference())
+        entry=entry['next']
+    assert len(matches)==1 and int(matches[0]['length'])==extent and int(matches[0]['writable'])==1,'unknown source mapping'
+    fd=int(matches[0]['fd']);actual=os.stat('/proc/%d/fd/%d'%(gdb.selected_inferior().pid,fd));expected=os.stat('embedded-cpp.dll')
+    assert (actual.st_dev,actual.st_ino)==(expected.st_dev,expected.st_ino)and actual.st_size==extent,'mapping is not the owned input file'
+    data=bytes(gdb.selected_inferior().read_memory(base+cursor,count));assert data==Path('embedded-cpp.dll').read_bytes()[:count]
+    return dict(slot=pointer,mapping=mapping,view=base,extent=extent,cursor=cursor,count=count,bytes=data.hex(),registered_view=True,owned_mapping=True,source_host_descriptor=fd,device=actual.st_dev,inode=actual.st_ino)

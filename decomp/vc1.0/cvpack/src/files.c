@@ -587,3 +587,16 @@ int map_file(FileSlot *slot)
     }
     return 1;
 }
+
+/* Original [0002ab50,0002abb0): seek in a mapped file, growing if required. */
+long seek_mapped_file(FileSlot *slot, long offset, int origin)
+{
+    switch (origin) {
+    case SEEK_SET: slot->cursor.position = offset; break;
+    case SEEK_CUR: slot->cursor.position += offset; break;
+    case SEEK_END: slot->cursor.position = slot->length + offset; break;
+    }
+    if (slot->allocated < slot->cursor.position)
+        grow_mapping(slot, slot->cursor.position);
+    return slot->cursor.position;
+}

@@ -1598,13 +1598,16 @@
       "native": "seek_mapped_file",
       "symbol": "_seek_mapped_file",
       "original": 174928,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        174928,
+        175024
+      ],
       "abi": "long seek_mapped_file(FileSlot *,long,int)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/embedded-cpp-mapped/evidence/0156-seek_mapped_file/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -1644,20 +1647,24 @@
       "parameters": [
         {
           "name": "slot",
+          "kind": "file-slot",
           "slot": 1,
-          "kind": "pointer",
-          "bits": 32
+          "source_win32_handle": true,
+          "mapped_seek": true,
+          "mapped_read": true
         },
         {
           "name": "buffer",
+          "kind": "stack-output",
           "slot": 2,
-          "kind": "pointer",
-          "bits": 32
+          "size_argument": "size",
+          "evidence": "cases/abi/read-dos-mapped-output.json",
+          "evidence_sha256": "6529d8d4ee2965cfca5303149472a47aa24d9040cee8fb504a834f05a8d912e6"
         },
         {
           "name": "size",
-          "slot": 3,
           "kind": "integer",
+          "slot": 3,
           "bits": 32
         }
       ]
@@ -8043,6 +8050,33 @@
           "source_win32_handle": true
         }
       ]
+    },
+    {
+      "name": "grow_mapping",
+      "native": "grow_mapping",
+      "symbol": "_grow_mapping",
+      "original": 175328,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void grow_mapping(FileSlot *,long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "kind": "file-slot",
+          "slot": 1
+        },
+        {
+          "name": "size",
+          "kind": "integer",
+          "slot": 2
+        }
+      ]
     }
   ],
   "review": {
@@ -8999,6 +9033,12 @@
       "case": "embedded-cpp-mapped",
       "kind": "application",
       "sequence": 155
+    },
+    {
+      "function": "seek_mapped_file",
+      "case": "embedded-cpp-mapped",
+      "kind": "application",
+      "sequence": 156
     }
   ],
   "support_unmasked": [
@@ -9699,7 +9739,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "e6edb48686085aef4714be3aa5fbf524149466f61051e39d0d60735430423725"
+    "evidence_sha256": "b8d8e186cb4d05b8545714ec3f99e23325f42d03bbe4ac345154721f8b85a77a"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -9723,7 +9763,7 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "ad9e2158f81479cee3e777ed5fad68a533a34d2fd54bbbcd29c08289bdec693e"
+    "evidence_sha256": "db0f83e57ace9eaf22be2029d96c01a9991ab38cd999f7ce017f69dad41d9c4f"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
@@ -9775,7 +9815,7 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "2dbadeda991046a9eb1f971c03994e11425e94151673c1dafb4c769eaf6f8f9a"
+    "sha256": "612c976da8674eb8101393c90132779b6272f562ce433b459e8ab84482273c6c"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

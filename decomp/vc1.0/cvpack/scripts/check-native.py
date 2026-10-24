@@ -175,6 +175,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' argument=parameters[description["name"]];value=current.read_var(description["name"]);handle=int(value["handle"]);limit=int(gdb.parse_and_eval("file_limit"))\n'
         ' if not 0<=handle<limit<=64 or int(gdb.parse_and_eval("file_slots")[handle])!=argument["address"]: raise RuntimeError("FileSlot argument lacks published table identity")\n'
         ' argument["owner"]=dict(handle=handle,limit=limit);argument["bytes"]=bytes(gdb.selected_inferior().read_memory(argument["address"],40)).hex()\n'
+        ' if description.get("mapped_read"): argument["view_input"]=runpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["mapped_input_state"](value,parameters["size"])\n'
         'for description in frontier.get("parameters",[]):\n'
         ' if description["kind"]!="symbol-sort-key": continue\n'
         ' sorter=current.older()\n'

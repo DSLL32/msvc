@@ -42,3 +42,17 @@ def compare_creation(pointer,old,new,actual,events,native):
         assert observed['arguments']==expected_native and observed['value']==word(new,20 if index==1 else 24)!=0,'native mapping request/result differs'
         proof.append(dict(original_request=request,original_return=returned,native=observed))
     return dict(calls=proof,scope='Actual creation requests/results bound to the source slot. Non-NULL results prove neither view contents nor cross-image pointer equivalence; view is not dereferenced by the next seek function. Real extent/bytes/ownership required before later consumption.')
+
+
+def compare_view_input(pointer,old,actual,events,words,file):
+    assert words[0]==0x2a423 and words[4]==0x1f294 and words[3]==64,'unknown mapped-read caller/count'
+    rows=re.findall(r'^mapped-view-input slot ([0-9a-f]+) mapping ([0-9a-f]+) view ([0-9a-f]+) extent (\d+) cursor (\d+) count (\d+) region ([0-9a-f]+) ([0-9a-f]+) (\d+) (\d+) (\d+) (\d+) bytes ([0-9a-f]+)$',events,re.M)
+    assert len(rows)==1,'missing actual consumed view bytes/extent'
+    r=rows[0];view=int.from_bytes(old[24:28],'little');mapping=int.from_bytes(old[20:24],'little');new=actual['view_input']
+    assert int(r[0],16)==pointer and int(r[1],16)==mapping and int(r[2],16)==view,'original view owner differs'
+    assert int(r[3])==int(r[8])==2097152 and int(r[4])==0 and int(r[5])==64,'view extent/cursor/count differs'
+    assert int(r[6],16)==int(r[7],16)==view and [int(r[i])for i in(9,10,11)]==[0x1000,4,0x40000],'original committed mapped RW region differs'
+    assert new['slot']==actual['address']and new['mapping']==int.from_bytes(bytes.fromhex(actual['bytes'])[20:24],'little')and new['view']==int.from_bytes(bytes.fromhex(actual['bytes'])[24:28],'little'),'native view owner differs'
+    assert new['registered_view']and new['owned_mapping']and new['extent']==2097152 and new['cursor']==0 and new['count']==64,'native mapped extent/input differs'
+    assert len(bytes.fromhex(r[12]))==64 and r[12]==new['bytes']==file.read_bytes()[:64].hex(),'actual consumed mapped bytes differ'
+    return dict(original=r,native=new,scope='Actual first64-byte DOS-header input from the real2MB mapped allocation; original region and actual mapping returns, native mapping/view registry and source-file identity. No comparison credit for unconsumed mapping payload or undefined DOS output prebytes.')

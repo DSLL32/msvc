@@ -126,3 +126,20 @@ static int finish_mapping_call(HANDLE child,HANDLE thread,HANDLE log,DWORD tid,D
     WriteFile(log,line,strlen(line),&written,0);FlushInstructionCache(child,0,0);mapped_api_active=0;
     context.Eip=address;return SetThreadContext(thread,&context);
 }
+
+static int dump_mapped_input(HANDLE child,HANDLE log,DWORD pointer,DWORD *slot,DWORD *words)
+{
+    MEMORY_BASIC_INFORMATION region;
+    BYTE input[64];DWORD bytes,written,i;char line[512];int used;
+    if(words[0]!=0x2a423 || words[4]!=0x1f294 || words[3]!=64 || slot[1]!=11 || slot[8] ||
+       slot[5]!=mapped_api_mapping || slot[6]!=mapped_api_view || !slot[6] || slot[7]!=0x200000 ||
+       VirtualQueryEx(child,(void *)slot[6],&region,sizeof(region))!=sizeof(region) ||
+       (DWORD)region.BaseAddress!=slot[6] || (DWORD)region.AllocationBase!=slot[6] || region.RegionSize!=slot[7] ||
+       region.State!=MEM_COMMIT || region.Protect!=PAGE_READWRITE || region.Type!=MEM_MAPPED ||
+       !ReadProcessMemory(child,(void *)slot[6],input,sizeof(input),&bytes) || bytes!=sizeof(input))return 0;
+    used=sprintf(line,"mapped-view-input slot %08lx mapping %08lx view %08lx extent %lu cursor %lu count %lu region %08lx %08lx %lu %lu %lu %lu bytes ",
+        pointer,slot[5],slot[6],slot[7],slot[8],words[3],(DWORD)region.BaseAddress,(DWORD)region.AllocationBase,
+        region.RegionSize,region.State,region.Protect,region.Type);
+    for(i=0;i<sizeof(input);++i)used+=sprintf(line+used,"%02x",input[i]);line[used++]='\n';
+    return WriteFile(log,line,used,&written,0);
+}

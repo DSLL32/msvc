@@ -1,0 +1,34 @@
+{
+  "owner": "read_image_debug",
+  "local": "dos",
+  "size": 64,
+  "offset": 0,
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 173091
+    },
+    {
+      "slot": 4,
+      "address": 127636
+    }
+  ],
+  "esp_offset": 148,
+  "callsite": {
+    "start": 127618,
+    "end": 127636,
+    "sha256": "ee07cbf5dba73d6cf73654d4e4caed708f1f52f0712e08d414676f7aa69db468"
+  },
+  "frame": {
+    "start": 127568,
+    "end": 127582,
+    "allocation": 5252,
+    "sha256": "97d7d821a9e6dcddba1f33ff3f084b6c31282a056812aa4e9f206a114f575e90"
+  },
+  "explanation": "Same reviewed 64-byte read_image_debug::dos caller local and three forwarded read_file arguments; mapped dispatch returns at2a423 instead of buffered2a42c. Initial output bytes retained independently without equality credit.",
+  "wrapper": {
+    "start": 173056,
+    "end": 173091,
+    "sha256": "5f1f5dac86c00458c77a729e2a8b4f32c8e56d6294c63f8bb89f505d78215c05"
+  }
+}

@@ -17,8 +17,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "seek_mapped_file",
-    "native_function": "seek_mapped_file",
+    "logical": "read_mapped_file",
+    "native_function": "read_mapped_file",
     "application_trace": [
       "main",
       "parse_options",
@@ -37,7 +37,9 @@
       "checked_alloc",
       "read_image_debug",
       "seek_file",
-      "seek_mapped_file"
+      "seek_mapped_file",
+      "read_file",
+      "read_mapped_file"
     ],
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",

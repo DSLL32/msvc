@@ -60,6 +60,7 @@ int release_file_slot(FileSlot *);
 void cache_closed_file(FileSlot *);
 int close_mapped_file(FileSlot *);
 long seek_mapped_file(FileSlot *,long,int);
+void grow_mapping(FileSlot *,long);
 long seek_buffered_file(FileSlot *,long,int);
 void grow_page_table(FileSlot *);
 Page *allocate_file_page(FileSlot *,long);

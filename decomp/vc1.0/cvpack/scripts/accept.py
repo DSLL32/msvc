@@ -183,11 +183,14 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
             source_proof=None
             if item.get('source_win32_handle'):
                 from mapped_slot import compare as compare_mapped_slot
-                assert args.case=='embedded-cpp-mapped'and frontier['name']in('map_file','seek_mapped_file'),'unknown active HANDLE consumer'
+                assert args.case=='embedded-cpp-mapped'and frontier['name']in('map_file','seek_mapped_file','read_mapped_file'),'unknown active HANDLE consumer'
                 source_proof=compare_mapped_slot(pointer,old,new,actual,events,json.loads((work/'mapped-open.json').read_text()),item.get('mapped_seek',False))
                 if item.get('mapped_seek'):
                     from mapped_slot import compare_creation
                     source_proof['mapping_creation']=compare_creation(pointer,old,new,actual,events,json.loads((work/'mapping-returns.json').read_text()))
+                if item.get('mapped_read'):
+                    from mapped_slot import compare_view_input
+                    source_proof['consumed_view_input']=compare_view_input(pointer,old,actual,events,words,original/'work/embedded-cpp.dll')
             else:assert old[4:20]==new[4:20]and old[28:32]==new[28:32]and not(old[4]&8),'FileSlot buffered scalar fields differ'
             parameters[item['name']]=dict(original_address=pointer,native_address=actual['address'],handle=handle,table_limit=limit,original_raw=old.hex(),native_raw=new.hex(),source_HANDLE=source_proof,compared_ranges=[[4,16],[28,36]]if source_proof else [[4,20],[28,32]],scope='Published file_slots[handle] identity and buffered scalar inputs; pointer raw retained, no all-page/heap equality claim')
         elif item['kind']=='global-owner':parameters[item['name']]=compare_global_owner(item,words,state['parameters'][item['name']],events)
