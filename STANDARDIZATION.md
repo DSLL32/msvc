@@ -3,6 +3,8 @@
 Shared Rust `recon-tool` is implemented under `tooling/recon-tool/`: native
 execution/tests, GDB debugging, capture pack/unpack, registry projection, and
 explicit PE original capture. VC1.0 C1XX has migrated to eight numbered cases.
+Original capture has smoke-test coverage; it has not yet driven a real C1XX
+function-reconstruction step.
 
 A capture is a saved invocation's inputs and expected results. Original-capture
 smoke tests validate the shared harness; they are not reconstruction cases.
@@ -21,16 +23,21 @@ decomp/{project}/{binary}/
     binary.c                    # exports binary_descriptor
     Makefile
     src/                        # reconstructed source
+    scripts/                    # project-specific helpers only
     .build/libbinary.so         # shared native reconstruction + binary.c
     cases/
         0000-example/
             case.c              # exports case_descriptor; case.cpp also possible
             case.h              # optional case-specific declarations
-            capture.bin              # applicable input/reference data, uncompressed
+            capture.bin         # applicable input/reference data, uncompressed
             direct.c            # direct-function setup, invocation and assertions
             tests.c             # optional, narrow behavior tests
             .build/case.so
 ```
+
+`scripts/` is for project-specific helpers that do not warrant shared support,
+such as generators for that binary's grammar. Common build, capture, replay,
+CRT-identification and graph-audit machinery belongs in shared tooling.
 
 After migration, case directories contain only the applicable files shown
 above. No nested directories except generated, untracked `.build/` output;
@@ -131,10 +138,6 @@ case checks its expected exit and complete outputs. An unfinished case checks
 the expected named INT3 frontier and applicable partial observations. It cannot
 be required to produce final outputs before the missing code is reconstructed.
 
-`scripts/` is for project-specific helpers that do not warrant shared support,
-such as generators for that binary's grammar. Common build, capture, replay,
-CRT-identification and graph-audit machinery belongs in shared tooling.
-
 ## Inputs and assertions
 
 `capture.bin` is an uncompressed, versioned binary fixture. Applicable fields include
@@ -189,8 +192,8 @@ not a replacement for returning from the application's `main`.
 This handles executor exit/crashes. Killing the supervisor itself can leave a
 workspace behind; stale-run cleanup is needed for that case.
 
-Keep process forking single-threaded. The precise setup/exec/test ordering and
-fork checkpoint still need to be specified.
+Keep process forking single-threaded. Setup and test checkpoint ordering are
+specified under the implemented native interface below.
 
 ## Debugging
 
@@ -260,8 +263,8 @@ Optional original builds select `ORIGINAL_TOOLCHAIN` by name and use a separate
 `ORIGINAL_SOURCES` list plus `ORIGINAL_BUILD`, `ORIGINAL_OUTPUT` and compiler/linker
 flags. `recon-tool original tool TOOLCHAIN TOOL -- ARGS` owns shared-prefix and
 toolchain environment setup; binary-specific Wine wrappers are unnecessary.
-Shared rules derive objects with full source paths and track literal include dependencies in one
-memoized scan; target-specific generators and special include dependencies stay
+Shared rules derive objects with full source paths and track literal include
+dependencies in one memoized scan; target-specific generators and special include dependencies stay
 local. Optional audit profile/image-base/policy variables enable common registry
 projection and the existing Rust graph checker; target-specific build inputs
 remain local. `audit` inherits the Rust function-graph/ABI checks from the
@@ -272,19 +275,22 @@ runtime rule, removing local identify-runtime scripts and unused parsing helpers
 Extend the shared implementation for needed variants instead of retaining a
 per-binary Python identifier. Cached original identities remain reference data;
 this analysis does not reconstruct CRT functions.
+C1XX passes `-q` to graph-audit to suppress successful stdout JSON; `--report`
+still writes the report, and failures remain visible on stderr.
 Keep parser/data generators needed for builds. One-time comparisons against
 original parser tables or data belong in scratch work, not a routine audit on
 every reconstruction turn. Use case replay and narrow behavior tests for routine
 regression; revisit generator verification when the generator/grammar changes.
 Concrete variables are documented in the tool README.
 
-The CLI provides `run`, `test`, `inspect`, `registry-export`, and `capture pack/unpack`.
+The CLI provides `run`, `test`, `inspect`, `registry-export`, `identify-runtime`,
+`original tool`, original capture/helper commands, and `capture pack/unpack`.
 `registry-export` generates the existing graph auditor's config from `binary.c`,
 optionally merging separate non-function policy data. It does not duplicate the
 function registry or replace the graph engine. JSON authoring files and generated
 reports belong outside committed case directories.
 
-The fixture format is `RECONIO\0`, u32 version2, u64 payload length (little endian),
+The fixture format is `RECONIO\0`, u32 version 2, u64 payload length (little endian),
 then uncompressed CBOR. JSON pack/unpack uses `text:`/`hex:` byte strings and
 preserves absent versus empty. See the tool README for its concrete fields.
 Top-level outputs describe final completion; optional `partial` assertions apply
@@ -338,16 +344,21 @@ actual order/terminal but never promotes functions or rewrites case source.
 
 DLL capture supplies `--host HOST.exe`; typed Win32 host glue loads the path in
 `RECON_ORIGINAL_DLL` and invokes exports. The broker identifies that exact loaded
-file and its actual module base/entry. Direct glue exports optional
-`case_original_direct(ReconOriginal*)`, using shared memory/call/debug primitives
-and narrow emitted expected-result files inside the capture payload.
+file and its actual module base/entry.
+
+The current direct-capture prototype exports `case_original_direct(ReconOriginal*)`
+from Linux glue and uses remote memory/register-call operations through the broker.
+Only synthetic harness tests use it; no migrated reconstruction case does. It
+still differs from the intended flow: compile typed setup/invocation code for
+both Win32 and native execution, letting each compiler handle target-call ABIs.
+Resolve that difference before introducing a real direct case.
 
 The original backend supports PE32 i386 images; CF payloads/Watcom gateway capture
 remain separate. Direct calls use ECX/EDX and stack words for ordinary MSVC ABIs,
 not arbitrary register conventions such as Watcom watcall.
 
-Current original transport is single-threaded, ANSI/ASCII-path/argument based,
+Current original capture transport is single-threaded, ANSI/ASCII-path/argument based,
 and uses regular-file stdin. It rejects pipe/timed-console events rather than
-silently changing them. Native replay can still exercise saved interactive cases. DLLs without an entry point and repeated
-target-module reload are unsupported. SIGKILL of a supervisor can leave a folder;
+silently changing them. Native replay can still exercise saved interactive cases.
+DLLs without an entry point and repeated target-module reload are unsupported. SIGKILL of a supervisor can leave a folder;
 its `.owner` marker and saved workspace path support explicit manual cleanup.
