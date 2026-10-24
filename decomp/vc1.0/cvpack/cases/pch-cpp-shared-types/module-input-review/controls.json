@@ -1,0 +1,18 @@
+{
+  "positive": true,
+  "controls": [
+    {
+      "mutation": "signature",
+      "rejected": true
+    },
+    {
+      "mutation": "owner",
+      "rejected": true
+    },
+    {
+      "mutation": "nonnull-original-register",
+      "rejected": true
+    }
+  ],
+  "scope": "Only affected actual module input and NULL ABI controls; no historical pipeline."
+}

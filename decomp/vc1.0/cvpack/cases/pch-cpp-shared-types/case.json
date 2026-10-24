@@ -17,8 +17,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "add_old_type",
-    "native_function": "add_old_type",
+    "logical": "save_precompiled",
+    "native_function": "save_precompiled",
     "application_trace": [
       "main",
       "parse_options",
@@ -54,12 +54,18 @@
       "read_global_types",
       "read_new_global_types",
       "reset_local_types",
-      "add_old_type"
+      "add_old_type",
+      "reset_type_hash",
+      "save_precompiled"
     ],
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "proof_mode": "entry-flow",
-    "observed_globals": [],
+    "observed_globals": [
+      "module_flags",
+      "local_type_count",
+      "previous_type_count"
+    ],
     "observed_walks": [],
     "artifacts": []
   },

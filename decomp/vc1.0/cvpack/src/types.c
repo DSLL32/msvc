@@ -2227,3 +2227,43 @@ void *type_scratch(unsigned long size)
     type_scratch_buffer = buffer;
     return buffer;
 }
+
+/* Original [0001e530,0001e6f9): append an old/precompiled type slot. */
+#pragma intrinsic(memset)
+void __fastcall add_old_type(const unsigned char *record, int is_new,
+                            int flag, int extra, unsigned short skip)
+{
+    unsigned short old_count = local_type_count, forward = 0, kind;
+    TypeRecord *entry;
+    if (previous_type_count) {
+        memset(local_type_records, 0, (unsigned long)previous_type_count*sizeof(*local_type_records));
+        previous_type_count = 0;
+    }
+    if (skip) local_type_count += skip;
+    else ++local_type_count;
+    if (local_type_count >= local_type_capacity) {
+        local_type_capacity += skip+6000;
+        local_type_records = realloc(local_type_records,
+            (unsigned long)local_type_capacity*sizeof(*local_type_records));
+        if (!local_type_records) fatal_error(13, NULL, NULL);
+        memset(&local_type_records[old_count], 0,
+            ((unsigned long)skip+6000)*sizeof(*local_type_records));
+    }
+    entry = &local_type_records[old_count];
+    entry->data = (unsigned char *)record;
+    entry->index = (unsigned short)extra;
+    entry->flags = (entry->flags & ~0x400) | ((is_new & 1)<<10);
+    entry->flags = (entry->flags & ~0x800) | ((flag & 1)<<11);
+    if (record) {
+        kind = *(const unsigned short *)(record+2);
+        switch (kind) {
+        case 4: case 5: case 6:
+            forward = (*(const unsigned short *)(record+8) & 0x80)>>7;
+            break;
+        case 7:
+            forward = (*(const unsigned short *)(record+10) & 0x80)>>7;
+            break;
+        }
+    }
+    entry->flags = (entry->flags & ~0x4000) | (forward<<14);
+}

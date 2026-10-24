@@ -66,6 +66,13 @@ def compare_global_owner(item,words,actual,events):
         assert root==words[item['slot']]!=0 and 0<used<=capacity<=65512 and words[item['length_slot']]==used,'output argument/count outside live allocation'
         owner=actual['owner'];assert owner==dict(root='output_buffer',address=actual['address'],requested_size=capacity)and not actual['null'],'native output owner/capacity differs'
         return dict(original_address=root,native_address=actual['address'],owner='output_buffer',requested_size=capacity,defined_prefix=used,scope='initialize_output live allocation; exact defined payload compared by output_buffer walk, no capacity-tail reads')
+    if item['root']=='current_module':
+        assert(item['original_root'],item['requested_size'],item['input_bytes'])==(0x33050,48,48),'unknown current module contract'
+        roots=re.findall(r'^memory 00033050 ([0-9a-f]+)$',events,re.M);raws=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%words[item['slot']],events,re.M)
+        assert len(roots)==len(raws)==1 and int.from_bytes(bytes.fromhex(roots[0]),'little')==words[item['slot']]!=0,'actual module argument is not current_module'
+        assert actual['owner']==dict(root='current_module',address=actual['address'],requested_size=48)and not actual['null'],'native current module owner differs'
+        old,new=bytes.fromhex(raws[0]),bytes.fromhex(actual['bytes']);assert len(old)==len(new)==48 and old[:4]==new[:4]and old[8:12]==new[8:12],'defined consumed module/signature fields differ'
+        return dict(original_address=words[item['slot']],native_address=actual['address'],owner='current_module',requested_size=48,original_raw=old.hex(),native_raw=new.hex(),compared_ranges=[[0,4],[8,12]],scope='Actual pack_module current_module publication and48B find_module object; module/signature consumed by save_precompiled. Raw unconsumed pointer/list/map fields retained, no whole-module-list equality claim.')
     assert (item['root'],item['original_root'],item['requested_size'])==('public_symbol_hash',0x3717c,0x4000),'unreviewed published table allocation'
     matches=re.findall(r'^memory %08x ([0-9a-f]+)$'%item['original_root'],events,re.M)
     assert len(matches)==1 and len(bytes.fromhex(matches[0]))==4,'missing original table root'
@@ -256,7 +263,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     owners=compare_walks(specs,old_walks,new_walks)if specs else {}
     subprocess.run(['python3',str(BINARY/'scripts/audit.py')],check=True)
     if args.check_only:print('Fresh whole-function entry-flow proof passes:',args.function);return
-    sequence=len(config['accepted_order'])+1;directory=BINARY/'cases'/args.case/'evidence'/('%04d-%s'%(sequence,args.function));directory.mkdir(exist_ok=False)
+    sequence=len(config['accepted_order'])+1;directory=BINARY/'cases'/args.case/'evidence'/('%04d-%s'%(sequence,args.function));directory.mkdir(parents=True,exist_ok=False)
     for label,source,names in(('original',original,('events','receipt.json','configuration.json','runtime-support.json','runtime-plan','stdout','stderr')),('native',work,('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','configuration.json','runtime-support.json','crt-returns.json','mapped-open.json','mapping-returns.json','freebuf-returns.json','host-environment.json','stdout','stderr'))):
         for name in names:
             if(source/name).exists():shutil.copyfile(source/name,directory/(label+'-'+name))

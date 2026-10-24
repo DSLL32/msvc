@@ -81,7 +81,6 @@ unsigned short __fastcall compact_old_type(unsigned short type) { __asm { int 3 
 
 void read_old_global_types(void *types, unsigned long size) { __asm { int 3 } }
 void load_precompiled_types(const unsigned char *record) { __asm { int 3 } }
-void __fastcall add_old_type(const unsigned char *record, int is_new, int flag, int extra, unsigned short skip) { __asm { int 3 } }
 
 int type_server_close(TypeServer *server) { __asm { int 3 } return 0; }
 void *type_server_fill_alloc(unsigned long size, unsigned char value) { __asm { int 3 } return NULL; }
