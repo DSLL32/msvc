@@ -1,5 +1,5 @@
 {
-  "status": "proposed-root-review",
+  "status": "original-rejected",
   "case": "legacy-nb02-debug",
   "input_plan": "Use the genuine37096B NB02 debug block of the already shipped Watcom CFIG386.EXE as a detached .dbg input: byte-exact contiguous extraction [43479,80575), no header/signature/record rewriting. Do not run CFIG386 or resume Watcom reconstruction.",
   "source": {
@@ -65,5 +65,13 @@
     "named_stubs": 25,
     "non_CRT_denominator": null,
     "uncertainty": "Remaining native/support and unusedCRT/padding not yet fully classified."
+  },
+  "actual_result": {
+    "status": 1,
+    "stdout": "CVPACK : fatal error CK1005: invalid executable file\r\n",
+    "stderr": "",
+    "input_unchanged": true,
+    "elapsed_seconds": 0.5726335952058434,
+    "conclusion": "Detached-input support inference disproved by actual original. No new case/guard/reconstruction/input patch begun. Stop and report root; require genuine supported executable container or alternative."
   }
 }
