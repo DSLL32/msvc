@@ -1,4 +1,5 @@
 #include "functions.h"
+#include "code-records.h"
 #include "output-callbacks.h"
 #include <recon.h>
 
@@ -24,5 +25,13 @@ void write_assembly_symbols(void)
         visit_symbols(0, assembly_callback_489693);
         visit_symbols(1, assembly_callback_489693);
         visit_symbols(0, assembly_callback_48a251);
+    }
+}
+
+void __fastcall write_assembly_records(C2DebugLink *records)
+{
+    if (assembly_output_active) {
+        for (; records; records = records->next)
+            write_assembly_initializer(lookup_initializer(records->symbol->serial));
     }
 }

@@ -1,0 +1,104 @@
+{
+  "canonical_sha256": "fc6c4e081c41c26da8cc6e59b42114b88cf18191c93946ff29fbbcf25331d9ef",
+  "native_sha256": "5d825bf76d5b93cf4485c5cbe4c08d6691b25f6e81a3f9aff9cd3eb1d36298b2",
+  "native_GOT": 241652,
+  "native_pic_seed": {
+    "elf_sha256": "5d825bf76d5b93cf4485c5cbe4c08d6691b25f6e81a3f9aff9cd3eb1d36298b2",
+    "owner": "write_assembly_records",
+    "symbol_start": 59952,
+    "symbol_size": 141,
+    "offset": 7,
+    "bytes": "e8000000005b81c3b8c50200"
+  },
+  "native_actual_assembly_flag": {
+    "elf_sha256": "5d825bf76d5b93cf4485c5cbe4c08d6691b25f6e81a3f9aff9cd3eb1d36298b2",
+    "owner": "write_assembly_records",
+    "symbol_start": 59952,
+    "symbol_size": 141,
+    "offset": 55,
+    "bytes": "83b89442000000742f"
+  },
+  "native_actual_symbol_serialECX": {
+    "elf_sha256": "5d825bf76d5b93cf4485c5cbe4c08d6691b25f6e81a3f9aff9cd3eb1d36298b2",
+    "owner": "write_assembly_records",
+    "symbol_start": 59952,
+    "symbol_size": 141,
+    "offset": 78,
+    "bytes": "8b40048b4828"
+  },
+  "native_lookup": {
+    "elf_sha256": "5d825bf76d5b93cf4485c5cbe4c08d6691b25f6e81a3f9aff9cd3eb1d36298b2",
+    "owner": "write_assembly_records",
+    "symbol_start": 59952,
+    "symbol_size": 141,
+    "offset": 84,
+    "bytes": "e86782ffff"
+  },
+  "native_returned_initializer_EAX_to_ECX": {
+    "elf_sha256": "5d825bf76d5b93cf4485c5cbe4c08d6691b25f6e81a3f9aff9cd3eb1d36298b2",
+    "owner": "write_assembly_records",
+    "symbol_start": 59952,
+    "symbol_size": 141,
+    "offset": 92,
+    "bytes": "89c1"
+  },
+  "native_emit": {
+    "elf_sha256": "5d825bf76d5b93cf4485c5cbe4c08d6691b25f6e81a3f9aff9cd3eb1d36298b2",
+    "owner": "write_assembly_records",
+    "symbol_start": 59952,
+    "symbol_size": 141,
+    "offset": 94,
+    "bytes": "e8bd82ffff"
+  },
+  "native_RET0": {
+    "elf_sha256": "5d825bf76d5b93cf4485c5cbe4c08d6691b25f6e81a3f9aff9cd3eb1d36298b2",
+    "owner": "write_assembly_records",
+    "symbol_start": 59952,
+    "symbol_size": 141,
+    "offset": 140,
+    "bytes": "c3"
+  },
+  "pending_children": [
+    {
+      "name": "lookup_initializer",
+      "native_symbol": [
+        27888,
+        88
+      ],
+      "native_disassembly_sha256": "6c12539e1dd285d9e48e7bb158c92b57397fe3b7fd193e7b640b444696528959",
+      "body_credit": 0
+    },
+    {
+      "name": "write_assembly_initializer",
+      "native_symbol": [
+        27984,
+        83
+      ],
+      "native_disassembly_sha256": "9656095b367edf0bfd59e6b5f68a929d5e0c4df841e8d4446b56e3dc0c4ef7ee",
+      "body_credit": 0
+    }
+  ],
+  "original_mask": {
+    "lookup_unaccepted_prefix": [
+      4746013,
+      4746044
+    ],
+    "lookup_unaccepted_successRET": [
+      4746068,
+      4746069
+    ],
+    "preexisting_unaccepted_internal_error_body": [
+      4746044,
+      4746068
+    ],
+    "whole250B_emitter_masked": [
+      4759895,
+      4760145
+    ]
+  },
+  "raw": {
+    "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/assembly105-original-final/receipt.json": "a7f7af5bdba2ff156b44de7677c10e47d0eaa5d4169939f0d0c6a0c72f13b5cc",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/assembly105-native-final/receipt.json": "1af1493f943d2c4976f9a996ff75c5e1bd3a93ae2139a6cfe1a0e77e0e04a99c"
+  },
+  "scope": "Currentassembly0 skipschildren; independent finite operand/owner/ABI proof and isolated nonzero control. Caller105full56B strictcommon audit, no newchildbody/sharedextent credit. Actualnextnoarg begin_function_input after controller selectedfirst85/flags2a/pending776/volatile128."
+}

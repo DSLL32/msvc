@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 99 application functions (20790 bytes) and five CRT
+Current reconstruction has 100 application functions (20846 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at write_assembly_records(C2DebugLink *NULL) after an empty pending-symbol queue
+currently stops at begin_function_input(void), after selecting _mix_unsigned from the pending-function queue
 and the 38-byte directive payload/counters matched. Four import thunks (24 bytes) and contextual text tables
-(812 bytes) remain separate. The 21228 source bytes are 3.704% of 573183 `.text`
+(812 bytes) remain separate. The 21284 source bytes are 3.713% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -22,7 +22,7 @@ case, and `cases/acceptance/` retains each subsequent promotion in order.
 checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.
 `make audit` uses the common Rust CFG/RET/ownership/extent tool with explicit
 paths. `make -j4 fixtures` runs only the native executable against frozen streams and
-19 original application entries. Current measurements: 3.0 ms execution, 14.8 ms
+19 original application entries. Current measurements: 2.3 ms execution, 14.4 ms
 including fixture setup/checks. New capture helpers retain their actual executable
 and immutable compiled inputs; newer captures also retain ELF/PE/MAP and
 static-index snapshots in scratch for independent review. Earlier raw evidence
@@ -469,3 +469,5 @@ Source102 reconstructs the 35-byte pending-symbol writer and types exactly callb
 Source103 reconstructs the whole 92-byte assembly-symbol producer, including its 78-byte cold chunk and all six ECX scope flag/EDX code-address passes. Four actual function-address identities remain named masked INT3s with explicitly unresolved callable signatures; accepting their iterator consumer is blocked until those signatures are recovered. Canonical/native emitted pointer arguments and 21 finite boundary controls pass. With assembly output disabled, all six passes are skipped; 13 actual frontier controls validate the next C2DebugLink*NULL argument, parent and real output-name identity. The failed initial observer comparison is retained: original497cac is c2_output_name, not c2_codeview_types, and only the native observer/validator was refreshed against unchanged original raw.
 
 Source104 reconstructs the 37-byte record-initializer producer, correcting its earlier provisional codeview name through an explicit historical logical-ID/source-symbol alias. Original497cac is the output-name pointer; existing emit_initializer receives the already-modeled28B C2InitRecord pointer at symbol+50. The two110B packed variable/function views preserve all other fields and offsets. No initializer payload/default or emitter body credit is claimed. The currentNULL list skips that read/call and advances to write_assembly_records(NULL). Fifteen field/source/layout/auxiliary nonzero controls and thirteen real frontier controls pass; the auxiliary observer verifies distinct initializer identities and unrelated debug-flag sentinels without running the unaccepted child.
+
+Source105 reconstructs the whole56B assembly-record producer, with exact serialECX lookup and returned initializer pointer forwardedEAX->ECX. Its new typed children remain named masked INT3s. The lookup prefix/successRET and existing separate extent-known internal-error helper are all masked/unaccepted; no overlapping body or helper credit is claimed. Seven finite call/source/auxiliary controls pass. After the disabled assembly path, the controller selects mix_unsigned85, sets its additional_flags28->2a, removes it from the pending root and sets the volatile pass limit128. The full initialized arena/output state and actual noarg begin_function_input/compile_functions formals match; sixteen affected selection mutations pass, with a bounded exact-premise reuse certificate after correcting non-executable helper-status prose. This reaches100 reconstructed application functions.

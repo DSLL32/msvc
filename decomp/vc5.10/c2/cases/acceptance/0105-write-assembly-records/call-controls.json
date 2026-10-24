@@ -1,0 +1,44 @@
+{
+  "positive": {
+    "source_sha256": "1be90ccfae62d82e4625c32b1b14b0c82e5b32a20161b9c754c1c792f239187b",
+    "analysis_sha256": "ad19967c250d6611d0f897c014823899141dc95ee8c26aeecb1f8c5241d9dc09",
+    "canonical_sha256": "fc6c4e081c41c26da8cc6e59b42114b88cf18191c93946ff29fbbcf25331d9ef",
+    "scope": "56B producer only; genuine pending lookup and initializer emitter remain masked/no bodycredit. Lookup error path shares only existing separately masked/unaccepted internal-error identity, not a new overlapping extent."
+  },
+  "count": 7,
+  "rejected": [
+    {
+      "control": "wrong assembly guard",
+      "reason": "whole actual producer must retain assembly flag/list/symbol-serial and EAX pointer forwarding"
+    },
+    {
+      "control": "wrong serial owner",
+      "reason": "whole actual producer must retain assembly flag/list/symbol-serial and EAX pointer forwarding"
+    },
+    {
+      "control": "wrong list advancement",
+      "reason": "whole actual producer must retain assembly flag/list/symbol-serial and EAX pointer forwarding"
+    },
+    {
+      "control": "lookup result replaced with symbol",
+      "reason": "whole actual producer must retain assembly flag/list/symbol-serial and EAX pointer forwarding"
+    },
+    {
+      "control": "lookup pointer identity changed",
+      "reason": ""
+    },
+    {
+      "control": "pending lookup body wrongly credited",
+      "reason": ""
+    },
+    {
+      "control": "isolated nonzero serial/lookup-result forwarding order",
+      "reason": "flag0+nonNULLlist andflag1+NULLlist bothskip; flag1+twoactualnodes passes serial85/92 and exactdistinct returned initializer pointers in lookup/emit order. Both children typed observers only in isolatedauxiliary ELF, no targetbody credit.",
+      "build_seconds": 0.35764874424785376,
+      "execution_seconds": 0.0014769434928894043,
+      "harness_sha256": "7507f5ff81ae201eb6d3eb1120164a9c0d52bea39068345f752e9732fe0ba477"
+    }
+  ],
+  "seconds": 0.41517691779881716,
+  "checker_sha256": "9b775a4e9029b9396eee88e40296ef09ded513ed24f36788eed3bc1564a60461"
+}

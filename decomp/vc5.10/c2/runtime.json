@@ -1144,14 +1144,6 @@
     "evidence": null
   },
   {
-    "name": "@write_assembly_records@4",
-    "start": 4322700,
-    "end": 4322701,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@visit_symbols@8",
     "start": 4372993,
     "end": 4373055,
@@ -1191,6 +1183,22 @@
     "name": "_assembly_callback_48a251",
     "start": 4760145,
     "end": 4760146,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_initializer@4",
+    "start": 4746013,
+    "end": 4746014,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@write_assembly_initializer@4",
+    "start": 4759895,
+    "end": 4759896,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

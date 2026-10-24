@@ -10,6 +10,7 @@ ROOTS = {
     'pools': (0x48e020, 'c2_pools'), 'free_blocks': (0x48e000, 'c2_free_blocks'),
     'types': (0x497fd8, 'c2_types'), 'scope': (0x48fb68, 'global_scope'),
     'section_head': (0x497dd0, 'section_head'), 'section_tail': (0x497db8, 'section_tail'),
+    'selected_symbol':(0x495f1c,'current_symbol'),'volatile_limit':(0x499734,'volatile_pass_limit'),
     'filenames': (0x4973b8, 'filenames'), 'pending': (0x4973d4, 'pending_functions'),
     'insertion': (0x4973f0, 'pending_insertion'), 'context': (0x497f58, 'section_context'),
     'template': (0x497308, 'symbol_template'), 'input_name': (0x496a00, 'symbol_name'),
@@ -56,7 +57,7 @@ ROOTS['coff_reuse_sections']=(0x49e6e0,'coff_reuse_sections')
 ROOTS['coff_section_buckets']=(0x497d00,'coff_section_buckets')
 
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False, section_selected=False, output_bytes_written=False, output_directives_complete=False):
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False, section_selected=False, output_bytes_written=False, output_directives_complete=False, function_selected=False):
     payload=b'-defaultlib:LIBC -defaultlib:OLDNAMES 'if output_directives_complete else b'-defaultlib:LIBC'if output_bytes_written else b''
     written=len(payload);writes=6 if output_directives_complete else 2 if output_bytes_written else 0
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
@@ -158,7 +159,8 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
     while pointer:
         assert len(pending) < 5 and objects[pointer] == (4,110)
         pending.append((pointer-head,u32(pointer+86)));pointer=u32(pointer+102)
-    assert pending == [(548,1132),(776,1288),(1000,1453),(1228,1910),(1460,2413)]
+    expected_pending=[(548,1132),(776,1288),(1000,1453),(1228,1910),(1460,2413)]
+    assert pending == (expected_pending[1:] if function_selected else expected_pending)
     assert u32(addresses['insertion']) == head+1330
     pointer = u32(addresses['filenames'])
     assert pointer == head+536 and u32(pointer) == 86 and u32(pointer+8) == 0
@@ -175,6 +177,11 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         input_bytes=read(addresses['input_name'],2058).hex(),
         decorated_bytes=read(addresses['decorated_name'],2059).hex())
 
+    if function_selected:
+        assert u32(addresses['selected_symbol'])==head+548,'selected function is not first actual pending symbol'
+        assert u32(head+548+106)==0x2a and u32(head+548+102)==head+776,'selected function consumedflag/next ownership differs'
+        assert u32(addresses['volatile_limit'])==128,'controller volatile pass limit differs'
+        result['function_selection']={'offset':548,'serial':85,'additional_flags':0x2a,'pending_root_offset':776,'volatile_limit':128}
     if directives:
         directive_head, directive_cursor, directive_remaining = pool_words[3:6]
         assert directive_head and directive_head != head

@@ -41,6 +41,8 @@ void write_pending_debug_symbols(void);
 void write_assembly_symbols(void);
 void __fastcall write_record_initializers(C2DebugLink *records);
 void __fastcall write_assembly_records(C2DebugLink *records);
+C2InitRecord *__fastcall lookup_initializer(unsigned serial);
+void __fastcall write_assembly_initializer(C2InitRecord *record);
 extern C2InitRecord *global_initializers;
 extern int global_records_processing;
 C2Symbol *__fastcall resolve_alias_symbol(C2Symbol *symbol);

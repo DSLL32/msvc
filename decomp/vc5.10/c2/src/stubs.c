@@ -634,10 +634,6 @@ C2DebugLink *new_symbol_link(void) { __asm { int 3 } return NULL; }
 
 
 
-void __fastcall write_assembly_records(C2DebugLink *records)
-{
-    __asm { int 3 }
-}
 
 void __fastcall visit_symbols(int local, C2AssemblyVisitor visitor)
 {
@@ -660,6 +656,17 @@ void assembly_callback_489693()
 }
 
 void assembly_callback_48a251()
+{
+    __asm { int 3 }
+}
+
+C2InitRecord *__fastcall lookup_initializer(unsigned serial)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+void __fastcall write_assembly_initializer(C2InitRecord *record)
 {
     __asm { int 3 }
 }

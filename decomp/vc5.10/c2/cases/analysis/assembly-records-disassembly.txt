@@ -1,0 +1,188 @@
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041f58c <.text+0x1e58c>:
+  41f58c:	a1 a4 7d 49 00       	mov    eax,ds:0x497da4
+  41f591:	56                   	push   esi
+  41f592:	85 c0                	test   eax,eax
+  41f594:	0f 85 24 a7 04 00    	jne    0x469cbe
+  41f59a:	5e                   	pop    esi
+  41f59b:	c3                   	ret
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00469cbe <.text+0x68cbe>:
+  469cbe:	85 c9                	test   ecx,ecx
+  469cc0:	8b f1                	mov    esi,ecx
+  469cc2:	0f 84 d2 58 fb ff    	je     0x41f59a
+  469cc8:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+  469ccb:	8b 48 28             	mov    ecx,DWORD PTR [eax+0x28]
+  469cce:	e8 4a ce 01 00       	call   0x486b1d
+  469cd3:	8b c8                	mov    ecx,eax
+  469cd5:	e8 7d 04 02 00       	call   0x48a157
+  469cda:	8b 36                	mov    esi,DWORD PTR [esi]
+  469cdc:	85 f6                	test   esi,esi
+  469cde:	0f 84 b6 58 fb ff    	je     0x41f59a
+  469ce4:	eb e2                	jmp    0x469cc8
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00486b1d <.text+0x85b1d>:
+  486b1d:	a1 98 7d 49 00       	mov    eax,ds:0x497d98
+  486b22:	85 c0                	test   eax,eax
+  486b24:	74 0c                	je     0x486b32
+  486b26:	39 48 10             	cmp    DWORD PTR [eax+0x10],ecx
+  486b29:	74 29                	je     0x486b54
+  486b2b:	8b 40 08             	mov    eax,DWORD PTR [eax+0x8]
+  486b2e:	85 c0                	test   eax,eax
+  486b30:	75 f4                	jne    0x486b26
+  486b32:	ba 7f 09 00 00       	mov    edx,0x97f
+  486b37:	b9 38 d6 49 00       	mov    ecx,0x49d638
+  486b3c:	a1 b0 7f 49 00       	mov    eax,ds:0x497fb0
+  486b41:	52                   	push   edx
+  486b42:	40                   	inc    eax
+  486b43:	51                   	push   ecx
+  486b44:	6a 01                	push   0x1
+  486b46:	a3 b0 7f 49 00       	mov    ds:0x497fb0,eax
+  486b4b:	e8 17 48 00 00       	call   0x48b367
+  486b50:	83 c4 0c             	add    esp,0xc
+  486b53:	c3                   	ret
+  486b54:	c3                   	ret
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0048a157 <.text+0x89157>:
+  48a157:	83 ec 08             	sub    esp,0x8
+  48a15a:	53                   	push   ebx
+  48a15b:	55                   	push   ebp
+  48a15c:	56                   	push   esi
+  48a15d:	8b f1                	mov    esi,ecx
+  48a15f:	57                   	push   edi
+  48a160:	8b 4e 10             	mov    ecx,DWORD PTR [esi+0x10]
+  48a163:	e8 eb 52 f9 ff       	call   0x41f453
+  48a168:	8b d8                	mov    ebx,eax
+  48a16a:	89 5c 24 10          	mov    DWORD PTR [esp+0x10],ebx
+  48a16e:	8a 43 04             	mov    al,BYTE PTR [ebx+0x4]
+  48a171:	3c 04                	cmp    al,0x4
+  48a173:	74 04                	je     0x48a179
+  48a175:	3c 01                	cmp    al,0x1
+  48a177:	75 15                	jne    0x48a18e
+  48a179:	8b 43 36             	mov    eax,DWORD PTR [ebx+0x36]
+  48a17c:	f6 c4 10             	test   ah,0x10
+  48a17f:	74 0d                	je     0x48a18e
+  48a181:	8b cb                	mov    ecx,ebx
+  48a183:	e8 30 c8 ff ff       	call   0x4869b8
+  48a188:	89 44 24 10          	mov    DWORD PTR [esp+0x10],eax
+  48a18c:	8b d8                	mov    ebx,eax
+  48a18e:	8b 4b 24             	mov    ecx,DWORD PTR [ebx+0x24]
+  48a191:	e8 bd 52 f9 ff       	call   0x41f453
+  48a196:	8b 56 0c             	mov    edx,DWORD PTR [esi+0xc]
+  48a199:	8b f8                	mov    edi,eax
+  48a19b:	57                   	push   edi
+  48a19c:	8b cb                	mov    ecx,ebx
+  48a19e:	e8 81 f7 ff ff       	call   0x489924
+  48a1a3:	8b 76 04             	mov    esi,DWORD PTR [esi+0x4]
+  48a1a6:	8b ee                	mov    ebp,esi
+  48a1a8:	89 74 24 14          	mov    DWORD PTR [esp+0x14],esi
+  48a1ac:	85 ed                	test   ebp,ebp
+  48a1ae:	74 4e                	je     0x48a1fe
+  48a1b0:	83 7d 00 00          	cmp    DWORD PTR [ebp+0x0],0x0
+  48a1b4:	75 50                	jne    0x48a206
+  48a1b6:	8b 44 24 10          	mov    eax,DWORD PTR [esp+0x10]
+  48a1ba:	8b 75 0c             	mov    esi,DWORD PTR [ebp+0xc]
+  48a1bd:	8b 5f 3a             	mov    ebx,DWORD PTR [edi+0x3a]
+  48a1c0:	03 70 0c             	add    esi,DWORD PTR [eax+0xc]
+  48a1c3:	2b f3                	sub    esi,ebx
+  48a1c5:	74 2c                	je     0x48a1f3
+  48a1c7:	56                   	push   esi
+  48a1c8:	68 90 de 49 00       	push   0x49de90
+  48a1cd:	ff 15 98 d0 48 00    	call   DWORD PTR ds:0x48d098
+  48a1d3:	83 c4 08             	add    esp,0x8
+  48a1d6:	c7 05 e8 dd 49 00 00 	mov    DWORD PTR ds:0x49dde8,0x0
+  48a1dd:	00 00 00 
+  48a1e0:	68 e4 dd 49 00       	push   0x49dde4
+  48a1e5:	ff 15 98 d0 48 00    	call   DWORD PTR ds:0x48d098
+  48a1eb:	83 c4 04             	add    esp,0x4
+  48a1ee:	03 f3                	add    esi,ebx
+  48a1f0:	89 77 3a             	mov    DWORD PTR [edi+0x3a],esi
+  48a1f3:	8b 5c 24 10          	mov    ebx,DWORD PTR [esp+0x10]
+  48a1f7:	8b 6d 04             	mov    ebp,DWORD PTR [ebp+0x4]
+  48a1fa:	85 ed                	test   ebp,ebp
+  48a1fc:	75 b2                	jne    0x48a1b0
+  48a1fe:	5f                   	pop    edi
+  48a1ff:	5e                   	pop    esi
+  48a200:	5d                   	pop    ebp
+  48a201:	5b                   	pop    ebx
+  48a202:	83 c4 08             	add    esp,0x8
+  48a205:	c3                   	ret
+  48a206:	8b cd                	mov    ecx,ebp
+  48a208:	e8 8e fd ff ff       	call   0x489f9b
+  48a20d:	8b f0                	mov    esi,eax
+  48a20f:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+  48a213:	3b e8                	cmp    ebp,eax
+  48a215:	75 18                	jne    0x48a22f
+  48a217:	8b 43 18             	mov    eax,DWORD PTR [ebx+0x18]
+  48a21a:	85 c0                	test   eax,eax
+  48a21c:	74 11                	je     0x48a22f
+  48a21e:	80 38 3f             	cmp    BYTE PTR [eax],0x3f
+  48a221:	75 0c                	jne    0x48a22f
+  48a223:	ba 01 00 00 00       	mov    edx,0x1
+  48a228:	8b cb                	mov    ecx,ebx
+  48a22a:	e8 69 f1 ff ff       	call   0x489398
+  48a22f:	68 e4 dd 49 00       	push   0x49dde4
+  48a234:	c7 05 e8 dd 49 00 00 	mov    DWORD PTR ds:0x49dde8,0x0
+  48a23b:	00 00 00 
+  48a23e:	ff 15 98 d0 48 00    	call   DWORD PTR ds:0x48d098
+  48a244:	8b 47 3a             	mov    eax,DWORD PTR [edi+0x3a]
+  48a247:	83 c4 04             	add    esp,0x4
+  48a24a:	03 c6                	add    eax,esi
+  48a24c:	89 47 3a             	mov    DWORD PTR [edi+0x3a],eax
+  48a24f:	eb a6                	jmp    0x48a1f7
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0045335b <.text+0x5235b>:
+  45335b:	8b 0d dc 80 49 00    	mov    ecx,DWORD PTR ds:0x4980dc
+  453361:	83 f9 06             	cmp    ecx,0x6
+  453364:	0f 8f 91 16 02 00    	jg     0x4749fb
+  45336a:	b8 10 00 00 00       	mov    eax,0x10
+  45336f:	d3 e0                	shl    eax,cl
+  453371:	a3 34 97 49 00       	mov    ds:0x499734,eax
+  453376:	bb 01 00 00 00       	mov    ebx,0x1
+  45337b:	bd 00 10 00 00       	mov    ebp,0x1000
+  453380:	e9 1d 04 00 00       	jmp    0x4537a2
+  453385:	f6 c2 02             	test   dl,0x2
+  453388:	0f 85 3b 04 00 00    	jne    0x4537c9
+  45338e:	8b 51 6a             	mov    edx,DWORD PTR [ecx+0x6a]
+  453391:	89 0d 1c 5f 49 00    	mov    DWORD PTR ds:0x495f1c,ecx
+  453397:	83 ca 02             	or     edx,0x2
+  45339a:	89 51 6a             	mov    DWORD PTR [ecx+0x6a],edx
+  45339d:	8b 51 66             	mov    edx,DWORD PTR [ecx+0x66]
+  4533a0:	89 10                	mov    DWORD PTR [eax],edx
+  4533a2:	a1 78 0b 49 00       	mov    eax,ds:0x490b78
+  4533a7:	3b c7                	cmp    eax,edi
+  4533a9:	0f 85 5b 16 02 00    	jne    0x474a0a
+  4533af:	3b cf                	cmp    ecx,edi
+  4533b1:	0f 84 22 05 00 00    	je     0x4538d9
+  4533b7:	3b f7                	cmp    esi,edi
+  4533b9:	0f 85 a1 16 02 00    	jne    0x474a60
+  4533bf:	e8 3c 52 fd ff       	call   0x428600

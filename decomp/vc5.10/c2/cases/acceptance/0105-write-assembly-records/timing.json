@@ -1,0 +1,75 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 7.282824433408678,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 2.8363036308437586,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": 1.4296172801405191,
+      "status": 0
+    }
+  ],
+  "original_capture": {
+    "setup": 1.1105239856988192,
+    "execution": 3.1354706417769194,
+    "total": 4.295642415061593
+  },
+  "native_capture": {
+    "execution": 0.5716548720374703,
+    "total": 0.8057813486084342
+  },
+  "audit_seconds": 0.9966349955648184,
+  "protocol_controls": {
+    "fresh": 6,
+    "reused": 147,
+    "seconds": 8.058905009180307
+  },
+  "fresh_affected_controls": {
+    "input": {
+      "fresh": 16,
+      "seconds": 20.375579521991313,
+      "final_pair_reused": 16,
+      "reuse_validation_seconds": 1.342684207484126
+    },
+    "call_arguments": {
+      "fresh": 7,
+      "seconds": 0.41517691779881716
+    }
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.011420649476349354,
+      "execution": 0.002261335961520672,
+      "checks": 0.00020568445324897766,
+      "total": 0.014361829496920109
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "failures": "No failed target build, natural execution or dynamic pair. A finite mask assertion caught erroneous prose claiming the extent-known internal-error helper was accepted; it is not. Preserved earlier pair, corrected immutable prose, captured one fresh final pair, verified31B pending lookup prefix/successRET1B and separate24B report helper allCC. Reuse certificate intentionally rejected raw GDB-output-path differences, FILE buffer addresses and observer thread-status text while being scoped; final explicit allowlist proves unchanged observer logic/typed selection premises, with only known FILE pointer/base logical normalization, and fresh actual positive. No raw relabeling or overlap/body credit.",
+  "earlier_pair": {
+    "original": {
+      "setup": 1.0829261159524322,
+      "execution": 3.009571759030223,
+      "total": 4.140506069175899
+    },
+    "native": {
+      "execution": 0.5599289955571294,
+      "total": 0.7794504994526505
+    }
+  },
+  "earlier_generic_controls": {
+    "control_and_rejections": 8.080253793857992
+  }
+}

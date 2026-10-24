@@ -114,7 +114,8 @@
     "@align_pending_debug_symbols@4",
     "_write_pending_debug_symbols",
     "_write_assembly_symbols",
-    "@write_codeview_records@4"
+    "@write_codeview_records@4",
+    "@write_assembly_records@4"
   ],
   "driver": [
     {
@@ -12384,6 +12385,21 @@
       "kind": "application",
       "abi": "void fastcall(C2DebugLink*recordsECX),RET0",
       "evidence": "cases/analysis/record-initializers-analysis.json: full37B body, actual output-name guard and symbol+50 initializer pointer; existing emit_initializer vertex/28B C2InitRecord owner, no new callback/type/body credit."
+    },
+    {
+      "name": "@write_assembly_records@4",
+      "native": "write_assembly_records",
+      "start": 4322700,
+      "end": 4322716,
+      "code_chunks": [
+        [
+          4627646,
+          4627686
+        ]
+      ],
+      "kind": "application",
+      "abi": "voidfastcall(C2DebugLink*recordsECX),RET0",
+      "evidence": "cases/analysis/assembly-records-analysis.json:16Bhot+40Bcold, actualassemblyflag and genuine lookup/initializeremit calls. Bothchildren remain namedmaskedINT3, zero bodycredit."
     }
   ],
   "stubs": [
@@ -12706,7 +12722,183 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "cdecl void; void result; RET0",
-      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit.",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "36e0e71605e0b7fc6f889e7d75784c39b4bdd30c2a78f6bde1db7cbcfa2bbb5c",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-output-ready",
+      "section_caller": "write_assembly_records",
+      "controller_selected_function": true
     },
     {
       "name": "@read_function@4",
@@ -13834,7 +14026,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "3abcd639ab07b9421bb05fe27d12aad3a268a492b18a95036880f8b3a11b2933"
+      "state_model_sha256": "36e0e71605e0b7fc6f889e7d75784c39b4bdd30c2a78f6bde1db7cbcfa2bbb5c"
     },
     {
       "name": "@reserve_incremental_symbols@12",
@@ -14022,7 +14214,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "3abcd639ab07b9421bb05fe27d12aad3a268a492b18a95036880f8b3a11b2933"
+      "state_model_sha256": "36e0e71605e0b7fc6f889e7d75784c39b4bdd30c2a78f6bde1db7cbcfa2bbb5c"
     },
     {
       "name": "_grow_coff_symbol_buffer",
@@ -14217,7 +14409,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "3abcd639ab07b9421bb05fe27d12aad3a268a492b18a95036880f8b3a11b2933",
+      "state_model_sha256": "36e0e71605e0b7fc6f889e7d75784c39b4bdd30c2a78f6bde1db7cbcfa2bbb5c",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -14363,195 +14555,6 @@
       "evidence": "cases/analysis/prepare-global-records-analysis.json: actualwholecaller and boundedoriginalcallee parameter/result/cleanup evidence; genuine maskedINT3, zero bodycredit"
     },
     {
-      "name": "@write_assembly_records@4",
-      "native": "write_assembly_records",
-      "start": 4322700,
-      "end": 4322701,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "void fastcall(C2DebugLink *recordsECX),RET0",
-      "evidence": "cases/analysis/process-records-disassembly.txt actualcaller and fullcallee analysis; namedmaskedINT3, no bodycredit.",
-      "state_policy": "globals-complete",
-      "state": [
-        {
-          "original": "0x499708",
-          "native": "(unsigned long)c2_onexit_end"
-        },
-        {
-          "original": "0x4996d4",
-          "native": "(unsigned long)c2_onexit_begin"
-        },
-        {
-          "original": "0x49975c",
-          "native": "c2_fmode"
-        },
-        {
-          "original": "0x4980d4",
-          "native": "c2_commode"
-        },
-        {
-          "original": "0x499718",
-          "native": "c2_adjust_fdiv"
-        },
-        {
-          "original": "0x499694",
-          "native": "c2_default_math_error"
-        },
-        {
-          "original": "0x4980d0",
-          "native": "c2_new_mode"
-        },
-        {
-          "original": "0x4980cc",
-          "native": "c2_wildcards"
-        },
-        {
-          "original": "0x7803fa88",
-          "native": "recon_fmode"
-        },
-        {
-          "original": "0x7803fa94",
-          "native": "recon_commode"
-        },
-        {
-          "original": "0x7803f928",
-          "native": "recon_adjust_fdiv"
-        },
-        {
-          "original": "0x7803fa90",
-          "native": "recon_crt_app_type"
-        },
-        {
-          "original": "0x7803f198",
-          "native": "recon_crt_newmode"
-        },
-        {
-          "original": "0x490b7c",
-          "native": "c2_il_extended_header"
-        },
-        {
-          "original": "0x4972f8",
-          "native": "c2_il_source_table"
-        },
-        {
-          "original": "0x497df8",
-          "native": "c2_il_symbol_count"
-        },
-        {
-          "original": "0x491050",
-          "native": "c2_il_initial_symbol_count"
-        },
-        {
-          "original": "0x497f6c",
-          "native": "c2_il_target_size"
-        },
-        {
-          "original": "0x497de8",
-          "native": "c2_il_eight_byte_target"
-        },
-        {
-          "original": "0x48fb68",
-          "native": "(unsigned long)global_scope.previous"
-        },
-        {
-          "original": "0x491040",
-          "native": "c2_node_bytes[0]"
-        },
-        {
-          "original": "0x491044",
-          "native": "c2_node_bytes[1]"
-        },
-        {
-          "original": "0x491048",
-          "native": "c2_node_bytes[2]"
-        },
-        {
-          "original": "0x49104c",
-          "native": "c2_node_bytes[3]"
-        },
-        {
-          "original": "0x491074",
-          "native": "selected_save_register_mask"
-        },
-        {
-          "original": "0x495f34",
-          "native": "call_clobbered_register_mask"
-        },
-        {
-          "original": "0x49745c",
-          "native": "stack_alignment"
-        },
-        {
-          "original": "0x4973e8",
-          "native": "(unsigned long)current_debug_scope"
-        },
-        {
-          "original": "0x490b84",
-          "native": "(unsigned long)current_symbol_list_scope"
-        },
-        {
-          "original": "0x4972fc",
-          "native": "(unsigned long)global_special_symbols"
-        },
-        {
-          "original": "0x49d634",
-          "native": "current_source_file"
-        },
-        {
-          "original": "0x49739c",
-          "native": "last_section_serial"
-        },
-        {
-          "original": "0x4973b0",
-          "native": "il_option_flags"
-        },
-        {
-          "original": "0x4973a0",
-          "native": "(unsigned long)auxiliary_prefix"
-        },
-        {
-          "original": "0x497390",
-          "native": "(unsigned long)aux_expression_file"
-        },
-        {
-          "original": "0x497380",
-          "native": "(unsigned long)aux_symbol_file"
-        },
-        {
-          "original": "0x497c6c",
-          "native": "c2_constant_strings"
-        },
-        {
-          "original": "0x4973c0",
-          "native": "c2_omit_frame_pointer"
-        },
-        {
-          "original": "0x495f1c",
-          "native": "(unsigned long)current_symbol"
-        },
-        {
-          "original": "0x490b78",
-          "native": "(unsigned long)c2_internal_listing"
-        },
-        {
-          "original": "0x4973f8",
-          "native": "(unsigned long)default_storage_section"
-        },
-        {
-          "original": "0x490b70",
-          "native": "(unsigned long)local_symbol_table"
-        }
-      ],
-      "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "3abcd639ab07b9421bb05fe27d12aad3a268a492b18a95036880f8b3a11b2933",
-      "expected_argc": 0,
-      "expected_argv": [
-        "-G5"
-      ],
-      "frontier_contract": "coff-output-ready",
-      "section_caller": "write_record_initializers"
-    },
-    {
       "name": "@visit_symbols@8",
       "native": "visit_symbols",
       "start": 4372993,
@@ -14611,6 +14614,26 @@
       "kind": "application",
       "abi": "UNRESOLVED callable ABI; namedfunction-address identity only, provisionalCdecl/emptyprototype not targetABI; forbid invocation/interpretation until encountered",
       "evidence": "cases/analysis/assembly-visitor-contract.json exactcode addressonly, scalarEDXpasses beforehardvisit_symbols trap; no body/ABIcredit."
+    },
+    {
+      "name": "@lookup_initializer@4",
+      "native": "lookup_initializer",
+      "start": 4746013,
+      "end": 4746014,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall unsignedserialECX -> existingC2InitRecord*EAX RET0; failure tail reaches separate extent-known but unaccepted c2_report_internal body, no newextent/ownership claim",
+      "evidence": "cases/analysis/assembly-records-analysis.json exactcaller+boundedcallee ABI; genuine masked INT3/no bodycredit."
+    },
+    {
+      "name": "@write_assembly_initializer@4",
+      "native": "write_assembly_initializer",
+      "start": 4759895,
+      "end": 4759896,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "voidfastcall existingC2InitRecord*recordECX RET0; savedEBX/EBP/ESI/EDI; complete250B boundedABIanalysis only, no bodycredit",
+      "evidence": "cases/analysis/assembly-records-analysis.json exactcaller+boundedcallee ABI; genuine masked INT3/no bodycredit."
     }
   ],
   "text_data": [
@@ -14926,7 +14949,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -14938,7 +14961,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -14950,7 +14973,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -14962,7 +14985,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -14974,7 +14997,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -14986,7 +15009,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -14998,7 +15021,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15010,7 +15033,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15022,7 +15045,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15034,7 +15057,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15048,7 +15071,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15060,7 +15083,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15075,7 +15098,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15087,7 +15110,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15099,7 +15122,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15111,7 +15134,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15123,7 +15146,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15135,7 +15158,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15150,7 +15173,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15165,7 +15188,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15177,7 +15200,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15189,7 +15212,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15201,7 +15224,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15216,7 +15239,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "50fde97d6b76f0bb7ea5e639e797bb350c1f1beca6025b2887ca577a40e18418"
+          "sha256": "c7a540dc05b641ddd2339ce7976dd99074cff93593d37dcd156f54f2585c3205"
         }
       },
       {
@@ -15247,5 +15270,5 @@
   "symbol_callback_contract": "cases/analysis/symbol-callback-contract.json",
   "symbol_callback_contract_sha256": "0e4d455a160a3e3aa94e4042e5dc42079278002eb4f9e2156eb52c218d9ec3eb",
   "assembly_visitor_contract": "cases/analysis/assembly-visitor-contract.json",
-  "assembly_visitor_contract_sha256": "c35d6e787bc769038d8003a5a01e149b4ca3235c4b5d7004a48c5c4dfc05eda9"
+  "assembly_visitor_contract_sha256": "0884b6f5188928aca336f9839087897409846eb94e7df16504ef7769a7d46317"
 }
