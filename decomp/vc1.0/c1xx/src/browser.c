@@ -102,3 +102,22 @@ void __stdcall append_browser_record(unsigned char kind, void *subject, unsigned
     fill_browser_record(record, subject);
     ++browser_record_count;
 }
+
+/* Original 0x2bbb0..0x2bc78 and 13-way switch 0x2bc7c..0x2bcaf.
+   Each record kind has its own payload producer. The current source line
+   overrides the provisional line supplied by the append interface. */
+void __stdcall fill_browser_record(BrowserRecord *record, void *subject)
+{
+    record->line = source_line_number;
+    switch (record->header.kind) {
+    case 1: fill_browser_filename(record); break;
+    case 3: fill_browser_declaration(record, (CppSymbol *)subject); break;
+    case 4: fill_browser_reference(record, (CppSymbol *)subject); break;
+    case 11: fill_browser_symbol(record, (CppSymbol *)subject); break;
+    case 12: fill_browser_base(record, subject); break;
+    case 13: fill_browser_symbol(record, (CppSymbol *)subject); break;
+    case 0xfd: fill_browser_macro(record, subject); break;
+    case 0xfe: fill_browser_scope_end(record, (CppSymbol *)subject); break;
+    case 0xff: fill_browser_generated_symbol(record); break;
+    }
+}

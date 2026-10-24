@@ -588,7 +588,14 @@ IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CTyp
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
 void finish_line_record_debug_info(void) { __asm { int 3 } }
-void __stdcall fill_browser_record(BrowserRecord *record, void *subject) { __asm { int 3 } }
+void fill_browser_filename(BrowserRecord *record) { __asm { int 3 } }
+void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall fill_browser_reference(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall fill_browser_base(BrowserRecord *record, void *base) { __asm { int 3 } }
+void __stdcall fill_browser_macro(BrowserRecord *record, void *macro) { __asm { int 3 } }
+void __stdcall fill_browser_scope_end(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { int 3 } }
 BrowserRecordHeader *first_browser_record(void) { __asm { int 3 } return 0; }
 BrowserRecordHeader *second_browser_record(void) { __asm { int 3 } return 0; }
 BrowserRecordHeader *__stdcall browser_record_from_end(int index) { __asm { int 3 } return 0; }

@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1262,
-  "driver_functions": 1157,
+  "accepted_frontiers": 1263,
+  "driver_functions": 1158,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 1164,
-  "current_frontier": "_fill_browser_record@8",
-  "original_frontier_va": "0x2bbb0",
+  "reconstructed_source_functions": 1165,
+  "current_frontier": "_first_browser_record",
+  "original_frontier_va": "0x2bd90",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_fill_browser_record@8",
-    "original_va": "0x2bbb0"
+    "current_frontier": "_first_browser_record",
+    "original_va": "0x2bd90"
   },
-  "current_native_application_entries": 6,
+  "current_native_application_entries": 7,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 308777,
+    "accepted_code_bytes": 309030,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 64.81220272953583,
-    "accepted_frontiers": 1262,
-    "source_functions": 1164,
-    "accepted_source_text_and_switch_bytes": 293260,
+    "accepted_code_percent": 64.86530735614524,
+    "accepted_frontiers": 1263,
+    "source_functions": 1165,
+    "accepted_source_text_and_switch_bytes": 293513,
     "section_ranges": [
       [
         94208,
@@ -218,12 +218,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 308777,
+    "accepted_code_bytes": 309030,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 64.81220272953583,
-    "accepted_frontiers": 1262,
-    "source_functions": 1164,
-    "accepted_source_text_and_switch_bytes": 293260,
+    "accepted_code_percent": 64.86530735614524,
+    "accepted_frontiers": 1263,
+    "source_functions": 1165,
+    "accepted_source_text_and_switch_bytes": 293513,
     "section_ranges": [
       [
         94208,
@@ -418,7 +418,7 @@
   "complete_frontend_case": false,
   "active_case": "member_registry_browser",
   "status": "member_registry_browser reconstruction in progress",
-  "latest_verification": "cases/frontiers/member_registry_browser/1261-append_browser_record-12/validation.json",
+  "latest_verification": "cases/frontiers/member_registry_browser/1262-fill_browser_record-8/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -457,11 +457,11 @@
     },
     "member_registry_browser": {
       "status": "partial",
-      "frontier": "_fill_browser_record@8",
-      "latest_verification": "cases/frontiers/member_registry_browser/1261-append_browser_record-12/validation.json"
+      "frontier": "_first_browser_record",
+      "latest_verification": "cases/frontiers/member_registry_browser/1262-fill_browser_record-8/validation.json"
     }
   },
-  "next_operation": "Continue _fill_browser_record@8 reconstruction",
+  "next_operation": "Continue _first_browser_record reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

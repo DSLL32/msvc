@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_fill_browser_record@8",
+  "case": "member_registry_browser",
+  "accepted_before": 1262,
+  "configuration_sha256": "e902067d1489de92a28c3ee2749ffe7fca0bf2e4b69d69a57f76b2fb38e067fe",
+  "native_entry": "fill_browser_record",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "record",
+      "stack_index": 0,
+      "native_field": "raw_record",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 609092,
+        "offset": 0,
+        "native_anchor_field": "ring_owner",
+        "native_object_address": 1449259248
+      },
+      "original_raw": 609092,
+      "native_raw": 1449259248,
+      "result": "match"
+    },
+    {
+      "name": "subject",
+      "stack_index": 1,
+      "native_field": "raw_subject",
+      "binding": {
+        "kind": "null-pointer"
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      179120,
+      179321
+    ],
+    "argument_bytes": 8,
+    "convention": "frameless stdcall8 void, all RET8",
+    "proof": "Whole201B +13DWORDswitchslots2bc7c..2bcb0; recordentryESP+4 andsubject+8. Currentline8cc98 overwrite+4, kindBYTE0 zeroextended; kind1 filename cdecl4,3 declarationstd8,4 referencestd8,11/13 symbolstd8,12 basestd8,fd macrostd8,fe scopeendstd8,ff generatedstd4; all otherkindsreturn. Eight distinct directcallee ABIs/completeextents from independentlyreadwholebodies; remain namedINT3stubs/no data/bodycredit. Currentactualargument0 names staticallyaudited ringbase94b44/nativebrowser_records[0], 24Bslot established by acceptedappend. Prior accepted producer2bd00..2bd90 exactactualkind0/source_line_number with initialBSShead/count0 initializes consumed kind0 andline4; complete fresh argument/downstreamcheckpoint tests normalkind0 nohelper branch. No claim otherrecordpayload initialized fromthisformal; subjectNULL notread/forwarded currentbranch but preserved genuineformal/allotherbranches. No hidden/register/FP/flags ABIinputs.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "292e2bb37eecc004a4b4b8309f9a3bb721c99c1f70d7a8a785e9229836f7ce5b",
+  "capture_timing": {
+    "original_capture_seconds": 0.8671180196106434,
+    "native_capture_seconds": 0.17321515455842018,
+    "total_operation_seconds": 1.2927982779219747
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "8374e8de448982e1a44fb213e6347746e3da4be4672b1c04fbe1cba3eb03cfa5",
+    "native-commands.gdb": "29e5d1d8b0c661804ad86e02749fade58c4b151826607e130e05e9ec2699b58d",
+    "native-gdb.log": "967a32520eb105eb8f2a5c7d7b762c7589c4eaf57209123ea91054bab4b58c46",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "cbaf91f25c1cf45106ff40482e8ca6772b441cbcf1f4b0ec53c7924972e7d1bb",
+    "original-configuration.json": "e902067d1489de92a28c3ee2749ffe7fca0bf2e4b69d69a57f76b2fb38e067fe",
+    "original-disassembly.txt": "8872fd7be16ab6f683f1a5515f38f6c25f99a57f89287ac5bc064eb1d4289309",
+    "original-events.txt": "e59980e9496c6186f1fef97ec808d3541244cb2d4415d5d41dd4818c64e696a5",
+    "original-receipt.json": "ed53290e92b82eff6fbbc78b857cdbf95b54f2cc3ac4af99ed72fa632e7ab2b1",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "fbe5e3dac367d7db4545d6446a2a7581b0366e24e49bee9722bc93a69fbfc162"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
