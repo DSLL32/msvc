@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "kind": "auxiliary compiled-code nonzero storage/index test, separate from natural acceptance",
+  "seconds": 0.14771465677767992,
+  "elf_sha256": "1f5517c36068cdb141cc94b6c4792567cb4a11d6e6e33c989ee2432301f60f46",
+  "script_sha256": "8c5ffa399ae6976e41ef2a4e35ab46866aa84dce6e86f0e1fb4353c08f5cf77b",
+  "stdout_sha256": "9baff2fa286a25020171e0b1155fc45735e7ddd53b0fd29e8043418f715854e4",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scope": "Explicit ECX actual fastcall ABI (GDB default injected call wrongly used cdecl; failed campaign retained). Actual new function with allocatedbuffer/record, known nonzero total/next/current-section/reserved sentinel. Only initialized slot2 is read. Sentinel pointer never dereferenced/no layout claim."
+}

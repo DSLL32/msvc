@@ -601,6 +601,6 @@ void writer_callback_45477a() { __asm { int 3 } }
 
 int read_incremental_output(void) { __asm { int 3 } return 0; }
 void restore_incremental_output(void) { __asm { int 3 } }
-unsigned __fastcall add_coff_symbol(C2CoffRecord *record) { __asm { int 3 } return 0; }
 unsigned __fastcall add_incremental_symbol(C2CoffRecord *record) { __asm { int 3 } return 0; }
 unsigned __fastcall reserve_incremental_symbols(unsigned count, unsigned short section, int reuse) { __asm { int 3 } return 0; }
+void grow_coff_symbol_buffer(void) { __asm { int 3 } }

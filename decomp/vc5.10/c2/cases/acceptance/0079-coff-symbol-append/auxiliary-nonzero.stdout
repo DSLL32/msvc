@@ -1,0 +1,8 @@
+Temporary breakpoint 1 at 0xea36: file scripts/native-host.c, line 42.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 1, main (argc=1, argv=0xffffda34, host_environment=0xffffda3c) at scripts/native-host.c:42
+42	    case_id = getenv("C2_CASE");
+{'$result': '2', '$record': '0x565ab710', 'coff_symbol_total': '8', 'coff_next_symbol': '3', 'coff_symbol_buffer[2]': '0x565ab710', 'coff_current_section': '0x12345000', 'coff_reserved_symbols': '1985229328'}
+C2-SYMBOL-IDENTITIES {"current_section_sentinel": 305418240, "next_index": 3, "record_alias": true, "reserved_sentinel": 1985229328, "returned_index": 2, "total": 8}

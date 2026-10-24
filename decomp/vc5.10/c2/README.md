@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 73 application functions (15991 bytes) and five CRT
+Current reconstruction has 74 application functions (16052 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at the COFF symbol writer after constructing the source-file
-record and its borrowed-name payload. Four import thunks (24 bytes) and contextual text tables
-(616 bytes) remain separate. The 16429 source bytes are 2.866% of 573183 `.text`
+currently stops at directive dispatch after inserting three COFF slots and
+creating the directive/FPO sections. Four import thunks (24 bytes) and contextual text tables
+(616 bytes) remain separate. The 16490 source bytes are 2.877% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -311,3 +311,17 @@ the first symbol insertion. Fifteen focused controls passed in16.107s;7 refreshe
 146 reused protocol controls took7.767s. Original execution2.445s follows a
 separately measured0.000067s shared-lock wait; native capture and build/audit costs
 are separate in0078.
+
+Source79 reconstructs the61-byte symbol-table insertion, preserving its
+separate grow-buffer trap. The fresh pair proves only the three initialized
+COFF pointer entries; remaining4084 malloc bytes stay unread/unmodeled. Full
+state now includes19 symbols/12 sections and the two actual new86-byte nodes.
+Original497d6c is refined to an incomplete current-section pointer, distinct
+from497d4c total and497d54 index; old zero-only scalar labels stay immutable.
+A whole accepted-caller byte certificate proves unchanged zero-store behavior.
+An independent native actual-fastcall test starts with nonzero counters and
+section sentinel, proves returned index/slot/counts and untouched section.
+Sixteen focused controls pass in16.781s; refreshed/reused protocol accounting
+and the0.148s auxiliary test are separate in0079. The actual loaded CRT dump
+now uses explicit same-hFile offsets with exact GetFileSize/count/full canonical
+SHA checks; no reopening or skipped bytes.

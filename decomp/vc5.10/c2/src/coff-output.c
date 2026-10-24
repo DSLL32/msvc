@@ -75,10 +75,10 @@ long coff_pending04;
 unsigned char coff_debug;
 C2OutputTable *coff_table;
 C2OutputStorage *coff_storage;
-void *coff_symbol_buffer;
-unsigned coff_symbol_capacity;
+C2CoffRecord **coff_symbol_buffer;
+unsigned coff_symbol_capacity, coff_symbol_total, coff_next_symbol;
 unsigned short coff_default_flags, coff_flags, coff_pending_e18, coff_section_count;
-unsigned coff_symbol_count;
+C2OutputSection *coff_current_section;
 int coff_pending_c90 = 1;
 C2OutputList *coff_output_list, *coff_current_list;
 C2OutputChunk *coff_free_chunks;
@@ -110,7 +110,7 @@ int __fastcall initialize_coff_output(C2ObjectOutput *writer)
     coff_pending_e18 = 0;
     coff_section_count = 0;
     coff_flags = coff_default_flags;
-    coff_symbol_count = 0;
+    coff_current_section = NULL;
     coff_pending_c90 = 1;
     initialize_coff_lists();
     coff_output_list = new_output_list(1, 0);
@@ -225,4 +225,18 @@ void __fastcall add_output_source(char *name)
         else
             add_coff_symbol(auxiliary);
     }
+}
+
+unsigned __fastcall add_coff_symbol(C2CoffRecord *record)
+{
+    unsigned index;
+    index = coff_next_symbol;
+    if (index > coff_symbol_capacity) {
+        grow_coff_symbol_buffer();
+        index = coff_next_symbol;
+    }
+    ++coff_symbol_total;
+    coff_symbol_buffer[index] = record;
+    coff_next_symbol = index + 1;
+    return index;
 }
