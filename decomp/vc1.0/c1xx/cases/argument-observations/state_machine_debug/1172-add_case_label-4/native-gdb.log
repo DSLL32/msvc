@@ -1,0 +1,11 @@
+Breakpoint 1 at 0x308f9: file src/loop-output.c, line 148.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, add_case_label (expression=0x5663b644) at src/loop-output.c:148
+148	    ArenaPool *pool = &compiler_arena.pools[3];
+#0  add_case_label (expression=0x5663b644) at src/loop-output.c:148
+#1  0x565bbd38 in parse_translation_unit () at src/parser-expression-actions.inc:20
+#2  0x5655deff in compile_translation_unit () at src/frontend.c:73
+#3  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558894 in main (argc=1, argv=0xffffd7c4, environment=0xffffd7cc) at src/c1xx.c:20

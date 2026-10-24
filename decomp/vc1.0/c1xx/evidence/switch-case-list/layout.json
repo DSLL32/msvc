@@ -1,0 +1,32 @@
+{
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "function_extent": [
+    330448,
+    330870
+  ],
+  "magnitude_table": {
+    "start": 654376,
+    "end": 654396,
+    "rows": [
+      0,
+      255,
+      65535,
+      0,
+      4294967295
+    ],
+    "only_actual_reference": 330552,
+    "following_object": "_current_declaration_scope",
+    "descriptor_widths_outside_0_to_4": "unvalidated; no invented padding"
+  },
+  "case_entry": {
+    "bytes": 12,
+    "allocation_pool": 3,
+    "next_offset": 0,
+    "value_offset": 4,
+    "label_index_offset": 8
+  },
+  "owner_call": [
+    168178,
+    168193
+  ]
+}

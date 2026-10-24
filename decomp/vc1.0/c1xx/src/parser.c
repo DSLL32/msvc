@@ -52,7 +52,7 @@ int parse_translation_unit(void)
 {
     short state = 0, rule;
     ParserValue *string_destination;
-    IrToken *switch_condition;
+    IrToken *switch_condition, *case_expression;
     int depth = -1, i, recovery, allocation_arena;
     ParserState *state_info;
     ParserGoto *goto_info;

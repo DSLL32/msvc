@@ -1,0 +1,25 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_add_case_label@4",
+    "start": 330448,
+    "end": 330870
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1172-add_case_label-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_compiler_warning",
+    "_convert_integral_constant@20",
+    "_emit_label@4",
+    "_fold_symbol_constant@4",
+    "_new_branch_label@4",
+    "_record_case_label@4",
+    "_refill_arena@8",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_record_case_label@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8169906474649906,
+  "total_operation_seconds": 4.089143957011402,
+  "original_capture_seconds": 0.8665073057636619
+}

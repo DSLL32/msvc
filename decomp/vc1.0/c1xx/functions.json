@@ -1176,7 +1176,8 @@
     "_begin_switch_condition_region",
     "_begin_switch_body@4",
     "_begin_switch_body_region@4",
-    "_end_switch_condition_region"
+    "_end_switch_condition_region",
+    "_add_case_label@4"
   ],
   "driver": [
     {
@@ -2505,7 +2506,7 @@
     {
       "name": "_add_case_label@4",
       "start": 330448,
-      "end": 330449
+      "end": 330870
     },
     {
       "name": "_add_named_base@12",
@@ -8404,6 +8405,11 @@
       "name": "_end_switch_condition_region",
       "start": 262864,
       "end": 263005
+    },
+    {
+      "name": "_record_case_label@4",
+      "start": 263168,
+      "end": 263169
     }
   ],
   "cases": {
@@ -8604,7 +8610,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_add_case_label@4",
+      "terminal": "_record_case_label@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8627,7 +8633,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1171-end_switch_condition_region/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1172-add_case_label-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8804,7 +8810,8 @@
         "cases/frontiers/state_machine_debug/1168-begin_switch_condition_region/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1169-begin_switch_body-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1170-begin_switch_body_region-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1171-end_switch_condition_region/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1171-end_switch_condition_region/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1172-add_case_label-4/frontier-extension.json"
       ]
     }
   },
@@ -11379,6 +11386,12 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "name": "_case_unsigned_maximum",
+      "original": 654376,
+      "kind": "bytes",
+      "bytes": 20
     }
   ],
   "buffered_streams": [

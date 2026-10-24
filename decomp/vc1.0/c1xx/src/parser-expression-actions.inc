@@ -16,7 +16,8 @@
             if (!right[-1].expression || !default_labels) report_syntax_error(46);
             else {
                 if (options.configuration.option_qc) current_qc_context = 0;
-                add_case_label(validate_value_expression(right[-1].expression));
+                case_expression = validate_value_expression(right[-1].expression);
+                add_case_label(case_expression);
             }
             break;
         case 254:

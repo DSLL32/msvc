@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_add_case_label@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1172,
+  "configuration_sha256": "489fea673fa43dbf394df7bd2510e60ade3c890289b17ba2f68792ceaa47face",
+  "native_entry": "add_case_label",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 102657,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_case",
+        "native_owner_local": "case_expression",
+        "identity": "Accepted parser action253 obtains validate_value_expression result EAX at290fb/PUSH290fb/CALL290fc/return29101; EAX is unchanged at entry. Native immediate caller case_expression names precisely that returned actual expression, not new owner storage or recursive object projection.",
+        "original_owner_value": 8364172,
+        "native_owner_value": 1449375300
+      },
+      "original_raw": 8364172,
+      "native_raw": 1449375300,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      330448,
+      330870
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void",
+    "proof": "Whole422B/saveEBXESIEDIEBP16: expression adjustedESP+20; everyexitRET4. No incoming GPR/x87/CPUflagsformal. Fold symbolconstant then requirecategory3/typeflags240; retain oldword before assigning promoted switchtype, widthindexed unsignedmagnitude warning78, existing20BABI integral converter op6d/shape0/attrs0/typeflags. Allocateexact12B fromcompiler_arena.pool3, setvalue, create+emit pendingdefaultlabel ifabsent, actualrecordhelper40400(RET4) namedtrap, bindlabelindex andincrementWORDreferences. Signed/unsigned listordering follows flags4000 oroptionJ/plainchar !8000, duplicate49 returnsafterallocation/record sideeffects, otherwiselink. Encountered5DWORDtable9fc28..9fc3c only; following declaration-scope short excluded; validinteger widths1/2/4, outofdomain descriptor behavior unvalidated. No blanket guard/padding/newCRTbody.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "5387a783573846c7a060f5129a3616f270e3d0b529d5ff7510a245c1afccbb33",
+  "capture_timing": {
+    "original_capture_seconds": 1.769622907973826,
+    "native_capture_seconds": 0.18525115866214037,
+    "total_operation_seconds": 2.270642506889999
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "a5b63bf74275e7679670f9bb94ced7499449986e4eba6b8faa91adaaa62b21eb",
+    "native-commands.gdb": "5555b2292df2bf9137b3aed06eb11d5ce4d74a3ba79dc82e37240e4ed181a2f3",
+    "native-gdb.log": "05b684bcc6b7de7cc09e93ac72c6a1aab04d3e6e2bab364ca04f4981c9278d54",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "e4ad28f3f798b54b1e0238eb37e2c4f54c6c120fd6a6eb2330f6bd73171829a5",
+    "original-configuration.json": "489fea673fa43dbf394df7bd2510e60ade3c890289b17ba2f68792ceaa47face",
+    "original-disassembly.txt": "b3fcf89219e09d387858e5732c78686f7402f8922609962a2152817eb17234e9",
+    "original-entries.plan": "370c711dccbb5b7397929f7868231d8379173ff12fc5f749b725f67b72b94d54",
+    "original-events.txt": "97320d4e17317fe9b9ab41c172497ba98a9bae95bb9f0290d207c6a3d4427d16",
+    "original-ownership-caller-disassembly.txt": "aade36fd1fb3bb249c20c4e5f6e49be235de87d13f423c8a25149f3a85cffd24",
+    "original-receipt.json": "948a5d194d66d19a06981e69f9860763375b1aac5d8f740e5d6daf63db24b1da",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "e73c2370972dc0793c435fc53536ebfdadf2ba56f6365784455dae1e949be119"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

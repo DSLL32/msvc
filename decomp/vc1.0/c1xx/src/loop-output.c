@@ -7,6 +7,8 @@
 #include "unary-expressions.h"
 #include "frontend-records.h"
 #include "operators.h"
+#include "numeric-conversion.h"
+#include <limits.h>
 #include <recon.h>
 
 LabelStack *qc_loop_markers; /* original 0x91840 */
@@ -133,4 +135,65 @@ void __stdcall begin_switch_body(IrToken *expression)
     current_label_symbol = (CppSymbol *)control_labels->label->value.pointer;
     emit_expression_tree(expression);
     begin_switch_body_region(expression->type);
+}
+
+/* Original 0x9fc28..0x9fc3b: five width-indexed magnitude limits.
+   The following short belongs to current_declaration_scope, not this table. */
+const unsigned case_unsigned_maximum[5] = { 0, UCHAR_MAX, USHRT_MAX, 0, ULONG_MAX };
+
+/* Original 0x50ad0..0x50c75, stdcall4. Convert and insert a case in
+   the switch's ordered dispatch list, retaining each source label record. */
+void __stdcall add_case_label(IrToken *expression)
+{
+    ArenaPool *pool = &compiler_arena.pools[3];
+    SwitchCaseEntry *entry, *position, *previous;
+    unsigned original_value, magnitude, value;
+    unsigned short flags;
+    int unsigned_order;
+    expression = fold_symbol_constant(expression);
+    if ((expression->flags & 7) != 3) {
+        report_syntax_error(51);
+        return;
+    }
+    if (!(expression->type->flags & 0x240)) {
+        report_syntax_error(52);
+        return;
+    }
+    original_value = expression->value.integer;
+    expression->type = control_labels->label->type;
+    flags = expression->type->flags;
+    magnitude = (int)original_value < 0 ? 0U - original_value : original_value;
+    if (case_unsigned_maximum[flags & 15] < magnitude)
+        compiler_warning(1, 78, original_value);
+    value = convert_integral_constant(0x6d, expression, 0, 0, flags);
+    if (pool->remaining < (int)sizeof(SwitchCaseEntry))
+        refill_arena(&compiler_arena, pool);
+    entry = (SwitchCaseEntry *)pool->next;
+    pool->remaining -= sizeof(SwitchCaseEntry);
+    pool->next += sizeof(SwitchCaseEntry);
+    entry->value = value;
+    if (!default_label) {
+        default_label = new_branch_label(0x13);
+        emit_label(default_label);
+    }
+    record_case_label(expression);
+    entry->label_index = ((CppSymbol *)default_label->value.pointer)->index;
+    ++((CppSymbol *)default_label->value.pointer)->references;
+    unsigned_order = (flags & 0x4000) ||
+        (options.configuration.option_J && (flags & 0x2fdf) == 0x41 &&
+         !(flags & 0x8000));
+    position = (SwitchCaseEntry *)default_labels->label;
+    previous = 0;
+    while (position && (unsigned_order ? position->value < value :
+        (int)position->value < (int)value)) {
+        previous = position;
+        position = position->next;
+    }
+    if (position && position->value == value) {
+        report_syntax_error(49, value);
+        return;
+    }
+    entry->next = position;
+    if (previous) previous->next = entry;
+    else default_labels->label = (IrToken *)entry;
 }
