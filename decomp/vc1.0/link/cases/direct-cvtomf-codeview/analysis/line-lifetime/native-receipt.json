@@ -1,0 +1,21 @@
+{
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/cvtomf",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/cvtomf-lifetime-67zniv_u/observe.py"
+  ],
+  "seconds": 0.16659358236938715,
+  "status": 0,
+  "elf_sha256": "0d1b29f4709ec0b70cceb5720ba31beb40cf424ef92fd7893b02c14f9a6b4bce",
+  "observer_sha256": "6b1331a6a0a0d731eaf28c601f2dae8b5e0734ca574e7b8d7d04baced455e95d",
+  "source_sha256": {
+    "src/omf-debug.c": "b899e8811ecfd3bfbdd279ac14a58e875fc36a2361a9357dedb47d7753adfb76",
+    "src/omf.c": "c629719d281423889fbd2d723131e94de248234a4443caa2723a2ae4db39fee1",
+    "../../../lib/recon/src/crt.c": "e7ffcaea6a7084332f204ace662afdfc0bf8a8ae0fd84831c5c2ca8af92da0e2"
+  }
+}

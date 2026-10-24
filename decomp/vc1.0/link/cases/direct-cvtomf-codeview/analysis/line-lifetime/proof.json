@@ -1,0 +1,110 @@
+{
+  "status": "HOLD whole-case native artifact equivalence: actual application use after free; no normalization/source repair/allocator change",
+  "original_capture": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-l8r98zzd",
+  "native_capture": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-lifetime-67zniv_u",
+  "original_SHA256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "original_call": {
+    "instruction": "0x49b95 E8 to free0x50fa0",
+    "return_site": "0x49b9a",
+    "argument": "actual stack[0] equals omf_line_data at both callsite and return",
+    "pointer": "0x7b21a8"
+  },
+  "native_call": {
+    "caller": "omf_convert_debug_symbols",
+    "boundary": "recon_free -> host free",
+    "argument": 1449217568,
+    "pointer": "0x56614e20"
+  },
+  "lifetime": "The512-byte malloc allocation is released before omf_write_lines. Bytes remaining readable are not live allocated storage.",
+  "consumer": {
+    "function": "_omf_write_lines",
+    "original_entry": "0x492c0",
+    "line_count": 9,
+    "stride": 8,
+    "defined_bytes_per_row": 6,
+    "total_defined_bytes": 54,
+    "defined_span": 70,
+    "raw_sample_bytes": 72,
+    "padding_bytes_not_compared": 18,
+    "coff_line_counts": [
+      9,
+      18
+    ],
+    "input_alias": "same released pointer in global omf_line_data, original and native independently"
+  },
+  "initial_first_row": [
+    0,
+    5
+  ],
+  "original_post_free_first_row": [
+    0,
+    5
+  ],
+  "native_post_free_first_row": [
+    353812,
+    15336
+  ],
+  "artifact": {
+    "bytes": 1744,
+    "section": ".text",
+    "line_file_offset": 314,
+    "line_count": 18,
+    "first_duplicate_file_offset": 368,
+    "nonclock_differences": [
+      368,
+      369,
+      370,
+      372,
+      373
+    ],
+    "normalization_permitted": "ONLY original COFF timestamp4..7; failed line bytes remain exact and unnormalized"
+  },
+  "streams": "Exact108B stdout; empty stderr; both exit0; original helper normal return and native GDB normal exit",
+  "scope": "No new CRT implementation or duplicate application acceptance. Fresh18 application entries remain separate from uncompleted case. Buffered stale rows are not CRT-private live FILE layout.",
+  "files": {
+    "native-events.json": {
+      "bytes": 2967,
+      "sha256": "a2577b2437314bb2feadd6cc277f04b7c17f8f4fbf99217ef55c5b45eaab74e1"
+    },
+    "native-observer.py": {
+      "bytes": 2000,
+      "sha256": "6b1331a6a0a0d731eaf28c601f2dae8b5e0734ca574e7b8d7d04baced455e95d"
+    },
+    "native-receipt.json": {
+      "bytes": 760,
+      "sha256": "f6841840b776da3f2e8eb87a34cb3c27999056f7402e3931b8b4d1c734ecb868"
+    },
+    "native-stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "native-stdout.bin": {
+      "bytes": 108,
+      "sha256": "ff49b46e1edafb8b2c2ebc492b2ccd5e551f92bff9767691dd5520e465346a9f"
+    },
+    "native.obj": {
+      "bytes": 1744,
+      "sha256": "5eba383c37f62c3bc8e08960b28ad0cff8bc6fed298efac3d6ac2216691c2087"
+    },
+    "original-events.jsonl": {
+      "bytes": 17477,
+      "sha256": "a75de4fb73943f0f03952538236356ded2832f888f687bf19e001fa6d5e4feee"
+    },
+    "original-receipt.json": {
+      "bytes": 3623,
+      "sha256": "491fe116f8d4da7376c4d9897213d03d26ab773c25d0079646ecc900c7c26ce0"
+    },
+    "original-stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "original-stdout.bin": {
+      "bytes": 108,
+      "sha256": "ff49b46e1edafb8b2c2ebc492b2ccd5e551f92bff9767691dd5520e465346a9f"
+    },
+    "original.obj": {
+      "bytes": 1744,
+      "sha256": "3baf32304a369051c83a08becd302c65fa25b59a6b3e91c20950fba0101775e9"
+    }
+  }
+}

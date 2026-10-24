@@ -1,0 +1,90 @@
+
+../../../toolchains/1.0-nt/bin/LINK.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004aab0 <.text+0x33ab0>:
+   4aab0:	53                   	push   ebx
+   4aab1:	56                   	push   esi
+   4aab2:	57                   	push   edi
+   4aab3:	8b 4c 24 18          	mov    ecx,DWORD PTR [esp+0x18]
+   4aab7:	66 2b c0             	sub    ax,ax
+   4aaba:	c7 01 00 00 00 00    	mov    DWORD PTR [ecx],0x0
+   4aac0:	c7 41 04 00 00 00 00 	mov    DWORD PTR [ecx+0x4],0x0
+   4aac7:	c7 41 08 00 00 00 00 	mov    DWORD PTR [ecx+0x8],0x0
+   4aace:	c7 41 0c 00 00 00 00 	mov    DWORD PTR [ecx+0xc],0x0
+   4aad5:	8b 74 24 14          	mov    esi,DWORD PTR [esp+0x14]
+   4aad9:	66 89 41 10          	mov    WORD PTR [ecx+0x10],ax
+   4aadd:	66 89 06             	mov    WORD PTR [esi],ax
+   4aae0:	66 8b 54 24 10       	mov    dx,WORD PTR [esp+0x10]
+   4aae5:	66 81 fa ff 01       	cmp    dx,0x1ff
+   4aaea:	77 1a                	ja     0x4ab06
+   4aaec:	8b c2                	mov    eax,edx
+   4aaee:	25 ff ff 00 00       	and    eax,0xffff
+   4aaf3:	50                   	push   eax
+   4aaf4:	e8 67 f3 ff ff       	call   0x49e60
+   4aaf9:	83 c4 04             	add    esp,0x4
+   4aafc:	66 89 06             	mov    WORD PTR [esi],ax
+   4aaff:	66 2b c0             	sub    ax,ax
+   4ab02:	5f                   	pop    edi
+   4ab03:	5e                   	pop    esi
+   4ab04:	5b                   	pop    ebx
+   4ab05:	c3                   	ret
+   4ab06:	66 81 ea 00 02       	sub    dx,0x200
+   4ab0b:	66 39 15 d0 7e 07 00 	cmp    WORD PTR ds:0x77ed0,dx
+   4ab12:	77 0c                	ja     0x4ab20
+   4ab14:	66 2b c0             	sub    ax,ax
+   4ab17:	5f                   	pop    edi
+   4ab18:	5e                   	pop    esi
+   4ab19:	5b                   	pop    ebx
+   4ab1a:	c3                   	ret
+   4ab1b:	05 00 00 00 00       	add    eax,0x0
+   4ab20:	8b da                	mov    ebx,edx
+   4ab22:	81 e3 ff ff 00 00    	and    ebx,0xffff
+   4ab28:	8d 1c 5b             	lea    ebx,[ebx+ebx*2]
+   4ab2b:	c1 e3 02             	shl    ebx,0x2
+   4ab2e:	03 1d c0 7e 07 00    	add    ebx,DWORD PTR ds:0x77ec0
+   4ab34:	66 8b 3b             	mov    di,WORD PTR [ebx]
+   4ab37:	66 89 3e             	mov    WORD PTR [esi],di
+   4ab3a:	66 8b d7             	mov    dx,di
+   4ab3d:	66 83 e2 30          	and    dx,0x30
+   4ab41:	66 83 fa 30          	cmp    dx,0x30
+   4ab45:	75 29                	jne    0x4ab70
+   4ab47:	8b 53 08             	mov    edx,DWORD PTR [ebx+0x8]
+   4ab4a:	8b 02                	mov    eax,DWORD PTR [edx]
+   4ab4c:	89 01                	mov    DWORD PTR [ecx],eax
+   4ab4e:	8b 42 04             	mov    eax,DWORD PTR [edx+0x4]
+   4ab51:	89 41 04             	mov    DWORD PTR [ecx+0x4],eax
+   4ab54:	8b 42 08             	mov    eax,DWORD PTR [edx+0x8]
+   4ab57:	89 41 08             	mov    DWORD PTR [ecx+0x8],eax
+   4ab5a:	8b 42 0c             	mov    eax,DWORD PTR [edx+0xc]
+   4ab5d:	89 41 0c             	mov    DWORD PTR [ecx+0xc],eax
+   4ab60:	66 8b 42 10          	mov    ax,WORD PTR [edx+0x10]
+   4ab64:	66 89 41 10          	mov    WORD PTR [ecx+0x10],ax
+   4ab68:	66 b8 01 00          	mov    ax,0x1
+   4ab6c:	5f                   	pop    edi
+   4ab6d:	5e                   	pop    esi
+   4ab6e:	5b                   	pop    ebx
+   4ab6f:	c3                   	ret
+   4ab70:	83 e7 0f             	and    edi,0xf
+   4ab73:	83 ff 08             	cmp    edi,0x8
+   4ab76:	7c 1e                	jl     0x4ab96
+   4ab78:	83 ff 0a             	cmp    edi,0xa
+   4ab7b:	7f 19                	jg     0x4ab96
+   4ab7d:	66 b8 01 00          	mov    ax,0x1
+   4ab81:	66 83 fa 20          	cmp    dx,0x20
+   4ab85:	8b 53 08             	mov    edx,DWORD PTR [ebx+0x8]
+   4ab88:	89 11                	mov    DWORD PTR [ecx],edx
+   4ab8a:	75 04                	jne    0x4ab90
+   4ab8c:	5f                   	pop    edi
+   4ab8d:	5e                   	pop    esi
+   4ab8e:	5b                   	pop    ebx
+   4ab8f:	c3                   	ret
+   4ab90:	8b 53 04             	mov    edx,DWORD PTR [ebx+0x4]
+   4ab93:	89 51 04             	mov    DWORD PTR [ecx+0x4],edx
+   4ab96:	5f                   	pop    edi
+   4ab97:	5e                   	pop    esi
+   4ab98:	5b                   	pop    ebx
+   4ab99:	c3                   	ret
+   4ab9a:	8d 9b 00 00 00 00    	lea    ebx,[ebx+0x0]

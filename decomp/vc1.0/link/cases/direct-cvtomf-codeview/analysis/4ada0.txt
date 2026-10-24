@@ -1,0 +1,36 @@
+
+../../../toolchains/1.0-nt/bin/LINK.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004ada0 <.text+0x33da0>:
+   4ada0:	56                   	push   esi
+   4ada1:	57                   	push   edi
+   4ada2:	8b 35 e4 7e 07 00    	mov    esi,DWORD PTR ds:0x77ee4
+   4ada8:	0b f6                	or     esi,esi
+   4adaa:	74 44                	je     0x4adf0
+   4adac:	8d 64 24 00          	lea    esp,[esp+0x0]
+   4adb0:	a1 e4 7e 07 00       	mov    eax,ds:0x77ee4
+   4adb5:	8b 3d 90 0f 08 00    	mov    edi,DWORD PTR ds:0x80f90
+   4adbb:	8b 40 08             	mov    eax,DWORD PTR [eax+0x8]
+   4adbe:	a3 e4 7e 07 00       	mov    ds:0x77ee4,eax
+   4adc3:	8b 56 04             	mov    edx,DWORD PTR [esi+0x4]
+   4adc6:	03 d2                	add    edx,edx
+   4adc8:	8b 06                	mov    eax,DWORD PTR [esi]
+   4adca:	8d 14 d2             	lea    edx,[edx+edx*8]
+   4adcd:	8b 0d c0 7e 07 00    	mov    ecx,DWORD PTR ds:0x77ec0
+   4add3:	8d 04 40             	lea    eax,[eax+eax*2]
+   4add6:	8b 44 81 08          	mov    eax,DWORD PTR [ecx+eax*4+0x8]
+   4adda:	89 04 3a             	mov    DWORD PTR [edx+edi*1],eax
+   4addd:	56                   	push   esi
+   4adde:	e8 bd 61 00 00       	call   0x50fa0
+   4ade3:	83 c4 04             	add    esp,0x4
+   4ade6:	8b 35 e4 7e 07 00    	mov    esi,DWORD PTR ds:0x77ee4
+   4adec:	0b f6                	or     esi,esi
+   4adee:	75 c0                	jne    0x4adb0
+   4adf0:	5f                   	pop    edi
+   4adf1:	5e                   	pop    esi
+   4adf2:	c3                   	ret
+   4adf3:	8d 9b 00 00 00 00    	lea    ebx,[ebx+0x0]
+   4adf9:	8d a4 24 00 00 00 00 	lea    esp,[esp+0x0]

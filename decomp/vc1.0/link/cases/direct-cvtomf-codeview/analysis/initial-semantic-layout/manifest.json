@@ -1,0 +1,45 @@
+{
+  "status": "Two successful untouched-original direct C6 baselines frozen; reconstruction pending",
+  "reach": "Direct external parser-owned driver, not public LINK CLI",
+  "input": "inputs/legacy.obj",
+  "input_sha256": "1c904518db46e64605eb308654ca67e085d47ab33a8433b6892f01322835f51e",
+  "argv": [
+    "cvtomf",
+    "-g",
+    "-o",
+    "converted.obj",
+    "legacy.obj"
+  ],
+  "expected": {
+    "exit": 0,
+    "stdout": "reference/baseline1/stdout.bin",
+    "stderr": "reference/baseline1/stderr.bin",
+    "artifact": "reference/baseline1/files/converted.obj",
+    "bytes": 1744,
+    "sha256": "53e690439761396b3036452e04eccef4620be47623dd46182aaca7d625d9d070"
+  },
+  "normalization": [
+    {
+      "artifact": "converted.obj",
+      "offset": 4,
+      "size": 4,
+      "reason": "IMAGE_FILE_HEADER.TimeDateStamp assigned time(NULL) by original omf_write_coff; no other changed bytes",
+      "observed": [
+        1792798107,
+        1792798146
+      ]
+    }
+  ],
+  "original_limitations": [
+    "Valid C6 EAX register16 emits Unknown OMF register number:16 twice and serializes register valueFFFFFFFF",
+    "Original adds procedurebase16 to legal segment-relative blockoffset22: .bb38/.eb50; exact output retained, no repair"
+  ],
+  "timing": {
+    "original_preflight_seconds": [
+      1.4937290688976645,
+      1.5338963959366083
+    ],
+    "helper_build_seconds": null,
+    "helper_build_note": "Not separately stopwatch measured"
+  }
+}

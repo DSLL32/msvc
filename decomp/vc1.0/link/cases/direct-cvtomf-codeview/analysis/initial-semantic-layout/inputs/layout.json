@@ -1,0 +1,348 @@
+{
+  "status": "Generated input only; untouched-original preflight still required",
+  "bytes": 1170,
+  "sha256": "1c904518db46e64605eb308654ca67e085d47ab33a8433b6892f01322835f51e",
+  "OMF_records": 22,
+  "checksums_valid": true,
+  "types": [
+    {
+      "index": "0x200",
+      "name": "Value field types",
+      "body": "7f838200838900"
+    },
+    {
+      "index": "0x201",
+      "name": "Value field names",
+      "body": "7f8207696e74656765720082047265616c00"
+    },
+    {
+      "index": "0x202",
+      "name": "Value union",
+      "body": "794002830002830102820556616c756569"
+    },
+    {
+      "index": "0x203",
+      "name": "Node field types",
+      "body": "7f830202830902830602"
+    },
+    {
+      "index": "0x204",
+      "name": "Node field names",
+      "body": "7f820576616c7565008205666c6167734082046e65787460"
+    },
+    {
+      "index": "0x205",
+      "name": "Node structure",
+      "body": "798580000383030283040282044e6f646569"
+    },
+    {
+      "index": "0x206",
+      "name": "Node near32 pointer",
+      "body": "7a5a830502"
+    },
+    {
+      "index": "0x207",
+      "name": "Four Nodes",
+      "body": "7885000283050283820082064e6f64657334"
+    },
+    {
+      "index": "0x208",
+      "name": "Four longs",
+      "body": "7885800083820083820082064c6f6e677334"
+    },
+    {
+      "index": "0x209",
+      "name": "Three-bit unsigned field",
+      "body": "5c037c01"
+    },
+    {
+      "index": "0x20a",
+      "name": "Node pointer procedure",
+      "body": "75008306025b01830b02"
+    },
+    {
+      "index": "0x20b",
+      "name": "Identity arguments",
+      "body": "7f830602"
+    },
+    {
+      "index": "0x20c",
+      "name": "Long procedure",
+      "body": "75008382005b00830d02"
+    },
+    {
+      "index": "0x20d",
+      "name": "No arguments",
+      "body": "7f"
+    },
+    {
+      "index": "0x20e",
+      "name": "Long procedure pointer",
+      "body": "7a5a830c02"
+    },
+    {
+      "index": "0x20f",
+      "name": "Two callback pointers",
+      "body": "7840830e02838200820a43616c6c6261636b7332"
+    },
+    {
+      "index": "0x210",
+      "name": "Two Node pointers",
+      "body": "784083060283820082094e6f64655074727332"
+    }
+  ],
+  "type_bytes": 259,
+  "symbols": [
+    {
+      "offset": 0,
+      "type": "0x81",
+      "label": "identity procedure",
+      "bytes": 33
+    },
+    {
+      "offset": 33,
+      "type": "0x84",
+      "label": "stack formal head",
+      "bytes": 13
+    },
+    {
+      "offset": 46,
+      "type": "0x8d",
+      "label": "register formal head in EAX",
+      "bytes": 10
+    },
+    {
+      "offset": 56,
+      "type": "0x82",
+      "label": "end identity",
+      "bytes": 2
+    },
+    {
+      "offset": 58,
+      "type": "0x81",
+      "label": "value procedure",
+      "bytes": 30
+    },
+    {
+      "offset": 88,
+      "type": "0x80",
+      "label": "value lexical block",
+      "bytes": 9
+    },
+    {
+      "offset": 97,
+      "type": "0x84",
+      "label": "stack local result",
+      "bytes": 15
+    },
+    {
+      "offset": 112,
+      "type": "0x8b",
+      "label": "value epilogue label",
+      "bytes": 16
+    },
+    {
+      "offset": 128,
+      "type": "0x8d",
+      "label": "value result in EAX",
+      "bytes": 12
+    },
+    {
+      "offset": 140,
+      "type": "0x82",
+      "label": "end block",
+      "bytes": 2
+    },
+    {
+      "offset": 142,
+      "type": "0x82",
+      "label": "end value",
+      "bytes": 2
+    },
+    {
+      "offset": 144,
+      "type": "0x85",
+      "label": "_legacy_nodes",
+      "bytes": 23
+    },
+    {
+      "offset": 167,
+      "type": "0x85",
+      "label": "_legacy_head",
+      "bytes": 22
+    },
+    {
+      "offset": 189,
+      "type": "0x85",
+      "label": "_legacy_calls",
+      "bytes": 23
+    },
+    {
+      "offset": 212,
+      "type": "0x85",
+      "label": "_legacy_numbers",
+      "bytes": 25
+    },
+    {
+      "offset": 237,
+      "type": "0x85",
+      "label": "_legacy_refs",
+      "bytes": 22
+    }
+  ],
+  "symbol_bytes": 259,
+  "debug_fixups": [
+    {
+      "offset": 2,
+      "location_kind": 9,
+      "target_segment": 1
+    },
+    {
+      "offset": 60,
+      "location_kind": 9,
+      "target_segment": 1
+    },
+    {
+      "offset": 90,
+      "location_kind": 9,
+      "target_segment": 1
+    },
+    {
+      "offset": 114,
+      "location_kind": 9,
+      "target_segment": 1
+    },
+    {
+      "offset": 146,
+      "location_kind": 9,
+      "target_segment": 2
+    },
+    {
+      "offset": 150,
+      "location_kind": 2,
+      "target_segment": 2
+    },
+    {
+      "offset": 169,
+      "location_kind": 9,
+      "target_segment": 2
+    },
+    {
+      "offset": 173,
+      "location_kind": 2,
+      "target_segment": 2
+    },
+    {
+      "offset": 191,
+      "location_kind": 9,
+      "target_segment": 2
+    },
+    {
+      "offset": 195,
+      "location_kind": 2,
+      "target_segment": 2
+    },
+    {
+      "offset": 214,
+      "location_kind": 9,
+      "target_segment": 2
+    },
+    {
+      "offset": 218,
+      "location_kind": 2,
+      "target_segment": 2
+    },
+    {
+      "offset": 239,
+      "location_kind": 9,
+      "target_segment": 2
+    },
+    {
+      "offset": 243,
+      "location_kind": 2,
+      "target_segment": 2
+    }
+  ],
+  "publics": [
+    [
+      "_legacy_identity",
+      1,
+      0,
+      522
+    ],
+    [
+      "_legacy_value",
+      1,
+      16,
+      524
+    ],
+    [
+      "_legacy_nodes",
+      2,
+      0,
+      519
+    ],
+    [
+      "_legacy_head",
+      2,
+      64,
+      518
+    ],
+    [
+      "_legacy_calls",
+      2,
+      68,
+      527
+    ],
+    [
+      "_legacy_numbers",
+      2,
+      76,
+      520
+    ],
+    [
+      "_legacy_refs",
+      2,
+      92,
+      528
+    ]
+  ],
+  "code_bytes": 34,
+  "data_bytes": 100,
+  "data_fixups": [
+    [
+      12,
+      2
+    ],
+    [
+      28,
+      2
+    ],
+    [
+      44,
+      2
+    ],
+    [
+      64,
+      2
+    ],
+    [
+      68,
+      1
+    ],
+    [
+      72,
+      1
+    ],
+    [
+      92,
+      2
+    ],
+    [
+      96,
+      2
+    ]
+  ],
+  "format": "C6 linkageBYTE/lengthWORD/leafBYTE types, lengthBYTE/typeBYTE386 symbols; no C7 signature",
+  "provenance": "Fixture generator and human-readable assembly; never claimed compiler-emitted C6 debug. Original C2 candidate retained as incompatible separate evidence."
+}

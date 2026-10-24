@@ -2,6 +2,7 @@
 #define LINK_OMF_H
 #include "library.h"
 #include <setjmp.h>
+#include <stddef.h>
 #include <recon.h>
 #define OMF_MAX_SEGMENTS 256
 typedef struct OmfSegment {
@@ -63,7 +64,7 @@ extern unsigned long omf_data_offset;
 extern int omf_pass;
 extern unsigned char omf_modend_seen;
 extern unsigned long omf_line_count;
-extern unsigned long omf_symbol_fixup_bytes;
+extern unsigned long omf_debug_fixup_count;
 extern unsigned short omf_bss_section;
 extern unsigned short omf_data_section;
 extern unsigned short omf_text_section;
@@ -84,7 +85,57 @@ extern OmfLine *omf_line_data;
 extern unsigned long omf_line_base;
 #define omf_line_symbol_index omf_coff_symbol_count /* Same original0005c5cc object. */
 #define omf_line_section omf_text_section /* Original shared WORD at0005c5d0. */
-extern unsigned char * omf_symbol_fixup_data;
+typedef struct OmfDebugFixup {
+    unsigned long offset;
+    unsigned short external;
+    short section;
+} OmfDebugFixup;
+typedef char OmfDebugFixupSize[(sizeof(OmfDebugFixup)==8)?1:-1];
+typedef char OmfDebugFixupFields[(offsetof(OmfDebugFixup,external)==4 &&
+                                offsetof(OmfDebugFixup,section)==6)?1:-1];
+extern OmfDebugFixup *omf_debug_fixups;
+extern unsigned char *omf_debug_symbol_data;
+extern unsigned long omf_debug_symbol_capacity;
+extern unsigned char *omf_debug_type_data;
+extern unsigned long omf_debug_type_bytes;
+typedef char OmfDebugAuxSize[(sizeof(IMAGE_AUX_SYMBOL)==18)?1:-1];
+/* VC1 does not treat nested union offsetof as an array-bound constant;
+ * the external original/native drivers check the actual member offset. */
+typedef char OmfDebugAuxPrefix[(sizeof(((PIMAGE_AUX_SYMBOL)0)->Sym.TagIndex)+
+    sizeof(((PIMAGE_AUX_SYMBOL)0)->Sym.Misc)+
+    sizeof(((PIMAGE_AUX_SYMBOL)0)->Sym.FcnAry.Function.PointerToLinenumber)==12)?1:-1];
+typedef struct OmfDebugType {
+    unsigned short type,reserved;
+    unsigned long size;
+    union {
+        unsigned long tag,bit_offset;
+        long reference;
+        IMAGE_AUX_SYMBOL *array;
+    } value;
+} OmfDebugType;
+typedef char OmfDebugTypeSize[(sizeof(OmfDebugType)==12)?1:-1];
+typedef char OmfDebugTypeFields[(offsetof(OmfDebugType,size)==4 &&
+                               offsetof(OmfDebugType,value)==8)?1:-1];
+typedef struct OmfDeferredDebugType {
+    unsigned type;
+    unsigned long offset;
+    struct OmfDeferredDebugType *next;
+} OmfDeferredDebugType;
+typedef char OmfDeferredDebugTypeSize[(sizeof(OmfDeferredDebugType)==12)?1:-1];
+extern OmfDeferredDebugType *omf_deferred_debug_types;
+extern unsigned char **omf_debug_type_records;
+extern OmfDebugType *omf_debug_type_map;
+extern unsigned short omf_debug_type_count;
+void omf_convert_debug_type(unsigned index,unsigned enclosing);
+void omf_resolve_debug_types(void);
+long omf_debug_number(unsigned char **record);
+unsigned short omf_debug_index(unsigned char **record);
+unsigned short omf_debug_primitive_type(unsigned type);
+unsigned long omf_debug_primitive_size(unsigned type);
+int omf_debug_is_union(unsigned char *types,unsigned char *names);
+void omf_register_debug_fixup(unsigned index,unsigned long offset);
+void omf_convert_debug_structure(int kind,unsigned char *record,
+                                 OmfDebugType *type,unsigned index);
 extern unsigned long omf_symbol_indices[4096];
 extern unsigned long omf_external_indices[4096];
 void omf_initialize_symbols(void);
@@ -94,6 +145,9 @@ void omf_write_lines(void);
 void omf_second_pass(void);
 void omf_convert_debug_types(void);
 void omf_convert_debug_symbols(void);
+int omf_compare_debug_fixups(const void *,const void *);
+OmfDebugFixup *omf_find_debug_fixup(unsigned long);
+long omf_debug_register(int);
 void omf_finish_debug_types(void);
 unsigned short omf_read_word(void);
 unsigned char omf_read_byte(void);

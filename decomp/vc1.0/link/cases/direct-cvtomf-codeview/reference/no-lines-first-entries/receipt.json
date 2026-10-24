@@ -1,0 +1,109 @@
+{
+  "trace_new": true,
+  "variant": "no-lines",
+  "masked": true,
+  "trial": null,
+  "accepted_count": 983,
+  "accepted_sha256": "6f3cbb33105a9e5a49dfb702bd539babbe930cb0ae0e4743ac313c3378f282ad",
+  "status": "Explicit original external-driver capture; acceptance requires separate native matching",
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-cvtomf.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "S:\\vc1.0\\link\\new-captures\\direct-cvtomf-codeview\\no-lines-masked-qkijyetu\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-cvtomf-codeview\\no-lines-masked-qkijyetu\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-cvtomf-codeview\\no-lines-masked-qkijyetu\\events.jsonl",
+    "S:\\vc1.0\\link\\direct-cvtomf-codeview",
+    "S:\\vc1.0\\link\\new-captures\\direct-cvtomf-codeview\\no-lines-masked-qkijyetu\\text.bin",
+    "0",
+    "S:\\vc1.0\\link\\new-captures\\direct-cvtomf-codeview\\no-lines-masked-qkijyetu\\trace-points.bin"
+  ],
+  "seconds": 0.8334029745310545,
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "held": 0,
+    "phase": 3,
+    "exit": 0,
+    "result": 0,
+    "stdout_bytes": 108,
+    "stderr_bytes": 0
+  },
+  "cwd": "S:\\vc1.0\\link\\direct-cvtomf-codeview",
+  "argv": [
+    "cvtomf",
+    "-g",
+    "-o",
+    "converted.obj",
+    "legacy.obj"
+  ],
+  "before": {
+    "legacy.obj": {
+      "bytes": 1110,
+      "sha256": "0aeca02f2c3c64cff782ecb6b6d752bed53f2160224f96412945f4d0787e613f"
+    }
+  },
+  "after": {
+    "converted.obj": {
+      "bytes": 1648,
+      "sha256": "bab7240b6dd99053bde8e70d34070c8b1a264fbd138834966d0cb981f059c087"
+    },
+    "legacy.obj": {
+      "bytes": 1110,
+      "sha256": "0aeca02f2c3c64cff782ecb6b6d752bed53f2160224f96412945f4d0787e613f"
+    }
+  },
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "b689641eb1300bf0a43509291f8652ee0661a05a86c0c7253bf4c8754f38a0c1",
+  "helper_source_sha256": "01bcd365b7a6a80bd9e7649500c9068327844c84ec9078d4789f8de5f30af63c",
+  "input_layout_sha256": "28871ab147bd6d49173ac30d1d5efaf241cbcbef6562795abad8c19b5e49ebfb",
+  "boundary": "Explicit owned external cdecl caller and public setjmp context; never claimed public LINK CLI or original application caller",
+  "error_policy": "Actual longjmp entry is recorded and held before unwind, never bypassed to continue conversion",
+  "capture_files": {
+    "events.jsonl": {
+      "bytes": 45722,
+      "sha256": "7586621f70acd957cd1b3afbc0192e7fa237bfc68d3a5dfdcb541cbffc855819"
+    },
+    "events.jsonl.symbols_trace_entry.symbols.bin": {
+      "bytes": 131072,
+      "sha256": "8f2677aa898baae1a29c079c99693b83d96d9f18ea0539792cf3cb60410ac8ac"
+    },
+    "events.jsonl.symbols_trace_entry.type_buffer.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "files/converted.obj": {
+      "bytes": 1648,
+      "sha256": "bab7240b6dd99053bde8e70d34070c8b1a264fbd138834966d0cb981f059c087"
+    },
+    "files/legacy.obj": {
+      "bytes": 1110,
+      "sha256": "0aeca02f2c3c64cff782ecb6b6d752bed53f2160224f96412945f4d0787e613f"
+    },
+    "host.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "host.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 108,
+      "sha256": "ff49b46e1edafb8b2c2ebc492b2ccd5e551f92bff9767691dd5520e465346a9f"
+    },
+    "text.bin": {
+      "bytes": 282120,
+      "sha256": "f3698b2c7246f2c40f1ff7bf39e1032e230c9dfec70e8baa8967e81667b08097"
+    },
+    "trace-points.bin": {
+      "bytes": 1228,
+      "sha256": "650935b9b52b1c054542744c2ecc65c52a899293cf538192f461711bdd9fc8d6"
+    }
+  }
+}

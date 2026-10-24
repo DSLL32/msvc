@@ -1,0 +1,113 @@
+{
+  "status": "Completed no-lines-v1; original-valid line-bearing variant explicitly native unsupported125",
+  "accepted_count": 983,
+  "completed_case_count": 82,
+  "baseline": "manifest.json",
+  "steps": [
+    {
+      "function": "_omf_write_debug_symbol_data",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-2_g25o5x",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-jdbu7smg",
+      "original_seconds": 0.7387301689013839,
+      "native_GDB_seconds": 0.16586668137460947,
+      "state": "Fresh entry and cdecl return/nonvolatile/defined output state matched"
+    },
+    {
+      "function": "_omf_save_debug_fixups",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-8a1t959g",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-wmf4skcm",
+      "original_seconds": 1.0662243627011776,
+      "native_GDB_seconds": 0.16689202655106783,
+      "state": "Fresh entry and cdecl return/nonvolatile/defined output state matched"
+    },
+    {
+      "function": "_omf_write_debug_type_data",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-gr2gbpog",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-86zpu2oa",
+      "original_seconds": 0.7087632026523352,
+      "native_GDB_seconds": 0.16819773614406586,
+      "state": "Fresh entry and cdecl return/nonvolatile/defined output state matched"
+    },
+    {
+      "function": "_omf_convert_debug_types",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-_h2u9urj",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-wns4_xzr",
+      "original_seconds": 0.8357548452913761,
+      "native_GDB_seconds": 0.149699199013412,
+      "state": "Actual ABI entry matched; leaf return matched where reached; type-directory final return awaits child closure"
+    },
+    {
+      "function": "_omf_convert_debug_type",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-k8ewfdll",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-zym961au",
+      "original_seconds": 1.1802074210718274,
+      "native_GDB_seconds": 0.1789010912179947,
+      "state": "Fresh entry and cdecl return/nonvolatile/defined output state matched"
+    },
+    {
+      "function": "_omf_convert_debug_structure",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-4ybjaj8d",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-puu9d725",
+      "original_seconds": 1.7036863574758172,
+      "native_GDB_seconds": 0.1700845705345273,
+      "state": "Actual four ABI inputs matched; final parent return pending remaining children"
+    },
+    {
+      "function": "_omf_debug_number",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-w9wg6f0d",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-ekebvtu6",
+      "original_seconds": 1.5730290496721864,
+      "native_GDB_seconds": 0.200835139490664,
+      "state": "Entry/return/cursor35->36 and DWORD64 match"
+    },
+    {
+      "function": "_omf_debug_index",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-vlbkcd_f",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-sco0mhuj",
+      "original_seconds": 1.6519382717087865,
+      "native_GDB_seconds": 0.16275601834058762,
+      "state": "Entry/return/cursor37->40 and defined AX0x200 match"
+    },
+    {
+      "function": "_omf_debug_is_union",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-4hj3mv_3",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-la7he79b",
+      "original_seconds": 1.0175881367176771,
+      "native_GDB_seconds": 0.15498725604265928,
+      "state": "Two actual list-pointer formals and defined int1 return match"
+    },
+    {
+      "function": "_omf_debug_primitive_type",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-l23ckva8",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-x5lyvoxn",
+      "original_seconds": 0.6641938015818596,
+      "native_GDB_seconds": 0.15503104031085968,
+      "state": "Actual type0x82 formal and defined AX5 return match"
+    },
+    {
+      "function": "_omf_debug_primitive_size",
+      "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-x2qgefzd",
+      "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-3yoz12dp",
+      "original_seconds": 0.8354382188990712,
+      "native_GDB_seconds": 0.1541140852496028,
+      "state": "Actual type0x82 formal and DWORD4 return match"
+    }
+  ],
+  "current_frontier": "No new function trap in frozen no-lines-v1; exact1648B object plus18-entry trace/exit/streams/inventory pass",
+  "remaining": "No assigned reconstruction remains in this case. Next single substantial case requires root review; unclassified13768B remain pending, not CRT.",
+  "input_FILE_representation": "analysis/input-file-representation.json",
+  "input_variant": "Corrected byte-member offsets; analysis/corrected-affected-state.json",
+  "canonical_checkpoint": {
+    "cfg_functions": 822,
+    "callbacks": 806,
+    "data_definitions": 511,
+    "ECX": 41,
+    "logs": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-finish-audit.{stdout,stderr}"
+  },
+  "blocking_evidence": null,
+  "reconstruction": "reconstruction.json",
+  "timing_accounting": "timings.json",
+  "native_validation": "native-validation.json",
+  "steps_scope": "Historical first eleven acceptance notes, retained verbatim; reconstruction.json lists all eighteen final bodies and analysis parent-return proofs close the earlier pending notes.",
+  "paused": "Case complete; further capture and reconstruction paused by orchestrating agent. Documentation/scoped commit only."
+}

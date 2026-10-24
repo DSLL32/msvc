@@ -4,6 +4,7 @@
  */
 #include "../src/editor-image.h"
 #include "../src/import-library.h"
+#include "../src/omf.h"
 #include <recon.h>
 static void __attribute__((constructor(200))) register_link_module_memory(void)
 {
@@ -45,4 +46,16 @@ void __wrap_write_import_members(Image *image,const ImportMachine *machine)
         }
     }
     __real_write_import_members(image,machine);
+}
+
+/* The direct C6 -g translator frees its input line vector, while its caller
+ * subsequently passes that same dangling vector to omf_write_lines. Preserve
+ * the target source and reject precisely this proven native unsupported route
+ * after the real translator, before the first stale consumer. */
+void __real_omf_convert_debug_symbols(void);
+void __wrap_omf_convert_debug_symbols(void)
+{
+    __real_omf_convert_debug_symbols();
+    if (omf_debug_mode==2 && omf_line_count)
+        recon_unsupported("LINK C6 debug LINNUM use after free");
 }

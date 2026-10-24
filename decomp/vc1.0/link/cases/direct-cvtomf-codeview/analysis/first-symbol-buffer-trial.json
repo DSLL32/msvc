@@ -1,0 +1,43 @@
+{
+  "status": "Fresh actual input/return matched; canonical original-toolchain graph/data/ABI audits pass",
+  "function": "_omf_write_debug_symbol_data",
+  "extent": [
+    302112,
+    302330
+  ],
+  "instruction_bytes": 216,
+  "internal_alignment": [
+    [
+      302174,
+      302176
+    ]
+  ],
+  "abi": "cdecl void(unsigned long offset,const void *data,unsigned long length)",
+  "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-2_g25o5x",
+  "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-jdbu7smg",
+  "actual_formals": {
+    "offset": 0,
+    "length": 259,
+    "data_owner": "omf_record_data caller-owned local payload"
+  },
+  "checks": [
+    "Exact259B source payload",
+    "All131072B output:payload+defined calloc zero tail",
+    "Zero initial global pointer/capacity and actual owned replacement",
+    "Callee-save and cdecl ESP+4",
+    "Both full stdout/stderr FILE records/pending and errors",
+    "Full257 ctype/MB_CUR_MAX",
+    "Actual original caller return45dd7 and native omf_record_data"
+  ],
+  "unexercised": [
+    "Existing buffer",
+    "Capacity growth",
+    "Allocation failure"
+  ],
+  "next_frontier": "0x479f0 omf_save_debug_fixups",
+  "sources": {
+    "src/omf-debug.c": "c1654558eadfc84087750aa68d3fd9e85b384901a5aabd9d77f943d9ec60723c",
+    "src/omf.h": "84b902d1753b4a84a88a7ce46f00407e600e3bbec733e745a0bafd31e1c4b5ad"
+  },
+  "canonical_logs": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-symbol-audit.{stdout,stderr}"
+}

@@ -522,7 +522,7 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "ce3d725878cb8fd684d96f78a750e1e823d53b0f45277a83d9a0f5757e4a8d1c",
+    "functions.json": "7c95954672f8454182b3c48afe5ccc74e901c6d916cf71b3b9895f13a28da4ab",
     "runtime.json": "66d9b98b4e9819622266f974ad10d446f42ef52de3204544beca788bd8251ec0",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
@@ -3072,15 +3072,30 @@
       "logical": "_omf_close_input",
       "implementation": "C"
     },
+    "omf_compare_debug_fixups": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_compare_debug_fixups",
+      "implementation": "C"
+    },
+    "omf_convert_debug_structure": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_convert_debug_structure",
+      "implementation": "C"
+    },
     "omf_convert_debug_symbols": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf-debug.c",
       "logical": "_omf_convert_debug_symbols",
-      "implementation": "stub-C"
+      "implementation": "C"
+    },
+    "omf_convert_debug_type": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_convert_debug_type",
+      "implementation": "C"
     },
     "omf_convert_debug_types": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf-debug.c",
       "logical": "_omf_convert_debug_types",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_convert_pass": {
       "source": "src/omf.c",
@@ -3097,10 +3112,40 @@
       "logical": "_omf_create_section",
       "implementation": "C"
     },
+    "omf_debug_index": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_debug_index",
+      "implementation": "C"
+    },
+    "omf_debug_is_union": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_debug_is_union",
+      "implementation": "C"
+    },
+    "omf_debug_number": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_debug_number",
+      "implementation": "C"
+    },
+    "omf_debug_primitive_size": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_debug_primitive_size",
+      "implementation": "C"
+    },
+    "omf_debug_primitive_type": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_debug_primitive_type",
+      "implementation": "C"
+    },
+    "omf_debug_register": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_debug_register",
+      "implementation": "C"
+    },
     "omf_debug_type_auxiliary": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf-debug.c",
       "logical": "_omf_debug_type_auxiliary",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_emit_relocation": {
       "source": "src/omf.c",
@@ -3122,10 +3167,15 @@
       "logical": "_omf_extend_section",
       "implementation": "C"
     },
+    "omf_find_debug_fixup": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_find_debug_fixup",
+      "implementation": "C"
+    },
     "omf_finish_debug_types": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf-debug.c",
       "logical": "_omf_finish_debug_types",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_finish_symbols": {
       "source": "src/omf.c",
@@ -3322,10 +3372,20 @@
       "logical": "_omf_record_theadr",
       "implementation": "C"
     },
-    "omf_save_debug_fixups": {
+    "omf_register_debug_fixup": {
       "source": "src/omf-stubs.c",
-      "logical": "_omf_save_debug_fixups",
+      "logical": "_omf_register_debug_fixup",
       "implementation": "stub-C"
+    },
+    "omf_resolve_debug_types": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_resolve_debug_types",
+      "implementation": "C"
+    },
+    "omf_save_debug_fixups": {
+      "source": "src/omf-debug.c",
+      "logical": "_omf_save_debug_fixups",
+      "implementation": "C"
     },
     "omf_save_fixup_record": {
       "source": "src/omf.c",
@@ -3363,14 +3423,14 @@
       "implementation": "C"
     },
     "omf_write_debug_symbol_data": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf-debug.c",
       "logical": "_omf_write_debug_symbol_data",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_write_debug_type_data": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf-debug.c",
       "logical": "_omf_write_debug_type_data",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_write_lines": {
       "source": "src/omf.c",
@@ -5279,7 +5339,25 @@
     "comdat_usage_label",
     "print_comdat_edge",
     "helper_main",
-    "driver_usage"
+    "driver_usage",
+    "omf_write_debug_symbol_data",
+    "omf_save_debug_fixups",
+    "omf_write_debug_type_data",
+    "omf_convert_debug_types",
+    "omf_convert_debug_type",
+    "omf_convert_debug_structure",
+    "omf_debug_number",
+    "omf_debug_index",
+    "omf_debug_is_union",
+    "omf_debug_primitive_type",
+    "omf_debug_primitive_size",
+    "omf_resolve_debug_types",
+    "omf_convert_debug_symbols",
+    "omf_compare_debug_fixups",
+    "omf_debug_type_auxiliary",
+    "omf_debug_register",
+    "omf_find_debug_fixup",
+    "omf_finish_debug_types"
   ],
   "excluded_accepted": {
     "CRT": [

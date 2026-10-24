@@ -1,0 +1,31 @@
+{
+  "status": "pass",
+  "evidence": "Summary of the completed terminal-observed check-cvtomf-controls.py run; no standalone raw stdout/stderr logfile was retained. No new run was made for this documentation.",
+  "controls": [
+    {
+      "control": "changed-input",
+      "status": "rejected",
+      "seconds": 0.09043057,
+      "expected_failure": "cached reference/input changed"
+    },
+    {
+      "control": "missing-reference",
+      "status": "rejected",
+      "seconds": 0.08876193,
+      "expected_failure": "FileNotFoundError"
+    },
+    {
+      "control": "changed-output",
+      "status": "rejected",
+      "seconds": 0.09014118,
+      "expected_failure": "COFF non-clock bytes differ"
+    },
+    {
+      "control": "changed-entry-provenance",
+      "status": "rejected",
+      "seconds": 0.08320734,
+      "expected_failure": "AssertionError"
+    }
+  ],
+  "scope": "Temporary owned copies only; no captured-reference mutation, Wine, original, or debugger execution."
+}

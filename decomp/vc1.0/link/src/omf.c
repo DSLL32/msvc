@@ -24,7 +24,7 @@ unsigned long omf_data_offset;
 int omf_pass;
 unsigned char omf_modend_seen;
 unsigned long omf_line_count;
-unsigned long omf_symbol_fixup_bytes;
+unsigned long omf_debug_fixup_count;
 unsigned short omf_bss_section;
 unsigned short omf_data_section;
 unsigned short omf_text_section;
@@ -38,7 +38,7 @@ unsigned short omf_symbol_segments[OMF_MAX_SEGMENTS];
 unsigned char omf_record_checksum;
 OmfLine *omf_line_data;
 unsigned long omf_line_base;
-unsigned char * omf_symbol_fixup_data;
+OmfDebugFixup *omf_debug_fixups;
 unsigned long omf_symbol_indices[4096];
 unsigned long omf_external_indices[4096];
 FILE *omf_input;
@@ -222,10 +222,10 @@ void omf_convert_pass(int pass)
         omf_error("Bad return from malloc: not enough memory to process LINNUM records");
     omf_line_count=0;
     if (omf_debug_mode==2) {
-        omf_symbol_fixup_data=malloc(512);
-        if (!omf_symbol_fixup_data)
+        omf_debug_fixups=malloc(512);
+        if (!omf_debug_fixups)
             omf_error("Bad return from malloc: not enough memory to process $$SYMBOLS FIXUP records");
-        omf_symbol_fixup_bytes=0;
+        omf_debug_fixup_count=0;
     }
     for (index=0;index<4096;++index) omf_symbol_indices[index]=0;
     for (index=0;index<4096;++index) omf_external_indices[index]=0;

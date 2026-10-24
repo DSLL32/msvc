@@ -1346,3 +1346,30 @@ support250701/281634=89.0166%. Partial inventory185553/193202 known app instruct
 is not a full denominator.14273 unaccepted unclassified bytes/6996 gated OMF
 remain pending. Root approved dispatcher assistance next, alongside read-only
 classification; no private mode or suspected uninitialized-state seed.
+
+Direct C6 converter checkpoint983
+
+The external cvtomf -g parser-owned case closes18application vertices in readable
+src/omf-debug.c; zero new CRT bodies. ABI inputs and real caller-owned cursor/map/
+output aliases are observed before promotion; small WORD returns use AX only.
+C6 types have3-byte headers, not C7 framing/signature. Fresh corrected Node byte
+field offsets8/12 preserve original16-byte layout/bitfield65. Original constructor
+and type-directory full returns close after child reconstruction; symbol-parent
+full return is rechecked on the successful no-lines version. Graph/ABI/data checks
+use the original compiler. The native host wrapper is outside this graph.
+
+Actual translator free49b95/return49b9a precedes the accepted492c0 line consumer.
+Original freed bytes remain(0,5); native free changes the consumed first row and
+COFF368..373. Preserve both raw states/artifacts; no source repair, allocator
+change or normalization. Native host stops125 after real translator on actual
+mode2/nonzero-line path. The no-lines version removes exactly optionalLINNUM;
+both original and native retain two observed(0,0) procedure line rows, without
+claiming allocation initialization. Cached native82cases and18new entries pass.
+
+New CFG facts separate6828instructions/108alignment/284switch bytes. Accepted app
+extent227735/281634=80.8620%; support-inclusive258178/281634=91.6715%.789appfunctions
+include30direct-only;16 historical CRT overrides remain separate. Known partial
+application192638/193315 is not a full denominator;13768 unaccepted unclassified
+bytes and181known OMF bytes remain pending. Metadata/raw evidence and timing live
+under cases/direct-cvtomf-codeview. No extra original campaign or historical
+replay was used to validate the final native host-only guard.

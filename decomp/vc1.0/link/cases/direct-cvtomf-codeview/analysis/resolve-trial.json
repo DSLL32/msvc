@@ -1,0 +1,31 @@
+{
+  "function": "_omf_resolve_debug_types",
+  "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-j0jfmedp",
+  "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-z92ul9ir",
+  "checks": [
+    "errors",
+    "files",
+    "pending",
+    "ctype",
+    "mb_cur_max",
+    "record_remaining",
+    "record_checksum",
+    "data_offset",
+    "data_segment",
+    "input_unread",
+    "defined_segments",
+    "groups",
+    "segments",
+    "segment_indices",
+    "group_indices",
+    "thread_symbols",
+    "coff_symbol_count",
+    "coff_symbols",
+    "zero actual formals; actual null deferred-head",
+    "all17 defined type-map rows; owned18-byte array auxiliaries",
+    "cdecl ESP+4/callee-save"
+  ],
+  "status": "Fresh actual entry/return matches; list loop unexercised",
+  "canonical_audit": "../../audits.json",
+  "final_no_lines_case": "../../native-validation.json"
+}

@@ -1,0 +1,380 @@
+{
+  "status": "pass",
+  "completed_native_cases": 82,
+  "application_functions": 789,
+  "new_direct_functions": 18,
+  "public_CLI_functions": 759,
+  "direct_only_functions": 30,
+  "historical_CRT_overrides": 16,
+  "original_source_function_credit": "No CRT/import/shim functions counted as new application work",
+  "runs": [
+    {
+      "label": "build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/native/legacy-diagnostics",
+        "build/native/ide-protocol",
+        "build/native/comdat-diagnostics",
+        "build/native/dispatcher",
+        "build/native/cvtomf",
+        "build/native-trace/legacy-diagnostics",
+        "build/native-trace/ide-protocol",
+        "build/native-trace/comdat-diagnostics",
+        "build/native-trace/dispatcher",
+        "build/native-trace/cvtomf"
+      ],
+      "seconds": 8.419914200901985,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/build.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/build.stderr"
+    },
+    {
+      "label": "cache",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 1.1071683336049318,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/cache.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/cache.stderr"
+    },
+    {
+      "label": "suite",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace-check"
+      ],
+      "seconds": 7.65554179623723,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/suite.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/suite.stderr"
+    },
+    {
+      "label": "cvtomf-output",
+      "command": [
+        "python3",
+        "scripts/check-cvtomf.py"
+      ],
+      "seconds": 0.08556762337684631,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/cvtomf-output.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/cvtomf-output.stderr"
+    },
+    {
+      "label": "unsupported-trace",
+      "command": [
+        "python3",
+        "scripts/check-cvtomf.py",
+        "--trace",
+        "--unsupported-lines"
+      ],
+      "seconds": 0.2937859399244189,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/unsupported-trace.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/unsupported-trace.stderr"
+    },
+    {
+      "label": "unsupported-output",
+      "command": [
+        "python3",
+        "scripts/check-cvtomf.py",
+        "--unsupported-lines"
+      ],
+      "seconds": 0.08532795030623674,
+      "status": 0,
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/unsupported-output.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/unsupported-output.stderr"
+    }
+  ],
+  "suites": [
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-_gholbdn/receipt.json",
+        "sha256": "2a8bb727ac7da21205a9c72e295b14542fa7878b2d8ef3b7305bdb4163d8b0f5",
+        "bytes": 141657
+      },
+      "summary": {
+        "trace_mode": "cached application first-entry segments",
+        "trace_prepare_seconds": 0.19531108159571886,
+        "total_seconds": 5.612889536656439,
+        "status": "pass"
+      },
+      "case_count": 74
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/legacy-cached-48xgb1rc/receipt.json",
+        "sha256": "93bbe5e1c8bd6a73086726d3c06ee0d85751d992ce58aafdd8ee9ea6f677b372",
+        "bytes": 1979
+      },
+      "summary": {
+        "status": "pass",
+        "case_count": 3,
+        "trace": true,
+        "trace_prepare_seconds": 0.18903320096433163,
+        "internal_suite_seconds": 0.23686907812952995
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/ide-cached-0t4emc9t/receipt.json",
+        "sha256": "a4117cda6c2080dc75d49e78681a152eeacf5fedebd76afe80d906264324c78f",
+        "bytes": 922
+      },
+      "summary": {
+        "status": "pass",
+        "case": "ide-callback-protocol",
+        "trace": true,
+        "timing": {
+          "setup_seconds": 0.23091893456876278,
+          "trace_prepare_seconds": 0.21152820345014334,
+          "execution_seconds": 0.0038406597450375557,
+          "oracle_seconds": 0.00038699712604284286,
+          "trace_seconds": 0.00015394575893878937,
+          "total_seconds": 0.24575596302747726
+        }
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/comdat-cached-9pd3btry/receipt.json",
+        "sha256": "2d024eb6303024f59eaf577437ab6a44bc5442e46e5814d52cb605835c3bd711",
+        "bytes": 942
+      },
+      "summary": {
+        "status": "pass",
+        "case": "comdat-graph-diagnostics",
+        "trace": true,
+        "timing": {
+          "setup_seconds": 0.22938911523669958,
+          "trace_prepare_seconds": 0.2131446497514844,
+          "execution_seconds": 0.00462903268635273,
+          "oracle_seconds": 0.00027738045901060104,
+          "trace_seconds": 0.0001198621466755867,
+          "total_seconds": 0.2429720088839531
+        }
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-cached-vgard4h3/receipt.json",
+        "sha256": "b04ba46a73b3ace26e4416eada012c19937805741276bdaafe1e7fad16b4ad16",
+        "bytes": 790
+      },
+      "summary": {
+        "status": "pass",
+        "case": "dispatcher-assistance-helper",
+        "trace": true,
+        "timing": {
+          "setup_seconds": 0.2021953510120511,
+          "trace_prepare_seconds": 0.20066786836832762,
+          "execution_seconds": 0.0041034528985619545,
+          "oracle_seconds": 0.00016502663493156433,
+          "trace_seconds": 0.00012261327356100082,
+          "total_seconds": 0.21327619068324566
+        }
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/dispatcher-cached-xz1z28eg/receipt.json",
+        "sha256": "62de933a2d5c0c3e421b169d666e5d52281623b8a6aca5bc20acd295dc508f2b",
+        "bytes": 842
+      },
+      "summary": {
+        "status": "pass",
+        "case": "dispatcher-assistance-direct",
+        "trace": true,
+        "timing": {
+          "setup_seconds": 0.19158392865210772,
+          "trace_prepare_seconds": 0.19026724621653557,
+          "execution_seconds": 0.00318035576492548,
+          "oracle_seconds": 0.00015703588724136353,
+          "trace_seconds": 0.00012671668082475662,
+          "total_seconds": 0.20240490697324276
+        }
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-cached-u36l42xj/receipt.json",
+        "sha256": "5f3128b218ff3245f3bc2fb6df0629a1de279315851646ebec9710b33ee89875",
+        "bytes": 1506
+      },
+      "summary": {
+        "status": "pass",
+        "case": "direct-cvtomf-codeview-no-lines",
+        "trace": true,
+        "timing": {
+          "setup_seconds": 0.208069640211761,
+          "trace_prepare_seconds": 0.19972006976604462,
+          "execution_seconds": 0.004764222539961338,
+          "oracle_seconds": 0.0011552860960364342,
+          "trace_seconds": 0.00014918483793735504,
+          "total_seconds": 0.22243523877114058
+        }
+      }
+    }
+  ],
+  "focused_controls": [
+    {
+      "label": "cvtomf-output",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-cached-h0gedzud/receipt.json",
+        "sha256": "6a098ace716f7d22aaf1320a07e0869c74e36963270e3ecaf0ce9a840b4b6fb2",
+        "bytes": 951
+      },
+      "summary": {
+        "status": "pass",
+        "case": "direct-cvtomf-codeview-no-lines",
+        "trace": false,
+        "entries": null,
+        "exit": 0,
+        "stdout_bytes": 108,
+        "stderr_bytes": 0,
+        "inventory": [
+          "converted.obj",
+          "legacy.obj"
+        ],
+        "normalization": [
+          {
+            "offset": 4,
+            "size": 4
+          }
+        ],
+        "executable_sha256": "d54d6f92ddd5ffdd9385168090c8aa834d99d687fd3fabbf1009c1d2b429b2c5",
+        "manifest_sha256": "66c878ca3b6a2eba9a8ab01fff653bdaa8f0f3a8171bec453e9bc5dddef75822",
+        "timing": {
+          "setup_seconds": 0.008164680562913418,
+          "trace_prepare_seconds": 0,
+          "execution_seconds": 0.0025495560839772224,
+          "oracle_seconds": 0.0008091237396001816,
+          "trace_seconds": 6.649643182754517e-07,
+          "total_seconds": 0.018420040607452393
+        },
+        "scope": "Only native ELF; cached original references exclusively. Direct parser-owned boundary, no public LINK CLI claim. Unsupported line variant status125 is native policy, not original behavior."
+      }
+    },
+    {
+      "label": "unsupported-trace",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-cached-oxgc1kfs/receipt.json",
+        "sha256": "e34bdf8fa332f78e1b8a079c98a59f04b261c0315f4629c171f2ef574e1d5088",
+        "bytes": 1419
+      },
+      "summary": {
+        "status": "pass",
+        "case": "direct-cvtomf-codeview-unsupported-lines",
+        "trace": true,
+        "entries": [
+          "omf_write_debug_symbol_data",
+          "omf_save_debug_fixups",
+          "omf_write_debug_type_data",
+          "omf_convert_debug_types",
+          "omf_convert_debug_type",
+          "omf_convert_debug_structure",
+          "omf_debug_number",
+          "omf_debug_index",
+          "omf_debug_is_union",
+          "omf_debug_primitive_type",
+          "omf_debug_primitive_size",
+          "omf_resolve_debug_types",
+          "omf_convert_debug_symbols",
+          "omf_compare_debug_fixups",
+          "omf_debug_type_auxiliary",
+          "omf_debug_register",
+          "omf_find_debug_fixup"
+        ],
+        "exit": 125,
+        "stdout_bytes": 0,
+        "stderr_bytes": 73,
+        "inventory": [
+          "legacy.obj"
+        ],
+        "normalization": null,
+        "executable_sha256": "5b0ae8938ae2a008e81c2936780f01cb0675df0aceed7b7804457194b931e7cc",
+        "manifest_sha256": "66c878ca3b6a2eba9a8ab01fff653bdaa8f0f3a8171bec453e9bc5dddef75822",
+        "timing": {
+          "setup_seconds": 0.20432021375745535,
+          "trace_prepare_seconds": 0.19642356038093567,
+          "execution_seconds": 0.0033098775893449783,
+          "oracle_seconds": 0.0007432838901877403,
+          "trace_seconds": 0.0001222323626279831,
+          "total_seconds": 0.21613693609833717
+        },
+        "scope": "Only native ELF; cached original references exclusively. Direct parser-owned boundary, no public LINK CLI claim. Unsupported line variant status125 is native policy, not original behavior."
+      }
+    },
+    {
+      "label": "unsupported-output",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-cached-d7j4a637/receipt.json",
+        "sha256": "d4a50527a98a10d0aa1ed048d92dea615c87e5a3a2728a533eddfa02d4994887",
+        "bytes": 892
+      },
+      "summary": {
+        "status": "pass",
+        "case": "direct-cvtomf-codeview-unsupported-lines",
+        "trace": false,
+        "entries": null,
+        "exit": 125,
+        "stdout_bytes": 0,
+        "stderr_bytes": 73,
+        "inventory": [
+          "legacy.obj"
+        ],
+        "normalization": null,
+        "executable_sha256": "d54d6f92ddd5ffdd9385168090c8aa834d99d687fd3fabbf1009c1d2b429b2c5",
+        "manifest_sha256": "66c878ca3b6a2eba9a8ab01fff653bdaa8f0f3a8171bec453e9bc5dddef75822",
+        "timing": {
+          "setup_seconds": 0.007839174009859562,
+          "trace_prepare_seconds": 0,
+          "execution_seconds": 0.0014664782211184502,
+          "oracle_seconds": 0.0008045565336942673,
+          "trace_seconds": 5.783513188362122e-07,
+          "total_seconds": 0.016981744207441807
+        },
+        "scope": "Only native ELF; cached original references exclusively. Direct parser-owned boundary, no public LINK CLI claim. Unsupported line variant status125 is native policy, not original behavior."
+      }
+    }
+  ],
+  "source_snapshot": {
+    "path": "cases/direct-cvtomf-codeview/native-source-snapshot.json",
+    "sha256": "71842f78912718a8e96ebf5ddeee01250a01894e68294aca71fba67d21700f8e",
+    "bytes": 59026
+  },
+  "host_build_inputs": {
+    "scripts/native-module.c": {
+      "sha256": "ce4e416ec3f04023e7aecad2b0ba3c51aebf60358e6b07afa1130cf3f3869ef3",
+      "mtime_precedes_final_ELF": true
+    },
+    "scripts/native-cvtomf.c": {
+      "sha256": "440378c1796109b0ffd5899e4720c64eac59606d07288fee90fad3d4875723ce",
+      "mtime_precedes_final_ELF": true
+    },
+    "Makefile": {
+      "sha256": "4cf923c71d6552c72737339d5edddbe81388974530a9706481a037aa124573c9",
+      "mtime_precedes_final_ELF": true
+    }
+  },
+  "manifest_status_finalization": {
+    "tested_sha256": "66c878ca3b6a2eba9a8ab01fff653bdaa8f0f3a8171bec453e9bc5dddef75822",
+    "current_sha256": "51cf87763173256934ae0aa8682cc77c694123c0581e9e3d1d9c7b00152eadf5",
+    "change": "Only status prose finalized after passing suite; inputs, reference records, entry sequences and fixture behavior unchanged; no execution rerun solely for documentation."
+  },
+  "scope": "All cached fixture commands run native ELF only, including existing explicit captured child responses; no Wine/debugger/original process or reference recapture. This new case is an external cvtomf parser-owned invocation, not public LINK CLI.",
+  "default_check_dry_run": {
+    "command": "make -n -j4 check replay",
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-run/default-dry-run.txt",
+    "sha256": "5ed65c4b259c71d5b5d4a55018aab78b370ae7e05b1c85c3cdf66bf184584c17",
+    "result": "Native build/check commands only; no original/Wine/capture dependencies",
+    "timing": "Not a fixture execution; unmeasured"
+  },
+  "fixture_negative_controls": "negative-controls.json"
+}

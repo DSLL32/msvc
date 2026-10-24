@@ -1,0 +1,43 @@
+{
+  "status": "Read-only historicalformatresearch, not reconstructionimplementation or proven inputcompatibility",
+  "provider": "Microsoft microsoft-pdb source, copyright/license retained in scratchfiles",
+  "commit": "805655a28bd8198004be2ac27e6e0290121a5e89",
+  "files": [
+    {
+      "url": "https://raw.githubusercontent.com/microsoft/microsoft-pdb/805655a28bd8198004be2ac27e6e0290121a5e89/cvdump/typeinfo.h",
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/c6-format/typeinfo.h",
+      "bytes": 10067,
+      "sha256": "c873800daeeb531693966b1f60bd121504ac95d27e8e432bd5907f0446684eda"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/microsoft/microsoft-pdb/805655a28bd8198004be2ac27e6e0290121a5e89/cvdump/type6.cpp",
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/c6-format/type6.cpp",
+      "bytes": 26518,
+      "sha256": "33a9ceaa9ae5f31cfe4c20128d26b87f3e999f03d063c904bc87d45f782f4bdf"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/microsoft/microsoft-pdb/805655a28bd8198004be2ac27e6e0290121a5e89/cvdump/dumpsym6.cpp",
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/c6-format/dumpsym6.cpp",
+      "bytes": 10798,
+      "sha256": "6ad1bcd1347f38687d6033c28be6c314ab5284a52b0dba70d4110beb40a03281"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/microsoft/microsoft-pdb/805655a28bd8198004be2ac27e6e0290121a5e89/cvdump/symrec.h",
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/c6-format/symrec.h",
+      "bytes": 7906,
+      "sha256": "c354b4b658cd424fbf72367015e6572a76e1c3f809a66d20d56925a14d745408"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/microsoft/microsoft-pdb/805655a28bd8198004be2ac27e6e0290121a5e89/cvdump/debsym.h",
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/c6-format/debsym.h",
+      "bytes": 2176,
+      "sha256": "efbf72074eca4c95806de35a19bb6d41324c36ad20dcc6812d2e5096f755f629"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/microsoft/microsoft-pdb/805655a28bd8198004be2ac27e6e0290121a5e89/include/cvinfo.h",
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/c6-format/cvinfo.h",
+      "bytes": 185806,
+      "sha256": "c5ad2bfe11e659ead18cc08d23b77768320a7046a135b0173d6b4e5d8c99d63b"
+    }
+  ]
+}

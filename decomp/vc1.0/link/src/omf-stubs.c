@@ -2,11 +2,5 @@
 #include "omf.h"
 #include <recon.h>
 void omf_error(const char *format,...) { __asm { int 3 } }
-void omf_convert_debug_types(void) { __asm { int 3 } }
-void omf_convert_debug_symbols(void) { __asm { int 3 } }
-void omf_finish_debug_types(void) { __asm { int 3 } }
 void omf_record_lheadr(void) { __asm { int 3 } }
-void omf_write_debug_type_data(unsigned long offset,const void *data,unsigned long length) { __asm { int 3 } }
-void omf_write_debug_symbol_data(unsigned long offset,const void *data,unsigned long length) { __asm { int 3 } }
-void omf_save_debug_fixups(void) { __asm { int 3 } }
-unsigned short omf_debug_type_auxiliary(unsigned short type,unsigned short *coff_type,IMAGE_AUX_SYMBOL *auxiliary) { __asm { int 3 } }
+void omf_register_debug_fixup(unsigned index,unsigned long offset) { __asm { int 3 } }

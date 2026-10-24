@@ -385,3 +385,20 @@ App-only extent220515/281634=78.2984%; support-inclusive250958/281634=89.1078% i
 separate. Full nonCRT denominator is unavailable, and14173 unclassified bytes
 remain pending. See cases/dispatcher-assistance for direct/public scope, ordinary
 raw evidence, timing and the approved standalone converter format investigation.
+
+Direct C6 converter checkpoint (983 frontiers)
+
+Eighteen readable C functions translate old C6 type/symbol records through the
+embedded standalone parser's real -g/-o argv. Direct external support coverage,
+not public LINK CLI: corrected17type/16symbol input, actual formals/owners and
+cdecl returns, original18-entry transcript, exact1648B COFF (only timestamp4..7),
+108B warnings/exit0 and inventory pass. The original line-bearing variant has a
+proven line-vector use after free; it remains explicitly unsupported125 natively
+at a host-only guard. Target source/allocator/output stay untouched. The valid
+no-lines version removes only optionalLINNUM and preserves original quirks.
+All82cached native cases pass7.656s; native/trace build8.420s. New fixture .2224s
+includes actual ELF4.76ms; output-only .01842s. Canonical822CFG/806callbacks/
+511data/41ECX and negative controls pass. App-only227735/281634=80.8620%, support-
+inclusive258178/281634=91.6715%;789appfunctions (759public/30direct),16 historical
+CRT separate. Full nonCRT denominator unavailable;13768 unclassified bytes remain
+pending. See cases/direct-cvtomf-codeview for ordinary raw evidence and timings.

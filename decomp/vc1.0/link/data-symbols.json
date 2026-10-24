@@ -2240,7 +2240,7 @@
   },
   {
     "address": 526280,
-    "name": "omf_symbol_fixup_bytes",
+    "name": "omf_debug_fixup_count",
     "size": 4,
     "owner": "src/omf.c"
   },
@@ -2318,7 +2318,7 @@
   },
   {
     "address": 378332,
-    "name": "omf_symbol_fixup_data",
+    "name": "omf_debug_fixups",
     "size": 4,
     "owner": "src/omf.c"
   },
@@ -4572,5 +4572,71 @@
       80
     ],
     "evidence": "Six original16-byte Tool entries; named mutable strings, typed cdecl callbacks and zero sentinel"
+  },
+  {
+    "address": 491192,
+    "name": "omf_debug_symbol_data",
+    "size": 4,
+    "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 491056,
+    "name": "omf_debug_symbol_capacity",
+    "size": 4,
+    "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 491204,
+    "name": "omf_debug_type_data",
+    "size": 4,
+    "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 491208,
+    "name": "omf_debug_type_bytes",
+    "size": 4,
+    "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 491212,
+    "name": "omf_debug_type_records",
+    "size": 4,
+    "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 491200,
+    "name": "omf_debug_type_map",
+    "size": 4,
+    "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 491216,
+    "name": "omf_debug_type_count",
+    "size": 2,
+    "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 528668,
+    "name": "omf_anonymous_type_counter",
+    "size": 4,
+    "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 491224,
+    "name": "omf_anonymous_type_name",
+    "size": 12,
+    "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 491236,
+    "name": "omf_deferred_debug_types",
+    "size": 4,
+    "owner": "src/omf-debug.c"
+  },
+  {
+    "address": 491064,
+    "name": "omf_debug_record",
+    "size": 128,
+    "owner": "src/omf-debug.c"
   }
 ]

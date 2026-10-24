@@ -1,0 +1,24 @@
+{
+  "variant": "no-lines-v1",
+  "derivation": "Remove ONLY optional LINNUM; all other complete OMF records remain byte-exact",
+  "source_sha256": "bf5a7cf8523529d442ddbde32f2e8ff92edd406339b688e22332e88f268a4adb",
+  "source_layout_sha256": "c90c90ca8874b33b15566d95017c6d8d016e06c78ec8a5cb6a8da577dd04eae9",
+  "bytes": 1110,
+  "sha256": "0aeca02f2c3c64cff782ecb6b6d752bed53f2160224f96412945f4d0787e613f",
+  "OMF_records": 21,
+  "removed_records": [
+    {
+      "offset": 1105,
+      "bytes": 60,
+      "hex": "95390001010500000000000700010000000800030000000900060000000e001000000011001300000012001600000013001d0000001500200000003a"
+    }
+  ],
+  "unchanged": {
+    "types": 17,
+    "symbols": 16,
+    "code": 34,
+    "data": 100,
+    "ordinary_fixups": 8,
+    "debug_fixups": 14
+  }
+}

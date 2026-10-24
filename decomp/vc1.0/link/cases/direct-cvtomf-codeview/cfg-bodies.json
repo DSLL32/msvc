@@ -1,0 +1,338 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "function_count": 18,
+  "functions": {
+    "_omf_write_debug_symbol_data": {
+      "start": 302112,
+      "end": 302330,
+      "internal_tables": []
+    },
+    "_omf_save_debug_fixups": {
+      "start": 293360,
+      "end": 293771,
+      "internal_tables": []
+    },
+    "_omf_write_debug_type_data": {
+      "start": 306352,
+      "end": 306494,
+      "internal_tables": []
+    },
+    "_omf_convert_debug_types": {
+      "start": 305504,
+      "end": 305837,
+      "internal_tables": []
+    },
+    "_omf_convert_debug_type": {
+      "start": 304320,
+      "end": 305345,
+      "internal_tables": [
+        {
+          "address": 305348,
+          "targets": [
+            304466,
+            305325,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            304441,
+            305325,
+            304441,
+            304441,
+            304512,
+            304441,
+            304441,
+            304642,
+            305032,
+            305056,
+            305300,
+            304441,
+            304441,
+            304441,
+            305337,
+            305320
+          ]
+        }
+      ]
+    },
+    "_omf_convert_debug_structure": {
+      "start": 302848,
+      "end": 304319,
+      "internal_tables": []
+    },
+    "_omf_debug_number": {
+      "start": 302512,
+      "end": 302644,
+      "internal_tables": []
+    },
+    "_omf_debug_index": {
+      "start": 302656,
+      "end": 302684,
+      "internal_tables": []
+    },
+    "_omf_debug_is_union": {
+      "start": 306176,
+      "end": 306341,
+      "internal_tables": []
+    },
+    "_omf_debug_primitive_type": {
+      "start": 302688,
+      "end": 302839,
+      "internal_tables": []
+    },
+    "_omf_debug_primitive_size": {
+      "start": 306080,
+      "end": 306172,
+      "internal_tables": []
+    },
+    "_omf_resolve_debug_types": {
+      "start": 306592,
+      "end": 306675,
+      "internal_tables": []
+    },
+    "_omf_convert_debug_symbols": {
+      "start": 299792,
+      "end": 302044,
+      "internal_tables": [
+        {
+          "address": 302044,
+          "targets": [
+            300144,
+            300336,
+            300836,
+            300112,
+            301016,
+            301366,
+            300112,
+            300112,
+            300112,
+            300112,
+            300112,
+            301699,
+            301903,
+            301776,
+            301903
+          ]
+        }
+      ]
+    },
+    "_omf_compare_debug_fixups": {
+      "start": 299776,
+      "end": 299789,
+      "internal_tables": []
+    },
+    "_omf_debug_type_auxiliary": {
+      "start": 305840,
+      "end": 306074,
+      "internal_tables": []
+    },
+    "_omf_debug_register": {
+      "start": 302336,
+      "end": 302422,
+      "internal_tables": [
+        {
+          "address": 302424,
+          "targets": [
+            302375,
+            302378,
+            302384,
+            302390,
+            302355,
+            302355,
+            302400,
+            302406,
+            302355,
+            302355,
+            302355,
+            302355,
+            302355,
+            302355,
+            302355,
+            302355,
+            302355,
+            302355,
+            302416
+          ]
+        }
+      ]
+    },
+    "_omf_find_debug_fixup": {
+      "start": 293776,
+      "end": 293847,
+      "internal_tables": []
+    },
+    "_omf_finish_debug_types": {
+      "start": 306496,
+      "end": 306525,
+      "internal_tables": []
+    }
+  },
+  "instruction_bytes": 6828,
+  "extent_gap_ranges": [
+    [
+      302174,
+      302176
+    ],
+    [
+      293519,
+      293520
+    ],
+    [
+      293627,
+      293632
+    ],
+    [
+      304510,
+      304512
+    ],
+    [
+      304876,
+      304880
+    ],
+    [
+      304943,
+      304944
+    ],
+    [
+      305054,
+      305056
+    ],
+    [
+      305116,
+      305120
+    ],
+    [
+      302942,
+      302944
+    ],
+    [
+      303306,
+      303312
+    ],
+    [
+      303611,
+      303616
+    ],
+    [
+      303807,
+      303808
+    ],
+    [
+      303867,
+      303872
+    ],
+    [
+      304015,
+      304016
+    ],
+    [
+      304030,
+      304032
+    ],
+    [
+      304062,
+      304064
+    ],
+    [
+      304078,
+      304080
+    ],
+    [
+      302590,
+      302592
+    ],
+    [
+      302604,
+      302608
+    ],
+    [
+      302671,
+      302672
+    ],
+    [
+      306236,
+      306240
+    ],
+    [
+      302783,
+      302784
+    ],
+    [
+      302799,
+      302800
+    ],
+    [
+      302815,
+      302816
+    ],
+    [
+      306094,
+      306096
+    ],
+    [
+      306125,
+      306128
+    ],
+    [
+      306140,
+      306144
+    ],
+    [
+      300109,
+      300112
+    ],
+    [
+      300141,
+      300144
+    ],
+    [
+      300332,
+      300336
+    ],
+    [
+      301497,
+      301504
+    ],
+    [
+      301546,
+      301552
+    ],
+    [
+      301774,
+      301776
+    ],
+    [
+      305947,
+      305952
+    ],
+    [
+      302396,
+      302400
+    ],
+    [
+      302412,
+      302416
+    ]
+  ],
+  "unresolved_jumps": [],
+  "scope": "Exact common CFG instruction facts for18 whole C6 application routines, checked against Capstone decoding for108bytes of original alignment;284bytes of bounded internal switch tables separate. Not branch coverage or public CLI reach.",
+  "source_report": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-final-instructions.json",
+    "sha256": "1e908d70c933911d4c99e3f10e55be91a7a69eed7b538c819fabf906b6be91cf"
+  }
+}

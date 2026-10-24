@@ -1,0 +1,119 @@
+{
+  "status": "Completed: no-lines-v1 exact native output and cached18-entry trace pass; line-bearing variant explicitly unsupported",
+  "reach": "Direct standalone parser-owned converter, not public LINK CLI",
+  "input": {
+    "path": "variants/no-lines/inputs/legacy.obj",
+    "bytes": 1110,
+    "sha256": "0aeca02f2c3c64cff782ecb6b6d752bed53f2160224f96412945f4d0787e613f"
+  },
+  "layout": {
+    "path": "variants/no-lines/inputs/layout.json",
+    "bytes": 784,
+    "sha256": "28871ab147bd6d49173ac30d1d5efaf241cbcbef6562795abad8c19b5e49ebfb"
+  },
+  "argv": [
+    "cvtomf",
+    "-g",
+    "-o",
+    "converted.obj",
+    "legacy.obj"
+  ],
+  "cwd": "S:\\vc1.0\\link\\direct-cvtomf-codeview",
+  "first": 965,
+  "last": 983,
+  "expected_application_entries": [
+    "omf_write_debug_symbol_data",
+    "omf_save_debug_fixups",
+    "omf_write_debug_type_data",
+    "omf_convert_debug_types",
+    "omf_convert_debug_type",
+    "omf_convert_debug_structure",
+    "omf_debug_number",
+    "omf_debug_index",
+    "omf_debug_is_union",
+    "omf_debug_primitive_type",
+    "omf_debug_primitive_size",
+    "omf_resolve_debug_types",
+    "omf_convert_debug_symbols",
+    "omf_compare_debug_fixups",
+    "omf_debug_type_auxiliary",
+    "omf_debug_register",
+    "omf_find_debug_fixup",
+    "omf_finish_debug_types"
+  ],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "original_receipt": {
+    "path": "reference/no-lines-first-entries/receipt.json",
+    "bytes": 3956,
+    "sha256": "5907a080ce3441552b589dd0552690beca85ac80b94b3f6633909724abb74ad0"
+  },
+  "original_events": {
+    "path": "reference/no-lines-first-entries/events.jsonl",
+    "bytes": 45722,
+    "sha256": "7586621f70acd957cd1b3afbc0192e7fa237bfc68d3a5dfdcb541cbffc855819"
+  },
+  "stdout": {
+    "path": "reference/no-lines-baseline1/stdout.bin",
+    "bytes": 108,
+    "sha256": "ff49b46e1edafb8b2c2ebc492b2ccd5e551f92bff9767691dd5520e465346a9f"
+  },
+  "stderr": {
+    "path": "reference/no-lines-baseline1/stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "output": {
+    "path": "reference/no-lines-baseline1/files/converted.obj",
+    "bytes": 1648,
+    "sha256": "df38cf61575a495b0f58455e21d8d4a8ec0acdcd936910865dfdb830cf766bb4"
+  },
+  "normalization": [
+    {
+      "offset": 4,
+      "size": 4,
+      "reason": "COFF header TimeDateStamp from original time(NULL); no other fields ignored"
+    }
+  ],
+  "exit": 0,
+  "quirks": [
+    "Two original EAX register16 warnings andFFFFFFFF serialized register values",
+    "Original procedure-relative addition produces .bb38/.eb50",
+    "With no LINNUM the original still emits two procedure-start line rows(0,0). Observed allocated prestate is zero; no initialization guarantee or byte seed claimed."
+  ],
+  "unsupported_line_variant": {
+    "input": {
+      "path": "inputs/legacy.obj",
+      "bytes": 1170,
+      "sha256": "bf5a7cf8523529d442ddbde32f2e8ff92edd406339b688e22332e88f268a4adb"
+    },
+    "original": "manifest.json retains valid original line-bearing references",
+    "native_exit": 125,
+    "stderr_hex": "7265636f6e3a20756e737570706f72746564206e6174697665206f7065726174696f6e3a204c494e4b204336206465627567204c494e4e554d2075736520616674657220667265650a",
+    "expected_application_entries": [
+      "omf_write_debug_symbol_data",
+      "omf_save_debug_fixups",
+      "omf_write_debug_type_data",
+      "omf_convert_debug_types",
+      "omf_convert_debug_type",
+      "omf_convert_debug_structure",
+      "omf_debug_number",
+      "omf_debug_index",
+      "omf_debug_is_union",
+      "omf_debug_primitive_type",
+      "omf_debug_primitive_size",
+      "omf_resolve_debug_types",
+      "omf_convert_debug_symbols",
+      "omf_compare_debug_fixups",
+      "omf_debug_type_auxiliary",
+      "omf_debug_register",
+      "omf_find_debug_fixup"
+    ],
+    "boundary": "Uninstrumented host wrapper invokes real symbol translator once then rejects mode2/nonzero-line route before finisher and stale reader",
+    "evidence": "analysis/line-lifetime/proof.json"
+  },
+  "parent_return": {
+    "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/no-lines-masked-9nbxq17u",
+    "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-axf2cadw",
+    "checks": "Full actual zero-formal/global entry and cdecl return/nonvolatile/defined outputs match. First6bytes of live malloc allocation observedzero, not seeded or guaranteed initialized."
+  }
+}

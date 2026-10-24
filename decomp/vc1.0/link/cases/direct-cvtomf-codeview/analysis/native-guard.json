@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "boundary": "Native uninstrumented host wrapper, no original/application graph credit",
+  "predicate": "After real omf_convert_debug_symbols returns: omf_debug_mode==2 && omf_line_count!=0 -> unsupported125",
+  "disassembly": "native-guard.txt",
+  "executable": {
+    "path": "build/native/cvtomf",
+    "sha256": "d54d6f92ddd5ffdd9385168090c8aa834d99d687fd3fabbf1009c1d2b429b2c5",
+    "bytes": 1435436
+  },
+  "source": {
+    "path": "scripts/native-module.c",
+    "sha256": "ce4e416ec3f04023e7aecad2b0ba3c51aebf60358e6b07afa1130cf3f3869ef3",
+    "bytes": 2826
+  },
+  "checks": [
+    "Original omf_convert_pass caller relinked to wrapper; wrapper calls real target exactly once",
+    "No wrapper name in native application filter",
+    "Unsupported trace has real translator first entry once and omits finisher",
+    "Both trace/output controls exit125 with exact unsupported stderr/no output.obj",
+    "No-lines count0 path passes full1648B artifact; allocator untouched"
+  ],
+  "limitations": "Status125 is a native policy stop, not original behavior. Original line-bearing output/raw lifetime evidence retained."
+}

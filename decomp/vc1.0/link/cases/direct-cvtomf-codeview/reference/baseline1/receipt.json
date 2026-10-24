@@ -1,0 +1,84 @@
+{
+  "status": "Untouched original external-driver preflight; no reconstruction acceptance",
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-cvtomf.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "S:\\vc1.0\\link\\new-captures\\direct-cvtomf-codeview\\original-6xa6r_hf\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-cvtomf-codeview\\original-6xa6r_hf\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\direct-cvtomf-codeview\\original-6xa6r_hf\\events.jsonl",
+    "S:\\vc1.0\\link\\direct-cvtomf-codeview"
+  ],
+  "seconds": 1.4937290688976645,
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "failed": 0,
+    "held": 0,
+    "phase": 3,
+    "exit": 0,
+    "result": 0,
+    "stdout_bytes": 108,
+    "stderr_bytes": 0
+  },
+  "cwd": "S:\\vc1.0\\link\\direct-cvtomf-codeview",
+  "argv": [
+    "cvtomf",
+    "-g",
+    "-o",
+    "converted.obj",
+    "legacy.obj"
+  ],
+  "before": {
+    "legacy.obj": {
+      "bytes": 1170,
+      "sha256": "1c904518db46e64605eb308654ca67e085d47ab33a8433b6892f01322835f51e"
+    }
+  },
+  "after": {
+    "converted.obj": {
+      "bytes": 1744,
+      "sha256": "53e690439761396b3036452e04eccef4620be47623dd46182aaca7d625d9d070"
+    },
+    "legacy.obj": {
+      "bytes": 1170,
+      "sha256": "1c904518db46e64605eb308654ca67e085d47ab33a8433b6892f01322835f51e"
+    }
+  },
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "98c8bba5f0754a406146c8d1bf75554e22cf881458195e8000bad22894227941",
+  "helper_source_sha256": "182718d337cd8ef211a1f4c3a073745bc732bbf755cfef4723796fd242ff566b",
+  "input_layout_sha256": "00071806f47abd91e2e0b589b4e47512df1710e58c6d55dbefad293ea315a48c",
+  "boundary": "Explicit owned external cdecl caller and public setjmp context; never claimed public LINK CLI or original application caller",
+  "error_policy": "Actual longjmp entry is recorded and held before unwind, never bypassed to continue conversion",
+  "capture_files": {
+    "events.jsonl": {
+      "bytes": 4904,
+      "sha256": "0f7f9d859831418a60c018e788dcfb84f58c02a1087f903c5fab1e43e88365c6"
+    },
+    "files/converted.obj": {
+      "bytes": 1744,
+      "sha256": "53e690439761396b3036452e04eccef4620be47623dd46182aaca7d625d9d070"
+    },
+    "files/legacy.obj": {
+      "bytes": 1170,
+      "sha256": "1c904518db46e64605eb308654ca67e085d47ab33a8433b6892f01322835f51e"
+    },
+    "host.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "host.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 108,
+      "sha256": "ff49b46e1edafb8b2c2ebc492b2ccd5e551f92bff9767691dd5520e465346a9f"
+    }
+  }
+}

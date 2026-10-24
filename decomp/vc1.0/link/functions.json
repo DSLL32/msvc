@@ -964,7 +964,25 @@
     "_comdat_usage_label",
     "_print_comdat_edge",
     "_helper_main",
-    "_driver_usage"
+    "_driver_usage",
+    "_omf_write_debug_symbol_data",
+    "_omf_save_debug_fixups",
+    "_omf_write_debug_type_data",
+    "_omf_convert_debug_types",
+    "_omf_convert_debug_type",
+    "_omf_convert_debug_structure",
+    "_omf_debug_number",
+    "_omf_debug_index",
+    "_omf_debug_is_union",
+    "_omf_debug_primitive_type",
+    "_omf_debug_primitive_size",
+    "_omf_resolve_debug_types",
+    "_omf_convert_debug_symbols",
+    "_omf_compare_debug_fixups",
+    "_omf_debug_type_auxiliary",
+    "_omf_debug_register",
+    "_omf_find_debug_fixup",
+    "_omf_finish_debug_types"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -5296,25 +5314,32 @@
     {
       "name": "_omf_convert_debug_types",
       "start": 305504,
-      "end": 305505,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
+      "end": 305837,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
       "abi": "cdecl void(void)"
     },
     {
       "name": "_omf_convert_debug_symbols",
       "start": 299792,
-      "end": 299793,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 302044,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "shared": [
+        [
+          302044,
+          302104
+        ]
+      ],
+      "inline_data_evidence": "15 C6 symbol-kind internal switch destinations, excluding trailing alignment."
     },
     {
       "name": "_omf_finish_debug_types",
       "start": 306496,
-      "end": 306497,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
+      "end": 306525,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
       "abi": "cdecl void(void)"
     },
     {
@@ -5634,17 +5659,17 @@
     {
       "name": "_omf_write_debug_type_data",
       "start": 306352,
-      "end": 306353,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
+      "end": 306494,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
       "abi": "cdecl void(unsigned long,const void *,unsigned long)"
     },
     {
       "name": "_omf_write_debug_symbol_data",
       "start": 302112,
-      "end": 302113,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
+      "end": 302330,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
       "abi": "cdecl void(unsigned long,const void *,unsigned long)"
     },
     {
@@ -5686,9 +5711,9 @@
     {
       "name": "_omf_save_debug_fixups",
       "start": 293360,
-      "end": 293361,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
+      "end": 293771,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
       "abi": "cdecl void(void)"
     },
     {
@@ -5703,9 +5728,9 @@
     {
       "name": "_omf_debug_type_auxiliary",
       "start": 305840,
-      "end": 305841,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
+      "end": 306074,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
       "abi": "cdecl unsigned short(unsigned short,unsigned short *,IMAGE_AUX_SYMBOL *)"
     },
     {
@@ -8429,6 +8454,115 @@
       "source": "src/comdat-diagnostics.c",
       "abi": "cdecl int(const char *path)",
       "evidence": "Unreached named logger callee; full extent remains pending"
+    },
+    {
+      "name": "_omf_convert_debug_type",
+      "start": 304320,
+      "end": 305345,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl void(unsigned,unsigned)",
+      "shared": [
+        [
+          305348,
+          305496
+        ]
+      ]
+    },
+    {
+      "name": "_omf_resolve_debug_types",
+      "start": 306592,
+      "end": 306675,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_debug_number",
+      "start": 302512,
+      "end": 302644,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl long(unsigned char **)"
+    },
+    {
+      "name": "_omf_debug_index",
+      "start": 302656,
+      "end": 302684,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned short(unsigned char **)"
+    },
+    {
+      "name": "_omf_debug_primitive_type",
+      "start": 302688,
+      "end": 302839,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned short(unsigned)"
+    },
+    {
+      "name": "_omf_debug_primitive_size",
+      "start": 306080,
+      "end": 306172,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned long(unsigned)"
+    },
+    {
+      "name": "_omf_convert_debug_structure",
+      "start": 302848,
+      "end": 304319,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl void(int,unsigned char *,OmfDebugType *,unsigned)"
+    },
+    {
+      "name": "_omf_debug_is_union",
+      "start": 306176,
+      "end": 306341,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl int(unsigned char *,unsigned char *)"
+    },
+    {
+      "name": "_omf_register_debug_fixup",
+      "start": 306528,
+      "end": 306529,
+      "source": "src/omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(unsigned,unsigned long)"
+    },
+    {
+      "name": "_omf_compare_debug_fixups",
+      "start": 299776,
+      "end": 299789,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl int(const void *,const void *)"
+    },
+    {
+      "name": "_omf_find_debug_fixup",
+      "start": 293776,
+      "end": 293847,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl OmfDebugFixup *(unsigned long)"
+    },
+    {
+      "name": "_omf_debug_register",
+      "start": 302336,
+      "end": 302422,
+      "source": "src/omf-debug.c",
+      "implementation": "C",
+      "abi": "cdecl long(int)",
+      "shared": [
+        [
+          302424,
+          302500
+        ]
+      ],
+      "inline_data_evidence": "19 bounded old-register switch targets, excluding adjacent alignment."
     }
   ],
   "c_stub_references": [
@@ -9399,6 +9533,24 @@
     "comdat-graph-diagnostics",
     "comdat-graph-diagnostics",
     "dispatcher-assistance-helper",
-    "dispatcher-assistance-direct"
+    "dispatcher-assistance-direct",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview",
+    "direct-cvtomf-codeview"
   ]
 }
