@@ -40,12 +40,12 @@ def capture_preprocessor(path):
     for bucket in range(256):
         node=gdb.parse_and_eval('rc_macro_buckets[%d]'%bucket)
         while int(node):
-            assert len(macros)<3,'unknown macro-table case'
+            assert len(macros)<4,'unknown macro-table case'
             value=node.dereference();name=int(value['name']);text=int(value['text']);name_bytes=wide_bytes(name)
             macros.append(dict(bucket=bucket,pointer=int(node),next=int(value['next']),name=name,text=text,
                 parameters=int(value['parameters']),flags=int(value['flags']),reserved=int(value['reserved']),
                 record=bytes(gdb.selected_inferior().read_memory(int(node)-8,24)).hex(),
                 name_block=bytes(gdb.selected_inferior().read_memory(name-8,len(bytes.fromhex(name_bytes))+10)).hex(),
-                text_block=bytes(gdb.selected_inferior().read_memory(text-8,16)).hex()))
+                text_block=bytes(gdb.selected_inferior().read_memory(text-8,16)).hex()if text else None))
             node=value['next']
     return dict(macros=macros,schema_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),globals=state,tables=tables)

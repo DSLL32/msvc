@@ -1841,11 +1841,11 @@ def angle_name_trial(original,native):
     proof['trial']='rc_parse_angle_name';return proof
 
 
-def _include_search_checkpoint(original,native,comment=False,matcher=False,block=False,push=False):
-    trial='rc_push_condition'if push else'rc_skip_block_comment'if block else'rc_match_logical_character'if matcher else'rc_scan_comment'if comment else'rc_search_include_directories';frontier='rc_parse_define'if push else'rc_push_condition'if block else'rc_skip_block_comment'if matcher else'rc_match_logical_character'if comment else'rc_scan_comment';caller='rc_handle_directive'if block or push else'rc_scan_comment'if comment or matcher else'rc_scan_line_start';source_offset=492 if push else 476 if block else 4 if matcher else 2;source_word=32 if push else 10 if block else 43 if matcher else 42
-    config=read_configuration(original/'functions.json');assert config.get('trial_function')==trial and len(config['accepted'])==(63 if push else 62 if block else 61 if matcher else 60 if comment else 59)
+def _include_search_checkpoint(original,native,comment=False,matcher=False,block=False,push=False,define=False):
+    trial='rc_parse_define'if define else'rc_push_condition'if push else'rc_skip_block_comment'if block else'rc_match_logical_character'if matcher else'rc_scan_comment'if comment else'rc_search_include_directories';frontier='rc_read_macro_replacement'if define else'rc_parse_define'if push else'rc_push_condition'if block else'rc_skip_block_comment'if matcher else'rc_match_logical_character'if comment else'rc_scan_comment';caller='rc_parse_define'if define else'rc_handle_directive'if block or push else'rc_scan_comment'if comment or matcher else'rc_scan_line_start';source_offset=578 if define else 492 if push else 476 if block else 4 if matcher else 2;source_word=48 if define else 32 if push else 10 if block else 43 if matcher else 42
+    config=read_configuration(original/'functions.json');assert config.get('trial_function')==trial and len(config['accepted'])==(64 if define else 63 if push else 62 if block else 61 if matcher else 60 if comment else 59)
     a,b,proof=checkpoint(original,native,frontier,('rc_input_temporary','rc_output_temporary'))
-    assert a['words'][0]==(0x71c2651c if push else 0x71c2674b if block else 0x71c32a12 if matcher else 0x71c32a09 if comment else 0x71c3216d)and re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert a['words'][0]==(0x71c249eb if define else 0x71c2651c if push else 0x71c2674b if block else 0x71c32a12 if matcher else 0x71c32a09 if comment else 0x71c3216d)and re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     assert proof['application_trace'][-1]==trial
     text=(original/'events.txt').read_text();args=b['arguments'];old_globals=(original/'globals.bin').read_bytes();globals=args['preprocessor']['globals'];calls=args['include_opens']
     assert calls==json.loads((native/'include-opens.json').read_text())and len(calls)==4
@@ -1880,7 +1880,7 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
     assert old_file[1:2]+old_file[3:]==new_file[1:2]+new_file[3:]==(510,9,6,0,4096,0)and old_file[0]-old_file[2]==new_file[0]-new_file[2]==2
     assert raw_bytes(text,'comment-source-buffer')[:512]==bytes.fromhex(c['file_buffer'])[:512]==master[4096:4608]
     assert re.findall(r'^comment-source-position (\d+)$',text,re.M)==['4608']and re.findall(r'^pos:\s*(\d+)$',c['file_fdinfo'],re.M)==['4608']and Path(c['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/WINDOWS.H').resolve()
-    assert struct.unpack_from('<I',old_globals,0x14a10-0x14000)[0]==1 and struct.unpack_from('<I',old_globals,0x16ce8-0x14000)[0]==args['current_line']==(17 if push else 16 if block else 1)and struct.unpack_from('<I',old_globals,0x29458-0x14000)[0]==args['prepared_lines']==(131 if push else 130 if block else 128)
+    assert struct.unpack_from('<I',old_globals,0x14a10-0x14000)[0]==1 and struct.unpack_from('<I',old_globals,0x16ce8-0x14000)[0]==args['current_line']==(21 if define else 17 if push else 16 if block else 1)and struct.unpack_from('<I',old_globals,0x29458-0x14000)[0]==args['prepared_lines']==(135 if define else 131 if push else 130 if block else 128)
     old_output=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));new_output=struct.unpack('<8I',bytes.fromhex(globals['rc_cpp_output_file']['file_state']));defined=old_output[0]-old_output[2]
     assert old_output[1:2]+old_output[3:]==new_output[1:2]+new_output[3:]and defined==new_output[0]-new_output[2]and 0<=defined<=4096 and raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(globals['rc_cpp_output_file']['file_buffer'])[:defined]
     assert b['crt_errors']==dict(errno=2,last_error=0)
@@ -1917,7 +1917,7 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
         assert int(result)==row['result']==1 and int(end_sp,16)==int(sp,16)+8 and row['return_esp']==row['entry_esp']+8
         proof['include_search'].update(current_source_offset=source_offset,current_word=source_word,next_hidden_inputs='Actual cursor4/plus43 in the same initialized SDK source; block-comment scanner has no formals or additional register/out-pointer inputs, and consumes existing source/line/output globals.',return_scope='Fourth open and comment dispatcher remain pending; matcher has actually returned1 with ret4 and source advance2.')
         proof['character_match']=dict(character=42,formal_bytes=4,comparison_bits=32,result=1,cleanup=4,source_before_offset=2,source_after_offset=4,next_formals=[],next_current_word=source_word,next_caller='rc_scan_comment',next_original_return_to='0x71c32a12',state_scope='Full source frame and initialized source bytes plus line/FILE/output parser globals checked; block-comment helper has no additional register/out-pointer inputs identified.')
-    if block or push:
+    if block or push or define:
         rows=args['block_comments'];assert rows==json.loads((native/'block-comments.json').read_text())and len(rows)==1;row=rows[0]
         entry=re.findall(r'^block-comment-entry cursor=([0-9a-f]+) line=(\d+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);returned=re.findall(r'^block-comment-return cursor=([0-9a-f]+) line=(\d+) esp=([0-9a-f]+)$',text,re.M);assert len(entry)==len(returned)==1
         cursor,line,sp,return_to=entry[0];after,line_after,end_sp=returned[0];end=master.index(b'*/')+2;line_count=master[2:end].count(b'\n');assert end==219 and line_count==13
@@ -1930,11 +1930,11 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
             assert old_state[1:2]+old_state[3:]==new_state[1:2]+new_state[3:]and written==new_state[0]-new_state[2]==row['output_'+phase]['defined_bytes']and 0<written<=4096
             payload=raw_bytes(text,'block-'+phase+'-buffer');assert payload==bytes.fromhex(row['output_'+phase]['payload'])and len(payload)==written;buffers.append(payload)
         assert buffers[1]==buffers[0]+'\r\n'.encode('utf-16le')*line_count
-        condition=args['condition_entry'];assert condition['formals']==[]and condition['nesting']==struct.unpack('<i',raw_bytes(text,'condition-nesting'))[0]==(0 if push else -1)
-        assert condition['caller']=='rc_handle_directive'and condition['directive']==(6 if push else 5)
-        if not push:assert condition['condition']==1 and a['registers']['esi']==1
-        assert condition['word']==condition['macro']and raw_bytes(text,'condition-word')==bytes.fromhex(condition['macro_bytes'])and raw_bytes(text,'condition-word')[:(14 if push else 20)]==('define\0'if push else'_WINDOWS_\0').encode('utf-16le')
-        assert raw_bytes(text,'condition-state')==bytes.fromhex(condition['state'])==(struct.pack('<I',1)+bytes(124)if push else bytes(128))
+        condition=args['condition_entry'];assert condition['formals']==[]and condition['nesting']==struct.unpack('<i',raw_bytes(text,'condition-nesting'))[0]==(1 if define else 0 if push else -1)
+        assert condition['caller']=='rc_handle_directive'and condition['directive']==(6 if push or define else 5)
+        if not(push or define):assert condition['condition']==1 and a['registers']['esi']==1
+        assert condition['word']==condition['macro']and raw_bytes(text,'condition-word')==bytes.fromhex(condition['macro_bytes'])and raw_bytes(text,'condition-word')[:(14 if push or define else 20)]==('WINVER\0'if define else'define\0'if push else'_WINDOWS_\0').encode('utf-16le')
+        assert raw_bytes(text,'condition-state')==bytes.fromhex(condition['state'])==(struct.pack('<II',1,1)+bytes(120)if define else struct.pack('<I',1)+bytes(124)if push else bytes(128))
         assert masked[0x230:0x234]==relocated[0x230:0x234]=='\r\n'.encode('utf-16le')
         literal=next(v for v in config['functions']if v['name']=='rc_skip_block_comment');assert ['0x1230','0x1234']in literal['text_data']
         proof['include_search'].update(current_source_offset=source_offset,current_word=source_word,next_hidden_inputs='Actual nesting=-1 is the conditional push helper input; caller has #ifndef directive5, condition1 and current _WINDOWS_ identifier. Full source/FILE/current-line globals remain captured.',return_scope='Fourth source open remains pending; block-comment helper has returned normally, conditional push is an actual nonempty frontier.')
@@ -1951,6 +1951,43 @@ def _include_search_checkpoint(original,native,comment=False,matcher=False,block
         proof['include_search']['next_hidden_inputs']='Actual define dispatcher has no formals. Source cursor492/space32, current directive6, parser/macro globals and initialized SDK span are captured; no additional register/out-pointer inputs identified.'
         proof['include_search']['return_scope']='Source open remains pending; block-comment and conditional push have returned, caller has stored condition_state[0]=1 before actual define parser child.'
         proof['condition_push']=dict(formals=[],entry_level=-1,return_level=0,result=0,cleanup=0,caller_store=dict(index=0,value=1,original_store_rva='0x674b',state_before_bytes=128,state_after='first DWORD1 followed124 unchanged zero bytes'),next_formals=[],next_source_offset=source_offset,next_current_word=source_word,next_directive=6,next_identifier='define',next_hidden_inputs='Current initialized SDK source/frame/cursor and parser/macro globals; no additional register or out-pointer input found. Any upcoming named stub must receive its own actual typed frontier proof.')
+    if define:
+        rows=args['define_parsers'];assert rows==json.loads((native/'define-parsers.json').read_text())and len(rows)==2
+        entries=re.findall(r'^define-parser-entry index=(\d+) cursor=([0-9a-f]+) line=(\d+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);returned=re.findall(r'^define-parser-return index=(\d+) cursor=([0-9a-f]+) line=(\d+) esp=([0-9a-f]+)$',text,re.M);assert len(entries)==2 and len(returned)==1
+        for index,(entry,row,offset,line)in enumerate(zip(entries,rows,[492,2*(master.index(b'#define WINVER')+len(b'#define'))],[17,21])):
+            number,cursor,current_line,sp,return_to=entry
+            assert int(number)==index and int(cursor,16)-old[5]==row['cursor']-new[5]==offset and int(current_line)==row['line']==line
+            assert int(return_to,16)==0x71c2651c and row['caller']=='rc_handle_directive'and row['formals']==[]
+            if index==0:
+                number,after,after_line,end_sp=returned[0];assert int(number)==0 and int(after,16)-old[5]==row['cursor_after']-new[5]==512 and int(after_line)==row['line_after']==17
+                assert int(end_sp,16)==int(sp,16)+4 and row['return_esp']==row['entry_esp']+4
+                assert raw_bytes(text,'defined-first-name')==bytes.fromhex(row['name_after'])and bytes.fromhex(row['name_after'])[:20]=='_WINDOWS_\0'.encode('utf-16le')
+            else:assert not any(key in row for key in ['return_esp','cursor_after','line_after','name_after']),'second define is actually pending in its replacement reader'
+        state=args['macro_replacement'];assert state['formals']==[]and state['caller']=='rc_parse_define'and state['parameter_count']==struct.unpack('<i',raw_bytes(text,'macro-parameter-count'))[0]==0
+        assert struct.unpack('<I',raw_bytes(text,'macro-replacement-pointer'))[0]==0x71c36f08 and state['pointer']==state['buffer']and state['buffer_bytes']==4090 and state['saved_parameters']==a['words'][1]==0
+        nodes=args['preprocessor']['macros'];old_nodes=re.findall(r'^define-macro-node index=(\d+) bucket=(\d+) pointer=([0-9a-f]+) next=([0-9a-f]+) name=([0-9a-f]+) text=([0-9a-f]+) kind=([0-9a-f]+)$',text,re.M)
+        assert re.findall(r'^define-macro-count (\d+)$',text,re.M)==['4']and len(old_nodes)==len(nodes)==4
+        expected_names=['RC_INVOKED','CASE_FROM_COMMAND','_WIN32','_WINDOWS_'];assert [int(row[1])for row in old_nodes]==[v['bucket']for v in nodes]==[4,13,114,233]
+        for index,(old_row,row,name)in enumerate(zip(old_nodes,nodes,expected_names)):
+            number,bucket,pointer,next_pointer,name_pointer,text_pointer,kind=old_row;record=raw_bytes(text,'define-macro-record-%d'%index);native_record=bytes.fromhex(row['record']);name_block=raw_bytes(text,'define-macro-name-%d'%index)
+            assert int(number)==index and record[:8]==native_record[:8]==bytes(8)and struct.unpack('<4I',record[8:])==tuple(int(v,16)for v in [next_pointer,name_pointer,text_pointer,kind])
+            assert struct.unpack('<4I',native_record[8:])==(row['next'],row['name'],row['text'],row['parameters']&255|row['flags']<<8|row['reserved']<<16)and int(kind,16)==row['parameters']==row['flags']==row['reserved']==0
+            assert int(next_pointer,16)==row['next']==0 and name_block==bytes.fromhex(row['name_block'])==bytes(8)+(name+'\0\0').encode('utf-16le')
+            allocation=next(v for v in blocks if v['payload']+8==row['pointer']);assert allocation['owner']==b['heap_identity']['handle']and allocation['flags']==9 and allocation['bytes']==24 and bytes.fromhex(allocation['contents'])==native_record
+            allocation=next(v for v in blocks if v['payload']+8==row['name']);assert allocation['owner']==b['heap_identity']['handle']and allocation['flags']==9 and allocation['bytes']==len(name_block)and bytes.fromhex(allocation['contents'])==name_block
+            if index==3:assert int(text_pointer,16)==row['text']==0 and row['text_block']is None
+            else:assert int(text_pointer,16)>0 and row['text']>0 and raw_bytes(text,'define-macro-text-%d'%index)==bytes.fromhex(row['text_block'])
+        copies=json.loads((native/'macro-copies.json').read_text());assert len(copies)==7;copy=copies[-1]
+        copy_calls=re.findall(r'^macro-copy-call (\d+) site=([0-9a-f]+) source=([0-9a-f]+) count=(\d+) esp=([0-9a-f]+)$',text,re.M);copy_returns=re.findall(r'^macro-copy-return (\d+) result=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M);assert len(copy_calls)==len(copy_returns)==7
+        number,site,pointer,count,sp=copy_calls[-1];returned_number,result,end_sp=copy_returns[-1];assert number==returned_number=='6'and int(count)==copy['length']==10 and int(pointer,16)==0x71c38128
+        assert copy['source_contract']=='initialized-global-name'and raw_bytes(text,'macro-copy-source-6')==bytes.fromhex(copy['source_bytes'])=='_WINDOWS_\0'.encode('utf-16le')
+        assert int(end_sp,16)==int(sp,16)+8 and copy['return_esp']==copy['entry_esp']+12 and int(result,16)==int(old_nodes[-1][4],16)and copy['result']==nodes[-1]['name']
+        assert raw_bytes(text,'macro-copy-result-6')==bytes.fromhex(copy['result_block'])==bytes(8)+'_WINDOWS_\0\0'.encode('utf-16le')
+        assert struct.unpack_from('<I',old_globals,0x16ce0-0x14000)[0]==struct.unpack('<I',bytes.fromhex(globals['rc_macro_name_length']['bytes']))[0]==7 and old_globals[0x16cec-0x14000]==bytes.fromhex(globals['rc_macro_hash']['bytes'])[0]==219
+        proof['block_comment']['next_hidden_inputs']=dict(nesting=1,caller='rc_parse_define',directive=6,word='WINVER',current_source_offset=source_offset,current_word=source_word)
+        proof['include_search']['next_hidden_inputs']='Replacement reader has no formals; actual parameter_count0/replacement==4090-byte string buffer, cursor578/digit48/current WINVER identifier and parser globals captured. Pending caller parameter slot0 is retained separately, not invented as a callee formal.'
+        proof['include_search']['return_scope']='Fourth source open remains pending. First empty define returned; second actual define call is pending in replacement reader with no invented return fields.'
+        proof['define_parser']=dict(formals=[],first_call=dict(entry_source_offset=492,return_source_offset=512,line=17,cleanup=0,defined_name='_WINDOWS_',name_copy_bytes=20,name_allocation_bytes=30,node_allocation_bytes=24,text_pointer_NULL=True,parameter_count=0,bucket=233),second_call=dict(entry_source_offset=2*(master.index(b'#define WINVER')+len(b'#define')),line=21,returned=False),next_formals=[],next_hidden_inputs=dict(source_offset=578,current_word=48,parameter_count=0,replacement_buffer_bytes=4090,replacement_alias='rc_string_buffer',pending_caller_parameter_value=0,current_identifier='WINVER',identifier_length_including_NUL=7,identifier_hash=219,nesting=1),macro_records=4,scope='Fourth macro is real owned node/name storage; empty replacement is NULL, not an invented buffer. Function-like helper and replacement reader remain named traps.')
     proof['trial']=trial;return proof
 
 def include_search_trial(original,native):
@@ -1967,3 +2004,6 @@ def block_comment_trial(original,native):
 
 def push_condition_trial(original,native):
     return _include_search_checkpoint(original,native,push=True)
+
+def parse_define_trial(original,native):
+    return _include_search_checkpoint(original,native,define=True)

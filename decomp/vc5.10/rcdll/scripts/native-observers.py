@@ -273,7 +273,7 @@ class MacroCopyEntered(gdb.Breakpoint):
     def stop(self):
         frame=gdb.newest_frame();caller=frame.older()
         if caller is None or caller.name()!='rc_define_macro':return False
-        assert len(macro_copies)<6
+        assert len(macro_copies)<7
         pointer=int(frame.read_var('value'));length=int(frame.read_var('length'));assert 0<length<=512
         maps=Path('/proc/%d/maps'%gdb.selected_inferior().pid).read_text().splitlines()
         mapping=[line for line in maps if int(line.split()[0].split('-')[0],16)<=pointer and pointer+2*length<=int(line.split()[0].split('-')[1],16)]
@@ -713,3 +713,16 @@ class ConditionPushEntered(gdb.Breakpoint):
         frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,level=int(gdb.parse_and_eval('rc_cpp_nesting_level')),caller=frame.older().name())
         condition_pushes.append(entry);save_condition_pushes();ConditionPushReturned(frame,entry);return False
 ConditionPushEntered('rc_push_condition',internal=True);save_condition_pushes()
+
+define_parsers=[]
+def save_define_parsers():(path.parent/'define-parsers.json').write_text(json.dumps(define_parsers,indent=2)+'\n')
+class DefineParserReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,cursor_after=int(gdb.parse_and_eval('rc_source_cursor')),line_after=int(gdb.parse_and_eval('rc_preparing_line')),name_after=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_macro_name')),1024)).hex())
+        save_define_parsers();return False
+class DefineParserEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();entry=dict(formals=[],entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,cursor=int(gdb.parse_and_eval('rc_source_cursor')),line=int(gdb.parse_and_eval('rc_preparing_line')),caller=frame.older().name())
+        define_parsers.append(entry);save_define_parsers();DefineParserReturned(frame,entry);return False
+DefineParserEntered('rc_parse_define',internal=True);save_define_parsers()

@@ -67,7 +67,8 @@
     "rc_scan_comment",
     "rc_match_logical_character",
     "rc_skip_block_comment",
-    "rc_push_condition"
+    "rc_push_condition",
+    "rc_parse_define"
   ],
   "functions": [
     {
@@ -1118,8 +1119,7 @@
       "end": "0x49fb",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_next_token",
@@ -1424,6 +1424,24 @@
       "name": "rc_skip_line_comment",
       "start": "0x70ce",
       "end": "0x7100",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_parse_macro_parameters",
+      "start": "0x49fb",
+      "end": "0x4c2f",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_read_macro_replacement",
+      "start": "0x4e19",
+      "end": "0x519f",
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",

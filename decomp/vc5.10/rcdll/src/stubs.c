@@ -117,12 +117,6 @@ int __cdecl rc_evaluate_condition(void)
     return 0;
 }
 
-void __cdecl rc_parse_define(void)
-{
-    __asm int 3
-    
-}
-
 void __cdecl rc_skip_line(void)
 {
     __asm int 3
@@ -229,4 +223,15 @@ unsigned char __stdcall rc_unsigned_integer_kind(unsigned value)
 void __cdecl rc_skip_line_comment(void)
 {
     __asm int 3
+}
+
+void __cdecl rc_parse_macro_parameters(void)
+{
+    __asm int 3
+}
+
+unsigned __cdecl rc_read_macro_replacement(void)
+{
+    __asm int 3
+    return 0;
 }

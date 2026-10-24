@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Sixty-two application functions (19,853 original code bytes), two embedded CRT functions
+Sixty-three application functions (20,160 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_parse_define`.
+currently matches at the next named trap, `rc_read_macro_replacement`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -541,3 +541,13 @@ function returns0/ret0, then its caller stores1 in condition slot0.
 records eleven affected controls and the actual next `#define _WINDOWS_`
 parser frontier. The new caller branch has no initialized condition local to
 claim; source/frame/FILE and macro state remain captured. Overflow is unvisited.
+
+Define dispatch is accepted (307 bytes). Empty `_WINDOWS_` creates an owned
+24-byte node and30-byte name block with NULL replacement text; its name copy
+reads20 initialized scratch bytes. The next `WINVER 0x0400` definition is
+pending in the replacement reader, with parameter count0 and the existing
+4,090-byte string-buffer identity. [Verification](cases/resources-rich-trailing-space/parse-define-verification.json)
+records fifteen affected controls, including matching invented pending returns.
+The earlier six-copy observer limits stopped explicitly on the seventh copy;
+those raw failures remain retained. Capture execution now holds the shared
+original-capture lock, with wait time recorded separately.
