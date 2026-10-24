@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_parse_preprocessor_multiplicative",
+  "case": "member_registry_browser",
+  "accepted_before": 1295,
+  "configuration_sha256": "bcdfbaa17e4a3bbda56c0dadf6d5e15bee58faa40002a3ceed3d8d229b79178e",
+  "native_entry": "parse_preprocessor_multiplicative",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      100912,
+      101007
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals PreprocessorValue*EAX, savedESI, RET0",
+    "proof": "Complete95B savedESI, mandatoryunarycdecl0pointer\u2192left; acceptstd4 BYTE53multiply/42divide/51remainder inthatorder, matchedbranch parsesrightunary, callsbinary std12(BYTEoperation,left,right), replacesleft andloops tofirstprobe; none returnsleft. Three outgoingcallees, no own global/incomingstack/register/flags/x87input/newdata/CRT. Unary128B complete noformal/no-prologue RET0 branches recursivelyparseunary andbinary std12(op,result,NULL), defaulttailJMP18b10\u2192separate147B primarycdecl0pointer; both entries namedstubs. Primary fullABI/147Bextent established (parentheses/constant/pool4 allocation) without source/data credit; sharedtoken andbinary ABIs/extents unchanged.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "bc497183428b61e6e134374906a88672d887dec5b1698e21f167470ad921a918",
+  "capture_timing": {
+    "original_capture_seconds": 0.9665847262367606,
+    "native_capture_seconds": 0.17103302478790283,
+    "total_operation_seconds": 1.3792421482503414
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "bd802faca8e28a16c445669a8ef99f0413152e2aa30280017fae097e5c23f137",
+    "native-commands.gdb": "191fdc0b0efe987f9c208e37c66a703f7d91d246b1094fb8b9fbddb6a4631a43",
+    "native-gdb.log": "110898fe455d3e8ac2d43836695462d0132b5ed1cdbb79e0dbdb01462782f200",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "e6828f3a9ce95959742ae24b95bb1055ff9ac6829b50222e94ba4f9de9b17af1",
+    "original-configuration.json": "bcdfbaa17e4a3bbda56c0dadf6d5e15bee58faa40002a3ceed3d8d229b79178e",
+    "original-disassembly.txt": "c49b28c3d6e8317a1f534b3f251c33f28b2f56ecf83e4aee8268c82f1b81c6fa",
+    "original-events.txt": "339288050959dd9119080e03ba940539664d0befaf73601c1bc450c3f85db044",
+    "original-receipt.json": "de75e6ba13d622ba811218d5c774baf88af966d1f4b3fc5fd970b75a92d581ba",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "5436715f33f3c909ea58f6815adf13c5339d886f66ad3372be844816388a4fe7"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

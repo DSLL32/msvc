@@ -210,3 +210,30 @@ PreprocessorValue *parse_preprocessor_additive(void)
         return left;
     }
 }
+
+PreprocessorValue *parse_preprocessor_unary(void);
+
+/* Original 0x18a30..0x18a8e. */
+PreprocessorValue *parse_preprocessor_multiplicative(void)
+{
+    PreprocessorValue *left, *right;
+    left = parse_preprocessor_unary();
+    for (;;) {
+        if (accept_preprocessor_token(OP_MULTIPLY)) {
+            right = parse_preprocessor_unary();
+            left = evaluate_preprocessor_binary(OP_MULTIPLY, left, right);
+            continue;
+        }
+        if (accept_preprocessor_token(OP_DIVIDE)) {
+            right = parse_preprocessor_unary();
+            left = evaluate_preprocessor_binary(OP_DIVIDE, left, right);
+            continue;
+        }
+        if (accept_preprocessor_token(OP_REMAINDER)) {
+            right = parse_preprocessor_unary();
+            left = evaluate_preprocessor_binary(OP_REMAINDER, left, right);
+            continue;
+        }
+        return left;
+    }
+}

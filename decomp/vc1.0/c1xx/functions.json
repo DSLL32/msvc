@@ -1299,7 +1299,8 @@
     "_parse_preprocessor_equality",
     "_parse_preprocessor_relational",
     "_parse_preprocessor_shift",
-    "_parse_preprocessor_additive"
+    "_parse_preprocessor_additive",
+    "_parse_preprocessor_multiplicative"
   ],
   "driver": [
     {
@@ -9076,6 +9077,16 @@
       "name": "_parse_preprocessor_multiplicative",
       "start": 100912,
       "end": 101007
+    },
+    {
+      "name": "_parse_preprocessor_unary",
+      "start": 101008,
+      "end": 101136
+    },
+    {
+      "name": "_parse_preprocessor_primary",
+      "start": 101136,
+      "end": 101283
     }
   ],
   "cases": {
@@ -9628,8 +9639,8 @@
           "original": 585720
         }
       ],
-      "terminal": "_parse_preprocessor_multiplicative",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1294-parse_preprocessor_additive/original-events.txt",
+      "terminal": "_parse_preprocessor_unary",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1295-parse_preprocessor_multiplicative/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
         "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
@@ -9669,7 +9680,8 @@
         "cases/frontiers/member_registry_browser/1291-parse_preprocessor_equality/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1292-parse_preprocessor_relational/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1293-parse_preprocessor_shift/frontier-extension.json",
-        "cases/frontiers/member_registry_browser/1294-parse_preprocessor_additive/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1294-parse_preprocessor_additive/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1295-parse_preprocessor_multiplicative/frontier-extension.json"
       ],
       "transient_outputs": [
         {
