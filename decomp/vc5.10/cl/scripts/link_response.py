@@ -10,26 +10,33 @@ from dependency_packet import vector,directory_entries
 from dependency_response import phase_snapshot
 from mask import construct
 from mktemp_state import original_states,CRT_SHA
+PROJECT_ORIGINAL=Path(__file__).resolve().parents[4]/'toolchains/5.10/bin/CL.EXE'
 
 PHASES=('spawn-before','spawn-after','exit-before')
 digest=lambda data:hashlib.sha256(data).hexdigest()
 
 
-def decode(directory):
+def decode(directory,clock_analysis=False):
     directory=Path(directory);capture=json.loads((directory/'capture.json').read_bytes())
-    assert capture.get('link_response') is True and capture['baseline'] is False
+    if clock_analysis:
+        assert capture.get('clock_analysis')is True and capture['baseline']is True and capture['case']=='link-timing'
+        assert not capture.get('link_response')
+    else:
+        assert capture.get('link_response') is True and capture['baseline'] is False and not capture.get('clock_analysis')
+        assert capture['case']=='link-object'
     assert not any(capture.get(name)for name in ('dependency_analysis','dependency_complete','dependency_response'))
-    assert capture['case']=='link-object' and capture['controller_error'] is None and capture['helper_status']==0
-    assert capture['command'][-2]=='1','LINK observation was not a masked trial'
+    assert capture['controller_error'] is None and capture['helper_status']==0
+    assert capture['command'][-2]==('0'if clock_analysis else'1'),'LINK observation mask mode differs'
     def read(name):
         assert name in capture['files'],'unbound LINK evidence: '+name
         path=directory/name;assert path.is_file() and not path.is_symlink()
         raw=path.read_bytes();assert capture['files'][name]=={'bytes':len(raw),'sha256':digest(raw)},'changed LINK evidence: '+name
         return raw
     for name in capture['files']:read(name)
-    assert read('dependency-observer.txt')==b'CL_LINK_RESPONSE_V1\n'
+    assert read('dependency-observer.txt')==(b'CL_LINK_CLOCK_ANALYSIS_V1\n'if clock_analysis else b'CL_LINK_RESPONSE_V1\n')
     config=json.loads(read('config.json'));assert digest(read('config.json'))==capture['config_sha256']
-    assert digest(construct(config))==capture['original_mask_sha256']==digest(read('CL.EXE'))==digest(read('loaded-target.bin'))
+    image=(PROJECT_ORIGINAL.read_bytes()if clock_analysis else construct(config))
+    assert digest(image)==capture['original_mask_sha256']==digest(read('CL.EXE'))==digest(read('loaded-target.bin'))
     assert capture['target_sha256']==config['target']['sha256']=='aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd'
     assert digest(read('loaded-msvcrt.bin'))==capture['loaded_msvcrt_sha256']==CRT_SHA
     assert digest(read('reference-debugger.exe'))==capture['helper_sha256']==capture['helper_build']['binary']['sha256']
@@ -39,7 +46,7 @@ def decode(directory):
     assert b'if (strcmp(executable,argument)) ExitProcess(107);'in helper
     assert b'save_file(image,"observer\\\\spawn-executable.bin")'in helper
     assert b'dependency_link_paths(response,sizeof(response),destination,sizeof(destination))'in helper
-    case=load_case('link-object');assert all(capture[k]==case[k]for k in ('case','arguments','inputs'))
+    case=load_case('link-timing'if clock_analysis else'link-object');assert all(capture[k]==case[k]for k in ('case','arguments','inputs'))
     for item in case['inputs']:assert capture['files'][item['name']]=={k:item[k]for k in ('bytes','sha256')}
     dependency=verify_dependencies(directory);assert len(dependency['files'])==1 and dependency['files'][0]['name']=='LINK.EXE'
     linker_sha=dependency['files'][0]['sha256'];assert digest(read('LINK.EXE'))==digest(read('observer/spawn-executable.bin'))==linker_sha
@@ -64,8 +71,24 @@ def decode(directory):
         lowio=read('observer/'+phase+'-lowio-0.bin');assert [lowio[index*36+4]for index in range(3)]==[0xc1,0x81,0x81]
         execution=struct.unpack('<5I',read('observer/'+phase+'-execution-words.bin'))
         assert execution==(0,item['pass_address'],0 if phase=='exit-before'else 1,0x4095d8,item['pass_address'])
-        for field in ('cwd','image','command','pctype_address','mb_state_sha256','ctype_sha256','crt_environment_count','crt_environment_sha256','os_environment_sha256','file0_2_words','streams','open_descriptors'):
+        for field in ('cwd','image','command','pctype_address','mb_state_sha256','ctype_sha256','crt_environment_count','crt_environment_sha256','os_environment_sha256','file0_2_words'):
             assert item[field]==before[field],'unexpected LINK parent effect: '+field
+        if not clock_analysis or phase!='exit-before':
+            assert item['streams']==before['streams']
+            assert item['open_descriptors']==before['open_descriptors']
+        else:
+            actual=json.loads(json.dumps(item['streams']))
+            for family,indices in [('crt',(1,2)),('win32',(1,2)),('inherited',(1,))]:
+                for index in indices:
+                    assert actual[family][index]['position_high']==0 and actual[family][index]['position_low']==len(read('stdout.bin'))
+                    actual[family][index]['position_low']=0
+            assert actual==before['streams'],'timer changed stream identity or ownership'
+            descriptors=json.loads(json.dumps(item['open_descriptors']))
+            for row in descriptors:
+                if row['fd']in (1,2):
+                    assert row['query']['position_high']==0 and row['query']['position_low']==len(read('stdout.bin'))
+                    row['query']['position_low']=0
+            assert descriptors==before['open_descriptors']
         assert read('observer/'+phase+'-parameters.bin')==read('observer/spawn-before-parameters.bin')
         assert read('observer/'+phase+'-static-iob.bin')==read('observer/spawn-before-static-iob.bin')
     mode,path,argv=struct.unpack_from('<3I',read('observer/spawn-before-stack.bin'))
@@ -89,13 +112,20 @@ def decode(directory):
     def target_directory(item):
         result={}
         for name,metadata in item['directory'].items():
-            if observer_name.fullmatch(name):read(name)
+            if observer_name.fullmatch(name)or(clock_analysis and re.fullmatch(r'mktemp-clock-[12]-(?:before|after)-(?:ptd|teb|tls-index)\.bin',name)):read(name)
             else:result[name]=metadata
         return result
     before_files,after_files,terminal_files=[target_directory(item)for item in (before,after,terminal)]
     assert {name:item for name,item in before_files.items()if name!=response_name}=={name:item for name,item in after_files.items()if name not in (response_name,'test.exe')}
-    assert {name:item for name,item in after_files.items()if name!=response_name}==terminal_files
-    assert read('stdout.bin')==read('stderr.bin')==b''
+    if clock_analysis:
+        assert {name:item for name,item in after_files.items()if name not in (response_name,'stdout.bin')}=={name:item for name,item in terminal_files.items()if name!='stdout.bin'}
+        assert after_files['stdout.bin']['bytes']==0 and terminal_files['stdout.bin']['bytes']==len(read('stdout.bin'))
+        for field in ('attributes','access_filetime','alternate_name'):
+            assert after_files['stdout.bin'][field]==terminal_files['stdout.bin'][field]
+        assert read('stderr.bin')==b''
+    else:
+        assert {name:item for name,item in after_files.items()if name!=response_name}==terminal_files
+        assert read('stdout.bin')==read('stderr.bin')==b''
     unlink=re.findall(r'^unlink-call sequence=(\d+) function=([0-9a-f]{8}) argument=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)
     assert len(unlink)==1 and unlink[0][0]=='1'
     provider=PE(directory/'loaded-msvcrt.bin')
@@ -113,7 +143,7 @@ def decode(directory):
     os_strings=os_block.decode('utf-16le')[:-2].split('\0');crt_strings=[text.decode('ascii')for pointer,text in env]
     assert crt_strings==os_strings,'this case requires exact matching CRT/OS contents and order'
     trace=read('trace.txt').decode('ascii').splitlines();assert len(trace)==len(set(trace)) and 'write_link_message'in trace
-    return {'kind':'fresh masked LINK-only external response; acceptance still held','case':'link-object',
+    return {'kind':('baseline-only LINK-clock analysis; rejected by acceptance'if clock_analysis else'fresh masked LINK-only external response; acceptance still held'),'case':case['case'],
         'capture':{'path':str(Path('/root/.ai-tmp/msvc2').joinpath(*before['cwd'][3:].rstrip('\\').split('\\'))/'capture.json'),'sha256':digest((directory/'capture.json').read_bytes())},
         'config_sha256':capture['config_sha256'],'mask_sha256':capture['original_mask_sha256'],
         'child':{'mode':mode,'path':before['argv'][0],'argv':before['argv'],'cwd':before['cwd'],'environment_source':'target-os','environment':os_strings,'linker_sha256':linker_sha,'provider_inputs':{name:capture['files'][name]for name in ('MSVCRT.DLL','MSPDB50.DLL')},

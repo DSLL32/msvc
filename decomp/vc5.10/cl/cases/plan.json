@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "grouped-dry-run-completed",
+  "state": "link-timing-active",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -166,6 +166,21 @@
       ],
       "source": "sources/test.c",
       "from_vc1": "Authored5.10 grouped stage dry-run, two real input records for the same owned source; /Bz skips all dependency invocation."
+    },
+    {
+      "id": "link-timing",
+      "arguments": [
+        "/nologo",
+        "/Bt",
+        "/Fetest.exe",
+        "test.obj",
+        "/link",
+        "/ENTRY:main",
+        "/SUBSYSTEM:CONSOLE",
+        "/NODEFAULTLIB"
+      ],
+      "source": "minimal-c/reference/test.obj",
+      "from_vc1": "Authored5.10 actual LINK timing case, exact fresh clock/child contract required."
     }
   ],
   "notes": [
@@ -178,7 +193,7 @@
     "filename-substitutions initial help probe completed without new handlers; user filename % is escaped. Retained analysis receipt, no coverage credit."
   ],
   "groundwork_capture": "original-probes/host-contract-2/manifest.json",
-  "authorized_case": "grouped-dry-run",
+  "authorized_case": "link-timing",
   "authorized_queue": [
     "help",
     "minimal-c",
@@ -192,7 +207,8 @@
     "link-object",
     "filename-substitutions",
     "link-naming",
-    "grouped-dry-run"
+    "grouped-dry-run",
+    "link-timing"
   ],
   "next_case_gate": "Orchestrator approved response-file/options/help followed by diagnostics after minimal compile completion; no new successful dependency boundary authorized.",
   "completed_cases": [

@@ -15,7 +15,7 @@ SCALARS={'dll_options_enabled':0x40902c,'default_macros':0x409028,'response_dept
  'output_produced':0x4095cc,'default_c_language':0x4095d0,'first_dependency_scan':0x409018,'first_stage_notice':0x40918c}
 POINTERS={'object_name':0x4095c0,'image_name':0x409644,'ir_prefix':0x4095f8,'map_name':0x409638,'pdb_name':0x4095bc,'browser_name':0x409648,'free_options':0x409674,'driver':0x409020,'unrecognized_options':0x409634,'source_language':0x4095b8,'format_buffer':0x4097a4}
 PARAMETERS={
- 'install_control_handler':[], 'skip_space':[('text','string')],
+ 'install_control_handler':[], 'start_timer':[], 'stop_timer':[('name','string')], 'skip_space':[('text','string')],
  'split_arguments':[('text','string'),('mode','signed')],
  'count_arguments':[('args','vector')],
  'duplicate':[('text','string')],
@@ -290,6 +290,12 @@ def snapshot(read,context):
         assert len(types)<=len(values)
         fields['variable_arguments']=[memory.value(kind,value) for kind,value in zip(types,values)]
     if 'crt_mb' in context:fields['crt_mb']=context['crt_mb']
+    if symbol=='stop_timer':
+        raw=memory.read(context['timer_started_address'],12)
+        seconds,milliseconds,timezone,dst,padding=struct.unpack('<iHhh2s',raw)
+        assert milliseconds<=999
+        fields['timer_started']={'time':seconds,'millitm':milliseconds,
+            'timezone':timezone,'dstflag':dst,'padding_hex':padding.hex()}
     fields['globals']={name:memory.words(context['globals'][name],1)[0] for name in SCALARS}
     for name in POINTERS:
         pointer=memory.words(context['globals'][name],1)[0]
@@ -386,6 +392,7 @@ def original_context(directory,address,stack):
     symbol=record['native_symbol'];parameters=PARAMETERS[symbol]
     context={'symbol':symbol,'arguments':list(stack[1:1+len(parameters)]),
         'globals':{**SCALARS,**POINTERS},'rule_base':0x406340,'compiler_passes_address':0x4090a8}
+    if symbol=='stop_timer':context['timer_started_address']=0x409798
     if symbol=='next_jobs':context['pending_address']=struct.unpack_from('<I',(directory/'context.bin').read_bytes(),180)[0]-24
     if symbol=='delete_temporary':context['temporary_suffixes_address']=0x406300
     if symbol=='run_passes':context['callbacks']={'final_pass':next(row['start']for row in index['driver']if row['name']=='_final_pass')}
@@ -467,6 +474,7 @@ def capture_native(directory,gdb):
         'globals':{name:int(gdb.parse_and_eval('(unsigned)&'+('driver_storage.temporary' if name=='ir_prefix' else name))) for name in [*SCALARS,*POINTERS]}}
     context['rule_base']=int(gdb.parse_and_eval('(unsigned)option_rules'))
     context['compiler_passes_address']=int(gdb.parse_and_eval('(unsigned)compiler_passes'))
+    if symbol=='stop_timer':context['timer_started_address']=int(gdb.parse_and_eval('(unsigned)&timer_started'))
     if symbol=='next_jobs':
         assert frame.older().name()=='run_driver'
         context['pending_address']=int(frame.older().read_var('pending').address)&0xffffffff

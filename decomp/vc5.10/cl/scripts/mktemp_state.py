@@ -86,9 +86,17 @@ def original(directory):
     if (directory/'dependency-observer.inc').exists():
         assert capture['helper_sources']['dependency-observer.inc']==sha((directory/'dependency-observer.inc').read_bytes())
         controls|={'dependency-observer.inc'}
+    if (directory/'clock-observer.inc').exists():
+        assert capture['helper_sources']['clock-observer.inc']==sha((directory/'clock-observer.inc').read_bytes())
+        controls.add('clock-observer.inc')
     if (directory/'export-reader.h').exists():
         assert capture['helper_sources']['export-reader.h']==sha((directory/'export-reader.h').read_bytes())
         controls|={'export-reader.h'}
+    if capture.get('clock_analysis'):
+        assert capture['case']=='link-timing'and capture['baseline']is True and not any(capture.get(k)for k in ('dependency_analysis','dependency_complete','dependency_response','link_response'))
+        assert (directory/'dependency-observer.txt').read_bytes()==b'CL_LINK_CLOCK_ANALYSIS_V1\n'
+        assert (directory/'clock-observer.txt').read_bytes()==b'CL_CLOCK_OBSERVER_V1\n'
+        controls|={'dependency-observer.txt','clock-observer.txt'}
     if capture.get('link_response'):
         assert capture['case']=='link-object' and capture['baseline'] is False and not capture['dependency_analysis'] and not capture['dependency_response']
         assert (directory/'dependency-observer.txt').read_bytes()==b'CL_LINK_RESPONSE_V1\n'

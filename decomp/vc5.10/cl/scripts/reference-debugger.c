@@ -77,18 +77,23 @@ static void save_file(HANDLE source,const char *name)
     char path[MAX_PATH];
     HANDLE destination;
     BYTE buffer[16384];
-    DWORD got,wrote,total=0;
+    DWORD got,wrote,total=0,size,high=0,bytes;
+    OVERLAPPED at;
     output_path(path,name);
     if (!source || source==INVALID_HANDLE_VALUE) ExitProcess(21);
-    if (SetFilePointer(source,0,NULL,FILE_BEGIN)==0xffffffffUL) ExitProcess(22);
+    size=GetFileSize(source,&high);
+    if (high || size==INVALID_FILE_SIZE || !size || size>64UL*1024*1024) ExitProcess(22);
     destination=CreateFileA(path,GENERIC_WRITE,0,NULL,CREATE_NEW,0,NULL);
     if (destination==INVALID_HANDLE_VALUE) ExitProcess(23);
-    for (;;) {
-        if (!ReadFile(source,buffer,sizeof(buffer),&got,NULL)) ExitProcess(24);
-        if (!got) break;
+    while (total<size) {
+        bytes=size-total;if (bytes>sizeof(buffer)) bytes=sizeof(buffer);
+        memset(&at,0,sizeof(at));at.Offset=total;got=0;
+        if (!ReadFile(source,buffer,bytes,&got,&at) || got!=bytes) ExitProcess(24);
         if (!WriteFile(destination,buffer,got,&wrote,NULL) || wrote!=got) ExitProcess(25);
         total+=got;
     }
+    high=0;
+    if (total!=size || GetFileSize(source,&high)!=size || high) ExitProcess(22);
     CloseHandle(destination);
     fprintf(events,"loaded-file %s bytes=%lu\n",name,total);
 }
@@ -264,6 +269,7 @@ static void frontier_requests(DWORD address, DWORD *stack)
     }
 }
 #include "dependency-observer.inc"
+#include "clock-observer.inc"
 
 static void module(DWORD base,HANDLE file)
 {
@@ -401,6 +407,7 @@ int main(int argc,char **argv)
             thread_tebs[threads_count]=(DWORD)event.u.CreateProcessInfo.lpThreadLocalBase;
             thread_ids[threads_count++]=event.dwThreadId;
             dependency_install(stop_at_trap);
+            clock_install(stop_at_trap);
             fprintf(events,"create event=%lu base=%08lx entry=%08lx\n",event_number,
                 target_base,(DWORD)event.u.CreateProcessInfo.lpStartAddress);
             save_file(event.u.CreateProcessInfo.hFile,"loaded-target.bin");
@@ -504,6 +511,16 @@ int main(int argc,char **argv)
                 }
                 patch_byte(address,(BYTE)guard->byte);context.Eip=address;
                 if (!SetThreadContext(thread,&context)) return 47;
+            } else if (code==EXCEPTION_BREAKPOINT && clock_point(address)>=0) {
+                int point=clock_point(address);
+                thread=NULL;teb=0;
+                for (i=0;i<threads_count;++i)
+                    if (thread_ids[i]==event.dwThreadId) { thread=threads[i];teb=thread_tebs[i]; }
+                if (!thread) return 147;
+                memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
+                if (!GetThreadContext(thread,&context)) return 148;
+                clock_trap(point,address,teb,event.dwThreadId,&context);
+                if (!SetThreadContext(thread,&context)) return 149;
             } else if (code==EXCEPTION_BREAKPOINT && dependency_point(address)>=0) {
                 int point=dependency_point(address);
                 thread=NULL;teb=0;

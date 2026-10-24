@@ -31,6 +31,17 @@ minimal executable takes about 64 ms and help about 4 ms, with setup/checks spli
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.
 Its source bytes, arguments and entry state are part of every comparison.
 
+The next case times an existing-object LINK with `/Bt`. Its initial original
+and native executions stop at `start_timer`. A separate baseline-only analysis
+records both actual `_ftime` calls, the complete LINK request/result and a
+0.823-second diagnostic. `cases/link-timing/analysis/` owns the raw evidence and
+hash references to existing toolchain files; it is rejected as fresh acceptance.
+The 13-byte start helper is implemented and passes original/native compilation
+and graph/ABI/import audits, but remains unaccepted pending its fresh paired
+clock/child proof. `stop_timer` remains a named trap. The whole timer/caller
+proof records that timezone-name labels are unconsumed; original Greenwich
+labels are retained, without claiming equality to the native provider labels.
+
 The unknown-option case reconstructs warning, variadic message output and fatal
 diagnostics. It matches 56 application entries, 139 stderr bytes and the intended
 full DWORD status 2. Thirteen focused controls reject wrong expectations,

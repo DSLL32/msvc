@@ -45,7 +45,7 @@ def checked_file(entry):
 
 
 def reconstruction_capture(capture):
-    assert capture.get('baseline') is False and not capture.get('dependency_analysis'), 'analysis/reference baseline cannot be used as fresh reconstruction acceptance'
+    assert capture.get('baseline') is False and not capture.get('dependency_analysis') and not capture.get('clock_analysis'), 'analysis/reference baseline cannot be used as fresh reconstruction acceptance'
     assert capture['controller_error'] is None and capture['helper_status'] in (0,capture.get('expected_status',0)&255), 'original capture did not succeed'
     if capture.get('link_response'):
         assert capture['case']=='link-object' and not capture.get('dependency_analysis') and not capture.get('dependency_complete') and not capture.get('dependency_response'), 'ambiguous link response mode'

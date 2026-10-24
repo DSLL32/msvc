@@ -12,7 +12,6 @@ DeferredInput *deferred_from_jobs(Job *jobs) { __asm int 3
     return NULL;
 }
 
-void start_timer(void) { __asm int 3 }
 void stop_timer(char *name) { __asm int 3 }
 
 BOOL WINAPI console_control_handler(DWORD event)

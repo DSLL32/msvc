@@ -1754,9 +1754,21 @@
       "name": "_start_timer",
       "native_symbol": "start_timer",
       "start": 4215805,
-      "end": 4215806,
-      "pending_extent": true,
-      "state": "named INT3 frontier"
+      "end": 4215818,
+      "state": "implemented; pending fresh candidate-inclusive clock/child acceptance",
+      "source": "src/timing.c",
+      "evidence": {
+        "path": "cases/link-timing/analysis/decoded/clock-consumers.json",
+        "kind": "Complete13-byte body and qualified MSVCRT _ftime call; original analysis only"
+      },
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void; original EAX unused by callers",
+        "stack_arguments": [],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete13-byte body pushes static timeb output pointer, indirect qualified cdecl _ftime call, pops argument, RET. No incoming register values consumed."
+      }
     },
     {
       "name": "_stop_timer",
