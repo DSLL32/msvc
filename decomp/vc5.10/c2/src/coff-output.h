@@ -123,4 +123,6 @@ void prepare_output_486e67(void);
 void prepare_output_486a23(void);
 void prepare_output_48710f(void);
 void write_output_directives(void);
+void __fastcall write_output_bytes(const void *data, unsigned bytes);
+void __fastcall write_output_byte(unsigned char value);
 #endif

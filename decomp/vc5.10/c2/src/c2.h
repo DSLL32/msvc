@@ -158,7 +158,8 @@ struct C2Symbol {
     C2Symbol *hash_next;
     signed char kind;
     unsigned char pending05[7];
-    long parameter_offset, value;
+    union { long parameter_offset; unsigned section_size; };
+    long value;
     unsigned flags;
     char *name;
     unsigned char pending1c[8];

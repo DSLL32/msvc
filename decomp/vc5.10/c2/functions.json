@@ -91,7 +91,8 @@
     "@add_output_source@4",
     "@add_coff_symbol@4",
     "_write_output_directives",
-    "_output_callback_453e02"
+    "_output_callback_453e02",
+    "@write_coff_directive@16"
   ],
   "driver": [
     {
@@ -10264,6 +10265,202 @@
         131,
         153
       ]
+    },
+    {
+      "name": "@write_coff_directive@16",
+      "native": "write_coff_directive",
+      "start": 4538027,
+      "end": 4538195,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall char*prefixECX char*valueEDX, stack char*suffix/intquoted; returnignored RET8",
+      "pending_signature": false,
+      "evidence": "cases/analysis/write-coff-directive-analysis.json",
+      "symbol": "@write_coff_directive@16",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "256d171108ba314dbd32ad78c8c5362d44663981d3fb8aa23b819ac6796a6589",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-directive-output-input",
+      "code_chunks": [
+        [
+          4672944,
+          4672989
+        ]
+      ]
     }
   ],
   "stubs": [
@@ -11213,14 +11410,193 @@
     },
     {
       "name": "_output_callback_41ec20",
-      "native": "output_callback_41ec20",
+      "native": "select_output_section",
       "start": 4320288,
       "end": 4320289,
       "pending_extent": true,
       "kind": "application",
-      "abi": "PROVISIONAL function-address identity only; signature/cleanup/return not recovered and no callable ABI credit",
-      "pending_signature": true,
-      "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
+      "abi": "fastcall C2Section*sectionECX; all3direct callers ignoreEAX, RET0; source82direct consumer only, slot497ce4 stillstores-only",
+      "pending_signature": false,
+      "evidence": "cases/analysis/section-callback-storage-contract.json",
+      "symbol": "@select_output_section@4",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "256d171108ba314dbd32ad78c8c5362d44663981d3fb8aa23b819ac6796a6589",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-section-input"
     },
     {
       "name": "_output_callback_41f3f2",
@@ -12143,194 +12519,24 @@
       "extent_evidence": "cases/analysis/emit-output-directive-disassembly.txt: complete60B485383..4853bf wholebody normalRET0; app stillmasked/unaccepted/namedINT3 no bodycredit"
     },
     {
-      "name": "@write_coff_directive@16",
-      "native": "write_coff_directive",
-      "start": 4538027,
-      "end": 4538028,
+      "name": "@write_output_bytes@8",
+      "native": "write_output_bytes",
+      "start": 4321904,
+      "end": 4321905,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall char*prefixECX char*valueEDX, stack char*suffix/intquoted; returnignored RET8",
-      "pending_signature": false,
-      "evidence": "Actual source81 caller and full provider argument/stack/return uses; named pendingINT3 zero bodycredit",
-      "symbol": "@write_coff_directive@16",
-      "state_policy": "globals-complete",
-      "state": [
-        {
-          "original": "0x499708",
-          "native": "(unsigned long)c2_onexit_end"
-        },
-        {
-          "original": "0x4996d4",
-          "native": "(unsigned long)c2_onexit_begin"
-        },
-        {
-          "original": "0x49975c",
-          "native": "c2_fmode"
-        },
-        {
-          "original": "0x4980d4",
-          "native": "c2_commode"
-        },
-        {
-          "original": "0x499718",
-          "native": "c2_adjust_fdiv"
-        },
-        {
-          "original": "0x499694",
-          "native": "c2_default_math_error"
-        },
-        {
-          "original": "0x4980d0",
-          "native": "c2_new_mode"
-        },
-        {
-          "original": "0x4980cc",
-          "native": "c2_wildcards"
-        },
-        {
-          "original": "0x7803fa88",
-          "native": "recon_fmode"
-        },
-        {
-          "original": "0x7803fa94",
-          "native": "recon_commode"
-        },
-        {
-          "original": "0x7803f928",
-          "native": "recon_adjust_fdiv"
-        },
-        {
-          "original": "0x7803fa90",
-          "native": "recon_crt_app_type"
-        },
-        {
-          "original": "0x7803f198",
-          "native": "recon_crt_newmode"
-        },
-        {
-          "original": "0x490b7c",
-          "native": "c2_il_extended_header"
-        },
-        {
-          "original": "0x4972f8",
-          "native": "c2_il_source_table"
-        },
-        {
-          "original": "0x497df8",
-          "native": "c2_il_symbol_count"
-        },
-        {
-          "original": "0x491050",
-          "native": "c2_il_initial_symbol_count"
-        },
-        {
-          "original": "0x497f6c",
-          "native": "c2_il_target_size"
-        },
-        {
-          "original": "0x497de8",
-          "native": "c2_il_eight_byte_target"
-        },
-        {
-          "original": "0x48fb68",
-          "native": "(unsigned long)global_scope.previous"
-        },
-        {
-          "original": "0x491040",
-          "native": "c2_node_bytes[0]"
-        },
-        {
-          "original": "0x491044",
-          "native": "c2_node_bytes[1]"
-        },
-        {
-          "original": "0x491048",
-          "native": "c2_node_bytes[2]"
-        },
-        {
-          "original": "0x49104c",
-          "native": "c2_node_bytes[3]"
-        },
-        {
-          "original": "0x491074",
-          "native": "selected_save_register_mask"
-        },
-        {
-          "original": "0x495f34",
-          "native": "call_clobbered_register_mask"
-        },
-        {
-          "original": "0x49745c",
-          "native": "stack_alignment"
-        },
-        {
-          "original": "0x4973e8",
-          "native": "(unsigned long)current_debug_scope"
-        },
-        {
-          "original": "0x490b84",
-          "native": "(unsigned long)current_symbol_list_scope"
-        },
-        {
-          "original": "0x4972fc",
-          "native": "(unsigned long)global_special_symbols"
-        },
-        {
-          "original": "0x49d634",
-          "native": "current_source_file"
-        },
-        {
-          "original": "0x49739c",
-          "native": "last_section_serial"
-        },
-        {
-          "original": "0x4973b0",
-          "native": "il_option_flags"
-        },
-        {
-          "original": "0x4973a0",
-          "native": "(unsigned long)auxiliary_prefix"
-        },
-        {
-          "original": "0x497390",
-          "native": "(unsigned long)aux_expression_file"
-        },
-        {
-          "original": "0x497380",
-          "native": "(unsigned long)aux_symbol_file"
-        },
-        {
-          "original": "0x497c6c",
-          "native": "c2_constant_strings"
-        },
-        {
-          "original": "0x4973c0",
-          "native": "c2_omit_frame_pointer"
-        },
-        {
-          "original": "0x495f1c",
-          "native": "(unsigned long)current_symbol"
-        },
-        {
-          "original": "0x490b78",
-          "native": "(unsigned long)c2_internal_listing"
-        },
-        {
-          "original": "0x4973f8",
-          "native": "(unsigned long)default_storage_section"
-        },
-        {
-          "original": "0x490b70",
-          "native": "(unsigned long)local_symbol_table"
-        }
-      ],
-      "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "256d171108ba314dbd32ad78c8c5362d44663981d3fb8aa23b819ac6796a6589",
-      "expected_argc": 0,
-      "expected_argv": [
-        "-G5"
-      ],
-      "frontier_contract": "coff-directive-output-input"
+      "abi": "fastcall constvoid*dataECX unsignedbytesEDX callerignoresresultRET0",
+      "evidence": "Actual source82 caller/provider ABI observations; genuine pendingINT3 no bodycredit"
+    },
+    {
+      "name": "@write_output_byte@4",
+      "native": "write_output_byte",
+      "start": 4538195,
+      "end": 4538196,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall unsignedcharvalueCL callerignoresresultRET0",
+      "evidence": "Actual source82 caller/provider ABI observations; genuine pendingINT3 no bodycredit"
     }
   ],
   "text_data": [
@@ -12595,7 +12801,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12607,7 +12813,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12619,7 +12825,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12631,7 +12837,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12643,7 +12849,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12655,7 +12861,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12667,7 +12873,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12679,7 +12885,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12691,7 +12897,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12703,7 +12909,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12717,7 +12923,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12729,7 +12935,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12744,7 +12950,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12756,7 +12962,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12768,7 +12974,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12780,7 +12986,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12792,7 +12998,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12804,7 +13010,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12819,7 +13025,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12834,7 +13040,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12846,7 +13052,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12858,7 +13064,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12870,7 +13076,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       },
       {
@@ -12885,7 +13091,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "f8530be91eab72db199ae3b3f886b3842b6fb255d9576ba61ebedd163a44b30a"
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
         }
       }
     ]
@@ -12895,5 +13101,7 @@
   "writer_callback_boundary": "cases/analysis/object-output-initialization.json",
   "writer_callback_boundary_sha256": "cc18112226656971a1d3a1896281c0a2bc55e68e6f326e2099742cadea21690b",
   "directive_callback_contract": "cases/analysis/directive-callback-contract.json",
-  "directive_callback_contract_sha256": "3c2b5aa26dcdf1f6a25d1d2a977457a523fb7531f135f5ff6f4b822ca650e75c"
+  "directive_callback_contract_sha256": "4384150c815b8e610f2998eb4bb147457b0929a57bd8d51de45e4f0bcc89b0c2",
+  "section_callback_storage_contract": "cases/analysis/section-callback-storage-contract.json",
+  "section_callback_storage_contract_sha256": "7f2075f4a013ec45b8e1e58a89b7d313a3b2ce7cd7c30b33eab3600a3ef7cd16"
 }

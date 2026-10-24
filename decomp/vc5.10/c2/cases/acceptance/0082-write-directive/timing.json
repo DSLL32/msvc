@@ -1,0 +1,56 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 6.515671011060476,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 2.782073981128633,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": 1.6631567850708961,
+      "status": 0
+    }
+  ],
+  "original_capture": {
+    "setup": 0.8827249733731151,
+    "execution": 1.8660534555092454,
+    "total": 2.794932990334928
+  },
+  "native_capture": {
+    "execution": 0.4640165204182267,
+    "total": 0.5974530065432191
+  },
+  "audit_seconds": 0.7947624772787094,
+  "protocol_controls": {
+    "fresh": 6,
+    "reused": 147,
+    "seconds": 6.914148772135377
+  },
+  "section_storage_formal_controls": {
+    "fresh": 20,
+    "seconds": 13.175778376869857
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.010907797142863274,
+      "execution": 0.0019833212718367577,
+      "checks": 0.00028476398438215256,
+      "total": 0.013698256574571133
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "prior_compile_guard_reuse": {
+    "path": "cases/acceptance/0080-directive-dispatch/compile-guard.json",
+    "review": "All20slot structtypes/sizeof4/offset0 unchanged; slot497ce4 retains erased struct and compile barrier. Specific pointercast onlychanges initializer storedaddress view, actual MAP/binary store and directtypedformal checked fresh; no erased invocation authorized. Union C2Symbolfield12 shares same offset,width/signedalias and keeps C2Section86B; originalcompiler sizeof guard/nativeGDB confirms."
+  }
+}

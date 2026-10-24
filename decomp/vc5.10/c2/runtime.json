@@ -1084,9 +1084,17 @@
     "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit"
   },
   {
-    "name": "@write_coff_directive@16",
-    "start": 4538027,
-    "end": 4538028,
+    "name": "@write_output_bytes@8",
+    "start": 4321904,
+    "end": 4321905,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@write_output_byte@4",
+    "start": 4538195,
+    "end": 4538196,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 76 application functions (16215 bytes) and five CRT
+Current reconstruction has 77 application functions (16428 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at the four-argument directive writer with-defaultlib:,LIBC,
-NULL suffix and quote mode0. Four import thunks (24 bytes) and contextual text tables
-(656 bytes) remain separate. The 16653 source bytes are 2.905% of 573183 `.text`
+currently stops at the typed section selector with the directive section
+(.drectve), while retaining the writer inputs-defaultlib:,LIBC,NULL,quote0. Four import thunks (24 bytes) and contextual text tables
+(656 bytes) remain separate. The 16866 source bytes are 2.943% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -356,3 +356,17 @@ Eleven input controls took13.169s;12 switch/boundary controls took0.587s;6fresh/
 147reused protocol checks took6.839s. An initially irrelevant unusedEAX
 negative was corrected to actualEDX, with the failed source retained. Full
 build/capture/audit/fixture accounting is in0081.
+
+Source82 reconstructs the213-byte hot/cold directive writer. It preserves
+opening-quote ordering, optional suffix and trailing-space byte accounting.
+The existing signed symbol offset12 now also has its observed unsigned
+section-size view, with unchanged50-byte symbol/86-byte section layout. A
+fresh pair reaches the same typed C2Section*ECX selector, proving the owned
+.drectve86-byte record, directive-global alias and shared stored target address.
+The one initializer pointer cast preserves that address only; erased slot497ce4
+stays stores-only, its19 indirect callers pending, and the target remains a
+real named masked INT3. All3 direct callers and the complete57-byte callee
+ABI were inspected. Twenty focused controls pass in13.176s;6fresh/147reused
+protocol checks take6.914s. Original/native/helper builds take6.516/2.782/1.663s;
+captures2.795/.597s, audit.795s, native help1.983ms execution. The orchestrator
+review and exact source/raw/elapsed evidence are in0082.

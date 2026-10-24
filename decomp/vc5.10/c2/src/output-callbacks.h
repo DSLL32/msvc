@@ -41,7 +41,7 @@ extern C2PendingCallback output_slot_497f50;
 extern C2DirectiveCallback output_slot_49971c;
 extern C2PendingCallback output_slot_497cec;
 void output_callback_41eb89();
-void output_callback_41ec20();
+void __fastcall select_output_section(C2Section *section);
 void output_callback_41f3f2();
 void output_callback_41fa04();
 void output_callback_434139();

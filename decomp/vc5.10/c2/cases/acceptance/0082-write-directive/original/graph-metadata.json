@@ -1,0 +1,610 @@
+{
+  "schema": 1,
+  "functions": {
+    "_c2_crt_startup": {
+      "original": {
+        "roots": [
+          4670637,
+          4670658
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4201019,
+          4201052
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3d0",
+        "rebuilt_scope_table": "0x4080a8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "_c2_main": {
+      "original": {
+        "roots": [
+          4670693,
+          4670736
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4201470,
+          4201533
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3c0",
+        "rebuilt_scope_table": "0x4080b8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "@read_initializer_records@4": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true,
+        "enabled": true
+      },
+      "original": {
+        "text_data": [
+          [
+            4531320,
+            4531352
+          ],
+          [
+            4531352,
+            4531369
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4207785,
+            4207817
+          ],
+          [
+            4207817,
+            4207834
+          ]
+        ]
+      }
+    },
+    "_initialize_object_output": {
+      "register_imports": {
+        "enabled": true,
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "@initialize_coff_output@4": {
+      "register_imports": {
+        "enabled": true,
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "@c2_match_option@16": {
+      "original": {
+        "text_data": [
+          [
+            4533424,
+            4533444
+          ],
+          [
+            4533456,
+            4533502
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4203052,
+            4203072
+          ],
+          [
+            4203072,
+            4203118
+          ]
+        ]
+      }
+    },
+    "@c2_apply_option@12": {
+      "original": {
+        "text_data": [
+          [
+            4533728,
+            4533760
+          ],
+          [
+            4533760,
+            4533799
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4203903,
+            4203935
+          ],
+          [
+            4203935,
+            4203974
+          ]
+        ]
+      }
+    },
+    "_format_diagnostic_args": {
+      "original": {
+        "text_data": [
+          [
+            4771504,
+            4771532
+          ],
+          [
+            4771532,
+            4771583
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4209522,
+            4209550
+          ],
+          [
+            4209550,
+            4209601
+          ]
+        ]
+      }
+    },
+    "@c2_node_size@4": {
+      "original": {
+        "text_data": [
+          [
+            4248936,
+            4249000
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4210851,
+            4210915
+          ]
+        ]
+      }
+    },
+    "@read_symbols@4": {
+      "original": {
+        "text_data": [
+          [
+            4327020,
+            4327064
+          ],
+          [
+            4327072,
+            4327095
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4214288,
+            4214332
+          ],
+          [
+            4214332,
+            4214355
+          ]
+        ]
+      }
+    },
+    "@read_symbol@4": {
+      "original": {
+        "text_data": [
+          [
+            4328984,
+            4329076
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4217674,
+            4217766
+          ]
+        ]
+      }
+    },
+    "@intern_symbol_name@12": {
+      "original": {
+        "text_data": [
+          [
+            4329420,
+            4329444
+          ],
+          [
+            4329444,
+            4329455
+          ],
+          [
+            4329456,
+            4329492
+          ],
+          [
+            4329492,
+            4329521
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4218186,
+            4218210
+          ],
+          [
+            4218210,
+            4218221
+          ],
+          [
+            4218221,
+            4218257
+          ],
+          [
+            4218257,
+            4218286
+          ]
+        ]
+      }
+    },
+    "@update_symbol_storage@4": {
+      "original": {
+        "text_data": [
+          [
+            4359628,
+            4359656
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4213086,
+            4213114
+          ]
+        ]
+      }
+    },
+    "_output_callback_453e02": {
+      "original": {
+        "text_data": [
+          [
+            4537916,
+            4537956
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4221887,
+            4221927
+          ]
+        ]
+      }
+    }
+  },
+  "callback_tables": [],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "function": "@new_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "_input_varuint"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "_input_compact_signed"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_initializer_values@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@queue_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@emit_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@free_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "_c2_read_il_byte"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@input_string@8"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@lookup_source_file@8"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@c2_report_internal@8"
+        },
+        "preserves": [
+          "ebp",
+          "edi",
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_initializer_records@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "free"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@c2_pool_allocate@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "_query_incremental_stream_size"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_incremental_stream@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "_read_incremental_byte"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "_validate_incremental_options"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fopen"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fclose"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "_initialize_coff_lists"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "@new_output_list@8"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "function": "_read_incremental_output"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "malloc"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+        }
+      }
+    ]
+  }
+}

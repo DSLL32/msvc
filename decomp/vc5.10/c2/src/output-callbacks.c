@@ -67,7 +67,7 @@ void initialize_pass_functions(void)
         output_slot_497dec.target = output_callback_434139;
         output_slot_497db0.target = output_callback_41f3f2;
         output_slot_497dd4.target = output_callback_41f3f2;
-        output_slot_497ce4.target = output_callback_41ec20;
+        output_slot_497ce4.target = (void (__cdecl *)()) select_output_section;
         if (c2_codeview_types || c2_line_numbers) {
             output_slot_497ddc.target = output_callback_442d21;
             output_slot_497dcc.target = output_callback_442b9f;

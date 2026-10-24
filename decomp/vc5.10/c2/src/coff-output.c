@@ -240,3 +240,30 @@ unsigned __fastcall add_coff_symbol(C2CoffRecord *record)
     coff_next_symbol = index + 1;
     return index;
 }
+
+void __fastcall write_coff_directive(char *prefix, char *value, char *suffix, int quoted)
+{
+    unsigned bytes;
+    select_output_section(directive_section);
+    bytes = strlen(prefix);
+    write_output_bytes(prefix, bytes);
+    directive_section->symbol.section_size += bytes;
+    if (quoted) {
+        write_output_byte('"');
+        bytes = strlen(value);
+        write_output_bytes(value, bytes);
+        write_output_byte('"');
+        bytes += 2;
+    } else {
+        bytes = strlen(value);
+        write_output_bytes(value, bytes);
+    }
+    directive_section->symbol.section_size += bytes;
+    if (suffix) {
+        bytes = strlen(suffix);
+        write_output_bytes(suffix, bytes);
+        directive_section->symbol.section_size += bytes;
+    }
+    write_output_byte(' ');
+    ++directive_section->symbol.section_size;
+}

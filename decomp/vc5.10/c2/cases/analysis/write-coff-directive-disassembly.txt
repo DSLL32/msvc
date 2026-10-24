@@ -1,0 +1,124 @@
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00453eab <.text+0x52eab>:
+  453eab:	53                   	push   ebx
+  453eac:	56                   	push   esi
+  453ead:	8b f1                	mov    esi,ecx
+  453eaf:	57                   	push   edi
+  453eb0:	8b 0d fc 73 49 00    	mov    ecx,DWORD PTR ds:0x4973fc
+  453eb6:	8b da                	mov    ebx,edx
+  453eb8:	e8 63 ad fc ff       	call   0x41ec20
+  453ebd:	8b fe                	mov    edi,esi
+  453ebf:	83 c9 ff             	or     ecx,0xffffffff
+  453ec2:	33 c0                	xor    eax,eax
+  453ec4:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+  453ec6:	f7 d1                	not    ecx
+  453ec8:	49                   	dec    ecx
+  453ec9:	8b f9                	mov    edi,ecx
+  453ecb:	8b ce                	mov    ecx,esi
+  453ecd:	8b d7                	mov    edx,edi
+  453ecf:	e8 9c b3 fc ff       	call   0x41f270
+  453ed4:	a1 fc 73 49 00       	mov    eax,ds:0x4973fc
+  453ed9:	8b 48 0c             	mov    ecx,DWORD PTR [eax+0xc]
+  453edc:	03 cf                	add    ecx,edi
+  453ede:	89 48 0c             	mov    DWORD PTR [eax+0xc],ecx
+  453ee1:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+  453ee5:	85 c0                	test   eax,eax
+  453ee7:	0f 85 c3 0e 02 00    	jne    0x474db0
+  453eed:	8b fb                	mov    edi,ebx
+  453eef:	83 c9 ff             	or     ecx,0xffffffff
+  453ef2:	33 c0                	xor    eax,eax
+  453ef4:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+  453ef6:	f7 d1                	not    ecx
+  453ef8:	49                   	dec    ecx
+  453ef9:	8b f1                	mov    esi,ecx
+  453efb:	8b cb                	mov    ecx,ebx
+  453efd:	8b d6                	mov    edx,esi
+  453eff:	e8 6c b3 fc ff       	call   0x41f270
+  453f04:	a1 fc 73 49 00       	mov    eax,ds:0x4973fc
+  453f09:	8b 5c 24 10          	mov    ebx,DWORD PTR [esp+0x10]
+  453f0d:	8b 48 0c             	mov    ecx,DWORD PTR [eax+0xc]
+  453f10:	03 ce                	add    ecx,esi
+  453f12:	85 db                	test   ebx,ebx
+  453f14:	89 48 0c             	mov    DWORD PTR [eax+0xc],ecx
+  453f17:	75 19                	jne    0x453f32
+  453f19:	b1 20                	mov    cl,0x20
+  453f1b:	e8 33 00 00 00       	call   0x453f53
+  453f20:	a1 fc 73 49 00       	mov    eax,ds:0x4973fc
+  453f25:	5f                   	pop    edi
+  453f26:	5e                   	pop    esi
+  453f27:	8b 48 0c             	mov    ecx,DWORD PTR [eax+0xc]
+  453f2a:	5b                   	pop    ebx
+  453f2b:	41                   	inc    ecx
+  453f2c:	89 48 0c             	mov    DWORD PTR [eax+0xc],ecx
+  453f2f:	c2 08 00             	ret    0x8
+  453f32:	8b fb                	mov    edi,ebx
+  453f34:	83 c9 ff             	or     ecx,0xffffffff
+  453f37:	33 c0                	xor    eax,eax
+  453f39:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+  453f3b:	f7 d1                	not    ecx
+  453f3d:	49                   	dec    ecx
+  453f3e:	8b f1                	mov    esi,ecx
+  453f40:	8b cb                	mov    ecx,ebx
+  453f42:	8b d6                	mov    edx,esi
+  453f44:	e8 27 b3 fc ff       	call   0x41f270
+  453f49:	a1 fc 73 49 00       	mov    eax,ds:0x4973fc
+  453f4e:	01 70 0c             	add    DWORD PTR [eax+0xc],esi
+  453f51:	eb c6                	jmp    0x453f19
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00474db0 <.text+0x73db0>:
+  474db0:	b1 22                	mov    cl,0x22
+  474db2:	e8 9c f1 fd ff       	call   0x453f53
+  474db7:	8b fb                	mov    edi,ebx
+  474db9:	83 c9 ff             	or     ecx,0xffffffff
+  474dbc:	33 c0                	xor    eax,eax
+  474dbe:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+  474dc0:	f7 d1                	not    ecx
+  474dc2:	49                   	dec    ecx
+  474dc3:	8b f1                	mov    esi,ecx
+  474dc5:	8b cb                	mov    ecx,ebx
+  474dc7:	8b d6                	mov    edx,esi
+  474dc9:	e8 a2 a4 fa ff       	call   0x41f270
+  474dce:	b1 22                	mov    cl,0x22
+  474dd0:	e8 7e f1 fd ff       	call   0x453f53
+  474dd5:	83 c6 02             	add    esi,0x2
+  474dd8:	e9 27 f1 fd ff       	jmp    0x453f04
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041ec20 <.text+0x1dc20>:
+  41ec20:	56                   	push   esi
+  41ec21:	57                   	push   edi
+  41ec22:	8b f9                	mov    edi,ecx
+  41ec24:	8b 47 46             	mov    eax,DWORD PTR [edi+0x46]
+  41ec27:	85 c0                	test   eax,eax
+  41ec29:	74 1c                	je     0x41ec47
+  41ec2b:	66 8b 77 46          	mov    si,WORD PTR [edi+0x46]
+  41ec2f:	8b ce                	mov    ecx,esi
+  41ec31:	e8 6a 05 00 00       	call   0x41f1a0
+  41ec36:	8b ce                	mov    ecx,esi
+  41ec38:	e8 b8 05 00 00       	call   0x41f1f5
+  41ec3d:	8b 57 0c             	mov    edx,DWORD PTR [edi+0xc]
+  41ec40:	3b c2                	cmp    eax,edx
+  41ec42:	72 0a                	jb     0x41ec4e
+  41ec44:	5f                   	pop    edi
+  41ec45:	5e                   	pop    esi
+  41ec46:	c3                   	ret
+  41ec47:	e8 0d 00 00 00       	call   0x41ec59
+  41ec4c:	eb dd                	jmp    0x41ec2b
+  41ec4e:	2b d0                	sub    edx,eax
+  41ec50:	32 c9                	xor    cl,cl
+  41ec52:	e8 85 54 03 00       	call   0x4540dc
+  41ec57:	eb eb                	jmp    0x41ec44

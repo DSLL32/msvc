@@ -1,0 +1,35 @@
+  44a7a0:	8b f1                	mov    esi,ecx
+  44a7a2:	8b 4c 24 10          	mov    ecx,DWORD PTR [esp+0x10]
+  44a7a6:	57                   	push   edi
+  44a7a7:	33 ed                	xor    ebp,ebp
+  44a7a9:	e8 72 44 fd ff       	call   0x41ec20
+  44a7ae:	8b 06                	mov    eax,DWORD PTR [esi]
+  44a7b0:	48                   	dec    eax
+  44a7b1:	83 f8 0f             	cmp    eax,0xf
+  44a7b4:	0f 87 8a 74 02 00    	ja     0x471c44
+  44a7ba:	33 c9                	xor    ecx,ecx
+  44a7bc:	8a 88 1c a9 44 00    	mov    cl,BYTE PTR [eax+0x44a91c]
+
+  453ead:	8b f1                	mov    esi,ecx
+  453eaf:	57                   	push   edi
+  453eb0:	8b 0d fc 73 49 00    	mov    ecx,DWORD PTR ds:0x4973fc
+  453eb6:	8b da                	mov    ebx,edx
+  453eb8:	e8 63 ad fc ff       	call   0x41ec20
+  453ebd:	8b fe                	mov    edi,esi
+  453ebf:	83 c9 ff             	or     ecx,0xffffffff
+  453ec2:	33 c0                	xor    eax,eax
+  453ec4:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+  453ec6:	f7 d1                	not    ecx
+  453ec8:	49                   	dec    ecx
+
+  454225:	e8 e6 00 00 00       	call   0x454310
+  45422a:	39 6e 0c             	cmp    DWORD PTR [esi+0xc],ebp
+  45422d:	74 07                	je     0x454236
+  45422f:	8b ce                	mov    ecx,esi
+  454231:	e8 ea a9 fc ff       	call   0x41ec20
+  454236:	8b 3f                	mov    edi,DWORD PTR [edi]
+  454238:	3b fd                	cmp    edi,ebp
+  45423a:	75 d8                	jne    0x454214
+  45423c:	eb c5                	jmp    0x454203
+  45423e:	e8 f6 00 00 00       	call   0x454339
+  454243:	39 2d 78 0b 49 00    	cmp    DWORD PTR ds:0x490b78,ebp

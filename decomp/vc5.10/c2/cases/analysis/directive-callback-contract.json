@@ -103,7 +103,7 @@
     "offset": 73,
     "bytes": "ffd0",
     "length": 2,
-    "elf_sha256": "0b6c9dc44d23d42e81a021fd717ca03e5ae729075e52762a622941042210f0b4"
+    "elf_sha256": "ce072ab1ec4d3ffc34fb743261c14eca00136b0125ca537bfadfd84ce3b44221"
   },
   "actual_source": {
     "slot_type": "C2DirectiveCallback",
@@ -112,8 +112,8 @@
     "cast": "(C2OutputDirectiveWriter) output_callback_41eb89",
     "source": "src/output-callbacks.c",
     "header": "src/output-callbacks.h",
-    "source_sha256": "50cb083a2289eb1fe25f7f98c204f9ed5c02baaa0a0af0e27637145a80fd5c60",
-    "header_sha256": "ac2fb5d099f4f3f1945225bf12ef8e33be17525307f387bb5061739f1c434c02",
+    "source_sha256": "2586c778163cde5851e6acab099bc5babce73acaf1827730e30e55c0d2834f70",
+    "header_sha256": "6a010a0a8213a8dace42fb5c082518f8ad20884df4cda5290bea3ff352ae8791",
     "target_native": "emit_output_directive"
   }
 }

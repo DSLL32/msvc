@@ -457,7 +457,7 @@ void output_callback_41eb89()
     __asm { int 3 }
 }
 
-void output_callback_41ec20()
+void __fastcall select_output_section(C2Section *section)
 {
     __asm { int 3 }
 }
@@ -601,4 +601,5 @@ unsigned __fastcall reserve_incremental_symbols(unsigned count, unsigned short s
 void grow_coff_symbol_buffer(void) { __asm { int 3 } }
 
 void __fastcall emit_incremental_string(char *value) { __asm { int 3 } }
-void __fastcall write_coff_directive(char *prefix, char *value, char *suffix, int quoted) { __asm { int 3 } }
+void __fastcall write_output_bytes(const void *data, unsigned bytes) { __asm { int 3 } }
+void __fastcall write_output_byte(unsigned char value) { __asm { int 3 } }
