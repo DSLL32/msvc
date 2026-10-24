@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "kind": "independent CVPACK102 lifecycle/current-vs-history/source and frozen pair review; no execution",
+  "review_sha256": "62e58abfb0c8336ea6c1880e707722d4989f914843ee5955d45f1ec2c30a7c8d",
+  "pair_seconds": 2.4857284501194954,
+  "matched": "compare_packed_directory_entries",
+  "raw_original_receipt_sha256": "56b541b61be6cfbce3da518ee0cd6f29195b51e11f59812582aa113f7f1491c2",
+  "raw_native_receipt_sha256": "e1ba65e080f1562e5fd20235654f669148e8b6cda392d549780e283beeddaed1",
+  "checks": [
+    "Whole3106B period C writer/source/macros inspected, no extra in-body helper vertices or bulk data. Prefix reaches genuine comparator namedtrap; children remain genuine stubs/zero credit.",
+    "Beforewriter70initializedrows840B capacity912 kept as own historical snapshot; current58active696B independently rebuilt from live35ModuleInfo inputs.",
+    "Current permutation actual both0\u219429 matches, firstcallback args1/0 full12B rows owner-bound. Remaining144 initialized bytes each-own unchanged; spare72unwritten never read/seeded/compared.",
+    "Old twelve+two frees/current sourceindex newowner scope retained; immutable beforewriter history supplies old reader/rewriter identities, current typed rows separately validated.",
+    "Actual qsort58x12/canonicalreturn2551e/native recon_qsort parent/formal pointer rows checked. Only first callback slice supported; later qsort results/sequence/errors/FP remain next-candidate proof.",
+    "Previously independently approved12EDI masks re-bound to whole102 strictsitegraph with bothprintfsites/zero unknown. All21 affected controls retained."
+  ]
+}

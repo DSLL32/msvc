@@ -1,5 +1,6 @@
 """GDB-side typed state capture, copied into each raw native evidence directory."""
 import json
+import struct
 import os
 import stat
 import hashlib
@@ -25,6 +26,8 @@ main_free_calls=[]
 source_index_allocations=[]
 source_family_allocations=[]
 source_family_frees=[]
+output_directory_before={}
+output_directory_sort={}
 lookup_calls=[]
 lookup_stack=[]
 type_compare_calls=[]
@@ -201,6 +204,28 @@ def install(configuration):
                 record=dict(size=size,entry_index=(entry-root)//12);(module_allocations if owner.name()=='initialize_single_module' else subsection_allocations).append(record)
             AllocationReturned(record);return False
     AllocationEntered()
+
+    if config.get('observe_output_directory'):
+        class DirectoryBefore(gdb.Breakpoint):
+            def __init__(self):super().__init__('*flush_packed_file',internal=True)
+            def stop(self):
+                assert not output_directory_before,'directory writer input observed twice'
+                address=int(gdb.parse_and_eval('directory_entries'));count=int(gdb.parse_and_eval('directory_count'));capacity=directory_allocation['size']
+                assert directory_allocation['address']==address and capacity==(count+6)*12,'directory actual prewriter owner differs'
+                output_directory_before.update(address=address,count=count,capacity=capacity,bytes=bytes(gdb.selected_inferior().read_memory(address,count*12)).hex())
+                return False
+        DirectoryBefore()
+        class DirectorySort(gdb.Breakpoint):
+            def __init__(self):super().__init__('*recon_qsort',internal=True)
+            def stop(self):
+                owner=gdb.newest_frame().older()
+                if owner is None or owner.name()!='flush_packed_file':return False
+                assert not output_directory_sort,'directory sort observed twice'
+                stack=int(gdb.parse_and_eval('$esp'));args=struct.unpack('<4I',bytes(gdb.selected_inferior().read_memory(stack+4,16)))
+                assert args[0]==int(gdb.parse_and_eval('directory_entries')) and args[1]==int(gdb.parse_and_eval('directory_count')) and args[2]==12 and args[3]==int(gdb.parse_and_eval('&compare_packed_directory_entries')),'directory native qsort complete arguments differ'
+                output_directory_sort.update(address=args[0],count=args[1],capacity=directory_allocation['size'],width=args[2],callback=args[3],bytes=bytes(gdb.selected_inferior().read_memory(args[0],output_directory_before['count']*12)).hex())
+                return False
+        DirectorySort()
 
     if config.get('observe_source_index_complete'):
         class SourceFreeReturned(gdb.FinishBreakpoint):
@@ -613,6 +638,11 @@ def capture(configuration,data_file,output):
             assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==item.get('native_stage',1) and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==0,'opaque object provider lifetime/state differs'
             state.setdefault('widen_object_arguments',{})[item['name']]=dict(address=int(value),output_slot=int(owner.read_var(item['local']).address))
             parameters[item['name']]=dict(provider='MSPDB50.DLL',instance=1,state=item.get('state','created'),owner=item['owner'],local=item['local'])
+        elif item['kind']=='packed-directory-entry':
+            root=int(gdb.parse_and_eval('directory_entries'));count=int(gdb.parse_and_eval('directory_count'));address=int(value)
+            assert gdb.lookup_type('CodeViewDirectoryEntry').sizeof==12 and root<=address<root+count*12 and (address-root)%12==0,'packed directory argument exceeds initialized active rows'
+            assert frame.older() is not None and frame.older().name()=='recon_qsort','packed directory callback lacks actual qsort caller'
+            parameters[item['name']]=dict(index=(address-root)//12,width=12)
         elif item['kind']=='source-file-name':
             owner=frame.older();assert owner is not None and owner.name()=='build_source_file_index'
             info=owner.read_var('info');assert info.type.target().sizeof==48
@@ -703,6 +733,8 @@ def capture(configuration,data_file,output):
     state['source_index_allocations']=source_index_allocations
     state['source_family_allocations']=source_family_allocations
     state['source_family_frees']=source_family_frees
+    state['directory_before_writer']=output_directory_before
+    state['directory_sort_input']=output_directory_sort
     if config.get('observe_source_index_complete'):
         assert len(source_family_allocations)==3 and len(source_family_frees)==2 and all(row.get('returned') for row in source_family_frees),'source family completion inventory differs'
         allocation=source_family_allocations[2];address=int(gdb.parse_and_eval('source_file_index'));size=int(gdb.parse_and_eval('source_file_index_size'))
@@ -826,7 +858,8 @@ def capture(configuration,data_file,output):
         head=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
         if not head or released(head):continue
         spec=item['blob'];size=spec.get('size')
-        if size is None:size=int(gdb.parse_and_eval(spec['count']))*spec['element_size']
+        if config.get('observe_output_directory') and item['name']=='directory_entries':size=output_directory_before['count']*12
+        elif size is None:size=int(gdb.parse_and_eval(spec['count']))*spec['element_size']
         assert 0<=size<=65536
         raw=bytes(inferior.read_memory(head,size));memory[str(head)]=raw.hex()
         for pointer in spec.get('pointers',[]):

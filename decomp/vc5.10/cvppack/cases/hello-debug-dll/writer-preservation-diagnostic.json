@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "status": "diagnostic-proposed-not-approved",
+  "command": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--profile",
+    "cl",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/cvppack",
+    "--repo",
+    "/root/msvc2",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/CVPACK.EXE",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/CVPACK.EXE",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/cvpack.map",
+    "--config",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/writer-initial-audit/ret-projection-config.json",
+    "--runtime",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/writer-initial-audit/graph-runtime.json",
+    "--rebuilt-runtime",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/writer-initial-audit/graph-runtime.json",
+    "--metadata",
+    "/root/.ai-tmp/msvc2/vc5.10/cvppack/writer-import-diagnostic/bound-metadata.json",
+    "--discovery",
+    "cfg",
+    "--check-ret",
+    "--check-imports",
+    "--resolve-register-imports",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "packet": {
+    "path": "/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/writer-import-preservation.json",
+    "sha256": "9b891c301b63ac1d9ab1f0e102434f606a8136c3cd6d9499201bb01ab7007305"
+  },
+  "metadata": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cvppack/writer-import-diagnostic/bound-metadata.json",
+    "sha256": "45590ec5ca55f7d6d2fb2d24e26f594d088d220dbf6d9735b9a232f248066f8c"
+  },
+  "report": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cvppack/writer-import-diagnostic/bound-report.json",
+    "sha256": "71927a5e9b0e1c862c294ffebb44889b859bd4fe64368e563bcf4103b64f6553"
+  },
+  "tool": {
+    "path": "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24"
+  },
+  "original": {
+    "path": "/root/msvc2/toolchains/5.10/bin/CVPACK.EXE",
+    "sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6"
+  },
+  "rebuilt": {
+    "path": "/root/msvc2/decomp/vc5.10/cvppack/build/CVPACK.EXE",
+    "sha256": "3d5ac44bbd2911e4ef2af4d74104135dbb883fd2da7f5367706a6bf776209513"
+  },
+  "map": {
+    "path": "/root/msvc2/decomp/vc5.10/cvppack/build/cvpack.map",
+    "sha256": "fa68744ece1b380dab0a0769e9ad840fd0f802965c36392b153c79e24cfa5e3b"
+  },
+  "controls": [
+    {
+      "target": {
+        "function": "_message_text"
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4221722, 4222526}",
+      "metadata_sha256": "a14ee9d0c3cfcaf2c961948b64fd36577cb315793a41a60e24db183a373793c2"
+    },
+    {
+      "target": {
+        "function": "_seek_cached_file"
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "96c9a12c13f4f5986398abe662b3f2924777f6b48f4c4182c88fe12ef742015e"
+    },
+    {
+      "target": {
+        "function": "_tell_cached_file"
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "d8b5717c19a6056084f5ad353370ab15dd30391009e544429f8f5fac79f50685"
+    },
+    {
+      "target": {
+        "function": "_begin_buffered_output"
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "072d9dd46c8f01d7dba85d39ee524a68464cc6f222e346585a2507fe4677dd33"
+    },
+    {
+      "target": {
+        "function": "_buffered_write"
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "5ff48dc5b35901c2a0d3b56cd351ca1ea2601f08ddb0dd14cb6a0f5aa09e7dfb"
+    },
+    {
+      "target": {
+        "function": "_write_subsection"
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "ce3c4e37d76111cfa9af834b3bfb90e2d9d96bfe92b3fce1fed851ee1a7f5e98"
+    },
+    {
+      "target": {
+        "function": "_write_publics"
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "cd0c9b1a667927f24515d9879e998b53162e96a7debdc6e9cdb077e1eb047efb"
+    },
+    {
+      "target": {
+        "function": "_write_globals"
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "efe30a0bf06bf0f1876259901965ea358034f3960a47088f1a5b95beff7e7039"
+    },
+    {
+      "target": {
+        "function": "_write_static_symbols"
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "c12822e2addca1ac7f2667a207ded6cd37a15b07dc368dd6971140cfbce0d2e5"
+    },
+    {
+      "target": {
+        "function": "_write_global_types"
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "92ae2a4ced45518f04f20d76a1340aa87b1d2214720b861d55e77b0b8d3138fe"
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "printf"
+        }
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "f8607984108d0c2127f9636f38496f3f5920d083007f59ca8d49c86d2615b607"
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "qsort"
+        }
+      },
+      "diagnostic": "graph-audit: original _flush_packed_file register imports: unresolved register import calls: {4222526}",
+      "metadata_sha256": "49093570972432cd9f6cd40dc71dbcf0a3156ca6e1387e47797d81584aa20829"
+    }
+  ],
+  "seconds": 0.675799342803657
+}

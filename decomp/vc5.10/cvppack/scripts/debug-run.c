@@ -41,6 +41,8 @@ static DWORD lookup_frames[64][3], lookup_depth;
 static DWORD main_free_addresses[12], main_free_sizes[12], main_free_count;
 static unsigned char *main_free_before[12];
 static DWORD source_index_size, source_index_address;
+static DWORD directory_capacity;
+static int output_directory_mode;
 static DWORD source_family_sizes[3], source_family_addresses[3], source_family_count, source_family_pending, source_family_frees;
 static DWORD pending_main_free, pending_main_size, pending_main_site;
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
@@ -48,6 +50,7 @@ static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
 static void configure(void)
 {
     char *value, *next;
+    output_directory_mode = getenv("VC510_CVPACK_OUTPUT_DIRECTORY") != NULL;
     value = getenv("VC510_CVPACK_DATA");
     while (value && *value && watch_count < 256) {
         if (sscanf(value, "%lx:%lu", &watched_address[watch_count], &watched_size[watch_count]) != 2) break;
@@ -346,6 +349,10 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
                 }
                 bytes = count * blob_element_size[i];
             }
+            if (output_directory_mode && blob_address[i] == 0x4153b8) {
+                if (directory_capacity < 72 || directory_capacity % 12) { fprintf(log, "blob-observation-failed\n"); continue; }
+                bytes = directory_capacity - 72;
+            }
             memory(log, process, value, bytes);
             if (blob_child_size[i] && blob_pointer[i] <= blob_size[i] - 4 &&
                 read_bytes(process, value + blob_pointer[i], &item, 4) && item)
@@ -573,9 +580,10 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         }
         read_pending = 0;
     }
-    if (entry == 0x40584b && read_bytes(process, context->Esp, &value, 4))
+    if (entry == 0x40584b && read_bytes(process, context->Esp, &value, 4)) {
+        directory_capacity = value;
         fprintf(log, "directory-allocation-call %lu\n", value);
-    else if (entry == 0x405851) fprintf(log, "directory-allocation-return %08lx\n", context->Eax);
+    } else if (entry == 0x405851) fprintf(log, "directory-allocation-return %08lx\n", context->Eax);
     if ((entry == 0x40591a || entry == 0x40547c) && read_bytes(process, context->Esp, &value, 4))
         fprintf(log, "subsection-allocation-call %08lx %lu\n", entry == 0x40547c ? context->Ebp : context->Esi, value);
     else if (entry == 0x405920 || entry == 0x405482) fprintf(log, "subsection-allocation-return %08lx\n", context->Eax);
@@ -711,7 +719,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         fprintf(log, "source-family-free-return %08lx %08lx\n", entry, context->Esp);
         ++source_family_frees;
     }
-    if (entry == 0x4069e0 && full_graphs) {
+    if ((entry == 0x4069e0 || (output_directory_mode && entry == 0x4063f0)) && full_graphs) {
         DWORD pointer, size, k;
         unsigned char *bytes;
         if (source_family_count != 3 || source_family_frees != 2 ||
@@ -751,6 +759,23 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         for (k = 0; k < source_index_size; ++k) fprintf(log, "%02x", bytes[k]);
         fputc('\n', log);
         free(bytes);
+    }
+    if (output_directory_mode && (entry == 0x4069e0 || entry == 0x406b34)) {
+        DWORD address, count, arguments[4], size, k;
+        unsigned char *bytes;
+        if (!read_bytes(process, 0x4153b8, &address, 4) || !read_bytes(process, 0x415640, &count, 4) ||
+            directory_capacity < 72 || directory_capacity % 12) { fprintf(log, "output-directory-observation-failed\n"); return; }
+        size = directory_capacity - 72;
+        if (entry == 0x406b34 && (!read_bytes(process, context->Esp, arguments, sizeof(arguments)) ||
+            arguments[0] != address || arguments[1] != count || arguments[2] != 12 || arguments[3] != 0x4063f0)) {
+            fprintf(log, "output-directory-observation-failed\n"); return;
+        }
+        if (entry == 0x406b34) fprintf(log, "directory-qsort-arguments %08lx %lu %lu %08lx\n", arguments[0], arguments[1], arguments[2], arguments[3]);
+        bytes = malloc(size);
+        if (!bytes || !read_bytes(process, address, bytes, size)) { free(bytes); fprintf(log, "output-directory-observation-failed\n"); return; }
+        fprintf(log, "%s %08lx %lu %lu ", entry == 0x4069e0 ? "directory-before-writer" : "directory-qsort-input", address, count, directory_capacity);
+        for (k = 0; k < size; ++k) fprintf(log, "%02x", bytes[k]);
+        fprintf(log, "\n"); free(bytes);
     }
     widen_state(log, process, context, entry);
 }

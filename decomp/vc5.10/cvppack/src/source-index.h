@@ -15,4 +15,6 @@ typedef struct SourceNameIndex {
 } SourceNameIndex;
 SourceNameIndex *append_source_name(const unsigned char *name, SourceNameIndex *tail, unsigned offset);
 void build_source_file_index(void);
+extern unsigned source_file_index_size;
+extern unsigned char *source_file_index;
 #endif

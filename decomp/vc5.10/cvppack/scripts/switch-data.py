@@ -109,6 +109,27 @@ def prepare(checked,destination,available=None):
         metadata['register_imports']['preservation_contracts'].append(dict(target=row['target'],preserves=row['preserves'],
             evidence=dict(path=str(additional.relative_to(BINARY)),sha256=sha(additional))))
     proof['additional_register_preservation_evidence_sha256']=sha(additional)
+    if any(row['name']=='flush_packed_file' for row in checked):
+        path=BINARY/'cases/hello-debug-dll/writer-import-preservation.json'
+        writer=json.loads(path.read_text())
+        assert writer['target_sha256']==sha(ROOT/preservation['target']['path']) and writer['provider_sha256']==sha(provider)
+        assert writer['base_contracts_sha256']==sha(additional) and writer['live_import_sites']==[0x406b1a,0x406e3e]
+        assert target.read(writer['seed']['site'],6).hex()==writer['seed']['bytes'] and writer['seed']['iat']==0x4161e0
+        for header in writer['sdk_headers']:assert sha(ROOT/header['path'])==header['sha256'],'changed writer SDK ABI witness'
+        comparator=writer['qsort_comparator'];assert hashlib.sha256(target.read(comparator['start'],comparator['end']-comparator['start'])).hexdigest()==comparator['sha256']
+        assert len(writer['contracts'])==12,'writer EDI witness inventory differs'
+        for row in writer['contracts']:
+            assert row['preserves']==['edi'],'writer normal-return extension exceeds live EDI scope'
+            owner=module if 'import' in row['target'] else target;body=row['original_body']
+            assert hashlib.sha256(owner.read(body['start'],body['end']-body['start'])).hexdigest()==body['sha256'],'changed writer normal-return witness'
+            claim=next((claim for claim in metadata['register_imports']['preservation_contracts'] if claim['target']==row['target']),None)
+            if claim is None:
+                claim=dict(target=row['target'],preserves=[]);metadata['register_imports']['preservation_contracts'].append(claim)
+            assert 'edi' not in claim['preserves'],'duplicated writer EDI extension'
+            claim['preserves'].append('edi');claim['evidence']=dict(path=str(path.relative_to(BINARY)),sha256=sha(path))
+        metadata['functions']['_flush_packed_file']=dict(register_imports=dict(require_all_register_calls_resolved=True))
+        proof['writer_edi_preservation_evidence_sha256']=sha(path)
+
     for name in ('_parse_options','_print_banner','_fatal_error','_read_image_debug','_create_mapping'):
         if any(row['symbol']==name for row in checked):
             metadata['functions'][name]=dict(register_imports=dict(require_all_register_calls_resolved=True))
@@ -215,6 +236,12 @@ def check_import_sites(graph):
     callback=publics['_main']+0x227
     assert rebuilt['other_unresolved_calls']==[callback], 'unexpected rebuilt opaque callback'
     assert PE(BINARY/'build/CVPACK.EXE').read(callback,3)==bytes.fromhex('ff55e0'), 'rebuilt checksum callback instruction changed'
+    if '_flush_packed_file' in graph['functions']:
+        report=graph['functions']['_flush_packed_file']['register_imports'];writer_identity=dict(dll='msvcrt.dll',name='printf')
+        assert report['original']['resolved_register_calls']=={str(site):writer_identity for site in [0x406b1a,0x406e3e]},'writer cached printf site inventory differs'
+        assert report['original']['unresolved_register_calls']==report['original']['other_unresolved_calls']==[],'writer has unknown original calls'
+        assert report['rebuilt']['resolved_register_calls']=={} and report['rebuilt']['unresolved_register_calls']==report['rebuilt']['other_unresolved_calls']==[],'writer has unknown rebuilt calls'
+        assert sum(value==writer_identity for value in report['rebuilt']['direct_import_calls'].values())==2,'writer direct printf site inventory differs'
     reference_sites=None
     if '@add_type_reference@8' in graph['functions']:
         path=BINARY/'cases/hello-debug-dll/type-reference-import.json'

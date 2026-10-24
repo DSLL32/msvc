@@ -8,7 +8,8 @@ import struct
 
 
 def validate(config,data,original,native,objects,allocations):
-    assert original['address']==0x4069e0 and original['stack'][0]==0x404776 and native['frontier_caller']=='cvpack_main','source family unknown next consumer'
+    expected=(0x4063f0,original['module_bases']['msvcrt.dll']+0x2551e,'recon_qsort') if config.get('observe_output_directory') else (0x4069e0,0x404776,'cvpack_main')
+    assert (original['address'],original['stack'][0],native['frontier_caller'])==expected,'source family unknown next consumer'
     rows={row['name']:row for row in data}
     def root(name):return int.from_bytes(original['memory'][rows[name]['original']],'little')
     old=original['source_family_allocations'];new=native['source_family_allocations']

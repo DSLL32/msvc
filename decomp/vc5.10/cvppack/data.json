@@ -1236,5 +1236,41 @@
     "size": 4,
     "kind": "pointer",
     "source_index_output": true
+  },
+  {
+    "name": "packed_signature",
+    "original": 4268344,
+    "size": 8,
+    "kind": "bytes"
+  },
+  {
+    "name": "output_capacity",
+    "original": 4271412,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "output_buffer",
+    "original": 4271416,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "output_used",
+    "original": 4271424,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "total_packed_source_bytes",
+    "original": 4281224,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "packed_file_length",
+    "original": 4281228,
+    "size": 4,
+    "kind": "integer"
   }
 ]

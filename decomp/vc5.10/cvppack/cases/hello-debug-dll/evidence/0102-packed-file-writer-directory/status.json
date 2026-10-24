@@ -1,0 +1,4 @@
+{
+  "status": "not-promoted",
+  "reason": "Before original execution, audit found unreferenced future output_file variable eliminated by original linker. Defer its data observation until its genuine buffered-output owner is reconstructed; no artificial source reference or linker anchor."
+}

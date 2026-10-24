@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565ad475 in compare_packed_directory_entries (first=0x5680430c, second=0x56804300) at src/stubs.c:67
+67	int __cdecl compare_packed_directory_entries(const void *first, const void *second) { __asm { int 3 } return 0; }

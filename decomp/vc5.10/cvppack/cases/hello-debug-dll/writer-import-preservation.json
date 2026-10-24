@@ -1,0 +1,815 @@
+{
+  "schema": 1,
+  "status": "proposed-not-approved",
+  "target_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "base_contracts_sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6",
+  "contracts": [
+    {
+      "target": {
+        "function": "_message_text"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "original ordinary C cdecl normal return",
+      "original_body": {
+        "start": 4224528,
+        "end": 4224632,
+        "sha256": "d4d6d99da39503628ebfab46c47f991dbdf8f6eee42b0e4b0ad7d336589a8166"
+      },
+      "ret_sites": [
+        4224561,
+        4224592,
+        4224631
+      ],
+      "edi_save_restore": [],
+      "proof": "Original complete body and ordinary typed calls; explicit EDI entry save/normal-RET restore where written, otherwise no own EDI writes. Normal-return known C/Win32/library ABI assumed at typed callees, not arbitrary unknown callbacks. Unaccepted body remains masked/stub with zero application credit.",
+      "reconstruction_status": "accepted",
+      "edi_writes": []
+    },
+    {
+      "target": {
+        "function": "_seek_cached_file"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "original ordinary C cdecl normal return",
+      "original_body": {
+        "start": 4200720,
+        "end": 4200768,
+        "sha256": "fc22ae748c3ccbe8c8faf45d7d5b85a8427b847478f5b8013eb57512a2878e04"
+      },
+      "ret_sites": [
+        4200758,
+        4200767
+      ],
+      "edi_save_restore": [],
+      "proof": "Original complete body and ordinary typed calls; explicit EDI entry save/normal-RET restore where written, otherwise no own EDI writes. Normal-return known C/Win32/library ABI assumed at typed callees, not arbitrary unknown callbacks. Unaccepted body remains masked/stub with zero application credit.",
+      "reconstruction_status": "accepted",
+      "edi_writes": []
+    },
+    {
+      "target": {
+        "function": "_tell_cached_file"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "original ordinary C cdecl normal return",
+      "original_body": {
+        "start": 4201088,
+        "end": 4201118,
+        "sha256": "2c7175cb0d78830f04a9d2740bb50e813123265c169914eaf96e3c7c9a9cd286"
+      },
+      "ret_sites": [
+        4201110,
+        4201117
+      ],
+      "edi_save_restore": [],
+      "proof": "Original complete body and ordinary typed calls; explicit EDI entry save/normal-RET restore where written, otherwise no own EDI writes. Normal-return known C/Win32/library ABI assumed at typed callees, not arbitrary unknown callbacks. Unaccepted body remains masked/stub with zero application credit.",
+      "reconstruction_status": "accepted",
+      "edi_writes": []
+    },
+    {
+      "target": {
+        "function": "_begin_buffered_output"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "original ordinary C cdecl normal return",
+      "original_body": {
+        "start": 4260064,
+        "end": 4260149,
+        "sha256": "e07ead48c2928fe19a23a62950a7b4fb294219c9689815edd32cc876a2423d0e"
+      },
+      "ret_sites": [
+        4260148
+      ],
+      "edi_save_restore": [],
+      "proof": "Original complete body and ordinary typed calls; explicit EDI entry save/normal-RET restore where written, otherwise no own EDI writes. Normal-return known C/Win32/library ABI assumed at typed callees, not arbitrary unknown callbacks. Unaccepted body remains masked/stub with zero application credit.",
+      "reconstruction_status": "unaccepted named stub; no mask or coverage credit",
+      "edi_writes": []
+    },
+    {
+      "target": {
+        "function": "_buffered_write"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "original ordinary C cdecl normal return",
+      "original_body": {
+        "start": 4260160,
+        "end": 4260413,
+        "sha256": "d10df1ab971635bee81ae851c15f692c6f7ac5ccdae11f70eea9859570bd0f12"
+      },
+      "ret_sites": [
+        4260223,
+        4260254,
+        4260272,
+        4260324,
+        4260364,
+        4260412
+      ],
+      "edi_save_restore": [
+        {
+          "site": 4260173,
+          "instruction": "push edi"
+        },
+        {
+          "site": 4260220,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 4260251,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 4260269,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 4260321,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 4260361,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 4260398,
+          "instruction": "pop edi"
+        }
+      ],
+      "proof": "Original complete body and ordinary typed calls; explicit EDI entry save/normal-RET restore where written, otherwise no own EDI writes. Normal-return known C/Win32/library ABI assumed at typed callees, not arbitrary unknown callbacks. Unaccepted body remains masked/stub with zero application credit.",
+      "reconstruction_status": "unaccepted named stub; no mask or coverage credit",
+      "edi_writes": [
+        {
+          "site": 4260220,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 4260251,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 4260269,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 4260321,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 4260329,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4260342,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4260353,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4260361,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 4260376,
+          "instruction": "lea edi, [eax + edx]"
+        },
+        {
+          "site": 4260384,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4260391,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4260398,
+          "instruction": "pop edi"
+        }
+      ]
+    },
+    {
+      "target": {
+        "function": "_write_subsection"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "original ordinary C cdecl normal return",
+      "original_body": {
+        "start": 4221088,
+        "end": 4221402,
+        "sha256": "fcae1baa4b6ed26d4fd839d90e26eb1883fd9a07dfa78e1a83e8f21b7c861a42"
+      },
+      "ret_sites": [
+        4221401
+      ],
+      "edi_save_restore": [
+        {
+          "site": 4221094,
+          "instruction": "push edi"
+        },
+        {
+          "site": 4221398,
+          "instruction": "pop edi"
+        }
+      ],
+      "proof": "Original complete body and ordinary typed calls; explicit EDI entry save/normal-RET restore where written, otherwise no own EDI writes. Normal-return known C/Win32/library ABI assumed at typed callees, not arbitrary unknown callbacks. Unaccepted body remains masked/stub with zero application credit.",
+      "reconstruction_status": "unaccepted named stub; no mask or coverage credit",
+      "edi_writes": [
+        {
+          "site": 4221164,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4221172,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4221179,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4221186,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4221246,
+          "instruction": "mov edi, dword ptr [0x415654]"
+        },
+        {
+          "site": 4221312,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4221320,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4221332,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4221339,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4221398,
+          "instruction": "pop edi"
+        }
+      ]
+    },
+    {
+      "target": {
+        "function": "_write_publics"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "original ordinary C cdecl normal return",
+      "original_body": {
+        "start": 4249088,
+        "end": 4250008,
+        "sha256": "cebf64e5650c971ffca2aa7f36d69630d64484bd0ccf343bbf6c789aef80986e"
+      },
+      "ret_sites": [
+        4250007
+      ],
+      "edi_save_restore": [
+        {
+          "site": 4249110,
+          "instruction": "push edi"
+        },
+        {
+          "site": 4250000,
+          "instruction": "pop edi"
+        }
+      ],
+      "proof": "Original complete body and ordinary typed calls; explicit EDI entry save/normal-RET restore where written, otherwise no own EDI writes. Normal-return known C/Win32/library ABI assumed at typed callees, not arbitrary unknown callbacks. Unaccepted body remains masked/stub with zero application credit.",
+      "reconstruction_status": "unaccepted named stub; no mask or coverage credit",
+      "edi_writes": [
+        {
+          "site": 4249438,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4249446,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4249453,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4249460,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4249593,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4249601,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4249608,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4249615,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4249739,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4249747,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4249754,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4249761,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4249871,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4249879,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4249890,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4249897,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4250000,
+          "instruction": "pop edi"
+        }
+      ]
+    },
+    {
+      "target": {
+        "function": "_write_globals"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "original ordinary C cdecl normal return",
+      "original_body": {
+        "start": 4250016,
+        "end": 4250964,
+        "sha256": "16092bda602f611a305a979a8b8173232e5cedbc677641915f502c2225037fd9"
+      },
+      "ret_sites": [
+        4250963
+      ],
+      "edi_save_restore": [
+        {
+          "site": 4250038,
+          "instruction": "push edi"
+        },
+        {
+          "site": 4250956,
+          "instruction": "pop edi"
+        }
+      ],
+      "proof": "Original complete body and ordinary typed calls; explicit EDI entry save/normal-RET restore where written, otherwise no own EDI writes. Normal-return known C/Win32/library ABI assumed at typed callees, not arbitrary unknown callbacks. Unaccepted body remains masked/stub with zero application credit.",
+      "reconstruction_status": "unaccepted named stub; no mask or coverage credit",
+      "edi_writes": [
+        {
+          "site": 4250367,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4250375,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4250382,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4250389,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4250522,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4250530,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4250537,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4250544,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4250668,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4250676,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4250683,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4250690,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4250800,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4250808,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4250819,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4250826,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4250956,
+          "instruction": "pop edi"
+        }
+      ]
+    },
+    {
+      "target": {
+        "function": "_write_static_symbols"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "original ordinary C cdecl normal return",
+      "original_body": {
+        "start": 4257264,
+        "end": 4258139,
+        "sha256": "c0bbbc4269507e6091933d27f45a55ab2b1a1c3ab1ffc821a6c8447afc4d9194"
+      },
+      "ret_sites": [
+        4258138
+      ],
+      "edi_save_restore": [
+        {
+          "site": 4257290,
+          "instruction": "push edi"
+        },
+        {
+          "site": 4258131,
+          "instruction": "pop edi"
+        }
+      ],
+      "proof": "Original complete body and ordinary typed calls; explicit EDI entry save/normal-RET restore where written, otherwise no own EDI writes. Normal-return known C/Win32/library ABI assumed at typed callees, not arbitrary unknown callbacks. Unaccepted body remains masked/stub with zero application credit.",
+      "reconstruction_status": "unaccepted named stub; no mask or coverage credit",
+      "edi_writes": [
+        {
+          "site": 4257613,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4257621,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4257628,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4257635,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4257768,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4257776,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4257783,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4257790,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4257914,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4257922,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4257929,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4257936,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4258046,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4258054,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4258065,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4258072,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4258131,
+          "instruction": "pop edi"
+        }
+      ]
+    },
+    {
+      "target": {
+        "function": "_write_global_types"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "original ordinary C cdecl normal return",
+      "original_body": {
+        "start": 4220000,
+        "end": 4221083,
+        "sha256": "0d239bf64be38bb23b805f105f52cd32bb0e6a20930faa664d8d5fd84c5f9f0e"
+      },
+      "ret_sites": [
+        4221082
+      ],
+      "edi_save_restore": [
+        {
+          "site": 4220011,
+          "instruction": "push edi"
+        },
+        {
+          "site": 4220120,
+          "instruction": "push edi"
+        },
+        {
+          "site": 4220121,
+          "instruction": "push edi"
+        },
+        {
+          "site": 4220204,
+          "instruction": "push edi"
+        },
+        {
+          "site": 4220205,
+          "instruction": "push edi"
+        },
+        {
+          "site": 4221073,
+          "instruction": "pop edi"
+        }
+      ],
+      "proof": "Original complete body and ordinary typed calls; explicit EDI entry save/normal-RET restore where written, otherwise no own EDI writes. Normal-return known C/Win32/library ABI assumed at typed callees, not arbitrary unknown callbacks. Unaccepted body remains masked/stub with zero application credit.",
+      "reconstruction_status": "unaccepted named stub; no mask or coverage credit",
+      "edi_writes": [
+        {
+          "site": 4220017,
+          "instruction": "xor edi, edi"
+        },
+        {
+          "site": 4220284,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4220292,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4220299,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4220306,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4220375,
+          "instruction": "mov edi, dword ptr [esp + 0x10]"
+        },
+        {
+          "site": 4220521,
+          "instruction": "mov edi, dword ptr [esp + 0x14]"
+        },
+        {
+          "site": 4220533,
+          "instruction": "add edi, ecx"
+        },
+        {
+          "site": 4220695,
+          "instruction": "lea edi, [edx + eax]"
+        },
+        {
+          "site": 4220703,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4220710,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4220793,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4220801,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4220812,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4220819,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4220894,
+          "instruction": "mov edi, dword ptr [esp + 0x10]"
+        },
+        {
+          "site": 4220987,
+          "instruction": "mov edi, dword ptr [0x412d38]"
+        },
+        {
+          "site": 4220995,
+          "instruction": "add edi, edx"
+        },
+        {
+          "site": 4221007,
+          "instruction": "rep movsd dword ptr es:[edi], dword ptr [esi]"
+        },
+        {
+          "site": 4221014,
+          "instruction": "rep movsb byte ptr es:[edi], byte ptr [esi]"
+        },
+        {
+          "site": 4221073,
+          "instruction": "pop edi"
+        }
+      ]
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "printf"
+        }
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "canonical exported CRT cdecl normal return",
+      "original_body": {
+        "start": 2013279581,
+        "end": 2013279672,
+        "sha256": "3884470fea24cb4c8752b21fcaea1bf2c331b2c1ec81727f26bd30b5b1a46be8"
+      },
+      "ret_sites": [
+        2013279671
+      ],
+      "edi_save_restore": [
+        {
+          "site": 2013279582,
+          "instruction": "push edi"
+        },
+        {
+          "site": 2013279669,
+          "instruction": "pop edi"
+        }
+      ],
+      "proof": "Canonical exported body saves EDI before its own write and restores it at ordinary-return epilogue. Internal ordinary CRT ABI assumed, no internals reconstruction. qsort actual callback address4063f0 typed cdecl2 and complete107B comparator has no EDI write; no general arbitrary-callback promise."
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "qsort"
+        }
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "canonical exported CRT cdecl normal return",
+      "original_body": {
+        "start": 2013418557,
+        "end": 2013418978,
+        "sha256": "cadc524cc9189cd491fefd5fd7949f6f1fbc745d6f7e3be857d02c9a2e2d842e"
+      },
+      "ret_sites": [
+        2013418740
+      ],
+      "edi_save_restore": [
+        {
+          "site": 2013418573,
+          "instruction": "push edi"
+        },
+        {
+          "site": 2013418665,
+          "instruction": "push edi"
+        },
+        {
+          "site": 2013418730,
+          "instruction": "pop edi"
+        },
+        {
+          "site": 2013418749,
+          "instruction": "push edi"
+        },
+        {
+          "site": 2013418773,
+          "instruction": "push edi"
+        },
+        {
+          "site": 2013418795,
+          "instruction": "push edi"
+        },
+        {
+          "site": 2013418828,
+          "instruction": "push edi"
+        }
+      ],
+      "proof": "Canonical exported body saves EDI before its own write and restores it at ordinary-return epilogue. Internal ordinary CRT ABI assumed, no internals reconstruction. qsort actual callback address4063f0 typed cdecl2 and complete107B comparator has no EDI write; no general arbitrary-callback promise."
+    }
+  ],
+  "scope": "Only EDI live from4161e0 seed406af5 to actual printf sites406b1a/406e3e; unknown/custom calls remain kill barriers outside these exact qualified targets.",
+  "sdk_headers": [
+    {
+      "path": "toolchains/5.10/include/STDLIB.H",
+      "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb"
+    },
+    {
+      "path": "toolchains/5.10/include/STDIO.H",
+      "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a"
+    }
+  ],
+  "qsort_comparator": {
+    "start": 4219888,
+    "end": 4219995,
+    "sha256": "732d004942f56da4e7a1af699ca907795d0680ec0bedc407d21ef47cdca95442",
+    "abi": "cdecl int(const void *,const void *), each pointer to actual12B directory entry",
+    "edi_writes": [],
+    "credit": "No reconstruction or acceptance yet; boundary-callee ordinary ABI witness only."
+  },
+  "live_import_sites": [
+    4221722,
+    4222526
+  ],
+  "seed": {
+    "site": 4221685,
+    "bytes": "8b3de0614100",
+    "iat": 4284896
+  },
+  "diagnostic_artifacts": {
+    "report": "/root/.ai-tmp/msvc2/vc5.10/cvppack/writer-import-diagnostic/report.json",
+    "ablations": "/root/.ai-tmp/msvc2/vc5.10/cvppack/writer-import-diagnostic/ablations.json",
+    "scope": "Scratch-only diagnostic12extensions; all12bit-removals common strict writer check rejects, live adapter not integrated pending review."
+  }
+}

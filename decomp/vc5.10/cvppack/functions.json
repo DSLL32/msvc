@@ -107,7 +107,8 @@
     "free_type_tables",
     "finalize_derived_types",
     "print_statistics",
-    "append_source_name"
+    "append_source_name",
+    "flush_packed_file"
   ],
   "functions": [
     {
@@ -394,10 +395,14 @@
       "symbol": "_flush_packed_file",
       "native_symbol": "flush_packed_file",
       "original": 4221408,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4221408,
+        4224514
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0102-packed-file-writer-sort/promotion.json"
     },
     {
       "name": "get_file_size",
@@ -3570,6 +3575,117 @@
       ],
       "scope": "First encountered call: stack names sentinel. Later heap tail contexts require fresh observed widening.",
       "acceptance_proof": "cases/hello-debug-dll/evidence/0101-append-source-name-complete/promotion.json"
+    },
+    {
+      "name": "begin_buffered_output",
+      "symbol": "_begin_buffered_output",
+      "native_symbol": "begin_buffered_output",
+      "original": 4260064,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "buffered_write",
+      "symbol": "_buffered_write",
+      "native_symbol": "buffered_write",
+      "original": 4260160,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "end_buffered_output",
+      "symbol": "_end_buffered_output",
+      "native_symbol": "end_buffered_output",
+      "original": 4260416,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "compare_packed_directory_entries",
+      "symbol": "_compare_packed_directory_entries",
+      "native_symbol": "compare_packed_directory_entries",
+      "original": 4219888,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "first",
+          "kind": "packed-directory-entry",
+          "slot": 1
+        },
+        {
+          "name": "second",
+          "kind": "packed-directory-entry",
+          "slot": 2
+        }
+      ]
+    },
+    {
+      "name": "write_subsection",
+      "symbol": "_write_subsection",
+      "native_symbol": "write_subsection",
+      "original": 4221088,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "write_publics",
+      "symbol": "_write_publics",
+      "native_symbol": "write_publics",
+      "original": 4249088,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "write_globals",
+      "symbol": "_write_globals",
+      "native_symbol": "write_globals",
+      "original": 4250016,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "write_static_symbols",
+      "symbol": "_write_static_symbols",
+      "native_symbol": "write_static_symbols",
+      "original": 4257264,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "write_global_types",
+      "symbol": "_write_global_types",
+      "native_symbol": "write_global_types",
+      "original": 4220000,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "write_cached_file",
+      "symbol": "_write_cached_file",
+      "native_symbol": "write_cached_file",
+      "original": 4201664,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "resize_cached_file",
+      "symbol": "_resize_cached_file",
+      "native_symbol": "resize_cached_file",
+      "original": 4198832,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
     }
   ],
   "support_unmasked": [
@@ -3821,12 +3937,13 @@
   "observe_widen_release": true,
   "observe_main_frees": true,
   "main_free_policy": {
-    "path": "cases/hello-debug-dll/source-index-complete-lifetimes.json",
-    "sha256": "a318df7c487f494efe5eabadca7ad8cc65c08e84cd5a56ce93c73086dc12fa17"
+    "path": "cases/hello-debug-dll/output-directory-lifetimes.json",
+    "sha256": "976cc3907c20562435e3a3bc3449c892be899fcf180db6e166608fde00577bc1"
   },
   "observe_widen_frees": true,
   "observe_derived_finalize_entry": false,
   "observe_type_table_frees": true,
   "observe_source_index_entry": false,
-  "observe_source_index_complete": true
+  "observe_source_index_complete": true,
+  "observe_output_directory": true
 }

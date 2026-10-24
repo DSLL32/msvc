@@ -93,6 +93,17 @@ def prove(config):
                         absolute.append(dict(site=instruction.address,address=operand.mem.disp,width=operand.size))
             intervals.append(row)
         source_prefix=dict(intervals=intervals,absolute_operands=absolute,new_family_validator_sha256=sha(BINARY/'scripts/source-index-complete.py'),no_released_root_consumer=True)
+    if config.get('observe_output_directory'):
+        assert policy.get('output_directory') is True
+        prefix=policy['writer_prefix'];assert (prefix['start'],prefix['end'])==(0x4069e0,0x406b3a)
+        body=pe.read(prefix['start'],prefix['end']-prefix['start']);assert hashlib.sha256(body).hexdigest()==prefix['sha256']
+        decoded=list(decoder.disasm(body,prefix['start']));assert sum(i.size for i in decoded)==len(body)
+        assert [i.address for i in decoded if i.mnemonic=='call']==[0x406b11,0x406b1a,0x406b34]
+        for instruction in decoded:
+            for operand in instruction.operands:
+                if operand.type==X86_OP_MEM and not operand.mem.base and not operand.mem.index:
+                    assert operand.mem.disp in {0x415368,0x415640,0x4153b8,0x415388,0x415628,0x4161e0,0x4161f4},'writer prefix consumes retired root'
+        source_prefix['writer_prefix']=prefix
     provider=ROOT/'toolchains/5.10/bin/MSVCRT.DLL';crt=PE(provider)
     assert sha(provider)==policy['crt_sha256']
     evidence=BINARY/'cases/hello-debug-dll/import-preservation.json'

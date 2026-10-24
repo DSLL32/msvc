@@ -5,10 +5,10 @@
 #include "pack.h"
 #include "widen.h"
 #include "source-index.h"
+#include "writer.h"
 #include <recon.h>
 
 unsigned char *allocate_type_buffer(unsigned size) { __asm { int 3 } return NULL; }
-void flush_packed_file(void) { __asm { int 3 } }
 unsigned int get_file_size(int file) { __asm { int 3 } return 0; }
 void *map_file_region(int file, unsigned int offset, unsigned int size) { __asm { int 3 } return NULL; }
 void close_file(int file, int release) { __asm { int 3 } }
@@ -60,3 +60,15 @@ int record_widen(WidenTi *object, void *output, const void *input, unsigned *siz
 void use_precompiled_types(void *leaf) { __asm { int 3 } }
 void register_type_server(void *leaf) { __asm { int 3 } }
 void __fastcall find_type_server(void *name, unsigned mode, void *first, void *second, void *third) { __asm { int 3 } }
+
+void begin_buffered_output(int file) { __asm { int 3 } }
+unsigned short buffered_write(const void *data, unsigned size) { __asm { int 3 } return 0; }
+unsigned short end_buffered_output(void) { __asm { int 3 } return 0; }
+int __cdecl compare_packed_directory_entries(const void *first, const void *second) { __asm { int 3 } return 0; }
+void write_subsection(unsigned index) { __asm { int 3 } }
+void write_publics(CodeViewDirectoryEntry *entry, unsigned offset) { __asm { int 3 } }
+void write_globals(CodeViewDirectoryEntry *entry, unsigned offset) { __asm { int 3 } }
+void write_static_symbols(CodeViewDirectoryEntry *entry, unsigned offset) { __asm { int 3 } }
+unsigned write_global_types(void) { __asm { int 3 } return 0; }
+unsigned write_cached_file(int file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }
+void resize_cached_file(int file, unsigned size) { __asm { int 3 } }

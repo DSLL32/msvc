@@ -123,6 +123,9 @@ def main():
         env['VC510_CVPACK_PROBES']+=',40f0d2:source-name-allocation-entry,40f0d7:source-name-allocation-result,40f257:source-output-allocation-entry,40f25c:source-output-allocation-result,40f3ce:source-module-free-entry,40f3d0:source-module-free-return,40f3e7:source-name-free-entry,40f3e9:source-name-free-return'
     if config.get('observe_source_index_entry') or config.get('observe_source_index_complete'):
         env['VC510_CVPACK_PROBES']+=',40f183:source-index-allocation-entry,40f188:source-index-allocation-result'
+    if config.get('observe_output_directory'):
+        env['VC510_CVPACK_OUTPUT_DIRECTORY']='1'
+        env['VC510_CVPACK_PROBES']+=',406b34:output-directory-qsort-call'
     env['VC510_CVPACK_BLOBS']=','.join('%x:%d:%d:%d:%x:%d:%d'%(item['original'],item['blob'].get('size',0),
         item['blob'].get('pointers',[dict(offset=0xffffffff)])[0]['offset'],
         item['blob'].get('pointers',[dict(size=0)])[0].get('size',0),

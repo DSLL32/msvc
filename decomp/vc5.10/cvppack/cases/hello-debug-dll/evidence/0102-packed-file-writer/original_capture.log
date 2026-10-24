@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 189, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 37, in main
+    audit_candidate(output / 'configuration.json', args.candidate, output / 'audit.json')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/audit.py", line 160, in run
+    import_sites=switches.check_import_sites(graph)
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/switch-data.py", line 250, in check_import_sites
+    assert report['original']['resolved_register_calls']==expected,'type reference cached free inventory differs'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: type reference cached free inventory differs
