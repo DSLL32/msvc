@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_browser_open_file",
+  "native_entry": "browser_open_file",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      181216,
+      181226
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl0void RET0",
+    "proof": "Whole10B PUSH0subject/PUSH1kind/CALLqueue_browser_record2bf10 RET0. No formals/hiddenregister/flags/x87inputs/newdata/CRT. Normalqueuedfilename producer remains separate existing namedINT3 stub; no helper-body credit fromwrapper."
+  }
+}

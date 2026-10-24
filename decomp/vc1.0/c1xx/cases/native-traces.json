@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "f6180a667a447feaba2f7d65e4d02e3a69b110b42202d511f511f8880fad4479",
+    "functions.json": "bc4453f94c413f0b891ad81305975d51c64533df463ff110d1a2e5ba35034fe2",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "ba5776442fbc9338ade1d4e71d8de845735a9cbe0cb1d0046b24f037c7bfe92e",
-    "cases/canonical-map.txt": "6717e4c6676c9997703880acfcb15775f60eadfa6aeb411a55e22f2f6abce60b",
+    "cases/original-entry-references.json": "4ef7535a160cfecbd7e0eac79cb67d9befa34b59635fe72c41151ecb2587ab1f",
+    "cases/canonical-map.txt": "eb54ecab4ab3a5ded5f44e203c9761b6bd6d55c9dfe2de62fbffef0a58abf929",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -78,9 +78,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1273-write_ir_string/entry-reference/original-receipt.json": "87850e467b112ed4bfae4be70218be953890b844accfc797af002d1109251531",
-    "cases/frontiers/member_registry_browser/1273-write_ir_string/entry-reference/original-events.txt": "4b6f8d700f46c6bb7d8f3f3e3de4ef889ba5d1581486e7b4e773de900a7c9300",
-    "cases/frontiers/member_registry_browser/1273-write_ir_string/entry-reference/original-entries.plan": "604b10b8b6b862980a868c177eaecd73bf0d35e97d99ee1f97f341d3a1a4b6f5"
+    "cases/frontiers/member_registry_browser/1274-browser_open_file/entry-reference/original-receipt.json": "42ca07cb8ed8cd02a8026ee9cb58882065b0ae327207acc06afcb49ae779ad94",
+    "cases/frontiers/member_registry_browser/1274-browser_open_file/entry-reference/original-events.txt": "896e4debc09c30c07de1a31fc0892f0a780d0bde6f8803bdcbd64beae6f72c7a",
+    "cases/frontiers/member_registry_browser/1274-browser_open_file/entry-reference/original-entries.plan": "8ecf19c62a4d2c86c51356c6c4d2d5b072e0e1c5eb41a06636f8bc330fe62255"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -689,7 +689,7 @@
     },
     "browser_open_file": {
       "logical": "_browser_open_file",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "browser_record_from_end": {
       "logical": "_browser_record_from_end@4",
@@ -7276,7 +7276,8 @@
     "emit_browser_record",
     "serialize_browser_record",
     "browser_working_directory",
-    "write_ir_string"
+    "write_ir_string",
+    "browser_open_file"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13707,7 +13708,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1274,
+      "last": 1275,
       "seen": [
         "main",
         "message_text",
@@ -14879,12 +14880,13 @@
         "serialize_browser_record",
         "browser_working_directory",
         "write_ir_string",
-        "browser_open_file"
+        "browser_open_file",
+        "fill_browser_filename"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_browser_open_file",
-        "native": "browser_open_file",
+        "logical": "_fill_browser_filename",
+        "native": "fill_browser_filename",
         "signal": 5
       }
     }

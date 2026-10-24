@@ -315,3 +315,9 @@ char *browser_working_directory(void)
     directory[1] = 0;
     return directory;
 }
+
+/* Original 0x2c3e0..0x2c3e9. Announce the active source filename. */
+void browser_open_file(void)
+{
+    queue_browser_record(1, 0);
+}
