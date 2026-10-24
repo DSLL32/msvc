@@ -159,7 +159,7 @@ void emit_inline_assembly(void) { __asm { int 3 } }
 void emit_pending_function_cleanup(void) { __asm { int 3 } }
 void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
-void end_do_statement(void) { __asm { int 3 } }
+void end_do_condition_region(void) { __asm { int 3 } }
 void end_else_statement(void) { __asm { int 3 } }
 
 void end_for_statement(void) { __asm { int 3 } }

@@ -11,6 +11,7 @@
 
 void begin_do_body_region(void);
 void end_do_body_region(void);
+void end_do_condition_region(void);
 void begin_for_increment_region(void);
 void end_for_increment_region(void);
 void begin_switch_condition_region(void);
@@ -1101,4 +1102,50 @@ void end_do_body_region(void)
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
     emit_nonnull_expression_statement(process_expression_records(0));
+}
+
+/* Original 0x3fc20..0x3fd51. Close the do-loop and detach its
+   evaluation chain, retaining a known constant condition on the opener. */
+void end_do_statement(void)
+{
+    FrontendRecord record, *closing, *condition, *value;
+    LoopFrontendRecord *loop;
+    unsigned char kind;
+    jmp_buf recovery;
+    if (ir_records_suppressed) return;
+    end_do_condition_region();
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x1f) {
+        remove_last_frontend_record();
+        return;
+    }
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        if (ir_records_suppressed) return;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return;
+        }
+    }
+    record.kind = 0x24;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    closing = ir_record_tail;
+    loop = (LoopFrontendRecord *)find_frontend_record(closing->previous, 0x1f, 1);
+    condition = closing->previous;
+    if ((condition->kind & 0x3f) == 0x23) {
+        value = condition->previous;
+        kind = value->kind & 0x3f;
+        if (kind == 0x3b || kind == 0x3c) {
+            loop->header.flags |= kind == 0x3b ? 4 : 8;
+            remove_frontend_record(value);
+        }
+    }
+    loop->condition_records = loop->header.next;
+    loop->header.next = closing;
+    closing->previous = &loop->header;
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
 }

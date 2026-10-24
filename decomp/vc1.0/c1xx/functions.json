@@ -1187,7 +1187,8 @@
     "_convert_member_pointer_object@4",
     "_lower_member_pointer_call@8",
     "_begin_do_condition",
-    "_end_do_body_region"
+    "_end_do_body_region",
+    "_end_do_statement"
   ],
   "driver": [
     {
@@ -2876,7 +2877,7 @@
     {
       "name": "_end_do_statement",
       "start": 261152,
-      "end": 261153
+      "end": 261458
     },
     {
       "name": "_end_else_statement",
@@ -8470,6 +8471,11 @@
       "name": "_end_do_body_region",
       "start": 260864,
       "end": 260966
+    },
+    {
+      "name": "_end_do_condition_region",
+      "start": 261056,
+      "end": 261057
     }
   ],
   "cases": {
@@ -8670,7 +8676,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_end_do_statement",
+      "terminal": "_end_do_condition_region",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8693,7 +8699,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1182-end_do_body_region/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1183-end_do_statement/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8881,7 +8887,8 @@
         "cases/frontiers/state_machine_debug/1179-convert_member_pointer_object-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1180-lower_member_pointer_call-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1181-begin_do_condition/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1182-end_do_body_region/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1182-end_do_body_region/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1183-end_do_statement/frontier-extension.json"
       ]
     }
   },
