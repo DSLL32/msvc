@@ -1,0 +1,17 @@
+[
+  {
+    "path": "orchestrator-review.json",
+    "sha256": "a08c63f75868ac2c4390c5ca2e3eed13949e5e1ed2be3774d5ce3b1ed9d4e549",
+    "bytes": 1365
+  },
+  {
+    "path": "fixtures.log",
+    "sha256": "a14a216a51521aba32ec1a504e6c94f37322a2e26c13c427c488598b1db90439",
+    "bytes": 2007
+  },
+  {
+    "path": "promotion.log",
+    "sha256": "f78136b82adca67d2e8ffd823325c0fdf3c1fe36daf94321c94807a8afcf9a1a",
+    "bytes": 442390
+  }
+]
