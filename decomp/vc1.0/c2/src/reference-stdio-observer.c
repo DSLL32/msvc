@@ -475,6 +475,22 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"alignment8_segment pointer %08lx member %08lx identifier %lu index %lu alignment %lu combine %lu position %lu object_section %lu\n",segment,member,id,index,read_word(process,segment+48),read_byte(process,segment+53),read_word(process,segment+4),read_word(process,segment+56));log_line(line);
         dump_bytes(process,"alignment8_segment_name_hex",read_word(process,segment+16),string_bytes(process,read_word(process,segment+16)));
     }
+    if(!strcmp(call->name,"@visit_machine_symbols@12")) {
+        DWORD instruction=call->args[0],visitor=call->args[1],callback_context=call->args[2];
+        unsigned operation=read_byte(process,instruction+9);
+        int count=(signed char)read_byte(process,image_base+0x71560+operation),index;
+        sprintf(line,"machine_symbol_visit instruction %08lx visitor %08lx context %08lx entry_sp %08lx return_address %08lx operation %u count %d initial_head %08lx\n",
+            instruction,visitor,callback_context,context->Esp,call->return_address,operation,count,read_word(process,callback_context));log_line(line);
+        for(index=count;index>0;--index) {
+            DWORD offset=index==2?24:16,operand=instruction+offset;
+            DWORD flags=read_word(process,operand),kind=flags&15,address=0,slot=0,symbol=0;
+            if(kind>=3&&kind<=6){address=read_word(process,operand+4);slot=address+4;}
+            else if(kind==8)slot=operand+4;
+            if(slot)symbol=read_word(process,slot);
+            sprintf(line,"machine_symbol_operand index %u flags %08lx kind %lu address %08lx slot %08lx symbol %08lx\n",
+                index==2?1:0,flags,kind,address,slot,symbol);log_line(line);
+        }
+    }
     if(!strcmp(call->name,"@extract_assembly_labels@4")) {
         sprintf(line,"assembly_references node %08lx parent_node %08lx instruction %08lx parent_instruction %08lx return_address %08lx\n",
             context->Ecx,context->Esi,read_word(process,context->Ecx+12),context->Ebp,call->return_address);log_line(line);

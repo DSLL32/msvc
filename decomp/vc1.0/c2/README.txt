@@ -1036,3 +1036,14 @@ and all 17 native cases pass. A missing intern_leaf header caused one 1.079s
 failed build; the corrected header dependency rebuild took 40.336s. Controls
 2.074s, audit/coverage31.163s, fixture wrapper.984s. Full receipt and retained
 failure: cases/seh-assembly-references-checkpoint.json.
+
+At 1314 the 117-byte machine-symbol visitor is accepted. All three formals
+and actual operand slots match: operation1/count2, based symbol in operand1,
+ignored register operand0, named callback and opaque parent-owned local-head
+context. Four hundred whole original/canonical controls cover all operand
+classes, aliases, optional slots, callback/global substitution and mutations
+that distinguish cached slots/count from fresh later operands. The 231 named
+signed counts match existing original data. Original /W3, ordinary audits and
+all 17 native cases pass; the actual callback still traps, so substitution and
+callback-body execution remain unclaimed. Build3.012s, controls7.982s,
+audit/coverage31.672s, suite1.052s; cases/seh-machine-symbol-checkpoint.json.

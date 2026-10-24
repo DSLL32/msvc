@@ -523,8 +523,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@visit_machine_symbols@12",
-  "current_checkpoint": 1313,
+  "current_application_frontier": "@collect_assembly_reference@8",
+  "current_checkpoint": 1314,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",
     "correction": "shared cabec0d10",
@@ -573,5 +573,5 @@
     }
   ],
   "last_completed": "omf-comdat-communal",
-  "next_action": "Recover the actual instruction/visitor/context ABI, then reconstruct the whole symbol visitor; collection callback remains named trap."
+  "next_action": "Recover the actual symbol-kind/owned local-head callback inputs, then reconstruct its whole126B body; continue the same SEH case."
 }

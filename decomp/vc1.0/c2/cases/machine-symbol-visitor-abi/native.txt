@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x412f: file src/stubs.c, line 192.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, visit_machine_symbols (instruction=0x56639d64, visitor=0x56559790 <collect_assembly_reference>, context=0xffffdab8) at src/stubs.c:192
+192	void __fastcall visit_machine_symbols(MachineInstruction *instruction, MachineSymbolVisitor visitor, void *context) { __asm int 3 }
+C2_MACHINE_SYMBOLS {"instruction": 1449368932, "visitor": 1448449936, "callback": 1448449936, "context": 4294957752, "owner_context": 4294957752, "initial_head": 0, "parent_instruction": 1449368932, "operation": 1, "count": 2, "operands": [{"index": 1, "flags": 4, "kind": 4, "address": 1449368916, "slot": 1449368920, "symbol": 1449368840}, {"index": 0, "flags": 1, "kind": 1, "address": 0, "slot": 0, "symbol": 0}], "caller": "extract_assembly_labels"}

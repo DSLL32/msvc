@@ -189,7 +189,6 @@ void __fastcall refresh_region_entries(WorkItem *work) { __asm int 3 }
 
 
 void __fastcall add_protected_flow_edge(WorkItem *work, WorkItem *successor) { __asm int 3 }
-void __fastcall visit_machine_symbols(MachineInstruction *instruction, MachineSymbolVisitor visitor, void *context) { __asm int 3 }
 unsigned __fastcall reference_assembly_flow_symbol(SymbolHeader *symbol, void *context) { __asm int 3 }
 ExceptionScope *__fastcall lookup_exception_scope(ExceptionScope *scopes, long identifier) { __asm int 3 }
 

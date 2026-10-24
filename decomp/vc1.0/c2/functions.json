@@ -1317,7 +1317,8 @@
     "@write_codeview_register@4",
     "@codeview_register_number@4",
     "@register_partial_write_safe@4",
-    "@extract_assembly_labels@4"
+    "@extract_assembly_labels@4",
+    "@visit_machine_symbols@12"
   ],
   "driver": [
     {
@@ -5076,8 +5077,31 @@
     {
       "name": "@visit_machine_symbols@12",
       "start": 162080,
-      "end": 162081,
-      "provisional": true
+      "end": 162197,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "instruction",
+            "location": "ECX",
+            "type": "MachineInstruction pointer"
+          },
+          {
+            "name": "visitor",
+            "location": "EDX",
+            "type": "MachineSymbolVisitor function pointer"
+          },
+          {
+            "name": "context",
+            "location": "entryESP+4",
+            "type": "opaque callback context pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/machine-symbol-visitor-abi/validation.json",
+        "scope": "Original117B visitor consumes opcodebyte+9/existing signedoperandcount and only low4 flags plus referenced address/direct symbol slots. Actual typed operation1/count2, operand1 based-kind4/nonNULLsymbol thenoperand0 register-kind1, callbackcollect reference and opaque localhead context observed. All3 formal locations/parent aliases/RET4, no other hiddeninputs. SymbolHeader contents and callback context pointee are delegated; actual priorheadNULL is output ownership proof, not seeded visitor input."
+      }
     },
     {
       "name": "@reference_assembly_flow_symbol@8",

@@ -3,6 +3,8 @@
 #include "tree-rewrite.h"
 #include "function-input.h"
 #include "expression-fields.h"
+#include "instruction-selection.h"
+#include "records.h"
 #include <recon.h>
 
 /* Original [0005a660,0005a8e0), including the 24-entry control table.
@@ -243,5 +245,30 @@ void __fastcall redirect_flow_label(WorkItem *work, SymbolHeader *old_label, Sym
         }
         node = node->second.node;
         if (node->opcode == 0x4c) break;
+    }
+}
+
+/* Original [00027920,00027995). Walk explicit operands in reverse count
+   order, retaining the actual symbol slot across callback/lookup mutations.
+   A callback returns zero to keep the slot, or a global identifier to replace
+   it. The signed opcode count and opaque context keep their original roles. */
+void __fastcall visit_machine_symbols(MachineInstruction *instruction,
+    MachineSymbolVisitor visitor, void *context)
+{
+    int count = machine_operand_counts[(instruction->opcode >> 8) & 255];
+    MachineOperand *operand;
+    SymbolHeader **slot;
+    unsigned kind, identifier;
+    for (; count > 0; --count) {
+        operand = &instruction->operands[count == 2 ? 1 : 0];
+        kind = operand->flags & 15;
+        if (kind >= OPERAND_ABSOLUTE && kind <= OPERAND_LABEL_ADDRESS)
+            slot = &operand->value.address->symbol;
+        else if (kind == OPERAND_SYMBOL) slot = &operand->value.symbol;
+        else slot = NULL;
+        if (slot && *slot) {
+            identifier = visitor(*slot, context);
+            if (identifier) *slot = lookup_global_symbol(identifier);
+        }
     }
 }

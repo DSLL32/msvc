@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "inline-assembly",
-      "seconds": 1.2769142780452967,
+      "module": "flow-edges",
+      "seconds": 1.319144731387496,
       "returncode": 0
     }
   ],
-  "seconds": 1.2771128425374627
+  "seconds": 1.319348488934338
 }
