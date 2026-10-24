@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "checker_sha256": "9ca570e2df0defff3f2a4d180828e1de653b5daea733fd7553e7020c0e501d30",
+  "controls": [
+    {
+      "probe": "normal",
+      "raw": "frontier rva=00012fbe\n",
+      "status": "rejected"
+    },
+    {
+      "probe": "restore",
+      "raw": "dependency-frontier module=MSPDB50.dll rva=0000f22d seq=281\n",
+      "status": "rejected"
+    },
+    {
+      "probe": "restore",
+      "raw": "frontier rva=00012f9c\n",
+      "status": "rejected"
+    }
+  ]
+}

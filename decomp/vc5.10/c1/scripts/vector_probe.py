@@ -65,8 +65,22 @@ class VectorApiEntry(gdb.Breakpoint):
         row=vector_abi(vector_snapshot(),5);row['args']=row['words'][1:];row['caller']['args']={'this':int(caller.read_var('this').cast(gdb.lookup_type('unsigned int')))}
         vector_api_entries.append(row);VectorApiReturn(row['words'][0],row['args']);return False
 VectorApiEntry('*0x%x'%VECTOR_API)
+argument_cursor_entries=[]
+argument_cursor_returns=[]
+class ArgumentCursorReturn(gdb.Breakpoint):
+    def stop(self):
+        row=vector_snapshot();row['result_bytes']=list(gdb.selected_inferior().read_memory(row['eax'],4).tobytes())
+        argument_cursor_returns.append(row);self.enabled=False;return False
+class ArgumentCursorEntry(gdb.Breakpoint):
+    def stop(self):
+        row=vector_abi(vector_snapshot(),1);caller=gdb.newest_frame().older()
+        row['args']={};row['caller']['args']={key:int(caller.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('argc','argv')}
+        identity=gdb.parse_and_eval('*c1_host_identity')
+        row.update(module_identity=dict({key:identity[key].string()for key in ('name','path','sha256')},flags=int(identity['flags'])),module_token=int(gdb.parse_and_eval('(unsigned int)c1_host_module')))
+        argument_cursor_entries.append(row);ArgumentCursorReturn('*0x%x'%row['words'][0]);return False
+ArgumentCursorEntry('*0x%x'%ARGUMENT_CURSOR_ENTRY)
 '''
- return code.replace('VECTOR_OUTPUT',repr(str(output))).replace('VECTOR_ENTRY',str(names['new_option_vector'][0])).replace('VECTOR_COMMIT',str(names['_ZN13CompilerArena12CommitExtentEv'][0])).replace('VECTOR_API',str(names['recon_VirtualAlloc'][0]))
+ return code.replace('VECTOR_OUTPUT',repr(str(output))).replace('VECTOR_ENTRY',str(names['new_option_vector'][0])).replace('VECTOR_COMMIT',str(names['_ZN13CompilerArena12CommitExtentEv'][0])).replace('VECTOR_API',str(names['recon_VirtualAlloc'][0])).replace('ARGUMENT_CURSOR_ENTRY',str(names['next_argument'][0]))
 
 def final_observation(output):
- return '\n'.join("open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')"%(str(output/file),value)for file,value in [('vector-entries.json','vector_entries'),('vector-returns.json','vector_returns'),('vector-commit-entries.json','vector_commit_entries'),('vector-commit-returns.json','vector_commit_returns'),('vector-api-entries.json','vector_api_entries'),('vector-api-returns.json','vector_api_returns')])+'\n'
+ return '\n'.join("open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')"%(str(output/file),value)for file,value in [('vector-entries.json','vector_entries'),('vector-returns.json','vector_returns'),('vector-commit-entries.json','vector_commit_entries'),('vector-commit-returns.json','vector_commit_returns'),('vector-api-entries.json','vector_api_entries'),('vector-api-returns.json','vector_api_returns'),('argument-cursor-entries.json','argument_cursor_entries'),('argument-cursor-returns.json','argument_cursor_returns')])+'\n'

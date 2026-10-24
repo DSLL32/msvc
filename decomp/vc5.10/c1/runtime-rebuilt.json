@@ -133,51 +133,44 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_next_argument",
-    "start": 268446831,
-    "end": 268446832,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
     "name": "_match_option",
-    "start": 268446845,
-    "end": 268446846,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
-    "name": "_resolve_option_path",
-    "start": 268446859,
-    "end": 268446860,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
-    "name": "_disable_multibyte_identifiers",
-    "start": 268446873,
-    "end": 268446874,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
-    "name": "_initialize_packing",
     "start": 268446885,
     "end": 268446886,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
+    "name": "_resolve_option_path",
+    "start": 268446899,
+    "end": 268446900,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_disable_multibyte_identifiers",
+    "start": 268446913,
+    "end": 268446914,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_initialize_packing",
+    "start": 268446925,
+    "end": 268446926,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
     "name": "_compare_pch_paths",
-    "start": 268446897,
-    "end": 268446898,
+    "start": 268446937,
+    "end": 268446938,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_free_argument_allocation",
-    "start": 268446911,
-    "end": 268446912,
+    "start": 268446951,
+    "end": 268446952,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },

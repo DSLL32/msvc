@@ -160,6 +160,8 @@ def main():
         assert not any(r["start_rva"]<=0x12f9c<r["end_rva"]for r in candidate["ranges"])
         shutil.copy2(plan,output/"signature-reference-plan.json")
         (output/"signature-reference.txt").write_text("f22d 12c31 12f9c\n")
+    if candidate.get("argument_cursor_observers"):
+        (output/"argument-cursor-observers.txt").write_text("12f9c 12c45 12fbe\n")
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

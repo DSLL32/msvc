@@ -80,7 +80,8 @@
     "_initialize_multibyte_scanner",
     "_initialize_path_fold_table",
     "_read_env_arguments",
-    "_new_option_vector"
+    "_new_option_vector",
+    "_next_argument"
   ],
   "driver": [
     {
@@ -739,6 +740,12 @@
           274923894
         ]
       ],
+      "role": "application"
+    },
+    {
+      "name": "_next_argument",
+      "start": 274804636,
+      "end": 274804670,
       "role": "application"
     }
   ],

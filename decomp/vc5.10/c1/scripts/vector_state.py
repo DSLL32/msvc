@@ -21,15 +21,15 @@ def snapshot(original,native,state,record):
  value.update(record['crt_state']);value['command_line_fp']=record['fp'];value['pass_mode']=record['compiler_state']['pass_mode']
  return value
 
-def validate(original,native,candidate,report):
- assert candidate['functions'][-1]['name']=='_new_option_vector'and candidate['functions'][-1]['chunks']==[[0x11e3c,0x11ea4],[0x3016a,0x30176]]
+def validate(original,native,candidate,report,stage_state=None):
+ vectors=[row for row in candidate['functions']if row['name']=='_new_option_vector'];assert len(vectors)==1 and vectors[0]['chunks']==[[0x11e3c,0x11ea4],[0x3016a,0x30176]]
  events=(original/'events.txt').read_text();receipt=json.loads((original/'receipt.json').read_text());role=validate_original_frontier(events,candidate,receipt['probe'])
- binary=captured_native_binary(native);names=symbols(binary);state=json.loads((native/'state.json').read_text())
+ binary=captured_native_binary(native);names=symbols(binary);state=stage_state if stage_state is not None else json.loads((native/'state.json').read_text())
  entries=json.loads((native/'vector-entries.json').read_text());returns=json.loads((native/'vector-returns.json').read_text());assert len(entries)==len(returns)==3
  first=snapshot(original,native,state,entries[0]);prefix=validate_environment(original,native,candidate,report,stage_state=first)
- return validate_allocation_state(original,native,candidate,entries,returns,state,first,prefix)
+ return validate_allocation_state(original,native,candidate,entries,returns,state,first,prefix,following=stage_state is not None)
 
-def validate_allocation_state(original,native,candidate,entries,returns,state,first,prefix=None):
+def validate_allocation_state(original,native,candidate,entries,returns,state,first,prefix=None,following=False):
  events=(original/'events.txt').read_text();receipt=json.loads((original/'receipt.json').read_text());role=validate_original_frontier(events,candidate,receipt['probe'])
  binary=captured_native_binary(native);names=symbols(binary);assert len(entries)==len(returns)==3
  expected=copy.deepcopy(first['compiler_state']);initial_bss=blob(original,0,'entry','BSS');raw=bytearray(initial_bss)
@@ -74,7 +74,8 @@ def validate_allocation_state(original,native,candidate,entries,returns,state,fi
   rows=re.findall(r'^trap seq=(\d+) rva=00012f9c .*stack=([\w,]+)$',events,re.M);assert len(rows)==1
   sequence=int(rows[0][0]);assert int(rows[0][1].split(',')[0],16)==0x10612c45
   assert expected['initialized']['c9_il']==9 and state['symbol']=='next_argument'and state['args']=={}and state['formal_inventory']==[]
-  assert names['next_argument'][0]<state['pc']<=sum(names['next_argument']);call(binary,state['caller']['pc'],names['next_argument'][0])
+  assert state['pc']==names['next_argument'][0]if following else names['next_argument'][0]<state['pc']<=sum(names['next_argument'])
+  call(binary,state['caller']['pc'],names['next_argument'][0])
  assert(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()==bytes(raw)
  for suffix,stem in [('data','compiler-data'),('snapshot','compiler-snapshot')]:assert(original/('%s-%03d.bin'%(stem,sequence))).read_bytes()==baseline[suffix]
  assert state['caller']['symbol']=='parse_command_line'and state['caller']['args']==first['caller']['args']and state['invocation']==first['invocation']

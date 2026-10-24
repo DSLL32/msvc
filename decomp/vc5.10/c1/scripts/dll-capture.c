@@ -1526,6 +1526,7 @@ int main(int argc, char **argv)
                 if(path_fold_probe && address==base+0x12f87)environment_enter(&context);
                 if(vector_probe && address==base+0x11e3c)vector_enter(&context);
                 if(vector_probe && address==base+0x9883)vector_member_enter(&context);
+                if(vector_probe && address==base+0x12f9c)argument_cursor_enter(&context);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;

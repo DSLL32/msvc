@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "controls": [
+    {
+      "side": "native",
+      "control": "extra-formal"
+    },
+    {
+      "side": "native",
+      "control": "entry-PC"
+    },
+    {
+      "side": "native",
+      "control": "caller-return"
+    },
+    {
+      "side": "native",
+      "control": "return-PC"
+    },
+    {
+      "side": "native",
+      "control": "return-cleanup"
+    },
+    {
+      "side": "native",
+      "control": "callee-save"
+    },
+    {
+      "side": "native",
+      "control": "borrowed-result-identity"
+    },
+    {
+      "side": "native",
+      "control": "returned-NUL"
+    },
+    {
+      "side": "native",
+      "control": "argc-decrement"
+    },
+    {
+      "side": "native",
+      "control": "argv-pointer-step"
+    },
+    {
+      "side": "native",
+      "control": "neighbor-field"
+    },
+    {
+      "side": "native",
+      "control": "FP-state"
+    },
+    {
+      "side": "native",
+      "control": "errors"
+    },
+    {
+      "side": "native",
+      "control": "matcher-formal-omission"
+    },
+    {
+      "side": "native",
+      "control": "callback-identity"
+    },
+    {
+      "side": "native",
+      "control": "rules-identity"
+    },
+    {
+      "side": "native",
+      "control": "matcher-copy"
+    },
+    {
+      "side": "original",
+      "control": "raw-return-EAX"
+    },
+    {
+      "side": "original",
+      "control": "raw-return-ESP"
+    },
+    {
+      "side": "original",
+      "control": "raw-callee-save"
+    },
+    {
+      "side": "original",
+      "control": "raw-result"
+    },
+    {
+      "side": "original",
+      "control": "BSS-neighbor"
+    },
+    {
+      "side": "original",
+      "control": "snapshot-neighbor"
+    },
+    {
+      "side": "original",
+      "control": "data-neighbor"
+    }
+  ],
+  "seconds": 3.5549807092174888,
+  "positive_sha256": "e41f6ca4fa04e065d24ef35517dbb03da1cfa670da1cca1b449a01ba5d870bc2",
+  "execution_receipts": {
+    "original": "9b629338fa7843bca574dd3c9e98bcf7344a2760943fdb714aaee6cd97f67eb6",
+    "native": "2faed827fdcf09265fa23157ebb18de05930ec216996eec61b2b3242d39037cd"
+  },
+  "controller_sha256": "84fe1f21437c2ed5dd5df98d7f296ef22f084b7cd9879074bbdf0eea57dc08ed",
+  "checker_sha256": "aaae88632e8e436129acc417aea930428aa5c6cc4ee93af75dfa6878fa58eceb",
+  "scope": "new iterator/body/ABI/state and matcher formals; existing core controls retained/reused"
+}

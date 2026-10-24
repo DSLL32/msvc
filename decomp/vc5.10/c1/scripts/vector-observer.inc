@@ -7,6 +7,9 @@ static DWORD vector_member_return,vector_member_esp;
 static BYTE vector_member_saved;
 static int vector_member_active;
 static DWORD signature_entry;
+static int argument_cursor_probe,argument_cursor_active;
+static DWORD argument_cursor_esp;
+static BYTE argument_cursor_saved;
 static int signature_reference,signature_return_active,signature_reference_complete;
 static DWORD signature_api_esp,signature_input;
 static BYTE signature_return_saved;
@@ -36,6 +39,14 @@ static void prepare_vector_observer(void)
         save_remote_state("signature-provider-body",0,signature_entry,53);
         save_remote_state("signature-provider-table",0,mspdb_base+0x21a30,1024);
         fprintf(events,"signature-reference-plan accepted73=1 next_argument-masked=1 provider-execution-analysis-only=1\n");
+    }
+    file=fopen("argument-cursor-observers.txt","r");
+    if(file) {
+        DWORD entry,returned,next;
+        if(fscanf(file,"%lx %lx %lx",&entry,&returned,&next)!=3 || entry!=0x12f9c || returned!=0x12c45 || next!=0x12fbe || fgetc(file)!='\n' || fgetc(file)!=EOF)
+            fail("argument cursor observer plan");
+        fclose(file);argument_cursor_probe=1;argument_cursor_saved=snapshot[0x12c45-code_rva];
+        if(argument_cursor_saved!=0x50)fail("argument cursor return ownership");
     }
     patch(signature_entry,0xcc);signature_entry_active=1;
     fprintf(events,"vector-observer entry=00011e3c capacity=40 arena=1 header=12 items=160 signature-iat=0005d1d4 provider=0000f22d\n");
@@ -131,11 +142,37 @@ static void signature_reference_record(const char *phase,DWORD address,CONTEXT *
     fprintf(events,"signature-reference phase=%s seq=%u pc=%08lx esp=%08lx eax=%08lx arguments=%08lx,%08lx,%08lx\n",phase,sequence,address,context->Esp,context->Eax,arguments[0],arguments[1],arguments[2]);
 }
 
+static void argument_cursor_record(const char *phase,DWORD address,CONTEXT *context)
+{
+    DWORD words[12],caller;char name[100];
+    readmem(context->Esp,&caller,4);
+    words[0]=sequence;words[1]=address;words[2]=context->Esp;words[3]=context->Eax;
+    words[4]=context->Ebx;words[5]=context->Esi;words[6]=context->Edi;words[7]=context->Ebp;
+    words[8]=caller;words[9]=argument_cursor_esp;words[10]=base;words[11]=0;
+    sprintf(name,"argument-cursor-%s-registers.bin",phase);save_blob(name,words,sizeof(words));
+    sprintf(name,"argument-cursor-%s-fp.bin",phase);save_blob(name,&context->FloatSave,sizeof(context->FloatSave));
+    sprintf(name,"argument-cursor-%s",phase);save_frontend_state(name);
+    fprintf(events,"argument-cursor phase=%s seq=%u pc=%08lx esp=%08lx\n",phase,sequence,address,context->Esp);
+}
+static void argument_cursor_enter(CONTEXT *context)
+{
+    DWORD caller;
+    if(!argument_cursor_probe)return;
+    readmem(context->Esp,&caller,4);
+    if(!restore_probe || argument_cursor_active || caller!=base+0x12c45)fail("argument cursor reached branch/caller");
+    argument_cursor_esp=context->Esp;argument_cursor_record("entry",base+0x12f9c,context);
+    patch(base+0x12c45,0xcc);argument_cursor_active=1;
+}
+
 static int vector_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWORD tid)
 {
     DWORD header[3],words[12],stack[4],arena[8];char name[100];
     if(!vector_probe)return 0;
-    if(signature_return_active && address==base+0x12c31) {
+    if(argument_cursor_active && address==base+0x12c45) {
+        argument_cursor_record("return",address,context);
+        save_remote_state("argument-cursor-result",0,context->Eax,4);save_state();
+        patch(address,argument_cursor_saved);argument_cursor_active=0;
+    } else if(signature_return_active && address==base+0x12c31) {
         if(!signature_reference || signature_reference_complete || context->Esp!=signature_api_esp+4)fail("signature actual RET0/order");
         signature_reference_record("return",address,context,1);
         save_remote_state("signature-provider-table-after",0,mspdb_base+0x21a30,1024);

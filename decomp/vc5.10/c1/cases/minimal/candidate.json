@@ -443,6 +443,11 @@
       "entry": 1
     },
     {
+      "start_rva": 77724,
+      "end_rva": 77758,
+      "entry": 1
+    },
+    {
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
@@ -1661,8 +1666,21 @@
           196982
         ]
       ],
-      "status": "trial body; not accepted",
+      "status": "accepted prefix",
       "source": "src/pools.cpp"
+    },
+    {
+      "name": "_next_argument",
+      "native_symbol": "next_argument",
+      "role": "application",
+      "chunks": [
+        [
+          77724,
+          77758
+        ]
+      ],
+      "status": "trial body; restore path only, normal remains public dependency hold",
+      "source": "src/command-line.c"
     }
   ],
   "text_data": [
@@ -1684,14 +1702,19 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "kind": "option-vectors-complete",
-    "rva": 77724,
-    "native_symbol": "next_argument",
-    "native_args": [],
+    "kind": "argument-cursor-complete",
+    "rva": 77758,
+    "native_symbol": "match_option",
+    "native_args": [
+      "rules",
+      "argument",
+      "next",
+      "copy"
+    ],
     "calling_convention": "cdecl",
     "caller": {
       "native_symbol": "parse_command_line",
-      "return_rva": 76869
+      "return_rva": 76880
     },
     "normal_dependency": {
       "module": "MSPDB50.dll",
@@ -1705,7 +1728,7 @@
       ],
       "caller_return_rva": 76849
     },
-    "restore_frontier": "actual next_argument; c9_il=9 skips signature import"
+    "restore_frontier": "actual match_option after next_argument; c9_il9 skips signature import"
   },
   "imports": [
     {
@@ -1990,7 +2013,7 @@
     },
     "path_fold": "labeled reset-before-clear and helper-entry nonzero WORD table seeds; no snapshot ownership"
   },
-  "staging_role": "sole116-byte pointer vector allocator; exact three40x4 arrays and owned arena1 commit; next real argument cursor pending",
+  "staging_role": "sole34-byte argument cursor candidate executed by explicit restore path; normal public dependency entry remains unsupported",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -2204,5 +2227,11 @@
     "arena_kind": 1,
     "header_bytes": 12,
     "item_bytes": 160
+  },
+  "argument_cursor_observers": {
+    "entry_rva": 77724,
+    "return_rva": 76869,
+    "argument_index": 1,
+    "returned_bytes_hex": "2d696c00"
   }
 }

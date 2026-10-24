@@ -32,7 +32,7 @@
     {
       "order": 2,
       "id": "minimal",
-      "status": "reconstructing;116B vector allocator accepted; normal real SigForPbCb entry unsupported, restore9 skips to next_argument12f9c",
+      "status": "reconstructing;34B next_argument accepted through restore matcher frontier; normal still honest public signature entry hold pending shared success adoption",
       "proposed_driver_argv": [
         "/nologo",
         "/c",
