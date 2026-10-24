@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 89 application functions (18952 bytes) and five CRT
+Current reconstruction has 90 application functions (19284 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at the byte writer, with the actual twelve-byte -defaultlib:
-input and its live directive caller aliases matched. Four import thunks (24 bytes) and contextual text tables
-(725 bytes) remain separate. The 19390 source bytes are 3.383% of 573183 `.text`
+currently stops at the single-byte output wrapper after the two buffered writes,
+with the16-byte -defaultlib:LIBC payload and its used/write/section counters matched. Four import thunks (24 bytes) and contextual text tables
+(725 bytes) remain separate. The 19722 source bytes are 3.441% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -447,3 +447,5 @@ Source92 reconstructs the103-byte hot/cold section selector, retaining missing/i
 Source93 reconstructs the159-byte hot/cold position query, preserving sentinel/current-section identity checks, missing/inactive returns and the base-offset read after the child call. Its genuine named child receives the actual C2OutputList* with selected-list and parent entry/data aliases. Both completed/used counters are compared individually in the full24-byte list and defined arena. Fifteen affected controls take17.895s;6fresh/147reused protocol controls7.385s. Original/native/helper builds take6.853/2.815/1.805s. No failed capture/setup; exact separate capture/audit/native fixture timings are in0093.
 
 Source94 reconstructs the nine-byte output-list position query. The fresh actual pair reaches write_output_bytes with the complete twelve-byte -defaultlib: input and the same live directive caller aliases; all94 strict source graphs and14 fresh input mutation controls pass. Six fresh protocol controls pass and147 unchanged controls are reused under their recorded premise. The original/native builds, captures, graph audit, rejection costs and native diagnostic fixture remain separately accounted.
+
+Source95 reconstructs the332-byte hot/cold byte writer with count-only, directFILE and500-byte circular-chunk paths. The fresh pair completes two real writes and matches16-byte -defaultlib:LIBC payload, used16/write_count2/section_size16 and actual uchar-space next formal. Error callback now has genuine three-argument fastcall/RET4 ABI with all19 actual slot callers and emitted original/Win32/native proof; target remains masked namedINT3, no body credit, and the cold error path is unclaimed. Clock remains stores-only. Parent independently approved the finite boundary. Twenty-six affected controls take19.935s;6fresh/147reused protocol controls7.342s. The original observer initially failed its old symbol-count conditional at the new trap; raw failure and corrected fresh capture remain distinct. Full separate timings are in0095.

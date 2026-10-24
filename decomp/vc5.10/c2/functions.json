@@ -104,7 +104,8 @@
     "@record_output_section@4",
     "@select_coff_section@4",
     "@query_coff_position@4",
-    "@output_list_position@4"
+    "@output_list_position@4",
+    "@write_output_bytes@8"
   ],
   "driver": [
     {
@@ -253,7 +254,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "7d9b00026f13a75b703d8fda3edeeaba86722b16d9f8dfb80615b5dd6f086adf",
+            "lifetime_sha256": "7a12bfa642e19c7b30a180ef49c359c3e3c707a3bbb70c1112bf2f94bb49538b",
             "instructions": [
               {
                 "offset": 212,
@@ -656,7 +657,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "26ff8e1721e90f339005971f9b54f8d48ce45fa60e4592415fe089cf539aff36",
+            "lifetime_sha256": "a5db23d24e66fcc6f9e1bf43827b52987dc31572d1be0645f7bd8f29f0212c2e",
             "instructions": [
               {
                 "offset": 38,
@@ -717,7 +718,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "0a3aeca1a1c4ec812fdf6f24fa6cf0bc1c25210c647056b3153e9c078f6b2722",
+            "lifetime_sha256": "c7b23a0b8337aeec94ad85d696ed62970eae73aec96481c0ea901e7c53b91e34",
             "instructions": [
               {
                 "offset": 46,
@@ -1495,7 +1496,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "c7f16d5d5c85b2e77aeeffd771fac79bddc63f396aad53da2d965dfd8a7f3fa8"
+            "lifetime_sha256": "9d84cc9ccbed5b09021abf64fd9039f4bb704375ffab39ec6eaf560fe5d31665"
           }
         }
       ]
@@ -1685,7 +1686,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "707b27160cfdca93e7a4a7992cf1cf3c7d8aadaef73073dc1290b2a0fdd0edfc"
+            "lifetime_sha256": "b06e88fadbd10ced53359043ec72d8375dcf7ce6011cc6b95d711870ff853143"
           }
         }
       ]
@@ -4122,7 +4123,7 @@
               6,
               827
             ],
-            "lifetime_sha256": "d7334367e6c4cb8c6bc344081727699600b4a5b567e5bb5244657d1b820d380b",
+            "lifetime_sha256": "0853f7c8539692b256a41476816e1107dac254f96d36bf9d3504109cbdfc8eae",
             "instructions": [
               {
                 "offset": 6,
@@ -4382,7 +4383,7 @@
               27,
               145
             ],
-            "lifetime_sha256": "00c5e24c142011e1ed79eece81d768f583e7ecf1ca88bee24c9904f171fce061",
+            "lifetime_sha256": "2e0efb54d81684f25dad7856c8f8af7d0dd48d1eeb4cee2cde100e7dc68c1d91",
             "instructions": [
               {
                 "offset": 27,
@@ -5576,7 +5577,7 @@
               6,
               489
             ],
-            "lifetime_sha256": "fa91ade28fe5cbdee1becafcc4b6831e4d176451be2ba5317edb0f5eac721cd4",
+            "lifetime_sha256": "8f80f6d727c3e00d64c1c4c3ebc2fa0365a6132f54b297ba5cd38a5ffe63b709",
             "instructions": [
               {
                 "offset": 6,
@@ -5831,7 +5832,7 @@
               6,
               315
             ],
-            "lifetime_sha256": "ec3e6ff74b0cf7fc2f3451302c5bcdb954a79da6977c8e219b2ea78f332bb334",
+            "lifetime_sha256": "759a2d396108dcf24c415f103a623b162704297bc063154f206134f873eb70b0",
             "instructions": [
               {
                 "offset": 6,
@@ -6823,7 +6824,7 @@
         "-G5"
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "symbol": "_read_initializers",
       "evidence": "cases/analysis/read-initializers-disassembly.txt:11B4532fa..453305 loads c2_input intoECX and tailjumps4523d2. Prior scaffold-name described registers incorrectly; original logicalID preserved, actualsource/Win32name read_initializers. Cdecl noargs, inheritedRET0 from fastcallFILE reader; reader remains unaccepted/trapped."
     },
@@ -7019,7 +7020,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7293,7 +7294,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7489,7 +7490,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7677,7 +7678,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -7872,7 +7873,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8066,7 +8067,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -8258,7 +8259,7 @@
       "expected_argv": [
         "-G5"
       ],
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "frontier_contract": "output-directives-complete",
       "code_chunks": [
         [
@@ -8493,7 +8494,7 @@
         "-G5"
       ],
       "frontier_contract": "object-writer-input",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "code_chunks": [
         [
           4672729,
@@ -8726,7 +8727,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-table-input",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba"
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d"
     },
     {
       "name": "_writer_callback_41eb8a",
@@ -8916,7 +8917,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-allocate-input",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba"
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d"
     },
     {
       "name": "_initialize_coff_lists",
@@ -9104,7 +9105,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-lists-input",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba"
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d"
     },
     {
       "name": "@new_output_list@8",
@@ -9292,7 +9293,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-list-input",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba"
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d"
     },
     {
       "name": "_new_output_chunk",
@@ -9480,7 +9481,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-chunk-input",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "code_chunks": [
         [
           4626548,
@@ -9680,7 +9681,7 @@
           4670578
         ]
       ],
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba"
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d"
     },
     {
       "name": "@add_coff_symbol@4",
@@ -9868,7 +9869,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba"
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d"
     },
     {
       "name": "_write_output_directives",
@@ -10051,7 +10052,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10242,7 +10243,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10462,7 +10463,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10658,7 +10659,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -10848,7 +10849,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11133,7 +11134,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -11299,6 +11300,202 @@
       "abi": "fastcall C2OutputList*listECX; unsignedEAX,RET0",
       "evidence": "cases/analysis/output-list-position-analysis.json",
       "source": "src/coff-output.c"
+    },
+    {
+      "name": "@write_output_bytes@8",
+      "native": "write_output_bytes",
+      "start": 4321904,
+      "end": 4322139,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall constvoid*dataECX unsignedbytesEDX callerignoresresultRET0",
+      "evidence": "cases/analysis/write-output-bytes-analysis.json",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-section-input",
+      "section_caller": "output_list_position",
+      "pending_signature": false,
+      "code_chunks": [
+        [
+          4627401,
+          4627498
+        ]
+      ]
     }
   ],
   "stubs": [
@@ -12553,9 +12750,10 @@
       "end": 4739357,
       "pending_extent": true,
       "kind": "application",
-      "abi": "UNRESOLVED: stored functionaddress only; no callable ABI/body credit",
-      "evidence": "Stores-only32Bwriter field, exact originaltarget address. Before invocation recover full actual callableABI; namedINT3 remains masked/unaccepted.",
-      "pending_signature": true
+      "abi": "fastcall int error ECX, char*source EDX, int line [ESP+4]; callerignoresresult, bothnormalreturnsRET4",
+      "evidence": "cases/analysis/output-error-abi.json; exact54B target includingbothRET4 and all19 actualslotcalls; targetbody remainsmasked/unaccepted genuineINT3/zero credit",
+      "pending_signature": false,
+      "symbol": "@writer_callback_48511c@12"
     },
     {
       "name": "_writer_callback_45477a",
@@ -12774,7 +12972,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba"
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d"
     },
     {
       "name": "@reserve_incremental_symbols@12",
@@ -12962,7 +13160,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-symbol-input",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba"
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d"
     },
     {
       "name": "_grow_coff_symbol_buffer",
@@ -13157,7 +13355,7 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
@@ -13167,13 +13365,13 @@
       "extent_evidence": "cases/analysis/emit-output-directive-disassembly.txt: complete60B485383..4853bf wholebody normalRET0; app stillmasked/unaccepted/namedINT3 no bodycredit"
     },
     {
-      "name": "@write_output_bytes@8",
-      "native": "write_output_bytes",
-      "start": 4321904,
-      "end": 4321905,
+      "name": "@write_output_byte@4",
+      "native": "write_output_byte",
+      "start": 4538195,
+      "end": 4538196,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall constvoid*dataECX unsignedbytesEDX callerignoresresultRET0",
+      "abi": "fastcall unsignedcharvalueCL callerignoresresultRET0",
       "evidence": "Actual source82 caller/provider ABI observations; genuine pendingINT3 no bodycredit",
       "state_policy": "globals-complete",
       "state": [
@@ -13347,24 +13545,14 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
+      "state_model_sha256": "480ca24e14ecccc6c5e54c5504024053c16ef0ba95b4ba37c57f5461f98ff18d",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
       ],
       "frontier_contract": "coff-section-input",
-      "section_caller": "output_list_position",
+      "section_caller": "write_output_bytes",
       "pending_signature": false
-    },
-    {
-      "name": "@write_output_byte@4",
-      "native": "write_output_byte",
-      "start": 4538195,
-      "end": 4538196,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall unsignedcharvalueCL callerignoresresultRET0",
-      "evidence": "Actual source82 caller/provider ABI observations; genuine pendingINT3 no bodycredit"
     },
     {
       "name": "@write_output_fill@8",
@@ -13693,7 +13881,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13705,7 +13893,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13717,7 +13905,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13729,7 +13917,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13741,7 +13929,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13753,7 +13941,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13765,7 +13953,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13777,7 +13965,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13789,7 +13977,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13801,7 +13989,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13815,7 +14003,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13827,7 +14015,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13842,7 +14030,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13854,7 +14042,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13866,7 +14054,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13878,7 +14066,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13890,7 +14078,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13902,7 +14090,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13917,7 +14105,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13932,7 +14120,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13944,7 +14132,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13956,7 +14144,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13968,7 +14156,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -13983,7 +14171,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "fadbf8751b6a02f6a4e10f305f36471c2ada52d4e812a00c5e2c724c728ef1df"
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
         }
       },
       {
@@ -14006,7 +14194,7 @@
   "output_callback_boundary": "cases/analysis/output-callback-boundary.json",
   "output_callback_boundary_sha256": "382e89af4857ad65f809f17937da005a54be7097b9021cade438fa1e8ee6d7a9",
   "writer_callback_boundary": "cases/analysis/object-output-initialization.json",
-  "writer_callback_boundary_sha256": "cc18112226656971a1d3a1896281c0a2bc55e68e6f326e2099742cadea21690b",
+  "writer_callback_boundary_sha256": "3f034fb371c2bebb791e933d35968131b556e491b1bba1d376223f9403963974",
   "directive_callback_contract": "cases/analysis/directive-callback-contract.json",
   "directive_callback_contract_sha256": "4384150c815b8e610f2998eb4bb147457b0929a57bd8d51de45e4f0bcc89b0c2",
   "section_callback_storage_contract": "cases/analysis/section-callback-storage-contract.json",

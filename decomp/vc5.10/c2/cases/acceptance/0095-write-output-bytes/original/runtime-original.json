@@ -1,0 +1,1118 @@
+[
+  {
+    "name": "_c2_math_error",
+    "start": 4484380,
+    "end": 4484383,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_print_banner",
+    "start": 4738355,
+    "end": 4738356,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_compile_unit",
+    "start": 4538855,
+    "end": 4538856,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_finalize_output",
+    "start": 4541174,
+    "end": 4541175,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_flush_debug",
+    "start": 4766214,
+    "end": 4766215,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_console_handler@4",
+    "start": 4737491,
+    "end": 4737492,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@c2_report_internal@8",
+    "start": 4746044,
+    "end": 4746068,
+    "pending_extent": false,
+    "kind": "unaccepted-application-tail-target",
+    "evidence": null,
+    "classification": "application",
+    "accepted": false,
+    "extent_evidence": "cases/analysis/node-size-disassembly.txt: complete486b3c..486b54 reports fatal internal source/line then RET0; still application INT3/no credit",
+    "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit"
+  },
+  {
+    "name": "@c2_system_fatal@12",
+    "start": 4765320,
+    "end": 4765358,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@resolve_diagnostic_location@8",
+    "start": 4413704,
+    "end": 4413705,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@c2_open_pdb@8",
+    "start": 4765792,
+    "end": 4765793,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_retains_symbols@8",
+    "start": 4347234,
+    "end": 4347235,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_symbol@8",
+    "start": 4350333,
+    "end": 4350334,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@queue_symbol_debug@4",
+    "start": 4325189,
+    "end": 4325190,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@reserve_symbol_storage@4",
+    "start": 4251079,
+    "end": 4251080,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_input_extended_flags",
+    "start": 4763693,
+    "end": 4763694,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@clone_alias_symbol@4",
+    "start": 4553883,
+    "end": 4553884,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_qualified_symbol@8",
+    "start": 4745531,
+    "end": 4745532,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_compiler_warning",
+    "start": 4508034,
+    "end": 4508035,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_module_directive@4",
+    "start": 4562073,
+    "end": 4562074,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@register_source_file@4",
+    "start": 4766336,
+    "end": 4766337,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_source_file@8",
+    "start": 4766384,
+    "end": 4766385,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@uppercase_symbol_name@4",
+    "start": 4745583,
+    "end": 4745584,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@is_constant_symbol@4",
+    "start": 4538458,
+    "end": 4538459,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@is_known_symbol@4",
+    "start": 4329521,
+    "end": 4329522,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@select_symbol_section@8",
+    "start": 4547313,
+    "end": 4547314,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@new_initializer@4",
+    "start": 4530866,
+    "end": 4530924,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_initializer_values@4",
+    "start": 4531369,
+    "end": 4531370,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@queue_initializer@4",
+    "start": 4538474,
+    "end": 4538475,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@emit_initializer@4",
+    "start": 4499172,
+    "end": 4499173,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@free_initializer@4",
+    "start": 4499141,
+    "end": 4499142,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_check_extended_backend",
+    "start": 4766011,
+    "end": 4766012,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@listing_source_index@8",
+    "start": 4766723,
+    "end": 4766724,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_deferred_function",
+    "start": 4747387,
+    "end": 4747388,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_finish_deferred_function",
+    "start": 4747580,
+    "end": 4747581,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_begin_function_input",
+    "start": 4359680,
+    "end": 4359681,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_function@4",
+    "start": 4358376,
+    "end": 4358377,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@activate_scope@4",
+    "start": 4344071,
+    "end": 4344072,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@canonicalize_function@4",
+    "start": 4344094,
+    "end": 4344095,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@skip_global_optimization@4",
+    "start": 4738805,
+    "end": 4738806,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_409dac@8",
+    "start": 4234668,
+    "end": 4234669,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_40d9be@8",
+    "start": 4250046,
+    "end": 4250047,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_456857@8",
+    "start": 4548695,
+    "end": 4548696,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4570e0@8",
+    "start": 4550880,
+    "end": 4550881,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_finish_function",
+    "start": 4413445,
+    "end": 4413446,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_463ff1@4",
+    "start": 4603889,
+    "end": 4603890,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_456b13@4",
+    "start": 4549395,
+    "end": 4549396,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_45729f@4",
+    "start": 4551327,
+    "end": 4551328,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_458c9f@4",
+    "start": 4557983,
+    "end": 4557984,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_46481c@4",
+    "start": 4605980,
+    "end": 4605981,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_483f46@4",
+    "start": 4734790,
+    "end": 4734791,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4088c7@4",
+    "start": 4229319,
+    "end": 4229320,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_427d89@4",
+    "start": 4357513,
+    "end": 4357514,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4828f8@4",
+    "start": 4729080,
+    "end": 4729081,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_421bdf@4",
+    "start": 4332511,
+    "end": 4332512,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_421e34@4",
+    "start": 4333108,
+    "end": 4333109,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_409c5c@4",
+    "start": 4234332,
+    "end": 4234333,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42127d@4",
+    "start": 4330109,
+    "end": 4330110,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4180e8@4",
+    "start": 4292840,
+    "end": 4292841,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_413245@4",
+    "start": 4272709,
+    "end": 4272710,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4132fa@4",
+    "start": 4272890,
+    "end": 4272891,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_413369@4",
+    "start": 4273001,
+    "end": 4273002,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_412292@4",
+    "start": 4268690,
+    "end": 4268691,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_412412@4",
+    "start": 4269074,
+    "end": 4269075,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_464b8a@4",
+    "start": 4606858,
+    "end": 4606859,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_412457@4",
+    "start": 4269143,
+    "end": 4269144,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4120d4@4",
+    "start": 4268244,
+    "end": 4268245,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_412d5c@4",
+    "start": 4271452,
+    "end": 4271453,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4144ef@4",
+    "start": 4277487,
+    "end": 4277488,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_414862@4",
+    "start": 4278370,
+    "end": 4278371,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_40d254@4",
+    "start": 4248148,
+    "end": 4248149,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_414a64@4",
+    "start": 4278884,
+    "end": 4278885,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_41759e@4",
+    "start": 4289950,
+    "end": 4289951,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_416e6a@4",
+    "start": 4288106,
+    "end": 4288107,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42a8aa@4",
+    "start": 4368554,
+    "end": 4368555,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42b3e2@4",
+    "start": 4371426,
+    "end": 4371427,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42b750@4",
+    "start": 4372304,
+    "end": 4372305,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42e689@4",
+    "start": 4384393,
+    "end": 4384394,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_483b6f@4",
+    "start": 4733807,
+    "end": 4733808,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42e6a6@4",
+    "start": 4384422,
+    "end": 4384423,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_402cb6@4",
+    "start": 4205750,
+    "end": 4205751,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_402b6e@4",
+    "start": 4205422,
+    "end": 4205423,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42d635@4",
+    "start": 4380213,
+    "end": 4380214,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42d65a@4",
+    "start": 4380250,
+    "end": 4380251,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42f060@4",
+    "start": 4386912,
+    "end": 4386913,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_402c2c@4",
+    "start": 4205612,
+    "end": 4205613,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42f3e4@4",
+    "start": 4387812,
+    "end": 4387813,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42f446@4",
+    "start": 4387910,
+    "end": 4387911,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4330f7@4",
+    "start": 4403447,
+    "end": 4403448,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_433546@4",
+    "start": 4404550,
+    "end": 4404551,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4338ab@4",
+    "start": 4405419,
+    "end": 4405420,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_465486@4",
+    "start": 4609158,
+    "end": 4609159,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_47d1d3@4",
+    "start": 4706771,
+    "end": 4706772,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_433906@4",
+    "start": 4405510,
+    "end": 4405511,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@initialize_source_output@4",
+    "start": 4537956,
+    "end": 4537957,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@prepare_function_records@4",
+    "start": 4322716,
+    "end": 4322717,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@process_records@4",
+    "start": 4322452,
+    "end": 4322501,
+    "pending_extent": false,
+    "kind": "unaccepted-application-tail-target",
+    "evidence": null,
+    "classification": "application",
+    "accepted": false,
+    "extent_evidence": "cases/analysis/backend-setup-disassembly.txt:full49B41f494..41f4c5 straight primary with calls/conditionalbranch and terminalRET0; application only extent transport, no body acceptance/unmask/credit.",
+    "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit"
+  },
+  {
+    "name": "_output_callback_41eb89",
+    "start": 4320137,
+    "end": 4320138,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_41f3f2",
+    "start": 4322290,
+    "end": 4322291,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_41fa04",
+    "start": 4323844,
+    "end": 4323845,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_434139",
+    "start": 4407609,
+    "end": 4407610,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4346cf",
+    "start": 4409039,
+    "end": 4409040,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_435633",
+    "start": 4412979,
+    "end": 4412980,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4357b8",
+    "start": 4413368,
+    "end": 4413369,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_435af6",
+    "start": 4414198,
+    "end": 4414199,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_43696a",
+    "start": 4417898,
+    "end": 4417899,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_442b9f",
+    "start": 4467615,
+    "end": 4467616,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_442d21",
+    "start": 4468001,
+    "end": 4468002,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_442d33",
+    "start": 4468019,
+    "end": 4468020,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_44308f",
+    "start": 4468879,
+    "end": 4468880,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4432a1",
+    "start": 4469409,
+    "end": 4469410,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_44a79d",
+    "start": 4499357,
+    "end": 4499358,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4541f3",
+    "start": 4538867,
+    "end": 4538868,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_454ba8",
+    "start": 4541352,
+    "end": 4541353,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4849f2",
+    "start": 4737522,
+    "end": 4737523,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4849f5",
+    "start": 4737525,
+    "end": 4737526,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4849fa",
+    "start": 4737530,
+    "end": 4737531,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4850f5",
+    "start": 4739317,
+    "end": 4739318,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_initialize_codeview_output",
+    "start": 4554247,
+    "end": 4554248,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_query_incremental_stream_size",
+    "start": 4766779,
+    "end": 4766780,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_incremental_stream@8",
+    "start": 4766795,
+    "end": 4766796,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_read_incremental_byte",
+    "start": 4739862,
+    "end": 4739863,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_validate_incremental_options",
+    "start": 4707690,
+    "end": 4707691,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_output_486e67",
+    "start": 4746855,
+    "end": 4746856,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_output_486a23",
+    "start": 4745763,
+    "end": 4745764,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_output_48710f",
+    "start": 4747535,
+    "end": 4747536,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_writer_callback_48511c",
+    "start": 4739356,
+    "end": 4739357,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_writer_callback_45477a",
+    "start": 4540282,
+    "end": 4540283,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_read_incremental_output",
+    "start": 4741010,
+    "end": 4741011,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_restore_incremental_output",
+    "start": 4740322,
+    "end": 4740323,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@add_incremental_symbol@4",
+    "start": 4740287,
+    "end": 4740288,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@reserve_incremental_symbols@12",
+    "start": 4740034,
+    "end": 4740035,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_grow_coff_symbol_buffer",
+    "start": 4580199,
+    "end": 4580200,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@emit_incremental_string@4",
+    "start": 4739971,
+    "end": 4740031,
+    "pending_extent": false,
+    "kind": "unaccepted-application-tail-target",
+    "evidence": null,
+    "classification": "application",
+    "accepted": false,
+    "extent_evidence": "cases/analysis/emit-output-directive-disassembly.txt: complete60B485383..4853bf wholebody normalRET0; app stillmasked/unaccepted/namedINT3 no bodycredit",
+    "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit"
+  },
+  {
+    "name": "@write_output_byte@4",
+    "start": 4538195,
+    "end": 4538196,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@write_output_fill@8",
+    "start": 4538588,
+    "end": 4538589,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@add_associative_coff_section@24",
+    "start": 4325496,
+    "end": 4325497,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@coff_selection_code@4",
+    "start": 4325425,
+    "end": 4325426,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@mark_debug_section@4",
+    "start": 4746574,
+    "end": 4746575,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  }
+]

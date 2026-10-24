@@ -39,7 +39,7 @@ void initialize_object_output(void)
     writer->machine = 0x14c;
     writer->pending04 = -1;
     writer->source_name = c2_source_name ? arena_strdup(c2_source_name, 7) : "";
-    writer->output_error.target = writer_callback_48511c;
+    writer->output_error = writer_callback_48511c;
     writer->output_allocator = allocate_output_bytes;
     writer->output_clock.target = writer_callback_45477a;
     writer->debug = c2_codeview_types || c2_line_numbers ? 1 : 0;
@@ -66,7 +66,8 @@ void initialize_object_output(void)
 }
 
 C2OutputAllocator output_allocate;
-C2PendingCallback output_error_handler, output_clock_handler;
+C2OutputErrorHandler output_error_handler;
+C2PendingCallback output_clock_handler;
 int coff_new_output;
 unsigned short coff_machine;
 char *coff_source_name;
@@ -680,4 +681,45 @@ unsigned __fastcall query_coff_position(unsigned short section)
 unsigned __fastcall output_list_position(C2OutputList *list)
 {
     return list->used_bytes + list->completed_bytes;
+}
+
+void __fastcall write_output_bytes(const void *data, unsigned bytes)
+{
+    C2OutputList *list = coff_current_list;
+    C2OutputChunk *old, *chunk;
+    unsigned count;
+
+    if (list->count_only == 1)
+        goto count_only;
+    if (!list->buffered) {
+        if (fwrite(data, bytes, 1, coff_output) != 1)
+            output_error_handler(14, "E:\\utc\\src\\\\P2\\coffemit.c", 3254);
+        goto count_only;
+    }
+    if (500 - list->used_bytes < bytes) {
+        do {
+            count = 500 - list->used_bytes;
+            bytes -= count;
+            old = list->last;
+            memcpy(old->data + list->used_bytes, data, count);
+            list->used_bytes += count;
+            data = (const char *)data + count;
+            if (list->used_bytes != 500)
+                c2_report_internal("E:\\utc\\src\\\\P2\\coffemit.c", 3265);
+            chunk = new_output_chunk();
+            list->last = chunk;
+            chunk->next = old->next;
+            old->next = chunk;
+            list->completed_bytes += list->used_bytes;
+            list->used_bytes = 0;
+        } while (bytes > 500);
+    }
+    memcpy(list->last->data + list->used_bytes, data, bytes);
+    list->used_bytes += bytes;
+    ++list->write_count;
+    return;
+
+count_only:
+    list->used_bytes += bytes;
+    ++list->write_count;
 }

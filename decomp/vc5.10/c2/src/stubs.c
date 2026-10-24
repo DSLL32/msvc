@@ -587,7 +587,7 @@ int validate_incremental_options(void)
 void prepare_output_486e67(void) { __asm { int 3 } }
 void prepare_output_486a23(void) { __asm { int 3 } }
 void prepare_output_48710f(void) { __asm { int 3 } }
-void writer_callback_48511c() { __asm { int 3 } }
+void __fastcall writer_callback_48511c(int error, char *source, int line) { __asm { int 3 } }
 void writer_callback_45477a() { __asm { int 3 } }
 
 int read_incremental_output(void) { __asm { int 3 } return 0; }
@@ -597,7 +597,6 @@ unsigned __fastcall reserve_incremental_symbols(unsigned count, unsigned short s
 void grow_coff_symbol_buffer(void) { __asm { int 3 } }
 
 void __fastcall emit_incremental_string(char *value) { __asm { int 3 } }
-void __fastcall write_output_bytes(const void *data, unsigned bytes) { __asm { int 3 } }
 void __fastcall write_output_byte(unsigned char value) { __asm { int 3 } }
 
 void __fastcall write_output_fill(unsigned char value, unsigned count)

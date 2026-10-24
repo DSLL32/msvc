@@ -1,0 +1,25 @@
+{
+  "kind": "Independent source95 finite fastcall error callback ABI/source/current pair review",
+  "source_inputs": {
+    "src/coff-output.c": "a4a6491a401e3cd2d827855cbf36c0a9f51a4a006a1778194c9fa65b6aa50045",
+    "src/coff-output.h": "7cbd207cd86ed2c339963657651528d5958dca71846a7c347475b7518ede4abc",
+    "src/stubs.c": "abad694a04e5670292ef5ff0be862dc140e2d475ccf78192d407ab599b789d94",
+    "scripts/writer_evidence.py": "7b0ff1784565b564c04e96d3ecbf75be80b9d2a117ae0cde934d6fb3197190a2",
+    "scripts/prove-output-error-abi.py": "d929e582e7ab4f7b28af899e544632373df7c6d8433bb1efac7d459900ff5393",
+    "cases/analysis/output-error-abi.json": "0c6666e2914317390211a35e690c92e1a5f421cdff5c7e78121f79af1e21cc0d",
+    "cases/analysis/output-error-emitted-abi.json": "5ba33a7e867c953de0204cfb5787fcdc7dc003ec496d7d8aed46579a3606dd4e",
+    "cases/analysis/write-output-bytes-analysis.json": "9d588c584d39bddd25d6ee0a06227b5a65916b109e1f29b894e928c3dd17fde9"
+  },
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/write95-original-final",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/write95-native",
+  "emitted_packet_independently_reproduced": true,
+  "current_pair_passes": true,
+  "scope": [
+    "Genuine intECX,char*EDX,intstack fastcall and RET4; actual54B body/all19 direct-global callers bound",
+    "Original/rebuilt/native fixed physical call+stub ABI verified; native tracer saves/restores register formals",
+    "Writer332B ordinary C, next genuine write_output_byte(CL32), initialized16B/counters full current state",
+    "Callback remains1B namedINT3, pending extent/masked/zero body credit; cold branch execution unclaimed",
+    "Clock callback remains stores-only; existing historical CRT credit separate"
+  ],
+  "decision": "Finite signature refinement and ordinary source95 promotion released after own affected controls; no new policy waiver"
+}

@@ -1,0 +1,65 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "win32_sha256": "3f139e4eb61596b0ab573d91574e984408e0dfc74646c74e3415f92c3dd87104",
+  "map_sha256": "9739b6e3786a265b30b0fbd62f1156f38d8ae9ff1d6cc83d37546f30800d160a",
+  "native_sha256": "aadecff14d06405061c5d5269da191bbc52bc354628bbf7e680bd98df75f1bd7",
+  "original": {
+    "call": 4627440,
+    "slot": 4823540,
+    "line": 3254,
+    "error": 14,
+    "filename": 4838924,
+    "filename_text": "E:\\utc\\src\\\\P2\\coffemit.c",
+    "bytes": "68b60c0000ba0cd64900b90e000000ff15f4994900",
+    "sha256": "6682662a3aefc30195a3cb799553010ab6e9282b1178595d72835b5ef2801089",
+    "normal_cleanup": "calleeRET4, no caller argument pop"
+  },
+  "rebuilt": {
+    "call": 4227836,
+    "slot": 4243820,
+    "line": 3254,
+    "error": 14,
+    "filename": 4243364,
+    "filename_text": "E:\\utc\\src\\\\P2\\coffemit.c",
+    "bytes": "68b60c0000baa4bf4000b90e000000ff156cc14000",
+    "sha256": "043a6c3d90ff508800e4b08783ddfd8ff4813d31ebf561ec79ba7ff41dfff7b1",
+    "normal_cleanup": "calleeRET4, no caller argument pop"
+  },
+  "rebuilt_stub": {
+    "start": 4200534,
+    "bytes": "558bec83ec085356578955f8894dfccc5f5e5b8be55dc20400",
+    "int3_offset": 15,
+    "ret4_offset": 22,
+    "body_credit": 0
+  },
+  "native_stub": {
+    "start": 25840,
+    "size": 97,
+    "sha256": "5ac8ba30a51662b54210635c163157c6412ff38f91c6c54b0dc8820bc6c83f9e",
+    "int3_offset": 67,
+    "ret4_offset": 94,
+    "register_formals": "ECX/EDX saved around entry tracer then restored into genuine formals; stack line EBP+8",
+    "body_credit": 0
+  },
+  "native_caller": {
+    "elf_sha256": "aadecff14d06405061c5d5269da191bbc52bc354628bbf7e680bd98df75f1bd7",
+    "owner": "write_output_bytes",
+    "symbol_start": 61376,
+    "symbol_size": 519,
+    "offset": 139,
+    "bytes": "8b45e0b90e0000008d90d435ffffc70424b60c000089c3ff900843000083ec04",
+    "slot": 250620,
+    "literal": 181704,
+    "got": 233460
+  },
+  "scope": "Fixed ABI instruction windows only. Actualerrorcall is UNREACHED in numeric case; callbackremains namedINT3/masked/no bodycredit. Bothoriginal54Bpaths RET4; targetignores EDX/line without erasing actualcallerinputs. No wrapper or fake register convention.",
+  "inputs": {
+    "src/coff-output.c": "a4a6491a401e3cd2d827855cbf36c0a9f51a4a006a1778194c9fa65b6aa50045",
+    "src/coff-output.h": "7cbd207cd86ed2c339963657651528d5958dca71846a7c347475b7518ede4abc",
+    "src/stubs.c": "abad694a04e5670292ef5ff0be862dc140e2d475ccf78192d407ab599b789d94",
+    "scripts/writer_evidence.py": "7b0ff1784565b564c04e96d3ecbf75be80b9d2a117ae0cde934d6fb3197190a2",
+    "scripts/prove-output-error-abi.py": "d929e582e7ab4f7b28af899e544632373df7c6d8433bb1efac7d459900ff5393",
+    "cases/analysis/output-error-abi.json": "0c6666e2914317390211a35e690c92e1a5f421cdff5c7e78121f79af1e21cc0d",
+    "cases/analysis/object-output-initialization.json": "3f034fb371c2bebb791e933d35968131b556e491b1bba1d376223f9403963974"
+  }
+}

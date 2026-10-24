@@ -1,0 +1,655 @@
+{
+  "schema": 1,
+  "functions": {
+    "_c2_crt_startup": {
+      "original": {
+        "roots": [
+          4670637,
+          4670658
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4201067,
+          4201100
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3d0",
+        "rebuilt_scope_table": "0x4090a8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "_c2_main": {
+      "original": {
+        "roots": [
+          4670693,
+          4670736
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4201518,
+          4201581
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3c0",
+        "rebuilt_scope_table": "0x4090b8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "@read_initializer_records@4": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true,
+        "enabled": true
+      },
+      "original": {
+        "text_data": [
+          [
+            4531320,
+            4531352
+          ],
+          [
+            4531352,
+            4531369
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4207833,
+            4207865
+          ],
+          [
+            4207865,
+            4207882
+          ]
+        ]
+      }
+    },
+    "_initialize_object_output": {
+      "register_imports": {
+        "enabled": true,
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "@initialize_coff_output@4": {
+      "register_imports": {
+        "enabled": true,
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "@create_coff_section@4": {
+      "register_imports": {
+        "enabled": true,
+        "require_all_register_calls_resolved": true
+      },
+      "original": {
+        "text_data": [
+          [
+            4321008,
+            4321056
+          ],
+          [
+            4321056,
+            4321077
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4225390,
+            4225438
+          ],
+          [
+            4225438,
+            4225459
+          ]
+        ]
+      }
+    },
+    "@c2_match_option@16": {
+      "original": {
+        "text_data": [
+          [
+            4533424,
+            4533444
+          ],
+          [
+            4533456,
+            4533502
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4203100,
+            4203120
+          ],
+          [
+            4203120,
+            4203166
+          ]
+        ]
+      }
+    },
+    "@c2_apply_option@12": {
+      "original": {
+        "text_data": [
+          [
+            4533728,
+            4533760
+          ],
+          [
+            4533760,
+            4533799
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4203951,
+            4203983
+          ],
+          [
+            4203983,
+            4204022
+          ]
+        ]
+      }
+    },
+    "_format_diagnostic_args": {
+      "original": {
+        "text_data": [
+          [
+            4771504,
+            4771532
+          ],
+          [
+            4771532,
+            4771583
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4209570,
+            4209598
+          ],
+          [
+            4209598,
+            4209649
+          ]
+        ]
+      }
+    },
+    "@c2_node_size@4": {
+      "original": {
+        "text_data": [
+          [
+            4248936,
+            4249000
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4210899,
+            4210963
+          ]
+        ]
+      }
+    },
+    "@read_symbols@4": {
+      "original": {
+        "text_data": [
+          [
+            4327020,
+            4327064
+          ],
+          [
+            4327072,
+            4327095
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4214336,
+            4214380
+          ],
+          [
+            4214380,
+            4214403
+          ]
+        ]
+      }
+    },
+    "@read_symbol@4": {
+      "original": {
+        "text_data": [
+          [
+            4328984,
+            4329076
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4217722,
+            4217814
+          ]
+        ]
+      }
+    },
+    "@intern_symbol_name@12": {
+      "original": {
+        "text_data": [
+          [
+            4329420,
+            4329444
+          ],
+          [
+            4329444,
+            4329455
+          ],
+          [
+            4329456,
+            4329492
+          ],
+          [
+            4329492,
+            4329521
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4218234,
+            4218258
+          ],
+          [
+            4218258,
+            4218269
+          ],
+          [
+            4218269,
+            4218305
+          ],
+          [
+            4218305,
+            4218334
+          ]
+        ]
+      }
+    },
+    "@update_symbol_storage@4": {
+      "original": {
+        "text_data": [
+          [
+            4359628,
+            4359656
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4213134,
+            4213162
+          ]
+        ]
+      }
+    },
+    "_output_callback_453e02": {
+      "original": {
+        "text_data": [
+          [
+            4537916,
+            4537956
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4221935,
+            4221975
+          ]
+        ]
+      }
+    }
+  },
+  "callback_tables": [],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "function": "@new_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "_input_varuint"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "_input_compact_signed"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_initializer_values@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@queue_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@emit_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@free_initializer@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "_c2_read_il_byte"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@input_string@8"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@lookup_source_file@8"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@c2_report_internal@8"
+        },
+        "preserves": [
+          "ebp",
+          "edi",
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_initializer_records@4"
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "free"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@c2_pool_allocate@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "_query_incremental_stream_size"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@read_incremental_stream@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "_read_incremental_byte"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "_validate_incremental_options"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fopen"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fclose"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "_initialize_coff_lists"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "@new_output_list@8"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "function": "_read_incremental_output"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "malloc"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/analysis/initializer-callee-abi.json",
+          "sha256": "7568143756bf977ff86707ba45ddbd49bb32006f6295a2f47ba64b633c0a4002"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "strncmp"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/analysis/strncmp-ebp-contract.json",
+          "sha256": "1ff5defb3dd330606ebc995bb1e75477d66b430884bb6e998cf2f2e131ac9d30"
+        }
+      }
+    ]
+  }
+}

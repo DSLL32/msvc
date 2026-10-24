@@ -4,6 +4,7 @@
 #include <recon.h>
 
 typedef void *(__fastcall *C2OutputAllocator)(unsigned bytes);
+typedef void (__fastcall *C2OutputErrorHandler)(int error, char *source, int line);
 typedef struct C2OutputTable C2OutputTable;
 typedef struct C2OutputList C2OutputList;
 typedef struct C2OutputStorage C2OutputStorage;
@@ -97,10 +98,14 @@ typedef char C2OutputTableUsedCheck[offsetof(C2OutputTable, used) == 8 ? 1 : -1]
 typedef char C2OutputTableFirstCheck[offsetof(C2OutputTable, first) == 24 ? 1 : -1];
 typedef char C2OutputPageSizeCheck[sizeof(C2OutputPage) == 8 ? 1 : -1];
 
-/* The encountered chunk prefix only; complete allocation/layout stays pending. */
+/* The writer encounters500 payload bytes; the final four allocation bytes
+   are still uninterpreted and are not part of this prefix. */
 struct C2OutputChunk {
     C2OutputChunk *next;
+    unsigned char data[500];
 };
+typedef char C2OutputChunkPayloadCheck[offsetof(C2OutputChunk, data) == 4 ? 1 : -1];
+typedef char C2OutputChunkPrefixCheck[sizeof(C2OutputChunk) == 504 ? 1 : -1];
 struct C2OutputList {
     int buffered, count_only;
     unsigned completed_bytes, used_bytes, write_count;
@@ -116,7 +121,7 @@ typedef struct C2ObjectOutput {
     char *source_name;
     FILE *file;
     C2OutputAllocator output_allocator;
-    C2PendingCallback output_error;
+    C2OutputErrorHandler output_error;
     C2PendingCallback output_clock;
     unsigned char debug;
 } C2ObjectOutput;
@@ -132,11 +137,12 @@ extern int object_output_open;
 extern void *incremental_data;
 extern C2Section *directive_section, *fpo_section;
 void *__fastcall allocate_output_bytes(unsigned bytes);
-void writer_callback_48511c();
+void __fastcall writer_callback_48511c(int error, char *source, int line);
 void writer_callback_45477a();
 int __fastcall initialize_coff_output(C2ObjectOutput *writer);
 extern C2OutputAllocator output_allocate;
-extern C2PendingCallback output_error_handler, output_clock_handler;
+extern C2OutputErrorHandler output_error_handler;
+extern C2PendingCallback output_clock_handler;
 extern int coff_new_output;
 extern unsigned short coff_machine;
 extern char *coff_source_name;

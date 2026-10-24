@@ -92,7 +92,9 @@
       "original": 4739356,
       "native": "writer_callback_48511c",
       "logical": "_writer_callback_48511c",
-      "signature": "UNRESOLVED: address store only; no body or ABI credit"
+      "signature": "void (__fastcall *C2OutputErrorHandler)(int error, char *source, int line); namedINT3/unaccepted zero bodycredit",
+      "abi_evidence": "cases/analysis/output-error-abi.json",
+      "abi_evidence_sha256": "0c6666e2914317390211a35e690c92e1a5f421cdff5c7e78121f79af1e21cc0d"
     },
     {
       "original": 4540282,
@@ -127,14 +129,14 @@
     },
     {
       "slot": 4823540,
-      "operation": "pending error callback global; full argument/return/cleanup not claimed"
+      "operation": "Typed error4999f4;19actualthree-argfastcall calls inventoried; source95 onlynewcall469bf0, stillunreached. Actual54Btarget remainsmaskedINT3/zero credit."
     },
     {
       "slot": 4816384,
       "operation": "pending clock callback global; full argument/return/cleanup not claimed"
     }
   ],
-  "source_hold": "Allocator has exact callable ABI and requires ordinary independent wholefunction acceptance for body credit. Error/clock fields and copied globals remain stores-only; invocation/escape requires actual signature review.",
+  "source_hold": "Allocatorbody accepted separately. Errorhas exactthree-argfastcallABI butbody remainsmaskedINT3. Source95 only reviewedcall permitted; clock stores-only, unknown consumers require actualABI.",
   "original_graph": {
     "calls": [
       4198400,
