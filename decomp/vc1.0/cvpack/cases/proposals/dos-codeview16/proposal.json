@@ -38,6 +38,6 @@
     "whole_text_extent_percent": 49.17,
     "named_stubs": 31,
     "non_CRT_denominator": null,
-    "uncertainty": "Remaining native/support versus unusedCRT/padding/data is not fully classified; these32 named stubs are still application/support candidates."
+    "uncertainty": "Remaining native/support versus unusedCRT/padding/data is not fully classified; the named stubs are still application/support candidates."
   }
 }
