@@ -110,7 +110,8 @@
     "@initialize_source_output@4",
     "@prepare_function_records@4",
     "_prepare_global_records",
-    "@process_records@4"
+    "@process_records@4",
+    "@align_pending_debug_symbols@4"
   ],
   "driver": [
     {
@@ -12330,6 +12331,21 @@
       "kind": "application",
       "abi": "void __fastcall(C2DebugLink *recordsECX); RET0, preservesnonvolatiles",
       "evidence": "cases/analysis/process-records-analysis.json; whole49B, originalsingle conditional dispatcher, five actualtyped distinct children. Old tailtransportextent superseded only by genuine body trial."
+    },
+    {
+      "name": "@align_pending_debug_symbols@4",
+      "native": "align_pending_debug_symbols",
+      "start": 4322501,
+      "end": 4322614,
+      "code_chunks": [
+        [
+          4627555,
+          4627568
+        ]
+      ],
+      "kind": "application",
+      "abi": "void __fastcall(C2DebugLink *symbolsECX),RET0; preservesnonvolatiles",
+      "evidence": "cases/analysis/align-debug-symbols-analysis.json; complete113Bhot+13Bcold, exact signed value16 update. CurrentNULL path exits; nonNULLbody graph/ABI reconstructed, execution notclaimed."
     }
   ],
   "stubs": [
@@ -14305,19 +14321,15 @@
       "evidence": "cases/analysis/prepare-global-records-analysis.json: actualwholecaller and boundedoriginalcallee parameter/result/cleanup evidence; genuine maskedINT3, zero bodycredit"
     },
     {
-      "name": "@align_pending_debug_symbols@4",
-      "native": "align_pending_debug_symbols",
-      "start": 4322501,
-      "end": 4322502,
+      "name": "_write_pending_debug_symbols",
+      "native": "write_pending_debug_symbols",
+      "start": 4322614,
+      "end": 4322615,
       "pending_extent": true,
       "kind": "application",
-      "abi": "void fastcall(C2DebugLink *symbolsECX),RET0",
+      "abi": "void cdecl(void),RET0",
       "evidence": "cases/analysis/process-records-disassembly.txt actualcaller and fullcallee analysis; namedmaskedINT3, no bodycredit.",
       "state_policy": "globals-complete",
-      "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "3abcd639ab07b9421bb05fe27d12aad3a268a492b18a95036880f8b3a11b2933",
-      "frontier_contract": "coff-output-ready",
-      "section_caller": "process_records",
       "state": [
         {
           "original": "0x499708",
@@ -14488,20 +14500,14 @@
           "native": "(unsigned long)local_symbol_table"
         }
       ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "3abcd639ab07b9421bb05fe27d12aad3a268a492b18a95036880f8b3a11b2933",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
-      ]
-    },
-    {
-      "name": "_write_pending_debug_symbols",
-      "native": "write_pending_debug_symbols",
-      "start": 4322614,
-      "end": 4322615,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "void cdecl(void),RET0",
-      "evidence": "cases/analysis/process-records-disassembly.txt actualcaller and fullcallee analysis; namedmaskedINT3, no bodycredit."
+      ],
+      "frontier_contract": "coff-output-ready",
+      "section_caller": "align_pending_debug_symbols"
     },
     {
       "name": "_write_assembly_symbols",
@@ -14847,7 +14853,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14859,7 +14865,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14871,7 +14877,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14883,7 +14889,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14895,7 +14901,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14907,7 +14913,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14919,7 +14925,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14931,7 +14937,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14943,7 +14949,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14955,7 +14961,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14969,7 +14975,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14981,7 +14987,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -14996,7 +15002,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15008,7 +15014,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15020,7 +15026,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15032,7 +15038,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15044,7 +15050,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15056,7 +15062,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15071,7 +15077,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15086,7 +15092,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15098,7 +15104,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15110,7 +15116,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15122,7 +15128,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {
@@ -15137,7 +15143,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "74c8f28bf919832d5ac032a0820b0727b02000d1979ec7703e490dd160f7a4ca"
+          "sha256": "af747ce369441d1c681be25fc2ffdd552f9f4f36d8ae68a1fabe72b597cd5595"
         }
       },
       {

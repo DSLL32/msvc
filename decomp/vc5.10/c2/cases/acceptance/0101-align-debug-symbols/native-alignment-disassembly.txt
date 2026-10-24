@@ -1,0 +1,96 @@
+
+build/native/c2:     file format elf32-i386
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+0000e580 <align_pending_debug_symbols>:
+    e580:	55                   	push   ebp
+    e581:	89 e5                	mov    ebp,esp
+    e583:	53                   	push   ebx
+    e584:	83 ec 24             	sub    esp,0x24
+    e587:	e8 00 00 00 00       	call   e58c <align_pending_debug_symbols+0xc>
+    e58c:	5b                   	pop    ebx
+    e58d:	81 c3 68 ba 02 00    	add    ebx,0x2ba68
+    e593:	89 5d e0             	mov    DWORD PTR [ebp-0x20],ebx
+    e596:	89 4d e4             	mov    DWORD PTR [ebp-0x1c],ecx
+    e599:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    e59c:	8d 8b 8c 45 fd ff    	lea    ecx,[ebx-0x2ba74]
+    e5a2:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    e5a5:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    e5a9:	e8 62 d6 01 00       	call   2bc10 <__cyg_profile_func_enter>
+    e5ae:	8b 4d e4             	mov    ecx,DWORD PTR [ebp-0x1c]
+    e5b1:	89 4d f8             	mov    DWORD PTR [ebp-0x8],ecx
+    e5b4:	83 7d f8 00          	cmp    DWORD PTR [ebp-0x8],0x0
+    e5b8:	74 16                	je     e5d0 <align_pending_debug_symbols+0x50>
+    e5ba:	8b 5d e0             	mov    ebx,DWORD PTR [ebp-0x20]
+    e5bd:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+    e5c0:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+    e5c3:	8b 48 28             	mov    ecx,DWORD PTR [eax+0x28]
+    e5c6:	e8 c5 5a ff ff       	call   4090 <is_known_symbol>
+    e5cb:	83 f8 00             	cmp    eax,0x0
+    e5ce:	75 05                	jne    e5d5 <align_pending_debug_symbols+0x55>
+    e5d0:	e9 86 00 00 00       	jmp    e65b <align_pending_debug_symbols+0xdb>
+    e5d5:	eb 00                	jmp    e5d7 <align_pending_debug_symbols+0x57>
+    e5d7:	83 7d f8 00          	cmp    DWORD PTR [ebp-0x8],0x0
+    e5db:	74 7e                	je     e65b <align_pending_debug_symbols+0xdb>
+    e5dd:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+    e5e0:	8b 00                	mov    eax,DWORD PTR [eax]
+    e5e2:	89 45 f4             	mov    DWORD PTR [ebp-0xc],eax
+    e5e5:	83 7d f4 00          	cmp    DWORD PTR [ebp-0xc],0x0
+    e5e9:	74 0f                	je     e5fa <align_pending_debug_symbols+0x7a>
+    e5eb:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+    e5ee:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+    e5f1:	81 78 10 00 10 00 00 	cmp    DWORD PTR [eax+0x10],0x1000
+    e5f8:	7d 02                	jge    e5fc <align_pending_debug_symbols+0x7c>
+    e5fa:	eb 54                	jmp    e650 <align_pending_debug_symbols+0xd0>
+    e5fc:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+    e5ff:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+    e602:	89 45 f0             	mov    DWORD PTR [ebp-0x10],eax
+    e605:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+    e608:	8b 40 10             	mov    eax,DWORD PTR [eax+0x10]
+    e60b:	89 45 ec             	mov    DWORD PTR [ebp-0x14],eax
+    e60e:	8b 45 ec             	mov    eax,DWORD PTR [ebp-0x14]
+    e611:	b9 00 20 00 00       	mov    ecx,0x2000
+    e616:	99                   	cdq
+    e617:	f7 f9                	idiv   ecx
+    e619:	89 d0                	mov    eax,edx
+    e61b:	b9 02 00 00 00       	mov    ecx,0x2
+    e620:	99                   	cdq
+    e621:	f7 f9                	idiv   ecx
+    e623:	89 45 e8             	mov    DWORD PTR [ebp-0x18],eax
+    e626:	8b 45 e8             	mov    eax,DWORD PTR [ebp-0x18]
+    e629:	b9 20 00 00 00       	mov    ecx,0x20
+    e62e:	99                   	cdq
+    e62f:	f7 f9                	idiv   ecx
+    e631:	83 f8 00             	cmp    eax,0x0
+    e634:	75 18                	jne    e64e <align_pending_debug_symbols+0xce>
+    e636:	81 7d ec 00 10 00 00 	cmp    DWORD PTR [ebp-0x14],0x1000
+    e63d:	7c 0f                	jl     e64e <align_pending_debug_symbols+0xce>
+    e63f:	8b 4d ec             	mov    ecx,DWORD PTR [ebp-0x14]
+    e642:	2b 4d e8             	sub    ecx,DWORD PTR [ebp-0x18]
+    e645:	83 c1 20             	add    ecx,0x20
+    e648:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+    e64b:	89 48 10             	mov    DWORD PTR [eax+0x10],ecx
+    e64e:	eb 00                	jmp    e650 <align_pending_debug_symbols+0xd0>
+    e650:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+    e653:	89 45 f8             	mov    DWORD PTR [ebp-0x8],eax
+    e656:	e9 7c ff ff ff       	jmp    e5d7 <align_pending_debug_symbols+0x57>
+    e65b:	8b 5d e0             	mov    ebx,DWORD PTR [ebp-0x20]
+    e65e:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    e661:	8d 8b 8c 45 fd ff    	lea    ecx,[ebx-0x2ba74]
+    e667:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    e66a:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    e66e:	e8 6d d7 01 00       	call   2bde0 <__cyg_profile_func_exit>
+    e673:	83 c4 24             	add    esp,0x24
+    e676:	5b                   	pop    ebx
+    e677:	5d                   	pop    ebp
+    e678:	c3                   	ret
+
+Disassembly of section .fini:

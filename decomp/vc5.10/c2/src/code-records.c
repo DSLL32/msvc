@@ -199,3 +199,23 @@ void __fastcall process_records(C2DebugLink *records)
     write_codeview_records(records);
     write_assembly_records(records);
 }
+
+void __fastcall align_pending_debug_symbols(C2DebugLink *symbols)
+{
+    C2DebugLink *next;
+    C2Symbol *symbol;
+    long value, half;
+
+    if (!symbols || !is_known_symbol(symbols->symbol->serial))
+        return;
+    for (; symbols; symbols = next) {
+        next = symbols->next;
+        if (!next || symbols->symbol->value < 4096)
+            continue;
+        symbol = next->symbol;
+        value = symbol->value;
+        half = (value % 8192) / 2;
+        if (half / 32 == 0 && value >= 4096)
+            symbol->value = value - half + 32;
+    }
+}

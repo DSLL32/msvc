@@ -1,0 +1,27 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "source_sha256": "c7c53dab3febb421e9d7ea3a0a44507cce439455683632e6869933831a63af93",
+  "logical": "@align_pending_debug_symbols@4",
+  "primary": [
+    4322501,
+    4322614
+  ],
+  "code_chunks": [
+    [
+      4627555,
+      4627568
+    ]
+  ],
+  "code_bytes": 126,
+  "body_sha256": "8e6423035c381bdf49e243694e042e95b21bc0642540b7dae098b92d7f7f66e0",
+  "cold_sha256": "64f59a42167cd4b55765c37b0b332f66f16844ba981bda714cf8286589b92df8",
+  "data": "No new objects; existingC2DebugLink8 next0/symbol4, C2Symbol.serial40 and longvalue16. NaturalheadNULL means no node reads/writes accepted as observed execution.",
+  "arithmetic": "Exact signed remainder%8192 and signed halves/32 truncate towardzero, as proven original CDQ/absolute/mask/signrestore sequences. Coldwriter updates nextsymbol.value16 by32-half. Do not substitute unsigned section_size12.",
+  "next": "write_pending_debug_symbols(void) at41f536; actualcase queueNULL/flag0 remains, no callback invocation until a futuregenuine consumer proof.",
+  "known_callee": {
+    "logical": "@is_known_symbol@4",
+    "entry": 4329521,
+    "signature": "int __fastcall(unsigned serialECX),RET0",
+    "status": "existing genuine pending INT3, no bodycredit; do not substitute distinct44ab4f has_local_symbol"
+  }
+}

@@ -60,11 +60,12 @@
     "bytes": 126,
     "actual_known_callee": {
       "entry": 4329521,
-      "logical": "@has_local_symbol@4",
+      "logical": "@is_known_symbol@4",
       "argument": "unsigned symbol.serialECX",
-      "return": "intEAX"
+      "return": "intEAX",
+      "status": "pendingnotaccepted; distinctfrom44ab4f has_local_symbol"
     },
-    "encountered_data": "Existing8B C2DebugLink next/symbol; symbol.serial40 and signed interpretation of section_size16, no new node storage/layout credit.",
-    "behavior": "If head exists and first serial belongs to local-symbol set, visit neighboring list nodes. For current size>=4096 and next signed size>=4096, if ((next_size%8192)/2)/32==0, adjust next_size by32-((next_size%8192)/2). Entire cold write must be owned before helper acceptance. Natural currentheadNULL exercises only earlyreturn; allbody graph/ABI still required."
+    "encountered_data": "Existing8B C2DebugLink next/symbol; symbol.serial40 and actual signed long value16 (not section_size12). No new node storage/layout credit.",
+    "behavior": "If head exists and first serial is known, visit neighboring list nodes. For current value>=4096 and next signed value>=4096, if ((next_value%8192)/2)/32==0, adjust next_value by32-((next_value%8192)/2). Full13B coldwrite must be owned. CurrentheadNULL only takes earlyreturn; fullbody graph/ABI required."
   }
 }

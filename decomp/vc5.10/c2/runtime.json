@@ -1144,14 +1144,6 @@
     "evidence": null
   },
   {
-    "name": "@align_pending_debug_symbols@4",
-    "start": 4322501,
-    "end": 4322502,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_write_pending_debug_symbols",
     "start": 4322614,
     "end": 4322615,

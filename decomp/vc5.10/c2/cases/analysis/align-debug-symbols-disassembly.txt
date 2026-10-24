@@ -1,0 +1,71 @@
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041f4c5 <.text+0x1e4c5>:
+  41f4c5:	53                   	push   ebx
+  41f4c6:	55                   	push   ebp
+  41f4c7:	56                   	push   esi
+  41f4c8:	8b f1                	mov    esi,ecx
+  41f4ca:	85 f6                	test   esi,esi
+  41f4cc:	57                   	push   edi
+  41f4cd:	74 62                	je     0x41f531
+  41f4cf:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+  41f4d2:	8b 48 28             	mov    ecx,DWORD PTR [eax+0x28]
+  41f4d5:	e8 57 1b 00 00       	call   0x421031
+  41f4da:	85 c0                	test   eax,eax
+  41f4dc:	74 53                	je     0x41f531
+  41f4de:	85 f6                	test   esi,esi
+  41f4e0:	74 4f                	je     0x41f531
+  41f4e2:	bd 00 10 00 00       	mov    ebp,0x1000
+  41f4e7:	eb 0e                	jmp    0x41f4f7
+  41f4e9:	3b cd                	cmp    ecx,ebp
+  41f4eb:	0f 8d 72 a7 04 00    	jge    0x469c63
+  41f4f1:	8b f3                	mov    esi,ebx
+  41f4f3:	85 f6                	test   esi,esi
+  41f4f5:	74 3a                	je     0x41f531
+  41f4f7:	8b 1e                	mov    ebx,DWORD PTR [esi]
+  41f4f9:	85 db                	test   ebx,ebx
+  41f4fb:	74 f4                	je     0x41f4f1
+  41f4fd:	8b 4e 04             	mov    ecx,DWORD PTR [esi+0x4]
+  41f500:	39 69 10             	cmp    DWORD PTR [ecx+0x10],ebp
+  41f503:	7c ec                	jl     0x41f4f1
+  41f505:	8b 7b 04             	mov    edi,DWORD PTR [ebx+0x4]
+  41f508:	8b 4f 10             	mov    ecx,DWORD PTR [edi+0x10]
+  41f50b:	8b c1                	mov    eax,ecx
+  41f50d:	99                   	cdq
+  41f50e:	33 c2                	xor    eax,edx
+  41f510:	2b c2                	sub    eax,edx
+  41f512:	25 ff 1f 00 00       	and    eax,0x1fff
+  41f517:	33 c2                	xor    eax,edx
+  41f519:	2b c2                	sub    eax,edx
+  41f51b:	99                   	cdq
+  41f51c:	2b c2                	sub    eax,edx
+  41f51e:	8b f0                	mov    esi,eax
+  41f520:	d1 fe                	sar    esi,1
+  41f522:	8b c6                	mov    eax,esi
+  41f524:	99                   	cdq
+  41f525:	83 e2 1f             	and    edx,0x1f
+  41f528:	03 c2                	add    eax,edx
+  41f52a:	c1 f8 05             	sar    eax,0x5
+  41f52d:	75 c2                	jne    0x41f4f1
+  41f52f:	eb b8                	jmp    0x41f4e9
+  41f531:	5f                   	pop    edi
+  41f532:	5e                   	pop    esi
+  41f533:	5d                   	pop    ebp
+  41f534:	5b                   	pop    ebx
+  41f535:	c3                   	ret
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00469c63 <.text+0x68c63>:
+  469c63:	2b ce                	sub    ecx,esi
+  469c65:	83 c1 20             	add    ecx,0x20
+  469c68:	89 4f 10             	mov    DWORD PTR [edi+0x10],ecx
+  469c6b:	e9 81 58 fb ff       	jmp    0x41f4f1
