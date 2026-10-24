@@ -30,7 +30,7 @@ def main():
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9_-]*', args.case)
     assert re.fullmatch('[a-z][a-z0-9_]*', args.stem)
-    assert all(flag in {'/Od','/O1','/O2','/Oi','/Ob0','/Ob1','/Ob2','/G3','/G4','/G5'} for flag in args.flags)
+    assert all(flag in {'/Od','/O1','/O2','/Oi','/Ob0','/Ob1','/Ob2','/G3','/G4','/G5','/Z7'} for flag in args.flags)
     fixture = args.fixture.resolve()
     assert fixture.is_relative_to(idx.wt.ROOT/'decomp/vc1.0/fixtures')
     assert args.replace or not (fixture/'manifest.json').exists()
@@ -65,14 +65,21 @@ def main():
             (scratch/(tag+'.stderr')).write_bytes(result.stderr)
             timings[tag] = dict(seconds=time.perf_counter()-started, returncode=result.returncode,
                 stdout_sha256=hashlib.sha256(result.stdout).hexdigest(), stderr_sha256=hashlib.sha256(result.stderr).hexdigest())
+            (scratch/(tag+'-timing.json')).write_text(json.dumps(timings[tag],indent=2)+'\n')
             assert not result.returncode, (tag,result.stdout,result.stderr)
             return result
         cl_arguments = ['/nologo','/c',*args.flags,source.name]
-        result = invoke('pipeline', [windows(Path('build/capture-cl.exe')),windows(idx.wt.TC/'bin/CL.EXE'),
-            '11000',windows(raw),windows(work),' '.join(cl_arguments),args.stem+'.obj'])
+        debug_db = '/Z7' in args.flags
+        command = [windows(Path('build/capture-cl.exe')),windows(idx.wt.TC/'bin/CL.EXE'),
+            '11000',windows(raw),windows(work),' '.join(cl_arguments),args.stem+'.obj']
+        if debug_db: command.append('-')
+        result = invoke('pipeline', command)
         assert b'exit 0; captured 2 launches' in result.stdout
-        for extension in ['ex','sy','in','gl']:
+        assert {p.name for p in work.iterdir()} == {source.name,args.stem+'.obj'}, 'Uncaptured pipeline artifact'
+        extensions = ['ex','sy','in','gl'] + (['db'] if debug_db else [])
+        for extension in extensions:
             shutil.copyfile(raw/('c2-input.'+extension),stage/('c2/ir'+extension))
+        if debug_db: shutil.copyfile(source,stage/'c2'/source.name)
         shutil.copyfile(work/(args.stem+'.obj'),stage/('expected/'+args.stem+'.obj'))
         for path in raw.iterdir():
             if not path.name.startswith('c2-input'):
@@ -97,7 +104,7 @@ def main():
             canonical_working_directory=windows(work),working_directory='c2',
             captured_application=(raw/'spawn-2.application').read_text(),captured_command_line=(raw/'spawn-2.command').read_text(),
             captured_MSC_CMD_FLAGS=flags,expected_exit=0,expected_stdout='',expected_stderr='',
-            inputs=[record('c2/ir'+ext) for ext in ['ex','sy','in','gl']],outputs=[output],
+            inputs=[record('c2/ir'+ext) for ext in extensions]+([record('c2/'+source.name)] if debug_db else []),outputs=[output],
             toolchain_dependencies=[dict(path='toolchains/1.0-nt/bin/C23.ERR',sha256=sha(idx.wt.TC/'bin/C23.ERR'))])
         dependencies = [idx.wt.TC/'bin'/name for name in ['CL.EXE','CL.ERR','C13232.EXE','C23232.EXE','C1.ERR','C23.ERR']]
         if '#include' in source.read_text():
@@ -119,6 +126,7 @@ def main():
             *[windows(scratch/('standalone.'+name)) for name in ['stdout','stderr','events']],windows(work)])
         assert (scratch/'standalone.events').read_text() == 'exit 0\n'
         assert not (scratch/'standalone.stdout').read_bytes() and not (scratch/'standalone.stderr').read_bytes()
+        assert {p.name for p in work.iterdir()} == {Path(r['path']).name for r in phase['inputs']} | {args.stem+'.obj'}, 'Uncaptured standalone artifact'
         actual = bytearray((work/(args.stem+'.obj')).read_bytes())
         actual[4:8] = b'\0'*4
         assert actual == normalized

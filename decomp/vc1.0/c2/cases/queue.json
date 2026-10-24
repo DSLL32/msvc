@@ -1,5 +1,5 @@
 {
-  "active": null,
+  "active": "seh-packet",
   "queued": [
     {
       "case": "hello-win32",
@@ -316,6 +316,15 @@
       "description": "Actual original CL /O2 /Ob0 /Gy /G5 /Z7 transport, derived standalone -omf; genuine COMDAT/CEXTDEF/LINSYM/COMDEF/LIDATA.",
       "completion": "cases/comdat-completion-checkpoint.json",
       "expected_object_sha256": "2dcb42c74d07c84c7aa7f25a1724dd70b43ea06b1dca747a5e257ff544557783"
+    },
+    {
+      "case": "seh-packet",
+      "after": "omf-comdat-communal",
+      "phase": "c2",
+      "status": "active",
+      "fixture_manifest": "../fixtures/c2-seh-packet/manifest.json",
+      "accepted_from": 1311,
+      "description": "Actual original CL /O2 /Ob0 /G3 /Z7, protected packet loop with nested finally/except and labeled checksum asm; original3723B COFF contains genuine SEH scope/code relocations."
     }
   ],
   "completed": [
@@ -514,8 +523,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": null,
-  "current_checkpoint": 1311,
+  "current_application_frontier": "@extract_assembly_labels@4",
+  "current_checkpoint": 1312,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",
     "correction": "shared cabec0d10",
@@ -564,5 +573,5 @@
     }
   ],
   "last_completed": "omf-comdat-communal",
-  "next_action": "Propose one substantial case from remaining non-CRT/native/support rows to root for review; no extra case started."
+  "next_action": "Reconstruct the reached assembly-label extraction pass, then continue the actual SEH case."
 }

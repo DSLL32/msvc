@@ -122,7 +122,6 @@ MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm i
 unsigned short __fastcall select_assembly_record(Node *node) { __asm int 3 }
 
 #include "register-use.h"
-int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
 
 #include "instruction-rewrite.h"
 int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }

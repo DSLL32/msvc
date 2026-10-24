@@ -1,0 +1,12 @@
+{
+  "logical": "@extract_assembly_labels@4",
+  "matched": true,
+  "executable_sha256": "f8a6e9b45dd76f80f9b36d06a49d7295ec1fd160961fa43c707d470a4d81127d",
+  "config_sha256": "91643c68d45d66e14e06d78698c8e2fd1f798f0993eade9805ee2a3fae9fc608",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\sehpacket",
+  "setup_seconds": 0.007808772847056389,
+  "execution_seconds": 0.1281565548852086,
+  "seconds": 0.14668056461960077,
+  "log_sha256": "dfc9e097cdea9b7dd72d988996eb0c893d9e82a9fb1c7c0b98242dc318966750",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/seh-gdb-jjvtwrfi"
+}

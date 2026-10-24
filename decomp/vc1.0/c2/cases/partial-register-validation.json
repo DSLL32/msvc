@@ -1,0 +1,2897 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing formal",
+    "wrong input width",
+    "changed tagged input",
+    "lost caller alias",
+    "invented hidden input",
+    "wrong cleanup",
+    "wrong return width"
+  ],
+  "states": 160,
+  "cases": [
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 0,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 7,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 16384,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            16384,
+            0
+          ],
+          [
+            16384,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 32804,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            32804,
+            0
+          ],
+          [
+            32804,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 0,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 0,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 64,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": false,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 0,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 64,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 128,
+      "result": {
+        "result": 0,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "reg": 65535,
+      "upper_ecx": 3735879680,
+      "incoming_esi_upper": 3203334144,
+      "first_present": true,
+      "second_flags": 4294967295,
+      "result": {
+        "result": 1,
+        "calls": [
+          [
+            65535,
+            0
+          ],
+          [
+            65535,
+            1
+          ]
+        ]
+      }
+    }
+  ],
+  "seconds": 3.3679749527946115,
+  "scope": "Whole44B original/canonical predicate: optional lookup0 miss returns0 without second call; hit performs required lookup1 and reads its own flags DWORD+28 bit40, not the first record. Tagged CX/upper ECX/upper incoming ESI, exact child order/EDX, full boolean EAX, RET0/nonvolatile and unchanged records checked. Child bodies mocked. Required lookup returningNULL after a returning fatal diagnostic is not claimed supported; original dereferences it too. No new data/guard."
+}

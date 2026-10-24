@@ -110,3 +110,12 @@ void __fastcall set_register_rematerialization(unsigned short number, MachineBlo
 {
     lookup_register_variable(number, 1)->rematerialization = block;
 }
+
+/* Original [0002db00,0002db2c). A missing optional entry is not safe.
+   Re-query required ownership before reading its partial-write flag; the
+   first result only controls existence and is not the final flag owner. */
+int __fastcall register_partial_write_safe(unsigned short reg)
+{
+    if (!lookup_register_variable(reg, 0)) return 0;
+    return (lookup_register_variable(reg, 1)->flags & 0x40U) != 0;
+}

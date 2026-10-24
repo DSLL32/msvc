@@ -1,0 +1,12 @@
+{
+  "logical": "@register_partial_write_safe@4",
+  "matched": true,
+  "executable_sha256": "9042557210b1823405f2f8638e03372149f5307df3dbe28d8c08725f9c902df2",
+  "config_sha256": "de452ca8aae04f4cb2baeae4b6d7c3739e19b69e03bf4045778d8fae72769642",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\sehpacket",
+  "setup_seconds": 0.007984433323144913,
+  "execution_seconds": 0.14702955074608326,
+  "seconds": 0.1657960219308734,
+  "log_sha256": "cf495ee5b50880da41a46f1cbf8fdbefd44f5bb6925190971ffb58225cc59630",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/seh-gdb-rz603_r9"
+}

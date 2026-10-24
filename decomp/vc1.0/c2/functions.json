@@ -1315,7 +1315,8 @@
     "@omf_comdat_selection@4",
     "@omf_write_comdat_line@12",
     "@write_codeview_register@4",
-    "@codeview_register_number@4"
+    "@codeview_register_number@4",
+    "@register_partial_write_safe@4"
   ],
   "driver": [
     {
@@ -3952,8 +3953,21 @@
     {
       "name": "@register_partial_write_safe@4",
       "start": 187136,
-      "end": 187137,
-      "provisional": true
+      "end": 187180,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "reg",
+            "location": "CX",
+            "type": "unsigned16"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/partial-register-abi/validation.json",
+        "scope": "Original44B predicate consumes sole tagged CX, two calls to accepted lookup_register_variable whose input is also low16. Incoming upperESI forwarded in fullECX is unconsumed by child, not a hiddeninput. Actualoriginal/native reg0x8024 aliases caller register scalar, fullEAX boolean/RET0; child records/globals are delegated to existing child ABI."
+      }
     },
     {
       "name": "@register_storage_bytes@4",
@@ -9827,6 +9841,12 @@
       "accepted_from": 1300,
       "fixture_manifest": "../fixtures/c2-omf-comdat-communal/manifest.json",
       "fixture_manifest_sha256": "0b6c374b507b4499a8664aea856c2f5986fa4292ce4c572f31f40cae011654bd"
+    },
+    "seh": {
+      "fixture_manifest": "../fixtures/c2-seh-packet/manifest.json",
+      "fixture_manifest_sha256": "a3c1b2119c5bd652d5c54785c0bee71f90ad5ee1c38d31e62b564a1c385b2cc4",
+      "accepted_from": 1311,
+      "description": "Actual original CL /O2 /Ob0 /G3 /Z7 nested protected packet processing; unchanged captured C2 transport and full COFF/CodeView object oracle."
     }
   },
   "crt_defaults": {

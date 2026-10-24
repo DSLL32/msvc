@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3faa: file src/stubs.c, line 125.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, register_partial_write_safe (reg=32804) at src/stubs.c:125
+125	int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
+C2_PARTIAL_REGISTER {"reg": 32804, "parent_reg": 32804, "caller": "overwrites_first_register"}

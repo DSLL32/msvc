@@ -1006,3 +1006,21 @@ covers 328807 bytes in 1196 functions; five historical CRT bodies cover 1776
 bytes separately. A reliable non-CRT denominator is unavailable because 43887
 bytes remain unclassified. Split timings, failures and the next-work inventory
 are in cases/comdat-completion-checkpoint.json and remaining-code-inventory.json.
+
+SEH packet case starts at 1311 from unchanged original /O2 /Ob0 /G3 /Z7.
+One CL workflow (2.979s) and standalone C2 (.838s) agree on the full 3723-byte
+COFF/CodeView object after the established timestamp exemption. Actual output
+has a two-entry 24-byte exception scope table, three code relocations, handler/
+unwind references and S/F/T debug sections. Five captured IR channels and the
+owned source are pinned; no PDB or extra artifact. No target output execution.
+
+At 1312 the reached 44-byte partial-write predicate is accepted. Actual tagged
+CX 0x8024 matches the caller scalar; both accepted lookups consume only low16,
+so the original partial SI assignment introduces no hidden high-word input.
+160 whole original/canonical controls check optional miss versus required
+re-query, the second result's bit40, call order, high-word poisons, boolean EAX,
+RET 0 and preserved records/nonvolatile registers. Original /W3 and ordinary
+audits pass; all 17 cached native cases match. Next assembly-label extractor
+27850 remains a named trap; protected-function envelopes are still provisional.
+Build2.709s, full controls3.483s, audit/coverage30.922s, original1.036s/native
+.212s, suite1.029s. Full split receipt: cases/seh-partial-register-checkpoint.json.

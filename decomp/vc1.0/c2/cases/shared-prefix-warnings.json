@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "omf-output",
-      "seconds": 1.1810217630118132,
+      "module": "register-variables",
+      "seconds": 1.1643586177378893,
       "returncode": 0
     }
   ],
-  "seconds": 1.1812085695564747
+  "seconds": 1.1645685629919171
 }
