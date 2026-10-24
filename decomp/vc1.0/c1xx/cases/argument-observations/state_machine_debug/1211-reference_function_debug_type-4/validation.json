@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_reference_function_debug_type@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1211,
+  "configuration_sha256": "2fea68f01ae01455329a01a9992efa1ce59eada2c94d06d846608a30cd6a290b",
+  "native_entry": "reference_function_debug_type",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 382989,
+        "original_owner_function": "_reference_debug_type@4",
+        "native_owner_function": "reference_debug_type",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Accepted reference_debug_type retainsactualtypeinputESI, shape4 dispatch PUSH ESI6d807/CALL6d808/return6d80d afterbaseintering/reference. Native actual immediatecaller typeformal owns the function CType; no frozenheapidentity.",
+        "original_owner_value": 8312228,
+        "native_owner_value": 1449334180
+      },
+      "original_raw": 8312228,
+      "native_raw": 1449334180,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      449104,
+      449191
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void",
+    "proof": "Whole87B saveEBXESI8, typeadjustedESP+12, RET4. No incomingGPR/x87/CPUflagsformal. Existingreference_parameter_debug_types(type.related.data.parameters) yieldsBYTEcount savedBL, thenstore next_debug_type_index WORD atactualCType+10, reserve_debug_type0, fillactual16Bslot subject.type+4/attributesWORD+2 zeroextendedcount/related_typeWORD+8zero. Slotkindinitializedexistingreserve, unrelatedslotfieldsunwritten. ActualESI/callernativeformal binding; no newdata/CRTbody.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "0142fc3bd041d3d944ae4e6f407422dc8c2b4c9f6a3fc6bbf49e37e7a2f9425f",
+  "capture_timing": {
+    "original_capture_seconds": 0.6660508634522557,
+    "native_capture_seconds": 0.18521618843078613,
+    "total_operation_seconds": 1.1099326591938734
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "8ac7a9a76c0e9db675a3b2d0a8e2c94dc8c8b1f8fa0eff1b7b61db8301f907fa",
+    "native-commands.gdb": "f74b6541ac5a97d561901a0e2a474f30fbe795c2ee69ac43f2c6b7ff24e814df",
+    "native-gdb.log": "08bf1652b76a8fc68f4bbfd29c0c44055e76a11f668b3f3d31abd7c4297a1f51",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "018139a6c06b1fc07c3960ecf5644818df6a718ed629b5b1ea43b9ecad420850",
+    "original-configuration.json": "2fea68f01ae01455329a01a9992efa1ce59eada2c94d06d846608a30cd6a290b",
+    "original-disassembly.txt": "9d6616db867b3b0c910b13c45f8d8e7205df2b825677569efe2de84f7d2d02b7",
+    "original-entries.plan": "8f7b13f25c883519d9c8824c925d870751ba1b5f15e6ad2e91ced32d0b7933c2",
+    "original-events.txt": "98edf39aeffbf7790db08d5104673a9396d45712e853274ee57a79590d6b7449",
+    "original-ownership-caller-disassembly.txt": "97f4d3ce6346c10f65881ca906f7d375e5815e6e139c1cf507e0b75ea3aa40d1",
+    "original-receipt.json": "ffaf3daaf95fddcd5382acd5f97cd134030a0f32f5a4e2169b9c0e72cab3f323",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "290262a26831702153094ee14cc96bda471341f9ca32910aa9442b015ecd96f8"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

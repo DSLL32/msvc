@@ -1,0 +1,19 @@
+Breakpoint 1 at 0x3c26a: file src/debug-types.c, line 821.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, reference_function_debug_type (type=0x566315a4) at src/debug-types.c:821
+821	        type->related->data.parameters);
+#0  reference_function_debug_type (type=0x566315a4) at src/debug-types.c:821
+#1  0x5658f5aa in reference_debug_type (type=0x566315a4) at src/debug-types.c:802
+#2  0x5658f504 in reference_debug_type (type=0x5663130c) at src/debug-types.c:790
+#3  0x565ab6f7 in prepare_symbol_debug_type (symbol=0x56654978) at src/symbol-output.c:14
+#4  0x565abe43 in emit_symbol_declaration (symbol=0x56654978) at src/symbol-output.c:148
+#5  0x565ac769 in serialize_scope (scope=0x56654964) at src/function-finalization.c:137
+#6  0x565ac54d in finish_function_output () at src/function-finalization.c:92
+#7  0x565ac342 in finish_function_body (recovering=0) at src/function-finalization.c:54
+#8  0x565ac144 in end_function_definition () at src/function-finalization.c:22
+#9  0x565b9e15 in parse_translation_unit () at src/parser-declaration-actions.inc:120
+#10 0x5655df1f in compile_translation_unit () at src/frontend.c:73
+#11 0x565588c6 in guarded_compile () at src/c1xx.c:28
+#12 0x56558894 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

@@ -1,0 +1,31 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0006da50 <.text+0x56a50>:
+   6da50:	53                   	push   ebx
+   6da51:	56                   	push   esi
+   6da52:	8b 74 24 0c          	mov    esi,DWORD PTR [esp+0xc]
+   6da56:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+   6da59:	8b 40 08             	mov    eax,DWORD PTR [eax+0x8]
+   6da5c:	50                   	push   eax
+   6da5d:	e8 4e 00 00 00       	call   0x6dab0
+   6da62:	8a d8                	mov    bl,al
+   6da64:	66 a1 54 f4 09 00    	mov    ax,ds:0x9f454
+   6da6a:	66 89 46 0a          	mov    WORD PTR [esi+0xa],ax
+   6da6e:	6a 00                	push   0x0
+   6da70:	e8 0b 05 00 00       	call   0x6df80
+   6da75:	c1 e0 04             	shl    eax,0x4
+   6da78:	8b 0d b0 cc 08 00    	mov    ecx,DWORD PTR ds:0x8ccb0
+   6da7e:	89 74 08 04          	mov    DWORD PTR [eax+ecx*1+0x4],esi
+   6da82:	8a cb                	mov    cl,bl
+   6da84:	81 e1 ff 00 ff ff    	and    ecx,0xffff00ff
+   6da8a:	8b 15 b0 cc 08 00    	mov    edx,DWORD PTR ds:0x8ccb0
+   6da90:	66 89 4c 10 02       	mov    WORD PTR [eax+edx*1+0x2],cx
+   6da95:	8b 0d b0 cc 08 00    	mov    ecx,DWORD PTR ds:0x8ccb0
+   6da9b:	66 c7 44 08 08 00 00 	mov    WORD PTR [eax+ecx*1+0x8],0x0
+   6daa2:	5e                   	pop    esi
+   6daa3:	5b                   	pop    ebx
+   6daa4:	c2 04 00             	ret    0x4

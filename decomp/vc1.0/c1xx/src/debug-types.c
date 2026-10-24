@@ -812,3 +812,17 @@ void __stdcall reference_debug_type(CType *type)
     }
     type->debug_index = base_debug_type(type);
 }
+
+/* Original 0x6da50..0x6daa6, stdcall4. Parameter records are reserved
+   before the function type so its index follows its argument-list indices. */
+void __stdcall reference_function_debug_type(CType *type)
+{
+    unsigned char count = reference_parameter_debug_types(
+        type->related->data.parameters);
+    unsigned record;
+    type->debug_index = next_debug_type_index;
+    record = reserve_debug_type(0);
+    debug_types[record].subject.type = type;
+    debug_types[record].attributes = count;
+    debug_types[record].related_type = 0;
+}
