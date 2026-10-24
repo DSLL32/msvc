@@ -1144,14 +1144,6 @@
     "evidence": null
   },
   {
-    "name": "@write_codeview_records@4",
-    "start": 4322663,
-    "end": 4322664,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@write_assembly_records@4",
     "start": 4322700,
     "end": 4322701,

@@ -1,0 +1,187 @@
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041f567 <.text+0x1e567>:
+  41f567:	a1 ac 7c 49 00       	mov    eax,ds:0x497cac
+  41f56c:	56                   	push   esi
+  41f56d:	85 c0                	test   eax,eax
+  41f56f:	74 06                	je     0x41f577
+  41f571:	85 c9                	test   ecx,ecx
+  41f573:	8b f1                	mov    esi,ecx
+  41f575:	75 02                	jne    0x41f579
+  41f577:	5e                   	pop    esi
+  41f578:	c3                   	ret
+  41f579:	8b 46 04             	mov    eax,DWORD PTR [esi+0x4]
+  41f57c:	8b 48 32             	mov    ecx,DWORD PTR [eax+0x32]
+  41f57f:	e8 60 b1 02 00       	call   0x44a6e4
+  41f584:	8b 36                	mov    esi,DWORD PTR [esi]
+  41f586:	85 f6                	test   esi,esi
+  41f588:	75 ef                	jne    0x41f579
+  41f58a:	eb eb                	jmp    0x41f577
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0045406a <.text+0x5306a>:
+  45406a:	51                   	push   ecx
+  45406b:	53                   	push   ebx
+  45406c:	55                   	push   ebp
+  45406d:	8b e9                	mov    ebp,ecx
+  45406f:	56                   	push   esi
+  454070:	57                   	push   edi
+  454071:	8b 75 10             	mov    esi,DWORD PTR [ebp+0x10]
+  454074:	8b ce                	mov    ecx,esi
+  454076:	e8 d8 b3 fc ff       	call   0x41f453
+  45407b:	85 c0                	test   eax,eax
+  45407d:	89 44 24 10          	mov    DWORD PTR [esp+0x10],eax
+  454081:	74 0b                	je     0x45408e
+  454083:	8b 48 32             	mov    ecx,DWORD PTR [eax+0x32]
+  454086:	85 c9                	test   ecx,ecx
+  454088:	0f 85 4f 0d 02 00    	jne    0x474ddd
+  45408e:	8b 0d f4 7d 49 00    	mov    ecx,DWORD PTR ds:0x497df4
+  454094:	85 c9                	test   ecx,ecx
+  454096:	8d 51 08             	lea    edx,[ecx+0x8]
+  454099:	74 2c                	je     0x4540c7
+  45409b:	8b 0a                	mov    ecx,DWORD PTR [edx]
+  45409d:	85 c9                	test   ecx,ecx
+  45409f:	0f 85 64 0d 02 00    	jne    0x474e09
+  4540a5:	89 2a                	mov    DWORD PTR [edx],ebp
+  4540a7:	8b 4d 08             	mov    ecx,DWORD PTR [ebp+0x8]
+  4540aa:	85 c9                	test   ecx,ecx
+  4540ac:	89 2d f4 7d 49 00    	mov    DWORD PTR ds:0x497df4,ebp
+  4540b2:	0f 85 b8 0d 02 00    	jne    0x474e70
+  4540b8:	85 c0                	test   eax,eax
+  4540ba:	74 03                	je     0x4540bf
+  4540bc:	89 68 32             	mov    DWORD PTR [eax+0x32],ebp
+  4540bf:	5f                   	pop    edi
+  4540c0:	8b c5                	mov    eax,ebp
+  4540c2:	5e                   	pop    esi
+  4540c3:	5d                   	pop    ebp
+  4540c4:	5b                   	pop    ebx
+  4540c5:	59                   	pop    ecx
+  4540c6:	c3                   	ret
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0044a6e4 <.text+0x496e4>:
+  44a6e4:	51                   	push   ecx
+  44a6e5:	53                   	push   ebx
+  44a6e6:	55                   	push   ebp
+  44a6e7:	8b e9                	mov    ebp,ecx
+  44a6e9:	56                   	push   esi
+  44a6ea:	57                   	push   edi
+  44a6eb:	8b 5d 18             	mov    ebx,DWORD PTR [ebp+0x18]
+  44a6ee:	85 db                	test   ebx,ebx
+  44a6f0:	74 5b                	je     0x44a74d
+  44a6f2:	8a 43 04             	mov    al,BYTE PTR [ebx+0x4]
+  44a6f5:	3c 04                	cmp    al,0x4
+  44a6f7:	74 04                	je     0x44a6fd
+  44a6f9:	3c 01                	cmp    al,0x1
+  44a6fb:	75 0c                	jne    0x44a709
+  44a6fd:	8b 43 36             	mov    eax,DWORD PTR [ebx+0x36]
+  44a700:	f6 c4 10             	test   ah,0x10
+  44a703:	0f 85 8f 73 02 00    	jne    0x471a98
+  44a709:	8b 45 00             	mov    eax,DWORD PTR [ebp+0x0]
+  44a70c:	85 c0                	test   eax,eax
+  44a70e:	75 4d                	jne    0x44a75d
+  44a710:	8b 4b 24             	mov    ecx,DWORD PTR [ebx+0x24]
+  44a713:	e8 3b 4d fd ff       	call   0x41f453
+  44a718:	8b f8                	mov    edi,eax
+  44a71a:	8b 47 0c             	mov    eax,DWORD PTR [edi+0xc]
+  44a71d:	c7 05 0c 9a 49 00 00 	mov    DWORD PTR ds:0x499a0c,0x0
+  44a724:	00 00 00 
+  44a727:	85 ed                	test   ebp,ebp
+  44a729:	89 44 24 10          	mov    DWORD PTR [esp+0x10],eax
+  44a72d:	8b f5                	mov    esi,ebp
+  44a72f:	75 57                	jne    0x44a788
+  44a731:	3b 3d 4c 7f 49 00    	cmp    edi,DWORD PTR ds:0x497f4c
+  44a737:	74 07                	je     0x44a740
+  44a739:	8b 54 24 10          	mov    edx,DWORD PTR [esp+0x10]
+  44a73d:	89 57 0c             	mov    DWORD PTR [edi+0xc],edx
+  44a740:	5f                   	pop    edi
+  44a741:	c7 45 14 01 00 00 00 	mov    DWORD PTR [ebp+0x14],0x1
+  44a748:	5e                   	pop    esi
+  44a749:	5d                   	pop    ebp
+  44a74a:	5b                   	pop    ebx
+  44a74b:	59                   	pop    ecx
+  44a74c:	c3                   	ret
+  44a74d:	8b 4d 10             	mov    ecx,DWORD PTR [ebp+0x10]
+  44a750:	e8 fe 4c fd ff       	call   0x41f453
+  44a755:	8b d8                	mov    ebx,eax
+  44a757:	85 db                	test   ebx,ebx
+  44a759:	75 97                	jne    0x44a6f2
+  44a75b:	eb ac                	jmp    0x44a709
+  44a75d:	83 f8 0a             	cmp    eax,0xa
+  44a760:	0f 85 40 73 02 00    	jne    0x471aa6
+  44a766:	8b 3d 4c 7f 49 00    	mov    edi,DWORD PTR ds:0x497f4c
+  44a76c:	eb ac                	jmp    0x44a71a
+  44a76e:	57                   	push   edi
+  44a76f:	8b d3                	mov    edx,ebx
+  44a771:	8b ce                	mov    ecx,esi
+  44a773:	ff 15 50 7f 49 00    	call   DWORD PTR ds:0x497f50
+  44a779:	8b 4f 0c             	mov    ecx,DWORD PTR [edi+0xc]
+  44a77c:	03 c8                	add    ecx,eax
+  44a77e:	89 4f 0c             	mov    DWORD PTR [edi+0xc],ecx
+  44a781:	8b 76 04             	mov    esi,DWORD PTR [esi+0x4]
+  44a784:	85 f6                	test   esi,esi
+  44a786:	74 a9                	je     0x44a731
+  44a788:	8b 06                	mov    eax,DWORD PTR [esi]
+  44a78a:	85 c0                	test   eax,eax
+  44a78c:	74 07                	je     0x44a795
+  44a78e:	83 f8 0a             	cmp    eax,0xa
+  44a791:	74 ee                	je     0x44a781
+  44a793:	eb d9                	jmp    0x44a76e
+  44a795:	8b 4e 0c             	mov    ecx,DWORD PTR [esi+0xc]
+  44a798:	8b 43 0c             	mov    eax,DWORD PTR [ebx+0xc]
+  44a79b:	eb df                	jmp    0x44a77c
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00471a98 <.text+0x70a98>:
+  471a98:	8b cb                	mov    ecx,ebx
+  471a9a:	e8 19 4f 01 00       	call   0x4869b8
+  471a9f:	8b d8                	mov    ebx,eax
+  471aa1:	e9 63 8c fd ff       	jmp    0x44a709
+  471aa6:	ba 01 02 00 00       	mov    edx,0x201
+  471aab:	b9 f4 d4 49 00       	mov    ecx,0x49d4f4
+  471ab0:	e8 87 50 01 00       	call   0x486b3c
+  471ab5:	5f                   	pop    edi
+  471ab6:	5e                   	pop    esi
+  471ab7:	5d                   	pop    ebp
+  471ab8:	5b                   	pop    ebx
+  471ab9:	59                   	pop    ecx
+  471aba:	c3                   	ret
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00452411 <.text+0x51411>:
+  452411:	e8 9c fe ff ff       	call   0x4522b2
+  452416:	8b f0                	mov    esi,eax
+  452418:	c7 46 10 00 00 00 00 	mov    DWORD PTR [esi+0x10],0x0
+  45241f:	e8 d1 dc fc ff       	call   0x4200f5
+  452424:	8b ce                	mov    ecx,esi
+  452426:	89 46 0c             	mov    DWORD PTR [esi+0xc],eax
+  452429:	e8 7b 00 00 00       	call   0x4524a9
+  45242e:	8b ce                	mov    ecx,esi
+  452430:	e8 af 82 ff ff       	call   0x44a6e4
+  452435:	8b ce                	mov    ecx,esi
+  452437:	e8 89 82 ff ff       	call   0x44a6c5
+  45243c:	eb 05                	jmp    0x452443

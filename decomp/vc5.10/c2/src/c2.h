@@ -100,6 +100,7 @@ long c2_read_il_long(void);
 int __fastcall c2_open_pdb(char *name, char *object_name);
 void c2_reset_symbol_table(void);
 typedef struct C2Symbol C2Symbol;
+typedef struct C2InitRecord C2InitRecord;
 typedef struct C2ScopeHash C2ScopeHash;
 extern C2ScopeHash global_scope;
 void *c2_create_type_table(void);
@@ -200,7 +201,7 @@ struct C2SectionGroup { unsigned pending00, count, pending08; };
 typedef struct C2FunctionListing C2FunctionListing;
 typedef struct C2FunctionSymbol {
     C2Symbol symbol;
-    unsigned char pending32[4];
+    C2InitRecord *initializer;
     unsigned attributes;
     unsigned char pending3a[5];
     signed char scope_line;
@@ -216,7 +217,8 @@ typedef struct C2FunctionSymbol {
  * fields: local lifetime at3c, an alias target at3e, or flags/scope at3e/3f. */
 typedef struct C2InputSymbol {
     C2Symbol symbol;
-    unsigned pending32, attributes;
+    C2InitRecord *initializer;
+    unsigned attributes;
     union {
         long frame_size;
         struct { unsigned short pending3a; signed char lifetime; unsigned char pending3d; } local;
@@ -299,6 +301,8 @@ typedef char C2FunctionListingSizeCheck[sizeof(C2FunctionListing) == 16 ? 1 : -1
 typedef char C2FunctionListingFieldCheck[offsetof(C2FunctionSymbol, listing) == 94 ? 1 : -1];
 typedef char C2FunctionSymbolSizeCheck[sizeof(C2FunctionSymbol) == 110 ? 1 : -1];
 typedef char C2InputSymbolSizeCheck[sizeof(C2InputSymbol) == 110 ? 1 : -1];
+typedef char C2InputSymbolInitializerCheck[offsetof(C2InputSymbol, initializer) == 50 ? 1 : -1];
+typedef char C2FunctionSymbolInitializerCheck[offsetof(C2FunctionSymbol, initializer) == 50 ? 1 : -1];
 typedef char C2InputSymbolDetailCheck[offsetof(C2InputSymbol, detail) == 0x3e ? 1 : -1];
 typedef char C2InputSymbolExtraCheck[offsetof(C2InputSymbol, additional_flags) == 0x6a ? 1 : -1];
 typedef char C2BlockSymbolSizeCheck[sizeof(C2BlockSymbol) == 64 ? 1 : -1];
@@ -366,7 +370,7 @@ extern C2Filename *filenames;
 void read_initializers(void);
 /* Root initializer records are 28 bytes. Leaf variants reuse the payload;
  * these names describe the root form encountered by the IL dispatcher. */
-typedef struct C2InitRecord {
+struct C2InitRecord {
     int kind;
     struct C2InitRecord *next;
     struct C2InitRecord *list_next;
@@ -374,7 +378,7 @@ typedef struct C2InitRecord {
     unsigned symbol_serial;
     int emitted;
     C2Symbol *symbol;
-} C2InitRecord;
+};
 typedef char C2InitRecordSizeCheck[sizeof(C2InitRecord) == 28 ? 1 : -1];
 typedef char C2InitRecordOffsetCheck[offsetof(C2InitRecord, offset) == 12 ? 1 : -1];
 typedef char C2InitRecordSerialCheck[offsetof(C2InitRecord, symbol_serial) == 16 ? 1 : -1];

@@ -633,10 +633,6 @@ C2DebugLink *new_symbol_link(void) { __asm { int 3 } return NULL; }
 
 
 
-void __fastcall write_codeview_records(C2DebugLink *records)
-{
-    __asm { int 3 }
-}
 
 void __fastcall write_assembly_records(C2DebugLink *records)
 {

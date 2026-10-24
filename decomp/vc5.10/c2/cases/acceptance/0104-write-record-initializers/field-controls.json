@@ -1,0 +1,94 @@
+{
+  "positive": {
+    "evidence_sha256": "b452e7687016b6b49f5f18c434715b317502ca006a3d9e895b79ca9665c367d8",
+    "field": {
+      "offset": 50,
+      "width": 4,
+      "type": "C2InitRecord*",
+      "views": [
+        "C2InputSymbol",
+        "C2FunctionSymbol"
+      ],
+      "enclosing_size": 110,
+      "pending_bytes_before": "four-byte pending32 hole; no earlier initializer payload/default claim",
+      "writer_entry": 4538474,
+      "writer_store": 4538556,
+      "writer_bytes": "85c074038968325f8bc55e5d5b59c3",
+      "writer_argument": "actual initializerECX savedEBP; EAX actualsymbolfromserial; MOV[EAX+50],EBP",
+      "observed": "unread because actualrecordsNULL; no pointee or initialized-default credit"
+    },
+    "child": "existing genuine emit_initializer(C2InitRecord*ECX), no new body credit",
+    "canonical_source_alias": "@write_record_initializers@4",
+    "scope": "Exact existing four-byte +50 initializer member/writer and emitted consumer; only currentNULL list skip observed. No pointee/default/initialized-data credit or new callback identity."
+  },
+  "count": 15,
+  "rejected": [
+    {
+      "control": "wrong option guards initializer list",
+      "reason": "initializer producer must use actual output-name guard, list/symbol owner and +50 pointer"
+    },
+    {
+      "control": "wrong symbol owner",
+      "reason": "initializer producer must use actual output-name guard, list/symbol owner and +50 pointer"
+    },
+    {
+      "control": "wrong next link",
+      "reason": "initializer producer must use actual output-name guard, list/symbol owner and +50 pointer"
+    },
+    {
+      "control": "initializer pointer replaced with symbol",
+      "reason": "initializer producer must use actual output-name guard, list/symbol owner and +50 pointer"
+    },
+    {
+      "control": "field offset changed",
+      "reason": ""
+    },
+    {
+      "control": "pointer width changed",
+      "reason": ""
+    },
+    {
+      "control": "invented debug pointee",
+      "reason": ""
+    },
+    {
+      "control": "writer storage changed",
+      "reason": ""
+    },
+    {
+      "control": "output name aliases debug flag",
+      "reason": ""
+    },
+    {
+      "control": "new duplicate child identity",
+      "reason": ""
+    },
+    {
+      "control": "logical/source symbol alias changed",
+      "reason": ""
+    },
+    {
+      "control": "initializer layout guard omitted",
+      "reason": ""
+    },
+    {
+      "control": "function alias size guard omitted",
+      "reason": ""
+    },
+    {
+      "control": "unrelated symbol pointer cannot be initializer",
+      "reason": "In file included from /root/.ai-tmp/msvc2/vc5.10/c2/initializer-field-controls-c7pr4_yp/layout.c:1:"
+    },
+    {
+      "control": "auxiliary actual producer distinct nonzero initializer/guard/list checks",
+      "reason": "NULL output+unrelated flag1 skips; nonNULL output+flag0 emits exact two distinct +50 initializer pointers in list order; NULL list skips. Typed observer replaces child only in isolated auxiliary ELF, zero targetbody credit.",
+      "build_seconds": 0.3595053208991885,
+      "execution_seconds": 0.001181197352707386,
+      "harness_sha256": "30cba8672ceef10e0f5f55512904311b58235493d662494df530dba829308fe0"
+    }
+  ],
+  "seconds": 0.8965024305507541,
+  "checker_sha256": "c967f9975f4398247c759ade76cd04675170b482d7ee235195cef05edff51bc2",
+  "validator_sha256": "c153e4035bf5c941cea2a45e617a758d4fe1365e32b6b91d2fdf11cd1c33843c",
+  "scope": "Only same four-byte initializer field at pack2+50, unchanged110B aliases and existing28B root/emit target. Layout/type compile proof auxiliary; actual currentNULL list never reads these bytes, no default/pointee/body credit."
+}

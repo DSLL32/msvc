@@ -39,7 +39,7 @@ extern C2DebugLink *pending_debug_symbols;
 void __fastcall align_pending_debug_symbols(C2DebugLink *symbols);
 void write_pending_debug_symbols(void);
 void write_assembly_symbols(void);
-void __fastcall write_codeview_records(C2DebugLink *records);
+void __fastcall write_record_initializers(C2DebugLink *records);
 void __fastcall write_assembly_records(C2DebugLink *records);
 extern C2InitRecord *global_initializers;
 extern int global_records_processing;

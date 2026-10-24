@@ -5,6 +5,7 @@
 unsigned record_source_line;
 unsigned short record_line_delta;
 extern int c2_internal_listing;
+extern char *c2_output_name;
 
 C2DebugLink *__fastcall prepare_function_records(C2Function *function)
 {
@@ -197,7 +198,7 @@ void __fastcall process_records(C2DebugLink *records)
         align_pending_debug_symbols(pending_debug_symbols);
     write_pending_debug_symbols();
     write_assembly_symbols();
-    write_codeview_records(records);
+    write_record_initializers(records);
     write_assembly_records(records);
 }
 
@@ -226,5 +227,13 @@ void write_pending_debug_symbols(void)
     while (pending_debug_symbols) {
         output_slot_497cec.target(pending_debug_symbols->symbol);
         pending_debug_symbols = pending_debug_symbols->next;
+    }
+}
+
+void __fastcall write_record_initializers(C2DebugLink *records)
+{
+    if (c2_output_name) {
+        for (; records; records = records->next)
+            emit_initializer(((C2InputSymbol *)records->symbol)->initializer);
     }
 }

@@ -1,0 +1,60 @@
+{
+  "logical": "@write_codeview_records@4",
+  "source_symbol": "@write_record_initializers@4",
+  "native": "write_record_initializers",
+  "primary": [
+    4322663,
+    4322700
+  ],
+  "bytes": 37,
+  "sha256": "1143c54aeb584460dd7e5ff64dfd6678d20477e09f45da4bd245876be01e81a5",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "guard": {
+    "original": 4816044,
+    "native": "c2_output_name",
+    "type": "char*",
+    "actual": "numeric-control-flow.obj borrowedtargetenvironment+52",
+    "not_codeview_option": true
+  },
+  "field": {
+    "offset": 50,
+    "width": 4,
+    "type": "C2InitRecord*",
+    "views": [
+      "C2InputSymbol",
+      "C2FunctionSymbol"
+    ],
+    "enclosing_size": 110,
+    "pending_bytes_before": "four-byte pending32 hole; no earlier initializer payload/default claim",
+    "writer_entry": 4538474,
+    "writer_store": 4538556,
+    "writer_bytes": "85c074038968325f8bc55e5d5b59c3",
+    "writer_argument": "actual initializerECX savedEBP; EAX actualsymbolfromserial; MOV[EAX+50],EBP",
+    "observed": "unread because actualrecordsNULL; no pointee or initialized-default credit"
+  },
+  "child": {
+    "logical": "@emit_initializer@4",
+    "entry": 4499172,
+    "type": "voidfastcall(C2InitRecord*ECX),RET0",
+    "already_indexed": true,
+    "body": "genuine named masked INT3; zero bodycredit",
+    "same_owner": "existing28B C2InitRecord kind0/next4/list_next8/offset12/symbol_serial16/emitted20/symbol24",
+    "RET0_sites": [
+      4499276,
+      4659898
+    ],
+    "hot": [
+      4499172,
+      4499357
+    ],
+    "cold": [
+      [
+        4659864,
+        4659899
+      ]
+    ],
+    "typed_othercaller": 4531248
+  },
+  "actual_path": "output_name nonNULL, recordsNULL => skipsinitializerread/emit; nextgenuine41f58c write_assembly_records(NULL), parentprocess_records(NULL)",
+  "disassembly_sha256": "0d6ba0b63d2b673b38cdfafb1e6769ef16624df77cb967a80210cbefdfdb5ccf"
+}
