@@ -1,0 +1,127 @@
+{
+  "positive": {
+    "contract_sha256": "c35d6e787bc769038d8003a5a01e149b4ca3235c4b5d7004a48c5c4dfc05eda9",
+    "passes": [
+      [
+        0,
+        4756682
+      ],
+      [
+        0,
+        4756886
+      ],
+      [
+        1,
+        4756886
+      ],
+      [
+        0,
+        4757139
+      ],
+      [
+        1,
+        4757139
+      ],
+      [
+        0,
+        4760145
+      ]
+    ],
+    "callback_count": 4,
+    "callback_ABIs": "UNRESOLVED; addresses only",
+    "visitor": "knownECXflag/EDXpointer/RET0 but bodymaskedINT3; accepting actual indirect consumer remains blocked",
+    "body_credit": 0,
+    "scope": "Six exact scalarcodeaddress expressions, no callback calls or interpretation; original whole92B producer graph/refs/ownership checked by commonRust. Currentflag0 executes none."
+  },
+  "count": 21,
+  "rejected": [
+    {
+      "control": "address passed as string",
+      "reason": ""
+    },
+    {
+      "control": "scope flag changed",
+      "reason": ""
+    },
+    {
+      "control": "callback directly invoked",
+      "reason": "unresolved assembly callback invoked or escaped beyond approved scalar address pass"
+    },
+    {
+      "control": "callback address escaped",
+      "reason": "unresolved assembly callback invoked or escaped beyond approved scalar address pass"
+    },
+    {
+      "control": "visitor called outside finite producer",
+      "reason": "unresolved assembly callback invoked or escaped beyond approved scalar address pass"
+    },
+    {
+      "control": "callback given invented formal",
+      "reason": "unresolved assembly callback invoked or escaped beyond approved scalar address pass"
+    },
+    {
+      "control": "address pointer becomes struct",
+      "reason": ""
+    },
+    {
+      "control": "visitor formal erased",
+      "reason": ""
+    },
+    {
+      "control": "visitor loses genuine hardtrap",
+      "reason": ""
+    },
+    {
+      "control": "callback falsely accepted",
+      "reason": "unknown callback ABI/body remains unaccepted"
+    },
+    {
+      "control": "unknown callback signature cleared",
+      "reason": ""
+    },
+    {
+      "control": "callback body extent invented",
+      "reason": ""
+    },
+    {
+      "control": "visitor consumer falsely accepted",
+      "reason": "iterator consumer must recover all actual callback signatures before body acceptance"
+    },
+    {
+      "control": "visitor future signature hold removed",
+      "reason": ""
+    },
+    {
+      "control": "code reference omitted",
+      "reason": "all four genuine CODE references must remain separate"
+    },
+    {
+      "control": "pointer encoding offset changed",
+      "reason": "actual code pointer must be second EDX argument"
+    },
+    {
+      "control": "scope register encoding offset changed",
+      "reason": "actual scopeflag must be first ECX argument"
+    },
+    {
+      "control": "call encoding offset changed",
+      "reason": ""
+    },
+    {
+      "control": "one pass omitted",
+      "reason": ""
+    },
+    {
+      "control": "cold extent shortened",
+      "reason": ""
+    },
+    {
+      "control": "real acceptance preflight blocks unresolved visitor consumer",
+      "reason": "callee would invoke unresolved callback signatures"
+    }
+  ],
+  "seconds": 0.7792550045996904,
+  "checker_sha256": "009ab50ca3f9ff71a735f5d75571200a7ed9a4c59b62ed513bb2d43c6fe1f7a7",
+  "validator_sha256": "b262790efb46e4b1149dfab666f4dc7a18de3559a80c5248d934a14af0ee0aef",
+  "scope": "Six exact scalar EDX code-address passes, ECX scope flags, four named masked unresolved callbacks, no invocation/body credit; genuine future consumer hardtrap and explicit acceptance gate."
+}

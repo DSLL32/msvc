@@ -20,6 +20,16 @@ typedef void (__fastcall *C2OutputDirectiveWriter)(C2OutputDirective *directive)
 typedef struct C2DirectiveCallback { C2OutputDirectiveWriter target; } C2DirectiveCallback;
 typedef char C2DirectiveCallbackSizeCheck[sizeof(C2DirectiveCallback) == 4 ? 1 : -1];
 typedef char C2DirectiveCallbackOffsetCheck[offsetof(C2DirectiveCallback, target) == 0 ? 1 : -1];
+/* Provisional code-address values only: this incomplete pointer view must not
+ * be called. The symbol visitor remains a named trap until real signatures
+ * are recovered at its consumer boundary. It is a scalar for the EDX argument.
+ */
+typedef void (__cdecl *C2AssemblyVisitor)();
+void __fastcall visit_symbols(int local, C2AssemblyVisitor visitor);
+void assembly_callback_4894ca();
+void assembly_callback_489596();
+void assembly_callback_489693();
+void assembly_callback_48a251();
 typedef void (__fastcall *C2SymbolWriter)(C2Symbol *symbol);
 typedef struct C2SymbolCallback { C2SymbolWriter target; } C2SymbolCallback;
 typedef char C2SymbolCallbackSizeCheck[sizeof(C2SymbolCallback) == 4 ? 1 : -1];

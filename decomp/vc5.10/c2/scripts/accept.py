@@ -27,6 +27,9 @@ def preflight(name,original,native,validation=None):
     if records[0].get('requires_symbol_callback_review'):
         review=json.loads((BINARY/records[0]['requires_symbol_callback_review']).read_text())
         assert review['approved']is True and review['contract_sha256']==base['symbol_callback_contract_sha256'],'typed symbolcallback boundary review pending'
+    if records[0].get('requires_resolved_signatures'):
+        definitions={r['name']:r for r in trial['driver']+trial['stubs']}
+        assert all(not definitions[name].get('pending_signature',True)for name in records[0]['requires_resolved_signatures']),'callee would invoke unresolved callback signatures'
     result=compare(original,native,validation)
     assert result['matched']!=name,'candidate did not advance to a new frontier'
     audit=json.loads(Path(result['graph_report']).read_text())
@@ -70,6 +73,7 @@ def main():
     if(a.native/'intrinsic-model.json').exists():shutil.copyfile(a.native/'intrinsic-model.json',a.proof/'native/intrinsic-model.json')
     for side,source in [('original',a.original),('native',a.native)]:
         if(source/'section-callback-storage-contract.json').exists():shutil.copyfile(source/'section-callback-storage-contract.json',a.proof/side/'section-callback-storage-contract.json')
+        if(source/'assembly-visitor-contract.json').exists():shutil.copyfile(source/'assembly-visitor-contract.json',a.proof/side/'assembly-visitor-contract.json')
         if(source/'symbol-callback-contract.json').exists():shutil.copyfile(source/'symbol-callback-contract.json',a.proof/side/'symbol-callback-contract.json')
         if(source/'directive-callback-contract.json').exists():shutil.copyfile(source/'directive-callback-contract.json',a.proof/side/'directive-callback-contract.json')
         if(source/'writer-callback-boundary.json').exists():shutil.copyfile(source/'writer-callback-boundary.json',a.proof/side/'writer-callback-boundary.json')

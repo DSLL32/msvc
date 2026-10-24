@@ -632,10 +632,6 @@ C2DebugLink *new_symbol_link(void) { __asm { int 3 } return NULL; }
 
 
 
-void write_assembly_symbols(void)
-{
-    __asm { int 3 }
-}
 
 void __fastcall write_codeview_records(C2DebugLink *records)
 {
@@ -643,6 +639,31 @@ void __fastcall write_codeview_records(C2DebugLink *records)
 }
 
 void __fastcall write_assembly_records(C2DebugLink *records)
+{
+    __asm { int 3 }
+}
+
+void __fastcall visit_symbols(int local, C2AssemblyVisitor visitor)
+{
+    __asm { int 3 }
+}
+
+void assembly_callback_4894ca()
+{
+    __asm { int 3 }
+}
+
+void assembly_callback_489596()
+{
+    __asm { int 3 }
+}
+
+void assembly_callback_489693()
+{
+    __asm { int 3 }
+}
+
+void assembly_callback_48a251()
 {
     __asm { int 3 }
 }

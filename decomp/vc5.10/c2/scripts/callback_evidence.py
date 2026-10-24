@@ -172,10 +172,11 @@ def verify(config,graph):
         if not direct_body:assert 'void __fastcall select_output_section(C2Section *section)\n{\n    __asm { int 3 }\n}'in stub
         caller=(BINARY/'src/coff-output.c').read_text()
         assert caller.count('select_output_section(directive_section);')==1
+    assembly_certificate=verify_assembly_addresses(config,graph,maps,original,rebuilt)if config.get('assembly_visitor_contract')else None
     symbol_certificate=verify_symbol_writer(symbol_writer,config,graph,maps,original,rebuilt)if symbol_writer else None
     from directive_data import verify as verify_directive_data
     directive_data=verify_directive_data(BINARY,config,graph)
-    return {'symbol_callback':symbol_certificate,'directive_data':directive_data,'kind':'finite callback identities; only reviewed directive slot callable; its body credit requires separate wholefunction audit'if contract else'stores-only pending function-address identities; zero callback body/ABI credit',
+    return {'assembly_addresses':assembly_certificate,'symbol_callback':symbol_certificate,'directive_data':directive_data,'kind':'finite callback identities; only reviewed directive slot callable; its body credit requires separate wholefunction audit'if contract else'stores-only pending function-address identities; zero callback body/ABI credit',
             'directive_contract_sha256':config.get('directive_callback_contract_sha256'),
             'section_storage_contract_sha256':config.get('section_callback_storage_contract_sha256'),
             'boundary_sha256':config['output_callback_boundary_sha256'],
@@ -229,3 +230,55 @@ def verify_symbol_writer(contract,config,graph,maps,original,rebuilt):
         chunks=graph['owned_code_chunks']['rebuilt']['functions']['_initialize_pass_functions']
         assert sum(rebuilt(a,z-a).count(pattern)for a,z in chunks)==1,'typed symboltarget initializer identity differs'
     return {'contract_sha256':config['symbol_callback_contract_sha256'],'slot':0x497cec,'canonical_slot':slot,'canonical_callsite':start+site['offset'],'targets':[{'logical':r['logical'],'original':r['entry'],'canonical':maps[r['symbol']],'pending':True,'body_credit':0}for r in contract['targets']],'scope':'Only497cec C2Symbol*ECX/RET0 callback view, exact two alternatives/fourcallers and typedconsumer. CurrentNULLqueue invokesneither. Other19slotguardspreserved; originaltargethashes areanalysis evidence, not unmask/acceptance.'}
+
+
+def verify_assembly_addresses(config,graph,maps,original,rebuilt):
+    """Six explicit code-address passes only; no callable visitor ABI claim."""
+    path=BINARY/config['assembly_visitor_contract'];raw=path.read_bytes()
+    assert sha(raw)==config['assembly_visitor_contract_sha256'];value=json.loads(raw)
+    assert value['target_sha256']==sha(TARGET.read_bytes())
+    assert value['primary']==[0x41f559,0x41f567]and value['code_chunks']==[[0x469c70,0x469cbe]]and value['code_bytes']==92
+    assert value['passes']==[[0,0x4894ca],[0,0x489596],[1,0x489596],[0,0x489693],[1,0x489693],[0,0x48a251]]
+    assert sha(original(0x41f559,14))==value['primary_sha256']and sha(original(0x469c70,78))==value['cold_sha256']
+    assert sha(original(0x42ba01,62))==value['visitor_sha256']and original(0x42ba3e,1)==b'\xc3'
+    assert sha((BINARY/'cases/analysis/assembly-visitor-disassembly.txt').read_bytes())==value['disassembly_sha256']
+    assert sha((BINARY/'src/assembly-output.c').read_bytes())==value['source_sha256']
+    definitions={r['name']:r for r in config['driver']+config['stubs']}
+    visitor=definitions['@visit_symbols@8'];assert visitor['native']=='visit_symbols'and visitor['start']==0x42ba01 and visitor['end']==0x42ba3f and visitor['pending_extent']and visitor['extent_known_for_tail_abi']
+    assert visitor['requires_resolved_signatures']==['_assembly_callback_4894ca','_assembly_callback_489596','_assembly_callback_489693','_assembly_callback_48a251']
+    assert '@visit_symbols@8'not in config['accepted']+config['trial'],'iterator consumer must recover all actual callback signatures before body acceptance'
+    for row in value['callbacks']:
+        d=definitions[row['name']];assert d['start']==row['entry']and d['end']==row['entry']+1 and d['pending_extent']and d['pending_signature']
+        assert row['name']not in config['accepted']+config['trial'],'unknown callback ABI/body remains unaccepted'
+    header=(BINARY/'src/output-callbacks.h').read_text();assert 'typedef void (__cdecl *C2AssemblyVisitor)();'in header
+    assert 'void __fastcall visit_symbols(int local, C2AssemblyVisitor visitor);'in header
+    stub=(BINARY/'src/stubs.c').read_text();assert 'void __fastcall visit_symbols(int local, C2AssemblyVisitor visitor)\n{\n    __asm { int 3 }\n}'in stub
+    for row in value['callbacks']:
+        native=row['name'][1:];assert 'void '+native+'()\n{\n    __asm { int 3 }\n}'in stub
+    exact='void write_assembly_symbols(void)\n{\n    if (assembly_output_active) {\n'+''.join('        visit_symbols(%d, assembly_callback_%x);\n'%(flag,address)for flag,address in value['passes'])+'    }\n}'
+    source=(BINARY/'src/assembly-output.c').read_text();assert source.count(exact)==1 and source.count('visit_symbols(')==6,'all six function-address values belong to one guarded assembly producer'
+    target_names=[r['name'][1:]for r in value['callbacks']]
+    for file in (BINARY/'src').glob('*'):
+        if file.suffix not in ('.c','.h'):continue
+        for line in file.read_text().splitlines():
+            names=[n for n in target_names if re.search(r'\b'+n+r'\b',line)]
+            if names:
+                assert len(names)==1;name=names[0]
+                allowed=(file.name=='output-callbacks.h'and line.strip()=='void '+name+'();')or(file.name=='stubs.c'and line.strip()=='void '+name+'()')or(file.name=='assembly-output.c'and any(line.strip()=='visit_symbols(%d, %s);'%(flag,name)for flag,address in value['passes']if name=='assembly_callback_%x'%address))
+                assert allowed,'unresolved assembly callback invoked or escaped beyond approved scalar address pass'
+            if re.search(r'\bvisit_symbols\b',line):
+                allowed=(file.name=='output-callbacks.h'and line.strip()=='void __fastcall visit_symbols(int local, C2AssemblyVisitor visitor);')or(file.name=='stubs.c'and line.strip()=='void __fastcall visit_symbols(int local, C2AssemblyVisitor visitor)')or(file.name=='assembly-output.c'and any(line.strip()=='visit_symbols(%d, assembly_callback_%x);'%(flag,address)for flag,address in value['passes']))
+                assert allowed,'visitor hardstub/knownscalar address-pass ownership changed'
+    owner='_write_assembly_symbols';assert owner in graph['functions']
+    assert graph['functions'][owner]['edges']==['@visit_symbols@8']
+    assert graph['original_accepted_graphs'][owner]['references']==sorted([1]+[r['entry']for r in value['callbacks']]),'all four genuine CODE references must remain separate'
+    site=value['canonical_passes'];assert len(site)==6
+    base=maps[owner];target=maps['@visit_symbols@8']
+    for row,(flag,address)in zip(site,value['passes']):
+        native='assembly_callback_%x'%address
+        assert row['flag']==flag and row['original_target']==address
+        assert rebuilt(base+row['pointer_offset'],5)==b'\xba'+struct.pack('<I',maps['_'+native]),'actual code pointer must be second EDX argument'
+        expected=b'\x33\xc9'if flag==0 else b'\xb9\x01\0\0\0'
+        assert rebuilt(base+row['flag_offset'],len(expected))==expected,'actual scopeflag must be first ECX argument'
+        call=base+row['call_offset'];assert rebuilt(call,5)==b'\xe8'+struct.pack('<i',target-call-5)
+    return {'contract_sha256':config['assembly_visitor_contract_sha256'],'passes':value['passes'],'callback_count':4,'callback_ABIs':'UNRESOLVED; addresses only','visitor':'knownECXflag/EDXpointer/RET0 but bodymaskedINT3; accepting actual indirect consumer remains blocked','body_credit':0,'scope':'Six exact scalarcodeaddress expressions, no callback calls or interpretation; original whole92B producer graph/refs/ownership checked by commonRust. Currentflag0 executes none.'}

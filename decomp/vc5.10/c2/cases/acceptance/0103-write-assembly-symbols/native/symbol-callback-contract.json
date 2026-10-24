@@ -1,0 +1,150 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "historical_identity_boundary_sha256": "382e89af4857ad65f809f17937da005a54be7097b9021cade438fa1e8ee6d7a9",
+  "slot": {
+    "original": 4816108,
+    "native": "output_slot_497cec",
+    "initial": 0,
+    "alternatives": [
+      4323844,
+      4737530
+    ],
+    "native_targets": [
+      "output_callback_41fa04",
+      "output_callback_4849fa"
+    ],
+    "analysis_direct_references": [
+      "  41f542:\tff 15 ec 7c 49 00    \tcall   DWORD PTR ds:0x497cec",
+      "  442f45:\tff 15 ec 7c 49 00    \tcall   DWORD PTR ds:0x497cec",
+      "  453a10:\tc7 05 ec 7c 49 00 04 \tmov    DWORD PTR ds:0x497cec,0x41fa04",
+      "  474bae:\tc7 05 ec 7c 49 00 fa \tmov    DWORD PTR ds:0x497cec,0x4849fa"
+    ],
+    "retains_prior_value_if_named_output_disabled": true
+  },
+  "type": "void (__fastcall *)(C2Symbol *symbol)",
+  "fields": {
+    "bytes": 4,
+    "target_offset": 0,
+    "alignment": 4
+  },
+  "callers": [
+    {
+      "call": 4322626,
+      "load": 4322623,
+      "ECX": "pending_debug_symbols->symbol at link+4",
+      "stack_arguments": 0,
+      "return_cleanup": 0,
+      "result": "ignored"
+    },
+    {
+      "call": 4468549,
+      "load": 4468527,
+      "ECX": "ESI, result from lookup_global_symbol at442f28",
+      "stack_arguments": 0,
+      "return_cleanup": 0,
+      "result": "ignored"
+    }
+  ],
+  "targets": [
+    {
+      "logical": "_output_callback_41fa04",
+      "native": "output_callback_41fa04",
+      "symbol": "@output_callback_41fa04@4",
+      "entry": 4323844,
+      "primary": [
+        4323844,
+        4324502
+      ],
+      "code_chunks": [
+        [
+          4627724,
+          4627805
+        ]
+      ],
+      "body_sha256": "57e6ddb4db9ebae6c8fe497202b9514bc766bba3e2bc98f49a29e110c2099cdf",
+      "extra_sha256s": [
+        "0bae2f26adb1e6b985b8cee3aad5675df8c12bc0ac1c7655c46c1b21a2274e4e"
+      ],
+      "normal_ret0_sites": [
+        4324007,
+        4324176,
+        4324454,
+        4627766
+      ],
+      "prototype_evidence": "Actual ECX symbol only; savedEBX/EBP/ESI/EDI, ESIassignedECX beforecontextreads; allfour realreturnsRET0. Larger raw ESP offsets are ownlocals after explicitly staged outgoingarguments, with bounded actualchildRET0/RET16 witnesses; no incomingstackorEDX arguments. All4actual callers (2slot+1selfrecursive+1forwarding) supplyECXonly; returnedvalue ignored.",
+      "text_data": [
+        [
+          4324512,
+          4324528
+        ]
+      ]
+    },
+    {
+      "logical": "_output_callback_4849fa",
+      "native": "output_callback_4849fa",
+      "symbol": "@output_callback_4849fa@4",
+      "entry": 4737530,
+      "primary": [
+        4737530,
+        4737546
+      ],
+      "code_chunks": [],
+      "body_sha256": "729b9b93cfdfefaac8a2934b0f360a83270005990247d1d43dc52347ea40e641",
+      "extra_sha256s": [],
+      "normal_ret0_sites": [
+        4737545
+      ],
+      "prototype_evidence": "Actual ECX symbol only; savedEBX/EBP/ESI/EDI for41fa04, ESIassignedECX beforecontextreads; every normalret0; locals only stackslots0..20 after24B prologue, no incomingstackargs.4849fa directly consumesECX only andendsC3. Bothactual callers have no output/result consumption.",
+      "text_data": []
+    }
+  ],
+  "disassembly_sha256": "029ef4f585fad99c6ceb21f7c7460c072c18b6e1682aca844f34b239ceb70f01",
+  "consumer": "_write_pending_debug_symbols",
+  "consumer_native": "write_pending_debug_symbols",
+  "scope": "One exact497cec typed consumer view; both targetbodies named masked INT3/onebyteowned/zeroappbodycredit. No native/original callback execution claimed on currentNULLqueue. Other19slots remain unchanged, with18stillstores-only and prior49971c separatelytyped. Allfuture targetbody acceptance needs ordinary fresh wholefunction proof.",
+  "stack_witness": {
+    "path": "cases/analysis/symbol-callback-stack-disassembly.txt",
+    "sha256": "e91c31c8028c25fdd0bcb3b4fba19c9dfed975a2e375f112f51374fd592d0f8b",
+    "scope": "Privatechildren normal-return stack effects only, no body/ABIargument credit or implementation. Callbackprologue24B. Source-fa7e prepares4B futureargument beforeCALL41fd8e(RET0), then three more pushes beforeCALL41fd9e(allRET0); [esp+32] atfa92 therefore maps frame+16 ownlocal, not inputstackarg. Source-fc3f andfc45 stage8B, so [esp+28] atfc46 maps frame+20 ownlocal. Target41fcb0 pops16 at41fd83/469e00/469e56; caller callback epilogues restore own24B and RET0.",
+    "RET0_helpers": [
+      4324750,
+      4324766
+    ],
+    "RET16_helper": 4324528,
+    "RET16_sites": [
+      4324739,
+      4627968,
+      4628054
+    ]
+  },
+  "recursive_call": {
+    "call": 4324063,
+    "setup": 4324058,
+    "ECX": "EDI lookup_global_symbol result",
+    "target": 4323844,
+    "stack_arguments": 0,
+    "result": "ignored"
+  },
+  "additional_direct_call": {
+    "call": 4407647,
+    "setup": 4407645,
+    "ECX": "EBP=actualentryECX symbol pointer; calleruses symbol.association36 aftercall",
+    "target": 4323844,
+    "stack_arguments": 0,
+    "result": "ignored",
+    "limit": "No signature/body claim on the unaccepted forwarding caller itself."
+  },
+  "call_inventory": {
+    "path": "cases/analysis/symbol-callback-call-inventory.txt",
+    "sha256": "5915499251307d5581007b6efb85e3070a9c24ed5e3575f0a5a9939f94e294e4",
+    "source": "Original objdump call-operand search; analysis only, no custom graph walker. Twoqualifiedslotcalls+two directcalls41fa04, no directcalls4849fa."
+  },
+  "canonical_callsite": {
+    "owner": "_write_pending_debug_symbols",
+    "offset": 20,
+    "root_load_offset": 12,
+    "load_offset": 17,
+    "load_bytes": "8b4804",
+    "reload_advance_offset": 26
+  }
+}

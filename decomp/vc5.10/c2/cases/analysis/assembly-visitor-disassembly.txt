@@ -1,0 +1,73 @@
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041f559 <.text+0x1e559>:
+  41f559:	a1 a4 7d 49 00       	mov    eax,ds:0x497da4
+  41f55e:	85 c0                	test   eax,eax
+  41f560:	0f 85 0a a7 04 00    	jne    0x469c70
+  41f566:	c3                   	ret
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00469c70 <.text+0x68c70>:
+  469c70:	ba ca 94 48 00       	mov    edx,0x4894ca
+  469c75:	33 c9                	xor    ecx,ecx
+  469c77:	e8 85 1d fc ff       	call   0x42ba01
+  469c7c:	ba 96 95 48 00       	mov    edx,0x489596
+  469c81:	33 c9                	xor    ecx,ecx
+  469c83:	e8 79 1d fc ff       	call   0x42ba01
+  469c88:	ba 96 95 48 00       	mov    edx,0x489596
+  469c8d:	b9 01 00 00 00       	mov    ecx,0x1
+  469c92:	e8 6a 1d fc ff       	call   0x42ba01
+  469c97:	ba 93 96 48 00       	mov    edx,0x489693
+  469c9c:	33 c9                	xor    ecx,ecx
+  469c9e:	e8 5e 1d fc ff       	call   0x42ba01
+  469ca3:	ba 93 96 48 00       	mov    edx,0x489693
+  469ca8:	b9 01 00 00 00       	mov    ecx,0x1
+  469cad:	e8 4f 1d fc ff       	call   0x42ba01
+  469cb2:	ba 51 a2 48 00       	mov    edx,0x48a251
+  469cb7:	33 c9                	xor    ecx,ecx
+  469cb9:	e9 43 1d fc ff       	jmp    0x42ba01
+
+
+/root/msvc2/toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0042ba01 <.text+0x2aa01>:
+  42ba01:	53                   	push   ebx
+  42ba02:	56                   	push   esi
+  42ba03:	57                   	push   edi
+  42ba04:	8b da                	mov    ebx,edx
+  42ba06:	85 c9                	test   ecx,ecx
+  42ba08:	bf 68 fb 48 00       	mov    edi,0x48fb68
+  42ba0d:	74 06                	je     0x42ba15
+  42ba0f:	8b 3d 70 0b 49 00    	mov    edi,DWORD PTR ds:0x490b70
+  42ba15:	85 ff                	test   edi,edi
+  42ba17:	74 22                	je     0x42ba3b
+  42ba19:	33 d2                	xor    edx,edx
+  42ba1b:	8b cf                	mov    ecx,edi
+  42ba1d:	e8 3c 56 ff ff       	call   0x42105e
+  42ba22:	8b f0                	mov    esi,eax
+  42ba24:	85 f6                	test   esi,esi
+  42ba26:	74 13                	je     0x42ba3b
+  42ba28:	8b ce                	mov    ecx,esi
+  42ba2a:	ff d3                	call   ebx
+  42ba2c:	8b d6                	mov    edx,esi
+  42ba2e:	8b cf                	mov    ecx,edi
+  42ba30:	e8 29 56 ff ff       	call   0x42105e
+  42ba35:	8b f0                	mov    esi,eax
+  42ba37:	85 f6                	test   esi,esi
+  42ba39:	75 ed                	jne    0x42ba28
+  42ba3b:	5f                   	pop    edi
+  42ba3c:	5e                   	pop    esi
+  42ba3d:	5b                   	pop    ebx
+  42ba3e:	c3                   	ret

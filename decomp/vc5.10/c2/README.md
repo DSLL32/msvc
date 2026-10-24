@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 97 application functions (20661 bytes) and five CRT
+Current reconstruction has 98 application functions (20753 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at write_assembly_symbols(void) after an empty pending-symbol queue
+currently stops at write_codeview_records(C2DebugLink *NULL) after an empty pending-symbol queue
 and the 38-byte directive payload/counters matched. Four import thunks (24 bytes) and contextual text tables
-(812 bytes) remain separate. The 21099 source bytes are 3.681% of 573183 `.text`
+(812 bytes) remain separate. The 21191 source bytes are 3.697% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -22,7 +22,7 @@ case, and `cases/acceptance/` retains each subsequent promotion in order.
 checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.
 `make audit` uses the common Rust CFG/RET/ownership/extent tool with explicit
 paths. `make -j4 fixtures` runs only the native executable against frozen streams and
-19 original application entries. Current measurements: 3.7 ms execution, 15.7 ms
+19 original application entries. Current measurements: 2.2 ms execution, 14.1 ms
 including fixture setup/checks. New capture helpers retain their actual executable
 and immutable compiled inputs; newer captures also retain ELF/PE/MAP and
 static-index snapshots in scratch for independent review. Earlier raw evidence
@@ -465,3 +465,5 @@ Source100 reconstructs the 49-byte record dispatcher with five distinct named he
 Source101 reconstructs the 126-byte hot/cold alignment helper, using the actual signed C2Symbol.value at offset16. The common graph audit caught and rejected an initial wrong known-symbol helper identity before reference capture; the corrected source calls the genuine pending is_known_symbol. The natural case takes the NULL-list early return and reaches write_pending_debug_symbols(void), preserving all output/global state. Non-NULL node execution is unclaimed; all126bytes and the correct child graph are audited. Eleven fresh frontier controls pass; unchanged physical-noop/table controls remain explicitly reusable.
 
 Source102 reconstructs the 35-byte pending-symbol writer and types exactly callback slot497cec from four actual call sites and two complete target ABI analyses. Both targets remain genuine named INT3s and every known original hot/cold byte remains masked; neither executes with the current NULL queue. Parent review approves only this C2Symbol*ECX/RET0 view, preserving all other19slot identities/guards. Twenty-nine source/contract/layout/compiler controls and eleven actual frontier controls pass; the current pair reaches write_assembly_symbols(void) with unchanged full global/output state. Callback body credit remains zero.
+
+Source103 reconstructs the whole 92-byte assembly-symbol producer, including its 78-byte cold chunk and all six ECX scope flag/EDX code-address passes. Four actual function-address identities remain named masked INT3s with explicitly unresolved callable signatures; accepting their iterator consumer is blocked until those signatures are recovered. Canonical/native emitted pointer arguments and 21 finite boundary controls pass. With assembly output disabled, all six passes are skipped; 13 actual frontier controls validate the next C2DebugLink*NULL argument, parent and real output-name identity. The failed initial observer comparison is retained: original497cac is c2_output_name, not c2_codeview_types, and only the native observer/validator was refreshed against unchanged original raw.

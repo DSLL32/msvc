@@ -47,6 +47,10 @@ def main():
         content=(BINARY/config['section_callback_storage_contract']).read_bytes()
         assert sha(content)==config['section_callback_storage_contract_sha256']
         (output/'section-callback-storage-contract.json').write_bytes(content)
+    if config.get('assembly_visitor_contract'):
+        content=(BINARY/config['assembly_visitor_contract']).read_bytes()
+        assert sha(content)==config['assembly_visitor_contract_sha256']
+        (output/'assembly-visitor-contract.json').write_bytes(content)
     if config.get('symbol_callback_contract'):
         content=(BINARY/config['symbol_callback_contract']).read_bytes()
         assert sha(content)==config['symbol_callback_contract_sha256']

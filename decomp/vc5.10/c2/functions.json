@@ -112,7 +112,8 @@
     "_prepare_global_records",
     "@process_records@4",
     "@align_pending_debug_symbols@4",
-    "_write_pending_debug_symbols"
+    "_write_pending_debug_symbols",
+    "_write_assembly_symbols"
   ],
   "driver": [
     {
@@ -12357,6 +12358,21 @@
       "abi": "void cdecl(void),RET0",
       "evidence": "Whole35B original41f536..41f559; consumes497458 list, qualified497cec callback on symbol4 then reloads globalroot and advancesnext0; no cached root across callback. Typedcallbackcontract must pass review beforepromotion.",
       "requires_symbol_callback_review": "cases/analysis/symbol-callback-review.json"
+    },
+    {
+      "name": "_write_assembly_symbols",
+      "native": "write_assembly_symbols",
+      "start": 4322649,
+      "end": 4322663,
+      "code_chunks": [
+        [
+          4627568,
+          4627646
+        ]
+      ],
+      "kind": "application",
+      "abi": "void cdecl(void),RET0; actualtailvisit_symbols hasRET0 extentonly transport",
+      "evidence": "cases/analysis/assembly-visitor-contract.json complete14Bhot+78Bcold, six scalar addresspasses, no string/data arrays or callablecallbackABIcredit. Naturalassemblyflag0skipsall."
     }
   ],
   "stubs": [
@@ -14336,13 +14352,13 @@
       "evidence": "cases/analysis/prepare-global-records-analysis.json: actualwholecaller and boundedoriginalcallee parameter/result/cleanup evidence; genuine maskedINT3, zero bodycredit"
     },
     {
-      "name": "_write_assembly_symbols",
-      "native": "write_assembly_symbols",
-      "start": 4322649,
-      "end": 4322650,
+      "name": "@write_codeview_records@4",
+      "native": "write_codeview_records",
+      "start": 4322663,
+      "end": 4322664,
       "pending_extent": true,
       "kind": "application",
-      "abi": "void cdecl(void),RET0",
+      "abi": "void fastcall(C2DebugLink *recordsECX),RET0",
       "evidence": "cases/analysis/process-records-disassembly.txt actualcaller and fullcallee analysis; namedmaskedINT3, no bodycredit.",
       "state_policy": "globals-complete",
       "state": [
@@ -14522,17 +14538,7 @@
         "-G5"
       ],
       "frontier_contract": "coff-output-ready",
-      "section_caller": "write_pending_debug_symbols"
-    },
-    {
-      "name": "@write_codeview_records@4",
-      "native": "write_codeview_records",
-      "start": 4322663,
-      "end": 4322664,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "void fastcall(C2DebugLink *recordsECX),RET0",
-      "evidence": "cases/analysis/process-records-disassembly.txt actualcaller and fullcallee analysis; namedmaskedINT3, no bodycredit."
+      "section_caller": "write_assembly_symbols"
     },
     {
       "name": "@write_assembly_records@4",
@@ -14543,6 +14549,67 @@
       "kind": "application",
       "abi": "void fastcall(C2DebugLink *recordsECX),RET0",
       "evidence": "cases/analysis/process-records-disassembly.txt actualcaller and fullcallee analysis; namedmaskedINT3, no bodycredit."
+    },
+    {
+      "name": "@visit_symbols@8",
+      "native": "visit_symbols",
+      "start": 4372993,
+      "end": 4373055,
+      "pending_extent": true,
+      "extent_known_for_tail_abi": true,
+      "kind": "application",
+      "abi": "voidfastcall localflagECX, unresolved code-address pointerEDX; RET0, pointeeABI NOT claimed",
+      "extent_evidence": "cases/analysis/assembly-visitor-disassembly.txt exact62B42ba01..42ba3f, savedEBX/ESI/EDI, actualterminalC3; application/INT3/zero credit, original extent transport only for source103tailRET. Actualcallbackcall EBX remains behind hardstub.",
+      "requires_resolved_signatures": [
+        "_assembly_callback_4894ca",
+        "_assembly_callback_489596",
+        "_assembly_callback_489693",
+        "_assembly_callback_48a251"
+      ]
+    },
+    {
+      "name": "_assembly_callback_4894ca",
+      "native": "assembly_callback_4894ca",
+      "start": 4756682,
+      "end": 4756683,
+      "pending_extent": true,
+      "pending_signature": true,
+      "kind": "application",
+      "abi": "UNRESOLVED callable ABI; namedfunction-address identity only, provisionalCdecl/emptyprototype not targetABI; forbid invocation/interpretation until encountered",
+      "evidence": "cases/analysis/assembly-visitor-contract.json exactcode addressonly, scalarEDXpasses beforehardvisit_symbols trap; no body/ABIcredit."
+    },
+    {
+      "name": "_assembly_callback_489596",
+      "native": "assembly_callback_489596",
+      "start": 4756886,
+      "end": 4756887,
+      "pending_extent": true,
+      "pending_signature": true,
+      "kind": "application",
+      "abi": "UNRESOLVED callable ABI; namedfunction-address identity only, provisionalCdecl/emptyprototype not targetABI; forbid invocation/interpretation until encountered",
+      "evidence": "cases/analysis/assembly-visitor-contract.json exactcode addressonly, scalarEDXpasses beforehardvisit_symbols trap; no body/ABIcredit."
+    },
+    {
+      "name": "_assembly_callback_489693",
+      "native": "assembly_callback_489693",
+      "start": 4757139,
+      "end": 4757140,
+      "pending_extent": true,
+      "pending_signature": true,
+      "kind": "application",
+      "abi": "UNRESOLVED callable ABI; namedfunction-address identity only, provisionalCdecl/emptyprototype not targetABI; forbid invocation/interpretation until encountered",
+      "evidence": "cases/analysis/assembly-visitor-contract.json exactcode addressonly, scalarEDXpasses beforehardvisit_symbols trap; no body/ABIcredit."
+    },
+    {
+      "name": "_assembly_callback_48a251",
+      "native": "assembly_callback_48a251",
+      "start": 4760145,
+      "end": 4760146,
+      "pending_extent": true,
+      "pending_signature": true,
+      "kind": "application",
+      "abi": "UNRESOLVED callable ABI; namedfunction-address identity only, provisionalCdecl/emptyprototype not targetABI; forbid invocation/interpretation until encountered",
+      "evidence": "cases/analysis/assembly-visitor-contract.json exactcode addressonly, scalarEDXpasses beforehardvisit_symbols trap; no body/ABIcredit."
     }
   ],
   "text_data": [
@@ -14858,7 +14925,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14870,7 +14937,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14882,7 +14949,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14894,7 +14961,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14906,7 +14973,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14918,7 +14985,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14930,7 +14997,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14942,7 +15009,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14954,7 +15021,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14966,7 +15033,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14980,7 +15047,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -14992,7 +15059,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15007,7 +15074,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15019,7 +15086,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15031,7 +15098,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15043,7 +15110,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15055,7 +15122,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15067,7 +15134,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15082,7 +15149,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15097,7 +15164,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15109,7 +15176,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15121,7 +15188,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15133,7 +15200,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15148,7 +15215,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a1a2e9e01a5c65a84aa8ae417b0ce7f9581d8ec56335f179534f1ba4604918e0"
+          "sha256": "3121024b60f4778ec3aae7c1f48062e4e132aeda6db06c8b28e4226c764a1552"
         }
       },
       {
@@ -15177,5 +15244,7 @@
   "section_callback_storage_contract": "cases/analysis/section-callback-storage-contract.json",
   "section_callback_storage_contract_sha256": "7f2075f4a013ec45b8e1e58a89b7d313a3b2ce7cd7c30b33eab3600a3ef7cd16",
   "symbol_callback_contract": "cases/analysis/symbol-callback-contract.json",
-  "symbol_callback_contract_sha256": "0e4d455a160a3e3aa94e4042e5dc42079278002eb4f9e2156eb52c218d9ec3eb"
+  "symbol_callback_contract_sha256": "0e4d455a160a3e3aa94e4042e5dc42079278002eb4f9e2156eb52c218d9ec3eb",
+  "assembly_visitor_contract": "cases/analysis/assembly-visitor-contract.json",
+  "assembly_visitor_contract_sha256": "c35d6e787bc769038d8003a5a01e149b4ca3235c4b5d7004a48c5c4dfc05eda9"
 }

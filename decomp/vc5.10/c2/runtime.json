@@ -1144,14 +1144,6 @@
     "evidence": null
   },
   {
-    "name": "_write_assembly_symbols",
-    "start": 4322649,
-    "end": 4322650,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@write_codeview_records@4",
     "start": 4322663,
     "end": 4322664,
@@ -1163,6 +1155,50 @@
     "name": "@write_assembly_records@4",
     "start": 4322700,
     "end": 4322701,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@visit_symbols@8",
+    "start": 4372993,
+    "end": 4373055,
+    "pending_extent": false,
+    "kind": "unaccepted-application-tail-target",
+    "evidence": null,
+    "classification": "application",
+    "accepted": false,
+    "extent_evidence": "cases/analysis/assembly-visitor-disassembly.txt exact62B42ba01..42ba3f, savedEBX/ESI/EDI, actualterminalC3; application/INT3/zero credit, original extent transport only for source103tailRET. Actualcallbackcall EBX remains behind hardstub.",
+    "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit"
+  },
+  {
+    "name": "_assembly_callback_4894ca",
+    "start": 4756682,
+    "end": 4756683,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_assembly_callback_489596",
+    "start": 4756886,
+    "end": 4756887,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_assembly_callback_489693",
+    "start": 4757139,
+    "end": 4757140,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_assembly_callback_48a251",
+    "start": 4760145,
+    "end": 4760146,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
