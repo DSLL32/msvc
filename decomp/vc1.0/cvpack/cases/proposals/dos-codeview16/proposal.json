@@ -1,0 +1,43 @@
+{
+  "status": "proposed-root-review",
+  "case": "dos-codeview16",
+  "input_plan": "Use existing authentic Watcom10.0a WinNT-hosted16-bit WCC/WCL/WLINK to build a small DOS MZ executable with CodeView debug types, locals, publics and source lines. CVPACK itself and reconstruction source remain VC1 Win32; generated DOS code is never executed by fixtures.",
+  "producer_plan": "Start with supported compiler CodeView/debug flags after local help validation; link real DOS format. Inspect actual end-trailer NB05/directory/subsections before freezing. WLINK binary contains NB05; its optional CODEVIEW.DLL contains NB09, so automatic packing is an explicit uncertainty to resolve with genuine producer options, never signature relabeling.",
+  "argv": [
+    "/nologo",
+    "/cvnew",
+    "/verbose",
+    "dos-cv.exe"
+  ],
+  "features": [
+    "Two small C modules with recursive structs, arrays, unions/enums and pointer types",
+    "16-bit global/local data, BP-relative locals, near/far procedures and function pointers",
+    "Multiple source lines and nested scopes emitted by actual compiler"
+  ],
+  "static_body_estimates": {
+    "convert_bp_relative16": 53,
+    "convert_local_data16": 53,
+    "convert_global_data16": 69,
+    "convert_procedure16": 93,
+    "read_lines": 136,
+    "read_source_module": 136,
+    "pack_new_lines": 1573
+  },
+  "estimate_scope": "Only static leads, not guaranteed emitted format or gain. Four16-bit symbol callbacks total268B; actual line reader/packing paths could add~1.8KB. Raw symbols/preparation or old-module/type paths are additional conditional leads, not promised.",
+  "producer_evidence": {
+    "wlink_sha256": "ae8bb02cce0e92ed1a0c5c003a7312bb05f8bf3c252e1efa27a4835fb83b9ff1",
+    "NB05_literal_file_offset": "0x2adb4",
+    "codeview_DLL_sha256": "a0781ff471afe505cbdab759e03dec1b6342ed997fb59b0fb14a3c44faab8bbd",
+    "NB09_literal_file_offset": "0xae08"
+  },
+  "validation": "Root approval, genuine original producer and successful unmasked VC1 CVPACK, then freeze owned full inputs/outputs/provenance. Report actual NB05/NB09/16-bit symbol/source-line inventory; if producer lacks a useful path, bring result back rather than manufacturing records. Native cached trace/status/streams/full-artifact fixtures; no generated DOS execution or historical proof pipeline. Existing shared Wine prefix only for producer/reference, no new prefix.",
+  "inventory": {
+    "accepted_application_functions": 172,
+    "accepted_extent_bytes": 54915,
+    "whole_text_bytes": 111678,
+    "whole_text_extent_percent": 49.17,
+    "named_stubs": 31,
+    "non_CRT_denominator": null,
+    "uncertainty": "Remaining native/support versus unusedCRT/padding/data is not fully classified; these32 named stubs are still application/support candidates."
+  }
+}
