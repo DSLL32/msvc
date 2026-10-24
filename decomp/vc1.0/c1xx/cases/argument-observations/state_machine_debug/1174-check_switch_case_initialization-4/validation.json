@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_check_switch_case_initialization@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1174,
+  "configuration_sha256": "c3d503da4cfcecdb8dddf11ee3d7262c61af4fd4cef3efd44bc764ce145be3cb",
+  "native_entry": "check_switch_case_initialization",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "is_case",
+      "stack_index": 0,
+      "native_field": "raw_is_case",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 1,
+      "native_raw": 1,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      269120,
+      269247
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void",
+    "proof": "Whole127B/saveESIEDI8, is_case at adjustedESP+12, RET4. No hidden/incomingGPR/x87/CPUflagsformal. Starts currenttail and walks previous untilkindlow6==30; kind0e with rawkind40 reports format_symbol_name(payloadsymbol) diagnostic360 if actual formal nonzero,361 otherwise. Completed scope kind10 jumps to matching0f via find_frontend_record(previous,0f,1), then advancesprevious normally. Tail valid switch-body ownership is existing caller precondition; no invented NULL guard, source predicate or extra helpervertex/data. Both diagnostic branches converge on one existing cdecl reporter.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "47291cb881e856d0d9b91dff3044d5310f7950d8489351fd7378727275409cb8",
+  "capture_timing": {
+    "original_capture_seconds": 1.5680021615698934,
+    "native_capture_seconds": 0.1738196685910225,
+    "total_operation_seconds": 1.9950032914057374
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "0ca9d172ff84d3e27b23c41c3f9b2821ee88576a2d190476f1b177eeac616a60",
+    "native-commands.gdb": "65842fd3db91a623a58022ec61923230c4b1cf7d0566ae69f976c9b738683b0d",
+    "native-gdb.log": "42920dcce653796ce25d11e6593eeca3d45c94d07ac22babad6b6d68a5bd8904",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "f197cbd7b53afaa1566d10143321351768cf400ceb2ea188fc99443032a45683",
+    "original-configuration.json": "c3d503da4cfcecdb8dddf11ee3d7262c61af4fd4cef3efd44bc764ce145be3cb",
+    "original-disassembly.txt": "36a710163bb83890bdf2db85164995c0c05271efd8eee1291e873adc2df3c5fd",
+    "original-events.txt": "daaa916f0c5bab15fb5320729508dc84dc52426e976bb386fc44f2e64e272828",
+    "original-receipt.json": "69c13eedeafcea560e0b66a456e434ef233f88bf7c71ae3ef7a53431c9b502e9",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "34e275f8aecc37323a78403590ff411021e4de17d7bd05b5810fa50c9d42b2d7"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x601e9: file src/frontend-records.c, line 1023.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, check_switch_case_initialization (is_case=1) at src/frontend-records.c:1023
+1023	    FrontendRecord *record = ir_record_tail;
+#0  check_switch_case_initialization (is_case=1) at src/frontend-records.c:1023
+#1  0x565b50b3 in record_case_label (expression=0x5663b674) at src/frontend-records.c:988
+#2  0x56585aae in add_case_label (expression=0x5663b674) at src/loop-output.c:179
+#3  0x565bbfb8 in parse_translation_unit () at src/parser-expression-actions.inc:20
+#4  0x5655deef in compile_translation_unit () at src/frontend.c:73
+#5  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#6  0x56558894 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20

@@ -1015,3 +1015,21 @@ void __stdcall record_case_label(IrToken *expression)
     }
     if (ir_record_error_context == recovery) ir_record_error_context = 0;
 }
+
+/* Original 0x41b40..0x41bbe, stdcall4. A new case/default cannot
+   bypass a marked initialization between it and the switch body opener. */
+void __stdcall check_switch_case_initialization(int is_case)
+{
+    FrontendRecord *record = ir_record_tail;
+    unsigned char kind;
+    while ((record->kind & 0x3f) != 0x30) {
+        kind = record->kind & 0x3f;
+        if (kind == 0x0e) {
+            if (record->kind & 0x40)
+                report_syntax_error(is_case ? 360 : 361,
+                    format_symbol_name(((SymbolFrontendRecord *)record)->symbol));
+        } else if (kind == 0x10)
+            record = find_frontend_record(record->previous, 0x0f, 1);
+        record = record->previous;
+    }
+}
