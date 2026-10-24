@@ -1,5 +1,5 @@
 {
-  "schema": 32,
+  "schema": 33,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -3348,6 +3348,38 @@
       "original_default": 0,
       "component_type": "CompilerPdbContext *",
       "evidence": "parser selects input/output known PDB contexts; persistent outside reset ranges, opaque pointer until actual consumer"
+    },
+    {
+      "name": "language_context_depth",
+      "class": "initialized",
+      "original_address": 273470848,
+      "original_snapshot_offset": 5504,
+      "bytes": 4,
+      "native_expression": "frontend_data.language_context_depth",
+      "original_default": -1,
+      "component_type": "int",
+      "evidence": "own helper increments, bounds==10; pop42072 decrements; C-linkage consumers indexintslots"
+    },
+    {
+      "name": "language_contexts",
+      "class": "bss",
+      "original_address": 273421264,
+      "bytes": 40,
+      "native_expression": "frontend_bss.language_contexts",
+      "original_default": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "component_type": "int[10]",
+      "evidence": "own helper stores full32 scalar; consumers compare2 and lowbyte scalar; no pointers"
     }
   ],
   "initializers": [
@@ -3855,5 +3887,16 @@
     "native_bss_bytes": 1504,
     "padding": "existing initialized51/BSS31 only; option structs have no padding; rule tables separately contain normal C padding",
     "limits": "all original unknown bytes remain UNMODELED; no parser body/provider outcome beyond real first named helper frontier yet"
+  },
+  "language_context_projection": {
+    "depth_address": 273470848,
+    "slots_address": 273421264,
+    "slot_count": 10,
+    "slot_bytes": 4,
+    "depth_default": -1,
+    "known_context_C": 2,
+    "semantic_initialized_bytes": 4,
+    "semantic_BSS_bytes": 40,
+    "full_context_value_domain_not_claimed": true
   }
 }

@@ -139,6 +139,9 @@ def prepare():
         trial['options_parser_observers']={'entry_rva':0x38fad,'first_call_rva':0x38fb9,'frontier_rva':0x2b834,'frontier_stack_arguments':[0],'rules':[0xd6160,101,12],'letters':[0xda388,12,12],'warnings':[0xd6628,11,8],'scope':'actual first named helper ABI and encountered loaded grammar/default records; no provider execution or mock'}
         for name in ('options-analysis.json','options-preservation-v1.json','options-preservation-ablation.json','mspdb-signature-boundary.json'):
             path='cases/minimal/'+name;trial['case_inputs'][path]=sha(PROJECT/path)
+    if '_push_declaration_context' in accepted:
+        trial['language_context_observers']={'entry_rva':0x2b834,'caller_return_rva':0x38fbe,'argument':0,'depth_rva':0xcd580,'slots_rva':0xc13d0,'slots':10,'scope':'scalar language context; actual first NULL-independent zero push, no mocked call'}
+        if trial.get('test_seed'):trial['language_context_auxiliary']={'initializer_live_depth':7,'initializer_saved_depth':3,'initializer_slots':[1+(i&1)for i in range(10)],'helper_entry_slots':[1+(i&1)for i in range(10)],'helper_argument_unchanged':0,'code_or_helper_mock':False}
     trial['test_arena_reset_seed']=bool(candidate.get('test_arena_reset_seed'))
     if trial['test_arena_reset_seed']:
         if trial_name!='CompilerArena::Reset':raise ValueError('Reset seed requires sole Reset candidate')

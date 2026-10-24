@@ -90,7 +90,8 @@ FrontendData frontend_data = {
         0, /* debug_old_format */
         0, /* move_pch */
         0 /* option_bcmpconv */
-    }
+    },
+    -1 /* language_context_depth */
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -223,6 +224,8 @@ int initialize_compiler_pass(void)
         frontend_bss.options.pch_memory_limit = 0;
         frontend_bss.options.response_file = NULL;
         frontend_bss.options.error_file = NULL;
+        for (i = 0; i < 10; ++i)
+            frontend_bss.language_contexts[i] = 0;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

@@ -252,6 +252,12 @@ if any(f.name=='arenas' for f in gdb.lookup_type('FrontendBss').fields()):
     value['frontend']['arena_native_layout']={'size':int(gdb.parse_and_eval('sizeof(CompilerArena)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('CompilerArena').fields() if not f.is_base_class and f.bitpos is not None}}
     value['frontend']['descriptor_native_layout']={'size':int(gdb.parse_and_eval('sizeof(ArenaDescriptor)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('ArenaDescriptor').fields()}}
 @@OPTIONS@@
+if 'language_contexts'in value['frontend']['declared_fields']['bss']:
+    value['frontend']['language_context_depth']=int(gdb.parse_and_eval('frontend_data.language_context_depth'))
+    value['frontend']['saved_language_context_depth']=int(gdb.parse_and_eval('frontend_bss.saved_state->language_context_depth'))if value['frontend']['saved_state']else None
+    value['frontend']['language_contexts']=[int(gdb.parse_and_eval('frontend_bss.language_contexts[%d]'%i))for i in range(10)]
+    value['frontend']['storage']['language_context_depth']=[int(gdb.parse_and_eval('(unsigned int)&frontend_data.language_context_depth')),4]
+    value['frontend']['storage']['language_contexts']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.language_contexts')),40]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -288,6 +294,9 @@ end
     options_seed=''
     if model['schema']>=32 and trial.get('test_seed'):
         options_seed=__import__('options_projection').gdb_seed().replace('@@SEED_PATH@@',repr(str(output/'options-before-seed.json')))
+    if model['schema']>=33 and trial.get('test_seed'):
+        options_seed+='set variable frontend_data.language_context_depth=7\nset variable frontend_bss.saved_state->language_context_depth=3\n'
+        for i in range(10):options_seed+='set variable frontend_bss.language_contexts[%d]=%d\n'%(i,1+(i&1))
     observer='break *initialize_compiler_pass\ncommands\nsilent\n'+pdb_seed+options_seed+'source '+str(pre)+'\ncontinue\nend\n'
     if trial['trial']=='_checked_malloc':
         allocation=output/'collect-allocation-entry.gdb'

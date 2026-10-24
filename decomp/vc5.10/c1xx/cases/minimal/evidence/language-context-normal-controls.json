@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "kind": "fresh affected semantic denials after complete raw/strict positive; raw receipt files never modified",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-language-context-original-2",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-language-context-native-2",
+  "bindings": {
+    "original_receipt_sha256": "e71ca92a8c249b1bec42f7500f6643ae21f65f9f1839f336473e7750fd06f146",
+    "native_receipt_sha256": "110b6be46a701ad2a44364e22071da34ea6dbfdcde259c3019bff29c711ca71d"
+  },
+  "seed": null,
+  "count": 25,
+  "cases": [
+    {
+      "case": "original-default",
+      "rejection": "language context: own scalar/BSS defaults differ"
+    },
+    {
+      "case": "native-pre-depth",
+      "rejection": "language context: nonzero typed initializer input/default differs"
+    },
+    {
+      "case": "native-reset-slot",
+      "rejection": "language context: new initialized depth restore or all40 BSS clear differs"
+    },
+    {
+      "case": "saved-depth",
+      "rejection": "language context: saved depth changed"
+    },
+    {
+      "case": "actual-entry-scalar",
+      "rejection": "language context: actual scalar inputs/formals/caller differ"
+    },
+    {
+      "case": "actual-entry-formal",
+      "rejection": "language context: actual scalar inputs/formals/caller differ"
+    },
+    {
+      "case": "missing-return",
+      "rejection": "language context: entry/return/next inventory differs"
+    },
+    {
+      "case": "native-return-stack",
+      "rejection": "language context: native actual return/RET0/nonvolatile/error differs"
+    },
+    {
+      "case": "native-return-nonvolatile",
+      "rejection": "language context: native actual return/RET0/nonvolatile/error differs"
+    },
+    {
+      "case": "original-return-stack",
+      "rejection": "language context: original actual return/RET0/error differs"
+    },
+    {
+      "case": "original-return-nonvolatile",
+      "rejection": "language context: original nonvolatile registers changed"
+    },
+    {
+      "case": "native-own-neighbor",
+      "rejection": "language context: helper/next changed neighboring native modeled/padding/saved/external state"
+    },
+    {
+      "case": "original-unknown-neighbor",
+      "rejection": "language context: original whole BSS changed beyond one actual scalar slot"
+    },
+    {
+      "case": "original-slot-write",
+      "rejection": "language context: increment/exact indexed scalar store/continuation differs"
+    },
+    {
+      "case": "final-depth",
+      "rejection": "language context: increment/exact indexed scalar store/continuation differs"
+    },
+    {
+      "case": "final-slot",
+      "rejection": "language context: increment/exact indexed scalar store/continuation differs"
+    },
+    {
+      "case": "return-FP",
+      "rejection": "language context: helper changed architectural FP state"
+    },
+    {
+      "case": "next-formals",
+      "rejection": "language context: actual next named noarg ABI/branch/caller differs"
+    },
+    {
+      "case": "next-caller",
+      "rejection": "language context: next native call/owner differs"
+    },
+    {
+      "case": "next-guard",
+      "rejection": "language context: helper/next changed neighboring native modeled/padding/saved/external state"
+    },
+    {
+      "case": "next-name",
+      "rejection": "language context: actual next named noarg ABI/branch/caller differs"
+    },
+    {
+      "case": "original-next-caller",
+      "rejection": "language context: actual next named noarg ABI/branch/caller differs"
+    },
+    {
+      "case": "observer-scope",
+      "rejection": "language context: wrong scalar observer contract"
+    },
+    {
+      "case": "depth-layout",
+      "rejection": "language-context field storage/alias differs"
+    },
+    {
+      "case": "slots-layout",
+      "rejection": "field width/alignment differs"
+    }
+  ],
+  "seconds": 2.6208114186301827,
+  "checker_sha256": "fc136f0c1d0ed420076399bab46e1b87c22b418f32679545d98b92152e279338",
+  "semantic_checker_sha256": "b2c4bf0de1e5c4b90613f92f54226362fafd4d1f74d1bf796d926886df298bdc"
+}

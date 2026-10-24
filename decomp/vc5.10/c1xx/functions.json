@@ -88,7 +88,8 @@
     "CompilerPool::Refill",
     "CompilerArena::AllocatePages",
     "CompilerArena::CommitExtent",
-    "_process_compiler_options"
+    "_process_compiler_options",
+    "_push_declaration_context"
   ],
   "driver": [
     {
@@ -1016,10 +1017,16 @@
     {
       "name": "_push_declaration_context",
       "start": 272807988,
-      "end": 272807989,
-      "pending_extent": true,
+      "end": 272808026,
       "source": "src/options.c",
-      "abi": "cdecl4"
+      "abi": "cdecl4",
+      "code_chunks": [
+        [
+          273060758,
+          273060773
+        ]
+      ],
+      "evidence": "own scalar depth/ten-slot writer, consumers compare2 and C-linkage result2; hot38+cold15, stack4/RET0, return ignored by reached parser"
     },
     {
       "name": "_initialize_include_aliases",
@@ -4961,6 +4968,57 @@
       },
       "native_trial_sha256": "5079efc571980f36aaab7e006694b68b6d654345f8ec5aaaf20892e1200a3974",
       "native_only_refresh": "original raw execution reused after checked exact native ELF binding-only delta"
+    },
+    {
+      "name": "_push_declaration_context",
+      "classification": "application source",
+      "source": "src/options.c",
+      "source_sha256": "9226d38003e478aabb61e6c4e2200b905faceb36bf36a9a4ec71e22167de9d19",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-language-context-original-2",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-language-context-native-2",
+      "original_receipt_sha256": "e71ca92a8c249b1bec42f7500f6643ae21f65f9f1839f336473e7750fd06f146",
+      "native_receipt_sha256": "110b6be46a701ad2a44364e22071da34ea6dbfdcde259c3019bff29c711ca71d",
+      "trial_sha256": "172acb64ba4d50a630b3821ad0b90a40d2ab5bd3a9bdb76dac0032f592de3b33",
+      "audit_sha256": "1539dfc2760128b0bd0debea45fc61239e01b802a2740f6159961355c5921503",
+      "code_chunks": [
+        [
+          178228,
+          178266
+        ],
+        [
+          430998,
+          431013
+        ]
+      ],
+      "comparison": {
+        "trial": "_push_declaration_context",
+        "frontier": "_initialize_include_aliases",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1513,
+        "native_bss_size": 1544,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 6543,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 23.462575648911297,
+        "native_seconds": 5.90078856702894
+      }
     }
   ],
   "imports": [

@@ -1,5 +1,5 @@
 """Own encountered option grammar, defaults, first helper and typed restore state."""
-import json,re,struct
+import copy,json,re,struct
 from options_projection import SPECS,validate_layout
 from options_probe import literal_defaults
 from allocation_imports import pe_read
@@ -14,7 +14,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
     def read(name):return json.loads((native/(name+'.json')).read_text())
     analysis=json.loads((original/'options-analysis.json').read_text());target=original/'loaded-target.bin'
     require(s.sha(target)==analysis['original_sha256'],'target inventory changed')
-    require(trial['trial']=='_process_compiler_options' and trial['options_parser_observers']['frontier_rva']==0x2b834,'wrong parser trial contract')
+    require(trial['trial']in ('_process_compiler_options','_push_declaration_context') and trial['options_parser_observers']['frontier_rva']==0x2b834,'wrong parser trial contract')
     names=symbols(native/'native-executable.elf');layout=read('options-grammar-layout');patterns=read('options-native-patterns')
     if (native/'options-abi-refinement.json').exists():
         from options_abi_refinement import check as check_refinement
@@ -124,11 +124,16 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,traps):
     entries=read('options-helper-entries');require(len(entries)==1,'first helper count differs');entry=entries[0];cli=read('pool-cli-entries')[0]
     row=[r for r in traps if r[1]=='0002b834'];require(len(row)==1,'actual original helper trap absent');seq=int(row[0][0]);words=[int(v,16)for v in row[0][2].split(',')]
     require(words[:2]==[BASE+0x38fbe,0] and pe_read(target,0x38fb9,5)==b'\xe8'+struct.pack('<i',0x2b834-0x38fbe),'original NULL argument/caller differs')
-    require(entry['pc']==names['push_declaration_context'][0] and entry['args']==[0] and entry['formal_inventory']==[dict(name='context',type='int' if (native/'options-abi-refinement.json').exists() else 'void *')] and state['args']==dict(context=0),'actual native helper inputs/formals differ')
+    require(entry['pc']==names['push_declaration_context'][0] and entry['args']==[0] and entry['formal_inventory']==[dict(name='context',type='int' if (native/'options-abi-refinement.json').exists()or model['schema']>=33 else 'void *')] and (trial['trial']!='_process_compiler_options' or state['args']==dict(context=0)),'actual native helper inputs/formals differ')
     start,length=names['process_compiler_options'];ret=entry['return_pc'];code=bytes(d.elf_byte(native,ret-5+i)for i in range(5))
     require(start<ret<start+length and code[0]==0xe8 and ret+struct.unpack_from('<i',code,1)[0]==entry['pc'],'native real CALL/ownership differs')
-    require(entry['guard']==cli['guard'] and entry['last_error']==cli['last_error']==203 and entry['fp']==cli['fp'],'parser changed state before first NULL helper')
-    require((original/('pool-bss-%03d.bin'%(seq+1))).read_bytes()==(original/('pool-bss-%03d.bin'%seq)).read_bytes(),'original parser changed BSS before first helper')
+    expected_entry_guard=copy.deepcopy(cli['guard'])
+    if trial.get('language_context_auxiliary'):
+        seeded=bytearray.fromhex(expected_entry_guard['bss']);struct.pack_into('<10i',seeded,1504,*[1+(i&1)for i in range(10)]);expected_entry_guard['bss']=seeded.hex()
+    require(entry['guard']==expected_entry_guard and entry['last_error']==cli['last_error']==203 and entry['fp']==cli['fp'],'parser changed state before first scalar-zero helper beyond declared data seed')
+    expected_entry_bss=bytearray((original/('pool-bss-%03d.bin'%seq)).read_bytes())
+    if trial.get('language_context_auxiliary'):struct.pack_into('<10i',expected_entry_bss,0xc13d0-0xb9000,*[1+(i&1)for i in range(10)])
+    require((original/('pool-bss-%03d.bin'%(seq+1))).read_bytes()==bytes(expected_entry_bss),'original parser changed BSS before first helper beyond declared data seed')
     for prefix in ('frontend-data','frontend-snapshot','state'):
         require((original/(prefix+'-%03d.bin'%seq)).read_bytes()==(original/(prefix+'-%03d.bin'%(seq-1))).read_bytes(),'original parser changed prior initialized/saved/persistent state')
     return dict(new_fields=107,initialized_semantic_bytes=1824,bss_semantic_bytes=100,persistent_semantic_bytes=4,rules=100,z_rules=11,warning_defaults=10,first_helper_null_argument=True,unmodeled_initialized_bytes=6547)

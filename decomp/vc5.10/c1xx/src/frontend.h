@@ -26,6 +26,7 @@ typedef struct FrontendData {
     int option_bm;
     int option_zm_percent;
     CompilerOptionData options;
+    int language_context_depth;
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -157,6 +158,7 @@ typedef struct FrontendBss {
     CompilerWorkBuffer work_buffers[2];
     CompilerArena arenas[9];
     CompilerOptionBss options;
+    int language_contexts[10];
 } FrontendBss;
 
 #ifdef __cplusplus

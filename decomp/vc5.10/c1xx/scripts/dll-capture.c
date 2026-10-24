@@ -31,6 +31,9 @@ static DWORD pch_return_address;
 static BYTE pch_return_saved;
 static int pch_return_active;
 static int return_active, restore_observer, pool_return_observer;
+static int language_return_active;
+static DWORD language_return_pc;
+static BYTE language_return_byte;
 static BYTE restore_observer_byte;
 static DWORD aux_old_base, aux_new_base;
 static int aux_returned;
@@ -361,6 +364,12 @@ static void save_frontend_state(const char *suffix)
         if (offset != 100) fail("options observer field inventory");
         sprintf(name, "options-bss-%s.bin", suffix); save_blob(name, projected, sizeof(projected));
     }
+    if (getenv("C1XX_OBSERVE_LANGUAGE_CONTEXT")) {
+        DWORD language[11];
+        readmem(base + 0xcd580, language, 4);
+        readmem(base + 0xc13d0, language + 1, 40);
+        sprintf(name, "language-context-%s.bin", suffix); save_blob(name, language, sizeof(language));
+    }
     readmem(base + 0xcd7e0, values, 4);
     readmem(base + 0xc4d50, values + 1, 8);
     readmem(base + 0xcb06c, values + 3, 4);
@@ -543,6 +552,13 @@ static void seed_options_restore(void)
                 write_mem(owned + field->rva - 0xcc000, &saved, 4);
             }
         }
+    }
+    if (getenv("C1XX_OBSERVE_LANGUAGE_CONTEXT")) {
+        DWORD slots[10], depth = 7;
+        write_mem(base+0xcd580,&depth,4);depth=3;write_mem(owned+0x1580,&depth,4);
+        for (i=0;i<10;++i)slots[i]=1+(i&1);
+        write_mem(base+0xc13d0,slots,40);
+        fprintf(events,"language-seed point=initializer live-depth=7 saved-depth=3 slots=alternating1,2 no-code-mock=1\n");
     }
     persistent = base + 0xcb030; write_mem(base + 0xcb000, &persistent, 4);
     fprintf(events, "options-seed fields=106 initialized=81 bss=25 persistent=1 pointers=owned-interiors never-dereferenced=1 no-code-mock=1 allocation=%08lx\n", owned);
@@ -839,7 +855,7 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     save_state();
     if(pool_cycle_active) {
         fprintf(events,"pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,context->Ebx,context->Esi,context->Edi,context->Ebp);
-        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834) {
+        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8) {
             BYTE *blob=(BYTE *)malloc(0x10000);char name[80];DWORD committed;
             if(!blob)fail("pool entry full BSS observation");
             readmem(base+0xb9000,blob,0xf69c);sprintf(name,"pool-bss-%03u.bin",sequence);save_blob(name,blob,0xf69c);
@@ -1098,6 +1114,15 @@ int main(int argc, char **argv)
                 patch(return_address, return_saved); return_active = 0;
                 context.Eip = address;
                 if (!SetThreadContext(thread, &context)) fail("CRT return context");
+            } else if (code == EXCEPTION_BREAKPOINT && language_return_active && address == language_return_pc) {
+                BYTE *bss=(BYTE *)malloc(0xf69c);
+                if (!bss) fail("language return observer allocation");
+                fprintf(events,"language-return pc=%08lx esp=%08lx eax=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx error=%lu\n",address,context.Esp,context.Eax,context.Ebx,context.Esi,context.Edi,context.Ebp,thread_error(&context,thread));
+                save_frontend_state("language-return");
+                readmem(base+0xb9000,bss,0xf69c);save_blob("language-return-bss.bin",bss,0xf69c);free(bss);
+                save_blob("language-return-fp.bin",&context.FloatSave,sizeof(context.FloatSave));
+                patch(address,language_return_byte);language_return_active=0;context.Eip=address;
+                if (!SetThreadContext(thread,&context)) fail("language return context");
             } else if (code == EXCEPTION_BREAKPOINT && restore_observer && address == base + 0x385be) {
                 fprintf(events, "restore-phase rva=000385be\n");
                 save_frontend_state("phase"); save_aux_state("phase");
@@ -1128,6 +1153,20 @@ int main(int argc, char **argv)
                     prepare_mask();
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
+                if (address == base + 0x2b834 && getenv("C1XX_OBSERVE_LANGUAGE_CONTEXT")) {
+                    if (language_return_active) fail("duplicate language context call");
+                    if (getenv("C1XX_TEST_INIT_RESTORE")) {
+                        DWORD slots[10], k;
+                        for(k=0;k<10;++k)slots[k]=1+(k&1);
+                        write_mem(base+0xc13d0,slots,40);
+                        fprintf(events,"language-seed point=actual-helper-entry slots=alternating1,2 context-argument-unchanged=1 no-code-mock=1\n");
+                    }
+                    readmem(context.Esp,&language_return_pc,4);
+                    if (language_return_pc != base+0x38fbe) fail("language context caller");
+                    language_return_byte=snapshot[language_return_pc-base-code_rva];
+                    if (language_return_byte != 0xa1) fail("language return opcode");
+                    patch(language_return_pc,0xcc);language_return_active=1;
+                }
                 if (address == base + 0x38af9 || address == base + 0x386ae) {
                     DWORD caller_words[2];
                     BYTE comment_bss[0xf69c];

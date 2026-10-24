@@ -28,7 +28,7 @@ def check(original,native,require_audit=True,audit_path=None):
     allocation_candidate=trial['trial']=='_reserve_work_buffer'
     early_options_candidate=trial['trial']=='_initialize_intermediate_files'
     early_switch_candidate=trial['trial']=='_process_early_option'
-    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options')
+    reset_candidate=trial['trial'] in ('CompilerArena::Reset','_initialize_pool_arenas','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','_process_compiler_options','_push_declaration_context')
     scaler_candidate=reset_candidate or trial['trial']=='_calculate_arena_reservation'
     reserve_arena_candidate=trial['trial']=='CompilerArena::Reserve'
     default_arena_candidate=trial['trial']=='_initialize_default_arena'
@@ -52,7 +52,7 @@ def check(original,native,require_audit=True,audit_path=None):
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -131,6 +131,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if 'CompilerArena::AllocatePages' in trial['accepted']:path.append(('CompilerArena::CommitExtent',0x1d738))
     if 'CompilerArena::CommitExtent' in trial['accepted']:path += [('CompilerPool::BindArena',0x38f94),('CompilerPool::Refill',0x1ee29),('CompilerArena::AllocatePages',0x1ee58)]*9+[('process_compiler_options',0x38fad)]
     if '_process_compiler_options' in trial['accepted']:path.append(('push_declaration_context',0x2b834))
+    if '_push_declaration_context' in trial['accepted']:path.append(('initialize_checksums',0x392a8)if seed else('initialize_include_aliases',0x39282))
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -144,7 +145,7 @@ def check(original,native,require_audit=True,audit_path=None):
         if trace_name not in trace:trace.append(trace_name)
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     registered=sum(name=='register_cleanup' for name,_ in path[:-1])
-    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation','process_compiler_options','push_declaration_context') or state['args']=={}) and
+    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation','process_compiler_options','push_declaration_context','initialize_include_aliases','initialize_checksums') or state['args']=={}) and
               'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
     if frontier=='c1xx_main':
         s.require(struct.unpack_from('<I',(original/('state-'+final+'.bin')).read_bytes(),8)[0]==1,'original mode assignment before main differs')
@@ -266,6 +267,9 @@ def check(original,native,require_audit=True,audit_path=None):
     if model['schema']>=32 and '_process_compiler_options' in trial['accepted']:
         from options_state import check as check_options
         check_options(s,d,original,native,trial,text,pre,phase,state,seed,final,traps)
+    if model['schema']>=33:
+        from language_context_state import check as check_language
+        check_language(s,d,original,native,trial,text,pre,phase,state,seed,final,traps)
     if require_audit:s.audit(trial,audit_path)
     return {'trial':trial['trial'],'frontier':'_main' if frontier=='c1xx_main' else frontier if frontier in ('CompilerPool::Initialize','CompilerPool::BindArena','CompilerPool::Refill','CompilerArena::AllocatePages','CompilerArena::CommitExtent','PchContext::Initialize','CompilerArena::Reserve','CompilerArena::Reset') else '_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],
@@ -280,7 +284,7 @@ def check(original,native,require_audit=True,audit_path=None):
             'token_unknown_tail_bytes_each':32 if model['schema']>=15 else None,
             'deferred_work_pointer_checked':model['schema']>=14,
             'nonzero_deferred_constructor_input_checked':bool(trial.get('test_deferred_seed')),
-            'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':6547 if model['schema']>=32 else 8371 if model['schema']>=30 else 8383 if model['schema']>=28 else 8431 if model['schema']>=22 else 8516,
+            'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':6543 if model['schema']>=33 else 6547 if model['schema']>=32 else 8371 if model['schema']>=30 else 8383 if model['schema']>=28 else 8431 if model['schema']>=22 else 8516,
             'native_snapshot_byte_equivalence_claimed':False,'whole_mask_bytes_checked':751216,
             'nonzero_seed_scope':'typed pointer identities and exact scalar17' if model['schema']>=5 else 'legacy zeroing/reset evidence only; not middle-scalar equivalence',
             'original_seconds':o['seconds'],'native_seconds':n['seconds']}

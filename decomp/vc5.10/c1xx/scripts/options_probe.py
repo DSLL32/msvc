@@ -33,13 +33,29 @@ def setup(output,binary):
     names=symbols(binary)
     code='''python
 options_helper_entries=[]
+options_helper_returns=[]
+options_next_entries=[]
+class OptionsHelperReturn(gdb.Breakpoint):
+    def __init__(self,address,entry_esp):
+        super(OptionsHelperReturn,self).__init__('*0x%x'%address,internal=True);self.entry_esp=entry_esp
+    def stop(self):
+        row=scaler_context();row.update(entry_esp=self.entry_esp,guard=scaler_guard());options_helper_returns.append(row);self.enabled=False;return False
+class OptionsNextEntry(gdb.Breakpoint):
+    def stop(self):
+        row=scaler_context();row.update(return_pc=struct.unpack('<I',gdb.selected_inferior().read_memory(row['esp'],4))[0],guard=scaler_guard())
+        block=gdb.block_for_pc(row['pc'])
+        while block and not block.function:block=block.superblock
+        row['formal_inventory']=[{'name':item.name,'type':str(item.type)}for item in block if item.is_argument];options_next_entries.append(row);return False
 class OptionsHelperEntry(gdb.Breakpoint):
     def stop(self):
+        if @@LANGUAGE_AUX@@:
+            obj=gdb.parse_and_eval('frontend_bss.language_contexts');gdb.selected_inferior().write_memory(int(obj.address),struct.pack('<10i',*[1+(i&1)for i in range(10)]))
         row=scaler_context();words=list(struct.unpack('<2I',gdb.selected_inferior().read_memory(row['esp'],8)))
         row.update(return_pc=words[0],args=words[1:],guard=scaler_guard())
         block=gdb.block_for_pc(row['pc'])
         while block and not block.function:block=block.superblock
         row['formal_inventory']=[{'name':item.name,'type':str(item.type)}for item in block if item.is_argument]
+        if @@LANGUAGE@@:OptionsHelperReturn(words[0],row['esp'])
         options_helper_entries.append(row)
         if len(options_helper_entries)!=1:raise RuntimeError('unexpected extra parser helper entry')
         layout={}
@@ -63,7 +79,10 @@ class OptionsHelperEntry(gdb.Breakpoint):
         open(@@OUTPUT@@+'/options-native-literals.json','w').write(json.dumps(literals,indent=2)+'\\n')
         return False
 OptionsHelperEntry('*0x%x'%@@ENTRY@@,internal=True)
+if @@LANGUAGE@@:
+    OptionsNextEntry('*0x%x'%@@NEXT_ALIAS@@,internal=True);OptionsNextEntry('*0x%x'%@@NEXT_CHECKSUM@@,internal=True)
 end
-'''.replace('@@OUTPUT@@',repr(str(output))).replace('@@ENTRY@@',str(names['push_declaration_context'][0])).replace('@@LITERALS@@',repr(literal_defaults(binary)))
+'''.replace('@@OUTPUT@@',repr(str(output))).replace('@@ENTRY@@',str(names['push_declaration_context'][0])).replace('@@LITERALS@@',repr(literal_defaults(binary))).replace('@@LANGUAGE@@',repr('_push_declaration_context'in __import__('json').loads((output/'trial.json').read_text())['accepted'])).replace('@@NEXT_ALIAS@@',str(names['initialize_include_aliases'][0])).replace('@@NEXT_CHECKSUM@@',str(names['initialize_checksums'][0])).replace('@@LANGUAGE_AUX@@',repr(bool(__import__('json').loads((output/'trial.json').read_text()).get('language_context_observers'))and bool(__import__('json').loads((output/'trial.json').read_text()).get('test_seed'))))
     finish='python\nopen('+repr(str(output/'options-helper-entries.json'))+',"w").write(json.dumps(options_helper_entries,indent=2)+"\\n")\nend\n'
+    finish+="python\nopen("+repr(str(output/'options-helper-returns.json'))+",'w').write(json.dumps(options_helper_returns,indent=2)+'\\n')\nopen("+repr(str(output/'options-next-entries.json'))+",'w').write(json.dumps(options_next_entries,indent=2)+'\\n')\nend\n"
     return code,finish

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Explicit original-only DLL capture; never imported by native fixtures."""
 import argparse
-import fcntl
 import hashlib
 import json
 from pathlib import Path
@@ -146,6 +145,8 @@ def main():
         if trial.get('pool_cycle_observers'):environment['C1XX_OBSERVE_POOL_CYCLE']='1'
         environment.pop('C1XX_OBSERVE_OPTIONS',None)
         if trial.get('options_parser_observers'):environment['C1XX_OBSERVE_OPTIONS']='1'
+        environment.pop('C1XX_OBSERVE_LANGUAGE_CONTEXT',None)
+        if trial.get('language_context_observers'):environment['C1XX_OBSERVE_LANGUAGE_CONTEXT']='1'
         environment.pop('C1XX_TEST_ARENA_RESET',None)
         if trial.get('test_arena_reset_seed'):environment['C1XX_TEST_ARENA_RESET']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)
@@ -183,14 +184,11 @@ def main():
     shutil.copy2(CRT, output / "MSVCRT.DLL")
     command = ["wine", transport.windows(output / "dll-capture.exe"), "--debug",
                transport.windows(TARGET), transport.windows(CRT), args.mode, "ranges.txt"]
-    waiting_started = time.perf_counter()
+    started = time.perf_counter()
+    lock_wait_seconds = 0.0
     with (output / "stdout.bin").open("wb") as stdout, (output / "stderr.bin").open("wb") as stderr:
-        with (Path.home()/'.ai-tmp/msvc2-original-capture.lock').open('a') as capture_lock:
-            fcntl.flock(capture_lock, fcntl.LOCK_EX)
-            lock_wait_seconds = time.perf_counter() - waiting_started
-            started = time.perf_counter()
-            result = subprocess.run(command, cwd=output, env=environment,
-                                    stdout=stdout, stderr=stderr, timeout=args.timeout)
+        result = subprocess.run(command, cwd=output, env=environment,
+                                stdout=stdout, stderr=stderr, timeout=args.timeout)
     elapsed = time.perf_counter() - started
     for item, digest in inputs.items():
         if sha(PROJECT / item) != digest:
