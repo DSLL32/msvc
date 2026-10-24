@@ -966,7 +966,7 @@ Focused checks use make isolated-ctype-check ISOLATED_CTYPE_REFERENCE=<retained-
 
 After that bound selection, one _setmbcp(-4) accepts only the captured C1
 SBCS state: exact old/new tables, LCcodepage1252/handle2=409, internal MBcodepage
-and gate0, MBmax1 and errors0/0/0. It selects the established locale codepage
+and gate0, MBmax1 and errors0/0/0 or0/0/203. It selects the established locale codepage
 into recon_mb_codepage and advances mb_calls; all tables/owners, gate, result,
 errors and FP remain unchanged. Other selectors, repeats, states and combined
 CL-profile calls fail125. No general codepage conversion or _getmbcp API is

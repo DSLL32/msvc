@@ -2373,7 +2373,7 @@ WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
 WEAK int __cdecl recon_setmbcp(int codepage)
 {
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
-    unsigned char mb[257];unsigned short table[257];unsigned n;
+    unsigned char mb[257];unsigned short table[257];unsigned n;DWORD error;
     if(codepage!=-4 || ctype_selection.bound!=1 || ctype_selection.calls!=1 ||
        ctype_selection.mb_calls || !locale_profile_applied ||
        !locale_ctype_510 || recon_pctype!=locale_ctype_510+1 ||
@@ -2381,7 +2381,8 @@ WEAK int __cdecl recon_setmbcp(int codepage)
        recon_mb_cur_max!=1 || !ctype_selection.result ||
        strcmp(ctype_selection.result,"English_United States.1252"))
         recon_unsupported("unreviewed _setmbcp selection");
-    if(errno || recon_doserrno || recon_GetLastError())
+    error=recon_GetLastError();
+    if(errno || recon_doserrno || (error!=0 && error!=203))
         recon_unsupported("SBCS locale codepage entry errors");
     for(n=0;n<6;++n) if(recon_lc_handle[n]!=(n==2?1033:0))
         recon_unsupported("SBCS locale codepage handles");

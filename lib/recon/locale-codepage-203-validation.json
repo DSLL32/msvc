@@ -1,0 +1,64 @@
+{
+  "scope": "Only add observed errno/DOS0 Last203 tuple to existing once-bound postlocale _setmbcp(-4) transition; all state/owner/table/inventory/selector guards unchanged. Last0 supported unchanged; no generic codepage/getmbcp semantics.",
+  "original": {
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-multibyte-original-1/receipt.json",
+    "sha256": "d34beb0e96bee39de0d943b9113b5264f2fb6443295c1b54b14ed4f634b00337",
+    "checker": "/root/msvc2/decomp/vc5.10/c1xx/scripts/check-isolated-multibyte.py",
+    "checker_sha256": "7bd993d0a4e8184b60380fa9659c62cc9a1fb06b749bdb28de4f7db9513dfdac",
+    "parent_validation": "/root/.ai-tmp/msvc2/vc5.10/c1xx/multibyte-original-parent-validation.json",
+    "parent_validation_sha256": "3983e646796b7b38b0456ad4bcb8f556340b535ffd87afb14bab643e6a1bf203",
+    "authenticated_artifacts": 11076
+  },
+  "binaries": [
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage-203/clang-510-reviewed",
+      "sha256": "4ee85f8ee09f929ba1cbdb816d78e61e79d5ab738288362e7f9c0fa6a1163f28"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage-203/clang-default-reviewed",
+      "sha256": "bceae0650e67bc9183a4e5d9b18bfd39d6a6876155a9929f95e1cfbf3b5e692a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage-203/gcc-510-reviewed",
+      "sha256": "c4dccda4fab4a1d674fea07ddda90ff36cf7072ba974929ae8bdedb97efe3f70"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage-203/gcc-default-reviewed",
+      "sha256": "236f3fdd29d1592887438259af705d51e1eeb536ec3f23f771f1fbba53708c45"
+    }
+  ],
+  "checks": "GCC/Clang default510 each run own203 and priorC1 normal/restore Last0 refs; explicit510 fulltable/old-new-result/MB/errors/108FP/inventory2positives21denials each, default23denials each.",
+  "test_update": "Old isolated-only checker drops obsolete _setmbcp203 denial; its originalf965/b986 frozen source/checkers/ELFs remain untouched. New owned C1XX203 packet supplies positive proof.",
+  "frozen_manifest": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage-203/receipt.json",
+    "sha256": "9400295916ef530d0550060fc07ae36e90e9456eaddae212b6d6a89ce2f40d29"
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/locale-codepage-203/orchestrator-review.json",
+    "sha256": "28d0fe6616f52e123e826580945fc217ffc06a59f8280be9a069ba3fccd3b4a6"
+  },
+  "sources": [
+    {
+      "path": "/root/msvc2/lib/recon/src/crt.c",
+      "sha256": "d745041229cc991b8ba3aaa528d8536d22cc3765c46cfb745862ce03cf5427b1"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/locale-codepage-probe.c",
+      "sha256": "d0aaa521366b4bfc508d68accb47ef3670fd75e484acd8a2099e20b037528fe0"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-locale-codepage.py",
+      "sha256": "c70636b21192285e3a06a374e1e81bb8bad33661fe6d1b5c7e2d2a9fd66244ba"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/isolated-ctype-probe.c",
+      "sha256": "13fbbbee1ca6c4d4d3dc111ffe47aa0bad030b1bd046970b5a7cd626a12618de"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-isolated-ctype.py",
+      "sha256": "4d963766d9ae28dd2fdd07f4a11e49a0706fc1d82c72c55d13abdbce2786023a"
+    }
+  ],
+  "affected_checks": "defaultnative and unbound codepage surface pass",
+  "remaining": "Actual own C1XX native adoption required; no other codepage semantics enabled"
+}

@@ -15,7 +15,7 @@ default = len(sys.argv) > 3 and sys.argv[3] == 'default'
 modes = ('', 'live', 'unbound', 'provider', 'reference', 'reference-hex',
          'null-provider', 'null-reference', 'rebind', 'combined-first', 'combined-bound', 'ctype', 'mbtable',
          'pointer', 'mbcp', 'mbgate', 'mbmax', 'lccp', 'handle', 'category',
-         'query', 'name', 'errno', 'doserrno', 'last', 'repeat', 'setmbcp', 'mb-api')
+         'query', 'name', 'errno', 'doserrno', 'last', 'repeat', 'mb-api')
 for mode in modes:
     result = subprocess.run([binary, reference, mode], capture_output=True)
     expected = 125 if default or mode not in ('', 'live') else 0
@@ -24,4 +24,4 @@ for mode in modes:
         assert not result.stderr and result.stdout == b'isolated CTYPE fulltables/old-new-result ownership/MB/errors/FP/inventory pass\n'
     else:
         assert b'recon: unsupported native operation:' in result.stderr
-print('isolated CTYPE two fullstate positives/26 denials' if not default else 'default profile28 denied paths')
+print('isolated CTYPE two fullstate positives/25 denials' if not default else 'default profile27 denied paths')

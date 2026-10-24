@@ -74,7 +74,6 @@ int main(int argc,char **argv)
     recon_pctype['A']^=1;recon_pctype['A']^=1;
     assert(!memcmp(recon_pctype-1,after,sizeof(after)) && !strcmp(result,"English_United States.1252"));
     if(!strcmp(mode,"repeat")) recon_setlocale(2,"");
-    if(!strcmp(mode,"setmbcp")) recon_setmbcp(-4);
     if(!strcmp(mode,"mb-api")) recon_mbsstr((const unsigned char *)"a",(const unsigned char *)"a");
     if(!strcmp(mode,"live")) __asm__ __volatile__("fstp %%st(0)":::"st");
     puts("isolated CTYPE fulltables/old-new-result ownership/MB/errors/FP/inventory pass");
