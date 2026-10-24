@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighty-one application functions (22,737 original code bytes), two embedded CRT functions
+Eighty-two application functions (22,896 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_skip_expression_space`.
+currently matches at the next named trap, `rc_parse_primary`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -695,3 +695,13 @@ buffer identity, original/native builds, graph/ABI checks and native help.
 Alternate numeric mode traps in the production native body. The record also
 documents a repaired gate-report sequencing error; historical raw and acceptance
 records remain unchanged. Operator and expression results remain pending.
+
+Expression whitespace skipping is reconstructed (159 bytes). Both actual calls
+return1/RET0 with the complete4090-byte work buffer, cursor and line unchanged.
+The caller then consumes parentheses and finds `RC_INVOKED`, prefilling value1
+and expression lookahead7 before the primary parser trap.
+[Verification](cases/resources-rich-trailing-space/expression-space-verification.json)
+records24 affected controls, both builds, graph/ABI checks and cached native help.
+The original default unary tail jump and native C call retain different raw
+frames; exact instruction/return evidence binds their logical chains explicitly.
+Primary and final conditional-expression results remain pending.
