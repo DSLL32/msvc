@@ -73,6 +73,6 @@ def compare(original,state,trap,events,directory,entry,mac,output):
     assert (original/'object-read-mode.bin').read_bytes()==bytes(1)
     assert state['object_read_mode']==dict(address=mode,bytes=1,value=0)
 
-    if state['function']in ('check_input_machine','detect_input_machine','initialize_machine'):
+    if state['function']in ('check_input_machine','detect_input_machine','initialize_machine','validate_delay_load_options'):
         from input_machine_state import compare as compare_machine
         compare_machine(original,state,trap,events,directory)

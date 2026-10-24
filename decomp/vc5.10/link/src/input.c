@@ -120,7 +120,6 @@ OutputModule *__stdcall read_object_file(InputArgument *argument,LinkContext *co
         allocate_module_section_headers(module);
     return module;
 }
-void __stdcall initialize_machine(LinkContext *context) { __asm { int 3 } }
 BYTE __stdcall read_coff_header(int file,IMAGE_FILE_HEADER *header,void *alternate_header,BYTE *alternate) { __asm { int 3 } return 0; }
 OutputModule *__stdcall create_input_module(const char *original_name,const char *name,const void *identity,IMAGE_FILE_HEADER *header,OutputLibrary *library,BYTE *created,BYTE copy_sections,DWORD section_offset,IMAGE_SECTION_HEADER *sections,BYTE *section_flags,void *optional_data,DWORD auxiliary) { __asm { int 3 } return NULL; }
 void __stdcall allocate_module_section_headers(OutputModule *module) { __asm { int 3 } }

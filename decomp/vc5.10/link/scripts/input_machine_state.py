@@ -57,6 +57,6 @@ def compare(original,state,trap,events,directory):
         assert 'offsetof(OutputModule,%s)==0x%s'%(name,offset)in header
     assert proof['module_layout']==dict(bytes=156,unchanged_name=4,unchanged_library=100,new_fields=dict(input_tag=52,timestamp=56,file_size=60))
 
-    if state['function']in ('detect_input_machine','initialize_machine'):
+    if state['function']in ('detect_input_machine','initialize_machine','validate_delay_load_options'):
         from detect_machine_state import compare as compare_detect
         compare_detect(original,state,trap,events,directory)

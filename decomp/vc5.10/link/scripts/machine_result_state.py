@@ -95,10 +95,15 @@ def compare(original,state,trap,events,directory):
     assert hashlib.sha256(body).hexdigest()==proof['body_sha256']
     assert proof['formals']==['LinkContext *context']and proof['hidden_inputs']==[]and proof['returns']==[[0x4497a5,4]]
     obj,=[e for e in events if e['event']=='object_read_entry'];context=obj['formals'][1]
-    assert trap['esp']==obj['stack_pointer']-40 and trap['stack'][:2]==[0x449804,context]
+    if state['function']=='initialize_machine':
+        assert trap['esp']==obj['stack_pointer']-40 and trap['stack'][:2]==[0x449804,context]
+        assert trap['frontier_inputs']==dict(formals=[context],hidden_register_inputs=[])
     assert trap['initialize_machine_formals']==dict(formals=[context],hidden_inputs=[])
-    assert trap['frontier_inputs']==dict(formals=[context],hidden_register_inputs=[])
     nobject=state['object_reader_entry'];context=nobject['formals'][1]
     assert state['initialize_machine_entry']==dict(stack_pointer=nobject['stack_pointer']-parent_frame,formals=[context],hidden_inputs=[])
-    assert state['frontier_inputs']==dict(formals=[context],hidden_register_inputs=[])
+    if state['function']=='initialize_machine':
+        assert state['frontier_inputs']==dict(formals=[context],hidden_register_inputs=[])
+    else:
+        from machine_init_state import compare as compare_init
+        compare_init(original,state,trap,events,directory)
     # No returned detector stack local is a live pointer input of this helper.

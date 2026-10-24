@@ -110,7 +110,8 @@
     "_byte_swap_dword@4",
     "_read_object_file@12",
     "_check_input_machine@8",
-    "_detect_input_machine@8"
+    "_detect_input_machine@8",
+    "_initialize_machine@4"
   ],
   "driver": [
     {
@@ -2823,12 +2824,12 @@
     {
       "name": "_initialize_machine@4",
       "start": 4494896,
-      "end": 4494897,
-      "pending_extent": true,
-      "source": "src/input.c",
+      "end": 4495272,
+      "pending_extent": false,
+      "source": "src/machine.c",
       "native_symbol": "initialize_machine",
-      "status": "stub",
-      "abi": "stdcall void(LinkContext *); RET4; complete376B pending analysis"
+      "status": "implemented",
+      "abi": "stdcall void(LinkContext *context); one pointer slot,RET4,no hidden inputs; complete376B machine dispatch including cold branches"
     },
     {
       "name": "_read_coff_header@16",
@@ -2900,6 +2901,86 @@
       "native_symbol": "convert_input_object",
       "status": "stub",
       "abi": "stdcall void(LinkContext *,InputArgument *,WORD *machine); RET12, both actual read paths write2B; full112B readonly pending analysis"
+    },
+    {
+      "name": "_validate_delay_load_options@4",
+      "start": 4323760,
+      "end": 4323761,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "validate_delay_load_options",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context); RET4; no hidden receiver; all actual formals/outputs must be captured if reached"
+    },
+    {
+      "name": "_initialize_x86_backend@8",
+      "start": 4397200,
+      "end": 4397201,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "initialize_x86_backend",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context,BYTE *incremental_supported); RET8; no hidden receiver; all actual formals/outputs must be captured if reached"
+    },
+    {
+      "name": "_initialize_mips_backend@8",
+      "start": 4523984,
+      "end": 4523985,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "initialize_mips_backend",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context,BYTE *incremental_supported); RET8; no hidden receiver; all actual formals/outputs must be captured if reached"
+    },
+    {
+      "name": "_initialize_alpha_backend@8",
+      "start": 4236832,
+      "end": 4236833,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "initialize_alpha_backend",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context,BYTE *incremental_supported); RET8; no hidden receiver; all actual formals/outputs must be captured if reached"
+    },
+    {
+      "name": "_initialize_sh_backend@8",
+      "start": 4570464,
+      "end": 4570465,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "initialize_sh_backend",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context,BYTE *incremental_supported); RET8; no hidden receiver; all actual formals/outputs must be captured if reached"
+    },
+    {
+      "name": "_initialize_mac_ppc_backend@8",
+      "start": 4544096,
+      "end": 4544097,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "initialize_mac_ppc_backend",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context,BYTE *incremental_supported); RET8; no hidden receiver; all actual formals/outputs must be captured if reached"
+    },
+    {
+      "name": "_initialize_ppc_backend@8",
+      "start": 4566624,
+      "end": 4566625,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "initialize_ppc_backend",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context,BYTE *incremental_supported); RET8; no hidden receiver; all actual formals/outputs must be captured if reached"
+    },
+    {
+      "name": "_initialize_arm_backend@8",
+      "start": 4239648,
+      "end": 4239649,
+      "pending_extent": true,
+      "source": "src/machine.c",
+      "native_symbol": "initialize_arm_backend",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context,BYTE *incremental_supported); RET8; no hidden receiver; all actual formals/outputs must be captured if reached"
     }
   ],
   "text_data": [
@@ -5094,6 +5175,14 @@
       "reason": "is_archive encountered exactly8 compared signature bytes, excluding unused trailingNUL",
       "sha256": "f0a17a43c74d2fe5474fa2fd29c8f14799e777d7d75a2cc4d11c20a6e7b161c5",
       "evidence": "cases/hello-win32/archive-signature-literal.json"
+    },
+    {
+      "start": 4200916,
+      "end": 4200921,
+      "accepted": true,
+      "reason": "initialize_machine contextual IX86 diagnostic literal, exact NUL-terminated5B",
+      "sha256": "dc241773430a2f418ed2c59da67b47cf99262fdc82622efcb9aca6a1778ab37a",
+      "evidence": "actualPUSH4019d4 at449649 beforewarning4068; literal at point of use"
     }
   ],
   "cases": {

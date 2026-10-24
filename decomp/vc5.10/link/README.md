@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 93 application
-functions (34,619 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 94 application
+functions (34,995 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `initialize_machine`; hello-win32 has not completed.
+next frontier is `validate_delay_load_options`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -558,3 +558,15 @@ has one actual context-pointer input and remains trapped. Both builds and
 9.021 s; original/native/audit times are 2.439/0.925/0.605 s. Native help takes
 68.69 ms, including 3.885 ms execution. The independent review and retained
 module-location policy are in `frontiers/93-detect-machine-review`.
+
+The full 376-byte machine initializer is accepted through its first delay-load
+validator. The new source retains every machine-dispatch and cold diagnostic
+branch; all seven backend bodies remain named traps. Actual input is the single
+context pointer, with the whole 664-byte context unchanged and the live one-byte
+incremental-support local initialized to zero. Existing entry-name and symbol
+globals are reused. Exact ownership adds only the five-byte IX86 literal and
+leaves eight following function-padding bytes trapped. Both builds, 107 full/
+100 strict graph bodies and 21 fresh affected controls pass; controls take
+3.580 s. Original/native/audit times are 2.531/0.919/0.621 s. Native help takes
+67.59 ms, including 3.738 ms execution. Evidence and the preserved inherited
+seek-count rejection are in `frontiers/94-initialize-machine-review`.

@@ -1,0 +1,12 @@
+[
+  {
+    "path": "capture-help.exe",
+    "bytes": 144896,
+    "sha256": "fc167ac1aa18ec977a2f40fa1ff7b14afae4f918389c4b99dbecf8177eac3dcc"
+  },
+  {
+    "path": "final-accept.py",
+    "bytes": 41896,
+    "sha256": "629723d0bfa39891a45b342f1500297d6fa8e5006fe39b8176bb85b5a669b3fd"
+  }
+]

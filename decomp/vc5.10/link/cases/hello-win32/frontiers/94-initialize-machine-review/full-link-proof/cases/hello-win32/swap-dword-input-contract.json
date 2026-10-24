@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "address": 4577424,
+  "bytes": 37,
+  "body_sha256": "ab4e107b16eb0643360dab3ff184a132032c244f6f2161e46ba84303bb63861d",
+  "returns": [
+    [
+      4577458,
+      4
+    ]
+  ],
+  "formals": [
+    "DWORD value"
+  ],
+  "hidden_inputs": [],
+  "scope": "Complete readonly pending37B ABI/input proof; namedDWORD/RET4 trap zero body credit. Full DWORD argument meaningful, not an AL-only or other narrowed input."
+}
