@@ -1205,3 +1205,10 @@ void record_continue_statement(void)
     append_frontend_record(&record, sizeof(record));
     emit_nonnull_expression_statement(process_expression_records(0));
 }
+
+/* Original 0x40540..0x40547. A null case expression selects the
+   common default-label record path. */
+void record_default_label(void)
+{
+    record_case_label(0);
+}

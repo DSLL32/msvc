@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_record_default_label",
+    "start": 263488,
+    "end": 263496
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1187-record_default_label/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_record_case_label@4"
+  ],
+  "next_frontier": "_find_label@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.8371259430423379,
+  "total_operation_seconds": 5.250726200640202,
+  "original_capture_seconds": 1.9200910367071629
+}
