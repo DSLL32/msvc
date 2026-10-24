@@ -1,0 +1,25 @@
+{
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/legacy-support-v3-native-unit10-entry-2",
+  "function": "materialize_based_symbol",
+  "arguments": [
+    0
+  ],
+  "formals": [
+    "symbol"
+  ],
+  "body": false,
+  "buffered_streams": [
+    "expression_file",
+    "symbol_file",
+    "line_file",
+    "global_file",
+    "debug_file",
+    "pch_file",
+    "browser_output"
+  ],
+  "kind": "legacy-support",
+  "marker": "finish_declarations",
+  "owner_name": "SUPPORT_DATA",
+  "unit": 10,
+  "context_owner_name": "support_segment_value"
+}

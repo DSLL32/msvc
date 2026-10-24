@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "kind": "direct segment materialization/owned interned name",
+  "public_reachability": false,
+  "created_name": "__seg__SUPPORT_DATA",
+  "index": 122,
+  "defined_result": "Actual zeroed permanent allocation, parsed segment type and global-scope ownership; no EAX claim for void parent."
+}

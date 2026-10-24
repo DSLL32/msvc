@@ -1,6 +1,6 @@
 {
   "case": "Direct external legacy type/literal support",
-  "status": "Ten complete direct type/segment/literal helpers; public producer remains unidentified",
+  "status": "Fourteen complete direct helpers across thirteen units; public producer remains unidentified",
   "public_reachability": false,
   "authorization": "Root approved one direct-support workflow in genuinely parsed declaration context, ordinary owners/arguments/constructors; no parser/global/token forcing; reuse external-unit facility.",
   "baseline_commit": "e9c7b5816bdaeb3e0b5ab7e6d512a553e311d95b",
@@ -337,6 +337,108 @@
         "support.obj",
         "support.exe"
       ]
+    },
+    "context-v3": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\legacy-type-support-v3",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f support-v3.c -Ze -Zp8 -Gs -Fosupport.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/support-v3.c",
+          "bytes": 927,
+          "sha256": "d63722b9020bb4bb67f704a0c8c6953727d86f952eaddbf7ddb55028182d5f33"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "outputs/context-v3/irdb",
+          "bytes": 171,
+          "sha256": "aa751179330f965b23ef75b6ce567d982457fbbb57cab2ce98998bc3a668408d"
+        },
+        {
+          "path": "outputs/context-v3/irex",
+          "bytes": 1117,
+          "sha256": "392bcae6ccd34e6415147f48a023800812f734430cb4fda245169909b993af24"
+        },
+        {
+          "path": "outputs/context-v3/irgl",
+          "bytes": 379,
+          "sha256": "9322d49d21447a82b65c6642f59eef8b04abe2b4ac92a4330f697d8b7bd56c26"
+        },
+        {
+          "path": "outputs/context-v3/irin",
+          "bytes": 43,
+          "sha256": "ef8cb4e00c6ff7b69d9da47b5e50223d0dcbdc04a661fe63c687ca7c58d36cc0"
+        },
+        {
+          "path": "outputs/context-v3/irsy",
+          "bytes": 70,
+          "sha256": "c6b4365c208de3cb2b2d338b7f5272fee1e29b47b5031904d2a04ea5659ba204"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "support-v3.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "support.obj",
+        "support.exe"
+      ]
+    },
+    "direct-v3": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\legacy-type-support-v3",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f support-v3.c -Ze -Zp8 -Gs -Fosupport.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/support-v3.c",
+          "bytes": 927,
+          "sha256": "d63722b9020bb4bb67f704a0c8c6953727d86f952eaddbf7ddb55028182d5f33"
+        }
+      ],
+      "outputs": [],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "support-v3.c"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "support.obj",
+        "support.exe"
+      ]
     }
   },
   "direct_plan": [
@@ -475,6 +577,55 @@
       "phase": "literal-double",
       "marker": "_write_initializer_value@12",
       "status": "accepted; direct support only"
+    },
+    {
+      "unit": 10,
+      "function": "_materialize_based_symbol@4",
+      "owner": "SUPPORT_DATA",
+      "context_owner": "support_segment_value",
+      "arguments": 1,
+      "request_arguments": [
+        0
+      ],
+      "formals": [
+        "symbol"
+      ],
+      "phase": "direct-v3",
+      "status": "accepted; materializer and nested name helper; direct support only"
+    },
+    {
+      "unit": 11,
+      "function": "_add_legacy_type_fixup@12",
+      "owner": "SUPPORT_DATA",
+      "context_owner": "support_segment_value",
+      "arguments": 3,
+      "request_arguments": [
+        0,
+        0,
+        4
+      ],
+      "formals": [
+        "symbol",
+        "position",
+        "bytes"
+      ],
+      "phase": "direct-v3",
+      "status": "accepted; actual legacy debug buffer and segment; direct support only"
+    },
+    {
+      "unit": 12,
+      "function": "_get_intrinsic_fallback_symbol@4",
+      "owner": "memcpy",
+      "context_owner": "memcpy",
+      "arguments": 1,
+      "request_arguments": [
+        172
+      ],
+      "formals": [
+        "operation"
+      ],
+      "phase": "direct-v3",
+      "status": "accepted; actual parsed memcpy symbol, dormant public gate; direct support only"
     }
   ],
   "context_evidence": [
@@ -864,6 +1015,128 @@
         "work/support-v2.c": "30fbd86fc2fc9a568b1974be38399a8ff16453a48547a18887ed09df62b741e4",
         "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v3-unit10-first-entry",
+      "input": {
+        "unit": 10,
+        "function": "_materialize_based_symbol@4",
+        "owner": "SUPPORT_DATA",
+        "context_owner": "support_segment_value",
+        "arguments": 1,
+        "request_arguments": [
+          0
+        ],
+        "formals": [
+          "symbol"
+        ],
+        "phase": "direct-v3",
+        "status": "accepted; materializer and nested name helper; direct support only"
+      },
+      "accepted_from": 1059,
+      "accepted_count": 1061,
+      "accepted_functions": [
+        "_materialize_based_symbol@4",
+        "_based_segment_symbol_name@4"
+      ],
+      "phase_sha256": "df0c63bb39bf3e7dd91977b654d20e84bc4c0516aa8d4d9535ec1373247277c9",
+      "files": {
+        "capture-status.json": "1ca40f5dd99029ffb3201223d29dc86f69c94e9a801ea656c8851a4553d63fcc",
+        "receipt.json": "57dd34fbdff4c3384736d72f8c027d6a7d9b185a2eeaa4b84a498bdda56c16ff",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "9c711f97f2041709dd6a0ff49ad7b196716d7815254f251c25f5d556ef392099",
+        "entry-plan.txt": "86bf0c0ed136d10f0a6448470d0f147745ca1abc3370394770c3f6e326f78334",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/support-v3.c": "d63722b9020bb4bb67f704a0c8c6953727d86f952eaddbf7ddb55028182d5f33",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v3-unit11-first-entry",
+      "input": {
+        "unit": 11,
+        "function": "_add_legacy_type_fixup@12",
+        "owner": "SUPPORT_DATA",
+        "context_owner": "support_segment_value",
+        "arguments": 3,
+        "request_arguments": [
+          0,
+          0,
+          4
+        ],
+        "formals": [
+          "symbol",
+          "position",
+          "bytes"
+        ],
+        "phase": "direct-v3",
+        "status": "accepted; actual legacy debug buffer and segment; direct support only"
+      },
+      "accepted_from": 1061,
+      "accepted_count": 1062,
+      "phase_sha256": "df0c63bb39bf3e7dd91977b654d20e84bc4c0516aa8d4d9535ec1373247277c9",
+      "files": {
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "121e65d223d0b75b82a21952ee1f76f0c420359c0e38f7967da9f43625f7c7ab",
+        "entry-plan.txt": "5d1dfbc92298167f42dfd8cc372b861b41d705f7233a08b7b17c5a1663c491b7",
+        "capture-status.json": "c6f9a97d3fd908f34db8d0c51eef30dadc5ee7caa68bd9f26fe816c8e3ed3e57",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events": "e788ae5e39a71058b356e1d94c3cddb140be09e3e0bd8f614f3cfa6bc054e560",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/support-v3.c": "d63722b9020bb4bb67f704a0c8c6953727d86f952eaddbf7ddb55028182d5f33",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "status": "pass",
+      "directory": "evidence/v3-unit12-first-entry",
+      "input": {
+        "unit": 12,
+        "function": "_get_intrinsic_fallback_symbol@4",
+        "owner": "memcpy",
+        "context_owner": "memcpy",
+        "arguments": 1,
+        "request_arguments": [
+          172
+        ],
+        "formals": [
+          "operation"
+        ],
+        "phase": "direct-v3",
+        "status": "accepted; actual parsed memcpy symbol, dormant public gate; direct support only"
+      },
+      "accepted_from": 1062,
+      "accepted_count": 1063,
+      "phase_sha256": "df0c63bb39bf3e7dd91977b654d20e84bc4c0516aa8d4d9535ec1373247277c9",
+      "files": {
+        "capture-status.json": "14129c220f384a741626f84fdc9b27ae854c2b8f8113730b28ec72e952729d2c",
+        "host-stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "receipt.json": "af0f3961a9db094e2a8405ca3ef8d0e00042757ed6cfeb890991a86eaa28e5e4",
+        "events": "61868be429089ca42f11874e0174063dadc2f65b610449193bf0705b521d0d4f",
+        "entry-plan.txt": "9d4a88cc61f7f64c11de4bfcfdfbfc3fc79268805c1904b3d029c2eebbe8eafe",
+        "host-stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/support-v3.c": "d63722b9020bb4bb67f704a0c8c6953727d86f952eaddbf7ddb55028182d5f33",
+        "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+        "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
       }
     }
   ],
@@ -1717,5 +1990,6 @@
       "support-native-receipt.json": "b7a78be7d16b0fc244f54149ddc193443720f5ccf4fc9878f7683138573d9628"
     }
   },
-  "literal_extension_authorization": "Root approved real write_initializer_value entry symbol/token, accepted emit_literal_initializer parent, separately checked actual caller-return breakpoint and genuine parent re-entry; direct support only."
+  "literal_extension_authorization": "Root approved real write_initializer_value entry symbol/token, accepted emit_literal_initializer parent, separately checked actual caller-return breakpoint and genuine parent re-entry; direct support only.",
+  "debug_extension_authorization": "Root approved v3 real parsed segment/intrinsic owners and actual allocated debug buffer, constructor-defined fields and checked buffer bounds, small third-stdcall-argument extension; retain dormant/public-unreachable labels."
 }

@@ -11,16 +11,16 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, assembler operand diagnostics/SEG, and standalone QuickC regions/loops/memory initialization.
 
-There are 926 accepted source functions and 1059 accepted original entries.
-Of these,915 are application functions; ten historical runtime.c bodies and
+There are 930 accepted source functions and 1063 accepted original entries.
+Of these,919 are application functions; ten historical runtime.c bodies and
 the historical __strgtold12 body in floating.c are CRT, with no application credit.
-Accepted original extents cover 247039/277234 code-section bytes (89.108479%):
-224301 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
+Accepted original extents cover 247556/277234 code-section bytes (89.294964%):
+224818 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Of this union,245156bytes have public-case evidence and
-1883 bytes have separate direct-test evidence for assembler support, expression
+2400 bytes have separate direct-test evidence for assembler support, expression
 templates, database object methods and legacy segment/type helpers; no public
-trigger is established for those sixteen functions. Unvisited
+trigger is established for those twenty functions. Unvisited
 functions retain named trapping stubs.
 
 Native build and checks
@@ -46,8 +46,8 @@ shared-prefix original first-entry captures. All 899 publicly reached accepted a
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current58 public plus37 direct regression receipts are in
-cases/legacy-type-support/literal-validation.json.
+current58 public plus40 direct regression receipts are in
+cases/legacy-type-support/debug-validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -110,8 +110,8 @@ Wrong entry order is rejected. scripts/capture-frontier.py validates the
 plan, frozen source dependencies and exact one-entry MSC_CMD_FLAGS environment.
 Full-reference captures and masked captures are explicit, never silent.
 
-Original compiler audits check926 function graphs and instruction boundaries,
-298 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
+Original compiler audits check930 function graphs and instruction boundaries,
+299 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
 shape cache, scalar options, pragmas, intrinsic groups and serialization data.
 The C grammar audit checks376 states,57904 actions/timings,227 productions and
 34216 gotos. The assembler audit checks136 states,6936 actions/errors,
@@ -585,3 +585,21 @@ Ten support functions total787 bytes. See literal-validation.json alongside
 the unchanged earlier segment/type checkpoint summaries. Public reachability
 is not claimed. Ten named application stubs remain, with unclassified code
 still separate from CRT; all historical CRT bodies remain unchanged.
+
+Direct named-segment debug and intrinsic support (2026-10-24)
+------------------------------------------------------------
+The same workflow's v3 uses an actual #pragma data_seg entity, typed record
+objects and parsed memcmp/memcpy/memset declarations. Both original and native
+complete its ordinary preflight. Three direct units add four functions/517 bytes:
+materialize_based_symbol, its previously unlisted based_segment_symbol_name
+callee, add_legacy_type_fixup and get_intrinsic_fallback_symbol. Result owners
+come from real parsed types, the zeroed permanent allocator, global scope,
+the actual 4096-byte debug buffer and arena1. Defined fields, full raw outputs,
+stdcall cleanup/nonvolatiles/x87/canaries and fresh entry order agree.
+The intrinsic phase returns the actual parsed memcpy declaration; its public
+gate remains literally false. No public reach or absent-declaration execution
+is claimed. Fourteen support functions total1304 bytes; the thirteen cached
+units run natively. See debug-validation.json; earlier variant receipts stay
+frozen. Seven named stubs and unlisted candidate application routines remain.
+The baseline-only residual survey distinguishes provisional bodies, padding
+and data; it grants no coverage or CRT classification.

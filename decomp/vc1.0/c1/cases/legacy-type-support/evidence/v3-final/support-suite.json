@@ -1,0 +1,99 @@
+{
+  "status": "pass",
+  "public_reachability": false,
+  "units": [
+    {
+      "unit": 0,
+      "status": "pass",
+      "setup_seconds": 0.008069702424108982,
+      "execution_seconds": 0.16947257053107023,
+      "checks_seconds": 0.0037391632795333862
+    },
+    {
+      "unit": 1,
+      "status": "pass",
+      "setup_seconds": 0.00808197632431984,
+      "execution_seconds": 0.1696525039151311,
+      "checks_seconds": 0.0028501860797405243
+    },
+    {
+      "unit": 2,
+      "status": "pass",
+      "setup_seconds": 0.007819239050149918,
+      "execution_seconds": 0.16420956514775753,
+      "checks_seconds": 0.0038606440648436546
+    },
+    {
+      "unit": 3,
+      "status": "pass",
+      "setup_seconds": 0.008063619025051594,
+      "execution_seconds": 0.1714044939726591,
+      "checks_seconds": 0.004466943442821503
+    },
+    {
+      "unit": 4,
+      "status": "pass",
+      "setup_seconds": 0.007961246185004711,
+      "execution_seconds": 0.16578754875808954,
+      "checks_seconds": 0.003094014711678028
+    },
+    {
+      "unit": 5,
+      "status": "pass",
+      "setup_seconds": 0.007893859408795834,
+      "execution_seconds": 0.1660824352875352,
+      "checks_seconds": 0.0050280047580599785
+    },
+    {
+      "unit": 6,
+      "status": "pass",
+      "setup_seconds": 0.007972661405801773,
+      "execution_seconds": 0.16807550564408302,
+      "checks_seconds": 0.0023734401911497116
+    },
+    {
+      "unit": 7,
+      "status": "pass",
+      "setup_seconds": 0.008040126413106918,
+      "execution_seconds": 0.16862276941537857,
+      "checks_seconds": 0.002432876266539097
+    },
+    {
+      "unit": 8,
+      "status": "pass",
+      "setup_seconds": 0.00803600437939167,
+      "execution_seconds": 0.15884884260594845,
+      "checks_seconds": 0.012683488428592682
+    },
+    {
+      "unit": 9,
+      "status": "pass",
+      "setup_seconds": 0.008091622963547707,
+      "execution_seconds": 0.16061979345977306,
+      "checks_seconds": 0.004455074667930603
+    },
+    {
+      "unit": 10,
+      "status": "pass",
+      "setup_seconds": 0.008280650712549686,
+      "execution_seconds": 0.1820884682238102,
+      "checks_seconds": 0.0087403804063797
+    },
+    {
+      "unit": 11,
+      "status": "pass",
+      "setup_seconds": 0.007928023114800453,
+      "execution_seconds": 0.17000683303922415,
+      "checks_seconds": 0.007678598165512085
+    },
+    {
+      "unit": 12,
+      "status": "pass",
+      "setup_seconds": 0.008024785667657852,
+      "execution_seconds": 0.17025312222540379,
+      "checks_seconds": 0.006532720290124416
+    }
+  ],
+  "elapsed_seconds": 3.427697920240462,
+  "policy": "Native i386/GDB only; cached originals, real parsed owners, no target global seeding"
+}

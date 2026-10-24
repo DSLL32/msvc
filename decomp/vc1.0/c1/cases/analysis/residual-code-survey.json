@@ -1,0 +1,270 @@
+{
+  "status": "read-only provisional survey",
+  "target_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "accepted_checkpoint": "eff8462e775cba2295c0732c868ba6fe98103c0e",
+  "method": "Complement of all recorded driver/runtime/import/shared extents, including unaccepted placeholders, clipped to code VirtualSize. Gaps mix padding, text data, stub tails and unlisted bodies; no CRT-by-location classification or coverage credit.",
+  "complement": {
+    "ranges": 788,
+    "bytes": 11572
+  },
+  "largest_gaps": [
+    {
+      "start": 220209,
+      "end": 220512,
+      "bytes": 303
+    },
+    {
+      "start": 168475,
+      "end": 168768,
+      "bytes": 293
+    },
+    {
+      "start": 96612,
+      "end": 96880,
+      "bytes": 268
+    },
+    {
+      "start": 206760,
+      "end": 207024,
+      "bytes": 264
+    },
+    {
+      "start": 97759,
+      "end": 98016,
+      "bytes": 257
+    },
+    {
+      "start": 246401,
+      "end": 246656,
+      "bytes": 255
+    },
+    {
+      "start": 260429,
+      "end": 260672,
+      "bytes": 243
+    },
+    {
+      "start": 279316,
+      "end": 279520,
+      "bytes": 204
+    },
+    {
+      "start": 172457,
+      "end": 172656,
+      "bytes": 199
+    },
+    {
+      "start": 206381,
+      "end": 206576,
+      "bytes": 195
+    },
+    {
+      "start": 94336,
+      "end": 94528,
+      "bytes": 192
+    },
+    {
+      "start": 205824,
+      "end": 206016,
+      "bytes": 192
+    },
+    {
+      "start": 263126,
+      "end": 263312,
+      "bytes": 186
+    },
+    {
+      "start": 310856,
+      "end": 311008,
+      "bytes": 152
+    },
+    {
+      "start": 313215,
+      "end": 313359,
+      "bytes": 144
+    },
+    {
+      "start": 156033,
+      "end": 156176,
+      "bytes": 143
+    },
+    {
+      "start": 219404,
+      "end": 219536,
+      "bytes": 132
+    },
+    {
+      "start": 184782,
+      "end": 184912,
+      "bytes": 130
+    },
+    {
+      "start": 187761,
+      "end": 187888,
+      "bytes": 127
+    },
+    {
+      "start": 298257,
+      "end": 298384,
+      "bytes": 127
+    },
+    {
+      "start": 280988,
+      "end": 281088,
+      "bytes": 100
+    },
+    {
+      "start": 323789,
+      "end": 323887,
+      "bytes": 98
+    },
+    {
+      "start": 339984,
+      "end": 340080,
+      "bytes": 96
+    },
+    {
+      "start": 280216,
+      "end": 280304,
+      "bytes": 88
+    },
+    {
+      "start": 159961,
+      "end": 160048,
+      "bytes": 87
+    },
+    {
+      "start": 281578,
+      "end": 281664,
+      "bytes": 86
+    },
+    {
+      "start": 303963,
+      "end": 304048,
+      "bytes": 85
+    },
+    {
+      "start": 362080,
+      "end": 362160,
+      "bytes": 80
+    },
+    {
+      "start": 112081,
+      "end": 112160,
+      "bytes": 79
+    },
+    {
+      "start": 305729,
+      "end": 305808,
+      "bytes": 79
+    },
+    {
+      "start": 166883,
+      "end": 166960,
+      "bytes": 77
+    },
+    {
+      "start": 268485,
+      "end": 268560,
+      "bytes": 75
+    }
+  ],
+  "provisional_candidates": [
+    {
+      "start": 206768,
+      "provisional_end": 206841,
+      "description": "Vector membership, RET8",
+      "bytes_sha256": "5fb80b6321e8ff8894eea9b6c908864667ac29431bd5ef16d4f2b7e4c6b12fdf",
+      "raw_rel32_candidates": [],
+      "aligned_noncode_pointer_candidates": [],
+      "status": "Provisional static analysis only; not accepted, no public reachability claim."
+    },
+    {
+      "start": 206848,
+      "provisional_end": 206860,
+      "description": "First vector element, RET4",
+      "bytes_sha256": "b9c2ade133b7ad968712693ad2642747b6ef9c6c8200f35d5e1c5e5a6c042ab2",
+      "raw_rel32_candidates": [],
+      "aligned_noncode_pointer_candidates": [],
+      "status": "Provisional static analysis only; not accepted, no public reachability claim."
+    },
+    {
+      "start": 206864,
+      "provisional_end": 206930,
+      "description": "Vector equality, RET8",
+      "bytes_sha256": "6435c5593b59c904f27d36f912731130bb2964b1b9b8db6e134f4c21c63a393c",
+      "raw_rel32_candidates": [],
+      "aligned_noncode_pointer_candidates": [],
+      "status": "Provisional static analysis only; not accepted, no public reachability claim."
+    },
+    {
+      "start": 206944,
+      "provisional_end": 206967,
+      "description": "Vector iterator store, RET8",
+      "bytes_sha256": "de5c68047aa51e6c50ebf3681348a1e770e946d315abc5d12cbd95c34c88ef60",
+      "raw_rel32_candidates": [],
+      "aligned_noncode_pointer_candidates": [],
+      "status": "Provisional static analysis only; not accepted, no public reachability claim."
+    },
+    {
+      "start": 206976,
+      "provisional_end": 207019,
+      "description": "Vector iterator validity, RET4",
+      "bytes_sha256": "6f9f0bad3e703e274d0b961654ad642481f27a59cf74027485dee6bf77e8ebc9",
+      "raw_rel32_candidates": [],
+      "aligned_noncode_pointer_candidates": [],
+      "status": "Provisional static analysis only; not accepted, no public reachability claim."
+    },
+    {
+      "start": 246416,
+      "provisional_end": 246645,
+      "description": "Three-type diagnostic formatter, RET28",
+      "bytes_sha256": "4b3862aacb9cd5ec503c278e7ab47729c5f34f951066f1f9d6ede05c336431d5",
+      "raw_rel32_candidates": [],
+      "aligned_noncode_pointer_candidates": [],
+      "status": "Provisional static analysis only; not accepted, no public reachability claim."
+    },
+    {
+      "start": 260432,
+      "provisional_end": 260660,
+      "description": "Selected flag propagation, RET8",
+      "bytes_sha256": "0fd4af22a20dd2fcd234a2d428f4a3b459872c78b7d618be841a8134373cb27f",
+      "raw_rel32_candidates": [],
+      "aligned_noncode_pointer_candidates": [],
+      "status": "Provisional static analysis only; not accepted, no public reachability claim."
+    },
+    {
+      "start": 219408,
+      "provisional_end": 219532,
+      "description": "Bounded joined permanent name, RET8",
+      "bytes_sha256": "5133e5d538f68a1d4e75926139e4c8b4829f76c16302423443933fff3b305b01",
+      "raw_rel32_candidates": [],
+      "aligned_noncode_pointer_candidates": [],
+      "status": "Provisional static analysis only; not accepted, no public reachability claim."
+    },
+    {
+      "start": 263136,
+      "provisional_end": 263300,
+      "description": "Normalize nested pointer model, RET8",
+      "bytes_sha256": "8074b1a9d9aeaaa36a736cb73be1118fca7ff20b7b2fedf1229960eb412e4a84",
+      "raw_rel32_candidates": [],
+      "aligned_noncode_pointer_candidates": [],
+      "status": "Provisional static analysis only; not accepted, no public reachability claim."
+    },
+    {
+      "start": 220400,
+      "provisional_end": 220503,
+      "description": "Intern __seg__ prefix plus actual named entity, RET4",
+      "bytes_sha256": "e0b4ad89bd4582c160bdfaa6667bf2554028107d66ccf801b6e8627de7621695",
+      "raw_rel32_candidates": [
+        {
+          "site": 220316,
+          "kind": "raw E8 call candidate"
+        }
+      ],
+      "aligned_noncode_pointer_candidates": [],
+      "status": "Provisional static analysis only; not accepted, no public reachability claim."
+    }
+  ],
+  "xref_limitations": "Raw E8/E9 byte candidates and aligned non-code words only. No hits does not prove dead code; embedded code pointers, computed targets and nonaligned references remain possible."
+}

@@ -676,7 +676,6 @@ unsigned hash_pointer_low12(void *key) { __asm { int 3 } return 0; }
 
 /* Original 0x358a0. */
 /* Original 0x2dd70. */
-FrontendSymbol *__stdcall get_intrinsic_fallback_symbol(unsigned operation) { __asm { int 3 } }
 
 /* Original 0x3af90. */
 
@@ -756,7 +755,6 @@ FrontendSymbol *__stdcall get_intrinsic_fallback_symbol(unsigned operation) { __
 
 
 
-void __stdcall add_legacy_type_fixup(FrontendSymbol *symbol, unsigned char *position, unsigned bytes) { __asm { int 3 } }
 
 
 
@@ -766,7 +764,6 @@ void __stdcall add_legacy_type_fixup(FrontendSymbol *symbol, unsigned char *posi
 
 
 
-void __stdcall materialize_based_symbol(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
 

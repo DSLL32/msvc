@@ -153,6 +153,7 @@ unsigned char __stdcall prepare_legacy_argument_types(ParameterInfo *parameters)
 }
 
 LegacyTypeFixup *legacy_type_fixups; /* original0x6e070 */
+LegacyTypeFixup *legacy_type_fixup_tail; /* original0x6e074 */
 
 /* Original0x488e0..0x489f1. Pad and length-prefix the type, retaining
    symbolic relocation records between any raw byte spans. */
@@ -654,4 +655,27 @@ unsigned __stdcall serialize_legacy_symbol(unsigned char *destination, FrontendS
     }
     record[0] = bytes;
     return (unsigned)bytes + 2;
+}
+
+/* Original 0x48d10..0x48d85. Queue a symbolic reference at its offset
+   inside the actual CodeView workspace, preserving source order. */
+void __stdcall add_legacy_type_fixup(FrontendSymbol *symbol,
+    unsigned char *position, unsigned bytes)
+{
+    ArenaPool *pool = &compiler_arena.pools[1];
+    LegacyTypeFixup *fixup;
+    if (pool->remaining < (int)sizeof(LegacyTypeFixup))
+        refill_arena(&compiler_arena, pool);
+    fixup = (LegacyTypeFixup *)pool->next;
+    pool->remaining -= sizeof(LegacyTypeFixup);
+    pool->next += sizeof(LegacyTypeFixup);
+    if (!legacy_type_fixups) legacy_type_fixups = legacy_type_fixup_tail = fixup;
+    else {
+        legacy_type_fixup_tail->next = fixup;
+        legacy_type_fixup_tail = fixup;
+    }
+    fixup->next = 0;
+    fixup->symbol = symbol;
+    fixup->offset = position - (unsigned char *)debug_record_buffer;
+    fixup->bytes = bytes;
 }

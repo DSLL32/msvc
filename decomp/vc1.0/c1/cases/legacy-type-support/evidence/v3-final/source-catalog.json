@@ -1,0 +1,12 @@
+{
+  "src/capture-original.c": "c013c2900ce9c1e711a6b00aea66a68e2058a278a58c03ceb001308a835ce4fc",
+  "scripts/capture-frontier.py": "1607917167b049faff8cc02903261160171d37a54a639f3bda4e559b7d4a2c75",
+  "scripts/direct-native.py": "06710f94bb6153dd6d30d4d05a0822dcc1005769273f0b00a2e7c95d62e1047c",
+  "scripts/direct-gdb.py": "7c150fc45d6bfc053a81f4c72789b33f95f28f36b06cc33d70e1167049de1d15",
+  "scripts/support-contract.py": "702f9eb7fb14b84855ad67962082727ee2c05ef617e1afd5fad6a61132de9c91",
+  "scripts/check-support.py": "6370aca8afcd864499491be9cb6b19b858f173e7d554d6f8b4fb8a4b6ce89b10",
+  "src/declarations.c": "b8a329b2b341eb40d01c13af7732b296475dd780312fd96bd611d0a1a2158cb1",
+  "src/debug-legacy.c": "748a9157d9ed96808ae706622a4aa9d5298d2861a43902779888b20442e3c3c1",
+  "src/builtins.c": "836f1614533134f421dd1bc4596acf4d5e7521a38e9721e5df2a0127da6bec1f",
+  "src/debug-info.h": "2e33dd16b9bb9f876ba32c0f622afc824536014b39c5347902d25e623a8b0f6b"
+}

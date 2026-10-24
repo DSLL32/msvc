@@ -1,0 +1,13 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, finish_declarations () at src/declarations.c:675
+675	{
+
+Breakpoint -6, materialize_based_symbol (symbol=0x57a5c778) at src/declarations.c:2568
+2568	{
+
+Breakpoint -7, based_segment_symbol_name (symbol=0x57a5c778) at src/stubs.c:769
+769	char *__stdcall based_segment_symbol_name(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+[Inferior 1 (process 2040696) killed]

@@ -173,3 +173,28 @@ void __stdcall enable_intrinsic_function(char *name)
     if (kind != 6 && kind != 7) { report_syntax_error(170,name); return; }
     mark_builtin(symbol,index);
 }
+
+/* Original 0x2dd70..0x2dde3. Resolve the ordinary memory-function
+   symbol selected for an intrinsic fallback. Absent declarations use the
+   existing builtin constructor with the original temporary /Oi setting. */
+FrontendSymbol *__stdcall get_intrinsic_fallback_symbol(unsigned operation)
+{
+    char *name;
+    FrontendSymbol *symbol;
+    switch (operation) {
+    case 170: name = "memcmp"; break;
+    case 172: name = "memcpy"; break;
+    case 173: name = "memset"; break;
+    default: return 0;
+    }
+    intern_identifier(name);
+    symbol = find_identifier_symbol(interned_name);
+    if (!symbol) {
+        name = interned_name;
+        options.option_Oi = 1;
+        initialize_intermediate_output();
+        options.option_Oi = 0;
+        symbol = find_identifier_symbol(name);
+    }
+    return symbol;
+}

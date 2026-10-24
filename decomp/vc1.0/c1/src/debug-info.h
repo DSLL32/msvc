@@ -36,7 +36,7 @@ typedef struct LegacyTypeFixup {
     struct LegacyTypeFixup *next;
 } LegacyTypeFixup;
 typedef char LegacyTypeFixup_size[sizeof(LegacyTypeFixup) == 16 ? 1 : -1];
-extern LegacyTypeFixup *legacy_type_fixups;
+extern LegacyTypeFixup *legacy_type_fixups, *legacy_type_fixup_tail;
 void __stdcall write_legacy_bitfield_type(FrontendSymbol *tag);
 void __stdcall write_legacy_record_type(FrontendSymbol *tag, unsigned short fields, unsigned short auxiliary);
 unsigned __stdcall write_legacy_unsigned_number(unsigned char *destination, unsigned number);
@@ -56,6 +56,7 @@ unsigned short pdb_primitive_pointer_index(CType *type, TypeShape *shape);
 CType *remove_pdb_type_shape(CType *type);
 unsigned short pdb_pointer_type_index(CType *type, unsigned short nested);
 void __stdcall materialize_based_symbol(FrontendSymbol *symbol);
+char *__stdcall based_segment_symbol_name(FrontendSymbol *symbol);
 unsigned short write_codeview_symbol(unsigned char *destination, FrontendSymbol *symbol);
 unsigned short pdb_array_type_index(CType *type, unsigned short nested);
 unsigned short write_codeview_number(unsigned char *destination, unsigned number);

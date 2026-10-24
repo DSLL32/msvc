@@ -5,6 +5,7 @@
 #include "asm.h"
 #include "expressions.h"
 #include "declaration-text.h"
+#include "debug-info.h"
 #include <recon.h>
 
 int default_thread_storage; /* original 0x6bc44 */
@@ -2559,4 +2560,41 @@ int __stdcall name_has_text_suffix(char *name, char *suffix)
         ++suffix;
     }
     return *end == *suffix;
+}
+
+/* Original 0x35c30..0x35ce6. A named base gets one ordinary external
+   symbol for its debug record; the permanent arena supplies zeroed defaults. */
+void __stdcall materialize_based_symbol(FrontendSymbol *symbol)
+{
+    FrontendSymbol *copy;
+    if (!options.debug_info || symbol->associated.members) return;
+    copy = allocate_permanent(sizeof(FrontendSymbol));
+    symbol->associated.members = copy;
+    copy->kind = 9;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_index_overflow();
+    copy->index = next_symbol_index++;
+    copy->name = based_segment_symbol_name(symbol);
+    copy->type = symbol->type;
+    copy->storage[0] = (copy->storage[0] & ~5) | 2;
+    copy->storage[1] |= 0x80;
+    copy->storage[0] |= 0x40;
+    copy->flags |= 0x21;
+    copy->attributes |= 0x8004;
+    ++copy->references;
+    insert_scope_symbol(global_scope, copy);
+}
+
+/* Original 0x35cf0..0x35d57. The section symbol name is interned after
+   adding its conventional prefix in the original 496-byte local workspace. */
+char *__stdcall based_segment_symbol_name(FrontendSymbol *symbol)
+{
+    char text[496];
+    char *destination = text;
+    const char *source = "__seg__";
+    while (*source) *destination++ = *source++;
+    source = symbol->name;
+    do { *destination++ = *source++; } while (destination[-1]);
+    return intern_identifier(text);
 }

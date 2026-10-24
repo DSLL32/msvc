@@ -629,7 +629,59 @@ static int observe_support_result(HANDLE process,HANDLE log,DWORD result)
     } else return 1;
     return WriteFile(log,line,strlen(line),&written,0)&&written==strlen(line);
 }
-static DWORD direct_marker_rva, direct_target_rva, direct_arguments[2];
+/* Observe only defined constructor/result fields for v3's real owners. */
+static int observe_support_v3(HANDLE process,HANDLE log,DWORD base,const char *boundary)
+{
+    DWORD next,association=0,got,written,name,type,index,attributes,found;
+    unsigned short head,references;
+    unsigned char storage[3];
+    char line[512],text[256];
+    unsigned i;
+    if(support_unit==12) {
+        DWORD option,interned;
+        if(!ReadProcessMemory(process,(void *)(base+0x5bbe8),&option,4,&got)||got!=4||
+           !ReadProcessMemory(process,(void *)(base+0x5b66c),&interned,4,&got)||got!=4||
+           !ReadProcessMemory(process,(void *)(base+0x5b7f4),&next,4,&got)||got!=4)return 0;
+        sprintf(line,"support-intrinsic %s Oi %lu interned %08lx next %lu\n",boundary,option,interned,next);
+        return WriteFile(log,line,strlen(line),&written,0)&&written==strlen(line);
+    }
+    if(support_unit==11) {
+        DWORD buffer,first,last,fields[4];
+        if(!ReadProcessMemory(process,(void *)(base+0x4b24c),&buffer,4,&got)||got!=4||!buffer||
+           !ReadProcessMemory(process,(void *)(base+0x5e070),&first,4,&got)||got!=4||
+           !ReadProcessMemory(process,(void *)(base+0x5e074),&last,4,&got)||got!=4)return 0;
+        sprintf(line,"support-fixup %s buffer %08lx allocation4096 head %08lx tail %08lx\n",boundary,buffer,first,last);
+        WriteFile(log,line,strlen(line),&written,0);
+        if(strcmp(boundary,"after"))return 1;
+        if(!first||first!=last||!ReadProcessMemory(process,(void *)first,fields,16,&got)||got!=16)return 0;
+        sprintf(line,"support-fixup-result symbol %08lx offset %lu bytes %lu next %08lx\n",fields[0],fields[1],fields[2],fields[3]);
+        return WriteFile(log,line,strlen(line),&written,0)&&written==strlen(line);
+    }
+    if(support_unit!=10)return 1;
+    if(!ReadProcessMemory(process,(void *)(base+0x5b7f4),&next,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)(support_symbol+40),&association,4,&got)||got!=4)return 0;
+    sprintf(line,"support-segment %s next %lu association %08lx\n",boundary,next,association);
+    WriteFile(log,line,strlen(line),&written,0);
+    if(strcmp(boundary,"after"))return 1;
+    if(!association||!ReadProcessMemory(process,(void *)association,&head,2,&got)||got!=2||
+       !ReadProcessMemory(process,(void *)(association+8),&name,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)(association+12),&type,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)(association+16),&index,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)(association+20),&attributes,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)(association+24),&references,2,&got)||got!=2||
+       !ReadProcessMemory(process,(void *)(association+26),storage,3,&got)||got!=3||!name)return 0;
+    for(i=0;i<sizeof(text);++i) {
+        if(!ReadProcessMemory(process,(void *)(name+i),text+i,1,&got)||got!=1)return 0;
+        if(!text[i])break;
+    }
+    if(i==sizeof(text))return 0;
+    found=parsed_global_symbol(process,base,text);
+    if(found!=association)return 0;
+    sprintf(line,"support-segment-result kind %u flags %u name %s type %08lx index %lu attributes %08lx references %u storage %02x%02x%02x global-owner %08lx\n",
+        head&255,head>>8,text,type,index,attributes,references,storage[0],storage[1],storage[2],found);
+    return WriteFile(log,line,strlen(line),&written,0)&&written==strlen(line);
+}
+static DWORD direct_marker_rva, direct_target_rva, direct_arguments[3];
 static unsigned direct_count;
 static int direct_active;
 static DWORD direct_stack, direct_marker;
@@ -819,7 +871,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
     AllocateInProcess allocate;
     char line[512];
     unsigned index;
-    if(support_unit>=8)return literal_event(process,thread,log,code,site,base,buffers);
+    if(support_unit==8||support_unit==9)return literal_event(process,thread,log,code,site,base,buffers);
     if (!direct_marker_rva || code != EXCEPTION_BREAKPOINT ||
         site != base + direct_marker_rva) return 0;
     memset(&current,0,sizeof(current));
@@ -864,17 +916,33 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         if(support_unit>=0) {
             DWORD name;
             DWORD type,depth;
-            const char *owner=support_unit==5?"support_callback":
+            const char *owner=(support_unit==10||support_unit==11)?"support_segment_value":support_unit==12?"memcpy":support_unit==5?"support_callback":
                 (support_unit==1||support_unit==3||support_unit==4||support_unit==6)?"object_base":"base_pointer";
             support_symbol=parsed_global_symbol(process,base,owner);
+            if(support_unit==10||support_unit==11) {
+                DWORD shape,head,segment;
+                if(!support_symbol||!ReadProcessMemory(process,(void *)(support_symbol+12),&type,4,&got)||got!=4||
+                   !ReadProcessMemory(process,(void *)(type+4),&shape,4,&got)||got!=4||!shape||
+                   !ReadProcessMemory(process,(void *)shape,&head,4,&got)||got!=4||
+                   (head&65535)!=0x400||((head>>16)&7)!=5||
+                   !ReadProcessMemory(process,(void *)(shape+8),&segment,4,&got)||got!=4||!segment)return -1;
+                support_symbol=segment;
+            }
             if(!support_symbol || !ReadProcessMemory(process,(void *)(support_symbol+8),&name,4,&got)||got!=4 ||
                !ReadProcessMemory(process,(void *)(support_symbol+12),&type,4,&got)||got!=4 ||
-               !observe_support(process,log,base,"before"))return -1;
+               !observe_support(process,log,base,"before")||!observe_support_v3(process,log,base,"before"))return -1;
             if(support_unit<2)direct_arguments[1]=name;
             else if(support_unit==3)direct_arguments[0]=support_symbol;
             else if(support_unit==4)direct_arguments[1]=support_symbol;
             else if(support_unit==5||support_unit==6)direct_arguments[0]=type;
             else if(support_unit==7){direct_arguments[0]=name;direct_arguments[1]=name+5;}
+            if(support_unit==10||support_unit==11)direct_arguments[0]=support_symbol;
+            if(support_unit==11) {
+                DWORD buffer;
+                if(!ReadProcessMemory(process,(void *)(base+0x4b24c),&buffer,4,&got)||got!=4||!buffer||direct_arguments[2]!=4)return -1;
+                direct_arguments[1]=buffer+8;
+                sprintf(line,"support-debug-buffer %08lx allocation4096 position %08lx bytes4\n",buffer,direct_arguments[1]);WriteFile(log,line,strlen(line),&written,0);
+            }
             if(support_unit>=3) {
                 if(!ReadProcessMemory(process,(void *)(base+0x4ff18),&depth,4,&got)||got!=4)return -1;
                 sprintf(line,"support-type-depth before %lu\n",depth);WriteFile(log,line,strlen(line),&written,0);
@@ -887,6 +955,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         sprintf(line,"direct-start target %08lx marker %08lx stack %08lx count %u args %08lx %08lx\n",
             base+direct_target_rva,site,direct_stack,direct_count,direct_arguments[0],direct_arguments[1]);
         WriteFile(log,line,strlen(line),&written,0);
+        if(direct_count==3){sprintf(line,"direct-third %08lx\n",direct_arguments[2]);WriteFile(log,line,strlen(line),&written,0);}
         dump_context(process,thread,log);
         dump_requested_memory(process,log,base);
         dump_asm_operand(process,log,base,"direct-entry");
@@ -914,7 +983,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         template_output(&template_observer,current.Eax);
         if(template_observer.failed)return -1;
     }
-    if(support_unit>=0 && !observe_support(process,log,base,"after"))return -1;
+    if(support_unit>=0 && (!observe_support(process,log,base,"after")||!observe_support_v3(process,log,base,"after")))return -1;
     if(support_unit>=3) {
         DWORD depth;
         if(!observe_support_result(process,log,current.Eax)||
@@ -966,19 +1035,19 @@ int main(int argc, char **argv)
     }
     flag_option = getenv("C1_DIRECT_CALL");
     if (flag_option) {
-        if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx",&direct_marker_rva,
-                &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1]) != 5 ||
-                direct_count>2 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT"))) return 2;
+        if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx,%lx",&direct_marker_rva,
+                &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1],&direct_arguments[2]) < 5 ||
+                direct_count>3 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT"))) return 2;
     }
     flag_option=getenv("C1_SUPPORT_UNIT");
     if(flag_option) {
         support_unit=atoi(flag_option);
         {
-            static const DWORD targets[10]={0x15ed0,0x15f90,0x16030,0x2b2f0,0x2f3b0,0x302b0,0x236f0,0x25a30,0x2b080,0x2b080};
-            static const unsigned counts[10]={2,2,1,1,2,1,2,2,2,2};
-            if(support_unit<0||support_unit>9||direct_marker_rva!=(support_unit<8?0x262c0:0x2b3a0)||
+            static const DWORD targets[13]={0x15ed0,0x15f90,0x16030,0x2b2f0,0x2f3b0,0x302b0,0x236f0,0x25a30,0x2b080,0x2b080,0x25c30,0x38d10,0x1dd70};
+            static const unsigned counts[13]={2,2,1,1,2,1,2,2,2,2,1,3,1};
+            if(support_unit<0||support_unit>12||direct_marker_rva!=((support_unit==8||support_unit==9)?0x2b3a0:0x262c0)||
                direct_target_rva!=targets[support_unit]||direct_count!=counts[support_unit]||
-               direct_arguments[0]!=(support_unit<3?0x800:support_unit==4?2:0)||
+               direct_arguments[0]!=(support_unit<3?0x800:support_unit==4?2:support_unit==12?172:0)||
                (support_unit==6&&direct_arguments[1]!=7))return 2;
         }
     }
@@ -1049,7 +1118,7 @@ int main(int argc, char **argv)
         return 3;
     }
     for (;;) {
-        if (!WaitForDebugEvent(&ev, 30000)) { if(support_unit>=8)literal_cleanup(pi.hProcess,log); TerminateProcess(pi.hProcess,99); return 4; }
+        if (!WaitForDebugEvent(&ev, 30000)) { if(support_unit==8||support_unit==9)literal_cleanup(pi.hProcess,log); TerminateProcess(pi.hProcess,99); return 4; }
         status = DBG_CONTINUE;
         if (ev.dwDebugEventCode == CREATE_PROCESS_DEBUG_EVENT) {
             base = (DWORD)ev.u.CreateProcessInfo.lpBaseOfImage;
@@ -1097,7 +1166,7 @@ int main(int argc, char **argv)
                 if(flag_result<0) {failed=10;TerminateProcess(pi.hProcess,99);}
             } else if ((flag_result = direct_event(pi.hProcess,pi.hThread,log,code,
                         (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress,base,argc>=9?argv[8]:0)) != 0) {
-                if (flag_result < 0) { if(support_unit>=8)literal_cleanup(pi.hProcess,log); failed=9; TerminateProcess(pi.hProcess,99); }
+                if (flag_result < 0) { if(support_unit==8||support_unit==9)literal_cleanup(pi.hProcess,log); failed=9; TerminateProcess(pi.hProcess,99); }
             } else if ((flag_result = observe_flag_boundary(pi.hProcess,pi.hThread,log,code,
                         (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress,base)) != 0) {
                 if (flag_result < 0) { failed = 8; TerminateProcess(pi.hProcess,99); }
@@ -1136,13 +1205,13 @@ int main(int argc, char **argv)
                     !FlushInstructionCache(pi.hProcess,(void *)site,1) ||
                     !VirtualProtectEx(pi.hProcess,(void *)site,1,old_protection,&restored_protection)) {
                     failed = 6;
-                    if(support_unit>=8)literal_cleanup(pi.hProcess,log);
+                    if(support_unit==8||support_unit==9)literal_cleanup(pi.hProcess,log);
                     TerminateProcess(pi.hProcess,99);
                 } else {
                     context.Eip = site;
                     if (!SetThreadContext(pi.hThread,&context)) {
                         failed = 6;
-                        if(support_unit>=8)literal_cleanup(pi.hProcess,log);
+                        if(support_unit==8||support_unit==9)literal_cleanup(pi.hProcess,log);
                         TerminateProcess(pi.hProcess,99);
                     } else {
                         sprintf(line,"entry %s rva %08lx byte %02x\n",
@@ -1180,7 +1249,7 @@ int main(int argc, char **argv)
                 }
                 dump_asm_operand(pi.hProcess,log,base,"stop");
                 if (argc >= 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);
-                if(support_unit>=8&&!literal_cleanup(pi.hProcess,log))failed=9;
+                if((support_unit==8||support_unit==9)&&!literal_cleanup(pi.hProcess,log))failed=9;
                 TerminateProcess(pi.hProcess, 99);
             }
         } else if (ev.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {

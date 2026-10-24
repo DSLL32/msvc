@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "f291ba2a204ad0921725fb1e2499fbe933ade34a9ff64c849bc6b30ab9fc0632",
+    "functions.json": "a1ee702d5a16d1ff5dce34ff3ea0b6d7e60bca6fade10e594694a4b84ef82c89",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "4cf52bb434bfa36eefd26023c259381851dae1d9d6e52735023995700ad6b348"
+    "sha256": "fbeb30d82fabe8d48580bd8d4dd46d59d369f12adf8ddfacf6060182d136fdab"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -55,7 +55,7 @@
     },
     "add_legacy_type_fixup": {
       "logical": "_add_legacy_type_fixup@12",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "add_member_offset": {
       "logical": "_add_member_offset@8",
@@ -276,6 +276,10 @@
     "base_type_size": {
       "logical": "_base_type_size@8",
       "source": "src/types.c"
+    },
+    "based_segment_symbol_name": {
+      "logical": "_based_segment_symbol_name@4",
+      "source": "src/declarations.c"
     },
     "based_string_modifier": {
       "logical": "_based_string_modifier@8",
@@ -1575,7 +1579,7 @@
     },
     "get_intrinsic_fallback_symbol": {
       "logical": "_get_intrinsic_fallback_symbol@4",
-      "source": "src/stubs.c"
+      "source": "src/builtins.c"
     },
     "get_ir_symbol_index": {
       "logical": "_get_ir_symbol_index",
@@ -2191,7 +2195,7 @@
     },
     "materialize_based_symbol": {
       "logical": "_materialize_based_symbol@4",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "materialize_string_literal": {
       "logical": "_materialize_string_literal@4",
@@ -4637,7 +4641,11 @@
     "report_ide_line",
     "restore_pch_separate_debug",
     "write_ir_float",
-    "write_ir_double"
+    "write_ir_double",
+    "materialize_based_symbol",
+    "based_segment_symbol_name",
+    "add_legacy_type_fixup",
+    "get_intrinsic_fallback_symbol"
   ],
   "excluded_accepted": {
     "CRT": [

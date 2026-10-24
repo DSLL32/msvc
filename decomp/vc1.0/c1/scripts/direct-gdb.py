@@ -60,7 +60,7 @@ def support_snapshot():
         pointer,count,base=struct.unpack('<III',memory(stream,12))
         assert 0<=pointer-base<=65536
         buffers[name]=memory(base,pointer-base).hex() if pointer>base else ''
-    return dict(type_description_depth=number('type_description_depth'),registers={r:number('$'+r)for r in registers},
+    result=dict(type_description_depth=number('type_description_depth'),registers={r:number('$'+r)for r in registers},
         owner=int(support_owner),name_address=int(symbol['name']),type=int(symbol['type']),
         related=int(shape),kind=int(symbol['kind']),attributes=int(symbol['attributes']),
         references=int(symbol['references']),type_flags=int(type['flags']),type_attributes=int(type['attributes']),
@@ -68,6 +68,10 @@ def support_snapshot():
         shape_attributes=int(shape.dereference()['attributes'])if int(shape)else 0,
         based_symbol=number('based_declarator_symbol'),debug_info=number('options.debug_info'),
         error_count=number('error_count'),owner_name=symbol['name'].string(),buffers=buffers)
+    if settings['unit']==10:result['segment']=dict(next_symbol_index=number('next_symbol_index'),association=int(symbol['associated']['members']))
+    if settings['unit']==11:result['fixup']=dict(buffer=number('debug_record_buffer'),head=number('legacy_type_fixups'),tail=number('legacy_type_fixup_tail'),allocation_bytes=4096)
+    if settings['unit']==12:result['intrinsic']=dict(option_Oi=number('options.option_Oi'),interned=number('interned_name'),next_symbol_index=number('next_symbol_index'))
+    return result
 
 
 def literal_snapshot():
@@ -153,7 +157,7 @@ def run_literal():
 gdb.execute('set pagination off')
 gdb.execute('set confirm off')
 gdb.execute('set disable-randomization off')
-if settings.get('unit',-1)>=8:
+if settings.get('unit',-1)in(8,9):
     run_literal()
     gdb.execute('quit')
 marker_name=settings.get('marker','report_asm_operand_error')
@@ -161,9 +165,14 @@ marker=gdb.Breakpoint('*'+marker_name,internal=True)
 gdb.execute('run >'+str(output/'stdout')+' 2>&1')
 assert number('$eip')==number('(unsigned)'+marker_name)
 if settings.get('kind')=='legacy-support':
-    support_owner=find_support_owner(settings['owner_name'])
+    support_owner=find_support_owner(settings.get('context_owner_name',settings['owner_name']))
+    if settings['unit']in(10,11):
+        shape=support_owner.dereference()['type'].dereference()['related'];assert int(shape) and int(shape.dereference()['flags'])==0x400 and int(shape.dereference()['attributes'])&7==5,('actual segment shape',int(shape),str(shape.dereference())if int(shape)else'null')
+        support_owner=gdb.parse_and_eval('(FrontendSymbol *)'+str(int(shape.dereference()['field08'])))
+        assert int(support_owner.dereference()['kind'])==13 and support_owner.dereference()['name'].string()==settings['owner_name']
     owner=support_owner.dereference();unit=settings['unit']
-    settings['arguments']=([0x800,int(owner['name'])]if unit<2 else[0x800])if unit<3 else({3:[int(support_owner)],4:[2,int(support_owner)],5:[int(owner['type'])],6:[int(owner['type']),7],7:[int(owner['name']),int(owner['name'])+5]}[unit])
+    if unit==11:assert number('debug_record_buffer') and number('options.line_records')==0, 'real legacy 4096-byte buffer constructor required'
+    settings['arguments']=([0x800,int(owner['name'])]if unit<2 else[0x800])if unit<3 else({3:[int(support_owner)],4:[2,int(support_owner)],5:[int(owner['type'])],6:[int(owner['type']),7],7:[int(owner['name']),int(owner['name'])+5],10:[int(support_owner)],11:[int(support_owner),number('debug_record_buffer')+8,4],12:[172]}[unit])
 before=snapshot()
 # GDB's ordinary inferior call allocates a separately owned scratch stack and
 # restores the stopped caller context. It never changes compiler-owned globals.
@@ -187,6 +196,15 @@ assert slots==settings['arguments'] and formals==slots,('direct ABI slots/formal
 report=dict(before=before,storage=storage,stack=stack,arguments=slots,formals=formals,entry=snapshot(),status='entry')
 if settings['body']:
     entry.delete()
+    if settings.get('frontier'):
+        nested=gdb.Breakpoint('*'+settings['frontier'],internal=True)
+        gdb.execute('continue')
+        assert number('$eip')==number('(unsigned)'+settings['frontier'])
+        argument=struct.unpack('<I',memory(number('$esp')+4,4))[0]
+        assert argument==before['owner'],'candidate callee lost the real parsed owner'
+        report.update(status='callee-entry',frontier=dict(function=settings['frontier'],argument=argument,context=snapshot()))
+        (output/'state.json').write_text(json.dumps(report,indent=2)+'\n')
+        nested.delete();marker.delete();gdb.execute('kill');gdb.execute('quit')
     gdb.execute('continue')
     assert number('$eip')==words[0],('direct callback stopped elsewhere',hex(number('$eip')),gdb.newest_frame().name())
     after=snapshot()
@@ -196,6 +214,14 @@ if settings['body']:
     canary=memory(stack+4+4*len(slots),16)
     assert canary==b'\xa5'*16,'direct stack canary overwritten'
     report.update(after=after,canary=canary.hex(),status='returned')
+    if settings.get('kind')=='legacy-support' and settings['unit']==11:
+        fixup=gdb.parse_and_eval('legacy_type_fixups');assert int(fixup) and int(fixup)==number('legacy_type_fixup_tail')
+        item=fixup.dereference()
+        report['fixup_result']=dict(symbol=int(item['symbol']),offset=int(item['offset']),bytes=int(item['bytes']),next=int(item['next']))
+    if settings.get('kind')=='legacy-support' and settings['unit']==10:
+        associated=support_owner.dereference()['associated']['members'];assert int(associated)
+        item=associated.dereference();name=item['name'].string()
+        report['segment_result']=dict(kind=int(item['kind']),flags=int(item['flags']),name=name,type=int(item['type']),index=int(item['index']),attributes=int(item['attributes']),references=int(item['references']),storage=[int(item['storage'][i])for i in range(3)],global_owner=int(find_support_owner(name)))
     if settings.get('kind')=='legacy-support' and settings['unit']in(4,5,6):
         address=after['registers']['eax'];assert address
         if settings['unit']==4:

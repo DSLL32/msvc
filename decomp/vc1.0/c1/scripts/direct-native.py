@@ -13,11 +13,12 @@ ROOT=BINARY.parents[2]
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--function',choices=['report_asm_expected_token','asm_recovery_value'])
-    parser.add_argument('--support-unit',type=int,choices=range(10))
+    parser.add_argument('--support-unit',type=int,choices=range(13))
     parser.add_argument('--seen-count',type=int,help='Explicit accepted-prefix seed for support entry tracing')
     parser.add_argument('--arguments',nargs='+',type=lambda v:int(v,0))
     parser.add_argument('--directory',required=True,type=Path)
     parser.add_argument('--body',action='store_true')
+    parser.add_argument('--frontier',choices=['based_segment_symbol_name'],help='Stop at the known candidate parent callee, without accepting either body')
     parser.add_argument('--exe',type=Path,default=BINARY/'build/native/C13232.EXE')
     options=parser.parse_args();start=time.perf_counter();directory=options.directory.resolve();directory.mkdir(parents=True,exist_ok=False)
     support=options.support_unit is not None
@@ -41,8 +42,8 @@ def main():
     settings=dict(directory=str(directory),function=options.function,arguments=options.arguments,formals=formals,body=options.body,buffered_streams=[r['name'][1:]for r in config['buffered_streams']])
     trace=None;run_options={}
     if support:
-        settings.update(kind='legacy-support',marker=plan.get('marker','_finish_declarations')[1:].split('@')[0],owner_name=plan['owner'],unit=options.support_unit)
-        if options.support_unit>=8:settings.update(literal_writer=plan['accepts'][1:],literal_width=4 if options.support_unit==8 else 8)
+        settings.update(kind='legacy-support',marker=plan.get('marker','_finish_declarations')[1:].split('@')[0],owner_name=plan['owner'],unit=options.support_unit,context_owner_name=plan.get('context_owner',plan['owner']))
+        if options.support_unit in(8,9):settings.update(literal_writer=plan['accepts'][1:],literal_width=4 if options.support_unit==8 else 8)
         cache=json.loads((BINARY/'cases/native-traces.json').read_text())
         seen_count=options.seen_count if options.seen_count is not None else manifest['baseline_accepted_count']
         assert 0<=seen_count<=len(config['accepted'])
@@ -52,6 +53,9 @@ def main():
         (directory/'seen').write_text(''.join(n+'\n'for n,r in definitions.items()if r['logical']in prefix))
         trace=(directory/'entries').open('wb');run_options['pass_fds']=(trace.fileno(),)
         env.update(RECON_TRACE_FD=str(trace.fileno()),RECON_TRACE_FILTER=str(directory/'filter'),RECON_TRACE_SEEN=str(directory/'seen'))
+    if options.frontier:
+        assert options.support_unit==10 and options.body
+        settings['frontier']=options.frontier
     (directory/'settings.json').write_text(json.dumps(settings,indent=2)+'\n')
     command=['gdb','--nx','--batch','-ex','set $direct_settings = '+json.dumps(str(directory/'settings.json')),'-ex','source '+str(BINARY/'scripts/direct-gdb.py'),str(options.exe.resolve())]
     setup=time.perf_counter()-start;run=time.perf_counter();result=subprocess.run(command,cwd=work,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=30,**run_options);execution=time.perf_counter()-run;

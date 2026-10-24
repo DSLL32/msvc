@@ -120,8 +120,76 @@ def validate_literal(original,native,plan,config):
     assert {p.name:p.read_bytes()for p in (original/'work').iterdir()}=={p.name:p.read_bytes()for p in work.iterdir()},'complete literal owned files differ'
     return dict(status='pass',kind='direct literal body/ABI/output'if returned else'fresh direct literal writer entry',public_reachability=False,writer=plan['accepts'],width=width,value=expected,internal_dispatch_hits=len(internal))
 
+def validate_support_v3(original,native,plan,config):
+    assert plan['unit']in(10,11,12)
+    text=(original/'events').read_text();state=json.loads((native/'state.json').read_text());names=[r['name'][1:]for r in config['buffered_streams']]
+    split=text.index('direct-return eax ');before=original_state(text[:split],'before',names);after=original_state(text[split:],'after',names)
+    for key in FIELDS:
+        if key in {'owner','name_address','type','related','based_symbol'}:assert bool(before[key])==bool(state['before'][key]),key
+        else:assert before[key]==state['before'][key],key
+        assert after[key]==before[key]and state['after'][key]==state['before'][key],('v3 parsed owner changed',key)
+    if plan['unit']<12:assert before['kind']==13 and before['type_flags']==0x802 and state['before']['owner_name']==plan['owner']=='SUPPORT_DATA'
+    else:assert before['kind']==7 and state['before']['owner_name']==plan['owner']=='memcpy'
+    depths=[int(v)for v in re.findall(r'^support-type-depth (?:before|after) (\d+)$',text,re.M)]
+    assert len(depths)==2 and depths[0]==depths[1]==state['before']['type_description_depth']==state['after']['type_description_depth']
+    assert before['buffers']==after['buffers']==state['before']['buffers']==state['after']['buffers']
+    start=re.search(r'^direct-start target (\w+) marker (\w+) stack (\w+) count (\d+) args (\w+) (\w+)$',text,re.M);assert start
+    target=next(r for r in config['driver']if r['name']==plan['function']);assert int(start[1],16)==target['start']and int(start[4])==plan['arguments'] and int(start[5],16)==(172 if plan['unit']==12 else before['owner'])
+    assert state['arguments']==state['formals']and state['arguments'][0]==(172 if plan['unit']==12 else state['before']['owner'])
+    ret=re.search(r'^direct-return eax (\w+) edx (\w+) esp (\w+) expected (\w+) nonvolatile (\d+) fctrl (\w+) before (\w+)$',text,re.M);assert ret and ret[3]==ret[4] and int(ret[3],16)==int(start[3],16)+4+4*plan['arguments'] and ret[5]=='1'and ret[6]==ret[7]
+    assert re.search(r'^direct-canary (.+)$',text,re.M)[1]=='a5a5a5a5 '*3+'a5a5a5a5'
+    assert state['status']=='returned'and state['canary']=='a5'*16 and state['after']['registers']['esp']==state['stack']+4+4*plan['arguments']
+    for register in ['ebx','esi','edi','ebp','fctrl']:assert state['after']['registers'][register]==state['before']['registers'][register]
+    if plan['unit']==12:
+        observations=re.findall(r'^support-intrinsic (before|after) Oi (\d+) interned (\w+) next (\d+)$',text,re.M)
+        assert len(observations)==2 and [r[0]for r in observations]==['before','after']
+        a=state['before']['intrinsic'];b=state['after']['intrinsic']
+        assert int(observations[0][1])==int(observations[1][1])==a['option_Oi']==b['option_Oi']==0
+        assert int(observations[0][3])==int(observations[1][3])==a['next_symbol_index']==b['next_symbol_index']
+        assert bool(int(observations[0][2],16))==bool(a['interned'])
+        assert int(observations[1][2],16)==before['name_address']and b['interned']==state['before']['name_address']
+        assert int(ret[1],16)==before['owner']and state['after']['registers']['eax']==state['before']['owner']
+        for name in ['stdout','stderr']:assert(original/name).read_bytes()==(native/name).read_bytes()
+        receipt=json.loads((native/'receipt.json').read_text());from case_paths import canonical_parts
+        manifest=json.loads((Path(__file__).resolve().parents[1]/'cases/legacy-type-support/manifest.json').read_text());work=Path(receipt['environment']['RECON_DRIVE_S']).joinpath(*canonical_parts(manifest['phases'][plan['phase']]['canonical_working_directory']))
+        assert {p.name:p.read_bytes()for p in (original/'work').iterdir()}=={p.name:p.read_bytes()for p in work.iterdir()}
+        return dict(status='pass',kind='direct existing intrinsic fallback owner',public_reachability=False,operation=172,returned='actual parsed memcpy symbol',constructor_branch='Reconstructed statically and graph-audited; this direct phase exercises the existing declaration branch.',public_gate='type_requires_intrinsic_fallback returns false in original; public producer remains dormant.')
+    if plan['unit']==11:
+        observations=re.findall(r'^support-fixup (before|after) buffer (\w+) allocation4096 head (\w+) tail (\w+)$',text,re.M)
+        assert len(observations)==2 and [r[0]for r in observations]==['before','after']
+        buffer=int(observations[0][1],16);head=int(observations[1][2],16);tail=int(observations[1][3],16)
+        assert buffer and int(observations[1][1],16)==buffer and observations[0][2:]==('00000000','00000000')and head==tail and head
+        original_arguments=[before['owner'],buffer+8,4]
+        assert [int(start[5],16),int(start[6],16),int(re.search(r'^direct-third (\w+)$',text,re.M)[1],16)]==original_arguments
+        a=state['before']['fixup'];b=state['after']['fixup']
+        assert a['buffer']and a['head']==a['tail']==0 and a['allocation_bytes']==b['allocation_bytes']==4096 and b['buffer']==a['buffer']and b['head']==b['tail']and b['head']
+        assert state['arguments']==[state['before']['owner'],a['buffer']+8,4]
+        result=re.search(r'^support-fixup-result symbol (\w+) offset (\d+) bytes (\d+) next (\w+)$',text,re.M);assert result
+        assert [int(result[1],16),int(result[2]),int(result[3]),int(result[4],16)]==[before['owner'],8,4,0]
+        assert state['fixup_result']==dict(symbol=state['before']['owner'],offset=8,bytes=4,next=0)
+        for name in ['stdout','stderr']:assert(original/name).read_bytes()==(native/name).read_bytes()
+        receipt=json.loads((native/'receipt.json').read_text());from case_paths import canonical_parts
+        manifest=json.loads((Path(__file__).resolve().parents[1]/'cases/legacy-type-support/manifest.json').read_text());work=Path(receipt['environment']['RECON_DRIVE_S']).joinpath(*canonical_parts(manifest['phases'][plan['phase']]['canonical_working_directory']))
+        assert {p.name:p.read_bytes()for p in (original/'work').iterdir()}=={p.name:p.read_bytes()for p in work.iterdir()}
+        return dict(status='pass',kind='direct owned legacy debug fixup',public_reachability=False,offset=8,bytes=4,allocation_bytes=4096,scope='Actual parsed segment and checked_malloc4096 workspace; one real arena1 node, RET12, no record/global seeding or EAX claim for void helper.')
+    observations=re.findall(r'^support-segment (before|after) next (\d+) association (\w+)$',text,re.M);assert len(observations)==2 and [x[0]for x in observations]==['before','after']
+    old_index=int(observations[0][1]);new_index=int(observations[1][1]);associated=int(observations[1][2],16)
+    assert not int(observations[0][2],16)and associated and new_index==old_index+1
+    assert state['before']['segment']==dict(next_symbol_index=old_index,association=0)
+    assert state['after']['segment']['next_symbol_index']==new_index and state['after']['segment']['association']
+    result=re.search(r'^support-segment-result kind (\d+) flags (\d+) name (\S+) type (\w+) index (\d+) attributes (\w+) references (\d+) storage (\w+) global-owner (\w+)$',text,re.M);assert result
+    actual=state['segment_result'];assert [int(result[1]),int(result[2]),result[3],int(result[5]),int(result[6],16),int(result[7]),result[8]]==[actual['kind'],actual['flags'],actual['name'],actual['index'],actual['attributes'],actual['references'],bytes(actual['storage']).hex()]==[9,33,'__seg__SUPPORT_DATA',old_index,0x8004,1,'428000']
+    assert int(result[4],16)==before['type']and actual['type']==state['before']['type']
+    assert int(result[9],16)==associated and actual['global_owner']==state['after']['segment']['association']
+    for name in ['stdout','stderr']:assert(original/name).read_bytes()==(native/name).read_bytes()
+    receipt=json.loads((native/'receipt.json').read_text());from case_paths import canonical_parts
+    manifest=json.loads((Path(__file__).resolve().parents[1]/'cases/legacy-type-support/manifest.json').read_text());work=Path(receipt['environment']['RECON_DRIVE_S']).joinpath(*canonical_parts(manifest['phases'][plan['phase']]['canonical_working_directory']))
+    assert {p.name:p.read_bytes()for p in (original/'work').iterdir()}=={p.name:p.read_bytes()for p in work.iterdir()}
+    return dict(status='pass',kind='direct segment materialization/owned interned name',public_reachability=False,created_name=actual['name'],index=old_index,defined_result='Actual zeroed permanent allocation, parsed segment type and global-scope ownership; no EAX claim for void parent.')
+
 def validate(original,native,plan,config):
     original=Path(original);native=Path(native)
+    if plan['unit']>=10:return validate_support_v3(original,native,plan,config)
     if plan['unit']>=8:return validate_literal(original,native,plan,config)
     text=(original/'events').read_text();state=json.loads((native/'state.json').read_text())
     returned='direct-return eax 'in text
