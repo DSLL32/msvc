@@ -63,7 +63,7 @@
   "proof": "All256 canonicalDWORDs generatedfrompolynomial; byte update identity gives induction for arbitrary seeds/nonnegativevalid lengths.262144 byte-transition and35 longer offline cases checked separately; C actualreturnc2280058.",
   "private_representation": "Original modifies third incoming by-value parameter slot. Native uses ordinary C signature parameter updates; caller discards12B and consumes EAX. No raw private argument-slot immutability/representation equality claim.",
   "CPP_qualification": "OfflineCPP testvector is algebraic, not actual C1XX original oracle; its next required ordinary candidate acceptance still needs own actual call/state. No API-only bookkeeping original authorized.",
-  "remaining": "Each frontend must retain its own next required ordinary actual native/adoption evidence. No shared publication hold; CPP offline value is not its original oracle. No API-only original bookkeeping campaign.",
+  "remaining": "C1 actual ordinary normal adoption accepted (restore skipsAPI). C1XX own ordinary CPP pair still completing strict review/adoption; offlineCPP value is not original oracle.",
   "receipt": {
     "path": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/receipt.json",
     "sha256": "31b1ebf5bba42bd0772ec3466eb9b0748d2e9d11f4ded00334a987de69d59d9c"
@@ -245,5 +245,86 @@
     "path": "/root/.ai-tmp/msvc2/vc5.10/signature-crc-parent-review.json",
     "sha256": "42863e79b88190c9e47a8f6746948a427996b080e7ceb115d14a46a7f4c8b271",
     "result": "PASS exactcompat13d89/frozen source+refs+fourGCCClang default510 suites;548vectors xempty/live/full108FP/errors/tails+zero no-read+4denials; root-approved algorithm/math/count/privateparameter scope"
+  },
+  "C1_actual_ordinary_adoption": {
+    "commit": "727f72d5c",
+    "scope": "Ordinary matcher normal genuinely executesC/1/ffffffff; initialized restore honestly skipsAPI. No provider graph/app CRT credit.",
+    "packet": {
+      "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/option-match-review.json",
+      "sha256": "96144b19b3382b2c144229e6b450c41662eabe31be3dccb6f270ec5f0c3b7756"
+    },
+    "parent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/matcher-parent-review.json",
+      "sha256": "7bbad699028907ac5ba2da2b1e5d3f8032b9bfb0206c0de9119a6941fbf915a0"
+    },
+    "compiled_build": {
+      "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/option-match/native-build.json",
+      "sha256": "eccfbef2a569ce2ab4226ee5e8f57a2e9d1db9c8e4583b85b260332bb085328f",
+      "native_elf_sha256": "17b45fcc159767b733c49ed801b3c4b1e873ee6dc39732e4f3bb5b0e5e55cbe9",
+      "source_contents_verified": 51
+    },
+    "source_correction_original_reuse": {
+      "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/matcher-native-correction.json",
+      "sha256": "3fe2f0a890677276da68a87b7fcf1a65160b03fae0c888a47ae96b2ed1f37fb0",
+      "qualification": "Explicit root/parent-reviewed original execution-input equality; changed native/Win32 counterpart source and corrected native ELF retained. No original receipt relabeled/reexecuted."
+    },
+    "pairs": [
+      {
+        "role": "normal",
+        "validation": {
+          "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/option-match/option-match-normal-validation-1.json",
+          "sha256": "f38fe13956830ce5e78df427f555cb39596832cfd910db4cae3e2091e82bdcd5",
+          "seconds": 6.93080470059067
+        },
+        "actual_signature_call": {
+          "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+          "input": "C",
+          "count": 1,
+          "seed": 4294967295,
+          "result": 3257401432,
+          "public_call_count": 1,
+          "ordinary_case": true,
+          "third_argument_slots": "actually modified to result on both sides; caller discards12 before any read/escape; no all-stack-unchanged claim",
+          "errors_preserved": true,
+          "full_original_FP_unchanged": true,
+          "architectural_native_FP_unchanged": true,
+          "defined_owned_vector_bytes_preserved": 32768,
+          "application_credit": 0
+        },
+        "execution_receipts": {
+          "original": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-option-match-normal-001/receipt.json",
+            "sha256": "5d6d223e524ba31bcfbb4f7b71e54530a3826b2c11ee27889b29ec7df5c99f2f"
+          },
+          "native": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-option-match-normal-002/receipt.json",
+            "sha256": "405071aea48c7f1b1d5ee7c87d71ab969cf27ef39e8911b3152416e05107661c"
+          }
+        }
+      },
+      {
+        "role": "restore",
+        "validation": {
+          "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/option-match/option-match-restore-validation-1.json",
+          "sha256": "5c17716a2dc4f46ecb83ca36a3834a009e54b739d356cdc0637d3c0a1c90012e",
+          "seconds": 8.058519418351352
+        },
+        "actual_signature_call": {
+          "executed": false,
+          "reason": "actual restored c9_il9 skips public call"
+        },
+        "execution_receipts": {
+          "original": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-option-match-restore-001/receipt.json",
+            "sha256": "b0ac816ad9901b836b4e2934a2549ade40676181c69e51bee87e7a1ec6b1bb0b"
+          },
+          "native": {
+            "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-option-match-restore-002/receipt.json",
+            "sha256": "a7c09a0e15b47ffa5942640b71fc7aa42e267ca21ca0639bb4aa3907817f8cc4"
+          }
+        }
+      }
+    ],
+    "checks": "Metadata-only read of proof/receipt/compiledsource-content identities; no rebuild/native execution/original replay"
   }
 }
