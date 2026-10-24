@@ -14,6 +14,7 @@ static DWORD base, entry_rva, code_rva, code_size, image_size;
 static int vector_probe,vector_started;
 static DWORD mspdb_base,vector_commit_address,vector_commit_bytes,vector_commit_esp;
 static void prepare_vector_observer(void);
+static void prepare_option_action_observer(void);
 static DWORD env_arguments_esp;
 static BYTE env_arguments_return_byte;
 static int env_arguments_return_active;
@@ -358,6 +359,7 @@ static void prepare_mask(void)
     prepare_multibyte_observer();
     path_fold_prepare();
     prepare_vector_observer();
+    prepare_option_action_observer();
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
 }
 
@@ -570,6 +572,7 @@ static void seed_output_buffer(unsigned index, const char *role)
 #include "locale-observer.inc"
 #include "path-fold-observer.inc"
 #include "vector-observer.inc"
+#include "option-action-observer.inc"
 
 static void seed_options_restore(void)
 {
@@ -912,7 +915,7 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     save_state();
     if(pool_cycle_active) {
         fprintf(events,"pool-registers seq=%u ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",sequence,context->Ebx,context->Esi,context->Edi,context->Ebp);
-        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394 || address==base+0x393ca || address==base+0x39413 || address==base+0x682f || address==base+0x39428 || address==base+0x3944a || address==base+0x39632) {
+        if(address==base+0x38f94 || address==base+0x1ee29 || address==base+0x1ee58 || address==base+0x1d738 || address==base+0x38f1b || address==base+0x38fad || address==base+0x2b834 || address==base+0x39282 || address==base+0x392a8 || address==base+0x39394 || address==base+0x393ca || address==base+0x39413 || address==base+0x682f || address==base+0x39428 || address==base+0x3944a || address==base+0x39632 || address==base+0x39779) {
             BYTE *blob=(BYTE *)malloc(0x10000);char name[80];DWORD committed;
             if(!blob)fail("pool entry full BSS observation");
             readmem(base+0xb9000,blob,0xf69c);sprintf(name,"pool-bss-%03u.bin",sequence);save_blob(name,blob,0xf69c);
@@ -1178,6 +1181,8 @@ int main(int argc, char **argv)
                 save_frontend_state("checksum-return");readmem(base+0xb9000,bss,0xf69c);save_blob("checksum-return-BSS.bin",bss,0xf69c);free(bss);
                 save_blob("checksum-return-fp.bin",&context.FloatSave,sizeof(context.FloatSave));
                 patch(address,checksum_return_byte);checksum_return_active=0;context.Eip=address;if(!SetThreadContext(thread,&context))fail("checksum return context");
+            } else if(code==EXCEPTION_BREAKPOINT && option_action_boundary(address,&context,thread,event.dwThreadId)) {
+                /* Actual indexed action/argument/public API observation. */
             } else if(code==EXCEPTION_BREAKPOINT && vector_boundary(address,&context,thread,event.dwThreadId)) {
                 /* Actual vector/member return or unexecuted public entry. */
             } else if(code==EXCEPTION_BREAKPOINT && env_arguments_return_active && address==base+0x39021) {
@@ -1293,12 +1298,13 @@ int main(int argc, char **argv)
                     fprintf(events,"env-arguments-observer entry=00039413 return=00039021 argument=NULL next=0000682f no-code-mock=1\n");
                 }
                 if(address==base+0x682f && getenv("C1XX_OBSERVE_ENV_ARGUMENTS"))locale_snapshot("env-next",&context,thread,event.dwThreadId);
-                if(address==base+0x39428)argument_enter(&context,thread,event.dwThreadId);
-                if(address==base+0x3944a && getenv("C1XX_OBSERVE_ARGUMENT")) {
+                if(!option_action_probe && address==base+0x39428)argument_enter(&context,thread,event.dwThreadId);
+                if(!option_action_probe && address==base+0x3944a && getenv("C1XX_OBSERVE_ARGUMENT")) {
                     locale_snapshot("argument-next",&context,thread,event.dwThreadId);
                     if(getenv("C1XX_OBSERVE_MATCHER"))matcher_record("entry",address,&context,thread,event.dwThreadId);
                 }
-                if(address==base+0x39632 && getenv("C1XX_OBSERVE_MATCHER"))matcher_record("action",address,&context,thread,event.dwThreadId);
+                if(!option_action_probe && address==base+0x39632 && getenv("C1XX_OBSERVE_MATCHER"))matcher_record("action",address,&context,thread,event.dwThreadId);
+                observe_option_action_entry(address,&context,thread,event.dwThreadId);
                 if(address==base+0x682f)vector_enter(&context,thread,event.dwThreadId);
                 if(address==base+0x1d738 && vector_started)vector_member_enter(&context,thread,event.dwThreadId);
 
@@ -1674,6 +1680,7 @@ int main(int argc, char **argv)
                     if (!SetThreadContext(thread, &context)) fail("aux mock return context");
                     ContinueDebugEvent(event.dwProcessId, event.dwThreadId, status); continue;
                 } else {
+                    check_option_action_stop(address);
                     fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
                     TerminateProcess(child, 125); return 125;
                 }

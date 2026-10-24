@@ -96,7 +96,7 @@
     "_next_argument",
     "_match_option"
   ],
-  "trial": null,
+  "trial": "_apply_option_action",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -885,7 +885,27 @@
       "end_rva": 235058,
       "entry": 0,
       "kind": "text_data"
+    },
+    {
+      "owner": "_apply_option_action",
+      "start_rva": 235058,
+      "end_rva": 235277,
+      "entry": 1
+    },
+    {
+      "owner": "_apply_option_action",
+      "start_rva": 468361,
+      "end_rva": 468515,
+      "entry": 0
+    },
+    {
+      "owner": "_apply_option_action",
+      "start_rva": 235280,
+      "end_rva": 235351,
+      "entry": 0,
+      "kind": "text_data"
     }
   ],
-  "stage": "_match_option accepted; next frontier _apply_option_action"
+  "stage": "complete373B option action candidate; fresh paired repeated argument/CRC evidence pending",
+  "test_seed": "restore-nonzero"
 }

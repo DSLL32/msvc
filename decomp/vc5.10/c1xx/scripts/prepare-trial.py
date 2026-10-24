@@ -152,10 +152,12 @@ def prepare():
         trial['lowercase_observers']={'entry_rva':0x393ca,'return_rva':0x38fee,'IAT_rva':0xc9054,'public_entry_rva':0xa5d3,'provider_hot_bytes':54,'provider_case_table_rva':0x3f7f8,'provider_case_table_bytes':256,'target_map_rva':0xc13f8,'target_map_bytes':512,'next_rva':0x39413,'scope':'all actual unsigned-byte public calls/ABI/errors/fullFP and fullmap output; provider success unclaimed until reviewed'}
     if '_new_option_vector' in accepted:
         trial['vector_observers']={'entry_rva':0x682f,'calls':3,'arguments':[40,1],'header_bytes':12,'items_bytes':160,'arena_index':1,'committed_bytes':32768,'normal_frontier':'public:mspdb50!SigForPbCb','restore_frontier':'_next_argument','provider_execution':False}
-    if trial_name in ('_next_argument','_match_option'):
+    if trial_name in ('_next_argument','_match_option','_apply_option_action'):
         trial['argument_observers']={'entry_rva':0x39428,'end_rva':0x3944a,'return_rva':0x390b3,'next_rva':0x3944a,'scope':'restore-only actual Invoke26 to25, borrowed argv[1], real four-formal matcher; normal held at historical dependency entry'}
-    if trial_name=='_match_option':
+    if trial_name in ('_match_option','_apply_option_action'):
         trial['matcher_observers']={'entry_rva':0x3944a,'action_rva':0x39632,'next_callback_return_rva':0x3957b,'signature_return_rva':0x3909f,'original_table_rvas':[[0x395e8,0x39632]],'scope':'ordinary complete matcher candidate; own CPP Sig53B/table1024 pre/post then real apply action frontier, no standalone API-only role'}
+    if trial_name=='_apply_option_action':
+        trial['option_action_observers']={'entry_rva':0x39632,'frontier_rva':0x39779,'matches':3,'actions':3,'action_returns':2,'outer_calls':3,'inner_calls':3,'signature_returns':[0x3909f,0x395af,0x39565],'scope':'complete own373B candidate; persistent indexed true argument/matcher/action/public entry+RET inventory, no response replay or per-API run'}
     if '_read_env_arguments' in accepted:
         trial['environment_argument_observers']={'entry_rva':0x39413,'return_rva':0x39021,'next_rva':0x682f,'argument':None,'next_arguments':[40,1],'scope':'actual NULL input/RET0/no state mutation, then owned caller warning writes and genuine allocation frontier; nonNULL path source+graph only'}
     if '_initialize_multibyte_categories' in accepted:

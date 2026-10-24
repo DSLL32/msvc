@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <string.h>
 #include "frontend.h"
 #include <recon.h>
 
@@ -5,6 +7,8 @@ __declspec(dllimport) unsigned long __cdecl SigForPbCb(const void *, long,
                                                        unsigned long);
 int match_option_suffix(const char *pattern, char *argument, unsigned action);
 void apply_option_action(CompilerOptionRule *rule, char *value, int copy);
+int parse_option_integer(const char *value);
+void append_option_vector(CompilerVector *vector, char *value);
 
 /* The punctuation is part of the option grammar. '-' accepts either switch
  * introducer, '%' suppresses the signature, '#' accepts a remaining or next
@@ -103,6 +107,63 @@ int match_option_suffix(const char *pattern, char *argument, unsigned action)
 }
 
 void apply_option_action(CompilerOptionRule *rule, char *value, int copy)
+{
+    CompilerZRule *letter;
+    char *text, *name;
+    unsigned length;
+
+    switch (rule->action) {
+    case 1:
+        *(int *)rule->target = 1;
+        break;
+    case 5:
+        *(int *)rule->target = 0;
+        break;
+    case 0x22:
+        *(char **)rule->target = copy ? _strdup(value) : value;
+        break;
+    case 0x23:
+        for (text = value; *text; ++text) {
+            for (letter = (CompilerZRule *)rule->target; letter->letter; ++letter)
+                if ((char)letter->letter == *text)
+                    break;
+            if (!letter->letter)
+                report_compiler_diagnostic(48, (int)*text,
+                                            frontend_bss.current_argument);
+            else if (letter->action == 1)
+                *letter->target = 1;
+            else if (letter->action == 5)
+                *letter->target = 0;
+        }
+        break;
+    case 0x24:
+        *(int *)rule->target = parse_option_integer(value);
+        break;
+    case 0x26:
+        append_option_vector(*(CompilerVector **)rule->target,
+                             copy ? _strdup(value) : value);
+        break;
+    case 0x27:
+        if (!*(char **)rule->target) {
+            *(char **)rule->target = copy ? _strdup(value) : value;
+        } else {
+            name = _strdup(rule->pattern);
+            for (length = 0; name[length]; ++length)
+                ;
+            name[length - 1] = '\0';
+            report_compiler_diagnostic(46, name, *(char **)rule->target, value);
+        }
+        break;
+    }
+}
+
+int parse_option_integer(const char *value)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void append_option_vector(CompilerVector *vector, char *value)
 {
     __asm { int 3 }
 }

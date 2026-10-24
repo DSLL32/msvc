@@ -11,7 +11,7 @@ def check(s,d,original,native,trial,text,state,entry_state,vector_result):
         rows=json.loads((native/name).read_text());need(len(rows)==1,'one actual '+name);return rows[0]
     def raw(phase,suffix):return(original/('locale-'+phase+'-'+suffix+'.bin')).read_bytes()
     names=symbols(native/'native-executable.elf');rules=json.loads((native/'options-grammar-layout.json').read_text())['option_rules']['address']
-    continuation=trial['trial']=='_match_option'and bool(trial.get('matcher_observers'))
+    continuation=trial['trial']in('_match_option','_apply_option_action')and bool(trial.get('matcher_observers'))
     need((continuation or trial['trial']=='_next_argument'and trial['test_seed']=='restore-nonzero')and trial['argument_observers']=={'entry_rva':0x39428,'end_rva':0x3944a,'return_rva':0x390b3,'next_rva':0x3944a,'scope':'restore-only actual Invoke26 to25, borrowed argv[1], real four-formal matcher; normal held at historical dependency entry'},'exact restore-only scope')
     own=[r for r in trial['ranges']if r['owner']=='_next_argument'];need(own==[{'owner':'_next_argument','start_rva':0x39428,'end_rva':0x3944a,'entry':1}],'whole34-byte leaf')
     entry=one('vector-next-entries.json');end=one('argument-returns.json');matcher=one('argument-matchers.json')
@@ -59,7 +59,7 @@ def check(s,d,original,native,trial,text,state,entry_state,vector_result):
     if continuation:need(state['pc']==matcher['pc']and state['esp']==matcher['esp'],'direct physical matcher pre-body checkpoint')
     else:need(names['match_option'][0]<state['pc']<=sum(names['match_option'])and d.elf_byte(native,state['pc']-1)==0xcc and b'Program received signal SIGTRAP'in(native/'gdb.txt').read_bytes(),'actual named source INT3 matcher frontier')
     traps=re.findall(r'^trap seq=(\d+) rva=(\w+) .*stack=([0-9a-f,]+)$',text,re.M);tail=[r for r in traps if int(r[0])>=a[0]][:2]if continuation else[r for r in traps if int(r[0])>=a[0]]
-    need(len(tail)==2 and [r[1]for r in tail]==['00039428','0003944a']and [int(v,16)for v in tail[-1][2].split(',')]==[0x104390be,0x104d6160,old_result,0x10439428,0]and re.findall(r'^frontier rva=(\w+)$',text,re.M)==(['00039632']if continuation else['0003944a']),'complete original actual matcher4 stack slots and final named trap')
+    need(len(tail)==2 and [r[1]for r in tail]==['00039428','0003944a']and [int(v,16)for v in tail[-1][2].split(',')]==[0x104390be,0x104d6160,old_result,0x10439428,0]and re.findall(r'^frontier rva=(\w+)$',text,re.M)==(['00039779']if trial.get('option_action_observers')else['00039632']if continuation else['0003944a']),'complete original actual matcher4 stack slots and final named trap')
     final_sequence=int(tail[-1][0])
     need((original/('pool-bss-%03d.bin'%(final_sequence+1))).read_bytes()==bytes(old),'direct actual final trap fullBSS equals pre-prologue matcher observation')
     for kind in('data','snapshot'):need((original/('frontend-'+kind+'-%03d.bin'%final_sequence)).read_bytes()==(original/('frontend-'+kind+'-locale-argument-entry.bin')).read_bytes(),'direct actual final trap initialized/snapshot bytes')

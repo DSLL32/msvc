@@ -1218,11 +1218,22 @@
     {
       "name": "_apply_option_action",
       "start": 272864818,
-      "end": 272864819,
+      "end": 272865037,
       "source": "src/option-matcher.c",
-      "pending_extent": true,
       "abi": "cdecl12",
-      "evidence": "Actual complete matcher caller ABI; named trap before unknown helper semantics."
+      "evidence": "Own373B action dispatch:219hot+154cold; exact71B jump/selector data excludes3B padding. Genuine cdecl rule/value/copy; typed option/Z destinations, integer parser/vector append/diagnostic and public strdup callees.",
+      "code_chunks": [
+        [
+          273098121,
+          273098275
+        ]
+      ],
+      "shared": [
+        [
+          272865040,
+          272865111
+        ]
+      ]
     },
     {
       "name": "_match_option_suffix",
@@ -1232,6 +1243,24 @@
       "pending_extent": true,
       "abi": "cdecl12",
       "evidence": "Actual complete matcher caller ABI; named trap before unknown helper semantics."
+    },
+    {
+      "name": "_parse_option_integer",
+      "start": 272865145,
+      "end": 272865146,
+      "source": "src/option-matcher.c",
+      "abi": "cdecl4",
+      "pending_extent": true,
+      "evidence": "Actual full option action direct caller identifies named pending boundary and physical stack formals; no body/credit."
+    },
+    {
+      "name": "_append_option_vector",
+      "start": 272695530,
+      "end": 272695531,
+      "source": "src/option-matcher.c",
+      "abi": "cdecl8",
+      "pending_extent": true,
+      "evidence": "Actual full option action direct caller identifies named pending boundary and physical stack formals; no body/credit."
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",

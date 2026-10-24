@@ -12,7 +12,7 @@ def check_table(require,trial,metadata,snapshot,masked,target):
     record=next(row for row in trial['driver'] if row['name']=='_process_early_option')
     require((record['start'],record['end'],record['code_chunks'],record['shared'])==(0x10438d56,0x10438dda,[[0x104720fc,0x10472150]],[[0x10438de0,0x10438df0]]),'wrong code/data ownership')
     table=next(row for row in trial['ranges'] if row.get('kind')=='text_data')
-    require(table=={'owner':'_process_early_option','start_rva':0x38de0,'end_rva':0x38df0,'entry':0,'kind':'text_data'} and sum(row.get('kind')=='text_data' for row in trial['ranges'])==(2 if '_match_option'in trial['accepted']else 1),'wrong restored table range/entry')
+    require(table=={'owner':'_process_early_option','start_rva':0x38de0,'end_rva':0x38df0,'entry':0,'kind':'text_data'} and sum(row.get('kind')=='text_data' for row in trial['ranges'])==(3 if '_apply_option_action'in trial['accepted']else 2 if '_match_option'in trial['accepted']else 1),'wrong restored table range/entry')
     meta=metadata['functions']['_process_early_option']['original'];targets=[0x10438d70,0x10472116,0x10438dc6,0x1047212a]
     require(meta=={'text_data':[[0x10438de0,0x10438df0]],'switches':{str(0x10438d69):targets}},'wrong switch/data metadata')
     a=0x38de0-0x1000

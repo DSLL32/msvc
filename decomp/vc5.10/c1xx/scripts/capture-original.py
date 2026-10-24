@@ -129,8 +129,11 @@ def main():
         for row in trial["ranges"]))
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
     shutil.copy2(PROJECT / "build/native/c1xx-host", output / "native-executable.elf")
-    for source in ("dll-capture.c", "invoke-arguments.h", "options-fields.h", "locale-observer.inc", "path-fold-observer.inc", "vector-observer.inc"):
+    for source in ("dll-capture.c", "invoke-arguments.h", "options-fields.h", "locale-observer.inc", "path-fold-observer.inc", "vector-observer.inc", "option-action-observer.inc"):
         shutil.copy2(PROJECT / "scripts" / source, output / source)
+    if trial.get('option_action_observers'):
+        (output/'option-action-observers.txt').write_text('39632 39779\n')
+        if b'option-actions-plan ordinary=1' not in (PROJECT/'build/dll-capture.exe').read_bytes():raise ValueError('rebuild original action observer helper')
     environment = transport.environment()
     if trial["case"] == "minimal":
         for item,digest in trial["case_inputs"].items():

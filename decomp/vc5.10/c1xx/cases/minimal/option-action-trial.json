@@ -1,0 +1,217 @@
+{
+  "schema": 1,
+  "status": "UNPROMOTED: both complete immutable normal/restore pairs pass fresh current strict audit/decoder;122 affected controls pass; final independent transport/source review requested",
+  "function": "_apply_option_action",
+  "source": "src/option-matcher.c",
+  "source_sha256": "2e7697fe5f9a826e591f2d908ae0184e3b914d2fc7ce1e6696f843f3f48a7a6c",
+  "code_chunks": [
+    [
+      235058,
+      235277
+    ],
+    [
+      468361,
+      468515
+    ]
+  ],
+  "code_bytes": 373,
+  "text_data": [
+    [
+      235280,
+      235351
+    ]
+  ],
+  "table_data_bytes": 71,
+  "excluded_padding_bytes": 3,
+  "table_code_credit": 0,
+  "proofs": {
+    "normal": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-actions-original-2",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-actions-native-1",
+      "original_receipt_sha256": "acd4481267604e08f8b32f139bb3f8030b7d1fbd1dc2264938621c0845f1127d",
+      "native_receipt_sha256": "94738c0df2e68d39968f869fb7b87851ddf6d44903e7f15f19b2470ac43c8f25",
+      "original_seconds": 60.638894020579755,
+      "native_GDB_seconds": 10.891056748107076,
+      "trial_sha256": "e0131bf4e43a0391200ba04cf7d8826af614e1f6892fd36a5e23a3de11290a0f",
+      "original_helper_sha256": "88a24cbf51c39827aeebe58e42bb6923a7792c68bc435b4c18b0aff3419e2861",
+      "original_helper_C_sha256": "275981266885a53c04bfe7eefdc67cf7b2838aaf4b256696dd261ff7325fe80f",
+      "original_action_observer_sha256": "626c90d82702a3a47ef3e842ef4d4aecd567762ee21366e80f215377de1a8724",
+      "native_ELF_sha256": "200161416f9386a33fe29044d9559046fc509ff9094c0f09079ffc92ddad3e3c",
+      "native_compiled_provenance_sha256": "64b2886743e1a095535f51e9d19e0fe3113dad0c9b20219bf2a3ba1f65d2dd93",
+      "native_action_probe_sha256": "b289fc0e38c1adb4238c97a130efc74bd1bd6920be53f2b352fc787d380703a6",
+      "controls": "cases/minimal/evidence/option-action-normal-controls.json",
+      "validation": "cases/minimal/evidence/option-action-normal-validation.json",
+      "validation_sha256": "135d1971547d16e73c0c4a712c888e13764a893923a6f1b2a365bf743a587fd0",
+      "static_audit": "/root/msvc2/decomp/vc5.10/c1xx/build/audits/614d6ed6cd5b98030d9df620caea036f779eb60b46672c1850086a1b37b93668.json",
+      "static_audit_sha256": "614d6ed6cd5b98030d9df620caea036f779eb60b46672c1850086a1b37b93668",
+      "validation_seconds": 11.342553310096264,
+      "controls_sha256": "3773fce8d985c9ba327cb7f78b382f7dfccae0f47ce4ed3e1f0d61da255a2981",
+      "controls_count": 62,
+      "controls_seconds": 8.461859456263483,
+      "native_accounting": {
+        "source_command_seconds": 3.9879476157948375,
+        "source_command_count": 58,
+        "gdb_total_seconds": 10.891056748107076,
+        "startup_seconds": 0.1096873665228486,
+        "breakpoint_setup_seconds": 0.7719923267140985,
+        "collection_seconds": 4.5126086212694645,
+        "serialization_io_seconds": 0.13412492349743843,
+        "residual_inferior_debugger_seconds": 5.362643510103226,
+        "collector_count": 69,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      },
+      "native_outer_accounting": {
+        "snapshot_provenance_setup_seconds": 0.03751455247402191,
+        "execution_seconds": 10.891056748107076,
+        "post_execution_verification_seconds": 6.017612526193261,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      }
+    },
+    "restore": {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-actions-restore-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-option-actions-restore-native-1",
+      "original_receipt_sha256": "ed2331cd805219c008eb576a931fd323f3373ea97009d2566565e691f0d4e2cb",
+      "native_receipt_sha256": "6d093f0ef6fe30131b76aaf6e84fff0c85c9b637e6ce9f9bece934e7716f34b2",
+      "original_seconds": 55.483178567141294,
+      "native_GDB_seconds": 11.628655705600977,
+      "trial_sha256": "98610c98ba8f72ff1074fb4e41d06f1155511a200de97517583e57d7ebedb5a3",
+      "original_helper_sha256": "88a24cbf51c39827aeebe58e42bb6923a7792c68bc435b4c18b0aff3419e2861",
+      "original_helper_C_sha256": "275981266885a53c04bfe7eefdc67cf7b2838aaf4b256696dd261ff7325fe80f",
+      "original_action_observer_sha256": "626c90d82702a3a47ef3e842ef4d4aecd567762ee21366e80f215377de1a8724",
+      "native_ELF_sha256": "200161416f9386a33fe29044d9559046fc509ff9094c0f09079ffc92ddad3e3c",
+      "native_compiled_provenance_sha256": "64b2886743e1a095535f51e9d19e0fe3113dad0c9b20219bf2a3ba1f65d2dd93",
+      "native_action_probe_sha256": "b289fc0e38c1adb4238c97a130efc74bd1bd6920be53f2b352fc787d380703a6",
+      "controls": "cases/minimal/evidence/option-action-restore-controls.json",
+      "validation": "cases/minimal/evidence/option-action-restore-validation.json",
+      "validation_sha256": "b3fd22182e3dcd323e5cb54765d64f313d008a9ebc1c02e91a259fa3e7e04c37",
+      "static_audit": "/root/msvc2/decomp/vc5.10/c1xx/build/audits/d0e576a12fdde1e94b978ee6d4648ecda5975486a4fe945c1f86e3225843aab5.json",
+      "static_audit_sha256": "d0e576a12fdde1e94b978ee6d4648ecda5975486a4fe945c1f86e3225843aab5",
+      "validation_seconds": 11.041890813037753,
+      "controls_sha256": "167f2a96031694f2ff4588ac3487d93c546dfde57dea7db84b91a0bdb80de33a",
+      "controls_count": 60,
+      "controls_seconds": 8.367514805868268,
+      "native_accounting": {
+        "source_command_seconds": 4.175225222483277,
+        "source_command_count": 58,
+        "gdb_total_seconds": 11.628655705600977,
+        "startup_seconds": 0.09431520290672779,
+        "breakpoint_setup_seconds": 1.4194948812946677,
+        "collection_seconds": 4.664898642338812,
+        "serialization_io_seconds": 0.13214311003684998,
+        "residual_inferior_debugger_seconds": 5.317803869023919,
+        "collector_count": 68,
+        "scope": "residual includes inferior execution, breakpoint dispatch and GDB teardown; not standalone fixture execution"
+      },
+      "native_outer_accounting": {
+        "snapshot_provenance_setup_seconds": 0.03781505115330219,
+        "execution_seconds": 11.628655705600977,
+        "post_execution_verification_seconds": 5.929749170318246,
+        "scope": "outer setup and verification; GDB subphases are in gdb-timing.json for minimal captures"
+      }
+    }
+  },
+  "state_scope": "no new fields; existing il_prefix/source_file/signature/current_argument/argc/argv borrowed writes, complete modeled reset/snapshot scope preserved;6031 initialized bytes remain UNMODELED and original-only neighbor guard",
+  "counts_before": {
+    "boundaries": 92,
+    "application_functions": 88,
+    "application_code_bytes": 6353,
+    "CRT_support_bytes": 451,
+    "generated_import_bytes": 12
+  },
+  "counts_if_promoted": {
+    "boundaries": 93,
+    "application_functions": 89,
+    "application_code_bytes": 6726,
+    "total_code_bytes": 7189,
+    "whole_code_section_denominator": 751216,
+    "not_nonCRT_coverage": true
+  },
+  "transport_provenance": "Own option-action-observer.inc adapts peer C1 mechanism with independently grounded ownC1XX RVAs/CPP input/actual results/layout; no peer oracle. First prefix aliases are same actual physical phase, later iterations always indexed. No standalone API-only execution.",
+  "frontier": {
+    "name": "_parse_option_integer",
+    "rva": 235385,
+    "ABI": "cdecl4/RET0 pending named trap",
+    "formals": [
+      "const char *value"
+    ],
+    "actual_value": "borrowed Invoke[6] 1 NUL"
+  },
+  "reused_prefix_controls": {
+    "packet": "cases/minimal/matcher-trial.json",
+    "sha256": "a25b07f68ca60120ba1ff62230173eee88fa3755fb2521944282ec07564d1b76",
+    "scope": "unchanged earlier prefix/protocol; fresh action-loop/public repetition controls separately recorded"
+  },
+  "fixture": {
+    "case": "dll-lifecycle-and-exports",
+    "result": "PASS",
+    "wine_invocations": 0,
+    "seconds": {
+      "build": 0.00618357677012682,
+      "setup": 0.0008986806496977806,
+      "execution": 0.002007364295423031,
+      "checks": 0.003923687152564526,
+      "total": 0.013760334812104702
+    }
+  },
+  "fixture_ELF_sha256": "200161416f9386a33fe29044d9559046fc509ff9094c0f09079ffc92ddad3e3c",
+  "checker_sha256": {
+    "option_action_state.py": "a3d864721447bc4f9ad10070a9009aec5df857050b6be08502720c04b77ee535",
+    "option_action_probe.py": "b289fc0e38c1adb4238c97a130efc74bd1bd6920be53f2b352fc787d380703a6",
+    "check-option-action-negative.py": "fcb00d080694ce9f072873cfbdd8ffeefb15244fd9909e99c046d952bf889ed5",
+    "check-option-action-history.py": "6b2bb5c8539bac4116595967aee7644abcfcaa3aa639e8b392e4ad906c271c91",
+    "vector_state.py": "8e6c8693a2e96eb56185859a3314e9c2b7350e16ca13db59b12c9fdf801bf6a3",
+    "argument_state.py": "82052a2a392e93e8998bc09b7e49053ebee1667e989fa72384b100e340aaea6e",
+    "matcher_state.py": "443cd77902d14571960676fea69d93657dcc78bf20e01c7be1853e076e33b26f",
+    "signature_call_state.py": "96af9672ff0451a37694998106bf3386b1a6279b6a5aeef769fdd877d557c661",
+    "trial-support.py": "f47dfba9309148e0a01a63b843588638de44f7976789a4116ed17da7f6a8d03f",
+    "check-callback.py": "54b3f77ab29acc09d799ed7795a94f458cddf9c4b47ee534960faa2932f09b14"
+  },
+  "current_compiled": {
+    "original_DLL_sha256": "8b833f3544c2bb5646e5451820a89906b5b2bfdd0ae3af40231ba44a2b910c34",
+    "original_MAP_sha256": "374c2c7060509a770c61dea6d260680e008619370774954429c7ff779e4cf054",
+    "metadata_sha256": "298506e3400b2cda2e5e15ba2a0dd5f3a9ee8fbbcd87cebf0b76b8bec129e3a3",
+    "native_ELF_sha256": "200161416f9386a33fe29044d9559046fc509ff9094c0f09079ffc92ddad3e3c"
+  },
+  "build_timings": {
+    "original_compile": 1.0414208341389894,
+    "native_compile": 0.11482763662934303,
+    "original_link": 0.7565202564001083,
+    "native_link": 1.6329978872090578
+  },
+  "actual_public_results": {
+    "normal": [
+      {
+        "count": 3,
+        "seed_hex": "ffffffff",
+        "result_hex": "a3b219d4",
+        "caller": "process_compiler_options"
+      },
+      {
+        "count": 11,
+        "seed_hex": "a3b219d4",
+        "result_hex": "cb97e264",
+        "caller": "match_option"
+      },
+      {
+        "count": 2,
+        "seed_hex": "cb97e264",
+        "result_hex": "cb6e78e2",
+        "caller": "match_option"
+      }
+    ],
+    "restore": [
+      {
+        "count": 11,
+        "seed_hex": "ffffffff",
+        "result_hex": "79829518",
+        "caller": "match_option"
+      },
+      {
+        "count": 2,
+        "seed_hex": "79829518",
+        "result_hex": "86851892",
+        "caller": "match_option"
+      }
+    ]
+  }
+}

@@ -3,7 +3,7 @@ from pathlib import Path
 from scaler_probe import symbols
 
 
-def setup(output,binary,collector,argument=False,matcher=False):
+def setup(output,binary,collector,argument=False,matcher=False,action=False):
     (output/'vector-probe-source.py').write_bytes(Path(__file__).read_bytes());names=symbols(binary)
     prefix=output/'collect-vector-prefix.gdb'
     prefix.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'vector-prefix-state.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'vector-prefix-argv.bin'))))
@@ -83,19 +83,23 @@ class ArgumentReturn(gdb.Breakpoint):
         row=vector_row('argument-return');row.update(entry_esp=self.entry['esp'],result=gdb.selected_inferior().read_memory(row['eax'],4).tobytes().hex());argument_returns.append(row);self.enabled=False;return False
 class ArgumentMatcher(gdb.Breakpoint):
     def stop(self):
+        if @@ACTION@@ and argument_matchers:return False
         row=vector_abi(vector_row('argument-next'),4);argument_matchers.append(row)
         if @@MATCHER@@:gdb.execute('source '+@@MATCHER_CHECKPOINT@@)
         return False
 class VectorNextEntry(gdb.Breakpoint):
     def stop(self):
         if @@MATCHER@@ and gdb.newest_frame().older().name()=='match_option':
+            if @@ACTION@@ and matcher_next_entries:return False
             row=vector_abi(vector_row('matcher-next-entry'),0);matcher_next_entries.append(row);MatcherNextReturn(row);return False
+        if @@ACTION@@ and vector_next_entries:return False
         row=vector_abi(vector_row('vector-next'),0);vector_next_entries.append(row)
         if @@ARGUMENT@@:
             gdb.execute('source '+@@ARGUMENT_CHECKPOINT@@);ArgumentReturn(row)
         return False
 class VectorPublicEntry(gdb.Breakpoint):
     def stop(self):
+        if @@ACTION@@ and gdb.newest_frame().older().name()!='process_compiler_options':return False
         row=vector_abi(vector_row('signature-entry'),3);row['input']=gdb.selected_inferior().read_memory(row['args'][0],4).tobytes().hex();vector_public_entries.append(row)
         if @@MATCHER@@:
             gdb.execute('source '+@@PUBLIC_CHECKPOINT@@);SignatureReturn(row);return False
@@ -114,6 +118,7 @@ class MatcherNextReturn(gdb.Breakpoint):
         row.update(entry_esp=self.entry['esp'],value=(value.encode('latin1')+bytes([0])).hex());matcher_next_returns.append(row);self.enabled=False;return False
 class MatcherAction(gdb.Breakpoint):
     def stop(self):
+        if @@ACTION@@ and matcher_actions:return False
         row=vector_abi(vector_row('matcher-action'),3);value=gdb.Value(row['args'][1]).cast(gdb.lookup_type('char').pointer()).string(encoding='latin1')
         if len(value)>=256:raise RuntimeError('matcher action value unbounded')
         row['value']=(value.encode('latin1')+bytes([0])).hex();matcher_actions.append(row);return False
@@ -125,7 +130,7 @@ VectorPublicEntry('*recon_mspdb_SigForPbCb',internal=True)
 VectorNextEntry('*next_argument',internal=True)
 if @@ARGUMENT@@:ArgumentMatcher('*match_option',internal=True)
 end
-'''.replace('@@MATCHER@@',repr(matcher)).replace('@@PUBLIC_CHECKPOINT@@',repr(str(public_checkpoint))).replace('@@MATCHER_CHECKPOINT@@',repr(str(matcher_checkpoint))).replace('@@ARGUMENT@@',repr(argument)).replace('@@ARGUMENT_CHECKPOINT@@',repr(str(argument_checkpoint))).replace('@@PREFIX@@',repr(str(prefix))).replace('@@OUTPUT@@',repr(str(output))).replace('@@ENTRY@@',str(names['new_option_vector'][0])).replace('@@MEMBER@@',str(names['_ZN13CompilerArena12CommitExtentEv'][0]))
+'''.replace('@@ACTION@@',repr(action)).replace('@@MATCHER@@',repr(matcher)).replace('@@PUBLIC_CHECKPOINT@@',repr(str(public_checkpoint))).replace('@@MATCHER_CHECKPOINT@@',repr(str(matcher_checkpoint))).replace('@@ARGUMENT@@',repr(argument)).replace('@@ARGUMENT_CHECKPOINT@@',repr(str(argument_checkpoint))).replace('@@PREFIX@@',repr(str(prefix))).replace('@@OUTPUT@@',repr(str(output))).replace('@@ENTRY@@',str(names['new_option_vector'][0])).replace('@@MEMBER@@',str(names['_ZN13CompilerArena12CommitExtentEv'][0]))
     finish='python\n'
     for name in ('entries','returns','member_entries','member_returns','api_entries','api_returns','public_entries','next_entries'):
         finish+='open(%r,"w").write(json.dumps(vector_%s,indent=2)+"\\n")\n'%(str(output/('vector-'+name.replace('_','-')+'.json')),name)

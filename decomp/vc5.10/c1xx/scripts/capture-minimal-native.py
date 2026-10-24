@@ -71,6 +71,10 @@ if frame.name()=='match_option' and value['pc']==int(gdb.parse_and_eval('(unsign
     words=list(struct.unpack('<5I',gdb.selected_inferior().read_memory(value['esp'],20)))
     value['args']=dict(zip(('rules','argument','next','copy'),words[1:]))
     value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
+if frame.name()=='apply_option_action' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&apply_option_action')):
+    words=list(struct.unpack('<4I',gdb.selected_inferior().read_memory(value['esp'],16)))
+    value['args']=dict(zip(('rule','value','copy'),words[1:]))
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':words[0],'stack_arguments':words[1:]}
 if frame.name()=='recon_mspdb_SigForPbCb' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&recon_mspdb_SigForPbCb')):
     words=list(struct.unpack('<4I',gdb.selected_inferior().read_memory(value['esp'],16)))
     value['args']={'bytes':words[1],'byte_count':struct.unpack('<i',struct.pack('<I',words[2]))[0],'signature':words[3]}
@@ -564,8 +568,12 @@ end
         observer+=env_observer;scaler_finish+=env_finish
     if trial.get('vector_observers'):
         from vector_probe import setup as setup_vector
-        vector_observer,vector_finish=setup_vector(output,binary,collector,bool(trial.get("argument_observers")),bool(trial.get("matcher_observers")))
+        vector_observer,vector_finish=setup_vector(output,binary,collector,bool(trial.get("argument_observers")),bool(trial.get("matcher_observers")),bool(trial.get("option_action_observers")))
         observer+=vector_observer;scaler_finish+=vector_finish
+    if trial.get('option_action_observers'):
+        from option_action_probe import setup as setup_actions
+        action_observer,action_finish=setup_actions(output,binary,collector)
+        observer+=action_observer;scaler_finish+=action_finish
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):
