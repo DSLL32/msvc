@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_read_macro_replacement",
+  "native_entry": "read_macro_replacement",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      129840,
+      130857
+    ],
+    "argument_bytes": 0,
+    "convention": "cdecl no formals unsigned EAX result, SUB4/saveEBX/ESI/EDI/EBP, RET0",
+    "proof": "Complete1017B body initializes local stringizeEDI/characterizeentryESP-4 and replacementcursor from existing95784; input only established macro/source/configuration/lexical globals and callee results. No stackformal/hiddenregister/flags/x87 argument. Eight distinct direct callees: next_directive_character, fatal_error, skip_source_comment, recover_special_character, next_source_character, copy_macro_literal std12charpointer, report_syntax_error, find_macro_parameter std4int. Named pending helpers retain independently analyzed full extents, no body credit. Reads existing byteclass/flag tables indexed unsigned8; repeated bounded work-buffer checks; exact whitespace/comments/special-character flow, #/##/#@ parameter markers1/2/3, NUL/44 suffix and strict/extension empty-result bases. No new data/CRT/helper vertices."
+  }
+}

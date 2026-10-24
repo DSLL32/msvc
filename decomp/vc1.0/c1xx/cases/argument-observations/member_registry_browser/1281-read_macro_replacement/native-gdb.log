@@ -1,0 +1,17 @@
+Breakpoint 1 at 0x20d18: file src/macros.c, line 347.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, read_macro_replacement () at src/macros.c:347
+347	    char *cursor = macro_replacement_text, *identifier;
+#0  read_macro_replacement () at src/macros.c:347
+#1  0x56575c9f in define_source_macro () at src/macros.c:227
+#2  0x5659ad2a in preprocess_directive () at src/directives.c:373
+#3  0x565c8af9 in begin_source_line () at src/lexer.c:663
+#4  0x565c7c43 in read_lexical_token () at src/lexer.c:470
+#5  0x565c6085 in scan_token () at src/lexer.c:228
+#6  0x565c5565 in read_parser_token () at src/lexer.c:69
+#7  0x565bd9e9 in parse_translation_unit () at src/parser.c:85
+#8  0x5655df3f in compile_translation_unit () at src/frontend.c:73
+#9  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558894 in main (argc=1, argv=0xffffd784, environment=0xffffd78c) at src/c1xx.c:20

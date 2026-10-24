@@ -50,6 +50,7 @@ extern char *macro_replacement_text;
 extern int macro_formal_count;
 void read_macro_parameters(void);
 unsigned read_macro_replacement(void);
+int __stdcall find_macro_parameter(char *name);
 extern short include_depth;
 extern unsigned browser_symbol_limit;
 MacroDefinition *lookup_macro(void);

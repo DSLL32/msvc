@@ -478,7 +478,6 @@ OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *se
 int evaluate_preprocessor_expression(void) { __asm { int 3 } return 0; }
 void undefine_source_macro(void) { __asm { int 3 } }
 void read_macro_parameters(void) { __asm { int 3 } }
-unsigned read_macro_replacement(void) { __asm { int 3 } return 0; }
 void process_pragma(void) { __asm { int 3 } }
 void capture_directive_text(void) { __asm { int 3 } }
 void __stdcall skip_directive_literal(unsigned char delimiter) { __asm { int 3 } }
@@ -592,3 +591,5 @@ BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }
 void suppress_browser_records(void) { __asm { int 3 } }
 CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall set_browser_access(unsigned short *attributes, unsigned char access) { __asm { int 3 } }
+
+int __stdcall find_macro_parameter(char *name) { __asm { int 3 } return 0; }

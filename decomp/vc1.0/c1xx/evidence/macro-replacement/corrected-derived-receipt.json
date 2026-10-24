@@ -1,0 +1,40 @@
+{
+  "scope": "Derived fresh native verification of corrected reconstruction using unchanged genuine original capture; zero additional function credit",
+  "original_receipt": "cases/frontiers/member_registry_browser/1281-read_macro_replacement/original-receipt.json",
+  "original_receipt_sha256": "6fb143f7cb7be80f8e7cf28fed25d9b0650a570e64ed4156fbd4c3ae22ca3a53",
+  "original_events_sha256": "a59141d1cf84a467ee352ae1412cf1975651a73162d7d91e741097203110b519",
+  "effective_original_mask_unchanged": true,
+  "original_inputs_environment_working_directory_unchanged": true,
+  "terminal": "_read_macro_parameters",
+  "matched_buffers": 6,
+  "matched_checkpoint_fields": 14,
+  "matched_full_visible_inventory": [
+    "irdb",
+    "irex",
+    "irgl",
+    "irin",
+    "irsy",
+    "registry.cpp",
+    "registry.h",
+    "registry.sbt"
+  ],
+  "streams_equal": true,
+  "native_executable_sha256": "692d343b1ecdc8ce9dcdd9e3a8179db5212e13a3af95811250ef7681cf666df8",
+  "native_trace_executable_sha256": "f8b5a05de03bfbfa267e8cbebdf9cb5636b3cb96855eeb13a1e09a983e80991a",
+  "source_macros_sha256": "ed8ca35a8500a351e10f855c52af967e92a27f8a5c8631878ca1ba42c08aedfd",
+  "source_browser_sha256": "76bb0fe27cc2aa72bb471abf1547e68a6744e1fbb0f1cb469a0c89adc6ea921c",
+  "current_configuration_sha256": "0ee6921c1d07eeb3d25738632af720f77a40f269dc42a5e251fc31217bdf8aee",
+  "original_reused_reason": "Source-only strict#@ correction on unvisited dialect branch and duplicate-zero storage alias correction. Original target/effective mask/owned inputs/canonicalcwd/observed state unchanged. First native pair retained, not relabeled.",
+  "corrections": [
+    "Strict nonextension #@ literal branch, demonstrated by real-function injected control and first-draft negative.",
+    "Browser91878 reads actual options.z_n; explicit affected data audit now passes."
+  ],
+  "checks": {
+    "graph": "audit-graph.py CFG,ret,reference,callback,ownership,wholeextent",
+    "data": "audit-data.py including source_buffer_end relocation alias, -Zn alias,12Bcategoryprefix and16Baccess table",
+    "parser": "audit-parser-grammar.py575state/356production checks",
+    "lookahead": "audit-lookahead-grammar.py",
+    "cached_native_phases": 8
+  },
+  "cache_note": "First post-alias fixture attempt correctly rejected stale functions.json cache before execution; native-traces --write refreshed metadata from retained original references, no Wine/new original."
+}

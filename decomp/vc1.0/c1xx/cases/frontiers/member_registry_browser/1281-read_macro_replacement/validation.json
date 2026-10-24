@@ -1,0 +1,28 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_read_macro_replacement",
+    "start": 129840,
+    "end": 130857
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1281-read_macro_replacement/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_copy_macro_literal@12",
+    "_fatal_error",
+    "_find_macro_parameter@4",
+    "_next_directive_character",
+    "_next_source_character",
+    "_recover_special_character",
+    "_report_syntax_error",
+    "_skip_source_comment"
+  ],
+  "next_frontier": "_read_macro_parameters",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 1.1984681524336338,
+  "total_operation_seconds": 4.740860186517239,
+  "original_capture_seconds": 0.7162292506545782,
+  "subsequent_source_correction_receipt": "evidence/macro-replacement/corrected-derived-receipt.json",
+  "subsequent_source_correction_sha256": "629d21de887c4fd04b9f0f4de97eaf7954d851a86b0b1d456646e69184f00467",
+  "correction_note": "First genuine current-case pair retained unchanged. Strict unvisited#@ branch and duplicate Zn storage corrected before commit; linked receipt binds corrected native ELF, reused valid original, explicit affected audits and8cached phases. No second function credit."
+}

@@ -1,0 +1,16 @@
+{
+  "scope": "Correction of duplicate storage, zero additional function/byte credit",
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "z_rule": {
+    "row_va": 654764,
+    "pattern": "-Z*",
+    "selector": "n",
+    "action": 1,
+    "target_va": 596088,
+    "row_hex": "6e0000000100000078180900"
+  },
+  "consumer": "emit_browser_record original2b645 compares DWORD91878 with1, unsigned<1 result controls serialize_browser_record tracking",
+  "correction": "Remove separate browser_output_pass definition/extern/default table row; use existing (unsigned)options.z_n<1U. Existing -Zn grammar and alias/default data audit provide the real owner binding.",
+  "prior_limitation": "Current -Zn=0 cases matched despite duplicate zero state. Earlier matching runtime outputs did not prove shared state ownership; data audit correctly rejected split alias. Full nonzero-Zn execution not claimed by this correction.",
+  "failed_audit": "alias-audit-before.log"
+}

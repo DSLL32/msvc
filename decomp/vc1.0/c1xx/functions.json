@@ -1285,7 +1285,8 @@
     "_browser_declaration@4",
     "_fill_browser_declaration@8",
     "_fill_browser_symbol@8",
-    "_search_source_include@4"
+    "_search_source_include@4",
+    "_read_macro_replacement"
   ],
   "driver": [
     {
@@ -7821,7 +7822,7 @@
     {
       "name": "_read_macro_replacement",
       "start": 129840,
-      "end": 129841
+      "end": 130857
     },
     {
       "name": "_reference_browser_macro@4",
@@ -7876,7 +7877,7 @@
     {
       "name": "_copy_macro_literal@12",
       "start": 130976,
-      "end": 130977
+      "end": 131206
     },
     {
       "name": "_check_defined_macro@4",
@@ -8981,6 +8982,11 @@
       "name": "_set_browser_access@8",
       "start": 177904,
       "end": 177985
+    },
+    {
+      "name": "_find_macro_parameter@4",
+      "start": 130864,
+      "end": 130963
     }
   ],
   "cases": {
@@ -9533,8 +9539,8 @@
           "original": 585720
         }
       ],
-      "terminal": "_read_macro_replacement",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1280-search_source_include-4/original-events.txt",
+      "terminal": "_read_macro_parameters",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1281-read_macro_replacement/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
         "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
@@ -9560,7 +9566,8 @@
         "cases/frontiers/member_registry_browser/1277-browser_declaration-4/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1278-fill_browser_declaration-8/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1279-fill_browser_symbol-8/frontier-extension.json",
-        "cases/frontiers/member_registry_browser/1280-search_source_include-4/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1280-search_source_include-4/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1281-read_macro_replacement/frontier-extension.json"
       ],
       "transient_outputs": [
         {
@@ -12289,18 +12296,6 @@
         {
           "name": "_browser_last_line",
           "original": 650200,
-          "bytes": 4
-        }
-      ]
-    },
-    {
-      "kind": "state",
-      "name": "_browser_output_pass",
-      "original": 596088,
-      "fields": [
-        {
-          "name": "_browser_output_pass",
-          "original": 596088,
           "bytes": 4
         }
       ]

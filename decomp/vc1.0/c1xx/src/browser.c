@@ -182,7 +182,6 @@ BrowserRecordHeader *pop_first_browser_record(void)
 }
 
 unsigned browser_last_line = (unsigned)-1; /* original 0x9ebd8 */
-unsigned browser_output_pass; /* original 0x91878: nonzero skips index tracking */
 CppSymbol *browser_last_reference; /* original 0x94b20 */
 BrowserRecord browser_record_template; /* original 0x94b24: empty BSS template */
 
@@ -211,7 +210,8 @@ void __stdcall emit_browser_record(BrowserRecordHeader *record)
         }
     }
     auxiliary_ir_stream = browser_file;
-    serialize_browser_record(entry, browser_output_pass < 1U);
+    /* Original0x91878 is the existing -Zn field, not separate state. */
+    serialize_browser_record(entry, (unsigned)options.z_n < 1U);
 }
 
 /* Original 0x8cff8..0x8eff7: one bit per 16-bit browse symbol index.

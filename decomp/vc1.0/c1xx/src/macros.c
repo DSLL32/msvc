@@ -3,6 +3,7 @@
 #include "keywords.h"
 #include "characters.h"
 #include "directives-internal.h"
+#include "macro-expansion.h"
 #include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -337,4 +338,123 @@ void __stdcall define_command_line_macro(char *definition)
         define_macro(0, 0, 0);
     if (equals)
         *equals = '=';
+}
+
+/* Original 0x1fb30..0x1ff28. Compress replacement whitespace, retain
+   literals, and encode references to formal macro parameters. */
+unsigned read_macro_replacement(void)
+{
+    char *cursor = macro_replacement_text, *identifier;
+    unsigned char character, classification;
+    unsigned recovery;
+    int parameter, stringify = 0, characterize = 0;
+read_nonspace:
+    character = next_directive_character();
+scan_character:
+    if ((unsigned)(macro_work_buffer + macro_work_bytes - 5) <= (unsigned)cursor)
+        fatal_error(11, token_text);
+    classification = character_class[character];
+    switch (classification) {
+    case CC_SLASH:
+        if (!skip_source_comment()) goto copy_character;
+        /* Fall through: a comment is replaced by ordinary whitespace. */
+    case CC_SPACE: case CC_CARRIAGE_RETURN:
+        character = next_directive_character();
+        if (character_class[character] != CC_NEWLINE) *cursor++ = ' ';
+        goto scan_character;
+    case CC_ESCAPE_OR_END:
+        recovery = recover_special_character();
+        if (recovery & 0x50) {
+            if (!(recovery & 0x10)) goto copy_character;
+            *cursor++ = character;
+            character = next_source_character();
+            classification = character_class[character];
+            if (classification == CC_APOSTROPHE || classification == CC_QUOTE) {
+                --cursor;
+                report_syntax_error(295, (unsigned)character);
+                goto read_nonspace;
+            }
+            goto copy_character;
+        }
+        character = (unsigned char)*source_text_cursor++;
+        goto scan_character;
+    case CC_APOSTROPHE: case CC_QUOTE:
+        cursor = copy_macro_literal(cursor, macro_work_buffer + macro_work_bytes - 5, character);
+        character = (unsigned char)*source_text_cursor++;
+        goto scan_character;
+    case CC_INVALID:
+        report_syntax_error(18, (unsigned)character);
+        character = (unsigned char)*source_text_cursor++;
+        goto scan_character;
+    case CC_HASH:
+read_hash_suffix:
+        classification = character_class[(unsigned char)*source_text_cursor++];
+        if (classification == CC_ESCAPE_OR_END &&
+            (recover_special_character() & ~0x50U)) goto read_hash_suffix;
+        if (classification == CC_HASH) {
+            if (cursor == macro_replacement_text) {
+                report_syntax_error(160);
+                goto scan_character;
+            }
+            if (cursor[-1] == ' ') --cursor;
+            character = next_directive_character();
+            if (character_class[character] == CC_NEWLINE) {
+                --source_text_cursor;
+                report_syntax_error(161);
+            }
+            goto scan_character;
+        }
+        if (classification == CC_AT && macro_formal_count &&
+            options.configuration.extensions_enabled) {
+            characterize = 1;
+        } else if (!macro_formal_count || classification == CC_AT) {
+            *cursor++ = '#';
+            character = (unsigned char)source_text_cursor[-1];
+            goto scan_character;
+        } else {
+            --source_text_cursor;
+            stringify = 1;
+        }
+        character = next_directive_character();
+        classification = character_class[character];
+        if (classification != CC_IDENTIFIER && classification != CC_WIDE_PREFIX) {
+            stringify = characterize = 0;
+            report_syntax_error(162);
+            goto scan_character;
+        }
+        /* Fall through to the parameter-name scan. */
+    case CC_IDENTIFIER: case CC_WIDE_PREFIX:
+        identifier = cursor;
+write_identifier:
+        if ((unsigned)(macro_work_buffer + macro_work_bytes - 5) <= (unsigned)cursor)
+            fatal_error(11, token_text);
+        *cursor++ = character;
+read_identifier_character:
+        character = (unsigned char)*source_text_cursor++;
+        if (character_flags[character] & CF_IDENTIFIER) goto write_identifier;
+        if (character_class[character] == CC_ESCAPE_OR_END &&
+            (recover_special_character() & ~0x50U)) goto read_identifier_character;
+        *cursor = 0;
+        parameter = find_macro_parameter(identifier);
+        if (parameter >= 1) {
+            cursor = identifier;
+            *cursor++ = stringify ? 2 : (characterize ? 3 : 1);
+            *cursor++ = (unsigned char)parameter;
+        } else if (stringify || characterize) report_syntax_error(162);
+        stringify = characterize = 0;
+        goto scan_character;
+    case CC_NEWLINE:
+        --source_text_cursor;
+        if (cursor == (options.configuration.extensions_enabled ?
+                       macro_replacement_text : macro_work_buffer)) return 0;
+        if ((unsigned)(macro_work_buffer + macro_work_bytes - 5) <= (unsigned)cursor)
+            fatal_error(11, token_text);
+        *cursor++ = 0;
+        *cursor = 0x44;
+        return cursor + 1 - macro_replacement_text;
+    }
+copy_character:
+    *cursor++ = character;
+    character = (unsigned char)*source_text_cursor++;
+    goto scan_character;
 }
