@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Sixty-three application functions (20,160 original code bytes), two embedded CRT functions
+Sixty-four application functions (21,062 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_read_macro_replacement`.
+currently matches at the next named trap, `rc_check_macro_space`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -551,3 +551,11 @@ records fifteen affected controls, including matching invented pending returns.
 The earlier six-copy observer limits stopped explicitly on the seventh copy;
 those raw failures remain retained. Capture execution now holds the shared
 original-capture lock, with wait time recorded separately.
+
+Macro replacement scanning is reconstructed (902 bytes), reaching its first
+buffer check before any write. It has consumed the first `0` of `0x0400`;
+the next source word is `x`, with output pointer at the existing buffer start
+and both operator flags0. [Verification](cases/resources-rich-trailing-space/replacement-reader-verification.json)
+records ten affected controls and the typed32-bit bounds pointer. No length
+return or numeric replacement completion is claimed. Parameter lookup and
+quoted-copy dependencies remain named traps; cached native help still passes.

@@ -230,8 +230,20 @@ void __cdecl rc_parse_macro_parameters(void)
     __asm int 3
 }
 
-unsigned __cdecl rc_read_macro_replacement(void)
+
+int __stdcall rc_find_macro_parameter(const WCHAR *name)
 {
     __asm int 3
     return 0;
+}
+
+void __stdcall rc_check_macro_space(WCHAR *cursor)
+{
+    __asm int 3
+}
+
+WCHAR *__stdcall rc_copy_replacement_quoted(WCHAR *cursor,WCHAR delimiter)
+{
+    __asm int 3
+    return NULL;
 }

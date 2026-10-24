@@ -273,7 +273,7 @@ class MacroCopyEntered(gdb.Breakpoint):
     def stop(self):
         frame=gdb.newest_frame();caller=frame.older()
         if caller is None or caller.name()!='rc_define_macro':return False
-        assert len(macro_copies)<7
+        assert len(macro_copies)<256 # Operational capture limit; each source extent is checked below.
         pointer=int(frame.read_var('value'));length=int(frame.read_var('length'));assert 0<length<=512
         maps=Path('/proc/%d/maps'%gdb.selected_inferior().pid).read_text().splitlines()
         mapping=[line for line in maps if int(line.split()[0].split('-')[0],16)<=pointer and pointer+2*length<=int(line.split()[0].split('-')[1],16)]

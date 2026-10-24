@@ -68,7 +68,8 @@
     "rc_match_logical_character",
     "rc_skip_block_comment",
     "rc_push_condition",
-    "rc_parse_define"
+    "rc_parse_define",
+    "rc_read_macro_replacement"
   ],
   "functions": [
     {
@@ -1444,6 +1445,32 @@
       "end": "0x519f",
       "abi": "cdecl",
       "stack_bytes": 0,
+      "kind": "application"
+    },
+    {
+      "name": "rc_find_macro_parameter",
+      "start": "0x519f",
+      "end": "0x51df",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_check_macro_space",
+      "start": "0x51df",
+      "end": "0x521c",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_copy_replacement_quoted",
+      "start": "0x521c",
+      "end": "0x52fa",
+      "abi": "stdcall",
+      "stack_bytes": 8,
       "kind": "application",
       "stub": true
     }
