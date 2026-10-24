@@ -111,7 +111,7 @@ int __stdcall rc_skip_inactive(int level)
     return 0;
 }
 
-int __cdecl rc_parse_relational(void)
+int __cdecl rc_parse_shift(void)
 {
     __asm int 3
     return 0;

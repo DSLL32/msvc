@@ -354,3 +354,18 @@ int __cdecl rc_parse_equality(void)
         return value!=rc_parse_relational();
     return value;
 }
+
+int __cdecl rc_parse_relational(void)
+{
+    int value;
+    value=rc_parse_shift();
+    if(rc_accept_expression_token(63))
+        return value<rc_parse_shift();
+    if(rc_accept_expression_token(57))
+        return value>rc_parse_shift();
+    if(rc_accept_expression_token(64))
+        return value<=rc_parse_shift();
+    if(rc_accept_expression_token(58))
+        return value>=rc_parse_shift();
+    return value;
+}
