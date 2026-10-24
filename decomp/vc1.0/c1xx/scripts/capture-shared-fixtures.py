@@ -26,12 +26,14 @@ SPECS = {
     'new-delete': ('c1xx-new-delete', 'allocation.cpp'),
     'state-machine-debug': ('c1xx-state-machine-debug', 'state-machine.cpp'),
     'state-machine-defined-debug': ('c1xx-state-machine-defined-debug', 'state-machine.cpp'),
+    'member-registry-browser': ('c1xx-member-registry-browser', 'registry.cpp'),
 }
 
 
 CASE_FLAGS = {
     'state-machine-debug': '/Od /G5 /Z7',
     'state-machine-defined-debug': '/Od /G5 /Z7',
+    'member-registry-browser': '/Od /G5 /Z7 /vmg /FRregistry.sbr',
 }
 
 def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -119,13 +121,15 @@ def main():
         source_fixture = BINARY.parent/'fixtures'/folder
         source = source_fixture/'c1'/filename
         template = source_fixture/'manifest.json'
-        if slug == 'state-machine-defined-debug':
-            source = BINARY/'cases/proposals/state-machine-defined-debug/state-machine.cpp'
+        if slug in ('state-machine-defined-debug','member-registry-browser'):
+            source = BINARY/'cases/proposals'/slug/filename
             template = BINARY.parent/'fixtures/c1xx-state-machine-debug/manifest.json'
+        sources = [source]
+        if slug == 'member-registry-browser': sources.append(source.with_name('registry.h'))
         original_manifest = json.loads(template.read_text())
         stage = stages/('c1xx-'+slug); stage.mkdir(exist_ok=False)
         for name in ('c1','c2','link','expected','dependencies','capture','validation'): (stage/name).mkdir()
-        shutil.copyfile(source, stage/'c1'/filename)
+        for input_source in sources: shutil.copyfile(input_source, stage/'c1'/input_source.name)
         stem = Path(filename).stem
         operations = []
         receipt_path = stage/'capture/driver-receipt.json'
@@ -149,7 +153,7 @@ def main():
 
         def driver(suffix, arguments):
             work = clear_work(slug+'-driver'+suffix)
-            shutil.copyfile(source,work/filename)
+            for input_source in sources: shutil.copyfile(input_source,work/input_source.name)
             captured = stage/'capture'/('driver'+suffix); captured.mkdir()
             command = ['wine',windows(BINARY/'build/reference-capture-driver.exe'),
                        windows(tool.TC/'bin/CL.EXE'),'11000',windows(captured),windows(work),
@@ -169,6 +173,8 @@ def main():
         assert {p.suffix[1:] for p in captured.glob('c2-input.*')} == set(ir_extensions), 'unexpected/missing original C2 input snapshot'
         for suffix in ir_extensions:
             shutil.copyfile(captured/('c2-input.'+suffix),stage/'c2'/('ir'+suffix))
+        extra_frontend_outputs = ['registry.sbr'] if slug == 'member-registry-browser' else []
+        for extra in extra_frontend_outputs: shutil.copyfile(work/extra, stage/'expected'/extra)
         shutil.copyfile(captured/'link-input.obj',stage/'link'/(stem+'.obj'))
         shutil.copyfile(captured/'link-input.obj',stage/'expected'/(stem+'.obj'))
         shutil.copyfile(captured/'link-input.rsp',stage/'link/link.rsp')
@@ -212,9 +218,10 @@ def main():
             item['canonical_working_directory'] = 'S:\\vc1.0\\c1xx\\'+slug+('' if phase=='c1' else '-'+phase)
             item['expected_exit']=0; item['expected_stdout']=''; item['expected_stderr']=''
         c1,c2,link = (manifest['phases'][p] for p in ('c1','c2','link'))
-        c1['inputs'] = [record(stage/'c1'/filename,stage)]
+        c1['inputs'] = [record(stage/'c1'/input_source.name,stage) for input_source in sources]
         c1['outputs'] = [record(stage/'c2'/('ir'+s),stage,'ir'+s) for s in ir_extensions]
         c2['inputs'] = [{k:v for k,v in r.items() if k!='output_name'} for r in c1['outputs']]
+        c1['outputs'] += [record(stage/'expected'/extra,stage,extra) for extra in extra_frontend_outputs]
         c2['outputs'] = [record(stage/'expected'/(stem+'.obj'),stage,stem+'.obj',[dict(offset=4,bytes=4,name='COFF TimeDateStamp')])]
         link['inputs'] = [record(stage/'link'/(stem+'.obj'),stage),record(stage/'link/link.rsp',stage)]
         clocks = pe_clock_fields((stage/'expected'/(stem+'.exe')).read_bytes())

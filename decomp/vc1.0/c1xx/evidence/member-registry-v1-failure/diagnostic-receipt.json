@@ -1,0 +1,31 @@
+{
+  "scope": "Isolated diagnostic only; source differs by split first compound check and raw PMF representation printing; not a frozen case or acceptance proof",
+  "source_sha256": "158d74661f16b57b985710352d3c97be86b8daebd6f34bf5eda9e56d2b15bd87",
+  "operations": [
+    {
+      "operation": "build",
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/Od",
+        "/G5",
+        "/Z7",
+        "/vmg",
+        "/FRregistry.sbr",
+        "registry.cpp"
+      ],
+      "status": 0,
+      "seconds": 1.8840133445337415
+    },
+    {
+      "operation": "run",
+      "command": [
+        "wine",
+        "S:\\vc1.0\\c1xx\\member-registry-diagnostic-v1\\registry.exe"
+      ],
+      "status": 110,
+      "seconds": 0.6322789220139384
+    }
+  ]
+}

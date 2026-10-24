@@ -1,6 +1,7 @@
 /* A self-checking callback registry spanning all four member-pointer models.
-   Virtual inheritance is separate from the nonvirtual conversion spine:
-   Flat -> Offset -> Virtual -> Twin -> General -> Further. */
+   Only compact Flat/Offset values cross representations. Virtual/general
+   member pointers name their own class members directly; the original
+   compiler's failed widening case is preserved separately in failed-v1. */
 #include "registry.h"
 
 static int live_slots;
@@ -32,11 +33,12 @@ public:
 };
 class __virtual_inheritance Virtual : public Offset, virtual public Root {
 public:
-    int virtual_only;
-    Virtual() : virtual_only(23) {}
+    int virtual_only, virtual_spare;
+    Virtual() : virtual_only(23), virtual_spare(27) {}
     virtual int project(int bias) const { return 3 * value + bias; }
     virtual int score(int amount) { return root + amount; }
     int reduce(int amount) { value -= amount; return value; }
+    int inspect(int amount) { return value + amount; }
 };
 class __single_inheritance Extra {
 public:
@@ -53,10 +55,11 @@ public:
    explicitly annotated bases retain their single/multiple/virtual models. */
 class General : public Twin {
 public:
-    int own_field;
-    General() : own_field(53) {}
+    int own_field, own_spare;
+    General() : own_field(53), own_spare(59) {}
     virtual int project(int bias) const { return 4 * value + bias; }
     int own(int amount) { return value + own_field + amount; }
+    int other(int amount) { return value - own_field + amount; }
 };
 class __single_inheritance ExtraFirst {
 public:
@@ -113,68 +116,57 @@ static int exercise_registry()
     Further object;
     FlatAction flat = &Flat::add;
     OffsetAction offset = flat;
-    VirtualAction virtual_flat = flat;
-    VirtualAction virtual_offset = offset;
-    TwinAction twin = virtual_offset;
-    GeneralAction general_flat = flat;
-    GeneralAction general_offset = offset;
-    GeneralAction general = virtual_offset;
-    GeneralAction general_twin = twin;
-    FurtherAction further = general;
-    FlatAction back_flat = (FlatAction)virtual_offset;
-    OffsetAction back_offset = (OffsetAction)general;
-    VirtualAction back_virtual = (VirtualAction)general;
-    GeneralAction back_general = (GeneralAction)further;
-    VirtualAction virtual_own = &Virtual::reduce;
-    GeneralAction general_own = &General::own;
+    OffsetAction offset_other = &Flat::subtract;
+    FlatAction back_flat = (FlatAction)offset;
     FlatAction flat_null = 0;
-    VirtualAction virtual_null = flat_null;
-    GeneralAction general_null = virtual_null;
+    OffsetAction offset_null = flat_null;
+    VirtualAction virtual_own = &Virtual::reduce;
+    VirtualAction virtual_other = &Virtual::inspect;
+    VirtualAction virtual_copy = virtual_own;
+    VirtualAction virtual_null = 0;
+    GeneralAction general_own = &General::own;
+    GeneralAction general_other = &General::other;
+    GeneralAction general_copy = general_own;
+    GeneralAction general_null = 0;
     VirtualProjection virtual_project = &Virtual::project;
-    GeneralProjection general_project = virtual_project;
+    GeneralProjection general_project = &General::project;
     RootAction root_score = &Root::score;
 
     int Flat::*flat_slot = &Flat::value;
     int Offset::*offset_slot = flat_slot;
-    int Virtual::*virtual_flat_slot = flat_slot;
-    int Virtual::*virtual_slot = offset_slot;
-    int Twin::*twin_slot = virtual_slot;
-    int General::*general_flat_slot = flat_slot;
-    int General::*general_offset_slot = offset_slot;
-    int General::*general_slot = virtual_slot;
-    int General::*general_twin_slot = twin_slot;
-    int Further::*further_slot = general_slot;
-    int Flat::*back_flat_slot = (int Flat::*)virtual_slot;
-    int Offset::*back_offset_slot = (int Offset::*)general_slot;
-    int Virtual::*back_virtual_slot = (int Virtual::*)general_slot;
-    int General::*back_general_slot = (int General::*)further_slot;
+    int Flat::*back_flat_slot = (int Flat::*)offset_slot;
     int Flat::*flat_null_slot = 0;
-    int Virtual::*virtual_null_slot = flat_null_slot;
-    int General::*general_null_slot = virtual_null_slot;
+    int Offset::*offset_null_slot = flat_null_slot;
+    int Virtual::*virtual_slot = &Virtual::virtual_only;
+    int Virtual::*virtual_other_slot = &Virtual::virtual_spare;
+    int Virtual::*virtual_copy_slot = virtual_slot;
+    int Virtual::*virtual_null_slot = 0;
+    int General::*general_slot = &General::own_field;
+    int General::*general_other_slot = &General::own_spare;
+    int General::*general_copy_slot = general_slot;
+    int General::*general_null_slot = 0;
 
-    CHECK(10, virtual_flat == virtual_offset && virtual_offset != virtual_own);
-    CHECK(11, general_flat == general && general_offset == general_twin);
-    CHECK(12, back_flat == flat && back_offset == offset);
-    CHECK(13, back_virtual == virtual_offset && back_general == general);
+    CHECK(10, back_flat == flat && offset != offset_other && offset != offset_null);
+    CHECK(11, back_flat_slot == flat_slot && offset_slot != offset_null_slot);
+    CHECK(12, virtual_own == virtual_copy && virtual_own != virtual_other);
+    CHECK(13, general_own == general_copy && general_own != general_other);
     CHECK(14, virtual_null == 0 && general_null == 0);
-    CHECK(15, virtual_offset != virtual_null && general != general_null);
-    CHECK(16, virtual_flat_slot == virtual_slot && general_flat_slot == general_slot);
-    CHECK(17, general_offset_slot == general_twin_slot);
-    CHECK(18, back_flat_slot == flat_slot && back_offset_slot == offset_slot);
-    CHECK(19, back_virtual_slot == virtual_slot && back_general_slot == general_slot);
-    CHECK(20, virtual_null_slot == 0 && general_null_slot == 0);
-    CHECK(21, virtual_slot != virtual_null_slot && general_slot != general_null_slot);
-    CHECK(22, general_slot != &General::own_field);
-    CHECK(23, (object.*general)(2) == 7);
-    CHECK(24, (object.*twin)(3) == 10);
-    CHECK(25, (object.*further)(4) == 14);
-    CHECK(26, object.*general_slot == 14 && object.*further_slot == 14);
-    object.*twin_slot = 12;
-    CHECK(27, (object.*general_project)(1) == 49);
-    CHECK(28, (object.*root_score)(2) == 19 && object.tag() == 31);
-    CHECK(29, (object.*general_own)(1) == 66);
-    CHECK(30, (object.*choose_virtual(virtual_offset))(1) == 13);
-    CHECK(31, (object.*choose_general(general))(1) == 14 && choices == 2);
+    CHECK(15, virtual_own != virtual_null && general_own != general_null);
+    CHECK(16, virtual_slot == virtual_copy_slot && virtual_slot != virtual_other_slot);
+    CHECK(17, general_slot == general_copy_slot && general_slot != general_other_slot);
+    CHECK(18, virtual_null_slot == 0 && general_null_slot == 0);
+    CHECK(19, virtual_slot != virtual_null_slot && general_slot != general_null_slot);
+    CHECK(20, (object.*offset)(2) == 7 && (object.*flat)(3) == 10);
+    CHECK(21, (object.*virtual_own)(2) == 8 && (object.*general_own)(1) == 62);
+    CHECK(22, object.*virtual_slot == 23 && object.*general_slot == 53);
+    object.*virtual_slot = 29;
+    object.*general_slot = 55;
+    CHECK(23, object.*virtual_slot == 29 && object.*general_slot == 55);
+    CHECK(24, (object.*virtual_project)(1) == 33);
+    CHECK(25, (object.*general_project)(2) == 34);
+    CHECK(26, (object.*root_score)(2) == 19 && object.tag() == 31);
+    CHECK(27, (object.*choose_virtual(virtual_own))(1) == 7);
+    CHECK(28, (object.*choose_general(general_own))(1) == 63 && choices == 2);
     return 0;
 }
 

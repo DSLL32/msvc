@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "Concrete proposal; no original invocation or case registration yet",
+  "status": "Revised concrete source for root review; no v2 original invocation/registration",
   "case": "member_registry_browser",
   "source_files": [
     {
       "path": "cases/proposals/member-registry-browser/registry.cpp",
-      "bytes": 7204,
-      "sha256": "b2cd27f17f171571f9187a14975788ea64b669fe45fea318442ab324861e5658"
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
     },
     {
       "path": "cases/proposals/member-registry-browser/registry.h",
@@ -15,10 +15,10 @@
     }
   ],
   "options": "/nologo /Od /G5 /Z7 /vmg /FRregistry.sbr",
-  "intent": "One callback-registry workload: explicit models1/2/3 plus default /vmg model4 along a nonvirtual conversion spine, distinct virtualRoot, macro-generated callback typedefs/conditions, packed protocol header, browser references, nested metadata and copied class arrays.",
+  "intent": "One callback registry uses all4 member-pointer representations directly, safe compact1<->2 conversions, all-model null/equal/unequal/object/virtual dispatch, macro/packed protocol declarations and browser references, copied automatic member arrays.",
   "source_shape": [
-    "Explicit Flat(single),Offset(multiple),Virtual/Twin(virtual) classes, General/Further default general representation; nonvirtual Flat->Offset->Virtual->Twin->General->Further conversion spine; Root is separately virtual so no prohibited PM conversion through virtual base",
-    "Method/data pointer widening and explicit reverse casts across1/2/3/4,3->3 and4->4 real class adjustment, null/equal/unequal comparisons, object application and virtual dispatch",
+    "Explicit single/multiple/virtual classes plus /vmg general; only Flat/Offset nonvirtual compact1<->2 conversions. Model3/4 pointers directly name their own defining class members.",
+    "Direct-own model3/4 PMF/PMD construction, same-type copies, null/equal/unequal checks/application and virtual dispatch; safe compact method/data widening+reverse casts; no virtual/general representation conversion.",
     "Pure virtual Root interface with concrete override; aggregate PMF return values chosen once to exercise nonreusable member-call storage",
     "Header include/guard, nested token-paste and stringification function macros, #ifdef/#if defined/integer operations, pragma pack2/reset; full /FR browser output",
     "Automatic Registry with two nontrivial Slot members, implicit copy/assignment, nested Meta; all lifetime counters are scalar globals, no local-static class initialization"
@@ -29,18 +29,26 @@
     "stderr": "",
     "packed_header_bytes": 6,
     "macro_version_text": "3",
-    "member_add_results": [
+    "compact_call_results": [
       7,
-      10,
-      14
+      10
     ],
-    "after_data_assignment": 12,
-    "virtual_projection": 49,
+    "virtual_reduce_result": 8,
+    "general_own_result_before_field_change": 62,
+    "direct_fields_before": [
+      23,
+      53
+    ],
+    "direct_fields_after": [
+      29,
+      55
+    ],
+    "virtual_projection": 33,
+    "general_projection": 34,
     "virtual_root_score": 19,
-    "general_own_result": 66,
     "chosen_call_results": [
-      13,
-      14
+      7,
+      63
     ],
     "final_choices": 2,
     "live_slots_sequence": [
@@ -157,150 +165,6 @@
       "current_recorded_extent": [
         308192,
         308193
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_compact_to_virtual_method_pointer@24",
-      "entry_va": "0x4c420",
-      "current_recorded_extent": [
-        312352,
-        312353
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_compact_to_general_method_pointer@24",
-      "entry_va": "0x4c8d0",
-      "current_recorded_extent": [
-        313552,
-        313553
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_virtual_to_compact_method_pointer@24",
-      "entry_va": "0x4c4c0",
-      "current_recorded_extent": [
-        312512,
-        312513
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_virtual_method_pointer@24",
-      "entry_va": "0x4d390",
-      "current_recorded_extent": [
-        316304,
-        316305
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_virtual_to_general_method_pointer@24",
-      "entry_va": "0x4cda0",
-      "current_recorded_extent": [
-        314784,
-        314785
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_general_to_compact_method_pointer@24",
-      "entry_va": "0x4c840",
-      "current_recorded_extent": [
-        313408,
-        313409
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_general_to_virtual_method_pointer@24",
-      "entry_va": "0x4cc50",
-      "current_recorded_extent": [
-        314448,
-        314449
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_general_method_pointer@24",
-      "entry_va": "0x4d0f0",
-      "current_recorded_extent": [
-        315632,
-        315633
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_compact_to_virtual_data_pointer@24",
-      "entry_va": "0x4c180",
-      "current_recorded_extent": [
-        311680,
-        311681
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_compact_to_general_data_pointer@24",
-      "entry_va": "0x4c750",
-      "current_recorded_extent": [
-        313168,
-        313169
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_virtual_to_compact_data_pointer@24",
-      "entry_va": "0x4c390",
-      "current_recorded_extent": [
-        312208,
-        312209
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_virtual_data_member_pointer@24",
-      "entry_va": "0x4c590",
-      "current_recorded_extent": [
-        312720,
-        312721
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_virtual_to_general_data_pointer@24",
-      "entry_va": "0x4cb00",
-      "current_recorded_extent": [
-        314112,
-        314113
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_general_to_compact_data_pointer@24",
-      "entry_va": "0x4c6c0",
-      "current_recorded_extent": [
-        313024,
-        313025
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_general_to_virtual_data_pointer@24",
-      "entry_va": "0x4c9a0",
-      "current_recorded_extent": [
-        313760,
-        313761
-      ],
-      "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
-    },
-    {
-      "name": "_convert_general_data_member_pointer@24",
-      "entry_va": "0x4cee0",
-      "current_recorded_extent": [
-        315104,
-        315105
       ],
       "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
     },
@@ -438,11 +302,47 @@
         505569
       ],
       "extent_status": "whole body not yet reconstructed; one-byte rows are trap placeholders, no byte/reach promise"
+    },
+    {
+      "name": "_make_virtual_method_pointer@16",
+      "entry_va": "0x4a3a0",
+      "current_recorded_extent": [
+        304032,
+        304033
+      ],
+      "extent_status": "known entry, whole constructor/argument proof required when reached"
+    },
+    {
+      "name": "_make_general_method_pointer@20",
+      "entry_va": "0x4a570",
+      "current_recorded_extent": [
+        304496,
+        304497
+      ],
+      "extent_status": "known entry, whole constructor/argument proof required when reached"
+    },
+    {
+      "name": "_make_virtual_data_member_pointer@12",
+      "entry_va": "0x4a710",
+      "current_recorded_extent": [
+        304912,
+        304913
+      ],
+      "extent_status": "known entry, whole constructor/argument proof required when reached"
+    },
+    {
+      "name": "_make_general_data_member_pointer@16",
+      "entry_va": "0x4a7e0",
+      "current_recorded_extent": [
+        305120,
+        305121
+      ],
+      "extent_status": "known entry, whole constructor/argument proof required when reached"
     }
   ],
-  "target_basis": "Existing exact32-slot conversion callback table and typed stdcall24 contracts; actual body/branch reach remains unproved until original validation. Browser begin raw2bfe0..2c050 is file-backed C stdio, no observed helper process in analyzed entry; later dependencies remain unknown until encountered.",
+  "target_basis": "Existing accepted member-pointer model dispatch establishes direct3/4 constructor/application/comparison/null targets; browser/macro targets from real options/header. All listed leads remain candidates with no promised reach/extent.",
   "abi_owner_needs": [
-    "Existing six-word stack observer for reached stdcall24 conversions; preserve actual path/displacement/base owner bindings and define unused-formal credit only after whole-body def-use",
+    "Direct typed constructor/application/comparison arguments, actual caller/register/IR ownership; existing four/six-word transport only where real reached ABI requires it. No cross-model3/4 callback state from failed v1 gains credit.",
     "Existing logical caller/register/IR ownership for real aggregate member-pointer temporaries and nonreusable call prefix outputs; no recursive dump or invented static slots",
     "Browser FILE/string/callback state and macro argument lists as reached, with native shims maintained centrally; no new shared interface presumed"
   ],
@@ -458,5 +358,18 @@
     "No PCH, line-record/PDB profile, SEH or inlineassembly in this case; those remain future application families",
     "Frozen bf7d2cbfd shared pin retained after maintainer review; refresh only deliberately with current evidence, no bookkeeping original recapture"
   ],
-  "review_request": "Root review concrete sources/expected arithmetic/target coherence before any original baseline; user autonomous planning authorization remains active"
+  "review_request": "Review this one revised concrete source before any further original baseline; v1 remains frozen failed evidence, no series of variant runs.",
+  "version": 2,
+  "failed_version": "failed-v1/proposal.json and evidence/member-registry-v1-failure/receipt.json",
+  "excluded_paths": {
+    "method_and_data": [
+      "compact1/2->virtual3",
+      "compact1/2->general4",
+      "virtual3/general4 reverse-to-compact",
+      "virtual3->general4 and general4->virtual3",
+      "different-owner virtual3->virtual3 or general4->general4 adjustment conversions"
+    ],
+    "reason": "Original v1 runtime equality failed; source2->target3 original converter checks targetmodel insteadsource, losing source adjustment8. Additional outword uninitialized diagnosis remains qualified until genuine helper-state proof. No changed expected equality or pointer normalization. This v2 deliberately avoids all cross-model3/4 converters rather than pretending their outputs work."
+  },
+  "direct_constructor_basis": "Original make_virtual_method_pointer4a3a0..4a422 NULL-vbase path explicitly creates integer0 VB-index then factory4a430..4a56d assigns function,adjustment,VB-index at exact pointer/integer widths. Diagnostic direct Virtual::reduce produced initialized-looking third0, but whole reached constructor/actual owner proof remains required before acceptance. Direct model4/PMD constructor whole bodies/formals will be checked when genuinely reached; no pre-credit from proposal."
 }
