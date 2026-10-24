@@ -597,7 +597,6 @@ unsigned __fastcall reserve_incremental_symbols(unsigned count, unsigned short s
 void grow_coff_symbol_buffer(void) { __asm { int 3 } }
 
 void __fastcall emit_incremental_string(char *value) { __asm { int 3 } }
-void __fastcall write_output_byte(unsigned char value) { __asm { int 3 } }
 
 void __fastcall write_output_fill(unsigned char value, unsigned count)
 {

@@ -1,0 +1,75 @@
+{
+  "builds": [
+    {
+      "kind": "original",
+      "seconds": 2.2439382020384073,
+      "status": 0
+    },
+    {
+      "kind": "native",
+      "seconds": 2.027210126630962,
+      "status": 0
+    },
+    {
+      "kind": "helper",
+      "seconds": 2.2504576621577144,
+      "status": 0
+    }
+  ],
+  "original_capture": {
+    "setup": 0.9870602739974856,
+    "execution": 3.12799643073231,
+    "total": 4.164440273307264
+  },
+  "native_capture": {
+    "execution": 0.5446809008717537,
+    "total": 0.7117709014564753
+  },
+  "audit_seconds": 0.8894860027357936,
+  "protocol_controls": {
+    "fresh": 6,
+    "reused": 147,
+    "seconds": 7.322433045133948
+  },
+  "fresh_affected_controls": {
+    "input": {
+      "fresh": 18,
+      "seconds": 20.928958487696946
+    }
+  },
+  "fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.010897637344896793,
+      "execution": 0.002752244472503662,
+      "checks": 0.00021281372755765915,
+      "total": 0.014351511374115944
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "failures": "Initial observer/validator premise rejected; raw immutable. Corrected final original/native match. No reconstructed target source correction.",
+  "initial_observer_capture": {
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/byte96-original/receipt.json",
+    "sha256": "a7337b92a91bdc375c4921d82cd38c5475c7f84c888460e73138751efb2d896c",
+    "helper_status": 0,
+    "seconds": {
+      "setup": 0.9791098721325397,
+      "execution": 2.6188354063779116,
+      "total": 3.6468434715643525
+    },
+    "validation": "Rejected: newlyobserved formalwas still gated by old no-formals label; reviewalsofound observer comparingECX towrong497cac instead actual497dc4. Whole38B buffer/counters already matched. Originalcaller4538e3 proves497dc4; correctedhelper/freshraw independent, no target or reconstructedC correction."
+  },
+  "additional_helper_build": {
+    "seconds": 2.1654937779530883,
+    "status": 0
+  },
+  "shared_native_source": {
+    "commit": "c11fa6763",
+    "crt_sha256": "390ea919dafdf5ffa2e6b5aa06de54fd464771b4b552b161febf4747d5cc1cbd",
+    "status": "Exact WIP snapshot consumed by build, then maintainer READY identical; no recapture solely publication."
+  }
+}

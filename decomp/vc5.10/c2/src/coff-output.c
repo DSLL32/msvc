@@ -723,3 +723,8 @@ count_only:
     list->used_bytes += bytes;
     ++list->write_count;
 }
+
+void __fastcall write_output_byte(unsigned char value)
+{
+    write_output_bytes(&value, 1);
+}
