@@ -4,7 +4,9 @@ C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 PARTIAL binary reconstruction: 1232 accepted frontiers, including 1127 frontend
 functions and seven older CRT functions reconstructed as source.
 Complete cases: cpp_basic, virtual_diamond, copy_assignment, stack_lifetime, new_delete.
-Active case state_machine_debug stops at _flush_current_function@4, original VA 0x48560.
+Frozen state_machine_debug retains its last verified boundary at
+_flush_current_function@4 (original VA0x48560); its full closing path is
+unsupported natively, as documented below. The flush body is unaccepted.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would
@@ -16,7 +18,7 @@ threshold for signed opposite-positive-status operands with unsupported widths.
 That exact native path traps; malformed/internal widths are not claimed equivalent.
 Normal integer widths1/2/4 and the actual lifetime invocation have exact original/
 native return evidence under evidence/multiply-boundary. native-rejections checks
-all eleven documented guards without running Wine.
+the documented guards without running Wine.
 Include-directory search preserves the original Win32 unwritten last-character
 pointer when a nonnull directory is empty. Valid public -I "" can succeed in the
 original using a stale caller strchr argument; native execution explicitly traps
@@ -61,6 +63,14 @@ invalid-model equivalence or extra application coverage is claimed.
 The string-name encoder retains its original wide WORD loop, but that branch
 has not been validated. A reached wide case must establish the actual defined
 read span before execution/credit; see evidence/string-name-encoding/wide-scope.json.
+Function-output closing retains its original unwritten scope local when no
+closed scopes were queued. The native empty-list arm emits the same two records13,
+then traps before the entryESP-4 read at original0x55b06. The frozen valid-input
+state_machine_debug case reaches this path through synthetic local-static cleanup.
+Its original/native divergence (one missing06 record), exact owner/read proof and
+unaccepted flush candidate are retained under evidence/empty-output-scope. This is
+an additional native limitation, not malformed-only input or a completed case.
+No source initialization, output normalization or new function credit is claimed.
 All five selected C++ cases are complete, including new/delete/operators.
 cases/reconstruction-queue.json records completion and subsequent case review.
 

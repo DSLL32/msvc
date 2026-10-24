@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_flush_current_function@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1232,
+  "configuration_sha256": "dff0bcacf48ef6f266ec1accfbce69c8ffbaa1817b4cb90113aa6f2f2d0409fb",
+  "native_entry": "flush_current_function",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "retain",
+      "stack_index": 0,
+      "native_field": "raw_retain",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      296288,
+      296391
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 void RET4",
+    "proof": "Whole103B frameless reads retain at entryESP+4 only after existing function body. No incoming register/x87/flags formal. When existing function_symbol nonNULL: declaration_mode2, leave_compound_scope; exact encountered DWORD9ebd0 set1 around finish_function_body(1), restore0; optional append_vector(existing translation_symbols,current function_symbol) retaining actual post-call value. All exits clear function_symbol then high token flag80000 and low40 in original order. New DWORD is write-only in direct references reviewed across image, not claimed a hidden control consumer; precise state data row4B, no neighboring data or CRT. All3 callees accepted.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "659d65fcd26fcc88fac7a1aafa2c3342e9237299c9aa74c558a56fbb80b5268c",
+  "capture_timing": {
+    "original_capture_seconds": 0.6159469857811928,
+    "native_capture_seconds": 0.18497894424945116,
+    "total_operation_seconds": 1.0620152316987514
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "a095d497b1db904065abb84bbce670c7fc136565662ca382e5a152b2182f92c9",
+    "native-commands.gdb": "59d1cdd386de2b71114561b604a73997eec6cd9c7a720cb0324edadd2b97b619",
+    "native-gdb.log": "8c91c19fa6e9f9d7c3b5e0128a860091e7a91fee9885df17335f41b9f8f5d6a3",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "dff8edd10442522d378cbf2efc3fdbd05c385954c9331389282b94018df9a302",
+    "original-configuration.json": "dff0bcacf48ef6f266ec1accfbce69c8ffbaa1817b4cb90113aa6f2f2d0409fb",
+    "original-disassembly.txt": "ad1b37e2446268766eb9292248840684e16dcc0365159b3349216e7232404594",
+    "original-events.txt": "22389b42ced84a3dcba1c645eb5422684f3d19d8ab57c1baacbce804d2796fba",
+    "original-receipt.json": "862c7bb2226de53571905ebf007d178601f5d9e14ae739fed394dff94374e1df",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "97b677c156600d9f78f47fc8fd7d4ef933b231dcabf96140992d3e149dc77e66"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

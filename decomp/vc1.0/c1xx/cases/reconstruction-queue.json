@@ -23,10 +23,12 @@
       "family": "Embedded debug plus member-pointer command interpreter",
       "intent": "One coherent root-reviewed source combining debug, aggregate types, control flow/RAII, default args, member pointers and local-static lifetime",
       "fixture": "../fixtures/c1xx-state-machine-debug",
-      "status": "active original/native seeded reconstruction",
+      "status": "unsupported native closing path after last accepted boundary; frozen input unchanged",
       "manifest": "../fixtures/c1xx-state-machine-debug/manifest.json",
       "validation": "../fixtures/c1xx-state-machine-debug/validation.json",
-      "proposal": "cases/proposals/state-machine-debug/proposal.json"
+      "proposal": "cases/proposals/state-machine-debug/proposal.json",
+      "last_verified_boundary": "_flush_current_function@4",
+      "limitation": "evidence/empty-output-scope/receipt.json"
     }
   ],
   "requirements": [
@@ -36,7 +38,7 @@
     "Do not assume newer C++ language features",
     "At each substantial case boundary, review newer verified committed lib/recon fixes with its maintainer and deliberately refresh the shared-build pin where applicable"
   ],
-  "completion": "Five selected cases complete; root-reviewed substantial state-machine/debug case active",
+  "completion": "Five selected cases complete; frozen state_machine_debug has a proven valid-input unsupported native closing path, last accepted boundary retained",
   "next_case": "state_machine_debug",
   "completed": [
     {

@@ -90,6 +90,11 @@ void finish_function_output(void)
         write_global_record(13, 0);
         global_record_kind = 2;
         write_global_record(13, 0);
+#ifdef RECON_NATIVE_TEST
+        /* Original 0x55b06 reads the unwritten entryESP-4 local here.
+           Keep the two real records above, then reject this native path. */
+        __asm { int 3 }
+#endif
     } else {
         for (scope = closed_scopes; scope; scope = scope->next) serialize_scope(scope);
     }

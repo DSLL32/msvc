@@ -1,0 +1,43 @@
+   55ac0:	83 ec 04             	sub    esp,0x4
+   55ac3:	56                   	push   esi
+   55ac4:	83 3d a4 cc 08 00 00 	cmp    DWORD PTR ds:0x8cca4,0x0
+   55acb:	0f 85 88 00 00 00    	jne    0x55b59
+   55ad1:	c6 05 5c 13 09 00 01 	mov    BYTE PTR ds:0x9135c,0x1
+   55ad8:	e8 23 5b fe ff       	call   0x3b600
+   55add:	83 3d d0 14 09 00 00 	cmp    DWORD PTR ds:0x914d0,0x0
+   55ae4:	75 2a                	jne    0x55b10
+   55ae6:	c6 05 5c 13 09 00 01 	mov    BYTE PTR ds:0x9135c,0x1
+   55aed:	6a 00                	push   0x0
+   55aef:	6a 0d                	push   0xd
+   55af1:	e8 9a 16 00 00       	call   0x57190
+   55af6:	c6 05 5c 13 09 00 02 	mov    BYTE PTR ds:0x9135c,0x2
+   55afd:	6a 00                	push   0x0
+   55aff:	6a 0d                	push   0xd
+   55b01:	e8 8a 16 00 00       	call   0x57190
+   55b06:	8b 74 24 04          	mov    esi,DWORD PTR [esp+0x4]
+   55b0a:	eb 1a                	jmp    0x55b26
+   55b0c:	8d 64 24 00          	lea    esp,[esp+0x0]
+   55b10:	8b 35 d0 14 09 00    	mov    esi,DWORD PTR ds:0x914d0
+   55b16:	0b f6                	or     esi,esi
+   55b18:	74 0c                	je     0x55b26
+   55b1a:	56                   	push   esi
+   55b1b:	e8 60 fe ff ff       	call   0x55980
+   55b20:	8b 36                	mov    esi,DWORD PTR [esi]
+   55b22:	0b f6                	or     esi,esi
+   55b24:	75 f4                	jne    0x55b1a
+   55b26:	39 35 c8 f2 09 00    	cmp    DWORD PTR ds:0x9f2c8,esi
+   55b2c:	74 20                	je     0x55b4e
+   55b2e:	83 3d 64 f8 09 00 00 	cmp    DWORD PTR ds:0x9f864,0x0
+   55b35:	74 0e                	je     0x55b45
+   55b37:	83 3d 60 cc 08 00 00 	cmp    DWORD PTR ds:0x8cc60,0x0
+   55b3e:	74 05                	je     0x55b45
+   55b40:	e8 7c eb fe ff       	call   0x446c1
+   55b45:	6a 00                	push   0x0
+   55b47:	6a 06                	push   0x6
+   55b49:	e8 42 16 00 00       	call   0x57190
+   55b4e:	a1 40 c1 08 00       	mov    eax,ds:0x8c140
+   55b53:	50                   	push   eax
+   55b54:	e8 87 4f 00 00       	call   0x5aae0
+   55b59:	5e                   	pop    esi
+   55b5a:	83 c4 04             	add    esp,0x4
+   55b5d:	c3                   	ret

@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "status": "confirmed original unwritten local; exact native path unsupported",
+  "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "last_accepted_commit": "1a7c52098",
+  "candidate": {
+    "name": "_flush_current_function@4",
+    "extent": [
+      296288,
+      296391
+    ],
+    "accepted": false,
+    "patch": "flush-current-function-unaccepted.patch"
+  },
+  "case": "state_machine_debug",
+  "public_reachability": "Proven valid frozen input, synthetic local-static cleanup",
+  "original_read": {
+    "function": "_finish_function_output",
+    "instruction": 350982,
+    "comparison": 351014,
+    "entry_esp_offset": -4,
+    "width": 4,
+    "definition": "SUB ESP4 then PUSH ESI; empty closed_scopes arm writes two records13 but never writes the reserved DWORD before MOV ESI,[ESP+4]."
+  },
+  "owner": {
+    "original_closed_scopes_address": 595152,
+    "original_closed_scopes_value": 0,
+    "original_global_scope_address": 651976,
+    "original_global_scope_nonnull": true,
+    "actual_flush_caller_rva": 259249,
+    "actual_retain": 0,
+    "native_closed_scopes_value": 0,
+    "native_initializer_function_closing": 1,
+    "scope": "closing1 records this actual call context; it does not narrow the guard. Accepted leave_compound_scope suppresses queue_closed_scope while token flags40; two closing calls keep global closed_scopes empty."
+  },
+  "divergence": {
+    "original_symbol_bytes": 1802,
+    "native_symbol_bytes": 1801,
+    "missing_record": "06",
+    "checkpoint_state_words_equal": 14
+  },
+  "guard": {
+    "function": "finish_function_output",
+    "condition": "!options.prototypes_only && !closed_scopes, after finish_label_symbols and both genuine records13",
+    "symbol_buffer_prefix_bytes": 1634,
+    "original_next_byte": 6,
+    "prefix_matches": true,
+    "win32": "Original uninitialized scope variable retained, no initialization or record normalization.",
+    "coverage": "No candidate acceptance or new app credit; frozen cached boundary stays flush_current_function."
+  },
+  "files": [
+    {
+      "path": "README.txt",
+      "sha256": "b8ecdc6bdaec6573fb457e18dc46232c9dcb148677c28ced27998d7e04ad2f2b"
+    },
+    {
+      "path": "failed-native-checkpoint.json",
+      "sha256": "852c3ceaad95ca96365ad5a8f847e7afbb5a26cfef9a4850ace76bc9264027ce"
+    },
+    {
+      "path": "failed-native-gdb.log",
+      "sha256": "e9f2af02251b0df9fb38ad4a0d11ee02aa1dc725d3eace00c156b5f360a05a55"
+    },
+    {
+      "path": "failed-native-stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "failed-native-stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "failed-original-events.txt",
+      "sha256": "f035b633f77210d5922dcf542107d14b57837a21c3da5c19f85778c52fd05536"
+    },
+    {
+      "path": "failed-original-receipt.json",
+      "sha256": "d8154b287b5acfb9e77879c89d07124c479ffed3bf149d3725e919e5d8d67ed9"
+    },
+    {
+      "path": "failed-original-stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "failed-original-stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "finish-function-output-analysis.txt",
+      "sha256": "3fbe6d1dd2efd02b90570ad40846235df62eeadd9c28986c94a5fd612704d575"
+    },
+    {
+      "path": "flush-current-function-unaccepted.patch",
+      "sha256": "e831ddb9329cffe95d5b6dd25d294b840133d9cd85a6022112d9279ef1ae9bf2"
+    },
+    {
+      "path": "guard-native-checkpoint.json",
+      "sha256": "cadb0107d90d9d4c8ea002701348de656e3946c59b81bf01bfb2cd6d633a0612"
+    },
+    {
+      "path": "guard-native-gdb.log",
+      "sha256": "4dc8d1ebe1b011070f7f3d511dfd5ea5908f14ccd3e656603de2e96368bb1ece"
+    },
+    {
+      "path": "guard-native-stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "guard-native-stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "guard-native-timing.json",
+      "sha256": "8237e25b3d31a8531fba89b6791a27884568e8886d08230a5fa1dbd70d992bf2"
+    },
+    {
+      "path": "owner-native-checkpoint.json",
+      "sha256": "00c92d9bb67976b80511e5f8331ea4abba6825e1bcedfc669a250310d450b3d8"
+    },
+    {
+      "path": "owner-native-gdb.log",
+      "sha256": "b733decb834747a575de8fc2b0fd4ac075bd9d7b5520aa885c709c62d7367538"
+    },
+    {
+      "path": "owner-original-events.txt",
+      "sha256": "01787048e1d39ad6de42409be000fc5fdf96e368721592a51e385e24293e1616"
+    },
+    {
+      "path": "owner-original-receipt.json",
+      "sha256": "406bc07da2e864ce43d52f53c0f0f5369ad5f37d9004fcf34eb3b4be178c251a"
+    },
+    {
+      "path": "stable-build-timing.json",
+      "sha256": "06d5abff1358e1d06447168f238327f8cdf6a939dace70aa75bd4247f9c07f14"
+    },
+    {
+      "path": "stable-native-fixtures.json",
+      "sha256": "deec996908db4088061d3b5b636780984bc83c0ef222c971a98eeaa52ac1f11f"
+    }
+  ],
+  "stable_cached_regressions": "stable-native-fixtures.json",
+  "input": {
+    "path": "../fixtures/c1xx-state-machine-debug/c1/state-machine.cpp",
+    "sha256": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+  },
+  "post_restore_audit": {
+    "command": "make -j4 audit",
+    "status": "pass",
+    "graph_functions": 1134,
+    "scope": "1127 app-support functions plus7 historical CRT; callgraph/RET/reference/callback/extent/data/parser/lookahead checks"
+  }
+}
