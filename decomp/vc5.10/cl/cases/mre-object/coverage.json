@@ -2,53 +2,35 @@
   "kind": "Accepted reviewed original application extents, not branch/input-domain coverage or a claim about unclassified code elsewhere",
   "partition_sha256": "8078724b0ef0691874e5f0916a2a3e397fc9a0347723ccf8705a8a548cb2551b",
   "application": {
-    "accepted_functions": 105,
+    "accepted_functions": 108,
     "indexed_functions": 112,
-    "accepted_bytes": 17658,
+    "accepted_bytes": 18238,
     "reviewed_extent_bytes": 18545,
-    "percent": 95.21703963332435,
+    "percent": 98.3445672688056,
     "identified_remaining": [
       {
-        "name": "_console_control_handler@4",
         "start": 4216770,
         "end": 4216832,
-        "bytes": 62
+        "bytes": 62,
+        "name": "_console_control_handler@4"
       },
       {
-        "name": "_toggle_pass",
         "start": 4203673,
         "end": 4203786,
-        "bytes": 113
+        "bytes": 113,
+        "name": "_toggle_pass"
       },
       {
-        "name": "_console_rows",
         "start": 4216854,
         "end": 4216945,
-        "bytes": 91
+        "bytes": 91,
+        "name": "_console_rows"
       },
       {
-        "name": "_file_timestamp",
-        "start": 4208954,
-        "end": 4209481,
-        "bytes": 527
-      },
-      {
-        "name": "_deferred_from_jobs",
         "start": 4209550,
         "end": 4209591,
-        "bytes": 41
-      },
-      {
-        "name": "option_string_comparator",
-        "start": 4209481,
-        "end": 4209501,
-        "bytes": 20
-      },
-      {
-        "name": "option_matching_selector",
-        "start": 4198647,
-        "end": 4198680,
-        "bytes": 33
+        "bytes": 41,
+        "name": "_deferred_from_jobs"
       }
     ]
   },
@@ -57,5 +39,6 @@
     "bytes": 476,
     "source_credit": false
   },
-  "padding_bytes": 41
+  "padding_bytes": 41,
+  "identity_qualification": "Accepted membership joins the immutable historical code partition by original start address. Historical names such as file_timestamp/option_string_comparator were subsequently refined; their unchanged address/extents are not separate pending functions."
 }
