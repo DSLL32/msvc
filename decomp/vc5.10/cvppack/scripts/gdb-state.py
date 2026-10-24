@@ -39,6 +39,9 @@ name_hash_temp_frees=[]
 address_hash_entry={}
 address_hash_allocations=[]
 address_hash_sort={}
+address_hash_first_snapshot={}
+address_hash_complete_state={}
+address_hash_complete_module=None
 output_directory_before={}
 output_directory_sort={}
 output_directory_complete={}
@@ -213,11 +216,12 @@ def install(configuration):
             elif owner.name()=='allocate_cleared':
                 record=dict(size=size);cleared_allocations.append(record)
                 if config.get('observe_name_hash') and owner.older() is not None and (owner.older().name()=='build_symbol_name_hash' or owner.older().name()=='copy_type_arena' and owner.older().older() is not None and owner.older().older().name()=='build_symbol_name_hash'):record.update(owner=owner.older().name(),context='build_symbol_name_hash')
-                if config.get('observe_address_hash') and owner.older() is not None and owner.older().name()=='build_symbol_address_hash':record.update(owner='build_symbol_address_hash',context='build_symbol_address_hash')
+                if config.get('observe_address_hash') and owner.older() is not None and (owner.older().name()=='build_symbol_address_hash' or owner.older().name()=='copy_type_arena' and owner.older().older() is not None and owner.older().older().name()=='build_symbol_address_hash'):record.update(owner=owner.older().name(),context='build_symbol_address_hash')
             elif owner.name()=='allocate_bytes':
                 record=dict(size=size);checked_allocations.append(record)
                 caller=owner.older()
                 if config.get('observe_name_hash') and caller is not None and (caller.name()=='build_symbol_name_hash' or caller.name()=='copy_type_arena' and caller.older() is not None and caller.older().name()=='build_symbol_name_hash'):record.update(owner=caller.name(),context='build_symbol_name_hash')
+                if config.get('observe_address_hash_complete') and caller is not None and caller.name()=='copy_type_arena' and caller.older() is not None and caller.older().name()=='build_symbol_address_hash':record.update(owner=caller.name(),context='build_symbol_address_hash')
                 if config.get('observe_source_index_complete') and caller is not None and caller.name() in ('build_source_file_index','append_source_name'):
                     assert len(main_free_calls)==12 and all(row.get('returned') for row in main_free_calls) and not source_family_frees,'source family allocation lifetime order differs'
                     role=['module','name','output'][len(source_family_allocations)]
@@ -350,6 +354,7 @@ def install(configuration):
             def stop(self):
                 frame=gdb.newest_frame();owner=frame.older()
                 if owner is None or owner.name()!='build_symbol_address_hash':return False
+                if config.get('observe_address_hash_complete') and address_hash_sort:return False
                 assert not address_hash_sort and len(address_hash_allocations)==4,'addresshash new qsort call needs fresh contract'
                 inferior=gdb.selected_inferior();esp=int(gdb.parse_and_eval('$esp'));args=struct.unpack('<4I',bytes(inferior.read_memory(esp+4,16)))
                 assert args[3]==int(gdb.parse_and_eval('&compare_symbol_address'))
@@ -361,6 +366,36 @@ def install(configuration):
                 groups=owner.read_var('groups');assert groups.type.strip_typedefs().code==gdb.TYPE_CODE_PTR and groups.type.target().sizeof==12
                 address_hash_sort.update(entry_esp=esp,args=list(args),owner=owner.name(),groups=int(groups),scalars=scalars,layouts={name:layout(name) for name in ('AddressHashEntry','AddressHashGroup')},before_owned={str(row['address']):bytes(inferior.read_memory(row['address'],row['size'])).hex() for row in address_hash_allocations});return False
         AddressHashSortEntered()
+        if config.get('observe_address_hash_complete'):
+            class AddressHashPhysicalEntry(gdb.Breakpoint):
+                def __init__(self):super().__init__('*compare_symbol_address',internal=True)
+                def stop(self):
+                    if address_hash_first_snapshot:return False
+                    esp=int(gdb.parse_and_eval('$esp'))
+                    address_hash_first_snapshot.update(entry_pc=int(gdb.parse_and_eval('$pc')),entry_esp=esp,entry_stack=list(struct.unpack('<3I',bytes(gdb.selected_inferior().read_memory(esp,12)))))
+                    return False
+            AddressHashPhysicalEntry()
+            class AddressHashFirstSnapshot(gdb.Breakpoint):
+                def __init__(self):super().__init__('compare_symbol_address',internal=True)
+                def stop(self):
+                    if 'typed_pc' in address_hash_first_snapshot:return False
+                    # DWARF parameter locations become valid after the actual
+                    # frame setup/filtered instrumentation. Raw entry slots are
+                    # retained independently; no comparator expression ran yet.
+                    assert address_hash_first_snapshot and gdb.newest_frame().older().name()=='recon_qsort'
+                    directory=Path(configuration).parent
+                    phase=dict(config,observe_address_hash_complete=False)
+                    phase_path=directory/'first-address-callback-config.json'
+                    phase_path.write_text(json.dumps(phase,indent=2)+'\n')
+                    capture(str(phase_path),str(directory/'data.json'),str(directory/'first-address-callback-state.json'))
+                    address_hash_first_snapshot.update(path='first-address-callback-state.json',typed_pc=int(gdb.parse_and_eval('$pc')),typed_esp=int(gdb.parse_and_eval('$esp')),phase='physical entry ABI plus typed post-prologue checkpoint before comparator expression; historical only')
+                    return False
+            AddressHashFirstSnapshot()
+            import importlib.util
+            global address_hash_complete_state,address_hash_complete_module
+            spec=importlib.util.spec_from_file_location('frozen_address_hash_complete_gdb',Path(configuration).parent/'address-hash-complete-gdb.py')
+            address_hash_complete_module=importlib.util.module_from_spec(spec);spec.loader.exec_module(address_hash_complete_module)
+            address_hash_complete_state=address_hash_complete_module.install(globals())
 
     if config.get('observe_name_hash'):
         class NameHashEntered(gdb.Breakpoint):
@@ -767,7 +802,7 @@ def capture(configuration,data_file,output):
         assert len(calls)==1 and calls[0]['name']==name and calls[0]['size']==size,'historical table free identity differs'
         state.setdefault('historical_type_tables',[]).append(dict(name=name,free_index=calls[0]['index'],size=size))
         return bytes.fromhex(calls[0]['before'])
-    state=dict(function=frame.name(),pc=int(gdb.parse_and_eval('$pc')),signal=gdb.execute('info program',to_string=True))
+    state=dict(function=frame.name(),pc=int(gdb.parse_and_eval('$pc')),entry_esp=int(gdb.parse_and_eval('$esp')),signal=gdb.execute('info program',to_string=True))
     state['frontier_caller']=frame.older().name() if frame.older() is not None else None
     state['global_addresses']={item['name']:int(gdb.parse_and_eval('&('+item.get('native_expression',item['name'])+')')) for item in data}
     record=next((row for row in config['functions'] if row['native_symbol']==frame.name()),None)
@@ -1033,7 +1068,7 @@ def capture(configuration,data_file,output):
             assert arena_layout=={name:dict(offset=index*4,width=4) for index,name in enumerate(('capacity','block_count','last','cursor','remaining','first'))},'public writer actual arena member layout differs'
             alias=value['fields'];assert int(alias.address)-base==4 and alias.type.strip_typedefs().code==gdb.TYPE_CODE_ARRAY and alias.type.sizeof==20 and alias.type.target().sizeof==4,'public writer actual anonymous arena alias differs'
             streams.append(dict(local=local,address=int(value.address),width=int(kind.sizeof),first_offset=20))
-        state['public_writer_frame']=dict(owner=owner.name(),caller=owner.older().name(),header_address=int(header.address),header=bytes(inferior.read_memory(header.address,16)).hex(),header_layout=layout,padding_address=int(padding.address),padding=int(padding),entry=int(owner.read_var('entry')),offset=int(owner.read_var('offset')),stream_objects=streams,uninitialized_streams=streams[1:] if config.get('observe_name_hash') else streams,uninitialized_stream_bytes_uncompared=24 if config.get('observe_name_hash') else sum(row['width'] for row in streams))
+        state['public_writer_frame']=dict(owner=owner.name(),caller=owner.older().name(),header_address=int(header.address),header=bytes(inferior.read_memory(header.address,16)).hex(),header_layout=layout,padding_address=int(padding.address),padding=int(padding),entry=int(owner.read_var('entry')),offset=int(owner.read_var('offset')),stream_objects=streams,uninitialized_streams=[] if config.get('observe_address_hash_complete') else streams[1:] if config.get('observe_name_hash') else streams,uninitialized_stream_bytes_uncompared=0 if config.get('observe_address_hash_complete') else 24 if config.get('observe_name_hash') else sum(row['width'] for row in streams))
     if config.get('observe_name_hash'):
         if config.get('observe_name_hash_complete'):
             assert name_hash_first_frame,'missing actual namehash before-fill frame'
@@ -1067,7 +1102,12 @@ def capture(configuration,data_file,output):
     state['address_hash_sort']=address_hash_sort
     if config.get('observe_address_hash'):
         assert address_hash_sort and len(address_hash_allocations)==4
-        state['address_hash_current_owned']={str(row['address']):bytes(actual_inferior.read_memory(row['address'],row['size'])).hex() for row in address_hash_allocations}
+        if config.get('observe_address_hash_complete'):
+            directory=Path(configuration).parent
+            state['address_hash_first_callback']=json.loads((directory/'first-address-callback-state.json').read_text())
+            state['address_hash_first_callback_observation']=address_hash_first_snapshot
+            state['address_hash_complete']=address_hash_complete_module.finish(address_hash_complete_state,frame)
+        else:state['address_hash_current_owned']={str(row['address']):bytes(actual_inferior.read_memory(row['address'],row['size'])).hex() for row in address_hash_allocations}
     state['directory_before_writer']=output_directory_before
     state['directory_sort_input']=output_directory_sort
     state['directory_sort_complete']=output_directory_complete
@@ -1083,7 +1123,7 @@ def capture(configuration,data_file,output):
     state['widen_emit_calls']=widen_emit_calls
     if config.get('observe_output_buffer_init'):
         address=int(gdb.parse_and_eval('output_buffer'));capacity=int(gdb.parse_and_eval('output_capacity'));used=int(gdb.parse_and_eval('output_used'));file=int(gdb.parse_and_eval('output_file'))
-        assert address and used==(5056 if config.get('observe_subsection_output') else 8) and used<=capacity and output_buffer_allocations and output_buffer_allocations[-1]['address']==address and output_buffer_allocations[-1]['size']==capacity,'output buffer initialized-prefix observation differs'
+        assert address and used==(7188 if config.get('observe_address_hash_complete') else 5056 if config.get('observe_subsection_output') else 8) and used<=capacity and output_buffer_allocations and output_buffer_allocations[-1]['address']==address and output_buffer_allocations[-1]['size']==capacity,'output buffer initialized-prefix observation differs'
         state['output_buffer_state']=dict(address=address,capacity=capacity,used=used,file=file,bytes=bytes(actual_inferior.read_memory(address,used)).hex(),environment=sort_environment())
     state['widen_query_calls']=widen_query_calls
     state['widen_factory_calls']=widen_factory_calls

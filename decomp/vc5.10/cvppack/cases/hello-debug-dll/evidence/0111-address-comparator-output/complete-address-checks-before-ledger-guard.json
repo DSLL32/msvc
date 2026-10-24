@@ -1,0 +1,312 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "fresh_negative_count": 67,
+  "rejected": [
+    {
+      "name": "wrong-final-named-frontier",
+      "diagnostic": "complete address hash real next frontier differs"
+    },
+    {
+      "name": "missing-complete-sort",
+      "diagnostic": "complete address sort inventory differs"
+    },
+    {
+      "name": "wrong-sort-width",
+      "diagnostic": "complete address actual sort arguments differ"
+    },
+    {
+      "name": "wrong-sort-provider",
+      "diagnostic": "complete address sort provider/owner differs"
+    },
+    {
+      "name": "wrong-sort-stack-cleanup",
+      "diagnostic": "complete address qsort cdecl stack differs"
+    },
+    {
+      "name": "wrong-sort-callback-count",
+      "diagnostic": "complete address callback group bounds differ"
+    },
+    {
+      "name": "changed-before-row-offset",
+      "diagnostic": "complete address full before-sort arrays differ"
+    },
+    {
+      "name": "changed-postsort-row-offset",
+      "diagnostic": "complete address full post-sort arrays differ"
+    },
+    {
+      "name": "changed-other-owner-group-count",
+      "diagnostic": "complete address full post-sort arrays differ"
+    },
+    {
+      "name": "missing-callback",
+      "diagnostic": "complete address sort inventory differs"
+    },
+    {
+      "name": "wrong-callback-sequence",
+      "diagnostic": "complete address callback sequence differs"
+    },
+    {
+      "name": "wrong-callback-group",
+      "diagnostic": "complete address callback sequence differs"
+    },
+    {
+      "name": "wrong-canonical-return-role",
+      "diagnostic": "complete address callback return instruction differs"
+    },
+    {
+      "name": "wrong-native-return-instruction",
+      "diagnostic": "complete address callback return instruction differs"
+    },
+    {
+      "name": "wrong-callback-row-pointer",
+      "diagnostic": "complete address callback row-pointer alias differs"
+    },
+    {
+      "name": "changed-callback-input",
+      "diagnostic": "complete address callback initialized row contents differ"
+    },
+    {
+      "name": "wrong-comparator-result",
+      "diagnostic": "complete address comparator signed subtraction differs"
+    },
+    {
+      "name": "wrong-callback-cleanup",
+      "diagnostic": "complete address callback cdecl stack/return differs"
+    },
+    {
+      "name": "wrong-real-formal-pointer-type",
+      "diagnostic": "complete address callback actual two-formal types differ"
+    },
+    {
+      "name": "changed-callback-own-FP-payload",
+      "diagnostic": "complete address own raw FP preservation differs"
+    },
+    {
+      "name": "changed-callback-own-errno",
+      "diagnostic": "complete address own error identity/state differs"
+    },
+    {
+      "name": "changed-sort-own-LastError-storage",
+      "diagnostic": "complete address own error identity/state differs"
+    },
+    {
+      "name": "changed-callback-EDI",
+      "diagnostic": "complete address callback normal-return registers differ"
+    },
+    {
+      "name": "missing-new-output-owner",
+      "diagnostic": "complete address output allocation inventory differs"
+    },
+    {
+      "name": "wrong-new-output-size",
+      "diagnostic": "complete address actual output allocation site/size differs"
+    },
+    {
+      "name": "wrong-new-output-owner",
+      "diagnostic": "complete address output allocation owner/ABI differs"
+    },
+    {
+      "name": "wrong-new-output-allocation-cleanup",
+      "diagnostic": "complete address output allocation return ABI differs"
+    },
+    {
+      "name": "wrong-new-output-event-generation",
+      "diagnostic": "complete address output generic-event identity differs"
+    },
+    {
+      "name": "coherent-new-output-overlaps-live-name-tail",
+      "diagnostic": "complete address output overlaps an earlier live generation"
+    },
+    {
+      "name": "coherent-new-output-overlaps-live-temp-array",
+      "diagnostic": "complete address output overlaps an earlier live generation"
+    },
+    {
+      "name": "wrong-actual-arena-capacity",
+      "diagnostic": "complete address actual arena initialization differs"
+    },
+    {
+      "name": "wrong-actual-init-formal",
+      "diagnostic": "complete address initializer cdecl ABI differs"
+    },
+    {
+      "name": "missing-stream-operation",
+      "diagnostic": "complete address actual stream operation inventory differs"
+    },
+    {
+      "name": "wrong-stream-owner",
+      "diagnostic": "complete address actual stream sequence/owner differs"
+    },
+    {
+      "name": "wrong-stream-copy-size",
+      "diagnostic": "complete address stream extent/arena differs"
+    },
+    {
+      "name": "wrong-stream-caller-arena",
+      "diagnostic": "complete address stream extent/arena differs"
+    },
+    {
+      "name": "wrong-copy-fastcall-cleanup",
+      "diagnostic": "complete address stream fastcall/cdecl cleanup differs"
+    },
+    {
+      "name": "wrong-DWORD-offset-source-type",
+      "diagnostic": "complete address actual scalar-local ABI differs"
+    },
+    {
+      "name": "wrong-actual-scalar-source-pointer",
+      "diagnostic": "complete address initialized copy source/bytes differ"
+    },
+    {
+      "name": "changed-complete-copy-input",
+      "diagnostic": "complete address initialized copy source/bytes differ"
+    },
+    {
+      "name": "wrong-fill-byte",
+      "diagnostic": "complete address fill byte differs"
+    },
+    {
+      "name": "changed-stream-arena-result",
+      "diagnostic": "complete address stream actual arena/result identity differs"
+    },
+    {
+      "name": "changed-stream-prefix-write",
+      "diagnostic": "complete address complete initialized stream write differs"
+    },
+    {
+      "name": "missing-real-free",
+      "diagnostic": "complete address actual temporary free inventory differs"
+    },
+    {
+      "name": "wrong-free-generation",
+      "diagnostic": "complete address actual free sequence/owner differs"
+    },
+    {
+      "name": "wrong-free-pointer",
+      "diagnostic": "complete address actual free sequence/owner differs"
+    },
+    {
+      "name": "changed-prefree-sorted-array",
+      "diagnostic": "complete address historical pre-free initialized bytes differ"
+    },
+    {
+      "name": "wrong-free-provider",
+      "diagnostic": "complete address free canonical provider/return differs"
+    },
+    {
+      "name": "wrong-free-stack",
+      "diagnostic": "complete address free cdecl/nonvolatile ABI differs"
+    },
+    {
+      "name": "wrong-current-output-block-alias",
+      "diagnostic": "complete address current initialized block/output differs"
+    },
+    {
+      "name": "changed-current-output-byte",
+      "diagnostic": "complete address current initialized block/output differs"
+    },
+    {
+      "name": "wrong-current-names-argument",
+      "diagnostic": "complete address next actual names formal/alias differs"
+    },
+    {
+      "name": "wrong-current-names-formal-width",
+      "diagnostic": "complete address next actual names formal/alias differs"
+    },
+    {
+      "name": "changed-current-live-names-output",
+      "diagnostic": "complete address changed current live names generation"
+    },
+    {
+      "name": "retired-array-before-base-memory-overlap",
+      "diagnostic": "complete address private generation leaked into generic current state"
+    },
+    {
+      "name": "retired-array-before-base-string-overlap",
+      "diagnostic": "complete address private generation leaked into generic current state"
+    },
+    {
+      "name": "unwritten-new-output-tail-current-read",
+      "diagnostic": "complete address private generation leaked into generic current state"
+    },
+    {
+      "name": "unexpected-current-global-change",
+      "diagnostic": "complete address unexpected changed global: image_read_mode"
+    },
+    {
+      "name": "wrong-actual-packed-output-count",
+      "diagnostic": "complete address actual complete packed-output extent differs"
+    },
+    {
+      "name": "changed-actual-packed-output-byte",
+      "diagnostic": "complete address actual complete packed-output extent differs"
+    },
+    {
+      "name": "wrong-current-public-directory-size",
+      "diagnostic": "complete address actual public directory row/tail differs"
+    },
+    {
+      "name": "changed-live-public-record-unused-hash",
+      "diagnostic": "complete address changed current initialized public record"
+    },
+    {
+      "name": "changed-live-public-buckets",
+      "diagnostic": "complete address changed current live public buckets"
+    },
+    {
+      "name": "old-uninitialized-addresses-schema-retained",
+      "diagnostic": "complete address current initialized public header/stream schema differs"
+    },
+    {
+      "name": "raw-mutated-full-postsort-array",
+      "diagnostic": "complete address full post-sort arrays differ"
+    },
+    {
+      "name": "wrong-physical-versus-typed-typed_pc",
+      "diagnostic": "addresshash native actual phase entry differs"
+    },
+    {
+      "name": "wrong-physical-versus-typed-entry_esp",
+      "diagnostic": "native comparator checkpoint stack delta differs"
+    }
+  ],
+  "positive_own_preinit_addresses_bits": true,
+  "baseline": {
+    "sorts": 3,
+    "callback_counts": [
+      133,
+      151,
+      28
+    ],
+    "callbacks": 312,
+    "all_callback_inputs_results_ABI_sequence": true,
+    "fully_initialized_temporary_bytes": 548,
+    "actual_stream_calls": 139,
+    "initialized_address_stream_bytes": 540,
+    "own_unwritten_address_tail_bytes_uncompared": 3556,
+    "temporary_free_calls": 4,
+    "retired_payload_reinstalled": false,
+    "actual_new_live_owners": 2,
+    "new_live_capacity_bytes": 4108,
+    "initialized_new_live_bytes": 552,
+    "initialized_packed_output_bytes": 7188,
+    "own_unwritten_packed_output_bytes_uncompared": 58324,
+    "current_directory_entry": 58,
+    "current_names_generation_retained": true,
+    "each_own_full_raw_FP_errors_preserved": true,
+    "next_consumer": "first_hash_output_block(current names24)"
+  },
+  "seconds": 24.25979251228273,
+  "checker_sha256": "7fb740ebe9494ecbd16a67272cb9180254708c410cd55b8ea088ba453c8ff53e",
+  "validator_sha256": "1776fbcd2ed5d4becebc431f8775c22dc5dbf8d699de7b2424cd04ff5adfec4e",
+  "decoder_sha256": "c12c7ae5b1e24bddcba674f84b5020fa5cb2e4cc2fc64a1bcd5c06df8efd1f8c",
+  "original_receipt_sha256": "2c42767aba3904d985f186b8b25136ec0c7547c1abf10def8d34ea5a0e2b1186",
+  "native_receipt_sha256": "b36f0eef56cc2b2f7486c5918ce19914c5515ee09b63af97a96c76abbcad4d09",
+  "reused_prefix": {
+    "path": "cases/hello-debug-dll/evidence/0110-address-hash-first-sort/address-hash-checks.json",
+    "sha256": "8b4eee110bacae204eba0bacf68905612c8944580a9a1550365c87eae8531dbb",
+    "scope": "Prior53 affected generation/first-qsort controls retain110scope. Unchanged prefix predicates freshly pass on actual111 physical-entry/typed checkpoint observations once; current-only mutations call the SAME production validate_current, not a mirror, avoiding repeated old prefix campaigns. New phase entry/prologue and initialized-current-state checks are fresh."
+  }
+}

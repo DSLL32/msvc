@@ -197,6 +197,14 @@ void build_symbol_name_hash(SymbolKeyProc key, unsigned short *method,
     for (page = 0; page < 10; ++page) free(overflow_pages[page]);
 }
 
+/* Address hash rows sort by the unsigned symbol offset difference.
+ * The original subtraction wraps to the signed cdecl result [0040edc0,0040edd7). */
+int __cdecl compare_symbol_address(const void *first, const void *second)
+{
+    const AddressHashEntry *a = first, *b = second;
+    return (int)(a->symbol->offset - b->symbol->offset);
+}
+
 /* CodeView address hash, method 12 [0040ede0,0040f0c6). */
 void build_symbol_address_hash(unsigned short *method, unsigned *bytes,
     TypeArena *stream, unsigned count, PublicSymbol **buckets)

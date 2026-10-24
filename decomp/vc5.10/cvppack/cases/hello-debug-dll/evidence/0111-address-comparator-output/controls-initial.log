@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/check-address-hash-complete-state.py", line 111, in <module>
+    line=next(l for l in events.splitlines()if l.startswith('addresshash-parent-stack '));f=line.split();payload=bytearray.fromhex(f[-1]);payload[84:108]=bytes(range(24));f[-1]=payload.hex();assert raw.compare(config,data,events.replace(line,' '.join(f),1),native,artifacts,views)==full
+                                                                                                                                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

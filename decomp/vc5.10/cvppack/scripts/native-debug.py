@@ -29,8 +29,14 @@ def main():
     (output/'case-definition.json').write_text(json.dumps(case,indent=2)+'\n')
     (output / 'configuration.json').write_bytes(args.config.read_bytes())
     (output / 'data.json').write_bytes((BINARY / 'data.json').read_bytes())
-    from provenance import snapshot
-    snapshot(output/'compiled-sources.json',args.content_store)
+    from provenance import snapshot,verify
+    if reference and reference['native_sha256']==sha(BINARY/'build/native/CVPACK') and reference['rebuilt_sha256']==sha(BINARY/'build/CVPACK.EXE'):
+        # Same immutable binaries as the original receipt: retain the compiled
+        # CONTENT manifest, rather than relabeling them with newer shared files.
+        verify(args.original/'compiled-sources.json')
+        (output/'compiled-sources.json').write_bytes((args.original/'compiled-sources.json').read_bytes())
+    else:
+        snapshot(output/'compiled-sources.json',args.content_store)
     config = json.loads((output / 'configuration.json').read_text())
     data = json.loads((output / 'data.json').read_text())
     commands = output / 'commands.gdb'
@@ -43,6 +49,7 @@ def main():
         'run ' + ' '.join(shlex.quote(value) for value in case['argv']) + ' >' + str(output / 'stdout') + ' 2>' + str(output / 'stderr') + '\npython\n'
         'helper.capture('+repr(str(output/'configuration.json'))+','+repr(str(output/'data.json'))+','+repr(str(state_path))+')\nend\nquit\n')
     (output/'gdb-state.py').write_bytes((BINARY/'scripts/gdb-state.py').read_bytes())
+    if config.get('observe_address_hash_complete'):(output/'address-hash-complete-gdb.py').write_bytes((BINARY/'scripts/address-hash-complete-gdb.py').read_bytes())
     env = os.environ.copy()
     env.pop('VC510_CVPACK_WIDEN',None)
     env.pop('RECON_TRACE_FD', None)
@@ -98,6 +105,7 @@ def main():
     for name in case['artifacts']:
         path=output/('artifact-'+name);path.write_bytes((output/name).read_bytes())
         artifact_records.append(dict(name=path.name,bytes=path.stat().st_size,sha256=sha(path)))
+    if config.get('observe_address_hash_complete'):extra_outputs+=['address-hash-complete-gdb.py','first-address-callback-state.json','first-address-callback-config.json']
     receipt = dict(schema=1, case=case['name'], native_sha256=sha(BINARY / 'build/native/CVPACK'),
                    case_definition_sha256=sha(output/'case-definition.json'),
                    configuration_sha256=sha(output / 'configuration.json'),

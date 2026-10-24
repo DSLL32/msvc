@@ -1,0 +1,4 @@
+Python Exception <class 'AssertionError'>: addresshash callback pointer exceeds actual sort owner
+Python Exception <class 'AssertionError'>: addresshash callback pointer exceeds actual sort owner
+/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0111-address-comparator/native/commands.gdb:14: Error in sourced command file:
+Error occurred in Python: addresshash callback pointer exceeds actual sort owner

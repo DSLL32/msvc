@@ -1,0 +1,134 @@
+mkdir -p build
+python3 scripts/wine-tool.py LIB.EXE /nologo /machine:IX86 /def:src/mspdb50.def /out:build/mspdb50.lib
+mkdir -p build/native
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /Fobuild/debug-run.obj scripts/debug-run.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/derived-types.obj src/derived-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/diagnostics.obj src/diagnostics.c
+debug-run.c
+diagnostics.c
+derived-types.c
+scripts/debug-run.c(760) : warning C4018: '!=' : signed/unsigned mismatch
+scripts/debug-run.c(776) : warning C4018: '!=' : signed/unsigned mismatch
+   Creating library build/mspdb50.lib and object build/mspdb50.exp
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/files.obj src/files.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/global-symbols.obj src/global-symbols.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/global-types.obj src/global-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/image.obj src/image.c
+files.c
+global-symbols.c
+global-types.c
+image.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/input.obj src/input.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/legacy-types.obj src/legacy-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/main.obj src/main.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/messages.obj src/messages.c
+legacy-types.c
+input.c
+main.c
+src/legacy-types.c(163) : warning C4101: 'position' : unreferenced local variable
+messages.c
+src/main.c(34) : warning C4761: integral size mismatch in argument; conversion supplied
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/modern-types.obj src/modern-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/module-types.obj src/module-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/options.obj src/options.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/pack.obj src/pack.c
+module-types.c
+options.c
+modern-types.c
+pack.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/primitive-types.obj src/primitive-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/publics.obj src/publics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/source-index.obj src/source-index.c
+publics.c
+primitive-types.c
+source-index.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/stubs.obj src/stubs.c
+stubs.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-handlers.obj src/symbol-handlers.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-reference.obj src/symbol-reference.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-references.obj src/symbol-references.c
+symbol-references.c
+symbol-handlers.c
+symbol-reference.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-rewrite.obj src/symbol-rewrite.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-scan.obj src/symbol-scan.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-scopes.obj src/symbol-scopes.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-arena.obj src/type-arena.c
+symbol-rewrite.c
+symbol-scan.c
+symbol-scopes.c
+type-arena.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-compare.obj src/type-compare.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-hash.obj src/type-hash.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-index.obj src/type-index.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-intern.obj src/type-intern.c
+type-compare.c
+type-intern.c
+type-hash.c
+type-index.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-lists.obj src/type-lists.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-lookup.obj src/type-lookup.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-names.obj src/type-names.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-pointers.obj src/type-pointers.c
+type-lists.c
+type-pointers.c
+type-lookup.c
+type-names.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-recursive-hash.obj src/type-recursive-hash.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-recursive.obj src/type-recursive.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-references.obj src/type-references.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/types.obj src/types.c
+type-recursive-hash.c
+type-recursive.c
+type-references.c
+types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/writer.obj src/writer.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/widen.obj src/widen.cpp
+python3 scripts/wine-tool.py RC.EXE /r /fobuild/resources.res src/cvpack.rc
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/derived-types.c -o build/native/derived-types.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/diagnostics.c -o build/native/diagnostics.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/files.c -o build/native/files.o
+writer.c
+widen.cpp
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/global-symbols.c -o build/native/global-symbols.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/global-types.c -o build/native/global-types.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/image.c -o build/native/image.o
+src/writer.c(131) : warning C4018: '==' : signed/unsigned mismatch
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/input.c -o build/native/input.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/legacy-types.c -o build/native/legacy-types.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/main.c -o build/native/main.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/messages.c -o build/native/messages.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/modern-types.c -o build/native/modern-types.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/module-types.c -o build/native/module-types.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/options.c -o build/native/options.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/pack.c -o build/native/pack.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/primitive-types.c -o build/native/primitive-types.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/publics.c -o build/native/publics.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/source-index.c -o build/native/source-index.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/stubs.c -o build/native/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/symbol-handlers.c -o build/native/symbol-handlers.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/symbol-reference.c -o build/native/symbol-reference.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/symbol-references.c -o build/native/symbol-references.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/symbol-rewrite.c -o build/native/symbol-rewrite.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/symbol-scan.c -o build/native/symbol-scan.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/symbol-scopes.c -o build/native/symbol-scopes.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-arena.c -o build/native/type-arena.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-compare.c -o build/native/type-compare.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-hash.c -o build/native/type-hash.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-index.c -o build/native/type-index.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-intern.c -o build/native/type-intern.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-lists.c -o build/native/type-lists.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-lookup.c -o build/native/type-lookup.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-names.c -o build/native/type-names.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-pointers.c -o build/native/type-pointers.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-recursive-hash.c -o build/native/type-recursive-hash.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-recursive.c -o build/native/type-recursive.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/type-references.c -o build/native/type-references.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/types.c -o build/native/types.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/writer.c -o build/native/writer.o
+clang++ -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -fms-extensions -fasm-blocks -O0 -g -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -finstrument-functions -c src/widen.cpp -o build/native/widen.o
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c scripts/native-driver.c -o build/native/driver.o
+clang++ -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -fms-extensions -fasm-blocks -O0 -g -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -c scripts/native-widen-factory.cpp -o build/native/widen-factory-host.o
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /out:build/debug-run.exe build/debug-run.obj
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/cvpack.map /out:build/CVPACK.EXE build/derived-types.obj build/diagnostics.obj build/files.obj build/global-symbols.obj build/global-types.obj build/image.obj build/input.obj build/legacy-types.obj build/main.obj build/messages.obj build/modern-types.obj build/module-types.obj build/options.obj build/pack.obj build/primitive-types.obj build/publics.obj build/source-index.obj build/stubs.obj build/symbol-handlers.obj build/symbol-reference.obj build/symbol-references.obj build/symbol-rewrite.obj build/symbol-scan.obj build/symbol-scopes.obj build/type-arena.obj build/type-compare.obj build/type-hash.obj build/type-index.obj build/type-intern.obj build/type-lists.obj build/type-lookup.obj build/type-names.obj build/type-pointers.obj build/type-recursive-hash.obj build/type-recursive.obj build/type-references.obj build/types.obj build/writer.obj build/widen.obj build/resources.res build/mspdb50.lib
+clang -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g build/native/derived-types.o build/native/diagnostics.o build/native/files.o build/native/global-symbols.o build/native/global-types.o build/native/image.o build/native/input.o build/native/legacy-types.o build/native/main.o build/native/messages.o build/native/modern-types.o build/native/module-types.o build/native/options.o build/native/pack.o build/native/primitive-types.o build/native/publics.o build/native/source-index.o build/native/stubs.o build/native/symbol-handlers.o build/native/symbol-reference.o build/native/symbol-references.o build/native/symbol-rewrite.o build/native/symbol-scan.o build/native/symbol-scopes.o build/native/type-arena.o build/native/type-compare.o build/native/type-hash.o build/native/type-index.o build/native/type-intern.o build/native/type-lists.o build/native/type-lookup.o build/native/type-names.o build/native/type-pointers.o build/native/type-recursive-hash.o build/native/type-recursive.o build/native/type-references.o build/native/types.o build/native/writer.o build/native/widen.o build/native/driver.o build/native/widen-factory-host.o scripts/native-widen.c scripts/native-pdb.c ../../../lib/recon/src/compat.c ../../../lib/recon/src/crt.c ../../../lib/recon/src/decimal.c ../../../lib/recon/src/entry.c ../../../lib/recon/src/process.c ../../../lib/recon/src/trace.c ../../../lib/recon/src/win32.c -o build/native/CVPACK

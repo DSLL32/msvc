@@ -127,6 +127,9 @@ def main():
     if config.get('observe_name_hash'):
         env['VC510_CVPACK_NAME_HASH']='1'
         env['VC510_CVPACK_PROBES']+=',40e9aa:namehash-malloc-call,40e9af:namehash-malloc-return,40e9e9:namehash-clear-call,40e9ee:namehash-clear-return,40eb0a:namehash-overflow-call,40eb0f:namehash-overflow-return,40eba0:namehash-init-call,40eba5:namehash-init-return,40ebb0:namehash-copy-call,40ebb5:namehash-copy-return,40ff9d:namehash-block-call,40ffa2:namehash-block-return,40ffaa:namehash-payload-call,40ffaf:namehash-payload-return'
+    if config.get('observe_address_hash_complete'):
+        env['VC510_CVPACK_ADDRESS_HASH_COMPLETE']='1'
+        env['VC510_CVPACK_PROBES']+=',40ef4d:address-sort-return,40edc4:address-callback-enter,40edd6:address-callback-return,40ef6b:address-arena-init-call,40ef70:address-arena-init-return,40ef7b:address-stream-copy,40ef80:address-stream-return,40ef86:address-stream-fill,40ef8b:address-stream-return,40efa5:address-stream-copy,40efaa:address-stream-return,40efda:address-stream-copy,40efdf:address-stream-return,40efe4:address-stream-fill,40efe9:address-stream-return,40f01e:address-stream-copy,40f023:address-stream-return,40f030:address-stream-copy,40f035:address-stream-return,40f09b:address-temp-free,40f09d:address-temp-return,40f0b9:address-temp-free,40f0bb:address-temp-return'
     if config.get('observe_address_hash'):
         env['VC510_CVPACK_ADDRESS_HASH']='1'
         env['VC510_CVPACK_PROBES']+=',40ee42:addresshash-group-call,40ee47:addresshash-group-return,40eeaf:addresshash-entries-call,40eeb4:addresshash-entries-return,40ef4b:addresshash-qsort-call'

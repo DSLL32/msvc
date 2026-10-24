@@ -6,10 +6,10 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-the first address-hash comparator (`compare_symbol_address`),
-after all 21 Widen lifetimes. There are 110 accepted application functions /
-36,980 extent bytes, plus 784 associated switch-data
-bytes. This is 59.02% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+the first live hash-block accessor (`first_hash_output_block`),
+after all 21 Widen lifetimes. There are 111 accepted application functions /
+37,003 extent bytes, plus 784 associated switch-data
+bytes. This is 59.05% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and five import thunks (30 bytes) remain separate support.
 
@@ -88,22 +88,19 @@ Scratch cleanup uses the meaningful source name `free_widen_buffers`; the histor
 Each accepted function's `evidence/*/function-review.json` or `validation.json`
 records fresh/reused controls and separate build/capture/check/fixture times.
 Historical raw is never relabeled; incomplete and superseded trials retain their
-status. Guarded `TypesClose`/`PDBClose` imports have actual named-export/caller ABI witnesses; native host adapters deny125 until those paths are observed. No PDB behavior is credited. The source-file index builder now uses its meaningful source name `build_source_file_index`; historical `print_statistics` is metadata-only. Its first live module header has an explicit post-free allocation generation, separately observed even when its native address reuses an old table. Old roots remain historical and generic retired-range reads still fail. Current native help runs in roughly 34 ms; the partial debug fixture is
-about 8.01 s including all 375 sort and 58 copy calls in GDB. Completion will use native entry traces, exact streams,
+status. Guarded `TypesClose`/`PDBClose` imports have actual named-export/caller ABI witnesses; native host adapters deny125 until those paths are observed. No PDB behavior is credited. The source-file index builder now uses its meaningful source name `build_source_file_index`; historical `print_statistics` is metadata-only. Its first live module header has an explicit post-free allocation generation, separately observed even when its native address reuses an old table. Old roots remain historical and generic retired-range reads still fail. Current native help runs in roughly 40 ms; the partial debug fixture is
+about 16.42 s: 10.68 s for the GDB execution and 5.43 s for checks, including
+state decoding. The directory and address sorts contribute 687 callbacks. Completion will use native entry traces, exact streams,
 status and the cached NB11 master without launching Wine.
 
 The packed-directory sort now matches all 375 canonical callbacks, complete inputs/results/ABI, errors and all 840 initialized directory bytes. Its x87 comparison permits each side's own unused payload only for this integer-only path with control `027f`, status zero and all eight tags empty throughout; each full own raw baseline remains strictly preserved. This does not establish a live-FP or general CRT/CL rule.
 
-The output initializer now establishes a separate 65,512-byte allocation generation and compares its eight initialized header bytes. Original allocation reuses a retired type-table address; that historical table remains identity-only and its payload is never restored as current memory. The remaining 65,504 buffer bytes are own unwritten storage. Later stale-root consumers remain held.
+The output initializer establishes a separate 65,512-byte allocation generation, even when the original allocator reuses a retired type-table address. The current buffer has 7,188 initialized bytes; its remaining 58,324 bytes stay own unwritten storage. Historical tables are never restored as current memory, and later stale-root consumers remain held.
 
-All 58 subsection calls now copy 5,002 initialized source bytes and 46 alignment bytes into the new buffer, producing its 5,056-byte initialized prefix. Sorted input pointers remain a historical snapshot; all 58 current rows carry checked relative offsets. The 144-byte initialized directory tail is retained, with 72 spare bytes unobserved.
+The 58 subsections contribute 5,002 source bytes and 46 alignment bytes to the first 5,056 output bytes. Current directory row 58 now describes the public section `(0x12a, 0xffff, 5056, 3236)`. The remaining 132 initialized directory-tail bytes are unchanged, and 72 spare bytes remain unobserved. Sorted input pointers retain their separate historical identities.
 
-The public-symbol writer now reaches its real page-padding child with the existing bucket table and reserve four. The actual 16-byte header and four-byte padding local are zero; both 24-byte hash streams remain own uninitialized storage. Its 920-byte whole-body graph is checked, while dynamic proof stops at that first helper. The source-snapshot drift attempt is retained separately from the reviewed native-only refresh.
+The public-symbol writer preserves all 64 input nodes and adds a 24-byte end marker from the same arena. Its eight-byte contribution brings the symbol stream to 2,116 bytes. This input never crosses an internal page boundary; that future path remains held. Both 24-byte hash-stream descriptors are now initialized and independently observed.
 
-The public page-padding helper preserves all 64 existing initialized nodes and adds one 24-byte end marker from the same arena. Its actual eight-byte contribution updates the public stream length to 2,116. All six name-hash arguments now have checked callback/local-field/stream/bucket identities. This input never crosses an internal page boundary; that future path stays held for a new case contract.
+The name hash derives six buckets and two overflow nodes from the public records. Its canonical arena initialization and copy helpers have fresh contextual ABI evidence. Twenty-one copies and seven fills produce 564 initialized bytes; twelve CRT free calls end three temporary generations after checking 66,132 initialized pre-free bytes. The live name arena and 12-byte block stay separate from those historical tables, with the payload's 3,532-byte unwritten tail unclaimed. The reference helper checks complete consumption of its bounded 256-slot probe configuration before execution.
 
-The name-hash builder now derives six buckets and two overflow nodes from all 64 public records. Five actual new allocation generations retain separate ownership even when either heap reuses retired addresses; complete initialized bucket/overflow capacities are checked. Canonical arena initialization and fastcall copy helpers are reused with fresh contextual ABI evidence. The next fill call receives the actual names arena, zero and size two. Only its first two payload bytes are initialized; the remaining 4,094 bytes and second 24-byte stream remain unclaimed. Later serialization and temporary frees need the next candidate’s fresh proof.
-
-The 169-byte arena-fill function now completes the name hash: 21 observed copies and seven fills serialize all 564 bytes. Twelve real CRT frees end three temporary generations after checking all 66,132 initialized pre-free bytes. Those tables remain historical; the live arena/block/output are checked separately. Its 3,532-byte unwritten tail and the second stream remain unclaimed. The next address-hash entry has five checked scalar and named-field/stream arguments. A rejected capture exposed the reference debugger’s old 128-probe limit; its bounded 256-slot parser now rejects incomplete, duplicate, malformed or unowned configuration before target execution.
-
-The 742-byte address-hash builder groups all public symbols into three segments (27, 29 and 8 records). Four current allocations contain 548 initialized bytes; actual allocation-event identities distinguish them from retired storage. The first canonical 27×8 sort reaches the named comparator with matching pivot exchange and row arguments. The comparator, completed sorts and later address-stream serialization remain unaccepted.
+The 742-byte address-hash builder groups symbols into segments of 27, 29 and 8 records. The 23-byte comparator completes all three sorts: 312 canonical callbacks match full inputs, results, return ABI, errors and each side's own full FP baseline. Four temporary allocations contain 548 initialized bytes and become historical after their actual frees. A separate 12-byte block and 540-byte initialized address payload remain live; the payload's 3,556-byte unwritten tail stays unclaimed. The final output buffer and current directory row match, and the next helper receives the current live names arena. The full mapped-input catalog is explicitly carried from the same execution's first-callback phase, with a bounded no-mapping-change/disjoint-write proof; it is not described as a fresh final original snapshot.

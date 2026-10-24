@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/check-address-hash-complete-state.py", line 15, in <module>
+    full=raw.compare(config,data,events,native,artifacts,views)
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/raw-state.py", line 398, in compare
+    return complete.validate(config,data,events,native,artifacts,views,compare,decode)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/address-hash-complete-state.py", line 135, in validate
+    return validate_current(config,data,original,native,historical,previous,old,new,prefix,phase_proof,policy)
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/address-hash-complete-state.py", line 227, in validate_current
+    assert state[name]==before[name],'complete address carried lifecycle/resource prefix differs: '+name
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: complete address carried lifecycle/resource prefix differs: mapped_views

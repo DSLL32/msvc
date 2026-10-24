@@ -1,0 +1,322 @@
+{
+  "schema": 1,
+  "tables": [
+    {
+      "owner": "_pack_module",
+      "object_sha256": "60cc71936984202961e9e4dbd6df1a475301b4d3ab44d57764935f2138b11c7a",
+      "object": "pack-switch.obj",
+      "rebuilt_sha256": "d27edeb7a6d78be995e51d9b139baaadaae1732a7d811b011a7c84aafda8a983",
+      "map_sha256": "77f5807b0900d83956dd04cdd8adb39029c580d1837f3c3c633567ba777748bf",
+      "coff_function": {
+        "name": "_pack_module",
+        "value": 0,
+        "section": 2,
+        "type": 32,
+        "storage": 2
+      },
+      "coff_next_function": {
+        "name": "_initialize_single_module",
+        "value": 886,
+        "section": 2,
+        "type": 32,
+        "storage": 2
+      },
+      "coff_pointer_table": {
+        "name": "$L22578",
+        "value": 847,
+        "section": 2,
+        "type": 0,
+        "storage": 6
+      },
+      "coff_class_map": {
+        "name": "$L22577",
+        "value": 871,
+        "section": 2,
+        "type": 0,
+        "storage": 6
+      },
+      "pointer_relocations": [
+        {
+          "offset": 847,
+          "symbol": {
+            "name": "$L22457",
+            "value": 363,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        },
+        {
+          "offset": 851,
+          "symbol": {
+            "name": "$L22459",
+            "value": 419,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        },
+        {
+          "offset": 855,
+          "symbol": {
+            "name": "$L22460",
+            "value": 437,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        },
+        {
+          "offset": 859,
+          "symbol": {
+            "name": "$L22461",
+            "value": 455,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        },
+        {
+          "offset": 863,
+          "symbol": {
+            "name": "$L22458",
+            "value": 379,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        },
+        {
+          "offset": 867,
+          "symbol": {
+            "name": "$L22454",
+            "value": 471,
+            "section": 2,
+            "type": 0,
+            "storage": 6
+          },
+          "kind": 6
+        }
+      ],
+      "rebuilt_data": [
+        4219631,
+        4219670
+      ],
+      "rebuilt_targets": [
+        4219147,
+        4219203,
+        4219221,
+        4219239,
+        4219163,
+        4219255
+      ],
+      "class_map": "000501020505030505050505050504",
+      "original_class_map": [
+        4214472,
+        4214487
+      ]
+    }
+  ],
+  "register_preservation_evidence_sha256": "1d11f8e059eef48acbc20f9fc2a4c46c8918e6c895ade42d78497f422e51c5e3",
+  "extended_free_preservation_evidence_sha256": "b1e354b472f35821fbbb75f8493e171cc19507dc91ea7c4c74dc7ae07d3b114f",
+  "source_index_free_preservation_evidence_sha256": "b9339b4635a082cf753ab18fc853be319821253fd6db0b52bbaa061eb0601426",
+  "additional_register_preservation_evidence_sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6",
+  "writer_edi_preservation_evidence_sha256": "9b891c301b63ac1d9ab1f0e102434f606a8136c3cd6d9499201bb01ab7007305",
+  "type_reference_import_witness_sha256": "26306a2019a932f03c6be4177b58486b55202c8b7a5c3e1f408fb08fc9678a26",
+  "address_hash_qsort_ebx_evidence_sha256": "18fec2d6faa5548164e364389ddf1d792d9e64ff06363aff07d9bbdd3c98b454",
+  "function_tables": [
+    {
+      "name": "symbol_rewriters",
+      "original": 4268968,
+      "rebuilt": 4256064,
+      "size": 312,
+      "stride": 8,
+      "pointer_offset": 4,
+      "rows": [
+        {
+          "kind": 4102,
+          "function": "rewrite_bp_relative_symbol"
+        },
+        {
+          "kind": 519,
+          "function": "enter_symbol_scope"
+        },
+        {
+          "kind": 4106,
+          "function": "rewrite_procedure32_symbol"
+        },
+        {
+          "kind": 4107,
+          "function": "rewrite_procedure32_symbol"
+        },
+        {
+          "kind": 6,
+          "function": "leave_symbol_scope"
+        },
+        {
+          "kind": 4103,
+          "function": "rewrite_symbol_type4"
+        },
+        {
+          "kind": 4104,
+          "function": "rewrite_global_data_symbol"
+        },
+        {
+          "kind": 4105,
+          "function": "rewrite_symbol_type4"
+        },
+        {
+          "kind": 521,
+          "function": null
+        },
+        {
+          "kind": 4097,
+          "function": "rewrite_symbol_type4"
+        },
+        {
+          "kind": 4110,
+          "function": "rewrite_symbol_type4"
+        },
+        {
+          "kind": 4111,
+          "function": "rewrite_global_data_symbol"
+        },
+        {
+          "kind": 527,
+          "function": null
+        },
+        {
+          "kind": 256,
+          "function": "rewrite_register16_symbol"
+        },
+        {
+          "kind": 263,
+          "function": "enter_symbol_scope"
+        },
+        {
+          "kind": 260,
+          "function": "rewrite_procedure16_symbol"
+        },
+        {
+          "kind": 261,
+          "function": "rewrite_procedure16_symbol"
+        },
+        {
+          "kind": 257,
+          "function": "rewrite_data16_symbol"
+        },
+        {
+          "kind": 258,
+          "function": "rewrite_global_data16_symbol"
+        },
+        {
+          "kind": 259,
+          "function": "rewrite_data16_symbol"
+        },
+        {
+          "kind": 265,
+          "function": null
+        },
+        {
+          "kind": 4099,
+          "function": "rewrite_type_name_symbol"
+        },
+        {
+          "kind": 4109,
+          "function": "rewrite_bp_relative_symbol"
+        },
+        {
+          "kind": 4112,
+          "function": "rewrite_mips_procedure_symbol"
+        },
+        {
+          "kind": 4113,
+          "function": "rewrite_mips_procedure_symbol"
+        },
+        {
+          "kind": 10,
+          "function": null
+        },
+        {
+          "kind": 268,
+          "function": "rewrite_data16_symbol"
+        },
+        {
+          "kind": 264,
+          "function": "enter_symbol_scope"
+        },
+        {
+          "kind": 520,
+          "function": "enter_symbol_scope"
+        },
+        {
+          "kind": 262,
+          "function": "enter_symbol_scope"
+        },
+        {
+          "kind": 518,
+          "function": "enter_symbol_scope"
+        },
+        {
+          "kind": 266,
+          "function": null
+        },
+        {
+          "kind": 522,
+          "function": null
+        },
+        {
+          "kind": 4098,
+          "function": "rewrite_type_name_symbol"
+        },
+        {
+          "kind": 5,
+          "function": null
+        },
+        {
+          "kind": 7,
+          "function": null
+        },
+        {
+          "kind": 1,
+          "function": null
+        },
+        {
+          "kind": 9,
+          "function": "rewrite_object_name_symbol"
+        },
+        {
+          "kind": 4096,
+          "function": null
+        }
+      ]
+    },
+    {
+      "name": "type_index_mappers",
+      "original": 4268312,
+      "rebuilt": 4256416,
+      "size": 12,
+      "stride": 4,
+      "pointer_offset": 0,
+      "rows": [
+        {
+          "kind": null,
+          "function": "compact_legacy_index"
+        },
+        {
+          "kind": null,
+          "function": "compact_type_index"
+        },
+        {
+          "kind": null,
+          "function": "compact_type_index"
+        }
+      ]
+    }
+  ]
+}

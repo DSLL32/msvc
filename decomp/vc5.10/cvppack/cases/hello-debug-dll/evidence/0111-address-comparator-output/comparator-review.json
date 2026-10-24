@@ -1,0 +1,394 @@
+{
+  "schema": 1,
+  "status": "candidate-complete-state-controls-pass-awaiting-material-review",
+  "candidate": "compare_symbol_address",
+  "original_extent": [
+    4255168,
+    4255191
+  ],
+  "extent_bytes": 23,
+  "excluded_NOP_gap_bytes": 9,
+  "application_credit_pending": 23,
+  "next_frontier": "first_hash_output_block(current live names24)",
+  "source_review": [
+    "Whole23B ordinary cdecl2 comparator is nine original instructions with RET0 and no calls. Readable source returns the signed32 result of the original unsigned symbol-offset subtraction; no helper, assembly, table or CRT source is added. Both original and native execute the candidate, then reach the actual named first_hash_output_block INT3, with original return40d7d9 and the real current names arena pointer. Unknown helper remains masked, zero credit.",
+    "One fresh original actual candidate ENTRY is bracketed by explicit addresshash-phase-entry/end markers and full typed state. Native records physical entry PC/ESP/three raw stackwords separately, then captures typed state at exact emitted+28B frame/GOT setup checkpoint. That interval contains only stack/frame setup, local CALL-next-PC/POP GOT discovery and formal-slot loads; no API, filtered tracing call, pointee/array mutation or FP operation has occurred. Source/ELF/prologue bytes and typed stack delta44 are independently bound. Pre-prologue DWARF-location failed attempt is retained, never accepted.",
+    "The110 prefix controller is applied to these FRESH same-phase observations with actual111 function statuses/mask/config; only observation dispatch selects historical predicates. No110 acceptance receipt, pending comparator mask or invented real trap is claimed. Full original still has exactly one real final named frontier. Historical phase SHA and exact raw entry/end line indices plus physical/typed native anchors are in the production result. Earlier allocations/resources/old roots retain their exact carried event/lifetime identity; only one checked and one cleared output generation may follow.",
+    "All THREE actual canonical510 qsort calls match: counts27/29/8, width8, callback23B;133/151/28 callbacks,312total. Complete548B arrays are observed before/after every sort, then before each real free. Every callback actual16B input pair, row-owner/index, signed subtraction result, real provider/native CALL return role, cdecl stack and four nonvolatile registers match. All per-callback/sort error identities and each own full raw FP baseline remain unchanged under the existing exact027f/status0/tagsffff empty-payload qualification. No VC1 schedule inference.",
+    "Sort descriptors/three row arrays remain fully initialized and separate through serialization. Independent serialization derives139 actual calls:135 fastcall copies/RET4 plus4 cdecl zero fills/RET0 (maximum-segment WORD, DWORD offsets, WORD counts/padding,64 sorted stream-offset/symbol-offset pairs). Every input pointer is bound to actual named scalar storage or a typed array/PublicSymbol field; real WORD/DWORD widths, initialized input bytes, per-call arena24, return cursor, accumulated output and nonvolatile registers match. Result540B is complete.",
+    "New output cleared12B block and checked4096B payload are independently matched to actual original call/return probes and generic events114/300 and native copy_type_arena owner/context/formals. Original probe labels retain the historical namehash spelling, but actual phase/site/context identifies these address-stream allocations; no raw relabeling. They were allocated while all four temporaries were live and cannot overlap any earlier live owner, full names capacities, directory, packed buffer or2MB mapped input. Only552 initialized bytes(block12+payload540) are claimed;3556 payload-tail bytes remain own unwritten storage.",
+    "Four genuine canonical CRT frees retire216/232/64/36B exact generations in order,548 initialized pre-free bytes. Saved sort/prefree arrays are explicitly HISTORICAL; no payload is read or reinstalled after free. Full-interval generic current-memory/string absence checks include before-base crossings and unwritten output capacities. Current initialized address arena24/block12/payload540 and current names24/block12/payload564 remain separate live owners, with old names tail3532 uncredited.",
+    "Original mapped-view capture is deliberately once per live view: the actual first-phase catalog and full2MB artifact SHA are retained as historical lifetime provenance, never called a fresh final registry snapshot. No observed mapping/file API extends the actual event inventory, and pinned whole comparator/address-builder/public-write intervals use only ordinary heap qsort/malloc/free plus known arena helpers and inline bounded writes. Every actual destination/capacity is separately checked disjoint from that mapped region. Native freshly observes the same final registry/hash. No old payload is inserted in a current-memory namespace.",
+    "Public continuation writes exactly its16B header and65 actual initialized records2116B into the existing packed-buffer generation:5056\u21927188 bytes. Original7188B output was ACTUALLY captured, not derived from native. Independent encoding checks all new2132B and retained5056B; row58 becomes(0x12a,0xffff,5056,3236), all other current directory bytes/tail remain unchanged. Every current live public record/bucket remains byte-identical. All globals remain unchanged except actual output_used7188; mapped file logical position stays10000 until a later tell. Actual initialized current names24 formal/pointer aliases the original live name arena, not any retired table.",
+    "Initial111 output reader still expected5056 and emitted a denial at the genuine7188 frontier. That complete held attempt plus failed/pre-prologue and corrected native-only phase observations remain untouched. The corrected original reader permits7188 only after the actual four address frees and reobserves missing2132B from the original. Fresh corrected ordinary original/native pair and compiled-source manifests all bind published604 bytes. Later shared perror/wcsncmp WIP is not consumed; no bookkeeping Wine rerun or live-header relabel.",
+    "Narrow native-debug provenance reuse copies/verifies the original compiled CONTENT manifest only when actual current native ELF and rebuilt PE hashes exactly equal that original receipt. Changed binaries still require their own native build/current-source proof. New GDB observers are independently copied/hash-bound outputs. Controller-only catalog/ledger refinements use static current audit sidecars over unchanged raw; old failed checks/logs remain. All runtime/fixtures/dependencies are native-only, with no Wine or opaque PE/PDB execution.",
+    "77 fresh affected rejection controls cover complete sort/callback/return/error/FP, scalar widths/aliases, new allocation events, old carried-ledger identities, live overlapping owners, all stream operations, actual frees/historical/current separation, full-interval leaks, final packed output/directory/public state, physical/typed checkpoint bounds and mapped-write/catalog scope. A full positive varies only actual pre-initialization addresses24 bits while requiring final540B initialized state unchanged; only the raw phase provenance hash changes. Prior11053 generation controls and parser/controller campaigns retain their old scopes; no claim that this accepts new CRT/MSPDB internals."
+  ],
+  "actual_state": {
+    "sorts": 3,
+    "callback_counts": [
+      133,
+      151,
+      28
+    ],
+    "callbacks": 312,
+    "all_callback_inputs_results_ABI_sequence": true,
+    "fully_initialized_temporary_bytes": 548,
+    "actual_stream_calls": 139,
+    "initialized_address_stream_bytes": 540,
+    "own_unwritten_address_tail_bytes_uncompared": 3556,
+    "temporary_free_calls": 4,
+    "retired_payload_reinstalled": false,
+    "actual_new_live_owners": 2,
+    "new_live_capacity_bytes": 4108,
+    "initialized_new_live_bytes": 552,
+    "initialized_packed_output_bytes": 7188,
+    "own_unwritten_packed_output_bytes_uncompared": 58324,
+    "current_directory_entry": 58,
+    "current_names_generation_retained": true,
+    "original_mapping_scope": "once-captured first-phase view lifetime retained through pinned no-mapping-API/no-mapped-input-write continuation; no final fresh original view-byte claim",
+    "each_own_full_raw_FP_errors_preserved": true,
+    "next_consumer": "first_hash_output_block(current names24)"
+  },
+  "fresh_phase": {
+    "prologue": {
+      "native_symbol_value": 73904,
+      "typed_checkpoint_delta": 28,
+      "code_sha256": "cd5a5fb9ab85ec1bcd8ecccafce3b601e4bcba2fa448a8d6377b61c46b72d5b0",
+      "native_elf_sha256": "11b31cd822755037e81326ee7bb6248580838d74a32e0260963cf984c9d1105e",
+      "scope": "frame/GOT setup and formal-slot reads only; before instrumentation/pointee reads; historical typed checkpoint"
+    },
+    "original_entry_line": 270164,
+    "original_end_line": 271610,
+    "original_phase_sha256": "b1d365e139de46b6e5c1fa164677b537a369e4652b796404c061bba184db2930",
+    "native_physical_entry_pc": 1449337008,
+    "native_typed_checkpoint_pc": 1449337036,
+    "kind": "fresh actual candidate-entry historical phase; not a trap",
+    "original_view_artifacts": [
+      {
+        "address": 14286848,
+        "file": "events-view-1.bin",
+        "bytes": 2097152,
+        "sha256": "210307903accd6e4653cb089a313b3a6b8a72a5d9b3726a77e881e454ff27d36",
+        "kind": "actual first-phase cached view, not fresh final state"
+      }
+    ]
+  },
+  "mapped_input_store_proof": [
+    {
+      "side": "original",
+      "destinations": [
+        {
+          "role": "temporary-qsort-owner0",
+          "address": 9066656,
+          "capacity": 36
+        },
+        {
+          "role": "temporary-qsort-owner1",
+          "address": 9066704,
+          "capacity": 216
+        },
+        {
+          "role": "temporary-qsort-owner2",
+          "address": 9066928,
+          "capacity": 232
+        },
+        {
+          "role": "temporary-qsort-owner3",
+          "address": 9067168,
+          "capacity": 64
+        },
+        {
+          "role": "address-output-owner0",
+          "address": 9067232,
+          "capacity": 12
+        },
+        {
+          "role": "address-output-owner1",
+          "address": 13353224,
+          "capacity": 4096
+        },
+        {
+          "role": "actual-address-arena",
+          "address": 3275848,
+          "capacity": 24
+        },
+        {
+          "role": "actual-WORD-method-output",
+          "address": 3275810,
+          "capacity": 2
+        },
+        {
+          "role": "actual-DWORD-byte-output",
+          "address": 3275820,
+          "capacity": 4
+        },
+        {
+          "role": "actual-directory-row58",
+          "address": 13368264,
+          "capacity": 12
+        },
+        {
+          "role": "actual-packed-buffer-capacity",
+          "address": 13422504,
+          "capacity": 65512
+        }
+      ],
+      "catalog": [
+        {
+          "address": 14286848,
+          "length": 2097152,
+          "base": 14286848,
+          "region": 2097152,
+          "protection": 4,
+          "state": 4096,
+          "type": 262144,
+          "file": "events-view-1.bin"
+        }
+      ],
+      "catalog_phase": "fresh first-callback lifetime catalog; no final original snapshot",
+      "actual_executed_sorts": 3,
+      "actual_stream_calls": 139,
+      "actual_temporary_frees": 4,
+      "ordinary_CRT_scope": "qsort bounded owned arrays, malloc/free heap-only public boundary; no library internals credit"
+    },
+    {
+      "side": "native",
+      "destinations": [
+        {
+          "role": "temporary-qsort-owner0",
+          "address": 1453428768,
+          "capacity": 36
+        },
+        {
+          "role": "temporary-qsort-owner1",
+          "address": 1453428816,
+          "capacity": 216
+        },
+        {
+          "role": "temporary-qsort-owner2",
+          "address": 1453429040,
+          "capacity": 232
+        },
+        {
+          "role": "temporary-qsort-owner3",
+          "address": 1453429280,
+          "capacity": 64
+        },
+        {
+          "role": "address-output-owner0",
+          "address": 1453427888,
+          "capacity": 12
+        },
+        {
+          "role": "address-output-owner1",
+          "address": 1453624016,
+          "capacity": 4096
+        },
+        {
+          "role": "actual-address-arena",
+          "address": 4286767836,
+          "capacity": 24
+        },
+        {
+          "role": "actual-WORD-method-output",
+          "address": 4286767886,
+          "capacity": 2
+        },
+        {
+          "role": "actual-DWORD-byte-output",
+          "address": 4286767896,
+          "capacity": 4
+        },
+        {
+          "role": "actual-directory-row58",
+          "address": 1453430200,
+          "capacity": 12
+        },
+        {
+          "role": "actual-packed-buffer-capacity",
+          "address": 1453804352,
+          "capacity": 65512
+        }
+      ],
+      "catalog": [
+        {
+          "address": 4155318272,
+          "length": 2097152,
+          "permissions": "rw-s",
+          "offset": 0,
+          "pathname": "hello.dll",
+          "call_index": 1,
+          "file": "native-view-1.bin",
+          "sha256": "210307903accd6e4653cb089a313b3a6b8a72a5d9b3726a77e881e454ff27d36"
+        }
+      ],
+      "catalog_phase": "fresh final native registry",
+      "actual_executed_sorts": 3,
+      "actual_stream_calls": 139,
+      "actual_temporary_frees": 4,
+      "ordinary_CRT_scope": "qsort bounded owned arrays, malloc/free heap-only public boundary; no library internals credit"
+    }
+  ],
+  "graph": {
+    "checked_functions": 111,
+    "strict_RET_functions": 110,
+    "qualification": "Full111 graph/import/reference/ownership/extents; strictRET110 with only preapproved genuine8B Release residual. No new contract/flag waiver."
+  },
+  "fresh_negative_count": 77,
+  "seconds": {
+    "build": {
+      "seconds": 10.259987834841013,
+      "exit": 0,
+      "compiled_source_sha256": "abf9428db1b5c33baa9f8ba4faeea4d2f2b97c22575c4d92ff4756510d049b1e",
+      "before_after_source_identity": true
+    },
+    "original_capture": {
+      "seconds": 25.37492302712053,
+      "exit": 0
+    },
+    "native_capture": {
+      "seconds": 10.782980657182634,
+      "exit": 0
+    },
+    "native": {
+      "direct_execution": 0.01931055076420307,
+      "gdb_execution": 10.543553730472922,
+      "total": 10.694568756967783
+    },
+    "affected_controls": 25.986486380919814,
+    "audit": 1.776297578588128,
+    "held_initial_build": {
+      "seconds": 10.200032966211438,
+      "exit": 0,
+      "compiled_source_sha256": "3187ec8f508fa0c18919f0dc272fcf9aeb7974f5a351c64647734b6ad28823de",
+      "before_after_source_identity": true
+    },
+    "held_initial_original": {
+      "seconds": 29.62726978957653,
+      "exit": 0
+    },
+    "held_native_attempt": {
+      "seconds": 5.974308873526752,
+      "exit": 1
+    },
+    "held_corrected_native_phase": {
+      "seconds": 10.716431559994817,
+      "exit": 0
+    }
+  },
+  "files": {
+    "src/writer.c": {
+      "path": "src/writer.c",
+      "sha256": "c075a8be70b7133a667029b767701c4fb88e9ed59418d60cf5b6ad72cf7a9be5"
+    },
+    "src/writer.h": {
+      "path": "src/writer.h",
+      "sha256": "1bd1f604a3912b7979e3f3f2b4f644ecb8585e3dd81808b1fdeda1a75a9b64c3"
+    },
+    "src/stubs.c": {
+      "path": "src/stubs.c",
+      "sha256": "7e09d0fa60a7e771638a87af9417160e8a73df26476d121d76273955e43c0fce"
+    },
+    "src/type-arena.c": {
+      "path": "src/type-arena.c",
+      "sha256": "5739c39149b1a9ffe8f226451e5d5592cde09059ee0c3bb6bf2c61553360f81a"
+    },
+    "scripts/address-hash-complete-state.py": {
+      "path": "scripts/address-hash-complete-state.py",
+      "sha256": "ece5f5baf3ef70f2014d9c18b27c4143f16e95118c726c188691d35d4864e3c8"
+    },
+    "scripts/address-hash-complete-gdb.py": {
+      "path": "scripts/address-hash-complete-gdb.py",
+      "sha256": "49cf42a0193e4593877ad3abf63eb865da676c3d3141252bde518a4a653a8301"
+    },
+    "scripts/address-hash-complete-observer.inc": {
+      "path": "scripts/address-hash-complete-observer.inc",
+      "sha256": "1f792a8bf217eccc432f24c2891e82f08f1515a5396ad6c3c0849e2740f24644"
+    },
+    "scripts/output-buffer-observer.inc": {
+      "path": "scripts/output-buffer-observer.inc",
+      "sha256": "b593a44cd43270f52dafc1d3a36eff7c4659a6b7fae2ea70ab092756b77be41b"
+    },
+    "scripts/gdb-state.py": {
+      "path": "scripts/gdb-state.py",
+      "sha256": "f0deaa58d7411dd4565ea027c30a5f17a40428805c942ddaca2b8db5f745e95e"
+    },
+    "scripts/raw-state.py": {
+      "path": "scripts/raw-state.py",
+      "sha256": "c12c7ae5b1e24bddcba674f84b5020fa5cb2e4cc2fc64a1bcd5c06df8efd1f8c"
+    },
+    "scripts/main-free-evidence.py": {
+      "path": "scripts/main-free-evidence.py",
+      "sha256": "d235c090951e3b791ca0269c565383f2e03306e4a682cd9ca1c8a5369cb01384"
+    },
+    "scripts/native-debug.py": {
+      "path": "scripts/native-debug.py",
+      "sha256": "3d28a4c27c58757f0bedeba695a541b226f4a63d83a83a377be45f8491390399"
+    },
+    "scripts/capture-original.py": {
+      "path": "scripts/capture-original.py",
+      "sha256": "7a7f6ca53eb16910af843e390141e41e78836298fec0ff28fe2448a053beb753"
+    },
+    "scripts/debug-run.c": {
+      "path": "scripts/debug-run.c",
+      "sha256": "f619b10b05c503603fb6e886e7e22afc7c2527c94685e9fb428bbaaf93e290d8"
+    },
+    "scripts/sort-observer.inc": {
+      "path": "scripts/sort-observer.inc",
+      "sha256": "d5cf932c5bdeccaf0bd0435c5fcddc8463446d104ca55ca74f9f21e5391ee758"
+    },
+    "scripts/address-hash-state.py": {
+      "path": "scripts/address-hash-state.py",
+      "sha256": "7df7bc194b59e98d426919b7df52fcbda39c064481b0872f4c5374c88c3a3e9f"
+    },
+    "scripts/check-address-hash-complete-state.py": {
+      "path": "scripts/check-address-hash-complete-state.py",
+      "sha256": "d7ce35cd6bf1d20eb62fb449ee9eb34eeb1cd14d6cf2f6608d9715e9fd2adb0c"
+    },
+    "cases/hello-debug-dll/address-hash-complete-lifetimes.json": {
+      "path": "cases/hello-debug-dll/address-hash-complete-lifetimes.json",
+      "sha256": "52d45d2c9a58a07a137c187774505da9c8b7feb6deac299ec71cf3b22a17fb4b"
+    },
+    "cases/hello-debug-dll/evidence/0111-address-comparator-output/original/receipt.json": {
+      "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/original/receipt.json",
+      "sha256": "2c42767aba3904d985f186b8b25136ec0c7547c1abf10def8d34ea5a0e2b1186"
+    },
+    "cases/hello-debug-dll/evidence/0111-address-comparator-output/native/receipt.json": {
+      "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/native/receipt.json",
+      "sha256": "b36f0eef56cc2b2f7486c5918ce19914c5515ee09b63af97a96c76abbcad4d09"
+    },
+    "cases/hello-debug-dll/evidence/0111-address-comparator-output/native/first-address-callback-state.json": {
+      "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/native/first-address-callback-state.json",
+      "sha256": "0891393910b1f89eac0b3f21071e4000a04bf4bbbd5f2271e065db655db89711"
+    },
+    "cases/hello-debug-dll/evidence/0111-address-comparator-output/native/first-address-callback-config.json": {
+      "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/native/first-address-callback-config.json",
+      "sha256": "33669f7106bb533fc49e40cf09fdeefdb4a6c232a50138032069d8acfdfd96cd"
+    },
+    "cases/hello-debug-dll/evidence/0111-address-comparator-output/native/address-hash-complete-gdb.py": {
+      "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/native/address-hash-complete-gdb.py",
+      "sha256": "49cf42a0193e4593877ad3abf63eb865da676c3d3141252bde518a4a653a8301"
+    },
+    "cases/hello-debug-dll/evidence/0111-address-comparator-output/build-source-inputs.json": {
+      "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/build-source-inputs.json",
+      "sha256": "abf9428db1b5c33baa9f8ba4faeea4d2f2b97c22575c4d92ff4756510d049b1e"
+    },
+    "cases/hello-debug-dll/evidence/0111-address-comparator-output/build-timing.json": {
+      "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/build-timing.json",
+      "sha256": "b07484fe7cb181d097900b24cddaa59d3452fb8b921a04c4c645911e69e5ad46"
+    },
+    "cases/hello-debug-dll/evidence/0111-address-comparator-output/complete-address-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/complete-address-checks.json",
+      "sha256": "fb2c92630ea8b3349da010c80fe119e1ceb2e5c95342436ecc107249a48df144"
+    },
+    "cases/hello-debug-dll/evidence/0111-address-comparator-output/final-audit/audit.json": {
+      "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/final-audit/audit.json",
+      "sha256": "64216c228022d4a09b913671b8c49eef2668ac8652117cb26607b9b1e1b1840b"
+    },
+    "cases/hello-debug-dll/evidence/0111-address-comparator-output/pair-check-final.log": {
+      "path": "cases/hello-debug-dll/evidence/0111-address-comparator-output/pair-check-final.log",
+      "sha256": "ba72ed6f287f1a9ecf01167da05ab3a5f34eeddfd6b2877c243f5292ce39e3ce"
+    }
+  }
+}

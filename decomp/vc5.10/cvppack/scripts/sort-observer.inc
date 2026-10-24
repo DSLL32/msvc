@@ -2,6 +2,7 @@
  * This code runs in the original-reference debugger, never in the target. */
 static DWORD sort_sequence, sort_inflight, sort_callback_esp, sort_callback_return;
 static int sort_crt_observed;
+static int address_sort_environment_mode;
 
 static int sort_environment(FILE *log, HANDLE process, CONTEXT *context, const char *phase)
 {
@@ -33,13 +34,13 @@ static int sort_environment(FILE *log, HANDLE process, CONTEXT *context, const c
         for (i = 0; i < sizeof(code); ++i) fprintf(log, "%02x", code[i]);
         fputc('\n', log); sort_crt_observed = 1;
     }
-    fprintf(log, "sort-errors %s %08lx %lu %lu %08lx %08lx ", phase, teb,
+    fprintf(log, "%s-errors %s %08lx %lu %lu %08lx %08lx ", address_sort_environment_mode?"address-sort":"sort", phase, teb,
         active_thread_id, tls_index, tls_slot, ptd);
     for (i = 0; i < sizeof(values); ++i) fprintf(log, "%02x", ((unsigned char *)values)[i]);
     fputc('\n', log);
-    fprintf(log, "sort-registers %s %08lx %08lx %08lx %08lx\n", phase,
+    fprintf(log, "%s-registers %s %08lx %08lx %08lx %08lx\n", address_sort_environment_mode?"address-sort":"sort", phase,
         context->Ebx, context->Esi, context->Edi, context->Ebp);
-    fprintf(log, "sort-fp %s ", phase);
+    fprintf(log, "%s-fp %s ", address_sort_environment_mode?"address-sort":"sort", phase);
     for (i = 0; i < sizeof(context->FloatSave); ++i)
         fprintf(log, "%02x", ((unsigned char *)&context->FloatSave)[i]);
     fputc('\n', log);

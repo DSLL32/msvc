@@ -30,7 +30,11 @@ def decode(events):
         elif line.startswith('addresshash-sort-call '):
             assert address_hash_sort and 'args' not in address_hash_sort;f=line.split();address_hash_sort.update(entry_esp=int(f[1],16),args=[int(f[2],16),int(f[3]),int(f[4]),int(f[5],16)],provider=int(f[6],16))
         elif line.startswith('addresshash-owned '):
-            _,phase,location,size,payload=line.split();assert phase in ('before-sort','first-callback');rows=address_hash_owned.setdefault(phase,{});location=int(location,16);assert location not in rows and len(bytes.fromhex(payload))==int(size);rows[location]=bytes.fromhex(payload)
+            _,phase,location,size,payload=line.split()
+            if phase not in ('before-sort','first-callback'):
+                assert phase in ('sort0-before','sort0-after','sort1-before','sort1-after','sort2-before','sort2-after'),'unknown address sort owned phase'
+                continue
+            rows=address_hash_owned.setdefault(phase,{});location=int(location,16);assert location not in rows and len(bytes.fromhex(payload))==int(size);rows[location]=bytes.fromhex(payload)
         elif line.startswith('addresshash-observation-failed'):raise AssertionError('incomplete addresshash observation')
         elif line.startswith('namehash-first-fill-stack '):
             assert not name_hash_first_fill_stack;_,location,size,payload=line.split();assert int(size)==len(bytes.fromhex(payload))==256;name_hash_first_fill_stack=dict(address=int(location,16),bytes=bytes.fromhex(payload))
@@ -388,6 +392,10 @@ def decode(events):
 
 def compare(config,data,events,native,artifacts=None,views=None):
     import importlib.util
+    if config.get('observe_address_hash_complete'):
+        spec=importlib.util.spec_from_file_location('complete_address_hash_state',Path(__file__).with_name('address-hash-complete-state.py'))
+        complete=importlib.util.module_from_spec(spec);spec.loader.exec_module(complete)
+        return complete.validate(config,data,events,native,artifacts,views,compare,decode)
     original = decode(events)
     record = next(r for r in config['functions'] if r['original']==original['address'])
     assert native['function'] == record['native_symbol']

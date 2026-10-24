@@ -1,0 +1,5 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -13, compare_symbol_address (first=0x5737a040, second=0x1b) at src/writer.c:203
+203	{

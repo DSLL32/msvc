@@ -31,6 +31,7 @@ static void address_hash_observation(FILE *log,HANDLE process,CONTEXT *context,D
         address_hash_sizes[address_hash_count]=address_hash_pending;address_hash_addresses[address_hash_count++]=context->Eax;
         fprintf(log,"addresshash-allocation-return %08lx %08lx %08lx %08lx %08lx %08lx %08lx\n",site,context->Eax,context->Esp,context->Ebx,context->Esi,context->Edi,context->Ebp);address_hash_pending=0;
     } else if(site==0x40ef4b) {
+        if(address_hash_sort_seen && address_hash_complete_mode) return;
         if(address_hash_sort_seen || !read_bytes(process,context->Esp,args,16)) { fprintf(log,"addresshash-observation-failed\n");return; }
         {
             WORD maximum;

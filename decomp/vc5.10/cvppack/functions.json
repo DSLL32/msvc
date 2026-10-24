@@ -116,7 +116,8 @@
     "insert_symbol_page_padding",
     "build_symbol_name_hash",
     "fill_type_arena",
-    "build_symbol_address_hash"
+    "build_symbol_address_hash",
+    "compare_symbol_address"
   ],
   "functions": [
     {
@@ -3919,7 +3920,18 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "stream",
+          "slot": 1,
+          "kind": "caller-local-pointer",
+          "local": "names",
+          "width": 24,
+          "initialized": true,
+          "native_pointee_width": 24,
+          "owner": "write_publics"
+        }
+      ]
     },
     {
       "name": "next_hash_output_block",
@@ -3973,8 +3985,11 @@
       "symbol": "_compare_symbol_address",
       "native_symbol": "compare_symbol_address",
       "original": 4255168,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4255168,
+        4255191
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3987,7 +4002,8 @@
           "slot": 2,
           "kind": "address-hash-entry"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0111-address-comparator-output/promotion.json"
     }
   ],
   "support_unmasked": [
@@ -4255,5 +4271,10 @@
   "observe_public_padding": true,
   "observe_name_hash": true,
   "observe_name_hash_complete": true,
-  "observe_address_hash": true
+  "observe_address_hash": true,
+  "observe_address_hash_complete": true,
+  "address_hash_complete_policy": {
+    "path": "cases/hello-debug-dll/address-hash-complete-lifetimes.json",
+    "sha256": "52d45d2c9a58a07a137c187774505da9c8b7feb6deac299ec71cf3b22a17fb4b"
+  }
 }

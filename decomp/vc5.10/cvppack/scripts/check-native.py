@@ -26,6 +26,7 @@ def main():
     parser.add_argument('--case',choices=['help','hello-debug-dll'],default='help')
     args=parser.parse_args()
     start=time.perf_counter()
+    state_check_seconds=0.0
     config,_=load()
     case=json.loads((BINARY/'cases'/args.case/'case.json').read_text())
     from caseio import definition,prepare
@@ -60,10 +61,12 @@ def main():
             elapsed=time.perf_counter()-execution_start
             state=json.loads((capture/'state.json').read_text())
             widen_provider=json.loads((capture/'receipt.json').read_text()).get('prepared_widen')
+            state_check_start=time.perf_counter()
             decoder.compare(config,json.loads((BINARY/'data.json').read_text()),(reference_dir/'events').read_text(),state,
                 {name:(reference_dir/('artifact-'+name)).read_bytes() for name in inputs['artifacts']},
                 dict(original={p.name:p.read_bytes() for p in reference_dir.glob('events-view-*.bin')},
                      native={p.name:p.read_bytes() for p in capture.glob('native-view-*.bin')}))
+            state_check_seconds=time.perf_counter()-state_check_start
         else:
             assert case['terminal']=='exit'
             capture=output
@@ -92,7 +95,7 @@ def main():
             native_sha256=sha(BINARY/'build/native/CVPACK'),reference_receipt_sha256=case['reference_receipt_sha256'],
             prepared_resources=resource_provider,
             prepared_widen=widen_provider,
-            seconds=dict(preparation=preparation_seconds,execution=elapsed,checks=time.perf_counter()-checking,total=time.perf_counter()-start))
+            seconds=dict(preparation=preparation_seconds,execution=elapsed,checks=state_check_seconds+time.perf_counter()-checking,state_checks=state_check_seconds,total=time.perf_counter()-start))
         (BINARY/('build/native-fixture'+('' if args.case=='help' else '-'+args.case)+'.json')).write_text(json.dumps(report,indent=2)+'\n')
         print(json.dumps(report,indent=2))
 

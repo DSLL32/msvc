@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "case": "hello-debug-dll",
+  "native_sha256": "11b31cd822755037e81326ee7bb6248580838d74a32e0260963cf984c9d1105e",
+  "case_definition_sha256": "e048b9cc441f59224f9fa8138ec4acc2313f4309578beb974c6af86b14bc974c",
+  "configuration_sha256": "2948d6cec6b10f9f8d6024da1ec7b61351324cb62a875d91f5991df4dfffa1ce",
+  "rebuilt_sha256": "d27edeb7a6d78be995e51d9b139baaadaae1732a7d811b011a7c84aafda8a983",
+  "data_sha256": "c7d711b8942415c7261d0d3e53e389d30e42d55f919f26e98b8106faa18dc727",
+  "original_receipt_sha256": "2c42767aba3904d985f186b8b25136ec0c7547c1abf10def8d34ea5a0e2b1186",
+  "executed_command": [
+    "/root/msvc2/decomp/vc5.10/cvppack/build/native/CVPACK",
+    "/nologo",
+    "hello.dll"
+  ],
+  "compiled_sources_sha256": "abf9428db1b5c33baa9f8ba4faeea4d2f2b97c22575c4d92ff4756510d049b1e",
+  "prepared_resources": {
+    "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+    "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+    "entries": 3,
+    "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+  },
+  "prepared_widen": {
+    "provider_sha256": "808322ba3d6bfccebc996bcc60430afffd3962bfa22c769835114016b7930a92",
+    "contract_sha256": "fe1f3e3109afe67d91745ca1bfaf8f86cb2f2f51f68b5c012cf79637457407d8",
+    "input_dll_sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e",
+    "external_module_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "instances": 21
+  },
+  "reused_original_capture": false,
+  "outputs": [
+    {
+      "name": "stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gdb-stdout",
+      "bytes": 349,
+      "sha256": "2459cd06807fe6b2b004243627a5f12fa73b45567e40bdf0f5c37e8c16d4fab3"
+    },
+    {
+      "name": "gdb-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "state.json",
+      "bytes": 7171562,
+      "sha256": "e467aaf6a55c46199de5a28d710c0653acd3d440a3718bbe05c488f521721f6b"
+    },
+    {
+      "name": "entry-trace",
+      "bytes": 2138,
+      "sha256": "21ba0a228ef61d40907525e6a48a192701aaf39dd1c4c5236f1518ca8300d1c3"
+    },
+    {
+      "name": "entry-filter",
+      "bytes": 2993,
+      "sha256": "17356bece84a450f358b55872fee6e6a4f2c7b6a99ca8abc88ba9536940dbb07"
+    },
+    {
+      "name": "native-status",
+      "bytes": 3,
+      "sha256": "0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800"
+    },
+    {
+      "name": "direct-stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "direct-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "resources.rmr",
+      "bytes": 310,
+      "sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b"
+    },
+    {
+      "name": "case-definition.json",
+      "bytes": 1203,
+      "sha256": "e048b9cc441f59224f9fa8138ec4acc2313f4309578beb974c6af86b14bc974c"
+    },
+    {
+      "name": "gdb-state.py",
+      "bytes": 115426,
+      "sha256": "f0deaa58d7411dd4565ea027c30a5f17a40428805c942ddaca2b8db5f745e95e"
+    },
+    {
+      "name": "widen.rwp",
+      "bytes": 38352,
+      "sha256": "808322ba3d6bfccebc996bcc60430afffd3962bfa22c769835114016b7930a92"
+    },
+    {
+      "name": "address-hash-complete-gdb.py",
+      "bytes": 9205,
+      "sha256": "49cf42a0193e4593877ad3abf63eb865da676c3d3141252bde518a4a653a8301"
+    },
+    {
+      "name": "first-address-callback-state.json",
+      "bytes": 3027946,
+      "sha256": "0891393910b1f89eac0b3f21071e4000a04bf4bbbd5f2271e065db655db89711"
+    },
+    {
+      "name": "first-address-callback-config.json",
+      "bytes": 107745,
+      "sha256": "33669f7106bb533fc49e40cf09fdeefdb4a6c232a50138032069d8acfdfd96cd"
+    },
+    {
+      "name": "native-view-1.bin",
+      "bytes": 2097152,
+      "sha256": "210307903accd6e4653cb089a313b3a6b8a72a5d9b3726a77e881e454ff27d36"
+    },
+    {
+      "name": "artifact-hello.dll",
+      "bytes": 2097152,
+      "sha256": "210307903accd6e4653cb089a313b3a6b8a72a5d9b3726a77e881e454ff27d36"
+    }
+  ],
+  "seconds": {
+    "direct_execution": 0.01931055076420307,
+    "gdb_execution": 10.543553730472922,
+    "total": 10.694568756967783
+  }
+}

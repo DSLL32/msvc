@@ -71,4 +71,3 @@ void resize_cached_file(int file, unsigned size) { __asm { int 3 } }
 
 TypeArenaBlock *first_hash_output_block(TypeArena *stream) { __asm { int 3 } return NULL; }
 TypeArenaBlock *next_hash_output_block(TypeArenaBlock *block) { __asm { int 3 } return NULL; }
-int __cdecl compare_symbol_address(const void *first, const void *second) { __asm { int 3 } return 0; }
