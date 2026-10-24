@@ -39,6 +39,7 @@ int __cdecl rc_evaluate_condition(void);
 int __cdecl rc_parse_conditional_expression(void);
 int __cdecl rc_parse_logical_or(void);
 int __cdecl rc_parse_logical_and(void);
+int __cdecl rc_parse_bitwise_or(void);
 int __stdcall rc_accept_expression_token(unsigned char token);
 extern int rc_expression_parentheses;
 void __cdecl rc_parse_define(void);

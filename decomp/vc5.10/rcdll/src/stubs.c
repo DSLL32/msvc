@@ -111,7 +111,7 @@ int __stdcall rc_skip_inactive(int level)
     return 0;
 }
 
-int __cdecl rc_parse_logical_and(void)
+int __cdecl rc_parse_bitwise_or(void)
 {
     __asm int 3
     return 0;

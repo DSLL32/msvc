@@ -305,3 +305,14 @@ int __cdecl rc_parse_logical_or(void)
     }
     return value;
 }
+
+int __cdecl rc_parse_logical_and(void)
+{
+    int value,right;
+    value=rc_parse_bitwise_or();
+    while(rc_accept_expression_token(45)){
+        right=rc_parse_bitwise_or();
+        value=right && value;
+    }
+    return value;
+}
