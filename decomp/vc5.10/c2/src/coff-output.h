@@ -125,4 +125,8 @@ void prepare_output_48710f(void);
 void write_output_directives(void);
 void __fastcall write_output_bytes(const void *data, unsigned bytes);
 void __fastcall write_output_byte(unsigned char value);
+unsigned short __fastcall create_coff_section(C2Section *section);
+unsigned short __fastcall select_coff_section(unsigned short section);
+unsigned __fastcall query_coff_position(unsigned short section);
+void __fastcall write_output_fill(unsigned char value, unsigned count);
 #endif

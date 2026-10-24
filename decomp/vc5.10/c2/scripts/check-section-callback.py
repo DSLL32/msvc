@@ -18,6 +18,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     for name in ('original','native','output'):p.add_argument('--'+name,type=Path,required=True)
     a=p.parse_args();begin=time.monotonic();positive=compare(a.original,a.native);passed=[]
+    config=json.loads((a.original/'configuration.json').read_text());current=next(r for r in config['stubs']if r['name']==positive['matched']);entry='%08x'%current['start'];return_address='0041ec4c'if current.get('section_caller')=='select_output_section'else'00453ebd'
     def write(path,value):path.write_text(json.dumps(value,indent=2)+'\n')
     def native(root,field,change):
         path=root/'n/state.json';state=json.loads(path.read_text());old=json.dumps(state[field],sort_keys=True);change(state[field]);assert old!=json.dumps(state[field],sort_keys=True);write(path,state)
@@ -37,8 +38,10 @@ def main():
         ('actual direct caller changed',lambda r:native(r,'section_callback',lambda v:v.__setitem__('caller','initialize_coff_output'))),
         ('actual parent value alias lost',lambda r:native(r,'coff_directive_output',lambda v:v.__setitem__('caller_value_alias',False))),
         ('writer pool alias lost',lambda r:native(r,'object_writer',lambda v:v.__setitem__('caller_writer_pool_alias',False))),
-        ('original actual section ECX NULL',lambda r:original(r,r'^(observe 0041ec20 eax=[0-9a-f]+ ecx=)[0-9a-f]+',r'\g<1>00000000')),
-        ('original actual section return address changed',lambda r:original(r,r'^observe-stack 00453ebd ',r'observe-stack 00453ebc '))]
+        ('original actual section ECX NULL',lambda r:original(r,r'^(observe '+entry+r' eax=[0-9a-f]+ ecx=)[0-9a-f]+',r'\g<1>00000000')),
+        ('original actual section return address changed',lambda r:original(r,r'^observe-stack '+return_address+' ',r'observe-stack 00000000 '))]
+    if current.get('section_caller')=='select_output_section':
+        controls += [('new creator loses selector section alias',lambda r:native(r,'section_callback',lambda v:v.__setitem__('caller_section_alias',False))),('actual fullDWORD index no longer zero',lambda r:native(r,'section_callback',lambda v:v.__setitem__('coff_section',65536)))]
     with tempfile.TemporaryDirectory(prefix='section-callback-controls-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c2')as folder:
         root=Path(folder)
         for i,(name,change)in enumerate(controls):
@@ -79,6 +82,6 @@ def main():
                 else:raise AssertionError('canonical section storage mutation accepted: '+name)
                 path.write_bytes(old)
         finally:callback_evidence.BINARY=BINARY
-    a.output.write_text(json.dumps({'positive':positive,'count':len(passed),'rejected':passed,'seconds':time.monotonic()-begin,'checker_sha256':sha(Path(__file__).read_bytes()),'original_receipt_sha256':sha((a.original/'receipt.json').read_bytes()),'native_receipt_sha256':sha((a.native/'receipt.json').read_bytes()),'scope':'Ten fresh actual raw/formal mutations and ten finite source/metadata/emitted-storage mutations. Source guards supplement common Rust, not CFG discovery. No calls through erased497ce4 authorized.'},indent=2)+'\n')
+    a.output.write_text(json.dumps({'positive':positive,'count':len(passed),'rejected':passed,'seconds':time.monotonic()-begin,'checker_sha256':sha(Path(__file__).read_bytes()),'original_receipt_sha256':sha((a.original/'receipt.json').read_bytes()),'native_receipt_sha256':sha((a.native/'receipt.json').read_bytes()),'scope':'Fresh actual raw/formal mutations and ten finite source/metadata/emitted-storage mutations. Source guards supplement common Rust, not CFG discovery. No calls through erased497ce4 authorized.'},indent=2)+'\n')
 
 if __name__=='__main__':main()

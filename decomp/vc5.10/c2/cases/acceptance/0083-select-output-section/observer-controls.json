@@ -1,0 +1,153 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/select83-original-2/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/select83-original-2/graph-audit.json",
+    "matched": "@create_coff_section@4",
+    "original": "0x41ec59",
+    "native": "create_coff_section",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "create_coff_section",
+      "symbol_start": "0x6870",
+      "symbol_size": 89,
+      "static_pc": "0x68a8",
+      "int3_sites": [
+        "0x68a7"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output",
+      "@initialize_coff_output@4",
+      "@new_output_table@4",
+      "_writer_callback_41eb8a",
+      "_initialize_coff_lists",
+      "@new_output_list@8",
+      "_new_output_chunk",
+      "@add_output_source@4",
+      "@add_coff_symbol@4",
+      "_write_output_directives",
+      "_output_callback_453e02",
+      "@write_coff_directive@16",
+      "_output_callback_41ec20"
+    ],
+    "candidates": [
+      "_output_callback_41ec20"
+    ],
+    "acceptance": false
+  },
+  "current_instruction": {
+    "elf_sha256": "bb3588462510bac5dd28a1fb0fd07c958aecd7c6967dd62dd2911de0865fd031",
+    "owner": "write_output_directives",
+    "symbol_start": 57792,
+    "symbol_size": 115,
+    "offset": 73,
+    "bytes": "ffd0"
+  },
+  "count": 10,
+  "rejected": [
+    {
+      "control": "wrong current ELF hash",
+      "reason": "current ELF observer instruction receipt differs"
+    },
+    {
+      "control": "wrong named observer owner",
+      "reason": "current ELF observer instruction receipt differs"
+    },
+    {
+      "control": "wrong current symbol address",
+      "reason": "current ELF observer instruction receipt differs"
+    },
+    {
+      "control": "wrong symbol bounds",
+      "reason": "current ELF observer instruction receipt differs"
+    },
+    {
+      "control": "wrong instruction offset",
+      "reason": "current ELF observer instruction receipt differs"
+    },
+    {
+      "control": "wrong instruction bytes",
+      "reason": "current ELF observer instruction receipt differs"
+    },
+    {
+      "control": "unreal observer owner",
+      "reason": "observer owner has no real ELF symbol"
+    },
+    {
+      "control": "outside owner bounds",
+      "reason": "observer instruction outside its owner"
+    },
+    {
+      "control": "instruction shifted one byte",
+      "reason": "current ELF observer call bytes differ"
+    },
+    {
+      "control": "actual CALL EAX is not CALL ECX",
+      "reason": "current ELF observer call bytes differ"
+    }
+  ],
+  "seconds": 7.741572107188404,
+  "checker_sha256": "e31dae69820ccf8d85629f10ccd3682febf45b71c93cee3d181435fcf14adc01",
+  "predicate_sha256": "ad5ccd30409d17c411f4a176c56364b19385246fd677ba772bdaa508838097c4",
+  "original_receipt_sha256": "bdf00ddbccc0a348a4c889068864dbb729a82b28c1cc98dd55d386b7e112d831",
+  "native_receipt_sha256": "a14dfc2c7d514a1334cd12d5e47c3a6e6936f1eaf09ab008b9c09a6b57188333",
+  "scope": "Finite observerinstruction only. Full ELF execution/state/target/bias provenance remains independently checked; historical contract ELF reference retained unchanged."
+}

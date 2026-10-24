@@ -267,3 +267,16 @@ void __fastcall write_coff_directive(char *prefix, char *value, char *suffix, in
     write_output_byte(' ');
     ++directive_section->symbol.section_size;
 }
+
+void __fastcall select_output_section(C2Section *section)
+{
+    unsigned short index;
+    unsigned position;
+    if (!section->coff_section)
+        create_coff_section(section);
+    index = (unsigned short)section->coff_section;
+    select_coff_section(index);
+    position = query_coff_position(index);
+    if (position < section->symbol.section_size)
+        write_output_fill(0, section->symbol.section_size - position);
+}

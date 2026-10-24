@@ -42,7 +42,7 @@ def verify(config,graph):
         assert storage['target_sha256']==sha(TARGET.read_bytes())
     definitions={r['name']:r for r in config['driver']+config['stubs']}
 
-    typed_body=False
+    typed_body=False; direct_body=False
     for r in value['targets']:
         item=definitions[r['logical']]
         assert item['start']==r['original'] and item['kind']=='application'
@@ -57,8 +57,10 @@ def verify(config,graph):
             else:assert item['end']==r['original']+1 and item['pending_extent']
         elif storage and r['logical']=='_output_callback_41ec20':
             assert item['native']==storage['target_native']and item['symbol']==storage['target_symbol']and not item['pending_signature']
-            assert item['end']==r['original']+1 and item['pending_extent']
-            assert r['logical']not in config['accepted']+config['trial'],'direct target body still pending'
+            direct_body=r['logical']in config['accepted']+config['trial']
+            if direct_body:
+                assert not item['pending_extent'] and r['logical']in graph['functions'],'direct callback identity needs ordinary wholefunction audit'
+            else:assert item['end']==r['original']+1 and item['pending_extent']
         else:
             assert item['native']==r['native'] and item['end']==r['original']+1
             assert item['pending_extent'] and item['pending_signature']
@@ -138,7 +140,7 @@ def verify(config,graph):
                 declaration='void __fastcall '+name+'(C2Section *section)'if direct else'void __fastcall '+name+'(C2OutputDirective *directive)'if typed else'void '+name+'()'
                 noop_cast=contract and name=='output_callback_41eb89'and line.strip()=='output_slot_49971c.target = (C2OutputDirectiveWriter) output_callback_41eb89;'
                 storage_use=direct and((path.name=='output-callbacks.c'and line.strip()=='output_slot_497ce4.target = (void (__cdecl *)()) select_output_section;')or(path.name=='coff-output.c'and line.strip()=='select_output_section(directive_section);'))
-                assert storage_use or noop_cast or(path.name=='output-callbacks.c'and re.fullmatch(r'output_slot_[0-9a-f]+\.target = '+name+r';',line.strip()))or(path.name=='output-callbacks.h'and line.strip()==declaration+';')or(path.name=='stubs.c'and line.strip()==declaration)or(typed and typed_body and path.name=='output-callbacks.c'and line.strip()==declaration),'pending target invocation/escape requires actual ABI review'
+                assert storage_use or noop_cast or(path.name=='output-callbacks.c'and re.fullmatch(r'output_slot_[0-9a-f]+\.target = '+name+r';',line.strip()))or(path.name=='output-callbacks.h'and line.strip()==declaration+';')or(path.name=='stubs.c'and line.strip()==declaration)or(typed and typed_body and path.name=='output-callbacks.c'and line.strip()==declaration)or(direct and direct_body and path.name=='coff-output.c'and line.strip()==declaration),'pending target invocation/escape requires actual ABI review'
     if storage:
         assert original(0x453eb8,5)==b'\xe8'+struct.pack('<i',0x41ec20-0x453ebd)
         assert original(0x453eb0,6)==b'\x8b\x0d'+struct.pack('<I',0x4973fc)
@@ -147,7 +149,7 @@ def verify(config,graph):
         chunks=graph['owned_code_chunks']['rebuilt']['functions']['_initialize_pass_functions']
         assert sum(rebuilt(start,end-start).count(pattern)for start,end in chunks)==1,'typed target STORAGE must retain exact MAPslot/address without code adapter'
         stub=(BINARY/'src/stubs.c').read_text()
-        assert 'void __fastcall select_output_section(C2Section *section)\n{\n    __asm { int 3 }\n}'in stub
+        if not direct_body:assert 'void __fastcall select_output_section(C2Section *section)\n{\n    __asm { int 3 }\n}'in stub
         caller=(BINARY/'src/coff-output.c').read_text()
         assert caller.count('select_output_section(directive_section);')==1
     from directive_data import verify as verify_directive_data
@@ -158,4 +160,4 @@ def verify(config,graph):
             'boundary_sha256':config['output_callback_boundary_sha256'],
             'original_references':owned['references'],'original_calls':owned['calls'],
             'slots':[{'original':r['original'],'rebuilt':maps['_'+r['native']],'native':r['native'],'initial':0,'alternatives':r['alternatives']}for r in value['slots']],
-            'targets':[{'logical':r['logical'],'original':r['original'],'rebuilt':maps[definitions[r['logical']].get('symbol',r['logical'])],'native':definitions[r['logical']]['native'],'signature':(('fastcall C2OutputDirective*ECX RET0; body separately audited'if typed_body else'fastcall C2OutputDirective*ECX RET0; body pending')if contract and r['logical']=='_output_callback_453e02'else'UNRESOLVED; exact noarg RET0 view only at49971c'if contract and r['logical']=='_output_callback_41eb89'else'fastcall C2Section*ECX RET0 only direct view; stored slot NOT callable'if storage and r['logical']=='_output_callback_41ec20'else'UNRESOLVED; invocation forbidden')}for r in value['targets']]}
+            'targets':[{'logical':r['logical'],'original':r['original'],'rebuilt':maps[definitions[r['logical']].get('symbol',r['logical'])],'native':definitions[r['logical']]['native'],'signature':(('fastcall C2OutputDirective*ECX RET0; body separately audited'if typed_body else'fastcall C2OutputDirective*ECX RET0; body pending')if contract and r['logical']=='_output_callback_453e02'else'UNRESOLVED; exact noarg RET0 view only at49971c'if contract and r['logical']=='_output_callback_41eb89'else'fastcall C2Section*ECX RET0 direct view; body separately audited; stored slot NOT callable'if storage and r['logical']=='_output_callback_41ec20'else'UNRESOLVED; invocation forbidden')}for r in value['targets']]}

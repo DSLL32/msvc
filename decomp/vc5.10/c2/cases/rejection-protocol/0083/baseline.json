@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "source_checkpoint": "cases/acceptance/0083-select-output-section",
+  "control_result": "cases/acceptance/0083-select-output-section/rejections.json",
+  "control_result_sha256": "e18483acad8b14e20393e2a6bf1f6964ac8df279cea2f02ee9dbc51279fdd283",
+  "checker_contracts": {
+    "scripts/capture-original.py": "de969a60b361f319f774104972cb9489fe638e522de6d819af28420a7f9ceca1",
+    "scripts/accept.py": "c4210ef41eba6b4d80fdbb827192980426b80e0c4fff3d3f0125e7fba9e12135",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/check-pending-metadata.py": "f497374b1e272e5162f1e4a1685edb78bef525ff5d060d519a9d8c4312810d25",
+    "scripts/build-index.py": "18c93002890b7c335c74d9f0c6220b383c8b0fe684d9ca90ffb9da6bea6f9ddd",
+    "scripts/directive_data.py": "2c95048869e1a3e368e62b57d62d6cd12eb9aca6cdcf42b6cd30568a9fad75b2",
+    "scripts/debug-run.c": "a0ae5df1e44cfe2d250b48d0a306bb25cdd519534cf28abec30bea738ae0b85c",
+    "scripts/data_evidence.py": "bff361add0b1def3f83f5e5c13a82dd6fba7ad1ea90a9ac432c06558cbeca793",
+    "scripts/reaudit-capture.py": "47db322d4f96cad39e15681be42151d6b974d95fde39007623bdb68bcacb361e",
+    "scripts/writer_evidence.py": "1c5d32e095baaa2f9546cb49130f7c28be21b115f3274e486d5a6b540f1a8fbd",
+    "scripts/state.py": "7f5e869a7e139e12ffad9d6968c36a87f45c688e6d047bfc8a71bfbf18ef04d6",
+    "scripts/pending_metadata.py": "4fb55fa9f12620145ccaf5142b9b65c355f2fd8c6e9824e0037e763ff4413634",
+    "scripts/audit.py": "b65efd1fa4753ff1007af3c6915bd9372dbc5a8d479fcfa2a14d2b05eec6b12c",
+    "scripts/check-rejections.py": "4caa2632d6d99796af69a8b50bab8d9d7a2d1a13c4f7223c54e849497cf8a3a8",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/capture-native.py": "6cb65fcf853fef6d86481657ed68ffd330c5e531d190f585e1508368d8d4ec6c",
+    "scripts/compare.py": "e938afe4b184e21646abfbd62700eb4603a1b0d1f6d0d1313338a7575b4bfafa",
+    "scripts/native-proof.py": "ad5ccd30409d17c411f4a176c56364b19385246fd677ba772bdaa508838097c4",
+    "scripts/globals_state.py": "256d171108ba314dbd32ad78c8c5362d44663981d3fb8aa23b819ac6796a6589",
+    "scripts/callback_evidence.py": "90b4adc1dbea3abe55e2c1838f1a5215f6ecb8472b3f8d4ca0b98a0b5be00ab8",
+    "scripts/import_evidence.py": "00d384d41f63d7d7058d399fdaef731f097f7d9b695f3526549d672cc9556d72"
+  },
+  "source_directory": "sources",
+  "source_manifest": "source-manifest.json",
+  "source_manifest_sha256": "c116c0e86a5a34387aa13e82771944ce8ca27e14b250fdcb66680c00ad628060",
+  "proof_inputs": {
+    "original_receipt": "bdf00ddbccc0a348a4c889068864dbb729a82b28c1cc98dd55d386b7e112d831",
+    "native_receipt": "a14dfc2c7d514a1334cd12d5e47c3a6e6936f1eaf09ab008b9c09a6b57188333"
+  },
+  "scope": "153genericpredicates:9fresh/144reused,22freshsection/finiteboundarycontrols,10freshobserverinstruction/receiptcontrols. Same21exactordinarycheckerinputs. Newnativeobserver hashesCURRENT ELF/ownerbounds/FFD0 and rechecksactualloadedbias/target; historicalcontractELF unchanged. Callback body accepted separately fullgraph, erasedslotstillinvocationguarded."
+}

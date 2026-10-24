@@ -580,15 +580,17 @@ def compare(original,native,validation=None):
         contract=(BINARY/config['section_callback_storage_contract']).read_bytes()
         assert all((directory/'section-callback-storage-contract.json').read_bytes()==contract for directory in (original,native))
         wanted={'formals':[{'name':'section','type':'C2Section *'}],'section_offset':1892,'directive_global_alias':True,'stored_target_alias':True,'caller':'write_coff_directive'}
+        if expected.get('section_caller')=='select_output_section':wanted.update(caller='select_output_section',caller_section_alias=True,coff_section=0)
         assert state['section_callback']==wanted,'direct section formal/owned record/global/stored identity differs'
         raw=re.findall(r'^C2-SECTION-CALLBACK (.*)$',(native/'gdb.stdout').read_text(),re.M)
         assert len(raw)==1 and json.loads(raw[0])==wanted
-        raw=re.findall(r'^observe 0041ec20 eax=[0-9a-f]+ ecx=([0-9a-f]+) edx=[0-9a-f]+ esp=[0-9a-f]+$',text,re.M)
+        raw=re.findall(r'^observe %08x eax=[0-9a-f]+ ecx=([0-9a-f]+) edx=[0-9a-f]+ esp=[0-9a-f]+$'%expected['start'],text,re.M)
         assert len(raw)==1 and int(raw[0],16)==head+1892
         assert struct.unpack('<I',read(0x4973fc,4))[0]==head+1892
         assert struct.unpack('<I',read(0x497ce4,4))[0]==0x41ec20
-        stack=re.findall(r'^observe-stack ([^\n]+)$',text.rsplit('observe 0041ec20 ',1)[1],re.M)
-        assert len(stack)==1 and stack[0].split()[0]=='00453ebd'
+        stack=re.findall(r'^observe-stack ([^\n]+)$',text.rsplit('observe %08x '%expected['start'],1)[1],re.M)
+        assert len(stack)==1 and stack[0].split()[0]==('0041ec4c'if expected.get('section_caller')=='select_output_section'else'00453ebd')
+        if expected.get('section_caller')=='select_output_section':assert struct.unpack('<I',read(head+1892+70,4))[0]==0
     if expected.get('frontier_contract')in ('coff-directive-input','coff-directive-output-input','coff-section-input'):
         contract=(BINARY/config['directive_callback_contract']).read_bytes()
         assert all((directory/'directive-callback-contract.json').read_bytes()==contract for directory in (original,native))
@@ -610,7 +612,13 @@ def compare(original,native,validation=None):
         call,entry=records
         live_symbols=proof.symbols(BINARY/'build/native/c2',data=True);bias=int(native_proof['load_bias'],16)
         entry_address=live_symbols[json.loads(contract)['actual_source']['target_native']][0]+bias
-        call_address=live_symbols['write_output_directives'][0]+bias+json.loads(contract)['native_callsite']['offset']
+        site=json.loads(contract)['native_callsite']
+        assert site['owner']=='write_output_directives'and site['offset']==73 and site['bytes']=='ffd0'and site['length']==2
+        observer=proof.verify_callsite(BINARY/'build/native/c2',site['owner'],site['offset'],bytes.fromhex(site['bytes']))
+        if receipts[1].get('directive_callsite_proof') is not None:
+            assert receipts[1]['directive_callsite_proof']==observer,'current ELF observer instruction receipt differs'
+        else:assert site['elf_sha256']==observer['elf_sha256'],'legacy observer requires exact historical ELF'
+        call_address=live_symbols['write_output_directives'][0]+bias+site['offset']
         assert call['pc']==call_address and entry['pc']==entry_address
         assert call['eax']==call['slot_target']==entry['slot_target']==entry_address
         # The captured callback formal is independently bound to actual incoming

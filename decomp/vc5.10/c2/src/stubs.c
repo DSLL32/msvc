@@ -457,10 +457,6 @@ void output_callback_41eb89()
     __asm { int 3 }
 }
 
-void __fastcall select_output_section(C2Section *section)
-{
-    __asm { int 3 }
-}
 
 void output_callback_41f3f2()
 {
@@ -603,3 +599,23 @@ void grow_coff_symbol_buffer(void) { __asm { int 3 } }
 void __fastcall emit_incremental_string(char *value) { __asm { int 3 } }
 void __fastcall write_output_bytes(const void *data, unsigned bytes) { __asm { int 3 } }
 void __fastcall write_output_byte(unsigned char value) { __asm { int 3 } }
+
+unsigned short __fastcall create_coff_section(C2Section *section)
+{
+    __asm { int 3 }
+    return 0;
+}
+unsigned short __fastcall select_coff_section(unsigned short section)
+{
+    __asm { int 3 }
+    return 0;
+}
+unsigned __fastcall query_coff_position(unsigned short section)
+{
+    __asm { int 3 }
+    return 0;
+}
+void __fastcall write_output_fill(unsigned char value, unsigned count)
+{
+    __asm { int 3 }
+}

@@ -2,7 +2,7 @@
   "schema": 1,
   "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
   "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-  "rebuilt_sha256": "d29a96931c5d837686cec4b2f1dea7393f7a84b9c081b9ad4dc362c9a1c2e546",
+  "rebuilt_sha256": "832e01e1f19bf1ee16699dbde5a29566f4c611157b15207155b96458d97ac670",
   "callee_preservation": [
     {
       "function": "@new_initializer@4",
@@ -43,7 +43,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_varuint",
-      "rebuilt_entry": 4205503
+      "rebuilt_entry": 4205567
     },
     {
       "function": "_input_compact_signed",
@@ -61,7 +61,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_compact_signed",
-      "rebuilt_entry": 4206502
+      "rebuilt_entry": 4206566
     },
     {
       "function": "@read_initializer_values@4",
@@ -166,7 +166,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "c2_read_il_byte",
-      "rebuilt_entry": 4204832
+      "rebuilt_entry": 4204896
     },
     {
       "function": "@input_string@8",
@@ -189,7 +189,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_string",
-      "rebuilt_entry": 4206330
+      "rebuilt_entry": 4206394
     },
     {
       "function": "@lookup_source_file@8",
@@ -250,7 +250,7 @@
       "review": "Recursive callee saves incoming EBP at4523dc before loading its own free intoEBP; all returning switch cases rejoin common POPEBP45246f/RET452474. Independent rebuilt standard frame restores viaLEAVE-equivalent/POPEBP/RET.",
       "original_body_accepted": false,
       "source_symbol": "read_initializer_records",
-      "rebuilt_entry": 4207432
+      "rebuilt_entry": 4207496
     },
     {
       "function": "@c2_pool_allocate@8",
@@ -273,7 +273,7 @@
       "review": "Complete accepted allocator saves incomingEDI at401011. Both normal exits restore it at401033/RET401036 and4010d4/RET4010d9. Cold allocation-failure fragment rejoins401049/4010a9; explicit memset/REP writes only data derived from allocated/free blocks, never the savedEDI stack slot.",
       "original_body_accepted": true,
       "source_symbol": "c2_pool_allocate",
-      "rebuilt_entry": 4210352
+      "rebuilt_entry": 4210416
     },
     {
       "function": "_query_incremental_stream_size",
@@ -291,7 +291,7 @@
       "review": "Complete16B noEDIwrite/save-slot escape. Actual MSPDB StreamQueryCb externalcdecl boundary and methodinterface nonvolatileEDI reviewed separately; only finite normalreturn claim.",
       "original_body_accepted": false,
       "source_symbol": "query_incremental_stream_size",
-      "rebuilt_entry": 4200449
+      "rebuilt_entry": 4200431
     },
     {
       "function": "@read_incremental_stream@8",
@@ -309,7 +309,7 @@
       "review": "Complete59B noEDIwrite. Actual MSPDB StreamRead externalcdecl boundary reviewed separately; error branch calls terminating diagnostic. Normal nonerrorreturn EAX from caller-owned DWORD stackslot; no address of EDI/savedcallerstate passed.",
       "original_body_accepted": false,
       "source_symbol": "read_incremental_stream",
-      "rebuilt_entry": 4200463
+      "rebuilt_entry": 4200445
     },
     {
       "function": "_read_incremental_byte",
@@ -327,7 +327,7 @@
       "review": "Complete16B noEDIwrite, no calls, oneRET0; only ECX/global cursor and AL are written.",
       "original_body_accepted": false,
       "source_symbol": "read_incremental_byte",
-      "rebuilt_entry": 4200488
+      "rebuilt_entry": 4200470
     },
     {
       "function": "_validate_incremental_options",
@@ -345,7 +345,7 @@
       "review": "Complete228B noEDIwrite or indirect calls. All return paths popESI/popECX/RET0. Actual called readers485316 and4852f1 are complete noEDIwrite/no-call leaves, included supplementalnormalreturn evidence.",
       "original_body_accepted": false,
       "source_symbol": "validate_incremental_options",
-      "rebuilt_entry": 4200502
+      "rebuilt_entry": 4200484
     },
     {
       "function": "_initialize_coff_lists",
@@ -363,7 +363,7 @@
       "review": "Complete33B writes only six globalDWORDs with EAX; no ESI write/call/stack escape; RET453de6.",
       "original_body_accepted": false,
       "source_symbol": "initialize_coff_lists",
-      "rebuilt_entry": 4223150
+      "rebuilt_entry": 4223214
     },
     {
       "function": "@new_output_list@8",
@@ -381,7 +381,7 @@
       "review": "Complete52B saves ESI41eb97 before all work/nested calls; common POPESI41ebc7 and RET41ebc9. No saved-register slot address escapes; ordinary child calls cannot alter caller saved slot. Second DWORD refined from zero-only context label to integer count-only flag using actual0/1 callers and fullDWORD consumer equality; ESI save/restore, original range and RET0 unchanged.",
       "original_body_accepted": false,
       "source_symbol": "new_output_list",
-      "rebuilt_entry": 4223215
+      "rebuilt_entry": 4223279
     },
     {
       "function": "_read_incremental_output",
@@ -399,7 +399,7 @@
       "review": "Complete2374B includes post-RET switch cases. PUSHESI4857a2 under fixed local frame; only normal exits restore POPESI48584c/485eee before RET485852/485ef9. Caller-frame writes and passed buffers stay above saved register slots; no saved-slot escape. External104B classmap+8-entry32B jump table separately pinned; all targets in this interval. No body/data unmask or source credit.",
       "original_body_accepted": false,
       "source_symbol": "read_incremental_output",
-      "rebuilt_entry": 4200576
+      "rebuilt_entry": 4200558
     }
   ],
   "free_site": {

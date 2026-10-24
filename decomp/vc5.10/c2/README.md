@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 77 application functions (16428 bytes) and five CRT
+Current reconstruction has 78 application functions (16485 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at the typed section selector with the directive section
+currently stops at the COFF section creator with the directive section
 (.drectve), while retaining the writer inputs-defaultlib:,LIBC,NULL,quote0. Four import thunks (24 bytes) and contextual text tables
-(656 bytes) remain separate. The 16866 source bytes are 2.943% of 573183 `.text`
+(656 bytes) remain separate. The 16923 source bytes are 2.952% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -370,3 +370,17 @@ ABI were inspected. Twenty focused controls pass in13.176s;6fresh/147reused
 protocol checks take6.914s. Original/native/helper builds take6.516/2.782/1.663s;
 captures2.795/.597s, audit.795s, native help1.983ms execution. The orchestrator
 review and exact source/raw/elapsed evidence are in0082.
+
+Source83 reconstructs the57-byte section selector as the same original
+callback identity, now independently whole-function audited. Its section
+index retains the actual DWORD initialization test at offset70 and WORD API
+narrowing, while the future creator remains a separate masked typed trap.
+A fresh pair proves its actual C2Section*ECX argument and caller/owned-section
+alias. All20 callback slot layouts remain unchanged; no call through erased
+497ce4 is authorized. The native observer now verifies its exact current ELF
+owner+73/FFD0 instruction and bounds, binds that proof to the receipt and
+rechecks actual loaded bias/target; historical ELF references stay untouched.
+Twenty-two section controls and ten observer controls pass in15.294/7.742s;
+9fresh/144reused protocol controls take9.815s. Failed setup/incomplete original
+observer evidence is retained, with one corrected original capture. Full
+separate build/capture/audit/fixture and correction accounting is in0083.

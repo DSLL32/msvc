@@ -92,7 +92,8 @@
     "@add_coff_symbol@4",
     "_write_output_directives",
     "_output_callback_453e02",
-    "@write_coff_directive@16"
+    "@write_coff_directive@16",
+    "_output_callback_41ec20"
   ],
   "driver": [
     {
@@ -10461,6 +10462,196 @@
           4672989
         ]
       ]
+    },
+    {
+      "name": "_output_callback_41ec20",
+      "native": "select_output_section",
+      "start": 4320288,
+      "end": 4320345,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall C2Section*sectionECX; all3direct callers ignoreEAX, RET0; source82direct consumer only, slot497ce4 stillstores-only",
+      "pending_signature": false,
+      "evidence": "cases/analysis/select-output-section-analysis.json",
+      "symbol": "@select_output_section@4",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "256d171108ba314dbd32ad78c8c5362d44663981d3fb8aa23b819ac6796a6589",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-section-input"
     }
   ],
   "stubs": [
@@ -11409,196 +11600,6 @@
       "evidence": "cases/analysis/output-callback-boundary.json:explicit encountered slot target; actual named INT3 body, no generic callback or invocation permitted until callable ABI recovered."
     },
     {
-      "name": "_output_callback_41ec20",
-      "native": "select_output_section",
-      "start": 4320288,
-      "end": 4320289,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall C2Section*sectionECX; all3direct callers ignoreEAX, RET0; source82direct consumer only, slot497ce4 stillstores-only",
-      "pending_signature": false,
-      "evidence": "cases/analysis/section-callback-storage-contract.json",
-      "symbol": "@select_output_section@4",
-      "state_policy": "globals-complete",
-      "state": [
-        {
-          "original": "0x499708",
-          "native": "(unsigned long)c2_onexit_end"
-        },
-        {
-          "original": "0x4996d4",
-          "native": "(unsigned long)c2_onexit_begin"
-        },
-        {
-          "original": "0x49975c",
-          "native": "c2_fmode"
-        },
-        {
-          "original": "0x4980d4",
-          "native": "c2_commode"
-        },
-        {
-          "original": "0x499718",
-          "native": "c2_adjust_fdiv"
-        },
-        {
-          "original": "0x499694",
-          "native": "c2_default_math_error"
-        },
-        {
-          "original": "0x4980d0",
-          "native": "c2_new_mode"
-        },
-        {
-          "original": "0x4980cc",
-          "native": "c2_wildcards"
-        },
-        {
-          "original": "0x7803fa88",
-          "native": "recon_fmode"
-        },
-        {
-          "original": "0x7803fa94",
-          "native": "recon_commode"
-        },
-        {
-          "original": "0x7803f928",
-          "native": "recon_adjust_fdiv"
-        },
-        {
-          "original": "0x7803fa90",
-          "native": "recon_crt_app_type"
-        },
-        {
-          "original": "0x7803f198",
-          "native": "recon_crt_newmode"
-        },
-        {
-          "original": "0x490b7c",
-          "native": "c2_il_extended_header"
-        },
-        {
-          "original": "0x4972f8",
-          "native": "c2_il_source_table"
-        },
-        {
-          "original": "0x497df8",
-          "native": "c2_il_symbol_count"
-        },
-        {
-          "original": "0x491050",
-          "native": "c2_il_initial_symbol_count"
-        },
-        {
-          "original": "0x497f6c",
-          "native": "c2_il_target_size"
-        },
-        {
-          "original": "0x497de8",
-          "native": "c2_il_eight_byte_target"
-        },
-        {
-          "original": "0x48fb68",
-          "native": "(unsigned long)global_scope.previous"
-        },
-        {
-          "original": "0x491040",
-          "native": "c2_node_bytes[0]"
-        },
-        {
-          "original": "0x491044",
-          "native": "c2_node_bytes[1]"
-        },
-        {
-          "original": "0x491048",
-          "native": "c2_node_bytes[2]"
-        },
-        {
-          "original": "0x49104c",
-          "native": "c2_node_bytes[3]"
-        },
-        {
-          "original": "0x491074",
-          "native": "selected_save_register_mask"
-        },
-        {
-          "original": "0x495f34",
-          "native": "call_clobbered_register_mask"
-        },
-        {
-          "original": "0x49745c",
-          "native": "stack_alignment"
-        },
-        {
-          "original": "0x4973e8",
-          "native": "(unsigned long)current_debug_scope"
-        },
-        {
-          "original": "0x490b84",
-          "native": "(unsigned long)current_symbol_list_scope"
-        },
-        {
-          "original": "0x4972fc",
-          "native": "(unsigned long)global_special_symbols"
-        },
-        {
-          "original": "0x49d634",
-          "native": "current_source_file"
-        },
-        {
-          "original": "0x49739c",
-          "native": "last_section_serial"
-        },
-        {
-          "original": "0x4973b0",
-          "native": "il_option_flags"
-        },
-        {
-          "original": "0x4973a0",
-          "native": "(unsigned long)auxiliary_prefix"
-        },
-        {
-          "original": "0x497390",
-          "native": "(unsigned long)aux_expression_file"
-        },
-        {
-          "original": "0x497380",
-          "native": "(unsigned long)aux_symbol_file"
-        },
-        {
-          "original": "0x497c6c",
-          "native": "c2_constant_strings"
-        },
-        {
-          "original": "0x4973c0",
-          "native": "c2_omit_frame_pointer"
-        },
-        {
-          "original": "0x495f1c",
-          "native": "(unsigned long)current_symbol"
-        },
-        {
-          "original": "0x490b78",
-          "native": "(unsigned long)c2_internal_listing"
-        },
-        {
-          "original": "0x4973f8",
-          "native": "(unsigned long)default_storage_section"
-        },
-        {
-          "original": "0x490b70",
-          "native": "(unsigned long)local_symbol_table"
-        }
-      ],
-      "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "256d171108ba314dbd32ad78c8c5362d44663981d3fb8aa23b819ac6796a6589",
-      "expected_argc": 0,
-      "expected_argv": [
-        "-G5"
-      ],
-      "frontier_contract": "coff-section-input"
-    },
-    {
       "name": "_output_callback_41f3f2",
       "native": "output_callback_41f3f2",
       "start": 4322290,
@@ -12537,6 +12538,233 @@
       "kind": "application",
       "abi": "fastcall unsignedcharvalueCL callerignoresresultRET0",
       "evidence": "Actual source82 caller/provider ABI observations; genuine pendingINT3 no bodycredit"
+    },
+    {
+      "name": "@create_coff_section@4",
+      "native": "create_coff_section",
+      "symbol": "@create_coff_section@4",
+      "start": 4320345,
+      "end": 4320346,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall C2Section*sectionECX; unsignedshortAX,RET0",
+      "pending_signature": false,
+      "evidence": "cases/analysis/select-output-section-analysis.json",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "256d171108ba314dbd32ad78c8c5362d44663981d3fb8aa23b819ac6796a6589",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "coff-section-input",
+      "section_caller": "select_output_section"
+    },
+    {
+      "name": "@select_coff_section@4",
+      "native": "select_coff_section",
+      "symbol": "@select_coff_section@4",
+      "start": 4321696,
+      "end": 4321697,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall unsignedshortsectionCX; unsignedshortpreviousAX,RET0; callerignoresresult",
+      "pending_signature": false,
+      "evidence": "cases/analysis/select-output-section-analysis.json"
+    },
+    {
+      "name": "@query_coff_position@4",
+      "native": "query_coff_position",
+      "symbol": "@query_coff_position@4",
+      "start": 4321781,
+      "end": 4321782,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall unsignedshortsectionCX; unsignedEAX,RET0",
+      "pending_signature": false,
+      "evidence": "cases/analysis/select-output-section-analysis.json"
+    },
+    {
+      "name": "@write_output_fill@8",
+      "native": "write_output_fill",
+      "symbol": "@write_output_fill@8",
+      "start": 4538588,
+      "end": 4538589,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall unsignedcharvalueCL,unsignedcountEDX; returnignoredRET0",
+      "pending_signature": false,
+      "evidence": "cases/analysis/select-output-section-analysis.json"
     }
   ],
   "text_data": [
@@ -12801,7 +13029,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12813,7 +13041,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12825,7 +13053,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12837,7 +13065,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12849,7 +13077,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12861,7 +13089,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12873,7 +13101,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12885,7 +13113,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12897,7 +13125,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12909,7 +13137,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12923,7 +13151,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12935,7 +13163,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12950,7 +13178,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12962,7 +13190,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12974,7 +13202,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12986,7 +13214,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -12998,7 +13226,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -13010,7 +13238,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -13025,7 +13253,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -13040,7 +13268,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -13052,7 +13280,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -13064,7 +13292,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -13076,7 +13304,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       },
       {
@@ -13091,7 +13319,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8c25338d40d41b42e13bd4d820044d73a6281c4e14c160412a1f389ff467fd62"
+          "sha256": "f177c13eb2a2301335d4f9aad8f7f0fe7f1869657de4b236957046a70155543f"
         }
       }
     ]

@@ -37,5 +37,7 @@
   ],
   "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
   "disassembly_sha256": "e1c2971bbafcb5f4b18d0fd028351143defff786f58a22a59f1ce9fc64faf326",
-  "state": "Analysisonly. Notcandidate/accepted yet; all new children remain realnamedINT3/masked/zero credit. Firstnatural branch callscreate_coff_section on .drectve atpool0+1892 withDWORD70zero."
+  "state": "Source83 candidate; all four newcallees realnamedINT3/masked/zero bodycredit. FullDWORD initialization and lowWORD API use preserved; actual naturalargument section is .drectvepool0+1892 withzeroindex.",
+  "source_sha256": "575c598feb756ab60faf8119de1069fa516cb95f388719b8a2e36de0732669b8",
+  "header_sha256": "e450532797d53f975c94788da78d1fe4b93aed84e5f4daacbfe888c6316ce842"
 }

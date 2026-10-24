@@ -71,3 +71,20 @@ def verify_completion(binary,maps,raw,state,config,status=1,mapped_path=None):
         assert size>0 and start<=int(address,16)-bias<start+size,'completion entry is outside named ELF function'
     assert entries and [name for name,_ in entries]==state['trace'],'empty/different completion trace'
     return {'load_bias':hex(bias),'completed':True,'exit_status':status,'source_entries':len(entries)}
+
+
+def verify_callsite(binary,owner,offset,expected):
+    """Bind one finite observer instruction to the current ELF, not an older link."""
+    import hashlib
+    table=symbols(binary);assert owner in table,'observer owner has no real ELF symbol'
+    start,size=table[owner]
+    assert isinstance(offset,int)and 0<=offset and offset+len(expected)<=size,'observer instruction outside its owner'
+    raw=binary.read_bytes();assert raw[:6]==b'\x7fELF\x01\x01'
+    at=start+offset;header=struct.unpack_from('<I',raw,28)[0];width,count=struct.unpack_from('<HH',raw,42)
+    backing=[]
+    for i in range(count):
+        kind,file_offset,address,_,filesize,_,flags,_=struct.unpack_from('<IIIIIIII',raw,header+i*width)
+        if kind==1 and flags&1 and address<=at and at+len(expected)<=address+filesize:
+            backing.append(file_offset+at-address)
+    assert len(backing)==1 and raw[backing[0]:backing[0]+len(expected)]==expected,'current ELF observer call bytes differ'
+    return {'elf_sha256':hashlib.sha256(raw).hexdigest(),'owner':owner,'symbol_start':start,'symbol_size':size,'offset':offset,'bytes':expected.hex()}
