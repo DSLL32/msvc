@@ -1,0 +1,249 @@
+{
+  "scope": "Qualified canonical MSPDB50 raw reflected CRC signature semantics for nonnegative valid spans/count0 no-read; integer-only polynomialEDB88320, no copied table/profile/binder/counter/per-input state. Negative counts/positiveNULL/wrapped spans unsupported.",
+  "references": [
+    {
+      "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/signature-response-review.json",
+      "sha256": "255addcea5f06aa78ee25831ba05264db05d8e01020738e133c0f7c7525ec83a",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/signature-response-review.json"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/signature-response-parent-review.json",
+      "sha256": "bacbd94a0e6d94cacc492bd4faef2029a4d7945916492e0272fe57cb84b4721c",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/signature-response-parent-review.json"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/signature-polynomial/design-check.json",
+      "sha256": "8c2d8f2b0f538a86013cbeba52278925ba420b37aeb90df9312d98b75d096f74",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/design-check.json"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/check-signature-polynomial.py",
+      "sha256": "43affed7332626f985060528ead82879b14ae9bb59e4b1761e1abf7cc8cc3d70",
+      "frozen": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/check-signature-polynomial.py"
+    }
+  ],
+  "actual_C_witness": {
+    "status": "PASS",
+    "kind": "one original-only exact external dependency response; no app/provider acceptance or shared success",
+    "receipt_sha256": "e51a5362c6bebc64f287e69292360ff64d591da1bb829a40c50d4d7c8c7bb9d2",
+    "plan_sha256": "e2555a9047c4793567e6cc69486d4f7f577b3c489f4480ef2a77c55a697c2334",
+    "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "provider_export": {
+      "name": "SigForPbCb",
+      "ordinal": 127,
+      "rva": 61997
+    },
+    "input_hex": "43",
+    "defined_literal_hex": "4300",
+    "byte_count": 1,
+    "input_signature": 4294967295,
+    "return_value": 3257401432,
+    "return_hex": "c2280058",
+    "stack_signature_before": 4294967295,
+    "stack_signature_after": 3257401432,
+    "private_stack_qualification": "third incoming parameter slot modified; exact caller ADD12 discards all3 slots before any read/escape; consumes only EAX",
+    "nonvolatile_preserved": true,
+    "full_original_FP_unchanged": true,
+    "errors": [
+      0,
+      0,
+      0
+    ],
+    "target_delta_after_caller": {
+      "rva": 347616,
+      "bytes": 4,
+      "value": 3257401432
+    },
+    "next_named_trap": "next_argument12f9c",
+    "source_helper_sha256": "8a71d9d3c99887d67815338c736d641ea7ec33c220e1efa1b6671442d562f6ce",
+    "functions_sha256": "2f337d58c8196e91cec976fc786b5a0d72156bedbc4f5c03d8f8c8cccb1f1db5",
+    "seconds": 0.3821207908913493
+  },
+  "proof": "All256 canonicalDWORDs generatedfrompolynomial; byte update identity gives induction for arbitrary seeds/nonnegativevalid lengths.262144 byte-transition and35 longer offline cases checked separately; C actualreturnc2280058.",
+  "private_representation": "Original modifies third incoming by-value parameter slot. Native uses ordinary C signature parameter updates; caller discards12B and consumes EAX. No raw private argument-slot immutability/representation equality claim.",
+  "CPP_qualification": "OfflineCPP testvector is algebraic, not actual C1XX original oracle; its next required ordinary candidate acceptance still needs own actual call/state. No API-only bookkeeping original authorized.",
+  "remaining": "Each frontend must retain its own next required ordinary actual native/adoption evidence. No shared publication hold; CPP offline value is not its original oracle. No API-only original bookkeeping campaign.",
+  "receipt": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/receipt.json",
+    "sha256": "31b1ebf5bba42bd0772ec3466eb9b0748d2e9d11f4ded00334a987de69d59d9c"
+  },
+  "sources": [
+    {
+      "path": "/root/msvc2/lib/recon/src/compat.c",
+      "sha256": "13d89c42120816762c64ecf591044f899ba3e6e3fd5d27d1d6218adacb8e10ec"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/signature-crc-probe.c",
+      "sha256": "2032d256094fc21c438b0aa31780f9ee7a893c671fc82370f57725e8b59145f8"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-signature-crc.py",
+      "sha256": "355acc953d5c9c6cec861a57eb164e7b42f9c6b6ce4f1e548730d6db8022bb0e"
+    }
+  ],
+  "executables": [
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/gcc-510",
+      "sha256": "7f765775249669e1dcd14958144b3ae9b24ab7e2f272b79ebf19b0e442178371",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-DRECON_NATIVE_STARTUP_CONTROLFP_53",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/native",
+        "-DRECON_CRT_PROFILE_MSVCRT_510",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/tests/signature-crc-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/gcc-510"
+      ],
+      "build_seconds": 1.4441929748281837,
+      "check": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/tests/check-signature-crc.py",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/gcc-510",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/reference"
+        ],
+        "seconds": 0.08067651093006134,
+        "stdout": "548 canonical/actualC vectors x empty/live; zero-no-read and4denials PASS. CPP rows are offline algebra, not C1XX original oracle.\n"
+      }
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/clang-510",
+      "sha256": "1b5ce2f22d180f8629c1483f9a576c73fbc54ebb06790f57726a6b226dfc002e",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-DRECON_NATIVE_STARTUP_CONTROLFP_53",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/native",
+        "-DRECON_CRT_PROFILE_MSVCRT_510",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/tests/signature-crc-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/clang-510"
+      ],
+      "build_seconds": 1.5657185381278396,
+      "check": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/tests/check-signature-crc.py",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/clang-510",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/reference"
+        ],
+        "seconds": 0.07672304101288319,
+        "stdout": "548 canonical/actualC vectors x empty/live; zero-no-read and4denials PASS. CPP rows are offline algebra, not C1XX original oracle.\n"
+      }
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/gcc-default",
+      "sha256": "9c4eca87d439253e5eb7a08e4034756792ab8d2eb575ad991e60f896c8ce7dff",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-DRECON_NATIVE_STARTUP_CONTROLFP_53",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/native",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/tests/signature-crc-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/gcc-default"
+      ],
+      "build_seconds": 1.366971356794238,
+      "check": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/tests/check-signature-crc.py",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/gcc-default",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/reference"
+        ],
+        "seconds": 0.07985427882522345,
+        "stdout": "548 canonical/actualC vectors x empty/live; zero-no-read and4denials PASS. CPP rows are offline algebra, not C1XX original oracle.\n"
+      }
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/clang-default",
+      "sha256": "6493f2e30ec5ddd32a371840e16186d7244b4eb8431b025bbf3c62e6f81c807b",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-DRECON_NATIVE_STARTUP_CONTROLFP_53",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/include",
+        "-I/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/native",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/tests/signature-crc-probe.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/crt.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/win32.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/process.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/compat.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/entry.c",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/clang-default"
+      ],
+      "build_seconds": 1.5229007443413138,
+      "check": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/sources/tests/check-signature-crc.py",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/clang-default",
+          "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/reference"
+        ],
+        "seconds": 0.07839303091168404,
+        "stdout": "548 canonical/actualC vectors x empty/live; zero-no-read and4denials PASS. CPP rows are offline algebra, not C1XX original oracle.\n"
+      }
+    }
+  ],
+  "affected_checks": {
+    "command": "make -j4 -C lib/recon check status-check onexit-check",
+    "log": "/root/.ai-tmp/msvc2/recon-maintenance/signature-crc/affected-checks.log",
+    "sha256": "12bdb796f7dfdbc255cca8445d0a0d4af1ec2b486d8b74719c453292859d9ec6",
+    "result": "PASS cached-native core/fullDWORDstatus+ownership/ordinaryexit+onexit+preflush/ExitProcess controls; no originals",
+    "build_and_checks_seconds": 1.295965767
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/signature-crc-parent-review.json",
+    "sha256": "42863e79b88190c9e47a8f6746948a427996b080e7ceb115d14a46a7f4c8b271",
+    "result": "PASS exactcompat13d89/frozen source+refs+fourGCCClang default510 suites;548vectors xempty/live/full108FP/errors/tails+zero no-read+4denials; root-approved algorithm/math/count/privateparameter scope"
+  }
+}

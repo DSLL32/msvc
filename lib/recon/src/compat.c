@@ -6,13 +6,24 @@
 #include <sys/time.h>
 #include <recon.h>
 
-/* Qualified public MSPDB import: build/link surface only. Its provider's
- * hashing/result/state behavior has not been accepted at a reached call. */
+/* Qualified MSPDB50 raw reflected CRC signature. The polynomial generates
+ * every canonical table entry; no provider table or private state is copied. */
 __attribute__((weak)) unsigned long __cdecl recon_mspdb_SigForPbCb(
     const void *bytes,long byte_count,unsigned long signature)
 {
-    (void)bytes;(void)byte_count;(void)signature;
-    recon_unsupported("unreviewed MSPDB SigForPbCb");return 0;
+    const unsigned char *cursor=bytes;long remaining=byte_count;unsigned bit;
+    if(byte_count<0 || (byte_count && (!bytes ||
+       (uintptr_t)bytes>UINTPTR_MAX-(unsigned long)byte_count)))
+        recon_unsupported("unreviewed MSPDB signature input/span");
+    /* Negative counts stay denied, including the canonical DEC/JS INT_MIN
+     * wrap case. Zero reads nothing. By-value parameter storage is private;
+     * the original caller discards its slots and consumes only the result. */
+    while(remaining-- >0) {
+        signature^=*cursor++;
+        for(bit=0;bit<8;++bit)
+            signature=(signature>>1)^((signature&1)?0xedb88320UL:0);
+    }
+    return signature;
 }
 
 /* Distinct Watcom CRT boundaries. Only the explicit first-WLIB-main empty

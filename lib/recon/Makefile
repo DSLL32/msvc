@@ -568,3 +568,10 @@ build/sopen-lease-probe: tests/sopen-lease-probe.c $(SOURCES) $(HEADERS) | build
 sopen-lease-check: build/sopen-lease-probe
 	test -n "$(SOPEN_LEASE_REFERENCE)"
 	$(PYTHON) tests/check-sopen-lease.py build/sopen-lease-probe "$(SOPEN_LEASE_REFERENCE)"
+
+.PHONY: signature-crc-check
+build/signature-crc-probe: tests/signature-crc-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $< $(SOURCES) -o $@
+signature-crc-check: build/signature-crc-probe
+	test -n "$(SIGNATURE_CRC_REFERENCE)"
+	$(PYTHON) tests/check-signature-crc.py build/signature-crc-probe "$(SIGNATURE_CRC_REFERENCE)"
