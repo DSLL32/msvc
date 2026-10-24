@@ -1,0 +1,138 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "original_function": {
+    "start": 4200547,
+    "end": 4200607,
+    "bytes": 60,
+    "sha256": "6962d155283e07d9c6e05f1021d4e63344723fb85dd086636774e02b77b3c594",
+    "ABI": "signedint poolECX, pointerEAX,RET0; no incomingEDX/stack/hidden register input. EBX saved/restored; both returns C3."
+  },
+  "rebuilt_function": {
+    "ranges": [
+      [
+        4221680,
+        4221792
+      ]
+    ],
+    "owned_bytes": 112,
+    "sha256": "77cae74a0fae2306cafa9a34169730245b2e366aa6ca002880d39d2e1311e8db",
+    "symbol": 4221680,
+    "graph": {
+      "edges": [
+        "@c2_pool_allocate@8"
+      ],
+      "imports": []
+    }
+  },
+  "native_guard": {
+    "object_sha256": "ae515ec7d012cd36a46d7ab5112113d1a06d53059beeb0cc8aa6b7bae061c5cf",
+    "disassembly_sha256": "752bbedb295c72fa130fac4853d0fe7e544e39bfbdfa4758d0244090b57403d0",
+    "unsupported_relocations": [
+      81,
+      152
+    ],
+    "free_head_access_relocations": [
+      102,
+      176
+    ],
+    "meaning": "Actual pool==1 guard branches before BOTH native accesses. Original pool12 valid; other slots unmodeled, not invalid inputs. No new application vertex.",
+    "frozen_native_elf": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/set110-native-ready/native.elf",
+      "sha256": "9c943886c6e94f9aa1890cb7fa7f8fed3134c4766be8f03a6a999d6a48a20d50",
+      "named_disassembly_path": "/root/.ai-tmp/msvc2/vc5.10/c2/set110-native-linked-disassembly.txt",
+      "named_disassembly_sha256": "641d25e27a147d81f7fdb321a53bd2cdafc0af9c891535ac809e089baa30348c"
+    }
+  },
+  "data": {
+    "physical_base": 4776224,
+    "physical64_sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+    "physical64_hex_ANALYSIS_ONLY": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "proven_min_cells": 13,
+    "physical_max_before_next_known_object": 16,
+    "encountered_slot": 4776228,
+    "native_base": 4254136,
+    "rebuilt_slot": 4254140,
+    "credit_bytes": 4,
+    "unmodeled": "Slot0 and all later cells. No full table extent, unknown payload/default or whole-array equivalence.",
+    "headers": {
+      "size": 12,
+      "links": 0,
+      "pool_byte": 4,
+      "untouched_padding": [
+        5,
+        8
+      ],
+      "state": 8,
+      "effect": "clear low24/preserve high8"
+    }
+  },
+  "next": {
+    "name": "@new_function_register@4",
+    "entry": 4201624,
+    "observed_kind_CL": 4,
+    "genuine_formals": {
+      "kind": 4,
+      "formals": [
+        {
+          "name": "kind",
+          "type": "unsigned char"
+        }
+      ],
+      "caller": "initialize_function_records"
+    },
+    "original_return": 4359927,
+    "code_masked_bytes": 376,
+    "body_credit": 0
+  },
+  "snapshots": {
+    "src/register-sets.c": "e3899fca2eaa28c3f15fab853196a8a743ecd0d732de9edf593c4e8134c9289d",
+    "src/register-sets.h": "b577f784602f02edd769fd01bcc096579708fbcb4ae4c9e8bf01ee5dc17d698b",
+    "cases/analysis/register-set-analysis.json": "7af021baffebb5edcca774e5a6187739bd48de35df6b4d0da21fa4cbd22deea5",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/set110-original-ready/receipt.json": "1c5d291142b559840ba4e69160420c4755a98d322dbd4b311d9a26d11a7e65c7",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/set110-native-ready/receipt.json": "61a84a7089f030738c4f8a0eaa2e9cd67876a2e29acdee05e999d6e1f74300f7",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/set110-original-ready/events.txt": "2b4c641aa9e2b8221e0e6a1a106d6a3bd1cb69b70994377a1d0794756c00f4ea",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/set110-native-ready/gdb.stdout": "e55e70bd19072b52c66413bf29a6422c6aebdaf38b8243429114edddbdf72cbc",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/set110-original-ready/function-pools.bin": "c353af2e84222abea298e828ba9514c521eba24bc6e9decf0002eb35c281f4b0",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/set110-native-ready/function-pools.bin": "f2cfe8cb8a1844d2bbc7e01d6676926571ebe84c47372141fdb58d1ae107b8ee",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/set110-input-controls.json": "959dc9dd105ea4b8a3d407ed88a770093bdc0210f80534af5b959aec967aa7ac",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/set110-boundary-controls.json": "541daf17e043c3e688823d8a469cc460ed97892d8f2df00fd94a7396393a3044",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/set110-source-controls.json": "044736ced82826a495948a3c7865ee531e580149e52d8d99ac71bee98a356abc",
+    "/root/msvc2/decomp/vc5.10/c2/scripts/register_set_data.py": "af3001a7ac9036769522aee5864218e9965361727fb4e01663a93117b8849a63",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/set110-source-controls-final.json": "39080998033f45f34e3ab38d3daa499ce30057deb09dbf1b5a78140e22d77e96",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/set110-historical-register-set-data.py": "efcde56ff188071f65ca9b57a91eac178ec30627a4ea6bd315238f5a5f223301"
+  },
+  "caller_annotation_correction": {
+    "frozen_model": "cases/analysis/register-set-analysis.json accepted_callers descriptive strings contain address typos; not validator inputs. Historical bytes retained.",
+    "actual_calls": [
+      {
+        "ECX_one": 4359861,
+        "call": 4359895,
+        "return": 4359900
+      },
+      {
+        "ECX_one": 4359900,
+        "call": 4359910,
+        "return": 4359915
+      }
+    ],
+    "evidence": "Original instructions individually bound below; source/captured actualpool1 matching already proven. Canonical descriptive strings corrected at next genuine trial, not by relabeling historical raw.",
+    "actual_bytes": {
+      "0x4286b5": "b901000000",
+      "0x4286d7": "e88791fdff",
+      "0x4286dc": "b901000000",
+      "0x4286e6": "e87891fdff"
+    }
+  },
+  "validator_bindings": {
+    "historical": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c2/set110-historical-register-set-data.py",
+      "sha256": "efcde56ff188071f65ca9b57a91eac178ec30627a4ea6bd315238f5a5f223301",
+      "role": "Exact earlier checker producing initial11-control source result; retained historical only. Not the final validator."
+    },
+    "final": {
+      "path": "/root/msvc2/decomp/vc5.10/c2/scripts/register_set_data.py",
+      "sha256": "af3001a7ac9036769522aee5864218e9965361727fb4e01663a93117b8849a63",
+      "role": "Tightened finite guard additionally sanitizes only known stub signature. Final12 source controls and current pair compare use this checker; validator-only refinement, no original execution-input change."
+    }
+  }
+}

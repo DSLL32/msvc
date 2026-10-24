@@ -50,6 +50,8 @@ def plan(value):
 def verify(config):
     from register_data import verify as verify_registers
     registers=verify_registers(config)
+    from register_set_data import verify as verify_register_sets
+    verify_register_sets(config)
     from function_register_data import verify as verify_function_registers
     function_registers=verify_function_registers(config)
     value=model(config)

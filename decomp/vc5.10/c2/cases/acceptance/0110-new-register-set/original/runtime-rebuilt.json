@@ -1,0 +1,1218 @@
+[
+  {
+    "name": "_c2_math_error",
+    "start": 4198400,
+    "end": 4198414,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_print_banner",
+    "start": 4198414,
+    "end": 4198426,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_compile_unit",
+    "start": 4198539,
+    "end": 4198551,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_finalize_output",
+    "start": 4198551,
+    "end": 4198563,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_flush_debug",
+    "start": 4198563,
+    "end": 4198575,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_console_handler@4",
+    "start": 4198575,
+    "end": 4198591,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@c2_report_internal@8",
+    "start": 4198591,
+    "end": 4198614,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@c2_system_fatal@12",
+    "start": 4198614,
+    "end": 4198639,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@resolve_diagnostic_location@8",
+    "start": 4198639,
+    "end": 4198664,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@c2_open_pdb@8",
+    "start": 4198426,
+    "end": 4198451,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_retains_symbols@8",
+    "start": 4198451,
+    "end": 4198476,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_symbol@8",
+    "start": 4198476,
+    "end": 4198501,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@queue_symbol_debug@4",
+    "start": 4198501,
+    "end": 4198519,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@reserve_symbol_storage@4",
+    "start": 4198519,
+    "end": 4198539,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_input_extended_flags",
+    "start": 4198664,
+    "end": 4198678,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@clone_alias_symbol@4",
+    "start": 4198678,
+    "end": 4198696,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_qualified_symbol@8",
+    "start": 4198696,
+    "end": 4198719,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_compiler_warning",
+    "start": 4198719,
+    "end": 4198731,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_module_directive@4",
+    "start": 4198731,
+    "end": 4198749,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@register_source_file@4",
+    "start": 4198749,
+    "end": 4198769,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_source_file@8",
+    "start": 4198769,
+    "end": 4198794,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@uppercase_symbol_name@4",
+    "start": 4198794,
+    "end": 4198812,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@is_constant_symbol@4",
+    "start": 4198812,
+    "end": 4198832,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@is_known_symbol@4",
+    "start": 4198832,
+    "end": 4198852,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@select_symbol_section@8",
+    "start": 4198852,
+    "end": 4198877,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@new_initializer@4",
+    "start": 4198877,
+    "end": 4198897,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_initializer_values@4",
+    "start": 4198897,
+    "end": 4198915,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@queue_initializer@4",
+    "start": 4198915,
+    "end": 4198935,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@emit_initializer@4",
+    "start": 4198935,
+    "end": 4198953,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@free_initializer@4",
+    "start": 4198953,
+    "end": 4198971,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_check_extended_backend",
+    "start": 4198971,
+    "end": 4198985,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@listing_source_index@8",
+    "start": 4198985,
+    "end": 4199011,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_deferred_function",
+    "start": 4199011,
+    "end": 4199025,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_finish_deferred_function",
+    "start": 4199025,
+    "end": 4199037,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_function@4",
+    "start": 4199037,
+    "end": 4199057,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@activate_scope@4",
+    "start": 4199057,
+    "end": 4199075,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@canonicalize_function@4",
+    "start": 4199075,
+    "end": 4199093,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@skip_global_optimization@4",
+    "start": 4199093,
+    "end": 4199113,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_409dac@8",
+    "start": 4199113,
+    "end": 4199136,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_40d9be@8",
+    "start": 4199136,
+    "end": 4199159,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_456857@8",
+    "start": 4199159,
+    "end": 4199182,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4570e0@8",
+    "start": 4199182,
+    "end": 4199205,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_finish_function",
+    "start": 4199205,
+    "end": 4199217,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_463ff1@4",
+    "start": 4199217,
+    "end": 4199235,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_456b13@4",
+    "start": 4199235,
+    "end": 4199253,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_45729f@4",
+    "start": 4199253,
+    "end": 4199271,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_458c9f@4",
+    "start": 4199271,
+    "end": 4199289,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_46481c@4",
+    "start": 4199289,
+    "end": 4199307,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_483f46@4",
+    "start": 4199307,
+    "end": 4199325,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4088c7@4",
+    "start": 4199325,
+    "end": 4199343,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_427d89@4",
+    "start": 4199343,
+    "end": 4199361,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4828f8@4",
+    "start": 4199361,
+    "end": 4199379,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_421bdf@4",
+    "start": 4199379,
+    "end": 4199397,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_421e34@4",
+    "start": 4199397,
+    "end": 4199415,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_409c5c@4",
+    "start": 4199415,
+    "end": 4199433,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42127d@4",
+    "start": 4199433,
+    "end": 4199451,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4180e8@4",
+    "start": 4199451,
+    "end": 4199469,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_413245@4",
+    "start": 4199469,
+    "end": 4199487,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4132fa@4",
+    "start": 4199487,
+    "end": 4199505,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_413369@4",
+    "start": 4199505,
+    "end": 4199523,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_412292@4",
+    "start": 4199523,
+    "end": 4199541,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_412412@4",
+    "start": 4199541,
+    "end": 4199559,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_464b8a@4",
+    "start": 4199559,
+    "end": 4199577,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_412457@4",
+    "start": 4199577,
+    "end": 4199595,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4120d4@4",
+    "start": 4199595,
+    "end": 4199613,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_412d5c@4",
+    "start": 4199613,
+    "end": 4199631,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4144ef@4",
+    "start": 4199631,
+    "end": 4199649,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_414862@4",
+    "start": 4199649,
+    "end": 4199667,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_40d254@4",
+    "start": 4199667,
+    "end": 4199685,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_414a64@4",
+    "start": 4199685,
+    "end": 4199703,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_41759e@4",
+    "start": 4199703,
+    "end": 4199721,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_416e6a@4",
+    "start": 4199721,
+    "end": 4199739,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42a8aa@4",
+    "start": 4199739,
+    "end": 4199757,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42b3e2@4",
+    "start": 4199757,
+    "end": 4199775,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42b750@4",
+    "start": 4199775,
+    "end": 4199793,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42e689@4",
+    "start": 4199793,
+    "end": 4199811,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_483b6f@4",
+    "start": 4199811,
+    "end": 4199829,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42e6a6@4",
+    "start": 4199829,
+    "end": 4199847,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_402cb6@4",
+    "start": 4199847,
+    "end": 4199865,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_402b6e@4",
+    "start": 4199865,
+    "end": 4199883,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42d635@4",
+    "start": 4199883,
+    "end": 4199901,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42d65a@4",
+    "start": 4199901,
+    "end": 4199919,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42f060@4",
+    "start": 4199919,
+    "end": 4199937,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_402c2c@4",
+    "start": 4199937,
+    "end": 4199955,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42f3e4@4",
+    "start": 4199955,
+    "end": 4199973,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_42f446@4",
+    "start": 4199973,
+    "end": 4199991,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4330f7@4",
+    "start": 4199991,
+    "end": 4200009,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_433546@4",
+    "start": 4200009,
+    "end": 4200027,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_4338ab@4",
+    "start": 4200027,
+    "end": 4200045,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_465486@4",
+    "start": 4200045,
+    "end": 4200063,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_47d1d3@4",
+    "start": 4200063,
+    "end": 4200081,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_pass_433906@4",
+    "start": 4200081,
+    "end": 4200099,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_41eb89",
+    "start": 4200099,
+    "end": 4200111,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_41f3f2",
+    "start": 4200111,
+    "end": 4200123,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_41fa04",
+    "start": 4200123,
+    "end": 4200141,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_434139",
+    "start": 4200141,
+    "end": 4200153,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4346cf",
+    "start": 4200153,
+    "end": 4200165,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_435633",
+    "start": 4200165,
+    "end": 4200177,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4357b8",
+    "start": 4200177,
+    "end": 4200189,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_435af6",
+    "start": 4200189,
+    "end": 4200201,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_43696a",
+    "start": 4200201,
+    "end": 4200213,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_442b9f",
+    "start": 4200213,
+    "end": 4200225,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_442d21",
+    "start": 4200225,
+    "end": 4200237,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_442d33",
+    "start": 4200237,
+    "end": 4200249,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_44308f",
+    "start": 4200249,
+    "end": 4200261,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4432a1",
+    "start": 4200261,
+    "end": 4200273,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_44a79d",
+    "start": 4200273,
+    "end": 4200285,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4541f3",
+    "start": 4200285,
+    "end": 4200297,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_454ba8",
+    "start": 4200297,
+    "end": 4200309,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4849f2",
+    "start": 4200309,
+    "end": 4200321,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4849f5",
+    "start": 4200321,
+    "end": 4200333,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4849fa",
+    "start": 4200333,
+    "end": 4200351,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4850f5",
+    "start": 4200351,
+    "end": 4200363,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_initialize_codeview_output",
+    "start": 4200363,
+    "end": 4200375,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_query_incremental_stream_size",
+    "start": 4200375,
+    "end": 4200389,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_incremental_stream@8",
+    "start": 4200389,
+    "end": 4200414,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_read_incremental_byte",
+    "start": 4200414,
+    "end": 4200428,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_validate_incremental_options",
+    "start": 4200428,
+    "end": 4200442,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_output_486e67",
+    "start": 4200442,
+    "end": 4200454,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_output_486a23",
+    "start": 4200454,
+    "end": 4200466,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_prepare_output_48710f",
+    "start": 4200466,
+    "end": 4200478,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_writer_callback_48511c",
+    "start": 4200478,
+    "end": 4200503,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_writer_callback_45477a",
+    "start": 4200503,
+    "end": 4200515,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_read_incremental_output",
+    "start": 4200515,
+    "end": 4200529,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_restore_incremental_output",
+    "start": 4200529,
+    "end": 4200541,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@add_incremental_symbol@4",
+    "start": 4200541,
+    "end": 4200561,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@reserve_incremental_symbols@12",
+    "start": 4200561,
+    "end": 4200589,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_grow_coff_symbol_buffer",
+    "start": 4200589,
+    "end": 4200601,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@emit_incremental_string@4",
+    "start": 4200601,
+    "end": 4200619,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@write_output_fill@8",
+    "start": 4200619,
+    "end": 4200642,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@add_associative_coff_section@24",
+    "start": 4200642,
+    "end": 4200670,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@coff_selection_code@4",
+    "start": 4200670,
+    "end": 4200690,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@mark_debug_section@4",
+    "start": 4200690,
+    "end": 4200708,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_get_assembly_comment_character",
+    "start": 4200708,
+    "end": 4200722,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@write_assembly_header@4",
+    "start": 4200722,
+    "end": 4200740,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@has_local_symbol@4",
+    "start": 4200740,
+    "end": 4200760,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@resolve_alias_symbol@4",
+    "start": 4200760,
+    "end": 4200780,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@record_symbol_references@4",
+    "start": 4200780,
+    "end": 4200798,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@symbol_requires_references@4",
+    "start": 4200798,
+    "end": 4200818,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@initializer_is_static@4",
+    "start": 4200818,
+    "end": 4200838,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_new_symbol_link",
+    "start": 4200838,
+    "end": 4200852,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@visit_symbols@8",
+    "start": 4200852,
+    "end": 4200875,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_assembly_callback_4894ca",
+    "start": 4200875,
+    "end": 4200887,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_assembly_callback_489596",
+    "start": 4200887,
+    "end": 4200899,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_assembly_callback_489693",
+    "start": 4200899,
+    "end": 4200911,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_assembly_callback_48a251",
+    "start": 4200911,
+    "end": 4200923,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_initializer@4",
+    "start": 4200923,
+    "end": 4200943,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@write_assembly_initializer@4",
+    "start": 4200943,
+    "end": 4200961,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_clear_function_input_state",
+    "start": 4200961,
+    "end": 4200973,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_reset_function_listing",
+    "start": 4200973,
+    "end": 4200985,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@new_function_register@4",
+    "start": 4200985,
+    "end": 4201005,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@clear_register_set@4",
+    "start": 4201005,
+    "end": 4201024,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  }
+]

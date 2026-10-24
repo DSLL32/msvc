@@ -50,7 +50,7 @@ def compare_pools(original,native,config,expected,state,native_proof,proof):
             for base,data in blocks.items():
                 if base<=address and address+size<=base+4096:return data[address-base:address-base+size]
             raise AssertionError('function pool snapshot read outside owned span')
-        bases,value=register_pool_state(read,order[0],count)
+        bases,value=register_pool_state(read,order[0],count,expected.get('register_sets',0))
         assert value==state['globals_complete']['function_pools'],'actual function pool bytes differ from typed GDB view'
         oldest=bases[0];raw=bytearray(blocks[oldest]);wanted=bytes.fromhex(state['globals_complete']['directives']['pool_bytes'])
         assert raw[:8]==struct.pack('<II',0,4088)
@@ -71,6 +71,14 @@ def compare_pools(original,native,config,expected,state,native_proof,proof):
     assert state['function_pool_state']==wanted
     observations=re.findall(r'^C2-FUNCTION-POOL-STATE (.*)$',(native/'gdb.stdout').read_text(),re.M)
     assert len(observations)==1 and json.loads(observations[0])==wanted
+    if expected.get('register_node_input'):
+        wanted={'kind':4,'formals':[{'name':'kind','type':'unsigned char'}],'caller':'initialize_function_records'}
+        assert state['register_node_input']==wanted,'function-register actual CL formal differs'
+        observations=re.findall(r'^C2-REGISTER-NODE-INPUT (.*)$',(native/'gdb.stdout').read_text(),re.M)
+        assert len(observations)==1 and json.loads(observations[0])==wanted
+        events=(original/'events.txt').read_text().rsplit('observe 00401c98 ',1);assert len(events)==2
+        assert re.findall(r'^register-node-input kind=(\d+) no-edx-formal=1$',events[1],re.M)==['4']
+        return evidence[0][1]
     wanted={'pool':1,'formals':[{'name':'pool','type':'int'}],'caller':'initialize_function_records'}
     assert state['register_set_input']==wanted,'new register-set actual fastcall ECX formal differs'
     observations=re.findall(r'^C2-REGISTER-SET-INPUT (.*)$',(native/'gdb.stdout').read_text(),re.M)

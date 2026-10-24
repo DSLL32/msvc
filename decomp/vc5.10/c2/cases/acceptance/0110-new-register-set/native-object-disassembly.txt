@@ -1,0 +1,99 @@
+
+build/native/register-sets.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <new_register_set>:
+   0:	55                   	push   ebp
+   1:	89 e5                	mov    ebp,esp
+   3:	53                   	push   ebx
+   4:	83 ec 34             	sub    esp,0x34
+   7:	e8 00 00 00 00       	call   c <new_register_set+0xc>
+   c:	5b                   	pop    ebx
+   d:	81 c3 03 00 00 00    	add    ebx,0x3
+			f: R_386_GOTPC	_GLOBAL_OFFSET_TABLE_
+  13:	89 5d ec             	mov    DWORD PTR [ebp-0x14],ebx
+  16:	89 4d f0             	mov    DWORD PTR [ebp-0x10],ecx
+  19:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+  1c:	8d 8b 00 00 00 00    	lea    ecx,[ebx+0x0]
+			1e: R_386_GOTOFF	new_register_set
+  22:	89 0c 24             	mov    DWORD PTR [esp],ecx
+  25:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+  29:	e8 fc ff ff ff       	call   2a <new_register_set+0x2a>
+			2a: R_386_PLT32	__cyg_profile_func_enter
+  2e:	8b 4d f0             	mov    ecx,DWORD PTR [ebp-0x10]
+  31:	89 4d f8             	mov    DWORD PTR [ebp-0x8],ecx
+  34:	83 7d f8 01          	cmp    DWORD PTR [ebp-0x8],0x1
+  38:	75 0a                	jne    44 <new_register_set+0x44>
+  3a:	b8 01 00 00 00       	mov    eax,0x1
+  3f:	89 45 e8             	mov    DWORD PTR [ebp-0x18],eax
+  42:	eb 19                	jmp    5d <new_register_set+0x5d>
+  44:	8b 5d ec             	mov    ebx,DWORD PTR [ebp-0x14]
+  47:	8d 83 00 00 00 00    	lea    eax,[ebx+0x0]
+			49: R_386_GOTOFF	.L.str
+  4d:	89 04 24             	mov    DWORD PTR [esp],eax
+  50:	e8 fc ff ff ff       	call   51 <new_register_set+0x51>
+			51: R_386_PLT32	recon_unsupported
+  55:	b8 01 00 00 00       	mov    eax,0x1
+  5a:	89 45 e8             	mov    DWORD PTR [ebp-0x18],eax
+  5d:	8b 45 ec             	mov    eax,DWORD PTR [ebp-0x14]
+  60:	8b 4d e8             	mov    ecx,DWORD PTR [ebp-0x18]
+  63:	8b 84 88 00 00 00 00 	mov    eax,DWORD PTR [eax+ecx*4+0x0]
+			66: R_386_GOTOFF	free_register_sets
+  6a:	89 45 f4             	mov    DWORD PTR [ebp-0xc],eax
+  6d:	83 7d f4 00          	cmp    DWORD PTR [ebp-0xc],0x0
+  71:	74 43                	je     b6 <new_register_set+0xb6>
+  73:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+  76:	8b 00                	mov    eax,DWORD PTR [eax]
+  78:	89 45 e4             	mov    DWORD PTR [ebp-0x1c],eax
+  7b:	83 7d f8 01          	cmp    DWORD PTR [ebp-0x8],0x1
+  7f:	75 0a                	jne    8b <new_register_set+0x8b>
+  81:	b8 01 00 00 00       	mov    eax,0x1
+  86:	89 45 e0             	mov    DWORD PTR [ebp-0x20],eax
+  89:	eb 19                	jmp    a4 <new_register_set+0xa4>
+  8b:	8b 5d ec             	mov    ebx,DWORD PTR [ebp-0x14]
+  8e:	8d 83 00 00 00 00    	lea    eax,[ebx+0x0]
+			90: R_386_GOTOFF	.L.str
+  94:	89 04 24             	mov    DWORD PTR [esp],eax
+  97:	e8 fc ff ff ff       	call   98 <new_register_set+0x98>
+			98: R_386_PLT32	recon_unsupported
+  9c:	b8 01 00 00 00       	mov    eax,0x1
+  a1:	89 45 e0             	mov    DWORD PTR [ebp-0x20],eax
+  a4:	8b 45 ec             	mov    eax,DWORD PTR [ebp-0x14]
+  a7:	8b 55 e4             	mov    edx,DWORD PTR [ebp-0x1c]
+  aa:	8b 4d e0             	mov    ecx,DWORD PTR [ebp-0x20]
+  ad:	89 94 88 00 00 00 00 	mov    DWORD PTR [eax+ecx*4+0x0],edx
+			b0: R_386_GOTOFF	free_register_sets
+  b4:	eb 13                	jmp    c9 <new_register_set+0xc9>
+  b6:	8b 5d ec             	mov    ebx,DWORD PTR [ebp-0x14]
+  b9:	8b 4d f8             	mov    ecx,DWORD PTR [ebp-0x8]
+  bc:	ba 0c 00 00 00       	mov    edx,0xc
+  c1:	e8 fc ff ff ff       	call   c2 <new_register_set+0xc2>
+			c2: R_386_PLT32	c2_pool_allocate
+  c6:	89 45 f4             	mov    DWORD PTR [ebp-0xc],eax
+  c9:	8b 5d ec             	mov    ebx,DWORD PTR [ebp-0x14]
+  cc:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  cf:	88 c1                	mov    cl,al
+  d1:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+  d4:	88 48 04             	mov    BYTE PTR [eax+0x4],cl
+  d7:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+  da:	c7 00 00 00 00 00    	mov    DWORD PTR [eax],0x0
+  e0:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+  e3:	8b 48 08             	mov    ecx,DWORD PTR [eax+0x8]
+  e6:	81 e1 00 00 00 ff    	and    ecx,0xff000000
+  ec:	89 48 08             	mov    DWORD PTR [eax+0x8],ecx
+  ef:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+  f2:	89 45 dc             	mov    DWORD PTR [ebp-0x24],eax
+  f5:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+  f8:	8d 8b 00 00 00 00    	lea    ecx,[ebx+0x0]
+			fa: R_386_GOTOFF	new_register_set
+  fe:	89 0c 24             	mov    DWORD PTR [esp],ecx
+ 101:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+ 105:	e8 fc ff ff ff       	call   106 <new_register_set+0x106>
+			106: R_386_PLT32	__cyg_profile_func_exit
+ 10a:	8b 45 dc             	mov    eax,DWORD PTR [ebp-0x24]
+ 10d:	83 c4 34             	add    esp,0x34
+ 110:	5b                   	pop    ebx
+ 111:	5d                   	pop    ebp
+ 112:	c3                   	ret

@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "RELEASED bounded slot1 projection and ordinary110 promotion",
+  "reviewed_utc": "2026-10-24T06:53:32.481168+00:00",
+  "packet": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c2/set110-abi-packet.json",
+    "sha256": "ef56dde22cfd57364a69f687ba6cf1b96ec519223dbf3497e2c128ad6b276aac"
+  },
+  "independent_checks": {
+    "/root/.ai-tmp/msvc2/vc5.10/c2/set110-parent-positive.json": "269308cd5e65ab707250055dc6db1292894a81e6c8c40acceee7d0d4782777af",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/set110-parent-source-controls-final.json": "9fc5daa10924d09e056d256739f276100ed260e934a42f05d2b060164e1c55d0",
+    "/root/.ai-tmp/msvc2/vc5.10/c2/set110-parent-boundary-controls.json": "ea8e4eeaf98d69e1d8f9f6154c2cc19b4f100dc483fdb3ca099f272751b2f30a"
+  },
+  "source_review": "Actual guard before both accesses; two original literal pool1 callers with exact corrected bytes; native pool12 is unmodeled not invalid. Preserve12B header padding5..7/high state byte; only4B slot1 default credit. No base escape or whole-table extent/default claim. Frozen old/final checker identities explicit; failed inactive-guard pair remains unaccepted.",
+  "limits": "All other free-head cells remain UNMODELED. Future consumers/indexes require model extension before read. No new original execution for this review."
+}

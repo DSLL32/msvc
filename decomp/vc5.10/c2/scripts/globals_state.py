@@ -60,10 +60,12 @@ ROOTS['coff_section_buckets']=(0x497d00,'coff_section_buckets')
 
 REGISTER_ROOTS = {'function_register_blocks': (4782220, 'function_register_blocks'), 'next_function_register_block': (4782760, 'next_function_register_block'), 'end_function_register_blocks': (4782756, 'end_function_register_blocks'), 'next_function_register_number': (4782736, 'next_function_register_number'), 'first_function_register_block': (4776664, 'first_function_register_block'), 'last_function_register_block': (4782752, 'last_function_register_block'), 'tracked_register_block': (4776656, 'tracked_register_block'), 'secondary_register_block': (4776652, 'secondary_register_block'), 'plain_register_block': (4776648, 'plain_register_block'), 'default_register_block': (4776636, 'default_register_block'), 'extra_register_block': (4776644, 'extra_register_block'), 'free_plain_register_nodes': (4776628, 'free_plain_register_nodes'), 'free_tracked_register_nodes': (4776632, 'free_tracked_register_nodes'), 'pending_debug_symbols': (4813912, 'pending_debug_symbols'), 'secondary_register_set': (4776640, 'secondary_register_set'), 'tracked_register_set': (4776660, 'tracked_register_set'), 'empty_function_register': (4813836, 'empty_function_register')}
 ROOTS.update(REGISTER_ROOTS)
+ROOTS['free_register_set_head']=(0x48e124,'free_register_sets[1]')
 
 
-def register_pool_state(read, head, count):
+def register_pool_state(read, head, count, sets=0):
     """Known allocator-written spans plus encountered register-block fields."""
+    assert sets in (0,2)
     assert count == 4, 'new natural register allocation shape needs explicit proof'
     chain=[]; current=head
     while current:
@@ -85,12 +87,14 @@ def register_pool_state(read, head, count):
             value=(index-1)*32+row
             assert struct.unpack_from('<I',raw,48+80*row)[0]==value, 'register row number differs'
             struct.pack_into('<I',expected,48+80*row,value)
+        if sets and index==count:
+            for at in (2580,2592):expected[at+4]=1
         assert raw==expected, 'allocator-defined register arena bytes or own zeroed tails differ'
         blocks.append({'index':index,'register_count':32,'first_number':(index-1)*32,'allocator_bytes':raw.hex()})
     return bases,{'arena_count':count+1,'register_blocks':count,'blocks':blocks,'byte_scope':'Each exact4096B arena: real allocator writes two headerDWORDs and zeroes4088B. Only encountered pointer/header/number fields are interpreted; other zero bytes have allocator-writer provenance, no semantic/default/layout credit.'}
 
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False, section_selected=False, output_bytes_written=False, output_directives_complete=False, function_selected=False, register_directory=False, register_blocks=0):
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False, storage_complete=False, section_recorded=False, section_selected=False, output_bytes_written=False, output_directives_complete=False, function_selected=False, register_directory=False, register_blocks=0, register_sets=0):
     payload=b'-defaultlib:LIBC -defaultlib:OLDNAMES 'if output_directives_complete else b'-defaultlib:LIBC'if output_bytes_written else b''
     written=len(payload);writes=6 if output_directives_complete else 2 if output_bytes_written else 0
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
@@ -221,11 +225,11 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         directive_head, directive_cursor, directive_remaining = pool_words[3:6]
         assert directive_head and directive_head != head
         if register_blocks:
-            pool_bases,pool_state=register_pool_state(read,directive_head,register_blocks)
+            pool_bases,pool_state=register_pool_state(read,directive_head,register_blocks,register_sets)
             assert all(base!=head for base in pool_bases)
-            assert directive_cursor==pool_bases[-1]+2580 and directive_remaining==1516
+            assert directive_cursor==pool_bases[-1]+2580+12*register_sets and directive_remaining==1516-12*register_sets
             directive_head=pool_bases[0]
-            expected_cursor=2580
+            expected_cursor=2580+12*register_sets
             result['function_pools']=pool_state
         else:
             expected_cursor=4032 if register_directory else 32
@@ -252,6 +256,9 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
                 struct.pack_into('<I',data,offset,0x50000000+(index+1)*0x10000+8)
         result['directives'] = dict(head_offset=8, cursor_offset=expected_cursor, remaining=directive_remaining,
             nodes=nodes, pool_bytes=data.hex())
+    if register_sets:
+        assert u32(addresses['free_register_set_head'])==0, 'encountered register-set free-head slot differs'
+        result['register_set_free_head']={'pool':1,'value':0,'defined_bytes':4,'unmodeled':'slot0 and all later cells; no full object extent'}
     if register_directory:
         assert directives and function_selected
         assert u32(addresses['function_register_blocks'])==directive_head+32
@@ -263,6 +270,11 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
             for name,index in actual.items():
                 assert pending[name]==pool_bases[index]+8, 'register global block alias differs'
                 pending[name]=index
+            if register_sets:
+                for name,offset in [('secondary_register_set',2580),('tracked_register_set',2592)]:
+                    assert pending[name]==pool_bases[-1]+offset, 'register-set global alias differs'
+                    pending[name]=offset
+                    actual[name]=offset
             assert pending['next_function_register_number']==128
             assert all(value==0 for name,value in pending.items()if name not in actual and name!='next_function_register_number'), 'unexecuted register-set or later node constructor changed state'
         else:

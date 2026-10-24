@@ -1,0 +1,95 @@
+
+/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/set110-native-ready/native.elf:     file format elf32-i386
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+0000e2f0 <new_register_set>:
+    e2f0:	55                   	push   ebp
+    e2f1:	89 e5                	mov    ebp,esp
+    e2f3:	53                   	push   ebx
+    e2f4:	83 ec 34             	sub    esp,0x34
+    e2f7:	e8 00 00 00 00       	call   e2fc <new_register_set+0xc>
+    e2fc:	5b                   	pop    ebx
+    e2fd:	81 c3 f8 dc 02 00    	add    ebx,0x2dcf8
+    e303:	89 5d ec             	mov    DWORD PTR [ebp-0x14],ebx
+    e306:	89 4d f0             	mov    DWORD PTR [ebp-0x10],ecx
+    e309:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    e30c:	8d 8b fc 22 fd ff    	lea    ecx,[ebx-0x2dd04]
+    e312:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    e315:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    e319:	e8 62 e6 01 00       	call   2c980 <__cyg_profile_func_enter>
+    e31e:	8b 4d f0             	mov    ecx,DWORD PTR [ebp-0x10]
+    e321:	89 4d f8             	mov    DWORD PTR [ebp-0x8],ecx
+    e324:	83 7d f8 01          	cmp    DWORD PTR [ebp-0x8],0x1
+    e328:	75 0a                	jne    e334 <new_register_set+0x44>
+    e32a:	b8 01 00 00 00       	mov    eax,0x1
+    e32f:	89 45 e8             	mov    DWORD PTR [ebp-0x18],eax
+    e332:	eb 19                	jmp    e34d <new_register_set+0x5d>
+    e334:	8b 5d ec             	mov    ebx,DWORD PTR [ebp-0x14]
+    e337:	8d 83 8c 24 ff ff    	lea    eax,[ebx-0xdb74]
+    e33d:	89 04 24             	mov    DWORD PTR [esp],eax
+    e340:	e8 2b 57 00 00       	call   13a70 <recon_unsupported>
+    e345:	b8 01 00 00 00       	mov    eax,0x1
+    e34a:	89 45 e8             	mov    DWORD PTR [ebp-0x18],eax
+    e34d:	8b 45 ec             	mov    eax,DWORD PTR [ebp-0x14]
+    e350:	8b 4d e8             	mov    ecx,DWORD PTR [ebp-0x18]
+    e353:	8b 84 88 c0 42 00 00 	mov    eax,DWORD PTR [eax+ecx*4+0x42c0]
+    e35a:	89 45 f4             	mov    DWORD PTR [ebp-0xc],eax
+    e35d:	83 7d f4 00          	cmp    DWORD PTR [ebp-0xc],0x0
+    e361:	74 43                	je     e3a6 <new_register_set+0xb6>
+    e363:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+    e366:	8b 00                	mov    eax,DWORD PTR [eax]
+    e368:	89 45 e4             	mov    DWORD PTR [ebp-0x1c],eax
+    e36b:	83 7d f8 01          	cmp    DWORD PTR [ebp-0x8],0x1
+    e36f:	75 0a                	jne    e37b <new_register_set+0x8b>
+    e371:	b8 01 00 00 00       	mov    eax,0x1
+    e376:	89 45 e0             	mov    DWORD PTR [ebp-0x20],eax
+    e379:	eb 19                	jmp    e394 <new_register_set+0xa4>
+    e37b:	8b 5d ec             	mov    ebx,DWORD PTR [ebp-0x14]
+    e37e:	8d 83 8c 24 ff ff    	lea    eax,[ebx-0xdb74]
+    e384:	89 04 24             	mov    DWORD PTR [esp],eax
+    e387:	e8 e4 56 00 00       	call   13a70 <recon_unsupported>
+    e38c:	b8 01 00 00 00       	mov    eax,0x1
+    e391:	89 45 e0             	mov    DWORD PTR [ebp-0x20],eax
+    e394:	8b 45 ec             	mov    eax,DWORD PTR [ebp-0x14]
+    e397:	8b 55 e4             	mov    edx,DWORD PTR [ebp-0x1c]
+    e39a:	8b 4d e0             	mov    ecx,DWORD PTR [ebp-0x20]
+    e39d:	89 94 88 c0 42 00 00 	mov    DWORD PTR [eax+ecx*4+0x42c0],edx
+    e3a4:	eb 13                	jmp    e3b9 <new_register_set+0xc9>
+    e3a6:	8b 5d ec             	mov    ebx,DWORD PTR [ebp-0x14]
+    e3a9:	8b 4d f8             	mov    ecx,DWORD PTR [ebp-0x8]
+    e3ac:	ba 0c 00 00 00       	mov    edx,0xc
+    e3b1:	e8 ea c1 ff ff       	call   a5a0 <c2_pool_allocate>
+    e3b6:	89 45 f4             	mov    DWORD PTR [ebp-0xc],eax
+    e3b9:	8b 5d ec             	mov    ebx,DWORD PTR [ebp-0x14]
+    e3bc:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+    e3bf:	88 c1                	mov    cl,al
+    e3c1:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+    e3c4:	88 48 04             	mov    BYTE PTR [eax+0x4],cl
+    e3c7:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+    e3ca:	c7 00 00 00 00 00    	mov    DWORD PTR [eax],0x0
+    e3d0:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+    e3d3:	8b 48 08             	mov    ecx,DWORD PTR [eax+0x8]
+    e3d6:	81 e1 00 00 00 ff    	and    ecx,0xff000000
+    e3dc:	89 48 08             	mov    DWORD PTR [eax+0x8],ecx
+    e3df:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+    e3e2:	89 45 dc             	mov    DWORD PTR [ebp-0x24],eax
+    e3e5:	8b 45 04             	mov    eax,DWORD PTR [ebp+0x4]
+    e3e8:	8d 8b fc 22 fd ff    	lea    ecx,[ebx-0x2dd04]
+    e3ee:	89 0c 24             	mov    DWORD PTR [esp],ecx
+    e3f1:	89 44 24 04          	mov    DWORD PTR [esp+0x4],eax
+    e3f5:	e8 56 e7 01 00       	call   2cb50 <__cyg_profile_func_exit>
+    e3fa:	8b 45 dc             	mov    eax,DWORD PTR [ebp-0x24]
+    e3fd:	83 c4 34             	add    esp,0x34
+    e400:	5b                   	pop    ebx
+    e401:	5d                   	pop    ebp
+    e402:	c3                   	ret
+
+Disassembly of section .fini:
