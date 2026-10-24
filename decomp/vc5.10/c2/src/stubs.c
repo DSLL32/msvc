@@ -626,11 +626,6 @@ unsigned char __fastcall coff_selection_code(unsigned char selection)
     __asm { int 3 }
     return 0;
 }
-int __fastcall initialize_coff_section(unsigned short section, unsigned flags)
-{
-    __asm { int 3 }
-    return 0;
-}
 void __fastcall record_output_section(C2Section *section)
 {
     __asm { int 3 }
@@ -638,4 +633,19 @@ void __fastcall record_output_section(C2Section *section)
 void __fastcall mark_debug_section(unsigned section)
 {
     __asm { int 3 }
+}
+
+void *__fastcall lookup_output_table(C2OutputTable *table, unsigned index)
+{
+    __asm { int 3 }
+    return 0;
+}
+void __fastcall initialize_coff_symbols(C2CoffSectionData *data)
+{
+    __asm { int 3 }
+}
+unsigned __fastcall register_coff_storage(C2CoffSectionData *data)
+{
+    __asm { int 3 }
+    return 0;
 }

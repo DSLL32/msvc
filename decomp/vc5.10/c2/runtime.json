@@ -1132,14 +1132,6 @@
     "evidence": null
   },
   {
-    "name": "@initialize_coff_section@8",
-    "start": 4321155,
-    "end": 4321156,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@record_output_section@4",
     "start": 4321651,
     "end": 4321652,
@@ -1151,6 +1143,30 @@
     "name": "@mark_debug_section@4",
     "start": 4746574,
     "end": 4746575,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_output_table@8",
+    "start": 4321413,
+    "end": 4321414,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@initialize_coff_symbols@4",
+    "start": 4321476,
+    "end": 4321477,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@register_coff_storage@4",
+    "start": 4321574,
+    "end": 4321575,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

@@ -20,6 +20,25 @@ struct C2OutputSection {
     unsigned char selection, pending21;
     unsigned short association;
 };
+/* Encountered prefixes only. The allocator requests60/508/308 bytes;
+   unvisited tails and the byte28..47 gap have no field/content credit. */
+struct C2OutputBlock508 { unsigned count; C2OutputBlock508 *last; };
+struct C2OutputBlock308 { unsigned count; C2OutputBlock308 *last; };
+struct C2CoffSectionData {
+    C2CoffSectionData *next;
+    C2OutputSection *section;
+    unsigned symbol_index;
+    C2OutputList *output;
+    C2OutputBlock508 *relocations;
+    C2OutputBlock308 *line_numbers;
+    unsigned size;
+    unsigned char pending28[20];
+    unsigned short storage_index, flags;
+};
+typedef char C2CoffSectionDataOutputCheck[offsetof(C2CoffSectionData, output) == 12 ? 1 : -1];
+typedef char C2CoffSectionDataSizeCheck[offsetof(C2CoffSectionData, size) == 24 ? 1 : -1];
+typedef char C2CoffSectionDataIndexCheck[offsetof(C2CoffSectionData, storage_index) == 48 ? 1 : -1];
+typedef char C2CoffSectionDataFlagsCheck[offsetof(C2CoffSectionData, flags) == 50 ? 1 : -1];
 typedef char C2OutputSectionSizeCheck[sizeof(C2OutputSection) == 24 ? 1 : -1];
 typedef char C2OutputSectionNameCheck[offsetof(C2OutputSection, name) == 4 ? 1 : -1];
 typedef char C2OutputSectionCharacteristicsCheck[offsetof(C2OutputSection, characteristics) == 8 ? 1 : -1];
@@ -152,6 +171,10 @@ unsigned short __fastcall add_associative_coff_section(char *name, unsigned flag
     unsigned char selection, unsigned short association, int flag8, int reuse);
 unsigned char __fastcall coff_selection_code(unsigned char selection);
 int __fastcall initialize_coff_section(unsigned short section, unsigned flags);
+void *__fastcall lookup_output_table(C2OutputTable *table, unsigned index);
+void __fastcall initialize_coff_symbols(C2CoffSectionData *data);
+unsigned __fastcall register_coff_storage(C2CoffSectionData *data);
+extern int coff_reuse_output;
 void __fastcall record_output_section(C2Section *section);
 void __fastcall mark_debug_section(unsigned section);
 extern int coff_reuse_index;

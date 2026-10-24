@@ -43,7 +43,7 @@ COFF_GLOBALS = {
     'coff_symbol_total': (0x497d4c,4), 'coff_next_symbol': (0x497d54,4),
     'coff_directive_option': (0x497dac,4),
     'function_option_23': (0x48fb60,4),
-    'coff_reuse_index': (0x49d5ec,4),
+    'coff_reuse_index': (0x49d5ec,4), 'coff_reuse_output': (0x497da8,4),
     'coff_reserved_symbols': (0x497d5c,4), 'coff_previous_source': (0x497f68,4),
 }
 ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})

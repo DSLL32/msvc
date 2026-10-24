@@ -438,3 +438,77 @@ unsigned __fastcall append_output_table(C2OutputTable *table, void *item)
     ++table->used;
     return ++table->count;
 }
+
+int coff_reuse_output;
+
+int __fastcall initialize_coff_section(unsigned short section, unsigned flags)
+{
+    C2OutputSection *entry;
+    C2CoffSectionData *data, *old;
+    unsigned base;
+    entry = lookup_output_table(coff_table, section);
+    if (!entry)
+        return 0;
+    if (entry->flags & 2)
+        return 0;
+    if (entry->flags & 1) {
+        if (entry->characteristics & IMAGE_SCN_LNK_COMDAT)
+            return 0;
+        if (coff_pending_e18)
+            return 0;
+    }
+    if (coff_pending_c90 == 3) {
+        if (coff_section_count >= 1)
+            return 0;
+    }
+    old = entry->data;
+    if (coff_reuse_output) {
+        if (!old)
+            goto new_data;
+        old->flags = 0;
+        old->output = new_output_list(1, flags ==
+            (IMAGE_SCN_CNT_UNINITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE));
+        old->relocations = output_allocate(508);
+        old->relocations->count = 0;
+        old->relocations->last = old->relocations;
+        old->line_numbers = output_allocate(308);
+        old->line_numbers->count = 0;
+        old->line_numbers->last = old->line_numbers;
+        initialize_coff_symbols(old);
+        old->storage_index = (unsigned short)register_coff_storage(old);
+        goto initialized;
+    }
+    if (old) {
+        if (!(old->flags & 1))
+            goto initialized;
+    }
+new_data:
+    data = output_allocate(60);
+    data->flags = 0;
+    data->output = new_output_list(!(entry->flags & 4), flags ==
+        (IMAGE_SCN_CNT_UNINITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE));
+    data->relocations = output_allocate(508);
+    data->relocations->count = 0;
+    data->relocations->last = data->relocations;
+    data->line_numbers = output_allocate(308);
+    data->line_numbers->count = 0;
+    data->line_numbers->last = data->line_numbers;
+    data->section = entry;
+    if (old) {
+        data->next = old->next;
+        base = entry->base_offset + old->size;
+        old->next = data;
+        entry->data = data;
+        entry->base_offset = base;
+    } else {
+        data->next = data;
+        entry->data = data;
+        entry->base_offset = 0;
+    }
+    initialize_coff_symbols(data);
+    data->storage_index = (unsigned short)register_coff_storage(data);
+initialized:
+    entry->flags |= 3;
+    ++coff_section_count;
+    return 1;
+}

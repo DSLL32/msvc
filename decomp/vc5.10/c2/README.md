@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 81 application functions (17674 bytes) and five CRT
+Current reconstruction has 82 application functions (18127 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at COFF section initialization with index1/flags0xa00, after
-the generic table insertion and caller descriptor name/index writes. Four import thunks (24 bytes) and contextual text tables
-(725 bytes) remain separate. The 18112 source bytes are 3.160% of 573183 `.text`
+currently stops at generic table lookup index1, called by section initialization,
+after the generic table insertion and caller descriptor name/index writes. Four import thunks (24 bytes) and contextual text tables
+(725 bytes) remain separate. The 18565 source bytes are 3.239% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -421,3 +421,15 @@ aliases match. Twenty-one affected controls take23.720s, separately from
 6fresh/147reused protocol controls7.273s. No failed capture/setup occurred.
 Original/native/helper builds take1.534/2.785/1.907s; full separate capture,
 audit and native fixture accounting is retained in0086.
+
+Source87 reconstructs the453-byte hot/cold section initializer. It preserves
+the reuse/new record branches, circular linking and separate symbol/storage
+children. Actual fields justify a52-byte prefix of its60-byte allocation; the
+20-byte gap is uninterpreted and final8 bytes remain unmodeled. Relocation
+and line blocks expose only their8-byte count/self-link prefixes, retaining
+actual508/308-byte allocation sizes. No unvisited payload/default credit is
+claimed. The first fresh pair reaches generic table lookup at index1, with
+actual ECX/EDX, initializer ushort/flags and creator aliases checked. Sixteen
+affected controls take18.952s;6fresh/147reused protocol controls7.460s.
+Original/native/helper builds take6.405/2.813/1.615s; full separate capture,
+audit and native fixture accounting is retained in0087.
