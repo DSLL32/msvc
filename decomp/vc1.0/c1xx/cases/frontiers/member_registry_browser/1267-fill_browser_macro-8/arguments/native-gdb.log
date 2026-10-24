@@ -1,0 +1,17 @@
+Breakpoint 1 at 0x37af9: file src/browser.c, line 161.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, fill_browser_macro (record=0x5661f108 <browser_records+24>, macro=0x56631c8c) at src/browser.c:161
+161	    record->header.flags &= ~2;
+#0  fill_browser_macro (record=0x5661f108 <browser_records+24>, macro=0x56631c8c) at src/browser.c:161
+#1  0x5658cab3 in fill_browser_record (record=0x5661f108 <browser_records+24>, subject=0x56631c8c) at src/browser.c:119
+#2  0x5658c80f in append_browser_record (kind=253 '\375', subject=0x56631c8c, line=0) at src/browser.c:102
+#3  0x5658c654 in queue_browser_record (kind=253 '\375', subject=0x56631c8c) at src/browser.c:56
+#4  0x5658cb89 in browser_macro (definition=0x56631c8c) at src/browser.c:154
+#5  0x56575938 in define_macro (replacement=0x0, bytes=0, parameter_count=-3) at src/macros.c:280
+#6  0x56575214 in define_command_line_macros (definitions=0x5663a978) at src/macros.c:109
+#7  0x5655f365 in initialize_frontend () at src/initialization.c:241
+#8  0x5655dc2c in compile_translation_unit () at src/frontend.c:22
+#9  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558894 in main (argc=1, argv=0xffffd784, environment=0xffffd78c) at src/c1xx.c:20

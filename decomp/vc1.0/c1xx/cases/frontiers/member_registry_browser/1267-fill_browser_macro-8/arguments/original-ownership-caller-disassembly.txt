@@ -1,0 +1,74 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0002bbb0 <.text+0x14bb0>:
+   2bbb0:	8b 4c 24 04          	mov    ecx,DWORD PTR [esp+0x4]
+   2bbb4:	a1 98 cc 08 00       	mov    eax,ds:0x8cc98
+   2bbb9:	89 41 04             	mov    DWORD PTR [ecx+0x4],eax
+   2bbbc:	33 c0                	xor    eax,eax
+   2bbbe:	8a 01                	mov    al,BYTE PTR [ecx]
+   2bbc0:	3d fd 00 00 00       	cmp    eax,0xfd
+   2bbc5:	7f 19                	jg     0x2bbe0
+   2bbc7:	0f 84 83 00 00 00    	je     0x2bc50
+   2bbcd:	48                   	dec    eax
+   2bbce:	83 f8 0c             	cmp    eax,0xc
+   2bbd1:	0f 87 9f 00 00 00    	ja     0x2bc76
+   2bbd7:	c1 e0 02             	shl    eax,0x2
+   2bbda:	ff a0 7c bc 02 00    	jmp    DWORD PTR [eax+0x2bc7c]
+   2bbe0:	3d fe 00 00 00       	cmp    eax,0xfe
+   2bbe5:	74 79                	je     0x2bc60
+   2bbe7:	3d ff 00 00 00       	cmp    eax,0xff
+   2bbec:	0f 84 7e 00 00 00    	je     0x2bc70
+   2bbf2:	c2 08 00             	ret    0x8
+   2bbf5:	51                   	push   ecx
+   2bbf6:	e8 a5 fb ff ff       	call   0x2b7a0
+   2bbfb:	83 c4 04             	add    esp,0x4
+   2bbfe:	c2 08 00             	ret    0x8
+   2bc01:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   2bc05:	50                   	push   eax
+   2bc06:	51                   	push   ecx
+   2bc07:	e8 f4 fb ff ff       	call   0x2b800
+   2bc0c:	c2 08 00             	ret    0x8
+   2bc0f:	90                   	nop
+   2bc10:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   2bc14:	50                   	push   eax
+   2bc15:	51                   	push   ecx
+   2bc16:	e8 95 fe ff ff       	call   0x2bab0
+   2bc1b:	c2 08 00             	ret    0x8
+   2bc1e:	8b ff                	mov    edi,edi
+   2bc20:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   2bc24:	50                   	push   eax
+   2bc25:	51                   	push   ecx
+   2bc26:	e8 a5 fb ff ff       	call   0x2b7d0
+   2bc2b:	c2 08 00             	ret    0x8
+   2bc2e:	8b ff                	mov    edi,edi
+   2bc30:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   2bc34:	50                   	push   eax
+   2bc35:	51                   	push   ecx
+   2bc36:	e8 d5 fe ff ff       	call   0x2bb10
+   2bc3b:	c2 08 00             	ret    0x8
+   2bc3e:	8b ff                	mov    edi,edi
+   2bc40:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   2bc44:	50                   	push   eax
+   2bc45:	51                   	push   ecx
+   2bc46:	e8 85 fb ff ff       	call   0x2b7d0
+   2bc4b:	c2 08 00             	ret    0x8
+   2bc4e:	8b ff                	mov    edi,edi
+   2bc50:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   2bc54:	50                   	push   eax
+   2bc55:	51                   	push   ecx
+   2bc56:	e8 55 fa ff ff       	call   0x2b6b0
+   2bc5b:	c2 08 00             	ret    0x8
+   2bc5e:	8b ff                	mov    edi,edi
+   2bc60:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   2bc64:	50                   	push   eax
+   2bc65:	51                   	push   ecx
+   2bc66:	e8 25 fe ff ff       	call   0x2ba90
+   2bc6b:	c2 08 00             	ret    0x8
+   2bc6e:	8b ff                	mov    edi,edi
+   2bc70:	51                   	push   ecx
+   2bc71:	e8 da fe ff ff       	call   0x2bb50
+   2bc76:	c2 08 00             	ret    0x8

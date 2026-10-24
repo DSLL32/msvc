@@ -153,3 +153,16 @@ void __stdcall browser_macro(MacroDefinition *definition)
 {
     queue_browser_record(0xfd, definition);
 }
+
+/* Original 0x2b6b0..0x2b6e3. Macro names use interner identity;
+   the parameter-count byte is tested unsigned by the original CMP/SBB. */
+void __stdcall fill_browser_macro(BrowserRecord *record, MacroDefinition *macro)
+{
+    record->header.flags &= ~2;
+    record->name = macro->name;
+    record->attributes = 0;
+    record->name_identity = macro->name;
+    record->category = (unsigned char)macro->parameter_count < 1 ? 5 : 6;
+    record->symbol_index = macro->browser_index;
+    record->header.kind = 3;
+}

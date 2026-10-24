@@ -1,0 +1,86 @@
+{
+  "case": "member_registry_browser",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1267,
+  "terminal": "_pop_first_browser_record",
+  "candidate": "_fill_browser_macro@8",
+  "pending_accepted": [],
+  "configuration_sha256": "6d70b974cda2e9317c068fe8b45576c220f7212415dd7b20ba1780390bd95dc7",
+  "capture_seconds": 0.7165039200335741,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "registry.h": {
+      "bytes": 703,
+      "sha256": "a16309303b88af7f9a4a7ad68f6fbcacbc75ed975b9d277a29f9baa6ca38e649"
+    },
+    "registry.sbt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "registry.cpp": {
+      "bytes": 6998,
+      "sha256": "79744fca0c987fcf884632130d2000185580b0acd358647058f76151e62b8158"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\member-registry-browser-driver",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "b2fb8bfb0f5e6517b3d24996e25c0fbb12e74eb4feb26993f0216508550fff32",
+  "first_entry_projection": {
+    "accepted_first": 1257,
+    "accepted_last": 1268,
+    "accepted_prefix_sha256": "faccfa7c2cdef16b359e8fe8fc3a1f9ce6591613b12a1e24a2a721f61a31a5d6",
+    "expected": [
+      "_begin_browser_output",
+      "_format_browser_temporary_name@4",
+      "_begin_browser_records",
+      "_queue_browser_record@8",
+      "_append_browser_record@12",
+      "_fill_browser_record@8",
+      "_first_browser_record",
+      "_second_browser_record",
+      "_browser_record_from_end@4",
+      "_browser_macro@4",
+      "_fill_browser_macro@8"
+    ],
+    "observed": [
+      "_begin_browser_output",
+      "_format_browser_temporary_name@4",
+      "_begin_browser_records",
+      "_queue_browser_record@8",
+      "_append_browser_record@12",
+      "_fill_browser_record@8",
+      "_first_browser_record",
+      "_second_browser_record",
+      "_browser_record_from_end@4",
+      "_browser_macro@4",
+      "_fill_browser_macro@8"
+    ],
+    "events_sha256": "a7b27353f92a397f679bf79455fa93f202ba9f4cac46b1a532544af1ce480daa",
+    "plan_sha256": "aebd611285b2af2f6afe940ebabf2d05b6cf2c40e7d3498b2b33896c69a8aecc"
+  }
+}
