@@ -1,0 +1,98 @@
+{
+  "status": "Complete fresh acceptance/canonical/audits/88cachednative regression",
+  "reach": "Externaldirect constructor support feeding genuine publicmain/dumper; no publiccallerclaim forconstructor",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "prefix_accepted_count": 995,
+  "cwd": "S:\\vc1.0\\link\\direct-priority-archives",
+  "target_argv": [
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-dump",
+    "/nologo",
+    "/headers"
+  ],
+  "inputs": [
+    {
+      "path": "inputs/o1.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "inputs/p1.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "inputs/o2.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "inputs/p2.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "inputs/names.bin",
+      "bytes": 256,
+      "sha256": "3f8f697d3f3d1d3825450bbf55f9e2a1970d96afa1a86832bc10baa5687a5dea"
+    }
+  ],
+  "stdout": {
+    "path": "reference/stdout.bin",
+    "bytes": 36586,
+    "sha256": "485580b36d7a50e762804c78938f2d4b9c35e686bf1d7a0f93225817053e83ab"
+  },
+  "stderr": {
+    "path": "reference/stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "external_report": {
+    "path": "reference/results.bin",
+    "bytes": 352,
+    "sha256": "b7799a235f3e35a6b8a4b3a2cb21b8c94fd12dafcf036e1c9b7e55cf575a8a58"
+  },
+  "original_receipt": {
+    "path": "reference/receipt.json",
+    "bytes": 3210,
+    "sha256": "cde2a3af4819d8050d7ac9c6ff8ff8853d683adf7aecb48783afb8776a58e179"
+  },
+  "original_events": {
+    "path": "reference/events.jsonl",
+    "bytes": 13155,
+    "sha256": "571cac50b0a06a47e41e37ae7fea0db6530aa51acab8e4af3359c8bd3fe56646"
+  },
+  "files": [
+    {
+      "path": "reference/files/o1.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "reference/files/o2.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "reference/files/p1.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "reference/files/p2.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    }
+  ],
+  "expected_application_entries": [
+    "insert_other_input"
+  ],
+  "expected_order": [
+    "p1.lib",
+    "p2.lib",
+    "o1.lib",
+    "o2.lib"
+  ],
+  "normalization": [],
+  "accepted_last": 996
+}

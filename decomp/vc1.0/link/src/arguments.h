@@ -16,6 +16,8 @@ extern Argument *first_argument;
 extern ArgumentList search_paths, input_files, library_files, other_inputs;
 char *duplicate_string(const char *);
 void append_argument_node(ArgumentList *,char *,char *);
+Argument *insert_other_input(char *,char *,unsigned char);
+extern Argument *first_ordinary_input,*last_priority_input;
 void append_argument(ArgumentList *,char *);
 void collect_search_path(const char *,ArgumentList *);
 char *tokenize_response(char *,const char *,unsigned char *);

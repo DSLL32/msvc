@@ -994,7 +994,8 @@
     "_checksum_image_file",
     "__fileno",
     "__filelength",
-    "_make_import_section_read_only"
+    "_make_import_section_read_only",
+    "_insert_other_input"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -8648,6 +8649,15 @@
       "source": "src/editor-bind.c",
       "abi": "cdecl void(BoundImage *image)",
       "evidence": "Fresh direct-image-checksum actual formals/ownedBoundImage+FILEdescriptor/guards/fullFP+liveerrors,50entry-return observations and complete7rawstage files original/native/baseline exact. Externaldirectsupport; publicCLI reach notclaimed. Cases/direct-image-checksum."
+    },
+    {
+      "name": "_insert_other_input",
+      "start": 133648,
+      "end": 133880,
+      "source": "src/arguments.c",
+      "implementation": "C",
+      "abi": "cdecl Argument *(char *text,char *original,unsigned char priority)",
+      "evidence": "Fresh matching firstfrontier+10actual constructor/main entry-return observations; real owners/defined0,4,12/nameguards/argv/count/cursors/ESP+nonvolatiles/liveerrors/fullCW+SW+tags+emptyregisters strict, exact36586Bstdout/352Bexternalreport/4unchangedarchives andexit0. Directsupport feeding genuine publicdump, no publicconstructor reachclaim. cases/direct-priority-archives."
     }
   ],
   "c_stub_references": [
@@ -9648,6 +9658,7 @@
     "direct-image-checksum",
     "direct-image-checksum",
     "direct-image-checksum",
-    "direct-image-checksum"
+    "direct-image-checksum",
+    "direct-priority-archives"
   ]
 }

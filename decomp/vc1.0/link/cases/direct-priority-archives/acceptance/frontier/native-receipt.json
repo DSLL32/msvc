@@ -1,0 +1,16 @@
+{
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "file /root/msvc2/decomp/vc1.0/link/build/native/priority-archives",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc1.0/link/priority-archives-gdb-xh2ddtqb/observe.py"
+  ],
+  "seconds": 0.14632389787584543,
+  "status": 0,
+  "trial": [],
+  "elf_sha256": "7936df19bbc5630133bf6ebb6c0b207fc4951de856bb5e00587a469c8b17b5db"
+}

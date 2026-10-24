@@ -1,0 +1,244 @@
+{
+  "scope": "One corrected complete baseline after retained controller-only ABI assertion failure; no automatic repeats. Fresh masked original/frontier captures and native GDB separate; fixture timings excludebuild/debugger/capture. Setup includes traceprepare, do not doublecount.",
+  "final_native": [
+    {
+      "label": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "build/native/legacy-diagnostics",
+        "build/native/ide-protocol",
+        "build/native/comdat-diagnostics",
+        "build/native/dispatcher",
+        "build/native/cvtomf",
+        "build/native/file-resize",
+        "build/native/symbol-tables",
+        "build/native/module-diagnostics",
+        "build/native/image-checksum",
+        "build/native/priority-archives",
+        "native-trace",
+        "build/native-trace/legacy-diagnostics",
+        "build/native-trace/ide-protocol",
+        "build/native-trace/comdat-diagnostics",
+        "build/native-trace/dispatcher",
+        "build/native-trace/cvtomf",
+        "build/native-trace/file-resize",
+        "build/native-trace/symbol-tables",
+        "build/native-trace/module-diagnostics",
+        "build/native-trace/image-checksum",
+        "build/native-trace/priority-archives"
+      ],
+      "seconds": 12.946531691588461,
+      "status": 0
+    },
+    {
+      "label": "trace-cache",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 1.0979542899876833,
+      "status": 0
+    },
+    {
+      "label": "cached88",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace-check"
+      ],
+      "seconds": 9.657981745898724,
+      "status": 0
+    },
+    {
+      "label": "output-only",
+      "command": [
+        "python3",
+        "scripts/check-priority-archives.py"
+      ],
+      "seconds": 0.09628467448055744,
+      "status": 0
+    }
+  ],
+  "canonical": {
+    "command": [
+      "make",
+      "-j4",
+      "all"
+    ],
+    "seconds": 21.267841822467744,
+    "status": 0
+  },
+  "host_audits": [
+    {
+      "label": "audit",
+      "command": [
+        "make",
+        "-j4",
+        "audit"
+      ],
+      "seconds": 5.666319074109197,
+      "status": 0
+    },
+    {
+      "label": "graph-controls",
+      "command": [
+        "python3",
+        "scripts/check-graph-audit.py"
+      ],
+      "seconds": 19.094671377912164,
+      "status": 0
+    },
+    {
+      "label": "instructions",
+      "command": [
+        "../../../tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--project",
+        ".",
+        "--repo",
+        "../../..",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents",
+        "--export-instructions",
+        "--report",
+        "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-priority-archives/final/instructions.json"
+      ],
+      "seconds": 2.3263282254338264,
+      "status": 0
+    }
+  ],
+  "original_observations": [
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-priority-archives/masked-0gyv677o/receipt.json",
+        "bytes": 3188,
+        "sha256": "dacdeba4a5f5a73d894cdd331d4bf13ce2fb5fe73a0de94c01698d6bf0aa58e9"
+      },
+      "mode": "masked",
+      "trial": null,
+      "seconds": 1.7749798698350787,
+      "summary": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 2,
+        "exit": 17,
+        "stdout_bytes": 0,
+        "stderr_bytes": 0
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-priority-archives/masked-e0etg8sk/receipt.json",
+        "bytes": 3214,
+        "sha256": "b70607ec2a38c928ade182257ace82537a16faaf38741cd85e246d39afa4827d"
+      },
+      "mode": "masked",
+      "trial": "insert_other_input",
+      "seconds": 0.7804736215621233,
+      "summary": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 1,
+        "exit": 0,
+        "stdout_bytes": 36586,
+        "stderr_bytes": 0
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-priority-archives/original-99gs3n2k/receipt.json",
+        "bytes": 3211,
+        "sha256": "ae9b661291be587430ec31d1445c5849018f208f582f8f911e05fcfeabf65eb8"
+      },
+      "mode": "original",
+      "trial": null,
+      "seconds": 1.2011223137378693,
+      "summary": {
+        "event": "summary",
+        "failed": 22,
+        "stopped": 0,
+        "exit": 999,
+        "stdout_bytes": 36586,
+        "stderr_bytes": 0
+      }
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-priority-archives/original-g8ojl77h/receipt.json",
+        "bytes": 3210,
+        "sha256": "cde2a3af4819d8050d7ac9c6ff8ff8853d683adf7aecb48783afb8776a58e179"
+      },
+      "mode": "original",
+      "trial": null,
+      "seconds": 1.6159045370295644,
+      "summary": {
+        "event": "summary",
+        "failed": 0,
+        "stopped": 1,
+        "exit": 0,
+        "stdout_bytes": 36586,
+        "stderr_bytes": 0
+      }
+    }
+  ],
+  "native_GDB": [
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/priority-archives-gdb-ldhbv5hq/receipt.json",
+        "bytes": 398,
+        "sha256": "e7f17b933408140e0c33658b5d44c9e8745c14afeb8c485c1dd7c6a025eff945"
+      },
+      "seconds": 0.17417780682444572,
+      "trial": [],
+      "status": 0
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/priority-archives-gdb-n29ai8iz/receipt.json",
+        "bytes": 426,
+        "sha256": "ddb5d85cf438a67c8b3fba0bb6da2f897147711901cee337a7d11a4f4fb10b50"
+      },
+      "seconds": 0.15763691160827875,
+      "trial": [
+        "insert_other_input"
+      ],
+      "status": 0
+    },
+    {
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/priority-archives-gdb-xh2ddtqb/receipt.json",
+        "bytes": 398,
+        "sha256": "96aab878c5a672ca60e29d17be37e16c8acbf22cce23e558742755827421433f"
+      },
+      "seconds": 0.14632389787584543,
+      "trial": [],
+      "status": 0
+    }
+  ],
+  "new_traced_case": {
+    "setup_seconds": 0.2189885312691331,
+    "trace_prepare_seconds": 0.20784148573875427,
+    "execution_seconds": 0.007647953927516937,
+    "oracle_seconds": 0.0006768135353922844,
+    "trace_seconds": 9.35085117816925e-05,
+    "total_seconds": 0.2274102857336402
+  },
+  "new_output_only": {
+    "setup_seconds": 0.009339640848338604,
+    "trace_prepare_seconds": 0,
+    "execution_seconds": 0.005469056777656078,
+    "oracle_seconds": 0.0006868122145533562,
+    "trace_seconds": 6.69620931148529e-07,
+    "total_seconds": 0.015500316396355629
+  },
+  "offline_controls_seconds": 0.02425492089241743,
+  "intermediate_builds": "Originalcontroller build and native stub/candidate intermediatebuilds unmeasured; final canonical and allhost nativebuild measured separately."
+}

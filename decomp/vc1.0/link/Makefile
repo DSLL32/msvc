@@ -116,7 +116,7 @@ build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
 build/native/LINK.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HOST_LDFLAGS) -o $@
 
-native-check: native build/native/legacy-diagnostics build/native/ide-protocol build/native/comdat-diagnostics build/native/dispatcher build/native/cvtomf build/native/file-resize build/native/symbol-tables build/native/module-diagnostics build/native/image-checksum
+native-check: native build/native/legacy-diagnostics build/native/ide-protocol build/native/comdat-diagnostics build/native/dispatcher build/native/cvtomf build/native/file-resize build/native/symbol-tables build/native/module-diagnostics build/native/image-checksum build/native/priority-archives
 	$(PYTHON) scripts/check-native.py
 	$(PYTHON) scripts/check-legacy-diagnostics.py
 	$(PYTHON) scripts/check-ide-protocol.py
@@ -127,6 +127,7 @@ native-check: native build/native/legacy-diagnostics build/native/ide-protocol b
 	$(PYTHON) scripts/check-symbol-tables.py
 	$(PYTHON) scripts/check-module-diagnostics.py
 	$(PYTHON) scripts/check-image-checksum.py
+	$(PYTHON) scripts/check-priority-archives.py
 
 # Application entry tracing is separate from the uninstrumented A/B target.
 # The reconstructed CRT override and shared shims remain uninstrumented.
@@ -147,7 +148,7 @@ build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-tra
 build/native-trace/LINK.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HOST_LDFLAGS) -o $@
 
-native-trace-check: native-trace build/native-trace/legacy-diagnostics build/native-trace/ide-protocol build/native-trace/comdat-diagnostics build/native-trace/dispatcher build/native-trace/cvtomf build/native-trace/file-resize build/native-trace/symbol-tables build/native-trace/module-diagnostics build/native-trace/image-checksum
+native-trace-check: native-trace build/native-trace/legacy-diagnostics build/native-trace/ide-protocol build/native-trace/comdat-diagnostics build/native-trace/dispatcher build/native-trace/cvtomf build/native-trace/file-resize build/native-trace/symbol-tables build/native-trace/module-diagnostics build/native-trace/image-checksum build/native-trace/priority-archives
 	$(PYTHON) scripts/check-native.py --trace
 	$(PYTHON) scripts/check-legacy-diagnostics.py --trace
 	$(PYTHON) scripts/check-ide-protocol.py --trace
@@ -158,6 +159,7 @@ native-trace-check: native-trace build/native-trace/legacy-diagnostics build/nat
 	$(PYTHON) scripts/check-symbol-tables.py --trace
 	$(PYTHON) scripts/check-module-diagnostics.py --trace
 	$(PYTHON) scripts/check-image-checksum.py --trace
+	$(PYTHON) scripts/check-priority-archives.py --trace
 
 # Explicit original-only analysis helper. Never a native fixture dependency.
 .PHONY: capture-helper
@@ -284,3 +286,14 @@ build/native/image-checksum: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_IMAGE_CHECKSUM_HOST) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
 build/native-trace/image-checksum: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_IMAGE_CHECKSUM_HOST) $(NATIVE_HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_IMAGE_CHECKSUM_HOST) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
+
+.PHONY: capture-priority-archives
+capture-priority-archives: prefix
+	$(PYTHON) -c "from pathlib import Path; import sys; sys.path.insert(0,'scripts'); from case_paths import SCRATCH; (SCRATCH/'vc1.0/link/tooling').mkdir(parents=True,exist_ok=True)"
+	$(TOOL) CL.EXE /nologo /Od /G3 /I$(RECON)/include '/FeS:\vc1.0\link\tooling\capture-priority-archives.exe' '/FoS:\vc1.0\link\tooling\capture-priority-archives.obj' src/capture-priority-archives.c
+
+NATIVE_PRIORITY_ARCHIVES_HOST = scripts/native-priority-archives.c
+build/native/priority-archives: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_PRIORITY_ARCHIVES_HOST) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_PRIORITY_ARCHIVES_HOST) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@
+build/native-trace/priority-archives: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_PRIORITY_ARCHIVES_HOST) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_PRIORITY_ARCHIVES_HOST) -DRECON_NATIVE_STARTUP_CONTROLFP_53 $(NATIVE_HOST_LDFLAGS) -Wl,--wrap=main -o $@

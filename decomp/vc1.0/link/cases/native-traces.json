@@ -522,7 +522,7 @@
     }
   },
   "metadata_sha256": {
-    "functions.json": "ec9dd73b273ee2c8f94d4c0db0dc4a06c21646ca17d808432eee9008ae255a96",
+    "functions.json": "9cac647ad5b907872734fdaa463034fe09aaca86350513cb2c184c7a48cde4ae",
     "runtime.json": "75567dfa19b12934940c97f2eccf3941dd4201912d48e81ac33fc96c3736cb69",
     "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
@@ -2770,6 +2770,11 @@
     "initialize_undefined_enumerator": {
       "source": "src/symbols.c",
       "logical": "_initialize_undefined_enumerator",
+      "implementation": "C"
+    },
+    "insert_other_input": {
+      "source": "src/arguments.c",
+      "logical": "_insert_other_input",
       "implementation": "C"
     },
     "insert_resource": {
@@ -5406,7 +5411,8 @@
     "add_default_libraries",
     "print_module_debug_info",
     "checksum_image_file",
-    "make_import_section_read_only"
+    "make_import_section_read_only",
+    "insert_other_input"
   ],
   "excluded_accepted": {
     "CRT": [

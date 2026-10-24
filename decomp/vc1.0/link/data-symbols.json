@@ -4647,5 +4647,17 @@
     "string_pointers": [
       0
     ]
+  },
+  {
+    "address": 377900,
+    "name": "first_ordinary_input",
+    "size": 4,
+    "owner": "src/arguments.c"
+  },
+  {
+    "address": 377904,
+    "name": "last_priority_input",
+    "size": 4,
+    "owner": "src/arguments.c"
   }
 ]

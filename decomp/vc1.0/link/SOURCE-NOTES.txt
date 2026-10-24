@@ -1456,3 +1456,19 @@ no original/internal CRT ABI imitation or new C bodies. Original untampered inpu
 and failed observer/link attempts remain ordinary owned raw/path+hash evidence.
 All87cached native cases and833commonCFG/canonical checks pass. See caseREADME,
 provenance/comparison/coverage/timing records for exact direct/public scope.
+
+Direct priority archive inputs, 996-frontier checkpoint
+
+20a10..20af8 is cdecl Argument*(char*,char*,BYTE),228CFG instruction bytes plus
+4alignment; its real malloc16 nodes write0,4,12 only. Other_inputs/cursors use
+actual zero-init owners, four live names and ordinary/priority/ordinary/priority
+calls; genuine main/dumper consumes orderp1,p2,o1,o2. The +8parsed slot remains
+unwritten/unconsumed; no initialization or raw equality guarantee is invented.
+The all-priority-tail lead is not dynamically exercised. The complete original
+baseline follows a retained observer failure: main's by-value argc slot4to3 is
+legal, while initialformals/returnESP/nonvolatiles/saved real mainresult are strict.
+Ten fresh calls/returns and fullstreams/report/4archives/exit0 match, with strict
+errors/CW/SW/tags/emptyregisters. No new CRT or shim work. All88nativecases and
+834commonCFG,816callback,514data,41ECX checks pass. App-only229012/281634=81.3155%,
+support-inclusive259743=92.2271%. Unknown12446bytes remain unclassified. Detailed
+raw paths/hashes, source/lifetime proof and timing split in the descriptive case.

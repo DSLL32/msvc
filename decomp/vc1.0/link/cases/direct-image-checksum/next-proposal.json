@@ -1,0 +1,84 @@
+{
+  "status": "Read-only proposal, no new capture/reconstruction",
+  "name": "Priority archive argument insertion feeding actual DUMP headers",
+  "starting_checkpoint": "66954659f50ba2b03c70ab0242ff96cdaac12869",
+  "reach": "Newconstructor externaldirectsupport; subsequent ordinary real main/dumper_main public graph consumes its actual outputs. No claim newconstructor is called by public CLI.",
+  "target": {
+    "entry": "0x20a10",
+    "end": "0x20af8",
+    "extent_bytes": 232,
+    "CFG_instruction_bytes": 228,
+    "alignment_gaps": [
+      [
+        "0x20aad",
+        "0x20ab0"
+      ],
+      [
+        "0x20acf",
+        "0x20ad0"
+      ]
+    ],
+    "proposed_name": "insert_other_input",
+    "ABI": "cdecl Argument *(char *text,char *original,unsigned char priority)",
+    "body_sha256": "54ccc0ba0fc2277729d0c2433c8a78b73cafe50d0fc2931cc67c00534af78ad7",
+    "actual_formals": "Three stackDWORD slots; lowBYTE ofthird selectspriority, actual values0/1. ReturnEAX is genuine malloc16Argument owner; ESP/nonvolatiles/FP/errors checked."
+  },
+  "ownership": {
+    "argument_size": 16,
+    "defined_fields": {
+      "text": 0,
+      "original": 4,
+      "next": 12
+    },
+    "unwritten": "Parsedpointer slot8 is not written; retain raw but no initialization/equality claim. HOLD if any reached consumer reads it.",
+    "global_list": {
+      "name": "other_inputs",
+      "address": "0x7b7e0",
+      "size": 12,
+      "first": 0,
+      "last": 4,
+      "count_ushort": 8
+    },
+    "encountered_contextual_state": [
+      {
+        "address": "0x5c42c",
+        "size": 4,
+        "role": "First ordinary node"
+      },
+      {
+        "address": "0x5c430",
+        "size": 4,
+        "role": "Last priority node"
+      }
+    ],
+    "positive_provenance": "Exact already-owned Argument16 and other_inputs12 identities used by accepted collect_arguments/dumper/library. No CRT classification by region or by nonmatch alone."
+  },
+  "literal_xrefs": {
+    "entry": "0x20a10",
+    "direct_call_candidates": [],
+    "absolute_pointer_candidates": [],
+    "direct_tail_jump_candidates": [],
+    "conditional_short_control_flow_candidates": []
+  },
+  "immutable_source": {
+    "path": "cases/direct-module-diagnostics/inputs/helpers.lib",
+    "bytes": 4184,
+    "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1",
+    "plan": "Own4distinctrelative archivefilenames with identical frozenvalidbody; no recompilation/rewriting input archive."
+  },
+  "workflow": [
+    "Start from real CRT startup/mainentry, existing owned-stack cdecl seam; no global initialization by debugger/host. Globalother_inputs and its two pointers are actual zero-init state. Startup53 fromoutset.",
+    "Insertordinary archive o1.lib (priority0), priority p1.lib(1), ordinary o2.lib(0), priority p2.lib(1). Actual node return values,16Bownedbounds, definedpointer edges/count and source stringblockguards observed aftereachcall. Expected reachable list p1,p2,o1,o2; do not seed those pointers or repair list.",
+    "Call real main with PROGRAM,-dump,/nologo,/headers and no filenames. collect_arguments clearsfirst_argument but doesnot clearother_inputs; it adds only switches. Genuine main sets Toolkind3, initializes actualfiles and public dumper reads all4actualarchives fromthe constructedlist. Full exact stdout makesordering/consumption observable.",
+    "Keep originalcaller strings/liveargv/node owners through actualmainreturn. Dumper closesfiles/mapstream normally; inputarchives remainexact. Externalreport/observer only records definednodefields, pointerownership and mainresult; restore realCRTcontinuation/savedmainresult, no supportresult becomesexitstatus."
+  ],
+  "lifetime_and_def_use": [
+    "Constructor writes node0/4/12 and globalfirst/last/count plus prioritycontext only; actual+8unwritten and not read by this function.",
+    "dumper_main iteratesother_inputs text/original/next and calls accepted dump_file(...,1). collect_arguments only touches switchlist for these arguments.",
+    "remove_temporary_inputs for actualToolkind3 traverseslibrary_files, which is empty here; no synthetic source deletion.",
+    "No node/owned-string release in main/dumper before appended externalreport. Need complete source/hash proof of all reached reads before capture."
+  ],
+  "static_limit": "An initial all-priority sequence followed by an ordinary append may encounter stale listtail behavior; this is an unresolved staticlead, not an originalbugclaim. Proposed coherent mixedcase startswithordinary. No variant/errorcapture requested for that lead.",
+  "validation": "One original coherentbaseline after finaltyped/lifetime proof, then freshmasked/native frontiers/definedstate and fullstdout/inputinventory. Preserve actualfailure/HOLD ratherthanrepair. Full232B readableC even unexercisedbranch; dynamicreach separate. Canonicalgraph/data/ABI/extent and87existing+newcachedcase/negatives; no newframework or handwrittenCRT.",
+  "remaining": "12678unacceptedunclassifiedbytes are notCRT. Far-string/customsort and resourceutility provenance remainsunresolved; C6 staleuse/legacyresource unwrittenlocal/cancellationtransport separateheldpaths."
+}

@@ -470,3 +470,16 @@ remain pending, with no complete nonCRT denominator. Traced newfixture.352s/ELF
 40.75ms; output-only.155s/ELF37.84ms includes7externalstage copies. Full make wall
 12.978s includes unmeasured olderhost relinks; perfixture timings excludebuild.
 See cases/direct-image-checksum for exact effects, rawrefs and split accounting.
+
+Direct priority archive checkpoint (996 frontiers)
+
+insert_other_input's real16-byte owners feed ordinary main's dump continuation in
+priority/ordinary order. Ten fresh ABI/defined-state observations, full36586-byte
+stdout,352-byte externalreport/four unchanged archives and exit0 match. The raw
+unwritten+8 node word is neither initialized nor consumed/serialized. The initial
+by-value-parameter observer error is retained separately from corrected complete
+baseline; no target repair/state qualification/normalization. All88cachednative,
+originalVC1-j4 and834CFG/816callback/514data/41ECX checks pass. App-only229012/
+281634=81.3155%, support-inclusive259743=92.2271%;799app(759public/40direct),
+16historicalCRT separate.12446unclassified remaining bytes are not CRT. Details:
+cases/direct-priority-archives/README.txt and its validation/timing/coverage files.

@@ -4,6 +4,8 @@
 #include <recon.h>
 
 Argument *first_argument;
+/* Encountered priority-list cursors at original0005c42c/0005c430. */
+Argument *first_ordinary_input,*last_priority_input;
 ArgumentList search_paths, input_files, library_files, other_inputs;
 char *response_cursor;
 extern ArgumentList switches;
@@ -34,6 +36,35 @@ void append_argument_node(ArgumentList *list,char *text,char *original)
 void append_argument(ArgumentList *list,char *text)
 {
     append_argument_node(list,text,text);
+}
+
+Argument *insert_other_input(char *text,char *original,unsigned char priority)
+{
+    Argument *node=malloc(sizeof(*node));
+    if (!node) out_of_memory();
+    node->text=text;
+    node->original=original;
+    node->next=NULL;
+    if (!other_inputs.count) {
+        other_inputs.first=other_inputs.last=node;
+        if (priority) last_priority_input=node;
+        else first_ordinary_input=node;
+    } else if (priority) {
+        if (last_priority_input) {
+            node->next=last_priority_input->next;
+            last_priority_input->next=node;
+        } else {
+            node->next=other_inputs.first;
+            other_inputs.first=node;
+        }
+        last_priority_input=node;
+    } else {
+        other_inputs.last->next=node;
+        other_inputs.last=node;
+        if (!first_ordinary_input) first_ordinary_input=node;
+    }
+    ++other_inputs.count;
+    return node;
 }
 
 void collect_search_path(const char *environment,ArgumentList *list)

@@ -1,0 +1,448 @@
+{
+  "status": "Bounded wholebody/header/consumer/lifetime proof before first originalbaseline",
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "proposed_constructor": {
+    "start": "0x20a10",
+    "end": "0x20af8",
+    "extent_bytes": 232,
+    "instruction_bytes": 228,
+    "ABI": "cdecl Argument *(char *text,char *original,unsigned char priority)",
+    "defined_writes": "malloc16 node fields+0/+4/+12; other_inputs first/last/count16; firstordinary/lastpriority4Bcontext. Node+8 unwritten, never seeded."
+  },
+  "headers": {
+    "Argument": {
+      "size": 16,
+      "text": 0,
+      "original": 4,
+      "parsed": 8,
+      "next": 12
+    },
+    "ArgumentList": {
+      "size": 12,
+      "first": 0,
+      "last": 4,
+      "count_ushort": 8
+    },
+    "source": "src/arguments.h",
+    "sha256": "d3062ab71782617651eee445ad0842a86d260a44e3a5aee9b45d9cd27aafe5b1"
+  },
+  "initial_state": [
+    {
+      "address": "0x5c42c",
+      "expected_zero": true,
+      "section": ".bss",
+      "proof": "Real loader zero-init .bss for5c42c/430; .data originalzero bytes forother_inputs. Baseline actualfirstentry mustverify allzeros; nohost/debuggerseed."
+    },
+    {
+      "address": "0x5c430",
+      "expected_zero": true,
+      "section": ".bss",
+      "proof": "Real loader zero-init .bss for5c42c/430; .data originalzero bytes forother_inputs. Baseline actualfirstentry mustverify allzeros; nohost/debuggerseed."
+    },
+    {
+      "address": "0x7b7e0",
+      "expected_zero": true,
+      "section": ".data",
+      "proof": "Real loader zero-init .bss for5c42c/430; .data originalzero bytes forother_inputs. Baseline actualfirstentry mustverify allzeros; nohost/debuggerseed."
+    }
+  ],
+  "global_literal_xrefs": [
+    {
+      "address": "0x7b7e0",
+      "all_byte_candidates": [
+        {
+          "address": "0x208e4",
+          "owners": [
+            "_classify_argument"
+          ]
+        },
+        {
+          "address": "0x20a46",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20ab1",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20aba",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x2797d",
+          "owners": [
+            "_editor_main"
+          ]
+        },
+        {
+          "address": "0x28ac2",
+          "owners": [
+            "_build_import_library"
+          ]
+        },
+        {
+          "address": "0x28d67",
+          "owners": [
+            "_build_import_library"
+          ]
+        },
+        {
+          "address": "0x28dac",
+          "owners": [
+            "_build_import_library"
+          ]
+        },
+        {
+          "address": "0x2e1da",
+          "owners": [
+            "_library_main"
+          ]
+        },
+        {
+          "address": "0x2f109",
+          "owners": [
+            "_process_library_options"
+          ]
+        },
+        {
+          "address": "0x30125",
+          "owners": [
+            "_dumper_main"
+          ]
+        }
+      ],
+      "limit": "Literal scan candidates, wholeconsumers/callingcontext proof below; no claim computedaliases impossible."
+    },
+    {
+      "address": "0x7b7e4",
+      "all_byte_candidates": [
+        {
+          "address": "0x20a4c",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20ad1",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20ada",
+          "owners": [
+            "proposed_constructor"
+          ]
+        }
+      ],
+      "limit": "Literal scan candidates, wholeconsumers/callingcontext proof below; no claim computedaliases impossible."
+    },
+    {
+      "address": "0x7b7e8",
+      "all_byte_candidates": [
+        {
+          "address": "0x20a3d",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20a60",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20a71",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20aa7",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20ac9",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20af0",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x27984",
+          "owners": [
+            "_editor_main"
+          ]
+        },
+        {
+          "address": "0x279b1",
+          "owners": [
+            "_editor_main"
+          ]
+        },
+        {
+          "address": "0x28b95",
+          "owners": [
+            "_build_import_library"
+          ]
+        },
+        {
+          "address": "0x28be2",
+          "owners": [
+            "_build_import_library"
+          ]
+        },
+        {
+          "address": "0x28d6e",
+          "owners": [
+            "_build_import_library"
+          ]
+        },
+        {
+          "address": "0x28da5",
+          "owners": [
+            "_build_import_library"
+          ]
+        },
+        {
+          "address": "0x2e1bd",
+          "owners": [
+            "_library_main"
+          ]
+        },
+        {
+          "address": "0x2e1e1",
+          "owners": [
+            "_library_main"
+          ]
+        },
+        {
+          "address": "0x2e3c3",
+          "owners": [
+            "_library_main"
+          ]
+        },
+        {
+          "address": "0x3012c",
+          "owners": [
+            "_dumper_main"
+          ]
+        },
+        {
+          "address": "0x3014b",
+          "owners": [
+            "_dumper_main"
+          ]
+        }
+      ],
+      "limit": "Literal scan candidates, wholeconsumers/callingcontext proof below; no claim computedaliases impossible."
+    },
+    {
+      "address": "0x5c42c",
+      "all_byte_candidates": [
+        {
+          "address": "0x20a6a",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20ae0",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20ae9",
+          "owners": [
+            "proposed_constructor"
+          ]
+        }
+      ],
+      "limit": "Literal scan candidates, wholeconsumers/callingcontext proof below; no claim computedaliases impossible."
+    },
+    {
+      "address": "0x5c430",
+      "all_byte_candidates": [
+        {
+          "address": "0x20a59",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20a82",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20a8a",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20a95",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20aa0",
+          "owners": [
+            "proposed_constructor"
+          ]
+        },
+        {
+          "address": "0x20ac0",
+          "owners": [
+            "proposed_constructor"
+          ]
+        }
+      ],
+      "limit": "Literal scan candidates, wholeconsumers/callingcontext proof below; no claim computedaliases impossible."
+    }
+  ],
+  "consumer_bodies": [
+    {
+      "name": "_main",
+      "start": 158528,
+      "end": 159712,
+      "original_body_sha256": "1da5cc812b6fc73ee02b8cacf7330711bebc476ec71522157e938a954d24f30f",
+      "source": "src/link.c",
+      "source_sha256": "507d0514efd512221ee3d8bab58e3932eefc4624b381eaae94d0ca31b1a9d5cc"
+    },
+    {
+      "name": "_dumper_main",
+      "start": 196320,
+      "end": 197136,
+      "original_body_sha256": "4c000d4bed3d351bdc46c515b92186036ed0db21a9502451429d0bdca1d1cb5e",
+      "source": "src/dump.c",
+      "source_sha256": "ceea606ac267b2608ee154f359699b704381e63e050f439f50df8be2c5fe273d"
+    },
+    {
+      "name": "_collect_arguments",
+      "start": 132080,
+      "end": 132432,
+      "original_body_sha256": "982c8717d54ce924c38830006525b6b7e97afbbc832703ad7c8428fb271145e5",
+      "source": "src/arguments.c",
+      "source_sha256": "b0364c307cc7595b106ec221f05af507954926a5d756b83346f088da31ba20f3"
+    },
+    {
+      "name": "_classify_argument",
+      "start": 132832,
+      "end": 133488,
+      "original_body_sha256": "f6b85109e65748f9abf89b9bc721777e1b6dcc238d291b73b7b9d413fa224ab8",
+      "source": "src/arguments.c",
+      "source_sha256": "b0364c307cc7595b106ec221f05af507954926a5d756b83346f088da31ba20f3"
+    },
+    {
+      "name": "_append_argument_node",
+      "start": 133488,
+      "end": 133584,
+      "original_body_sha256": "0ce780b559a65c290cdb4792a9dc11c069bf4900230e210707e71a62eafa08f5",
+      "source": "src/arguments.c",
+      "source_sha256": "b0364c307cc7595b106ec221f05af507954926a5d756b83346f088da31ba20f3"
+    },
+    {
+      "name": "_process_dump_options",
+      "start": 197136,
+      "end": 198592,
+      "original_body_sha256": "d87a26a312c45785a837a87cf34ed0d6f9d0db02af5e85980d3d07fcb355d687",
+      "source": "src/dump.c",
+      "source_sha256": "ceea606ac267b2608ee154f359699b704381e63e050f439f50df8be2c5fe273d"
+    },
+    {
+      "name": "_dump_file",
+      "start": 198592,
+      "end": 199584,
+      "original_body_sha256": "d0fa78421778d82d991b1e453c81a36cd030ba9b3a057fea353f2f6ce6718913",
+      "source": "src/dump.c",
+      "source_sha256": "ceea606ac267b2608ee154f359699b704381e63e050f439f50df8be2c5fe273d"
+    },
+    {
+      "name": "_remove_temporary_inputs",
+      "start": 134512,
+      "end": 134624,
+      "original_body_sha256": "f56c2bf5969e6cf309e9f50d1febb39a0b914fdd40f417cd8ed15ffaf93bdbfa",
+      "source": "src/arguments.c",
+      "source_sha256": "b0364c307cc7595b106ec221f05af507954926a5d756b83346f088da31ba20f3"
+    },
+    {
+      "name": "_close_all_files",
+      "start": 247920,
+      "end": 248096,
+      "original_body_sha256": "9771a8faaa37f48d25d153ec27a9964d2598b6a04e4dc2d1993c35c31f499016",
+      "source": "src/files.c",
+      "source_sha256": "733bf52cdeb4f52025e7a65bf6733ac702ca1ce66e2818c0083f1fa96e714f16"
+    }
+  ],
+  "def_use": [
+    "Constructor reads count16, first/last/listnext and prioritycontext only. Its+8parsed slot is neitherwrittennorread. Exactlyfourreturned16Bowners are retained separately byexternalcaller.",
+    "Real main receives PROGRAM,-dump,/nologo,/headers only. Toolselection uses actual Tooltable/Dumper3; realfiles_initialize runs, noprivateglobalsetup.",
+    "collect_arguments setsfirst_argumentNULL butdoesnot clearother_inputs. Bothuserarguments startslash, so classify_argument chooses globalswitches. append_argument_node writes distinctnew switch nodes; no newfilenamebranch/classification touches archive nodes.",
+    "process_dump_options traverses switches, notother_inputs. It reads text/next only, matchesnologo/headers.",
+    "dumper_main reads other_inputs.first/count, then eachArgument text0/original4/next12. Allthree passed values down to dump_file are twochar* and archiveBYTE1, never theArgument owner pointer.",
+    "dump_file and descendants own only separateLibrary/Module/file-slot allocations plus borrowed filename strings. release_library_list frees its ownLibrary data, notArgumentnodes orcaller stringblock.",
+    "No actualparameter/callback orglobalalias passesarchiveArgument pointers into symbol/switch processing; listglobals literalreaders outside thisselected graph (library/import processing) are notcalled. Unexpectedreachedreader/newfrontier holds.",
+    "close_all_files operates customFileSlot/Page owners, neverArgument pointers. remove_temporary_inputs withactualToolkind3 traverseslibrary_files(count0), notother_inputs.",
+    "Normalmain/dumper do not free/archiveArgument owners orcaller strings. The real CRTcontinuation only consumes savedmainresult/stack then existingstdlib cleanup/stdio, which has no archiveArgument pointer/callback registration. Cobjects have no implicitdestructors; no LINK_REPRO/env-drivenextra callback.",
+    "Externalreport reads only defined0/4/12 nodewords and knownnames; raw+8maybesampled bydebugger/controller but never used/serialized/compared cross-image. Anyactualconsumer of+8 forcesHOLD, notinit/normalization."
+  ],
+  "lifetime": "Owned256Bnames+guards and argc4/argv5slots allocated byexternalcaller remainlive through4constructorcalls, actualmainreturn, externalreport andrealCRTexit. Nodes staymalloc-owned; outputfile slots use_strdup copies. No nested stepping/re-entryframework.",
+  "continuation": "Existing sequential cdecl ownedstack/sentinel; first4callsconstructor then actualmain(4,argv). Preserve every ESP/nonvolatile return, save actualmainEAX, restore realCRTreturn50a85/initialstack+4 withthatresult. Nativewrap delegates __real_main sameargs thenreturns savedresult. No supportreturn leaks tostatus.",
+  "inputs": [
+    {
+      "path": "inputs/o1.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "inputs/p1.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "inputs/o2.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "inputs/p2.lib",
+      "bytes": 4184,
+      "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+    },
+    {
+      "path": "inputs/names.bin",
+      "bytes": 256,
+      "sha256": "3f8f697d3f3d1d3825450bbf55f9e2a1970d96afa1a86832bc10baa5687a5dea"
+    }
+  ],
+  "source_origin": {
+    "path": "cases/direct-module-diagnostics/inputs/helpers.lib",
+    "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1",
+    "ownership": "Fournewownedimmutablecopies withdistinctrelative filenames; originalbacked4KBarchive contents untouched."
+  },
+  "expected_order": [
+    "p1.lib",
+    "p2.lib",
+    "o1.lib",
+    "o2.lib"
+  ],
+  "scope": "Newconstructor directsupport only; realpublicmain/dumper output makesorder/payloadconsumption visible. No publiccaller claim forconstructor. Onebaseline perapprovedworkflow, no extra repeat absentinstability; preserveactualfailure/HOLD. UnknownbytesnotCRT."
+}
