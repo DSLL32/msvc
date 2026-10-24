@@ -128,3 +128,13 @@ BrowserRecordHeader *first_browser_record(void)
     if (browser_record_count < 1) return 0;
     return &browser_records[browser_record_head].header;
 }
+
+/* Original 0x2bdb0..0x2bdd8. The next entry after the ring head. */
+BrowserRecordHeader *second_browser_record(void)
+{
+    int index;
+    if (browser_record_count < 2) return 0;
+    index = browser_record_head + 1;
+    if (index >= 32) index -= 32;
+    return &browser_records[index].header;
+}

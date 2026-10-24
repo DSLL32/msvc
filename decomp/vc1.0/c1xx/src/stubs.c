@@ -596,7 +596,6 @@ void __stdcall fill_browser_base(BrowserRecord *record, void *base) { __asm { in
 void __stdcall fill_browser_macro(BrowserRecord *record, void *macro) { __asm { int 3 } }
 void __stdcall fill_browser_scope_end(BrowserRecord *record, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { int 3 } }
-BrowserRecordHeader *second_browser_record(void) { __asm { int 3 } return 0; }
 BrowserRecordHeader *__stdcall browser_record_from_end(int index) { __asm { int 3 } return 0; }
 BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }
 BrowserRecordHeader *pop_first_browser_record(void) { __asm { int 3 } return 0; }

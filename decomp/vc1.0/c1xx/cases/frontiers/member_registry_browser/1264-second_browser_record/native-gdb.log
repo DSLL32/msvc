@@ -1,0 +1,14 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655aad8 in browser_record_from_end (index=0) at src/stubs.c:599
+599	BrowserRecordHeader *__stdcall browser_record_from_end(int index) { __asm { int 3 } return 0; }
+#0  0x5655aad8 in browser_record_from_end (index=0) at src/stubs.c:599
+#1  0x5658c6be in queue_browser_record (kind=0 '\000', subject=0x0) at src/browser.c:59
+#2  0x5658c649 in begin_browser_records () at src/browser.c:46
+#3  0x5658c54b in begin_browser_output () at src/browser.c:16
+#4  0x5655eca5 in initialize_frontend () at src/initialization.c:156
+#5  0x5655dc6c in compile_translation_unit () at src/frontend.c:22
+#6  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558894 in main (argc=1, argv=0xffffd804, environment=0xffffd80c) at src/c1xx.c:20
