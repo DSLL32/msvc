@@ -136,6 +136,17 @@ def prove(config):
                     assert not any(o.type==X86_OP_MEM and not o.mem.base and not o.mem.index for i in code for o in i.operands),'namehash consumes unreviewed old global'
                     assert [(i.address,i.op_str) for i in code if i.mnemonic=='call']==[(0x40e9aa,'0x40fb60'),(0x40e9e9,'0x40fb90'),(0x40eb0a,'0x40fb90'),(0x40eba0,'0x40ff60'),(0x40ebb0,'0x40ff80'),(0x40ebbb,'0x410010')]
                     source_prefix['name_hash_prefix']=proof;source_prefix['name_hash_validator_sha256']=sha(BINARY/'scripts/name-hash-state.py')
+                    if config.get('observe_name_hash_complete'):
+                        assert policy.get('name_hash_complete') is True
+                        for key,extent,allowed in [('name_hash_body',(0x40e920,0x40edbb),{0x4161ac}),('name_hash_fill',(0x410010,0x4100b9),set()),('public_after_name_hash',(0x40d66a,0x40d68f),{0x412cf4,0x413274})]:
+                            row=policy[key];assert (row['start'],row['end'])==extent
+                            body=pe.read(*[extent[0],extent[1]-extent[0]]);assert hashlib.sha256(body).hexdigest()==row['sha256']
+                            code=list(decoder.disasm(body,extent[0]));assert sum(i.size for i in code)==len(body)
+                            assert not any(i.mnemonic.startswith(('f','v','xsave','xrstor')) for i in code),'namehash complete rawFP consumer'
+                            assert all(o.mem.disp in allowed for i in code for o in i.operands if o.type==X86_OP_MEM and not o.mem.base and not o.mem.index),'namehash complete retired global consumer'
+                            source_prefix[key]=row
+                        source_prefix['name_hash_complete_validator_sha256']=sha(BINARY/'scripts/name-hash-complete-state.py')
+
         if subsections:
             row=policy['subsection_writer'];assert (row['start'],row['end'])==(0x4068a0,0x4069da)
             assert hashlib.sha256(pe.read(row['start'],314)).hexdigest()==row['sha256']

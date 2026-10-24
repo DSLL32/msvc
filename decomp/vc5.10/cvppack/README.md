@@ -6,10 +6,10 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-the arena-fill child (`fill_type_arena`),
-after all 21 Widen lifetimes. There are 108 accepted application functions /
-36,069 extent bytes, plus 784 associated switch-data
-bytes. This is 57.56% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+the address-hash builder (`build_symbol_address_hash`),
+after all 21 Widen lifetimes. There are 109 accepted application functions /
+36,238 extent bytes, plus 784 associated switch-data
+bytes. This is 57.83% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and five import thunks (30 bytes) remain separate support.
 
@@ -89,7 +89,7 @@ Each accepted function's `evidence/*/function-review.json` or `validation.json`
 records fresh/reused controls and separate build/capture/check/fixture times.
 Historical raw is never relabeled; incomplete and superseded trials retain their
 status. Guarded `TypesClose`/`PDBClose` imports have actual named-export/caller ABI witnesses; native host adapters deny125 until those paths are observed. No PDB behavior is credited. The source-file index builder now uses its meaningful source name `build_source_file_index`; historical `print_statistics` is metadata-only. Its first live module header has an explicit post-free allocation generation, separately observed even when its native address reuses an old table. Old roots remain historical and generic retired-range reads still fail. Current native help runs in roughly 16 ms; the partial debug fixture is
-about 7.66 s including all 375 sort and 58 copy calls in GDB. Completion will use native entry traces, exact streams,
+about 7.83 s including all 375 sort and 58 copy calls in GDB. Completion will use native entry traces, exact streams,
 status and the cached NB11 master without launching Wine.
 
 The packed-directory sort now matches all 375 canonical callbacks, complete inputs/results/ABI, errors and all 840 initialized directory bytes. Its x87 comparison permits each side's own unused payload only for this integer-only path with control `027f`, status zero and all eight tags empty throughout; each full own raw baseline remains strictly preserved. This does not establish a live-FP or general CRT/CL rule.
@@ -103,3 +103,5 @@ The public-symbol writer now reaches its real page-padding child with the existi
 The public page-padding helper preserves all 64 existing initialized nodes and adds one 24-byte end marker from the same arena. Its actual eight-byte contribution updates the public stream length to 2,116. All six name-hash arguments now have checked callback/local-field/stream/bucket identities. This input never crosses an internal page boundary; that future path stays held for a new case contract.
 
 The name-hash builder now derives six buckets and two overflow nodes from all 64 public records. Five actual new allocation generations retain separate ownership even when either heap reuses retired addresses; complete initialized bucket/overflow capacities are checked. Canonical arena initialization and fastcall copy helpers are reused with fresh contextual ABI evidence. The next fill call receives the actual names arena, zero and size two. Only its first two payload bytes are initialized; the remaining 4,094 bytes and second 24-byte stream remain unclaimed. Later serialization and temporary frees need the next candidate’s fresh proof.
+
+The 169-byte arena-fill function now completes the name hash: 21 observed copies and seven fills serialize all 564 bytes. Twelve real CRT frees end three temporary generations after checking all 66,132 initialized pre-free bytes. Those tables remain historical; the live arena/block/output are checked separately. Its 3,532-byte unwritten tail and the second stream remain unclaimed. The next address-hash entry has five checked scalar and named-field/stream arguments. A rejected capture exposed the reference debugger’s old 128-probe limit; its bounded 256-slot parser now rejects incomplete, duplicate, malformed or unowned configuration before target execution.

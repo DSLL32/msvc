@@ -72,5 +72,3 @@ void resize_cached_file(int file, unsigned size) { __asm { int 3 } }
 void build_symbol_address_hash(unsigned short *method, unsigned *bytes, TypeArena *stream, unsigned count, PublicSymbol **buckets) { __asm { int 3 } }
 TypeArenaBlock *first_hash_output_block(TypeArena *stream) { __asm { int 3 } return NULL; }
 TypeArenaBlock *next_hash_output_block(TypeArenaBlock *block) { __asm { int 3 } return NULL; }
-
-unsigned char *fill_type_arena(TypeArena *arena, unsigned value, unsigned size) { __asm { int 3 } return NULL; }

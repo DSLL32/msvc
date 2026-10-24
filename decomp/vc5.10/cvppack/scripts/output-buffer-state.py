@@ -7,7 +7,9 @@ def validate(config,data,original,native):
     def root(name):return int.from_bytes(original['memory'][rows[name]['original']],'little')
     def other(name):return int.from_bytes(bytes.fromhex(native['globals'][name]),'little')
     subsections=bool(config.get('observe_subsection_output'))
-    if config.get('observe_name_hash'):
+    if config.get('observe_name_hash_complete'):
+        assert original['address']==0x40ede0 and original['stack'][0]==0x40d68f and native['frontier_caller']=='write_publics','namehash completion next child differs'
+    elif config.get('observe_name_hash'):
         assert original['address']==0x410010 and original['stack'][0]==0x40ebc0 and native['frontier_caller']=='build_symbol_name_hash','output buffer next stream-init differs'
     elif config.get('observe_public_padding'):
         assert original['address']==0x40e920 and original['stack'][0]==0x40d66a and native['frontier_caller']=='write_publics','output buffer next namehash child differs'
@@ -54,4 +56,4 @@ def validate(config,data,original,native):
             for index,retired in enumerate(records):
                 if retired['address'] and max(base,retired['address'])<min(base+size,retired['address']+retired['size']):
                     overlaps.append(dict(side=side,retired_owner=owner,retired_index=index,new_owner='begin_buffered_output',new_address=base,new_size=size,old_address=retired['address'],old_size=retired['size']))
-    return dict(allocation_attempts=1,new_owner='begin_buffered_output',requested_capacity=65512,initialized_prefix_bytes=5056 if subsections else 8,own_unwritten_capacity_bytes=60456 if subsections else 65504,header=header.hex(),file_index=15,writer_position=10000 if subsections else 4952,actual_old_generation_address_reuse=overlaps,retired_payload_reopened=False,own_full_FP_and_error_baseline_preserved=True,next_consumer='fill_type_arena' if config.get('observe_name_hash') else 'build_symbol_name_hash' if config.get('observe_public_padding') else 'insert_symbol_page_padding' if config.get('observe_public_writer_prefix') else 'write_publics' if subsections else 'write_subsection(index0)')
+    return dict(allocation_attempts=1,new_owner='begin_buffered_output',requested_capacity=65512,initialized_prefix_bytes=5056 if subsections else 8,own_unwritten_capacity_bytes=60456 if subsections else 65504,header=header.hex(),file_index=15,writer_position=10000 if subsections else 4952,actual_old_generation_address_reuse=overlaps,retired_payload_reopened=False,own_full_FP_and_error_baseline_preserved=True,next_consumer='build_symbol_address_hash' if config.get('observe_name_hash_complete') else 'fill_type_arena' if config.get('observe_name_hash') else 'build_symbol_name_hash' if config.get('observe_public_padding') else 'insert_symbol_page_padding' if config.get('observe_public_writer_prefix') else 'write_publics' if subsections else 'write_subsection(index0)')

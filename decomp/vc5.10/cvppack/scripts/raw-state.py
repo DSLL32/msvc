@@ -14,10 +14,29 @@ def decode(events):
     frontier_line_index,address = frontiers[0]
     memory,strings = {},{}
     public_padding={}
-    name_hash_allocations=[];name_hash_owned={};name_hash_entry={};name_hash_reused_calls={}
+    name_hash_allocations=[];name_hash_owned={};name_hash_entry={};name_hash_reused_calls={};name_hash_first_fill_stack={};name_hash_stream_calls=[];name_hash_temp_frees=[];name_hash_complete={}
     file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[];image_allocations=[];checked_allocations=[];module_allocations=[];cleared_allocations=[]
     for line in lines:
-        if line.startswith('namehash-entry '):
+        if line.startswith('namehash-first-fill-stack '):
+            assert not name_hash_first_fill_stack;_,location,size,payload=line.split();assert int(size)==len(bytes.fromhex(payload))==256;name_hash_first_fill_stack=dict(address=int(location,16),bytes=bytes.fromhex(payload))
+        elif line.startswith('namehash-stream-call '):
+            f=line.split();name_hash_stream_calls.append(dict(kind=int(f[1]),site=int(f[2],16),entry_esp=int(f[3],16),arena=int(f[4],16),value=int(f[5],16),size=int(f[6]),before_nonvolatile=[int(v,16) for v in f[7:]]))
+        elif line.startswith(('namehash-stream-before ','namehash-stream-input ','namehash-stream-after ','namehash-stream-output ')):
+            label,location,size,payload=line.split();payload=bytes.fromhex(payload);assert len(payload)==int(size);row=name_hash_stream_calls[-1];key={'namehash-stream-before':'before_arena','namehash-stream-input':'input','namehash-stream-after':'after_arena','namehash-stream-output':'output'}[label];assert key not in row;row[key]=payload
+            if key=='output':row['output_address']=int(location,16)
+            elif key!='input':assert int(location,16)==row['arena']
+            else:assert int(location,16)==row['value']
+        elif line.startswith('namehash-stream-return '):
+            f=line.split();row=name_hash_stream_calls[-1];assert 'exit_esp' not in row;row.update(return_site=int(f[1],16),exit_esp=int(f[2],16),result=int(f[3],16),after_nonvolatile=[int(v,16) for v in f[4:]])
+        elif line.startswith('namehash-temp-free-call '):
+            f=line.split();name_hash_temp_frees.append(dict(site=int(f[1],16),entry_esp=int(f[2],16),address=int(f[3],16),index=int(f[4]),provider=int(f[5],16),before_nonvolatile=[int(v,16) for v in f[6:]],before=b''))
+        elif line.startswith('namehash-temp-before-free '):
+            _,location,size,payload=line.split();row=name_hash_temp_frees[-1];assert row['address']==int(location,16) and len(bytes.fromhex(payload))==int(size);row['before']=bytes.fromhex(payload)
+        elif line.startswith('namehash-temp-free-return '):
+            f=line.split();row=name_hash_temp_frees[-1];assert 'exit_esp' not in row;row.update(return_site=int(f[1],16),exit_esp=int(f[2],16),after_nonvolatile=[int(v,16) for v in f[3:]],size=len(row['before']))
+        elif line.startswith(('namehash-complete-arena ','namehash-complete-block ','namehash-complete-output ')):
+            label,location,size,payload=line.split();payload=bytes.fromhex(payload);assert len(payload)==int(size);key={'namehash-complete-arena':'arena','namehash-complete-block':'block','namehash-complete-output':'payload'}[label];assert key not in name_hash_complete;name_hash_complete[key]=payload;name_hash_complete[key+'_address']=int(location,16)
+        elif line.startswith('namehash-entry '):
             assert not name_hash_entry,'namehash entry repeated';f=line.split();name_hash_entry=dict(esp=int(f[1],16),stack=[int(v,16) for v in f[2:]])
         elif line.startswith('namehash-arena-init-call '):
             f=line.split();assert 'initialize_arena' not in name_hash_reused_calls;name_hash_reused_calls['initialize_arena']=dict(entry_esp=int(f[1],16),arena=int(f[2],16),capacity=int(f[3]),before_nonvolatile=[int(v,16) for v in f[4:]])
@@ -348,7 +367,7 @@ def decode(events):
     # Separate pre-padding typed input history from mutable current nodes.
 
     assert len(stack) == (256 if address==0x410010 else 128)
-    return dict(name_hash_reused_calls=name_hash_reused_calls,name_hash_entry=name_hash_entry,name_hash_allocations=name_hash_allocations,name_hash_owned=name_hash_owned,public_padding=public_padding,address=address,memory=memory,strings=strings,output_buffer_allocations=output_buffer_allocations,output_buffer_state=output_buffer_state,subsection_calls=subsection_calls,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(name_hash_first_fill_stack=name_hash_first_fill_stack,name_hash_stream_calls=name_hash_stream_calls,name_hash_temp_frees=name_hash_temp_frees,name_hash_complete=name_hash_complete,name_hash_reused_calls=name_hash_reused_calls,name_hash_entry=name_hash_entry,name_hash_allocations=name_hash_allocations,name_hash_owned=name_hash_owned,public_padding=public_padding,address=address,memory=memory,strings=strings,output_buffer_allocations=output_buffer_allocations,output_buffer_state=output_buffer_state,subsection_calls=subsection_calls,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,main_free_calls=main_free_calls,source_index_allocations=source_index_allocations,source_index_module=source_index_module,source_family_allocations=source_family_allocations,source_family_frees=source_family_frees,source_family_output=source_family_output,directory_before_writer=directory_before_writer,directory_sort_input=directory_sort_input,directory_sort_complete=directory_sort_complete,sort_calls=sort_calls,sort_environments=sort_environments,sort_crt_abi=sort_crt_abi,sort_wrapper=sort_wrapper,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<%dI'%(len(stack)//4),stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -837,7 +856,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
         import importlib.util
         spec=importlib.util.spec_from_file_location('main_free_state',Path(__file__).with_name('main-free-state.py'))
         free_state=importlib.util.module_from_spec(spec);spec.loader.exec_module(free_state)
-        retired,free_lifetimes=free_state.validate(config,data,original,native,image_aliases,image_sizes,reads)
+        retired,free_lifetimes=free_state.validate(config,data,original,native,image_aliases,image_sizes,reads,name_hash_owners['cleared_indices'] if name_hash_owners else ())
     def historical_segment(base):
         # Only former-input initialization/extent proof uses the saved PRE-free
         # observation. It is not current payload state and is never reinstalled
@@ -1491,7 +1510,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
         padding=importlib.util.module_from_spec(spec);spec.loader.exec_module(padding)
         public_padding_proof=padding.validate(config,data,original,native,image_aliases,image_sizes)
     name_hash_proof=None
-    if config.get('observe_name_hash'):name_hash_proof=name_hash_state.validate(config,data,original,native,name_hash_owners)
+    if config.get('observe_name_hash_complete'):
+        spec=importlib.util.spec_from_file_location('complete_name_hash',Path(__file__).with_name('name-hash-complete-state.py'));complete_name_hash=importlib.util.module_from_spec(spec);spec.loader.exec_module(complete_name_hash)
+        name_hash_proof=complete_name_hash.validate(config,data,original,native,name_hash_owners,name_hash_state)
+    elif config.get('observe_name_hash'):name_hash_proof=name_hash_state.validate(config,data,original,native,name_hash_owners)
     native_parameters=dict(native['parameters'])
     for item,value in object_parameters:
         actual=native_parameters[item['name']]

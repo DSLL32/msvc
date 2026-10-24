@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "case": "hello-debug-dll",
+  "native_sha256": "820bacba99f51ab458028f20df3f5d2361d5f69379ce6ae3fe085d9c74b20d44",
+  "case_definition_sha256": "e048b9cc441f59224f9fa8138ec4acc2313f4309578beb974c6af86b14bc974c",
+  "configuration_sha256": "743ace7338b19298ebe78cc7824be798fa160f357b9a18f491b2b64fa215a9f9",
+  "rebuilt_sha256": "c5f6010855b244fff5c8c14e984f275ec55d729e9f960165c5477af7621239ac",
+  "data_sha256": "c7d711b8942415c7261d0d3e53e389d30e42d55f919f26e98b8106faa18dc727",
+  "original_receipt_sha256": "25cf131e14fe77e259f08de97a0000d2dc2a266921001d72d1999c57acbfd3d4",
+  "executed_command": [
+    "/root/msvc2/decomp/vc5.10/cvppack/build/native/CVPACK",
+    "/nologo",
+    "hello.dll"
+  ],
+  "compiled_sources_sha256": "f7af19b24a0ea4563dfdd903591241d9ffa9dbd5a29df741b43eecdc41f725f7",
+  "prepared_resources": {
+    "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+    "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+    "entries": 3,
+    "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+  },
+  "prepared_widen": {
+    "provider_sha256": "808322ba3d6bfccebc996bcc60430afffd3962bfa22c769835114016b7930a92",
+    "contract_sha256": "fe1f3e3109afe67d91745ca1bfaf8f86cb2f2f51f68b5c012cf79637457407d8",
+    "input_dll_sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e",
+    "external_module_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "instances": 21
+  },
+  "reused_original_capture": false,
+  "outputs": [
+    {
+      "name": "stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gdb-stdout",
+      "bytes": 477,
+      "sha256": "25c6e2abcb40adff4a53450f875b7100bbc70ea92261eb0ab3006fd708fe415f"
+    },
+    {
+      "name": "gdb-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "state.json",
+      "bytes": 3022293,
+      "sha256": "5653cc4135dd3c6cdb9489b5abd3ae8bd5e798cb131e540e278f2968e3c3b7e2"
+    },
+    {
+      "name": "entry-trace",
+      "bytes": 2091,
+      "sha256": "b7be5b070132a792c7e7ad12f4c147652df75ad4b6a548c312f5f6943b7734e7"
+    },
+    {
+      "name": "entry-filter",
+      "bytes": 2970,
+      "sha256": "7e2b60c927493f68e1b674e330b3aab15cbe8aefe6c74e8cddf31a55c89a2717"
+    },
+    {
+      "name": "native-status",
+      "bytes": 3,
+      "sha256": "0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800"
+    },
+    {
+      "name": "direct-stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "direct-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "resources.rmr",
+      "bytes": 310,
+      "sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b"
+    },
+    {
+      "name": "case-definition.json",
+      "bytes": 1203,
+      "sha256": "e048b9cc441f59224f9fa8138ec4acc2313f4309578beb974c6af86b14bc974c"
+    },
+    {
+      "name": "gdb-state.py",
+      "bytes": 105484,
+      "sha256": "98c670e1a3e5ae5b55b11d2560f624dea4549465c15c752b3fe8d154c53a3a37"
+    },
+    {
+      "name": "widen.rwp",
+      "bytes": 38352,
+      "sha256": "808322ba3d6bfccebc996bcc60430afffd3962bfa22c769835114016b7930a92"
+    },
+    {
+      "name": "native-view-1.bin",
+      "bytes": 2097152,
+      "sha256": "210307903accd6e4653cb089a313b3a6b8a72a5d9b3726a77e881e454ff27d36"
+    },
+    {
+      "name": "artifact-hello.dll",
+      "bytes": 2097152,
+      "sha256": "210307903accd6e4653cb089a313b3a6b8a72a5d9b3726a77e881e454ff27d36"
+    }
+  ],
+  "seconds": {
+    "direct_execution": 0.01966340932995081,
+    "gdb_execution": 5.61580303311348,
+    "total": 5.759131236933172
+  }
+}

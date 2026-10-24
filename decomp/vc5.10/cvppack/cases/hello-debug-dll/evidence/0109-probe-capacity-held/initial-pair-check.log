@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 264, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 234, in main
+    result = validate_pair(args.config, args.original, args.native,args.audit)
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/accept.py", line 210, in validate_pair
+    typed = decoder.compare(config,json.loads((original_dir/'data.json').read_text()),events,state,
+        {name:(original_dir/('artifact-'+name)).read_bytes() for name in case['artifacts']},
+        dict(original={p.name:p.read_bytes() for p in original_dir.glob('events-view-*.bin')},
+             native={p.name:p.read_bytes() for p in native_dir.glob('native-view-*.bin')}))
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/raw-state.py", line 376, in compare
+    original = decode(events)
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/raw-state.py", line 199, in decode
+    elif line=='sort-observation-failed':raise AssertionError('incomplete sort callback/error/FP observation')
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: incomplete sort callback/error/FP observation

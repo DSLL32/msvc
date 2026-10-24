@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5659a5ce in build_symbol_address_hash (method=0xffbe129e, bytes=0xffbe12a8, stream=0xffbe126c, count=64, buckets=0x56849170) at src/stubs.c:72
+72	void build_symbol_address_hash(unsigned short *method, unsigned *bytes, TypeArena *stream, unsigned count, PublicSymbol **buckets) { __asm { int 3 } }

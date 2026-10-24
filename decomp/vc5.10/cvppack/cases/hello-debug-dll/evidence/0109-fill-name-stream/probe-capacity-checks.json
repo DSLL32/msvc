@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "scope": "Exact parser and unmasked-range guard fragments extracted from the actual original-only helper, compiled natively as i386. No Wine/Windows child invocation. Actual fresh reference separately reports134 configured probes consumed completely under max256.",
+  "checks": [
+    {
+      "name": "actual-needed134-slots",
+      "status": 0
+    },
+    {
+      "name": "exact-max256-slots",
+      "status": 0
+    },
+    {
+      "name": "excess257-slots",
+      "status": 93
+    },
+    {
+      "name": "duplicate-seeded-probe",
+      "status": 93
+    },
+    {
+      "name": "duplicate-configured-probe",
+      "status": 93
+    },
+    {
+      "name": "malformed-address",
+      "status": 93
+    },
+    {
+      "name": "missing-name",
+      "status": 93
+    },
+    {
+      "name": "overlong-name",
+      "status": 93
+    },
+    {
+      "name": "trailing-comma",
+      "status": 93
+    },
+    {
+      "name": "unknown-outside-unmasked-code",
+      "status": 93
+    }
+  ],
+  "helper_source_sha256": "0856bef9bc9e12889d53a7abb2905697ed5a226dc6735e01ee507f2e06a3b104",
+  "parser_sha256": "fbaef676bfd811c2fa15d304e2d6a6e8529bd85979ff7d869dd150ed452a0ec5",
+  "guard_sha256": "331693852b2058b1eca1845c66c7c7a0354ad4ac6cb3f20ccb76a90172ebb6bb",
+  "native_harness_sha256": "9d834c6db0fc7b28af8766608d3b8e85dbb8094292c69325a287c4fe25bc43a2",
+  "runtime_plan_sha256": "e7b90a310e7b581195ed556bbe5b7ada39c1ed0145b0d63a21137ffaf81b4ca2",
+  "original_receipt_sha256": "25cf131e14fe77e259f08de97a0000d2dc2a266921001d72d1999c57acbfd3d4",
+  "seconds": 0.08565482404083014
+}

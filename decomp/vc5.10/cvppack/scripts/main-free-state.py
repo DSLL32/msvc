@@ -8,7 +8,7 @@ SITES=[0x404726,0x404731,0x40473d,0x404749,0x404754]
 CAPACITIES=['module_capacity','type_segment_bytes','symbol_capacity','line_capacity','type_capacity']
 
 
-def validate(config,data,original,native,image_aliases,image_sizes,reads):
+def validate(config,data,original,native,image_aliases,image_sizes,reads,later_cleared_indices=()):
     before=original.get('main_free_calls',[]);after=native.get('main_free_calls',[])
     if not before and not after:return {},dict(calls=0,retired_allocations=0)
     scratch=bool(config.get('observe_widen_frees'));tables=bool(config.get('observe_type_table_frees'));count=12 if tables else 7 if scratch else 5
@@ -33,11 +33,12 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
     public_prefix=bool(config.get('observe_public_writer_prefix'));assert bool(policy.get('public_writer_prefix'))==public_prefix,'unreviewed publicwriter consumer policy'
     padding=bool(config.get('observe_public_padding'));assert bool(policy.get('public_padding'))==padding,'unreviewed publicpadding consumer policy'
     name_hash=bool(config.get('observe_name_hash'));assert bool(policy.get('name_hash'))==name_hash,'unreviewed namehash consumer policy'
-    frontier=dict(name='fill_type_arena',original=0x410010,return_pc=0x40ebc0) if name_hash else dict(name='build_symbol_name_hash',original=0x40e920,return_pc=0x40d66a) if padding else dict(name='insert_symbol_page_padding',original=0x40f960,return_pc=0x40d62f) if public_prefix else dict(name='write_publics',original=0x40d600,return_pc=0x406c5a) if subsections else dict(name='write_subsection',original=0x4068a0,return_pc=0x406c17) if buffer_init else dict(name='begin_buffered_output',original=0x4100e0,return_pc=0x406b84) if complete_sort else dict(name='compare_packed_directory_entries',original=0x4063f0,return_pc=0x7802551e) if output_directory else dict(name='flush_packed_file',original=0x4069e0,return_pc=0x404776) if complete else dict(name='append_source_name',original=0x40f0d0,return_pc=0x40f1d7) if source_index else dict(name='print_statistics',original=0x40f100,return_pc=0x404771) if tables else dict(name='finalize_derived_types',original=0x40df60,return_pc=0x40b146) if derived else dict(name='free_type_tables',original=0x40b140,return_pc=0x404763) if scratch else dict(name='write_debug_directory',original=0x405230,return_pc=0x40475e)
+    complete_hash=bool(config.get('observe_name_hash_complete'));assert bool(policy.get('name_hash_complete'))==complete_hash,'unreviewed completed namehash policy'
+    frontier=dict(name='build_symbol_address_hash',original=0x40ede0,return_pc=0x40d68f) if complete_hash else dict(name='fill_type_arena',original=0x410010,return_pc=0x40ebc0) if name_hash else dict(name='build_symbol_name_hash',original=0x40e920,return_pc=0x40d66a) if padding else dict(name='insert_symbol_page_padding',original=0x40f960,return_pc=0x40d62f) if public_prefix else dict(name='write_publics',original=0x40d600,return_pc=0x406c5a) if subsections else dict(name='write_subsection',original=0x4068a0,return_pc=0x406c17) if buffer_init else dict(name='begin_buffered_output',original=0x4100e0,return_pc=0x406b84) if complete_sort else dict(name='compare_packed_directory_entries',original=0x4063f0,return_pc=0x7802551e) if output_directory else dict(name='flush_packed_file',original=0x4069e0,return_pc=0x404776) if complete else dict(name='append_source_name',original=0x40f0d0,return_pc=0x40f1d7) if source_index else dict(name='print_statistics',original=0x40f100,return_pc=0x404771) if tables else dict(name='finalize_derived_types',original=0x40df60,return_pc=0x40b146) if derived else dict(name='free_type_tables',original=0x40b140,return_pc=0x404763) if scratch else dict(name='write_debug_directory',original=0x405230,return_pc=0x40475e)
     assert bool(policy.get('type_table_cleanup'))==tables,'unreviewed table cleanup consumer policy'
     assert bool(policy.get('type_finalize_entry'))==derived,'unreviewed type cleanup entry policy'
     assert bool(policy.get('widen_scratch_cleanup'))==scratch and policy['target_sha256']==config['target']['sha256'] and policy['allowed_frontiers']==[frontier],'unreviewed main free consumer policy'
-    assert original['address']==frontier['original'] and original['stack'][0]==frontier['return_pc'] and native['frontier_caller']==('build_symbol_name_hash' if name_hash else 'write_publics' if public_prefix else 'flush_packed_file' if complete_sort else 'recon_qsort' if output_directory else 'build_source_file_index' if source_index else 'free_type_tables' if derived else 'cvpack_main'),'unmodeled target consumer after main free'
+    assert original['address']==frontier['original'] and original['stack'][0]==frontier['return_pc'] and native['frontier_caller']==('write_publics' if complete_hash else 'build_symbol_name_hash' if name_hash else 'write_publics' if public_prefix else 'flush_packed_file' if complete_sort else 'recon_qsort' if output_directory else 'build_source_file_index' if source_index else 'free_type_tables' if derived else 'cvpack_main'),'unmodeled target consumer after main free'
     rows={row['name']:row for row in data}
     def value(name):return int.from_bytes(original['memory'][rows[name]['original']],'little')
     def actual(name):return int.from_bytes(bytes.fromhex(native['globals'][name]),'little')
@@ -81,7 +82,7 @@ def validate(config,data,original,native,image_aliases,image_sizes,reads):
             ranges=[(0,max(written_prefixes))]
         if index>=7:
             assert value('derived_type_count')==0 and not value('type_pdb') and not value('type_pdb_types'),'unmodeled derived/PDB cleanup path'
-            cleared=[row for row in original['cleared_allocations'] if row['address']==address]
+            cleared=[row for ordinal,row in enumerate(original['cleared_allocations']) if ordinal not in later_cleared_indices and row['address']==address]
             assert len(cleared)==1 and cleared[0]['size']==size,'retired table lacks complete initialized allocation provenance'
             # Pointer-bearing tables are compared by the existing typed table
             # validator on their full PRE-free bytes, separately from current
