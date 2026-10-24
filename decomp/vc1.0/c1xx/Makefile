@@ -132,7 +132,7 @@ ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 RECON_AUDIT_PROFILE = c1xx
 RECON_IMAGE_BASE = 65536
 RECON_POLICY = policy-data.json
-RECON_AUDIT_FLAGS = --discovery cfg --check-ret --check-references --check-callbacks --check-ownership --check-extents
+RECON_AUDIT_FLAGS = -q --discovery cfg --check-ret --check-references --check-callbacks --check-ownership --check-extents
 RECON_AUDIT_REGISTRY_METADATA = 1
 RECON_AUDIT_PREREQUISITES = build/runtime.json $(ORIGINAL_OUTPUT)
 include $(RECON_TOOL_DIR)/recon-tool.mk

@@ -115,6 +115,9 @@ pub struct Args {
         help = "Write a deterministic report; no report files are overwritten otherwise"
     )]
     pub report: Option<PathBuf>,
+    /// Suppress successful stdout output; --report still writes the full report.
+    #[arg(short = 'q', long)]
+    pub quiet: bool,
 }
 fn run() -> Result<()> {
     let args = Args::parse();
@@ -192,7 +195,9 @@ fn run() -> Result<()> {
     if let Some(path) = &args.report {
         std::fs::write(path, serde_json::to_vec_pretty(&report)?)?;
     }
-    println!("{}", serde_json::to_string(&report)?);
+    if !args.quiet {
+        println!("{}", serde_json::to_string(&report)?);
+    }
     Ok(())
 }
 fn main() {

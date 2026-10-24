@@ -22,6 +22,7 @@ policy. `--original`, `--rebuilt`, `--map`, `--config`, `--runtime` and
 `--rebuilt-runtime` override individual paths. Paths resolve from the invoking
 working directory; normal build paths otherwise resolve under `--project`.
 Output is deterministic JSON on stdout; `--report PATH` additionally saves it.
+`-q`/`--quiet` suppresses successful stdout output while preserving report writes.
 Errors go to stderr with nonzero status. Existing audit reports are never changed.
 
 ## Shared build interface
