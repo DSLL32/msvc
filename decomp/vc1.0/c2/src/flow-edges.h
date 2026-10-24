@@ -18,6 +18,7 @@ void __fastcall release_flow_link(FlowLink *link);
 Node *__fastcall normalize_flow_targets(Expression *expressions);
 void __fastcall visit_machine_symbols(MachineInstruction *instruction,
     MachineSymbolVisitor visitor, void *context);
+unsigned __fastcall collect_assembly_reference(SymbolHeader *symbol, void *context);
 unsigned __fastcall reference_assembly_flow_symbol(SymbolHeader *symbol, void *context);
 ExceptionScope *__fastcall lookup_exception_scope(ExceptionScope *scopes, long identifier);
 unsigned __fastcall normalize_assembly_flow_symbol(SymbolHeader *symbol, void *context);

@@ -1,0 +1,12 @@
+{
+  "logical": "@visit_machine_symbols@12",
+  "matched": true,
+  "executable_sha256": "ef0b30419eb3a5cd9756a88ee2642b48734af9ed9c1aae1b76ff4374dfbca608",
+  "config_sha256": "d12b0641177909d036eea41ef78077658a52e07e526ddcb7864a6e3d5a104156",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\sehpacket",
+  "setup_seconds": 0.007789774797856808,
+  "execution_seconds": 0.13338630367070436,
+  "seconds": 0.16246032901108265,
+  "log_sha256": "8917da13b5a99d978810262d9de266f3d4c63099d85f11266eaa6099f5ba7b2c",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/seh-gdb-0m1hcozb"
+}

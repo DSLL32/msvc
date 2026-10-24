@@ -475,6 +475,10 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"alignment8_segment pointer %08lx member %08lx identifier %lu index %lu alignment %lu combine %lu position %lu object_section %lu\n",segment,member,id,index,read_word(process,segment+48),read_byte(process,segment+53),read_word(process,segment+4),read_word(process,segment+56));log_line(line);
         dump_bytes(process,"alignment8_segment_name_hex",read_word(process,segment+16),string_bytes(process,read_word(process,segment+16)));
     }
+    if(!strcmp(call->name,"@extract_assembly_labels@4")) {
+        sprintf(line,"assembly_references node %08lx parent_node %08lx instruction %08lx parent_instruction %08lx return_address %08lx\n",
+            context->Ecx,context->Esi,read_word(process,context->Ecx+12),context->Ebp,call->return_address);log_line(line);
+    }
     if(!strcmp(call->name,"@register_partial_write_safe@4")) {
         sprintf(line,"partial_register reg %lu parent_reg %lu return_address %08lx\n",
             context->Ecx&65535,context->Ebx&65535,call->return_address);log_line(line);

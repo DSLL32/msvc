@@ -1,0 +1,35 @@
+{
+  "matched": true,
+  "function": "@extract_assembly_labels@4",
+  "formals": [
+    {
+      "name": "node",
+      "location": "ECX",
+      "type": "Node pointer",
+      "original": 8086708,
+      "native": 1449380320
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "return_contract": "EAX Node pointer orNULL",
+  "no_hidden_inputs_proof": "Original27850..27912 consumes soleECXnode, dereferences only left pointer at+12 before passing it to visit_machine_symbols with a local output-head address. No other incoming register/stack/flags/x87/out pointer read. Local head startsNULL, so it is output storage, never captured/seeded as input. Actual node aliases caller ESI/native node formal; left pointer aliases caller cached EBP/native left scalar. Child machine-record fields and future collected list are not parent input reads.",
+  "original": {
+    "node": 8086708,
+    "parent_node": 8086708,
+    "instruction": 8061944,
+    "parent_instruction": 8061944,
+    "return_address": 335953
+  },
+  "native": {
+    "node": 1449380320,
+    "instruction": 1449368932,
+    "parent_node": 1449380320,
+    "parent_instruction": 1449368932,
+    "caller": "rewrite_before_children"
+  },
+  "original_execution_seconds": 1.397842263802886,
+  "native_debug_seconds": 0.13627904653549194,
+  "total_seconds": 1.7867219615727663,
+  "scope": "Actual Node pointer and only consumed pointer field+12, with caller alias proof. No opaque Node/machine-record dumps, child input snapshots, hidden seeding or output-list prepopulation. Whole-body controls/fresh acceptance follow."
+}

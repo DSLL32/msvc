@@ -1,0 +1,2285 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing formal",
+    "wrong register",
+    "lost node identity",
+    "wrong forwarded pointer",
+    "invented output input",
+    "wrong cleanup",
+    "wrong result"
+  ],
+  "states": 72,
+  "cases": [
+    {
+      "count": 0,
+      "flags": 0,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 0,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 0,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 0,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 0,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 0,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 8192,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 8192,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 8192,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 8192,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 8192,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 8192,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 4294967295,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 4294967295,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 4294967295,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 4294967295,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 4294967295,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 0,
+      "flags": 4294967295,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ]
+        ],
+        "result": "NULL",
+        "memory_sha256": "579f2cfd183527399cd753e6df23598e069a6c4be91391e8be64f12e21296d61"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 0,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "c54fca8b81c8318fb17343f30faf4ae38a18441799d47097418708c06f53e6c7"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 0,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "c54fca8b81c8318fb17343f30faf4ae38a18441799d47097418708c06f53e6c7"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 0,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "c54fca8b81c8318fb17343f30faf4ae38a18441799d47097418708c06f53e6c7"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 0,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "c54fca8b81c8318fb17343f30faf4ae38a18441799d47097418708c06f53e6c7"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 0,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "a7d9a734caa2038913d8c5ea03d1cb45ef2432dab23d44e6ef67d945b657703e"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 0,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "a7d9a734caa2038913d8c5ea03d1cb45ef2432dab23d44e6ef67d945b657703e"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 8192,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "c54fca8b81c8318fb17343f30faf4ae38a18441799d47097418708c06f53e6c7"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 8192,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "c54fca8b81c8318fb17343f30faf4ae38a18441799d47097418708c06f53e6c7"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 8192,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "c54fca8b81c8318fb17343f30faf4ae38a18441799d47097418708c06f53e6c7"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 8192,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "c54fca8b81c8318fb17343f30faf4ae38a18441799d47097418708c06f53e6c7"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 8192,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "a7d9a734caa2038913d8c5ea03d1cb45ef2432dab23d44e6ef67d945b657703e"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 8192,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "a7d9a734caa2038913d8c5ea03d1cb45ef2432dab23d44e6ef67d945b657703e"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 4294967295,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "903af41fcd7754802bf10f83136a221a1159139380071bd918e25a18bb58075c"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 4294967295,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "903af41fcd7754802bf10f83136a221a1159139380071bd918e25a18bb58075c"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 4294967295,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "903af41fcd7754802bf10f83136a221a1159139380071bd918e25a18bb58075c"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 4294967295,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "903af41fcd7754802bf10f83136a221a1159139380071bd918e25a18bb58075c"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 4294967295,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "0c8e73d8eadc28da9f5653bba9e752674e675af1acabc17af08d026a6342ea8e"
+      }
+    },
+    {
+      "count": 1,
+      "flags": 4294967295,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "0c8e73d8eadc28da9f5653bba9e752674e675af1acabc17af08d026a6342ea8e"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 0,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "beaeba80c134b1f238d22413207a6fefcc0aa11e5ae4c63bf3dbeeb39e8a2ed6"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 0,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "f1a5c538f129930789897f5bd5b897bef9a9b585ab563d0fadea379974c0ed26"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 0,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "beaeba80c134b1f238d22413207a6fefcc0aa11e5ae4c63bf3dbeeb39e8a2ed6"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 0,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "f1a5c538f129930789897f5bd5b897bef9a9b585ab563d0fadea379974c0ed26"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 0,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "732e4c5011b5f54c6d02123899f0011ea161bcfd4b563978b7b6897a7b6d42db"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 0,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "0683ef2a14eaec89d965abb8a2d2be1b646eb69fca13904806ff5301ee8007ba"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 8192,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "beaeba80c134b1f238d22413207a6fefcc0aa11e5ae4c63bf3dbeeb39e8a2ed6"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 8192,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "f1a5c538f129930789897f5bd5b897bef9a9b585ab563d0fadea379974c0ed26"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 8192,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "beaeba80c134b1f238d22413207a6fefcc0aa11e5ae4c63bf3dbeeb39e8a2ed6"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 8192,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "f1a5c538f129930789897f5bd5b897bef9a9b585ab563d0fadea379974c0ed26"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 8192,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "732e4c5011b5f54c6d02123899f0011ea161bcfd4b563978b7b6897a7b6d42db"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 8192,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "0683ef2a14eaec89d965abb8a2d2be1b646eb69fca13904806ff5301ee8007ba"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 4294967295,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "01e42671525b8c88275a9bd4e15d839af4fbefb846b03bdd0116f3e3922b6985"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 4294967295,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "c37cb4499edb535d1bbc3e2c4944531fa4dcb7a40a7cdaa50b8134c2f15ba31b"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 4294967295,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "01e42671525b8c88275a9bd4e15d839af4fbefb846b03bdd0116f3e3922b6985"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 4294967295,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "c37cb4499edb535d1bbc3e2c4944531fa4dcb7a40a7cdaa50b8134c2f15ba31b"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 4294967295,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "fd4b638a006ec30bdb41ec8c74951c05d4047352169dc5449c3015727778cd70"
+      }
+    },
+    {
+      "count": 2,
+      "flags": 4294967295,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "6be028dc40cf8ae0cc930e277ca8285c39c2c820f5e9796765bef7cb752a9d47"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 0,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "e1077811953bef85ade19c1368e5cb684151d1214dd309ce95edad4044ca81de"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 0,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "9971ed8332e1d56d922ebb1c5059693b7dcd7828cb7c8358cc6e09115f8325a6"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 0,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "e1077811953bef85ade19c1368e5cb684151d1214dd309ce95edad4044ca81de"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 0,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "9971ed8332e1d56d922ebb1c5059693b7dcd7828cb7c8358cc6e09115f8325a6"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 0,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "47ce9a6cb1829469d78e84595731822ccbf8e08d7be338315f455273ba612db3"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 0,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "2523f657d829f08f628d674bea8d85f0c593a2f88723bc0d4f964ee84b476c0e"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 8192,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "e1077811953bef85ade19c1368e5cb684151d1214dd309ce95edad4044ca81de"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 8192,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "9971ed8332e1d56d922ebb1c5059693b7dcd7828cb7c8358cc6e09115f8325a6"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 8192,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "e1077811953bef85ade19c1368e5cb684151d1214dd309ce95edad4044ca81de"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 8192,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "9971ed8332e1d56d922ebb1c5059693b7dcd7828cb7c8358cc6e09115f8325a6"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 8192,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "47ce9a6cb1829469d78e84595731822ccbf8e08d7be338315f455273ba612db3"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 8192,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "2523f657d829f08f628d674bea8d85f0c593a2f88723bc0d4f964ee84b476c0e"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 4294967295,
+      "word": 0,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "00823cf6b35a49407d189663ba01035f9835b78ef17331a976a80b91926f155e"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 4294967295,
+      "word": 0,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "52715d7cced2e3e1fd62a56926edf6214880290a00f409cef38ba60b237f99f1"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 4294967295,
+      "word": 8192,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "00823cf6b35a49407d189663ba01035f9835b78ef17331a976a80b91926f155e"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 4294967295,
+      "word": 8192,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "52715d7cced2e3e1fd62a56926edf6214880290a00f409cef38ba60b237f99f1"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 4294967295,
+      "word": 65535,
+      "duplicate_symbol_alias": false,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "0eb494ae360e2e69315a6900a97af34f23bc5026dce022e222edd6161ed3e227"
+      }
+    },
+    {
+      "count": 5,
+      "flags": 4294967295,
+      "word": 65535,
+      "duplicate_symbol_alias": true,
+      "result": {
+        "events": [
+          [
+            "visit",
+            "same instruction",
+            "named callback",
+            "local NULL head output"
+          ],
+          [
+            "leaf",
+            76,
+            0
+          ],
+          [
+            "integer",
+            240,
+            258
+          ],
+          [
+            "build",
+            "NPNt",
+            76,
+            "integer",
+            64,
+            258
+          ]
+        ],
+        "result": "wrapper",
+        "memory_sha256": "e1a279414f2cc800cc177699815d9193a65ac12596f0d20546ee3bb65f37f57b"
+      }
+    }
+  ],
+  "seconds": 1.9613928655162454,
+  "scope": "Whole194B original/canonical: sole forwarded instruction pointer, callback identity and local head initiallyNULL; empty and1/2/5-node output lists, exact tail sentinel link, intern_leaf cdecl args/typed integer fastcall/outer build_tree varargs NPNt, returned wrapper right=head, every node/symbol byte except exact DWORD+36/WORD+14 OR2000 remains unchanged. Duplicate symbol aliases/idempotence and already-set bits, RET0/nonvolatile exact. Child bodies mocked; actual visitor/callback remain named traps, no assertion transformation body is executed yet by real case."
+}

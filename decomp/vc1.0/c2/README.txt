@@ -1024,3 +1024,15 @@ audits pass; all 17 cached native cases match. Next assembly-label extractor
 27850 remains a named trap; protected-function envelopes are still provisional.
 Build2.709s, full controls3.483s, audit/coverage30.922s, original1.036s/native
 .212s, suite1.029s. Full split receipt: cases/seh-partial-register-checkpoint.json.
+
+At 1313, the 194-byte assembly-reference extraction pass is accepted. Actual
+Node and forwarded left-pointer aliases match the caller; a NULL local head is
+output storage. Seventy-two whole original/canonical controls verify tail
+sentinel linking, typed marker construction, symbol flag writes, duplicate
+aliases and exact pointer/stack/nonvolatile behavior. The actual case stops at
+the first visitor call, so its list transformation is not yet exercised by the
+case. Visitor and collection callback remain named traps. Original /W3, audits
+and all 17 native cases pass. A missing intern_leaf header caused one 1.079s
+failed build; the corrected header dependency rebuild took 40.336s. Controls
+2.074s, audit/coverage31.163s, fixture wrapper.984s. Full receipt and retained
+failure: cases/seh-assembly-references-checkpoint.json.

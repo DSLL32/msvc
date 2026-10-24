@@ -57,7 +57,6 @@ int __fastcall assign_parameter_register(unsigned *used, Node *argument, int con
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
 Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
-Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 void __fastcall finish_inline_function(Function *function) { __asm int 3 }
 #include "inline-calls.h"
@@ -305,3 +304,5 @@ int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm
 int inherit_float_motion_uses(void) { __asm int 3 }
 
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
+
+unsigned __fastcall collect_assembly_reference(SymbolHeader *symbol, void *context) { __asm int 3 }

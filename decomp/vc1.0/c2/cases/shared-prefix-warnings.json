@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "register-variables",
-      "seconds": 1.1643586177378893,
+      "module": "inline-assembly",
+      "seconds": 1.2769142780452967,
       "returncode": 0
     }
   ],
-  "seconds": 1.1645685629919171
+  "seconds": 1.2771128425374627
 }

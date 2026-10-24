@@ -1316,7 +1316,8 @@
     "@omf_write_comdat_line@12",
     "@write_codeview_register@4",
     "@codeview_register_number@4",
-    "@register_partial_write_safe@4"
+    "@register_partial_write_safe@4",
+    "@extract_assembly_labels@4"
   ],
   "driver": [
     {
@@ -3101,8 +3102,21 @@
     {
       "name": "@extract_assembly_labels@4",
       "start": 161872,
-      "end": 161873,
-      "provisional": true
+      "end": 162066,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "node",
+            "location": "ECX",
+            "type": "Node pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/assembly-references-abi/validation.json",
+        "scope": "Original194B function consumes sole node pointer and forwards only its left field+12 to visitor with local NULL output-head. Actual pointer/field alias caller ESI/EBP and native parent formal/cached left. Output list and child machine record contents are not extra incoming fields. Returns wrapperNode orNULL inEAX, RET0; callback remains named trap."
+      }
     },
     {
       "name": "@convert_node_type@8",
@@ -9742,6 +9756,12 @@
         "entry_observation": "cases/codeview-register-number-abi/validation.json",
         "scope": "Original69900..6992e consumes soleECXsymbol, signed sizeDWORD+8 and registerWORD+40, RET0. No other incoming register/stack/flags/x87/out pointer. Cachedsignedsize>4 takes original2fb diagnostic before arithmetic; returnAX computed using signedsize>>1 and low16 shift/add/registerWORD. Actual pointer aliases originalparentESI and native parentSymbol formal; size4/reg1 observed. Parentrecord/other descriptor/name fields are not childinput/read/dump/seed."
       }
+    },
+    {
+      "name": "@collect_assembly_reference@8",
+      "start": 162208,
+      "end": 162209,
+      "provisional": true
     }
   ],
   "cases": {

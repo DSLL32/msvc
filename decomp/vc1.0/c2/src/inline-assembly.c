@@ -3,6 +3,9 @@
 #include "machine.h"
 #include "instruction-selection.h"
 #include "instruction-rewrite.h"
+#include "tree-rewrite.h"
+#include "flow-edges.h"
+#include "expression-fields.h"
 #include <recon.h>
 MachineInstruction *__fastcall decode_assembly_instruction(unsigned char *bytes, ScopeHash *scope);
 /* Original1a970..1a980. The node's serialized payload becomes machine IR. */
@@ -158,4 +161,28 @@ void __fastcall append_embedded_record(Node *node)
     instruction->previous = machine_tail;
     machine_tail->next = instruction;
     machine_tail = instruction;
+}
+
+/* Original [00027850,00027912). The visitor builds a temporary list of
+   assembly references. Append the shared sentinel, wrap it in the typed
+   marker tree, then mark every referenced symbol before returning the wrapper.
+   The visitor's local head is output storage, not an incoming hidden argument. */
+Node *__fastcall extract_assembly_labels(Node *node)
+{
+    Node *head = NULL, *tail, *result;
+    SymbolHeader *symbol;
+    visit_machine_symbols(node->left.pointer, collect_assembly_reference, &head);
+    if (!head) return NULL;
+    tail = head;
+    while (tail->second.node) tail = tail->second.node;
+    tail->second.node = intern_leaf(0x4c, 0);
+    result = build_tree("NPNt", 0x4c, integer_node(0xf0, 0x102), 0x40, 0x102);
+    result->right.node = head;
+    while (head->opcode != 0x4c) {
+        symbol = head->left.node->right.symbol;
+        ((FunctionSymbol *)symbol)->field24 |= 0x2000;
+        symbol->field0e |= 0x2000;
+        head = head->second.node;
+    }
+    return result;
 }
