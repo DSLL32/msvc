@@ -27,6 +27,9 @@ def check_static():
  if '_initialize_path_fold_table'in metadata['functions']:
   from path_fold_imports import check_static as check_path_fold
   check_path_fold()
+ if '_parse_option_integer'in metadata['functions']:
+  from integer_imports import check_static as check_integer
+  check_integer()
  if '_parse_command_line'in metadata['functions']:
   from command_line_state import check_preservation_static
   check_preservation_static(P,ROOT)
@@ -55,6 +58,9 @@ def check_report(report):
  assert result['rebuilt']['resolved_register_calls']=={} and result['rebuilt']['unresolved_register_calls']==result['rebuilt']['other_unresolved_calls']==[]
  assert len(result['rebuilt']['direct_import_calls'])==2
  assert all(row==dict(dll='kernel32.dll',name='VirtualAlloc')for row in result['rebuilt']['direct_import_calls'].values())
+ if '_parse_option_integer'in report['functions']:
+  from integer_imports import check_report as check_integer_report
+  check_integer_report(report)
  if '_parse_command_line'in report['functions']:
   from command_line_state import check_register_report
   check_register_report(report)

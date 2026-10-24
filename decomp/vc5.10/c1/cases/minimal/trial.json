@@ -83,7 +83,8 @@
     "_new_option_vector",
     "_next_argument",
     "_match_option",
-    "_apply_option_action"
+    "_apply_option_action",
+    "_parse_option_integer"
   ],
   "driver": [
     {
@@ -782,6 +783,18 @@
         [
           274805392,
           274805463
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_parse_option_integer",
+      "start": 274805497,
+      "end": 274805595,
+      "code_chunks": [
+        [
+          274926103,
+          274926140
         ]
       ],
       "role": "application"

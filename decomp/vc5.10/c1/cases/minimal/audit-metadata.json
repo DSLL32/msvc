@@ -82,6 +82,21 @@
           "path": "cases/minimal/path-fold-imports.json",
           "sha256": "d37947e7da7f9a9af374859dcbbbfa75314af8b57cd00bf333245b3ea446c96c"
         }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "isspace"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/minimal/integer-imports.json",
+          "sha256": "c86d59b4799e96c4c101c2d8d77fe576933900a32640a9a2bc3554f48dc894c5"
+        }
       }
     ]
   },
@@ -199,6 +214,11 @@
             268448853
           ]
         }
+      }
+    },
+    "_parse_option_integer": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
       }
     }
   }

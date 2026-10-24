@@ -76,7 +76,7 @@ argument_cursor_entries=[]
 argument_cursor_returns=[]
 class ArgumentCursorReturn(gdb.Breakpoint):
     def stop(self):
-        row=vector_snapshot();row['result_bytes']=vector_c_string(row['eax'])
+        row=vector_snapshot();row['result_bytes']=vector_c_string(row['eax'])if row['eax']else[]
         argument_cursor_returns.append(row);self.enabled=False;return False
 class ArgumentCursorEntry(gdb.Breakpoint):
     def stop(self):

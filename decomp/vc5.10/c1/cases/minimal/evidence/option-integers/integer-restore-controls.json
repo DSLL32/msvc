@@ -1,0 +1,233 @@
+{
+  "status": "all affected controls rejected",
+  "count": 54,
+  "seconds": 22.326287950389087,
+  "controls": [
+    {
+      "scope": "native",
+      "control": "missing-third-integer"
+    },
+    {
+      "scope": "native",
+      "control": "integer-formal-omission"
+    },
+    {
+      "scope": "native",
+      "control": "integer-input-identity"
+    },
+    {
+      "scope": "native",
+      "control": "integer-input-NUL"
+    },
+    {
+      "scope": "native",
+      "control": "integer-result"
+    },
+    {
+      "scope": "native",
+      "control": "integer-return-cleanup"
+    },
+    {
+      "scope": "native",
+      "control": "integer-callee-save"
+    },
+    {
+      "scope": "native",
+      "control": "public-call-omission"
+    },
+    {
+      "scope": "native",
+      "control": "public-input-slot"
+    },
+    {
+      "scope": "native",
+      "control": "public-provider-PC"
+    },
+    {
+      "scope": "native",
+      "control": "public-provider-hash"
+    },
+    {
+      "scope": "native",
+      "control": "public-PLT-binding"
+    },
+    {
+      "scope": "native",
+      "control": "public-fake-target-formals"
+    },
+    {
+      "scope": "native",
+      "control": "public-isspace-predicate"
+    },
+    {
+      "scope": "native",
+      "control": "public-isdigit-predicate"
+    },
+    {
+      "scope": "native",
+      "control": "public-atol-exact"
+    },
+    {
+      "scope": "native",
+      "control": "public-argument-slot-after"
+    },
+    {
+      "scope": "native",
+      "control": "public-error-preservation"
+    },
+    {
+      "scope": "native",
+      "control": "public-FP-preservation"
+    },
+    {
+      "scope": "native",
+      "control": "public-MB-domain"
+    },
+    {
+      "scope": "native",
+      "control": "seventh-action-omission"
+    },
+    {
+      "scope": "native",
+      "control": "later-processor-write"
+    },
+    {
+      "scope": "native",
+      "control": "later-inline-write"
+    },
+    {
+      "scope": "native",
+      "control": "final-nologo-write"
+    },
+    {
+      "scope": "native",
+      "control": "final-NULL-result"
+    },
+    {
+      "scope": "native",
+      "control": "final-NULL-matcher"
+    },
+    {
+      "scope": "native",
+      "control": "resolver-formal-omission"
+    },
+    {
+      "scope": "native",
+      "control": "resolver-size"
+    },
+    {
+      "scope": "native",
+      "control": "resolver-input-identity"
+    },
+    {
+      "scope": "native",
+      "control": "resolver-output-ownership"
+    },
+    {
+      "scope": "native",
+      "control": "resolver-physical-trap"
+    },
+    {
+      "scope": "original",
+      "control": "original-integer-result"
+    },
+    {
+      "scope": "original",
+      "control": "original-public-input"
+    },
+    {
+      "scope": "original",
+      "control": "original-isdigit-mask"
+    },
+    {
+      "scope": "original",
+      "control": "original-atol-result"
+    },
+    {
+      "scope": "original",
+      "control": "original-public-FP"
+    },
+    {
+      "scope": "original",
+      "control": "original-public-errors"
+    },
+    {
+      "scope": "original",
+      "control": "original-public-table"
+    },
+    {
+      "scope": "original",
+      "control": "original-processor-write"
+    },
+    {
+      "scope": "original",
+      "control": "original-NULL-callback"
+    },
+    {
+      "scope": "original",
+      "control": "original-resolver-CRT-state"
+    },
+    {
+      "scope": "original",
+      "control": "original-provider-isspace"
+    },
+    {
+      "scope": "field-map derivation",
+      "control": "additional-field-layout"
+    },
+    {
+      "scope": "field-map derivation",
+      "control": "original-storage-alias"
+    },
+    {
+      "scope": "field-map derivation",
+      "control": "initialized-default"
+    },
+    {
+      "scope": "field-map derivation",
+      "control": "extra-consumer-frontier"
+    },
+    {
+      "scope": "field-map derivation",
+      "control": "literal-tail-credit"
+    },
+    {
+      "scope": "field-map derivation",
+      "control": "unknown-state-credit"
+    },
+    {
+      "scope": "field-map derivation",
+      "control": "allocation-size"
+    },
+    {
+      "scope": "minimal-option-integers-restore-002",
+      "control": "candidate-set"
+    },
+    {
+      "scope": "minimal-option-integers-restore-002",
+      "control": "accepted-mask-config"
+    },
+    {
+      "scope": "minimal-option-integers-restore-002",
+      "control": "restored-byte-union"
+    },
+    {
+      "scope": "native-minimal-option-integers-restore-001",
+      "control": "candidate-set"
+    },
+    {
+      "scope": "native-minimal-option-integers-restore-001",
+      "control": "accepted-mask-config"
+    }
+  ],
+  "execution_receipts": {
+    "original": "405096007ae714b4b91d2db474f461a7816cd7cb0bbd8f333e17827031f17b8e",
+    "native": "c2bde256b6d0bf3c6c35bf5e54a588c36510727b63b0694c603b7d733005aae8"
+  },
+  "validators": {
+    "/root/msvc2/decomp/vc5.10/c1/scripts/check-integer-negative.py": "796822481f4b97136215538a77a6592942c231db5c40e143a00134288dc8017a",
+    "scripts/integer_state.py": "485b5b46b07cf09017c47479f1926b783880976eec2f15fe9c82b76edec8245e",
+    "scripts/integer_policy.py": "3acfcae199faeeafd0350d97440415b08bcaa0d32038ef6dfbea76ab7296a45b"
+  },
+  "policy_packet_sha256": "b110d4ea39a7095f0d9bc58a183467ead047d44cdc4d87818e17314028c088a9"
+}

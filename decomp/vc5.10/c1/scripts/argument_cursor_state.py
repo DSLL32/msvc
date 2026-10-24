@@ -64,7 +64,7 @@ def validate_boundary(original,native,candidate,entry,end,state,following=False)
     assert state['caller']['symbol']=='parse_command_line' and state['caller']['args']==entry['caller']['args'];call(binary,state['caller']['pc'],names['match_option'][0])
     assert state['invocation']==entry['invocation'] and semantic(state['command_line_fp'])==semantic(end['fp'])
     for key,value in end['crt_state'].items():assert state[key]==value
-    frontier=re.findall(r'^trap seq=(\d+) rva=00012fbe .*stack=([0-9a-f,]+)$',events,re.M);assert len(frontier)==(3 if candidate.get('option_action_observers')else 1)
+    frontier=re.findall(r'^trap seq=(\d+) rva=00012fbe .*stack=([0-9a-f,]+)$',events,re.M);assert len(frontier)==(8 if candidate.get('integer_observers')else 3 if candidate.get('option_action_observers')else 1)
     seq=int(frontier[0][0]);assert[int(x,16)for x in frontier[0][1].split(',')]==[0x10612c50,0x10662b78,returned,0x10612f9c,0]
     assert(original/('compiler-bss-%03d.bin'%seq)).read_bytes()==bytes(raw)
     for suffix,stem in [('data','compiler-data'),('snapshot','compiler-snapshot')]:assert(original/('%s-%03d.bin'%(stem,seq))).read_bytes()==(original/('argument-cursor-return-target-'+suffix+'.bin')).read_bytes()

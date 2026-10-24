@@ -182,13 +182,6 @@
     "evidence": "matcher suffix pattern/argument/marker call at1303e; typed named INT3 stub only"
   },
   {
-    "name": "_parse_option_integer",
-    "start": 274805497,
-    "end": 274805498,
-    "pending_extent": true,
-    "evidence": "numeric option value converter, one constchar* argument; actual call13207; named typed INT3 stub only"
-  },
-  {
     "name": "_append_option_vector",
     "start": 274800292,
     "end": 274800293,

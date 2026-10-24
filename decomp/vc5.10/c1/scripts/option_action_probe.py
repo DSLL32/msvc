@@ -20,7 +20,7 @@ class ActionEntry(gdb.Breakpoint):
         identity=gdb.parse_and_eval('*c1_host_identity')
         row.update(module_identity=dict({key:identity[key].string()for key in ('name','path','sha256')},flags=int(identity['flags'])),module_token=int(gdb.parse_and_eval('(unsigned int)c1_host_module')))
         row['index']=len(option_action_entries)
-        row['value_bytes']=vector_c_string(row['args']['value'])
+        row['value_bytes']=vector_c_string(row['args']['value'])if row['args']['value']else[]
         option_action_entries.append(row);ActionReturn(row['words'][0],row['index']);return False
 ActionEntry('*0x%x'%ACTION_ENTRY)
 class MatchReturn(gdb.Breakpoint):

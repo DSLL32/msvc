@@ -165,8 +165,10 @@ def main():
     if candidate.get('option_match_observers'):
         (output/'option-match-observers.txt').write_text('12fbe 131aa 12c31\n')
     if candidate.get("option_action_observers"):
-        (output/"option-action-observers.txt").write_text("131aa 132f9\n")
+        (output/"option-action-observers.txt").write_text("131aa %x\n"%(0x1335b if candidate.get("integer_observers")else 0x132f9))
         shutil.copy2(PROJECT/"scripts/option-action-observer.inc",output/"option-action-observer.inc")
+    if candidate.get("integer_observers"):
+        shutil.copy2(PROJECT/"scripts/integer-observer.inc",output/"integer-observer.inc")
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))
@@ -175,7 +177,7 @@ def main():
             ranges.append("%x %x 1\n" % (rva, rva + 1))
     (output / "ranges.txt").write_text("".join(ranges))
     freeze([PROJECT / "scripts/dll-capture.c", PROJECT / "scripts/capture-original.py",
-            PROJECT / "scripts/wine_tool_support.py", PROJECT / "scripts/locale-observer.inc", PROJECT/"scripts/path-fold-observer.inc",PROJECT/"scripts/vector-observer.inc",PROJECT/"scripts/option-action-observer.inc"], output / "source-snapshot.json")
+            PROJECT / "scripts/wine_tool_support.py", PROJECT / "scripts/locale-observer.inc", PROJECT/"scripts/path-fold-observer.inc",PROJECT/"scripts/vector-observer.inc",PROJECT/"scripts/option-action-observer.inc",PROJECT/"scripts/integer-observer.inc"], output / "source-snapshot.json")
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
     shutil.copy2(CRT, output / "MSVCRT.DLL")
     shutil.copy2(PROJECT / ("cases/" + args.case + "/candidate.json"), output / "candidate.json")

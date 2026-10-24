@@ -1,0 +1,238 @@
+{
+  "status": "matching whole135B integer parser and complete option loop",
+  "application_candidate": "_parse_option_integer",
+  "candidate_code_bytes": 135,
+  "numeric_inputs": [
+    "1",
+    "5",
+    "0"
+  ],
+  "numeric_returns": [
+    1,
+    5,
+    0
+  ],
+  "public_calls": [
+    {
+      "index": 0,
+      "kind": "isspace",
+      "original_raw": 0,
+      "native_raw": 0,
+      "consumed": "nonzero predicate only",
+      "application_credit": 0
+    },
+    {
+      "index": 0,
+      "kind": "isdigit",
+      "original_raw": 4,
+      "native_raw": 2048,
+      "consumed": "nonzero predicate only",
+      "application_credit": 0
+    },
+    {
+      "index": 0,
+      "kind": "atol",
+      "original_raw": 1,
+      "native_raw": 1,
+      "consumed": "exact signed32 result",
+      "application_credit": 0
+    },
+    {
+      "index": 1,
+      "kind": "isspace",
+      "original_raw": 0,
+      "native_raw": 0,
+      "consumed": "nonzero predicate only",
+      "application_credit": 0
+    },
+    {
+      "index": 1,
+      "kind": "isdigit",
+      "original_raw": 4,
+      "native_raw": 2048,
+      "consumed": "nonzero predicate only",
+      "application_credit": 0
+    },
+    {
+      "index": 1,
+      "kind": "atol",
+      "original_raw": 5,
+      "native_raw": 5,
+      "consumed": "exact signed32 result",
+      "application_credit": 0
+    },
+    {
+      "index": 2,
+      "kind": "isspace",
+      "original_raw": 0,
+      "native_raw": 0,
+      "consumed": "nonzero predicate only",
+      "application_credit": 0
+    },
+    {
+      "index": 2,
+      "kind": "isdigit",
+      "original_raw": 4,
+      "native_raw": 2048,
+      "consumed": "nonzero predicate only",
+      "application_credit": 0
+    },
+    {
+      "index": 2,
+      "kind": "atol",
+      "original_raw": 0,
+      "native_raw": 0,
+      "consumed": "exact signed32 result",
+      "application_credit": 0
+    }
+  ],
+  "matcher_calls": 8,
+  "action_calls": 7,
+  "outer_callbacks": 8,
+  "inner_callbacks": 3,
+  "signature_calls": 8,
+  "endpoint": {
+    "symbol": "resolve_option_path",
+    "formals": [
+      "output",
+      "input",
+      "size"
+    ],
+    "size": 520,
+    "output_role": "actual caller-owned520-byte stack array; uninitialized contents not compared",
+    "input_role": "actual typed database_file pointer; normal canonical vc50.pdb identity, restore owned snapshot sentinel remains opaque",
+    "input_read": false,
+    "initialized_UNMODELED_bytes": 4200
+  },
+  "unvisited_paths": "whitespace/invalid/range errors remain source+graph only",
+  "initialized_known_bytes": 2348,
+  "initialized_UNMODELED_bytes": 4200,
+  "CRT_credit": 0,
+  "execution_receipts": {
+    "original": "405096007ae714b4b91d2db474f461a7816cd7cb0bbd8f333e17827031f17b8e",
+    "native": "c2bde256b6d0bf3c6c35bf5e54a588c36510727b63b0694c603b7d733005aae8"
+  },
+  "prefix": {
+    "status": "matching439B option matcher through genuine callback and action entry",
+    "application_candidate": "_match_option",
+    "candidate_code_bytes": 439,
+    "separate_text_data_bytes": 74,
+    "case_rule": "-il$",
+    "case_rule_index": 31,
+    "argument": "-il",
+    "borrowed_value": ".\\minimal",
+    "action_executed": false,
+    "other_matcher_branches": "whole source/graph only; no runtime branch credit",
+    "initialized_known_bytes": 2348,
+    "initialized_UNMODELED_bytes": 4200,
+    "native_bss_bytes": 2376,
+    "new_known_bss_bytes": 4,
+    "signature": {
+      "executed": false,
+      "reason": "actual restored c9_il9 skips public call"
+    },
+    "iterator": {
+      "argc_before": 11,
+      "argc_after": 10,
+      "argv_advance_bytes": 4,
+      "borrowed_result": "Invoke argv[1], complete -il NUL",
+      "formal_count": 0,
+      "matcher_formal_count": 4,
+      "initialized_unknown_bytes_held": 4200
+    },
+    "proof": {
+      "rule_index": 31,
+      "action": 34,
+      "callback": "real next_argument; zeroformals and RET0",
+      "argc_before": 10,
+      "argc_after": 9,
+      "argv_advance": 4,
+      "borrowed_current_argument": "Invoke argv[1]",
+      "borrowed_value": "Invoke argv[2]",
+      "unmodeled_tail_consumer_reached": false
+    },
+    "prefix": {
+      "status": "matching three complete arena vectors and distinct real dependency/target frontier",
+      "application_candidate": "_new_option_vector",
+      "candidate_code_bytes": 116,
+      "vector_count": 3,
+      "header_bytes": 12,
+      "item_bytes": 160,
+      "committed_bytes": 32768,
+      "opaque_reserved_tail": true,
+      "initialized_known_bytes": 2348,
+      "initialized_unmodeled_bytes": 4200,
+      "CRT_code_credit": 0,
+      "provider_execution": false,
+      "prefix": {
+        "status": "matching real NULL tokenizer entry and return, warning stores and complete next vector-allocation ABI",
+        "application_candidate": "_read_env_arguments",
+        "candidate_code_bytes": 338,
+        "reached_input": null,
+        "non_NULL_path": "full source/graph only; genuine append-slot allocator remains pending",
+        "initialized_known_bytes": 2348,
+        "initialized_unmodeled_bytes": 4200,
+        "native_bss_bytes": 2376,
+        "CRT_code_credit": 0,
+        "prefix": {
+          "status": "matching complete path-fold initializer and genuine qualified CRT calls",
+          "application_candidate": "_initialize_path_fold_table",
+          "candidate_code_bytes": 83,
+          "path_table_bytes": 512,
+          "initialized_known_bytes": 2348,
+          "initialized_unmodeled_bytes": 4200,
+          "native_bss_bytes": 2376,
+          "public_CRT_calls": 255,
+          "second_getenv_original_scope": {
+            "kind": "authenticated original call-site plus directly observed next-consumer result; not a separate original API entry or RET observation",
+            "call_rva": 76708,
+            "iat_rva": 381008,
+            "literal_rva": 405992,
+            "literal": "MSC_CMD_FLAGS",
+            "consumer_rva": 77703,
+            "result": 0,
+            "namespace_sha256": "c6c5823449968c3f87ca6c1b5790d97addce00d74378e4e854aa533cf2e720ca"
+          },
+          "layout_label_derivation": null,
+          "CRT_code_credit": 0,
+          "grouped_decoder": {
+            "checkpoints": 385,
+            "new_seconds": 4.288918963633478,
+            "legacy_seconds": null,
+            "schema_sha256": "11fed595ede6ae73d06d13d56dc84459599d24f3aac7b0840e69a85533702908"
+          },
+          "execution_receipts": {
+            "original": "405096007ae714b4b91d2db474f461a7816cd7cb0bbd8f333e17827031f17b8e",
+            "native": "c2bde256b6d0bf3c6c35bf5e54a588c36510727b63b0694c603b7d733005aae8"
+          }
+        },
+        "execution_receipts": {
+          "original": "405096007ae714b4b91d2db474f461a7816cd7cb0bbd8f333e17827031f17b8e",
+          "native": "c2bde256b6d0bf3c6c35bf5e54a588c36510727b63b0694c603b7d733005aae8"
+        }
+      },
+      "frontier_role": {
+        "target": [
+          "0001335b"
+        ],
+        "dependency": []
+      },
+      "execution_receipts": {
+        "original": "405096007ae714b4b91d2db474f461a7816cd7cb0bbd8f333e17827031f17b8e",
+        "native": "c2bde256b6d0bf3c6c35bf5e54a588c36510727b63b0694c603b7d733005aae8"
+      }
+    },
+    "original_reuse": null,
+    "execution_receipts": {
+      "original": "405096007ae714b4b91d2db474f461a7816cd7cb0bbd8f333e17827031f17b8e",
+      "native": "c2bde256b6d0bf3c6c35bf5e54a588c36510727b63b0694c603b7d733005aae8"
+    }
+  },
+  "rust_checked_functions": 79,
+  "rust_owned_code_bytes": 6790,
+  "rust_owned_text_data_bytes": 161,
+  "rust_owned_original_bytes": 6951,
+  "current_auditor_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+  "current_audit_report_sha256": "a0a536de143305eaff2df2bdc842498bbc5fd28388529d7dd219506a44b6a059",
+  "validation_seconds": 9.880322467535734
+}

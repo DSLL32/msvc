@@ -580,6 +580,7 @@ static void save_frontend_state(const char *phase)
 #include "path-fold-observer.inc"
 #include "vector-observer.inc"
 #include "option-action-observer.inc"
+#include "integer-observer.inc"
 
 /* Labeled auxiliary values: the stream and relocation callback are never
  * dereferenced/invoked. Only their mapped pointer identities are exercised. */
@@ -1314,6 +1315,7 @@ int main(int argc, char **argv)
                 else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && integer_boundary(address,&context,thread,event.dwThreadId)) {
             } else if (code == EXCEPTION_BREAKPOINT && option_action_boundary(address,&context,thread,event.dwThreadId)) {
             } else if (code == EXCEPTION_BREAKPOINT && vector_boundary(address,&context,thread,event.dwThreadId)) {
             } else if (code == EXCEPTION_BREAKPOINT && path_fold_boundary(address,&context,thread,event.dwThreadId)) {
@@ -1536,6 +1538,7 @@ int main(int argc, char **argv)
                 if(!option_action_probe && option_match_probe && address==base+0x12fbe)option_match_record("entry",address,&context);
                 if(!option_action_probe && option_match_probe && address==base+0x131aa)option_match_record("action",address,&context);
                 observe_option_action_entry(address,&context);
+                if(option_integer_probe && address==base+0x132f9)integer_enter(&context,thread,event.dwThreadId);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
@@ -1569,6 +1572,7 @@ int main(int argc, char **argv)
                         if(signature_continue && (!signature_reference_complete || address!=base+0x131aa))fail("ordinary signature/matcher controlled stop");
                         if(signature_reference && (!signature_reference_complete || address!=base+0x12f9c))fail("signature reference controlled next_argument stop");
                         check_option_action_stop(address);
+                        check_integer_stop();
                         fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
                         TerminateProcess(child, 125); return 125;
                     }

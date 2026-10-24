@@ -499,3 +499,11 @@ The373-byte option-action handler is accepted with its separate71-byte table;
 matches/actions, six real argument callbacks, two borrowed pointer assignments
 and every public signature entry/return. See `cases/minimal/OPTION-ACTIONS.md`.
 The next genuine integer conversion is still a named INT3 stub.
+
+The135-byte numeric option parser is accepted with actual conversions1/5/0,
+seven actions, complete repeated signatures and final NULL argument. Public
+ctype raw masks4/2048 are retained and compared only through the caller's sole
+nonzero predicate. Strict79-source audits pass. See
+`cases/minimal/OPTION-INTEGERS.md`. Both current modes reach the genuine path
+resolver; further work is normal-only because restore's input pointer remains
+opaque and must not be read.

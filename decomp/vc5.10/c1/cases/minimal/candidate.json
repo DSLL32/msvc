@@ -468,6 +468,11 @@
       "entry": 0
     },
     {
+      "start_rva": 78585,
+      "end_rva": 78683,
+      "entry": 1
+    },
+    {
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
@@ -585,6 +590,11 @@
     {
       "start_rva": 198959,
       "end_rva": 199113,
+      "entry": 1
+    },
+    {
+      "start_rva": 199191,
+      "end_rva": 199228,
       "entry": 1
     }
   ],
@@ -1763,7 +1773,24 @@
           78551
         ]
       ],
-      "status": "trial whole373B option actions;71B shared dispatch/selector data,11padding excluded",
+      "status": "accepted prefix",
+      "source": "src/option-matcher.c"
+    },
+    {
+      "name": "_parse_option_integer",
+      "native_symbol": "parse_option_integer",
+      "role": "application",
+      "chunks": [
+        [
+          78585,
+          78683
+        ],
+        [
+          199191,
+          199228
+        ]
+      ],
+      "status": "trial whole135B integer parser; public ctype/atol inputs/results pending fresh observation",
       "source": "src/option-matcher.c"
     }
   ],
@@ -1786,16 +1813,18 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "kind": "option-action-integer",
-    "rva": 78585,
-    "native_symbol": "parse_option_integer",
+    "kind": "option-integers-complete",
+    "rva": 78683,
+    "native_symbol": "resolve_option_path",
     "native_args": [
-      "value"
+      "output",
+      "input",
+      "size"
     ],
     "calling_convention": "cdecl",
     "caller": {
-      "native_symbol": "apply_option_action",
-      "return_rva": 78348
+      "native_symbol": "parse_command_line",
+      "return_rva": 76939
     }
   },
   "imports": [
@@ -1865,7 +1894,7 @@
       "minimalin",
       "minimalsy"
     ],
-    "status": "first-new-frontier-not-yet-accepted"
+    "status": "reconstructing; completed initialization and observed option prefix; minimal IR outputs still pending"
   },
   "field_map": "cases/minimal/field-map.json",
   "restore_probe": {
@@ -2081,7 +2110,7 @@
     },
     "path_fold": "labeled reset-before-clear and helper-entry nonzero WORD table seeds; no snapshot ownership"
   },
-  "staging_role": "sole34-byte argument cursor candidate executed by explicit restore path; normal public dependency entry remains unsupported",
+  "staging_role": "sole135-byte integer-parser candidate; complete option-loop continuation to genuine resolve_option_path stub; public ctype and atoi effects need own evidence",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -2331,5 +2360,18 @@
       4,
       6
     ]
+  },
+  "integer_observers": {
+    "entry_rva": 78585,
+    "return_rva": 78348,
+    "frontier_rva": 78683,
+    "expected_inputs": [
+      "1",
+      "5",
+      "0"
+    ],
+    "isspace_iat_rva": 381228,
+    "isdigit_iat_rva": 380952,
+    "atol_iat_rva": 381052
   }
 }

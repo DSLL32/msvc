@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "status": "accepted single application function after independent review",
+  "candidate": "_parse_option_integer",
+  "original_code_chunks": [
+    [
+      78585,
+      78683
+    ],
+    [
+      199191,
+      199228
+    ]
+  ],
+  "code_bytes": 135,
+  "text_data_bytes": 0,
+  "pending_frontier": {
+    "kind": "option-integers-complete",
+    "rva": 78683,
+    "native_symbol": "resolve_option_path",
+    "native_args": [
+      "output",
+      "input",
+      "size"
+    ],
+    "calling_convention": "cdecl",
+    "caller": {
+      "native_symbol": "parse_command_line",
+      "return_rva": 76939
+    }
+  },
+  "application_totals_if_promoted": {
+    "functions": 77,
+    "code_bytes": 6327
+  },
+  "strict_audit": {
+    "source_vertices": 79,
+    "all_code_bytes": 6790,
+    "CRT_support_functions": 2,
+    "CRT_support_code_bytes": 451,
+    "imports": 2,
+    "import_code_bytes": 12,
+    "text_data_bytes": 161,
+    "extent_denominator": 322288,
+    "owned_extent_percent": 2.1567666186764636
+  },
+  "state_projection": {
+    "known_initialized_bytes": 2348,
+    "UNMODELED_initialized_bytes": 4200,
+    "UNMODELED_literal_tail_bytes": 16,
+    "native_BSS_bytes": 2376,
+    "new_fields": 0
+  },
+  "runtime": {
+    "integer_inputs": [
+      "1",
+      "5",
+      "0"
+    ],
+    "integer_results": [
+      1,
+      5,
+      0
+    ],
+    "matches": 8,
+    "actions": 7,
+    "outer_callbacks": 8,
+    "inner_callbacks": 3,
+    "normal_CRC": 9,
+    "restore_CRC": 8,
+    "ctype_raw": {
+      "original_isdigit": 4,
+      "native_isdigit": 2048,
+      "consumption": "only TEST/nonzero; no exact raw equality"
+    },
+    "atol": "exact signed32 results; real named import, no atoi substitution",
+    "resolver": "real masked source entry, output owned520B stack array, input database_file identity; restore sentinel remains opaque and unread"
+  },
+  "policy_refinement": {
+    "path": "cases/minimal/integer-policy-refinement.json",
+    "sha256": "b110d4ea39a7095f0d9bc58a183467ead047d44cdc4d87818e17314028c088a9",
+    "sole_path": [
+      "value_copy",
+      "hard_frontier_rva"
+    ],
+    "old": 78585,
+    "new": 78683,
+    "execution_metadata": "original and native raw/receipts/old field maps remain unchanged; exact hash-bound validator derivation only"
+  },
+  "proofs": {
+    "cases/minimal/evidence/option-integers/raw-references.json": "0385790e54cae0642bfa2d560387ff8e8b18de94517a9c7376ec706e6a52cd86",
+    "cases/minimal/evidence/option-integers/integer-restore-controls.json": "3ad779f06c675f83cc393b695fe458dbaeab5528ecab19071fa14c0fc7229c09",
+    "cases/minimal/evidence/option-integers/integer-imports-ablation.json": "d47764d13b554832fe10c581ec1c59f8e6b11ee6ec036b5bac49578326109eed",
+    "cases/minimal/evidence/option-integers/integer-restore-positive.json": "2d0b957fceea06866e8f89e52c280779e83106d5dd6bf1f1170abd54cc4ccdfe",
+    "cases/minimal/evidence/option-integers/integer-normal-positive.json": "b383f4aa033131bca439320acded1963279b7523c6e625985631100c0473abee",
+    "cases/minimal/evidence/option-integers/current-audit-binding.json": "4f5ac3b6b2887755dc2ffdbcde0148ed3ca9783fe1ceb191751dd6f88e211615",
+    "cases/minimal/evidence/option-integers/integer-static-correction-controls.json": "3bd278124db494cb5920aa1445512517bf8f5b2ed0ee55c70ead1f552162c337",
+    "cases/minimal/evidence/option-integers/integer-normal-controls.json": "f6b0f100d24b39f14de5cb3ea19558f0da9faa4a067e201249f712d2de0c28a8"
+  },
+  "source_and_checker_refs": {
+    "src/option-matcher.c": "3db99dd55272e80088e6fcc660bbe3322110f93cc83833d7d7e90a4f140b7295",
+    "scripts/integer-observer.inc": "ad379effd41c195171574659eb7679dea0696efd234296f1cfa1498dbaa287c4",
+    "scripts/integer_probe.py": "c68436d6965bd8163dd164a1c1ea7bb54820b5879505eef1dbce2674230240c1",
+    "scripts/integer_state.py": "485b5b46b07cf09017c47479f1926b783880976eec2f15fe9c82b76edec8245e",
+    "scripts/integer_policy.py": "3acfcae199faeeafd0350d97440415b08bcaa0d32038ef6dfbea76ab7296a45b",
+    "scripts/integer_imports.py": "58e8ead24daa0bd015cdd9efd1dafc81e2e7fab4c000cfc4b34007cc486b65ba",
+    "scripts/check-integer-negative.py": "796822481f4b97136215538a77a6592942c231db5c40e143a00134288dc8017a",
+    "scripts/check-trial.py": "29ab4abc0068c8823fa7ab2c10316dbd2033220decd2ad51bd008bc61b36b47e",
+    "scripts/audit_roles.py": "85635060cbfb41c44829038254d15e341ccdd52c1902673372346fb2f463990e",
+    "scripts/dll-capture.c": "0490d1b92fc14ac56061af7610df4132c6bcec564110524bb12ad337ee021ee7",
+    "scripts/option-action-observer.inc": "67f5c77a1e7fc71ab39c78659a9df67c9085d82c1687a2bd307491f3f7f213e7",
+    "scripts/option_action_probe.py": "fdc9c328637d4d000cee817cf9abc971cd16322cac8487f246d2c4d079af95fd",
+    "scripts/option_match_state.py": "a94bb7fd73f5ea6d8574f8c5333e648df6f0dd8a9a456610d5b17bcb65a51a7c",
+    "scripts/argument_cursor_state.py": "8f2b374492e18775922219cbecf82028e3e53cffc59757c979a4dc58d9906052",
+    "scripts/frontier_contract.py": "b769bc9c2c7b5c60497e991e30a786a294b7949d0da90b8564a988a335840f29",
+    "cases/minimal/field-map.json": "3781f34ec29e9ff7d001337bf81286510278ca5f40ff937f2372740c8a96d56e",
+    "cases/minimal/candidate.json": "c68fe497b9e19fefdf1d49d31d76cb2d62393b9fd64b96f3d05b409b6a0c6549",
+    "cases/minimal/trial.json": "b24596d1892ac94acc1a0097718a59f3e7c706dd99875dea07c0ff5786a40ed3",
+    "cases/minimal/integer-imports.json": "c86d59b4799e96c4c101c2d8d77fe576933900a32640a9a2bc3554f48dc894c5",
+    "cases/minimal/integer-imports-derivation.json": "01e92bf1e5dec5b0d6fc83fd587fd7c3585a40958751cf538f3a569bf1d24cc2",
+    "cases/minimal/integer-policy-refinement.json": "b110d4ea39a7095f0d9bc58a183467ead047d44cdc4d87818e17314028c088a9"
+  },
+  "audit": {
+    "binding_sha256": "4f5ac3b6b2887755dc2ffdbcde0148ed3ca9783fe1ceb191751dd6f88e211615",
+    "report_sha256": "a0a536de143305eaff2df2bdc842498bbc5fd28388529d7dd219506a44b6a059",
+    "report_reference": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-option-integers-normal-002/audit.json",
+      "sha256": "a0a536de143305eaff2df2bdc842498bbc5fd28388529d7dd219506a44b6a059"
+    }
+  },
+  "timings": {
+    "original_build_corrected": 1.7827679747715592,
+    "native_build": 2.090961246751249,
+    "original_normal": 11.992647976614535,
+    "original_restore": 12.19352203514427,
+    "native_normal": 9.730307548306882,
+    "native_restore": 10.363041776232421,
+    "full_checks_normal": 9.087633519433439,
+    "full_checks_restore": 9.880322467535734,
+    "focused54_normal": 22.253960280679166,
+    "focused54_restore": 22.326287950389087
+  },
+  "controls": {
+    "fresh_each_mode": 54,
+    "fresh_static_import_correction": 5,
+    "unchanged_broad_protocol": "historical only, not rerun or claimed as fresh",
+    "supplemental_static_import_guard": "Added after full positives; independent current static positive and5 forbidden-delta checks pass. Numeric loop validators unchanged."
+  },
+  "failed_observers": {
+    "original_normal_001_seconds": 10.488763120956719,
+    "original_restore_001_seconds": 10.037113962695003,
+    "reason": "observer CRC plan omitted fetched1 before -W; both rejected before acceptance",
+    "retained": true
+  },
+  "unvisited": "Whitespace/invalid/range-error paths retain complete source and strict graph checks; not runtime credit",
+  "fixture_scope": "Existing native lifecycle fixture completed separately; minimal compilation still pending complete IR outputs",
+  "public_CRT_credit": 0,
+  "parent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/integers-parent-review.json",
+    "sha256": "c94e64a2f47d374664395fd8d037feb99af90cd5c41a7ecc08a54c58af6520af"
+  }
+}

@@ -18,11 +18,12 @@ def validate(original,native,candidate,report,stage_state=None):
  assert rows[0]['chunks']==[[0x12fbe,0x1315f],[0x30919,0x3092f],[0x13160,0x131aa]]and rows[0]['text_data_chunks']==[[0x13160,0x131aa]]
  assert candidate['option_match_observers']==dict(entry_rva=0x12fbe,action_rva=0x131aa,argument_index=1,value_index=2,rule_index=31)
  receipt=json.loads((original/'receipt.json').read_text());probe=receipt['probe'];validate_original_frontier((original/'events.txt').read_text(),candidate,probe);validate_native_stop(native,candidate)
- state=stage_state if stage_state is not None else json.loads((native/'state.json').read_text());matcher=json.loads((native/'option-match-entries.json').read_text());assert len(matcher)==(3 if stage_state else 1)
- first_next=json.loads((native/'argument-cursor-entries.json').read_text());first_ret=json.loads((native/'argument-cursor-returns.json').read_text());assert len(first_next)==len(first_ret)==(3 if stage_state else 1)
+ loop=bool(candidate.get('integer_observers'))
+ state=stage_state if stage_state is not None else json.loads((native/'state.json').read_text());matcher=json.loads((native/'option-match-entries.json').read_text());assert len(matcher)==(8 if loop else 3 if stage_state else 1)
+ first_next=json.loads((native/'argument-cursor-entries.json').read_text());first_ret=json.loads((native/'argument-cursor-returns.json').read_text());assert len(first_next)==len(first_ret)==(8 if loop else 3 if stage_state else 1)
  sig=json.loads((native/'signature-call-entries.json').read_text());sig_ret=json.loads((native/'signature-call-returns.json').read_text())
- if probe=='normal':assert len(sig)==len(sig_ret)==(3 if stage_state else 1);stage=snapshot(original,native,state,sig[0]);stage['dependency_entry']=sig[0]['dependency_entry']
- else:assert probe=='restore'and len(sig)==len(sig_ret)==(2 if stage_state else 0);stage=snapshot(original,native,state,first_next[0])
+ if probe=='normal':assert len(sig)==len(sig_ret)==(9 if loop else 3 if stage_state else 1);stage=snapshot(original,native,state,sig[0]);stage['dependency_entry']=sig[0]['dependency_entry']
+ else:assert probe=='restore'and len(sig)==len(sig_ret)==(8 if loop else 2 if stage_state else 0);stage=snapshot(original,native,state,first_next[0])
  prefix=validate_vectors(original,native,candidate,report,stage_state=stage)
  from signature_call_state import validate as validate_signature
  signature=validate_signature(original,native,sig[0],sig_ret[0],first_next[0])if probe=='normal'else dict(executed=False,reason='actual restored c9_il9 skips public call')

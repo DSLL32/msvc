@@ -32,7 +32,7 @@
     {
       "order": 2,
       "id": "minimal",
-      "status": "reconstructing;373-byte option action accepted through three actual options and repeated public signatures; both modes at parse_option_integer(1) RVA132f9",
+      "status": "reconstructing;135-byte numeric parser accepted with conversions1/5/0, seven option actions and all arguments consumed; normal/restore at resolve_option_path RVA1335b; restore database_file sentinel remains opaque",
       "proposed_driver_argv": [
         "/nologo",
         "/c",

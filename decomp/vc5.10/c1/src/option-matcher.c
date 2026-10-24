@@ -1,3 +1,5 @@
+#include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
 #include "compiler-state.h"
 #include <recon.h>
@@ -166,10 +168,25 @@ void __cdecl apply_option_action(CompilerOptionRule *rule, char *value, int copy
     }
 }
 
+/* The public ctype imports are genuine calls in this build. Parentheses
+ * prevent a modern header from replacing them with its private table macro. */
 int __cdecl parse_option_integer(const char *value)
 {
-    __asm { int 3 }
-    return 0;
+    const char *digits = value;
+    int number = 0;
+
+    while ((isspace)((unsigned char)*digits))
+        ++digits;
+    if (!(isdigit)((unsigned char)*digits))
+        goto invalid;
+    number = (int)atol(digits);
+    if (number >= 65535 || number < 0)
+        goto invalid;
+    return number;
+
+invalid:
+    compiler_error(49, value);
+    return number;
 }
 
 void __cdecl append_option_vector(CompilerVector *vector, void *item)

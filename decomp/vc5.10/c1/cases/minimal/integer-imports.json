@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/CTYPE.H",
+    "sha256": "91b8db05b72f8cd29cdb5991bf16f2973b555100bb812f5acc0015e7f7c859ff",
+    "declaration": "_CRTIMP int __cdecl isspace(int);"
+  },
+  "caller": {
+    "name": "_parse_option_integer",
+    "hot": [
+      78585,
+      78683
+    ],
+    "cold": [
+      199191,
+      199228
+    ],
+    "code_bytes": 135,
+    "hot_bytes": "53558b6c240c33c056578a45008b3d2cd165105033db8bf5ffd783c40485c00f8504d7010033d28a1652ff1518d0651083c40485c00f84f8d6010056ff157cd065108bd883c40481fbffff00000f8de0d6010085db0f8cd8d601005f5e8bc35d5bc3",
+    "cold_bytes": "83c40485c00f84fc28feff4633c98a0e51ffd7ebeb556a31e83f58010083c408e91829feff",
+    "iat_rva": 381228,
+    "register": "edi",
+    "calls": [
+      78609,
+      199208
+    ],
+    "unsigned_byte_inputs": true,
+    "caller_cleanup": 4
+  },
+  "finite_preservation": {
+    "register": "edi",
+    "import_name": "isspace",
+    "module": "msvcrt.dll",
+    "provider_export_rva": 114878,
+    "provider_bytes": "833da0fb0378017e108b4424046a0850e8cde0ffff83c408c38b4c24048b159cfb03788a044a83e008c3",
+    "domain": {
+      "MB_CUR_MAX": 1,
+      "input_unsigned_byte": [
+        0,
+        255
+      ]
+    },
+    "basis": "Actual entire42-byte public export has no EDI write. Captured case MB_CUR_MAX1 takes direct table-load/mask/RET branch1c0d7..1c0e8, with no call or state write. The alternate MBCS internal callee is not being reconstructed or credited; this bounded witness does not claim that path ran.",
+    "existing_own_SBCS_reference": {
+      "path": "cases/minimal/evidence/option-actions/raw-references.json",
+      "sha256": "40e0632c247e0588ada766a9f7423c284e0074a776b04d53d02dc35b0c7bcbfb"
+    },
+    "required_fresh_runtime": "At each actual ctype entry/return retain MB_CUR_MAX1/full locale/scalars/tables and real EDI+other nonvolatile equality; no promotion from static contract alone."
+  },
+  "other_public_imports": [
+    {
+      "name": "isdigit",
+      "iat_rva": 380952,
+      "provider_rva": 114789,
+      "provider_bytes": "833da0fb0378017e108b4424046a0450e826e1ffff83c408c38b4c24048b159cfb03788a044a83e004c3",
+      "return_consumed": "nonzero predicate only"
+    },
+    {
+      "name": "atol",
+      "iat_rva": 381052,
+      "provider_rva": 23856,
+      "provider_entry_bytes": "535556578b7c2414833da0fb0378010f",
+      "return_consumed": "signed32 long returned inEAX; consumed by0..65534 range test and int action store"
+    }
+  ]
+}
