@@ -444,7 +444,13 @@ fn capture_executor(
     ] {
         unsafe { std::env::remove_var(key) }
     }
-    let loaded = unsafe { Loaded::open(&options.case) }?;
+    let loaded = unsafe {
+        if options.progress {
+            Loaded::open_for_progress(&options.case)
+        } else {
+            Loaded::open(&options.case)
+        }
+    }?;
     let program = options
         .program
         .clone()

@@ -122,8 +122,43 @@ pub struct Loaded {
     pub info: Info,
     pub base: usize,
 }
+#[derive(Clone, Copy)]
+enum FrontierValidation {
+    Replay,
+    ProgressDiscovery,
+}
+fn validate_frontier(
+    terminal: u32,
+    rva: u32,
+    functions: &[FunctionInfo],
+    validation: FrontierValidation,
+) -> Result<()> {
+    if terminal == 1 {
+        let app = functions.iter().find(|f| f.rva == rva && f.definition == 4);
+        match (app, validation) {
+            (Some(_), FrontierValidation::ProgressDiscovery) => {}
+            (Some(f), FrontierValidation::Replay) if f.implementation == 0 => {}
+            (_, FrontierValidation::Replay) => {
+                bail!("frontier must name an unimplemented App function")
+            }
+            (_, FrontierValidation::ProgressDiscovery) => {
+                bail!("progress frontier must name an App function")
+            }
+        }
+    }
+    Ok(())
+}
 impl Loaded {
     pub unsafe fn open(path: &Path) -> Result<Self> {
+        unsafe { Self::open_with_validation(path, FrontierValidation::Replay) }
+    }
+    /// Explicit original progress discovers the next frontier after implementing
+    /// the old one. Its case's expected terminal can therefore be stale; the
+    /// previous RVA must still identify App code. All other validation is shared.
+    pub unsafe fn open_for_progress(path: &Path) -> Result<Self> {
+        unsafe { Self::open_with_validation(path, FrontierValidation::ProgressDiscovery) }
+    }
+    unsafe fn open_with_validation(path: &Path, validation: FrontierValidation) -> Result<Self> {
         let library =
             unsafe { Library::new(path) }.with_context(|| format!("load {}", path.display()))?;
         let binary = unsafe { *library.get::<*const Binary>(b"binary_descriptor\0")? };
@@ -210,13 +245,7 @@ impl Loaded {
                 bail!("invalid/duplicate seeded App RVA {rva:x}")
             }
         }
-        if case.terminal == 1
-            && !functions
-                .iter()
-                .any(|f| f.rva == case.frontier_rva && f.definition == 4 && f.implementation == 0)
-        {
-            bail!("frontier must name an unimplemented App function")
-        }
+        validate_frontier(case.terminal, case.frontier_rva, &functions, validation)?;
         let mut tests = vec![];
         for t in unsafe { items(case.tests, case.test_count) }? {
             if t.exec.is_none() || t.fork > 1 {
@@ -276,5 +305,64 @@ impl Loaded {
             ));
         }
         Ok(out)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn progress_discovery_allows_only_a_stale_app_frontier() {
+        let mut function = FunctionInfo {
+            name: "old_frontier".into(),
+            rva: 0x8180,
+            native_symbol: Some("old_frontier".into()),
+            definition: 4,
+            implementation: 0,
+            code: vec![[0x8180, 0x8200]],
+            text_data: vec![],
+        };
+        for policy in [
+            FrontierValidation::Replay,
+            FrontierValidation::ProgressDiscovery,
+        ] {
+            assert!(validate_frontier(1, 0x8180, std::slice::from_ref(&function), policy).is_ok());
+        }
+        function.implementation = 1;
+        assert!(
+            validate_frontier(
+                1,
+                0x8180,
+                std::slice::from_ref(&function),
+                FrontierValidation::Replay
+            )
+            .is_err()
+        );
+        assert!(
+            validate_frontier(
+                1,
+                0x8180,
+                std::slice::from_ref(&function),
+                FrontierValidation::ProgressDiscovery
+            )
+            .is_ok()
+        );
+        for policy in [
+            FrontierValidation::Replay,
+            FrontierValidation::ProgressDiscovery,
+        ] {
+            // Missing RVAs never become discovery placeholders.
+            assert!(validate_frontier(1, 0x9999, std::slice::from_ref(&function), policy).is_err());
+            for definition in 0..4 {
+                function.definition = definition;
+                function.implementation = 0;
+                assert!(
+                    validate_frontier(1, 0x8180, std::slice::from_ref(&function), policy).is_err()
+                );
+            }
+            // Exit cases do not declare a frontier at all.
+            assert!(validate_frontier(0, 0, &[], policy).is_ok());
+        }
     }
 }
