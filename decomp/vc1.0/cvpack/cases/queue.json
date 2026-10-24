@@ -63,6 +63,30 @@
       ],
       "status": "complete",
       "completion": "cases/legacy-nb02-rejected/evidence/0179-read_old_directory/proof.json"
+    },
+    {
+      "name": "fieldlist-continuations",
+      "argv": [
+        "/nologo",
+        "/cvnew",
+        "/verbose",
+        "/mapio",
+        "fields.dll"
+      ],
+      "status": "unsupported-reference",
+      "reason": "Actual original serialized unwritten padding is not a deterministic complete-output reference; retained explicitly, no183acceptance on this version."
+    },
+    {
+      "name": "fieldlist-continuations-aligned",
+      "argv": [
+        "/nologo",
+        "/cvnew",
+        "/verbose",
+        "/mapio",
+        "fields.dll"
+      ],
+      "status": "complete",
+      "completion": "cases/fieldlist-continuations-aligned/evidence/0183-recycle_medium_type/proof.json"
     }
   ]
 }

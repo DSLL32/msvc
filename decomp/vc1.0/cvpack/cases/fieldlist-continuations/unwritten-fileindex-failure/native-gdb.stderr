@@ -1,0 +1,3 @@
+Python Exception <class 'gdb.error'>: No registers.
+/root/.ai-tmp/vc1.0-cvpack/0183-native/fieldlist-continuations/commands.gdb:179: Error in sourced command file:
+Error occurred in Python: No registers.

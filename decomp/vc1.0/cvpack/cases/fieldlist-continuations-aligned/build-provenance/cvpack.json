@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "wine",
+    "R:\\toolchains\\1.0-nt\\bin\\CVPACK.EXE",
+    "/nologo",
+    "/cvnew",
+    "/verbose",
+    "/mapio",
+    "fields.dll"
+  ],
+  "status": 0,
+  "elapsed_seconds": 0.7276153154671192,
+  "cwd": "/root/.ai-tmp/vc1.0-cvpack/fieldlist-build/aligned"
+}

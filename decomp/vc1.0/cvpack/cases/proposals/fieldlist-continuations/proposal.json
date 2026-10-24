@@ -1,5 +1,5 @@
 {
-  "status": "proposed-root-review",
+  "status": "completed-on-distinct-aligned-revision",
   "case": "fieldlist-continuations",
   "goal": "Exercise genuine LF_INDEX field-list continuations and their allocation/release/duplicate-type paths, rather than manufacturing legacy CodeView records.",
   "producer": "Original VC1 CL /nologo /c /Od /Z7 /G3, two C++ TUs including one shared header declaring a4096-int-member class plus a recursive peer pointer; both actually use a global instance and first/middle/last fields. Duplicate debug types across TUs provide a real merging/dedup context. Original LINK /dll /debug:full /debugtype:cv /nopack; no PCH.",
@@ -27,5 +27,6 @@
     "non_CRT_denominator": null,
     "unknown": "Unclassified native/support versus unusedCRT/padding remains; no completion claim."
   },
-  "prior_survey": "Bounded read-only353shippedEXE/DLL scan found no compatible NB02/NB08 successor beyond incompatible CFIG386. No replacement original execution has occurred."
+  "prior_survey": "Bounded read-only353shippedEXE/DLL scan found no compatible NB02/NB08 successor beyond incompatible CFIG386. No replacement original execution has occurred.",
+  "actual": "Original4096 build emitted682LF_INDEX. Initial finalstate reference had3unwritten sourcefileindex bytes225..227 and is explicitlyunsupported; one approved genuineTU filename+3 revision removespadding, preserves exacttypepayload and completes normal native fullmaster comparison. 180\u2013182 initially accepted,183acceptedonlyonfieldlist-continuations-aligned. Four functions518B."
 }

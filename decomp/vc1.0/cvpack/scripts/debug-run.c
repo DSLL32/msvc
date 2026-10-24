@@ -1561,6 +1561,7 @@ int main(int argc, char **argv)
                     }
                 }
                 if(!dump_recursive_inputs(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 67;
+                if(!dump_type_recycle_owner(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 67;
                 if(!dump_numeric_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 68;
                 if(!dump_precompiled_input(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,words))return 68;
                 if(!dump_symbol_prefix(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words))return 69;

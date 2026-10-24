@@ -20,6 +20,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     from seams import snapshot_policy,check_policy_snapshot
     policy_hash=snapshot_policy(directory)
     record = case(name)
+    assert record.get('status')!='unsupported-reference','unsupported original reference: '+record.get('unsupported_reason','unknown')
     work = directory / 'work'
     prepare(record, work)
     stdout, stderr = directory/'stdout', directory/'stderr'
@@ -156,6 +157,8 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         'for description in frontier.get("parameters",[]):\n'
         ' if description["kind"]!="global-owner": continue\n'
         ' root=int(gdb.parse_and_eval(description["root"]));argument=parameters[description["name"]]\n'
+        ' if description["root"]=="local_type_records":\n'
+        '  capacity=int(gdb.parse_and_eval("local_type_capacity"));count=int(gdb.parse_and_eval("local_type_count"));pointer=int(current.older().read_var("entry"))if description.get("member")else argument["address"];assert not description.get("member")or(current.older().name()=="release_type_data"and int(current.older().read_var("entry")["data"])==argument["address"]);argument["entry_address"]=pointer;assert 0<count<=capacity<=12000 and root<=pointer<root+count*28 and (pointer-root)%28==0;argument["owner"]=dict(root="local_type_records",address=root,requested_size=capacity*28,index=(pointer-root)//28,count=count,capacity=capacity,stride=28);argument["bytes"]=bytes(gdb.selected_inferior().read_memory(pointer,28)).hex();continue\n'
         ' if not root or root!=argument["address"]: raise RuntimeError("argument differs from published table owner")\n'
         ' argument["owner"]=dict(root=description["root"],address=root,requested_size=int(gdb.parse_and_eval(description["size_global"]))if description.get("size_global")else description["requested_size"])\n'
         ' if description["root"]=="derived_types":\n'
@@ -474,7 +477,7 @@ def main():
     assert not(args.scalar_completion and args.reference_completion)
     directory=args.output or Path.home()/'.ai-tmp/vc1.0-cvpack'/('native-'+str(time.time_ns()))
     directory.mkdir(parents=True,exist_ok=False)
-    names=[args.case] if args.case else [r['name'] for r in json.loads((BINARY/'cases/queue.json').read_text())['cases'] if r['status']!='queued']
+    names=[args.case] if args.case else [r['name'] for r in json.loads((BINARY/'cases/queue.json').read_text())['cases'] if r['status']not in('queued','unsupported-reference')]
     receipts=[]
     for name in names:
         case_directory=directory/name

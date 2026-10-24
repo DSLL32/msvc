@@ -167,6 +167,8 @@ def main():
     if module_inputs:env['CVPACK_CAPTURE_OUTPUTS']+=','+','.join(module_inputs)
     line_inputs=['%x:%d:%d:1'%(r['original'],p['slot'],0xfffffffe)for r in config['functions']for p in r.get('parameters',[])if p['kind']=='global-owner'and p.get('root')=='module_data']
     if line_inputs:env['CVPACK_CAPTURE_OUTPUTS']+=','+','.join(line_inputs)
+    type_inputs=['%x:%d:28:1'%(r['original'],p['slot'])for r in config['functions']for p in r.get('parameters',[])if p['kind']=='global-owner'and p.get('root')=='local_type_records'and not p.get('member')]
+    if type_inputs:env['CVPACK_CAPTURE_OUTPUTS']+=','+','.join(type_inputs)
     env['CVPACK_CAPTURE_ARENAS']=','.join('%x:%x:%d'%(r['original'],r['arena']['available_original'],r['arena']['capacity'])for r in walks if r.get('arena'))
     env['CVPACK_CAPTURE_TRANSIENTS']=','.join('%x:%d:%d'%(r['original'],p['slot'],offset)for r in config['functions']for p in r.get('parameters',[])if p['kind']=='transient-pointer'for offset in json.loads((BINARY/p['evidence']).read_text())['child_fields'])
     env['CVPACK_CAPTURE_STRINGS']=','.join('%x:%d'%(r['original'],offset)for r in walks for offset in r.get('string_fields',[]))

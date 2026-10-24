@@ -158,3 +158,21 @@ static int dump_symbol_prefix(HANDLE child,HANDLE log,DWORD frontier,CONTEXT *co
         index,entry[0]&0xffff,entry[0]>>16,module,words[1],requested,size);
     return recursive_line(log,used,walk_bytes,size);
 }
+
+/* Recycling consumes the pointer published by a live local TypeRecord. */
+static int dump_type_recycle_owner(HANDLE child,HANDLE log,DWORD frontier,CONTEXT *context,DWORD *words)
+{
+    DWORD table,capacity=0,count=0,owner,header[7];
+    int used;
+    if(frontier!=0x1f120 && frontier!=0x1f0d0)return 1;
+    owner=context->Esi;
+    if(words[0]!=(frontier==0x1f120?0x1cb6c:0x1cb83) ||
+       !recursive_read(child,0x373bc,&table,4) ||
+       !recursive_read(child,0x373c0,&capacity,2) ||
+       !recursive_read(child,0x335e0,&count,2) || !count || count>capacity || capacity>12000 ||
+       owner<table || owner-table>=count*28 || (owner-table)%28 ||
+       !recursive_read(child,owner,header,28) || header[0]!=words[1] ||
+       (((WORD *)header)[12]&0x38)!=(frontier==0x1f120?0x20:0x10))return 0;
+    used=sprintf(object_line,"input-buffer %08lx ",owner);
+    return recursive_line(log,used,(BYTE *)header,28);
+}

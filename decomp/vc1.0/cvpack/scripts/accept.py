@@ -75,6 +75,19 @@ def compare_global_owner(item,words,actual,events):
         assert root==words[item['slot']]!=0 and capacity==256 and count==128 and words[2]==3072,'first derived table growth differs'
         assert actual['owner']==dict(root='derived_types',address=actual['address'],requested_size=1536,context=dict(capacity=capacity,count=count,stride=12))and not actual['null'],'native derived table owner differs'
         return dict(original_address=root,native_address=actual['address'],owner='derived_types',requested_size=1536,new_requested_size=3072,capacity=capacity,count=count,scope='Actual first128-to256 derived table growth. initialize_type_tables checked_zero(128*12) publishes this root; no prior checked_realloc can return while its entry is masked. add_derived_type updates capacity before this exact call. Wrapper consumes ownership and size, not nested list payloads; no general heap proof.')
+    if item['root']=='local_type_records':
+        assert item['original_root']==0x373bc and words[0]==(0x1cb6c if item.get('member') else 0x27d0f),'unknown local type owner/caller'
+        def scalar(address,size):
+            rows=re.findall(r'^memory %08x ([0-9a-f]+)$'%address,events,re.M);assert len(rows)==1 and len(bytes.fromhex(rows[0]))==size
+            return int.from_bytes(bytes.fromhex(rows[0]),'little')
+        root,capacity,count=scalar(0x373bc,4),scalar(0x373c0,2),scalar(0x335e0,2);pointer=words['esi'] if item.get('member') else words[item['slot']]
+        assert 0<count<=capacity<=12000 and root<=pointer<root+count*28 and (pointer-root)%28==0,'original type argument outside live table'
+        index=(pointer-root)//28;owner=actual['owner'];assert owner==dict(root='local_type_records',address=owner['address'],requested_size=capacity*28,index=index,count=count,capacity=capacity,stride=28)and actual.get('entry_address',actual['address'])==owner['address']+index*28 and not actual['null'],'native local type table/index differs'
+        rows=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%pointer,events,re.M);assert len(rows)==1
+        old,new=bytes.fromhex(rows[0]),bytes.fromhex(actual['bytes']);assert len(old)==len(new)==28 and old[4:]==new[4:],'initialized local TypeRecord metadata differs'
+        if item.get('member'):assert item['member']=='data'and words[item['slot']]==int.from_bytes(old[:4],'little')and actual['address']==int.from_bytes(new[:4],'little'),'actual recycled argument is not the live type data member'
+        flags=int.from_bytes(old[24:26],'little');assert flags&0x38==0x20 and int.from_bytes(old[:4],'little')and int.from_bytes(new[:4],'little'),'unreviewed type buffer storage mode'
+        return dict(original_address=pointer,native_address=actual['address'],original_raw=old.hex(),native_raw=new.hex(),table_index=index,capacity=capacity,count=count,storage_mode='published900B application buffer from merge_field_list allocate_medium_type/checked_alloc; payload not consumed by release entry',compared_ranges=[[4,28]],scope='Live local_type_records calloc table and original/native entry index; initialized fields exact, data addresses retain logical published owner identity with no payload or allocator-tail equality')
     if item['root']=='module_data':
         assert item['original_root']==0x33058 and item['size_global']=='module_capacity','unknown line buffer owner'
         def scalar(address):

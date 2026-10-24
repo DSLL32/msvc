@@ -2429,3 +2429,77 @@ void convert_bp_relative16(void)
     type = symbol_input+6;
     *(unsigned short *)type = convert_new_type(*(unsigned short *)type);
 }
+
+unsigned char *medium_type_free_list;
+unsigned short medium_type_free_count;
+
+/* Splice the next LF_FIELDLIST payload over the current LF_INDEX. */
+#pragma intrinsic(memcpy)
+void merge_field_list(unsigned char *record, TypeRecord *entry)
+{
+    unsigned short type = *(unsigned short *)(record+2)-first_user_type;
+    unsigned short unused, payload;
+    unsigned long prefix, size;
+    TypeRecord *next;
+    unsigned char *source, *buffer;
+    if (!type_signature && type == (unsigned short)(0xffff-first_user_type))
+        next = empty_type;
+    else {
+#ifdef RECON_NATIVE_TEST
+        if (type >= local_type_capacity) __asm { int 3 }
+#endif
+        next = &local_type_records[type];
+        if (next->flags & 0x1000)
+            next = get_type_record((unsigned short)(next->forward_index-0x1000), &unused);
+    }
+    source = next->data;
+    prefix = (unsigned short)(record-entry->data);
+    payload = *(unsigned short *)source-2;
+    size = prefix+payload;
+    if (size > 900) buffer = checked_alloc(size);
+    else if (size > 32) buffer = allocate_medium_type();
+    else buffer = allocate_small_type();
+    memcpy(buffer, entry->data, prefix);
+    if (entry->flags & 0x38) release_type_data(entry);
+    entry->data = buffer;
+    if (size > 900) entry->flags |= 8;
+    else if (size > 32) entry->flags |= 0x20;
+    else entry->flags |= 0x10;
+    memcpy(buffer+prefix, source+4, payload);
+    *(unsigned short *)entry->data += (unsigned short)(payload-4);
+}
+
+void *allocate_medium_type(void)
+{
+    unsigned char *buffer;
+    if (!medium_type_free_list) return checked_alloc(900);
+    buffer = medium_type_free_list;
+    medium_type_free_list = *(unsigned char **)buffer;
+    --medium_type_free_count;
+    return buffer;
+}
+
+void release_type_data(TypeRecord *entry)
+{
+    if (entry->flags & 8) {
+        free(entry->data);
+        entry->flags &= ~8;
+        return;
+    }
+    if (entry->flags & 0x20) {
+        recycle_medium_type(entry->data);
+        entry->flags &= ~0x20;
+        return;
+    }
+    if (entry->flags & 0x10) {
+        recycle_small_type(entry->data);
+        entry->flags &= ~0x10;
+    }
+}
+
+void recycle_medium_type(void *buffer)
+{
+    *(unsigned char **)buffer = medium_type_free_list;
+    medium_type_free_list = buffer;
+    ++medium_type_free_count;
+}

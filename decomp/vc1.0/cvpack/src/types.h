@@ -131,4 +131,10 @@ void record_symbol_offsets(unsigned char *, unsigned long, unsigned short);
 void create_symbol_reference(unsigned char *, void **, unsigned short, unsigned long, unsigned short);
 extern unsigned long global_symbols_count, global_symbols_size, total_packed_symbol_bytes;
 extern unsigned long local_symbol_references, local_symbol_reference_bytes;
+void *allocate_small_type(void);
+void recycle_small_type(void *);
+void *allocate_medium_type(void);
+void recycle_medium_type(void *);
+extern unsigned char *medium_type_free_list;
+extern unsigned short medium_type_free_count;
 #endif

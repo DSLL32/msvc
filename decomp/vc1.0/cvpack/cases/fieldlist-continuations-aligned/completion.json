@@ -1,0 +1,31 @@
+{
+  "functions": [
+    {
+      "sequence": 180,
+      "name": "merge_field_list",
+      "bytes": 369
+    },
+    {
+      "sequence": 181,
+      "name": "allocate_medium_type",
+      "bytes": 46
+    },
+    {
+      "sequence": 182,
+      "name": "release_type_data",
+      "bytes": 78
+    },
+    {
+      "sequence": 183,
+      "name": "recycle_medium_type",
+      "bytes": 25
+    }
+  ],
+  "extent_gain_bytes": 518,
+  "case_result": "exit0/exact2MB frozen master4c00aa1463167c79a9715efbdefd3a968a804552af1f2aa89f53d6d49d345618",
+  "revision": "Single actualTU filename+3 rename approved before producer; two type subsections byte-identical to4096 original,682LF_INDEX links retained, sourcefilename index fully defined228B.",
+  "prior_case": "Initial version remains unsupported-reference with original nondeterminism and held183packet;183 accepted ONLYon distinct alignedcase.",
+  "app_helpers": "Private32B/900B free-list helpers newly catalogued as application code, never CRT overrides. Small32B helpers remain named traps.",
+  "allocator": "Default host allocation; no profile/sourceinitialization/normalization used for alignedcase.",
+  "testing": "Native cachedtraces/status/streams/fullartifacts, originalcompiler/staticgraphABI; three targeted localowner controls only, no historicalpipeline."
+}

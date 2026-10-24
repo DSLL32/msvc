@@ -1367,5 +1367,19 @@
     "original": 217788,
     "size": 4,
     "source": "src/types.c"
+  },
+  {
+    "name": "medium_type_free_list",
+    "symbol": "_medium_type_free_list",
+    "original": 227384,
+    "size": 4,
+    "source": "src/types.c"
+  },
+  {
+    "name": "medium_type_free_count",
+    "symbol": "_medium_type_free_count",
+    "original": 227392,
+    "size": 2,
+    "source": "src/types.c"
   }
 ]

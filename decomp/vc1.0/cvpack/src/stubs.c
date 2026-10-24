@@ -115,6 +115,9 @@ TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node, Type
 void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { __asm { int 3 } }
 
 
-void merge_field_list(unsigned char *record, TypeRecord *entry) { __asm { int 3 } }
 
-void release_type_data(TypeRecord *entry) { __asm { int 3 } }
+
+
+
+void *allocate_small_type(void) { __asm { int 3 } return NULL; }
+void recycle_small_type(void *buffer) { __asm { int 3 } }

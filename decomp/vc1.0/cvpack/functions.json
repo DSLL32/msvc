@@ -4970,13 +4970,16 @@
       "native": "merge_field_list",
       "symbol": "_merge_field_list",
       "original": 162816,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        162816,
+        163185
+      ],
       "abi": "void merge_field_list(unsigned char *,TypeRecord *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/fieldlist-continuations/evidence/0180-merge_field_list/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -5075,21 +5078,25 @@
       "native": "release_type_data",
       "symbol": "_release_type_data",
       "original": 117568,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        117568,
+        117646
+      ],
       "abi": "void release_type_data(TypeRecord *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/fieldlist-continuations/evidence/0182-release_type_data/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
         {
           "name": "entry",
           "slot": 1,
-          "kind": "pointer",
-          "bits": 32
+          "kind": "global-owner",
+          "root": "local_type_records",
+          "original_root": 226236
         }
       ]
     },
@@ -8313,6 +8320,92 @@
           "kind": "module-type-record"
         }
       ]
+    },
+    {
+      "name": "allocate_small_type",
+      "native": "allocate_small_type",
+      "symbol": "_allocate_small_type",
+      "original": 127136,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void * allocate_small_type(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "recycle_small_type",
+      "native": "recycle_small_type",
+      "symbol": "_recycle_small_type",
+      "original": 127184,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void recycle_small_type(void *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "allocate_medium_type",
+      "native": "allocate_medium_type",
+      "symbol": "_allocate_medium_type",
+      "original": 127216,
+      "source": "src/types.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        127216,
+        127262
+      ],
+      "abi": "void * allocate_medium_type(void)",
+      "stack_cleanup": 0,
+      "evidence": "cases/fieldlist-continuations/evidence/0181-allocate_medium_type/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "recycle_medium_type",
+      "native": "recycle_medium_type",
+      "symbol": "_recycle_medium_type",
+      "original": 127264,
+      "source": "src/types.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        127264,
+        127289
+      ],
+      "abi": "void recycle_medium_type(void *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/fieldlist-continuations-aligned/evidence/0183-recycle_medium_type/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "global-owner",
+          "root": "local_type_records",
+          "original_root": 226236,
+          "member": "data"
+        }
+      ]
     }
   ],
   "review": {
@@ -9413,6 +9506,30 @@
       "case": "legacy-nb02-rejected",
       "kind": "application",
       "sequence": 179
+    },
+    {
+      "function": "merge_field_list",
+      "case": "fieldlist-continuations",
+      "kind": "application",
+      "sequence": 180
+    },
+    {
+      "function": "allocate_medium_type",
+      "case": "fieldlist-continuations",
+      "kind": "application",
+      "sequence": 181
+    },
+    {
+      "function": "release_type_data",
+      "case": "fieldlist-continuations",
+      "kind": "application",
+      "sequence": 182
+    },
+    {
+      "function": "recycle_medium_type",
+      "case": "fieldlist-continuations-aligned",
+      "kind": "application",
+      "sequence": 183
     }
   ],
   "support_unmasked": [
@@ -10115,11 +10232,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "d863b5edbf38d6bf7e6c0c9bd4fb08a67be56af2b3de6c9f0aab86993b60729b"
+    "evidence_sha256": "0a8e7fb5ae102039cd954ad6b3c3705a93e90079003b30879fa0c5c9afb123c6"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "49c6658f06235be5a0e42c55bc0be48ce7ef7c7f13f35377a091726c41f449e6"
+    "evidence_sha256": "8518eeb7c6d6b007a0b9690179707fca8d1215e749fc55093011d5b9a7344013"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -10151,51 +10268,51 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "729d025565fe7d995eb37b5e450361d5dbc98c2d80e36528b6034e1b2975d6be"
+    "evidence_sha256": "178812989f9b4d2fde248ea913f3250fa7fd4e2ccb9062dddfc5febacf476463"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "d4958545d56cccfcc4980eaf3d5e9fd5381434c515a21f9a56537f5cc62e0335"
+    "evidence_sha256": "84312cf0d453ddabfd19bc9088899e67801b649b7246dc8c3ae2f30e906d1fe2"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "5e9bba86c9a1123b615e5922e77d18771b5260230c8d0d772d240973c9e17b06"
+    "evidence_sha256": "30276cfaee52be335f7aa0f0d8fce63d218f869b0befba932fff5f06f2159d5a"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "646ed6b61022672ca684507f1350e81c8046dc70400e328035d98db4e4d415d7"
+    "evidence_sha256": "5967788d535353ce14ce048f1460e546a712cfcf5a8363a264062547c65c0d4c"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "97a781e1228fa0ee52b2e12aa3c4919b74ca6d87960183af06ccf095e2359a7e"
+    "evidence_sha256": "948ab185d785d77be8f7e3ce1a4b97189bca34a26e020bfde74de8fabc0f77e0"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "0283273817eed5775726c5c92ab404e6f56df0d55e6c6b0ae6cfc82d33aa85ed"
+    "evidence_sha256": "9340b1e84a28fafc9cf1d102b81341daca44b76076cbd16ac6a6b3e2e21ba799"
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "65268f2992e202964f23f213db67c14df13ec3a84c5ffa9f7d29b6a1f5412529"
+    "evidence_sha256": "56becd1e9708e4ecc3e4a7a9544902a898116451a5865a0db74fb5325b247da4"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "4dc89ad86f70749ff4e76063eb7a3eb3a1b953e8ea170c1e8ce6a0cb0d6898ba"
+    "evidence_sha256": "5da917bf02782fbae3a2a24d621c559c3235d6a336e5493989d808c26be485ab"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "8925ba5615b872eadbf34f9b5d850ce5a896a2da706ae2dd00ebc069a4ca7c48"
+    "evidence_sha256": "d1ef090bbab7d1cfd024de25bf5a2e0c564625893919ec6d24cf4f89e6c8b593"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "345240eba79d7bcf804096e87fe9dc2c1bfc6a99306e08b8fd55d0b1c89bad8b"
+    "evidence_sha256": "9ee39183bc92a89cbbcf1c51b58bb1b8d422305cb23ebbd290f573fbc09f3329"
   },
   "symbol_reference_observations": {
     "evidence": "cases/abi/symbol-references.json",
-    "evidence_sha256": "e63f433ad91a78bbc952fc0e8cec23ad1a84cc7730df6b12f06338f38c50c3d1"
+    "evidence_sha256": "10983d2ad9b2fb88bc54156fe15ad52c6049eb6d0f61690c97143bf4ed5bc03f"
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "c7097fd9223003de9786de3599f63d046855fc79490e352bfe281180830cd11d"
+    "sha256": "d297f5a47c98c009026d7b1b6bfb10f6d9b39ee0d14f35f949ff9dca31cb18e5"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",
