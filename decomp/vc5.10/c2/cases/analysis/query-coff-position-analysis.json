@@ -1,0 +1,20 @@
+{
+  "logical": "@query_coff_position@4",
+  "hot": [
+    4321781,
+    4321895
+  ],
+  "cold": [
+    [
+      4627356,
+      4627401
+    ]
+  ],
+  "bytes": 159,
+  "abi": "fastcall unsignedshortsectionCX; unsignedEAX,RET0",
+  "role": "Normalindexlookup or sentinel/currentsection identity assertion, missingerror2413/zero, inactivezero; querylist then readbaseoffset andadd. Sourcepreservesoldentrybeforelookup andfreshglobalcomparisonafterlookup.",
+  "next": "output_list_position C2OutputList*ECX pool+1968, unsignedEAXRET0; exactcurrentlist/parententry/data aliases; no byte/globalchanges. Child9B staysmasked/no credit.",
+  "source_sha256": "ac4873c6f744a07c1dd090f31e2d53193dc1154efc87228cc0832d37b920747f",
+  "header_sha256": "c3674050103a3ee33207adc87d04bd43e2925f5baea5d3c9a9abc2ef932a4f59",
+  "disassembly_sha256": "0cc1415ed918addb508d2c4fa1a8569e6acfe25816c63973aedf4b0650eac41e"
+}

@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 87 application functions (18784 bytes) and five CRT
+Current reconstruction has 88 application functions (18943 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at COFF position query with index1, after selection set the
-actual current section and its initialized output list. Four import thunks (24 bytes) and contextual text tables
-(725 bytes) remain separate. The 19222 source bytes are 3.354% of 573183 `.text`
+currently stops at the list-position helper, with the actual selected24-byte
+output list and its query/section back-pointer identities matched. Four import thunks (24 bytes) and contextual text tables
+(725 bytes) remain separate. The 19381 source bytes are 3.381% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -443,3 +443,5 @@ Source90 reconstructs the267-byte hot/cold storage insertion routine, including 
 Source91 reconstructs the45-byte section hash recorder, its actual16-pointer bucket array and8-byte link. Complete array ownership, serial151/hash7, actual selector ushortCX1 and live selector-index/section aliases match after creator return. Static review caught initial link.next-before-bucket C ordering before acceptance; final C, emitted Win32/native stores and new final fresh pair preserve original bucket-before-link.next order. The initial source/raw pair remains unaccepted and separately accounted. Eighteen affected controls take20.805s; four PE initialization/bound controls0.015s;6fresh/147reused protocol controls7.519s. Exact separate initial/final build/capture/audit/native fixture timings and finite store-byte evidence are in0091.
 
 Source92 reconstructs the103-byte hot/cold section selector, retaining missing/inactive defaults and the previous ushort result. A fresh position-query frontier proves selected index1, current section1884 and its output list1968, plus actual ushort/caller/global aliases. Thirteen affected controls take15.412s;6fresh/147reused protocol controls7.324s. The unchanged pointer-array predicate retains the four previously verified bound controls, while the new actual-PE positive is still checked. Original/native/helper builds take2.197/2.038/1.771s; exact separate capture/audit/native fixture timings are in0092.
+
+Source93 reconstructs the159-byte hot/cold position query, preserving sentinel/current-section identity checks, missing/inactive returns and the base-offset read after the child call. Its genuine named child receives the actual C2OutputList* with selected-list and parent entry/data aliases. Both completed/used counters are compared individually in the full24-byte list and defined arena. Fifteen affected controls take17.895s;6fresh/147reused protocol controls7.385s. Original/native/helper builds take6.853/2.815/1.805s. No failed capture/setup; exact separate capture/audit/native fixture timings are in0093.

@@ -654,3 +654,25 @@ unsigned short __fastcall select_coff_section(unsigned short section)
     coff_current_list = data->output;
     return previous;
 }
+
+unsigned __fastcall query_coff_position(unsigned short section)
+{
+    C2OutputSection *entry;
+    void *observed;
+    unsigned position;
+    if (section == coff_default_flags) {
+        entry = coff_current_section;
+        observed = lookup_output_table(coff_table, coff_flags);
+        if (coff_current_section != observed)
+            c2_report_internal("E:\\utc\\src\\\\P2\\coffemit.c", 2404);
+    } else
+        entry = lookup_output_table(coff_table, section);
+    if (!entry) {
+        c2_report_internal("E:\\utc\\src\\\\P2\\coffemit.c", 2413);
+        return 0;
+    }
+    if (!(entry->flags & 1))
+        return 0;
+    position = output_list_position(entry->data->output);
+    return position + entry->base_offset;
+}

@@ -600,11 +600,6 @@ void __fastcall emit_incremental_string(char *value) { __asm { int 3 } }
 void __fastcall write_output_bytes(const void *data, unsigned bytes) { __asm { int 3 } }
 void __fastcall write_output_byte(unsigned char value) { __asm { int 3 } }
 
-unsigned __fastcall query_coff_position(unsigned short section)
-{
-    __asm { int 3 }
-    return 0;
-}
 void __fastcall write_output_fill(unsigned char value, unsigned count)
 {
     __asm { int 3 }
@@ -624,4 +619,10 @@ unsigned char __fastcall coff_selection_code(unsigned char selection)
 void __fastcall mark_debug_section(unsigned section)
 {
     __asm { int 3 }
+}
+
+unsigned __fastcall output_list_position(C2OutputList *list)
+{
+    __asm { int 3 }
+    return 0;
 }

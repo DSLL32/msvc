@@ -1,0 +1,59 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0041f1f5 <.text+0x1e1f5>:
+  41f1f5:	51                   	push   ecx
+  41f1f6:	66 3b 0d b0 7c 49 00 	cmp    cx,WORD PTR ds:0x497cb0
+  41f1fd:	56                   	push   esi
+  41f1fe:	66 89 4c 24 04       	mov    WORD PTR [esp+0x4],cx
+  41f203:	74 3b                	je     0x41f240
+  41f205:	8b 54 24 04          	mov    edx,DWORD PTR [esp+0x4]
+  41f209:	8b 0d 74 7d 49 00    	mov    ecx,DWORD PTR ds:0x497d74
+  41f20f:	81 e2 ff ff 00 00    	and    edx,0xffff
+  41f215:	e8 6b fe ff ff       	call   0x41f085
+  41f21a:	8b f0                	mov    esi,eax
+  41f21c:	85 f6                	test   esi,esi
+  41f21e:	0f 84 8c a9 04 00    	je     0x469bb0
+  41f224:	f6 46 12 01          	test   BYTE PTR [esi+0x12],0x1
+  41f228:	0f 84 96 a9 04 00    	je     0x469bc4
+  41f22e:	8b 06                	mov    eax,DWORD PTR [esi]
+  41f230:	8b 48 0c             	mov    ecx,DWORD PTR [eax+0xc]
+  41f233:	e8 2f 00 00 00       	call   0x41f267
+  41f238:	8b 4e 0c             	mov    ecx,DWORD PTR [esi+0xc]
+  41f23b:	03 c1                	add    eax,ecx
+  41f23d:	5e                   	pop    esi
+  41f23e:	59                   	pop    ecx
+  41f23f:	c3                   	ret
+  41f240:	8b 0d 74 7d 49 00    	mov    ecx,DWORD PTR ds:0x497d74
+  41f246:	8b 35 6c 7d 49 00    	mov    esi,DWORD PTR ds:0x497d6c
+  41f24c:	33 d2                	xor    edx,edx
+  41f24e:	66 8b 15 9c 7d 49 00 	mov    dx,WORD PTR ds:0x497d9c
+  41f255:	e8 2b fe ff ff       	call   0x41f085
+  41f25a:	39 05 6c 7d 49 00    	cmp    DWORD PTR ds:0x497d6c,eax
+  41f260:	74 ba                	je     0x41f21c
+  41f262:	e9 35 a9 04 00       	jmp    0x469b9c
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00469b9c <.text+0x68b9c>:
+  469b9c:	ba 64 09 00 00       	mov    edx,0x964
+  469ba1:	b9 0c d6 49 00       	mov    ecx,0x49d60c
+  469ba6:	e8 91 cf 01 00       	call   0x486b3c
+  469bab:	e9 6c 56 fb ff       	jmp    0x41f21c
+  469bb0:	ba 6d 09 00 00       	mov    edx,0x96d
+  469bb5:	b9 0c d6 49 00       	mov    ecx,0x49d60c
+  469bba:	e8 7d cf 01 00       	call   0x486b3c
+  469bbf:	33 c0                	xor    eax,eax
+  469bc1:	5e                   	pop    esi
+  469bc2:	59                   	pop    ecx
+  469bc3:	c3                   	ret
+  469bc4:	33 c0                	xor    eax,eax
+  469bc6:	5e                   	pop    esi
+  469bc7:	59                   	pop    ecx
+  469bc8:	c3                   	ret

@@ -102,7 +102,8 @@
     "@initialize_coff_symbols@4",
     "@register_coff_storage@4",
     "@record_output_section@4",
-    "@select_coff_section@4"
+    "@select_coff_section@4",
+    "@query_coff_position@4"
   ],
   "driver": [
     {
@@ -251,7 +252,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "5fafcacb62d662ee7dde9be0031e184993d43393a69665a5a19546e61d15451c",
+            "lifetime_sha256": "7d9b00026f13a75b703d8fda3edeeaba86722b16d9f8dfb80615b5dd6f086adf",
             "instructions": [
               {
                 "offset": 212,
@@ -654,7 +655,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "d0dc74244d65fe2ac386c1f92fc6bd03bad6e83d423a2741e5a3485187db29ab",
+            "lifetime_sha256": "26ff8e1721e90f339005971f9b54f8d48ce45fa60e4592415fe089cf539aff36",
             "instructions": [
               {
                 "offset": 38,
@@ -715,7 +716,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "6af0bc6536bd1ffd3f5cec5e9774927079b7803c92407df8c664c7d0bcebd432",
+            "lifetime_sha256": "0a3aeca1a1c4ec812fdf6f24fa6cf0bc1c25210c647056b3153e9c078f6b2722",
             "instructions": [
               {
                 "offset": 46,
@@ -1493,7 +1494,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "188c9c0858c69749d28a9898e40e5d43a58a58b416fc3711d80aefcec833d243"
+            "lifetime_sha256": "c7f16d5d5c85b2e77aeeffd771fac79bddc63f396aad53da2d965dfd8a7f3fa8"
           }
         }
       ]
@@ -1683,7 +1684,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "e42a54ace7966247a9ba440515cf0ab8c5878eae3f989af0d8af0a4d8066e1d5"
+            "lifetime_sha256": "707b27160cfdca93e7a4a7992cf1cf3c7d8aadaef73073dc1290b2a0fdd0edfc"
           }
         }
       ]
@@ -4120,7 +4121,7 @@
               6,
               827
             ],
-            "lifetime_sha256": "6c3cd8c0bf5630f48bcdce68bf1aeb498fda6a6fcd0ea1de15be4854a640e69c",
+            "lifetime_sha256": "d7334367e6c4cb8c6bc344081727699600b4a5b567e5bb5244657d1b820d380b",
             "instructions": [
               {
                 "offset": 6,
@@ -4380,7 +4381,7 @@
               27,
               145
             ],
-            "lifetime_sha256": "aca74137a8f318fb819ded2be224ae855c087fffe3dc8770616b1005ee65d6cb",
+            "lifetime_sha256": "00c5e24c142011e1ed79eece81d768f583e7ecf1ca88bee24c9904f171fce061",
             "instructions": [
               {
                 "offset": 27,
@@ -5574,7 +5575,7 @@
               6,
               489
             ],
-            "lifetime_sha256": "ae0f9869b2f91427564dad578535fbe073d8c831a5ffba9110c565d6ebe989d4",
+            "lifetime_sha256": "fa91ade28fe5cbdee1becafcc4b6831e4d176451be2ba5317edb0f5eac721cd4",
             "instructions": [
               {
                 "offset": 6,
@@ -5829,7 +5830,7 @@
               6,
               315
             ],
-            "lifetime_sha256": "eb5ae389b1b8a6691706dfe637522f8fc516e6ea6840fd63a858a3bca4f5f698",
+            "lifetime_sha256": "ec3e6ff74b0cf7fc2f3451302c5bcdb954a79da6977c8e219b2ea78f332bb334",
             "instructions": [
               {
                 "offset": 6,
@@ -11265,6 +11266,25 @@
         ]
       ],
       "source": "src/coff-output.c"
+    },
+    {
+      "name": "@query_coff_position@4",
+      "native": "query_coff_position",
+      "symbol": "@query_coff_position@4",
+      "start": 4321781,
+      "end": 4321895,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall unsignedshortsectionCX; unsignedEAX,RET0",
+      "pending_signature": false,
+      "evidence": "cases/analysis/query-coff-position-analysis.json",
+      "code_chunks": [
+        [
+          4627356,
+          4627401
+        ]
+      ],
+      "source": "src/coff-output.c"
     }
   ],
   "stubs": [
@@ -13153,16 +13173,64 @@
       "evidence": "Actual source82 caller/provider ABI observations; genuine pendingINT3 no bodycredit"
     },
     {
-      "name": "@query_coff_position@4",
-      "native": "query_coff_position",
-      "symbol": "@query_coff_position@4",
-      "start": 4321781,
-      "end": 4321782,
+      "name": "@write_output_fill@8",
+      "native": "write_output_fill",
+      "symbol": "@write_output_fill@8",
+      "start": 4538588,
+      "end": 4538589,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall unsignedshortsectionCX; unsignedEAX,RET0",
+      "abi": "fastcall unsignedcharvalueCL,unsignedcountEDX; returnignoredRET0",
       "pending_signature": false,
-      "evidence": "cases/analysis/select-output-section-analysis.json",
+      "evidence": "cases/analysis/select-output-section-analysis.json"
+    },
+    {
+      "name": "@add_associative_coff_section@24",
+      "native": "add_associative_coff_section",
+      "symbol": "@add_associative_coff_section@24",
+      "start": 4325496,
+      "end": 4325497,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall char*nameECX,unsignedflagsEDX,stackbyteselection,ushortassociation,intflag8,intreuse; unsignedshortAX,RET16",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "@coff_selection_code@4",
+      "native": "coff_selection_code",
+      "symbol": "@coff_selection_code@4",
+      "start": 4325425,
+      "end": 4325426,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall byteselectionCL,byteresultAL,RET0",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "@mark_debug_section@4",
+      "native": "mark_debug_section",
+      "symbol": "@mark_debug_section@4",
+      "start": 4746574,
+      "end": 4746575,
+      "pending_extent": true,
+      "kind": "application",
+      "pending_signature": false,
+      "abi": "fastcall unsignedsectionECX; callerignoresresultRET0",
+      "evidence": "cases/analysis/create-coff-section-analysis.json"
+    },
+    {
+      "name": "@output_list_position@4",
+      "native": "output_list_position",
+      "symbol": "@output_list_position@4",
+      "start": 4321895,
+      "end": 4321896,
+      "pending_extent": true,
+      "pending_signature": false,
+      "kind": "application",
+      "abi": "fastcall C2OutputList*listECX; unsignedEAX,RET0",
+      "evidence": "cases/analysis/query-coff-position-analysis.json",
       "state_policy": "globals-complete",
       "state": [
         {
@@ -13335,61 +13403,13 @@
         }
       ],
       "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba",
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
       ],
       "frontier_contract": "coff-section-input",
-      "section_caller": "select_coff_section",
-      "state_model_sha256": "493a5945d6679c7121a11cf24431226ce8a331c31f019315ade86d5f11c81fba"
-    },
-    {
-      "name": "@write_output_fill@8",
-      "native": "write_output_fill",
-      "symbol": "@write_output_fill@8",
-      "start": 4538588,
-      "end": 4538589,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall unsignedcharvalueCL,unsignedcountEDX; returnignoredRET0",
-      "pending_signature": false,
-      "evidence": "cases/analysis/select-output-section-analysis.json"
-    },
-    {
-      "name": "@add_associative_coff_section@24",
-      "native": "add_associative_coff_section",
-      "symbol": "@add_associative_coff_section@24",
-      "start": 4325496,
-      "end": 4325497,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall char*nameECX,unsignedflagsEDX,stackbyteselection,ushortassociation,intflag8,intreuse; unsignedshortAX,RET16",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@coff_selection_code@4",
-      "native": "coff_selection_code",
-      "symbol": "@coff_selection_code@4",
-      "start": 4325425,
-      "end": 4325426,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall byteselectionCL,byteresultAL,RET0",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
-    },
-    {
-      "name": "@mark_debug_section@4",
-      "native": "mark_debug_section",
-      "symbol": "@mark_debug_section@4",
-      "start": 4746574,
-      "end": 4746575,
-      "pending_extent": true,
-      "kind": "application",
-      "pending_signature": false,
-      "abi": "fastcall unsignedsectionECX; callerignoresresultRET0",
-      "evidence": "cases/analysis/create-coff-section-analysis.json"
+      "section_caller": "query_coff_position"
     }
   ],
   "text_data": [
@@ -13670,7 +13690,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13682,7 +13702,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13694,7 +13714,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13706,7 +13726,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13718,7 +13738,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13730,7 +13750,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13742,7 +13762,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13754,7 +13774,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13766,7 +13786,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13778,7 +13798,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13792,7 +13812,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13804,7 +13824,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13819,7 +13839,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13831,7 +13851,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13843,7 +13863,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13855,7 +13875,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13867,7 +13887,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13879,7 +13899,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13894,7 +13914,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13909,7 +13929,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13921,7 +13941,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13933,7 +13953,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13945,7 +13965,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {
@@ -13960,7 +13980,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "a18e2da123f6e1c287cbec4c04ebcef82e5740f9670321030e7d7fe1446b7c5b"
+          "sha256": "8ad139e74dbdeaa598d52c830dd360919fbdea4dd7ba892afb61e271c42ae998"
         }
       },
       {

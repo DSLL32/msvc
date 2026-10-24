@@ -2,7 +2,7 @@
   "schema": 1,
   "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
   "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-  "rebuilt_sha256": "6b833f0d13f645c4f51d261168490214cbcb4701dd0941304281ad9eeb0f7f4f",
+  "rebuilt_sha256": "a1916e66d9eb24df668c04514467ce602d2c092284ba6f4b55f4716dbb7f4631",
   "callee_preservation": [
     {
       "function": "@new_initializer@4",
