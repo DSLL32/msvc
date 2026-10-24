@@ -1,0 +1,46 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000402d0 <.text+0x292d0>:
+   402d0:	83 ec 10             	sub    esp,0x10
+   402d3:	83 3d 04 0a 0a 00 00 	cmp    DWORD PTR ds:0xa0a04,0x0
+   402da:	74 4a                	je     0x40326
+   402dc:	a1 04 0a 0a 00       	mov    eax,ds:0xa0a04
+   402e1:	8a 00                	mov    al,BYTE PTR [eax]
+   402e3:	24 3f                	and    al,0x3f
+   402e5:	3c 3d                	cmp    al,0x3d
+   402e7:	75 1e                	jne    0x40307
+   402e9:	a1 04 0a 0a 00       	mov    eax,ds:0xa0a04
+   402ee:	8b 40 0c             	mov    eax,DWORD PTR [eax+0xc]
+   402f1:	8b 48 0c             	mov    ecx,DWORD PTR [eax+0xc]
+   402f4:	a1 04 0a 0a 00       	mov    eax,ds:0xa0a04
+   402f9:	8b 40 10             	mov    eax,DWORD PTR [eax+0x10]
+   402fc:	89 41 18             	mov    DWORD PTR [ecx+0x18],eax
+   402ff:	80 09 80             	or     BYTE PTR [ecx],0x80
+   40302:	e8 59 0a 00 00       	call   0x40d60
+   40307:	83 3d 04 0a 0a 00 00 	cmp    DWORD PTR ds:0xa0a04,0x0
+   4030e:	74 16                	je     0x40326
+   40310:	a1 04 0a 0a 00       	mov    eax,ds:0xa0a04
+   40315:	8a 00                	mov    al,BYTE PTR [eax]
+   40317:	24 3f                	and    al,0x3f
+   40319:	3c 2e                	cmp    al,0x2e
+   4031b:	75 09                	jne    0x40326
+   4031d:	e8 3e 0a 00 00       	call   0x40d60
+   40322:	83 c4 10             	add    esp,0x10
+   40325:	c3                   	ret
+   40326:	8d 44 24 01          	lea    eax,[esp+0x1]
+   4032a:	c6 44 24 00 2f       	mov    BYTE PTR [esp+0x0],0x2f
+   4032f:	c7 00 00 00 00 00    	mov    DWORD PTR [eax],0x0
+   40335:	c7 40 04 00 00 00 00 	mov    DWORD PTR [eax+0x4],0x0
+   4033c:	c7 40 08 00 00 00 00 	mov    DWORD PTR [eax+0x8],0x0
+   40343:	66 c7 40 0c 00 00    	mov    WORD PTR [eax+0xc],0x0
+   40349:	c6 40 0e 00          	mov    BYTE PTR [eax+0xe],0x0
+   4034d:	8d 44 24 00          	lea    eax,[esp+0x0]
+   40351:	6a 10                	push   0x10
+   40353:	50                   	push   eax
+   40354:	e8 27 08 00 00       	call   0x40b80
+   40359:	83 c4 10             	add    esp,0x10
+   4035c:	c3                   	ret

@@ -1175,7 +1175,8 @@
     "_begin_switch_condition",
     "_begin_switch_condition_region",
     "_begin_switch_body@4",
-    "_begin_switch_body_region@4"
+    "_begin_switch_body_region@4",
+    "_end_switch_condition_region"
   ],
   "driver": [
     {
@@ -8402,7 +8403,7 @@
     {
       "name": "_end_switch_condition_region",
       "start": 262864,
-      "end": 262865
+      "end": 263005
     }
   ],
   "cases": {
@@ -8603,7 +8604,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_end_switch_condition_region",
+      "terminal": "_add_case_label@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8626,7 +8627,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1170-begin_switch_body_region-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1171-end_switch_condition_region/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8802,7 +8803,8 @@
         "cases/frontiers/state_machine_debug/1167-begin_switch_condition/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1168-begin_switch_condition_region/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1169-begin_switch_body-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1170-begin_switch_body_region-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1170-begin_switch_body_region-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1171-end_switch_condition_region/frontier-extension.json"
       ]
     }
   },

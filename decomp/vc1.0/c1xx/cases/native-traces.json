@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "1014a44eb1b24cec1d22cc7f091afc9311540cfa42c5d3a764a992c3c0d505b4",
+    "functions.json": "01119f642a4a1ee1fa2d2026b045c110f9fd949528def8d2196700c73faa4bb8",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "458093a0bbfd8da87aa433a7758a1071b32f54800e68d81b2ed5ac9a06de7f38",
-    "cases/canonical-map.txt": "662e7bd879c5ae4df4e1323cac7bb7e63085026d2b92e4f49d5c2a67f77363df",
+    "cases/original-entry-references.json": "4a819dec53909dc16265c06e2ebad9487b9941eddd19a6adaed7b47a1afd6c22",
+    "cases/canonical-map.txt": "ab62aa91ee0fbb9ad847ebb081292642b2ebbfa0e01295615bb191f0e29cf0c4",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1170-begin_switch_body_region-4/entry-reference/original-receipt.json": "695fbb7f05848b34fa31efec27e550616ff16b678539e7a46ed8b4425aa583ef",
-    "cases/frontiers/state_machine_debug/1170-begin_switch_body_region-4/entry-reference/original-events.txt": "ef066eaa188460cfbb467a805a670ea781cd66a6cd7bbbabaf4002b2b22ce8e2",
-    "cases/frontiers/state_machine_debug/1170-begin_switch_body_region-4/entry-reference/original-entries.plan": "1b41c46c4e9c5b011efd85bf91b3aa4f94b873077c4a2582de4d16a716b3f4aa"
+    "cases/frontiers/state_machine_debug/1171-end_switch_condition_region/entry-reference/original-receipt.json": "9afb82c4a680c77d8e6a18e52098f977ce2164921f00d725868c0ed9d3a00a56",
+    "cases/frontiers/state_machine_debug/1171-end_switch_condition_region/entry-reference/original-events.txt": "c03e60cf88b5b2ab2312e42ae26f1510c4960c1e709230ca29d88b5f58ec1be3",
+    "cases/frontiers/state_machine_debug/1171-end_switch_condition_region/entry-reference/original-entries.plan": "4be6435fc3106e017af9811b35bcb78cbea7b11b1a6e015fc75973dd5cef6e79"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1996,7 +1996,7 @@
     },
     "end_switch_condition_region": {
       "logical": "_end_switch_condition_region",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
     },
     "end_switch_statement": {
       "logical": "_end_switch_statement",
@@ -6813,7 +6813,8 @@
     "begin_switch_condition",
     "begin_switch_condition_region",
     "begin_switch_body",
-    "begin_switch_body_region"
+    "begin_switch_body_region",
+    "end_switch_condition_region"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10936,7 +10937,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1171,
+      "last": 1172,
       "seen": [
         "main",
         "message_text",
@@ -12006,12 +12007,13 @@
         "begin_switch_condition_region",
         "begin_switch_body",
         "begin_switch_body_region",
-        "end_switch_condition_region"
+        "end_switch_condition_region",
+        "add_case_label"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_end_switch_condition_region",
-        "native": "end_switch_condition_region",
+        "logical": "_add_case_label@4",
+        "native": "add_case_label",
         "signal": 5
       }
     }

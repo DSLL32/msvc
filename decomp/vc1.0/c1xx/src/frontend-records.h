@@ -49,6 +49,13 @@ typedef struct LoopFrontendRecord {
 } LoopFrontendRecord;
 typedef char LoopFrontendRecordSizeMustBe20[(sizeof(LoopFrontendRecord) == 20) ? 1 : -1];
 typedef char LoopConditionRecordsOffsetMustBe16[(offsetof(LoopFrontendRecord, condition_records) == 16) ? 1 : -1];
+/* Constant condition values precede the delimiter which consumes them. */
+typedef struct ConstantFrontendRecord {
+    FrontendRecord header;
+    unsigned value;
+} ConstantFrontendRecord;
+typedef char ConstantFrontendRecordSizeMustBe20[(sizeof(ConstantFrontendRecord) == 20) ? 1 : -1];
+typedef char ConstantFrontendValueOffsetMustBe16[(offsetof(ConstantFrontendRecord, value) == 16) ? 1 : -1];
 /* A switch retains its enclosing switch and later case/type bookkeeping. */
 typedef struct SwitchFrontendRecord {
     FrontendRecord header;

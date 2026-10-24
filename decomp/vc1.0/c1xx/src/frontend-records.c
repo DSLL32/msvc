@@ -942,3 +942,28 @@ void __stdcall begin_switch_body_region(CType *type)
         opening->enum_tag = (CppSymbol *)cpp_context_stack->items[type->field08];
     }
 }
+
+/* Original 0x402d0..0x4035c. Fold an available constant into the
+   switch opener and discard an empty condition-evaluation region. */
+void end_switch_condition_region(void)
+{
+    FrontendRecord record;
+    SwitchFrontendRecord *opening;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x3d) {
+        opening = (SwitchFrontendRecord *)ir_record_tail->previous->previous;
+        opening->constant_condition = ((ConstantFrontendRecord *)ir_record_tail)->value;
+        opening->header.kind |= 0x80;
+        remove_last_frontend_record();
+    }
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x2e) {
+        remove_last_frontend_record();
+        return;
+    }
+    record.kind = 0x2f;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
