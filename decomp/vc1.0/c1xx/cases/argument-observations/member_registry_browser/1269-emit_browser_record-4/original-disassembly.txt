@@ -1,0 +1,58 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0002b5b0 <.text+0x145b0>:
+   2b5b0:	83 ec 18             	sub    esp,0x18
+   2b5b3:	53                   	push   ebx
+   2b5b4:	56                   	push   esi
+   2b5b5:	57                   	push   edi
+   2b5b6:	8b 5c 24 28          	mov    ebx,DWORD PTR [esp+0x28]
+   2b5ba:	0b db                	or     ebx,ebx
+   2b5bc:	0f 84 95 00 00 00    	je     0x2b657
+   2b5c2:	83 3d d4 eb 09 00 00 	cmp    DWORD PTR ds:0x9ebd4,0x0
+   2b5c9:	0f 85 88 00 00 00    	jne    0x2b657
+   2b5cf:	8a 03                	mov    al,BYTE PTR [ebx]
+   2b5d1:	3c fe                	cmp    al,0xfe
+   2b5d3:	0f 84 7e 00 00 00    	je     0x2b657
+   2b5d9:	3c fd                	cmp    al,0xfd
+   2b5db:	74 7a                	je     0x2b657
+   2b5dd:	3c fc                	cmp    al,0xfc
+   2b5df:	74 76                	je     0x2b657
+   2b5e1:	25 ff 00 00 00       	and    eax,0xff
+   2b5e6:	83 f8 10             	cmp    eax,0x10
+   2b5e9:	77 07                	ja     0x2b5f2
+   2b5eb:	ff 24 85 60 b6 02 00 	jmp    DWORD PTR [eax*4+0x2b660]
+   2b5f2:	a1 d8 eb 09 00       	mov    eax,ds:0x9ebd8
+   2b5f7:	39 43 04             	cmp    DWORD PTR [ebx+0x4],eax
+   2b5fa:	74 3f                	je     0x2b63b
+   2b5fc:	be 24 4b 09 00       	mov    esi,0x94b24
+   2b601:	8d 7c 24 0c          	lea    edi,[esp+0xc]
+   2b605:	b9 06 00 00 00       	mov    ecx,0x6
+   2b60a:	f3 a5                	rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
+   2b60c:	c7 05 10 4b 09 00 00 	mov    DWORD PTR ds:0x94b10,0x0
+   2b613:	00 00 00 
+   2b616:	c7 05 20 4b 09 00 00 	mov    DWORD PTR ds:0x94b20,0x0
+   2b61d:	00 00 00 
+   2b620:	8b 43 04             	mov    eax,DWORD PTR [ebx+0x4]
+   2b623:	a3 d8 eb 09 00       	mov    ds:0x9ebd8,eax
+   2b628:	89 44 24 10          	mov    DWORD PTR [esp+0x10],eax
+   2b62c:	8d 44 24 0c          	lea    eax,[esp+0xc]
+   2b630:	c6 44 24 0c 02       	mov    BYTE PTR [esp+0xc],0x2
+   2b635:	50                   	push   eax
+   2b636:	e8 75 ff ff ff       	call   0x2b5b0
+   2b63b:	a1 f8 ef 08 00       	mov    eax,ds:0x8eff8
+   2b640:	a3 ac 29 0a 00       	mov    ds:0xa29ac,eax
+   2b645:	83 3d 78 18 09 00 01 	cmp    DWORD PTR ds:0x91878,0x1
+   2b64c:	1b c0                	sbb    eax,eax
+   2b64e:	f7 d8                	neg    eax
+   2b650:	50                   	push   eax
+   2b651:	53                   	push   ebx
+   2b652:	e8 e9 f6 ff ff       	call   0x2ad40
+   2b657:	5f                   	pop    edi
+   2b658:	5e                   	pop    esi
+   2b659:	5b                   	pop    ebx
+   2b65a:	83 c4 18             	add    esp,0x18
+   2b65d:	c2 04 00             	ret    0x4

@@ -1,0 +1,16 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655aaca in serialize_browser_record (record=0x5661f0f0 <browser_records>, track_symbols=1) at src/stubs.c:598
+598	void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols) { __asm { int 3 } }
+#0  0x5655aaca in serialize_browser_record (record=0x5661f0f0 <browser_records>, track_symbols=1) at src/stubs.c:598
+#1  0x5658caf8 in emit_browser_record (record=0x5661f0f0 <browser_records>) at src/browser.c:213
+#2  0x5658c72f in queue_browser_record (kind=253 '\375', subject=0x56631ca0) at src/browser.c:73
+#3  0x5658cd49 in browser_macro (definition=0x56631ca0) at src/browser.c:154
+#4  0x56575928 in define_macro (replacement=0x0, bytes=0, parameter_count=-4) at src/macros.c:280
+#5  0x5657523c in define_command_line_macros (definitions=0x5663a908) at src/macros.c:111
+#6  0x5655f355 in initialize_frontend () at src/initialization.c:241
+#7  0x5655dc1c in compile_translation_unit () at src/frontend.c:22
+#8  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#9  0x56558894 in main (argc=1, argv=0xffffd804, environment=0xffffd80c) at src/c1xx.c:20

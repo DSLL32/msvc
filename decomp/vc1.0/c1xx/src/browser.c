@@ -179,3 +179,36 @@ BrowserRecordHeader *pop_first_browser_record(void)
     if (browser_record_head >= 32) browser_record_head = 0;
     return record;
 }
+
+unsigned browser_last_line = (unsigned)-1; /* original 0x9ebd8 */
+unsigned browser_output_pass; /* original 0x91878: nonzero skips index tracking */
+CppSymbol *browser_last_reference; /* original 0x94b20 */
+BrowserRecord browser_record_template; /* original 0x94b24: empty BSS template */
+
+/* Original 0x2b5b0..0x2b65f and 17-way switch 0x2b660..0x2b6a3.
+   Insert line changes only for record kinds that carry source locations. */
+void __stdcall emit_browser_record(BrowserRecordHeader *record)
+{
+    BrowserRecord *entry = (BrowserRecord *)record;
+    BrowserRecord line_record;
+    if (!record || browser_records_suppressed) return;
+    if (record->kind == 0xfe || record->kind == 0xfd || record->kind == 0xfc)
+        return;
+    switch (record->kind) {
+    case 0: case 1: case 2: case 8: case 9: case 10:
+    case 14: case 15: case 16:
+        break;
+    default:
+        if (entry->line != browser_last_line) {
+            line_record = browser_record_template;
+            browser_file_cookie = 0;
+            browser_last_reference = 0;
+            browser_last_line = entry->line;
+            line_record.line = entry->line;
+            line_record.header.kind = 2;
+            emit_browser_record(&line_record.header);
+        }
+    }
+    auxiliary_ir_stream = browser_file;
+    serialize_browser_record(entry, browser_output_pass < 1U);
+}

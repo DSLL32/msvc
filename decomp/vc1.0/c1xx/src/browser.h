@@ -30,6 +30,10 @@ typedef char BrowserRecordLayoutMustMatch[
 extern BrowserRecord browser_records[32];
 extern int browser_record_head;
 extern int browser_records_suppressed;
+extern unsigned browser_last_line, browser_output_pass;
+extern CppSymbol *browser_last_reference;
+extern BrowserRecord browser_record_template;
+void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols);
 void __stdcall fill_browser_record(BrowserRecord *record, void *subject);
 void fill_browser_filename(BrowserRecord *record);
 void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol);

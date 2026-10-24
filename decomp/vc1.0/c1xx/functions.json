@@ -1273,7 +1273,8 @@
     "_browser_record_from_end@4",
     "_browser_macro@4",
     "_fill_browser_macro@8",
-    "_pop_first_browser_record"
+    "_pop_first_browser_record",
+    "_emit_browser_record@4"
   ],
   "driver": [
     {
@@ -8933,6 +8934,17 @@
       "name": "_fill_browser_generated_symbol@4",
       "start": 179024,
       "end": 179116
+    },
+    {
+      "name": "_serialize_browser_record@8",
+      "start": 175424,
+      "end": 176406,
+      "shared": [
+        [
+          176408,
+          176472
+        ]
+      ]
     }
   ],
   "cases": {
@@ -9485,8 +9497,8 @@
           "original": 585720
         }
       ],
-      "terminal": "_emit_browser_record@4",
-      "terminal_evidence": "cases/frontiers/member_registry_browser/1268-pop_first_browser_record/original-events.txt",
+      "terminal": "_serialize_browser_record@8",
+      "terminal_evidence": "cases/frontiers/member_registry_browser/1269-emit_browser_record-4/original-events.txt",
       "original_seed": "cases/member_registry_browser-seed",
       "frontier_extensions": [
         "cases/frontiers/member_registry_browser/1257-begin_browser_output/frontier-extension.json",
@@ -9500,7 +9512,8 @@
         "cases/frontiers/member_registry_browser/1265-browser_record_from_end-4/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1266-browser_macro-4/frontier-extension.json",
         "cases/frontiers/member_registry_browser/1267-fill_browser_macro-8/frontier-extension.json",
-        "cases/frontiers/member_registry_browser/1268-pop_first_browser_record/frontier-extension.json"
+        "cases/frontiers/member_registry_browser/1268-pop_first_browser_record/frontier-extension.json",
+        "cases/frontiers/member_registry_browser/1269-emit_browser_record-4/frontier-extension.json"
       ],
       "transient_outputs": [
         {
@@ -12210,6 +12223,54 @@
           "name": "_browser_records_suppressed",
           "original": 650196,
           "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_last_line",
+      "original": 650200,
+      "fields": [
+        {
+          "name": "_browser_last_line",
+          "original": 650200,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_output_pass",
+      "original": 596088,
+      "fields": [
+        {
+          "name": "_browser_output_pass",
+          "original": 596088,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_last_reference",
+      "original": 609056,
+      "fields": [
+        {
+          "name": "_browser_last_reference",
+          "original": 609056,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_browser_record_template",
+      "original": 609060,
+      "fields": [
+        {
+          "name": "_browser_record_template",
+          "original": 609060,
+          "bytes": 24
         }
       ]
     }
