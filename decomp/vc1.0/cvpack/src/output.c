@@ -807,3 +807,25 @@ void *WINAPI image_nt_header(void *image)
     return header;
 }
 #undef OUTPUT_BYTES
+
+/* Original [000280f0,000281e2): flush or bypass the output buffer. */
+#pragma intrinsic(memcpy)
+unsigned short write_output(const void *buffer, unsigned long size)
+{
+    unsigned long used = output_used;
+    if (size > output_capacity) {
+        if (used && write_file(output_handle, output_buffer, used) != used) return 0;
+        if (write_file(output_handle, buffer, size) != size) return 0;
+        output_used = 0;
+        return 1;
+    }
+    if (output_capacity-used < size) {
+        if (write_file(output_handle, output_buffer, used) != used) return 0;
+        memcpy(output_buffer, buffer, size);
+        output_used = size;
+        return 1;
+    }
+    memcpy(output_buffer+used, buffer, size);
+    output_used = used+size;
+    return 1;
+}

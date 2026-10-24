@@ -58,5 +58,5 @@ def compare_symbol_prefix(events,words,actual):
     allocations=[line.split()for line in events.splitlines()if line.startswith('packed-symbol-allocation ')]
     matches=[r for r in allocations if int(r[6],16)==old['input']and int(r[4],16)==old['owner']];assert len(matches)==1,'missing actual symbol allocation lifetime'
     allocation=matches[0];assert int(allocation[8])==old['requested']==int(allocation[10])+int(allocation[12])-int(allocation[14]),'original symbol allocation request differs'
-    for r in(old,new):assert r['subtype']==0x125 and 0<r['defined']<=r['requested']<=524288 and len(bytes.fromhex(r['bytes']))==r['defined']==(words[2]&0xffff)
+    for r in(old,new):assert r['subtype']==0x125 and 0<r['defined']<=r['requested']<=524288 and len(bytes.fromhex(r['bytes']))==r['defined']==words[2]
     return dict(original=old,native=new,original_allocation=allocation,scope='Actual first buffered-write source: live selected directory125 entry and module.symbols publication, real malloc request/return, exact defined packed symbol prefix. No uninitialized allocation tail or wider module heap equality claimed.')

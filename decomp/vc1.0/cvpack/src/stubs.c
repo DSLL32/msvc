@@ -14,7 +14,6 @@ void cache_closed_file(FileSlot *slot) { __asm { int 3 } }
 
 
 
-unsigned short write_output(const void *buffer,unsigned short size) { __asm { int 3 } return 0; }
 
 
 

@@ -7015,13 +7015,16 @@
       "native": "write_output",
       "symbol": "_write_output",
       "original": 164080,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
-      "abi": "unsigned short write_output(const void *,unsigned short)",
+      "status": "accepted",
+      "extent": [
+        164080,
+        164322
+      ],
+      "abi": "unsigned short write_output(const void *,unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/pch-cpp-shared-types/evidence/0172-write_output/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7034,9 +7037,10 @@
           "name": "size",
           "slot": 2,
           "kind": "integer",
-          "bits": 16
+          "bits": 32
         }
-      ]
+      ],
+      "return_bits": 16
     },
     {
       "name": "flush_output",
@@ -9272,6 +9276,12 @@
       "case": "pch-cpp-shared-types",
       "kind": "application",
       "sequence": 171
+    },
+    {
+      "function": "write_output",
+      "case": "pch-cpp-shared-types",
+      "kind": "application",
+      "sequence": 172
     }
   ],
   "support_unmasked": [
@@ -9978,7 +9988,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "7cff912b723a943ceee47bd7b0dd0038bd22ef5a26ca9b1b1fc82fe58b2dd1fe"
+    "evidence_sha256": "c300375fbbeaec51a4bac7b2059860f393adfe9d1fc64c89b6afdcc824e9b4fa"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -10054,7 +10064,7 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "c1483485b86135ace27ba3d293aa0c949647f61e6a4dfcef0055abfdbbd50ee1"
+    "sha256": "55d8af936e9d558614ed59279d98ea81fa0087905d1855c0c738cec7e9b84bf5"
   },
   "freebuf_boundary": {
     "case": "hello-debug-dll",

@@ -21,7 +21,7 @@ void *checksum_image(void *,unsigned long,unsigned long *,unsigned long *);
 unsigned long checksum_words(unsigned long,const unsigned short *,unsigned long);
 void *WINAPI image_nt_header(void *);
 void initialize_output(int);
-unsigned short write_output(const void *,unsigned short);
+unsigned short write_output(const void *,unsigned long);
 unsigned short flush_output(void);
 void write_subsection(unsigned long);
 unsigned long pad_symbols(void **,unsigned long);

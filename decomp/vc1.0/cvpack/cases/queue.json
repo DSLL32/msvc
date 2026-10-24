@@ -39,7 +39,8 @@
         "/mapio",
         "pch-cpp.dll"
       ],
-      "status": "active"
+      "status": "complete",
+      "completion": "cases/pch-cpp-shared-types/evidence/0172-write_output/proof.json"
     }
   ]
 }
