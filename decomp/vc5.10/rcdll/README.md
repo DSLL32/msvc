@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Eighty application functions (22,262 original code bytes), two embedded CRT functions
+Eighty-one application functions (22,737 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_evaluate_defined`.
+currently matches at the next named trap, `rc_skip_expression_space`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -687,3 +687,11 @@ Expression token matching is reconstructed (197 bytes), reaching the actual
 records20 affected semantic negatives, the saved BYTE55/four-byte matcher slot,
 source cursor4678 at `(`, distinct expression/lexer/value storage, both builds,
 graph/ABI checks and native help. Helper and expression results remain pending.
+
+The `defined` operator is reconstructed (475 bytes), reaching its first159-byte
+whitespace dependency before source/buffer writes. [Verification](cases/resources-rich-trailing-space/defined-operator-verification.json)
+records20 affected controls, the actual name and two initialized parent locals,
+buffer identity, original/native builds, graph/ABI checks and native help.
+Alternate numeric mode traps in the production native body. The record also
+documents a repaired gate-report sequencing error; historical raw and acceptance
+records remain unchanged. Operator and expression results remain pending.

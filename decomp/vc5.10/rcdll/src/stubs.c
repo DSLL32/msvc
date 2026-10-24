@@ -237,7 +237,13 @@ WCHAR *__stdcall rc_copy_replacement_quoted(WCHAR *cursor,WCHAR delimiter)
     return NULL;
 }
 
-int __stdcall rc_evaluate_defined(const WCHAR *name)
+int __cdecl rc_skip_expression_space(void)
+{
+    __asm int 3
+    return 0;
+}
+
+int __stdcall rc_collect_macro_identifier(WCHAR first)
 {
     __asm int 3
     return 0;

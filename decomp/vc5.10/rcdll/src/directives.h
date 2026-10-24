@@ -51,6 +51,8 @@ int __cdecl rc_parse_unary(void);
 int __cdecl rc_parse_primary(void);
 int __stdcall rc_accept_expression_token(unsigned char token);
 int __stdcall rc_evaluate_defined(const WCHAR *name);
+int __cdecl rc_skip_expression_space(void);
+int __stdcall rc_collect_macro_identifier(WCHAR first);
 extern int rc_expression_parentheses;
 extern int rc_expression_value;
 extern unsigned char rc_expression_token;

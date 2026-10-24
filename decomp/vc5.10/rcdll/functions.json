@@ -85,7 +85,8 @@
     "rc_parse_additive",
     "rc_parse_multiplicative",
     "rc_parse_unary",
-    "rc_accept_expression_token"
+    "rc_accept_expression_token",
+    "rc_evaluate_defined"
   ],
   "functions": [
     {
@@ -1610,6 +1611,29 @@
       "name": "rc_evaluate_defined",
       "start": "0x6df3",
       "end": "0x6fce",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "text_data": [
+        [
+          "0x130c",
+          "0x131c"
+        ]
+      ]
+    },
+    {
+      "name": "rc_skip_expression_space",
+      "start": "0x6051",
+      "end": "0x60f0",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_collect_macro_identifier",
+      "start": "0x5e09",
+      "end": "0x6001",
       "abi": "stdcall",
       "stack_bytes": 4,
       "kind": "application",

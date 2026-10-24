@@ -457,3 +457,59 @@ int __stdcall rc_accept_expression_token(unsigned char token)
     rc_expression_token=7;
     return 0;
 }
+
+int __stdcall rc_evaluate_defined(const WCHAR *name)
+{
+    int parenthesized=0,result=0,remaining,message;
+    WCHAR character;
+
+    if(wcscmp(name,L"defined"))return 0;
+#ifdef RECON_NATIVE_TEST
+    /* Alternate macro-buffer evaluation has not been characterized natively. */
+    if(rc_number_buffer_active){ __asm int 3 }
+#endif
+    if(!rc_skip_expression_space()&&!rc_number_buffer_active)return 0;
+    if(*rc_source_cursor==L'('){
+        parenthesized=1;
+        *rc_number_buffer++=L'(';
+        ++rc_source_cursor;
+        if(!rc_skip_expression_space()&&!rc_number_buffer_active)return 0;
+    }
+    if(rc_number_buffer_active>0){
+        character=*rc_source_cursor;
+        if(rc_character_token(character)==36||rc_character_token(character)==40){
+            ++rc_source_cursor;
+            rc_collect_macro_identifier((WCHAR)(unsigned char)character);
+        }
+    }else{
+        character=*rc_source_cursor;
+        if(rc_character_token(character)==40){
+            ++rc_source_cursor;
+            if(rc_expanding_macro>0)rc_read_macro_identifier(character);
+            else rc_read_identifier(character);
+            result=rc_find_macro()!=NULL;
+        }else{
+            message=parenthesized?2004:2003;
+            strcpy(rc_error_text,rc_message(message));
+            rc_input_error(message);
+        }
+    }
+    character=*rc_source_cursor;
+    if(rc_character_token(character)==0||rc_character_token(character)==3){
+        if(!rc_skip_expression_space())return result;
+    }
+    remaining=parenthesized;
+    if(remaining){
+        character=*rc_source_cursor;
+        if(rc_character_token(character)==28){
+            ++rc_source_cursor;
+            --remaining;
+            *rc_number_buffer++=character;
+        }
+        if(remaining>0&&!rc_number_buffer_active){
+            strcpy(rc_error_text,rc_message(4004));
+            rc_input_warning(4004);
+        }
+    }
+    return result;
+}
