@@ -542,3 +542,9 @@ build/locale-codepage-probe: tests/locale-codepage-probe.c $(SOURCES) $(HEADERS)
 locale-codepage-check: build/locale-codepage-probe
 	test -n "$(LOCALE_CODEPAGE_REFERENCE)"
 	$(PYTHON) tests/check-locale-codepage.py build/locale-codepage-probe "$(LOCALE_CODEPAGE_REFERENCE)"
+
+.PHONY: seek-last-error-check
+build/seek-last-error-probe: tests/seek-last-error-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_NATIVE_STARTUP_CONTROLFP_53 tests/seek-last-error-probe.c $(SOURCES) -o $@
+seek-last-error-check: build/seek-last-error-probe
+	$(PYTHON) tests/check-seek-last-error.py build/seek-last-error-probe

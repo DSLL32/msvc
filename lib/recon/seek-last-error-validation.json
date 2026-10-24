@@ -1,0 +1,114 @@
+{
+  "scope": "Existing highNULL/unambiguous successful SetFilePointer preservesLastError; highword/ambiguousffffffff/failure paths unchanged. No errno/DOS or startup default change.",
+  "references": [
+    {
+      "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-file-resize/analysis/seek-error-boundary.json",
+      "sha256": "9fa29b38bd38fc37c3b6e3f5427bb57068a8ae61a24ed13c0221a38432a1c5b1"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/mapped-masked-ge4lxuon/receipt.json",
+      "sha256": "1292b1c6d44e93b40550ee33213406cc203384a5c5445989d101c2b79cec4a01"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/mapped-masked-ge4lxuon/events.jsonl",
+      "sha256": "dd381fc339f1bfa115b5172825f5df496d424a0cb94d5efa7c2db848df5d898a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-gdb-buu_iu1f/receipt.json",
+      "sha256": "7377628818acff221ad366368b9ab0f450261ee3c699c3dddfb4d7bbb7e89f1a"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-gdb-buu_iu1f/state.json",
+      "sha256": "7694e6f79cc1023d17239b6efc7dd6aa18f788fa3299f79283e261b11394676e"
+    }
+  ],
+  "binaries": [
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/seek-last-error/clang-510-reviewed",
+      "sha256": "17c8a855e4876cc03feb3acdba7dee149b656250e59822ebf57aeda7516c63b1"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/seek-last-error/clang-default-reviewed",
+      "sha256": "37299d8bd8c949c342490a0c47448ed0d983084fa271a5b553b68f80f5eeb916"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/seek-last-error/gcc-510-reviewed",
+      "sha256": "37eff5741e39fc91b53afdca2bf45ad96ee2ecf90b238090bb459ac125068037"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/seek-last-error/gcc-default-reviewed",
+      "sha256": "3f0f1232cfa4449be9a7f595bc0154a4a72f4bc27db198c6bdf2616070c60afc"
+    }
+  ],
+  "checks": "Four GCC/Clang default510 probes: actual firstseek0\u2192mapped1224failure\u2192successfulseekkeeps1224, actualposition/full8192file, empty/livefull108FP, legacyhighzero/highnonzero/negative/invalidhandle behavior.",
+  "FP_scope": "Original packet baseline027f vs failednative037f remains explicit; per-side unchanged only. Native-focused tests opt into existing startup53. Actual LINK retry must align startup53 before app acceptance. No FP normalization.",
+  "ambiguous_scope": "Existing ambiguousDWORDffffffff branch retained; no new successfulffff position claim or syntheticreturn test.",
+  "sources": [
+    {
+      "path": "/root/msvc2/lib/recon/src/win32.c",
+      "sha256": "cae86c4f9729da91d5440af0730095978e277585c0efa0c84671e2f04d35007a"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/seek-last-error-probe.c",
+      "sha256": "994246ee2d687f78bd3da75e21143c1d1ec200c49c54933717c8d78a26b02277"
+    },
+    {
+      "path": "/root/msvc2/lib/recon/tests/check-seek-last-error.py",
+      "sha256": "6d185a3556eecaa92165d25cd5296db359c31761f2802545ce6c1a49e4758488"
+    }
+  ],
+  "frozen_manifest": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/seek-last-error/receipt.json",
+    "sha256": "d3bce595dc5498393d3deff90ada3f5408e25ebbd0d1b5fba6745573056d239b"
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/seek-last-error/orchestrator-review.json",
+    "sha256": "7eb206ddac0d3665e3781e939541d5b1704f7490bfbb22bce1decd84973ccee0"
+  },
+  "actual_integration": {
+    "bindings": [
+      {
+        "path": "/root/msvc2/decomp/vc1.0/link/cases/direct-file-resize/analysis/candidate-native-reobserve.json",
+        "sha256": "51f5c0b2e4eb6b04550a90e9e7984ec367be516ebd3b481a9441edb31c908d5b"
+      },
+      {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/mapped-masked-ge4lxuon/receipt.json",
+        "sha256": "1292b1c6d44e93b40550ee33213406cc203384a5c5445989d101c2b79cec4a01"
+      },
+      {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/mapped-masked-ge4lxuon/events.jsonl",
+        "sha256": "dd381fc339f1bfa115b5172825f5df496d424a0cb94d5efa7c2db848df5d898a"
+      },
+      {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-gdb-amcvkjpe/receipt.json",
+        "sha256": "ba2d9b6d89a5931cfe72720aedb3c70afb06b96b4aee2903c83343d6efecaec1"
+      },
+      {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-gdb-amcvkjpe/state.json",
+        "sha256": "916c4efa15e7b62e908698896a931570667c8db71db7d447c7fc80612ad78657"
+      },
+      {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/buffered-masked-av9lk7nw/receipt.json",
+        "sha256": "7f27096228413193b0b36f7f90c40c1ac3c8171f7ce27dee58f3fcc2246c6b9e"
+      },
+      {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/buffered-masked-av9lk7nw/events.jsonl",
+        "sha256": "26fceaae8574283e7baee17249fb8fb185f7d1a15b89ff64e817aa0ece8e9242"
+      },
+      {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-gdb-a0w81szm/receipt.json",
+        "sha256": "dad63dee5f4200f28f3714f6cfa626d6e0651ec060b30b3cdea607c0f50c53aa"
+      },
+      {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/file-resize-gdb-a0w81szm/state.json",
+        "sha256": "4c6b37bde9d3b9667cf3c0955ce94912722eedc43fa4b96cc5d53eed3c30e638"
+      },
+      {
+        "path": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-file-resize/native-startup53-build.json",
+        "sha256": "1c0f60f9c4170f9435d03e5973785b15d3f017d11450d8321227acc887212a77"
+      }
+    ],
+    "scope": "Both mapped and buffered child/qualified API/CRT returns and complete5242881B/4097B files +60B reports match retained originals; actual native startup53 aligns CW027f/SW0/all8empty with originals. Failed037f and Last0 packets retained; no shared startup default change."
+  },
+  "affected_checks": "make -j4 check mapped-file-check pass, including old2MB fullartifact+threeunsupported controls"
+}

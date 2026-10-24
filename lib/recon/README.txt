@@ -972,3 +972,9 @@ errors and FP remain unchanged. Other selectors, repeats, states and combined
 CL-profile calls fail125. No general codepage conversion or _getmbcp API is
 enabled. Focused checks use make locale-codepage-check
 LOCALE_CODEPAGE_REFERENCE=<retained-C1-raw-directory>.
+
+On the supported NULL-high/unambiguous successful SetFilePointer path,
+LastError remains the caller's incoming value, including a preceding mapped
+SetEndOfFile failure1224. The existing highword, ambiguous0xffffffff and failure
+behavior remains separate. This changes no startup FP policy; direct native
+drivers needing the observed53-bit startup select its existing opt-in flag.

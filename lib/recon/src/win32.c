@@ -490,7 +490,11 @@ DWORD WINAPI recon_SetFilePointer(HANDLE handle,LONG low,LONG *high,DWORD origin
         errno=error; return 0xffffffffUL;
     }
     if (high) *high=0;
-    last_error=0; return position;
+    /* The reached NULL-high, unambiguous success preserves the caller's
+     * LastError (including a preceding ERROR_USER_MAPPED_FILE). Keep the
+     * existing highword and ambiguous-lowword behavior separate. */
+    if (high || (DWORD)position==0xffffffffUL) last_error=0;
+    return position;
 }
 BOOL WINAPI recon_SetEndOfFile(HANDLE handle)
 {
