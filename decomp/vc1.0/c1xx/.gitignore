@@ -4,3 +4,5 @@
 
 /.build/
 /cases/*/.build/
+*.swp
+*.swo
