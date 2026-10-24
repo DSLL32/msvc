@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "function": "_compare_member_pointer_expression@4",
+  "native_entry": "compare_member_pointer_expression",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_expression": "(unsigned)expression"
+  },
+  "formals": [
+    {
+      "name": "expression",
+      "stack_index": 0,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 328483,
+        "original_owner_function": "_convert_binary_operands@4",
+        "native_owner_function": "convert_binary_operands",
+        "native_owner_field": "caller_result",
+        "native_owner_local": "result",
+        "identity": "Actual accepted caller saves convert_pointer_operands result inESI602de, nonNULL branch reloadsoperand fields butretainsactualresult; shape/memberflag test6030a..6031b then PUSH ESI6031d/CALL6031e/return60323. Native actual immediatecaller result local is the converted comparison expression, no frozenheapidentity."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "ownership_register": "esi",
+  "ownership_caller_extent": [
+    393925,
+    394019
+  ],
+  "native_caller_locals": {
+    "caller_result": {
+      "frame": 1,
+      "function": "convert_binary_operands",
+      "local": "result"
+    }
+  },
+  "abi_analysis": {
+    "original_extent": [
+      308288,
+      308442
+    ],
+    "argument_bytes": 4,
+    "convention": "stdcall4 IrToken* returnEAX",
+    "proof": "Whole218B saveESIEDI8, expression adjustedESP+12, allRET4. No incomingGPR/x87/CPUflagsformal. Load left.type.related.flags10 distinguishingdatamember, existinginheritancemodel returns1..4; model1returnexpr, model2datareturnexpr/methodcallback4b520; model3data4b620/method4b7f0; model4data4b6e0/method4b950; othermodelreturnNULL. Aggregatecalls existing-targetnamed51Bdispatch4b4e0..4b513 stdcall8 expression+callback, which callsstd16callback actualexpr/threeoperatorBYTES. Fiveactualcallbacks wholeboundaries4b520..4b61e/4b620..4b6d1/4b6e0..4b7e3/4b7f0..4b94d/4b950..4bb0b eachRET16 withfirstpointerandthreeBYTEoperatorformals; namedtraps/noacceptcredit. Actualparentresult boundviaESI/rawcaller/native realresultlocal; no newdata/CRT."
+  }
+}

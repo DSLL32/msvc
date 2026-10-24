@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x534fa: file src/member-pointers.c, line 406.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, compare_member_pointer_expression (expression=0x5663e24c) at src/member-pointers.c:406
+406	    CType *type = ((IrToken *)expression->value.pointer)->type;
+#0  compare_member_pointer_expression (expression=0x5663e24c) at src/member-pointers.c:406
+#1  0x56582d07 in convert_binary_operands (expression=0x5663e24c) at src/binary-expressions.c:461
+#2  0x565815b7 in builtin_binary_expression (operation=68 'D', left=0x5663e210, right=0x5663e238) at src/binary-expressions.c:145
+#3  0x56584c45 in binary_expression (operation=68 'D', left=0x5663e210, right=0x5663e238) at src/binary-expressions.c:865
+#4  0x565be4f3 in parse_translation_unit () at src/parser-expression-actions.inc:90
+#5  0x5655df0f in compile_translation_unit () at src/frontend.c:73
+#6  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#7  0x56558894 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20

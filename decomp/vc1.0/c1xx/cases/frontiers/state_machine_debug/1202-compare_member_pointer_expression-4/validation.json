@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_compare_member_pointer_expression@4",
+    "start": 308288,
+    "end": 308442
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1202-compare_member_pointer_expression-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_dispatch_member_pointer_comparison@8",
+    "_member_pointer_inheritance_model@4"
+  ],
+  "next_frontier": "_make_null_member_pointer@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.7823899500072002,
+  "total_operation_seconds": 4.877063792198896,
+  "original_capture_seconds": 1.6193850534036756
+}

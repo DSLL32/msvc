@@ -1206,7 +1206,8 @@
     "_resolve_goto_cleanup@12",
     "_walk_goto_cleanup@16",
     "_skip_previous_declaration_records@4",
-    "_new_symbol_reference@12"
+    "_new_symbol_reference@12",
+    "_compare_member_pointer_expression@4"
   ],
   "driver": [
     {
@@ -5312,7 +5313,7 @@
     {
       "name": "_compare_member_pointer_expression@4",
       "start": 308288,
-      "end": 308289
+      "end": 308442
     },
     {
       "name": "_check_conversion_warning@12",
@@ -8529,6 +8530,36 @@
       "name": "_skip_previous_declaration_records@4",
       "start": 270432,
       "end": 270468
+    },
+    {
+      "name": "_dispatch_member_pointer_comparison@8",
+      "start": 308448,
+      "end": 308449
+    },
+    {
+      "name": "_compare_multiple_method_pointer@16",
+      "start": 308512,
+      "end": 308513
+    },
+    {
+      "name": "_compare_virtual_data_pointer@16",
+      "start": 308768,
+      "end": 308769
+    },
+    {
+      "name": "_compare_general_data_pointer@16",
+      "start": 308960,
+      "end": 308961
+    },
+    {
+      "name": "_compare_virtual_method_pointer@16",
+      "start": 309232,
+      "end": 309233
+    },
+    {
+      "name": "_compare_general_method_pointer@16",
+      "start": 309584,
+      "end": 309585
     }
   ],
   "cases": {
@@ -8729,7 +8760,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_compare_member_pointer_expression@4",
+      "terminal": "_make_null_member_pointer@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8752,7 +8783,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1201-new_symbol_reference-12/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1202-compare_member_pointer_expression-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8959,7 +8990,8 @@
         "cases/frontiers/state_machine_debug/1198-resolve_goto_cleanup-12/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1199-walk_goto_cleanup-16/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1200-skip_previous_declaration_records-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1201-new_symbol_reference-12/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1201-new_symbol_reference-12/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1202-compare_member_pointer_expression-4/frontier-extension.json"
       ]
     }
   },

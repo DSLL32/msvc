@@ -398,3 +398,27 @@ IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **pref
         return 0;
     }
 }
+
+/* Original 0x4b440..0x4b4d9, stdcall4. Single-word representations
+   compare directly; aggregate representations compare their component fields. */
+IrToken *__stdcall compare_member_pointer_expression(IrToken *expression)
+{
+    CType *type = ((IrToken *)expression->value.pointer)->type;
+    unsigned data_member = type->related->flags & 0x10;
+    switch (member_pointer_inheritance_model(type)) {
+    case 1:
+        return expression;
+    case 2:
+        if (data_member) return expression;
+        return dispatch_member_pointer_comparison(expression,
+            compare_multiple_method_pointer);
+    case 3:
+        return dispatch_member_pointer_comparison(expression,
+            data_member ? compare_virtual_data_pointer : compare_virtual_method_pointer);
+    case 4:
+        return dispatch_member_pointer_comparison(expression,
+            data_member ? compare_general_data_pointer : compare_general_method_pointer);
+    default:
+        return 0;
+    }
+}

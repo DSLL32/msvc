@@ -405,7 +405,6 @@ IrToken *__stdcall apply_simple_data_member_pointer(IrToken *expression) { __asm
 IrToken *__stdcall apply_virtual_data_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall apply_general_data_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
-IrToken * __stdcall compare_member_pointer_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 int __stdcall check_conversion_qualifiers(unsigned char operation, unsigned short target, unsigned short source, int first_layer) { __asm { int 3 } return 0; }
 void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source) { __asm { int 3 } }
@@ -592,3 +591,10 @@ void browser_end_macro_expansion(void) { __asm { int 3 } }
 char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
 int add_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 int divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall dispatch_member_pointer_comparison(IrToken *expression, MemberPointerComparison compare) { __asm { int 3 } return 0; }
+IrToken *__stdcall compare_multiple_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
+IrToken *__stdcall compare_virtual_data_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
+IrToken *__stdcall compare_general_data_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
+IrToken *__stdcall compare_virtual_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
+IrToken *__stdcall compare_general_method_pointer(IrToken *expression, unsigned char comparison, unsigned char combine, unsigned char null_combine) { __asm { int 3 } return 0; }
