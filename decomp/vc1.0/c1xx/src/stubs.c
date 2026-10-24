@@ -133,7 +133,6 @@ void begin_seh_filter(void) { __asm { int 3 } }
 void begin_seh_finally(void) { __asm { int 3 } }
 void begin_seh_try(void) { __asm { int 3 } }
 void __stdcall begin_switch_body(IrToken *expression) { __asm { int 3 } }
-void begin_switch_condition(void) { __asm { int 3 } }
 void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
 void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
@@ -605,3 +604,4 @@ void browser_end_macro_expansion(void) { __asm { int 3 } }
 char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
 int add_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 int divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
+void begin_switch_condition_region(void) { __asm { int 3 } }

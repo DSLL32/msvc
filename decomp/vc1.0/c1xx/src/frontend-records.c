@@ -11,6 +11,7 @@
 
 void begin_for_increment_region(void);
 void end_for_increment_region(void);
+void begin_switch_condition_region(void);
 
 FrontendRecord *ir_record_head; /* original 0xa0a00 */
 FrontendRecord *ir_record_tail; /* original 0xa0a04 */
@@ -880,4 +881,26 @@ void end_for_increment_region(void)
     record.next = 0;
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
+}
+
+/* Original 0x40220..0x40289. Link a switch opener into the nesting
+   chain, then start its independently paired condition-evaluation region. */
+void begin_switch_condition(void)
+{
+    SwitchFrontendRecord record;
+    record.header.kind = 0x2d;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = 0;
+    record.header.previous = 0;
+    record.outer_switch = 0;
+    record.field14 = 0;
+    record.constant_condition = 0;
+    record.enum_tag = 0;
+    if (ir_records_suppressed) return;
+    record.outer_switch = ir_switch_records;
+    append_frontend_record(&record.header, sizeof(record));
+    ir_switch_records = ir_record_tail;
+    begin_switch_condition_region();
 }

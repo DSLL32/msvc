@@ -49,6 +49,15 @@ typedef struct LoopFrontendRecord {
 } LoopFrontendRecord;
 typedef char LoopFrontendRecordSizeMustBe20[(sizeof(LoopFrontendRecord) == 20) ? 1 : -1];
 typedef char LoopConditionRecordsOffsetMustBe16[(offsetof(LoopFrontendRecord, condition_records) == 16) ? 1 : -1];
+/* A switch retains its enclosing switch and later case/type bookkeeping. */
+typedef struct SwitchFrontendRecord {
+    FrontendRecord header;
+    FrontendRecord *outer_switch;
+    unsigned field14, constant_condition;
+    CppSymbol *enum_tag;
+} SwitchFrontendRecord;
+typedef char SwitchFrontendRecordSizeMustBe32[(sizeof(SwitchFrontendRecord) == 32) ? 1 : -1];
+typedef char SwitchOuterRecordOffsetMustBe16[(offsetof(SwitchFrontendRecord, outer_switch) == 16) ? 1 : -1];
 void begin_while_condition_region(void);
 void begin_for_condition_region(void);
 void end_while_condition_region(void);

@@ -1171,7 +1171,8 @@
     "_begin_for_increment",
     "_begin_for_increment_region",
     "_begin_for_body",
-    "_end_for_increment_region"
+    "_end_for_increment_region",
+    "_begin_switch_condition"
   ],
   "driver": [
     {
@@ -2665,7 +2666,7 @@
     {
       "name": "_begin_switch_condition",
       "start": 262688,
-      "end": 262689
+      "end": 262794
     },
     {
       "name": "_begin_while_body",
@@ -8384,6 +8385,11 @@
       "name": "_end_for_increment_region",
       "start": 261808,
       "end": 261897
+    },
+    {
+      "name": "_begin_switch_condition_region",
+      "start": 262800,
+      "end": 262801
     }
   ],
   "cases": {
@@ -8584,7 +8590,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_begin_switch_condition",
+      "terminal": "_begin_switch_condition_region",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8607,7 +8613,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1166-end_for_increment_region/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1167-begin_switch_condition/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8779,7 +8785,8 @@
         "cases/frontiers/state_machine_debug/1163-begin_for_increment/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1164-begin_for_increment_region/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1165-begin_for_body/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1166-end_for_increment_region/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1166-end_for_increment_region/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1167-begin_switch_condition/frontier-extension.json"
       ]
     }
   },

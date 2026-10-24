@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "060d0586c8d12bb524db83064977a5ddf4d6654b6a32baf3395f0de87c34e6e2",
+    "functions.json": "0324d5305019ee862c8ca8ac54e68bc2512a4d1269e1b9145ead7d9135053e11",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "48f090ed49e39703b5f13698f112aee2efd52dcd96d0c4e972c9d8b0a900b5fd",
-    "cases/canonical-map.txt": "51d8f781bbfc3709a677cd730f2bb7c84af0f0af4c6b7659499ebb34efb067d9",
+    "cases/original-entry-references.json": "1ed6b46a759a66713ba1ee49d33e5297619fa613a16dd736acbfac5106923acb",
+    "cases/canonical-map.txt": "9a51036a7131304f076a4ff07bd7572b02f9be7ff3adf4e3a9c2eca46a3778c2",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1166-end_for_increment_region/entry-reference/original-receipt.json": "0bfb3a2a5e3591b4fd1f882c4fda3e6712066ec69ffda614934ef7d64289ced3",
-    "cases/frontiers/state_machine_debug/1166-end_for_increment_region/entry-reference/original-events.txt": "98d5178386fe397ab9209a280b52a6fda0795ff5d3fd7c3652d253c2cb4368b0",
-    "cases/frontiers/state_machine_debug/1166-end_for_increment_region/entry-reference/original-entries.plan": "2763be0082c35239e1d5eda334362c299d03cccfc93ed5294895b186ed4caa48"
+    "cases/frontiers/state_machine_debug/1167-begin_switch_condition/entry-reference/original-receipt.json": "53208909674ced2fd62d3879e2578430bb3ab07f1d4cce609fc8bbf2d5cbf918",
+    "cases/frontiers/state_machine_debug/1167-begin_switch_condition/entry-reference/original-events.txt": "9bb7b62e4bfeef18aa12072dddf7b4a360cb995a3c0b30046525dd29318110f0",
+    "cases/frontiers/state_machine_debug/1167-begin_switch_condition/entry-reference/original-entries.plan": "051cd94afdd9d008dfc47d12cb204f685d864bca1046ea70c1c0d4a7de563fee"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -540,6 +540,10 @@
     },
     "begin_switch_condition": {
       "logical": "_begin_switch_condition",
+      "source": "src/frontend-records.c"
+    },
+    "begin_switch_condition_region": {
+      "logical": "_begin_switch_condition_region",
       "source": "src/stubs.c"
     },
     "begin_type_diagnostic": {
@@ -6797,7 +6801,8 @@
     "begin_for_increment",
     "begin_for_increment_region",
     "begin_for_body",
-    "end_for_increment_region"
+    "end_for_increment_region",
+    "begin_switch_condition"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10920,7 +10925,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1167,
+      "last": 1168,
       "seen": [
         "main",
         "message_text",
@@ -11986,12 +11991,13 @@
         "begin_for_increment_region",
         "begin_for_body",
         "end_for_increment_region",
-        "begin_switch_condition"
+        "begin_switch_condition",
+        "begin_switch_condition_region"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_begin_switch_condition",
-        "native": "begin_switch_condition",
+        "logical": "_begin_switch_condition_region",
+        "native": "begin_switch_condition_region",
         "signal": 5
       }
     }
