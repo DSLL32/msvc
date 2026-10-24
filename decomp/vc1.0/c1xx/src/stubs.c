@@ -445,7 +445,6 @@ unsigned short __cdecl line_record_tag_type(CppSymbol *tag) { __asm { int 3 } re
 unsigned __stdcall hash_table_count(HashTable *table) { __asm { int 3 } return 0; }
 unsigned short __cdecl reference_line_record_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall emit_debug_array_type(CType *type, unsigned short base_index) { __asm { int 3 } }
-void __stdcall emit_debug_function_type(CType *type, unsigned short return_index, unsigned short argument_count) { __asm { int 3 } }
 void __stdcall emit_debug_bit_field(CppSymbol *field) { __asm { int 3 } }
 void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int limit) { __asm { int 3 } }
 

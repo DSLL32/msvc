@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_emit_debug_function_type@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1212,
+  "configuration_sha256": "d3c9b31972a1c0f96745508dc1028271a0d276ca64c07b3031aed25665e03233",
+  "native_entry": "emit_debug_function_type",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 385476,
+        "original_owner_function": "_flush_debug_types",
+        "native_owner_function": "flush_debug_types",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Accepted flush_debug_types holdsactualfunctionCTypeinEBP; nonmemberbranch internsunderlyingdescription6e186..6e1a8 thenPUSHcount6e1b8/PUSHreturnindex6e1bd/PUSH EBP6e1be/CALL6e1bf/return6e1c4. Same-context EBP is logicalCTypeowner, explicitlynotnativeframepointer; native realcaller type local binds it.",
+        "original_owner_value": 8312228,
+        "native_owner_value": 1449334180
+      },
+      "original_raw": 8312228,
+      "native_raw": 1449334180,
+      "result": "match"
+    },
+    {
+      "name": "return_index",
+      "stack_index": 1,
+      "native_field": "raw_return",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      },
+      "original_raw": 8257652,
+      "native_raw": 116,
+      "result": "match"
+    },
+    {
+      "name": "argument_count",
+      "stack_index": 2,
+      "native_field": "raw_count",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      },
+      "original_raw": 8454145,
+      "native_raw": 1,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      458128,
+      458218
+    ],
+    "argument_bytes": 12,
+    "convention": "stdcall12 void",
+    "proof": "Whole90B saveESIEDI8; typeadjustedESP+12/return_indexWORD+16/argument_countWORD+20, RET12. No incomingGPR/x87/CPUflagsformal; high16bits scalartransportwords unwrittenbycaller/unconsumedbycallee anduncredited. Existingdebug_record_buffer+2leaf:WORD0=8/WORD1returnindex, BYTE4debug_calling_convention(type.related.attributes) cdecl, BYTE5zero/WORD3argumentcount/WORD4parameterdeclarations.debug_index; existingemit_debug_type_record10. Allthreeactualformalsobserved, no newdata/CRTbody.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "4cfd51822d0b8636930b7f93c7c7946cdfb6cf2872c7bec79c71e652eaef68ba",
+  "capture_timing": {
+    "original_capture_seconds": 1.066540028899908,
+    "native_capture_seconds": 0.1841143611818552,
+    "total_operation_seconds": 1.5042775049805641
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "28dadc03594b46a0af011596f03df75050d4196f6edce19535036c42fd1f60b4",
+    "native-commands.gdb": "e3f81a9874bae89af02c4608661653948349e616c7a1b0fcdde2031c2e692103",
+    "native-gdb.log": "68bff53fc6ece4689279caf564e1645f523782812ce4a51e1f8fecb44b70c031",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "c1601feec78b44c66aaddb68fc17a03b2fde3f9be225ab38a7dc46aadb644b88",
+    "original-configuration.json": "d3c9b31972a1c0f96745508dc1028271a0d276ca64c07b3031aed25665e03233",
+    "original-disassembly.txt": "6bd181daceac570b2cbbce9b4878fe28f4288d6bd01dae79591bb6d7778ec20a",
+    "original-entries.plan": "71683fff22b92661458d03ff28b1e996439d6b2c7cb87cd4755797c42428d226",
+    "original-events.txt": "59e7ec3c0bb0a945226297cdb49ac086769ccd0a038c9da620117b881ff98faf",
+    "original-ownership-caller-disassembly.txt": "03ff74b3935f4de2acd3c736b7c0e93ca9758ccac9e765c50b9b39957fc2dd33",
+    "original-receipt.json": "19fb18852c7eb93df27c797070c3455bf8337d6e59d268add365059c4a0eb5a1",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "da44098fee4740dc33efe6b8dee4f0298b7f66a9b348d30196f694f08526e6fc"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -122,6 +122,22 @@ unsigned debug_calling_convention(unsigned short attributes)
     return 15;
 }
 
+/* Original 0x6fd90..0x6fde9, stdcall12. A nonmember function leaf
+   contains the return type, calling convention and argument-list reference. */
+void __stdcall emit_debug_function_type(CType *type,
+    unsigned short return_index, unsigned short argument_count)
+{
+    unsigned char *leaf = debug_record_buffer + 2;
+    unsigned short *words = (unsigned short *)leaf;
+    words[0] = 8;
+    words[1] = return_index;
+    leaf[4] = (unsigned char)debug_calling_convention(type->related->attributes);
+    leaf[5] = 0;
+    words[3] = argument_count;
+    words[4] = type->related->data.parameters->declarations->debug_index;
+    emit_debug_type_record(10);
+}
+
 /* Original 0x6fdf0..0x6fe78. Member-function leaves carry the owner,
    optional this type, argument-list index and signed this adjustment. */
 void __stdcall emit_debug_member_function_type(CType *type,
