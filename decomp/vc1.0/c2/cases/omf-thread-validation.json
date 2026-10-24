@@ -747,6 +747,6 @@
       }
     }
   ],
-  "seconds": 0.5795842949301004,
+  "seconds": 0.6513388324528933,
   "scope": "Whole67-byte original/canonical thread writer; byteCL/DL ignores incoming upper24, methodshift/tagOR/thread truncation, count wrap/cursor exact byte, index request retains full targetbits, full32-bit thread returned despite clobbered child EAX, callee-saved and RET8 stack/sentinel verified.32 controls mock begin/index bodies; actual first flags0/method0/target3/thread0 observed separately, no arbitrary wire semantic validity or completed artifact claim."
 }

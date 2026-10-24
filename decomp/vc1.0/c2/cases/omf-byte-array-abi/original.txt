@@ -1,0 +1,7 @@
+enter @omf_write_byte_array@16 eax 007b15a0 args 007b13b8 00000026 00000001 007b15a0
+file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
+buffer_hex 
+entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
+omf_byte_array segment 007b13b8 bytes 38 repeat 1 source 007b15a0 return_address 0006b07a initializer 007b1584 owner_source 007b15a0 owner_repeat 1 owner_width 38 combine 2 position 0 data_segment 007b13b8
+omf_byte_array_data_hex 7479706564204f4d462072656c6f636174696f6e20616e642064656275672073636f70657300
+entry_end

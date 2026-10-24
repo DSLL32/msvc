@@ -277,6 +277,17 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
     }
+    if(!strcmp(call->name,"@omf_write_byte_array@16")) {
+        DWORD segment=call->args[0],bytes=call->args[1],source=call->args[3];
+        DWORD initializer=context->Ebx;
+        if(bytes>4096)exit(295);
+        sprintf(line,"omf_byte_array segment %08lx bytes %lu repeat %lu source %08lx return_address %08lx initializer %08lx owner_source %08lx owner_repeat %lu owner_width %ld combine %lu position %lu data_segment %08lx\n",
+            segment,bytes,call->args[2],source,call->return_address,initializer,
+            read_word(process,initializer+12),read_word(process,initializer+24),
+            (long)(short)(read_word(process,initializer+8)>>16),
+            read_byte(process,segment+53),read_word(process,segment+4),read_word(process,image_base+0x6b8d8));log_line(line);
+        dump_bytes(process,"omf_byte_array_data_hex",source,source?bytes:0);
+    }
     if(!strcmp(call->name,"@omf_output_relocation@12")) {
         DWORD node=call->args[0],symbol=call->args[1],segment=call->args[2];
         DWORD kind=read_word(process,node),id,member,bucket,index,name;

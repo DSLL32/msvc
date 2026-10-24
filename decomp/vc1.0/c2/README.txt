@@ -676,3 +676,12 @@ Original/W3/full audits/fresh pair and15 native cases pass (14 complete), next
 byte-array6b3d0.342282/399693 accepted extent bytes; app/support323982B and1165
 functions exclude5 historical CRT bodies. Audit57.156s includes126 canonical
 recompiles, not audit-only. Timings/scope: omf-relocation-checkpoint.json.
+
+Checkpoint1281 adds172-byte repeated-byte writer.132 original/canonical
+whole-body controls/9 actual ABI rejects cover record capacity splits, repeated
+source rewind/null padding, unsigned chunk bounds, child Segment mutations,
+position reload and final restoration. Actual4 arguments/38 owned bytes/repeat1
+match. No repeat0/nonprogress success or invented guard; children mocked in
+controls. Original/W3/full audits and15 native cases pass(14 complete), next
+pad6b2a0.342454/399693 extent bytes; app/support324154B/1166functions exclude5
+historical CRT. Timings/limits: cases/omf-byte-array-checkpoint.json.

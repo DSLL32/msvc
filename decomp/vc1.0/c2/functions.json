@@ -1284,7 +1284,8 @@
     "@omf_mark_symbol@4",
     "@omf_emit_public@8",
     "@omf_emit_external@4",
-    "@omf_output_relocation@12"
+    "@omf_output_relocation@12",
+    "@omf_write_byte_array@16"
   ],
   "driver": [
     {
@@ -9116,8 +9117,36 @@
     {
       "name": "@omf_write_byte_array@16",
       "start": 439248,
-      "end": 439249,
-      "provisional": true
+      "end": 439420,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "segment",
+            "location": "ECX",
+            "type": "Segment pointer"
+          },
+          {
+            "name": "bytes",
+            "location": "EDX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "repeat",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          },
+          {
+            "name": "source",
+            "location": "entryESP+8",
+            "type": "void pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 8,
+        "entry_observation": "cases/omf-byte-array-abi/validation.json",
+        "scope": "Original6b3d0..6b47c stores ECX Segment/EDX width, reads repeat stack+4/source stack+8 and returns RET8. Segment.combine/position and source bytes consumed; no other incoming register/flags/x87/output pointer. Original return6b07a and caller EBX initializer +12/+24/+10 prove source/repeat/width ownership. Native corresponding omf_output_relocation initializer fields and Segment alias match."
+      }
     },
     {
       "name": "@omf_write_iterated_data@16",

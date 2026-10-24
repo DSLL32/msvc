@@ -897,3 +897,35 @@ unsigned __fastcall omf_output_relocation(Initializer *initializer,
     }
     return bytes;
 }
+
+/* Original [0006b3d0,0006b47c). Split each repeated pattern between record
+   capacity and the remaining signed-offset domain; restore the caller's
+   segment position after emitting all copies. A null source requests zeroes. */
+void __fastcall omf_write_byte_array(Segment *segment, unsigned bytes,
+    unsigned repeat, void *data)
+{
+    unsigned pattern_bytes = bytes, position = segment->symbol.field04;
+    unsigned remaining = 0x7fffffff - position, count, space;
+    char *source = data;
+    OmfRecord *record;
+    do {
+        record = omf_begin_record(segment->combine == 7 ? 0xc3 : 0xa1, segment);
+        count = remaining;
+        if (count > bytes) count = bytes;
+        space = (unsigned)((char *)record + 998 - (char *)record->cursor);
+        if (count > space) count = space;
+        if (source) {
+            omf_append_bytes(record, source, count);
+            source += count;
+        } else omf_pad_record(record, count);
+        bytes -= count;
+        segment->symbol.field04 += count;
+        remaining -= count;
+        if (!bytes) {
+            if (source) source -= pattern_bytes;
+            bytes = pattern_bytes;
+            --repeat;
+        }
+    } while (repeat);
+    segment->symbol.field04 = position;
+}

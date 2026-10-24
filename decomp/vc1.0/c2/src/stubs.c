@@ -101,8 +101,6 @@ void __fastcall omf_output_bytes(unsigned displacement, SymbolHeader *symbol) { 
 __declspec(naked) void omf_output_offset(void) { RECON_TRACE_NAKED_ENTRY(omf_output_offset) __asm int 3 }
 __declspec(naked) void omf_output_size(void) { RECON_TRACE_NAKED_ENTRY(omf_output_size) __asm int 3 }
 __declspec(naked) void omf_finish_module(void) { RECON_TRACE_NAKED_ENTRY(omf_finish_module) __asm int 3 }
-void __fastcall omf_write_byte_array(Segment *segment, unsigned bytes, unsigned repeat,
-    void *data) { __asm int 3 }
 void __fastcall omf_write_iterated_data(Segment *segment, int repeat, unsigned bytes,
     void *data) { __asm int 3 }
 unsigned __fastcall omf_write_datum(OmfRecord *record, Initializer *initializer) { __asm int 3 }

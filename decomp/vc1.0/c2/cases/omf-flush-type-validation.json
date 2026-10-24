@@ -430,6 +430,6 @@
       ]
     }
   ],
-  "seconds": 1.1258451910689473,
+  "seconds": 0.7085549952462316,
   "scope": "Whole37-byte original/canonical first matching type across four1004-byte buffers.42 states cover no match/every slot/duplicates/type0 andFFFFFFFF; exact0/1 return independent of mocked child pointer result, tag mutation/short-circuit and unchanged other pool bytes. Child flush body mocked and remains named trap. Actual first95 observes four fully zero20-byte headers/current slot0; no payload input or arbitrary reuse-state claim."
 }
