@@ -88,7 +88,8 @@
     "_resolve_option_path",
     "_normalize_path",
     "_initialize_packing",
-    "_allocate_packing_memory"
+    "_allocate_packing_memory",
+    "CompilerPacking::Push"
   ],
   "driver": [
     {
@@ -847,6 +848,20 @@
         [
           274926338,
           274926353
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "CompilerPacking::Push",
+      "symbol": "?Push@CompilerPacking@@QAEPAUCompilerPackingFrame@@XZ",
+      "native_symbol": "_ZN15CompilerPacking4PushEv",
+      "start": 274781272,
+      "end": 274781339,
+      "code_chunks": [
+        [
+          274913689,
+          274913710
         ]
       ],
       "role": "application"

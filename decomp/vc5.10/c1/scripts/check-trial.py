@@ -95,6 +95,11 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
                                               "native": pair.sha(native / "receipt.json")}})
         return result
     assert o["exit"] == 125 and n["kind"] == ("native-prospective-tail-chain" if prospective_tail_chain else "native-gdb-frontier")
+    if expected.get('kind')=='packing-frame-complete':
+        from packing_frame_state import validate
+        result=validate(original,native,candidate,report)
+        result.update(rust_checked_functions=report['checked_functions'],rust_owned_code_bytes=owned['declared_code_bytes'],rust_owned_text_data_bytes=text_bytes(candidate),rust_owned_original_bytes=owned['declared_code_bytes']+text_bytes(candidate),current_auditor_sha256=binding['inputs'][tool_path],current_audit_report_sha256=binding['report_sha256'])
+        return result
     if expected.get('kind')=='packing-allocation-complete':
         from packing_allocator_state import validate
         result=validate(original,native,candidate,report)

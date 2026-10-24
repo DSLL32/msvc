@@ -13,14 +13,14 @@ BASE=0x10600000
 def registers(original,phase):return list(struct.unpack('<16I',(original/('packing-allocation-'+phase+'-registers.bin')).read_bytes()))
 def arena(original,phase):return list(struct.unpack('<8I',(original/('packing-allocation-'+phase+'-arena.bin')).read_bytes()))
 
-def validate(original,native,candidate,report):
+def validate(original,native,candidate,report,stage_state=None):
  rows=load(native,'packing-allocation-entries');assert len(rows)==1
  stage=snapshot(original,native,load(native,'state'),rows[0]);prefix=validate_prefix(original,native,candidate,report,stage_state=stage)
- result=validate_endpoint(original,native,candidate);result['prefix']=prefix;return result
+ result=validate_endpoint(original,native,candidate,stage_state=stage_state);result['prefix']=prefix;return result
 
-def validate_endpoint(original,native,candidate):
+def validate_endpoint(original,native,candidate,stage_state=None):
  assert candidate['packing_allocator_observers']==dict(entry_rva=0x134c9,return_rva=0x13494,frontier_rva=0xd458,request_bytes=8,arena_kind=0)
- assert candidate['expected_frontier']==dict(kind='packing-allocation-complete',rva=0xd458,native_symbol='CompilerPacking::Push',native_args=['this'],calling_convention='thiscall',caller=dict(native_symbol='initialize_packing',return_rva=0x134a3))and candidate['allowed_probes']==['normal']
+ if stage_state is None:assert candidate['expected_frontier']==dict(kind='packing-allocation-complete',rva=0xd458,native_symbol='CompilerPacking::Push',native_args=['this'],calling_convention='thiscall',caller=dict(native_symbol='initialize_packing',return_rva=0x134a3))and candidate['allowed_probes']==['normal']
  f=[r for r in candidate['functions']if r['name']=='_allocate_packing_memory'];assert len(f)==1 and f[0]['chunks']==[[0x134c9,0x134f4],[0x30b02,0x30b11]]and f[0]['role']=='application'
  events=(original/'events.txt').read_text();validate_original_frontier(events,candidate,'normal');validate_native_stop(native,candidate)
  binary=captured_native_binary(native);names=symbols(binary);a,z,m=[registers(original,p)for p in ('entry','return','member')];before,after,member=[arena(original,p)for p in ('entry','return','member')]
@@ -40,7 +40,7 @@ def validate_endpoint(original,native,candidate):
   assert(original/('%s-%03d.bin'%(stem,a[0]))).read_bytes()==(original/('%s-%03d.bin'%(stem,z[0]))).read_bytes()==(original/('%s-%03d.bin'%(stem,m[0]))).read_bytes()
  old_memory=(original/'packing-allocation-entry-memory.bin').read_bytes();assert len(old_memory)==8 and old_memory==bytes(8)
  for phase in ('return','member'):assert(original/('packing-allocation-'+phase+'-memory.bin')).read_bytes()==old_memory
- es,rs,ms=[load(native,name)for name in ('packing-allocation-entries','packing-allocation-returns','packing-member-entries')];assert len(es)==len(rs)==len(ms)==1;e,r,t=es[0],rs[0],ms[0];state=load(native,'state')
+ es,rs,ms=[load(native,name)for name in ('packing-allocation-entries','packing-allocation-returns','packing-member-entries')];assert len(es)==len(rs)==len(ms)==1;e,r,t=es[0],rs[0],ms[0];state=load(native,'state')if stage_state is None else stage_state
  assert e['pc']==names['allocate_packing_memory'][0]and e['formal_inventory']==[dict(name='bytes',type='unsigned int')]and e['args']=={'bytes':8}and e['words']==[e['caller']['pc'],8]
  assert e['caller']['symbol']=='initialize_packing'and e['caller']['args']=={};call(binary,e['words'][0],e['pc'])
  memory=e['memory_address'];old=copy.deepcopy(e['compiler_state']);initial_arena=old['bss']['arenas'][0]
@@ -54,8 +54,8 @@ def validate_endpoint(original,native,candidate):
  assert t['object_layout']==dict(bytes=8,active=0,free_frames=4)and t['compiler_state']==updated
  assert t['caller']['symbol']=='initialize_packing'and t['caller']['args']=={};call(binary,t['words'][0],t['pc'])
  assert state['symbol']=='CompilerPacking::Push'and state['args']==t['args']and state['formal_inventory']==t['formal_inventory']and state['compiler_state']==updated
- assert names['_ZN15CompilerPacking4PushEv'][0]<state['pc']<=sum(names['_ZN15CompilerPacking4PushEv'])
- opcode=subprocess.check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert 'int3'in opcode
+ assert names['_ZN15CompilerPacking4PushEv'][0]<=state['pc']<=sum(names['_ZN15CompilerPacking4PushEv'])
+ opcode=subprocess.check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert ('int3'in opcode if stage_state is None else state['pc']==names['_ZN15CompilerPacking4PushEv'][0])
  assert state['caller']['symbol']=='initialize_packing'and state['caller']['args']=={}and state['caller']['pc']==t['words'][0]
  for row in (e,r,t):assert row['memory']==list(old_memory)and row['invocation']==e['invocation']and row['crt_state']==e['crt_state']and row['errors']==[0,0,0]
  arch=semantic(e['fp']);locale=e['locale']

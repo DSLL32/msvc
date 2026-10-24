@@ -10,7 +10,7 @@ scanner, path-fold, NULL environment parsing and three vector allocations are
 complete. Argument iteration, option matching and the373-byte action handler
 now process the full captured option loop, numeric values, and the normal-only
 PDB path resolver/normalizer through actual _fullpath. The next genuine trap is
-CompilerPacking::Push, after its owned eight-byte allocation. The old restore case remains held before its opaque resolver
+push_packing(0,NULL), after the first owned packing frame is linked. The old restore case remains held before its opaque resolver
 input. All repeated MSPDB signature calls match the original.
 The actual
 setlocale and _setmbcp calls match the own canonical SBCS1252 reference,
@@ -28,10 +28,10 @@ remains incomplete; the lifecycle fixture is a separate completed case.
 The83-byte path-fold initializer is also accepted; see
 `cases/minimal/PATH-FOLD.md` for its complete API/state proof.
 
-Accepted ownership is81 application functions /6949 original code bytes plus161
+Accepted ownership is82 application functions /7037 original code bytes plus161
 owned switch-table bytes,2 CRT support
-functions /451 bytes and two6-byte import thunks:7573 of the `.text` virtual
-extent's322288 bytes (2.3498%). That denominator includes CRT and unclassified
+functions /451 bytes and two6-byte import thunks:7661 of the `.text` virtual
+extent's322288 bytes (2.3771%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
@@ -528,3 +528,9 @@ and44 affected prefix controls pass. See `cases/minimal/PACKING.md`.
 The58-byte packing allocator is accepted through its actual return and the
 published eight-byte member receiver. Whole state and40 focused mutations pass;
 see `cases/minimal/PACKING.md`.
+
+The88-byte genuine packing member is accepted with its real return,12-byte
+frame and caller alignment store. The next cdecl push remains trapped. Earlier
+native pool/alias memory snapshots now run at their actual physical prefix
+entries; the prior final-stop observation limitation and failed captures remain
+explicitly retained. See `cases/minimal/PACKING.md`.

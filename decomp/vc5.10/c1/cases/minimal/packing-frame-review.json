@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "status": "complete matching proof ready for ordinary promotion",
+  "candidate": "CompilerPacking::Push",
+  "code_chunks": [
+    [
+      54360,
+      54427
+    ],
+    [
+      186777,
+      186798
+    ]
+  ],
+  "code_bytes": 88,
+  "application_functions_if_promoted": 82,
+  "application_code_bytes_if_promoted": 7037,
+  "separate_CRT_support_bytes": 451,
+  "separate_import_bytes": 12,
+  "separate_text_data_bytes": 161,
+  "new_global_data_fields": 0,
+  "UNMODELED_initialized_bytes": 4200,
+  "UNMODELED_literal_tail_bytes": 16,
+  "observed": {
+    "receiver": "actual original/native physical ECX/implicit this, object8B active/free at0/4",
+    "owned_frame": "12B previously defined committed arena bytes; prior0/alignment0/opaque tag0; full before/return/ready bytes",
+    "return_value": "genuine RET0/EAX owned frame, all nonvolatiles preserved",
+    "writes": [
+      "arena0.cursor +=12",
+      "frame.previous = old activeNULL",
+      "object.active = owned frame",
+      "initializer sets alignment8 and tagNULL"
+    ],
+    "frontier": "actual push_packing(alignment0,tagNULL), real formals and caller return134c5",
+    "no_credit": "No CRT bodies, whole unknown snapshot equivalence or free-list/overflow execution claimed"
+  },
+  "prefix_memory_correction": {
+    "failure": "Two earlier native prefix memory snapshots were read at final trap. First nonzero packing active pointer exposed the wrong phase; full composed check rejected before promotion.",
+    "new_pool_boundary": "physical parse_command_line entry, actual caller and base/64KiB/58 completed pool events",
+    "new_alias_boundary": "physical initialize_checksums entry, actual caller/base/64KiB/owned root4B",
+    "guards": "write-once xb/x artifacts, single physical-entry guards and exact metadata;20 fresh wrong phase/owner/rewrite controls, including actual later nonzero object bytes with rehashed raw",
+    "history": "Old raw/evidence/source/checker receipts unchanged. Prior final-trap observation timing limitation recorded; no historical files relabeled. Native001 missing module context, native002 prefix-phase failure retained. Native003 adds actual module reads and correct prefix reads. Same original and ELF reused, no additional original launch."
+  },
+  "timings": {
+    "original_build": 5.12272382248193,
+    "native_build": 2.1659883968532085,
+    "original_capture": 13.758590563200414,
+    "native_attempts": [
+      10.221471030265093,
+      10.349537526257336,
+      10.340435301885009
+    ],
+    "full_validation": 10.218383382074535,
+    "audit": 0.05682022124528885,
+    "fresh_member_controls": 1.870724189095199,
+    "fresh_prefix_phase_controls": 0.08147091791033745
+  },
+  "controls": {
+    "fresh_member": 43,
+    "fresh_prefix_phase": 20,
+    "reused": "Prior unrelated core/protocol controls retained with their own historical hashes, not rerun. Current whole prefix proof and changed collector/field/ABI controls fresh."
+  },
+  "proofs": {
+    "cases/minimal/evidence/packing-frame/current-audit-binding.json": "df6d95cd283a42fa04603cba718382a9ecc7c831e6094329c30697da20c31794",
+    "cases/minimal/evidence/packing-frame/include-alias-memory-boundary.json": "ea317cac271a21ec55b93ad7bb03a262a6c6f04b8ee5024537ebe80bb4c33b5b",
+    "cases/minimal/evidence/packing-frame/original-build-time.json": "45b561ce9ced9c950a51b758e4d3e7256072f319b90cb097fb9584b5987ce4a5",
+    "cases/minimal/evidence/packing-frame/packing-frame-controls-3.json": "46b62d280a004635291dfa580d2fb4e55b5ea373e81528eb433dadc712b0597c",
+    "cases/minimal/evidence/packing-frame/packing-frame-positive-3.json": "cf99343761493124a992762ae1ac7731ff7f2e8bbc00d94eb039e939eccea4e9",
+    "cases/minimal/evidence/packing-frame/packing-frame-positive-3.json.time.json": "8c62f1605deb1d4ba3cf0f0103d76c36beda38bebe1b6534c143307e430b49ee",
+    "cases/minimal/evidence/packing-frame/packing-prefix-memory-controls.json": "e9f7da90808a8f8989b57fcc58a2712919666bd68881924462179e1f737c8115",
+    "cases/minimal/evidence/packing-frame/pool-final-memory-boundary.json": "ab1a1b29f58add74ce20755ade8416447eb633da4541d4fc4e8db1f00606293c",
+    "cases/minimal/evidence/packing-frame/raw-references.json": "6394051e4f89601197c3dfab42c0ab35a7212a10f72b3e0f681267deaaa84e86"
+  },
+  "source_and_checker_refs": {
+    "src/packing.h": "6bb3a1d1477511c4d3e768a290dd135a978b8de4c377f663de073bd3b808aa63",
+    "src/packing.cpp": "d8695bc9469851c09430687b77bb6a3e8271355e24584cfcc759e6e4532a6419",
+    "scripts/packing_frame_state.py": "0e158d6459f88d127db4c407a80df57b9f9c65b2fc89df06b0feb812079e3632",
+    "scripts/check-packing-frame-negative.py": "b220e13bbec92e3e7ba56ff1b373b1f9a6606717907aa9904c3b273a9eafcc7d",
+    "scripts/packing_allocator_state.py": "05cbe950efffeee747fa33c23edc2b4ca1b32456696194eb38a60aa2699f8c98",
+    "scripts/packing_state.py": "802fa90793aa221e588133c34c18715bf11ce88f5ef12ee9838e113cbbe93e59",
+    "scripts/packing_probe.py": "577a8a748326ac283b580b2a06ec4f99e761596ac2a57f5f6e6c88ac421fc309",
+    "scripts/pool_cycle_probe.py": "bb47edc56535f6055a75472636db7acc08eaab6551edede14ad3c83c04db036f",
+    "scripts/alias_init_probe.py": "76aa52d9350dd4a2d2163fdcda3d62e970d49f381707d127009978f34ee507c0",
+    "scripts/prefix_memory_state.py": "f76fb4ec3b22d5161a1616f743c2dc2b4bc6c90396b3c9ce1884b76cb65e0767",
+    "scripts/pool_cycle_state.py": "8981b33b95ef985703e7c42f2c3d57357851e3bf6dc0b962c259a9a8c064f3a5",
+    "scripts/command_line_state.py": "50128a6c4dda7610912bcba46530960b48a98a05390cd0bad38f72d7545b91e0",
+    "scripts/check-prefix-memory-negative.py": "dbca274a17eb0b18c3e28340f6226704cb366adbe212f01250c7f2973beb27a9",
+    "scripts/normalizer-observer.inc": "45ded61a964b5dda683b6fdb070f2c0a5621c8216ebbdd9a39f5cc2409e787b9",
+    "scripts/dll-capture.c": "7c6fcdcf541d808e128ce273ce300d88213b34ae7e408816e926a9e683f5952e",
+    "scripts/capture-native.py": "aa3878f917a4a288d6d9d62211d8223ef278b80829801ec09a2f405128161052",
+    "scripts/capture-original.py": "ba96551c01ed24ccbc91d8d20c0ce8d47b1e49cd305a97dd80674ccffb54db36",
+    "scripts/frontier_contract.py": "8fdc82fe59f1108305fc5aca15a7cb272db5053e11e67c01c453c44479c1888d",
+    "cases/minimal/candidate.json": "98491897ebded8654faa1de8210c80c4a36b77f5431d66b3ba84de23895dfd41",
+    "cases/minimal/trial.json": "3790d6c07b00ff3d2656ccb41d307375e879e851d92fe82097f920b5061122cf",
+    "cases/minimal/field-map.json": "788262199bf9b9a6129e7355c5768fca3107f66c602f30cb72eb78c54ea15bac",
+    "runtime.json": "8f6d071e627290d46ee9fbfc38210cb0916f7872144f958f963bb43ac10a8b23",
+    "runtime-rebuilt.json": "2ba525a30245d02161d71392ae393b370b8d1a409030241232dc901d56248b89"
+  },
+  "restore": "Old opaque resolver input held; current capture runners reject before execution",
+  "next": "39B push_packing inherits alignment and calls this same member again with a naturally nonzero predecessor; no extra aux capture now"
+}

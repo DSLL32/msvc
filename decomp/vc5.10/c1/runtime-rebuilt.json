@@ -175,16 +175,16 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "CompilerPacking::Push",
-    "start": 268449905,
-    "end": 268449906,
+    "name": "_push_packing",
+    "start": 268450028,
+    "end": 268450029,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_push_packing",
-    "start": 268449925,
-    "end": 268449926,
+    "name": "_clear_packing_frame",
+    "start": 268450040,
+    "end": 268450041,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

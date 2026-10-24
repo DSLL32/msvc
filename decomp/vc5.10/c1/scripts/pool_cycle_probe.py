@@ -50,7 +50,21 @@ class PoolCommitApiEntry(gdb.Breakpoint):
 '''
     code=code.replace('COMMITTED_PATH',repr(str(output/'pool-committed-000.bin')))
     code+='PoolCommitApiEntry("*0x%x")\n'%names['recon_VirtualAlloc'][0]
-    return code
+    code+=r'''pool_memory_observed=False
+class PoolMemoryBoundary(gdb.Breakpoint):
+    def stop(self):
+        global pool_memory_observed
+        assert not pool_memory_observed
+        pc=int(gdb.parse_and_eval('(unsigned int)$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
+        base=int(gdb.parse_and_eval('(unsigned int)c1_bss.arenas[0].base'));size=int(gdb.parse_and_eval('c1_bss.arenas[0].committed_bytes'))
+        assert size==65536 and len(pool_cycle_events)==58
+        raw=gdb.selected_inferior().read_memory(base,size).tobytes()
+        open(POOL_MEMORY_RAW,'xb').write(raw)
+        meta={'schema':1,'boundary':'parse_command_line','pc':pc,'caller':gdb.newest_frame().older().name(),'return':struct.unpack('<I',gdb.selected_inferior().read_memory(esp,4).tobytes())[0],'owner':'c1_bss.arenas[0]','base':base,'bytes':size,'reads':1,'pool_event_count':len(pool_cycle_events),'sha256':__import__('hashlib').sha256(raw).hexdigest()}
+        open(POOL_MEMORY_META,'x').write(json.dumps(meta,indent=2)+'\n');pool_memory_observed=True;return False
+PoolMemoryBoundary('*0x%x'%POOL_MEMORY_ENTRY)
+'''
+    return code.replace('POOL_MEMORY_RAW',repr(str(output/'pool-final-committed-000.bin'))).replace('POOL_MEMORY_META',repr(str(output/'pool-final-memory-boundary.json'))).replace('POOL_MEMORY_ENTRY',str(names['parse_command_line'][0]))
 
 def record_returns(probe,kind,entries):
     # This breakpoint executes before the target prologue, so both ESP and the

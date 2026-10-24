@@ -33,11 +33,29 @@ extern "C" void *__cdecl allocate_packing_memory(unsigned bytes)
 
 CompilerPackingFrame *RECON_THISCALL CompilerPacking::Push(void)
 {
-    __asm { int 3 }
-    return NULL;
+    CompilerPackingFrame *frame = free_frames;
+
+    if (frame == NULL) {
+        CompilerArena *arena = &c1_bss.arenas[0];
+        frame = (CompilerPackingFrame *)arena->cursor;
+        arena->cursor += sizeof(CompilerPackingFrame);
+        if (arena->cursor > arena->committed_limit)
+            arena->CommitExtent();
+    } else {
+        free_frames = frame->previous;
+        clear_packing_frame(frame);
+    }
+    frame->previous = active;
+    active = frame;
+    return frame;
 }
 
 extern "C" void __cdecl push_packing(unsigned alignment, const void *tag)
+{
+    __asm { int 3 }
+}
+
+extern "C" void __cdecl clear_packing_frame(CompilerPackingFrame *frame)
 {
     __asm { int 3 }
 }

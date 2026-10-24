@@ -1,0 +1,39 @@
+{
+  "status": "all phase/owner/single-read/late-sentinel controls rejected",
+  "count": 20,
+  "seconds": 0.08147091791033745,
+  "controls": [
+    "pool-final-memory-boundary.json:boundary",
+    "pool-final-memory-boundary.json:pc",
+    "pool-final-memory-boundary.json:caller",
+    "pool-final-memory-boundary.json:return",
+    "pool-final-memory-boundary.json:owner",
+    "pool-final-memory-boundary.json:base",
+    "pool-final-memory-boundary.json:bytes",
+    "pool-final-memory-boundary.json:reads",
+    "pool-final-memory-boundary.json:sha256",
+    "include-alias-memory-boundary.json:boundary",
+    "include-alias-memory-boundary.json:pc",
+    "include-alias-memory-boundary.json:caller",
+    "include-alias-memory-boundary.json:return",
+    "include-alias-memory-boundary.json:owner",
+    "include-alias-memory-boundary.json:base",
+    "include-alias-memory-boundary.json:bytes",
+    "include-alias-memory-boundary.json:reads",
+    "include-alias-memory-boundary.json:sha256",
+    "late-object-rewrite:pool-final-committed-000.bin",
+    "late-object-rewrite:include-alias-committed-000.bin"
+  ],
+  "native_receipt_sha256": "5ba3ce90c8df4942c3f48232b9039a3d82b35fb5d22e5a680d082c165153e4e9",
+  "later_nonzero_object_bytes": 8,
+  "unchanged_earlier_bytes": 65536,
+  "validators": {
+    "scripts/check-prefix-memory-negative.py": "dbca274a17eb0b18c3e28340f6226704cb366adbe212f01250c7f2973beb27a9",
+    "scripts/prefix_memory_state.py": "f76fb4ec3b22d5161a1616f743c2dc2b4bc6c90396b3c9ce1884b76cb65e0767"
+  },
+  "observer_sources": {
+    "scripts/pool_cycle_probe.py": "bb47edc56535f6055a75472636db7acc08eaab6551edede14ad3c83c04db036f",
+    "scripts/alias_init_probe.py": "76aa52d9350dd4a2d2163fdcda3d62e970d49f381707d127009978f34ee507c0",
+    "scripts/capture-native.py": "aa3878f917a4a288d6d9d62211d8223ef278b80829801ec09a2f405128161052"
+  }
+}

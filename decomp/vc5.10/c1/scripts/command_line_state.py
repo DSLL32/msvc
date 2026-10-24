@@ -176,6 +176,9 @@ def validate_alias_initializer(original,native,fields,parser_entry,state,parser_
  recorded=re.findall(r'^include-aliases seq=%d root=([0-9a-f]+) head=([0-9a-f]+) allocation=([0-9a-f]+) bytes=([0-9a-f]+)$'%sequence,events,re.M);assert len(recorded)==1
  old_base=struct.unpack_from('<I',old_bss,0x8fb8)[0]
  assert [int(value,16)for value in recorded[0]]==[old_root,0,old_base,0x10000] and old_root==old_base+9*4096
+ if candidate.get('packing_frame_observers'):
+  from prefix_memory_state import validate_alias
+  validate_alias(native,symbols(binary),arena['base'],root,state['caller']['pc'])
  for side in (original,native):
   assert(side/'include-alias-root-000.bin').read_bytes()==bytes(4)
   assert(side/'include-alias-committed-000.bin').read_bytes()==(side/'pool-final-committed-000.bin').read_bytes()==bytes(0x10000)

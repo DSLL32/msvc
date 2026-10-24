@@ -1544,7 +1544,7 @@ int main(int argc, char **argv)
                 if(option_integer_probe && address==base+0x132f9)integer_enter(&context,thread,event.dwThreadId);
                 if(option_resolver_probe && address==base+0x1335b)resolver_enter(&context,thread,event.dwThreadId);
                 if(option_normalizer_probe && address==base+0x1344d)normalizer_enter(&context,thread,event.dwThreadId);
-                if((option_action_frontier==0x134c9 || option_action_frontier==0xd458) && (address==base+0x1348d || address==base+0x134c9))locale_snapshot(address==base+0x1348d?"packing-entry":"packing-allocator",&context,thread,event.dwThreadId);
+                if((option_action_frontier==0x134c9 || option_action_frontier==0xd458 || option_action_frontier==0xd49b) && (address==base+0x1348d || address==base+0x134c9))locale_snapshot(address==base+0x1348d?"packing-entry":"packing-allocator",&context,thread,event.dwThreadId);
                 packing_allocation_enter(address,&context,thread,event.dwThreadId);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

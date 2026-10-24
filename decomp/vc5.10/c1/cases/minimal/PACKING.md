@@ -41,3 +41,31 @@ receiver controls pass2.343s. Prior unchanged protocol controls are retained
 with historical hashes and are not claimed as rerun. No global data fields are
 added. Totals are81 application functions/6949 code bytes, separate451 CRT,
 12 import and161 text-data bytes. Evidence: `packing-allocation-review.json`.
+
+`CompilerPacking::Push` is accepted:67 hot bytesd458..d49b plus21 cold bytes
+2d999..2d9ae. Actual ECX/this and8-byte object layout are independently observed.
+The member advances arena0 by12, links the owned frame with previousNULL,
+publishes active and returns that frame in EAX with RET0/nonvolatiles intact.
+The initializer writes alignment8/tagNULL before the genuine
+`push_packing(0,NULL)` frontier. The12-byte frame has previous/alignment/opaque
+tag at0/4/8. No new global fields or initialized unknown bytes are introduced.
+The next normal call will exercise a naturally nonzero predecessor; the current
+free-list and commit-overflow branches have source/graph checks only.
+
+The full composed check caught two earlier native memory artifacts sampled
+at the final trap. These had remained zero before the packing member's new
+nonzero active link. Pool memory is now read at physical parse_command_line
+entry; alias memory at physical initialize_checksums entry. Both reads have
+write-once files and exact PC/caller/owner/base/extent metadata. The earlier
+receipts and observation limitation remain unchanged and explicitly documented.
+20 new phase/owner/single-read controls reject wrong boundaries and replacing
+earlier zero bytes with actual later nonzero object bytes even with a fresh hash.
+
+One original capture took13.759s. Native attempts took10.221s (missing module
+context),10.350s (detected wrong snapshot phase), then10.340s (complete corrected
+proof); both failures are retained, and original/ELF bytes were reused unchanged.
+The full successful check took10.218s,43 member controls1.871s and20 prefix-phase
+controls0.081s. Original/native builds5.123/2.166s; strict84-source audit0.057s.
+Totals:82 application functions/7037 code bytes,451 separate CRT support,12
+imports and161 data bytes. `packing-frame-review.json` is the immutable proof
+packet; `packing-frame-acceptance.json` records promotion.

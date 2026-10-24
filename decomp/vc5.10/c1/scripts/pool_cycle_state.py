@@ -114,6 +114,9 @@ def validate(original,native,fields,entry,state,entry_sequence,sequence,module,c
     for key,value in entry['crt_state'].items():assert state[key]==value
     final=re.findall(r'^trap seq=%d rva=00012b49 .*stack=([0-9a-f,]+)$'%sequence,events,re.M);invoke=re.findall(r'^trap seq=\d+ rva=00012229 .*stack=([0-9a-f,]+)$',events,re.M);assert len(final)==len(invoke)==1
     old_args=[int(x,16)for x in invoke[0].split(',')][1:3];assert [int(x,16)for x in final[0].split(',')][:3]==[module+0x127fe]+old_args
+    if candidate.get('packing_frame_observers'):
+        from prefix_memory_state import validate_pool
+        validate_pool(native,names,native_base,state['caller']['pc'],len(expected_events))
     for prefix in ('pool-committed','pool-final-committed'):
         assert(original/(prefix+'-000.bin')).read_bytes()==(native/(prefix+'-000.bin')).read_bytes()==bytes(0x10000)
 

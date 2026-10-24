@@ -5,7 +5,11 @@ def validate_original_frontier(events,candidate,probe):
  target=re.findall(r'^frontier rva=(\w+)$',events,re.M)
  dependency=re.findall(r'^dependency-frontier module=(\S+) rva=(\w+) seq=(\d+)$',events,re.M)
  expected=candidate['expected_frontier']
- if expected['kind']=='packing-allocation-complete':
+ if expected['kind']=='packing-frame-complete':
+  assert probe=='normal'and candidate['allowed_probes']==['normal']
+  assert expected==dict(kind='packing-frame-complete',rva=0xd49b,native_symbol='push_packing',native_args=['alignment','tag'],calling_convention='cdecl',caller=dict(native_symbol='initialize_packing',return_rva=0x134c5))
+  assert target==['0000d49b']and not dependency
+ elif expected['kind']=='packing-allocation-complete':
   assert probe=='normal'and candidate['allowed_probes']==['normal']
   assert expected==dict(kind='packing-allocation-complete',rva=0xd458,native_symbol='CompilerPacking::Push',native_args=['this'],calling_convention='thiscall',caller=dict(native_symbol='initialize_packing',return_rva=0x134a3))
   assert target==['0000d458']and not dependency

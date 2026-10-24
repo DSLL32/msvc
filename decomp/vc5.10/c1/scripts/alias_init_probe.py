@@ -5,6 +5,7 @@ def definitions(binary,output):
  address=symbols(binary)['initialize_include_aliases'][0]
  checksum=symbols(binary)['initialize_checksums'][0]
  return '''alias_initializer_entries=[]
+alias_memory_boundary=None
 alias_checksum_entries=[]
 class ActualAliasInitializerEntry(gdb.Breakpoint):
     def stop(self):
@@ -22,6 +23,8 @@ class ActualAliasInitializerEntry(gdb.Breakpoint):
 ActualAliasInitializerEntry('*0x%x')
 class ActualAliasChecksumEntry(gdb.Breakpoint):
     def stop(self):
+        global alias_memory_boundary
+        assert alias_memory_boundary is None
         pc=int(gdb.parse_and_eval('(unsigned int)$pc'));frame=gdb.newest_frame()
         block=gdb.block_for_pc(pc)
         while block and not block.function:block=block.superblock
@@ -29,21 +32,22 @@ class ActualAliasChecksumEntry(gdb.Breakpoint):
           'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),
           'formal_inventory':[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument],
           'preserved':{key:int(gdb.parse_and_eval('(unsigned int)$'+key))for key in ('ebx','esi','edi','ebp')}})
+        root=int(gdb.parse_and_eval('(unsigned int)c1_data.options.include_aliases'));base=int(gdb.parse_and_eval('(unsigned int)c1_bss.arenas[0].base'));size=int(gdb.parse_and_eval('c1_bss.arenas[0].committed_bytes'))
+        assert size==65536 and base<=root and root-base<=size-4
+        raw=gdb.selected_inferior().read_memory(base,size).tobytes();head=gdb.selected_inferior().read_memory(root,4).tobytes()
+        open(%r,'xb').write(raw);open(%r,'xb').write(head)
+        alias_memory_boundary={'schema':1,'boundary':'initialize_checksums','pc':pc,'caller':gdb.newest_frame().older().name(),'return':struct.unpack('<I',gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)$esp')),4).tobytes())[0],'owner':'c1_bss.arenas[0]','base':base,'bytes':size,'reads':1,'root':{'address':root,'head':struct.unpack('<I',head)[0],'size':4},'sha256':__import__('hashlib').sha256(raw).hexdigest()}
+        open(%r,'x').write(json.dumps(alias_memory_boundary,indent=2)+'\\n')
         return False
 ActualAliasChecksumEntry('*0x%x')
-'''%(address,checksum)
+'''%(address,str(output/'include-alias-committed-000.bin'),str(output/'include-alias-root-000.bin'),str(output/'include-alias-memory-boundary.json'),checksum)
 
 def final_observation(output):
- return '''alias_root=int(gdb.parse_and_eval('(unsigned int)c1_data.options.include_aliases'))
-alias_base=int(gdb.parse_and_eval('(unsigned int)c1_bss.arenas[0].base'))
-alias_committed=int(gdb.parse_and_eval('c1_bss.arenas[0].committed_bytes'))
-assert alias_root>=alias_base and alias_root-alias_base<=alias_committed-4
-value['alias_root']={'address':alias_root,'head':int(gdb.parse_and_eval('(unsigned int)c1_data.options.include_aliases->head')),'size':int(gdb.parse_and_eval('sizeof(*c1_data.options.include_aliases)'))}
+ return '''assert alias_memory_boundary is not None
+value['alias_root']=alias_memory_boundary['root']
 assert len(alias_checksum_entries)==1
 value['alias_checksum_entry']=alias_checksum_entries[0]
 value['alias_esp']=alias_checksum_entries[0]['esp']
 value['alias_preserved']=alias_checksum_entries[0]['preserved']
-open(%r,'wb').write(gdb.selected_inferior().read_memory(alias_root,4).tobytes())
-open(%r,'wb').write(gdb.selected_inferior().read_memory(alias_base,alias_committed).tobytes())
 open(%r,'w').write(json.dumps(alias_initializer_entries,indent=2)+'\\n')
-'''%(str(output/'include-alias-root-000.bin'),str(output/'include-alias-committed-000.bin'),str(output/'alias-initializer-entries.json'))
+'''%(str(output/'alias-initializer-entries.json'),)

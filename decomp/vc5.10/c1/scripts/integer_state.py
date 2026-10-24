@@ -37,7 +37,7 @@ def validate(original,native,candidate,report,stage_state=None):
 def validate_loop(original,native,candidate,stage_state=None):
  expected=candidate['expected_frontier']
  if stage_state is None:assert expected==dict(kind='option-integers-complete',rva=0x1335b,native_symbol='resolve_option_path',native_args=['output','input','size'],calling_convention='cdecl',caller=dict(native_symbol='parse_command_line',return_rva=0x12c8b))
- else:assert (expected['kind'],expected['rva'])in [('option-path-normalizer',0x1344d),('path-normalizer-complete',0x1348d),('packing-initializer-allocator',0x134c9),('packing-allocation-complete',0xd458)]and candidate['allowed_probes']==['normal']
+ else:assert (expected['kind'],expected['rva'])in [('option-path-normalizer',0x1344d),('path-normalizer-complete',0x1348d),('packing-initializer-allocator',0x134c9),('packing-allocation-complete',0xd458),('packing-frame-complete',0xd49b)]and candidate['allowed_probes']==['normal']
  fn=[f for f in candidate['functions']if f['name']=='_parse_option_integer'];assert len(fn)==1 and fn[0]['chunks']==[[0x132f9,0x1335b],[0x30a17,0x30a3c]]and fn[0]['role']=='application'
  assert candidate['integer_observers']==dict(entry_rva=0x132f9,return_rva=0x1320c,frontier_rva=0x1335b,expected_inputs=['1','5','0'],isspace_iat_rva=0x5d12c,isdigit_iat_rva=0x5d018,atol_iat_rva=0x5d07c)
  receipt=load(original,'receipt');normal=receipt['probe']=='normal';assert normal or receipt['probe']=='restore'

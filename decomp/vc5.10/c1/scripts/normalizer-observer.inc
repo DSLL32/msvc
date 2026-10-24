@@ -6,6 +6,8 @@ static DWORD fullpath_arguments[3];
 static BYTE normalize_saved,fullpath_saved,resolver_saved;
 static DWORD packing_memory,packing_allocator_esp;
 static int packing_allocator_active,packing_allocator_returned;
+static DWORD packing_frame,packing_push_esp;
+static int packing_push_active,packing_push_returned;
 
 static void packing_allocation_record(const char *phase,DWORD address,CONTEXT *context,HANDLE thread,DWORD tid)
 {
@@ -21,10 +23,25 @@ static void packing_allocation_record(const char *phase,DWORD address,CONTEXT *c
     sprintf(tag,"packing-allocation-%s",phase);locale_snapshot(tag,context,thread,tid);
 }
 
+static void packing_frame_record(const char *phase,DWORD address,CONTEXT *context,HANDLE thread,DWORD tid)
+{
+    DWORD words[16],arena[8];BYTE object[8],frame[12];char name[120],tag[100];
+    words[0]=sequence;words[1]=address;words[2]=context->Esp;words[3]=context->Eax;words[4]=context->Ecx;words[5]=context->Edx;
+    words[6]=context->Ebx;words[7]=context->Esi;words[8]=context->Edi;words[9]=context->Ebp;
+    words[10]=packing_memory;words[11]=packing_frame;words[12]=packing_push_esp;words[13]=base;readmem(context->Esp,words+14,8);
+    sprintf(name,"packing-frame-%s-registers.bin",phase);save_blob(name,words,sizeof(words));
+    readmem(base+0x58fb0,arena,sizeof(arena));
+    if(!arena[2] || arena[3]!=0x10000 || packing_frame<arena[2] || packing_frame-arena[2]>arena[3]-12)fail("packing frame owned12B");
+    sprintf(name,"packing-frame-%s-arena.bin",phase);save_blob(name,arena,sizeof(arena));
+    readmem(packing_memory,object,8);sprintf(name,"packing-frame-%s-object.bin",phase);save_blob(name,object,sizeof(object));
+    readmem(packing_frame,frame,12);sprintf(name,"packing-frame-%s-memory.bin",phase);save_blob(name,frame,sizeof(frame));
+    sprintf(tag,"packing-frame-%s",phase);locale_snapshot(tag,context,thread,tid);
+}
+
 static void packing_allocation_enter(DWORD address,CONTEXT *context,HANDLE thread,DWORD tid)
 {
     DWORD words[2];
-    if(option_action_frontier!=0xd458)return;
+    if(option_action_frontier!=0xd458 && option_action_frontier!=0xd49b)return;
     if(address==base+0x134c9) {
         if(packing_allocator_active || packing_allocator_returned)fail("packing allocator repeats");
         readmem(context->Esp,words,8);if(words[0]!=base+0x13494 || words[1]!=8)fail("packing allocator actual ABI");
@@ -36,6 +53,17 @@ static void packing_allocation_enter(DWORD address,CONTEXT *context,HANDLE threa
         readmem(context->Esp,words,4);if(words[0]!=base+0x134a3)fail("packing member actual caller");
         readmem(base+0x5e410,words,4);if(words[0]!=packing_memory)fail("packing published receiver");
         packing_allocation_record("member",address,context,thread,tid);
+        if(option_action_frontier==0xd49b) {
+            if(packing_push_active || packing_push_returned)fail("packing Push repeats");
+            packing_push_esp=context->Esp;readmem(base+0x58fb0,&packing_frame,4);packing_push_active=1;
+            if(snapshot[0x134a3-code_rva]!=0x8b)fail("packing member actual return byte");
+            packing_frame_record("entry",address,context,thread,tid);patch(base+0x134a3,0xcc);
+        }
+    } else if(address==base+0xd49b && option_action_frontier==0xd49b) {
+        DWORD arguments[3];
+        if(!packing_push_returned || packing_push_active)fail("packing frame frontier closure");
+        readmem(context->Esp,arguments,sizeof(arguments));if(arguments[0]!=base+0x134c5 || arguments[1] || arguments[2])fail("packing cdecl push actual arguments");
+        packing_frame_record("ready",address,context,thread,tid);
     }
 }
 
@@ -107,7 +135,11 @@ static int normalizer_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWOR
 {
     DWORD stack[4];
     if(!option_normalizer_probe)return 0;
-    if(option_action_frontier==0xd458 && packing_allocator_active && address==base+0x13494) {
+    if(option_action_frontier==0xd49b && packing_push_active && address==base+0x134a3) {
+        if(context->Esp!=packing_push_esp+4 || context->Eax!=packing_frame)fail("packing member genuine RET0/result");
+        packing_frame_record("return",address,context,thread,tid);save_state();patch(address,snapshot[0x134a3-code_rva]);
+        packing_push_active=0;packing_push_returned=1;
+    } else if((option_action_frontier==0xd458 || option_action_frontier==0xd49b) && packing_allocator_active && address==base+0x13494) {
         if(context->Esp!=packing_allocator_esp+4 || context->Eax!=packing_memory)fail("packing allocator real RET0/result");
         packing_allocation_record("return",address,context,thread,tid);save_state();patch(address,snapshot[0x13494-code_rva]);
         packing_allocator_active=0;packing_allocator_returned=1;

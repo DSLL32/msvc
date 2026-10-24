@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "boundary": "parse_command_line",
+  "pc": 134533568,
+  "caller": "c1_main",
+  "return": 134530793,
+  "owner": "c1_bss.arenas[0]",
+  "base": 4095082496,
+  "bytes": 65536,
+  "reads": 1,
+  "pool_event_count": 58,
+  "sha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+}

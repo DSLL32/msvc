@@ -19,7 +19,7 @@ def validate(original,native,candidate,report,stage_state=None):
 def validate_endpoint(original,native,candidate,stage_state=None):
  assert candidate['packing_observers']==dict(entry_rva=0x1348d,allocator_rva=0x134c9,return_rva=0x13494,request_bytes=8)
  expected=dict(kind='packing-initializer-allocator',rva=0x134c9,native_symbol='allocate_packing_memory',native_args=['bytes'],calling_convention='cdecl',caller=dict(native_symbol='initialize_packing',return_rva=0x13494))
- assert candidate['expected_frontier']==expected if stage_state is None else candidate['expected_frontier']['kind']=='packing-allocation-complete'
+ assert candidate['expected_frontier']==expected if stage_state is None else candidate['expected_frontier']['kind']in ('packing-allocation-complete','packing-frame-complete')
  assert candidate['allowed_probes']==['normal']
  f=[r for r in candidate['functions']if r['name']=='_initialize_packing'];assert len(f)==1 and f[0]['chunks']==[[0x1348d,0x134c9],[0x30af8,0x30b02]]and f[0]['role']=='application'
  entries=load(native,'packing-entries');assert len(entries)==1;entry=entries[0];state=load(native,'state')if stage_state is None else stage_state
