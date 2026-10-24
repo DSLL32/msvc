@@ -1,0 +1,24 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_queue_browser_record@8",
+    "start": 179984,
+    "end": 180140
+  },
+  "actual_argument_proof": "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_append_browser_record@12",
+    "_browser_record_from_end@4",
+    "_emit_browser_record@4",
+    "_first_browser_record",
+    "_pop_first_browser_record",
+    "_pop_last_browser_record",
+    "_second_browser_record"
+  ],
+  "next_frontier": "_append_browser_record@12",
+  "pending_buffers": 6,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.816660650074482,
+  "total_operation_seconds": 4.231858014129102,
+  "original_capture_seconds": 0.9166439883410931
+}

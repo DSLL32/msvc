@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x3762d: file src/browser.c, line 56.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, queue_browser_record (kind=0 '\000', subject=0x0) at src/browser.c:56
+56	    append_browser_record(kind, subject, source_line_number);
+#0  queue_browser_record (kind=0 '\000', subject=0x0) at src/browser.c:56
+#1  0x5658c609 in begin_browser_records () at src/browser.c:46
+#2  0x5658c50b in begin_browser_output () at src/browser.c:16
+#3  0x5655ec65 in initialize_frontend () at src/initialization.c:156
+#4  0x5655dc2c in compile_translation_unit () at src/frontend.c:22
+#5  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#6  0x56558894 in main (argc=1, argv=0xffffd784, environment=0xffffd78c) at src/c1xx.c:20

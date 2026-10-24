@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "92c21afc032a81b9da22e45b8cb900569e8b338877233c77c7f3308e08a3c183",
+    "functions.json": "09fd60ba9b2cf3f108857b5941a5e83dcfd19ca2fa23509d885019d4149b4054",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "30f0d9b7538bc74e8bc31e8ca93d461aff0f15f3a0146116203a9fe32b85c7fc",
-    "cases/canonical-map.txt": "6b5add1872d85d30b0d278e8761f2aa67cc1349cbd142ce7bc0a86f368ac5342",
+    "cases/original-entry-references.json": "45c6f2b84ddf0f2fbba4a84edabc0c836b2424b05ba1af9a386d6bfcfb4053e0",
+    "cases/canonical-map.txt": "c22d3b82aecb969aad49186ea19f70c7b3369b0b5063d84da93efc066db96b81",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -67,9 +67,9 @@
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-receipt.json": "aaed00b4fadaebffc9880353fea9e13e29e47c575801ef9b2468683dce4fa7c5",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-events.txt": "101a9376ca702a65d47b1014b7314fcf5bae85308185272f7bfbfd5a54474784",
     "cases/frontiers/state_machine_defined_debug/1256-finish_debug_info/entry-reference/original-entries.plan": "0666913d4e150db042b4ec44837ec92005027e9ae6eb67575b6dd821714b9619",
-    "cases/frontiers/member_registry_browser/1259-begin_browser_records/entry-reference/original-receipt.json": "b30f19a825a85bec880bd42b5d5f4fc2e32ae09f35d1a3c0da65e3899aa8ff4c",
-    "cases/frontiers/member_registry_browser/1259-begin_browser_records/entry-reference/original-events.txt": "ad5c693d35127e6d564a8c4067e980375f9d45abffb3a815945d6b5fd930ede3",
-    "cases/frontiers/member_registry_browser/1259-begin_browser_records/entry-reference/original-entries.plan": "92b62cf016c0c55d19b440ac1297b07ba2f5ba86789220add2e4099ed212bf7c"
+    "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/entry-reference/original-receipt.json": "696c680c90d24315f75e923487f352af28762a607c2cf13913a0dfc09e20ce51",
+    "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/entry-reference/original-events.txt": "4eb37bacbc2f13b473f8ad6d2e02907bde383d764cf9b5c19de4be3e623909f3",
+    "cases/frontiers/member_registry_browser/1260-queue_browser_record-8/entry-reference/original-entries.plan": "241d9e9fcd45d09d942d0666eed55ed7919ff727bf12bf822d5bd29b2dadf44d"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -194,6 +194,10 @@
     },
     "analyze_inline_parameter": {
       "logical": "_analyze_inline_parameter@4",
+      "source": "src/stubs.c"
+    },
+    "append_browser_record": {
+      "logical": "_append_browser_record@12",
       "source": "src/stubs.c"
     },
     "append_builtin_operator_candidates": {
@@ -674,6 +678,10 @@
     },
     "browser_open_file": {
       "logical": "_browser_open_file",
+      "source": "src/stubs.c"
+    },
+    "browser_record_from_end": {
+      "logical": "_browser_record_from_end@4",
       "source": "src/stubs.c"
     },
     "browser_symbol_rollover": {
@@ -1768,6 +1776,10 @@
       "logical": "_emit_atexit_registration@4",
       "source": "src/function-finalization.c"
     },
+    "emit_browser_record": {
+      "logical": "_emit_browser_record@4",
+      "source": "src/stubs.c"
+    },
     "emit_class_array_initialization": {
       "logical": "_emit_class_array_initialization@24",
       "source": "src/stubs.c"
@@ -2671,6 +2683,10 @@
     "first_active_overload": {
       "logical": "_first_active_overload@4",
       "source": "src/call-expressions.c"
+    },
+    "first_browser_record": {
+      "logical": "_first_browser_record",
+      "source": "src/stubs.c"
     },
     "first_vector_item": {
       "logical": "_first_vector_item@4",
@@ -4380,6 +4396,14 @@
       "logical": "_pointer_kind_spelling@4",
       "source": "src/inline-capture.c"
     },
+    "pop_first_browser_record": {
+      "logical": "_pop_first_browser_record",
+      "source": "src/stubs.c"
+    },
+    "pop_last_browser_record": {
+      "logical": "_pop_last_browser_record",
+      "source": "src/stubs.c"
+    },
     "pop_linkage": {
       "logical": "_pop_linkage",
       "source": "src/linkage.c"
@@ -4618,7 +4642,7 @@
     },
     "queue_browser_record": {
       "logical": "_queue_browser_record@8",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "queue_closed_scope": {
       "logical": "_queue_closed_scope@4",
@@ -5446,6 +5470,10 @@
     },
     "search_source_include": {
       "logical": "_search_source_include@4",
+      "source": "src/stubs.c"
+    },
+    "second_browser_record": {
+      "logical": "_second_browser_record",
       "source": "src/stubs.c"
     },
     "seek_work_stack": {
@@ -7180,7 +7208,8 @@
     "finish_debug_info",
     "begin_browser_output",
     "format_browser_temporary_name",
-    "begin_browser_records"
+    "begin_browser_records",
+    "queue_browser_record"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -13610,7 +13639,7 @@
     },
     "member_registry_browser": {
       "first": 1257,
-      "last": 1260,
+      "last": 1261,
       "seen": [
         "main",
         "message_text",
@@ -14769,12 +14798,13 @@
         "begin_browser_output",
         "format_browser_temporary_name",
         "begin_browser_records",
-        "queue_browser_record"
+        "queue_browser_record",
+        "append_browser_record"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_queue_browser_record@8",
-        "native": "queue_browser_record",
+        "logical": "_append_browser_record@12",
+        "native": "append_browser_record",
         "signal": 5
       }
     }

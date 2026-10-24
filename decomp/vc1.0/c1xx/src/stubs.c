@@ -1,4 +1,5 @@
 #include "mangling.h"
+#include "browser.h"
 #include "member-pointers.h"
 #include "builtin-operators.h"
 #include "reference-initializers.h"
@@ -587,4 +588,10 @@ IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CTyp
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
 void finish_line_record_debug_info(void) { __asm { int 3 } }
-void __stdcall queue_browser_record(unsigned char kind, void *subject) { __asm { int 3 } }
+void __stdcall append_browser_record(unsigned char kind, void *subject, unsigned line) { __asm { int 3 } }
+BrowserRecordHeader *first_browser_record(void) { __asm { int 3 } return 0; }
+BrowserRecordHeader *second_browser_record(void) { __asm { int 3 } return 0; }
+BrowserRecordHeader *__stdcall browser_record_from_end(int index) { __asm { int 3 } return 0; }
+BrowserRecordHeader *pop_last_browser_record(void) { __asm { int 3 } return 0; }
+BrowserRecordHeader *pop_first_browser_record(void) { __asm { int 3 } return 0; }
+void __stdcall emit_browser_record(BrowserRecordHeader *record) { __asm { int 3 } }

@@ -1,0 +1,64 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0002bf10 <.text+0x14f10>:
+   2bf10:	53                   	push   ebx
+   2bf11:	56                   	push   esi
+   2bf12:	57                   	push   edi
+   2bf13:	a1 98 cc 08 00       	mov    eax,ds:0x8cc98
+   2bf18:	50                   	push   eax
+   2bf19:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   2bf1d:	50                   	push   eax
+   2bf1e:	8a 44 24 18          	mov    al,BYTE PTR [esp+0x18]
+   2bf22:	50                   	push   eax
+   2bf23:	e8 d8 fd ff ff       	call   0x2bd00
+   2bf28:	e8 63 fe ff ff       	call   0x2bd90
+   2bf2d:	8b f0                	mov    esi,eax
+   2bf2f:	e8 7c fe ff ff       	call   0x2bdb0
+   2bf34:	8b f8                	mov    edi,eax
+   2bf36:	6a 00                	push   0x0
+   2bf38:	e8 a3 fe ff ff       	call   0x2bde0
+   2bf3d:	8b d8                	mov    ebx,eax
+   2bf3f:	6a 01                	push   0x1
+   2bf41:	e8 9a fe ff ff       	call   0x2bde0
+   2bf46:	0b f6                	or     esi,esi
+   2bf48:	74 5c                	je     0x2bfa6
+   2bf4a:	0b ff                	or     edi,edi
+   2bf4c:	74 58                	je     0x2bfa6
+   2bf4e:	80 3e 04             	cmp    BYTE PTR [esi],0x4
+   2bf51:	75 12                	jne    0x2bf65
+   2bf53:	80 3f 03             	cmp    BYTE PTR [edi],0x3
+   2bf56:	75 0d                	jne    0x2bf65
+   2bf58:	f6 47 02 01          	test   BYTE PTR [edi+0x2],0x1
+   2bf5c:	74 2b                	je     0x2bf89
+   2bf5e:	e8 ed fe ff ff       	call   0x2be50
+   2bf63:	eb 24                	jmp    0x2bf89
+   2bf65:	8a 00                	mov    al,BYTE PTR [eax]
+   2bf67:	3c 08                	cmp    al,0x8
+   2bf69:	75 15                	jne    0x2bf80
+   2bf6b:	80 3b 09             	cmp    BYTE PTR [ebx],0x9
+   2bf6e:	75 10                	jne    0x2bf80
+   2bf70:	e8 ab fe ff ff       	call   0x2be20
+   2bf75:	e8 a6 fe ff ff       	call   0x2be20
+   2bf7a:	5f                   	pop    edi
+   2bf7b:	5e                   	pop    esi
+   2bf7c:	5b                   	pop    ebx
+   2bf7d:	c2 08 00             	ret    0x8
+   2bf80:	80 3b 08             	cmp    BYTE PTR [ebx],0x8
+   2bf83:	75 04                	jne    0x2bf89
+   2bf85:	3c 08                	cmp    al,0x8
+   2bf87:	74 1d                	je     0x2bfa6
+   2bf89:	83 3d 3c 4b 09 00 02 	cmp    DWORD PTR ds:0x94b3c,0x2
+   2bf90:	7e 14                	jle    0x2bfa6
+   2bf92:	e8 b9 fe ff ff       	call   0x2be50
+   2bf97:	50                   	push   eax
+   2bf98:	e8 13 f6 ff ff       	call   0x2b5b0
+   2bf9d:	83 3d 3c 4b 09 00 02 	cmp    DWORD PTR ds:0x94b3c,0x2
+   2bfa4:	7f ec                	jg     0x2bf92
+   2bfa6:	5f                   	pop    edi
+   2bfa7:	5e                   	pop    esi
+   2bfa8:	5b                   	pop    ebx
+   2bfa9:	c2 08 00             	ret    0x8

@@ -45,3 +45,31 @@ void begin_browser_records(void)
 {
     queue_browser_record(0, 0);
 }
+
+int browser_record_count; /* original 0x94b3c: pending browser-ring entries */
+
+/* Original 0x2bf10..0x2bfab. Keep adjacent records that may cancel
+   or merge, and drain older entries once that lookahead window is stable. */
+void __stdcall queue_browser_record(unsigned char kind, void *subject)
+{
+    BrowserRecordHeader *first, *second, *last, *previous;
+    append_browser_record(kind, subject, source_line_number);
+    first = first_browser_record();
+    second = second_browser_record();
+    last = browser_record_from_end(0);
+    previous = browser_record_from_end(1);
+    if (first && second) {
+        if (first->kind == 4 && second->kind == 3) {
+            if (second->flags & 1) pop_first_browser_record();
+        } else {
+            if (previous->kind == 8 && last->kind == 9) {
+                pop_last_browser_record();
+                pop_last_browser_record();
+                return;
+            }
+            if (last->kind == 8 && previous->kind == 8) return;
+        }
+        while (browser_record_count > 2)
+            emit_browser_record(pop_first_browser_record());
+    }
+}
