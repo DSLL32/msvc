@@ -22,13 +22,66 @@ single registry for the existing graph auditor. Policy data must not duplicate
 `target`, `accepted`, or `driver`. Original-compiler builds and audits remain
 separate. Native execution never invokes Wine.
 
-Include `include/recon-tool.h` for the versioned C ABI. `binary.mk` compiles the
-reconstruction, `binary.c`, and uninstrumented shared support once into PIC
-`libbinary.so`. `case.mk` links only case glue/tests against it. Root builds should
-finish `recon-native` before parallel case submakes, passing
-`RECON_SKIP_BINARY_BUILD=1`; standalone case builds default to building the common
-library incrementally. Optional application-interface dependency headers should
-be normal make prerequisites. The common rules generate dependency files.
+Include `include/recon-tool.h` for the versioned C ABI. A binary Makefile defines
+its source lists/flags, then includes `recon-tool.mk` once. It builds the
+reconstruction, `binary.c`, and uninstrumented support into one PIC `libbinary.so`.
+`case.mk` links only case glue/tests against that library. `binary.mk` remains
+available separately for small harness fixtures.
+
+```make
+RECON_TOOL_DIR := $(abspath ../../../tooling/recon-tool)
+BINARY_SOURCES := src/main.c src/options.c build/generated.c
+BINARY_SUPPORT_SOURCES := $(addprefix ../../../lib/recon/src/,compat.c crt.c entry.c process.c trace.c win32.c)
+NATIVE_CPPFLAGS := -I../../../lib/recon/include -I../../../lib/recon/native -Isrc
+
+# Optional original build: lists can differ from the native build.
+ORIGINAL_SOURCES := $(BINARY_SOURCES) src/runtime.c
+ORIGINAL_BUILD := build
+ORIGINAL_OUTPUT := build/example.exe
+ORIGINAL_CC := python3 scripts/wine-tool.py CL.EXE
+ORIGINAL_LINK := python3 scripts/wine-tool.py LINK.EXE
+ORIGINAL_CPPFLAGS := /Isrc /I../../../lib/recon/include
+ORIGINAL_CFLAGS := /nologo /c /Od /G3
+ORIGINAL_LDFLAGS := /nologo /subsystem:console
+ORIGINAL_LDLIBS := ../../../toolchains/1.0-nt/lib/BINMODE.OBJ
+ORIGINAL_INCLUDE_DIRS := src ../../../lib/recon/include ../../../toolchains/1.0-nt/include
+ORIGINAL_EXTRA_DEPS := scripts/wine-tool.py
+include $(RECON_TOOL_DIR)/recon-tool.mk
+# Local generated-source rules and target-specific audits follow.
+```
+
+`all`, `native` and `native-trace` build the library. `cases` discovers numbered
+`cases/NNNN-name/Makefile` directories; one library build finishes before parallel
+case submakes. `check`/`replay`/`fixtures` run all discovered cases;
+`unit`/`test-all-cases` run their unit tests. Optional `RECON_RUN_FLAGS` and
+`RECON_TEST_FLAGS` pass runner options. These targets never depend on the original
+build. Standalone case builds update the common library incrementally.
+`clean` removes `BINARY_BUILD` (default `.build`), `ORIGINAL_BUILD` (default `build`),
+and each discovered case's `.build`.
+
+`win32`/`recon-original` build `ORIGINAL_OUTPUT` when `ORIGINAL_SOURCES` is set.
+`ORIGINAL_OBJECTS` (also `OBJECTS`) retains source paths and extensions, for example
+`src/options.c` → `build/obj/src/options.c.obj`. Sources are binary-root-relative,
+without `..` components. `binary.c` and native-only shim files are not added to
+this list. `ORIGINAL_COMPILE`/`ORIGINAL_LINK_COMMAND` can replace the MSVC-shaped
+recipes for other toolchains; `ORIGINAL_ORDER_ONLY` adds initialization prerequisites.
+
+Native objects use compiler-generated header dependencies. Original builds share
+one memoized scan of literal quoted/angle includes, searched through
+`ORIGINAL_INCLUDE_DIRS`; it conservatively includes both conditional branches.
+Macro-computed includes or generated headers not yet present require explicit
+`ORIGINAL_EXTRA_DEPS` or local object prerequisites. Flags in Makefile and the
+shared make rules are tracked. Generator rules remain local to the binary.
+
+To enable the common graph audit, set `RECON_AUDIT_PROFILE`, `RECON_IMAGE_BASE`,
+and optional `RECON_POLICY` before including `recon-tool.mk`. `RECON_REGISTRY`
+defaults to `.build/functions.json`; projection comes from the first discovered
+case and the single binary registry. `RECON_AUDIT_FLAGS`,
+`RECON_AUDIT_METADATA`, and `RECON_AUDIT_PREREQUISITES` configure target-specific
+checks/input generation. `RECON_AUDIT_REPORT` defaults to
+`$(ORIGINAL_BUILD)/graph-audit.json`. `audit` depends on `recon-graph-audit`, which
+uses the graph tool's quiet build include. Append local data/grammar targets or an
+`audit` recipe without duplicating the graph invocation.
 
 The executor loads the library, applies fixture environment and cwd, and runs
 optional `setup` once. Setup must remain single-threaded and create no children.
@@ -117,8 +170,7 @@ the session and terminates any still-running selected invocation; it does not
 leave a stopped child behind. As usual, target exit/frontier assertions determine
 whether the case passed. Debug timing includes the time spent in GDB.
 
-Include `recon-tool.mk` in the binary Makefile and make checks depend on
-`$(RECON_TOOL)` to build the release runner incrementally. `build-quiet.sh` retains
+The shared make rules build the release runner incrementally. `build-quiet.sh` retains
 successful Cargo output in scratch and prints diagnostics only when building
 fails. It never launches Wine.
 
@@ -192,3 +244,6 @@ CRT/import boundary availability is independent of App implementation flags.
 authored EXE invocation, a narrow direct object probe, a DLL through a supplied
 Win32 host, and masked progress, then runs each saved result natively. It does not
 replay historical reconstruction evidence or alter existing cases.
+
+`python3 tests/make.py` checks shared case discovery, parallel/incremental builds,
+original-header dependencies, and optional audit wiring without Wine.

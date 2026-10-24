@@ -240,9 +240,21 @@ Reconstruction work remains separately controlled by the orchestrator.
 ## Implemented native interface
 
 The first implementation lives in `tooling/recon-tool/`; its shared C ABI is
-`include/recon-tool.h`, with common `binary.mk` and `case.mk` build rules. Root
-builds prepare the common library before parallel case submakes; those submakes
-use `RECON_SKIP_BINARY_BUILD=1`. C-only libraries do not require libstdc++.
+`include/recon-tool.h`. A binary defines source lists/flags then includes
+`recon-tool.mk` once. It owns native builds, automatic numbered-case discovery,
+`check`/`replay`/`fixtures`, `unit`/`test-all-cases`, and generated-output cleanup.
+Every discovered case participates in both execution and unit-test targets. The
+common library finishes before parallel case submakes, which use
+`RECON_SKIP_BINARY_BUILD=1`; standalone case builds remain incremental.
+C-only libraries do not require libstdc++.
+
+Optional original builds use a separate `ORIGINAL_SOURCES` list plus
+`ORIGINAL_BUILD`, `ORIGINAL_OUTPUT` and compiler/linker flags. Shared rules derive
+objects with full source paths and track literal include dependencies in one
+memoized scan; target-specific generators and special include dependencies stay
+local. Optional audit profile/image-base/policy variables enable common registry
+projection and the existing Rust graph checker; binary-specific data/grammar
+checks remain local. Concrete variables are documented in the tool README.
 
 The CLI provides `run`, `test`, `inspect`, `registry-export`, and `capture pack/unpack`.
 `registry-export` generates the existing graph auditor's config from `binary.c`,
