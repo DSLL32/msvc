@@ -1,0 +1,45 @@
+{
+  "positive": true,
+  "own_uninitialized16B_scope_positive": true,
+  "fresh_negative_count": 26,
+  "rejected": [
+    "missing normalreturn",
+    "actual initializerreturn normal_return",
+    "actual initializerreturn return_stack",
+    "actual initializerreturn stack_pointer",
+    "actual initializerreturn formals",
+    "actual initializerreturn hidden_inputs",
+    "actual nextentry stack_pointer",
+    "actual nextentry formals",
+    "actual nextentry hidden_inputs",
+    "whole returnedrecord after",
+    "whole returnedrecord before",
+    "whole returnedrecord address",
+    "whole returnedrecord owner_local_bytes",
+    "coherent initializedrecordDWORD0",
+    "coherent initializedrecordDWORD1",
+    "coherent initializedrecordDWORD2",
+    "coherent initializedrecordDWORD3",
+    "coherent foreigncallback+record",
+    "currentrecord not16B",
+    "original wrongnextreturn",
+    "original wrongnextstack",
+    "original wrongoneformal",
+    "native unknownnextregister",
+    "original unknownnextregister",
+    "original missing genuineenumreturn",
+    "original wrongRET8cleanup"
+  ],
+  "elapsed_seconds": {
+    "positive": 2.3114926451817155,
+    "affected_negatives_and_scope": 1.0523024443536997,
+    "total": 3.3637983622029424
+  },
+  "premises": {
+    "scripts/check-module-enum-result.py": "378253f1e76b1a504b1694d6bd151579da5361ba19ec818288970da630a236c2",
+    "scripts/module_enumerator_state.py": "be2a4c81e2e657edc005080f58e04f8fc58df5f5714fbf95db3a907219ed83cc",
+    "scripts/module_constructor_state.py": "5b959ddd2f0c945b041e0b995de751cb9c415b66b45bb365d4de1d6b452c10e6",
+    "scripts/capture-help.c": "0631af6dbb3b156c06496671432052fca061c7b008d64fb750a4031148d9b20e",
+    "cases/hello-win32/module-enumerator-input-contract.json": "c236a660878c2e32056d7dd72780c7d791f98803e758b146c536808f31a3bd9e"
+  }
+}

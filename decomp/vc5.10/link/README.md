@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 99 application
-functions (36,754 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 100 application
+functions (36,788 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `initialize_module_enumerator`; hello-win32 has not completed.
+next frontier is `next_module`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -641,3 +641,18 @@ plus positives take 2.559 s; 112 full/105 strict graph bodies pass. Original/nat
 audit times are 1.569/0.973/0.658 s. Native help takes 72.02 ms including 3.767 ms
 execution. Evidence and the corrected C++ DWARF observer check are retained in
 `frontiers/99-module-lookup-review`.
+
+The 34-byte module-enumerator initializer is accepted. Its actual normal RET8
+and complete 16-byte output are observed before the next one-argument call.
+The installed next/end pointers resolve to their genuine named functions, the
+library pointer keeps its borrowed identity, and current is NULL. The next
+helper remains a masked 60-byte body with no credit. All 26 focused negatives
+plus positives take 3.364 s; 113 full/106 strict graph bodies pass. Corrected
+original/native/audit times are 1.603/0.935/0.625 s. Native help takes 77.81 ms
+including 3.735 ms execution. The first rejected pair exposed a debugger label
+collision: an old broad module-probe prefix consumed the new return observer.
+The dispatcher now matches its four registered labels exactly; a fresh pair
+records the genuine return. That failed history and the final immutable packet
+are in `frontiers/100-module-enum-init-review`. The exact shared WIP snapshot
+subsequently published as READY45f7a2ace is bound separately, without replay
+solely for publication.

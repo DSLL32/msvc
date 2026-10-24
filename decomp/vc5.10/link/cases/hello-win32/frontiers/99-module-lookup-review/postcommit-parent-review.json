@@ -1,0 +1,17 @@
+{
+  "scope": "Read-only post-commit independent immutable packet/source review; no new execution or acceptance gate",
+  "manifest_sha256": "5baceb875779e319472dc1263109325fdcadab7795c124a8afec34db6064986b",
+  "verified_bindings": 956,
+  "commit": "56f93cb86",
+  "application_functions": 99,
+  "application_bytes": 36754,
+  "separate_support": {
+    "functions": 13,
+    "bytes": 522
+  },
+  "source_review": "Readable genuine member FindModule; enumerator init then pending next_module, identity-or-qualified_mbsicmp branch and real cleanup; no wrapper vertex. Current file also contains next100 candidate; 99 proof binds frozen content rather than current file equality.",
+  "finite_ABI_review_sha256": "77d57b9711c3274baedc223fa284fc8cea6ae475af685ac0aa36fbd3d20b1a80",
+  "mask": "Exact140B code delta, no text data, four followingCC padding, all other mask bytes unchanged",
+  "frontier": "Real initialize_module_enumerator stdcall2/RET8; uninitialized own16B incoming output contents unclaimed, exact local source/ABI/owner offsets bound independently each side",
+  "qualification": "Worker fresh typed/graph/RET/control receipts reviewed; this review did not rerun those suites."
+}

@@ -27,7 +27,7 @@ def compare(original,state,trap,events,directory,formals,nformals,header):
     creator,=[r for r in config['driver']if r['name']=='_create_input_module@48']
     assert (creator['start'],creator['end'])==(0x40ea00,0x40edcc)
     method,=[r for r in config['driver']if r['name']=='OutputLibrary::FindModule']
-    child=state['function']=='initialize_module_enumerator'
+    child=state['function']in ('initialize_module_enumerator','next_module')
     assert method['start']==0x40f7a0
     if child:assert not method['pending_extent']and method['end']==0x40f82c
     else:assert method['pending_extent']

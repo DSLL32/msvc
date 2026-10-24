@@ -150,7 +150,10 @@ OutputModule *RECON_THISCALL OutputLibrary::FindModule(const char *name,const vo
 }
 void __stdcall initialize_module_enumerator(ModuleEnumerator *enumerator,OutputLibrary *library)
 {
-    __asm { int 3 }
+    enumerator->next=next_module;
+    enumerator->end=(void (__stdcall *)(ModuleEnumerator *))end_section_enumerator;
+    enumerator->current=NULL;
+    enumerator->library=library;
 }
 BYTE __stdcall next_module(ModuleEnumerator *enumerator)
 {

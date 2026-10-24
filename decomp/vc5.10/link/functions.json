@@ -116,7 +116,8 @@
     "_initialize_x86_backend@8",
     "_read_coff_header@16",
     "_create_input_module@48",
-    "OutputLibrary::FindModule"
+    "OutputLibrary::FindModule",
+    "_initialize_module_enumerator@8"
   ],
   "driver": [
     {
@@ -3061,12 +3062,12 @@
     {
       "name": "_initialize_module_enumerator@8",
       "start": 4258656,
-      "end": 4258657,
-      "pending_extent": true,
-      "status": "stub",
+      "end": 4258690,
+      "pending_extent": false,
+      "status": "implemented",
       "source": "src/input-module.cpp",
       "native_symbol": "initialize_module_enumerator",
-      "abi": "stdcall void(ModuleEnumerator*,OutputLibrary*);RET8,2physicalslots,nohidden; complete34B readonly output-only16B initializer"
+      "abi": "stdcall void(ModuleEnumerator*,OutputLibrary*);RET8,2physicalslots,nohidden; complete34B initializes next/end callbackidentities, NULLcurrent andlibrary"
     },
     {
       "name": "_next_module@4",

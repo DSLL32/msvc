@@ -1,0 +1,13 @@
+{
+  "new_code_extent": [
+    4258656,
+    4258690
+  ],
+  "extent_bytes": 34,
+  "actual_changed_bytes": 34,
+  "old_mask_sha256": "36cad5e68d7667f73fe30108c0f001a2e6ced5b19beaecdd6f453994984699b6",
+  "new_mask_sha256": "a3335d21b5a98a93ade36ba66185b0ab68600841af06a6585db7e1bf09d61b88",
+  "next14_padding": "cccccccccccccccccccccccccccc",
+  "all_other_mask_bytes_unchanged": true,
+  "text_data_changes": []
+}

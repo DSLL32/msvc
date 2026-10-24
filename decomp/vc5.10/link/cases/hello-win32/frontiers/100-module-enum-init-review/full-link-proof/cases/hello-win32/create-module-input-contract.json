@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "address": 4254208,
+  "bytes": 972,
+  "body_sha256": "21163ecf8a8ea735b5ad618365f95a3344c3f354f754f67db8a97f98587ceae0",
+  "formals": [
+    "const char *original_name",
+    "const char *name",
+    "const void *identity",
+    "IMAGE_FILE_HEADER *header",
+    "OutputLibrary *library",
+    "BYTE *created",
+    "BYTE copy_sections",
+    "DWORD section_offset",
+    "IMAGE_SECTION_HEADER *sections",
+    "BYTE *section_flags",
+    "void *optional_data",
+    "DWORD auxiliary"
+  ],
+  "physical_slots": 12,
+  "hidden_inputs": [],
+  "returns": [
+    [
+      4255145,
+      48
+    ],
+    [
+      4255177,
+      48
+    ]
+  ],
+  "created_output": {
+    "formal_index": 5,
+    "bytes": 1,
+    "first_store": {
+      "address": 4254266,
+      "raw": "8810"
+    },
+    "scope": "Pointer tested then BYTEstore before any pointee read; no earlierchild receives createdpointer. First incoming byte retained own/raw, not semanticcrossinput; later typedcallee acceptance must preserve write-before-consumption."
+  },
+  "original_alias": {
+    "created": "objectentryESP+4 (prior InputArgumentpointer slot); argument preservedESI before call",
+    "header": "objectentryESP-20 full20B defined"
+  },
+  "scope": "Complete read-only972B pendingentry/twoRET48, actual12 physicalformals required before callerpromotion; no incomingreceiver (ECX replaced fromarg3 before use), no bodycredit."
+}

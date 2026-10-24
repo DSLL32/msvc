@@ -1,0 +1,12 @@
+{
+  "output": "Actual16B caller-owned local remains live through initializerRET8 and nextcall; incoming whole16B are own-only and all4DWORD slots are written before being read.",
+  "initialized_record": [
+    "genuine named pending next_module pointer",
+    "existing end_section_enumerator pointer",
+    "exact borrowed OutputLibrary pointer",
+    "NULLcurrent"
+  ],
+  "actual_normalreturn": "Original initentry=methodESP\u221244 and normalreturnESP=methodESP\u221232; native initentry=methodESP\u221248 and return+12. Meaningful result is complete output only (voidsignature).",
+  "next_inputs": "Original nextentry=methodESP\u221240 with same outputpointer, return40f7be. Native nextentry=methodESP\u221248 from exact CALL76. One fullformal and no hidden inputs. Whole callback identities resolved independently from frozen ELF symbols; no input address seeding.",
+  "credit": "Next60B remains named masked trap with zero credit; prior finite EBX/canonical CRT witnesses unchanged."
+}
