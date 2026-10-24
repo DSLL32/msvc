@@ -175,13 +175,6 @@
     "evidence": "two cdecl args vector/item; actual pointer append and signedshort header consumers ground signature; named typed INT3 stub only"
   },
   {
-    "name": "_allocate_packing_memory",
-    "start": 274805961,
-    "end": 274805962,
-    "pending_extent": true,
-    "evidence": "genuine packing callee entry; named INT3 only, no body/extent credit"
-  },
-  {
     "name": "CompilerPacking::Push",
     "start": 274781272,
     "end": 274781273,

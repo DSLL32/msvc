@@ -22,8 +22,13 @@ extern "C" void __cdecl initialize_packing(void)
 
 extern "C" void *__cdecl allocate_packing_memory(unsigned bytes)
 {
-    __asm { int 3 }
-    return NULL;
+    CompilerArena *arena = &c1_bss.arenas[0];
+    BYTE *memory = arena->cursor;
+
+    arena->cursor += (bytes + 3) & ~3U;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    return memory;
 }
 
 CompilerPackingFrame *RECON_THISCALL CompilerPacking::Push(void)

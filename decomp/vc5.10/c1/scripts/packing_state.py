@@ -10,18 +10,19 @@ from signature_call_state import fp
 from frontier_contract import validate_original_frontier,validate_native_stop
 BASE=0x10600000
 
-def validate(original,native,candidate,report):
+def validate(original,native,candidate,report,stage_state=None):
  entries=load(native,'packing-entries');assert len(entries)==1
  stage=snapshot(original,native,load(native,'state'),entries[0])
  prefix=validate_prefix(original,native,candidate,report,stage_state=stage)
- result=validate_endpoint(original,native,candidate);result['prefix']=prefix;return result
+ result=validate_endpoint(original,native,candidate,stage_state=stage_state);result['prefix']=prefix;return result
 
-def validate_endpoint(original,native,candidate):
+def validate_endpoint(original,native,candidate,stage_state=None):
  assert candidate['packing_observers']==dict(entry_rva=0x1348d,allocator_rva=0x134c9,return_rva=0x13494,request_bytes=8)
  expected=dict(kind='packing-initializer-allocator',rva=0x134c9,native_symbol='allocate_packing_memory',native_args=['bytes'],calling_convention='cdecl',caller=dict(native_symbol='initialize_packing',return_rva=0x13494))
- assert candidate['expected_frontier']==expected and candidate['allowed_probes']==['normal']
+ assert candidate['expected_frontier']==expected if stage_state is None else candidate['expected_frontier']['kind']=='packing-allocation-complete'
+ assert candidate['allowed_probes']==['normal']
  f=[r for r in candidate['functions']if r['name']=='_initialize_packing'];assert len(f)==1 and f[0]['chunks']==[[0x1348d,0x134c9],[0x30af8,0x30b02]]and f[0]['role']=='application'
- entries=load(native,'packing-entries');assert len(entries)==1;entry=entries[0];state=load(native,'state')
+ entries=load(native,'packing-entries');assert len(entries)==1;entry=entries[0];state=load(native,'state')if stage_state is None else stage_state
  events=(original/'events.txt').read_text();validate_original_frontier(events,candidate,'normal');validate_native_stop(native,candidate)
  def event(rva):
   rows=re.findall(r'^trap seq=(\d+) rva=%08x esp=(\w+).*stack=([\w,]+)$'%rva,events,re.M);assert len(rows)==1
@@ -36,8 +37,8 @@ def validate_endpoint(original,native,candidate):
  binary=captured_native_binary(native);names=symbols(binary)
  assert entry['pc']==names['initialize_packing'][0]and entry['formal_inventory']==[]and entry['args']=={}and entry['words']==[entry['caller']['pc']]
  assert state['symbol']=='allocate_packing_memory'and state['args']=={'bytes':8}and state['formal_inventory']==[dict(name='bytes',type='unsigned int')]
- assert names['allocate_packing_memory'][0]<state['pc']<=sum(names['allocate_packing_memory'])
- opcode=subprocess.check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert 'int3'in opcode
+ assert names['allocate_packing_memory'][0]<=state['pc']<=sum(names['allocate_packing_memory'])
+ opcode=subprocess.check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert ('int3'in opcode if stage_state is None else state['pc']==names['allocate_packing_memory'][0])
  assert state['caller']['symbol']=='initialize_packing'and state['caller']['args']=={}and set(state['caller'])=={'symbol','args','pc'}
  # The independently observed physical caller entry inventories all zero
  # formals; generic final caller records carry only symbol/args/return PC.

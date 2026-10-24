@@ -488,6 +488,11 @@
       "entry": 1
     },
     {
+      "start_rva": 79049,
+      "end_rva": 79092,
+      "entry": 1
+    },
+    {
       "start_rva": 178328,
       "end_rva": 178358,
       "entry": 0
@@ -625,6 +630,11 @@
     {
       "start_rva": 199416,
       "end_rva": 199426,
+      "entry": 0
+    },
+    {
+      "start_rva": 199426,
+      "end_rva": 199441,
       "entry": 0
     }
   ],
@@ -1864,6 +1874,20 @@
         ]
       ],
       "role": "application"
+    },
+    {
+      "name": "_allocate_packing_memory",
+      "chunks": [
+        [
+          79049,
+          79092
+        ],
+        [
+          199426,
+          199441
+        ]
+      ],
+      "role": "application"
     }
   ],
   "text_data": [
@@ -1885,16 +1909,16 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "kind": "packing-initializer-allocator",
-    "rva": 79049,
-    "native_symbol": "allocate_packing_memory",
+    "kind": "packing-allocation-complete",
+    "rva": 54360,
+    "native_symbol": "CompilerPacking::Push",
     "native_args": [
-      "bytes"
+      "this"
     ],
-    "calling_convention": "cdecl",
+    "calling_convention": "thiscall",
     "caller": {
       "native_symbol": "initialize_packing",
-      "return_rva": 78996
+      "return_rva": 79011
     }
   },
   "imports": [
@@ -2473,5 +2497,12 @@
     "allocator_rva": 79049,
     "return_rva": 78996,
     "request_bytes": 8
+  },
+  "packing_allocator_observers": {
+    "entry_rva": 79049,
+    "return_rva": 78996,
+    "frontier_rva": 54360,
+    "request_bytes": 8,
+    "arena_kind": 0
   }
 }

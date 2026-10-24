@@ -4,6 +4,40 @@ static int normalize_active,fullpath_active,resolver_returned;
 static DWORD normalize_argument,normalize_esp,normalize_return,fullpath_entry,fullpath_esp;
 static DWORD fullpath_arguments[3];
 static BYTE normalize_saved,fullpath_saved,resolver_saved;
+static DWORD packing_memory,packing_allocator_esp;
+static int packing_allocator_active,packing_allocator_returned;
+
+static void packing_allocation_record(const char *phase,DWORD address,CONTEXT *context,HANDLE thread,DWORD tid)
+{
+    DWORD words[16],arena[8];BYTE memory[8];char name[120],tag[100];
+    words[0]=sequence;words[1]=address;words[2]=context->Esp;words[3]=context->Eax;words[4]=context->Ecx;words[5]=context->Edx;
+    words[6]=context->Ebx;words[7]=context->Esi;words[8]=context->Edi;words[9]=context->Ebp;
+    readmem(context->Esp,words+10,8);words[12]=packing_memory;words[13]=base;words[14]=packing_allocator_esp;words[15]=8;
+    sprintf(name,"packing-allocation-%s-registers.bin",phase);save_blob(name,words,sizeof(words));
+    readmem(base+0x58fb0,arena,sizeof(arena));
+    if(!arena[2] || arena[3]!=0x10000 || packing_memory<arena[2] || packing_memory-arena[2]>arena[3]-8)fail("packing allocation owned8B");
+    sprintf(name,"packing-allocation-%s-arena.bin",phase);save_blob(name,arena,sizeof(arena));
+    readmem(packing_memory,memory,8);sprintf(name,"packing-allocation-%s-memory.bin",phase);save_blob(name,memory,sizeof(memory));
+    sprintf(tag,"packing-allocation-%s",phase);locale_snapshot(tag,context,thread,tid);
+}
+
+static void packing_allocation_enter(DWORD address,CONTEXT *context,HANDLE thread,DWORD tid)
+{
+    DWORD words[2];
+    if(option_action_frontier!=0xd458)return;
+    if(address==base+0x134c9) {
+        if(packing_allocator_active || packing_allocator_returned)fail("packing allocator repeats");
+        readmem(context->Esp,words,8);if(words[0]!=base+0x13494 || words[1]!=8)fail("packing allocator actual ABI");
+        readmem(base+0x58fb0,&packing_memory,4);packing_allocator_esp=context->Esp;
+        if(snapshot[0x13494-code_rva]!=0x83)fail("packing allocator return byte");
+        packing_allocator_active=1;packing_allocation_record("entry",address,context,thread,tid);patch(base+0x13494,0xcc);
+    } else if(address==base+0xd458) {
+        if(!packing_allocator_returned || packing_allocator_active || context->Ecx!=packing_memory)fail("packing actual receiver");
+        readmem(context->Esp,words,4);if(words[0]!=base+0x134a3)fail("packing member actual caller");
+        readmem(base+0x5e410,words,4);if(words[0]!=packing_memory)fail("packing published receiver");
+        packing_allocation_record("member",address,context,thread,tid);
+    }
+}
 
 static void normalizer_cwd(const char *phase,CONTEXT *context,HANDLE thread)
 {
@@ -73,7 +107,11 @@ static int normalizer_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWOR
 {
     DWORD stack[4];
     if(!option_normalizer_probe)return 0;
-    if(fullpath_entry && address==fullpath_entry) {
+    if(option_action_frontier==0xd458 && packing_allocator_active && address==base+0x13494) {
+        if(context->Esp!=packing_allocator_esp+4 || context->Eax!=packing_memory)fail("packing allocator real RET0/result");
+        packing_allocation_record("return",address,context,thread,tid);save_state();patch(address,snapshot[0x13494-code_rva]);
+        packing_allocator_active=0;packing_allocator_returned=1;
+    } else if(fullpath_entry && address==fullpath_entry) {
         if(fullpath_calls || normalize_calls!=1 || normalize_returns!=1 || normalize_active)fail("fullpath actual ordering");
         readmem(context->Esp,stack,sizeof(stack));
         if(stack[0]!=base+0x1342e || stack[3]!=520)fail("fullpath true cdecl input/caller");
@@ -97,6 +135,6 @@ static int normalizer_boundary(DWORD address,CONTEXT *context,HANDLE thread,DWOR
 
 static void check_normalizer_stop(DWORD address)
 {
-    if(option_normalizer_probe && (address!=base+(option_action_frontier==0x134c9?0x134c9:0x1348d) || normalize_calls!=2 || normalize_returns!=2 || fullpath_calls!=1 || fullpath_returns!=1 || !resolver_returned || normalize_active || fullpath_active))
+    if(option_normalizer_probe && (address!=base+option_action_frontier || normalize_calls!=2 || normalize_returns!=2 || fullpath_calls!=1 || fullpath_returns!=1 || !resolver_returned || normalize_active || fullpath_active))
         fail("whole normalizer/fullpath/resolver closure");
 }
