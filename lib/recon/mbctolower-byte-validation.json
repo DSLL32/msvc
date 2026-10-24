@@ -270,10 +270,84 @@
     "sha256": "dedd7c66d5117e632fcfc8102a1874012d1dd1a12f1fa9252665fa45f89110e8",
     "result": "PASS: default core, six unbound unsigned input denials,68624 ASCII rows+23 denials, old combined table/identity/errors+14 denials/default"
   },
-  "remaining": "Own C1/C1XX actual native normal/restore adoption against their retained original captures before application acceptance; no shared publication hold.",
+  "remaining": "C1 own normal/restore adoption accepted; C1XX own normal/restore actual adoption remains before application acceptance.",
   "independent_review": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/mbctolower-byte-parent-review.json",
     "sha256": "e40902f7cce0e6251e22a96785b4d781ef800fcc042339cf165ccfbe86d5ead7",
     "result": "APPROVED; independently reran all16 frozen GCC/Clang profile/default x own normal/restore checkers in14.122s; exact source/hash/wholeleaf guards reviewed"
+  },
+  "adoption_C1": {
+    "commit": "dcb345224",
+    "status": "accepted own normal and initialized restore actual path-fold initializer with shared61155226d",
+    "application_function": "_initialize_path_fold_table",
+    "application_bytes": 83,
+    "packet": {
+      "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/path-fold-review.json",
+      "sha256": "c5922842a87b42ab6813b4dcb10e06b60db26fa8dbd65a5a0dbd8e2e199af639"
+    },
+    "acceptance": {
+      "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/accepted-path-fold.json",
+      "sha256": "6bf3addf848f0ba32a3557a0ce161c946a4727ae8e01bfbeae6eeb741a074833"
+    },
+    "parent_review": {
+      "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/path-fold-controls/pathfold-parent-final-review.json",
+      "sha256": "88168fabb857480c6b4687e58b1e8abdf0c434ce61726c901e5788b829bac541"
+    },
+    "pairs": [
+      {
+        "kind": "normal",
+        "calls": 256,
+        "current_validation": {
+          "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/path-fold-normal/current-validation.json",
+          "sha256": "411c02f82065ed4711513f2bb4c6f50c02b601876b88a76bedc00d851db2699e",
+          "seconds": 6.179906915873289
+        },
+        "original_receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/path-fold-normal/original/receipt.json",
+          "sha256": "8be7252b2181a2133ca2a8d161e30b1aec235f686f09671080170d7d8df77322"
+        },
+        "native_receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/path-fold-normal/native/receipt.json",
+          "sha256": "c76117d13f8aaad1fb9064575cc6fc3b0e3c95c7c70661492a0e9ba02e1dedbb",
+          "seconds": 6.729406741447747
+        },
+        "compiled_build": {
+          "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/path-fold-normal/native/compiled-build.json",
+          "sha256": "2ffd363729fa823003d20251c99261427c5ddce882d264cd626c24c10ea76dec",
+          "sources_verified": 50
+        },
+        "native_elf_sha256": "2174864ce7f35355a236f42a23a0f662432d409fd1a17528dd313788274e30a4"
+      },
+      {
+        "kind": "restore",
+        "calls": 255,
+        "current_validation": {
+          "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/path-fold-restore/current-validation.json",
+          "sha256": "4bf22490f58c9b09ca72822940bcee2d6f832d711f27cb32e298824b4bbf62fe",
+          "seconds": 7.320768795907497
+        },
+        "original_receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/path-fold-restore/original/receipt.json",
+          "sha256": "73ded0bc972d05a4672481f86328a37a3116ae51b59134c8a270c21f90c09f52"
+        },
+        "native_receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/path-fold-restore/native/receipt.json",
+          "sha256": "3e669a788f961328d2cf663764e5dfe7f2efc625548292128932fda011193b2f",
+          "seconds": 7.3554072780534625
+        },
+        "compiled_build": {
+          "path": "/root/msvc2/decomp/vc5.10/c1/cases/minimal/evidence/path-fold-restore/native/compiled-build.json",
+          "sha256": "2ffd363729fa823003d20251c99261427c5ddce882d264cd626c24c10ea76dec",
+          "sources_verified": 50
+        },
+        "native_elf_sha256": "2174864ce7f35355a236f42a23a0f662432d409fd1a17528dd313788274e30a4"
+      }
+    ],
+    "checks": "Recorded packet/control/current-validation/receipt/compiled-source-content hashes verified read-only; no rebuild, execution, or original replay",
+    "retained_failure": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-path-fold-001",
+      "kind": "native observer asserted its old sole getenv caller after successful256 lowercalls; fixed by explicit independent caller inventories, same original and ELF"
+    },
+    "remaining": "C1XX own actual normal/restore adoption remains pending; no claim beyond supported byte API or completed C1 compilation."
   }
 }
