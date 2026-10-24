@@ -198,7 +198,6 @@ IrToken *__stdcall new_unary_ir_expression(unsigned char operation, void *value)
 IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken *arguments) { __asm { int 3 } return 0; }
 
 
-void record_continue_statement(void) { __asm { int 3 } }
 void record_default_label(void) { __asm { int 3 } }
 void __stdcall record_goto(CppSymbol *label, int known) { __asm { int 3 } }
 void __stdcall record_qc_jump(unsigned char kind) { __asm { int 3 } }

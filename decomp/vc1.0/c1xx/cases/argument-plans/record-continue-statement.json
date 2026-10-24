@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "function": "_record_continue_statement",
+  "native_entry": "record_continue_statement",
+  "argument_words": 4,
+  "native_expressions": {},
+  "formals": [],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      264688,
+      264798
+    ],
+    "argument_bytes": 0,
+    "convention": "cdeclvoid",
+    "proof": "Whole110B SUB16/plainRET/zeroformals/no incomingGPR,x87orCPUflagsinput. Suppressionearlyreturn; actual valid currenttail kindlow6 values9,11,36..39 suppressredundantboundary. Otherwise fullydefined16Bkind38/all15remainingbyteszero append; process_expression_records(0)result passedtoexistingnonnull emitter. Distinctoriginalfunction retained, no helperextraction or newdata. Original tail-nonNULL precondition retained without inventedguard."
+  }
+}

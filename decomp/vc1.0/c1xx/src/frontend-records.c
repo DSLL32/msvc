@@ -1186,3 +1186,22 @@ void record_break_statement(void)
     append_frontend_record(&record, sizeof(record));
     emit_nonnull_expression_statement(process_expression_records(0));
 }
+
+/* Original 0x409f0..0x40a5d. A continue has its own cleanup
+   boundary, with the same preceding-termination suppression as break. */
+void record_continue_statement(void)
+{
+    FrontendRecord record;
+    unsigned char kind;
+    if (ir_records_suppressed) return;
+    kind = ir_record_tail->kind & 0x3f;
+    if (kind == 9 || kind == 11 || (kind >= 0x36 && kind <= 0x39)) return;
+    record.kind = 0x38;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    emit_nonnull_expression_statement(process_expression_records(0));
+}
