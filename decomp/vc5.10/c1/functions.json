@@ -82,7 +82,8 @@
     "_read_env_arguments",
     "_new_option_vector",
     "_next_argument",
-    "_match_option"
+    "_match_option",
+    "_apply_option_action"
   ],
   "driver": [
     {
@@ -763,6 +764,24 @@
         [
           274805088,
           274805162
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_apply_option_action",
+      "start": 274805162,
+      "end": 274805381,
+      "code_chunks": [
+        [
+          274925871,
+          274926025
+        ]
+      ],
+      "shared": [
+        [
+          274805392,
+          274805463
         ]
       ],
       "role": "application"

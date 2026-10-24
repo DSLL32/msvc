@@ -13,28 +13,29 @@ from option_match_fields import validate_reset
 def raw_registers(original,phase):return list(struct.unpack('<16I',(original/('option-match-'+phase+'-registers.bin')).read_bytes()))
 def raw_blob(original,phase,region):return(original/('option-match-'+phase+'-target-'+region+'.bin')).read_bytes()
 
-def validate(original,native,candidate,report):
+def validate(original,native,candidate,report,stage_state=None):
  rows=[f for f in candidate['functions']if f['name']=='_match_option'];assert len(rows)==1
  assert rows[0]['chunks']==[[0x12fbe,0x1315f],[0x30919,0x3092f],[0x13160,0x131aa]]and rows[0]['text_data_chunks']==[[0x13160,0x131aa]]
  assert candidate['option_match_observers']==dict(entry_rva=0x12fbe,action_rva=0x131aa,argument_index=1,value_index=2,rule_index=31)
  receipt=json.loads((original/'receipt.json').read_text());probe=receipt['probe'];validate_original_frontier((original/'events.txt').read_text(),candidate,probe);validate_native_stop(native,candidate)
- state=json.loads((native/'state.json').read_text());matcher=json.loads((native/'option-match-entries.json').read_text());assert len(matcher)==1
- first_next=json.loads((native/'argument-cursor-entries.json').read_text());first_ret=json.loads((native/'argument-cursor-returns.json').read_text());assert len(first_next)==len(first_ret)==1
+ state=stage_state if stage_state is not None else json.loads((native/'state.json').read_text());matcher=json.loads((native/'option-match-entries.json').read_text());assert len(matcher)==(3 if stage_state else 1)
+ first_next=json.loads((native/'argument-cursor-entries.json').read_text());first_ret=json.loads((native/'argument-cursor-returns.json').read_text());assert len(first_next)==len(first_ret)==(3 if stage_state else 1)
  sig=json.loads((native/'signature-call-entries.json').read_text());sig_ret=json.loads((native/'signature-call-returns.json').read_text())
- if probe=='normal':assert len(sig)==len(sig_ret)==1;stage=snapshot(original,native,state,sig[0]);stage['dependency_entry']=sig[0]['dependency_entry']
- else:assert probe=='restore'and not sig and not sig_ret;stage=snapshot(original,native,state,first_next[0])
+ if probe=='normal':assert len(sig)==len(sig_ret)==(3 if stage_state else 1);stage=snapshot(original,native,state,sig[0]);stage['dependency_entry']=sig[0]['dependency_entry']
+ else:assert probe=='restore'and len(sig)==len(sig_ret)==(2 if stage_state else 0);stage=snapshot(original,native,state,first_next[0])
  prefix=validate_vectors(original,native,candidate,report,stage_state=stage)
  from signature_call_state import validate as validate_signature
  signature=validate_signature(original,native,sig[0],sig_ret[0],first_next[0])if probe=='normal'else dict(executed=False,reason='actual restored c9_il9 skips public call')
  match_entry=snapshot(original,native,state,matcher[0]);iterator=validate_first_argument(original,native,candidate,first_next[0],first_ret[0],match_entry,following=True)
  validate_reset(original,native)
- next_entries=json.loads((native/'option-next-entries.json').read_text());next_returns=json.loads((native/'option-next-returns.json').read_text());assert len(next_entries)==len(next_returns)==1
- proof=validate_boundary(original,native,candidate,matcher[0],next_entries[0],next_returns[0],state)
+ next_entries=json.loads((native/'option-next-entries.json').read_text());next_returns=json.loads((native/'option-next-returns.json').read_text());assert len(next_entries)==len(next_returns)==(3 if stage_state else 1)
+ proof=validate_boundary(original,native,candidate,matcher[0],next_entries[0],next_returns[0],state,following=stage_state is not None)
  from counterpart_correction import validate as correction
- corrected=correction(original);assert corrected is not None
- return dict(status='matching439B option matcher through genuine callback and action entry',application_candidate='_match_option',candidate_code_bytes=439,separate_text_data_bytes=74,case_rule='-il$',case_rule_index=31,argument='-il',borrowed_value='.\\minimal',action_executed=False,other_matcher_branches='whole source/graph only; no runtime branch credit',initialized_known_bytes=2348,initialized_UNMODELED_bytes=4200,native_bss_bytes=2376,new_known_bss_bytes=4,signature=signature,iterator=iterator,proof=proof,prefix=prefix,original_reuse=dict(kind='explicit corrected counterpart; original execution unchanged',packet_sha256=corrected['packet_sha256'],original_receipt_sha256=corrected['original_receipt_sha256']),execution_receipts=dict(original=sha(original/'receipt.json'),native=sha(native/'receipt.json')))
+ corrected=correction(original)
+ if stage_state is None:assert corrected is not None
+ return dict(status='matching439B option matcher through genuine callback and action entry',application_candidate='_match_option',candidate_code_bytes=439,separate_text_data_bytes=74,case_rule='-il$',case_rule_index=31,argument='-il',borrowed_value='.\\minimal',action_executed=False,other_matcher_branches='whole source/graph only; no runtime branch credit',initialized_known_bytes=2348,initialized_UNMODELED_bytes=4200,native_bss_bytes=2376,new_known_bss_bytes=4,signature=signature,iterator=iterator,proof=proof,prefix=prefix,original_reuse=(dict(kind='explicit corrected counterpart; original execution unchanged',packet_sha256=corrected['packet_sha256'],original_receipt_sha256=corrected['original_receipt_sha256'])if corrected else None),execution_receipts=dict(original=sha(original/'receipt.json'),native=sha(native/'receipt.json')))
 
-def validate_boundary(original,native,candidate,entry,next_entry,end,state):
+def validate_boundary(original,native,candidate,entry,next_entry,end,state,following=False):
  binary=captured_native_binary(native);names=symbols(binary);a,b,c,d=[raw_registers(original,phase)for phase in ('entry','next-entry','next-return','action')]
  assert a[1]==0x10612fbe and a[10:]==[0x10612c50,0x10662b78,a[12],0x10612f9c,0,0x10600000]
  assert b[1]==0x10612f9c and b[10]==0x106130ae and c[1]==0x106130ae and c[2]==b[2]+4 and c[6:10]==b[6:10]
@@ -57,14 +58,16 @@ def validate_boundary(original,native,candidate,entry,next_entry,end,state):
  assert next_entry['caller']['symbol']=='match_option'and next_entry['caller']['args']==entry['args']and next_entry['words']==[next_entry['caller']['pc']]
  assert end['pc']==next_entry['words'][0]and end['esp']==next_entry['esp']+4 and end['preserved']==next_entry['preserved']and end['eax']==value and end['result_bytes']==list(b'.\\minimal\0')
  expected['bss']['command_argc']=9;expected['bss']['command_argv']+=4;assert end['compiler_state']==state['compiler_state']==expected
- assert state['symbol']=='apply_option_action'and names['apply_option_action'][0]<state['pc']<=sum(names['apply_option_action'])
- opcode=subprocess.check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert 'int3'in opcode
+ assert state['symbol']=='apply_option_action'
+ assert state['pc']==names['apply_option_action'][0]if following else names['apply_option_action'][0]<state['pc']<=sum(names['apply_option_action'])
+ opcode=subprocess.check_output(['objdump','-d','--start-address='+str(state['pc']-1),'--stop-address='+str(state['pc']),str(binary)],text=True);assert following or 'int3'in opcode
  assert state['args']==dict(rule=names['option_rules'][0]+31*12,value=value,copy=0)and state['formal_inventory']==[dict(name=k,type=t)for k,t in [('rule','CompilerOptionRule *'),('value','char *'),('copy','int')]]
- assert state['caller']['symbol']=='match_option'and state['caller']['args']=={}
+ assert state['caller']['symbol']=='match_option'and state['caller']['args']==(entry['args']if following else{})
  # The current generic JSON collector only names argc/argv caller formals.
  # GDB's independently recorded actual frame contains all matcher formals.
- actual=re.findall(r'^#1  (0x[0-9a-f]+) in match_option \(rules=(0x[0-9a-f]+) <option_rules>, argument=(0x[0-9a-f]+) "-il", next=(0x[0-9a-f]+) <next_argument>, copy=(\d+)\) at ',(native/'gdb.txt').read_text(),re.M);assert len(actual)==1
- pc,rules,arg,nextfn,copyarg=actual[0];assert int(pc,16)==state['caller']['pc']and dict(rules=int(rules,16),argument=int(arg,16),next=int(nextfn,16),copy=int(copyarg))==entry['args']
+ if not following:
+  actual=re.findall(r'^#1  (0x[0-9a-f]+) in match_option \(rules=(0x[0-9a-f]+) <option_rules>, argument=(0x[0-9a-f]+) "-il", next=(0x[0-9a-f]+) <next_argument>, copy=(\d+)\) at ',(native/'gdb.txt').read_text(),re.M);assert len(actual)==1
+  pc,rules,arg,nextfn,copyarg=actual[0];assert int(pc,16)==state['caller']['pc']and dict(rules=int(rules,16),argument=int(arg,16),next=int(nextfn,16),copy=int(copyarg))==entry['args']
  call(binary,state['caller']['pc'],names['apply_option_action'][0])
  text=(original/'relocated-text.bin').read_bytes();assert text[0x130aa-0x1000:0x130ae-0x1000]==bytes.fromhex('ff542420')and text[0x130b7-0x1000]==0xe8 and 0x130bc+struct.unpack_from('<i',text,0x130b8-0x1000)[0]==0x131aa
  assert text[0x13160-0x1000:0x131aa-0x1000]==pe_read(original/'loaded-target.bin',0x13160,74)

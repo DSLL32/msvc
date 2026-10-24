@@ -11,7 +11,7 @@ WARNINGS=[(1,5),(69,5),(611,5),(226,14),(233,14),(234,14),(235,14),(168,5),(169,
 
 def original_state(original,candidate):
  tokenizers=[row for row in candidate['functions']if row['name']=='_read_env_arguments'];assert len(tokenizers)==1 and tokenizers[0]['chunks']==[[0x12f87,0x12f9c],[0x307dc,0x30919]]
- if candidate['expected_frontier']['kind']not in ('option-vectors-complete','argument-cursor-complete','option-match-action'):assert candidate['expected_frontier']==dict(rva=0x11e3c,native_symbol='new_option_vector',kind='environment-arguments-complete',calling_convention='cdecl',native_args=['count','mode'],caller=dict(native_symbol='parse_command_line',return_rva=0x12beb))
+ if candidate['expected_frontier']['kind']not in ('option-vectors-complete','argument-cursor-complete','option-match-action','option-action-integer'):assert candidate['expected_frontier']==dict(rva=0x11e3c,native_symbol='new_option_vector',kind='environment-arguments-complete',calling_convention='cdecl',native_args=['count','mode'],caller=dict(native_symbol='parse_command_line',return_rva=0x12beb))
  assert candidate['environment_argument_observers']==dict(entry_rva=0x12f87,return_rva=0x12bb3,argument=None,accepted_input_scope='NULL only; full non-NULL tokenizer body retained, allocator pending')
  events=(original/'events.txt').read_text();assert'failure 'not in events
  from frontier_contract import validate_original_frontier

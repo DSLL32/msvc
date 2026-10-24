@@ -6,7 +6,8 @@ OFFSET=2372
 def expected_fields(fields):
  rows=[r for r in fields['modeled_bss']if r['name']=='current_argument'];assert len(rows)==1
  row=rows[0];assert(row['original_rva'],row['bytes'],row['native_offset'],row['default'],row['native_field'],row['c_type'],row['snapshot'])==(RVA,4,OFFSET,0,'c1_bss.current_argument','char *',False)
- assert fields['option_match']==dict(current_argument_rva=RVA,native_offset=OFFSET,bytes=4,default=0,bss_reset=True,initialized_snapshot=False,source_chunks=[[0x12fbe,0x1315f],[0x30919,0x3092f]],text_data=[[0x13160,0x131aa]],next_semantic_frontier=0x131aa)
+ assert fields['option_match']==dict(current_argument_rva=RVA,native_offset=OFFSET,bytes=4,default=0,bss_reset=True,initialized_snapshot=False,source_chunks=[[0x12fbe,0x1315f],[0x30919,0x3092f]],text_data=[[0x13160,0x131aa]],next_semantic_frontier=fields['option_match']['next_semantic_frontier'])
+ assert fields['option_match']['next_semantic_frontier']in (0x131aa,0x132f9)
  assert fields['native_bss_size']==2376
  return {'current_argument':(RVA,4,OFFSET)}
 

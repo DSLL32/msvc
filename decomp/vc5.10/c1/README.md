@@ -7,8 +7,10 @@ all initialization callbacks and main are complete. After internal-switch parsin
 the captured GetSystemInfo response, all nine pool bindings, a proved64KiB
 commit and the full command-line parser, checksum generation and multibyte
 scanner, path-fold, NULL environment parsing and three vector allocations are
-complete. The normal case holds at actual MSPDB50!SigForPbCb entry; the restore
-auxiliary skips it and reaches next_argument12f9c. The actual
+complete. Argument iteration, option matching and the373-byte action handler
+now process -il, -f and -W; both modes stop at genuine
+parse_option_integer("1"). All repeated MSPDB signature calls match the original.
+The actual
 setlocale and _setmbcp calls match the own canonical SBCS1252 reference,
 including full tables, pointer lifetime, errors and FP state. Initialized state
 is2348 known/4200 UNMODELED bytes. The native i386
@@ -24,10 +26,10 @@ remains incomplete; the lifecycle fixture is a separate completed case.
 The83-byte path-fold initializer is also accepted; see
 `cases/minimal/PATH-FOLD.md` for its complete API/state proof.
 
-Accepted ownership is73 application functions /5346 original code bytes plus16
+Accepted ownership is76 application functions /6192 original code bytes plus161
 owned switch-table bytes,2 CRT support
-functions /451 bytes and two6-byte import thunks:5825 of the `.text` virtual
-extent's322288 bytes (1.8074%). That denominator includes CRT and unclassified
+functions /451 bytes and two6-byte import thunks:6816 of the `.text` virtual
+extent's322288 bytes (2.1149%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
@@ -491,3 +493,9 @@ match. See `cases/minimal/PRIMARY-ARENA.md`.
 The genuine arena reservation member now reaches its size helper after the sole
 verified descriptor-pointer store. Allocation is still pending; see
 `cases/minimal/ARENA-MEMBER.md`.
+
+The373-byte option-action handler is accepted with its separate71-byte table;
+11 padding bytes remain masked. Fresh normal/restore inventories cover all three
+matches/actions, six real argument callbacks, two borrowed pointer assignments
+and every public signature entry/return. See `cases/minimal/OPTION-ACTIONS.md`.
+The next genuine integer conversion is still a named INT3 stub.

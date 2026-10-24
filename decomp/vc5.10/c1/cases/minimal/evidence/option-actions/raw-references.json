@@ -1,0 +1,46 @@
+{
+  "minimal-option-actions-normal-001": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-option-actions-normal-001",
+    "status": "pre-execution stale native audit binding; no target launched"
+  },
+  "minimal-option-actions-normal-002": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-option-actions-normal-002",
+    "status": "unpromoted original observer failure at second outer caller; raw and failed receipt retained",
+    "receipt_sha256": "aa6f4a74c68eff5a61f740bbfb20c8f464d90778aee75b31df95d32226e63f32",
+    "seconds": 7.1806192845106125,
+    "artifacts": "complete retained size/SHA receipt; helper, expanded GDB, sources and ELF pinned there",
+    "kind": "explicit-original-capture"
+  },
+  "minimal-option-actions-normal-003": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-option-actions-normal-003",
+    "status": "successful fresh normal original",
+    "receipt_sha256": "ed2d0c7ec2dfd66cd9822affd6834bafd2716eb7c70640bfa85e574ae89189c5",
+    "seconds": 8.179906560108066,
+    "artifacts": "complete retained size/SHA receipt; helper, expanded GDB, sources and ELF pinned there",
+    "kind": "explicit-original-capture"
+  },
+  "minimal-option-actions-restore-001": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-option-actions-restore-001",
+    "status": "successful fresh restore original",
+    "receipt_sha256": "7ff78ebca836466927c35a6871721c1dc2eb2f254cfe6d8e6021ca78815414be",
+    "seconds": 7.729084087535739,
+    "artifacts": "complete retained size/SHA receipt; helper, expanded GDB, sources and ELF pinned there",
+    "kind": "explicit-original-capture"
+  },
+  "native-minimal-option-actions-normal-001": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-option-actions-normal-001",
+    "status": "successful fresh normal native",
+    "receipt_sha256": "7c7cc59c8b76d0b9de20bba457d67f4c0b7321d3bc82595cc3b6785ac0916267",
+    "seconds": 7.7509203888475895,
+    "artifacts": "complete retained size/SHA receipt; helper, expanded GDB, sources and ELF pinned there",
+    "kind": "native-gdb-frontier"
+  },
+  "native-minimal-option-actions-restore-001": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-option-actions-restore-001",
+    "status": "successful fresh restore native",
+    "receipt_sha256": "ef834ba8e54c58b5f91185322a0ea23271f84bea666767c2274d4d7b454addce",
+    "seconds": 8.629828077740967,
+    "artifacts": "complete retained size/SHA receipt; helper, expanded GDB, sources and ELF pinned there",
+    "kind": "native-gdb-frontier"
+  }
+}

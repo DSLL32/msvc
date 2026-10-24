@@ -5,7 +5,10 @@ def validate_original_frontier(events,candidate,probe):
  target=re.findall(r'^frontier rva=(\w+)$',events,re.M)
  dependency=re.findall(r'^dependency-frontier module=(\S+) rva=(\w+) seq=(\d+)$',events,re.M)
  expected=candidate['expected_frontier']
- if expected['kind']=='option-match-action':
+ if expected['kind']=='option-action-integer':
+  assert expected==dict(kind='option-action-integer',rva=0x132f9,native_symbol='parse_option_integer',native_args=['value'],calling_convention='cdecl',caller=dict(native_symbol='apply_option_action',return_rva=0x1320c))
+  assert target==['000132f9']and not dependency
+ elif expected['kind']=='option-match-action':
   assert expected==dict(kind='option-match-action',rva=0x131aa,native_symbol='apply_option_action',native_args=['rule','value','copy'],calling_convention='cdecl',caller=dict(native_symbol='match_option',return_rva=0x130bc))
   assert target==['000131aa']and not dependency
  elif expected['kind']in ('option-vectors-complete','argument-cursor-complete'):

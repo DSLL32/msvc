@@ -14,6 +14,13 @@ def vector_snapshot():
       'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),
       'preserved':pool_cycle_preserved(),'fp':capture_x87(),'errors':[int(gdb.parse_and_eval('(int)errno')),int(gdb.parse_and_eval('recon_doserrno')),int(gdb.parse_and_eval('last_error'))],
       'compiler_state':capture_modeled(),'invocation':capture_invocation(),'crt_state':capture_command_line_crt_state()}
+def vector_c_string(address):
+    assert address
+    raw=[]
+    for index in range(1024):
+        byte=gdb.selected_inferior().read_memory(address+index,1).tobytes()[0];raw.append(byte)
+        if not byte:return raw
+    raise AssertionError('unterminated observed argument')
 def vector_abi(row,count):
     frame=gdb.newest_frame();caller=frame.older();block=gdb.block_for_pc(row['pc'])
     while block and not block.function:block=block.superblock
@@ -69,7 +76,7 @@ argument_cursor_entries=[]
 argument_cursor_returns=[]
 class ArgumentCursorReturn(gdb.Breakpoint):
     def stop(self):
-        row=vector_snapshot();row['result_bytes']=list(gdb.selected_inferior().read_memory(row['eax'],4).tobytes())
+        row=vector_snapshot();row['result_bytes']=vector_c_string(row['eax'])
         argument_cursor_returns.append(row);self.enabled=False;return False
 class ArgumentCursorEntry(gdb.Breakpoint):
     def stop(self):

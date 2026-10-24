@@ -12,6 +12,8 @@ static DWORD base, entry_rva, code_rva, code_size, image_size;
 static DWORD crt_base, return_address, return_reason;
 static DWORD mspdb_base;
 static int vector_probe,vector_started;
+static int option_action_probe;
+static void prepare_option_action_observer(void);
 static void prepare_vector_observer(void);
 static BYTE return_saved;
 static int return_active;
@@ -471,6 +473,7 @@ static void prepare_mask(void)
             prepare_isolated_locale_observer();
             path_fold_prepare();
             prepare_vector_observer();
+            prepare_option_action_observer();
         }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
@@ -576,6 +579,7 @@ static void save_frontend_state(const char *phase)
 #include "locale-observer.inc"
 #include "path-fold-observer.inc"
 #include "vector-observer.inc"
+#include "option-action-observer.inc"
 
 /* Labeled auxiliary values: the stream and relocation callback are never
  * dereferenced/invoked. Only their mapped pointer identities are exercised. */
@@ -1310,6 +1314,7 @@ int main(int argc, char **argv)
                 else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && option_action_boundary(address,&context,thread,event.dwThreadId)) {
             } else if (code == EXCEPTION_BREAKPOINT && vector_boundary(address,&context,thread,event.dwThreadId)) {
             } else if (code == EXCEPTION_BREAKPOINT && path_fold_boundary(address,&context,thread,event.dwThreadId)) {
                 /* Genuine public call/return or owned helper return. */
@@ -1527,9 +1532,10 @@ int main(int argc, char **argv)
                 if(path_fold_probe && address==base+0x12f87)environment_enter(&context);
                 if(vector_probe && address==base+0x11e3c)vector_enter(&context);
                 if(vector_probe && address==base+0x9883)vector_member_enter(&context);
-                if(vector_probe && address==base+0x12f9c)argument_cursor_enter(&context);
-                if(option_match_probe && address==base+0x12fbe)option_match_record("entry",address,&context);
-                if(option_match_probe && address==base+0x131aa)option_match_record("action",address,&context);
+                if(!option_action_probe && vector_probe && address==base+0x12f9c)argument_cursor_enter(&context);
+                if(!option_action_probe && option_match_probe && address==base+0x12fbe)option_match_record("entry",address,&context);
+                if(!option_action_probe && option_match_probe && address==base+0x131aa)option_match_record("action",address,&context);
+                observe_option_action_entry(address,&context);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
@@ -1562,6 +1568,7 @@ int main(int argc, char **argv)
                     } else {
                         if(signature_continue && (!signature_reference_complete || address!=base+0x131aa))fail("ordinary signature/matcher controlled stop");
                         if(signature_reference && (!signature_reference_complete || address!=base+0x12f9c))fail("signature reference controlled next_argument stop");
+                        check_option_action_stop(address);
                         fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
                         TerminateProcess(child, 125); return 125;
                     }
