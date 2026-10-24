@@ -1,0 +1,36 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00040860 <.text+0x29860>:
+   40860:	83 ec 18             	sub    esp,0x18
+   40863:	8d 44 24 01          	lea    eax,[esp+0x1]
+   40867:	c6 44 24 00 35       	mov    BYTE PTR [esp+0x0],0x35
+   4086c:	c7 00 00 00 00 00    	mov    DWORD PTR [eax],0x0
+   40872:	c7 40 04 00 00 00 00 	mov    DWORD PTR [eax+0x4],0x0
+   40879:	c7 40 08 00 00 00 00 	mov    DWORD PTR [eax+0x8],0x0
+   40880:	c7 40 0c 00 00 00 00 	mov    DWORD PTR [eax+0xc],0x0
+   40887:	c7 40 10 00 00 00 00 	mov    DWORD PTR [eax+0x10],0x0
+   4088e:	66 c7 40 14 00 00    	mov    WORD PTR [eax+0x14],0x0
+   40894:	c6 40 16 00          	mov    BYTE PTR [eax+0x16],0x0
+   40898:	83 3d 64 0a 0a 00 00 	cmp    DWORD PTR ds:0xa0a64,0x0
+   4089f:	75 39                	jne    0x408da
+   408a1:	80 64 24 01 fe       	and    BYTE PTR [esp+0x1],0xfe
+   408a6:	8b 44 24 1c          	mov    eax,DWORD PTR [esp+0x1c]
+   408aa:	89 44 24 10          	mov    DWORD PTR [esp+0x10],eax
+   408ae:	a1 28 0a 0a 00       	mov    eax,ds:0xa0a28
+   408b3:	89 44 24 14          	mov    DWORD PTR [esp+0x14],eax
+   408b7:	8d 44 24 00          	lea    eax,[esp+0x0]
+   408bb:	6a 18                	push   0x18
+   408bd:	50                   	push   eax
+   408be:	e8 bd 02 00 00       	call   0x40b80
+   408c3:	a1 04 0a 0a 00       	mov    eax,ds:0xa0a04
+   408c8:	a3 28 0a 0a 00       	mov    ds:0xa0a28,eax
+   408cd:	6a 00                	push   0x0
+   408cf:	e8 ec 06 00 00       	call   0x40fc0
+   408d4:	50                   	push   eax
+   408d5:	e8 b6 17 00 00       	call   0x42090
+   408da:	83 c4 18             	add    esp,0x18
+   408dd:	c2 04 00             	ret    0x4

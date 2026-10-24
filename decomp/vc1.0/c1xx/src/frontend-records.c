@@ -1462,3 +1462,25 @@ void end_for_body_region(void)
     append_frontend_record(&record, sizeof(record));
     emit_nonnull_expression_statement(process_expression_records(0));
 }
+
+/* Original 0x40860..0x408df, stdcall4. Retain a named definition
+   in the separate label chain before emitting pending evaluations. */
+void __stdcall record_label_definition(CppSymbol *label)
+{
+    LabelFrontendRecord record;
+    record.header.kind = 0x35;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = 0;
+    record.header.previous = 0;
+    record.label = 0;
+    record.next_label = 0;
+    if (!ir_records_suppressed) {
+        record.label = label;
+        record.next_label = (LabelFrontendRecord *)ir_label_records;
+        append_frontend_record(&record.header, sizeof(record));
+        ir_label_records = ir_record_tail;
+        emit_nonnull_expression_statement(process_expression_records(0));
+    }
+}

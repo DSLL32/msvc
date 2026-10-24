@@ -21,6 +21,7 @@ typedef struct LabelFrontendRecord {
     CppSymbol *label;
     struct LabelFrontendRecord *next_label;
 } LabelFrontendRecord;
+typedef char LabelFrontendRecordSizeMustBe24[(sizeof(LabelFrontendRecord) == 24) ? 1 : -1];
 typedef char LabelFrontendRecordLabelOffsetMustBe16[
     (offsetof(LabelFrontendRecord, label) == 16) ? 1 : -1];
 typedef char LabelFrontendRecordNextOffsetMustBe20[
