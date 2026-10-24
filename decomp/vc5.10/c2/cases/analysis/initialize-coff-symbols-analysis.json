@@ -1,0 +1,20 @@
+{
+  "logical": "@initialize_coff_symbols@4",
+  "hot": [
+    4321476,
+    4321574
+  ],
+  "cold": [
+    [
+      4627091,
+      4627148
+    ]
+  ],
+  "bytes": 155,
+  "abi": "fastcall C2CoffSectionData*dataECX; callerignoresresultRET0",
+  "role": "Emitkind2sectionandkind5aux records, rereadingactualinternal-listingmodeforeachincrementalroute; reserve2ifneededwithactualflagsbit16.",
+  "next": "register_coff_storage dataECX1908; symbolsindices3/4, initializedbuffer20Bonly, cursor3340/rem756, data.symbol_index3; unknownmalloc4076B remainsUNMODELED.",
+  "source_sha256": "7c1085da9c3ca8c5337f2faab0795c8d2bbba6fa3894683f5ec1d5538d30054a",
+  "header_sha256": "06a820efbf1623f8da3b6ff175ae96349fcc31900296afd50ce315e8585beeff",
+  "disassembly_sha256": "1093be9f01382ffbf5d36717e86fb6b3221fc6e48607efff94d907fe7b6f22a3"
+}

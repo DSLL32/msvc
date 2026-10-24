@@ -530,3 +530,27 @@ void *__fastcall lookup_output_table(C2OutputTable *table, unsigned index)
     }
     return page->items[index - 1 - (limit - capacity)];
 }
+
+void __fastcall initialize_coff_symbols(C2CoffSectionData *data)
+{
+    C2CoffRecord *record;
+    unsigned index;
+    if (c2_internal_listing) {
+        if (!coff_reserved_symbols)
+            reserve_incremental_symbols(2, 0, data->section->flags & 16);
+    }
+    record = output_allocate(sizeof(*record));
+    record->kind = 2;
+    record->value.section = data;
+    if (c2_internal_listing)
+        index = add_incremental_symbol(record);
+    else
+        index = add_coff_symbol(record);
+    data->symbol_index = index;
+    record = output_allocate(sizeof(*record));
+    record->kind = 5;
+    if (c2_internal_listing)
+        add_incremental_symbol(record);
+    else
+        add_coff_symbol(record);
+}

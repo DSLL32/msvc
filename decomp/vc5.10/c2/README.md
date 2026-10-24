@@ -7,13 +7,13 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 83 application functions (18214 bytes) and five CRT
+Current reconstruction has 84 application functions (18369 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded all global/initializer IL,
 initialized ten sections and seven function declarations or definitions, and
 entered the COFF output pipeline. The output allocator has returned through the table constructor; execution
-currently stops at section-symbol initialization, after the60-byte data record,
-its output list and relocation/line buffer prefixes have been initialized. Four import thunks (24 bytes) and contextual text tables
-(725 bytes) remain separate. The 18652 source bytes are 3.254% of 573183 `.text`
+currently stops at storage registration, after the section symbol and auxiliary
+records were added at indices3/4 and all five initialized pointers were captured. Four import thunks (24 bytes) and contextual text tables
+(725 bytes) remain separate. The 18807 source bytes are 3.281% of 573183 `.text`
 bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
 `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -435,3 +435,5 @@ Original/native/helper builds take6.405/2.813/1.615s; full separate capture,
 audit and native fixture accounting is retained in0087.
 
 Source88 reconstructs the87-byte generic1-based table lookup and its cold internal-error path. The first pair continues through the accepted section allocator/list constructors, proving the actual60-byte record,24-byte list,508-byte chunk and508/308-byte block prefixes with exact caller/table/backlink identities. Full4096-byte comparison relies on the already proved allocator zero writer; uninterpreted gaps/tails receive no new layout/payload credit. Twenty-one affected controls take23.977s;6fresh/147reused protocol controls7.316s. Original/native/helper builds take2.185/2.037/2.252s. Exact separate capture/audit/native-fixture timings are in0088.
+
+Source89 reconstructs the155-byte hot/cold section-symbol initializer. Its kind2 record points to actual section data; kind5 remains a separate auxiliary record. Allfive initialized symbol pointers are captured and compared as20bytes; remaining4076malloc bytes stay UNMODELED. The fresh storage frontier checks actual data/caller/table aliases and symbolindex3 before flags/storage completion. Seventeen affected controls take19.421s;6fresh/147reused protocol controls7.513s. Original/native/helper builds take6.374/2.800/1.269s, with a separately recorded2.173s helper rebuild correcting its new five-entry log before capture. The shared61155226d review published the exact already-consumed crt.c ee55 bytes, releasing the hold without rebuild/recapture. Exact separate timings and immutable proof are in0089.

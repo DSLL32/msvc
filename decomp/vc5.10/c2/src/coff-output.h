@@ -55,7 +55,7 @@ struct C2CoffSource {
 struct C2CoffRecord {
     unsigned kind;
     unsigned pending04;
-    union { C2CoffSource *source; } value;
+    union { C2CoffSource *source; C2CoffSectionData *section; } value;
 };
 typedef char C2CoffRecordSizeCheck[sizeof(C2CoffRecord) == 12 ? 1 : -1];
 typedef char C2CoffRecordValueCheck[offsetof(C2CoffRecord, value) == 8 ? 1 : -1];

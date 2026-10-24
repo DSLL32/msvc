@@ -1148,14 +1148,6 @@
     "evidence": null
   },
   {
-    "name": "@initialize_coff_symbols@4",
-    "start": 4321476,
-    "end": 4321477,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@register_coff_storage@4",
     "start": 4321574,
     "end": 4321575,

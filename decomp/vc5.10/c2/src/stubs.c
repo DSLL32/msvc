@@ -635,10 +635,6 @@ void __fastcall mark_debug_section(unsigned section)
     __asm { int 3 }
 }
 
-void __fastcall initialize_coff_symbols(C2CoffSectionData *data)
-{
-    __asm { int 3 }
-}
 unsigned __fastcall register_coff_storage(C2CoffSectionData *data)
 {
     __asm { int 3 }

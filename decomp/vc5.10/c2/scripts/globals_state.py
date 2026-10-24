@@ -50,7 +50,7 @@ ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})
 ROOTS['coff_reuse_sections']=(0x49e6e0,'coff_reuse_sections')
 
 
-def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False):
+def complete_globals(read, addresses, directives=False, writer=False, coff=False, initialized_output=False, list_pending=False, list_constructed=False, source_pending=False, symbols_complete=False, append_pending=False, append_complete=False, section_symbols_pending=False, section_symbols_complete=False):
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
     pool_words = struct.unpack('<12I', read(addresses['pools'], 48))
     head, cursor, remaining = pool_words[:3]
@@ -193,7 +193,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
         assert later_pools[:6] == (0,) * 6, 'unencountered pools5/6 changed'
         writer_head, writer_cursor, writer_remaining = later_pools[6:]
         assert writer_head and writer_head not in (head, directive_head)
-        expected_cursor=(3316 if section_symbols_pending else 1908 if append_pending or append_complete else 1884 if symbols_complete else 1872 if source_pending else 1852 if list_constructed else 1344 if list_pending else 1320)if initialized_output else 64
+        expected_cursor=(3340 if section_symbols_complete else 3316 if section_symbols_pending else 1908 if append_pending or append_complete else 1884 if symbols_complete else 1872 if source_pending else 1852 if list_constructed else 1344 if list_pending else 1320)if initialized_output else 64
         expected_remaining=4096-expected_cursor
         assert writer_cursor == writer_head + expected_cursor and writer_remaining == expected_remaining
         data = bytearray(read(writer_head, 4096))
@@ -250,7 +250,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
             assert allocation and all(not start<=allocation<start+4096 for start in (head,directive_head,writer_head))
             expected.update(coff_table=writer_head+64,coff_storage=writer_head+1304,coff_symbol_buffer=allocation,coff_symbol_capacity=1023)
         if list_constructed:expected['coff_output_list']=writer_head+1320
-        if symbols_complete:expected.update(coff_symbol_total=3,coff_next_symbol=3,coff_previous_source=writer_head+1864)
+        if symbols_complete:expected.update(coff_symbol_total=5 if section_symbols_complete else 3,coff_next_symbol=5 if section_symbols_complete else 3,coff_previous_source=writer_head+1864)
         copied = {}
         for key, (_, size) in COFF_GLOBALS.items():
             actual = int.from_bytes(read(addresses[key],size),'little')
@@ -274,11 +274,12 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
             result['coff_allocations']['source_record']={'offset':1852,'bytes':12,'kind':1,'unwritten04':'allocator zeroing only','source_offset':1864}
             result['coff_allocations']['source_info']={'offset':1864,'bytes':8,'name_offset':40,'next_source':0}
         if symbols_complete:
-            assert struct.unpack('<3I',read(allocation,12))==(writer_head+1852,writer_head+1872,writer_head+1872)
+            symbol_offsets=[1852,1872,1872]+([3316,3328]if section_symbols_complete else [])
+            assert struct.unpack('<%dI'%len(symbol_offsets),read(allocation,len(symbol_offsets)*4))==tuple(writer_head+at for at in symbol_offsets)
             copied['coff_previous_source']=0x60000748
             result['coff_allocations']['auxiliary_record']={'offset':1872,'bytes':12,'kind':5,'payload':'allocator zeroing only; unused for source auxiliary'}
-            result['coff_allocations']['symbol_buffer']['initialized_entries']=[1852,1872,1872]
-            result['coff_allocations']['symbol_buffer']['payload']='First12B only initialized entries; remaining4084B UNMODELED/unread'
+            result['coff_allocations']['symbol_buffer']['initialized_entries']=symbol_offsets
+            result['coff_allocations']['symbol_buffer']['payload']='First20B only initialized entries; remaining4076B UNMODELED/unread'if section_symbols_complete else'First12B only initialized entries; remaining4084B UNMODELED/unread'
         assert read(addresses['coff_reuse_sections'],32)==bytes(32),'eight typed reuse slots differ from loader-defined NULL initialization'
         result['coff_reuse_sections']=[None]*8
         if append_pending:
@@ -294,7 +295,7 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
             assert name_text=='.drectve'
             struct.pack_into('<I',data,1888,name_id)
             if section_symbols_pending:
-                assert struct.unpack_from('<7I',data,1908)==(writer_head+1908,writer_head+1884,0,writer_head+1968,writer_head+2500,writer_head+3008,0),'new60B record initialized pointers differ'
+                assert struct.unpack_from('<7I',data,1908)==(writer_head+1908,writer_head+1884,3 if section_symbols_complete else 0,writer_head+1968,writer_head+2500,writer_head+3008,0),'new60B record initialized pointers differ'
                 assert data[1936:1968]==bytes(32),'uninterpreted record gap/tail differs from allocator zeroing'
                 for offset,value in ((1908,0x60000774),(1912,0x6000075c),(1920,0x600007b0),(1924,0x600009c4),(1928,0x60000bc0)):
                     struct.pack_into('<I',data,offset,value)
@@ -307,14 +308,21 @@ def complete_globals(read, addresses, directives=False, writer=False, coff=False
                     assert data[offset+8:offset+size]==bytes(size-8),'block uninterpreted tail differs from allocator zeroing'
                     struct.pack_into('<I',data,offset+4,0x60000000+offset)
                 struct.pack_into('<I',data,1884,0x60000774)
+            if section_symbols_complete:
+                assert struct.unpack_from('<3I',data,3316)==(2,0,writer_head+1908),'new section COFF record differs'
+                assert struct.unpack_from('<3I',data,3328)==(5,0,0),'new section auxiliary record differs'
+                struct.pack_into('<I',data,3324,0x60000774)
             result['writer']['pool_bytes']=data.hex()
             result['coff_allocations']['inserted_section']={'offset':1884,'bytes':24,'data_null':not section_symbols_pending,'name':name_text,'name_section_alias':True,'characteristics':0xa00,'base_offset':0,'index':1,'flags':8,'selection':0,'pending21':'allocator zeroing only; uninterpreted','association':0}
             result['coff_allocations']['table_state']={'count':1,'used':1,'capacity':300,'first_offset':96,'last_offset':96,'first_item_offset':1884,'remaining_items':'allocator zeroing only'}
         if section_symbols_pending:
             result['coff_allocations']['inserted_section']['data_offset']=1908
-            result['coff_allocations']['section_data']={'offset':1908,'allocation_bytes':60,'modeled_prefix_bytes':52,'next_self_alias':True,'section_offset':1884,'symbol_index':0,'list_offset':1968,'relocation_offset':2500,'line_offset':3008,'size':0,'storage_index':0,'flags':0,'gap28_47':'allocator zeroing only; no field interpretation','tail52_59':'allocator zeroing only; no layout credit'}
+            result['coff_allocations']['section_data']={'offset':1908,'allocation_bytes':60,'modeled_prefix_bytes':52,'next_self_alias':True,'section_offset':1884,'symbol_index':3 if section_symbols_complete else 0,'list_offset':1968,'relocation_offset':2500,'line_offset':3008,'size':0,'storage_index':0,'flags':0,'gap28_47':'allocator zeroing only; no field interpretation','tail52_59':'allocator zeroing only; no layout credit'}
             result['coff_allocations']['section_list']={'offset':1968,'bytes':24,'buffered':1,'count_only':0,'completed_bytes':0,'used_bytes':0,'write_count':0,'last_offset':1992}
             result['coff_allocations']['section_chunk']={'offset':1992,'allocation_bytes':508,'next_self_alias':True,'modeled_prefix_bytes':4,'tail':'allocator zeroing only; no payload/layout interpretation'}
             result['coff_allocations']['section_blocks']=[{'offset':at,'allocation_bytes':size,'modeled_prefix_bytes':8,'count':0,'last_self_alias':True,'tail':'allocator zeroing only; no payload/layout interpretation'}for at,size in ((2500,508),(3008,308))]
+        if section_symbols_complete:
+            result['coff_allocations']['section_symbol_record']={'offset':3316,'bytes':12,'kind':2,'unwritten04':'allocator zeroing only','data_offset':1908,'symbol_index':3}
+            result['coff_allocations']['section_auxiliary_record']={'offset':3328,'bytes':12,'kind':5,'payload':'allocator zeroing only; notyetpopulated'}
         result['coff'] = copied
     return result
