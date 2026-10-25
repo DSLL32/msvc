@@ -3486,7 +3486,7 @@
   },
   "runtime_candidate_disqualifications": {
     "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
-    "basis": "Exact finite disqualification of31short pattern matches. Complete owners include these instructions; no independent PEexport, initialized literal pointer, absolute-address operand or external CALL/JMP supports these candidate entries. Eleven direct branches are owner-internal. App/genuineCRT extents, implementation status and credit unchanged. No general matcher exemption.",
+    "basis": "Exact finite disqualification of33short pattern matches. Complete owners include these instructions; no independent PEexport, initialized literal pointer, absolute-address operand or external CALL/JMP supports these candidate entries. Eleven direct branches are owner-internal. App/genuineCRT extents, implementation status and credit unchanged. No general matcher exemption.",
     "candidates": [
       {
         "original": [
@@ -4099,6 +4099,25 @@
           ]
         ],
         "reason": "whole881B pendingowner finalRET plus15B alignment; independent finite review found no external/direct transfers, address operands, initialized pointers or exports to candidate; owner/status/credit unchanged"
+      },
+      {
+        "original": [
+          284144,
+          284160
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_finish_qc_loop",
+        "owner_ranges": [
+          [
+            283968,
+            284145
+          ]
+        ],
+        "reason": "complete177B owner finalRET plus15B LEA alignment; independent finite review found no transfers, decoded address operands, initialized pointer cells or exports to candidate; preserve ten other same-name rows and owner credit"
       }
     ]
   }

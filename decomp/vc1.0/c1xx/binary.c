@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1636 historical frontiers/1529 App bodies.
+ * Current reviewed boundary:1637 historical frontiers/1530 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_expand_qc_operand@4",
+        .entry_rva = 0x35490,
+        .code = (const ReconExtent[]) { { 0x35490, 0x35533 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "expand_qc_operand",
+    },
     {
         .name = "_describe_qc_operand@8",
         .entry_rva = 0x35160,
@@ -7359,17 +7367,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_finish_qc_loop",
         .entry_rva = 0x35540,
-        .code = (const ReconExtent[]) { { 0x35540, 0x35541 } },
+        .code = (const ReconExtent[]) { { 0x35540, 0x355f1 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "finish_qc_loop",
-    },
-    {
-        .name = "??1Iostream_init@@QAE@XZ",
-        .entry_rva = 0x355f0,
-        .code = (const ReconExtent[]) { { 0x355f0, 0x35600 } },
-        .code_count = 1,
-        .definition = RECON_CRT,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_conditional_branch@12",

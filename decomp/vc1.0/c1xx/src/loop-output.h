@@ -26,6 +26,7 @@ typedef char QcOperandSizeMustBe8[(sizeof(QcOperand) == 8) ? 1 : -1];
 typedef char QcOperandValueOffsetMustBe4[(offsetof(QcOperand, value) == 4) ? 1 : -1];
 typedef char QcLoopSizeMustBe36[(sizeof(QcLoopState) == 36) ? 1 : -1];
 int __stdcall describe_qc_operand(IrToken *expression, QcOperand *operand);
+IrToken *__stdcall expand_qc_operand(QcOperand *operand);
 extern LabelStack *qc_loop_markers;
 extern WorkList *qc_loop_analyses;
 void __stdcall push_loop_label(LabelStack **stack, unsigned attributes);

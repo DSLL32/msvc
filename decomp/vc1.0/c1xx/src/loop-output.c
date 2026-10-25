@@ -311,3 +311,27 @@ int __stdcall describe_qc_operand(IrToken *expression, QcOperand *operand)
     }
     return 0;
 }
+
+/* Original0x45540..0x455f1. Expand the compact increment and test at
+   the loop's back edge, retaining right-before-left evaluation order. */
+void finish_qc_loop(void)
+{
+    QcLoopState *loop = qc_loop_analyses->value.pointer;
+    IrToken *left, *right;
+    emit_label(control_labels->label);
+    if (current_token_code == 0x85) record_line_information(1);
+    if (loop->increment) {
+        right = expand_qc_operand(&loop->step);
+        left = expand_qc_operand(&loop->target);
+        emit_expression_statement(new_left_typed_expression(loop->increment, left, right));
+    }
+    emit_label(qc_loop_markers->label);
+    if (!loop->condition) write_ir_record(0x3a, continue_labels->label);
+    else {
+        right = expand_qc_operand(&loop->right);
+        left = expand_qc_operand(&loop->left);
+        emit_condition_to_label(binary_expression(loop->condition, left, right),
+            continue_labels->label, 1);
+    }
+    emit_label(break_labels->label);
+}
