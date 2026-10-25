@@ -467,3 +467,26 @@ CType *__stdcall change_function_reference_kind(CType *type, int mode)
     result->related = replacement;
     return result;
 }
+
+/* Original0x63600..0x6367b, stdcall8. Multiply leading array bounds
+   with target-word wrap and optionally intern the remaining element type. */
+unsigned __stdcall flatten_array_type(CType *type, CType **element)
+{
+    TypeShape *shape;
+    unsigned count = 1;
+    if (!type || !type->related) return 0;
+    shape = type->related;
+    if (!(shape->flags & 0x77)) shape = shape->related;
+    if (!shape || (shape->flags & 0x77) != 2) return 0;
+    do {
+        count *= (unsigned)shape->data.array_bound;
+        shape = shape->related;
+    } while (shape && (shape->flags & 0x77) == 2);
+    if (element) {
+        *element = (CType *)copy_type_description(type);
+        (*element)->related = shape;
+        *element = intern_type((TypeDescription *)*element);
+        --type_description_depth;
+    }
+    return count;
+}

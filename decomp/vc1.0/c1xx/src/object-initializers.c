@@ -591,3 +591,11 @@ void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value
         initializer_offset += bytes;
     }
 }
+
+/* Original0x45bf0..0x45c13, stdcall8. The operation is represented
+   by an integer node; preserve the supplied argument list for expression IR. */
+void __stdcall emit_runtime_initializer_list(unsigned operation, IrToken *arguments)
+{
+    IrToken *selector = make_integer_constant(operation);
+    emit_expression_statement(new_left_typed_expression(0x81,selector,arguments));
+}

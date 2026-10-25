@@ -1,19 +1,19 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is active at emit_assignment_field
-(RVA0x25a30). There are 1354 application source functions plus seven unchanged
-historical CRT source functions. Its first seventy accepted bodies add 16,952 code
+PARTIAL reconstruction; packet_engine is active at type_needs_intrinsic_fallback
+(RVA0x44ee0). There are 1359 application source functions plus seven unchanged
+historical CRT source functions. Its first seventy-five accepted bodies add 17,633 code
 bytes: packing and anonymous aggregates, static alias lookup, the empty lookahead
 error callback, copy-constructor selection/materialization, deferred defaults, else regions and
 runtime initializer emission, initializer object references and assembler state/operands and its separate whole grammar driver, token classification and instruction-name lookup.
-Fresh original/native comparisons, original compilation, the 1362-function
+Fresh original/native comparisons, original compilation, the 1367-function
 inherited graph/ABI audit, nine cached cases and 18 unit groups pass. Last native
-frontier run:31.535ms (setup16.183ms, execution8.728ms, checks6.623ms);
-audit/setup:2.143s; nine cached cases plus units:0.262s.
+frontier run:33.467ms (setup17.243ms, execution9.598ms, checks6.625ms);
+audit/setup:2.156s; nine cached cases plus units:0.263s.
 An earlier regression command took19.582s including a shared native-fixture
 rebuild/relink; its individual case/test executions were14–33ms.
-Last native/original incremental build:3.677s; fresh original capture:2.118s.
+Last native/original incremental build:3.081s; fresh original capture:1.640s.
 The earlier Makefile/layout rebuild took33.968s.
 Assembler serialization reuses control_counted_data at original0x8c0a4.
 The encountered78-byte prefix covers three header bytes plus three maximum
@@ -30,7 +30,7 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1461: the 1302 trial baseline plus 88 browser and70 packet application steps,
+1466: the 1302 trial baseline plus 88 browser and75 packet application steps,
 and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
@@ -38,7 +38,7 @@ original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 331,494/476,418 .text bytes (69.58%); this is
+Application function extents cover 332,175/476,418 .text bytes (69.72%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -247,5 +247,10 @@ x87 ABI helpers; only required transfers/stores use documented assembly.
 
 Generated default-constructor and assignment definitions now preserve the
 original deferred text, including virtual-base gating, qualifier/model spelling
-and explicit base assignment. The assignment field/array helpers remain named
-stubs until reached. The generation context is retained even where unused.
+and explicit base assignment. The assignment field/array helpers now emit
+their original scalar or nested-loop text. The generation context is retained even where unused.
+
+Array-copy initialization now derives the flattened element type/count and
+emits the byte-counted intrinsic. The alternate runtime-call builder remains
+unimplemented; this case uses the original argument-list path. Array counts keep
+target-word multiplication and the existing type-description stack lifetime.

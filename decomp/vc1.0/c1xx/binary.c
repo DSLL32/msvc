@@ -7,6 +7,16 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_flatten_array_type@8",
+        .entry_rva = 0x53600,
+        .code = (const ReconExtent[]) { { 0x53600, 0x5367b } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "flatten_array_type",
+        .implementation = RECON_IMPLEMENTED,
+    },
+
+    {
         .name = "_emit_assignment_direct_base@8",
         .entry_rva = 0x259d0,
         .code = (const ReconExtent[]) { { 0x259d0, 0x25a00 } },
@@ -31,6 +41,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_assignment_field",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_assignment_array@4",
@@ -39,6 +50,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_assignment_array",
+        .implementation = RECON_IMPLEMENTED,
     },
 
     {
@@ -3497,10 +3509,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_array_copy_initialization@16",
         .entry_rva = 0x25c00,
-        .code = (const ReconExtent[]) { { 0x25c00, 0x25c01 } },
+        .code = (const ReconExtent[]) { { 0x25c00, 0x25cd0 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_array_copy_initialization",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_class_array_initialization@24",
@@ -6371,10 +6384,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_runtime_initializer_list@8",
         .entry_rva = 0x35bf0,
-        .code = (const ReconExtent[]) { { 0x35bf0, 0x35bf1 } },
+        .code = (const ReconExtent[]) { { 0x35bf0, 0x35c13 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_runtime_initializer_list",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_runtime_symbol_initializer@8",

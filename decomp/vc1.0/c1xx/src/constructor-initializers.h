@@ -9,6 +9,7 @@ void __stdcall set_base_initialization_access(int enabled);
 void __stdcall emit_virtual_base_initializers(CppSymbol *tag, IrToken **initializers,
     unsigned short attributes);
 IrToken *__stdcall take_member_initializer(IrToken **initializers, char *name);
+unsigned __stdcall flatten_array_type(CType *type, CType **element);
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement,
     IrToken *initializers, unsigned short attributes);
 void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag,

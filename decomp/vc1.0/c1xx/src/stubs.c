@@ -344,7 +344,6 @@ int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsign
 
 
 void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } }
-void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
@@ -535,7 +534,6 @@ char *__stdcall member_access_keyword(unsigned access) { __asm { int 3 } return 
 IrToken *__stdcall make_copy_constructor_call(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 
 void __stdcall emit_runtime_initializer_call(unsigned operation, IrToken *destination, IrToken *source, IrToken *bytes) { __asm { int 3 } }
-void __stdcall emit_runtime_initializer_list(unsigned operation, IrToken *arguments) { __asm { int 3 } }
 
 
 
@@ -598,6 +596,3 @@ void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { in
 
 int __stdcall type_needs_intrinsic_fallback(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 } return 0; }
-
-int __stdcall emit_assignment_field(CppSymbol *member, void *context) { __asm { int 3 } return 0; }
-void __stdcall emit_assignment_array(CppSymbol *member) { __asm { int 3 } }

@@ -19,6 +19,10 @@
 #include "expression-records.h"
 #include <recon.h>
 
+void __stdcall emit_runtime_initializer_call(unsigned operation, IrToken *destination,
+    IrToken *source, IrToken *bytes);
+void __stdcall emit_runtime_initializer_list(unsigned operation, IrToken *arguments);
+
 CType *__stdcall runtime_callback_type(unsigned short pointer_attributes,
     unsigned short function_attributes);
 
@@ -1713,4 +1717,29 @@ IrToken *__stdcall construct_copy_initializer(CppSymbol *constructor, CType *typ
     result = new_left_typed_expression(0x81, make_integer_constant(0xdf), arguments);
     result->type = type;
     return result;
+}
+
+/* Original0x35c00..0x35cd0, stdcall16. Array-copy construction uses
+   a byte-counted memory intrinsic after deriving the flattened element type. */
+void __stdcall emit_array_copy_initialization(CppSymbol *member,
+    unsigned displacement, IrToken *initializers, unsigned short attributes)
+{
+    CType *element, *pointer;
+    unsigned count;
+    IrToken *destination, *source, *bytes, *offset, *object, *arguments;
+    count = flatten_array_type(member->type,&element);
+    if (!count) return;
+    pointer = make_pointer_to_type(attributes,element);
+    offset = make_integer_constant(displacement);
+    object = adjusted_this_expression(0);
+    destination = new_ir_expression(OP_ADD,object,offset,pointer);
+    source = convert_initializer(1,pointer,initializers->value.pointer);
+    bytes = make_integer_constant(type_size(element) * count);
+    if (!options.configuration.option_qc && !(options.configuration.option_M & 4)) {
+        arguments = append_expression(0,destination,1);
+        arguments = append_expression(arguments,source,1);
+        arguments = append_expression(arguments,bytes,1);
+        emit_runtime_initializer_list(0xac,arguments);
+    } else
+        emit_runtime_initializer_call(0xac,destination,source,bytes);
 }

@@ -525,3 +525,42 @@ int __stdcall emit_assignment_direct_base(CppSymbol *member, void *context)
     }
     return 1;
 }
+
+/* Original0x35a30..0x35a89, stdcall8 callback. Scalar members use
+   direct assignment; arrays retain their separate nested-loop generator. */
+int __stdcall emit_assignment_field(CppSymbol *member, void *context)
+{
+    TypeShape *shape;
+    if (is_initializer_data_member(member)) {
+        shape = member->type->related;
+        if (shape && (shape->flags & 0x77) == 2)
+            emit_assignment_array(member);
+        else
+            format_work_text(compiler_stack,"%Fs=%Fs.%Fs;",
+                member->name,name_that,member->name);
+    }
+    return 1;
+}
+
+/* Original0x35a90..0x35b72, stdcall4. Emit one loop per leading
+   array shape and use the same indices on the destination and copy source. */
+void __stdcall emit_assignment_array(CppSymbol *member)
+{
+    TypeShape *shape;
+    int dimensions = 0, index;
+    format_work_text(compiler_stack,"{");
+    for (shape = member->type->related; shape && (shape->flags & 0x77) == 2;
+         shape = shape->related) {
+        format_work_text(compiler_stack,
+            "for(unsigned __i%d=0;__i%d<%ld;__i%d++)",
+            dimensions,dimensions,(long)shape->data.array_bound,dimensions);
+        ++dimensions;
+    }
+    format_work_text(compiler_stack,"%Fs",member->name);
+    for (index = 0; index < dimensions; ++index)
+        format_work_text(compiler_stack,"[__i%d]",index);
+    format_work_text(compiler_stack,"=%Fs.%Fs",name_that,member->name);
+    for (index = 0; index < dimensions; ++index)
+        format_work_text(compiler_stack,"[__i%d]",index);
+    format_work_text(compiler_stack,";}");
+}
