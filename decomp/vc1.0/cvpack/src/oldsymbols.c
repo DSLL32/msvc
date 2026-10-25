@@ -623,3 +623,10 @@ void convert_old_symbol_block32(void)
     while (padding--) *name++ = 0;
     old_symbol_output = name;
 }
+
+/* The historical buffer name denotes this module's C6 local-symbol stream. */
+extern unsigned char *module_type_buffer;
+unsigned char *get_old_symbol(unsigned short offset)
+{
+    return module_type_buffer+offset;
+}
