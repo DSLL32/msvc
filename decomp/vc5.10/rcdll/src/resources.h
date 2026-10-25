@@ -39,6 +39,7 @@ void __stdcall rc_resource_error_name(unsigned code,const WCHAR *name);
 long __cdecl rc_read_resource_file(void);
 RcResourceType * __stdcall rc_find_resource_type(const WCHAR *name,unsigned id);
 int __stdcall rc_read_resource_attributes(RcResource *resource);
+int __stdcall rc_parse_resource_style(void *style,unsigned flags);
 void __cdecl rc_initialize_resource_types(void);
 void __cdecl rc_flush_font_directory(void);
 WORD __cdecl rc_read_resource_language(void);

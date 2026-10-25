@@ -500,3 +500,26 @@ unsigned __stdcall rc_decimal_resource_id(const WCHAR *text)
     }
     return value;
 }
+
+int __stdcall rc_read_resource_attributes(RcResource *resource)
+{
+    if(rc_resource_token.kind==20)return 0;
+    switch(rc_resource_token.value){
+    case 247:
+        rc_scan_resource_token(0);
+        if(rc_resource_token.kind!=18)rc_resource_error(2136);
+        rc_scan_resource_value(0x8000);
+        rc_parse_resource_style(&resource->unknown8,1);
+        break;
+    case 0xfff0: resource->flags&=0xefef;break;
+    case 0xfff1: resource->flags|=0x10;break;
+    case 0xfff2: resource->flags|=0x1030;break;
+    case 0xfff3: resource->flags&=0xffbf;break;
+    case 0xfff4: resource->flags|=0x40;break;
+    case 0xfff5: resource->flags|=0x20;break;
+    case 0xfff6: resource->flags&=0xefdf;break;
+    default:return 0;
+    }
+    rc_scan_resource_token(0);
+    return 1;
+}

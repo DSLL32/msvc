@@ -213,7 +213,12 @@ long __cdecl rc_read_resource_file(void)
 }
 
 
-int __stdcall rc_read_resource_attributes(RcResource *resource)
+int __stdcall rc_parse_resource_style(void *style,unsigned flags)
+{
+    __asm int 3
+    return 0;
+}
+WORD __stdcall rc_scan_resource_value(WORD flags)
 {
     __asm int 3
     return 0;

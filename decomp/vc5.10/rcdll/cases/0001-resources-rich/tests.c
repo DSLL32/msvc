@@ -706,6 +706,29 @@ static int resource_keyword_contract(void)
         rc_lookup_resource_keyword(L"ZZZ")==0xffff;
 }
 
+static int resource_attribute_contract(void)
+{
+    static const WORD tokens[]={0xfff0,0xfff1,0xfff2,0xfff3,0xfff4,0xfff5,0xfff6};
+    static const WORD before[]={0xffff,0xa585,0xa585,0xffff,0xa585,0xa585,0xffff};
+    static const WORD after[]={0xefef,0xa595,0xb5b5,0xffbf,0xa5c5,0xa5a5,0xefdf};
+    RcResource resource,expected;
+    unsigned i;
+    for(i=0;i<7;++i){
+        memset(&resource,0xa5,sizeof(resource));resource.flags=before[i];
+        expected=resource;expected.flags=after[i];
+        prepare_resource_punctuation(L',');
+        rc_resource_token.value=tokens[i];rc_resource_token.kind=0;
+        if(rc_read_resource_attributes(&resource)!=1||
+           memcmp(&resource,&expected,sizeof(resource))||
+           rc_resource_token.kind!=15||rc_resource_character!=L'a')return 0;
+    }
+    expected=resource;rc_resource_token.value=0xfff1;rc_resource_token.kind=20;
+    if(rc_read_resource_attributes(&resource)||memcmp(&resource,&expected,sizeof(resource)))return 0;
+    rc_resource_token.value=0xffff;rc_resource_token.kind=0;
+    return !rc_read_resource_attributes(&resource)&&
+        !memcmp(&resource,&expected,sizeof(resource));
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -735,6 +758,7 @@ const ReconTest rich_tests[]={
     {"resource-symbol-contract",1,resource_symbol_contract},
     {"resource-decimal-id-contract",1,resource_decimal_id_contract},
     {"resource-keyword-contract",1,resource_keyword_contract},
+    {"resource-attribute-contract",1,resource_attribute_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},
