@@ -117,10 +117,11 @@ static const uint32_t order[] = {
  0xe5b0, /* _format_contribution_module@8 */
  0xe420, /* _format_module_name@8 */
  0x16ba0, /* _add_default_library@8 */
+ 0x4fce0, /* _allocate_incremental@4 */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
- "Win32 hello link; module named, genuine first default-library frontier.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x16ba0,
+ "Win32 hello link; default-library record requested, genuine allocator frontier.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x4fce0,
  recon_link_setup,recon_link_invoke,NULL,hello_tests,17
 };

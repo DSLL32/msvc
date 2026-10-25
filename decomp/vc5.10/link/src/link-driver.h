@@ -37,12 +37,22 @@ typedef struct LinkAuxiliaryData {
     void RECON_THISCALL FinishOutput(LinkContext *context);
 #endif
 } LinkAuxiliaryData;
+typedef struct DefaultLibrary {
+    struct DefaultLibrary *next;
+    const char *name;
+    DWORD flags;
+    void *owner;
+} DefaultLibrary;
+typedef char DefaultLibrarySize[(sizeof(DefaultLibrary)==16)?1:-1];
 typedef struct LinkPointerList {
     void *first;
     void **last;
-    BYTE active, reserved[3];
-    DWORD count;
+    BYTE suppress_default_libraries, reserved[3];
+    DefaultLibrary *default_libraries;
 } LinkPointerList;
+typedef char DefaultLibraryListFields[(sizeof(LinkPointerList)==16 &&
+    offsetof(LinkPointerList,suppress_default_libraries)==8 &&
+    offsetof(LinkPointerList,default_libraries)==12)?1:-1];
 /* A contextual output-file payload, never executed by the reconstruction. */
 typedef struct DefaultDosImage {
     IMAGE_DOS_HEADER header;

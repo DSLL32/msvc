@@ -5813,6 +5813,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_add_default_library@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   }

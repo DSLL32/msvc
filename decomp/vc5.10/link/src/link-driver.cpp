@@ -222,8 +222,8 @@ LinkAuxiliaryData *RECON_THISCALL LinkContext::Initialize(int vxd)
     create_string_table(&strings,128,32);
     pointer_list.first=NULL;
     pointer_list.last=&pointer_list.first;
-    pointer_list.active=0;
-    pointer_list.count=0;
+    pointer_list.suppress_default_libraries=0;
+    pointer_list.default_libraries=NULL;
     dos_image=&default_dos_image;
     dos_image_size=128;
     sections.first=NULL;

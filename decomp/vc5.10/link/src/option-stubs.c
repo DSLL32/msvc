@@ -4,7 +4,6 @@
 BYTE __stdcall switch_number(SwitchInfo *info,WORD index,DWORD *value) { __asm { int 3 } return 0; }
 BYTE __stdcall valid_section_name(const unsigned char *name) { __asm { int 3 } return 0; }
 void __stdcall exclude_default_library(const char *name,LinkPointerList *list) { __asm { int 3 } }
-void __stdcall add_default_library(const char *name,LinkPointerList *list) { __asm { int 3 } }
 void __stdcall disallow_library(const char *name,LinkPointerList *list,void *owner) { __asm { int 3 } }
 void __stdcall add_delay_library(const char *name) { __asm { int 3 } }
 void __stdcall remove_delay_library(const char *name) { __asm { int 3 } }

@@ -92,7 +92,7 @@ static const ReconFunction functions[] = {
     {"_valid_section_name@4",0xf610,(const ReconExtent[]){{0xf610,0xf645}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"valid_section_name",NULL,NULL,0,NULL},
     {"_find_library@12",0xf650,(const ReconExtent[]){{0xf650,0xf792}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"find_library",NULL,NULL,0,NULL},
     {"_exclude_default_library@8",0x16ae0,(const ReconExtent[]){{0x16ae0,0x16b91}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"exclude_default_library",NULL,NULL,0,NULL},
-    {"_add_default_library@8",0x16ba0,(const ReconExtent[]){{0x16ba0,0x16c23}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_default_library",NULL,NULL,0,NULL},
+    {"_add_default_library@8",0x16ba0,(const ReconExtent[]){{0x16ba0,0x16c23}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"add_default_library",NULL,NULL,0,NULL},
     {"_disallow_library@12",0x16c30,(const ReconExtent[]){{0x16c30,0x16cb3}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"disallow_library",NULL,NULL,0,NULL},
     {"_add_delay_library@4",0x1f970,(const ReconExtent[]){{0x1f970,0x1f988}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_delay_library",NULL,NULL,0,NULL},
     {"_remove_delay_library@4",0x1f990,(const ReconExtent[]){{0x1f990,0x1f9a8}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remove_delay_library",NULL,NULL,0,NULL},
@@ -342,6 +342,7 @@ static const ReconFunction functions[] = {
     {"_format_contribution_module@8",0xe5b0,(const ReconExtent[]){{0xe5b0,0xe5d4}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"format_contribution_module",NULL,NULL,0,NULL},
     {"_next_directive_token@8",0x5c2c0,(const ReconExtent[]){{0x5c2c0,0x5c3f2}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_directive_token",NULL,NULL,0,NULL},
     {"_remember_module_directive@12",0x38790,(const ReconExtent[]){{0x38790,0x387c4}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remember_module_directive",NULL,NULL,0,NULL},
+    {"_library_name_matches@8",0x16cc0,(const ReconExtent[]){{0x16cc0,0x16cc1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"library_name_matches",NULL,NULL,0,NULL},
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconBinary),"vc5.10-link",
