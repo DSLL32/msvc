@@ -61,6 +61,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "WResInitDir": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

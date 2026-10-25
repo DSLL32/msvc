@@ -48,8 +48,11 @@ struct WResRoutines {
     int (*write)( int, const void *, unsigned );
     int (*read)( int, void *, unsigned );
     long (*seek)( int, long, int );
+    long (*tell)( int );
+    void *(*alloc)( unsigned );
+    void (*free)( void * );
 };
-struct WResRoutines WResRtns = { open, close, write, read, ResSeek }; /* original441f94 */
+struct WResRoutines WResRtns = { open, close, write, read, ResSeek, QPos, ChkLAlloc, _LnkFree }; /* original441f94 */
 
 int OpenResFile( HANDLE_INFO *instance )
 {
@@ -146,4 +149,30 @@ int InitResources( HANDLE_INFO *instance )
         return -1;
     }
     return WResReadDir( instance->handle, MainDir, 0 );
+}
+
+#pragma pack(1)
+struct WResDirHead {
+    unsigned short NumResources, NumTypes;
+    struct WResTypeNode *Head, *Tail;
+    unsigned short TargetOS;
+};
+#pragma pack()
+typedef char WResDirHead_is_14[(sizeof(struct WResDirHead)==14)?1:-1];
+
+WResDir WResInitDir( void )
+{
+    WResDir newdir;
+
+    newdir = (*WResRtns.alloc)( sizeof( *newdir ) );
+    if( newdir == 0 ) {
+        WresRecordError( 13 );
+    } else {
+        newdir->NumResources = 0;
+        newdir->NumTypes = 0;
+        newdir->TargetOS = 1;       /* WRES_OS_WIN16 */
+        newdir->Head = 0;
+        newdir->Tail = 0;
+    }
+    return newdir;
 }

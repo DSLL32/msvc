@@ -1,0 +1,41 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-nBp23A",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      148192,
+      93500,
+      148424,
+      148908,
+      209664,
+      149584,
+      215224,
+      223360,
+      215304,
+      151696,
+      151116,
+      151756,
+      215240,
+      223408,
+      209700
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 209700,
+    "trap_site": 4153974580,
+    "elapsed_ms": 16.341794,
+    "setup_ms": 9.488775,
+    "execution_ms": 2.991295,
+    "checks_ms": 3.861704,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlink-wresinit/original.json",
+      "report_sha256": "5f8c56a1cbd4a2b20ae53ce72d0f7df5a39eea3974707439b9e11fb3bf32e2f3",
+      "capture_sha256": "8c3cd672944c31f5d85958f1cf28d85fbf24c5db556fb2d9567a849623c1a7e4",
+      "source_binding_available": true
+    }
+  }
+]

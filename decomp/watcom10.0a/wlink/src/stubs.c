@@ -64,7 +64,8 @@ void InitSym( void ) { TRAP(); }
 void * NewSection( void ) { TRAP(); return 0; }
 void InitObjIO( void ) { TRAP(); }
 
-WResDir WResInitDir( void ) { TRAP(); return 0; }
+void *ChkLAlloc( unsigned size ) { size = size; TRAP(); return 0; }
+long QPos( int file ) { file = file; TRAP(); return 0; }
 int WResReadDir( int file, WResDir dir, int *duplicates )
 { file = file; dir = dir; duplicates = duplicates; TRAP(); return 0; }
 unsigned QWrite( int file, void *buffer, unsigned length, char *name )

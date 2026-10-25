@@ -98,6 +98,8 @@ extern void CheckBreak( void );
 typedef struct WResDirHead *WResDir;
 extern int InitResources( HANDLE_INFO * );
 extern WResDir WResInitDir( void );
+extern void *ChkLAlloc( unsigned );
+extern long QPos( int );
 extern int WResReadDir( int, WResDir, int * );
 extern unsigned QWrite( int, void *, unsigned, char * );
 #include <recon.h>
