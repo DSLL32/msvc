@@ -47,7 +47,6 @@ Node *__fastcall intern_typed_label(Function *function, Node *node) { __asm int 
 DoubleBits input_double_bits(void) { __asm int 3 }
 int extended_to_float(const Extended *number, float *result) { __asm int 3 }
 void float_to_extended(const float *number, Extended *result) { __asm int 3 }
-char *__fastcall undecorate_function_name(char *name) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
 void __fastcall set_warning_override(short number, signed char level) { __asm int 3 }
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
@@ -160,8 +159,7 @@ Node *__fastcall push_unary_below_conversion(Node *node) { __asm int 3 }
 int __fastcall extract_complement(Node **node) { __asm int 3 }
 
 
-SymbolHeader *__fastcall tail_argument_address(Node *node) { __asm int 3 }
-int __fastcall is_tail_call_position(Expression *expressions, Expression *call) { __asm int 3 }
+Expression *__fastcall find_tail_label(Expression *expressions, SymbolHeader *label) { __asm int 3 }
 
 
 
@@ -259,8 +257,6 @@ void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
     unsigned opcode, Node *counter, unsigned bytes, Node *assignment) { __asm int 3 }
-unsigned short __fastcall select_intrinsic_a6(Node *node) { __asm int 3 }
-unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int mode) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region) { __asm int 3 }

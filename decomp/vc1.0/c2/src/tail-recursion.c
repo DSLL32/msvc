@@ -7,6 +7,61 @@
 SymbolHeader *__fastcall tail_argument_address(Node *node);
 int __fastcall is_tail_call_position(Expression *expressions, Expression *call);
 
+Expression *__fastcall find_tail_label(Expression *expressions, SymbolHeader *label);
+
+/* Original587a0..58805, fastcall ECX tree/RET0. Ignore addresses only
+   consumed by a load, call or assignment destination; reject the first symbol
+   whose address escapes in an argument value. The binary child is followed
+   iteratively, preserving the original left-first recursive call graph. */
+SymbolHeader *__fastcall tail_argument_address(Node *node)
+{
+    SymbolHeader *symbol;
+    for (;;) {
+        switch (node->opcode) {
+        case 0x26:
+            return node->right.symbol;
+        case 0x30: case 0x3c: case 0x3e:
+            return 0;
+        case 0x32:
+            node = node->second.node;
+            continue;
+        default:
+            if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF)
+                return 0;
+            symbol = tail_argument_address(node->left.node);
+            if (symbol) return symbol;
+            if (!(node_shapes[node->opcode] & NODE_HAS_SECOND)) return 0;
+            node = node->second.node;
+            break;
+        }
+    }
+}
+
+/* Original58810..58888, fastcall ECX list/EDX call, RET0. A direct return
+   is already final. Otherwise only no-ops, labels, source markers and jumps
+   may intervene before the function-end marker. The diagnostic never returns
+   on original valid execution; retain its original missing-result error tail. */
+int __fastcall is_tail_call_position(Expression *expressions, Expression *call)
+{
+    Expression *next;
+    if (call->tree->opcode == 0x41) return 1;
+    for (next = call->next; next; next = next->next) {
+        if (next == call) return 0;
+        switch (next->tree->opcode) {
+        case 1: case 0x29: case 0x4f:
+            break;
+        case 0x3a:
+            next = find_tail_label(expressions, next->tree->right.symbol);
+            break;
+        case 0x47:
+            return 1;
+        default:
+            return 0;
+        }
+    }
+    compiler_internal_error("@(#)misc.c:1.100", 0x22e);
+}
+
 /* Original [00058890,00058b20). Preserve all argument values in temporary
    storage, assign incoming parameters, and replace a self call with a branch
    to a shared label following the function's first block marker. */

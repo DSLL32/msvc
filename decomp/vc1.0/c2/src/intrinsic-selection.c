@@ -443,6 +443,88 @@ unsigned __fastcall lookup_runtime_intrinsic_opcode(const OpcodeMap *map,
     compiler_internal_error("@(#)cgintrin.c:1.57", 0x57);
 }
 
+/* Original1c680..1ca45, ECX intrinsic node/EDX dword mode, RET0. Compare
+   short constants directly; longer/runtime lengths use ECX/ESI/EDI and REP.
+   The byte form materializes -1/0/+1; the dword form returns live flags and
+   compares any residual words/bytes. Signed constant tests/division and the
+   original zero-count path are retained, including their original assumptions. */
+unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int wide)
+{
+    Node *arguments = node->second.node, *count_tree;
+    MachineOperand *left, *right, *count = 0, *result = 0, *different;
+    int constant = 0;
+    unsigned offset = 0, unit_bytes = wide ? 4 : 1;
+    left = operand_for_register(select_value_register(arguments->left.node));
+    arguments = arguments->second.node;
+    right = operand_for_register(select_value_register(arguments->left.node));
+    count_tree = arguments->second.node->left.node;
+    if (count_tree->opcode == 0x33) constant = (int)count_tree->left.value;
+    different = new_operand(OPERAND_SYMBOL, 0, 0, &new_internal_label()->symbol);
+    if (count_tree->opcode == 0x33 && constant <= (wide ? 7 : 1)) {
+        if (constant > 3) {
+            compare_intrinsic_string_part(left, right, 0, 0x104, different);
+            new_operand(OPERAND_IMMEDIATE, 0, 4, 0);
+            offset = 4;
+        }
+    } else {
+        if (count_tree->opcode == 0x33) {
+            count = new_operand(OPERAND_IMMEDIATE, 0,
+                (unsigned)(wide ? constant / 4 : constant), 0);
+            emit_machine_operation(MC_MOV, 0x104, &operand_ecx, count);
+        } else {
+            count = operand_for_register(select_value_register(count_tree));
+            emit_machine_operation(MC_MOV, 0x104, &operand_ecx, count);
+            if (wide) emit_machine_operation(MC_SHR, 0x104, &operand_ecx,
+                new_operand(OPERAND_IMMEDIATE, 0, 2, 0));
+        }
+        emit_machine_operation(MC_MOV, 0x104, &operand_esi, left);
+        emit_machine_operation(MC_MOV, 0x104, &operand_edi, right);
+        if (!wide) result = zero_value_operand(node->attributes.words.type);
+        emit_machine_operation(MC_REP, 0);
+        emit_machine_operation(MC_CMPS, unit_bytes);
+        emit_machine_operation(MC_JCC, 0x104, different, wide ? 5 : 4);
+        left = &operand_esi;
+        right = &operand_edi;
+    }
+    if (wide) {
+        if (count_tree->opcode != 0x33) {
+            if (count_tree->opcode == 4 && count_tree->second.node->opcode == 0x33 &&
+                !(count_tree->second.node->left.value & 3)) goto done;
+            if (count_tree->opcode == 9 && count_tree->second.node->opcode == 0x33 &&
+                (int)count_tree->second.node->left.value >= 2) goto done;
+            emit_machine_operation(MC_MOV, 0x104, &operand_ecx, count);
+            emit_machine_operation(MC_AND, 0x104, &operand_ecx,
+                new_operand(OPERAND_IMMEDIATE, 0, 3, 0));
+            emit_machine_operation(MC_REP, 0);
+            emit_machine_operation(MC_CMPS, 0x101);
+        } else if (!constant) {
+            zero_value_operand(node->attributes.words.type);
+        } else {
+            constant &= 3;
+            if ((unsigned char)constant >= 2) {
+                compare_intrinsic_string_part(left, right, offset, 0x102, different);
+                offset += 2;
+            }
+            if (constant & 1)
+                compare_intrinsic_string_part(left, right, offset, 0x101, different);
+        }
+    } else {
+        if (count_tree->opcode == 0x33 && constant <= 1) {
+            result = zero_value_operand(node->attributes.words.type);
+            if (constant == 1) {
+                compare_intrinsic_string_part(left, right, offset, 0x101, 0);
+                emit_machine_operation(MC_JCC, 0x104, different, 4);
+            }
+        }
+        emit_machine_operation(MC_SBB, node->attributes.words.type, result, result);
+        emit_machine_operation(MC_SBB, node->attributes.words.type, result,
+            new_operand(OPERAND_IMMEDIATE, 0, ~0U, 0));
+    }
+done:
+    emit_label(different->value.symbol);
+    return wide ? 0x1a : result->value.reg.words.number;
+}
+
 /* Original [0001ca50,0001cb51). Scan a zero-terminated byte string using
    EDI/ECX/EAX. Mode0 materializes its length in a new register; other modes
    retain the original address register and optionally leave the scan count
@@ -498,6 +580,37 @@ unsigned short __fastcall select_intrinsic_a3_a4(Node *node, int fill)
     return result->value.reg.words.number;
 }
 
+/* Original1cb60..1cca8, ECX strcat node/RET0. A named literal carries
+   its NUL-inclusive extent in the string symbol. Other sources are scanned
+   once and their pointer/count saved before scanning the destination. */
+unsigned short __fastcall select_intrinsic_a6(Node *node)
+{
+    Node *arguments = node->second.node;
+    Node *source_tree = arguments->second.node->left.node;
+    MachineOperand *count, *source, *constant;
+    unsigned bytes;
+    unsigned short result;
+    if (source_tree->opcode == 0x26 && source_tree->right.symbol->field0d == 0x25) {
+        bytes = source_tree->right.symbol->value;
+        constant = new_operand(OPERAND_IMMEDIATE, 0, bytes >> 2, 0);
+        count = operand_for_register(new_value_register(0x100));
+        emit_machine_operation(MC_MOV, 0x104, count, constant);
+        source = operand_for_register(select_value_register(source_tree));
+    } else {
+        bytes = 0;
+        select_intrinsic_string_length(source_tree, 1, 0);
+        emit_machine_operation(MC_SUB, 0x104, &operand_edi, &operand_ecx);
+        source = operand_for_register(new_value_register(0x100));
+        emit_machine_operation(MC_MOV, 0x104, source, &operand_edi);
+        count = operand_for_register(new_value_register(0x100));
+        emit_machine_operation(MC_MOV, 0x104, count, &operand_ecx);
+    }
+    result = select_intrinsic_string_length(arguments->left.node, 2, 0);
+    emit_machine_operation(MC_ADD, 0x104, &operand_edi, immediate_operand(~0U));
+    select_block_operation(bytes, count, source, &operand_edi, 1, 0x101, 0, 1, 1);
+    return result;
+}
+
 /* Original [0001ccb0,0001cef4). Compare two zero-terminated byte strings
    two characters per loop. Mismatches retain CMP's carry for the -1/+1
    result; equal NUL bytes take the zero-result path. Virtual addresses are
@@ -545,6 +658,16 @@ unsigned short __fastcall select_intrinsic_a5(Node *node)
         new_operand(OPERAND_IMMEDIATE, 0, ~0U, 0));
     emit_label(join->value.symbol);
     return result->value.reg.words.number;
+}
+
+/* Original1dbd0..1dc0a, fastcall low CX type/RET0. Return the original
+   virtual operand, not the separate lifetime barrier operand copy. */
+MachineOperand *__fastcall zero_value_operand(unsigned short type)
+{
+    MachineOperand *operand = operand_for_register(new_value_register(type));
+    emit_machine_operation(MC_SUB, (unsigned)type, operand, operand);
+    emit_register_barrier(operand, 0x104);
+    return operand;
 }
 
 /* Original [0001db40,0001dbc2). Load the left string part, compare the

@@ -9,6 +9,7 @@ enum { INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT_DOUBLE = 93,
     INTRINSIC_COS_FLOAT = 110, INTRINSIC_COS_DOUBLE = 111,
     INTRINSIC_ATAN2_FLOAT = 132, INTRINSIC_ATAN2_DOUBLE = 133,
     INTRINSIC_STRING_COPY = 164, INTRINSIC_STRING_COMPARE = 165, INTRINSIC_STRING_LENGTH = 167,
+    INTRINSIC_STRING_CONCATENATE = 166, INTRINSIC_MEMORY_COMPARE = 170,
     INTRINSIC_AGGREGATE_COPY = 172, INTRINSIC_AGGREGATE_FILL = 173,
     INTRINSIC_POWER_DOUBLE = 174, INTRINSIC_AGGREGATE_VALUE = 179,
     INTRINSIC_SEH_STATUS = 215, INTRINSIC_SEH_D9 = 217, INTRINSIC_SCOPE_FINALLY = 241, INTRINSIC_FINALLY_DEPTH = 242 };
@@ -48,6 +49,12 @@ const IntrinsicDescription aggregate_fill_intrinsic = { 0, 0, "vyE0", "", 0x10 }
 const IntrinsicDescription string_copy_intrinsic = { 0x404, 0, "nvyE0E1", "", 0x40 };
 /* Original84428..84438: strcmp retains both pointer argument trees. */
 const IntrinsicDescription string_compare_intrinsic = { 0x404, 0, "vE0E1", "", 0x40 };
+/* Original84438..84448: strcat normalizes/reverses the same two
+   retained pointer arguments as strcpy. */
+const IntrinsicDescription string_concatenate_intrinsic = { 0x404, 0, "nvyE0E1", "", 0x40 };
+/* Original84478..84488 and fixed signature84a38..84a54: memcmp
+   takes an unsigned count followed by two pointer arguments after reversal. */
+const IntrinsicDescription memory_compare_intrinsic = { 0, 0, "vE0E1", "", 0x10 };
 /* Original84448..84458: strlen's pointer argument normalization, reverse
    argument-list recipe and retained first argument. Empty runtime name. */
 const IntrinsicDescription string_length_intrinsic = { 0x404, 0, "vE0", "", 0x40 };
@@ -82,6 +89,8 @@ const IntrinsicDescription finally_depth_intrinsic = { 0, 0, "", "", 0 };
     case INTRINSIC_ATAN2_DOUBLE: (description) = &arctangent2_double_intrinsic; break; \
     case INTRINSIC_STRING_COMPARE: (description) = &string_compare_intrinsic; break; \
     case INTRINSIC_STRING_COPY: (description) = &string_copy_intrinsic; break; \
+    case INTRINSIC_STRING_CONCATENATE: (description) = &string_concatenate_intrinsic; break; \
+    case INTRINSIC_MEMORY_COMPARE: (description) = &memory_compare_intrinsic; break; \
     case INTRINSIC_STRING_LENGTH: (description) = &string_length_intrinsic; break; \
     case INTRINSIC_AGGREGATE_COPY: (description) = &aggregate_copy_intrinsic; break; \
     case INTRINSIC_AGGREGATE_FILL: (description) = &aggregate_fill_intrinsic; break; \
@@ -262,6 +271,7 @@ typedef struct IntrinsicArgumentRecord {
 } IntrinsicArgumentRecord;
 typedef char IntrinsicArgumentRecordSizeCheck[sizeof(IntrinsicArgumentRecord) == 28 ? 1 : -1];
 static const IntrinsicArgumentRecord intrinsic_argument_records[] = {
+    { INTRINSIC_MEMORY_COMPARE, 0, { 0x104, 0x404, 0x404, 0, 0, 0 } },
     { INTRINSIC_AGGREGATE_COPY, 0, { 0x104, 0x404, 0x404, 0, 0, 0 } },
     { INTRINSIC_AGGREGATE_FILL, 0, { 0x104, 0x104, 0x404, 0, 0, 0 } },
     { INTRINSIC_SEH_STATUS, 0, { 0, 0, 0, 0, 0, 0 } },

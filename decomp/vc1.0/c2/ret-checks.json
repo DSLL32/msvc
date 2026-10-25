@@ -210,6 +210,41 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@is_tail_call_position@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@tail_argument_address@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@select_intrinsic_aa_ab@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@zero_value_operand@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@select_intrinsic_a6@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@undecorate_function_name@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@decode_decorated_name@12": {
+      "expected_cleanup": [
+        4
+      ]
     }
   }
 }

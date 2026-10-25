@@ -85,6 +85,7 @@ BINARY_SOURCES = src/c2.c \
     src/records.c \
     src/symbol-input.c \
     src/names.c \
+    src/decorated-names.c \
     src/segment-storage.c \
     src/backend-flow.c \
     src/operand-encoding.c \
@@ -132,7 +133,7 @@ BINARY_SOURCES = src/c2.c \
     src/machine-state.c \
     src/frame.c \
     src/frame-output.c
-BINARY_SUPPORT_SOURCES = crt/runtime.c $(wildcard $(RECON)/src/*.c)
+BINARY_SUPPORT_SOURCES = harness/decorated-name-tests.c crt/runtime.c $(wildcard $(RECON)/src/*.c)
 ORIGINAL_TOOLCHAIN = 1.0-nt
 ORIGINAL_SOURCES = $(BINARY_SOURCES) crt/runtime.c
 ORIGINAL_BUILD = build
@@ -151,3 +152,7 @@ RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_OVERRIDE_OBJECTS = $(ORIGINAL_BUILD)/obj/crt/runtime.c.obj
 RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c2.map
 include $(RECON_TOOL_DIR)/recon-tool.mk
+
+# Original VC1 small PODs return EAX:EDX; this object owns every App caller.
+$(BINARY_BUILD)/pic/src/decorated-names.c.o: NATIVE_CFLAGS += -freg-struct-return
+$(call support-object,harness/decorated-name-tests.c): NATIVE_CFLAGS += -freg-struct-return
