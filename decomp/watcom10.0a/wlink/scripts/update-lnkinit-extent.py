@@ -40,7 +40,8 @@ def main():
     entry = symbols['LnkInit_']
     end = module + witness['SEGDEF']['length']
     assert entry - module == 398 and end - entry == 296
-    assert symbols['_setjmp_'] == end + 1
+    gap = symbols['_setjmp_'] - end
+    assert gap in (0, 1), 'new alignment width requires review'
     data = image.read_bytes()
     pe = struct.unpack_from('<I', data, 0x3c)[0]
     assert data[pe:pe+4] == b'PE\0\0'
@@ -54,21 +55,34 @@ def main():
         if rva <= end-0x400000-1 and end-0x400000+1 <= rva+size:
             matches.append(offset + end-0x400000-rva)
     assert len(matches) == 1
-    assert data[matches[0]-1:matches[0]+1] == b'\xc3\0'
+    assert data[matches[0]-1] == 0xc3
+    if gap:
+        assert data[matches[0]] == 0
+    padding = '00' if gap else ''
     for key, path in [('rebuilt_PE', image), ('rebuilt_MAP', map_path), ('object', obj)]:
         witness[key]['sha256'] = digest(path)
     witness['arithmetic'].update(module_start=module, LnkInit_entry=entry,
-        contribution_end=end, last_RET=end-1, next_module_entry=end+1)
+        contribution_end=end, last_RET=end-1, next_module_entry=end+gap, padding_hex=padding)
+    witness['scope'] = ('Exact original-compiler module contribution; ' +
+        ('one-byte terminal linker alignment' if gap else 'no terminal linker alignment') +
+        '. No text_data or additional body permission.')
     WITNESS.write_text(json.dumps(witness, indent=2) + '\n')
     policy = json.loads(POLICY.read_text())
-    policy.setdefault('function_properties', {}).setdefault('LnkInit', {})['rebuilt_extent'] = {
+    properties = policy.setdefault('function_properties', {}).setdefault('LnkInit', {})
+    properties['rebuilt_extent'] = {
         'end': {'rebuilt_symbol': 'LnkInit_', 'offset': 296},
         'padding_hex': '00', 'image_sha256': digest(image),
         'map_sha256': digest(map_path), 'object': witness['object'],
         'evidence': {'path': 'harness/lnkinit-extent.json', 'sha256': digest(WITNESS)}
     }
+    if not gap:
+        del properties['rebuilt_extent']
+        if not properties:
+            del policy['function_properties']['LnkInit']
+        if not policy['function_properties']:
+            del policy['function_properties']
     POLICY.write_text(json.dumps(policy, indent=2) + '\n')
-    print('LnkInit: refreshed exact object/MAP/image end and one-byte alignment witness')
+    print('LnkInit: refreshed exact object/MAP/image end; alignment bytes=' + str(gap))
 
 
 if __name__ == '__main__':

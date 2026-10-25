@@ -133,7 +133,8 @@ static const ReconFunction functions[] = {
     { .name = "FiniMsg", .entry_rva = 0x24b0c, .definition = RECON_APP,
       .implementation = RECON_UNIMPLEMENTED, .native_symbol = "FiniMsg", .original_symbol = "FiniMsg_" },
     { .name = "LnkMemFini", .entry_rva = 0x33300, .definition = RECON_APP,
-      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "LnkMemFini", .original_symbol = "LnkMemFini_" },
+      .code = (const ReconExtent[]) { {0x33300, 0x33301} }, .code_count = 1,
+      .implementation = RECON_IMPLEMENTED, .native_symbol = "LnkMemFini", .original_symbol = "LnkMemFini_" },
 
     {
         .name = "main", .entry_rva = 0x242e0,

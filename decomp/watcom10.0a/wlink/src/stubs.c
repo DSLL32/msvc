@@ -25,7 +25,6 @@ void FreeFormatStuff( void ) { TRAP(); }
 void FreeObjInfo( void ) { TRAP(); }
 void FreeVirtMem( void ) { TRAP(); }
 void FiniMsg( void ) { TRAP(); }
-void LnkMemFini( void ) { TRAP(); }
 
 void TrapBreak( int value ) { value = value; TRAP(); }
 void StartTime( void ) { TRAP(); }

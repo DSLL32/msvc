@@ -1,0 +1,11 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "native",
+    "cases",
+    "audit"
+  ],
+  "elapsed_seconds": 0.18279209081083536,
+  "status": 0
+}
