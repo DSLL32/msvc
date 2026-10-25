@@ -16,9 +16,9 @@ extern "C" __declspec(dllimport) FILE _iob[];
 #define stdout (&_iob[1])
 #endif
 
-/* Identity only: actual name-record fields remain behind Initialize. */
-struct CompilerBuiltinName {};
-static CompilerBuiltinName builtin_bool_name;
+/* Shared original c4d10 identity; its28-byte context stays behind Initialize. */
+struct CompilerDeclarationContext {};
+static CompilerDeclarationContext default_declaration_context;
 
 extern "C" {
 int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
@@ -49,7 +49,7 @@ void __cdecl initialize_first_token(void);
 void __cdecl initialize_symbol_groups(void);
 void __cdecl initialize_language_symbols(void);
 void __cdecl initialize_scope_symbols(void);
-CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *, CompilerLookup *);
+CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *, CompilerDeclarator *);
 void __cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *);
 int __cdecl report_response_error(int, ...);
 CompilerSymbol *__cdecl recycle_symbol(unsigned, CompilerNameEntry *, unsigned);
@@ -64,7 +64,7 @@ extern "C" void __cdecl initialize_frontend(void)
     CompilerBuiltinTypes *types = &frontend_data.builtin_types;
     CompilerLexer *lexer;
     CompilerLexerBackend *backend;
-    CompilerLookup lookup;
+    CompilerDeclarator lookup;
     CompilerDeclaration declaration;
     void *memory;
     unsigned alignment;
@@ -277,7 +277,7 @@ extern "C" void __cdecl initialize_frontend(void)
                  * are modeled. Pending consumers must recover any others. */
                 declaration.flags = 7;
                 declaration.type = types->type_0060;
-                lookup.Initialize(types->type_0060, &builtin_bool_name);
+                lookup.Initialize(types->type_0060, &default_declaration_context);
                 lookup.Resolve();
                 declare_builtin(&declaration,
                     lookup_builtin(frontend_data.bool_identifier, &lookup));
@@ -459,7 +459,32 @@ extern "C" void __cdecl initialize_builtin_symbols(void)
         *entry->destination = find_or_create_identifier(entry->text);
 }
 
-extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, CompilerType *base) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, CompilerType *base)
+{
+    CompilerDeclarator declaration;
+    CompilerDeclaratorQualifiers qualifiers;
+    CompilerDeclaratorShape *shape;
+    CompilerArena *arena = &frontend_bss.arenas[5];
+    BYTE *memory;
+    declaration.Initialize(base, &default_declaration_context);
+    memory = arena->cursor;
+    arena->cursor += 28;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (memory) {
+        shape = (CompilerDeclaratorShape *)memory;
+        shape->kind = 5;
+        shape->initial_value = 0;
+        shape->next = NULL;
+    } else {
+        shape = NULL;
+    }
+    declaration.AppendShape(shape);
+    qualifiers.flags = (WORD)attributes;
+    qualifiers.value = 0;
+    declaration.ApplyQualifiers(&qualifiers);
+    declaration.Resolve();
+    return declaration.type;
+}
 extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_intermediate_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
@@ -556,12 +581,12 @@ void RECON_THISCALL CompilerScope::Link(CompilerSymbol *symbol) { __asm { int 3 
 extern "C" void __cdecl initialize_first_token(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_language_symbols(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_scope_symbols(void) { __asm { int 3 } }
-extern "C" CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *name, CompilerLookup *lookup) { __asm { int 3 } return NULL; }
+extern "C" CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *name, CompilerDeclarator *lookup) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl declare_builtin(CompilerDeclaration *declaration, CompilerSymbol *symbol) { __asm { int 3 } }
 CompilerContextBuffer *RECON_THISCALL CompilerContextBuffer::Initialize(unsigned arena_kind) { __asm { int 3 } return this; }
 void RECON_THISCALL FrontendContextStack::Push(void *object, unsigned arena, int first, int second, FrontendContextStack *owner) { __asm { int 3 } }
-CompilerLookup *RECON_THISCALL CompilerLookup::Initialize(CompilerType *type, const void *name) { __asm { int 3 } return this; }
-void RECON_THISCALL CompilerLookup::Resolve(void) { __asm { int 3 } }
+CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *type, const void *name) { __asm { int 3 } return this; }
+void RECON_THISCALL CompilerDeclarator::Resolve(void) { __asm { int 3 } }
 unsigned RECON_THISCALL CompilerLexer::Read(void) { __asm { int 3 } return 0; }
 unsigned RECON_THISCALL CompilerLexer::Peek(void) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerLexer::Unread(unsigned token) { __asm { int 3 } }
@@ -597,3 +622,6 @@ extern "C" CompilerHashTable *__cdecl create_hash_table(unsigned buckets,
     table->entry_count = 0;
     return table;
 }
+
+void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerDeclaratorShape *shape) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::ApplyQualifiers(CompilerDeclaratorQualifiers *qualifiers) { __asm { int 3 } }

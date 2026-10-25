@@ -152,9 +152,24 @@ struct CompilerDeclaration {
     unsigned flags; /* original +4 */
     CompilerType *type; /* original +1c */
 };
-struct CompilerLookup {
-    /* Its genuine initializer remains pending, so no storage is modeled. */
-    CompilerLookup *RECON_THISCALL Initialize(CompilerType *, const void *);
+/* Parse-time shape, distinct from the interned CompilerTypeShape. Only the
+ * stores in the function-type builder are modeled, not its full28-byte tail. */
+struct CompilerDeclaratorShape {
+    CompilerDeclaratorShape *next; /* original +0 */
+    unsigned kind;                 /* +10: function form5 */
+    unsigned initial_value;        /* +14, exact zero store; later role pending */
+};
+struct CompilerDeclaratorQualifiers {
+    WORD flags;
+    unsigned value;
+};
+struct CompilerDeclarator {
+    CompilerType *type; /* original +3c, resolved result */
+    /* Its genuine initializer is still pending. No other72-byte storage
+     * or default claim is implied by this compact result view. */
+    CompilerDeclarator *RECON_THISCALL Initialize(CompilerType *, const void *);
+    void RECON_THISCALL AppendShape(CompilerDeclaratorShape *);
+    void RECON_THISCALL ApplyQualifiers(CompilerDeclaratorQualifiers *);
     void RECON_THISCALL Resolve(void);
 };
 struct CompilerSymbol;

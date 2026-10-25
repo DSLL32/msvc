@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 138 accepted application functions / 19974
+The single registry is binary.c: 139 accepted application functions / 20136
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 140
+as are four six-byte import endpoints (24 bytes, zero App credit). The 141
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine make_function_type INT3 at RVA3840e;
+and currently reaches the genuine CompilerDeclarator::Initialize INT3 at RVA3849a;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -143,8 +143,17 @@ starts zero. The other mode bits, natural padding and entry pointees remain
 unmodeled. No explicit bucket clearing is invented; current storage is owned
 zero-backed arena memory. The real six arguments are16,0,4,3,1,1.
 
-Original/native took 0.685 s / 10.677 ms (native setup 4.906, execution 4.112,
-checks 1.659); build/audit/unit took 2.101 s. The 140-body strict audit and real
+The 162-byte function-type builder preserves its complete 140 hot/22 cold
+bytes, literal28-byte parse-shape allocation, known next/kind/zero stores,
+qualifier application and resolved result. Parse-time shapes are distinct from
+interned type shapes. The existing3849a initializer identity is now correctly
+named CompilerDeclarator::Initialize rather than the provisional CompilerLookup;
+it remains pending with one registry owner. Its shared original c4d10 context
+has identity only until that constructor's actual copy is reconstructed. The
+current first trap precedes shape allocation and all later context consumers.
+
+Original/native took 1.181 s / 11.309 ms (native setup 6.480, execution 2.966,
+checks 1.863); build/audit/unit took 2.260 s. The 141-body strict audit and real
 selected-report order/frontier match; compilation is still unfinished.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.

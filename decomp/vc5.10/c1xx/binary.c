@@ -1168,8 +1168,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_make_function_type", .entry_rva = 0x3840e,
-        .code = (const ReconExtent[]){{0x3840e, 0x3840f}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3840e, 0x3849a}, {0x71f92, 0x71fa8}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "make_function_type",
     },
     {
@@ -1348,16 +1348,30 @@ static const ReconFunction functions[] = {
         .native_symbol = "_ZN20FrontendContextStack4PushEPvjiiPS_", .original_symbol = "?Push@FrontendContextStack@@QAEXPAXIHHPAU1@@Z",
     },
     {
-        .name = "CompilerLookup::Initialize", .entry_rva = 0x3849a,
-        .code = (const ReconExtent[]){{0x3849a, 0x3849b}},
+        .name = "CompilerDeclarator::AppendShape", .entry_rva = 0x7d17,
+        .code = (const ReconExtent[]){{0x7d17, 0x7d18}},
         .code_count = 1, .definition = RECON_APP,
-        .native_symbol = "_ZN14CompilerLookup10InitializeEP12CompilerTypePKv", .original_symbol = "?Initialize@CompilerLookup@@QAEPAU1@PAUCompilerType@@PBX@Z",
+        .native_symbol = "_ZN18CompilerDeclarator11AppendShapeEP23CompilerDeclaratorShape",
+        .original_symbol = "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerDeclaratorShape@@@Z",
     },
     {
-        .name = "CompilerLookup::Resolve", .entry_rva = 0x7f68,
+        .name = "CompilerDeclarator::ApplyQualifiers", .entry_rva = 0x23667,
+        .code = (const ReconExtent[]){{0x23667, 0x23668}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "_ZN18CompilerDeclarator15ApplyQualifiersEP28CompilerDeclaratorQualifiers",
+        .original_symbol = "?ApplyQualifiers@CompilerDeclarator@@QAEXPAUCompilerDeclaratorQualifiers@@@Z",
+    },
+    {
+        .name = "CompilerDeclarator::Initialize", .entry_rva = 0x3849a,
+        .code = (const ReconExtent[]){{0x3849a, 0x3849b}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "_ZN18CompilerDeclarator10InitializeEP12CompilerTypePKv", .original_symbol = "?Initialize@CompilerDeclarator@@QAEPAU1@PAUCompilerType@@PBX@Z",
+    },
+    {
+        .name = "CompilerDeclarator::Resolve", .entry_rva = 0x7f68,
         .code = (const ReconExtent[]){{0x7f68, 0x7f69}},
         .code_count = 1, .definition = RECON_APP,
-        .native_symbol = "_ZN14CompilerLookup7ResolveEv", .original_symbol = "?Resolve@CompilerLookup@@QAEXXZ",
+        .native_symbol = "_ZN18CompilerDeclarator7ResolveEv", .original_symbol = "?Resolve@CompilerDeclarator@@QAEXXZ",
     },
     {
         .name = "CompilerLexer::Read", .entry_rva = 0x898e,
