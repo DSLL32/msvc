@@ -164,3 +164,14 @@ BYTE __stdcall next_module(ModuleEnumerator *enumerator)
     }
     return enumerator->current!=NULL;
 }
+
+extern "C" void __stdcall check_input_modules(LinkContext *context,OutputLibrary *library)
+{
+    ModuleEnumerator enumerator;
+    initialize_module_enumerator(&enumerator,library);
+    if (!next_module(&enumerator)) {
+        link_warning(NULL,4001);
+        initialize_machine(context);
+    }
+    end_section_enumerator((SectionEnumerator *)&enumerator);
+}

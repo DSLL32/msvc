@@ -186,7 +186,6 @@ void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,Outpu
     }
     close_argument_file(current_input_file,0);
 }
-extern "C" void __stdcall check_input_modules(LinkContext *context,OutputLibrary *library) { __asm { int 3 } }
 extern "C" void __stdcall resolve_weak_externals(LinkContext *context,DWORD flags) { __asm { int 3 } }
 extern "C" void __stdcall search_libraries(LinkContext *context) { __asm { int 3 } }
 extern "C" BYTE __stdcall resolve_initial_entry(LinkContext *context) { __asm { int 3 } return 0; }

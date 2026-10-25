@@ -259,7 +259,7 @@ static const ReconFunction functions[] = {
     {"_create_library@12",0xedd0,(const ReconExtent[]){{0xedd0,0xee67}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"create_library",NULL,NULL,0,NULL},
     {"_check_output_input_collision@8",0x61840,(const ReconExtent[]){{0x61840,0x618fa}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"check_output_input_collision",NULL,NULL,0,NULL},
     {"LinkContext::LoadInputArgument",0x49a50,(const ReconExtent[]){{0x49a50,0x49ae3}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"_ZN11LinkContext17LoadInputArgumentEP13InputArgumentP13OutputLibrary",NULL,NULL,0,"?LoadInputArgument@LinkContext@@QAEXPAUInputArgument@@PAUOutputLibrary@@@Z"},
-    {"_check_input_modules@8",0x49af0,(const ReconExtent[]){{0x49af0,0x49af1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"check_input_modules",NULL,NULL,0,NULL},
+    {"_check_input_modules@8",0x49af0,(const ReconExtent[]){{0x49af0,0x49b39}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"check_input_modules",NULL,NULL,0,NULL},
     {"_resolve_weak_externals@8",0x4b4a0,(const ReconExtent[]){{0x4b4a0,0x4b4a1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"resolve_weak_externals",NULL,NULL,0,NULL},
     {"_search_libraries@4",0x49b90,(const ReconExtent[]){{0x49b90,0x49b91}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"search_libraries",NULL,NULL,0,NULL},
     {"_resolve_initial_entry@4",0x495f0,(const ReconExtent[]){{0x495f0,0x495f1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"resolve_initial_entry",NULL,NULL,0,NULL},
