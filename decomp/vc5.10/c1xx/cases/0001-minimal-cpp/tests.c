@@ -15,6 +15,10 @@ int c1xx_test_exception_counters(void)
     memcpy(record_bytes, frontend_data.symbol_record_bytes, sizeof(record_bytes));
     memcpy(size_class, frontend_data.symbol_size_class, sizeof(size_class));
     memset(frontend_data.predefined_time_text, 0xa9, sizeof(frontend_data.predefined_time_text));
+    frontend_data.macro_reset_value = 0x317;
+    frontend_bss.macro_token_cursor = (unsigned char *)&frontend_data;
+    frontend_bss.macro_text_cursor = (unsigned char *)&frontend_bss;
+    frontend_bss.saved_macro_text_cursor = (unsigned char *)&frontend_data + 3;
     frontend_data.recursion_depth = 17;
     frontend_bss.error_count = 23;
     frontend_data.pch_option_flags = 37;
@@ -107,6 +111,8 @@ int c1xx_test_exception_counters(void)
     if (initialize_compiler_pass())
         return 0;
     return memcmp(frontend_data.predefined_time_text, "......Unknown date......\0", 26) == 0 &&
+        frontend_data.macro_reset_value == 0 && frontend_bss.macro_token_cursor == NULL &&
+        frontend_bss.macro_text_cursor == NULL && frontend_bss.saved_macro_text_cursor == NULL &&
         frontend_data.recursion_depth == 0 && frontend_bss.error_count == 0 &&
         frontend_data.pch_option_flags == 0 && frontend_data.saved_pch_mode == 0 &&
         frontend_data.report_statistics == 0 && frontend_data.backend == NULL &&

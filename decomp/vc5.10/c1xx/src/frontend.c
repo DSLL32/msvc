@@ -114,6 +114,7 @@ FrontendData frontend_data = {
     NULL, /* symbol-group hash table, cc5c8 */
     0, -1, -1, NULL, 5, /* compiler flags, declaration indices, empty parameters, type arena */
     NULL, NULL, NULL, /* translation symbols and vector */
+    0, /* macro reset value, cc424 */
     "......Unknown date......" /* cc3a0, includes both trailing NULs */
 };
 FrontendBss frontend_bss;
@@ -159,6 +160,8 @@ int initialize_compiler_pass(void)
         frontend_bss.default_declaration_mode = 0;
         memset(frontend_bss.macro_date_time, 0, sizeof(frontend_bss.macro_date_time));
         frontend_bss.macro_date = frontend_bss.macro_time = NULL;
+        frontend_bss.macro_token_cursor = frontend_bss.macro_text_cursor = NULL;
+        frontend_bss.saved_macro_text_cursor = NULL;
         frontend_bss.forced_include_index = 0;
         frontend_bss.pending_forced_includes = NULL;
         frontend_bss.parameter_contexts[0] = NULL;

@@ -90,7 +90,13 @@ extern "C" char *__cdecl format_predefined_time(long stamp)
     }
     return frontend_data.predefined_time_text;
 }
-extern "C" void __cdecl initialize_macro_buffers(void) { __asm { int 3 } }
+extern "C" void __cdecl initialize_macro_buffers(void)
+{
+    frontend_data.macro_reset_value = 0;
+    frontend_bss.macro_token_cursor = frontend_bss.work_buffers[0].data;
+    frontend_bss.macro_text_cursor = frontend_bss.work_buffers[1].data;
+    frontend_bss.saved_macro_text_cursor = frontend_bss.work_buffers[1].data;
+}
 extern "C" void __cdecl define_preprocessor_macro(const char *text, unsigned length, int kind) { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macro(char *definition) { __asm { int 3 } }
 extern "C" int __cdecl open_source_file(const char *name, int kind, int report, int mode, int track) { __asm { int 3 } return -1; }

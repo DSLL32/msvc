@@ -1232,8 +1232,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_initialize_macro_buffers", .entry_rva = 0x3b4b6,
-        .code = (const ReconExtent[]){{0x3b4b6, 0x3b4b7}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3b4b6, 0x3b4da}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "initialize_macro_buffers",
     },
     {
