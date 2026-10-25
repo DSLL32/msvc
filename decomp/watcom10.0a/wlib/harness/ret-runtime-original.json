@@ -1,0 +1,13 @@
+[
+  {
+    "name": "lseek_",
+    "start": 4291265,
+    "end": 4291324,
+    "evidence": {
+      "path": "harness/readseek-runtime.json",
+      "sha256": "1146bba75a2ede3f72814c8bb117922eba9be678d348ef600416fed3e05c4569",
+      "body_sha256": "d6ffb937dc60972a9ffbac512270a5f39d9a2e1a4c7d466693912d9d67b7968e",
+      "scope": "Original tail-call RET convention only; three-provider own-image/source/peer proof approved. No support-body structural comparison or App credit."
+    }
+  }
+]

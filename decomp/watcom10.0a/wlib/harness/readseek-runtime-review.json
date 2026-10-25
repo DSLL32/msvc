@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "classification_sha256": "1146bba75a2ede3f72814c8bb117922eba9be678d348ef600416fed3e05c4569",
+  "finite_provider_byte_parity": true,
+  "actual_highlow_and_explicit_callees": true,
+  "own_pins": 7,
+  "actual_import_names": 2,
+  "CRT_bytes": 496,
+  "import_bytes": 12,
+  "limits": "Optional window getters/read callbacks420a24/420a30 remainNULL; no App callback admitted. CRT descriptor/IOMode roots are private; native reuses existing opaque binary descriptor namespace. No cold errno/strerror body is needed here and none is added. Public failure/errno semantics remain unqualified."
+}

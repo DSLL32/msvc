@@ -49,6 +49,17 @@
 struct WResRoutines WResRtns = { open, close, write, read, res_seek };
 long FileShift;
 
+/* Original 0x414be4..0x414bfe. Same callback as res_seek in the initial
+   bld/nwlib/c/error.c: resource-relative SEEK_SET, ordinary other origins. */
+long res_seek( int handle, long position, int where )
+{
+    if( where == SEEK_SET ) {
+        return( lseek( handle, position + FileShift, where ) - FileShift );
+    } else {
+        return( lseek( handle, position, where ) );
+    }
+}
+
 int OpenResFile( HANDLE_INFO *instance )
 {
     return( instance->handle = ResOpenFileRO( instance->filename ) );

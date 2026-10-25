@@ -1,0 +1,72 @@
+{
+  "artifacts_dir": null,
+  "backend": null,
+  "capture_sha256": "da7702337a39c6bf9e1d4ec53c5e8bcd5ef239a1224184e976fb0762885a59ba",
+  "case": "help",
+  "elapsed_ms": 836.569495,
+  "first_entry_order": [
+    76391,
+    73695,
+    84990,
+    101064,
+    105536,
+    101144,
+    84964,
+    101080
+  ],
+  "frontier": {
+    "floating_save": "hex:7f12ffff0000ffffffffffff0000000023000000000000002b00ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080ffff0000000000000080ff7f00000000",
+    "image_base": 4194304,
+    "registers": {
+      "eax": 4326468,
+      "ebp": 3276604,
+      "ebx": 3424944,
+      "ecx": 2,
+      "edi": 0,
+      "edx": 0,
+      "eflags": 582,
+      "eip": 4295384,
+      "esi": 0,
+      "esp": 3276576
+    },
+    "rva": 101080,
+    "stack": "hex:364c4100b0423400b04234007e2a4100000000000010ff3fefaf410050ff3100908641003e99410094ff3100aa82410068ff310040eab77b0010ff3f83cecf7b",
+    "stack_address": 3276576,
+    "stack_error": null,
+    "stack_requested": 64
+  },
+  "identity": {
+    "binary": "WLIB.EXE",
+    "case": "help",
+    "execution": 0,
+    "first_entry_seen": [],
+    "original_path": "toolchains/watcom10.0a/.patched/WLIB.EXE",
+    "original_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e"
+  },
+  "oracle_written": true,
+  "raw_artifacts": [],
+  "staged_files": [
+    {
+      "role": "target",
+      "sha256": "ece10f2b92062120a5a0eca4ad38d8d8303207b05ffb0061e917e31511c3b9cf",
+      "source": "/root/msvc2/toolchains/watcom10.0a/.patched/WLIB.EXE",
+      "source_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+      "staged": "/tmp/recon/run-VA3Cn7/WLIB.EXE"
+    }
+  ],
+  "terminal": "frontier:18ad8",
+  "watcom_main_argv": {
+    "actual": [
+      "T:\\run-VA3Cn7\\WLIB.EXE",
+      "?"
+    ],
+    "argc": 2,
+    "argv_address": 3424944,
+    "entry_rva": 76391,
+    "requested": [
+      "WLIB.EXE",
+      "?"
+    ]
+  },
+  "workspace": "/tmp/recon/run-VA3Cn7"
+}
