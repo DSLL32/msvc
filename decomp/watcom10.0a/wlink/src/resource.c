@@ -522,3 +522,15 @@ int readResList( int file, WResTypeNode *type, unsigned short version )
     }
     return error;
 }
+
+int WResReadFixedResRecord1( WResResInfo1 *info, int file )
+{
+    int count;
+
+    count = (*WResRtns.read)( file, info, sizeof( *info ) );
+    if( count != sizeof( *info ) ) {
+        WresRecordError( count == -1 ? 8 : 14 );
+        return 1;
+    }
+    return 0;
+}

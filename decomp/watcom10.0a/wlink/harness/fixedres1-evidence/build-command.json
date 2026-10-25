@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "make",
+    "-j4",
+    "native",
+    "cases",
+    "audit"
+  ],
+  "seconds": 0.8065584804862738,
+  "status": 0
+}

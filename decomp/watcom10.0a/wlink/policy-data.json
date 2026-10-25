@@ -131,6 +131,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "WResReadFixedResRecord1": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }
