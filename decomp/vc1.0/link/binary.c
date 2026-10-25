@@ -7811,6 +7811,14 @@ static const ReconFunction functions[] = {
         .native_symbol = "setvbuf",
     },
     {
+        /* Complete shipped ___setargv identity; neighboring parser differs. */
+        .name = "___setargv",
+        .entry_rva = 0x423f0,
+        .code = (const ReconExtent[]){{0x423f0, 0x424b0}},
+        .code_count = 1,
+        .definition = RECON_CRT,
+    },
+    {
         .name = "__find",
         .entry_rva = 0x42640,
         .code = (const ReconExtent[]){{0x42640, 0x426d0}},

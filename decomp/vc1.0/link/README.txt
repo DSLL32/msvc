@@ -31,7 +31,7 @@ application credit. A complete non-CRT denominator remains unavailable. The old
 partial body/data/alignment inventory leaves 11111 unaccepted bytes unclassified
 within that historical inventory; this is not a current-registry classification
 count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 9479 bytes outside known App/CRT/import extents,
+The current registry leaves 9287 bytes outside known App/CRT/import extents,
 including the explicit Unknown rows. This gap includes code/data/alignment and
 incomplete placeholder extents, not a reliable application denominator; no gap
 has been relabeled as CRT merely because of its location or appearance.
@@ -215,3 +215,13 @@ Final sorted-external checkpoint: all 94 native cases and seven focused tests
 pass in 1.750s parallel wall time, after a 0.537s incremental native/case rebuild.
 The batch uses published shared bbd1bf5f6 with identical C/H before/after hashes.
 No original invocation occurs during these cached checks.
+
+Read-only residual classification now identifies the complete 192-byte shipped
+___setargv at VA523f0..524b0 through shared relocation-qualified runtime matching
+and an independent full-function masked-byte check. It is CRT, with no native
+implementation, App credit or new historical frontier/accepted extent. Its
+object's neighboring parser/find code differs and remains separately unclassified.
+The larger float-conversion and multibyte gaps remain provenance leads, not App
+reconstruction candidates. Classification source hashes and proof remain in:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/cleanup-lifecycle/
