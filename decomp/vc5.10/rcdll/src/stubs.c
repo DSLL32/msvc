@@ -335,7 +335,16 @@ void __stdcall rc_parse_dialog(RcResource *resource,void *dialog,int extended)
     __asm int 3
 }
 
-void __stdcall rc_parse_menu_template(int extended,RcResource *resource)
+void __stdcall rc_read_resource_preamble(RcResource *resource,unsigned message)
+{
+    __asm int 3
+}
+unsigned __stdcall rc_parse_menu_item(int popup)
+{
+    __asm int 3
+    return 0;
+}
+void __stdcall rc_mark_last_menu_item(WORD offset)
 {
     __asm int 3
 }

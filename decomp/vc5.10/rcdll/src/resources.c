@@ -557,3 +557,34 @@ void *__stdcall rc_reserve_resource_bytes(WORD bytes)
     rc_resource_buffer_used+=bytes;
     return result;
 }
+
+int __stdcall rc_parse_menu_template(int nested,RcResource *resource)
+{
+    unsigned last=0;
+    int any=0;
+    if(!nested)rc_read_resource_preamble(resource,2121);
+    else{
+        if(rc_resource_token.kind!=13)rc_resource_error(2121);
+        rc_scan_resource_token(1);
+    }
+    while(rc_resource_token.kind!=14){
+        switch(rc_resource_token.kind){
+        case 78:
+            any=1;
+            last=rc_parse_menu_item(1);
+            rc_parse_menu_template(1,resource);
+            break;
+        case 71:
+            any=1;
+            last=rc_parse_menu_item(0);
+            break;
+        default:
+            rc_resource_error(2122);
+            break;
+        }
+    }
+    if(!any)rc_resource_error(2124);
+    if(nested)rc_scan_resource_token(1);
+    rc_mark_last_menu_item((WORD)last);
+    return 1;
+}
