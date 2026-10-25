@@ -818,7 +818,15 @@ void RECON_THISCALL CompilerDeclarator::AppendArray(CompilerTypeShape *shape)
 { __asm { int 3 } }
 extern "C" CompilerTypeShape *__cdecl copy_type_shape_chain(CompilerTypeShape *shape)
 { __asm { int 3 } return NULL; }
-void RECON_THISCALL CompilerDeclarator::ApplyBaseAttributes(void) { __asm { int 3 } }
+extern "C" void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
+void RECON_THISCALL CompilerDeclarator::ApplyBaseAttributes(void)
+{
+    if ((WORD)attributes.flags) {
+        report_language_diagnostic(1, 229);
+        attributes.flags = 0;
+        attributes.extra = 0;
+    }
+}
 WORD RECON_THISCALL CompilerDeclarator::ApplyCallingConvention(CompilerTypeShape *shape,
     unsigned convention) { __asm { int 3 } return 0; }
 extern "C" void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
