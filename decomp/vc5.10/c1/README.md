@@ -3,7 +3,7 @@
 `binary.c` is the function/export registry for original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The current prefix contains 125 accepted application functions / 18,757 code bytes.
+The current prefix contains 126 accepted application functions / 19,368 code bytes.
 Historical linked startup support remains separately classified: two CRT
 functions / 451 bytes; four import thunks / 24 bytes. Owned text data is 398
 bytes. The original text extent is 322,288 bytes; its non-CRT denominator has
@@ -26,7 +26,7 @@ zero static matches, while the historical CRT rows retain strict graph checks.
 The lifecycle case attaches, resolves both exports without invoking them, and
 detaches. Minimal invokes the actual supported direct 11-argument
 `_InvokeCompilerPass@12` contract with BOOL 1. It remains partial at
-`intern_function_parameters()`, RVA `0x8987`. Its fresh reference uses logical cwd
+`get_empty_type_list()`, RVA `0xd64b`. Its fresh reference uses logical cwd
 `T:\vc5.10\c1\0001-minimal-c`, preserved in an isolated native scratch namespace.
 Final IR from other invocations is not merged into this oracle. Both cases run
 entirely natively against cached original observations.
@@ -74,3 +74,7 @@ attribute WORD; that later path remains unexecuted at the current frontier.
 Abstract-symbol reuse models only encountered free-list head9, original size52
 and cache-index9 defaults. Other indexes remain valid original states but hold
 natively before unknown head access; no whole free-head array is represented.
+
+Nonempty parameter interning is source/graph coverage only. Its opaque list-header
+DWORD is excluded from hashing/key comparison and transferred internally; no
+semantic equivalence is claimed for that word or its later consumers.

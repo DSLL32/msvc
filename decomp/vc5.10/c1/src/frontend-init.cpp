@@ -3,7 +3,7 @@
 #include <string.h>
 #include "frontend.h"
 #include "packing.h"
-#pragma intrinsic(memset)
+#pragma intrinsic(memset, memcpy, memcmp)
 #include <recon.h>
 
 extern "C" {
@@ -543,8 +543,98 @@ void RECON_THISCALL CompilerTypeShape::SetParameters(unsigned value, unsigned ki
     flags |= 0x400;
     this->parameters = parameters;
 }
+extern "C" CompilerTypeList *__cdecl get_empty_type_list(void);
+extern "C" CompilerTypeList *__cdecl get_void_type_list(void);
+extern "C" unsigned __cdecl hash_type_list(const CompilerTypeList *);
+extern "C" void __cdecl compiler_warning(int, ...);
+struct CompilerParameterSequence {
+    BYTE unmodeled_00[4];
+    CompilerSymbolBinding *first;
+};
 extern "C" struct CompilerTypeList *__cdecl intern_function_parameters(const void *value,
-    CompilerTypeShape *function, unsigned kind) { __asm { int 3 } return NULL; }
+    CompilerTypeShape *function, unsigned kind)
+{
+    const CompilerParameterSequence *sequence = (const CompilerParameterSequence *)value;
+    CompilerSymbolBinding *parameter;
+    CompilerIrSymbol *symbol;
+    CompilerTypeList *temporary;
+    CompilerTypeListEntry *entry, *previous, **bucket, *created;
+    CompilerArena *arena;
+    BYTE *memory;
+    CompilerType **next_type;
+    unsigned bytes;
+    int count = 0, has_void = 0;
+    if (!sequence) {
+        function->flags |= 0x800;
+        return get_empty_type_list();
+    }
+    if (kind != 5) {
+        for (parameter = sequence->first; parameter; parameter = parameter->next) {
+            symbol = (CompilerIrSymbol *)((BYTE *)parameter - 8);
+            if (symbol->kind == 11 || symbol->kind == 12) {
+                if (symbol->parameter_type == c1_data.builtin_types.type_0080)
+                    has_void = 1;
+                ++count;
+                if (!symbol->parameter_type)
+                    function->flags |= 0x8000;
+            }
+        }
+        if (!has_void) {
+            if (!count) {
+                function->flags |= 0x800;
+                return get_empty_type_list();
+            }
+            bytes = count * 4;
+            arena = &c1_bss.arenas[3];
+            temporary = (CompilerTypeList *)arena->cursor;
+            arena->cursor += (bytes + 11) & ~3U;
+            if (arena->cursor > arena->committed_limit)
+                arena->CommitExtent();
+            temporary->count = count;
+            next_type = temporary->types;
+            for (parameter = sequence->first; parameter; parameter = parameter->next) {
+                symbol = (CompilerIrSymbol *)((BYTE *)parameter - 8);
+                if (symbol->kind == 11 || symbol->kind == 12)
+                    *next_type++ = symbol->parameter_type;
+            }
+            bucket = &c1_data.type_list_buckets[hash_type_list(temporary) & 1023];
+            previous = NULL;
+            for (entry = *bucket; entry; previous = entry, entry = entry->next) {
+                if (entry->list.count < count) continue;
+                if (entry->list.count > count) break;
+                if (!memcmp(entry->list.types, temporary->types, bytes))
+                    return &entry->list;
+            }
+            arena = &c1_bss.arenas[0];
+            memory = arena->cursor;
+            arena->cursor += (bytes + 15) & ~3U;
+            if (arena->cursor > arena->committed_limit)
+                arena->CommitExtent();
+            created = (CompilerTypeListEntry *)memory;
+            created->next = entry;
+            if (previous)
+                previous->next = created;
+            else
+                *bucket = created;
+            /* Original also transfers the opaque DWORD at+4. No consumer
+             * here interprets it; semantic uses remain a later frontier. */
+            memcpy(&created->list, temporary, bytes + 8);
+            return &created->list;
+        }
+        symbol = (CompilerIrSymbol *)((BYTE *)sequence->first - 8);
+        if (count != 1 && !(symbol->scope_bits & 1)) {
+            compiler_warning(860);
+            symbol->scope_bits |= 1;
+        }
+    }
+    function->flags |= 0x4000;
+    symbol = (CompilerIrSymbol *)((BYTE *)sequence->first - 8);
+    symbol->flags |= 2;
+    return get_void_type_list();
+}
+extern "C" CompilerTypeList *__cdecl get_empty_type_list(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerTypeList *__cdecl get_void_type_list(void) { __asm { int 3 } return NULL; }
+extern "C" unsigned __cdecl hash_type_list(const CompilerTypeList *list) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *shape) { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclarationAttributes *attributes)
 { __asm { int 3 } }

@@ -1563,8 +1563,17 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0x9233, 0x9234}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "classify_parameter_list" },
     { .name = "_intern_function_parameters", .entry_rva = 0x8987,
-      .code = (const ReconExtent[]){{0x8987, 0x8988}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "intern_function_parameters" },
+      .code = (const ReconExtent[]){{0x8987, 0x8b9f}, {0x2b3d8, 0x2b423}}, .code_count = 2,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "intern_function_parameters" },
+    { .name = "_get_empty_type_list", .entry_rva = 0xd64b,
+      .code = (const ReconExtent[]){{0xd64b, 0xd64c}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "get_empty_type_list" },
+    { .name = "_get_void_type_list", .entry_rva = 0xd528,
+      .code = (const ReconExtent[]){{0xd528, 0xd529}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "get_void_type_list" },
+    { .name = "_hash_type_list", .entry_rva = 0x935a,
+      .code = (const ReconExtent[]){{0x935a, 0x935b}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "hash_type_list" },
 };
 
 static const ReconExport exports[] = {

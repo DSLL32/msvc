@@ -39,6 +39,16 @@ typedef struct CompilerTypeEntry {
 } CompilerTypeEntry;
 typedef char CompilerTypeEntry_size[sizeof(CompilerTypeEntry) == 20 ? 1 : -1];
 
+typedef struct CompilerTypeList {
+    int count;
+    BYTE unmodeled_04[4]; /* Transferred internally, not part of the lookup key. */
+    CompilerType *types[1]; /* Variable count, allocated separately. */
+} CompilerTypeList;
+typedef struct CompilerTypeListEntry {
+    struct CompilerTypeListEntry *next;
+    CompilerTypeList list;
+} CompilerTypeListEntry;
+
 /* Integer-node projection. Original fields are kind0/flags1/type4/value16.
  * The authentic24-byte allocation is separate from this compact view;
  * original bytes2..3 and8..15 remain unmodeled and unwritten. */
@@ -65,11 +75,14 @@ typedef struct CompilerSymbolBinding {
 } CompilerSymbolBinding;
 typedef struct CompilerIrSymbol {
     BYTE kind;
-    BYTE unmodeled_01[2];
+    BYTE flags, scope_bits;
     BYTE declaration_flags;
     CompilerType *type;
     CompilerSymbolBinding binding;
-    struct CompilerAbstractType *abstract_type;
+    union {
+        struct CompilerAbstractType *abstract_type;
+        CompilerType *parameter_type;
+    };
     unsigned reference_flags;
     unsigned record_id;
     BYTE unmodeled_1c, scope_flags, unmodeled_1e, identifier_flags;
