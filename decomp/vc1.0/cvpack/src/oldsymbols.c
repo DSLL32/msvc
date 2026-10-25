@@ -494,3 +494,9 @@ void convert_old_symbol_skip(void)
 {
     old_symbol_input += old_symbol_input[0]+1;
 }
+
+void size_old_procedure32(void)
+{
+    ++symbol_scope_depth;
+    module_type_base += 23;
+}

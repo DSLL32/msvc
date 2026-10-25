@@ -165,7 +165,7 @@ void size_old_bprel32(void) { __asm { int 3 } }
 
 void size_old_data32(void) { __asm { int 3 } }
 
-void size_old_procedure32(void) { __asm { int 3 } }
+
 
 
 
