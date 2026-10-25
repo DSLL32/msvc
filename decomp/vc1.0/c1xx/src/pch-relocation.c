@@ -1,5 +1,6 @@
 /* Permanent-arena PCH relocation. Serialization binds existing globals;
    it does not introduce a second live frontend state. */
+#include <stdlib.h>
 #include "initialization.h"
 #include "pch-relocation.h"
 #include "function-finalization.h"
@@ -948,4 +949,46 @@ void mark_pch_constructor_closures(void)
 void mark_pch_access_declarations(void)
 {
     mark_pch_hash_table(member_access_declarations, (PchVisit)mark_pch_access_key, 0);
+}
+
+PchRelocationChain *pch_relocation_chains; /* original0x8f000 */
+int pch_relocation_capacity; /* original0x8effc */
+
+/* Original0x6a770..0x6a7dd. Encode the existing mutable operator table's
+   name/type pointers. The original uses the operand's low WORD discriminator. */
+void encode_pch_operators(void)
+{
+    BuiltinOperator *entry;
+    OperatorOperand *operand;
+    for (entry = builtin_operators; entry->token; ++entry) {
+        encode_pch_pointer(entry->name);
+        entry->name = (char *)pch_encoded_pointer;
+        for (operand = entry->operands; operand < entry->operands + 2; ++operand) {
+            if ((unsigned short)operand->initial_flags) {
+                encode_pch_pointer(operand->type);
+                operand->initial_flags = pch_encoded_pointer;
+            }
+        }
+    }
+    pch_operator_count = entry - builtin_operators;
+}
+
+/* Original0x6a870..0x6a8e6. Reserve two chain records per permanent page;
+   each initial record describes one target page and an empty backward chain. */
+void initialize_pch_relocations(void)
+{
+    unsigned i, bytes;
+    int page;
+    unsigned char *clear;
+    pch_relocation_capacity = permanent_page_count * 2;
+    bytes = pch_relocation_capacity * sizeof(PchRelocationChain);
+    pch_relocation_chains = malloc(bytes);
+    if (!pch_relocation_chains) fatal_error(60);
+    clear = (unsigned char *)pch_relocation_chains;
+    for (i = 0; i < bytes; ++i) clear[i] = 0;
+    pch_relocation_count = permanent_page_count;
+    for (page = 0; page < permanent_page_count; ++page) {
+        pch_relocation_chains[page].head = 0;
+        pch_relocation_chains[page].page = (unsigned short)page;
+    }
 }
