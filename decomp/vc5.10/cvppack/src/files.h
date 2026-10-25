@@ -69,6 +69,7 @@ int release_cached_file(CachedFile *file);
 int close_mapped_file(CachedFile *file);
 int mark_closed_file(CachedFile *file);
 void free_bytes(void *buffer);
+void *resize_bytes(void *buffer, unsigned size);
 void *allocate_zero(unsigned int size);
 CachedPage *allocate_page(void);
 CachedFile *allocate_file(void);

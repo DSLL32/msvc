@@ -422,3 +422,14 @@ void *map_file_region(int file, unsigned int offset, unsigned int size)
     if (end > (unsigned)entry->length) entry->length = end;
     return (unsigned char *)entry->view + offset;
 }
+
+/* Remap at a doubled or explicitly requested capacity [00402440,00402472). */
+int grow_mapping(CachedFile *file, int size)
+{
+    int capacity;
+    UnmapViewOfFile(file->view);
+    capacity = file->capacity * 2;
+    if (size > capacity) capacity = size;
+    file->capacity = capacity;
+    return create_mapping(file) != 0;
+}

@@ -11,7 +11,6 @@
 
 
 
-int grow_mapping(CachedFile *file, int size) { __asm { int 3 } return 0; }
 
 
 void decode_legacy_lines(void *lines, unsigned size) { __asm { int 3 } }
@@ -42,5 +41,3 @@ void read_legacy_module_types(void *types, unsigned size) { __asm { int 3 } }
 
 
 unsigned char *module_file_name(unsigned short index) { __asm { int 3 } return NULL; }
-
-void grow_page_table(CachedFile *file) { __asm { int 3 } }

@@ -792,6 +792,16 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_grow_mapping": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_grow_page_table": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

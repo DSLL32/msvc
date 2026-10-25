@@ -5,7 +5,7 @@ CVPACK 5.10 reconstruction
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-159 accepted application functions total 47,835 original code bytes: 76.34% of the
+161 accepted application functions total 47,975 original code bytes: 76.56% of the
 62,662-byte whole-text extent. That denominator includes CRT/support, unknown
 code and padding; a complete non-CRT denominator is not established. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
@@ -62,7 +62,15 @@ Completed cases:
   file to 12,033 bytes. All three files match their complete deterministic recipe.
   This proves the internal workload, not ordinary CLI reach or natural process
   completion. Fifteen stream/cache functions were reconstructed; mapped growth
-  and page-table growth remain named traps.
+  and page-table growth are exercised separately below.
+
+- 0010-file-growth: internal API DIRECT with genuine mapped and stream owners.
+  Both receive and read back 4MiB+8193 recipe bytes, crossing two mapping expansions
+  and the stream page-table threshold. Both shrink to2MiB+37 and close with
+  identical complete output SHA256
+  `b8346f545c8c31e76ec5bccad7b77da62c975c0c4d192e94d82ea3dd797c8299`.
+  The two growth helpers were reconstructed. Only final hashes are retained;
+  generated pattern files are not embedded fixture inputs.
 
 0002-cpp-scene-growth is a new three-module C++ workload with 240 telemetry
 schemas, shared recursive types, virtual inheritance and large arrays. Original
@@ -98,15 +106,15 @@ reconstructed. `binary.c` is the sole function/extent/status registry. Finite
 rules remain in `policy-data.json`/`abi-policy.json`; the exact 8-byte Release tail
 retains its reviewed residual, with strict cleanup checks on all other accepted bodies.
 
-Latest stream/cache verification (2026-10-25): the final fresh original DIRECT
-capture completed in 1.041s. Matching native replay took 15.099ms (setup6.837 /
-execution6.214 / checks2.048ms). The case-end `make -j4 check unit win32 audit`
-passed all ten cached cases, twenty-three units, original-compiler compatibility
-and the full159-body graph/import/data/extent audit, with strict RET checks on
-158 bodies and the existing Release residual. The incremental batch took0.605s;
-its stream/cache fixture took12.906ms. During reconstruction only current-case
-pairs and selected changed-function audits ran. The final small capture stores
-invocation and file hashes; the deterministic source recipe avoids pattern blobs.
+Latest growth verification (2026-10-25): final fresh original DIRECT capture
+1.245s; matching native replay239.704ms (setup4.815/execution203.429/checks31.460).
+Case-end `make -j4 check unit win32 audit` passed all eleven cached cases,
+twenty-three units, original-compiler compatibility and the full161-body graph,
+import/data/extent audit, with strict RET checks on160 bodies and the existing
+Release residual. That incremental batch took0.505s; growth replay261.745ms.
+The previous stream/cache replay remains about13ms. During each case only
+current-case pairs and selected changed-function audits ran; each completed
+case received one commit.
 
 Full build/capture accounting stays in scratch. Historical per-function
 state/proof campaigns are not rerun. Unvisited application stubs remain traps.

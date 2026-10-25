@@ -1,4 +1,4 @@
-/* Accepted runnable baseline: 159 App bodies / 47835 original code bytes.
+/* Accepted runnable baseline: 161 App bodies / 47975 original code bytes.
  * Original CRT/import selection is support only. All addresses below are RVAs.
  * Native host adapters and dependency responses are outside the App graph. */
 #include <recon-tool.h>
@@ -10,7 +10,7 @@ static const ReconFunction functions[] = {
     { .name="_advance_page", .entry_rva=0x1b20, .code=(const ReconExtent[]){{0x1b20,0x1be8}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="advance_page" },
     { .name="_flush_page", .entry_rva=0x1bf0, .code=(const ReconExtent[]){{0x1bf0,0x1cb2}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="flush_page" },
 
-    { .name="_grow_page_table", .entry_rva=0x12b0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="grow_page_table" },
+    { .name="_grow_page_table", .entry_rva=0x12b0, .code=(const ReconExtent[]){{0x12b0,0x130a}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="grow_page_table" },
     { .name="_obtain_page", .entry_rva=0x1f30, .code=(const ReconExtent[]){{0x1f30,0x1fb3}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="obtain_page" },
     { .name="_read_page", .entry_rva=0x1aa0, .code=(const ReconExtent[]){{0x1aa0,0x1b20}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="read_page" },
     { .name="_touch_page", .entry_rva=0x1de0, .code=(const ReconExtent[]){{0x1de0,0x1e98}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="touch_page" },
@@ -62,7 +62,7 @@ static const ReconFunction functions[] = {
     { .name="_read_codeview_directory", .entry_rva=0x57b0, .code=(const ReconExtent[]){{0x57b0,0x5907}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="read_codeview_directory" },
     { .name="_classify_debug_directory", .entry_rva=0x5a10, .code=(const ReconExtent[]){{0x5a10,0x5cc0}}, .code_count=1, .text_data=(const ReconExtent[]){{0x5cc0,0x5d00}}, .text_data_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="classify_debug_directory" },
     { .name="_seek_stream_file", .entry_rva=0x1810, .code=(const ReconExtent[]){{0x1810,0x1909}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="seek_stream_file" },
-    { .name="_grow_mapping", .entry_rva=0x2440, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="grow_mapping" },
+    { .name="_grow_mapping", .entry_rva=0x2440, .code=(const ReconExtent[]){{0x2440,0x2472}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="grow_mapping" },
     { .name="_mapped_read", .entry_rva=0x22f0, .code=(const ReconExtent[]){{0x22f0,0x235d}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="mapped_read" },
     { .name="_stream_read", .entry_rva=0x19b0, .code=(const ReconExtent[]){{0x19b0,0x1a7d}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="stream_read" },
     { .name="_compare_directory_entries", .entry_rva=0x5760, .code=(const ReconExtent[]){{0x5760,0x57b0}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="compare_directory_entries" },

@@ -359,3 +359,15 @@ int resize_stream_file(CachedFile *file, int size)
     file->capacity = file->length = size;
     return _chsize(file->descriptor, size);
 }
+
+/* Double the pointer table, retaining old pages and zeroing only new slots.
+ * Original [004012b0,0040130a). */
+void grow_page_table(CachedFile *file)
+{
+    int old_count = file->page_capacity / 4096;
+    int count = old_count * 2;
+    int index;
+    file->pages = resize_bytes(file->pages, count * sizeof(CachedPage *));
+    for (index = old_count; index < count; ++index) file->pages[index] = NULL;
+    file->page_capacity = count << 12;
+}
