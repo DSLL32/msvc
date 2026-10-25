@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1651 historical frontiers/1544 App bodies.
+ * Current reviewed boundary:1652 historical frontiers/1545 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -7462,10 +7462,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_runtime_zero_initializer",
         .entry_rva = 0x35ae0,
-        .code = (const ReconExtent[]) { { 0x35ae0, 0x35ae1 } },
+        .code = (const ReconExtent[]) { { 0x35ae0, 0x35b75 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_runtime_zero_initializer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_fit_string_initializer@8",

@@ -405,7 +405,6 @@ void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base) { __a
 
 void __stdcall emit_runtime_bit_field_initializer(IrToken *value) { __asm { int 3 } }
 void __stdcall emit_initializer_padding(CppSymbol *symbol) { __asm { int 3 } }
-void emit_runtime_zero_initializer(void) { __asm { int 3 } }
 unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 

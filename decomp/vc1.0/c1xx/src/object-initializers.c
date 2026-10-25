@@ -712,3 +712,22 @@ int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *val
         shape->attributes, &count);
     return 0;
 }
+
+/* Original0x45ae0..0x45b75. Zero filling shares the initializer byte
+   payload and advances the destination offset only after expression output. */
+void emit_runtime_zero_initializer(void)
+{
+    IrToken *bytes, *zero, *destination, *arguments;
+    int intrinsic = !options.configuration.option_qc &&
+        !(options.configuration.option_M & 4);
+    bytes = new_literal_constant(7, &integer_constant_scratch);
+    zero = make_integer_constant(0);
+    destination = initializer_object_expression(type_0064);
+    if (intrinsic) {
+        arguments = append_expression(0, destination, 1);
+        arguments = append_expression(arguments, zero, 1);
+        arguments = append_expression(arguments, bytes, 1);
+        emit_runtime_initializer_list(0xad, arguments);
+    } else emit_runtime_initializer_call(0xad, destination, zero, bytes);
+    initializer_offset += integer_constant_scratch;
+}
