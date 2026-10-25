@@ -40,7 +40,7 @@ RcResourceType * __stdcall rc_find_resource_type(const WCHAR *name,unsigned id);
 int __stdcall rc_read_resource_attributes(RcResource *resource);
 void __cdecl rc_initialize_resource_types(void);
 void __cdecl rc_flush_font_directory(void);
-unsigned __cdecl rc_read_resource_language(void);
+WORD __cdecl rc_read_resource_language(void);
 RcResource * __stdcall rc_parse_string_table(RcResource *resource);
 void __stdcall rc_write_string_table(void *table);
 void __stdcall rc_parse_accelerators(RcResource *resource);

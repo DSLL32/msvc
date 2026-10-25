@@ -469,3 +469,24 @@ WCHAR *__cdecl rc_collect_resource_name(void)
     }
     return rc_resource_name;
 }
+
+WORD __cdecl rc_read_resource_language(void)
+{
+    DWORD primary;
+    unsigned error;
+    rc_scan_resource_token(0);
+    if(rc_resource_token.kind!=20){error=2144;goto invalid;}
+    if(rc_resource_token.unknown12){error=2145;goto invalid;}
+    /* The original loads all four packed bytes, including kind, then the
+     * actual caller consumes only the returned low WORD. */
+    primary=rc_resource_token.packed_value;
+    rc_scan_resource_token(0);
+    if(rc_resource_token.kind!=15){error=2146;goto invalid;}
+    rc_scan_resource_token(0);
+    if(rc_resource_token.kind!=20){error=2147;goto invalid;}
+    if(rc_resource_token.unknown12){error=2148;goto invalid;}
+    return (WORD)(((DWORD)rc_resource_token.value<<10)|primary);
+invalid:
+    rc_resource_error(error);
+    return 0;
+}

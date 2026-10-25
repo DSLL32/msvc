@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_read_resource_language` (RVA bbe0). Its partial streams and actual
+  stops at `rc_scan_resource_token` (RVA 9b82). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **127 functions, 34,097 code bytes**
-This is 45.70% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **128 functions, 34,226 code bytes**
+This is 45.87% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (51.43%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (51.63%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -137,3 +137,11 @@ default-C ASCII _wcsupr was adopted by native-only retry against that unchanged
 original; original per-call pointed memory, errors and FP were not measured.
 The typed-denial failure and exact source/artifact identities remain in
 `~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0129/`.
+
+The language reader preserves the complete validation/error flow and actual
+WORD-returning ABI. The packed DWORD token load shares storage with its WORD
+value and BYTE kind; the caller consumes only AX. Both builds/full strict audit
+took 4.181 s. The fresh original/native pair reaches the token scanner with
+actual flags=0 in 1.385 s / 179.115 ms; later language-result behavior remains
+unvisited until that scanner advances. The separate GDB inspection was terminated
+after observing the real flags/caller and is retained as partial debug evidence.

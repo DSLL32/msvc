@@ -464,7 +464,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_parse_resources" },
     { .name="rc_read_resource_language", .original_symbol="_rc_read_resource_language", .entry_rva=0xbbe0,
       .code=(const ReconExtent[]){{0xbbe0,0xbc61}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_read_resource_language" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_read_resource_language" },
     { .name="rc_next_argument", .original_symbol="_rc_next_argument", .entry_rva=0xbc61,
       .code=(const ReconExtent[]){{0xbc61,0xbc80}}, .code_count=1,
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_next_argument" },

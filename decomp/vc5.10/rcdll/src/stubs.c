@@ -229,11 +229,6 @@ void __cdecl rc_flush_font_directory(void)
     __asm int 3
 }
 
-unsigned __cdecl rc_read_resource_language(void)
-{
-    __asm int 3
-    return 0;
-}
 
 RcResource * __stdcall rc_parse_string_table(RcResource *resource)
 {

@@ -15,13 +15,16 @@ extern int rc_resource_buffer_index;
 extern WCHAR rc_resource_read_buffer[4097];
 typedef struct RcResourceToken {
     DWORD unknown0,line,file_index,unknown12;
-    WORD value;
-    BYTE kind,unknown19;
+    union {
+        struct { WORD value; BYTE kind,unknown19; };
+        DWORD packed_value;
+    };
     WCHAR text[248],filename[260];
     WORD unknown1036,unknown1038;
 } RcResourceToken;
 typedef char RcResourceTokenLayout[
     sizeof(RcResourceToken)==1040 && offsetof(RcResourceToken,value)==16 &&
+    offsetof(RcResourceToken,packed_value)==16 && offsetof(RcResourceToken,kind)==18 &&
     offsetof(RcResourceToken,text)==20 && offsetof(RcResourceToken,filename)==516 &&
     offsetof(RcResourceToken,unknown1036)==1036 ? 1 : -1];
 extern RcResourceToken rc_resource_token;
