@@ -28,7 +28,9 @@ reference-composition workflow adds four whole methods/427 bytes to the preserve
 260961/281634 (92.6596221%). The 1006 historical frontier count includes shipped
 CRT/import support; 16 old handwritten crt/runtime.c overrides remain separate,
 without new application credit. A complete non-CRT denominator remains unavailable;
-11655 separately unclassified bytes have not been relabeled as CRT.
+11403 bytes remain unaccepted and unclassified under the preserved partial
+body/data/alignment inventory; they have not been relabeled as CRT. The prior
+11655 count decreases by 252 newly accepted bytes outside that body inventory.
 These extent totals are not a count of executed instructions. Unknown provenance
 is not treated as CRT. Direct callbacks remain explicitly
 external test inputs and do not establish public command-line reachability.
