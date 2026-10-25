@@ -108,7 +108,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_open_source_frame" },
     { .name="rc_search_current_directory", .original_symbol="_rc_search_current_directory", .entry_rva=0x4131,
       .code=(const ReconExtent[]){{0x4131,0x41fb}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_search_current_directory" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_search_current_directory" },
     { .name="rc_quote_source_filename", .original_symbol="_rc_quote_source_filename@8", .entry_rva=0x41fb,
       .code=(const ReconExtent[]){{0x41fb,0x4240}}, .code_count=1,
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_quote_source_filename" },

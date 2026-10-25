@@ -101,12 +101,6 @@ void __cdecl rc_skip_line(void)
 }
 
 
-int __cdecl rc_search_current_directory(void)
-{
-    __asm int 3
-    return 0;
-}
-
 
 UINT __cdecl rc_parse_pragma(void)
 {

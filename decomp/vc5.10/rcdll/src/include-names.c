@@ -76,3 +76,39 @@ void __cdecl rc_search_include_directories(void)
     rc_format(rc_error_text,2048,rc_error_template,rc_token_value);
     rc_input_fatal(1015);
 }
+
+int __cdecl rc_search_current_directory(void)
+{
+    int depth=rc_source_depth;
+    RcSourceFrame *frame;
+    const WCHAR *name=rc_filename,*cursor,*last,*path;
+    WCHAR *destination;
+
+#ifdef RECON_NATIVE_TEST
+    if(depth<0 || depth>=1024){ __asm int 3 }
+#endif
+    frame=&rc_source_frames[depth];
+    for(;;){
+        last=NULL;
+        for(cursor=name;*cursor;++cursor)
+            if(wcschr(rc_cpp_path_characters,*cursor))last=cursor;
+        path=rc_token_value;
+#ifdef RECON_NATIVE_TEST
+        /* Directory and name must fit the encountered 512-WCHAR work area.
+         * An overlapping prefix/name rewrite is not proved by this case. */
+        if((unsigned)(last?last-name+1:0)+wcslen(path)+1>512 ||
+           (last && (DWORD)path>=(DWORD)rc_macro_name &&
+            (DWORD)path<(DWORD)(rc_macro_name+512))){ __asm int 3 }
+#endif
+        if(last){
+            destination=rc_macro_name;
+            while(name<=last)*destination++=*name++;
+            do *destination++=*path; while(*path++);
+        }else wcscpy(rc_macro_name,path);
+        if(rc_open_source(rc_macro_name,0))return 1;
+        if(depth<=0)return 0;
+        name=frame->filename;
+        --frame;
+        --depth;
+    }
+}
