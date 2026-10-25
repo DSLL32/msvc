@@ -3,6 +3,7 @@
 #include <io.h>
 #include <stdlib.h>
 #include "global-ir.h"
+#include "browser.h"
 #include "initialization.h"
 /* Keep the original out-of-line CRT call rather than STDIO.H's macro. */
 #undef _fileno
@@ -201,4 +202,44 @@ void stage_pch_intermediates(void)
     intermediate_status = _chsize(symbol_file->_file, 0);
     if (intermediate_status == -1)
         report_error(89, message_text(339), 0, pch_diagnostic_name, 1225);
+}
+
+extern unsigned char browser_symbol_references[8192];
+
+/* Original0x6d200..0x6d465. Append the initial saved symbol/global/line
+   streams and optional debug/browser state to the expression-prefix PCH. */
+void stage_initial_pch_streams(void)
+{
+    pch_transfer_buffer = malloc(0x8000);
+    intermediate_status = fflush(symbol_file);
+    if (intermediate_status == -1)
+        report_error(88, message_text(339), 0, pch_diagnostic_name, 1502);
+    rewind(symbol_file);
+    pch_header.symbol_bytes = copy_pch_stream(symbol_file, pch_file, 0x7fffffff);
+    intermediate_status = fflush(global_file);
+    if (intermediate_status == -1)
+        report_error(88, message_text(339), 0, pch_diagnostic_name, 1503);
+    rewind(global_file);
+    pch_header.global_bytes = copy_pch_stream(global_file, pch_file, 0x7fffffff);
+    intermediate_status = fflush(line_file);
+    if (intermediate_status == -1)
+        report_error(88, message_text(339), 0, pch_diagnostic_name, 1505);
+    rewind(line_file);
+    pch_header.line_bytes = copy_pch_stream(line_file, pch_file, 0x7fffffff);
+    if (options.configuration.debug_info && options.configuration.option_Yd) {
+        intermediate_status = fflush(debug_file);
+        if (intermediate_status == -1)
+            report_error(88, message_text(339), 0, pch_diagnostic_name, 1512);
+        rewind(debug_file);
+        pch_header.debug_bytes = copy_pch_stream(debug_file, pch_file, 0x7fffffff);
+    }
+    if (browser_filename && pch_mode == 1) {
+        intermediate_status = fflush(browser_file);
+        if (intermediate_status == -1)
+            report_error(88, message_text(339), 0, pch_diagnostic_name, 1515);
+        rewind(browser_file);
+        pch_header.browser_bytes = copy_pch_stream(browser_file, pch_file, 0x7fffffff);
+        fwrite(browser_symbol_references, 1, 0x1fff, pch_file);
+    }
+    free(pch_transfer_buffer);
 }
