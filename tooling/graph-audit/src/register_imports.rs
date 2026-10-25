@@ -223,6 +223,14 @@ fn preservation_mask(preserves: &[String]) -> Result<[bool; 4]> {
     }
     Ok(mask)
 }
+/// Reuse the contained hash binding without interpreting witness semantics.
+pub(crate) fn verified_evidence(project: &std::path::Path, value: &Value) -> Result<Value> {
+    let evidence: Evidence =
+        serde_json::from_value(value.clone()).context("structured evidence binding")?;
+    EvidenceFiles::new(project)?.verify(&evidence)?;
+    Ok(serde_json::to_value(evidence)?)
+}
+
 struct EvidenceFiles {
     base: std::path::PathBuf,
     hashes: BTreeMap<std::path::PathBuf, String>,

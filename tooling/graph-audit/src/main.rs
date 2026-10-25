@@ -69,6 +69,12 @@ pub struct Args {
     pub export_instructions: bool,
     #[arg(
         long,
+        value_name = "NAME",
+        help = "Export original-only decoded facts for an explicitly evidenced canonical CRT owner; not permission or paired equivalence"
+    )]
+    pub export_original_support_instructions: Vec<String>,
+    #[arg(
+        long,
         help = "Compare verified DLL/name-or-ordinal identities of direct IAT and import-thunk transfers"
     )]
     pub check_imports: bool,
@@ -143,6 +149,7 @@ fn run() -> Result<()> {
             || !(args.check_imports
                 || args.resolve_register_imports
                 || args.export_instructions
+                || !args.export_original_support_instructions.is_empty()
                 || args.check_ret
                 || args.check_runtime_data
                 || args.ret_checks.is_some()
@@ -161,6 +168,10 @@ fn run() -> Result<()> {
     anyhow::ensure!(
         args.profile != Profile::Cvpack || args.map_format == MapFormat::Msvc,
         "integrated CVPACK profile requires MSVC MAP format"
+    );
+    anyhow::ensure!(
+        args.profile != Profile::Cvpack || args.export_original_support_instructions.is_empty(),
+        "original support instruction export requires a standalone CFG profile"
     );
     anyhow::ensure!(
         args.profile != Profile::Cvpack || !args.export_instructions,

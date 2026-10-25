@@ -611,13 +611,41 @@ actual DWORD fixup at the observed base, then slice and compare actual stopped-c
 instruction bytes. It must not guess relocation by subtracting arbitrary immediates,
 turn declared bounds into whole-image execution/data permission, or freely run
 unknown calls/returns/callbacks. Unclassified destinations remain frontiers.
-No original-only startup/CRT analysis or runtime transport is added here.
+This paired option does not add original-only support facts or runtime transport.
 
 `check-instruction-export.py --binary BIN --scratch ~/.ai-tmp/CASE --report RESULT`
 exercises the optional field, bindings, pending boundaries, gaps/data, overlapping
 streams and rejection-without-partial-output controls using static synthetic inputs.
 The real Watcom fixtures additionally check raw operand fixups and omission of an
 unreachable extra RET. These checks never launch Wine or target executables.
+
+### Original-only CRT support facts
+
+Repeat `--export-original-support-instructions NAME` to request a finite selection
+of canonical CRT records in a standalone CFG audit. Each selected name must have
+one exact nonpending original index record, matching registry CRT classification
+(`definition:3`, `implementation:0`), canonical code/shared intervals, and a
+project-relative `evidence:{path,sha256}` witness whose contained file hash is
+verified. Unknown/App owners, ambiguous records, fabricated bounds and overlapping
+ownership reject. The witness's semantic qualification remains independently
+reviewed policy; its digest alone is not a library-match or execution proof.
+
+The separate `decoded_support_instructions` object binds the actual original
+image/coordinate/relocation provenance, configuration, original index, metadata
+and selected records. Each row includes its witness, exact range-byte hashes,
+`original` instruction/record/root/data facts, direct tails and unresolved-tail
+status. It has no rebuilt counterpart or paired-equivalence claim. Local RET
+sets are structural facts under the existing calls-may-return CFG model;
+`checked_ret_cleanup_set` is always null for this component, including when the
+ordinary application audit uses `--check-ret`. A no-local-RET tail does not imply
+cleanup zero or prove noreturn behavior.
+
+This selection never changes accepted/restored sets, application graph checks,
+credit or execution permission. In particular, differing OSI and NT startup
+bodies need no fabricated pair. A controller still needs independently reviewed
+support/ABI/admission policy, exact observed relocation and memory ownership,
+and fail-closed treatment of unknown/far/service transfers. The ordinary report
+and paired export are unchanged when this option is absent.
 
 ### Exact callback and import-site policy
 

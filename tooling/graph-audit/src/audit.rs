@@ -1218,6 +1218,31 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         .then(|| crate::instruction_export::finish(x, &metadata, instruction_exports, &report))
         .transpose()?;
     let mut result = json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report});
+    if !x.original_support.is_empty() {
+        let mut functions = BTreeMap::new();
+        for record in &x.original_support {
+            let (graph, options) = structural_facts(
+                &d,
+                &x.o,
+                record,
+                &metadata,
+                "original",
+                &x.oi,
+                crate::flow::Options {
+                    record_dataflow: true,
+                    forbid_overlapping_instructions: a.check_instruction_overlap,
+                    ..Default::default()
+                },
+            )
+            .with_context(|| format!("original support facts {}", record.name))?;
+            functions.insert(
+                record.name.clone(),
+                crate::instruction_export::support_side(&x.o, record, &graph, &options)?,
+            );
+        }
+        result["decoded_support_instructions"] =
+            crate::instruction_export::finish_support(x, &metadata, functions)?;
+    }
     if a.check_registry_support_extents {
         result["registry_support_extents"] =
             registry_support_extents(&d, x, &metadata, a.check_instruction_overlap)?;
@@ -1652,14 +1677,37 @@ fn structural_record(
     index: &[Record],
     forbid_overlap: bool,
 ) -> Result<crate::flow::Graph> {
+    Ok(structural_facts(
+        d,
+        pe,
+        record,
+        metadata,
+        side,
+        index,
+        crate::flow::Options {
+            forbid_overlapping_instructions: forbid_overlap,
+            ..Default::default()
+        },
+    )?
+    .0)
+}
+
+fn structural_facts(
+    d: &Decoder,
+    pe: &impl ImageView,
+    record: &Record,
+    metadata: &Value,
+    side: &str,
+    index: &[Record],
+    capture_options: crate::flow::Options,
+) -> Result<(crate::flow::Graph, crate::flow::Options)> {
     let mut options = crate::flow::Options {
         infer_switches: true,
         infer_seh: !pe.explicit_flat_ownership(),
         require_explicit_seh_roots: pe.explicit_flat_ownership(),
         code_chunks: record.code_chunks.clone(),
         allow_extent_end: true,
-        forbid_overlapping_instructions: forbid_overlap,
-        ..Default::default()
+        ..capture_options
     };
     apply_metadata(&mut options, &metadata["functions"][&record.name][side])?;
     validate_text_data(pe, record, &options.data, index)?;
@@ -1673,7 +1721,7 @@ fn structural_record(
     validate_inferred_data(pe, record, &graph, index)?;
     cfg_boundaries(d, pe, record, &graph, &options.data, false)
         .with_context(|| format!("{side} accepted extent tail {}", record.name))?;
-    Ok(graph)
+    Ok((graph, options))
 }
 
 fn registry_support_extents(

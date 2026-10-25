@@ -142,6 +142,7 @@ pub struct Inputs {
     pub ri: Vec<Record>,
     pub drivers: Vec<Record>,
     pub registry_support: Vec<Record>,
+    pub original_support: Vec<Record>,
     pub original_entry_names: EntryNames,
     pub rebuilt_entry_names: EntryNames,
     pub original_import_entries: BTreeSet<u32>,
@@ -467,7 +468,15 @@ impl Inputs {
         } else {
             Vec::new()
         };
+        let original_support = crate::instruction_export::support_records(
+            &cfg,
+            &o,
+            &oi,
+            &a.export_original_support_instructions,
+            &a.project,
+        )?;
         Ok(Self {
+            original_support,
             registry_support,
             o,
             r,
@@ -483,10 +492,10 @@ impl Inputs {
             original_imports,
             rebuilt_imports,
             map_provenance,
-            config_semantic_sha256: a
-                .export_instructions
-                .then(|| crate::instruction_export::semantic_hash(&cfg))
-                .transpose()?,
+            config_semantic_sha256: (a.export_instructions
+                || !a.export_original_support_instructions.is_empty())
+            .then(|| crate::instruction_export::semantic_hash(&cfg))
+            .transpose()?,
         })
     }
 }

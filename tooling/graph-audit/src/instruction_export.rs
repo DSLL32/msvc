@@ -96,6 +96,156 @@ pub fn finish(
     }))
 }
 
+/// Explicit original CRT selectors never turn endpoint identities into bodies.
+pub fn support_records(
+    config: &Value,
+    image: &impl ImageView,
+    index: &[Record],
+    selected: &[String],
+    project: &std::path::Path,
+) -> Result<Vec<Record>> {
+    if selected.is_empty() {
+        return Ok(vec![]);
+    }
+    let registry = config["function_registry"]
+        .as_array()
+        .context("original support export requires function_registry")?;
+    let base = crate::index::num(&config["target"]["base"])?;
+    let mut names = BTreeSet::new();
+    let mut result = Vec::new();
+    for name in selected {
+        ensure!(
+            !name.is_empty() && names.insert(name),
+            "empty or duplicate original support selector: {name}"
+        );
+        let entries: Vec<_> = registry
+            .iter()
+            .filter(|entry| entry["name"] == name.as_str())
+            .collect();
+        ensure!(
+            entries.len() == 1,
+            "missing or ambiguous original support registry owner: {name}"
+        );
+        let entry = entries[0];
+        ensure!(
+            entry["definition"] == 3 && entry["implementation"] == 0,
+            "original support owner must be classified CRT without implementation: {name}"
+        );
+        let records: Vec<_> = index.iter().filter(|record| &record.name == name).collect();
+        ensure!(
+            records.len() == 1,
+            "missing or ambiguous original support index owner: {name}"
+        );
+        let record = records[0];
+        ensure!(
+            !record.pending_extent,
+            "original support owner extent is pending: {name}"
+        );
+        let convert = |value: &Value| -> Result<Vec<(u32, u32)>> {
+            let ranges: Vec<(u32, u32)> = serde_json::from_value(value.clone())?;
+            ranges
+                .into_iter()
+                .map(|(a, b)| {
+                    ensure!(a < b, "invalid original support canonical interval: {name}");
+                    Ok((
+                        base.checked_add(a)
+                            .context("original support address overflow")?,
+                        base.checked_add(b)
+                            .context("original support address overflow")?,
+                    ))
+                })
+                .collect()
+        };
+        let code = convert(&entry["code"])?;
+        let shared = convert(&entry["text_data"])?;
+        ensure!(
+            !code.is_empty()
+                && code[0].0
+                    == base
+                        .checked_add(crate::index::num(&entry["rva"])?)
+                        .context("original support entry overflow")?
+                && code == record.code_ranges().collect::<Vec<_>>()
+                && shared == record.shared,
+            "original support canonical/index ranges differ: {name}"
+        );
+        ensure!(
+            code.iter().all(|&(a, b)| image.file_backed_code(a, b))
+                && shared.iter().all(|&(a, b)| image.text_data_backed(a, b)),
+            "original support ranges lack initialized ownership: {name}"
+        );
+        for app in registry.iter().filter(|entry| entry["definition"] == 4) {
+            let address = base
+                .checked_add(crate::index::num(&app["rva"])?)
+                .context("application entry overflow")?;
+            ensure!(
+                !record.contains_code(address),
+                "original support includes an application entry: {name}"
+            );
+        }
+        let mut record = record.clone();
+        record.evidence = crate::register_imports::verified_evidence(project, &record.evidence)
+            .with_context(|| format!("original support witness {name}"))?;
+        result.push(record);
+    }
+    // Entry-only pins have no owned interval. All real declared bodies still
+    // constrain a support selection; a support label cannot override an owner.
+    let owners: Vec<_> = index
+        .iter()
+        .filter(|record| record.start != record.end || !record.code_chunks.is_empty())
+        .cloned()
+        .collect();
+    crate::index::validate_chunk_ownership(image, &owners).context("original support ownership")?;
+    result.sort_by(|a, b| a.name.cmp(&b.name));
+    Ok(result)
+}
+
+pub fn support_side(
+    image: &impl ImageView,
+    record: &Record,
+    graph: &Graph,
+    options: &Options,
+) -> Result<Value> {
+    let mut digests = Vec::new();
+    for (kind, ranges) in [
+        (
+            "declared-code-interval",
+            record.code_ranges().collect::<Vec<_>>(),
+        ),
+        ("declared-shared-data", record.shared.clone()),
+    ] {
+        for (start, end) in ranges {
+            digests.push(json!({"kind":kind,"start":start,"end":end,
+                "sha256":crate::index::hash(image.read(start,(end-start) as usize)?)}));
+        }
+    }
+    Ok(
+        json!({"classification":"CRT","selection_source":"explicit original-only support selector and hash-bound witness; no admission",
+        "evidence":record.evidence,"declared_range_sha256":digests,
+        "original":side(image,record,graph,options,None)?,
+        "direct_tails":graph.tails,"unresolved_tail":graph.unresolved_tail}),
+    )
+}
+
+pub fn finish_support(
+    inputs: &Inputs,
+    metadata: &Value,
+    functions: BTreeMap<String, Value>,
+) -> Result<Value> {
+    ensure!(
+        functions
+            .keys()
+            .eq(inputs.original_support.iter().map(|record| &record.name)),
+        "original support export selection differs"
+    );
+    Ok(json!({"schema":1,
+        "semantics":"original-only decoded support facts under the existing calls-may-return CFG model; no paired equivalence, checked ABI, application acceptance or execution permission",
+        "inputs":{"images":{"original":inputs.o.provenance()},
+            "config_sha256":inputs.config_semantic_sha256.as_ref().context("missing support config binding")?,
+            "original_index_sha256":semantic_hash(&inputs.oi)?,"metadata_sha256":semantic_hash(metadata)?,
+            "selected_support_sha256":semantic_hash(&inputs.original_support)?},
+        "functions":functions}))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -136,6 +286,100 @@ mod tests {
         .unwrap();
         (image, record, options, graph)
     }
+    #[test]
+    fn support_selection_requires_canonical_crt_extent_and_bound_witness() {
+        let (image, mut record, _, _) = fixture(vec![0x90, 0xc3]);
+        record.evidence = json!({"path":"fixtures/register-preservation.json","sha256":crate::index::hash(include_bytes!("../fixtures/register-preservation.json"))});
+        let cfg = json!({"target":{"base":4096},"function_registry":[{"name":"owner","definition":3,"implementation":0,"rva":0,"code":[[0,2]],"text_data":[]}]});
+        let names = vec!["owner".to_string()];
+        let project = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+        assert_eq!(
+            support_records(&cfg, &image, &[record.clone()], &names, project)
+                .unwrap()
+                .len(),
+            1
+        );
+        assert!(
+            support_records(&json!({}), &image, &[], &[], project)
+                .unwrap()
+                .is_empty()
+        );
+        for (key, value) in [
+            ("definition", json!(4)),
+            ("definition", json!(0)),
+            ("implementation", json!(1)),
+            ("code", json!([])),
+            ("code", json!([[0, 1]])),
+            ("rva", json!(1)),
+        ] {
+            let mut wrong = cfg.clone();
+            wrong["function_registry"][0][key] = value;
+            assert!(
+                support_records(&wrong, &image, &[record.clone()], &names, project).is_err(),
+                "{key}"
+            );
+        }
+        for evidence in [
+            Value::Null,
+            json!("unchecked"),
+            json!({"path":"fixtures/register-preservation.json","sha256":"0".repeat(64)}),
+            json!({"path":"/etc/passwd","sha256":"0".repeat(64)}),
+        ] {
+            let mut wrong = record.clone();
+            wrong.evidence = evidence;
+            assert!(support_records(&cfg, &image, &[wrong], &names, project).is_err());
+        }
+        let mut wrong = record.clone();
+        wrong.pending_extent = true;
+        assert!(support_records(&cfg, &image, &[wrong], &names, project).is_err());
+        assert!(
+            support_records(
+                &cfg,
+                &image,
+                &[record.clone(), record.clone()],
+                &names,
+                project
+            )
+            .is_err()
+        );
+        assert!(
+            support_records(
+                &cfg,
+                &image,
+                &[record.clone()],
+                &["owner".into(), "owner".into()],
+                project
+            )
+            .is_err()
+        );
+        let mut wrong = cfg.clone();
+        wrong["function_registry"]
+            .as_array_mut()
+            .unwrap()
+            .push(json!({"name":"app","definition":4,"implementation":0,"rva":1}));
+        assert!(support_records(&wrong, &image, &[record], &names, project).is_err());
+    }
+
+    #[test]
+    fn support_tail_and_local_ret_are_facts_without_a_counterpart_or_checked_abi() {
+        for code in [vec![0xe9, 0x0b, 0, 0, 0], vec![0xc3]] {
+            let (image, record, options, graph) = fixture(code.clone());
+            let report = support_side(&image, &record, &graph, &options).unwrap();
+            assert!(report.get("rebuilt").is_none());
+            assert!(report["original"]["checked_ret_cleanup_set"].is_null());
+            assert_eq!(
+                report["declared_range_sha256"][0]["sha256"],
+                crate::index::hash(&code)
+            );
+            if code[0] == 0xe9 {
+                assert_eq!(report["original"]["local_ret_cleanup_set"], json!([]));
+                assert_eq!(report["direct_tails"], json!([0x1010]));
+            } else {
+                assert_eq!(report["original"]["local_ret_cleanup_set"], json!([0]));
+            }
+        }
+    }
+
     #[test]
     fn exact_bytes_roots_and_checked_vs_local_cleanup() {
         let (image, record, options, graph) = fixture(vec![0x90, 0xc3]);
