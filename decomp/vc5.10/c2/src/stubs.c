@@ -86,11 +86,6 @@ void __fastcall queue_symbol_debug(C2Symbol *symbol)
 }
 
 
-unsigned __fastcall align_stack_storage(unsigned position, unsigned bytes, int alignment)
-{
-    __asm { int 3 }
-    return 0;
-}
 void __fastcall reserve_section_symbol(C2Symbol *symbol)
 {
     __asm { int 3 }

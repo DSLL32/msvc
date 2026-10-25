@@ -9,6 +9,15 @@ int argument_layout_kind = 4;
 int argument_alignment = 4;
 long local_stack_offset;
 
+unsigned __fastcall align_stack_storage(unsigned position, unsigned bytes, int alignment)
+{
+    if (bytes == 2 && alignment > 1)
+        return (position + 1) & ~1U;
+    if (bytes == 1)
+        return position;
+    return (position + (unsigned)alignment - 1) & ~((unsigned)alignment - 1);
+}
+
 long __fastcall allocate_local_storage(unsigned bytes, unsigned alignment)
 {
     unsigned position;

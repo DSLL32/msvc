@@ -182,6 +182,29 @@ static int parameter_storage_layout(void)
     return !reserve_symbol_storage(&parameter.symbol) && argument_stack_offset == 16;
 }
 
+static int stack_slot_alignment(void)
+{
+    static const struct { unsigned position, bytes; int alignment; unsigned result; } rows[] = {
+        {5, 1, 8, 5}, {5, 2, 8, 6}, {5, 4, 8, 8}, {5, 4, 1, 5},
+        {5, 2, 1, 5}, {5, 2, 0, 0}, {5, 2, -1, 1}, {0xffffffffU, 4, 4, 0}
+    };
+    unsigned i;
+    for (i = 0; i < sizeof(rows) / sizeof(rows[0]); ++i)
+        if (align_stack_storage(rows[i].position, rows[i].bytes, rows[i].alignment) !=
+            rows[i].result) return 0;
+    return 1;
+}
+
+static int local_storage_sequence(void)
+{
+    local_stack_offset = 0;
+    local_storage_alignment = 4;
+    return allocate_local_storage(3, 4) == -4 &&
+        allocate_local_storage(2, 2) == -6 &&
+        allocate_local_storage(1, 0) == -7 &&
+        allocate_local_storage(3, 0) == -12 && local_stack_offset == -12;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -191,5 +214,7 @@ const ReconTest numeric_tests[] = {
     {"clearing a register set appends its nodes", 1, register_set_clear},
     {"function entry clears all small-node free lists", 1, clear_small_node_lists},
     {"local-symbol retention flag combinations", 1, symbol_retention_flags},
-    {"parameter storage padding and idempotence", 1, parameter_storage_layout}
+    {"parameter storage padding and idempotence", 1, parameter_storage_layout},
+    {"byte and word stack-slot alignment", 1, stack_slot_alignment},
+    {"successive local stack allocations", 1, local_storage_sequence}
 };

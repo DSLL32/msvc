@@ -2253,8 +2253,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@align_stack_storage@12",
         .entry_rva = 0xdf8a,
+        .code = (const ReconExtent[]){{0xdf8a, 0xdfb1}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "align_stack_storage",
     },
     {
