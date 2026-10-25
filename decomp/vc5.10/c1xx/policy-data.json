@@ -190,6 +190,11 @@
         "register_imports": {
           "require_all_register_calls_resolved": true
         }
+      },
+      "_resolve_option_path": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
       }
     },
     "callback_tables": [],
@@ -289,6 +294,21 @@
           "evidence": {
             "path": "integer-imports.json",
             "sha256": "e73e572f5404dca9c7ea17c97031d1544d7b1333ce27e1cc1a50fa4cdc8bfbdf"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsstr"
+            }
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "resolver-imports.json",
+            "sha256": "999270e9fc85e86e560e2d5d604dae474a244f7ec7107c19f22822659f09b8cf"
           }
         }
       ]
