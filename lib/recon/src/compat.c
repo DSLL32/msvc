@@ -115,11 +115,6 @@ int __cdecl recon_watcom_memicmp(const void *left,const void *right,size_t count
     (void)left;(void)right;(void)count;
     recon_unsupported("unreviewed Watcom memicmp");return 0;
 }
-char *__cdecl recon_watcom_getcmd(char *buffer)
-{
-    (void)buffer;
-    recon_unsupported("unreviewed Watcom getcmd");return NULL;
-}
 int __cdecl recon_watcom_getch(void)
 {
     recon_unsupported("unreviewed Watcom getch");return 0;

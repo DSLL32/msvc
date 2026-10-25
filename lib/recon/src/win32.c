@@ -15,6 +15,49 @@
 
 /* File HANDLEs encode fd+1; mapping handles own a dup of their source fd. */
 static DWORD last_error;
+static char *command_line;
+static size_t command_line_bytes;
+void recon_bind_command_line(char *text,size_t bytes)
+{
+    size_t n;
+    if(command_line || !text || !bytes || bytes>32767 ||
+       (uintptr_t)text>UINTPTR_MAX-bytes)
+        recon_unsupported("command-line binding extent/state");
+    for(n=0;n+1<bytes;++n)
+        if(!text[n] || (unsigned char)text[n]>=128)
+            recon_unsupported("command-line binding ASCII/terminator");
+    if(text[bytes-1]) recon_unsupported("command-line binding final NUL");
+    command_line=text;command_line_bytes=bytes;
+}
+LPSTR WINAPI recon_GetCommandLineA(void)
+{
+    if(!command_line) recon_unsupported("unbound process command line");
+    return command_line;
+}
+char *__cdecl recon_watcom_getcmd(char *buffer)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    char *text=recon_GetCommandLineA();size_t end,start=0,count;
+    if(!buffer) recon_unsupported("Watcom getcmd NULL output");
+    for(end=0;end<command_line_bytes && text[end];++end)
+        if((unsigned char)text[end]>=128)
+            recon_unsupported("Watcom getcmd nonASCII input");
+    if(end==command_line_bytes || !end || text[0]==' ' || (text[0]>=9 && text[0]<=13))
+        recon_unsupported("Watcom getcmd missing program token");
+    while(start<end && text[start]!=' ' && !(text[start]>=9 && text[start]<=13)) ++start;
+    while(start<end && (text[start]==' ' || (text[start]>=9 && text[start]<=13))) ++start;
+    count=end-start+1;
+    if((uintptr_t)buffer>UINTPTR_MAX-count ||
+       ((uintptr_t)buffer<(uintptr_t)text+command_line_bytes &&
+        (uintptr_t)text<(uintptr_t)buffer+count))
+        recon_unsupported("Watcom getcmd output wrap/overlap");
+    /* Old getcmd skips the first whitespace-delimited token and whitespace, then strcpy's
+     * the exact remaining command text, including quotes and trailing spaces. */
+    memcpy(buffer,text+start,count);return buffer;
+#else
+    (void)buffer;recon_unsupported("Watcom getcmd requires explicit profile");return NULL;
+#endif
+}
 typedef struct NativeResource {
     struct NativeResource *next; DWORD kind,id,language,length; const char *text;
 } NativeResource;

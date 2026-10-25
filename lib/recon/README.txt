@@ -625,10 +625,17 @@ conversion is supported by this annotation.
 
 Watcom-only bare memicmp/getcmd spellings have typed cdecl link boundaries:
 int(const void *,const void *,size_t) and char *(char *), matching shipped
-STRING.H83/PROCESS.H63. Both always deny125 without reading input or writing
-output, including count0/NULL. WLINK currently stores the memicmp callback;
-WLIB's selected help path returns before getcmd. No comparison or command-line
-success, private CRT implementation or host import fallback is supported.
+STRING.H83/PROCESS.H63. memicmp always denies125, including count0/NULL.
+The native host may bind the exact original CreateProcessA input with
+recon_bind_command_line(text,bytes), including the final NUL (ASCII, at most32767
+bytes). The mutable buffer is borrowed for process lifetime, never reconstructed
+from projected argv. GetCommandLineA returns that exact alias, denying unbound
+use. Watcom getcmd supports the observed old whitespace-delimited ASCII parser:
+skip the first token and following whitespace, then copy the exact remaining
+text including its NUL to valid disjoint caller storage and return that alias.
+Quotes are not interpreted or stripped, matching the old parser; malformed
+bindings, output overlap and other CRT profiles deny125. No general command-line parsing or host
+import fallback is supplied. Existing fixtures without raw input stay unbound.
 
 Watcom compile spellings stdaux/stdprn identify existing native iob slots3/4;
 this does not initialize their handles or qualify closing them. Bare isatty

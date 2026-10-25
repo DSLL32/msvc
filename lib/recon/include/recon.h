@@ -81,6 +81,8 @@ typedef struct ReconModuleSpec {
  DWORD flags;
 } ReconModuleSpec;
 HMODULE recon_register_module(const ReconModuleSpec *);
+/* Host-owned exact CreateProcessA input; bytes includes its final NUL. */
+void recon_bind_command_line(char *,size_t);
 const ReconModuleSpec *recon_module_identity(HMODULE);
 BOOL recon_module_thread_calls_disabled(HMODULE);
 /* Host-only, explicit dependency callbacks; no PE loader or target vertices. */
@@ -424,7 +426,7 @@ void recon_load_system_info_profile(const char *,const char *);
  X(DWORD,GetFullPathNameA,(LPCSTR,DWORD,LPSTR,LPSTR *)) \
  X(void,GetSystemInfo,(LPSYSTEM_INFO)) X(void,GlobalMemoryStatus,(LPMEMORYSTATUS)) \
  X(DWORD,GetTickCount,(void)) \
- X(DWORD,GetModuleFileNameA,(HMODULE,LPSTR,DWORD)) X(DWORD,GetVersion,(void)) \
+ X(DWORD,GetModuleFileNameA,(HMODULE,LPSTR,DWORD)) X(LPSTR,GetCommandLineA,(void)) X(DWORD,GetVersion,(void)) \
  X(BOOL,SystemTimeToFileTime,(const SYSTEMTIME *,FILETIME *)) \
  X(BOOL,SetFileTime,(HANDLE,const FILETIME *,const FILETIME *,const FILETIME *)) \
  X(void,GetSystemTime,(SYSTEMTIME *)) X(void,ExitProcess,(UINT)) X(void,DebugBreak,(void)) \
@@ -743,6 +745,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define GlobalMemoryStatus recon_GlobalMemoryStatus
 #define GetTickCount recon_GetTickCount
 #define GetModuleFileNameA recon_GetModuleFileNameA
+#define GetCommandLineA recon_GetCommandLineA
 #define GetVersion recon_GetVersion
 #define SystemTimeToFileTime recon_SystemTimeToFileTime
 #define SetFileTime recon_SetFileTime

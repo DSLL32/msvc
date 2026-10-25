@@ -698,6 +698,12 @@ build/watcom-cold-probe: tests/watcom-cold-probe.c $(SOURCES) $(HEADERS) | build
 watcom-cold-check: build/watcom-cold-probe
 	./$<
 
+.PHONY: command-line-check
+build/command-line-probe: tests/command-line-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+command-line-check: build/command-line-probe
+	$(PYTHON) tests/check-command-line.py $<
+
 .PHONY: watcom-signal-check
 build/watcom-signal-probe: tests/watcom-signal-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
