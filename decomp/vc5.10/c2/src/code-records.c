@@ -696,3 +696,11 @@ void __fastcall validate_function_code(C2Record *first)
         for (reg = block->records; reg < block->cursor; ++reg)
             if (reg->kind != 0x10 && reg->type == 0x3004) reg->type = 0x2004;
 }
+
+void __fastcall unlink_and_release_input_record(C2Record *record)
+{
+    C2Record *previous = record->previous, *next = record->next;
+    previous->next = next;
+    next->previous = previous;
+    release_small_node(record);
+}

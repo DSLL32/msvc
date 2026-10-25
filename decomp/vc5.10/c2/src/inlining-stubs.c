@@ -9,10 +9,7 @@ void __fastcall insert_input_record(C2Record *prior, C2Record *record)
     __asm { int 3 }
 }
 
-void __fastcall unlink_and_release_input_record(C2Record *record)
-{
-    __asm { int 3 }
-}
+
 
 
 

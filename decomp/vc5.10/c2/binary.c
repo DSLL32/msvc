@@ -1341,8 +1341,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@unlink_and_release_input_record@4",
         .entry_rva = 0x220a,
+        .code = (const ReconExtent[]){{0x220a, 0x2219}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "unlink_and_release_input_record",
     },
     {
