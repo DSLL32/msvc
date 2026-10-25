@@ -222,7 +222,10 @@ extern "C" void __cdecl write_ir_record(int kind, const void *value)
     const unsigned char *format;
     CompilerIrSymbol *symbol;
     CompilerTypeShape *shape;
-    unsigned code, index, bits, width;
+    unsigned code, index, bits;
+    /* The original reuses the incoming value slot for tag3 widths. Its
+     * initial carried value is the node address, retained until overwritten. */
+    unsigned width = (unsigned)value;
     const BYTE *bytes;
     int available;
     if (kind == 181)
@@ -265,8 +268,8 @@ extern "C" void __cdecl write_ir_record(int kind, const void *value)
                 break;
             case 0x70: width = 20; break;
             default:
-                /* Original leaves this local unset for these storage classes,
-                 * reusing a dead incoming slot. They are unsupported here. */
+                /* Original retains the carried argument-slot value here.
+                 * Cross-address output from these classes is unsupported. */
 #ifdef RECON_NATIVE_TEST
                 recon_unsupported("write_ir_record: unmodeled storage width");
 #endif

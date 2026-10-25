@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include <new.h>
 #include "frontend.h"
 #include <string.h>
-#pragma intrinsic(strcmp, strcpy, strcat)
+#pragma intrinsic(strcmp, strcpy, strcat, memcpy, memset)
 #include <recon.h>
 
 extern "C" {
@@ -78,4 +79,29 @@ extern "C" CompilerIntegerConstant *__cdecl make_integer_constant(int value)
     if (!value)
         node->flags |= 0x80;
     return node;
+}
+
+int RECON_THISCALL CompilerOutputBuffer::Grow(int bytes)
+{
+    int increment = capacity / 2;
+    unsigned new_capacity;
+    unsigned used;
+    BYTE *replacement, *new_cursor, *old_data;
+    if (bytes + 4096 > increment)
+        increment = bytes + 4096;
+    new_capacity = (capacity + increment + 4095) & ~4095U;
+    replacement = (BYTE *)::operator new(new_capacity);
+    if (!replacement) return 0;
+    capacity = new_capacity;
+    used = (unsigned)(cursor - data);
+    memcpy(replacement, data, used);
+    new_cursor = replacement + used;
+    memset(new_cursor, 0, capacity - used);
+    ::operator delete(data);
+    old_data = data;
+    data = replacement;
+    cursor = new_cursor;
+    if (old_data != replacement && relocated)
+        relocated(relocation_context, old_data, replacement);
+    return 1;
 }

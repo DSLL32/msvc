@@ -64,7 +64,7 @@ typedef void (__cdecl *C1BufferRelocator)(void *, unsigned char *, unsigned char
 typedef struct CompilerOutputBuffer {
     unsigned char *data;
     unsigned char *cursor;
-    unsigned capacity;
+    int capacity; /* Grow uses signed division/comparison for its increment. */
     C1BufferRelocator relocated;
     void *relocation_context;
     FILE *stream;

@@ -1,4 +1,5 @@
 #include "input.h"
+#include <new.h>
 #include "keywords.h"
 #include <recon.h>
 
@@ -131,4 +132,47 @@ extern "C" int c1_test_output_ensure(void)
         buffer.good != 0x5a) return 0;
     buffer.cursor = bytes + 8;
     return buffer.Ensure(0) && buffer.cursor == bytes + 8 && buffer.good == 0x5a;
+}
+
+struct GrowthObservation {
+    CompilerOutputBuffer *buffer;
+    BYTE *old_data, *new_data;
+    int calls, published;
+};
+static void __cdecl observe_output_growth(void *context, BYTE *old_data, BYTE *new_data)
+{
+    GrowthObservation *observation = (GrowthObservation *)context;
+    ++observation->calls;
+    observation->old_data = old_data;
+    observation->new_data = new_data;
+    observation->published = observation->buffer->data == new_data &&
+        observation->buffer->cursor == new_data + 3;
+}
+extern "C" int c1_test_output_grow(void)
+{
+    CompilerOutputBuffer buffer;
+    GrowthObservation observation;
+    BYTE *first;
+    unsigned i;
+    int ok;
+    memset(&buffer, 0, sizeof(buffer));
+    if (!buffer.Grow(2) || buffer.capacity != 8192 || buffer.cursor != buffer.data)
+        return 0;
+    first = buffer.data;
+    for (i = 0; i < 8192; ++i)
+        if (first[i]) { ::operator delete(first); return 0; }
+    first[0] = 'a'; first[1] = 'b'; first[2] = 'c'; first[4] = 0xff;
+    buffer.cursor += 3;
+    memset(&observation, 0, sizeof(observation));
+    observation.buffer = &buffer;
+    buffer.relocated = observe_output_growth;
+    buffer.relocation_context = &observation;
+    if (!buffer.Grow(10000)) { ::operator delete(buffer.data); return 0; }
+    ok = buffer.capacity == 24576 && observation.calls == 1 && observation.published &&
+        observation.old_data == first && observation.new_data == buffer.data &&
+        buffer.data[0] == 'a' && buffer.data[1] == 'b' && buffer.data[2] == 'c';
+    for (i = 3; i < (unsigned)buffer.capacity; ++i)
+        if (buffer.data[i]) ok = 0;
+    ::operator delete(buffer.data);
+    return ok;
 }
