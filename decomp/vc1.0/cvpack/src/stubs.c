@@ -163,7 +163,7 @@ void size_old_register_relative32(void) { __asm { int 3 } }
 
 
 
-void size_old_data32(void) { __asm { int 3 } }
+
 
 
 
