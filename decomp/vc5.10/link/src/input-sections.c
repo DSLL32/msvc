@@ -1,0 +1,114 @@
+#include <windows.h>
+#include <string.h>
+#include "input.h"
+#include "sections.h"
+#include "full-link-functions.h"
+#include <recon.h>
+
+extern char *current_module_strings;
+extern BYTE mac_target,incremental_enabled,incremental_reuse,pdb_enabled,mac_file_padding;
+extern OutputSection *import_section,*import_thunk_section,*import_descriptor_section;
+extern OutputSection *architecture_section,*debug_section;
+extern ComdatRoot *comdat_roots;
+extern int selected_tool_kind;
+typedef struct ModuleListNode { OutputModule *module; struct ModuleListNode *next; } ModuleListNode;
+ModuleListNode *precompiled_modules;
+void __stdcall add_module_to_list(ModuleListNode **,OutputModule *);
+char *__stdcall get_input_section_name(IMAGE_SECTION_HEADER *,const char *);
+DWORD __stdcall align_section_size(DWORD,DWORD);
+void __stdcall remember_mac_module_name(const char *);
+void __stdcall mark_incremental_contribution(Contribution *);
+BYTE __stdcall read_comdat_section(LinkContext *,Contribution *,IMAGE_SYMBOL *,SHORT,char **);
+void __stdcall read_section_directives(LinkContext *,Contribution *,const char *,InputArguments *);
+void *__stdcall add_comdat_reference(StringNode *,Contribution *,Contribution *);
+void __stdcall read_section_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,OutputModule *);
+DWORD __stdcall mac_contribution_padding(DWORD);
+
+#pragma intrinsic(strcmp)
+void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD index,
+    IMAGE_SECTION_HEADER *header,IMAGE_SYMBOL *symbols,InputArguments *pending)
+{
+    char *name=get_input_section_name(header,current_module_strings);
+    char module_name[512];
+    DWORD flags,alignment,padding;
+    Contribution *contribution;
+    ContributionGroup *group;
+    OutputSection *section;
+    char *comdat_name=NULL;
+    if ((context->file_header.Machine==0x166 || context->file_header.Machine==0x168) &&
+        !(header->Characteristics & 0x02000000) && strncmp(name,".idata",6) &&
+        (header->Characteristics & 0x1e0)!=0x100 &&
+        align_section_size(1,header->Characteristics)<4) {
+        format_module_name(module,module_name);
+        if (incremental_enabled && !incremental_reuse)
+            header->Characteristics &= 0xff8ffff7;
+        else header->Characteristics &= 0xff8fffff;
+        header->Characteristics |= 0x300000;
+    }
+    flags=header->Characteristics;
+    if (mac_target && !strcmp(name,".ppcshl")) remember_mac_module_name(module->name);
+    contribution=create_contribution(name,header->SizeOfRawData,flags,flags,module,
+        &context->sections,context);
+    group=contribution->group;
+    if (!(context->options.debug_level==3 && (context->options.debug_formats & 2)) &&
+        (group==debug_symbol_group || group==debug_type_group || group==debug_precompiled_group))
+        contribution->characteristics |= 0x800;
+    if (!(context->options.debug_level && (context->options.debug_formats & 4)) &&
+        group==debug_fixup_group) contribution->characteristics |= 0x800;
+    mark_incremental_contribution(contribution);
+    if (pdb_enabled && group==debug_precompiled_group)
+        add_module_to_list(&precompiled_modules,module);
+    if ((contribution->characteristics & 0x1000) &&
+        !read_comdat_section(context,contribution,symbols,(SHORT)index,&comdat_name)) {
+        contribution->characteristics |= 0x800;
+        return;
+    }
+    read_section_directives(context,contribution,name,pending);
+    if (selected_tool_kind==2 || (contribution->characteristics & 0x800)) return;
+    section=group->section;
+    if (section==import_section) {
+        flags=(flags & 0xffbfffff)|0x300000;
+        contribution->characteristics=flags;
+    }
+    alignment=align_section_size(1,flags);
+    if (group->alignment<(BYTE)alignment) {
+        group->alignment=(BYTE)alignment;
+        if (!mac_target && context->optional_header.SectionAlignment<alignment)
+            link_contribution_fatal(contribution,1164,(int)(SHORT)index,alignment);
+    }
+    if (context->options.effective_reference_opt || context->options.fold_identical_comdats) {
+        attach_comdat(contribution,comdat_name,0);
+        if (!(contribution->characteristics & 0x1000) ||
+            (section==architecture_section && !_strnicmp(name,".arch$a",7)))
+            add_comdat_root(NULL,NULL,contribution,&comdat_roots);
+        else if (contribution->associated_contribution)
+            add_comdat_reference(NULL,contribution->associated_contribution,contribution);
+    }
+    if (incremental_enabled && !incremental_reuse && section!=debug_section &&
+        section!=import_section && (module->library->flags & 16) &&
+        strcmp(section->name,".idata")) {
+        if (contribution->characteristics & 0x20) {
+            padding=(DWORD)(contribution->raw_size*25)/100;
+            if (padding==1) padding=0;
+        } else padding=(DWORD)(contribution->raw_size*(section==small_data_section ? 10 : 20))/100;
+        contribution->padding=padding;
+        contribution->raw_size+=padding;
+    }
+    if (section!=debug_section) read_section_relocations(context,contribution,symbols,module);
+    if (mac_target && mac_file_padding && section!=debug_section && section!=import_section &&
+        (contribution->module->library->flags & 16)) {
+        padding=mac_contribution_padding(contribution->raw_size);
+        contribution->padding=padding;
+        contribution->raw_size+=padding;
+    }
+}
+char *__stdcall get_input_section_name(IMAGE_SECTION_HEADER *header,const char *strings) { __asm { int 3 } return NULL; }
+DWORD __stdcall align_section_size(DWORD size,DWORD flags) { __asm { int 3 } return 0; }
+void __stdcall remember_mac_module_name(const char *name) { __asm { int 3 } }
+void __stdcall mark_incremental_contribution(Contribution *contribution) { __asm { int 3 } }
+BYTE __stdcall read_comdat_section(LinkContext *context,Contribution *contribution,IMAGE_SYMBOL *symbols,SHORT index,char **name) { __asm { int 3 } return 0; }
+void __stdcall read_section_directives(LinkContext *context,Contribution *contribution,const char *name,InputArguments *pending) { __asm { int 3 } }
+void *__stdcall add_comdat_reference(StringNode *symbol,Contribution *parent,Contribution *child) { __asm { int 3 } return NULL; }
+void __stdcall read_section_relocations(LinkContext *context,Contribution *contribution,IMAGE_SYMBOL *symbols,OutputModule *module) { __asm { int 3 } }
+DWORD __stdcall mac_contribution_padding(DWORD size) { __asm { int 3 } return 0; }
+void __stdcall add_module_to_list(ModuleListNode **list,OutputModule *module) { __asm { int 3 } }

@@ -5617,6 +5617,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_add_input_section@24": {
+        "expected_cleanup": [
+          24
+        ]
       }
     }
   }

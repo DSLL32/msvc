@@ -109,11 +109,6 @@ IMAGE_SECTION_HEADER *RECON_THISCALL OutputModule::ReadSectionHeaders(IMAGE_SECT
     if (result) *result=headers;
     return headers;
 }
-void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD index,
-    IMAGE_SECTION_HEADER *header,IMAGE_SYMBOL *symbols,InputArguments *pending)
-{
-    __asm { int 3 }
-}
 void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
     void *parent,IMAGE_SYMBOL *symbols,WORD flags,BYTE first_pass)
 {

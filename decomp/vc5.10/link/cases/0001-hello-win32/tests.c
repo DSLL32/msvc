@@ -160,11 +160,25 @@ static int string_mapping(void)
     return recon_native_at_entry(add_input_section,check_string_mapping,
         invoke_hello,NULL)==1;
 }
+extern char *__stdcall get_input_section_name(IMAGE_SECTION_HEADER *,const char *);
+static void __stdcall check_section_name_call(IMAGE_SECTION_HEADER *header,const char *strings)
+{
+    FileRecord *file=file_slots[current_input_file];
+    recon_native_entry_finish(header==module_section_headers &&
+        !memcmp(header->Name,".drectve",8) && strings==current_module_strings &&
+        strings==(char *)file->view+1801 && *(DWORD *)strings==461);
+}
+static int section_name_call(void)
+{
+    return recon_native_at_entry(get_input_section_name,check_section_name_call,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
     {"section-header-read",1,section_header_read},
     {"symbol-read-mapping",1,symbol_read_mapping},
     {"symbol-mapped-range",1,symbol_mapping},
-    {"string-mapped-range",1,string_mapping}
+    {"string-mapped-range",1,string_mapping},
+    {"section-name-call",1,section_name_call}
 };

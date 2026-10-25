@@ -92,7 +92,7 @@ StringNode * RECON_THISCALL StringTable::FindSymbol(const char *name) { __asm { 
 extern "C" void __stdcall set_symbol_defined(StringNode *symbol,BYTE defined,StringTable *symbols) { __asm { int 3 } }
 extern "C" void __cdecl release_comdat_tables(void) { __asm { int 3 } }
 extern "C" void __stdcall attach_comdat(Contribution *contribution,const char *name,BYTE linker_defined) { __asm { int 3 } }
-extern "C" void __stdcall add_comdat_root(Contribution *contribution,StringNode *symbol,OutputModule *module,ComdatRoot **roots) { __asm { int 3 } }
+extern "C" void __stdcall add_comdat_root(Contribution *contribution,StringNode *symbol,Contribution *owner,ComdatRoot **roots) { __asm { int 3 } }
 extern "C" void __stdcall add_special_comdat_roots(StringTable *symbols) { __asm { int 3 } }
 extern "C" void __stdcall eliminate_unused_comdats(ComdatRoot *roots,StringTable *symbols) { __asm { int 3 } }
 extern "C" void __cdecl finish_comdat_elimination(void) { __asm { int 3 } }

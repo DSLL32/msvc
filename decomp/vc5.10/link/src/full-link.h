@@ -90,7 +90,9 @@ struct ContributionGroup {
     OutputSection *section;
 };
 struct Contribution {
-    DWORD rva, characteristics, raw_size, file_offset, reserved10, reserved14;
+    DWORD rva, characteristics, raw_size, file_offset;
+    Contribution *associated_contribution;
+    DWORD padding;
     OutputModule *module;
     ContributionGroup *group;
     Contribution *next;

@@ -69,7 +69,7 @@ void __stdcall set_symbol_defined(StringNode *symbol,BYTE defined,StringTable *s
 void __cdecl initialize_comdats(void);
 void __cdecl release_comdat_tables(void);
 void __stdcall attach_comdat(Contribution *contribution,const char *name,BYTE linker_defined);
-void __stdcall add_comdat_root(Contribution *contribution,StringNode *symbol,OutputModule *module,ComdatRoot **roots);
+void __stdcall add_comdat_root(Contribution *contribution,StringNode *symbol,Contribution *owner,ComdatRoot **roots);
 void __stdcall add_special_comdat_roots(StringTable *symbols);
 void __stdcall eliminate_unused_comdats(ComdatRoot *roots,StringTable *symbols);
 void __cdecl finish_comdat_elimination(void);
