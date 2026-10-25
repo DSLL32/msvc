@@ -1,6 +1,21 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
+/O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
+The independent native cases freeze source timestamps/cwds and the original
+53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
+original/native matching at compare_filenames; there are1422 App bodies and1529
+historical frontiers. Original compilation,1430-function inherited graph/ABI
+checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
+Native first pair26.683ms (setup17.078ms, execution3.035ms, checks6.570ms).
+The default-path strlen source calls were replaced by the actual inline loops
+before passing graph checks. One discovery started before the library relink
+completed and repeated the old frontier; it is retained separately and unused.
+Producer IR/browser outputs match the driver, but full producer PCH bytes differ
+between the driver and standalone capture. This remains unqualified pending raw
+artifact export/analysis; no normalization or full PCH equivalence is claimed.
+
 PARTIAL reconstruction; dsp_bank is COMPLETE. There are1421 application source
 functions plus seven unchanged historical CRT source functions. The DSP case
 accepted54 whole bodies (7676 code bytes and100 owned switch-data bytes), covering

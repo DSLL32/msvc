@@ -26,6 +26,7 @@ BINARY_SOURCES = src/c1xx.c \
     src/cpp-context.c \
     src/inline-vector.c \
     src/intermediate.c \
+    src/pch.c \
     src/constants.c \
     src/ir.c \
     src/ir-formats.c \

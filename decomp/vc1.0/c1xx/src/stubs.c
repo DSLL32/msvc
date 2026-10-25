@@ -77,7 +77,6 @@ void generate_inline_queries(void) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
 void initialize_inline_queries(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
-void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
