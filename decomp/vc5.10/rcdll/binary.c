@@ -192,7 +192,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_select_macro_text" },
     { .name="rc_select_macro_argument", .original_symbol="_rc_select_macro_argument@4", .entry_rva=0x5cf1,
       .code=(const ReconExtent[]){{0x5cf1,0x5d1e}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_select_macro_argument" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_select_macro_argument" },
     { .name="rc_advance_macro_text", .original_symbol="_rc_advance_macro_text", .entry_rva=0x5d1e,
       .code=(const ReconExtent[]){{0x5d1e,0x5d4d}}, .code_count=1,
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_advance_macro_text" },

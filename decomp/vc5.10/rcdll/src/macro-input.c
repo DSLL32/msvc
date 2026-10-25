@@ -118,3 +118,41 @@ void __cdecl rc_advance_macro_text(void)
         rc_select_macro_argument(++frame->expanded);
     else rc_select_macro_text();
 }
+
+#ifdef RECON_NATIVE_TEST
+#define ARGUMENT_RECORD(cursor) do { \
+    int bytes; \
+    if(((DWORD)(cursor)&1) || \
+       (DWORD)(cursor)<(DWORD)rc_string_buffer || \
+       (DWORD)(cursor)>=(DWORD)&rc_string_buffer[1024] || \
+       (DWORD)(cursor+3)>(DWORD)rc_macro_output_cursor){ __asm int 3 } \
+    bytes=*(short *)(cursor); \
+    if(bytes<6 || (bytes&1) || \
+       (DWORD)(cursor)+bytes>(DWORD)rc_macro_output_cursor || \
+       (cursor)[bytes/2-2]!=0 || (cursor)[bytes/2-1]!=L'A'){ __asm int 3 } \
+} while(0)
+#else
+#define ARGUMENT_RECORD(cursor)
+#endif
+
+void __stdcall rc_select_macro_argument(unsigned char index)
+{
+    WCHAR *cursor;
+#ifdef RECON_NATIVE_TEST
+    if(rc_expanding_macro<1 || rc_expanding_macro>=64 || !index ||
+       index>rc_macro_frames[rc_expanding_macro].arguments ||
+       ((DWORD)rc_macro_output_cursor&1) ||
+       (DWORD)rc_macro_output_cursor<(DWORD)rc_string_buffer ||
+       (DWORD)rc_macro_output_cursor>(DWORD)&rc_string_buffer[1024]){ __asm int 3 }
+#endif
+    cursor=rc_macro_frames[rc_expanding_macro].output;
+    --index;
+    while(index--){
+        ARGUMENT_RECORD(cursor);
+        cursor=(WCHAR *)((char *)cursor+*(short *)cursor);
+    }
+    ARGUMENT_RECORD(cursor);
+    rc_source_cursor=cursor+1;
+}
+
+#undef ARGUMENT_RECORD

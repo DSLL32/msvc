@@ -201,9 +201,18 @@ static int packed_argument_contract(void)
        rc_string_buffer[5]!=L'A' || rc_string_buffer[6]!=0xa7a7 ||
        source[0]!=L'a' || source[1] || source[2]!=L'x')return 0;
     rc_pack_macro_argument(source,source);
-    return rc_macro_output_cursor==rc_string_buffer+9 &&
-        rc_string_buffer[6]==6 && !rc_string_buffer[7] &&
-        rc_string_buffer[8]==L'A' && rc_string_buffer[9]==0xa7a7;
+    if(rc_macro_output_cursor!=rc_string_buffer+9 ||
+       rc_string_buffer[6]!=6 || rc_string_buffer[7] ||
+       rc_string_buffer[8]!=L'A' || rc_string_buffer[9]!=0xa7a7)return 0;
+    rc_expanding_macro=1;
+    rc_macro_frames[1].output=rc_string_buffer;
+    rc_macro_frames[1].arguments=2;
+    rc_macro_frames[1].expanded=0xa7;
+    rc_select_macro_argument(1);
+    if(rc_source_cursor!=rc_string_buffer+1)return 0;
+    rc_select_macro_argument(2);
+    return rc_source_cursor==rc_string_buffer+7 &&
+        rc_macro_frames[1].arguments==2 && rc_macro_frames[1].expanded==0xa7;
 }
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},

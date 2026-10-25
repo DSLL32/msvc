@@ -205,7 +205,3 @@ void __stdcall rc_append_macro_text(const WCHAR *text)
     __asm int 3
 }
 
-void __stdcall rc_select_macro_argument(unsigned char index)
-{
-    __asm int 3
-}
