@@ -505,3 +505,17 @@ void __stdcall mark_pch_hash_table(HashTable *table, PchVisit key, PchVisit valu
         mark_pch_hash_entries(table->buckets[i], key, value);
     }
 }
+
+/* Original0x6a640..0x6a68d. Mark all three entry links before following
+   optional key/value traversals, preserving the original chain ordering. */
+void __stdcall mark_pch_hash_entries(HashEntry *entry, PchVisit key, PchVisit value)
+{
+    while (entry) {
+        mark_pch_pointer(&entry->key);
+        mark_pch_pointer(&entry->value);
+        mark_pch_pointer((void **)&entry->next);
+        if (key) (*key)(entry->key);
+        if (value) (*value)(entry->value);
+        entry = entry->next;
+    }
+}
