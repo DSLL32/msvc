@@ -588,3 +588,30 @@ int __stdcall rc_parse_menu_template(int nested,RcResource *resource)
     rc_mark_last_menu_item((WORD)last);
     return 1;
 }
+
+void __stdcall rc_read_resource_preamble(RcResource *resource,unsigned message)
+{
+    while(rc_resource_token.kind!=13){
+        switch(rc_resource_token.kind){
+        case 132:
+            rc_scan_resource_token(0);
+            if(rc_resource_token.kind!=20)rc_resource_error(2139);
+            resource->version=rc_resource_token.unknown0;
+            break;
+        case 131:
+            resource->language=rc_read_resource_language();
+            break;
+        case 130:
+            rc_scan_resource_token(0);
+            if(rc_resource_token.kind!=20)rc_resource_error(2140);
+            resource->characteristics=rc_resource_token.unknown0;
+            break;
+        default:
+            rc_resource_error(message);
+            break;
+        }
+        rc_scan_resource_token(0);
+    }
+    if(rc_resource_token.kind!=13)rc_resource_error(message);
+    rc_scan_resource_token(1);
+}

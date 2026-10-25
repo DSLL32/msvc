@@ -820,7 +820,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_UNKNOWN, .implementation=0, .native_symbol=NULL },
     { .name="rc_read_resource_preamble", .original_symbol="_rc_read_resource_preamble@8", .entry_rva=0x10de8,
       .code=(const ReconExtent[]){{0x10de8,0x10e8b}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_read_resource_preamble" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_read_resource_preamble" },
     { .name="rc_format_resource_ordinal", .original_symbol="_rc_format_resource_ordinal@12", .entry_rva=0x10e8b,
       .code=(const ReconExtent[]){{0x10e8b,0x10eb2}}, .code_count=1,
       .definition=RECON_APP, .implementation=0, .native_symbol="rc_format_resource_ordinal" },

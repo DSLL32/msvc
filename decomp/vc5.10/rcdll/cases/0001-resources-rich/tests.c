@@ -15,6 +15,7 @@
 #include <recon.h>
 extern int rcdll_native_invoke(int, char **);
 extern FILE *rc_preprocessed_file;
+extern DWORD rc_resource_recording;
 extern int rc_macro_listing_readonly,rc_macro_listing_hidden;
 
 static int trapped(void (*invoke)(void))
@@ -796,6 +797,19 @@ static int resource_buffer_reserve_contract(void)
         trapped(reserve_missing_owner);
 }
 
+static int resource_preamble_contract(void)
+{
+    const WCHAR input[]=L"0x20011 CHARACTERISTICS 0x30013 LANGUAGE 0x9,0x1 BEGIN END";
+    RcResource resource,expected;
+    memset(&resource,0xa5,sizeof(resource));expected=resource;
+    expected.version=0x20011;expected.characteristics=0x30013;expected.language=0x409;
+    memcpy(rc_resource_read_buffer,input+1,sizeof(input)-sizeof(input[0]));
+    rc_resource_buffer_index=0;rc_resource_line_start=0;rc_resource_recording=0;
+    rc_resource_character=input[0];rc_resource_token.kind=132;
+    rc_read_resource_preamble(&resource,2121);
+    return !memcmp(&resource,&expected,sizeof(resource))&&rc_resource_token.kind==14;
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -829,6 +843,7 @@ const ReconTest rich_tests[]={
     {"resource-metadata-contract",1,resource_metadata_contract},
     {"resource-buffer-reset-contract",1,resource_buffer_reset_contract},
     {"resource-buffer-reserve-contract",1,resource_buffer_reserve_contract},
+    {"resource-preamble-contract",1,resource_preamble_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},
