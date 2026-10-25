@@ -764,12 +764,12 @@ void __stdcall browser_friend_reference(CppSymbol *symbol)
 }
 
 /* Original0x2c4f0..0x2c529. Close the browser prefix before snapshotting;
-   following source records are suppressed until PCH state is restored. */
+   the PCH marker requires retaining the complete browser stream at finish. */
 void begin_browser_pch_record(void)
 {
     BrowserRecord record = browser_record_template;
     flush_browser_records();
     record.header.kind = 16;
     emit_browser_record(&record.header);
-    browser_records_suppressed = 1;
+    browser_symbols_overflowed = 1;
 }

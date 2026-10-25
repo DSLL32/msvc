@@ -752,12 +752,14 @@ void __stdcall initialize_virtual_entry(VirtualEntry *entry, CppSymbol *member)
 }
 
 /* Original 0x78810..0x78822. A zero class index denotes a direct this
-   displacement. The following reserved halfword is intentionally untouched. */
+   displacement. The original leaves the reserved halfword unwritten, then
+   copies it into PCH output. Zero that unused output padding. */
 void __stdcall initialize_virtual_adjustment(VirtualAdjustment *adjustment,
     unsigned displacement)
 {
     adjustment->displacement = displacement;
     adjustment->virtual_base_class = 0;
+    adjustment->reserved = 0;
 }
 
 void __stdcall grow_virtual_entries(VirtualTable *table, int extra);

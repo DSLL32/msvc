@@ -223,6 +223,21 @@ beyond the runner descriptor check. Original1.283s, native34.520ms
 audit2.262s and cached12+21units0.482s pass. Build/header setup38.404s
 is separate; shared SDK COMDAT declaration publication changed no successful
 C1XX behavior. Full PCH output comparison remains pending.
+Ledger writer/restoration WIP remains UNACCEPTED beyond1494 App bodies.
+The provisional135B writer,247B pointer restorer and98B operator decoder reach
+original/native exit0 with matching74-entry order; all six IR/browser artifacts
+are exact, but state.pch still differs at154 defined, unmarked pointer DWORDs.
+Raw files and strict PCH hash remain unchanged; a comparison-policy decision
+is pending. No pointer normalization or new reconstruction credit is applied.
+Two old source errors were exposed: __cplusplus must use original expansion
+code-9, and begin_browser_pch_record writes browser_symbols_overflowed, not
+browser_records_suppressed. Both are corrected against original instructions.
+The original virtual-adjustment initializer leaves its reserved WORD unwritten
+before whole-entry PCH copies. Per output-padding policy, reconstruction now
+zeros it and comments on that defect; four actual output WORDs are identified.
+The coherent1505-function six-check audit and21units pass; all11 unaffected
+cached cases pass0.229s. The producer still fails only its PCH hash. Audit/build
+setup38.143s includes a shared towlower-header rebuild; it is not graph-only time.
 Producer IR/browser outputs match the driver. Raw export from the genuine
 standalone invocation matches ALL seven already-frozen master hashes, including
 state.pch. The driver-vs-standalone PCH differs by47bytes in23 arena DWORDs:

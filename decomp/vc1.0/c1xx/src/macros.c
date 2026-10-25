@@ -118,7 +118,7 @@ void __stdcall define_command_line_macros(Vector *definitions)
     intern_identifier("__TIMESTAMP__");
     define_macro(0, 0, -8);
     intern_identifier("__cplusplus");
-    define_macro(0, 0, -7);
+    define_macro(0, 0, -9);
     for (index = 0; index < definitions->count; ++index)
         define_command_line_macro(definitions->items[index]);
     if (!options.option_E && !options.prototypes_only)
