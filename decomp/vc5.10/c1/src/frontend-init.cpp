@@ -310,7 +310,11 @@ extern "C" CompilerType *__cdecl intern_type(CompilerType *description)
         entry->type.debug_index = 0;
     return &entry->type;
 }
-extern "C" void __cdecl initialize_global_scope(void) { __asm { int 3 } }
+extern "C" void __cdecl initialize_global_scope(void)
+{
+    c1_bss.saved_symbol_arenas = NULL;
+    c1_bss.symbol_arena_kind = 2;
+}
 extern "C" void __cdecl initialize_builtin_symbols(void) { __asm { int 3 } }
 extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, CompilerType *base) { __asm { int 3 } return NULL; }
 extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags) { __asm { int 3 } return NULL; }

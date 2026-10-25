@@ -216,6 +216,8 @@ typedef struct CompilerBss {
     BYTE output_kinds[6];
     int expression_seek_status; /* RVA57e38, actual fseek result; BSS */
     unsigned ir_record_count; /* RVA55058 */
+    unsigned symbol_arena_kind; /* RVA518d8; symbols allocate from this arena. */
+    struct CompilerSymbolArenaFrame *saved_symbol_arenas; /* RVA518dc; linked saved indices */
     CompilerIrSymbol *current_function; /* RVA54c90 */
     CompilerIrSymbol *current_scope_symbol; /* RVA54dd4 */
     int pending_line_delta; /* RVA5780c; current line minus saved line origin */

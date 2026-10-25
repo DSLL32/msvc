@@ -215,7 +215,18 @@ static int type_interning(void)
         pool->cursor == (BYTE *)(storage + 16) && storage[0] == 0xa5a5a5a5 &&
         storage[16] == 0xa5a5a5a5;
 }
-const ReconTest minimal_tests[16] = {
+extern void __cdecl initialize_global_scope(void);
+static int global_symbol_arena(void)
+{
+    unsigned owned_marker = 37;
+    c1_bss.saved_symbol_arenas = (struct CompilerSymbolArenaFrame *)&owned_marker;
+    c1_bss.symbol_arena_kind = 5;
+    c1_bss.ir_record_count = 83;
+    initialize_global_scope();
+    return c1_bss.symbol_arena_kind == 2 && !c1_bss.saved_symbol_arenas &&
+        c1_bss.ir_record_count == 83 && owned_marker == 37;
+}
+const ReconTest minimal_tests[17] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -231,5 +242,6 @@ const ReconTest minimal_tests[16] = {
     { "buffer growth preserves used bytes, zeros tail and publishes relocation", 1, c1_test_output_grow },
     { "flush suppression resets cursor and retains bytes without stream access", 1, c1_test_output_flush_suppression },
     { "type hash tables own exact arena spans without clearing them", 1, type_table_storage },
-    { "type interning shares semantic keys, retains collision chains and handles debug cache", 1, type_interning }
+    { "type interning shares semantic keys, retains collision chains and handles debug cache", 1, type_interning },
+    { "global symbol arena replaces saved context without reading it", 1, global_symbol_arena }
 };
