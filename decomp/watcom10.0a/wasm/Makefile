@@ -1,6 +1,6 @@
 RECON_TOOL_DIR := $(abspath ../../../tooling/recon-tool)
 RECON := ../../../lib/recon
-BINARY_SOURCES := src/main.c
+BINARY_SOURCES := src/main.c src/stubs.c
 BINARY_SUPPORT_SOURCES := $(wildcard $(RECON)/src/*.c)
 NATIVE_CPPFLAGS := -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 NATIVE_CFLAGS := -std=gnu89
@@ -25,8 +25,7 @@ format windows nt
 runtime console
 debug all
 option map=$(subst /,\,$(ORIGINAL_MAP))
-name $(subst /,\,$(ORIGINAL_OUTPUT))
-$(foreach object,$(ORIGINAL_OBJECTS),file $(subst /,\,$(object))$(WATCOM_NEWLINE))
+name $(subst /,\,$(ORIGINAL_OUTPUT))$(foreach object,$(ORIGINAL_OBJECTS),$(WATCOM_NEWLINE)file $(subst /,\,$(object)))
 libpath R:\toolchains\watcom10.0a\lib386
 libpath R:\toolchains\watcom10.0a\lib386\nt
 library clib3r

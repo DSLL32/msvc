@@ -51,9 +51,9 @@
   },
   "all_original_bytes_unchanged": true,
   "elapsed_seconds": 0.003205454908311367,
-  "execution_gate": "Pending shared WASM profile and persistent selector/ownership/thread/context qualification.",
+  "execution_gate": "Shared ordinary-debugger mask workflow; resource reader stays masked until reached. Adequate static caller/DS/capacity/owned-buffer proof suffices; use a runtime assertion only for a concrete unresolved reached value.",
   "application_acceptance": "none",
   "historical_creation_commit": "8b898631",
   "historical_guarded_help_commit": "25bcbf9e",
-  "shared_capture_gate": "WASM geometry, CRT/service closure and all-invocation owned-DS resource guard must be qualified by shared recon-tool backend; historical helper is not an operational dependency."
+  "shared_capture_gate": "Use shared WASM CF geometry and ordinary debugger capture. Historical persistent-reader observers are provenance, not a new default prerequisite or an operational dependency."
 }
