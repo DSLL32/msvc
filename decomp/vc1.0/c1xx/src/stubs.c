@@ -288,7 +288,6 @@ CppSymbol *__stdcall recover_undeclared_identifier(char *name) { __asm { int 3 }
 
 
 
-IrToken *__stdcall based_type_expression(CType *type) { __asm { int 3 } return 0; }
 
 
 int __stdcall equal_based_expressions(IrToken *first, IrToken *second) { __asm { int 3 } return 0; }

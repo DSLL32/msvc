@@ -3460,6 +3460,18 @@
       "win32": "original uninitialized severity local retained; SUB0x804 plus saved registers puts first load0x7351b at entryESP-2052; recognized branches supply EDX directly",
       "authorization": "Established original-uninitialized-control policy; no invented severity or early suppression of genuine prefix work",
       "coverage_note": "public reach UNKNOWN; current real category4000 is defined"
+    },
+    {
+      "function": "_based_type_expression@4",
+      "original": [
+        174096,
+        174422
+      ],
+      "condition": "shape.attributes low3bits not in{4,5,6,7} AND mask0x8 absent, immediately before original unwritten return consumption at2a94b",
+      "behavior": "explicit native-only INT3 at exactly the fallback; defined branches unchanged",
+      "win32": "SUBESP4/PUSHESI establishes entryESP-4 local; fallback loads currentESP+4 without any writer, thenRET4; original uninitialized return retained",
+      "authorization": "Established preserve-Win32-bug/exact-native-unsupported policy after whole-body def-use analysis",
+      "coverage_note": "Public fallback reach UNKNOWN; actual arena-bank pointer uses mode5. Synthetic fallback test proves native rejection only."
     }
   ],
   "function_properties": {
