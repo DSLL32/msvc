@@ -94,6 +94,7 @@ extern void WresRecordError( int );
 extern int FindResources( HANDLE_INFO * );
 extern long ResSeek( int, long, int );
 extern long QLSeek( int, long, int, char * );
+extern void CheckBreak( void );
 extern int InitResources( HANDLE_INFO * );
 extern unsigned QWrite( int, void *, unsigned, char * );
 #include <recon.h>

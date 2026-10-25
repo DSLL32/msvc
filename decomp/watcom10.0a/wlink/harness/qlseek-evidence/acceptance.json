@@ -1,0 +1,13 @@
+{
+  "scope": "QLSeek62B source, stops at genuine CheckBreak before actual lseek. New CRT graph identities lseek/errno/strerror are still masked/no code restoration.",
+  "application_functions": 11,
+  "application_bytes": 1383,
+  "ABI": "Original file EAX/offset EDX/origin EBX/error filename ECX; preserves ESI; nearRET0. Original error path calls genuine errno pointer and strerror before variadic LnkMsg.",
+  "bindings": {
+    "src/io.c": "56c07ef2cdb12642b7f15fa9dfe824ab7f13004e8185b0812a676ac83c70f0fd",
+    "src/link.h": "dffaae6d280827952ed45a542ff73799dee2ace9427d2eb34b4b75a9b9411741",
+    "binary.c": "83854cc17bb7fd8b516aa73aaf7782948fd7496119819c29053a37e5b77ee407",
+    "policy-data.json": "1dfd17cb93d003384f41a70bae954b8116c14651ee9da0f56f3d61864348fb9a",
+    "scripts/update-lnkinit-extent.py": "8d4e37245d72675197ecb615e0680e5c9d50e26af6f9de8360136e4dd2ab1282"
+  }
+}

@@ -64,8 +64,7 @@ void InitSym( void ) { TRAP(); }
 void * NewSection( void ) { TRAP(); return 0; }
 void InitObjIO( void ) { TRAP(); }
 
-long QLSeek( int file, long position, int where, char *name )
-{ file = file; position = position; where = where; name = name; TRAP(); return 0; }
+void CheckBreak( void ) { TRAP(); }
 int InitResources( HANDLE_INFO *instance ) { instance = instance; TRAP(); return 0; }
 unsigned QWrite( int file, void *buffer, unsigned length, char *name )
 {
