@@ -358,6 +358,13 @@ void omf_record_theadr(void)
     }
 }
 
+/* Library member header [00045df0,00045dff). The shared record skipper
+ * consumes its counted-name payload; unlike THEADR it emits no FILE symbol. */
+void omf_record_lheadr(void)
+{
+    ++omf_module_count;
+}
+
 /* Counted OMF name reader [00047120,00047180). */
 char *omf_read_name(int option)
 {
@@ -1125,6 +1132,20 @@ void omf_warning(const char *format,...)
     vfprintf(stdout,format,arguments);
     va_end(arguments);
     putc('\n',stdout);
+}
+
+/* Converter fatal diagnostic [000481b0,0004821b). The caller supplies
+ * a real abort context; close all nonstandard streams before returning -1. */
+void omf_error(const char *format,...)
+{
+    va_list arguments;
+    fprintf(stdout,"%s() : error : ",omf_program_name);
+    va_start(arguments,format);
+    vfprintf(stdout,format,arguments);
+    va_end(arguments);
+    putc('\n',stdout);
+    _fcloseall();
+    longjmp(omf_abort,-1);
 }
 
 /* Original [00048aa0,00048ad1). Continuation extends the declared raw span

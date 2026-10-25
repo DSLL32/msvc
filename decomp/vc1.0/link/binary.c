@@ -5315,11 +5315,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_omf_record_lheadr",
         .entry_rva = 0x35df0,
-        .code = (const ReconExtent[]){{0x35df0, 0x35df1}},
+        .code = (const ReconExtent[]){{0x35df0, 0x35dff}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "omf_record_lheadr",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_omf_record_iterated_data",
@@ -5666,11 +5666,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_omf_error",
         .entry_rva = 0x381b0,
-        .code = (const ReconExtent[]){{0x381b0, 0x381b1}},
+        .code = (const ReconExtent[]){{0x381b0, 0x3821b}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "omf_error",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_omf_get_option",

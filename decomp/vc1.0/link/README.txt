@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 95 numbered case directories. Native
+The shared recon-tool harness discovers the 96 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,17 +21,17 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 812 application functions (759 public-reached, 53 direct-support),
-with accepted App extent union 230557/281634 (81.8640505%). The mapped-output
-cleanup lifecycle adds one whole function/119 bytes after the sorted-external
-checkpoint. Support-inclusive historical accepted extent is 261496/281634
-(92.8495849%). The 1011 historical frontier count includes shipped CRT/import
+set now has 814 application functions (759 public-reached, 55 direct-support),
+with accepted App extent union 230679/281634 (81.9073691%). The OMF header/error
+lifecycle adds two whole functions/122 bytes after the mapped-output cleanup
+checkpoint. Support-inclusive historical accepted extent is 261618/281634
+(92.8929036%). The 1013 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
-application credit. A complete non-CRT denominator remains unavailable. The old
-partial body/data/alignment inventory leaves 11108 unaccepted bytes unclassified
-within that historical inventory; this is not a current-registry classification
-count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 9169 bytes outside known App/CRT/import extents,
+application credit. A complete non-CRT denominator remains unavailable. At the prior cleanup checkpoint the old
+partial body/data/alignment inventory left 11108 unaccepted bytes unclassified;
+that historical inventory was not recomputed for this case and is not a current
+registry classification count. It includes already classified, unreached CRT such as __cwild and helpers.
+The current registry leaves 9049 bytes outside known App/CRT/import extents,
 including the explicit Unknown rows. This gap includes code/data/alignment and
 incomplete placeholder extents, not a reliable application denominator; no gap
 has been relabeled as CRT merely because of its location or appearance.
@@ -97,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 849 graphs for calls, RET cleanup, live function
+Current shared validation checks 851 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -204,7 +204,7 @@ at RVA12f70 took 1.226s and its native mate 17.274ms; masked completion took
 0.889s and exactly matches baseline inputs/report/status/streams. Ordinary native
 completion took 16.415ms (setup 10.311, execution 3.115, checks 2.989).
 Native GDB took 191.813ms and checks three actual entry/return pairs: both live
-formal pointers, cdecl ESP/nonvolatiles, errors and CW027f/SW0/empty tags. Void
+formal pointers, cdecl ESP/nonvolatiles, errors and CW 027f/SW 0/empty tags. Void
 EAX is unclaimed. Failed debugger symbol/return-observer attempts are retained
 separately; they did not change reconstruction source or original references.
 The original compiler plus 848-function graph/ABI audit passed in 15.357s combined
@@ -232,7 +232,7 @@ three mapped writes followed by a normal middle close create two live outputs
 and an actual vector hole. Real argument constructors register one temporary
 original and a same-name retained control. The 512-byte precleanup report checks
 all sixteen vector positions, defined FileSlot fields (40 bytes), live written bytes,
-zero tails, pointer/argument ownership and actual CW027f/SW0/LastError1224.
+zero tails, pointer/argument ownership and actual CW 027f/SW 0/LastError1224.
 No private vector, flags, error state or callback pointer is seeded.
 
 The original and reconstruction unmap each live output, retain the original
@@ -276,3 +276,49 @@ failures. The empty old stubs.c translation unit is retired. Raw original files,
 receipts, GDB observations, source hashes and timing/accounting are retained in:
 
     /root/.ai-tmp/msvc2/vc1.0/link/cleanup-lifecycle/
+
+
+Case 0095 completes one direct embedded-converter header/error lifecycle, not a
+public LINK invocation. Its valid LHEADR library-member record uses the counted
+name and checksum framing documented by TIS OMF 1.1:
+https://openwatcom.org/ftp/devel/docs/omf.pdf
+The independent previously original-validated code/data/relocation/COMDAT record
+bodies are unchanged. The actual 15-byte LHEADR handler only increments the
+module count; the common skipper consumes its payload. Unlike THEADR, it emits
+no FILE symbol. The converted COFF has three sections, twelve symbols and 479
+bytes. Only its established header timestamp at bytes 4..7 is a clock comparison
+field; every other byte remains exact, with an independent COFF layout check.
+
+The same genuine converter command entry then diagnoses conflicting output and
+multiple input arguments, no input argument, and a missing input file. Each
+phase owns a real buffered FILE and a real setjmp(omf_abort) context. The 107-byte
+error function emits its prefix/format/newline, closes all nonstandard streams,
+and longjmps with actual value -1. Saved/current registrations agree and scopes
+are 0; no SEH filter/finalizer/global-unwind equivalence is claimed. Native GDB
+observes the actual literal-only and one-string variadic inputs, FILE owners and
+CW 027f/SW 0. The complete 512-byte report and flushed file contents match, including
+flags 10/capacity 4096/pending 19,17,19 bytes before closure and flags 0 afterward.
+The error provider boundaries remain shipped CRT/shared shims, without new CRT
+implementation or application credit. Deferred debug-fixup registration remains
+separate from this valid workflow because of the prior offset/undefined-output
+limitations.
+
+Untouched baseline took 1.080s; masked LHEADR/error frontiers took 1.160s/0.693s.
+Fresh masked completion took 0.455s and the matching native run 21.631ms
+(setup 13.127/execution 2.891/checks 5.612). GDB execution took 202.958ms. The canonical
+compiler/relink plus 851-function graph/RET/reference/ownership/boundary audit
+passed in 22.014s combined. Final native/case build took 1.964s and 96 cached cases
+plus seven focused tests passed in 1.974s parallel wall time. Initial native and
+probe-DLL builds were unmeasured. The source inventory was unchanged during the
+gate, including the Watcom-only compatibility addition subsequently published as
+974310433 with identical bytes. It is not exercised by LINK.
+
+Raw failures remain distinct: final-output checks were initially applied at the
+first trap; partial timestamp rules initially omitted the established COFF clock;
+and one completed original attempt could not publish because a prior emitted
+observer input collided on re-emission. Corrected comparison/authoring uses the
+same actual target workload; no target source, format bytes or expected output
+was repaired. Receipts, full raw artifacts, GDB observations and timing/source
+hashes remain ordinary scratch files at:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/omf-header-errors/
