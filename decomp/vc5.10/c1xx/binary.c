@@ -1531,8 +1531,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "CompilerTypeShape::InternChain", .entry_rva = 0x87c3,
-        .code = (const ReconExtent[]){{0x87c3, 0x87c4}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x87c3, 0x87ed}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "_ZN17CompilerTypeShape11InternChainEPS_",
         .original_symbol = "?InternChain@CompilerTypeShape@@QAEPAU1@PAU1@@Z",
     },

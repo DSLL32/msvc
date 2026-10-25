@@ -1029,7 +1029,12 @@ void RECON_THISCALL CompilerDeclarator::ValidateContext(void)
     }
 }
 CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
-CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternChain(CompilerTypeShape *stop) { __asm { int 3 } return NULL; }
+CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternChain(CompilerTypeShape *stop)
+{
+    if (this == stop) return this;
+    base = base->InternChain(stop);
+    return intern_type_shape(this);
+}
 extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
 extern "C" CompilerSymbol *__cdecl find_declarator_type(CompilerSymbol *symbol, unsigned context)
 {
