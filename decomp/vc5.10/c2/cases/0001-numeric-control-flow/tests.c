@@ -696,6 +696,29 @@ static int binary_value_types(void)
     return 1;
 }
 
+static int folded_integer_width(void)
+{
+    unsigned char storage[36], expected[36];
+    C2Expression *tree = (C2Expression *)storage;
+    unsigned __int64 narrowed = ~(unsigned __int64)0x7f;
+    unsigned short type = 0x1001;
+    memset(storage, 0xa5, sizeof(storage));
+    tree->type = 0x2008;
+    tree->integer.value = 0x80;
+    tree->location.expression.comparison = 0x12;
+    memcpy(expected, storage, sizeof(storage));
+    memcpy(expected + 10, &type, 2);
+    memcpy(expected + 24, &narrowed, 8);
+    expected[17] = 0x52;
+    if (fold_input_constant(tree, type, NULL) != tree ||
+        memcmp(storage, expected, sizeof(storage))) return 0;
+    tree->integer.value = 0x7f;
+    tree->location.expression.comparison = 0x12;
+    memcpy(expected, storage, sizeof(storage));
+    return fold_input_constant(tree, type, NULL) == tree &&
+        !memcmp(storage, expected, sizeof(storage));
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -728,5 +751,6 @@ const ReconTest numeric_tests[] = {
     {"operand pop clears only owned stack links and flag", 1, input_operand_pop},
     {"address views reuse compatible widths and widest aggregates without mutation", 1, widest_address_view},
     {"integer records preserve signed width, full payload and allocation canary", 1, integer_record_width},
-    {"binary type selection preserves pointer, real and unsigned precedence", 1, binary_value_types}
+    {"binary type selection preserves pointer, real and unsigned precedence", 1, binary_value_types},
+    {"constant narrowing marks only changed values and preserves record tails", 1, folded_integer_width}
 };

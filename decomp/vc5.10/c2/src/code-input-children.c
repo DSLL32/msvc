@@ -441,13 +441,6 @@ void __fastcall prepare_input_comparison(C2Expression *left, C2Expression *right
     __asm { int 3 }
 }
 
-C2Expression *__fastcall fold_input_constant(C2Expression *expression, unsigned short type,
-                                           C2Expression *owner)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2FunctionRegister *__fastcall new_temporary_register(unsigned short type)
 {
     __asm { int 3 }
@@ -457,4 +450,21 @@ C2FunctionRegister *__fastcall new_temporary_register(unsigned short type)
 void __fastcall release_function_register(C2FunctionRegister *reg)
 {
     __asm { int 3 }
+}
+
+void c2_real_from_unsigned(unsigned *input, C2Real *output)
+{
+    __asm { int 3 }
+}
+
+int c2_real_to_int(C2Real *input, int *output)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+int c2_real_to_unsigned(C2Real *input, unsigned *output)
+{
+    __asm { int 3 }
+    return 0;
 }

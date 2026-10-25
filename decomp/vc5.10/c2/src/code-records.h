@@ -31,6 +31,7 @@ struct C2Expression {
         C2Symbol *symbol;
         C2ExpressionReference *reference;
         C2FunctionRegister *reg;
+        C2Real *real;
         C2Function *function;
         C2InputUse *use;
         void *pointer;

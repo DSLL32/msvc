@@ -1863,3 +1863,56 @@ convert_width:
     }
     return first;
 }
+
+/* Fold conversions of literal integer and extended-real input records. */
+C2Expression *__fastcall fold_input_constant(C2Expression *expression,
+    unsigned short type, C2Expression *owner)
+{
+    unsigned short source_type = expression->type;
+    unsigned target_class = type >> 12, source_class = source_type >> 12;
+    C2Expression *replacement;
+    C2Real *real;
+    union { int integer; unsigned unsigned_integer; float single; } value;
+    unsigned __int64 old_value;
+    int status;
+
+    if (((1U << target_class) & 0xe) || target_class == 3) {
+        if (((1U << source_class) & 0xe) || source_class == 3) {
+            old_value = expression->integer.value;
+            expression->integer.value = normalize_integer_value(type, old_value);
+            if (old_value != expression->integer.value)
+                expression->location.expression.comparison |= 0x40;
+        } else {
+            if ((type & 0xfff) == 8) return NULL;
+            if (target_class == 1)
+                status = c2_real_to_int(expression->value.real, &value.integer);
+            else
+                status = c2_real_to_unsigned(expression->value.real, &value.unsigned_integer);
+            if (status) compiler_warning(2, 0x2f4);
+            /* The original sign-extends this DWORD even for unsigned targets. */
+            replacement = new_integer_expression(type, (__int64)value.integer);
+            if (owner) attach_input_expression(owner, expression, replacement);
+            else release_small_node(expression);
+            expression = replacement;
+        }
+    } else if ((1U << source_class) & 0xe) {
+        if ((source_type & 0xfff) == 8) return NULL;
+        real = (C2Real *)c2_pool_allocate(0, 12);
+        value.unsigned_integer = expression->integer.low;
+        if (source_class == 1) c2_real_from_int(&value.integer, real);
+        else c2_real_from_unsigned(&value.unsigned_integer, real);
+        replacement = new_real_expression(type, real);
+        if (owner) attach_input_expression(owner, expression, replacement);
+        else release_small_node(expression);
+        expression = replacement;
+    } else if (c2_float_precision) {
+        if (type == source_type) return expression;
+        if (type == 0x4004) {
+            real = expression->value.real;
+            if (input_real_to_float(real, &value.single)) compiler_warning(2, 0x2f4);
+            input_real_from_float(&value.single, real);
+        }
+    }
+    expression->type = type;
+    return expression;
+}

@@ -98,6 +98,9 @@ typedef struct C2Real {
 } C2Real;
 extern C2Real c2_real_zero, c2_real_one, c2_real_two;
 void c2_real_from_int(int *input, C2Real *output);
+void c2_real_from_unsigned(unsigned *input, C2Real *output);
+int c2_real_to_int(C2Real *input, int *output);
+int c2_real_to_unsigned(C2Real *input, unsigned *output);
 void store_extended(void); /* Private ABI: ESI destination, incoming ST(0). */
 void c2_initialize_constants(void);
 #define C2_INTRINSIC_COUNT 344
