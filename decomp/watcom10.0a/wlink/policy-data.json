@@ -101,6 +101,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "WResReadExtHeader": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

@@ -315,3 +315,15 @@ int WResReadHeaderRecord( WResHeader *header, int file )
     }
     return error;
 }
+
+int WResReadExtHeader( WResExtHeader *header, int file )
+{
+    int count;
+
+    count = (*WResRtns.read)( file, header, sizeof( *header ) );
+    if( count != sizeof( *header ) ) {
+        WresRecordError( count == -1 ? 8 : 14 );
+        return 1;
+    }
+    return 0;
+}
