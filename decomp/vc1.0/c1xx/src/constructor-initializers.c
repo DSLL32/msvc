@@ -1743,3 +1743,52 @@ void __stdcall emit_array_copy_initialization(CppSymbol *member,
     } else
         emit_runtime_initializer_call(0xac,destination,source,bytes);
 }
+
+/* Original0x7c130..0x7c243, stdcall4. Compare this object's first
+   available virtual-base-table pointer with the class's emitted table symbol. */
+IrToken *__stdcall make_most_derived_test(IrToken *object)
+{
+    CppSymbol *tag = cpp_context_stack->items[object->type->field08];
+    Vector *tables, *groups;
+    VirtualTableGroup *group;
+    VirtualTable *table;
+    short table_index, group_index;
+    CType *pointer;
+    IrToken *offset, *value, *reference;
+    prepare_class_initialization(tag);
+    tables = tag->detail.class_info->virtual_base_tables;
+    groups = tag->detail.class_info->virtual_table_groups;
+    table_index = group_index = 0;
+    for (;;) {
+        if (table_index < tables->count) {
+            table = tables->items[table_index++];
+            break;
+        }
+        if (group_index >= groups->count) {
+#ifdef RECON_NATIVE_TEST
+            /* Original7c1e0 consumes unwritten entryESP-8 when every
+               vector is empty. Preserve that Win32 defect, trap natively. */
+            __asm { int 3 }
+#endif
+            break;
+        }
+        group = groups->items[group_index++];
+        tables = group->base_tables;
+        table_index = 0;
+    }
+    pointer = replace_type_pointer_kind(table->pointer->type,
+        object->type->related->attributes & 7);
+    offset = make_integer_constant(table->object_offset);
+    value = new_ir_expression(0x5c,object,offset,pointer);
+    value = indirect_storage_expression(value);
+    reference = symbol_reference(table->symbol);
+    return new_ir_expression(OP_EQUAL,value,reference,type_0064);
+}
+
+/* Original0x37250..0x3726b, stdcall4. A no-argument closure invokes
+   the selected constructor on this, allowing its saved defaults to supply args. */
+void __stdcall emit_default_ctor_closure_body(CppSymbol *tag)
+{
+    IrToken *object = adjusted_this_expression(0);
+    make_constructor_call(tag,object,0,1,1);
+}

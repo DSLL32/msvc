@@ -1,19 +1,19 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is active at type_needs_intrinsic_fallback
-(RVA0x44ee0). There are 1359 application source functions plus seven unchanged
-historical CRT source functions. Its first seventy-five accepted bodies add 17,633 code
+PARTIAL reconstruction; packet_engine is active at cache_function_parameter_bytes
+(RVA0x34600). There are 1364 application source functions plus seven unchanged
+historical CRT source functions. Its first eighty accepted bodies add 18,565 code
 bytes: packing and anonymous aggregates, static alias lookup, the empty lookahead
 error callback, copy-constructor selection/materialization, deferred defaults, else regions and
 runtime initializer emission, initializer object references and assembler state/operands and its separate whole grammar driver, token classification and instruction-name lookup.
-Fresh original/native comparisons, original compilation, the 1367-function
-inherited graph/ABI audit, nine cached cases and 18 unit groups pass. Last native
-frontier run:33.467ms (setup17.243ms, execution9.598ms, checks6.625ms);
-audit/setup:2.156s; nine cached cases plus units:0.263s.
+Fresh original/native comparisons, original compilation, the 1372-function
+inherited graph/ABI audit, nine cached cases and19 unit groups pass. Last native
+frontier run:32.892ms (setup16.405ms, execution9.873ms, checks6.614ms);
+audit/setup:2.156s; nine cached cases plus units:0.268s.
 An earlier regression command took19.582s including a shared native-fixture
 rebuild/relink; its individual case/test executions were14–33ms.
-Last native/original incremental build:3.081s; fresh original capture:1.640s.
+Last native/original incremental build:3.642s; fresh original capture:1.726s.
 The earlier Makefile/layout rebuild took33.968s.
 Assembler serialization reuses control_counted_data at original0x8c0a4.
 The encountered78-byte prefix covers three header bytes plus three maximum
@@ -30,7 +30,7 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1466: the 1302 trial baseline plus 88 browser and75 packet application steps,
+1471: the 1302 trial baseline plus 88 browser and80 packet application steps,
 and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
@@ -38,7 +38,7 @@ original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 332,175/476,418 .text bytes (69.72%); this is
+Application function extents cover 333,107/476,418 .text bytes (69.92%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -132,14 +132,14 @@ original model2-to3 member-pointer conversion lost adjustment8 and its runtime
 equality check failed. It is not silently promoted to a passing case; v2 avoids
 those conversions. Its source/failure is preserved in that tagged history.
 
-The optional tests retain eleven native unsupported-path guards, ten original-backed
+The optional tests retain native unsupported-path guards, ten original-backed
 multiply returns, and small type/name/overload controls. Old point-in-time observer
 mutation campaigns and callee-mock acceptance harnesses are superseded; they are
 not claims that all historical GDB injections remain fixtures.
 
 Boundaries
 ----------
-Twenty-one exact native limitations remain in policy-data.json and source. They
+Twenty-two exact native limitations remain in policy-data.json and source. They
 include original unwritten locals (lookahead, empty include/name, null overload
 iterators, debug-query/output scope and missing-colon false result), unknown
 internal type/member-pointer domains and the unmodeled browser category prefix.
@@ -240,8 +240,8 @@ commutative OR; original C1XX behavior is retained. The newly discovered helper
 stubs remain unimplemented until genuine reach, with no analysis-only credit.
 
 The string-intrinsic lowering routine owns its distinct40-byte switch, folds
-literal lengths, and retains the ordinary memory-call fallback graph. Its two
-unreached target-specialization/fallback helpers remain named trapping stubs.
+literal lengths, and retains the ordinary memory-call fallback graph. Its target specialization predicate is now reconstructed; the ordinary declaration
+fallback remains a named trapping stub.
 Single-precision conversions use the existing ten-byte limit object and shared
 x87 ABI helpers; only required transfers/stores use documented assembly.
 
@@ -254,3 +254,14 @@ Array-copy initialization now derives the flattened element type/count and
 emits the byte-counted intrinsic. The alternate runtime-call builder remains
 unimplemented; this case uses the original argument-list path. Array counts keep
 target-word multiplication and the existing type-description stack lifetime.
+
+The most-derived-object test selects the first available virtual-base table,
+then compares its pointer with the emitted table symbol. Empty own/inherited
+table vectors leave the original entryESP-8 local unwritten. Win32 retains that
+defect; native code traps exactly after class preparation on vector exhaustion.
+The current packet follows the defined path; a separate empty-owner guard test
+passes without claiming original stale-stack equivalence or public reachability.
+Diagnostic symbol names now retain original conversion/constructor/destructor
+spelling and arena-two ownership. The graph audit caught and corrected strncpy
+calls initially mistaken for memcpy; original80c was retained for the corrected
+native run, with no comparison normalization.

@@ -1,6 +1,10 @@
 /* Declaration selection for symbol and global intermediate streams. */
 #include "symbol-output.h"
 #include "lexer.h"
+#include "browser.h"
+#include "cpp-context.h"
+#include "type-diagnostics-internal.h"
+#include <string.h>
 #include <recon.h>
 
 /* Original 0x56cb0..0x56cf7. Skip forward function declarations and
@@ -214,4 +218,75 @@ void __stdcall register_static_member_alias(CppSymbol *member, CppSymbol *alias)
 CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol)
 {
     return find_hash_value(static_member_name_bindings, symbol->name);
+}
+
+/* Original0x56240..0x56490, stdcall4. Diagnostic names unwrap qualified
+   and overload references, then spell conversion/constructor/destructor names
+   into arena-two storage while ordinary declarations retain their name owner. */
+char *__stdcall format_symbol_name(CppSymbol *symbol)
+{
+    QualifiedDeclarator *qualified = 0;
+    CppSymbol *owner, *alias;
+    CType *type;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    char *text, *result, *cursor;
+    unsigned length, index;
+    int bytes;
+    short diagnostic;
+    if ((symbol->kind & 31) == 18) {
+        qualified = (QualifiedDeclarator *)symbol;
+        symbol = (CppSymbol *)qualified->resolution->binding->target;
+    }
+    if ((symbol->kind & 31) == 16 || (symbol->kind & 31) == 17)
+        symbol = ((OverloadSet *)symbol)->functions;
+    if (symbol->declaration_flags & 0x4000) {
+        type = drop_first_type_shape(strip_based_shape(symbol->type));
+        begin_type_diagnostic();
+        diagnostic = format_declarator(0,type);
+        text = type_diagnostic_text(diagnostic);
+        for (length = 0; text[length]; ++length) ;
+        bytes = (length + 14) & ~3U;
+        if (bytes > pool->remaining) refill_arena(&compiler_arena,pool);
+        result = (char *)pool->next;
+        pool->remaining -= bytes;
+        pool->next += bytes;
+        strncpy(result,"operator`",9);
+        strncpy(result + 9,text,length);
+        result[length + 9] = '\'';
+        result[length + 10] = 0;
+        release_type_diagnostic(diagnostic);
+        end_type_diagnostic();
+        return result;
+    }
+    if ((symbol->kind & 31) == 7 &&
+        ((symbol->declaration_flags & 0x3000) ||
+         symbol->name == name_delete_dtor || symbol->name == name_vector_delete_dtor)) {
+        owner = cpp_context_stack->items[symbol->auxiliary.declaring_class];
+        if (!owner) {
+            if (!qualified) fatal_error(507);
+            owner = (CppSymbol *)qualified->resolution->binding->next->target;
+        }
+        for (length = 0; owner->name[length]; ++length) ;
+        bytes = (length * 2 + 7) & ~3U;
+        if (bytes > pool->remaining) refill_arena(&compiler_arena,pool);
+        result = (char *)pool->next;
+        pool->remaining -= bytes;
+        pool->next += bytes;
+        for (index = 0; index <= length; ++index) result[index] = owner->name[index];
+        cursor = result + length;
+        *cursor++ = ':';
+        *cursor++ = ':';
+        if ((symbol->declaration_flags & 0x2000) ||
+            symbol->name == name_delete_dtor || symbol->name == name_vector_delete_dtor)
+            *cursor++ = '~';
+        for (index = 0; index <= length; ++index) cursor[index] = owner->name[index];
+        return result;
+    }
+    text = symbol->name;
+    if (*text == '?' || (*text == ' ' && error_count)) {
+        alias = static_member_from_alias(symbol);
+        if (!alias) fatal_error(1,pch_diagnostic_name,0x1a4e);
+        text = alias->name;
+    }
+    return text;
 }

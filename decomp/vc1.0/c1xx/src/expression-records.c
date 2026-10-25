@@ -40,8 +40,8 @@ ExpressionRecordRule expression_record_rules[] = {
 };
 unsigned expression_record_rule_count = sizeof(expression_record_rules) / sizeof(expression_record_rules[0]);
 
-/* The i386 specialization test and ordinary declaration fallback are distinct
-   original functions, still trapping until a genuine case reaches them. */
+/* Keep the i386 specialization test and ordinary declaration fallback as
+   distinct original functions. The latter remains an unimplemented frontier. */
 int __stdcall type_needs_intrinsic_fallback(CType *type);
 CppSymbol *__stdcall find_memory_intrinsic(unsigned operation);
 
@@ -98,5 +98,13 @@ fallback:
     call = build_call_expression(expression->value.pointer,expression->tail.right);
     if (!call) return 1;
     expression->value.pointer = call->value.pointer;
+    return 0;
+}
+
+/* Original0x54ee0..0x54ef8, stdcall4. This target's specialization
+   predicate retains the optional shape test but returns false on both routes. */
+int __stdcall type_needs_intrinsic_fallback(CType *type)
+{
+    if (type && type->related) return 0;
     return 0;
 }

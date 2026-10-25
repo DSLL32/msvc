@@ -87,7 +87,6 @@ void report_ide_source(void) { __asm { int 3 } }
 int release_input_handle(void) { __asm { int 3 } return 0; }
 char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
-char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
@@ -301,7 +300,6 @@ void initialize_function_inline_analysis(void) { __asm { int 3 } }
 
 
 CppSymbol *__stdcall recover_undeclared_identifier(char *name) { __asm { int 3 } return 0; }
-IrToken *most_derived_expression(void) { __asm { int 3 } return 0; }
 
 
 
@@ -343,7 +341,6 @@ int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsign
 
 
 
-void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
@@ -594,5 +591,4 @@ int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short fla
 
 void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { int 3 } }
 
-int __stdcall type_needs_intrinsic_fallback(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 } return 0; }

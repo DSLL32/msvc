@@ -3385,6 +3385,18 @@
       "behavior": "Exact native-only INT3 before uninitialized local return; Win32 original unwritten result retained",
       "coverage_note": "SUB4+three savedregisters makes7fd84 [ESP+0xc] entryESP-4. Only valid branches define their return. Grammar normal callers use22/23/28/35; public outside-domain reach UNKNOWN, no stale-stack equivalence claim.",
       "authorization": "Settled exact native unsupported uninitialized-local policy"
+    },
+    {
+      "function": "_make_most_derived_test@4",
+      "original": [
+        508208,
+        508483
+      ],
+      "condition": "own virtual-base tables and every inherited group base-table vector are empty",
+      "behavior": "Exact native-only INT3 after genuine class preparation, before consuming unwritten table pointer",
+      "win32": "Original uninitialized table local retained",
+      "coverage_note": "SUB36/saveESI+EDI8 makes7c1e0 [ESP+36] entryESP-8. Only nonempty-table7c1dc writes it. Empty-table exhaustion7c19d bypasses writer; public reachability UNKNOWN, no original-stack equivalence claim. Current packet uses defined nonempty table.",
+      "authorization": "Settled original-uninitialized-control-path native guard policy"
     }
   ],
   "function_properties": {

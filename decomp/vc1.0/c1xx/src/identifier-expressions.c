@@ -523,3 +523,12 @@ CType *__stdcall function_designator_type(CType *type)
         (unsigned short)(type->related->attributes & 0xf77));
     return make_expression_qualified_type(type, 0xb, attributes, 0);
 }
+
+IrToken *__stdcall make_most_derived_test(IrToken *object);
+
+/* Original0x7c120..0x7c12e, cdecl. Use adjusted this before constructing
+   the target's virtual-base identity test. */
+IrToken *most_derived_expression(void)
+{
+    return make_most_derived_test(adjusted_this_expression(0));
+}

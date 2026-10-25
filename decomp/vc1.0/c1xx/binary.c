@@ -7,6 +7,16 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_make_most_derived_test@4",
+        .entry_rva = 0x6c130,
+        .code = (const ReconExtent[]) { { 0x6c130, 0x6c243 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "make_most_derived_test",
+        .implementation = RECON_IMPLEMENTED,
+    },
+
+    {
         .name = "_flatten_array_type@8",
         .entry_rva = 0x53600,
         .code = (const ReconExtent[]) { { 0x53600, 0x5367b } },
@@ -60,6 +70,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "type_needs_intrinsic_fallback",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_find_memory_intrinsic@4",
@@ -3752,10 +3763,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_default_ctor_closure_body@4",
         .entry_rva = 0x27250,
-        .code = (const ReconExtent[]) { { 0x27250, 0x27251 } },
+        .code = (const ReconExtent[]) { { 0x27250, 0x2726b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_default_ctor_closure_body",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_declare_deleting_destructors@4",
@@ -9161,6 +9173,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "format_symbol_name",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_local_static_name@4",
@@ -13948,10 +13961,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_most_derived_expression",
         .entry_rva = 0x6c120,
-        .code = (const ReconExtent[]) { { 0x6c120, 0x6c121 } },
+        .code = (const ReconExtent[]) { { 0x6c120, 0x6c12e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "most_derived_expression",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_parse_asm_binary_digits@4",
