@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1600 historical frontiers/1493 App bodies.
+ * Current reviewed boundary:1601 historical frontiers/1494 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -584,6 +584,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "encode_pch_pages",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_copy_pch_stream@12",

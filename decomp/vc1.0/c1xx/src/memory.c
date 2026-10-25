@@ -300,3 +300,64 @@ void __stdcall encode_pch_pointer(void *pointer)
     pch_reference_page = 0xffff;
     pch_reference_base = 0;
 }
+
+/* Original0x6a8f0..0x6aadc. Visit marked slots in page/byte/bit order.
+   Each target page keeps a backward chain of the slots referring to it;
+   a link crossing a64K boundary starts another chain record. The bitmap's
+   extra final0xff byte is a scanning sentinel, not a set of pointer slots. */
+void encode_pch_pages(void)
+{
+    int source_page;
+    unsigned byte, bit, reference, location, distance, packed, i;
+    unsigned *slot;
+    unsigned short target_page;
+    BitSet *marks;
+    PchRelocationChain *chain;
+
+    for (source_page = 0; source_page < permanent_page_count; ++source_page) {
+        marks = permanent_pages[source_page].relocations;
+        for (byte = 0; byte <= (marks->bit_count >> 3); ++byte) {
+            for (bit = 0; bit < 8; ++bit) {
+                if (!(marks->bits[byte] & (1 << bit))) continue;
+                slot = (unsigned *)(permanent_pages[source_page].start +
+                    byte * 8 + bit);
+                pch_encoded_pointer = *slot - (unsigned)pch_reference_base;
+                if (pch_encoded_pointer > 0xeffc)
+                    encode_pch_pointer((void *)*slot);
+                else pch_encoded_pointer = (pch_encoded_pointer & 0xffff) |
+                    ((unsigned)pch_reference_page << 16);
+                reference = pch_encoded_pointer;
+                target_page = (unsigned short)(reference >> 16);
+                if (target_page == 0xffff) continue;
+                chain = &pch_relocation_chains[target_page];
+                location = ((unsigned)source_page << 16) |
+                    (((unsigned)slot -
+                    (unsigned)permanent_pages[source_page].start) & 0xffff);
+                packed = reference & 0xffff;
+                if (chain->head) {
+                    distance = location - chain->head;
+                    if ((int)distance < 0x10000)
+                        packed |= (distance & 0xffff) << 16;
+                    else {
+                        if ((int)pch_relocation_count >= pch_relocation_capacity) {
+                            pch_relocation_chains = realloc(pch_relocation_chains,
+                                pch_relocation_capacity * 8 + 256);
+                            if (!pch_relocation_chains) fatal_error(60);
+                            for (i = pch_relocation_capacity;
+                                i < (unsigned)pch_relocation_capacity + 32; ++i) {
+                                pch_relocation_chains[i].head = 0;
+                                pch_relocation_chains[i].page = 0;
+                                pch_relocation_chains[i].reserved = 0;
+                            }
+                            pch_relocation_capacity += 32;
+                            chain = &pch_relocation_chains[target_page];
+                        }
+                        pch_relocation_chains[pch_relocation_count++] = *chain;
+                    }
+                }
+                *slot = packed;
+                chain->head = location;
+            }
+        }
+    }
+}
