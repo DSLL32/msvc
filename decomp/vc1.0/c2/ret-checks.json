@@ -80,6 +80,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@push_exception_scope@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

@@ -1492,11 +1492,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@push_exception_scope@4",
         .entry_rva = 0x55ef0,
-        .code = (const ReconExtent[]) { { 0x55ef0, 0x55ef1 } },
+        .code = (const ReconExtent[]) { { 0x55ef0, 0x55f21 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "push_exception_scope",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_enclosing_try_scope",

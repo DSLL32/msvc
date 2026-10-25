@@ -148,3 +148,17 @@ ExceptionScope *__cdecl enclosing_try_scope(void)
     }
     return 0;
 }
+
+/* Original [00065ef0,00065f21). Ordinary producers keep depth0..19.
+   Overflow first enters the named diagnostic; if it returns, the original
+   reloads depth and continues its unchecked store. No clamp is invented. */
+void __fastcall push_exception_scope(ExceptionScope *scope)
+{
+    unsigned depth = exception_scope_stack_depth;
+    if ((int)depth >= 20) {
+        compiler_internal_error("@(#)except.c:1.25", 0x301);
+        depth = exception_scope_stack_depth;
+    }
+    exception_scope_stack[depth] = scope;
+    exception_scope_stack_depth = depth + 1;
+}
