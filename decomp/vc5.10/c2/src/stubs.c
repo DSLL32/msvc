@@ -8,7 +8,12 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-C2BasicBlock *__fastcall insert_flow_block(C2FlowGraph *flow, C2BasicBlock *after)
+C2BasicBlock *__fastcall prepend_flow_block(C2FlowGraph *flow)
+{
+    __asm { int 3 }
+    return NULL;
+}
+C2BasicBlock *__fastcall allocate_flow_block(C2FlowGraph *flow)
 {
     __asm { int 3 }
     return NULL;

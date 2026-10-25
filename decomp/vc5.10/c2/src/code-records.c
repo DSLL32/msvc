@@ -32,7 +32,7 @@ C2DebugLink *__fastcall prepare_function_records(C2Function *function)
     int side;
 
     owner = function ? function->symbol : NULL;
-    record = function ? function->flow->entry->records : NULL;
+    record = function ? function->flow->last->records : NULL;
     for (; record; record = record->next) {
         if (record->line) {
             record_line_delta = record->line;

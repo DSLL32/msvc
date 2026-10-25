@@ -9,7 +9,7 @@ void __fastcall initialize_flow_pool(C2FlowGraph *flow, int pool,
     flow->pool = pool;
     flow->block_bytes = bytes;
     flow->edge_bytes = count;
-    flow->entry = NULL;
+    flow->first = NULL;
     flow->last = NULL;
     flow->state08 = 0;
     flow->state0c = 0;
@@ -44,5 +44,24 @@ C2BasicBlock *__fastcall create_function_block(C2Function *function,
     first->owner.block = block;
     if (block->next)
         block->next->last_record = first;
+    return block;
+}
+
+C2BasicBlock *__fastcall insert_flow_block(C2FlowGraph *flow, C2BasicBlock *after)
+{
+    C2BasicBlock *block, *next;
+    if (!after)
+        return prepend_flow_block(flow);
+    block = allocate_flow_block(flow);
+    next = after->next;
+    block->previous = after;
+    block->next = next;
+    if (next) {
+        after->next = block;
+        next->previous = block;
+    } else {
+        flow->last = block;
+        after->next = block;
+    }
     return block;
 }

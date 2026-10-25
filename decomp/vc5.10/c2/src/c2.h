@@ -261,7 +261,7 @@ typedef char C2BlockNumbersCheck[offsetof(C2BasicBlock, number84) == 132 ? 1 : -
  * reserved storage until their actual initializer/consumer is reconstructed. */
 typedef struct C2FlowEdge C2FlowEdge;
 struct C2FlowGraph {
-    C2BasicBlock *entry, *last;
+    C2BasicBlock *last, *first;
     unsigned state08, state0c;
     int pool;
     unsigned block_bytes, edge_bytes;
