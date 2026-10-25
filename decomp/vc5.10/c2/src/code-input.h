@@ -52,7 +52,8 @@ typedef struct C2InputClause {
 typedef struct C2InputHandler {
     C2Expression *body;
     void *filter;
-    unsigned kind, pending0c;
+    unsigned kind;
+    union { unsigned pending0c; C2Expression *context; };
 } C2InputHandler;
 
 typedef char C2InputClauseSizeCheck[sizeof(C2InputClause) == 32 ? 1 : -1];

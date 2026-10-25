@@ -2,7 +2,7 @@
 #include <recon.h>
 
 extern int c2_alias_optimization, input_no_global_optimization;
-extern int c2_zero_alignment;
+extern int c2_zero_alignment, c2_basic_mode, c2_exception_mode;
 
 /* Encountered optimizer state. These are independent original DWORDs; the
  * record/index limits are distinct from frontend register numbering. */
@@ -84,4 +84,77 @@ void __fastcall optimize_function_flow(C2Function *function)
     reset_input_pool(4);
     reset_input_pool(6);
     optimizer_records_finished = 1;
+}
+
+unsigned __fastcall count_optimizer_records(C2Record *first)
+{
+    C2Expression *record, *operand;
+    C2FunctionRegister *reg, *variant;
+    C2OptimizerScope *scope;
+    C2InputHandler *handler;
+    C2OptimizerCapture *capture;
+    int expressions = 0;
+    unsigned scopes = 1;
+    for (record = (C2Expression *)first; record; record = record->next) {
+        if (record->flags & 1) {
+            ++expressions;
+            switch (record->opcode) {
+            case 0x13f:
+                for (operand = record->tail.right; operand; operand = operand->next)
+                    if (operand->kind == 2 && !operand->value.reg->value)
+                        for (variant = operand->value.reg->canonical; variant;
+                             variant = variant->variant_next)
+                            variant->view_flags |= 2;
+                /* The call's left operand uses the same test as an assignment. */
+            case 0x13e:
+                operand = record->left;
+                if (operand->kind == 2) {
+                    reg = operand->value.reg;
+                    if (!reg->value && (reg->kind != 3 || !(reg->flags & 0x80)))
+                        for (variant = reg->canonical; variant;
+                             variant = variant->variant_next)
+                            variant->view_flags |= 2;
+                }
+                break;
+            case 0x151:
+                break;
+            case 0x160:
+                scan_optimizer_clauses(record->detail.clauses);
+                break;
+            case 0x161:
+                if (!c2_basic_mode) {
+                    scope = record->detail.data;
+                    mark_optimizer_register_range(record, (C2Expression *)
+                        (scope->kind == 2 ? scope->alternate : scope->symbol)->initializer,
+                        1, 0);
+                }
+                break;
+            case 0x16d:
+                mark_optimizer_register_range(get_optimizer_handler_body(record), NULL, 1, 1);
+                break;
+            case 0x171:
+                if (!c2_exception_mode) {
+                    handler = record->detail.data;
+                    capture = handler->context->detail.data;
+                    mark_optimizer_register_range(record,
+                        (C2Expression *)capture->symbol->initializer, 1, 0);
+                }
+                break;
+            default:
+                for (operand = record->left; operand; operand = operand->next)
+                    if (operand->kind == 3)
+                        for (variant = operand->value.reg->canonical; variant;
+                             variant = variant->variant_next)
+                            variant->view_flags |= 2;
+                break;
+            }
+        } else if (record->kind == 21 && record->opcode == 0x17e && record->value.pointer)
+            ++scopes;
+    }
+    if (expressions > 10000) {
+        scopes = 1;
+        c2_alias_optimization = 0;
+        optimizer_context_mode = 1;
+    }
+    return scopes;
 }

@@ -1,10 +1,21 @@
 #include "optimizer.h"
 #include <recon.h>
 
-unsigned __fastcall count_optimizer_records(C2Record *first)
+C2Expression *__fastcall get_optimizer_handler_body(C2Expression *record)
 {
     __asm { int 3 }
-    return 0;
+    return NULL;
+}
+
+void __fastcall mark_optimizer_register_range(C2Expression *first,
+    C2Expression *last, int mark, int nested)
+{
+    __asm { int 3 }
+}
+
+void __fastcall scan_optimizer_clauses(C2InputClause *clauses)
+{
+    __asm { int 3 }
 }
 
 C2OptimizerContext * __fastcall new_optimizer_context(int aliases, int mode)

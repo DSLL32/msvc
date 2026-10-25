@@ -8,6 +8,7 @@
 #include "flow.h"
 #include "code-input.h"
 #include "inlining.h"
+#include "optimizer.h"
 #include <recon-tool.h>
 #include <recon.h>
 
@@ -1105,7 +1106,37 @@ static int flow_edge_reuse_ownership(void)
         destination.pending10[0] == 0xa5;
 }
 
+extern int c2_alias_optimization, optimizer_context_mode;
+static int optimizer_scope_and_fallback(void)
+{
+    C2Expression boundary[2], *records;
+    unsigned count, i;
+    int aliases = c2_alias_optimization, mode = optimizer_context_mode;
+    memset(boundary, 0, sizeof(boundary));
+    boundary[0].next = &boundary[1];
+    boundary[0].kind = boundary[1].kind = 21;
+    boundary[0].opcode = boundary[1].opcode = 0x17e;
+    boundary[0].value.pointer = (void *)0x12345678U;
+    if (count_optimizer_records((C2Record *)boundary) != 2) return 0;
+    records = calloc(10001, sizeof(*records));
+    if (!records) return 0;
+    for (i = 0; i < 10001; ++i) {
+        records[i].flags = 1;
+        records[i].opcode = 0x151;
+        records[i].next = i < 10000 ? &records[i + 1] : NULL;
+    }
+    c2_alias_optimization = 0x13579bdf;
+    optimizer_context_mode = -1;
+    count = count_optimizer_records((C2Record *)records);
+    free(records);
+    i = count == 1 && c2_alias_optimization == 0 && optimizer_context_mode == 1;
+    c2_alias_optimization = aliases;
+    optimizer_context_mode = mode;
+    return i;
+}
+
 const ReconTest numeric_tests[] = {
+    {"optimizer counts real scope entries and disables alias work for large functions", 1, optimizer_scope_and_fallback},
     {"pool6 reset clears only its encountered cells and preserves unknown gaps", 1, input_pool_six_reset},
     {"flow-edge reuse preserves flags and both endpoint-list owners", 1, flow_edge_reuse_ownership},
     {"flow partition tracks scope depth and only adds its owned block flag", 1, block_scope_and_flags},

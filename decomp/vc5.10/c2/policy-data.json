@@ -1019,6 +1019,22 @@
             ]
           ]
         }
+      },
+      "@count_optimizer_records@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@count_optimizer_records@4",
+                "offset": 696
+              },
+              {
+                "rebuilt_symbol": "@count_optimizer_records@4",
+                "offset": 780
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

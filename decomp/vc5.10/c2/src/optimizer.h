@@ -2,10 +2,24 @@
 #define C2_OPTIMIZER_H
 #include "flow.h"
 #include "register-sets.h"
+#include "code-input.h"
 #include <recon.h>
 
 typedef struct C2OptimizerContext C2OptimizerContext;
 typedef struct C2OptimizerNode C2OptimizerNode;
+/* Prefix views for the scope information this pass actually reads. Their
+ * remaining allocation/defaults are not inferred from these consumers. */
+typedef struct C2OptimizerScope {
+    unsigned pending00, kind;
+    unsigned char pending08[20];
+    C2FunctionSymbol *symbol;
+    unsigned char pending20[8];
+    C2FunctionSymbol *alternate;
+} C2OptimizerScope;
+typedef struct C2OptimizerCapture {
+    unsigned char pending00[16];
+    C2FunctionSymbol *symbol;
+} C2OptimizerCapture;
 unsigned __fastcall count_optimizer_records(C2Record *first);
 C2OptimizerContext * __fastcall new_optimizer_context(int aliases, int mode);
 void __fastcall prepare_alias_input(C2Function *function);
@@ -31,4 +45,8 @@ C2OptimizerContext * __fastcall build_optimizer_symbol_map(C2OptimizerNode *root
 C2OptimizerNode * __fastcall apply_optimizer_symbol_map(C2BasicBlock *block, C2OptimizerContext *context, unsigned count, C2RegisterSet *used, C2RegisterSet *defined, C2OptimizerNode **table, C2RegisterSet *copy);
 void __fastcall release_optimizer_symbol_set(C2RegisterSet *set);
 void __fastcall finish_optimizer_symbol_map(C2OptimizerContext *context, C2OptimizerNode *root, void *map);
+C2Expression *__fastcall get_optimizer_handler_body(C2Expression *record);
+void __fastcall mark_optimizer_register_range(C2Expression *first,
+    C2Expression *last, int mark, int nested);
+void __fastcall scan_optimizer_clauses(C2InputClause *clauses);
 #endif
