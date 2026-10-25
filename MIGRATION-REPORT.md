@@ -689,9 +689,9 @@ followed that earlier pause.
 Shared integration is published. The simpler ordinary CF debugger is READY in
 `cea53023405fcce7f9900f4626986008d8ded4db`, superseding the active instruction
 controller from `04ee1337ad2f627d691b784f186d1d46b348da27`.
-Qualified real CF paths now include WCC and WPP startup through their first two
-application functions; this does not establish complete help execution or qualify
-WASM's geometry. Root has released all five existing workers to build fresh
+All three real CF help paths now run through the ordinary debugger; none of
+the five initial help cases is complete yet. Root has released all five existing
+workers to build fresh
 standard scaffolds, complete one genuine basic initial help case each, and pause.
 This releases target bootstrap/reconstruction work within those cases; unknown
 loader, gateway and startup paths still require concrete shared support.
@@ -712,7 +712,32 @@ autonomous queue is authorized.
 | WLIB | 2 functions / 143 bytes | Fresh scaffold and help; validated finite PE startup catalog. The current case uses explicit regular-file stdin. |
 | WLINK | 1 function / 232 bytes | Fresh scaffold and help; validated finite PE startup catalog, with resource-reader conditions checked when reached. |
 
-**Current migration checkpoints; no initial help case is complete yet.**
+**Case-layout correction.** Per-function diagnostics had accumulated under cases,
+contrary to the standardized layout. All five workers have stopped generating
+these files. WCC, WPP, WASM and WLIB have hash-preserved and removed 417
+unbound diagnostic files so far; WLINK's case was already clean. Raw histories
+remain in scratch or Git history. Final case directories retain scoped source,
+`capture.bin` and ignored `.build/` only. WCC cached replay now reads descriptor
+expectations and `capture.bin`, without a permanent original-report dependency;
+fresh reconstruction comparisons still use the actual scratch original report.
+
+The remaining case witnesses are opaque documentary file/hash pins: their JSON
+contents are not interpreted. Optional `runtime_evidence` can be removed without
+changing registry CRT roles, extents or text data. A small shared change is being
+reviewed to allow absent documentary evidence on canonical identity, compatibility
+call, shared-return and rebuilt-extent policies; supplied bindings remain checked.
+Actual call sites, identities, CFG/ownership checks, and object/image/MAP or CF
+layout facts remain mandatory. No clean-checkout audit will require scratch
+history. No optional-provenance change is claimed published yet.
+
+WASM corrected an acceptance bookkeeping error: matching an old trap did not
+prove execution of an anticipated candidate. Its verified checkpoint is 46 App
+functions / 6,621 bytes at `ExpandTheWorld`, with unsupported later candidates
+remasked. No invalid oracle or commit was made. The acceptance check must prove
+candidate body execution through to the next frontier or normal completion, not
+merely a matching trap at the candidate entry.
+
+**Earlier committed migration checkpoints; no initial help case is complete yet.**
 WLINK scaffold commit `e469762a1` and WASM scaffold commit `207036122b` use the
 shared build/runner and retire their local capture launchers. WASM's response
 cleanup is committed as `e9836ce56`. WLINK and WASM now generate Watcom link
@@ -754,13 +779,12 @@ static proof, rather than preserve an old observer framework.
 | WLIB | Real seek/read pair to InitResources: native 9.564 ms; original 836.569 ms | 5.875 / 1.862 / 1.827 ms | Passed; seven prospective App graphs and parallel build/audit 1.404 s |
 | WLINK | Resource allocation pair to WResReadDir: native 18.335 ms; original 540.948 ms | Not separately reported | Passed; strict graph/RET/extents and main noreturn residual retained |
 
-The authored scaffold smokes are not original-backed acceptance. WASM has
-finished independent scaffold work and is waiting for shared support before its
-first genuine pair. WPP's first
+The measurements above are earlier checkpoints, not current function counts.
+Authored scaffold smokes are not original-backed acceptance. WPP's first
 App entry is its compiler allocator `81ba3`, size 8, before main. WASM differs:
 its older CRT allocator reaches AH=48h before main, initially requesting 4,096
-bytes. Its geometry and older CRT classification remain shared qualification
-work; the simpler path will execute the original gateway normally. The WCC
+bytes. Its geometry and reached older CRT path now run through the simpler
+ordinary debugger, which executes the original gateway normally. The WCC
 65,536-byte App-allocator request does not qualify WASM's path. A WASM
 435-byte heap member strongly correlates with shipped CRT code: all 32 differing
 bytes are memory displacements smaller by four. This supports classification,
@@ -785,8 +809,8 @@ Engineering time has dominated these run costs. WCC estimates 60–75% of recent
 effort on scaffolding, startup classification and shared coordination, including
 10–20 minutes waiting on shared fixes; its two fresh original captures totaled
 19.456 seconds. WPP estimates 20–30 active minutes on migration/static setup and
-WASM 30–55 minutes. Those earlier estimates preceded WPP's first application
-acceptances; WASM still has none. WLIB's
+WASM 30–55 minutes. Those earlier estimates preceded their subsequent
+application acceptances. WLIB's
 rough 50-minute account comprises 6 minutes application C, 14 scaffold, 9 heap
 debugging, 13 audit integration and 8 queue wait. These are worker estimates,
 not an aggregate measured time ledger. WLINK's recent main/Spawn work took about
@@ -827,12 +851,11 @@ The minimum CF audit accommodations are published in the same shared release:
   the finite CF image descriptor from an identity-only, project-relative profile.
   Loader/container/relocation hashes and base-zero coordinates are retained;
   graph-audit reads the real CF bytes. No synthetic PE or second CFG walker.
-- Policy `runtime_evidence` binds explicit witness files to registry-derived CRT
-  extents. The capture catalog regenerates graph facts from bound producer/input
-  files and checks current registry roles/ranges plus separate ABI admission.
-  Original-only support facts retain `checked:null`; `_cstart_` is an initial
-  root with unknown cleanup, not fabricated RET 0. Four returning owners have
-  separately witnessed near RET 0. No generic OMF matcher was added.
+- Registry CRT roles, code extents and text data drive ordinary restoration.
+  `runtime_evidence` is optional documentary provenance, not a replacement for
+  classification. The old instruction catalog is retired. Historical
+  original-only support exports retain `checked:null`; they do not invent
+  counterpart bodies or ABI proof. No generic OMF matcher was added.
 
 Entry-only pending App names remain zero-extent identities, never fabricated
 one-byte owned bodies. Real pending stubs are not executable candidates. The
