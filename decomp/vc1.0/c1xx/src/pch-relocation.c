@@ -677,3 +677,61 @@ void __stdcall mark_pch_pointer_array(void **slots, int count,
     if (!slots || count <= 0) return;
     do { mark_pch_pointer(slots++); } while (--count);
 }
+
+void __stdcall mark_pch_expression_references(ExpressionReference *reference);
+void __stdcall mark_pch_reference_groups(MemberReferenceGroup *group);
+
+/* Original0x6a330..0x6a441;7-way switch0x6a444..0x6a460. The low flag
+   bits select the node layout; only owned child slots descend recursively. */
+void __stdcall mark_pch_ir_node(IrToken *node)
+{
+    while (node) {
+        mark_pch_pointer((void **)&node->type);
+        mark_pch_pointer((void **)&node->linkage);
+        switch (node->flags & 7) {
+        case 1:
+            mark_pch_pointer(&node->value.pointer);
+            node = node->value.pointer;
+            break;
+        case 2:
+            mark_pch_pointer((void **)&node->tail.right);
+            if (mark_pch_pointer(&node->value.pointer))
+                mark_pch_ir_node(node->value.pointer);
+            node = node->tail.right;
+            break;
+        case 3:
+            if (node->type->flags & 0x100)
+                mark_pch_pointer(&node->value.pointer);
+            return;
+        case 4:
+            if (node->kind != 0xa7) mark_pch_pointer(&node->value.pointer);
+            return;
+        case 5:
+            mark_pch_pointer(&node->value.pointer);
+            return;
+        case 7:
+            if (node->kind == 0xc8 || node->kind == 0xc9) {
+                mark_pch_pointer(&node->value.pointer);
+                if (mark_pch_pointer((void **)&node->tail.references))
+                    mark_pch_expression_references(node->tail.references);
+            } else if (node->kind == 0xca) {
+                mark_pch_pointer(&node->value.pointer);
+                if (mark_pch_pointer((void **)&node->tail.reference_groups))
+                    mark_pch_reference_groups(node->tail.reference_groups);
+            } else return;
+            node = node->value.pointer;
+            break;
+        default:
+            return;
+        }
+    }
+}
+
+/* Original0x6a300..0x6a324. The declaration parameter types follow the
+   eight-byte count/debug prefix in this variable-length allocation. */
+void __stdcall mark_pch_parameter_info(DeclarationParameterInfo *parameters)
+{
+    int i;
+    for (i = 0; i < parameters->count; ++i)
+        mark_pch_pointer((void **)&parameters->types[i]);
+}
