@@ -1174,8 +1174,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_normalize_shape_attributes", .entry_rva = 0x1d81d,
-        .code = (const ReconExtent[]){{0x1d81d, 0x1d81e}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x1d81d, 0x1d88f}, {0x61d03, 0x61de7}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
+        .text_data = (const ReconExtent[]){{0x1d890, 0x1d8a8}, {0x1d8b0, 0x1d8f4}},
+        .text_data_count = 2,
         .native_symbol = "normalize_shape_attributes",
     },
     {

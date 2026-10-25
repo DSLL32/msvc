@@ -1254,5 +1254,36 @@ WORD RECON_THISCALL CompilerDeclarator::DefaultCallingConvention(CompilerTypeSha
 }
 WORD RECON_THISCALL CompilerDeclarator::PropagateQualifiers(CompilerTypeShape *shape, WORD attributes) { __asm { int 3 } return 0; }
 
-extern "C" WORD __cdecl normalize_shape_attributes(unsigned flags, WORD attributes) { __asm { int 3 } return 0; }
+extern "C" WORD __cdecl normalize_shape_attributes(unsigned flags, WORD attributes)
+{
+    unsigned kind = flags & 0x77;
+    WORD convention;
+    if (frontend_bss.options.prototypes_only) return attributes;
+    switch (kind) {
+    case 3: case 4: case 0x44:
+        break;
+    default:
+        return attributes;
+    }
+    convention = attributes & 0x70;
+    if (!convention) {
+        if ((flags & 0x8000) &&
+            (frontend_data.options.fastcall_calls || frontend_data.options.pascal_calls))
+            report_language_diagnostic(2, 96, 37, 106);
+        if (flags & 0x8000) attributes |= 0x10;
+        else if (frontend_data.options.fastcall_calls) attributes |= 0x40;
+        else if (frontend_data.options.stdcall_calls) attributes |= 0x60;
+        else if (frontend_data.options.pascal_calls) attributes |= 0x20;
+        else attributes |= 0x10;
+    } else if ((convention == 0x60 || convention == 0x40) && (flags & 0x8000)) {
+        attributes &= ~0x60;
+        attributes |= 0x10;
+    }
+    if (kind == 4 && (flags & 0x8000)) {
+        convention = attributes & 0x70;
+        if (convention != 0x60 && convention != 0x50 && convention != 0x10)
+            compiler_warning(217, 37, 106);
+    }
+    return attributes;
+}
 extern "C" CompilerTypeShape *__cdecl create_declarator_shape(unsigned flags, WORD attributes, const void *value) { __asm { int 3 } return NULL; }
