@@ -75,6 +75,7 @@ typedef struct FrontendData {
     struct CompilerTranslationSymbol *unnamed_translation_symbol; /* cc414, NULL */
     struct CompilerTranslationSymbol *local_size_symbol; /* cc418, NULL */
     CompilerVector *translation_symbols; /* cc438, NULL */
+    int source_include_depth; /* cc22c, -1; actual input push/pop increment/decrement */
     unsigned macro_reset_value; /* cc424, zero; only encountered reset meaning */
     char predefined_time_text[26]; /* cc3a0, mutable default including two NULs */
 } FrontendData;
@@ -274,6 +275,7 @@ typedef struct FrontendBss {
      * original table's capacity; any other index stops before its read. */
     struct CompilerParameterContext *parameter_contexts[1]; /* bf4b4, BSS0 */
     int default_declaration_mode; /* c13cc, BSS0: c13d0[-1] only */
+    char *current_macro_text; /* b902c, borrowed text for recorded macro definition */
     unsigned char *macro_token_cursor, *macro_text_cursor, *saved_macro_text_cursor; /* b9040/b9044/b9038 */
     char macro_date_time[26]; /* c0b50, formatter's25B text plus retained NUL */
     char *macro_date, *macro_time; /* c0a10/c0804, BSSNULL */

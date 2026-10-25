@@ -106,7 +106,7 @@ static const ReconFunction functions[] = {
         .name = "CompilerNullBrowser::Slot28", .entry_rva = 0x23837,
         .code = (const ReconExtent[]){{0x23837, 0x23838}},
         .code_count = 1, .definition = RECON_APP,
-        .native_symbol = "_ZN19CompilerNullBrowser6Slot28Ej", .original_symbol = "?Slot28@CompilerNullBrowser@@UAEXI@Z",
+        .native_symbol = "_ZN19CompilerNullBrowser6Slot28EP13CompilerMacro", .original_symbol = "?Slot28@CompilerNullBrowser@@UAEXPAUCompilerMacro@@@Z",
     },
     {
         .name = "CompilerNullBrowser::Slot54", .entry_rva = 0x288c5,
@@ -190,7 +190,7 @@ static const ReconFunction functions[] = {
         .name = "CompilerNamedBrowser::Slot28", .entry_rva = 0x88115,
         .code = (const ReconExtent[]){{0x88115, 0x88116}},
         .code_count = 1, .definition = RECON_APP,
-        .native_symbol = "_ZN20CompilerNamedBrowser6Slot28Ej", .original_symbol = "?Slot28@CompilerNamedBrowser@@UAEXI@Z",
+        .native_symbol = "_ZN20CompilerNamedBrowser6Slot28EP13CompilerMacro", .original_symbol = "?Slot28@CompilerNamedBrowser@@UAEXPAUCompilerMacro@@@Z",
     },
     {
         .name = "CompilerNamedBrowser::Slot2c", .entry_rva = 0x88139,
@@ -1238,8 +1238,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_define_preprocessor_macro", .entry_rva = 0x236c5,
-        .code = (const ReconExtent[]){{0x236c5, 0x236c6}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x236c5, 0x23837}, {0x6617f, 0x661d7}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "define_preprocessor_macro",
     },
     {
@@ -1259,6 +1259,18 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x421e4, 0x421e5}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "report_source_file_error",
+    },
+    {
+        .name = "_record_macro_definition", .entry_rva = 0x9059a,
+        .code = (const ReconExtent[]){{0x9059a, 0x9059b}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "record_macro_definition",
+    },
+    {
+        .name = "_compare_macro_text", .entry_rva = 0x4679e,
+        .code = (const ReconExtent[]){{0x4679e, 0x4679f}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "compare_macro_text",
     },
     {
         .name = "_begin_line_output", .entry_rva = 0x807bc,

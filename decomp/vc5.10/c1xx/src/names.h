@@ -3,12 +3,13 @@
 #include <recon.h>
 
 /* Common header of both actual 16-byte generic and 20-byte keyword allocations.
- * Original +c is not represented. Token/category belong only to keyword
+ * The macro pointer at original+c is shared. Token/category belong only to keyword
  * records at original +10/+11; no such fields exist in this header. */
 typedef struct CompilerNameEntry {
     struct CompilerNameEntry *next;
     char *name;
     unsigned flags;
+    struct CompilerMacro *macro; /* original+c, owned only when flags include0x80000 */
 } CompilerNameEntry;
 
 typedef struct CompilerBuiltinNames {

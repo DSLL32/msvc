@@ -17,7 +17,7 @@ struct CompilerNullBrowser : CompilerBackend {
     void RECON_THISCALL Slot1c(unsigned);
     void RECON_THISCALL Slot20(unsigned);
     void RECON_THISCALL Slot24(unsigned);
-    void RECON_THISCALL Slot28(unsigned);
+    void RECON_THISCALL Slot28(CompilerMacro *);
     void RECON_THISCALL Slot2c(void);
     void RECON_THISCALL Slot30(unsigned);
     void RECON_THISCALL Slot34(void);
@@ -47,7 +47,7 @@ struct CompilerNamedBrowser : CompilerBackend {
     void RECON_THISCALL Slot1c(unsigned);
     void RECON_THISCALL Slot20(unsigned);
     void RECON_THISCALL Slot24(unsigned);
-    void RECON_THISCALL Slot28(unsigned);
+    void RECON_THISCALL Slot28(CompilerMacro *);
     void RECON_THISCALL Slot2c(void);
     void RECON_THISCALL Slot30(unsigned);
     void RECON_THISCALL Slot34(void);
@@ -88,7 +88,7 @@ extern "C" CompilerBackend *__cdecl acquire_initial_backend(void)
 }
 
 void RECON_THISCALL CompilerNullBrowser::Slot20(unsigned value0) { __asm { int 3 } }
-void RECON_THISCALL CompilerNullBrowser::Slot28(unsigned value0) { __asm { int 3 } }
+void RECON_THISCALL CompilerNullBrowser::Slot28(CompilerMacro *value0) { __asm { int 3 } }
 int RECON_THISCALL CompilerNullBrowser::Slot54(unsigned value0, unsigned value1) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerNullBrowser::ResetMode(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerNullBrowser::Slot5c(void) { __asm { int 3 } }
@@ -102,7 +102,7 @@ void RECON_THISCALL CompilerNamedBrowser::Slot18(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot1c(unsigned value0) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot20(unsigned value0) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot24(unsigned value0) { __asm { int 3 } }
-void RECON_THISCALL CompilerNamedBrowser::Slot28(unsigned value0) { __asm { int 3 } }
+void RECON_THISCALL CompilerNamedBrowser::Slot28(CompilerMacro *value0) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot2c(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot30(unsigned value0) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot34(void) { __asm { int 3 } }

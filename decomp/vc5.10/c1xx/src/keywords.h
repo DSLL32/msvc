@@ -4,7 +4,7 @@
 #include <recon.h>
 
 /* The keyword-only extension follows the common header in the compact view.
- * Original token/category are +10/+11; original+c and the tail stay unmodeled.
+ * Original token/category are +10/+11; the remaining tail stays unmodeled.
  * Generic records expose only CompilerNameEntry, never this extension. */
 struct CompilerIdentifier {
     CompilerNameEntry header;

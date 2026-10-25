@@ -22,7 +22,7 @@ struct CompilerBackend {
     virtual void RECON_THISCALL Slot1c(unsigned) = 0;
     virtual void RECON_THISCALL Slot20(unsigned) = 0;
     virtual void RECON_THISCALL Slot24(unsigned) = 0;
-    virtual void RECON_THISCALL Slot28(unsigned) = 0;
+    virtual void RECON_THISCALL Slot28(struct CompilerMacro *) = 0;
     virtual void RECON_THISCALL Slot2c(void) = 0;
     virtual void RECON_THISCALL Slot30(unsigned) = 0;
     virtual void RECON_THISCALL Slot34(void) = 0;

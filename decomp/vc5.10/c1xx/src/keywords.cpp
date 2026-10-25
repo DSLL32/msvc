@@ -282,7 +282,7 @@ extern "C" void __cdecl intern_identifier(const char *name)
     const unsigned char *text = (const unsigned char *)name;
     unsigned hash = 0, length, folded;
     CompilerNameEntry **bucket, **link, *entry;
-    CompilerPool *pool = &frontend_bss.pools[6]; /* original c0560 */
+    CompilerPool *pool = &frontend_bss.pools[5]; /* original c0560 */
     CompilerArena *arena = &frontend_bss.arenas[0];
     while (*text) {
         hash = (hash >> 4) + hash * 4 + *text;
@@ -364,7 +364,7 @@ extern "C" CompilerNameEntry *__cdecl find_or_create_identifier(const char *name
     const unsigned char *text = (const unsigned char *)name;
     unsigned hash = 0, length, folded;
     CompilerNameEntry **bucket, **link, *entry;
-    CompilerPool *pool = &frontend_bss.pools[6]; /* own original c0560 */
+    CompilerPool *pool = &frontend_bss.pools[5]; /* own original c0560 */
     CompilerArena *arena = &frontend_bss.arenas[0];
     while (*text) {
         hash = (hash >> 4) + hash * 4 + *text;

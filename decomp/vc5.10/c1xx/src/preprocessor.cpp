@@ -1,6 +1,6 @@
 #include <string.h>
 #include <time.h>
-#include "frontend.h"
+#include "frontend-init.h"
 #pragma intrinsic(strcpy, memcpy)
 #include <recon.h>
 
@@ -97,7 +97,78 @@ extern "C" void __cdecl initialize_macro_buffers(void)
     frontend_bss.macro_text_cursor = frontend_bss.work_buffers[1].data;
     frontend_bss.saved_macro_text_cursor = frontend_bss.work_buffers[1].data;
 }
-extern "C" void __cdecl define_preprocessor_macro(const char *text, unsigned length, int kind) { __asm { int 3 } }
+/* Only the reached kind and text fields are interpreted. The leading four
+ * bytes retain their real storage and remain semantically unmodeled. */
+struct CompilerMacroBody {
+    BYTE unmodeled_prefix[4];
+    signed char kind;
+    char payload[1];
+};
+struct CompilerMacro {
+    CompilerNameEntry *identifier;
+    CompilerMacroBody *body;
+};
+extern "C" void __cdecl record_macro_definition(const char *, const char *, int);
+extern "C" int __cdecl compare_macro_text(const void *, const void *, unsigned);
+extern "C" void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
+extern "C" void __cdecl define_preprocessor_macro(const char *text, unsigned length, int kind)
+{
+    if (!length)
+        text = NULL;
+    CompilerNameEntry *identifier = frontend_data.current_identifier;
+    if (identifier == frontend_data.builtin_names.defined_operator) {
+        report_language_diagnostic(1, 117, identifier, "#define");
+        return;
+    }
+    CompilerMacro *macro = identifier->macro;
+    if (!frontend_data.source_include_depth && frontend_bss.forced_source_index) {
+        record_macro_definition(identifier->name,
+            length ? frontend_bss.current_macro_text : "", kind);
+        identifier = frontend_data.current_identifier;
+    }
+    if (macro) {
+        int previous_kind = macro->body->kind;
+        if (previous_kind < -3) {
+            report_language_diagnostic(1, 117, identifier, "#define");
+            return;
+        }
+        int changed;
+        if (kind != -3 && kind != previous_kind)
+            changed = 1;
+        else if (length)
+            changed = compare_macro_text(text, macro->body->payload, length - 1);
+        else
+            changed = macro->body->payload[0] != 0;
+        if (!changed)
+            return;
+        report_language_diagnostic(1, 5, identifier);
+    }
+    CompilerPool *pool = &frontend_bss.pools[6]; /* actual c04a8 */
+    if (pool->remaining < 8)
+        pool->Refill(8);
+    identifier = frontend_data.current_identifier;
+    macro = (CompilerMacro *)pool->cursor;
+    pool->cursor += 8;
+    pool->remaining -= 8;
+    macro->identifier = identifier;
+    CompilerArena *arena = &frontend_bss.arenas[0];
+    CompilerMacroBody *body = (CompilerMacroBody *)arena->cursor;
+    arena->cursor += (length + 11) & ~3U;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    macro->body = body;
+    if (length)
+        memcpy(body->payload, text, length);
+    identifier = frontend_data.current_identifier;
+    identifier->flags |= 0x80000;
+    identifier->macro = macro;
+    body->kind = (signed char)kind;
+    frontend_data.backend->Slot28(macro);
+}
+extern "C" void __cdecl record_macro_definition(const char *name, const char *text, int kind)
+{ __asm { int 3 } }
+extern "C" int __cdecl compare_macro_text(const void *left, const void *right, unsigned bytes)
+{ __asm { int 3 } return 0; }
 extern "C" void __cdecl define_command_line_macro(char *definition) { __asm { int 3 } }
 extern "C" int __cdecl open_source_file(const char *name, int kind, int report, int mode, int track) { __asm { int 3 } return -1; }
 extern "C" void __cdecl report_source_file_error(const char *name, int file) { __asm { int 3 } }

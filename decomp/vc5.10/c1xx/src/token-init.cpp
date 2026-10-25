@@ -37,7 +37,7 @@ static const BYTE token_has_canonical_record[245] = {
 extern "C" void __cdecl initialize_preprocessor(void)
 {
     unsigned code;
-    CompilerPool *pool = &frontend_bss.pools[9]; /* original bf498 */
+    CompilerPool *pool = &frontend_bss.pools[7]; /* original bf498 */
     for (code = 1; code <= 244; ++code) {
         CompilerTokenRecord *record;
         if (token_has_canonical_record[code]) {
