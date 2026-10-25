@@ -485,7 +485,12 @@ extern "C" unsigned __cdecl external_symbol_index(CompilerSymbol *symbol) { __as
 void RECON_THISCALL CompilerSymbol::EmitDeclaration(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerString::GetData(unsigned *length, const void **data, unsigned *tag) { __asm { int 3 } }
 CompilerSymbol *RECON_THISCALL PendingGroupList::Add(CompilerSymbol *symbol) { __asm { int 3 } return NULL; }
-int RECON_THISCALL OutputBuffer::Ensure(int bytes) { __asm { int 3 } return 0; }
+int RECON_THISCALL OutputBuffer::Ensure(int bytes)
+{
+    if (bytes < 0) return 0;
+    if (cursor + bytes <= data + capacity) return 1;
+    return Grow(bytes) != 0;
+}
 int RECON_THISCALL OutputBuffer::Prepare(int bytes) { __asm { int 3 } return 0; }
 void RECON_THISCALL OutputBuffer::WriteIndex(unsigned value) { __asm { int 3 } }
 int RECON_THISCALL OutputBuffer::WriteCompact(unsigned value) { __asm { int 3 } return 0; }

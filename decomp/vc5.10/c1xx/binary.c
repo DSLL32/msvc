@@ -1805,9 +1805,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "OutputBuffer::Ensure", .entry_rva = 0x11c3,
-        .code = (const ReconExtent[]){{0x11c3, 0x11c4}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x11c3, 0x11f9}, {0x50a9d, 0x50aa7}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "_ZN12OutputBuffer6EnsureEi", .original_symbol = "?Ensure@OutputBuffer@@QAEHH@Z",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "OutputBuffer::Prepare", .entry_rva = 0x20df3,
