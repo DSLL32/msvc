@@ -1901,10 +1901,19 @@ static const ReconFunction functions[] = {
         .native_symbol = "collect_optimizer_symbols",
     },
     {
-        .name = "@copy_optimizer_symbol_set@4",
-        .entry_rva = 0xd5f5,
+        .name = "@insert_register_set_node@8",
+        .entry_rva = 0x19ba,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "insert_register_set_node",
+    },
+    {
+        .name = "@copy_optimizer_symbol_set@4",
+        .entry_rva = 0xd5f5,
+        .code = (const ReconExtent[]){{0xd5f5, 0xd640}, {0x671c1, 0x671e3}},
+        .code_count = 2,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "copy_optimizer_symbol_set",
     },
     {

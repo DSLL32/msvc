@@ -403,3 +403,26 @@ void __fastcall solve_optimizer_alias_sets(C2BasicBlock *first, int constrained)
     } while (changed);
     release_optimizer_symbol_set(temporary);
 }
+
+C2RegisterSet *__fastcall copy_optimizer_symbol_set(C2RegisterSet *source)
+{
+    C2RegisterSet *result = new_register_set(source->pool);
+    C2RegisterSetNode *input = source->links.first;
+    C2RegisterSetNode *spare = result->links.first, *node = spare, *next;
+    while (input) {
+        if (spare) {
+            node = spare;
+            spare = spare->next;
+        } else
+            node = insert_register_set_node(result, node);
+        node->group = input->group;
+        node->bits = input->bits;
+        input = input->next;
+    }
+    while (spare) {
+        next = spare->next;
+        remove_register_set_node(result, spare);
+        spare = next;
+    }
+    return result;
+}

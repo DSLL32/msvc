@@ -77,4 +77,6 @@ void __fastcall update_optimizer_alias_set(C2RegisterSet *destination,
     C2RegisterSet *input, C2RegisterSet *kills, C2RegisterSet *uses);
 int __fastcall optimizer_symbol_sets_equal(C2RegisterSet *first,
     C2RegisterSet *second);
+C2RegisterSetNode *__fastcall insert_register_set_node(C2RegisterSet *set,
+    C2RegisterSetNode *after);
 #endif

@@ -85,7 +85,8 @@ unsigned __fastcall collect_optimizer_symbols(C2RegisterSet *used, C2RegisterSet
     return 0;
 }
 
-C2RegisterSet * __fastcall copy_optimizer_symbol_set(C2RegisterSet *source)
+C2RegisterSetNode *__fastcall insert_register_set_node(C2RegisterSet *set,
+    C2RegisterSetNode *after)
 {
     __asm { int 3 }
     return NULL;
