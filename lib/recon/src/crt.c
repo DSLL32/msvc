@@ -2627,9 +2627,22 @@ WEAK WCHAR *recon_wcschr(const WCHAR *text,WCHAR character)
 
 WEAK WCHAR *__cdecl recon_wcsupr(WCHAR *text)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    WCHAR *p;
+    if (!text || recon_lc_handle[2] || recon_lc_codepage ||
+        recon_mb_codepage || recon_mb_cur_max!=1)
+        recon_unsupported("_wcsupr outside MSVCRT510 default-C ASCII scope");
+    /* Validate before any writes, including when a later code unit is outside
+     * this supported subset. The provider's default path needs no tables. */
+    for(p=text;*p;++p) if(*p>=128)
+        recon_unsupported("_wcsupr nonASCII span");
+    for(p=text;*p;++p) if(*p>='a' && *p<='z') *p-='a'-'A';
+    return text;
+#else
     (void)text;
     recon_unsupported("unreviewed _wcsupr");
     return NULL;
+#endif
 }
 WEAK WCHAR *recon_wcsdup(const WCHAR *text)
 {

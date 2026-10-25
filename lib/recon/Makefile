@@ -603,6 +603,13 @@ build/wcsupr-surface-probe: tests/wcsupr-surface-probe.c $(SOURCES) $(HEADERS) |
 wcsupr-surface-check: build/wcsupr-surface-probe
 	$(PYTHON) tests/check-wcsupr-surface.py $<
 
+.PHONY: wcsupr-ascii-check
+build/wcsupr-ascii-probe: tests/wcsupr-ascii-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+wcsupr-ascii-check: build/wcsupr-ascii-probe build/wcsupr-surface-probe
+	$(PYTHON) tests/check-wcsupr-ascii.py $<
+	$(PYTHON) tests/check-wcsupr-surface.py build/wcsupr-surface-probe
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@

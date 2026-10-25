@@ -566,8 +566,14 @@ is distinct from native state observations. No original API-only probe was run.
 towupper is unchanged.
 
 _wcsupr has the SDK WCHAR16* cdecl(WCHAR16*) declaration and native remap,
-but all inputs fail explicitly with status125. NULL, empty, ASCII and non-ASCII
-inputs have no successful string-mutation, return-alias or locale semantics.
+with success only for explicit MSVCRT510 default-C LC_CTYPE/codepage/MB state
+and nonNULL valid mutable NUL-terminated ASCII spans. It validates the whole
+span before writing, uppercases a..z in place, returns the input pointer and
+leaves the NUL and tails untouched. Errors and full FP state are naturally
+preserved by the authenticated integer-only provider path. NULL, non-ASCII,
+other profiles and changed locale/MB state fail125. Original per-call pointed
+bytes/errors/FP were not measured in RCDLL's reached capture; static provider
+semantics and native observations are separate. No API-only original was run.
 
 _errno returns the real host thread-local errno address, so cached pointer writes
 and native libc strtol updates refer to the same slot, preserving aliasing.
