@@ -122,4 +122,17 @@ void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { _
 void *allocate_small_type(void) { __asm { int 3 } return NULL; }
 void recycle_small_type(void *buffer) { __asm { int 3 } }
 
-void convert_old_type_record(unsigned short relative) { __asm { int 3 } }
+
+void convert_old_pointer(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_based_pointer(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_structure(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_array(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_procedure(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_leaf_80(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_leaf_5c(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_leaf_72(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_leaf_8d(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_leaf_8e(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_barray(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_modifier(TypeRecord *entry) { __asm { int 3 } }
+void convert_old_leaf_a7(TypeRecord *entry) { __asm { int 3 } }

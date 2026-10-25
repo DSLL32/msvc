@@ -80,7 +80,7 @@ def main():
                     raise AssertionError('unterminated diagnostic string')
         elif item.get('kind') == 'callback-table':
             stride, pointer = item['stride'], item['pointer_offset']
-            assert (stride, pointer, item['size']) in ((8, 4, 256), (4, 0, 8))
+            assert (stride, pointer, item['size']) in ((8, 4, 256), (4, 0, 8), (8, 4, 104))
             for i in range(0, item['size'], stride):
                 assert left[i:i + pointer] == right[i:i + pointer], 'callback fields differ'
                 a, b = word(left[i + pointer:i + pointer + 4]), word(right[i + pointer:i + pointer + 4])

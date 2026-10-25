@@ -1395,5 +1395,15 @@
     "original": 227496,
     "size": 324,
     "source": "src/image.c"
+  },
+  {
+    "name": "old_type_converters",
+    "symbol": "_old_type_converters",
+    "original": 229032,
+    "size": 104,
+    "source": "src/oldtypes.c",
+    "kind": "callback-table",
+    "stride": 8,
+    "pointer_offset": 4
   }
 ]

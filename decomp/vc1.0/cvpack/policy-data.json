@@ -1861,6 +1861,84 @@
       },
       "_convert_old_type_record": {
         "abi": "void convert_old_type_record(unsigned short)",
+        "source": "src/oldtypes.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_pointer": {
+        "abi": "void convert_old_pointer(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_based_pointer": {
+        "abi": "void convert_old_based_pointer(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_structure": {
+        "abi": "void convert_old_structure(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_array": {
+        "abi": "void convert_old_array(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_procedure": {
+        "abi": "void convert_old_procedure(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_leaf_80": {
+        "abi": "void convert_old_leaf_80(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_leaf_5c": {
+        "abi": "void convert_old_leaf_5c(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_leaf_72": {
+        "abi": "void convert_old_leaf_72(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_leaf_8d": {
+        "abi": "void convert_old_leaf_8d(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_leaf_8e": {
+        "abi": "void convert_old_leaf_8e(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_barray": {
+        "abi": "void convert_old_barray(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_modifier": {
+        "abi": "void convert_old_modifier(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_leaf_a7": {
+        "abi": "void convert_old_leaf_a7(TypeRecord *)",
         "source": "src/stubs.c",
         "stack_cleanup": 0,
         "roots": []
