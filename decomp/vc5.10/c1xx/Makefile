@@ -47,3 +47,12 @@ $(filter .build/pic/src/%,$(BINARY_OBJECTS)): NATIVE_CPPFLAGS += -Dmain=c1xx_mai
 build/mspdb-import.lib: harness/mspdb-import.def | $(RECON_TOOL)
 	@mkdir -p $(@D)
 	$(RECON_TOOL) original tool 5.10 LIB.EXE -- /nologo /machine:i386 /def:$< /out:$@
+
+# Explicit original capture only; native fixtures never build or run this EXE.
+.PHONY: original-host
+original-host: build/host/c1xx-host.exe
+build/host/original-host.obj: harness/original-host.c $(RECON)/include/recon.h Makefile | $(RECON_TOOL)
+	@mkdir -p $(@D)
+	$(ORIGINAL_CC) /nologo /c /MD /Od /I$(RECON)/include /Fo$@ $<
+build/host/c1xx-host.exe: build/host/original-host.obj
+	$(ORIGINAL_LINK) /nologo /subsystem:console /out:$@ $< $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB

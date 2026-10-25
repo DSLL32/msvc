@@ -99,7 +99,7 @@ static const uint32_t order[] = {
 };
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "minimal-cpp",
-    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine resolve_option_path INT3. HOST CRT3/private environment are separate authenticated inputs.",
+    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine resolve_option_path INT3. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
     order, RECON_COUNT(order), NULL, 0,
     RECON_IO, RECON_FRONTIER, 0x397db, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, NULL, 0
 };

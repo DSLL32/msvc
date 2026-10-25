@@ -25,12 +25,19 @@ CL-derived 26-argument C++ pass with BOOL1 on minimal.cpp. Its current oracle is
 the genuine resolve_option_path INT3 at RVA397db, not completed compilation.
 Both cases compare the original-backed first application encounters.
 
-The minimal case retains separate captured HOST CRT3 argv/environment inputs as
-hash-bound readonly dependencies in owned scratch; their private contents are
-not committed. This case is therefore not self-contained on another machine.
-Its capture.bin contains actual source/profile inputs and partial expectations,
-not observer receipts. Shared profile setup precedes the typed DLL lifecycle;
-host file reading uses libc and does not consume target CRT streams.
+The minimal case uses a small original Win32 host in
+harness/original-host.c: LoadLibrary, resolve the stdcall export, forward its
+26 arguments with mode1, then FreeLibrary. Build it with `make -j4 original-host`.
+Explicit references use shared `original capture --host build/host/c1xx-host.exe
+--progress --native-msvcrt`; native fixtures use cached data and never Wine.
+The fresh reference uses T:\vc5.10\c1xx\0001-minimal-cpp and only declares the
+consumed MSC_CMD_FLAGS absence. The native host binds the forwarded argument
+vector and an empty environment qualified for that query only; other Windows
+names are outside the current scope. It does not seed LastError. The existing
+system-info profile bytes are harness-only capture assets. Historical private
+HOST3/environment inputs remain historical evidence, not current dependencies.
+The new host baseline captured the same 93 application encounters in 1.585 s;
+its matching native fixture took 8.46 ms (setup 5.13, execution 2.32, checks 1.01).
 
 The unaccepted 422-byte resolve_option_path body (RVA397db..398cd plus
 72696..7274a) was compiled but never accepted. Its exact source, patch, metadata
