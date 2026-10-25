@@ -3,11 +3,11 @@
 `binary.c` is the function/export registry for original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The current prefix contains 85 accepted application functions / 8,533 code bytes.
+The current prefix contains 86 accepted application functions / 10,654 code bytes.
 Historical linked startup support remains separately classified: two CRT
-functions / 451 bytes; two import thunks / 12 bytes. Owned text data is 161
+functions / 451 bytes; three import thunks / 18 bytes. Owned text data is 161
 bytes. The original text extent is 322,288 bytes; its non-CRT denominator has
-not been classified. Initialized state retains 4,172 unmodeled bytes, and the
+not been classified. Initialized state retains 4,032 unmodeled bytes, and the
 literal object's separate 16-byte tail remains unmodeled.
 
 `make -j4 check unit` builds one native i386 `.build/libbinary.so` and discovers
@@ -26,7 +26,7 @@ zero static matches, while the historical CRT rows retain strict graph checks.
 The lifecycle case attaches, resolves both exports without invoking them, and
 detaches. Minimal invokes the actual supported direct 11-argument
 `_InvokeCompilerPass@12` contract with BOOL 1. It remains partial at
-`initialize_frontend()`, RVA `0x138e4`. Its fresh reference uses logical cwd
+`create_input()`, RVA `0x13f0e`. Its fresh reference uses logical cwd
 `T:\vc5.10\c1\0001-minimal-c`, preserved in an isolated native scratch namespace.
 Final IR from other invocations is not merged into this oracle. Both cases run
 entirely natively against cached original observations.
