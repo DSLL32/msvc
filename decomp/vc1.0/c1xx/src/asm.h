@@ -57,9 +57,27 @@ extern AsmInstructionProperties asm_instruction_properties[230];
 extern int asm_operand_class;
 void __stdcall select_asm_opcode(short opcode);
 void emit_asm_instruction(void);
+extern unsigned short asm_operand_class_rules[60];
+enum AsmOperandCategory {
+    ASM_MEMORY, ASM_REGISTER, ASM_IMMEDIATE, ASM_INVALID
+};
+typedef struct AsmAddressRule { unsigned char mode, category; } AsmAddressRule;
+extern AsmAddressRule asm_address_rules[32];
+#define ASM_OPERAND_CATEGORY(address_) (asm_address_rules[(address_)->address_flags & 31].category)
 int validate_asm_operand_count(void);
 int validate_asm_operands(void);
+int __stdcall fits_asm_integer(unsigned char bits, unsigned value);
+extern unsigned char asm_encoded_opcode, asm_instruction_size, asm_instruction_modifier;
+extern AsmAddress *asm_output_addresses[3];
+extern AsmOperand *asm_output_operands[3];
 void prepare_asm_instruction(void);
+unsigned char choose_asm_instruction_size(void);
+unsigned char resolve_asm_operand_size(void);
+int __stdcall asm_operand_accepts_size(AsmOperand *operand, unsigned char size);
+int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short flags);
+unsigned normalize_asm_x87_operands(void);
+void normalize_asm_addresses(void);
+void __stdcall swap_asm_pointer_slots(void **first, void **second);
 void serialize_asm_instruction(void);
 void __stdcall add_asm_displacement(unsigned value);
 AsmExpression *__stdcall multiply_asm_expression(unsigned short operation, AsmExpression *left, AsmExpression *right);

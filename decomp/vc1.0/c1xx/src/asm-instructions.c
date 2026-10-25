@@ -267,3 +267,232 @@ void emit_asm_instruction(void)
         record_line_information(22);
     }
 }
+
+/* Original 0x7e783..0x7eb0d; class dispatch 0x7eb0e..0x7ebfd.
+   Select backend instruction variants, supply implicit operands and establish
+   the two parallel serialization views without moving symbol references. */
+unsigned char asm_encoded_opcode, asm_instruction_size, asm_instruction_modifier;
+AsmAddress *asm_output_addresses[3]; /* original 0x8c068 */
+AsmOperand *asm_output_operands[3]; /* original 0x8c098 */
+
+void prepare_asm_instruction(void)
+{
+    unsigned swap = 0;
+    unsigned char size, segment;
+    short operation;
+    CppSymbol *symbol;
+    asm_instruction_size = (unsigned char)choose_asm_instruction_size();
+    size = asm_instruction_size;
+    operation = asm_operation;
+    switch (asm_operand_class) {
+    case 0:
+        if (asm_operation == 184) operation = asm_operation = 181;
+        break;
+    case 2:
+        if ((asm_operands[0].address->flags & 63) == 28)
+            asm_operands[0].address->flags &= 0xc0;
+        /* XLAT and string operations share their implicit-operand rule. */
+    case 10:
+        operation = asm_operation;
+        if (asm_operand_count < 1) break;
+        switch (asm_operation) {
+        case 53: operation = 224; break;
+        case 55: operation = 225; break;
+        case 56: operation = 226; break;
+        case 57: operation = 227; break;
+        case 60: operation = 228; break;
+        }
+        segment = asm_operands[0].address->flags;
+        if (asm_operand_count >= 2 && !(segment & 63))
+            segment = asm_operands[1].address->flags;
+        if (!(segment & 63) || asm_operation == operation) {
+            asm_operand_count = 0;
+            operation = asm_operation;
+        }
+        break;
+    case 16:
+        asm_instruction_modifier = asm_opcode_aliases[asm_opcode - 230].modifier;
+        /* Conditional branches carry their condition outside the size field. */
+    case 27:
+        size = 0;
+    case 14: case 15:
+        symbol = asm_operands[0].address->symbol;
+        if (symbol && !(asm_operands[0].address->address_flags & 0x10) && !size) {
+            if (!asm_operands[0].address->displacement || (symbol->flags & 4)) {
+                if ((symbol->kind & 31) == 6 || (symbol->kind & 31) == 7) {
+                    compiler_warning(3,414,symbol->name);
+                    asm_instruction_size = 2;
+                    operation = asm_operation;
+                }
+            } else {
+                report_syntax_error(405);
+                operation = asm_operation;
+            }
+        }
+        break;
+    case 17:
+        if (!asm_operand_count) {
+            asm_operand_count = 1;
+            asm_operands[0].address->address_flags = 2;
+            asm_operands[0].address->displacement = 0;
+            operation = asm_operation;
+        }
+        break;
+    case 18:
+        asm_operand_count = 2;
+        asm_operand = reset_asm_operand(1);
+        asm_operands[1].address->address_flags = 2;
+        asm_operands[1].address->displacement = 1;
+        operation = asm_operation;
+        break;
+    case 20:
+        if (asm_operand_count == 2) {
+            asm_operand_count = 3;
+            asm_operands[2] = asm_operands[1];
+            asm_operands[2].address = &asm_addresses[2];
+            asm_addresses[2] = *asm_operands[1].address;
+            asm_operands[1] = asm_operands[0];
+            asm_operands[1].address = &asm_addresses[1];
+            asm_addresses[1] = *asm_operands[0].address;
+        }
+        break;
+    case 28:
+        swap = asm_operation == 10;
+        break;
+    case 30:
+        asm_instruction_modifier = asm_opcode_aliases[asm_opcode - 230].modifier;
+        break;
+    case 31: case 32: case 33: case 34: case 35: case 36: case 37:
+    case 40: case 41: case 43: case 44:
+        asm_instruction_size |= 0x20;
+    case 38: case 39: case 57: case 58: case 59:
+        swap = normalize_asm_x87_operands();
+        operation = asm_operation;
+        break;
+    case 50:
+        asm_operand_count = 2;
+        if (ASM_OPERAND_CATEGORY(asm_operands[2].address) == ASM_IMMEDIATE) {
+            asm_operands[1].address->displacement = asm_operands[2].address->displacement;
+            asm_operands[1].address->address_flags |= 2;
+            operation = asm_operation;
+        }
+        break;
+    case 51:
+        if (asm_operands[1].size == 1) operation = asm_operation == 196 ? 197 : 195;
+        break;
+    }
+    asm_operation = operation;
+    normalize_asm_addresses();
+    asm_output_addresses[0] = &asm_addresses[0];
+    asm_output_addresses[1] = &asm_addresses[1];
+    asm_output_operands[0] = &asm_operands[0];
+    asm_output_operands[1] = &asm_operands[1];
+    asm_output_operands[2] = &asm_operands[2];
+    asm_output_addresses[2] = &asm_addresses[2];
+    if (swap) {
+        swap_asm_pointer_slots((void **)&asm_output_addresses[1],(void **)&asm_output_addresses[0]);
+        swap_asm_pointer_slots((void **)&asm_operands[0].address,(void **)&asm_operands[1].address);
+        swap_asm_pointer_slots((void **)&asm_output_operands[0],(void **)&asm_output_operands[1]);
+    }
+    asm_encoded_opcode = (unsigned char)asm_operation;
+}
+
+/* Original 0x7e188..0x7e4ac. Callers consume AL, the operand-size code.
+   Verify explicit qualifiers, infer defaults and diagnose unsupported sizes. */
+unsigned char choose_asm_instruction_size(void)
+{
+    unsigned char size = resolve_asm_operand_size(), expected;
+    int incompatible = 0;
+    unsigned short rule;
+    if (asm_operand_class < 28) {
+        switch (asm_operand_class) {
+        case 27:
+            size = asm_operation == 22 ? (asm_opcode == 22 ? 1 : 2) : 0;
+            break;
+        case 7:
+            if (asm_operation != 18) {
+                expected = size == 1 ? 2 : (asm_operation == 3 ? 3 : 5);
+                incompatible = !asm_operand_accepts_size(&asm_operands[1],expected);
+            }
+            break;
+        case 15:
+            if (ASM_OPERAND_CATEGORY(asm_operands[0].address) == ASM_MEMORY && (size == 0 || size == 15)) {
+                incompatible = 1;
+                size = 1;
+            }
+            break;
+        case 21:
+            size = asm_operation == 62 || asm_operation == 65 ? 1 : 5;
+            incompatible = !asm_operand_accepts_size(&asm_operands[0],size);
+            break;
+        case 23:
+            incompatible = !asm_operand_accepts_size(&asm_operands[1],size);
+            break;
+        }
+    } else if (asm_operand_class == 41) {
+        if (asm_operation == 98 && ASM_OPERAND_CATEGORY(asm_operands[0].address) == ASM_MEMORY) {
+            size = asm_operands[0].size;
+            if (size == 15) size = 3;
+            if (size == 4) {
+                size = 3;
+                incompatible = 1;
+            }
+        }
+    } else if (asm_operand_class == 43) {
+        if (ASM_OPERAND_CATEGORY(asm_operands[0].address) == ASM_MEMORY) {
+            size = asm_operands[0].size;
+            if (size == 15) size = 3;
+            incompatible = !asm_operand_has_type_flags(&asm_operands[0],0x100) ||
+                (size != 2 && size != 3 && size != 4);
+        }
+    } else if (asm_operand_class >= 57 && asm_operand_class <= 58) {
+        size = asm_operands[0].size;
+        if (size == 15) size = 1;
+        incompatible = !asm_operand_has_type_flags(&asm_operands[0],0x40) ||
+            (size != 1 && size != 2 && (size != 3 || asm_operand_class != 58));
+    }
+    if (incompatible) compiler_warning(1,410);
+    rule = asm_operand_class_rules[asm_operand_class];
+    if (size != 15) {
+        if ((1U << ((size + 8) & 31)) & rule) return size;
+        compiler_warning(1,409);
+    }
+    size = 0;
+    while (!((1U << ((size + 8) & 31)) & rule & 0x3f00)) ++size;
+    if (!asm_operand_class) {
+        if (asm_opcode == 153) size = 0;
+        else if (asm_opcode == 159 || asm_opcode == 284) size = 1;
+        else if (asm_opcode == 283) size = 2;
+    } else if (asm_operand_class == 1) {
+        if (asm_opcode == 165 || (asm_opcode > 169 && asm_opcode < 174)) size = 1;
+    } else if (asm_operand_class > 37 && asm_operand_class < 40) size = 4;
+    return size;
+}
+
+/* Original 0x7e024..0x7e187. Explicit mnemonic suffixes outrank operand
+   types; otherwise prefer the operand whose type controls this instruction. */
+unsigned char resolve_asm_operand_size(void)
+{
+    unsigned char size;
+    if (asm_opcode != asm_operation && asm_opcode >= 262 && asm_opcode <= 293)
+        return asm_opcode_aliases[asm_opcode - 230].modifier;
+    if (asm_operand_count < 1) return 15;
+    if (asm_operand_count == 2 && asm_operands[0].size != asm_operands[1].size &&
+        (asm_operands[0].size | asm_operands[1].size) != 15 &&
+        (asm_operand_class == 13 || asm_operand_class == 6 || asm_operand_class == 4 ||
+         asm_operand_class == 5 || asm_operand_class == 55) &&
+        asm_operands[1].address->symbol != translation_placeholder)
+        report_syntax_error(443);
+    size = asm_operands[1].size;
+    if (asm_operation != 11 && asm_operation != 57) {
+        size = asm_operands[0].size;
+        if (asm_operation == 53 || asm_operation == 56) {
+            if (size == 15) size = asm_operands[1].size;
+        } else if (asm_operand_count != 1 &&
+                   ASM_OPERAND_CATEGORY(asm_operands[0].address) != ASM_REGISTER &&
+                   ASM_OPERAND_CATEGORY(asm_operands[1].address) != ASM_IMMEDIATE &&
+                   asm_operand_class != 8 && asm_operation != 54)
+            size = asm_operands[1].size;
+    }
+    return size;
+}

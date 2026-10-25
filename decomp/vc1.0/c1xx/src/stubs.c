@@ -609,7 +609,13 @@ void copy_asm_comment(void) { __asm { int 3 } }
 
 
 
-int validate_asm_operand_count(void) { __asm { int 3 } return 0; }
-int validate_asm_operands(void) { __asm { int 3 } return 0; }
-void prepare_asm_instruction(void) { __asm { int 3 } }
 void serialize_asm_instruction(void) { __asm { int 3 } }
+
+int __stdcall fits_asm_integer(unsigned char bits, unsigned value) { __asm { int 3 } return 0; }
+
+unsigned normalize_asm_x87_operands(void) { __asm { int 3 } return 0; }
+void normalize_asm_addresses(void) { __asm { int 3 } }
+void __stdcall swap_asm_pointer_slots(void **first, void **second) { __asm { int 3 } }
+
+int __stdcall asm_operand_accepts_size(AsmOperand *operand, unsigned char size) { __asm { int 3 } return 0; }
+int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short flags) { __asm { int 3 } return 0; }

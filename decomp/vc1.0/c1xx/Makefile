@@ -99,6 +99,7 @@ BINARY_SOURCES = src/c1xx.c \
     src/asm-instructions.c \
     src/asm-registers.c \
     src/asm-symbols.c \
+    src/asm-validation.c \
     build/asm-grammar.c \
     src/control-ir.c \
     src/control-formats.c \

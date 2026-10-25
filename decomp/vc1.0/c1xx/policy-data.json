@@ -2971,6 +2971,51 @@
       "name": "_asm_register_properties",
       "original": 696928,
       "bytes": 92
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_operand_class_rules",
+      "original": 696808,
+      "bytes": 120
+    },
+    {
+      "kind": "asm_address_rules",
+      "name": "_asm_address_rules",
+      "original": 697040,
+      "category_original": 697024,
+      "count": 32,
+      "category_count": 10,
+      "representation": "paired logical mode/category;6B gap before mode vector excluded"
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_encoded_opcode",
+      "original": 573536,
+      "bytes": 1
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_instruction_size",
+      "original": 573537,
+      "bytes": 1
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_instruction_modifier",
+      "original": 573540,
+      "bytes": 1
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_output_addresses",
+      "original": 573544,
+      "bytes": 12
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_output_operands",
+      "original": 573592,
+      "bytes": 12
     }
   ],
   "buffered_streams": [
