@@ -4,6 +4,8 @@ Native reconstruction and cases use `tooling/recon-tool`: `make -j4 check unit`,
 `make -j4 recon-original`, and `make -j4 audit`. Cases contain saved invocation
 inputs/oracles; replay is Linux-only and does not refresh originals.
 Both invocations retain the original NUL stdin and frozen target environment.
+Application code is in `src/`; existing target CRT boundaries and their rationale
+are in `crt/`. The common native case adapter is in `harness/`.
 
 The registry preserves 106 accepted application functions / 21,801 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and

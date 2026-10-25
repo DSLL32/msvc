@@ -2,13 +2,14 @@ RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
 NATIVE_CC = clang
 NATIVE_CXX = clang++
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0 -DRECON_CRT_PROFILE_MSVCRT_510 -Dmain=c2_main -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0 -DRECON_CRT_PROFILE_MSVCRT_510 -Dmain=c2_main -I$(RECON)/include -I$(RECON)/native -Isrc -Icrt -Iharness
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks -Wno-ignored-attributes
-BINARY_SOURCES = src/stubs.c \
-    src/startup.c \
-    src/precision.c \
+BINARY_SOURCES = crt/math-error.c \
+    src/stubs.c \
+    crt/startup.c \
+    crt/precision.c \
     src/main.c \
-    src/onexit.c \
+    crt/onexit.c \
     src/environment.c \
     src/options.c \
     src/option-table.c \
@@ -42,11 +43,11 @@ ORIGINAL_SOURCES = $(BINARY_SOURCES)
 ORIGINAL_BUILD = build
 ORIGINAL_OUTPUT = $(ORIGINAL_BUILD)/c2.exe
 ORIGINAL_MAP = $(ORIGINAL_BUILD)/c2.map
-ORIGINAL_CPPFLAGS = /Isrc /I$(RECON)/include
+ORIGINAL_CPPFLAGS = /Isrc /Icrt /I$(RECON)/include
 ORIGINAL_CFLAGS = /nologo /c /Od /G3 /W3 /MD
 ORIGINAL_LDFLAGS = /nologo /subsystem:console /entry:mainCRTStartup
 ORIGINAL_LDLIBS = $(ORIGINAL_BUILD)/messages.res $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/USER32.LIB
-ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
+ORIGINAL_INCLUDE_DIRS = src crt $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 
 RECON_AUDIT_PROFILE = cl
 RECON_IMAGE_BASE = 4194304
@@ -58,13 +59,13 @@ RECON_AUDIT_FLAGS = -q --original $(abspath ../../../toolchains/5.10/bin/C2.EXE)
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB
 RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB
-RECON_RUNTIME_OVERRIDE_OBJECTS = $(addprefix $(ORIGINAL_BUILD)/obj/src/,startup.c.obj onexit.c.obj precision.c.obj)
+RECON_RUNTIME_OVERRIDE_OBJECTS = $(addprefix $(ORIGINAL_BUILD)/obj/crt/,startup.c.obj onexit.c.obj precision.c.obj)
 RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c2.map
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 # Preserve encountered compiler intrinsic choices and the genuine CRT thunk.
 $(addprefix $(ORIGINAL_BUILD)/obj/src/,option-match.c.obj diagnostics.c.obj il-files.c.obj symbols.c.obj nodes.c.obj symbol-input.c.obj coff-output.c.obj function-records.c.obj): ORIGINAL_CFLAGS += /Oi
-$(ORIGINAL_BUILD)/obj/src/precision.c.obj: ORIGINAL_CFLAGS = /nologo /c /Od /G3 /W3 /ML /Zl
+$(ORIGINAL_BUILD)/obj/crt/precision.c.obj: ORIGINAL_CFLAGS = /nologo /c /Od /G3 /W3 /ML /Zl
 $(ORIGINAL_BUILD)/messages.res: src/messages.rc $(RECON_TOOL)
 	@mkdir -p $(@D)
 	$(RECON_TOOL) original tool 5.10 RC.EXE -- /r /fo $@ $<

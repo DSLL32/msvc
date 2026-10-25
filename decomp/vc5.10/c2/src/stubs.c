@@ -4,12 +4,6 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-int c2_math_error(struct _exception *exception)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 void c2_print_banner(void)
 {
     __asm { int 3 }

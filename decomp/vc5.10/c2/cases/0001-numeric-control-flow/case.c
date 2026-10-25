@@ -1,4 +1,4 @@
-#include "case.h"
+#include "case-host.h"
 extern const ReconTest numeric_tests[3];
 
 static const uint32_t order[] = {
