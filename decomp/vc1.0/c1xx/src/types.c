@@ -490,3 +490,24 @@ unsigned __stdcall flatten_array_type(CType *type, CType **element)
     }
     return count;
 }
+
+/* Original0x633c0..0x63430, stdcall12. Build a scalar base with its
+   normalized pointer shape, then intern both owners. The debug slot is not
+   written here; intern_type initializes it in the reached debug-info mode. */
+CType *__stdcall make_scalar_pointer_type(unsigned short flags,
+    unsigned short kind, unsigned short attributes)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    TypeDescription *description;
+    if (pool->remaining < (int)sizeof(TypeDescription))
+        refill_arena(&compiler_arena, pool);
+    description = (TypeDescription *)pool->next;
+    pool->remaining -= sizeof(TypeDescription);
+    pool->next += sizeof(TypeDescription);
+    description->attributes = 0;
+    description->field08 = 0;
+    description->flags = flags;
+    description->related = intern_type_shape(new_type_shape(kind,
+        normalize_type_attributes(kind, attributes), 0));
+    return intern_type(description);
+}

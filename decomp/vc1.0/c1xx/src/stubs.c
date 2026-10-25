@@ -461,7 +461,6 @@ void browser_compilation_error(void) { __asm { int 3 } }
 char *__stdcall member_access_keyword(unsigned access) { __asm { int 3 } return 0; }
 
 
-CType *__stdcall make_scalar_pointer_type(unsigned short flags, unsigned short kind, unsigned short attributes) { __asm { int 3 } return 0; }
 
 
 
