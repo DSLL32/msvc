@@ -735,3 +735,51 @@ void __stdcall mark_pch_parameter_info(DeclarationParameterInfo *parameters)
     for (i = 0; i < parameters->count; ++i)
         mark_pch_pointer((void **)&parameters->types[i]);
 }
+
+void __stdcall mark_pch_parameter_entries(ParameterEntry *entry);
+void __stdcall mark_pch_declaration_parameter_entries(DeclarationParameterEntry *entry);
+void __stdcall mark_pch_function_parameters(FunctionParameters *parameters);
+
+/* Original0x6a190..0x6a1d6. Both parameter caches have512 buckets, visited
+   alternately as in the original rather than as two separate whole walks. */
+void mark_pch_parameters(void)
+{
+    unsigned i;
+    for (i = 0; i < 512; ++i) {
+        mark_pch_pointer((void **)&parameter_buckets[i]);
+        mark_pch_parameter_entries(parameter_buckets[i]);
+        mark_pch_pointer((void **)&declaration_parameter_buckets[i]);
+        mark_pch_declaration_parameter_entries(declaration_parameter_buckets[i]);
+    }
+}
+
+/* Original0x6a1e0..0x6a202. Function-parameter records follow each hash link. */
+void __stdcall mark_pch_parameter_entries(ParameterEntry *entry)
+{
+    while (entry) {
+        mark_pch_pointer((void **)&entry->next);
+        mark_pch_function_parameters(&entry->parameters);
+        entry = entry->next;
+    }
+}
+
+/* Original0x6a240..0x6a26d. Default argument lists use the expression node
+   representation; descend only when their actual containing slot is owned. */
+void __stdcall mark_pch_function_parameters(FunctionParameters *parameters)
+{
+    mark_pch_pointer((void **)&parameters->associated_type);
+    mark_pch_pointer((void **)&parameters->declarations);
+    if (mark_pch_pointer((void **)&parameters->defaults))
+        mark_pch_ir_node((IrToken *)parameters->defaults);
+}
+
+/* Original0x6a2d0..0x6a2f2. Declaration-only parameter lists use their
+   distinct count/type payload after the hash link. */
+void __stdcall mark_pch_declaration_parameter_entries(DeclarationParameterEntry *entry)
+{
+    while (entry) {
+        mark_pch_pointer((void **)&entry->next);
+        mark_pch_parameter_info(&entry->parameters);
+        entry = entry->next;
+    }
+}
