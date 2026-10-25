@@ -84,5 +84,13 @@ extern void InitSpillFile( void );
 extern void InitSym( void );
 extern void * NewSection( void );
 extern void InitObjIO( void );
+typedef struct handle_info {
+    int handle;
+    char *filename;
+} HANDLE_INFO;
+extern int OpenResFile( HANDLE_INFO * );
+extern int FindResources( HANDLE_INFO * );
+extern int InitResources( HANDLE_INFO * );
+extern unsigned QWrite( int, void *, unsigned, char * );
 #include <recon.h>
 #endif

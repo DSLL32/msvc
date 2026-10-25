@@ -23,11 +23,22 @@ def main():
     witness = json.loads(WITNESS.read_text())
     obj = ROOT / witness['object']['path']
     raw = obj.read_bytes()
+    # Debug type metadata may move these unchanged records. Check physical
+    # record boundaries, then match only the two already reviewed records.
+    boundaries = set()
+    cursor = 0
+    while cursor < len(raw):
+        boundaries.add(cursor)
+        size = int.from_bytes(raw[cursor+1:cursor+3], 'little') + 3
+        assert size >= 4 and cursor + size <= len(raw)
+        assert sum(raw[cursor:cursor+size]) & 255 == 0
+        cursor += size
     for key in ('SEGDEF', 'PUBDEF'):
         row = witness[key]
         expected = bytes.fromhex(row['record_hex'])
-        at = row['file_offset']
-        assert raw[at:at + len(expected)] == expected, key + ' changed; review required'
+        at = raw.find(expected)
+        assert at in boundaries and raw.find(expected, at+1) == -1, key + ' changed; review required'
+        row['file_offset'] = at
         assert sum(expected) & 255 == 0
     image = ROOT / witness['rebuilt_PE']['path']
     map_path = ROOT / witness['rebuilt_MAP']['path']

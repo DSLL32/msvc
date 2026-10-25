@@ -56,7 +56,6 @@ void ObjPass2( void ) { TRAP(); }
 void FiniLoadFile( void ) { TRAP(); }
 void EndTime( void ) { TRAP(); }
 void LnkMsg( unsigned message, const char *types, ... ) { message = message; types = types; TRAP(); }
-int InitMsg( char *program ) { program = program; TRAP(); return 0; }
 void LnkFilesInit( void ) { TRAP(); }
 void InitNodes( void ) { TRAP(); }
 void InitTokBuff( void ) { TRAP(); }
@@ -64,3 +63,13 @@ void InitSpillFile( void ) { TRAP(); }
 void InitSym( void ) { TRAP(); }
 void * NewSection( void ) { TRAP(); return 0; }
 void InitObjIO( void ) { TRAP(); }
+
+int OpenResFile( HANDLE_INFO *instance ) { instance = instance; TRAP(); return 0; }
+int FindResources( HANDLE_INFO *instance ) { instance = instance; TRAP(); return 0; }
+int InitResources( HANDLE_INFO *instance ) { instance = instance; TRAP(); return 0; }
+unsigned QWrite( int file, void *buffer, unsigned length, char *name )
+{
+    file = file; buffer = buffer; length = length; name = name;
+    TRAP();
+    return 0;
+}

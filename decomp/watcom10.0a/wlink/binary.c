@@ -7,8 +7,18 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
+    { .name = "OpenResFile", .entry_rva = 0x348b8, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "OpenResFile", .original_symbol = "OpenResFile_" },
+    { .name = "FindResources", .entry_rva = 0x34908, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "FindResources", .original_symbol = "FindResources_" },
+    { .name = "InitResources", .entry_rva = 0x348c8, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "InitResources", .original_symbol = "InitResources_" },
+    { .name = "QWrite", .entry_rva = 0x24d80, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "QWrite", .original_symbol = "QWrite_" },
+
     { .name = "InitMsg", .entry_rva = 0x24850, .definition = RECON_APP,
-      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "InitMsg", .original_symbol = "InitMsg_" },
+      .code = (const ReconExtent[]) { {0x24850, 0x248d6} }, .code_count = 1,
+      .implementation = RECON_IMPLEMENTED, .native_symbol = "InitMsg", .original_symbol = "InitMsg_" },
     { .name = "LnkFilesInit", .entry_rva = 0x24ba0, .definition = RECON_APP,
       .implementation = RECON_UNIMPLEMENTED, .native_symbol = "LnkFilesInit", .original_symbol = "LnkFilesInit_" },
     { .name = "InitNodes", .entry_rva = 0x1c450, .definition = RECON_APP,
@@ -145,7 +155,7 @@ static const ReconFunction functions[] = {
     {
         .name = "memset", .entry_rva = 0x33430,
         .code = (const ReconExtent[]) { {0x33430, 0x33448} }, .code_count = 1,
-        .definition = RECON_CRT
+        .definition = RECON_CRT, .original_symbol = "memset_"
     },
     {
         .name = "stackavail", .entry_rva = 0x334cf,

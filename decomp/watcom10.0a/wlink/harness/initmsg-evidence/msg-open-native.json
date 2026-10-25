@@ -1,0 +1,33 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-aB2Xhu",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      148192,
+      93500,
+      148424,
+      148908,
+      209664,
+      149584,
+      215224
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 215224,
+    "trap_site": 4153834016,
+    "elapsed_ms": 11.547891,
+    "setup_ms": 6.2619880000000006,
+    "execution_ms": 2.674752999999999,
+    "checks_ms": 2.61112,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlink-startup/msg-open-original.json",
+      "report_sha256": "bad65547e791552f81791797d484a31415627c420215163c76d8aabc6672654c",
+      "capture_sha256": "b65989089fc0639dc0bddead351b00e45f12945f0ea70a93e4159f0ba7a7449a",
+      "source_binding_available": true
+    }
+  }
+]

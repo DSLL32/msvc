@@ -1,0 +1,304 @@
+{
+  "checked_accepted_extents": null,
+  "checked_functions": 6,
+  "checked_unique_accepted_extents": null,
+  "checks": [
+    "call_graph",
+    "selected_ret_cleanup",
+    "function_references",
+    "extent_ownership",
+    "whole_extent_boundaries"
+  ],
+  "discovery": "cfg",
+  "functions": {
+    "DoLinkFromCommandLine": {
+      "edges": [
+        "AutoGroup",
+        "CalcAddresses",
+        "CheckClassOrder",
+        "CheckErr",
+        "CheckSymbolPass",
+        "ConvertLazyRefs",
+        "DecideFormat",
+        "DefBSSSyms",
+        "DoCmdFile",
+        "DoDefaultSystem",
+        "EndTime",
+        "FindLibPaths",
+        "FiniLoadFile",
+        "GetBSSSize",
+        "GetStkAddr",
+        "InitLoadFile",
+        "LnkInit",
+        "LnkMsg",
+        "MapInit",
+        "ObjPass2",
+        "PostAddrCalcFormatSpec",
+        "PreAddrCalcFormatSpec",
+        "PrepareSegments",
+        "ProcObjFiles",
+        "ReportLinkMap",
+        "ReportUndefined",
+        "ResolveUndefined",
+        "SetFormat",
+        "SetStkSize",
+        "StartTime",
+        "signal"
+      ]
+    },
+    "InitMsg": {
+      "edges": [
+        "FindResources",
+        "InitResources",
+        "OpenResFile",
+        "QWrite",
+        "memset"
+      ]
+    },
+    "LnkInit": {
+      "edges": [
+        "InitMsg",
+        "InitNodes",
+        "InitObjIO",
+        "InitSpillFile",
+        "InitSym",
+        "InitTokBuff",
+        "LnkFilesInit",
+        "LnkMemFini",
+        "NewSection"
+      ]
+    },
+    "LnkMemFini": {
+      "edges": []
+    },
+    "Spawn": {
+      "edges": [
+        "_setjmp",
+        "indirect"
+      ]
+    },
+    "main": {
+      "edges": [
+        "BurnSystemList",
+        "CleanLinkStruct",
+        "CleanLoadFile",
+        "CleanTraces",
+        "CloseSpillFile",
+        "FiniMsg",
+        "FreeFormatStuff",
+        "FreeList",
+        "FreeObjInfo",
+        "FreePaths",
+        "FreeUndefs",
+        "FreeVirtMem",
+        "LnkMemFini",
+        "QClose",
+        "QDelete",
+        "Spawn",
+        "_LnkFree",
+        "exit"
+      ]
+    }
+  },
+  "image_inputs": {
+    "map": {
+      "absolute_symbols": {
+        "__DOSseg__": 4660
+      },
+      "format": "watcom10-pe",
+      "map_sha256": "fafa6687e702f5bfd1d5afbd2cf021d87cfc88c42c3d55680f3a84025fab220c",
+      "rebuilt_pe_sha256": "f78d7e901dffa70229c7d1ad0eaacaa3c8e35c8d1d6ab46c8f7f8740002e19f2",
+      "segment_group_bases": {
+        "1": 4259840,
+        "2": 4325376
+      }
+    },
+    "original": {
+      "coordinates": "preferred-va",
+      "format": "pe32",
+      "original_file_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+      "preferred_base": 4194304
+    },
+    "rebuilt": {
+      "coordinates": "preferred-va",
+      "format": "pe32",
+      "original_file_sha256": "f78d7e901dffa70229c7d1ad0eaacaa3c8e35c8d1d6ab46c8f7f8740002e19f2",
+      "preferred_base": 4194304
+    }
+  },
+  "original_accepted_graphs": null,
+  "owned_code_chunks": {
+    "original": {
+      "declared_code_bytes": 988,
+      "functions": {
+        "DoLinkFromCommandLine": [
+          [
+            4342728,
+            4343077
+          ]
+        ],
+        "InitMsg": [
+          [
+            4343888,
+            4344022
+          ]
+        ],
+        "LnkInit": [
+          [
+            4343212,
+            4343433
+          ]
+        ],
+        "LnkMemFini": [
+          [
+            4403968,
+            4403969
+          ]
+        ],
+        "Spawn": [
+          [
+            4287804,
+            4287855
+          ]
+        ],
+        "main": [
+          [
+            4342496,
+            4342728
+          ]
+        ]
+      },
+      "interval_count": 6,
+      "logical_function_count": 6,
+      "unique_code_bytes": 988
+    },
+    "rebuilt": {
+      "declared_code_bytes": 1262,
+      "functions": {
+        "DoLinkFromCommandLine": [
+          [
+            4261743,
+            4262141
+          ]
+        ],
+        "InitMsg": [
+          [
+            4260251,
+            4260424
+          ]
+        ],
+        "LnkInit": [
+          [
+            4262141,
+            4262437
+          ]
+        ],
+        "LnkMemFini": [
+          [
+            4260230,
+            4260251
+          ]
+        ],
+        "Spawn": [
+          [
+            4259856,
+            4259933
+          ]
+        ],
+        "main": [
+          [
+            4259933,
+            4260230
+          ]
+        ]
+      },
+      "interval_count": 6,
+      "logical_function_count": 6,
+      "unique_code_bytes": 1262
+    }
+  },
+  "profile": "cl",
+  "rebuilt_extent_checks": {
+    "entries": [
+      {
+        "end": 4262437,
+        "evidence": {
+          "path": "harness/lnkinit-extent.json",
+          "sha256": "51c889d6a019c10cd61dfaedb2baf86a221e2df048e45f94c4b3153f097d4476"
+        },
+        "image_sha256": "f78d7e901dffa70229c7d1ad0eaacaa3c8e35c8d1d6ab46c8f7f8740002e19f2",
+        "map_envelope_end": 4262438,
+        "map_sha256": "fafa6687e702f5bfd1d5afbd2cf021d87cfc88c42c3d55680f3a84025fab220c",
+        "name": "LnkInit",
+        "object": {
+          "path": "build/obj/src/wlink.c.obj",
+          "sha256": "b047232da85a47fb7d8fe0202efd54d806d4afa45a26c96d85086b22c4c32d57"
+        },
+        "padding_hex": "00",
+        "start": 4262141
+      }
+    ],
+    "schema": 1,
+    "semantics": "exact object-bound rebuilt body end; separately verified linker alignment, no body or ABI waiver"
+  },
+  "ret_cleanup_checks": {
+    "functions": {
+      "DoLinkFromCommandLine": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "InitMsg": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "LnkInit": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "LnkMemFini": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "Spawn": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      }
+    },
+    "input_sha256": "57036fa60e8269600f65b5bca175102c87d9bc4d2e802496cba5cf9aa841749e"
+  }
+}
