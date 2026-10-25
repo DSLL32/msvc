@@ -82,11 +82,18 @@ typedef struct CompilerIrSymbol {
     union {
         struct CompilerAbstractType *abstract_type;
         CompilerType *parameter_type;
+        CompilerType *function_type;
     };
     unsigned reference_flags;
     unsigned record_id;
-    BYTE unmodeled_1c, scope_flags, unmodeled_1e, identifier_flags;
-    BYTE unmodeled_20[16];
+    union {
+        struct { BYTE unmodeled_1c, scope_flags, unmodeled_1e, identifier_flags; };
+        unsigned intrinsic_flags;
+    };
+    union {
+        BYTE unmodeled_20[16];
+        struct { WORD intrinsic_opcode, intrinsic_traits; BYTE unmodeled_24[12]; };
+    };
     void *kind4_context; /* Constructor clears this pointer only for kind4. */
 #ifdef __cplusplus
     CompilerIrSymbol *RECON_THISCALL Initialize(unsigned kind,

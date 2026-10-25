@@ -301,15 +301,26 @@ static int interned_type_shapes(void)
 static int type_arena_snapshot(void)
 {
     CompilerInitializedState saved = c1_data;
-    if (c1_data.type_arena_kind != 3) return 0;
+    if (c1_data.type_arena_kind != 3 || c1_data.intrinsic_symbol_bytes != 52 ||
+        c1_data.intrinsic_symbol_cache_index != 9 || c1_data.next_symbol_record_id != 16)
+        return 0;
     saved.first_call = 0;
     saved.type_arena_kind = 2;
+    saved.intrinsic_symbol_bytes = 37;
+    saved.intrinsic_symbol_cache_index = 7;
+    saved.next_symbol_record_id = 83;
+    c1_data.intrinsic_symbol_bytes = 61;
+    c1_data.intrinsic_symbol_cache_index = 3;
+    c1_data.next_symbol_record_id = 95;
     c1_data.first_call = 0;
     c1_data.type_arena_kind = 5;
     c1_bss.saved_data = &saved;
     c1_pass_mode = 1;
     return initialize_compiler_pass() == 0 && c1_data.type_arena_kind == 2 &&
         c1_bss.saved_data == &saved && saved.type_arena_kind == 2 &&
+        c1_data.intrinsic_symbol_bytes == 37 && c1_data.intrinsic_symbol_cache_index == 7 &&
+        c1_data.next_symbol_record_id == 83 && saved.intrinsic_symbol_bytes == 37 &&
+        saved.intrinsic_symbol_cache_index == 7 && saved.next_symbol_record_id == 83 &&
         !c1_reuse_state;
 }
 extern struct CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned *);

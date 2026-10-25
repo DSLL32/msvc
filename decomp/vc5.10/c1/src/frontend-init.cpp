@@ -477,7 +477,6 @@ extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned kind, unsigned at
      * no zero default or whole-object initialization is implied. */
     return shape;
 }
-extern "C" void __cdecl initialize_intermediate_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }

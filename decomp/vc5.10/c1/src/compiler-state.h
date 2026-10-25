@@ -59,6 +59,9 @@ typedef struct CompilerInitializedState {
     CompilerSymbolBinding *abstract_symbol_free; /* Only head9 at RVA5e51c, defaultNULL */
     CompilerTypeList *empty_type_list; /* RVA5e580, defaultNULL */
     unsigned type_arena_kind; /* RVA5f5e0, canonical default3 */
+    unsigned intrinsic_symbol_bytes; /* RVA5f418, default52 */
+    unsigned intrinsic_symbol_cache_index; /* RVA5f480, default9 */
+    unsigned next_symbol_record_id; /* RVA5e9c0, default16 */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
@@ -128,6 +131,7 @@ typedef struct CompilerArena {
     void RECON_THISCALL Reset(void);
     unsigned char *RECON_THISCALL AllocatePages(unsigned, unsigned *);
     void RECON_THISCALL CommitExtent(void);
+    BYTE *RECON_THISCALL AllocateBytes(unsigned);
 #endif
 } CompilerArena;
 /* Genuine thiscall POD. Only four encountered fields are modeled; no
