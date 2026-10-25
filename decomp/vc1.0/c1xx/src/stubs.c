@@ -330,7 +330,6 @@ void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
 int __stdcall based_pointer_has_indirect_base(TypeShape *shape) { __asm { int 3 } return 0; }
-unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
 FrontendRecord *__stdcall skip_declaration_records(FrontendRecord *from) { __asm { int 3 } return 0; }

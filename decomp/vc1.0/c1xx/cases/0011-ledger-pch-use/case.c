@@ -1431,6 +1431,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "ledger_pch_use",
     "Ledger PCH use: nested macro/conditional includes, packed types, virtual/copy/default/member-pointer lifetimes, inline/browser/Z7 state; independent frozen invocation",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x54470,
+    RECON_IO, RECON_EXIT, 0,
     NULL, c1xx_case_invoke, NULL, NULL, 0
 };

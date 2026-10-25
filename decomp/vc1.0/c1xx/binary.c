@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1611 historical frontiers/1504 App bodies.
+ * Current reviewed boundary:1612 historical frontiers/1505 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -11490,10 +11490,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_classify_nested_shape_conversion@8",
         .entry_rva = 0x54470,
-        .code = (const ReconExtent[]) { { 0x54470, 0x54471 } },
+        .code = (const ReconExtent[]) { { 0x54470, 0x54660 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "classify_nested_shape_conversion",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_rank_reference_attributes@12",

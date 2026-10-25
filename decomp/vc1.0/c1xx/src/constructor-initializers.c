@@ -1828,3 +1828,59 @@ IrToken *__stdcall make_copy_constructor_call(CppSymbol *constructor, CType *typ
     if (result) result->type = type;
     return result;
 }
+
+/* Original0x64470..0x64660, stdcall8. Compare nested type shapes while
+   ranking top-level qualifier loss separately from an invalid nested loss. */
+unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source)
+{
+    unsigned result = 0, depth = 0;
+    unsigned short attributes, other, difference;
+    FunctionParameters *target_parameters, *source_parameters;
+    if (!target || !source) return 0x2000;
+    while (target) {
+        if ((target->flags ^ source->flags) & 0x77) return 0x2000;
+        switch (target->flags) {
+        case 2:
+            if (target->data.array_bound != source->data.array_bound) return 0x2000;
+            break;
+        case 4:
+            target_parameters = target->data.parameters;
+            source_parameters = source->data.parameters;
+            if (target_parameters->declarations != source_parameters->declarations)
+                return 0x2000;
+            if (target_parameters->associated_type &&
+                target_parameters->associated_type != source_parameters->associated_type)
+                return 0x2000;
+            break;
+        case 0x10:
+        case 0x20:
+            if (target->data.tag_symbol != source->data.tag_symbol) return 0x2000;
+            break;
+        }
+        attributes = target->attributes;
+        other = source->attributes;
+        if (attributes != other) {
+            if (attributes & 0x1000) {
+                if (!(other & 0x1000)) {
+                    if (depth) return 0x2003;
+                    result |= 8;
+                }
+            } else if (other & 0x1000) return 0x2005;
+            if (attributes & 0x2000) {
+                if (!(other & 0x2000)) {
+                    if (depth) return 0x2004;
+                    result |= 8;
+                }
+            } else if (other & 0x2000) return 0x2006;
+            difference = attributes ^ other;
+            if (difference & 0x70) return 0x2008;
+            if (difference & 7) return 0x2007;
+        }
+        target = target->related;
+        source = source->related;
+        if (target == source) return result ? result : 1;
+        if (!source) return 0x2000;
+        ++depth;
+    }
+    return 0x2000;
+}

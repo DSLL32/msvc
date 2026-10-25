@@ -1,278 +1,82 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
-/O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
-The independent native cases freeze source timestamps/cwds and the original
-53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1501 App bodies and1608
-historical frontiers. Original compilation,1430-function inherited graph/ABI
-checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
-compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
-current genuine frontier is finish_pch_output. Their original build3.953s, fresh
-original0.518s, native25.240ms (setup15.619ms, execution4.189ms, checks5.431ms),
-full inherited audit7.492s and cached12+21units0.312s pass. Discovered whole
-match_pch_string_event@12 remains an unimplemented stub with no coverage credit.
-load_precompiled_header(328B) is accepted at the consumer read_pch_file frontier;
-original build3.171s, fresh original1.214s, native25.240ms (setup16.443ms,
-execution2.172ms, checks6.625ms), audit/setup2.164s, cached12+21units0.318s.
-read_pch_file(1108B) is now accepted at restore_pch_frontend; fresh original1.374s,
-native26.998ms (setup16.436ms, execution4.041ms, checks6.521ms) and1434-function
-six-check audit pass. The56B typed header has one owner: existing symbol/expression
-sizes, browser offset and permanent page count alias its actual fields. The
-pending881B restorer remains unimplemented. Its finalRET was incorrectly named
-as another old short CRT candidate; exact2raw aliases/1canonical row were removed
-after independent byte/entry/reference review, with zero application credit.
-The header rebuild took30.434s plus4.009s incremental correction. Final audit/setup
-37.871s includes128 Win32 and136 native compilations triggered by shared
-recon-inline.h publication477bd3d95; maintainer confirmed no C1XX semantics change.
-All12 cached cases and21 unit groups pass; their10.908s wrapper includes10.56s
-shared Cargo build-lock setup, while individual native phases remain19--27ms.
-No additional original or duplicate regression was run solely for that annotation.
-Native first pair26.683ms (setup17.078ms, execution3.035ms, checks6.570ms).
-The default-path strlen source calls were replaced by the actual inline loops
-before passing graph checks. One discovery started before the library relink
-completed and repeated the old frontier; it is retained separately and unused.
-finish_pch_output(1000B) is accepted at finish_pch_debug_symbols; fresh original
-0.832s, native29.634ms (setup18.963ms, execution3.965ms, checks6.705ms), original
-compatibility,1435-function six-check audit2.164s and cached12+21units0.319s pass.
-The typed1496B serialization view has149 pointer roots and the scalar/warning
-suffix; relocation helpers must marshal canonical owners before any output is
-credited. Existing57-row builtin_operators remains the sole mutable table owner.
-finish_pch_debug_symbols(26B) is accepted at the genuine hash_table_count@4
-frontier within global-scope serialization; the new56B type terminator remains
-unimplemented. Original build2.860s, fresh original1.186s, native27.738ms
-(setup16.114ms, execution5.966ms, checks5.659ms),1436-function six-check audit2.160s
-and cached12+21units0.315s pass. A native command before the case descriptor rebuild
-failed to find case.so before execution; the rebuilt descriptor run passed.
-hash_table_count@4(10B) is accepted at compare_debug_symbol_indices within the
-actual debug type sort. Fresh original1.275s, native26.899ms (setup16.452ms,
-execution4.460ms, checks5.985ms), original build2.969s,1437-function inherited
-audit2.261s and cached12+21units0.321s pass.
-compare_debug_symbol_indices(19B) is accepted at the genuine debug enumerator
-emitter. Original build2.840s, fresh original0.652s, native32.084ms,
-1438-function full audit2.153s and cached12+21units0.316s pass.
-emit_debug_field_list_chunk@12(342B) is accepted at finish_pch_debug_types.
-Its enum values use the existing28B EnumeratorSymbol owner; continuation keeps
-array ownership until the final slice frees it. Original build3.255s, fresh
-original0.896s, full1439-function audit2.261s and cached12+21units0.320s pass.
-finish_pch_debug_types(56B) is accepted after writing the genuine checksum
-terminator. The next frontier is reached while copying saved option vectors.
-Original build3.316s, fresh original1.301s,1440-function inherited audit2.192s
-and cached12+21units0.317s pass; final-oracle hashes remain unchanged.
-copy_string@8(131B) is accepted at stage_pch_intermediates, preserving rounded
-arena allocation and copying only string+NUL bytes. Fresh original1.133s,
-1441-function full audit2.185s and cached12+21units0.318s pass. The native/original
-incremental build wrapper took26.780s; no extra audit or capture was run for timing.
-stage_pch_intermediates(1625B) is accepted at stage_initial_pch_streams.
-The complete rename/cross-volume/replacement paths preserve original diagnostics
-and stream ownership; both newly discovered copy helpers remain unimplemented.
-Original build3.070s, fresh original1.312s,1442-function six-check audit2.177s
-and cached12+21units0.314s pass with matching real output inventory/first order.
-stage_initial_pch_streams(613B) is accepted at the real copy_pch_stream@12
-call. Original build3.007s, fresh original1.268s,1443-function audit2.217s and
-cached12+21units0.316s pass; no source pointer normalization was introduced.
-copy_pch_stream@12(190B) is accepted at begin_browser_pch_record. Initial
-saved IR prefixes now match the genuine original partial output inventory.
-Original build3.329s, fresh original1.219s,1444-function audit2.198s and
-cached12+21units0.318s pass; the shared32K workspace is ordinary live allocation.
-begin_browser_pch_record(57B) is accepted at relocate_pch_state. Browser prefix
-flush/terminator/suppression and all partial artifact bytes match. Original
-build3.604s, fresh original1.401s,1445-function audit2.205s and cached12+21units
-0.321s pass. Root relocation/marshaling remains unimplemented and uncredited.
-relocate_pch_state(54B) is accepted at mark_pch_relocations. Its explicit149-cell
-semantic table binds existing live globals, including the original21-slot shape
-cache and41 interned identifiers. Reserved/unmodeled cells remain owned solely
-by the image view and retain actual loaded values; no independent-consumer or
-full serialization equivalence is claimed before those helpers execute. The
-three private allocation/parameter owners are exposed without duplicate storage.
-Provisional suffix labels were corrected before first use: PLMN/PLMF order,
-member-pointer full generality and anonymous-identifier count. Five new whole
-relocation helpers remain trapping/uncredited. The actual snapshot consumer and
-restorer must use these same owners. Fresh original/native order and partial
-artifacts, original compiler,1446-function six-check audit and12cached+21units pass.
-mark_pch_relocations(21B) is accepted at the actual first mark_pch_scopes
-visitor. The encountered28-entry callback table has exact original order and
-cdecl RET0 signatures, with every visitor body still unimplemented/uncredited.
-Original build3.430s, fresh original1.217s,1447-function full audit2.187s and
-cached12+21units0.314s pass. The prior root-layout header rebuild was36.537s;
-its actual native phase31.924ms, original1.195s and full audit2.264s are separate.
-mark_pch_scopes(92B) is accepted at mark_pch_pointer@4 on the real global
-scope owner. Original build3.148s, fresh original1.272s,1448-function full audit
-2.186s and cached12+21units0.317s pass. All declared buckets and the segment
-chain are visited with the original order; the marker and chain visitor remain
-unimplemented at this checkpoint.
-mark_pch_pointer@4(133B) is accepted at encode_pch_pointer@4. It marks the
-slot address in its owning page bitmap, retaining the original inclusive cached
-boundary and foreign-page failure. Original build3.385s, fresh original1.166s,
-1449-function audit2.221s and cached12+21units0.313s pass.
-encode_pch_pointer@4(168B) is accepted at mark_pch_symbol_chain@4. Null and
-foreign references retain their original cache side effects; owned references
-encode the actual page/byte offset. Original build2.864s, fresh original1.183s,
-1450-function full audit2.304s and cached12+21units0.313s pass.
-mark_pch_symbol_chain@4(179B plus68B owned switch) is accepted at mark_pch_tag.
-The C1XX-specific variants include overload/qualified records, segment initializer
-owners and the conditional object auxiliary pointer. Original build4.690s,
-fresh original0.945s,1451-function full audit2.231s and cached12+21units0.323s pass.
-mark_pch_tag@4(234B) is accepted at the genuine vector visitor. ClassInfo
-uses its existing table/conversion/member-index owners; enum hash handling keeps
-its original separate order. Original build3.452s, fresh original0.959s,
-1452-function full audit2.238s and cached12+21units0.330s pass. Six new whole
-container/table visitors remain trapping/uncredited.
-mark_pch_vector@8(84B) is accepted at the actual virtual-table callback.
-The separate item-array slot is marked only for positive capacity. Original
-build3.234s, fresh original1.381s,1453-function full audit2.224s and
-cached12+21units0.320s pass.
-mark_pch_virtual_table@4(163B) is accepted at the genuine dispatch-slot visitor.
-Existing56B table and16B entry owners retain their original pointer fields and
-kind-specific traversal. Original build2.612s, fresh original0.682s,
-1454-function full audit2.237s and cached12+21units0.323s pass.
-mark_pch_virtual_call@4(13B) is accepted at the inline-vector visitor.
-Original build3.369s, fresh original1.285s,1455-function full audit2.201s and
-cached12+21units0.316s pass.
-mark_pch_inline_vector@8(59B) is accepted at the actual class member-index
-visitor. Original build2.648s, fresh original0.633s,1456-function full audit
-2.237s and cached12+21units0.320s pass.
-mark_pch_member_index@4(116B) is accepted at the genuine enum hash visitor.
-The existingClassInfo pointer/mask pair and8B bucket owners remain shared,
-including original WORD wrap/decrement behavior. Original build2.930s, fresh
-original1.263s,1457-function audit2.219s and cached12+21units0.324s pass.
-mark_pch_hash_table@12(86B) is accepted at its actual entry-chain visitor.
-Original build2.470s, fresh original1.327s,1458-function full audit2.285s and
-cached12+21units0.323s pass. The new77B chain visitor remains unimplemented.
-mark_pch_hash_entries@12(77B) is accepted at mark_pch_types, completing the
-first subsystem's scope traversal. Original build2.885s, fresh original1.013s,
-1459-function audit2.224s and cached12+21units0.326s pass.
-mark_pch_types(43B) is accepted at mark_pch_type_entries@4. All1024 bucket
-heads retain their existing type-table owner. Original build2.968s, fresh
-original1.200s,1460-function audit2.214s and cached12+21units0.325s pass.
-mark_pch_type_entries@4(34B) and mark_pch_type@4(16B) are accepted together:
-both actual entries appear in the fresh matching order before mark_pch_shapes.
-No intermediate terminal was guessed. Original build2.954s, fresh original1.390s,
-1462-function full audit2.256s and cached12+21units0.334s pass.
-mark_pch_shapes(43B), mark_pch_shape_entries@4(34B) and mark_pch_shape@4(125B)
-are accepted together, all three genuinely observed in the fresh matching order.
-Pointer-valued shape payloads follow actualkind0x77/attribute rules; array-bound
-integers are not marked. Original build3.315s, fresh original1.323s,
-1465-function audit2.215s and cached12+21units0.317s pass; next is mark_pch_macros.
-mark_pch_macros/mark_pch_macro_entries@4(43B each) and
-mark_pch_identifiers(43B)/mark_pch_identifier_entries@4(25B) are accepted as one
-coherent traversal slice; every genuine entry appears in matching fresh order.
-No string bytes are interpreted as pointer slots. Original build2.953s,
-fresh original1.352s,1469-function audit2.276s and cached12+21units0.318s pass.
-The next actual frontier is mark_pch_function_records.
-mark_pch_function_records(64B), mark_pch_scope_directory(82B) and
-mark_pch_pointer_array@16(35B) are accepted together with every actual entry in
-the fresh matching order. The array helper preserves both unused name formals.
-Its negative-count source loop was corrected before promotion; unchanged actual
-count128 original evidence was reused. Original build3.658s plus corrected
-incremental3.017s, fresh original1.330s,1472-function audit2.225s and
-cached12+21units0.323s pass. Next is the genuine mark_pch_ir_node@4 frontier.
-mark_pch_ir_node@4(273B plus28B switch) and mark_pch_parameter_info@4(36B)
-are accepted with both genuine entries in the fresh matching order. The operator
-constant follows the defined integer path; other layouts retain the original
-owned-child/recursive traversal. Original build2.973s, fresh original1.078s,
-1474-function audit2.252s and cached12+21units0.323s pass. Next is mark_pch_parameters.
-mark_pch_parameters(70B), its function/declaration chains(34B each), and
-mark_pch_function_parameters@4(45B) are accepted with all four actual entries
-observed. Default arguments retain their expression-node representation and
-original traversal order. Original build3.154s, fresh original1.279s,
-1478-function audit2.233s and cached12+21units0.322s pass; next is pragma values.
-Eight visitors for pragma values, saved defines/includes, packing, translation
-symbols and optional class/table/member vectors are accepted(210B total). Every
-actual entry is present in matching fresh order before mark_pch_declaration_table.
-Packing's unused free chain remains untouched. Original build3.477s, fresh
-original1.098s,1486-function audit2.298s and cached12+21units0.322s pass.
-mark_pch_declaration_table(19B) and mark_pch_friend_records@4(37B) are
-accepted with both genuine entries. The existing12B friendship owner keeps its
-scalar index and symbol/next pointer distinctions. Original build3.711s, fresh
-original1.067s,1488-function audit2.285s and cached12+21units0.325s pass;
-next is mark_pch_virtual_thunks.
-mark_pch_virtual_thunks(22B) is accepted at mark_pch_declaration_thunks.
-The current cache is empty, so its discovered16B key visitor remains a trapping
-unimplemented function with zero credit. Original build3.026s, fresh original
-1.179s,1489-function audit2.227s and cached12+21units0.329s pass.
-mark_pch_declaration_thunks(22B) is accepted at mark_pch_deferred_types.
-Its empty current cache leaves the discovered13B key helper unimplemented.
-Original build2.247s, fresh original0.927s,1490-function full audit2.264s and
-cached12+21units0.321s pass.
-mark_pch_deferred_types(22B) is accepted at mark_pch_member_contexts.
-The unvisited24B description-key helper remains a trapping pending function.
-Original build2.843s, fresh original1.039s,1491-function audit2.275s and
-cached12+21units0.321s pass.
-Eight remaining root-cache visitors(134B total) are accepted with every actual
-entry in matching fresh order. All28 dispatch callbacks now complete; native
-root encoding reaches encode_pch_operators. The pending lookup maps use typed
-aliases of their sole existing image-view cells97/98, not duplicate globals.
-Unvisited key/value leaf helpers remain trapping/uncredited. Original build
-2.270s, fresh original0.519s,1499-function audit2.269s and cached12+21units0.318s
-pass. Full native PCH serialization/consumer parity is still pending.
-encode_pch_operators(109B) and initialize_pch_relocations(118B) are accepted
-with both actual entries observed before encode_pch_pages. The sole57-row operator
-table is transformed in place; chain storage has logical8B rows and original
-zero-initialization. Signed page-loop comparison was corrected before credit,
-reusing unchanged positive-page original evidence. Fresh original0.803s,
-1501-function audit2.259s and cached12+21units0.482s pass. Initial build2.781s and
-corrected-build/header setup36.965s remain separate from native fixture time.
-encode_pch_pages(492B) is accepted at the actual write_pch_pages frontier.
-Marked slots retain page/byte/bit order and target-page backward chains, with
-additional chain records only at64K link boundaries. Fresh original/native
-receipts independently match complete observed entry order and trap owner,
-beyond the runner descriptor check. Original1.283s, native34.520ms
-(setup20.711ms, execution7.697ms, checks6.111ms),1502-function six-check
-audit2.262s and cached12+21units0.482s pass. Build/header setup38.404s
-is separate; shared SDK COMDAT declaration publication changed no successful
-C1XX behavior. Full PCH output comparison remains pending.
-Ledger producer is COMPLETE: write_pch_pages(135B), restore_pch_pointers(247B)
-and restore_pch_operators(98B) are accepted, bringing the reviewed boundary to
-1497 App bodies/1604 historical frontiers. Original/native exit0 and74-entry
-order match. All six IR/browser artifacts are exact. Consumer restoration
-remains pending at restore_pch_frontend(881B).
-The user approved a finite comparison for this53932B PCH only: the77 allocation
-owners/154 pointer fields in cases/0010-ledger-pch-create/case.h are checked
-against the immutable raw original asset. All131 arena pointers must retain
-exact arena-relative targets; the23 discarded heap pointers must remain nonnull
-and preserve their four alias classes. No equality of heap pointee bytes is
-claimed. Two live table-symbol owners retain already-decorated flag0x200,
-which bypasses their table-pointer naming reader. The other75 owners have no
-incoming root/operator/restored-slot references in this frozen snapshot.
-Only those154 DWORDs and four proven uninitialized reserved WORDs are excluded
-from the ordinary PCH hash; the callback separately checks every qualified
-pointer and requires the four native WORDs to be zero. All other bytes remain
-exact. This exception does not extend to other PCHs, inputs or binaries. Raw
-files and authentic defined-pointer source behavior are unchanged.
+Ledger paired PCH is COMPLETE: cases0010-ledger-pch-create and0011-ledger-pch-use.
+The coherent /O2 /G5 /Ob1 /Z7 /FR /Ycledger.h and /Yuledger.h workload exercises
+nested macro/conditional includes, packed types, virtual/copy/default/member-pointer
+lifetimes, inline code, browser state and embedded debug state. The untouched
+original driver/frontend/C2/LINK pipelines and ledger.exe exit0. Independent
+frontend cases freeze real source timestamps/cwds and the53932B consumer PCH.
+
+The pair accepted84 whole application bodies:12550 code bytes and96 owned switch
+bytes. There are1505 App bodies/1612 historical frontiers, plus the unchanged
+seven historical CRT source bodies described below. Application source code
+extent union is354435/476418B (74.40% of the whole original code extent; this is
+not a non-CRT denominator and excludes CRT/library/import and owned-data credit).
+
+Producer reference/native exit0 and74 first encounters match. All six IR/browser
+artifacts are exact. The user approved a finite comparison for this53932B PCH:
+77 allocation owners/154 initialized pointer DWORDs in the case header are checked
+against the immutable raw original asset. All131 arena pointers retain exact
+arena-relative targets. The23 discarded heap pointers remain nonnull and preserve
+their four alias classes; no equality of heap pointee bytes is claimed. Two live
+table-symbol owners retain already-decorated flag0x200, bypassing their table-pointer
+naming reader. The other75 owners have no incoming references among the1437
+nonnull restored root/operator/relocated references in this frozen snapshot.
+The complete header/configuration,149 roots,57 operators and1178 relocation slots
+remain exact. Only the154 DWORDs and four proven uninitialized reserved WORDs are
+excluded from the ordinary PCH hash. The callback separately checks each qualified
+pointer and requires those four native WORDs to be zero. Every other byte is exact.
+This exception does not extend to other PCHs, inputs or binaries. Raw files and
+authentic defined-pointer source behavior are unchanged; no allocator tuning,
+blanket unmarked-pointer mask or defined-pointer zeroing is used.
+
 Positive and wrong-target/wrong-heap-alias/nonzero-reserved/wrong-owner controls
-pass. The original compiler and1505-function six-check audit pass; all12 cached
-cases and22 unit groups pass0.505s. Producer39.640ms splits into setup22.104ms,
-execution7.899ms and checks9.636ms. Audit/build setup33.296s includes a full
-shared-header Win32 rebuild, not33s of graph execution.
-Shared derive-reference82150d6ad preserves the untouched parent45 capture/report
-and proves unchanged target inputs, invocation, environment and observations.
-The labelled comparison-only receipt binds the approved capture and raw parents;
-only the154 DWORD/four WORD rules and raw oracle asset differ. The actual
-candidate pair passed74 entries/exit0 in37.258ms (setup21.453ms, execution7.525ms,
-checks8.279ms; wrapper82.169ms). Canonical publication matches the reviewed tool
-source; the final receipt changes only its explanatory reason. No original or
-unchanged broad regression was rerun solely for that publication.
-Two old source errors were exposed: __cplusplus uses original expansion code-9,
-and begin_browser_pch_record writes browser_symbols_overflowed, not the separate
+pass. Shared derive-reference82150d6ad binds the untouched original45 report and
+capture to the approved comparison capture, proving unchanged target inputs,
+invocation, environment, order and status. Only the approved output rules and raw
+oracle harness asset differ. The actual paired native run passed in37.258ms
+(setup21.453ms, execution7.525ms, checks8.279ms; wrapper82.169ms). Canonical
+publication matches reviewed tool bytes; the final receipt changed only its
+explanatory reason. No original or broad replay was repeated for that publication.
+
+Consumer reference/native exit0,15 first encounters and ALL six final IR/browser
+artifacts match byte for byte; the final capture equals its unchanged standalone
+master, with no comparison normalization. The consumer currently uses the frozen
+original-produced PCH; a native-produced PCH was not substituted as its input.
+The actual loader uses malloc-backed pages and fread, not memory mapping. Its
+149-root/scalar image maps back into the existing operational owners before
+operator/chain restoration. No second live frontend state or fixed-address page
+mapping is introduced. Browser, option and debug restoration and nested-shape
+conversion preserve their original function graphs/ABIs. Unreached separate-debug
+and library-reference helpers remain trapping/uncredited.
+
+Final consumer native29.003ms (setup17.343ms, execution5.255ms, checks6.404ms);
+fresh original1.076s, incremental native/Win32 build3.250s and1513-function
+six-check graph/ABI audit plus all12 cached cases/22 unit groups2.357s pass.
+Earlier producer audit/build33.296s and consumer rebuild33.643s include full
+shared-header original-toolchain recompilation, not native fixture execution.
+Shared Cargo build-lock waits are setup, separately from actual graph/fixture time.
+
+The case exposed two old source errors: __cplusplus expansion code is-9, and
+begin_browser_pch_record writes browser_symbols_overflowed, not the separate
 browser_records_suppressed. Both were corrected against original instructions.
-The original virtual-adjustment initializer leaves its reserved WORD unwritten
-before whole-entry PCH copies. Reconstruction now zeros it and comments on that
-original defect; this is separate from the154 initialized pointer fields.
-Producer IR/browser outputs match the driver. Raw export from the genuine
-standalone invocation matches ALL seven already-frozen master hashes, including
-state.pch. The driver-vs-standalone PCH differs by47bytes in23 arena DWORDs:
-22 qualified-declarator resolution pointers and one retired destructor-call vector
-item, all outside the1178-slot relocation chain and restored root graph. These
-are defined temporary addresses, not clock/padding/uninitialized bytes. Raw files
-remain unchanged. That driver/standalone comparison alone did not authorize
-normalization; the later user-approved154-field rule above was based on actual
-completed native output against the standalone oracle. No allocator tuning or
-defined-pointer zeroing is used.
-One native GDB allocation/backtrace run is observational only (quit→signal9),
-not fixture parity. The shared raw-artifact export was exercised once; no original
-was rerun solely for static relocation analysis.
+The original virtual-adjustment initializer leaves a reserved WORD unwritten
+before whole-entry PCH copies; reconstruction zeros it with a source defect
+comment, independently of the154 initialized pointer fields. The graph audit also
+caught a direct browser flush in place of the actual include-boundary wrapper;
+that candidate was corrected and natively rechecked before acceptance.
+
+The driver-vs-standalone original PCH differed47 bytes in23 temporary heap-pointer
+DWORDs. That comparison alone did not authorize normalization; the finite rule
+above was approved from actual completed native output against the standalone
+oracle. Raw exports, failed partial/native comparisons and original reports remain
+unchanged in scratch. One allocation/backtrace GDB run ending signal9 was only
+observational, never fixture parity. No original was repeated for static analysis
+or comparison-only metadata. The exact removed false restore_pch_frontend final-RET
+CRT aliases remain documented in policy-data.json; their removal earned no credit.
+
+Earlier completed cases:
 
 PARTIAL reconstruction; dsp_bank is COMPLETE. There are1421 application source
 functions plus seven unchanged historical CRT source functions. The DSP case
@@ -603,40 +407,3 @@ by the2048B output array, not a2052B array. Ten native cases and21 unit groups
 pass; a unit-only attempted host-fd redirect initially failed because the shim
 open descriptor is not a host fd. Removing that unnecessary redirect made the
 focused guard/defined-warning control pass; application evidence was unchanged.
-
-Ledger consumer restore_pch_frontend(881B) is accepted at the genuine
-extract_pch_intermediates frontier. The reader scatters the149-root/scalar image
-back into its canonical operational owners before pointer restoration; it does
-not create a second live frontend state. The full saved-option, browser/debug,
-macro-reconciliation and stream-close paths retain their original graph/ABIs.
-Six newly identified subordinate helpers remain trapping and uncredited.
-Fresh original0.831s/native26.608ms (setup17.618ms, execution2.604ms,
-checks6.385ms) match six actual first entries, current partial artifacts and
-extractor argument0. Original-toolchain/header rebuild33.643s,1506-function
-six-check audit and all12cached/22unit groups pass (combined gate2.350s).
-There are1498 App bodies/1605 historical frontiers. The frozen final consumer
-oracle is unchanged. Only the newly reached extractor entry is runtime-validated
-here; later restorer paths still require their ordinary downstream checkpoints.
-
-extract_pch_intermediates(464B) is accepted at unpack_option_flags. It retains
-actual stream seeks/copies, the browser NUL marker decrement, include-boundary
-wrapper and8191-byte reference bitmap read. The audit caught an initial direct
-browser flush call in place of that original wrapper; corrected before credit,
-then freshly checked natively against the unchanged original capture.
-Original0.618s, final native30.257ms (setup19.379ms, execution3.969ms,
-checks6.908ms); corrected build3.744s and1507-function six-check audit plus
-12cached/22unit groups2.278s pass. Reviewed1499 App/1606 historical frontiers.
-
-unpack_option_flags(43B) is accepted at restore_pch_browser_name@4. It uses the
-same21 logical option owners as packing and shifts the saved unsigned word once
-per row. Fresh original1.131s/native27.519ms (setup16.833ms, execution3.426ms,
-checks7.260ms) match actual nine-entry order and partial output inventory.
-Original build2.458s and1508-function six-check audit plus12cached/22units
-2.252s pass; reviewed1500 App/1607 historical frontiers.
-
-restore_pch_browser_name@4(72B) is accepted at read_pch_pages. It copies the real
-browser template, drains pending records, owns the saved filename and emits the
-PCH-source record. Original0.809s/native26.959ms (setup17.205ms,
-execution3.410ms, checks6.343ms) match ten actual entries and partial artifacts.
-Build2.607s,1509-function six-check audit plus12cached/22units2.260s pass.
-Reviewed1501 App/1608 historical frontiers; final consumer oracle unchanged.
