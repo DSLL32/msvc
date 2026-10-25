@@ -526,9 +526,10 @@ multi-TU workload has not been started.
 
 ## Watcom compatibility report
 
-Fresh read-only assessment, 2026-10-25. No Watcom migration, build, capture or
-application reconstruction was run for this assessment. All five workers remain
-paused for the user's review and case assignments.
+The initial compatibility assessment was read-only. Shared integration has since
+reached the transport milestone below; application reconstruction remains held.
+Workers may statically classify the finite startup paths while shared progress
+and oracle support is implemented.
 
 The user subsequently approved integrating this backend into shared
 `recon-tool original capture`. The shared recon-tool owner implements the
@@ -561,11 +562,12 @@ CF images and real Watcom MAPs (`--map-format watcom10`). Registry ABI 2 preserv
 The opt-in Watcom FP, first-main heap and normal-only 52-byte setjmp support is
 published. No concrete additional shim or PIC implementation is currently needed.
 
-**1. To migrate cached native cases now.** All five can use the current native
+**1. Native migration prerequisites.** All five can use the current native
 runner; it does not execute their original PE/CF format. Binary workers can move
-application code to `src/`, glue to `harness/`, preserve pending work separately,
-and use shared Make rules with Watcom compile/link overrides. WLIB must retain
-the accepted snapshot's trap in place of pending `InitMsg`. CF output-only caches
+application code to `src/`, glue to `harness/`, and use shared Make rules with
+Watcom compile/link overrides. The user permits replacing the old minimal target
+sources/cases; Git history suffices. Pending `InitMsg`/`Spawn` receives no credit
+through that reset. CF output-only caches
 must not be presented as complete trace or frontier oracles; missing entry
 evidence stays explicit.
 
@@ -600,10 +602,11 @@ remain target-specific; RET cleanup checks do not prove the whole ABI.
 CF import and callback-table checks remain unsupported; their availability must
 not be inferred from the existing CF reader or native typed-hook support.
 
-**2. Before fresh original CLI/frontier captures.** Shared `original capture`
-remains PE32-only. Reuse the existing `tooling/watcom-capture/` controller behind
-an explicit shared capture adapter for CF allocation, full relocation identity,
-entry/transfer gating and base-relative trace receipts. Mixed CF code/data cannot
+**2. Original capture integration.** Shared `original capture` now has a finite
+WCC CF entry-stop mode in `c52c33771`. It reuses the existing controller behind
+the shared frontend, with exact payload/loader identity, base-zero coordinates,
+full relocation verification and separate target environment inputs. It does
+not yet provide ordinary CF progress/oracle capture. Mixed CF code/data cannot
 be bulk-masked. WLIB can use the ordinary offline PE masker: its DGROUP tables,
 resource overlay and file length survive. The missing prerequisite is a finite,
 validated transitive startup CRT/import closure, including actual code and any
@@ -622,15 +625,29 @@ permanently retaining historical path quirks. Missing CF FP evidence stays
 explicitly absent or unsupported; full DIRECT state is not a blanket initial
 I/O migration prerequisite.
 
-Actual controller evidence is narrower than full readiness: original WCC
-allocation/relocation and masked CF-entry stop passed; eight authored controls
-proved direct/indirect near CALL/JMP frontiers, accepted-prefix returns and
-wrong-return/byte/PC rejection. The ninth thread control failed its ordering
-expectation; its built correction has not run. Common controller WIP remains
-uncommitted. Arbitrary gateway/far-service transfers, callbacks/SEH/APCs and new
-threads remain unproved or fail closed. No original CF application body has been
-accepted. Adapter/remaining validation is shared capture work coordinated here,
-and requires the user's review before resuming.
+The published milestone preserves the original eight authored results under
+their original bindings. The corrected thread denial now passes in 982.778 ms;
+the folded private backend also passes four-return prefix progress in
+1,470.722 ms and wrong-PC denial in 875.519 ms. These are backend controls,
+not ordinary public CLI capture. The public frontend's WCC entry stop takes
+2,804.297 ms, compares all 532,636 initialized bytes and 11,801 fixups, verifies
+four requested environment keys and confirms owned teardown. It executes six
+loader instructions, observes the actual CF-entry INT3, and executes zero CF body
+instructions. App trace is empty, FP is explicitly absent, and no oracle file is
+written. An earlier OsStr serialization failure occurred before any Wine/helper
+launch and remains preserved. Exact pre-port controller WIP is recoverable in
+`4d957bb5b`/`409be007c`; old folder compatibility shims are temporary. Final
+integration removes `tooling/watcom-capture/`, its tests and all consumers.
+
+Finite static evidence now identifies WCC/WPP's three and WASM's four XI
+callbacks as CRT using shipped-library bodies/fixups. Callback order is derived
+statically, not observed. WASM's `main_init`, `ObjRecInit` and `GenMSOmfInit`
+remain App code inside main. Broader allocator/fatal/startup service closures
+are still partial. Original-only CRT structural export is under read-only common
+tool review; an unlike NT startup must not be passed off as a paired CF graph.
+Arbitrary gateway/far-service transfers, callbacks/SEH/APCs and new threads stay
+unproved or fail closed. This milestone does not release the five application
+workers or establish ordinary capture readiness.
 
 **3. Only when a DIRECT case is requested.** The typed original helper is already
 implemented; do not add a generic watcall remote-call engine. Its current
@@ -645,5 +662,5 @@ waits for a concrete requested marker and the existing controller adapter.
 
 Existing FILE26, signal and nonlocal-jump denials remain explicit. No general
 allocator, DLL loader, ABI engine or new shim family is proposed. This report
-records support needs and conditional release stages; it claims no newly
-qualified backend or application reconstruction.
+records support needs, the bounded transport milestone and conditional release
+stages; it claims no newly accepted application reconstruction.
