@@ -6374,6 +6374,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_next_module_contribution@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

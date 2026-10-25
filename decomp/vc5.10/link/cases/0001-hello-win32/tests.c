@@ -1045,9 +1045,20 @@ static void __stdcall check_module_contribution_enumerator(ModuleContributionEnu
     if (!enumerator || module!=current_input_library->module_head || module->section_count!=7)
         recon_native_entry_finish(0);
     initialize_module_contribution_enumerator(enumerator,module);
-    recon_native_entry_finish(enumerator->next==next_module_contribution &&
+    if (!(enumerator->next==next_module_contribution &&
         enumerator->end==(void (__stdcall *)(void *))end_section_enumerator &&
-        enumerator->module==module && !enumerator->current && !enumerator->index);
+        enumerator->module==module && !enumerator->current && !enumerator->index))
+        recon_native_entry_finish(0);
+    {
+        unsigned i;
+        for(i=0;i<7;++i) {
+            if(!enumerator->next(enumerator) || enumerator->index!=i+1 ||
+                enumerator->current!=(Contribution *)module->contributions+i)
+                recon_native_entry_finish(0);
+        }
+        recon_native_entry_finish(!enumerator->next(enumerator) && !enumerator->current &&
+            enumerator->index==7 && enumerator->module==module);
+    }
 }
 static int module_contribution_enumerator(void)
 {
