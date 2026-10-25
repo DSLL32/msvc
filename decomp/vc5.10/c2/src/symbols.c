@@ -81,3 +81,10 @@ C2Symbol *__fastcall lookup_symbol(C2ScopeHash *scope, unsigned serial)
     }
     return NULL;
 }
+
+void __fastcall activate_scope(C2ScopeHash *scope)
+{
+    if (scope->previous != &global_scope)
+        c2_report_internal("E:\\utc\\src\\\\P2\\p2symtab.c", 1593);
+    local_symbol_table = scope;
+}

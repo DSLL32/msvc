@@ -154,10 +154,6 @@ void finish_deferred_function(void)
 
 
 
-void __fastcall activate_scope(C2ScopeHash *scope)
-{
-    __asm { int 3 }
-}
 
 void __fastcall canonicalize_function(C2Function *function)
 {

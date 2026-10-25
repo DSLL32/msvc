@@ -1325,8 +1325,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@activate_scope@4",
         .entry_rva = 0x24907,
+        .code = (const ReconExtent[]){{0x24907, 0x2491e}, {0x6af8f, 0x6afa3}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "activate_scope",
     },
     {
