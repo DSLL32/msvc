@@ -19,6 +19,7 @@ mod projection;
 mod runtime;
 mod self_child;
 mod status;
+mod symbol_aliases;
 mod toolchain;
 mod trap;
 mod wine;
@@ -36,6 +37,8 @@ struct Cli {
 }
 #[derive(Subcommand)]
 enum Command {
+    /// Generate code-free Win32 and native aliases from one binary identity map.
+    BuildAliases(symbol_aliases::Options),
     /// Execute a fresh native application child in an existing case workspace.
     NativeChild(self_child::Options),
     /// Identify shipped i386 COFF runtime code without executing the image.
@@ -120,6 +123,7 @@ fn main() {
 fn execute() -> Result<()> {
     host_alloc::verify()?;
     match Cli::parse().command {
+        Command::BuildAliases(options) => symbol_aliases::build(options)?,
         Command::NativeChild(options) => self_child::run(options)?,
         Command::IdentifyRuntime(options) => runtime::identify(options)?,
         Command::Inspect { case } => println!(

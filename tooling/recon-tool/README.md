@@ -385,8 +385,9 @@ Use a stable logical cwd whenever it is observable, as for debug records. R:/S:/
 are never remapped per case. Original-capture references/reports are saved outside
 the owned ephemeral directory before it is removed.
 
-The original backend supports PE32 i386 images. CF payloads and the Watcom gateway
-remain in their existing separate capture tooling. Direct calls support ordinary
+The original backend supports PE32 i386 images and the diagnostic CF entry-stop
+mode described below. Ordinary CF progress and the Watcom gateway remain closed
+pending their separate catalog/controller qualification. Direct calls support ordinary
 MSVC ECX/EDX/stack conventions, not arbitrary register ABIs such as Watcom watcall.
 
 Current limits: original pipe stdin, timed/console events, new target threads,
@@ -677,3 +678,24 @@ Use `--report` to retain success or failure diagnostics across workspace cleanup
 Ordinary CF progress, CF DIRECT and other CF loader geometries remain unavailable
 until their separate source/catalog and execution controls have qualified them.
 Native replay and the PE capture backend keep their existing paths.
+
+
+A binary that has several public method names for one physical body can set
+`RECON_ALIAS_MAP = symbol-aliases.json` before including `recon-tool.mk`.
+The map contains names only:
+
+```json
+{"schema":1,"aliases":[{"win32_alias":"?Reset@Plain@@UAEXXZ","win32_target":"?Reset@Lexer@@UAEXXZ","native_alias":"_ZN5Plain5ResetEv","native_target":"_ZN5Lexer5ResetEv"}]}
+```
+
+The shared rule generates `.build/aliases/symbol-aliases.obj` (zero COFF sections,
+weak externals with SEARCH_ALIAS=3) and `symbol-aliases.rsp` (GNU linker aliases).
+It adds the object to the original link and the response to the native link;
+changes to the map relink both. The response is a dependency, never an object
+input. `recon-tool build-aliases MAP --coff OBJ --native-rsp RSP` also generates
+these files explicitly without Wine. Symbols are validated names, with no
+arbitrary linker expressions, duplicates, alias chains or cycles. Missing
+canonical bodies produce ordinary link errors. VC5 LINK and native i386 vtable
+controls qualify this metadata format; the binary still owns the ABI/identity
+proof and ordinary graph/vtable checks. Keep one canonical registry function and
+body; aliases add no function extents, wrappers or reconstruction credit.

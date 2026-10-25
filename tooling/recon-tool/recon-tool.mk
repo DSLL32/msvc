@@ -6,6 +6,7 @@ RECON_TOOL_SOURCES := $(wildcard $(RECON_TOOL_DIR)/src/*.rs) $(RECON_TOOL_DIR)/C
 $(RECON_TOOL): $(RECON_TOOL_SOURCES)
 	@$(RECON_TOOL_DIR)/build-quiet.sh
 
+include $(RECON_TOOL_DIR)/aliases.mk
 include $(RECON_TOOL_DIR)/binary.mk
 include $(RECON_TOOL_DIR)/original-build.mk
 

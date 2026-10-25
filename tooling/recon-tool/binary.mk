@@ -24,9 +24,9 @@ BINARY_SUPPORT_OBJECTS := $(foreach s,$(BINARY_SUPPORT_SOURCES) $(BINARY_TOOL_SU
 BINARY_LINKER ?= $(if $(filter %.cpp,$(BINARY_ALL_SOURCES) $(BINARY_SUPPORT_SOURCES)),$(NATIVE_CXX),$(NATIVE_CC))
 .PHONY: recon-native
 recon-native: $(BINARY_LIBRARY)
-$(BINARY_LIBRARY): $(BINARY_OBJECTS) $(BINARY_SUPPORT_OBJECTS)
+$(BINARY_LIBRARY): $(BINARY_OBJECTS) $(BINARY_SUPPORT_OBJECTS) $(RECON_ALIAS_NATIVE_RSP)
 	@mkdir -p $(@D)
-	$(BINARY_LINKER) -m32 -shared -Wl,-z,defs -Wl,-Bsymbolic-functions -Wl,-soname,libbinary.so $(NATIVE_LDFLAGS) -o $@ $^ $(NATIVE_LDLIBS) -ldl
+	$(BINARY_LINKER) -m32 -shared -Wl,-z,defs -Wl,-Bsymbolic-functions -Wl,-soname,libbinary.so $(NATIVE_LDFLAGS) -o $@ $(filter-out $(RECON_ALIAS_NATIVE_RSP),$^) $(NATIVE_LDLIBS) -ldl
 $(BINARY_BUILD)/pic/%.c.o: %.c
 	@mkdir -p $(@D)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_CFLAGS) -MMD -MP -c $< -o $@
