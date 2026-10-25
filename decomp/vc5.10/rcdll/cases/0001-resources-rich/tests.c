@@ -14,6 +14,7 @@
 #include <recon-native.h>
 #include <recon.h>
 extern int rcdll_native_invoke(int, char **);
+extern FILE *rc_preprocessed_file;
 extern int rc_macro_listing_readonly,rc_macro_listing_hidden;
 
 static int trapped(void (*invoke)(void))
@@ -750,6 +751,19 @@ static int resource_metadata_contract(void)
         !memcmp(&type,&saved_type,sizeof(type))&&trapped(metadata_unobserved);
 }
 
+static int resource_buffer_reset_contract(void)
+{
+    rc_resource_buffer_used=37;rc_resource_data_file=(FILE *)0x12345670;
+    rc_resource_buffer_size=81;rc_resource_buffer=(BYTE *)0x34567890;
+    rc_preprocessed_file=(FILE *)0x23456780;
+    rc_resource_input_file=(FILE *)0x45678900;
+    rc_reset_resource_buffer();
+    return !rc_resource_buffer_used&&!rc_resource_data_file&&
+        rc_resource_buffer_size==81&&rc_resource_buffer==(BYTE *)0x34567890&&
+        rc_preprocessed_file==(FILE *)0x23456780&&
+        rc_resource_input_file==(FILE *)0x45678900;
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -781,6 +795,7 @@ const ReconTest rich_tests[]={
     {"resource-keyword-contract",1,resource_keyword_contract},
     {"resource-attribute-contract",1,resource_attribute_contract},
     {"resource-metadata-contract",1,resource_metadata_contract},
+    {"resource-buffer-reset-contract",1,resource_buffer_reset_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},

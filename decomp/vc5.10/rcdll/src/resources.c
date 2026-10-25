@@ -26,6 +26,9 @@ int rc_explicit_font_directory;
 void *rc_dialog_template;
 DWORD rc_hwb_resource_offset;
 int rc_resource_buffer_size,rc_resource_buffer_used;
+/* DWORD/PTR at RVA28fd8, separate from the preprocessed input FILE.
+ * Resource read/seek paths use it as a FILE; this helper clears it. */
+FILE *rc_resource_data_file;
 BYTE *rc_resource_buffer;
 
 /* These records describe only the actual fields constructed at the two
@@ -522,4 +525,10 @@ int __stdcall rc_read_resource_attributes(RcResource *resource)
     }
     rc_scan_resource_token(0);
     return 1;
+}
+
+void __cdecl rc_reset_resource_buffer(void)
+{
+    rc_resource_buffer_used=0;
+    rc_resource_data_file=NULL;
 }

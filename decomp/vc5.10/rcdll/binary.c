@@ -522,7 +522,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_initialize_resource_buffer" },
     { .name="rc_reset_resource_buffer", .original_symbol="_rc_reset_resource_buffer", .entry_rva=0xc93a,
       .code=(const ReconExtent[]){{0xc93a,0xc949}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_reset_resource_buffer" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_reset_resource_buffer" },
     { .name="FUN_71c2c949", .entry_rva=0xc949,
       .code=(const ReconExtent[]){{0xc949,0xc95e}}, .code_count=1,
       .definition=RECON_UNKNOWN, .implementation=0, .native_symbol=NULL },
