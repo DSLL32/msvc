@@ -353,3 +353,8 @@ void convert_old_symbol_block16(void)
     while (padding--) *name++ = 0;
     old_symbol_output = name;
 }
+
+void size_old_register_relative16(void)
+{
+    module_type_base += 9;
+}
