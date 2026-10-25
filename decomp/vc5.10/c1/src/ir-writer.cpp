@@ -436,7 +436,12 @@ extern "C" CompilerIrSymbol *__cdecl resolve_symbol_alias(CompilerIrSymbol *symb
 extern "C" CompilerIrSymbol *__cdecl lookup_ir_symbol(CompilerIrSymbol *symbol) { __asm { int 3 } return NULL; }
 extern "C" unsigned __cdecl assign_symbol_output_index(CompilerIrSymbol *symbol) { __asm { int 3 } return 0; }
 extern "C" void __cdecl write_ir_integer_words(unsigned low, unsigned high, int width) { __asm { int 3 } }
-int RECON_THISCALL CompilerOutputBuffer::Ensure(int bytes) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerOutputBuffer::Ensure(int bytes)
+{
+    if (bytes < 0) return 0;
+    if (cursor + bytes > data + capacity && !Grow(bytes)) return 0;
+    return 1;
+}
 int RECON_THISCALL CompilerOutputBuffer::Reserve(int bytes) { __asm { int 3 } return 0; }
 int RECON_THISCALL CompilerOutputBuffer::WriteIndex(unsigned index) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerOutputBuffer::WriteBytes(const void *bytes, unsigned count) { __asm { int 3 } }

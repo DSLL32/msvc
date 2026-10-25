@@ -163,7 +163,8 @@ static int pending_line_record(void)
         bytes[5] == 0x80 && bytes[6] == 0xfe && bytes[7] == 0xff &&
         c1_data.last_line_delta == -2 && c1_bss.ir_record_count == 67;
 }
-const ReconTest minimal_tests[11] = {
+extern int c1_test_output_ensure(void);
+const ReconTest minimal_tests[12] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -174,5 +175,6 @@ const ReconTest minimal_tests[11] = {
     { "identifier collision, move-to-front, retained flags and allocation stride", 1, c1_test_identifier_interning },
     { "output constructor clears only first filename byte", 1, output_filename_constructor },
     { "integer node signed payload, type identity, zero flag and24-byte stride", 1, integer_nodes },
-    { "line delta encoding, duplicate suppression and zero retention", 1, pending_line_record }
+    { "line delta encoding, duplicate suppression and zero retention", 1, pending_line_record },
+    { "output reservation bounds and no state mutation", 1, c1_test_output_ensure }
 };

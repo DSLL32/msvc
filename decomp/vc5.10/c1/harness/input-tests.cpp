@@ -118,3 +118,17 @@ extern "C" int c1_test_identifier_interning(void)
         c1_bss.arenas[0].cursor == names + 8 && names[3] == 0xa5 &&
         names[7] == 0xa5 && first->flags == 0x9abc01eb;
 }
+
+extern "C" int c1_test_output_ensure(void)
+{
+    BYTE bytes[8];
+    CompilerOutputBuffer buffer;
+    buffer.data = bytes;
+    buffer.cursor = bytes;
+    buffer.capacity = sizeof(bytes);
+    buffer.good = 0x5a;
+    if (buffer.Ensure(-1) || !buffer.Ensure(8) || buffer.cursor != bytes ||
+        buffer.good != 0x5a) return 0;
+    buffer.cursor = bytes + 8;
+    return buffer.Ensure(0) && buffer.cursor == bytes + 8 && buffer.good == 0x5a;
+}
