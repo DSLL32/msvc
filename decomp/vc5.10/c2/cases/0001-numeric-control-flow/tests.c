@@ -990,32 +990,35 @@ static int inline_temporary_lifetimes(void)
         registers[0].view_flags == 0x82 && registers[1].view_flags == 0x42;
 }
 
-static int input_pool_twelve_reset(void)
+static int input_pool_reset_writer(unsigned pool)
 {
-    C2Pool saved = c2_pools[12];
+    C2Pool saved = c2_pools[pool];
     C2RegisterSet *head = free_register_sets[1];
     C2RegisterSet *head4 = free_register_sets[4];
     C2RegisterSetNode *nodes = free_register_set_nodes[1];
     C2RegisterSetNode *tail = last_free_register_set_nodes[1];
-    c2_pools[12].blocks = NULL;
-    c2_pools[12].cursor = (unsigned char *)0x12345678U;
-    c2_pools[12].remaining = 171;
-    free_register_sets[12] = (C2RegisterSet *)0x11111111U;
-    last_free_register_sets[12] = (C2RegisterSet *)0x22222222U;
-    free_register_set_nodes[12] = (C2RegisterSetNode *)0x33333333U;
-    last_free_register_set_nodes[12] = (C2RegisterSetNode *)0x44444444U;
+    c2_pools[pool].blocks = NULL;
+    c2_pools[pool].cursor = (unsigned char *)0x12345678U;
+    c2_pools[pool].remaining = 171;
+    free_register_sets[pool] = (C2RegisterSet *)0x11111111U;
+    last_free_register_sets[pool] = (C2RegisterSet *)0x22222222U;
+    free_register_set_nodes[pool] = (C2RegisterSetNode *)0x33333333U;
+    last_free_register_set_nodes[pool] = (C2RegisterSetNode *)0x44444444U;
     free_register_sets[11] = (C2RegisterSet *)0x55667788U;
     last_free_register_set_nodes[5] = (C2RegisterSetNode *)0x66778899U;
-    reset_input_pool(12);
-    if (c2_pools[12].blocks || c2_pools[12].cursor || c2_pools[12].remaining ||
-        free_register_sets[12] || last_free_register_sets[12] ||
-        free_register_set_nodes[12] || last_free_register_set_nodes[12]) return 0;
-    c2_pools[12] = saved;
+    reset_input_pool(pool);
+    if (c2_pools[pool].blocks || c2_pools[pool].cursor || c2_pools[pool].remaining ||
+        free_register_sets[pool] || last_free_register_sets[pool] ||
+        free_register_set_nodes[pool] || last_free_register_set_nodes[pool]) return 0;
+    c2_pools[pool] = saved;
     return free_register_sets[1] == head && free_register_sets[4] == head4 &&
         free_register_set_nodes[1] == nodes && last_free_register_set_nodes[1] == tail &&
         free_register_sets[11] == (C2RegisterSet *)0x55667788U &&
         last_free_register_set_nodes[5] == (C2RegisterSetNode *)0x66778899U;
 }
+
+static int input_pool_twelve_reset(void) { return input_pool_reset_writer(12); }
+static int input_pool_six_reset(void) { return input_pool_reset_writer(6); }
 
 static int symbol_boundary_full_width(void)
 {
@@ -1103,6 +1106,7 @@ static int flow_edge_reuse_ownership(void)
 }
 
 const ReconTest numeric_tests[] = {
+    {"pool6 reset clears only its encountered cells and preserves unknown gaps", 1, input_pool_six_reset},
     {"flow-edge reuse preserves flags and both endpoint-list owners", 1, flow_edge_reuse_ownership},
     {"flow partition tracks scope depth and only adds its owned block flag", 1, block_scope_and_flags},
     {"symbol range mode preserves full DWORD results and never writes its input", 1, symbol_boundary_full_width},

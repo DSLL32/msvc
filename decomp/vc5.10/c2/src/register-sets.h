@@ -25,12 +25,12 @@ struct C2RegisterSet {
 typedef char C2RegisterSetSizeCheck[sizeof(C2RegisterSet) == 12 ? 1 : -1];
 typedef char C2RegisterSetPoolCheck[offsetof(C2RegisterSet,pool) == 4 ? 1 : -1];
 typedef char C2RegisterSetStateCheck[offsetof(C2RegisterSet,state) == 8 ? 1 : -1];
-/* Slot1 has the proved defaults; slots4/12 are written by reset only.
- * Slots0/2/3/5..11 are UNMODELED storage, not an original
+/* Slot1 has the proved defaults; slots4/6/12 are written by reset only.
+ * Slots0/2/3/5/7..11 are UNMODELED storage, not an original
  * default or object extent. Original pool12 is valid but not modeled here.
  * No base escape, whole-array size/serialization or unknown-index access. */
 extern C2RegisterSet *free_register_sets[13];
-/* Pool4/12 tails are first encountered as a reset writer, not a prior NULL default. */
+/* Pool4/6/12 tails are first encountered as a reset writer, not a prior NULL default. */
 extern C2RegisterSet *last_free_register_sets[13];
 extern C2RegisterSetNode *free_register_set_nodes[13];
 extern C2RegisterSetNode *last_free_register_set_nodes[13];

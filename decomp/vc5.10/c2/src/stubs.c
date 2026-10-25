@@ -220,10 +220,6 @@ void __fastcall function_pass_483f46(C2Function *function)
 
 
 
-void __fastcall function_pass_427d89(C2Function *function)
-{
-    __asm { int 3 }
-}
 
 void __fastcall function_pass_4828f8(C2Function *function)
 {

@@ -49,7 +49,7 @@ void __fastcall function_pass_458c9f(C2Function *function);
 void __fastcall function_pass_46481c(C2Function *function);
 void __fastcall function_pass_483f46(C2Function *function);
 void __fastcall function_pass_4088c7(C2Function *function);
-void __fastcall function_pass_427d89(C2Function *function);
+void __fastcall optimize_function_flow(C2Function *function);
 void __fastcall function_pass_4828f8(C2Function *function);
 void __fastcall function_pass_421bdf(C2Function *function);
 void __fastcall function_pass_421e34(C2Function *function);

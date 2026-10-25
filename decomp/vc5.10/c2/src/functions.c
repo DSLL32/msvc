@@ -127,7 +127,7 @@ void compile_functions(void)
         if (c2_global_optimize) {
             function_pass_4088c7(function);
             function_pass_state = 0;
-            function_pass_427d89(function);
+            optimize_function_flow(function);
             function_pass_state = 0;
             if (c2_basic_mode && (function->symbol->symbol.flags & 0x1000)) {
                 function_pass_4828f8(function);

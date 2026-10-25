@@ -29,6 +29,8 @@ BINARY_SOURCES = crt/math-error.c \
     src/symbol-input.c \
     src/functions.c \
     src/inlining.c \
+    src/optimizer.c \
+    src/optimizer-stubs.c \
     src/inlining-stubs.c \
     src/function-records.c \
     src/register-sets.c \
