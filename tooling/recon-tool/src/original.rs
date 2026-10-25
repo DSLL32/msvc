@@ -957,6 +957,7 @@ fn capture_executor(
             reject_unexpected_files: f.reject_unexpected_files,
         });
     } else {
+        fixture.partial = None;
         fixture.stdout = Some(stdout);
         fixture.stderr = Some(stderr);
         fixture.output_files = files;
