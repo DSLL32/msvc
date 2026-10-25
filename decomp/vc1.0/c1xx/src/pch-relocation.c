@@ -13,6 +13,7 @@
 #include "debug-types.h"
 #include "global-ir.h"
 #include "pragma.h"
+#include "class-members.h"
 #include <recon.h>
 
 extern unsigned char *permanent_next;
@@ -843,4 +844,24 @@ void mark_pch_pending_tables(void)
 void mark_pch_generated_members(void)
 {
     if (generated_member_queue) mark_pch_inline_vector(generated_member_queue, 0);
+}
+
+void __stdcall mark_pch_friend_records(FriendRecord *record);
+
+/* Original0x31eb0..0x31ec3. Friendship records provide the declaration
+   table's key-chain visitor; the duplicated hash value needs no second walk. */
+void mark_pch_declaration_table(void)
+{
+    mark_pch_hash_table(declaration_table, (PchVisit)mark_pch_friend_records, 0);
+}
+
+/* Original0x31e80..0x31ea5. The owner index is scalar; friend symbols
+   and the next record are the only pointer cells in each12-byte record. */
+void __stdcall mark_pch_friend_records(FriendRecord *record)
+{
+    while (record) {
+        mark_pch_pointer((void **)&record->symbol);
+        mark_pch_pointer((void **)&record->next);
+        record = record->next;
+    }
 }

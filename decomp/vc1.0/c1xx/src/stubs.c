@@ -568,7 +568,6 @@ void __stdcall mark_pch_virtual_base(VirtualBaseEntry *entry) { __asm { int 3 } 
 void __stdcall mark_pch_virtual_group(VirtualTableGroup *group) { __asm { int 3 } }
 void __stdcall mark_pch_expression_references(ExpressionReference *reference) { __asm { int 3 } }
 void __stdcall mark_pch_reference_groups(MemberReferenceGroup *group) { __asm { int 3 } }
-void mark_pch_declaration_table(void) { __asm { int 3 } }
 void mark_pch_virtual_thunks(void) { __asm { int 3 } }
 void mark_pch_declaration_thunks(void) { __asm { int 3 } }
 void mark_pch_deferred_types(void) { __asm { int 3 } }
