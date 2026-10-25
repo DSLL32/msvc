@@ -290,3 +290,28 @@ int readWResDir( int file, WResDir dir )
     }
     return error;
 }
+
+int WResReadHeaderRecord( WResHeader *header, int file )
+{
+    long position;
+    int count;
+    int error;
+
+    error = 1;
+    position = (*WResRtns.seek)( file, 0L, SEEK_SET );
+    if( position == -1L ) {
+        WresRecordError( 9 );
+    } else {
+        count = (*WResRtns.read)( file, header, sizeof( *header ) );
+        if( count != sizeof( *header ) ) {
+            WresRecordError( count == -1 ? 8 : 14 );
+        } else {
+            if( (*WResRtns.seek)( file, position, SEEK_SET ) == -1L ) {
+                WresRecordError( 9 );
+            } else {
+                error = 0;
+            }
+        }
+    }
+    return error;
+}

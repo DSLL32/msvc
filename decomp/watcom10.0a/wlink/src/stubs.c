@@ -67,8 +67,6 @@ void InitObjIO( void ) { TRAP(); }
 unsigned char FreeUpMemory( void ) { TRAP(); return 0; }
 long QPos( int file ) { file = file; TRAP(); return 0; }
 void __FreeTypeList( WResDir dir ) { dir = dir; TRAP(); }
-int WResReadHeaderRecord( WResHeader *header, int file )
-{ header = header; file = file; TRAP(); return 0; }
 int WResReadExtHeader( WResExtHeader *header, int file )
 { header = header; file = file; TRAP(); return 0; }
 int readTypeList( int file, WResDir dir, unsigned short version )

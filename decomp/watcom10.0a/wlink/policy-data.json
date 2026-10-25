@@ -96,6 +96,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "WResReadHeaderRecord": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

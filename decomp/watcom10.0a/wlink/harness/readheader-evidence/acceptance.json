@@ -1,0 +1,12 @@
+{
+  "scope": "WResReadHeaderRecord145B reads exactpacked18B header and restores logicalresource seek position; error9seek/8read/14shortread. Actual original/native version1/magic validation completes and reaches extendedheader reader.",
+  "application_functions": 21,
+  "application_bytes": 2300,
+  "ABI": "Original EAXheaderpointer/EDXfd, preservesEBX/ECX/ESI/EDI/EBP; RET0. No header-byte normalization or synthetic resource data.",
+  "bindings": {
+    "src/resource.c": "d2e4ff309f0878fa99649dd9eb92d94200b7f7244d2096bb3e5ca2f03f70aa69",
+    "src/link.h": "2896e7f336fa8b90abd9f27cae786f32cf3f6e45088871f42aa39bda732eb667",
+    "binary.c": "03d4e800014a60b3b86af54736dc3641f71c89c82325cc4e783c7e3ba59ae739",
+    "policy-data.json": "26e5ab067ce8635fc53d126ffd0b9d9015e3325d89d1954fd283dc411c364c00"
+  }
+}
