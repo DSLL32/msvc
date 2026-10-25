@@ -632,9 +632,9 @@ multi-TU workload has not been started.
 ## Watcom compatibility report
 
 Shared integration is published and READY in `04ee1337ad2f627d691b784f186d1d46b348da27`.
-The qualified real CF path is WCC startup to its first pending application
-allocator; this does not establish complete help execution or qualify the other
-CF geometries. Root has now released all five existing workers to build fresh
+Qualified real CF paths now include WCC and WPP startup through their first two
+application functions; this does not establish complete help execution or qualify
+WASM's geometry. Root has released all five existing workers to build fresh
 standard scaffolds, complete one genuine basic initial help case each, and pause.
 This releases target bootstrap/reconstruction work within those cases; unknown
 loader, gateway and startup paths still require concrete shared support.
@@ -661,15 +661,21 @@ shared build/runner and retire their local capture launchers. WASM's response
 cleanup is committed as `e9836ce56`. WLINK and WASM now generate Watcom link
 responses with Make's file function; cleanup required no extra original runs.
 Current accepted application work is WCC386 2 functions / 347 bytes (`MemAlloc`
-and `MemInit`), WLINK 2 / 283 bytes (`main` and `Spawn`), and zero in WLIB,
-WPP386 and WASM. WLIB's three source candidates total 248 bytes but are not
-accepted. Built implementation flags and candidate counts are not acceptance.
+and `MemInit`, `a0f0e8a2b`), WPP386 2 / 347 bytes (`a192b685f` and `558cd1aca`),
+WLINK 3 / 632 bytes (`74b8bca6c`), WLIB 3 / 248 bytes (`71904f510`), and zero in
+WASM: ten functions / 1,574 bytes in total. Built implementation flags and
+unaccepted candidate counts are not acceptance.
 WCC's genuine native bootstrap consumes the real allocator result into its FILE
-node list; its fresh pair now reaches `GetEnvVar 66a2e`. WLINK's fresh pair reaches
-the `DoLink` callback. No complete application coverage denominator is claimed.
+node list; its fresh pair now reaches `GetEnvVar 66a2e`. WLINK's accepted prefix
+reaches `LnkInit`; that candidate is held on a rebuilt padding audit issue. No
+complete application coverage denominator is claimed.
 Shared release `b277c67f7` supports WCC's reached `ENTER 88,0` and finite WPP
-geometry plus Make profile wiring. WPP still needs its catalog and reviewed
-qualification; that release alone is not an original-backed WPP case result.
+geometry plus Make profile wiring. WPP's actual first-frontier qualification and
+fresh native comparison now pass; complete help execution remains unfinished.
+WCC's next candidate reaches a normal CRT `MOV ES,EAX` rejected by the old
+instruction controller; WPP reaches the analogous environment-lookup stage.
+Both hold new opcode/service-controller expansion while the shared owner replaces
+that machinery with ordinary debugger masking and entry breakpoints.
 WLIB/WLINK first-main captures are independent of resource-reader code that has
 not executed. Later GS checks must address concrete reached values or missing
 static proof, rather than preserve an old observer framework.
@@ -677,28 +683,37 @@ static proof, rather than preserve an old observer framework.
 | Binary | Native measurement | Setup / execution / checks | Period compiler check |
 | --- | --- | --- | --- |
 | WCC386 | Fresh pair after MemInit: 5.127 ms; original 9.943 s | 2.572 / 2.142 / 0.413 ms | Passed; initial scaffold check 0.554 s |
-| WPP386 | Native/case build 0.533 s; no fixture execution yet | Not measured | Passed, 0.612 s; initial 0.504 s path failure retained |
+| WPP386 | Fresh MemAlloc pair: original 9.382 s; native command wall 22.5 ms | 2.725 / 2.004 / 0.423 ms | Passed; build plus audit 1.234 s. Later MemInit pair also passes; its native measurement includes GDB. |
 | WASM | Authored scaffold frontier smoke: 4.889 ms | 2.599 / 2.020 / 0.270 ms | Passed; no timing claimed |
-| WLIB | Fresh main frontier pair: 5.914 ms; original 839.805 ms | 3.345 / 1.984 / 0.584 ms | Passed; no timing claimed |
-| WLINK | Fresh Spawn pair: 8.96 ms; original 838.8 ms | Not separately reported | Passed; initial scaffold check 1.332 s |
+| WLIB | Fresh InitMsg pair: 5.320 ms; original 682.673 ms | 3.267 / 1.469 / 0.584 ms | Passed; canonical build plus App audit 1.649 s |
+| WLINK | Fresh DoLink pair: about 8.5 ms; original 431 ms | Not separately reported | Passed; initial scaffold check 1.332 s |
 
 The authored scaffold smokes are not original-backed acceptance. WASM has
 finished independent scaffold work and is waiting for shared support before its
 first genuine pair. WPP's first
 App entry is its compiler allocator `81ba3`, size 8, before main. WASM differs:
 its older CRT allocator reaches AH=48h before main, initially requesting 4,096
-bytes. That finite heap/service and WASM geometry remain shared qualification
-work; the WCC 65,536-byte App-allocator request does not qualify them. A WASM
+bytes. Its geometry and older CRT classification remain shared qualification
+work; the simpler path will execute the original gateway normally. The WCC
+65,536-byte App-allocator request does not qualify WASM's path. A WASM
 435-byte heap member strongly correlates with shipped CRT code: all 32 differing
 bytes are memory displacements smaller by four. This supports classification,
 not byte identity, normalization or automatic admission. Native fixtures never
 launch Wine; new original captures remain explicit.
 
+WLIB's accepted pair qualifies the small shared `--watcom-main-argv` candidate:
+actual EAX argc / EDX argv are read at the existing main-entry stop, requested
+and observed vectors remain separate, and native IO receives the observed argv0.
+This closes the staged module-path input seam without a new broker or observer
+framework. Its next pending `OpenResFile` has not opened the image; any self-file
+materialization contract is deferred until that actual dependency is reached.
+
 Engineering time has dominated these run costs. WCC estimates 60–75% of recent
 effort on scaffolding, startup classification and shared coordination, including
 10–20 minutes waiting on shared fixes; its two fresh original captures totaled
 19.456 seconds. WPP estimates 20–30 active minutes on migration/static setup and
-WASM 30–55 minutes, both with zero application reconstruction so far. WLIB's
+WASM 30–55 minutes. Those earlier estimates preceded WPP's first application
+acceptances; WASM still has none. WLIB's
 rough 50-minute account comprises 6 minutes application C, 14 scaffold, 9 heap
 debugging, 13 audit integration and 8 queue wait. These are worker estimates,
 not an aggregate measured time ledger. WLINK's recent main/Spawn work took about
@@ -748,8 +763,8 @@ The minimum CF audit accommodations are published in the same shared release:
 
 Entry-only pending App names remain zero-extent identities, never fabricated
 one-byte owned bodies. Real pending stubs are not executable candidates. The
-current WCC proposal names the intended native trap symbol `MemAlloc`, as ABI 2
-requires, without claiming its body or implementation.
+registry supplies the intended native trap symbol for each pending App, as ABI 2
+requires, without thereby claiming its body or implementation.
 
 DSO constructor ordering, WLIB's empty target-allocation namespace and actual
 entry FP state need migration validation, rather than new shim semantics. Case
@@ -761,7 +776,18 @@ remain target-specific; RET cleanup checks do not prove the whole ABI.
 CF import and callback-table checks remain unsupported; their availability must
 not be inferred from the existing CF reader or native typed-hook support.
 
-**2. Original capture integration.** Shared `original capture --progress` now
+**2. Original capture integration.** The user approved simplifying CF capture to
+actual format/loading/relocation support, code/data-preserving masking and
+ordinary debugger entry breakpoints. The original gateway executes under Wine;
+no further hand-written opcode or gateway-service admission is planned. Existing
+accepted application code and captures are retained. Static layout evidence
+corroborates conservative CODE envelopes WCC `[0,0x704c4)`, WPP `[0,0xaad20)` and
+WASM `[0,0x231b8)`, including embedded text data that must be preserved/restored.
+These are recovered layout boundaries, not section fields stored in CF. Fine
+CONST/DATA subdivision and a universal instruction inventory are unnecessary.
+This simpler shared implementation is not yet published.
+
+Shared `original capture --progress` currently
 provides ordinary finite WCC frontier capture, App entry order and a bound partial
 I/O oracle. Entry-stop remains diagnostic only. Both reuse the controller behind
 the shared frontend with exact payload/loader identity, base-zero coordinates,
