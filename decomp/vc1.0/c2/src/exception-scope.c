@@ -490,3 +490,27 @@ void __fastcall insert_exception_local(ExceptionLocalSet *set, SymbolHeader *sym
     entry->next = *bucket;
     *bucket = entry;
 }
+
+/* Original [00065f30,00065fc3). The normalized memory-access class also
+   includes loads30/5a. Excluding those gives the old symbol-write bit800
+   exactly on all182 original opcode rows; the explicit load30 branch is
+   separate and must not acquire the store's flag4. */
+void __fastcall mark_exception_references(Node *node, unsigned filter_depth)
+{
+    unsigned opcode;
+    int writes_symbol;
+    while ((node_shapes[node->opcode] & NODE_ARITY) != NODE_LEAF) {
+        opcode = node->opcode;
+        writes_symbol = (node_shapes[opcode] & NODE_MEMORY_ACCESS) &&
+            opcode != 0x30 && opcode != 0x5a;
+        if ((writes_symbol || opcode == 0x30) && node->right.symbol) {
+            if (writes_symbol) node->attributes.words.flags |= 4;
+            if ((filter_depth && node->right.symbol->kind != 19) ||
+                exception_local_visible(node->right.symbol))
+                node->attributes.words.flags |= 0x800;
+        }
+        if (node_shapes[opcode] & NODE_HAS_SECOND)
+            mark_exception_references(node->second.node, filter_depth);
+        node = node->left.node;
+    }
+}

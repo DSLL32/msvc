@@ -145,6 +145,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@mark_exception_references@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

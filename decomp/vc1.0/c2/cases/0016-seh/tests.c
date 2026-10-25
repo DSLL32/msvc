@@ -21,6 +21,7 @@ extern int c2_scope_remember_inputs(void);
 extern int c2_scope_find_local_inputs(void);
 extern int c2_scope_insert_local_inputs(void);
 extern int c2_scope_mark_inputs(void);
+extern int c2_scope_visible_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -379,6 +380,26 @@ static int local_hash_insert(void)
     return !memcmp(symbols,before,sizeof symbols)&&find_exception_local(&set,6)==&symbols[0]&&
         find_exception_local(&set,22)==&symbols[1]&&find_exception_local(&set,7)==&symbols[2];
 }
+static int mark_reference_flags(void)
+{
+    static const struct {unsigned opcode,flags;} rows[]={{0x30,0x801},
+        {0x32,0x805},{0x5a,1},{2,1}};
+    Node root,leaves[2];SymbolHeader symbol;unsigned i;
+    memset(&symbol,0,sizeof symbol);symbol.kind=1;
+    for(i=0;i<RECON_COUNT(rows);++i){
+        memset(&root,0,sizeof root);memset(leaves,0,sizeof leaves);
+        leaves[0].opcode=leaves[1].opcode=0x33;
+        root.opcode=rows[i].opcode;root.attributes.words.flags=1;
+        root.left.node=&leaves[0];root.second.node=&leaves[1];root.right.symbol=&symbol;
+        mark_exception_references(&root,1);
+        if(root.attributes.words.flags!=rows[i].flags||root.opcode!=rows[i].opcode||
+           root.left.node!=&leaves[0]||root.second.node!=&leaves[1]||
+           root.right.symbol!=&symbol)return 0;
+    }
+    root.opcode=0x32;root.attributes.words.flags=1;root.right.symbol=0;
+    mark_exception_references(&root,1);
+    return root.attributes.words.flags==1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -417,5 +438,7 @@ const ReconTest c2_tests[]={
     {"scope-local hash identity collisions/misses and read-only owners",1,local_hash_lookup},
     {"actual local insertion set/symbol aliases after read-only find",1,c2_scope_insert_local_inputs},
     {"local insertion prepends distinct collision/duplicate links",1,local_hash_insert},
-    {"actual marking leaf ECX/filter EDX and scope state",1,c2_scope_mark_inputs}
+    {"actual marking leaf ECX/filter EDX and scope state",1,c2_scope_mark_inputs},
+    {"scope marking distinguishes loads/stores and absent symbols",1,mark_reference_flags},
+    {"actual visible-local symbol and parent-scope contract",1,c2_scope_visible_inputs}
 };

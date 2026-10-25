@@ -4,6 +4,12 @@
 #include <recon-tool.h>
 static const ReconFunction functions[] = {
     {
+        .name = "@exception_local_visible@4", .entry_rva = 0x56170,
+        .code = (const ReconExtent[]) { { 0x56170, 0x56171 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "exception_local_visible",
+        .implementation = RECON_UNIMPLEMENTED,
+    },
+    {
         .name = "@find_exception_local@8", .entry_rva = 0x56480,
         .code = (const ReconExtent[]) { { 0x56480, 0x564a4 } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "find_exception_local",
@@ -29,9 +35,9 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "@mark_exception_references@8", .entry_rva = 0x55f30,
-        .code = (const ReconExtent[]) { { 0x55f30, 0x55f31 } }, .code_count = 1,
+        .code = (const ReconExtent[]) { { 0x55f30, 0x55fc3 } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "mark_exception_references",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@new_scope_finally_unwind@4", .entry_rva = 0x563b0,

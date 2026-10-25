@@ -38,4 +38,5 @@ void __fastcall mark_exception_references(Node *node, unsigned filter_depth);
 void __fastcall remember_exception_local(SymbolHeader *symbol);
 SymbolHeader *__fastcall find_exception_local(ExceptionLocalSet *set, unsigned identifier);
 void __fastcall insert_exception_local(ExceptionLocalSet *set, SymbolHeader *symbol);
+int __fastcall exception_local_visible(SymbolHeader *symbol);
 #endif
