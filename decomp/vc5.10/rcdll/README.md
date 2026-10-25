@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_parse_resource_term` (RVA 9f7f). Its partial streams and actual
+  stops at `rc_parse_resource_integer` (RVA 9d9f). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **131 functions, 34,709 code bytes**
-This is 46.52% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **132 functions, 34,828 code bytes**
+This is 46.68% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (52.36%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (52.53%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -167,3 +167,12 @@ operator loop, parenthesis handling and token side effects. Its first operand
 reader remains a genuine named trap. Fresh original/native reach that no-argument
 term reader in 1.233 s / 183.163 ms; both builds/full audit took 2.708 s.
 Unreturned term/operator effects are not assumed by the current acceptance.
+
+The resource-term reader preserves parenthesized recursion, signed/complement
+spelling dispatch, numeric token result and genuine error-name dependency. The
+new adjacent helper exposed a compiler-generated switch table on the preceding
+expression owner. Exact COFF relocation/87-byte remap proof now bounds that
+107-byte text-data interval; strict audit passes without a discovery waiver.
+The failed preflight is preserved, and no original was captured before its
+correction. Fresh original/native reach the integer parser in 1.415 s /
+181.601 ms. No integer-parser body is credited yet.

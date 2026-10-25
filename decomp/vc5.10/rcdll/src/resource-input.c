@@ -258,3 +258,23 @@ DWORD __cdecl rc_parse_resource_expression(void)
     rc_resource_token.unknown1038=(WORD)value;
     return value;
 }
+
+DWORD __cdecl rc_parse_resource_term(void)
+{
+    if(rc_resource_character==L'('){
+        ++rc_resource_parentheses;
+        rc_next_resource_character();
+        rc_skip_resource_space();
+        return rc_parse_resource_expression();
+    }
+    if(rc_resource_character!=L'-'&&rc_resource_character!=L'~'&&
+       !iswctype(rc_resource_character,4)){
+        rc_read_resource_symbol(0);
+        rc_resource_error_name(2237,rc_resource_name);
+        return 0;
+    }
+    rc_parse_resource_integer();
+    if(rc_resource_token.unknown12)rc_resource_long_number=1;
+    rc_skip_resource_space();
+    return rc_resource_token.unknown0;
+}

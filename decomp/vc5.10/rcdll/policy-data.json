@@ -96,6 +96,52 @@
             ]
           ]
         }
+      },
+      "rc_parse_resource_expression": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_rc_parse_resource_expression",
+                "offset": 240
+              },
+              {
+                "rebuilt_symbol": "_rc_parse_resource_expression",
+                "offset": 347
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_rc_parse_resource_expression",
+                "offset": 168
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_rc_parse_resource_expression",
+                  "offset": 175
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_resource_expression",
+                  "offset": 186
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_resource_expression",
+                  "offset": 197
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_resource_expression",
+                  "offset": 208
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_resource_expression",
+                  "offset": 217
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     "callback_tables": []

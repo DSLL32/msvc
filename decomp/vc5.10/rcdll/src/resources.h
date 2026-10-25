@@ -35,6 +35,7 @@ extern BYTE *rc_resource_buffer;
 int __cdecl rc_read_resource_name(void);
 void __stdcall rc_parse_menu(int extended,RcResource *resource);
 void __stdcall rc_resource_error(unsigned code);
+void __stdcall rc_resource_error_name(unsigned code,const WCHAR *name);
 long __cdecl rc_read_resource_file(void);
 RcResourceType * __stdcall rc_find_resource_type(const WCHAR *name,unsigned id);
 int __stdcall rc_read_resource_attributes(RcResource *resource);

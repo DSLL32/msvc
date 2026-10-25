@@ -36,6 +36,7 @@ extern int rc_resource_parentheses,rc_resource_long_number;
 void __cdecl rc_read_resource_number(void);
 DWORD __cdecl rc_parse_resource_expression(void);
 DWORD __cdecl rc_parse_resource_term(void);
+void __cdecl rc_parse_resource_integer(void);
 int __stdcall rc_read_resource_operator(WCHAR *);
 void __cdecl rc_skip_resource_space(void);
 void __cdecl rc_read_resource_integer(void);
