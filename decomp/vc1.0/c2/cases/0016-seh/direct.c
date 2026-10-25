@@ -228,3 +228,19 @@ int c2_scope_insert_local_inputs(void)
     return recon_native_at_entry((const void *)insert_exception_local,
         (const void *)insert_local_entry,real_input,0)==1;
 }
+
+static void __fastcall mark_entry(Node *node,unsigned filter_depth)
+{
+    ExceptionScope *scope=exception_scope_stack[0];unsigned i;
+    int valid=!filter_depth&&node->opcode==1&&exception_scope_stack_depth==1&&
+        scope==prepared_exception_scopes&&scope->kind==1&&scope->state==0x8d&&
+        !scope->identifier&&!scope->finally_depth&&scope->parent_identifier==-1&&
+        scope->locals&&scope->flags==1;
+    for(i=4;i<sizeof *node;++i)if(((unsigned char *)node)[i])valid=0;
+    recon_native_entry_finish(valid);
+}
+int c2_scope_mark_inputs(void)
+{
+    return recon_native_at_entry((const void *)mark_exception_references,
+        (const void *)mark_entry,real_input,0)==1;
+}

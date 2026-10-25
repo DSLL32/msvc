@@ -478,3 +478,15 @@ SymbolHeader *__fastcall find_exception_local(ExceptionLocalSet *set, unsigned i
         if (entry->symbol->identifier == identifier) return entry->symbol;
     return 0;
 }
+
+/* Original [000664b0,000664da). The caller handles uniqueness; this
+   primitive always pushes a fresh eight-byte borrowed-symbol link. */
+void __fastcall insert_exception_local(ExceptionLocalSet *set, SymbolHeader *symbol)
+{
+    ExceptionLocalEntry *entry = arena_alloc(4, sizeof(ExceptionLocalEntry));
+    ExceptionLocalEntry **bucket;
+    entry->symbol = symbol;
+    bucket = &set->buckets[symbol->identifier & 15];
+    entry->next = *bucket;
+    *bucket = entry;
+}

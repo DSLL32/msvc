@@ -140,6 +140,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@insert_exception_local@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

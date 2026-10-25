@@ -20,6 +20,7 @@ extern int c2_scope_collect_inputs(void);
 extern int c2_scope_remember_inputs(void);
 extern int c2_scope_find_local_inputs(void);
 extern int c2_scope_insert_local_inputs(void);
+extern int c2_scope_mark_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -359,6 +360,25 @@ static int local_hash_lookup(void)
            symbols[i].identifier!=6+16*i)return 0;
     return 1;
 }
+static int local_hash_insert(void)
+{
+    ExceptionLocalSet set;SymbolHeader symbols[3],before[3];
+    ExceptionLocalEntry *first,*second,*other,*duplicate;unsigned i;
+    memset(&set,0,sizeof set);memset(symbols,0xa5,sizeof symbols);
+    symbols[0].identifier=6;symbols[1].identifier=22;symbols[2].identifier=7;
+    memcpy(before,symbols,sizeof symbols);
+    insert_exception_local(&set,&symbols[0]);first=set.buckets[6];
+    insert_exception_local(&set,&symbols[1]);second=set.buckets[6];
+    insert_exception_local(&set,&symbols[2]);other=set.buckets[7];
+    insert_exception_local(&set,&symbols[0]);duplicate=set.buckets[6];
+    if(duplicate==first||duplicate==second||duplicate->symbol!=&symbols[0]||
+       duplicate->next!=second||second->symbol!=&symbols[1]||second->next!=first||
+       first->symbol!=&symbols[0]||first->next||other->symbol!=&symbols[2]||other->next)return 0;
+    for(i=0;i<16;++i)
+        if(set.buckets[i]!=(i==6?duplicate:i==7?other:0))return 0;
+    return !memcmp(symbols,before,sizeof symbols)&&find_exception_local(&set,6)==&symbols[0]&&
+        find_exception_local(&set,22)==&symbols[1]&&find_exception_local(&set,7)==&symbols[2];
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -395,5 +415,7 @@ const ReconTest c2_tests[]={
     {"remembered symbol is unused without active scope",1,remember_without_scope},
     {"actual empty64B local set and arena ownership",1,c2_scope_find_local_inputs},
     {"scope-local hash identity collisions/misses and read-only owners",1,local_hash_lookup},
-    {"actual local insertion set/symbol aliases after read-only find",1,c2_scope_insert_local_inputs}
+    {"actual local insertion set/symbol aliases after read-only find",1,c2_scope_insert_local_inputs},
+    {"local insertion prepends distinct collision/duplicate links",1,local_hash_insert},
+    {"actual marking leaf ECX/filter EDX and scope state",1,c2_scope_mark_inputs}
 };

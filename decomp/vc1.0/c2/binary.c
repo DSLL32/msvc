@@ -11,9 +11,9 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "@insert_exception_local@8", .entry_rva = 0x564b0,
-        .code = (const ReconExtent[]) { { 0x564b0, 0x564b1 } }, .code_count = 1,
+        .code = (const ReconExtent[]) { { 0x564b0, 0x564da } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "insert_exception_local",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@remember_exception_local@4", .entry_rva = 0x560f0,
