@@ -76,5 +76,13 @@ extern void ObjPass2( void );
 extern void FiniLoadFile( void );
 extern void EndTime( void );
 extern void LnkMsg( unsigned, const char *, ... );
+extern int InitMsg( char * );
+extern void LnkFilesInit( void );
+extern void InitNodes( void );
+extern void InitTokBuff( void );
+extern void InitSpillFile( void );
+extern void InitSym( void );
+extern void * NewSection( void );
+extern void InitObjIO( void );
 #include <recon.h>
 #endif

@@ -1,0 +1,17 @@
+{
+  "scope": "LnkInit221B initialized LinkFlags40000000/LinkState1, stops at App memoryno-op entry before argv0 read. Later init path remains blocked by namedstubs.",
+  "application_functions": 4,
+  "application_bytes": 853,
+  "extent": "Current actualWatcom object SEGDEF/PUBDEF determines296B rebuilt LnkInit and exact one00 linkerpad. Shared graph/tool verifies currentPE/MAP/object/witness hashes; no guard disable or fabricateddata.",
+  "data_names": "OverlayWork and CurrentModule are provisional roles for globals450114/450148; values and stores are mapped to exacttargetaddresses. Other types remain opaque until dereferenced.",
+  "ARGV": "No argv string consumed by this prefix; nextmeaningful capture will use shared --watcom-main-argv. Selfimage fileinput remains separate.",
+  "bindings": {
+    "src/wlink.c": "92e330e053e5f994a9f74154ffc7f917795990aa8ddf193fc6c78314cf4619e4",
+    "src/link.h": "592f9e501adb719a02ef53d8668b23d236ba008937833ca3b2b5d709f918ee3b",
+    "src/stubs.c": "1ec8d5239459ab431db2702ff8b0d2915d15c6b78673dc9f310c29148a7f8a26",
+    "binary.c": "7c4a13d88814723639f1917392897db2322a1b74f4ffad7d213409319ad0f35f",
+    "policy-data.json": "ebb2d76116a09d295c00bf8978682c6bfc448da20fd68b50e4d833fcfabfe51b",
+    "harness/lnkinit-extent.json": "24ad85174a805541f35cd282041c9ab4905b5f620bbcea599451a2d1165f9fa2",
+    "scripts/update-lnkinit-extent.py": "a2210d37d52363050cee4459c3f682fb8149cccb8aa3eac3536b0ac556e0069f"
+  }
+}

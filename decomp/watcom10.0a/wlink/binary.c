@@ -7,8 +7,26 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
+    { .name = "InitMsg", .entry_rva = 0x24850, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "InitMsg", .original_symbol = "InitMsg_" },
+    { .name = "LnkFilesInit", .entry_rva = 0x24ba0, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "LnkFilesInit", .original_symbol = "LnkFilesInit_" },
+    { .name = "InitNodes", .entry_rva = 0x1c450, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "InitNodes", .original_symbol = "InitNodes_" },
+    { .name = "InitTokBuff", .entry_rva = 0x19c3c, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "InitTokBuff", .original_symbol = "InitTokBuff_" },
+    { .name = "InitSpillFile", .entry_rva = 0x25170, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "InitSpillFile", .original_symbol = "InitSpillFile_" },
+    { .name = "InitSym", .entry_rva = 0x23520, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "InitSym", .original_symbol = "InitSym_" },
+    { .name = "NewSection", .entry_rva = 0x1533c, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "NewSection", .original_symbol = "NewSection_" },
+    { .name = "InitObjIO", .entry_rva = 0x25430, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "InitObjIO", .original_symbol = "InitObjIO_" },
+
     { .name = "LnkInit", .entry_rva = 0x245ac, .definition = RECON_APP,
-      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "LnkInit", .original_symbol = "LnkInit_" },
+      .code = (const ReconExtent[]) { {0x245ac, 0x24689} }, .code_count = 1,
+      .implementation = RECON_IMPLEMENTED, .native_symbol = "LnkInit", .original_symbol = "LnkInit_" },
     { .name = "TrapBreak", .entry_rva = 0x250c4, .definition = RECON_APP,
       .implementation = RECON_UNIMPLEMENTED, .native_symbol = "TrapBreak", .original_symbol = "TrapBreak_" },
     { .name = "StartTime", .entry_rva = 0x17980, .definition = RECON_APP,

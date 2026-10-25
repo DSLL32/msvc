@@ -35,6 +35,7 @@ ORIGINAL_LINK_COMMAND = $(file >$(ORIGINAL_BUILD)/wlink.lnk,$(WATCOM_LINK_RESPON
 ORIGINAL_INCLUDE_DIRS := src $(RECON)/include ../../../toolchains/watcom10.0a/h
 RECON_POLICY := policy-data.json
 RECON_AUDIT_REGISTRY_RET_CHECKS := 1
+RECON_METADATA_REBUILT_MAP := $(ORIGINAL_MAP)
 RECON_AUDIT_PROFILE := cl
 RECON_IMAGE_BASE := 4194304
 RECON_AUDIT_REGISTRY_RUNTIME := 1
@@ -47,3 +48,7 @@ include $(RECON_TOOL_DIR)/recon-tool.mk
 audit: audit-main-endpoint
 audit-main-endpoint: recon-graph-audit
 	python3 scripts/check-main-endpoint.py
+
+# Rebind only the reviewed module end after an actual period build.
+$(RECON_POLICY) harness/lnkinit-extent.json &: $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) scripts/update-lnkinit-extent.py
+	python3 scripts/update-lnkinit-extent.py

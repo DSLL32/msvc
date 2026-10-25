@@ -1,0 +1,246 @@
+{
+  "checked_accepted_extents": null,
+  "checked_functions": 4,
+  "checked_unique_accepted_extents": null,
+  "checks": [
+    "call_graph",
+    "selected_ret_cleanup",
+    "function_references",
+    "extent_ownership",
+    "whole_extent_boundaries"
+  ],
+  "discovery": "cfg",
+  "functions": {
+    "DoLinkFromCommandLine": {
+      "edges": [
+        "AutoGroup",
+        "CalcAddresses",
+        "CheckClassOrder",
+        "CheckErr",
+        "CheckSymbolPass",
+        "ConvertLazyRefs",
+        "DecideFormat",
+        "DefBSSSyms",
+        "DoCmdFile",
+        "DoDefaultSystem",
+        "EndTime",
+        "FindLibPaths",
+        "FiniLoadFile",
+        "GetBSSSize",
+        "GetStkAddr",
+        "InitLoadFile",
+        "LnkInit",
+        "LnkMsg",
+        "MapInit",
+        "ObjPass2",
+        "PostAddrCalcFormatSpec",
+        "PreAddrCalcFormatSpec",
+        "PrepareSegments",
+        "ProcObjFiles",
+        "ReportLinkMap",
+        "ReportUndefined",
+        "ResolveUndefined",
+        "SetFormat",
+        "SetStkSize",
+        "StartTime",
+        "signal"
+      ]
+    },
+    "LnkInit": {
+      "edges": [
+        "InitMsg",
+        "InitNodes",
+        "InitObjIO",
+        "InitSpillFile",
+        "InitSym",
+        "InitTokBuff",
+        "LnkFilesInit",
+        "LnkMemFini",
+        "NewSection"
+      ]
+    },
+    "Spawn": {
+      "edges": [
+        "_setjmp",
+        "indirect"
+      ]
+    },
+    "main": {
+      "edges": [
+        "BurnSystemList",
+        "CleanLinkStruct",
+        "CleanLoadFile",
+        "CleanTraces",
+        "CloseSpillFile",
+        "FiniMsg",
+        "FreeFormatStuff",
+        "FreeList",
+        "FreeObjInfo",
+        "FreePaths",
+        "FreeUndefs",
+        "FreeVirtMem",
+        "LnkMemFini",
+        "QClose",
+        "QDelete",
+        "Spawn",
+        "_LnkFree",
+        "exit"
+      ]
+    }
+  },
+  "image_inputs": {
+    "map": {
+      "absolute_symbols": {
+        "__DOSseg__": 4660
+      },
+      "format": "watcom10-pe",
+      "map_sha256": "667413f19288459d542ab5ececcd87474423c457e8eab54f36c28838a5020d52",
+      "rebuilt_pe_sha256": "be7c0d7c7834707bcc101106103f6737856b9e032709d6862362728799c4c4f7",
+      "segment_group_bases": {
+        "1": 4259840,
+        "2": 4325376
+      }
+    },
+    "original": {
+      "coordinates": "preferred-va",
+      "format": "pe32",
+      "original_file_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+      "preferred_base": 4194304
+    },
+    "rebuilt": {
+      "coordinates": "preferred-va",
+      "format": "pe32",
+      "original_file_sha256": "be7c0d7c7834707bcc101106103f6737856b9e032709d6862362728799c4c4f7",
+      "preferred_base": 4194304
+    }
+  },
+  "original_accepted_graphs": null,
+  "owned_code_chunks": {
+    "original": {
+      "declared_code_bytes": 853,
+      "functions": {
+        "DoLinkFromCommandLine": [
+          [
+            4342728,
+            4343077
+          ]
+        ],
+        "LnkInit": [
+          [
+            4343212,
+            4343433
+          ]
+        ],
+        "Spawn": [
+          [
+            4287804,
+            4287855
+          ]
+        ],
+        "main": [
+          [
+            4342496,
+            4342728
+          ]
+        ]
+      },
+      "interval_count": 4,
+      "logical_function_count": 4,
+      "unique_code_bytes": 853
+    },
+    "rebuilt": {
+      "declared_code_bytes": 1068,
+      "functions": {
+        "DoLinkFromCommandLine": [
+          [
+            4261463,
+            4261861
+          ]
+        ],
+        "LnkInit": [
+          [
+            4261861,
+            4262157
+          ]
+        ],
+        "Spawn": [
+          [
+            4259856,
+            4259933
+          ]
+        ],
+        "main": [
+          [
+            4259933,
+            4260230
+          ]
+        ]
+      },
+      "interval_count": 4,
+      "logical_function_count": 4,
+      "unique_code_bytes": 1068
+    }
+  },
+  "profile": "cl",
+  "rebuilt_extent_checks": {
+    "entries": [
+      {
+        "end": 4262157,
+        "evidence": {
+          "path": "harness/lnkinit-extent.json",
+          "sha256": "24ad85174a805541f35cd282041c9ab4905b5f620bbcea599451a2d1165f9fa2"
+        },
+        "image_sha256": "be7c0d7c7834707bcc101106103f6737856b9e032709d6862362728799c4c4f7",
+        "map_envelope_end": 4262158,
+        "map_sha256": "667413f19288459d542ab5ececcd87474423c457e8eab54f36c28838a5020d52",
+        "name": "LnkInit",
+        "object": {
+          "path": "build/obj/src/wlink.c.obj",
+          "sha256": "04afc1ab83cd0399cf41040d90681a602ae9bacc5eafc5a977ca0830fcf3ec5a"
+        },
+        "padding_hex": "00",
+        "start": 4261861
+      }
+    ],
+    "schema": 1,
+    "semantics": "exact object-bound rebuilt body end; separately verified linker alignment, no body or ABI waiver"
+  },
+  "ret_cleanup_checks": {
+    "functions": {
+      "DoLinkFromCommandLine": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "LnkInit": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "Spawn": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      }
+    },
+    "input_sha256": "f86b099eb71711173b34be91b5b0e138fed1b3b06d8d6be2abc61d287b897b1a"
+  }
+}

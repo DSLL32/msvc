@@ -76,3 +76,56 @@ void DoLinkFromCommandLine( void )
     EndTime();
     signal( SIGINT, SIG_IGN );
 }
+
+unsigned long LinkFlags;         /* original450154 */
+void *LibModules;                /* original450140 */
+void *Groups;                    /* original45013c */
+void *AbsGroups;                 /* original450150 */
+void *OvlClasses;                /* original450144 */
+void *OvlVectors;                /* original450138 */
+unsigned VecNum;                /* original450134 */
+address CurrLoc;                /* original450170 */
+void *CurrentModule;            /* original450148 */
+void *CurrMod;                  /* original4500f8 */
+void *OverlayWork;              /* original450114; role provisional */
+unsigned OvlNum;                /* original450108 */
+unsigned SectionNum;            /* original45010c */
+char *OvlFName;                 /* original450104 */
+void *Root;                     /* original4500f0 */
+unsigned long StackSize;        /* original4500e0 */
+
+void LnkInit( void )
+{
+    LinkFlags = 0x40000000UL;
+    LinkState = 1;
+    /* Both original memory init/fini names resolve to the same no-op entry. */
+    LnkMemFini();
+    InitMsg( Argv[0] );
+    LnkFilesInit();
+    MapFile = -1;
+    ObjLibFiles = 0;
+    MapFName = 0;
+    OutFiles = 0;
+    LibModules = 0;
+    Groups = 0;
+    AbsGroups = 0;
+    StartSym = 0;
+    OvlClasses = 0;
+    OvlVectors = 0;
+    VecNum = 0;
+    CurrLoc.off = 0;
+    CurrentModule = 0;
+    CurrLoc.seg = 0xffff;
+    InitNodes();
+    CurrMod = 0;
+    OverlayWork = 0;
+    OvlNum = 0;
+    SectionNum = 0;
+    OvlFName = 0;
+    InitTokBuff();
+    InitSpillFile();
+    InitSym();
+    Root = NewSection();
+    InitObjIO();
+    StackSize = 0x200;
+}

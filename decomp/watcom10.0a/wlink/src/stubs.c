@@ -27,7 +27,6 @@ void FreeVirtMem( void ) { TRAP(); }
 void FiniMsg( void ) { TRAP(); }
 void LnkMemFini( void ) { TRAP(); }
 
-void LnkInit( void ) { TRAP(); }
 void TrapBreak( int value ) { value = value; TRAP(); }
 void StartTime( void ) { TRAP(); }
 void DoCmdFile( char *text ) { text = text; TRAP(); }
@@ -58,3 +57,11 @@ void ObjPass2( void ) { TRAP(); }
 void FiniLoadFile( void ) { TRAP(); }
 void EndTime( void ) { TRAP(); }
 void LnkMsg( unsigned message, const char *types, ... ) { message = message; types = types; TRAP(); }
+int InitMsg( char *program ) { program = program; TRAP(); return 0; }
+void LnkFilesInit( void ) { TRAP(); }
+void InitNodes( void ) { TRAP(); }
+void InitTokBuff( void ) { TRAP(); }
+void InitSpillFile( void ) { TRAP(); }
+void InitSym( void ) { TRAP(); }
+void * NewSection( void ) { TRAP(); return 0; }
+void InitObjIO( void ) { TRAP(); }

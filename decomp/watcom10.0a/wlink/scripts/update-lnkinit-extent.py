@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+"""Refresh the reviewed, finite Watcom module-end witness after a build.
+
+This recognizes exactly the two retained object records. Changed contribution
+sizes/public offsets require a fresh review; it does not discover OMF functions.
+"""
+import hashlib
+import json
+import re
+import struct
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+WITNESS = ROOT / 'harness/lnkinit-extent.json'
+POLICY = ROOT / 'policy-data.json'
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def main():
+    witness = json.loads(WITNESS.read_text())
+    obj = ROOT / witness['object']['path']
+    raw = obj.read_bytes()
+    for key in ('SEGDEF', 'PUBDEF'):
+        row = witness[key]
+        expected = bytes.fromhex(row['record_hex'])
+        at = row['file_offset']
+        assert raw[at:at + len(expected)] == expected, key + ' changed; review required'
+        assert sum(expected) & 255 == 0
+    image = ROOT / witness['rebuilt_PE']['path']
+    map_path = ROOT / witness['rebuilt_MAP']['path']
+    symbols = {}
+    for line in map_path.read_text().splitlines():
+        match = re.match(r'0001:([0-9a-fA-F]+)\s*[+*]?\s*(\S+)', line)
+        if match:
+            symbols[match[2]] = 0x410000 + int(match[1], 16)
+    module = symbols['DoLinkFromCommandLine_']
+    entry = symbols['LnkInit_']
+    end = module + witness['SEGDEF']['length']
+    assert entry - module == 398 and end - entry == 296
+    assert symbols['_setjmp_'] == end + 1
+    data = image.read_bytes()
+    pe = struct.unpack_from('<I', data, 0x3c)[0]
+    assert data[pe:pe+4] == b'PE\0\0'
+    optional = pe + 24
+    assert struct.unpack_from('<I', data, optional+28)[0] == 0x400000
+    sections = optional + struct.unpack_from('<H', data, pe+20)[0]
+    count = struct.unpack_from('<H', data, pe+6)[0]
+    matches = []
+    for index in range(count):
+        _, rva, size, offset = struct.unpack_from('<IIII', data, sections+index*40+8)
+        if rva <= end-0x400000-1 and end-0x400000+1 <= rva+size:
+            matches.append(offset + end-0x400000-rva)
+    assert len(matches) == 1
+    assert data[matches[0]-1:matches[0]+1] == b'\xc3\0'
+    for key, path in [('rebuilt_PE', image), ('rebuilt_MAP', map_path), ('object', obj)]:
+        witness[key]['sha256'] = digest(path)
+    witness['arithmetic'].update(module_start=module, LnkInit_entry=entry,
+        contribution_end=end, last_RET=end-1, next_module_entry=end+1)
+    WITNESS.write_text(json.dumps(witness, indent=2) + '\n')
+    policy = json.loads(POLICY.read_text())
+    policy.setdefault('function_properties', {}).setdefault('LnkInit', {})['rebuilt_extent'] = {
+        'end': {'rebuilt_symbol': 'LnkInit_', 'offset': 296},
+        'padding_hex': '00', 'image_sha256': digest(image),
+        'map_sha256': digest(map_path), 'object': witness['object'],
+        'evidence': {'path': 'harness/lnkinit-extent.json', 'sha256': digest(WITNESS)}
+    }
+    POLICY.write_text(json.dumps(policy, indent=2) + '\n')
+    print('LnkInit: refreshed exact object/MAP/image end and one-byte alignment witness')
+
+
+if __name__ == '__main__':
+    main()

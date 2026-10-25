@@ -11,6 +11,32 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "LnkInit": {
+        "expected_cleanup": [
+          0
+        ]
+      }
+    }
+  },
+  "function_properties": {
+    "LnkInit": {
+      "rebuilt_extent": {
+        "end": {
+          "rebuilt_symbol": "LnkInit_",
+          "offset": 296
+        },
+        "padding_hex": "00",
+        "image_sha256": "be7c0d7c7834707bcc101106103f6737856b9e032709d6862362728799c4c4f7",
+        "map_sha256": "667413f19288459d542ab5ececcd87474423c457e8eab54f36c28838a5020d52",
+        "object": {
+          "path": "build/obj/src/wlink.c.obj",
+          "sha256": "04afc1ab83cd0399cf41040d90681a602ae9bacc5eafc5a977ca0830fcf3ec5a"
+        },
+        "evidence": {
+          "path": "harness/lnkinit-extent.json",
+          "sha256": "24ad85174a805541f35cd282041c9ab4905b5f620bbcea599451a2d1165f9fa2"
+        }
       }
     }
   }

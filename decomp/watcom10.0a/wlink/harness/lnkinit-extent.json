@@ -1,0 +1,44 @@
+{
+  "scope": "Exact original-compiler reconstructed module contribution and one-byte terminal linker alignment. Not text_data; no additional code/body permission.",
+  "rebuilt_PE": {
+    "path": "build/WLINK.EXE",
+    "sha256": "be7c0d7c7834707bcc101106103f6737856b9e032709d6862362728799c4c4f7"
+  },
+  "rebuilt_MAP": {
+    "path": "build/wlink.map",
+    "sha256": "667413f19288459d542ab5ececcd87474423c457e8eab54f36c28838a5020d52"
+  },
+  "object": {
+    "path": "build/obj/src/wlink.c.obj",
+    "sha256": "04afc1ab83cd0399cf41040d90681a602ae9bacc5eafc5a977ca0830fcf3ec5a"
+  },
+  "SEGDEF": {
+    "file_offset": 392,
+    "record_hex": "99090029b602000007020173",
+    "checksum_sum_mod256": 0,
+    "segment_index": 1,
+    "name": "_TEXT",
+    "class": "CODE",
+    "length": 694
+  },
+  "PUBDEF": {
+    "file_offset": 4370,
+    "record_hex": "912d00020116446f4c696e6b46726f6d436f6d6d616e644c696e655f0000000000084c6e6b496e69745f8e01000000ff",
+    "checksum_sum_mod256": 0,
+    "symbols": {
+      "DoLinkFromCommandLine_": 0,
+      "LnkInit_": 398
+    }
+  },
+  "arithmetic": {
+    "module_start": 4261463,
+    "LnkInit_entry": 4261861,
+    "contribution_end": 4262157,
+    "LnkInit_body_length": 296,
+    "last_RET": 4262156,
+    "next_module_symbol": "_setjmp_",
+    "next_module_entry": 4262158,
+    "padding_hex": "00"
+  },
+  "limits": "PE/MAP/object are current built artifacts. Every refreshed build must regenerate/rebind this witness before its descriptor is used. No original executable run was needed."
+}
