@@ -22,3 +22,12 @@ unsigned pack_option_flags(void)
         if (packed_option_values[i] && *packed_option_values[i]) result |= mask;
     return result;
 }
+
+/* Original0x746c0..0x746eb. The saved flags consume one high bit per
+   table slot, including a missing option target. */
+void unpack_option_flags(unsigned flags)
+{
+    unsigned i;
+    for (i = 0; i < 21; ++i, flags <<= 1)
+        if (packed_option_values[i]) *packed_option_values[i] = (int)flags < 0;
+}

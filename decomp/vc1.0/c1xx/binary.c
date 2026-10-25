@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1606 historical frontiers/1499 App bodies.
+ * Current reviewed boundary:1607 historical frontiers/1500 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -17682,10 +17682,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_unpack_option_flags",
         .entry_rva = 0x646c0,
-        .code = (const ReconExtent[]) { { 0x646c0, 0x646c1 } },
+        .code = (const ReconExtent[]) { { 0x646c0, 0x646eb } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "unpack_option_flags",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_validate_packing@4",

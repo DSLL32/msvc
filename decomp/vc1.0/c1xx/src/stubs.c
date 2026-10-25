@@ -480,7 +480,6 @@ void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
 void warn_expected_identifier(void) { __asm { int 3 } }
 void __stdcall set_default_inheritance_policy(int general) { __asm { int 3 } }
 void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
-void unpack_option_flags(unsigned flags) { __asm { int 3 } }
 
 
 
