@@ -441,7 +441,7 @@ fn aliases(index: &[Record]) -> BTreeMap<u32, BTreeSet<String>> {
     }
     out
 }
-fn equivalent(
+pub(crate) fn equivalent(
     left: &BTreeSet<u32>,
     right: &BTreeSet<u32>,
     oa: &BTreeMap<u32, BTreeSet<String>>,
@@ -818,16 +818,40 @@ pub fn run(a: &Args) -> Result<Value> {
 fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     use crate::flow::{self, Options};
     let d = Decoder::new()?;
-    let oa = aliases(&x.oi);
-    let ra = aliases(&x.ri);
+    let mut oa = aliases(&x.oi);
+    let mut ra = aliases(&x.ri);
+    for (target, extra) in [
+        (&mut oa, &x.original_entry_names),
+        (&mut ra, &x.rebuilt_entry_names),
+    ] {
+        for (address, names) in extra {
+            target
+                .entry(*address)
+                .or_default()
+                .extend(names.iter().cloned());
+        }
+    }
     let mut on = first_names(&x.oi);
     let mut rn = first_names(&x.ri);
+    for (target, extra) in [
+        (&mut on, &x.original_entry_names),
+        (&mut rn, &x.rebuilt_entry_names),
+    ] {
+        for (address, names) in extra {
+            if let Some(name) = names.first() {
+                target.entry(*address).or_insert_with(|| name.clone());
+            }
+        }
+    }
     if a.check_imports {
         for (index, names) in [(&x.oi, &mut on), (&x.ri, &mut rn)] {
             for record in index.iter().filter(|r| !r.name.starts_with("import:")) {
                 names.insert(record.start, record.name.clone());
             }
         }
+    }
+    if a.check_runtime_data {
+        rc_runtime(&d, x, &oa, &ra)?;
     }
     let mut report = BTreeMap::new();
     let metadata = if let Some(path) = &a.metadata {
@@ -848,16 +872,20 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             }
         }
     }
-    let import_catalog = |catalog: &Option<crate::imports::Catalog>, index: &[Record]| {
+    let import_catalog = |catalog: &Option<crate::imports::Catalog>,
+                          index: &[Record],
+                          classified_imports: &BTreeSet<u32>| {
         catalog.clone().map(|mut catalog| {
-            for record in index.iter().filter(|r| !r.name.starts_with("import:")) {
+            for record in index.iter().filter(|r| {
+                !r.name.starts_with("import:") && !classified_imports.contains(&r.start)
+            }) {
                 catalog.thunks.remove(&record.start);
             }
             std::sync::Arc::new(catalog)
         })
     };
-    let original_imports = import_catalog(&x.original_imports, &x.oi);
-    let rebuilt_imports = import_catalog(&x.rebuilt_imports, &x.ri);
+    let original_imports = import_catalog(&x.original_imports, &x.oi, &x.original_import_entries);
+    let rebuilt_imports = import_catalog(&x.rebuilt_imports, &x.ri, &x.rebuilt_import_entries);
     let enabled_owners = crate::register_imports::enabled_owners(&metadata)?;
     let selected: BTreeSet<_> = progress
         .iter()
@@ -911,6 +939,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             crate::register_imports::Contracts::parse(
                 &metadata,
                 &x.oi,
+                &x.original_entry_names,
                 original_imports
                     .as_ref()
                     .context("missing original import catalog")?,
@@ -919,6 +948,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             crate::register_imports::Contracts::parse(
                 &metadata,
                 &x.ri,
+                &x.rebuilt_entry_names,
                 rebuilt_imports
                     .as_ref()
                     .context("missing rebuilt import catalog")?,
@@ -937,10 +967,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         if !x.accepted.contains(&f.name) {
             continue;
         }
-        let other =
-            x.ri.iter()
-                .find(|r| r.name == f.name)
-                .context("missing reconstructed function")?;
+        let other = paired_record(&x.ri, &x.rebuilt_entry_names, &f.name)?;
         let resolve_owner = a.resolve_register_imports || enabled_owners.contains(&f.name);
         let options = Options {
             infer_switches: true,
@@ -1612,6 +1639,38 @@ fn declared_evidence(value: &Value) -> bool {
         Value::Number(v) => v.as_f64().is_some_and(|v| v != 0.0),
     }
 }
+fn paired_record<'a>(
+    index: &'a [Record],
+    entries: &crate::index::EntryNames,
+    name: &str,
+) -> Result<&'a Record> {
+    if let Some(record) = index.iter().find(|r| r.name == name) {
+        return Ok(record);
+    }
+    let addresses: BTreeSet<_> = entries
+        .iter()
+        .filter(|(_, names)| names.contains(name))
+        .map(|(address, _)| *address)
+        .collect();
+    ensure!(
+        addresses.len() == 1,
+        "missing or ambiguous reconstructed endpoint {name}"
+    );
+    let records: Vec<_> = index
+        .iter()
+        .filter(|r| addresses.contains(&r.start))
+        .collect();
+    let bounds: BTreeSet<_> = records
+        .iter()
+        .map(|r| (r.start, r.end, &r.code_chunks))
+        .collect();
+    ensure!(
+        bounds.len() == 1,
+        "missing or ambiguous reconstructed body extent {name}"
+    );
+    Ok(records[0])
+}
+
 fn accepted_extents(
     d: &Decoder,
     x: &Inputs,
@@ -1686,6 +1745,28 @@ fn accepted_extents(
 #[cfg(test)]
 mod alias_tests {
     use super::*;
+    #[test]
+    fn paired_runtime_lookup_requires_existing_unambiguous_body() {
+        let record = |end| Record {
+            name: "import:callee".into(),
+            start: 10,
+            end,
+            shared: vec![],
+            code_chunks: vec![],
+            evidence: Value::Null,
+            pending_extent: false,
+        };
+        let entries = BTreeMap::from([(10, BTreeSet::from(["logical".into()]))]);
+        let index = vec![record(16)];
+        assert_eq!(paired_record(&index, &entries, "logical").unwrap().end, 16);
+        assert!(paired_record(&[], &entries, "logical").is_err());
+        assert!(paired_record(&[record(16), record(17)], &entries, "logical").is_err());
+        let ambiguous = BTreeMap::from([
+            (10, BTreeSet::from(["logical".into()])),
+            (20, BTreeSet::from(["logical".into()])),
+        ]);
+        assert!(paired_record(&index, &ambiguous, "logical").is_err());
+    }
     #[test]
     fn shared_alias_cannot_collapse_two_vertices_into_one() {
         let left = BTreeSet::from([1, 2]);

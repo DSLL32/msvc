@@ -180,11 +180,11 @@ fn ownership(cfg: &Value, pe: &Pe, runtime: &Value, data: &Value, project: &Path
     }
     Ok(())
 }
-fn identities(
+fn identity_aliases(
     runtime: &Value,
     functions: &[Value],
     linked: Option<&BTreeMap<String, u32>>,
-) -> Result<HashMap<u32, String>> {
+) -> Result<BTreeMap<u32, BTreeSet<String>>> {
     let mut names = BTreeMap::<u32, BTreeSet<String>>::new();
     for r in list(runtime, "functions")?
         .iter()
@@ -195,10 +195,6 @@ fn identities(
             .or_default()
             .insert(r["name"].as_str().context("runtime name")?.into());
     }
-    let mut out = names
-        .into_iter()
-        .map(|(a, n)| (a, n.into_iter().collect::<Vec<_>>().join("|")))
-        .collect::<HashMap<_, _>>();
     for r in functions {
         let a = if let Some(linked) = linked {
             *linked
@@ -207,9 +203,22 @@ fn identities(
         } else {
             num(&r["original"])?
         };
-        out.insert(a, r["name"].as_str().context("function name")?.into());
+        names.insert(
+            a,
+            BTreeSet::from([r["name"].as_str().context("function name")?.into()]),
+        );
     }
-    Ok(out)
+    Ok(names)
+}
+fn identities(
+    runtime: &Value,
+    functions: &[Value],
+    linked: Option<&BTreeMap<String, u32>>,
+) -> Result<HashMap<u32, String>> {
+    Ok(identity_aliases(runtime, functions, linked)?
+        .into_iter()
+        .map(|(a, n)| (a, n.into_iter().collect::<Vec<_>>().join("|")))
+        .collect())
 }
 fn named(g: &Graph, names: &HashMap<u32, String>) -> Result<BTreeSet<String>> {
     let mut out = BTreeSet::new();
@@ -470,11 +479,37 @@ pub fn run(a: &Args) -> Result<Value> {
         !a.check_imports,
         "CVPACK's distinct import/ABI policy is not yet adapted to --check-imports; standalone profiles support it"
     );
+    let input = json(&a.config.clone().unwrap_or(a.project.join("functions.json")))?;
+    let registry_mode = input.get("driver").is_some();
     ensure!(
-        a.metadata.is_none(),
-        "CVPACK graph metadata comes from functions.json; --metadata is for standalone profiles"
+        registry_mode || a.metadata.is_none(),
+        "CVPACK legacy graph metadata comes from functions.json"
     );
-    let cfg = json(&a.config.clone().unwrap_or(a.project.join("functions.json")))?;
+    let original_runtime_input = if registry_mode {
+        Some(json(
+            &a.runtime.clone().unwrap_or(a.project.join("runtime.json")),
+        )?)
+    } else {
+        None
+    };
+    let cfg = if registry_mode {
+        ensure!(
+            a.discovery != crate::Discovery::Legacy,
+            "CVPACK registry projection requires cfg discovery"
+        );
+        let metadata = json(
+            a.metadata
+                .as_ref()
+                .context("CVPACK registry projection requires --metadata")?,
+        )?;
+        crate::cvpack_registry::configuration(
+            &input,
+            &metadata,
+            original_runtime_input.as_ref().unwrap(),
+        )?
+    } else {
+        input.clone()
+    };
     ensure!(
         cfg["target"]["image"].is_null(),
         "explicit image views require the standalone cl CFG profile"
@@ -512,49 +547,68 @@ pub fn run(a: &Args) -> Result<Value> {
         &a.map.clone().unwrap_or(a.project.join("build/cvpack.map")),
         false,
     )?;
-    let cache =
-        json(a.rebuilt_runtime.as_ref().context(
+    let (runtime, rebuilt_runtime) = if registry_mode {
+        let runtime = crate::cvpack_registry::original_runtime(
+            original_runtime_input.unwrap(),
+            &input,
+            &original,
+            &a.project,
+            &a.repo,
+        )?;
+        let rebuilt_runtime = crate::cvpack_registry::rebuilt_runtime(
+            json(
+                a.rebuilt_runtime
+                    .as_ref()
+                    .context("CVPACK registry projection requires shared --rebuilt-runtime")?,
+            )?,
+            &rebuilt,
+        )?;
+        (runtime, rebuilt_runtime)
+    } else {
+        let cache = json(a.rebuilt_runtime.as_ref().context(
             "CVPACK requires --rebuilt-runtime frozen graph-identity cache (see README)",
         )?)?;
-    ensure!(cache["schema"] == 1, "unsupported identity cache schema");
-    for (label, bytes) in [
-        ("original", original.data.as_slice()),
-        ("rebuilt", rebuilt.data.as_slice()),
-    ] {
+        ensure!(cache["schema"] == 1, "unsupported identity cache schema");
+        for (label, bytes) in [
+            ("original", original.data.as_slice()),
+            ("rebuilt", rebuilt.data.as_slice()),
+        ] {
+            ensure!(
+                cache["provenance"][format!("{label}_sha256")] == hash(bytes),
+                "{label} identity cache stale"
+            );
+        }
         ensure!(
-            cache["provenance"][format!("{label}_sha256")] == hash(bytes),
-            "{label} identity cache stale"
+            cache["provenance"]["archive_sha256"]
+                == hash(&fs::read(a.repo.join("toolchains/1.0-nt/lib/LIBC.LIB"))?),
+            "archive identity cache stale"
         );
-    }
-    ensure!(
-        cache["provenance"]["archive_sha256"]
-            == hash(&fs::read(a.repo.join("toolchains/1.0-nt/lib/LIBC.LIB"))?),
-        "archive identity cache stale"
-    );
-    ensure!(
-        cache["provenance"]["functions_sha256"]
-            == hash(&fs::read(
-                a.config.clone().unwrap_or(a.project.join("functions.json"))
-            )?),
-        "function identity cache stale"
-    );
-    ensure!(
-        cache["provenance"]["map_sha256"]
-            == hash(&fs::read(
-                a.map.clone().unwrap_or(a.project.join("build/cvpack.map"))
-            )?),
-        "map identity cache stale"
-    );
-    ensure!(
-        cache["provenance"]["runtime_anchors_sha256"]
-            == hash(&fs::read(a.project.join("runtime-anchors.json"))?),
-        "runtime anchor identity cache stale"
-    );
-    let runtime = json(&a.runtime.clone().unwrap_or(a.project.join("runtime.json")))?;
-    ensure!(
-        cache["original_runtime"] == runtime,
-        "original runtime identity cache differs"
-    );
+        ensure!(
+            cache["provenance"]["functions_sha256"]
+                == hash(&fs::read(
+                    a.config.clone().unwrap_or(a.project.join("functions.json"))
+                )?),
+            "function identity cache stale"
+        );
+        ensure!(
+            cache["provenance"]["map_sha256"]
+                == hash(&fs::read(
+                    a.map.clone().unwrap_or(a.project.join("build/cvpack.map"))
+                )?),
+            "map identity cache stale"
+        );
+        ensure!(
+            cache["provenance"]["runtime_anchors_sha256"]
+                == hash(&fs::read(a.project.join("runtime-anchors.json"))?),
+            "runtime anchor identity cache stale"
+        );
+        let runtime = json(&a.runtime.clone().unwrap_or(a.project.join("runtime.json")))?;
+        ensure!(
+            cache["original_runtime"] == runtime,
+            "original runtime identity cache differs"
+        );
+        (runtime, cache["rebuilt_runtime"].clone())
+    };
     let functions = list(&cfg, "functions")?;
     let names = functions
         .iter()
@@ -573,7 +627,21 @@ pub fn run(a: &Args) -> Result<Value> {
         ownership(&cfg, &original, &runtime, &data, &a.project)?;
     }
     let oi = identities(&runtime, functions, None)?;
-    let ri = identities(&cache["rebuilt_runtime"], functions, Some(&linked))?;
+    let ri = identities(&rebuilt_runtime, functions, Some(&linked))?;
+    let original_aliases = if registry_mode {
+        Some(identity_aliases(&runtime, functions, None)?)
+    } else {
+        None
+    };
+    let rebuilt_aliases = if registry_mode {
+        Some(identity_aliases(
+            &rebuilt_runtime,
+            functions,
+            Some(&linked),
+        )?)
+    } else {
+        None
+    };
     let addresses = linked
         .values()
         .copied()
@@ -690,13 +758,28 @@ pub fn run(a: &Args) -> Result<Value> {
         };
         let left = named(&l, &oi)?;
         let right_names = named(&right, &ri)?;
-        ensure!(
-            left == right_names,
-            "{} graph differs: {:?} / {:?}",
-            r["name"],
-            left,
-            right_names
-        );
+        if registry_mode {
+            ensure!(
+                crate::audit::equivalent(
+                    &l.calls,
+                    &right.calls,
+                    original_aliases.as_ref().unwrap(),
+                    rebuilt_aliases.as_ref().unwrap()
+                ) && l.indirect == right.indirect,
+                "{} graph differs: {:?} / {:?}",
+                r["name"],
+                left,
+                right_names
+            );
+        } else {
+            ensure!(
+                left == right_names,
+                "{} graph differs: {:?} / {:?}",
+                r["name"],
+                left,
+                right_names
+            );
+        }
         if a.discovery == crate::Discovery::Legacy || a.check_ret {
             let expected = BTreeSet::from([num(&r["stack_cleanup"])?]);
             ensure!(

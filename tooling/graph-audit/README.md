@@ -655,3 +655,35 @@ assert existing computed report facts; they neither seed identities nor permit
 unknown calls. Mixed real callbacks stay opaque and must match their declared
 sites. The owner must be selected, accepted, unambiguous and resolver-enabled.
 Without these optional fields, reports and checks retain their existing behavior.
+
+### Canonical registry projections
+
+Standalone CFG profiles accept the shared registry export's `driver` and optional
+`function_registry`. RCPP uses `driver` when present, otherwise its legacy
+`functions` input. Registry App/CRT entries and actual MAP symbols add endpoint
+names only: an entry without a verified body never creates a one-byte extent,
+accepted graph body, RET evidence, or execution permission. Physical aliases
+retain one-to-one vertex comparisons. Named preservation contracts may bind a
+unique endpoint with their existing hash-bound ABI evidence.
+
+With `--check-imports`, entries classified ImportName/ImportOrdinal normalize only
+verified PE import thunks. Supplied DLL/name/ordinal facts must match the actual
+PE catalog. App/CRT entries that happen to begin with FF25 remain function
+vertices. A logical runtime name can select an already identified rebuilt body
+at its unique mapped entry; missing or conflicting real bounds fail.
+
+The CVPACK profile additionally accepts canonical `driver`/`function_registry`
+configurations with explicit `--metadata`, the frozen original runtime index,
+and flat shared `--rebuilt-runtime` identifier output. It retains its rooted
+whole-function, RET, alignment, switch, SEH and ownership checks. All App entries,
+including stubs omitted from `driver`, still constrain ownership. The finite
+`restored_runtime_names` selection preserves support ownership. Identity-only
+variants must be Unknown canonical registry intervals, match the frozen original
+anchor and `runtime-policy.json` body hash, and remain `accepted:false` and
+`unmask:false`. This path needs no legacy graph-identity cache or anchor authoring
+file. The legacy CVPACK format and cache policy remain supported unchanged.
+
+`--check-runtime-data` opts the RC CFG profile into its existing FILE, locale and
+Kanji predicates. It does not change graph-body selection and is rejected for
+other profiles. Runtime/import structural extents and graph-body acceptance are
+separate policies; naming an endpoint grants neither.

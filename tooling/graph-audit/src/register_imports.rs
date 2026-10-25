@@ -290,6 +290,7 @@ impl Contracts {
     pub fn parse(
         metadata: &Value,
         index: &[Record],
+        entry_names: &crate::index::EntryNames,
         catalog: &Catalog,
         project: &std::path::Path,
     ) -> Result<Self> {
@@ -312,18 +313,29 @@ impl Contracts {
             let key = serde_json::to_string(&c.target)?;
             ensure!(targets.insert(key), "duplicate preservation target");
             if let Some(name) = c.target.function {
-                let matches = index.iter().filter(|r| r.name == name).collect::<Vec<_>>();
+                let addresses: BTreeSet<u32> = index
+                    .iter()
+                    .filter(|r| r.name == name)
+                    .map(|r| r.start)
+                    .chain(
+                        entry_names
+                            .iter()
+                            .filter(|(_, names)| names.contains(&name))
+                            .map(|(&address, _)| address),
+                    )
+                    .collect();
                 ensure!(
-                    !matches.is_empty(),
-                    "preservation function missing from verified index: {name}"
+                    !addresses.is_empty(),
+                    "preservation function missing from verified index or registry identity: {name}"
                 );
                 ensure!(
-                    matches.iter().all(|r| r.start == matches[0].start),
+                    addresses.len() == 1,
                     "ambiguous preservation function: {name}"
                 );
+                let address = *addresses.first().unwrap();
                 // Distinct logical aliases must all agree; never union claims.
                 out.functions
-                    .entry(matches[0].start)
+                    .entry(address)
                     .and_modify(|old| {
                         for n in 0..4 {
                             old[n] &= mask[n];

@@ -1,0 +1,151 @@
+{
+  "baseline_sha256": "2bdcaa8b444d81128bcc0c1a755164613a2ad1c9cf0763d9819581b1ef060162",
+  "release_sha256": "1d6e8f74a8673f4da16315c1350c922948400bfde390e2a9933992cb4eb7a829",
+  "source_files": {
+    "src/main.rs": "6a1a29844c9b1e70c52a069df290158898f7531362ff881e8742eb4d70b9cb4e",
+    "src/audit.rs": "c683713b74f92735d73a5bde1cfdfb655e494c900b03c2e716874c2a976e4807",
+    "src/index.rs": "ad34a0f3bdd853de695e8c68caebcdb7e9791b8729016fc6e70a64a0bb2e5323",
+    "src/register_imports.rs": "b2768e2c33484fe82a01625c3be8b2d769c6d10f6965260e1433c46655200d56",
+    "src/cvpack.rs": "55e3444617f2c8920a17954dff41aa29b95db7dcc6dfc40fb36985cb4c4ee825",
+    "src/cvpack_registry.rs": "849d13de0feda003cbcf5d85c87d84fe6e7f0c202a73814d577cbc46ca8634ab",
+    "src/tests.rs": "4b3a8fc4f2f553c689602d33115b9321f20057966a64166173887f3a62569a2b",
+    "README.md": "61503c593181435e29aeb4f746db1109693a4394c280320aeeb0cdf30037f6e5"
+  },
+  "tests": [
+    {
+      "name": "cvpack",
+      "status": 0,
+      "seconds": 0.20362611673772335,
+      "stderr": ""
+    },
+    {
+      "name": "rcpp",
+      "status": 0,
+      "seconds": 0.21988495998084545,
+      "stderr": ""
+    },
+    {
+      "name": "rc",
+      "status": 0,
+      "seconds": 0.2826396655291319,
+      "stderr": ""
+    },
+    {
+      "name": "vc5cvpack",
+      "status": 0,
+      "seconds": 0.19845463056117296,
+      "stderr": ""
+    },
+    {
+      "name": "vc5link-ret",
+      "status": 0,
+      "seconds": 0.31254263781011105,
+      "stderr": ""
+    },
+    {
+      "name": "vc5rc",
+      "status": 0,
+      "seconds": 0.009871354326605797,
+      "stderr": ""
+    },
+    {
+      "name": "legacy-input-parity",
+      "status": 0,
+      "seconds": 1.7156960386782885,
+      "stderr": ""
+    },
+    {
+      "name": "old-qualified-import-parity",
+      "status": 0,
+      "seconds": 0.20002060383558273,
+      "stderr": ""
+    },
+    {
+      "name": "bad-rva",
+      "status": 1,
+      "seconds": 0.006063380278646946,
+      "stderr": "graph-audit: function_registry original entry is not executable file-backed code: bff000 {\"_get_file_size\"}\n"
+    },
+    {
+      "name": "bad-symbol-type",
+      "status": 1,
+      "seconds": 0.005338233895599842,
+      "stderr": "graph-audit: function_registry original_symbol must be a string or null\n"
+    },
+    {
+      "name": "bad-dll",
+      "status": 1,
+      "seconds": 0.005639653652906418,
+      "stderr": "graph-audit: classified original import DLL differs: import:_except_handler3\n"
+    },
+    {
+      "name": "bad-dll-type",
+      "status": 1,
+      "seconds": 0.005662726238369942,
+      "stderr": "graph-audit: function_registry import_dll must be a string or null\n"
+    },
+    {
+      "name": "bad-import-name",
+      "status": 1,
+      "seconds": 0.005695678293704987,
+      "stderr": "graph-audit: classified original import name differs: import:_except_handler3\n"
+    },
+    {
+      "name": "bad-import-kind",
+      "status": 1,
+      "seconds": 0.005473386496305466,
+      "stderr": "graph-audit: classified original import name/ordinal kind differs: import:_except_handler3\n"
+    },
+    {
+      "name": "variant-bound",
+      "status": 1,
+      "seconds": 0.02452812436968088,
+      "stderr": "graph-audit: identity-only anchor canonical extent differs: __sopen\n"
+    },
+    {
+      "name": "variant-credit",
+      "status": 1,
+      "seconds": 0.02298776712268591,
+      "stderr": "graph-audit: identity-only anchor registry classification differs: __sopen\n"
+    },
+    {
+      "name": "variant-restored",
+      "status": 1,
+      "seconds": 0.011795689351856709,
+      "stderr": "graph-audit: identity-only anchor cannot be restored support: __sopen\n"
+    },
+    {
+      "name": "accepted-app-missing",
+      "status": 1,
+      "seconds": 0.008130635134875774,
+      "stderr": "graph-audit: CVPACK registry application acceptance differs: _main\n"
+    },
+    {
+      "name": "variant-hash",
+      "status": 1,
+      "seconds": 0.02038231771439314,
+      "stderr": "graph-audit: identity-only anchor declaration differs: __freebuf.bytes_sha256\n"
+    },
+    {
+      "name": "runtime-data-wrong-profile",
+      "status": 1,
+      "seconds": 0.0016606170684099197,
+      "stderr": "graph-audit: --check-runtime-data requires the RC CFG profile\n"
+    },
+    {
+      "name": "vc5c2-source-identity-corrected",
+      "status": 0,
+      "seconds": 0.17092494387179613,
+      "stderr": ""
+    }
+  ],
+  "units": 70,
+  "fmt": true,
+  "clippy": true,
+  "scope": "Read-only host static audits; no source/acceptance/availability changes, no Wine/capture. Legacy no-registry report parity retained. Registry names do not invent body/extents. RC support-extent flag pending separate scoped change.",
+  "C2_source_identity_repair": "Root/parent-approved canonical stores source correction; strict references preserved, no tool alias waiver;106 App unchanged",
+  "review": {
+    "vc5_orchestrator_source": "Approved index ad34a0f3, audit c683713b, register_imports b2768e2c after strict type/code/provider guards; actual four VC5 positive corpora",
+    "acceptance": "No App/source/availability change from this tool. C2 source correction separately authorized by root/parent."
+  }
+}

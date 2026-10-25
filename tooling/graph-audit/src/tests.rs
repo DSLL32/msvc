@@ -749,6 +749,7 @@ fn register_analysis(
             evidence: serde_json::Value::Null,
             pending_extent: false,
         }],
+        &std::collections::BTreeMap::new(),
         &catalog,
         std::path::Path::new(env!("CARGO_MANIFEST_DIR")),
     )?;

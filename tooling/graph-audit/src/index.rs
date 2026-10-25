@@ -134,12 +134,17 @@ pub fn imports(
     }
     Ok(result)
 }
+pub type EntryNames = BTreeMap<u32, BTreeSet<String>>;
 pub struct Inputs {
     pub o: Image,
     pub r: Image,
     pub oi: Vec<Record>,
     pub ri: Vec<Record>,
     pub drivers: Vec<Record>,
+    pub original_entry_names: EntryNames,
+    pub rebuilt_entry_names: EntryNames,
+    pub original_import_entries: BTreeSet<u32>,
+    pub rebuilt_import_entries: BTreeSet<u32>,
     pub accepted: BTreeSet<String>,
     pub publics: BTreeMap<String, u32>,
     pub original_imports: Option<crate::imports::Catalog>,
@@ -222,22 +227,14 @@ impl Inputs {
                 (parsed.addresses, parsed.absolutes, Some(parsed.provenance))
             }
         };
-        let drivers = records(
-            &cfg[if a.profile == Profile::Rcpp {
-                "functions"
-            } else {
-                "driver"
-            }],
-        )?;
-        for driver in cfg[if a.profile == Profile::Rcpp {
+        let raw_publics = publics.clone();
+        let driver_key = if a.profile == Profile::Rcpp && cfg.get("driver").is_none() {
             "functions"
         } else {
             "driver"
-        }]
-        .as_array()
-        .into_iter()
-        .flatten()
-        {
+        };
+        let drivers = records(&cfg[driver_key])?;
+        for driver in cfg[driver_key].as_array().into_iter().flatten() {
             let symbol = driver
                 .get("symbol")
                 .unwrap_or(&driver["name"])
@@ -248,14 +245,7 @@ impl Inputs {
                 "absolute Watcom MAP symbol cannot be a function: {symbol}"
             );
         }
-        symbol_aliases(
-            &cfg[if a.profile == Profile::Rcpp {
-                "functions"
-            } else {
-                "driver"
-            }],
-            &mut publics,
-        )?;
+        symbol_aliases(&cfg[driver_key], &mut publics)?;
         let accepted = serde_json::from_value(cfg["accepted"].clone())?;
         let driver_addresses: BTreeSet<_> = drivers.iter().map(|r| r.start).collect();
         let driver_names: BTreeSet<_> = drivers.iter().map(|r| r.name.as_str()).collect();
@@ -393,13 +383,7 @@ impl Inputs {
                     start: *start,
                     end,
                     shared: vec![],
-                    code_chunks: match cfg[if a.profile == Profile::Rcpp {
-                        "functions"
-                    } else {
-                        "driver"
-                    }][i]
-                        .get("rebuilt_code_chunks")
-                    {
+                    code_chunks: match cfg[driver_key][i].get("rebuilt_code_chunks") {
                         None => vec![],
                         Some(value) => serde_json::from_value(value.clone())?,
                     },
@@ -427,6 +411,23 @@ impl Inputs {
                     );
                 }
             }
+        }
+        let registry_entries = registry_entry_names(
+            &cfg,
+            &raw_publics,
+            &absolute_publics,
+            &oi,
+            &ri,
+            original_imports.as_ref(),
+            rebuilt_imports.as_ref(),
+        )?;
+        validate_registry_entry_bytes(&o, &registry_entries.original, "original")?;
+        validate_registry_entry_bytes(&r, &registry_entries.rebuilt, "rebuilt")?;
+        if cfg.get("function_registry").is_some() {
+            ensure!(
+                a.discovery != crate::Discovery::Legacy,
+                "function_registry identity mappings require cfg discovery"
+            );
         }
         o.bind_code(&oi)?;
         r.bind_code(&ri)?;
@@ -466,6 +467,10 @@ impl Inputs {
             oi,
             ri,
             drivers,
+            original_entry_names: registry_entries.original,
+            rebuilt_entry_names: registry_entries.rebuilt,
+            original_import_entries: registry_entries.original_imports,
+            rebuilt_import_entries: registry_entries.rebuilt_imports,
             accepted,
             publics,
             original_imports,
@@ -588,6 +593,193 @@ pub fn identity(names: &HashMap<u32, String>, target: u32) -> String {
         .unwrap_or_else(|| format!("0x{target:x}"))
 }
 
+/// Entry identities have no body, extent, availability or acceptance meaning.
+#[derive(Default)]
+struct RegistryEntries {
+    original: EntryNames,
+    rebuilt: EntryNames,
+    original_imports: BTreeSet<u32>,
+    rebuilt_imports: BTreeSet<u32>,
+}
+fn validate_registry_entry_bytes(image: &Image, entries: &EntryNames, side: &str) -> Result<()> {
+    for (&address, names) in entries {
+        let end = address
+            .checked_add(1)
+            .context("function_registry entry overflow")?;
+        if let Some(pe) = image.as_pe() {
+            ensure!(
+                pe.file_backed_code(address, end),
+                "function_registry {side} entry is not executable file-backed code: {address:x} {names:?}"
+            );
+        } else {
+            image.read(address, 1).with_context(|| {
+                format!("function_registry {side} entry is not initialized: {address:x}")
+            })?;
+        }
+    }
+    Ok(())
+}
+fn registry_optional_str<'a>(item: &'a Value, key: &str) -> Result<Option<&'a str>> {
+    match item.get(key) {
+        None | Some(Value::Null) => Ok(None),
+        Some(Value::String(value)) => Ok(Some(value)),
+        _ => bail!("function_registry {key} must be a string or null"),
+    }
+}
+fn registry_optional_ordinal(item: &Value) -> Result<Option<u16>> {
+    match item.get("import_ordinal") {
+        None | Some(Value::Null) => Ok(None),
+        Some(value) => Ok(Some(
+            value.as_u64().and_then(|v| u16::try_from(v).ok()).context(
+                "function_registry import_ordinal must be an unsigned16-bit integer or null",
+            )?,
+        )),
+    }
+}
+fn validate_registry_import(
+    item: &Value,
+    catalog: &crate::imports::Catalog,
+    address: u32,
+    side: &str,
+) -> Result<()> {
+    let name = item["name"].as_str().context("classified import name")?;
+    let identity = catalog
+        .thunks
+        .get(&address)
+        .with_context(|| format!("classified {side} import is not a verified PE thunk: {name}"))?;
+    ensure!(
+        matches!(
+            (&identity.symbol, num(&item["definition"])?),
+            (crate::imports::Symbol::Name { .. }, 1) | (crate::imports::Symbol::Ordinal { .. }, 2)
+        ),
+        "classified {side} import name/ordinal kind differs: {name}"
+    );
+    if let Some(dll) = registry_optional_str(item, "import_dll")? {
+        ensure!(
+            identity.dll
+                == dll
+                    .rsplit(['\\', '/'])
+                    .next()
+                    .unwrap_or(dll)
+                    .to_ascii_lowercase(),
+            "classified {side} import DLL differs: {name}"
+        );
+    }
+    if let Some(declared) = registry_optional_str(item, "import_name")? {
+        ensure!(
+            matches!(&identity.symbol,crate::imports::Symbol::Name{name} if name==declared),
+            "classified {side} import name differs: {name}"
+        );
+    }
+    if let Some(ordinal) = registry_optional_ordinal(item)? {
+        if num(&item["definition"])? == 2 {
+            ensure!(
+                matches!(&identity.symbol,crate::imports::Symbol::Ordinal{ordinal:o} if *o==ordinal),
+                "classified {side} import ordinal differs: {name}"
+            );
+        } else {
+            ensure!(ordinal == 0, "named import has nonzero ordinal: {name}");
+        }
+    }
+    Ok(())
+}
+fn registry_entry_names(
+    cfg: &Value,
+    publics: &BTreeMap<String, u32>,
+    absolutes: &BTreeMap<String, u32>,
+    original: &[Record],
+    rebuilt: &[Record],
+    original_catalog: Option<&crate::imports::Catalog>,
+    rebuilt_catalog: Option<&crate::imports::Catalog>,
+) -> Result<RegistryEntries> {
+    let Some(registry) = cfg.get("function_registry") else {
+        return Ok(RegistryEntries::default());
+    };
+    let registry = registry
+        .as_array()
+        .context("function_registry must be an array")?;
+    let base = num(&cfg["target"]["base"])?;
+    let mut seen = BTreeSet::new();
+    let mut out = RegistryEntries::default();
+    let mut original_bodies = BTreeSet::new();
+    let mut rebuilt_bodies = BTreeSet::new();
+    for item in registry {
+        let definition = num(&item["definition"])?;
+        ensure!(definition <= 4, "unsupported function_registry definition");
+        if definition == 0 {
+            continue;
+        }
+        let name = item["name"]
+            .as_str()
+            .filter(|s| !s.is_empty())
+            .context("function_registry name")?;
+        if definition == 4 {
+            ensure!(
+                seen.insert(name),
+                "duplicate function_registry application identity: {name}"
+            );
+        }
+        let address = base
+            .checked_add(num(&item["rva"])?)
+            .context("function_registry entry overflow")?;
+        ensure!(
+            if definition == 4 {
+                original
+                    .iter()
+                    .all(|r| r.name != name || r.start == address)
+            } else {
+                !original.iter().any(|r| r.name == name)
+                    || original
+                        .iter()
+                        .any(|r| r.name == name && r.start == address)
+            },
+            "function_registry original identity conflicts with index: {name}"
+        );
+        out.original.entry(address).or_default().insert(name.into());
+        if [1, 2].contains(&definition) {
+            registry_optional_str(item, "import_dll")?;
+            registry_optional_str(item, "import_name")?;
+            registry_optional_ordinal(item)?;
+            if let Some(catalog) = original_catalog {
+                validate_registry_import(item, catalog, address, "original")?;
+            }
+            out.original_imports.insert(address);
+        } else {
+            original_bodies.insert(address);
+        }
+        let symbol = registry_optional_str(item, "original_symbol")?.unwrap_or(name);
+        ensure!(
+            !symbol.is_empty() && !absolutes.contains_key(symbol),
+            "function_registry symbol is empty or absolute: {name}"
+        );
+        if let Some(&address) = publics.get(symbol) {
+            ensure!(
+                if definition == 4 {
+                    rebuilt.iter().all(|r| r.name != name || r.start == address)
+                } else {
+                    !rebuilt.iter().any(|r| r.name == name)
+                        || rebuilt.iter().any(|r| r.name == name && r.start == address)
+                },
+                "function_registry rebuilt identity conflicts with index: {name}"
+            );
+            out.rebuilt.entry(address).or_default().insert(name.into());
+            if [1, 2].contains(&definition) {
+                if let Some(catalog) = rebuilt_catalog {
+                    validate_registry_import(item, catalog, address, "rebuilt")?;
+                }
+                out.rebuilt_imports.insert(address);
+            } else {
+                rebuilt_bodies.insert(address);
+            }
+        }
+    }
+    ensure!(
+        out.original_imports.is_disjoint(&original_bodies)
+            && out.rebuilt_imports.is_disjoint(&rebuilt_bodies),
+        "conflicting function_registry import and App/CRT entry classifications"
+    );
+    Ok(out)
+}
 pub(crate) fn integer_bytes(value: u64, width: usize) -> Result<[u8; 8]> {
     ensure!(width <= 8, "unsupported CRT global width {width}");
     ensure!(
@@ -595,4 +787,129 @@ pub(crate) fn integer_bytes(value: u64, width: usize) -> Result<[u8; 8]> {
         "CRT global value does not fit declared {width}-byte width"
     );
     Ok(value.to_le_bytes())
+}
+
+#[cfg(test)]
+mod registry_tests {
+    use super::*;
+    use serde_json::json;
+    #[test]
+    fn entry_names_do_not_invent_bodies_and_import_classification_is_explicit() {
+        let cfg = json!({"target":{"base":0x400000},"function_registry":[{"name":"pending","rva":0x1000,"definition":4,"original_symbol":"actual"}]});
+        let publics = BTreeMap::from([("actual".into(), 0x501000)]);
+        let entries =
+            registry_entry_names(&cfg, &publics, &BTreeMap::new(), &[], &[], None, None).unwrap();
+        assert!(entries.original[&0x401000].contains("pending"));
+        assert!(entries.rebuilt[&0x501000].contains("pending"));
+        assert!(entries.original_imports.is_empty());
+        let image = Image::Pe(crate::tests::image(&[0xc3]));
+        assert!(validate_registry_entry_bytes(&image, &entries.original, "original").is_ok());
+        let invalid = BTreeMap::from([(0xfffffff0, BTreeSet::from(["bad".into()]))]);
+        assert!(validate_registry_entry_bytes(&image, &invalid, "original").is_err());
+        let mut data = crate::tests::image(&[0xc3]);
+        data.sections[0].flags &= !0x20;
+        assert!(
+            validate_registry_entry_bytes(&Image::Pe(data), &entries.original, "rebuilt").is_err()
+        );
+        let mut import = cfg.clone();
+        import["function_registry"][0]["definition"] = json!(1);
+        assert!(
+            registry_entry_names(
+                &import,
+                &publics,
+                &BTreeMap::new(),
+                &[],
+                &[],
+                Some(&crate::imports::Catalog::default()),
+                None
+            )
+            .is_err()
+        );
+        let mut catalog = crate::imports::Catalog::default();
+        catalog.thunks.insert(
+            0x401000,
+            crate::imports::Identity {
+                dll: "msvcrt.dll".into(),
+                symbol: crate::imports::Symbol::Name { name: "fn".into() },
+            },
+        );
+        let entries = registry_entry_names(
+            &import,
+            &publics,
+            &BTreeMap::new(),
+            &[],
+            &[],
+            Some(&catalog),
+            None,
+        )
+        .unwrap();
+        assert!(entries.original_imports.contains(&0x401000));
+        for (key, value) in [
+            ("import_dll", json!(7)),
+            ("import_name", json!([])),
+            ("import_ordinal", json!("x")),
+            ("original_symbol", json!(7)),
+        ] {
+            let mut malformed = import.clone();
+            malformed["function_registry"][0][key] = value;
+            assert!(
+                registry_entry_names(
+                    &malformed,
+                    &publics,
+                    &BTreeMap::new(),
+                    &[],
+                    &[],
+                    Some(&catalog),
+                    None
+                )
+                .is_err()
+            );
+        }
+        let mut wrong_provider = import.clone();
+        wrong_provider["function_registry"][0]["import_dll"] = json!("kernel32.dll");
+        assert!(
+            registry_entry_names(
+                &wrong_provider,
+                &publics,
+                &BTreeMap::new(),
+                &[],
+                &[],
+                Some(&catalog),
+                None
+            )
+            .is_err()
+        );
+        let preserved = registry_entry_names(
+            &cfg,
+            &publics,
+            &BTreeMap::new(),
+            &[],
+            &[],
+            Some(&catalog),
+            None,
+        )
+        .unwrap();
+        assert!(preserved.original_imports.is_empty());
+        let mut duplicate = cfg.clone();
+        duplicate["function_registry"]
+            .as_array_mut()
+            .unwrap()
+            .push(cfg["function_registry"][0].clone());
+        assert!(
+            registry_entry_names(&duplicate, &publics, &BTreeMap::new(), &[], &[], None, None)
+                .is_err()
+        );
+        assert!(
+            registry_entry_names(
+                &cfg,
+                &publics,
+                &BTreeMap::from([("actual".into(), 0x501000)]),
+                &[],
+                &[],
+                None,
+                None
+            )
+            .is_err()
+        );
+    }
 }

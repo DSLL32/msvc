@@ -1,6 +1,7 @@
 mod audit;
 mod cf;
 mod cvpack;
+mod cvpack_registry;
 mod decode;
 mod flow;
 mod image;
@@ -51,6 +52,11 @@ pub struct Args {
     pub discovery: Discovery,
     #[arg(long)]
     pub check_ret: bool,
+    #[arg(
+        long,
+        help = "Run the existing RC FILE/locale/Kanji runtime data checks (RC CFG only)"
+    )]
+    pub check_runtime_data: bool,
     #[arg(
         long,
         help = "Assert explicit RET cleanup sets for selected accepted functions without reducing other audit scopes"
@@ -133,6 +139,7 @@ fn run() -> Result<()> {
                 || args.resolve_register_imports
                 || args.export_instructions
                 || args.check_ret
+                || args.check_runtime_data
                 || args.ret_checks.is_some()
                 || args.check_references
                 || args.check_callbacks
@@ -167,6 +174,10 @@ fn run() -> Result<()> {
             "per-owner register imports require a standalone CFG profile"
         );
     }
+    anyhow::ensure!(
+        !args.check_runtime_data || args.profile == Profile::Rc,
+        "--check-runtime-data requires the RC CFG profile"
+    );
     let mut report = if args.profile == Profile::Cvpack {
         cvpack::run(&args)?
     } else {
@@ -182,6 +193,7 @@ fn run() -> Result<()> {
         let mut checks = vec!["call_graph"];
         for (enabled, name) in [
             (args.check_ret, "ret_cleanup"),
+            (args.check_runtime_data, "runtime_data"),
             (args.ret_checks.is_some(), "selected_ret_cleanup"),
             (args.check_imports, "known_imports"),
             (
