@@ -7,6 +7,7 @@
 #include <sys/wait.h>
 #include <sys/socket.h>
 #include <elf.h>
+#include <sys/mman.h>
 
 /* An explicitly configured fixture broker can observe native children or replay
  * an external tool at its process boundary. No broker means ordinary spawning;
@@ -97,7 +98,7 @@ static void replay_stream(int socket,int descriptor,uint32_t size)
 }
 static int spawn_request(int mode,const char *file,const char *const *argv,
                          const char *const *environment,unsigned environment_source,
-                         SpawnState entry,int allow_state_profile,int *result)
+                         SpawnState entry,int allow_state_profile,int *result,int *native_allowed)
 {
     const char *value=getenv("RECON_SPAWN_FD");
     const char *const *env=environment;
@@ -105,6 +106,7 @@ static int spawn_request(int mode,const char *file,const char *const *argv,
     int state_profile=profile!=NULL;uint32_t state_fields[4],effect[6];
     char *end,*cwd; long descriptor; size_t size; unsigned n;
     uint32_t header[2],fields[4],response[3],lengths[2],failure_errno=0;
+    if(native_allowed)*native_allowed=0;
     if(state_profile){
         int cp0=!strcmp(profile,"msvcrt510-cp0-wait-success-v1");
         if(!allow_state_profile || (!cp0 && strcmp(profile,"msvcrt510-wait-success-v1")) ||
@@ -166,6 +168,7 @@ static int spawn_request(int mode,const char *file,const char *const *argv,
     if(state_profile){SpawnState after;after.error=(int)effect[3];after.dos=effect[4];after.last=effect[5];restore_spawn_state(after);}
     if (failure_errno) errno=(int)failure_errno;
     if (response[1]) { *result=(int32_t)response[2]; return 1; }
+    if(native_allowed)*native_allowed=1;
     return 0;
 }
 /* Exact external-command replay only. This is not a POSIX/Windows shell. */
@@ -177,7 +180,7 @@ int recon_system(const char *command)
         recon_unsupported("unreviewed system command processor");
     arguments[0]=processor; arguments[1]="/c"; arguments[2]=command; arguments[3]=NULL;
     env=spawn_environment(NULL,&owned,&source);
-    if (!spawn_request(_P_WAIT,processor,arguments,env,source,entry,0,&result))
+    if (!spawn_request(_P_WAIT,processor,arguments,env,source,entry,0,&result,NULL))
         recon_unsupported("system requires captured broker response");
     release_spawn_environment(owned);
     if (result!=0) recon_unsupported("unreviewed system command result/fallback");
@@ -197,10 +200,45 @@ static int native_program(const char *file,char *path)
     }
     return 0;
 }
+/* Trusted host setup only: the registered command re-enters this same native
+ * runner. The broker still authenticates the original target request. */
+static const char *const *native_self_command;
+static size_t native_self_prefix_count;
+static dev_t native_self_device;
+static ino_t native_self_inode;
+void recon_set_native_self_command(const char *exe,const char *const *prefix,size_t count)
+{
+    SpawnState entry=spawn_state();
+    struct stat runner,current;char path[PATH_MAX],*bytes;char **command;
+    size_t n,total;
+    if(native_self_command || !exe || exe[0]!='/' || !prefix || !count || count>64 ||
+        strnlen(exe,PATH_MAX)==PATH_MAX || native_program(exe,path)<0 ||
+        stat(path,&runner)<0 || stat("/proc/self/exe",&current)<0 ||
+        runner.st_dev!=current.st_dev || runner.st_ino!=current.st_ino)
+        process_error("invalid native self command owner/prefix");
+    total=(count+2)*sizeof(*command)+strlen(path)+1;
+    for(n=0;n<count;++n){
+        size_t length;
+        if(!prefix[n] || (length=strnlen(prefix[n],65536))==65536 || total>65536-length-1)
+            process_error("native self command prefix too large");
+        total+=length+1;
+    }
+    command=mmap(NULL,total,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+    if(command==MAP_FAILED)process_error("native self command allocation failure");
+    bytes=(char*)(command+count+2);
+    command[0]=bytes;strcpy(bytes,path);bytes+=strlen(bytes)+1;
+    for(n=0;n<count;++n){command[n+1]=bytes;strcpy(bytes,prefix[n]);bytes+=strlen(bytes)+1;}
+    command[count+1]=NULL;
+    if(mprotect(command,total,PROT_READ)<0)process_error("native self command protection failure");
+    native_self_device=runner.st_dev;native_self_inode=runner.st_ino;
+    native_self_prefix_count=count;native_self_command=(const char *const *)command;
+    restore_spawn_state(entry);
+}
 static int spawnve_body(int mode,const char *file,const char *const *argv,const char *const *env,
                         unsigned source,SpawnState entry)
 {
-    char path[PATH_MAX],logical[PATH_MAX]; pid_t pid; int status,result;
+    char path[PATH_MAX],logical[PATH_MAX]; pid_t pid; int status,result,native_allowed;
+    char **routed=NULL;size_t routed_size=0;
     const char *self=getenv("RECON_SELF_SPAWN");
     const char *require_exists=getenv("RECON_SPAWN_REQUIRE_EXISTS");
     if (mode!=_P_WAIT) { if(getenv("RECON_SPAWN_STATE_PROFILE"))process_error("spawn state profile requires wait mode");errno=ENOTSUP; return -1; }
@@ -219,14 +257,29 @@ static int spawnve_body(int mode,const char *file,const char *const *argv,const 
             if (access(path,R_OK)<0) return -1;
         }
     }
-    if (spawn_request(mode,file,argv,env,source,entry,1,&result)) return result;
+    if (spawn_request(mode,file,argv,env,source,entry,1,&result,&native_allowed)) return result;
     if (self && strcmp(self,"1")) process_error("RECON_SELF_SPAWN must be 1 when set");
     if (self && recon_pgmptr && recon_host_path(file,path,sizeof(path))==0 &&
         recon_host_path(recon_pgmptr,logical,sizeof(logical))==0 && !strcasecmp(path,logical)) {
-        if (native_program("/proc/self/exe",path)<0) return -1;
+        if(native_self_command){
+            struct stat runner;size_t argc=0,n;
+            if(!native_allowed)process_error("native self reentry requires broker allowance");
+            if(native_program(native_self_command[0],path)<0 || stat(path,&runner)<0 ||
+                runner.st_dev!=native_self_device || runner.st_ino!=native_self_inode)
+                process_error("native self command owner changed");
+            while(argv && argv[argc])if(++argc>4096)process_error("too many self arguments");
+            if(!argc)process_error("native self reentry requires argv");
+            routed_size=(native_self_prefix_count+argc+2)*sizeof(*routed);
+            routed=mmap(NULL,routed_size,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+            if(routed==MAP_FAILED)process_error("native self argument allocation failure");
+            for(n=0;n<=native_self_prefix_count;++n)routed[n]=(char*)native_self_command[n];
+            for(n=0;n<argc;++n)routed[native_self_prefix_count+1+n]=(char*)argv[n];
+            routed[native_self_prefix_count+1+argc]=NULL;
+        }else if (native_program("/proc/self/exe",path)<0) return -1;
     } else if (native_program(file,path)<0) return -1;
-    pid=fork(); if (pid<0) return -1;
-    if (!pid) { execve(path,(char *const *)argv,(char *const *)(env?env:(const char *const *)environ)); _exit(127); }
+    pid=fork(); if (pid<0) {if(routed)munmap(routed,routed_size);return -1;}
+    if (!pid) { execve(path,routed?routed:(char *const *)argv,(char *const *)(env?env:(const char *const *)environ)); _exit(127); }
+    if(routed)munmap(routed,routed_size);
     while (waitpid(pid,&status,0)<0) if (errno!=EINTR) return -1;
     if (!WIFEXITED(status)) { errno=EINTR; return -1; }
     return WEXITSTATUS(status);

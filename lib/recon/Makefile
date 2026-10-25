@@ -604,3 +604,9 @@ build/native-image-driver: tests/native-image-driver.c | build
 .PHONY: native-migration-check
 native-migration-check: build/trace-module.so build/trace-exec-driver build/native-image-module.so build/native-image-case.so build/native-image-driver
 	$(PYTHON) tests/check-native-migration.py $^
+
+.PHONY: self-command-check
+build/self-command: tests/self-command.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+self-command-check: build/self-command
+	$(PYTHON) tests/check-self-command.py $<

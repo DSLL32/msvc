@@ -368,6 +368,11 @@ typedef struct ReconModuleMemorySpec {
 #define RECON_NATIVE_IMAGE_APPLICATION 1u
 #define RECON_NATIVE_IMAGE_CASE_CALLBACKS 2u
 void recon_register_native_image(const void *,unsigned);
+/* Host setup, once: current native runner and copied immutable argv prefix
+ * (1..64 strings, total storage <=64KiB). Child argv is runner, prefix, then
+ * original argv. Used only for canonical self requests allowed by RSP1;
+ * requires RECON_SELF_SPAWN=1. No broker does not authorize this route. */
+void recon_set_native_self_command(const char *,const char *const *,size_t);
 void recon_register_module_memory(HMODULE,const ReconModuleMemorySpec *,void *,size_t);
 void recon_load_module_resources(HMODULE,const char *);
 void recon_load_system_profile(const char *,const char *);
