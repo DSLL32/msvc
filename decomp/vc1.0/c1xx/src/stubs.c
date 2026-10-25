@@ -347,7 +347,6 @@ void finish_inline_function(void) { __asm { int 3 } }
 
 void __cdecl prepare_line_record_tag(CppSymbol *tag) { __asm { int 3 } }
 unsigned short __cdecl line_record_tag_type(CppSymbol *tag) { __asm { int 3 } return 0; }
-unsigned __stdcall hash_table_count(HashTable *table) { __asm { int 3 } return 0; }
 unsigned short __cdecl reference_line_record_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int limit) { __asm { int 3 } }
 

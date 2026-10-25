@@ -5,7 +5,7 @@ Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
 /O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
 The independent native cases freeze source timestamps/cwds and the original
 53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1428 App bodies and1535
+original/native matching at compare_filenames; there are1429 App bodies and1536
 historical frontiers. Original compilation,1430-function inherited graph/ABI
 checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
 compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
@@ -43,8 +43,12 @@ finish_pch_debug_symbols(26B) is accepted at the genuine hash_table_count@4
 frontier within global-scope serialization; the new56B type terminator remains
 unimplemented. Original build2.860s, fresh original1.186s, native27.738ms
 (setup16.114ms, execution5.966ms, checks5.659ms),1436-function six-check audit2.160s
-and cached12+21units0.315s pass. A mistaken native command from the repository
-root failed to find case.so before execution; the corrected binary-root run passed.
+and cached12+21units0.315s pass. A native command before the case descriptor rebuild
+failed to find case.so before execution; the rebuilt descriptor run passed.
+hash_table_count@4(10B) is accepted at compare_debug_symbol_indices within the
+actual debug type sort. Fresh original1.275s, native26.899ms (setup16.452ms,
+execution4.460ms, checks5.985ms), original build2.969s,1437-function inherited
+audit2.261s and cached12+21units0.321s pass.
 Producer IR/browser outputs match the driver. Raw export from the genuine
 standalone invocation matches ALL seven already-frozen master hashes, including
 state.pch. The driver-vs-standalone PCH differs by47bytes in23 arena DWORDs:

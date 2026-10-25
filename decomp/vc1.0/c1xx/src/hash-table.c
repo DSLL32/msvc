@@ -259,3 +259,10 @@ unsigned __cdecl hash_word_triplet(void *key)
     return ((words[1] & 0xffc) >> 2) + ((words[2] & 0xffc) >> 2) +
            ((words[0] & 0xffc) >> 2);
 }
+
+/* Original0x4ee20..0x4ee2a. Counts the current entries, including replacements
+   only once as maintained by set_hash_value. */
+unsigned __stdcall hash_table_count(HashTable *table)
+{
+    return table->count;
+}
