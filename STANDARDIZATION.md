@@ -2,12 +2,9 @@
 
 Shared Rust `recon-tool` is implemented under `tooling/recon-tool/`: native
 execution/tests, GDB debugging, capture pack/unpack, registry projection, and
-explicit PE original capture. VC1.0 C1XX has migrated to eight numbered cases.
-The migrated C1XX browser case is complete using fresh original/native comparisons;
-seven cases are complete and one retains its documented partial frontier.
-All eight cached cases and existing units pass.
-VC1.0 C1 has migrated 65 I/O and 101 original-backed direct invocations; native
-replay, original compilation and graph/ABI audits pass with accepted code unchanged.
+explicit PE original capture. C1/C1XX and other migrated binaries use the shared
+IO/DIRECT interfaces. Current consumer status and verification accounting live
+in `MIGRATION-REPORT.md`.
 
 A capture is a saved invocation's inputs and expected results. Original-capture
 smoke tests validate the shared harness; they are not reconstruction cases.
@@ -186,6 +183,16 @@ exit. Application inputs and outputs remain in the working directory inventory.
 Optional `case_process_policy` validates each child invocation and its inputs
 before returning a captured response; absent policies deny child requests.
 Request counts are checked even when the application handles a denied request.
+A policy may instead request `RECON_PROCESS_SELF` for a canonical same-program
+invocation. The existing shim then launches the public `recon-tool native-child`
+command in the same workspace with inherited arguments, environment and streams.
+It loads fresh application state, runs setup and attaches to the parent's shared
+trace state without resetting it. Child results retain kernel status, full-DWORD
+receipt and trap-owner diagnostics; handled child failures still fail the fixture.
+The existing spawn shim exposes only the exit code's low eight bits to the parent.
+This route exercises the reconstruction itself; external dependency tools use
+captured responses.
+
 Optional `case_output_policy` checks artifacts after the target and descendants
 exit, from a pristine post-setup fork. It may produce comparison streams while
 raw streams remain intact; ordinary output assertions still run. These callbacks
@@ -209,6 +216,12 @@ The callback asserts state and calls `recon_native_entry_finish`, returning to t
 shared checkpoint without resuming parser mutation. The marker is recorded in
 the application trace; ordinary traps and original entry bytes/actions are
 preserved. This is single-threaded host test glue, never reconstructed app logic.
+
+Existing IO cases that deliberately alter internal state can use
+`recon_native_observe_entry`: the callback runs at a genuine function entry and
+execution then resumes through that entry. Currently the IO adapter installs
+this hook; it is not a separate descriptor kind or hook field. Such cases must
+state their intervention and must not claim ordinary CLI reachability.
 
 Additional `tests.c` tests are optional and as narrow as necessary. `fork` is
 true unless the test is pure. Forked tests start from a defined setup state;
