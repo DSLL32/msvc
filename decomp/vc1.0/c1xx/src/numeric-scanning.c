@@ -321,3 +321,26 @@ unsigned char __stdcall classify_unsigned_integer(unsigned value)
 {
     return TOK_UINT_CONSTANT;
 }
+
+/* Original0x258a0..0x258b5, stdcall4 with an AL result. A long
+   suffix promotes to unsigned long when the32-bit sign bit is set. */
+unsigned char __stdcall classify_long_integer(unsigned value)
+{
+    return value & 0x80000000U ? TOK_ULONG_CONSTANT : TOK_LONG_CONSTANT;
+}
+
+/* Original0x7d500..0x7d53a, stdcall4. The caller supplies at least
+   one digit; invalid bytes retain the diagnostic and shifted recovery value. */
+unsigned __stdcall parse_asm_binary_digits(char *text)
+{
+    unsigned value = 0;
+    do {
+        value += value;
+        switch (*text) {
+        case '0': break;
+        case '1': value |= 1; break;
+        default: report_syntax_error(41,(unsigned char)*text,2); break;
+        }
+    } while (*++text);
+    return value;
+}

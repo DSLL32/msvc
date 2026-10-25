@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1508 historical frontiers/1401 App bodies.
+ * Current reviewed boundary:1514 historical frontiers/1407 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_asm_scale_encoding@4",
+        .entry_rva = 0x6fb4a,
+        .code = (const ReconExtent[]) { { 0x6fb4a, 0x6fb80 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "asm_scale_encoding",
+    },
     {
         .name = "_truncate_extended",
         .entry_rva = 0x6500b,
@@ -1484,10 +1492,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_classify_long_integer@4",
         .entry_rva = 0x158a0,
-        .code = (const ReconExtent[]) { { 0x158a0, 0x158a1 } },
+        .code = (const ReconExtent[]) { { 0x158a0, 0x158b5 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "classify_long_integer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_classify_unsigned_integer@4",
@@ -14138,10 +14147,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_parse_asm_binary_digits@4",
         .entry_rva = 0x6d500,
-        .code = (const ReconExtent[]) { { 0x6d500, 0x6d501 } },
+        .code = (const ReconExtent[]) { { 0x6d500, 0x6d53a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "parse_asm_binary_digits",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_scan_assembler_number@4",
@@ -14278,18 +14288,22 @@ static const ReconFunction functions[] = {
     {
         .name = "_multiply_asm_expression@12",
         .entry_rva = 0x6fb80,
-        .code = (const ReconExtent[]) { { 0x6fb80, 0x6fb81 } },
+        .code = (const ReconExtent[]) { { 0x6fb80, 0x6fc40 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "multiply_asm_expression",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_evaluate_asm_binary@12",
         .entry_rva = 0x6f92d,
-        .code = (const ReconExtent[]) { { 0x6f92d, 0x6f92e } },
+        .code = (const ReconExtent[]) { { 0x6f92d, 0x6fae6 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "evaluate_asm_binary",
+        .text_data = (const ReconExtent[]) { { 0x6fae6, 0x6fb4a } },
+        .text_data_count = 1,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_combine_asm_addresses@12",
@@ -14362,10 +14376,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_asm_symbol_length@4",
         .entry_rva = 0x6da3e,
-        .code = (const ReconExtent[]) { { 0x6da3e, 0x6da3f } },
+        .code = (const ReconExtent[]) { { 0x6da3e, 0x6da77 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "asm_symbol_length",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_asm_member_offset@4",
@@ -14395,10 +14410,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_asm_offset@4",
         .entry_rva = 0x7014c,
-        .code = (const ReconExtent[]) { { 0x7014c, 0x7014d } },
+        .code = (const ReconExtent[]) { { 0x7014c, 0x701c5 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_asm_offset",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_asm_register@4",

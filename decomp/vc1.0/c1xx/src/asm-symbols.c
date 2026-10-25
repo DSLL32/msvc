@@ -115,3 +115,33 @@ unsigned __stdcall asm_symbol_type_size(CppSymbol *symbol)
         type = drop_first_type_shape(strip_based_shape(type));
     return type_size(type);
 }
+
+/* Original0x7da3e..0x7da77, stdcall4. LENGTH uses the outer array
+   bound, stepping past a representation prefix when its shape flags permit. */
+unsigned __stdcall asm_symbol_length(CppSymbol *symbol)
+{
+    TypeShape *shape;
+    if ((symbol->kind & 31) == 8 || !(symbol->attributes & 0x400)) return 1;
+    shape = symbol->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    return shape->data.word;
+}
+
+/* Original0x8014c..0x801c5, stdcall4. OFFSET selects an immediate
+   symbol address, preserving diagnostic arguments and recovery placeholder. */
+AsmExpression *__stdcall make_asm_offset(AsmExpression *value)
+{
+    char *context;
+    if (!(asm_operand->address->address_flags & 1)) {
+        if (value->kind == 3) {
+            context = asm_error_context();
+            report_syntax_error(404,interned_name,context);
+        } else report_syntax_error(415);
+        asm_operand->address->symbol = translation_sentinel;
+        value->kind = 2;
+    }
+    asm_operand->address->address_flags &= 0xe8;
+    asm_operand->address->address_flags |= 3;
+    asm_operand->size = 2;
+    return value;
+}

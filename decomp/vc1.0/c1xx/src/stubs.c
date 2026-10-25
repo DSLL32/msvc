@@ -187,7 +187,6 @@ void finish_pch_output(void) { __asm { int 3 } }
 void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
-unsigned __stdcall parse_asm_binary_digits(char *digits) { __asm { int 3 } return 0; }
 void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
 long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
@@ -383,7 +382,6 @@ int unsigned_to_extended(const unsigned long *value, Extended *result) { __asm {
 IrToken *__stdcall strip_function_designator(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall resolve_qualified_assignment_operand(CType *type, QualifiedDeclarator *reference) { __asm { int 3 } return 0; }
 
-unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } return 0; }
 
 char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
 
@@ -528,9 +526,7 @@ void __stdcall set_asm_directive(short directive, unsigned value) { __asm { int 
 
 
 
-AsmExpression *__stdcall multiply_asm_expression(unsigned short operation, AsmExpression *left, AsmExpression *right) { __asm { int 3 } return 0; }
 
-AsmExpression *__stdcall evaluate_asm_binary(unsigned short operation, AsmExpression *left, AsmExpression *right) { __asm { int 3 } return 0; }
 
 
 void __stdcall set_asm_address_operator(short operation) { __asm { int 3 } }
@@ -544,14 +540,12 @@ AsmExpression *__stdcall apply_asm_segment(short segment, AsmExpression *value) 
 
 
 
-unsigned __stdcall asm_symbol_length(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
 unsigned __stdcall asm_member_offset(char *name) { __asm { int 3 } return 0; }
 
 
 AsmExpression *__stdcall make_asm_segment_value(AsmExpression *value) { __asm { int 3 } return 0; }
 
-AsmExpression *__stdcall make_asm_offset(AsmExpression *value) { __asm { int 3 } return 0; }
 
 
 
@@ -577,3 +571,5 @@ int __stdcall uniform_overload_protection(CppSymbol *overloads, QualifierBinding
 char *__stdcall member_protection_keyword(unsigned char protection) { __asm { int 3 } return 0; }
 
 int __stdcall segment_name_has_suffix(char *name, char *suffix) { __asm { int 3 } return 0; }
+
+unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0; }
