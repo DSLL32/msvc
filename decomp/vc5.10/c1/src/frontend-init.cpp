@@ -373,6 +373,7 @@ extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, Compile
 }
 extern "C" WORD __cdecl resolve_shape_attributes(unsigned, unsigned);
 extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned *);
+extern "C" CompilerTypeList *__cdecl intern_function_parameters(const void *, WORD *, unsigned);
 extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *);
 extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags)
 {
@@ -433,7 +434,49 @@ extern "C" WORD __cdecl resolve_shape_attributes(unsigned kind, unsigned attribu
     return result;
 }
 extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned kind, unsigned attributes,
-    unsigned *value) { __asm { int 3 } return NULL; }
+    unsigned *value)
+{
+    CompilerArena *arena = &c1_bss.arenas[3];
+    CompilerTypeShape *shape = (CompilerTypeShape *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    shape->flags = (WORD)kind;
+    shape->attributes = (WORD)attributes;
+    switch (kind & 7) {
+    case 4:
+        if (kind & 0x400) {
+            shape->flags = (WORD)(kind & ~0x400);
+            shape->value = *value;
+        } else {
+            unsigned parameter_value = value ? *value : 0;
+            WORD flags = (WORD)kind;
+            shape->parameters = intern_function_parameters((const void *)parameter_value,
+                &flags, 0);
+            shape->flags |= flags;
+        }
+        break;
+    case 2:
+        if (kind & 0x1000)
+            shape->value = *value;
+        else if (value) {
+            if ((int)*value < 0) {
+                compiler_warning(118);
+                *value = 1;
+            }
+            shape->value = *value;
+        } else
+            shape->value = 0;
+        break;
+    case 1:
+        if ((attributes & 1) && value)
+            shape->value = *value;
+        break;
+    }
+    /* The link is not written here. Some kinds also leave value untouched;
+     * no zero default or whole-object initialization is implied. */
+    return shape;
+}
 extern "C" void __cdecl initialize_intermediate_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
@@ -598,12 +641,12 @@ extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned kind, unsigned 
     return shape;
 }
 extern "C" struct CompilerTypeList *__cdecl intern_function_parameters(const void *,
-    CompilerTypeShape *, unsigned);
+    WORD *, unsigned);
 void RECON_THISCALL CompilerTypeShape::SetParameters(unsigned value, unsigned kind)
 {
     if (kind == 2)
         value = 0;
-    CompilerTypeList *parameters = intern_function_parameters((const void *)value, this, kind);
+    CompilerTypeList *parameters = intern_function_parameters((const void *)value, &flags, kind);
     flags |= 0x400;
     this->parameters = parameters;
 }
@@ -616,7 +659,7 @@ struct CompilerParameterSequence {
     CompilerSymbolBinding *first;
 };
 extern "C" struct CompilerTypeList *__cdecl intern_function_parameters(const void *value,
-    CompilerTypeShape *function, unsigned kind)
+    WORD *function_flags, unsigned kind)
 {
     const CompilerParameterSequence *sequence = (const CompilerParameterSequence *)value;
     CompilerSymbolBinding *parameter;
@@ -629,7 +672,7 @@ extern "C" struct CompilerTypeList *__cdecl intern_function_parameters(const voi
     unsigned bytes;
     int count = 0, has_void = 0;
     if (!sequence) {
-        function->flags |= 0x800;
+        *function_flags |= 0x800;
         return get_empty_type_list();
     }
     if (kind != 5) {
@@ -640,12 +683,12 @@ extern "C" struct CompilerTypeList *__cdecl intern_function_parameters(const voi
                     has_void = 1;
                 ++count;
                 if (!symbol->parameter_type)
-                    function->flags |= 0x8000;
+                    *function_flags |= 0x8000;
             }
         }
         if (!has_void) {
             if (!count) {
-                function->flags |= 0x800;
+                *function_flags |= 0x800;
                 return get_empty_type_list();
             }
             bytes = count * 4;
@@ -691,7 +734,7 @@ extern "C" struct CompilerTypeList *__cdecl intern_function_parameters(const voi
             symbol->scope_bits |= 1;
         }
     }
-    function->flags |= 0x4000;
+    *function_flags |= 0x4000;
     symbol = (CompilerIrSymbol *)((BYTE *)sequence->first - 8);
     symbol->flags |= 2;
     return get_void_type_list();

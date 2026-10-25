@@ -312,9 +312,28 @@ static int type_arena_snapshot(void)
         c1_bss.saved_data == &saved && saved.type_arena_kind == 2 &&
         !c1_reuse_state;
 }
-const ReconTest minimal_tests[26] = {
+extern struct CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned *);
+static int type_shape_write_extent(void)
+{
+    DWORD storage[5];
+    struct CompilerTypeShape *shape;
+    unsigned i;
+    for (i = 0; i < 5; ++i) storage[i] = 0xa5a5a5a5;
+    c1_bss.arenas[3].cursor = (BYTE *)(storage + 1);
+    c1_bss.arenas[3].committed_limit = (BYTE *)(storage + 4);
+    shape = make_type_shape(1, 0, NULL);
+    /* Owned sentinels check only the constructor's write extent. They are
+     * never dereferenced or treated as original allocator defaults. */
+    return (void *)shape == storage + 1 && shape->flags == 1 &&
+        shape->attributes == 0 && (unsigned)shape->base == 0xa5a5a5a5 &&
+        shape->value == 0xa5a5a5a5 && storage[0] == 0xa5a5a5a5 &&
+        storage[4] == 0xa5a5a5a5 &&
+        c1_bss.arenas[3].cursor == (BYTE *)(storage + 4);
+}
+const ReconTest minimal_tests[27] = {
     { "shape interning keeps collision keys, canonical identity and16-byte ownership", 1, interned_type_shapes },
     { "type allocation arena default and nonzero snapshot restore", 1, type_arena_snapshot },
+    { "pointer shape writes only declared fields within its12-byte allocation", 1, type_shape_write_extent },
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
