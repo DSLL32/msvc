@@ -24,6 +24,12 @@ typedef struct HashTable {
     const void *string_storage;
     DWORD reserved[6];
 } HashTable;
+typedef struct HashEntry {
+    void *value;
+    struct HashEntry *next;
+} HashEntry;
+typedef char HashEntrySize[(sizeof(HashEntry)==8)?1:-1];
+HashEntry *__stdcall lookup_hash(const char *,HashState *,BYTE,const void *,BYTE *);
 typedef struct StringNode StringNode;
 typedef struct StringTable {
     HashTable hash;

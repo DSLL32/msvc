@@ -456,6 +456,30 @@ static int comdat_lookup(void)
     return recon_native_at_entry(native_lookup_symbol,check_comdat_lookup,
         invoke_hello,NULL)==1;
 }
+extern const char *__stdcall string_key_name(const void *,const void *);
+static HashEntry *__stdcall check_comdat_hash_lookup(const char *name,HashState *state,
+    BYTE create,const void *strings,BYTE *created)
+{
+    const DWORD *words=(const DWORD *)state;
+    unsigned i;
+    int pass=name==current_module_strings+4 && !strcmp(name,"_HelloWindowProc@16") &&
+        state && create==1 && strings && !*(const void * const *)strings && created && !*created;
+    if (!pass) recon_native_entry_finish(0);
+    pass=words[0]==0 && words[1]==1024 && words[2]==1024 && words[3]==0 &&
+        words[4]==0 && words[5]==128 && words[6]==1024 && words[7]==0 &&
+        state->key_name==string_key_name && state->reserved24==0 &&
+        !state->incremental_mode && state->directory && state->directory[0] &&
+        state->directory[0][0];
+    if (!pass) recon_native_entry_finish(0);
+    for(i=0;i<1024;++i) if (((void **)state->directory[0][0])[i]) recon_native_entry_finish(0);
+    recon_native_entry_finish(1);
+    return NULL;
+}
+static int comdat_hash_lookup(void)
+{
+    return recon_native_at_entry(lookup_hash,check_comdat_hash_lookup,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -478,5 +502,6 @@ const ReconTest hello_tests[]={
     {"first-comdat",1,first_comdat},
     {"section-symbol-ranges-call",1,section_symbol_ranges_call},
     {"comdat-symbol-name",1,comdat_symbol_name},
-    {"comdat-symbol-lookup",1,comdat_lookup}
+    {"comdat-symbol-lookup",1,comdat_lookup},
+    {"comdat-hash-lookup",1,comdat_hash_lookup}
 };

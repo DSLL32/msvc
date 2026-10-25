@@ -5860,6 +5860,11 @@
         "expected_cleanup": [
           16
         ]
+      },
+      "StringTable::LookupSymbol": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   }

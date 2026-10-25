@@ -213,7 +213,7 @@ static const ReconFunction functions[] = {
     {"LinkContext::UpdateChecksum",0x61900,(const ReconExtent[]){{0x61900,0x61901}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN11LinkContext14UpdateChecksumEv",NULL,NULL,0,"?UpdateChecksum@LinkContext@@QAEXXZ"},
     {"_finish_symbol_tables",0x61b50,(const ReconExtent[]){{0x61b50,0x61b51}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"finish_symbol_tables",NULL,NULL,0,NULL},
     {"_get_symbol_name@16",0x61d80,(const ReconExtent[]){{0x61d80,0x61dc3}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"get_symbol_name",NULL,NULL,0,NULL},
-    {"StringTable::LookupSymbol",0x61dd0,(const ReconExtent[]){{0x61dd0,0x61dd1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN11StringTable12LookupSymbolEtPKcPh",NULL,NULL,0,"?LookupSymbol@StringTable@@QAEPAUStringNode@@GPBDPAE@Z"},
+    {"StringTable::LookupSymbol",0x61dd0,(const ReconExtent[]){{0x61dd0,0x61ed2}},1,(const ReconExtent[]){{0x20f0,0x2102}},1,RECON_APP,RECON_IMPLEMENTED,"_ZN11StringTable12LookupSymbolEtPKcPh",NULL,NULL,0,"?LookupSymbol@StringTable@@QAEPAUStringNode@@GPBDPAE@Z"},
     {"StringTable::FindSymbol",0x61f20,(const ReconExtent[]){{0x61f20,0x61f21}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN11StringTable10FindSymbolEPKc",NULL,NULL,0,"?FindSymbol@StringTable@@QAEPAUStringNode@@PBD@Z"},
     {"_set_symbol_defined@12",0x61f50,(const ReconExtent[]){{0x61f50,0x61f51}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"set_symbol_defined",NULL,NULL,0,NULL},
     {"_initialize_comdats",0x62eb0,(const ReconExtent[]){{0x62eb0,0x62ebb}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_comdats",NULL,NULL,0,NULL},
@@ -351,6 +351,9 @@ static const ReconFunction functions[] = {
     {"_remove_module_symbol@8",0x34760,(const ReconExtent[]){{0x34760,0x347a1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remove_module_symbol",NULL,NULL,0,NULL},
     {"_get_contribution_info@4",0x62f10,(const ReconExtent[]){{0x62f10,0x62f49}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"get_contribution_info",NULL,NULL,0,NULL},
     {"Contribution::CanOrder",0x31f30,(const ReconExtent[]){{0x31f30,0x31fa8}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN12Contribution8CanOrderEPKc",NULL,NULL,0,"?CanOrder@Contribution@@QAEEPBD@Z"},
+    {"_lookup_hash@20",0x30e20,(const ReconExtent[]){{0x30e20,0x30f55}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"lookup_hash",NULL,NULL,0,NULL},
+    {"_append_symbol_string@8",0x60740,(const ReconExtent[]){{0x60740,0x60782}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"append_symbol_string",NULL,NULL,0,NULL},
+    {"_intern_symbol_string@8",0x60790,(const ReconExtent[]){{0x60790,0x60897}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"intern_symbol_string",NULL,NULL,0,NULL},
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconBinary),"vc5.10-link",
