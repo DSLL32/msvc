@@ -594,6 +594,13 @@ binary0200/text0100. Input text mode and unknown/closed descriptors deny125;
 Microsoft _setmode and native FILE representation remain unchanged. WLINK's
 normal startup requests binary on public fileno(stdin/stdout), ignoring returns.
 
+Watcom-only bare memicmp/getcmd spellings have typed cdecl link boundaries:
+int(const void *,const void *,size_t) and char *(char *), matching shipped
+STRING.H83/PROCESS.H63. Both always deny125 without reading input or writing
+output, including count0/NULL. WLINK currently stores the memicmp callback;
+WLIB's selected help path returns before getcmd. No comparison or command-line
+success, private CRT implementation or host import fallback is supported.
+
 The public IMAGEHLP staging route recognizes LoadLibraryA("imagehlp" or
 "imagehlp.dll") as a built-in native module, alongside the existing system
 module routes. Only after that load can GetProcAddress resolve the exact name

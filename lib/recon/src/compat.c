@@ -102,6 +102,16 @@ int __cdecl recon_watcom_setmode(int fd,int mode)
     recon_unsupported("Watcom setmode requires explicit profile");return -1;
 #endif
 }
+int __cdecl recon_watcom_memicmp(const void *left,const void *right,size_t count)
+{
+    (void)left;(void)right;(void)count;
+    recon_unsupported("unreviewed Watcom memicmp");return 0;
+}
+char *__cdecl recon_watcom_getcmd(char *buffer)
+{
+    (void)buffer;
+    recon_unsupported("unreviewed Watcom getcmd");return NULL;
+}
 void recon_bind_watcom_wlib_first_main_heap(const char *reference)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

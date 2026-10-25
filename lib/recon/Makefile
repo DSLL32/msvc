@@ -692,6 +692,12 @@ build/heap-realloc-surface-probe: tests/heap-realloc-surface-probe.c $(SOURCES) 
 heap-realloc-surface-check: build/heap-realloc-surface-probe
 	$(PYTHON) tests/check-heap-realloc-surface.py $<
 
+.PHONY: watcom-cold-check
+build/watcom-cold-probe: tests/watcom-cold-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-cold-check: build/watcom-cold-probe
+	./$<
+
 .PHONY: watcom-signal-check
 build/watcom-signal-probe: tests/watcom-signal-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
