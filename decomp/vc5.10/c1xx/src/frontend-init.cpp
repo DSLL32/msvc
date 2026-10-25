@@ -581,7 +581,6 @@ extern "C" void __cdecl initialize_translation_state(void)
     symbol->definition_flags |= 4;
     frontend_data.translation_symbols = new_option_vector(1, 0);
 }
-extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_source_input(void) { __asm { int 3 } }
 CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void)

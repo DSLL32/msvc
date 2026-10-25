@@ -64,6 +64,11 @@ int c1xx_test_exception_counters(void)
     frontend_data.declaration_mode_index = 7;
     frontend_data.empty_parameters = (struct CompilerParameterTypes *)&frontend_data;
     frontend_bss.default_declaration_mode = 19;
+    memset(frontend_bss.macro_date_time, 0x97, sizeof(frontend_bss.macro_date_time));
+    frontend_bss.macro_date = frontend_bss.macro_date_time + 3;
+    frontend_bss.macro_time = frontend_bss.macro_date_time + 17;
+    frontend_bss.forced_include_index = 0x71ac;
+    frontend_bss.pending_forced_includes = (CompilerVector *)&frontend_data;
     frontend_data.canonical_token_records[137] = (struct CompilerTokenRecord *)&frontend_data;
     frontend_data.keyword_table = (struct CompilerKeywordTable *)&frontend_data;
     frontend_data.current_identifier = (CompilerNameEntry *)&frontend_data;
@@ -129,6 +134,9 @@ int c1xx_test_exception_counters(void)
         frontend_bss.parser_context_depth == 0 && frontend_bss.parameter_contexts[0] == NULL &&
         frontend_data.declaration_context_index == -1 &&
         frontend_data.declaration_mode_index == -1 && frontend_data.empty_parameters == NULL && frontend_bss.default_declaration_mode == 0 &&
+        frontend_bss.macro_date_time[0] == 0 && frontend_bss.macro_date_time[25] == 0 &&
+        frontend_bss.macro_date == NULL && frontend_bss.macro_time == NULL &&
+        frontend_bss.forced_include_index == 0 && frontend_bss.pending_forced_includes == NULL &&
         frontend_data.named_browser == NULL && frontend_data.initial_backend == NULL &&
         frontend_data.canonical_token_records[137] == NULL && frontend_data.keyword_table == NULL && frontend_data.current_identifier == NULL && frontend_data.frontend_pointer_table == NULL && frontend_data.empty_pointer_array == NULL && frontend_data.pch_expression_file == 0 &&
         frontend_bss.expression_seek_result == 0 &&

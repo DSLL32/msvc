@@ -1214,9 +1214,51 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_define_command_line_macros", .entry_rva = 0x3b253,
-        .code = (const ReconExtent[]){{0x3b253, 0x3b254}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3b253, 0x3b444}, {0x72f42, 0x72f63}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "define_command_line_macros",
+    },
+    {
+        .name = "_get_compilation_time", .entry_rva = 0x3b444,
+        .code = (const ReconExtent[]){{0x3b444, 0x3b445}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "get_compilation_time",
+    },
+    {
+        .name = "_format_predefined_time", .entry_rva = 0x3b453,
+        .code = (const ReconExtent[]){{0x3b453, 0x3b454}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "format_predefined_time",
+    },
+    {
+        .name = "_initialize_macro_buffers", .entry_rva = 0x3b4b6,
+        .code = (const ReconExtent[]){{0x3b4b6, 0x3b4b7}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "initialize_macro_buffers",
+    },
+    {
+        .name = "_define_preprocessor_macro", .entry_rva = 0x236c5,
+        .code = (const ReconExtent[]){{0x236c5, 0x236c6}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "define_preprocessor_macro",
+    },
+    {
+        .name = "_define_command_line_macro", .entry_rva = 0x3b4da,
+        .code = (const ReconExtent[]){{0x3b4da, 0x3b4db}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "define_command_line_macro",
+    },
+    {
+        .name = "_open_source_file", .entry_rva = 0x23a95,
+        .code = (const ReconExtent[]){{0x23a95, 0x23a96}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "open_source_file",
+    },
+    {
+        .name = "_report_source_file_error", .entry_rva = 0x421e4,
+        .code = (const ReconExtent[]){{0x421e4, 0x421e5}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "report_source_file_error",
     },
     {
         .name = "_begin_line_output", .entry_rva = 0x807bc,

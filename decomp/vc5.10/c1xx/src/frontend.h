@@ -272,6 +272,10 @@ typedef struct FrontendBss {
      * original table's capacity; any other index stops before its read. */
     struct CompilerParameterContext *parameter_contexts[1]; /* bf4b4, BSS0 */
     int default_declaration_mode; /* c13cc, BSS0: c13d0[-1] only */
+    char macro_date_time[26]; /* c0b50, formatter's25B text plus retained NUL */
+    char *macro_date, *macro_time; /* c0a10/c0804, BSSNULL */
+    WORD forced_include_index; /* c07fc, BSS0 */
+    CompilerVector *pending_forced_includes; /* c07f8, BSSNULL */
 } FrontendBss;
 
 #ifdef __cplusplus

@@ -156,6 +156,10 @@ int initialize_compiler_pass(void)
         frontend_bss.declaration_depth = 0;
         frontend_bss.parser_context_depth = 0;
         frontend_bss.default_declaration_mode = 0;
+        memset(frontend_bss.macro_date_time, 0, sizeof(frontend_bss.macro_date_time));
+        frontend_bss.macro_date = frontend_bss.macro_time = NULL;
+        frontend_bss.forced_include_index = 0;
+        frontend_bss.pending_forced_includes = NULL;
         frontend_bss.parameter_contexts[0] = NULL;
         frontend_bss.expression_seek_result = 0;
         frontend_bss.symbol_arena_kind = 0;
