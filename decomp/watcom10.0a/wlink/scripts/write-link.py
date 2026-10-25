@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
-"""Write an explicit original Watcom link response, never execute it."""
+"""Write this binary's period Watcom link grammar; never launch any process."""
+import argparse
 from pathlib import Path
-import sys
 
-if not sys.argv[1:]:
-    raise SystemExit("No reconstructed objects")
-lines = [
-    "format windows nt", "runtime console", "debug all",
-    "option map=build\\original\\wlink.map", "name build\\original\\WLINK.EXE",
-]
-for name in sys.argv[1:]:
-    path = Path(name)
-    if path.is_absolute() or ".." in path.parts or not name.startswith("build/original/"):
-        raise SystemExit("Object outside owned original build directory")
-    lines.append("file " + str(path).replace("/", "\\"))
-lines.extend([
-    "libpath R:\\toolchains\\watcom10.0a\\lib386",
-    "libpath R:\\toolchains\\watcom10.0a\\lib386\\nt",
-    "library clib3r", "library nt"
-])
-Path("build/original/wlink.lnk").write_text("\n".join(lines) + "\n")
+p = argparse.ArgumentParser(description=__doc__)
+p.add_argument("--response", type=Path, required=True)
+p.add_argument("--output", type=Path, required=True)
+p.add_argument("--map", type=Path, required=True)
+p.add_argument("objects", nargs="+")
+a = p.parse_args()
+def local(value):
+    value = Path(value)
+    if value.is_absolute() or ".." in value.parts or not str(value).startswith("build/"):
+        raise SystemExit("Expected an owned build-relative path")
+    return str(value).replace("/", chr(92))
+lines = ["format windows nt", "runtime console", "debug all",
+         "option map=" + local(a.map), "name " + local(a.output)]
+lines += ["file " + local(value) for value in a.objects]
+lines += ["libpath R:" + chr(92) + "toolchains" + chr(92) + "watcom10.0a" + chr(92) + "lib386",
+          "libpath R:" + chr(92) + "toolchains" + chr(92) + "watcom10.0a" + chr(92) + "lib386" + chr(92) + "nt",
+          "library clib3r", "library nt"]
+a.response.write_text(chr(10).join(lines) + chr(10))

@@ -1,2 +1,5 @@
+/.build/
 /build/
-__pycache__/
+/cases/*/.build/
+/scripts/__pycache__/
+*.err

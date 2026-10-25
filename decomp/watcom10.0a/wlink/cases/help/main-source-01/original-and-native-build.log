@@ -1,24 +1,0 @@
-gcc -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -O0 -g -fno-pie -finstrument-functions -c src/main.c -o build/native/main.o
-gcc -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -O0 -g -fno-pie -finstrument-functions -c src/stubs.c -o build/native/stubs.o
-python3 scripts/wine-tool.py WCC386 -bt=nt -3r -od -s -d2 -i=R:\\lib\\recon\\include -fo=build/original/main.obj src/main.c
-python3 scripts/wine-tool.py WCC386 -bt=nt -3r -od -s -d2 -i=R:\\lib\\recon\\include -fo=build/original/stubs.obj src/stubs.c
-gcc -DRECON_NATIVE_TEST -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -O0 -g -fno-pie -no-pie build/native/main.o build/native/stubs.o ../../../lib/recon/src/compat.c ../../../lib/recon/src/crt.c ../../../lib/recon/src/decimal.c ../../../lib/recon/src/entry.c ../../../lib/recon/src/process.c ../../../lib/recon/src/trace.c ../../../lib/recon/src/win32.c -o build/native/WLINK
-WATCOM C32 Optimizing Compiler  Version 10.0a
-Copyright by WATCOM International Corp. 1984, 1994. All rights reserved.
-WATCOM is a trademark of WATCOM International Corp.
-WATCOM C32 Optimizing Compiler  Version 10.0a
-Copyright by WATCOM International Corp. 1984, 1994. All rights reserved.
-WATCOM is a trademark of WATCOM International Corp.
-src\stubs.c: 37 lines, included 1417, 0 warnings, 0 errors
-src\main.c: 55 lines, included 1417, 0 warnings, 0 errors
-Code size: 422
-Code size: 313
-python3 scripts/write-link.py build/original/main.obj build/original/stubs.obj
-python3 scripts/wine-tool.py WLINK @build/original/wlink.lnk
-WATCOM Linker Version 10.0
-Copyright by WATCOM International Corp. 1985, 1994. All rights reserved.
-WATCOM is a trademark of WATCOM International Corp.
-loading object files
-searching libraries
-creating map file
-creating a PE executable
