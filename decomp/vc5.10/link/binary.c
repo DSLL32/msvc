@@ -3,7 +3,7 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
-    {"_initialize_module_contribution_enumerator@8",0xfcb0,(const ReconExtent[]){{0xfcb0,0xfcb1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"initialize_module_contribution_enumerator",NULL,NULL,0,NULL},
+    {"_initialize_module_contribution_enumerator@8",0xfcb0,(const ReconExtent[]){{0xfcb0,0xfcd3}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_module_contribution_enumerator",NULL,NULL,0,NULL},
     {"_next_module_contribution@4",0xfce0,(const ReconExtent[]){{0xfce0,0xfce1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"next_module_contribution",NULL,NULL,0,NULL},
     {"_initialize_comdat_reference_enumerator@8",0x63800,(const ReconExtent[]){{0x63800,0x63801}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"initialize_comdat_reference_enumerator",NULL,NULL,0,NULL},
     {"_next_comdat_reference@4",0x63830,(const ReconExtent[]){{0x63830,0x63831}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"next_comdat_reference",NULL,NULL,0,NULL},

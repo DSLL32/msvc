@@ -91,7 +91,14 @@ void __stdcall record_module_comdats(OutputModule *module)
     }
 }
 void __stdcall initialize_module_contribution_enumerator(ModuleContributionEnumerator *enumerator,
-    OutputModule *module) { __asm { int 3 } }
+    OutputModule *module)
+{
+    enumerator->next=next_module_contribution;
+    enumerator->end=(void (__stdcall *)(void *))end_section_enumerator;
+    enumerator->current=NULL;
+    enumerator->module=module;
+    enumerator->index=0;
+}
 BYTE __stdcall next_module_contribution(ModuleContributionEnumerator *enumerator)
 { __asm { int 3 } return 0; }
 void __stdcall initialize_comdat_reference_enumerator(ComdatReferenceEnumerator *enumerator,

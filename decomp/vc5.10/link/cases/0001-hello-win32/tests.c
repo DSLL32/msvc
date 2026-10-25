@@ -1038,7 +1038,24 @@ static int symbol_reference(void)
 {
     return recon_native_at_entry(record_symbol_reference,check_symbol_reference,invoke_hello,NULL)==1;
 }
+extern void __stdcall end_section_enumerator(SectionEnumerator *);
+static void __stdcall check_module_contribution_enumerator(ModuleContributionEnumerator *enumerator,
+    OutputModule *module)
+{
+    if (!enumerator || module!=current_input_library->module_head || module->section_count!=7)
+        recon_native_entry_finish(0);
+    initialize_module_contribution_enumerator(enumerator,module);
+    recon_native_entry_finish(enumerator->next==next_module_contribution &&
+        enumerator->end==(void (__stdcall *)(void *))end_section_enumerator &&
+        enumerator->module==module && !enumerator->current && !enumerator->index);
+}
+static int module_contribution_enumerator(void)
+{
+    return recon_native_at_entry(initialize_module_contribution_enumerator,
+        check_module_contribution_enumerator,invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"module-contribution-enumerator",1,module_contribution_enumerator},
     {"symbol-reference-owner",1,symbol_reference},
     {"input-symbol-definition",1,input_symbol_definition},
     {"symbol-class-call",1,symbol_class_call},
