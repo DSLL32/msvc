@@ -675,9 +675,3 @@ void __fastcall clear_register_set(C2RegisterSet *set)
 {
     __asm { int 3 }
 }
-
-C2RegisterSetNode *__fastcall new_register_set_node(C2RegisterSet *set)
-{
-    __asm { int 3 }
-    return NULL;
-}

@@ -2126,7 +2126,7 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x18e9, 0x1967}},
         .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_register_set_node",
     },
     {

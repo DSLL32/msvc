@@ -29,6 +29,8 @@ typedef char C2RegisterSetStateCheck[offsetof(C2RegisterSet,state) == 8 ? 1 : -1
  * default or object extent. Original pool12 is valid but not modeled here.
  * No base escape, whole-array size/serialization or unknown-index access. */
 extern C2RegisterSet *free_register_sets[2];
+extern C2RegisterSetNode *free_register_set_nodes[2];
+extern C2RegisterSetNode *last_free_register_set_nodes[2];
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define C2_REGISTER_SET_POOL(pool) ((pool) == 1 ? 1 : \
     (recon_unsupported("unmodeled C2 register-set free-head slot"), 1))
