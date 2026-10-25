@@ -512,7 +512,7 @@ void build_source_file_index(void)
         output += *output+1;
     }
     /* Original defect: the rounded allocation's trailing filename padding was
-     * left uninitialized. The user approved zeroing it for deterministic output. */
+     * left uninitialized. Zero it here for deterministic output. */
     while (output < source_file_index+source_file_index_size) *output++ = 0;
     for (node = module_head.next; node; node = next_module) {
         next_module = node->next;
