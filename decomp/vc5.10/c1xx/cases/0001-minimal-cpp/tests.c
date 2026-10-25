@@ -6,10 +6,14 @@
 int c1xx_test_exception_counters(void)
 {
     CompilerBuiltinNames empty_names = { NULL };
+    unsigned record_bytes[26], size_class[26];
+    struct CompilerSymbolLink *empty_recycled[11] = { NULL };
     if (frontend_data.recursion_depth || frontend_bss.error_count)
         return 0;
     if (initialize_compiler_pass())
         return 0;
+    memcpy(record_bytes, frontend_data.symbol_record_bytes, sizeof(record_bytes));
+    memcpy(size_class, frontend_data.symbol_size_class, sizeof(size_class));
     frontend_data.recursion_depth = 17;
     frontend_bss.error_count = 23;
     frontend_data.pch_option_flags = 37;
@@ -70,7 +74,9 @@ int c1xx_test_exception_counters(void)
     frontend_data.type_tables.mapped = (CompilerTypeMap *)&frontend_data;
     frontend_data.type_tables.composite = (CompilerCompositeTypeHash *)&frontend_data;
     frontend_data.type_tables.sequences = (CompilerTypeSequenceHash *)&frontend_data;
-    frontend_data.namespace_symbol_bytes = 193;
+    memset(frontend_data.symbol_record_bytes, 0xa5, sizeof(record_bytes));
+    memset(frontend_data.symbol_size_class, 0xa5, sizeof(size_class));
+    memset(frontend_data.recycled_symbols, 0xa5, sizeof(empty_recycled));
     frontend_bss.ir_record_count = 173;
     frontend_bss.current_ir_symbol = (struct CompilerSymbol *)&frontend_data;
     frontend_bss.current_function = (struct CompilerSymbol *)&frontend_data;
@@ -114,5 +120,7 @@ int c1xx_test_exception_counters(void)
         frontend_data.type_tables.types == NULL && frontend_data.type_tables.mapped == NULL &&
         frontend_data.type_tables.composite == NULL && frontend_data.type_tables.sequences == NULL &&
         frontend_bss.current_ir_symbol == NULL && frontend_bss.current_function == NULL &&
-        frontend_data.namespace_symbol_bytes == 20;
+        memcmp(frontend_data.symbol_record_bytes, record_bytes, sizeof(record_bytes)) == 0 &&
+        memcmp(frontend_data.symbol_size_class, size_class, sizeof(size_class)) == 0 &&
+        memcmp(frontend_data.recycled_symbols, empty_recycled, sizeof(empty_recycled)) == 0;
 }

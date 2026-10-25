@@ -6,7 +6,11 @@
 
 struct CompilerExpression;
 struct CompilerString;
-struct CompilerSymbolLink;
+/* The recycled-list pointer addresses original +8 within the record. */
+struct CompilerSymbolLink {
+    CompilerNameEntry *name;
+    CompilerSymbolLink *next;
+};
 /* The common header applies to the short namespace records too. Original
  * +1/+3 and other unrecovered bytes have no native placeholder. */
 struct CompilerSymbol {
@@ -17,8 +21,7 @@ struct CompilerSymbol {
     void RECON_THISCALL EmitDeclaration(void);
 };
 struct CompilerNamedSymbol : CompilerSymbol {
-    CompilerNameEntry *name;           /* +8 */
-    CompilerSymbolLink *next;          /* +c */
+    CompilerSymbolLink link;           /* original +8 name / +c next */
 };
 /* Extended members are accessed only for the larger IR symbol variants.
  * They must never enlarge the actual 20-byte namespace allocation. */

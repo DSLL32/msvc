@@ -107,7 +107,10 @@ FrontendData frontend_data = {
     0, /* last_ir_line_delta, original cd6f0 */
     { NULL, NULL, NULL, NULL }, /* type hash heads, actual defaults */
     { NULL }, /* builtin name slots, independently read NULL defaults */
-    20 /* namespace symbol allocation, original cd674 */
+    /* Per-kind allocation widths and free-list classes, not record contents. */
+    { 0,48,48,48,40,40,48,48,48,48,48,48,48,48,48,24,20,20,20,48,48,28,48,20,20,20 },
+    { 0,9,9,9,10,5,9,9,9,9,9,9,9,9,9,2,7,7,4,9,9,3,9,6,1,8 },
+    { NULL }
 };
 FrontendBss frontend_bss;
 int restore_mode;

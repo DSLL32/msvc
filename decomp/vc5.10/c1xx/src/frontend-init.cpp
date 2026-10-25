@@ -1,8 +1,11 @@
 #include <io.h>
 #include <new.h>
+#include <stddef.h>
+#include <string.h>
 #include "frontend-init.h"
 #include "pointer-array.h"
 #include "packing.h"
+#pragma intrinsic(memset)
 #include <recon.h>
 
 /* Preserve the observed direct FILE-array import, not SDK __p__iob. */
@@ -49,7 +52,7 @@ void __cdecl initialize_scope_symbols(void);
 CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *, CompilerLookup *);
 void __cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *);
 int __cdecl report_response_error(int, ...);
-CompilerSymbol *__cdecl find_symbol(unsigned, CompilerNameEntry *, unsigned);
+CompilerSymbol *__cdecl recycle_symbol(unsigned, CompilerNameEntry *, unsigned);
 }
 
 extern "C" void __cdecl initialize_frontend(void)
@@ -484,9 +487,9 @@ CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void
     pool->cursor += bytes; pool->remaining -= bytes;
     current = root; scopes[0] = root;
     name = frontend_data.builtin_names.global_namespace;
-    symbol = (CompilerNamespaceSymbol *)find_symbol(0x17, name, 0);
+    symbol = (CompilerNamespaceSymbol *)recycle_symbol(0x17, name, 0);
     if (!symbol) {
-        memory = arena->Allocate((frontend_data.namespace_symbol_bytes + 3) & ~3U);
+        memory = arena->Allocate((frontend_data.symbol_record_bytes[0x17] + 3) & ~3U);
         symbol = memory ? (CompilerNamespaceSymbol *)
             ((CompilerSymbol *)memory)->Initialize(0x17, name, 0) : NULL;
     }
@@ -500,7 +503,29 @@ CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void
     return this;
 }
 
-extern "C" CompilerSymbol *__cdecl find_symbol(unsigned kind, CompilerNameEntry *name, unsigned context) { __asm { int 3 } return NULL; }
+extern "C" CompilerSymbol *__cdecl recycle_symbol(unsigned kind, CompilerNameEntry *name, unsigned context)
+{
+    CompilerSymbolLink *link;
+    CompilerNamedSymbol *symbol;
+    unsigned index, size;
+    if (context) return NULL;
+    /* The original indexes by the low byte. The next unmodeled table value
+     * is a semantic frontier, not an inferred allocation class. */
+    index = kind & 0xff;
+    if (index >= 26) { __asm { int 3 } }
+    size = frontend_data.symbol_size_class[index];
+    link = frontend_data.recycled_symbols[size];
+    if (!link) return NULL;
+    frontend_data.recycled_symbols[size] = link->next;
+    link->name = NULL; link->next = NULL;
+    symbol = (CompilerNamedSymbol *)((BYTE *)link - offsetof(CompilerNamedSymbol, link));
+    /* The actual owner has the full per-kind allocation width. Zeroing it
+     * does not interpret or claim semantic coverage of its unmodeled tail. */
+    memset(symbol, 0, frontend_data.symbol_record_bytes[index]);
+    symbol->link.name = name;
+    symbol->kind = (BYTE)kind;
+    return symbol;
+}
 CompilerSymbol *RECON_THISCALL CompilerSymbol::Initialize(unsigned kind, CompilerNameEntry *name, unsigned context) { __asm { int 3 } return this; }
 int RECON_THISCALL CompilerScope::HasBuckets(void) { __asm { int 3 } return 0; }
 int RECON_THISCALL CompilerScope::HasSecondary(void) { __asm { int 3 } return 0; }

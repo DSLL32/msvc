@@ -61,3 +61,27 @@ extern "C" int c1xx_test_scope_table(void)
         scope.outer == NULL && scope.context == NULL && scope.bucket_mask == 0x3ff &&
         scope.secondary == NULL && sizeof(CompilerNamespaceSymbol) <= 20;
 }
+
+extern "C" CompilerSymbol *recycle_symbol(unsigned, CompilerNameEntry *, unsigned);
+extern "C" int c1xx_test_recycled_symbol(void)
+{
+    union { DWORD alignment[5]; BYTE bytes[20]; } storage;
+    CompilerNamespaceSymbol *symbol = (CompilerNamespaceSymbol *)storage.bytes;
+    CompilerNameEntry name;
+    CompilerSymbolLink tail;
+    unsigned i;
+    for (i = 0; i < sizeof(storage.bytes); ++i) storage.bytes[i] = 0xa5;
+    symbol->link.name = NULL; symbol->link.next = &tail;
+    frontend_data.recycled_symbols[6] = &symbol->link;
+    if (recycle_symbol(0x117, &name, 1) != NULL ||
+        frontend_data.recycled_symbols[6] != &symbol->link) return 0;
+    if (recycle_symbol(0x117, &name, 0) != symbol ||
+        frontend_data.recycled_symbols[6] != &tail) return 0;
+    /* Test the known semantic fields and the actual owned zero-write span;
+     * no meaning is assigned to the original record's unrecovered bytes. */
+    if (symbol->kind != 0x17 || symbol->attributes || symbol->definition_flags ||
+        symbol->link.name != &name || symbol->link.next || symbol->data) return 0;
+    for (i = sizeof(*symbol); i < sizeof(storage.bytes); ++i)
+        if (storage.bytes[i]) return 0;
+    return 1;
+}

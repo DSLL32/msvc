@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 133 accepted application functions / 19545
+The single registry is binary.c: 134 accepted application functions / 19663
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 135
+as are four six-byte import endpoints (24 bytes, zero App credit). The 136
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine recycled-symbol allocator INT3 at RVA6897;
+and currently reaches the genuine CompilerArena::Allocate INT3 at RVA690d;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -111,11 +111,18 @@ only their real common/named prefix; larger IR fields have a separate view.
 The actual namespace symbol allocation default is 20 and joins reset/restore.
 The first real allocator call precedes symbol initialization and payload use.
 
-Original/native took 1.434 s / 10.833 ms (native setup 6.181, execution 2.925,
-checks 1.727); final incremental build/audit/unit took 0.263 s. Full original
-and native builds and the 135-body strict audit passed during preparation.
-Actual selected-report order, partial files and the genuine allocator frontier
-match. Consumed shared _wcsupr bytes are now published 576e772ac.
+The 118-byte recycled-symbol allocator preserves its context bypass, size-class
+head pop, owned-record clear and name/kind publication. The 26 record widths,
+26 size classes and eleven NULL heads are semantic allocation metadata; cd674
+is now its kind23 array element rather than duplicate storage. All entries join
+the nonzero restore unit, with a separate owned-record reuse test. Record tails
+remain semantically unmodeled. Values beyond the encountered table stop before
+an unsupported consumer. The natural namespace call finds an empty free list.
+
+Original/native took 1.316 s / 10.496 ms (native setup 4.835, execution 4.132,
+checks 1.529); build/audit/unit took 2.263 s. The 136-body strict audit and real
+selected-report order/frontier match. Original raw arguments independently show
+arena zero, byte count20 and the actual translation-unit caller return address.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 
