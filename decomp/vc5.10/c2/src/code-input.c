@@ -15,18 +15,20 @@ unsigned input_aggregate_bytes, input_last_source_index;
 C2InputClause *input_clauses;
 
 /* Only the two high-byte properties read by this dispatcher are represented.
- * No row has been encountered yet. These reserved bytes are NOT reconstructed
- * defaults: native guards precede every lookup until its row is established.
+ * The encountered pragma opcode79 has the boundary bit and no expression bit.
+ * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
-static unsigned char input_opcode_properties[158];
+static struct {
+    unsigned char pending00[79], pragma, pending80[78];
+} input_opcode_properties = {{0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 static unsigned input_register_opcode[17];
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
-static unsigned char input_opcode_known[158], input_condition_known[16];
+static unsigned char input_condition_known[16];
 static unsigned char input_register_opcode_known[17];
 #define INPUT_PROPERTIES(op) \
-    ((unsigned)(op) < 158 && input_opcode_known[(op)] ? \
-     input_opcode_properties[(op)] : \
+    ((unsigned)(op) == 79 ? \
+     input_opcode_properties.pragma : \
      (recon_unsupported("unmodeled input opcode properties"), 0))
 #define INPUT_INVERSE(condition) \
     ((unsigned)(condition) < 16 && input_condition_known[(condition)] ? \
@@ -37,7 +39,7 @@ static unsigned char input_register_opcode_known[17];
      input_register_opcode[(kind)] : \
      (recon_unsupported("unmodeled input register opcode"), 0))
 #else
-#define INPUT_PROPERTIES(op) input_opcode_properties[(op)]
+#define INPUT_PROPERTIES(op) (((unsigned char *)&input_opcode_properties)[(op)])
 #define INPUT_INVERSE(condition) input_inverse_condition[(condition)]
 #define INPUT_REGISTER_OPCODE(kind) input_register_opcode[(kind)]
 #endif
@@ -824,4 +826,154 @@ C2ILToken *__fastcall read_input_token(C2Function *function, C2ILToken *token)
     if ((result->type & 0xf000) == 0x4000)
         function->flags |= 8;
     return result;
+}
+
+/* Only opcode79's actual classifier byte is modeled. Padding is unavailable
+ * backing, not a reconstruction of any other opcode's form/default. */
+enum InputTokenForm {
+    INPUT_FORM_NONE, INPUT_FORM_TYPE, INPUT_FORM_SYMBOL,
+    INPUT_FORM_TYPED_SYMBOL_TRAILER, INPUT_FORM_SYMBOL_TRAILER,
+    INPUT_FORM_TYPE_TRAILER, INPUT_FORM_NUMBER, INPUT_FORM_TYPED_SYMBOL,
+    INPUT_FORM_SYMBOL_ONLY, INPUT_FORM_TYPED_CODE, INPUT_FORM_CODE,
+    INPUT_FORM_INVALID, INPUT_FORM_PRAGMA, INPUT_FORM_SIGNED,
+    INPUT_FORM_SYMBOL_PAIR, INPUT_FORM_SHORT_TRAILER, INPUT_FORM_EMPTY,
+    INPUT_FORM_SIGNED_ALT, INPUT_FORM_UNSIGNED_CONTROL, INPUT_FORM_SIGNED_CONTROL,
+    INPUT_FORM_SIGNED_PAIR, INPUT_FORM_SYMBOLS_SHORT
+};
+static struct {
+    unsigned char pending00[79], pragma;
+} input_token_forms = {{0}, INPUT_FORM_PRAGMA};
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+#define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 79 ? input_token_forms.pragma : \
+    (recon_unsupported("unmodeled input token form"), 0))
+#else
+#define INPUT_TOKEN_FORM(op) (((unsigned char *)&input_token_forms)[(op)])
+#endif
+
+C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function,
+                                        C2ILToken *token)
+{
+    unsigned form = INPUT_TOKEN_FORM(opcode);
+    unsigned serial;
+    int kind;
+    C2ScopeHash *scope;
+    C2Real real, temporary, *storage;
+    union { unsigned __int64 bits; double real; } number;
+    float single;
+    token->opcode = opcode;
+    switch (form) {
+    case INPUT_FORM_NONE: case INPUT_FORM_EMPTY:
+        break;
+    case INPUT_FORM_TYPE:
+        read_input_type(token);
+        break;
+    case INPUT_FORM_TYPED_SYMBOL_TRAILER:
+        serial = input_varuint();
+        token->value.scalar.argument.symbol =
+            (C2InputSymbol *)lookup_symbol(function->symbols, serial);
+        read_input_type(token);
+        c2_read_il_byte();
+        c2_read_il_byte();
+        break;
+    case INPUT_FORM_SYMBOL_TRAILER:
+        serial = input_varuint();
+        token->value.scalar.argument.symbol =
+            (C2InputSymbol *)lookup_symbol(function->symbols, serial);
+        c2_read_il_byte();
+        break;
+    case INPUT_FORM_TYPE_TRAILER:
+        read_input_type(token);
+        c2_read_il_byte();
+        break;
+    case INPUT_FORM_TYPED_SYMBOL:
+        read_input_type(token);
+        /* Fall through to the common serial lookup. */
+    case INPUT_FORM_SYMBOL: case INPUT_FORM_SYMBOL_ONLY:
+        serial = input_varuint();
+        token->value.scalar.argument.symbol =
+            (C2InputSymbol *)lookup_symbol(function->symbols, serial);
+        break;
+    case INPUT_FORM_TYPED_CODE:
+        read_input_type(token);
+        token->value.scalar.control_byte = (unsigned char)c2_read_il_byte();
+        break;
+    case INPUT_FORM_CODE:
+        token->value.scalar.control_byte = (unsigned char)c2_read_il_byte();
+        break;
+    case INPUT_FORM_INVALID:
+        c2_report_internal("E:\\utc\\src\\\\P2\\getattr.c", 311);
+        break;
+    case INPUT_FORM_PRAGMA:
+        token->value.scalar.control_short = input_compact_short();
+        read_control_fields(token);
+        break;
+    case INPUT_FORM_SIGNED: case INPUT_FORM_SIGNED_ALT:
+        token->value.integer = input_compact_signed();
+        break;
+    case INPUT_FORM_SYMBOL_PAIR:
+        read_input_type(token);
+        serial = input_varuint();
+        scope = function->symbols;
+        token->value.scalar.argument.symbol = (C2InputSymbol *)lookup_symbol(scope, serial);
+        serial = input_varuint();
+        token->value.scalar.second_symbol = lookup_symbol(scope, serial);
+        break;
+    case INPUT_FORM_SHORT_TRAILER:
+        input_compact_short();
+        break;
+    case INPUT_FORM_UNSIGNED_CONTROL:
+        read_input_type(token);
+        token->value.scalar.control = input_varuint();
+        break;
+    case INPUT_FORM_SIGNED_CONTROL:
+        read_input_type(token);
+        token->value.scalar.control = input_compact_signed();
+        break;
+    case INPUT_FORM_SIGNED_PAIR:
+        token->value.scalar.low = input_compact_signed();
+        token->value.scalar.control = input_compact_signed();
+        break;
+    case INPUT_FORM_SYMBOLS_SHORT:
+        serial = input_varuint();
+        scope = function->symbols;
+        token->value.scalar.low = (unsigned)lookup_symbol(scope, serial);
+        serial = input_varuint();
+        token->value.scalar.argument.symbol = (C2InputSymbol *)lookup_symbol(scope, serial);
+        token->value.scalar.control = (long)input_compact_short();
+        break;
+    case INPUT_FORM_NUMBER:
+        read_input_type(token);
+        if ((token->type & 0xf000) != 0x4000 && token->type != 0x400a) {
+            if ((token->type & 0xfff) == 8)
+                token->value.integer = read_input_longlong();
+            else
+                token->value.integer = input_compact_signed();
+            break;
+        }
+        if (token->type == 0x400a) {
+            temporary = read_input_real();
+            real = temporary;
+            kind = input_real_kind(&real);
+            token->type = kind == 10 ? 0x400a : (unsigned short)kind | 0x4000;
+            if (token->type == 0x4004) {
+                if (input_real_to_float(&real, &single)) compiler_warning(2, 0x2f4);
+                input_real_from_float(&single, &real);
+            } else {
+                if (input_real_to_double(&real, &number.real)) compiler_warning(2, 0x2f4);
+                input_real_from_double(&number.real, &real);
+            }
+        } else {
+            c2_report_internal("E:\\utc\\src\\\\P2\\getattr.c", 209);
+            number.bits = read_input_qword();
+            input_real_from_double(&number.real, &real);
+        }
+        storage = c2_pool_allocate(0, sizeof(C2Real));
+        token->value.scalar.low = (unsigned)storage;
+        *storage = real;
+        break;
+    default:
+        c2_fatal(1, "E:\\utc\\src\\\\P2\\getattr.c", 416);
+        break;
+    }
+    return token;
 }

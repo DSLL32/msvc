@@ -391,8 +391,61 @@ void __fastcall finish_input_declaration(C2InputStack *stack)
     __asm { int 3 }
 }
 
-C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function, C2ILToken *token)
+
+void __fastcall read_input_type(C2ILToken *token)
 {
     __asm { int 3 }
-    return NULL;
+}
+
+void __fastcall read_control_fields(C2ILToken *token)
+{
+    __asm { int 3 }
+}
+
+unsigned __int64 __cdecl read_input_longlong(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+unsigned __int64 __cdecl read_input_qword(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2Real __cdecl read_input_real(void)
+{
+    C2Real value;
+    __asm { int 3 }
+    value = c2_real_zero;
+    return value;
+}
+
+int __cdecl input_real_kind(C2Real *value)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+int __cdecl input_real_to_float(C2Real *input, float *output)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+int __cdecl input_real_to_double(C2Real *input, double *output)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __cdecl input_real_from_float(float *input, C2Real *output)
+{
+    __asm { int 3 }
+}
+
+void __cdecl input_real_from_double(double *input, C2Real *output)
+{
+    __asm { int 3 }
 }

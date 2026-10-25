@@ -27,7 +27,12 @@ typedef struct C2ILToken {
         struct {
             unsigned low, high;
             union { C2InputSymbol *symbol; char *text; void *pointer; } argument;
-            unsigned control;
+            union {
+                unsigned control;
+                unsigned char control_byte;
+                short control_short;
+                C2Symbol *second_symbol;
+            };
         } scalar;
         C2Real real;
         unsigned __int64 integer;
@@ -74,6 +79,16 @@ C2Expression * __fastcall symbol_input_expression(C2InputSymbol *symbol);
 C2Expression * __fastcall new_aggregate_expression(unsigned opcode, unsigned short type, C2Expression *target, void *detail, C2Expression *source, C2Expression *destination, unsigned attributes);
 int __fastcall set_input_expression_type(C2Expression *expression, unsigned short type);
 C2Expression * __fastcall new_function_exit(C2Function *function);
+void __fastcall read_input_type(C2ILToken *token);
+void __fastcall read_control_fields(C2ILToken *token);
+unsigned __int64 read_input_longlong(void);
+unsigned __int64 read_input_qword(void);
+C2Real read_input_real(void);
+int input_real_kind(C2Real *value);
+int input_real_to_float(C2Real *input, float *output);
+int input_real_to_double(C2Real *input, double *output);
+void input_real_from_float(float *input, C2Real *output);
+void input_real_from_double(double *input, C2Real *output);
 extern int input_end_of_module;
 C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function, C2ILToken *token);
 C2ILToken * __fastcall read_input_token(C2Function *function, C2ILToken *token);
