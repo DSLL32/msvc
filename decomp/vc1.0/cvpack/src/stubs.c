@@ -188,4 +188,6 @@ void convert_old_symbol12(void) { __asm { int 3 } }
 void convert_old_symbol_skip(void) { __asm { int 3 } }
 
 
-void rebuild_line_ranges(ModuleInfo *module) { __asm { int 3 } }
+
+
+void sort_line_ranges(void *record, unsigned char *lines) { __asm { int 3 } }

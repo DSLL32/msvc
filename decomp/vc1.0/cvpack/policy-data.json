@@ -2242,6 +2242,12 @@
       },
       "_rebuild_line_ranges": {
         "abi": "void rebuild_line_ranges(ModuleInfo *)",
+        "source": "src/lines.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_sort_line_ranges": {
+        "abi": "void sort_line_ranges(void *,unsigned char *)",
         "source": "src/stubs.c",
         "stack_cleanup": 0,
         "roots": []
