@@ -8278,6 +8278,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "ten_bytes_to_extended",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_integer_to_extended",
@@ -8313,6 +8314,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "extended_to_unsigned",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_round_extended_to_integer",
@@ -8321,6 +8323,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "round_extended_to_integer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_compare_extended",
