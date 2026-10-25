@@ -1,4 +1,6 @@
 #include "c2.h"
+#include "register-sets.h"
+#include "function-reader.h"
 #include <recon.h>
 
 /* All node variants share the link and kind; their remaining fields differ. */
@@ -94,4 +96,27 @@ void *__fastcall c2_allocate_node(signed char kind, int pool)
     node = c2_pool_allocate(pool, bytes);
     node->kind = kind;
     return node;
+}
+
+/* These two DWORD cells have only reset writers in the original image.
+ * Their zero writes establish scalar storage, not an invented pointer role. */
+unsigned input_pool_reset_state_a, input_pool_reset_state_b;
+
+void __fastcall reset_input_pool(unsigned pool)
+{
+    C2Pool *arena;
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+    /* Other pools are valid original inputs; their reset slots are unmodeled. */
+    if (pool != 4) recon_unsupported("unmodeled C2 pool-reset free-head slot");
+#endif
+    arena = &c2_pools[pool];
+    release_input_pool(arena);
+    arena->remaining = 0;
+    arena->blocks = NULL;
+    arena->cursor = NULL;
+    free_register_set_nodes[pool] = NULL;
+    last_free_register_set_nodes[pool] = NULL;
+    free_register_sets[pool] = NULL;
+    last_free_register_sets[pool] = NULL;
+    input_pool_reset_state_a = input_pool_reset_state_b = 0;
 }

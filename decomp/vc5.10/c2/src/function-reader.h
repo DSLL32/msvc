@@ -12,6 +12,7 @@ typedef struct C2PendingInput {
 typedef char C2PendingInputExpressionCheck[offsetof(C2PendingInput, expression) == 4 ? 1 : -1];
 extern C2PendingInput *pending_input_records;
 void __fastcall reset_input_pool(unsigned pool);
+void __fastcall release_input_pool(C2Pool *pool);
 /* Each24-byte map associates a contiguous internal line span with source
  * lines in one filename. The cache walks older maps through previous. */
 typedef struct C2InputLineMap {

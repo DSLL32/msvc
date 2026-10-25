@@ -25,12 +25,15 @@ struct C2RegisterSet {
 typedef char C2RegisterSetSizeCheck[sizeof(C2RegisterSet) == 12 ? 1 : -1];
 typedef char C2RegisterSetPoolCheck[offsetof(C2RegisterSet,pool) == 4 ? 1 : -1];
 typedef char C2RegisterSetStateCheck[offsetof(C2RegisterSet,state) == 8 ? 1 : -1];
-/* Encountered prefix only. Slot0 is UNMODELED storage, not an original
+/* Only slots1/4 are encountered; slot4 is written by reset only.
+ * Slots0/2/3 are UNMODELED storage, not an original
  * default or object extent. Original pool12 is valid but not modeled here.
  * No base escape, whole-array size/serialization or unknown-index access. */
-extern C2RegisterSet *free_register_sets[2];
-extern C2RegisterSetNode *free_register_set_nodes[2];
-extern C2RegisterSetNode *last_free_register_set_nodes[2];
+extern C2RegisterSet *free_register_sets[5];
+/* Pool4 tail is first encountered as a reset writer, not a prior NULL default. */
+extern C2RegisterSet *last_free_register_sets[5];
+extern C2RegisterSetNode *free_register_set_nodes[5];
+extern C2RegisterSetNode *last_free_register_set_nodes[5];
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define C2_REGISTER_SET_POOL(pool) ((pool) == 1 ? 1 : \
     (recon_unsupported("unmodeled C2 register-set free-head slot"), 1))

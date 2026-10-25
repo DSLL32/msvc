@@ -1354,9 +1354,6 @@
     },
     "@visit_symbols@8": {
       "pending_extent": false
-    },
-    "@reset_input_pool@4": {
-      "pending_extent": false
     }
   }
 }
