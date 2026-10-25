@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1623 historical frontiers/1516 App bodies.
+ * Current reviewed boundary:1624 historical frontiers/1517 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_validate_based_self_source@4",
+        .entry_rva = 0x1a960,
+        .code = (const ReconExtent[]) { { 0x1a960, 0x1aa03 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "validate_based_self_source",
+    },
     {
         .name = "_equal_based_expressions@8",
         .entry_rva = 0x1ab40,
@@ -2574,10 +2582,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_based_expression@8",
         .entry_rva = 0x1aa10,
-        .code = (const ReconExtent[]) { { 0x1aa10, 0x1aa11 } },
+        .code = (const ReconExtent[]) { { 0x1aa10, 0x1aad6 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "convert_based_expression",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_qualify_based_storage@4",

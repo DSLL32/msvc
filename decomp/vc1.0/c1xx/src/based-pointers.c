@@ -5,6 +5,8 @@
 #include "unary-expressions.h"
 #include "function-definitions.h"
 #include "expression-preparation.h"
+#include "binary-expressions.h"
+#include "numeric-conversion.h"
 #include <recon.h>
 
 /* Original0x2a580..0x2a655, stdcall4. A named base must resolve to a
@@ -103,5 +105,40 @@ IrToken *__stdcall based_type_expression(CType *type)
 #ifdef RECON_NATIVE_TEST
     __asm { int 3 }
 #endif
+    return expression;
+}
+
+void __stdcall validate_based_self_source(IrToken *expression);
+
+/* Original0x2aa10..0x2aad6, stdcall8. Convert nulls without a base,
+   subtract an indirect target base, or retain/cast the ordinary offset value. */
+IrToken *__stdcall convert_based_expression(CType *type, IrToken *expression)
+{
+    TypeDescription *description;
+    CType *converted;
+    TypeShape *shape;
+    IrToken *base;
+    unsigned short attributes;
+    if (expression->flags & 0x80) {
+        description = copy_type_description(type);
+        attributes = normalize_type_attributes(1, 0);
+        converted = replace_first_type_shape((CType *)description, 1, attributes, 0);
+        --type_description_depth;
+        expression->type = converted;
+        return expression;
+    }
+    if (based_pointer_has_indirect_base(type->related)) {
+        shape = expression->type->related;
+        if (shape && (shape->flags & 3)) {
+            base = based_type_expression(type);
+            return new_ir_expression(0x69, expression, base, type);
+        }
+    }
+    if ((type->related->attributes & 8) && expression->type != type)
+        validate_based_self_source(expression);
+    shape = expression->type->related;
+    if (shape && (shape->attributes & 0xc)) expression->type = type;
+    else expression = new_cast_expression(type, expression);
+    if ((type->related->attributes & 7) == 4) expression = qualify_based_storage(expression);
     return expression;
 }

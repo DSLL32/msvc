@@ -292,7 +292,7 @@ CppSymbol *__stdcall recover_undeclared_identifier(char *name) { __asm { int 3 }
 
 int __stdcall equal_based_expressions(IrToken *first, IrToken *second) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall convert_based_expression(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+void __stdcall validate_based_self_source(IrToken *expression) { __asm { int 3 } }
 
 IrToken *__stdcall attach_expression_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 
