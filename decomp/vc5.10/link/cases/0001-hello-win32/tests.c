@@ -244,6 +244,28 @@ static int directive_reader_call(void)
     return recon_native_at_entry(read_section_directives,check_directive_reader_call,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall process_module_directives(LinkContext *,Contribution *,char *);
+static void __stdcall check_directive_buffer(LinkContext *context,Contribution *contribution,
+    char *directives)
+{
+    static const char expected[]="-defaultlib:user32.lib -defaultlib:gdi32.lib -defaultlib:LIBC -defaultlib:OLDNAMES ";
+    FileRecord *file=file_slots[current_input_file];
+    unsigned i;
+    if (!context || context->ignore_directives ||
+        contribution!=(Contribution *)current_input_library->module_head->contributions ||
+        !directives || !file || file->file_size!=383 || contribution->raw_size!=83 ||
+        directives[83]) recon_native_entry_finish(0);
+    for (i=0;i<83;++i) {
+        char byte=((char *)file->view)[300+i];
+        if (directives[i]!=(byte ? byte : ' ')) recon_native_entry_finish(0);
+    }
+    recon_native_entry_finish(strstr(directives,expected)!=NULL);
+}
+static int directive_buffer(void)
+{
+    return recon_native_at_entry(process_module_directives,check_directive_buffer,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -255,5 +277,6 @@ const ReconTest hello_tests[]={
     {"named-contribution",1,named_contribution},
     {"section-name-split",1,section_name_split},
     {"first-contribution",1,first_contribution},
-    {"directive-reader-call",1,directive_reader_call}
+    {"directive-reader-call",1,directive_reader_call},
+    {"directive-buffer",1,directive_buffer}
 };

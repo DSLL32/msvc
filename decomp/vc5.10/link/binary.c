@@ -331,12 +331,14 @@ static const ReconFunction functions[] = {
     {"_remember_mac_module_name@4",0x50e60,(const ReconExtent[]){{0x50e60,0x50e8b}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remember_mac_module_name",NULL,NULL,0,NULL},
     {"_mark_incremental_contribution@4",0x5eef0,(const ReconExtent[]){{0x5eef0,0x5ef41}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"mark_incremental_contribution",NULL,NULL,0,NULL},
     {"_read_comdat_section@20",0x5ff70,(const ReconExtent[]){{0x5ff70,0x5ff71}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_comdat_section",NULL,NULL,0,NULL},
-    {"_read_section_directives@16",0x5e910,(const ReconExtent[]){{0x5e910,0x5e911}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_section_directives",NULL,NULL,0,NULL},
+    {"_read_section_directives@16",0x5e910,(const ReconExtent[]){{0x5e910,0x5ea66}},1,(const ReconExtent[]){{0x2170,0x2174},{0x21b8,0x21c1}},2,RECON_APP,RECON_IMPLEMENTED,"read_section_directives",NULL,NULL,0,NULL},
     {"_add_comdat_reference@12",0x62fe0,(const ReconExtent[]){{0x62fe0,0x63072}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_comdat_reference",NULL,NULL,0,NULL},
     {"_read_section_relocations@16",0x5e400,(const ReconExtent[]){{0x5e400,0x5e401}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_section_relocations",NULL,NULL,0,NULL},
     {"_mac_contribution_padding@4",0x57080,(const ReconExtent[]){{0x57080,0x570d8}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"mac_contribution_padding",NULL,NULL,0,NULL},
     {"_add_module_to_list@8",0xfab0,(const ReconExtent[]){{0xfab0,0xfae8}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_module_to_list",NULL,NULL,0,NULL},
     {"_split_section_name@8",0xe5e0,(const ReconExtent[]){{0xe5e0,0xe619}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"split_section_name",NULL,NULL,0,NULL},
+    {"_collect_module_directives@16",0x492f0,(const ReconExtent[]){{0x492f0,0x49379}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"collect_module_directives",NULL,NULL,0,NULL},
+    {"_process_module_directives@12",0x49380,(const ReconExtent[]){{0x49380,0x49381}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_module_directives",NULL,NULL,0,NULL},
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconBinary),"vc5.10-link",

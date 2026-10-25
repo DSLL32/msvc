@@ -90,7 +90,8 @@ struct LinkContext {
     LinkAuxiliaryData *auxiliary;
     BYTE reserved264[36];
     Contribution *incremental_contribution;
-    DWORD reserved28c[2];
+    BYTE ignore_directives, reserved28d[3];
+    DWORD reserved290;
     MacResource *resources;
 
 #ifdef __cplusplus
@@ -162,6 +163,7 @@ typedef char LinkContextMacModulesAt25c[(offsetof(LinkContext,mac_modules)==0x25
 typedef char LinkContextAuxiliaryAt260[(offsetof(LinkContext,auxiliary)==0x260)?1:-1];
 typedef char LinkContextSectionsAt1b4[(offsetof(LinkContext,sections)==0x1b4)?1:-1];
 typedef char LinkContextIncrementalAt288[(offsetof(LinkContext,incremental_contribution)==0x288)?1:-1];
+typedef char LinkContextIgnoreDirectivesAt28c[(offsetof(LinkContext,ignore_directives)==0x28c)?1:-1];
 typedef char LinkContextResourcesAt294[(offsetof(LinkContext,resources)==0x294)?1:-1];
 typedef char LinkOptionsExtensionAt44[(offsetof(LinkOptions,default_extension)==0x44)?1:-1];
 typedef char LinkOptionsSize[(sizeof(LinkOptions)==108)?1:-1];

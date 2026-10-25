@@ -2,11 +2,13 @@
 #include <string.h>
 #include <stdio.h>
 #include "input.h"
+#include "memory.h"
 #include "sections.h"
 #include "full-link-functions.h"
 #include <recon.h>
 
 extern char *current_module_strings;
+extern BYTE file_access_statistics;
 extern BYTE mac_target,incremental_enabled,incremental_reuse,pdb_enabled,mac_file_padding;
 extern OutputSection *import_section,*import_thunk_section,*import_descriptor_section;
 extern OutputSection *architecture_section,*debug_section;
@@ -130,8 +132,39 @@ void __stdcall mark_incremental_contribution(Contribution *contribution)
     }
 }
 BYTE __stdcall read_comdat_section(LinkContext *context,Contribution *contribution,IMAGE_SYMBOL *symbols,SHORT index,char **name) { __asm { int 3 } return 0; }
-void __stdcall read_section_directives(LinkContext *context,Contribution *contribution,const char *name,InputArguments *pending) { __asm { int 3 } }
+void __stdcall collect_module_directives(LinkContext *,Contribution *,InputArguments *,char *);
+void __stdcall process_module_directives(LinkContext *,Contribution *,char *);
+void __stdcall read_section_directives(LinkContext *context,Contribution *contribution,
+    const char *name,InputArguments *pending)
+{
+    OutputModule *module;
+    DWORD offset,error=0,index;
+    FileRecord *file;
+    char *directives;
+    if (!(contribution->characteristics & 0x200) || context->ignore_directives ||
+        strcmp(name,".drectve")) return;
+    directives=(char *)allocate_memory(contribution->raw_size+1);
+    module=contribution->module;
+    if (module->library->flags & 16) offset=0;
+    else if (module->flags & 0x40) offset=((DWORD *)module->optional_data)[3];
+    else offset=(DWORD)module->identity;
+    seek_file(current_input_file,offset+contribution->input_raw_offset,FILE_BEGIN,&error);
+    if (file_access_statistics) record_file_access();
+    file=file_slots[current_input_file];
+    if (file->flags & 8) mapped_read(file,directives,contribution->raw_size);
+    else buffered_read(file,directives,contribution->raw_size);
+    for (index=0;index<contribution->raw_size;++index)
+        if (!directives[index]) directives[index]=' ';
+    directives[contribution->raw_size]=0;
+    if (incremental_reuse) collect_module_directives(context,contribution,pending,directives);
+    else process_module_directives(context,contribution,directives);
+    release_memory(directives);
+}
 void *__stdcall add_comdat_reference(StringNode *symbol,Contribution *parent,Contribution *child) { __asm { int 3 } return NULL; }
 void __stdcall read_section_relocations(LinkContext *context,Contribution *contribution,IMAGE_SYMBOL *symbols,OutputModule *module) { __asm { int 3 } }
 DWORD __stdcall mac_contribution_padding(DWORD size) { __asm { int 3 } return 0; }
 void __stdcall add_module_to_list(ModuleListNode **list,OutputModule *module) { __asm { int 3 } }
+void __stdcall collect_module_directives(LinkContext *context,Contribution *contribution,
+    InputArguments *pending,char *directives) { __asm { int 3 } }
+void __stdcall process_module_directives(LinkContext *context,Contribution *contribution,
+    char *directives) { __asm { int 3 } }
