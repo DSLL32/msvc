@@ -2,9 +2,9 @@
 
 VC1.0 frontend reconstruction, toolchain `1.0-nt`. `binary.c` is the function
 registry; its RVAs use original image base `0x10000`.
-There are 982 implemented application functions covering 228763 bytes. The
-accepted code/data union is unchanged at 251501/277234 bytes (90.7180%); the
-application numerator is 82.5162% of all code, not a claimed non-CRT denominator.
+There are 983 implemented application functions covering 228861 bytes. The
+accepted code/data union is 251636/277234 bytes (90.7666%); the
+application numerator is 82.5516% of all code, not a claimed non-CRT denominator.
 Eleven historical handwritten CRT bodies remain unchanged and receive no App
 credit. Unknown library aliases, the `17070`/`17140` RET tails and unattributed
 unlisted code remain unresolved.
@@ -43,8 +43,8 @@ graph. Its private representation is in `crt/decimal.h`. These are documented
 compatibility exceptions already present before this layout change, not new
 CRT reconstruction or application credit.
 
-Cases 0000–0064 preserve 65 cached public invocations. Cases 0065–0171 preserve
-107 original-backed internal direct invocations; these do not establish public
+Cases 0000–0064 preserve 65 cached public invocations. Cases 0065–0172 preserve
+108 original-backed internal direct invocations; these do not establish public
 source reachability. The typed shared entry hook pauses genuine main/parser/PDB
 constructor contexts, preserving live owners and calling conventions. Returning
 helper tests assert defined state, pending streams and owned artifacts, then
@@ -62,7 +62,8 @@ handoff. Only identified irdb+14 and PDB+48 clock fields are normalized; raw
 within-case clock equality remains checked. Explicit seeds retain historical
 first-entry projections. Legacy direct tests without an original entry-order
 oracle explicitly seed all accepted App entries instead of inventing a trace.
-The shared direct-original capture interface remains separate future work.
+Case 0172 uses the shared typed original-DIRECT capture interface; cached replay
+remains entirely native.
 
 ## Residual interface case
 
@@ -88,13 +89,31 @@ saved original invocations and original masked frontiers remain unchanged;
 no Wine recapture was required. Raw originals, the earlier 037f mismatch and
 new debugging logs are in `~/.ai-tmp/msvc2/vc1.0/c1/` scratch space.
 
-`write_asm_segment_prefix` (0x4f0cd..0x4f12f, 98 bytes) remains a trapping stub.
-The approved source has `mov eax, fs:[0]`; a direct test needs the genuine
-`serialize_asm_instruction` entry's initialized operands/addresses, instruction
-workspace and stream owners. A new original-backed direct capture is needed;
-the standardized typed original transport is a shared-tooling dependency.
-It remains unaccepted. Unknown unlisted code and ambiguous RET tails remain
-separate from CRT; this is not a completion claim.
+`write_asm_segment_prefix` (0x4f0cd..0x4f12f, 98 bytes) is accepted through
+case 0172. Genuine main parses the existing `mov eax, fs:[0]` source and stops
+at `normalize_asm_addresses` (RVA 3eb41), before parser segment ID 29 becomes
+encoded value 12. The typed cdecl call uses those live operands/addresses and
+stream owners. It writes `05 af 00 01 0c 00` and appends the expected eight-byte
+IR record. The test checks all 1688 bytes of the before/after pending-stream
+snapshot, defined workspace prefix, within-side untouched tails/owners,
+stack cleanup, control word and nonvolatile registers; it never resumes parsing.
+The final fixture binds all on-disk outputs, separate stdout/stderr and status.
+
+The common original harness adds its instrumentation DLL import to a masked
+scratch EXE; the normal loader and local entry hook supply the live context.
+The pristine executable is unchanged. Original and native first trap at 3f0cd,
+then both complete after that whole body is reconstructed. All other accepted
+App entries are explicitly seeded; the new original order is `[3f0cd]`.
+This proves a direct support interface, not a public-source caller.
+
+Initial original setup exposed `_strncpy` at RVA 46bd0..46bf5. All 37 bytes
+exactly match shipped `LIBC.LIB`'s `string\obj\i386\STRNCPY.OBJ` `.text`,
+with no relocations; existing original cdecl callers corroborate it. The
+registry now restores this CRT boundary without reconstructing CRT or adding
+App credit. An inherited native-only stderr merge caused a first partial
+mismatch; this new phase now preserves separate handles on both sides.
+Unknown unlisted code and ambiguous RET tails remain separate from CRT; the
+completed residual case is not a claim that the binary is complete.
 
 Migration verification on this host: original compiler build plus audit 20.17 s;
 final native case build plus incremental audit 6.57 s. All 166 cached invocations
@@ -109,9 +128,19 @@ concurrent cases. The unit target passes in 0.80 s. The final case rebuild took
 22.39 s. The original map is now a declared grouped link output, so a missing
 map is regenerated before runtime identification. No new original capture was
 run; the six saved numeric body captures originally took 12.46 s including setup.
-The residual case remains open for the assembly-prefix interface.
+The ASM prefix was finished afterward through case 0172 as described above.
 
 Four existing ASM parser error calls now forward the original context (408/409)
 and token-name/context pair (426). Original C1 call bytes and rebuilt caller
 cleanup confirm the correction; it adds no functions, credit or error-path
 reachability claim. Existing native cases and graph/ABI checks remain required.
+
+ASM completion verification: original/helper/native build took 21.12 s; the
+final bundled incremental build, 173 case-library rebuilds and strict audit took
+11.33 s. The audit checked 994 source functions (983 App plus 11 historical CRT).
+All 173 cached invocations passed in 1.48 s; summed setup/execution/checks were
+1.84/1.12/0.68 s across parallel cases. All unit executors passed in 1.16 s.
+The successful new original frontier and completed typed invocation took
+1.64 s and 1.40 s respectively; final native comparison took 20.23 ms.
+Earlier failed/mismatched captures and the exact CRT qualification remain in
+scratch; there was no additional original replay for final bookkeeping.

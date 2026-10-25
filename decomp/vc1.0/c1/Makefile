@@ -85,6 +85,8 @@ CRT_SOURCES = crt/runtime.c crt/decimal.c
 BINARY_SUPPORT_SOURCES = $(CRT_SOURCES) $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
 ORIGINAL_TOOLCHAIN = 1.0-nt
+ORIGINAL_DIRECT_FLAGS = --include $(abspath src) --include $(abspath crt) --include $(abspath $(RECON)/include)
+ORIGINAL_DIRECT_DEPS = $(wildcard src/*.h crt/*.h)
 ORIGINAL_SOURCES = $(BINARY_SOURCES) $(CRT_SOURCES)
 ORIGINAL_BUILD = build
 ORIGINAL_OUTPUT = $(ORIGINAL_BUILD)/c1.exe

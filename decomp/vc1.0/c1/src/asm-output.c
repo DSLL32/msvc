@@ -15,6 +15,25 @@ char *asm_operand_formats[21] = {
     "mso", "mso", "ms", "ms", "md", "m#", "ms", "m", "mdg", "m", "msr", "mdbg", "mr"
 };
 
+/* Original0x4f0cd..0x4f12f. This interface consumes parser register IDs,
+   before normalize_asm_addresses replaces them with encoded segment values. */
+void write_asm_segment_prefix(void)
+{
+    unsigned char segment;
+    segment = asm_operands[0].address->flags & 63;
+    if (asm_operand_count > 1 && !segment)
+        segment = asm_operands[1].address->flags & 63;
+    if (segment) {
+        asm_instruction_record[0] = 5;
+        asm_instruction_record[1] = (char)0xaf;
+        asm_instruction_record[2] = 0;
+        asm_instruction_record[3] = 1;
+        asm_instruction_record[4] = (unsigned char)asm_register_properties[segment] & 63;
+        asm_instruction_record[5] = 0;
+        record_line_information(22);
+    }
+}
+
 /* Original0x4f1ee..0x4f400; dispatch table0x4f401..0x4f474. */
 void serialize_asm_instruction(void)
 {

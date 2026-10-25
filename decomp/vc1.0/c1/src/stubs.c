@@ -869,14 +869,3 @@
 
 /* Original 0x43d20; reached from IDE source progress. */
 /* Original 0x4aed0; shared IDE progress formatter. */
-
-/* Approved residual interfaces remain unaccepted until fresh owner/ABI proof. */
-
-
-
-
-
-
-
-
-void write_asm_segment_prefix(void) { __asm { int 3 } }

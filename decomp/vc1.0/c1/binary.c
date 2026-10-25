@@ -1,9 +1,7 @@
-/* Authoritative original-RVA registry. Harness migration preserves1123 accepted
- * historical entries,979 application bodies/228585 bytes. Three numeric source
- * candidates remain unimplemented pending saved-x87-CW proof; the ASM prefix is
- * still a trapping stub. Eleven historical CRT overrides carry no App credit.
- * Unaccepted weak library aliases and17070/17140 tails remain unresolved.
- * Case originals were captured before migration; no original was rerun. */
+/* Authoritative original-RVA registry: 983 accepted application bodies,
+ * 228861 App bytes. Eleven historical CRT overrides carry no App credit.
+ * The residual numeric and ASM interfaces have original-backed direct cases.
+ * Unaccepted weak library aliases and17070/17140 tails remain unresolved. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
@@ -8711,6 +8709,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "write_asm_segment_prefix",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_asm_address_mode_code@4",
@@ -8933,6 +8932,14 @@ static const ReconFunction functions[] = {
         .definition = RECON_IMPORT_NAME,
         .import_dll = "KERNEL32.dll",
         .import_name = "SetHandleCount",
+    },
+    {
+        /* Whole shipped STRNCPY.OBJ .text; 37 bytes, no relocations. */
+        .name = "_strncpy",
+        .entry_rva = 0x46bd0,
+        .code = (const ReconExtent[]){{0x46bd0, 0x46bf5}},
+        .code_count = 1,
+        .definition = RECON_CRT,
     },
     {
         .name = "_mainCRTStartup",
