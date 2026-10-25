@@ -11,6 +11,7 @@ typedef char packing_frame_layout[(sizeof(PackingFrame) == 12 &&
 
 extern "C" BYTE *allocate_packing_storage(unsigned bytes);
 extern "C" PackingFrame *push_packing(unsigned alignment, void *identifier);
+extern "C" PackingFrame *clear_packing_frame(PackingFrame *frame);
 
 extern "C" void initialize_packing(void)
 {
@@ -40,12 +41,31 @@ extern "C" BYTE *allocate_packing_storage(unsigned bytes)
 
 PackingFrame *RECON_THISCALL CompilerPacking::AcquireFrame(void)
 {
-    __asm { int 3 }
-    return NULL;
+    PackingFrame *frame = available;
+
+    if (frame) {
+        available = frame->previous;
+        clear_packing_frame(frame);
+    } else {
+        CompilerArena *arena = &frontend_bss.arenas[0];
+        frame = (PackingFrame *)arena->cursor;
+        arena->cursor += sizeof(PackingFrame);
+        if (arena->cursor > arena->committed_limit)
+            arena->CommitExtent();
+    }
+    frame->previous = top;
+    top = frame;
+    return frame;
 }
 
 extern "C" PackingFrame *push_packing(unsigned alignment, void *identifier)
 {
     __asm { int 3 }
     return NULL;
+}
+
+extern "C" PackingFrame *clear_packing_frame(PackingFrame *frame)
+{
+    __asm { int 3 }
+    return frame;
 }

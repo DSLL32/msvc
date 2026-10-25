@@ -799,6 +799,13 @@ static const ReconFunction functions[] = {
         .code_count = 2, .definition = RECON_APP,
         .native_symbol = "_ZN15CompilerPacking12AcquireFrameEv",
         .original_symbol = "?AcquireFrame@CompilerPacking@@QAEPAUPackingFrame@@XZ",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_clear_packing_frame", .entry_rva = 0x424e0,
+        .code = (const ReconExtent[]){{0x424e0, 0x424ef}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "clear_packing_frame",
     },
     {
         .name = "_push_packing", .entry_rva = 0x2b89d,
