@@ -642,6 +642,12 @@ declarations/remaps for LINK's complete unvisited DEF-processing branches.
 Invocation always denies125 without reading input or touching output; no temp
 file/path or process-environment mutation behavior is supplied.
 
+The Watcom-only __STOSD spelling maps to a shared native DWORD fill returning
+the end pointer. Valid unaligned destinations use ordinary memcpy per DWORD;
+count0 leaves the destination untouched, and wrapping spans/counts deny125.
+The binary's original header retains its genuine register pragma, independently
+audited by the period build; native GCC does not emulate that register encoding.
+
 Watcom compile spellings stdaux/stdprn identify existing native iob slots3/4;
 this does not initialize their handles or qualify closing them. Bare isatty
 uses the existing descriptor boolean helper. _IOLBF retains Watcom0200, with

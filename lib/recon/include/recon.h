@@ -309,6 +309,7 @@ int __cdecl recon_watcom_setmode(int,int);
 extern unsigned recon_watcom_amblksiz;
 int __cdecl recon_watcom_memicmp(const void *,const void *,size_t);
 char *__cdecl recon_watcom_getcmd(char *);
+void *__cdecl recon_watcom_fill_dwords(void *,unsigned,unsigned);
 int __cdecl recon_watcom_getch(void);
 int __cdecl recon_watcom_setvbuf(ShimFILE *,char *,int,size_t);
 ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
@@ -497,6 +498,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define setmode recon_watcom_setmode
 #define memicmp recon_watcom_memicmp
 #define getcmd recon_watcom_getcmd
+#define __STOSD recon_watcom_fill_dwords
 #define getch recon_watcom_getch
 #define isatty recon_isatty
 #define stdaux (&recon_iob[3])

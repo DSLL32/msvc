@@ -50,6 +50,23 @@ int __cdecl recon_mspdb_NameMap_open(struct PDB *database,int writable,struct Na
 ReconWatcomFirstMainHeap recon_watcom_first_main_heap;
 /* Actual WCC initialized DWORD is16; native malloc policy is independent. */
 unsigned recon_watcom_amblksiz=16;
+void *__cdecl recon_watcom_fill_dwords(void *destination,unsigned pattern,unsigned count)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    unsigned char *cursor=destination;size_t bytes;
+    if(count>SIZE_MAX/4) recon_unsupported("Watcom DWORD fill count overflow");
+    bytes=(size_t)count*4;
+    if(bytes && (!destination || (uintptr_t)destination>UINTPTR_MAX-bytes))
+        recon_unsupported("Watcom DWORD fill destination span");
+    /* Original register ABI is expressed by the period header. Native uses
+     * ordinary C and permits valid unaligned storage without aliasing UB. */
+    while(count--) { memcpy(cursor,&pattern,4);cursor+=4; }
+    return cursor;
+#else
+    (void)destination;(void)pattern;(void)count;
+    recon_unsupported("Watcom DWORD fill requires explicit profile");return NULL;
+#endif
+}
 int __cdecl recon_watcom_open(const char *name,int flags,...)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

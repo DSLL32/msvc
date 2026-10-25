@@ -710,6 +710,12 @@ build/temporary-surface-probe: tests/temporary-surface-probe.c $(SOURCES) $(HEAD
 temporary-surface-check: build/temporary-surface-probe
 	$(PYTHON) tests/check-temporary-surface.py $<
 
+.PHONY: watcom-fill-check
+build/watcom-fill-probe: tests/watcom-fill-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-fill-check: build/watcom-fill-probe
+	$(PYTHON) tests/check-watcom-fill.py $<
+
 .PHONY: watcom-signal-check
 build/watcom-signal-probe: tests/watcom-signal-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
