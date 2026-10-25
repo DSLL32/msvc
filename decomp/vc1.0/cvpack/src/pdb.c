@@ -188,6 +188,25 @@ int __stdcall type_server_open_file(TypeServer *server, const char *name, const 
     return 1;
 }
 
+/* Original [0002bd00,0002bd1d): link the genuine stored record into its bucket. */
+TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node,
+    TypeServerRecord *next, unsigned char *record, unsigned short type)
+{
+    node->next = next;
+    node->record = record;
+    node->type = type;
+    return node;
+}
+
+/* Original [0002bd20,0002bd46): byte-fill the allocated hash bucket table. */
+#pragma intrinsic(memset)
+void *type_server_fill_alloc(unsigned long size, unsigned char value)
+{
+    void *data = malloc(size);
+    if (data) memset(data, value, size);
+    return data;
+}
+
 int __stdcall type_server_read_records(TypeServer *server)
 {
     unsigned short limit, index;

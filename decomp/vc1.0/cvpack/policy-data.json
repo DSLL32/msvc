@@ -949,13 +949,13 @@
       },
       "_type_server_fill_alloc": {
         "abi": "void *type_server_fill_alloc(unsigned long,unsigned char)",
-        "source": "src/stubs.c",
+        "source": "src/pdb.c",
         "stack_cleanup": 0,
         "roots": []
       },
       "_type_server_record_init@16": {
         "abi": "TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *,TypeServerRecord *,unsigned char *,unsigned short)",
-        "source": "src/stubs.c",
+        "source": "src/pdb.c",
         "stack_cleanup": 16,
         "roots": []
       },

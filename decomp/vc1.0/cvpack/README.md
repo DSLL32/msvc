@@ -1,21 +1,21 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **264 accepted application
-functions, 74,999 original code bytes, and 11 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **266 accepted application
+functions, 75,066 original code bytes, and 9 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The legacy case now completes with 141 matching first entries, exit 0 and matching
 streams and defined artifact bytes. The last accepted function is
-`grow_mapping` (sequence 264, 72 original code bytes, `src/files.c`), after
-`cache_closed_file` (sequence 263, 112 bytes).
+`type_server_record_init` (sequence 266, 29 original code bytes, `src/pdb.c`),
+after `type_server_fill_alloc` (sequence 265, 38 bytes).
 Encountered converter dispatch and calls identified additional App helpers;
 remaining helpers retain named trapping stubs and no accepted credit.
 The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 77 application functions.
+The resumed workload has accepted 79 application functions.
 Each has matching original/native progress and strict compiler/graph/data
-checks. All eighteen cached cases and eighteen unit executors, the original
-compiler build and strict graph/ABI/data audits passed the 264-function gate
-in 6.060s. Sixteen cases complete; 0013 and parked 0015 retain explicit frontiers. The previous baseline ended at `type_server_close` (sequence 187,
+checks. All nineteen cached cases and nineteen unit executors, the original
+compiler build and strict graph/ABI/data audits passed the 266-function gate
+in 7.193s. Seventeen cases complete; 0013 and parked 0015 retain explicit frontiers. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
@@ -43,6 +43,28 @@ file share after closing the source handle. Reopening that same file falls back
 to buffered I/O on Windows; the native shim currently permits mapped reopening.
 The faithful application leak is unchanged, and the failed setup remains in
 scratch. The distinct-file case does not qualify or fix that sharing difference.
+
+
+`0019-pdb-record-api` is internal provider API coverage using the unchanged
+234,606-byte compiler SUPERPAD.PDB, SHA256
+`c98d80a1e225986b065e2299a55c167e38d55bddd7d6f85dd303aa43ab008463`.
+After the same genuine CLI initialization hook, `type_server_open(path,"r")`
+constructs its actual arenas and defines both `loaded=1` and `incremental=1`
+through the original mode path. The callback queries all 6,795 genuine records
+(TI 0x1000 through 0x2a8a), traverses the naturally built 3,314 occupied hash
+buckets, checks every node exactly once and closes the real owner. No object,
+record or global state is fabricated. It does not establish ordinary CLI `rc`
+reach for these helpers. `pdb-records.bin` serializes every returned type ID,
+length and record byte, plus all bucket-chain IDs in their original order.
+Its exact 256,348-byte output SHA256 is
+`2885c4214da8211f502714897f347f991951f8d48e9debf0c3cc7559e80c4ee1`;
+all serialized records independently match the genuine input payload.
+Fresh masked original/native runs match 25 first entries and complete
+(original 1552.216 ms; native 94.001 ms, including 10.097 ms setup,
+75.801 ms execution and 8.102 ms checks). Native candidate rebuild was
+0.440 s; original typed-helper compilation was 5.941 s. Raw output,
+input provenance and full command logs remain under owned
+`resume-20261025/0019-pdb-record-api/` scratch.
 
 There is no candidate body at this checkpoint. `0013-mixed-c6-wide` is a
 format-authored NB02 workload with two modules, twelve C6 types per module,

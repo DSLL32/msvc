@@ -81,8 +81,8 @@ void read_packed_modules(void) { __asm { int 3 } }
 
 
 
-void *type_server_fill_alloc(unsigned long size, unsigned char value) { __asm { int 3 } return NULL; }
-TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node, TypeServerRecord *next, unsigned char *record, unsigned short type) { __asm { int 3 } return NULL; }
+
+
 
 
 

@@ -15,7 +15,7 @@ ORIGINAL_CPPFLAGS = /Isrc /I$(RECON)/include
 ORIGINAL_CFLAGS = /nologo /c /Od /G3
 ORIGINAL_LDFLAGS = /nologo /subsystem:console /map:$(ORIGINAL_BUILD)/cvpack.map
 ORIGINAL_DIRECT_FLAGS = --include $(abspath src) --include $(abspath $(RECON)/include)
-ORIGINAL_DIRECT_DEPS = src/files.h src/image.h src/cvpack.h
+ORIGINAL_DIRECT_DEPS = src/files.h src/image.h src/cvpack.h src/pdb.h src/types.h
 ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 
 RECON_AUDIT_PROFILE = cvpack

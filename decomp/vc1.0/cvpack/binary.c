@@ -1396,15 +1396,19 @@ static const ReconFunction functions[] = {
     {
         .name = "_type_server_fill_alloc",
         .entry_rva = 0x1bd20,
+        .code = (const ReconExtent[]){{0x1bd20, 0x1bd46}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "type_server_fill_alloc",
     },
     {
         .name = "_type_server_record_init@16",
         .entry_rva = 0x1bd00,
+        .code = (const ReconExtent[]){{0x1bd00, 0x1bd1d}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "type_server_record_init",
     },
     {
