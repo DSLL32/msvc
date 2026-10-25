@@ -3,6 +3,13 @@
 #include "function-reader.h"
 #include <recon.h>
 
+struct C2FlowEdge {
+    C2FlowEdge *next_outgoing, *next_incoming;
+    C2BasicBlock *source, *destination;
+    unsigned flags;
+};
+typedef char C2FlowEdgeSizeCheck[sizeof(C2FlowEdge) == 20 ? 1 : -1];
+typedef char C2FlowEdgeFlagsCheck[offsetof(C2FlowEdge, flags) == 16 ? 1 : -1];
 extern int flow_block_count;
 C2FlowGraph *__fastcall new_flow(int pool);
 void __fastcall initialize_flow_pool(C2FlowGraph *flow, int pool,
@@ -19,5 +26,7 @@ void __fastcall normalize_line_record(C2Record *record);
 void __fastcall move_input_record_before(C2Record *before, C2Record *record);
 int __fastcall record_closes_scope(C2Record *record);
 C2FlowEdge *__fastcall new_function_edge(C2Function *function,
+    C2BasicBlock *source, C2BasicBlock *destination);
+C2FlowEdge *__fastcall new_flow_edge(C2FlowGraph *flow,
     C2BasicBlock *source, C2BasicBlock *destination);
 #endif

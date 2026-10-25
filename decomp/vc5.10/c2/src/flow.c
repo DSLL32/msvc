@@ -173,3 +173,11 @@ void __fastcall build_function_edges(C2Function *function)
             fallthrough = last->kind != 18;
     }
 }
+
+C2FlowEdge *__fastcall new_function_edge(C2Function *function,
+    C2BasicBlock *source, C2BasicBlock *destination)
+{
+    C2FlowEdge *edge = new_flow_edge(function->flow, source, destination);
+    edge->flags = 0;
+    return edge;
+}
