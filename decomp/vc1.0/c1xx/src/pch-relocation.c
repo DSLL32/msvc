@@ -427,3 +427,28 @@ void __stdcall mark_pch_vector(Vector *vector, PchVisit visit)
         if (visit) (*visit)(vector->items[i]);
     }
 }
+
+void __stdcall mark_pch_virtual_call(VirtualCallEntry *entry);
+void __stdcall mark_pch_virtual_base(VirtualBaseEntry *entry);
+
+/* Original0x7c250..0x7c2f3. Table metadata and slot arrays retain their
+   owning fields; dispatch and virtual-base slots contain different pointers. */
+void __stdcall mark_pch_virtual_table(VirtualTable *table)
+{
+    int i;
+    VirtualEntry *entry;
+    mark_pch_pointer((void **)&table->symbol);
+    mark_pch_pointer((void **)&table->entries);
+    mark_pch_pointer((void **)&table->pointer);
+    mark_pch_pointer((void **)&table->inheritance_path);
+    mark_pch_pointer((void **)&table->source_table);
+    mark_pch_pointer((void **)&table->unshared_owner);
+    mark_pch_pointer((void **)&table->shared_owners);
+    for (i = 0; i < table->entry_count; ++i) {
+        entry = &table->entries[i];
+        if (table->kind == 0 || table->kind == 2)
+            mark_pch_virtual_call(&entry->dispatch);
+        else mark_pch_virtual_base(&entry->base);
+    }
+    mark_pch_vector(table->shared_owners, 0);
+}
