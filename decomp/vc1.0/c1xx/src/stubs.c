@@ -216,9 +216,6 @@ void __stdcall apply_member_access_declaration(CppSymbol *owner, QualifiedDeclar
 void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *member) { __asm { int 3 } }
 
 
-void __stdcall emit_generated_default_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
-void __stdcall emit_copy_base_initializer(CppSymbol *tag, int *count) { __asm { int 3 } }
-void __stdcall emit_generated_assignment(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 
 
 
@@ -601,3 +598,6 @@ void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { in
 
 int __stdcall type_needs_intrinsic_fallback(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 } return 0; }
+
+int __stdcall emit_assignment_field(CppSymbol *member, void *context) { __asm { int 3 } return 0; }
+void __stdcall emit_assignment_array(CppSymbol *member) { __asm { int 3 } }

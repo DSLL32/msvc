@@ -1,20 +1,20 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is active at emit_generated_default_constructor
-(RVA0x255a0). There are 1349 application source functions plus seven unchanged
-historical CRT source functions. Its first sixty-five accepted bodies add 16,318 code
+PARTIAL reconstruction; packet_engine is active at emit_assignment_field
+(RVA0x25a30). There are 1354 application source functions plus seven unchanged
+historical CRT source functions. Its first seventy accepted bodies add 16,952 code
 bytes: packing and anonymous aggregates, static alias lookup, the empty lookahead
 error callback, copy-constructor selection/materialization, deferred defaults, else regions and
 runtime initializer emission, initializer object references and assembler state/operands and its separate whole grammar driver, token classification and instruction-name lookup.
-Fresh original/native comparisons, original compilation, the 1357-function
+Fresh original/native comparisons, original compilation, the 1362-function
 inherited graph/ABI audit, nine cached cases and 18 unit groups pass. Last native
-frontier run:31.197ms (setup17.775ms, execution6.747ms, checks6.674ms);
-audit/setup:2.239s; nine cached cases plus units:0.267s.
+frontier run:31.535ms (setup16.183ms, execution8.728ms, checks6.623ms);
+audit/setup:2.143s; nine cached cases plus units:0.262s.
 An earlier regression command took19.582s including a shared native-fixture
 rebuild/relink; its individual case/test executions were14–33ms.
-Last native/original rebuild:33.968s following Makefile/layout changes; current
-fresh original capture:2.020s. Earlier incremental builds took about2.7s.
+Last native/original incremental build:3.677s; fresh original capture:2.118s.
+The earlier Makefile/layout rebuild took33.968s.
 Assembler serialization reuses control_counted_data at original0x8c0a4.
 The encountered78-byte prefix covers three header bytes plus three maximum
 25-byte operands; bytes0x8c0f2..0x8c124 remain uncredited. All21 format strings
@@ -30,7 +30,7 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1456: the 1302 trial baseline plus 88 browser and65 packet application steps,
+1461: the 1302 trial baseline plus 88 browser and70 packet application steps,
 and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
@@ -38,7 +38,7 @@ original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 330,860/476,418 .text bytes (69.45%); this is
+Application function extents cover 331,494/476,418 .text bytes (69.58%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -231,10 +231,21 @@ its defined expression kind/value fields.
 
 Whole operand-count/combination validation, instruction preparation and size
 resolution now pass. Validation owns its180-byte class switch and preparation
-its240-byte switch; total encountered packet switch data is780B, excluded from
+its240-byte switch; total encountered packet switch data is820B, excluded from
 application code coverage. Sixty readable operand-count/category/size rules and
 32 logical address-mode/category rows match the original; unrelated table gaps
 are excluded. Preparation uses C1XX's symbol flag4 where the C1 variant tests1.
 The two size-resolution variants differ only in a redundant load before a
 commutative OR; original C1XX behavior is retained. The newly discovered helper
 stubs remain unimplemented until genuine reach, with no analysis-only credit.
+
+The string-intrinsic lowering routine owns its distinct40-byte switch, folds
+literal lengths, and retains the ordinary memory-call fallback graph. Its two
+unreached target-specialization/fallback helpers remain named trapping stubs.
+Single-precision conversions use the existing ten-byte limit object and shared
+x87 ABI helpers; only required transfers/stores use documented assembly.
+
+Generated default-constructor and assignment definitions now preserve the
+original deferred text, including virtual-base gating, qualifier/model spelling
+and explicit base assignment. The assignment field/array helpers remain named
+stubs until reached. The generation context is retained even where unused.

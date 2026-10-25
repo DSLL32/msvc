@@ -435,3 +435,93 @@ void __stdcall print_inline_declaration(CppSymbol *symbol, FILE *stream)
     print_declaration(symbol, stream);
     printing_inline_declaration = 0;
 }
+
+/* Original0x355a0..0x355f0, stdcall12. The generation context is
+   unused here; only the class name and distance spelling enter the text. */
+void __stdcall emit_generated_default_constructor(CppSymbol *symbol, int context,
+    unsigned short kind)
+{
+    short diagnostic;
+    char *formatted, *distance;
+    begin_type_diagnostic();
+    diagnostic = reserve_type_diagnostic();
+    format_diagnostic_symbol(diagnostic,symbol);
+    formatted = type_diagnostic_text(diagnostic);
+    distance = pointer_kind_spelling(kind);
+    format_work_text(compiler_stack,"inline %Fs::%Fs(void)%Fs{}\n",
+        formatted,symbol->name,distance);
+    end_type_diagnostic();
+}
+
+/* Original0x35720..0x3575c, stdcall8. Virtual-base copies precede
+   the direct-base/member list and share its separator count. */
+void __stdcall emit_copy_base_initializer(CppSymbol *tag, int *count)
+{
+    format_work_text(compiler_stack,"%Fs%Fs(%Fs)",
+        *count ? ", " : ": ",tag->name,name_that);
+    ++*count;
+}
+
+/* Original0x35830..0x359ca, stdcall12. Synthesize assignment's complete
+   declaration and body, including virtual-base gating and member callbacks. */
+void __stdcall emit_generated_assignment(CppSymbol *symbol, int context,
+    unsigned short kind)
+{
+    VirtualBaseSearch bases;
+    short diagnostic;
+    unsigned char qualifiers;
+    int needed;
+    char *formatted, *parameter, *type_name;
+    char *end_distance, *argument_distance, *return_distance;
+    begin_type_diagnostic();
+    diagnostic = reserve_type_diagnostic();
+    format_diagnostic_symbol(diagnostic,symbol);
+    formatted = type_diagnostic_text(diagnostic);
+    needed = has_copy_initializers(symbol) ||
+        (symbol->detail.class_info->trivial_special_members & 4);
+    type_name = type_kind_name(symbol->type->flags);
+    parameter = needed ? name_that : "";
+    qualifiers = symbol->detail.class_info->special_members.bytes[3 + context];
+    end_distance = pointer_kind_spelling(kind);
+    argument_distance = pointer_kind_spelling(kind);
+    return_distance = pointer_kind_spelling(kind);
+    format_work_text(compiler_stack,
+        "inline %s %Fs %Fs& %Fs::operator=(register %Fs%Fs %s %Fs %Fs&%Fs)%Fs{",
+        type_name,formatted,return_distance,formatted,
+        qualifiers & 4 ? "const " : "",qualifiers & 8 ? "volatile " : "",
+        type_name,formatted,argument_distance,parameter,end_distance);
+    end_type_diagnostic();
+    if (symbol->detail.class_info->trivial_special_members & 4)
+        format_work_text(compiler_stack,"*this=%Fs;",name_that);
+    else {
+        if (symbol->detail.class_info->flags & 0x10) {
+            format_work_text(compiler_stack,"if(%Fs){",name_most_derived);
+            begin_virtual_base_search(&bases,symbol);
+            while (next_virtual_base_search(&bases)) emit_assignment_base(bases.tag);
+            format_work_text(compiler_stack,"}");
+        }
+        visit_class_members(symbol,emit_assignment_direct_base,0);
+        visit_class_members(symbol,emit_assignment_field,0);
+    }
+    format_work_text(compiler_stack,"return*this;}\n");
+}
+
+/* Original0x35a00..0x35a24, stdcall4. Explicitly qualify the base's
+   assignment, retaining the copy-source identifier chosen by the interner. */
+void __stdcall emit_assignment_base(CppSymbol *tag)
+{
+    format_work_text(compiler_stack,"this->%Fs::operator=(%Fs);",tag->name,name_that);
+}
+
+/* Original0x359d0..0x35a00, stdcall8 callback. Virtual bases are
+   assigned separately; the visitor's context formal is unused. */
+int __stdcall emit_assignment_direct_base(CppSymbol *member, void *context)
+{
+    BaseClassLink *base;
+    if ((member->kind & 31) == 15) {
+        base = (BaseClassLink *)member;
+        if (!(base->state & 1))
+            emit_assignment_base(cpp_context_stack->items[base->context_index]);
+    }
+    return 1;
+}

@@ -7,6 +7,41 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_emit_assignment_direct_base@8",
+        .entry_rva = 0x259d0,
+        .code = (const ReconExtent[]) { { 0x259d0, 0x25a00 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_assignment_direct_base",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_emit_assignment_base@4",
+        .entry_rva = 0x25a00,
+        .code = (const ReconExtent[]) { { 0x25a00, 0x25a24 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_assignment_base",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_emit_assignment_field@8",
+        .entry_rva = 0x25a30,
+        .code = (const ReconExtent[]) { { 0x25a30, 0x25a89 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_assignment_field",
+    },
+    {
+        .name = "_emit_assignment_array@4",
+        .entry_rva = 0x25a90,
+        .code = (const ReconExtent[]) { { 0x25a90, 0x25b72 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_assignment_array",
+    },
+
+    {
         .name = "_type_needs_intrinsic_fallback@4",
         .entry_rva = 0x44ee0,
         .code = (const ReconExtent[]) { { 0x44ee0, 0x44ef8 } },
@@ -3390,10 +3425,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_generated_default_constructor@12",
         .entry_rva = 0x255a0,
-        .code = (const ReconExtent[]) { { 0x255a0, 0x255a1 } },
+        .code = (const ReconExtent[]) { { 0x255a0, 0x255f0 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_generated_default_constructor",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_generated_copy_constructor@12",
@@ -3416,10 +3452,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_copy_base_initializer@8",
         .entry_rva = 0x25720,
-        .code = (const ReconExtent[]) { { 0x25720, 0x25721 } },
+        .code = (const ReconExtent[]) { { 0x25720, 0x2575c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_copy_base_initializer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_copy_direct_base_initializer@8",
@@ -3451,10 +3488,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_generated_assignment@12",
         .entry_rva = 0x25830,
-        .code = (const ReconExtent[]) { { 0x25830, 0x25831 } },
+        .code = (const ReconExtent[]) { { 0x25830, 0x259ca } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_generated_assignment",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_array_copy_initialization@16",
