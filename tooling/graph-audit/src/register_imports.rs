@@ -231,6 +231,27 @@ pub(crate) fn verified_evidence(project: &std::path::Path, value: &Value) -> Res
     Ok(serde_json::to_value(evidence)?)
 }
 
+/// Absence is documentary only. An explicitly supplied null or malformed value
+/// is still passed through the ordinary contained file/hash verifier.
+pub(crate) fn documentary_evidence<'de, D>(
+    deserializer: D,
+) -> std::result::Result<Option<Value>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    Value::deserialize(deserializer).map(Some)
+}
+pub(crate) fn verified_documentary_evidence(
+    project: &std::path::Path,
+    value: &Option<Value>,
+) -> Result<Value> {
+    value
+        .as_ref()
+        .map(|v| verified_evidence(project, v))
+        .transpose()
+        .map(|v| v.unwrap_or(Value::Null))
+}
+
 struct EvidenceFiles {
     base: std::path::PathBuf,
     hashes: BTreeMap<std::path::PathBuf, String>,
@@ -625,6 +646,38 @@ pub fn resolve(
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn absent_documentary_evidence_needs_no_file_but_supplied_null_rejects() {
+        #[derive(serde::Deserialize)]
+        struct Documentary {
+            #[serde(default, deserialize_with = "super::documentary_evidence")]
+            evidence: Option<serde_json::Value>,
+        }
+        let absent: Documentary = serde_json::from_value(serde_json::json!({})).unwrap();
+        assert!(absent.evidence.is_none());
+        assert_eq!(
+            super::verified_documentary_evidence(
+                std::path::Path::new("no-diagnostic-directory-needed"),
+                &absent.evidence
+            )
+            .unwrap(),
+            serde_json::Value::Null
+        );
+        for value in [
+            serde_json::Value::Null,
+            serde_json::json!({}),
+            serde_json::json!({"path":"missing","sha256":"0".repeat(64)}),
+        ] {
+            let supplied: Documentary =
+                serde_json::from_value(serde_json::json!({"evidence":value})).unwrap();
+            assert!(supplied.evidence.is_some());
+            assert!(
+                super::verified_documentary_evidence(std::path::Path::new("."), &supplied.evidence)
+                    .is_err()
+            );
+        }
+    }
     #[test]
     fn owner_enable_is_explicit_and_additive() {
         use serde_json::json;

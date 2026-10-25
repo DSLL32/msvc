@@ -471,7 +471,9 @@ impl Inputs {
         }
         o.bind_code(&oi)?;
         r.bind_code(&ri)?;
-        let shared_metadata = if cfg.get("shared_return_entries").is_some() {
+        let shared_metadata = if cfg.get("shared_return_entries").is_some()
+            || cfg.get("shared_terminal_epilogues").is_some()
+        {
             ensure!(
                 a.discovery != crate::Discovery::Legacy,
                 "shared RET entries require cfg discovery"
@@ -697,7 +699,11 @@ struct RebuiltExtent {
     image_sha256: String,
     map_sha256: String,
     object: Value,
-    evidence: Value,
+    #[serde(
+        default,
+        deserialize_with = "crate::register_imports::documentary_evidence"
+    )]
+    evidence: Option<Value>,
 }
 
 fn checked_rebuilt_extent(
@@ -745,21 +751,29 @@ fn checked_rebuilt_extent(
         num(&proof.end)?
     };
     ensure!(
-        start < end && end.checked_add(1) == Some(envelope_end) && proof.padding_hex == "00",
-        "rebuilt extent requires exactly one terminal zero alignment byte: {name}"
+        start < end
+            && (2..=30).contains(&proof.padding_hex.len())
+            && proof.padding_hex.len().is_multiple_of(2)
+            && proof.padding_hex.bytes().all(|b| b == b'0')
+            && end.checked_add((proof.padding_hex.len() / 2) as u32) == Some(envelope_end),
+        "rebuilt extent requires exactly declared 1..15 zero alignment bytes: {name}"
     );
     ensure!(
-        image.file_backed_code(end, envelope_end) && image.read(end, 1)? == [0],
+        image.file_backed_code(end, envelope_end)
+            && image
+                .read(end, (envelope_end - end) as usize)?
+                .iter()
+                .all(|b| *b == 0),
         "rebuilt extent alignment byte differs: {name}"
     );
     let object = crate::register_imports::verified_evidence(project, &proof.object)
         .with_context(|| format!("rebuilt extent object {name}"))?;
-    let evidence = crate::register_imports::verified_evidence(project, &proof.evidence)
+    let evidence = crate::register_imports::verified_documentary_evidence(project, &proof.evidence)
         .with_context(|| format!("rebuilt extent witness {name}"))?;
     Ok((
         end,
         Some(serde_json::json!({"name":name,"start":start,"end":end,
-        "map_envelope_end":envelope_end,"padding_hex":"00","image_sha256":proof.image_sha256,
+        "map_envelope_end":envelope_end,"padding_hex":proof.padding_hex,"image_sha256":proof.image_sha256,
         "map_sha256":map_sha256,"object":object,"evidence":evidence})),
     ))
 }
@@ -955,7 +969,11 @@ fn registry_entry_names(
 #[serde(deny_unknown_fields)]
 struct IdentityOnlyEntry {
     name: String,
-    evidence: Value,
+    #[serde(
+        default,
+        deserialize_with = "crate::register_imports::documentary_evidence"
+    )]
+    evidence: Option<Value>,
 }
 
 /// Explicit correlation names have no body, classification or ABI meaning.
@@ -1058,8 +1076,9 @@ fn identity_only_entries(
             !entries.original.contains_key(&original) && !entries.rebuilt.contains_key(&rebuilt),
             "identity-only endpoint conflicts with an existing classified identity: {name}"
         );
-        let evidence = crate::register_imports::verified_evidence(project, &selected.evidence)
-            .with_context(|| format!("identity-only endpoint witness {name}"))?;
+        let evidence =
+            crate::register_imports::verified_documentary_evidence(project, &selected.evidence)
+                .with_context(|| format!("identity-only endpoint witness {name}"))?;
         entries
             .original
             .insert(original, BTreeSet::from([name.clone()]));

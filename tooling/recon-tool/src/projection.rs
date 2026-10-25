@@ -419,18 +419,19 @@ fn rebuilt_extents(
             .as_object()
             .context("rebuilt_extent must be an object")?;
         ensure!(
-            object.len() == 6
-                && [
-                    "end",
-                    "padding_hex",
-                    "image_sha256",
-                    "map_sha256",
-                    "object",
-                    "evidence"
-                ]
-                .iter()
-                .all(|key| object.contains_key(*key)),
-            "rebuilt_extent requires exact end/padding/input/evidence fields"
+            object.keys().all(|key| [
+                "end",
+                "padding_hex",
+                "image_sha256",
+                "map_sha256",
+                "object",
+                "evidence"
+            ]
+            .contains(&key.as_str()))
+                && ["end", "padding_hex", "image_sha256", "map_sha256", "object"]
+                    .iter()
+                    .all(|key| object.contains_key(*key)),
+            "rebuilt_extent requires exact end/padding/input/object fields and optional documentary evidence"
         );
         let driver = config["driver"].as_array_mut().context("driver array")?;
         let rows: Vec<_> = driver
@@ -459,6 +460,9 @@ fn rebuilt_extents(
             );
         }
         for key in ["object", "evidence"] {
+            if key == "evidence" && !object.contains_key(key) {
+                continue;
+            }
             let binding = value[key]
                 .as_object()
                 .context("rebuilt_extent file binding")?;
@@ -479,7 +483,11 @@ fn rebuilt_extents(
             Ok(crate::fixture::hex(&sha2::Sha256::digest(fs::read(path)?)))
         };
         ensure!(
-            value["padding_hex"] == "00"
+            value["padding_hex"]
+                .as_str()
+                .is_some_and(|s| (2..=30).contains(&s.len())
+                    && s.len().is_multiple_of(2)
+                    && s.bytes().all(|b| b == b'0'))
                 && value["image_sha256"] == digest(image)?
                 && value["map_sha256"] == digest(map)?,
             "rebuilt_extent current PE/MAP/padding binding differs"
@@ -672,6 +680,27 @@ mod tests {
         let mut config = baseline.clone();
         rebuilt_extents(&mut config, &policy, Some(&image), Some(&map)).unwrap();
         assert_eq!(config["driver"][0]["rebuilt_extent"], proof);
+        let mut no_document = policy.clone();
+        no_document["function_properties"]["method"]["rebuilt_extent"]
+            .as_object_mut()
+            .unwrap()
+            .remove("evidence");
+        rebuilt_extents(&mut config.clone(), &no_document, Some(&image), Some(&map)).unwrap();
+        for padding in ["00".repeat(9), "00".repeat(15)] {
+            let mut finite = no_document.clone();
+            finite["function_properties"]["method"]["rebuilt_extent"]["padding_hex"] =
+                json!(padding);
+            rebuilt_extents(&mut config.clone(), &finite, Some(&image), Some(&map)).unwrap();
+        }
+        for padding in ["".into(), "0".into(), "01".into(), "00".repeat(16)] {
+            let mut invalid = no_document.clone();
+            invalid["function_properties"]["method"]["rebuilt_extent"]["padding_hex"] =
+                json!(padding);
+            assert!(
+                rebuilt_extents(&mut config.clone(), &invalid, Some(&image), Some(&map)).is_err()
+            );
+        }
+
         config["driver"][0]
             .as_object_mut()
             .unwrap()

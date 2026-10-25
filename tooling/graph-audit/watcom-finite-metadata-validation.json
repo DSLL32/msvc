@@ -1,0 +1,66 @@
+{
+  "scopes": [
+    "Optional opaque documentary evidence only; supplied-null/malformed still verified/rejected. Actual object/image/MAP/semantic CF profile pins and all structural guards mandatory.",
+    "Exact two-owner three-byte terminal POP/POP/C3 overlap from both real CFGs; no new edge/ABI/permission.",
+    "Exact object-proven1..15zero alignment gap to unchanged MAP public; no executable padding."
+  ],
+  "source_sha256": {
+    "src/audit.rs": "b77efd456855348b0db447ff96c124ac9c939566c8a1b1f9a2fd3732a525808b",
+    "src/shared_returns.rs": "2283c3b15aa07684ae12dcc99d09b4111a5da8b1a7f74269d9060ce849972cc9",
+    "src/register_imports.rs": "cd56143d95b4da85ac487648606ad3e1ba8f4846e80848b19162a3edee28e80d",
+    "src/index.rs": "68e519eb0334eac2e41f097c89a0fcdee3db273d6759f9a6c62bf36293bc97eb",
+    "src/compatibility_calls.rs": "30f4dabfba48a63956025a25e4dce66f6bba84a1416d98a86145c39808a9c7e0",
+    "README.md": "ac2e78b8a891fddbed6ac6f6bc1cf6fbb7c768812dcd6cff44aa1238a6373acf"
+  },
+  "graph_release_sha256": "744df84b6c14613f6935403936529d528fc29270cbb8a74c8a16723d16bfbc73",
+  "exporter_projection_sha256": "5aca9bda9c531050a73a56b62fae76f5bbda0fe32640aae387b953057c3893cc",
+  "verification": {
+    "graph_focused_units": 8,
+    "exporter_projection_units": 7,
+    "graph_clippy": "PASS",
+    "exporter_clippy": "Unrelated pre-existing whole-crate warnings; no projection.rs diagnostic",
+    "supplied_document_report_parity": true,
+    "exporter_seconds": 0.01374062616378069,
+    "no_target_execution": true,
+    "no_speedup_claim": true,
+    "scoped_positives": [
+      {
+        "name": "optional-identities",
+        "status": 0,
+        "seconds": 0.01457456685602665
+      },
+      {
+        "name": "optional-shared-return",
+        "status": 0,
+        "seconds": 0.014483197592198849
+      },
+      {
+        "name": "actual-shared-epilogue",
+        "status": 0,
+        "seconds": 0.035502977669239044
+      },
+      {
+        "name": "optional-compatibility",
+        "status": 0,
+        "seconds": 0.03392946533858776
+      },
+      {
+        "name": "actual-nine-zero-padding",
+        "status": 0,
+        "seconds": 0.015629231929779053
+      }
+    ],
+    "focused_denials": 16,
+    "denial_categories": [
+      "supplied null documentary binding",
+      "unknown identity/call target",
+      "undeclared or incorrect shared suffix",
+      "invalid zero gap length/bytes",
+      "missing object/stale image",
+      "control root into final excluded padding byte"
+    ]
+  },
+  "consuming_parent_review": "Final explicit source/release/hash acknowledgement, validation b21fbf522a5512523711dc12c433f297835765bae674535a83919029a5f232ad",
+  "canonical_exporter_release_sha256": "3c9fff2de6258ea15eb38049ce3f77d5719bca0edb5e62a2668e983de03d615e",
+  "canonical_export_byte_parity": true
+}

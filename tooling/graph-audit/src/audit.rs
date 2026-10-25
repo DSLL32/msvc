@@ -1340,6 +1340,9 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         }
         result["owned_code_chunks"] = json!(domains);
     }
+    if let Some(shared) = x.shared_return_entries.terminal_report() {
+        result["shared_terminal_epilogues"] = shared;
+    }
     if let Some(shared) = x.shared_return_entries.report() {
         result["shared_return_entries"] = shared;
     }

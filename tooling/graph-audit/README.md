@@ -728,9 +728,9 @@ bytes; nonzero/CODE or arbitrary outside symbols still reject.
 
 An object-proven rebuilt body end can be supplied by the shared exporter as
 `driver[].rebuilt_extent`: exact end, `padding_hex:"00"`, current PE/MAP SHA256,
-plus contained `{path,sha256}` bindings for the compiled object and semantic
-witness. This initial scope accepts exactly one zero alignment byte between the
-body end and the unchanged next MAP public. The byte remains explicitly checked,
+plus a mandatory contained `{path,sha256}` binding for the compiled object
+and an optional documentary witness. This scope accepts exactly 1..15 declared zero alignment bytes between the
+object-proven body end and the unchanged next MAP public. The bytes remain explicitly checked,
 not text-data or executable ownership. CFG roots/edges into it, overlapping code,
 stale inputs and malformed contracts reject. The common tool verifies hashes and
 boundaries, not the witness's object-format semantics. Default MAP-derived
@@ -762,3 +762,20 @@ bytes. These remain distinct graph identities; no artificial owner-to-entry
 CALL is added. Rebuilt bodies may be separate. This declaration provides no
 runtime admission or entry-trace observation; those require their own explicit
 case treatment. Without a declaration, overlap rejection is unchanged.
+
+Opaque documentary `evidence` is optional on `identity_only_entries`,
+`compatibility_calls`, `shared_return_entries` and `rebuilt_extent`. The canonical
+registry and declarative site/target/ownership fields remain mandatory and undergo
+all existing structural checks. A supplied evidence field, including null, must
+still pass the contained file/SHA verifier. Diagnostics may stay outside the
+checkout without becoming audit prerequisites. Actual rebuilt-extent compiled
+object, image and MAP bindings remain mandatory; this does not make preservation
+contracts or semantically consumed ABI policy optional.
+
+`shared_terminal_epilogues` can declare `[{owners: [name1, name2], original:
+{start, bytes_hex}}]`, with optional documentary evidence. The initial scope is
+exactly two one-byte non-ESP register POPs followed by `C3`. Both canonical App
+records must own the entire declared overlap, terminating at both code-chunk
+ends, and both existing CFGs must discover every complete suffix instruction.
+This preserves two function identities and their original control paths; it
+creates no suffix function, added edge, code permission or ABI inference.

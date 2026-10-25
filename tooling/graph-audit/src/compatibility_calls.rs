@@ -22,7 +22,11 @@ struct Contract {
     name: String,
     original: Original,
     rebuilt: Rebuilt,
-    evidence: Value,
+    #[serde(
+        default,
+        deserialize_with = "crate::register_imports::documentary_evidence"
+    )]
+    evidence: Option<Value>,
 }
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -150,7 +154,8 @@ impl Policy {
                 actual == &expected,
                 "compatibility rebuilt import identity mismatch"
             );
-            let evidence = crate::register_imports::verified_evidence(project, &c.evidence)?;
+            let evidence =
+                crate::register_imports::verified_documentary_evidence(project, &c.evidence)?;
             let report = json!({"name":c.name,"original":facts(&original),"rebuilt":facts(&rebuilt),"rebuilt_import":actual,"evidence":evidence,"meaning":"paired compatibility CALL boundary only; no callee equivalence, ABI, preservation or execution permission"});
             let rows = out.0.entry(c.owner).or_default();
             ensure!(
