@@ -553,8 +553,13 @@ static int typed_register_record(void)
         tree->type != 0x2004 || tree->value.reg != &reg || tree->left ||
         tree->next || tree->previous || tree->flags || tree->location.attributes)
         return 0;
-    return allocation[28] == 0xa5 && allocation[29] == 0xa5 &&
-        allocation[30] == 0xa5 && allocation[31] == 0xa5;
+    if (allocation[28] != 0xa5 || allocation[29] != 0xa5 ||
+        allocation[30] != 0xa5 || allocation[31] != 0xa5) return 0;
+    release_small_node(tree);
+    input_value_type = 0x3004;
+    return new_register_expression(0x120, &reg) == tree && tree->kind == 3 &&
+        tree->type == 0x3004 && tree->value.reg == &reg && !tree->left &&
+        allocation[28] == 0xa5 && allocation[31] == 0xa5;
 }
 
 static int return_storage_conventions(void)

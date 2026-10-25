@@ -25,11 +25,11 @@ static struct {
     unsigned char pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
 } input_opcode_properties = {{0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
-/* Only the encountered tracked-register kind4 opcode is modeled. */
+/* Only encountered tracked-register kind4 and parameter kind5 are modeled. */
 static union {
-    struct { unsigned pending00[4], tracked, pending05[12]; } row;
+    struct { unsigned pending00[4], tracked, parameter, pending06[11]; } row;
     unsigned values[17];
-} input_register_opcodes = {{{0}, 0x120, {0}}};
+} input_register_opcodes = {{{0}, 0x120, 0x120, {0}}};
 /* Typed operand kind5 is the encountered local-register opcode. All other
  * backing rows remain UNMODELED, and native guards precede their reads. */
 static union {
@@ -51,8 +51,8 @@ static unsigned char input_condition_known[16];
      input_inverse_condition[(condition)] : \
      (recon_unsupported("unmodeled input comparison inverse"), 0))
 #define INPUT_REGISTER_OPCODE(kind) \
-    ((unsigned)(kind) == 4 ? \
-     input_register_opcodes.row.tracked : \
+    ((unsigned)(kind) == 4 ? input_register_opcodes.row.tracked : \
+     (unsigned)(kind) == 5 ? input_register_opcodes.row.parameter : \
      (recon_unsupported("unmodeled input register opcode"), 0))
 #define INPUT_OPERAND_OPCODE(kind) \
     ((unsigned)(kind) == 5 ? \
@@ -862,13 +862,15 @@ enum InputTokenForm {
     INPUT_FORM_SIGNED_PAIR, INPUT_FORM_SYMBOLS_SHORT
 };
 static struct {
-    unsigned char pending00[38], variable, pending39[6], parameter, pending46[24];
+    unsigned char pending00[38], variable, pending39[6], parameter, pending46[2];
+    unsigned char conversion, pending49[21];
     unsigned char function_entry, pending71[5], parameter_end, pending77[2], pragma, pending80[3], scope_begin;
 } input_token_forms = {{0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_SYMBOL, {0},
-                       INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
+                       INPUT_FORM_TYPE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 38 ? input_token_forms.variable : \
     (unsigned)(op) == 45 ? input_token_forms.parameter : \
+    (unsigned)(op) == 48 ? input_token_forms.conversion : \
     (unsigned)(op) == 70 ? input_token_forms.function_entry : \
     (unsigned)(op) == 76 ? input_token_forms.parameter_end : \
     (unsigned)(op) == 79 ? input_token_forms.pragma : \

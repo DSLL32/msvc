@@ -278,3 +278,12 @@ C2Expression *__fastcall new_typed_register_expression(unsigned opcode,
     tree->value.reg = reg;
     return tree;
 }
+
+C2Expression *__fastcall new_register_expression(unsigned opcode, C2FunctionRegister *reg)
+{
+    C2Expression *tree = (C2Expression *)allocate_small_node(3);
+    tree->opcode = opcode;
+    tree->value.reg = reg;
+    tree->type = input_value_type;
+    return tree;
+}

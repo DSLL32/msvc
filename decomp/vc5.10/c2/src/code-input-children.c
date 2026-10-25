@@ -111,12 +111,6 @@ C2Expression * __fastcall pop_input_expression(C2InputStack *stack)
 }
 
 
-C2Expression * __fastcall new_register_expression(unsigned opcode, C2FunctionRegister *reg)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 void __fastcall mark_first_input_expression(C2Expression *expression)
 {
     __asm { int 3 }
