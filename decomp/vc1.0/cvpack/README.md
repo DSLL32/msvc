@@ -26,7 +26,21 @@ valid 16/32-bit local symbols, multiple files and contributions. Its exact
 This is explicitly authored data, not historical producer output. The original
 accepted it without warnings (exit 0, 142 first entries); its raw 1,796-byte
 output SHA256 is `c7ae04c29ec0b09bc33c246d62edbf3cca5b0c98977d58e559698bddec36fb1e`.
-The current qualified frontier is `122e0` (RVA `0x122e0`),
+That case remains partial at `convert_old_barray` (`0x122e0`): the original
+reads an uninitialized stack word to choose storage. This is an unresolved
+application control defect, not output padding. A candidate preserving the
+Win32 read and explicitly trapping native execution is saved in owned scratch;
+no body is accepted and no control variable is normalized. The mistakenly
+zeroed candidate was withdrawn in `37f62be32`; its raw history remains intact.
+`0014-mixed-c6-no-barray` is a separate authored variant excluding that type,
+with eleven types per module and adjusted references. Reproduce it with
+`scripts/make-mixed-c6-input.py OUTPUT_DIRECTORY --without-barray`.
+Its 1,079-byte input SHA256 is
+`337f36d97009e2cf90d12bb0a1bdb3685f3ed646944d78cdd9c9bfc98c84d237`;
+the original accepted it without warnings (exit 0, 141 first entries), producing
+1,744 bytes with raw SHA256
+`4693013813fc9f19c1bb7fd8f07eb3672a01aeccc59d17827f0d1746837fde57`.
+The current qualified frontier is `convert_old_based_pointer` (`0x11e80`),
 with 81 matching unseeded first entries. The superseded malformed constant
 encoding and its CK4003 warnings remain in owned scratch, without coverage
 credit. The two no-op register-relative callbacks remain unaccepted; the wide
@@ -39,7 +53,7 @@ implementation. Shared CRT compatibility remains in `lib/recon/`.
 
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
-automatically discovers the thirteen numbered `case.c` descriptors, and runs their
+automatically discovers the fourteen numbered `case.c` descriptors, and runs their
 cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
@@ -48,8 +62,8 @@ application CFGs, RET cleanup, extent ownership and instruction overlap;
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-Twelve dispatched cases complete; the mixed C6 case retains a matching
-partial frontier. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
+Twelve dispatched cases complete; the two mixed C6 cases retain matching
+partial frontiers. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
 filenames. Existing references retain their historical Z: program path; they
 were packed without relabeling or rerunning the original. Future path-dependent

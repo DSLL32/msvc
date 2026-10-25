@@ -6,6 +6,8 @@ from pathlib import Path
 import hashlib,json,struct,sys
 HERE=Path(sys.argv[1]).resolve() if len(sys.argv)>1 else Path.cwd()
 HERE.mkdir(parents=True,exist_ok=True)
+WITHOUT_BARRAY = '--without-barray' in sys.argv[2:]
+FILENAME = 'mixed-c6-no-barray.dbg' if WITHOUT_BARRAY else 'mixed-c6.dbg'
 H=lambda n:struct.pack('<H',n)
 I=lambda n:struct.pack('<I',n)
 def counted(s):
@@ -30,6 +32,11 @@ TYPES=[
  ('pointer',typ(0x7a,b'\x74\x83'+H(0x207))),
  ('array',typ(0x78,b'\x40\x83'+H(0x85)+b'\x83'+H(0x85)+b'\x82'+counted('bytes'))),
 ]
+if WITHOUT_BARRAY:
+ TYPES=[(name,value) for name,value in TYPES if name!='based-array']
+ indices={name:0x200+i for i,(name,_) in enumerate(TYPES)}
+ TYPES=[(name,typ(0x7a,b'\x74\x83'+H(indices['based-pointer']))) if name=='pointer' else (name,value) for name,value in TYPES]
+indices={name:0x200+i for i,(name,_) in enumerate(TYPES)}
 type_bytes=b''.join(v for _,v in TYPES)
 
 def symbols(wide,seg):
@@ -40,8 +47,8 @@ def symbols(wide,seg):
  rows.append(sym(1|flag,off(0)+H(0x200)+H(0x100)+H(0)+H(0x100)+H(0)+b'\0'+counted('worker')))
  for i,(name,_) in enumerate(TYPES[1:],1):
   rows.append(sym(0x0d,H(0x200+i)+b'\x11'+counted(name)))
- rows.append(sym(4|flag,off(4)+H(0x207)+counted('base')))
- rows.append(sym(5|flag,off(0x20)+H(seg)+H(0x206)+counted('window')))
+ rows.append(sym(4|flag,off(4)+H(indices['based-pointer'])+counted('base')))
+ rows.append(sym(5|flag,off(0x20)+H(seg)+H(indices['based-pointer'] if WITHOUT_BARRAY else indices['based-array'])+counted('window')))
  rows.append(sym(0x0b|flag,off(0x30)+b'\0'+counted('again')))
  rows.append(sym(0|flag,off(0x40)+H(0x20)+counted('scope')))
  rows.append(sym(4|flag,off(8)+H(0x204)+counted('bits')))
@@ -51,7 +58,7 @@ def symbols(wide,seg):
  if not wide: rows.append(sym(0x16,H(0x10)+b'\x11'+H(0x205)+counted('r')))
  for name,value in [('small',b'\x01\x07'),('large',b'\x85'+H(65534)),('wide',b'\x86'+I(0x12345678))]:
   rows.append(sym(0x0e,H(0x86 if name=='wide' else 0x85)+value+counted(name)))
- rows.append(sym(0x12,H(0x207)+counted('Based')))
+ rows.append(sym(0x12,H(indices['based-pointer'])+counted('Based')))
  rows.append(sym(0x10,b'\0\0'))
  rows.append(sym(2))
  return b''.join(rows)
@@ -117,7 +124,7 @@ for kind,number,offset,size in directory:
    for i in range(count):
     line,offset=struct.unpack_from('<HH',data,cursor);assert 0<=offset<0x400 and line>0;cursor+=4
   assert cursor==len(data)
-(HERE/'mixed-c6.dbg').write_bytes(payload)
-recipe={'authored_input':True,'historical_producer_output':False,'source':'generate_input.py; original NB02/C6 reader and typed converter layouts, not a producer binary','sha256':hashlib.sha256(payload).hexdigest(),'size':len(payload),'directory_offset':directory_offset,'directory_entries':inventory,'type_records':[{'index':hex(0x200+i),'name':n,'bytes':v.hex()} for i,(n,v) in enumerate(TYPES)],'symbols':'Two modules: complete procedure/block/end scopes, register references for every old type, 16/32-bit bprel/data/labels, narrow one-character reg-relative, constants7/65534/0x12345678, UDT alias, skip; wide reg-relative excluded','lines':'Two filename groups and two module contributions each; three segment-line blocks per module with all offsets in actual contributions; drives real range-sort comparator','environment':{'_MSC_IDE_FLAGS':None},'environment_reason':'Normal CLI output with feedback mode absent; no PATH or host/Wine sanitization settings copied','expected_new_families':['old leaf80/8e/72/5c/8d/8c/91/a6/a7','32bit symbol sizing/conversion for proc/block/bprel/data/label','16bit register-relative,constant,UDT12,skip','line-range comparator'],'validation':'Original CLI accepted this exact input without warnings on2026-10-25; source recipe remains authored, not historical producer output.'}
+(HERE/FILENAME).write_bytes(payload)
+recipe={'authored_input':True,'historical_producer_output':False,'variant':'without-barray-v2' if WITHOUT_BARRAY else 'original-v1','excluded':'BARRAY unwritten control local; retained as pending0013 frontier' if WITHOUT_BARRAY else None,'source':'generate_input.py; original NB02/C6 reader and typed converter layouts, not a producer binary','sha256':hashlib.sha256(payload).hexdigest(),'size':len(payload),'directory_offset':directory_offset,'directory_entries':inventory,'type_records':[{'index':hex(0x200+i),'name':n,'bytes':v.hex()} for i,(n,v) in enumerate(TYPES)],'symbols':'Two modules: complete procedure/block/end scopes, register references for every old type, 16/32-bit bprel/data/labels, narrow one-character reg-relative, constants7/65534/0x12345678, UDT alias, skip; wide reg-relative excluded','lines':'Two filename groups and two module contributions each; three segment-line blocks per module with all offsets in actual contributions; drives real range-sort comparator','environment':{'_MSC_IDE_FLAGS':None},'environment_reason':'Normal CLI output with feedback mode absent; no PATH or host/Wine sanitization settings copied','expected_new_families':['old leaf80/8e/72/5c/8d/8c/91/a6/a7','32bit symbol sizing/conversion for proc/block/bprel/data/label','16bit register-relative,constant,UDT12,skip','line-range comparator'],'validation':'Original CLI accepted this exact input without warnings on2026-10-25; source recipe remains authored, not historical producer output.'}
 (HERE/'input-recipe.json').write_text(json.dumps(recipe,indent=2)+'\n')
 print(recipe['size'],recipe['sha256'],len(directory),'entries',len(TYPES),'types/module')
