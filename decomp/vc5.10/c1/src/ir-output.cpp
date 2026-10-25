@@ -121,3 +121,16 @@ int RECON_THISCALL CompilerOutputBuffer::Grow(int bytes)
         relocated(relocation_context, old_data, replacement);
     return 1;
 }
+
+extern "C" void __cdecl write_global_record(unsigned, CompilerIrSymbol *);
+extern "C" void __cdecl write_global_header(void)
+{
+    CompilerOutputBuffer *buffer = &c1_bss.output_buffers[2];
+    buffer->Flush();
+    fflush(buffer->stream);
+    rewind(buffer->stream);
+    c1_bss.declaration_scope_active = 0;
+    write_global_record(17, NULL);
+}
+extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *symbol)
+{ __asm { int 3 } }

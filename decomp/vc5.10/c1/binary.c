@@ -935,10 +935,13 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_write_global_header", .entry_rva = 0x121b1,
-.code = (const ReconExtent[]){{0x121b1, 0x121b2}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x121b1, 0x121ee}},
+.code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
 .native_symbol = "write_global_header",
     },
+    { .name = "_write_global_record", .entry_rva = 0x104f,
+      .code = (const ReconExtent[]){{0x104f, 0x1050}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "write_global_record" },
     {
 .name = "_make_integer_constant", .entry_rva = 0x9993,
 .code = (const ReconExtent[]){{0x9993, 0x99ab}},
