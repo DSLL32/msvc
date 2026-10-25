@@ -670,5 +670,48 @@
       ],
       "provider_behavior": "PUSH EBP; MOV EBP,ESP; pass four DWORD arguments and ECX=this to vtable slot+8; normal-return POP EBP; RET0. This public cdecl wrapper restores the actual saved EBP. Standard thiscall stack cleanup16 required; no virtual body identity/output contract inferred."
     }
+  },
+  "compiler_shift_support": {
+    "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+    "library": "toolchains/5.10/lib/LIBC.LIB",
+    "library_sha256": "f81440dd014ca4ce7ef8b4d60ed1ee4ad544601b07fbdb4fca54a1dfca31f9b0",
+    "classification": "Original-only existing CRT support. Registry owns exact primary/cold extents. No native source/body availability or App credit.",
+    "review": "Root approved after independent graph-tool maintainer review of all three library/member identities, six chunks and register-ABI semantics.",
+    "ABI": "EDX:EAX input/output value; CL count; RET0; EBX/ESI/EDI/EBP preserved",
+    "equivalence": "Original second branch inverted and blocks reordered/split; operations and three unsigned CL count partitions match shipped objects. Not byte-identical layout.",
+    "count_partitions": {
+      "0_to_31": "original+library SHLD/SHL for left, SHRD/SAR for signed right, SHRD/SHR for unsigned right",
+      "32_to_63": "matching cross-DWORD moves,CL&31 and corresponding scalar shift",
+      "64_to_255": "left/unsigned right EAX=EDX=0; signed right sign-fills from incomingEDX"
+    },
+    "members": [
+      {
+        "name": "__allshl",
+        "member": "build\\intel\\st_obj\\llshl.obj",
+        "member_sha256": "bb710ab07996682a7981007b59c8c19e8c2d83e1c54ca20f9846f5a49bd987ce",
+        "original_chunk_sha256": [
+          "131b9c7624110b8746ed8a0a3d42c0c1520f97a8913ef838abb65dfae2710994",
+          "0f5354b5a0db191bbae062c98e5c2eabeceb980e2e34ae2d1f0fc9a9204dac6f"
+        ]
+      },
+      {
+        "name": "__allshr",
+        "member": "build\\intel\\st_obj\\llshr.obj",
+        "member_sha256": "461c28bf1bca1e0a402708db19075c3ad617118a0161f7efe76bac4e12265d7e",
+        "original_chunk_sha256": [
+          "5b9d7916ab05006599567bdda5b1153b8883317377fc28f157f61357bad30a2d",
+          "50aa8b0f37435e1702a33385edb6072ae50e99d14869b536e56f7d8bc73d93e9"
+        ]
+      },
+      {
+        "name": "__aullshr",
+        "member": "build\\intel\\st_obj\\ullshr.obj",
+        "member_sha256": "50826fb752e13a6b7bea547da79ec03db8b487d9f3814d5ea6a08d2c893a5e7e",
+        "original_chunk_sha256": [
+          "cb110b79088eeb0be18f06aea001cc2fbe9bbde3ffcfea83719da33110fe5fd9",
+          "0f5354b5a0db191bbae062c98e5c2eabeceb980e2e34ae2d1f0fc9a9204dac6f"
+        ]
+      }
+    ]
   }
 }

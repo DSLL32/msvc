@@ -652,6 +652,33 @@ static int widest_address_view(void)
         !memcmp(rows, before, sizeof(rows));
 }
 
+static int integer_record_width(void)
+{
+    unsigned char allocation[36];
+    C2Expression *tree = (C2Expression *)allocation;
+    union { unsigned __int64 value; C2IntegerWords words; } integer;
+    memset(allocation, 0xa5, sizeof(allocation));
+    tree->next = NULL;
+    free_small_nodes[32] = (C2SmallNode *)tree;
+    if (new_integer_expression(0x1001, 0x80) != tree || tree->kind != 7 ||
+        tree->opcode != 0x11d || tree->type != 0x1001 ||
+        tree->integer.low != 0xffffff80U || tree->integer.high != 0xffffffffU)
+        return 0;
+    release_small_node(tree);
+    if (new_integer_expression(0x2001, ~(unsigned __int64)0) != tree ||
+        tree->integer.low != 0xff || tree->integer.high) return 0;
+    release_small_node(tree);
+    integer.words.low = 0x89abcdefU;
+    integer.words.high = 0xfedcba98U;
+    if (new_integer_expression(0x1008, integer.value) != tree ||
+        tree->integer.low != integer.words.low || tree->integer.high != integer.words.high)
+        return 0;
+    release_small_node(tree);
+    return new_integer_expression(0x1000, integer.value) == tree &&
+        !tree->integer.low && !tree->integer.high &&
+        allocation[32] == 0xa5 && allocation[35] == 0xa5;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -682,5 +709,6 @@ const ReconTest numeric_tests[] = {
     {"defined return conventions retain aggregate and power-of-two rules", 1, return_storage_conventions},
     {"input type decoding retains untouched token fields", 1, input_type_fields},
     {"operand pop clears only owned stack links and flag", 1, input_operand_pop},
-    {"address views reuse compatible widths and widest aggregates without mutation", 1, widest_address_view}
+    {"address views reuse compatible widths and widest aggregates without mutation", 1, widest_address_view},
+    {"integer records preserve signed width, full payload and allocation canary", 1, integer_record_width}
 };

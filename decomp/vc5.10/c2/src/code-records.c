@@ -299,3 +299,14 @@ C2Expression *__fastcall new_integer_expression(unsigned short type, unsigned __
     tree->integer.high = integer.words.high;
     return tree;
 }
+
+unsigned __int64 __fastcall normalize_integer_value(unsigned short type, unsigned __int64 value)
+{
+    /* Compiler helpers receive the count in CL, including its byte truncation.
+     * Spell out their >=64 result so native C never performs an undefined shift. */
+    unsigned char shift = (unsigned char)((8 - (type & 0xfff)) * 8);
+    if (shift >= 64) return 0;
+    if ((type & 0xf000) == 0x2000)
+        return value & (~(unsigned __int64)0 >> shift);
+    return (unsigned __int64)((__int64)(value << shift) >> shift);
+}

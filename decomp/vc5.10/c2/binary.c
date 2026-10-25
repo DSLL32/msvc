@@ -6,6 +6,28 @@
 
 /* Pending entry-only records deliberately omit unknown code extents. */
 static const ReconFunction functions[] = {
+    /* Reviewed block-reordered shipped compiler support, not App source. */
+    {
+        .name = "__allshl",
+        .entry_rva = 0x1519,
+        .code = (const ReconExtent[]){{0x1519, 0x1537}, {0x657f2, 0x657f7}},
+        .code_count = 2,
+        .definition = RECON_CRT,
+    },
+    {
+        .name = "__allshr",
+        .entry_rva = 0x12fc,
+        .code = (const ReconExtent[]){{0x12fc, 0x131b}, {0x657ec, 0x657f2}},
+        .code_count = 2,
+        .definition = RECON_CRT,
+    },
+    {
+        .name = "__aullshr",
+        .entry_rva = 0x7d1c,
+        .code = (const ReconExtent[]){{0x7d1c, 0x7d3a}, {0x66827, 0x6682c}},
+        .code_count = 2,
+        .definition = RECON_CRT,
+    },
     {
         .name = "_mainCRTStartup",
         .entry_rva = 0x52797,
@@ -2371,8 +2393,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@normalize_integer_value@12",
         .entry_rva = 0x14b1,
+        .code = (const ReconExtent[]){{0x14b1, 0x1519}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "normalize_integer_value",
     },
     {

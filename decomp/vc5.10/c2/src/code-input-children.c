@@ -437,9 +437,3 @@ void __fastcall replace_register_uses(C2FunctionRegister *source, C2FunctionRegi
 {
     __asm { int 3 }
 }
-
-unsigned __int64 __fastcall normalize_integer_value(unsigned short type, unsigned __int64 value)
-{
-    __asm { int 3 }
-    return 0;
-}

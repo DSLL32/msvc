@@ -20,12 +20,12 @@ C2InputClause *input_clauses;
  * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
 static struct {
-    unsigned char pending00[38], variable, pending39[9], conversion, pending49[2];
+    unsigned char pending00[12], divide, pending13[25], variable, pending39[9], conversion, pending49[2];
     unsigned char number, pending52[18];
     unsigned char function_entry, pending71[5];
     unsigned char parameter_end, pending77[2];
     unsigned char pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
-} input_opcode_properties = {{0}, 0, {0}, 0, {0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
+} input_opcode_properties = {{0}, 0, {0}, 0, {0}, 0, {0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 /* Only encountered tracked-register kind4 and parameter kind5 are modeled. */
 static union {
@@ -41,7 +41,8 @@ static union {
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 static unsigned char input_condition_known[16];
 #define INPUT_PROPERTIES(op) \
-    ((unsigned)(op) == 38 ? input_opcode_properties.variable : \
+    ((unsigned)(op) == 12 ? input_opcode_properties.divide : \
+     (unsigned)(op) == 38 ? input_opcode_properties.variable : \
      (unsigned)(op) == 48 ? input_opcode_properties.conversion : \
      (unsigned)(op) == 51 ? input_opcode_properties.number : \
      (unsigned)(op) == 70 ? input_opcode_properties.function_entry : \
@@ -873,13 +874,14 @@ enum InputTokenForm {
     INPUT_FORM_SIGNED_PAIR, INPUT_FORM_SYMBOLS_SHORT
 };
 static struct {
-    unsigned char pending00[38], variable, pending39[6], parameter, pending46[2];
+    unsigned char pending00[12], divide, pending13[25], variable, pending39[6], parameter, pending46[2];
     unsigned char conversion, pending49[2], number, pending52[18];
     unsigned char function_entry, pending71[5], parameter_end, pending77[2], pragma, pending80[3], scope_begin;
-} input_token_forms = {{0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_SYMBOL, {0},
+} input_token_forms = {{0}, INPUT_FORM_NONE, {0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_SYMBOL, {0},
                        INPUT_FORM_TYPE, {0}, INPUT_FORM_NUMBER, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
-#define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 38 ? input_token_forms.variable : \
+#define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 12 ? input_token_forms.divide : \
+    (unsigned)(op) == 38 ? input_token_forms.variable : \
     (unsigned)(op) == 45 ? input_token_forms.parameter : \
     (unsigned)(op) == 48 ? input_token_forms.conversion : \
     (unsigned)(op) == 51 ? input_token_forms.number : \
