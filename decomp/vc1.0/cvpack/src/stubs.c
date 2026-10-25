@@ -149,7 +149,7 @@ void convert_old_barray(TypeRecord *entry) { __asm { int 3 } }
 
 
 
-void size_old_block32(void) { __asm { int 3 } }
+
 
 
 

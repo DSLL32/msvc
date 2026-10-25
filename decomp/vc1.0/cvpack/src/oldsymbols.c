@@ -515,3 +515,9 @@ void size_old_label32(void)
 {
     module_type_base += 7;
 }
+
+void size_old_block32(void)
+{
+    module_type_base += 17;
+    ++symbol_scope_depth;
+}
