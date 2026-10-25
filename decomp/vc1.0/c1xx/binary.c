@@ -1,11 +1,20 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1502 historical frontiers/1395 App bodies.
+ * Current reviewed boundary:1508 historical frontiers/1401 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_truncate_extended",
+        .entry_rva = 0x6500b,
+        .code = (const ReconExtent[]) { { 0x6500b, 0x65034 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "truncate_extended",
+        .implementation = RECON_IMPLEMENTED,
+    },
     {
         .name = "_unquote_diagnostic_message@4",
         .entry_rva = 0x62ff0,
@@ -12394,18 +12403,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_add_extended",
         .entry_rva = 0x64c99,
-        .code = (const ReconExtent[]) { { 0x64c99, 0x64c9a } },
+        .code = (const ReconExtent[]) { { 0x64c99, 0x64ce8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "add_extended",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_subtract_extended",
         .entry_rva = 0x64ce8,
-        .code = (const ReconExtent[]) { { 0x64ce8, 0x64ce9 } },
+        .code = (const ReconExtent[]) { { 0x64ce8, 0x64d37 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "subtract_extended",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_multiply_extended",
@@ -12419,10 +12430,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_divide_extended",
         .entry_rva = 0x64d86,
-        .code = (const ReconExtent[]) { { 0x64d86, 0x64d87 } },
+        .code = (const ReconExtent[]) { { 0x64d86, 0x64dd5 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "divide_extended",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_extended_to_float",
@@ -12479,18 +12491,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_extended_to_integer",
         .entry_rva = 0x64f03,
-        .code = (const ReconExtent[]) { { 0x64f03, 0x64f04 } },
+        .code = (const ReconExtent[]) { { 0x64f03, 0x64f2f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "extended_to_integer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_compare_extended",
         .entry_rva = 0x64fbf,
-        .code = (const ReconExtent[]) { { 0x64fbf, 0x64fc0 } },
+        .code = (const ReconExtent[]) { { 0x64fbf, 0x6500b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compare_extended",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_extended_arithmetic",

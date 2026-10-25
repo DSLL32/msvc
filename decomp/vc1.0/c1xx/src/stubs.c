@@ -322,7 +322,6 @@ int __stdcall report_operator_resolution_failure(unsigned char operation, unsign
 void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall subtraction_overflows(int left, int right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
-int compare_extended(unsigned short mask, const Extended *left, const Extended *right) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
 void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source) { __asm { int 3 } }
@@ -331,7 +330,6 @@ IrToken * __stdcall convert_class_condition(IrToken *expression, int mode, unsig
 IrToken *__stdcall make_assignment_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_comma_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_conditional_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
-int subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index) { __asm { int 3 } return 0; }
 
 
@@ -379,7 +377,6 @@ int __stdcall has_assignment_member_model(CType *type) { __asm { int 3 } return 
 void __stdcall report_conversion_rank_failure(unsigned char operation, unsigned rank,
     CType *target, CType *source) { __asm { int 3 } }
 
-int extended_to_integer(const Extended *value, long *result) { __asm { int 3 } return 0; }
 int integer_to_extended(const long *value, Extended *result) { __asm { int 3 } return 0; }
 int unsigned_to_extended(const unsigned long *value, Extended *result) { __asm { int 3 } return 0; }
 
@@ -466,8 +463,6 @@ void __stdcall set_default_inheritance_model(int model) { __asm { int 3 } }
 CppSymbol * __stdcall enclosing_qualifier_class(QualifierBinding *binding) { __asm { int 3 } return 0; }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
 char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
-int add_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
-int divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 
 
 

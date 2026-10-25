@@ -250,3 +250,148 @@ int float_to_extended(const float *value, Extended *result)
     }
     return 0;
 }
+
+/* Original0x74c99..0x74ce8, cdecl3. Ten-byte operands and the
+   ESI/ST(0) finishing ABI require these narrow arithmetic bridges;
+   representation selection is ordinary C, as in multiply_extended. */
+int add_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned short format;
+    int status;
+    __asm {
+        mov eax, left
+        fld tbyte ptr [eax]
+        mov eax, right
+        fld tbyte ptr [eax]
+        faddp st(1), st(0)
+    }
+    format = left->format | right->format;
+    if (format & 2) result->format = 10;
+    else if (format & 8) result->format = 8;
+    else result->format = 4;
+    __asm {
+        mov esi, result
+        call finish_extended_arithmetic
+        mov status, eax
+    }
+    return status;
+}
+
+/* Original0x74fbf..0x7500b, cdecl3. Period C cannot compare ten-byte
+   scalars or retain their x87 condition bits. Only that operation is asm;
+   the original unordered/equal priority and relation mask stay in C. */
+int compare_extended(unsigned short mask, const Extended *left, const Extended *right)
+{
+    unsigned short status, relation;
+    __asm {
+        mov eax, left
+        fld tbyte ptr [eax]
+        mov eax, right
+        fld tbyte ptr [eax]
+        fxch st(1)
+        fcompp
+        fstsw status
+        fwait
+    }
+    extended_workspace.range.status = status;
+    if (status & 0x4000) relation = 1;
+    else if (!(status & 0x100)) relation = 2;
+    else relation = 4;
+    return (relation & mask) != 0;
+}
+
+/* Original0x74d86..0x74dd5, cdecl3. Preserve the ten-byte quotient
+   and private ESI/ST(0) finishing ABI; representation choice remains C. */
+int divide_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned short format;
+    int status;
+    __asm {
+        mov eax, left
+        fld tbyte ptr [eax]
+        mov eax, right
+        fld tbyte ptr [eax]
+        fdivp st(1), st(0)
+    }
+    format = left->format | right->format;
+    if (format & 2) result->format = 10;
+    else if (format & 8) result->format = 8;
+    else result->format = 4;
+    __asm {
+        mov esi, result
+        call finish_extended_arithmetic
+        mov status, eax
+    }
+    return status;
+}
+
+/* Original0x74ce8..0x74d37, cdecl3. Ten-byte subtraction and the
+   ESI/ST(0) finishing ABI require bridges; representation choice stays C. */
+int subtract_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned short format;
+    int status;
+    __asm {
+        mov eax, left
+        fld tbyte ptr [eax]
+        mov eax, right
+        fld tbyte ptr [eax]
+        fsubp st(1), st(0)
+    }
+    format = left->format | right->format;
+    if (format & 2) result->format = 10;
+    else if (format & 8) result->format = 8;
+    else result->format = 4;
+    __asm {
+        mov esi, result
+        call finish_extended_arithmetic
+        mov status, eax
+    }
+    return status;
+}
+
+/* Greatest signed32-bit integer, original0xa66f2..0xa66fc. */
+ExtendedLimit signed_integer_limit = { 0, 0xfffffffeU, 0x401d };
+/* Private input/result ST(0), no C formals. */
+void truncate_extended(void);
+
+/* Original0x74f03..0x74f2f, cdecl2. Only the ten-byte load,
+   private x87 range ABI and successful integer store need bridges. */
+int extended_to_integer(const Extended *value, long *result)
+{
+    int overflow;
+    __asm {
+        mov eax, value
+        fld tbyte ptr [eax]
+    }
+    truncate_extended();
+    __asm { fld tbyte ptr signed_integer_limit }
+    overflow = check_extended_range();
+    if (!overflow) {
+        __asm {
+            mov eax, result
+            fistp dword ptr [eax]
+            fwait
+        }
+    }
+    return overflow;
+}
+
+unsigned short truncation_control; /* original0xa6712..0xa6714 */
+
+/* Original0x7500b..0x75034. The sole input/result is ST(0), which
+   period C cannot express. Preserve the exact control save/round/restore;
+   its saved WORD at0xa6710 aliases the existing8B workspace's last WORD. */
+void truncate_extended(void)
+{
+    __asm {
+        fstcw word ptr extended_workspace + 6
+        fwait
+    }
+    truncation_control = ((unsigned short *)&extended_workspace)[3] | 0xc01;
+    __asm {
+        fldcw truncation_control
+        frndint
+        fldcw word ptr extended_workspace + 6
+    }
+}
