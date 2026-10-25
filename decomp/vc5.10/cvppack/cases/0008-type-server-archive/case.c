@@ -1,11 +1,23 @@
 #include <recon-tool.h>
+#include <recon-fixture.h>
 #include <recon-output.h>
 #include <stdio.h>
 #include <stdlib.h>
 extern int cvpack_native_setup(int,const char *);
 extern int cvpack_main(int,char **,char **);
 extern void cvpack_pdb_load(const char *);
-static int setup(void) { if (!cvpack_native_setup(0,"R:\\toolchains\\5.10\\bin\\CVPACK.EXE")) return 0; cvpack_pdb_load("archive-pdb.ppb"); return 1; }
+/* Namespace-only fixture maintenance: PPB is host metadata outside App cwd.
+ * Historical original capture/report retain the earlier transport unchanged. */
+static int setup(void)
+{
+    const char *assets=recon_case_assets();
+    char provider[4096];int length;
+    if(!assets || !cvpack_native_setup(0,"R:\\toolchains\\5.10\\bin\\CVPACK.EXE"))return 0;
+    length=snprintf(provider,sizeof(provider),"%s/dependencies/archive-pdb.ppb",assets);
+    if(length<0 || length>=sizeof(provider))return 0;
+    cvpack_pdb_load(provider);
+    return 1;
+}
 static int invoke(int argc,char **argv) { return cvpack_main(argc,argv,(char **)0); }
 extern const ReconTest cvpack_pdb_tests[5];
 static const uint32_t order[] = {
