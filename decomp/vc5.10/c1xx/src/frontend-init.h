@@ -194,6 +194,12 @@ struct CompilerParameterDescription {
     unsigned scope_open;          /* +14, conditional EndParameterScope marker */
     void RECON_THISCALL Normalize(void);
 };
+struct CompilerCompositeType {
+    CompilerCompositeType *next;
+    CompilerFunctionType function;
+};
+typedef char CompilerFunctionType_size[sizeof(CompilerFunctionType) == 16 ? 1 : -1];
+typedef char CompilerCompositeType_size[sizeof(CompilerCompositeType) == 20 ? 1 : -1];
 struct CompilerDeclaratorQualifiers {
     WORD flags;
     unsigned value;

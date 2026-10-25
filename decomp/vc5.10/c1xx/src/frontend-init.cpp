@@ -5,7 +5,7 @@
 #include "frontend-init.h"
 #include "pointer-array.h"
 #include "packing.h"
-#pragma intrinsic(memset)
+#pragma intrinsic(memset, memcmp)
 #include <recon.h>
 
 /* Preserve the observed direct FILE-array import, not SDK __p__iob. */
@@ -1071,4 +1071,36 @@ extern "C" CompilerParameterTypes *__cdecl empty_parameter_types(void)
     return frontend_data.empty_parameters;
 }
 extern "C" CompilerParameterTypes *__cdecl collect_parameter_types(unsigned count, CompilerParameterSet *parameters) { __asm { int 3 } return NULL; }
-extern "C" CompilerFunctionType *__cdecl intern_function_type(CompilerFunctionType *function) { __asm { int 3 } return NULL; }
+extern "C" CompilerFunctionType *__cdecl intern_function_type(CompilerFunctionType *function)
+{
+    unsigned hash = (((WORD)(unsigned)function->type >> 2) +
+        ((WORD)(unsigned)function->parameters >> 2)) & 0x3ff;
+    CompilerCompositeType **bucket = &frontend_data.type_tables.composite->buckets[hash];
+    CompilerCompositeType *previous = NULL, *entry = *bucket, *created;
+    CompilerPool *pool = &frontend_bss.pools[3]; /* actual bf210 */
+    int count = (int)function->parameters->count;
+    while (entry) {
+        int other_count = (int)entry->function.parameters->count;
+        if (other_count > count) break;
+        if (other_count == count) {
+#if defined(RECON_NATIVE_TEST)
+            /* The original compares all16 bytes. The three bytes adjacent
+             * to symbol_count are unresolved: stop before interpreting them,
+             * rather than replacing the comparison with typed equality. */
+            __asm { int 3 }
+#endif
+            if (!memcmp(&entry->function, function, 16)) return &entry->function;
+        }
+        previous = entry;
+        entry = entry->next;
+    }
+    if (pool->remaining < 20) pool->Refill(20);
+    created = (CompilerCompositeType *)pool->cursor;
+    pool->cursor += 20;
+    pool->remaining -= 20;
+    created->function = *function;
+    created->next = entry;
+    if (previous) previous->next = created;
+    else *bucket = created;
+    return &created->function;
+}
