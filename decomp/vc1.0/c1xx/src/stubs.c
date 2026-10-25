@@ -122,7 +122,7 @@ void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 }
 
 
 
-int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment, WorkList *analysis) { __asm { int 3 } return 0; }
+int __stdcall describe_qc_operand(IrToken *expression, QcOperand *operand) { __asm { int 3 } return 0; }
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 
 void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }

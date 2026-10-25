@@ -225,3 +225,52 @@ void write_switch_dispatch(void)
     emit_expression_tree(dispatch);
     emit_label(break_labels->label);
 }
+
+/* Original0x45290..0x45485, stdcall12. Preserve the arena allocation
+   even when a condition or increment cannot use the compact qc loop form. */
+int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment,
+    WorkList *analysis)
+{
+    ArenaPool *pool = &compiler_arena.pools[3];
+    QcLoopState *loop;
+    unsigned char operation, category;
+    if (pool->remaining < (int)sizeof(QcLoopState)) refill_arena(&compiler_arena, pool);
+    loop = (QcLoopState *)pool->next;
+    pool->remaining -= sizeof(QcLoopState);
+    pool->next += sizeof(QcLoopState);
+    analysis->value.pointer = loop;
+    if (!condition) return 0;
+    operation = condition->kind;
+    category = token_categories[operation];
+    if (category == OP_NOT) {
+        if (!describe_qc_operand(condition->value.pointer, &loop->left)) return 0;
+        loop->right.value.integer = 0;
+        loop->right.operation = 7;
+        operation = OP_EQUAL;
+    } else if (category == 0x6f) {
+        if (operation >= 7 && operation <= 10 && !condition->value.integer) {
+            write_ir_record(0x3a, break_labels->label);
+            return 0;
+        }
+        operation = 0;
+    } else if (category == 0x78 || category == 0x86) {
+        if (!describe_qc_operand(condition->value.pointer, &loop->left)) return 0;
+        if (!describe_qc_operand(condition->tail.right, &loop->right)) return 0;
+    } else {
+        if (!describe_qc_operand(condition, &loop->left)) return 0;
+        loop->right.value.integer = 0;
+        loop->right.operation = 7;
+        operation = OP_NOT_EQUAL;
+    }
+    if (increment) {
+        category = token_categories[increment->kind];
+        if (category != 0x6b && category != 0x7d) return 0;
+        if (!describe_qc_operand(increment->value.pointer, &loop->target)) return 0;
+        if (!describe_qc_operand(increment->tail.right, &loop->step)) return 0;
+        loop->increment = increment->kind;
+    }
+    loop->condition = operation;
+    write_ir_record(0x3a, qc_loop_markers->label);
+    emit_label(continue_labels->label);
+    return 1;
+}

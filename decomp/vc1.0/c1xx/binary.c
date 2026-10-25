@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1633 historical frontiers/1526 App bodies.
+ * Current reviewed boundary:1634 historical frontiers/1527 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_describe_qc_operand@8",
+        .entry_rva = 0x35160,
+        .code = (const ReconExtent[]) { { 0x35160, 0x35285 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "describe_qc_operand",
+    },
     {
         .name = "_align_inline_slots@8",
         .entry_rva = 0x34fdc,
@@ -7341,10 +7349,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_qc_loop_control@12",
         .entry_rva = 0x35290,
-        .code = (const ReconExtent[]) { { 0x35290, 0x35291 } },
+        .code = (const ReconExtent[]) { { 0x35290, 0x35485 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_qc_loop_control",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_qc_loop",
