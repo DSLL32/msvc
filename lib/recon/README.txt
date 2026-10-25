@@ -1265,3 +1265,12 @@ The native compiler-support __cxa_pure_virtual(void) symbol has C linkage and
 never returns: it reports unsupported invocation through the existing exit125
 boundary. This permits abstract vtable references without a libstdc++ dependency;
 it claims no original purecall diagnostic, success semantics or App body credit.
+
+Watcom target errno is a separate process-local volatile int, exposed through
+its typed __get_errno_ptr/errno spellings; only reached ENOENT1/EMFILE11 constants
+are supplied. RECON_SHIM_IMPL retains Linux errno. Readonly binary open now
+returns-1/targetENOENT1 for a real missing leaf/parent (including an intermediate
+non-directory); success preserves the target slot. Preflight restores host errno,
+unknown failures remain125, and unmeasured Win32/private DOS errors are unclaimed.
+The Watcom-only char __OS alias starts at2, matching the qualified loader AH2
+store before App; it does not detect the Linux host or change original naming.

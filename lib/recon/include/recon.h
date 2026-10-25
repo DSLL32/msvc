@@ -311,6 +311,8 @@ int __cdecl recon_watcom_memicmp(const void *,const void *,size_t);
 char *__cdecl recon_watcom_getcmd(char *);
 void *__cdecl recon_watcom_fill_dwords(void *,unsigned,unsigned);
 void __cdecl recon_watcom_splitpath2(const char *,char *,char **,char **,char **,char **);
+volatile int *__cdecl recon_watcom_errno(void);
+extern char recon_watcom_os;
 int __cdecl recon_watcom_getch(void);
 int __cdecl recon_watcom_setvbuf(ShimFILE *,char *,int,size_t);
 ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
@@ -493,6 +495,14 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define __far
 #endif
 #define _amblksiz recon_watcom_amblksiz
+#define __OS recon_watcom_os
+#define __get_errno_ptr recon_watcom_errno
+#undef errno
+#define errno (*recon_watcom_errno())
+#undef ENOENT
+#define ENOENT 1
+#undef EMFILE
+#define EMFILE 11
 #define open recon_watcom_open
 #define lseek recon_watcom_lseek
 #define tell recon_watcom_tell

@@ -38,7 +38,7 @@ int main(void)
             case 5: longjmp(buffer,1); break;
             case 6: (void)raise(SIGINT); break;
             case 7: (void)typed_open(NULL,O_BINARY); break;
-            case 8: (void)typed_open("unopened-self-image",O_RDONLY|O_BINARY); break;
+            case 8: (void)typed_open("unopened-*.image",O_RDONLY|O_BINARY); break;
             }
             _exit(91);
         }

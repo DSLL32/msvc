@@ -1,6 +1,8 @@
 #include <assert.h>
 #include <sys/mman.h>
 #include <sys/wait.h>
+#include <errno.h>
+enum { HostENOENT=ENOENT,HostEMFILE=EMFILE };
 #include <recon.h>
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
 static unsigned *policy=&_amblksiz;
@@ -23,6 +25,9 @@ int main(void)
     unsigned char *shared;pid_t child;int status;unsigned mode,n;
     int (*typed_mode)(FILE *,char *,int,size_t)=setvbuf;
     int (*typed_terminal)(int)=isatty;
+    assert(sizeof(__OS)==1 && __OS==2 && ENOENT==1 && EMFILE==11);
+    assert(&errno==recon_watcom_errno() && __get_errno_ptr()==recon_watcom_errno());
+    *recon_errno()=777;errno=111;assert(*recon_errno()==777 && *recon_watcom_errno()==111);
     assert(policy==&recon_watcom_amblksiz && _amblksiz==16 && flat(buffer)==buffer);
     assert(stdaux==&recon_iob[3] && stdprn==&recon_iob[4] && _IOLBF==0x0200);
     assert(typed_terminal==recon_isatty && typed_mode==recon_watcom_setvbuf);
@@ -43,6 +48,13 @@ int main(void)
     __asm__ __volatile__("fnsave %0\n\tfrstor %0":"=m"(*(unsigned char (*)[108])after));
     assert(!memcmp(before,after,108) && errno==111 && recon_doserrno==222 && recon_GetLastError()==333);
 #else
+    assert(ENOENT==HostENOENT && EMFILE==HostEMFILE);
+#ifdef __OS
+#error Watcom OS alias leaked
+#endif
+#ifdef __get_errno_ptr
+#error Watcom errno getter alias leaked
+#endif
     assert(_IOLBF==0x40 && setvbuf==recon_setvbuf);
 #ifdef stdaux
 #error Watcom stdaux leaked

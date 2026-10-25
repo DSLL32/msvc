@@ -32,7 +32,14 @@ int main(int argc,char **argv)
         if(!strcmp(argv[1],"nonascii")){recon_watcom_open("\200",0x0200);return 42;}
         if(!strcmp(argv[1],"directory")){recon_watcom_open(".",0x0200);return 42;}
         if(!strcmp(argv[1],"symlink")){recon_watcom_open("alias.dat",0x0200);return 42;}
-        if(!strcmp(argv[1],"missing")){recon_watcom_open("missing.dat",0x0200);return 42;}
+        if(!strncmp(argv[1],"missing",7)) {
+            const char *name=!strcmp(argv[1],"missing")?"missing.dat":!strcmp(argv[1],"missing-parent")?"absent/child":"binary.dat/child";
+            unsigned char lowio[256];volatile int *target=recon_watcom_errno();
+            *target=111;errno=777;recon_doserrno=222;recon_SetLastError(333);memcpy(lowio,recon_osfile,sizeof(lowio));
+            fp(before);assert(recon_watcom_open(name,0x0200)==-1);fp(after);
+            assert(*target==1 && target==recon_watcom_errno() && errno==777 && recon_doserrno==222 && recon_GetLastError()==333);
+            assert(!memcmp(before,after,108) && !memcmp(lowio,recon_osfile,sizeof(lowio)));return 0;
+        }
         if(!strcmp(argv[1],"tell-closed")) {
             fd=recon_watcom_open("binary.dat",0x0200);assert(fd>=0 && !recon_close(fd));
             recon_watcom_tell(fd);return 42;
@@ -52,8 +59,9 @@ int main(int argc,char **argv)
     if(live)__asm__ __volatile__("fld1\n\tfldpi":::"st");
     memcpy(files,recon_iob,sizeof(files));
     for(row=0;row<3;++row) {
-        errno=errors[row][0];recon_doserrno=errors[row][1];recon_SetLastError(333);
+        *recon_watcom_errno()=456;errno=errors[row][0];recon_doserrno=errors[row][1];recon_SetLastError(333);
         fp(before);fd=recon_watcom_open("binary.dat",0x0200);fp(after);
+        assert(*recon_watcom_errno()==456);
         assert(fd>=0 && (unsigned)fd<recon_nhandle && (recon_osfile[fd]&0x81)==1);
         assert(!memcmp(before,after,108) && errno==(int)errors[row][0] && recon_doserrno==errors[row][1]);
         /* The reused CreateFileA backend clears LastError on success; original

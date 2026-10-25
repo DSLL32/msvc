@@ -50,6 +50,17 @@ int __cdecl recon_mspdb_NameMap_open(struct PDB *database,int writable,struct Na
 ReconWatcomFirstMainHeap recon_watcom_first_main_heap;
 /* Actual WCC initialized DWORD is16; native malloc policy is independent. */
 unsigned recon_watcom_amblksiz=16;
+/* Qualified loader AH2 is stored into this startup-owned byte before App. */
+char recon_watcom_os=2;
+static volatile int watcom_errno;
+volatile int *__cdecl recon_watcom_errno(void)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    return &watcom_errno;
+#else
+    recon_unsupported("Watcom errno requires explicit profile");return NULL;
+#endif
+}
 void __cdecl recon_watcom_splitpath2(const char *path,char *buffer,char **drive,
                                    char **directory,char **name,char **extension)
 {
@@ -115,12 +126,21 @@ void *__cdecl recon_watcom_fill_dwords(void *destination,unsigned pattern,unsign
 int __cdecl recon_watcom_open(const char *name,int flags,...)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
-    char path[PATH_MAX];struct stat information;int saved_errno=errno,fd;
+    char path[PATH_MAX];struct stat information;int saved_errno=errno,fd,error;
     const unsigned char *cursor=(const unsigned char *)name;
     if(flags!=0x0200 || !name || !*name || strpbrk(name,"*?"))
         recon_unsupported("Watcom open outside readonly binary tuple");
     for(;*cursor;++cursor)if(*cursor>=128) recon_unsupported("Watcom open nonASCII path");
-    if(recon_host_path(name,path,sizeof(path)) || lstat(path,&information) || !S_ISREG(information.st_mode))
+    if(recon_host_path(name,path,sizeof(path)))
+        recon_unsupported("Watcom open translated path");
+    if(lstat(path,&information)) {
+        error=errno;errno=saved_errno;
+        if(error==ENOENT || error==ENOTDIR) {
+            watcom_errno=1;return -1;
+        }
+        recon_unsupported("Watcom readonly open unknown filesystem error");
+    }
+    if(!S_ISREG(information.st_mode))
         recon_unsupported("Watcom open regular existing path");
     /* Preflight is host-only. The existing descriptor backend performs a real
      * OPEN_EXISTING/shared-read-write open and publishes binary lowio state. */

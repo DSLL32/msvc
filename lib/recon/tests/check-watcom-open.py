@@ -10,7 +10,7 @@ binary = str(pathlib.Path(sys.argv[1]).resolve())
 generic = len(sys.argv) > 2 and sys.argv[2] == 'default'
 payload = bytes(range(256))*4
 for mode in ('', 'live', 'mode', 'null', 'empty', 'wildcard', 'nonascii',
-             'directory', 'symlink', 'missing', 'failure', 'seek-invalid',
+             'directory', 'symlink', 'missing', 'missing-parent', 'missing-notdir', 'failure', 'seek-invalid',
              'seek-origin', 'seek-negative', 'seek-closed', 'tell-invalid', 'tell-closed'):
     with tempfile.TemporaryDirectory() as directory:
         path = pathlib.Path(directory, 'binary.dat')
@@ -19,7 +19,7 @@ for mode in ('', 'live', 'mode', 'null', 'empty', 'wildcard', 'nonascii',
         pathlib.Path(directory, 'alias.dat').symlink_to('binary.dat')
         result = subprocess.run([binary]+([mode] if mode else []), cwd=directory,
                                 capture_output=True)
-        expected = 0 if mode in ('', 'live') and not generic else 125
+        expected = 0 if mode in ('', 'live', 'missing', 'missing-parent', 'missing-notdir') and not generic else 125
         assert result.returncode == expected and not result.stdout, (mode, result)
         if expected:
             assert b'Watcom' in result.stderr, result.stderr
@@ -28,4 +28,4 @@ for mode in ('', 'live', 'mode', 'null', 'empty', 'wildcard', 'nonascii',
         assert path.read_bytes() == payload
 print(('generic remains denied' if generic else
        'readonly binary fd/position/raw bytes/seek/tell/close; x3 errors xempty/live108FP, '
-       'FILE unchanged; fifteen unsupported/failure denials')+' PASS %.6fs' % (time.monotonic()-start))
+       'FILE unchanged; privateerrno missing leaf/parent, fourteen unsupported/failure denials')+' PASS %.6fs' % (time.monotonic()-start))
