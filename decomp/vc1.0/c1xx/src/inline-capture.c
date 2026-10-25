@@ -3,6 +3,8 @@
 #include "source-input.h"
 #include "ir.h"
 #include "parameters.h"
+#include "class-lookup.h"
+#include "braced-initializers.h"
 #include "parser.h"
 #include "text-format.h"
 #include "function-definitions.h"
@@ -301,6 +303,85 @@ char *next_pending_class_name(void)
     name = class_contexts[pending_class_name_index].symbol->name;
     ++pending_class_name_index;
     return name;
+}
+
+/* Original 0x30960..0x3099a, stdcall12. Visit visible class
+   members in list order until the callback asks to stop. */
+void __stdcall visit_class_members(CppSymbol *tag, ClassMemberVisitor visitor, void *context)
+{
+    CppSymbol *member = tag->auxiliary.scope_members;
+    while (member) {
+        if (!(member->flags & 0x10) && !visitor(member, context)) break;
+        member = member->next;
+    }
+}
+
+/* Original 0x35b80..0x35bf4, stdcall4. Name the copy source
+   when direct bases, initialized data members or virtual bases consume it. */
+int __stdcall has_copy_initializers(CppSymbol *tag)
+{
+    ClassMemberIterator members;
+    VirtualBaseSearch bases;
+    begin_class_members(&members, tag);
+    while (next_class_member(&members)) {
+        if ((members.member->kind & 31) == 15 ||
+            is_initializer_data_member(members.member)) return 1;
+    }
+    begin_virtual_base_search(&bases, tag);
+    if (next_virtual_base_search(&bases)) return 1;
+    return 0;
+}
+
+/* Original 0x35760..0x357c8, stdcall8 callback. Virtual bases
+   were emitted separately; copy each remaining direct base from __that. */
+int __stdcall emit_copy_direct_base_initializer(CppSymbol *member, void *context)
+{
+    BaseClassLink *base;
+    CppSymbol *tag;
+    int *count;
+    if ((member->kind & 31) == 15) {
+        base = (BaseClassLink *)member;
+        if (!(base->state & 1)) {
+            tag = cpp_context_stack->items[base->context_index];
+            count = context;
+            format_work_text(compiler_stack, "%Fs%Fs(%Fs)",
+                *count ? "," : ":", tag->name, name_that);
+            ++*count;
+        }
+    }
+    return 1;
+}
+
+/* Original 0x355f0..0x35715, stdcall12. Synthesize the copy
+   constructor declaration and base/member initializer list into deferred text. */
+void __stdcall emit_generated_copy_constructor(CppSymbol *symbol, int context,
+    unsigned short kind)
+{
+    VirtualBaseSearch bases;
+    int count = 0;
+    short diagnostic;
+    unsigned char qualifiers;
+    char *formatted, *parameter, *distance, *end_distance, *type_name;
+    begin_type_diagnostic();
+    diagnostic = reserve_type_diagnostic();
+    format_diagnostic_symbol(diagnostic, symbol);
+    formatted = type_diagnostic_text(diagnostic);
+    parameter = has_copy_initializers(symbol) ? name_that : "";
+    qualifiers = symbol->detail.class_info->special_members.bytes[3 + context];
+    end_distance = pointer_kind_spelling(kind);
+    distance = pointer_kind_spelling(kind);
+    type_name = type_kind_name(symbol->type->flags);
+    format_work_text(compiler_stack,
+        "inline %Fs::%Fs(register %Fs%Fs %s %Fs %Fs&%Fs)%Fs ",
+        formatted, symbol->name, qualifiers & 1 ? "const " : "",
+        qualifiers & 2 ? "volatile " : "", type_name, formatted, distance,
+        parameter, end_distance);
+    begin_virtual_base_search(&bases, symbol);
+    while (next_virtual_base_search(&bases)) emit_copy_base_initializer(bases.tag, &count);
+    visit_class_members(symbol, emit_copy_direct_base_initializer, &count);
+    visit_class_members(symbol, emit_copy_field_initializer, &count);
+    format_work_text(compiler_stack, "{}\n");
+    end_type_diagnostic();
 }
 
 /* Original 0x35570..0x3559f. Only the two nondefault distance kinds

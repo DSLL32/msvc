@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1372 historical frontiers/1266 App bodies.
+ * Current reviewed boundary:1382 historical frontiers/1276 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -756,6 +756,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "copy_macro_literal",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_expand_macro@4",
@@ -800,10 +801,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_macro_string@8",
         .entry_rva = 0x10ae0,
-        .code = (const ReconExtent[]) { { 0x10ae0, 0x10ae1 } },
+        .code = (const ReconExtent[]) { { 0x10ae0, 0x10c07 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_macro_string",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_macro_text@4",
@@ -853,10 +855,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_read_macro_parameter",
         .entry_rva = 0x11000,
-        .code = (const ReconExtent[]) { { 0x11000, 0x11001 } },
+        .code = (const ReconExtent[]) { { 0x11000, 0x1103d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "read_macro_parameter",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_skip_macro_space",
@@ -3356,10 +3359,54 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_generated_copy_constructor@12",
         .entry_rva = 0x255f0,
-        .code = (const ReconExtent[]) { { 0x255f0, 0x255f1 } },
+        .code = (const ReconExtent[]) { { 0x255f0, 0x25716 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_generated_copy_constructor",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_has_copy_initializers@4",
+        .entry_rva = 0x25b80,
+        .code = (const ReconExtent[]) { { 0x25b80, 0x25bf5 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "has_copy_initializers",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_emit_copy_base_initializer@8",
+        .entry_rva = 0x25720,
+        .code = (const ReconExtent[]) { { 0x25720, 0x25721 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_copy_base_initializer",
+    },
+    {
+        .name = "_emit_copy_direct_base_initializer@8",
+        .entry_rva = 0x25760,
+        .code = (const ReconExtent[]) { { 0x25760, 0x257c9 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_copy_direct_base_initializer",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_emit_copy_field_initializer@8",
+        .entry_rva = 0x257d0,
+        .code = (const ReconExtent[]) { { 0x257d0, 0x257d1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_copy_field_initializer",
+    },
+    {
+        .name = "_visit_class_members@12",
+        .entry_rva = 0x20960,
+        .code = (const ReconExtent[]) { { 0x20960, 0x2099b } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "visit_class_members",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_generated_assignment@12",
@@ -6846,18 +6893,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_apply_virtual_data_member_pointer@4",
         .entry_rva = 0x3aa00,
-        .code = (const ReconExtent[]) { { 0x3aa00, 0x3aa01 } },
+        .code = (const ReconExtent[]) { { 0x3aa00, 0x3aa7c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "apply_virtual_data_member_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_apply_general_data_member_pointer@4",
         .entry_rva = 0x3ab90,
-        .code = (const ReconExtent[]) { { 0x3ab90, 0x3ab91 } },
+        .code = (const ReconExtent[]) { { 0x3ab90, 0x3acd8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "apply_general_data_member_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_lower_member_pointer_call@8",
@@ -6893,6 +6942,15 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lower_general_inheritance_member_call",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_prepare_data_member_object@12",
+        .entry_rva = 0x3ace0,
+        .code = (const ReconExtent[]) { { 0x3ace0, 0x3ad80 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "prepare_data_member_object",
         .implementation = RECON_IMPLEMENTED,
     },
     {

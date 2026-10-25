@@ -2,10 +2,10 @@ C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
 PARTIAL reconstruction; member_registry_browser completion is active.
-Current verified boundary: 1372 historical frontiers / 1266 application source
+Current verified boundary: 1382 historical frontiers / 1276 application source
 functions plus seven unchanged historical CRT source functions. The current
-case stops at apply_virtual_data_member_pointer RVA0x3aa00 after115 first entries beyond its seed.
-Seventy further whole bodies are accepted since the five-function trial, including
+case stops at emit_copy_field_initializer RVA0x257d0 after125 first entries beyond its seed.
+Eighty further whole bodies are accepted since the five-function trial, including
 the5326-byte pragma dispatcher and its35-entry text switch. Discovered pragma
 helpers remain typed, named unimplemented stubs with entry-only extents.
 
@@ -17,7 +17,7 @@ No other binary or reconstruction case is being advanced.
 The70-function claim in commit ab264219f preceded its failed native result.
 The corrected eight-bit symbol flag mask then passed the unchanged original
 reference, fresh native run, original build, audit and eight cached cases;
-only that corrected result establishes the current70-function boundary.
+only that corrected result established that70-function boundary.
 
 Macro-frame analysis corrected the whitespace writer to macro_work_midpoint
 (original0x956dc), separate from macro_expansion_start0x95780; prior captures did

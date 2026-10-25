@@ -208,9 +208,6 @@ void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
 unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
-void __stdcall emit_macro_string(unsigned char delimiter, char *text) { __asm { int 3 } }
-char *read_macro_parameter(void) { __asm { int 3 } return 0; }
-char *__stdcall copy_macro_literal(char *cursor, char *limit, unsigned char delimiter) { __asm { int 3 } return 0; }
 void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
 long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
@@ -241,7 +238,8 @@ void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *me
 
 
 void __stdcall emit_generated_default_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
-void __stdcall emit_generated_copy_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
+void __stdcall emit_copy_base_initializer(CppSymbol *tag, int *count) { __asm { int 3 } }
+int __stdcall emit_copy_field_initializer(CppSymbol *member, void *context) { __asm { int 3 } return 0; }
 void __stdcall emit_generated_assignment(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 
 
@@ -357,8 +355,6 @@ void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm 
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall subtraction_overflows(int left, int right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
 int compare_extended(unsigned short mask, const Extended *left, const Extended *right) { __asm { int 3 } return 0; }
-IrToken *__stdcall apply_virtual_data_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
-IrToken *__stdcall apply_general_data_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
 void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source) { __asm { int 3 } }

@@ -3,6 +3,12 @@
 #include "class-members.h"
 #include <recon.h>
 
+typedef int (__stdcall *ClassMemberVisitor)(CppSymbol *member, void *context);
+void __stdcall visit_class_members(CppSymbol *tag, ClassMemberVisitor visitor, void *context);
+int __stdcall has_copy_initializers(CppSymbol *tag);
+void __stdcall emit_copy_base_initializer(CppSymbol *tag, int *count);
+int __stdcall emit_copy_direct_base_initializer(CppSymbol *member, void *context);
+int __stdcall emit_copy_field_initializer(CppSymbol *member, void *context);
 extern int captured_class_error_count, pending_class_name_index;
 void begin_pending_class_names(void);
 char *next_pending_class_name(void);

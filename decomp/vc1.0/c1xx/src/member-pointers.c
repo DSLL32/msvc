@@ -107,6 +107,8 @@ void __stdcall class_virtual_base_pointer_layout(CppSymbol *tag,
 IrToken *__stdcall adjust_general_member_pointer_object(IrToken *object,
     IrToken *address, IrToken *adjustment, IrToken *pointer_offset,
     IrToken *virtual_offset, CType *type);
+void __stdcall prepare_data_member_object(IrToken *object, IrToken **value,
+    IrToken **address);
 void __stdcall prepare_member_pointer_object(IrToken *object, IrToken **value,
     IrToken **address, IrToken **prefix);
 IrToken *__stdcall adjust_virtual_member_pointer_object(IrToken *object,
@@ -474,6 +476,65 @@ IrToken *__stdcall make_adjusted_member_call(IrToken *function, IrToken *object,
     return new_left_typed_expression(0xa4, function, bound_object);
 }
 
+/* Original 0x4aa00..0x4aa7b, stdcall4. Apply both virtual-data
+   representation fields, then expose the pointed-to member's value type. */
+IrToken *__stdcall apply_virtual_data_member_pointer(IrToken *expression)
+{
+    IrToken *value, *address, *member, *saved, *storage, *virtual_offset, *offset, *result;
+    prepare_data_member_object(expression->value.pointer, &value, &address);
+    member = expression->tail.right;
+    storage = member_pointer_component(member, 0, &saved);
+    virtual_offset = virtual_data_table_offset(storage, member);
+    storage = member_pointer_component(member, 1, &saved);
+    offset = virtual_data_member_offset(storage, member);
+    result = adjust_virtual_member_pointer_object(value, address, offset,
+        virtual_offset, member->type);
+    result = indirect_storage_expression(result);
+    result->type = drop_first_type_shape(member->type);
+    return result;
+}
+
+/* Original 0x4ab90..0x4acd7, stdcall4. Resolve general data
+   members with the direct offset where the complete class permits it, otherwise
+   select between ordinary and virtual-base address calculations. */
+IrToken *__stdcall apply_general_data_member_pointer(IrToken *expression)
+{
+    IrToken *member = expression->tail.right;
+    CppSymbol *owner = member_pointer_owner_class(member->type);
+    IrToken *saved, *storage, *value, *address, *offset, *pointer_offset, *virtual_offset;
+    IrToken *first, *second, *fallback, *result, *zero, *test;
+    if ((owner->flags & 4) && !(owner->detail.class_info->flags & 0x10)) {
+        storage = member_pointer_component(member, 0, &saved);
+        offset = general_data_member_offset(storage, member);
+        result = new_left_typed_expression(0x5a, expression->value.pointer, offset);
+    } else {
+        prepare_data_member_object(expression->value.pointer, &value, &address);
+        storage = member_pointer_component(member, 0, &saved);
+        virtual_offset = general_data_table_offset(storage, member);
+        storage = member_pointer_component(member, 1, &saved);
+        pointer_offset = general_data_vbptr_offset(storage, member);
+        storage = member_pointer_component(member, 1, &saved);
+        offset = general_data_member_offset(storage, member);
+        second = clone_expression(offset, 0);
+        first = clone_expression(address, 0);
+        fallback = new_left_typed_expression(0x5a, first, second);
+        if (owner->flags & 4)
+            result = adjust_virtual_member_pointer_object(value, address,
+                offset, virtual_offset, member->type);
+        else
+            result = adjust_general_member_pointer_object(value, address,
+                offset, pointer_offset, virtual_offset, member->type);
+        result = new_left_typed_expression(0x3f, fallback, result);
+        zero = make_integer_constant(0);
+        first = clone_expression(virtual_offset, 0);
+        test = new_right_typed_expression(0x44, first, zero);
+        result = new_right_typed_expression(0x5f, test, result);
+    }
+    result = indirect_storage_expression(result);
+    result->type = drop_first_type_shape(member->type);
+    return result;
+}
+
 /* Original 0x4ae20..0x4ae9d. Reuse an addressable member pointer,
    or retain its initial evaluation separately in the caller's prefix. */
 IrToken *__stdcall lower_multiple_inheritance_member_call(IrToken *object,
@@ -593,6 +654,27 @@ IrToken *__stdcall adjust_virtual_member_pointer_object(IrToken *object,
     table = indirect_storage_expression(table);
     result = new_left_typed_expression(0x5a, base, table);
     return new_left_typed_expression(0x5a, result, adjustment);
+}
+
+/* Original 0x4ace0..0x4ad7f, stdcall12. Preserve an object's
+   first evaluation in the value expression and reuse its temporary thereafter. */
+void __stdcall prepare_data_member_object(IrToken *object, IrToken **value,
+    IrToken **address)
+{
+    IrToken *temporary;
+    unsigned index;
+    if (expression_can_be_repeated(object)) {
+        *value = object;
+        *address = clone_expression(object, 0);
+        return;
+    }
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    temporary = new_temporary_reference(index, object->type);
+    *value = new_left_typed_expression(0x3d, temporary, object);
+    *address = indirect_storage_expression(clone_expression(temporary, 0));
 }
 
 /* Original 0x4b0e0..0x4b1ab, stdcall16. Make two repeatable

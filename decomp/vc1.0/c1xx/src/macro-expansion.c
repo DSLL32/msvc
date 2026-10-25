@@ -14,6 +14,48 @@ int macro_intertoken_space; /* original0x95774 */
 unsigned macro_expansion_line; /* original0x95778 */
 char macro_file_timestamp[26]; /* original0x918c8 */
 
+/* Original 0x1ffa0..0x20085, stdcall12. Copy a quoted macro
+   token, preserving source recovery, escaped bytes and lead-byte state. */
+char *__stdcall copy_macro_literal(char *cursor, char *limit, unsigned char delimiter)
+{
+    unsigned char character, classification;
+    unsigned flags;
+    *cursor++ = delimiter;
+    while (cursor < limit) {
+        character = (unsigned char)*source_text_cursor++;
+        classification = character_class[character];
+        switch (classification) {
+        case CC_ESCAPE_OR_END:
+            flags = recover_special_character();
+            if (!(flags & 0x50)) continue;
+            if (flags & 0x10) {
+                *cursor++ = source_text_cursor[-1];
+                *cursor++ = next_source_character();
+                continue;
+            }
+            break;
+        case CC_NEWLINE:
+            report_syntax_error(1);
+            --source_text_cursor;
+            character = delimiter;
+        case CC_APOSTROPHE: case CC_QUOTE:
+            if (character == delimiter) {
+                *cursor++ = character;
+                return cursor;
+            }
+            break;
+        case CC_LEAD_BYTE:
+            *cursor++ = character;
+            cpp_parser_flags |= 0x02000000UL;
+            character = next_source_character();
+            cpp_parser_flags &= ~0x02000000UL;
+            break;
+        }
+        *cursor++ = character;
+    }
+    return limit - 1;
+}
+
 /* Original0x20090..0x205b3, builtin dispatch0x205b4..0x205cf, stdcall4.
    An empty object macro still counts as expansion without entering a rescan
    frame. Nested replacements reuse this driver, while active macro names are
@@ -434,6 +476,19 @@ typedef struct MacroArgument {
 typedef char MacroArgumentTextOffsetMustBe2[
     offsetof(MacroArgument, text) == 2 ? 1 : -1];
 
+/* Original 0x21000..0x2103c. A replacement byte selects the
+   one-based argument record; the frame count comparison uses signed bytes. */
+char *read_macro_parameter(void)
+{
+    MacroExpansionFrame *frame = &macro_expansion_frames[macro_expansion_active];
+    MacroArgument *argument = (MacroArgument *)frame->argument_start;
+    unsigned char index = (unsigned char)*source_text_cursor++;
+    if ((signed char)frame->argument_state < (signed char)index) return 0;
+    while (--index) argument = (MacroArgument *)((char *)argument + argument->bytes);
+    return argument->text;
+}
+
+
 /* Original 0x20a60..0x20ad3. Copy from the separate work half, then
    append the NUL/A rescan marker and advance the argument-storage cursor. */
 void __stdcall save_macro_argument_text(char *start, char *end)
@@ -546,6 +601,52 @@ int macro_identifier_follows(void)
         (character_flags[character] & CF_IDENTIFIER) != 0;
     --source_text_cursor;
     return result;
+}
+
+/* Original 0x20ae0..0x20c06, stdcall8. Stringification removes
+   inhibition markers and escapes quote/backslash bytes inside literal tokens.
+   The original early load of its unwritten quote-class local is discarded;
+   every consumed comparison is preceded by the opening-quote assignment. */
+void __stdcall emit_macro_string(unsigned char delimiter, char *text)
+{
+    unsigned char character;
+    unsigned classification, literal_class;
+    int quoted = 0;
+    if (!text) return;
+    *macro_work_midpoint++ = delimiter;
+    for (;;) {
+        if (macro_work_buffer + macro_work_bytes - 5 <= macro_work_midpoint)
+            macro_expansion_error(56);
+        character = (unsigned char)*text;
+        classification = character_class[character];
+        switch (classification) {
+        case CC_ESCAPE_OR_END:
+            if (!character) goto finish_string;
+            if (character == '\\' && quoted) *macro_work_midpoint++ = '\\';
+            break;
+        case CC_QUOTE:
+            if (character_class[delimiter] == CC_QUOTE) *macro_work_midpoint++ = '\\';
+            /* The two quote classes share the literal-state update. */
+        case CC_APOSTROPHE:
+            if (character_class[delimiter] == CC_APOSTROPHE) break;
+            if (quoted) {
+                if (literal_class == classification) quoted = 0;
+            } else {
+                quoted = 1;
+                literal_class = classification;
+            }
+            break;
+        case CC_MACRO_END:
+            text += 2;
+            continue;
+        case CC_LEAD_BYTE:
+            *macro_work_midpoint++ = *text++;
+            break;
+        }
+        *macro_work_midpoint++ = *text++;
+    }
+finish_string:
+    *macro_work_midpoint++ = delimiter;
 }
 
 /* Original 0x20c10..0x20c55. Append replacement bytes without their
