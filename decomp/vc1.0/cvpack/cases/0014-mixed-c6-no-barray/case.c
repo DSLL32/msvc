@@ -1,4 +1,7 @@
 /* Versioned authored C6 workload; BARRAY control defect excluded. */
+#include <limits.h>
+#include <stdio.h>
+#include <recon-output.h>
 #include <recon-tool.h>
 extern int main(int, char **, char **);
 static int invoke(int argc, char **argv) { return main(argc, argv, (char **)0); }
@@ -114,11 +117,69 @@ static const uint32_t order[] = {
     0x148b0,
     0x141a0,
     0x14000,
+    0x94f0,
+    0xbf10,
+    0xd440,
+    0xd390,
+    0xd350,
+    0xd3f0,
+    0x100a0,
+    0x11320,
+    0x18090,
+    0x10cb0,
+    0xb6d0,
+    0xdde0,
+    0x9530,
+    0xcb90,
+    0xd070,
+    0xba10,
+    0xdac0,
+    0x10ec0,
+    0xb240,
+    0x130e0,
+    0x130f0,
+    0x181f0,
+    0x1a670,
+    0x1a450,
+    0x19ba0,
+    0x19c50,
+    0x19ed0,
+    0x19f50,
+    0x1a850,
+    0x1a120,
 
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION, sizeof(ReconCase),
  "mixed-c6-no-barray", "Authored C6 type/symbol and multifile line workload; BARRAY excluded.",
- order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x14000,
+ order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_EXIT, 0,
  NULL, invoke, NULL, NULL, 0
+};
+
+/* read_old_module left one byte after each counted filename unwritten.
+ * capture.bin masks only these two original fields; require our zeroes. */
+static const uint16_t module_padding[] = { 0x33, 0x5f
+};
+static int check_module_padding(const ReconOutputContext *context)
+{
+    char path[PATH_MAX];
+    FILE *file;
+    size_t i;
+    int length, okay = 1;
+    if (!context || context->struct_size != sizeof(*context) ||
+        context->terminal_kind != RECON_OUTPUT_EXIT || context->terminal_value ||
+        !context->workspace_cwd) return 0;
+    length = snprintf(path, sizeof(path), "%s/mixed-c6-no-barray.dbg", context->workspace_cwd);
+    if (length < 0 || length >= (int)sizeof(path)) return 0;
+    file = fopen(path, "rb");
+    if (!file) return 0;
+    if (fseek(file, 0, SEEK_END) || ftell(file) != 1744) okay = 0;
+    for (i = 0; okay && i < RECON_COUNT(module_padding); ++i)
+        if (fseek(file, module_padding[i], SEEK_SET) || fgetc(file) != 0)
+            okay = 0;
+    if (fclose(file)) okay = 0;
+    return okay;
+}
+RECON_EXPORT const ReconOutputPolicy case_output_policy = {
+    RECON_OUTPUT_POLICY_VERSION, sizeof(ReconOutputPolicy), check_module_padding
 };

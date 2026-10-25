@@ -170,7 +170,7 @@ void size_old_register_relative32(void) { __asm { int 3 } }
 
 
 
-void convert_old_symbol_block32(void) { __asm { int 3 } }
+
 
 
 

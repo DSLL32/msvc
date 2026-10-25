@@ -597,3 +597,29 @@ void convert_old_symbol_label32(void)
     while (padding--) *name++ = 0;
     old_symbol_output = name;
 }
+
+void convert_old_symbol_block32(void)
+{
+    unsigned char *record = old_symbol_output, *name;
+    unsigned short count = old_symbol_input[0]-7, length;
+    unsigned padding;
+    int has_name = count != 0;
+    if (!has_name) count = 1;
+    length = count+22;
+    padding = 3-((length-1)&3);
+    *(unsigned short *)record = (unsigned short)(((length+3)&0xfffc)-2);
+    *(unsigned long *)(record+4) = 0;
+    *(unsigned long *)(record+8) = 0;
+    *(unsigned short *)(record+20) = old_symbol_segment;
+    old_symbol_input += 2;
+    *(unsigned long *)(record+16) = *(unsigned long *)old_symbol_input;
+    old_symbol_input += 4;
+    *(unsigned long *)(record+12) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    name = record+22;
+    if (has_name)
+        while (count--) *name++ = *old_symbol_input++;
+    else *name++ = 0;
+    while (padding--) *name++ = 0;
+    old_symbol_output = name;
+}
