@@ -13,15 +13,16 @@ the shared native i386 runner, `binary.c`, numbered flat cases and
 regressions use saved references and do not invoke Wine.
 
 - **VC1.0:** all eight binaries have committed their migrations and layout
-  cleanup. C1XX and CVPACK are reconstructing; C1 has completed all identified
+  cleanup. C1XX, C2 and CVPACK are reconstructing; C1 has completed all identified
   application stubs and retains two unattributed routines. Finished binaries
   are included.
 - **VC5.10:** all nine binaries are in scope, including finished RC and CVTRES.
-  All nine have committed their migrations and paused. Their 38 invocation
-  cases, original builds and applicable graph/ABI checks pass.
-- **Watcom:** the coordinator has completed a read-only compatibility
-  assessment. No Watcom migration, new capture or reconstruction was performed
-  as part of that assessment; details are below.
+  All nine have committed their migrations. Their 38 migration-checkpoint
+  invocation cases, original builds and applicable graph/ABI checks passed;
+  seven workers have resumed reconstruction, while finished RC and CVTRES remain idle.
+- **Watcom:** shared capture integration is published and fresh scaffolds are
+  being migrated and verified. The five initial help cases are in progress,
+  with some awaiting shared support; none is complete yet. Details are below.
 
 The updated migration layout also separates reconstructed application code
 (`src/`), justified binary-specific CRT implementations (`crt/`) and native
