@@ -425,6 +425,7 @@ static void apstudio_unobserved(void)
 static int apstudio_hold(void){return trapped(apstudio_unobserved);}
 static void resource_input_invoke(void *unused)
 {
+    rc_heap=(HANDLE)0x55555550;
     rc_result=17;rc_resource_status=5;rc_resource_file_index=7;rc_resource_line=9;
     rc_font_resource_count=0x4455;rc_hwb_resource_offset=0x55667788;
     rc_resource_types=(RcResourceType *)0x12345670;
@@ -433,7 +434,7 @@ static void resource_input_invoke(void *unused)
 }
 static unsigned __cdecl resource_character_boundary(void)
 {
-    recon_native_entry_finish(rc_result==17&&!rc_resource_status&&!rc_resource_file_index&&
+    recon_native_entry_finish(rc_heap==(HANDLE)0x55555550&&rc_result==17&&!rc_resource_status&&!rc_resource_file_index&&
         rc_font_resource_count==0x4455&&rc_hwb_resource_offset==0x55667788&&
         rc_resource_types==(RcResourceType *)0x12345670&&
         rc_resource_line==1&&rc_resource_input_file==(FILE *)0x12345678);
@@ -481,6 +482,7 @@ extern char rc_input_name[260],rc_output_path[260];
 extern char *rc_output_temporary;
 static void command_reset_invoke(void *unused)
 {
+    rc_heap=(HANDLE)0x66666660;
     rc_result=17;rc_resource_status=51;rc_codepage=88;rc_language=0x1234;
     rc_font_resource_count=0x2345;
     rc_input_temporary=(char *)0x11111110;
@@ -494,7 +496,7 @@ static void command_reset_invoke(void *unused)
 static HANDLE WINAPI command_reset_boundary(DWORD flags,DWORD initial,DWORD maximum)
 {
     recon_native_entry_finish(flags==1&&!initial&&!maximum&&
-        !rc_result&&rc_resource_status==51&&!rc_codepage&&rc_language==128&&
+        rc_heap==(HANDLE)0x66666660&&!rc_result&&rc_resource_status==51&&!rc_codepage&&rc_language==128&&
         !rc_font_resource_count&&!rc_input_temporary&&!rc_output_temporary&&
         !rc_hwb_resource_offset&&!rc_resource_types&&
         rc_string_tables==(void *)0x44444440&&

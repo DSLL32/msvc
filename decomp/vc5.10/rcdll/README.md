@@ -96,3 +96,8 @@ restores distinct storage, and replaces old reset placeholders with the genuine
 font count, type-list head and HWB offset. Seventeen bounded fields have explicit
 operand/MAP identities. Noncoincident command/resource reset units and a fresh
 native pair against the unchanged original pass. This adds no code credit.
+
+The unvisited callback context at RVA 25f54 is the existing rc_heap HANDLE,
+also used by main for HeapDestroy. Its duplicate placeholder was removed after
+binding both actual consumers. The callback remains NULL-only natively; this
+storage correction supplies no callback behavior or reconstruction credit.

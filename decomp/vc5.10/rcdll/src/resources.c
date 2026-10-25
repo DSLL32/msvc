@@ -26,7 +26,6 @@ void *rc_dialog_template;
 DWORD rc_hwb_resource_offset;
 int rc_resource_buffer_size,rc_resource_buffer_used;
 BYTE *rc_resource_buffer;
-DWORD rc_resource_callback_context;
 
 /* These records describe only the actual fields constructed at the two
  * indirect call sites. The callback remains opaque at the public RC boundary;
@@ -40,7 +39,7 @@ typedef struct RcResourceRequest {
     DWORD version,characteristics;
 } RcResourceRequest;
 typedef struct RcResourceResponse {
-    DWORD context;
+    HANDLE heap;
     HWND window;
     RC_DIAGNOSTIC diagnostic;
     DWORD line;
@@ -310,7 +309,7 @@ riff:
                 rc_parse_raw_resource(resource);
                 goto write_resource;
             }
-            response.context=rc_resource_callback_context;
+            response.heap=rc_heap;
             response.window=rc_window;
             response.diagnostic=rc_diagnostic;
             response.line=rc_resource_token.line;
