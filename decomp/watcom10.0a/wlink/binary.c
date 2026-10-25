@@ -79,8 +79,11 @@ static const ReconFunction functions[] = {
     { .name = "FindResources", .entry_rva = 0x34908, .definition = RECON_APP,
       .code = (const ReconExtent[]) { {0x34908, 0x349fe} }, .code_count = 1,
       .implementation = RECON_IMPLEMENTED, .native_symbol = "FindResources", .original_symbol = "FindResources_" },
+    { .name = "FreeUpMemory", .entry_rva = 0x333a8, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "FreeUpMemory", .original_symbol = "FreeUpMemory_" },
     { .name = "LAlloc", .entry_rva = 0x33304, .definition = RECON_APP,
-      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "LAlloc", .original_symbol = "LAlloc_" },
+      .code = (const ReconExtent[]) { {0x33304, 0x33323} }, .code_count = 1,
+      .implementation = RECON_IMPLEMENTED, .native_symbol = "LAlloc", .original_symbol = "LAlloc_" },
     { .name = "ChkLAlloc", .entry_rva = 0x33324, .definition = RECON_APP,
       .code = (const ReconExtent[]) { {0x33324, 0x33342} }, .code_count = 1,
       .implementation = RECON_IMPLEMENTED, .native_symbol = "ChkLAlloc", .original_symbol = "ChkLAlloc_" },
@@ -269,7 +272,7 @@ static const ReconFunction functions[] = {
         .definition = RECON_CRT
     },
     {
-        .name = "malloc", .entry_rva = 0x355bf,
+        .name = "malloc", .entry_rva = 0x355bf, .original_symbol = "malloc_",
         .code = (const ReconExtent[]) { {0x355bf, 0x35641} }, .code_count = 1,
         .definition = RECON_CRT
     },

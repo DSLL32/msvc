@@ -71,6 +71,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "LAlloc": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

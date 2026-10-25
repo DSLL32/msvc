@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/root/msvc2/tooling/recon-tool/target/i686-unknown-linux-gnu/release/recon-tool",
+    "run",
+    "decomp/watcom10.0a/wlink/cases/0000-help",
+    "--capture",
+    "/root/.ai-tmp/msvc2/watcom-shared-integration/wlink-lalloc/original.bin",
+    "--original-report",
+    "/root/.ai-tmp/msvc2/watcom-shared-integration/wlink-lalloc/original.json",
+    "--report",
+    "/root/.ai-tmp/msvc2/watcom-shared-integration/wlink-lalloc/native.json"
+  ],
+  "seconds": 0.02981937676668167,
+  "status": 0
+}
