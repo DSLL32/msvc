@@ -7,6 +7,23 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_type_needs_intrinsic_fallback@4",
+        .entry_rva = 0x44ee0,
+        .code = (const ReconExtent[]) { { 0x44ee0, 0x44ef8 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "type_needs_intrinsic_fallback",
+    },
+    {
+        .name = "_find_memory_intrinsic@4",
+        .entry_rva = 0x2d630,
+        .code = (const ReconExtent[]) { { 0x2d630, 0x2d692 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "find_memory_intrinsic",
+    },
+
+    {
         .name = "??2@YAPAXI@Z",
         .entry_rva = 0x7020,
         .code = (const ReconExtent[]) { { 0x7020, 0x7030 } },
@@ -1256,10 +1273,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_classify_unsigned_integer@4",
         .entry_rva = 0x158c0,
-        .code = (const ReconExtent[]) { { 0x158c0, 0x158c1 } },
+        .code = (const ReconExtent[]) { { 0x158c0, 0x158c5 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "classify_unsigned_integer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_integer_digit_value@4",
@@ -3674,10 +3692,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_require_default_constructor_closure@4",
         .entry_rva = 0x27230,
-        .code = (const ReconExtent[]) { { 0x27230, 0x27231 } },
+        .code = (const ReconExtent[]) { { 0x27230, 0x27243 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "require_default_constructor_closure",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_default_ctor_closure_body@4",
@@ -9175,10 +9194,13 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_string_intrinsic@4",
         .entry_rva = 0x46af0,
-        .code = (const ReconExtent[]) { { 0x46af0, 0x46af1 } },
+        .code = (const ReconExtent[]) { { 0x46af0, 0x46c7f } },
         .code_count = 1,
+        .text_data = (const ReconExtent[]) { { 0x46c80, 0x46ca8 } },
+        .text_data_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_string_intrinsic",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_prepare_symbol_debug_type@4",
@@ -12186,10 +12208,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_extended_to_float",
         .entry_rva = 0x64dd5,
-        .code = (const ReconExtent[]) { { 0x64dd5, 0x64dd6 } },
+        .code = (const ReconExtent[]) { { 0x64dd5, 0x64dfc } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "extended_to_float",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_extended_to_double",
@@ -12203,10 +12226,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_float_to_extended",
         .entry_rva = 0x64e46,
-        .code = (const ReconExtent[]) { { 0x64e46, 0x64e47 } },
+        .code = (const ReconExtent[]) { { 0x64e46, 0x64e68 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "float_to_extended",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_double_to_extended",

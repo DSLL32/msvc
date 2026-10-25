@@ -143,7 +143,6 @@ void increment_expression_record_depth(void) { __asm { int 3 } }
 IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer) { __asm { int 3 } return 0; }
 
 
-CppSymbol *__stdcall require_default_constructor_closure(CppSymbol *constructor) { __asm { int 3 } return 0; }
 unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
@@ -344,7 +343,6 @@ IrToken *__stdcall make_conditional_lvalue(IrToken *expression) { __asm { int 3 
 int subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index) { __asm { int 3 } return 0; }
 
-int __stdcall emit_string_intrinsic(IrToken *expression) { __asm { int 3 } return 0; }
 
 
 
@@ -398,14 +396,11 @@ void __stdcall report_conversion_rank_failure(unsigned char operation, unsigned 
 int extended_to_integer(const Extended *value, long *result) { __asm { int 3 } return 0; }
 int integer_to_extended(const long *value, Extended *result) { __asm { int 3 } return 0; }
 int unsigned_to_extended(const unsigned long *value, Extended *result) { __asm { int 3 } return 0; }
-int extended_to_float(const Extended *value, float *result) { __asm { int 3 } return 0; }
-int float_to_extended(const float *value, Extended *result) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall strip_function_designator(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall resolve_qualified_assignment_operand(CType *type, QualifiedDeclarator *reference) { __asm { int 3 } return 0; }
 
 unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } return 0; }
-unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 3 } return 0; }
 
 char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
 
@@ -603,3 +598,6 @@ int __stdcall asm_operand_accepts_size(AsmOperand *operand, unsigned char size) 
 int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short flags) { __asm { int 3 } return 0; }
 
 void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { int 3 } }
+
+int __stdcall type_needs_intrinsic_fallback(CType *type) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 } return 0; }

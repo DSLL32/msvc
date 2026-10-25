@@ -1,13 +1,13 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is active at require_default_constructor_closure
-(RVA0x27230). There are 1344 application source functions plus seven unchanged
-historical CRT source functions. Its first sixty accepted bodies add 15,818 code
+PARTIAL reconstruction; packet_engine is active at emit_generated_default_constructor
+(RVA0x255a0). There are 1349 application source functions plus seven unchanged
+historical CRT source functions. Its first sixty-five accepted bodies add 16,318 code
 bytes: packing and anonymous aggregates, static alias lookup, the empty lookahead
 error callback, copy-constructor selection/materialization, deferred defaults, else regions and
 runtime initializer emission, initializer object references and assembler state/operands and its separate whole grammar driver, token classification and instruction-name lookup.
-Fresh original/native comparisons, original compilation, the 1352-function
+Fresh original/native comparisons, original compilation, the 1357-function
 inherited graph/ABI audit, nine cached cases and 18 unit groups pass. Last native
 frontier run:31.197ms (setup17.775ms, execution6.747ms, checks6.674ms);
 audit/setup:2.239s; nine cached cases plus units:0.267s.
@@ -30,7 +30,7 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1451: the 1302 trial baseline plus 88 browser and sixty packet application steps,
+1456: the 1302 trial baseline plus 88 browser and65 packet application steps,
 and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
@@ -38,7 +38,7 @@ original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 330,360/476,418 .text bytes (69.34%); this is
+Application function extents cover 330,860/476,418 .text bytes (69.45%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture

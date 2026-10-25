@@ -314,3 +314,10 @@ convert:
         convert_integer_digits(token_text,end - (unsigned char *)token_text,radix);
     return token;
 }
+
+/* Original0x258c0..0x258c5, stdcall4 with an AL result. The unsigned
+   suffix selects token9 independently of the genuinely unused value. */
+unsigned char __stdcall classify_unsigned_integer(unsigned value)
+{
+    return TOK_UINT_CONSTANT;
+}

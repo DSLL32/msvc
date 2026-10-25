@@ -212,3 +212,41 @@ int finish_extended_arithmetic(void)
     }
     return status;
 }
+
+/* Original0x74dd5..0x74dfc, cdecl. As in the double converter, the
+   original compiler cannot express ten-byte loads or the helper's x87 ABI;
+   only those transfers and the conditional single store use assembly. */
+int extended_to_float(const Extended *value, float *result)
+{
+    int overflow;
+    __asm {
+        mov eax, value
+        fld tbyte ptr [eax]
+        fld tbyte ptr float_round_limit
+    }
+    overflow = check_extended_range();
+    if (!overflow) {
+        __asm {
+            mov eax, result
+            fstp dword ptr [eax]
+            fwait
+        }
+    }
+    return overflow;
+}
+
+/* Original0x74e46..0x74e68, cdecl. Preserve the shared ESI/ST(0)
+   ten-byte finishing ABI; the representation tag remains ordinary C. */
+int float_to_extended(const float *value, Extended *result)
+{
+    __asm {
+        mov eax, value
+        fld dword ptr [eax]
+    }
+    result->format = 4;
+    __asm {
+        mov esi, result
+        call store_extended
+    }
+    return 0;
+}

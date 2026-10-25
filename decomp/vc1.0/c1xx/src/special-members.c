@@ -16,6 +16,14 @@ HashTable *default_constructor_closure_table(void)
     return constructor_closures;
 }
 
+/* Original0x37230..0x37243, stdcall4. Return the already declared
+   no-argument closure using the constructor declaration's pointer identity. */
+CppSymbol *__stdcall require_default_constructor_closure(CppSymbol *constructor)
+{
+    HashTable *table = default_constructor_closure_table();
+    return (CppSymbol *)find_hash_value(table,constructor);
+}
+
 /* Original 0x36790..0x36967. Classify bases, fields and declared functions,
    then decide each implicit member independently with its original diagnostics. */
 void __stdcall declare_implicit_special_members(CppSymbol *tag)

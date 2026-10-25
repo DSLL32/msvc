@@ -39,3 +39,64 @@ ExpressionRecordRule expression_record_rules[] = {
     { 0xce, 0 }, { 0xcf, 0 }, { 0xd4, 0 } /* reserved terminals */
 };
 unsigned expression_record_rule_count = sizeof(expression_record_rules) / sizeof(expression_record_rules[0]);
+
+/* The i386 specialization test and ordinary declaration fallback are distinct
+   original functions, still trapping until a genuine case reaches them. */
+int __stdcall type_needs_intrinsic_fallback(CType *type);
+CppSymbol *__stdcall find_memory_intrinsic(unsigned operation);
+
+/* Original0x56af0..0x56c7f, stdcall4; ten-way switch at0x56c80..0x56ca8.
+   Literal string intrinsics become fixed-length memory operations. The normal
+   fallback retains all argument evaluation when a target type requests it. */
+int __stdcall emit_string_intrinsic(IrToken *expression)
+{
+    IrToken *callee = expression->value.pointer;
+    IrToken *arguments, *argument, *literal, *call;
+    char *text;
+    unsigned operation = callee->value.integer, length;
+    switch (operation) {
+    case 0xa4: /* strcpy */
+    case 0xa5: /* strcmp */
+    case 0xa7: /* strlen */
+        arguments = expression->tail.right;
+        if (!arguments || !arguments->value.pointer) return 0;
+        literal = arguments->value.pointer;
+        if (literal->kind != 3) {
+            if (operation != 0xa5) return 0;
+            argument = arguments->tail.right;
+            if (!argument || !argument->value.pointer) return 0;
+            literal = argument->value.pointer;
+            if (literal->kind != 3) return 0;
+        }
+        if (literal->tail.string.auxiliary_flags & 1) return 0;
+        text = literal->value.text;
+        for (length = 0; text[length]; ++length) ;
+        if (operation == 0xa7) {
+            emit_expression_tree(make_integer_constant(length));
+            return 1;
+        }
+        expression->tail.right = append_expression(arguments,
+            make_integer_constant(length + 1), 2);
+        operation = operation == 0xa4 ? 0xac : 0xaa;
+        callee->value.integer = operation;
+        /* Continue with the resulting memory intrinsic. */
+    case 0xaa: /* memcmp */
+    case 0xac: /* memcpy */
+    case 0xad: /* memset */
+        for (argument = expression->tail.right; argument;
+             argument = argument->tail.right) {
+            if (type_needs_intrinsic_fallback(argument->type)) goto fallback;
+            literal = argument->value.pointer;
+            if (type_needs_intrinsic_fallback(literal->type)) goto fallback;
+        }
+    }
+    return 0;
+fallback:
+    expression->kind = 0x7a;
+    expression->value.pointer = symbol_reference(find_memory_intrinsic(operation));
+    if (!expression->value.pointer) return 1;
+    call = build_call_expression(expression->value.pointer,expression->tail.right);
+    if (!call) return 1;
+    expression->value.pointer = call->value.pointer;
+    return 0;
+}
