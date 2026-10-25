@@ -1,5 +1,5 @@
-/* Canonical registry: 259 accepted application functions (74,550 bytes),
- * 11 named trapping stubs.
+/* Canonical registry: 260 accepted application functions (74,625 bytes),
+ * 15 named trapping stubs.
  * CRT identities include three reviewed, nonexact original CRT boundaries.
  * They grant no application credit or shipped-library body equivalence;
  * runtime-policy.json keeps their provenance and historical qualifications. */
@@ -4061,9 +4061,46 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_old_based_symbol",
         .entry_rva = 0x13730,
+        .code = (const ReconExtent[]){{0x13730, 0x1377b}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "convert_old_based_symbol",
+    },
+    {
+        .name = "_convert_old_based_register",
+        .entry_rva = 0x13780,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "convert_old_based_symbol",
+        .native_symbol = "convert_old_based_register",
+    },
+    {
+        .name = "_convert_old_based_bprel16",
+        .entry_rva = 0x13820,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_based_bprel16",
+    },
+    {
+        .name = "_convert_old_based_bprel32",
+        .entry_rva = 0x138a0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_based_bprel32",
+    },
+    {
+        .name = "_convert_old_based_data16",
+        .entry_rva = 0x13920,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_based_data16",
+    },
+    {
+        .name = "_convert_old_based_data32",
+        .entry_rva = 0x139a0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_based_data32",
     },
 };
 

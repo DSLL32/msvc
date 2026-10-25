@@ -59,4 +59,20 @@ void convert_old_symbol12(void);
 void convert_old_symbol_skip(void);
 void convert_old_symbol_change_segment(void);
 
+typedef unsigned short (__cdecl *OldBasedWriter)(unsigned char *,unsigned char *);
+typedef struct OldBasedConverter {
+    unsigned char kind;
+    unsigned short narrow_kind;
+    OldBasedWriter narrow;
+    unsigned short wide_kind;
+    OldBasedWriter wide;
+} OldBasedConverter;
+typedef char OldBasedConverterSize[(sizeof(OldBasedConverter)==16)?1:-1];
+extern OldBasedConverter old_based_converters[3];
+unsigned short convert_old_based_register(unsigned char *,unsigned char *);
+unsigned short convert_old_based_bprel16(unsigned char *,unsigned char *);
+unsigned short convert_old_based_bprel32(unsigned char *,unsigned char *);
+unsigned short convert_old_based_data16(unsigned char *,unsigned char *);
+unsigned short convert_old_based_data32(unsigned char *,unsigned char *);
+
 #endif

@@ -198,4 +198,10 @@ void convert_old_symbol_register_relative32(void) { __asm { int 3 } }
 
 
 
-unsigned short convert_old_based_symbol(unsigned char *output,unsigned char *input) { __asm { int 3 } return 0; }
+
+
+unsigned short convert_old_based_register(unsigned char *output,unsigned char *input) { __asm { int 3 } return 0; }
+unsigned short convert_old_based_bprel16(unsigned char *output,unsigned char *input) { __asm { int 3 } return 0; }
+unsigned short convert_old_based_bprel32(unsigned char *output,unsigned char *input) { __asm { int 3 } return 0; }
+unsigned short convert_old_based_data16(unsigned char *output,unsigned char *input) { __asm { int 3 } return 0; }
+unsigned short convert_old_based_data32(unsigned char *output,unsigned char *input) { __asm { int 3 } return 0; }

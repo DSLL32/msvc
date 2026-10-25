@@ -1474,5 +1474,17 @@
     "size": 66,
     "source": "src/oldsymbols.c",
     "provenance": "Original inclusive register<=32 lookup includes the following table first WORD 0x0b09; preserve all initialized results."
+  },
+  {
+    "name": "old_based_converters",
+    "symbol": "_old_based_converters",
+    "original": 229360,
+    "size": 48,
+    "kind": "callback-table",
+    "stride": 16,
+    "pointer_offsets": [
+      4,
+      12
+    ]
   }
 ]

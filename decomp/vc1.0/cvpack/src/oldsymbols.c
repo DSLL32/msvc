@@ -625,8 +625,29 @@ void convert_old_symbol_block32(void)
 }
 
 /* The historical buffer name denotes this module's C6 local-symbol stream. */
-extern unsigned char *module_type_buffer;
+extern void *module_type_buffer;
 unsigned char *get_old_symbol(unsigned short offset)
 {
-    return module_type_buffer+offset;
+    return (unsigned char *)module_type_buffer+offset;
+}
+
+OldBasedConverter old_based_converters[3] = {
+    { 0x04, 0x100, convert_old_based_bprel16, 0x200, convert_old_based_bprel32 },
+    { 0x05, 0x101, convert_old_based_data16, 0x201, convert_old_based_data32 },
+    { 0x0d, 0x002, convert_old_based_register, 0x002, convert_old_based_register },
+};
+
+unsigned short convert_old_based_symbol(unsigned char *output, unsigned char *input)
+{
+    unsigned char kind = input[1]&0x7f;
+    unsigned short i;
+    for (i = 0; i < 3; ++i)
+        if (old_based_converters[i].kind == kind) break;
+#ifdef RECON_NATIVE_TEST
+    /* The original falls beyond its three-row table for an unknown kind.
+       Native storage has no verified adjacency for that malformed path. */
+    if (i == 3) __asm { int 3 }
+#endif
+    if (input[1]&0x80) return old_based_converters[i].wide(output, input);
+    return old_based_converters[i].narrow(output, input);
 }
