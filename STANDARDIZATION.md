@@ -167,6 +167,14 @@ the shared asset accessor after setup; unit forks inherit the same asset root.
 The runner verifies complete asset membership, bytes and modes after descendants
 exit. Application inputs and outputs remain in the working directory inventory.
 
+Optional `case_process_policy` validates each child invocation and its inputs
+before returning a captured response; absent policies deny child requests.
+Request counts are checked even when the application handles a denied request.
+Optional `case_output_policy` checks artifacts after the target and descendants
+exit, from a pristine post-setup fork. It may produce comparison streams while
+raw streams remain intact; ordinary output assertions still run. These callbacks
+are test glue and do not execute Wine or reconstruct dependency tools.
+
 IO execution uses a standard binary adapter: reconstructed main for an EXE,
 or attach, typed export invocation and detach for a DLL. Existing DLL export
 inputs are principally argument strings, scalars and callbacks.
