@@ -1,5 +1,7 @@
 /* Quiet file operations. Original QLSeek424e4c..424e8a. */
 #include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>
 #include <io.h>
 #include <string.h>
 #include "link.h"
@@ -25,4 +27,13 @@ void CheckBreak( void )
         CaughtBreak = 0;             /* prevent recursion */
         LnkMsg( 0x340d, 0 );
     }
+}
+
+static int OpenFiles; /* original4502bc */
+
+void LnkFilesInit( void )
+{
+    OpenFiles = 0;
+    setmode( fileno( stdin ), O_BINARY );
+    setmode( fileno( stdout ), O_BINARY );
 }

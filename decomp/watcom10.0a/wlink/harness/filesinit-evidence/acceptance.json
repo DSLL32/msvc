@@ -1,0 +1,15 @@
+{
+  "scope": "LnkFilesInit41B resets OpenFiles and sets stdin/stdout to Watcombinary0200 through genuine CRT setmode. Actual next InitNodes frontier matches.",
+  "application_functions": 29,
+  "application_bytes": 3243,
+  "status": "Canonical setmode READY490035b39 publishes exact frozen source hashes used in the passing pair; no publication-only replay.",
+  "ABI": "Original noformals/savesEDX/RET0; twoEAXfd/EDX0200 CRTcalls. Period publicfileno expands FILE26handle fields; native uses shared public accessor, no private FILE layout. Returnvalues ignored.",
+  "bindings": {
+    "src/io.c": "e7f7b65a5ae4e59149d483297ccbf61959e98175cf1f30d22ca3f8a1e2765dde",
+    "src/link.h": "1d69f43edb8ad2d6baf20059b809ef395bb16305a41a123735a3759104aceff8",
+    "binary.c": "bf21fe2d6d7aff6fd726959823d9f70f8a96346b32e561a1bf37326c84c63ef4",
+    "policy-data.json": "392e7dc6f885f9737995f7253e3a23b0c6f44297c713fcf2755f3669b33f72c3",
+    "harness/setmode-runtime.json": "2ee9615ee686de76fafd946214e1ed9f5a1c87997104204f711b4880ebbdd25b",
+    "harness/setmode-runtime-review.json": "df130348c88bb36ede6cbfa30233eaa4e306bbabf6916c3739a30aaaa2dd93e2"
+  }
+}

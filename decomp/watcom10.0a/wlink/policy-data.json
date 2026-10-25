@@ -136,6 +136,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "LnkFilesInit": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

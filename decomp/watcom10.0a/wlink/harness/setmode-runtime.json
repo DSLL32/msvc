@@ -1,0 +1,343 @@
+{
+  "scope": "Finite genuine setmode CRT ownership, no App credit or CRT source reconstruction; no original execution/restoration yet.",
+  "original_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+  "library_sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+  "function": {
+    "name": "setmode_",
+    "entry_va": 4411403,
+    "code_chunks": [
+      [
+        4411403,
+        4411616
+      ]
+    ],
+    "body_sha256": "4b9bf6ed59efc44a3e2bf47fa75bf70b5f0beafe5a92f8a036e87ce1790727dd",
+    "bytes": 213,
+    "classification": "CRT",
+    "shipped_module": {
+      "name": "setmd",
+      "offset": 168256,
+      "records": [
+        {
+          "type": 128,
+          "offset": 168256,
+          "length": 7,
+          "data_hex": "057365746d64"
+        },
+        {
+          "type": 136,
+          "offset": 168266,
+          "length": 7,
+          "data_hex": "809b33734f63"
+        },
+        {
+          "type": 136,
+          "offset": 168276,
+          "length": 7,
+          "data_hex": "80fe44010043"
+        },
+        {
+          "type": 136,
+          "offset": 168286,
+          "length": 3,
+          "data_hex": "80e9"
+        },
+        {
+          "type": 150,
+          "offset": 168292,
+          "length": 23,
+          "data_hex": "0004434f4445044441544103425353064447524f5550"
+        },
+        {
+          "type": 150,
+          "offset": 168318,
+          "length": 7,
+          "data_hex": "055f54455854"
+        },
+        {
+          "type": 153,
+          "offset": 168328,
+          "length": 9,
+          "data_hex": "29d4000000060201"
+        },
+        {
+          "type": 136,
+          "offset": 168340,
+          "length": 5,
+          "data_hex": "80fe4f01"
+        },
+        {
+          "type": 150,
+          "offset": 168348,
+          "length": 7,
+          "data_hex": "05434f4e5354"
+        },
+        {
+          "type": 153,
+          "offset": 168358,
+          "length": 9,
+          "data_hex": "a900000000070301"
+        },
+        {
+          "type": 150,
+          "offset": 168370,
+          "length": 8,
+          "data_hex": "06434f4e535432"
+        },
+        {
+          "type": 153,
+          "offset": 168381,
+          "length": 9,
+          "data_hex": "a900000000080301"
+        },
+        {
+          "type": 150,
+          "offset": 168393,
+          "length": 7,
+          "data_hex": "055f44415441"
+        },
+        {
+          "type": 153,
+          "offset": 168403,
+          "length": 9,
+          "data_hex": "a900000000090301"
+        },
+        {
+          "type": 150,
+          "offset": 168415,
+          "length": 6,
+          "data_hex": "045f425353"
+        },
+        {
+          "type": 153,
+          "offset": 168424,
+          "length": 9,
+          "data_hex": "a9000000000a0401"
+        },
+        {
+          "type": 154,
+          "offset": 168436,
+          "length": 10,
+          "data_hex": "05ff02ff03ff04ff05"
+        },
+        {
+          "type": 140,
+          "offset": 168449,
+          "length": 71,
+          "data_hex": "095f5f494f4d6f64655f000c5f5f7365745f6572726e6f5f000d5f5f41636365737346696c6548000c5f5f536574494f4d6f64655f000e5f5f5f4f70656e53747265616d7300"
+        },
+        {
+          "type": 161,
+          "offset": 168523,
+          "length": 178,
+          "data_hex": "010000000053515683ec0489c389d1e80000000089042489c285c07514b804000000e800000000b8ffffffffe9a100000089d8ff1500000000f60424407407b800020000eb05b80001000089c639c10f847300000081f900020000740881f900010000754c80e2bf81f900020000750380ca4089d8e800000000a100000000eb2a8b5004837a0c00741f3b5a10751a8a420c24bf88420c81f900020000752988c480cc4088620ceb1f8b0085c075d2eb17"
+        },
+        {
+          "type": 157,
+          "offset": 168704,
+          "length": 21,
+          "data_hex": "a40b5601a41e5602e4305603a4715604e4765605"
+        },
+        {
+          "type": 140,
+          "offset": 168728,
+          "length": 17,
+          "data_hex": "0e5f5f52656c6561736546696c654800"
+        },
+        {
+          "type": 161,
+          "offset": 168748,
+          "length": 46,
+          "data_hex": "01ac000000b809000000e80000000089d8ff1500000000e95fffffff89d8ff150000000089f083c4045e595bc3"
+        },
+        {
+          "type": 157,
+          "offset": 168797,
+          "length": 13,
+          "data_hex": "a4065602e40e5606e41b5606"
+        },
+        {
+          "type": 145,
+          "offset": 168813,
+          "length": 17,
+          "data_hex": "0001087365746d6f64655f0000000000"
+        },
+        {
+          "type": 138,
+          "offset": 168833,
+          "length": 2,
+          "data_hex": "00"
+        }
+      ],
+      "publics": [
+        {
+          "name": "setmode_",
+          "segment": 1,
+          "offset": 0
+        }
+      ],
+      "segments": [
+        {
+          "attributes": 41,
+          "length": 212,
+          "name": 6,
+          "class": 2,
+          "overlay": 1
+        },
+        {
+          "attributes": 169,
+          "length": 0,
+          "name": 7,
+          "class": 3,
+          "overlay": 1
+        },
+        {
+          "attributes": 169,
+          "length": 0,
+          "name": 8,
+          "class": 3,
+          "overlay": 1
+        },
+        {
+          "attributes": 169,
+          "length": 0,
+          "name": 9,
+          "class": 3,
+          "overlay": 1
+        },
+        {
+          "attributes": 169,
+          "length": 0,
+          "name": 10,
+          "class": 4,
+          "overlay": 1
+        }
+      ],
+      "data": [
+        {
+          "segment": 1,
+          "offset": 0,
+          "bytes": "53515683ec0489c389d1e80000000089042489c285c07514b804000000e800000000b8ffffffffe9a100000089d8ff1500000000f60424407407b800020000eb05b80001000089c639c10f847300000081f900020000740881f900010000754c80e2bf81f900020000750380ca4089d8e800000000a100000000eb2a8b5004837a0c00741f3b5a10751a8a420c24bf88420c81f900020000752988c480cc4088620ceb1f8b0085c075d2eb17",
+          "record_offset": 168523
+        },
+        {
+          "segment": 1,
+          "offset": 172,
+          "bytes": "b809000000e80000000089d8ff1500000000e95fffffff89d8ff150000000089f083c4045e595bc3",
+          "record_offset": 168748
+        }
+      ],
+      "names": [
+        "",
+        "",
+        "CODE",
+        "DATA",
+        "BSS",
+        "DGROUP",
+        "_TEXT",
+        "CONST",
+        "CONST2",
+        "_DATA",
+        "_BSS"
+      ]
+    },
+    "source": {
+      "path": "bld/clib/handleio/c/setmd.c",
+      "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+      "sha256": "179e76f32df709da20a001745b3426bbda51c5670b8b12b4c4cc899e2d26239a"
+    },
+    "body_identity": "Original213B vs shipped212B, explicit old variant; no byte identity claimed.",
+    "semantics": "__IOMode(fd), EBADF4 onzero; oldmode=internalBINARY040?0200:0100; pinned access/release hooks; accepts0200 or0100, updates __SetIOMode and matching FILE26 _flag bit040 through CRT-owned open stream link list4503d0; invalid mode errno9, -1. Returns old flags. All state/private layout stays inside genuine CRT.",
+    "edges": [
+      {
+        "site": 4411416,
+        "kind": "call",
+        "target": 4420119
+      },
+      {
+        "site": 4411430,
+        "kind": "call",
+        "indirect": "dword ptr [0x4425dc]"
+      },
+      {
+        "site": 4411448,
+        "kind": "jmp",
+        "target": 4411609
+      },
+      {
+        "site": 4411455,
+        "kind": "call",
+        "indirect": "dword ptr [0x4425e0]"
+      },
+      {
+        "site": 4411472,
+        "kind": "jmp",
+        "target": 4411479
+      },
+      {
+        "site": 4411521,
+        "kind": "call",
+        "target": 4420194
+      },
+      {
+        "site": 4411531,
+        "kind": "jmp",
+        "target": 4411567
+      },
+      {
+        "site": 4411563,
+        "kind": "jmp",
+        "target": 4411599
+      },
+      {
+        "site": 4411571,
+        "kind": "jmp",
+        "target": 4411599
+      },
+      {
+        "site": 4411573,
+        "kind": "call",
+        "indirect": "dword ptr [0x4425dc]"
+      },
+      {
+        "site": 4411588,
+        "kind": "call",
+        "indirect": "dword ptr [0x4425e4]"
+      },
+      {
+        "site": 4411594,
+        "kind": "jmp",
+        "target": 4411443
+      },
+      {
+        "site": 4411601,
+        "kind": "call",
+        "indirect": "dword ptr [0x4425e4]"
+      }
+    ]
+  },
+  "pins": [
+    {
+      "va": 4466140,
+      "initial_value": 4413459
+    },
+    {
+      "va": 4466144,
+      "initial_value": 4413464
+    },
+    {
+      "va": 4466148,
+      "initial_value": 4413464
+    }
+  ],
+  "closure": "Direct __IOMode437217 and __SetIOMode437262 already independently reviewed; only three indirects are approved threadgetter435813 and access/release435818RET. No new import, App callback or helper.",
+  "application_boundary": {
+    "caller": "LnkFilesInit",
+    "range": [
+      4344736,
+      4344777
+    ],
+    "public_API": "fileno(stdin)=0; fileno(stdout)=1; setmode(fd,O_BINARY0200) twice, return values ignored",
+    "native": "Use shared profile-specific public setmode adapter, never raw Watcom FILE26 fields or raw0200 passed to MS setmode. Typed success qualification pending maintainer."
+  }
+}
