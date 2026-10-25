@@ -3,7 +3,9 @@
 The native i386 library uses the shared reconstruction harness. Run `make -j4
 native cases check unit`, `make -j4 original`, and `make -j4 audit` from this
 folder. Fixtures never launch Wine. `binary.c` is the function registry; policy
-contains only live graph/ABI contracts. The native adapter registers the DLL,
+contains only live graph/ABI contracts. Application source is in `src/`, the two historical startup bodies in `crt/`
+(with per-file rationale), and native glue in `harness/`. The native adapter
+registers the DLL,
 binds the captured argument/environment vectors, performs CRT attach, invokes
 `RC(0,0,diagnostic,NULL,argc,argv)`, and detaches. The resource callback is opaque
 and only NULL is supported. The two encountered message resources are generated
@@ -48,10 +50,8 @@ under `analysis/output-descriptor-data/rows.json` in the same scratch namespace.
 No functions were accepted or original references captured during migration.
 Historical proof packages remain available in Git history.
 
-Migration checks: original/native/case build 9.360 s; both native IO checks and
-four unit groups together 0.213 s. Help IO took 5.246 ms (setup 3.213, execution
-1.341, checks 0.691); rich partial IO took 171.750 ms (72.120 / 98.777 / 0.853).
-The 97-function graph audit and SEH-role residual passed. Its 10.169 s command
-included a Makefile-triggered original/native rebuild, leaving the tested native
-ELF byte-identical. The final policy-only validation took 19.697 s including a
-shared-tool rebuild; neither figure is an audit-only measurement.
+Layout-only validation: original/native/case build 10.468 s; both native IO
+checks and four unit groups together 0.244 s; 97-function graph and SEH-role
+audit 0.501 s. Help IO took 8.048 ms (setup 4.396, execution 2.459, checks 1.193);
+rich partial IO took 174.830 ms (76.011 / 30.249 / 68.571). Application bodies,
+registry identities, case captures and policy are unchanged by this reorganization.

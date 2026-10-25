@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "rcdll.h"
+#include "rcdll-crt.h"
 #include <recon.h>
 
 typedef void (__cdecl *DLL_EXIT_FUNCTION)(void);

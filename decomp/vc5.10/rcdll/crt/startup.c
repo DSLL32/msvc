@@ -1,4 +1,5 @@
 #include "rcdll.h"
+#include "rcdll-crt.h"
 #include <recon.h>
 
 int dll_attach_count;
