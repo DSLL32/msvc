@@ -208,3 +208,10 @@ void __stdcall register_static_member_alias(CppSymbol *member, CppSymbol *alias)
         static_member_name_bindings = new_hash_table(31, 0, 1, 0);
     set_hash_value(static_member_name_bindings, alias->name, member);
 }
+
+/* Original 0x55fb0..0x55fc5, stdcall4. Resolve the external
+   alias by its interned spelling to recover the owning static class member. */
+CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol)
+{
+    return find_hash_value(static_member_name_bindings, symbol->name);
+}

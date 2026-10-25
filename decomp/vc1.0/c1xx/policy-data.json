@@ -3144,5 +3144,15 @@
       "coverage_note": "SUB4/saveESI+EDI8 makes original4a3d5 [ESP+8] entryESP-4. Only the successful query writes that local; find_virtual_base_pointer leaves requested outputs untouched when its group is absent. Public reachability UNKNOWN; no malformed-only or stale-stack equivalence claim.",
       "authorization": "Settled root-approved precise uninitialized-output policy; no extra acceptance credit"
     }
-  ]
+  ],
+  "function_properties": {
+    "_begin_line_record_debug_info": {
+      "pending_extent": false,
+      "reason": "ABI-only tail target of begin_debug_info: original whole70800..7089c has cdecl RET0 at7085c/7089b and only internal branches; native source remains trapping RET0. Unimplemented, masked and zero acceptance/coverage credit."
+    },
+    "_finish_line_record_debug_info": {
+      "pending_extent": false,
+      "reason": "ABI-only tail target of finish_debug_info: original whole70950..7099f has cdecl RET0 at7099e and only internal branches; native source remains trapping RET0. Unimplemented, masked and zero acceptance/coverage credit."
+    }
+  }
 }

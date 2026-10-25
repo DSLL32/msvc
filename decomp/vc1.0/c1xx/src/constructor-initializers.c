@@ -1659,3 +1659,48 @@ void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag
     value = builtin_binary_expression(OP_GREATER, counter, constant);
     emit_condition_to_label(value, label, 1);
 }
+
+IrToken *__stdcall declare_temporary_storage(CType *type, unsigned bytes, IrToken *reference);
+IrToken *__stdcall make_copy_constructor_call(CppSymbol *constructor, CType *type, IrToken *expression);
+
+/* Original 0x66d30..0x66ed9, stdcall12. Detach a saved source
+   initializer before copying. Class-valued argument lists may reuse trivial
+   copying or materialize storage and construction in their original order. */
+IrToken *__stdcall construct_copy_initializer(CppSymbol *constructor, CType *type, IrToken *expression)
+{
+    IrToken *saved = expression->linkage.list_head;
+    IrToken *reference, *declaration, *object, *arguments, *call, *size, *result;
+    CppSymbol *owner;
+    TypeShape *function;
+    unsigned index;
+    expression->linkage.list_head = 0;
+    if (!saved || saved->kind != 0x6a || !is_unqualified_class_type(saved->type))
+        return make_copy_constructor_call(constructor, type, expression);
+    if (constructor->cpp.parts.member_flags & 0x20) {
+        owner = cpp_context_stack->items[constructor->auxiliary.declaring_class];
+        if (owner->detail.class_info->trivial_special_members & 2) {
+            function = constructor->type->related;
+            if (function && !(function->flags & 0x77)) function = function->related;
+            return convert_initializer(1, function->data.parameters->declarations->types[0], expression);
+        }
+    }
+    function = constructor->type->related;
+    if (function && !(function->flags & 0x77)) function = function->related;
+    if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_symbol_rollover();
+    index = next_symbol_index++;
+    reference = new_temporary_reference(index, function->data.parameters->associated_type);
+    declaration = declare_temporary_storage(type, type_size(type), reference);
+    object = new_temporary_reference(reference->value.integer, reference->type);
+    object = new_typed_unary_expression(0x46, reference->type, object);
+    arguments = append_expression(0, expression, 2);
+    call = make_resolved_call(constructor, object, arguments, 1, 0);
+    call = builtin_unary_expression(0x3a, call);
+    size = make_integer_constant(type_size(type));
+    arguments = append_expression(0, call, 2);
+    arguments = append_expression(arguments, declaration, 2);
+    arguments = append_expression(arguments, size, 2);
+    result = new_left_typed_expression(0x81, make_integer_constant(0xdf), arguments);
+    result->type = type;
+    return result;
+}

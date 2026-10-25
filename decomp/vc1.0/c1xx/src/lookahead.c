@@ -222,3 +222,9 @@ int deferred_tokens_may_be_declaration(void)
     }
     return 0;
 }
+
+/* Original 0x750f0..0x750f2 is only RET4. The lookahead parser's
+   error callback deliberately emits no diagnostic and does not read its text. */
+void __stdcall report_lookahead_error(char *unused_text)
+{
+}

@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1396 historical frontiers/1289 App bodies.
+ * Current reviewed boundary:1401 historical frontiers/1294 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -3873,12 +3873,22 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_copy_constructor_candidate",
+        .entry_rva = 0x27c90,
+        .code = (const ReconExtent[]) { { 0x27c90, 0x27ca2 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "copy_constructor_candidate",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_find_copy_constructor@4",
         .entry_rva = 0x27cb0,
-        .code = (const ReconExtent[]) { { 0x27cb0, 0x27cb1 } },
+        .code = (const ReconExtent[]) { { 0x27cb0, 0x27cc8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_copy_constructor",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_lookup_special_member@12",
@@ -9046,6 +9056,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "static_member_from_alias",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mangle_static_member_name@8",
@@ -10768,12 +10779,29 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_make_copy_constructor_call@12",
+        .entry_rva = 0x56ee0,
+        .code = (const ReconExtent[]) { { 0x56ee0, 0x56ee1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "make_copy_constructor_call",
+    },
+    {
+        .name = "_declare_temporary_storage@12",
+        .entry_rva = 0x57010,
+        .code = (const ReconExtent[]) { { 0x57010, 0x57011 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "declare_temporary_storage",
+    },
+    {
         .name = "_construct_copy_initializer@12",
         .entry_rva = 0x56d30,
-        .code = (const ReconExtent[]) { { 0x56d30, 0x56d31 } },
+        .code = (const ReconExtent[]) { { 0x56d30, 0x56eda } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "construct_copy_initializer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_new_temporary_reference@8",
@@ -12340,6 +12368,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_lookahead_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_recursive_lookahead_parse",

@@ -129,8 +129,6 @@ void __stdcall record_initialized_temporary(CppSymbol *symbol, CType *type) { __
 IrToken *__stdcall materialize_call_result(IrToken *call) { __asm { int 3 } return 0; }
 
 void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 } }
-CppSymbol * __stdcall find_copy_constructor(CType *type) { __asm { int 3 } return 0; }
-IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 
 
 
@@ -247,7 +245,6 @@ void __stdcall set_deferred_type_name(DeferredToken *token) { __asm { int 3 } }
 int __stdcall deferred_scope_allows_expression(int depth) { __asm { int 3 } return 0; }
 int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
-void __stdcall report_lookahead_error(char *unused_text) { __asm { int 3 } }
 
 int __stdcall has_qualified_this_type(CType *type) { __asm { int 3 } return 0; }
 
@@ -534,7 +531,6 @@ void finish_line_record_debug_info(void) { __asm { int 3 } }
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { int 3 } }
 
 void suppress_browser_records(void) { __asm { int 3 } }
-CppSymbol *__stdcall static_member_from_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
 /* Newly encountered pragma callees; bodies remain unaccepted entry traps. */
 void __stdcall pragma_message(char *text) { __asm { int 3 } }
@@ -559,3 +555,6 @@ void emit_diagnostic(unsigned category, unsigned code, char *format, va_list arg
 void browser_compilation_error(void) { __asm { int 3 } }
 
 char *__stdcall member_access_keyword(unsigned access) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall declare_temporary_storage(CType *type, unsigned bytes, IrToken *reference) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_copy_constructor_call(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }

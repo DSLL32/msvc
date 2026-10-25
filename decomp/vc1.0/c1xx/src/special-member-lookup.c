@@ -81,3 +81,16 @@ CppSymbol *__stdcall lookup_special_member(CType *type, char *name,
     }
     return best;
 }
+
+/* Original 0x37c90..0x37ca1, cdecl predicate. */
+int __cdecl copy_constructor_candidate(CppSymbol *candidate)
+{
+    return (candidate->cpp.parts.member_flags & 0x20) >> 5;
+}
+
+/* Original 0x37cb0..0x37cc7, stdcall4. Keep the copy-constructor
+   predicate as its own cdecl callback in the ordinary special-member search. */
+CppSymbol *__stdcall find_copy_constructor(CType *type)
+{
+    return lookup_special_member(type, name_ctor, copy_constructor_candidate);
+}
