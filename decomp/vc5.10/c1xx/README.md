@@ -6,11 +6,18 @@ C1XX.DLL (Visual C++ 5.10)
 callbacks are currently registered. `make -j4 win32` builds the real DLL with
 5.10 CL/LINK; `make -j4 audit` checks the accepted graph and individual ABIs.
 
+Application reconstruction is in src/; the two existing startup support bodies
+and their declarations are in crt/, with their retained-variant rationale in
+crt/startup.c. Native case adapters and the import-library build definition are
+in harness/. Numbered case files contain descriptors and entry orders only.
+
 The single registry is binary.c. Migration preserves 92 accepted application
 functions / 7016 code bytes (f6b743ba); historical CRT support is separate
 (2 functions / 451 bytes), with 12 bytes of generated import support. These
 7479 bytes are compared with a 751216-byte .text extent; that denominator also
 contains runtime, data and padding and is not a non-CRT coverage measure.
+The audit checks 94 source bodies. The two six-byte import endpoints retain
+identity/catalog checks and zero application credit; they are not RET-body targets.
 
 0000 checks typed DLL attach, export presence without invoking exports, and
 detach against the completed original lifecycle case. 0001 invokes the actual

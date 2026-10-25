@@ -1,4 +1,10 @@
-#include "c1xx.h"
+/* Retained binary-specific CRT variant, predating the current CRT boundary policy.
+ * The two existing startup vertices preserve this DLL's attach/detach graph,
+ * stdcall ABI, initializer ordering and onexit lifetime in both builds. They
+ * remain separately classified CRT support (451 bytes), with zero App credit;
+ * public malloc/free/_initterm still use MSVCRT or the shared native shims.
+ * This layout move authorizes no additional CRT reconstruction. */
+#include "startup.h"
 #include <recon.h>
 
 int process_attached;
