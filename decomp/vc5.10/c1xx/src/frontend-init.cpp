@@ -48,9 +48,13 @@ void __cdecl initialize_scope_symbols(void);
 CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *, CompilerDeclarator *);
 void __cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *);
 int __cdecl report_response_error(int, ...);
+void __cdecl compiler_warning(int, ...);
 CompilerSymbol *__cdecl recycle_symbol(unsigned, CompilerNameEntry *, unsigned);
 CompilerHashTable *__cdecl create_hash_table(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 CompilerSymbol *__cdecl make_abstract_declarator(void);
+CompilerTypeShape *__cdecl create_type_shape(unsigned, unsigned, const unsigned *);
+CompilerType *__cdecl qualify_type(CompilerType *, unsigned, WORD);
+CompilerSymbol *__cdecl link_parameter_symbols(struct CompilerParameterContext *);
 }
 
 extern "C" void __cdecl initialize_frontend(void)
@@ -470,8 +474,8 @@ extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, Compile
     if (memory) {
         shape = (CompilerParameterDescription *)memory;
         shape->kind = 5;
-        shape->initial_value = 0;
-        shape->value = 0;
+        shape->scope_open = 0;
+        shape->parameters = NULL;
     } else {
         shape = NULL;
     }
@@ -629,7 +633,53 @@ extern "C" CompilerHashTable *__cdecl create_hash_table(unsigned buckets,
     return table;
 }
 
-void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription *shape) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription *description)
+{
+    int first = shape == NULL;
+    unsigned value = 0;
+    CompilerTypeShape *function;
+    CompilerType *qualified;
+    flags |= 0x10;
+    description->Normalize();
+    function = create_type_shape(4, 0, &value);
+    if (first && (qualifiers.flags & 0x70)) {
+        function->attributes |= qualifiers.flags & 0x70;
+        qualifiers.flags &= ~0x70;
+    }
+    if (!first) {
+        if (!(last_shape->flags & 0x10)) {
+            function->SetParameters(description->parameters,
+                link_parameter_symbols(description->context), NULL);
+            if (description->flags) {
+                compiler_warning(270, symbol);
+                flags |= 1;
+            }
+        } else {
+            qualified = qualify_type(last_shape->payload.type, 0x100, description->flags);
+            function->SetParameters(description->parameters,
+                link_parameter_symbols(description->context), qualified);
+            function->attributes |= 0x2000;
+        }
+    }
+    AppendShape(function);
+    if (!last_shape) {
+        last_shape = function;
+        shape = function;
+    } else {
+        last_shape->base = function;
+        last_shape = function;
+    }
+    if (first) {
+        parameters = description;
+        flags |= 8;
+    }
+}
+void RECON_THISCALL CompilerParameterDescription::Normalize(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *shape) { __asm { int 3 } }
+void RECON_THISCALL CompilerTypeShape::SetParameters(CompilerParameterSet *parameters, CompilerSymbol *symbols, CompilerType *type) { __asm { int 3 } }
+extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned arena, const unsigned *value) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl qualify_type(CompilerType *type, unsigned flags, WORD attributes) { __asm { int 3 } return NULL; }
+extern "C" CompilerSymbol *__cdecl link_parameter_symbols(CompilerParameterContext *context) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerDeclarator::ApplyQualifiers(CompilerDeclaratorQualifiers *qualifiers) { __asm { int 3 } }
 
 extern "C" CompilerSymbol *__cdecl make_abstract_declarator(void)

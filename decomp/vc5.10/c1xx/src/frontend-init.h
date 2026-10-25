@@ -155,9 +155,12 @@ struct CompilerDeclaration {
 /* Function-parameter description, distinct from an interned type shape.
  * Only the builder's stores are modeled; the full28-byte layout is unknown. */
 struct CompilerParameterDescription {
-    unsigned value;               /* original +0, initially0 */
+    struct CompilerParameterSet *parameters; /* original +0, initiallyNULL */
+    WORD flags;                   /* original +4 */
+    struct CompilerParameterContext *context; /* original +c */
     unsigned kind;                /* +10, actual value5 */
-    unsigned initial_value;       /* +14, exact zero store; later role pending */
+    unsigned scope_open;          /* +14, conditional EndParameterScope marker */
+    void RECON_THISCALL Normalize(void);
 };
 struct CompilerDeclaratorQualifiers {
     WORD flags;
@@ -168,9 +171,15 @@ struct CompilerDeclarator {
     CompilerType *type; /* original +3c, resolved result */
     CompilerSymbol *symbol; /* original +38 */
     CompilerDeclarationContext context; /* two mapped BYTEs at original+1c/+1d */
+    CompilerTypeShape *shape, *last_shape; /* original +4/+8 */
+    CompilerDeclaratorQualifiers qualifiers; /* original +c/+10 */
+    unsigned shape_flags; /* original +14 */
+    CompilerParameterDescription *parameters; /* original +18 */
+    unsigned flags; /* original +40 */
     /* Remaining original72-byte storage stays unmodeled. */
     CompilerDeclarator *RECON_THISCALL Initialize(CompilerType *, const void *);
     void RECON_THISCALL AddFunction(CompilerParameterDescription *);
+    void RECON_THISCALL AppendShape(CompilerTypeShape *);
     void RECON_THISCALL ApplyQualifiers(CompilerDeclaratorQualifiers *);
     void RECON_THISCALL Resolve(void);
 };

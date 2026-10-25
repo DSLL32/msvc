@@ -28,6 +28,22 @@ typedef struct CompilerType {
     unsigned debug_cache;
 } CompilerType;
 typedef char CompilerType_size[sizeof(CompilerType) == 16 ? 1 : -1];
+struct CompilerParameterSet;
+struct CompilerSymbol;
+/* Interned shape header, distinct from the28-byte parser parameter object. */
+struct CompilerTypeShape {
+    WORD flags, attributes;            /* original +0/+2 */
+    struct CompilerTypeShape *base;     /* +4 */
+    union {
+        CompilerType *type;
+        struct CompilerTypeList *parameters;
+        unsigned value;
+    } payload;                         /* +8, interpreted by shape flags */
+#ifdef __cplusplus
+    void RECON_THISCALL SetParameters(struct CompilerParameterSet *,
+        struct CompilerSymbol *, CompilerType *);
+#endif
+};
 typedef struct CompilerInternedType {
     struct CompilerInternedType *next;
     CompilerType type;
