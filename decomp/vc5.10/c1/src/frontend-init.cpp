@@ -201,7 +201,7 @@ extern "C" void __cdecl initialize_frontend(void)
     memory = pool->cursor;
     pool->cursor += 540;
     pool->remaining -= 540;
-    /* The pending initializer owns the unrecovered translation-unit layout. */
+    /* The original allocation is540 bytes; unwritten scope entries remain unknown. */
     c1_data.translation_unit = memory ?
         ((CompilerTranslationUnit *)memory)->Initialize() : NULL;
     if (c1_data.dependency_local || c1_data.options.dependency_output) {
@@ -350,4 +350,42 @@ extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_source_input(void) { __asm { int 3 } }
-CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void) { __asm { int 3 } return this; }
+
+CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void)
+{
+    CompilerPool *pool = &c1_bss.pools[7];
+    void *memory;
+    CompilerSymbolTable *table;
+    unsigned bytes;
+    depth = 0;
+    lookup_mode = 0;
+    retired_scopes = NULL;
+    symbols = NULL;
+    type_aliases = NULL;
+    if (pool->remaining < 24)
+        pool->Refill(24);
+    memory = pool->cursor;
+    pool->cursor += 24;
+    pool->remaining -= 24;
+    table = memory ? new(memory) CompilerSymbolTable : NULL;
+    root = table;
+    bytes = table->bucket_mask * 4 + 4;
+    if (pool->remaining < bytes)
+        pool->Refill(bytes);
+    table->buckets = (CompilerIrSymbol **)pool->cursor;
+    pool->cursor += bytes;
+    pool->remaining -= bytes;
+    current = root;
+    scopes[0] = root;
+    return this;
+}
+int RECON_THISCALL CompilerSymbolTable::HasBuckets(void) { __asm { int 3 } return 0; }
+void RECON_THISCALL CompilerSymbolTable::Insert(CompilerIrSymbol *symbol) { __asm { int 3 } }
+void *RECON_THISCALL CompilerSymbolTable::Find(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
+void *RECON_THISCALL CompilerSymbolTable::Lookup(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
+void *RECON_THISCALL CompilerSymbolTable::FindOrdinary(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
+void RECON_THISCALL CompilerSymbolTable::FindNested(CompilerNameEntry *name, void **result) { __asm { int 3 } }
+CompilerIrSymbol **RECON_THISCALL CompilerSymbolTable::FindLink(CompilerIrSymbol *symbol) { __asm { int 3 } return NULL; }
+void RECON_THISCALL CompilerSymbolTable::Serialize(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerSymbolTable::Check(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerSymbolTable::Link(CompilerIrSymbol *symbol) { __asm { int 3 } }

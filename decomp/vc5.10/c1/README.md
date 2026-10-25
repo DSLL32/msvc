@@ -3,7 +3,7 @@
 `binary.c` is the function/export registry for original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The current prefix contains 116 accepted application functions / 17,712 code bytes.
+The current prefix contains 117 accepted application functions / 17,916 code bytes.
 Historical linked startup support remains separately classified: two CRT
 functions / 451 bytes; four import thunks / 24 bytes. Owned text data is 398
 bytes. The original text extent is 322,288 bytes; its non-CRT denominator has
@@ -26,7 +26,7 @@ zero static matches, while the historical CRT rows retain strict graph checks.
 The lifecycle case attaches, resolves both exports without invoking them, and
 detaches. Minimal invokes the actual supported direct 11-argument
 `_InvokeCompilerPass@12` contract with BOOL 1. It remains partial at
-`CompilerTranslationUnit::Initialize()`, RVA `0x14aa8`. Its fresh reference uses logical cwd
+`make_function_type()`, RVA `0x14b64`. Its fresh reference uses logical cwd
 `T:\vc5.10\c1\0001-minimal-c`, preserved in an isolated native scratch namespace.
 Final IR from other invocations is not merged into this oracle. Both cases run
 entirely natively against cached original observations.
@@ -61,3 +61,8 @@ The current case passes the empty line-record path and reaches buffer reservatio
 for opcode0x5b with an integer operand; later operand branches have not been exercised. Storage-width
 classes without an established original width fail closed natively before use,
 while the Win32 source retains the original carried argument-slot value.
+
+The 540-byte translation-unit object has a 128-slot scope-pointer array, proven
+by its indexed push/pop consumers and explicit depth bound. Its initializer writes
+only slot0; the other127 values remain unmodeled and unwritten. Its 24-byte root
+scope uses the actual ten-slot virtual interface, with operations still pending.

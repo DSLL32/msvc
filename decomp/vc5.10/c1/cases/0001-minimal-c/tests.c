@@ -227,7 +227,8 @@ static int global_symbol_arena(void)
         c1_bss.ir_record_count == 83 && owned_marker == 37;
 }
 extern int c1_test_returning_interner(void);
-const ReconTest minimal_tests[18] = {
+extern int c1_test_translation_unit(void);
+const ReconTest minimal_tests[19] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -245,5 +246,6 @@ const ReconTest minimal_tests[18] = {
     { "type hash tables own exact arena spans without clearing them", 1, type_table_storage },
     { "type interning shares semantic keys, retains collision chains and handles debug cache", 1, type_interning },
     { "global symbol arena replaces saved context without reading it", 1, global_symbol_arena },
-    { "returning interner uses ordinary-name stride and retains untouched bytes", 1, c1_test_returning_interner }
+    { "returning interner uses ordinary-name stride and retains untouched bytes", 1, c1_test_returning_interner },
+    { "translation context constructs root scope and preserves unwritten slots", 1, c1_test_translation_unit }
 };

@@ -85,10 +85,43 @@ struct PDB {
     virtual void RECON_THISCALL UnrecoveredSlot2(void) = 0;
     virtual int RECON_THISCALL QueryLastError(char *text) = 0;
 };
+/* Scope-table interface at original RVA5b480, in its ten-slot order. Only
+ * construction is reached so far; the individual operations remain pending. */
+struct CompilerSymbolTable {
+    CompilerSymbolTable *next;
+    BYTE level;
+    CompilerSymbolTable *outer;
+    CompilerIrSymbol **buckets;
+    unsigned bucket_mask;
+    RECON_FORCEINLINE CompilerSymbolTable()
+        : next(NULL), level(0), outer(NULL), bucket_mask(1023) {}
+    virtual int RECON_THISCALL HasBuckets(void);
+    virtual void RECON_THISCALL Insert(CompilerIrSymbol *symbol);
+    virtual void *RECON_THISCALL Find(CompilerNameEntry *name);
+    virtual void *RECON_THISCALL Lookup(CompilerNameEntry *name);
+    virtual void *RECON_THISCALL FindOrdinary(CompilerNameEntry *name);
+    virtual void RECON_THISCALL FindNested(CompilerNameEntry *name, void **result);
+    virtual CompilerIrSymbol **RECON_THISCALL FindLink(CompilerIrSymbol *symbol);
+    virtual void RECON_THISCALL Serialize(void);
+    virtual void RECON_THISCALL Check(void);
+    virtual void RECON_THISCALL Link(CompilerIrSymbol *symbol);
+};
+typedef char CompilerSymbolTable_size[sizeof(CompilerSymbolTable) == 24 ? 1 : -1];
+struct CompilerTypeAlias;
 struct CompilerTranslationUnit {
+    CompilerSymbolTable *root, *current;
+    /* Push/pop index this array by a byte depth, checked against128. Only
+     * slot0 is written by Initialize; other values remain unmodeled. */
+    CompilerSymbolTable *scopes[128];
+    BYTE depth;
+    int lookup_mode;
+    CompilerSymbolTable *retired_scopes;
+    CompilerIrSymbol *symbols;
+    CompilerTypeAlias *type_aliases;
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
     void RECON_THISCALL Finish(void);
 };
+typedef char CompilerTranslationUnit_size[sizeof(CompilerTranslationUnit) == 540 ? 1 : -1];
 struct CompilerDependency {
     void *records;
     void RECON_THISCALL Finish(int success);

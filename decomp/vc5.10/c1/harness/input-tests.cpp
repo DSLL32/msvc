@@ -1,6 +1,7 @@
 #include "input.h"
 #include <new.h>
 #include "keywords.h"
+#include "frontend.h"
 #include <recon.h>
 
 extern "C" int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
@@ -231,4 +232,29 @@ extern "C" int c1_test_returning_interner(void)
         c1_bss.arenas[0].cursor == names + 8 && !strcmp(first->name, "aa") &&
         !strcmp(second->name, "b]") && names[3] == 0xa5 && names[7] == 0xa5 &&
         records[0] == 0xa5a5a5a5 && records[9] == 0xa5a5a5a5;
+}
+
+extern "C" int c1_test_translation_unit(void)
+{
+    CompilerTranslationUnit object;
+    CompilerSymbolTable *root;
+    DWORD storage[1032];
+    unsigned i;
+    memset(&object, 0xa5, sizeof(object));
+    for (i = 0; i < 1032; ++i) storage[i] = 0x96969696;
+    c1_bss.pools[7].cursor = (BYTE *)(storage + 1);
+    c1_bss.pools[7].remaining = 4120;
+    if (object.Initialize() != &object || !object.root ||
+        object.current != object.root || object.scopes[0] != object.root ||
+        object.depth || object.lookup_mode || object.retired_scopes ||
+        object.symbols || object.type_aliases) return 0;
+    root = object.root;
+    if ((void *)root != storage + 1 || !*(void **)root || root->next || root->level ||
+        root->outer || root->bucket_mask != 1023 || (void *)root->buckets != storage + 7 ||
+        c1_bss.pools[7].cursor != (BYTE *)(storage + 1031) ||
+        c1_bss.pools[7].remaining) return 0;
+    for (i = 1; i < 128; ++i)
+        if ((unsigned)object.scopes[i] != 0xa5a5a5a5) return 0;
+    for (i = 7; i < 1032; ++i) if (storage[i] != 0x96969696) return 0;
+    return storage[0] == 0x96969696;
 }
