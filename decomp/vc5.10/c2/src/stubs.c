@@ -666,10 +666,6 @@ void reset_function_listing(void)
 }
 
 
-void __fastcall move_input_record_before(C2Record *before, C2Record *record)
-{
-    __asm { int 3 }
-}
 
 int __fastcall record_closes_scope(C2Record *record)
 {

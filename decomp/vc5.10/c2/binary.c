@@ -1647,8 +1647,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@move_input_record_before@8",
         .entry_rva = 0x369d1,
+        .code = (const ReconExtent[]){{0x369d1, 0x369ea}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "move_input_record_before",
     },
     {

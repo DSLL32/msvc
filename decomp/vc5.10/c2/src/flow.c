@@ -132,3 +132,9 @@ void __fastcall prepend_input_record(C2Record *before, C2Record *record)
     record->previous = previous;
     previous->next = record;
 }
+
+void __fastcall move_input_record_before(C2Record *before, C2Record *record)
+{
+    unlink_input_record(record);
+    prepend_input_record(before, record);
+}
