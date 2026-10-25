@@ -588,3 +588,17 @@ unsigned resource_unicode_to_ansi_byte(unsigned short character)
         if (resource_ansi_high[index]==character) return index+0x7f;
     return 0xffff;
 }
+
+/* Original [00042c40,00042c6e). Resource sizes retain their WORD ABI. */
+void *resource_reallocate(void *allocation,unsigned short size)
+{
+    allocation=realloc(allocation,size);
+    if (!allocation) fatal_message(program_name,0xd,0);
+    return allocation;
+}
+/* Original [00042c70,00042c84). NULL release is a successful no-op. */
+int resource_release(void *allocation)
+{
+    if (allocation) free(allocation);
+    return 0;
+}

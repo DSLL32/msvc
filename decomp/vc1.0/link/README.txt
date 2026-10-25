@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 96 numbered case directories. Native
+The shared recon-tool harness discovers the 97 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,17 +21,17 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 814 application functions (759 public-reached, 55 direct-support),
-with accepted App extent union 230679/281634 (81.9073691%). The OMF header/error
-lifecycle adds two whole functions/122 bytes after the mapped-output cleanup
-checkpoint. Support-inclusive historical accepted extent is 261618/281634
-(92.8929036%). The 1013 historical frontier count includes shipped CRT/import
+set now has 816 application functions (759 public-reached, 57 direct-support),
+with accepted App extent union 230745/281634 (81.9308038%). The resource resize/release
+lifecycle adds two whole functions/66 bytes after the OMF header/error
+checkpoint. Support-inclusive historical accepted extent is 261684/281634
+(92.9163382%). The 1015 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
 application credit. A complete non-CRT denominator remains unavailable. At the prior cleanup checkpoint the old
 partial body/data/alignment inventory left 11108 unaccepted bytes unclassified;
 that historical inventory was not recomputed for this case and is not a current
 registry classification count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 9049 bytes outside known App/CRT/import extents,
+The current registry leaves 8983 bytes outside known App/CRT/import extents,
 including the explicit Unknown rows. This gap includes code/data/alignment and
 incomplete placeholder extents, not a reliable application denominator; no gap
 has been relabeled as CRT merely because of its location or appearance.
@@ -97,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 851 graphs for calls, RET cleanup, live function
+Current shared validation checks 853 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -322,3 +322,37 @@ was repaired. Receipts, full raw artifacts, GDB observations and timing/source
 hashes remain ordinary scratch files at:
 
     /root/.ai-tmp/msvc2/vc1.0/link/omf-header-errors/
+
+
+Case 0096 supplies a direct resource allocation, resize, conversion and release
+workflow. The omitted 46-byte resource_reallocate uses actual realloc, not calloc;
+its size formal is a WORD and NULL results take LINK's fatal-message policy.
+The 20-byte resource_release conditionally frees and returns zero. Their real
+callee and LINK program-name/error references establish application ownership;
+no original caller/xref exists and no public CLI reach is invented.
+
+The accepted resource_allocate first supplies zeroed 128/192-byte owners. The
+new helper grows these to 160/224, shrinks them to 96/128, then grows to 160/224.
+Each phase checks only defined retained prefixes, initializes new storage before
+reading it, and converts one frozen valid legacy group with input/output guards.
+Input groups 6/20/34 bytes produce 8/24/40 bytes. Both live owners and NULL are
+released through the real policy; no payload is read after free. The complete
+2048-byte report matches without masks, SHA256
+5d8d92419d5262e0e4151b72f4b32a01c5be081d26fc2696d00f5305efedd5a6.
+Zero-size/OOM/provider-failure paths remain unexercised, without new CRT code.
+
+The initial external driver misidentified realloc as calloc and passed invalid
+pointers 2/3; its actual access violation and source/frontier packets remain
+explicit invalid-test evidence, not a target defect or accepted case. Corrected
+live-owner setup obtained one successful untouched baseline in 0.508s. Fresh
+resize/release frontiers took 0.471s/1.164s and completed original took 0.631s.
+The completed native pair took 14.678ms (setup 9.384/execution 2.036/checks 3.258).
+Nine GDB entry/return observations verify real formals, ESP, nonvolatiles,
+CW027f/SW0/tagsffff and defined results; its complete run took 186.501ms. Original
+compiler/relink plus 853-function graph/ABI audit passed in 22.403s combined.
+Final native/case build took 6.018s; all 97 cached cases and seven narrow tests
+passed in 1.967s parallel wall time. Full shared-source before/after hashes were
+identical; the frozen unused Watcom-only lseek candidate is identified separately
+from the reviewed Microsoft APIs actually exercised. Raw evidence and timings:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/resource-allocation/

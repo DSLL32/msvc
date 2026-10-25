@@ -49,4 +49,6 @@ int copy_resource_data(int input,int output,unsigned long size);
 int convert_legacy_resource(int input,int output,ResourceRecord *record,unsigned short type,unsigned short name);
 unsigned long resource_write(int file,const void *buffer,unsigned long count);
 unsigned resource_unicode_to_ansi_byte(unsigned short);
+void *resource_reallocate(void *allocation,unsigned short size);
+int resource_release(void *allocation);
 #endif
