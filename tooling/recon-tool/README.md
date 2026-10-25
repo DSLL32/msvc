@@ -307,10 +307,25 @@ exit status, changed/new/deleted files (hashes), and application first-entry RVA
 boundaries and implemented App code/owned text data. It records a named pending
 App INT3 and partial observations while preserving the final oracle. It does not
 execute that pending body or automatically update function acceptance/case source.
+The masker preserves parsed PE import/export/debug loader data, rejecting overlap
+with registered App entries or owned extents. Private images stage the supplied
+DLL host and declared imports found beside the selected original binary; names
+are checked for collisions, and reports record source/staged hashes. `--native-msvcrt`
+selects the toolchain-local MSVCRT DLL, stages it beside the private image, and
+requires that exact file to load before the target entry. This flag also creates
+a private byte-identical image for an ordinary capture. Wine receives the absolute Unix broker executable path directly, avoiding
+its start.exe launcher. The broker links at 0x400000: Wine reserves the low DOS
+area, and relocating the old 0x10000 default during initial image load caused a
+start.exe fallback that could not run with the selected old native MSVCRT. The flag selects `WINEDLLOVERRIDES=msvcrt=n` in that
+explicit Wine transport; the broker itself uses static CRT and KERNEL32.
+An explicit fixture entry for WINEDLLOVERRIDES conflicts with the flag and is
+rejected. Frontier reports retain debugger registers, floating state,
+and a 20-byte stack prefix (or the diagnostic read error).
 Reports include actual order and terminal so the reconstructor can deliberately
 update expectations after matching both sides.
 
-For DLLs, `--host PATH.exe` supplies typed Win32 invocation glue. The host reads
+For DLLs, `--host PATH.exe` supplies a Win32 host, including an unchanged shipped
+EXE that statically imports the target DLL. A dynamic host reads
 `RECON_ORIGINAL_DLL`, loads that path, calls exports with the case arguments and
 performs normal detach. The broker matches the loaded DLL's file identity, then
 uses its actual module base and entry RVA; host code is outside the App trace.

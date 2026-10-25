@@ -30,7 +30,8 @@ static DWORD helper_base, helper_completion, helper_context;
 static BY_HANDLE_FILE_INFORMATION helper_info;
 static int typed_helper;
 static DWORD helper_state_rva, helper_completion_rva, helper_marker_rva;
-static BY_HANDLE_FILE_INFORMATION target_info;
+static BY_HANDLE_FILE_INFORMATION target_info, provider_info;
+static int provider_required, provider_seen;
 static Point *points;
 static DWORD point_count;
 static AllocateRemote allocate_remote;
@@ -168,6 +169,9 @@ static int next(DWORD *where, Registers *r)
         }
         else if (event.dwDebugEventCode == LOAD_DLL_DEBUG_EVENT)
         {
+            if (provider_required && event.u.LoadDll.hFile &&
+                file_matches(event.u.LoadDll.hFile, &provider_info))
+                provider_seen = 1;
             if (typed_helper && event.u.LoadDll.hFile &&
                 file_matches(event.u.LoadDll.hFile, &helper_info))
             {
@@ -373,12 +377,15 @@ int main(int argc, char **argv)
     CONTEXT before, c;
     int kind, ok = 0;
     char *command,*environment=NULL;
-    int environment_argument=argc==11 || argc==15;
-    if (argc != 10 && argc != 11 && argc != 14 && argc != 15)
+    int environment_argument=argc==11 || argc==12 || argc==15 || argc==16;
+    provider_required=argc==12 || argc==16;
+    if (argc != 10 && argc != 11 && argc != 12 && argc != 14 && argc != 15 && argc != 16) {
+        fprintf(stderr,"original broker argument count: %d\n",argc);
         return 2;
-    typed_helper = argc == 14 || argc == 15;
+    }
+    typed_helper = argc == 14 || argc == 15 || argc == 16;
     if(environment_argument) {
-        environment=target_environment(argv[argc-1]);
+        environment=target_environment(argv[argc-1-provider_required]);
         if(!environment) {
             fputs("invalid, oversized or non-ASCII original target environment\n",stderr);
             return 2;
@@ -389,8 +396,10 @@ int main(int argc, char **argv)
     handle_flags = (HandleFlags)GetProcAddress(GetModuleHandleA("kernel32.dll"),
                                                "SetHandleInformation");
     if (!handle_flags || !handle_flags(rpc_input, 1, 0) ||
-        !handle_flags(rpc_output, 1, 0))
+        !handle_flags(rpc_output, 1, 0)) {
+        fprintf(stderr,"original broker RPC handle setup: %lu\n",GetLastError());
         return 3;
+    }
     target_dll = strcmp(argv[9], "-") != 0;
     if (target_dll)
     {
@@ -420,6 +429,21 @@ int main(int argc, char **argv)
             !helper_marker_rva)
             return 3;
     }
+    if (provider_required)
+    {
+        HANDLE module = CreateFileA(argv[argc-1], GENERIC_READ,
+            FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+        if (module == INVALID_HANDLE_VALUE) {
+            fprintf(stderr,"original provider open %s: %lu\n",argv[argc-1],GetLastError());
+            return 3;
+        }
+        ok = GetFileInformationByHandle(module, &provider_info);
+        CloseHandle(module);
+        if (!ok) {
+            fprintf(stderr,"original provider file identity: %lu\n",GetLastError());
+            return 3;
+        }
+    }
     entry_rva = strtoul(argv[2], NULL, 0);
     deadline = GetTickCount() + strtoul(argv[8], NULL, 0);
     allocate_remote = (AllocateRemote)GetProcAddress(GetModuleHandleA("kernel32.dll"),
@@ -438,8 +462,10 @@ int main(int argc, char **argv)
     error_output = CreateFileA(argv[6], GENERIC_WRITE, FILE_SHARE_READ, &sa,
                                CREATE_ALWAYS, 0, NULL);
     if (input == INVALID_HANDLE_VALUE || output == INVALID_HANDLE_VALUE ||
-        error_output == INVALID_HANDLE_VALUE)
+        error_output == INVALID_HANDLE_VALUE) {
+        fprintf(stderr,"original stdio open: %lu input=%s output=%s error=%s\n",GetLastError(),argv[4],argv[5],argv[6]);
         return 4;
+    }
     memset(&startup, 0, sizeof(startup));
     startup.cb = sizeof(startup);
     startup.dwFlags = STARTF_USESTDHANDLES;
@@ -447,11 +473,11 @@ int main(int argc, char **argv)
     startup.hStdOutput = output;
     startup.hStdError = error_output;
     command = malloc(strlen(argv[1]) + 1);
-    if (!command)
-        return 5;
+    if (!command) { fputs("original command allocation failed\n",stderr); return 5; }
     strcpy(command, argv[1]);
     if (!CreateProcessA(argv[7], command, NULL, NULL, TRUE, DEBUG_ONLY_THIS_PROCESS,
                         environment, argv[3], &startup, &launch)) {
+        fprintf(stderr,"original CreateProcess %s: %lu\n",argv[7],GetLastError());
         free(environment);
         return 6;
     }
@@ -460,11 +486,14 @@ int main(int argc, char **argv)
     thread = launch.hThread;
     pid = launch.dwProcessId;
     tid = launch.dwThreadId;
+    where = 0;
     kind = next(&where, &r);
     loader_break = 1;
-    if (kind != 1 || (typed_helper && !helper_base) || where != base + entry_rva ||
-        !response(1, base, entry_rva, &r, sizeof(r)))
+    if (kind != 1 || (provider_required && !provider_seen) || (typed_helper && !helper_base) || where != base + entry_rva ||
+        !response(1, base, entry_rva, &r, sizeof(r))) {
+        fprintf(stderr,"original startup before target entry: kind=%d status=%08lx base=%08lx expected=%08lx provider_seen=%d\n",kind,where,base,entry_rva,provider_seen);
         goto done;
+    }
     while (transfer(rpc_input, h, sizeof(h), 0))
     {
         free(data);

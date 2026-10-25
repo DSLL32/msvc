@@ -7,18 +7,26 @@ pub struct Image {
 }
 fn u16_at(b: &[u8], o: usize) -> Result<u16> {
     Ok(u16::from_le_bytes(
-        b.get(o..o + 2).context("truncated PE")?.try_into()?,
+        b.get(o..o.checked_add(2).context("PE offset overflow")?)
+            .context("truncated PE")?
+            .try_into()?,
     ))
 }
 fn u32_at(b: &[u8], o: usize) -> Result<u32> {
     Ok(u32::from_le_bytes(
-        b.get(o..o + 4).context("truncated PE")?.try_into()?,
+        b.get(o..o.checked_add(4).context("PE offset overflow")?)
+            .context("truncated PE")?
+            .try_into()?,
     ))
 }
 impl Image {
     pub fn parse(b: &[u8]) -> Result<Self> {
         anyhow::ensure!(b.get(..2) == Some(b"MZ"), "original is not a PE image");
         let pe = u32_at(b, 0x3c)? as usize;
+        anyhow::ensure!(
+            pe.checked_add(24).is_some_and(|end| end <= b.len()),
+            "truncated PE header"
+        );
         anyhow::ensure!(
             b.get(pe..pe + 4) == Some(b"PE\0\0")
                 && u16_at(b, pe + 4)? == 0x14c
@@ -27,7 +35,17 @@ impl Image {
         );
         let count = u16_at(b, pe + 6)? as usize;
         let optional = u16_at(b, pe + 20)? as usize;
-        let table = pe + 24 + optional;
+        anyhow::ensure!(optional >= 96, "short PE32 optional header");
+        let table = (pe + 24)
+            .checked_add(optional)
+            .context("PE optional overflow")?;
+        anyhow::ensure!(table <= b.len(), "optional PE header beyond file");
+        anyhow::ensure!(
+            table
+                .checked_add(count * 40)
+                .is_some_and(|end| end <= b.len()),
+            "truncated PE sections"
+        );
         let mut sections = vec![];
         for i in 0..count {
             let s = table + i * 40;
@@ -61,6 +79,19 @@ impl Image {
         );
         let (start, offset, _, _) = matches[0];
         Ok(offset + (rva - start) as usize)
+    }
+    pub(crate) fn rva_for_file(&self, offset: usize, size: usize) -> Result<Option<u32>> {
+        let matches = self
+            .sections
+            .iter()
+            .filter(|(_, off, len, _)| {
+                offset >= *off && offset.checked_add(size).is_some_and(|end| end <= off + len)
+            })
+            .collect::<Vec<_>>();
+        anyhow::ensure!(matches.len() <= 1, "ambiguous debug file mapping");
+        Ok(matches
+            .first()
+            .map(|(rva, off, _, _)| *rva + (offset - off) as u32))
     }
     /// Export RVAs for an explicitly supplied typed helper DLL.
     pub fn exports(&self, b: &[u8]) -> Result<std::collections::HashMap<String, u32>> {
@@ -125,6 +156,26 @@ impl Image {
             if code {
                 b[off..off + len].fill(0xcc);
             }
+        }
+        for range in crate::original_loader::parse(self, original)?.ranges {
+            for f in info.functions.iter().filter(|f| f.definition == 4) {
+                anyhow::ensure!(
+                    !(range.start <= f.rva && f.rva < range.end)
+                        && !f
+                            .code
+                            .iter()
+                            .chain(&f.text_data)
+                            .any(|[start, end]| range.start < *end && *start < range.end),
+                    "{} {:x}..{:x} overlaps application {}",
+                    range.kind,
+                    range.start,
+                    range.end,
+                    f.name
+                );
+            }
+            let at = self.file_offset(range.start, (range.end - range.start) as usize)?;
+            b[at..at + (range.end - range.start) as usize]
+                .copy_from_slice(&original[at..at + (range.end - range.start) as usize]);
         }
         for f in &info.functions {
             if !(f.definition == 4 && f.implementation == 1 || matches!(f.definition, 1..=3)) {

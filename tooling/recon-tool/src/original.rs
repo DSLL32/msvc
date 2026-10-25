@@ -60,6 +60,8 @@ pub fn build_helper(repo: &Path) -> Result<PathBuf> {
         .arg(format!("/Fe{}", windows(&exe, &repo)?))
         .arg(format!("/Fo{}", windows(&object, &repo)?))
         .arg(windows(&root.join("wine/broker.c"), &repo)?)
+        // Wine reserves the low DOS area; avoid initial-image relocation and start.exe fallback.
+        .args(["/link", "/base:0x400000"])
         .current_dir(&build);
     let result = c.output()?;
     fs::write(
@@ -177,7 +179,7 @@ use crate::{
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::{
-    collections::BTreeSet,
+    collections::{BTreeMap, BTreeSet},
     ffi::{CStr, c_char, c_void},
     fs::{File, OpenOptions},
     io::{Read, Write},
@@ -200,6 +202,9 @@ pub struct Capture {
     /// Win32 invocation host for a DLL; it loads RECON_ORIGINAL_DLL.
     #[arg(long)]
     pub host: Option<PathBuf>,
+    /// Select the selected original toolchain's native MSVCRT, independently of target env.
+    #[arg(long)]
+    pub native_msvcrt: bool,
     /// Typed Win32 probe DLL compiled from case-owned direct.c; explicit original only.
     #[arg(long, requires = "marker_rva")]
     pub direct_helper: Option<PathBuf>,
@@ -269,9 +274,12 @@ struct Broker {
 impl Broker {
     fn reply(&mut self) -> Result<Reply> {
         let mut h = [0; 16];
-        self.output
-            .read_exact(&mut h)
-            .context("read Wine debugger response")?;
+        if let Err(error) = self.output.read_exact(&mut h) {
+            let status = self.child.try_wait().ok().flatten();
+            return Err(error).with_context(|| {
+                format!("read Wine debugger response (helper status {status:?})")
+            });
+        }
         let word = |i| u32::from_le_bytes(h[i..i + 4].try_into().unwrap());
         let size = word(12) as usize;
         if size > 16 * 1024 * 1024 {
@@ -507,12 +515,74 @@ fn quote(s: &str) -> String {
     result
 }
 #[derive(Serialize, Deserialize)]
+struct FrontierSnapshot {
+    image_base: u32,
+    rva: u32,
+    registers: BTreeMap<String, u32>,
+    floating_save: Bytes,
+    stack_address: u32,
+    stack_requested: u32,
+    stack: Option<Bytes>,
+    stack_error: Option<String>,
+}
+fn frontier_snapshot(
+    broker: &mut Broker,
+    base: u32,
+    rva: u32,
+    data: &[u8],
+) -> Result<FrontierSnapshot> {
+    anyhow::ensure!(
+        data.len() == size_of::<Registers>(),
+        "invalid frontier register snapshot"
+    );
+    let names = [
+        "eax", "ebx", "ecx", "edx", "esi", "edi", "ebp", "esp", "eip", "eflags",
+    ];
+    let registers: BTreeMap<String, u32> = names
+        .iter()
+        .zip(data[..40].chunks_exact(4))
+        .map(|(name, bytes)| {
+            (
+                (*name).into(),
+                u32::from_le_bytes(bytes.try_into().unwrap()),
+            )
+        })
+        .collect();
+    let esp = registers["esp"];
+    // Return PC plus the four DWORD formals needed by current original frontiers.
+    let (stack, stack_error) = match broker.rpc(1, esp, 20, 0, &[]) {
+        Ok(reply) if reply.data.len() == 20 => (Some(Bytes(reply.data)), None),
+        Ok(reply) => (
+            None,
+            Some(format!(
+                "stack read returned {} of 20 bytes",
+                reply.data.len()
+            )),
+        ),
+        Err(error) => (None, Some(format!("{error:#}"))),
+    };
+    Ok(FrontierSnapshot {
+        image_base: base,
+        rva,
+        registers,
+        floating_save: Bytes(data[40..].to_vec()),
+        stack_address: esp,
+        stack_requested: 20,
+        stack,
+        stack_error,
+    })
+}
+#[derive(Serialize, Deserialize)]
 struct CaptureReport {
     case: String,
     terminal: String,
     first_entry_order: Vec<u32>,
     elapsed_ms: f64,
     workspace: String,
+    #[serde(default)]
+    staged_files: Vec<crate::original_stage::Provenance>,
+    #[serde(default)]
+    frontier: Option<FrontierSnapshot>,
 }
 fn capture_files(f: &Fixture, cwd: &Path, output_rules: &[OutputFile]) -> Result<Vec<OutputFile>> {
     let mut paths = BTreeSet::new();
@@ -709,7 +779,9 @@ fn capture_executor(
     // Configure only the private on-disk helper and executable, before launch.
     // The Windows loader loads the import; the DLL owns its local VEH/callback.
     let mut typed = None;
-    let target = if options.progress || options.direct_helper.is_some() {
+    let private_image =
+        options.progress || options.direct_helper.is_some() || options.native_msvcrt;
+    let target = if private_image {
         let mut target_bytes = if options.progress {
             image.mask(&original, &loaded.info)?
         } else {
@@ -780,8 +852,23 @@ fn capture_executor(
     } else {
         program.clone()
     };
-    let host = options.host.as_ref().unwrap_or(&target);
-    let host = host.canonicalize()?;
+    let host = options.host.as_ref().unwrap_or(&target).canonicalize()?;
+    let declared = options
+        .repo
+        .join(&loaded.info.original_path)
+        .canonicalize()?;
+    let staged = crate::original_stage::prepare(
+        &options.repo,
+        &declared,
+        &program,
+        &target,
+        &host,
+        root,
+        image.dll,
+        private_image,
+        options.native_msvcrt,
+    )?;
+    let host = staged.host;
     let stdin = root.join("original-stdin");
     fs::write(&stdin, f.stdin.as_ref().map_or(&[][..], |b| b.0.as_slice()))?;
     let stdout = root.join("original-stdout");
@@ -804,8 +891,11 @@ fn capture_executor(
     );
     let commandline = args.iter().map(|a| quote(a)).collect::<Vec<_>>().join(" ");
     let mut command = command(&options.repo)?;
+    if options.native_msvcrt {
+        command.env("WINEDLLOVERRIDES", "msvcrt=n");
+    }
     command
-        .arg(windows(&helper, &options.repo)?)
+        .arg(helper.canonicalize()?)
         .arg(commandline)
         .arg(image.entry.to_string())
         .arg(windows(cwd, &options.repo)?)
@@ -843,6 +933,14 @@ fn capture_executor(
         )
         .current_dir(cwd);
     let mut target_env = f.env.clone();
+    if options.native_msvcrt {
+        anyhow::ensure!(
+            !target_env
+                .keys()
+                .any(|name| name.eq_ignore_ascii_case("WINEDLLOVERRIDES")),
+            "--native-msvcrt conflicts with fixture WINEDLLOVERRIDES"
+        );
+    }
     if image.dll
         && !target_env
             .keys()
@@ -856,6 +954,9 @@ fn capture_executor(
     let environment = root.join("original-environment");
     fs::write(&environment, target_environment(&target_env)?)?;
     command.arg(windows(&environment, &options.repo)?);
+    if let Some(provider) = &staged.provider {
+        command.arg(windows(provider, &options.repo)?);
+    }
     let mut child = command.spawn().context("launch explicit Wine debugger")?;
     let input = child.stdin.take().unwrap();
     let output = child.stdout.take().unwrap();
@@ -879,6 +980,7 @@ fn capture_executor(
     let base = hello.a;
     anyhow::ensure!(hello.b == image.entry, "Wine debugger entry mismatch");
     let terminal;
+    let mut snapshot = None;
     if let Some((_, _, _, marker)) = typed {
         broker.record(image.entry);
         broker.arm()?;
@@ -903,6 +1005,7 @@ fn capture_executor(
                         r.b
                     );
                     broker.record(r.b);
+                    snapshot = Some(frontier_snapshot(&mut broker, base, r.b, &r.data)?);
                     terminal = format!("frontier:{:x}", r.b);
                     break;
                 }
@@ -942,6 +1045,7 @@ fn capture_executor(
                         r.b
                     );
                     broker.record(r.b);
+                    snapshot = Some(frontier_snapshot(&mut broker, base, r.b, &r.data)?);
                     terminal = format!("frontier:{:x}", r.b);
                     break;
                 }
@@ -1029,6 +1133,8 @@ fn capture_executor(
         first_entry_order: broker.order,
         elapsed_ms: start.elapsed().as_secs_f64() * 1000.,
         workspace: root.display().to_string(),
+        staged_files: staged.files,
+        frontier: snapshot,
     };
     Ok((fixture, report))
 }

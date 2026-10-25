@@ -9,6 +9,8 @@ mod host_alloc;
 mod native;
 mod original;
 mod original_image;
+mod original_loader;
+mod original_stage;
 mod output;
 mod pe_import;
 mod process;
