@@ -304,7 +304,7 @@ static const ReconFunction functions[] = {
     {"_next_module@4",0xfb90,(const ReconExtent[]){{0xfb90,0xfbcc}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_module",NULL,NULL,0,NULL},
     {"OutputModule::ReadSectionHeaders",0x608e0,(const ReconExtent[]){{0x608e0,0x60a06}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"_ZN12OutputModule18ReadSectionHeadersEPP20IMAGE_SECTION_HEADER",NULL,NULL,0,"?ReadSectionHeaders@OutputModule@@QAEPAU_IMAGE_SECTION_HEADER@@PAPAU2@@Z"},
     {"_read_module_symbols@12",0x60f30,(const ReconExtent[]){{0x60f30,0x60ffc}},1,(const ReconExtent[]){{0x689c,0x68ac}},1,RECON_APP,RECON_IMPLEMENTED,"read_module_symbols",NULL,NULL,0,NULL},
-    {"_read_module_string_table@12",0x60a10,(const ReconExtent[]){{0x60a10,0x60bac}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_module_string_table",NULL,NULL,0,NULL},
+    {"_read_module_string_table@12",0x60a10,(const ReconExtent[]){{0x60a10,0x60bac}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"read_module_string_table",NULL,NULL,0,NULL},
     {"_add_input_section@24",0x5ea70,(const ReconExtent[]){{0x5ea70,0x5eee9}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_input_section",NULL,NULL,0,NULL},
     {"_process_module_symbols@24",0x5f430,(const ReconExtent[]){{0x5f430,0x5f431}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_module_symbols",NULL,NULL,0,NULL},
     {"_process_incremental_sections@12",0x387d0,(const ReconExtent[]){{0x387d0,0x388e5}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_incremental_sections",NULL,NULL,0,NULL},

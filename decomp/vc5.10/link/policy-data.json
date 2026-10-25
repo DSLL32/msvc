@@ -5612,6 +5612,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_read_module_string_table@12": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   }

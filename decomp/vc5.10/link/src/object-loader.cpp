@@ -109,11 +109,6 @@ IMAGE_SECTION_HEADER *RECON_THISCALL OutputModule::ReadSectionHeaders(IMAGE_SECT
     if (result) *result=headers;
     return headers;
 }
-char *__stdcall read_module_string_table(const char *name,DWORD offset,DWORD *size)
-{
-    __asm { int 3 }
-    return NULL;
-}
 void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD index,
     IMAGE_SECTION_HEADER *header,IMAGE_SYMBOL *symbols,InputArguments *pending)
 {

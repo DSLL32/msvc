@@ -130,10 +130,41 @@ static int symbol_mapping(void)
     return recon_native_at_entry(read_module_string_table,check_symbol_mapping,
         invoke_hello,NULL)==1;
 }
+extern BYTE module_strings_active,module_strings_mapped;
+extern ByteBuffer string_read_buffer;
+extern char *current_module_strings;
+extern DWORD *current_module_symbol_indices;
+extern DWORD coff_string_size;
+extern void __stdcall add_input_section(LinkContext *,OutputModule *,DWORD,
+    IMAGE_SECTION_HEADER *,IMAGE_SYMBOL *,InputArguments *);
+static void __stdcall check_string_mapping(LinkContext *context,OutputModule *module,
+    DWORD index,IMAGE_SECTION_HEADER *header,IMAGE_SYMBOL *symbols,InputArguments *pending)
+{
+    FileRecord *file=file_slots[current_input_file];
+    unsigned i;
+    int pass=context && module==current_input_library->module_head && index==1 &&
+        header==module_section_headers && symbols==(IMAGE_SYMBOL *)((BYTE *)file->view+1135) &&
+        current_module_strings==(char *)file->view+1801 &&
+        *(DWORD *)current_module_strings==461 && !current_module_strings[460] &&
+        module_strings_active==1 && module_strings_mapped==1 &&
+        module_symbols_active==1 && module_symbols_mapped==1 &&
+        !string_read_buffer.data && !string_read_buffer.capacity &&
+        current_module_symbol_indices && pending && file->file_size==300;
+    if (!pass) recon_native_entry_finish(0);
+    for (i=0;i<37;++i) if (current_module_symbol_indices[i]) recon_native_entry_finish(0);
+    for (i=0;i<sizeof(*pending);++i) if (((BYTE *)pending)[i]) recon_native_entry_finish(0);
+    recon_native_entry_finish(1);
+}
+static int string_mapping(void)
+{
+    return recon_native_at_entry(add_input_section,check_string_mapping,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
     {"section-header-read",1,section_header_read},
     {"symbol-read-mapping",1,symbol_read_mapping},
-    {"symbol-mapped-range",1,symbol_mapping}
+    {"symbol-mapped-range",1,symbol_mapping},
+    {"string-mapped-range",1,string_mapping}
 };
