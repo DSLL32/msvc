@@ -38,6 +38,14 @@ DWORD __cdecl rc_parse_resource_expression(void);
 DWORD __cdecl rc_parse_resource_term(void);
 void __cdecl rc_parse_resource_integer(void);
 extern WCHAR rc_resource_number_character,*rc_resource_number_cursor;
+typedef struct RcResourcePunctuation {
+    WCHAR character;
+    WORD reserved2;
+    BYTE kind,reserved5[3];
+} RcResourcePunctuation;
+typedef char RcResourcePunctuationLayout[
+    sizeof(RcResourcePunctuation)==8&&offsetof(RcResourcePunctuation,kind)==4?1:-1];
+extern RcResourcePunctuation rc_resource_punctuation[13];
 WCHAR *__stdcall rc_collect_resource_word(WCHAR *);
 WCHAR __cdecl rc_next_resource_digit(void);
 DWORD __cdecl rc_parse_resource_hexadecimal(void);

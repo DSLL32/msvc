@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_collect_resource_word` (RVA 9d3f). Its partial streams and actual
+  stops at `rc_next_resource_digit` (RVA 9201). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **133 functions, 35,071 code bytes**
-This is 47.01% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **134 functions, 35,167 code bytes**
+This is 47.14% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (52.90%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (53.05%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -184,3 +184,14 @@ word collector with its actual mutable resource-name pointer in 1.021 s /
 180.134 ms, with both builds/full audit taking 4.110 s. The native pointer alias
 is directly verified; original pointed bytes were not captured and are not
 claimed equal. Radix readers and the collector remain pending.
+
+The word collector now uses its actual punctuation table and returns the
+terminating pointer. Thirteen contextual eight-byte rows (WCHAR character, BYTE
+kind, verified zero reserved fields) are shared with the pending symbol reader;
+no surrounding data is copied. Native owner/length guards preserve the known
+257-WCHAR workspace. The focused boundary/delimiter/foreign-owner unit passes
+in 142.418 ms, with GDB confirming the production overflow trap before the
+reserved NUL. Fresh original/native reach the digit reader in 892.039 /
+181.854 ms. The current native initialized spelling is exactly `0x09` plus NUL;
+later stale buffer words are retained raw and unclaimed. Original pointed bytes
+remain unmeasured. Shared header-only RETAIN publication changed no runtime.

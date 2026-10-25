@@ -569,6 +569,32 @@ static int resource_number_reset_contract(void)
         resource_number_reset_boundary,resource_number_invoke,NULL)==1;
 }
 
+static void overlong_resource_word(void)
+{
+    prepare_resource_name(257);
+    rc_collect_resource_word(rc_resource_name);
+}
+static void foreign_resource_word(void)
+{
+    WCHAR text[4];
+    rc_collect_resource_word(text);
+}
+static int resource_word_contract(void)
+{
+    unsigned i;
+    prepare_resource_name(256);
+    if(rc_collect_resource_word(rc_resource_name)!=rc_resource_name+256||
+       rc_resource_name[256]||rc_resource_character!=L' '||
+       rc_resource_number_character!=L'a')return 0;
+    for(i=0;i<256;++i)if(rc_resource_name[i]!=L'a')return 0;
+    rc_resource_buffer_index=0;rc_resource_character=L'9';
+    rc_resource_read_buffer[0]=L',';rc_resource_read_buffer[1]=0;
+    if(rc_collect_resource_word(rc_resource_name)!=rc_resource_name+1||
+       rc_resource_name[0]!=L'9'||rc_resource_name[1]||
+       rc_resource_character!=L',')return 0;
+    return trapped(overlong_resource_word)&&trapped(foreign_resource_word);
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -591,6 +617,7 @@ const ReconTest rich_tests[]={
     {"resource-type-lookup-contract",1,resource_type_lookup_contract},
     {"collected-resource-name-contract",1,collected_resource_name_contract},
     {"resource-number-reset-contract",1,resource_number_reset_contract},
+    {"resource-word-contract",1,resource_word_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},

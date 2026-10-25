@@ -319,3 +319,41 @@ void __cdecl rc_parse_resource_integer(void)
     rc_resource_token.unknown0=value;
     rc_resource_token.value=(WORD)value;
 }
+
+/* Encountered punctuation rows at RVA14cf8..14d60, stride8. The consumer
+ * uses a WCHAR and BYTE kind; the remaining bytes are verified zero reserved
+ * storage, not a widened kind or surrounding data. Shared by word/symbol readers. */
+RcResourcePunctuation rc_resource_punctuation[13]={
+    {L',',0,15,{0,0,0}},{L'|',0,12,{0,0,0}},
+    {L'(',0,1,{0,0,0}},{L')',0,2,{0,0,0}},
+    {L'{',0,13,{0,0,0}},{L'}',0,14,{0,0,0}},
+    {L'~',0,16,{0,0,0}},{L'+',0,101,{0,0,0}},
+    {L'-',0,102,{0,0,0}},{L'&',0,17,{0,0,0}},
+    {L'=',0,18,{0,0,0}},{127,0,127,{0,0,0}},
+    {0,0,0,{0,0,0}}
+};
+
+WCHAR *__stdcall rc_collect_resource_word(WCHAR *text)
+{
+    WCHAR *cursor=text;
+    RcResourcePunctuation *punctuation;
+#ifdef RECON_NATIVE_TEST
+    /* Only the proved resource-name owner is available in this native case. */
+    if(text!=rc_resource_name)__asm int 3
+#endif
+    rc_resource_number_character=rc_resource_character;
+    for(;;){
+#ifdef RECON_NATIVE_TEST
+        if(cursor>=rc_resource_name+256)__asm int 3
+#endif
+        *cursor++=rc_resource_character;
+        if((WORD)rc_next_resource_character()<=32)break;
+        if(rc_resource_character==L'"'||rc_resource_character==L'\''||
+           rc_resource_character==L';'||rc_resource_character==127)break;
+        for(punctuation=rc_resource_punctuation;punctuation->character;++punctuation)
+            if(punctuation->character==rc_resource_character)goto finish;
+    }
+finish:
+    *cursor=0;
+    return cursor;
+}

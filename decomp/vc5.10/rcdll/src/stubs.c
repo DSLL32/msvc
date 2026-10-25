@@ -412,11 +412,7 @@ void __stdcall rc_resource_error_name(unsigned code,const WCHAR *name)
     __asm int 3
 }
 
-WCHAR *__stdcall rc_collect_resource_word(WCHAR *text)
-{
-    __asm int 3
-    return NULL;
-}
+
 WCHAR __cdecl rc_next_resource_digit(void)
 {
     __asm int 3
