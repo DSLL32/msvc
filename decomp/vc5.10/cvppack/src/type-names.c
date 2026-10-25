@@ -81,3 +81,23 @@ int find_local_named_type(unsigned short kind, const unsigned char *name, Cached
     }
     return 0;
 }
+
+/* Encoded CodeView numeric-leaf width [0040fcb0,0040fcfb).
+ * Unknown extended tags retain the original tag-minus-0x8000 result. */
+unsigned short numeric_leaf_size(const unsigned char *record)
+{
+    unsigned short leaf = *(const unsigned short *)record;
+    switch (leaf) {
+    case 0x8000: return 3;  /* LF_CHAR */
+    case 0x8001:           /* LF_SHORT */
+    case 0x8002: return 4;  /* LF_USHORT */
+    case 0x8003:           /* LF_LONG */
+    case 0x8004:           /* LF_ULONG */
+    case 0x8005: return 6;  /* LF_REAL32 */
+    case 0x8006: return 10; /* LF_REAL64 */
+    case 0x8007: return 12; /* LF_REAL80 */
+    case 0x8008: return 18; /* LF_REAL128 */
+    default:
+        return leaf < 0x8000 ? 2 : (unsigned short)(leaf - 0x8000);
+    }
+}

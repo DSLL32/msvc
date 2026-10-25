@@ -8,7 +8,9 @@ unsigned char *type_table_secondary, *type_table_secondary_counts;
 unsigned char *type_table_local, *type_table_global;
 unsigned char *type_table_forward, *type_table_pending;
 unsigned char *type_hash_buckets, *type_references, *type_positions;
-unsigned short type_table_limit;
+/* WORD at004132c0: capacity of the twelve-byte base/derived entries.
+ * Previously named type_table_limit before its consumer was reached. */
+unsigned short derived_type_capacity;
 unsigned type_table_used;
 TypeArena type_arena, type_large_arena;
 TypeRecord *empty_type_record;
@@ -26,7 +28,7 @@ void initialize_type_tables(void)
     type_hash_buckets = allocate_cleared(0x600);
     type_references = allocate_cleared(0x800);
     type_positions = allocate_cleared(0x800);
-    type_table_limit = 128;
+    derived_type_capacity = 128;
     type_table_used = 0;
     initialize_arena(&type_arena, 0x1000);
     initialize_arena(&type_large_arena, 0x10000);

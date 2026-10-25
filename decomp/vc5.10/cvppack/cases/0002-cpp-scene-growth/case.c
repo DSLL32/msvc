@@ -86,12 +86,52 @@ static const uint32_t order[] = {
     0xb890, /* @index_recursive_type@8 */
     0xb3c0, /* _record_base_classes */
     0xfcb0, /* _numeric_leaf_size */
+    0xac70, /* _rewrite_bp_relative_symbol */
+    0xabc0, /* _leave_symbol_scope */
+    0x8650, /* @compare_recursive_type@16 */
+    0xacb0, /* _rewrite_type_name_symbol */
+    0xd430, /* @insert_global_symbol@8 */
+    0xdd60, /* _link_symbol_scopes */
+    0xf4a0, /* _record_symbol_references */
+    0xf400, /* _record_symbol_reference */
+    0x5470, /* _rewrite_module_global_types */
+    0xe520, /* _record_base_relation */
+    0x5230, /* _free_widen_buffers */
+    0xb140, /* _free_type_tables */
+    0xdf60, /* _finalize_derived_types */
+    0xfae0, /* _allocate_type_buffer */
+    0xf100, /* _build_source_file_index */
+    0xf0d0, /* _append_source_name */
+    0x69e0, /* _flush_packed_file */
+    0x63f0, /* _compare_packed_directory_entries */
+    0x100e0, /* _begin_buffered_output */
+    0x68a0, /* _write_subsection */
+    0xd600, /* _write_publics */
+    0xf960, /* _insert_symbol_page_padding */
+    0xe920, /* _build_symbol_name_hash */
+    0x10010, /* _fill_type_arena */
+    0xede0, /* _build_symbol_address_hash */
+    0xedc0, /* _compare_symbol_address */
+    0x100c0, /* _first_hash_output_block */
+    0x100d0, /* _next_hash_output_block */
+    0xd9a0, /* _write_globals */
+    0x10140, /* _buffered_write */
+    0x1cc0, /* _write_cached_file */
+    0x2360, /* _mapped_write */
+    0xf5f0, /* _write_static_symbols */
+    0x6460, /* _write_global_types */
+    0xd130, /* _prepare_type_offsets */
+    0x10240, /* _end_buffered_output */
+    0x11b0, /* _resize_cached_file */
+    0x1680, /* _close_file */
+    0x23d0, /* _close_mapped_file */
+    0x1000, /* _free_bytes */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  .abi_version=RECON_ABI_VERSION,.struct_size=sizeof(ReconCase),
  .name="cpp-scene-growth",
  .description="Three C++ modules with inheritance, recursive telemetry schemas and large CodeView output",
  .first_entry_order=order,.first_entry_count=RECON_COUNT(order),
- .execution=RECON_IO,.terminal=RECON_FRONTIER,.frontier_rva=0xfcb0,
+ .execution=RECON_IO,.terminal=RECON_EXIT,.frontier_rva=0,
  .setup=setup,.io=invoke
 };

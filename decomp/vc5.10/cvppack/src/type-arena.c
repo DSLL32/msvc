@@ -50,3 +50,19 @@ unsigned char *fill_type_arena(TypeArena *arena, unsigned value, unsigned size)
     arena->last->used += size;
     return result;
 }
+
+/* Reusable temporary type-record storage [0040fae0,0040fb53).
+ * Only its requested prefix is initialized by callers. */
+static unsigned char *type_temporary_buffer;
+static unsigned short type_temporary_capacity;
+unsigned char *allocate_type_buffer(unsigned size)
+{
+    if (size > type_temporary_capacity) {
+        if (type_temporary_buffer) free(type_temporary_buffer);
+        type_temporary_capacity = (unsigned short)size;
+        if (size <= 256) type_temporary_capacity = 256;
+        type_temporary_buffer = malloc(type_temporary_capacity);
+        if (!type_temporary_buffer) fatal_error(1001, NULL, NULL);
+    }
+    return type_temporary_buffer;
+}

@@ -26,6 +26,28 @@ void begin_buffered_output(int file)
     output_file = file;
 }
 
+/* Write through the cache when a request does not fit the buffered shortcut.
+ * [00410140,0041023d), cdecl, WORD success result. */
+unsigned short buffered_write(const void *data, unsigned size)
+{
+    if (output_capacity < size) {
+        if (output_used &&
+            write_cached_file(output_file, output_buffer, output_used) != output_used)
+            return 0;
+        if (write_cached_file(output_file, data, size) != size) return 0;
+        output_used = 0;
+    } else if (output_capacity - output_used < size) {
+        if (write_cached_file(output_file, output_buffer, output_used) != output_used)
+            return 0;
+        memcpy(output_buffer, data, size);
+        output_used = size;
+    } else {
+        memcpy(output_buffer + output_used, data, size);
+        output_used += size;
+    }
+    return 1;
+}
+
 /* Flush and release the buffered stream [00410240,00410288). A failed
  * write retains the buffer, matching the original caller's error path. */
 unsigned short end_buffered_output(void)

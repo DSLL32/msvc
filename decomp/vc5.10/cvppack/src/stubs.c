@@ -8,7 +8,6 @@
 #include "writer.h"
 #include <recon.h>
 
-unsigned char *allocate_type_buffer(unsigned size) { __asm { int 3 } return NULL; }
 unsigned int get_file_size(int file) { __asm { int 3 } return 0; }
 void *map_file_region(int file, unsigned int offset, unsigned int size) { __asm { int 3 } return NULL; }
 void warning(unsigned int message, const char *first, const char *second) { __asm { int 3 } }
@@ -45,12 +44,10 @@ void *resize_bytes(void *buffer, unsigned size) { __asm { int 3 } return NULL; }
 void convert_legacy_record(unsigned index) { __asm { int 3 } }
 void __fastcall associate_forward_type(unsigned index, CachedTypeName *record) { __asm { int 3 } }
 void append_type_field_list(unsigned char *field, TypeRecord *record) { __asm { int 3 } }
-void record_base_relation(unsigned index, unsigned base) { __asm { int 3 } }
 void release_type_payload(TypeRecord *record) { __asm { int 3 } }
 
 
 
-unsigned short numeric_leaf_size(const unsigned char *record) { __asm { int 3 } return 0; }
 
 void read_legacy_module_types(void *types, unsigned size) { __asm { int 3 } }
 
@@ -61,7 +58,6 @@ void use_precompiled_types(void *leaf) { __asm { int 3 } }
 void register_type_server(void *leaf) { __asm { int 3 } }
 void __fastcall find_type_server(void *name, unsigned mode, void *first, void *second, void *third) { __asm { int 3 } }
 
-unsigned short buffered_write(const void *data, unsigned size) { __asm { int 3 } return 0; }
 unsigned stream_write(CachedFile *file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }
 int resize_stream_file(CachedFile *file, int size) { __asm { int 3 } return 0; }
 

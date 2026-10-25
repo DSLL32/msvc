@@ -617,6 +617,26 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_numeric_leaf_size": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_record_base_relation": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_allocate_type_buffer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_buffered_write": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
