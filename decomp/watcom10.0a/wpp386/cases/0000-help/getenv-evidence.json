@@ -1,0 +1,55 @@
+{
+  "scope": "GetEnvVar20-byte App body accepted against fresh original/native SizeToClass frontier; help incomplete",
+  "function": "GetEnvVar",
+  "entry": 660889,
+  "extent": [
+    660889,
+    660909
+  ],
+  "bytes": 20,
+  "source_sha256": "1af351b88baaf9dddda8c815da49b4646f386a22eba2e035e80d17bd263f5dc4",
+  "static_candidate_evidence": "getenv-candidate.json",
+  "original_report_sha256": "b31acc251907f4747bba402bf1955d360deb5077b4eb5d5822bd6415eece1e1b",
+  "original_report_gzip": "getenv-original-report.json.gz",
+  "capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
+  "native_report_sha256": "f704cbd025922fa28022b85e9c2d76943919f458245304aa89914c1bda5af0dc",
+  "first_entry_order": [
+    531363,
+    532033,
+    660889,
+    531125
+  ],
+  "terminal": "frontier:81ab5",
+  "next_argument_size": 16,
+  "original_backend": "watcom-cf",
+  "instruction_semantics": "original execution under Wine",
+  "original_phases_ms": {
+    "execution_wall_ms": 2.2178683429956436,
+    "setup_ms": 1548.208897002041
+  },
+  "native_phases_ms": {
+    "setup_ms": 3.3574269999999995,
+    "execution_ms": 1.6609809999999996,
+    "checks_ms": 0.5148280000000001
+  },
+  "recorded_wall_seconds": {
+    "build-audit": 1.7590001309290528,
+    "original-run": 1.7003892315551639,
+    "native-run": 0.016598385758697987
+  },
+  "graph": {
+    "report_sha256": "5bfb8b4c67951de801841e89c17340c10778dff8851de24f416b2cc4a838a173",
+    "checked": 3,
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "extent_ownership",
+      "whole_extent_boundaries"
+    ],
+    "GetEnvVar_edges": [
+      "CopyStr",
+      "getenv"
+    ]
+  },
+  "limits": "WCGMEMORY absent; positive getenv/CopyStr branch retains static graph proof but no runtime coverage claimed."
+}

@@ -1,7 +1,7 @@
 {
   "scope": "initial help in progress; no completed output oracle",
-  "accepted_app_functions": 2,
-  "accepted_app_code_bytes": 347,
+  "accepted_app_functions": 3,
+  "accepted_app_code_bytes": 367,
   "functions": [
     {
       "name": "MemAlloc",
@@ -12,20 +12,17 @@
       "name": "MemInit",
       "entry": 532033,
       "bytes": 254
-    }
-  ],
-  "current_frontier": "GetEnvVar@0xa1599",
-  "current_capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
-  "shared_controller_expansion": false,
-  "next": "Fresh original/native candidate pair after ordinary CF debugger/masking support is ready. Old-controller profile intentionally remains the previous qualified capture proposal; no new interpreter admission prepared.",
-  "candidate_app_functions": [
+    },
     {
       "name": "GetEnvVar",
       "entry": 660889,
-      "bytes": 20,
-      "state": "source/native+period builds/graph ABI passed; no fresh runtime acceptance"
+      "bytes": 20
     }
   ],
-  "last_passing_frontier": "GetEnvVar@0xa1599",
+  "current_frontier": "SizeToClass@0x81ab5",
+  "current_capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
+  "shared_controller_expansion": false,
+  "next": "Continue private allocator under ordinary debugger; no instruction admission machinery.",
+  "last_passing_frontier": "SizeToClass@0x81ab5",
   "next_expected_frontier": "SizeToClass@0x81ab5"
 }
