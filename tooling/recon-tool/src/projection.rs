@@ -399,6 +399,64 @@ fn accepted_view(config: &mut Value, info: &Info, policy: &Value, scope: &str) -
     Ok(())
 }
 
+fn rebuilt_chunks(
+    config: &mut Value,
+    policy: &Value,
+    publics: &HashMap<String, Vec<u32>>,
+    image: Option<&std::path::Path>,
+) -> Result<()> {
+    let Some(properties) = policy["function_properties"].as_object() else {
+        return Ok(());
+    };
+    for (name, properties) in properties {
+        let Some(value) = properties.get("rebuilt_code_chunks") else {
+            continue;
+        };
+        let image = image.context("rebuilt_code_chunks requires rebuilt PE and MAP")?;
+        let driver = config["driver"]
+            .as_array_mut()
+            .context("projected driver array")?;
+        let rows: Vec<_> = driver
+            .iter_mut()
+            .filter(|row| row["name"] == name.as_str())
+            .collect();
+        ensure!(
+            rows.len() == 1,
+            "rebuilt_code_chunks requires one canonical driver: {name}"
+        );
+        let row = rows.into_iter().next().unwrap();
+        let symbol = row["symbol"]
+            .as_str()
+            .context("driver original MAP symbol")?;
+        let entry = publics
+            .get(symbol)
+            .filter(|values| values.len() == 1)
+            .with_context(|| {
+                format!("rebuilt_code_chunks owner MAP symbol missing/ambiguous: {name}")
+            })?[0];
+        let mut value = value.clone();
+        resolve(&mut value, publics)?;
+        let ranges: Vec<(u32, u32)> = serde_json::from_value(value.clone())
+            .context("rebuilt_code_chunks must contain uint32 interval pairs")?;
+        ensure!(
+            !ranges.is_empty(),
+            "rebuilt_code_chunks must not be empty: {name}"
+        );
+        let mut sorted = ranges.clone();
+        sorted.sort_unstable();
+        ensure!(
+            sorted
+                .iter()
+                .all(|&(a, b)| a < b && !(a <= entry && entry < b))
+                && sorted.windows(2).all(|p| p[0].1 <= p[1].0),
+            "rebuilt_code_chunks are invalid, overlapping, or include the primary entry: {name}"
+        );
+        runtime::validate_code_ranges(image, &ranges)?;
+        row["rebuilt_code_chunks"] = value;
+    }
+    Ok(())
+}
+
 pub fn export(options: Options) -> Result<()> {
     let path = if options.case.is_dir() {
         options.case.join(".build/case.so")
@@ -421,13 +479,29 @@ pub fn export(options: Options) -> Result<()> {
     if let Some(scope) = options.accepted_scope {
         accepted_view(&mut config, &info, &policy, &scope)?;
     }
-    if let Some(path) = options.metadata_output {
-        let mut metadata = metadata(&policy, &info)?;
-        let publics = match (options.rebuilt_image, options.rebuilt_map) {
-            (Some(image), Some(map)) => runtime::map_addresses(&image, &map)?,
+    let has_chunks = policy["function_properties"]
+        .as_object()
+        .is_some_and(|p| p.values().any(|v| v.get("rebuilt_code_chunks").is_some()));
+    let publics = if options.metadata_output.is_some() || has_chunks {
+        match (
+            options.rebuilt_image.as_deref(),
+            options.rebuilt_map.as_deref(),
+        ) {
+            (Some(image), Some(map)) => runtime::map_addresses(image, map)?,
             (None, None) => HashMap::new(),
             _ => bail!("rebuilt image and MAP must be supplied together"),
-        };
+        }
+    } else {
+        HashMap::new()
+    };
+    rebuilt_chunks(
+        &mut config,
+        &policy,
+        &publics,
+        options.rebuilt_image.as_deref(),
+    )?;
+    if let Some(path) = options.metadata_output {
+        let mut metadata = metadata(&policy, &info)?;
         resolve(&mut metadata, &publics)?;
         fs::write(path, serde_json::to_string_pretty(&metadata)? + "\n")?;
     }
@@ -480,6 +554,76 @@ mod tests {
     fn info() -> Info {
         serde_json::from_value(json!({"binary":"test","original_path":"tool.exe","original_sha256":"","original_entry_rva":16,"case":"case","description":"","execution":0,"terminal":0,"frontier_rva":0,"first_entry_order":[],"first_entry_seen":[],"functions":[{"name":"method","rva":16,"native_symbol":"_ZNmethod","original_symbol":"?method@@","definition":4,"implementation":1,"code":[[16,20]],"text_data":[]},{"name":"pending","rva":32,"native_symbol":"pending","original_symbol":null,"definition":4,"implementation":0,"code":[],"text_data":[]}],"tests":[],"module":"libbinary.so"})).unwrap()
     }
+    #[test]
+    fn rebuilt_chunk_property_is_bounded_and_does_not_change_original_registry() {
+        let i = info();
+        let mut bytes = vec![0u8; 0x400];
+        bytes[..2].copy_from_slice(b"MZ");
+        bytes[0x3c..0x40].copy_from_slice(&0x80u32.to_le_bytes());
+        bytes[0x80..0x84].copy_from_slice(b"PE\0\0");
+        for (offset, value) in [(0x84, 0x14cu16), (0x86, 1), (0x94, 0xe0), (0x98, 0x10b)] {
+            bytes[offset..offset + 2].copy_from_slice(&value.to_le_bytes());
+        }
+        for (offset, value) in [
+            (0xb4, 0x400000u32),
+            (0x180, 0x100),
+            (0x184, 0x1000),
+            (0x188, 0x100),
+            (0x18c, 0x200),
+            (0x19c, 0x20),
+        ] {
+            bytes[offset..offset + 4].copy_from_slice(&value.to_le_bytes());
+        }
+        let path = PathBuf::from(std::env::var_os("HOME").unwrap())
+            .join(".ai-tmp")
+            .join(format!("rebuilt-chunks-test-{}.exe", std::process::id()));
+        fs::create_dir_all(path.parent().unwrap()).unwrap();
+        fs::write(&path, &bytes).unwrap();
+        let publics = HashMap::from([("?method@@".into(), vec![0x401000])]);
+        let policy = json!({"function_properties":{"method":{"rebuilt_code_chunks":[[
+            {"rebuilt_symbol":"?method@@","offset":16},
+            {"rebuilt_symbol":"?method@@","offset":24}]]}}});
+        let baseline = registry(&i, 0, json!({})).unwrap();
+        let mut config = registry(&i, 0, policy.clone()).unwrap();
+        rebuilt_chunks(&mut config, &policy, &publics, Some(&path)).unwrap();
+        assert_eq!(
+            config["driver"][0]["rebuilt_code_chunks"],
+            json!([[0x401010, 0x401018]])
+        );
+        for key in ["accepted", "function_registry"] {
+            assert_eq!(config[key], baseline[key]);
+        }
+        assert_eq!(
+            config["driver"][0]["code_chunks"],
+            baseline["driver"][0]["code_chunks"]
+        );
+        let mut plain = baseline.clone();
+        rebuilt_chunks(&mut plain, &json!({}), &HashMap::new(), None).unwrap();
+        assert_eq!(plain, baseline);
+        for chunks in [
+            Value::Null,
+            json!([]),
+            json!([1]),
+            json!([[0x401010]]),
+            json!([[0x401010, 0x401010]]),
+            json!([[0x401018, 0x401010]]),
+            json!([[0x401000, 0x401008]]),
+            json!([[0x401010, 0x401018], [0x401014, 0x401020]]),
+            json!([[0x4010ff, 0x401101]]),
+            json!([[{"rebuilt_symbol":"missing"},0x401018]]),
+        ] {
+            let wrong = json!({"function_properties":{"method":{"rebuilt_code_chunks":chunks}}});
+            assert!(rebuilt_chunks(&mut baseline.clone(), &wrong, &publics, Some(&path)).is_err());
+        }
+        assert!(rebuilt_chunks(&mut baseline.clone(), &policy, &publics, None).is_err());
+        let wrong = json!({"function_properties":{"unregistered":{"rebuilt_code_chunks":[[0x401010,0x401018]]}}});
+        assert!(rebuilt_chunks(&mut baseline.clone(), &wrong, &publics, Some(&path)).is_err());
+        bytes[0x19c..0x1a0].copy_from_slice(&0x40u32.to_le_bytes());
+        fs::write(&path, &bytes).unwrap();
+        assert!(rebuilt_chunks(&mut baseline.clone(), &policy, &publics, Some(&path)).is_err());
+        fs::remove_file(path).unwrap();
+    }
+
     #[test]
     fn accepted_views_intersect_verified_scope_without_changing_identity() {
         let i = info();

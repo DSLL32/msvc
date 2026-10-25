@@ -775,6 +775,32 @@ fn qualify_candidates(map: &LinkMap, candidates: &mut Vec<Candidate>) {
     candidates.retain(|candidate| !candidate.records.is_empty());
 }
 
+/// Validate explicit rebuilt ownership through the existing PE reader only.
+pub(crate) fn validate_code_ranges(image: &Path, ranges: &[(u32, u32)]) -> Result<()> {
+    let pe = Pe::parse(fs::read(image)?)?;
+    for &(start, end) in ranges {
+        ensure!(start < end, "invalid rebuilt code interval");
+        let rva = start
+            .checked_sub(pe.base)
+            .context("rebuilt code below PE base")?;
+        ensure!(
+            pe.sections
+                .iter()
+                .filter(|section| {
+                    section.flags & 0x20000020 != 0
+                        && rva >= section.rva
+                        && u64::from(rva) + u64::from(end - start)
+                            <= u64::from(section.rva) + section.raw_size as u64
+                })
+                .count()
+                == 1,
+            "rebuilt code interval is not uniquely executable/file-backed: {start:x}..{end:x}"
+        );
+        pe.read(start, (end - start) as usize)?;
+    }
+    Ok(())
+}
+
 /// Resolve public MAP addresses only after checking its identity against the PE.
 pub fn map_addresses(image: &Path, map: &Path) -> Result<HashMap<String, Vec<u32>>> {
     let pe = Pe::parse(fs::read(image)?)?;

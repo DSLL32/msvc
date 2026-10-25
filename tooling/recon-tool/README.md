@@ -785,3 +785,13 @@ An explicit original report also permits the descriptor's previous frontier to
 become implemented during fresh progress. The selected report must still name
 an unimplemented App frontier. Cached replay without the flag retains strict
 descriptor validation.
+
+Explicit rebuilt funclets can use
+`policy.function_properties[logical_name].rebuilt_code_chunks` with exact interval
+pairs, including existing `{ "rebuilt_symbol": "MAP name", "offset": n }`
+address leaves. `registry-export --rebuilt-image PE --rebuilt-map MAP` binds and
+resolves them into the existing graph driver field. The owner must be an existing
+canonical driver; empty/malformed/overlapping, primary-entry and non-executable
+ranges reject. Original ownership, classification and acceptance stay unchanged.
+The graph auditor still validates full primary/chunk ownership and instructions;
+this property grants no ABI or runtime permission.
