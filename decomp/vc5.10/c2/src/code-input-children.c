@@ -33,12 +33,6 @@ C2Expression * __fastcall new_call_expression(unsigned opcode, unsigned char con
     return 0;
 }
 
-C2Expression * __fastcall symbol_input_expression(C2InputSymbol *symbol)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression * __fastcall new_aggregate_expression(unsigned opcode, unsigned short type, C2Expression *target, void *detail, C2Expression *source, C2Expression *destination, unsigned attributes)
 {
     __asm { int 3 }

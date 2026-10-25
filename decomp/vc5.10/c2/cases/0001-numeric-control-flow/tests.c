@@ -721,13 +721,13 @@ static int folded_integer_width(void)
 
 static int temporary_node_sizes(void)
 {
-    union { unsigned alignment; unsigned char bytes[36]; } storage;
-    static const unsigned kinds[3] = {1, 11, 14};
+    union { unsigned alignment; unsigned char bytes[40]; } storage;
+    static const unsigned kinds[4] = {1, 11, 14, 25};
     unsigned kind, size, i, row;
     C2SmallNode *node = (C2SmallNode *)&storage;
-    for (row = 0; row < 3; ++row) {
+    for (row = 0; row < 4; ++row) {
         kind = kinds[row];
-        size = kind == 1 ? 28 : 32;
+        size = kind == 1 ? 28 : kind == 25 ? 36 : 32;
         memset(&storage, 0xa5, sizeof(storage));
         node->next = NULL;
         free_small_nodes[size] = node;

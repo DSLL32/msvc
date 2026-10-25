@@ -577,3 +577,13 @@ int __fastcall input_has_side_effects(C2Expression *tree)
         return 0;
     }
 }
+
+C2Expression *__fastcall symbol_input_expression(C2InputSymbol *symbol)
+{
+    C2Expression *expression = (C2Expression *)allocate_small_node(25);
+    expression->declaration = symbol;
+    symbol->input_operand = expression;
+    expression->opcode = 0x178;
+    expression->location.line = 0;
+    return expression;
+}
