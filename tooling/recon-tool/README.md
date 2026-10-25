@@ -817,3 +817,13 @@ returning callback fails. The native pair uses `run ... --capture CAPTURE
 callback. Ordinary returning probes continue to use `recon_original_finish`.
 Nonreturn probes compare status, entry trace, streams and artifacts; they do not
 read helper globals or publish emitted helper result buffers after process exit.
+
+For a Watcom PE IO case, `original capture --watcom-main-argv ...` reads the
+actual EAX argc / EDX argv at the unique registry App named `main`, before its
+first instruction. It verifies the argument count, terminal NULL and all
+`argv[1..]` strings against the requested command line. The report retains both
+requested and observed vectors; the fixture stores the observed vector for
+native IO. In particular, an actual staged module path in argv0 is preserved
+byte for byte. This explicit mode requires reaching main and supports bounded
+ASCII arguments only. It adds no target execution or new debugger operation.
+Self-resource file materialization remains a separate input contract.

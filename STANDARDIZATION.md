@@ -461,6 +461,14 @@ exit. The report records that callback PC/PID/TID and expected/actual status;
 native pairing must exit without returning from DIRECT. Returning probes retain
 their normal completion contract. No helper globals are read after process exit.
 
+For Watcom PE IO, `original capture --watcom-main-argv` observes the unique App
+`main` at its existing entry stop using the actual EAX/EDX argument ABI. It
+checks argc, the terminal NULL and every argv[1..] string against requested CLI
+inputs. The report retains requested and observed arguments separately; the
+fixture uses observed arguments for native IO, preserving actual staged argv0.
+This explicit bounded ASCII mode requires reaching main. Self-resource input
+materialization remains separate and must preserve actually consumed bytes.
+
 The original backend supports PE32 i386 and finite WCC CF progress. CF entry-stop
 remains diagnostic, with no CF body execution or fixture oracle. Ordinary CF
 progress requires a validated loader/image profile and explicit registry-bound

@@ -223,6 +223,9 @@ pub struct Capture {
     /// Typed callback must terminate the target with the fixture's expected status.
     #[arg(long, requires = "direct_helper", conflicts_with = "cf_profile")]
     pub direct_noreturn: bool,
+    /// Observe Watcom EAX/EDX main arguments and project actual argv into the fixture.
+    #[arg(long, conflicts_with_all = ["cf_profile", "direct_helper"])]
+    pub watcom_main_argv: bool,
     #[arg(short, long)]
     pub output: PathBuf,
     #[arg(long)]
@@ -668,6 +671,172 @@ fn export_artifacts(
     Ok(artifacts)
 }
 #[derive(Serialize, Deserialize)]
+struct WatcomMainArgv {
+    entry_rva: u32,
+    argc: u32,
+    argv_address: u32,
+    requested: Vec<String>,
+    actual: Vec<String>,
+}
+fn read_watcom_main_argv(
+    entry_rva: u32,
+    pc: u32,
+    registers: &[u8],
+    requested: &[String],
+    mut read: impl FnMut(u32, u32) -> Result<Vec<u8>>,
+) -> Result<WatcomMainArgv> {
+    anyhow::ensure!(
+        registers.len() == size_of::<Registers>(),
+        "invalid Watcom main registers"
+    );
+    let word = |offset| u32::from_le_bytes(registers[offset..offset + 4].try_into().unwrap());
+    let argc = word(0);
+    let argv = word(12);
+    anyhow::ensure!(
+        word(32) == pc && argc > 0 && argc <= 256 && argc as usize == requested.len(),
+        "Watcom main argc/PC differs from requested invocation"
+    );
+    let size = (argc + 1) * 4;
+    anyhow::ensure!(
+        argv != 0 && argv.checked_add(size).is_some(),
+        "invalid Watcom argv address"
+    );
+    let pointers = read(argv, size)?;
+    anyhow::ensure!(
+        pointers.len() == size as usize && pointers[size as usize - 4..] == [0; 4],
+        "Watcom argv vector is short or lacks its terminal NULL"
+    );
+    let mut actual = Vec::new();
+    let mut total = 0;
+    for pointer in pointers[..size as usize - 4].chunks_exact(4) {
+        let address = u32::from_le_bytes(pointer.try_into().unwrap());
+        anyhow::ensure!(address != 0, "NULL Watcom argument");
+        let mut bytes = Vec::new();
+        loop {
+            anyhow::ensure!(
+                bytes.len() < 4096 && total < 65536,
+                "Watcom argument exceeds capture bounds"
+            );
+            let at = address
+                .checked_add(bytes.len() as u32)
+                .context("Watcom argument address overflow")?;
+            let byte = read(at, 1)?;
+            anyhow::ensure!(byte.len() == 1, "short Watcom argument read");
+            total += 1;
+            if byte[0] == 0 {
+                break;
+            }
+            anyhow::ensure!(
+                byte[0].is_ascii(),
+                "Watcom ANSI argument is not supported ASCII"
+            );
+            bytes.push(byte[0]);
+        }
+        actual.push(String::from_utf8(bytes)?);
+    }
+    anyhow::ensure!(
+        actual[1..] == requested[1..],
+        "actual Watcom main argv[1..] differs from requested arguments"
+    );
+    Ok(WatcomMainArgv {
+        entry_rva,
+        argc,
+        argv_address: argv,
+        requested: requested.to_vec(),
+        actual,
+    })
+}
+
+#[cfg(test)]
+mod watcom_argv_tests {
+    use super::*;
+    fn sample() -> (Vec<u8>, BTreeMap<u32, u8>, Vec<String>) {
+        let mut registers = vec![0; size_of::<Registers>()];
+        for (offset, value) in [(0, 2u32), (12, 0x1000), (32, 0x412a67)] {
+            registers[offset..offset + 4].copy_from_slice(&value.to_le_bytes());
+        }
+        let mut memory = BTreeMap::new();
+        for (address, bytes) in [
+            (
+                0x1000,
+                [0x2000u32, 0x3000, 0]
+                    .into_iter()
+                    .flat_map(u32::to_le_bytes)
+                    .collect::<Vec<_>>(),
+            ),
+            (0x2000, b"T:\\run-original\\WLIB.EXE\0".to_vec()),
+            (0x3000, b"?\0".to_vec()),
+        ] {
+            for (offset, value) in bytes.into_iter().enumerate() {
+                memory.insert(address + offset as u32, value);
+            }
+        }
+        (registers, memory, vec!["WLIB.EXE".into(), "?".into()])
+    }
+    fn observe(
+        registers: &[u8],
+        memory: &BTreeMap<u32, u8>,
+        requested: &[String],
+    ) -> Result<WatcomMainArgv> {
+        read_watcom_main_argv(0x12a67, 0x412a67, registers, requested, |address, size| {
+            (0..size)
+                .map(|offset| {
+                    memory
+                        .get(&(address + offset))
+                        .copied()
+                        .context("unreadable target byte")
+                })
+                .collect()
+        })
+    }
+    #[test]
+    fn actual_watcom_argv0_is_observed_without_changing_requested_inputs() {
+        let (registers, memory, requested) = sample();
+        let result = observe(&registers, &memory, &requested).unwrap();
+        assert_eq!(result.requested, requested);
+        assert_eq!(result.actual, ["T:\\run-original\\WLIB.EXE", "?"]);
+        assert_eq!(result.argc, 2);
+        assert_eq!(result.argv_address, 0x1000);
+    }
+    #[test]
+    fn watcom_argument_count_pc_vector_and_tail_are_checked() {
+        let (registers, memory, requested) = sample();
+        for (offset, value) in [
+            (0, 0u32),
+            (0, 257),
+            (0, 3),
+            (12, 0),
+            (12, u32::MAX),
+            (32, 0x412a68),
+        ] {
+            let mut bad = registers.clone();
+            bad[offset..offset + 4].copy_from_slice(&value.to_le_bytes());
+            assert!(observe(&bad, &memory, &requested).is_err());
+        }
+        for (address, value) in [(0x1008, 1), (0x1001, 0), (0x3000, b'!'), (0x3000, 255)] {
+            let mut bad = memory.clone();
+            bad.insert(address, value);
+            assert!(observe(&registers, &bad, &requested).is_err());
+        }
+        assert!(observe(&registers[..40], &memory, &requested).is_err());
+    }
+    #[test]
+    fn watcom_strings_must_be_bounded_and_reads_complete() {
+        let (registers, mut memory, requested) = sample();
+        memory.remove(&0x2000);
+        assert!(observe(&registers, &memory, &requested).is_err());
+        for offset in 0..4096 {
+            memory.insert(0x2000 + offset, b'A');
+        }
+        assert!(observe(&registers, &memory, &requested).is_err());
+        assert!(
+            read_watcom_main_argv(0x12a67, 0x412a67, &registers, &requested, |_, _| Ok(vec![]))
+                .is_err()
+        );
+    }
+}
+
+#[derive(Serialize, Deserialize)]
 struct CaptureReport {
     #[serde(default)]
     identity: Option<crate::original_reference::Identity>,
@@ -692,6 +861,8 @@ struct CaptureReport {
     raw_artifacts: Vec<RawArtifact>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     direct_noreturn: Option<crate::original_reference::DirectExit>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    watcom_main_argv: Option<WatcomMainArgv>,
 }
 fn capture_files(f: &Fixture, cwd: &Path, output_rules: &[OutputFile]) -> Result<Vec<OutputFile>> {
     let mut paths = BTreeSet::new();
@@ -963,6 +1134,7 @@ fn capture_executor(
             oracle_written: !entry_stop,
             backend: Some(backend),
             direct_noreturn: None,
+            watcom_main_argv: None,
         };
         return Ok((captured, report));
     }
@@ -1001,6 +1173,26 @@ fn capture_executor(
                 && f.exit_code.is_some()),
         "nonreturn DIRECT requires a typed DIRECT case and expected fixture exit_code"
     );
+    let watcom_main = if options.watcom_main_argv {
+        anyhow::ensure!(
+            !image.dll && loaded.info.execution == 0,
+            "Watcom main argv observation requires an EXE IO case"
+        );
+        let mains: Vec<_> = loaded
+            .info
+            .functions
+            .iter()
+            .filter(|f| f.definition == 4 && f.name == "main")
+            .map(|f| f.rva)
+            .collect();
+        anyhow::ensure!(
+            mains.len() == 1,
+            "Watcom argv observation needs one registry App named main"
+        );
+        Some(mains[0])
+    } else {
+        None
+    };
     let mut typed = None;
     let private_image =
         options.progress || options.direct_helper.is_some() || options.native_msvcrt;
@@ -1206,6 +1398,7 @@ fn capture_executor(
     let terminal;
     let mut snapshot = None;
     let mut direct_noreturn = None;
+    let mut watcom_main_argv = None;
     if let Some((_, _, _, marker, _)) = typed {
         broker.record(image.entry);
         broker.arm()?;
@@ -1263,8 +1456,31 @@ fn capture_executor(
     } else if loaded.info.execution == 0 {
         broker.record(image.entry);
         broker.arm()?;
+        if let Some(main) = watcom_main {
+            if main == image.entry {
+                watcom_main_argv = Some(read_watcom_main_argv(
+                    main,
+                    base + main,
+                    &hello.data,
+                    &args,
+                    |address, size| Ok(broker.rpc(1, address, size, 0, &[])?.data),
+                )?);
+            } else {
+                // Observe input even if this entry is already in the seeded trace prefix.
+                broker.rpc(6, 0, 0, 0, &main.to_le_bytes())?;
+            }
+        }
         loop {
             let r = broker.rpc(7, 0, 0, 0, &[])?;
+            if matches!(r.a, 1 | 2) && watcom_main == Some(r.b) && watcom_main_argv.is_none() {
+                watcom_main_argv = Some(read_watcom_main_argv(
+                    r.b,
+                    base + r.b,
+                    &r.data,
+                    &args,
+                    |address, size| Ok(broker.rpc(1, address, size, 0, &[])?.data),
+                )?);
+            }
             match r.a {
                 0 => {
                     terminal = format!("exit:{}", r.b);
@@ -1325,7 +1541,15 @@ fn capture_executor(
     }
     broker.close()?;
     let mut fixture = f.clone();
-    fixture.args = args;
+    fixture.args = if options.watcom_main_argv {
+        watcom_main_argv
+            .as_ref()
+            .context("requested Watcom main argument entry was not reached")?
+            .actual
+            .clone()
+    } else {
+        args
+    };
     let stdout = Bytes(fs::read(stdout)?);
     let stderr = Bytes(fs::read(stderr)?);
     let partial = options.progress && terminal.starts_with("frontier:");
@@ -1377,6 +1601,7 @@ fn capture_executor(
         oracle_written: true,
         backend: None,
         direct_noreturn,
+        watcom_main_argv,
         case: loaded.info.case,
         terminal,
         first_entry_order: broker.order,
