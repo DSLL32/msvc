@@ -1,6 +1,7 @@
 #include <recon-tool.h>
 #include "exception-scope.h"
 #include "c2.h"
+#include "expression-fields.h"
 #include <recon-native.h>
 #include <recon.h>
 extern int c2_scope_owned_record(void);
@@ -11,6 +12,7 @@ extern int c2_scope_rewrite_inputs(void);
 extern int c2_scope_annotation_inputs(void);
 extern int c2_scope_unwind_inputs(void);
 extern int c2_scope_finally_inputs(void);
+extern int c2_finally_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -152,6 +154,23 @@ static int unwind_bypass(void)
     return exception_scope_stack_depth==1&&exception_scope_stack[0]==&scope&&
         scope.identifier==9&&scope.state==0x8e&&scope.parent_identifier==-1;
 }
+static int finally_unwind_call(void)
+{
+    static const long targets[]={-1,0,7};unsigned i;Node *node,*argument;
+    sentinel_node=new_node(0x4c);
+    for(i=0;i<RECON_COUNT(targets);++i){
+        node=new_scope_finally_unwind(targets[i]);
+        if(node->opcode!=0x40||node->attributes.words.type!=0x104||
+           node->left.node->opcode!=0x33||node->left.node->left.value!=0xf1||
+           node->left.node->attributes.words.type!=0x104)return 0;
+        argument=node->second.node;
+        if(argument->opcode!=0x55||argument->second.node!=sentinel_node||
+           argument->left.node->opcode!=0x33||
+           argument->left.node->left.value!=(unsigned)targets[i]||
+           argument->left.node->attributes.words.type!=0x104)return 0;
+    }
+    return 1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -169,5 +188,7 @@ const ReconTest c2_tests[]={
     {"annotation code width and borrowed scope pointer",1,annotation_values},
     {"actual unwind previous/tree/stack target and scope owner",1,c2_scope_unwind_inputs},
     {"unwind absent/same/outermost-finally bypasses preserve state",1,unwind_bypass},
-    {"actual finally-unwind scalar ECX target",1,c2_scope_finally_inputs}
+    {"actual finally-unwind scalar ECX target",1,c2_scope_finally_inputs},
+    {"finally-aware unwind call typed target and intrinsic identity",1,finally_unwind_call},
+    {"actual finally-depth constructor scalar ECX",1,c2_finally_inputs}
 };

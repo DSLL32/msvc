@@ -5,9 +5,9 @@
 static const ReconFunction functions[] = {
     {
         .name = "@new_scope_finally_unwind@4", .entry_rva = 0x563b0,
-        .code = (const ReconExtent[]) { { 0x563b0, 0x563b1 } }, .code_count = 1,
+        .code = (const ReconExtent[]) { { 0x563b0, 0x563f3 } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "new_scope_finally_unwind",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@new_scope_unwind@4", .entry_rva = 0x56400,

@@ -110,6 +110,11 @@
       "expected_cleanup": [
         4
       ]
+    },
+    "@new_scope_finally_unwind@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

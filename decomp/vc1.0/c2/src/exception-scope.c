@@ -339,3 +339,14 @@ Node *__fastcall insert_exception_unwind(Expression *previous, Node *before, lon
     insert_tree_expression(previous, before, tree);
     return tree;
 }
+
+/* Original [000663b0,000663f3). Keep child construction in its original
+   order. The contextual84e9c recipe builds a one-argument intrinsic call. */
+Node *__fastcall new_scope_finally_unwind(long target)
+{
+    Node *callee, *argument, *end;
+    callee = integer_node(0xf1, 0x104);
+    argument = integer_node((unsigned)target, 0x104);
+    end = intern_leaf(0x4c, 0);
+    return build_tree("PPPNYt", end, argument, callee, 0x40, 0x104);
+}

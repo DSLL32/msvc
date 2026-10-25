@@ -144,3 +144,13 @@ int c2_scope_finally_inputs(void)
     return recon_native_at_entry((const void *)new_scope_finally_unwind,
         (const void *)scope_finally_entry,real_input,0)==1;
 }
+
+static Node *__fastcall finally_entry(unsigned depth)
+{
+    recon_native_entry_finish(depth==0);
+}
+int c2_finally_inputs(void)
+{
+    return recon_native_at_entry((const void *)new_finally_unwind,
+        (const void *)finally_entry,real_input,0)==1;
+}
