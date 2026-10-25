@@ -31,7 +31,7 @@
 /* Adapted from bld/wasm/c/main.c, Open Watcom initial commit
  * 6b9cb4438959d845a2b4dd4bf19f7908ecd608e9. Actual Watcom 10.0a CF
  * cb28..cb5d determines the six edges, quiet+2 and unsigned error_count+8.
- * This is a static candidate; no fresh original/native acceptance yet. */
+ * main was qualified by the first ordinary original/native pair. */
 #include "wasm.h"
 #include <recon.h>
 
@@ -48,4 +48,18 @@ int main(int argc, char **argv)
     MsgFini();
     main_fini();
     return (int)Options.error_count;
+}
+
+/* Source main_init, checked against CF cc0c..cc3f. */
+File_Info AsmFiles;
+
+void main_init(void)
+{
+    int i;
+    for (i = ASM; i <= OBJ; ++i) {
+        AsmFiles.file[i] = NULL;
+        AsmFiles.fname[i] = NULL;
+    }
+    ObjRecInit();
+    GenMSOmfInit();
 }

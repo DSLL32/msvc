@@ -1,0 +1,29 @@
+[
+  {
+    "case": "0001-help",
+    "workspace": "/tmp/recon/run-SyjnhO",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      52008,
+      52236,
+      113808
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 113808,
+    "trap_site": 4154218852,
+    "elapsed_ms": 5.276226,
+    "setup_ms": 2.8204299999999995,
+    "execution_ms": 1.945652,
+    "checks_ms": 0.509822,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/shared-migration/second-original.json",
+      "report_sha256": "035d8e3cd973cece82e5455547b11b0cc6c43ecbc739410e9db2490741f69352",
+      "capture_sha256": "e66d2ec0d622d210dc743410548537fffd91748c5d454665590d89472c255922",
+      "source_binding_available": true
+    }
+  }
+]

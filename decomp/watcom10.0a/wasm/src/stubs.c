@@ -4,7 +4,8 @@
 #include "wasm.h"
 #include <recon.h>
 
-void main_init(void) { WASM_PENDING(); }
+void ObjRecInit(void) { WASM_PENDING(); }
+void GenMSOmfInit(void) { WASM_PENDING(); }
 void do_init_stuff(int argc, char **argv)
 {
     (void)argc;

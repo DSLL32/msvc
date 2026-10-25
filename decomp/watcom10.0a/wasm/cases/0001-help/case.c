@@ -5,7 +5,7 @@
 #include "wasm.h"
 #include <recon.h>
 
-static const uint32_t order[] = { 0xcb28, 0xcc0c };
+static const uint32_t order[] = { 0xcb28, 0xcc0c, 0x1bc90 };
 RECON_EXPORT const ReconCase case_descriptor = {
     .abi_version = RECON_ABI_VERSION,
     .struct_size = sizeof(ReconCase),
@@ -15,6 +15,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     .first_entry_count = RECON_COUNT(order),
     .execution = RECON_IO,
     .terminal = RECON_FRONTIER,
-    .frontier_rva = 0xcc0c,
+    .frontier_rva = 0x1bc90,
     .io = main,
 };

@@ -1,5 +1,6 @@
 #ifndef WASM_H
 #define WASM_H
+#include <stdio.h>
 #include <recon.h>
 
 /* Only the encountered nine-byte prefix is defined. The released source
@@ -17,7 +18,16 @@ typedef struct global_options {
     unsigned char error_count;
 } global_options;
 
+enum { ASM, ERR, OBJ, FILE_TYPES };
+typedef struct File_Info {
+    FILE *file[FILE_TYPES];
+    char *fname[FILE_TYPES];
+} File_Info;
+
+extern File_Info AsmFiles;
 extern global_options Options;
+void ObjRecInit(void);
+void GenMSOmfInit(void);
 int main(int argc, char **argv);
 void main_init(void);
 void do_init_stuff(int argc, char **argv);

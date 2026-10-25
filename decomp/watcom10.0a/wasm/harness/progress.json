@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 1,
-  "accepted_app_bytes": 53,
+  "accepted_app_functions": 2,
+  "accepted_app_bytes": 104,
   "accepted": [
     {
       "name": "main",
@@ -11,9 +11,17 @@
         52061
       ],
       "evidence": "cases/0001-help/evidence/0001-main"
+    },
+    {
+      "name": "main_init",
+      "extent": [
+        52236,
+        52287
+      ],
+      "evidence": "cases/0001-help/evidence/0002-main-init"
     }
   ],
-  "current_frontier": "main_init",
-  "native_ms": 5.345894,
-  "original_ms": 1288.378
+  "current_frontier": "ObjRecInit",
+  "native_ms": 5.276,
+  "original_ms": 1362.611
 }

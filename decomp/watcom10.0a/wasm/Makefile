@@ -11,7 +11,7 @@ ORIGINAL_SOURCES := $(BINARY_SOURCES)
 ORIGINAL_OUTPUT := build/WASM.EXE
 ORIGINAL_MAP := build/wasm.map
 ORIGINAL_CFLAGS := -bt=nt -3r -od -s -d2
-ORIGINAL_CPPFLAGS := -i=src '-i=..\..\..\lib\recon\include'
+ORIGINAL_CPPFLAGS := -i=src '-i=..\..\..\lib\recon\include' '-i=..\..\..\toolchains\watcom10.0a\h'
 ORIGINAL_INCLUDE_DIRS := src ../../../lib/recon/include ../../../toolchains/watcom10.0a/h
 ORIGINAL_CC = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WCC386 --
 ORIGINAL_LINK = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WLINK --
