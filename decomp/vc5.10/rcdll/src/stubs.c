@@ -221,8 +221,4 @@ void __stdcall rc_emit_macro_reference(RcMacro *macro)
 }
 
 
-void __stdcall rc_skip_inactive_quoted(WCHAR delimiter)
-{
-    __asm int 3
-}
 

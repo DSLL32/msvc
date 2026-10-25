@@ -238,7 +238,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_expect_end" },
     { .name="rc_skip_inactive_quoted", .original_symbol="_rc_skip_inactive_quoted@4", .entry_rva=0x6cbc,
       .code=(const ReconExtent[]){{0x6cbc,0x6d53}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_skip_inactive_quoted" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_skip_inactive_quoted" },
     { .name="rc_read_skipped_directive", .original_symbol="_rc_read_skipped_directive", .entry_rva=0x6d53,
       .code=(const ReconExtent[]){{0x6d53,0x6df3}}, .code_count=1,
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_read_skipped_directive" },
