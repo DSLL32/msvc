@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 5,
-  "accepted_app_bytes": 205,
+  "accepted_app_functions": 6,
+  "accepted_app_bytes": 230,
   "accepted": [
     {
       "name": "main",
@@ -43,9 +43,17 @@
         92381
       ],
       "evidence": "cases/0001-help/evidence/0005-memalloc"
+    },
+    {
+      "name": "AsmAlloc",
+      "extent": [
+        90604,
+        90629
+      ],
+      "evidence": "cases/0001-help/evidence/0006-asmalloc"
     }
   ],
-  "current_frontier": "AsmAlloc",
+  "current_frontier": "newBlk",
   "native_ms": 5.225,
   "original_ms": 1527.051
 }
