@@ -206,7 +206,7 @@ extern "C" BYTE __stdcall infer_subsystem(LinkContext *context)
         if (!gui && !(context->file_header.Characteristics & IMAGE_FILE_DLL)) return 0;
         context->optional_header.Subsystem=IMAGE_SUBSYSTEM_WINDOWS_GUI;
     }
-    if (entry_point_name) return 0;
+    if (entry_symbol) return 0;
     return infer_entry_point(context);
 }
 extern "C" void __stdcall find_console_entry_symbols(LinkContext *context,
@@ -233,7 +233,30 @@ extern "C" void __stdcall find_console_entry_symbols(LinkContext *context,
     *wide_main_symbol=table->FindSymbol(wide_name);
 }
 extern "C" void __stdcall find_gui_entry_symbols(LinkContext *context,
-    StringNode **win_main_symbol,StringNode **wide_win_main_symbol) { __asm { int 3 } }
+    StringNode **win_main_symbol,StringNode **wide_win_main_symbol)
+{
+    StringTable *table=context->symbols;
+    /* Preserve the same consumed context-pointer fallback as the console probe. */
+    const char *name=(const char *)context,*wide_name=(const char *)context;
+    switch (context->file_header.Machine) {
+    case IMAGE_FILE_MACHINE_I386:
+        name="_WinMain@16";
+        wide_name="_wWinMain@16";
+        break;
+    case 0x1a2: case 0x1a6: case 0x601:
+        name="_WinMain";
+        wide_name="_wWinMain";
+        break;
+    case IMAGE_FILE_MACHINE_R4000:
+    case 0x168: case IMAGE_FILE_MACHINE_ALPHA:
+    case 0x1c0: case IMAGE_FILE_MACHINE_POWERPC:
+        name="WinMain";
+        wide_name="wWinMain";
+        break;
+    }
+    *win_main_symbol=table->FindSymbol(name);
+    *wide_win_main_symbol=table->FindSymbol(wide_name);
+}
 extern "C" BYTE __stdcall infer_entry_point(LinkContext *context) { __asm { int 3 } return 0; }
 extern "C" BYTE __stdcall process_definition_file(LinkContext *context,const char *name) { __asm { int 3 } return 0; }
 extern "C" void __stdcall finalize_mac_entry(StringNode **entry,LinkContext *context) { __asm { int 3 } }

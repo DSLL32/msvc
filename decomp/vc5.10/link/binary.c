@@ -4,7 +4,7 @@
 
 static const ReconFunction functions[] = {
     {"_find_console_entry_symbols@12",0x493e0,(const ReconExtent[]){{0x493e0,0x49478}},1,(const ReconExtent[]){{0x8544,0x854a},{0x854c,0x8551},{0x8554,0x855b},{0x855c,0x8562}},4,RECON_APP,RECON_IMPLEMENTED,"find_console_entry_symbols",NULL,NULL,0,NULL},
-    {"_find_gui_entry_symbols@12",0x49480,(const ReconExtent[]){{0x49480,0x49481}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"find_gui_entry_symbols",NULL,NULL,0,NULL},
+    {"_find_gui_entry_symbols@12",0x49480,(const ReconExtent[]){{0x49480,0x49524}},1,(const ReconExtent[]){{0x8564,0x856d},{0x8570,0x8578},{0x8578,0x8582},{0x8584,0x858d},{0x8590,0x859d},{0x85a0,0x85ac}},6,RECON_APP,RECON_IMPLEMENTED,"find_gui_entry_symbols",NULL,NULL,0,NULL},
     {"_cache_file_record@4",0xbe20,(const ReconExtent[]){{0xbe20,0xbe99}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"cache_file_record",NULL,NULL,0,NULL},
     {"_initialize_module_contribution_enumerator@8",0xfcb0,(const ReconExtent[]){{0xfcb0,0xfcd3}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_module_contribution_enumerator",NULL,NULL,0,NULL},
     {"_next_module_contribution@4",0xfce0,(const ReconExtent[]){{0xfce0,0xfd14}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_module_contribution",NULL,NULL,0,NULL},

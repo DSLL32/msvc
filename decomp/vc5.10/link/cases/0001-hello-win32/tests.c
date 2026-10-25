@@ -1178,7 +1178,50 @@ static int entry_symbol_lookup(void)
     return recon_native_at_entry(native_find_entry_symbol,check_entry_symbol_lookup,
         invoke_hello,NULL)==1;
 }
+extern BYTE __stdcall infer_entry_point(LinkContext *);
+static BYTE __stdcall check_gui_subsystem(LinkContext *context)
+{
+    StringNode *symbol;
+    OutputModule *module=current_input_library->module_head;
+    if(!context || context->optional_header.Subsystem!=IMAGE_SUBSYSTEM_WINDOWS_GUI ||
+        context->file_header.Machine!=IMAGE_FILE_MACHINE_I386 || !context->symbols)
+        recon_native_entry_finish(0);
+    symbol=native_find_entry_symbol(context->symbols,"_WinMain@16");
+    recon_native_entry_finish(symbol && (symbol->flags & 1) &&
+        symbol->symbol.Type==0x20 && symbol->symbol.SectionNumber==5 &&
+        symbol->contribution==(Contribution *)module->contributions+4);
+    return 0;
+}
+static int gui_subsystem(void)
+{
+    return recon_native_at_entry(infer_entry_point,check_gui_subsystem,invoke_hello,NULL)==1;
+}
+extern BYTE __stdcall infer_subsystem(LinkContext *);
+extern StringNode *entry_symbol;
+extern const char *entry_point_name;
+static BYTE __stdcall check_entry_symbol_predicate(LinkContext *context)
+{
+    StringNode *symbol=native_find_entry_symbol(context->symbols,"_WinMain@16");
+    BYTE result;
+    if (!symbol || !(symbol->flags & 1)) recon_native_entry_finish(0);
+    /* These are different original owners: the resolved symbol suppresses
+       inference even when no /ENTRY spelling has been installed. */
+    entry_symbol=symbol;
+    entry_point_name=NULL;
+    result=infer_subsystem(context);
+    recon_native_entry_finish(result==0 && entry_symbol==symbol &&
+        entry_point_name==NULL &&
+        context->optional_header.Subsystem==IMAGE_SUBSYSTEM_WINDOWS_GUI);
+    return 0;
+}
+static int entry_symbol_predicate(void)
+{
+    return recon_native_at_entry(infer_subsystem,check_entry_symbol_predicate,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"entry-symbol-predicate",1,entry_symbol_predicate},
+    {"gui-subsystem",1,gui_subsystem},
     {"entry-symbol-lookup",1,entry_symbol_lookup},
     {"cached-file-transition",1,cached_file_transition},
     {"bound-comdat-references",1,bound_comdat_references},
