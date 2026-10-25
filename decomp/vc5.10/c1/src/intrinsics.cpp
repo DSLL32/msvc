@@ -154,7 +154,19 @@ extern "C" void __cdecl initialize_intermediate_output(void)
         }
     }
 }
-extern "C" int __cdecl intrinsic_enabled(unsigned index) { __asm { int 3 } return 0; }
+extern "C" int __cdecl intrinsic_enabled(unsigned index)
+{
+    const CompilerIntrinsic *spec = &intrinsic_specs[index];
+    if (spec->traits & 0x80)
+        return 1;
+    if (!c1_data.options.intrinsics)
+        return 0;
+    if (!c1_data.options.language_extensions && (spec->traits & 0x40))
+        return 0;
+    if (c1_data.options.precise_float && !(spec->return_flags & 0x100))
+        return 0;
+    return 1;
+}
 extern "C" void __cdecl initialize_intrinsic_symbol(CompilerIrSymbol *symbol, unsigned index)
 { __asm { int 3 } }
 BYTE *RECON_THISCALL CompilerArena::AllocateBytes(unsigned bytes)
