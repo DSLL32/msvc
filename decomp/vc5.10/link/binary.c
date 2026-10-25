@@ -329,7 +329,7 @@ static const ReconFunction functions[] = {
     {"_get_input_section_name@8",0x61680,(const ReconExtent[]){{0x61680,0x616d0}},1,(const ReconExtent[]){{0x6cdc,0x6ce0}},1,RECON_APP,RECON_IMPLEMENTED,"get_input_section_name",NULL,NULL,0,NULL},
     {"_align_section_size@8",0x616d0,(const ReconExtent[]){{0x616d0,0x6176a}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"align_section_size",NULL,NULL,0,NULL},
     {"_remember_mac_module_name@4",0x50e60,(const ReconExtent[]){{0x50e60,0x50e8b}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remember_mac_module_name",NULL,NULL,0,NULL},
-    {"_mark_incremental_contribution@4",0x5eef0,(const ReconExtent[]){{0x5eef0,0x5ef41}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"mark_incremental_contribution",NULL,NULL,0,NULL},
+    {"_mark_incremental_contribution@4",0x5eef0,(const ReconExtent[]){{0x5eef0,0x5ef41}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"mark_incremental_contribution",NULL,NULL,0,NULL},
     {"_read_comdat_section@20",0x5ff70,(const ReconExtent[]){{0x5ff70,0x5ff71}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_comdat_section",NULL,NULL,0,NULL},
     {"_read_section_directives@16",0x5e910,(const ReconExtent[]){{0x5e910,0x5e911}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_section_directives",NULL,NULL,0,NULL},
     {"_add_comdat_reference@12",0x62fe0,(const ReconExtent[]){{0x62fe0,0x63072}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_comdat_reference",NULL,NULL,0,NULL},

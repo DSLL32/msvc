@@ -57,7 +57,7 @@ void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD
     if (!(context->options.debug_level && (context->options.debug_formats & 4)) &&
         group==debug_fixup_group) contribution->characteristics |= 0x800;
     mark_incremental_contribution(contribution);
-    if (pdb_enabled && group==debug_precompiled_group)
+    if (pdb_enabled && contribution->group==debug_precompiled_group)
         add_module_to_list(&precompiled_modules,module);
     if ((contribution->characteristics & 0x1000) &&
         !read_comdat_section(context,contribution,symbols,(SHORT)index,&comdat_name)) {
@@ -66,6 +66,7 @@ void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD
     }
     read_section_directives(context,contribution,name,pending);
     if (selected_tool_kind==2 || (contribution->characteristics & 0x800)) return;
+    group=contribution->group;
     section=group->section;
     if (section==import_section) {
         flags=(flags & 0xffbfffff)|0x300000;
@@ -85,6 +86,7 @@ void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD
         else if (contribution->associated_contribution)
             add_comdat_reference(NULL,contribution->associated_contribution,contribution);
     }
+    section=contribution->group->section;
     if (incremental_enabled && !incremental_reuse && section!=debug_section &&
         section!=import_section && (module->library->flags & 16) &&
         strcmp(section->name,".idata")) {
@@ -95,7 +97,9 @@ void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD
         contribution->padding=padding;
         contribution->raw_size+=padding;
     }
+    section=contribution->group->section;
     if (section!=debug_section) read_section_relocations(context,contribution,symbols,module);
+    section=contribution->group->section;
     if (mac_target && mac_file_padding && section!=debug_section && section!=import_section &&
         (contribution->module->library->flags & 16)) {
         padding=mac_contribution_padding(contribution->raw_size);
@@ -115,7 +119,16 @@ char *__stdcall get_input_section_name(IMAGE_SECTION_HEADER *header,const char *
 }
 DWORD __stdcall align_section_size(DWORD size,DWORD flags) { __asm { int 3 } return 0; }
 void __stdcall remember_mac_module_name(const char *name) { __asm { int 3 } }
-void __stdcall mark_incremental_contribution(Contribution *contribution) { __asm { int 3 } }
+extern WORD warning_level;
+extern BYTE arch_data_ignored;
+void __stdcall mark_incremental_contribution(Contribution *contribution)
+{
+    if (incremental_enabled && contribution->group->section==architecture_section) {
+        if (warning_level>1)
+            arch_data_ignored |= (contribution->raw_size-contribution->padding)!=0;
+        contribution->characteristics |= 0x800;
+    }
+}
 BYTE __stdcall read_comdat_section(LinkContext *context,Contribution *contribution,IMAGE_SYMBOL *symbols,SHORT index,char **name) { __asm { int 3 } return 0; }
 void __stdcall read_section_directives(LinkContext *context,Contribution *contribution,const char *name,InputArguments *pending) { __asm { int 3 } }
 void *__stdcall add_comdat_reference(StringNode *symbol,Contribution *parent,Contribution *child) { __asm { int 3 } return NULL; }

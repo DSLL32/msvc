@@ -224,6 +224,26 @@ static int first_contribution(void)
     return recon_native_at_entry(mark_incremental_contribution,check_first_contribution,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall read_section_directives(LinkContext *,Contribution *,const char *,InputArguments *);
+extern BYTE incremental_enabled,arch_data_ignored;
+static void __stdcall check_directive_reader_call(LinkContext *context,Contribution *contribution,
+    const char *name,InputArguments *pending)
+{
+    unsigned i;
+    OutputModule *module=current_input_library->module_head;
+    if (!context || contribution!=(Contribution *)module->contributions ||
+        !name || strcmp(name,".drectve") || !pending || incremental_enabled ||
+        arch_data_ignored || contribution->characteristics!=0x100a00 ||
+        contribution->group->first!=contribution || module->contribution_count!=1)
+        recon_native_entry_finish(0);
+    for (i=0;i<sizeof(*pending);++i) if (((BYTE *)pending)[i]) recon_native_entry_finish(0);
+    recon_native_entry_finish(1);
+}
+static int directive_reader_call(void)
+{
+    return recon_native_at_entry(read_section_directives,check_directive_reader_call,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -234,5 +254,6 @@ const ReconTest hello_tests[]={
     {"section-name-call",1,section_name_call},
     {"named-contribution",1,named_contribution},
     {"section-name-split",1,section_name_split},
-    {"first-contribution",1,first_contribution}
+    {"first-contribution",1,first_contribution},
+    {"directive-reader-call",1,directive_reader_call}
 };

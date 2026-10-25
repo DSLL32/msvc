@@ -5637,6 +5637,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_mark_incremental_contribution@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   }
