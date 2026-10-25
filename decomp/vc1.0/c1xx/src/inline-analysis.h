@@ -2,21 +2,22 @@
 #define INLINE_ANALYSIS_H
 #include "global-ir.h"
 #include <recon.h>
-/* Original qc control records use16-byte rows. The allocator's0xff0-byte
-   block and later region-index shifts establish255 real rows. Numeric state
-   names remain provisional until their individual consumers are reconstructed. */
+/* Original qc records rank two parameter slots per control region.
+   The0xff0-byte allocator and16-byte index stride establish255 rows. */
 typedef struct InlineRegion {
-    unsigned short next, child;
-    unsigned char slot_count, kind, state06, state07;
-    unsigned state08, state0c;
+    unsigned short next_sibling, first_child;
+    unsigned char parameter_count, flags, left_slot, right_slot;
+    unsigned left_symbol_index, right_symbol_index;
 } InlineRegion;
 typedef char InlineRegionSizeMustBe16[(sizeof(InlineRegion) == 16) ? 1 : -1];
-typedef char InlineRegionStateOffsetMustBe8[
-    (offsetof(InlineRegion, state08) == 8) ? 1 : -1];
+typedef char InlineRegionSymbolOffsetMustBe8[
+    (offsetof(InlineRegion, left_symbol_index) == 8) ? 1 : -1];
+typedef char InlineRegionRightSymbolOffsetMustBe12[
+    (offsetof(InlineRegion, right_symbol_index) == 12) ? 1 : -1];
 extern InlineRegion *inline_regions;
-/* Encountered scope prefix, through its region and flags. */
+/* Each active scope saves the ten bounded parameter usage bytes. */
 typedef struct InlineScope {
-    unsigned char prefix[10];
+    unsigned char parameter_usage[10];
     unsigned short region;
     unsigned char flags, reserved;
 } InlineScope;

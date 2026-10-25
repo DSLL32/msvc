@@ -126,7 +126,6 @@ int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment, WorkL
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 
 void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
-void end_qc_control(void) { __asm { int 3 } }
 
 void finish_qc_loop(void) { __asm { int 3 } }
 void increment_expression_record_depth(void) { __asm { int 3 } }

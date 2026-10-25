@@ -35,8 +35,8 @@ void allocate_inline_storage(void)
 }
 
 unsigned short inline_region_count; /* original0x91300 */
-unsigned short inline_tail_region; /* original0x91850 */
-unsigned inline_control_state; /* original0x91854 */
+unsigned short inline_last_region; /* original0x91850 */
+unsigned inline_jump_count; /* original0x91854 */
 unsigned short inline_current_region; /* original0x9185c */
 
 /* Original0x44635..0x446c1. Each function starts at region zero with
@@ -44,16 +44,16 @@ unsigned short inline_current_region; /* original0x9185c */
 void initialize_function_inline_analysis(void)
 {
     inline_current_region = 0;
-    inline_tail_region = 0;
+    inline_last_region = 0;
     inline_region_count = 0;
     inline_base_region = 0;
     inline_scope_depth = -1;
     inline_slot_count = 0;
-    inline_control_state = 0;
-    inline_regions[0].child = 0xffff;
-    inline_regions[0].next = inline_regions[0].child;
-    inline_regions[0].state07 = 0xff;
-    inline_regions[0].state06 = inline_regions[0].state07;
+    inline_jump_count = 0;
+    inline_regions[0].first_child = 0xffff;
+    inline_regions[0].next_sibling = inline_regions[0].first_child;
+    inline_regions[0].right_slot = 0xff;
+    inline_regions[0].left_slot = inline_regions[0].right_slot;
     ++inline_scope_depth;
     inline_scopes[inline_scope_depth].region = 0;
 }
@@ -80,7 +80,7 @@ void __stdcall analyze_inline_parameter(CppSymbol *parameter)
 }
 
 unsigned char inline_saved_slot_count; /* original0x91848 */
-unsigned short inline_previous_region; /* original0x91858 */
+unsigned short inline_parent_region; /* original0x91858 */
 
 /* Original0x446d9..0x448c3, stdcall4. Enter a control region, link it
    beneath the current region and save the tracked parameter reference bytes. */
@@ -96,30 +96,132 @@ void __stdcall begin_qc_control(unsigned char mode)
         scope = &inline_scopes[inline_scope_depth];
         scope->region = inline_current_region;
         region = &inline_regions[inline_region_count];
-        region->slot_count = inline_slot_count;
+        region->parameter_count = inline_slot_count;
         inline_saved_slot_count = inline_slot_count;
-        if (inline_regions[inline_current_region].child == 0xffff)
-            inline_regions[inline_current_region].child = inline_region_count;
-        else inline_regions[inline_tail_region].next = inline_region_count;
-        region->state07 = 0;
-        region->state06 = region->state07;
-        region->state0c = 0;
-        region->state08 = region->state0c;
-        region->child = 0xffff;
-        region->next = region->child;
-        region->kind = mode;
-        inline_previous_region = inline_current_region;
+        if (inline_regions[inline_current_region].first_child == 0xffff)
+            inline_regions[inline_current_region].first_child = inline_region_count;
+        else inline_regions[inline_last_region].next_sibling = inline_region_count;
+        region->right_slot = 0;
+        region->left_slot = region->right_slot;
+        region->right_symbol_index = 0;
+        region->left_symbol_index = region->right_symbol_index;
+        region->first_child = 0xffff;
+        region->next_sibling = region->first_child;
+        region->flags = mode;
+        inline_parent_region = inline_current_region;
         inline_current_region = inline_region_count;
         for (i = 0; i < inline_slot_count; ++i) {
-            scope->prefix[i] = (unsigned char)inline_parameters[i]->references;
+            scope->parameter_usage[i] = (unsigned char)inline_parameters[i]->references;
             inline_parameters[i]->references = 0;
         }
         scope->flags = 0;
         write_ir_record(0x93, 0);
     } else if (inline_region_count < 255) {
         region = &inline_regions[inline_region_count];
-        region->next = region->child = 0xffff;
-        region->slot_count = region->kind = region->state06 = region->state07 = 0xff;
-        region->state08 = region->state0c = ~0U;
+        region->next_sibling = region->first_child = 0xffff;
+        region->parameter_count = region->flags = region->left_slot = region->right_slot = 0xff;
+        region->left_symbol_index = region->right_symbol_index = ~0U;
     }
+}
+
+CppSymbol *inline_unused_parameter; /* original0x98048, only references is used */
+typedef char InlineUnusedSymbolSizeMustBe52[(sizeof(CppSymbol) == 52) ? 1 : -1];
+
+/* Original0x448c3..0x44d77. Select the two worthwhile parameter slots,
+   then restore the enclosing scopes' saturating reference counts. */
+void end_qc_control(void)
+{
+    InlineRegion *region;
+    InlineScope *scope;
+    CppSymbol *parameter;
+    unsigned i, total;
+    unsigned short maximum, threshold;
+    int depth;
+    if (inline_scope_depth >= 8 || inline_region_count >= 255) {
+        --inline_region_count;
+        --inline_scope_depth;
+        return;
+    }
+    region = &inline_regions[inline_current_region];
+    scope = &inline_scopes[inline_scope_depth];
+    if (inline_jump_count) {
+        region->left_slot = region->right_slot = 0xff;
+        region->flags |= 6;
+        for (i = 0; i < inline_slot_count; ++i) {
+            parameter = inline_parameters[i];
+            if (!scope->parameter_usage[i] && parameter->references) parameter->references = 1;
+            else parameter->references = scope->parameter_usage[i];
+        }
+        inline_slot_count = 0;
+    } else {
+        region->flags |= scope->flags;
+        if (!inline_unused_parameter) inline_unused_parameter = allocate_permanent(sizeof(CppSymbol));
+        inline_unused_parameter->references = 0;
+        for (i = 0; i < inline_slot_count; ++i) {
+            if (inline_parameter_slots[i] == 0xffff) {
+                total = 0;
+                for (depth = inline_scope_depth; depth >= 0; --depth)
+                    total += inline_scopes[depth].parameter_usage[i];
+                parameter = inline_parameters[i];
+                if (!scope->parameter_usage[i] && (parameter->references || total))
+                    parameter->references = 1;
+                else parameter->references = scope->parameter_usage[i];
+                inline_parameters[i] = inline_unused_parameter;
+            }
+        }
+        if (region->left_slot == 0xff) {
+            for (i = 0; i < inline_slot_count; ++i) {
+                parameter = inline_parameters[i];
+                if (!scope->parameter_usage[i] && parameter->references) parameter->references = 1;
+                else parameter->references = scope->parameter_usage[i];
+            }
+            inline_slot_count = 0;
+        } else {
+            region->left_slot = region->right_slot = 0xff;
+            if (inline_slot_count) {
+                region->left_slot = 0;
+                threshold = region->first_child == 0xffff ? 2 : 8;
+                maximum = 0;
+                region->left_symbol_index = 0;
+                for (i = 0; i < inline_slot_count; ++i) {
+                    if (inline_parameters[i]->references > maximum) {
+                        maximum = inline_parameters[i]->references;
+                        region->left_slot = (unsigned char)i;
+                        region->left_symbol_index = inline_parameter_slots[i];
+                    }
+                }
+                if (maximum < threshold) {
+                    region->left_slot = 0xff;
+                    region->left_symbol_index = 0;
+                } else if (inline_slot_count >= 2) {
+                    maximum = 0;
+                    for (i = 0; i < inline_slot_count; ++i) {
+                        if (i != region->left_slot && inline_parameters[i]->references >= maximum) {
+                            region->right_slot = (unsigned char)i;
+                            region->right_symbol_index = inline_parameter_slots[i];
+                            maximum = inline_parameters[i]->references;
+                        }
+                    }
+                    if (maximum < threshold) {
+                        region->right_slot = 0xff;
+                        region->right_symbol_index = 0;
+                    }
+                }
+            }
+        }
+    }
+    for (i = 0; i < inline_slot_count; ++i) {
+        parameter = inline_parameters[i];
+        if (!scope->parameter_usage[i] && parameter->references) parameter->references = 1;
+        else parameter->references = scope->parameter_usage[i];
+    }
+    if (region->left_slot != 0xff) inline_parameters[region->left_slot]->references += 4;
+    if (region->right_slot != 0xff) inline_parameters[region->right_slot]->references += 4;
+    write_ir_record(0x94, 0);
+    inline_last_region = inline_current_region;
+    inline_slot_count = inline_regions[inline_current_region].parameter_count;
+    inline_saved_slot_count = inline_regions[inline_parent_region].parameter_count;
+    inline_current_region = scope->region;
+    --inline_scope_depth;
+    inline_parent_region = inline_scopes[inline_scope_depth].region;
 }
