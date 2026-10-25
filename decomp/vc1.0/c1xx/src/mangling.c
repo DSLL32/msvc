@@ -972,3 +972,23 @@ char *__stdcall mangle_based_symbol(char *cursor, unsigned short attributes, Cpp
     if (type->flags & 0x800) *cursor++ = '6';
     return cursor;
 }
+
+/* Original0x440a0..0x44107, stdcall8. Encode rank and each bound before
+   handing the element type back to normal parameter-type decoration. */
+char *__stdcall mangle_array_type(char *cursor, CType *type)
+{
+    TypeShape *shape = type->related;
+    unsigned dimensions = 0;
+    while (shape && (shape->flags & 0x77) == 2) {
+        ++dimensions;
+        shape = shape->related;
+    }
+    cursor = mangle_number(cursor, dimensions);
+    shape = type->related;
+    while (dimensions--) {
+        cursor = mangle_number(cursor, shape->data.array_bound);
+        shape = shape->related;
+        type = drop_first_type_shape(type);
+    }
+    return mangle_parameter_type(cursor, type);
+}
