@@ -571,6 +571,16 @@ Wider flags, errors/descriptor numeric identity, FILE26 and arbitrary private CR
 state remain unclaimed. Existing `make watcom-surface-check` retains typed denial
 guards; `make watcom-open-check` verifies actual binary descriptor operations.
 
+The Watcom profile also maps bare lseek to a distinct long(int,long,int)
+normal-path adapter. It requires an open shared regular-file descriptor and
+origin0/1/2, restores errno after host-only identity checks, and uses genuine
+recon_lseek position changes. Only nonnegative signed32 results return;
+unknown/closed/device/origin/failure domains deny125, without exposing MS error
+numbers as Watcom failures. The Microsoft _lseek mapping is unchanged. Actual
+WLIB fd3/-24/SEEK_END and WLINK resource traversal qualify the reached normal
+path; numeric descriptor identity, failure errno and FILE26 remain unclaimed.
+The existing Watcom open checks cover the coupled seek/read/close namespace.
+
 The public IMAGEHLP staging route recognizes LoadLibraryA("imagehlp" or
 "imagehlp.dll") as a built-in native module, alongside the existing system
 module routes. Only after that load can GetProcAddress resolve the exact name

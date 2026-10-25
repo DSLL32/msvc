@@ -5,6 +5,15 @@
 #include <recon.h>
 static void fp(unsigned char state[108])
 { __asm__ __volatile__("fnsave %0\n\tfrstor %0":"=m"(*(unsigned char (*)[108])state)); }
+static void seek_to(int fd,long offset,int origin,long expected,unsigned row)
+{
+    static const unsigned errors[][2]={{0,0},{2,2},{111,222}};
+    unsigned char before[108],after[108];
+    errno=errors[row][0];recon_doserrno=errors[row][1];recon_SetLastError(333);
+    fp(before);assert(recon_watcom_lseek(fd,offset,origin)==expected);fp(after);
+    assert(!memcmp(before,after,108) && errno==(int)errors[row][0] && recon_doserrno==errors[row][1]);
+    assert(!recon_GetLastError() && lseek((int)recon_get_osfhandle(fd)-1,0,SEEK_CUR)==expected);
+}
 int main(int argc,char **argv)
 {
     static const unsigned errors[][2]={{0,0},{2,2},{111,222}};
@@ -20,6 +29,14 @@ int main(int argc,char **argv)
         if(!strcmp(argv[1],"directory")){recon_watcom_open(".",0x0200);return 42;}
         if(!strcmp(argv[1],"symlink")){recon_watcom_open("alias.dat",0x0200);return 42;}
         if(!strcmp(argv[1],"missing")){recon_watcom_open("missing.dat",0x0200);return 42;}
+        if(!strncmp(argv[1],"seek-",5)) {
+            fd=recon_watcom_open("binary.dat",0x0200);assert(fd>=0);
+            if(!strcmp(argv[1],"seek-invalid")){recon_watcom_lseek(-1,0,SEEK_SET);return 42;}
+            if(!strcmp(argv[1],"seek-origin")){recon_watcom_lseek(fd,0,3);return 42;}
+            if(!strcmp(argv[1],"seek-negative")){recon_watcom_lseek(fd,-1,SEEK_SET);return 42;}
+            assert(!strcmp(argv[1],"seek-closed") && !recon_close(fd));
+            recon_watcom_lseek(fd,0,SEEK_SET);return 42;
+        }
         assert(!strcmp(argv[1],"failure"));
         {struct rlimit limit={3,3};assert(!setrlimit(RLIMIT_NOFILE,&limit));}
         recon_watcom_open("binary.dat",0x0200);return 42;
@@ -39,6 +56,11 @@ int main(int argc,char **argv)
         assert(!fstat(host,&information) && S_ISREG(information.st_mode) && information.st_size==1024);
         assert(recon_read(fd,payload,sizeof(payload))==sizeof(payload));
         for(n=0;n<sizeof(payload);++n)assert(payload[n]==(unsigned char)n);
+        seek_to(fd,-24,SEEK_END,1000,row);
+        assert(recon_read(fd,payload,24)==24);
+        for(n=0;n<24;++n)assert(payload[n]==(unsigned char)(1000+n));
+        seek_to(fd,7,SEEK_SET,7,row);seek_to(fd,3,SEEK_CUR,10,row);
+        seek_to(fd,-10,SEEK_CUR,0,row);
         assert(!recon_close(fd) && !(recon_osfile[fd]&1));
         assert(!memcmp(files,recon_iob,sizeof(files)));
     }

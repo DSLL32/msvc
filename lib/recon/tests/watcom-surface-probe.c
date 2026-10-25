@@ -16,7 +16,8 @@ int main(void)
     ReconSignalHandler (*typed_signal)(int,ReconSignalHandler)=signal;
     int (*typed_jump)(unsigned int *)=_setjmp;
     int (__cdecl *typed_open)(const char *,int,...)=open;
-    (void)typed_jump; (void)typed_signal;
+    long (__cdecl *typed_seek)(int,long,int)=lseek;
+    (void)typed_jump; (void)typed_signal;(void)typed_seek;
     assert(O_RDONLY==0 && O_BINARY==0x0200);
     assert(SIGABRT==1 && SIGFPE==2 && SIGILL==3 && SIGINT==4 && SIGSEGV==5);
     assert(SIGTERM==6 && SIGBREAK==7 && SIGUSR1==8 && SIGUSR2==9 && SIGUSR3==10);

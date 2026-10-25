@@ -65,6 +65,24 @@ int __cdecl recon_watcom_open(const char *name,int flags,...)
     recon_unsupported("unreviewed Watcom open");return -1;
 #endif
 }
+long __cdecl recon_watcom_lseek(int fd,long offset,int origin)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    long handle,result;struct stat information;int saved_errno=errno;
+    if((unsigned)fd>=recon_nhandle || !(recon_osfile[fd]&1) || origin<0 || origin>2)
+        recon_unsupported("Watcom lseek descriptor/origin");
+    handle=recon_get_osfhandle(fd);
+    if(handle<=0 || fstat((int)handle-1,&information) || !S_ISREG(information.st_mode))
+        recon_unsupported("Watcom lseek regular descriptor");
+    errno=saved_errno;
+    result=recon_lseek(fd,offset,origin);
+    if(result<0) recon_unsupported("Watcom lseek unsupported failure/range");
+    return result;
+#else
+    (void)fd;(void)offset;(void)origin;
+    recon_unsupported("Watcom lseek requires explicit profile");return -1;
+#endif
+}
 void recon_bind_watcom_wlib_first_main_heap(const char *reference)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
