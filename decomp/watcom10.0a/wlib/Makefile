@@ -17,12 +17,12 @@ winpath = $(subst /,\,$(1))
 ORIGINAL_COMPILE = $(ORIGINAL_CC) -bt=nt -3r -od -d2 -s '-i=$(call winpath,$(RECON)/include)' '-i=$(call winpath,$(ORIGINAL_TOOLCHAIN_ROOT)/h)' '-fo=$(call winpath,$@)' '$(call winpath,$<)'
 ORIGINAL_LINK_COMMAND = $(ORIGINAL_LINK) '@build\wlib.lnk'
 RECON_POLICY = policy-data.json
-RECON_AUDIT_PREREQUISITES = harness/rebuilt-runtime.json harness/ret-runtime-original.json harness/readseek-runtime.json harness/signal-runtime.json harness/call-identity.json $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
+RECON_AUDIT_PREREQUISITES = harness/rebuilt-runtime.json harness/ret-runtime-original.json harness/ret-checks.json scripts/check-nonlocal-tails.py $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
 RECON_AUDIT_PROFILE = cl
 RECON_IMAGE_BASE = 4194304
 # App-body audit. The finite original lseek record supplies the RET convention
 # inherited by res_seek's tail branch; no support-body equivalence is asserted.
-RECON_AUDIT_FLAGS = --discovery cfg --map-format watcom10 --original ../../../toolchains/watcom10.0a/.patched/WLIB.EXE --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --check-ret --check-ownership --check-extents --runtime harness/ret-runtime-original.json --rebuilt-runtime harness/rebuilt-runtime.json
+RECON_AUDIT_FLAGS = --discovery cfg --map-format watcom10 --original ../../../toolchains/watcom10.0a/.patched/WLIB.EXE --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --ret-checks harness/ret-checks.json --check-ownership --check-extents --runtime harness/ret-runtime-original.json --rebuilt-runtime harness/rebuilt-runtime.json
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 # Period-linker input; original commands use only the common tool launcher.
@@ -30,3 +30,11 @@ $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP): build/wlib.lnk
 build/wlib.lnk: Makefile $(ORIGINAL_OBJECTS)
 	@mkdir -p $(@D)
 	@printf '%s\n' 'format windows nt' 'runtime console' 'debug all' 'option map=build\wlib.map' 'name build\WLIB.EXE' $(foreach o,$(ORIGINAL_OBJECTS),'file $(call winpath,$(o))') 'libpath $(call winpath,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386)' 'libpath $(call winpath,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386/NT)' 'library clib3r' 'library nt' > $@
+
+# The shared checker cannot inherit RET through a pending nonreturn endpoint.
+# Keep all App graph/ownership/extents checks and 54 strict return contracts;
+# this residual checks both returning owners of the exact nonlocal failure tail.
+.PHONY: audit-nonlocal-tails
+audit: audit-nonlocal-tails
+audit-nonlocal-tails: $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) scripts/check-nonlocal-tails.py
+	python3 scripts/check-nonlocal-tails.py

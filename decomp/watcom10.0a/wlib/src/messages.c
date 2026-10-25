@@ -30,3 +30,29 @@ int InitMsg( const char *image_name )
     }
     return( Res_Flag );
 }
+
+/* Original0x414c67..0x414c8e. The near buffer is converted to an
+   actual DS-based far pointer in the period Watcom build. */
+void MsgGet( int resourceid, char *buffer )
+{
+    if( LoadString( &hInstance, resourceid, buffer, 128 ) != 0 ) {
+        buffer[0] = '\0';
+    }
+}
+
+/* Original0x414ec6..0x414ef8 returns the local error flag, unlike
+   the later void FiniMsg. It marks resources unavailable after closing. */
+int FiniMsg( void )
+{
+    int error;
+
+    error = 0;
+    if( Res_Flag == 0 ) {
+        if( CloseResFile( &hInstance ) != -1 ) {
+            Res_Flag = 255;
+        } else {
+            error = 255;
+        }
+    }
+    return( error );
+}

@@ -2,6 +2,7 @@
    Names other than main and documented resource/CRT APIs are descriptive. */
 #ifndef WLIB_RECONSTRUCTION_H
 #define WLIB_RECONSTRUCTION_H
+#include <stddef.h>
 #include <malloc.h>
 #include <signal.h>
 #include <setjmp.h>
@@ -17,14 +18,15 @@ typedef struct handle_info {
 } HANDLE_INFO;
 typedef char WlibResourceHandleSize[(sizeof(HANDLE_INFO) == 8) ? 1 : -1];
 #pragma pack(1)
+typedef struct WResIDName {
+    unsigned char NumChars;
+    char Name[1];
+} WResIDName;
 typedef struct WResID {
     unsigned char IsName;
     union {
         unsigned short Num;
-        struct {
-            unsigned char NumChars;
-            char Name[1];
-        } Name;
+        WResIDName Name;
     } ID;
 } WResID;
 typedef struct WResTypeInfo {
@@ -50,18 +52,25 @@ typedef struct WResResNode {
     struct WResLangNode *Head, *Tail;
     WResResInfo Info;
 } WResResNode;
+typedef struct WResLangType {
+    unsigned short lang;
+    unsigned char sublang;
+} WResLangType;
+typedef struct WResLangInfo {
+    WResLangType lang;
+    unsigned short MemoryFlags;
+    unsigned long Offset, Length;
+} WResLangInfo;
 typedef struct WResLangNode {
     struct WResLangNode *Next, *Prev;
     void *data;
-    struct {
-        struct {
-            unsigned short lang;
-            unsigned char sublang;
-        } lang;
-        unsigned short MemoryFlags;
-        unsigned long Offset, Length;
-    } Info;
+    WResLangInfo Info;
 } WResLangNode;
+typedef struct WResDirWindow {
+    WResResNode *CurrRes;
+    WResTypeNode *CurrType;
+    WResLangNode *CurrLang;
+} WResDirWindow;
 typedef struct WResDirHead {
     unsigned short NumResources;
     unsigned short NumTypes;
@@ -79,6 +88,11 @@ typedef struct WResExtHeader {
     unsigned short reserved[4];
 } WResExtHeader;
 #pragma pack()
+typedef char WlibResourceLanguageSize[(sizeof(WResLangType) == 3) ? 1 : -1];
+typedef char WlibResourceWindowSize[(sizeof(WResDirWindow) == 12) ? 1 : -1];
+typedef char WlibResourceWindowABI[(offsetof(WResDirWindow, CurrRes) == 0 &&
+                                   offsetof(WResDirWindow, CurrType) == 4 &&
+                                   offsetof(WResDirWindow, CurrLang) == 8) ? 1 : -1];
 typedef char WlibResourceResInfoSize[(sizeof(WResResInfo) == 5) ? 1 : -1];
 typedef char WlibResourceResInfo1Size[(sizeof(WResResInfo1) == 13) ? 1 : -1];
 typedef char WlibResourceResNodeSize[(sizeof(WResResNode) == 21) ? 1 : -1];
@@ -109,6 +123,7 @@ typedef enum {
     WRS_BAD_SIG = 3,
     WRS_BAD_VERSION = 4,
     WRS_OPEN_FAILED = 5,
+    WRS_CLOSE_FAILED = 6,
     WRS_SEEK_FAILED = 9,
     WRS_READ_FAILED = 8,
     WRS_READ_INCOMPLETE = 14,
@@ -116,6 +131,9 @@ typedef enum {
 } WResStatus;
 
 int OpenResFile( HANDLE_INFO *instance );
+int CloseResFile( HANDLE_INFO *instance );
+void WResFreeDir( WResDir dir );
+int ResCloseFile( int handle );
 int ResOpenFileRO( const char *filename );
 void WresRecordError( WResStatus status );
 int FindResources( HANDLE_INFO *instance );
@@ -124,6 +142,8 @@ int InitResources( HANDLE_INFO *instance );
 WResDir WResInitDir( void );
 int WResReadDir( int handle, WResDir dir, int *dup_discarded );
 void __FreeTypeList( WResDir dir );
+void __FreeResList( WResTypeNode *type );
+void __FreeLangList( WResResNode *resource );
 int WResIsWResFile( int handle );
 int ResReadUint32( unsigned long *value, int handle );
 int readWResDir( int handle, WResDir dir );
@@ -142,6 +162,20 @@ int readMResDir( int handle, WResDir dir, int *dup_discarded );
 
 void CheckMemoryHook( void );       /* Original VA 0x411fdf; name unknown. */
 int InitMsg( const char *image_name );
+void MsgGet( int resourceid, char *buffer );
+int LoadString( HANDLE_INFO *instance, unsigned resourceid,
+                char __far *buffer, int capacity );
+void WResIDFromNum( unsigned short number, WResID *id );
+WResDirWindow WResFindResource( const WResID *type, const WResID *name,
+                               WResDir dir, WResLangType *lang );
+WResLangInfo *WResGetLangInfo( WResDirWindow window );
+int WResIDCmp( const WResID *first, const WResID *second );
+int WResIDNameCmp( const WResIDName *first, const WResIDName *second );
+WResTypeNode *__FindType( const WResID *type, WResDir dir );
+WResResNode *__FindRes( const WResID *name, WResTypeNode *type );
+WResLangNode *__FindLang( WResLangType *lang, WResResNode *resource );
+int GetString( WResLangInfo *resource, HANDLE_INFO *instance, unsigned resourceid,
+               char __far *buffer, int capacity );
 void HandleSignal( int signal_number );
 void InitToolState( int argc, char **argv );
 unsigned char ProcessCommands( void );

@@ -1,0 +1,275 @@
+{
+  "schema": 1,
+  "functions": {
+    "__FreeLangList": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__FreeResList": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResFreeDir": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ResCloseFile": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CloseResFile": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "main": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CheckMemoryHook": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitMsg": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitToolState": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ProcessCommands": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FiniToolState": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FiniMsg": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "OpenResFile": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ResOpenFileRO": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FindResources": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "res_seek": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitResources": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResInitDir": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResReadDir": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__FreeTypeList": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResIsWResFile": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "readWResDir": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ResReadUint32": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResReadHeaderRecord": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResReadExtHeader": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "readTypeList": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResReadFixedTypeRecord": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResIDExtraBytes": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ResAddLLItemAtEnd": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "readResList": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResReadFixedResRecord1": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "AllocPoolItem": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseCommandLine": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PrintBanner": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FreeMemory": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PrintUsage": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PrintTextLine": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "Usage": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MsgGet": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PauseOnConsole": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "LoadString": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "WResIDFromNum": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResFindResource": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResGetLangInfo": {
+      "expected_cleanup": [
+        12
+      ]
+    },
+    "GetString": {
+      "expected_cleanup": [
+        12
+      ]
+    },
+    "__FindType": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__FindRes": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__FindLang": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResIDCmp": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FreeWorkList": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FreePool": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FreeHashTable": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FreeLargeBlocks": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FreeIndexList": {
+      "expected_cleanup": [
+        0
+      ]
+    }
+  }
+}

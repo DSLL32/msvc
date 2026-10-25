@@ -35,6 +35,7 @@
 #include <fcntl.h>
 #include <io.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include "wlib.h"
@@ -406,6 +407,200 @@ int WResReadFixedResRecord1( WResResInfo1 *info, int file )
     return 0;
 }
 
+/* Original0x418a28..0x418ac7. The old body performs lookup directly;
+   there is no later WResLoadString2 wrapper. Preserve the real far formal. */
+int LoadString( HANDLE_INFO *instance, unsigned resourceid,
+                char __far *buffer, int capacity )
+{
+    WResID type, name;
+    WResLangType lang;
+    WResDirWindow window;
+
+    lang.lang = 0;
+    lang.sublang = 0;
+    WResIDFromNum( (resourceid >> 4) + 1, &name );
+    WResIDFromNum( 6, &type );       /* String-table resource type. */
+    window = WResFindResource( &type, &name, MainDir, &lang );
+    if( window.CurrType == NULL || window.CurrRes == NULL ||
+        window.CurrLang == NULL ) {
+        return( -1 );
+    }
+    return( GetString( WResGetLangInfo( window ), instance, resourceid,
+                       buffer, capacity ) );
+}
+
+/* Original0x419b20..0x419b28. Old numeric IDs are exactly three bytes. */
+void WResIDFromNum( unsigned short number, WResID *id )
+{
+    id->IsName = 0;
+    id->ID.Num = number;
+}
+
+/* Original0x419bb8..0x419c14. Reused initial wrfindrs.c lookup
+   returns the full three-pointer window using the genuine struct ABI. */
+WResDirWindow WResFindResource( const WResID *type, const WResID *name,
+                        WResDir currdir, WResLangType *lang )
+{
+    WResDirWindow   newwind;
+
+    newwind.CurrType = __FindType( type, currdir );
+    if( newwind.CurrType != NULL ) {
+        newwind.CurrRes = __FindRes( name, newwind.CurrType );
+        if( newwind.CurrRes != NULL ) {
+            if( lang == NULL ) {
+                newwind.CurrLang = newwind.CurrRes->Head;
+            } else {
+                newwind.CurrLang = __FindLang( lang, newwind.CurrRes );
+            }
+        } else {
+            newwind.CurrLang = NULL;
+            newwind.CurrType = NULL;
+        }
+    } else {
+        newwind.CurrRes = NULL;
+        newwind.CurrLang = NULL;
+    }
+
+    return( newwind );
+}
+
+/* Original0x419b30..0x419b54; initial wrfindrs.c type list search. */
+WResTypeNode *__FindType( const WResID *type, WResDir dir )
+{
+    WResTypeNode *node;
+
+    for( node = dir->Head; node != NULL; node = node->Next ) {
+        if( WResIDCmp( type, &node->Info.TypeName ) ) {
+            break;
+        }
+    }
+    return( node );
+}
+
+/* Original0x41b000..0x41b03a; initial wridcmp.c compares either
+   two names or two numeric IDs, and rejects mixed identifier kinds. */
+int WResIDCmp( const WResID *first, const WResID *second )
+{
+    if( first->IsName && second->IsName ) {
+        return( WResIDNameCmp( &first->ID.Name, &second->ID.Name ) == 0 );
+    } else if( !first->IsName && !second->IsName ) {
+        return( first->ID.Num == second->ID.Num );
+    }
+    return( 0 );
+}
+
+/* Original0x419b54..0x419b78; initial wrfindrs.c resource-name search. */
+WResResNode *__FindRes( const WResID *name, WResTypeNode *type )
+{
+    WResResNode *node;
+
+    for( node = type->Head; node != NULL; node = node->Next ) {
+        if( WResIDCmp( name, &node->Info.ResName ) ) {
+            break;
+        }
+    }
+    return( node );
+}
+
+/* Original0x419b78..0x419bb5. A missing language selects neutral0/0;
+   compare the packed language and sublanguage fields independently. */
+WResLangNode *__FindLang( WResLangType *lang, WResResNode *resource )
+{
+    WResLangType neutral;
+    WResLangNode *node;
+
+    if( lang == NULL ) {
+        neutral.lang = 0;
+        neutral.sublang = 0;
+        lang = &neutral;
+    }
+    node = resource->Head;
+    while( node != NULL ) {
+        if( node->Info.lang.lang == lang->lang &&
+            node->Info.lang.sublang == lang->sublang ) {
+            break;
+        }
+        node = node->Next;
+    }
+    return( node );
+}
+
+/* Original0x419c20..0x419c36, initial wrgetli.c. The12-byte window
+   is passed by value and the period callee removes those12 stack bytes. */
+WResLangInfo *WResGetLangInfo( WResDirWindow window )
+{
+    if( window.CurrLang == NULL ) {
+        return( NULL );
+    }
+    return( &window.CurrLang->Info );
+}
+
+/* Original0x4188e0..0x418a28. Reused initial loadstr.c string-table
+   reader. char __far* preserves period pointer/RET12 ABI; the native flat
+   projection is limited to Usage's live128B stack object: MsgGet loads DS
+   at414c73, forwards the same buffer and pushes capacity128. Other owners
+   are unqualified. The four-site original GS patch is unchanged. */
+int GetString( WResLangInfo *resource, HANDLE_INFO *instance, unsigned resourceid,
+               char __far *buffer, int capacity )
+{
+    long                prevpos;
+    int                 length;
+    int                 stringbufflen;
+    char *              stringbuff;
+    int                 stringnum;
+    int                 stringlen;
+    int                 numread;
+    int                 ix1, ix2;
+
+    prevpos = (*WResRtns.seek)( instance->handle, resource->Offset, SEEK_SET );
+    if ( prevpos == -1L ) return( -1 );
+    length = resource->Length;
+    stringbufflen = (length > 128) ? 128 : length;
+    stringbuff = (char *) alloca( stringbufflen );
+    if ( stringbuff == NULL ) return( -1 );
+    stringnum = resourceid & 0x0f;
+
+    numread = 0;
+    stringlen = 0;
+    ix2 = 0;
+    ix1 = 0;
+    do {
+        if ( numread == 0 ) {
+            if ( length > stringbufflen ) {
+                length -= stringbufflen;
+            } else {
+                stringbufflen = length;
+                length = 0;
+            }
+            numread = (*WResRtns.read)( instance->handle, stringbuff, stringbufflen );
+            if( numread == 0 ) return( -1 );    // 15-sep-93 AFS
+            if( numread == -1 ) return( -1 );
+            ix1 = 0;
+        }
+        if ( ix1 < numread ) {
+            if ( stringlen == 0 ) {
+                stringlen = ((unsigned char *)stringbuff)[ ix1++ ];
+                stringnum--;
+            }
+            for( ; stringlen > 0; --stringlen ) {
+                if ( ix1 >= numread ) break;
+                if ( stringnum < 0 ) {
+                    if( ix2 < capacity - 1 ) {
+                        buffer[ ix2++ ] = stringbuff[ ix1 ];
+                    }
+                }
+                ix1++;
+            }
+        } else {
+            numread = 0;
+        }
+    } while( !( (stringlen == 0) && (stringnum < 0) ) );
+    buffer[ ix2 ] = '\0';
+
+
+    return( 0 );
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )
@@ -475,4 +670,80 @@ int FindResources( HANDLE_INFO *instance )
         }
     }
     return( notfound );
+}
+
+/* Original0x418b00..0x418b16 has no later CloseResFile2 wrapper. */
+int CloseResFile( HANDLE_INFO *instance )
+{
+    WResFreeDir( MainDir );
+    return( ResCloseFile( instance->handle ) );
+}
+
+/* Original0x41a35c..0x41a372; initial source wrfreedi.c. */
+void WResFreeDir( WResDir dir )
+{
+    if( dir != NULL ) {
+        __FreeTypeList( dir );
+        (*WResRtns.free)( dir );
+    }
+}
+
+/* Original0x41a324..0x41a359; initial wrfreedi.c algorithm. */
+void __FreeTypeList( WResDir dir )
+{
+    WResTypeNode *type, *next;
+
+    type = dir->Head;
+    while( type != NULL ) {
+        next = type->Next;
+        __FreeResList( type );
+        (*WResRtns.free)( type );
+        type = next;
+    }
+    dir->Head = NULL;
+    dir->Tail = NULL;
+}
+
+/* Original0x41a2ec..0x41a321; initial wrfreedi.c algorithm. */
+void __FreeResList( WResTypeNode *type )
+{
+    WResResNode *resource, *next;
+
+    resource = type->Head;
+    while( resource != NULL ) {
+        next = resource->Next;
+        __FreeLangList( resource );
+        (*WResRtns.free)( resource );
+        resource = next;
+    }
+    type->Head = NULL;
+    type->Tail = NULL;
+}
+
+/* Original0x41a2c0..0x41a2ea; initial wrfreedi.c algorithm. */
+void __FreeLangList( WResResNode *resource )
+{
+    WResLangNode *language, *next;
+
+    language = resource->Head;
+    while( language != NULL ) {
+        next = language->Next;
+        (*WResRtns.free)( language );
+        language = next;
+    }
+    resource->Head = NULL;
+    resource->Tail = NULL;
+}
+
+/* Original0x41a380..0x41a39c; initial rclosef.c, including the
+   SDK error-report vertex on failure. */
+int ResCloseFile( int handle )
+{
+    int result;
+
+    result = (*WResRtns.close)( handle );
+    if( result == -1 ) {
+        WresRecordError( WRS_CLOSE_FAILED );
+    }
+    return( result );
 }

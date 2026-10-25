@@ -1,11 +1,16 @@
 {
   "identity_only_entries": [
     {
-      "name": "write_",
-      "evidence": {
-        "path": "harness/call-identity.json",
-        "sha256": "2ebda38281d603e5f55a0abde521fec5d13529eb3f044c51ed4ae8aa861d6542"
-      }
+      "name": "getenv_"
+    },
+    {
+      "name": "getcmd_"
+    },
+    {
+      "name": "fputc_"
+    },
+    {
+      "name": "getch_"
     }
   ]
 }
