@@ -1,4 +1,5 @@
 /* CodeView field-list construction and continuation records. */
+#include <stdlib.h>
 #include <string.h>
 #include "debug-types.h"
 #include "debug-info.h"
@@ -9,6 +10,7 @@
 #include "member-expressions.h"
 #include "member-access.h"
 #include "inline-capture.h"
+#include "enumerators.h"
 #include <recon.h>
 
 unsigned debug_field_bytes; /* original0x8ccac */
@@ -364,4 +366,41 @@ void split_debug_field_record(unsigned char kind, void *subject, unsigned first,
         debug_types[record].attributes = (unsigned short)tail;
     }
     emit_debug_type_record(debug_field_bytes + 6);
+}
+
+/* Original0x6f950..0x6faa6. Emit an ordered enum field-list slice. The
+   members array remains owned by its queued continuation until the last slice. */
+void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int limit)
+{
+    unsigned char *leaf = debug_record_buffer + 2, *field, *name;
+    EnumeratorSymbol *member;
+    unsigned required, padding, i, length;
+    int value, index;
+    debug_field_bytes = 0;
+    *(unsigned short *)leaf = 0x204;
+    for (index = first; index < limit; ++index) {
+        member = (EnumeratorSymbol *)members[index];
+        member->flags &= ~8;
+        for (required = 0; member->name[required]; ++required) ;
+        required += 11;
+        padding = (-debug_field_bytes) & 3;
+        for (i = 0; i < padding; ++i)
+            debug_record_buffer[debug_field_bytes + 4 + i] =
+                (unsigned char)(0xf0 + padding - i);
+        debug_field_bytes += padding;
+        if (debug_field_bytes + required + 4 >= 0x109) {
+            split_debug_field_record(7, members, index, limit);
+            return;
+        }
+        field = leaf + debug_field_bytes + 2;
+        *(unsigned short *)field = 0x403;
+        *(unsigned short *)(field + 2) = debug_field_properties | 3;
+        value = (int)member->value;
+        if (value >= 0) length = encode_debug_unsigned(field + 4, (unsigned)value);
+        else length = encode_debug_signed(field + 4, value);
+        name = field + 4 + length;
+        debug_field_bytes += copy_debug_name(name, member->name) - name + length + 4;
+    }
+    emit_debug_type_record(debug_field_bytes + 2);
+    free(members);
 }

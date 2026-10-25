@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1537 historical frontiers/1430 App bodies.
+ * Current reviewed boundary:1538 historical frontiers/1431 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -11961,10 +11961,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_debug_field_list_chunk@12",
         .entry_rva = 0x5f950,
-        .code = (const ReconExtent[]) { { 0x5f950, 0x5f951 } },
+        .code = (const ReconExtent[]) { { 0x5f950, 0x5faa6 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_debug_field_list_chunk",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_debug_method_list@4",

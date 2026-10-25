@@ -5,7 +5,7 @@ Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
 /O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
 The independent native cases freeze source timestamps/cwds and the original
 53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1430 App bodies and1537
+original/native matching at compare_filenames; there are1431 App bodies and1538
 historical frontiers. Original compilation,1430-function inherited graph/ABI
 checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
 compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
@@ -50,8 +50,12 @@ actual debug type sort. Fresh original1.275s, native26.899ms (setup16.452ms,
 execution4.460ms, checks5.985ms), original build2.969s,1437-function inherited
 audit2.261s and cached12+21units0.321s pass.
 compare_debug_symbol_indices(19B) is accepted at the genuine debug enumerator
-emitter. Original build2.840s, fresh original0.652s, native33.532ms,
+emitter. Original build2.840s, fresh original0.652s, native32.084ms,
 1438-function full audit2.153s and cached12+21units0.316s pass.
+emit_debug_field_list_chunk@12(342B) is accepted at finish_pch_debug_types.
+Its enum values use the existing28B EnumeratorSymbol owner; continuation keeps
+array ownership until the final slice frees it. Original build3.255s, fresh
+original0.896s, full1439-function audit2.261s and cached12+21units0.320s pass.
 Producer IR/browser outputs match the driver. Raw export from the genuine
 standalone invocation matches ALL seven already-frozen master hashes, including
 state.pch. The driver-vs-standalone PCH differs by47bytes in23 arena DWORDs:
