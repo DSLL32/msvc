@@ -280,7 +280,6 @@ int __stdcall qualifier_path_is_hidden(QualifierBinding *path, HashTable *hidden
 
 void discard_function_definition(void) { __asm { int 3 } }
 void __stdcall report_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
-void __stdcall assign_symbol_segment(CppSymbol *symbol, SegmentSymbol *segment) { __asm { int 3 } }
 
 void __stdcall inherit_function_defaults(CppSymbol *declaration, DefaultArgument *defaults,
     FunctionParameters *previous, FunctionParameters *current, DefaultArgument *following) { __asm { int 3 } }

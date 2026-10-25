@@ -2,7 +2,7 @@
 #include "entry.h"
 extern const ReconTest dsp_tests[1];
 
-static const uint32_t order[] = { 0x20d50, 0x21080, 0x21050, 0x212f0, 0x212c0, 0x211c0, 0x21290, 0x21220, 0x1c410, 0x2d3b0, 0x11620, 0x116c0, 0xf2e0, 0x134b0, 0x11640, 0x2d4e0, 0x45c00, 0x450e0, 0x44e80, 0x44f00, 0x52860 };
+static const uint32_t order[] = { 0x20d50, 0x21080, 0x21050, 0x212f0, 0x212c0, 0x211c0, 0x21290, 0x21220, 0x1c410, 0x2d3b0, 0x11620, 0x116c0, 0xf2e0, 0x134b0, 0x11640, 0x2d4e0, 0x45c00, 0x450e0, 0x44e80, 0x44f00, 0x52860, 0x62e90 };
 
 /* Accepted application entries frozen before this substantial workload. */
 static const uint32_t seen[] = {
@@ -1379,6 +1379,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "dsp_bank",
     "DSP bank: assembly expression/label/segment/x87 paths, floating constants, intrinsics, exports/sections, access/conversion lifetimes and a512-field CodeView type; explicit initial seen seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x52860,
+    RECON_IO, RECON_FRONTIER, 0x62e90,
     NULL, c1xx_case_invoke, NULL, dsp_tests, 1
 };

@@ -84,3 +84,16 @@ SegmentSymbol *__stdcall new_segment_symbol(char *name, char *class_name,
     }
     return segment;
 }
+
+/* Original0x62860..0x628ab, stdcall8. A defined function retains its
+   current function attributes; other declarations use the explicit segment
+   pointer model. The qualifier builder consumes the local segment owner. */
+void __stdcall assign_symbol_segment(CppSymbol *symbol, SegmentSymbol *segment)
+{
+    SegmentSymbol *base;
+    unsigned short attributes;
+    symbol->attributes |= 2;
+    base = segment;
+    attributes = (symbol->kind & 31) == 7 ? symbol->type->attributes : 5;
+    symbol->type = make_qualified_type(symbol->type,0x400,attributes,&base);
+}

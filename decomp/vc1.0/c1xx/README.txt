@@ -1,11 +1,11 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is COMPLETE. There are1387 application
+PARTIAL reconstruction; packet_engine is COMPLETE. There are1388 application
 source functions plus seven unchanged historical CRT source functions. The new
-dsp_bank has accepted twenty bodies (2880B), including named-segment
-lookup/creation alongside access declarations, intrinsics and pragmas; active
-at assign_symbol_segment (RVA0x52860). The completed packet_engine
+dsp_bank has accepted twenty-one bodies (2955B), including named-segment
+lookup/creation/assignment alongside access declarations, intrinsics and pragmas;
+active at diagnostic_format (RVA0x62e90). The completed packet_engine
 /O2 /G5 /Ob1 /Z7 /FR case accepted83 whole application bodies:
 18,747 code bytes and820 owned switch-data bytes. It covers packed/anonymous
 aggregates, generated special members/defaults, temporaries, nested SEH,
@@ -37,15 +37,15 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1494: the 1302 trial baseline plus 88 browser and83 packet application steps,
-the first twenty DSP application steps, and the one additional CRT boundary.
+1495: the 1302 trial baseline plus 88 browser and83 packet application steps,
+the first twenty-one DSP application steps, and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
 original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 336,169/476,418 .text bytes (70.56%); this is
+Application function extents cover 336,244/476,418 .text bytes (70.58%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
