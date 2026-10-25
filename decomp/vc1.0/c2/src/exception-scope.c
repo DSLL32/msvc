@@ -303,3 +303,13 @@ void __fastcall rewrite_exception_expressions(Function *function)
         previous = expression;
     }
 }
+
+/* Original [00066240,00066261): the private annotation operand is a
+   16-bit control code in CX; the current scope is borrowed, not copied. */
+Node *__fastcall new_exception_annotation(unsigned short code)
+{
+    Node *node = new_node(0x4f);
+    node->detail.control.code = (short)code;
+    node->left.pointer = current_exception_scope();
+    return node;
+}

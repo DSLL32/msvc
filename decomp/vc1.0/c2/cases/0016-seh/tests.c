@@ -9,6 +9,7 @@ extern int c2_scope_current_inputs(void);
 extern int c2_scope_pop_inputs(void);
 extern int c2_scope_rewrite_inputs(void);
 extern int c2_scope_annotation_inputs(void);
+extern int c2_scope_unwind_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -120,6 +121,23 @@ static int rewrite_plain_stream(void)
            nodes[i].opcode!=0x56+i)return 0;
     return 1;
 }
+static int annotation_values(void)
+{
+    ExceptionScope scopes[20];Node *node;unsigned i,d;
+    static const unsigned short codes[]={0,0x26,0x2d,0xffff};
+    for(d=0;d<=20;d+=d?19:1){
+        exception_scope_stack_depth=d;
+        for(i=0;i<20;++i)exception_scope_stack[i]=&scopes[i];
+        for(i=0;i<RECON_COUNT(codes);++i){
+            node=new_exception_annotation(codes[i]);
+            if(node->opcode!=0x4f||node->left.pointer!=(d?&scopes[d-1]:0)||
+               (unsigned short)node->detail.control.code!=codes[i]||
+               node->detail.control.flags||node->attributes.value||
+               node->info.value||node->second.value||node->right.value)return 0;
+        }
+    }
+    return 1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -133,5 +151,7 @@ const ReconTest c2_tests[]={
     {"scope pop underflow reaches exact pending diagnostic",1,pop_underflow_boundary},
     {"actual rewrite Function formal and expression-list owner",1,c2_scope_rewrite_inputs},
     {"SEH rewrite empty and ordinary streams preserve owners",1,rewrite_plain_stream},
-    {"actual annotation CX and active-scope identity",1,c2_scope_annotation_inputs}
+    {"actual annotation CX and active-scope identity",1,c2_scope_annotation_inputs},
+    {"annotation code width and borrowed scope pointer",1,annotation_values},
+    {"actual unwind previous/tree/stack target and scope owner",1,c2_scope_unwind_inputs}
 };

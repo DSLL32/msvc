@@ -115,3 +115,21 @@ int c2_scope_annotation_inputs(void)
     return recon_native_at_entry((const void *)new_exception_annotation,
         (const void *)annotation_entry,real_input,0)==1;
 }
+
+static Node *__fastcall unwind_entry(Expression *previous,Node *before,long target)
+{
+    ExceptionScope *scope=exception_scope_stack[1];
+    int valid=exception_scope_stack_depth==2&&
+        prepared_exception_scopes==exception_scope_stack[0]&&scope&&
+        scope->kind==2&&scope->state==0x8f&&scope->identifier==1&&
+        !scope->finally_depth&&!scope->parent_identifier&&
+        previous&&previous->next&&previous->next->tree==before&&
+        previous->source_location==43&&before->opcode==0x3a&&target==1&&
+        ((LabelSymbol *)before->right.symbol)->field28==(unsigned)target;
+    recon_native_entry_finish(valid);
+}
+int c2_scope_unwind_inputs(void)
+{
+    return recon_native_at_entry((const void *)insert_exception_unwind,
+        (const void *)unwind_entry,real_input,0)==1;
+}

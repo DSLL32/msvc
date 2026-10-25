@@ -5,9 +5,9 @@
 static const ReconFunction functions[] = {
     {
         .name = "@new_exception_annotation@4", .entry_rva = 0x56240,
-        .code = (const ReconExtent[]) { { 0x56240, 0x56241 } }, .code_count = 1,
+        .code = (const ReconExtent[]) { { 0x56240, 0x56261 } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "new_exception_annotation",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@new_finally_unwind@4", .entry_rva = 0x56270,
