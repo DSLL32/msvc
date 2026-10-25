@@ -18,4 +18,6 @@ void __fastcall prepend_input_record(C2Record *before, C2Record *record);
 void __fastcall normalize_line_record(C2Record *record);
 void __fastcall move_input_record_before(C2Record *before, C2Record *record);
 int __fastcall record_closes_scope(C2Record *record);
+C2FlowEdge *__fastcall new_function_edge(C2Function *function,
+    C2BasicBlock *source, C2BasicBlock *destination);
 #endif

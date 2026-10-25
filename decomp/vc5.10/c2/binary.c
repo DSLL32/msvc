@@ -1683,11 +1683,20 @@ static const ReconFunction functions[] = {
         .native_symbol = "partition_function_blocks",
     },
     {
-        .name = "@function_pass_408ab8@4",
-        .entry_rva = 0x8ab8,
+        .name = "@new_function_edge@12",
+        .entry_rva = 0x29e9,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "function_pass_408ab8",
+        .native_symbol = "new_function_edge",
+    },
+    {
+        .name = "@build_function_edges@4",
+        .entry_rva = 0x8ab8,
+        .code = (const ReconExtent[]){{0x8ab8, 0x8b54}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "build_function_edges",
     },
     {
         .name = "@function_pass_408b54@4",

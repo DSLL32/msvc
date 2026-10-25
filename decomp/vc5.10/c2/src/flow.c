@@ -148,3 +148,28 @@ void __fastcall unlink_input_record(C2Record *record)
     record->previous = NULL;
     record->next = NULL;
 }
+
+void __fastcall build_function_edges(C2Function *function)
+{
+    C2BasicBlock *block, *target;
+    C2Expression *record, *value, *last;
+    C2SymbolInputUse *use;
+    int fallthrough = 0;
+    for (block = function->flow->last; block; block = block->previous) {
+        if (fallthrough) new_function_edge(function, block->next, block);
+        record = (C2Expression *)block->records->next;
+        if (record->kind == 25) {
+            for (use = record->tail.symbol_uses; use; use = use->next) {
+                value = use->expression;
+                if (value->kind == 28) value = value->left;
+                target = value->next->value.pointer;
+                new_function_edge(function, target->next, block);
+            }
+        }
+        last = (C2Expression *)block->last_record->previous;
+        if (last->kind == 16)
+            fallthrough = last->detail.data != NULL || last->opcode == 0x15c;
+        else
+            fallthrough = last->kind != 18;
+    }
+}

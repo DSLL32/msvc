@@ -318,6 +318,6 @@ void __fastcall function_pass_4088c7(C2Function *function)
     group_symbol_records(function);
     simplify_symbol_records(function);
     partition_function_blocks(function);
-    function_pass_408ab8(function);
+    build_function_edges(function);
     function_pass_408b54(function);
 }
