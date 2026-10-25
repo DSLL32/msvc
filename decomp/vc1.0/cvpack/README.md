@@ -48,7 +48,16 @@ The versioned workload now completes with all 141 unseeded first entries,
 exit 0, matching streams and exact defined output bytes. Its two unwritten
 module-filename padding bytes (`0x33` and `0x5f`) are excluded from the comparison
 hash, and its callback requires actual native zeroes. Both original bytes were
-already zero, so the raw and canonical output hashes coincide. The superseded malformed constant
+already zero, so the raw and canonical output hashes coincide. `0015-based-symbol-families` independently exercises C6 based pointers whose
+embedded symbol offsets identify actual bprel/data/register records in the same
+module's loaded local stream. Its two modules cover narrow and wide families,
+with self/type/segment forms and base kinds93/94/97/98; BARRAY is excluded.
+`scripts/make-based-symbol-input.py OUTPUT_DIRECTORY` reproduces the authored
+1,320-byte input SHA256 `4fb473791a75b1c5aeed6ab6cd4084f8bad4f98a7deaff250c8ff9c821716e52`.
+The original accepts it without warnings (exit0,118 entries), raw2,432-byte
+output SHA256 `17696a0ae7fd41cc7e5fb764b6988898d6118622b9c1678ff1157c355936d77e`.
+The current qualified frontier is `get_old_symbol` (`0x83a0`), with73 matching
+unseeded first entries. The superseded malformed constant
 encoding and its CK4003 warnings remain in owned scratch, without coverage
 credit. The two no-op register-relative callbacks remain unaccepted; the wide
 conversion no-op does not advance the CLI dispatcher, so it needs a bounded
@@ -60,7 +69,7 @@ implementation. Shared CRT compatibility remains in `lib/recon/`.
 
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
-automatically discovers the fourteen numbered `case.c` descriptors, and runs their
+automatically discovers the fifteen numbered `case.c` descriptors, and runs their
 cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
@@ -69,8 +78,8 @@ application CFGs, RET cleanup, extent ownership and instruction overlap;
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-Thirteen dispatched cases complete;0013 retains its matching BARRAY
-partial frontier. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
+Thirteen dispatched cases complete;0013 retains its matching BARRAY frontier
+and0015 its based-symbol frontier. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
 filenames. Existing references retain their historical Z: program path; they
 were packed without relabeling or rerunning the original. Future path-dependent
