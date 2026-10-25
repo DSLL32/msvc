@@ -85,6 +85,7 @@ are opt-in:
 | --- | --- |
 | `--resolve-register-imports` | With `--check-imports`, conservatively resolve cached EBX/ESI/EDI/EBP import calls using the existing CFG and explicit, hash-bound callee-preservation witnesses. |
 | `--check-imports` | Compare verified DLL+name/ordinal import transfers, normalizing direct IAT calls and proven import thunks while retaining declared source/runtime vertices. Standalone profiles only. |
+| `--ret-checks PATH` | Assert explicit expected cleanup sets for named accepted functions; all graph/ownership/extent checks retain their full selection. Standalone CFG profiles only. |
 | `--check-ret` | Compare RET cleanup sets, inheriting identified direct tail callees; unknown indirect tail ABIs and cycles fail. CVPACK also checks declared cleanup. |
 | `--check-references` | Compare immediate references to indexed function entries, with alias bijection. Available for the seven standalone profiles. |
 | `--check-callbacks` | Compare ordered, non-null callback table entries and acceptance requirements from metadata. RC has supplied table metadata; other profiles require `--metadata`. |
@@ -99,6 +100,20 @@ tooling/graph-audit/target/release/graph-audit \
   --repo . --project decomp/vc1.0/rc --profile rc \
   --check-ret --check-references --check-callbacks --check-ownership
 ```
+
+`--ret-checks` reads binary policy, not per-case evidence. For example:
+
+```json
+{"schema":1,"functions":{"@helper@16":{"expected_cleanup":[8]}}}
+```
+
+Each named function must be selected, accepted, present unambiguously in both
+indexes, and have a determined extent. Expected cleanup sets must be nonempty,
+unique unsigned 16-bit values. Both original and rebuilt cleanup sets must equal
+the expected set; unknown tails still fail. This option never disables global
+`--check-ret`, changes graph scope, or supplies a missing ABI. Its report adds
+`ret_cleanup_checks` with policy SHA-256 and each original/rebuilt/expected set,
+and marks `selected_ret_cleanup`. Without this option reports stay unchanged.
 
 `checked_accepted_extents` reports raw accepted index-record counts, and
 `checked_unique_accepted_extents` reports distinct `(name,start,end)` checks.

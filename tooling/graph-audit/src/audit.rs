@@ -864,6 +864,12 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         .filter(|f| x.accepted.contains(&f.name))
         .map(|f| f.name.clone())
         .collect();
+    let ret_checks = a
+        .ret_checks
+        .as_ref()
+        .map(|path| crate::ret_checks::Checks::load(path, &progress, &selected, &x.oi, &x.ri))
+        .transpose()?;
+    let mut ret_report = BTreeMap::new();
     for owner in &enabled_owners {
         ensure!(
             selected.contains(owner),
@@ -1048,7 +1054,10 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             );
         }
         let mut checked_returns = None;
-        if a.check_ret {
+        let expected_ret = ret_checks
+            .as_ref()
+            .and_then(|checks| checks.expected(&f.name));
+        if a.check_ret || expected_ret.is_some() {
             let left = cfg_cleanup(
                 &d,
                 &x.o,
@@ -1068,6 +1077,20 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 &mut HashSet::new(),
             )?;
             ensure!(left == right, "{} RET cleanup differs", f.name);
+            if let Some(expected) = expected_ret {
+                ensure!(
+                    &left == expected && &right == expected,
+                    "{} RET cleanup differs from expected {:?}: original {:?}, rebuilt {:?}",
+                    f.name,
+                    expected,
+                    left,
+                    right
+                );
+                ret_report.insert(
+                    f.name.clone(),
+                    json!({"expected_cleanup":expected,"original":left,"rebuilt":right}),
+                );
+            }
             if a.export_instructions {
                 checked_returns = Some((left, right));
             }
@@ -1144,6 +1167,14 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         .then(|| crate::instruction_export::finish(x, &metadata, instruction_exports, &report))
         .transpose()?;
     let mut result = json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report});
+    if let Some(checks) = &ret_checks {
+        ensure!(
+            ret_report.len() == checks.len(),
+            "RET checks selection was not fully audited"
+        );
+        result["ret_cleanup_checks"] =
+            json!({"input_sha256":checks.input_sha256,"functions":ret_report});
+    }
     if let Some(export) = decoded_instructions {
         result["decoded_instructions"] = export;
     }

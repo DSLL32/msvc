@@ -9,6 +9,7 @@ mod index;
 mod instruction_export;
 mod pe;
 mod register_imports;
+mod ret_checks;
 mod watcom_map;
 use anyhow::Result;
 use clap::{Parser, ValueEnum};
@@ -50,6 +51,11 @@ pub struct Args {
     pub discovery: Discovery,
     #[arg(long)]
     pub check_ret: bool,
+    #[arg(
+        long,
+        help = "Assert explicit RET cleanup sets for selected accepted functions without reducing other audit scopes"
+    )]
+    pub ret_checks: Option<PathBuf>,
     #[arg(
         long,
         help = "Export exact decoded instruction facts for the successful paired CFG selection; not execution permission"
@@ -127,6 +133,7 @@ fn run() -> Result<()> {
                 || args.resolve_register_imports
                 || args.export_instructions
                 || args.check_ret
+                || args.ret_checks.is_some()
                 || args.check_references
                 || args.check_callbacks
                 || args.check_ownership
@@ -145,6 +152,10 @@ fn run() -> Result<()> {
     anyhow::ensure!(
         args.profile != Profile::Cvpack || !args.export_instructions,
         "instruction export requires a standalone CFG profile"
+    );
+    anyhow::ensure!(
+        args.profile != Profile::Cvpack || args.ret_checks.is_none(),
+        "--ret-checks requires a standalone CFG profile"
     );
     if args.profile == Profile::Cvpack
         && let Some(path) = &args.metadata
@@ -169,6 +180,7 @@ fn run() -> Result<()> {
         let mut checks = vec!["call_graph"];
         for (enabled, name) in [
             (args.check_ret, "ret_cleanup"),
+            (args.ret_checks.is_some(), "selected_ret_cleanup"),
             (args.check_imports, "known_imports"),
             (
                 args.resolve_register_imports || report.get("register_import_inputs").is_some(),
