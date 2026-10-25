@@ -489,3 +489,8 @@ void convert_old_symbol12(void)
     while (padding--) *old_symbol_output++ = 0;
     *(unsigned short *)(record+4) = convert_old_type(*(unsigned short *)(record+4));
 }
+
+void convert_old_symbol_skip(void)
+{
+    old_symbol_input += old_symbol_input[0]+1;
+}
