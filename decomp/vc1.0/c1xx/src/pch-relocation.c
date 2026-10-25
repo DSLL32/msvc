@@ -590,3 +590,48 @@ void __stdcall mark_pch_shape(TypeShape *shape)
         break;
     }
 }
+
+void __stdcall mark_pch_macro_entries(MacroDefinition *entry);
+void __stdcall mark_pch_identifier_entries(PreprocessorSymbol *entry);
+
+/* Original0x6a460..0x6a48b. Macro definitions occupy512 buckets. */
+void mark_pch_macros(void)
+{
+    unsigned i;
+    for (i = 0; i < 512; ++i) {
+        mark_pch_pointer((void **)&macro_buckets[i]);
+        mark_pch_macro_entries(macro_buckets[i]);
+    }
+}
+
+/* Original0x6a490..0x6a4bb. Names and replacement strings have independent
+   owners; parameter counts and browser indices are scalar data. */
+void __stdcall mark_pch_macro_entries(MacroDefinition *entry)
+{
+    while (entry) {
+        mark_pch_pointer((void **)&entry->next);
+        mark_pch_pointer((void **)&entry->name);
+        mark_pch_pointer((void **)&entry->replacement);
+        entry = entry->next;
+    }
+}
+
+/* Original0x6a4c0..0x6a4eb. Interned identifiers occupy2048 buckets. */
+void mark_pch_identifiers(void)
+{
+    unsigned i;
+    for (i = 0; i < 2048; ++i) {
+        mark_pch_pointer((void **)&preprocessor_buckets[i]);
+        mark_pch_identifier_entries(preprocessor_buckets[i]);
+    }
+}
+
+/* Original0x6a4f0..0x6a509. Packed identifier records have inline names;
+   their only pointer field is the next link. */
+void __stdcall mark_pch_identifier_entries(PreprocessorSymbol *entry)
+{
+    while (entry) {
+        mark_pch_pointer((void **)&entry->next);
+        entry = entry->next;
+    }
+}
