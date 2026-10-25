@@ -38,7 +38,7 @@ struct C2Expression {
     } value;
     union {
         struct {
-            union { C2Expression *left; C2InputSymbol *declaration; unsigned immediate; };
+            union { C2Expression *left; C2InputSymbol *declaration; C2FunctionRegister *original_register; unsigned immediate; };
             union { C2Expression *right; C2ExpressionReference *indirect; } tail;
         };
         C2IntegerWords integer;

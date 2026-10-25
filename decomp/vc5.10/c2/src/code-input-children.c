@@ -454,10 +454,3 @@ void __fastcall retain_aggregate_operands(C2Expression *expression)
 {
     __asm { int 3 }
 }
-
-C2Expression *__fastcall new_temporary_register_expression(unsigned opcode,
-    unsigned short type, C2FunctionRegister *reg, C2FunctionRegister *original)
-{
-    __asm { int 3 }
-    return 0;
-}

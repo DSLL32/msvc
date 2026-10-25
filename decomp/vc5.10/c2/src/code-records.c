@@ -351,3 +351,14 @@ C2Expression *__fastcall new_temporary_operand(unsigned short type)
     C2FunctionRegister *reg = new_temporary_register(type);
     return new_temporary_register_expression(0x11f, type, reg, reg);
 }
+
+C2Expression *__fastcall new_temporary_register_expression(unsigned opcode,
+    unsigned short type, C2FunctionRegister *reg, C2FunctionRegister *original)
+{
+    C2Expression *expression = (C2Expression *)allocate_small_node(1);
+    expression->opcode = opcode;
+    expression->type = type;
+    expression->value.reg = reg;
+    expression->original_register = original;
+    return expression;
+}

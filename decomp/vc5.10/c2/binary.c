@@ -2446,8 +2446,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@new_temporary_register_expression@16",
         .entry_rva = 0x228c,
+        .code = (const ReconExtent[]){{0x228c, 0x22b4}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_temporary_register_expression",
     },
     {
