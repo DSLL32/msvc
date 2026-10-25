@@ -172,3 +172,25 @@ void convert_old_argument_list(unsigned short type, unsigned short count)
         entry->data = converted;
     }
 }
+
+/* Basic C6 pointer records become the six-byte LF_POINTER payload. */
+void convert_old_pointer(TypeRecord *entry)
+{
+    unsigned char *record = entry->data;
+    unsigned short referent = *(unsigned short *)(record+6), attributes = 0;
+    entry->flags |= 0x400;
+    switch (record[4]) {
+    case 0x5e: attributes = 2; break;
+    case 0x73: attributes = 1; break;
+    case 0x74: attributes = 0; break;
+    default: break;
+    }
+    /* The original leaves reserved attribute bit 0x0800 uninitialized, and
+       also leaves the mode uninitialized for unknown pointer encodings.
+       Zero these unwritten bits in reconstructed output. */
+    attributes |= (unsigned short)(current_module_pe&1)<<8;
+    *(unsigned short *)record = 6;
+    *(unsigned short *)(record+2) = 2;
+    *(unsigned short *)(record+4) = attributes;
+    *(unsigned short *)(record+6) = referent;
+}

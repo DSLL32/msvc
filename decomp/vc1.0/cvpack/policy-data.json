@@ -1867,7 +1867,7 @@
       },
       "_convert_old_pointer": {
         "abi": "void convert_old_pointer(TypeRecord *)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
         "roots": []
       },

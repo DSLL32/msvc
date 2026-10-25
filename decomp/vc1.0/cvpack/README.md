@@ -1,14 +1,14 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **199 accepted application
-functions, 61,509 original code bytes, and 26 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **200 accepted application
+functions, 61,690 original code bytes, and 25 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `convert_old_pointer` (RVA `0x11dc0`). The last accepted
-function is `convert_old_argument_list` (sequence 199, 464 original bytes,
+frontier is now `convert_old_array` (RVA `0x12370`). The last accepted
+function is `convert_old_pointer` (sequence 200, 181 original bytes,
 `src/oldtypes.c`). Encountered converter dispatch and its calls have identified
 additional App helpers; these retain named trapping stubs and no accepted
-credit. The resumed workload has accepted twelve application functions. Each
+credit. The resumed workload has accepted thirteen application functions. Each
 has matching original/native progress and strict compiler/graph/data checks.
 The previous 195-function checkpoint also passed all twelve cached cases and
 unit executors. The previous baseline ended at `type_server_close` (sequence 187,
@@ -94,3 +94,11 @@ and alignment tail unwritten. Its reconstruction explicitly zeros that proven
 uninitialized tail and documents the original defect. The current partial
 frontier precedes output emission; any emitted tail must be masked when the
 legacy workload reaches a completed artifact comparison.
+
+The old basic-pointer converter left reserved attribute bit `0x0800`
+uninitialized. Its reconstruction zeros this bit and documents the original
+defect. It also initializes the unknown-encoding mode and procedure-convention
+fallback bytes to zero where the original left them unwritten. The current
+valid-input frontier passes with these corrections. No broad artifact masks or
+derived type-order changes have been assumed equivalent; actual output
+consequences must be diagnosed at the completed legacy path.

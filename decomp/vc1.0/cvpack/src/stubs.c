@@ -123,7 +123,7 @@ void *allocate_small_type(void) { __asm { int 3 } return NULL; }
 void recycle_small_type(void *buffer) { __asm { int 3 } }
 
 
-void convert_old_pointer(TypeRecord *entry) { __asm { int 3 } }
+
 void convert_old_based_pointer(TypeRecord *entry) { __asm { int 3 } }
 void convert_old_structure(TypeRecord *entry) { __asm { int 3 } }
 void convert_old_array(TypeRecord *entry) { __asm { int 3 } }
