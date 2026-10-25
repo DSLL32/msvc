@@ -17,7 +17,6 @@ extern "C" __declspec(dllimport) FILE _iob[];
 #endif
 
 /* Shared original c4d10 identity; its28-byte context stays behind Initialize. */
-struct CompilerDeclarationContext {};
 static CompilerDeclarationContext default_declaration_context;
 
 extern "C" {
@@ -54,6 +53,7 @@ void __cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *);
 int __cdecl report_response_error(int, ...);
 CompilerSymbol *__cdecl recycle_symbol(unsigned, CompilerNameEntry *, unsigned);
 CompilerHashTable *__cdecl create_hash_table(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
+CompilerSymbol *__cdecl make_abstract_declarator(void);
 }
 
 extern "C" void __cdecl initialize_frontend(void)
@@ -463,7 +463,7 @@ extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, Compile
 {
     CompilerDeclarator declaration;
     CompilerDeclaratorQualifiers qualifiers;
-    CompilerDeclaratorShape *shape;
+    CompilerParameterDescription *shape;
     CompilerArena *arena = &frontend_bss.arenas[5];
     BYTE *memory;
     declaration.Initialize(base, &default_declaration_context);
@@ -471,14 +471,14 @@ extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, Compile
     arena->cursor += 28;
     if (arena->cursor > arena->committed_limit) arena->CommitExtent();
     if (memory) {
-        shape = (CompilerDeclaratorShape *)memory;
+        shape = (CompilerParameterDescription *)memory;
         shape->kind = 5;
         shape->initial_value = 0;
-        shape->next = NULL;
+        shape->value = 0;
     } else {
         shape = NULL;
     }
-    declaration.AppendShape(shape);
+    declaration.AddFunction(shape);
     qualifiers.flags = (WORD)attributes;
     qualifiers.value = 0;
     declaration.ApplyQualifiers(&qualifiers);
@@ -585,7 +585,16 @@ extern "C" CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *name, Compi
 extern "C" void __cdecl declare_builtin(CompilerDeclaration *declaration, CompilerSymbol *symbol) { __asm { int 3 } }
 CompilerContextBuffer *RECON_THISCALL CompilerContextBuffer::Initialize(unsigned arena_kind) { __asm { int 3 } return this; }
 void RECON_THISCALL FrontendContextStack::Push(void *object, unsigned arena, int first, int second, FrontendContextStack *owner) { __asm { int 3 } }
-CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *type, const void *name) { __asm { int 3 } return this; }
+CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *type, const void *position)
+{
+    /* Clear only the native typed projection. This makes no claim about the
+     * original72-byte object's unmodeled bytes or its28-byte context copy. */
+    memset(this, 0, sizeof(*this));
+    symbol = make_abstract_declarator();
+    context = *(const CompilerDeclarationContext *)position;
+    base_type = type;
+    return this;
+}
 void RECON_THISCALL CompilerDeclarator::Resolve(void) { __asm { int 3 } }
 unsigned RECON_THISCALL CompilerLexer::Read(void) { __asm { int 3 } return 0; }
 unsigned RECON_THISCALL CompilerLexer::Peek(void) { __asm { int 3 } return 0; }
@@ -623,5 +632,7 @@ extern "C" CompilerHashTable *__cdecl create_hash_table(unsigned buckets,
     return table;
 }
 
-void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerDeclaratorShape *shape) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription *shape) { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ApplyQualifiers(CompilerDeclaratorQualifiers *qualifiers) { __asm { int 3 } }
+
+extern "C" CompilerSymbol *__cdecl make_abstract_declarator(void) { __asm { int 3 } return NULL; }

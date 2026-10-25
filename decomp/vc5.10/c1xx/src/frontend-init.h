@@ -152,23 +152,28 @@ struct CompilerDeclaration {
     unsigned flags; /* original +4 */
     CompilerType *type; /* original +1c */
 };
-/* Parse-time shape, distinct from the interned CompilerTypeShape. Only the
- * stores in the function-type builder are modeled, not its full28-byte tail. */
-struct CompilerDeclaratorShape {
-    CompilerDeclaratorShape *next; /* original +0 */
-    unsigned kind;                 /* +10: function form5 */
-    unsigned initial_value;        /* +14, exact zero store; later role pending */
+/* Function-parameter description, distinct from an interned type shape.
+ * Only the builder's stores are modeled; the full28-byte layout is unknown. */
+struct CompilerParameterDescription {
+    unsigned value;               /* original +0, initially0 */
+    unsigned kind;                /* +10, actual value5 */
+    unsigned initial_value;       /* +14, exact zero store; later role pending */
 };
 struct CompilerDeclaratorQualifiers {
     WORD flags;
     unsigned value;
 };
+/* Original c4d10 supplies a28-byte context. It currently has identity only:
+ * no raw contents or unknown fields are synthesized by the native projection. */
+struct CompilerDeclarationContext {};
 struct CompilerDeclarator {
+    CompilerType *base_type; /* original +0 */
     CompilerType *type; /* original +3c, resolved result */
-    /* Its genuine initializer is still pending. No other72-byte storage
-     * or default claim is implied by this compact result view. */
+    CompilerSymbol *symbol; /* original +38 */
+    CompilerDeclarationContext context; /* original +1c..37, no projected fields */
+    /* Remaining original72-byte storage stays unmodeled. */
     CompilerDeclarator *RECON_THISCALL Initialize(CompilerType *, const void *);
-    void RECON_THISCALL AppendShape(CompilerDeclaratorShape *);
+    void RECON_THISCALL AddFunction(CompilerParameterDescription *);
     void RECON_THISCALL ApplyQualifiers(CompilerDeclaratorQualifiers *);
     void RECON_THISCALL Resolve(void);
 };
