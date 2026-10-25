@@ -1,0 +1,11 @@
+{
+  "classification_sha256": "1340d4117d0d674ec1e5f8453f8d9eb8b2435eb4b9bfc9228ff1d44112ca78f2",
+  "passed": true,
+  "body_hashes": 5,
+  "source_hashes": 5,
+  "all_record_checksums_and_payloads": true,
+  "pins": 9,
+  "normal_restoration_bytes": 496,
+  "cold_identity_only_bytes": 33,
+  "review": "Finite normal lseek/read/IOMode library/source/ABI roles corroborate CRT ownership. Older semantic variants explicit; only errno10B exact fixup match. Cold errno/strerror stay masked; no native Watcom error contract or App credit."
+}

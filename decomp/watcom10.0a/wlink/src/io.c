@@ -16,3 +16,13 @@ long QLSeek( int file, long position, int start, char *name )
     }
     return result;
 }
+
+static unsigned char CaughtBreak; /* original441f90; TrapBreak sets it. */
+
+void CheckBreak( void )
+{
+    if( CaughtBreak ) {
+        CaughtBreak = 0;             /* prevent recursion */
+        LnkMsg( 0x340d, 0 );
+    }
+}

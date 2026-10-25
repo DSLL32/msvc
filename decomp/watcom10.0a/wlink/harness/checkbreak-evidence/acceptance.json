@@ -1,0 +1,15 @@
+{
+  "scope": "CheckBreak37B clears CaughtBreak before diagnostic, normal unset flag returns. Actual original/native reach InitResources after identical masked-file seek/read/trailer scan.",
+  "application_functions": 12,
+  "application_bytes": 1420,
+  "ABI": "Original saves EDX, nearRETcleanup0. CaughtBreak byte441f90 initial0; diagnostic0x340d with NULL types remains genuine LnkMsg cold edge.",
+  "shared_lseek_status": "Canonical READY657661533 exact unchanged frozen header4b96030b/compatfb66f182 used in successful meaningful pair; no publication-only recapture.",
+  "bindings": {
+    "src/io.c": "ad64ac06b539290f5b6efc50cd3860798c30433568b08c9b12f92cabbc0988ed",
+    "src/link.h": "dffaae6d280827952ed45a542ff73799dee2ace9427d2eb34b4b75a9b9411741",
+    "binary.c": "987916be07e9cf33846d5ab7f98e42326819e9600fe5cd2b13bad50b3442af77",
+    "policy-data.json": "d0b7c8317d744db846c1b82afd6c3f7d04425e79df94127c28df5f58e2a39098",
+    "harness/readseek-runtime.json": "1340d4117d0d674ec1e5f8453f8d9eb8b2435eb4b9bfc9228ff1d44112ca78f2",
+    "harness/readseek-runtime-review.json": "c421d2cb176d5c135deebe54cd752bc64518f2fa0077e2c3ece5498a72e0669c"
+  }
+}

@@ -51,6 +51,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "CheckBreak": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

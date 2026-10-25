@@ -64,7 +64,6 @@ void InitSym( void ) { TRAP(); }
 void * NewSection( void ) { TRAP(); return 0; }
 void InitObjIO( void ) { TRAP(); }
 
-void CheckBreak( void ) { TRAP(); }
 int InitResources( HANDLE_INFO *instance ) { instance = instance; TRAP(); return 0; }
 unsigned QWrite( int file, void *buffer, unsigned length, char *name )
 {
