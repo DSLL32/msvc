@@ -1517,8 +1517,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "CompilerDeclarator::ValidateContext", .entry_rva = 0x87b2,
-        .code = (const ReconExtent[]){{0x87b2, 0x87b3}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x87b2, 0x87c3}, {0x54865, 0x54880}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "_ZN18CompilerDeclarator15ValidateContextEv",
         .original_symbol = "?ValidateContext@CompilerDeclarator@@QAEXXZ",
     },

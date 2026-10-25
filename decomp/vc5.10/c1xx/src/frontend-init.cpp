@@ -1020,7 +1020,14 @@ next:
         entry = entry->base;
     }
 }
-void RECON_THISCALL CompilerDeclarator::ValidateContext(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::ValidateContext(void)
+{
+    if (qualifiers.flags) {
+        report_language_diagnostic(1, 229);
+        qualifiers.flags = 0;
+        qualifiers.value = 0;
+    }
+}
 CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
 CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternChain(CompilerTypeShape *stop) { __asm { int 3 } return NULL; }
 extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
