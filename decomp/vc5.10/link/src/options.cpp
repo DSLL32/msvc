@@ -767,11 +767,6 @@ next_option:
     if (warnings_as_errors) enable_warning_errors();
 }
 
-StringNode *RECON_THISCALL StringTable::Lookup(const unsigned char *name,BYTE *created)
-{
-    __asm { int 3 }
-    return NULL;
-}
 #undef OPTION
 #undef VALUE
 #undef KEY

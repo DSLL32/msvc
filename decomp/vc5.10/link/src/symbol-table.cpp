@@ -15,6 +15,7 @@ DWORD symbol_record_size=60;
 DWORD __stdcall append_symbol_string(StringTable *,const char *);
 DWORD __stdcall intern_symbol_string(StringTable *,const char *);
 }
+#pragma intrinsic(strlen)
 StringNode *RECON_THISCALL StringTable::LookupSymbol(WORD kind,const char *name,BYTE *created)
 {
     HashEntry *entry;
@@ -60,4 +61,9 @@ StringNode *RECON_THISCALL StringTable::FindSymbol(const char *name)
     /* lookup_hash never reads/writes this output when create is zero. */
     HashEntry *entry=lookup_hash(name,hash.state,0,&hash.string_storage,&created);
     return entry ? (StringNode *)entry->value : NULL;
+}
+
+StringNode *RECON_THISCALL StringTable::Lookup(const unsigned char *name,BYTE *created)
+{
+    return LookupSymbol(strlen((const char *)name)<=8 ? 1 : 0,(const char *)name,created);
 }

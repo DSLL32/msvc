@@ -1264,7 +1264,23 @@ static int decorated_entry(void)
     return recon_native_at_entry(native_lookup_entry_symbol,check_decorated_entry,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall search_libraries(LinkContext *);
+static void __stdcall check_startup_undefined(LinkContext *context)
+{
+    StringNode *found=native_find_entry_symbol(context->symbols,"_WinMainCRTStartup");
+    recon_native_entry_finish(found && found==entry_symbol && !(found->flags & 1) &&
+        !found->contribution && found->symbol.StorageClass==IMAGE_SYM_CLASS_EXTERNAL &&
+        found->undefined_previous && *found->undefined_previous==found &&
+        context->entry_name && !strcmp(context->entry_name,"WinMainCRTStartup") &&
+        entry_point_name && !strcmp(entry_point_name,"WinMainCRTStartup"));
+}
+static int startup_undefined(void)
+{
+    return recon_native_at_entry(search_libraries,check_startup_undefined,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"startup-undefined",1,startup_undefined},
     {"decorated-entry",1,decorated_entry},
     {"initial-entry-copy",1,initial_entry_copy},
     {"inferred-startup",1,inferred_startup},
