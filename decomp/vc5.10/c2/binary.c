@@ -2580,8 +2580,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@bind_symbol_input_use@8",
         .entry_rva = 0xd397,
+        .code = (const ReconExtent[]){{0xd397, 0xd3bc}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "bind_symbol_input_use",
     },
     {

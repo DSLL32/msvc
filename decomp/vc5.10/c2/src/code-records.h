@@ -16,6 +16,15 @@ typedef union C2IntegerWords {
     unsigned __int64 value;
 } C2IntegerWords;
 #pragma pack(pop)
+typedef struct C2SymbolInputUse {
+    struct C2SymbolInputUse *next;
+    unsigned pending04;
+    unsigned char kind, pending09[3];
+    C2Expression *expression;
+    unsigned pending10;
+} C2SymbolInputUse;
+typedef char C2SymbolInputUseSizeCheck[sizeof(C2SymbolInputUse) == 20 ? 1 : -1];
+typedef char C2SymbolInputUseValueCheck[offsetof(C2SymbolInputUse, expression) == 12 ? 1 : -1];
 struct C2Expression {
     C2Expression *next;
     unsigned opcode;
@@ -39,7 +48,7 @@ struct C2Expression {
     union {
         struct {
             union { C2Expression *left; C2InputSymbol *declaration; C2FunctionRegister *original_register; unsigned immediate; };
-            union { C2Expression *right; C2ExpressionReference *indirect; } tail;
+            union { C2Expression *right; C2ExpressionReference *indirect; C2SymbolInputUse *symbol_uses; } tail;
         };
         C2IntegerWords integer;
     };

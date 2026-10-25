@@ -800,6 +800,32 @@ static int input_effect_flags(void)
     return 1;
 }
 
+static int symbol_use_ownership(void)
+{
+    C2Expression symbol_record, use;
+    C2InputSymbol symbol;
+    union { unsigned alignment; unsigned char bytes[24]; } storage;
+    C2SymbolInputUse *entry = (C2SymbolInputUse *)&storage;
+    unsigned i;
+    memset(&symbol_record, 0xa5, sizeof(symbol_record));
+    memset(&symbol, 0, sizeof(symbol));
+    memset(&storage, 0xa5, sizeof(storage));
+    entry->next = NULL;
+    free_small_nodes[20] = (C2SmallNode *)entry;
+    symbol_record.declaration = &symbol;
+    symbol_record.tail.symbol_uses = (C2SymbolInputUse *)0x13579bdfU;
+    symbol.storage.input_references = 0xffffffffU;
+    bind_symbol_input_use(&symbol_record, &use);
+    if (symbol_record.tail.symbol_uses != entry ||
+        entry->next != (C2SymbolInputUse *)0x13579bdfU ||
+        entry->expression != &use || entry->kind != 27 || entry->pending04 ||
+        entry->pending10 || symbol.storage.input_references || free_small_nodes[20])
+        return 0;
+    for (i = 20; i < sizeof(storage.bytes); ++i)
+        if (storage.bytes[i] != 0xa5) return 0;
+    return !entry->pending09[0] && !entry->pending09[1] && !entry->pending09[2];
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -836,5 +862,6 @@ const ReconTest numeric_tests[] = {
     {"constant narrowing marks only changed values and preserves record tails", 1, folded_integer_width},
     {"temporary and binary node sizes preserve allocation canaries", 1, temporary_node_sizes},
     {"operand copying preserves payloads, originals and allocation canaries", 1, copied_operand_ownership},
-    {"side-effect flags retain volatile, exception and intrinsic distinctions", 1, input_effect_flags}
+    {"side-effect flags retain volatile, exception and intrinsic distinctions", 1, input_effect_flags},
+    {"symbol uses preserve list ownership, full-width count and allocation tail", 1, symbol_use_ownership}
 };

@@ -620,3 +620,12 @@ C2Expression *__fastcall new_call_expression(unsigned opcode, unsigned char conv
     record->location.line = record_line_delta;
     return record;
 }
+
+void __fastcall bind_symbol_input_use(C2Expression *symbol, C2Expression *use)
+{
+    C2SymbolInputUse *entry = (C2SymbolInputUse *)allocate_small_node(27);
+    entry->next = symbol->tail.symbol_uses;
+    symbol->tail.symbol_uses = entry;
+    entry->expression = use;
+    symbol->declaration->storage.input_references++;
+}

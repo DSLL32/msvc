@@ -201,6 +201,7 @@ typedef struct C2InputSymbol {
     union {
         long frame_size;
         unsigned value_bytes;
+        unsigned input_references;
         struct { unsigned short pending3a; signed char lifetime; unsigned char pending3d; } local;
         struct { unsigned short pending3a; unsigned char anonymous, pending3d; } temporary;
     } storage;
