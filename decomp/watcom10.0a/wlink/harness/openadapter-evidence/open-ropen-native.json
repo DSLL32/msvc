@@ -1,0 +1,34 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-kBZBsB",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      148192,
+      93500,
+      148424,
+      148908,
+      209664,
+      149584,
+      215224,
+      223360
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 223360,
+    "trap_site": 4153547618,
+    "elapsed_ms": 9.157114,
+    "setup_ms": 5.20651,
+    "execution_ms": 1.4196389999999997,
+    "checks_ms": 2.530882,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlink-startup/open-ropen-original.json",
+      "report_sha256": "d35d6864537e572079a0a09b39ee0f2956584b3d4b648a7435de74b14d8b1cd8",
+      "capture_sha256": "7e2d7383b78f7c0b0f824612b7a6df766987d600be322f3b3332f41ab5efd22e",
+      "source_binding_available": true
+    }
+  }
+]

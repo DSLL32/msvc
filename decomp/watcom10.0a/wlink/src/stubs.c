@@ -64,7 +64,6 @@ void InitSym( void ) { TRAP(); }
 void * NewSection( void ) { TRAP(); return 0; }
 void InitObjIO( void ) { TRAP(); }
 
-int OpenResFile( HANDLE_INFO *instance ) { instance = instance; TRAP(); return 0; }
 int FindResources( HANDLE_INFO *instance ) { instance = instance; TRAP(); return 0; }
 int InitResources( HANDLE_INFO *instance ) { instance = instance; TRAP(); return 0; }
 unsigned QWrite( int file, void *buffer, unsigned length, char *name )
@@ -73,3 +72,5 @@ unsigned QWrite( int file, void *buffer, unsigned length, char *name )
     TRAP();
     return 0;
 }
+
+int ResOpenFileRO( const char *filename ) { filename = filename; TRAP(); return 0; }

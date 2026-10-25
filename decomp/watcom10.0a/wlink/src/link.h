@@ -89,6 +89,7 @@ typedef struct handle_info {
     char *filename;
 } HANDLE_INFO;
 extern int OpenResFile( HANDLE_INFO * );
+extern int ResOpenFileRO( const char * );
 extern int FindResources( HANDLE_INFO * );
 extern int InitResources( HANDLE_INFO * );
 extern unsigned QWrite( int, void *, unsigned, char * );

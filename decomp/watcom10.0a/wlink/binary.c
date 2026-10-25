@@ -7,8 +7,11 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
+    { .name = "ResOpenFileRO", .entry_rva = 0x36880, .definition = RECON_APP,
+      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "ResOpenFileRO", .original_symbol = "ResOpenFileRO_" },
     { .name = "OpenResFile", .entry_rva = 0x348b8, .definition = RECON_APP,
-      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "OpenResFile", .original_symbol = "OpenResFile_" },
+      .code = (const ReconExtent[]) { {0x348b8, 0x348c7} }, .code_count = 1,
+      .implementation = RECON_IMPLEMENTED, .native_symbol = "OpenResFile", .original_symbol = "OpenResFile_" },
     { .name = "FindResources", .entry_rva = 0x34908, .definition = RECON_APP,
       .implementation = RECON_UNIMPLEMENTED, .native_symbol = "FindResources", .original_symbol = "FindResources_" },
     { .name = "InitResources", .entry_rva = 0x348c8, .definition = RECON_APP,

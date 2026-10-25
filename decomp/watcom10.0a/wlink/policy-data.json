@@ -26,27 +26,11 @@
         "expected_cleanup": [
           0
         ]
-      }
-    }
-  },
-  "function_properties": {
-    "LnkInit": {
-      "rebuilt_extent": {
-        "end": {
-          "rebuilt_symbol": "LnkInit_",
-          "offset": 296
-        },
-        "padding_hex": "00",
-        "image_sha256": "f78d7e901dffa70229c7d1ad0eaacaa3c8e35c8d1d6ab46c8f7f8740002e19f2",
-        "map_sha256": "fafa6687e702f5bfd1d5afbd2cf021d87cfc88c42c3d55680f3a84025fab220c",
-        "object": {
-          "path": "build/obj/src/wlink.c.obj",
-          "sha256": "b047232da85a47fb7d8fe0202efd54d806d4afa45a26c96d85086b22c4c32d57"
-        },
-        "evidence": {
-          "path": "harness/lnkinit-extent.json",
-          "sha256": "51c889d6a019c10cd61dfaedb2baf86a221e2df048e45f94c4b3153f097d4476"
-        }
+      },
+      "OpenResFile": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }
