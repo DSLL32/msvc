@@ -1016,6 +1016,11 @@ original App vertex. Native always_inline overrides the global no-inline build;
 no_instrument_function avoids materializing separate helper addresses solely
 for instrumentation. It must not be applied to a real original App function.
 Canonical VC5 uses __inline with a separately qualified /Ob1 translation unit.
+RECON_RETAIN requests native compiler emission with __attribute__((used)) and
+is empty for the original compiler. It preserves a real App symbol without
+changing instrumentation, calling convention, inline policy or runtime code.
+Any translation-unit optimization/instrumentation exception is separately
+qualified against the original graph; the annotation grants no such exception.
 The native new.h subset supplies only caller-owned placement construction and
 typed cdecl scalar new/delete declarations bound directly to existing
 recon_cpp_new/recon_cpp_delete. It adds no wrapper vertex, array forms, exception

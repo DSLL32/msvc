@@ -6,7 +6,10 @@
  * remain outlined and instrumented. Canonical inlining still needs /Ob1. */
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define RECON_FORCEINLINE __attribute__((always_inline,no_instrument_function)) inline
+/* Retain a real function's native symbol without changing its instrumentation. */
+#define RECON_RETAIN __attribute__((used))
 #else
 #define RECON_FORCEINLINE __inline
+#define RECON_RETAIN
 #endif
 #endif
