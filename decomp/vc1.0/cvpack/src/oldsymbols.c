@@ -363,3 +363,8 @@ void size_old_constant(void)
 {
     module_type_base += 9;
 }
+
+void size_old_symbol12(void)
+{
+    module_type_base += 5;
+}

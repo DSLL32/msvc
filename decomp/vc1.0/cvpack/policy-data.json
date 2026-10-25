@@ -2062,7 +2062,7 @@
       },
       "_size_old_symbol12": {
         "abi": "void size_old_symbol12(void)",
-        "source": "src/stubs.c",
+        "source": "src/oldsymbols.c",
         "stack_cleanup": 0,
         "roots": []
       },
