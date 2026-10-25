@@ -387,3 +387,19 @@ Overrides add no runtime records or reconstruction credit. Other shipped-body
 checks remain unchanged. Use `RECON_RUNTIME_OVERRIDE_OBJECTS` and
 `RECON_RUNTIME_OVERRIDE_MAP` in the binary Makefile; registry defaults to
 `RECON_REGISTRY`, and shared rules track all three inputs.
+
+Original-runtime and pending-entry projection: opt in with
+`RECON_AUDIT_REGISTRY_RUNTIME=1` (optional `RECON_AUDIT_ORIGINAL_RUNTIME`), or
+`registry-export --runtime-output PATH`. Verified CRT/import code and owned data
+are emitted as original VAs; classification adds no App reconstruction credit.
+All discovered identities, including unknown-extent entries, also appear in
+`function_registry` with RVA extents. Unimplemented App driver rows default to
+`pending_extent:true`; only a reviewed whole ABI-only tail may set
+`policy.function_properties[name].pending_extent:false`.
+
+Runtime identification understands bounded i386 Microsoft short import members
+and the older code-free machine-neutral COFF weak-alias members used in VC5
+MSVCRT.LIB. Both describe imports, never CRT function bodies, and are skipped by
+code matching. Malformed/unsupported members fail. Dynamic import thunks remain
+the graph auditor's PE-import catalog responsibility; a pure /MD image can
+legitimately produce an empty matched-static-runtime array.

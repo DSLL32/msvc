@@ -21,6 +21,9 @@ pub struct Options {
     /// Project only policy.ret_checks for graph-audit's independent RET check.
     #[arg(long)]
     pub ret_checks_output: Option<PathBuf>,
+    /// Project verified original CRT/import extents; no matching or source credit.
+    #[arg(long)]
+    pub runtime_output: Option<PathBuf>,
     #[arg(short, long)]
     pub output: Option<PathBuf>,
 }
@@ -221,7 +224,7 @@ fn registry(info: &Info, image_base: u32, mut policy: Value) -> Result<Value> {
         if f.definition != 4 && !(f.definition == 3 && f.native_symbol.is_some()) {
             continue;
         }
-        if f.definition == 4 && f.implementation == 0 && f.code.is_empty() {
+        if f.code.is_empty() && (f.definition == 3 || f.definition == 4 && f.implementation == 0) {
             continue;
         }
         let entry = f
@@ -237,11 +240,49 @@ fn registry(info: &Info, image_base: u32, mut policy: Value) -> Result<Value> {
         let mut row = json!({"name":f.name,"symbol":f.original_symbol.as_deref().unwrap_or(&f.name),"native":f.native_symbol,"start":add(entry[0])?,"end":add(entry[1])?,"shared":f.text_data.iter().map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?,"code_chunks":f.code.iter().filter(|r|*r!=entry).map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?});
         if f.definition == 3 {
             row["category"] = json!("runtime");
+        } else if f.implementation == 0 {
+            row["pending_extent"] = json!(true);
+            if let Some(known) = policy["function_properties"][&f.name].get("pending_extent") {
+                ensure!(
+                    known.is_boolean(),
+                    "pending_extent qualification must be boolean"
+                );
+                row["pending_extent"] = known.clone();
+            }
         }
         drivers.push(row);
     }
     policy["driver"] = json!(drivers);
+    // Preserve every discovered entry for overlap/identity checks, including
+    // pending entries that truthfully have no known code extent.
+    policy["function_registry"] = serde_json::to_value(&info.functions)?;
     Ok(policy)
+}
+
+fn runtime_records(info: &Info, image_base: u32) -> Result<Value> {
+    let add = |rva: u32| image_base.checked_add(rva).context("runtime VA overflow");
+    let mut records = vec![];
+    for function in info
+        .functions
+        .iter()
+        .filter(|f| matches!(f.definition, 1..=3))
+    {
+        if function.code.is_empty() {
+            continue;
+        }
+        let primary = function
+            .code
+            .iter()
+            .find(|r| r[0] <= function.rva && function.rva < r[1])
+            .with_context(|| {
+                format!(
+                    "runtime {} entry outside verified code extents",
+                    function.name
+                )
+            })?;
+        records.push(json!({"name":function.name,"start":add(primary[0])?,"end":add(primary[1])?,"shared":function.text_data.iter().map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?,"code_chunks":function.code.iter().filter(|r| *r != primary).map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?,"category":"runtime","evidence":"binary.c classified CRT/import with verified original extents"}));
+    }
+    Ok(json!(records))
 }
 
 pub fn export(options: Options) -> Result<()> {
@@ -265,6 +306,12 @@ pub fn export(options: Options) -> Result<()> {
         };
         resolve(&mut metadata, &publics)?;
         fs::write(path, serde_json::to_string_pretty(&metadata)? + "\n")?;
+    }
+    if let Some(path) = options.runtime_output {
+        fs::write(
+            path,
+            serde_json::to_string_pretty(&runtime_records(&info, options.image_base)?)? + "\n",
+        )?;
     }
     if let Some(path) = options.ret_checks_output {
         let checks = policy
@@ -307,6 +354,41 @@ mod tests {
     use super::*;
     fn info() -> Info {
         serde_json::from_value(json!({"binary":"test","original_path":"tool.exe","original_sha256":"","original_entry_rva":16,"case":"case","description":"","execution":0,"terminal":0,"frontier_rva":0,"first_entry_order":[],"first_entry_seen":[],"functions":[{"name":"method","rva":16,"native_symbol":"_ZNmethod","original_symbol":"?method@@","definition":4,"implementation":1,"code":[[16,20]],"text_data":[]},{"name":"pending","rva":32,"native_symbol":"pending","original_symbol":null,"definition":4,"implementation":0,"code":[],"text_data":[]}],"tests":[],"module":"libbinary.so"})).unwrap()
+    }
+    #[test]
+    fn original_runtime_projection_is_classified_and_has_no_app_credit() {
+        let mut i = info();
+        let mut crt = i.functions[0].clone();
+        crt.name = "crt".into();
+        crt.definition = 3;
+        crt.implementation = 0;
+        crt.native_symbol = None;
+        crt.code.push([30, 40]);
+        crt.text_data.push([20, 24]);
+        i.functions.push(crt);
+        let records = runtime_records(&i, 0x400000).unwrap();
+        assert_eq!(records.as_array().unwrap().len(), 1);
+        assert_eq!(records[0]["start"], 0x400010);
+        assert_eq!(records[0]["code_chunks"][0], json!([0x40001e, 0x400028]));
+        assert_eq!(records[0]["shared"][0], json!([0x400014, 0x400018]));
+        let v = registry(&i, 0x400000, json!({})).unwrap();
+        assert_eq!(v["function_registry"].as_array().unwrap().len(), 3);
+        assert_eq!(v["function_registry"][1]["code"], json!([]));
+        let mut i = info();
+        i.functions[1].code = vec![[32, 33]];
+        assert_eq!(
+            registry(&i, 0, json!({})).unwrap()["driver"][1]["pending_extent"],
+            true
+        );
+        assert_eq!(
+            registry(
+                &i,
+                0,
+                json!({"function_properties":{"pending":{"pending_extent":false}}})
+            )
+            .unwrap()["driver"][1]["pending_extent"],
+            false
+        );
     }
     #[test]
     fn aliases_pending_extents_and_strict_known_extents() {

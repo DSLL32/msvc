@@ -186,6 +186,17 @@ impl Loaded {
             bail!("cannot resolve binary module")
         }
         let module = PathBuf::from(unsafe { string(dl.dli_fname) }?).canonicalize()?;
+        // Bind shared ownership checks to the actual loaded modules before setup.
+        if let Ok(register) = unsafe {
+            library
+                .get::<unsafe extern "C" fn(*const c_void, u32)>(b"recon_register_native_image\0")
+        } {
+            unsafe {
+                register(binary as *const _ as *const c_void, 1);
+                register(case as *const _ as *const c_void, 2);
+            }
+        }
+
         let mut functions = vec![];
         let mut rvas = std::collections::BTreeSet::new();
         let mut native_names = std::collections::BTreeSet::new();

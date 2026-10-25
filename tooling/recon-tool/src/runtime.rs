@@ -420,6 +420,110 @@ fn matches(code: &[u8], section: &Section) -> Result<Vec<usize>> {
     }
     Ok(result)
 }
+// Old SDK import archives also carry machine-neutral, code-free weak aliases.
+// Qualify their complete supported COFF shape; never match them as executable code.
+fn weak_import_alias(data: &[u8]) -> Result<bool> {
+    if data.get(..2) != Some(&[0, 0]) || data.get(2..4) == Some(&[0xff, 0xff]) {
+        return Ok(false);
+    }
+    ensure!(
+        word(data, 2)? == 1 && word(data, 16)? == 0 && word(data, 18)? == 0,
+        "unsupported machine-neutral COFF header"
+    );
+    ensure!(
+        dword(data, 12)? == 3,
+        "machine-neutral import alias must have three symbol records"
+    );
+    let section = bytes(data, 20, 40)?;
+    ensure!(
+        dword(section, 8)? == 0
+            && dword(section, 12)? == 0
+            && dword(section, 16)? == 0
+            && dword(section, 20)? == 0
+            && dword(section, 24)? == 0
+            && dword(section, 28)? == 0
+            && word(section, 32)? == 0
+            && word(section, 34)? == 0,
+        "machine-neutral import alias contains section contents/relocations"
+    );
+    let symbol_offset = dword(data, 8)? as usize;
+    ensure!(
+        symbol_offset == 60,
+        "machine-neutral import alias has unexpected data before symbols"
+    );
+    let mut host = data.to_vec();
+    host[..2].copy_from_slice(&0x14cu16.to_le_bytes());
+    let object = Coff::parse(&host)?;
+    let public = object.symbols[0].as_ref().context("alias public missing")?;
+    let weak = object.symbols[1].as_ref().context("weak alias missing")?;
+    ensure!(
+        public.value == 0
+            && public.section == 0
+            && public.kind == 0
+            && public.storage == 2
+            && !public.name.is_empty(),
+        "invalid import alias fallback public"
+    );
+    ensure!(
+        weak.value == 0
+            && weak.section == 0
+            && weak.kind == 0
+            && weak.storage == 105
+            && !weak.name.is_empty()
+            && weak.name != public.name
+            && object.symbols[2].is_none(),
+        "invalid weak import alias symbol"
+    );
+    ensure!(
+        bytes(data, symbol_offset + 17, 1)? == [0] && bytes(data, symbol_offset + 35, 1)? == [1],
+        "invalid weak alias auxiliary count"
+    );
+    let aux = bytes(data, symbol_offset + 36, 18)?;
+    ensure!(
+        dword(aux, 0)? == 0 && dword(aux, 4)? == 3 && aux[8..].iter().all(|b| *b == 0),
+        "unsupported weak import alias fallback/search mode"
+    );
+    let strings = symbol_offset + 54;
+    ensure!(
+        strings.checked_add(dword(data, strings)? as usize) == Some(data.len()),
+        "weak import alias string table size differs"
+    );
+    Ok(true)
+}
+
+// Microsoft short import objects describe linker imports, never CRT bodies.
+fn short_import(data: &[u8]) -> Result<bool> {
+    if data.get(..4) != Some(&[0, 0, 0xff, 0xff]) {
+        return Ok(false);
+    }
+    ensure!(
+        word(data, 4)? == 0 && word(data, 6)? == 0x14c,
+        "unsupported short import version/machine"
+    );
+    let size = dword(data, 12)? as usize;
+    ensure!(
+        20usize.checked_add(size) == Some(data.len()),
+        "short import size differs from member"
+    );
+    let flags = word(data, 18)?;
+    let kind = flags & 3;
+    let naming = (flags >> 2) & 7;
+    ensure!(
+        flags >> 5 == 0 && kind <= 2 && naming <= 4,
+        "unsupported short import type/name mode"
+    );
+    let strings = &data[20..];
+    let names: Vec<_> = strings.split(|b| *b == 0).collect();
+    let count = if naming == 4 { 3 } else { 2 };
+    ensure!(
+        names.len() == count + 1
+            && names.last() == Some(&&[][..])
+            && names[..count].iter().all(|v| !v.is_empty()),
+        "invalid short import names"
+    );
+    Ok(true)
+}
+
 fn collect(
     pe: &Pe,
     library: &str,
@@ -429,6 +533,14 @@ fn collect(
     text_rva: u32,
     candidates: &mut Vec<Candidate>,
 ) -> Result<()> {
+    if weak_import_alias(data)
+        .with_context(|| format!("read {library} weak import alias {member}"))?
+    {
+        return Ok(());
+    }
+    if short_import(data).with_context(|| format!("read {library} import member {member}"))? {
+        return Ok(());
+    }
     let obj = Coff::parse(data).with_context(|| format!("read {library} member {member}"))?;
     for text in &obj.sections {
         if text.flags & 0x20 == 0 {
@@ -1042,6 +1154,51 @@ mod tests {
             library: "test.lib".into(),
             shared: vec![],
         }
+    }
+    #[test]
+    fn code_free_machine_neutral_aliases_are_not_runtime_bodies() {
+        let mut member = vec![0u8; 60 + 54 + 4 + 4];
+        member[2..4].copy_from_slice(&1u16.to_le_bytes());
+        member[8..12].copy_from_slice(&60u32.to_le_bytes());
+        member[12..16].copy_from_slice(&3u32.to_le_bytes());
+        member[60..62].copy_from_slice(b"_a");
+        member[76] = 2;
+        member[78..80].copy_from_slice(b"_b");
+        member[94] = 105;
+        member[95] = 1;
+        member[100..104].copy_from_slice(&3u32.to_le_bytes());
+        member[114..118].copy_from_slice(&8u32.to_le_bytes());
+        assert!(weak_import_alias(&member).unwrap());
+        let mut bad = member.clone();
+        bad[36] = 1;
+        assert!(weak_import_alias(&bad).is_err());
+        let mut bad = member.clone();
+        bad[96] = 2;
+        assert!(weak_import_alias(&bad).is_err());
+        let mut bad = member.clone();
+        bad[94] = 2;
+        assert!(weak_import_alias(&bad).is_err());
+    }
+    #[test]
+    fn short_import_members_have_no_reconstructable_code() {
+        let mut member = vec![0u8; 20];
+        member[2..4].copy_from_slice(&0xffffu16.to_le_bytes());
+        member[6..8].copy_from_slice(&0x14cu16.to_le_bytes());
+        member[18..20].copy_from_slice(&4u16.to_le_bytes());
+        member.extend_from_slice(b"_puts\0MSVCRT.dll\0");
+        let size = (member.len() - 20) as u32;
+        member[12..16].copy_from_slice(&size.to_le_bytes());
+        assert!(short_import(&member).unwrap());
+        let mut bad = member.clone();
+        bad[18] = 3;
+        assert!(short_import(&bad).is_err());
+        let mut bad = member.clone();
+        bad.pop();
+        assert!(short_import(&bad).is_err());
+        let mut bad = member.clone();
+        bad[6] = 0;
+        assert!(short_import(&bad).is_err());
+        assert!(!short_import(&[0x4c, 1, 0, 0]).unwrap());
     }
     #[test]
     fn malformed_and_ambiguous_map_owners_are_rejected() {
