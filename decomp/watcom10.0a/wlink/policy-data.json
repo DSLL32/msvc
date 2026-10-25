@@ -146,6 +146,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "MakeArray": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

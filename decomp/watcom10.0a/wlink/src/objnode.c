@@ -16,3 +16,22 @@ void InitNodes( void )
     ExtNodes = MakeArray( 6 );    /* target external entry and16-bit flags */
     NameNodes = MakeArray( 4 );
 }
+
+struct nodearray {
+    unsigned num;
+    unsigned short elsize, arraymax;
+    char *array[128];
+};
+typedef char nodearray_is_520[(sizeof(nodearray)==520)?1:-1];
+
+nodearray *MakeArray( unsigned size )
+{
+    nodearray *nodes;
+
+    nodes = ChkLAlloc( sizeof( *nodes ) );
+    nodes->num = 0;
+    nodes->arraymax = 0;
+    nodes->elsize = size;
+    /* The original leaves array slots alone until they are allocated. */
+    return nodes;
+}

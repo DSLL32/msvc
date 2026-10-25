@@ -1,0 +1,12 @@
+{
+  "scope": "MakeArray31B allocates actual520B nodearray and initializes only8B header; allfour arrays created before InitTokBuff frontier. Does not copy newer source eager first-array allocation/memset.",
+  "application_functions": 31,
+  "application_bytes": 3345,
+  "ABI": "Original EAXunsignedsize, preservesEDX, RET0. Actual num32 at0/elsize16 at4/arraymax16 at6,128pointers from8; array slots not read/initialized by this routine.",
+  "bindings": {
+    "src/objnode.c": "582a568581a06ae2de93e2ca66fdabd36c06220066c65ed6b9fae7af3aeeee46",
+    "src/link.h": "86e475f41717c0ceecb604e26479781b76e997fdab7ccc7f99e7d287bd575c47",
+    "binary.c": "57bb8d3aa8ea6fb53243f01738bdae94d1ef575b3b01d1e20426c15eade50199",
+    "policy-data.json": "9db27c32c84d5cf2d1af643b622eba40eb2a744122cb71a0cd52648ce4a99eb4"
+  }
+}
