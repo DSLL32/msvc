@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_expand_macro_arguments` (RVA 5693). Its partial streams and actual
+  stops at `rc_pack_macro_argument` (RVA 5a87). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,10 +32,10 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **103 functions, 27,100 code bytes**
+Accepted application reconstruction is **104 functions, 27,927 code bytes**
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (40.88%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (42.13%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -49,11 +49,10 @@ fresh matching original/native frontier evidence. The former WIP snapshot remain
 `~/.ai-tmp/msvc2/vc5.10/rcdll/migration-snapshot-20261025/`; contextual descriptor
 research remains under `analysis/output-descriptor-data/rows.json` in the same
 scratch namespace. Unavailable descriptors still trap before native consumption.
-The latest original capture took 1.502 s; native replay took 175.495 ms
-(setup 73.805, execution 33.210, checks 68.480 ms). Macro undefinition
-builds and whole-candidate graph preflight took 4.733 s after an initial
-duplicate-stub link failure caught before capture. Its focused list-unlink
-and distinct APSTUDIO flag unit passed in 145.340 ms (3.615 ms execution).
+The latest original capture took 1.199 s; native replay took 175.415 ms
+(setup 73.753, execution 32.027, checks 69.635 ms). Argument-expansion
+builds and whole-candidate graph preflight took 4.139 s. Two custom argument
+helpers have named ABI-correct traps, with no reconstructed-body credit.
 A focused native unit checks the copy helper's terminator return, WCHAR16 content, empty
 input and untouched tail; it took 147.958 ms (3.183 ms execution).
 The earlier external loader
