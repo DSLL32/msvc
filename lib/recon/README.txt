@@ -648,6 +648,14 @@ count0 leaves the destination untouched, and wrapping spans/counts deny125.
 The binary's original header retains its genuine register pragma, independently
 audited by the period build; native GCC does not emulate that register encoding.
 
+Watcom _splitpath2 supports the reached ASCII relative leafname domain (<260
+bytes, no drive or directory separators). It splits at the last dot and packs
+requested empty-drive, empty-directory, name and extension strings into valid
+caller workspace; NULL selectors neither copy nor advance the packed cursor.
+Output pointers identify those exact NUL-terminated strings. Aliased input,
+workspace or output locations, wrapping spans and other path domains deny125
+before writes; there is no allocation, host path lookup or UNC interpretation.
+
 Watcom compile spellings stdaux/stdprn identify existing native iob slots3/4;
 this does not initialize their handles or qualify closing them. Bare isatty
 uses the existing descriptor boolean helper. _IOLBF retains Watcom0200, with

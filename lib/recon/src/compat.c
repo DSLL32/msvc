@@ -50,6 +50,51 @@ int __cdecl recon_mspdb_NameMap_open(struct PDB *database,int writable,struct Na
 ReconWatcomFirstMainHeap recon_watcom_first_main_heap;
 /* Actual WCC initialized DWORD is16; native malloc policy is independent. */
 unsigned recon_watcom_amblksiz=16;
+void __cdecl recon_watcom_splitpath2(const char *path,char *buffer,char **drive,
+                                   char **directory,char **name,char **extension)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    char **outputs[4]={drive,directory,name,extension};
+    const char *parts[4];size_t lengths[4],length,dot,total=0,n,prior;
+    char *cursor=buffer;uintptr_t output;
+    if(!path || !buffer || (uintptr_t)path>UINTPTR_MAX-260)
+        recon_unsupported("Watcom splitpath2 input/workspace");
+    for(length=0;length<260 && path[length];++length)
+        if((unsigned char)path[length]>=128 || path[length]==':' ||
+           path[length]=='/' || path[length]=='\\')
+            recon_unsupported("Watcom splitpath2 outside relative ASCII leaf");
+    if(length==260) recon_unsupported("Watcom splitpath2 long leaf");
+    dot=length;for(n=0;n<length;++n)if(path[n]=='.')dot=n;
+    parts[0]=parts[1]=parts[2]=path;parts[3]=path+dot;
+    lengths[0]=lengths[1]=0;lengths[2]=dot;lengths[3]=length-dot;
+    for(n=0;n<4;++n)if(outputs[n])total+=lengths[n]+1;
+    if((uintptr_t)buffer>UINTPTR_MAX-total ||
+       ((uintptr_t)buffer<(uintptr_t)path+length+1 &&
+        (uintptr_t)path<(uintptr_t)buffer+total))
+        recon_unsupported("Watcom splitpath2 workspace wrap/overlap");
+    for(n=0;n<4;++n)if(outputs[n]) {
+        output=(uintptr_t)outputs[n];
+        if(output%sizeof(char *) || output>UINTPTR_MAX-sizeof(char *) ||
+           (output<(uintptr_t)path+length+1 && (uintptr_t)path<output+sizeof(char *)) ||
+           (output<(uintptr_t)buffer+total && (uintptr_t)buffer<output+sizeof(char *)))
+            recon_unsupported("Watcom splitpath2 output-location overlap/span");
+        for(prior=0;prior<n;++prior)if(outputs[prior] &&
+           output<(uintptr_t)outputs[prior]+sizeof(char *) &&
+           (uintptr_t)outputs[prior]<output+sizeof(char *))
+            recon_unsupported("Watcom splitpath2 aliased output locations");
+    }
+    /* Only requested components occupy workspace. Empty drive/directory each
+     * receive their own NUL; no allocation or host path interpretation occurs. */
+    for(n=0;n<4;++n)if(outputs[n]) {
+        *outputs[n]=cursor;
+        if(lengths[n])memcpy(cursor,parts[n],lengths[n]);
+        cursor[lengths[n]]=0;cursor+=lengths[n]+1;
+    }
+#else
+    (void)path;(void)buffer;(void)drive;(void)directory;(void)name;(void)extension;
+    recon_unsupported("Watcom splitpath2 requires explicit profile");
+#endif
+}
 void *__cdecl recon_watcom_fill_dwords(void *destination,unsigned pattern,unsigned count)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
