@@ -4,6 +4,8 @@
 #include "widen.h"
 #include <recon.h>
 
+#pragma intrinsic(memset, strcpy)
+
 unsigned type_record_capacity, source_type_input_bytes, current_type_server;
 void read_new_module_types(unsigned size, int precompiled)
 {
@@ -48,7 +50,7 @@ void read_new_module_types(unsigned size, int precompiled)
                 current_type_server = type_record_count + 0x1000;
             } else if (*(unsigned short *)(record + 2) == 0x14) {
                 current_type_server = type_record_count + 0x1000;
-                find_type_server(NULL, 1, NULL, NULL, NULL);
+                append_module_type(NULL, 1, 0, 0, 0);
                 current_module_info->type_server = *(unsigned *)(record + 4);
             } else {
                 skip = *(unsigned short *)(record + 2) == 0x1200 ?
@@ -140,4 +142,121 @@ void reset_type_name_cache(void)
             entry = entry->next;
         }
     }
+}
+
+/* Append one local type slot, including LF_ENDPRECOMP placeholders.
+ * [0040c7b0,0040c917), fastcall with three DWORD stack arguments.
+ * The old unreconstructed name find_type_server did not describe this code. */
+void __fastcall append_module_type(unsigned char *data, unsigned local,
+    unsigned precompiled, unsigned mapped_index, unsigned skip)
+{
+    unsigned old_count = type_record_count, flags;
+    TypeRecord *entry;
+    if (module_precompiled_limit) {
+        memset(type_records, 0, module_precompiled_limit * sizeof(TypeRecord));
+        module_precompiled_limit = 0;
+    }
+    type_record_count += skip ? skip : 1;
+    if (type_record_count >= type_record_capacity) {
+        type_record_capacity += skip + 6000;
+        type_records = realloc(type_records, type_record_capacity * sizeof(TypeRecord));
+        if (!type_records) fatal_error(1001, NULL, NULL);
+        memset(&type_records[old_count], 0, (skip + 6000) * sizeof(TypeRecord));
+    }
+    entry = &type_records[old_count];
+    entry->data = data;
+    entry->mapped_index = mapped_index;
+    entry->status = (entry->status & ~0x400) | ((local & 1) << 10);
+    entry->status = (entry->status & ~0x800) | ((precompiled & 1) << 11);
+    flags = data && *(unsigned short *)(data + 2) >= 0x1004 &&
+        *(unsigned short *)(data + 2) <= 0x1007 ? (data[6] >> 7) & 1 : 0;
+    entry->status = (entry->status & ~0x4000) | (flags << 14);
+}
+
+/* Save compacted precompiled indices [00402c90,00402e0e).
+ * The following dispatch tables end at00402e46 and are separately owned. */
+void prepare_precompiled_types(ModuleInfo *info)
+{
+    PrecompiledTypeMap *map;
+    TypeRecord *record;
+    unsigned short index;
+    unsigned global_record, value;
+    unsigned short kind;
+    unsigned char *data;
+    info->precompiled_bytes = (current_type_server - 0x1000 + 3) * 4;
+    info->precompiled_types = malloc(info->precompiled_bytes);
+    if (!info->precompiled_types) fatal_error(1001, NULL, NULL);
+    map = info->precompiled_types;
+    memset(map, 0, info->precompiled_bytes);
+    map->signature = info->type_server;
+    map->first = 0x1000;
+    map->count = current_type_server - 0x1000;
+    for (index = 0; index < current_type_server - 0x1000; ++index) {
+        if (!module_type_low && index == 0xffff - module_type_base)
+            record = empty_type_record;
+        else {
+            record = &type_records[index];
+            if (record->status & 0x1000)
+                record = lookup_global_type(record->global_index - 0x1000, &global_record);
+        }
+        if (record->status & 6) value = record->mapped_index;
+        else {
+            data = record->data;
+            kind = *(unsigned short *)(data + 2);
+            if (kind == 0x1201)
+                value = compact_type_list(index + 0x1000, *(unsigned *)(data + 4));
+            else if ((kind >= 0x1001 && kind <= 0x100c) || kind == 0x100f ||
+                kind == 0x20c || kind == 0x0a || kind == 0x0c ||
+                kind == 0x0e || kind == 0x0f || kind == 0x1202 ||
+                kind == 0x1205 || (kind >= 0x1207 && kind <= 0x120a))
+                value = map_type_index(index + 0x1000);
+            else continue;
+        }
+        map->indices[index] = value;
+    }
+    current_type_server = 0;
+}
+
+/* Restore a module's cached precompiled type indices [0040c930,0040cb67). */
+static ModuleInfo *last_precompiled_module;
+static unsigned last_precompiled_sequence, last_precompiled_count;
+void use_precompiled_types(void *record)
+{
+    unsigned char *leaf = record;
+    ModuleInfo *info = find_precompiled_module(leaf + 14);
+    PrecompiledTypeMap *map = info->precompiled_types;
+    char module[260];
+    unsigned short index;
+    if (!map) fatal_error(1001, NULL, NULL);
+    if (info->type_server != *(unsigned *)(leaf + 10)) {
+        strcpy(module, module_name(current_module_info));
+        fatal_error(1021, module, module_name(info));
+    }
+    if (map->count != *(unsigned *)(leaf + 6) ||
+        type_record_count + 0x1000 != *(unsigned *)(leaf + 2)) {
+        strcpy(module, module_name(current_module_info));
+        fatal_error(1018, module, module_name(info));
+    }
+    if (type_module_count == last_precompiled_sequence + 1 &&
+        info == last_precompiled_module) {
+        last_precompiled_sequence = type_module_count;
+        type_record_count = last_precompiled_count;
+        if (module_precompiled_limit > last_precompiled_count)
+            memset(&type_records[last_precompiled_count], 0,
+                (module_precompiled_limit - last_precompiled_count) * sizeof(TypeRecord));
+        module_precompiled_limit = 0;
+        return;
+    }
+    if (module_precompiled_limit) {
+        memset(type_records, 0, module_precompiled_limit * sizeof(TypeRecord));
+        module_precompiled_limit = 0;
+    }
+    for (index = 0; index < *(unsigned *)(leaf + 6); ++index) {
+        type_records[type_record_count].mapped_index = map->indices[index];
+        type_records[type_record_count].status |= 0xc00;
+        ++type_record_count;
+    }
+    last_precompiled_module = info;
+    last_precompiled_sequence = type_module_count;
+    last_precompiled_count = type_record_count;
 }

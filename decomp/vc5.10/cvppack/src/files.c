@@ -377,3 +377,22 @@ void free_bytes(void *buffer)
 {
     free(buffer);
 }
+
+/* Checked resize wrapper [00401040,0040106d), cdecl. */
+void *resize_bytes(void *buffer, unsigned size)
+{
+    void *result = realloc(buffer, size);
+    if (!result) fatal_error(1001, NULL, NULL);
+    return result;
+}
+
+/* Set the logical length of a mapped cache entry [004011f0,00401234).
+ * The underlying file is truncated when the mapping is closed. */
+int resize_mapped_file(CachedFile *file, int size)
+{
+    if (size > file->capacity) {
+        if (!grow_mapping(file, size)) fatal_error(1008, NULL, NULL);
+    } else if (file->position > size) file->position = size;
+    file->length = size;
+    return 0;
+}

@@ -8,7 +8,7 @@ ModuleInfo *current_module_info;
 unsigned module_type_low, module_symbol_flags, current_module_flags;
 unsigned line_entry_index, symbol_entry_index, type_entry_index;
 unsigned current_type_count, has_precompiled, pending_module_bytes;
-unsigned total_symbol_bytes, total_line_bytes, strip_module_lines;
+unsigned total_symbol_bytes, total_line_bytes;
 unsigned short module_symbol_count, module_reference_count, module_procedure_count;
 unsigned short current_type_index;
 unsigned char *current_module_buffer;
@@ -53,7 +53,7 @@ int pack_module(unsigned short module)
     }
     if (line_entry_index) {
         entry = &directory_entries[line_entry_index];
-        if (strip_module_lines) entry->size = 0;
+        if (minimum_pack) entry->size = 0;
         else if (*(unsigned *)type_data != 1 && *(unsigned *)type_data != 2) {
             decode_legacy_lines(type_data, entry->size);
             rewrite_legacy_lines(type_data, entry, current_module_buffer, current_module_info);

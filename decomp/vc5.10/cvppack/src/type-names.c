@@ -101,3 +101,18 @@ unsigned short numeric_leaf_size(const unsigned char *record)
         return leaf < 0x8000 ? 2 : (unsigned short)(leaf - 0x8000);
     }
 }
+
+/* Queue a forward-type patch for flush_type_stack [00402e50,00402e94).
+ * CachedTypeName's record/reserved fields supply the existing TypePatch view. */
+void __fastcall associate_forward_type(unsigned index, CachedTypeName *record)
+{
+    PendingType *pending = allocate_bytes(sizeof(PendingType));
+    pending->index = index;
+    pending->patch = (TypePatch *)record;
+    pending->next = NULL;
+    if (!pending_types_head) pending_types_head = pending_types_tail = pending;
+    else {
+        pending_types_tail->next = pending;
+        pending_types_tail = pending;
+    }
+}

@@ -170,7 +170,7 @@ static int run_source_lines(void)
     if (entry.data == input || entry.data != info.source_lines ||
         entry.size != sizeof(input) || info.source_lines_size != sizeof(input) ||
         memcmp(entry.data, input, sizeof(input)) || info.symbols || info.symbols_size ||
-        info.fields_after[0] || info.fields_after[1] || info.next) return 1;
+        info.precompiled_types || info.precompiled_bytes || info.next) return 1;
     puts("source-lines copied-all-bytes directory-module-alias");
     return 0;
 }

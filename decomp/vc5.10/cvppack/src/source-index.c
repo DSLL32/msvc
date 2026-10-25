@@ -87,6 +87,10 @@ void build_source_file_index(void)
         memcpy(source, name->name, *name->name + 1);
         source += *source + 1;
     }
+    /* Original defect: the rounded subsection's final zero to three bytes
+     * are unwritten malloc data. Emit deterministic zeros; fixtures mask only
+     * those independently derived alignment bytes in original output. */
+    while (source < source_file_index + source_file_index_size) *source++ = 0;
     for (block = modules.next; block; block = next_block) {
         next_block = block->next;
         free(block);

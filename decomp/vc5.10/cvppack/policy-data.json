@@ -637,6 +637,36 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "@append_module_type@20": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_prepare_precompiled_types": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@associate_forward_type@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_use_precompiled_types": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_resize_bytes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_resize_mapped_file": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

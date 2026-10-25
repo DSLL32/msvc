@@ -4,6 +4,7 @@
 #include "cvpack.h"
 #include <recon.h>
 
+/* DWORD0041562c also controls pack_module local-symbol stripping. */
 int minimum_pack, verbose;
 
 void parse_options(int argc, char **argv)

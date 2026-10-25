@@ -21,6 +21,11 @@ typedef struct CodeViewDirectoryEntry {
 extern CodeViewDirectoryHeader codeview_directory_header;
 extern CodeViewDirectoryEntry *directory_entries;
 extern unsigned directory_relative_offset, directory_count;
+/* Saved global indices for one LF_ENDPRECOMP object. */
+typedef struct PrecompiledTypeMap {
+    unsigned first, count, signature;
+    unsigned indices[1];
+} PrecompiledTypeMap;
 typedef struct ModuleInfo {
     unsigned short module, reserved;
     unsigned char *precompiled_object_name;
@@ -31,7 +36,8 @@ typedef struct ModuleInfo {
     unsigned symbols_size;
     unsigned char *source_lines;
     unsigned source_lines_size;
-    unsigned fields_after[2];
+    PrecompiledTypeMap *precompiled_types;
+    unsigned precompiled_bytes;
     struct ModuleInfo *next;
 } ModuleInfo;
 typedef struct ModuleCodeSegment {
