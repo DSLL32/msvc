@@ -203,4 +203,14 @@ Contribution *__stdcall create_contribution(const char *name,DWORD bytes,DWORD f
     }
     return contribution;
 }
-void __stdcall split_section_name(const char *name,const char **base) { __asm { int 3 } }
+/* The observed storage prefix is the 32 bytes copied here; no larger original
+   capacity is inferred. Current section names terminate within this prefix. */
+char section_base_name[32];
+void __stdcall split_section_name(const char *name,const char **base)
+{
+    char *separator;
+    strncpy(section_base_name,name,32);
+    *base=section_base_name;
+    separator=strchr(section_base_name,'$');
+    if (separator) *separator=0;
+}

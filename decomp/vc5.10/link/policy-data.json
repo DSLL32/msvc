@@ -5632,6 +5632,11 @@
         "expected_cleanup": [
           28
         ]
+      },
+      "_split_section_name@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   }

@@ -1,7 +1,7 @@
 #include <recon-tool.h>
 #include "../../harness/startup.h"
 #include <recon.h>
-extern const ReconTest hello_tests[9];
+extern const ReconTest hello_tests[10];
 static const uint32_t order[] = {
  0x24e60, /* _initialize_buffer12 */
  0x24e70, /* _allocate_buffer12 */
@@ -109,10 +109,11 @@ static const uint32_t order[] = {
  0x61680, /* _get_input_section_name@8 */
  0xe850, /* _create_contribution@28 */
  0xe5e0, /* _split_section_name@8 */
+ 0x5eef0, /* _mark_incremental_contribution@4 */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
- "Win32 hello link; contribution construction, genuine section-name split frontier.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0xe5e0,
- recon_link_setup,recon_link_invoke,NULL,hello_tests,9
+ "Win32 hello link; first contribution linked, genuine incremental-mark frontier.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x5eef0,
+ recon_link_setup,recon_link_invoke,NULL,hello_tests,10
 };

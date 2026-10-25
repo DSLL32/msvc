@@ -201,6 +201,29 @@ static int section_name_split(void)
     return recon_native_at_entry(split_section_name,check_section_name_split,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall mark_incremental_contribution(Contribution *);
+static void __stdcall check_first_contribution(Contribution *contribution)
+{
+    OutputModule *module=current_input_library->module_head;
+    ContributionGroup *group=contribution->group;
+    Contribution expected;
+    memset(&expected,0,sizeof(expected));
+    expected.characteristics=0x100a00;
+    expected.raw_size=83;
+    expected.module=module;
+    expected.group=group;
+    expected.input_raw_offset=300;
+    recon_native_entry_finish(contribution==(Contribution *)module->contributions &&
+        module->contribution_count==1 && group && group->contribution_count==1 &&
+        group->first==contribution && group->last==contribution &&
+        !strcmp(group->name,".drectve") && !strcmp(group->section->name,".drectve") &&
+        !memcmp(contribution,&expected,sizeof(expected)));
+}
+static int first_contribution(void)
+{
+    return recon_native_at_entry(mark_incremental_contribution,check_first_contribution,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -210,5 +233,6 @@ const ReconTest hello_tests[]={
     {"string-mapped-range",1,string_mapping},
     {"section-name-call",1,section_name_call},
     {"named-contribution",1,named_contribution},
-    {"section-name-split",1,section_name_split}
+    {"section-name-split",1,section_name_split},
+    {"first-contribution",1,first_contribution}
 };
