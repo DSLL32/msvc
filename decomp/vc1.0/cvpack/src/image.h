@@ -160,6 +160,7 @@ void pack_new_lines(void *,CvDirectoryEntry *,ModuleInfo *);
 void pack_old_lines(void *,CvDirectoryEntry *,ModuleInfo *);
 void rebuild_line_ranges(ModuleInfo *);
 void sort_line_ranges(void *,unsigned char *);
+int __cdecl compare_line_ranges(const void *,const void *);
 extern unsigned short subsection_reads;
 typedef unsigned short (__cdecl *SymbolHash)(const unsigned char *,unsigned long *,unsigned short *,unsigned short *,unsigned long *,unsigned short);
 unsigned short __fastcall convert_old_type(unsigned short);

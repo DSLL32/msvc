@@ -2248,6 +2248,12 @@
       },
       "_sort_line_ranges": {
         "abi": "void sort_line_ranges(void *,unsigned char *)",
+        "source": "src/lines.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_compare_line_ranges": {
+        "abi": "int __cdecl compare_line_ranges(const void *,const void *)",
         "source": "src/stubs.c",
         "stack_cleanup": 0,
         "roots": []

@@ -291,3 +291,77 @@ void rebuild_line_ranges(ModuleInfo *module)
     module->lines = buffer;
     module->line_size = total;
 }
+
+typedef struct LineSortEntry {
+    unsigned short segment, reserved;
+    unsigned long start;
+    unsigned long *end;
+} LineSortEntry;
+typedef char LineSortEntrySize[(sizeof(LineSortEntry)==12)?1:-1];
+
+void sort_line_ranges(void *record, unsigned char *lines)
+{
+    unsigned char *module_record = record;
+    unsigned char *file, *block;
+    unsigned short count = 0, used = 0, i, j;
+    unsigned short files = *(unsigned short *)lines;
+    unsigned short contributions = *(unsigned short *)(module_record+4);
+    ModuleContribution *contribution, *best;
+    LineSortEntry *entries;
+    unsigned long *ranges;
+
+    for (i = 0; i < files; ++i) {
+        file = lines+((unsigned long *)(lines+4))[i];
+        count += *(unsigned short *)file;
+    }
+    entries = malloc(count*12);
+    for (i = 0; i < files; ++i) {
+        file = lines+((unsigned long *)(lines+4))[i];
+        ranges = (unsigned long *)(file+4+*(unsigned short *)file*4);
+        for (j = 0; j < *(unsigned short *)file; ++j) {
+            block = lines+((unsigned long *)(file+4))[j];
+            entries[used].segment = *(unsigned short *)block;
+            entries[used].start = ranges[j*2];
+            entries[used].end = &ranges[j*2+1];
+            ++used;
+        }
+    }
+    qsort(entries, count, 12, compare_line_ranges);
+    for (i = 0; i < count; ++i) {
+        best = NULL;
+        contribution = (ModuleContribution *)(module_record+8);
+        for (j = 0; j < contributions; ++j, ++contribution)
+            if (contribution->segment == entries[i].segment &&
+                contribution->offset+contribution->size > entries[i].start &&
+                (!best || best->offset > contribution->offset))
+                best = contribution;
+        if (i+1 < count && entries[i+1].segment == entries[i].segment &&
+            best->offset+best->size > entries[i+1].start)
+            *entries[i].end = entries[i+1].start-1;
+        else
+            *entries[i].end = best->offset+best->size-1;
+    }
+    contribution = (ModuleContribution *)(module_record+8);
+    for (i = 0; i < contributions; ++i, ++contribution) {
+        j = 0;
+        for (;;) {
+            if (j && (entries[j].segment > contribution->segment ||
+                      (entries[j].segment == contribution->segment &&
+                       contribution->offset > entries[j].start))) {
+                --j;
+                break;
+            }
+            if (entries[j].segment == contribution->segment &&
+                entries[j].start == contribution->offset)
+                break;
+            ++j;
+            if (j == count) {
+                --j;
+                break;
+            }
+        }
+        if (entries[j].segment == contribution->segment)
+            entries[j].end[-1] = contribution->offset;
+    }
+    free(entries);
+}

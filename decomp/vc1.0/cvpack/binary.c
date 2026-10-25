@@ -1,4 +1,4 @@
-/* Canonical registry: 225 accepted application functions (69,394 bytes),
+/* Canonical registry: 226 accepted application functions (69,997 bytes),
  * 42 named trapping stubs.
  * CRT identities include three reviewed, nonexact original CRT boundaries.
  * They grant no application credit or shipped-library body equivalence;
@@ -7,10 +7,19 @@
 
 static const ReconFunction functions[] = {
     {
-        .name = "_sort_line_ranges",
-        .entry_rva = 0x9140,
+        .name = "_compare_line_ranges",
+        .entry_rva = 0x9100,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "compare_line_ranges",
+    },
+    {
+        .name = "_sort_line_ranges",
+        .entry_rva = 0x9140,
+        .code = (const ReconExtent[]){{0x9140, 0x939b}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "sort_line_ranges",
     },
     {

@@ -190,4 +190,6 @@ void convert_old_symbol_skip(void) { __asm { int 3 } }
 
 
 
-void sort_line_ranges(void *record, unsigned char *lines) { __asm { int 3 } }
+
+
+int __cdecl compare_line_ranges(const void *left, const void *right) { __asm { int 3 } return 0; }
