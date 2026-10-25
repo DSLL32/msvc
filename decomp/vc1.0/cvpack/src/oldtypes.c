@@ -524,3 +524,18 @@ void convert_old_leaf_8d(TypeRecord *entry)
         *(unsigned short *)(cursor+2) = 0x10;
     }
 }
+
+void convert_old_barray(TypeRecord *entry)
+{
+    unsigned char *old = entry->data, *record;
+    unsigned short type = *(unsigned short *)(old+5);
+    /* The original tested an unwritten stack length when choosing storage.
+       Keep that local zero instead of depending on stack residue. */
+    unsigned short old_length = 0;
+    entry->flags |= 0x400;
+    if ((unsigned long)old_length+1 >= 4) record = old;
+    else record = resize_old_type(entry, 6);
+    *(unsigned short *)record = 4;
+    *(unsigned short *)(record+2) = 0x0d;
+    *(unsigned short *)(record+4) = type;
+}
