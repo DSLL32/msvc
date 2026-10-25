@@ -80,3 +80,13 @@ C2BasicBlock *__fastcall prepend_flow_block(C2FlowGraph *flow)
     }
     return block;
 }
+
+C2BasicBlock *__fastcall allocate_flow_block(C2FlowGraph *flow)
+{
+    C2BasicBlock *block = flow->free_blocks;
+    if (!block)
+        return c2_pool_allocate(flow->pool, flow->block_bytes);
+    flow->free_blocks = block->previous;
+    memset(block, 0, flow->block_bytes);
+    return block;
+}

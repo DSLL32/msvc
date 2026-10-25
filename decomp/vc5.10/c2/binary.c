@@ -2324,8 +2324,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@allocate_flow_block@4",
         .entry_rva = 0x27f5,
+        .code = (const ReconExtent[]){{0x27f5, 0x282b}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "allocate_flow_block",
     },
     {

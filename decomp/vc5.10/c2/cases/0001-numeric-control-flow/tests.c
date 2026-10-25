@@ -5,6 +5,7 @@
 #include "symbol-storage.h"
 #include "function-reader.h"
 #include "small-nodes.h"
+#include "flow.h"
 #include <recon-tool.h>
 #include <recon.h>
 
@@ -270,6 +271,28 @@ static int flow_pool_allocation(void)
     return 1;
 }
 
+static int flow_block_reuse(void)
+{
+    C2FlowGraph flow;
+    C2BasicBlock blocks[2], saved;
+    C2BasicBlock *block;
+    unsigned i;
+    memset(&flow, 0xa5, sizeof(flow));
+    initialize_flow_pool(&flow, 12, sizeof(C2BasicBlock), 20);
+    for (i = 0; i < sizeof(flow.pending24); ++i)
+        if (flow.pending24[i] != 0xa5) return 0;
+    memset(blocks, 0xa5, sizeof(blocks));
+    blocks[0].previous = &blocks[1];
+    saved = blocks[1];
+    flow.free_blocks = blocks;
+    block = allocate_flow_block(&flow);
+    if (block != blocks || flow.free_blocks != &blocks[1] ||
+        memcmp(&blocks[1], &saved, sizeof(saved))) return 0;
+    for (i = 0; i < sizeof(*block); ++i)
+        if (((unsigned char *)block)[i]) return 0;
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -285,5 +308,6 @@ const ReconTest numeric_tests[] = {
     {"function line reset retains the cumulative line", 1, function_line_reset},
     {"small-node reuse clears exactly its owned size", 1, small_node_reuse},
     {"code-node insertion preserves both chains", 1, code_node_splice},
-    {"pool12 zeroed allocation leaves unknown backing alone", 1, flow_pool_allocation}
+    {"pool12 zeroed allocation leaves unknown backing alone", 1, flow_pool_allocation},
+    {"flow-block reuse clears only the popped allocation", 1, flow_block_reuse}
 };

@@ -8,11 +8,6 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-C2BasicBlock *__fastcall allocate_flow_block(C2FlowGraph *flow)
-{
-    __asm { int 3 }
-    return NULL;
-}
 void __fastcall read_function_code(C2Function *function, C2Record **pending,
                                    C2Record *first, int limit, int outermost)
 {
