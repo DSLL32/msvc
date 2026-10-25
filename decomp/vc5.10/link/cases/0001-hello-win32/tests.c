@@ -1065,7 +1065,27 @@ static int module_contribution_enumerator(void)
     return recon_native_at_entry(initialize_module_contribution_enumerator,
         check_module_contribution_enumerator,invoke_hello,NULL)==1;
 }
+static void __stdcall check_reference_enumerator(ComdatReferenceEnumerator *enumerator,
+    ContributionInfo *block)
+{
+    OutputModule *module=current_input_library->module_head;
+    if(!enumerator || block!=module->contribution_info+1 || block->references_used!=8 ||
+        block->reference_count!=8 || block->references!=comdat_reference_arena->base ||
+        ((ComdatReference *)block->references)[0].symbol_index!=17)
+        recon_native_entry_finish(0);
+    initialize_comdat_reference_enumerator(enumerator,block);
+    /* The unused padding WORD is uninitialized on each side and unobserved. */
+    recon_native_entry_finish(enumerator->next==next_comdat_reference &&
+        enumerator->end==(void (__stdcall *)(void *))end_section_enumerator &&
+        enumerator->block==block && !enumerator->current && !enumerator->index);
+}
+static int reference_enumerator(void)
+{
+    return recon_native_at_entry(initialize_comdat_reference_enumerator,
+        check_reference_enumerator,invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"reference-enumerator",1,reference_enumerator},
     {"module-contribution-enumerator",1,module_contribution_enumerator},
     {"symbol-reference-owner",1,symbol_reference},
     {"input-symbol-definition",1,input_symbol_definition},

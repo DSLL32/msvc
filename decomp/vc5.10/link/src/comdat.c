@@ -110,6 +110,13 @@ BYTE __stdcall next_module_contribution(ModuleContributionEnumerator *enumerator
     return 0;
 }
 void __stdcall initialize_comdat_reference_enumerator(ComdatReferenceEnumerator *enumerator,
-    ContributionInfo *block) { __asm { int 3 } }
+    ContributionInfo *block)
+{
+    enumerator->block=block;
+    enumerator->next=next_comdat_reference;
+    enumerator->end=(void (__stdcall *)(void *))end_section_enumerator;
+    enumerator->current=NULL;
+    enumerator->index=0;
+}
 BYTE __stdcall next_comdat_reference(ComdatReferenceEnumerator *enumerator)
 { __asm { int 3 } return 0; }

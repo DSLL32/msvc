@@ -6379,6 +6379,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_initialize_comdat_reference_enumerator@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   },

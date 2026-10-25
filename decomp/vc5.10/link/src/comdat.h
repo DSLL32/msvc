@@ -30,6 +30,9 @@ typedef struct ComdatReferenceEnumerator {
 } ComdatReferenceEnumerator;
 typedef char ContributionEnumeratorSize[(sizeof(ModuleContributionEnumerator)==20)?1:-1];
 typedef char ReferenceEnumeratorSize[(sizeof(ComdatReferenceEnumerator)==20)?1:-1];
+typedef char ReferenceEnumeratorFields[(offsetof(ComdatReferenceEnumerator,index)==8 &&
+    offsetof(ComdatReferenceEnumerator,current)==12 &&
+    offsetof(ComdatReferenceEnumerator,block)==16)?1:-1];
 #ifdef __cplusplus
 extern "C" {
 #endif
