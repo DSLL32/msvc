@@ -800,3 +800,9 @@ build/ltoa-gcvt-probe: tests/ltoa-gcvt-probe.c $(SOURCES) $(HEADERS) | build
 ltoa-gcvt-check: build/ltoa-gcvt-probe
 	./$<
 	./$< live
+
+.PHONY: mbsnbcmp-check
+build/mbsnbcmp-probe: tests/mbsnbcmp-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mbsnbcmp-check: build/mbsnbcmp-probe
+	$(PYTHON) tests/check-mbsnbcmp.py $<

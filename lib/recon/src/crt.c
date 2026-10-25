@@ -2476,8 +2476,25 @@ WEAK int recon_mbsicmp(const unsigned char *left,const unsigned char *right)
 }
 int __cdecl recon_mbsnbcmp(const unsigned char *left,const unsigned char *right,size_t bytes)
 {
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
     (void)left;(void)right;(void)bytes;
-    recon_unsupported("unreviewed _mbsnbcmp");return 0;
+    recon_unsupported("_mbsnbcmp Microsoft profile required");return 0;
+#else
+    size_t index;unsigned char a,b;
+    ascii_multibyte_scope();
+    if(recon_mb_codepage_gate) recon_unsupported("_mbsnbcmp multibyte gate");
+    if(!bytes) return 0;
+    if(!left || !right) recon_unsupported("_mbsnbcmp NULL input");
+    for(index=0;index<bytes;++index) {
+        if(index>=UINTPTR_MAX-(uintptr_t)left || index>=UINTPTR_MAX-(uintptr_t)right)
+            recon_unsupported("_mbsnbcmp wrapped input");
+        a=left[index];b=right[index];
+        if(a>=128 || b>=128) recon_unsupported("_mbsnbcmp nonASCII compared units");
+        if(a!=b) return a<b?-1:1;
+        if(!a) return 0;
+    }
+    return 0;
+#endif
 }
 WEAK unsigned char *recon_mbsnbcpy(unsigned char *out,const unsigned char *text,size_t bytes)
 {

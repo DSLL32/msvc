@@ -594,6 +594,14 @@ binary0200/text0100. Input text mode and unknown/closed descriptors deny125;
 Microsoft _setmode and native FILE representation remain unchanged. WLINK's
 normal startup requests binary on public fileno(stdin/stdout), ignoring returns.
 
+Microsoft generic/510 _mbsnbcmp supports guarded default-C/CP0/MB1/gate0 ASCII
+comparison, stopping at the first mismatch, NUL or byte count. It returns the
+provider default branch's normalized unsigned-byte -1/0/1; count0 accesses no
+buffer after the state guard. Only compared units are validated; unread tails
+are not claimed. Watcom/unknown state, NULL positive-count and nonASCII compared
+units remain unsupported. LINK's actual count9 import-name equality test is the
+reached consumer; original live per-call locale/errors/FP were not measured.
+
 Microsoft _ltoa(long,char*,int) supports the reached signed32 decimal domain
 by reusing recon_itoa; successful output is returned by exact alias with its
 NUL and preserved errors/FP. Other radices/NULL and Watcom remain unsupported.
