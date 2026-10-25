@@ -26,11 +26,34 @@ typedef char CompilerType_size[sizeof(CompilerType) == 16 ? 1 : -1];
 /* Integer-node projection. Original fields are kind0/flags1/type4/value16.
  * The authentic24-byte allocation is separate from this compact view;
  * original bytes2..3 and8..15 remain unmodeled and unwritten. */
+struct CompilerIrSymbol;
 typedef struct CompilerIntegerConstant {
     BYTE kind, flags;
     CompilerType *type;
-    __int64 integer;
+    union {
+        __int64 integer;
+        struct { unsigned low, high; } words;
+        struct CompilerIrSymbol *symbol;
+        BYTE *extended;
+        unsigned index;
+    };
 } CompilerIntegerConstant;
+
+/* Views used by the IL writer. Original symbol fields occur at3,4,20,24,29,31;
+ * original type-shape flags/storage/base occur at0,2,4. Omitted storage is
+ * unmodeled, and these types do not establish original allocation extents. */
+typedef struct CompilerIrSymbol {
+    BYTE declaration_flags;
+    CompilerType *type;
+    unsigned reference_flags;
+    unsigned record_id;
+    BYTE scope_flags, identifier_flags;
+} CompilerIrSymbol;
+struct CompilerTypeShape {
+    WORD flags;
+    BYTE storage;
+    struct CompilerTypeShape *base;
+};
 
 typedef struct CompilerBuiltinTypes {
     CompilerType *type_0000, *type_4041_first, *type_0063, *type_4063_first;

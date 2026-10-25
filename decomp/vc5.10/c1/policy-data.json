@@ -342,6 +342,213 @@
         "register_imports": {
           "require_all_register_calls_resolved": true
         }
+      },
+      "_write_ir_record": {
+        "original": {
+          "text_data": [
+            [
+              274791792,
+              274791973
+            ],
+            [
+              274791976,
+              274792032
+            ]
+          ],
+          "switches": {
+            "274790745": [
+              274790758,
+              274790815,
+              274790917,
+              274791070,
+              274791070,
+              274791058,
+              274791747,
+              274791092,
+              274791070,
+              274791070,
+              274791458,
+              274791070,
+              274791747,
+              274791747
+            ],
+            "274790958": [
+              274791052,
+              274920112,
+              274790995,
+              274920099,
+              274790965,
+              274920125,
+              274791003
+            ],
+            "274791120": [
+              274791239,
+              274791265,
+              274791211,
+              274791211,
+              274791127,
+              274791141,
+              274791206,
+              274920192
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_write_ir_record",
+                "offset": 2299
+              },
+              {
+                "rebuilt_symbol": "_write_ir_record",
+                "offset": 2536
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_write_ir_record",
+                "offset": 217
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 224
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 313
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 451
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 2290
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 2290
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 680
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 703
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 746
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 2290
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 2290
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 1665
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 2290
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 703
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 703
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_write_ir_record",
+                "offset": 516
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 523
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 532
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 541
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 550
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 559
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 605
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 612
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_write_ir_record",
+                "offset": 796
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 803
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 859
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 864
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 864
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 948
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 971
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 1072
+                },
+                {
+                  "rebuilt_symbol": "_write_ir_record",
+                  "offset": 1083
+                }
+              ]
+            }
+          ]
+        }
       }
     }
   }

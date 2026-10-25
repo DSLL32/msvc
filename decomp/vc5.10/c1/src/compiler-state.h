@@ -43,6 +43,9 @@ typedef struct CompilerInitializedState {
     struct CompilerNameEntry **name_buckets;          /* RVA5e408; 2048 buckets */
     struct CompilerNameEntry *current_identifier; /* RVA5e420, defaultNULL */
     unsigned expression_arena_kind; /* RVA5f5dc, canonical default3 */
+    unsigned ir_reference_epoch; /* RVA5f96c, default1; lowbit in symbol flags */
+    int ir_symbol_state_ready;   /* RVA5f370, default1 */
+    int ir_symbol_state_changed; /* RVA5f374, default0 */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
@@ -73,6 +76,11 @@ typedef struct CompilerOutputBuffer {
     int RECON_THISCALL Close(void);
     int RECON_THISCALL Grow(int);
     void RECON_THISCALL Flush(void);
+    int RECON_THISCALL Ensure(int);
+    int RECON_THISCALL Reserve(int);
+    int RECON_THISCALL WriteIndex(unsigned);
+    void RECON_THISCALL WriteBytes(const void *, unsigned);
+    int RECON_THISCALL WriteSmall(unsigned);
     int RECON_THISCALL Open(const char *, const char *, const char *);
 #endif
 } CompilerOutputBuffer;
@@ -203,6 +211,9 @@ typedef struct CompilerBss {
     /* Six output-token prefixes used by the non-IL path. */
     BYTE output_kinds[6];
     int expression_seek_status; /* RVA57e38, actual fseek result; BSS */
+    unsigned ir_record_count; /* RVA55058 */
+    CompilerIrSymbol *current_function; /* RVA54c90 */
+    CompilerIrSymbol *current_scope_symbol; /* RVA54dd4 */
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

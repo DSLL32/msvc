@@ -46,6 +46,37 @@ struct CompilerBackend {
 struct CompilerDebugModule {
     virtual int RECON_THISCALL Finish(void) = 0;
     virtual int RECON_THISCALL Close(void) = 0;
+    virtual void RECON_THISCALL Slot08(void) = 0;
+    virtual void RECON_THISCALL Slot0c(void) = 0;
+    virtual void RECON_THISCALL Slot10(void) = 0;
+    virtual void RECON_THISCALL Slot14(void) = 0;
+    virtual void RECON_THISCALL Slot18(void) = 0;
+    virtual void RECON_THISCALL Slot1c(void) = 0;
+    virtual void RECON_THISCALL Slot20(void) = 0;
+    virtual void RECON_THISCALL Slot24(void) = 0;
+    virtual void RECON_THISCALL Slot28(void) = 0;
+    virtual void RECON_THISCALL Slot2c(void) = 0;
+    virtual void RECON_THISCALL Slot30(void) = 0;
+    virtual void RECON_THISCALL Slot34(void) = 0;
+    virtual void RECON_THISCALL Slot38(void) = 0;
+    virtual void RECON_THISCALL Slot3c(void) = 0;
+    virtual void RECON_THISCALL Slot40(void) = 0;
+    virtual void RECON_THISCALL Slot44(void) = 0;
+    virtual void RECON_THISCALL Slot48(void) = 0;
+    virtual void RECON_THISCALL Slot4c(void) = 0;
+    virtual void RECON_THISCALL Slot50(void) = 0;
+    virtual void RECON_THISCALL Slot54(void) = 0;
+    virtual void RECON_THISCALL Slot58(void) = 0;
+    virtual void RECON_THISCALL Slot5c(void) = 0;
+    virtual void RECON_THISCALL Slot60(void) = 0;
+    virtual void RECON_THISCALL Slot64(void) = 0;
+    virtual void RECON_THISCALL Slot68(void) = 0;
+    virtual void RECON_THISCALL Slot6c(void) = 0;
+    virtual void RECON_THISCALL Slot70(void) = 0;
+    virtual void RECON_THISCALL Slot74(void) = 0;
+    virtual void RECON_THISCALL Slot78(void) = 0;
+    virtual void RECON_THISCALL Slot7c(void) = 0;
+    virtual void RECON_THISCALL Slot80(void) = 0;
 };
 /* External MSPDB interface; preceding slots remain opaque declarations. */
 struct PDB {
