@@ -1,0 +1,15 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+0xf7f66579 in __kernel_vsyscall ()
+Breakpoint 1 at 0x56885380 (2 locations)
+
+Breakpoint 1.2, main (argc=2, argv=0xf7c81580) at src/main.c:20
+20	    Argv = argv;
+main argc=2
+Breakpoint 2 at 0xf7c10a15: file src/stubs.c, line 16.
+
+Breakpoint 2, Spawn (callback=0xf7c10a3a <DoLinkFromCommandLine>) at src/stubs.c:16
+16	    TRAP();
+MAIN_SPAWN_NATIVE {'callback': True, 'Argv_alias': True, 'MapFile_zero': True, 'MapFName_null': True, 'OutFiles_null': True, 'LibPath_null': True, 'LinkState_zero': True}
+[Inferior 1 (process 3139794) detached]
+FAIL help signal:9 (166.830 ms; setup 6.199 ms, execution 156.583 ms, checks 4.047 ms)

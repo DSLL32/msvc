@@ -1,0 +1,3 @@
+recon-tool: GDB attached to invocation PID 3139794; quitting terminates any remaining invocation
+  unexpected terminal signal:9
+recon-tool: one or more cases failed

@@ -3,7 +3,7 @@ RECON := ../../../lib/recon
 NATIVE_CC := gcc
 NATIVE_CPPFLAGS := -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP -I$(RECON)/include -I$(RECON)/native
 NATIVE_CFLAGS := -std=gnu89 -fms-extensions
-BINARY_SOURCES := src/main.c
+BINARY_SOURCES := $(wildcard src/*.c)
 BINARY_SUPPORT_SOURCES := $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 ORIGINAL_TOOLCHAIN := watcom10.0a
 ORIGINAL_SOURCES := $(BINARY_SOURCES)
@@ -15,10 +15,33 @@ ORIGINAL_CFLAGS := -bt=nt -3r -od -s -d2
 ORIGINAL_CC = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WCC386.EXE --
 ORIGINAL_LINK = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WLINK.EXE --
 ORIGINAL_COMPILE = $(ORIGINAL_CC) $(ORIGINAL_CPPFLAGS) $(ORIGINAL_CFLAGS) '-fo=$(subst /,\,$@)' '$(subst /,\,$<)'
-define ORIGINAL_LINK_COMMAND
-python3 scripts/write-link.py --response $(ORIGINAL_BUILD)/wlink.lnk --output $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) $(ORIGINAL_OBJECTS)
-$(ORIGINAL_LINK) @$(ORIGINAL_BUILD)/wlink.lnk
+# The old linker consumes directive lines rather than MSVC switches.
+define WATCOM_NEWLINE
+
+
 endef
+define WATCOM_LINK_RESPONSE
+format windows nt
+runtime console
+debug all
+option map=$(subst /,\,$(ORIGINAL_MAP))
+name $(subst /,\,$(ORIGINAL_OUTPUT))$(foreach object,$(ORIGINAL_OBJECTS),$(WATCOM_NEWLINE)file $(subst /,\,$(object)))
+libpath R:\toolchains\watcom10.0a\lib386
+libpath R:\toolchains\watcom10.0a\lib386\nt
+library clib3r
+library nt
+endef
+ORIGINAL_LINK_COMMAND = $(file >$(ORIGINAL_BUILD)/wlink.lnk,$(WATCOM_LINK_RESPONSE))$(ORIGINAL_LINK) @$(ORIGINAL_BUILD)/wlink.lnk
 ORIGINAL_INCLUDE_DIRS := src $(RECON)/include ../../../toolchains/watcom10.0a/h
-ORIGINAL_EXTRA_DEPS := scripts/write-link.py
+RECON_AUDIT_PROFILE := cl
+RECON_IMAGE_BASE := 4194304
+RECON_AUDIT_REGISTRY_RUNTIME := 1
+RECON_AUDIT_PREREQUISITES := harness/rebuilt-runtime.json $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
+RECON_AUDIT_FLAGS := --discovery cfg --map-format watcom10 --original ../../../toolchains/watcom10.0a/.patched/WLINK.EXE --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --rebuilt-runtime harness/rebuilt-runtime.json --check-references --check-ownership --check-extents
 include $(RECON_TOOL_DIR)/recon-tool.mk
+
+# Genuine main ends in exit; returning application functions retain strict RET audits.
+.PHONY: audit-main-endpoint
+audit: audit-main-endpoint
+audit-main-endpoint: recon-graph-audit
+	python3 scripts/check-main-endpoint.py

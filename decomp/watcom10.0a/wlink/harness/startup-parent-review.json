@@ -1,0 +1,24 @@
+{
+  "scope": "independent static CRT role/range/source/hash review for finite normal startup; no original launch or App acceptance",
+  "reviewer": "/root/watcom10_orchestrator",
+  "packet_sha256": "5df625e16b48fa17e079ad190e555c6f95b8c5754c3283b232a4047749c447a5",
+  "bodies_checked": 18,
+  "source_hashes_checked": true,
+  "six_initial_pointer_values_checked": true,
+  "IsTable257_bytes_checked": true,
+  "representative_semantic_review": [
+    "malloc/_nmalloc wrapper -> classic CLIB __MemAllocator/ExpandDGROUP/nmemneed under pinned heap locks; not compiler-private bucket allocator",
+    "__NTInitFileHandles GetStdHandle -10/-11/-12 -> __NTAddFileHandle handle vector/realloc roles",
+    "__ExpandDGROUP calls actual imported allocation and links classic heap metadata",
+    "MemFree backward trampoline and epilogue explicitly owned",
+    "memcpy/strlen/strdup roles agree with shipped public signatures and source algorithm"
+  ],
+  "classification_conclusion": "Positive source/public/ABI/algorithm/call-role evidence supports CRT classification for these finite variants. Same meaning does not make byte-identical bodies. Registry must retain exact target ranges/bytes and variant rationale.",
+  "wording_correction": "memset MOV encoding synonyms / STOS OR encoding synonyms are semantically matching variants, not literal byte identity; correct any evidence wording claiming exact bytes.",
+  "limits": [
+    "Common owner must independently validate final registry/body/pointer/image bindings before original capture",
+    "Post-main exit and exceptional handlers remain separately held",
+    "No broad interval, unknown callback, arbitrary far selector or App coverage credit",
+    "Reader chain remains a later reached boundary, independent of first pending main"
+  ]
+}
