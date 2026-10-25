@@ -35,9 +35,3 @@ void release_type_payload(TypeRecord *record) { __asm { int 3 } }
 
 
 void read_legacy_module_types(void *types, unsigned size) { __asm { int 3 } }
-
-
-
-
-
-unsigned char *module_file_name(unsigned short index) { __asm { int 3 } return NULL; }

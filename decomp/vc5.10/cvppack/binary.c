@@ -1,4 +1,4 @@
-/* Accepted runnable baseline: 161 App bodies / 47975 original code bytes.
+/* Accepted runnable baseline: 162 App bodies / 48023 original code bytes.
  * Original CRT/import selection is support only. All addresses below are RVAs.
  * Native host adapters and dependency responses are outside the App graph. */
 #include <recon-tool.h>
@@ -114,7 +114,7 @@ static const ReconFunction functions[] = {
     { .name="_use_precompiled_types", .entry_rva=0xc930, .code=(const ReconExtent[]){{0xc930,0xcb67}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="use_precompiled_types" },
     { .name="_register_type_server", .entry_rva=0xbca0, .code=(const ReconExtent[]){{0xbca0,0xc080}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="register_type_server" },
     { .name="_build_type_server_directory", .entry_rva=0xb930, .code=(const ReconExtent[]){{0xb930,0xb9e9}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="build_type_server_directory" },
-    { .name="_module_file_name", .entry_rva=0xb900, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="module_file_name" },
+    { .name="_module_file_name", .entry_rva=0xb900, .code=(const ReconExtent[]){{0xb900,0xb930}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="module_file_name" },
     { .name="@append_module_type@20", .entry_rva=0xc7b0, .code=(const ReconExtent[]){{0xc7b0,0xc917}}, .code_count=1, .text_data=(const ReconExtent[]){{0xc918,0xc928}}, .text_data_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="append_module_type" },
     { .name="_add_symbol_segment", .entry_rva=0xa730, .code=(const ReconExtent[]){{0xa730,0xa78c}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="add_symbol_segment" },
     { .name="_has_symbol_segment", .entry_rva=0xdef0, .code=(const ReconExtent[]){{0xdef0,0xdf2b}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="has_symbol_segment" },

@@ -802,6 +802,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_module_file_name": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

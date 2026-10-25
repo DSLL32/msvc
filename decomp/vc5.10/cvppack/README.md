@@ -5,7 +5,7 @@ CVPACK 5.10 reconstruction
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-161 accepted application functions total 47,975 original code bytes: 76.56% of the
+162 accepted application functions total 48,023 original code bytes: 76.64% of the
 62,662-byte whole-text extent. That denominator includes CRT/support, unknown
 code and padding; a complete non-CRT denominator is not established. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
@@ -72,6 +72,14 @@ Completed cases:
   The two growth helpers were reconstructed. Only final hashes are retained;
   generated pattern files are not embedded fixture inputs.
 
+- 0011-library-archive: actual original LIB/LINK archive members with `/Zi` type
+  servers and nonzero SST_LIBRARIES indices. Status 0, exact verbose output and
+  packed DLL SHA256 `b52cc2729fd24157dfa05a1166061e9c4a0d224139de00a25d2f9b321bc81eb4`; the canonical compiler PDB remains byte-for-byte unchanged.
+  Counted library-name selection was reconstructed. Its dependency transcript
+  is a labelled derivation of 0008: only the whole App-DLL input binding changes,
+  while all PDB bytes, response bytes and strict request/owner/stage checks remain
+  unchanged. No second provider observation or loaded-provider claim is made.
+
 0002-cpp-scene-growth is a new three-module C++ workload with 240 telemetry
 schemas, shared recursive types, virtual inheritance and large arrays. Original
 packed CodeView is 238,240 bytes. Its source inputs remain capture assets. Numeric sizing, derived-base tracking,
@@ -106,15 +114,15 @@ reconstructed. `binary.c` is the sole function/extent/status registry. Finite
 rules remain in `policy-data.json`/`abi-policy.json`; the exact 8-byte Release tail
 retains its reviewed residual, with strict cleanup checks on all other accepted bodies.
 
-Latest growth verification (2026-10-25): final fresh original DIRECT capture
-1.245s; matching native replay239.704ms (setup4.815/execution203.429/checks31.460).
-Case-end `make -j4 check unit win32 audit` passed all eleven cached cases,
-twenty-three units, original-compiler compatibility and the full161-body graph,
-import/data/extent audit, with strict RET checks on160 bodies and the existing
-Release residual. That incremental batch took0.505s; growth replay261.745ms.
-The previous stream/cache replay remains about13ms. During each case only
-current-case pairs and selected changed-function audits ran; each completed
-case received one commit.
+Latest library verification (2026-10-25): final genuine original CLI capture
+698.662ms; matching native replay10.812ms (setup5.431/execution3.743/checks1.637).
+Case-end `make -j4 check unit win32 audit` passed all twelve cached cases,
+twenty-three units, original-compiler compatibility and full 162-body graph,
+import/data/extent checks, with strict RET checks on 161 bodies and the existing
+Release residual. The 2.060s batch included rebuilding after the shared header
+extraction; its library replay took10.770ms. Growth replay remains about 0.26s,
+and the smaller stream/cache workload about 13ms. During each case only current
+pairs and selected changed-function audits ran; completed cases receive one commit.
 
 Full build/capture accounting stays in scratch. Historical per-function
 state/proof campaigns are not rerun. Unvisited application stubs remain traps.

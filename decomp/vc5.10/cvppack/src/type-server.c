@@ -137,3 +137,15 @@ void read_type_database(const char *path)
     }
     type_database_count=type_record_count;
 }
+
+/* Select a counted library name from SST_LIBRARIES [0040b900,0040b930).
+ * The first entry is the empty library name; indices are genuinely16-bit. */
+unsigned char *module_file_name(unsigned short index)
+{
+    unsigned char *name = libraries;
+    while (index) {
+        name += *name + 1;
+        --index;
+    }
+    return name;
+}
