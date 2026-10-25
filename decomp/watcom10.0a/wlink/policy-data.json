@@ -41,6 +41,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ResSeek": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -52,15 +57,15 @@
           "offset": 296
         },
         "padding_hex": "00",
-        "image_sha256": "431752f0baae0ab8ed5f8ae4c8bdef733e70b08efa51226f329fbc0f0cf304af",
-        "map_sha256": "f6af451caf9ffb56960e431e823ede8e107bdfa463eebce595d0f6b0253308fe",
+        "image_sha256": "7a7563d497c97b9d4627b5531ca7868e315ac1e4ff147384b2928c01ded60c96",
+        "map_sha256": "758d7d5ad939b9724d1f1d601de47e980f6577d170ccaad236cd220c65f9be11",
         "object": {
           "path": "build/obj/src/wlink.c.obj",
-          "sha256": "b83d535e7817673ced83907747cd65ac691167a8ae789ba791dacb9ba3753c81"
+          "sha256": "44309574823290bfa3c2eb4cc873d0a10ce626131447a89dbe39e346827aba0c"
         },
         "evidence": {
           "path": "harness/lnkinit-extent.json",
-          "sha256": "c5a8df78696c1d4e7dc74e8752f9c26f02f8f180f3bf1e90ccf2ad132decbedf"
+          "sha256": "35b2bbb1fe0b9c83ce747c77d460929f7b309bf023edaa6cb4a0c2b7c2cac80c"
         }
       }
     }

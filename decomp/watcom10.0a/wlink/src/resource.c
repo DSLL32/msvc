@@ -126,3 +126,13 @@ extern int FindResources( HANDLE_INFO * hInstance )
     return( notfound );
     #undef __handle
 }
+
+/* 1994 ResSeek applies the resource offset for every absolute seek;
+ * the later source additionally checks the self-file handle. */
+long ResSeek( int file, long position, int where )
+{
+    if( where == SEEK_SET ) {
+        return QLSeek( file, position + FileShift, where, 0 ) - FileShift;
+    }
+    return QLSeek( file, position, where, 0 );
+}
