@@ -94,3 +94,8 @@ concurrent cases. The unit target passes in 0.80 s. The final case rebuild took
 map is regenerated before runtime identification. No new original capture was
 run; the six saved numeric body captures originally took 12.46 s including setup.
 The residual case remains open for the assembly-prefix interface.
+
+Four existing ASM parser error calls now forward the original context (408/409)
+and token-name/context pair (426). Original C1 call bytes and rebuilt caller
+cleanup confirm the correction; it adds no functions, credit or error-path
+reachability claim. Existing native cases and graph/ABI checks remain required.

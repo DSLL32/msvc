@@ -63,6 +63,7 @@ unsigned __stdcall parse_asm_binary_digits(char *digits);
 unsigned char classify_asm_identifier(void);
 void copy_asm_comment(void);
 extern unsigned char asm_current_token, asm_token_classes[153];
+extern char *asm_token_names[50];
 typedef struct AsmOpcodeAlias { unsigned char opcode, modifier; } AsmOpcodeAlias;
 extern AsmOpcodeAlias asm_opcode_aliases[98];
 short __stdcall find_asm_mnemonic(char *name);

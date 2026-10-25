@@ -58,6 +58,7 @@ int parse_inline_assembler(void)
     ParserRecovery *recovery;
     AsmExpression *expression;
     FrontendSymbol *symbol;
+    char *context;
     unsigned i, rule, length, nonterminal, declaration_code, declaration_index;
     int reduction, expected;
 
@@ -213,8 +214,8 @@ int parse_inline_assembler(void)
             else if (!expression->kind && expression->value.integer == 65534)
                 set_asm_address_operator(0x36);
             else {
-                asm_error_context();
-                report_syntax_error(408);
+                context = asm_error_context();
+                report_syntax_error(408, context);
             }
             parser_value.words.low = right[0].words.low;
             break;
@@ -326,8 +327,8 @@ int parse_inline_assembler(void)
             ASM_DECLARATION_CODE(declaration_code, right[-1].bytes[0]);
             if (declaration_code == 0x42) set_asm_address_operator(0x34);
             else {
-                asm_error_context();
-                report_syntax_error(409);
+                context = asm_error_context();
+                report_syntax_error(409, context);
             }
             ASM_RESULT(make_asm_symbol(right[0].name));
             break;
@@ -343,8 +344,8 @@ int parse_inline_assembler(void)
             break;
         case 79:
             if (asm_brackets_used) {
-                asm_error_context();
-                report_syntax_error(426);
+                context = asm_error_context();
+                report_syntax_error(426, asm_token_names[right[0].bytes[0]], context);
             }
             asm_brackets_used = 1;
             break;
@@ -354,8 +355,8 @@ int parse_inline_assembler(void)
             break;
         case 81:
             if (asm_brackets_used) {
-                asm_error_context();
-                report_syntax_error(426);
+                context = asm_error_context();
+                report_syntax_error(426, asm_token_names[right[0].bytes[0]], context);
             }
             asm_brackets_used = 1;
             break;
