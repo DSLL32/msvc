@@ -1084,6 +1084,17 @@ WEAK int recon_filbuf(ShimFILE *s)
     if (s->_cnt<=0) { s->_flag|=s->_cnt?0x20:0x10; s->_cnt=0; return EOF; }
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     if (s->_bufsiz==512 && (s->_flag&8) && !(s->_flag&0x400)) s->_bufsiz=4096;
+#elif !defined(RECON_CRT_PROFILE_WATCOM_100A)
+    if (s->_bufsiz==512 && s->_flag==9) {
+        unsigned n;
+        /* The reached old-CRT seek temporarily shrinks an owned4096 buffer.
+         * Only restore capacity for an established registered MYBUF owner;
+         * a genuine512 setvbuf allocation must retain its smaller capacity. */
+        for (n=0;n<20;++n) if (s==&recon_iob[n]) {
+            if (malloc_usable_size(s->_base)>=4096) s->_bufsiz=4096;
+            break;
+        }
+    }
 #endif
     --s->_cnt; return (unsigned char)*s->_ptr++;
 }

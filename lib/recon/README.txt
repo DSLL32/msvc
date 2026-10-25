@@ -973,3 +973,12 @@ drivers needing the observed53-bit startup select its existing opt-in flag.
 _mbctolower has the canonical unsigned int cdecl(unsigned int) native link
 surface. Every input fails125 until its own reached locale/codepage mapping
 contract is reviewed; it never substitutes host tolower.
+
+The default FILE refill restores a temporary512-byte read capacity to4096 only
+for a registered recon_iob stream with exact read/MYBUF flags9 and an established
+malloc-backed allocation of at least4096 bytes. It performs the current512-byte
+read first and publishes the larger capacity only after success. This covers
+the reached older C1XX read-only diagnostic catalog following its CRT fseek.
+Actual512-byte allocations, user buffers, other flags/owners and EOF/error exits
+retain their existing behavior. The explicit510 and Watcom branches are unchanged;
+this does not qualify the original/shipped filbuf difference when flag0x400 is set.

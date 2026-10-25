@@ -602,3 +602,11 @@ build/self-command: tests/self-command.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 self-command-check: build/self-command
 	$(PYTHON) tests/check-self-command.py $<
+
+.PHONY: filbuf-capacity-check
+build/filbuf-capacity-default: tests/filbuf-capacity-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/filbuf-capacity-510: tests/filbuf-capacity-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+filbuf-capacity-check: build/filbuf-capacity-default build/filbuf-capacity-510
+	$(PYTHON) tests/check-filbuf-capacity.py $^
