@@ -48,12 +48,6 @@ int readMResDir( int handle, WResDir dir, int *dup_discarded )
     return( 0 );
 }
 
-int WResReadExtHeader( WResExtHeader *header, int handle )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
-
 int readTypeList( int handle, WResDir dir, unsigned short version )
 {
     WLIB_FRONTIER();

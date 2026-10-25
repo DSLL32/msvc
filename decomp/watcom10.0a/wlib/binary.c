@@ -598,8 +598,10 @@ static const ReconFunction functions[] = {
     {
         .name = "WResReadExtHeader",
         .entry_rva = 0x1b254,
+        .code = (const ReconExtent[]) { {0x1b254, 0x1b291} },
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "WResReadExtHeader",
         .original_symbol = "WResReadExtHeader_",
     },

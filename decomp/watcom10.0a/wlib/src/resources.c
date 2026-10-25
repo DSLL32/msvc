@@ -236,6 +236,19 @@ int WResReadHeaderRecord( WResHeader *header, int file )
     return error;
 }
 
+/* Original 0x41b254..0x41b291. The extended header is 10 packed bytes. */
+int WResReadExtHeader( WResExtHeader *header, int file )
+{
+    int count;
+
+    count = (*WResRtns.read)( file, header, sizeof( *header ) );
+    if( count != sizeof( *header ) ) {
+        WresRecordError( count == -1 ? WRS_READ_FAILED : WRS_READ_INCOMPLETE );
+        return 1;
+    }
+    return 0;
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )
