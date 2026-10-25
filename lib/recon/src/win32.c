@@ -880,10 +880,51 @@ LPVOID WINAPI recon_MapViewOfFile(HANDLE handle,DWORD access,DWORD high,DWORD lo
     v->address=address; v->length=length;v->file_device=identity.st_dev;v->file_inode=identity.st_ino;
     v->next=views; views=v; last_error=0; return address;
 }
+static DWORD checksum_u32(const unsigned char *bytes)
+{
+    return (DWORD)bytes[0]|((DWORD)bytes[1]<<8)|((DWORD)bytes[2]<<16)|((DWORD)bytes[3]<<24);
+}
+static int checksum_external_output(LPDWORD output,const View *view)
+{
+    uintptr_t address=(uintptr_t)output,base=(uintptr_t)view->address;
+    if(!output || (address&3) || address>UINTPTR_MAX-sizeof(DWORD)) return 0;
+    return address<base?base-address>=sizeof(DWORD):address-base>=view->length;
+}
 PIMAGE_NT_HEADERS WINAPI recon_CheckSumMappedFile(LPVOID base,DWORD length,LPDWORD old_sum,LPDWORD new_sum)
 {
-    (void)base;(void)length;(void)old_sum;(void)new_sum;
-    recon_unsupported("unreviewed CheckSumMappedFile");return NULL;
+    const unsigned char *bytes=base;View *view;DWORD nt,optional_size,field,original;
+    DWORD position=0,sum=0,word;uintptr_t old_address=(uintptr_t)old_sum,new_address=(uintptr_t)new_sum;
+    for(view=views;view && view->address!=base;view=view->next) ;
+    if(!view || length<sizeof(IMAGE_DOS_HEADER) || length>view->length ||
+       length>UINTPTR_MAX-(uintptr_t)base)
+        recon_unsupported("CheckSumMappedFile live bounded view");
+    if(!checksum_external_output(old_sum,view) || !checksum_external_output(new_sum,view) ||
+       (old_address<new_address?new_address-old_address:old_address-new_address)<sizeof(DWORD))
+        recon_unsupported("CheckSumMappedFile external disjoint outputs");
+    nt=checksum_u32(bytes+60);
+    if(bytes[0]!='M' || bytes[1]!='Z' || nt<sizeof(IMAGE_DOS_HEADER) || nt>INT_MAX || (nt&3) || nt>length ||
+       length-nt<sizeof(IMAGE_NT_HEADERS) || checksum_u32(bytes+nt)!=IMAGE_NT_SIGNATURE)
+        recon_unsupported("CheckSumMappedFile DOS/PE headers");
+    optional_size=(DWORD)bytes[nt+20]|((DWORD)bytes[nt+21]<<8);
+    if(optional_size<sizeof(IMAGE_OPTIONAL_HEADER) || optional_size>length-nt-24 ||
+       bytes[nt+24]!=0x0b || bytes[nt+25]!=0x01)
+        recon_unsupported("CheckSumMappedFile PE32 optional header");
+    field=nt+offsetof(IMAGE_NT_HEADERS,OptionalHeader.CheckSum);
+    original=checksum_u32(bytes+field);
+    /* Standard PE checksum: one's-complement little-endian WORD sum, with
+     * the existing checksum DWORD excluded, followed by the file length.
+     * An odd final byte is the low byte of its zero-extended WORD. */
+    for(;;) {
+        word=bytes[position];
+        if(length-position>1) word|=(DWORD)bytes[position+1]<<8;
+        if(position!=field && position!=field+2) sum+=word;
+        sum=(sum&0xffff)+(sum>>16);
+        if(length-position<=2) break;
+        position+=2;
+    }
+    sum=(sum&0xffff)+(sum>>16);
+    *old_sum=original;*new_sum=(sum&0xffff)+length;
+    return (PIMAGE_NT_HEADERS)(bytes+nt);
 }
 BOOL WINAPI recon_FlushViewOfFile(LPCVOID address,DWORD bytes)
 {

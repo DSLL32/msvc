@@ -585,13 +585,23 @@ The public IMAGEHLP staging route recognizes LoadLibraryA("imagehlp" or
 "imagehlp.dll") as a built-in native module, alongside the existing system
 module routes. Only after that load can GetProcAddress resolve the exact name
 CheckSumMappedFile to its SDK IMAGEHLP.H58..65 WINAPI4/PIMAGE_NT_HEADERS entry.
-That entry unconditionally denies125 without inspecting buffers or writing sums.
+The entry supports an exact live mapped base/FileLength bounded by its owned
+view, DOS/PE32 headers and valid aligned disjoint external DWORD outputs outside
+the whole view. It computes the standard little-endian WORD end-around checksum,
+excludes the old checksum DWORD and adds FileLength (including odd final bytes).
+It returns the exact base+e_lfanew NT-header alias, reports old/new sums and leaves
+the image/tails/errors/FP unchanged. Unsupported inputs deny before output writes.
 Unknown exports/ordinals/pre-load lookup and FreeLibrary remain unsupported;
-no unloading/reloading/private lifetime semantics or checksum success is claimed.
+no unloading/reloading/private lifetime or malformed-image failure is claimed.
 There is no provider hash gate, PE loader or new generic provider framework.
 The actual CVPACK main branch now reaches its genuine App file-size/mapping
 frontiers instead of silently skipping checksum work. `make
 imagehlp-surface-check` verifies routing, signature, state preservation and denial.
+`make checksum-check CHECKSUM_INPUT=... CHECKSUM_MASTER=...` uses the retained
+actual CVPACK18320B pre-call input/master0x4b2a oracle, plus small nonzero-old,
+odd-length/carry/overlap/header controls. The API never places the checksum in
+the image; the genuine caller performs that store. Original per-call errors/FP
+were not measured and are not inferred from the native checks.
 
 HeapReAlloc has only the shipped WINBASE.H1382..1389 WINAPI4 declaration/remap
 LPVOID(HANDLE,DWORD,LPVOID,DWORD). RCDLL's unvisited growth edge supplies flags9

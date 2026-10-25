@@ -692,6 +692,13 @@ build/heap-realloc-surface-probe: tests/heap-realloc-surface-probe.c $(SOURCES) 
 heap-realloc-surface-check: build/heap-realloc-surface-probe
 	$(PYTHON) tests/check-heap-realloc-surface.py $<
 
+.PHONY: checksum-check
+build/checksum-probe: tests/checksum-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+checksum-check: build/checksum-probe
+	test -n "$(CHECKSUM_INPUT)" -a -n "$(CHECKSUM_MASTER)"
+	$(PYTHON) tests/check-checksum.py $< "$(CHECKSUM_INPUT)" "$(CHECKSUM_MASTER)"
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
