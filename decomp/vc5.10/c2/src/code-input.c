@@ -1141,3 +1141,21 @@ C2InputStack *new_input_stack(void)
     }
     return entry;
 }
+
+C2Record *__fastcall append_input_trees(C2InputStack *stack, C2Record *prior)
+{
+    C2Expression *sentinel;
+    if (stack->flags & 0x20) {
+        discard_input_tree(stack->last);
+        stack->last = last_input_tree(stack->first);
+    } else
+        stack->last = prune_input_tree(stack->last, 0);
+    sentinel = stack->first;
+    if (sentinel->next) {
+        link_code_nodes(prior, (C2Record *)sentinel->next);
+        prior = (C2Record *)stack->last;
+        sentinel->next = NULL;
+        stack->last = sentinel;
+    }
+    return prior;
+}

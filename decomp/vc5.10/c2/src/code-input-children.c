@@ -99,11 +99,6 @@ C2Expression * __fastcall new_function_exit(C2Function *function)
 
 
 
-C2Record * __fastcall append_input_trees(C2InputStack *stack, C2Record *prior)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 C2Expression * __fastcall pop_input_trees(C2InputStack **stack)
 {
@@ -440,6 +435,23 @@ short __fastcall read_counted_input_text(char *text, int capacity)
 }
 
 char *__fastcall lookup_input_filename(unsigned serial)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2Expression *__fastcall prune_input_tree(C2Expression *tree, int retain_value)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __fastcall discard_input_tree(C2Expression *tree)
+{
+    __asm { int 3 }
+}
+
+C2Expression *__fastcall last_input_tree(C2Expression *tree)
 {
     __asm { int 3 }
     return 0;

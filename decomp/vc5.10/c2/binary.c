@@ -2485,9 +2485,32 @@ static const ReconFunction functions[] = {
     {
         .name = "@append_input_trees@8",
         .entry_rva = 0x25acb,
+        .code = (const ReconExtent[]){{0x25acb, 0x25b17}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "append_input_trees",
+    },
+    {
+        .name = "@prune_input_tree@8",
+        .entry_rva = 0x262d8,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "append_input_trees",
+        .native_symbol = "prune_input_tree",
+    },
+    {
+        .name = "@discard_input_tree@4",
+        .entry_rva = 0x4a612,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "discard_input_tree",
+    },
+    {
+        .name = "@last_input_tree@4",
+        .entry_rva = 0x440ef,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "last_input_tree",
     },
     {
         .name = "@pop_input_trees@4",
