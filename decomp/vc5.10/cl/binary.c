@@ -209,7 +209,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .native_symbol="enable_pass", .implementation=RECON_IMPLEMENTED },
     { .name="_toggle_pass", .entry_rva=0x2499,
       .code=(const ReconExtent[]){{0x2499,0x250a}}, .code_count=1,
-      .definition=RECON_APP, .native_symbol="toggle_pass", .implementation=RECON_UNIMPLEMENTED },
+      .definition=RECON_APP, .native_symbol="toggle_pass", .implementation=RECON_IMPLEMENTED },
     { .name="_disable_pass", .entry_rva=0x2458,
       .code=(const ReconExtent[]){{0x2458,0x2499}}, .code_count=1,
       .definition=RECON_APP, .native_symbol="disable_pass", .implementation=RECON_IMPLEMENTED },

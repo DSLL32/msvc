@@ -94,6 +94,32 @@ void disable_pass(Option *option)
             compiler_passes[i].flags &= ~1;
 }
 
+/* 00402499..0040250a: copy an enabled source pass's low bit to a target. */
+void toggle_pass(Option *option)
+{
+    unsigned enabled = (unsigned)option;
+    int index;
+    /* If the source selector is unknown, the original retains the Option
+     * address in its result register. Preserve its low bit, including the
+     * zero bit of an ordinary aligned allocation, rather than invent a match. */
+    for (index = 0; index < 5; ++index) {
+        if (compiler_passes[index].option_prefix[0] == option->value[0]) {
+            enabled = compiler_passes[index].flags & 1;
+            break;
+        }
+    }
+    if (!enabled)
+        return;
+    for (index = 0; index < 5; ++index) {
+        if (compiler_passes[index].option_prefix[0] == option->value[1]) {
+            compiler_passes[index].flags =
+                ((enabled ^ compiler_passes[index].flags) & 1) ^
+                compiler_passes[index].flags;
+            break;
+        }
+    }
+}
+
 /* 00402594..00402633: validate per-source output naming, then consume it. */
 void set_output_option(Option *option)
 {

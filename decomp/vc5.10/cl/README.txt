@@ -1,6 +1,6 @@
-VC5 CL: 109/112 identified application functions implemented; 18,279/18,545
+VC5 CL: 110/112 identified application functions implemented; 18,392/18,545
 application extent bytes. Runtime/import support adds no application credit.
-Three named traps remain. This measures extents, not branches or input domains.
+Two named traps remain. This measures extents, not branches or input domains.
 
 make -j4 check unit        cached native IO cases and optional narrow tests
 make -j4 recon-original    original compiler build
@@ -14,7 +14,9 @@ preserved inputs/ABI. Its 32-byte expected record comes from the masked original
 This establishes internal behavior, not public MRE reachability. A separate warm
 two-source /Gm /Zi /c original run completed without reaching that helper.
 No frontend/backend dependency is continued after the DIRECT marker. There are
-no additional unit callbacks.
+no additional unit callbacks. Case 0015 additionally checks the internal pass
+configuration callback on genuine driver state and App-allocated Option records,
+including disabled and unknown selectors; this does not invent public bc syntax.
 
 Typed C1/C2, LINK and six-call MRE providers validate complete known requests
 before applying captured dependency effects; unknown or missing calls fail.

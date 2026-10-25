@@ -39,9 +39,6 @@ BOOL WINAPI console_control_handler(DWORD event)
 
 
 
-void toggle_pass(Option *option) { __asm int 3 }
-
-
 
 
 
