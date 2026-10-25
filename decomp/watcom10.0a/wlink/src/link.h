@@ -105,6 +105,7 @@ extern long QPos( int );
 extern int WResReadDir( int, WResDir, int * );
 extern void __FreeTypeList( WResDir );
 extern int WResIsWResFile( int );
+extern int ResReadUint32( unsigned long *, int );
 extern int readWResDir( int, WResDir );
 extern int readMResDir( int, WResDir, int * );
 extern unsigned QWrite( int, void *, unsigned, char * );

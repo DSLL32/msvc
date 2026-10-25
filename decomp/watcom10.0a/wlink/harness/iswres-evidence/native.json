@@ -1,0 +1,45 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-TFhldz",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      148192,
+      93500,
+      148424,
+      148908,
+      209664,
+      149584,
+      215224,
+      223360,
+      215304,
+      151696,
+      151116,
+      151756,
+      215240,
+      223408,
+      209700,
+      209668,
+      224900,
+      232368,
+      234080
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 234080,
+    "trap_site": 4153950948,
+    "elapsed_ms": 17.200461999999998,
+    "setup_ms": 10.296309,
+    "execution_ms": 2.6047769999999995,
+    "checks_ms": 4.299353,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlink-iswres/original.json",
+      "report_sha256": "1f16b88af476975332e506aa22c45dac3b7c839954a8826c304cfd9fabe80ba9",
+      "capture_sha256": "2af7f86df2b81d69f1ab72c4dd9b2b4d9c1c35cc357ec6abaa0c21e8c5e7a387",
+      "source_binding_available": true
+    }
+  }
+]

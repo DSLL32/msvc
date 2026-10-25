@@ -81,6 +81,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "WResIsWResFile": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

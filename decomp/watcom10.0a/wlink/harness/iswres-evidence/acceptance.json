@@ -1,0 +1,12 @@
+{
+  "scope": "WResIsWResFile133B seeks logicalresource start, reads two magic DWORDs, restores seek position and returns boolean. Actual1994 has direct ResReadUint32 edges, not newer WResFindResType wrapper. Stops at first ResReadUint32.",
+  "application_functions": 18,
+  "application_bytes": 1835,
+  "ABI": "Original fdEAX; preservesEBX/ECX/EDX/ESI; nearRET0; all32-bit magic/offset types. Initial seek failure reports9/returns0; final seek failure reports9 without altering prior read/magic decision, matching exact body.",
+  "bindings": {
+    "src/resource.c": "34754b2c95ab5b2ee027ddc09359df9dd97f607727dbdab63abe73b2fdfc7039",
+    "src/link.h": "22ddb075a40e035905757da43fa2eb3649b57ae69f10ac1d4d8172fbe3f1b588",
+    "binary.c": "2d5d8be2516aa4bf3d14cea08b201028c417edc11b3051480712950498061706",
+    "policy-data.json": "93dffc4a7cfd68c0f7d8ec5023ab4caebac79f197ef13b39e42cd3c564bb40f9"
+  }
+}

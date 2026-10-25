@@ -201,3 +201,24 @@ int WResReadDir( int file, WResDir dir, int *duplicates )
     }
     return error;
 }
+
+int WResIsWResFile( int file )
+{
+    long savepos;
+    unsigned long magic[2];
+    int error;
+
+    savepos = (*WResRtns.seek)( file, 0L, SEEK_SET );
+    if( savepos == -1L ) {
+        WresRecordError( 9 );
+        return 0;
+    }
+    error = ResReadUint32( magic, file );
+    if( !error ) {
+        error = ResReadUint32( magic + 1, file );
+    }
+    if( (*WResRtns.seek)( file, savepos, SEEK_SET ) == -1L ) {
+        WresRecordError( 9 );
+    }
+    return !error && magic[0] == 0xc3d4c1d7UL && magic[1] == 0xc3d2cdcfUL;
+}
