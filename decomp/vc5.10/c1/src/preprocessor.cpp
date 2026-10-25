@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <share.h>
 #include <errno.h>
+#include <stdlib.h>
 #include "frontend.h"
 #include "keywords.h"
 #include "global-record.h"
@@ -306,7 +307,20 @@ extern "C" int __cdecl open_source_descriptor(const char *name)
     }
     return descriptor;
 }
-extern "C" const char *__cdecl prepare_source_path(const char *name) { __asm { int 3 } return NULL; }
+extern "C" char *__cdecl duplicate_argument(const char *, int);
+extern "C" const char *__cdecl prepare_source_path(const char *name)
+{
+    if (c1_bss.options.fat) {
+        char drive[4], directory[256], base[256], extension[256];
+        char *path = duplicate_argument(name, 3);
+        _splitpath(path, drive, directory, base, extension);
+        base[8] = 0;
+        extension[4] = 0;
+        _makepath(path, drive, directory, base, extension);
+        return path;
+    }
+    return name;
+}
 extern "C" int __cdecl close_old_source_descriptor(void) { __asm { int 3 } return 0; }
 extern "C" void __cdecl push_source_context(CompilerSourceFile *file, int kind, int descriptor, int flags)
 { __asm { int 3 } }
