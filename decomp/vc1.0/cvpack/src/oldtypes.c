@@ -233,3 +233,20 @@ void convert_old_array(TypeRecord *entry)
     record += 8+numeric_size;
     for (i = 0; i < (unsigned short)name[0]+1; ++i) record[i] = name[i];
 }
+
+/* Emit the shortest unsigned CodeView numeric leaf for a 32-bit value. */
+unsigned short write_numeric_leaf(unsigned char *buffer, unsigned long value)
+{
+    if (value < 0x8000) {
+        *(unsigned short *)buffer = (unsigned short)value;
+        return 2;
+    }
+    if (!(value&0xffff0000)) {
+        *(unsigned short *)buffer = 0x8002;
+        *(unsigned short *)(buffer+2) = (unsigned short)value;
+        return 4;
+    }
+    *(unsigned short *)buffer = 0x8004;
+    *(unsigned long *)(buffer+2) = value;
+    return 6;
+}
