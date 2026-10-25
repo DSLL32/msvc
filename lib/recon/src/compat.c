@@ -157,8 +157,33 @@ int recon_watcom_heapchk(void)
 }
 int recon_watcom_nheapchk(void)
 { recon_unsupported("unreviewed Watcom _nheapchk"); return 0; }
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+/* Reached single-threaded registration only. These are Watcom table tokens,
+ * not Linux dispositions; raise and delivered-event behavior stay denied. */
+static ReconSignalHandler watcom_signal_handlers[4]={
+    (ReconSignalHandler)2,(ReconSignalHandler)1,(ReconSignalHandler)1,(ReconSignalHandler)1
+};
+#endif
 ReconSignalHandler recon_watcom_signal(int number,ReconSignalHandler handler)
-{ (void)number; (void)handler; recon_unsupported("unreviewed Watcom signal"); return NULL; }
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    unsigned slot;ReconSignalHandler previous;
+    switch(number) {
+    case 1:slot=0;break;
+    case 4:slot=1;break;
+    case 6:slot=2;break;
+    case 7:slot=3;break;
+    default:recon_unsupported("Watcom signal outside registration domain");return NULL;
+    }
+    if(!handler || handler==(ReconSignalHandler)3)
+        recon_unsupported("Watcom signal unsupported handler");
+    previous=watcom_signal_handlers[slot];watcom_signal_handlers[slot]=handler;
+    return previous;
+#else
+    (void)number;(void)handler;
+    recon_unsupported("Watcom signal requires explicit profile");return NULL;
+#endif
+}
 int recon_watcom_raise(int number)
 { (void)number; recon_unsupported("unreviewed Watcom raise"); return 0; }
 int recon_watcom_setjmp(unsigned int *environment)

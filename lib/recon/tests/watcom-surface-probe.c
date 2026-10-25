@@ -32,7 +32,7 @@ int main(void)
             switch (mode) {
             case 0: (void)_heapchk(); break;
             case 1: (void)_nheapchk(); break;
-            case 2: (void)signal(SIGINT,callback); break;
+            case 2: (void)signal(SIGFPE,callback); break;
             case 3: (void)_setjmp(buffer); break;
             case 4: (void)setjmp(buffer); break;
             case 5: longjmp(buffer,1); break;

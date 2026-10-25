@@ -1026,9 +1026,14 @@ conversion retain their existing formatter paths. This does not add %p handling
 to the separate sprintf implementation or claim general pointer formatting.
 
 RECON_CRT_PROFILE_WATCOM_100A exposes build-only Watcom 10.0a heap/signal/jump
-surfaces to native target translation units. _heapchk, _nheapchk, signal, raise,
-_setjmp/setjmp and longjmp all deny with status125; no heap result, registration,
-delivery or context-save/restore behavior is claimed. SIGNAL.H numbers1..12 and
+surfaces to native target translation units. Beyond the separately qualified
+first-main heap and normal jump contracts, unsupported operations deny125.
+Signal registration supports only numbers1/4/6/7 in the single-threaded target
+namespace: initial old tokens2/1/1/1, then exact old-handler return/new-handler
+store. Nonnull handlers and IGN1/DFL2 tokens are stored without invoking them;
+NULL/ERR3, other numbers (including FPE), raise and delivery remain unsupported.
+No Linux signal/console wiring or private thread/raise-pointer bytes are modeled.
+SIGNAL.H numbers1..12 and
 SIG_IGN/DFL/ERR tokens1/2/3 remain Watcom values. jmp_buf is13 unsigned32-bit words
 (52bytes), with no writes before denial. Host RECON_SHIM_IMPL translation units
 retain Linux signal tokens and their actual libc context. Existing MSCRT jump
