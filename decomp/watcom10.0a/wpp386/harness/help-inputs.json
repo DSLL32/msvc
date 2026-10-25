@@ -1,0 +1,18 @@
+{
+  "args": [
+    "WPP386.EXE",
+    "?"
+  ],
+  "stdin": "hex:",
+  "input_files": [],
+  "env": {
+    "WPP386": null,
+    "WPP": null,
+    "WCC386": null,
+    "WCC": null,
+    "WCGMEMORY": null,
+    "TZ": "UTC"
+  },
+  "reject_unexpected_files": true,
+  "timeout_ms": 30000
+}

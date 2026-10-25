@@ -1,46 +1,22 @@
-PYTHON ?= python3
-NATIVE_CC ?= gcc
+RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
-SOURCES = $(wildcard src/*.c)
-HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
-NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)
-NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
-OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
-NATIVE_FLAGS = -m32 -std=gnu89 -O0 -g -fno-omit-frame-pointer -fno-pie
+NATIVE_CC = gcc
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native -Isrc -Iharness
+NATIVE_CFLAGS = -std=gnu89
+BINARY_SOURCES = src/stubs.c
+BINARY_SUPPORT_SOURCES = harness/startup.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
-.PHONY: all status inspect native original fixtures
-all: native
-
-status:
-	@$(PYTHON) scripts/scaffold.py status
-
-inspect:
-	@$(PYTHON) scripts/scaffold.py inspect
-
-native: build/native/WPP386
-
-build/native:
-	mkdir -p $@
-
-build/native/%.o: src/%.c $(HEADERS) | build/native
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
-
-build/native/WPP386: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -no-pie $(NATIVE_OBJECTS) $(NATIVE_SHIMS) -o $@
-
-original: build/WPP386.EXE build/wpp386.map
-
-build:
-	mkdir -p $@
-
-build/%.obj: src/%.c $(HEADERS) scripts/original.py | build
-	$(PYTHON) scripts/original.py compile $< $@
-
-build/WPP386.EXE build/wpp386.map &: $(OBJECTS) scripts/original.py Makefile
-	$(PYTHON) scripts/original.py link $(OBJECTS)
-
-# Built executables contain an unreconstructed INT3 main, not an accepted case.
-# No fixture can fall back to an original execution.
-fixtures:
-	@$(PYTHON) scripts/scaffold.py blocked $@
+ORIGINAL_TOOLCHAIN = watcom10.0a
+ORIGINAL_SOURCES = $(BINARY_SOURCES)
+ORIGINAL_BUILD = build
+ORIGINAL_OUTPUT = build/wpp386.exe
+ORIGINAL_MAP = build/wpp386.map
+ORIGINAL_CC = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WCC386.EXE --
+ORIGINAL_LINK = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WLINK.EXE --
+original-windows = $(subst /,\,$(1))
+ORIGINAL_CPPFLAGS = -isrc '-i$(call original-windows,$(RECON)/include)'
+ORIGINAL_CFLAGS = -bt=nt -3r -od -d2
+ORIGINAL_COMPILE = $(ORIGINAL_CC) $(ORIGINAL_CPPFLAGS) $(ORIGINAL_CFLAGS) '-fo=$(call original-windows,$@)' '$(call original-windows,$<)'
+ORIGINAL_LINK_COMMAND = $(ORIGINAL_LINK) format windows nt runtime console debug all option 'map=$(call original-windows,$(ORIGINAL_MAP))' name '$(call original-windows,$(ORIGINAL_OUTPUT))' $(foreach obj,$(ORIGINAL_OBJECTS),file '$(call original-windows,$(obj))') libpath '$(call original-windows,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386)' libpath '$(call original-windows,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386/NT)' library clib3r library nt
+ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/h $(ORIGINAL_TOOLCHAIN_ROOT)/h/NT
+include $(RECON_TOOL_DIR)/recon-tool.mk

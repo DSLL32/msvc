@@ -1,67 +1,28 @@
 # WPP386 10.0a
 
-Groundwork only; no accepted functions yet. Two explicitly approved unmodified
-bare-`?` baselines displayed actual help, exited 1, produced identical 6,228-byte
-stdout, empty stderr and no artifacts (0.265 seconds per execution). Raw masters
-and the full receipt are under `cases/help/reference/`; no normalization was used.
-These captures do not establish reconstructed behavior or a native fixture pass.
-`make inspect` validates the copied payload/stub and reports CF header/relocation
-facts without executing either. `make -j4 native original` builds the INT3 main
-scaffold as native i386 GCC ELF and original-toolchain Win32 PE. Both builds pass;
-native GDB confirms SIGTRAP in `main`, and the original PE has the inline INT3.
-The `src/main.c` scaffold grants no accepted function or case coverage.
-`make fixtures` deliberately fails until CF acceptance prerequisites are met.
+Fresh standardized scaffold, with no accepted application function yet.
+`make -j4 native cases` builds the native i386 `libbinary.so` and one flat
+`cases/0000-help` module. `make -j4 win32` checks the same App sources with original
+Watcom through the shared launcher. No project-specific Wine wrapper remains.
 
-The program is `binb/WPP386.EXE`. Its `binnt/WPP386.EXE` PE stub loads the CF
-payload directly and supplies a DOS-register-to-Win32 service gateway. Original
-logical addresses must be CF payload offsets, independent of the allocated base;
-the PE stub address is not the application's identity.
+The initial public case is bare `?`, historically proven to display real help.
+Its fresh shared-backend oracle is still pending; old references remain in Git
+history and are not relabelled as standardized capture evidence.
 
-Reference source is read-only scratch checkout
-`/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443`, exact commit
-`6b9cb4438959d845a2b4dd4bf19f7908ecd608e9` (2002-05-15). Relevant files:
+The first App frontier is private compiler `MemAlloc@0x81ba3`, size 8, called from
+the CRT's FILE initializer before `main@0x43fef`. The native harness models the
+actual three initializer records and local 26-byte FILE records, and consumes
+allocator returns as genuine 8-byte stream-link nodes. It does not overlay the
+host stdio structure or call an allocator just to manufacture a trace entry.
+Later unqualified initialization/cleanup paths fail closed.
 
-- `bld/w32loadr/loader.c`, `loader.h`, `int21.asm`, `int21nt.c`: later loader and gateway.
-- `bld/plusplus/c/plusplus.c`: `parseCmdLine`, `front_end`, later `WppCompile`.
-- `bld/plusplus/c/cusage.c`: `CCusage`, paging and usage text.
-- `bld/plusplus/c/watcom.c`: `CBanner`.
+WPP's CF identity/controller qualification is being coordinated with the shared
+tool owner. WCC's qualification is not inherited. Until the WPP geometry,
+original-only support catalog and owned first-frontier state are reviewed, no
+original capture, application acceptance or native replay pass is claimed.
+Future work stops after this one help case completes.
 
-These are analysis aids, not proof that the 1994 program has identical functions,
-globals, interfaces or output. Preserve applicable original notices when adapting
-source. Do not transplant the 2002 DLL driver into the older executable.
-
-Static discovery identifies CF startup at `0x664f4`, gateway wrapper at `0x665c7`,
-and a `__CMain` candidate at `0x703f8` calling the application `main` candidate at
-`0x43fef`. These names and ranges remain provisional until observed and audited.
-Startup clears `0xbc438..0xbf6a0`; this overlaps the consumed relocation stream.
-Masking must therefore preserve typed data and loader relocation inputs rather
-than blindly replacing the whole payload with traps. Payload offset zero is
-data, not the entry point. No executable extent map has been accepted.
-The CF relocation stream has 15,085 writes in twelve groups. The original file
-also has 24 bytes after the loaded payload, containing its patch-level marker;
-these bytes are not loaded and are not counted as reconstructed data.
-
-The help case uses bare `?` with redirected handles. Actual 1994 output confirms
-this invocation displays help without paging or input. `cases/help/case.json`
-records its captured baseline and the still-pending observer requirements.
-
-The user selected ordinary GCC i386 ABIs for native tests, and exact original
-Watcom ABIs for the original-toolchain build and its audit. Native observers must
-decode the actual GCC formals and compare semantic values, pointer ownership,
-aliases and effects with independently decoded original register/stack formals.
-Register locations need not match across builds. There are no ABI veneers,
-OMF-to-ELF conversions or disguised extra application vertices. In particular,
-GCC `regparm(3)` is not a substitute for Watcom's EAX/EDX/EBX register convention.
-
-Remaining gates are CF layout/discovery/masking/observer integration with the
-PE-oriented graph auditor and positive library/startup provenance. Original
-compiler and linker checks now pass. Do not silently filter application vertices. The shared
-compatibility maintainer owns native host support; application code may call
-ordinary Win32/CRT APIs across the explicitly reviewed service boundary.
-The concrete capture/build proposal is in `cases/help/capture-plan.md`; it must
-be reviewed before reference execution or application-function acceptance.
-
-Builds will retain original Watcom compiler checks through shared Wine prefix
-`/root/.ai-tmp/vc1.0-capture/wine`, with native i386 fixtures and `make -j4`.
-No private prefix, drive mapping, target-local shim library or CRT reconstruction
-is introduced here.
+The finite proposal is in `harness/startup-witness.json`; `cf-identity.json`
+binds the original container and loader, and `help-inputs.json` specifies inputs
+only. The proposed WPP protocol remains blocked by shared validation until its
+separate review. Neither file supplies an output oracle or instruction admission.

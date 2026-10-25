@@ -1,0 +1,774 @@
+{
+  "schema": 1,
+  "scope": "STATIC finite first-App contract only; shared WPP qualification pending; no guarded capture or accepted App function",
+  "preparation": {
+    "path": "/root/.ai-tmp/msvc2/watcom-shared-integration/wpp-migration/prepare-witness.py",
+    "sha256": "a186a28b5a9f0deddd79ae2d65c010e56c7385aa8ebf5658b6b5100c8991b94c"
+  },
+  "prior_static_packet": {
+    "path": "/root/.ai-tmp/msvc2/watcom-shared-integration/wpp-startup/classification.json",
+    "sha256": "c5c47ed6572d4d033fb954ce9135c7876189df66901200fcce0e2a90b2107b72"
+  },
+  "identity": {
+    "path": "decomp/watcom10.0a/wpp386/harness/cf-identity.json",
+    "sha256": "5e7f5721f7b7197a4f6e764c51b7ceead5753fd2f0fdb0a093ec62d99d9a3e0c"
+  },
+  "source_reference": {
+    "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443",
+    "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+    "files": {
+      "bld/clib/startup/a/cstrtosi.asm": "e410f48b6e5f34997f9e2cb35ce5c20e01a886ab8801e967348ef30366db1c90",
+      "bld/clib/startup/c/initrtns.c": "20f18afd54768d0a0bd749787c309b1160eeca409f63029e35c8c0dfbaaff4d5",
+      "bld/clib/streamio/c/initfile.c": "7f798d7b3a531ca29c0921caf6d3c85c2bc9dcc63b7492266e77b7460cdecf3f",
+      "bld/clib/startup/a/stk386.asm": "90ad8da697a75a66199716ed1f42e7f5f97a2ec3f2a1712f4b029022ed011132",
+      "bld/cg/c/memmgr.c": "b190f63529674b650d5c9b6b56a31c4572fb787bfce0b08602f129ada2b04148"
+    }
+  },
+  "shipped_library": {
+    "path": "/root/msvc2/toolchains/watcom10.0a/lib386/DOS/CLIB3R.LIB",
+    "sha256": "ea6f73080f9ea18825258369989f6e1d0b7abc7c3df05e4bb8f17a31a5cbdee8"
+  },
+  "support_owners": [
+    {
+      "name": "_cstart_",
+      "start": 419060,
+      "end": 419240,
+      "body_sha256": "cd3a72c9ff200f6a7bc9460965f90bd8274b0b84f798b413e699e2c8c56fe096",
+      "classification": "source-correlated CRT entry; exact shipped member not claimed",
+      "cf_dword_fixups": [
+        {
+          "offset": 419062,
+          "value": 757112
+        },
+        {
+          "offset": 419068,
+          "value": 757086
+        },
+        {
+          "offset": 419074,
+          "value": 757082
+        },
+        {
+          "offset": 419081,
+          "value": 757058
+        },
+        {
+          "offset": 419089,
+          "value": 757054
+        },
+        {
+          "offset": 419096,
+          "value": 757052
+        },
+        {
+          "offset": 419102,
+          "value": 757048
+        },
+        {
+          "offset": 419110,
+          "value": 757066
+        },
+        {
+          "offset": 419118,
+          "value": 757070
+        },
+        {
+          "offset": 419127,
+          "value": 757062
+        },
+        {
+          "offset": 419146,
+          "value": 757074
+        },
+        {
+          "offset": 419152,
+          "value": 784032
+        },
+        {
+          "offset": 419158,
+          "value": 771128
+        },
+        {
+          "offset": 419181,
+          "value": 419058
+        },
+        {
+          "offset": 419190,
+          "value": 784032
+        },
+        {
+          "offset": 419202,
+          "value": 757098
+        },
+        {
+          "offset": 419218,
+          "value": 757094
+        },
+        {
+          "offset": 419224,
+          "value": 757090
+        }
+      ],
+      "abi": {
+        "kind": "entry-root",
+        "cleanup": null
+      }
+    },
+    {
+      "name": "__InitRtns",
+      "start": 459614,
+      "end": 459689,
+      "body_sha256": "851881571f19043f80498befa5fb29a5fb52b97f6b2b8785847e550daac6b4ce",
+      "classification": "exact shipped selected member plus resolved fixups",
+      "cf_dword_fixups": [
+        {
+          "offset": 459623,
+          "value": 771104
+        },
+        {
+          "offset": 459629,
+          "value": 771122
+        }
+      ],
+      "abi": {
+        "kind": "near-ret",
+        "cleanup": 0
+      },
+      "shipped_member_proof": {
+        "name": "__InitRtns",
+        "classification": "CRT: exact selected shipped-library body modulo fully resolved object fixups",
+        "start": 459614,
+        "end": 459689,
+        "bytes": 75,
+        "body_sha256": "851881571f19043f80498befa5fb29a5fb52b97f6b2b8785847e550daac6b4ce",
+        "library_module": "inirt386",
+        "module_file_offset": 77072,
+        "ledata_record_offset": 77297,
+        "matching_nonfixup_bytes": 67,
+        "fixups": [
+          {
+            "object_fixup": {
+              "location": 9,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 1,
+              "frame_datum": 1,
+              "target_method": 0,
+              "target_datum": 3,
+              "displacement": 0,
+              "record_offset": 77458
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 459623,
+            "effective_address": 771104,
+            "target": "module-segment-3",
+            "bound_target_base": 771104,
+            "cf_relocation_present": true
+          },
+          {
+            "object_fixup": {
+              "location": 15,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 1,
+              "frame_datum": 1,
+              "target_method": 0,
+              "target_datum": 5,
+              "displacement": 0,
+              "record_offset": 77458
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 459629,
+            "effective_address": 771122,
+            "target": "module-segment-5",
+            "bound_target_base": 771122,
+            "cf_relocation_present": true
+          }
+        ],
+        "symbol_bindings": {
+          "module-segment-3": 771104,
+          "module-segment-5": 771122
+        },
+        "verified_local_data": [],
+        "source": {
+          "path": "bld/clib/startup/c/initrtns.c",
+          "sha256": "20f18afd54768d0a0bd749787c309b1160eeca409f63029e35c8c0dfbaaff4d5"
+        }
+      }
+    },
+    {
+      "name": "_init_stk",
+      "start": 531020,
+      "end": 531028,
+      "body_sha256": "5685e8b1a72d5c37a203159cd7f9f5e067017db3ccaa92d3b71477c4300d424c",
+      "classification": "exact shipped selected member plus resolved fixups",
+      "cf_dword_fixups": [
+        {
+          "offset": 531023,
+          "value": 759644
+        }
+      ],
+      "abi": {
+        "kind": "near-ret",
+        "cleanup": 0
+      },
+      "shipped_member_proof": {
+        "name": "_init_stk",
+        "classification": "CRT: exact selected shipped-library body modulo fully resolved object fixups",
+        "start": 531020,
+        "end": 531028,
+        "bytes": 8,
+        "body_sha256": "5685e8b1a72d5c37a203159cd7f9f5e067017db3ccaa92d3b71477c4300d424c",
+        "library_module": "stk386",
+        "module_file_offset": 77936,
+        "ledata_record_offset": 78264,
+        "matching_nonfixup_bytes": 4,
+        "fixups": [
+          {
+            "object_fixup": {
+              "location": 3,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 1,
+              "frame_datum": 1,
+              "target_method": 0,
+              "target_datum": 2,
+              "displacement": 0,
+              "record_offset": 78343
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 531023,
+            "effective_address": 759644,
+            "target": "module-segment-2",
+            "bound_target_base": 759644,
+            "cf_relocation_present": true
+          }
+        ],
+        "symbol_bindings": {
+          "module-segment-2": 759644
+        },
+        "verified_local_data": [
+          {
+            "segment": 2,
+            "start": 759644,
+            "size": 20,
+            "sha256": "e7922b806af440bb9e16aae436c1d573aea2ee7366c1c7446fd075e2d440fe1a"
+          }
+        ],
+        "source": {
+          "path": "bld/clib/startup/a/stk386.asm",
+          "sha256": "90ad8da697a75a66199716ed1f42e7f5f97a2ec3f2a1712f4b029022ed011132"
+        }
+      }
+    },
+    {
+      "name": "__InitFiles_",
+      "start": 544762,
+      "end": 544882,
+      "body_sha256": "6b872f91bafeecd71c6d8598a10a7e00a40b8f1ca36d48aaeac3c75e3678a55a",
+      "classification": "exact shipped selected member plus resolved fixups",
+      "cf_dword_fixups": [
+        {
+          "offset": 544767,
+          "value": 757185
+        },
+        {
+          "offset": 544778,
+          "value": 757185
+        },
+        {
+          "offset": 544786,
+          "value": 757120
+        },
+        {
+          "offset": 544792,
+          "value": 757185
+        },
+        {
+          "offset": 544831,
+          "value": 719732
+        },
+        {
+          "offset": 544847,
+          "value": 781532
+        },
+        {
+          "offset": 544856,
+          "value": 781532
+        },
+        {
+          "offset": 544874,
+          "value": 779948
+        }
+      ],
+      "abi": {
+        "kind": "near-ret",
+        "cleanup": 0
+      },
+      "shipped_member_proof": {
+        "name": "__InitFiles_",
+        "classification": "CRT: exact selected shipped-library body modulo fully resolved object fixups",
+        "start": 544762,
+        "end": 544882,
+        "bytes": 120,
+        "body_sha256": "6b872f91bafeecd71c6d8598a10a7e00a40b8f1ca36d48aaeac3c75e3678a55a",
+        "library_module": "initfile",
+        "module_file_offset": 64528,
+        "ledata_record_offset": 64814,
+        "matching_nonfixup_bytes": 76,
+        "fixups": [
+          {
+            "object_fixup": {
+              "location": 5,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 5,
+              "frame_datum": null,
+              "target_method": 2,
+              "target_datum": 1,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 65,
+            "cf_operand_offset": 544767,
+            "effective_address": 757185,
+            "target": "___iob",
+            "bound_target_base": 757120,
+            "cf_relocation_present": true
+          },
+          {
+            "object_fixup": {
+              "location": 16,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 5,
+              "frame_datum": null,
+              "target_method": 2,
+              "target_datum": 1,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 65,
+            "cf_operand_offset": 544778,
+            "effective_address": 757185,
+            "target": "___iob",
+            "bound_target_base": 757120,
+            "cf_relocation_present": true
+          },
+          {
+            "object_fixup": {
+              "location": 24,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 5,
+              "frame_datum": null,
+              "target_method": 2,
+              "target_datum": 1,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 544786,
+            "effective_address": 757120,
+            "target": "___iob",
+            "bound_target_base": 757120,
+            "cf_relocation_present": true
+          },
+          {
+            "object_fixup": {
+              "location": 30,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 5,
+              "frame_datum": null,
+              "target_method": 2,
+              "target_datum": 1,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 65,
+            "cf_operand_offset": 544792,
+            "effective_address": 757185,
+            "target": "___iob",
+            "bound_target_base": 757120,
+            "cf_relocation_present": true
+          },
+          {
+            "object_fixup": {
+              "location": 42,
+              "location_type": 9,
+              "self_relative": true,
+              "frame_method": 5,
+              "frame_datum": null,
+              "target_method": 2,
+              "target_datum": 2,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 544804,
+            "effective_address": 444143,
+            "target": "_nmalloc_",
+            "bound_target_base": 444143,
+            "cf_relocation_present": false
+          },
+          {
+            "object_fixup": {
+              "location": 58,
+              "location_type": 9,
+              "self_relative": true,
+              "frame_method": 5,
+              "frame_datum": null,
+              "target_method": 2,
+              "target_datum": 3,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 544820,
+            "effective_address": 444143,
+            "target": "malloc_",
+            "bound_target_base": 444143,
+            "cf_relocation_present": false
+          },
+          {
+            "object_fixup": {
+              "location": 69,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 1,
+              "frame_datum": 1,
+              "target_method": 0,
+              "target_datum": 2,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 544831,
+            "effective_address": 719732,
+            "target": "module-segment-2",
+            "bound_target_base": 719732,
+            "cf_relocation_present": true
+          },
+          {
+            "object_fixup": {
+              "location": 79,
+              "location_type": 9,
+              "self_relative": true,
+              "frame_method": 5,
+              "frame_datum": null,
+              "target_method": 2,
+              "target_datum": 4,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 544841,
+            "effective_address": 650962,
+            "target": "__fatal_runtime_error_",
+            "bound_target_base": 650962,
+            "cf_relocation_present": false
+          },
+          {
+            "object_fixup": {
+              "location": 85,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 5,
+              "frame_datum": null,
+              "target_method": 2,
+              "target_datum": 5,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 544847,
+            "effective_address": 781532,
+            "target": "___OpenStreams",
+            "bound_target_base": 781532,
+            "cf_relocation_present": true
+          },
+          {
+            "object_fixup": {
+              "location": 94,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 5,
+              "frame_datum": null,
+              "target_method": 2,
+              "target_datum": 5,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 544856,
+            "effective_address": 781532,
+            "target": "___OpenStreams",
+            "bound_target_base": 781532,
+            "cf_relocation_present": true
+          },
+          {
+            "object_fixup": {
+              "location": 112,
+              "location_type": 9,
+              "self_relative": false,
+              "frame_method": 5,
+              "frame_datum": null,
+              "target_method": 2,
+              "target_datum": 6,
+              "displacement": 0,
+              "record_offset": 64943
+            },
+            "object_addend": 0,
+            "cf_operand_offset": 544874,
+            "effective_address": 779948,
+            "target": "___ClosedStreams",
+            "bound_target_base": 779948,
+            "cf_relocation_present": true
+          }
+        ],
+        "symbol_bindings": {
+          "___iob": 757120,
+          "_nmalloc_": 444143,
+          "malloc_": 444143,
+          "module-segment-2": 719732,
+          "__fatal_runtime_error_": 650962,
+          "___OpenStreams": 781532,
+          "___ClosedStreams": 779948
+        },
+        "verified_local_data": [
+          {
+            "segment": 2,
+            "start": 719732,
+            "size": 48,
+            "sha256": "51911dce55bbbd16814ba2856a5057c2c4f5d184d9ed214418fd1e08d08e9ab1"
+          }
+        ],
+        "source": {
+          "path": "bld/clib/streamio/c/initfile.c",
+          "sha256": "7f798d7b3a531ca29c0921caf6d3c85c2bc9dcc63b7492266e77b7460cdecf3f"
+        }
+      }
+    },
+    {
+      "name": "malloc_segment_wrapper",
+      "start": 444143,
+      "end": 444157,
+      "body_sha256": "904b8bc97cffab1f15b65104a3e0b39565318d5e5238c3f8c1b5fa940161257b",
+      "classification": "14-byte segment compatibility wrapper; calls private App, not a CRT allocator body",
+      "cf_dword_fixups": [],
+      "abi": {
+        "kind": "near-ret",
+        "cleanup": 0
+      }
+    }
+  ],
+  "loader_contract": {
+    "payload_entry": 419060,
+    "preinvoke_rva": 67427,
+    "allocation_global_rva": 196612,
+    "gateway_rva": 67464,
+    "registers": {
+      "AH": 2,
+      "ECX": 0,
+      "BX": "low16(CS); upper EBX is not allocation base",
+      "EDX": "loader far gateway offset",
+      "EDI": "five DWORD startup fields"
+    },
+    "fields": [
+      {
+        "offset": 0,
+        "role": "__LpPgmName",
+        "destination": 757058
+      },
+      {
+        "offset": 4,
+        "role": "__LpCmdLine",
+        "destination": 757054
+      },
+      {
+        "offset": 8,
+        "role": "__EnvPtr",
+        "destination": 757062
+      },
+      {
+        "offset": 12,
+        "role": "__BreakFlagPtr",
+        "destination": 757066
+      },
+      {
+        "offset": 16,
+        "role": "__Copyright",
+        "destination": 757070
+      }
+    ],
+    "frame": "8-byte far frame; only selector low word meaningful; separate outer near return",
+    "mask": "after loader relocation; never mask DWORD fixup operands on disk"
+  },
+  "ordered_effects": [
+    "Store five launcher fields, AH, ECX, ESP and gateway CS:offset; no sixth IsDBCS field in actual 1994 body.",
+    "Scan environment strings forward, PUSH each pointer after a NULL sentinel; resulting environ pointer array is reverse order.",
+    "Zero only BSS [0xbc438,0xbf6a0); save DS word at0x664f2; curbrk becomes0xbf6a0.",
+    "Call __InitRtns(255); actual <= tie branch selects last equal-priority XI record first.",
+    "_init_stk stores SS at0xb975c then returns0; XI stack record marked done2.",
+    "__InitFiles_ sets stderr flag from2 to0x402; selects stdin FILE0xb8d80; EDX remains1; EAX becomes8.",
+    "CALL0x85023 enters malloc_segment_wrapper0x6c6ef; wrapper sets ES=DS and CALL0x6c6f5 enters App MemAlloc0x81ba3.",
+    "Stop before first MemAlloc instruction. No gateway, EFG initializer or main has executed."
+  ],
+  "initializer_table": {
+    "start": 771104,
+    "end": 771122,
+    "rows": [
+      {
+        "offset": 771104,
+        "bytes_hex": "00201be70600",
+        "initial_type": 0,
+        "priority": 32,
+        "callback": 452379,
+        "pointer_cf_relocation": 771106,
+        "name": "__setEFGfmt_"
+      },
+      {
+        "offset": 771110,
+        "bytes_hex": "0020fa4f0800",
+        "initial_type": 0,
+        "priority": 32,
+        "callback": 544762,
+        "pointer_cf_relocation": 771112,
+        "name": "__InitFiles_"
+      },
+      {
+        "offset": 771116,
+        "bytes_hex": "00204c1a0800",
+        "initial_type": 0,
+        "priority": 32,
+        "callback": 531020,
+        "pointer_cf_relocation": 771118,
+        "name": "_init_stk"
+      }
+    ],
+    "order_kind": "statically derived, NOT runtime-observed",
+    "selection_proof": {
+      "skip_if_priority_above_best": 459649,
+      "replace_candidate": 459651,
+      "mark_done": 459678,
+      "explanation": "JA skips only strictly greater priority; equal priorities replace candidate while walking forward, so last equal entry runs first"
+    },
+    "derived_order": [
+      531020,
+      544762,
+      452379
+    ],
+    "application_callbacks_identified": 0
+  },
+  "data": {
+    "bss_zero": [
+      771128,
+      784032
+    ],
+    "saved_ds": [
+      419058,
+      419060
+    ],
+    "saved_ss": [
+      759644,
+      759646
+    ],
+    "startup_writes": [
+      [
+        757048,
+        757078
+      ],
+      [
+        757082,
+        757090
+      ],
+      [
+        757098,
+        757102
+      ],
+      [
+        757112,
+        757113
+      ]
+    ],
+    "xi": [
+      771104,
+      771122
+    ],
+    "files": {
+      "start": 757120,
+      "count": 5,
+      "stride": 26,
+      "flags": [
+        1,
+        2,
+        2,
+        3,
+        2
+      ],
+      "handles": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sentinel": [
+        757250,
+        757276
+      ]
+    },
+    "open_streams": [
+      781532,
+      781536
+    ],
+    "closed_streams": [
+      779948,
+      779952
+    ]
+  },
+  "first_app": {
+    "name": "MemAlloc",
+    "entry": 531363,
+    "first_byte": 83,
+    "candidate_extent": [
+      531363,
+      531456
+    ],
+    "body_sha256": "24039764b65aaad9c87c7ff070d02df7ebf7fc65761efa7b77aee5e560af1560",
+    "abi": {
+      "argument": "unsigned32 size in EAX; first value8",
+      "result": "pointer in EAX",
+      "cleanup": 0
+    },
+    "caller": 444149,
+    "return_address": 444154,
+    "source": "bld/cg/c/memmgr.c:263",
+    "initialized": {
+      "offset": 759668,
+      "initial": 0
+    },
+    "reason": "private compiler allocator, not shipped library nmalloc/malloc implementation"
+  },
+  "native_bootstrap": {
+    "source": {
+      "path": "decomp/watcom10.0a/wpp386/harness/startup.c",
+      "sha256": "cc99c0f083270ef88ea943466e6242280d004e7acb5d312798414745a57fbeb9"
+    },
+    "header": {
+      "path": "decomp/watcom10.0a/wpp386/harness/startup.h",
+      "sha256": "b10ed27bc5640bd6dc29b6201b52d54a006864fff7397149f14a8e2d1bd21988"
+    },
+    "role": "target-specific test harness; local FILE26 records separate from shared ShimFILE",
+    "allocation_commit": "call real App MemAlloc(8); consume result as8B {next,FILE*}; link into owned OpenStreams list and retain lifetime through startup",
+    "held_continuation": "unqualified EFG/failure/cleanup abort; currently first MemAlloc itself traps",
+    "state_limit": "pointer roles/selector values reflect native ownership; full launcher/native state matching not yet captured"
+  },
+  "limits": [
+    "Static initializer order is not runtime-observed.",
+    "No blanket CRT, allocator, failure subtree or gateway waiver.",
+    "No full pre-main closure follows from selected member names.",
+    "Original-only support Rust catalog remains shared-owner work; this JSON is not instruction admission."
+  ]
+}
