@@ -1,2 +1,0 @@
-exception 80000003 rva 00061b00 base 00010000 first 1
-exception c000001d rva 00061b00 base 00010000 first 1

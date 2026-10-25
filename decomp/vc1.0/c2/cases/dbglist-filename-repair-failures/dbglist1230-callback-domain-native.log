@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c2/scripts/observe-coff-filename.py", line 56, in <module>
-    assert arguments[0]==coff['source']==coff['listing_source']and native['pointer']==native['coff']['source']==native['coff']['listing_source']
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

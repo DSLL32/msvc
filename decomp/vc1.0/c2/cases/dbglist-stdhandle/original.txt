@@ -1,6 +1,0 @@
-std_handle 4294967285
-handle 00000000
-before_std 00000038
-return_va 000765a9
-result 1
-after_std 00000000

@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x4734: file src/stubs.c, line 305.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, allocate_exception_scope () at src/stubs.c:305
-305	ExceptionScope *__cdecl allocate_exception_scope(void) { __asm int 3 }
-C2_SCOPE_ALLOCATE {"head": 0, "next_identifier": 0, "finally_depth": 0, "expression": 1449385804, "tree": 1449384200, "parent_tree": 1449384200, "opcode": 143, "caller": "collect_exception_scopes"}

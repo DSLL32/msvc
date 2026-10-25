@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/check-codeview-input.py"
-  ],
-  "seconds": 0.3681612703949213,
-  "returncode": 0,
-  "log_sha256": "64402a3f077e48c17c45577abbb1d3df49b1a7fad09002845fc8c1d6d12afcef"
-}

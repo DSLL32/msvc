@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/check-source-filename-storage.py"
-  ],
-  "seconds": 0.3595589427277446,
-  "returncode": 1,
-  "log_sha256": "9405ccc4ac64a1ce8093c0e9b59333dbab513e050ac90626eae0febebc26fede"
-}

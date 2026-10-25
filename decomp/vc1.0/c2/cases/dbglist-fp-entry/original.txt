@@ -1,5 +1,0 @@
-enter _main eax 00000001 args 00000001 007b0004 007b003c
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-numeric eax 00000001 ecx 007b02d9 edx 007c0000 esp 0029ff10 cw ffff027f sw ffff0000
-numeric_end

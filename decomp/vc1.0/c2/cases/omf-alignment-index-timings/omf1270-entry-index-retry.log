@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c2/scripts/observe-scalar-entry.py", line 74, in <module>
-    raw=bytes.fromhex(r['hex']);assert len(raw)==expected_bytes and struct.unpack('<5I',raw[:20])==expected_header and raw[20:]==expected_payload
-                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

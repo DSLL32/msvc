@@ -1,8 +1,0 @@
-{
-  "rejected": "wrong first-entry plan",
-  "returncode": 5,
-  "events": "entry-divergence expected @append_environment_arguments@4 rva 000610f0\nexception 80000003 rva 0003c100 base 00010000 first 1\nexit 99\n",
-  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
-  "canonical_working_directory": "S:\\vc1.0\\c2\\minimal",
-  "total_seconds": 1.0580519968643785
-}

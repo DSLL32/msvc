@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/observe-omf-external-entry.py"
-  ],
-  "seconds": 2.063109983690083,
-  "returncode": 0,
-  "log_sha256": "72ab502eb3838c9be8e8adb5215b0a37d08cafa13c762eb99b25d1456fac8b21"
-}

@@ -1,8 +1,0 @@
-python3 scripts/dependencies.py
-clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -ffunction-sections -fdata-sections src/check-instruction-listing.c src/listing.c src/register-use.c -Wl,--gc-sections -o build/native/check-instruction-listing
-/usr/bin/ld: /tmp/listing-9c5fb8.o: in function `pad_listing_column':
-/root/msvc2/decomp/vc1.0/c2/src/listing.c:753: multiple definition of `pad_listing_column'; /tmp/check-instruction-listing-0eb7e9.o:/root/msvc2/decomp/vc1.0/c2/src/check-instruction-listing.c:42: first defined here
-/usr/bin/ld: /tmp/check-instruction-listing-0eb7e9.o: in function `event':
-/root/msvc2/decomp/vc1.0/c2/src/check-instruction-listing.c:16:(.text.event+0x30): undefined reference to `recon_strcpy'
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
-make: *** [Makefile:198: build/native/check-instruction-listing] Error 1

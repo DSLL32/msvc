@@ -1,8 +1,0 @@
-{
-  "base_commit": "962f89d",
-  "removed_transport_files_or_bundles": 850,
-  "removed_name_list_sha256": "f6b9a42b2e0bc1e3e4c86cd2812ebac8ce34ca12d557c3375ecb1f4cad1c5334",
-  "independent_analysis_files": 184,
-  "historical_timing_records": 1376,
-  "method": "Remove old raw transport bundles without relabeling. Extract only independent analysis and timing-only facts into analysis/. Historical original bytes remain in Git history."
-}

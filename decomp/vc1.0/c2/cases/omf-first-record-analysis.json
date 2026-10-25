@@ -1,9 +1,0 @@
-{
-  "source": "immutable fixture expected/omftypes.obj and actual pre-write34-byte record observation",
-  "expected_first_wire_hex": "800c000a6f6d6674797065732e6362",
-  "record_bytes": 15,
-  "header_length": 12,
-  "checksum": 98,
-  "checksum_sum_mod256": 0,
-  "scope": "Independent expected THEADR wire calculation only. Serializer remains unaccepted until input-state hold resolved; no native write acceptance."
-}

@@ -1,5 +1,0 @@
-exception 80000003 rva 00061e90 base 00010000 first 1
-exception 80000003 rva 0001a9c4 base 00010000 first 1
-exception 80000003 rva 00061d20 base 00010000 first 1
-exception 80000003 rva 0001a9d7 base 00010000 first 1
-exit 99

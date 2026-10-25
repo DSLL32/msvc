@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/observe-coff-lines-entry.py"
-  ],
-  "seconds": 2.1892233565449715,
-  "returncode": 0,
-  "log_sha256": "a677bd0ef199cce7f177fb87e33491ff5c1d318e6e5458d8330889da58583b2b"
-}

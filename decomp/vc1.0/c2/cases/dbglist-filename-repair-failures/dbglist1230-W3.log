@@ -1,3 +1,0 @@
-Command line warning D4025 : overriding '/Fobuild/coff-functions-w3.obj' with '/Fobuild/machine-emission-w3.obj'
-Command line warning D4026 : options apply to entire command line
-Command line error D2036 : '/Fobuild/machine-emission-w3.obj' not allowed with multiple source files

@@ -1,7 +1,0 @@
-enter @omf_output_symbol@4 eax 0007a8dc args 007b298c
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-omf_symbol pointer 007b298c current 007b298c flags 1 return_address 00068541
-omf_symbol_segment_id 5
-entry_end

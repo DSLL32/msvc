@@ -1,6 +1,0 @@
-enter @output_noop_function@16 eax 00000022 args 007b2988 007b2970 00000000 00000022
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-output_noop_begin symbol 007b2988 filename 007b2970 frame 0 line 34 symbol_owner 007b2988 filename_owner 007b2970 line_owner 34 frame_flags 0 symbol_flags 1 return_address 00068278
-entry_end

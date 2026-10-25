@@ -1,6 +1,0 @@
-python3 scripts/dependencies.py
-clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -ffunction-sections -fdata-sections src/check-assembly-operand.c src/assembly-operands.c src/machine-operands.c src/algebra.c -Wl,--gc-sections -o build/native/check-assembly-operand
-/usr/bin/ld: /tmp/check-assembly-operand-11a7d1.o: in function `compiler_internal_error':
-/root/msvc2/decomp/vc1.0/c2/src/check-assembly-operand.c:23:(.text.compiler_internal_error+0x61): undefined reference to `recon_exit'
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
-make: *** [Makefile:181: build/native/check-assembly-operand] Error 1

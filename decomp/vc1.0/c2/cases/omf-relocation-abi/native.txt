@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x3fdf: file src/stubs.c, line 104.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, omf_output_relocation (initializer=0x56633664, symbol=0x5663516c, segment=0x56633498) at src/stubs.c:104
-104	unsigned __fastcall omf_output_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
-C2_RELOCATION {"initializer": 1449342564, "symbol": 1449349484, "segment": 1449342104, "loop_owner": 1449342564, "symbol_owner": 1449349484, "segment_owner": 1449342104, "combine": 2, "position": 0, "kind_hex": "01000000", "payload": {"datum_hex": "06002600", "repeat_hex": "01000000", "data_pointer": 1449342592, "data_hex": "7479706564204f4d462072656c6f636174696f6e20616e642064656275672073636f70657300"}, "segment_aliases": ["data"], "caller": "emit_initializer", "initializer_size": 28}

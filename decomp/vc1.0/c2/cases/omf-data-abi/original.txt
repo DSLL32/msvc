@@ -1,8 +1,0 @@
-enter @omf_output_data@8 eax 0007a8dc args 0029feac 00000004
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-omf_data source 0029feac count 4 entry_sp 0029fea8 return_address 00069cf6 current 0007a8dc base 0007a8dc debug_owner 007b1488 used 28
-omf_data_hex 01000000
-omf_data_record_hex a100000088147b000000000000000000f8a80700a10b000500000000
-entry_end

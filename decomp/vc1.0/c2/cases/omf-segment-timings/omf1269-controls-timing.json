@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/check-omf-segment.py"
-  ],
-  "seconds": 2.8548269253224134,
-  "returncode": 0,
-  "log_sha256": "772c6cb3596ff6666e44274e665603872c54d1e83046161cf3ad6620ea672a55"
-}

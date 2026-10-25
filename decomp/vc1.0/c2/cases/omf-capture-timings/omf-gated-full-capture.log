@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c2/scripts/capture-omf-debug.py", line 103, in <module>
-    if __name__=='__main__':main()
-                            ~~~~^^
-  File "/root/msvc2/decomp/vc1.0/c2/scripts/capture-omf-debug.py", line 53, in main
-    assert (work/'omftypes.obj').read_bytes()[0]==0x80, 'Expected original OMF THEADR, not COFF'
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: Expected original OMF THEADR, not COFF

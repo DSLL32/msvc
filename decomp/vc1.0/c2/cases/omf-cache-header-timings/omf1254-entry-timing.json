@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/observe-omf-string-entry.py"
-  ],
-  "seconds": 1.229153722524643,
-  "returncode": 0,
-  "log_sha256": "b9f29494ef49eccc5c98df425a5bc999aa9c60559caf1a6fb2b18b9e85032fc8"
-}

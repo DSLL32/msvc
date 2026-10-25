@@ -1,6 +1,0 @@
-enter @omf_output_bytes@8 eax 00000000 args fffffffc 007b3094
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-omf_absolute displacement fffffffc symbol 007b3094 referenced_owner 007b3094 return_address 0006b145 identifier 118 bucket 54 index 0 member 007b3094
-entry_end

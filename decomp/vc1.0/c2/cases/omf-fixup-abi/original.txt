@@ -1,9 +1,0 @@
-enter @omf_add_fixup@16 eax 00000000 args 007b3094 00000009 fffffffc 00000000
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-omf_fixup symbol 007b3094 type 9 displacement fffffffc relative 0 return_address 0006b2cf owner_symbol 007b3094 identifier 118 bucket 54 index 0 member 007b3094 current 0007a8dc base 0007a8dc count 124 dos 1
-omf_fixup_threads group_frame 0 bss_target 3 data_target 1 const_target 0 code_target 2
-omf_fixup_symbol kind 1 offset 40 flags 10624 attributes 8742 storage 4
-omf_fixup_segment identifier 2 pointer 007b13b4 order 2 bucket 2 index 0
-entry_end

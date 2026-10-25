@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x3f50: file src/stubs.c, line 96.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, omf_write_line (line=34, offset=0, segment=0x56637450) at src/stubs.c:96
-96	void __fastcall omf_write_line(unsigned short line, unsigned offset, Segment *segment) { __asm int 3 }
-C2_LINE_ENTRY {"line": 34, "offset": 0, "segment": 1449358416, "identifier": 5, "bucket": 5, "index": 1, "member": 1449358416, "current_segment_id": 5, "caller": "omf_output_debug_record", "caller_segment": 1449358416}

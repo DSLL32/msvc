@@ -1,8 +1,0 @@
-{
-  "path": "cases/omf-public-native-guard.txt",
-  "sha256": "8b653d2be5c9d0850374c06d8557914104a07edfd8bf561efa65e81b3bb6b1b0",
-  "seconds": 0.13169700000435114,
-  "actual_kind": 1,
-  "injected_kind": 2,
-  "scope": "Native-only controlled unsupported-kind boundary; original unsupported local type is uninitialized and is neither observed as a defined ABI input nor seeded/emulated. No original equality or frontend-validity claim for kind2."
-}

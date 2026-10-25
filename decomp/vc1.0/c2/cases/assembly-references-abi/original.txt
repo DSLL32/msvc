@@ -1,6 +1,0 @@
-enter @extract_assembly_labels@4 eax 0000004f args 007b64b4
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-assembly_references node 007b64b4 parent_node 007b64b4 instruction 007b03f8 parent_instruction 007b03f8 return_address 00052051
-entry_end

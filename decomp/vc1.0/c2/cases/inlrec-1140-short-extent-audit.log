@@ -1,6 +1,0 @@
-python3 scripts/wine-tool.py --init
-python3 scripts/identify-runtime.py build/c2.exe build/runtime.json
-192 runtime functions identified, 26748 bytes
-/root/msvc2/tooling/graph-audit/target/release/graph-audit --repo ../../.. --project . --profile c2 --discovery cfg --check-ownership --check-extents --check-accepted-extents --report build/graph-audit.json
-graph-audit: original @emit_switch_table@16: extent ends before terminal instruction at 67dc9
-make: *** [Makefile:30: audit] Error 1

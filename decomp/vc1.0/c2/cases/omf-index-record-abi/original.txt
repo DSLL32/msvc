@@ -1,7 +1,0 @@
-enter @omf_write_index@8 eax 00000000 args 0007a8dc 00000003
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-omf_record pointer 0007a8dc current 0007a8dc base 0007a8dc bytes 28
-omf_record_hex 99000000000000000000000005000000f8a80700995500a900000000
-entry_end

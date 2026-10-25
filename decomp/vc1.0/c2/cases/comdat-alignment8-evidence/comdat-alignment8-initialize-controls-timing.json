@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/check-omf-initialize.py"
-  ],
-  "seconds": 2.7629665723070502,
-  "returncode": 1,
-  "log_sha256": "962b39f72ed5796b921b80432c9dbeb8bc2e8280c1c6888a3c2d8dededb2aae2"
-}

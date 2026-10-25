@@ -1,6 +1,0 @@
-python3 scripts/dependencies.py
-clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -ffunction-sections -fdata-sections src/check-listing-string.c src/listing.c -Wl,--gc-sections -o build/native/check-listing-string
-/usr/bin/ld: /tmp/check-listing-string-d07a14.o: in function `main':
-/root/msvc2/decomp/vc1.0/c2/src/check-listing-string.c:39:(.text.main+0xd7): undefined reference to `recon_sscanf'
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
-make: *** [Makefile:173: build/native/check-listing-string] Error 1

@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/observe-omf-segment-entry.py"
-  ],
-  "seconds": 2.1692962516099215,
-  "returncode": 0,
-  "log_sha256": "ffcccffc1255408e0f1ac347af7013a4fa5148edbc43d14e8a2e2cd7e0809561"
-}

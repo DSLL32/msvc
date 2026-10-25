@@ -1,7 +1,0 @@
-{
-  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-  "original_table": "82210..823de,231 ushort properties",
-  "property": "raw bit1 == SCHEDULER_FLOAT_OPERATION: MC_FADD..MC_FLD1 or MC_FUCOM..MC_FCOS",
-  "compared_rows": 231,
-  "mismatches": 0
-}

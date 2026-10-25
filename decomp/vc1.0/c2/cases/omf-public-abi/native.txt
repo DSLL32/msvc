@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x3ffc: file src/stubs.c, line 105.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, omf_emit_public (symbol=0x5663524c, segment=0x56633488) at src/stubs.c:105
-105	void __fastcall omf_emit_public(SymbolHeader *symbol, Segment *segment) { __asm int 3 }
-C2_PUBLIC {"symbol": 1449349708, "segment": 1449342088, "segment_owner": 1449342088, "bucket": 57, "index": 0, "member": 1449349708, "offset_hex": "88000000", "header_hex": "01008009", "identity_hex": "0200000079000000", "type_hex": "14100500a3000000", "name_hex": "5f6f6d665f63616c6c6261636b00"}

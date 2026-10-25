@@ -1,7 +1,0 @@
-enter @omf_write_fixup@4 eax 00000004 args 00079154
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-omf_fixup_entry pointer 00079154 pool 00079154 slot 0 count 4 type 9 location 120 flags 00000007 frame 0 target 1 return_address 0006c41e
-omf_fixup_addend 00000028
-entry_end

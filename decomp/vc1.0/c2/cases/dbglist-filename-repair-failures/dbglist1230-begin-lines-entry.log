@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c2/scripts/observe-scalar-entry.py", line 35, in <module>
-    assert values==native['values'],(values,native['values'])
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: ([10, 24, 185, 0], [12, 24, 185, 0])

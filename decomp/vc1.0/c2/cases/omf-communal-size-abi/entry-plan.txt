@@ -1,1 +1,0 @@
-5c600 56 258 @omf_write_communal_size@8

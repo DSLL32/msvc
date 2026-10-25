@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x3ee7: file src/stubs.c, line 88.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, write_codeview_register (symbol=0x56639e60) at src/stubs.c:88
-88	void __fastcall write_codeview_register(SymbolHeader *symbol) { __asm int 3 }
-C2_CODEVIEW_REGISTER {"symbol": 1449369184, "caller_symbol": 1449369184, "scope": 1449369108, "record": 1449369228, "record_symbol": 1449369184, "record_index": 0, "kind": 1, "flags": 256, "type": 116, "size": 4, "register_number": 1, "debug": 1449362800, "debug_offset": 109, "name_hex": "5f76616c756500", "select": 1448765296, "data": 1448765376, "select_owner": 1448765296, "data_owner": 1448765376, "caller": "write_debug_symbol"}

@@ -1,8 +1,0 @@
-enter @omf_output_record@4 eax 007b2bf0 args 007b2b98
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-omf_directive pointer 007b2b98 head 007b2b98 next 007b2bb4 kind 6 text 007b2b80
-omf_directive_hex b42b7b0006000000802b7b00
-omf_directive_text_hex 4f4d46207479706564206465627567206361736500
-entry_end

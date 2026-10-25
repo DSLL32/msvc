@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/check-coff-scalar-abi.py"
-  ],
-  "seconds": 0.038335029035806656,
-  "returncode": 1,
-  "log_sha256": "b2f7f4fb7a8a6b736722ac5b3182fda3f622784cfaf38ec56315752164a8eef5"
-}

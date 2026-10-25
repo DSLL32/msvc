@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "functions": {
+    "@available_chain_operands@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@set_generated_intrinsic_call@16": {
+      "expected_cleanup": [
+        8
+      ]
+    },
+    "@select_runtime_intrinsic@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@lookup_runtime_intrinsic_opcode@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@can_keep_float_store@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@find_float_register_reload@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@initializer_symbols_available@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@is_boundary_flow_label@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@rewrite_i486_float_pop@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@register_precedes_lea@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@register_follows_lea@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@stack_adjustment_between@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@find_generic_candidate@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@scheduler_instruction_cycles@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@swap_scheduled_address_registers@4": {
+      "expected_cleanup": [
+        0
+      ]
+    }
+  }
+}

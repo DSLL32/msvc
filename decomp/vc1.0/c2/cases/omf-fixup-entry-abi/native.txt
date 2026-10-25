@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x4007: file src/stubs.c, line 110.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, omf_write_fixup (fixup=0x5661a57c <omf_fixups>) at src/stubs.c:110
-110	void __fastcall omf_write_fixup(OmfFixup *fixup) { __asm int 3 }
-C2_FIXUP_ENTRY {"state": {"pointer": 1449239932, "pool": 1449239932, "slot": 0, "count": 4, "type": 9, "location": 120, "flags": 7, "frame": 0, "target": 1, "caller": "omf_write_fixups", "owner": 1449239932, "loop_index": 0}, "payload": {"addend": 40}}

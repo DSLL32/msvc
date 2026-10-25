@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x400c: file src/stubs.c, line 106.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, omf_write_datum (record=0x5661855c <omf_records>, initializer=0x566336b4) at src/stubs.c:106
-106	unsigned __fastcall omf_write_datum(OmfRecord *record, Initializer *initializer) { __asm int 3 }
-C2_DATUM {"record": 1449231708, "initializer": 1449342644, "current": 1449231708, "base": 1449231708, "initializer_owner": 1449342644, "record_owner": 1449231708, "header_hex": "02000400", "value_hex": "03000000", "count": 40, "cursor": 1449231776, "caller": "omf_output_relocation"}

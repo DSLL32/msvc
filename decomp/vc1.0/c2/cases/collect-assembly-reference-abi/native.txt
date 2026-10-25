@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x477c: file src/stubs.c, line 307.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, collect_assembly_reference (symbol=0x5663ad08, context=0xffffdaa8) at src/stubs.c:307
-307	unsigned __fastcall collect_assembly_reference(SymbolHeader *symbol, void *context) { __asm int 3 }
-C2_COLLECT_REFERENCE {"symbol": 1449372936, "kind": 1, "context": 4294957736, "head": 0, "parent_slot": 1449373016, "parent_symbol": 1449372936, "parent_context": 4294957736, "scope": 1449392420, "identifier": 160, "member": 1449372936, "index": 0, "caller": "visit_machine_symbols"}

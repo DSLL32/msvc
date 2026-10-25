@@ -1,0 +1,41 @@
+{
+  "crt_defaults": {
+    "__fmode": {
+      "address": 524288,
+      "value": 32768
+    }
+  },
+  "native_contract_limits": [
+    {
+      "function": "@omf_alignment@4",
+      "defined_inputs": [
+        1,
+        2,
+        4,
+        16
+      ],
+      "unsupported_native": "Other nonstandard values retain exact nativeINT3; original Win32 missing-return EAX semantics preserved. COMDAT8 not executed; current actual COMDAT16 producer0 proved, SEGDEF8 actual poolslot0 pointer.",
+      "evidence": "cases/comdat-alignment8-resolution.json",
+      "actual_inputs": [
+        1,
+        4,
+        8,
+        16
+      ],
+      "hidden_eax_passthrough": [
+        8
+      ]
+    },
+    {
+      "function": "@omf_emit_public@8",
+      "defined_kinds": [
+        1,
+        3,
+        4
+      ],
+      "actual_kind": 1,
+      "unsupported_native": "Exact other-kind INT3; original uninitialized local record type remains original source assumption. No old local seed or invented type. Real other kind holds for contract/ABI review.",
+      "evidence": "cases/omf-public-checkpoint.json"
+    }
+  ]
+}

@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x4097: file src/stubs.c, line 111.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, omf_write_segment_definition (segment=0x56632440) at src/stubs.c:111
-111	void __fastcall omf_write_segment_definition(Segment *segment) { __asm int 3 }
-C2_SEGDEF {"pointer": 1449337920, "owner": 1449337920, "next_index": 1, "empty_name": 1, "raw_hex": "0000000000000000000000000900000035425f5600000000cd475f5605000000000000008824635651425f5600000000040000000102000003000000000000000100000004000000", "size": 72, "column": 4294967295, "cw": 639, "sw": 0, "stdout": {"flags": 2, "count": 0, "fd": 1, "size": 0, "null": 1, "used": 0, "buffer_hex": ""}}

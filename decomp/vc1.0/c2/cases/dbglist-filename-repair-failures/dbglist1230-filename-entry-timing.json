@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/observe-coff-filename.py"
-  ],
-  "seconds": 1.4334377190098166,
-  "returncode": 1,
-  "log_sha256": "c17f8948c434824de80651a479d7f176d44eea14aa2acd7090a17635f0e9b131"
-}

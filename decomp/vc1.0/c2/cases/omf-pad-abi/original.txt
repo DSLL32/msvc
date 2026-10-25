@@ -1,7 +1,0 @@
-enter @omf_pad_record@8 eax 00000016 args 0007a8dc 00000002
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-omf_pad record 0007a8dc bytes 2 current 0007a8dc base 0007a8dc return_address 0006bf15
-omf_pad_count_cursor_hex 260000001ea90700
-entry_end

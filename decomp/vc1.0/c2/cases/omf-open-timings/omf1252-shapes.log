@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c2/scripts/check-omf-open.py", line 24, in <module>
-    for n,a in [('omf_next_group',0x8507c),('omf_next_segment',0x85080),('omf_next_frame_thread',0x85088),('omf_next_target_thread',0x8508c)]:assert word_image(original,a)==word_image(canonical,names['_'+n])==(1 if n in ['omf_next_group','omf_next_segment']else 0)
-                                                                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

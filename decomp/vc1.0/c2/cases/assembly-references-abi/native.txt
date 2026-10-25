@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x3cc9: file src/stubs.c, line 60.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, extract_assembly_labels (node=0x5663c9e0) at src/stubs.c:60
-60	Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
-C2_ASSEMBLY_REFERENCES {"node": 1449380320, "instruction": 1449368932, "parent_node": 1449380320, "parent_instruction": 1449368932, "caller": "rewrite_before_children"}

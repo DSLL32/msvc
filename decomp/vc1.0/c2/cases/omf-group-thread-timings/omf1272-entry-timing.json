@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/observe-omf-group-entry.py"
-  ],
-  "seconds": 1.5178358694538474,
-  "returncode": 0,
-  "log_sha256": "e7afb60c2ef5275584f89c8f219f5ad9e5006fa79ef8c3209de6c428b93a8e5b"
-}

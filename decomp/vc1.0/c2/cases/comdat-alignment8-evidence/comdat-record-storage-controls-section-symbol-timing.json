@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/check-omf-record-storage.py"
-  ],
-  "seconds": 0.3393865339457989,
-  "returncode": 0,
-  "log_sha256": "69ef6178d6c97a033f81cda986758266bbbbc8967a43fdd3694158c442e9f56f"
-}

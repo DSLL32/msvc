@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x3ff2: file src/stubs.c, line 105.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, omf_write_byte_array (segment=0x56633498, bytes=38, repeat=1, data=0x56633680) at src/stubs.c:105
-105	    void *data) { __asm int 3 }
-C2_BYTE_ARRAY {"segment": 1449342104, "bytes": 38, "repeat": 1, "source": 1449342592, "initializer": 1449342564, "owner_source": 1449342592, "owner_repeat": 1, "owner_width": 38, "combine": 2, "position": 0, "data_segment": 1449342104, "data_hex": "7479706564204f4d462072656c6f636174696f6e20616e642064656275672073636f70657300", "caller": "omf_output_relocation"}

@@ -1,8 +1,0 @@
-python3 scripts/dependencies.py
-python3 scripts/extract-listing-driver.py build/native/listing-operand-body.c operand
-clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g src/check-listing-operand.c build/native/listing-operand-body.c -o build/native/check-listing-operand
-build/native/listing-operand-body.c:70:13: error: use of undeclared identifier 'dos_object'
-   70 |         if (dos_object) listing_column += printf("FLAT:");
-      |             ^
-1 error generated.
-make: *** [Makefile:231: build/native/check-listing-operand] Error 1

@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x4713: file src/stubs.c, line 303.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, reset_exception_scope_stack () at src/stubs.c:303
-303	void __cdecl reset_exception_scope_stack(void) { __asm int 3 }
-C2_SEH_RESET {"caller": "prepare_inline_function"}

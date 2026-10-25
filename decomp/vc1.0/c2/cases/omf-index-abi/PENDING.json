@@ -1,6 +1,0 @@
-{
-  "status": "OBSERVER INCOMPLETE, not ABI equivalence",
-  "reason": "Generic record-slot observer only handled zero-BSS header paths; this SEGDEF record has count5/cursor+28. Failed parser asserted missing pool_input after retaining raw original/native. No input excluded or function promoted.",
-  "retry": "cases/omf-index-record-abi",
-  "timing": "omf1270-entry-index-timing.json"
-}

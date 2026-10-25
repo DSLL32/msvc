@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x3f1f: file src/stubs.c, line 91.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, write_codeview_block (symbol=0x56638a80, offset=20, bytes=65) at src/stubs.c:91
-91	void __fastcall write_codeview_block(FunctionSymbol *symbol, unsigned offset, unsigned bytes) { __asm int 3 }
-C2_CV_BLOCK {"symbol": 1449364096, "offset": 20, "bytes": 65, "function_start": 0, "scope": 1449365192, "scope_start": 20, "scope_end": 85, "debug": 1449358704, "debug_offset": 122, "caller": "write_debug_scopes", "caller_symbol": 1449364096, "caller_scope": 1449365192}

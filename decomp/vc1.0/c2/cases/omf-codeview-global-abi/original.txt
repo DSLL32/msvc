@@ -1,7 +1,0 @@
-enter @write_codeview_global_data@4 eax 00000020 args 007b3028
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-codeview_global symbol 007b3028 identifier 116 bucket 52 index 0 member 007b3028 kind 1 flags 2304 type 117 coff 0 byte_first 0 debug 007b1494 debug_offset 0000022f return_address 00069a37
-codeview_global_name_hex 5f6f6d665f756e6b6e6f776e00
-entry_end

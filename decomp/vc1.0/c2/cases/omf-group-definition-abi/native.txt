@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x406c: file src/stubs.c, line 111.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, omf_write_group_definition (segment=0x56632488, group=0x56617554 <omf_group_storage>) at src/stubs.c:111
-111	void __fastcall omf_write_group_definition(Segment *segment, OmfGroup *group) { __asm int 3 }
-C2_GRPDEF {"segment": 1449337992, "group": 1449227604, "segment_owner": 1449337992, "group_owner": 1449227604, "dos": 1, "segment_hex": "000000000000000000000000090000003b425f5600000000cd475f560200000000000000d02463563c425f5600000000040000000002010005000000d60000000200000006000000", "group_hex": "0200000001000000", "segment_size": 72, "group_size": 8}

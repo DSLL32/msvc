@@ -1,7 +1,0 @@
-python3 scripts/dependencies.py
-python3 scripts/extract-listing-driver.py build/native/listing-special-body.c special
-clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -ffunction-sections -fdata-sections src/check-listing-special.c build/native/listing-special-body.c src/register-use.c -Wl,--gc-sections -o build/native/check-listing-special
-/usr/bin/ld: /tmp/listing-special-body-f71e9c.o: in function `write_special_instruction':
-/root/msvc2/decomp/vc1.0/c2/build/native/listing-special-body.c:66:(.text.write_special_instruction+0x3e6): undefined reference to `machine_operand_counts'
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
-make: *** [Makefile:217: build/native/check-listing-special] Error 1

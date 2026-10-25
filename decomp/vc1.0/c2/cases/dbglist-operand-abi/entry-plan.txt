@@ -1,1 +1,0 @@
-19d00 53 259 @write_instruction_operand@12

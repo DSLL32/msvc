@@ -1,9 +1,0 @@
-{
-  "command": [
-    "python3",
-    "scripts/observe-codeview-file-entry.py"
-  ],
-  "seconds": 1.9513379847630858,
-  "returncode": 0,
-  "log_sha256": "e089e388860bb8c107b8755ba67dff7e1b9e8195e89302ef8390869f481bdd4d"
-}

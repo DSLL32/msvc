@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/c2/scripts/capture-omf-debug.py", line 104, in <module>
-    if __name__=='__main__':main()
-                            ~~~~^^
-  File "/root/msvc2/decomp/vc1.0/c2/scripts/capture-omf-debug.py", line 35, in main
-    if p.is_file() and p.name!='omftypes.c':shutil.copyfile(p,prior/p.name)
-                                                              ^^^^^
-NameError: name 'prior' is not defined. Did you mean: 'print'?

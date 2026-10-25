@@ -1,4 +1,0 @@
-omftypes.c
-`R:\toolchains\1.0-nt\bin\c13232.exe -ef R:\toolchains\1.0-nt\bin\c1.err -il S:\vc1.0\c2\omftypes\000900 -f omftypes.c -W 1 -Ze -Zp8 -Gs -Foomftypes.obj -pc \:/ -D_MSC_VER=800 -D_WIN32 -Bd -Ob0 -Ot -D_M_IX86=300 -G3 -Z7 -I R:\toolchains\1.0-nt\include'
-`R:\toolchains\1.0-nt\bin\c23232.exe -ef R:\toolchains\1.0-nt\bin\c23.err -il S:\vc1.0\c2\omftypes\000900 -f omftypes.c -W 1 -Gs4096 -dos -Foomftypes.obj -ML -Bd -G3 -Zi'
-exit 0; captured 2 launches

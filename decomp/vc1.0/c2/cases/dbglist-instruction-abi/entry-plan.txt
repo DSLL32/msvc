@@ -1,1 +1,0 @@
-19b30 56 257 @write_instruction_text@4

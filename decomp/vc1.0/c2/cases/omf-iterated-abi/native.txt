@@ -1,8 +1,0 @@
-gdb: warning: Couldn't determine a path for the index cache directory.
-Breakpoint 1 at 0x3f52: file src/stubs.c, line 103.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, omf_write_iterated_data (segment=0x56637488, repeat=1016, bytes=1, data=0xffffdab4) at src/stubs.c:103
-103	    void *data) { __asm int 3 }
-C2_ITERATED {"segment": 1449358472, "bytes": 1, "repeat": 1016, "source": 4294957748, "kind": 8, "combine": 2, "flags": null, "data_segment": 1449358472, "data_hex": "00", "owner": {"padding": 1016, "source": 4294957748}, "caller": "omf_output_relocation"}

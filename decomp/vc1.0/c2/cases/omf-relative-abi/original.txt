@@ -1,6 +1,0 @@
-enter @omf_output_offset@8 eax 007b2904 args 00000001 007b2984
-file flags 2 count 0 fd 1 size 0 null 1 used 0 position 0 counter 0 cursor 00000000 value 00000000
-buffer_hex 
-entry_inputs column 4294967295 cw 639 sw 0 fastcall 1
-omf_relative displacement 00000001 symbol 007b2984 identifier 124 bucket 60 index 0 member 007b2984 caller_symbol 007b2984 buffer 0029fea8 cursor 0029fea9 return_address 0002687d
-entry_end
