@@ -21,7 +21,7 @@ extern "C" {
 #endif
 void __cdecl initialize_packing(void);
 void *__cdecl allocate_packing_memory(unsigned bytes);
-void __cdecl push_packing(unsigned alignment, const void *tag);
+CompilerPackingFrame *__cdecl push_packing(unsigned alignment, const void *tag);
 void __cdecl clear_packing_frame(CompilerPackingFrame *frame);
 #ifdef __cplusplus
 }

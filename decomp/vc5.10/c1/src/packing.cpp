@@ -50,9 +50,21 @@ CompilerPackingFrame *RECON_THISCALL CompilerPacking::Push(void)
     return frame;
 }
 
-extern "C" void __cdecl push_packing(unsigned alignment, const void *tag)
+/* Both paths leave the acquired frame in EAX. A zero alignment inherits
+ * the active frame's alignment before the new frame becomes active. */
+extern "C" CompilerPackingFrame *__cdecl push_packing(unsigned alignment,
+                                                     const void *tag)
 {
-    __asm { int 3 }
+    CompilerPacking *stack = c1_data.options.packing_stack;
+    CompilerPackingFrame *frame;
+    unsigned current_alignment = alignment;
+
+    if (!current_alignment)
+        current_alignment = stack->active->alignment;
+    frame = stack->Push();
+    frame->alignment = current_alignment;
+    frame->tag = tag;
+    return frame;
 }
 
 extern "C" void __cdecl clear_packing_frame(CompilerPackingFrame *frame)

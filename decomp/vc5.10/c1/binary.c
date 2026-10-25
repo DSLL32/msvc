@@ -748,8 +748,9 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_push_packing", .entry_rva = 0xd49b,
-.code = (const ReconExtent[]){{0xd49b, 0xd49c}},
+.code = (const ReconExtent[]){{0xd49b, 0xd4c2}},
 .code_count = 1, .definition = RECON_APP,
+.implementation = RECON_IMPLEMENTED,
 .native_symbol = "push_packing",
     },
     {

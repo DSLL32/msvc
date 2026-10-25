@@ -38,3 +38,12 @@ $(filter .build/pic/src/%,$(BINARY_OBJECTS)): NATIVE_CPPFLAGS += -Dmain=c1_main
 build/mspdb50.lib: src/mspdb50.def | $(RECON_TOOL)
 	@mkdir -p $(@D)
 	$(RECON_TOOL) original tool 5.10 LIB.EXE -- /nologo /def:$< /machine:IX86 /out:$@
+
+# Explicit original-only host; native fixtures never depend on this target.
+.PHONY: original-host
+original-host: build/c1-host.exe
+build/c1-host.obj: harness/win32-host.c
+	@mkdir -p $(@D)
+	$(RECON_TOOL) original tool 5.10 CL.EXE -- /nologo /c /Od /MD /G5 /I$(RECON)/include /Fo$@ $<
+build/c1-host.exe: build/c1-host.obj
+	$(RECON_TOOL) original tool 5.10 LINK.EXE -- /nologo /out:$@ $< $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB

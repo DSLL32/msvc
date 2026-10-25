@@ -1,6 +1,7 @@
 /* Invocation descriptor; native DLL adapter is in harness/dll-cases.c. */
 #include <stdint.h>
 #include "dll-cases.h"
+#include "case.h"
 #include <recon-tool.h>
 #include <recon.h>
 static const uint32_t order[] = {
@@ -87,10 +88,11 @@ static const uint32_t order[] = {
  0x134c9, /* allocate_packing_memory */
  0xd458, /* _ZN15CompilerPacking4PushEv */
  0xd49b, /* push_packing */
+ 0x134f4, /* compile_translation_unit */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION, sizeof(ReconCase), "minimal-c",
- "Actual direct Invoke11/BOOL1 with test.c, partial at push_packing; HOST CRT3/env78 are separate private hash-bound inputs.",
- order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0xd49b,
- c1_minimal_setup, c1_minimal_invoke, NULL, NULL, 0
+ "Typed host forwards actual Invoke11/BOOL1 with test.c; only MSC_CMD_FLAGS absence is an environment input.",
+ order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x134f4,
+ c1_minimal_setup, c1_minimal_invoke, NULL, minimal_tests, 1
 };
