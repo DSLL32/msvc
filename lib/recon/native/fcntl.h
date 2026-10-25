@@ -3,9 +3,15 @@
 /* Keep host O_* values available to shim implementations. Reconstructed CRT
  * callers use the distinct Microsoft _O_* constants below. */
 #include_next <fcntl.h>
-/* Only this encountered Watcom target spelling is qualified. Do not send
- * Watcom flags to host open or the Microsoft _open adapter. */
+/* Reached Watcom flags remain separate from host and Microsoft encodings. */
 #if defined(RECON_CRT_PROFILE_WATCOM_100A) && !defined(RECON_SHIM_IMPL)
+#undef O_RDWR
+#define O_RDWR 0x0002
+#undef O_CREAT
+#define O_CREAT 0x0020
+#undef O_TRUNC
+#define O_TRUNC 0x0040
+#define O_TEXT 0x0100
 #define O_BINARY 0x0200
 #endif
 #define _O_RDONLY 0x0000

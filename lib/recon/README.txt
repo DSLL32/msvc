@@ -1281,3 +1281,11 @@ non-directory); success preserves the target slot. Preflight restores host errno
 unknown failures remain125, and unmeasured Win32/private DOS errors are unclaimed.
 The Watcom-only char __OS alias starts at2, matching the qualified loader AH2
 store before App; it does not detect the Linux host or change original naming.
+
+Watcom writable open admits only0162 with0666 and0262 with0600/0666, for regular
+ASCII relative leaves in the owned cwd. Native O_RDWR/O_CREAT/O_TRUNC/O_TEXT
+spellings retain2/20/40/100; shim implementations keep host flags. The exact
+tuples translate to existing Microsoft4302/8302 descriptor operations, providing
+real create/truncate, initial position0 and text CRLF/binary writes. The caller's
+private errno is preserved on success; unknown flags/permissions/paths/failures
+deny125. Readonly0200 never fetches an absent variadic permission argument.
