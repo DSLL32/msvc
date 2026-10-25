@@ -73,12 +73,6 @@ C2Expression * __fastcall new_input_expression(unsigned opcode, unsigned short t
     return 0;
 }
 
-C2Expression * __fastcall new_transfer_expression(unsigned opcode, unsigned short type, C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 unsigned char __fastcall input_comparison(C2InputStack **stack)
 {
     __asm { int 3 }

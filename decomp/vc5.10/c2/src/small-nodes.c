@@ -5,9 +5,9 @@
 /* Encountered prefix view, not the original table's whole extent. The first
  * unrelated rows are UNMODELED backing, with no zero-default or equality claim.
  * Kinds2/3/4/21/22 are 28-byte register/symbol/control/entry nodes; kind24
- * is a 24-byte boundary; integer kind7 and binary-operation kind11 are 32 bytes.
+ * is a 24-byte boundary; integer kind7, binary-operation kind11 and transfer kind14 are 32 bytes.
  * Kind1 is the 28-byte temporary register/original-register expression. */
-const C2SmallNodeSizeView small_node_sizes = { { 0, 28, 28, 28, 28, {0}, 32, {0}, 32, {0}, 28, 28, 0, 24 } };
+const C2SmallNodeSizeView small_node_sizes = { { 0, 28, 28, 28, 28, {0}, 32, {0}, 32, {0}, 32, {0}, 28, 28, 0, 24 } };
 typedef char C2SmallNodeSizeWidthCheck[sizeof(small_node_sizes.values[0]) == 4 ? 1 : -1];
 typedef char C2SmallNodeSizeOffsetCheck[
     offsetof(C2SmallNodeKnownSizes, statement_boundary) == 96 ? 1 : -1];
@@ -17,7 +17,7 @@ C2SmallNode *__fastcall allocate_small_node(unsigned char kind)
     C2SmallNode *node;
     unsigned bytes;
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
-    if (kind != 1 && kind != 2 && kind != 3 && kind != 4 && kind != 7 && kind != 11 && kind != 21 && kind != 22 && kind != 24)
+    if (kind != 1 && kind != 2 && kind != 3 && kind != 4 && kind != 7 && kind != 11 && kind != 14 && kind != 21 && kind != 22 && kind != 24)
         recon_unsupported("unmodeled C2 small-node size row");
 #endif
     bytes = small_node_sizes.values[kind];
@@ -98,7 +98,7 @@ release_children:
     }
 recycle:
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
-    if (kind != 1 && kind != 2 && kind != 3 && kind != 4 && kind != 7 && kind != 11 && kind != 21 && kind != 22 && kind != 24)
+    if (kind != 1 && kind != 2 && kind != 3 && kind != 4 && kind != 7 && kind != 11 && kind != 14 && kind != 21 && kind != 22 && kind != 24)
         recon_unsupported("unmodeled C2 small-node size row");
 #endif
     bytes = small_node_sizes.values[kind];

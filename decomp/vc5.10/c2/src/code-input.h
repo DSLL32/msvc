@@ -148,7 +148,7 @@ C2Expression *__fastcall new_comparison_expression(unsigned opcode, unsigned sho
 void __fastcall prepare_input_comparison(C2Expression *left, C2Expression *right, int pointer_pair);
 void __fastcall input_binary_operator(C2InputStack **stack, unsigned opcode);
 C2Expression * __fastcall new_input_expression(unsigned opcode, unsigned short type);
-C2Expression * __fastcall new_transfer_expression(unsigned opcode, unsigned short type, C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior);
+C2Expression * __fastcall new_transfer_expression(unsigned opcode, unsigned short type, C2Expression *right, C2Expression *left, C2InputLink link, C2Record *prior);
 void __fastcall swap_input_stacks(C2InputStack **stack);
 void __fastcall input_deferred_store(C2InputStack **stack, C2ILToken *token);
 void __fastcall input_store_operator(C2InputStack **stack, C2ILToken *token);

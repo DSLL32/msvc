@@ -2947,8 +2947,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@new_transfer_expression@24",
         .entry_rva = 0x2bf89,
+        .code = (const ReconExtent[]){{0x2bf89, 0x2c00f}, {0x6c8b0, 0x6c8db}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_transfer_expression",
     },
     {
