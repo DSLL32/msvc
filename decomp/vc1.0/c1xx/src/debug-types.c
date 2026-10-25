@@ -880,3 +880,18 @@ int compare_debug_symbol_indices(const void *left, const void *right)
     const CppSymbol *second = *(CppSymbol * const *)right;
     return (int)(first->index - second->index);
 }
+
+/* Original0x6e300..0x6e338. End the separate PCH type stream with its
+   checksum leaf; line-record mode does not write the CodeView terminator. */
+void finish_pch_debug_types(void)
+{
+    unsigned char *leaf;
+    pch_separate_debug = 0;
+    if (!options.configuration.line_records) {
+        leaf = debug_record_buffer + 2;
+        *(unsigned short *)leaf = 0x14;
+        *(unsigned *)(leaf + 2) = pragma_record_number;
+        emit_debug_type_record(6);
+        ++next_debug_type_index;
+    }
+}
