@@ -47,6 +47,9 @@ typedef struct CompilerInitializedState {
     int ir_symbol_state_ready;   /* RVA5f370, default1 */
     int ir_symbol_state_changed; /* RVA5f374, default0 */
     int last_line_delta; /* RVA5f4d8, default0 */
+    struct CompilerTypeEntry **type_buckets; /* RVA5e9b0, defaultNULL; 2048 */
+    struct CompilerTypeShapeEntry **type_shape_buckets; /* RVA5e40c, defaultNULL; 1024 */
+    struct CompilerTypeListEntry **type_list_buckets; /* RVA5e404, defaultNULL; 1024 */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */

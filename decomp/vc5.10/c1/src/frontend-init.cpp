@@ -263,7 +263,25 @@ extern "C" void __cdecl format_processor_switch(char *buffer, const char *format
 extern "C" int __cdecl prepare_pch_input(const char *filename) { __asm { int 3 } return 0; }
 extern "C" void __cdecl read_initial_input(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_line_tables(void) { }
-extern "C" void __cdecl initialize_type_table(void) { __asm { int 3 } }
+extern "C" void __cdecl initialize_type_table(void)
+{
+    CompilerArena *arena = &c1_bss.arenas[0];
+    BYTE *storage = arena->cursor;
+    arena->cursor += 8192;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    c1_data.type_buckets = (CompilerTypeEntry **)storage;
+    storage = arena->cursor;
+    arena->cursor += 4096;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    c1_data.type_shape_buckets = (CompilerTypeShapeEntry **)storage;
+    storage = arena->cursor;
+    arena->cursor += 4096;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    c1_data.type_list_buckets = (CompilerTypeListEntry **)storage;
+}
 extern "C" CompilerType *__cdecl intern_type(CompilerType *description) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_global_scope(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_builtin_symbols(void) { __asm { int 3 } }

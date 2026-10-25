@@ -166,7 +166,24 @@ static int pending_line_record(void)
 extern int c1_test_output_ensure(void);
 extern int c1_test_output_grow(void);
 extern int c1_test_output_flush_suppression(void);
-const ReconTest minimal_tests[14] = {
+extern void __cdecl initialize_type_table(void);
+static int type_table_storage(void)
+{
+    DWORD storage[4098];
+    CompilerArena *arena = &c1_bss.arenas[0];
+    unsigned i;
+    for (i = 0; i < 4098; ++i) storage[i] = 0xa5a5a5a5;
+    arena->cursor = (BYTE *)(storage + 1);
+    arena->committed_limit = (BYTE *)(storage + 4097);
+    initialize_type_table();
+    if ((void *)c1_data.type_buckets != storage + 1 ||
+        (void *)c1_data.type_shape_buckets != storage + 2049 ||
+        (void *)c1_data.type_list_buckets != storage + 3073 ||
+        arena->cursor != (BYTE *)(storage + 4097)) return 0;
+    for (i = 0; i < 4098; ++i) if (storage[i] != 0xa5a5a5a5) return 0;
+    return 1;
+}
+const ReconTest minimal_tests[15] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -180,5 +197,6 @@ const ReconTest minimal_tests[14] = {
     { "line delta encoding, duplicate suppression and zero retention", 1, pending_line_record },
     { "output reservation bounds and no state mutation", 1, c1_test_output_ensure },
     { "buffer growth preserves used bytes, zeros tail and publishes relocation", 1, c1_test_output_grow },
-    { "flush suppression resets cursor and retains bytes without stream access", 1, c1_test_output_flush_suppression }
+    { "flush suppression resets cursor and retains bytes without stream access", 1, c1_test_output_flush_suppression },
+    { "type hash tables own exact arena spans without clearing them", 1, type_table_storage }
 };
