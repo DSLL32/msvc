@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "backend": "watcom-cf",
-  "mode": "entry-stop",
+  "mode": "debugger",
   "target": {
     "path": "toolchains/watcom10.0a/binb/WPP386.EXE",
     "sha256": "647f4e754cd27fc76b3c44a47227ae3baa4ff2e2f253a8ec27216414653b1e6f",
@@ -23,7 +23,20 @@
   "loader": {
     "path": "toolchains/watcom10.0a/binnt/WPP386.EXE",
     "sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
-    "protocol": "watcom10.0a-wpp-entry-v1"
+    "protocol": "watcom10.0a-loader-v1"
   },
-  "runtime_catalog": null
+  "runtime_catalog": null,
+  "code_layout": {
+    "code": [
+      [
+        0,
+        699680
+      ]
+    ],
+    "text_data": [],
+    "evidence": {
+      "path": "decomp/watcom10.0a/wpp386/harness/cf-layout.json",
+      "sha256": "445c57da20dfb734235e8707193fdbb448b4a6d6b301739aee19418b156ce760"
+    }
+  }
 }

@@ -22,16 +22,15 @@ ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/h $(ORIG
 
 RECON_AUDIT_PROFILE = cl
 RECON_IMAGE_BASE = 0
-RECON_CF_PROFILE = harness/cf-identity.json
+RECON_CF_PROFILE = harness/cf-profile.json
 RECON_POLICY = harness/graph-policy.json
 RECON_AUDIT_REGISTRY_METADATA = 1
 RECON_AUDIT_REGISTRY_RUNTIME = 1
-RECON_AUDIT_FLAGS = --discovery cfg --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --map-format watcom10 --rebuilt-runtime .build/rebuilt-runtime.json --check-ownership --check-extents --check-ret --export-instructions --export-original-support-instructions _cstart_ --export-original-support-instructions __InitRtns --export-original-support-instructions _init_stk --export-original-support-instructions __InitFiles_ --export-original-support-instructions malloc_segment_wrapper -q
+RECON_AUDIT_FLAGS = --discovery cfg --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --map-format watcom10 --rebuilt-runtime .build/rebuilt-runtime.json --check-ownership --check-extents --check-ret -q
 RECON_AUDIT_PREREQUISITES = $(ORIGINAL_OUTPUT) .build/rebuilt-runtime.json
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
-# The five original-only support owners have no rebuilt function counterparts.
-# Their return contracts are separately witness-bound; no paired ABI is claimed.
+# Classified original CRT owners have no rebuilt App function counterparts.
 .build/rebuilt-runtime.json:
 	@mkdir -p $(@D)
 	printf '[]\n' > $@
