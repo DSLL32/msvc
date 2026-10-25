@@ -219,3 +219,24 @@ CppSymbol *__stdcall create_initializer_temporary(unsigned char storage, CType *
     --type_description_depth;
     return symbol;
 }
+
+/* Original0x3dd70..0x3de47, stdcall8. Retained nontrivial class
+   temporaries own a symbol cleanup record; finish the active initialization. */
+void __stdcall record_initialized_temporary(CppSymbol *symbol, CType *type)
+{
+    DeclarationFrontendRecord record = {0};
+    CppSymbol *tag;
+    record.header.kind = 13;
+    if (ir_records_suppressed) return;
+    if (declaration_mode && !allow_incomplete_class && type) {
+        tag = cpp_context_stack->items[type->field08];
+        if ((tag->kind & 31) == 4 && (tag->declaration_flags & 0x2000) &&
+            !(tag->detail.class_info->trivial_special_members & 8)) {
+            record.header.kind |= 0xc0;
+            record.symbol = symbol;
+            append_frontend_record(&record.header, sizeof(record));
+        }
+    }
+    initializing_symbol = 0;
+    initializing_reference = 0;
+}

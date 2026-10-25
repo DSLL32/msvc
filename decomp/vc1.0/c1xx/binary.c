@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1644 historical frontiers/1537 App bodies.
+ * Current reviewed boundary:1645 historical frontiers/1538 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -6230,10 +6230,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_record_initialized_temporary@8",
         .entry_rva = 0x2dd70,
-        .code = (const ReconExtent[]) { { 0x2dd70, 0x2dd71 } },
+        .code = (const ReconExtent[]) { { 0x2dd70, 0x2de47 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "record_initialized_temporary",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_cancel_temporary_cleanup@4",
