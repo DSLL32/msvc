@@ -91,4 +91,7 @@ void __fastcall function_pass_4338ab(C2Function *function);
 void __fastcall function_pass_465486(C2Function *function);
 void __fastcall function_pass_47d1d3(C2Function *function);
 void __fastcall function_pass_433906(C2Function *function);
+void __fastcall function_pass_4088f4(C2Function *function);
+void __fastcall function_pass_408ab8(C2Function *function);
+void __fastcall function_pass_408b54(C2Function *function);
 #endif

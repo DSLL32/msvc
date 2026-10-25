@@ -311,3 +311,13 @@ void __fastcall canonicalize_function(C2Function *function)
             for (reg = block->records; reg < block->cursor; ++reg)
                 if (reg->kind != 0x10) reg->view_flags &= 0x7d;
 }
+
+void __fastcall function_pass_4088c7(C2Function *function)
+{
+    function_pass_402cb6(function);
+    function_pass_402b6e(function);
+    function_pass_402c2c(function);
+    function_pass_4088f4(function);
+    function_pass_408ab8(function);
+    function_pass_408b54(function);
+}

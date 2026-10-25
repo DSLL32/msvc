@@ -218,10 +218,7 @@ void __fastcall function_pass_483f46(C2Function *function)
     __asm { int 3 }
 }
 
-void __fastcall function_pass_4088c7(C2Function *function)
-{
-    __asm { int 3 }
-}
+
 
 void __fastcall function_pass_427d89(C2Function *function)
 {
@@ -666,6 +663,21 @@ void __fastcall write_assembly_initializer(C2InitRecord *record)
 
 
 void reset_function_listing(void)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_4088f4(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_408ab8(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall function_pass_408b54(C2Function *function)
 {
     __asm { int 3 }
 }
