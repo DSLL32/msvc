@@ -1,7 +1,8 @@
 /* Canonical registry: 187 accepted application functions (56,759 bytes),
  * 20 named trapping stubs. Harness migration grants no reconstruction credit.
- * CRT identities are frozen library/import classifications. Nonexact variants
- * remain Unknown here; their conditional qualifications are in runtime-policy.json. */
+ * CRT identities include three reviewed, nonexact original CRT boundaries.
+ * They grant no application credit or shipped-library body equivalence;
+ * runtime-policy.json keeps their provenance and historical qualifications. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
@@ -3463,21 +3464,21 @@ static const ReconFunction functions[] = {
         .entry_rva = 0x1ff90,
         .code = (const ReconExtent[]){{0x1ff90, 0x1ffc6}},
         .code_count = 1,
-        .definition = RECON_UNKNOWN,
+        .definition = RECON_CRT,
     },
     {
         .name = "_setvbuf",
         .entry_rva = 0x1fe40,
         .code = (const ReconExtent[]){{0x1fe40, 0x1feff}},
         .code_count = 1,
-        .definition = RECON_UNKNOWN,
+        .definition = RECON_CRT,
     },
     {
         .name = "__sopen",
         .entry_rva = 0x1dcb0,
         .code = (const ReconExtent[]){{0x1dcb0, 0x1e0a0}},
         .code_count = 1,
-        .definition = RECON_UNKNOWN,
+        .definition = RECON_CRT,
     },
 };
 

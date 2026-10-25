@@ -257,6 +257,54 @@
     "name": "__freebuf"
   },
   "historical_revision": "faceaf25b",
-  "scope": "Historical original-only runtime qualifications; no App credit or unconditional restoration. Shared progress capture must implement the guards before reuse.",
-  "extent_source": "Canonical named Unknown records in binary.c; stored bounds do not permit restoration."
+  "scope": "Original CRT identity boundaries with zero application credit and no shipped-library whole-body equivalence. conditional_variants and freebuf_boundary are preserved historical guard facts only, not prerequisites for fresh original progress capture.",
+  "extent_source": "Canonical named CRT records in binary.c own the exact original extents; identity_only_anchors bind their original body hashes.",
+  "crt_identity_boundaries": [
+    {
+      "name": "__freebuf",
+      "classification": "reviewed-original-nonexact-CRT-variant",
+      "abi": {
+        "calling_convention": "cdecl",
+        "signature": "void _freebuf(FILE *);",
+        "stack_cleanup": 0
+      },
+      "provenance": {
+        "revision": "faceaf25b",
+        "path": "decomp/vc1.0/cvpack/cases/runtime-variants/freebuf.json",
+        "sha256": "fa92d106bcd1c61074c8a2881ab00506f9bfe20b7c6aa99ffb31688b44cc66db"
+      },
+      "nonexact_difference": "Original clears owned-buffer flag0x8; shipped _FREEBUF.OBJ also clears0x400. The old hello case took only the no-owned-buffer no-op path. Identity classification does not assert all FILE states match the shipped library."
+    },
+    {
+      "name": "_setvbuf",
+      "classification": "reviewed-original-nonexact-CRT-variant",
+      "abi": {
+        "calling_convention": "cdecl",
+        "signature": "int setvbuf(FILE *, char *, int, size_t);",
+        "stack_cleanup": 0
+      },
+      "provenance": {
+        "revision": "faceaf25b",
+        "path": "decomp/vc1.0/cvpack/cases/runtime-variants/setvbuf.json",
+        "sha256": "ebe5bdc92257a287c5a8f48087bf48c3789a26194ba0cf2e29d6e838bd92bd86"
+      },
+      "nonexact_difference": "Original uses owned-buffer flag0x8 versus shipped SETVBUF.OBJ0x408, with corresponding masks and instruction layout differences. Historical record qualified its full CRT role/callees, not shipped-body equivalence."
+    },
+    {
+      "name": "__sopen",
+      "classification": "reviewed-original-nonexact-CRT-variant",
+      "abi": {
+        "calling_convention": "cdecl",
+        "signature": "int _sopen(const char *, int oflag, int shflag, ...);",
+        "stack_cleanup": 0
+      },
+      "provenance": {
+        "revision": "faceaf25b",
+        "path": "decomp/vc1.0/cvpack/cases/runtime-variants/sopen-analysis.json",
+        "sha256": "b0c1dcc543dc7ba8b08da658bb99db579e00105352cde002a9ec850b4c138040"
+      },
+      "nonexact_difference": "Original text-mode tail omits a byte initialization and tests _read return == 1 where shipped OPEN.OBJ tests == 0; binary mode skips those differing paths. Original inheritable handles versus native CLOEXEC remain an observed platform distinction, not whole-function equivalence."
+    }
+  ],
+  "graph_identity_scope": "identity_only_anchors accepted:false/unmask:false apply to graph body availability and credit only. Original execution is separately authorized by crt_identity_boundaries and canonical RECON_CRT classification; no CRT body graph-equivalence claim."
 }

@@ -51,12 +51,16 @@ unaligned field-list draft serialized nondeterministic original padding and
 remains excluded; its raw input/oracle/reason stay in Git and the snapshot.
 
 `runtime.json` is the unchanged frozen original library/import identity index.
-`runtime-policy.json` preserves identity-only anchors and the narrowly qualified
-case/phase/input/mode/share CRT boundaries. They grant neither unconditional
-restoration nor application credit. Shared original progress capture does not yet
-implement those conditional guards; resume that facility before using it on
-these cases. The native source still traps on unsupported all-pinned/empty LRU
-selection and NULL PDB-close arguments; no equivalence is claimed there.
+`runtime-policy.json` qualifies the original `__sopen`, `__freebuf` and `_setvbuf`
+variants as CRT identity boundaries with exact extents, hashes and provenance.
+The original mask leaves these CRT bodies executable while unfinished App code
+stays trapped. Their known differences from the shipped library remain recorded;
+this grants no App credit or CRT body-graph equivalence. The old case-specific
+mode/input/phase guards remain historical facts, not a requirement for resuming
+capture. The queued strip case still needs its first genuine masked/native
+frontier; it has not been resumed or accepted. The native source still traps on
+unsupported all-pinned/empty LRU selection and NULL PDB-close arguments; no
+equivalence is claimed there.
 
 The complete pre-migration tree, including ignored builds and diagnostics, plus
 scoped Git diff/status, is preserved at
