@@ -16,6 +16,11 @@ and shared graph/import/RET/ownership/extent checks. Runtime identification and
 compiler launching use shared `recon-tool`; live finite graph contracts are in
 `policy-data.json`, with finite original/provider/SDK premises in
 `import-contracts.json`. Original compiler artifacts live under `build/`.
+Application reconstruction stays in `src/`; the two existing binary-specific
+startup functions and their declarations are isolated in `crt/startup.c` and
+`crt/startup.h`, with a per-file rationale. Native DLL adapters, profile setup
+and private vector loading live in `harness/dll-cases.c`; numbered cases retain
+only their invocation descriptors and captured inputs/results.
 The MSVCRT import library has no linked static CRT bodies here: the shared
 identifier honestly reports zero matches. The two historical startup owners
 remain explicit registry CRT rows and are included in strict source graph checks.

@@ -1,5 +1,9 @@
+/* Existing binary-specific CRT exception, retained without new CRT work.
+ * C1 DLL lifecycle requires the already validated attach/onexit/detach graph.
+ * These two historical support functions carry zero application credit;
+ * shipped public CRT calls still use MSVCRT and the shared native shims. */
 #include <stdlib.h>
-#include "c1.h"
+#include "startup.h"
 #include <recon.h>
 
 #if !defined(RECON_NATIVE_TEST)
