@@ -520,7 +520,19 @@ CompilerIrSymbol **RECON_THISCALL CompilerTranslationUnit::EndParameterScope(voi
 extern "C" unsigned __cdecl classify_parameter_list(const void *value)
 { __asm { int 3 } return 0; }
 extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned kind, unsigned attributes,
-    const unsigned *value) { __asm { int 3 } return NULL; }
+    const unsigned *value)
+{
+    CompilerArena *arena = &c1_bss.arenas[3];
+    CompilerTypeShape *shape = (CompilerTypeShape *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    shape->flags = (WORD)kind;
+    shape->attributes = (WORD)attributes;
+    shape->value = *value;
+    /* The original leaves the base/link field for the caller to establish. */
+    return shape;
+}
 void RECON_THISCALL CompilerTypeShape::SetParameters(unsigned value, unsigned kind)
 { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *shape) { __asm { int 3 } }

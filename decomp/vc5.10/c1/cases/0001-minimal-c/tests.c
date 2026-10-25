@@ -230,7 +230,23 @@ extern int c1_test_returning_interner(void);
 extern int c1_test_translation_unit(void);
 extern int c1_test_abstract_symbol_reuse(void);
 extern int c1_test_symbol_constructor(void);
-const ReconTest minimal_tests[21] = {
+extern struct CompilerTypeShape *__cdecl create_type_shape(unsigned, unsigned, const unsigned *);
+static int type_shape_allocation(void)
+{
+    DWORD storage[5];
+    unsigned i, value = 37;
+    struct CompilerTypeShape *shape;
+    for (i = 0; i < 5; ++i) storage[i] = 0xa5a5a5a5;
+    c1_bss.arenas[3].cursor = (BYTE *)(storage + 1);
+    c1_bss.arenas[3].committed_limit = (BYTE *)(storage + 4);
+    shape = create_type_shape(0x12345, 0x23456, &value);
+    return (void *)shape == storage + 1 && shape->flags == 0x2345 &&
+        shape->attributes == 0x3456 && shape->value == 37 &&
+        (unsigned)shape->base == 0xa5a5a5a5 &&
+        c1_bss.arenas[3].cursor == (BYTE *)(storage + 4) &&
+        storage[0] == 0xa5a5a5a5 && storage[4] == 0xa5a5a5a5;
+}
+const ReconTest minimal_tests[22] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -251,5 +267,6 @@ const ReconTest minimal_tests[21] = {
     { "returning interner uses ordinary-name stride and retains untouched bytes", 1, c1_test_returning_interner },
     { "translation context constructs root scope and preserves unwritten slots", 1, c1_test_translation_unit },
     { "abstract symbol cache reuses only head9 within its owned52-byte record", 1, c1_test_abstract_symbol_reuse },
-    { "symbol constructor retains untouched fields and clears kind4 context only", 1, c1_test_symbol_constructor }
+    { "symbol constructor retains untouched fields and clears kind4 context only", 1, c1_test_symbol_constructor },
+    { "type shape allocation truncates WORD fields and retains unwritten link", 1, type_shape_allocation }
 };
