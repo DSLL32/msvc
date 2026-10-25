@@ -153,7 +153,14 @@ BYTE __stdcall read_coff_header(int file,IMAGE_FILE_HEADER *header,void *alterna
     return is_import;
 }
 void __stdcall validate_import_object_header(void *header) { __asm { int 3 } }
-void __stdcall allocate_module_section_headers(OutputModule *module) { __asm { int 3 } }
+/* Separate from copied input headers at module+0x48. This arena is also
+   released by the later COMDAT cleanup. */
+MemoryArena *section_header_arena;
+void __stdcall allocate_module_section_headers(OutputModule *module)
+{
+    module->saved_section_headers=(IMAGE_SECTION_HEADER *)reserve_memory(
+        &section_header_arena,module->section_count*sizeof(IMAGE_SECTION_HEADER));
+}
 void __stdcall load_object_module(LinkContext *context,void *parent,OutputModule *module,WORD flags)
 {
     __asm { int 3 }

@@ -50,7 +50,8 @@ struct OutputModule {
     IMAGE_SECTION_HEADER *section_headers;
     BYTE *section_flags;
     DWORD auxiliary;
-    BYTE reserved54[16];
+    BYTE reserved54[12];
+    IMAGE_SECTION_HEADER *saved_section_headers;
     OutputLibrary *library;
     /* Original allocation uses 64 bytes per section; the public Contribution
        prefix does not yet describe that complete record. */
@@ -131,6 +132,7 @@ typedef char ModuleConstructorFields[(offsetof(OutputModule,module_index)==8 &&
     offsetof(OutputModule,incremental_state)==132 && offsetof(OutputModule,symbol_bits)==140 &&
     offsetof(OutputModule,symbol_indices)==148 && offsetof(OutputModule,flags)==152)?1:-1];
 typedef char LibraryModuleHeadAt38[(offsetof(OutputLibrary,module_head)==56)?1:-1];
+typedef char SavedSectionHeadersAt60[(offsetof(OutputModule,saved_section_headers)==0x60)?1:-1];
 typedef char OutputModuleLibraryAt64[(offsetof(OutputModule,library)==0x64)?1:-1];
 typedef char SectionFlagsAt20[(offsetof(OutputSection,characteristics)==0x20)?1:-1];
 typedef char SectionFileOffsetAt18[(offsetof(OutputSection,file_offset)==0x18)?1:-1];

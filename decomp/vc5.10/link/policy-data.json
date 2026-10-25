@@ -5587,6 +5587,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_allocate_module_section_headers@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   }
