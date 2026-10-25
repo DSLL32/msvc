@@ -684,7 +684,17 @@ void RECON_THISCALL CompilerParameterDescription::Normalize(void)
 CompilerSymbolLink **RECON_THISCALL CompilerTranslationUnit::EndParameterScope(void) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *shape) { __asm { int 3 } }
 void RECON_THISCALL CompilerTypeShape::SetParameters(CompilerParameterSet *parameters, CompilerSymbol *symbols, CompilerType *type) { __asm { int 3 } }
-extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned arena, const unsigned *value) { __asm { int 3 } return NULL; }
+extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned attributes, const unsigned *value)
+{
+    CompilerArena *arena = &frontend_bss.arenas[5];
+    CompilerTypeShape *shape = (CompilerTypeShape *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    shape->flags = (WORD)flags;
+    shape->attributes = (WORD)attributes;
+    shape->payload.value = *value;
+    return shape;
+}
 extern "C" CompilerType *__cdecl qualify_type(CompilerType *type, unsigned flags, WORD attributes) { __asm { int 3 } return NULL; }
 extern "C" CompilerSymbol *__cdecl link_parameter_symbols(CompilerParameterContext *context) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerDeclarator::ApplyQualifiers(CompilerDeclaratorQualifiers *qualifiers) { __asm { int 3 } }

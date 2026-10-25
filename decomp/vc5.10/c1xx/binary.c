@@ -1374,8 +1374,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_create_type_shape", .entry_rva = 0x7e51,
-        .code = (const ReconExtent[]){{0x7e51, 0x7e52}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x7e51, 0x7e8d}, {0x545a4, 0x545b3}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "create_type_shape",
     },
     {
