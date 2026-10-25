@@ -551,3 +551,42 @@ void __stdcall mark_pch_type(CType *type)
 {
     mark_pch_pointer((void **)&type->related);
 }
+
+void __stdcall mark_pch_shape_entries(TypeShapeEntry *entry);
+void __stdcall mark_pch_shape(TypeShape *shape);
+
+/* Original0x6a030..0x6a05b. Shape bucket heads have their own intern table. */
+void mark_pch_shapes(void)
+{
+    unsigned i;
+    for (i = 0; i < 1024; ++i) {
+        mark_pch_pointer((void **)&type_shape_buckets[i]);
+        mark_pch_shape_entries(type_shape_buckets[i]);
+    }
+}
+
+/* Original0x6a060..0x6a082. Traverse each hash link and embedded shape. */
+void __stdcall mark_pch_shape_entries(TypeShapeEntry *entry)
+{
+    while (entry) {
+        mark_pch_pointer((void **)&entry->next);
+        mark_pch_shape(&entry->shape);
+        entry = entry->next;
+    }
+}
+
+/* Original0x6a090..0x6a10d. Only the shape kinds with pointer-valued
+   payloads mark that union cell; ordinary array bounds remain integers. */
+void __stdcall mark_pch_shape(TypeShape *shape)
+{
+    mark_pch_pointer((void **)&shape->related);
+    switch (shape->flags & 0x77) {
+    case 0: case 4: case 0x10: case 0x20:
+        mark_pch_pointer(&shape->data.based_symbol);
+        break;
+    case 1: case 0x40:
+        if ((shape->attributes & 7) >= 5)
+            mark_pch_pointer(&shape->data.based_symbol);
+        break;
+    }
+}
