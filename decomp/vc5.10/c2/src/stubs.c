@@ -4,13 +4,20 @@
 #include "register-sets.h"
 #include "function-reader.h"
 #include "symbol-storage.h"
+#include "flow.h"
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-void __fastcall create_function_flow(C2Function *function, C2Record *first,
-                                     C2Record *last, int pool)
+C2FlowGraph *__fastcall new_flow(int pool)
 {
     __asm { int 3 }
+    return NULL;
+}
+C2BasicBlock *__fastcall create_function_block(C2Function *function,
+    C2BasicBlock *after, C2Record *first, C2Record *last)
+{
+    __asm { int 3 }
+    return NULL;
 }
 void __fastcall read_function_code(C2Function *function, C2Record **pending,
                                    C2Record *first, int limit, int outermost)
