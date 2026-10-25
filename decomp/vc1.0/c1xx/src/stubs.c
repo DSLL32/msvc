@@ -393,7 +393,7 @@ void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
 
 
-IrToken *__stdcall retain_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
+void diagnose_member_reference_temporary(void) { __asm { int 3 } }
 int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) { __asm { int 3 } return 0; }
 int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 3 } return 0; }
 

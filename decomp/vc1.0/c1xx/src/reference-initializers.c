@@ -6,6 +6,7 @@
 #include "parser.h"
 #include "operators.h"
 #include "expression-preparation.h"
+#include "call-expressions.h"
 #include <recon.h>
 
 /* Original 0x67100..0x671ec, stdcall 8. */
@@ -161,5 +162,26 @@ IrToken *__stdcall initialize_reference_temporary(CType *referent, CType *refere
     else result = build_scalar_reference_temporary(referent,reference,expression);
     initializing_symbol = 0;
     initializing_reference = 0;
+    return result;
+}
+
+void diagnose_member_reference_temporary(void);
+
+/* Original0x675a0..0x67628, stdcall12. The reference-type formal is
+   unused; transfer constructor storage to a temporary with its new lifetime. */
+IrToken *__stdcall retain_reference_temporary(CType *referent, CType *reference,
+    IrToken *expression)
+{
+    IrToken *temporary, *result;
+    CppSymbol *symbol;
+    unsigned char storage;
+    if (!find_constructor_result_reference(expression->value.pointer, &temporary)) return 0;
+    diagnose_member_reference_temporary();
+    storage = member_initializer_active ? 4 : initializing_symbol->storage[0] & 7;
+    symbol = create_initializer_temporary(storage, referent);
+    result = replace_temporary_reference(expression, temporary->value.integer,
+        symbol_reference(symbol));
+    cancel_temporary_cleanup(temporary->value.integer);
+    record_initialized_temporary(symbol, referent);
     return result;
 }
