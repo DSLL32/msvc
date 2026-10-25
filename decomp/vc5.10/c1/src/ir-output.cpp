@@ -132,5 +132,3 @@ extern "C" void __cdecl write_global_header(void)
     c1_bss.declaration_scope_active = 0;
     write_global_record(17, NULL);
 }
-extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *symbol)
-{ __asm { int 3 } }

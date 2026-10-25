@@ -73,7 +73,7 @@ struct CompilerDebugModule {
     virtual void RECON_THISCALL Slot68(void) = 0;
     virtual void RECON_THISCALL Slot6c(void) = 0;
     virtual void RECON_THISCALL Slot70(void) = 0;
-    virtual void RECON_THISCALL Slot74(void) = 0;
+    virtual int RECON_THISCALL Slot74(const char *) = 0;
     virtual void RECON_THISCALL Slot78(void) = 0;
     virtual void RECON_THISCALL Slot7c(void) = 0;
     virtual void RECON_THISCALL Slot80(void) = 0;

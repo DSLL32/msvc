@@ -26,10 +26,16 @@ typedef struct CompilerBuiltinNames {
 typedef struct CompilerType {
     WORD flags, attributes;
     struct CompilerTypeShape *shape;
-    unsigned auxiliary;
+    union {
+        unsigned auxiliary;
+        struct CompilerIrSymbol *symbol_owner; /* Tagged nonprimitive alternative. */
+    };
     /* Type interning compares only the first twelve bytes. Debug builds
      * initialize this cache separately; the scratch descriptor leaves it. */
     unsigned debug_index;
+#ifdef __cplusplus
+    unsigned RECON_THISCALL GetCallingConvention(void);
+#endif
 } CompilerType;
 typedef char CompilerType_size[sizeof(CompilerType) == 16 ? 1 : -1];
 
@@ -77,7 +83,7 @@ typedef struct CompilerIrSymbol {
     BYTE kind;
     BYTE flags, scope_bits;
     BYTE declaration_flags;
-    CompilerType *type;
+    union { CompilerType *type; unsigned qualifier_flags; };
     CompilerSymbolBinding binding;
     union {
         struct CompilerAbstractType *abstract_type;
@@ -90,11 +96,20 @@ typedef struct CompilerIrSymbol {
     union {
         struct { BYTE intrinsic_low_flags, scope_flags, unmodeled_1e, identifier_flags; };
         unsigned intrinsic_flags;
+        struct { BYTE storage_class, symbol_qualifiers, linkage_flags, function_flags; };
     };
     union {
         BYTE unmodeled_20[16];
         unsigned symbol_value; /* Translation-state initializer clears DWORD+32. */
         struct { WORD intrinsic_opcode, intrinsic_traits; BYTE unmodeled_24[12]; };
+        /* Source-only tagged views for global-record operands. Native symbol
+         * consumers remain guarded; these aliases assign no new defaults. */
+        struct {
+            struct CompilerNameEntry *alternate_name;
+            union { int integer_value; BYTE parameter_kind; };
+            unsigned alternate_size;
+            BYTE unmodeled_2c, unmodeled_2d_flags, unmodeled_2e[2];
+        };
     };
     void *kind4_context; /* Constructor clears this pointer only for kind4. */
 #ifdef __cplusplus

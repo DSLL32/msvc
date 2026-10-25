@@ -87,6 +87,7 @@ typedef struct CompilerInitializedState {
     char predefined_time_text[26];
     unsigned macro_reset_value; /* RVA5e3fc, default0; reset by macro setup */
     int source_include_depth; /* RVA5e224, default-1; increments/decrements with input stack */
+    int emit_global_locations; /* RVA5f340, default0; global writer location mode */
     /* Last: snapshot transfer excludes all unknown size slots. */
     CompilerRecordSizes record_sizes;
 } CompilerInitializedState;
@@ -98,6 +99,7 @@ typedef struct CompilerContextState {
     unsigned value;
     struct CompilerContextFrame *saved_frame;
 #ifdef __cplusplus
+    const char *RECON_THISCALL FileName(void);
     void RECON_THISCALL Push(struct CompilerLexer *, unsigned, unsigned,
                             unsigned, const struct CompilerContextState *);
 #endif
@@ -123,6 +125,8 @@ typedef struct CompilerOutputBuffer {
     int RECON_THISCALL Reserve(int);
     int RECON_THISCALL WriteIndex(unsigned);
     void RECON_THISCALL WriteBytes(const void *, unsigned);
+    void RECON_THISCALL MarkLocation(unsigned, unsigned);
+    void RECON_THISCALL MarkGlobal(unsigned);
     int RECON_THISCALL WriteSmall(unsigned);
     int RECON_THISCALL Open(const char *, const char *, const char *);
 #endif

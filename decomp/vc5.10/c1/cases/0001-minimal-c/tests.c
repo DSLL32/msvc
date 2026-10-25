@@ -309,7 +309,7 @@ static int type_arena_snapshot(void)
         c1_data.record_sizes.known.abstract_symbol_bytes != 52 ||
         memcmp(c1_data.predefined_time_text, "......Unknown date......\0", 26) ||
         c1_data.source_include_depth != -1 ||
-        c1_data.macro_reset_value != 0 ||
+        c1_data.macro_reset_value != 0 || c1_data.emit_global_locations != 0 ||
         c1_data.global_symbol_cache_index != 9 ||
         c1_data.anonymous_global_symbol || c1_data.local_size_symbol ||
         c1_data.intrinsic_symbol_cache_index != 9 || c1_data.next_symbol_record_id != 16)
@@ -317,6 +317,7 @@ static int type_arena_snapshot(void)
     memset(c1_data.predefined_time_text, 0x37, 26);
     c1_data.source_include_depth = 13;
     c1_data.macro_reset_value = 83;
+    c1_data.emit_global_locations = 37;
     c1_data.type_arena_kind = 2;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
     c1_data.record_sizes.known.global_symbol_bytes = 41;
@@ -328,7 +329,7 @@ static int type_arena_snapshot(void)
     c1_data.next_symbol_record_id = 83;
     if (initialize_compiler_pass()) return 0;
     saved = c1_bss.saved_data;
-    if (saved->type_arena_kind != 2 ||
+    if (saved->emit_global_locations != 37 || saved->type_arena_kind != 2 ||
         saved->record_sizes.known.intrinsic_symbol_bytes != 37 ||
         saved->record_sizes.known.global_symbol_bytes != 41 ||
         saved->record_sizes.known.abstract_symbol_bytes != 43 ||
@@ -345,6 +346,7 @@ static int type_arena_snapshot(void)
     memset(c1_data.predefined_time_text, 0x61, 26);
     c1_data.source_include_depth = 29;
     c1_data.macro_reset_value = 97;
+    c1_data.emit_global_locations = 61;
     saved->first_call = 0;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 61;
     c1_data.record_sizes.known.global_symbol_bytes = 67;
@@ -366,7 +368,8 @@ static int type_arena_snapshot(void)
     for (i = 0; i < 26; ++i)
         if (c1_data.predefined_time_text[i] != 0x37 ||
             saved->predefined_time_text[i] != 0x37) return 0;
-    return c1_data.source_include_depth == 13 && saved->source_include_depth == 13 &&
+    return c1_data.emit_global_locations == 37 && saved->emit_global_locations == 37 &&
+        c1_data.source_include_depth == 13 && saved->source_include_depth == 13 &&
         c1_data.macro_reset_value == 83 && saved->macro_reset_value == 83 &&
         c1_data.type_arena_kind == 2 && c1_bss.saved_data == saved &&
         c1_data.record_sizes.known.intrinsic_symbol_bytes == 37 &&
@@ -494,7 +497,37 @@ static int macro_buffer_reset(void)
         second[0] == 0x78 && second[1] == 0x69 && second[2] == 0x5a;
 }
 extern int c1_test_macro_definition_extent(void);
-const ReconTest minimal_tests[35] = {
+extern void __cdecl write_global_record(unsigned, struct CompilerIrSymbol *);
+static int global_header_record(void)
+{
+    BYTE bytes[40];
+    CompilerOutputBuffer *buffer = &c1_bss.output_buffers[2];
+    unsigned i;
+    static const BYTE expected[12] = {
+        17, 0x86, 3, 0x60, 0x92, 0x30, 1, 0x78, 0x56, 0x34, 0x12, 0
+    };
+    memset(bytes, 0xa5, sizeof(bytes));
+    memset(buffer, 0, sizeof(*buffer));
+    buffer->data = bytes + 4;
+    buffer->cursor = bytes + 4;
+    buffer->capacity = 32;
+    buffer->good = 1;
+    c1_data.c9_il = 1;
+    c1_data.report_statistics = 0;
+    c1_data.emit_global_locations = 37; /* Only opcode14 consumes the flag. */
+    c1_data.next_symbol_record_id = 0x12345678;
+    c1_bss.declaration_scope_active = 0;
+    write_global_record(17, NULL);
+    if (buffer->cursor != bytes + 16 || !buffer->good ||
+        memcmp(bytes + 4, expected, sizeof(expected)) ||
+        c1_data.next_symbol_record_id != 0x12345678 ||
+        c1_data.emit_global_locations != 37) return 0;
+    for (i = 0; i < sizeof(bytes); ++i)
+        if ((i < 4 || i >= 16) && bytes[i] != 0xa5) return 0;
+    return 1;
+}
+const ReconTest minimal_tests[36] = {
+    { "global header emits twelve defined bytes and retains owned neighbors", 1, global_header_record },
     { "macro definition owns descriptor and length-defined writes only", 1, c1_test_macro_definition_extent },
     { "macro reset preserves work-buffer identities and all owned bytes", 1, macro_buffer_reset },
     { "symbol allocator uses only known indexed sizes, byte kind and aligned stride", 1, symbol_size_indexing },
