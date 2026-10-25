@@ -46,7 +46,8 @@ struct OutputModule {
     DWORD module_index, symbol_offset, symbol_count;
     WORD optional_header_size, characteristics;
     DWORD section_count;
-    BYTE reserved1c[16];
+    DWORD contribution_count;
+    BYTE reserved20[12];
     SectionFileMap *section_map;
     DWORD reserved30, input_tag, timestamp, file_size;
     DWORD section_offset;
@@ -100,6 +101,8 @@ struct Contribution {
     DWORD relocation_offset,input_raw_offset;
     BYTE reserved30[16];
 };
+typedef char ModuleContributionCountAt1c[(offsetof(OutputModule,contribution_count)==0x1c)?1:-1];
+typedef char ContributionAssociationAndPadding[(offsetof(Contribution,associated_contribution)==0x10 && offsetof(Contribution,padding)==0x14)?1:-1];
 typedef char ContributionSize[(sizeof(Contribution)==64)?1:-1];
 typedef char ContributionInputFields[(offsetof(Contribution,relocation_count)==0x24 &&
     offsetof(Contribution,line_number_count)==0x26 &&

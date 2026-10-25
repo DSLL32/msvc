@@ -189,6 +189,18 @@ static int named_contribution(void)
     return recon_native_at_entry(create_contribution,check_named_contribution,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall split_section_name(const char *,const char **);
+static void __stdcall check_section_name_split(const char *name,const char **base)
+{
+    OutputModule *module=current_input_library->module_head;
+    recon_native_entry_finish(name==input_section_name && !strcmp(name,".drectve") &&
+        base && sizeof(*base)==4 && module && !module->contribution_count && module->section_count==7);
+}
+static int section_name_split(void)
+{
+    return recon_native_at_entry(split_section_name,check_section_name_split,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -197,5 +209,6 @@ const ReconTest hello_tests[]={
     {"symbol-mapped-range",1,symbol_mapping},
     {"string-mapped-range",1,string_mapping},
     {"section-name-call",1,section_name_call},
-    {"named-contribution",1,named_contribution}
+    {"named-contribution",1,named_contribution},
+    {"section-name-split",1,section_name_split}
 };

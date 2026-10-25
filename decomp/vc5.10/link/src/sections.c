@@ -163,3 +163,44 @@ BYTE __stdcall next_output_section(SectionEnumerator *enumerator)
 void __stdcall end_section_enumerator(SectionEnumerator *enumerator)
 {
 }
+
+extern MemoryArena *contribution_arena;
+extern BYTE incremental_reuse;
+void __stdcall split_section_name(const char *,const char **);
+Contribution *__stdcall create_contribution(const char *name,DWORD bytes,DWORD flags,
+    DWORD section_flags,OutputModule *module,SectionList *sections,LinkContext *context)
+{
+    const char *section_name;
+    OutputSection *section=NULL;
+    ContributionGroup *group;
+    Contribution *contribution;
+    unsigned allocation_size;
+    split_section_name(name,&section_name);
+    if (context->is_vxd==1) section=find_output_section(section_name,sections);
+    if (!section) section=create_output_section(module,section_name,section_flags,
+        sections,&context->optional_header);
+    group=create_contribution_group(name,section);
+    if (module->contribution_count<module->section_count)
+        contribution=(Contribution *)module->contributions+module->contribution_count;
+    else {
+        allocation_size=sizeof(Contribution);
+        if (context->options.effective_reference_opt || context->options.fold_identical_comdats)
+            allocation_size+=40;
+        if (incremental_enabled) contribution=(Contribution *)allocate_link_memory(1,allocation_size);
+        else contribution=(Contribution *)reserve_memory(&contribution_arena,allocation_size);
+    }
+    ++module->contribution_count;
+    ++group->contribution_count;
+    contribution->associated_contribution=NULL;
+    contribution->raw_size=bytes;
+    contribution->group=group;
+    contribution->characteristics=flags;
+    contribution->module=module;
+    if (!incremental_reuse) {
+        if (group->last) group->last->next=contribution;
+        else group->first=contribution;
+        group->last=contribution;
+    }
+    return contribution;
+}
+void __stdcall split_section_name(const char *name,const char **base) { __asm { int 3 } }
