@@ -627,6 +627,15 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_align_coff_value",
+        .entry_rva = 0xee30,
+        .code = (const ReconExtent[]){{0xee30, 0xee65}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "align_coff_value",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_record_debug_fixup",
         .entry_rva = 0xee70,
         .code = (const ReconExtent[]){{0xee70, 0xef32}},
@@ -1360,11 +1369,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_is_big_endian",
         .entry_rva = 0x15020,
-        .code = (const ReconExtent[]){{0x15020, 0x15021}},
+        .code = (const ReconExtent[]){{0x15020, 0x1503d}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "is_big_endian",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_read_coff_header",

@@ -111,6 +111,7 @@ void emit_codeview(Image *);
 int compare_fpo_records(const void *,const void *);
 void finish_pe_image(Image *,void *);
 unsigned char is_big_endian(void);
+void align_coff_value(unsigned long *,unsigned short);
 unsigned write_coff_header(int,IMAGE_FILE_HEADER *);
 void write_optional_header(int,IMAGE_OPTIONAL_HEADER *,unsigned short);
 void update_checksum(int);

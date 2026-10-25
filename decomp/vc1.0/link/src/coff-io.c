@@ -7,6 +7,21 @@ TextBuffer coff_string_buffer, coff_symbol_buffer;
 unsigned char coff_strings_cached, coff_symbols_cached;
 char section_name_buffer[9];
 
+extern char *output_name;
+
+void align_coff_value(unsigned long *value,unsigned short alignment)
+{
+    long mask=(short)(alignment-1);
+    if (*value & mask) warning_message(output_name,75,"","");
+    *value &= ~mask;
+}
+
+unsigned char is_big_endian(void)
+{
+    unsigned short one=1;
+    return !*(unsigned char *)&one;
+}
+
 unsigned read_coff_header(int file,IMAGE_FILE_HEADER *header)
 {
     return read_file(file,header,sizeof(*header));
