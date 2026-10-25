@@ -83,6 +83,7 @@ typedef struct CompilerIrSymbol {
         struct CompilerAbstractType *abstract_type;
         CompilerType *parameter_type;
         CompilerType *function_type;
+        CompilerType *value_type;
     };
     unsigned reference_flags;
     unsigned record_id;
@@ -92,6 +93,7 @@ typedef struct CompilerIrSymbol {
     };
     union {
         BYTE unmodeled_20[16];
+        unsigned symbol_value; /* Translation-state initializer clears DWORD+32. */
         struct { WORD intrinsic_opcode, intrinsic_traits; BYTE unmodeled_24[12]; };
     };
     void *kind4_context; /* Constructor clears this pointer only for kind4. */

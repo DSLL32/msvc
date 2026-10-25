@@ -13,6 +13,25 @@
 
 /* Only recovered semantic fields live here. Other historical bytes are
  * UNMODELED; neither zero defaults nor byte equivalence are assumed. */
+/* Original RVA5f400 has26 DWORD slots. Only kinds6/9/13 are known.
+ * Gap storage supplies layout, never defaults, snapshot bytes or read access. */
+typedef struct CompilerRecordSizeFields {
+        unsigned unmodeled_00[6];
+        unsigned intrinsic_symbol_bytes; /* slot6, RVA5f418, default52 */
+        unsigned unmodeled_07[2];
+        unsigned global_symbol_bytes; /* slot9, RVA5f424, default52 */
+        unsigned unmodeled_0a[3];
+        unsigned abstract_symbol_bytes; /* slot13, RVA5f434, default52 */
+        unsigned unmodeled_0e[12];
+} CompilerRecordSizeFields;
+typedef union CompilerRecordSizes {
+    CompilerRecordSizeFields known;
+    unsigned indexed[26];
+} CompilerRecordSizes;
+typedef char CompilerRecordSizes_extent[sizeof(CompilerRecordSizes) == 104 ? 1 : -1];
+typedef char CompilerRecordSizes_kind6[offsetof(CompilerRecordSizeFields, intrinsic_symbol_bytes) == 24 ? 1 : -1];
+typedef char CompilerRecordSizes_kind9[offsetof(CompilerRecordSizeFields, global_symbol_bytes) == 36 ? 1 : -1];
+typedef char CompilerRecordSizes_kind13[offsetof(CompilerRecordSizeFields, abstract_symbol_bytes) == 52 ? 1 : -1];
 typedef struct CompilerInitializedState {
     int first_call;
     int compiler_phase;
@@ -54,14 +73,17 @@ typedef struct CompilerInitializedState {
     struct CompilerTypeShapeEntry **type_shape_buckets; /* RVA5e40c, defaultNULL; 1024 */
     struct CompilerTypeListEntry **type_list_buckets; /* RVA5e404, defaultNULL; 1024 */
     CompilerBuiltinNames builtin_names; /* Encountered builtin identifier slots; defaultNULL */
-    unsigned abstract_symbol_bytes; /* RVA5f434, default52 */
     unsigned abstract_symbol_cache_index; /* RVA5f49c, default9 */
     CompilerSymbolBinding *abstract_symbol_free; /* Only head9 at RVA5e51c, defaultNULL */
     CompilerTypeList *empty_type_list; /* RVA5e580, defaultNULL */
     unsigned type_arena_kind; /* RVA5f5e0, canonical default3 */
-    unsigned intrinsic_symbol_bytes; /* RVA5f418, default52 */
     unsigned intrinsic_symbol_cache_index; /* RVA5f480, default9 */
     unsigned next_symbol_record_id; /* RVA5e9c0, default16 */
+    unsigned global_symbol_cache_index; /* RVA5f48c, default9 */
+    CompilerIrSymbol *anonymous_global_symbol; /* RVA5e3ec, defaultNULL */
+    CompilerIrSymbol *local_size_symbol; /* RVA5e3f0, defaultNULL */
+    /* Last: snapshot transfer excludes all unknown size slots. */
+    CompilerRecordSizes record_sizes;
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */

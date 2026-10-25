@@ -273,7 +273,7 @@ extern "C" int c1_test_abstract_symbol_reuse(void)
     symbol->binding.next = &retained;
     c1_data.abstract_symbol_free = &symbol->binding;
     c1_data.builtin_names.abstract_declarator = &name;
-    c1_data.abstract_symbol_bytes = 52;
+    c1_data.record_sizes.known.abstract_symbol_bytes = 52;
     c1_data.abstract_symbol_cache_index = 9;
     c1_bss.declaration_nesting = 0;
     c1_bss.arenas[3].cursor = payload + 1;

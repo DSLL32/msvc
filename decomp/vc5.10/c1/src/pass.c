@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "compiler-state.h"
-#pragma intrinsic(memset)
+#pragma intrinsic(memset, memcpy)
 #include <recon.h>
 
 int __cdecl initialize_compiler_pass(void)
@@ -12,11 +12,19 @@ int __cdecl initialize_compiler_pass(void)
 
     if (c1_data.first_call) {
         c1_bss.saved_data = (CompilerInitializedState *)allocate_compiler_memory(6548);
-        *c1_bss.saved_data = c1_data;
+        saved = c1_bss.saved_data;
+        /* Typed projection only: unknown size slots are never transferred. */
+        memcpy(saved, &c1_data, offsetof(CompilerInitializedState, record_sizes));
+        saved->record_sizes.known.intrinsic_symbol_bytes = c1_data.record_sizes.known.intrinsic_symbol_bytes;
+        saved->record_sizes.known.global_symbol_bytes = c1_data.record_sizes.known.global_symbol_bytes;
+        saved->record_sizes.known.abstract_symbol_bytes = c1_data.record_sizes.known.abstract_symbol_bytes;
         c1_reuse_state = 0;
     } else {
         saved = c1_bss.saved_data;
-        c1_data = *saved;
+        memcpy(&c1_data, saved, offsetof(CompilerInitializedState, record_sizes));
+        c1_data.record_sizes.known.intrinsic_symbol_bytes = saved->record_sizes.known.intrinsic_symbol_bytes;
+        c1_data.record_sizes.known.global_symbol_bytes = saved->record_sizes.known.global_symbol_bytes;
+        c1_data.record_sizes.known.abstract_symbol_bytes = saved->record_sizes.known.abstract_symbol_bytes;
         memset(&c1_bss, 0, sizeof(c1_bss));
         c1_bss.saved_data = saved;
         c1_reuse_state = !c1_pass_mode;

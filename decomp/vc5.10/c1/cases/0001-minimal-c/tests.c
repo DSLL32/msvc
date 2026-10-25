@@ -300,28 +300,69 @@ static int interned_type_shapes(void)
 }
 static int type_arena_snapshot(void)
 {
-    CompilerInitializedState saved = c1_data;
-    if (c1_data.type_arena_kind != 3 || c1_data.intrinsic_symbol_bytes != 52 ||
+    CompilerInitializedState *saved;
+    CompilerIrSymbol owned_symbols[2];
+    unsigned i;
+    if (c1_data.type_arena_kind != 3 ||
+        c1_data.record_sizes.known.intrinsic_symbol_bytes != 52 ||
+        c1_data.record_sizes.known.global_symbol_bytes != 52 ||
+        c1_data.record_sizes.known.abstract_symbol_bytes != 52 ||
+        c1_data.global_symbol_cache_index != 9 ||
+        c1_data.anonymous_global_symbol || c1_data.local_size_symbol ||
         c1_data.intrinsic_symbol_cache_index != 9 || c1_data.next_symbol_record_id != 16)
         return 0;
-    saved.first_call = 0;
-    saved.type_arena_kind = 2;
-    saved.intrinsic_symbol_bytes = 37;
-    saved.intrinsic_symbol_cache_index = 7;
-    saved.next_symbol_record_id = 83;
-    c1_data.intrinsic_symbol_bytes = 61;
+    c1_data.type_arena_kind = 2;
+    c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
+    c1_data.record_sizes.known.global_symbol_bytes = 41;
+    c1_data.record_sizes.known.abstract_symbol_bytes = 43;
+    c1_data.global_symbol_cache_index = 17;
+    c1_data.anonymous_global_symbol = &owned_symbols[0];
+    c1_data.local_size_symbol = &owned_symbols[1];
+    c1_data.intrinsic_symbol_cache_index = 7;
+    c1_data.next_symbol_record_id = 83;
+    if (initialize_compiler_pass()) return 0;
+    saved = c1_bss.saved_data;
+    if (saved->type_arena_kind != 2 ||
+        saved->record_sizes.known.intrinsic_symbol_bytes != 37 ||
+        saved->record_sizes.known.global_symbol_bytes != 41 ||
+        saved->record_sizes.known.abstract_symbol_bytes != 43 ||
+        saved->global_symbol_cache_index != 17 ||
+        saved->anonymous_global_symbol != &owned_symbols[0] ||
+        saved->local_size_symbol != &owned_symbols[1]) return 0;
+    /* Owned representation sentinels are not original table defaults.
+     * Restore must not transfer any of these23 unknown slots. */
+    for (i = 0; i < 26; ++i) {
+        if (i == 6 || i == 9 || i == 13) continue;
+        saved->record_sizes.indexed[i] = 0xa5000000 + i;
+        c1_data.record_sizes.indexed[i] = 0x5a000000 + i;
+    }
+    saved->first_call = 0;
+    c1_data.record_sizes.known.intrinsic_symbol_bytes = 61;
+    c1_data.record_sizes.known.global_symbol_bytes = 67;
+    c1_data.record_sizes.known.abstract_symbol_bytes = 71;
+    c1_data.global_symbol_cache_index = 3;
+    c1_data.anonymous_global_symbol = NULL;
+    c1_data.local_size_symbol = NULL;
     c1_data.intrinsic_symbol_cache_index = 3;
     c1_data.next_symbol_record_id = 95;
-    c1_data.first_call = 0;
     c1_data.type_arena_kind = 5;
     c1_bss.declaration_scope_active = 1;
-    c1_bss.saved_data = &saved;
     c1_pass_mode = 1;
-    return initialize_compiler_pass() == 0 && c1_data.type_arena_kind == 2 &&
-        c1_bss.saved_data == &saved && saved.type_arena_kind == 2 &&
-        c1_data.intrinsic_symbol_bytes == 37 && c1_data.intrinsic_symbol_cache_index == 7 &&
-        c1_data.next_symbol_record_id == 83 && saved.intrinsic_symbol_bytes == 37 &&
-        saved.intrinsic_symbol_cache_index == 7 && saved.next_symbol_record_id == 83 &&
+    if (initialize_compiler_pass()) return 0;
+    for (i = 0; i < 26; ++i) {
+        if (i == 6 || i == 9 || i == 13) continue;
+        if (c1_data.record_sizes.indexed[i] != 0x5a000000 + i ||
+            saved->record_sizes.indexed[i] != 0xa5000000 + i) return 0;
+    }
+    return c1_data.type_arena_kind == 2 && c1_bss.saved_data == saved &&
+        c1_data.record_sizes.known.intrinsic_symbol_bytes == 37 &&
+        c1_data.record_sizes.known.global_symbol_bytes == 41 &&
+        c1_data.record_sizes.known.abstract_symbol_bytes == 43 &&
+        c1_data.global_symbol_cache_index == 17 &&
+        c1_data.anonymous_global_symbol == &owned_symbols[0] &&
+        c1_data.local_size_symbol == &owned_symbols[1] &&
+        c1_data.intrinsic_symbol_cache_index == 7 &&
+        c1_data.next_symbol_record_id == 83 &&
         !c1_reuse_state && !c1_bss.declaration_scope_active;
 }
 extern struct CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned *);

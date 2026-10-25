@@ -477,7 +477,64 @@ extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned kind, unsigned at
      * no zero default or whole-object initialization is implied. */
     return shape;
 }
-extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
+extern "C" void *__cdecl allocate_symbol_record(unsigned, unsigned, unsigned);
+extern "C" void __cdecl initialize_translation_state(void)
+{
+    CompilerIrSymbol *symbol = NULL;
+    CompilerSymbolBinding *binding;
+#ifdef RECON_NATIVE_TEST
+    if (c1_data.global_symbol_cache_index != 9 ||
+        c1_data.record_sizes.known.global_symbol_bytes != 52)
+        recon_unsupported("translation symbols: unmodeled cache domain");
+#endif
+    binding = c1_data.abstract_symbol_free;
+    if (binding) {
+        c1_data.abstract_symbol_free = binding->next;
+        symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+        binding->name = NULL;
+        binding->next = NULL;
+        memset(symbol, 0, c1_data.record_sizes.known.global_symbol_bytes);
+        binding->name = NULL;
+        symbol->kind = 9;
+    }
+    if (!symbol) {
+        void *memory = allocate_symbol_record(52, 9, 0);
+        symbol = memory ? ((CompilerIrSymbol *)memory)->Initialize(9, NULL, 0) : NULL;
+    }
+    c1_data.anonymous_global_symbol = symbol;
+    symbol->symbol_value = 0;
+    symbol->value_type = c1_data.builtin_types.type_0000;
+    symbol->declaration_flags |= 0x20;
+    symbol->flags |= 1;
+    symbol->record_id = (symbol->record_id & 0xff000001) | 1;
+    symbol->reference_flags = (symbol->reference_flags & 7) | 8;
+
+    symbol = NULL;
+    binding = c1_data.abstract_symbol_free;
+    if (binding) {
+        c1_data.abstract_symbol_free = binding->next;
+        symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+        binding->name = NULL;
+        binding->next = NULL;
+        memset(symbol, 0, c1_data.record_sizes.known.global_symbol_bytes);
+        binding->name = c1_data.builtin_names.local_size;
+        symbol->kind = 9;
+    }
+    if (!symbol) {
+        BYTE *memory = c1_bss.arenas[0].AllocateBytes(
+            (c1_data.record_sizes.known.global_symbol_bytes + 3) & ~3U);
+        symbol = memory ? ((CompilerIrSymbol *)memory)->Initialize(
+            9, c1_data.builtin_names.local_size, 0) : NULL;
+    }
+    c1_data.local_size_symbol = symbol;
+    symbol->value_type = c1_data.builtin_types.type_0000;
+    symbol->record_id = (symbol->record_id & 0xff00000a) | 0xa;
+    symbol->reference_flags = (symbol->reference_flags & 7) | 0x50;
+    symbol->declaration_flags |= 0x20;
+    symbol->flags |= 1;
+}
+extern "C" void *__cdecl allocate_symbol_record(unsigned requested_size, unsigned kind, unsigned arena)
+{ __asm { int 3 } return NULL; }
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_source_input(void) { __asm { int 3 } }
@@ -539,7 +596,7 @@ extern "C" CompilerIrSymbol *__cdecl make_abstract_declarator(void)
     BYTE *memory;
 #ifdef RECON_NATIVE_TEST
     /* Other original cache indexes/record sizes are valid but unmodeled. */
-    if (c1_data.abstract_symbol_bytes != 52)
+    if (c1_data.record_sizes.known.abstract_symbol_bytes != 52)
         recon_unsupported("make_abstract_declarator: unmodeled record size");
 #endif
     if (!c1_bss.declaration_nesting) {
@@ -555,14 +612,14 @@ extern "C" CompilerIrSymbol *__cdecl make_abstract_declarator(void)
             symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
             binding->name = NULL;
             binding->next = NULL;
-            memset(symbol, 0, c1_data.abstract_symbol_bytes);
+            memset(symbol, 0, c1_data.record_sizes.known.abstract_symbol_bytes);
             binding->name = name;
             symbol->kind = 13;
         }
     }
     if (!symbol) {
         memory = arena->cursor;
-        arena->cursor += (c1_data.abstract_symbol_bytes + 3) & ~3U;
+        arena->cursor += (c1_data.record_sizes.known.abstract_symbol_bytes + 3) & ~3U;
         if (arena->cursor > arena->committed_limit)
             arena->CommitExtent();
         symbol = memory ? ((CompilerIrSymbol *)memory)->Initialize(13, name, arena_index) : NULL;

@@ -85,7 +85,8 @@ CompilerInitializedState c1_data = {
     },
     C1_SCANNER_DEFAULTS,
     NULL, NULL, 0, 0, 0, NULL, 0,
-    { 0 }, 0, 0, 0, 0, 1, 0, 0, NULL, NULL, 0, { 0 }, NULL, NULL, 3, 1, 1, 0, 0, NULL, NULL, NULL, { 0 }, 52, 9, NULL, NULL, 3, 52, 9, 16
+    { 0 }, 0, 0, 0, 0, 1, 0, 0, NULL, NULL, 0, { 0 }, NULL, NULL, 3, 1, 1, 0, 0, NULL, NULL, NULL, { 0 }, 9, NULL, NULL, 3, 9, 16, 9, NULL, NULL,
+    { { { 0 }, 52, { 0 }, 52, { 0 }, 52, { 0 } } }
 };
 CompilerBss c1_bss;
 int c1_reuse_state;

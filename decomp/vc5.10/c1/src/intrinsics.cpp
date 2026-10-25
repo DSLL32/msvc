@@ -111,7 +111,7 @@ extern "C" void __cdecl initialize_intermediate_output(void)
             CompilerIrSymbol *symbol = NULL;
 #ifdef RECON_NATIVE_TEST
             if (c1_data.intrinsic_symbol_cache_index != 9 ||
-                c1_data.intrinsic_symbol_bytes != 52)
+                c1_data.record_sizes.known.intrinsic_symbol_bytes != 52)
                 recon_unsupported("intrinsic declarations: unmodeled symbol cache domain");
 #endif
             /* Both producers share the same original head9 storage. */
@@ -121,13 +121,13 @@ extern "C" void __cdecl initialize_intermediate_output(void)
                 symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
                 binding->name = NULL;
                 binding->next = NULL;
-                memset(symbol, 0, c1_data.intrinsic_symbol_bytes);
+                memset(symbol, 0, c1_data.record_sizes.known.intrinsic_symbol_bytes);
                 binding->name = identifier;
                 symbol->kind = 6;
             }
             if (!symbol) {
                 BYTE *memory = c1_bss.arenas[0].AllocateBytes(
-                    (c1_data.intrinsic_symbol_bytes + 3) & ~3U);
+                    (c1_data.record_sizes.known.intrinsic_symbol_bytes + 3) & ~3U);
                 symbol = memory ? ((CompilerIrSymbol *)memory)->Initialize(6, identifier, 0) : NULL;
             }
             if (c1_data.next_symbol_record_id >= 0x7fffffff)
