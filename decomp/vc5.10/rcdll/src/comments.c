@@ -52,3 +52,28 @@ void __cdecl rc_skip_line_comment(void)
         }
     }
 }
+
+void __cdecl rc_block_comment(void)
+{
+    WCHAR character;
+    unsigned short token;
+
+    if(!rc_cpp_active){
+        rc_skip_block_comment();
+        return;
+    }
+    rc_write_preprocessed(L"/*",4,1,rc_cpp_output_file);
+    for(;;){
+        character=*rc_source_cursor++;
+        token=rc_character_token(character);
+        if(token==3){
+            rc_resume_input();
+            continue;
+        }
+        if(token==4){
+            if(rc_match_logical_character(L'/'))break;
+        }else if(token==5)++rc_preparing_line;
+        rc_write_preprocessed(&character,2,1,rc_cpp_output_file);
+    }
+    rc_write_preprocessed(L"*/",4,1,rc_cpp_output_file);
+}

@@ -127,11 +127,6 @@ void __cdecl rc_line_comment(void)
     __asm int 3
 }
 
-void __cdecl rc_block_comment(void)
-{
-    __asm int 3
-}
-
 int __cdecl rc_open_source_frame(void)
 {
     __asm int 3
