@@ -1,4 +1,4 @@
-//! Explicit ownership of a single shared RET instruction, not a function alias.
+//! Exact shared terminal instructions preserve distinct function identities.
 use crate::{
     decode::Decoder,
     image::ImageView,
@@ -134,22 +134,15 @@ fn validate_terminal(
 ) -> Result<()> {
     let hex = &location.bytes_hex;
     ensure!(
-        hex.len() == 6 && hex.is_ascii(),
-        "shared terminal epilogue requires exactly two register POPs and RET"
+        hex.is_ascii() && !hex.is_empty() && hex.len() <= 64 && hex.len().is_multiple_of(2),
+        "shared terminal epilogue requires 1..32 exact bytes"
     );
-    let bytes = (0..3)
+    let bytes = (0..hex.len() / 2)
         .map(|i| u8::from_str_radix(&hex[i * 2..i * 2 + 2], 16))
         .collect::<std::result::Result<Vec<_>, _>>()?;
-    ensure!(
-        bytes[..2]
-            .iter()
-            .all(|b| (0x58..=0x5f).contains(b) && *b != 0x5c)
-            && bytes[2] == 0xc3,
-        "shared terminal epilogue requires two non-ESP register POPs then C3"
-    );
     let start = location.start;
     let end = start
-        .checked_add(3)
+        .checked_add(bytes.len() as u32)
         .context("shared terminal epilogue overflow")?;
     ensure!(
         a.name != b.name,
@@ -170,7 +163,7 @@ fn validate_terminal(
         "shared terminal epilogue must be the exact entire two-owner code overlap"
     );
     ensure!(
-        image.read(start, 3)? == bytes,
+        image.read(start, bytes.len())? == bytes,
         "shared terminal epilogue bytes differ"
     );
     let d = Decoder::new()?;
@@ -179,15 +172,42 @@ fn validate_terminal(
             r.code_ranges().any(|(lo, hi)| lo <= start && hi == end),
             "shared terminal epilogue must terminate both owning code chunks"
         );
-        let g = crate::audit::structural_record(&d, image, r, metadata, "original", index, true)?;
-        for (n, byte) in bytes.iter().enumerate() {
+        let (g, _) = crate::audit::structural_facts(
+            &d,
+            image,
+            r,
+            metadata,
+            "original",
+            index,
+            crate::flow::Options {
+                record_dataflow: true,
+                forbid_overlapping_instructions: true,
+                ..Default::default()
+            },
+        )?;
+        let mut address = start;
+        while address < end {
+            let i = g.instructions.get(&address).with_context(|| format!(
+                "shared terminal epilogue is not a discovered instruction sequence in {} at {address:x}", r.name
+            ))?;
             ensure!(
-                g.instructions.get(&(start + n as u32)).is_some_and(
-                    |i| i.bytes == [*byte] && if n == 2 { i.ret } else { i.m == "pop" }
-                ),
-                "shared terminal epilogue is not a complete discovered instruction sequence in {}",
-                r.name
+                i.next() <= end
+                    && i.bytes == bytes[(address - start) as usize..(i.next() - start) as usize],
+                "shared terminal epilogue truncates/differs from decoded instruction"
             );
+            if i.next() == end {
+                ensure!(
+                    i.ret && (i.bytes == [0xc3] || (i.bytes.len() == 3 && i.bytes[0] == 0xc2)),
+                    "shared terminal epilogue must end in unprefixed near RET"
+                );
+            } else {
+                ensure!(
+                    !i.control_transfer
+                        && g.successors.get(&address) == Some(&BTreeSet::from([i.next()])),
+                    "shared terminal epilogue must fall through without control transfers"
+                );
+            }
+            address = i.next();
         }
     }
     Ok(())
@@ -272,7 +292,7 @@ impl SharedReturns {
         })
     }
     pub fn terminal_report(&self) -> Option<Value> {
-        self.0.iter().any(|p|p.terminal.is_some()).then(||json!(self.0.iter().filter_map(|p|p.terminal.as_ref().map(|(start,bytes)|json!({"owners":[p.owner.name,p.entry.name],"original_range":[start,start+3],"bytes_hex":bytes,"evidence":p.evidence,"additional_unique_code_bytes":0,"meaning":"only this decoded terminal epilogue is physically shared; function identities, control edges and ABI checks remain distinct; no runtime permission"}))).collect::<Vec<_>>()))
+        self.0.iter().any(|p|p.terminal.is_some()).then(||json!(self.0.iter().filter_map(|p|p.terminal.as_ref().map(|(start,bytes)|json!({"owners":[p.owner.name,p.entry.name],"original_range":[start,start+(bytes.len()/2) as u32],"bytes_hex":bytes,"evidence":p.evidence,"additional_unique_code_bytes":0,"meaning":"only this decoded terminal epilogue is physically shared; function identities, control edges and ABI checks remain distinct; no runtime permission"}))).collect::<Vec<_>>()))
     }
     pub fn report(&self) -> Option<Value> {
         self.0.iter().any(|p|p.terminal.is_none()).then(||json!(self.0.iter().filter(|p|p.terminal.is_none()).map(|p|json!({"owner":p.owner.name,"entry":p.entry.name,"original_range":[p.entry.start,p.entry.end],"bytes_hex":"c3","evidence":p.evidence,"additional_unique_code_bytes":0,"meaning":"two distinct function identities share only this terminal RET; no added call edge, runtime admission or frontier observation"})).collect::<Vec<_>>()))
@@ -329,7 +349,7 @@ mod tests {
             bytes_hex: "5a5bc3".into(),
         };
         validate_terminal(&p, &a, &b, &location, &index, &json!({}))?;
-        for hex in ["5c5bc3", "5a5b90", "c3", "5a5bc300"] {
+        for hex in ["5a5b90", "c3", "5a5bc300", "", "5a5bc", "gg5bc3"] {
             assert!(
                 validate_terminal(
                     &p,
@@ -359,6 +379,50 @@ mod tests {
             .is_err()
         );
         Ok(())
+    }
+    fn suffix_case(suffix: &[u8]) -> Result<()> {
+        let start = 0x401002;
+        let end = start + suffix.len() as u32;
+        let mut bytes = vec![0x90; 0x47];
+        bytes[..2].copy_from_slice(&[0x53, 0x52]);
+        bytes[2..2 + suffix.len()].copy_from_slice(suffix);
+        bytes[0x40..].copy_from_slice(&[0x53, 0x52, 0xe9, 0xbb, 0xff, 0xff, 0xff]);
+        let p = crate::tests::image(&bytes);
+        let a = record("a", 0x401000, end);
+        let mut b = record("b", 0x401040, 0x401047);
+        b.code_chunks.push((start, end));
+        let location = TerminalLocation {
+            start,
+            bytes_hex: suffix.iter().map(|v| format!("{v:02x}")).collect(),
+        };
+        validate_terminal(&p, &a, &b, &location, &[a.clone(), b.clone()], &json!({}))
+    }
+    #[test]
+    fn decoded_multibyte_terminal_epilogue_retains_complete_fallthrough() -> Result<()> {
+        suffix_case(&[0x8a, 0x45, 0xfc, 0xc9, 0x5a, 0x5b, 0xc3])?;
+        suffix_case(&[0x90, 0xc2, 0x08, 0x00])?;
+        suffix_case(&[0x90; 32]).expect_err("missing final RET");
+        let mut bounded = [0x90; 32];
+        bounded[31] = 0xc3;
+        suffix_case(&bounded)?;
+        Ok(())
+    }
+    #[test]
+    fn shared_suffix_rejects_control_transfers_and_nonordinary_returns() {
+        for bytes in [
+            vec![0xeb, 0x00, 0xc3], // jump to next is still a branch
+            vec![0x74, 0x00, 0xc3],
+            vec![0xe8, 0, 0, 0, 0, 0xc3],
+            vec![0xf3, 0xe8, 0, 0, 0, 0, 0xc3],
+            vec![0xcd, 0x80, 0xc3],
+            vec![0xcc, 0xc3],
+            vec![0x0f, 0x34, 0xc3],
+            vec![0xc9, 0xcb],
+            vec![0x90, 0xf3, 0xc3],
+            vec![0x8a, 0x45, 0xc3], // final C3 is an operand
+        ] {
+            assert!(suffix_case(&bytes).is_err(), "accepted {bytes:02x?}");
+        }
     }
     #[test]
     fn rejects_nonret_interior_and_operand_entries() {

@@ -773,9 +773,10 @@ object, image and MAP bindings remain mandatory; this does not make preservation
 contracts or semantically consumed ABI policy optional.
 
 `shared_terminal_epilogues` can declare `[{owners: [name1, name2], original:
-{start, bytes_hex}}]`, with optional documentary evidence. The initial scope is
-exactly two one-byte non-ESP register POPs followed by `C3`. Both canonical App
+{start, bytes_hex}}]`, with optional documentary evidence. The suffix must be
+1..32 exact bytes, with contiguous fallthrough and no control transfers before
+its final unprefixed near RET (`C3` or `C2 imm16`). Both canonical App
 records must own the entire declared overlap, terminating at both code-chunk
-ends, and both existing CFGs must discover every complete suffix instruction.
+ends, and both existing CFGs must discover every complete suffix instruction and each fallthrough edge.
 This preserves two function identities and their original control paths; it
 creates no suffix function, added edge, code permission or ABI inference.

@@ -1737,7 +1737,7 @@ pub(crate) fn structural_record(
     .0)
 }
 
-fn structural_facts(
+pub(crate) fn structural_facts(
     d: &Decoder,
     pe: &impl ImageView,
     record: &Record,

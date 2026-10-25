@@ -1,0 +1,34 @@
+{
+  "scope": "Exact 1..32B branchless decoded terminal suffix at entire explicitly named-pair code overlap; final unprefixed near RET; no ABI/permission/body credit.",
+  "source_sha256": {
+    "src/shared_returns.rs": "55b5e850ce35df09e44230833dd419618c23f1c25315bf47f09565e347592d23",
+    "src/decode.rs": "e043308a3e3d0557071d10d0ecabbdaf3c8b7d740d0800e3180f5b49041b066f",
+    "src/audit.rs": "c70eacedf8a31b24f67a6a9acfff10ceec34ba0e304c6613a8c189bc67ca5eb2",
+    "README.md": "f96d79db24471f5d5ec42e464033a1550d2aa13c16faea998cbbb134c4c2c8c8"
+  },
+  "release_sha256": "6d8fecbcbee0c2644f60347d869346dd789322ecb28e7cb649ee308cf9da31f3",
+  "checks": {
+    "focused_unit_tests": 5,
+    "clippy": "all targets -D warnings PASS",
+    "actual_WLIB_targeted_seconds": 0.020826566964387894,
+    "rejected": [
+      "undeclared actual pair",
+      "wrong bytes",
+      "wrong start",
+      "partial overlap",
+      "call/prefixed call",
+      "conditional/unconditional branch",
+      "interrupt/sysenter",
+      "far/prefixed return",
+      "RET opcode inside operand"
+    ],
+    "old_three_byte_single_return_and_default_report_parity": true
+  },
+  "canonical_release_build_seconds": 54.889339258894324,
+  "canonical_release_byte_identity": true,
+  "review": "Watcom consuming parent independently reviewed exact four-file diff and reran targeted positive/undeclared-pair denial.",
+  "limits": [
+    "Actual WLIB check selects initial two graphs and four actual overlapping-owner driver records, retaining full canonical identity registry. Full-driver export separately rejects unrelated SetFileName/ParseArguments overlap; no whole-case pass claimed.",
+    "No original/native target execution, runtime admission or App credit; no speedup claimed."
+  ]
+}
