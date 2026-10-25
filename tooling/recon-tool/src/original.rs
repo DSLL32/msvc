@@ -190,10 +190,10 @@ use std::{
 };
 #[derive(clap::Args)]
 pub struct Capture {
-    /// Hash-bound CF loader profile and explicit instruction admission.
+    /// Hash-bound CF format/loader identity and binary-owned code/data layout.
     #[arg(long)]
     pub cf_profile: Option<PathBuf>,
-    /// Stop at the actual CF entry INT3, without writing a fixture oracle.
+    /// Retired live CF diagnostic switch; identity-only profiles remain static inputs.
     #[arg(long, requires = "cf_profile")]
     pub entry_stop: bool,
     pub case: PathBuf,
@@ -1078,23 +1078,29 @@ fn capture_executor(
         let mut raw_artifacts = vec![];
         let mut snapshot = None;
         if !entry_stop {
+            let partial = terminal.starts_with("frontier:");
             anyhow::ensure!(
-                options.progress && terminal.starts_with("frontier:"),
-                "CF backend currently requires an actual progress frontier"
+                options.progress && (partial || terminal.starts_with("exit:")),
+                "CF backend requires an actual progress frontier or process exit"
             );
-            let rva = u32::from_str_radix(terminal.strip_prefix("frontier:").unwrap(), 16)?;
-            anyhow::ensure!(
-                loaded
-                    .info
-                    .functions
-                    .iter()
-                    .any(|f| f.rva == rva && f.definition == 4 && f.implementation == 0),
-                "CF frontier is not a pending App registry entry"
-            );
-            let rules = f
-                .partial
-                .as_ref()
-                .map_or(&[][..], |p| p.output_files.as_slice());
+            if partial {
+                let rva = u32::from_str_radix(terminal.strip_prefix("frontier:").unwrap(), 16)?;
+                anyhow::ensure!(
+                    loaded
+                        .info
+                        .functions
+                        .iter()
+                        .any(|f| f.rva == rva && f.definition == 4 && f.implementation == 0),
+                    "CF frontier is not a pending App registry entry"
+                );
+            }
+            let rules = if partial {
+                f.partial
+                    .as_ref()
+                    .map_or(&[][..], |p| p.output_files.as_slice())
+            } else {
+                f.output_files.as_slice()
+            };
             if let Some(directory) = artifacts_dir {
                 raw_artifacts = export_artifacts(f, cwd, rules, directory)?;
             }
@@ -1107,16 +1113,28 @@ fn capture_executor(
             } else {
                 fixture.args[0] = argv0.to_owned();
             }
-            fixture.partial = Some(fixture::Partial {
-                stdout: Some(Bytes(fs::read(root.join("original-stdout"))?)),
-                stderr: Some(Bytes(fs::read(root.join("original-stderr"))?)),
-                output_files: capture_files(f, cwd, rules)?,
-                reject_unexpected_files: f.reject_unexpected_files,
-            });
+            let stdout = Some(Bytes(fs::read(root.join("original-stdout"))?));
+            let stderr = Some(Bytes(fs::read(root.join("original-stderr"))?));
+            let files = capture_files(f, cwd, rules)?;
+            if partial {
+                fixture.partial = Some(fixture::Partial {
+                    stdout,
+                    stderr,
+                    output_files: files,
+                    reject_unexpected_files: f.reject_unexpected_files,
+                });
+                snapshot = Some(serde_json::from_value(
+                    backend["frontier_snapshot"].clone(),
+                )?);
+            } else {
+                fixture.partial = None;
+                fixture.stdout = stdout;
+                fixture.stderr = stderr;
+                fixture.output_files = files;
+                fixture.exit_code =
+                    Some(terminal.strip_prefix("exit:").unwrap().parse::<u32>()? as i32);
+            }
             native::dependencies(f)?;
-            snapshot = Some(serde_json::from_value(
-                backend["frontier_snapshot"].clone(),
-            )?);
             captured = Some(fixture);
         }
         let report = CaptureReport {

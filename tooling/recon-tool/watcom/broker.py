@@ -1,8 +1,4 @@
-"""Strict client for the unproved Win32 debug broker, never a fixture runner.
-
-No process launch, decoding, policy bypass, target register seeding or writes.
-Only explicit RPCs are exposed; gate.py owns instruction decisions.
-"""
+"""Original-only debugger RPCs: stopped reads/masks, entry traps and resume."""
 import struct
 
 from ipc import ProtocolError
@@ -52,97 +48,48 @@ class Broker:
     def consume(self,index):
         self.fixed(14,words((index,)),0)
 
-    def arm(self,before,decision):
-        packet=tuple(before[name] for name in CONTEXT_NAMES)+(decision.next_pc,
-                   decision.next_sp,decision.next_cs)
-        self.fixed(15,words(packet),0)
-        armed=self.context()
-        expected=dict(before);expected["eflags"]|=0x100
-        if armed!=expected:
-            self.client.failed=True
-            raise ProtocolError("ARM did not preserve exact raw context plus TF")
-        return armed
-
-    def step(self):
-        self.fixed(16,b"",0)
-        event=self.event()
-        if event["code"]!=1 or event["exception"]!=0x80000004 or not event["first_chance"]:
-            raise ProtocolError("missing owned first-chance debug step")
-        after=self.context()
-        if event["exception_address"]!=after["eip"]:
-            raise ProtocolError("debug exception/context PC mismatch")
-        return event,after
-
     def loader(self):
         self.fixed(17,b"",0)
 
     def stop(self):
         self.fixed(18,b"",0)
 
-    def wcc_prefix(self):
+    def loader_prefix(self):
         """One fixed loader prefix, ending before its CF launch CALL.
 
-        The broker permanently denies resume/trap/step operations afterward.
-        Caller must pin the original loader and verify loaded code/data first.
+        Caller pins the original loader and verifies loaded code/data first.
+        Ordinary setup binds the actual payload allocation before mask writes.
         """
         index=struct.unpack("<I",self.fixed(21,b"",4))[0]
         event=self.event()
         if (event["code"]!=1 or event["exception"]!=0x80000003 or
                 not event["first_chance"] or
                 event["exception_address"]!=event["base"]+0x10763):
-            raise ProtocolError("missing stopped WCC loader launch")
+            raise ProtocolError("missing stopped payload loader launch")
         actual=self.context()
         if actual["eip"]!=event["base"]+0x10764:
-            raise ProtocolError("WCC launch breakpoint/context mismatch")
+            raise ProtocolError("payload launch breakpoint/context mismatch")
         return index,event,actual
 
-    def wcc_prepare_entry(self):
-        return struct.unpack("<I",self.fixed(22,b"",4))[0]
+    def run_setup(self, base, size, entry):
+        self.fixed(27, words((base, size, entry)), 0)
 
-    def wcc_entry_trap(self,before):
-        self.fixed(23,b"",0)
-        event=self.event();actual=self.context()
-        expected=dict(before);expected["eip"]+=1
-        if (event["code"]!=1 or event["exception"]!=0x80000003 or
-                not event["first_chance"] or event["exception_address"]!=before["eip"] or
-                actual!=expected):
-            raise ProtocolError("actual CF entry INT3/context mismatch")
-        return event,actual
+    def write(self, address, data):
+        if not isinstance(data, bytes) or not 0 < len(data) <= 4088:
+            raise ProtocolError('bounded payload write required')
+        self.fixed(28, words((address, len(data))) + data, 0)
 
-    def arena(self,base,size):
-        self.fixed(24,words((base,size)),0)
-
-    def frontier_trap(self,index,before):
-        self.fixed(25,words((index,)),0)
-        event=self.event();actual=self.context();expected=dict(before);expected['eip']+=1
-        if (event['code']!=1 or event['exception']!=0x80000003 or not event['first_chance'] or
-                event['exception_address']!=before['eip'] or actual!=expected):
-            raise ProtocolError('actual arena frontier INT3/context mismatch')
-        return event,actual
-
-    def authored_setup(self,ready_rva,expected,signature_rva):
-        index=struct.unpack('<I',self.fixed(26,words((ready_rva,expected,signature_rva)),4))[0]
-        event=self.event();actual=self.context()
-        if (event['code']!=1 or event['exception']!=0x80000003 or not event['first_chance'] or
-                event['exception_address']!=event['base']+ready_rva or
-                actual['eip']!=event['base']+ready_rva+1):
-            raise ProtocolError('authored setup did not stop at owned ready trap')
-        return index,event,actual
-
-    def flat_selectors(self,actual):
-        packet=struct.unpack("<12I",self.fixed(19,b"",48));result={};proof=[]
-        for index,name in enumerate(("cs","ss","ds","es")):
-            selector,low,high=packet[index*3:index*3+3]
-            base=(low>>16)|((high&255)<<16)|(high&0xff000000)
-            limit=(low&65535)|(((high>>16)&15)<<16)
-            if high&(1<<23):limit=(limit<<12)|4095
-            if (selector!=actual[name] or selector>65535 or base or limit!=0xffffffff or
-                    not high&(1<<15) or not high&(1<<22)):
-                raise ProtocolError("unsupported/nonflat actual segment descriptor")
-            result[name]=selector
-            proof.append({"name":name,"selector":selector,"raw_low":low,"raw_high":high,
-                          "base":base,"limit":limit})
-        return result,proof
+    def run(self):
+        packet = struct.unpack('<25I', self.fixed(29, b'', 100))
+        event = dict(zip(('code', 'pid', 'tid', 'exception', 'exception_address',
+                          'first_chance'), packet[:6]))
+        self.events.append(event)
+        if event['code'] == 5:
+            event['exit_code'] = packet[3]
+            return event, None
+        if event['code'] != 1:
+            raise ProtocolError('unexpected ordinary debugger event')
+        return event, dict(zip(CONTEXT_NAMES, packet[9:]))
 
     def region(self,address):
         packet=struct.unpack("<7I",self.fixed(20,words((address,)),28))

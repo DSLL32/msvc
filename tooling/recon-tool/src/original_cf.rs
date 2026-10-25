@@ -43,6 +43,19 @@ struct Loader {
 }
 #[derive(Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
+struct Layout {
+    code: Vec<[u32; 2]>,
+    text_data: Vec<[u32; 2]>,
+    evidence: Evidence,
+}
+#[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct Evidence {
+    path: String,
+    sha256: String,
+}
+#[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 struct Profile {
     schema: u32,
     backend: String,
@@ -50,6 +63,8 @@ struct Profile {
     target: Target,
     loader: Loader,
     runtime_catalog: Option<serde_json::Value>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    code_layout: Option<Layout>,
 }
 fn hash(bytes: &[u8]) -> String {
     crate::fixture::hex(&Sha256::digest(bytes))
@@ -72,7 +87,9 @@ fn validate(
         profile.schema == 1
             && profile.backend == "watcom-cf"
             && ((profile.mode == "entry-stop" && profile.runtime_catalog.is_none())
-                || (profile.mode == "progress" && profile.runtime_catalog.is_some())),
+                || (profile.mode == "debugger"
+                    && profile.runtime_catalog.is_none()
+                    && profile.code_layout.is_some())),
         "unsupported CF profile/mode; entry-stop admits no instruction catalog"
     );
     ensure!(
@@ -83,36 +100,78 @@ fn validate(
             && profile.target.header.entry_offset == original_entry_rva,
         "CF profile differs from binary_descriptor identity/coordinates"
     );
-    // A finite reviewed loader protocol, not an arbitrary list of executable PCs.
-    // Other CF loaders need their own bounded geometry/byte qualification.
-    let h = &profile.target.header;
-    let authored = profile.loader.protocol == "authored-cf-arena-v1";
-    if authored {
+    if profile.loader.protocol == "watcom10.0a-loader-v1" {
+        let target = Path::new(&profile.target.path);
+        let loader = Path::new(&profile.loader.path);
         ensure!(
-            profile.mode == "progress"
-                && profile.loader.setup_catalog.is_some()
+            target
+                .components()
+                .all(|c| matches!(c, std::path::Component::Normal(_)))
+                && target.parent().and_then(Path::file_name) == Some(std::ffi::OsStr::new("binb"))
+                && loader
+                    == target
+                        .parent()
+                        .unwrap()
+                        .parent()
+                        .context("CF toolchain root")?
+                        .join("binnt")
+                        .join(target.file_name().context("CF filename")?)
                 && profile.loader.sha256
-                    == "d0d1d34b0e44b12a29c553be48738b802f8b4ebda29c797c2e49c50c25f8cca6"
-                && profile.target.sha256
-                    == "5d89058bf2a8b2a46d65736cdda321cecde7e10f468df1ba7634eabc9802bbcc"
-                && [
-                    h.header_file_offset,
-                    h.image_file_offset,
-                    h.initialized_size,
-                    h.relocation_offset,
-                    h.allocation_size,
-                    h.entry_offset
-                ] == [0x40, 0x80, 0x401a, 0x4000, 0x5000, 0x1035]
-                && profile.target.initialized_sha256
-                    == "889fce7305fb1f38e33c20db5781181c51897cac6eaa513f6d119ecec9a31619"
-                && profile.target.relocation_sha256
-                    == "4f23ed9fcf6c4bc47126699d728fe2fb636b4a05223b364d66987cb05fcb0c58"
-                && profile.target.relocation_count == 10
-                && profile.target.relocation_groups == 1,
-            "unqualified authored CF control identity"
+                    == "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d"
+                && profile.loader.protocol == "watcom10.0a-loader-v1"
+                && profile.loader.setup_catalog.is_none(),
+            "ordinary CF requires the hash-bound sibling Win32 loader"
+        );
+        if profile.mode == "entry-stop" {
+            ensure!(
+                profile.code_layout.is_none(),
+                "identity-only CF profile does not supply mask ranges"
+            );
+            return Ok(());
+        }
+        ensure!(
+            profile.mode == "debugger",
+            "ordinary loader uses debugger mode"
+        );
+        let layout = profile
+            .code_layout
+            .as_ref()
+            .context("CF CODE layout missing")?;
+        ensure!(
+            !layout.code.is_empty() && layout.code.len() <= 64 && layout.text_data.len() <= 65536,
+            "bounded CF CODE/text data layout required"
+        );
+        let mut end = 0;
+        for &[start, limit] in &layout.code {
+            ensure!(
+                end <= start && start < limit && limit <= profile.target.header.relocation_offset,
+                "invalid CF CODE envelope"
+            );
+            end = limit;
+        }
+        for &[start, end] in &layout.text_data {
+            ensure!(
+                start < end && end <= profile.target.header.relocation_offset,
+                "invalid CF text data"
+            );
+        }
+        ensure!(
+            !layout.evidence.path.is_empty()
+                && Path::new(&layout.evidence.path)
+                    .components()
+                    .all(|c| matches!(c, std::path::Component::Normal(_)))
+                && crate::fixture::unhex(&layout.evidence.sha256)?.len() == 32,
+            "CF layout requires repository-relative hash-bound evidence"
         );
         return Ok(());
     }
+    ensure!(
+        profile.code_layout.is_none(),
+        "code layout belongs to ordinary debugger mode"
+    );
+    // A finite reviewed loader protocol, not an arbitrary list of executable PCs.
+    // Other CF loaders need their own bounded geometry/byte qualification.
+    let h = &profile.target.header;
     let expected = match profile.loader.protocol.as_str() {
         "watcom10.0a-wcc-entry-v1" => (
             "WCC386.EXE",
@@ -158,8 +217,8 @@ fn validate(
     Ok(())
 }
 
-/// Project only the already qualified finite image identity for graph-audit.
-/// Instruction admission and runtime catalogs are deliberately not projected.
+/// Project hash-bound format identity for graph-audit.
+/// Registry classification, graph audits and masking remain separate.
 pub(crate) fn graph_image(path: &Path, info: &crate::abi::Info) -> Result<serde_json::Value> {
     ensure!(
         !path.as_os_str().is_empty()
@@ -172,8 +231,8 @@ pub(crate) fn graph_image(path: &Path, info: &crate::abi::Info) -> Result<serde_
     ensure!(raw.len() <= 65536, "CF profile exceeds 64 KiB");
     let profile: Profile = serde_json::from_slice(&raw)?;
     ensure!(
-        profile.mode == "entry-stop",
-        "CF graph projection requires an identity-only entry-stop profile, avoiding catalog/witness hash cycles"
+        matches!(profile.mode.as_str(), "entry-stop" | "debugger"),
+        "CF graph projection requires a format identity/layout profile without an instruction catalog"
     );
     validate(
         &profile,
@@ -203,10 +262,10 @@ pub fn capture(
         options.host.is_none()
             && options.direct_helper.is_none()
             && !options.native_msvcrt
-            && (!options.entry_stop || options.artifacts_dir.is_none())
-            && (options.entry_stop || options.progress)
+            && !options.entry_stop
+            && options.progress
             && info.execution == 0,
-        "CF entry-stop requires IO and --entry-stop; PE host/DIRECT/provider options do not apply"
+        "CF capture uses ordinary IO --progress; live entry-stop and instruction-admission modes are retired"
     );
     ensure!(
         f.timeout_ms > 0 && f.timeout_ms <= 300000,
@@ -222,8 +281,8 @@ pub fn capture(
         info.original_entry_rva,
     )?;
     ensure!(
-        options.entry_stop == (profile.mode == "entry-stop"),
-        "CF mode/--entry-stop mismatch"
+        profile.mode == "debugger",
+        "CF capture needs debugger mode with a code layout; identity-only profiles are static projection inputs"
     );
     let target = options.repo.join(&profile.target.path).canonicalize()?;
     ensure!(
@@ -266,16 +325,14 @@ pub fn capture(
     }
     let package = Path::new(env!("CARGO_MANIFEST_DIR"));
     let mut sources = serde_json::Map::new();
-    for name in [
+    let source_names = [
         "frontend.py",
-        "arena.py",
+        "debugger.py",
         "broker.py",
         "cf_identity.py",
-        "gate.py",
         "ipc.py",
-        "wcc_handoff.py",
-        "catalog.py",
-    ] {
+    ];
+    for name in source_names {
         let path = package.join("watcom").join(name);
         sources.insert(
             name.into(),
@@ -364,6 +421,37 @@ mod tests {
         )
         .is_ok()
     }
+    #[test]
+    fn ordinary_debugger_uses_format_identity_and_layout_without_instruction_catalog() {
+        let mut value: serde_json::Value =
+            serde_json::from_str(include_str!("../tests/cf-entry-profile.json")).unwrap();
+        value["mode"] = serde_json::json!("debugger");
+        value["loader"]["protocol"] = serde_json::json!("watcom10.0a-loader-v1");
+        value["code_layout"] = serde_json::json!({"code":[[0,0x704c4]],"text_data":[],
+            "evidence":{"path":"decomp/watcom10.0a/wcc386/harness/cf-layout.json","sha256":"a".repeat(64)}});
+        assert!(valid(&value));
+        for (path, replacement) in [
+            ("/runtime_catalog", serde_json::json!({"instructions":[]})),
+            ("/code_layout/code", serde_json::json!([[0, 0x8209c]])),
+            (
+                "/code_layout/evidence/path",
+                serde_json::json!("../layout.json"),
+            ),
+            ("/loader/sha256", serde_json::json!("0".repeat(64))),
+            (
+                "/loader/path",
+                serde_json::json!("toolchains/watcom10.0a/binnt/WPP386.EXE"),
+            ),
+        ] {
+            let mut bad = value.clone();
+            *bad.pointer_mut(path).unwrap() = replacement;
+            assert!(!valid(&bad), "{path}");
+        }
+        value["mode"] = serde_json::json!("entry-stop");
+        value.as_object_mut().unwrap().remove("code_layout");
+        assert!(valid(&value)); // Format-only projection, no execution admission.
+    }
+
     #[test]
     fn wpp_profile_has_its_own_finite_geometry_and_loader_name() {
         let value: serde_json::Value =

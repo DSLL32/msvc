@@ -2,7 +2,7 @@
 
 Shared Rust `recon-tool` is implemented under `tooling/recon-tool/`: native
 execution/tests, GDB debugging, capture pack/unpack, registry projection, and
-explicit PE original capture. C1/C1XX and other migrated binaries use the shared
+explicit PE/CF original capture. C1/C1XX and other migrated binaries use the shared
 IO/DIRECT interfaces. Current consumer status and verification accounting live
 in `MIGRATION-REPORT.md`.
 
@@ -469,15 +469,17 @@ fixture uses observed arguments for native IO, preserving actual staged argv0.
 This explicit bounded ASCII mode requires reaching main. Self-resource input
 materialization remains separate and must preserve actually consumed bytes.
 
-The original backend supports PE32 i386 and finite WCC CF progress. CF entry-stop
-remains diagnostic, with no CF body execution or fixture oracle. Ordinary CF
-progress requires a validated loader/image profile and explicit registry-bound
-instruction catalog, including separately witnessed support roles and ABIs. The
-qualified initial path reaches the genuine pending MemAlloc App frontier before
-its first instruction; allocator bodies and OS gateways remain closed. Use an
-identity-only profile for registry-export --cf-profile (base zero), separately
-from the ordinary admission catalog. Unknown loaders, operations and owners fail.
-CF DIRECT remains unsupported; typed PE probes use the original compiler ABI.
+The original backend supports PE32 i386 and ordinary CF capture through the
+hash-bound sibling Watcom loader. CF has no section table: binary-owned CODE
+layout witnesses define mask envelopes, while classified registry CRT/import
+code, implemented App code and encountered text data are restored. Pending
+App entries remain INT3, including pre-main callbacks. Original instructions,
+CRT and gateways execute normally under Wine; there is no opcode/service
+admission engine or Capstone dependency. The same catalog-free format/layout
+profile serves `registry-export --cf-profile` at base zero and ordinary capture.
+Actual App order and terminal are bound by the original report; native regressions
+reuse existing oracles. Live diagnostic entry-stop is retired; identity-only
+profiles remain static projection inputs. CF DIRECT remains unsupported.
 
 Current original capture transport is single-threaded, ANSI/ASCII-path/argument based,
 and uses regular-file or explicit null-device stdin. It rejects pipe/timed-console events rather than

@@ -1,9 +1,7 @@
-/* Public-API capture transport, not reconstructed application code.
-   Authored basic transport probes passed; application admission is separate.
-   Runtime policy/decoding remains in gate.py; this helper never free-runs a
-   stopped application instruction. Initial OS-loader continuation requires a
-   separately checked PE-entry trap. WCC's separately reviewed fixed loader
-   prefix may stop at its launch CALL; that operation cannot enter CF code. */
+/* Original-only Win32 debugger transport. The ordinary CF mode verifies the
+   stopped loader allocation, supports bounded mask writes and resumes original
+   execution between App entry traps. Instruction semantics and OS gateways are
+   executed by the original under Wine. No instruction-stepping or semantic admission mode is present. */
 #include <windows.h>
 #include "environment.h"
 #include "loader-break.h"
@@ -15,34 +13,25 @@
 #include <sys/stat.h>
 
 enum { MAP_BYTES=16384, PAYLOAD=256, MAX_PAYLOAD=4096, MAX_SEQUENCE=1000000,
-       MAX_TRAPS=64, MAX_EVENTS=65536, MAX_STEPS=32768, MAX_READ=512 };
+       MAX_TRAPS=4096, MAX_EVENTS=65536, MAX_READ=512 };
 enum { OP_EVENT=10, OP_CONTEXT=11, OP_READ=12, OP_TRAP=13, OP_CONSUME=14,
-       OP_ARM=15, OP_STEP=16, OP_LOADER=17, OP_STOP=18, OP_SELECTORS=19, OP_REGION=20,
-       OP_WCC_PREFIX=21, OP_WCC_ENTRY=22, OP_WCC_ENTRY_TRAP=23,
-       OP_ARENA=24, OP_FRONTIER_TRAP=25, OP_AUTHORED_SETUP=26 };
+       OP_LOADER=17, OP_STOP=18, OP_REGION=20, OP_PAYLOAD_LAUNCH=21,
+       OP_RUN_SETUP=27, OP_WRITE=28, OP_RUN=29 };
 typedef struct Trap { DWORD address; BYTE saved; int active; } Trap;
 static BYTE *area;
 static HANDLE map_file=INVALID_HANDLE_VALUE, map_handle, child, thread;
 static HANDLE input=INVALID_HANDLE_VALUE, output=INVALID_HANDLE_VALUE, error_output=INVALID_HANDLE_VALUE;
 static FILE *log_file;
 static DEBUG_EVENT event;
-static int pending, created, entry_reached, armed, exiting, child_exit_seen;
+static int pending, created, entry_reached, exiting, child_exit_seen;
 static int loader_break_seen;
-static int wcc_prefix, wcc_stopped;
-static int wcc_handoff, wcc_at_entry, wcc_trap_running, wcc_entry_stopped;
-static unsigned wcc_instruction;
-static DWORD wcc_cf_base, wcc_cf_entry, wcc_cf_size;
-static CONTEXT wcc_entry_context;
-static int arena_enabled, frontier_running, frontier_stopped;
-static DWORD arena_base, arena_size, frontier_address;
-static CONTEXT frontier_context;
-static int authored_setup, authored_stopped;
-static DWORD authored_ready;
+static int loader_prefix, loader_stopped;
+static int ordinary;
+static DWORD arena_base, arena_size;
 static DWORD child_pid, child_tid, image_base, image_size, entry_rva, entry_byte;
 static DWORD teb, entry_address, ntdll_base, ntdll_size;
-static DWORD events, steps, started, lease_tick, lease_value, seen;
-static DWORD global_ms, lease_ms, expected_pc, expected_sp, expected_cs;
-static CONTEXT armed_context;
+static DWORD events, started, lease_tick, lease_value, seen;
+static DWORD global_ms, lease_ms;
 static Trap traps[MAX_TRAPS];
 static unsigned trap_count;
 static DWORD startup_modules[64];
@@ -105,16 +94,16 @@ static int budget(void)
         lease_value=lease;lease_tick=now;
     }
     return now-started<global_ms && now-lease_tick<lease_ms &&
-           events<MAX_EVENTS && steps<MAX_STEPS;
+           events<MAX_EVENTS;
 }
 static int in_image(DWORD address)
 { return address>=image_base && address-image_base<image_size; }
 static int in_arena(DWORD address)
-{ return arena_enabled && address>=arena_base && address-arena_base<arena_size; }
+{ return ordinary && address>=arena_base && address-arena_base<arena_size; }
 static int add_trap(DWORD address,DWORD expected,DWORD *index)
 {
     unsigned i;
-    if(!pending || armed || expected>255 || (!in_image(address) && !in_arena(address)) || trap_count==MAX_TRAPS ||
+    if(!pending || expected>255 || (!in_image(address) && !in_arena(address)) || trap_count==MAX_TRAPS ||
        (!entry_reached && (address!=entry_address || expected!=entry_byte))) return 0;
     for(i=0;i<trap_count;i++) if(traps[i].address==address) return 0;
     if(!patch(address,(BYTE)expected,0xcc)) return 0;
@@ -169,7 +158,7 @@ static int next_event(void)
         }
         if(event.dwProcessId!=child_pid || event.dwThreadId!=child_tid) return 0;
         if(event.dwDebugEventCode==CREATE_PROCESS_DEBUG_EVENT) {
-            if(created || armed) return 0;
+            if(created) return 0;
             created=1;image_base=(DWORD)event.u.CreateProcessInfo.lpBaseOfImage;
             teb=(DWORD)event.u.CreateProcessInfo.lpThreadLocalBase;
             entry_address=(DWORD)event.u.CreateProcessInfo.lpStartAddress;
@@ -197,7 +186,7 @@ static int next_event(void)
             module_name(module);
             if(event.u.LoadDll.hFile) CloseHandle(event.u.LoadDll.hFile);
             event.u.LoadDll.hFile=NULL;
-            if(armed || entry_reached || !module || startup_module_count==64) return 0;
+            if(entry_reached || !module || startup_module_count==64) return 0;
             for(i=0;i<startup_module_count;i++)
                 if(startup_module_active[i] && startup_modules[i]==module) return 0;
             startup_modules[startup_module_count]=module;
@@ -207,7 +196,7 @@ static int next_event(void)
             for(i=0;i<startup_module_count;i++)
                 if(startup_module_active[i] && startup_modules[i]==module) break;
             fprintf(log_file,"startup-unload base=%08lx known-active=%d\n",module,i<startup_module_count);
-            if(armed || entry_reached || i==startup_module_count || !trap_ready(entry_address)) return 0;
+            if(entry_reached || i==startup_module_count || !trap_ready(entry_address)) return 0;
             startup_module_active[i]=0;
             if(module==ntdll_base) {ntdll_base=0;ntdll_size=0;}
         } else if(event.dwDebugEventCode==EXCEPTION_DEBUG_EVENT) {
@@ -215,56 +204,14 @@ static int next_event(void)
             fprintf(log_file,"exception code=%08lx first=%lu address=%08lx pc=%08lx sp=%08lx flags=%08lx\n",
                     event.u.Exception.ExceptionRecord.ExceptionCode,event.u.Exception.dwFirstChance,
                     (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,value.Eip,value.Esp,value.EFlags);
-            if(armed) {
-                if(event.u.Exception.ExceptionRecord.ExceptionCode!=EXCEPTION_SINGLE_STEP ||
-                   !event.u.Exception.dwFirstChance ||
-                   (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress!=value.Eip ||
-                   value.Eip!=expected_pc || value.Esp!=expected_sp || value.SegCs!=expected_cs) return 0;
-                /* Raw full context is returned. Consumed TF is permitted only after
-                   the recorded exact ARM readback; no other flags are normalized. */
-                armed=0;
-                if(wcc_handoff && !arena_enabled) {
-                    if(++wcc_instruction==6) {
-                        if(value.Eip!=wcc_cf_entry || !trap_ready(wcc_cf_entry)) return 0;
-                        wcc_at_entry=1;wcc_entry_context=value;
-                        fprintf(log_file,"wcc-cf-entry-db pc=%08lx cf-instructions=0\n",value.Eip);
-                    }
-                }
-            } else if(frontier_running && !frontier_stopped &&
-                      event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
-                      event.u.Exception.dwFirstChance &&
-                      (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==frontier_address &&
-                      value.Eip==frontier_address+1 && trap_ready(frontier_address)) {
-                CONTEXT expected=frontier_context;
-                expected.Eip=frontier_address+1;
-                if(!same_context(&expected,&value)) return 0;
-                frontier_stopped=1;
-                fprintf(log_file,"arena-frontier-int3 pc=%08lx original-target-instructions=0\n",value.Eip);
-            } else if(authored_setup && !authored_stopped &&
-                      event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
-                      event.u.Exception.dwFirstChance &&
-                      (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==authored_ready &&
-                      value.Eip==authored_ready+1 && !(value.EFlags&0x100) && trap_ready(authored_ready)) {
-                authored_stopped=1;
-                fprintf(log_file,"authored-ready-stopped pc=%08lx arena-instructions=0\n",value.Eip);
-            } else if(wcc_trap_running && !wcc_entry_stopped &&
-                      event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
-                      event.u.Exception.dwFirstChance &&
-                      (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==wcc_cf_entry &&
-                      value.Eip==wcc_cf_entry+1 && trap_ready(wcc_cf_entry)) {
-                CONTEXT expected=wcc_entry_context;
-                expected.Eip=wcc_cf_entry+1;
-                if(!same_context(&expected,&value)) return 0;
-                wcc_entry_stopped=1;
-                fprintf(log_file,"wcc-cf-entry-int3 pc=%08lx cf-instructions=0\n",value.Eip);
-            } else if(wcc_prefix && !wcc_stopped &&
+            if(loader_prefix && !loader_stopped &&
                       event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
                       event.u.Exception.dwFirstChance &&
                       (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==image_base+0x10763 &&
                       value.Eip==image_base+0x10764 && !(value.EFlags&0x100) &&
                       trap_ready(image_base+0x10763)) {
-                wcc_stopped=1;
-                fprintf(log_file,"wcc-launch-stopped pc=%08lx cf-instructions=0\n",value.Eip);
+                loader_stopped=1;
+                fprintf(log_file,"payload-launch-stopped pc=%08lx cf-instructions=0\n",value.Eip);
             } else if(event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
                       event.u.Exception.dwFirstChance &&
                       (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==entry_address &&
@@ -280,7 +227,7 @@ static int next_event(void)
 static int continue_loader(void)
 {
     CONTEXT value;DWORD address;BYTE opcode,loader_bytes[18];
-    if(!budget() || !pending || !created || armed || entry_reached || !trap_ready(entry_address)) return 0;
+    if(!budget() || !pending || !created || entry_reached || !trap_ready(entry_address)) return 0;
     if(event.dwDebugEventCode!=CREATE_PROCESS_DEBUG_EVENT && event.dwDebugEventCode!=LOAD_DLL_DEBUG_EVENT &&
        event.dwDebugEventCode!=UNLOAD_DLL_DEBUG_EVENT) {
         if(event.dwDebugEventCode!=EXCEPTION_DEBUG_EVENT ||
@@ -301,7 +248,7 @@ static int continue_loader(void)
 static int consume(DWORD index)
 {
     CONTEXT before,after,observed;Trap *point;
-    if(!entry_reached || !pending || armed || index>=trap_count ||
+    if(!entry_reached || !pending || index>=trap_count ||
        event.dwDebugEventCode!=EXCEPTION_DEBUG_EVENT ||
        event.u.Exception.ExceptionRecord.ExceptionCode!=EXCEPTION_BREAKPOINT ||
        !event.u.Exception.dwFirstChance || !context(&before)) return 0;
@@ -312,52 +259,16 @@ static int consume(DWORD index)
     if(!SetThreadContext(thread,&after) || !context(&observed) || !same_context(&after,&observed)) return 0;
     point->active=0;return 1;
 }
-static int arm(const DWORD *packet)
+static int continue_loader_prefix(DWORD *index)
 {
-    CONTEXT before,requested,observed;DWORD actual[16];BYTE opcode;
-    if(!entry_reached || !pending || armed || !context(&before) || before.EFlags&0x100 ||
-       !memory(before.Eip,&opcode,1) || opcode==0xcc) return 0;
-    pack_context(actual,&before);
-    if(memcmp(actual,packet,64)) return 0;
-    if(wcc_handoff && !arena_enabled) {
-        static const DWORD offsets[]={0x10763,0x10015,0x10016,0x10019,0x1001b,0x1001d};
-        static const BYTE lengths[]={5,1,3,2,2,2};
-        static const BYTE instructions[6][5]={{0xe8,0xad,0xf8,0xff,0xff},{0x0e},
-            {0x66,0x8c,0xcb},{0xb4,2},{0x2b,0xc9},{0xff,0xd6}};
-        BYTE bytes[5];DWORD next,sp;
-        if(wcc_entry_stopped || wcc_instruction>=6 ||
-           before.Eip!=image_base+offsets[wcc_instruction] ||
-           !memory(before.Eip,bytes,lengths[wcc_instruction]) ||
-           memcmp(bytes,instructions[wcc_instruction],lengths[wcc_instruction])) return 0;
-        next=wcc_instruction==0?image_base+0x10015:
-             wcc_instruction==5?wcc_cf_entry:before.Eip+lengths[wcc_instruction];
-        sp=before.Esp;
-        if(wcc_instruction==0 || wcc_instruction==1 || wcc_instruction==5) {
-            if(sp<4) return 0;
-            sp-=4;
-        }
-        if(packet[16]!=next || packet[17]!=sp || packet[18]!=before.SegCs ||
-           (wcc_instruction==5 && (before.Esi!=wcc_cf_entry || !trap_ready(wcc_cf_entry)))) return 0;
-    }
-    expected_pc=packet[16];expected_sp=packet[17];expected_cs=packet[18];
-    requested=before;requested.EFlags|=0x100;
-    if(!SetThreadContext(thread,&requested) || !context(&observed) ||
-       !same_context(&requested,&observed)) return 0;
-    armed_context=observed;armed=1;
-    fprintf(log_file,"arm pc=%08lx sp=%08lx before-flags=%08lx readback-flags=%08lx next-pc=%08lx next-sp=%08lx next-cs=%08lx\n",
-            before.Eip,before.Esp,before.EFlags,observed.EFlags,expected_pc,expected_sp,expected_cs);
-    fflush(log_file);return 1;
-}
-static int continue_wcc_prefix(DWORD *index)
-{
-    /* Only this immutable loader's initial prefix is admitted. The controller
-       binds the file hash and compares its complete relocated code/data first.
-       No CF heap byte is patched, and the launch CALL remains unexecuted. */
+    /* This immutable loader runs only to its pre-payload launch breakpoint.
+       The controller binds the file hash and compares relocated code/data first.
+       The loaded payload has not yet executed or been masked. */
     static const BYTE entry_bytes[]={0xe9,0x75,0x06,0,0};
     static const BYTE invoke_bytes[]={0x0e,0x66,0x8c,0xcb,0xb4,2,0x2b,0xc9,0xff,0xd6,0xc3};
     static const BYTE launch_bytes[]={0xe8,0xad,0xf8,0xff,0xff};
     BYTE observed[11];CONTEXT value;
-    if(!budget() || !pending || !entry_reached || armed || wcc_prefix ||
+    if(!budget() || !pending || !entry_reached || loader_prefix ||
        entry_rva!=0x10010 || image_size!=0x60000 || !context(&value) ||
        value.Eip!=entry_address || value.EFlags&0x100 ||
        !memory(entry_address,observed,sizeof(entry_bytes)) ||
@@ -367,104 +278,15 @@ static int continue_wcc_prefix(DWORD *index)
        !memory(image_base+0x10763,observed,sizeof(launch_bytes)) ||
        memcmp(observed,launch_bytes,sizeof(launch_bytes)) ||
        !add_trap(image_base+0x10763,0xe8,index)) return 0;
-    wcc_prefix=1;
-    fprintf(log_file,"wcc-prefix entry=%08lx launch=%08lx\n",entry_address,image_base+0x10763);
+    loader_prefix=1;
+    fprintf(log_file,"loader-prefix entry=%08lx launch=%08lx\n",entry_address,image_base+0x10763);
     fflush(log_file);
     if(!budget() || !ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
     pending=0;return 1;
 }
-static int prepare_wcc_entry(DWORD *index)
-{
-    DWORD slots[3], cf_size;CONTEXT value;MEMORY_BASIC_INFORMATION region;unsigned i;
-    /* This is one verified loader-to-CF entry, not permission for a CF body.
-       All initialized bytes/fixups must already match in the controller. */
-    if(!pending || !wcc_stopped || wcc_handoff || armed || !context(&value) ||
-       value.Eip!=image_base+0x10764 || value.EFlags&0x100 ||
-       !memory(image_base+0x30000,slots,sizeof(slots)) || !slots[1] || slots[1]!=slots[2] ||
-       !((bounds(slots[1],0x91000) && slots[0]==slots[1]+0x2fe00) ||
-         (bounds(slots[1],0xe0000) && slots[0]==slots[1]+0x664f4)) ||
-       value.Esi!=slots[0] ||
-       value.Ebx!=slots[1] || value.Edx!=image_base+0x10788 ||
-       trap_count==MAX_TRAPS ||
-       VirtualQueryEx(child,(void *)slots[0],&region,sizeof(region))!=sizeof(region) ||
-       region.State!=MEM_COMMIT || region.Protect&(PAGE_GUARD|PAGE_NOACCESS) ||
-       !patch(slots[0],0x88,0xcc)) return 0;
-    traps[trap_count].address=slots[0];traps[trap_count].saved=0x88;
-    traps[trap_count].active=1;*index=trap_count++;
-    for(i=0;i<trap_count;i++) if(traps[i].address==image_base+0x10763 && traps[i].active) break;
-    if(i==trap_count || !consume(i)) return 0;
-    cf_size=slots[0]-slots[1]==0x2fe00?0x91000:0xe0000;
-    wcc_cf_base=slots[1];wcc_cf_entry=slots[0];wcc_cf_size=cf_size;wcc_handoff=1;
-    fprintf(log_file,"wcc-entry-armed base=%08lx entry=%08lx original=88 masked=cc\n",wcc_cf_base,wcc_cf_entry);
-    fflush(log_file);return 1;
-}
-static int continue_wcc_entry_trap(void)
-{
-    CONTEXT value;DWORD actual_return;
-    if(!budget() || !pending || !wcc_at_entry || wcc_trap_running || wcc_entry_stopped || armed ||
-       wcc_instruction!=6 || !context(&value) || !same_context(&value,&wcc_entry_context) ||
-       value.Eip!=wcc_cf_entry || value.EFlags&0x100 || !trap_ready(wcc_cf_entry) ||
-       event.dwDebugEventCode!=EXCEPTION_DEBUG_EVENT ||
-       event.u.Exception.ExceptionRecord.ExceptionCode!=EXCEPTION_SINGLE_STEP ||
-       !event.u.Exception.dwFirstChance ||
-       !memory(value.Esp,&actual_return,4) || actual_return!=image_base+0x1001f) return 0;
-    wcc_trap_running=1;
-    if(!ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
-    pending=0;return 1;
-}
-static int register_arena(DWORD base,DWORD size)
-{
-    DWORD cursor,end,stack_bounds[2];MEMORY_BASIC_INFORMATION region;
-    if(!budget() || !pending || armed || arena_enabled || !size || size>0x1000000 ||
-       !bounds(base,size) || !(wcc_entry_stopped || authored_stopped) ||
-       !memory(teb+4,stack_bounds,sizeof(stack_bounds))) return 0;
-    end=base+size;
-    if(end<=base || (base<image_base+image_size && image_base<end) ||
-       (base<stack_bounds[0] && stack_bounds[1]<end) ||
-       (wcc_entry_stopped && (base!=wcc_cf_base || size!=wcc_cf_size))) return 0;
-    for(cursor=base;cursor<end;) {
-        if(!budget() || VirtualQueryEx(child,(void *)cursor,&region,sizeof(region))!=sizeof(region) ||
-           region.State!=MEM_COMMIT || region.Type!=MEM_PRIVATE ||
-           region.Protect&(PAGE_GUARD|PAGE_NOACCESS) || !region.RegionSize ||
-           (DWORD)region.BaseAddress>cursor ||
-           (DWORD)region.BaseAddress+region.RegionSize<=cursor) return 0;
-        cursor=(DWORD)region.BaseAddress+region.RegionSize;
-    }
-    arena_base=base;arena_size=size;arena_enabled=1;
-    fprintf(log_file,"arena-registered base=%08lx size=%08lx\n",base,size);fflush(log_file);
-    return 1;
-}
-static int continue_frontier_trap(DWORD index)
-{
-    CONTEXT value;
-    if(!budget() || !pending || !arena_enabled || armed || frontier_running || index>=trap_count ||
-       !context(&value) || value.EFlags&0x100 || !traps[index].active ||
-       !in_arena(traps[index].address) || value.Eip!=traps[index].address || !trap_ready(value.Eip) ||
-       event.dwDebugEventCode!=EXCEPTION_DEBUG_EVENT ||
-       event.u.Exception.ExceptionRecord.ExceptionCode!=EXCEPTION_SINGLE_STEP ||
-       !event.u.Exception.dwFirstChance) return 0;
-    frontier_address=value.Eip;frontier_context=value;frontier_running=1;
-    if(!ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
-    pending=0;return 1;
-}
-static int continue_authored_setup(const DWORD *packet,DWORD *index)
-{
-    static const char signature[16]="WCF-AUTHORED-v1";
-    BYTE observed[16];CONTEXT value;
-    if(!budget() || !pending || !entry_reached || armed || wcc_prefix || authored_setup ||
-       !context(&value) || value.Eip!=entry_address || value.EFlags&0x100 ||
-       packet[0]>=image_size || packet[1]>255 || packet[2]>image_size-16 ||
-       !memory(image_base+packet[2],observed,16) || memcmp(observed,signature,16) ||
-       !add_trap(image_base+packet[0],packet[1],index)) return 0;
-    authored_setup=1;authored_ready=image_base+packet[0];
-    fprintf(log_file,"authored-setup entry=%08lx ready=%08lx\n",entry_address,authored_ready);
-    fflush(log_file);
-    if(!ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
-    pending=0;return 1;
-}
 static int teardown(DWORD code)
 {
-    DWORD began=GetTickCount(),actual=STILL_ACTIVE;DEBUG_EVENT drain;unsigned i;int extras_done;
+    DWORD began=GetTickCount(),actual=STILL_ACTIVE;DEBUG_EVENT drain;unsigned i;int extras_done,got_status=0;
     exiting=1;
     /* A failed termination request never licenses continuation of unknown code. */
     if(child && !child_exit_seen && WaitForSingleObject(child,0)!=WAIT_OBJECT_0 &&
@@ -502,7 +324,7 @@ static int teardown(DWORD code)
         if(drain.dwDebugEventCode==LOAD_DLL_DEBUG_EVENT && drain.u.LoadDll.hFile) CloseHandle(drain.u.LoadDll.hFile);
         ContinueDebugEvent(drain.dwProcessId,drain.dwThreadId,DBG_CONTINUE);
     }
-    if(child) GetExitCodeProcess(child,&actual);
+    if(child) got_status=GetExitCodeProcess(child,&actual);
     fprintf(log_file,"owned-teardown exit-event=%d signaled=%d status=%lu\n",child_exit_seen,
             child && WaitForSingleObject(child,0)==WAIT_OBJECT_0,actual);fflush(log_file);
     extras_done=1;
@@ -512,33 +334,119 @@ static int teardown(DWORD code)
                 extra[i].exited,WaitForSingleObject(extra[i].handle,0)==WAIT_OBJECT_0);
     }
     teardown_ok=child && child_exit_seen && extras_done && !ownership_incomplete &&
-                actual!=STILL_ACTIVE && WaitForSingleObject(child,0)==WAIT_OBJECT_0;
+                got_status && WaitForSingleObject(child,0)==WAIT_OBJECT_0;
     return teardown_ok;
+}
+/* Ordinary debugger mode starts at the existing stopped loader launch.
+   The controller binds the relocated payload, then masks code and installs
+   first-entry traps. Original instructions, CRT and gateways execute normally. */
+static int ordinary_setup(const DWORD *packet)
+{
+    DWORD slots[3],cursor,end;CONTEXT value;MEMORY_BASIC_INFORMATION region;
+    unsigned i;
+    if(ordinary || !pending || !loader_stopped ||
+       !context(&value) || value.Eip!=image_base+0x10764 || value.EFlags&0x100 ||
+       !memory(image_base+0x30000,slots,sizeof(slots)) ||
+       !packet[1] || packet[1]>0x1000000 || !bounds(packet[0],packet[1]) ||
+       slots[1]!=packet[0] || slots[2]!=packet[0] || slots[0]!=packet[2] ||
+       packet[2]<packet[0] || packet[2]-packet[0]>=packet[1] ||
+       value.Esi!=slots[0] || value.Ebx!=slots[1]) return 0;
+    end=packet[0]+packet[1];
+    if(end<=packet[0]) return 0;
+    for(cursor=packet[0];cursor<end;) {
+        if(VirtualQueryEx(child,(void *)cursor,&region,sizeof(region))!=sizeof(region) ||
+           region.State!=MEM_COMMIT || region.Type!=MEM_PRIVATE ||
+           region.Protect&(PAGE_GUARD|PAGE_NOACCESS) || !region.RegionSize ||
+           (DWORD)region.BaseAddress>cursor ||
+           (DWORD)region.BaseAddress+region.RegionSize<=cursor) return 0;
+        cursor=(DWORD)region.BaseAddress+region.RegionSize;
+    }
+    for(i=0;i<trap_count;i++)
+        if(traps[i].address==image_base+0x10763 && traps[i].active) break;
+    if(i==trap_count || !consume(i)) return 0;
+    arena_base=packet[0];arena_size=packet[1];ordinary=1;
+    fprintf(log_file,"ordinary-payload base=%08lx size=%08lx entry=%08lx\n",
+            packet[0],packet[1],packet[2]);fflush(log_file);
+    return 1;
+}
+static int ordinary_write(DWORD length)
+{
+    DWORD address,count,old,restored,wrote=0;int ok;
+    if(!ordinary || !pending || length<9) return 0;
+    address=*(DWORD *)(area+PAYLOAD);count=*(DWORD *)(area+PAYLOAD+4);
+    if(count!=length-8 || !bounds(address,count) || !in_arena(address) ||
+       !in_arena(address+count-1) ||
+       !VirtualProtectEx(child,(void *)address,count,PAGE_EXECUTE_READWRITE,&old)) return 0;
+    ok=WriteProcessMemory(child,(void *)address,area+PAYLOAD+8,count,&wrote) && wrote==count;
+    if(!FlushInstructionCache(child,(void *)address,count)) ok=0;
+    if(!VirtualProtectEx(child,(void *)address,count,old,&restored)) ok=0;
+    return ok;
+}
+static int ordinary_run(DWORD *reply_length)
+{
+    DWORD packet[25],continuation=DBG_CONTINUE;CONTEXT value;
+    if(!ordinary || !pending || child_exit_seen || !context(&value) ||
+       value.EFlags&0x100) return 0;
+    while(budget()) {
+        if(!ContinueDebugEvent(event.dwProcessId,event.dwThreadId,continuation)) return 0;
+        pending=0;
+        do {
+            if(!budget()) return 0;
+        } while(!WaitForDebugEvent(&event,10));
+        pending=1;++events;continuation=DBG_CONTINUE;
+        fprintf(log_file,"ordinary-event code=%lu pid=%lu tid=%lu\n",
+                event.dwDebugEventCode,event.dwProcessId,event.dwThreadId);fflush(log_file);
+        if(event.dwDebugEventCode==CREATE_PROCESS_DEBUG_EVENT && event.dwProcessId!=child_pid) {
+            if(extra_count<16) {
+                extra[extra_count].pid=event.dwProcessId;
+                extra[extra_count++].handle=event.u.CreateProcessInfo.hProcess;
+            } else ownership_incomplete=1;
+            if(event.u.CreateProcessInfo.hThread) CloseHandle(event.u.CreateProcessInfo.hThread);
+            event.u.CreateProcessInfo.hThread=NULL;
+            if(event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
+            event.u.CreateProcessInfo.hFile=NULL;
+            return 0; /* Owned teardown terminates the unexpected child while stopped. */
+        }
+        if(event.dwProcessId!=child_pid || event.dwThreadId!=child_tid) return 0;
+        if(event.dwDebugEventCode==LOAD_DLL_DEBUG_EVENT) {
+            module_name((DWORD)event.u.LoadDll.lpBaseOfDll);
+            if(event.u.LoadDll.hFile) CloseHandle(event.u.LoadDll.hFile);
+            event.u.LoadDll.hFile=NULL;
+            continue;
+        }
+        if(event.dwDebugEventCode==UNLOAD_DLL_DEBUG_EVENT ||
+           event.dwDebugEventCode==OUTPUT_DEBUG_STRING_EVENT) continue;
+        memset(packet,0,sizeof(packet));
+        packet[0]=event.dwDebugEventCode;packet[1]=child_pid;packet[2]=child_tid;
+        if(event.dwDebugEventCode==EXIT_PROCESS_DEBUG_EVENT) {
+            child_exit_seen=1;packet[3]=event.u.ExitProcess.dwExitCode;
+        } else if(event.dwDebugEventCode==EXCEPTION_DEBUG_EVENT && context(&value)) {
+            packet[3]=event.u.Exception.ExceptionRecord.ExceptionCode;
+            packet[4]=(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress;
+            packet[5]=event.u.Exception.dwFirstChance;
+            /* Let the original OS/SEH handle ordinary first-chance exceptions.
+               INT3 remains stopped for mask/entry classification by controller. */
+            if(packet[3]!=EXCEPTION_BREAKPOINT && packet[5]) {
+                continuation=DBG_EXCEPTION_NOT_HANDLED;continue;
+            }
+            pack_context(packet+9,&value);
+            fprintf(log_file,"ordinary-stop exception=%08lx first=%lu address=%08lx pc=%08lx\n",
+                    packet[3],packet[5],packet[4],value.Eip);fflush(log_file);
+        } else return 0; /* Additional processes/threads remain unsupported. */
+        memcpy(area+PAYLOAD,packet,sizeof(packet));*reply_length=sizeof(packet);return 1;
+    }
+    return 0;
 }
 static int dispatch(DWORD operation,DWORD length,DWORD *reply_length)
 {
-    DWORD packet[24],index,selectors[4];CONTEXT value;LDT_ENTRY descriptor;
-    MEMORY_BASIC_INFORMATION region;unsigned i;
+    DWORD packet[24],index;CONTEXT value;MEMORY_BASIC_INFORMATION region;
     *reply_length=0;
+    if(operation==OP_WRITE) return ordinary_write(length);
+    if(operation==OP_RUN && !length) return ordinary_run(reply_length);
     if(length>sizeof(packet)) return 0;
-    if(frontier_running && operation!=OP_CONTEXT && operation!=OP_READ && operation!=OP_SELECTORS &&
-       operation!=OP_REGION && operation!=OP_STOP && !(operation==OP_EVENT && !frontier_stopped)) return 0;
-    if(authored_setup && !arena_enabled && operation!=OP_CONTEXT && operation!=OP_READ &&
-       operation!=OP_SELECTORS && operation!=OP_REGION && operation!=OP_STOP &&
-       !(operation==OP_EVENT && !authored_stopped) && !(operation==OP_ARENA && authored_stopped)) return 0;
-    /* Default prefix capture is permanently stopped. Explicit OP22 admits only
-       six byte-bound loader instructions, then inspection/STOP at CF entry.
-       No RPC can admit the first CF body byte or a different transfer target. */
-    if(wcc_prefix && !arena_enabled && operation!=OP_CONTEXT && operation!=OP_READ &&
-       operation!=OP_SELECTORS && operation!=OP_REGION && operation!=OP_STOP &&
-       !(operation==OP_EVENT && (!wcc_stopped || (wcc_handoff && !wcc_at_entry) ||
-                                (wcc_trap_running && !wcc_entry_stopped))) &&
-       !(operation==OP_WCC_ENTRY && wcc_stopped && !wcc_handoff) &&
-       !(operation==OP_WCC_ENTRY_TRAP && wcc_at_entry && !wcc_trap_running) &&
-       !(operation==OP_ARENA && wcc_entry_stopped) &&
-       !((operation==OP_ARM || operation==OP_STEP) && wcc_handoff && !wcc_at_entry)) return 0;
     memcpy(packet,area+PAYLOAD,length);
-    if(operation==OP_EVENT && !length) {
+    if(operation==OP_RUN_SETUP && length==12) return ordinary_setup(packet);
+    if(operation==OP_EVENT && !length && !ordinary) {
         if(!next_event()) return 0;
         memset(packet,0,sizeof(packet));packet[0]=event.dwDebugEventCode;
         packet[1]=event.dwProcessId;packet[2]=event.dwThreadId;
@@ -553,15 +461,6 @@ static int dispatch(DWORD operation,DWORD length,DWORD *reply_length)
     if(operation==OP_CONTEXT && !length && context(&value)) {
         pack_context(packet,&value);memcpy(area+PAYLOAD,packet,64);*reply_length=64;return 1;
     }
-    if(operation==OP_SELECTORS && !length && context(&value)) {
-        selectors[0]=value.SegCs;selectors[1]=value.SegSs;
-        selectors[2]=value.SegDs;selectors[3]=value.SegEs;
-        for(i=0;i<4;i++) {
-            if(!GetThreadSelectorEntry(thread,selectors[i],&descriptor)) return 0;
-            packet[i*3]=selectors[i];memcpy(packet+i*3+1,&descriptor,8);
-        }
-        memcpy(area+PAYLOAD,packet,48);*reply_length=48;return 1;
-    }
     if(operation==OP_REGION && length==4 && pending &&
        VirtualQueryEx(child,(void *)packet[0],&region,sizeof(region))==sizeof(region)) {
         packet[0]=(DWORD)region.BaseAddress;packet[1]=(DWORD)region.AllocationBase;
@@ -575,22 +474,8 @@ static int dispatch(DWORD operation,DWORD length,DWORD *reply_length)
         *(DWORD *)(area+PAYLOAD)=index;*reply_length=4;return 1;
     }
     if(operation==OP_CONSUME && length==4) return consume(packet[0]);
-    if(operation==OP_ARM && length==76) return arm(packet);
-    if(operation==OP_STEP && !length && armed && pending && context(&value) && same_context(&value,&armed_context)) {
-        if(!budget() || !ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
-        pending=0;++steps;return 1;
-    }
-    if(operation==OP_LOADER && !length) return continue_loader();
-    if(operation==OP_WCC_PREFIX && !length && continue_wcc_prefix(&index)) {
-        *(DWORD *)(area+PAYLOAD)=index;*reply_length=4;return 1;
-    }
-    if(operation==OP_WCC_ENTRY && !length && prepare_wcc_entry(&index)) {
-        *(DWORD *)(area+PAYLOAD)=index;*reply_length=4;return 1;
-    }
-    if(operation==OP_WCC_ENTRY_TRAP && !length) return continue_wcc_entry_trap();
-    if(operation==OP_ARENA && length==8) return register_arena(packet[0],packet[1]);
-    if(operation==OP_FRONTIER_TRAP && length==4) return continue_frontier_trap(packet[0]);
-    if(operation==OP_AUTHORED_SETUP && length==12 && continue_authored_setup(packet,&index)) {
+    if(operation==OP_LOADER && !length && !ordinary) return continue_loader();
+    if(operation==OP_PAYLOAD_LAUNCH && !length && continue_loader_prefix(&index)) {
         *(DWORD *)(area+PAYLOAD)=index;*reply_length=4;return 1;
     }
     if(operation==OP_STOP && !length) return teardown(0x6000);
@@ -699,6 +584,6 @@ done:
     if(error_output!=INVALID_HANDLE_VALUE) CloseHandle(error_output);
     if(area) UnmapViewOfFile(area);if(map_handle) CloseHandle(map_handle);
     if(map_file!=INVALID_HANDLE_VALUE) CloseHandle(map_file);
-    fprintf(log_file,"broker-end status=%lu events=%lu steps=%lu exit-event=%d\n",status,events,steps,child_exit_seen);
+    fprintf(log_file,"broker-end status=%lu events=%lu exit-event=%d\n",status,events,child_exit_seen);
     fclose(log_file);return (int)status;
 }

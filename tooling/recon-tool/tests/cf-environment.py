@@ -3,7 +3,7 @@
 import sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'watcom'))
-from frontend import verify_overlay,validate_launch_command,startup_bss
+from frontend import verify_overlay,validate_launch_command
 from ipc import ProtocolError
 
 def denied(block,overlay):
@@ -26,12 +26,3 @@ for bad in ([{'Unix':[47,117,115,114]}]+valid[1:],valid[:-1],['wine']+valid[1:],
     raise AssertionError('invalid subprocess shape accepted')
 print('CF Rust/Python subprocess shape: path strings/absolute/NUL/width PASS')
 
-assert startup_bss('c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b') == (0x7c448, 0x80774)
-assert startup_bss('647f4e754cd27fc76b3c44a47227ae3baa4ff2e2f253a8ec27216414653b1e6f') == (0xbc438, 0xbf6a0)
-try:
-    startup_bss('unqualified')
-except ProtocolError:
-    pass
-else:
-    raise AssertionError('unqualified BSS identity accepted')
-print('CF WCC/WPP image-bound BSS selection PASS')

@@ -46,14 +46,13 @@ not approve arbitrary normalization or replace fresh evidence for target changes
 The output receipt must be a new file. Ordinary report/capture binding remains
 strict, and legacy or already-derived reports cannot serve as parents.
 
-For the qualified CF image, `registry-export --image-base 0 --cf-profile
-harness/cf-identity.json` derives graph image metadata using the same finite
-profile validator as original capture. Run it from the graph project directory;
-the profile path must be project-relative. Use an identity-only `entry-stop`
-profile with no instruction catalog as this witness. The ordinary `progress`
-profile separately binds the generated catalog, avoiding a circular dependency
-between the profile hash and graph configuration hash. The graph tool reads and
-checks the actual CF header and bytes independently.
+For CF images, `registry-export --image-base 0 --cf-profile
+harness/cf-profile.json` derives graph image metadata from the same hash-bound
+format profile as capture. The profile path is project-relative. A debugger
+profile contains binary layout evidence, not graph output or an instruction
+catalog, so it can serve both projection and capture without a hash cycle.
+Identity-only `entry-stop` profiles remain supported for static projection.
+Graph-audit independently checks the actual CF header and original bytes.
 
 Optional policy `runtime_evidence` maps classified CRT names to explicit
 `{"path":"harness/support-witness.json","sha256":"..."}` file bindings.
@@ -423,9 +422,9 @@ Use a stable logical cwd whenever it is observable, as for debug records. R:/S:/
 are never remapped per case. Original-capture references/reports are saved outside
 the owned ephemeral directory before it is removed.
 
-The original backend supports PE32 i386 images and the finite WCC CF modes
-described below. Unqualified CF loaders and the Watcom gateway remain closed
-pending their separate catalog/controller qualification. Direct calls support ordinary
+The original backend supports PE32 i386 and the hash-bound CF format/loading
+path below. Original CF CRT and gateways execute normally under Wine; code/data
+masking follows the registry and binary-owned layout. Direct calls support ordinary
 MSVC ECX/EDX/stack conventions, not arbitrary register ABIs such as Watcom watcall.
 
 Current limits: original pipe stdin, timed/console events, new target threads,
@@ -689,61 +688,47 @@ empty directory membership is outside this file-set contract. This adds an optio
 version-2 capture field without changing the C descriptor ABI.
 
 
-`original build-cf-helper --repo ROOT` builds the private Watcom debug transport.
-The first CF frontend mode is explicitly diagnostic:
+`original build-cf-helper --repo ROOT` builds the private CF debugger transport.
+Ordinary CF original capture uses the common command:
 
 ```sh
 recon-tool original capture CASE --repo ROOT --capture INPUT \
-  --cf-profile PROFILE --entry-stop --helper CF_BROKER \
-  --output UNUSED_ORACLE_PATH --report REPORT
+  --cf-profile harness/cf-profile.json --progress --helper CF_BROKER \
+  --output CAPTURE --report REPORT
 ```
 
-This mode recognizes finite, separately bound WCC386 and WPP386 image geometries
-with the same hash-verified fixed loader. Each payload still needs its own
-reviewed startup catalog and actual frontier qualification.
-The profile identifies the original binb payload, its base-zero CF header and
-relocation metadata, and the separate binnt loader. Both retain their original
-sibling paths. Fixture arguments, stdin, cwd and environment remain inputs; the
-profile cannot supply executable instructions or admission rules. The shared
-Windows environment overlay is applied to the debuggee, and its requested keys
-are checked against the actual payload environment before the handoff.
+The profile binds the binb payload/header/relocations and its original sibling
+binnt loader. The shared `watcom10.0a-loader-v1` protocol stops that immutable
+loader after relocation and before payload entry. The controller checks its
+actual allocation and complete relocated bytes, masks the recovered CODE
+regions, and restores classified registry CRT/import bodies, implemented App
+bodies and declared text data. CF has no section table: binary-owned layout
+witnesses define conservative code envelopes, including gaps and mixed data.
+Globals/CONST outside them remain unchanged; encountered embedded data is explicit.
 
-The controller verifies the complete relocated loader code/data and CF image,
-then executes six fixed loader instructions and stops at the actual CF entry
-INT3. It executes zero CF body instructions. The report includes the observed
-allocation, real context/selectors/frame, byte identities, owned teardown, and
-backend source/helper hashes; floating state is explicitly absent. It writes no
-fixture at `--output`, records no App entries, and rejects `--artifacts-dir`.
-Use `--report` to retain success or failure diagnostics across workspace cleanup.
-Ordinary WCC CF progress uses the same command with `--progress` in place of
-`--entry-stop` and a profile whose mode is `progress`. Its explicit runtime
-catalog binds the current binary registry, graph producer and audit inputs.
-The shared graph exporter supplies paired instruction facts or separate
-original-only CRT facts; a reviewed role and ABI contract are required in
-addition to those facts. Pending App entries remain real INT3 frontiers.
+The original instructions, CRT and far gateways execute normally under Wine.
+One-shot App entry breakpoints record first-entry order; known pending App
+entries remain INT3 frontiers. Unknown masked PCs are discovery/extent errors,
+not missing opcode permissions. Ordinary process exit preserves its full DWORD
+status. No instruction decoder, semantic interpreter, TF stepping or service
+admission catalog is used. Additional debuggee processes/threads remain unsupported.
 
-The qualified initial WCC path covers five startup/support bodies and stops at
-the actual compiler `MemAlloc` entry with size 8. It does not authorize the
-allocator body, OS gateway services or complete help execution. Progress writes
-a version-2 partial I/O capture containing streams and files. Its SHA-bound
-original report records actual App entry order and terminal/frontier. Use
-`run --capture CAPTURE --original-report
-REPORT` for the corresponding fresh native comparison. The captured argv[0]
-records the actual payload name derived by the original loader.
+Version-2 captures contain partial or final I/O. Their SHA-bound original report
+contains the actual App order and terminal/frontier. Compare a fresh pair using
+`run CASE --capture CAPTURE --original-report REPORT`; regression replay remains
+native-only. The fixture retains the actual loader-derived payload argv0 and
+reports retain source/helper identities, actual stops, timing and owned teardown.
+Floating state is explicitly absent. CF DIRECT remains unavailable.
 
-The controller checks each admitted instruction and its real transfer against
-the current stopped-thread state. The finite startup operations include bounded
-input scans, observed flat-selector reads/save/restore and zero-only REP stores
-inside the declared BSS span. Unknown owners, instructions, threads and gateways
-fail. Reports retain bounded event/step records plus full-stream hashes, actual
-elapsed/RPC/poll/CPU measurements, and explicit absence of floating state.
-CF DIRECT and other real CF loader geometries remain unavailable. Native replay
-and the PE capture backend keep their existing paths. The controller package is
-private to `recon-tool original capture`; it is not a second capture command.
-
-Offline/native controller checks live under `tests/cf-{gate,identity,ipc,child,
-startup,poll}.py`; they do not launch Wine. The authored Win32 controls require a
-separately reviewed frozen launch plan and provide no application acceptance.
+The old Gate/Session/Capstone controller and instruction-specific controls are
+retired; their source and qualification evidence remain in Git/history and raw
+scratch receipts. Live diagnostic `--entry-stop` is retired too; identity-only
+profiles remain static metadata inputs. Current offline checks are
+`tests/cf-debugger-mask.py`, `cf-identity.py`, `cf-ipc.py`, `cf-environment.py` and
+`cf-poll.py`. WCC's actual GetEnvVar continuation reaches SizeToClass with four
+matching App entries: original 1,374.865 ms, native 5.716 ms. Its original
+execution-phase wall time is 2.106 ms; setup accounts for 1,226.292 ms. The older
+semantic-controller attempt remains preserved as a distinct failed observation.
 
 
 A binary that has several public method names for one physical body can set
@@ -798,13 +783,10 @@ ranges reject. Original ownership, classification and acceptance stay unchanged.
 The graph auditor still validates full primary/chunk ownership and instructions;
 this property grants no ABI or runtime permission.
 
-The shared Make projection accepts `RECON_CF_PROFILE = harness/cf-identity.json`
-before including `recon-tool.mk`. The identity-only profile is a normal input to
-registry export; the ordinary capture profile separately binds its admission
-catalog. CF instruction admission supports 32-bit `ENTER imm16,0` only when the
-entire frame fits the observed writable stack and the continuation is owned.
-The saved EBP, resulting EBP/ESP, and flags are checked after the real instruction.
-Nested or 16-bit ENTER remains unsupported.
+The shared Make projection accepts `RECON_CF_PROFILE = harness/cf-profile.json`
+before including `recon-tool.mk` and tracks the profile as a normal input.
+The same format/layout profile can be used for graph projection and original
+capture; graph facts and ABI audits remain separate from runtime masking.
 
 A typed DIRECT callback that intentionally terminates the original process uses
 `original capture ... --direct-helper PROBE --marker-rva RVA --direct-noreturn`.
@@ -828,6 +810,15 @@ byte for byte. This explicit mode requires reaching main and supports bounded
 ASCII arguments only. It adds no target execution or new debugger operation.
 Self-resource input is captured by the exact staged-image recipe below.
 
+When that observed argv0 names the private staged T: program,
+`--watcom-main-argv` also records `program_image`: the immutable source path/hash,
+exact staged hash/length, and raw-offset INT3 ranges. Every staged difference
+must be an INT3 replacement; file resizing or other transforms fail. Native
+replay reconstructs this exact frozen image at its observed T: path under the
+owned workspace, outside application cwd, and verifies its read-only bytes after
+execution. The source is an explicit read-only dependency. No EXE bytes are
+stored in the capture, and replay does not recompute a mask from today's registry.
+
 An exact object-proven rebuilt end can use
 `function_properties[name].rebuilt_extent` with `end` (PE32 address or its own
 `{rebuilt_symbol,offset}`), `padding_hex:"00"`, current `image_sha256` and
@@ -838,11 +829,8 @@ MAP parser, checks the object/witness hashes and exactly one terminal zero byte,
 and keeps the adjacent public and default envelope unchanged otherwise.
 No OMF parser, body acceptance or runtime permission follows from the descriptor.
 
-When that observed argv0 names the private staged T: program,
-`--watcom-main-argv` also records `program_image`: the immutable source path/hash,
-exact staged hash/length, and raw-offset INT3 ranges. Every staged difference
-must be an INT3 replacement; file resizing or other transforms fail. Native
-replay reconstructs this exact frozen image at its observed T: path under the
-owned workspace, outside application cwd, and verifies its read-only bytes after
-execution. The source is an explicit read-only dependency. No EXE bytes are
-stored in the capture, and replay does not recompute a mask from today's registry.
+The CF profile uses `mode: "debugger"`, `runtime_catalog: null`, and
+`code_layout: {code: [[start,end],...], text_data: [[start,end],...],
+evidence: {path,sha256}}`. Coordinates are CF image offsets/base0; evidence is
+repository-relative and hash-bound. Mask ranges precede the relocation stream.
+The profile does not supply bodies or override registry classification/status.

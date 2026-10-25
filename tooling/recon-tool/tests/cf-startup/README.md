@@ -1,3 +1,0 @@
-This authored fixture checks only the finite startup operations used before the first WCC App frontier: selector reads/ES save and restore, a word store, LODSB, and zero-only REP stores (7 DWORD iterations, 3 BYTE iterations and a zero-count instruction). The unknown body remains trapped.
-
-The shared loader is ../cf-arena/loader.exe. tests/cf-startup-control.py requires a separately reviewed frozen plan; these files are test inputs, not application reconstruction or a command to run originals automatically. Exact qualified source/PE/MAP/CF bytes are retained here; historical receipts retain their original scratch paths and hashes.
