@@ -584,3 +584,18 @@ void convert_old_modifier(TypeRecord *entry)
     entry->flags |= 8;
     entry->data = record;
 }
+
+void convert_old_leaf_a7(TypeRecord *entry)
+{
+    unsigned char *old = entry->data, *record;
+    unsigned short length = *(unsigned short *)(old+1);
+    types_compacted = 1;
+    entry->flags |= 0x400;
+    record = checked_alloc((unsigned short)(length+3));
+    *(unsigned short *)record = length+1;
+    *(unsigned short *)(record+2) = 0x0c;
+    memcpy(record+4, old+4, (unsigned long)length-1);
+    if (entry->flags & 0x38) release_type_data(entry);
+    entry->flags |= 8;
+    entry->data = record;
+}
