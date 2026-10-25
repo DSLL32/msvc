@@ -31,6 +31,7 @@ typedef struct NativeModule {
 } NativeModule;
 static NativeModule native_modules[32],*primary_module;
 static unsigned module_count;
+static int imagehlp_loaded;
 static HANDLE standard_handles[3]={(HANDLE)1,(HANDLE)2,(HANDLE)3};
 typedef struct Mapping {
     struct Mapping *next; int fd,writable; size_t length;
@@ -772,6 +773,9 @@ HMODULE WINAPI recon_LoadLibraryA(LPCSTR name)
     unsigned n,configured=0;
     if (name && !strcasecmp(name,"kernel32.dll")) return (HMODULE)1;
     if (name && !strcasecmp(name,"user32.dll")) return (HMODULE)2;
+    if (name && (!strcasecmp(name,"imagehlp") || !strcasecmp(name,"imagehlp.dll"))) {
+        imagehlp_loaded=1;return (HMODULE)4;
+    }
     for (n=0;n<module_count;++n) {
         NativeModule *module=native_modules+n;
         if (!module->provider_state) continue;
@@ -819,6 +823,11 @@ FARPROC WINAPI recon_GetProcAddress(HMODULE module,LPCSTR name)
         recon_unsupported("unregistered provider export name/ordinal");
     }
     if ((uintptr_t)name<65536) recon_unsupported("unreviewed ordinal/null export lookup");
+    if (module==(HMODULE)4) {
+        if(!imagehlp_loaded) recon_unsupported("IMAGEHLP export before LoadLibraryA");
+        if(!strcmp(name,"CheckSumMappedFile")) return (FARPROC)recon_CheckSumMappedFile;
+        recon_unsupported("unreviewed IMAGEHLP export");return NULL;
+    }
     if (module==(HMODULE)3) {
         if (name && !strcmp(name,"LdrProcessRelocationBlock")) return (FARPROC)recon_LdrProcessRelocationBlock;
         recon_unsupported("unreviewed NTDLL export"); return NULL;
@@ -870,6 +879,11 @@ LPVOID WINAPI recon_MapViewOfFile(HANDLE handle,DWORD access,DWORD high,DWORD lo
     v=malloc(sizeof(*v)); if (!v) { munmap(address,length); last_error=ERROR_NOT_ENOUGH_MEMORY; return NULL; }
     v->address=address; v->length=length;v->file_device=identity.st_dev;v->file_inode=identity.st_ino;
     v->next=views; views=v; last_error=0; return address;
+}
+PIMAGE_NT_HEADERS WINAPI recon_CheckSumMappedFile(LPVOID base,DWORD length,LPDWORD old_sum,LPDWORD new_sum)
+{
+    (void)base;(void)length;(void)old_sum;(void)new_sum;
+    recon_unsupported("unreviewed CheckSumMappedFile");return NULL;
 }
 BOOL WINAPI recon_FlushViewOfFile(LPCVOID address,DWORD bytes)
 {

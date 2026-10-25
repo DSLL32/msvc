@@ -571,6 +571,18 @@ Wider flags, errors/descriptor numeric identity, FILE26 and arbitrary private CR
 state remain unclaimed. Existing `make watcom-surface-check` retains typed denial
 guards; `make watcom-open-check` verifies actual binary descriptor operations.
 
+The public IMAGEHLP staging route recognizes LoadLibraryA("imagehlp" or
+"imagehlp.dll") as a built-in native module, alongside the existing system
+module routes. Only after that load can GetProcAddress resolve the exact name
+CheckSumMappedFile to its SDK IMAGEHLP.H58..65 WINAPI4/PIMAGE_NT_HEADERS entry.
+That entry unconditionally denies125 without inspecting buffers or writing sums.
+Unknown exports/ordinals/pre-load lookup and FreeLibrary remain unsupported;
+no unloading/reloading/private lifetime semantics or checksum success is claimed.
+There is no provider hash gate, PE loader or new generic provider framework.
+The actual CVPACK main branch now reaches its genuine App file-size/mapping
+frontiers instead of silently skipping checksum work. `make
+imagehlp-surface-check` verifies routing, signature, state preservation and denial.
+
 Lowio alloc marks the selected OS-handle slot invalid (-1) without publishing
 FOOPEN; set requires that sentinel, and free relinquishes ownership without
 closing the OS handle. For fd0..2, set/free update the Win32 standard table at

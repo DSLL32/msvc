@@ -680,6 +680,12 @@ wcsicmp-ascii-check: build/wcsicmp-ascii-default build/wcsicmp-ascii-510
 	$(PYTHON) tests/check-wcsicmp-ascii.py $< default
 	$(PYTHON) tests/check-wcsicmp-ascii.py build/wcsicmp-ascii-510
 
+.PHONY: imagehlp-surface-check
+build/imagehlp-surface-probe: tests/imagehlp-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+imagehlp-surface-check: build/imagehlp-surface-probe
+	$(PYTHON) tests/check-imagehlp-surface.py $<
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
