@@ -40,3 +40,19 @@ void initialize_checksums(void)
         checksum_transform[input] = transformed;
     }
 }
+
+/* Original0x747d0..0x74821, stdcall12. The three initialized byte
+   transforms update the low/high checksum bytes. Preserve the unsigned
+   address end test, including the target's32-bit addition wrap. */
+unsigned __stdcall update_checksum(unsigned char *bytes, unsigned count, unsigned checksum)
+{
+    unsigned end = (unsigned)bytes + count;
+    unsigned char low = (unsigned char)checksum;
+    unsigned char high = (unsigned char)(checksum >> 8), mixed;
+    while ((unsigned)bytes < end) {
+        mixed = checksum_low[low] ^ checksum_high[high];
+        low = high;
+        high = checksum_transform[(unsigned char)(*bytes++ ^ mixed)];
+    }
+    return low | ((unsigned)high << 8);
+}

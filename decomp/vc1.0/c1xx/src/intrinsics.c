@@ -167,3 +167,47 @@ void __stdcall enable_intrinsic_function(char *name)
     }
     apply_intrinsic(symbol,index);
 }
+
+void __stdcall make_intrinsic_external(CppSymbol *symbol);
+
+/* Original0x3d580..0x3d62a, stdcall4. Explicit function pragmas
+   require a known C-linkage function and cannot disable mandatory intrinsics. */
+void __stdcall disable_intrinsic_function(char *name)
+{
+    CppSymbol *symbol;
+    unsigned kind;
+    if (find_intrinsic_index(name) == -1) {
+        compiler_warning(1,163,name);
+        return;
+    }
+    symbol = find_outer_name(name);
+    if (!symbol) {
+        compiler_warning(1,164,name);
+        return;
+    }
+    symbol = find_c_linkage_function(symbol);
+    if (!symbol) {
+        compiler_warning(1,162,name);
+        return;
+    }
+    kind = symbol->kind & 31;
+    if (kind != 6 && kind != 7) {
+        report_syntax_error(170,name);
+        return;
+    }
+    if (symbol->detail.intrinsic.flags & 0x80) {
+        compiler_warning(1,167,name);
+        return;
+    }
+    make_intrinsic_external(symbol);
+}
+
+/* Original0x3d410..0x3d44c, stdcall4. Keep the intrinsic payload,
+   replacing storage with the current external declaration and disable bit. */
+void __stdcall make_intrinsic_external(CppSymbol *symbol)
+{
+    symbol->kind = 7;
+    symbol->storage[0] = (declaration_storage[0] & ~7) | 0x21;
+    symbol->storage[1] = declaration_storage[1];
+    symbol->storage[2] = declaration_storage[2];
+}

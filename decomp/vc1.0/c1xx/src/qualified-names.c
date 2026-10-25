@@ -547,3 +547,15 @@ QualifiedDeclarator *__stdcall new_qualified_declarator(QualifierResolution *res
     declaration->declaration_flags |= 0x800;
     return declaration;
 }
+
+/* Original0x19b90..0x19bba, stdcall4. Reopen enclosing qualifiers
+   first; only the outermost binding starts a temporary lookup sequence. */
+void __stdcall restore_qualified_lookup(QualifierBinding *binding)
+{
+    int temporary = 1;
+    if (binding->next) {
+        restore_qualified_lookup(binding->next);
+        temporary = 0;
+    }
+    enter_qualified_class((CppSymbol *)binding->target,0,temporary);
+}

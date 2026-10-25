@@ -1,11 +1,20 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1520 historical frontiers/1413 App bodies.
+ * Current reviewed boundary:1524 historical frontiers/1417 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_make_intrinsic_external@4",
+        .entry_rva = 0x2d410,
+        .code = (const ReconExtent[]) { { 0x2d410, 0x2d44c } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "make_intrinsic_external",
+        .implementation = RECON_IMPLEMENTED,
+    },
     {
         .name = "_discard_line_comment",
         .entry_rva = 0x14740,
@@ -558,10 +567,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_restore_qualified_lookup@4",
         .entry_rva = 0x9b90,
-        .code = (const ReconExtent[]) { { 0x9b90, 0x9b91 } },
+        .code = (const ReconExtent[]) { { 0x9b90, 0x9bba } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "restore_qualified_lookup",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_read_declspec_attributes",
@@ -12353,10 +12363,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_update_checksum@12",
         .entry_rva = 0x647d0,
-        .code = (const ReconExtent[]) { { 0x647d0, 0x647d1 } },
+        .code = (const ReconExtent[]) { { 0x647d0, 0x64821 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "update_checksum",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_multiplication_overflows@16",
@@ -16870,10 +16881,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_disable_intrinsic_function@4",
         .entry_rva = 0x2d580,
-        .code = (const ReconExtent[]) { { 0x2d580, 0x2d581 } },
+        .code = (const ReconExtent[]) { { 0x2d580, 0x2d62a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "disable_intrinsic_function",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_set_default_inheritance_policy@4",

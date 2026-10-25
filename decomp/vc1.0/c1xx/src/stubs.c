@@ -171,7 +171,6 @@ void __stdcall report_parser_error(char *text) { __asm { int 3 } }
 
 /* C++ token classification and deferred lookahead. */
 unsigned char read_deferred_argument_text(void) { __asm { int 3 } return 0; }
-void __stdcall restore_qualified_lookup(QualifierBinding *binding) { __asm { int 3 } }
 QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena) { __asm { int 3 } return 0; }
 
 
@@ -447,7 +446,6 @@ IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, Expression
 short __stdcall format_based_declaration(unsigned short attributes, void *base) { __asm { int 3 } return 0; }
 
 int compare_debug_symbol_indices(const void *left, const void *right) { __asm { int 3 } return 0; }
-unsigned __stdcall update_checksum(unsigned char *bytes, unsigned count, unsigned checksum) { __asm { int 3 } return 0; }
 void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes) { __asm { int 3 } }
 unsigned __stdcall encode_debug_based_symbol(unsigned char *destination, CppSymbol *symbol) { __asm { int 3 } return 0; }
 void split_debug_field_record(unsigned char kind, void *subject, unsigned first, unsigned tail) { __asm { int 3 } }
@@ -492,7 +490,6 @@ void warn_bad_pragma(void) { __asm { int 3 } }
 void synchronize_pch_pragma(void) { __asm { int 3 } }
 void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
 void warn_expected_identifier(void) { __asm { int 3 } }
-void __stdcall disable_intrinsic_function(char *name) { __asm { int 3 } }
 void __stdcall set_default_inheritance_policy(int general) { __asm { int 3 } }
 void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
 void unpack_option_flags(unsigned flags) { __asm { int 3 } }
