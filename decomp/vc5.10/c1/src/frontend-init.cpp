@@ -427,7 +427,51 @@ CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *
     return this;
 }
 extern "C" CompilerIrSymbol *__cdecl make_abstract_declarator(void)
-{ __asm { int 3 } return NULL; }
+{
+    unsigned arena_index = (c1_bss.declaration_nesting <= 0) + 2;
+    CompilerArena *arena = &c1_bss.arenas[arena_index];
+    CompilerIrSymbol *symbol = NULL;
+    CompilerNameEntry *name = c1_data.builtin_names.abstract_declarator;
+    BYTE *memory;
+#ifdef RECON_NATIVE_TEST
+    /* Other original cache indexes/record sizes are valid but unmodeled. */
+    if (c1_data.abstract_symbol_bytes != 52)
+        recon_unsupported("make_abstract_declarator: unmodeled record size");
+#endif
+    if (!c1_bss.declaration_nesting) {
+        CompilerSymbolBinding *binding;
+#ifdef RECON_NATIVE_TEST
+        if (c1_data.abstract_symbol_cache_index != 9)
+            recon_unsupported("make_abstract_declarator: unmodeled cache head");
+#endif
+        /* Typed projection of free_heads[9], not a claim about other heads. */
+        binding = c1_data.abstract_symbol_free;
+        if (binding) {
+            c1_data.abstract_symbol_free = binding->next;
+            symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+            binding->name = NULL;
+            binding->next = NULL;
+            memset(symbol, 0, c1_data.abstract_symbol_bytes);
+            binding->name = name;
+            symbol->kind = 13;
+        }
+    }
+    if (!symbol) {
+        memory = arena->cursor;
+        arena->cursor += (c1_data.abstract_symbol_bytes + 3) & ~3U;
+        if (arena->cursor > arena->committed_limit)
+            arena->CommitExtent();
+        symbol = memory ? ((CompilerIrSymbol *)memory)->Initialize(13, name, arena_index) : NULL;
+    }
+    memory = arena->cursor;
+    arena->cursor += 16;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    symbol->abstract_type = (CompilerAbstractType *)memory;
+    return symbol;
+}
+CompilerIrSymbol *RECON_THISCALL CompilerIrSymbol::Initialize(unsigned kind,
+    CompilerNameEntry *name, unsigned arena) { __asm { int 3 } return this; }
 void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription *parameters)
 { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclarationAttributes *attributes)

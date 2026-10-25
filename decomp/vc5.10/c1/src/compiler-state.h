@@ -54,6 +54,9 @@ typedef struct CompilerInitializedState {
     struct CompilerTypeShapeEntry **type_shape_buckets; /* RVA5e40c, defaultNULL; 1024 */
     struct CompilerTypeListEntry **type_list_buckets; /* RVA5e404, defaultNULL; 1024 */
     CompilerBuiltinNames builtin_names; /* Encountered builtin identifier slots; defaultNULL */
+    unsigned abstract_symbol_bytes; /* RVA5f434, default52 */
+    unsigned abstract_symbol_cache_index; /* RVA5f49c, default9 */
+    CompilerSymbolBinding *abstract_symbol_free; /* Only head9 at RVA5e51c, defaultNULL */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
@@ -226,6 +229,7 @@ typedef struct CompilerBss {
     CompilerIrSymbol *current_scope_symbol; /* RVA54dd4 */
     int pending_line_delta; /* RVA5780c; current line minus saved line origin */
     CompilerSourcePosition declaration_position; /* RVA57810..57818; BSS */
+    int declaration_nesting; /* RVA54db8; nested declarations select arena2 */
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

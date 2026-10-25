@@ -228,7 +228,8 @@ static int global_symbol_arena(void)
 }
 extern int c1_test_returning_interner(void);
 extern int c1_test_translation_unit(void);
-const ReconTest minimal_tests[19] = {
+extern int c1_test_abstract_symbol_reuse(void);
+const ReconTest minimal_tests[20] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -247,5 +248,6 @@ const ReconTest minimal_tests[19] = {
     { "type interning shares semantic keys, retains collision chains and handles debug cache", 1, type_interning },
     { "global symbol arena replaces saved context without reading it", 1, global_symbol_arena },
     { "returning interner uses ordinary-name stride and retains untouched bytes", 1, c1_test_returning_interner },
-    { "translation context constructs root scope and preserves unwritten slots", 1, c1_test_translation_unit }
+    { "translation context constructs root scope and preserves unwritten slots", 1, c1_test_translation_unit },
+    { "abstract symbol cache reuses only head9 within its owned52-byte record", 1, c1_test_abstract_symbol_reuse }
 };

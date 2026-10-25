@@ -58,12 +58,25 @@ typedef struct CompilerIntegerConstant {
 /* Views used by the IL writer. Original symbol fields occur at3,4,20,24,29,31;
  * original type-shape flags/storage/base occur at0,2,4. Omitted storage is
  * unmodeled, and these types do not establish original allocation extents. */
+struct CompilerAbstractType;
+typedef struct CompilerSymbolBinding {
+    struct CompilerNameEntry *name;
+    struct CompilerSymbolBinding *next;
+} CompilerSymbolBinding;
 typedef struct CompilerIrSymbol {
+    BYTE kind;
+    BYTE unmodeled_01[2];
     BYTE declaration_flags;
     CompilerType *type;
+    CompilerSymbolBinding binding;
+    struct CompilerAbstractType *abstract_type;
     unsigned reference_flags;
     unsigned record_id;
-    BYTE scope_flags, identifier_flags;
+    BYTE unmodeled_1c, scope_flags, unmodeled_1e, identifier_flags;
+#ifdef __cplusplus
+    CompilerIrSymbol *RECON_THISCALL Initialize(unsigned kind,
+        struct CompilerNameEntry *name, unsigned arena);
+#endif
 } CompilerIrSymbol;
 struct CompilerTypeShape {
     WORD flags;

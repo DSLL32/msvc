@@ -3,11 +3,11 @@
 `binary.c` is the function/export registry for original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The current prefix contains 119 accepted application functions / 18,129 code bytes.
+The current prefix contains 120 accepted application functions / 18,383 code bytes.
 Historical linked startup support remains separately classified: two CRT
 functions / 451 bytes; four import thunks / 24 bytes. Owned text data is 398
 bytes. The original text extent is 322,288 bytes; its non-CRT denominator has
-not been classified. Initialized state retains 2,936 unmodeled bytes, and the
+not been classified. Initialized state retains 2,924 unmodeled bytes, and the
 literal object's separate 16-byte tail remains unmodeled.
 
 `make -j4 check unit` builds one native i386 `.build/libbinary.so` and discovers
@@ -26,7 +26,7 @@ zero static matches, while the historical CRT rows retain strict graph checks.
 The lifecycle case attaches, resolves both exports without invoking them, and
 detaches. Minimal invokes the actual supported direct 11-argument
 `_InvokeCompilerPass@12` contract with BOOL 1. It remains partial at
-`make_abstract_declarator()`, RVA `0x23f9`. Its fresh reference uses logical cwd
+`CompilerIrSymbol::Initialize()`, RVA `0x248a`. Its fresh reference uses logical cwd
 `T:\vc5.10\c1\0001-minimal-c`, preserved in an isolated native scratch namespace.
 Final IR from other invocations is not merged into this oracle. Both cases run
 entirely natively against cached original observations.
@@ -70,3 +70,7 @@ scope uses the actual ten-slot virtual interface, with operations still pending.
 The declarator receiver retains its actual48-byte extent. Unknown gaps at8/20/24
 are not interpreted. The function-type caller zeros an original unwritten upper
 attribute WORD; that later path remains unexecuted at the current frontier.
+
+Abstract-symbol reuse models only encountered free-list head9, original size52
+and cache-index9 defaults. Other indexes remain valid original states but hold
+natively before unknown head access; no whole free-head array is represented.

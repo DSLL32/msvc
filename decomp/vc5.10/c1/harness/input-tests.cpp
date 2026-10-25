@@ -258,3 +258,34 @@ extern "C" int c1_test_translation_unit(void)
     for (i = 7; i < 1032; ++i) if (storage[i] != 0x96969696) return 0;
     return storage[0] == 0x96969696;
 }
+
+extern "C" CompilerIrSymbol *__cdecl make_abstract_declarator(void);
+extern "C" int c1_test_abstract_symbol_reuse(void)
+{
+    DWORD owned[15];
+    BYTE payload[18];
+    CompilerNameEntry name;
+    CompilerSymbolBinding retained;
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)(owned + 1);
+    unsigned i;
+    for (i = 0; i < 15; ++i) owned[i] = 0xa5a5a5a5;
+    memset(payload, 0x96, sizeof(payload));
+    symbol->binding.next = &retained;
+    c1_data.abstract_symbol_free = &symbol->binding;
+    c1_data.builtin_names.abstract_declarator = &name;
+    c1_data.abstract_symbol_bytes = 52;
+    c1_data.abstract_symbol_cache_index = 9;
+    c1_bss.declaration_nesting = 0;
+    c1_bss.arenas[3].cursor = payload + 1;
+    c1_bss.arenas[3].committed_limit = payload + 17;
+    if (make_abstract_declarator() != symbol || symbol->kind != 13 ||
+        symbol->binding.name != &name || symbol->binding.next ||
+        c1_data.abstract_symbol_free != &retained ||
+        (void *)symbol->abstract_type != payload + 1 ||
+        c1_bss.arenas[3].cursor != payload + 17) return 0;
+    for (i = 0; i < 52; ++i)
+        if (i != 0 && !(i >= 8 && i < 12) && !(i >= 16 && i < 20) &&
+            ((BYTE *)symbol)[i] != 0) return 0;
+    for (i = 0; i < sizeof(payload); ++i) if (payload[i] != 0x96) return 0;
+    return owned[0] == 0xa5a5a5a5 && owned[14] == 0xa5a5a5a5;
+}

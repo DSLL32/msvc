@@ -1537,8 +1537,12 @@ static const ReconFunction functions[] = {
       .definition = RECON_APP, .native_symbol = "_ZN18CompilerDeclarator7ResolveEv",
       .original_symbol = "?Resolve@CompilerDeclarator@@QAEPAUCompilerType@@XZ" },
     { .name = "_make_abstract_declarator", .entry_rva = 0x23f9,
-      .code = (const ReconExtent[]){{0x23f9, 0x23fa}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "make_abstract_declarator" },
+      .code = (const ReconExtent[]){{0x23f9, 0x248a}, {0x26e3c, 0x26ea9}}, .code_count = 2,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "make_abstract_declarator" },
+    { .name = "CompilerIrSymbol::Initialize", .entry_rva = 0x248a,
+      .code = (const ReconExtent[]){{0x248a, 0x248b}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN16CompilerIrSymbol10InitializeEjP17CompilerNameEntryj",
+      .original_symbol = "?Initialize@CompilerIrSymbol@@QAEPAU1@IPAUCompilerNameEntry@@I@Z" },
 };
 
 static const ReconExport exports[] = {
