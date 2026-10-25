@@ -32,6 +32,7 @@ BINARY_SOURCES = crt/math-error.c \
     src/register-sets.c \
     src/function-setup.c \
     src/function-reader.c \
+    src/symbol-storage.c \
     src/registers.c \
     src/code-records.c \
     src/assembly-output.c \

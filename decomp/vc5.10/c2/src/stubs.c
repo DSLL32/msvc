@@ -3,6 +3,7 @@
 #include "function-records.h"
 #include "register-sets.h"
 #include "function-reader.h"
+#include "symbol-storage.h"
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
@@ -85,10 +86,14 @@ void __fastcall queue_symbol_debug(C2Symbol *symbol)
 }
 
 
-unsigned __fastcall reserve_symbol_storage(C2Symbol *symbol)
+long __fastcall allocate_local_storage(unsigned bytes, unsigned alignment)
 {
     __asm { int 3 }
     return 0;
+}
+void __fastcall reserve_section_symbol(C2Symbol *symbol)
+{
+    __asm { int 3 }
 }
 
 

@@ -2,6 +2,7 @@
 #define RECON_SHIM_IMPL
 #include "register-sets.h"
 #include "functions.h"
+#include "symbol-storage.h"
 #include <recon-tool.h>
 #include <recon.h>
 
@@ -160,6 +161,27 @@ static int symbol_retention_flags(void)
     return 1;
 }
 
+static int parameter_storage_layout(void)
+{
+    C2InputSymbol parameter;
+    C2Symbol owner;
+    memset(&parameter, 0, sizeof(parameter));
+    memset(&owner, 0, sizeof(owner));
+    parameter.symbol.kind = 1;
+    parameter.symbol.value = 3;
+    parameter.attributes = 0x30;
+    owner.flags = 2;
+    current_symbol = &owner;
+    argument_stack_offset = 8;
+    argument_layout_kind = 4;
+    argument_alignment = 4;
+    if (reserve_symbol_storage(&parameter.symbol) != 4 ||
+        parameter.symbol.parameter_offset != 12 || argument_stack_offset != 16 ||
+        parameter.symbol.value != 3 || parameter.symbol.flags != 0x800) return 0;
+    /* An already reserved symbol is not allocated twice. */
+    return !reserve_symbol_storage(&parameter.symbol) && argument_stack_offset == 16;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -168,5 +190,6 @@ const ReconTest numeric_tests[] = {
     {"register-set node reuse clears only the popped node", 1, register_set_node_reuse},
     {"clearing a register set appends its nodes", 1, register_set_clear},
     {"function entry clears all small-node free lists", 1, clear_small_node_lists},
-    {"local-symbol retention flag combinations", 1, symbol_retention_flags}
+    {"local-symbol retention flag combinations", 1, symbol_retention_flags},
+    {"parameter storage padding and idempotence", 1, parameter_storage_layout}
 };
