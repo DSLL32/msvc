@@ -201,3 +201,34 @@ extern "C" int c1_test_output_flush_suppression(void)
     buffer->Flush(); /* An empty buffer needs neither a stream nor good state. */
     return buffer->cursor == bytes;
 }
+
+extern "C" CompilerNameEntry *__cdecl find_or_create_identifier(const char *);
+extern "C" int c1_test_returning_interner(void)
+{
+    CompilerNameEntry *buckets[2048] = { 0 };
+    DWORD records[10];
+    BYTE names[16];
+    CompilerNameEntry *first, *second;
+    unsigned i;
+    for (i = 0; i != 10; ++i) records[i] = 0xa5a5a5a5;
+    memset(names, 0xa5, sizeof(names));
+    c1_data.name_buckets = buckets;
+    c1_bss.pools[4].cursor = (BYTE *)(records + 1);
+    c1_bss.pools[4].remaining = 32;
+    c1_bss.arenas[0].cursor = names;
+    c1_bss.arenas[0].committed_limit = names + sizeof(names);
+    first = find_or_create_identifier("aa");
+    second = find_or_create_identifier("b]");
+    if ((BYTE *)first != (BYTE *)(records + 1) ||
+        (BYTE *)second != (BYTE *)(records + 5) || first == second ||
+        second->next != first || buckets[491] != second ||
+        first->flags != 0xa5a501eb || second->flags != 0xa5a501eb ||
+        records[4] != 0xa5a5a5a5 || records[8] != 0xa5a5a5a5) return 0;
+    return find_or_create_identifier("aa") == first && c1_data.current_identifier == first &&
+        first->next == second && !second->next && buckets[491] == first &&
+        c1_bss.pools[4].remaining == 0 &&
+        c1_bss.pools[4].cursor == (BYTE *)(records + 9) &&
+        c1_bss.arenas[0].cursor == names + 8 && !strcmp(first->name, "aa") &&
+        !strcmp(second->name, "b]") && names[3] == 0xa5 && names[7] == 0xa5 &&
+        records[0] == 0xa5a5a5a5 && records[9] == 0xa5a5a5a5;
+}

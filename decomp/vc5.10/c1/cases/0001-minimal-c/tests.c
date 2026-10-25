@@ -226,7 +226,8 @@ static int global_symbol_arena(void)
     return c1_bss.symbol_arena_kind == 2 && !c1_bss.saved_symbol_arenas &&
         c1_bss.ir_record_count == 83 && owned_marker == 37;
 }
-const ReconTest minimal_tests[17] = {
+extern int c1_test_returning_interner(void);
+const ReconTest minimal_tests[18] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -243,5 +244,6 @@ const ReconTest minimal_tests[17] = {
     { "flush suppression resets cursor and retains bytes without stream access", 1, c1_test_output_flush_suppression },
     { "type hash tables own exact arena spans without clearing them", 1, type_table_storage },
     { "type interning shares semantic keys, retains collision chains and handles debug cache", 1, type_interning },
-    { "global symbol arena replaces saved context without reading it", 1, global_symbol_arena }
+    { "global symbol arena replaces saved context without reading it", 1, global_symbol_arena },
+    { "returning interner uses ordinary-name stride and retains untouched bytes", 1, c1_test_returning_interner }
 };

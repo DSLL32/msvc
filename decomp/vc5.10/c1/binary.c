@@ -1478,8 +1478,8 @@ static const ReconFunction functions[] = {
       .definition = RECON_IMPORT_NAME, .import_dll = "msvcrt.dll", .import_name = "_ftol" },
 
     { .name = "_find_or_create_identifier", .entry_rva = 0x11c67,
-      .code = (const ReconExtent[]){{0x11c67, 0x11c68}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "find_or_create_identifier" },
+      .code = (const ReconExtent[]){{0x11c67, 0x11de3}, {0x30161, 0x3016a}}, .code_count = 2,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "find_or_create_identifier" },
 };
 
 static const ReconExport exports[] = {

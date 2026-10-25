@@ -353,6 +353,50 @@ extern "C" void __cdecl intern_identifier(const char *name)
     c1_data.current_identifier = entry;
     entry->flags = (entry->flags & 0xffff0000) | folded;
 }
+extern "C" CompilerNameEntry *__cdecl find_or_create_identifier(const char *name)
+{
+    const unsigned char *text = (const unsigned char *)name;
+    unsigned hash = 0, length, folded;
+    CompilerNameEntry **bucket, **link, *entry;
+    CompilerPool *pool = &c1_bss.pools[4];
+    CompilerArena *arena = &c1_bss.arenas[0];
+    while (*text) {
+        hash = (hash >> 4) + hash * 4 + *text;
+        ++text;
+    }
+    length = (unsigned)(text - (const unsigned char *)name);
+    folded = ((hash >> 16) ^ hash) & 0xffff;
+    bucket = &c1_data.name_buckets[hash & 0x7ff];
+    link = bucket;
+    for (entry = *link; entry; link = &entry->next, entry = *link) {
+        if ((entry->flags & 0xffff) == folded && entry->name[length] == 0 &&
+            memcmp(name, entry->name, length) == 0) {
+            *link = entry->next;
+            entry->next = *bucket;
+            *bucket = entry;
+            c1_data.current_identifier = entry;
+            return entry;
+        }
+    }
+    /* This returning interner uses16-byte ordinary-name records. Keyword
+     * token/category fields belong only to the separate20-byte allocation. */
+    if (pool->remaining < 16)
+        pool->Refill(16);
+    entry = (CompilerNameEntry *)pool->cursor;
+    pool->cursor += 16;
+    pool->remaining -= 16;
+    entry->next = *bucket;
+    *bucket = entry;
+    entry->name = (char *)arena->cursor;
+    arena->cursor += (length + 4) & ~3U;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    memcpy(entry->name, name, length);
+    entry->name[length] = 0;
+    c1_data.current_identifier = entry;
+    entry->flags = (entry->flags & 0xffff0000) | folded;
+    return entry;
+}
 extern "C" void __cdecl unreserve_keyword(const char *name)
 {
     intern_identifier(name);
