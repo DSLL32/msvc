@@ -1,17 +1,18 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **207 accepted application
-functions, 63,628 original code bytes, and 21 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **208 accepted application
+functions, 64,084 original code bytes, and 20 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `convert_old_numeric_leaf` (RVA `0x17ea0`). The last accepted
-function is `convert_old_field_list` (sequence 207, 642 original bytes,
+frontier is now `prepare_old_types` (RVA `0x13100`), the C6 local-symbol
+sizing pass. The last accepted function is `convert_old_numeric_leaf`
+(sequence 208, 456 original bytes plus 36 bytes of original switch-table data,
 `src/oldtypes.c`). Encountered converter dispatch and its calls have identified
 additional App helpers; these retain named trapping stubs and no accepted
-credit. The resumed workload has accepted twenty application functions. Each
-has matching original/native progress and strict compiler/graph/data checks.
-All twelve cached cases and unit executors passed the 201-function checkpoint.
-The previous baseline ended at `type_server_close` (sequence 187,
+credit. The resumed workload has accepted twenty-one application functions.
+Each has matching original/native progress and strict compiler/graph/data
+checks. All twelve cached cases and unit executors passed the 201-function
+checkpoint. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 

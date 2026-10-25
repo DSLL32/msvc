@@ -1981,9 +1981,42 @@
       },
       "_convert_old_numeric_leaf": {
         "abi": "unsigned short convert_old_numeric_leaf(unsigned char **,unsigned char **)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
-        "roots": []
+        "roots": [],
+        "switches": {
+          "163582": [
+            163589,
+            163920,
+            163920,
+            163668,
+            163732,
+            163920,
+            163777,
+            163824,
+            163872
+          ]
+        },
+        "switch_tables": [
+          {
+            "start": 163944,
+            "targets": [
+              163589,
+              163920,
+              163920,
+              163668,
+              163732,
+              163920,
+              163777,
+              163824,
+              163872
+            ]
+          }
+        ],
+        "compiler_switch_counts": [
+          9
+        ],
+        "return_bits": 16
       }
     },
     "callback_tables": []

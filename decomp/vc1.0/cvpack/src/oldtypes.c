@@ -380,3 +380,74 @@ unsigned short convert_old_field_list(unsigned short types, unsigned short names
     return types;
 #undef OLD_FIELD_ENTRY
 }
+
+/* Translate a C6 numeric/string leaf, advancing both counted cursors. */
+unsigned short convert_old_numeric_leaf(unsigned char **source,
+                                       unsigned char **destination)
+{
+    unsigned char *input = *source, *output = *destination;
+    unsigned char kind = *input++;
+    unsigned short length = 0, count, value, i;
+    if (kind < 0x80) {
+        *(unsigned short *)output = kind;
+        *source = input;
+        *destination = output+2;
+        return 2;
+    }
+    switch (kind) {
+    case 0x82:                     /* Counted string. */
+        count = *input++;
+        *(unsigned short *)output = 0x8010;
+        *(unsigned short *)(output+2) = count;
+        output += 4;
+        for (i = 0; i < count; ++i) *output++ = *input++;
+        /* Preserve the original's count, one less than its written size. */
+        length = count+3;
+        break;
+    case 0x85:                     /* Unsigned short, shortened when possible. */
+        value = *(unsigned short *)input;
+        if (value >= 0x8000) {
+            *(unsigned short *)output = 0x8002;
+            output += 2;
+            length = 4;
+        } else length = 2;
+        *(unsigned short *)output = value;
+        output += 2;
+        input += 2;
+        break;
+    case 0x86:                     /* Unsigned long. */
+        *(unsigned short *)output = 0x8004;
+        *(unsigned long *)(output+2) = *(unsigned long *)input;
+        input += 4;
+        output += 6;
+        length = 6;
+        break;
+    case 0x88:                     /* Signed char, retain its raw two's complement. */
+        *(unsigned short *)output = 0x8000;
+        output[2] = *input++;
+        output += 3;
+        length = 3;
+        break;
+    case 0x89:                     /* Signed short. */
+        *(unsigned short *)output = 0x8001;
+        *(unsigned short *)(output+2) = *(unsigned short *)input;
+        input += 2;
+        output += 4;
+        length = 4;
+        break;
+    case 0x8a:                     /* Signed long. */
+        *(unsigned short *)output = 0x8003;
+        *(unsigned long *)(output+2) = *(unsigned long *)input;
+        input += 4;
+        output += 6;
+        length = 6;
+        break;
+    default:
+        /* The original returns an uninitialized count for unsupported kinds.
+           Keep this unwritten value deterministically zero. */
+        break;
+    }
+    *destination = output;
+    *source = input;
+    return length;
+}
