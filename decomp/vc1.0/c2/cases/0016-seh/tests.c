@@ -22,6 +22,7 @@ extern int c2_scope_find_local_inputs(void);
 extern int c2_scope_insert_local_inputs(void);
 extern int c2_scope_mark_inputs(void);
 extern int c2_scope_visible_inputs(void);
+extern int c2_scope_lookup_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -400,6 +401,24 @@ static int mark_reference_flags(void)
     mark_exception_references(&root,1);
     return root.attributes.words.flags==1;
 }
+static int visible_local_paths(void)
+{
+    TemporaryRegister temporary;SymbolHeader symbol,borrowed;
+    ExceptionScope scope;ExceptionLocalSet set;ExceptionLocalEntry entry;
+    memset(&temporary,0xa5,sizeof temporary);temporary.kind=19;
+    exception_scope_stack_depth=0;
+    if(exception_local_visible((SymbolHeader *)&temporary))return 0;
+    memset(&symbol,0,sizeof symbol);symbol.kind=1;symbol.identifier=0xab;
+    if(exception_local_visible(&symbol))return 0;
+    memset(&scope,0,sizeof scope);memset(&set,0,sizeof set);borrowed=symbol;
+    entry.symbol=&borrowed;entry.next=0;set.buckets[11]=&entry;
+    scope.locals=&set;scope.parent_identifier=-1;scope.flags=0x40;
+    exception_scope_stack_depth=1;exception_scope_stack[0]=&scope;
+    if(exception_local_visible(&symbol)!=1)return 0;
+    return entry.symbol==&borrowed&&!entry.next&&set.buckets[11]==&entry&&
+        scope.locals==&set&&scope.flags==0x40&&symbol.identifier==0xab&&
+        exception_scope_stack_depth==1&&exception_scope_stack[0]==&scope;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -440,5 +459,7 @@ const ReconTest c2_tests[]={
     {"local insertion prepends distinct collision/duplicate links",1,local_hash_insert},
     {"actual marking leaf ECX/filter EDX and scope state",1,c2_scope_mark_inputs},
     {"scope marking distinguishes loads/stores and absent symbols",1,mark_reference_flags},
-    {"actual visible-local symbol and parent-scope contract",1,c2_scope_visible_inputs}
+    {"actual visible-local symbol and parent-scope contract",1,c2_scope_visible_inputs},
+    {"visible local packed-tag/no-owner/borrowed-id match",1,visible_local_paths},
+    {"actual parent lookup ECX head/EDX identifier and aliases",1,c2_scope_lookup_inputs}
 };

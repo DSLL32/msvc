@@ -514,3 +514,17 @@ void __fastcall mark_exception_references(Node *node, unsigned filter_depth)
         node = node->left.node;
     }
 }
+
+/* Original [00066170,000661bf). Kind19 is the packed thirteen-byte
+   temporary-register descriptor: stop after its common tag, before reading
+   any full symbol identifier. Other references search each enclosing set. */
+int __fastcall exception_local_visible(SymbolHeader *symbol)
+{
+    ExceptionScope *scope;
+    if (symbol->kind == 19) return 0;
+    for (scope = current_exception_scope(); scope;
+         scope = lookup_exception_scope(prepared_exception_scopes, scope->parent_identifier)) {
+        if (scope->locals && find_exception_local(scope->locals, symbol->identifier)) return 1;
+    }
+    return 0;
+}

@@ -260,3 +260,16 @@ int c2_scope_visible_inputs(void)
     return recon_native_at_entry((const void *)exception_local_visible,
         (const void *)visible_entry,real_input,0)==1;
 }
+
+static ExceptionScope *__fastcall lookup_scope_entry(ExceptionScope *scopes,long identifier)
+{
+    int valid=scopes==prepared_exception_scopes&&identifier==0&&!scopes->identifier&&
+        exception_scope_stack_depth==2&&scopes->next==exception_scope_stack[1]&&
+        scopes->next->identifier==1;
+    recon_native_entry_finish(valid);
+}
+int c2_scope_lookup_inputs(void)
+{
+    return recon_native_at_entry((const void *)lookup_exception_scope,
+        (const void *)lookup_scope_entry,real_input,0)==1;
+}

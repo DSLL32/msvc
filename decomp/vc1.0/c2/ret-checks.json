@@ -150,6 +150,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@exception_local_visible@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }
