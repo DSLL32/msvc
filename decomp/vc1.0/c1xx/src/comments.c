@@ -67,3 +67,25 @@ int skip_source_comment(void)
     }
     return 0;
 }
+
+/* Original0x24740..0x247a8, cdecl. Discard comment text while
+   retaining source-window/line-splice handling and complete DBCS pairs. */
+void discard_line_comment(void)
+{
+    unsigned char character;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        switch (character_class[character]) {
+        case CC_ESCAPE_OR_END:
+            if (recover_special_character() == 1 && character == '\\')
+                compiler_warning(3,10);
+            break;
+        case CC_LEAD_BYTE:
+            ++source_text_cursor;
+            break;
+        case CC_NEWLINE:
+            --source_text_cursor;
+            return;
+        }
+    }
+}

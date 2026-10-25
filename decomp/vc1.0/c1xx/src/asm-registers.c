@@ -176,3 +176,22 @@ AsmExpression *__stdcall make_asm_stack_register(short reg, int index)
     expression->field08 = (unsigned)(int)reg;
     return expression;
 }
+
+/* Original0x80072..0x800ea, stdcall8. Store the parser's segment
+   ID before normalize_asm_addresses later replaces it by its encoding. */
+AsmExpression *__stdcall apply_asm_segment(short segment, AsmExpression *value)
+{
+    AsmAddress *address;
+    char *context;
+    if ((asm_register_properties[segment] & 0xc0) == REG_SEGMENT &&
+        !(asm_operand->address->flags & 0x3f) && !asm_brackets_used && value->kind != 3) {
+        address = asm_operand->address;
+        address->flags = (unsigned char)((segment & 0x3f) | (address->flags & 0xc0));
+        asm_operand->address->address_flags &= 0xef;
+        asm_operand->address->address_flags |= 0x10;
+    } else {
+        context = asm_error_context();
+        report_syntax_error(422,context);
+    }
+    return value;
+}

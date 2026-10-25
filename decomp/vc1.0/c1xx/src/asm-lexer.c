@@ -6,6 +6,7 @@
 #include "source-input.h"
 #include "diagnostics.h"
 #include "enumerators.h"
+#include "characters.h"
 #include <recon.h>
 
 unsigned char asm_token_classes[213] = {
@@ -207,4 +208,34 @@ unsigned char classify_asm_identifier(void)
     }
     asm_current_token = AS_IDENTIFIER;
     return AS_IDENTIFIER;
+}
+
+void discard_line_comment(void);
+
+/* Original0x7d704..0x7d793. A semicolon comment leaves its newline
+   for the scanner. /C writes the original two-byte semicolon/NUL prefix. */
+void copy_asm_comment(void)
+{
+    unsigned char character;
+    if (!options.option_C) {
+        discard_line_comment();
+        return;
+    }
+    fwrite(";",2,1,preprocessor_stream);
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        switch (character_class[character]) {
+        case CC_CARRIAGE_RETURN:
+            break;
+        case CC_ESCAPE_OR_END:
+            recover_special_character();
+            break;
+        case CC_NEWLINE:
+            --source_text_cursor;
+            return;
+        default:
+            putc(character,preprocessor_stream);
+            break;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 /* C++ declaration type and tag interpretation. */
 #include "lexer.h"
+#include "keywords.h"
 #include <recon.h>
 
 #define LEXICAL_DECLARATION_CODE(destination_, token_) do { \
@@ -569,4 +570,42 @@ void __stdcall add_storage_specifier(StorageSpec *storage, unsigned char kind,
     }
     if (duplicate != 1)
         compiler_warning(1, 141, duplicate == 2 ? interned_name : token_spellings[duplicate]);
+}
+
+/* Original0x19c50..0x19d6d, cdecl1. Declspec identifiers use the
+   existing interned keyword prefix and the four initialized attribute rows. */
+void read_declspec_attributes(StorageSpec *storage)
+{
+    unsigned char token, flags, index;
+    DeclspecSpec *attribute;
+    token = scan_token();
+    if (token != 128) {
+        report_syntax_error(54,token_spellings[token]);
+        unget_token(token);
+        storage->flags |= 8;
+        return;
+    }
+    cpp_parser_flags |= 0x10000000UL;
+    while ((token = scan_token()) != 136) {
+        if (token == 2) {
+            flags = SYMBOL_FROM_NAME(current_token_value.name)->flags;
+            if (flags & 0x20) {
+                index = KEYWORD_FROM_NAME(current_token_value.name)->token;
+                if (flags & 1) add_storage_specifier(storage,0,index,0);
+                else {
+                    attribute = &declspec_specs[index];
+                    if (attribute->attribute == 2)
+                        add_storage_specifier(storage,(unsigned char)attribute->parameter_mode,1,0);
+                    else if (!attribute->reserved)
+                        add_storage_specifier(storage,0,(unsigned char)attribute->attribute,0);
+                }
+                continue;
+            }
+            report_syntax_error(485,current_token_value.name);
+        } else {
+            report_syntax_error(59,token_spellings[token]);
+        }
+        storage->flags |= 8;
+    }
+    cpp_parser_flags &= ~0x10000000UL;
 }

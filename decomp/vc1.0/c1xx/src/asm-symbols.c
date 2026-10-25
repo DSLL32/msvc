@@ -2,6 +2,8 @@
 #include "asm.h"
 #include "global-ir.h"
 #include "unary-expressions.h"
+#include "ir.h"
+#include "characters.h"
 #include <recon.h>
 
 extern CppSymbol *translation_sentinel, *translation_placeholder;
@@ -144,4 +146,28 @@ AsmExpression *__stdcall make_asm_offset(AsmExpression *value)
     asm_operand->address->address_flags |= 3;
     asm_operand->size = 2;
     return value;
+}
+
+IrToken *__stdcall new_symbol_reference(unsigned char operation, CppSymbol *symbol, CType *type);
+
+/* Original0x3bb80..0x3bc0e, stdcall4. Define every case-insensitive
+   matching unresolved spelling, or register a new assembler label. */
+void __stdcall emit_asm_label(char *name)
+{
+    CppSymbol *label;
+    int found = 0;
+    for (label = label_symbols; label; label = label->next) {
+        if (!label->detail.value && !compare_names_ignore_case(name,label->name)) {
+            found = 1;
+            label->attributes |= 0x1000;
+            if (label->flags & 4) report_syntax_error(412,label->name);
+            else emit_label(new_symbol_reference(2,label,0));
+        }
+    }
+    if (!found) {
+        label = new_label(name);
+        label->attributes |= 0x1000;
+        register_label(label);
+        emit_label(new_symbol_reference(2,label,0));
+    }
 }

@@ -194,7 +194,6 @@ void report_ide_line(void) { __asm { int 3 } }
 void finish_pch_capture(void) { __asm { int 3 } }
 
 
-void read_declspec_attributes(StorageSpec *storage) { __asm { int 3 } }
 CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
 
 
@@ -519,7 +518,6 @@ RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token) { Parser
 void __stdcall report_asm_parser_error(char *text) { __asm { int 3 } }
 
 
-void __stdcall emit_asm_label(char *name) { __asm { int 3 } }
 
 void __stdcall set_asm_directive(short directive, unsigned value) { __asm { int 3 } }
 
@@ -536,7 +534,6 @@ char *asm_error_context(void) { __asm { int 3 } return 0; }
 
 AsmExpression *__stdcall evaluate_asm_unary(short operation, AsmExpression *value) { __asm { int 3 } return 0; }
 
-AsmExpression *__stdcall apply_asm_segment(short segment, AsmExpression *value) { __asm { int 3 } return 0; }
 
 
 
@@ -551,7 +548,6 @@ AsmExpression *__stdcall make_asm_segment_value(AsmExpression *value) { __asm { 
 
 
 
-void copy_asm_comment(void) { __asm { int 3 } }
 
 
 
