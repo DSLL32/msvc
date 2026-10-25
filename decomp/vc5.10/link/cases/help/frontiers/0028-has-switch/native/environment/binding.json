@@ -1,9 +1,0 @@
-{
-  "source": "/root/.ai-tmp/msvc2/vc5.10/link/masked-elabdod5",
-  "reference_sha256": "07a69d810c8a30c6651d0e957cbdd57a6b0dd6e63f2efb4e1105e1d12c2e5d72",
-  "consumed_fields": {
-    "SYSTEM_INFO.dwPageSize": 4096,
-    "MEMORYSTATUS.dwTotalPhys": 2147483647
-  },
-  "volatile_fields": "Full captured sample replayed exactly; no other target consumption is approved."
-}

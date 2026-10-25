@@ -1,5 +1,0 @@
-python3 scripts/runtime-identity.py --rebuilt
-{
-  "verified": 11,
-  "unresolved": []
-}

@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804c298 in collect_file_arguments (argc=2, argv=0xffffd914, before=0x805c085 "LINK", after=0x805c08a "_LINK_") at src/link-driver.cpp:183
-183	void __stdcall collect_file_arguments(int argc,char **argv,const char *before,const char *after) { __asm { int 3 }  }

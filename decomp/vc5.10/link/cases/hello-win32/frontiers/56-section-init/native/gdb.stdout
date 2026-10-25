@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804d9fb in create_output_section (module=0x0, name=0x806fc8b ".bss", flags=3221225600, sections=0x809ad74, header=0x809ac04) at src/sections.c:13
-13	    __asm { int 3 }

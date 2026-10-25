@@ -1,5 +1,0 @@
-{
-  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/link/masked-e2w2ookw",
-  "module_copies": "Actual debugger hFile copies stay in the receipt-named original capture. Their bytes/hashes remain pinned by the unmodified receipt; provided toolchain files are not duplicated here.",
-  "mask_encoding": "gzip with mtime 0; decode before applying the original receipt hash"
-}

@@ -1,7 +1,0 @@
-{
-  "stale_capture_rejection": "/root/.ai-tmp/msvc2/vc5.10/link/group-next-native.log",
-  "pre_rebuild_native": "/root/.ai-tmp/msvc2/vc5.10/link/group-next-pre-shared-ELF",
-  "pre_rebuild_sha256": "5d6101b1e302c4ba04b0dc1650b8be1cab8740c40bbbe265ff77302ed1be2578",
-  "original_build_up_to_date": true,
-  "reason": "Shared native include changed; native-only rebuild reuses exact unchanged original mask/prefix/input/cwd evidence."
-}

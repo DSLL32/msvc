@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x08059602 in check_output_input_collision (output=0xffffda39 "hello.exe", inputs=0x809db50) at src/pass-one.cpp:138
-138	extern "C" void __stdcall check_output_input_collision(const char *output,InputArgument *inputs) { __asm { int 3 } }

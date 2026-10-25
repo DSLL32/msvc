@@ -1,87 +1,47 @@
 PYTHON ?= python3
-NATIVE_CC ?= clang
-NATIVE_CXX ?= clang++
+RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
-TOOL = $(PYTHON) scripts/wine-tool.py
-SOURCES = src/option-stubs.c src/symbols.c src/arguments.c src/reproduction.c src/memory.c src/files.c src/driver-stubs.c src/driver.c src/initializers.c src/full-link-init.c src/comdat.c src/sections.c src/libraries.c src/input.c src/machine.c src/module-index.c
-CPP_SOURCES = src/link-driver.cpp src/options.cpp src/full-link.cpp src/full-link-stubs.cpp src/section-driver.cpp src/pass-one.cpp src/input-machine.cpp src/input-module.cpp
-OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES)) $(patsubst src/%.cpp,build/%.obj,$(CPP_SOURCES))
-NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES)) $(patsubst src/%.cpp,build/native/%.o,$(CPP_SOURCES)) build/native/native-host.o
-HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
-ORIGINAL_HEADERS = $(wildcard src/*.h)
-NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie
-NATIVE_CPPFLAGS = -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
-NATIVE_APP_FLAGS = -DRECON_NATIVE_TRACE -finstrument-functions
-SHIMS = $(wildcard $(RECON)/src/*.c)
+NATIVE_CC = clang
+NATIVE_CXX = clang++
+BINARY_LINKER = clang
+NATIVE_CPPFLAGS = -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
+NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
+NATIVE_CXXFLAGS = -nostdinc++ -fno-exceptions -fno-rtti
+BINARY_SOURCES = src/option-stubs.c src/symbols.c src/arguments.c src/reproduction.c src/memory.c src/files.c src/driver-stubs.c src/driver.c src/initializers.c src/full-link-init.c src/comdat.c src/sections.c src/libraries.c src/input.c src/machine.c src/module-index.c src/link-driver.cpp src/options.cpp src/full-link.cpp src/full-link-stubs.cpp src/section-driver.cpp src/pass-one.cpp src/input-machine.cpp src/input-module.cpp
+BINARY_SUPPORT_SOURCES = $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
-.PHONY: all inspect native original audit fixtures check capture-help
-all: native
+ORIGINAL_TOOLCHAIN = 5.10
+ORIGINAL_SOURCES = $(BINARY_SOURCES)
+ORIGINAL_BUILD = build
+ORIGINAL_OUTPUT = build/link.exe
+ORIGINAL_MAP = build/link.map
+ORIGINAL_CPPFLAGS = /Isrc /I$(RECON)/include
+ORIGINAL_CFLAGS = /nologo /c /MD /Od /Z7
+ORIGINAL_LDFLAGS = /nologo /incremental:no
+ORIGINAL_LDLIBS = build/operator-new-alias.obj build/operator-delete-alias.obj $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB
+ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 
-include ../../../tooling/graph-audit/graph-audit.mk
+RECON_AUDIT_PROFILE = link
+RECON_IMAGE_BASE = 4194304
+RECON_POLICY = policy-data.json
+RECON_AUDIT_REGISTRY_METADATA = 1
+RECON_AUDIT_REGISTRY_RUNTIME = 1
+RECON_AUDIT_REGISTRY_RET_CHECKS = 1
+RECON_METADATA_REBUILT_MAP = build/link.map
+RECON_AUDIT_PREREQUISITES = policy-contracts.json
+RECON_AUDIT_FLAGS = --original $(RECON_REPO_ROOT)/toolchains/5.10/bin/LINK.EXE -q --discovery cfg --check-imports --check-references --check-ownership --check-extents --check-callbacks --include-evidenced-runtime
+RECON_AUDIT_IDENTIFY_RUNTIME = 1
+RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
+RECON_RUNTIME_FLAGS = --library MSVCRT.LIB
+include $(RECON_TOOL_DIR)/recon-tool.mk
 
-inspect:
-	$(PYTHON) scripts/inspect.py
+.build/pic/src/driver.c.o: NATIVE_CPPFLAGS += -Dmain=link_main
+$(filter %.cpp.obj,$(ORIGINAL_OBJECTS)): ORIGINAL_CFLAGS += /GR- /GX-
+$(filter %.cpp.o,$(BINARY_OBJECTS)): NATIVE_CFLAGS := $(filter-out -std=gnu89,$(NATIVE_CFLAGS)) -std=gnu++98
 
-build build/native:
-	mkdir -p $@
-
-build/%.obj: src/%.c $(ORIGINAL_HEADERS) | build
-	$(TOOL) CL.EXE /nologo /c /MD /Od /Z7 /I$(RECON)/include /Fo$@ $<
-
-# The POD thiscall caller requires C++; no RTTI, EH or language runtime.
-build/%.obj: src/%.cpp $(ORIGINAL_HEADERS) | build
-	$(TOOL) CL.EXE /nologo /c /MD /Od /Z7 /GR- /GX- /I$(RECON)/include /Fo$@ $<
-
-build/native/%.o: src/%.cpp $(HEADERS) Makefile | build/native
-	$(NATIVE_CXX) $(filter-out -std=gnu89,$(NATIVE_FLAGS)) -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti $(NATIVE_CPPFLAGS) $(NATIVE_APP_FLAGS) -c $< -o $@
-
-build/operator-new-alias.obj: scripts/weak-import.py | build
+build/operator-new-alias.obj: scripts/weak-import.py
+	@mkdir -p $(@D)
 	$(PYTHON) scripts/weak-import.py $@
-
-build/link.exe: $(OBJECTS) build/operator-new-alias.obj build/operator-delete-alias.obj Makefile
-	$(TOOL) LINK.EXE /nologo /incremental:no /map:build/link.map /out:$@ $(OBJECTS) build/operator-new-alias.obj build/operator-delete-alias.obj kernel32.lib
-
-original: build/link.exe build/capture-help.exe
-
-build/capture-help.exe: scripts/capture-help.c | build
-	$(TOOL) CL.EXE /nologo /MT /Od /I$(RECON)/include /Febuild/capture-help.exe /Fobuild/capture-help.obj $<
-
-build/native/%.o: src/%.c $(HEADERS) Makefile | build/native
-	$(NATIVE_CC) $(NATIVE_FLAGS) $(NATIVE_CPPFLAGS) $(NATIVE_APP_FLAGS) $(if $(filter src/driver.c,$<),-Dmain=link_main) -c $< -o $@
-
-build/native/native-host.o: scripts/native-host.c $(HEADERS) Makefile | build/native
-	$(NATIVE_CC) $(NATIVE_FLAGS) $(NATIVE_CPPFLAGS) -Isrc -c $< -o $@
-
-build/native/LINK.EXE: $(NATIVE_OBJECTS) $(SHIMS) $(HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_FLAGS) $(NATIVE_CPPFLAGS) -no-pie $(NATIVE_OBJECTS) $(SHIMS) -o $@
-
-native: build/native/LINK.EXE
-
-build/runtime.json: build/link.exe runtime.json graph.json functions.json scripts/runtime-identity.py scripts/binary.py
-	$(PYTHON) scripts/runtime-identity.py --rebuilt
-
-audit: build/runtime.json $(GRAPH_AUDIT_BIN)
-	$(PYTHON) scripts/audit.py
-
-# Explicit reference capture stays separate from every fixture prerequisite.
-capture-help: build/capture-help.exe
-	$(PYTHON) scripts/reference.py --mode original
-
-fixtures check: native
-	$(PYTHON) scripts/check-native.py
-
-# Explicit original-only ABI/provider probe; never a fixture prerequisite.
-build/operator-delete-alias.obj: scripts/weak-import.py | build
+build/operator-delete-alias.obj: scripts/weak-import.py
+	@mkdir -p $(@D)
 	$(PYTHON) scripts/weak-import.py --delete $@
-
-build/delete-probe.obj: scripts/delete-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /MD /Od /Z7 /I$(RECON)/include /Fo$@ $<
-
-build/delete-probe.exe: build/delete-probe.obj build/operator-new-alias.obj build/operator-delete-alias.obj
-	$(TOOL) LINK.EXE /nologo /incremental:no /out:$@ $^ kernel32.lib
-
-# Explicit original-only case input preparation, never a fixture prerequisite.
-build/hello-win32:
-	mkdir -p $@
-build/hello-win32/hello.obj: cases/hello-win32/source/hello.c | build/hello-win32
-	$(TOOL) CL.EXE /nologo /c /O2 /G5 /Fo$@ /Fdbuild/hello-win32/compiler.pdb $<

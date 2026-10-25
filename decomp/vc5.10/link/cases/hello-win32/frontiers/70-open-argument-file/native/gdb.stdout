@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804c878 in acquire_file_record (name=0xffffda39 "hello.exe", flags=33538, mode=384, created=0xffffd023 "") at src/files.c:77
-77	FileRecord *__stdcall acquire_file_record(const char *name,int flags,int mode,unsigned char *created) { __asm { int 3 } return NULL; }

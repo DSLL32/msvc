@@ -1,9 +1,0 @@
-{
-  "source": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-k6epi62r",
-  "reference_sha256": "d864b32a9564e5ec3b68cc6beffc294bc0c3e2f861d83dbace40e825ad0e0efe",
-  "consumed_fields": {
-    "SYSTEM_INFO.dwPageSize": 4096,
-    "MEMORYSTATUS.dwTotalPhys": 2147483647
-  },
-  "volatile_fields": "Full captured sample replayed exactly; no other target consumption is approved."
-}

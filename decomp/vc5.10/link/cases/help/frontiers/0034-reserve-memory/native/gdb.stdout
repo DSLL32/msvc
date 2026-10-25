@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804b80f in create_memory_arena (bytes=4096) at src/memory.c:54
-54	{ __asm { int 3 } return NULL; }

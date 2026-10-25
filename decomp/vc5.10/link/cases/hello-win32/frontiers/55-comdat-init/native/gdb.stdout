@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x080570a5 in LinkContext::InitializeSections (this=0x809abc0) at src/full-link-stubs.cpp:40
-40	void RECON_THISCALL LinkContext::InitializeSections(void) { __asm { int 3 } }

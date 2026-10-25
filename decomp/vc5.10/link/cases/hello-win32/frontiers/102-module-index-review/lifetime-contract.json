@@ -1,9 +1,0 @@
-{
-  "module_index_inputs": "cdecl0/nohidden; reads actual resetBYTE1, valueDWORDpair0, existingbuffer8base/count/capacity500/500; no duplicate storage",
-  "normal_return": "actual EAXDWORD0 andRET0; constructor storesindex0 andnormalRET48 publishesmodule",
-  "array": "Same4000B allocation; count500->1/cap500; reset1->0; first8Bcopiedfrom2actualzeroDWORDs. Unused3992B are owninitialmallocbytes unchangedwithin eachrun, never crossequal.",
-  "module": "Full156B constructor record fromcaseheader, genuine borrowedlibrary andtwoownednames/contribution448B; currentfile_size2262 laterwrittenfromderivedacceptedlengthcall.",
-  "publication": "Libraryhead->createdmodule beforeconstructorreturn; priornextNULL, module/libraryarenas312/136; contributionarena448/4096",
-  "owners": "Pendingheaderhelperargument is genuine read_object_file liveModule*local withDWARF4B offset-40; header20B/-36 andcreatedBYTE/-45 livein samecaller, originalheaderESPentry-20/createdreusedincomingarglowbyte retained. Earliergetlengtherrorlocalsretired.",
-  "pending": "Full32B actualconsumer proves1pointer/nohidden/RET4, remainsnamedmaskedtrapandzerobodycredit. Sourceemittedactualstub12Bframe/30Btraceprologue validated; pendingreturn4498c5 explicitlycorrectedfrompreliminary8bb estimate."
-}

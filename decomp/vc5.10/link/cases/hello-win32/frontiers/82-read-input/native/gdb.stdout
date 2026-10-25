@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804bc12 in is_archive (name=0x809fb40 "hello.obj", file=14) at src/arguments.c:203
-203	unsigned char __stdcall is_archive(const char *name,int file) { __asm { int 3 } return 0; }

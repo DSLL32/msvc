@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804bd12 in search_library_paths (name=0xffffda4d "kernel32.lib", found=0xffffcf21 "") at src/arguments.c:182
-182	    __asm { int 3 }

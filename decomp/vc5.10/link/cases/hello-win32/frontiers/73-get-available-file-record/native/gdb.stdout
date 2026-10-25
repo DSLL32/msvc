@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804ccce in move_file_record (record=0x809ca90, source_first=0x807d364 <file_newest>, source_last=0x0, destination_first=0x807d3b8 <pending_files>, destination_last=0x0, append=0 '\000') at src/files.c:126
-126	    FileRecord **destination_last,unsigned char append) { __asm { int 3 } }

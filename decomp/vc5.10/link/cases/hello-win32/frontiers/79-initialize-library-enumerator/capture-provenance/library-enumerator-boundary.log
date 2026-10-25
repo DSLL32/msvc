@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc5.10/link/scripts/check-boundary.py", line 509, in <module>
-    else:negative('swapped actual exposed formals',lambda s:s['frontier_inputs']['formals'].reverse())
-         ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/root/msvc2/decomp/vc5.10/link/scripts/check-boundary.py", line 29, in negative
-    raise AssertionError('mutation accepted: '+label)
-AssertionError: mutation accepted: swapped actual exposed formals

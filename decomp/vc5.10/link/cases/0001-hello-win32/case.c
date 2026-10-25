@@ -1,0 +1,109 @@
+#include <recon-tool.h>
+#include <recon.h>
+extern int recon_link_setup(void);
+extern int recon_link_invoke(int,char **);
+static const uint32_t order[] = {
+ 0x24e60, /* _initialize_buffer12 */
+ 0x24e70, /* _allocate_buffer12 */
+ 0x24ea0, /* _register_buffer12_cleanup */
+ 0x31d70, /* _initialize_buffer8 */
+ 0x31d80, /* _allocate_buffer8 */
+ 0x31db0, /* _register_buffer8_cleanup */
+ 0x31de0, /* _initialize_buffer4 */
+ 0x31df0, /* _allocate_buffer4 */
+ 0x31e20, /* _register_buffer4_cleanup */
+ 0x44e60, /* _initialize_timing */
+ 0x44e70, /* _setup_timing */
+ 0x44ea0, /* _register_timing_cleanup */
+ 0xde90, /* _main */
+ 0x15230, /* _initialize_debug@8 */
+ 0xb560, /* _initialize_file_cache@16 */
+ 0x152f0, /* _get_debug_flag@4 */
+ 0x4fe70, /* _zero_allocate@4 */
+ 0xb660, /* _new_file_record */
+ 0x4f560, /* _initialize_memory */
+ 0x48cb0, /* _run_linker@8 */
+ 0x44b10, /* _initialize_repro */
+ 0x5caa0, /* _collect_file_arguments@16 */
+ 0x5cb20, /* _parse_command_line@16 */
+ 0x5c780, /* _parse_argument@8 */
+ 0x5c750, /* _is_libpath@4 */
+ 0x5cca0, /* _append_argument@8 */
+ 0x5cc00, /* _append_argument_record@12 */
+ 0x5c650, /* _canonicalize_argument@8 */
+ 0x4fed0, /* _duplicate_argument@4 */
+ 0x5c530, /* _search_library_paths@8 */
+ 0x44f20, /* _has_switch@4 */
+ 0x4fd40, /* _allocate_link_memory@8 */
+ 0x337d0, /* LinkContext::Initialize */
+ 0x62220, /* _create_string_table@12 */
+ 0x30c70, /* _initialize_hash_table@20 */
+ 0x30c30, /* _hash_allocate@16 */
+ 0x4f5e0, /* _reserve_memory@8 */
+ 0x4f640, /* _create_memory_arena@4 */
+ 0x4fe50, /* _allocate_memory@4 */
+ 0x45130, /* _configure_link_options@12 */
+ 0xd0c0, /* _parse_switch@8 */
+ 0x4fe30, /* _release_memory@4 */
+ 0x48630, /* _validate_debug_options@4 */
+ 0x42f50, /* ?FullLink@LinkContext@@QAEHPAE@Z */
+ 0xe3b0, /* _initialize_output_modules@4 */
+ 0x4fd80, /* _duplicate_link_string@4 */
+ 0xe360, /* _initialize_contribution_pools */
+ 0x4f5b0, /* _allocate_virtual_memory@16 */
+ 0x62eb0, /* _initialize_comdats */
+ 0x3e170, /* LinkContext::InitializeSections */
+ 0xef90, /* _create_output_section@20 */
+ 0xf130, /* _find_matching_output_section@20 */
+ 0x5e820, /* _adjust_output_section_flags@12 */
+ 0xfbd0, /* _initialize_section_enumerator@8 */
+ 0xfc00, /* _next_output_section@4 */
+ 0xfd90, /* _end_section_enumerator */
+ 0xe620, /* _resolve_output_section@4 */
+ 0xe700, /* _create_contribution_group@8 */
+ 0xe670, /* _find_contribution_group@8 */
+ 0xfc40, /* _initialize_group_enumerator@8 */
+ 0xfc70, /* _next_contribution_group@4 */
+ 0x4b860, /* LinkContext::PassOne */
+ 0x61840, /* _check_output_input_collision@8 */
+ 0xb7f0, /* _open_argument_file@12 */
+ 0xb870, /* _acquire_file_record@16 */
+ 0xb960, /* _find_cached_file@4 */
+ 0xb8f0, /* _get_available_file_record */
+ 0xc7e0, /* _move_file_record@24 */
+ 0xc880, /* _open_mapped_file@16 */
+ 0xccf0, /* _initialize_file_mapping@12 */
+ 0xedd0, /* _create_library@12 */
+ 0xf650, /* _find_library@12 */
+ 0xfaf0, /* _initialize_library_enumerator@8 */
+ 0xfb20, /* _next_library@4 */
+ 0x49a50, /* LinkContext::LoadInputArgument */
+ 0x498d0, /* _read_input_argument@12 */
+ 0x5cd40, /* _is_archive@8 */
+ 0xcab0, /* _mapped_read@12 */
+ 0x4e620, /* _is_mac_resource_file@4 */
+ 0xc080, /* _get_file_length@4 */
+ 0xc030, /* _seek_file@16 */
+ 0xca10, /* _seek_mapped_file@16 */
+ 0x4e5c0, /* _read_big_endian_dword@4 */
+ 0x5d890, /* _byte_swap_dword@4 */
+ 0x497e0, /* _read_object_file@12 */
+ 0x10530, /* _check_input_machine@8 */
+ 0x103f0, /* _detect_input_machine@8 */
+ 0x49630, /* _initialize_machine@4 */
+ 0x1f9b0, /* _validate_delay_load_options@4 */
+ 0x31890, /* _initialize_x86_backend@8 */
+ 0x610c0, /* _read_coff_header@16 */
+ 0xea00, /* _create_input_module@48 */
+ 0xf7a0, /* OutputLibrary::FindModule */
+ 0xfb60, /* _initialize_module_enumerator@8 */
+ 0xfb90, /* _next_module@4 */
+ 0x31e50, /* _allocate_module_index */
+ 0x62ef0, /* _allocate_module_section_headers@4 */
+};
+RECON_EXPORT const ReconCase case_descriptor = {
+ RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
+ "Win32 hello link; accepted allocator-index prefix, genuine section-header allocator frontier.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x62ef0,
+ recon_link_setup,recon_link_invoke,NULL,NULL,0
+};

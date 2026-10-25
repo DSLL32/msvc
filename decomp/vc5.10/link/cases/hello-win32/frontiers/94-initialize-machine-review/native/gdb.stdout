@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804ffdf in validate_delay_load_options (context=0x80a1bc0) at src/machine.c:51
-51	void __stdcall validate_delay_load_options(LinkContext *context) { __asm { int 3 } }

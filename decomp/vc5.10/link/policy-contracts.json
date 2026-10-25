@@ -1,0 +1,3343 @@
+{
+  "schema": 1,
+  "original_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+  "reviewed_at_commit": "bc043a3e6fbeb243d65ebc0b0bd0963674f63155",
+  "imports": [
+    {
+      "identity": "msvcrt.dll!__p__pgmptr",
+      "provider_export": {
+        "ordinal": 117,
+        "rva": 27736
+      },
+      "entry_bytes": "b880fa0378c35153558b6c241056578b",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 361,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP char **        __cdecl __p__pgmptr(void);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!_makepath",
+      "provider_export": {
+        "ordinal": 326,
+        "rva": 32010
+      },
+      "entry_bytes": "8b4424085685c0740a8a0084c00f85b8",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 498,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP void   __cdecl _makepath(char *, const char *, const char *, const char *,"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!_splitpath",
+      "provider_export": {
+        "ordinal": 439,
+        "rva": 27742
+      },
+      "entry_bytes": "5153558b6c241056578bfd83c9ff33c0",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 508,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP void   __cdecl _splitpath(const char *, char *, char *, char *, char *);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "preserves": []
+    },
+    {
+      "identity": "msvcrt.dll!_stricmp",
+      "provider_export": {
+        "ordinal": 447,
+        "rva": 35470
+      },
+      "entry_bytes": "558bec5756538b750c8b7d088d05a8f1",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 142,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP int     __cdecl _stricmp(const char *, const char *);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "preserves": [
+        "ebp"
+      ]
+    },
+    {
+      "identity": "msvcrt.dll!atoi",
+      "provider_export": {
+        "ordinal": 571,
+        "rva": 114208
+      },
+      "entry_bytes": "8b44240450e8069ffeff83c404c35153",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 414,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP int    __cdecl atoi(const char *);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!fopen",
+      "provider_export": {
+        "ordinal": 597,
+        "rva": 159763
+      },
+      "entry_bytes": "8b4424088b4c24046a405051e8e402fe",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 341,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP FILE * __cdecl fopen(const char *, const char *);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!strchr",
+      "provider_export": {
+        "ordinal": 693,
+        "rva": 22036
+      },
+      "entry_bytes": "33c08a442408538bd8c1e0088b542408",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 140,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP char *  __cdecl strchr(const char *, int);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!printf",
+      "provider_export": {
+        "ordinal": 668,
+        "rva": 13661
+      },
+      "entry_bytes": "56576890f503786a01e846faffff83c4",
+      "abi": "x86 __cdecl; EBX/ESI/EDI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 361,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl printf(const char *, ...);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!sprintf",
+      "provider_export": {
+        "ordinal": 688,
+        "rva": 15981
+      },
+      "entry_bytes": "83ec208b4424248b4c24288944240889",
+      "abi": "Explicit shipped SDK x86 __cdecl ordinary normal-return ABI; preserves the stated needed nonvolatile registers. Actual canonical provider export/entry/hFile bound independently.",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 375,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl sprintf(char *, const char *, ...);"
+        }
+      ],
+      "preserves": [
+        "esi"
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!fprintf",
+      "provider_export": {
+        "ordinal": 598,
+        "rva": 38474
+      },
+      "entry_bytes": "53568b74240c5756e841ccffff83c404",
+      "abi": "Explicit shipped SDK x86 __cdecl ordinary normal-return ABI; preserves the stated needed nonvolatile registers. Actual canonical provider export/entry/hFile bound independently.",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 342,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl fprintf(FILE *, const char *, ...);"
+        }
+      ],
+      "preserves": [
+        "ebx",
+        "edi"
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!fflush",
+      "provider_export": {
+        "ordinal": 589,
+        "rva": 25340
+      },
+      "entry_bytes": "568b74240885f60f84357a00005756e8",
+      "abi": "Explicit shipped SDK x86 __cdecl ordinary normal-return ABI; preserves the stated needed nonvolatile registers. Actual canonical provider export/entry/hFile bound independently.",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 328,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl fflush(FILE *);"
+        }
+      ],
+      "preserves": [
+        "ebx",
+        "edi"
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "kernel32.dll!GetTickCount",
+      "provider_export": {
+        "ordinal": 775,
+        "rva": 107760
+      },
+      "entry_bytes": "8bff558beca12003fe7f5dc3",
+      "preserves": [
+        "ebx",
+        "edi"
+      ],
+      "inspection": "Actual hFile export body: mov edi,edi; push ebp; mov ebp,esp; mov eax,[7ffe0320]; pop ebp; ret. No EBX/EDI value change, calls, or alternate normal return. mov edi,edi is identity, not a clobber.",
+      "declaration": {
+        "path": "toolchains/5.10/include/WINBASE.H",
+        "line_begin": 2864,
+        "line_end": 2869,
+        "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5",
+        "text": "WINBASEAPI\nDWORD\nWINAPI\nGetTickCount(\n    VOID\n    );"
+      },
+      "provider": {
+        "bytes": 2008819,
+        "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733",
+        "export_dll_name": "KERNEL32.dll"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!fputc",
+      "provider_export": {
+        "ordinal": 599,
+        "rva": 27343
+      },
+      "entry_bytes": "568b74240c5756e8bdf7ffff8b460483",
+      "abi": "x86 __cdecl; ESI preserved on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "line": 343,
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "declaration": "_CRTIMP int __cdecl fputc(int, FILE *);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!_fullpath",
+      "provider_export": {
+        "ordinal": 240,
+        "rva": 121534
+      },
+      "entry_bytes": "53558b6c24105685ed570f84a3000000",
+      "abi": "x86 __cdecl; EDI and EBP nonvolatile on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 493,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP char * __cdecl _fullpath(char *, const char *, size_t);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "preserves": [
+        "ebp",
+        "edi",
+        "esi"
+      ]
+    },
+    {
+      "identity": "msvcrt.dll!_mbsicmp",
+      "provider_export": {
+        "ordinal": 349,
+        "rva": 25388
+      },
+      "entry_bytes": "51a1c0f1037853555685c0570f840b7a",
+      "abi": "x86 __cdecl; EBX nonvolatile on ordinary normal return",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/MBSTRING.H",
+          "line": 144,
+          "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+          "declaration": "_CRTIMP int __cdecl _mbsicmp(const unsigned char *, const unsigned char *);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "preserves": []
+    },
+    {
+      "identity": "kernel32.dll!CloseHandle",
+      "abi": "Shipped BOOL WINAPI CloseHandle(HANDLE), WINAPI __stdcall on this x86 build: EDI nonvolatile on ordinary normal return. No unknown/custom callback contract. Imported ABI boundary only; no provider implementation reconstruction.",
+      "abi_basis": {
+        "url": "https://learn.microsoft.com/en-us/cpp/cpp/argument-passing-and-naming-conventions?view=msvc-170",
+        "rule": "Microsoft x86 compiler-generated prologues and epilogues preserve used EBX, ESI and EDI. Apply only to these explicitly named, inspected ordinary Win32 callees."
+      },
+      "preserves": [
+        "edi"
+      ],
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/WINBASE.H",
+          "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5",
+          "lines": [
+            {
+              "line": 2403,
+              "text": "WINBASEAPI"
+            },
+            {
+              "line": 2404,
+              "text": "BOOL"
+            },
+            {
+              "line": 2405,
+              "text": "WINAPI"
+            },
+            {
+              "line": 2406,
+              "text": "CloseHandle("
+            },
+            {
+              "line": 2407,
+              "text": "    HANDLE hObject"
+            },
+            {
+              "line": 2408,
+              "text": "    );"
+            }
+          ]
+        },
+        {
+          "path": "toolchains/5.10/include/WINDEF.H",
+          "sha256": "0f452be4b30448e2a3ef37accd7e56ee1eb8da5e3aa414eb9228bab52d5160c0",
+          "lines": [
+            {
+              "line": 100,
+              "text": "#define WINAPI      __stdcall"
+            }
+          ]
+        }
+      ],
+      "provider": {
+        "bytes": 2008819,
+        "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!setvbuf",
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "provider_export": {
+        "ordinal": 684,
+        "rva": 104688
+      },
+      "entry_bytes": "538b5c2410555633ed578b7c242083fb",
+      "abi": "Shipped x86 __cdecl SDK ordinary normal-return callee-saved register contract. This replaces the same finite cached-IAT lifetime certificate; no application reconstruction.",
+      "preserves": [
+        "ebx"
+      ],
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "line": 373,
+          "declaration": "_CRTIMP int __cdecl setvbuf(FILE *, char *, int, size_t);"
+        }
+      ]
+    },
+    {
+      "identity": "msvcrt.dll!isdigit",
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "provider_export": {
+        "ordinal": 625,
+        "rva": 114789
+      },
+      "entry_bytes": "833da0fb0378017e108b4424046a0450",
+      "abi": "Shipped x86 __cdecl SDK ordinary normal-return callee-saved register contract. This replaces the same finite cached-IAT lifetime certificate; no application reconstruction.",
+      "preserves": [
+        "edi",
+        "ebp"
+      ],
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/CTYPE.H",
+          "sha256": "91b8db05b72f8cd29cdb5991bf16f2973b555100bb812f5acc0015e7f7c859ff",
+          "line": 169,
+          "declaration": "_CRTIMP int __cdecl isdigit(int);"
+        }
+      ]
+    },
+    {
+      "identity": "msvcrt.dll!sscanf",
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "provider_export": {
+        "ordinal": 691,
+        "rva": 169340
+      },
+      "entry_bytes": "83ec20578b7c242883c9ff33c0897c24",
+      "abi": "Shipped x86 __cdecl SDK ordinary normal-return callee-saved register contract. This replaces the same finite cached-IAT lifetime certificate; no application reconstruction.",
+      "preserves": [
+        "edi",
+        "ebp"
+      ],
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDIO.H",
+          "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+          "line": 376,
+          "declaration": "_CRTIMP int __cdecl sscanf(const char *, const char *, ...);"
+        }
+      ]
+    },
+    {
+      "identity": "msvcrt.dll!getenv",
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "provider_export": {
+        "ordinal": 616,
+        "rva": 27284
+      },
+      "entry_bytes": "566a0ce875a6ffff8b44240c83c40450",
+      "abi": "Shipped x86 __cdecl SDK ordinary normal-return callee-saved register contract. This replaces the same finite cached-IAT lifetime certificate; no application reconstruction.",
+      "preserves": [
+        "ebx",
+        "edi"
+      ],
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "line": 425,
+          "declaration": "_CRTIMP char * __cdecl getenv(const char *);"
+        }
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "name": "_link_fatal",
+      "variants": [
+        {
+          "name": "_link_fatal",
+          "original_begin": 4391472,
+          "original_end": 4391497,
+          "original_body_sha256": "0759b3c610be061d746b754241d1e81d0bebb376d90d59032fb2e3134e64c255",
+          "standard_abi": "cdecl, ret ",
+          "preservation": {
+            "ebx": {
+              "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+              "writes": []
+            },
+            "esi": {
+              "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+              "writes": []
+            },
+            "edi": {
+              "basis": "No direct or partial-register writes in full callee body. Nested normal calls use the witnessed ordinary Win32 compiler ABI.",
+              "writes": []
+            }
+          },
+          "original_normal_returns": [
+            {
+              "address": 4391496,
+              "bytes": "c3"
+            }
+          ],
+          "rebuilt_named_stub": {
+            "symbol": "_link_fatal",
+            "bytes": "558bec535657cc5f5e5b5dc3",
+            "reason": "Ordinary original-compiler extern-C cdecl trapping stub; function body bytes are checked independently of unrelated source/object changes."
+          }
+        },
+        {
+          "name": "_link_fatal",
+          "preserves": [
+            "edi"
+          ],
+          "original_ranges": [
+            {
+              "begin": 4391472,
+              "end": 4391497,
+              "sha256": "0759b3c610be061d746b754241d1e81d0bebb376d90d59032fb2e3134e64c255"
+            }
+          ],
+          "standard_abi": "",
+          "preservation": {
+            "edi": {
+              "saves": [],
+              "own_writes": [],
+              "restores": [],
+              "returns": [
+                {
+                  "return_instruction": {
+                    "address": 4391496,
+                    "bytes": "c3"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "_link_fatal",
+          "preserves": [
+            "edi",
+            "ebp"
+          ],
+          "original_witnesses": [
+            {
+              "name": "link_fatal",
+              "begin": 4391472,
+              "end": 4391497,
+              "sha256": "0759b3c610be061d746b754241d1e81d0bebb376d90d59032fb2e3134e64c255",
+              "writes": {
+                "edi": [],
+                "ebp": []
+              },
+              "saves": [],
+              "normal_returns": [
+                {
+                  "site": 4391496,
+                  "bytes": "c3"
+                }
+              ],
+              "anchors": [
+                {
+                  "site": 4391491,
+                  "bytes": "e818ffffff"
+                }
+              ]
+            },
+            {
+              "name": "emit_fatal_diagnostic",
+              "begin": 4391264,
+              "end": 4391468,
+              "sha256": "523d921f7cf74a26b5b7205129fb78ed14e6d0eba06cb6ba83409cef654411ed",
+              "writes": {
+                "edi": [
+                  {
+                    "site": 4391277,
+                    "bytes": "8b7c2418"
+                  },
+                  {
+                    "site": 4391461,
+                    "bytes": "5f"
+                  }
+                ],
+                "ebp": [
+                  {
+                    "site": 4391271,
+                    "bytes": "8b6c2418"
+                  },
+                  {
+                    "site": 4391463,
+                    "bytes": "5d"
+                  }
+                ]
+              },
+              "saves": [
+                {
+                  "site": 4391270,
+                  "bytes": "55"
+                },
+                {
+                  "site": 4391276,
+                  "bytes": "57"
+                },
+                {
+                  "site": 4391319,
+                  "bytes": "55"
+                },
+                {
+                  "site": 4391320,
+                  "bytes": "57"
+                },
+                {
+                  "site": 4391451,
+                  "bytes": "55"
+                }
+              ],
+              "normal_returns": [
+                {
+                  "site": 4391465,
+                  "bytes": "c21400"
+                }
+              ],
+              "anchors": [
+                {
+                  "site": 4391305,
+                  "bytes": "e8a253feff"
+                },
+                {
+                  "site": 4391322,
+                  "bytes": "e881feffff"
+                },
+                {
+                  "site": 4391344,
+                  "bytes": "e82bf80100"
+                },
+                {
+                  "site": 4391349,
+                  "bytes": "e8e6bcfdff"
+                },
+                {
+                  "site": 4391354,
+                  "bytes": "e87105feff"
+                },
+                {
+                  "site": 4391384,
+                  "bytes": "ffd6"
+                },
+                {
+                  "site": 4391407,
+                  "bytes": "ff156c124000"
+                },
+                {
+                  "site": 4391426,
+                  "bytes": "ffd6"
+                },
+                {
+                  "site": 4391443,
+                  "bytes": "e8e8feffff"
+                },
+                {
+                  "site": 4391452,
+                  "bytes": "ff1584114000"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "_append_bytes@12",
+      "original_begin": 4519136,
+      "original_end": 4519213,
+      "original_body_sha256": "3884a877ba3f7af1e746a59fd4c2b76711d0e0547eaaebdf16147274fd219cea",
+      "standard_abi": "stdcall, ret 0xc",
+      "preservation": {
+        "ebx": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4519136,
+            "bytes": "53"
+          },
+          "writes": [
+            {
+              "address": 4519137,
+              "bytes": "8b5c2408"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4519210,
+              "restore": {
+                "address": 4519209,
+                "bytes": "5b"
+              }
+            }
+          ]
+        },
+        "esi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4519154,
+            "bytes": "56"
+          },
+          "writes": [
+            {
+              "address": 4519172,
+              "bytes": "8b742418"
+            },
+            {
+              "address": 4519185,
+              "bytes": "f3a5"
+            },
+            {
+              "address": 4519192,
+              "bytes": "f3a4"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4519210,
+              "restore": {
+                "address": 4519200,
+                "bytes": "5e"
+              }
+            }
+          ]
+        },
+        "edi": {
+          "basis": "Entry save precedes every own/partial write and first call/branch; each normal RET has the matching restore and no later alias write.",
+          "save": {
+            "address": 4519157,
+            "bytes": "57"
+          },
+          "writes": [
+            {
+              "address": 4519167,
+              "bytes": "8b3b"
+            },
+            {
+              "address": 4519178,
+              "bytes": "03fa"
+            },
+            {
+              "address": 4519185,
+              "bytes": "f3a5"
+            },
+            {
+              "address": 4519192,
+              "bytes": "f3a4"
+            }
+          ],
+          "returns": [
+            {
+              "return_address": 4519210,
+              "restore": {
+                "address": 4519197,
+                "bytes": "5f"
+              }
+            }
+          ]
+        }
+      },
+      "original_normal_returns": [
+        {
+          "address": 4519210,
+          "bytes": "c20c00"
+        }
+      ],
+      "rebuilt_named_stub": {
+        "symbol": "_append_bytes@12",
+        "bytes": "558bec535657cc33c05f5e5b5dc20c00",
+        "reason": "Ordinary original-compiler stdcall named trap; exact emitted stub bytes bound without unrelated source/object snapshots."
+      }
+    },
+    {
+      "name": "_finish_alpha_branches",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4233424,
+          "end": 4233734,
+          "sha256": "24e59a569ef903b575d97a70a8fb1108f0435434f6341d500175aeb4d4a8f254"
+        }
+      ],
+      "standard_abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4233432,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4233433,
+              "bytes": "33ff"
+            },
+            {
+              "address": 4233695,
+              "bytes": "83c714"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4233729,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4233733,
+                "bytes": "c3"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_close_argument_file@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4242704,
+          "end": 4242844,
+          "sha256": "5f477835811b066653737ce03e9188572ba25da250f82e2d87c2e7c679971ef5"
+        }
+      ],
+      "standard_abi": "",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4242793,
+                "bytes": "c20800"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4242832,
+                "bytes": "c20800"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4242841,
+                "bytes": "c20800"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_seek_file@16",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4243504,
+          "end": 4243580,
+          "sha256": "533ee6b4ef59b34aaacdb6c885b5b70c7043ea6029adf2955883c9e39ddc6420"
+        }
+      ],
+      "standard_abi": "stdcall LONG(int file,long offset,int origin,DWORD *error); return EAX consumed by original get_file_length; callee RET16, no hidden inputs",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4243558,
+                "bytes": "c21000"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4243577,
+                "bytes": "c21000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_create_contribution@28",
+      "preserves": [
+        "esi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4253776,
+          "end": 4254044,
+          "sha256": "8376cb8df56319b2e66c27326528378e6b79f849e47858a7b95b33aad78be973"
+        }
+      ],
+      "standard_abi": "stdcall Contribution *(const char *name,DWORD bytes,DWORD flags,DWORD section_flags,OutputModule *module,SectionList *sections,LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "esi": {
+          "saves": [
+            {
+              "address": 4253778,
+              "bytes": "56"
+            },
+            {
+              "address": 4253855,
+              "bytes": "56"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4253832,
+              "bytes": "8b742424"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4254025,
+              "bytes": "5e"
+            },
+            {
+              "address": 4254038,
+              "bytes": "5e"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4254028,
+                "bytes": "c21c00"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4254041,
+                "bytes": "c21c00"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_close_pdb",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4281648,
+          "end": 4281753,
+          "sha256": "631ab6fb7b506839b657cd791691c020430dcb673cee7e67d2ad949f102a290a"
+        }
+      ],
+      "standard_abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4281689,
+                "bytes": "c3"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4281752,
+                "bytes": "c3"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_commit_pdb",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4281760,
+          "end": 4281859,
+          "sha256": "66e0982f63e0a59e56f25dcb44c63dd30fcb5a77196baf2970b4fea15f0f9221"
+        }
+      ],
+      "standard_abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4281858,
+                "bytes": "c3"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_count_hash_symbols@4",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4395552,
+          "end": 4395562,
+          "sha256": "688381b35e2008a7fd7b33f9da2c5ccb883831e156d091e6e795e95df034eca5"
+        }
+      ],
+      "standard_abi": "stdcall unsigned(HashState *table); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4395559,
+                "bytes": "c20400"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_adjust_incremental_symbols@4",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4412176,
+          "end": 4412234,
+          "sha256": "fe3ac15871bb85dc90bfb8adb8021923a20154ff5db539e2b9e96d001a3325e4"
+        }
+      ],
+      "standard_abi": "stdcall void(LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4412185,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4412202,
+              "bytes": "8b7908"
+            },
+            {
+              "address": 4412217,
+              "bytes": "2bfe"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4412230,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4412231,
+                "bytes": "c20400"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_write_mac_incremental_table@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4425280,
+          "end": 4425608,
+          "sha256": "aa08c0db4a70d7eb55aabe8783871793b7731c30d7fd1ab4043c78782893fc7a"
+        }
+      ],
+      "standard_abi": "stdcall void(LinkContext *context,DWORD offset); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4425303,
+              "bytes": "57"
+            },
+            {
+              "address": 4425409,
+              "bytes": "57"
+            },
+            {
+              "address": 4425490,
+              "bytes": "57"
+            },
+            {
+              "address": 4425561,
+              "bytes": "57"
+            },
+            {
+              "address": 4425577,
+              "bytes": "57"
+            },
+            {
+              "address": 4425595,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4425318,
+              "bytes": "8bf8"
+            },
+            {
+              "address": 4425337,
+              "bytes": "8bf8"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4425496,
+              "bytes": "5f"
+            },
+            {
+              "address": 4425583,
+              "bytes": "5f"
+            },
+            {
+              "address": 4425601,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4425500,
+                "bytes": "c20800"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4425587,
+                "bytes": "c20800"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4425605,
+                "bytes": "c20800"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_finish_image_layout@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4451568,
+          "end": 4451980,
+          "sha256": "7481a78b04b61b026c263b58ee93408e70e832fc3265663056d9b16211a2e78b"
+        }
+      ],
+      "standard_abi": "stdcall void(LinkContext *context,void *padding); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4451627,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4451714,
+              "bytes": "8b7b68"
+            },
+            {
+              "address": 4451766,
+              "bytes": "8b3d54f14700"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4451969,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4451977,
+                "bytes": "c20800"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LinkContext::FinishNativeSections",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4461808,
+          "end": 4462087,
+          "sha256": "3fee3714fa6d44337d3d6ca9d240feeef4951d50afbaae8615904141f6c72a3b"
+        }
+      ],
+      "standard_abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4461822,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4461823,
+              "bytes": "8bf9"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4461941,
+              "bytes": "5f"
+            },
+            {
+              "address": 4461974,
+              "bytes": "5f"
+            },
+            {
+              "address": 4462081,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4461946,
+                "bytes": "c3"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4461979,
+                "bytes": "c3"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4462086,
+                "bytes": "c3"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_emit_symbol_class@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4462096,
+          "end": 4462166,
+          "sha256": "05465a3671784a74c263d6a63a8b31f57bda683e3af62d81061140e6be626651"
+        }
+      ],
+      "standard_abi": "stdcall BYTE(BYTE symbol_class,LinkOptions *options); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4462157,
+                "bytes": "c20800"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4462163,
+                "bytes": "c20800"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LinkContext::WriteRelocationSymbols",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4462448,
+          "end": 4462913,
+          "sha256": "4cd4367ced0667ff757ce43d50e0ad6c235103b852a959d03aa9111c249fc002"
+        }
+      ],
+      "standard_abi": "thiscall void(this; DWORD first_count,void **first,DWORD second_count,void **second); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4462451,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4462452,
+              "bytes": "8b7c2418"
+            },
+            {
+              "address": 4462646,
+              "bytes": "8b7c2420"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4462906,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4462910,
+                "bytes": "c21000"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LinkContext::WriteLocalImports",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4462928,
+          "end": 4463546,
+          "sha256": "ab9081e2b8acec31bee18ce410ee25e1cf3438d8d11ca2c30273473132c2de92"
+        }
+      ],
+      "standard_abi": "thiscall void(this; Contribution *contribution,IncludeSymbol **aliases); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4462937,
+              "bytes": "57"
+            },
+            {
+              "address": 4462984,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4462938,
+              "bytes": "8bf9"
+            },
+            {
+              "address": 4463048,
+              "bytes": "8b7c2414"
+            },
+            {
+              "address": 4463102,
+              "bytes": "8b3d54f14700"
+            },
+            {
+              "address": 4463204,
+              "bytes": "8b7814"
+            },
+            {
+              "address": 4463238,
+              "bytes": "8b7f10"
+            },
+            {
+              "address": 4463335,
+              "bytes": "8b7904"
+            },
+            {
+              "address": 4463497,
+              "bytes": "8b7c2428"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4463537,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4463543,
+                "bytes": "c20800"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_write_coff_symbols@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4463552,
+          "end": 4464160,
+          "sha256": "38269bd9621b67f4e7c884e82d1adb893c132edc0d99e7368aa9a5dc11598d5d"
+        }
+      ],
+      "standard_abi": "stdcall void(LinkContext *context,DWORD image_rva); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4463565,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4463733,
+              "bytes": "8bf8"
+            },
+            {
+              "address": 4463755,
+              "bytes": "8b7d00"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4464150,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4464157,
+                "bytes": "c20800"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LinkContext::EmitDebugDirectories",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4464160,
+          "end": 4467661,
+          "sha256": "1f5ae2b9b8533b6c830d4f48f4ab7eada4bf5aa60b9a5042bd814281839a44c3"
+        }
+      ],
+      "standard_abi": "thiscall void(this; DWORD start,DWORD original_offset,DWORD lines,DWORD end,DWORD line_offset); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4464168,
+              "bytes": "57"
+            },
+            {
+              "address": 4464865,
+              "bytes": "57"
+            },
+            {
+              "address": 4464993,
+              "bytes": "57"
+            },
+            {
+              "address": 4465289,
+              "bytes": "57"
+            },
+            {
+              "address": 4465564,
+              "bytes": "57"
+            },
+            {
+              "address": 4465827,
+              "bytes": "57"
+            },
+            {
+              "address": 4466027,
+              "bytes": "57"
+            },
+            {
+              "address": 4466581,
+              "bytes": "57"
+            },
+            {
+              "address": 4466737,
+              "bytes": "57"
+            },
+            {
+              "address": 4466846,
+              "bytes": "57"
+            },
+            {
+              "address": 4466901,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4464223,
+              "bytes": "8b7918"
+            },
+            {
+              "address": 4464458,
+              "bytes": "8bfa"
+            },
+            {
+              "address": 4464473,
+              "bytes": "f3ab"
+            },
+            {
+              "address": 4464480,
+              "bytes": "f3aa"
+            },
+            {
+              "address": 4464482,
+              "bytes": "8b3da4ef4700"
+            },
+            {
+              "address": 4464493,
+              "bytes": "f2ae"
+            },
+            {
+              "address": 4464497,
+              "bytes": "2bf9"
+            },
+            {
+              "address": 4464503,
+              "bytes": "8bfa"
+            },
+            {
+              "address": 4464508,
+              "bytes": "f3a5"
+            },
+            {
+              "address": 4464515,
+              "bytes": "f3a4"
+            },
+            {
+              "address": 4464556,
+              "bytes": "8b3d54f14700"
+            },
+            {
+              "address": 4464842,
+              "bytes": "8b7814"
+            },
+            {
+              "address": 4464976,
+              "bytes": "8b7a14"
+            },
+            {
+              "address": 4465199,
+              "bytes": "8b3d6cef4700"
+            },
+            {
+              "address": 4465297,
+              "bytes": "8bfe"
+            },
+            {
+              "address": 4465524,
+              "bytes": "8bfa"
+            },
+            {
+              "address": 4465528,
+              "bytes": "f2ae"
+            },
+            {
+              "address": 4465544,
+              "bytes": "8bfa"
+            },
+            {
+              "address": 4465824,
+              "bytes": "33ff"
+            },
+            {
+              "address": 4465868,
+              "bytes": "33ff"
+            },
+            {
+              "address": 4466705,
+              "bytes": "8b7c242c"
+            },
+            {
+              "address": 4466822,
+              "bytes": "8b7c242c"
+            },
+            {
+              "address": 4466876,
+              "bytes": "33ff"
+            },
+            {
+              "address": 4467179,
+              "bytes": "8d7c241c"
+            },
+            {
+              "address": 4467183,
+              "bytes": "f3ab"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4467630,
+              "bytes": "5f"
+            },
+            {
+              "address": 4467651,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4467637,
+                "bytes": "c21400"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4467658,
+                "bytes": "c21400"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LinkContext::FinishImage",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4467792,
+          "end": 4468553,
+          "sha256": "d6a34b662c604077320426cb934470fcf5a748b3c2326c01312c0adb125730f2"
+        }
+      ],
+      "standard_abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4467800,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4468128,
+              "bytes": "8b7a10"
+            },
+            {
+              "address": 4468349,
+              "bytes": "bf00400000"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4468547,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4468552,
+                "bytes": "c3"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LinkContext::PassTwo",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4512896,
+          "end": 4513975,
+          "sha256": "388437d29d129b452dc654e4a6e6636a7eaa9451d9079380d11e29b78caf05df"
+        }
+      ],
+      "standard_abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4512911,
+              "bytes": "57"
+            },
+            {
+              "address": 4513564,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4513372,
+              "bytes": "8b3de0ee4700"
+            },
+            {
+              "address": 4513440,
+              "bytes": "8b7f04"
+            },
+            {
+              "address": 4513482,
+              "bytes": "8b7c241c"
+            },
+            {
+              "address": 4513512,
+              "bytes": "8b7c241c"
+            },
+            {
+              "address": 4513745,
+              "bytes": "8b7e04"
+            },
+            {
+              "address": 4513850,
+              "bytes": "8b3d5cf14700"
+            },
+            {
+              "address": 4513866,
+              "bytes": "8b7814"
+            },
+            {
+              "address": 4513885,
+              "bytes": "8b7904"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4513954,
+              "bytes": "5f"
+            },
+            {
+              "address": 4513967,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4513961,
+                "bytes": "c3"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4513974,
+                "bytes": "c3"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_release_memory@4",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4521520,
+          "end": 4521537,
+          "sha256": "8463b7ff74b6aa36856824d166f7b4f21aefe28aea22c3459f0b03908d8ab182"
+        }
+      ],
+      "standard_abi": "",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4521534,
+                "bytes": "c20400"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_finish_mac_entry_point@8",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4532640,
+          "end": 4534488,
+          "sha256": "39a71b8807072e6f1143c563045183ba409a704e1b679f2e9391d9476d1dd817"
+        }
+      ],
+      "standard_abi": "stdcall void(StringNode *entry,LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4532646,
+              "bytes": "57"
+            },
+            {
+              "address": 4532795,
+              "bytes": "57"
+            },
+            {
+              "address": 4532894,
+              "bytes": "57"
+            },
+            {
+              "address": 4532989,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4532647,
+              "bytes": "8b7c2430"
+            },
+            {
+              "address": 4533183,
+              "bytes": "8bfb"
+            },
+            {
+              "address": 4533187,
+              "bytes": "f2ae"
+            },
+            {
+              "address": 4533194,
+              "bytes": "8b3d54f14700"
+            },
+            {
+              "address": 4533361,
+              "bytes": "8b3db0464900"
+            },
+            {
+              "address": 4533670,
+              "bytes": "8b7f0c"
+            },
+            {
+              "address": 4533681,
+              "bytes": "8b3db0464900"
+            },
+            {
+              "address": 4533834,
+              "bytes": "8b3de8f04700"
+            },
+            {
+              "address": 4533959,
+              "bytes": "8b7f14"
+            },
+            {
+              "address": 4534146,
+              "bytes": "33ff"
+            },
+            {
+              "address": 4534189,
+              "bytes": "47"
+            },
+            {
+              "address": 4534213,
+              "bytes": "33ff"
+            },
+            {
+              "address": 4534251,
+              "bytes": "47"
+            },
+            {
+              "address": 4534270,
+              "bytes": "33ff"
+            },
+            {
+              "address": 4534308,
+              "bytes": "47"
+            },
+            {
+              "address": 4534324,
+              "bytes": "33ff"
+            },
+            {
+              "address": 4534362,
+              "bytes": "47"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4534468,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4534485,
+                "bytes": "c20800"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_finish_mac_headers@4",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4549552,
+          "end": 4550187,
+          "sha256": "3602dcbe2fb7a9c57ab2605c30d14ddecc1b46ee37474b49477f564c1a066ed4"
+        }
+      ],
+      "standard_abi": "stdcall void(LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4549557,
+              "bytes": "57"
+            },
+            {
+              "address": 4549950,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4549558,
+              "bytes": "8b7c2430"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4550178,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4550184,
+                "bytes": "c20400"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LinkAuxiliaryData::FinishOutput",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4559008,
+          "end": 4559427,
+          "sha256": "b283fa314630c4473a8719d9a0058186a4339134a39463e586f53ea2bccb3d49"
+        }
+      ],
+      "standard_abi": "thiscall void(this; LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4559018,
+              "bytes": "57"
+            },
+            {
+              "address": 4559363,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4559122,
+              "bytes": "8b7804"
+            },
+            {
+              "address": 4559176,
+              "bytes": "8b7c2418"
+            },
+            {
+              "address": 4559205,
+              "bytes": "03fa"
+            },
+            {
+              "address": 4559211,
+              "bytes": "8b38"
+            },
+            {
+              "address": 4559320,
+              "bytes": "8b7808"
+            },
+            {
+              "address": 4559323,
+              "bytes": "0faff9"
+            },
+            {
+              "address": 4559346,
+              "bytes": "03f9"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4559417,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4559424,
+                "bytes": "c20400"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LinkContext::PeWriteHeaders",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4562288,
+          "end": 4562845,
+          "sha256": "6faeafb2a153b0267bda6b41026146295140ca470e14babc4eb2e1259c9e8874"
+        }
+      ],
+      "standard_abi": "",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4562298,
+              "bytes": "57"
+            },
+            {
+              "address": 4562486,
+              "bytes": "57"
+            },
+            {
+              "address": 4562744,
+              "bytes": "57"
+            },
+            {
+              "address": 4562814,
+              "bytes": "57"
+            },
+            {
+              "address": 4562829,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4562466,
+              "bytes": "33ff"
+            },
+            {
+              "address": 4562468,
+              "bytes": "668b7e40"
+            },
+            {
+              "address": 4562729,
+              "bytes": "8b7c2454"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4562507,
+              "bytes": "5f"
+            },
+            {
+              "address": 4562528,
+              "bytes": "5f"
+            },
+            {
+              "address": 4562835,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4562514,
+                "bytes": "c20400"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4562535,
+                "bytes": "c20400"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4562842,
+                "bytes": "c20400"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_finish_ppc_branches",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4563152,
+          "end": 4563439,
+          "sha256": "2c7292519ab6d0201618ebbdf5ef21b10a5e4da87777497eb1c5e6fc368dee18"
+        }
+      ],
+      "standard_abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4563173,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4563190,
+              "bytes": "8b780c"
+            },
+            {
+              "address": 4563297,
+              "bytes": "8b3d54f14700"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4563422,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4563438,
+                "bytes": "c3"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_clear_argument_list@4",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4574464,
+          "end": 4574523,
+          "sha256": "e357fd88110ac13e7a770b7c0db9fccdccb4d5b676aecded43b63bb22e6e3e5f"
+        }
+      ],
+      "standard_abi": "stdcall void(InputArguments *arguments); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4574464,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4574465,
+              "bytes": "8b7c2408"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4574519,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4574520,
+                "bytes": "c20400"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LinkContext::UpdateChecksum",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4593920,
+          "end": 4594127,
+          "sha256": "fe47e13c5a18501ac2f38f6c813400e4a414215ee2c95687876d3c5ec3da6e00"
+        }
+      ],
+      "standard_abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4593929,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4593930,
+              "bytes": "8bf9"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4594066,
+              "bytes": "5f"
+            },
+            {
+              "address": 4594108,
+              "bytes": "5f"
+            },
+            {
+              "address": 4594118,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4594071,
+                "bytes": "c3"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4594113,
+                "bytes": "c3"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4594126,
+                "bytes": "c3"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_finish_symbol_tables",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4594512,
+          "end": 4594554,
+          "sha256": "6900778646bd90e8f33b6fc0df5c955b35ceedab94ccc6e863c06215df64f80a"
+        }
+      ],
+      "standard_abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "edi": {
+          "saves": [],
+          "own_writes": [],
+          "restores": [],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4594553,
+                "bytes": "c3"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_attach_comdat@12",
+      "preserves": [
+        "esi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4599632,
+          "end": 4599773,
+          "sha256": "8a8dfdbac3e478178edcd7462dd3570c95cd905e8814b8b6013f4d6d78a3432b"
+        }
+      ],
+      "standard_abi": "stdcall void(Contribution *contribution,const char *name,BYTE linker_defined); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "preservation": {
+        "esi": {
+          "saves": [
+            {
+              "address": 4599633,
+              "bytes": "56"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4599651,
+              "bytes": "8bf0"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4599768,
+              "bytes": "5e"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4599770,
+                "bytes": "c20c00"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "LinkContext::VxdWriteHeaders",
+      "preserves": [
+        "edi"
+      ],
+      "original_ranges": [
+        {
+          "begin": 4605040,
+          "end": 4607060,
+          "sha256": "747ad78e43ca3c7a80b6a1d35d83ed7b4ae705a14280fe91fa3b64b0682aec36"
+        }
+      ],
+      "standard_abi": "",
+      "preservation": {
+        "edi": {
+          "saves": [
+            {
+              "address": 4605055,
+              "bytes": "57"
+            },
+            {
+              "address": 4605355,
+              "bytes": "57"
+            },
+            {
+              "address": 4606397,
+              "bytes": "57"
+            }
+          ],
+          "own_writes": [
+            {
+              "address": 4605219,
+              "bytes": "8d3c28"
+            },
+            {
+              "address": 4605224,
+              "bytes": "f2ae"
+            },
+            {
+              "address": 4605324,
+              "bytes": "8d3c28"
+            },
+            {
+              "address": 4605506,
+              "bytes": "8b3b"
+            },
+            {
+              "address": 4605513,
+              "bytes": "f2ae"
+            },
+            {
+              "address": 4605523,
+              "bytes": "8b3b"
+            },
+            {
+              "address": 4605532,
+              "bytes": "f2ae"
+            },
+            {
+              "address": 4605536,
+              "bytes": "2bf9"
+            },
+            {
+              "address": 4605544,
+              "bytes": "8bfd"
+            },
+            {
+              "address": 4605550,
+              "bytes": "f3a5"
+            },
+            {
+              "address": 4605557,
+              "bytes": "f3a4"
+            },
+            {
+              "address": 4605577,
+              "bytes": "8bfd"
+            },
+            {
+              "address": 4605588,
+              "bytes": "f2ae"
+            },
+            {
+              "address": 4605618,
+              "bytes": "8bf8"
+            },
+            {
+              "address": 4605723,
+              "bytes": "8d3c8d00000000"
+            },
+            {
+              "address": 4605913,
+              "bytes": "8b7c2428"
+            },
+            {
+              "address": 4606356,
+              "bytes": "8bfa"
+            },
+            {
+              "address": 4606360,
+              "bytes": "f2ae"
+            },
+            {
+              "address": 4606376,
+              "bytes": "8bfa"
+            },
+            {
+              "address": 4606436,
+              "bytes": "8b7c2428"
+            },
+            {
+              "address": 4607047,
+              "bytes": "8b7c2428"
+            }
+          ],
+          "restores": [
+            {
+              "address": 4607016,
+              "bytes": "5f"
+            },
+            {
+              "address": 4607034,
+              "bytes": "5f"
+            }
+          ],
+          "returns": [
+            {
+              "return_instruction": {
+                "address": 4607026,
+                "bytes": "c20400"
+              }
+            },
+            {
+              "return_instruction": {
+                "address": 4607044,
+                "bytes": "c20400"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "_link_message",
+      "preserves": [
+        "esi"
+      ],
+      "original_witnesses": [
+        {
+          "name": "link_message",
+          "begin": 4391600,
+          "end": 4391620,
+          "sha256": "58b85b5390f24b8a5342a78fd6de52bd5ea8f2609adfdd0e40eed1618a617cb8",
+          "esi_writes": [],
+          "normal_returns": [
+            {
+              "site": 4391619,
+              "bytes": "c3"
+            }
+          ],
+          "anchors": [
+            {
+              "site": 4391614,
+              "bytes": "e85dfdffff"
+            },
+            {
+              "site": 4391619,
+              "bytes": "c3"
+            }
+          ]
+        },
+        {
+          "name": "emit_diagnostic",
+          "begin": 4390944,
+          "end": 4391154,
+          "sha256": "91a1229f20818588ffa22da7df357d954147e942f5a2d72718ebca630ff3f0b6",
+          "esi_writes": [
+            {
+              "site": 4391006,
+              "bytes": "8b742418"
+            },
+            {
+              "site": 4391148,
+              "bytes": "5e"
+            }
+          ],
+          "normal_returns": [
+            {
+              "site": 4391151,
+              "bytes": "c21000"
+            }
+          ],
+          "anchors": [
+            {
+              "site": 4390950,
+              "bytes": "e875ffffff"
+            },
+            {
+              "site": 4390957,
+              "bytes": "0f85bb000000"
+            },
+            {
+              "site": 4390969,
+              "bytes": "56"
+            },
+            {
+              "site": 4391042,
+              "bytes": "56"
+            },
+            {
+              "site": 4391148,
+              "bytes": "5e"
+            },
+            {
+              "site": 4391151,
+              "bytes": "c21000"
+            }
+          ]
+        },
+        {
+          "name": "message_is_suppressed",
+          "begin": 4390816,
+          "end": 4390890,
+          "sha256": "2aab9a30994efbdeb5be9cd3a1ad96ef229e9bd17149678bb9bae09fe8d88a21",
+          "esi_writes": [
+            {
+              "site": 4390831,
+              "bytes": "5e"
+            },
+            {
+              "site": 4390849,
+              "bytes": "8bf0"
+            },
+            {
+              "site": 4390851,
+              "bytes": "81e6ffff0000"
+            },
+            {
+              "site": 4390874,
+              "bytes": "5e"
+            },
+            {
+              "site": 4390880,
+              "bytes": "5e"
+            },
+            {
+              "site": 4390886,
+              "bytes": "5e"
+            }
+          ],
+          "normal_returns": [
+            {
+              "site": 4390832,
+              "bytes": "c20400"
+            },
+            {
+              "site": 4390875,
+              "bytes": "c20400"
+            },
+            {
+              "site": 4390881,
+              "bytes": "c20400"
+            },
+            {
+              "site": 4390887,
+              "bytes": "c20400"
+            }
+          ],
+          "anchors": [
+            {
+              "site": 4390820,
+              "bytes": "56"
+            },
+            {
+              "site": 4390831,
+              "bytes": "5e"
+            },
+            {
+              "site": 4390832,
+              "bytes": "c20400"
+            },
+            {
+              "site": 4390874,
+              "bytes": "5e"
+            },
+            {
+              "site": 4390875,
+              "bytes": "c20400"
+            },
+            {
+              "site": 4390880,
+              "bytes": "5e"
+            },
+            {
+              "site": 4390881,
+              "bytes": "c20400"
+            },
+            {
+              "site": 4390886,
+              "bytes": "5e"
+            },
+            {
+              "site": 4390887,
+              "bytes": "c20400"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "_next_library@4",
+      "preserves": [
+        "ebx"
+      ],
+      "original": {
+        "begin": 4258592,
+        "end": 4258642,
+        "sha256": "d49240bafb07ac9bba1fd0b2d1c19a2b7f68177a57c4a33ff4b8e0b3d2bb74ae",
+        "own_ebx_writes": [],
+        "calls": [],
+        "returns": [
+          {
+            "site": 4258621,
+            "bytes": "c20400"
+          },
+          {
+            "site": 4258639,
+            "bytes": "c20400"
+          }
+        ]
+      }
+    },
+    {
+      "name": "_next_module@4",
+      "preserves": [
+        "ebx"
+      ],
+      "original": {
+        "begin": 4258704,
+        "end": 4258764,
+        "sha256": "531b5eb7ea0f9c07deae9f939c74c84b02998858c89c29e06d492aeb673344d5",
+        "own_ebx_writes": [],
+        "calls": [],
+        "returns": [
+          {
+            "site": 4258740,
+            "bytes": "c20400"
+          },
+          {
+            "site": 4258761,
+            "bytes": "c20400"
+          }
+        ]
+      }
+    },
+    {
+      "name": "_link_warning",
+      "preserves": [
+        "edi"
+      ],
+      "original_witness": {
+        "begin": 4391680,
+        "end": 4391751,
+        "sha256": "5109186d5ebf0457875779482b01f40d6b3731d23588ae908ebf06bbe0e91798",
+        "preservation": {
+          "edi": {
+            "saves": [],
+            "own_writes": [],
+            "restores": []
+          }
+        },
+        "normal_returns": [
+          {
+            "site": 4391727,
+            "cleanup": 0,
+            "bytes": "c3"
+          },
+          {
+            "site": 4391750,
+            "cleanup": 0,
+            "bytes": "c3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4391694,
+            "bytes": "e88dfcffff",
+            "operand": "0x42ffa0"
+          },
+          {
+            "site": 4391722,
+            "bytes": "e831feffff",
+            "operand": "0x430160"
+          },
+          {
+            "site": 4391745,
+            "bytes": "e8dafcffff",
+            "operand": "0x430020"
+          }
+        ]
+      },
+      "abi_basis": "Finite complete original compiler routine, own saves/writes/restores and all normal-return sites; ordinary x86 cdecl/stdcall callee-saved ABI at nested compiler/SDK boundaries. Replaces prior finite manual cache certificate, no App acceptance."
+    },
+    {
+      "name": "_duplicate_argument@4",
+      "preserves": [
+        "ebx"
+      ],
+      "original_witness": {
+        "begin": 4521680,
+        "end": 4521712,
+        "sha256": "5ae311aa5bd19ffd0a31b6b3562a34b18225572d6fe2e4fe2da35ea24b00a960",
+        "preservation": {
+          "ebx": {
+            "saves": [],
+            "own_writes": [],
+            "restores": []
+          }
+        },
+        "normal_returns": [
+          {
+            "site": 4521709,
+            "cleanup": 4,
+            "bytes": "c20400"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4521686,
+            "bytes": "ff15a0114000",
+            "operand": "dword ptr [0x4011a0]"
+          },
+          {
+            "site": 4521701,
+            "bytes": "e8e603feff",
+            "operand": "0x4302d0"
+          }
+        ]
+      },
+      "abi_basis": "Finite complete original compiler routine, own saves/writes/restores and all normal-return sites; ordinary x86 cdecl/stdcall callee-saved ABI at nested compiler/SDK boundaries. Replaces prior finite manual cache certificate, no App acceptance."
+    },
+    {
+      "name": "_release_memory@4",
+      "preserves": [
+        "ebx"
+      ],
+      "original_witness": {
+        "begin": 4521520,
+        "end": 4521537,
+        "sha256": "8463b7ff74b6aa36856824d166f7b4f21aefe28aea22c3459f0b03908d8ab182",
+        "preservation": {
+          "ebx": {
+            "saves": [],
+            "own_writes": [],
+            "restores": []
+          }
+        },
+        "normal_returns": [
+          {
+            "site": 4521534,
+            "cleanup": 4,
+            "bytes": "c20400"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4521525,
+            "bytes": "ff1544114000",
+            "operand": "dword ptr [0x401144]"
+          }
+        ]
+      },
+      "abi_basis": "Finite complete original compiler routine, own saves/writes/restores and all normal-return sites; ordinary x86 cdecl/stdcall callee-saved ABI at nested compiler/SDK boundaries. Replaces prior finite manual cache certificate, no App acceptance."
+    },
+    {
+      "name": "_tokenize_arguments@4",
+      "preserves": [
+        "ebx"
+      ],
+      "original_witness": {
+        "begin": 4573376,
+        "end": 4573560,
+        "sha256": "69d16eedaabc526560920ff601719577f5226142b10cda7c5eb975fafca81fe9",
+        "preservation": {
+          "ebx": {
+            "saves": [],
+            "own_writes": [],
+            "restores": []
+          }
+        },
+        "normal_returns": [
+          {
+            "site": 4573557,
+            "cleanup": 4,
+            "bytes": "c20400"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4573388,
+            "bytes": "e8eff9ffff",
+            "operand": "0x45c2c0"
+          },
+          {
+            "site": 4573432,
+            "bytes": "e8e32bffff",
+            "operand": "0x44f4e0"
+          },
+          {
+            "site": 4573456,
+            "bytes": "e8cb2bffff",
+            "operand": "0x44f4e0"
+          },
+          {
+            "site": 4573481,
+            "bytes": "e8b22bffff",
+            "operand": "0x44f4e0"
+          },
+          {
+            "site": 4573498,
+            "bytes": "e8a12bffff",
+            "operand": "0x44f4e0"
+          },
+          {
+            "site": 4573506,
+            "bytes": "e839feffff",
+            "operand": "0x45c780"
+          },
+          {
+            "site": 4573518,
+            "bytes": "e86df9ffff",
+            "operand": "0x45c2c0"
+          },
+          {
+            "site": 4573550,
+            "bytes": "e86d2bffff",
+            "operand": "0x44f4e0"
+          }
+        ]
+      },
+      "abi_basis": "Finite complete original compiler routine, own saves/writes/restores and all normal-return sites; ordinary x86 cdecl/stdcall callee-saved ABI at nested compiler/SDK boundaries. Replaces prior finite manual cache certificate, no App acceptance."
+    },
+    {
+      "name": "_read_response_file@4",
+      "preserves": [
+        "ebx"
+      ],
+      "original_witness": {
+        "begin": 4573568,
+        "end": 4573852,
+        "sha256": "2d0cc6bfdea24cf776dfbfa3dcd585e55166fe90fdbda4c37db9317f5cf4deaf",
+        "preservation": {
+          "ebx": {
+            "saves": [
+              {
+                "site": 4573569,
+                "bytes": "53"
+              },
+              {
+                "site": 4573626,
+                "bytes": "53"
+              },
+              {
+                "site": 4573715,
+                "bytes": "53"
+              },
+              {
+                "site": 4573776,
+                "bytes": "53"
+              },
+              {
+                "site": 4573790,
+                "bytes": "53"
+              },
+              {
+                "site": 4573834,
+                "bytes": "53"
+              }
+            ],
+            "own_writes": [
+              {
+                "site": 4573589,
+                "bytes": "8bd8"
+              }
+            ],
+            "restores": [
+              {
+                "site": 4573847,
+                "bytes": "5b"
+              }
+            ]
+          }
+        },
+        "normal_returns": [
+          {
+            "site": 4573849,
+            "cleanup": 4,
+            "bytes": "c20400"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4573583,
+            "bytes": "ff1528114000",
+            "operand": "dword ptr [0x401128]"
+          },
+          {
+            "site": 4573605,
+            "bytes": "e88638fdff",
+            "operand": "0x430230"
+          },
+          {
+            "site": 4573619,
+            "bytes": "e89834ffff",
+            "operand": "0x44fe50"
+          },
+          {
+            "site": 4573637,
+            "bytes": "ff1580124000",
+            "operand": "dword ptr [0x401280]"
+          },
+          {
+            "site": 4573700,
+            "bytes": "e82738fdff",
+            "operand": "0x430230"
+          },
+          {
+            "site": 4573716,
+            "bytes": "ff150c114000",
+            "operand": "dword ptr [0x40110c]"
+          },
+          {
+            "site": 4573740,
+            "bytes": "e8ff37fdff",
+            "operand": "0x430230"
+          },
+          {
+            "site": 4573752,
+            "bytes": "e86334ffff",
+            "operand": "0x44fea0"
+          },
+          {
+            "site": 4573771,
+            "bytes": "e870feffff",
+            "operand": "0x45c8c0"
+          },
+          {
+            "site": 4573777,
+            "bytes": "ff1510114000",
+            "operand": "dword ptr [0x401110]"
+          },
+          {
+            "site": 4573793,
+            "bytes": "ff1580124000",
+            "operand": "dword ptr [0x401280]"
+          },
+          {
+            "site": 4573811,
+            "bytes": "e8b833ffff",
+            "operand": "0x44fe30"
+          },
+          {
+            "site": 4573825,
+            "bytes": "ff153c124000",
+            "operand": "dword ptr [0x40123c]"
+          },
+          {
+            "site": 4573835,
+            "bytes": "ff1524114000",
+            "operand": "dword ptr [0x401124]"
+          }
+        ]
+      },
+      "abi_basis": "Finite complete original compiler routine, own saves/writes/restores and all normal-return sites; ordinary x86 cdecl/stdcall callee-saved ABI at nested compiler/SDK boundaries. Replaces prior finite manual cache certificate, no App acceptance."
+    },
+    {
+      "name": "_parse_argument@8",
+      "preserves": [
+        "ebx"
+      ],
+      "original_witness": {
+        "begin": 4573056,
+        "end": 4573361,
+        "sha256": "a24217f49c4e9c1d3eae6e92588791c9802cd4d04cd5e0f7020e204a523e6868",
+        "preservation": {
+          "ebx": {
+            "saves": [],
+            "own_writes": [],
+            "restores": []
+          }
+        },
+        "normal_returns": [
+          {
+            "site": 4573120,
+            "cleanup": 8,
+            "bytes": "c20800"
+          },
+          {
+            "site": 4573225,
+            "cleanup": 8,
+            "bytes": "c20800"
+          },
+          {
+            "site": 4573242,
+            "cleanup": 8,
+            "bytes": "c20800"
+          },
+          {
+            "site": 4573293,
+            "cleanup": 8,
+            "bytes": "c20800"
+          },
+          {
+            "site": 4573311,
+            "cleanup": 8,
+            "bytes": "c20800"
+          },
+          {
+            "site": 4573358,
+            "cleanup": 8,
+            "bytes": "c20800"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4573099,
+            "bytes": "ff15d8114000",
+            "operand": "dword ptr [0x4011d8]"
+          },
+          {
+            "site": 4573113,
+            "bytes": "e8f2fcffff",
+            "operand": "0x45c4b0"
+          },
+          {
+            "site": 4573142,
+            "bytes": "e875feffff",
+            "operand": "0x45c650"
+          },
+          {
+            "site": 4573172,
+            "bytes": "e8f7effaff",
+            "operand": "0x40b7f0"
+          },
+          {
+            "site": 4573184,
+            "bytes": "e83b050000",
+            "operand": "0x45cd40"
+          },
+          {
+            "site": 4573211,
+            "bytes": "e8f0f4faff",
+            "operand": "0x40bd10"
+          },
+          {
+            "site": 4573218,
+            "bytes": "e879040000",
+            "operand": "0x45cca0"
+          },
+          {
+            "site": 4573235,
+            "bytes": "e868040000",
+            "operand": "0x45cca0"
+          },
+          {
+            "site": 4573247,
+            "bytes": "e80cffffff",
+            "operand": "0x45c750"
+          },
+          {
+            "site": 4573275,
+            "bytes": "e87036ffff",
+            "operand": "0x44fed0"
+          },
+          {
+            "site": 4573286,
+            "bytes": "e835040000",
+            "operand": "0x45cca0"
+          },
+          {
+            "site": 4573304,
+            "bytes": "e823040000",
+            "operand": "0x45cca0"
+          },
+          {
+            "site": 4573342,
+            "bytes": "e82d36ffff",
+            "operand": "0x44fed0"
+          },
+          {
+            "site": 4573351,
+            "bytes": "e8f4030000",
+            "operand": "0x45cca0"
+          }
+        ]
+      },
+      "abi_basis": "Finite complete original compiler routine, own saves/writes/restores and all normal-return sites; ordinary x86 cdecl/stdcall callee-saved ABI at nested compiler/SDK boundaries. Replaces prior finite manual cache certificate, no App acceptance."
+    }
+  ],
+  "callback": {
+    "owner": "?FullLink@LinkContext@@QAEHPAE@Z",
+    "preserves": [
+      "edi"
+    ],
+    "original": {
+      "target_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+      "slot": 4714192,
+      "initial_bytes": "00000000",
+      "initialization_basis": {
+        "rule": "PE loader zero fill beyond SizeOfRawData within VirtualSize",
+        "section": {
+          "name": ".data",
+          "rva": 421888,
+          "size": 1536,
+          "off": 416256,
+          "virtual_size": 186708,
+          "flags": 3221225536
+        }
+      },
+      "absolute_encoded_slot_reference_count": 5,
+      "reference_file_offsets": [
+        208082,
+        208119,
+        223013,
+        277399,
+        396686
+      ],
+      "assignments": [
+        {
+          "site": 4405456,
+          "bytes": "c705d0ee470070444600",
+          "target": 4605040,
+          "method": "LinkContext::VxdWriteHeaders"
+        },
+        {
+          "site": 4405493,
+          "bytes": "c705d0ee4700709d4500",
+          "target": 4562288,
+          "method": "LinkContext::PeWriteHeaders"
+        }
+      ],
+      "calls": [
+        {
+          "sequence_site": 4420384,
+          "bytes": "518bcdff15d0ee4700",
+          "call_site": 4420387
+        },
+        {
+          "sequence_site": 4474770,
+          "bytes": "8bcd52ff15d0ee4700",
+          "call_site": 4474773
+        },
+        {
+          "sequence_site": 4594057,
+          "bytes": "528bcfff15d0ee4700",
+          "call_site": 4594060
+        }
+      ],
+      "required_preservation_call": 4474773,
+      "allowed_targets": [
+        {
+          "method": "LinkContext::PeWriteHeaders",
+          "address": 4562288
+        },
+        {
+          "method": "LinkContext::VxdWriteHeaders",
+          "address": 4605040
+        }
+      ]
+    },
+    "abi": {
+      "original_and_win32_member_bytes": 4,
+      "native_member_bytes": 8,
+      "native_adjustment": 0,
+      "receiver": "ECX",
+      "stack_arguments": [
+        "int file"
+      ],
+      "callee_cleanup": 4,
+      "allowed_projection": "Only standalone globals, the six already named methods, an unambiguous initial NULL, and zero native this adjustment; all other values fail closed."
+    },
+    "closure_basis": "Zero-initialized global has only two evidenced constructor assignments, selecting actual PE or VXD method. The complete target has exactly five encoded absolute references: those two writes and three exact receiver/stack/indirect-call sequences. Its address is not passed to another function. Current rebuilt COFF code has exactly two immediate constructor stores and one FullLink CALL[slot], with no address-taking/other reference. Constructor caller run_linker derives is_vxd as boolean has_switch(vxd), selecting exactly one known assignment before FullLink. This is a finite original/rebuilt slot contract, not general pointer analysis."
+  }
+}

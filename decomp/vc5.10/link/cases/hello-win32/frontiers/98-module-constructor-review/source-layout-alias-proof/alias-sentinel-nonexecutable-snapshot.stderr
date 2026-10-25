@@ -1,4 +1,0 @@
-/bin/bash: line 1: /root/.ai-tmp/msvc2/vc5.10/link/native-4c8uw0gn/compiled/native-LINK.EXE: Permission denied
-/bin/bash: line 1: exec: /root/.ai-tmp/msvc2/vc5.10/link/native-4c8uw0gn/compiled/native-LINK.EXE: cannot execute: Permission denied
-/root/.ai-tmp/msvc2/vc5.10/link/module98-prepare/alias-sentinel.gdb:3: Error in sourced command file:
-During startup program exited with code 126.

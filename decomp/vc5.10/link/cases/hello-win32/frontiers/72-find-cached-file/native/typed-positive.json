@@ -1,7 +1,0 @@
-{
-  "positive": true,
-  "frontier": "_get_available_file_record",
-  "elapsed_seconds": 0.09392568655312061,
-  "native_receipt_sha256": "9b4f06149c84183752833096c18febbc8801f9e41bf37a17db1fbfb6ef6b7324",
-  "original_receipt_sha256": "c6b7c67a0ebf6f6f5d4ca7409eb676e421438280402f51cd8dde684ea1090e1f"
-}

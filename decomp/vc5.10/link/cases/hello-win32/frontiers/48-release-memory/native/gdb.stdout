@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804e34f in validate_debug_options (context=0x8091bc0) at src/link-driver.cpp:323
-323	void __stdcall validate_debug_options(LinkContext *context) { __asm { int 3 }  }

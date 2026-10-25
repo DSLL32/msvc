@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804c4b8 in allocate_virtual_memory (address=0x0, bytes=4000, flags=12288, protection=4) at src/memory.c:72
-72	    __asm { int 3 }

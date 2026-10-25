@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0805708f in next_output_section (enumerator=0xffffcff4) at src/full-link-stubs.cpp:20
-20	extern "C" BYTE __stdcall next_output_section(SectionEnumerator *enumerator) { __asm { int 3 } return 0; }

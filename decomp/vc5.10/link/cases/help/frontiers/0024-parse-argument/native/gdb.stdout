@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804ad1f in is_libpath (text=0xffffdaee "?") at src/arguments.c:105
-105	int __stdcall is_libpath(const char *text) { __asm { int 3 } return 0; }

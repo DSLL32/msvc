@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc5.10/link/scripts/check-delay-validator.py", line 44, in <module>
-    try:check_ownership(changed,pe)
-        ~~~~~~~~~~~~~~~^^^^^^^^^^^^
-  File "/root/msvc2/decomp/vc5.10/link/scripts/delay_validator_state.py", line 17, in check_ownership
-    item,=[r for r in config['text_data']if r.get('accepted')and r['start']<=address<r['end']]
-    ^^^^^
-ValueError: too many values to unpack (expected 1)

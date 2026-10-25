@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0805a8e2 in initialize_library_enumerator (enumerator=0xffffcff4, library=0x0) at src/pass-one.cpp:187
-187	extern "C" void __stdcall initialize_library_enumerator(LibraryEnumerator *enumerator,OutputLibrary *library) { __asm { int 3 } }

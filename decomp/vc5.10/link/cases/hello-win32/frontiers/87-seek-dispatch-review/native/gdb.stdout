@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804c518 in seek_mapped_file (record=0x809ea60, offset=0, origin=1, error=0xffffcf7c) at src/files.c:230
-230	long __stdcall seek_mapped_file(FileRecord *record,long offset,int origin,DWORD *error) { __asm { int 3 } return -1; }

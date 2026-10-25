@@ -1,8 +1,0 @@
-{
-  "method_input": "Historical actual ECXreceiver and both full stack formals captured at genuine method entry; no address seeding.",
-  "pending_child": "Actual initializer stdcall2slots/RET8, output ModuleEnumerator* and OutputLibrary*, no hidden input. Output16B is an actual full caller local, not a pointer-sized owner. Complete pending34B body writes slots0/4/12/8 before reading output contents. Namedtrap remains zero bodycredit.",
-  "original_owner": "FindModule entryESP\u221216 owns16B, child entryESP\u221244/return40f7b4",
-  "native_owner": "Exact frozen ELF method lowPC+DWARFspecification resolves original linkage; local fbreg\u221220 with EBP base maps entryESP\u221224/sizeof16. Actual CALLoffset62 and child entryESP\u221248 bound.",
-  "outer_state": "Whole header20/createdBYTE and original library68/heads remain unchanged live outer state; expired unrelated locals remain historical.",
-  "finite_import": "Only necessary EBX across actualcanonical_mbsicmp and complete callfree next_module body. Pending emitted stub has verified EBX save/restore, no application/helperbodycredit."
-}

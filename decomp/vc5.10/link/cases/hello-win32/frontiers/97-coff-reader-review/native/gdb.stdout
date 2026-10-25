@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804fe40 in create_input_module (original_name=0x80a1b40 "hello.obj", name=0x80a1b40 "hello.obj", identity=0x0, header=0xffffcfa8, library=0xf7fb8044, created=0xffffcf9f "\377", copy_sections=0 '\000', section_offset=20, sections=0x0, section_flags=0x0, optional_data=0x0, auxiliary=0) at src/input.c:156
-156	OutputModule *__stdcall create_input_module(const char *original_name,const char *name,const void *identity,IMAGE_FILE_HEADER *header,OutputLibrary *library,BYTE *created,BYTE copy_sections,DWORD section_offset,IMAGE_SECTION_HEADER *sections,BYTE *section_flags,void *optional_data,DWORD auxiliary) { __asm { int 3 } return NULL; }

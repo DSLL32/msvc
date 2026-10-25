@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804a85c in initialize_hash_table (hash=0x8072cb0, buckets=1024, capacity=128, key_name=0x804a880 <string_key_name>, flags=0) at src/symbols.c:19
-19	{ __asm { int 3 } }

@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0805a6bb in LinkContext::LoadInputArgument (this=0x809ebc0, argument=0x809eb50, library=0xf7fb8044) at src/pass-one.cpp:175
-175	void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,OutputLibrary *library) { __asm { int 3 } }

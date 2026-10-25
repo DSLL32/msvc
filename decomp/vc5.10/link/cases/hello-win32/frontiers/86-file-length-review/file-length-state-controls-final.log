@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc5.10/link/scripts/check-boundary.py", line 754, in <module>
-    negative('reader exposed formal '+str(i),lambda s,j=i:s['frontier_inputs']['formals'].__setitem__(j,0))
-    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/root/msvc2/decomp/vc5.10/link/scripts/check-boundary.py", line 29, in negative
-    raise AssertionError('mutation accepted: '+label)
-AssertionError: mutation accepted: reader exposed formal 1

@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0805a365 in create_library (name=0x0, path=0x0, libraries=0x809ed7c) at src/pass-one.cpp:139
-139	extern "C" OutputLibrary *__stdcall create_library(const char *name,const char *path,LinkPointerList *libraries) { __asm { int 3 } return NULL; }

@@ -1,8 +1,0 @@
-{
-  "failed_capture": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-le3n5ug8",
-  "failed_receipt_sha256": "1c65e132c92afc7dcdf6cf068543529f4e37854f980488877efce4e14f4aa1ae",
-  "reason": "The original MSVCRT free helper legitimately overwrites its own caller-provided argument slot. Observer incorrectly required slot preservation at return. Corrected observer preserves input identity separately, retains actual returned slot, and checks cdecl stack balance. No reconstruction or shared-CRT code was changed for this observer correction.",
-  "provider": "toolchains/5.10/bin/MSVCRT.DLL",
-  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-  "provider_instruction_basis": "free7800138a uses LEA EAX,[ESP+0c] at7800139e as helper output; helper780013f2 writes selected page address to that output at7800142d. free caller cleans slot and never consumes it."
-}

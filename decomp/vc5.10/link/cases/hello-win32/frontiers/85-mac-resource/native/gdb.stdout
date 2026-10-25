@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804c44f in get_file_length (file=14) at src/files.c:15
-15	LONG __stdcall get_file_length(int file) { __asm { int 3 } return 0; }

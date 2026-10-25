@@ -1,7 +1,0 @@
-{
-  "status": "shared publication hold released; same exact frozen C/H, no recapture",
-  "commit": "61155226d",
-  "crt_sha256": "ee55a842081fcee814bc344fb662ba7eca0d0da40ceeea7dd470a2d2570d6030",
-  "header_sha256": "2d9b3215967d79d405d4f620d6ffe10fc35048584d6b20f5e4259f84df15aa61",
-  "basis": "Maintainer/root publication forwarded by vc510_orchestrator. Technical artifact byte identities remain unchanged; target-specific review still separate."
-}

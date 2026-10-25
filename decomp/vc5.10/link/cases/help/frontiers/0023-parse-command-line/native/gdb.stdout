@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804ab22 in parse_argument (text=0xffffdaed "/?", source=0) at src/arguments.c:63
-63	void __stdcall parse_argument(const char *text,int source) { __asm { int 3 } }

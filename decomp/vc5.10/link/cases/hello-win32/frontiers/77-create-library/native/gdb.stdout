@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804a8a5 in find_library (name=0x0, list=0x0, before=0 '\000') at src/option-stubs.c:6
-6	void *__stdcall find_library(const unsigned char *name,void *list,BYTE before) { __asm { int 3 } return NULL; }

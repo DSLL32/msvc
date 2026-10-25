@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804ac0c in register_timing_cleanup () at src/initializers.c:84
-84	void __cdecl register_timing_cleanup(void) { __asm { int 3 } }
