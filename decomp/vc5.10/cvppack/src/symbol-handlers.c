@@ -83,3 +83,22 @@ void rewrite_type_name_symbol(void)
         if (!public_scope_depth) insert_global_symbol(symbol_input, symbol_record_key);
     }
 }
+
+/* Remap and intern a global-data symbol [0040ae00,0040ae45). */
+void rewrite_global_data_symbol(void)
+{
+    if (discard_symbol_depth) *(unsigned short *)(symbol_input + 2) = 8;
+    if (!discard_symbol_depth) {
+        *(unsigned *)(symbol_input + 4) = map_type_index(*(unsigned *)(symbol_input + 4));
+        insert_global_symbol(symbol_input, symbol_record_key);
+    }
+}
+
+/* Remap the DWORD type field in register/data/constant records
+ * [0040ac30,0040ac65), cdecl callback. */
+void rewrite_symbol_type4(void)
+{
+    if (discard_symbol_depth) *(unsigned short *)(symbol_input + 2) = 8;
+    if (!discard_symbol_depth)
+        *(unsigned *)(symbol_input + 4) = map_type_index(*(unsigned *)(symbol_input + 4));
+}

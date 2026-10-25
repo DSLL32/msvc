@@ -10,7 +10,6 @@
 
 unsigned int get_file_size(int file) { __asm { int 3 } return 0; }
 void *map_file_region(int file, unsigned int offset, unsigned int size) { __asm { int 3 } return NULL; }
-void warning(unsigned int message, const char *first, const char *second) { __asm { int 3 } }
 
 void open_stream_file(CachedFile *file, int flags, int mode, int created) { __asm { int 3 } }
 int release_cached_file(CachedFile *file) { __asm { int 3 } return 0; }
@@ -25,8 +24,6 @@ unsigned stream_read(CachedFile *file, void *buffer, unsigned size) { __asm { in
 void decode_legacy_lines(void *lines, unsigned size) { __asm { int 3 } }
 void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info) { __asm { int 3 } }
 void read_type_database(const char *path) { __asm { int 3 } }
-void rewrite_symbol_type4(void) { __asm { int 3 } }
-void rewrite_global_data_symbol(void) { __asm { int 3 } }
 void rewrite_register16_symbol(void) { __asm { int 3 } }
 void rewrite_data16_symbol(void) { __asm { int 3 } }
 void rewrite_global_data16_symbol(void) { __asm { int 3 } }

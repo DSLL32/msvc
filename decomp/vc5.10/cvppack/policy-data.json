@@ -672,6 +672,21 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_warning": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_global_data_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_symbol_type4": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -1023,6 +1038,11 @@
         "register_imports": {
           "require_all_register_calls_resolved": true
         }
+      },
+      "_warning": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
       }
     },
     "register_imports": {
@@ -1069,11 +1089,12 @@
             }
           },
           "preserves": [
-            "ebx"
+            "ebx",
+            "edi"
           ],
           "evidence": {
-            "path": "abi-policy.json",
-            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+            "path": "warning-import-policy.json",
+            "sha256": "228f27dc7f4dcdac6197b14ed69b1098ec10d41a33e4dc574863372df1b745fc"
           }
         },
         {

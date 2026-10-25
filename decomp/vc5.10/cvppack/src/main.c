@@ -1,9 +1,9 @@
 /* Original main [00404620,004048b5), including its SEH filter and handler.
  * Acceptance and original-byte restoration are recorded in functions.json. */
-#include "cvpack.h"
+#include "image.h"
 #include <recon.h>
 
-int input_file = -1, show_logo = 1, banner_pending = 1, checksum_required;
+int input_file = -1, show_logo = 1, banner_pending = 1;
 unsigned short module_count, current_module_has_types;
 void *debug_directory, *line_data, *symbol_data, *type_data, *module_data;
 
@@ -41,7 +41,7 @@ int main(int argc, char **argv, char **environment)
         free_type_tables();
         if (current_module_has_types) build_source_file_index();
         flush_packed_file();
-        if (checksum_required) {
+        if (original_image_checksum) {
             image_help = LoadLibraryA("imagehlp");
             if (image_help) {
                 headers = NULL;

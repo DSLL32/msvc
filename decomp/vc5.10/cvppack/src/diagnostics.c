@@ -21,3 +21,17 @@ void fatal_error(unsigned int message, const char *first, const char *second)
     }
     exit(1);
 }
+
+/* Nonfatal diagnostic [004055a0,0040562f), cdecl three-argument ABI. */
+void warning(unsigned int message, const char *first, const char *second)
+{
+    char buffer[300];
+    const char *format;
+    int prefix;
+    if (show_logo && banner_pending) print_banner();
+    format = message_text(8002);
+    if (!format) format = "CVPACK : warning CK%04u: ";
+    prefix = sprintf(buffer, format, message, ' ');
+    sprintf(buffer + prefix, message_text(message), first, second);
+    puts(buffer);
+}

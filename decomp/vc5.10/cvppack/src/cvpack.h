@@ -35,7 +35,7 @@ void warning(unsigned int message, const char *first, const char *second);
 void fatal_error(unsigned int message, const char *first, const char *second);
 char *message_text(unsigned int message);
 
-extern int input_file, show_logo, banner_pending, checksum_required;
+extern int input_file, show_logo, banner_pending;
 extern unsigned short module_count, current_module_has_types;
 extern void *debug_directory, *line_data, *symbol_data, *type_data, *module_data;
 #endif

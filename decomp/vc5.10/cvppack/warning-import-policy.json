@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "qualified_import": {
+    "dll": "msvcrt.dll",
+    "name": "sprintf"
+  },
+  "preserves": [
+    "ebx",
+    "edi"
+  ],
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "export": {
+      "name": "sprintf",
+      "ordinal": 688,
+      "rva": 15981
+    },
+    "chunks": [
+      {
+        "rva": [
+          15981,
+          16067
+        ],
+        "sha256": "2264214396869136f6dbdf4d18deb18670c0e81fabbaccae0c0c809fbb5c985a"
+      },
+      {
+        "rva": [
+          50322,
+          50344
+        ],
+        "sha256": "f18cf1201e0325d5f876de129470799e4f5f5815ebe06dfe7951fb8005e11fa1"
+      }
+    ]
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/STDIO.H",
+    "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+    "line": 375,
+    "declaration": "int __cdecl sprintf(char *,const char *,...)"
+  },
+  "existing_ebx_proof": {
+    "path": "abi-policy.json",
+    "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914",
+    "scope": "Existing ordinary-return EBX contract retained unchanged; add only EDI for the warning formatter cache."
+  },
+  "target": {
+    "path": "toolchains/5.10/bin/CVPACK.EXE",
+    "sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+    "iat": 4284912,
+    "load": 4216285,
+    "sites": [
+      4216300,
+      4216338
+    ],
+    "live_range": "EDI cached formatter across first sprintf and accepted message_text; message_text EDI preservation already separately bound."
+  },
+  "proof": "Entire hot86B and cold22B sprintf wrapper write neither EDI nor DI, and neither EBX nor subregisters. Normal returns78003ec2/7800c4a7 only discard32-byte frame and restore ESI. The internal formatter780035b8 and cold output helper78006b09 use ordinary CRT cdecl ABI, an explicit dependency assumption with no library-body reconstruction credit."
+}

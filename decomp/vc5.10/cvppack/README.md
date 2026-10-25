@@ -5,7 +5,7 @@ CVPACK 5.10 reconstruction
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-135 accepted application functions total 43,007 original code bytes: 68.63% of the
+138 accepted application functions total 43,272 original code bytes: 69.06% of the
 62,662-byte whole-text extent. That denominator includes CRT/support, unknown
 code and padding; a complete non-CRT denominator is not established. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
@@ -24,6 +24,13 @@ Completed cases:
   statistics and a 151,600-byte packed DLL. Only the two proven unwritten
   SST_FILEINDEX alignment bytes at offsets 151370..151372 are masked; native
   output must explicitly contain zeros there.
+
+- 0005-optimized-telemetry: optimized CRT-free three-TU telemetry readers,
+  exported global data and an ignored unknown option; status0, exact warning
+  and verbose statistics, and a17,808-byte packed DLL. Only the three proven
+  unwritten file-index alignment bytes at17577..17580 are masked; native
+  output must contain zeros there. The warning and two DWORD-type symbol
+  callbacks were reconstructed. No Widen dependency calls occur.
 
 0002-cpp-scene-growth is a new three-module C++ workload with 240 telemetry
 schemas, shared recursive types, virtual inheritance and large arrays. Original
@@ -49,12 +56,13 @@ reconstructed. `binary.c` is the sole function/extent/status registry. Finite
 rules remain in `policy-data.json`/`abi-policy.json`; the exact 8-byte Release tail
 retains its reviewed residual, with strict cleanup checks on all other accepted bodies.
 
-Latest catalog verification (2026-10-25): original capture 1.237s; native
-replay 29.406ms (setup 5.063/execution 19.236/checks 5.107ms). The PCH diagnostic
-replays in 15.597ms (setup 3.822/execution 9.595/checks 2.180ms) against its
-unchanged original. Its ASCII copy uses the shared default-MB CRT boundary;
-no whole-profile switch or external Widen responses were added. The final five-case
-replay, thirteen units, original build and strict audit passed together in 2.020s.
+Latest telemetry verification (2026-10-25): original capture1.075s; fresh
+native replay12.951ms (setup4.518/execution7.021/checks1.412ms).
+Native/original build plus strict audit took9.214s. Final six-case replay,
+thirteen units, original-build freshness and strict audit passed in0.354s;
+the telemetry replay including its native-padding check took17.144ms.
+The original's checksum storage was also unified with its actual DWORD owner;
+this zero-credit repair is exercised only with checksum0 by these cases.
 
 Full build/capture accounting stays in scratch. Historical per-function
 state/proof campaigns are not rerun. Unvisited application stubs remain traps.

@@ -4,7 +4,9 @@
 
 IMAGE_FILE_HEADER image_file_header;
 unsigned image_read_mode, optional_header_position, section_table_position;
-unsigned debug_section_position, original_image_checksum, original_file_length;
+unsigned debug_section_position, original_file_length;
+/* DWORD00415334: optional.CheckSum, also tested by main after packing. */
+unsigned original_image_checksum;
 unsigned debug_directory_offset, codeview_file_offset;
 unsigned char image_linker_major, image_linker_minor;
 unsigned short codeview_version;
