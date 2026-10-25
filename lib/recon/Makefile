@@ -659,6 +659,12 @@ build/delete-file-probe: tests/delete-file-probe.c $(SOURCES) $(HEADERS) | build
 delete-file-check: build/delete-file-probe
 	$(PYTHON) tests/check-delete-file.py $<
 
+.PHONY: wcsicmp-surface-check
+build/wcsicmp-surface-probe: tests/wcsicmp-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+wcsicmp-surface-check: build/wcsicmp-surface-probe
+	$(PYTHON) tests/check-wcsicmp-surface.py $<
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@

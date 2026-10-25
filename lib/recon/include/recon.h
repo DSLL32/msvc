@@ -274,6 +274,7 @@ char *recon_getpath(const char *,char *,int);
 void recon_searchenv(const char *,const char *,char *);
 int recon_wcscmp(const WCHAR *,const WCHAR *);
 int __cdecl recon_wcsncmp(const WCHAR *,const WCHAR *,size_t);
+int __cdecl recon_wcsicmp(const WCHAR *,const WCHAR *);
 WCHAR *recon_wcschr(const WCHAR *,WCHAR);
 size_t recon_wcslen(const WCHAR *);
 WCHAR *recon_wcscat(WCHAR *,const WCHAR *);
@@ -446,6 +447,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _mbctype recon_mbctype
 #define wcscmp recon_wcscmp
 #define wcsncmp recon_wcsncmp
+#define _wcsicmp recon_wcsicmp
 #define wcschr recon_wcschr
 #define wcslen recon_wcslen
 #define wcscat recon_wcscat

@@ -2504,6 +2504,11 @@ char *__cdecl recon_unDName(char *output,const char *name,int capacity,
     recon_unsupported("unreviewed __unDName");return NULL;
 }
 
+int __cdecl recon_wcsicmp(const WCHAR *left,const WCHAR *right)
+{
+    (void)left;(void)right;
+    recon_unsupported("unreviewed _wcsicmp");return 0;
+}
 WEAK WCHAR *recon_wcscat(WCHAR *out,const WCHAR *text)
 {
     WCHAR *end=out;

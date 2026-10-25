@@ -539,6 +539,13 @@ WINBASE.H and documented DeleteFileA semantics establish the public signature
 and ordinary return/error scope. `make delete-file-check` verifies real deletion,
 errors/FP/FILE/lowio preservation, same-inode denials and other-inode mapping.
 
+_wcsicmp has the SDK STRING.H234/WCHAR.H689 cdecl int(const WCHAR*,const WCHAR*)
+declaration/remap, with native16-bit units. RCDLL's actual IAT109c/calla139 and
+eight-byte caller cleanup establish the boundary; signed EAX is consumed.
+Every input denies125, including NULL/empty/ASCII/nonASCII. No comparison,
+case-folding, locale or host wchar32 behavior is supported by this typed slice.
+`make wcsicmp-surface-check` verifies typing/denials/no plain host import.
+
 Lowio alloc marks the selected OS-handle slot invalid (-1) without publishing
 FOOPEN; set requires that sentinel, and free relinquishes ownership without
 closing the OS handle. For fd0..2, set/free update the Win32 standard table at
