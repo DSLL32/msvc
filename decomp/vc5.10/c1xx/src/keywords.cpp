@@ -318,9 +318,41 @@ extern "C" void __cdecl intern_identifier(const char *name)
     frontend_data.current_identifier = entry;
     entry->flags = (entry->flags & 0xffff0000) | folded;
 }
-extern "C" void __cdecl unreserve_keyword(const char *name) { __asm { int 3 } }
-extern "C" void __cdecl set_keyword_category3(const char *name) { __asm { int 3 } }
-extern "C" void __cdecl set_keyword_category1(const char *name) { __asm { int 3 } }
-extern "C" void __cdecl set_keyword_category5(const char *name) { __asm { int 3 } }
-extern "C" void __cdecl set_keyword_category4(const char *name) { __asm { int 3 } }
+extern "C" void __cdecl unreserve_keyword(const char *name)
+{
+    intern_identifier(name);
+    frontend_data.current_identifier->flags &= ~0x10000U;
+}
+extern "C" void __cdecl set_keyword_category3(const char *name)
+{
+    intern_identifier(name);
+    if (frontend_data.current_identifier->flags & 0x10000) {
+        frontend_data.current_identifier->token = 243;
+        frontend_data.current_identifier->category = 3;
+    }
+}
+extern "C" void __cdecl set_keyword_category1(const char *name)
+{
+    intern_identifier(name);
+    if (frontend_data.current_identifier->flags & 0x10000) {
+        frontend_data.current_identifier->token = 243;
+        frontend_data.current_identifier->category = 1;
+    }
+}
+extern "C" void __cdecl set_keyword_category5(const char *name)
+{
+    intern_identifier(name);
+    if (frontend_data.current_identifier->flags & 0x10000) {
+        frontend_data.current_identifier->token = 243;
+        frontend_data.current_identifier->category = 5;
+    }
+}
+extern "C" void __cdecl set_keyword_category4(const char *name)
+{
+    intern_identifier(name);
+    if (frontend_data.current_identifier->flags & 0x10000) {
+        frontend_data.current_identifier->token = 243;
+        frontend_data.current_identifier->category = 4;
+    }
+}
 extern "C" void __cdecl report_language_diagnostic(unsigned level, unsigned number, ...) { __asm { int 3 } }
