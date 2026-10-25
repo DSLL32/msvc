@@ -324,3 +324,32 @@ void convert_old_symbol_label16(void)
     while (padding--) *name++ = 0;
     old_symbol_output = name;
 }
+
+void convert_old_symbol_block16(void)
+{
+    unsigned char *record = old_symbol_output;
+    unsigned char *name;
+    unsigned short count = (unsigned short)(old_symbol_input[0]-5);
+    unsigned short length;
+    unsigned padding;
+    int has_name = count != 0;
+    if (!has_name) count = 1;
+    length = (unsigned short)(count+18);
+    padding = 3-((length-1)&3);
+    *(unsigned short *)record = (unsigned short)(((length+3)&0xfffc)-2);
+    *(unsigned long *)(record+4) = 0;
+    *(unsigned long *)(record+8) = 0;
+    *(unsigned short *)(record+16) = old_symbol_segment;
+    old_symbol_input += 2;
+    *(unsigned short *)(record+14) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    *(unsigned short *)(record+12) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    name = record+18;
+    if (has_name)
+        while (count--) *name++ = *old_symbol_input++;
+    else
+        *name++ = 0;
+    while (padding--) *name++ = 0;
+    old_symbol_output = name;
+}

@@ -1,18 +1,18 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **229 accepted application
-functions, 70,217 original code bytes, and 39 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **230 accepted application
+functions, 70,438 original code bytes, and 38 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `convert_old_symbol_block16` (RVA `0x13f20`), on the C6 local-symbol
-sizing path. The last accepted function is `convert_old_symbol_label16`
-(sequence 229, 175 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
+frontier is now `grow_page_table` (RVA `0x19a50`), on the C6 local-symbol
+sizing path. The last accepted function is `convert_old_symbol_block16`
+(sequence 230, 221 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
 additional App helpers; these retain named trapping stubs and no accepted
 credit. The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 42 application functions.
+The resumed workload has accepted 43 application functions.
 Each has matching original/native progress and strict compiler/graph/data
-checks. All twelve cached cases and unit executors passed the 223-function
+checks. All twelve cached cases and unit executors passed the 230-function
 checkpoint. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.

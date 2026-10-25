@@ -169,7 +169,7 @@ void size_old_procedure32(void) { __asm { int 3 } }
 
 
 
-void convert_old_symbol_block16(void) { __asm { int 3 } }
+
 void convert_old_symbol_block32(void) { __asm { int 3 } }
 
 void convert_old_symbol_procedure32(void) { __asm { int 3 } }
