@@ -827,3 +827,13 @@ native IO. In particular, an actual staged module path in argv0 is preserved
 byte for byte. This explicit mode requires reaching main and supports bounded
 ASCII arguments only. It adds no target execution or new debugger operation.
 Self-resource file materialization remains a separate input contract.
+
+An exact object-proven rebuilt end can use
+`function_properties[name].rebuilt_extent` with `end` (PE32 address or its own
+`{rebuilt_symbol,offset}`), `padding_hex:"00"`, current `image_sha256` and
+`map_sha256`, and `{path,sha256}` bindings named `object` and `evidence`.
+Supply `--rebuilt-image`/`--rebuilt-map`; the exporter validates shape/input hashes
+and preserves this descriptor. Graph-audit resolves the end with its existing
+MAP parser, checks the object/witness hashes and exactly one terminal zero byte,
+and keeps the adjacent public and default envelope unchanged otherwise.
+No OMF parser, body acceptance or runtime permission follows from the descriptor.

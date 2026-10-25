@@ -399,6 +399,98 @@ fn accepted_view(config: &mut Value, info: &Info, policy: &Value, scope: &str) -
     Ok(())
 }
 
+fn rebuilt_extents(
+    config: &mut Value,
+    policy: &Value,
+    image: Option<&std::path::Path>,
+    map: Option<&std::path::Path>,
+) -> Result<()> {
+    use sha2::Digest;
+    let Some(properties) = policy["function_properties"].as_object() else {
+        return Ok(());
+    };
+    for (name, properties) in properties {
+        let Some(value) = properties.get("rebuilt_extent") else {
+            continue;
+        };
+        let image = image.context("rebuilt_extent requires current rebuilt PE and MAP")?;
+        let map = map.context("rebuilt_extent requires current rebuilt PE and MAP")?;
+        let object = value
+            .as_object()
+            .context("rebuilt_extent must be an object")?;
+        ensure!(
+            object.len() == 6
+                && [
+                    "end",
+                    "padding_hex",
+                    "image_sha256",
+                    "map_sha256",
+                    "object",
+                    "evidence"
+                ]
+                .iter()
+                .all(|key| object.contains_key(*key)),
+            "rebuilt_extent requires exact end/padding/input/evidence fields"
+        );
+        let driver = config["driver"].as_array_mut().context("driver array")?;
+        let rows: Vec<_> = driver
+            .iter_mut()
+            .filter(|row| row["name"] == name.as_str())
+            .collect();
+        ensure!(
+            rows.len() == 1,
+            "rebuilt_extent requires one canonical driver: {name}"
+        );
+        let row = rows.into_iter().next().unwrap();
+        let end = &value["end"];
+        if let Some(relative) = end.as_object() {
+            ensure!(
+                relative
+                    .keys()
+                    .all(|key| matches!(key.as_str(), "rebuilt_symbol" | "offset"))
+                    && relative.get("rebuilt_symbol") == row.get("symbol")
+                    && relative.get("offset").is_none_or(|n| n.as_i64().is_some()),
+                "rebuilt_extent end must use its owner MAP symbol and integer offset"
+            );
+        } else {
+            ensure!(
+                end.as_u64().is_some_and(|n| n <= u32::MAX as u64),
+                "rebuilt_extent end must be PE32 or owner-relative"
+            );
+        }
+        for key in ["object", "evidence"] {
+            let binding = value[key]
+                .as_object()
+                .context("rebuilt_extent file binding")?;
+            ensure!(
+                binding.len() == 2
+                    && binding
+                        .get("path")
+                        .is_some_and(|v| v.as_str().is_some_and(|s| !s.is_empty()))
+                    && binding.get("sha256").is_some_and(|v| {
+                        v.as_str().is_some_and(|s| {
+                            s.len() == 64 && s.bytes().all(|c| c.is_ascii_hexdigit())
+                        })
+                    }),
+                "rebuilt_extent file binding requires path/SHA256"
+            );
+        }
+        let digest = |path: &std::path::Path| -> Result<String> {
+            Ok(crate::fixture::hex(&sha2::Sha256::digest(fs::read(path)?)))
+        };
+        ensure!(
+            value["padding_hex"] == "00"
+                && value["image_sha256"] == digest(image)?
+                && value["map_sha256"] == digest(map)?,
+            "rebuilt_extent current PE/MAP/padding binding differs"
+        );
+        // The graph Index already owns the actual MAP parser and resolves this
+        // owner-relative end. This path adds no second Watcom parser.
+        row["rebuilt_extent"] = value.clone();
+    }
+    Ok(())
+}
+
 fn rebuilt_chunks(
     config: &mut Value,
     policy: &Value,
@@ -500,6 +592,12 @@ pub fn export(options: Options) -> Result<()> {
         &publics,
         options.rebuilt_image.as_deref(),
     )?;
+    rebuilt_extents(
+        &mut config,
+        &policy,
+        options.rebuilt_image.as_deref(),
+        options.rebuilt_map.as_deref(),
+    )?;
     if let Some(path) = options.metadata_output {
         let mut metadata = metadata(&policy, &info)?;
         resolve(&mut metadata, &publics)?;
@@ -554,6 +652,57 @@ mod tests {
     fn info() -> Info {
         serde_json::from_value(json!({"binary":"test","original_path":"tool.exe","original_sha256":"","original_entry_rva":16,"case":"case","description":"","execution":0,"terminal":0,"frontier_rva":0,"first_entry_order":[],"first_entry_seen":[],"functions":[{"name":"method","rva":16,"native_symbol":"_ZNmethod","original_symbol":"?method@@","definition":4,"implementation":1,"code":[[16,20]],"text_data":[]},{"name":"pending","rva":32,"native_symbol":"pending","original_symbol":null,"definition":4,"implementation":0,"code":[],"text_data":[]}],"tests":[],"module":"libbinary.so"})).unwrap()
     }
+    #[test]
+    fn exact_extent_property_preserves_relative_end_and_binds_current_inputs() {
+        use sha2::Digest;
+        let path = PathBuf::from(std::env::var_os("HOME").unwrap())
+            .join(".ai-tmp")
+            .join(format!("rebuilt-end-test-{}", std::process::id()));
+        fs::create_dir_all(&path).unwrap();
+        let image = path.join("image");
+        let map = path.join("map");
+        fs::write(&image, b"image").unwrap();
+        fs::write(&map, b"map").unwrap();
+        let digest = |bytes: &[u8]| crate::fixture::hex(&sha2::Sha256::digest(bytes));
+        let binding = json!({"path":"proof.json","sha256":"a".repeat(64)});
+        let proof = json!({"end":{"rebuilt_symbol":"?method@@","offset":5},"padding_hex":"00",
+            "image_sha256":digest(b"image"),"map_sha256":digest(b"map"),"object":binding,"evidence":binding});
+        let policy = json!({"function_properties":{"method":{"rebuilt_extent":proof}}});
+        let baseline = registry(&info(), 0, json!({})).unwrap();
+        let mut config = baseline.clone();
+        rebuilt_extents(&mut config, &policy, Some(&image), Some(&map)).unwrap();
+        assert_eq!(config["driver"][0]["rebuilt_extent"], proof);
+        config["driver"][0]
+            .as_object_mut()
+            .unwrap()
+            .remove("rebuilt_extent");
+        assert_eq!(config, baseline);
+        for (key, value) in [
+            ("end", json!({"rebuilt_symbol":"other","offset":5})),
+            ("end", json!(-1)),
+            ("padding_hex", json!("90")),
+            ("image_sha256", json!("0".repeat(64))),
+            ("map_sha256", json!("0".repeat(64))),
+            ("object", json!(null)),
+            ("evidence", json!(null)),
+        ] {
+            let mut wrong = policy.clone();
+            wrong["function_properties"]["method"]["rebuilt_extent"][key] = value;
+            assert!(
+                rebuilt_extents(&mut baseline.clone(), &wrong, Some(&image), Some(&map)).is_err(),
+                "{key}"
+            );
+        }
+        let mut wrong = policy.clone();
+        wrong["function_properties"]["method"]["rebuilt_extent"]["typo"] = json!(true);
+        assert!(rebuilt_extents(&mut baseline.clone(), &wrong, Some(&image), Some(&map)).is_err());
+        assert!(rebuilt_extents(&mut baseline.clone(), &policy, None, None).is_err());
+        let wrong = json!({"function_properties":{"unknown":{"rebuilt_extent":proof}}});
+        assert!(rebuilt_extents(&mut baseline.clone(), &wrong, Some(&image), Some(&map)).is_err());
+        rebuilt_extents(&mut baseline.clone(), &json!({}), None, None).unwrap();
+        fs::remove_dir_all(path).unwrap();
+    }
+
     #[test]
     fn rebuilt_chunk_property_is_bounded_and_does_not_change_original_registry() {
         let i = info();
