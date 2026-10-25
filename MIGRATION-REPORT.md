@@ -816,6 +816,19 @@ options, replacement/deletion/extraction/addition, dictionary handling and an
 explicit import. WASM's next coherent assembly case combines includes, macros,
 conditionals, typed data, symbols/relocations and integer/x87 instructions.
 
+**Post-help progress checkpoint.** WLIB's archive case has reached 81 verified
+App functions / 8,212 unique original bytes, and WASM's assembly case has reached
+73 / 12,310 bytes. Their next candidates remain separate from those counts.
+The three initial help cases still in progress have reached WCC 34 logical
+functions / 3,295 bytes (33 executed bodies plus the explicitly seeded empty
+`CPragmaInit` facet), WPP 63 / 3,916 bytes and WLINK 52 / 4,993 bytes.
+Shared `__STOSD` support (`df20b369a`), leaf-only `_splitpath2` (`ba70f19e0`)
+and Watcom private errno/startup OS storage (`ea2632e72`) have been adopted
+without publication-only original reruns. WLINK's actual missing-file pair
+matches at `QMakeFileName`: original 538.194 ms, native 13.459 ms
+(8.201 setup, 1.258 execution, 3.999 checks; build 0.918 s).
+These are current-case checkpoints, not completed-case/full-audit claims.
+
 **Earlier scaffold and committed migration checkpoints.**
 WLINK scaffold commit `e469762a1` and WASM scaffold commit `207036122b` use the
 shared build/runner and retire their local capture launchers. WASM's response
