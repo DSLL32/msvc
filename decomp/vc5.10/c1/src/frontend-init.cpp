@@ -31,6 +31,8 @@ void __cdecl define_command_line_macros(CompilerVector *);
 void __cdecl begin_line_output(void);
 void __cdecl begin_source_input(void);
 void __cdecl report_response_error(int, ...);
+void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
+void __cdecl compiler_warning(int, ...);
 }
 
 extern "C" void __cdecl initialize_frontend(void)
@@ -370,7 +372,7 @@ extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, Compile
     return declarator.Resolve();
 }
 extern "C" WORD __cdecl resolve_shape_attributes(unsigned, unsigned);
-extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned);
+extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned *);
 extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *);
 extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags)
 {
@@ -394,9 +396,44 @@ extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags)
     }
     return intern_type(description);
 }
-extern "C" WORD __cdecl resolve_shape_attributes(unsigned kind, unsigned attributes) { __asm { int 3 } return 0; }
+extern "C" WORD __cdecl resolve_shape_attributes(unsigned kind, unsigned attributes)
+{
+    WORD result = (WORD)attributes;
+    int check_varargs = 0;
+    if (c1_bss.options.prototypes_only)
+        return result;
+    switch (kind & 7) {
+    case 4:
+        check_varargs = 1;
+        /* Function and intervening pointer attributes share this path. */
+    case 3: {
+        WORD convention = result & 0x70;
+        if (!convention) {
+            int use_fastcall = c1_data.options.fastcall_calls;
+            int use_pascal = c1_data.options.pascal_calls;
+            if ((use_fastcall || use_pascal) && (kind & 0x8000)) {
+                report_language_diagnostic(2, 96, 37, 106);
+                result |= 0x10;
+            } else if (use_fastcall)
+                result |= 0x40;
+            else if (c1_data.options.stdcall_calls)
+                result |= (kind & 0x8000) ? 0x10 : 0x60;
+            else
+                result |= use_pascal ? 0x20 : 0x10;
+        } else if ((convention == 0x60 || convention == 0x40) &&
+            (kind & 0x8000))
+            result = (result & 0xff9f) | 0x10;
+        convention = result & 0x70;
+        if (check_varargs && (kind & 0x8000) && convention != 0x60 &&
+            convention != 0x50 && convention != 0x10)
+            compiler_warning(217, 37, 106);
+        break;
+    }
+    }
+    return result;
+}
 extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned kind, unsigned attributes,
-    unsigned value) { __asm { int 3 } return NULL; }
+    unsigned *value) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_intermediate_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
