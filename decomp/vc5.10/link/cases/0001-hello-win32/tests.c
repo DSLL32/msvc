@@ -1096,6 +1096,7 @@ static int reference_enumerator(void)
         check_reference_enumerator,invoke_hello,NULL)==1;
 }
 extern void __stdcall release_module_strings(char *);
+extern void __stdcall release_module_symbols(IMAGE_SYMBOL *);
 extern char *current_module_strings;
 static void __stdcall check_bound_comdat_references(char *strings)
 {
@@ -1113,8 +1114,15 @@ static void __stdcall check_bound_comdat_references(char *strings)
     }
     if (!module_strings_active || !module_symbols_active) recon_native_entry_finish(0);
     release_module_strings(strings);
-    recon_native_entry_finish(!module_strings_active && module_symbols_active &&
-        strings==current_module_strings && *(DWORD *)strings==461);
+    if (module_strings_active || !module_symbols_active ||
+        strings!=current_module_strings || *(DWORD *)strings!=461)
+        recon_native_entry_finish(0);
+    {
+        IMAGE_SYMBOL *symbols=(IMAGE_SYMBOL *)((BYTE *)file_slots[current_input_file]->view+1135);
+        release_module_symbols(symbols);
+        recon_native_entry_finish(!module_symbols_active && !module_strings_active &&
+            symbols->StorageClass==IMAGE_SYM_CLASS_FILE && *(DWORD *)strings==461);
+    }
 }
 static int bound_comdat_references(void)
 {

@@ -6394,6 +6394,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_release_module_symbols@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

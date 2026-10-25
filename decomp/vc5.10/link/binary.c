@@ -328,7 +328,7 @@ static const ReconFunction functions[] = {
     {"_process_incremental_sections@12",0x387d0,(const ReconExtent[]){{0x387d0,0x388e5}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_incremental_sections",NULL,NULL,0,NULL},
     {"_record_module_comdats@4",0x63150,(const ReconExtent[]){{0x63150,0x631d9}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"record_module_comdats",NULL,NULL,0,NULL},
     {"_release_module_strings@4",0x60bb0,(const ReconExtent[]){{0x60bb0,0x60bba}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"release_module_strings",NULL,NULL,0,NULL},
-    {"_release_module_symbols@4",0x61000,(const ReconExtent[]){{0x61000,0x6100a}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"release_module_symbols",NULL,NULL,0,NULL},
+    {"_release_module_symbols@4",0x61000,(const ReconExtent[]){{0x61000,0x6100a}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"release_module_symbols",NULL,NULL,0,NULL},
     {"_resize_module_section_buffers@4",0xe2c0,(const ReconExtent[]){{0xe2c0,0xe35c}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"resize_module_section_buffers",NULL,NULL,0,NULL},
     {"_reserve_byte_buffer@8",0x4f450,(const ReconExtent[]){{0x4f450,0x4f489}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"reserve_byte_buffer",NULL,NULL,0,NULL},
     {"_mainCRTStartup",0x65280,(const ReconExtent[]){{0x65280,0x653d0}},1,(const ReconExtent[]){{0x9428,0x9434}},1,RECON_CRT,RECON_UNIMPLEMENTED,NULL,NULL,NULL,0,NULL},
