@@ -179,7 +179,6 @@ QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *so
 void skip_line_comment(void) { __asm { int 3 } }
 void copy_block_comment(void) { __asm { int 3 } }
 void report_ide_source_end(void) { __asm { int 3 } }
-void finish_pch_output(void) { __asm { int 3 } }
 void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
@@ -561,3 +560,11 @@ unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0
 IrToken *__stdcall build_scalar_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
 void restore_pch_frontend(void) { __asm { int 3 } }
+void declare_pch_debug_library(void) { __asm { int 3 } }
+void finish_pch_debug_symbols(void) { __asm { int 3 } }
+void stage_pch_intermediates(void) { __asm { int 3 } }
+void begin_browser_pch_record(void) { __asm { int 3 } }
+void relocate_pch_state(void) { __asm { int 3 } }
+unsigned short __stdcall write_pch_events(WorkingStack *stack, FILE *file, int mode) { __asm { int 3 } return 0; }
+void write_pch_pages(void) { __asm { int 3 } }
+void restore_pch_pointers(void) { __asm { int 3 } }

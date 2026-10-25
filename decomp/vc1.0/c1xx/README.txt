@@ -5,7 +5,7 @@ Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
 /O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
 The independent native cases freeze source timestamps/cwds and the original
 53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1426 App bodies and1533
+original/native matching at compare_filenames; there are1427 App bodies and1534
 historical frontiers. Original compilation,1430-function inherited graph/ABI
 checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
 compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
@@ -33,9 +33,23 @@ Native first pair26.683ms (setup17.078ms, execution3.035ms, checks6.570ms).
 The default-path strlen source calls were replaced by the actual inline loops
 before passing graph checks. One discovery started before the library relink
 completed and repeated the old frontier; it is retained separately and unused.
-Producer IR/browser outputs match the driver, but full producer PCH bytes differ
-between the driver and standalone capture. This remains unqualified pending raw
-artifact export/analysis; no normalization or full PCH equivalence is claimed.
+finish_pch_output(1000B) is accepted at finish_pch_debug_symbols; fresh original
+0.832s, native29.634ms (setup18.963ms, execution3.965ms, checks6.705ms), original
+compatibility,1435-function six-check audit2.164s and cached12+21units0.319s pass.
+The typed1496B serialization view has149 pointer roots and the scalar/warning
+suffix; relocation helpers must marshal canonical owners before any output is
+credited. Existing57-row builtin_operators remains the sole mutable table owner.
+Producer IR/browser outputs match the driver. Raw export from the genuine
+standalone invocation matches ALL seven already-frozen master hashes, including
+state.pch. The driver-vs-standalone PCH differs by47bytes in23 arena DWORDs:
+22 qualified-declarator resolution pointers and one retired destructor-call vector
+item, all outside the1178-slot relocation chain and restored root graph. These
+are defined temporary addresses, not clock/padding/uninitialized bytes. Raw files
+remain unchanged; no pointer mask/zeroing/allocator tuning is authorized. Wait for
+actual completed-native PCH differences before any new comparison proposal.
+One native GDB allocation/backtrace run is observational only (quit→signal9),
+not fixture parity. The shared raw-artifact export was exercised once; no original
+was rerun solely for static relocation analysis.
 
 PARTIAL reconstruction; dsp_bank is COMPLETE. There are1421 application source
 functions plus seven unchanged historical CRT source functions. The DSP case

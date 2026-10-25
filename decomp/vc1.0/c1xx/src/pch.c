@@ -92,6 +92,7 @@ void load_precompiled_header(void)
 
 PchHeader pch_header = { "DTJPCH0", 0x80117312 };
 extern FILE *pch_file;
+extern int pch_file_incomplete;
 void restore_pch_frontend(void);
 
 /* Original0x6c070..0x6c4c4. Read the actual format/configuration, report each
@@ -177,4 +178,92 @@ void read_pch_file(void)
         if (*left != *right) compiler_warning(1, 652, "Library PCT Identifier (/Yl)");
     }
     restore_pch_frontend();
+}
+
+Vector *pch_saved_include_directories; /* original0x9f200 */
+Vector *pch_saved_defines; /* original0x9f1fc */
+WorkingStack *pch_event_stack; /* original0xa2354 */
+unsigned pch_operator_count; /* original0x9f420 */
+PchCompilerImage pch_compiler_image; /* serialized view, filled by relocation */
+void declare_pch_debug_library(void);
+void finish_pch_debug_symbols(void);
+void stage_pch_intermediates(void);
+void begin_browser_pch_record(void);
+void relocate_pch_state(void);
+unsigned short __stdcall write_pch_events(WorkingStack *, FILE *, int);
+void write_pch_pages(void);
+void restore_pch_pointers(void);
+
+/* Original0x6cc50..0x6d038. Save stream prefixes and canonical root state,
+   write the format records/pages, then restore the running frontend pointers. */
+void finish_pch_output(void)
+{
+    unsigned length;
+    int separate_debug, stream_error;
+    if (!pch_mode && conditional_depth >= 0) report_syntax_error(856);
+    if (error_count) return;
+    if (token_allocation_flags & 0x40) flush_current_function(1);
+    if (options.configuration.debug_info && !options.configuration.option_Yd &&
+        options.configuration.pch_object_name[0]) declare_pch_debug_library();
+    separate_debug = pch_separate_debug;
+    if (separate_debug) finish_pch_debug_symbols();
+    pch_saved_include_directories = copy_vector_elements(options.include_directories, 0,
+        (VectorCopyElement)copy_string);
+    pch_saved_defines = copy_vector_elements(options.defines, 0,
+        (VectorCopyElement)copy_string);
+    stage_pch_intermediates();
+    if (options.option_Fo) {
+        for (length = 0; options.option_Fo[length]; ++length) ;
+        options.configuration.field6c = (options.configuration.field6c & 0xffff0000U) |
+            (unsigned short)(length + 1);
+    }
+    if (browser_filename) {
+        for (length = 0; options.option_Fr[length]; ++length) ;
+        options.configuration.field6c = (options.configuration.field6c & 0xffffU) |
+            ((unsigned)(unsigned short)(length + 1) << 16);
+        if (!pch_mode) begin_browser_pch_record();
+    }
+    relocate_pch_state();
+    if (pch_mode == 1) {
+        intermediate_status = fflush(pch_file);
+        if (intermediate_status == -1)
+            report_error(88, message_text(344), options.option_Fp, pch_diagnostic_name, 1342);
+        intermediate_status = ftell(pch_file);
+        if (intermediate_status == -1)
+            report_error(87, message_text(344), options.option_Fp, pch_diagnostic_name, 1343);
+        pch_header.event_offset = intermediate_status;
+        pch_header.event_bytes = write_pch_events(pch_event_stack, pch_file, 0);
+    }
+    options.configuration.precompiled_option_flags = pack_option_flags();
+    intermediate_status = fwrite(&options.configuration, 1, sizeof(options.configuration), pch_file);
+    if (intermediate_status == -1)
+        report_error(85, message_text(344), options.option_Fp, pch_diagnostic_name, 1350);
+    fwrite(&pch_compiler_image, 1, sizeof(pch_compiler_image), pch_file);
+    fwrite(browser_filename, 1, (unsigned)options.configuration.field6c >> 16, pch_file);
+    fwrite(options.option_Fo, 1, (unsigned short)options.configuration.field6c, pch_file);
+    fwrite(builtin_operators, 1, pch_operator_count * sizeof(BuiltinOperator), pch_file);
+    write_pch_pages();
+    stream_error = (pch_file->_flag & 0x20) != 0;
+    rewind(pch_file);
+    intermediate_status = fwrite(&pch_header, sizeof(pch_header), 1, pch_file);
+    if (intermediate_status == -1)
+        report_error(85, message_text(344), options.option_Fp, pch_diagnostic_name, 1394);
+    fwrite(&saved_configuration, 1, sizeof(saved_configuration), pch_file);
+    restore_pch_pointers();
+    pch_output_written = 1;
+    intermediate_status = fclose(pch_file);
+    if (intermediate_status == -1)
+        report_error(82, message_text(344), options.option_Fp, pch_diagnostic_name, 1415);
+    pch_file_incomplete = 0;
+    if (error_count || stream_error) {
+        if (options.option_Fp && options.option_Fp[0]) remove(options.option_Fp);
+        intermediate_status = stream_error;
+        if (stream_error)
+            report_error(85, message_text(344), options.option_Fp, pch_diagnostic_name, 1423);
+    }
+    if (separate_debug && !options.configuration.line_records) {
+        pending_pragma_kind = 7;
+        pending_pragma_text = (unsigned char *)"\003\000\240\007";
+        record_line_information(11);
+    }
 }

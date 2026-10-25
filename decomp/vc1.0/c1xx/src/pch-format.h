@@ -24,4 +24,25 @@ typedef char PchHeaderSymbolOffsetMustBe12[(offsetof(PchHeader, symbol_bytes) ==
 typedef char PchHeaderExpressionOffsetMustBe20[(offsetof(PchHeader, expression_bytes) == 20) ? 1 : -1];
 typedef char PchHeaderBrowserOffsetMustBe44[(offsetof(PchHeader, browser_offset) == 44) ? 1 : -1];
 typedef char PchHeaderPageOffsetMustBe48[(offsetof(PchHeader, page_count) == 48) ? 1 : -1];
+/* The writer/reader transfer this exact1496-byte view. The149 root cells
+   are proved by original6a836..6a853; relocation helpers marshal them from/to
+   the canonical globals, rather than giving those globals duplicate owners. */
+typedef struct PchCompilerImage {
+    unsigned roots[149];
+    unsigned reserved_after_roots, relocation_count, permanent_available;
+    unsigned operator_count, function_directory_index, reserved_count;
+    int plmf_active, plmn_active, native_caller_seen;
+    int member_generality_fixed, member_requested_model;
+    unsigned next_symbol_index, browser_symbol_limit;
+    unsigned reserved_one, reserved_zero, hidden_frame_bytes;
+    unsigned short next_debug_index, reserved_debug;
+    unsigned pragma_record_number, debug_stream_offset;
+    int vtordisp;
+    unsigned char warning_levels[800];
+    unsigned lowest_warning, highest_warning, source_file_counter;
+    unsigned token_flags, parser_flags;
+} PchCompilerImage;
+extern PchCompilerImage pch_compiler_image;
+typedef char PchCompilerImageSizeMustBe1496[(sizeof(PchCompilerImage) == 1496) ? 1 : -1];
+typedef char PchCompilerImageWarningsOffsetMustBe676[(offsetof(PchCompilerImage, warning_levels) == 676) ? 1 : -1];
 #endif

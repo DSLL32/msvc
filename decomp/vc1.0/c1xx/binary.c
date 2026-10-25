@@ -1,11 +1,75 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1533 historical frontiers/1426 App bodies.
+ * Current reviewed boundary:1534 historical frontiers/1427 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_restore_pch_pointers",
+        .entry_rva = 0x5abb0,
+        .code = (const ReconExtent[]) { { 0x5abb0, 0x5aca7 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "restore_pch_pointers",
+    },
+    {
+        .name = "_write_pch_pages",
+        .entry_rva = 0x5adf0,
+        .code = (const ReconExtent[]) { { 0x5adf0, 0x5ae77 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "write_pch_pages",
+    },
+    {
+        .name = "_write_pch_events@12",
+        .entry_rva = 0x22a40,
+        .code = (const ReconExtent[]) { { 0x22a40, 0x22ac3 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "write_pch_events",
+    },
+    {
+        .name = "_relocate_pch_state",
+        .entry_rva = 0x5a830,
+        .code = (const ReconExtent[]) { { 0x5a830, 0x5a866 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "relocate_pch_state",
+    },
+    {
+        .name = "_begin_browser_pch_record",
+        .entry_rva = 0x1c4f0,
+        .code = (const ReconExtent[]) { { 0x1c4f0, 0x1c529 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "begin_browser_pch_record",
+    },
+    {
+        .name = "_stage_pch_intermediates",
+        .entry_rva = 0x5c5f0,
+        .code = (const ReconExtent[]) { { 0x5c5f0, 0x5cc49 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "stage_pch_intermediates",
+    },
+    {
+        .name = "_finish_pch_debug_symbols",
+        .entry_rva = 0x45be0,
+        .code = (const ReconExtent[]) { { 0x45be0, 0x45bfa } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "finish_pch_debug_symbols",
+    },
+    {
+        .name = "_declare_pch_debug_library",
+        .entry_rva = 0x600f0,
+        .code = (const ReconExtent[]) { { 0x600f0, 0x60189 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "declare_pch_debug_library",
+    },
     {
         .name = "_restore_pch_frontend",
         .entry_rva = 0x5bcf0,
@@ -11669,10 +11733,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_finish_pch_output",
         .entry_rva = 0x5cc50,
-        .code = (const ReconExtent[]) { { 0x5cc50, 0x5cc51 } },
+        .code = (const ReconExtent[]) { { 0x5cc50, 0x5d038 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "finish_pch_output",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_cleanup_precompiled_files",
