@@ -1,7 +1,7 @@
 CVPACK 5.10 reconstruction
 ========================
 
-`make -j4 check unit` runs both cached cases and thirteen narrow native tests.
+`make -j4 check unit` runs the cached cases and thirteen narrow native tests.
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
@@ -10,13 +10,19 @@ graph/ABIs. Fixtures never invoke Wine.
 code and padding; a complete non-CRT denominator is not established. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
 
-Both cases complete:
+Completed cases:
 
 - 0000-help: status 1, 193 stdout bytes, empty stderr.
 - 0001-hello-debug-dll: `/nologo hello.dll`, status 0, empty streams and exact NB11
   output SHA256 `935d7828c7003e4f951e79cb4a709c747eac8006405ac996299dea4e64dd0d40`.
 
-The DLL case now uses a genuinely fresh reference with no explicit target environment
+0002-cpp-scene-growth is a new three-module C++ workload with 240 telemetry
+schemas, shared recursive types, virtual inheritance and large arrays. Original
+packed CodeView is 238,240 bytes. Its current original/native frontier is
+`numeric_leaf_size` (RVA 0xfcb0); source inputs remain capture assets. No Widen
+oracle from the older DLL is installed for this different input.
+
+The DLL cases use a genuinely fresh reference with no explicit target environment
 overrides from historical harness isolation. Prior captures remain in Git history.
 Module-path setup is explicit host metadata, not target environment. Its retained
 observed path is not asserted equal to historical or future staging paths; a
@@ -38,5 +44,5 @@ Latest completion verification (2026-10-25): original capture 1.045s; native DLL
 replay 14.615ms (setup 5.339/execution 7.852/checks 1.424ms). Final native build
 0.201s, incremental Win32 build 0.043s, and combined cached replays, thirteen
 units and strict audit 0.287s. Full build/capture/check accounting stays in
-scratch. Historical per-function state/proof campaigns are not rerun. Work stops
-here before another case; unvisited application stubs remain explicit traps.
+scratch. Historical per-function state/proof campaigns are not rerun. The growth case is under reconstruction; unvisited application stubs remain
+explicit traps.
