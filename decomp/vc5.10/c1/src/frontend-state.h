@@ -23,6 +23,15 @@ typedef struct CompilerType {
 } CompilerType;
 typedef char CompilerType_size[sizeof(CompilerType) == 16 ? 1 : -1];
 
+/* Integer-node projection. Original fields are kind0/flags1/type4/value16.
+ * The authentic24-byte allocation is separate from this compact view;
+ * original bytes2..3 and8..15 remain unmodeled and unwritten. */
+typedef struct CompilerIntegerConstant {
+    BYTE kind, flags;
+    CompilerType *type;
+    __int64 integer;
+} CompilerIntegerConstant;
+
 typedef struct CompilerBuiltinTypes {
     CompilerType *type_0000, *type_4041_first, *type_0063, *type_4063_first;
     CompilerType *type_0041, *type_4041_second, *type_0042, *type_4042_first;

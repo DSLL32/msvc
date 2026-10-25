@@ -17,7 +17,7 @@ void __cdecl initialize_semantic_context(void);
 void __cdecl parse_translation_unit(void);
 void __cdecl write_ir_record(int, const void *);
 void __cdecl write_global_header(void);
-void *__cdecl make_integer_constant(int);
+CompilerIntegerConstant *__cdecl make_integer_constant(int);
 CompilerBackend *__cdecl acquire_backend(void);
 void __cdecl finish_symbols(void);
 void __cdecl finish_browser_output(void);
@@ -208,7 +208,6 @@ extern "C" void __cdecl initialize_semantic_context(void) { __asm { int 3 } }
 extern "C" void __cdecl parse_translation_unit(void) { __asm { int 3 } }
 extern "C" void __cdecl write_ir_record(int kind, const void *value) { __asm { int 3 } }
 extern "C" void __cdecl write_global_header(void) { __asm { int 3 } }
-extern "C" void *__cdecl make_integer_constant(int value) { __asm { int 3 } return NULL; }
 extern "C" CompilerBackend *__cdecl acquire_backend(void) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl finish_symbols(void) { __asm { int 3 } }
 extern "C" void __cdecl finish_browser_output(void) { __asm { int 3 } }

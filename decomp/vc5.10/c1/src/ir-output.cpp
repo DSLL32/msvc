@@ -6,7 +6,7 @@
 
 extern "C" {
 void __cdecl prepare_pch_expression_input(const char *);
-void *__cdecl make_integer_constant(int);
+CompilerIntegerConstant *__cdecl make_integer_constant(int);
 void __cdecl write_ir_record(int, const void *);
 void __cdecl report_response_error(int, ...);
 }
@@ -57,4 +57,13 @@ int RECON_THISCALL CompilerOutputBuffer::Open(const char *prefix,
     if (!stream)
         report_response_error(83, 339, filename);
     return setvbuf(stream, NULL, _IOFBF, 4096);
+}
+
+extern "C" CompilerIntegerConstant *__cdecl create_integer_constant(int value) { __asm { int 3 } return NULL; }
+extern "C" CompilerIntegerConstant *__cdecl make_integer_constant(int value)
+{
+    CompilerIntegerConstant *node = create_integer_constant(value);
+    if (!value)
+        node->flags |= 0x80;
+    return node;
 }
