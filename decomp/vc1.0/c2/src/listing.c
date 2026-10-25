@@ -10,6 +10,7 @@
 #include "instruction-encoding.h"
 #include "instruction-rewrite.h"
 #include "machine-layout.h"
+#include "decorated-names.h"
 #include <recon.h>
 extern int dos_object;
 extern Segment *segment_list;
@@ -297,6 +298,19 @@ char *__fastcall listing_size_suffix(unsigned bytes)
     }
     compiler_internal_error("@(#)listing.c:1.76", 0x522);
     return NULL;
+}
+
+/* Original28120..2815d: ECX symbol/EDX first-comment flag, RET0.
+   Failed undecoration leaves the caller's comment flag unchanged. */
+int __fastcall write_demangled_listing(SymbolHeader *symbol, int first)
+{
+    char *name;
+    name = undecorate_function_name(symbol->name);
+    if (*name) {
+        first = write_listing_comment(first);
+        listing_column += printf("%s", name);
+    }
+    return first;
 }
 
 /* Original28280..282ce. The caller carries the zero return as its

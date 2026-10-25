@@ -15,6 +15,7 @@ void __fastcall write_codeview_local_data(SymbolHeader *symbol);
 void __fastcall write_codeview_global_data(SymbolHeader *symbol);
 void __fastcall write_codeview_label(SymbolHeader *symbol);
 void __fastcall write_codeview_constant(SymbolHeader *symbol);
+unsigned __fastcall encode_codeview_numeric(unsigned char *output, long value);
 void __fastcall write_codeview_typedef(SymbolHeader *symbol);
 void write_codeview_compile_record(void);
 void __fastcall read_codeview_initializers(FILE *file);

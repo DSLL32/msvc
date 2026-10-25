@@ -1,5 +1,8 @@
 /* Canonical symbol references, constants and small signed values. */
 #include "expression-fields.h"
+#include "function-input.h"
+#include "records.h"
+#include "tree-rewrite.h"
 #include <stdarg.h>
 #include <recon.h>
 Node *symbol_leaves[32], *number_leaves[32];
@@ -142,4 +145,37 @@ Node *__cdecl intern_leaf(unsigned opcode, ...)
     }
     va_end(arguments);
     return node;
+}
+
+unsigned next_symbol_identifier(void);
+/* Original4fa60..4fb38: ECX function/EDX typed9b leaf, RET0.
+   Repeated frontend identifiers share one automatic symbol/reference. The
+   original cache key is the identifier alone, not a type/value comparison. */
+Node *__fastcall intern_typed_label(Function *function, Node *node)
+{
+    Node *previous;
+    TemporarySymbol *symbol;
+    unsigned short type;
+    for (previous = floating_temporary_nodes; previous; previous = previous->left.node) {
+        if (previous->detail.value == node->detail.value) {
+            release_node(node);
+            return previous->second.node;
+        }
+    }
+    node->left.node = floating_temporary_nodes;
+    floating_temporary_nodes = node;
+    symbol = allocate_descriptor(1, 1);
+    symbol->symbol.name = 0;
+    symbol->symbol.identifier = next_symbol_identifier();
+    symbol->attributes = (symbol->attributes & ~0x580U) | 0x200;
+    symbol->attributes = (symbol->attributes & ~0x60U) | 0x10;
+    symbol->symbol.field0d = 0x26;
+    type = node->attributes.words.type;
+    symbol->attributes = (symbol->attributes & ~15U) | node_type_kind(type);
+    symbol->symbol.value = type == 0x8000 ? node->info.value : type & 255;
+    update_symbol_storage(&symbol->symbol);
+    reserve_symbol_storage(&symbol->symbol);
+    put_symbol(function->scope, &symbol->symbol);
+    node->second.node = intern_leaf(0x26, 0, &symbol->symbol, 0);
+    return node->second.node;
 }

@@ -245,6 +245,46 @@
       "expected_cleanup": [
         4
       ]
+    },
+    "@write_demangled_listing@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@scan_decorated_token@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@assign_parameter_register@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@read_qualified_symbol@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@intern_typed_label@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@high_dword_operand@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@write_codeview_constant@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@encode_codeview_numeric@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

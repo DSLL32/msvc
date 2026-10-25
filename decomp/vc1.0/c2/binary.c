@@ -2046,11 +2046,20 @@ static const ReconFunction functions[] = {
     {
         .name = "@write_codeview_constant@4",
         .entry_rva = 0x59d80,
-        .code = (const ReconExtent[]) { { 0x59d80, 0x59d81 } },
+        .code = (const ReconExtent[]) { { 0x59d80, 0x59e69 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "write_codeview_constant",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "@encode_codeview_numeric@8",
+        .entry_rva = 0x59ff0,
+        .code = (const ReconExtent[]) { { 0x59ff0, 0x5a0f4 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "encode_codeview_numeric",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@write_codeview_label@4",
@@ -2571,11 +2580,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@scan_decorated_token@4",
         .entry_rva = 0x5fa50,
-        .code = (const ReconExtent[]) { { 0x5fa50, 0x5fa51 } },
+        .code = (const ReconExtent[]) { { 0x5fa50, 0x5fb65 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "scan_decorated_token",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@decode_decorated_name@12",
@@ -8799,11 +8808,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@write_demangled_listing@8",
         .entry_rva = 0x18120,
-        .code = (const ReconExtent[]) { { 0x18120, 0x18121 } },
+        .code = (const ReconExtent[]) { { 0x18120, 0x1815d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "write_demangled_listing",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@open_listing_source@4",
@@ -9980,11 +9989,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@high_dword_operand@4",
         .entry_rva = 0x9650,
-        .code = (const ReconExtent[]) { { 0x9650, 0x9651 } },
+        .code = (const ReconExtent[]) { { 0x9650, 0x9692 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "high_dword_operand",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@duplicate_operand@4",
@@ -10871,11 +10880,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@assign_parameter_register@12",
         .entry_rva = 0x17a20,
-        .code = (const ReconExtent[]) { { 0x17a20, 0x17a21 } },
+        .code = (const ReconExtent[]) { { 0x17a20, 0x17b22 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "assign_parameter_register",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@lower_intrinsic@8",
@@ -11438,11 +11447,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@intern_typed_label@8",
         .entry_rva = 0x3fa60,
-        .code = (const ReconExtent[]) { { 0x3fa60, 0x3fa61 } },
+        .code = (const ReconExtent[]) { { 0x3fa60, 0x3fb38 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "intern_typed_label",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_intern_leaf",
@@ -12906,11 +12915,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@read_qualified_symbol@8",
         .entry_rva = 0x3da70,
-        .code = (const ReconExtent[]) { { 0x3da70, 0x3da71 } },
+        .code = (const ReconExtent[]) { { 0x3da70, 0x3daae } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "read_qualified_symbol",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@copy_symbol_type@4",

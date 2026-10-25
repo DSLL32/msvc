@@ -7,6 +7,7 @@
 #include "listing.h"
 #include "input.h"
 #include "function-input.h"
+#include "symbol-constants.h"
 #include <string.h>
 #include <stddef.h>
 #include <recon.h>
@@ -497,4 +498,83 @@ unsigned short __fastcall codeview_register_number(SymbolHeader *symbol)
     if (bytes > 4) compiler_internal_error("@(#)emit.c:1.20", 0x2fb);
     return (unsigned short)(((unsigned)(bytes >> 1) << 3) +
         ((TemporarySymbol *)symbol)->field28 + 1);
+}
+
+typedef struct CodeViewConstantRecord {
+    unsigned short length, kind, type;
+    unsigned char value_and_name[300];
+} CodeViewConstantRecord;
+#ifdef RECON_NATIVE_TEST
+typedef char CodeViewConstantPayloadOffset[offsetof(CodeViewConstantRecord,value_and_name)==6?1:-1];
+#endif
+/* Original69d80..69e69: ECX kind8 symbol, RET0. The byte payload is
+   widened with zeros, preserving unsigned1/2-byte values. The numeric leaf
+   routine interprets the resulting DWORD as signed, exactly as the original.
+   Record length uses the unshortened name length, as in the other writers. */
+void __fastcall write_codeview_constant(SymbolHeader *header)
+{
+    SymbolConstant *symbol = (SymbolConstant *)header;
+    CodeViewConstantRecord record;
+    unsigned value = 0, bytes, index, name_bytes;
+    char *name, *end;
+    switch (symbol->value_size) {
+    case 1: case 2: case 4:
+        for (index = 0; index < (unsigned)symbol->value_size; ++index)
+            ((unsigned char *)&value)[index] = symbol->value_bytes[index];
+        break;
+    default:
+        compiler_internal_error("@(#)emit.c:1.20", 0x4b5);
+        break;
+    }
+    name = format_function_name(header);
+    record.length = 0;
+    record.kind = 3;
+    record.type = (unsigned short)symbol->debug_type;
+    bytes = encode_codeview_numeric(record.value_and_name, (long)value);
+    copy_codeview_string(record.value_and_name + bytes, name);
+    end = name;
+    while (*end++) ;
+    name_bytes = (unsigned)(end - name);
+    record.length = (unsigned short)(bytes + name_bytes + 4);
+    output_callbacks.select_segment(debug_symbols_segment);
+    output_callbacks.data(&record, bytes + name_bytes + 6);
+    debug_symbols_segment->symbol.field04 += bytes + name_bytes + 6;
+}
+
+/* Original69ff0..6a0f4: ECX output/EDX signed DWORD, byte count EAX,
+   RET0. CodeView's immediate range is nonnegative0..32767; tagged leaves
+   distinguish signed char/short/long from unsigned short/long payloads. */
+unsigned __fastcall encode_codeview_numeric(unsigned char *output, long value)
+{
+    unsigned leaf, bytes, index;
+    if (value < 0) {
+        if (value >= -128 && value <= 127) {
+            leaf = 0x8000;
+            bytes = 1;
+        } else if (value >= -32768 && value <= 32767) {
+            leaf = 0x8001;
+            bytes = 2;
+        } else {
+            leaf = 0x8003;
+            bytes = 4;
+        }
+    } else {
+        if (value < 0x8000) {
+            output[0] = (unsigned char)value;
+            output[1] = (unsigned char)((unsigned)value >> 8);
+            return 2;
+        }
+        if (value < 0x10000) {
+            leaf = 0x8002;
+            bytes = 2;
+        } else {
+            leaf = 0x8004;
+            bytes = 4;
+        }
+    }
+    output[0] = (unsigned char)leaf;
+    output[1] = (unsigned char)(leaf >> 8);
+    for (index = 0; index < bytes; ++index)
+        output[index + 2] = (unsigned char)((unsigned)value >> (index * 8));
+    return bytes + 2;
 }

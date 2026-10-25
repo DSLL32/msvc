@@ -43,7 +43,6 @@ void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int
 void __cdecl compiler_report(unsigned code, ...) { __asm int 3 }
 void __fastcall report_context_error(unsigned code, char *source, char *filename) { __asm int 3 }
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
-Node *__fastcall intern_typed_label(Function *function, Node *node) { __asm int 3 }
 DoubleBits input_double_bits(void) { __asm int 3 }
 int extended_to_float(const Extended *number, float *result) { __asm int 3 }
 void float_to_extended(const float *number, Extended *result) { __asm int 3 }
@@ -52,7 +51,6 @@ void __fastcall set_warning_override(short number, signed char level) { __asm in
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
 Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
-int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention) { __asm int 3 }
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
 Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
@@ -69,7 +67,6 @@ Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
 #include "instruction-selection.h"
-void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall change_warning_override(short number, signed char level) { __asm int 3 }
 char *__fastcall diagnostic_format(unsigned number) { __asm int 3 }
@@ -82,7 +79,6 @@ unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeade
 __declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
 __declspec(naked) void mark_unwritten_symbol(void) { RECON_TRACE_NAKED_ENTRY(mark_unwritten_symbol) __asm int 3 }
 
-void __fastcall write_codeview_constant(SymbolHeader *symbol) { __asm int 3 }
 
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
 
@@ -114,7 +110,6 @@ SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3
 #include "frame.h"
 
 
-MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm int 3 }
 
 #include "register-use.h"
 
@@ -139,7 +134,6 @@ int __fastcall add_alignment_prefix(MachineInstruction *instruction) { __asm int
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
     unsigned char search) { __asm int 3 }
-int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }
 unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
 void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
 unsigned input_float_bits(void) { __asm int 3 }

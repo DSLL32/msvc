@@ -2,6 +2,7 @@
 #include "records.h"
 #include "input.h"
 #include "segments.h"
+#include "symbol-constants.h"
 #include <string.h>
 #include <recon.h>
 extern int string_blocks, frame_pointer;
@@ -233,4 +234,19 @@ void __fastcall copy_symbol_type(SymbolHeader *header)
         symbol->field24 |= 0x4000;
     }
     symbol->field24 = (symbol->field24 & ~0xfU) | (type & 0xf);
+}
+
+/* Original4da70..4daae, ECX kind8 descriptor/EDX arena, RET0. The
+   provisional name predates recovery of this counted constant-value payload.
+   A signed length is stored before allocating and reading exactly that many
+   bytes; the original supplies no terminator or extra range check. */
+void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena)
+{
+    SymbolConstant *constant = (SymbolConstant *)symbol;
+    unsigned char *destination;
+    int count;
+    constant->value_size = input_compact_short();
+    constant->value_bytes = destination = arena_alloc(arena, constant->value_size);
+    for (count = constant->value_size; count > 0; --count)
+        *destination++ = input_byte();
 }

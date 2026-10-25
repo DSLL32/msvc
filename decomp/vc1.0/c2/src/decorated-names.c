@@ -123,8 +123,42 @@ complete:
     return result;
 }
 
-/* Pending original6fa50, ECX source-pointer owner, EAX:EDX slice/RET0. */
+/* Original6fa50..6fb65: ECX cursor owner; EAX:EDX source slice, RET0.
+   A decimal back reference consumes one character even when invalid. A new
+   token consumes its at-sign delimiter, or one invalid nonzero character.
+   Cache at most ten source slices; returned slices retain source identity. */
 NameSlice __fastcall scan_decorated_token(char **source)
 {
-    __asm { int 3 }
+    NameSlice result;
+    signed char ch;
+    int index;
+    if (!source || !*source || !**source) goto invalid;
+    ch = **source;
+    if (ch >= '0' && ch <= '9') {
+        index = ch - '0';
+        ++*source;
+        if (index > decorated_last_token) goto invalid;
+        return decorated_tokens[index];
+    }
+    result.text = *source;
+    result.length = 0;
+    while ((ch = **source) != 0 && ch != '@') {
+        if (ch != '_' && ch != '$' && !(ch >= 'a' && ch <= 'z') &&
+            !(ch >= 'A' && ch <= 'Z') && !(ch >= '0' && ch <= '9'))
+            break;
+        ++*source;
+        ++result.length;
+    }
+    ch = **source;
+    if (ch) {
+        ++*source;
+        if (ch != '@') goto invalid;
+    }
+    if (decorated_last_token < 9)
+        decorated_tokens[++decorated_last_token] = result;
+    return result;
+invalid:
+    result.text = invalid_name_buffer.next;
+    result.length = invalid_name_buffer.remaining;
+    return result;
 }

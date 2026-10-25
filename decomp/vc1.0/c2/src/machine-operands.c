@@ -255,3 +255,23 @@ MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsign
     instruction->operands[0] = *operand;
     return &instruction->operands[0];
 }
+
+/* Original19650..19692: ECX mutable operand, same pointer in EAX/RET0.
+   A wide register uses its adjacent16-bit ID; address operands advance their
+   displacement by four with the original DWORD wraparound. */
+MachineOperand *__fastcall high_dword_operand(MachineOperand *operand)
+{
+    switch (operand->flags & 15) {
+    case OPERAND_REGISTER:
+        ++operand->value.reg.words.number;
+        break;
+    case OPERAND_ABSOLUTE: case OPERAND_BASED: case OPERAND_LABEL_ADDRESS:
+        operand->value.address->first.displacement =
+            (long)((unsigned)operand->value.address->first.displacement + 4U);
+        break;
+    default:
+        compiler_internal_error("@(#)codegen.c:1.167", 0x609);
+        break;
+    }
+    return operand;
+}

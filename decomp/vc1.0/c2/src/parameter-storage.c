@@ -4,6 +4,7 @@
 #include "expression-fields.h"
 #include "records.h"
 #include "frame.h"
+#include "instruction-selection.h"
 #include <recon.h>
 extern int optimize_global;
 BitSet *spilled_parameter_registers; /* 0007b990 */
@@ -68,4 +69,47 @@ found_entry:
         }
         entry_work->next->body.expressions = spills;
     }
+}
+
+/* Original27a20..27b22: ECX used-register mask, EDX argument/parameter,
+   stack calling convention, RET4. Original80ae0..80ae8 names ECX/EDX for
+   fastcall;80ae8..80aec names the single ECX thiscall parameter. */
+int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention)
+{
+    static const unsigned fastcall_registers[] = { REG_ECX, REG_EDX };
+    static const unsigned thiscall_registers[] = { REG_ECX };
+    const unsigned *registers;
+    TemporarySymbol *symbol;
+    unsigned type, bit, reg;
+    int count, index;
+    if (argument->opcode == 0x55) type = argument->attributes.words.type;
+    else {
+        symbol = (TemporarySymbol *)argument->right.symbol;
+        type = encode_node_type((signed char)(symbol->attributes & 15), symbol->symbol.value);
+    }
+    switch (type) {
+    case 0x101: case 0x102: case 0x104:
+    case 0x201: case 0x202: case 0x204: case 0x404:
+        break;
+    default:
+        return 0;
+    }
+    if (convention == 4) {
+        registers = fastcall_registers;
+        count = 2;
+    } else {
+        registers = thiscall_registers;
+        count = 1;
+    }
+    for (index = 0; index < count; ++index) {
+        reg = registers[index];
+        bit = 1U << reg;
+        if (!(*used & bit)) {
+            *used |= bit;
+            argument->attributes.words.flags |= 0x20;
+            argument->info.words.identifier = (short)reg;
+            return 1;
+        }
+    }
+    return 0;
 }
