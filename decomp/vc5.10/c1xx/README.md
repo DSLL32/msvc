@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 106 accepted application functions / 12128
+The single registry is binary.c: 107 accepted application functions / 12192
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are three six-byte import endpoints (18 bytes, zero App credit). The 108
+as are three six-byte import endpoints (18 bytes, zero App credit). The 109
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine initialize_keyword_table INT3 at RVA3a54b;
+and currently reaches the genuine initialize_floating_point INT3 at RVA3a57c;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -42,14 +42,12 @@ vtables resolve to one physical function. The alias unit inspects a real object
 without invoking pending methods. These aliases add no code credit. Only the
 initializer/factory TUs use /Ob1 for helpers proved inline in the original.
 
-The latest matching original/native pair reaches the next table allocator:
-1.186 s / 11.040 ms (native setup 6.319, execution 3.252, checks 1.469).
-The original/native build, graph audit and unit batch took 7.785 s.
-The 129-byte canonical-token initializer defines only the encountered boolean
-membership table, 244 pointer slots, and record kind/tag bytes at offsets 0/8.
-The original 48-byte allocation is preserved; seven intervening bytes and the
-remaining tail are explicitly unmodeled, untouched and unclaimed. Typed pointer
-snapshot restoration is covered by the affected existing unit.
+The latest matching original/native pair reaches the next language initializer:
+1.315 s / 10.601 ms (native setup 4.866, execution 4.245, checks 1.490).
+The original/native build, graph audit and unit batch took 6.127 s.
+The 64-byte table initializer preserves its conditional 8192-byte allocation
+from arena zero. The table's pointer has a proven zero default and participates
+in typed snapshot restoration; its pointee remains unmodeled until consumed.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

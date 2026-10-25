@@ -996,9 +996,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_initialize_keyword_table", .entry_rva = 0x3a54b,
-        .code = (const ReconExtent[]){{0x3a54b, 0x3a54c}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3a54b, 0x3a57c}, {0x72c6d, 0x72c7c}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "initialize_keyword_table",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_floating_point", .entry_rva = 0x3a57c,

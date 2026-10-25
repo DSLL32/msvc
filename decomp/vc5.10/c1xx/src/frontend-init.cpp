@@ -306,7 +306,17 @@ extern "C" void __cdecl normalize_frontend_options(void)
 extern "C" void __cdecl format_processor_switch(char *buffer, const char *format, unsigned size, int processor) { __asm { int 3 } }
 extern "C" int __cdecl prepare_pch_input(const char *filename) { __asm { int 3 } return 0; }
 extern "C" void __cdecl read_initial_input(void) { __asm { int 3 } }
-extern "C" void __cdecl initialize_keyword_table(void) { __asm { int 3 } }
+extern "C" void __cdecl initialize_keyword_table(void)
+{
+    CompilerArena *arena = &frontend_bss.arenas[0];
+    if (!frontend_data.keyword_table) {
+        BYTE *table = arena->cursor;
+        arena->cursor += 8192;
+        if (arena->cursor > arena->committed_limit)
+            arena->CommitExtent();
+        frontend_data.keyword_table = (CompilerKeywordTable *)table;
+    }
+}
 extern "C" void __cdecl initialize_floating_point(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_line_tables(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_frontend_tables(void) { __asm { int 3 } }
