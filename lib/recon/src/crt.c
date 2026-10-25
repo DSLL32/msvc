@@ -1851,6 +1851,12 @@ char *recon_tempnam(const char *dir,const char *prefix)
     if (asprintf(&path,"%s\\%sXXXXXX",base,prefix?prefix:"")<0) return NULL;
     if (!recon_mktemp(path)) { free(path); return NULL; } return path;
 }
+char *__cdecl recon_tmpnam(char *buffer)
+{
+    (void)buffer;
+    recon_unsupported("unreviewed tmpnam");
+    return NULL;
+}
 char *recon_getpath(const char *path,char *out,int capacity)
 {
     int n=0,quoted=0;

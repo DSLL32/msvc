@@ -585,6 +585,12 @@ build/mbslwr-surface-probe: tests/mbslwr-surface-probe.c $(SOURCES) $(HEADERS) |
 mbslwr-surface-check: build/mbslwr-surface-probe
 	$(PYTHON) tests/check-mbslwr-surface.py build/mbslwr-surface-probe
 
+.PHONY: tmpnam-surface-check
+build/tmpnam-surface-probe: tests/tmpnam-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+tmpnam-surface-check: build/tmpnam-surface-probe
+	$(PYTHON) tests/check-tmpnam-surface.py $<
+
 build/trace-exec-driver: tests/trace-exec-driver.c include/recon-trace.h | build
 	$(CC) $(CFLAGS) $< -ldl -o $@
 build/native-image-module.so: tests/native-image-module.c $(SOURCES) $(HEADERS) | build

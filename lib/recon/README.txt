@@ -550,6 +550,11 @@ that receipt, requiring one PID-owned invocation and matching aliases/strings/
 errors. Fixtures must separately bind the original full directory inventory.
 Unconfigured legacy mktemp behavior remains unchanged.
 
+tmpnam has the SDK char* cdecl(char*) declaration and native remap, but every
+invocation fails explicitly with status125, including NULL and caller storage.
+This prevents unvisited target calls from escaping to host libc; no temporary
+name, allocation, output-buffer or successful service behavior is supported.
+
 _errno returns the real host thread-local errno address, so cached pointer writes
 and native libc strtol updates refer to the same slot, preserving aliasing.
 

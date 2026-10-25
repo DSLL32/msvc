@@ -261,6 +261,7 @@ char *recon_getcwd(char *,int);
 char *recon_find(const char *);
 char *recon_ultoa(unsigned long,char *,int),*recon_itoa(int,char *,int);
 char *recon_mktemp(char *),*recon_tempnam(const char *,const char *);
+char *__cdecl recon_tmpnam(char *);
 typedef struct ReconMktempObservation {
     uint32_t magic,version,owner,count,argument,result;
     int32_t before_errno,after_errno;
@@ -582,6 +583,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _itoa recon_itoa
 #define _mktemp recon_mktemp
 #define _tempnam recon_tempnam
+#define tmpnam recon_tmpnam
 #define _getpath recon_getpath
 #define _searchenv recon_searchenv
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
