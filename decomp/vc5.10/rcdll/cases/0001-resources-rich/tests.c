@@ -764,6 +764,38 @@ static int resource_buffer_reset_contract(void)
         rc_resource_input_file==(FILE *)0x45678900;
 }
 
+static void reserve_negative_cursor(void)
+{
+    rc_resource_buffer_used=-1;rc_reserve_resource_bytes(2);
+}
+static void reserve_past_capacity(void)
+{
+    rc_resource_buffer_used=rc_resource_buffer_size+1;rc_reserve_resource_bytes(2);
+}
+static void reserve_missing_owner(void)
+{
+    rc_resource_buffer=NULL;rc_reserve_resource_bytes(2);
+}
+static int resource_buffer_reserve_contract(void)
+{
+    BYTE *buffer;
+    rc_heap=recon_HeapCreate(1,0,0);
+    rc_initialize_resource_buffer();rc_reset_resource_buffer();
+    buffer=rc_resource_buffer;
+    buffer[0]=0x7a;buffer[127999]=0x5a;
+    rc_resource_data_file=(FILE *)0x12345670;
+    if(rc_reserve_resource_bytes(2)!=buffer||rc_resource_buffer_used!=2||
+       rc_reserve_resource_bytes(7)!=buffer+2||rc_resource_buffer_used!=9)return 0;
+    rc_resource_buffer_used=127998;
+    if(rc_reserve_resource_bytes(2)!=buffer+127998||rc_resource_buffer_used!=128000||
+       rc_reserve_resource_bytes(0)!=buffer+128000||rc_resource_buffer_used!=128000)return 0;
+    return rc_resource_buffer==buffer&&rc_resource_buffer_size==128000&&
+        buffer[0]==0x7a&&buffer[127999]==0x5a&&
+        rc_resource_data_file==(FILE *)0x12345670&&
+        trapped(reserve_negative_cursor)&&trapped(reserve_past_capacity)&&
+        trapped(reserve_missing_owner);
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -796,6 +828,7 @@ const ReconTest rich_tests[]={
     {"resource-attribute-contract",1,resource_attribute_contract},
     {"resource-metadata-contract",1,resource_metadata_contract},
     {"resource-buffer-reset-contract",1,resource_buffer_reset_contract},
+    {"resource-buffer-reserve-contract",1,resource_buffer_reserve_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},

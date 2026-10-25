@@ -532,3 +532,28 @@ void __cdecl rc_reset_resource_buffer(void)
     rc_resource_buffer_used=0;
     rc_resource_data_file=NULL;
 }
+
+void *__stdcall rc_reserve_resource_bytes(WORD bytes)
+{
+    BYTE *buffer,*result;
+#ifdef RECON_NATIVE_TEST
+    /* The live buffer is produced by the resource allocator. Invalid cursor
+     * states have no proved ownership; do not form a pointer from them. */
+    if(!rc_resource_buffer||rc_resource_buffer_size<0||
+       rc_resource_buffer_used<0||rc_resource_buffer_used>rc_resource_buffer_size)
+        __asm int 3
+#endif
+    if(rc_resource_buffer_used>rc_resource_buffer_size-bytes){
+#ifdef RECON_NATIVE_TEST
+        if(rc_resource_buffer_size>0x7ffefff7)__asm int 3
+#endif
+        buffer=HeapReAlloc(rc_heap,9,rc_resource_buffer-8,
+                           rc_resource_buffer_size+65544);
+        if(!buffer)rc_resource_data_fatal(2168);
+        rc_resource_buffer_size+=65536;
+        rc_resource_buffer=buffer+8;
+    }
+    result=rc_resource_buffer+rc_resource_buffer_used;
+    rc_resource_buffer_used+=bytes;
+    return result;
+}

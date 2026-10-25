@@ -33,6 +33,7 @@ extern DWORD rc_hwb_resource_offset;
 extern int rc_resource_buffer_size,rc_resource_buffer_used;
 extern BYTE *rc_resource_buffer;
 extern FILE *rc_resource_data_file;
+void __stdcall rc_resource_data_fatal(unsigned);
 int __cdecl rc_read_resource_name(void);
 void __stdcall rc_parse_menu(int extended,RcResource *resource);
 void __stdcall rc_resource_error(unsigned code);

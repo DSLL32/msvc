@@ -41,10 +41,9 @@ void __stdcall rc_read_apstudio_directive(int unused_mode,DWORD unused_character
 {
     __asm int 3
 }
-void *__stdcall rc_reserve_resource_bytes(WORD bytes)
+void __stdcall rc_resource_data_fatal(unsigned message)
 {
     __asm int 3
-    return NULL;
 }
 int __stdcall rc_flush_resources(FILE *file)
 {
