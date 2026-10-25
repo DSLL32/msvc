@@ -4,6 +4,7 @@
 #include <string.h>
 #include "../../src/input.h"
 #include "../../src/memory.h"
+#include "../../src/files.h"
 #include "../../harness/startup.h"
 #include <recon.h>
 
@@ -60,7 +61,44 @@ static int section_header_call(void)
     return recon_native_at_entry(native_read_section_headers,check_section_header_call,
         invoke_hello,NULL)==1;
 }
+extern BYTE *module_section_map;
+extern IMAGE_SECTION_HEADER *module_section_headers;
+extern unsigned module_section_capacity;
+extern IMAGE_SYMBOL *__stdcall read_module_symbols(DWORD,DWORD,BYTE);
+static void __stdcall check_section_header_read(DWORD offset,DWORD count,BYTE force_copy)
+{
+    static const WORD relocations[7]={0,8,0,1,13,0,1};
+    static const DWORD reloc_offsets[7]={0,543,0,653,967,0,1125};
+    static const DWORD raw_offsets[7]={300,383,623,637,663,1097,1109};
+    OutputModule *module=current_input_library ? current_input_library->module_head : NULL;
+    FileRecord *file=file_slots[current_input_file];
+    Contribution *parts;
+    unsigned i;
+    int pass=module && offset==1135 && count==37 && !force_copy &&
+        module_section_capacity==500 && module_section_headers &&
+        module->section_map==(SectionFileMap *)module_section_map &&
+        file && (file->flags & 8) && file->size==2262 && file->file_size==300 &&
+        file->view && !memcmp(module_section_headers,(BYTE *)file->view+20,280);
+    if (!pass) recon_native_entry_finish(0);
+    parts=(Contribution *)module->contributions;
+    for (i=0;i<7;++i) {
+        if (parts[i].relocation_count!=relocations[i] ||
+            parts[i].line_number_count ||
+            parts[i].relocation_offset!=reloc_offsets[i] ||
+            parts[i].input_raw_offset!=raw_offsets[i] ||
+            module->section_map[i].virtual_address ||
+            module->section_map[i].line_number_offset)
+            recon_native_entry_finish(0);
+    }
+    recon_native_entry_finish(1);
+}
+static int section_header_read(void)
+{
+    return recon_native_at_entry(read_module_symbols,check_section_header_read,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
-    {"loader-section-header-call",1,section_header_call}
+    {"loader-section-header-call",1,section_header_call},
+    {"section-header-read",1,section_header_read}
 };

@@ -12,6 +12,10 @@ typedef struct OutputSection OutputSection;
 typedef struct ContributionGroup ContributionGroup;
 typedef struct Contribution Contribution;
 typedef struct ComdatRoot ComdatRoot;
+typedef struct SectionFileMap {
+    DWORD virtual_address,line_number_offset;
+} SectionFileMap;
+typedef char SectionFileMapSize[(sizeof(SectionFileMap)==8)?1:-1];
 
 /* Only fields consumed by reached reconstruction logic are named here. These are prefixes, not
  * claims about an allocation's complete size or its as-yet unknown tail. */
@@ -43,7 +47,7 @@ struct OutputModule {
     WORD optional_header_size, characteristics;
     DWORD section_count;
     BYTE reserved1c[16];
-    void *section_map;
+    SectionFileMap *section_map;
     DWORD reserved30, input_tag, timestamp, file_size;
     DWORD section_offset;
     void *optional_data;
@@ -90,7 +94,15 @@ struct Contribution {
     OutputModule *module;
     ContributionGroup *group;
     Contribution *next;
+    WORD relocation_count,line_number_count;
+    DWORD relocation_offset,input_raw_offset;
+    BYTE reserved30[16];
 };
+typedef char ContributionSize[(sizeof(Contribution)==64)?1:-1];
+typedef char ContributionInputFields[(offsetof(Contribution,relocation_count)==0x24 &&
+    offsetof(Contribution,line_number_count)==0x26 &&
+    offsetof(Contribution,relocation_offset)==0x28 &&
+    offsetof(Contribution,input_raw_offset)==0x2c)?1:-1];
 /* A COFF symbol is the public prefix of the linker's extended symbol record.
  * The flags and owner slots below are read by FullLink; later tail members
  * remain unknown until their users are reconstructed. */

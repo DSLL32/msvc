@@ -5597,6 +5597,11 @@
         "expected_cleanup": [
           16
         ]
+      },
+      "OutputModule::ReadSectionHeaders": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   }
