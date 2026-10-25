@@ -862,7 +862,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_read_identifier" },
     { .name="rc_copy_quoted", .original_symbol="_rc_copy_quoted@4", .entry_rva=0x11cad,
       .code=(const ReconExtent[]){{0x11cad,0x11d86}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_copy_quoted" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_copy_quoted" },
     { .name="rc_read_character_constant", .original_symbol="_rc_read_character_constant", .entry_rva=0x11d86,
       .code=(const ReconExtent[]){{0x11d86,0x11f3b}}, .code_count=1,
       .definition=RECON_APP, .implementation=0, .native_symbol="rc_read_character_constant" },

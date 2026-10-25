@@ -117,10 +117,7 @@ void __cdecl rc_line_comment(void)
     __asm int 3
 }
 
-void __stdcall rc_copy_quoted(WCHAR delimiter)
-{
-    __asm int 3
-}
+
 
 unsigned char __cdecl rc_read_character_constant(void)
 {

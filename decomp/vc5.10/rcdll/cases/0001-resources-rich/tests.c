@@ -333,6 +333,49 @@ static int interior_number_contract(void)
     rc_source_cursor=text+11;
     return trapped(interior_number_call);
 }
+static const WCHAR *quoted_input,*quoted_expected;
+static unsigned quoted_words;
+static WCHAR *quoted_resume;
+static void quoted_invoke(void *unused)
+{
+    rc_source_cursor=(WCHAR *)quoted_input;
+    rc_cpp_output_file=NULL;
+    rc_copy_quoted(L'"');
+}
+/* Stops before actual IO; verifies the first bounded output chunk, not the
+ * writer or any continuation after this direct-test checkpoint. */
+static void __stdcall quoted_write_boundary(const void *text,unsigned bytes,
+                                            unsigned count,FILE *stream)
+{
+    int passed=text==rc_macro_name && bytes==quoted_words*2 && count==1 &&
+        !stream && !rc_macro_name[quoted_words] &&
+        rc_source_cursor==quoted_resume &&
+        !memcmp(text,quoted_expected,bytes);
+    recon_native_entry_finish(passed);
+}
+static int quoted_output_contract(void)
+{
+    WCHAR normal[]=L"abc\"tail",newline[]=L"abc\n",escape[]=L"a\\\"b\"";
+    WCHAR long_text[261],long_expected[256];
+    unsigned i;
+    quoted_input=normal;quoted_expected=L"\"abc\"";quoted_words=5;
+    quoted_resume=normal+4;
+    if(recon_native_at_entry(rc_write_preprocessed,quoted_write_boundary,quoted_invoke,NULL)!=1)return 0;
+    quoted_input=newline;quoted_expected=L"\"abc";quoted_words=4;
+    quoted_resume=newline+3;
+    if(recon_native_at_entry(rc_write_preprocessed,quoted_write_boundary,quoted_invoke,NULL)!=1)return 0;
+    quoted_input=escape;quoted_expected=L"\"a\\\"b\"";quoted_words=6;
+    quoted_resume=escape+5;
+    if(recon_native_at_entry(rc_write_preprocessed,quoted_write_boundary,quoted_invoke,NULL)!=1)return 0;
+    for(i=0;i<260;++i)long_text[i]=L'a';
+    long_text[260]=0;
+    long_expected[0]=L'"';
+    for(i=1;i<255;++i)long_expected[i]=L'a';
+    long_expected[255]=0;
+    quoted_input=long_text;quoted_expected=long_expected;quoted_words=255;
+    quoted_resume=long_text+254;
+    return recon_native_at_entry(rc_write_preprocessed,quoted_write_boundary,quoted_invoke,NULL)==1;
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -346,6 +389,7 @@ const ReconTest rich_tests[]={
     {"substitution-invalid-index",1,substitute_invalid_index},
     {"identifier-lookahead-contract",1,identifier_lookahead_contract},
     {"interior-numeric-spelling-contract",1,interior_number_contract},
+    {"quoted-output-chunk-contract",1,quoted_output_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };

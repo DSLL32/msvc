@@ -29,3 +29,44 @@ void __cdecl rc_run_preprocessor(void)
         rc_write_preprocessed(text,wcslen(text)*2,1,rc_cpp_output_file);
     }
 }
+
+void __stdcall rc_copy_quoted(WCHAR delimiter)
+{
+    WCHAR *cursor=rc_macro_name+1,character;
+    unsigned short token;
+
+    *rc_macro_name=delimiter;
+    for(;;){
+        character=*rc_source_cursor++;
+        token=rc_character_token(character);
+        if(token==1)continue;
+        if(token==3){
+            if(character!=L'\\'){
+                rc_resume_input();
+                continue;
+            }
+            *cursor++=character;
+            character=rc_get_logical_character();
+        }else if(token==5){
+            --rc_source_cursor;
+            break;
+        }else if(token==6){
+            *cursor++=character;
+        }else if(token==7||token==8){
+            if(character==delimiter){
+                *cursor++=delimiter;
+                break;
+            }
+        }
+        *cursor++=character;
+        if(cursor>=rc_macro_name+255){
+            *cursor=0;
+            rc_write_preprocessed(rc_macro_name,(cursor-rc_macro_name)*sizeof(WCHAR),
+                                  1,rc_cpp_output_file);
+            cursor=rc_macro_name;
+        }
+    }
+    *cursor=0;
+    rc_write_preprocessed(rc_macro_name,(cursor-rc_macro_name)*sizeof(WCHAR),
+                          1,rc_cpp_output_file);
+}
