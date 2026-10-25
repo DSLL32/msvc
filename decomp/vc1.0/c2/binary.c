@@ -8070,11 +8070,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@refresh_region_entries@4",
         .entry_rva = 0x4a330,
-        .code = (const ReconExtent[]) { { 0x4a330, 0x4a331 } },
+        .code = (const ReconExtent[]) { { 0x4a330, 0x4a354 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "refresh_region_entries",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@simplify_flow_regions@4",

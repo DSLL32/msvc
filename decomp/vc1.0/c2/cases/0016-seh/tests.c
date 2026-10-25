@@ -25,6 +25,7 @@ extern int c2_scope_visible_inputs(void);
 extern int c2_scope_lookup_inputs(void);
 extern int c2_protected_edge_inputs(void);
 extern int c2_refresh_region_inputs(void);
+extern int c2_restore_excluded_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -498,6 +499,28 @@ static int protected_recycled_flags(void)
         !recycled[0].next&&!recycled[1].next&&recycled[0].flags==0xa5&&
         recycled[1].flags==0xb3&&!free_flow_links;
 }
+static int region_last_signed_order(void)
+{
+    static const short numbers[]={-2,32767,-1,7,7,-32768,0,100};
+    WorkItem work[8];FlowRegion regions[2];unsigned i,pass;
+    memset(work,0,sizeof work);memset(regions,0,sizeof regions);
+    refresh_region_entries(0);
+    regions[0].last=&work[0];regions[1].last=&work[1];
+    regions[0].flags=0xa0;regions[1].flags=0xb0;
+    for(i=0;i<8;++i){
+        work[i].next=i==7?0:&work[i+1];work[i].number=numbers[i];
+        work[i].region=i==7?0:(i==1||i==5||i==6?&regions[1]:&regions[0]);
+    }
+    for(pass=0;pass<2;++pass){
+        refresh_region_entries(work);
+        if(regions[0].last!=&work[3]||regions[1].last!=&work[1]||
+           regions[0].flags!=0xa0||regions[1].flags!=0xb0)return 0;
+        for(i=0;i<8;++i)
+            if(work[i].next!=(i==7?0:&work[i+1])||work[i].number!=numbers[i]||
+               work[i].region!=(i==7?0:(i==1||i==5||i==6?&regions[1]:&regions[0])))return 0;
+    }
+    return 1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -546,5 +569,7 @@ const ReconTest c2_tests[]={
     {"actual protected-edge Work owners and empty directional lists",1,c2_protected_edge_inputs},
     {"protected reciprocal edges coexist/append/deduplicate/self-link",1,protected_edge_pairs},
     {"protected allocation retains recycled high flags",1,protected_recycled_flags},
-    {"actual25-work region aliases/numbers/initial last",1,c2_refresh_region_inputs}
+    {"actual25-work region aliases/numbers/initial last",1,c2_refresh_region_inputs},
+    {"region last uses signed maxima and retains tie identity",1,region_last_signed_order},
+    {"actual excluded-register root/Expression/Work ownership",1,c2_restore_excluded_inputs}
 };

@@ -2,6 +2,7 @@
 #include <recon-native.h>
 #include "exception-scope.h"
 #include "backend.h"
+#include "global-registers.h"
 #include <recon.h>
 extern unsigned exception_scope_stack_depth;
 struct Arena { void *blocks; char *next; unsigned remaining; int heap_flags; };
@@ -310,4 +311,18 @@ int c2_refresh_region_inputs(void)
 {
     return recon_native_at_entry((const void *)refresh_region_entries,
         (const void *)refresh_region_entry,real_input,0)==1;
+}
+
+static void __fastcall restore_excluded_entry(Node *node)
+{
+    int valid=node==global_entry_work->body.expressions->tree&&
+        node->opcode==0x56&&!node->attributes.value&&!node->info.value&&
+        !node->left.value&&!node->second.value&&node->right.pointer&&
+        node->detail.value==2&&allocation_excluded_registers;
+    recon_native_entry_finish(valid);
+}
+int c2_restore_excluded_inputs(void)
+{
+    return recon_native_at_entry((const void *)restore_excluded_registers,
+        (const void *)restore_excluded_entry,real_input,0)==1;
 }

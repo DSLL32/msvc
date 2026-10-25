@@ -178,7 +178,6 @@ int __fastcall is_tail_call_position(Expression *expressions, Expression *call) 
 
 
 
-void __fastcall refresh_region_entries(WorkItem *work) { __asm int 3 }
 
 
 

@@ -312,3 +312,14 @@ void __fastcall replace_flow_region_last(FlowRegion *region, WorkItem *replaceme
         region = region->parent;
     } while (region && region->last == old);
 }
+
+/* Original [0005a330,0005a354). The historical provisional name refers
+   to refreshing each region's last block. Number comparisons are signed
+   sixteen-bit comparisons; ties retain the existing last-block identity. */
+void __fastcall refresh_region_entries(WorkItem *work)
+{
+    for (; work; work = work->next) {
+        if (work->region && work->region->last->number < work->number)
+            work->region->last = work;
+    }
+}
