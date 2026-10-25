@@ -189,7 +189,30 @@ void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,Outpu
 extern "C" void __stdcall resolve_weak_externals(LinkContext *context,DWORD flags) { __asm { int 3 } }
 extern "C" void __stdcall search_libraries(LinkContext *context) { __asm { int 3 } }
 extern "C" BYTE __stdcall resolve_initial_entry(LinkContext *context) { __asm { int 3 } return 0; }
-extern "C" BYTE __stdcall infer_subsystem(LinkContext *context) { __asm { int 3 } return 0; }
+extern "C" void __stdcall find_console_entry_symbols(LinkContext *,StringNode **,StringNode **);
+extern "C" void __stdcall find_gui_entry_symbols(LinkContext *,StringNode **,StringNode **);
+extern "C" BYTE __stdcall infer_subsystem(LinkContext *context)
+{
+    StringNode *main_symbol,*wide_main_symbol,*win_main_symbol,*wide_win_main_symbol;
+    BYTE console,gui;
+    find_console_entry_symbols(context,&main_symbol,&wide_main_symbol);
+    find_gui_entry_symbols(context,&win_main_symbol,&wide_win_main_symbol);
+    console=main_symbol!=NULL || wide_main_symbol!=NULL;
+    gui=win_main_symbol!=NULL || wide_win_main_symbol!=NULL;
+    if (console) {
+        if (gui) link_warning(NULL,4031);
+        context->optional_header.Subsystem=IMAGE_SUBSYSTEM_WINDOWS_CUI;
+    } else {
+        if (!gui && !(context->file_header.Characteristics & IMAGE_FILE_DLL)) return 0;
+        context->optional_header.Subsystem=IMAGE_SUBSYSTEM_WINDOWS_GUI;
+    }
+    if (entry_point_name) return 0;
+    return infer_entry_point(context);
+}
+extern "C" void __stdcall find_console_entry_symbols(LinkContext *context,
+    StringNode **main_symbol,StringNode **wide_main_symbol) { __asm { int 3 } }
+extern "C" void __stdcall find_gui_entry_symbols(LinkContext *context,
+    StringNode **win_main_symbol,StringNode **wide_win_main_symbol) { __asm { int 3 } }
 extern "C" BYTE __stdcall infer_entry_point(LinkContext *context) { __asm { int 3 } return 0; }
 extern "C" BYTE __stdcall process_definition_file(LinkContext *context,const char *name) { __asm { int 3 } return 0; }
 extern "C" void __stdcall finalize_mac_entry(StringNode **entry,LinkContext *context) { __asm { int 3 } }

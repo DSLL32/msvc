@@ -3,6 +3,8 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
+    {"_find_console_entry_symbols@12",0x493e0,(const ReconExtent[]){{0x493e0,0x493e1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"find_console_entry_symbols",NULL,NULL,0,NULL},
+    {"_find_gui_entry_symbols@12",0x49480,(const ReconExtent[]){{0x49480,0x49481}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"find_gui_entry_symbols",NULL,NULL,0,NULL},
     {"_cache_file_record@4",0xbe20,(const ReconExtent[]){{0xbe20,0xbe99}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"cache_file_record",NULL,NULL,0,NULL},
     {"_initialize_module_contribution_enumerator@8",0xfcb0,(const ReconExtent[]){{0xfcb0,0xfcd3}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_module_contribution_enumerator",NULL,NULL,0,NULL},
     {"_next_module_contribution@4",0xfce0,(const ReconExtent[]){{0xfce0,0xfd14}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_module_contribution",NULL,NULL,0,NULL},
@@ -263,7 +265,7 @@ static const ReconFunction functions[] = {
     {"_resolve_weak_externals@8",0x4b4a0,(const ReconExtent[]){{0x4b4a0,0x4b4a1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"resolve_weak_externals",NULL,NULL,0,NULL},
     {"_search_libraries@4",0x49b90,(const ReconExtent[]){{0x49b90,0x49b91}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"search_libraries",NULL,NULL,0,NULL},
     {"_resolve_initial_entry@4",0x495f0,(const ReconExtent[]){{0x495f0,0x495f1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"resolve_initial_entry",NULL,NULL,0,NULL},
-    {"_infer_subsystem@4",0x4b710,(const ReconExtent[]){{0x4b710,0x4b711}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"infer_subsystem",NULL,NULL,0,NULL},
+    {"_infer_subsystem@4",0x4b710,(const ReconExtent[]){{0x4b710,0x4b7c5}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"infer_subsystem",NULL,NULL,0,NULL},
     {"_infer_entry_point@4",0x4b590,(const ReconExtent[]){{0x4b590,0x4b591}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"infer_entry_point",NULL,NULL,0,NULL},
     {"_process_definition_file@8",0x49d10,(const ReconExtent[]){{0x49d10,0x49d11}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_definition_file",NULL,NULL,0,NULL},
     {"_finalize_mac_entry@8",0x514f0,(const ReconExtent[]){{0x514f0,0x514f1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"finalize_mac_entry",NULL,NULL,0,NULL},
