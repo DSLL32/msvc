@@ -9,6 +9,7 @@ mod native;
 mod original;
 mod original_image;
 mod output;
+mod pe_import;
 mod process;
 mod projection;
 mod runtime;
@@ -77,6 +78,8 @@ enum Command {
 }
 #[derive(Subcommand)]
 enum OriginalCommand {
+    /// Build a case-owned C helper for explicit original DIRECT capture only.
+    BuildDirect(original::BuildDirect),
     /// Run an original compiler/linker/tool in the shared Wine prefix.
     Tool(toolchain::Tool),
     Capture(original::Capture),
@@ -113,6 +116,9 @@ fn execute() -> Result<()> {
         ),
         Command::RegistryExport(options) => projection::export(options)?,
         Command::Original { command } => match command {
+            OriginalCommand::BuildDirect(options) => {
+                println!("{}", original::build_direct(&options)?.display())
+            }
             OriginalCommand::Tool(options) => toolchain::run(options)?,
             OriginalCommand::Capture(options) => original::capture(options)?,
             OriginalCommand::BuildHelper { repo } => {

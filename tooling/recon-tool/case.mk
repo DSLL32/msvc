@@ -14,6 +14,10 @@ $(1)/.build/%.cpp.o: $(1)/%.cpp
 	@mkdir -p $$(@D)
 	$$(NATIVE_CXX) $$(NATIVE_CPPFLAGS) $$(NATIVE_CXXFLAGS) -MMD -MP -c $$< -o $$@
 $(call case-objects,$(1)): Makefile $(RECON_TOOL_DIR)/case.mk $(RECON_TOOL_DIR)/recon-tool.mk
+# Explicit original-only target, never a dependency of cases/check/unit.
+$(1)/.build/original-direct.dll: $(1)/direct.c $(wildcard $(1)/case.h) Makefile $(RECON_TOOL_DIR)/case.mk $(ORIGINAL_DIRECT_DEPS) $(RECON_TOOL_DIR)/wine/direct-support.c $(RECON_TOOL_DIR)/include/recon-original-direct.h $(RECON_TOOL)
+	@mkdir -p $$(@D)
+	$$(RECON_TOOL) original build-direct $$< --repo $$(RECON_REPO_ROOT) $$(if $$(ORIGINAL_TOOLCHAIN),--toolchain $$(ORIGINAL_TOOLCHAIN)) --output $$@ $$(ORIGINAL_DIRECT_FLAGS)
 $(1): $(1)/.build/case.so
 endef
 $(foreach dir,$(CASE_DIRS),$(eval $(call recon-case-rules,$(dir))))

@@ -42,6 +42,98 @@ pub fn build_helper(repo: &Path) -> Result<PathBuf> {
     Ok(exe)
 }
 
+/// Explicit original-only helper compilation, never a native fixture prerequisite.
+#[derive(clap::Args)]
+pub struct BuildDirect {
+    pub source: PathBuf,
+    #[arg(long)]
+    pub repo: Option<PathBuf>,
+    #[arg(long, default_value = "1.0-nt")]
+    pub toolchain: String,
+    #[arg(short, long)]
+    pub output: PathBuf,
+    #[arg(long = "include")]
+    pub includes: Vec<PathBuf>,
+    #[arg(long = "define")]
+    pub defines: Vec<String>,
+}
+pub fn build_direct(options: &BuildDirect) -> Result<PathBuf> {
+    let repo = crate::toolchain::repository(options.repo.as_deref())?;
+    let source = options.source.canonicalize()?;
+    let output = std::path::absolute(&options.output)?;
+    let directory = output.parent().context("helper output directory")?;
+    fs::create_dir_all(directory)?;
+    let stem = output
+        .file_stem()
+        .context("helper filename")?
+        .to_string_lossy();
+    let object = directory.join(format!("{stem}-case.obj"));
+    let support = directory.join(format!("{stem}-support.obj"));
+    let definition = directory.join(format!("{stem}.def"));
+    fs::write(
+        &definition,
+        "EXPORTS\n recon_original_completion_trap=_recon_original_completion_trap@0\n",
+    )?;
+    let root = repo.join("tooling/recon-tool");
+    let mut log = Vec::new();
+    let result = (|| -> Result<()> {
+        for (input, object) in [
+            (&source, &object),
+            (&root.join("wine/direct-support.c"), &support),
+        ] {
+            let mut command = crate::toolchain::command(&repo, &options.toolchain, "CL.EXE")?;
+            command
+                .args(["/nologo", "/c", "/Od", "/G3", "/DRECON_ORIGINAL_DIRECT"])
+                .arg(format!("/I{}", windows(&root.join("include"), &repo)?));
+            for include in &options.includes {
+                command.arg(format!("/I{}", windows(&include.canonicalize()?, &repo)?));
+            }
+            for define in &options.defines {
+                anyhow::ensure!(
+                    !define.is_empty() && !define.contains(['\r', '\n']),
+                    "invalid helper define"
+                );
+                command.arg(format!("/D{define}"));
+            }
+            let result = command
+                .arg(format!("/Fo{}", windows(object, &repo)?))
+                .arg(windows(input, &repo)?)
+                .current_dir(directory)
+                .output()?;
+            log.extend_from_slice(&result.stdout);
+            log.extend_from_slice(&result.stderr);
+            anyhow::ensure!(
+                result.status.success(),
+                "original typed helper compilation failed: {}",
+                result.status
+            );
+        }
+        let result = crate::toolchain::command(&repo, &options.toolchain, "LINK.EXE")?
+            .args(["/nologo", "/dll", "/nodefaultlib", "/entry:DllMain@12"])
+            .arg(format!("/def:{}", windows(&definition, &repo)?))
+            .arg(format!("/out:{}", windows(&output, &repo)?))
+            .arg(windows(&object, &repo)?)
+            .arg(windows(&support, &repo)?)
+            .args(["LIBC.LIB", "KERNEL32.LIB"])
+            .current_dir(directory)
+            .output()?;
+        log.extend_from_slice(&result.stdout);
+        log.extend_from_slice(&result.stderr);
+        anyhow::ensure!(
+            result.status.success(),
+            "original typed helper link failed: {}",
+            result.status
+        );
+        Ok(())
+    })();
+    fs::write(directory.join(format!("{stem}-build.log")), &log)?;
+    if result.is_err() {
+        eprint!("{}", String::from_utf8_lossy(&log));
+    }
+    result?;
+    Ok(output)
+}
+
 use crate::{
     abi::Loaded,
     fixture::{self, Bytes, Fixture, InputFile, OutputFile},
@@ -73,6 +165,12 @@ pub struct Capture {
     /// Win32 invocation host for a DLL; it loads RECON_ORIGINAL_DLL.
     #[arg(long)]
     pub host: Option<PathBuf>,
+    /// Typed Win32 probe DLL compiled from case-owned direct.c; explicit original only.
+    #[arg(long, requires = "marker_rva")]
+    pub direct_helper: Option<PathBuf>,
+    /// Genuine App entry at which the typed original callback takes over.
+    #[arg(long, requires = "direct_helper")]
+    pub marker_rva: Option<u32>,
     #[arg(short, long)]
     pub output: PathBuf,
     #[arg(long)]
@@ -170,6 +268,7 @@ impl Broker {
         self.input.write_all(data)?;
         self.input.flush()?;
         self.reply()
+            .with_context(|| format!("Wine debugger operation {op}"))
     }
     fn record(&mut self, rva: u32) {
         if !self.seen.contains(&rva) && self.app.contains(&rva) {
@@ -429,6 +528,91 @@ fn capture_files(f: &Fixture, cwd: &Path) -> Result<Vec<OutputFile>> {
     }
     Ok(result)
 }
+fn typed_results(data: &[u8]) -> Result<Vec<InputFile>> {
+    let word = |offset: usize| -> Result<u32> {
+        Ok(u32::from_le_bytes(
+            data.get(offset..offset + 4)
+                .context("truncated typed result")?
+                .try_into()?,
+        ))
+    };
+    let count = word(0)?;
+    anyhow::ensure!(count <= 100000, "too many typed results");
+    let mut offset = 4usize;
+    let mut result = vec![];
+    let mut names = BTreeSet::new();
+    for _ in 0..count {
+        let name_size = word(offset)? as usize;
+        let size = word(offset + 4)? as usize;
+        offset += 8;
+        anyhow::ensure!(
+            name_size > 0 && name_size <= 4096,
+            "invalid typed result name length"
+        );
+        let end = offset
+            .checked_add(name_size)
+            .context("typed result name overflow")?;
+        let name =
+            std::str::from_utf8(data.get(offset..end).context("truncated typed name")?)?.to_owned();
+        offset = end;
+        fixture::safe_relative(&name)?;
+        anyhow::ensure!(
+            name.bytes().all(|b| b >= 32 && b != b':' && b != b'\\'),
+            "invalid typed result path"
+        );
+        anyhow::ensure!(names.insert(name.clone()), "duplicate typed result {name}");
+        let end = offset
+            .checked_add(size)
+            .context("typed result size overflow")?;
+        let bytes = data
+            .get(offset..end)
+            .context("truncated typed bytes")?
+            .to_vec();
+        offset = end;
+        result.push(InputFile {
+            path: name,
+            data: Bytes(bytes),
+            mode: None,
+            modified_unix_seconds: None,
+        });
+    }
+    anyhow::ensure!(offset == data.len(), "trailing typed result data");
+    Ok(result)
+}
+
+#[cfg(test)]
+mod typed_tests {
+    use super::*;
+
+    fn packet(names: &[&str]) -> Vec<u8> {
+        let mut result = (names.len() as u32).to_le_bytes().to_vec();
+        for name in names {
+            result.extend_from_slice(&(name.len() as u32).to_le_bytes());
+            result.extend_from_slice(&2u32.to_le_bytes());
+            result.extend_from_slice(name.as_bytes());
+            result.extend_from_slice(&[0, 255]);
+        }
+        result
+    }
+
+    #[test]
+    fn typed_receipts_preserve_bytes_and_reject_invalid_records() {
+        let valid = packet(&["pending.bin"]);
+        let result = typed_results(&valid).unwrap();
+        assert_eq!(result[0].path, "pending.bin");
+        assert_eq!(result[0].data.0, [0, 255]);
+        for name in ["../escape", "/absolute", "C:/drive", "a/../b"] {
+            assert!(typed_results(&packet(&[name])).is_err(), "{name}");
+        }
+        assert!(typed_results(&packet(&["same", "same"])).is_err());
+        assert!(typed_results(&valid[..valid.len() - 1]).is_err());
+        let mut trailing = valid;
+        trailing.push(0);
+        assert!(typed_results(&trailing).is_err());
+        assert!(typed_results(&100001u32.to_le_bytes()).is_err());
+    }
+}
+
 fn capture_executor(
     options: &Capture,
     f: &Fixture,
@@ -475,8 +659,8 @@ fn capture_executor(
         "DLL originals require --host; EXE originals do not use --host"
     );
     anyhow::ensure!(
-        !options.progress || loaded.info.execution == 0,
-        "masked progress capture currently supports IO cases"
+        !options.progress || loaded.info.execution == 0 || options.direct_helper.is_some(),
+        "masked DIRECT progress requires the typed original helper"
     );
     let helper = options.helper.clone().unwrap_or_else(|| {
         options
@@ -487,9 +671,76 @@ fn capture_executor(
         helper.is_file(),
         "build explicit Wine helper first: original build-helper --repo REPO"
     );
-    let target = if options.progress {
+    // Configure only the private on-disk helper and executable, before launch.
+    // The Windows loader loads the import; the DLL owns its local VEH/callback.
+    let mut typed = None;
+    let target = if options.progress || options.direct_helper.is_some() {
+        let mut target_bytes = if options.progress {
+            image.mask(&original, &loaded.info)?
+        } else {
+            original.clone()
+        };
+        if let Some(helper_path) = &options.direct_helper {
+            anyhow::ensure!(
+                !image.dll && loaded.info.execution == 1,
+                "typed original helper requires an EXE DIRECT case"
+            );
+            let marker = options.marker_rva.context("typed helper marker missing")?;
+            anyhow::ensure!(
+                loaded
+                    .info
+                    .functions
+                    .iter()
+                    .any(|f| f.rva == marker && f.definition == 4 && f.implementation != 0),
+                "typed marker must name an implemented App entry"
+            );
+            let helper_path = helper_path.canonicalize()?;
+            let mut helper_bytes = fs::read(&helper_path)?;
+            let helper_image = crate::original_image::Image::parse(&helper_bytes)?;
+            let exports = helper_image.exports(&helper_bytes)?;
+            let lookup = |plain: &str, decorated: &str| -> Result<u32> {
+                let values: BTreeSet<_> = [plain, decorated]
+                    .iter()
+                    .filter_map(|name| exports.get(*name).copied())
+                    .collect();
+                anyhow::ensure!(
+                    values.len() == 1,
+                    "typed helper lacks unique export {plain}"
+                );
+                Ok(*values.first().unwrap())
+            };
+            lookup("case_original_at_marker", "_case_original_at_marker@4")?;
+            let complete = lookup(
+                "recon_original_completion_trap",
+                "_recon_original_completion_trap@0",
+            )?;
+            // The import spelling must be stable and undecorated.
+            anyhow::ensure!(
+                exports.get("recon_original_completion_trap") == Some(&complete),
+                "typed helper requires undecorated completion export"
+            );
+            let state = lookup("recon_original_probe_state", "_recon_original_probe_state")?;
+            let at = helper_image.file_offset(state, 52)?;
+            anyhow::ensure!(
+                helper_bytes[at..at + 4] == 1u32.to_le_bytes()
+                    && helper_bytes[at + 4..at + 8] == 52u32.to_le_bytes()
+                    && helper_bytes[at + 8..at + 52].iter().all(|b| *b == 0),
+                "invalid initial typed helper state"
+            );
+            helper_bytes[at + 12..at + 16].copy_from_slice(&marker.to_le_bytes());
+            let staged = root.join("recon-direct-probe.dll");
+            fs::write(&staged, helper_bytes)?;
+            let marker_at = image.file_offset(marker, 1)?;
+            target_bytes[marker_at] = 0xcc;
+            target_bytes = crate::pe_import::add_helper_import(
+                &target_bytes,
+                "recon-direct-probe.dll",
+                "recon_original_completion_trap",
+            )?;
+            typed = Some((staged, state, complete, marker));
+        }
         let path = root.join(program.file_name().context("original filename")?);
-        fs::write(&path, image.mask(&original, &loaded.info)?)?;
+        fs::write(&path, target_bytes)?;
         path
     } else {
         program.clone()
@@ -536,7 +787,15 @@ fn capture_executor(
             windows(&target, &options.repo)?
         } else {
             "-".into()
-        })
+        });
+    if let Some((helper, state, complete, marker)) = &typed {
+        command
+            .arg(windows(helper, &options.repo)?)
+            .arg(state.to_string())
+            .arg(complete.to_string())
+            .arg(marker.to_string());
+    }
+    command
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::from(File::create(root.join("wine-diagnostics"))?))
@@ -584,7 +843,47 @@ fn capture_executor(
     let base = hello.a;
     anyhow::ensure!(hello.b == image.entry, "Wine debugger entry mismatch");
     let terminal;
-    if loaded.info.execution == 0 {
+    if let Some((_, _, _, marker)) = typed {
+        broker.record(image.entry);
+        broker.arm()?;
+        let mut invoked = false;
+        loop {
+            let r = broker.rpc(7, 0, 0, 0, &[])?;
+            match r.a {
+                0 => bail!("original exited before typed helper completion: {}", r.b),
+                1 => {
+                    broker.record(r.b);
+                    if !invoked && r.b == marker {
+                        invoked = true;
+                    }
+                }
+                2 => {
+                    anyhow::ensure!(
+                        options.progress
+                            && loaded.info.functions.iter().any(|f| f.rva == r.b
+                                && f.definition == 4
+                                && f.implementation == 0),
+                        "unexpected typed original INT3 at RVA {:x}",
+                        r.b
+                    );
+                    broker.record(r.b);
+                    terminal = format!("frontier:{:x}", r.b);
+                    break;
+                }
+                3 => bail!("typed original exception {:08x}", r.b),
+                4 => {
+                    anyhow::ensure!(
+                        invoked && r.b == 1,
+                        "typed original callback assertions failed"
+                    );
+                    broker.emitted.extend(typed_results(&r.data)?);
+                    terminal = "direct:pass".to_owned();
+                    break;
+                }
+                _ => bail!("invalid typed original response"),
+            }
+        }
+    } else if loaded.info.execution == 0 {
         broker.record(image.entry);
         broker.arm()?;
         loop {

@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#define RECON_ORIGINAL_BROKER
+#include "../include/recon-original-direct.h"
 typedef LPVOID(WINAPI *AllocateRemote)(HANDLE, LPVOID, DWORD, DWORD, DWORD);
 typedef BOOL(WINAPI *HandleFlags)(HANDLE, DWORD, DWORD);
 typedef BOOL(WINAPI *FreeRemote)(HANDLE, LPVOID, DWORD, DWORD);
@@ -22,6 +24,11 @@ static HANDLE process, thread, input, output, error_output, rpc_input, rpc_outpu
 static DWORD pid, tid, base, image_size, entry_rva, deadline, exit_status;
 static DEBUG_EVENT event;
 static int pending, exited, loader_break, target_dll;
+static DWORD pending_status = DBG_CONTINUE;
+static DWORD helper_base, helper_completion, helper_context;
+static BY_HANDLE_FILE_INFORMATION helper_info;
+static int typed_helper;
+static DWORD helper_state_rva, helper_completion_rva, helper_marker_rva;
 static BY_HANDLE_FILE_INFORMATION target_info;
 static Point *points;
 static DWORD point_count;
@@ -122,9 +129,17 @@ static int image(DWORD address)
     base = address;
     return arm(base + entry_rva);
 }
+static int file_matches(HANDLE file, const BY_HANDLE_FILE_INFORMATION *wanted)
+{
+    BY_HANDLE_FILE_INFORMATION actual;
+    return GetFileInformationByHandle(file, &actual) &&
+           actual.dwVolumeSerialNumber == wanted->dwVolumeSerialNumber &&
+           actual.nFileIndexHigh == wanted->nFileIndexHigh &&
+           actual.nFileIndexLow == wanted->nFileIndexLow;
+}
 static int next(DWORD *where, Registers *r)
 {
-    DWORD i, status;
+    DWORD i, helper_pe, helper_size;
     CONTEXT c;
     for (;;)
     {
@@ -132,14 +147,15 @@ static int next(DWORD *where, Registers *r)
             return -1;
         if (pending)
         {
-            if (!ContinueDebugEvent(event.dwProcessId, event.dwThreadId, DBG_CONTINUE))
+            if (!ContinueDebugEvent(event.dwProcessId, event.dwThreadId,
+                                    pending_status))
                 return -1;
             pending = 0;
+            pending_status = DBG_CONTINUE;
         }
         if (!WaitForDebugEvent(&event, 20))
             continue;
         pending = 1;
-        status = DBG_CONTINUE;
         if (event.dwDebugEventCode == CREATE_PROCESS_DEBUG_EVENT)
         {
             if (event.dwProcessId != pid)
@@ -151,6 +167,21 @@ static int next(DWORD *where, Registers *r)
         }
         else if (event.dwDebugEventCode == LOAD_DLL_DEBUG_EVENT)
         {
+            if (typed_helper && event.u.LoadDll.hFile &&
+                file_matches(event.u.LoadDll.hFile, &helper_info))
+            {
+                if (helper_base)
+                    return -1;
+                helper_base = (DWORD)event.u.LoadDll.lpBaseOfDll;
+                if (!read_memory(helper_base + 0x3c, &helper_pe, 4) ||
+                    !read_memory(helper_base + helper_pe + 24 + 56, &helper_size, 4) ||
+                    helper_state_rva >= helper_size ||
+                    sizeof(ReconOriginalProbe) > helper_size - helper_state_rva ||
+                    helper_completion_rva >= helper_size)
+                    return -1;
+                helper_context = helper_base + helper_state_rva;
+                helper_completion = helper_base + helper_completion_rva;
+            }
             if (target_dll && event.u.LoadDll.hFile)
             {
                 BY_HANDLE_FILE_INFORMATION info;
@@ -184,6 +215,18 @@ static int next(DWORD *where, Registers *r)
             *where = (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress;
             if (event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_BREAKPOINT)
             {
+                if (typed_helper && *where == base + helper_marker_rva &&
+                    event.u.Exception.dwFirstChance)
+                {
+                    pending_status = DBG_EXCEPTION_NOT_HANDLED;
+                    registers(r, &c);
+                    return 1;
+                }
+                if (typed_helper && *where == helper_completion)
+                {
+                    registers(r, &c);
+                    return 2;
+                }
                 for (i = 0; i < point_count; ++i)
                     if (points[i].active && points[i].address == *where)
                     {
@@ -239,6 +282,35 @@ static int run_until(DWORD rva, Registers *r)
     kind = next(&where, r);
     return kind == 1 && where == base + rva;
 }
+static int typed_completed(void)
+{
+    ReconOriginalProbe probe;
+    BYTE *bytes;
+    int result;
+    MEMORY_BASIC_INFORMATION allocation;
+    if (!helper_context || !read_memory(helper_context, &probe, sizeof(probe)) ||
+        probe.abi_version != RECON_ORIGINAL_PROBE_VERSION ||
+        probe.struct_size != sizeof(probe) || probe.image_base != base ||
+        probe.completed != RECON_ORIGINAL_PROBE_COMPLETE || probe.passed > 1 ||
+        probe.marker_rva != helper_marker_rva || !probe.original_esp ||
+        !VirtualQueryEx(process, probe.result_buffer, &allocation,
+                        sizeof(allocation)) ||
+        allocation.AllocationBase != probe.result_buffer ||
+        allocation.State != MEM_COMMIT || allocation.Protect != PAGE_READWRITE ||
+        allocation.RegionSize < probe.result_capacity ||
+        probe.result_capacity != 8 * 1024 * 1024 ||
+        probe.result_size > probe.result_capacity || probe.result_count > 100000)
+        return response(0, 0, 0, NULL, 0);
+    bytes = malloc(probe.result_size + 4);
+    if (!bytes)
+        return response(0, 0, 0, NULL, 0);
+    memcpy(bytes, &probe.result_count, 4);
+    result = read_memory((DWORD)probe.result_buffer, bytes + 4, probe.result_size) &&
+             response(1, 4, probe.passed, bytes, probe.result_size + 4);
+    free(bytes);
+    return result;
+}
+
 static void stop(void)
 {
     DWORD started = GetTickCount();
@@ -271,8 +343,9 @@ int main(int argc, char **argv)
     CONTEXT before, c;
     int kind, ok = 0;
     char *command;
-    if (argc != 10)
+    if (argc != 10 && argc != 14)
         return 2;
+    typed_helper = argc == 14;
     rpc_input = GetStdHandle(STD_INPUT_HANDLE);
     rpc_output = GetStdHandle(STD_OUTPUT_HANDLE);
     handle_flags = (HandleFlags)GetProcAddress(GetModuleHandleA("kernel32.dll"),
@@ -291,6 +364,22 @@ int main(int argc, char **argv)
         ok = GetFileInformationByHandle(module, &target_info);
         CloseHandle(module);
         if (!ok)
+            return 3;
+    }
+    if (typed_helper)
+    {
+        HANDLE module =
+            CreateFileA(argv[10], GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                        NULL, OPEN_EXISTING, 0, NULL);
+        if (module == INVALID_HANDLE_VALUE)
+            return 3;
+        ok = GetFileInformationByHandle(module, &helper_info);
+        CloseHandle(module);
+        helper_state_rva = strtoul(argv[11], NULL, 0);
+        helper_completion_rva = strtoul(argv[12], NULL, 0);
+        helper_marker_rva = strtoul(argv[13], NULL, 0);
+        if (!ok || target_dll || !helper_state_rva || !helper_completion_rva ||
+            !helper_marker_rva)
             return 3;
     }
     entry_rva = strtoul(argv[2], NULL, 0);
@@ -332,7 +421,7 @@ int main(int argc, char **argv)
     tid = launch.dwThreadId;
     kind = next(&where, &r);
     loader_break = 1;
-    if (kind != 1 || where != base + entry_rva ||
+    if (kind != 1 || (typed_helper && !helper_base) || where != base + entry_rva ||
         !response(1, base, entry_rva, &r, sizeof(r)))
         goto done;
     while (transfer(rpc_input, h, sizeof(h), 0))
@@ -349,6 +438,10 @@ int main(int argc, char **argv)
         }
         ok = 0;
         address = 0;
+        /* Typed probes execute their own callback locally. Only reads, normal
+         * frontier breakpoints, continuation and termination are accepted. */
+        if (typed_helper && h[0] != 1 && h[0] != 6 && h[0] != 7 && h[0] != 9)
+            break;
         if (h[0] == 1)
         {
             free(data);
@@ -400,6 +493,13 @@ int main(int argc, char **argv)
         {
             kind = next(&where, &r);
             ok = kind >= 0;
+            if (kind == 2 && typed_helper && helper_context &&
+                where == helper_completion)
+            {
+                if (!typed_completed())
+                    break;
+                continue;
+            }
             if (!response(ok, (DWORD)kind,
                           kind == 0 || kind == 3 ? where : where - base, &r,
                           kind > 0 ? sizeof(r) : 0))

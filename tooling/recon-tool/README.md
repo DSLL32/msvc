@@ -304,7 +304,30 @@ performs normal detach. The broker matches the loaded DLL's file identity, then
 uses its actual module base and entry RVA; host code is outside the App trace.
 The same host can be reused across cases for that DLL interface.
 
-Direct cases optionally export `case_original_direct(ReconOriginal*)` from
+For a DIRECT probe at a genuine live EXE marker, compile case-owned C with
+`recon-tool original build-direct CASE/direct.c --output CASE/.build/original-direct.dll`
+(optionally `--toolchain`, `--include` and `--define`). Shared Make rules expose
+that explicit DLL target; `ORIGINAL_DIRECT_FLAGS` passes extra build-command options and `ORIGINAL_DIRECT_DEPS` declares additional case header dependencies. Ordinary native builds/checks never depend on it.
+Then capture with `--direct-helper DLL --marker-rva DECIMAL_RVA --progress`.
+The original-only branch includes `recon-original-direct.h` and exports
+`case_original_at_marker(ReconOriginalProbe*)`. It reads genuine owners using the
+actual module base and saved entry ESP/ECX/EDX, invokes helpers through actual
+compiler-generated typed calls, optionally emits narrow result bytes, and calls
+`recon_original_finish(context, passed)`. A returning callback fails.
+
+This mode patches only private files before launch: it adds a normal helper DLL
+import to the masked scratch EXE and configures the marker in the helper's data.
+The helper installs a local VEH and calls the callback on the same application
+thread, with live owner frames. The broker records the real marker, passes that
+first-chance exception to the helper, and reads its completion receipt at a known
+helper INT3. Completion terminates the process without target CRT cleanup or
+parser continuation. Typed mode rejects legacy remote allocation/write/call RPCs;
+existing debugger entry tracing still restores its own breakpoints. Missing VEH,
+unexpected threads, bad receipts or callback failure fail the capture. Initial
+support is EXE-only and rejects PE files without a free section-header slot or
+with unsupported signed/overlapping layouts. Pristine originals stay unchanged.
+
+The older explicit remote-call interface remains available: direct cases export `case_original_direct(ReconOriginal*)` from
 direct.c; see `include/recon-original.h`. Shared primitives read/write remote
 objects, allocate/release memory, run to a real setup boundary, and call a typed
 entry using explicit ECX/EDX/stack words. A call returns real entry/return GPR and
