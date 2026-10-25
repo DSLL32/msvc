@@ -635,3 +635,45 @@ void __stdcall mark_pch_identifier_entries(PreprocessorSymbol *entry)
         entry = entry->next;
     }
 }
+
+void __stdcall mark_pch_pointer_array(void **slots, int count,
+    char *owner_name, char *element_name);
+void __stdcall mark_pch_ir_node(IrToken *node);
+void __stdcall mark_pch_parameter_info(DeclarationParameterInfo *parameters);
+
+/* Original0x5b0b0..0x5b0f0. Only the final directory block uses the live
+   slot index; preceding blocks contain all twenty24-byte records. */
+void mark_pch_function_records(void)
+{
+    FunctionDirectoryBlock *block = function_directory;
+    unsigned count, i;
+    while (block) {
+        mark_pch_pointer((void **)&block->next);
+        count = block == function_directory_tail ? function_directory_index : 19;
+        ++count;
+        for (i = 0; i < count; ++i)
+            mark_pch_pointer((void **)&block->entries[i].symbol);
+        block = block->next;
+    }
+}
+
+/* Original0x69cf0..0x69d42. Remaining canonical scope roots include the
+   fixed directory, operator constant, void parameters and initial sentinels. */
+void mark_pch_scope_directory(void)
+{
+    mark_pch_pointer_array((void **)scope_directory, 128, "Table_stack", "table");
+    mark_pch_ir_node(operator_zero);
+    mark_pch_parameter_info(void_parameters);
+    mark_pch_symbol_chain(initializer_segment_symbol);
+    mark_pch_symbol_chain(translation_sentinel);
+    mark_pch_symbol_chain(translation_placeholder);
+}
+
+/* Original0x6a510..0x6a533. The two descriptive names are genuine ABI
+   formals but are not read or forwarded anywhere in this complete body. */
+void __stdcall mark_pch_pointer_array(void **slots, int count,
+    char *owner_name, char *element_name)
+{
+    if (!slots || count <= 0) return;
+    do { mark_pch_pointer(slots++); } while (--count);
+}

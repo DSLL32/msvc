@@ -1,11 +1,38 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1568 historical frontiers/1461 App bodies.
+ * Current reviewed boundary:1571 historical frontiers/1464 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_mark_pch_pointer_array@16",
+        .entry_rva = 0x5a510,
+        .code = (const ReconExtent[]) { { 0x5a510, 0x5a533 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_pointer_array",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_mark_pch_ir_node@4",
+        .entry_rva = 0x5a330,
+        .code = (const ReconExtent[]) { { 0x5a330, 0x5a441 } },
+        .code_count = 1,
+        .text_data = (const ReconExtent[]) { { 0x5a444, 0x5a460 } },
+        .text_data_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_ir_node",
+    },
+    {
+        .name = "_mark_pch_parameter_info@4",
+        .entry_rva = 0x5a300,
+        .code = (const ReconExtent[]) { { 0x5a300, 0x5a324 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_parameter_info",
+    },
     {
         .name = "_mark_pch_macro_entries@4",
         .entry_rva = 0x5a490,
@@ -220,6 +247,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_function_records",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_scope_directory",
@@ -228,6 +256,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_scope_directory",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_parameters",
