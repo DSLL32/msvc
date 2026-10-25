@@ -2,6 +2,18 @@
 #define INLINE_ANALYSIS_H
 #include "global-ir.h"
 #include <recon.h>
+/* Original qc control records use16-byte rows. The allocator's0xff0-byte
+   block and later region-index shifts establish255 real rows. Numeric state
+   names remain provisional until their individual consumers are reconstructed. */
+typedef struct InlineRegion {
+    unsigned short next, child;
+    unsigned char slot_count, kind, state06, state07;
+    unsigned state08, state0c;
+} InlineRegion;
+typedef char InlineRegionSizeMustBe16[(sizeof(InlineRegion) == 16) ? 1 : -1];
+typedef char InlineRegionStateOffsetMustBe8[
+    (offsetof(InlineRegion, state08) == 8) ? 1 : -1];
+extern InlineRegion *inline_regions;
 /* Encountered scope prefix, through its region and flags. */
 typedef struct InlineScope {
     unsigned char prefix[10];

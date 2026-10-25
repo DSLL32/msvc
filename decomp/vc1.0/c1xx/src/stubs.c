@@ -73,7 +73,6 @@ void __stdcall record_pch_open_include(char *filename) { __asm { int 3 } }
 void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { __asm { int 3 } }
 void generate_inline_queries(void) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
-void allocate_inline_storage(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
