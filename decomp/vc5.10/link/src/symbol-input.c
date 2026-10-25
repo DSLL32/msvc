@@ -32,7 +32,6 @@ IMAGE_SYMBOL *__stdcall read_module_symbols(DWORD offset,DWORD count,BYTE force_
     default_phase=previous_phase;
     return symbols;
 }
-void __stdcall reserve_byte_buffer(ByteBuffer *buffer,unsigned bytes) { __asm { int 3 } }
 
 BYTE module_strings_active,module_strings_mapped;
 ByteBuffer string_read_buffer;

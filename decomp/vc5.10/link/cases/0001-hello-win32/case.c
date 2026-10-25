@@ -127,10 +127,11 @@ static const uint32_t order[] = {
  0x60790, /* _intern_symbol_string@8 */
  0x4f420, /* _allocate_symbol_string_block@4 */
  0x4f450, /* _reserve_byte_buffer@8 */
+ 0x4fea0, /* _reallocate_memory@8 */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
- "Win32 hello link; COMDAT tree node allocated; genuine string-buffer reserve frontier.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x4f450,
+ "Win32 hello link; COMDAT string-buffer growth; genuine reallocation frontier.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x4fea0,
  recon_link_setup,recon_link_invoke,NULL,hello_tests,26
 };
