@@ -12,7 +12,7 @@ implementation. Shared CRT compatibility remains in `lib/recon/`.
 
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
-automatically discovers the ten numbered `case.c` descriptors, and runs their
+automatically discovers the eleven numbered `case.c` descriptors, and runs their
 cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
@@ -21,7 +21,7 @@ application CFGs, RET cleanup, extent ownership and instruction overlap;
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-All ten dispatched cases have complete original-backed expectations and explicit
+All eleven dispatched cases have complete original-backed expectations and explicit
 unseeded first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
 filenames. Existing references retain their historical Z: program path; they
@@ -40,13 +40,11 @@ also independently validates the raw PE checksum before its derived field
 original zero checksum. All other bytes remain exact. Raw original oracles are
 preserved in the snapshot and Git; no allocator tunables or libc profiles remain.
 
-`cases/0009-buffered-strip-cache/capture.bin` preserves the queued invocation,
-input and untouched original final oracle. It deliberately has no descriptor:
-the prior worker never established a masked/native frontier and explicitly
-excluded it from fixtures. To resume reconstruction, inspect its saved invocation
-with `recon-tool capture unpack`, establish a genuine masked/native frontier,
-then author the descriptor and reconstruct functions under the normal policy.
-Do not treat the saved final oracle as current native completion. The superseded
+`cases/0009-buffered-strip-cache` now has a fresh shared-prefix masked-original
+completion at the 187-App baseline: exit 0, 34 first entries, exact stripped
+image and extracted debug artifact hashes, matched natively. This qualifies the
+previously queued invocation without accepting an application function.
+The superseded
 unaligned field-list draft serialized nondeterministic original padding and
 remains excluded; its raw input/oracle/reason stay in Git and the snapshot.
 
@@ -57,8 +55,7 @@ The original mask leaves these CRT bodies executable while unfinished App code
 stays trapped. Their known differences from the shipped library remain recorded;
 this grants no App credit or CRT body-graph equivalence. The old case-specific
 mode/input/phase guards remain historical facts, not a requirement for resuming
-capture. The queued strip case still needs its first genuine masked/native
-frontier; it has not been resumed or accepted. The native source still traps on
+capture. The native source still traps on
 unsupported all-pinned/empty LRU selection and NULL PDB-close arguments; no
 equivalence is claimed there.
 
