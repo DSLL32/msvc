@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 108 accepted application functions / 13836
+The single registry is binary.c: 109 accepted application functions / 14220
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are three six-byte import endpoints (18 bytes, zero App credit). The 110
+as are three six-byte import endpoints (18 bytes, zero App credit). The 111
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine intern_identifier INT3 at RVA3aa9a;
+and currently reaches the genuine unreserve_keyword INT3 at RVA3abf1;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -42,17 +42,14 @@ vtables resolve to one physical function. The alias unit inspects a real object
 without invoking pending methods. These aliases add no code credit. Only the
 initializer/factory TUs use /Ob1 for helpers proved inline in the original.
 
-The latest matching original/native pair reaches intern_identifier("auto"):
-1.216 s / 8.112 ms (native setup 4.671, execution 2.214, checks 1.227).
-The original/native build took 7.409 s, with a subsequent 0.263 s strict audit
-and 0.210 s audit/unit batch after qualifying the cached EDI import. Both
-preservation-contract omissions independently reject the actual strncmp site.
-The 1644-byte initializer now has its descriptive source name
-initialize_language_keywords, with an explicit mapping to the old logical ID.
-Its keyword descriptions and declaration-specifier names contain encountered
-semantic fields only. The compact current-identifier view leaves original
-unused members unmodeled. The unexecuted later builtin-type allocation's arena
-was corrected to index five from its actual c65a0 identity before use.
+The latest matching original/native pair reaches unreserve_keyword("__interrupt"):
+1.344 s / 11.269 ms (native setup 6.435, execution 3.222, checks 1.611).
+The original/native build, graph audit and unit batch took 7.889 s.
+The 384-byte identifier interner preserves the unsigned hash, 2048 buckets,
+move-to-front lookup, 20-byte record allocation and aligned string arena.
+The record projects next/name/flags/token/category only; omitted original
+members have no native placeholder or equivalence claim. Its exact consumed
+shared tmpnam declaration-only bytes are now published as 4232797ee.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 
