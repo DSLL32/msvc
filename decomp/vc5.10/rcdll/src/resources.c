@@ -490,3 +490,13 @@ invalid:
     rc_resource_error(error);
     return 0;
 }
+
+unsigned __stdcall rc_decimal_resource_id(const WCHAR *text)
+{
+    unsigned value=0;
+    while(*text){
+        value=value*10+(signed char)*text-L'0';
+        ++text;
+    }
+    return value;
+}

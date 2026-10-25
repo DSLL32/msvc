@@ -363,11 +363,7 @@ void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *t
 
 
 
-unsigned __stdcall rc_decimal_resource_id(const WCHAR *text)
-{
-    __asm int 3
-    return 0;
-}
+
 
 void __stdcall rc_read_resource_marker(int mode,DWORD character)
 {

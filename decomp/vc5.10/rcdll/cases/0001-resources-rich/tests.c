@@ -680,6 +680,17 @@ static int resource_symbol_contract(void)
         rc_resource_token.kind==1&&rc_resource_character==L'a';
 }
 
+static int resource_decimal_id_contract(void)
+{
+    const WCHAR high_digit[]={0x0131,0},low_zero[]={0x0100,0},signed_byte[]={0x00ff,0};
+    return rc_decimal_resource_id(L"101")==101&&!rc_decimal_resource_id(L"")&&
+        !rc_decimal_resource_id(L"4294967296")&&
+        rc_decimal_resource_id(high_digit)==1&&
+        rc_decimal_resource_id(low_zero)==0xffffffd0u&&
+        rc_decimal_resource_id(signed_byte)==0xffffffcfu&&
+        high_digit[0]==0x0131&&low_zero[0]==0x0100&&signed_byte[0]==0x00ff;
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -707,6 +718,7 @@ const ReconTest rich_tests[]={
     {"resource-hexadecimal-contract",1,resource_hexadecimal_contract},
     {"resource-operator-contract",1,resource_operator_contract},
     {"resource-symbol-contract",1,resource_symbol_contract},
+    {"resource-decimal-id-contract",1,resource_decimal_id_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},

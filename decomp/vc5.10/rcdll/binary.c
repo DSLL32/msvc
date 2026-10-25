@@ -813,7 +813,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_UNKNOWN, .implementation=0, .native_symbol=NULL },
     { .name="rc_decimal_resource_id", .original_symbol="_rc_decimal_resource_id@4", .entry_rva=0x10d7b,
       .code=(const ReconExtent[]){{0x10d7b,0x10d98}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_decimal_resource_id" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_decimal_resource_id" },
     { .name="FUN_71c30d98", .entry_rva=0x10d98,
       .code=(const ReconExtent[]){{0x10d98,0x10de8}}, .code_count=1,
       .definition=RECON_UNKNOWN, .implementation=0, .native_symbol=NULL },
