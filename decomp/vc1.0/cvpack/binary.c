@@ -2305,8 +2305,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_cache_closed_file",
         .entry_rva = 0x1a000,
+        .code = (const ReconExtent[]){{0x1a000, 0x1a070}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "cache_closed_file",
     },
     {
@@ -2357,8 +2359,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_grow_mapping",
         .entry_rva = 0x1ace0,
+        .code = (const ReconExtent[]){{0x1ace0, 0x1ad28}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "grow_mapping",
     },
     {

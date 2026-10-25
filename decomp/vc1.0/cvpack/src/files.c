@@ -503,6 +503,23 @@ int close_file(int handle, unsigned char release)
     return release_file_slot(slot);
 }
 
+/* Original [0002a000,0002a070): retain one fewer cached file than page_limit. */
+void cache_closed_file(FileSlot *slot)
+{
+    slot->flags |= 4;
+    if (!(slot->flags & 8)) {
+        slot->cursor.page->flags &= ~16UL;
+        slot->cursor.page = NULL;
+    }
+    if (closed_file_count == page_limit) {
+        slot = closed_files;
+        --closed_file_count;
+        move_file_slot(slot, &closed_files, &closed_files_tail, &free_files, NULL, 0);
+        if (slot->flags & 8) close_mapped_file(slot);
+        else release_file_slot(slot);
+    }
+}
+
 int release_file_slot(FileSlot *slot)
 {
     Page *page = used_pages, *next;
@@ -563,6 +580,18 @@ int open_mapped_file(FileSlot *slot, int mode, unsigned char created)
     if (!map_file(slot)) return -1;
     slot->flags |= 8;
     return 0;
+}
+
+/* Original [0002ace0,0002ad28): replace the view with a larger mapping. */
+void grow_mapping(FileSlot *slot, long size)
+{
+    long capacity;
+    mapping_unmap(slot->contents.view);
+    CloseHandle(slot->storage.mapping);
+    capacity = slot->allocated * 2;
+    if (capacity <= size) capacity = size;
+    slot->allocated = capacity;
+    if (!map_file(slot)) file_failure(20, NULL, NULL);
 }
 
 /* Original [0002ad30,0002add7): create the mapping and its initial full view. */

@@ -1,22 +1,48 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **262 accepted application
-functions, 74,815 original code bytes, and 13 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **264 accepted application
+functions, 74,999 original code bytes, and 11 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The legacy case now completes with 141 matching first entries, exit 0 and matching
 streams and defined artifact bytes. The last accepted function is
-`queue_type_match` (sequence 262, 69 original code bytes, `src/types.c`).
+`grow_mapping` (sequence 264, 72 original code bytes, `src/files.c`), after
+`cache_closed_file` (sequence 263, 112 bytes).
 Encountered converter dispatch and calls identified additional App helpers;
 remaining helpers retain named trapping stubs and no accepted credit.
 The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 75 application functions.
+The resumed workload has accepted 77 application functions.
 Each has matching original/native progress and strict compiler/graph/data
-checks. All seventeen cached IO cases and seventeen unit executors, the original
-compiler build and strict graph/ABI/data audits passed the262-function gate
-in3.578s. Fifteen cases complete;0013 and parked0015 retain explicit frontiers. The previous baseline ended at `type_server_close` (sequence 187,
+checks. All eighteen cached cases and eighteen unit executors, the original
+compiler build and strict graph/ABI/data audits passed the 264-function gate
+in 6.060s. Sixteen cases complete; 0013 and parked 0015 retain explicit frontiers. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
+
+
+`0018-file-cache-copy` is explicitly internal file-API coverage, not ordinary
+parser reach. At the genuine zero-argument `initialize_type_tables` entry after
+normal CLI initialization, its typed callback releases the real input owner
+through `close_file`, then opens the genuine /Zi SUPERPAD and compiler PDB.
+It checks cached reuse and eviction (the actual threshold of two retains one),
+creates a destination through the real file API, copies all 4,194,304 bytes,
+naturally grows its writable mapping beyond the initial 2 MiB, reads every byte
+back and closes the actual owners. No file-slot, page or global state is fabricated.
+The initial CLI input is the independently produced /Z7 SUPERPAD; all three input
+artifacts retain their existing producer hashes. The final copy matches /Zi input
+SHA256 `20a3990c4e792d821e0db2a5c99e9e41ac2956293547c4cd9a9c81529f28ff05`
+without comparison masks. Fresh masked original/native runs match all 22 first
+entries and complete (original 1211.806 ms; native 62.183 ms, including 12.535 ms
+setup, 8.361 ms execution and 41.287 ms checks). Native candidate rebuild was
+0.475 s; typed original helper compilation was 6.341 s. Inputs, raw output and
+command logs remain in owned `resume-20261025/0018-file-cache-copy/` scratch.
+
+The earlier same-file setup exposed a separate unsupported sharing path:
+original `close_mapped_file` leaks the mapping handle, preserving an exclusive
+file share after closing the source handle. Reopening that same file falls back
+to buffered I/O on Windows; the native shim currently permits mapped reopening.
+The faithful application leak is unchanged, and the failed setup remains in
+scratch. The distinct-file case does not qualify or fix that sharing difference.
 
 There is no candidate body at this checkpoint. `0013-mixed-c6-wide` is a
 format-authored NB02 workload with two modules, twelve C6 types per module,

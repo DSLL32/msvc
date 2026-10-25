@@ -1783,7 +1783,7 @@
       },
       "_cache_closed_file": {
         "abi": "void cache_closed_file(FileSlot *)",
-        "source": "src/stubs.c",
+        "source": "src/files.c",
         "stack_cleanup": 0,
         "roots": []
       },
@@ -1819,7 +1819,7 @@
       },
       "_grow_mapping": {
         "abi": "void grow_mapping(FileSlot *,long)",
-        "source": "src/stubs.c",
+        "source": "src/files.c",
         "stack_cleanup": 0,
         "roots": []
       },

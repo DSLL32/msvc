@@ -10,7 +10,7 @@
 
 
 
-void cache_closed_file(FileSlot *slot) { __asm { int 3 } }
+
 
 
 
@@ -41,7 +41,7 @@ unsigned long write_old_packed_types(void) { __asm { int 3 } return 0; }
 
 void read_packed_modules(void) { __asm { int 3 } }
 
-void grow_mapping(FileSlot *slot, long size) { __asm { int 3 } }
+
 
 
 
