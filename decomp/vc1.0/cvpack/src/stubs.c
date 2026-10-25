@@ -176,7 +176,7 @@ void convert_old_symbol_procedure32(void) { __asm { int 3 } }
 
 
 void convert_old_symbol_bprel32(void) { __asm { int 3 } }
-void convert_old_symbol_data16(void) { __asm { int 3 } }
+
 void convert_old_symbol_data32(void) { __asm { int 3 } }
 void convert_old_symbol_label16(void) { __asm { int 3 } }
 void convert_old_symbol_label32(void) { __asm { int 3 } }
