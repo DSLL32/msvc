@@ -1721,8 +1721,8 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0xad0f, 0xad5f}, {0x2c47f, 0x2c48a}}, .code_count = 2,
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "open_source_descriptor" },
     { .name = "_push_source_context", .entry_rva = 0xad84,
-      .code = (const ReconExtent[]){{0xad84, 0xad85}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "push_source_context" },
+      .code = (const ReconExtent[]){{0xad84, 0xafa5}, {0x2c4fd, 0x2c5cb}}, .code_count = 2,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "push_source_context" },
     { .name = "_report_include_file", .entry_rva = 0x3d989,
       .code = (const ReconExtent[]){{0x3d989, 0x3d98a}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "report_include_file" },
@@ -1739,6 +1739,17 @@ static const ReconFunction functions[] = {
     { .name = "_close_old_source_descriptor", .entry_rva = 0x3c399,
       .code = (const ReconExtent[]){{0x3c399, 0x3c39a}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "close_old_source_descriptor" },
+    { .name = "_read_source_chunk", .entry_rva = 0x29f9,
+      .code = (const ReconExtent[]){{0x29f9, 0x29fa}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "read_source_chunk" },
+    { .name = "CompilerDependency::RecordSource", .entry_rva = 0xcf7a,
+      .code = (const ReconExtent[]){{0xcf7a, 0xcf7b}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN18CompilerDependency12RecordSourceEPKcii",
+      .original_symbol = "?RecordSource@CompilerDependency@@QAEXPBDHH@Z" },
+    { .name = "CompilerDependency::QuerySource", .entry_rva = 0x4d781,
+      .code = (const ReconExtent[]){{0x4d781, 0x4d782}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN18CompilerDependency11QuerySourceEPPv",
+      .original_symbol = "?QuerySource@CompilerDependency@@QAEHPAPAX@Z" },
 };
 
 static const ReconExport exports[] = {

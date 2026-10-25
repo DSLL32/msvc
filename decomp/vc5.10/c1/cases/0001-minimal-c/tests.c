@@ -302,8 +302,11 @@ static int type_arena_snapshot(void)
 {
     CompilerInitializedState *saved;
     CompilerIrSymbol owned_symbols[2];
+    CompilerSourceFrame owned_frames[3];
     unsigned i;
-    if (c1_data.type_arena_kind != 3 ||
+    if (c1_data.source_frames || c1_data.root_source_frame || c1_data.free_source_frames ||
+        c1_data.source_descriptor != -1 || c1_data.conditional_depth != -1 ||
+        c1_bss.source_cursor || c1_data.type_arena_kind != 3 ||
         c1_data.record_sizes.known.intrinsic_symbol_bytes != 52 ||
         c1_data.record_sizes.known.global_symbol_bytes != 52 ||
         c1_data.record_sizes.known.abstract_symbol_bytes != 52 ||
@@ -318,6 +321,11 @@ static int type_arena_snapshot(void)
     c1_data.source_include_depth = 13;
     c1_data.macro_reset_value = 83;
     c1_data.emit_global_locations = 37;
+    c1_data.source_frames = &owned_frames[0];
+    c1_data.root_source_frame = &owned_frames[1];
+    c1_data.free_source_frames = &owned_frames[2];
+    c1_data.source_descriptor = 41;
+    c1_data.conditional_depth = 13;
     c1_data.type_arena_kind = 2;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
     c1_data.record_sizes.known.global_symbol_bytes = 41;
@@ -329,7 +337,11 @@ static int type_arena_snapshot(void)
     c1_data.next_symbol_record_id = 83;
     if (initialize_compiler_pass()) return 0;
     saved = c1_bss.saved_data;
-    if (saved->emit_global_locations != 37 || saved->type_arena_kind != 2 ||
+    if (saved->source_frames != &owned_frames[0] ||
+        saved->root_source_frame != &owned_frames[1] ||
+        saved->free_source_frames != &owned_frames[2] ||
+        saved->source_descriptor != 41 || saved->conditional_depth != 13 ||
+        saved->emit_global_locations != 37 || saved->type_arena_kind != 2 ||
         saved->record_sizes.known.intrinsic_symbol_bytes != 37 ||
         saved->record_sizes.known.global_symbol_bytes != 41 ||
         saved->record_sizes.known.abstract_symbol_bytes != 43 ||
@@ -347,6 +359,12 @@ static int type_arena_snapshot(void)
     c1_data.source_include_depth = 29;
     c1_data.macro_reset_value = 97;
     c1_data.emit_global_locations = 61;
+    c1_data.source_frames = &owned_frames[2];
+    c1_data.root_source_frame = &owned_frames[0];
+    c1_data.free_source_frames = &owned_frames[1];
+    c1_data.source_descriptor = 67;
+    c1_data.conditional_depth = 29;
+    c1_bss.source_cursor = (BYTE *)owned_frames;
     saved->first_call = 0;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 61;
     c1_data.record_sizes.known.global_symbol_bytes = 67;
@@ -368,7 +386,11 @@ static int type_arena_snapshot(void)
     for (i = 0; i < 26; ++i)
         if (c1_data.predefined_time_text[i] != 0x37 ||
             saved->predefined_time_text[i] != 0x37) return 0;
-    return c1_data.emit_global_locations == 37 && saved->emit_global_locations == 37 &&
+    return c1_data.source_frames == &owned_frames[0] &&
+        c1_data.root_source_frame == &owned_frames[1] &&
+        c1_data.free_source_frames == &owned_frames[2] &&
+        c1_data.source_descriptor == 41 && c1_data.conditional_depth == 13 &&
+        c1_bss.source_cursor == NULL && c1_data.emit_global_locations == 37 && saved->emit_global_locations == 37 &&
         c1_data.source_include_depth == 13 && saved->source_include_depth == 13 &&
         c1_data.macro_reset_value == 83 && saved->macro_reset_value == 83 &&
         c1_data.type_arena_kind == 2 && c1_bss.saved_data == saved &&

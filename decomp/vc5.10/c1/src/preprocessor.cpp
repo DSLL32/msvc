@@ -8,6 +8,7 @@
 #include "frontend.h"
 #include "keywords.h"
 #include "global-record.h"
+#include "packing.h"
 #pragma intrinsic(strcpy, memcpy, strlen)
 #include <recon.h>
 
@@ -224,7 +225,6 @@ extern "C" int __cdecl compare_macro_text(const void *first, const void *second,
 /* These alternate PCH inputs remain unmodeled until their actual producers
  * and consumers are reached. The ordinary source-file path does not read them. */
 static void *unmodeled_pch_input_cursor; /* BSS RVA55924 */
-static int unmodeled_source_descriptor; /* initialized RVA5e228; consumed by _read */
 extern "C" void __cdecl select_pch_input(void *);
 extern "C" int __cdecl open_source_descriptor(const char *);
 extern "C" void __cdecl push_source_context(CompilerSourceFile *, int, int, int);
@@ -241,7 +241,7 @@ extern "C" int __cdecl open_source_file(const char *name, unsigned hash,
         recon_unsupported("open_source_file: unmodeled PCH source context");
 #endif
         select_pch_input(unmodeled_pch_input_cursor);
-        push_source_context(file, kind, unmodeled_source_descriptor, flags);
+        push_source_context(file, kind, c1_data.source_descriptor, flags);
         return -2;
     }
     descriptor = name ? open_source_descriptor(name) : stdin->_file;
@@ -322,8 +322,85 @@ extern "C" const char *__cdecl prepare_source_path(const char *name)
     return name;
 }
 extern "C" int __cdecl close_old_source_descriptor(void) { __asm { int 3 } return 0; }
+extern "C" CompilerBackend *__cdecl acquire_initial_backend(void);
+extern "C" int __cdecl read_source_chunk(void);
+extern "C" void __cdecl begin_line_output(void);
+/* Later optional line-output mode has not been encountered. */
+static int unmodeled_source_line_output; /* BSS RVA54dbc */
 extern "C" void __cdecl push_source_context(CompilerSourceFile *file, int kind, int descriptor, int flags)
+{
+    CompilerArena *arena = &c1_bss.arenas[1];
+    CompilerSourceFrame *frame = c1_data.free_source_frames;
+    if (frame) c1_data.free_source_frames = frame->next;
+    else {
+        frame = (CompilerSourceFrame *)arena->cursor;
+        arena->cursor += 48;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        BYTE *buffer = arena->cursor;
+        arena->cursor += 0x7004;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        frame->buffer = buffer + 2;
+    }
+    frame->next = c1_data.source_frames;
+    c1_data.source_frames = frame;
+    if (++c1_data.source_include_depth > 1024) {
+        --c1_data.source_include_depth;
+        compiler_error(14, c1_data.source_include_depth);
+    }
+    c1_data.source_descriptor = descriptor;
+    frame->conditional_depth = c1_data.conditional_depth;
+    frame->packing_alignment = c1_data.options.packing_stack->active->alignment;
+    if (c1_data.source_include_depth == 0)
+        c1_data.root_source_frame = c1_data.source_frames;
+    frame->saved_cursor = c1_bss.source_cursor;
+    frame->saved_context = c1_bss.current_context.object;
+    frame->saved_context_value = c1_bss.current_context.value;
+    frame->descriptor = c1_data.source_descriptor;
+    frame->available_bytes = frame->consumed_bytes = 0;
+    frame->flags = (frame->flags & ~1U) | (kind == 2);
+    frame->flags &= ~2U;
+    c1_data.source_frames->flags &= ~8U;
+    frame->flags = (frame->flags & ~4U) | ((flags & 1) << 2);
+    if (!flags) {
+        c1_bss.lexer_backend->backend = c1_data.backend;
+        c1_data.backend = acquire_initial_backend();
+        c1_bss.lexer_backend->enabled = flags;
+    }
+    c1_bss.source_cursor = frame->buffer;
+    c1_bss.input->Begin(c1_bss.text_input);
+    frame->file = file;
+    c1_bss.current_context.value = 0;
+    c1_bss.current_context.object = file;
+    c1_bss.source_cursor[-1] = '\n';
+    ++c1_bss.source_cursor;
+    read_source_chunk();
+    if (c1_bss.debug_module) {
+        c1_bss.text_input->Reset();
+        if (!c1_bss.debug_module->Slot30(file->name->name, flags == 0))
+            compiler_error(73, ".\\p0io.c", 288);
+        if (c1_data.dependency_local || c1_data.options.dependency_output) {
+            c1_data.dependency->RecordSource(c1_bss.current_context.FileName(), descriptor, kind != 2);
+            if (c1_data.dependency_local) {
+                void *result = NULL;
+                if (c1_data.dependency->QuerySource(&result) &&
+                    !c1_bss.debug_module->Slot88(result))
+                    compiler_error(73, ".\\p0io.c", 342);
+            }
+        }
+    }
+    if (!c1_data.options.preprocess_no_lines) {
+#ifdef RECON_NATIVE_TEST
+        recon_unsupported("push_source_context: unmodeled line-output flag");
+#endif
+        if (unmodeled_source_line_output) begin_line_output();
+    }
+    --c1_bss.source_cursor;
+    *c1_bss.source_cursor = '\n';
+}
+extern "C" int __cdecl read_source_chunk(void) { __asm { int 3 } return 0; }
+void RECON_THISCALL CompilerDependency::RecordSource(const char *name, int descriptor, int ordinary)
 { __asm { int 3 } }
+int RECON_THISCALL CompilerDependency::QuerySource(void **result) { __asm { int 3 } return 0; }
 extern "C" void __cdecl report_include_file(int depth, const char *name) { __asm { int 3 } }
 extern "C" void __cdecl report_source_file_error(const char *name, int file)
 { __asm { int 3 } }

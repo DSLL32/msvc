@@ -58,7 +58,7 @@ struct CompilerDebugModule {
     virtual void RECON_THISCALL Slot24(void) = 0;
     virtual void RECON_THISCALL Slot28(void) = 0;
     virtual void RECON_THISCALL Slot2c(void) = 0;
-    virtual void RECON_THISCALL Slot30(void) = 0;
+    virtual int RECON_THISCALL Slot30(const char *, int) = 0;
     virtual void RECON_THISCALL Slot34(void) = 0;
     virtual void RECON_THISCALL Slot38(void) = 0;
     virtual void RECON_THISCALL Slot3c(void) = 0;
@@ -79,6 +79,8 @@ struct CompilerDebugModule {
     virtual void RECON_THISCALL Slot78(void) = 0;
     virtual void RECON_THISCALL Slot7c(void) = 0;
     virtual void RECON_THISCALL Slot80(void) = 0;
+    virtual void RECON_THISCALL Slot84(void) = 0;
+    virtual int RECON_THISCALL Slot88(void *) = 0;
 };
 /* External MSPDB interface; preceding slots remain opaque declarations. */
 struct PDB {
@@ -131,5 +133,7 @@ typedef char CompilerTranslationUnit_size[sizeof(CompilerTranslationUnit) == 540
 struct CompilerDependency {
     void *records;
     void RECON_THISCALL Finish(int success);
+    void RECON_THISCALL RecordSource(const char *, int descriptor, int ordinary);
+    int RECON_THISCALL QuerySource(void **);
 };
 #endif
