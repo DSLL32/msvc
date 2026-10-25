@@ -16,7 +16,7 @@ struct CompilerDeclarator {
     CompilerTypeShape *shape;
     CompilerTypeShape *last_shape;
     CompilerDeclarationAttributes attributes;
-    BYTE unmodeled_14[4];
+    unsigned shape_flags;
     CompilerParameterDescription *parameters;
     CompilerSourcePosition position;
     CompilerIrSymbol *symbol;
@@ -25,6 +25,8 @@ struct CompilerDeclarator {
     CompilerDeclarator *RECON_THISCALL Initialize(CompilerType *, const CompilerSourcePosition *);
     void RECON_THISCALL AddFunction(CompilerParameterDescription *);
     void RECON_THISCALL AppendShape(CompilerTypeShape *);
+    void RECON_THISCALL MergeQualifiers(const CompilerDeclarationAttributes *,
+        const CompilerDeclarationAttributes *);
     void RECON_THISCALL ApplyAttributes(const CompilerDeclarationAttributes *);
     CompilerType *RECON_THISCALL Resolve(void);
 };

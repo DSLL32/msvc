@@ -1553,8 +1553,8 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0x895d, 0x8987}}, .code_count = 1,
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "_ZN17CompilerTypeShape13SetParametersEjj", .original_symbol = "?SetParameters@CompilerTypeShape@@QAEXII@Z" },
     { .name = "CompilerDeclarator::AppendShape", .entry_rva = 0x8b9f,
-      .code = (const ReconExtent[]){{0x8b9f, 0x8ba0}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "_ZN18CompilerDeclarator11AppendShapeEP17CompilerTypeShape", .original_symbol = "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z" },
+      .code = (const ReconExtent[]){{0x8b9f, 0x8bef}, {0x2b423, 0x2b4ae}}, .code_count = 2,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "_ZN18CompilerDeclarator11AppendShapeEP17CompilerTypeShape", .original_symbol = "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z" },
     { .name = "CompilerTranslationUnit::EndParameterScope", .entry_rva = 0x9219,
       .code = (const ReconExtent[]){{0x9219, 0x921a}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "_ZN23CompilerTranslationUnit17EndParameterScopeEv",
@@ -1574,6 +1574,10 @@ static const ReconFunction functions[] = {
     { .name = "_hash_type_list", .entry_rva = 0x935a,
       .code = (const ReconExtent[]){{0x935a, 0x935b}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "hash_type_list" },
+    { .name = "CompilerDeclarator::MergeQualifiers", .entry_rva = 0x8c27,
+      .code = (const ReconExtent[]){{0x8c27, 0x8c28}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN18CompilerDeclarator15MergeQualifiersEPK29CompilerDeclarationAttributesS2_",
+      .original_symbol = "?MergeQualifiers@CompilerDeclarator@@QAEXPBUCompilerDeclarationAttributes@@0@Z" },
 };
 
 static const ReconExport exports[] = {

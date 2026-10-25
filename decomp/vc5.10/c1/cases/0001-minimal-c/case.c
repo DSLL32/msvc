@@ -133,10 +133,11 @@ static const uint32_t order[] = {
  0x8987, /* intern_function_parameters */
  0xd64b, /* get_empty_type_list */
  0x8b9f, /* CompilerDeclarator::AppendShape */
+ 0xb58d, /* CompilerDeclarator::ApplyAttributes */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION, sizeof(ReconCase), "minimal-c",
  "Typed host forwards actual Invoke11/BOOL1 with test.c; only MSC_CMD_FLAGS absence is an environment input.",
- order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x8b9f,
- c1_minimal_setup, c1_minimal_invoke, NULL, minimal_tests, 23
+ order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0xb58d,
+ c1_minimal_setup, c1_minimal_invoke, NULL, minimal_tests, 24
 };

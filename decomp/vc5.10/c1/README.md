@@ -3,7 +3,7 @@
 `binary.c` is the function/export registry for original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The current prefix contains 127 accepted application functions / 19,455 code bytes.
+The current prefix contains 128 accepted application functions / 19,674 code bytes.
 Historical linked startup support remains separately classified: two CRT
 functions / 451 bytes; four import thunks / 24 bytes. Owned text data is 398
 bytes. The original text extent is 322,288 bytes; its non-CRT denominator has
@@ -26,7 +26,7 @@ zero static matches, while the historical CRT rows retain strict graph checks.
 The lifecycle case attaches, resolves both exports without invoking them, and
 detaches. Minimal invokes the actual supported direct 11-argument
 `_InvokeCompilerPass@12` contract with BOOL 1. It remains partial at
-`CompilerDeclarator::AppendShape()`, RVA `0x8b9f`. Its fresh reference uses logical cwd
+`CompilerDeclarator::ApplyAttributes()`, RVA `0xb58d`. Its fresh reference uses logical cwd
 `T:\vc5.10\c1\0001-minimal-c`, preserved in an isolated native scratch namespace.
 Final IR from other invocations is not merged into this oracle. Both cases run
 entirely natively against cached original observations.
@@ -67,8 +67,8 @@ by its indexed push/pop consumers and explicit depth bound. Its initializer writ
 only slot0; the other127 values remain unmodeled and unwritten. Its 24-byte root
 scope uses the actual ten-slot virtual interface, with operations still pending.
 
-The declarator receiver retains its actual48-byte extent. The gap at20 remains
-uninterpreted; offsets8/24 now hold the shape tail and parameter description. The function-type caller zeros an original unwritten upper
+The declarator receiver retains its actual48-byte extent. Offsets8/20/24 now hold
+the shape tail, shape-state flags and parameter description. The function-type caller zeros an original unwritten upper
 attribute WORD; that later path remains unexecuted at the current frontier.
 
 Abstract-symbol reuse models only encountered free-list head9, original size52

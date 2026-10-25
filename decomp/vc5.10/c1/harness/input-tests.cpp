@@ -308,3 +308,31 @@ extern "C" int c1_test_symbol_constructor(void)
     }
     return 1;
 }
+
+extern "C" int c1_test_append_type_shape(void)
+{
+    CompilerDeclarator declarator;
+    CompilerTypeShape previous, next;
+    unsigned marker;
+    memset(&declarator, 0, sizeof(declarator));
+    memset(&previous, 0, sizeof(previous));
+    memset(&next, 0, sizeof(next));
+    next.flags = 0xffff;
+    next.value = 37;
+    declarator.shape_flags = 0x80;
+    declarator.flags = 0x400;
+    declarator.AppendShape(&next);
+    if (declarator.shape_flags != 0x81 || declarator.shape || declarator.last_shape ||
+        declarator.flags != 0x400) return 0;
+    previous.flags = 1;
+    previous.base = (CompilerTypeShape *)&marker;
+    previous.value = 83;
+    declarator.shape = &previous;
+    declarator.last_shape = &previous;
+    declarator.AppendShape(&next);
+    return previous.flags == 0xc803 && previous.attributes == 0 &&
+        previous.base == (CompilerTypeShape *)&marker && previous.value == 83 &&
+        declarator.shape == &previous && declarator.last_shape == &previous &&
+        declarator.shape_flags == 0x81 && declarator.flags == 0x400 &&
+        next.flags == 0xffff && next.value == 37;
+}

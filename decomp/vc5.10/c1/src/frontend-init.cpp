@@ -651,7 +651,38 @@ extern "C" CompilerTypeList *__cdecl get_empty_type_list(void)
 }
 extern "C" CompilerTypeList *__cdecl get_void_type_list(void) { __asm { int 3 } return NULL; }
 extern "C" unsigned __cdecl hash_type_list(const CompilerTypeList *list) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *shape) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *next)
+{
+    shape_flags |= 1;
+    if (!shape)
+        return;
+    switch (last_shape->flags & 7) {
+    case 1:
+        last_shape->flags = (next->flags & 0xc803) | 3;
+        break;
+    case 2:
+        compiler_warning(92);
+        last_shape->value = 0;
+        last_shape->flags = 1;
+        break;
+    case 4: {
+        /* Only the low WORDs are read. Zero the original unwritten upper
+         * WORDs of these temporary attribute descriptors. */
+        CompilerDeclarationAttributes first = { 0, 0 }, second = { 0, 0 };
+        compiler_warning(91);
+        MergeQualifiers(&first, &second);
+        last_shape->flags = 3;
+        break;
+    }
+    }
+    if (last_shape->attributes & 3) {
+        compiler_warning(212, symbol);
+        flags |= 1;
+        last_shape->attributes &= ~3;
+    }
+}
+void RECON_THISCALL CompilerDeclarator::MergeQualifiers(const CompilerDeclarationAttributes *first,
+    const CompilerDeclarationAttributes *second) { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclarationAttributes *attributes)
 { __asm { int 3 } }
 CompilerType *RECON_THISCALL CompilerDeclarator::Resolve(void) { __asm { int 3 } return NULL; }

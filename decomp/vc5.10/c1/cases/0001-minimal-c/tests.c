@@ -265,7 +265,8 @@ static int cached_empty_type_list(void)
         c1_bss.arenas[0].cursor == (BYTE *)(storage + 2) &&
         storage[0] == 0xa5a5a5a5 && storage[4] == 0xa5a5a5a5;
 }
-const ReconTest minimal_tests[23] = {
+extern int c1_test_append_type_shape(void);
+const ReconTest minimal_tests[24] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -288,5 +289,6 @@ const ReconTest minimal_tests[23] = {
     { "abstract symbol cache reuses only head9 within its owned52-byte record", 1, c1_test_abstract_symbol_reuse },
     { "symbol constructor retains untouched fields and clears kind4 context only", 1, c1_test_symbol_constructor },
     { "type shape allocation truncates WORD fields and retains unwritten link", 1, type_shape_allocation },
-    { "empty parameter list is lazy, shared and leaves unused element untouched", 1, cached_empty_type_list }
+    { "empty parameter list is lazy, shared and leaves unused element untouched", 1, cached_empty_type_list },
+    { "shape attachment preserves empty context and folds prior pointer kind", 1, c1_test_append_type_shape }
 };
