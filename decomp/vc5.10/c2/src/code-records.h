@@ -9,6 +9,7 @@ typedef struct C2ExpressionReference {
     unsigned char pending00[8];
     C2SymbolReference *reference;
 } C2ExpressionReference;
+typedef struct C2IntegerWords { unsigned low, high; } C2IntegerWords;
 struct C2Expression {
     C2Expression *next;
     unsigned opcode;
@@ -28,8 +29,13 @@ struct C2Expression {
         C2InputUse *use;
         void *pointer;
     } value;
-    union { C2Expression *left; C2InputSymbol *declaration; unsigned immediate; };
-    union { C2Expression *right; C2ExpressionReference *indirect; } tail;
+    union {
+        struct {
+            union { C2Expression *left; C2InputSymbol *declaration; unsigned immediate; };
+            union { C2Expression *right; C2ExpressionReference *indirect; } tail;
+        };
+        C2IntegerWords integer;
+    };
     union { void *data; C2InputUse *use; struct C2InputClause *clauses; } detail;
     C2Expression *aggregate_value, *aggregate_second;
 };
@@ -43,6 +49,7 @@ struct C2Record {
     union { C2Expression *arguments; C2InputSymbol *declaration; } value;
     C2Expression *results;
 };
+typedef char C2ExpressionIntegerCheck[offsetof(C2Expression, integer) == 24 ? 1 : -1];
 typedef char C2ExpressionTypeCheck[offsetof(C2Expression, type) == 10 ? 1 : -1];
 typedef char C2ExpressionLocationCheck[offsetof(C2Expression, location) == 16 ? 1 : -1];
 typedef char C2ExpressionControlCheck[offsetof(C2Expression, control_flags) == 18 ? 1 : -1];

@@ -287,3 +287,15 @@ C2Expression *__fastcall new_register_expression(unsigned opcode, C2FunctionRegi
     tree->type = input_value_type;
     return tree;
 }
+
+C2Expression *__fastcall new_integer_expression(unsigned short type, unsigned __int64 value)
+{
+    C2Expression *tree = (C2Expression *)allocate_small_node(7);
+    union { unsigned __int64 value; C2IntegerWords words; } integer;
+    tree->opcode = 0x11d;
+    tree->type = type;
+    integer.value = normalize_integer_value(type, value);
+    tree->integer.low = integer.words.low;
+    tree->integer.high = integer.words.high;
+    return tree;
+}

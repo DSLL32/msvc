@@ -2369,10 +2369,19 @@ static const ReconFunction functions[] = {
         .native_symbol = "release_input_assembly_context",
     },
     {
-        .name = "@new_integer_expression@12",
-        .entry_rva = 0x1471,
+        .name = "@normalize_integer_value@12",
+        .entry_rva = 0x14b1,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "normalize_integer_value",
+    },
+    {
+        .name = "@new_integer_expression@12",
+        .entry_rva = 0x1471,
+        .code = (const ReconExtent[]){{0x1471, 0x14b1}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_integer_expression",
     },
     {

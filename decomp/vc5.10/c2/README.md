@@ -7,14 +7,14 @@ Both invocations retain the original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 158 accepted application functions / 37,701 code bytes.
+The registry preserves 159 accepted application functions / 37,765 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
 2,028 bytes of contextual text data are separate. The full text extent is
 573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `new_integer_expression` at original RVA 0x1471.
+  current accepted frontier is `normalize_integer_value` at original RVA 0x14b1.
   Thirty narrow units retain real-conversion and register-list behavior checks.
 
 The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
@@ -25,7 +25,7 @@ uncommitted source, patch, and status were saved before migration in
 slots have proven NULL defaults; other slots remain unmodeled and guarded in
 native execution. Function-entry reset clears 49 size-indexed free-list pointers;
 their node-specific payload remains incomplete. The small-node size table currently
-models kinds2/3/4/21/22 = 28 bytes and kind24 = 24 bytes; native guards reject unmodeled kind rows before reading. Old proof packages remain in Git history.
+models kinds2/3/4/21/22 = 28 bytes, kind7 = 32 bytes and kind24 = 24 bytes; native guards reject unmodeled kind rows before reading. Old proof packages remain in Git history.
 
 Migration also corrected 19 address stores in 17 callback slots to the existing
 physical `c2_set_argv` function and removed the duplicate trapping placeholder.

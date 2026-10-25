@@ -3,12 +3,6 @@
 
 /* Unreconstructed reader children stop at their own actual identities. */
 
-C2Expression * __fastcall new_integer_expression(unsigned short type, unsigned __int64 value)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression * __fastcall new_binary_expression(unsigned opcode, unsigned short type, C2Expression *right, C2Expression *left, C2InputLink link, C2Record *prior)
 {
     __asm { int 3 }
@@ -442,4 +436,10 @@ C2FunctionRegister *__fastcall new_bitfield_register(C2FunctionRegister *source,
 void __fastcall replace_register_uses(C2FunctionRegister *source, C2FunctionRegister *replacement)
 {
     __asm { int 3 }
+}
+
+unsigned __int64 __fastcall normalize_integer_value(unsigned short type, unsigned __int64 value)
+{
+    __asm { int 3 }
+    return 0;
 }
