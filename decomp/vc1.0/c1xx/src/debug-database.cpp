@@ -14,6 +14,7 @@ struct DatabaseBlock {
     unsigned char *cursor;
     DatabaseBlock *next;
     DatabaseBlock * RECON_THISCALL initialize(unsigned capacity);
+    unsigned char * RECON_THISCALL allocate(unsigned bytes);
 };
 struct DatabasePool {
     DatabaseBlock *first, *current;
@@ -26,10 +27,17 @@ struct DatabaseHeader {
     unsigned short first_type, next_type;
     unsigned type_bytes;
 };
+struct DatabaseLookup {
+    DatabaseLookup *next;
+    unsigned char *record;
+    unsigned short type;
+    /* Original twelve-byte nodes leave this trailing WORD unwritten. */
+    unsigned short reserved;
+};
 struct DebugDatabase {
     DatabaseHeader header;
-    unsigned *type_offsets;
-    void *type_lookup;
+    unsigned char **type_offsets;
+    DatabaseLookup **type_lookup;
     DatabasePool records, lookup_nodes;
     DatabaseBlock *scan_block;
     int file, writable, want_lookup, want_offsets;
@@ -38,6 +46,7 @@ struct DebugDatabase {
 };
 typedef char DatabaseHeaderMustBe64[(sizeof(DatabaseHeader) == 64) ? 1 : -1];
 typedef char DatabaseBlockMustBe12[(sizeof(DatabaseBlock) == 12) ? 1 : -1];
+typedef char DatabaseLookupMustBe12[(sizeof(DatabaseLookup) == 12) ? 1 : -1];
 typedef char DatabasePoolMustBe12[(sizeof(DatabasePool) == 12) ? 1 : -1];
 typedef char DatabaseMustBe116[(sizeof(DebugDatabase) == 116) ? 1 : -1];
 typedef char DatabaseFileMustBe100[(offsetof(DebugDatabase, file) == 100) ? 1 : -1];
@@ -71,12 +80,17 @@ DebugDatabase *__cdecl open_debug_database(char *filename, char *mode, unsigned 
     database->writable = mode[0] == 'w';
     switch (mode[1]) {
     case 'c': database->want_offsets = 1; break;
-    case 'i': database->want_lookup = 1; break;
+    case 'i':
+        database->want_lookup = 1;
+        /* Original defect: +112 is never written in this mode before load.
+           Two genuine same-input catalog observations found zero. Use that
+           documented value; this is not a promise about arbitrary malloc data. */
+        database->want_offsets = 0;
+        break;
     default: database->want_offsets = database->want_lookup = 1; break;
     }
-    /* The original does not initialize the other flag for c/i modes. Its
-       actual lifetime and later consumers remain a separate reached-state
-       question; do not clear the object or assume malloc supplies zeroes. */
+    /* Mode c still leaves want_lookup unwritten in the original; that mode's
+       actual value/behavior has not been qualified by the catalog workload. */
     database->file = _open(filename, _O_BINARY | (database->writable ? _O_RDWR : 0));
     if (database->file >= 0) {
         valid = _read(database->file, database, sizeof(DatabaseHeader)) == sizeof(DatabaseHeader) &&
@@ -146,7 +160,71 @@ int RECON_THISCALL DebugDatabase::create(char *filename, unsigned signature)
     }
     return load();
 }
+/* Original0x17390..0x1762c, ECX=this/RET0. Load type bytes into the
+   records pool and optionally construct the offset and length-hash indexes. */
 int RECON_THISCALL DebugDatabase::load(void)
+{
+    unsigned short limit = writable ? 0xfff0 : header.next_type;
+    unsigned short type;
+    unsigned bytes, capacity;
+    unsigned char *record;
+    DatabaseBlock *block;
+    DatabaseLookup **bucket, *node;
+    if (want_offsets) {
+        type_offsets = (unsigned char **)malloc((limit - 0x1000) * 4);
+        if (!type_offsets) return 0;
+    }
+    if (want_lookup) {
+        type_lookup = (DatabaseLookup **)malloc(0x4000);
+        if (type_lookup) {
+            unsigned i;
+            for (i = 0; i < 0x1000; ++i) type_lookup[i] = 0;
+        }
+        if (!type_lookup) return 0;
+    }
+    bytes = header.type_bytes;
+    record = records.current->allocate(bytes);
+    if (!record) {
+        capacity = (bytes + 0x1fff) & ~0xfffU;
+        block = (DatabaseBlock *)malloc(capacity + sizeof(DatabaseBlock));
+        if (block) records.current->next = block->initialize(capacity);
+        else records.current->next = 0;
+        records.current = records.current->next;
+        record = records.current->allocate(bytes);
+        if (!record) fatal_error(1, "typesrvr.cpp", 58);
+    }
+    records.used += bytes;
+    if (!record) return 0;
+    if (_read(file, record, header.type_bytes) != header.type_bytes) return 0;
+    for (type = header.first_type; type < header.next_type; ++type) {
+        if (type_offsets) type_offsets[type - 0x1000] = record;
+        if (type_lookup) {
+            bucket = &type_lookup[*(unsigned short *)record];
+            node = (DatabaseLookup *)lookup_nodes.current->allocate(sizeof(DatabaseLookup));
+            if (!node) {
+                capacity = (sizeof(DatabaseLookup) + 0x1fff) & ~0xfffU;
+                block = (DatabaseBlock *)malloc(capacity + sizeof(DatabaseBlock));
+                if (block) lookup_nodes.current->next = block->initialize(capacity);
+                else lookup_nodes.current->next = 0;
+                lookup_nodes.current = lookup_nodes.current->next;
+                node = (DatabaseLookup *)lookup_nodes.current->allocate(sizeof(DatabaseLookup));
+                if (!node) fatal_error(1, "typesrvr.cpp", 58);
+            }
+            lookup_nodes.used += sizeof(DatabaseLookup);
+            if (node) {
+                node->next = *bucket;
+                node->record = record;
+                node->type = type;
+            } else node = 0;
+            *bucket = node;
+        }
+        record += (unsigned short)(*(unsigned short *)(record + 2) + 2) + 2;
+    }
+    scan_block = records.current;
+    records.current->remaining = 0;
+    return 1;
+}
+unsigned char * RECON_THISCALL DatabaseBlock::allocate(unsigned bytes)
 {
     __asm { int 3 }
     return 0;
