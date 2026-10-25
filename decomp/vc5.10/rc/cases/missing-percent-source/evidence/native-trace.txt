@@ -1,2 +1,0 @@
-rc_main
-rc_diagnostic

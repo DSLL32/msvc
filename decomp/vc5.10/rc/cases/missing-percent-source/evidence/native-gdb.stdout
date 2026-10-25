@@ -1,8 +1,0 @@
-Temporary breakpoint 1 at 0x2d57: file scripts/native-host.c, line 8.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Temporary breakpoint 1, main (argc=3, argv=0xffcd9724, environment=0xffcd9734) at scripts/native-host.c:8
-8	    rc_fixture_prepare(argc, argv);
-[Inferior 1 (process 1250581) exited with code 01]
-RC_PERCENT_PROOF={"allocations": [{"bytes": 60, "caller": "rc_diagnostic", "returned_nonnull": true}], "escaped": [{"bytes": "5243203a20666174616c206572726f7220524331313130203a20636f756c64206e6f74206f70656e206d697373696e672525736f757263652e7263", "percent_count": 2}]}

@@ -1,4 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-[Inferior 1 (process 1109477) exited normally]
-RC_RAW_STATE={"completion": true, "frontier": null, "status": 0}

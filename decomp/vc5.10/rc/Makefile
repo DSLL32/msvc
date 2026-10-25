@@ -1,55 +1,44 @@
-PYTHON ?= python3
-TOOL = $(PYTHON) scripts/wine-tool.py
-TC = ../../../toolchains/5.10
+RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
-.DEFAULT_GOAL := native
-.PHONY: all inspect native original fixtures check audit probe-help probe-minimal probe-rich
-all: native
-include ../../../tooling/graph-audit/graph-audit.mk
-inspect:
-	$(PYTHON) scripts/inspect.py
-build:
-	mkdir -p $@
-build/%.obj: src/%.c src/rc.h | build
-	$(TOOL) CL.EXE /nologo /c /MD /Od /G3 /W3 /I$(RECON)/include /Fobuild/$*.obj $<
-build/rc.obj: src/rc.c src/rc.h | build
-	$(TOOL) CL.EXE /nologo /c /MD /O2 /Oy- /G3 /W3 /I$(RECON)/include /Fo$@ $<
-build/rcdll.lib: src/rcdll.def scripts/import-library.py scripts/binary.py | build
-	$(PYTHON) scripts/import-library.py
-build/rc.exe: build/rc.obj build/startup.obj build/rcdll.lib
-	$(TOOL) LINK.EXE /nologo /subsystem:console /entry:mainCRTStartup /map:build/rc.map /out:$@ $^ $(TC)/lib/KERNEL32.LIB
-original: build/rc.exe
-NATIVE_CC ?= clang
-NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -Wno-ignored-attributes -O0 -g -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native -Isrc
-NATIVE_HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
-NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
-NATIVE_OBJECTS = build/native/rc.o build/native/startup.o
-build/native:
-	mkdir -p $@
-build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
-	$(NATIVE_CC) $(NATIVE_FLAGS) -Dmain=rc_main -finstrument-functions -c $< -o $@
-build/native/rc: $(NATIVE_OBJECTS) scripts/native-host.c scripts/native-boundary.c scripts/native-fixture.h $(NATIVE_SHIMS) $(RECON)/src/trace.c scripts/native-build.py Makefile
-	$(PYTHON) scripts/native-build.py $@ -- $(NATIVE_CC) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/native-host.c scripts/native-boundary.c $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
-native: build/native/rc
-audit: original $(GRAPH_AUDIT_BIN)
-	$(PYTHON) scripts/audit.py
-build/native/check-boundary: scripts/test-boundary.c scripts/native-boundary.c scripts/native-fixture.h $(NATIVE_HEADERS) $(NATIVE_SHIMS) | build/native
-	$(NATIVE_CC) $(NATIVE_FLAGS) scripts/test-boundary.c scripts/native-boundary.c $(NATIVE_SHIMS) -o $@
-fixtures check: native build/native/check-boundary
-	$(PYTHON) scripts/check-native.py
-	$(PYTHON) scripts/check-boundary.py
-	$(PYTHON) scripts/check-rich.py
-	$(PYTHON) scripts/check-rich-boundary.py
-	$(PYTHON) scripts/check-error.py
-	$(PYTHON) scripts/check-error-boundary.py
-probe-help: build/debug-original.exe
-	@test -n "$(REFERENCE_DIR)" || (echo 'Set REFERENCE_DIR for an explicit new original capture.' >&2; exit 2)
-	$(PYTHON) scripts/capture-original.py --baseline "$(REFERENCE_DIR)"
-probe-minimal probe-rich:
-	@echo 'Explicit original resource captures are coordinated with the RCDLL worker; fixtures use their frozen native-only references.' >&2
-	@exit 2
+NATIVE_CC = clang
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CFLAGS = -std=gnu89 -fms-extensions -Wno-ignored-attributes
+BINARY_SOURCES = src/rc.c src/startup.c
+BINARY_SUPPORT_SOURCES = scripts/provider.c $(wildcard $(RECON)/src/*.c)
+NATIVE_LDFLAGS = -Wl,--wrap=recon_SetConsoleCtrlHandler
 
-build/debug-original.obj: scripts/debug-original.c | build
-	$(TOOL) CL.EXE /nologo /c /MD /Od /G3 /W3 /Fobuild/debug-original.obj $<
-build/debug-original.exe: build/debug-original.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< $(TC)/lib/KERNEL32.LIB
+ORIGINAL_TOOLCHAIN = 5.10
+ORIGINAL_SOURCES = src/rc.c src/startup.c
+ORIGINAL_BUILD = build
+ORIGINAL_OUTPUT = build/rc.exe
+ORIGINAL_MAP = build/rc.map
+ORIGINAL_CPPFLAGS = /I$(RECON)/include /Isrc
+ORIGINAL_CFLAGS = /nologo /c /MD /Od /G3 /W3
+ORIGINAL_LDFLAGS = /nologo /subsystem:console /entry:mainCRTStartup
+ORIGINAL_LDLIBS = build/rcdll.lib $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB
+ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
+
+RECON_AUDIT_PROFILE = cl
+RECON_IMAGE_BASE = 16777216
+RECON_POLICY = policy-data.json
+RECON_AUDIT_FLAGS = -q --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --discovery cfg --check-ret --check-imports --check-references --check-ownership --check-extents --include-evidenced-runtime
+RECON_AUDIT_REGISTRY_METADATA = 1
+RECON_AUDIT_REGISTRY_RUNTIME = 1
+RECON_AUDIT_IDENTIFY_RUNTIME = 1
+RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
+RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
+include $(RECON_TOOL_DIR)/recon-tool.mk
+
+.build/pic/src/rc.c.o .build/pic/src/startup.c.o: NATIVE_CPPFLAGS += -Dmain=rc_main
+build/obj/src/rc.c.obj: ORIGINAL_CFLAGS = /nologo /c /MD /O2 /Oy- /G3 /W3
+build/rcdll.lib: src/rcdll.def scripts/import-library.py | $(RECON_TOOL)
+	@mkdir -p $(@D)
+	python3 scripts/import-library.py $@ $(RECON_TOOL)
+.PHONY: original
+original: win32
+
+# Data imports are separate from the common qualified-call graph check.
+.PHONY: check-import-data
+audit: check-import-data
+check-import-data: $(ORIGINAL_OUTPUT) $(RECON_REGISTRY)
+	python3 scripts/check-import-data.py

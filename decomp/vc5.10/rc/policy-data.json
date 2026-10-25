@@ -1,0 +1,114 @@
+{
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {
+      "_rc_main": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_rc_diagnostic@12": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
+      }
+    },
+    "callback_tables": [],
+    "register_imports": {
+      "preservation_contracts": [
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "SetConsoleCtrlHandler"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "import-abi.json",
+            "sha256": "82b72af3a11d245918eb5c7bf413140aa467a3ee76e8cc41c3e9fa4af5728746"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "rcdll.dll",
+              "name": "RC"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "import-abi.json",
+            "sha256": "82b72af3a11d245918eb5c7bf413140aa467a3ee76e8cc41c3e9fa4af5728746"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "strchr"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "import-abi.json",
+            "sha256": "82b72af3a11d245918eb5c7bf413140aa467a3ee76e8cc41c3e9fa4af5728746"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "import-abi.json",
+            "sha256": "82b72af3a11d245918eb5c7bf413140aa467a3ee76e8cc41c3e9fa4af5728746"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "import-abi.json",
+            "sha256": "82b72af3a11d245918eb5c7bf413140aa467a3ee76e8cc41c3e9fa4af5728746"
+          }
+        }
+      ]
+    }
+  }
+}

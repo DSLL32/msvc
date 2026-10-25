@@ -1,0 +1,36 @@
+{
+  "scope": "Existing x86 cdecl/stdcall import preservation, used only to retain already-loaded callee-saved values across actual qualified calls; no inferred target or function extent.",
+  "preserves": [
+    "ebx",
+    "esi",
+    "edi",
+    "ebp"
+  ],
+  "contracts": [
+    {
+      "dll": "kernel32.dll",
+      "name": "SetConsoleCtrlHandler",
+      "abi": "stdcall2; Win32 x86 callee-saved ABI"
+    },
+    {
+      "dll": "rcdll.dll",
+      "name": "RC",
+      "abi": "stdcall6; existing original export ret24 and reconstructed driver declaration"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "strchr",
+      "abi": "cdecl2; x86 MSVCRT ABI"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "malloc",
+      "abi": "cdecl1; x86 MSVCRT ABI"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "printf",
+      "abi": "cdecl variadic; x86 MSVCRT ABI"
+    }
+  ]
+}
