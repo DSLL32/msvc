@@ -917,3 +917,32 @@ void __stdcall restore_pch_debug_state(char *filename)
     end = copy_debug_name(name, filename);
     emit_debug_type_record((end - name) + 10);
 }
+
+/* Original0x70370..0x70420, stdcall8. Embedded based-pointer symbols use
+   a stack-relative record for automatic storage and a data record otherwise. */
+unsigned __stdcall encode_debug_based_symbol(unsigned char *destination, CppSymbol *symbol)
+{
+    unsigned storage;
+    unsigned short length;
+    unsigned char *name, *end;
+    reference_debug_type(symbol->type);
+    storage = symbol->storage[0] & 7;
+    if (storage == 4 || storage == 5) {
+        *(unsigned short *)(destination + 2) = 0x200;
+        *(unsigned *)(destination + 4) = 0;
+        *(unsigned short *)(destination + 8) = symbol->type->debug_index;
+        name = destination + 10;
+        end = copy_debug_name(name, symbol->name);
+        length = (unsigned short)(end - name + 8);
+    } else {
+        *(unsigned short *)(destination + 2) = storage == 3 ? 0x201 : 0x202;
+        *(unsigned *)(destination + 4) = 0;
+        *(unsigned short *)(destination + 8) = 0;
+        *(unsigned short *)(destination + 10) = symbol->type->debug_index;
+        name = destination + 12;
+        end = copy_debug_name(name, symbol->name);
+        length = (unsigned short)(end - name + 10);
+    }
+    *(unsigned short *)destination = length;
+    return (unsigned)length + 2;
+}
