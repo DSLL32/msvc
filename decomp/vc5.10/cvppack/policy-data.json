@@ -658,6 +658,11 @@
           0
         ]
       },
+      "_find_precompiled_module": {
+        "expected_cleanup": [
+          0
+        ]
+      },
       "_resize_bytes": {
         "expected_cleanup": [
           0
@@ -1013,6 +1018,11 @@
             }
           ]
         }
+      },
+      "_find_precompiled_module": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
       }
     },
     "register_imports": {
@@ -1332,6 +1342,21 @@
           "evidence": {
             "path": "abi-policy.json",
             "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbicmp"
+            }
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "pch-import-policy.json",
+            "sha256": "ae3bfd1a2a86a55121e76c0eb72cb3fcefb6f648ced145afddb2d169c8e83385"
           }
         }
       ]

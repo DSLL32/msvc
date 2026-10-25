@@ -55,6 +55,3 @@ void register_type_server(void *leaf) { __asm { int 3 } }
 
 unsigned stream_write(CachedFile *file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }
 int resize_stream_file(CachedFile *file, int size) { __asm { int 3 } return 0; }
-
-
-ModuleInfo *find_precompiled_module(const unsigned char *name) { __asm { int 3 } return NULL; }

@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "qualified_import": {
+    "dll": "msvcrt.dll",
+    "name": "_mbsnbicmp"
+  },
+  "preserves": [
+    "ebx"
+  ],
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "export": {
+      "name": "_mbsnbicmp",
+      "ordinal": 359,
+      "rva": 25663
+    },
+    "chunks": [
+      {
+        "rva": [
+          25663,
+          25898
+        ],
+        "sha256": "536fb0bf25d0bb8ff1f052e6d9de528dbadfd759bc6aff1fc3165d9bf47dd185"
+      },
+      {
+        "rva": [
+          56919,
+          57196
+        ],
+        "sha256": "9893392d2a7f07c16a92db533843fed43ab8d8e0a77c5d3d71b72764e9802116"
+      }
+    ]
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/MBSTRING.H",
+    "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+    "line": 154,
+    "declaration": "int __cdecl _mbsnbicmp(const unsigned char *,const unsigned char *,size_t)"
+  },
+  "target": {
+    "path": "toolchains/5.10/bin/CVPACK.EXE",
+    "sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+    "iat": 4284940,
+    "load": 4246410,
+    "site": 4246441,
+    "live_range": "Cached EBX pointer survives ordinary _mbsnbicmp return and loop backedge only."
+  },
+  "proof": "Provider saves incoming EBX at7800643f. All normal returns restore it:78006510/RET6511,78006528/RET6529,7800de6d/RETde6e,7800df6a/RETdf6b. Cold code can mutate EBX/BX/BL/BH but has no return bypassing these saved-value epilogues. Calls execute with the incoming EBX still saved. Known ordinary CRT internal-callee ABI is an explicit dependency assumption, not reconstructed library credit."
+}

@@ -70,10 +70,15 @@ static const uint32_t order[] = {
     0x5470, /* _rewrite_module_global_types */
     0xc930, /* _use_precompiled_types */
     0xcb70, /* _find_precompiled_module */
+    0x54d0, /* _fatal_error */
+    0x7610, /* _message_text */
+    0x1680, /* _close_file */
+    0x23d0, /* _close_mapped_file */
+    0x1000, /* _free_bytes */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  .abi_version=RECON_ABI_VERSION,.struct_size=sizeof(ReconCase),
  .name="precompiled-catalog",.description="Shared C++ precompiled schema catalog, derived-type growth and minimum verbose packing",
  .first_entry_order=order,.first_entry_count=RECON_COUNT(order),
- .execution=RECON_IO,.terminal=RECON_FRONTIER,.frontier_rva=0xcb70,.setup=setup,.io=invoke
+ .execution=RECON_IO,.terminal=RECON_EXIT,.frontier_rva=0,.setup=setup,.io=invoke
 };

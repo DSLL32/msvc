@@ -1,4 +1,4 @@
-/* Accepted runnable baseline: 134 App bodies / 42862 original code bytes.
+/* Accepted runnable baseline: 135 App bodies / 43007 original code bytes.
  * Original CRT/import selection is support only. All addresses below are RVAs.
  * Native host adapters and dependency responses are outside the App graph. */
 #include <recon-tool.h>
@@ -99,7 +99,7 @@ static const ReconFunction functions[] = {
     { .name="_reset_type_name_cache", .entry_rva=0xc760, .code=(const ReconExtent[]){{0xc760,0xc7a1}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="reset_type_name_cache" },
     { .name="_initialize_module_type_storage", .entry_rva=0xc720, .code=(const ReconExtent[]){{0xc720,0xc75d}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="initialize_module_type_storage" },
     { .name="_record_widen", .entry_rva=0x102c0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="record_widen" },
-    { .name="_find_precompiled_module", .entry_rva=0xcb70, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="find_precompiled_module" },
+    { .name="_find_precompiled_module", .entry_rva=0xcb70, .code=(const ReconExtent[]){{0xcb70,0xcc01}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="find_precompiled_module" },
     { .name="_use_precompiled_types", .entry_rva=0xc930, .code=(const ReconExtent[]){{0xc930,0xcb67}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="use_precompiled_types" },
     { .name="_register_type_server", .entry_rva=0xbca0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="register_type_server" },
     { .name="@append_module_type@20", .entry_rva=0xc7b0, .code=(const ReconExtent[]){{0xc7b0,0xc917}}, .code_count=1, .text_data=(const ReconExtent[]){{0xc918,0xc928}}, .text_data_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="append_module_type" },

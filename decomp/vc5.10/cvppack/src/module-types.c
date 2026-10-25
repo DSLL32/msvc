@@ -1,4 +1,5 @@
 /* Stream CodeView type records into segmented storage [0040c100,0040c68f). */
+#include <mbstring.h>
 #include "files.h"
 #include "pack.h"
 #include "widen.h"
@@ -259,4 +260,23 @@ void use_precompiled_types(void *record)
     last_precompiled_module = info;
     last_precompiled_sequence = type_module_count;
     last_precompiled_count = type_record_count;
+}
+
+/* Match LF_PRECOMP's counted object name [0040cb70,0040cc01).
+ * These are the original multibyte CRT calls, including signed-char length. */
+ModuleInfo *find_precompiled_module(const unsigned char *name)
+{
+    ModuleInfo *info = module_list;
+    unsigned char object[260];
+    int length = (signed char)name[0];
+    while (info) {
+        if (info->precompiled_object_name && name[0] == info->precompiled_object_name[0] &&
+            !_mbsnbicmp(name + 1, info->precompiled_object_name + 1, length))
+            return info;
+        info = info->next;
+    }
+    _mbsnbcpy(object, name + 1, length);
+    object[length] = 0;
+    fatal_error(1017, (char *)object, NULL);
+    return info;
 }
