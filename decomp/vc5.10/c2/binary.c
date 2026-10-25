@@ -1629,8 +1629,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@prepend_input_record@8",
         .entry_rva = 0x180e,
+        .code = (const ReconExtent[]){{0x180e, 0x181e}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "prepend_input_record",
     },
     {

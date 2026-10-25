@@ -665,10 +665,6 @@ void reset_function_listing(void)
     __asm { int 3 }
 }
 
-void __fastcall prepend_input_record(C2Record *before, C2Record *record)
-{
-    __asm { int 3 }
-}
 
 void __fastcall move_input_record_before(C2Record *before, C2Record *record)
 {

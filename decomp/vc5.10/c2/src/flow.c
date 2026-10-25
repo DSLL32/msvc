@@ -123,3 +123,12 @@ C2BasicBlock *__fastcall split_function_block(C2Function *function,
     if (first->kind == 25) first->owner.block = result;
     return result;
 }
+
+void __fastcall prepend_input_record(C2Record *before, C2Record *record)
+{
+    C2Record *previous = before->previous;
+    before->previous = record;
+    record->next = before;
+    record->previous = previous;
+    previous->next = record;
+}
