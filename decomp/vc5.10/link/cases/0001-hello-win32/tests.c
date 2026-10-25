@@ -5,6 +5,7 @@
 #include "../../src/input.h"
 #include "../../src/memory.h"
 #include "../../src/files.h"
+#include "../../src/options.h"
 #include "../../harness/startup.h"
 #include <recon.h>
 
@@ -97,8 +98,26 @@ static int section_header_read(void)
     return recon_native_at_entry(read_module_symbols,check_section_header_read,
         invoke_hello,NULL)==1;
 }
+extern const char *default_phase;
+extern BYTE module_symbols_active,module_symbols_mapped;
+extern ByteBuffer symbol_read_buffer;
+extern void *__stdcall map_file_range(int,LONG,unsigned);
+static void __stdcall check_symbol_read_mapping(int file,LONG offset,unsigned bytes)
+{
+    recon_native_entry_finish(file==current_input_file && offset==1135 && bytes==666 &&
+        !strcmp(default_phase,"ReadSymbolTable") && module_symbols_active==1 &&
+        !module_symbols_mapped && !symbol_read_buffer.data &&
+        !symbol_read_buffer.used && !symbol_read_buffer.capacity &&
+        file_slots[file]->file_size==300);
+}
+static int symbol_read_mapping(void)
+{
+    return recon_native_at_entry(map_file_range,check_symbol_read_mapping,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
-    {"section-header-read",1,section_header_read}
+    {"section-header-read",1,section_header_read},
+    {"symbol-read-mapping",1,symbol_read_mapping}
 };

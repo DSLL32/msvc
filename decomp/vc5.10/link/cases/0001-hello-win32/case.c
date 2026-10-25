@@ -1,7 +1,7 @@
 #include <recon-tool.h>
 #include "../../harness/startup.h"
 #include <recon.h>
-extern const ReconTest hello_tests[3];
+extern const ReconTest hello_tests[4];
 static const uint32_t order[] = {
  0x24e60, /* _initialize_buffer12 */
  0x24e70, /* _allocate_buffer12 */
@@ -103,10 +103,11 @@ static const uint32_t order[] = {
  0x5fc90, /* _load_object_module@16 */
  0x608e0, /* OutputModule::ReadSectionHeaders */
  0x60f30, /* _read_module_symbols@12 */
+ 0xcfc0, /* _map_file_range@12 */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
- "Win32 hello link; completed section-header reader, genuine symbol-reader frontier.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x60f30,
- recon_link_setup,recon_link_invoke,NULL,hello_tests,3
+ "Win32 hello link; symbol reader, genuine mapped-range frontier.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0xcfc0,
+ recon_link_setup,recon_link_invoke,NULL,hello_tests,4
 };

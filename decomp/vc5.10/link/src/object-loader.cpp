@@ -109,11 +109,6 @@ IMAGE_SECTION_HEADER *RECON_THISCALL OutputModule::ReadSectionHeaders(IMAGE_SECT
     if (result) *result=headers;
     return headers;
 }
-IMAGE_SYMBOL *__stdcall read_module_symbols(DWORD offset,DWORD count,BYTE force_copy)
-{
-    __asm { int 3 }
-    return NULL;
-}
 char *__stdcall read_module_string_table(const char *name,DWORD offset,DWORD *size)
 {
     __asm { int 3 }
