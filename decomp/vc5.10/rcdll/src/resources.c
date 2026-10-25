@@ -615,3 +615,28 @@ void __stdcall rc_read_resource_preamble(RcResource *resource,unsigned message)
     if(rc_resource_token.kind!=13)rc_resource_error(message);
     rc_scan_resource_token(1);
 }
+
+WORD __stdcall rc_parse_menu_item(int popup)
+{
+    RcMenuItem item;
+    item.unknown518=(BYTE)popup;
+    rc_scan_resource_token(1);
+    if(rc_copy_menu_caption(item.caption)){
+        item.flags=0x10;
+        rc_scan_menu_commas();
+        if(!popup){
+            item.flags=0;
+            rc_write_apstudio_name(rc_resource_token.text);
+            if(!rc_parse_resource_style(&item.id,3))rc_resource_error(2125);
+            if(rc_resource_token.kind==15)rc_scan_resource_token(0x8000);
+        }
+        while(rc_parse_menu_attribute(rc_resource_token.kind,&item))
+            rc_scan_menu_commas();
+    }else if(rc_resource_token.kind==72){
+        item.caption[0]=0;
+        item.id=0;
+        item.flags=0;
+        rc_scan_menu_commas();
+    }else rc_resource_error(2126);
+    return rc_write_menu_item(&item);
+}

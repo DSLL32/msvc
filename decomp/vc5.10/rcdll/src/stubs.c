@@ -335,10 +335,29 @@ void __stdcall rc_parse_dialog(RcResource *resource,void *dialog,int extended)
     __asm int 3
 }
 
-unsigned __stdcall rc_parse_menu_item(int popup)
+int __stdcall rc_copy_menu_caption(WCHAR *text)
 {
     __asm int 3
     return 0;
+}
+WORD __cdecl rc_scan_menu_commas(void)
+{
+    __asm int 3
+    return 0;
+}
+int __stdcall rc_parse_menu_attribute(unsigned kind,RcMenuItem *item)
+{
+    __asm int 3
+    return 0;
+}
+WORD __stdcall rc_write_menu_item(RcMenuItem *item)
+{
+    __asm int 3
+    return 0;
+}
+void __stdcall rc_write_apstudio_name(const WCHAR *text)
+{
+    __asm int 3
 }
 void __stdcall rc_mark_last_menu_item(WORD offset)
 {

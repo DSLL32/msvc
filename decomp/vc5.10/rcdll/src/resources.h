@@ -22,6 +22,17 @@ typedef char RcResourceLayout[
     sizeof(RcResource)==0x428 && offsetof(RcResource,name)==28 &&
     offsetof(RcResource,language)==36 && offsetof(RcResource,prefix)==44 &&
     sizeof(RcResourceType)==20 && offsetof(RcResourceType,id)==12 ? 1 : -1];
+/* The menu parser owns this 520-byte local frame. The final word's role
+ * and the original C object's boundary are unknown; only actual accesses
+ * establish these members. The caption copier accepts 256 units plus NUL. */
+typedef struct RcMenuItem {
+    WORD id;
+    WCHAR caption[257];
+    WORD flags,unknown518;
+} RcMenuItem;
+typedef char RcMenuItemLayout[
+    sizeof(RcMenuItem)==520 && offsetof(RcMenuItem,caption)==2 &&
+    offsetof(RcMenuItem,flags)==516 && offsetof(RcMenuItem,unknown518)==518 ? 1 : -1];
 extern WCHAR rc_resource_name[257];
 extern RcResourceType *rc_resource_types;
 extern void *rc_string_tables;
@@ -68,7 +79,12 @@ void __stdcall rc_parse_toolbar_resource(RcResource *resource);
 void __stdcall rc_parse_dialog(RcResource *resource,void *dialog,int extended);
 int __stdcall rc_parse_menu_template(int nested,RcResource *resource);
 void __stdcall rc_read_resource_preamble(RcResource *,unsigned);
-unsigned __stdcall rc_parse_menu_item(int popup);
+WORD __stdcall rc_parse_menu_item(int popup);
+int __stdcall rc_copy_menu_caption(WCHAR *);
+WORD __cdecl rc_scan_menu_commas(void);
+int __stdcall rc_parse_menu_attribute(unsigned,RcMenuItem *);
+WORD __stdcall rc_write_menu_item(RcMenuItem *);
+void __stdcall rc_write_apstudio_name(const WCHAR *);
 void __stdcall rc_mark_last_menu_item(WORD);
 int __cdecl rc_parse_version_resource(void);
 void __stdcall rc_parse_dialog_include(RcResource *unused_resource);
