@@ -123,6 +123,7 @@ static const uint32_t order[] = {
     0x149ba, /* pointer_array_size */
     0x3acef, /* open_expression_output */
     0x3bd53, /* OutputBuffer::Open */
+    0x3fc2, /* make_integer_constant */
 };
 extern int c1xx_test_exception_counters(void);
 extern int c1xx_test_input_alias(void);
@@ -134,7 +135,7 @@ static const ReconTest tests[] = {
 };
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "minimal-cpp",
-    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine OutputBuffer::Open INT3. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
+    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine make_integer_constant INT3. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
     order, RECON_COUNT(order), NULL, 0,
-    RECON_IO, RECON_FRONTIER, 0x3bd53, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, tests, RECON_COUNT(tests)
+    RECON_IO, RECON_FRONTIER, 0x3fc2, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, tests, RECON_COUNT(tests)
 };

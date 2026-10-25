@@ -16,8 +16,8 @@ typedef struct OutputBuffer {
     void *relocation_context;
     FILE *file;
     int ok;
+    char filename[260]; /* original +1c..11f, then descriptor at+120 */
     int descriptor;
-    unsigned char mode;
 #ifdef __cplusplus
     int RECON_THISCALL Close(void);
     int RECON_THISCALL Open(const char *, const char *, const char *);

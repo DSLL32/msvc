@@ -160,7 +160,8 @@ int initialize_compiler_pass(void)
             frontend_bss.output_buffers[i].file = NULL;
             frontend_bss.output_buffers[i].ok = 0;
             frontend_bss.output_buffers[i].descriptor = 0;
-            frontend_bss.output_buffers[i].mode = 0;
+            memset(frontend_bss.output_buffers[i].filename, 0,
+                    sizeof(frontend_bss.output_buffers[i].filename));
         }
         frontend_bss.deferred_work = NULL;
         frontend_bss.token_value.integer = 0;

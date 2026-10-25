@@ -1219,9 +1219,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "OutputBuffer::Open", .entry_rva = 0x3bd53,
-        .code = (const ReconExtent[]){{0x3bd53, 0x3bd54}},
-        .code_count = 1, .definition = RECON_APP,
-        .native_symbol = "_ZN12OutputBuffer4OpenEPKcS1_S1_", .original_symbol = "?Open@OutputBuffer@@QAEHPBD00@Z",
+        .code = (const ReconExtent[]){{0x3bd53, 0x3be05}, {0x73936, 0x7397d}},
+        .code_count = 2, .definition = RECON_APP,
+        .native_symbol = "_ZN12OutputBuffer4OpenEPKcS1_S1_",
+        .implementation = RECON_IMPLEMENTED, .original_symbol = "?Open@OutputBuffer@@QAEHPBD00@Z",
     },
     {
         .name = "CompilerContextBuffer::Initialize", .entry_rva = 0x1dc55,

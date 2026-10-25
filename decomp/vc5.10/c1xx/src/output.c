@@ -13,7 +13,7 @@ void initialize_output_buffer_01(void)
     buffer->relocation_context = NULL;
     buffer->file = NULL;
     buffer->descriptor = -1;
-    buffer->mode = 0;
+    buffer->filename[0] = 0;
 }
 
 void destroy_output_buffer_01(void)
@@ -32,7 +32,7 @@ void initialize_output_buffer_02(void)
     buffer->relocation_context = NULL;
     buffer->file = NULL;
     buffer->descriptor = -1;
-    buffer->mode = 0;
+    buffer->filename[0] = 0;
 }
 
 void destroy_output_buffer_02(void)
@@ -51,7 +51,7 @@ void initialize_output_buffer_03(void)
     buffer->relocation_context = NULL;
     buffer->file = NULL;
     buffer->descriptor = -1;
-    buffer->mode = 0;
+    buffer->filename[0] = 0;
 }
 
 void destroy_output_buffer_03(void)
@@ -70,7 +70,7 @@ void initialize_output_buffer_04(void)
     buffer->relocation_context = NULL;
     buffer->file = NULL;
     buffer->descriptor = -1;
-    buffer->mode = 0;
+    buffer->filename[0] = 0;
 }
 
 void destroy_output_buffer_04(void)
@@ -89,7 +89,7 @@ void initialize_output_buffer_05(void)
     buffer->relocation_context = NULL;
     buffer->file = NULL;
     buffer->descriptor = -1;
-    buffer->mode = 0;
+    buffer->filename[0] = 0;
 }
 
 void destroy_output_buffer_05(void)
@@ -108,7 +108,7 @@ void initialize_output_buffer_06(void)
     buffer->relocation_context = NULL;
     buffer->file = NULL;
     buffer->descriptor = -1;
-    buffer->mode = 0;
+    buffer->filename[0] = 0;
 }
 
 void destroy_output_buffer_06(void)
@@ -127,7 +127,7 @@ void initialize_output_buffer_07(void)
     buffer->relocation_context = NULL;
     buffer->file = NULL;
     buffer->descriptor = -1;
-    buffer->mode = 0;
+    buffer->filename[0] = 0;
 }
 
 void destroy_output_buffer_07(void)
@@ -146,7 +146,7 @@ void initialize_output_buffer_08(void)
     buffer->relocation_context = NULL;
     buffer->file = NULL;
     buffer->descriptor = -1;
-    buffer->mode = 0;
+    buffer->filename[0] = 0;
 }
 
 void destroy_output_buffer_08(void)
