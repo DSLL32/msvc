@@ -1133,9 +1133,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_initialize_type_table", .entry_rva = 0x3ae14,
-        .code = (const ReconExtent[]){{0x3ae14, 0x3ae15}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3ae14, 0x3aea7}, {0x72e43, 0x72e7a}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "initialize_type_table",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_intern_type", .entry_rva = 0x1000,

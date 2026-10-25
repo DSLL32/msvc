@@ -104,7 +104,8 @@ FrontendData frontend_data = {
     0, /* PCH expression file */
     5, /* constant_arena_index, original cd88c */
     0, 1, 1, /* force_type_serialization, type_debug_mode, reference_context */
-    0 /* last_ir_line_delta, original cd6f0 */
+    0, /* last_ir_line_delta, original cd6f0 */
+    { NULL, NULL, NULL, NULL } /* type hash heads, actual defaults */
 };
 FrontendBss frontend_bss;
 int restore_mode;

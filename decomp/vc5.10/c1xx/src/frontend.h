@@ -60,6 +60,7 @@ typedef struct FrontendData {
     int type_debug_mode; /* cd54c, default1 */
     int reference_context; /* cdc1c, default1 */
     unsigned last_ir_line_delta; /* cd6f0, zero */
+    CompilerTypeTables type_tables; /* four original initialized NULL heads */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */

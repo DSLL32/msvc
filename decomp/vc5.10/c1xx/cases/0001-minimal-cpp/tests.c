@@ -61,6 +61,10 @@ int c1xx_test_exception_counters(void)
     frontend_data.reference_context = 167;
     frontend_data.last_ir_line_delta = 179;
     frontend_bss.ir_line_delta = 181;
+    frontend_data.type_tables.types = (CompilerTypeHash *)&frontend_data;
+    frontend_data.type_tables.mapped = (CompilerTypeMap *)&frontend_data;
+    frontend_data.type_tables.composite = (CompilerCompositeTypeHash *)&frontend_data;
+    frontend_data.type_tables.sequences = (CompilerTypeSequenceHash *)&frontend_data;
     frontend_bss.ir_record_count = 173;
     frontend_bss.current_ir_symbol = (struct CompilerSymbol *)&frontend_data;
     frontend_bss.current_function = (struct CompilerSymbol *)&frontend_data;
@@ -99,5 +103,7 @@ int c1xx_test_exception_counters(void)
         frontend_data.force_type_serialization == 0 && frontend_data.type_debug_mode == 1 &&
         frontend_data.reference_context == 1 && frontend_bss.ir_record_count == 0 &&
         frontend_data.last_ir_line_delta == 0 && frontend_bss.ir_line_delta == 0 &&
+        frontend_data.type_tables.types == NULL && frontend_data.type_tables.mapped == NULL &&
+        frontend_data.type_tables.composite == NULL && frontend_data.type_tables.sequences == NULL &&
         frontend_bss.current_ir_symbol == NULL && frontend_bss.current_function == NULL;
 }

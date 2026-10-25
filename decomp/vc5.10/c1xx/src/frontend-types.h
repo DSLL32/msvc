@@ -3,6 +3,22 @@
 #include "c1xx.h"
 #include <recon.h>
 struct CompilerTypeShape;
+struct CompilerInternedType;
+struct CompilerMappedType;
+struct CompilerCompositeType;
+struct CompilerTypeSequence;
+/* The head counts follow the actual hash masks in each lookup consumer.
+ * Entry payloads stay opaque until those functions are reconstructed. */
+typedef struct CompilerTypeHash { struct CompilerInternedType *buckets[2048]; } CompilerTypeHash;
+typedef struct CompilerTypeMap { struct CompilerMappedType *buckets[1024]; } CompilerTypeMap;
+typedef struct CompilerCompositeTypeHash { struct CompilerCompositeType *buckets[1024]; } CompilerCompositeTypeHash;
+typedef struct CompilerTypeSequenceHash { struct CompilerTypeSequence *buckets[512]; } CompilerTypeSequenceHash;
+typedef struct CompilerTypeTables {
+    CompilerTypeHash *types; /* original ccb38 */
+    CompilerTypeMap *mapped; /* cc434 */
+    CompilerCompositeTypeHash *composite; /* cc42c */
+    CompilerTypeSequenceHash *sequences; /* cc6bc */
+} CompilerTypeTables;
 typedef struct CompilerType {
     WORD flags, attributes;
     struct CompilerTypeShape *shape;

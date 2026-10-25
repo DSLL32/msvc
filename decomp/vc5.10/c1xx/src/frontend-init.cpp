@@ -329,7 +329,26 @@ extern "C" void __cdecl initialize_frontend_tables(void)
     ++array->count;
     frontend_data.frontend_pointer_table = array;
 }
-extern "C" void __cdecl initialize_type_table(void) { __asm { int 3 } }
+extern "C" void __cdecl initialize_type_table(void)
+{
+    CompilerArena *arena = &frontend_bss.arenas[0];
+    BYTE *table = arena->cursor;
+    arena->cursor += 8192;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    frontend_data.type_tables.types = (CompilerTypeHash *)table;
+    table = arena->cursor;
+    arena->cursor += 4096;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    frontend_data.type_tables.mapped = (CompilerTypeMap *)table;
+    table = arena->cursor;
+    arena->cursor += 4096;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    frontend_data.type_tables.composite = (CompilerCompositeTypeHash *)table;
+    table = arena->cursor;
+    arena->cursor += 2048;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    frontend_data.type_tables.sequences = (CompilerTypeSequenceHash *)table;
+}
 extern "C" CompilerType *__cdecl intern_type(CompilerType *description) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_global_scope(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_builtin_symbols(void) { __asm { int 3 } }
