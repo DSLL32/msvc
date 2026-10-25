@@ -451,3 +451,12 @@ unsigned short convert_old_numeric_leaf(unsigned char **source,
     *source = input;
     return length;
 }
+
+/* C6 NIL becomes the two-byte LF_NULL leaf. */
+void convert_old_leaf_80(TypeRecord *entry)
+{
+    unsigned char *record = entry->data;
+    entry->flags |= 0x400;
+    *(unsigned short *)record = 2;
+    *(unsigned short *)(record+2) = 0x0f;
+}
