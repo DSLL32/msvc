@@ -143,7 +143,6 @@ void end_seh_except(void) { __asm { int 3 } }
 void end_seh_filter(void) { __asm { int 3 } }
 void end_seh_finally(void) { __asm { int 3 } }
 void end_seh_try(void) { __asm { int 3 } }
-int __stdcall compare_names_ignore_case(const char *left, const char *right) { __asm { int 3 } return 0; }
 
 void finish_qc_loop(void) { __asm { int 3 } }
 void increment_expression_record_depth(void) { __asm { int 3 } }
@@ -558,7 +557,6 @@ void __stdcall emit_runtime_initializer_list(unsigned operation, IrToken *argume
 
 
 
-unsigned char read_asm_token(void) { __asm { int 3 } return 0; }
 
 void __stdcall report_asm_expected_token(int actual, int expected) { __asm { int 3 } }
 
@@ -566,7 +564,6 @@ RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token) { Parser
 
 void __stdcall report_asm_parser_error(char *text) { __asm { int 3 } }
 
-int finish_asm_line(void) { __asm { int 3 } return 0; }
 
 void __stdcall emit_asm_label(char *name) { __asm { int 3 } }
 
@@ -615,3 +612,7 @@ AsmExpression *__stdcall make_asm_stack_register(short reg, int index) { __asm {
 void __stdcall set_asm_operand_size(unsigned char size) { __asm { int 3 } }
 
 unsigned char __stdcall asm_size_encoding(unsigned bytes) { __asm { int 3 } return 0; }
+
+void copy_asm_comment(void) { __asm { int 3 } }
+
+short __stdcall find_asm_keyword(char *name) { __asm { int 3 } return 0; }

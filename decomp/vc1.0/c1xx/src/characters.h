@@ -56,4 +56,5 @@ enum CharacterFlags {
     CF_IDENTIFIER = 16, CF_RADIX_SUFFIX = 32, CF_SPACE = 64, CF_STOP = 128
 };
 extern unsigned char character_flags[256];
+int __stdcall compare_names_ignore_case(const char *first, const char *second);
 #endif

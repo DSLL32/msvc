@@ -1,4 +1,6 @@
 /* Current console code page's multibyte lead-byte ranges. */
+#include <ctype.h>
+#undef toupper
 #include <windows.h>
 #include "options.h"
 #include "characters.h"
@@ -86,3 +88,23 @@ unsigned char character_flags[256] = {
     CF_NUMBER | CF_IDENTIFIER, CF_NUMBER | CF_IDENTIFIER | CF_RADIX_SUFFIX, CF_NUMBER | CF_IDENTIFIER, CF_NUMBER | CF_IDENTIFIER, CF_NUMBER | CF_IDENTIFIER, CF_NUMBER | CF_IDENTIFIER, CF_NUMBER | CF_IDENTIFIER, CF_NUMBER | CF_IDENTIFIER, /* 0x70..0x77 */
     CF_NUMBER | CF_IDENTIFIER, CF_NUMBER | CF_IDENTIFIER, CF_NUMBER | CF_IDENTIFIER, 0, 0, 0, 0, 0, /* 0x78..0x7f */
 };
+
+/* Original 0x54dc0..0x54e40, stdcall8. Equal bytes avoid CRT
+   folding; a real mismatch returns the signed original-byte difference,
+   rather than the difference between the uppercase values. */
+int __stdcall compare_names_ignore_case(const char *first, const char *second)
+{
+    char left, right;
+    int folded_right, folded_left;
+    if (first == second) return 0;
+    if (!first || !second) return -1;
+    for (;;) {
+        left = *first++;
+        right = *second++;
+        if (left != right) {
+            folded_right = toupper(right);
+            folded_left = toupper(left);
+            if (folded_right != folded_left) return (int)left - (int)right;
+        } else if (!left) return 0;
+    }
+}
