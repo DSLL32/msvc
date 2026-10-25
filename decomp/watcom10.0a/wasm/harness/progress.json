@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 8,
-  "accepted_app_bytes": 287,
+  "accepted_app_functions": 9,
+  "accepted_app_bytes": 340,
   "accepted": [
     {
       "name": "main",
@@ -67,10 +67,18 @@
         113506
       ],
       "evidence": "cases/0001-help/evidence/0008-genmsomf-init"
+    },
+    {
+      "name": "PObjRegList",
+      "extent": [
+        63168,
+        63221
+      ],
+      "evidence": "cases/0001-help/evidence/0009-register-handlers"
     }
   ],
-  "current_frontier": "PObjRegList",
-  "native_ms": 5.5150060000000005,
+  "current_frontier": "do_init_stuff",
+  "native_ms": 5.179571,
   "original_ms": 1527.051,
-  "last_audit_ms": 13.347230851650238
+  "last_audit_ms": 12.369676493108273
 }

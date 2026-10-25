@@ -1,0 +1,329 @@
+{
+  "checked_accepted_extents": {
+    "original": 9,
+    "rebuilt": 9
+  },
+  "checked_functions": 9,
+  "checked_unique_accepted_extents": {
+    "original": 9,
+    "rebuilt": 9
+  },
+  "checks": [
+    "call_graph",
+    "ret_cleanup",
+    "function_references",
+    "extent_ownership",
+    "whole_extent_boundaries",
+    "accepted_index_extents",
+    "nonoverlapping_instruction_assumption"
+  ],
+  "discovery": "cfg",
+  "functions": {
+    "AsmAlloc": {
+      "edges": [
+        "Fatal",
+        "malloc"
+      ]
+    },
+    "CarveCreate": {
+      "edges": [
+        "MemAlloc",
+        "newBlk"
+      ]
+    },
+    "GenMSOmfInit": {
+      "edges": [
+        "PObjRegList"
+      ]
+    },
+    "MemAlloc": {
+      "edges": [
+        "AsmAlloc",
+        "Fatal"
+      ]
+    },
+    "ObjRecInit": {
+      "edges": [
+        "CarveCreate"
+      ]
+    },
+    "PObjRegList": {
+      "edges": []
+    },
+    "main": {
+      "edges": [
+        "MsgFini",
+        "PrintStats",
+        "WriteObjModule",
+        "do_init_stuff",
+        "main_fini",
+        "main_init"
+      ]
+    },
+    "main_init": {
+      "edges": [
+        "GenMSOmfInit",
+        "ObjRecInit"
+      ]
+    },
+    "newBlk": {
+      "edges": [
+        "MemAlloc"
+      ]
+    }
+  },
+  "image_inputs": {
+    "map": {
+      "absolute_symbols": {
+        "__DOSseg__": 4660
+      },
+      "format": "watcom10-pe",
+      "map_sha256": "0173139621ef1f7158f2f26f24d615a36fd7826ee7cf19b8d1eeac0b2d63b84c",
+      "rebuilt_pe_sha256": "e80a4270815834a8977a61ec7bafc6704f95e93e86eb290c6ce64ef47ef9550f",
+      "segment_group_bases": {
+        "1": 4259840,
+        "2": 4325376
+      }
+    },
+    "original": {
+      "allocation_tail_contents": "not inferred",
+      "analysis_base": 0,
+      "coordinates": "image-offset",
+      "declared_code_ranges": [
+        [
+          52008,
+          52061
+        ],
+        [
+          52236,
+          52287
+        ],
+        [
+          63168,
+          63221
+        ],
+        [
+          90604,
+          90629
+        ],
+        [
+          92356,
+          92381
+        ],
+        [
+          109184,
+          109223
+        ],
+        [
+          109224,
+          109277
+        ],
+        [
+          113488,
+          113506
+        ],
+        [
+          113808,
+          113831
+        ],
+        [
+          121366,
+          121546
+        ],
+        [
+          121577,
+          121586
+        ],
+        [
+          122310,
+          122426
+        ],
+        [
+          122426,
+          122466
+        ],
+        [
+          129879,
+          129906
+        ],
+        [
+          130056,
+          130131
+        ],
+        [
+          130131,
+          130210
+        ],
+        [
+          130210,
+          130234
+        ],
+        [
+          130234,
+          130423
+        ],
+        [
+          130423,
+          130656
+        ],
+        [
+          130996,
+          131431
+        ],
+        [
+          131431,
+          131558
+        ],
+        [
+          131558,
+          131601
+        ],
+        [
+          131601,
+          131795
+        ],
+        [
+          131795,
+          131798
+        ],
+        [
+          132070,
+          132078
+        ],
+        [
+          134612,
+          134732
+        ]
+      ],
+      "format": "watcom-cf",
+      "header": {
+        "allocation_size": 192512,
+        "entry_offset": 121366,
+        "header_file_offset": 80,
+        "image_file_offset": 8704,
+        "initialized_size": 164482,
+        "relocation_offset": 158638
+      },
+      "initialized_sha256": "c4ea0ad0cbf4594f8d1fd670191b75acfeee737364b80be4f2965c38f2eb6676",
+      "layout_evidence": {
+        "path": "harness/cf-profile.json",
+        "sha256": "6f0b2c71880a3e505e36bcfd010b587a85c06ea94484de025829c8a9e8d8fdcf"
+      },
+      "loader": {
+        "path": "toolchains/watcom10.0a/.patched/binnt/WASM.EXE",
+        "sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d"
+      },
+      "original_file_sha256": "f7189b9de3de853139d381816ab5ed9aefdd6a4fd988e29a023f1f5fbd640de9",
+      "ownership_basis": "explicit index records only; no CF section table or whole-image executable claim",
+      "relocation_count": 2915,
+      "relocation_groups": [
+        {
+          "count": 1203,
+          "first": 15980,
+          "last": 65529
+        },
+        {
+          "count": 1383,
+          "first": 65555,
+          "last": 130974
+        },
+        {
+          "count": 329,
+          "first": 131438,
+          "last": 158634
+        }
+      ],
+      "relocation_sha256": "3445a245ff06c07d6b13fd8606b66a89be09cf26f131d658854ae2f58a9bac71"
+    },
+    "rebuilt": {
+      "coordinates": "preferred-va",
+      "format": "pe32",
+      "original_file_sha256": "e80a4270815834a8977a61ec7bafc6704f95e93e86eb290c6ce64ef47ef9550f",
+      "preferred_base": 4194304
+    }
+  },
+  "original_accepted_graphs": {
+    "AsmAlloc": {
+      "calls": [
+        62996,
+        122310
+      ],
+      "references": [
+        4
+      ]
+    },
+    "CarveCreate": {
+      "calls": [
+        92356,
+        109184
+      ],
+      "references": [
+        0,
+        24
+      ]
+    },
+    "GenMSOmfInit": {
+      "calls": [
+        63168
+      ],
+      "references": [
+        24,
+        109536
+      ]
+    },
+    "MemAlloc": {
+      "calls": [
+        62996,
+        90604
+      ],
+      "references": [
+        4
+      ]
+    },
+    "ObjRecInit": {
+      "calls": [
+        109224
+      ],
+      "references": [
+        16,
+        34
+      ]
+    },
+    "PObjRegList": {
+      "calls": [],
+      "references": [
+        2,
+        6
+      ]
+    },
+    "main": {
+      "calls": [
+        51860,
+        52236,
+        52288,
+        62084,
+        91312,
+        92228
+      ],
+      "references": [
+        0
+      ]
+    },
+    "main_init": {
+      "calls": [
+        113488,
+        113808
+      ],
+      "references": []
+    },
+    "newBlk": {
+      "calls": [
+        92356
+      ],
+      "references": [
+        4
+      ]
+    }
+  },
+  "profile": "cl"
+}

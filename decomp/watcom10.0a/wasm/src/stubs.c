@@ -5,8 +5,6 @@
 #include <recon.h>
 
 void Fatal(unsigned message, ...) { (void)message; WASM_PENDING(); }
-void PObjRegList(const pobj_list *list, size_t len)
-{ (void)list; (void)len; WASM_PENDING(); }
 int writeTheadr(obj_rec *objr, pobj_state *state)
 { (void)objr; (void)state; WASM_PENDING(); return 0; }
 int writeComent(obj_rec *objr, pobj_state *state)
