@@ -2,6 +2,7 @@
    in the original eight-byte records carries no property meaning here. */
 #include "asm.h"
 #include "diagnostics.h"
+#include "source-input.h"
 #include <recon.h>
 
 AsmInstructionProperties asm_instruction_properties[230] = {
@@ -249,4 +250,20 @@ void __stdcall select_asm_opcode(short opcode)
     asm_operand_class = asm_instruction_properties[opcode].operand_class;
     asm_operand = asm_operands;
     asm_operands[0].address = asm_addresses;
+}
+
+/* Original 0x7f8e2..0x7f92c, cdecl. Emit records only after
+   both the operand count and the operand combinations are accepted. */
+void emit_asm_instruction(void)
+{
+    if (!validate_asm_operand_count()) report_syntax_error(414);
+    else {
+        if (asm_operand_count > 0 && !validate_asm_operands()) {
+            report_syntax_error(415);
+            return;
+        }
+        prepare_asm_instruction();
+        serialize_asm_instruction();
+        record_line_information(22);
+    }
 }

@@ -102,3 +102,16 @@ CppSymbol *__stdcall lookup_asm_symbol(char *name, int allow_label)
     }
     return symbol;
 }
+
+/* Original 0x7d9f0..0x7da3d, stdcall4. Code labels and
+   four-byte function symbols use the near-address sentinel. */
+unsigned __stdcall asm_symbol_type_size(CppSymbol *symbol)
+{
+    CType *type;
+    if ((symbol->kind & 31) == 7 && type_size(symbol->type) == 4) return 65535;
+    if ((symbol->kind & 31) == 8) return 65535;
+    type = symbol->type;
+    if (symbol->attributes & 0x400)
+        type = drop_first_type_shape(strip_based_shape(type));
+    return type_size(type);
+}

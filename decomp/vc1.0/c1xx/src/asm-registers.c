@@ -70,3 +70,42 @@ AsmExpression *__stdcall make_asm_register(short reg)
     expression->field08 = (unsigned)reg;
     return expression;
 }
+
+/* Original 0x801c5..0x80310. A bracketed register occupies one of the
+   address's two slots; the width and base/index flags distinguish x86 modes. */
+AsmExpression *__stdcall make_asm_address_register(short reg)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    AsmExpression *expression;
+    AsmAddress *address;
+    unsigned short properties;
+    unsigned diagnostic = 0;
+    char *context;
+    if (pool->remaining < (int)sizeof(AsmExpression)) refill_arena(&compiler_arena,pool);
+    expression = (AsmExpression *)pool->next;
+    pool->remaining -= sizeof(AsmExpression);
+    pool->next += sizeof(AsmExpression);
+    expression->kind = 0;
+    expression->value.integer = 0;
+    address = asm_operand->address;
+    if (address->first_register && address->second_register) diagnostic = 404;
+    else {
+        properties = asm_register_properties[reg];
+        if (!(properties & 0xc0) && ((properties >> 8) & 15) == 2) {
+            if (!address->first_register) address->first_register = (unsigned char)reg;
+            else address->second_register = (unsigned char)reg;
+            asm_operand->address->address_flags &= 0xef;
+            asm_operand->address->address_flags |= 0x16;
+            expression->kind = 1;
+        } else if (!(properties & REG_BASE) && !(properties & REG_INDEX)) diagnostic = 403;
+        else if ((properties & REG_BASE) && address->first_register) diagnostic = 402;
+        else if ((properties & REG_INDEX) && address->second_register) diagnostic = 401;
+        else diagnostic = 432;
+    }
+    if (diagnostic) {
+        context = asm_error_context();
+        if (diagnostic == 432) report_syntax_error(diagnostic,context);
+        else report_syntax_error(diagnostic,interned_name,context);
+    }
+    return expression;
+}

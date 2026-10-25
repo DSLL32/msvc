@@ -79,3 +79,30 @@ int asm_explicit_size; /* original 0x8c134 */
 /* WORD..FAR logical storage encodings, original 0xa9ef0..0xa9ef8;
    parser instructions use the biased base 0xa9ec2 plus keyword IDs46..54. */
 unsigned char asm_operand_size_codes[9] = { 1, 2, 5, 3, 4, 0, 0, 2, 5 };
+
+/* Original 0x7da77..0x7dabd, stdcall4, byte result; its ten-entry
+   switch is 0x7dabe..0x7dae5. Near/far sentinels encode address sizes. */
+unsigned char __stdcall asm_size_encoding(unsigned bytes)
+{
+    if ((int)bytes < 11) {
+        switch (bytes) {
+        case 1: return 0;
+        case 2: return 1;
+        case 4: return 2;
+        case 6: return 5;
+        case 8: return 3;
+        case 10: return 4;
+        default: return 15;
+        }
+    }
+    if (bytes == 65535) return 2;
+    if (bytes == 65534) return 5;
+    return 15;
+}
+
+/* Original 0x7dd61..0x7dd7c, stdcall4. */
+void __stdcall add_asm_displacement(unsigned value)
+{
+    asm_operand->address->displacement += value;
+    asm_operand->address->address_flags |= 2;
+}

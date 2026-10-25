@@ -1,17 +1,19 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is active at asm_symbol_type_size
-(RVA0x6d9f0). There are 1314 application source functions plus seven unchanged
-historical CRT source functions. Its first thirty accepted bodies add 8,089 code
+PARTIAL reconstruction; packet_engine is active at validate_asm_operand_count
+(RVA0x6efa6). There are 1319 application source functions plus seven unchanged
+historical CRT source functions. Its first thirty-five accepted bodies add 8,673 code
 bytes: packing and anonymous aggregates, static alias lookup, the empty lookahead
 error callback, copy-constructor selection/materialization, deferred defaults, else regions and
 runtime initializer emission, initializer object references and assembler state/operands and its separate whole grammar driver, token classification and instruction-name lookup.
-Fresh original/native comparisons, original compilation, the 1322-function
+Fresh original/native comparisons, original compilation, the 1327-function
 inherited graph/ABI audit, nine cached cases and 17 unit groups pass. Last native
-frontier run: 27.451ms; audit/setup: 1.933s; cached cases plus units: 0.249s.
-Last measured incremental native/original build: 2.173s; current fresh original
-capture: 0.900s. The subsequent assembler-parser source-list rebuild passed but
+frontier run: 29.235ms; audit/setup: 1.953s. The latest regression command took
+19.582s including a shared native-fixture rebuild/relink; individual case/test
+executions were14–33ms. The prior cached-only aggregate was0.249s.
+Last measured incremental native/original build: 4.100s; current fresh original
+capture: 1.788s. The subsequent assembler-parser source-list rebuild passed but
 its wall time was not measured.
 The one-time ABI2/shared-header rebuild took 50.602s. No old oracle was
 recaptured for shared changes. The untouched
@@ -22,7 +24,7 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1421: the 1302 trial baseline plus 88 browser and thirty packet application steps,
+1426: the 1302 trial baseline plus 88 browser and thirty-five packet application steps,
 and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
@@ -30,7 +32,7 @@ original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 322,631/476,418 .text bytes (67.72%); this is
+Application function extents cover 323,215/476,418 .text bytes (67.84%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -187,3 +189,10 @@ C++ assembler symbol lookup additionally resolves kind16/17 overload sets throug
 has_single_function, preserving its diagnostic244 recovery. Register construction
 retains unwritten expression fields. Its first build caught the C1-specific G4
 field spelling; configuration.option_G4 was corrected before reference capture.
+
+Symbol size resolution, the byte-size encoding switch, address-register
+construction, displacement accumulation and validated instruction emission are
+reconstructed. The size switch owns40 additional text-data bytes, separate from
+its71-byte code extent and from the grammar driver's320-byte switch. The reached
+address constructor keeps original16-bit-register diagnostics and touches only
+its defined expression kind/value fields.
