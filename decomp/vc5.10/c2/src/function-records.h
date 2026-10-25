@@ -9,9 +9,9 @@ typedef struct C2RegisterSet C2RegisterSet;
  * records justify the extent; other fields/defaults remain unmodeled. */
 struct C2FunctionRegister {
     C2Symbol *symbol;
-    unsigned char kind, pending05, flags, pending07;
+    unsigned char kind, view_flags, flags, pending07;
     C2FunctionRegister *canonical;
-    unsigned pending0c;
+    C2FunctionRegister *variant_next;
     unsigned short type, pending12;
     struct C2Expression *value;
     unsigned pending18;
@@ -49,6 +49,12 @@ extern C2FunctionRegister *empty_function_register;
 C2RegisterBlock *new_register_block(void);
 C2RegisterSet *__fastcall new_register_set(int pool);
 C2FunctionRegister *__fastcall new_function_register(unsigned char kind);
+C2FunctionRegister *__fastcall new_address_register(C2FunctionRegister *source,
+                                      unsigned short type, unsigned bytes, long displacement);
+int __fastcall register_types_match(unsigned short first, unsigned short second);
+C2FunctionRegister *__fastcall new_bitfield_register(C2FunctionRegister *source,
+                                                    unsigned bits, long displacement);
+void __fastcall replace_register_uses(C2FunctionRegister *source, C2FunctionRegister *replacement);
 void __fastcall clear_register_set(C2RegisterSet *set);
 void __fastcall add_register_to_set(C2RegisterSet *set, unsigned number);
 #endif

@@ -126,3 +126,105 @@ C2FunctionRegister *__fastcall new_function_register(unsigned char kind)
         return reg;
     }
 }
+
+C2FunctionRegister *__fastcall new_address_register(C2FunctionRegister *source,
+                                      unsigned short type, unsigned bytes, long displacement)
+{
+    C2FunctionRegister *root = source->canonical, *view, *widest, *reg, *next;
+    C2Expression *value = source->value;
+    C2InputSymbol *owner;
+    unsigned largest, extent;
+    long offset = (long)((unsigned)source->displacement + (unsigned)displacement);
+    long end;
+    unsigned char kind;
+
+    if (type & 0xfff) bytes = type & 0xfff;
+    if (root->kind == 1)
+        return new_bitfield_register(root, bytes << 3, (long)((unsigned)offset << 3));
+    if (bytes) {
+        for (view = root; view; view = view->variant_next) {
+            if (register_types_match(view->type, type) &&
+                view->displacement == offset && view->value_bytes == bytes)
+                return view;
+        }
+        owner = (C2InputSymbol *)root->canonical->symbol;
+        if (owner && owner->symbol.kind == 1 && (owner->attributes & 0x70) == 0x10 &&
+            !owner->symbol.name && (owner->attributes & 0x80000) &&
+            root->displacement == offset && type == 0x3004)
+            return root;
+    } else {
+        largest = 0;
+        widest = NULL;
+        for (view = root; view; view = view->variant_next) {
+            if (view->displacement == offset && largest <= view->value_bytes &&
+                (view->type & 0xf000) == 0x5000) {
+                widest = view;
+                largest = view->value_bytes;
+            }
+        }
+        if (widest) return widest;
+        end = offset;
+        for (view = root; view; view = view->variant_next) {
+            long view_end = (long)((unsigned)view->displacement + view->value_bytes);
+            if (end < view_end) end = view_end;
+        }
+        bytes = (unsigned)end - (unsigned)offset;
+        type = (unsigned short)(bytes < 0x1000 ? bytes | 0x5000 : 0x5000);
+    }
+    kind = root->kind;
+    reg = new_function_register(kind);
+    reg->type = type;
+    reg->displacement = offset;
+    reg->value_bytes = bytes;
+    reg->kind = kind;
+    reg->canonical = root;
+    reg->view_flags = (reg->view_flags & ~7) | (root->view_flags & 7);
+    reg->value = value;
+    if ((offset < root->displacement ||
+         (long)((unsigned)root->displacement + root->value_bytes) <
+         (long)((unsigned)offset + bytes)) && root->canonical->symbol) {
+        extent = bytes + (unsigned)offset - (unsigned)root->displacement;
+        if ((kind != 3 && kind != 4 && kind != 5 && kind != 6) ||
+            (long)(extent - (unsigned)root->symbol->value) <= 4) {
+            if (root->type & 0xfff) {
+                if (offset) {
+                    type = (unsigned short)((long)extent < 0x1000 ? extent | 0x5000 : 0x5000);
+                    view = new_address_register(root, type, extent, 0);
+                    reg->canonical = view;
+                    reg->variant_next = view->variant_next;
+                    view->variant_next = reg;
+                    return reg;
+                }
+                replace_register_uses(root, reg);
+                reg->canonical = reg;
+                reg->symbol = root->symbol;
+                reg->variant_next = NULL;
+                reg->symbol->input_register = reg;
+                root->symbol = NULL;
+                for (view = root; view; view = next) {
+                    next = view->variant_next;
+                    view->variant_next = reg->variant_next;
+                    view->canonical = reg;
+                    reg->variant_next = view;
+                }
+                return reg;
+            }
+            root->value_bytes = extent;
+        }
+    }
+    if (kind == 3 && (long)root->value_bytes < (long)reg->value_bytes && !offset) {
+        reg->canonical = reg;
+        reg->variant_next = NULL;
+        for (view = root; view; view = next) {
+            next = view->variant_next;
+            view->variant_next = reg->variant_next;
+            view->canonical = reg;
+            reg->variant_next = view;
+        }
+    } else {
+        reg->canonical = root;
+        reg->variant_next = root->variant_next;
+        root->variant_next = reg;
+    }
+    return reg;
+}

@@ -51,12 +51,6 @@ C2Expression * __fastcall new_assignment_expression(unsigned opcode, unsigned sh
 }
 
 
-C2FunctionRegister * __fastcall new_address_register(C2FunctionRegister *source, unsigned short type, unsigned attributes, long displacement)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression * __fastcall convert_input_expression(C2Expression **expression, unsigned short type, C2Expression **prior)
 {
     __asm { int 3 }
@@ -436,4 +430,22 @@ C2Expression *__fastcall extract_aggregate_result(C2Expression *value, C2Express
 {
     __asm { int 3 }
     return 0;
+}
+
+int __fastcall register_types_match(unsigned short first, unsigned short second)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2FunctionRegister *__fastcall new_bitfield_register(C2FunctionRegister *source,
+                                                    unsigned bits, long displacement)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __fastcall replace_register_uses(C2FunctionRegister *source, C2FunctionRegister *replacement)
+{
+    __asm { int 3 }
 }

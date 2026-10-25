@@ -75,7 +75,6 @@ C2Expression * __fastcall copy_input_operand(C2Expression *owner, C2Expression *
 C2Expression * __fastcall new_temporary_operand(unsigned short type);
 C2Expression * __fastcall new_assignment_expression(unsigned opcode, unsigned short type, C2Expression *operand, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall new_control_expression(unsigned opcode);
-C2FunctionRegister * __fastcall new_address_register(C2FunctionRegister *source, unsigned short type, unsigned attributes, long displacement);
 C2Expression * __fastcall convert_input_expression(C2Expression **expression, unsigned short type, C2Expression **prior);
 C2Expression * __fastcall new_call_expression(unsigned opcode, unsigned char convention, C2Expression *target, C2Expression *arguments, C2Expression *result, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall symbol_input_expression(C2InputSymbol *symbol);

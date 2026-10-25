@@ -1,5 +1,5 @@
 #include "case-host.h"
-extern const ReconTest numeric_tests[29];
+extern const ReconTest numeric_tests[30];
 
 static const uint32_t order[] = {
     0x528b0,
@@ -146,12 +146,13 @@ static const uint32_t order[] = {
     0x25f81,
     0x264bf,
     0x398b,
+    0x1e39,
 };
 
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "numeric-control-flow",
-    "Original /O2 /G5 CL-generated IL; partial frontier at address-register view construction, final COFF master retained.",
+    "Original /O2 /G5 CL-generated IL; partial frontier at register value-type compatibility, final COFF master retained.",
     order, RECON_COUNT(order), NULL, 0,
-    RECON_IO, RECON_FRONTIER, 0x398b,
-    setup, invoke, NULL, numeric_tests, 29
+    RECON_IO, RECON_FRONTIER, 0x1e39,
+    setup, invoke, NULL, numeric_tests, 30
 };

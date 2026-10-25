@@ -628,6 +628,24 @@ static int input_operand_pop(void)
         !operand.previous && operand.next == &tail && operand.flags == 0xa5;
 }
 
+static int widest_address_view(void)
+{
+    C2FunctionRegister rows[2], before[2];
+    memset(rows, 0, sizeof(rows));
+    rows[0].canonical = rows;
+    rows[0].variant_next = rows + 1;
+    rows[0].kind = rows[1].kind = 3;
+    rows[0].type = 0x5008;
+    rows[1].type = 0x5010;
+    rows[0].displacement = rows[1].displacement = 8;
+    rows[0].value_bytes = 8;
+    rows[1].value_bytes = 16;
+    rows[1].canonical = rows;
+    memcpy(before, rows, sizeof(rows));
+    return new_address_register(rows, 0x5000, 0, 0) == rows + 1 &&
+        !memcmp(rows, before, sizeof(rows));
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -657,5 +675,6 @@ const ReconTest numeric_tests[] = {
     {"typed register expression clears exact size and keeps register identity", 1, typed_register_record},
     {"defined return conventions retain aggregate and power-of-two rules", 1, return_storage_conventions},
     {"input type decoding retains untouched token fields", 1, input_type_fields},
-    {"operand pop clears only owned stack links and flag", 1, input_operand_pop}
+    {"operand pop clears only owned stack links and flag", 1, input_operand_pop},
+    {"open-sized address view reuses widest aggregate without mutation", 1, widest_address_view}
 };
