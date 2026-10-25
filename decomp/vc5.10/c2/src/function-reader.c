@@ -16,6 +16,13 @@ int retain_function_input_pool, pending_optimized_input;
 unsigned input_source_line_base;
 unsigned short input_value_type = 0x1004;
 
+C2ScopeHash *new_function_scope(void)
+{
+    C2ScopeHash *scope = c2_pool_allocate(1, sizeof(C2ScopeHash));
+    scope->previous = &global_scope;
+    return scope;
+}
+
 C2Function *__fastcall read_function(C2FunctionSymbol *symbol)
 {
     C2Function *function;
@@ -33,7 +40,7 @@ C2Function *__fastcall read_function(C2FunctionSymbol *symbol)
     if (c2_il_extended_header)
         c2_current_il = read_pdb_symbol_il(symbol->symbol.serial, symbol->source_file);
     else {
-        file = (symbol->additional_flags & 1) ? function_symbol_input : aux_symbol_file;
+        file = (symbol->additional_flags & 1) ? aux_symbol_file : function_symbol_input;
         c2_current_il = file;
         fseek(file, symbol->source_file, SEEK_SET);
     }
@@ -50,7 +57,7 @@ C2Function *__fastcall read_function(C2FunctionSymbol *symbol)
             read_initializer_records(file);
         c2_current_il = read_pdb_expression_il(symbol->symbol.serial, symbol->source_file);
     } else {
-        file = (symbol->additional_flags & 1) ? expression_input : aux_expression_file;
+        file = (symbol->additional_flags & 1) ? aux_expression_file : expression_input;
         c2_current_il = file;
         fseek(file, symbol->input_order, SEEK_SET);
     }

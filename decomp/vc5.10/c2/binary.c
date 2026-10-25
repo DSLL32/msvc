@@ -2138,8 +2138,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_new_function_scope",
         .entry_rva = 0x282a0,
+        .code = (const ReconExtent[]){{0x282a0, 0x282b6}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_function_scope",
     },
     {

@@ -6,11 +6,6 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-C2ScopeHash *new_function_scope(void)
-{
-    __asm { int 3 }
-    return NULL;
-}
 unsigned reset_function_line_input(void)
 {
     __asm { int 3 }
