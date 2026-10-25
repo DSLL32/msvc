@@ -1384,8 +1384,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_empty_parameter_types", .entry_rva = 0x1db84,
-        .code = (const ReconExtent[]){{0x1db84, 0x1db85}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x1db84, 0x1dbdb}, {0x61e71, 0x61e80}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "empty_parameter_types",
     },
     {

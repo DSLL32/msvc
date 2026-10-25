@@ -172,7 +172,12 @@ struct CompilerParameterSet {
 struct CompilerTypedSymbol : CompilerNamedSymbol {
     CompilerType *type; /* original +10 in this parameter-symbol variant */
 };
-struct CompilerParameterTypes;
+/* Original +4 is unmodeled. The actual pointer tail begins at+8; the
+ * native compact view starts it after count, without a placeholder field. */
+struct CompilerParameterTypes {
+    unsigned count;
+    CompilerType *types[1];
+};
 struct CompilerFunctionType {
     CompilerType *type; /* original +0 */
     BYTE symbol_count; /* +4; natural padding+5..7 is not a semantic field */

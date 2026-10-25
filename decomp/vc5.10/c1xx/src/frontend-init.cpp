@@ -1057,6 +1057,18 @@ extern "C" CompilerFunctionType *__cdecl create_function_parameters(CompilerPara
     return intern_function_type(function);
 }
 
-extern "C" CompilerParameterTypes *__cdecl empty_parameter_types(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerParameterTypes *__cdecl empty_parameter_types(void)
+{
+    if (!frontend_data.empty_parameters) {
+        CompilerArena *arena = &frontend_bss.arenas[0];
+        CompilerParameterTypes *parameters = (CompilerParameterTypes *)arena->cursor;
+        arena->cursor += 12; /* original allocation; +4 has no native field */
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        frontend_data.empty_parameters = parameters;
+        parameters->count = 1;
+        parameters->types[0] = frontend_data.builtin_types.type_0080;
+    }
+    return frontend_data.empty_parameters;
+}
 extern "C" CompilerParameterTypes *__cdecl collect_parameter_types(unsigned count, CompilerParameterSet *parameters) { __asm { int 3 } return NULL; }
 extern "C" CompilerFunctionType *__cdecl intern_function_type(CompilerFunctionType *function) { __asm { int 3 } return NULL; }
