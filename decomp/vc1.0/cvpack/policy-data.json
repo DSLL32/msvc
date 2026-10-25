@@ -1927,7 +1927,7 @@
       },
       "_convert_old_leaf_8e": {
         "abi": "void convert_old_leaf_8e(TypeRecord *)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
         "roots": []
       },

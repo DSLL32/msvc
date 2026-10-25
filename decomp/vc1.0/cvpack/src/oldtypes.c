@@ -460,3 +460,11 @@ void convert_old_leaf_80(TypeRecord *entry)
     *(unsigned short *)record = 2;
     *(unsigned short *)(record+2) = 0x0f;
 }
+
+void convert_old_leaf_8e(TypeRecord *entry)
+{
+    unsigned char *record = entry->data;
+    entry->flags |= 0x400;
+    *(unsigned short *)record = 2;
+    *(unsigned short *)(record+2) = 0x10;
+}
