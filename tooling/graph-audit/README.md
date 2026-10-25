@@ -750,3 +750,15 @@ The declaration supplies no ABI, register preservation, provider equivalence,
 function extent, acceptance or execution permission. Boundary semantics and
 behavior remain the target's explicit responsibility. Without this metadata,
 existing discovery and reports are unchanged.
+
+A canonical registry may explicitly declare `shared_return_entries` as
+`[{owner, entry, evidence: {path, sha256}}]`. Both names must denote implemented,
+nonpending application records with canonical extents. The entry must consist
+of exactly one unprefixed `C3` byte at the owner's end, and the existing CFG
+must discover that RET as an instruction start in both functions. Only this
+exact original owner/entry pair may overlap; all other ownership checks remain.
+The report records the shared executable byte and zero additional unique code
+bytes. These remain distinct graph identities; no artificial owner-to-entry
+CALL is added. Rebuilt bodies may be separate. This declaration provides no
+runtime admission or entry-trace observation; those require their own explicit
+case treatment. Without a declaration, overlap rejection is unchanged.

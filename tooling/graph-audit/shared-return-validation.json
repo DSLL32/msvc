@@ -1,0 +1,30 @@
+{
+  "scope": "Only explicit canonical App pair whose sole child C3 is the parent final discovered RET; raw identities/edges unchanged; zero additional unique code bytes or execution permission. Defaults unchanged.",
+  "release_sha256": "d7c6a5e92a55463d302be6d4402227c26fd0cd83553e23034c25051f8505b2d3",
+  "source_sha256": {
+    "src/index.rs": "6081d8fa972bb811141ff151a55c3fcd1bbfcc23c3af66057a8ed9bfd8c2e476",
+    "src/main.rs": "64bab4a946c0357bef353177224cd2db335bb9de6de965054f8dd1a58362eb7c",
+    "src/shared_returns.rs": "8fe0d7e66e954ca9c4b626a7666a5f88bbc7152634955022004f452fc39021ec",
+    "src/audit.rs": "cf085c2e8de159b690dc94c4e18fe360c5259cab3370f527270b6c1d72907287",
+    "README.md": "b0a4558c4de94fc8845d060b1fc7eccedef3e8450ab5614dcd6e93866d5658d1"
+  },
+  "verification": {
+    "focused_units": 2,
+    "all_target_clippy": "PASS",
+    "static_denials": 14,
+    "default_scoped_report_parity": "byte-equivalent",
+    "entry_guard_positive_report_parity": "byte-equivalent",
+    "scoped_owner_entry_ms": 16.37,
+    "scoped_real_caller_ms": 14.22,
+    "independent_parent_owner_entry_ms": 15.1,
+    "independent_parent_real_caller_ms": 14.6,
+    "no_target_execution": true,
+    "no_speedup_claim": true
+  },
+  "parent_review_sha256": "7c03f3b351fdfcf361c56e1ebb0c8b775de5911054a83734751cb188af78daaa",
+  "final_guard_parent_ack": {
+    "validation_sha256": "11193b949c93b03c5fa730411d145e4bffcde6695720272752102e37283f46cb",
+    "release_sha256": "d7c6a5e92a55463d302be6d4402227c26fd0cd83553e23034c25051f8505b2d3",
+    "source": "Watcom consuming-parent explicit final guard/source/hash approval"
+  }
+}

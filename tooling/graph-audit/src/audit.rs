@@ -1226,7 +1226,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         }
         for pair in ordered.windows(2) {
             ensure!(
-                pair[0].end <= pair[1].start,
+                pair[0].end <= pair[1].start || x.shared_return_entries.permits(pair[0], pair[1]),
                 "overlapping application extents"
             );
         }
@@ -1339,6 +1339,9 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             domains.insert(side,json!({"functions":ranges,"logical_function_count":ranges.len(),"interval_count":intervals,"declared_code_bytes":bytes,"unique_code_bytes":physical_bytes}));
         }
         result["owned_code_chunks"] = json!(domains);
+    }
+    if let Some(shared) = x.shared_return_entries.report() {
+        result["shared_return_entries"] = shared;
     }
     if x.o.is_cf() || x.map_provenance.is_some() {
         result["image_inputs"] =
@@ -1707,7 +1710,7 @@ fn declared_evidence(value: &Value) -> bool {
         Value::Number(v) => v.as_f64().is_some_and(|v| v != 0.0),
     }
 }
-fn structural_record(
+pub(crate) fn structural_record(
     d: &Decoder,
     pe: &impl ImageView,
     record: &Record,

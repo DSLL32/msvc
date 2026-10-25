@@ -136,6 +136,7 @@ pub fn imports(
 }
 pub type EntryNames = BTreeMap<u32, BTreeSet<String>>;
 pub struct Inputs {
+    pub shared_return_entries: crate::shared_returns::SharedReturns,
     pub o: Image,
     pub r: Image,
     pub oi: Vec<Record>,
@@ -470,14 +471,39 @@ impl Inputs {
         }
         o.bind_code(&oi)?;
         r.bind_code(&ri)?;
+        let shared_metadata = if cfg.get("shared_return_entries").is_some() {
+            ensure!(
+                a.discovery != crate::Discovery::Legacy,
+                "shared RET entries require cfg discovery"
+            );
+            a.metadata
+                .as_ref()
+                .map(|path| json(path))
+                .transpose()?
+                .unwrap_or_default()
+        } else {
+            Value::Null
+        };
+        let shared_return_entries = crate::shared_returns::SharedReturns::parse(
+            &cfg,
+            &shared_metadata,
+            &o,
+            &drivers,
+            &oi,
+            &a.project,
+        )?;
         for (side, pe, index) in [("original", &o, &oi), ("rebuilt", &r, &ri)] {
             if pe.is_cf() || index.iter().any(|record| !record.code_chunks.is_empty()) {
                 ensure!(
                     a.discovery != crate::Discovery::Legacy,
                     "code_chunks require cfg discovery; legacy mode cannot audit fragmented functions"
                 );
-                validate_chunk_ownership(pe, index)
-                    .with_context(|| format!("{side} code chunk ownership"))?;
+                if side == "original" {
+                    validate_chunk_ownership_with_shared(pe, index, &shared_return_entries)
+                } else {
+                    validate_chunk_ownership(pe, index)
+                }
+                .with_context(|| format!("{side} code chunk ownership"))?;
             }
         }
         for (n, v) in cfg["crt_defaults"].as_object().into_iter().flatten() {
@@ -517,6 +543,7 @@ impl Inputs {
             identity_only_entries,
             rebuilt_extent_checks,
             registry_support,
+            shared_return_entries,
             o,
             r,
             oi,
@@ -588,6 +615,17 @@ pub(crate) fn symbol_aliases(records: &Value, publics: &mut BTreeMap<String, u32
 }
 
 pub fn validate_chunk_ownership(pe: &impl ImageView, records: &[Record]) -> Result<()> {
+    validate_chunk_ownership_with_shared(
+        pe,
+        records,
+        &crate::shared_returns::SharedReturns::default(),
+    )
+}
+pub(crate) fn validate_chunk_ownership_with_shared(
+    pe: &impl ImageView,
+    records: &[Record],
+    shared: &crate::shared_returns::SharedReturns,
+) -> Result<()> {
     for record in records {
         let mut ranges = record.code_ranges().collect::<Vec<_>>();
         ranges.sort();
@@ -622,6 +660,9 @@ pub fn validate_chunk_ownership(pe: &impl ImageView, records: &[Record]) -> Resu
             if record.start == other.start && ranges == other_ranges {
                 continue;
             } // exact physical aliases
+            if shared.permits(record, other) {
+                continue;
+            }
             ensure!(
                 ranges
                     .iter()

@@ -12,6 +12,7 @@ mod instruction_export;
 mod pe;
 mod register_imports;
 mod ret_checks;
+mod shared_returns;
 mod watcom_map;
 use anyhow::Result;
 use clap::{Parser, ValueEnum};
