@@ -1873,9 +1873,81 @@
       },
       "_convert_old_based_pointer": {
         "abi": "void convert_old_based_pointer(TypeRecord *)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
-        "roots": []
+        "roots": [],
+        "switches": {
+          "138955": [
+            138962,
+            139088,
+            138976,
+            139088,
+            139088,
+            139088,
+            139088,
+            139088,
+            139088,
+            139088,
+            139088,
+            139088,
+            139088,
+            139088,
+            139088,
+            139088,
+            139088,
+            139008,
+            139040,
+            139050,
+            139088,
+            139088,
+            139060,
+            139072
+          ]
+        },
+        "switch_tables": [
+          {
+            "start": 139300,
+            "targets": [
+              138962,
+              139088,
+              138976,
+              139088,
+              139088,
+              139088,
+              139088,
+              139088,
+              139088,
+              139088,
+              139088,
+              139088,
+              139088,
+              139088,
+              139088,
+              139088,
+              139088,
+              139008,
+              139040,
+              139050,
+              139088,
+              139088,
+              139060,
+              139072
+            ]
+          }
+        ],
+        "compiler_switch_counts": [
+          24
+        ],
+        "alignment_padding": [
+          [
+            139035,
+            139040
+          ],
+          [
+            139195,
+            139200
+          ]
+        ]
       },
       "_convert_old_structure": {
         "abi": "void convert_old_structure(TypeRecord *)",
@@ -2257,6 +2329,19 @@
         "source": "src/stubs.c",
         "stack_cleanup": 0,
         "roots": []
+      },
+      "_get_old_symbol": {
+        "abi": "unsigned char *get_old_symbol(unsigned short)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_based_symbol": {
+        "abi": "unsigned short convert_old_based_symbol(unsigned char *,unsigned char *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 16
       }
     },
     "callback_tables": []

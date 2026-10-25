@@ -125,7 +125,7 @@ void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { _
 
 
 
-void convert_old_based_pointer(TypeRecord *entry) { __asm { int 3 } }
+
 
 
 
@@ -193,3 +193,6 @@ void convert_old_symbol_skip(void) { __asm { int 3 } }
 
 
 int __cdecl compare_line_ranges(const void *left, const void *right) { __asm { int 3 } return 0; }
+
+unsigned char *get_old_symbol(unsigned short offset) { __asm { int 3 } return 0; }
+unsigned short convert_old_based_symbol(unsigned char *output,unsigned char *input) { __asm { int 3 } return 0; }

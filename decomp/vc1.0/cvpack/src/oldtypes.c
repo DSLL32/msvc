@@ -524,3 +524,47 @@ void convert_old_leaf_8d(TypeRecord *entry)
         *(unsigned short *)(cursor+2) = 0x10;
     }
 }
+
+/* C6 based-pointer forms carry an optional segment/type/symbol extension. */
+void convert_old_based_pointer(TypeRecord *entry)
+{
+    unsigned char *old = entry->data, *record;
+    unsigned char extra[260];
+    unsigned short old_length = *(unsigned short *)(old+1);
+    unsigned short referent = *(unsigned short *)(old+5);
+    unsigned short attributes = 0, extra_length = 0, length, i;
+    int symbol = 0;
+    entry->flags |= 0x400;
+    switch (old[7]) {
+    case 0x81: attributes = 9; break;
+    case 0x83:
+        attributes = 8;
+        *(unsigned short *)extra = 0x9c;
+        extra[2] = 0;
+        extra_length = 3;
+        break;
+    case 0x92:
+        attributes = 3;
+        *(unsigned short *)extra = *(unsigned short *)(old+8);
+        extra_length = 2;
+        break;
+    case 0x93: attributes = 4; symbol = 1; break;
+    case 0x94: attributes = 5; symbol = 1; break;
+    case 0x97: attributes = 6; symbol = 1; break;
+    case 0x98: attributes = 7; symbol = 1; break;
+    }
+    if (symbol)
+        extra_length += convert_old_based_symbol(extra+extra_length,
+                         get_old_symbol(*(unsigned short *)(old+8)));
+    /* The original leaves reserved attribute bit0x0800 unwritten; also an
+       unknown encoding leaves its pointer mode unwritten. Emit zeroes. */
+    attributes |= (unsigned short)(current_module_pe&1)<<8;
+    length = extra_length+6;
+    if ((unsigned long)old_length+1 >= length) record = old;
+    else record = resize_old_type(entry, (unsigned short)(length+2));
+    *(unsigned short *)record = length;
+    *(unsigned short *)(record+2) = 2;
+    *(unsigned short *)(record+4) = attributes;
+    *(unsigned short *)(record+6) = referent;
+    for (i = 0; i < extra_length; ++i) record[8+i] = extra[i];
+}

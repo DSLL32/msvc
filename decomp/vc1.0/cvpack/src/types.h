@@ -88,6 +88,8 @@ unsigned char * resize_old_type(TypeRecord *,unsigned short);
 
 void convert_old_pointer(TypeRecord *);
 void convert_old_based_pointer(TypeRecord *);
+unsigned char *get_old_symbol(unsigned short);
+unsigned short convert_old_based_symbol(unsigned char *,unsigned char *);
 void convert_old_structure(TypeRecord *);
 void convert_old_array(TypeRecord *);
 void convert_old_procedure(TypeRecord *);
