@@ -30,7 +30,11 @@ That case remains partial at `convert_old_barray` (`0x122e0`): the original
 reads an uninitialized stack word to choose storage. This is an unresolved
 application control defect, not output padding. A candidate preserving the
 Win32 read and explicitly trapping native execution is saved in owned scratch;
-no body is accepted and no control variable is normalized. The mistakenly
+no body is accepted and no control variable is normalized. One bounded natural
+original observation measured `0x0000` in module1 (resize) and `0x007e` in
+module2 (reuse), unchanged between entry and the actual test. The original
+then exited0. The value is not consistent, so no hardcoded substitute is
+justified; original raw captures and the two-visit diagnostic remain in scratch. The mistakenly
 zeroed candidate was withdrawn in `37f62be32`; its raw history remains intact.
 `0014-mixed-c6-no-barray` is a separate authored variant excluding that type,
 with eleven types per module and adjusted references. Reproduce it with

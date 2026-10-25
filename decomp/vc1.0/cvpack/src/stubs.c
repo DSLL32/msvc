@@ -134,6 +134,9 @@ void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { _
 
 
 
+/* Original reads an unwritten WORD at entry ESP-14 to choose storage.
+   One natural two-module run observed0 (resize) then0x7e (reuse). The
+   varying control defect remains unsupported; no native branch is invented. */
 void convert_old_barray(TypeRecord *entry) { __asm { int 3 } }
 
 
