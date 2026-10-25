@@ -77,10 +77,6 @@ void __cdecl rc_undefine_macro(void)
 {
     __asm int 3
 }
-void __cdecl rc_run_preprocessor(void)
-{
-    __asm int 3
-}
 void __cdecl rc_close_preprocessor(void)
 {
     __asm int 3

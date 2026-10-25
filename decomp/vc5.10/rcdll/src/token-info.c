@@ -1,13 +1,13 @@
 #include "directives.h"
 #include <recon.h>
 
-/* Encountered descriptor rows: operators and constants used by the lexer.
+/* Encountered descriptor rows: operators/constants and punctuation used by the lexer/output loop.
  * U denotes unavailable storage, not a valid empty descriptor. Variable
  * native consumers hold before reading U; other keyword rows remain unknown. */
 #define U {NULL,0}
 RcTokenInfo rc_token_info[256]={
     U, /* token0 unavailable */
-    U, /* token1 unavailable */
+    {L"newline",1}, /* token1 */
     U, /* token2 unavailable */
     {L"string",3}, /* token3 */
     {L"float constant",94}, /* token4 */
@@ -55,8 +55,8 @@ RcTokenInfo rc_token_info[256]={
     {L"&=",89}, /* token46 */
     {L"=",47}, /* token47 */
     U, /* token48 unavailable */
-    U, /* token49 unavailable */
-    U, /* token50 unavailable */
+    {L":",49}, /* token49 */
+    {L",",50}, /* token50 */
     {L"--",109}, /* token51 */
     {L"/",97}, /* token52 */
     {L"/=",89}, /* token53 */
@@ -66,7 +66,7 @@ RcTokenInfo rc_token_info[256]={
     {L">",119}, /* token57 */
     {L">=",119}, /* token58 */
     {L"++",109}, /* token59 */
-    U, /* token60 unavailable */
+    {L"[",60}, /* token60 */
     {L"<<=",89}, /* token61 */
     {L"<<",124}, /* token62 */
     {L"<",119}, /* token63 */
@@ -87,10 +87,10 @@ RcTokenInfo rc_token_info[256]={
     {L"->",126}, /* token78 */
     U, /* token79 unavailable */
     U, /* token80 unavailable */
-    U, /* token81 unavailable */
+    {L"?",81}, /* token81 */
     {L">>=",89}, /* token82 */
     {L">>",124}, /* token83 */
-    U, /* token84 unavailable */
+    {L"~",84}, /* token84 */
     U, /* token85 unavailable */
     {L"^",86}, /* token86 */
     {L"^=",89}, /* token87 */
@@ -109,4 +109,25 @@ RcTokenInfo rc_token_info[256]={
     U, /* token100 unavailable */
     U, /* token101 unavailable */
     {L"end of file",0}, /* token102 */
+    U, /* token103 unavailable */
+    U, /* token104 unavailable */
+    U, /* token105 unavailable */
+    U, /* token106 unavailable */
+    U, /* token107 unavailable */
+    U, /* token108 unavailable */
+    U, /* token109 unavailable */
+    U, /* token110 unavailable */
+    {L"{",111}, /* token111 */
+    U, /* token112 unavailable */
+    {L"(",113}, /* token113 */
+    U, /* token114 unavailable */
+    U, /* token115 unavailable */
+    U, /* token116 unavailable */
+    {L"]",117}, /* token117 */
+    {L"}",118}, /* token118 */
+    U, /* token119 unavailable */
+    U, /* token120 unavailable */
+    {L")",121}, /* token121 */
+    U, /* token122 unavailable */
+    {L";",123}, /* token123 */
 };

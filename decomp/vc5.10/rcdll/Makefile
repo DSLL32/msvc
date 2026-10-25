@@ -34,6 +34,7 @@ BINARY_SOURCES = src/characters.c \
     src/numbers.c \
     src/preprocess-input.c \
     src/preprocess-options.c \
+    src/preprocess-output.c \
     src/preprocess.c \
     src/rc-entry.c \
     src/scanning.c \
