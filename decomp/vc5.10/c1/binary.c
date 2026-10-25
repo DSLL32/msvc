@@ -1711,8 +1711,8 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0x473c1, 0x473c2}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "_ZN20CompilerOutputBuffer10MarkGlobalEj", .original_symbol = "?MarkGlobal@CompilerOutputBuffer@@QAEXI@Z" },
     { .name = "CompilerTranslationUnit::FindSourceFile", .entry_rva = 0xac32,
-      .code = (const ReconExtent[]){{0xac32, 0xac33}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "_ZN23CompilerTranslationUnit14FindSourceFileEPKcj",
+      .code = (const ReconExtent[]){{0xac32, 0xad0f}, {0x2c463, 0x2c47f}}, .code_count = 2,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "_ZN23CompilerTranslationUnit14FindSourceFileEPKcj",
       .original_symbol = "?FindSourceFile@CompilerTranslationUnit@@QAEPAUCompilerSourceFile@@PBDI@Z" },
     { .name = "_select_pch_input", .entry_rva = 0x11f8c,
       .code = (const ReconExtent[]){{0x11f8c, 0x11f8d}}, .code_count = 1,
@@ -1726,6 +1726,13 @@ static const ReconFunction functions[] = {
     { .name = "_report_include_file", .entry_rva = 0x3d989,
       .code = (const ReconExtent[]){{0x3d989, 0x3d98a}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "report_include_file" },
+    { .name = "CompilerTranslationUnit::LookupSourceFile", .entry_rva = 0xb2a6,
+      .code = (const ReconExtent[]){{0xb2a6, 0xb2a7}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN23CompilerTranslationUnit16LookupSourceFileEP17CompilerNameEntry",
+      .original_symbol = "?LookupSourceFile@CompilerTranslationUnit@@QAEPAUCompilerSourceFile@@PAUCompilerNameEntry@@@Z" },
+    { .name = "_intern_name_span", .entry_rva = 0x28b5,
+      .code = (const ReconExtent[]){{0x28b5, 0x28b6}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "intern_name_span" },
 };
 
 static const ReconExport exports[] = {

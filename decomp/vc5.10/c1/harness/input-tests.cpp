@@ -247,7 +247,7 @@ extern "C" int c1_test_translation_unit(void)
     if (object.Initialize() != &object || !object.root ||
         object.current != object.root || object.scopes[0] != object.root ||
         object.depth || object.lookup_mode || object.retired_scopes ||
-        object.symbols || object.type_aliases) return 0;
+        object.symbols || object.source_files) return 0;
     root = object.root;
     if ((void *)root != storage + 1 || !*(void **)root || root->next || root->level ||
         root->outer || root->bucket_mask != 1023 || (void *)root->buckets != storage + 7 ||

@@ -109,7 +109,6 @@ struct CompilerSymbolTable {
     virtual void RECON_THISCALL Link(CompilerIrSymbol *symbol);
 };
 typedef char CompilerSymbolTable_size[sizeof(CompilerSymbolTable) == 24 ? 1 : -1];
-struct CompilerTypeAlias;
 struct CompilerSourceFile;
 struct CompilerTranslationUnit {
     CompilerSymbolTable *root, *current;
@@ -120,10 +119,11 @@ struct CompilerTranslationUnit {
     int lookup_mode;
     CompilerSymbolTable *retired_scopes;
     CompilerIrSymbol *symbols;
-    CompilerTypeAlias *type_aliases;
+    CompilerSourceFile *source_files;
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
     CompilerIrSymbol **RECON_THISCALL EndParameterScope(void);
     CompilerSourceFile *RECON_THISCALL FindSourceFile(const char *name, unsigned hash);
+    CompilerSourceFile *RECON_THISCALL LookupSourceFile(CompilerNameEntry *name);
     void RECON_THISCALL PushScope(CompilerSymbolTable *);
     void RECON_THISCALL Finish(void);
 };

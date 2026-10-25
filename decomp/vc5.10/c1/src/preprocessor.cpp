@@ -3,7 +3,7 @@
 #include "frontend.h"
 #include "keywords.h"
 #include "global-record.h"
-#pragma intrinsic(strcpy, memcpy)
+#pragma intrinsic(strcpy, memcpy, strlen)
 #include <recon.h>
 
 /* One boolean flag selects which encountered token IDs receive a shared
@@ -219,7 +219,7 @@ extern "C" int __cdecl compare_macro_text(const void *first, const void *second,
 /* These alternate PCH inputs remain unmodeled until their actual producers
  * and consumers are reached. The ordinary source-file path does not read them. */
 static void *unmodeled_pch_input_cursor; /* BSS RVA55924 */
-static CompilerSourceFile *unmodeled_active_source_file; /* initialized RVA5e228 */
+static int unmodeled_source_descriptor; /* initialized RVA5e228; consumed by _read */
 extern "C" void __cdecl select_pch_input(void *);
 extern "C" int __cdecl open_source_descriptor(const char *);
 extern "C" void __cdecl push_source_context(CompilerSourceFile *, int, int, int);
@@ -236,7 +236,7 @@ extern "C" int __cdecl open_source_file(const char *name, unsigned hash,
         recon_unsupported("open_source_file: unmodeled PCH source context");
 #endif
         select_pch_input(unmodeled_pch_input_cursor);
-        push_source_context(file, kind, (int)unmodeled_active_source_file, flags);
+        push_source_context(file, kind, unmodeled_source_descriptor, flags);
         return -2;
     }
     descriptor = name ? open_source_descriptor(name) : stdin->_file;
@@ -249,8 +249,45 @@ extern "C" int __cdecl open_source_file(const char *name, unsigned hash,
         report_include_file(c1_data.source_include_depth, name);
     return descriptor;
 }
+extern "C" CompilerNameEntry *__cdecl intern_name_span(const char *, unsigned, unsigned, int *);
+CompilerSourceFile *RECON_THISCALL CompilerTranslationUnit::LookupSourceFile(CompilerNameEntry *name)
+{ __asm { int 3 } return NULL; }
 CompilerSourceFile *RECON_THISCALL CompilerTranslationUnit::FindSourceFile(
     const char *name, unsigned hash)
+{
+    unsigned length;
+    int created;
+    CompilerNameEntry *identifier;
+    CompilerSourceFile *file;
+    CompilerArena *arena = &c1_bss.arenas[0];
+    if (hash) length = strlen(name);
+    else {
+        const unsigned char *text = (const unsigned char *)name;
+        while (*text) {
+            hash = (hash >> 4) + hash * 4 + *text;
+            ++text;
+        }
+        length = (unsigned)(text - (const unsigned char *)name);
+    }
+    if (length > 256) compiler_error(81, name, 256);
+    identifier = intern_name_span(name, hash, length, &created);
+    if (!created) {
+        file = LookupSourceFile(identifier);
+        if (file) return file;
+    }
+    file = (CompilerSourceFile *)arena->cursor;
+    arena->cursor += 20;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (file) {
+        file->name = identifier;
+        file->kind = 21;
+    }
+    if (source_files) file->next = source_files;
+    source_files = file;
+    return file;
+}
+extern "C" CompilerNameEntry *__cdecl intern_name_span(const char *name, unsigned hash,
+                                                        unsigned length, int *created)
 { __asm { int 3 } return NULL; }
 extern "C" void __cdecl select_pch_input(void *cursor) { __asm { int 3 } }
 extern "C" int __cdecl open_source_descriptor(const char *name) { __asm { int 3 } return -1; }

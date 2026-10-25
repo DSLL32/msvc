@@ -12,11 +12,16 @@ struct CompilerGlobalOption {
     unsigned kind;
     const BYTE *value;
 };
-/* The existing current_context.object supplies this receiver. Only its
- * encountered index DWORD is exposed; no allocation/first12-byte claim. */
+/* Source records are arena-owned20-byte nodes. Construction writes name,
+ * kind and an optional previous link; the untouched bytes have no invented
+ * defaults. The existing current_context.object supplies this same receiver. */
 struct CompilerSourceFile {
-    BYTE unmodeled_prefix[12];
+    struct CompilerNameEntry *name;
+    BYTE kind;
+    BYTE unmodeled_05[7];
     unsigned record_id;
+    CompilerSourceFile *next;
     unsigned RECON_THISCALL OutputIndex(void);
 };
+typedef char CompilerSourceFile_size[sizeof(CompilerSourceFile) == 20 ? 1 : -1];
 #endif

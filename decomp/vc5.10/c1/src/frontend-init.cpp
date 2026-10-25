@@ -566,7 +566,7 @@ CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void
     lookup_mode = 0;
     retired_scopes = NULL;
     symbols = NULL;
-    type_aliases = NULL;
+    source_files = NULL;
     if (pool->remaining < 24)
         pool->Refill(24);
     memory = pool->cursor;
