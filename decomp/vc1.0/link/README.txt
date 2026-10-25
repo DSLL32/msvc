@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 99 numbered case directories. Native
+The shared recon-tool harness discovers the 100 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,17 +21,17 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 822 application functions (759 public-reached, 63 direct-support),
-with accepted App extent union 230760/281634 (81.9361299%). The synchronous control
-handler adds one whole function/ten code bytes after the iterator checkpoint.
-Support-inclusive historical accepted extent is 261699/281634 (92.9216643%).
-The 1021 historical frontier count includes shipped CRT/import
+set now has 823 application functions (759 public-reached, 64 direct-support),
+with accepted App extent union 230823/281634 (81.9584993%). The direct OMF symbol
+adjustment adds one whole function/63 bytes after the control-handler checkpoint.
+Support-inclusive historical accepted extent is 261762/281634 (92.9440337%).
+The 1022 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
 application credit. A complete non-CRT denominator remains unavailable. At the prior cleanup checkpoint the old
 partial body/data/alignment inventory left 11108 unaccepted bytes unclassified;
 that historical inventory was not recomputed for this case and is not a current
 registry classification count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 8989 bytes outside known App/CRT/import extents,
+The current registry leaves 8926 bytes outside known App/CRT/import extents,
 including the explicit Unknown rows. This gap includes code/data/alignment and
 incomplete placeholder extents, not a reliable application denominator; no gap
 has been relabeled as CRT merely because of its location or appearance.
@@ -97,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 859 graphs for calls, RET cleanup, live function
+Current shared validation checks 860 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -418,3 +418,38 @@ time, with identical published shared C/H before and after. Raw captures, actual
 entry input, GDB state, complete file hashes and split accounting remain in:
 
     /root/.ai-tmp/msvc2/vc1.0/link/control-handler/
+
+
+Case 0099 completes the direct OMF symbol-adjustment API lifecycle. Real omf_main
+first recognizes a frozen genuine COFF input, establishing its live program-name
+owner without conversion. Real symbol-table initialization, COFF append and OMF
+insert/lookup APIs then create three owned nodes and their actual COFF indices.
+The new 63-byte helper adds positive/negative DWORD deltas modulo 32 bits. Its
+non-LEXT branch emits the original warning and still changes the selected Value;
+no warning behavior is repaired. All other symbol bytes, nodes and guarded names
+remain unchanged. Real convert_symbol_types consumes/releases the nodes; no
+bucket or node is read afterward. Real write_coff serializes the six symbols and
+releases its vector, yielding a structurally checked 132-byte COFF object.
+
+The complete 512-byte state report and 82-byte CRLF warning match. Only the
+existing COFF header timestamp at bytes 4..7 is a comparison clock field. Input
+bytes, full file inventory, empty stderr and exit 0 remain strict. Actual original
+entry formals bind the owned name and DWORD delta; native GDB checks all five
+calls, ESP+4, nonvolatiles and CW 027f/SW 0/empty tags on entry/return. This is
+direct support, not a claim that a public OMF record reaches this dormant API.
+The four Unicode FILE wrappers and generic detector remain unattributed.
+
+The initial successful authoring variant left the warning buffered at typed
+completion. Its raw result is retained; version 2 explicitly flushes target
+streams from the external driver and independently reads the completed COFF.
+This changes the test workload, not target or shim behavior. Version 2's one
+untouched baseline took 1.104s; masked frontier/completion took 0.786s/0.717s.
+Matching native completion took 14.049ms (setup 8.766/execution 2.255/checks 3.028);
+GDB took 195.850ms. At case completion, canonical compilation/relink plus all
+860 graph/RET/reference/ownership/boundary checks passed in 3.853s combined.
+The final native build took 0.468s, and all 100 cached cases plus seven focused
+tests passed in 2.029s parallel wall time with identical published shared C/H.
+No per-function full audits, regression batches or commits were added. Raw
+variants, fresh pairs, source/helper hashes and split timings remain in:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/omf-symbol-adjustment/

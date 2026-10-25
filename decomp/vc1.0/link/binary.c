@@ -5394,6 +5394,15 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_omf_adjust_symbol_value",
+        .entry_rva = 0x35fe0,
+        .code = (const ReconExtent[]){{0x35fe0, 0x3601f}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "omf_adjust_symbol_value",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_omf_record_publics",
         .entry_rva = 0x36130,
         .code = (const ReconExtent[]){{0x36130, 0x361f0}},

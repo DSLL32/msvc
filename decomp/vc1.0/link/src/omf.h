@@ -203,6 +203,7 @@ extern unsigned long omf_group_symbol_indices[OMF_MAX_SEGMENTS];
 void omf_insert_symbol(char *,unsigned long,unsigned short,short,unsigned short,unsigned short);
 unsigned omf_hash_name(const char *);
 OmfSymbol *omf_lookup_symbol(const char *);
+void omf_adjust_symbol_value(const char *,unsigned long);
 extern const unsigned long omf_alignment_bytes[8];
 extern int omf_last_comdat_segment;
 void omf_write_section_data(short,unsigned long,const void *,unsigned long);

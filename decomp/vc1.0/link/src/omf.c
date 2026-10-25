@@ -1299,6 +1299,16 @@ void omf_second_pass(void)
     omf_fixup_tail=omf_fixup_head=NULL;
 }
 
+/* Original [00045fe0,0004601f). The value field is a COFF-vector index
+ * for this direct symbol API; even a non-LEXT warning still applies the delta. */
+void omf_adjust_symbol_value(const char *name,unsigned long delta)
+{
+    OmfSymbol *symbol=omf_lookup_symbol(name);
+    if (symbol->kind!=2)
+        omf_warning("upd_static_ext: findsym() returns non-LEXT symbol for %s",name);
+    omf_coff_symbols[symbol->value].Value+=delta;
+}
+
 /* Append a COFF relocation and apply its addend [00048c60,00048d80). */
 void omf_emit_relocation(short section,unsigned long address,unsigned long symbol,
                           unsigned short type,unsigned long displacement)
