@@ -7,6 +7,19 @@ BOOL install_control_handler(void)
     return SetConsoleCtrlHandler(console_control_handler, TRUE);
 }
 
+/* 004057c2..00405800: terminate an idle driver or abort its active DLL pass. */
+BOOL WINAPI console_control_handler(DWORD event)
+{
+    interrupted = 1;
+    if (!pass_running) {
+        SetConsoleCtrlHandler(NULL, TRUE);
+        driver_exit(4);
+    }
+    if (active_pass->flags & 4)
+        active_pass->abort(2);
+    return TRUE;
+}
+
 /* 00405816..00405871: visible console height, with a redirected fallback. */
 int console_rows(void)
 {

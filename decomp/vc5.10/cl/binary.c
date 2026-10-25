@@ -74,7 +74,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .native_symbol="driver_exit", .implementation=RECON_IMPLEMENTED },
     { .name="_console_control_handler@4", .entry_rva=0x57c2,
       .code=(const ReconExtent[]){{0x57c2,0x5800}}, .code_count=1,
-      .definition=RECON_APP, .native_symbol="console_control_handler", .implementation=RECON_UNIMPLEMENTED },
+      .definition=RECON_APP, .native_symbol="console_control_handler", .implementation=RECON_IMPLEMENTED },
     { .name="_skip_space", .entry_rva=0x49c6,
       .code=(const ReconExtent[]){{0x49c6,0x49f0}}, .code_count=1,
       .definition=RECON_APP, .native_symbol="skip_space", .implementation=RECON_IMPLEMENTED },

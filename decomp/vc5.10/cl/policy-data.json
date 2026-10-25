@@ -913,6 +913,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_console_control_handler@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },
@@ -1031,7 +1036,8 @@
       "import:strcmp",
       "_deferred_from_jobs",
       "_toggle_pass",
-      "_console_rows"
+      "_console_rows",
+      "_console_control_handler@4"
     ]
   },
   "runtime_audit_names": [

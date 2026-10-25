@@ -1,6 +1,7 @@
-VC5 CL: 110/112 identified application functions implemented; 18,392/18,545
+VC5 CL: 112/112 identified application functions implemented; 18,545/18,545
 application extent bytes. Runtime/import support adds no application credit.
-Two named traps remain. This measures extents, not branches or input domains.
+No named application traps remain. This measures extents, not branches or input
+domains; runtime/import support and the 41 padding bytes are separate.
 
 make -j4 check unit        cached native IO cases and optional narrow tests
 make -j4 recon-original    original compiler build
@@ -21,8 +22,15 @@ including disabled and unknown selectors; this does not invent public bc syntax.
 Typed C1/C2, LINK and six-call MRE providers validate complete known requests
 before applying captured dependency effects; unknown or missing calls fail.
 Provider setup runs after the execution checkpoint. Fixtures never invoke Wine.
-The original console research and failed AllocConsole analysis remain in scratch
-and Git history; console_rows remains a named trap.
+Case 0016 exercises console_rows and a separate identical public CONOUT$ open
+under the actual inherited headless association: fallback 25 and LastError 6,
+with explicit canonical CRT error inputs 111/222/333. Console-open success,
+CSBI/CloseHandle and public help pagination are unvisited. Case 0017 calls the
+inactive control handler on real initialized driver state, checking actual
+cleanup entry order and full DWORD status 4. Its original nonreturn capture
+proves the typed callback entry before accepting the target exit. It does not
+claim delivered console-event equivalence, post-exit globals or active DLL abort.
+The old failed AllocConsole analysis remains preserved in scratch/history.
 
 Application code stays in src/. Native adapters, provider callbacks and import
 checks live in harness/; the strict CL contract helper remains in scripts/.
