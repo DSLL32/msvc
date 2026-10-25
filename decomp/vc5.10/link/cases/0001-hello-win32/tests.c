@@ -549,6 +549,26 @@ static int string_buffer_reserve(void)
     return recon_native_at_entry(reserve_byte_buffer,check_string_buffer_reserve,
         invoke_hello,NULL)==1;
 }
+static unsigned __stdcall check_symbol_string_append(ByteBuffer *buffer,const void *bytes,
+    unsigned count)
+{
+    HashTable *hash;
+    StringTreeNode *node=(StringTreeNode *)symbol_string_pool;
+    if (!buffer) recon_native_entry_finish(0);
+    hash=(HashTable *)((BYTE *)buffer-4);
+    recon_native_entry_finish(buffer->data && buffer->used==4 && buffer->capacity==0x4000 &&
+        hash->string_tree==node && node && node->offset==4 && !node->left && !node->right &&
+        bytes==current_module_strings+4 && count==20 &&
+        !memcmp(bytes,"_HelloWindowProc@16",20) && symbol_string_pool_remaining==4084);
+    /* The newly realloc'd string buffer is uninitialized. No unused bytes,
+     * including the reserved four-byte length prefix, are read or compared. */
+    return 0;
+}
+static int symbol_string_append(void)
+{
+    return recon_native_at_entry(append_bytes,check_symbol_string_append,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -575,5 +595,6 @@ const ReconTest hello_tests[]={
     {"comdat-hash-lookup",1,comdat_hash_lookup},
     {"intern-symbol",1,intern_symbol},
     {"string-tree-pool",1,string_tree_pool},
-    {"string-buffer-reserve",1,string_buffer_reserve}
+    {"string-buffer-reserve",1,string_buffer_reserve},
+    {"symbol-string-append",1,symbol_string_append}
 };

@@ -298,7 +298,7 @@ static const ReconFunction functions[] = {
     {"_process_x86_relocations@28",0x312b0,(const ReconExtent[]){{0x312b0,0x312b1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_x86_relocations",NULL,NULL,0,NULL},
     {"_validate_import_object_header@4",0x61040,(const ReconExtent[]){{0x61040,0x61041}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"validate_import_object_header",NULL,NULL,0,NULL},
     {"OutputLibrary::FindModule",0xf7a0,(const ReconExtent[]){{0xf7a0,0xf82c}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"_ZN13OutputLibrary10FindModuleEPKcPKv",NULL,NULL,0,"?FindModule@OutputLibrary@@QAEPAUOutputModule@@PBDPBX@Z"},
-    {"_reallocate_memory@8",0x4fea0,(const ReconExtent[]){{0x4fea0,0x4fea1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"reallocate_memory",NULL,NULL,0,NULL},
+    {"_reallocate_memory@8",0x4fea0,(const ReconExtent[]){{0x4fea0,0x4fec5}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"reallocate_memory",NULL,NULL,0,NULL},
     {"_allocate_module_index",0x31e50,(const ReconExtent[]){{0x31e50,0x31f26}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"allocate_module_index",NULL,NULL,0,NULL},
     {"_initialize_module_enumerator@8",0xfb60,(const ReconExtent[]){{0xfb60,0xfb82}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_module_enumerator",NULL,NULL,0,NULL},
     {"_next_module@4",0xfb90,(const ReconExtent[]){{0xfb90,0xfbcc}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_module",NULL,NULL,0,NULL},

@@ -164,8 +164,3 @@ BYTE __stdcall next_module(ModuleEnumerator *enumerator)
     }
     return enumerator->current!=NULL;
 }
-void *__stdcall reallocate_memory(void *memory,unsigned bytes)
-{
-    __asm { int 3 }
-    return NULL;
-}

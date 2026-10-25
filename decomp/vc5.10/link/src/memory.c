@@ -91,3 +91,10 @@ void *__stdcall allocate_virtual_memory(void *address,unsigned bytes,DWORD flags
     if (!memory) out_of_memory();
     return memory;
 }
+
+void *__stdcall reallocate_memory(void *memory,unsigned bytes)
+{
+    void *resized=realloc(memory,bytes);
+    if (!resized) out_of_memory();
+    return resized;
+}

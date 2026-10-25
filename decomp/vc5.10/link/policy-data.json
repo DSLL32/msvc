@@ -5885,6 +5885,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_reallocate_memory@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   }
