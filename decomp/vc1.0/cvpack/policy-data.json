@@ -2408,7 +2408,7 @@
       },
       "_convert_old_based_bprel16": {
         "abi": "unsigned short convert_old_based_bprel16(unsigned char *,unsigned char *)",
-        "source": "src/stubs.c",
+        "source": "src/oldsymbols.c",
         "stack_cleanup": 0,
         "roots": [],
         "return_bits": 16

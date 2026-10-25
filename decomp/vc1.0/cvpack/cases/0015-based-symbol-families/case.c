@@ -78,11 +78,12 @@ static const uint32_t order[] = {
     0x83a0,
     0x13730,
     0x13820,
+    0x13920,
 
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION, sizeof(ReconCase),
  "based-symbol-families", "Authored based-pointer symbols with actual16/32-bit local owners.",
- order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x13820,
+ order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x13920,
  NULL, invoke, NULL, NULL, 0
 };

@@ -651,3 +651,18 @@ unsigned short convert_old_based_symbol(unsigned char *output, unsigned char *in
     if (input[1]&0x80) return old_based_converters[i].wide(output, input);
     return old_based_converters[i].narrow(output, input);
 }
+
+unsigned short convert_old_based_bprel16(unsigned char *output, unsigned char *input)
+{
+    unsigned char *start = output;
+    unsigned short count = input[0]-1;
+    unsigned short length = input[0]+3;
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)output = (unsigned short)(((length+3)&0xfffc)-2);
+    *(unsigned short *)(output+2) = 0x100;
+    input += 2;
+    output += 4;
+    while (count--) *output++ = *input++;
+    while (padding--) *output++ = 0;
+    return (unsigned short)(output-start);
+}

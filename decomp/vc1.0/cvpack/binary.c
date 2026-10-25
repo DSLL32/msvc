@@ -1,5 +1,5 @@
-/* Canonical registry: 260 accepted application functions (74,625 bytes),
- * 15 named trapping stubs.
+/* Canonical registry: 261 accepted application functions (74,746 bytes),
+ * 14 named trapping stubs.
  * CRT identities include three reviewed, nonexact original CRT boundaries.
  * They grant no application credit or shipped-library body equivalence;
  * runtime-policy.json keeps their provenance and historical qualifications. */
@@ -4077,8 +4077,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_old_based_bprel16",
         .entry_rva = 0x13820,
+        .code = (const ReconExtent[]){{0x13820, 0x13899}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "convert_old_based_bprel16",
     },
     {
