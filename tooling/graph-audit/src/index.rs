@@ -144,6 +144,7 @@ pub struct Inputs {
     pub registry_support: Vec<Record>,
     pub original_support: Vec<Record>,
     pub identity_only_entries: Vec<Value>,
+    pub rebuilt_extent_checks: Vec<Value>,
     pub original_entry_names: EntryNames,
     pub rebuilt_entry_names: EntryNames,
     pub original_import_entries: BTreeSet<u32>,
@@ -370,6 +371,14 @@ impl Inputs {
                 }
         });
         let addresses: BTreeSet<_> = publics.values().copied().chain([r.code_end()?]).collect();
+        let mut rebuilt_extent_checks = Vec::new();
+        let rebuilt_map_sha = cfg[driver_key]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .any(|row| row.get("rebuilt_extent").is_some())
+            .then(|| fs::read(&map_path).map(|bytes| hash(&bytes)))
+            .transpose()?;
         for (i, d) in drivers.iter().enumerate() {
             let symbol = &d.name;
             if let Some(start) = publics.get(symbol) {
@@ -381,6 +390,17 @@ impl Inputs {
                     .next()
                     .copied()
                     .context("no function end")?;
+                let (end, check) = checked_rebuilt_extent(
+                    &r,
+                    &cfg[driver_key][i],
+                    *start,
+                    end,
+                    rebuilt_map_sha.as_deref().unwrap_or(""),
+                    &a.project,
+                )?;
+                if let Some(check) = check {
+                    rebuilt_extent_checks.push(check);
+                }
                 ri.push(Record {
                     name: d.name.clone(),
                     start: *start,
@@ -414,6 +434,15 @@ impl Inputs {
                     );
                 }
             }
+        }
+        for check in &rebuilt_extent_checks {
+            let begin = num(&check["end"])?;
+            let end = num(&check["map_envelope_end"])?;
+            ensure!(
+                ri.iter()
+                    .all(|record| record.code_ranges().all(|(a, b)| b <= begin || end <= a)),
+                "rebuilt padding overlaps declared code ownership"
+            );
         }
         let mut registry_entries = registry_entry_names(
             &cfg,
@@ -486,6 +515,7 @@ impl Inputs {
         Ok(Self {
             original_support,
             identity_only_entries,
+            rebuilt_extent_checks,
             registry_support,
             o,
             r,
@@ -616,6 +646,81 @@ pub fn identity(names: &HashMap<u32, String>, target: u32) -> String {
         .get(&target)
         .cloned()
         .unwrap_or_else(|| format!("0x{target:x}"))
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RebuiltExtent {
+    end: Value,
+    padding_hex: String,
+    image_sha256: String,
+    map_sha256: String,
+    object: Value,
+    evidence: Value,
+}
+
+fn checked_rebuilt_extent(
+    image: &Image,
+    driver: &Value,
+    start: u32,
+    envelope_end: u32,
+    map_sha256: &str,
+    project: &Path,
+) -> Result<(u32, Option<Value>)> {
+    let Some(value) = driver.get("rebuilt_extent") else {
+        return Ok((envelope_end, None));
+    };
+    let name = driver["name"].as_str().context("rebuilt extent owner")?;
+    let proof: RebuiltExtent =
+        serde_json::from_value(value.clone()).context("rebuilt_extent contract")?;
+    ensure!(
+        proof.image_sha256 == hash(image.source_bytes()) && proof.map_sha256 == map_sha256,
+        "rebuilt extent image/MAP binding differs: {name}"
+    );
+    let end = if let Some(object) = proof.end.as_object() {
+        ensure!(
+            object
+                .keys()
+                .all(|key| matches!(key.as_str(), "rebuilt_symbol" | "offset"))
+                && object.get("rebuilt_symbol").and_then(Value::as_str)
+                    == driver.get("symbol").unwrap_or(&driver["name"]).as_str(),
+            "rebuilt extent must use its own MAP symbol"
+        );
+        let offset = object
+            .get("offset")
+            .map(|v| {
+                v.as_i64()
+                    .context("rebuilt extent offset must be an integer")
+            })
+            .transpose()?
+            .unwrap_or(0);
+        u32::try_from(
+            i64::from(start)
+                .checked_add(offset)
+                .context("rebuilt extent offset overflow")?,
+        )
+        .context("rebuilt extent end outside PE32")?
+    } else {
+        num(&proof.end)?
+    };
+    ensure!(
+        start < end && end.checked_add(1) == Some(envelope_end) && proof.padding_hex == "00",
+        "rebuilt extent requires exactly one terminal zero alignment byte: {name}"
+    );
+    ensure!(
+        image.file_backed_code(end, envelope_end) && image.read(end, 1)? == [0],
+        "rebuilt extent alignment byte differs: {name}"
+    );
+    let object = crate::register_imports::verified_evidence(project, &proof.object)
+        .with_context(|| format!("rebuilt extent object {name}"))?;
+    let evidence = crate::register_imports::verified_evidence(project, &proof.evidence)
+        .with_context(|| format!("rebuilt extent witness {name}"))?;
+    Ok((
+        end,
+        Some(serde_json::json!({"name":name,"start":start,"end":end,
+        "map_envelope_end":envelope_end,"padding_hex":"00","image_sha256":proof.image_sha256,
+        "map_sha256":map_sha256,"object":object,"evidence":evidence})),
+    ))
 }
 
 /// Entry identities have no body, extent, availability or acceptance meaning.
@@ -1006,6 +1111,57 @@ pub(crate) fn integer_bytes(value: u64, width: usize) -> Result<[u8; 8]> {
 mod registry_tests {
     use super::*;
     use serde_json::json;
+    #[test]
+    fn exact_rebuilt_end_checks_padding_and_all_bound_inputs() {
+        let image = Image::Pe(crate::tests::image(&[0xc3, 0]));
+        let project = Path::new(env!("CARGO_MANIFEST_DIR"));
+        let evidence = json!({"path":"fixtures/register-preservation.json",
+            "sha256":hash(include_bytes!("../fixtures/register-preservation.json"))});
+        let map_sha = "a".repeat(64);
+        let row = json!({"name":"owner","symbol":"actual","rebuilt_extent":{
+            "end":{"rebuilt_symbol":"actual","offset":1},"padding_hex":"00",
+            "image_sha256":hash(image.source_bytes()),"map_sha256":map_sha,
+            "object":evidence,"evidence":evidence}});
+        let run = |row: &Value| {
+            checked_rebuilt_extent(&image, row, 0x401000, 0x401002, &map_sha, project)
+        };
+        let (end, proof) = run(&row).unwrap();
+        assert_eq!(end, 0x401001);
+        assert_eq!(proof.unwrap()["map_envelope_end"], 0x401002);
+        assert_eq!(run(&json!({"name":"owner"})).unwrap(), (0x401002, None));
+        for (key, value) in [
+            ("padding_hex", json!("90")),
+            ("padding_hex", json!("0000")),
+            ("end", json!(0x401000)),
+            ("end", json!(0x401002)),
+            ("end", json!(0x401003)),
+            ("end", json!({"rebuilt_symbol":"other","offset":1})),
+            ("end", json!({"rebuilt_symbol":"actual","offset":"1"})),
+            (
+                "end",
+                json!({"rebuilt_symbol":"actual","offset":1,"typo":true}),
+            ),
+            ("image_sha256", json!("0".repeat(64))),
+            ("map_sha256", json!("0".repeat(64))),
+            ("object", Value::Null),
+            ("evidence", Value::Null),
+        ] {
+            let mut wrong = row.clone();
+            wrong["rebuilt_extent"][key] = value;
+            assert!(run(&wrong).is_err(), "{key}");
+        }
+        let mut wrong = row.clone();
+        wrong["rebuilt_extent"]["typo"] = json!(true);
+        assert!(run(&wrong).is_err());
+        let changed = Image::Pe(crate::tests::image(&[0xc3, 0x90]));
+        let mut wrong = row.clone();
+        wrong["rebuilt_extent"]["image_sha256"] = json!(hash(changed.source_bytes()));
+        assert!(
+            checked_rebuilt_extent(&changed, &wrong, 0x401000, 0x401002, &map_sha, project)
+                .is_err()
+        );
+    }
+
     #[test]
     fn unknown_endpoint_selection_is_evidenced_names_only_and_strict() {
         let witness = json!({"path":"fixtures/register-preservation.json",

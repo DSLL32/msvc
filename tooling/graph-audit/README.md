@@ -725,3 +725,13 @@ Watcom zero-sized DATA tables may name a boundary exactly one past an actual PE
 section. Such otherwise-unmapped markers are recorded as `boundary_symbols` in
 MAP provenance only. They are never callable publics, body extents or mapped
 bytes; nonzero/CODE or arbitrary outside symbols still reject.
+
+An object-proven rebuilt body end can be supplied by the shared exporter as
+`driver[].rebuilt_extent`: exact end, `padding_hex:"00"`, current PE/MAP SHA256,
+plus contained `{path,sha256}` bindings for the compiled object and semantic
+witness. This initial scope accepts exactly one zero alignment byte between the
+body end and the unchanged next MAP public. The byte remains explicitly checked,
+not text-data or executable ownership. CFG roots/edges into it, overlapping code,
+stale inputs and malformed contracts reject. The common tool verifies hashes and
+boundaries, not the witness's object-format semantics. Default MAP-derived
+extents remain unchanged when no descriptor is present.

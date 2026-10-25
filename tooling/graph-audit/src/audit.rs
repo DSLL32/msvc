@@ -1013,6 +1013,21 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         validate_text_data(&x.r, other, &rebuilt_options.data, &x.ri)?;
         let mut r = flow::walk(&d, &x.r, other.start, other.end, &rebuilt_options)
             .with_context(|| format!("reconstructed {}", f.name))?;
+        for check in &x.rebuilt_extent_checks {
+            let begin = crate::index::num(&check["end"])?;
+            let end = crate::index::num(&check["map_envelope_end"])?;
+            ensure!(
+                r.calls
+                    .iter()
+                    .chain(&r.tails)
+                    .all(|target| *target < begin || end <= *target)
+                    && r.instructions
+                        .values()
+                        .all(|i| i.next() <= begin || end <= i.a),
+                "{} control flow enters verified rebuilt alignment padding",
+                f.name
+            );
+        }
         let register_report = if resolve_owner {
             let strict = crate::register_imports::strict_policy(
                 &metadata["functions"][&f.name]["register_imports"],
@@ -1218,6 +1233,11 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         .then(|| crate::instruction_export::finish(x, &metadata, instruction_exports, &report))
         .transpose()?;
     let mut result = json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report});
+    if !x.rebuilt_extent_checks.is_empty() {
+        result["rebuilt_extent_checks"] = json!({"schema":1,
+            "semantics":"exact object-bound rebuilt body end; separately verified linker alignment, no body or ABI waiver",
+            "entries":x.rebuilt_extent_checks});
+    }
     if !x.identity_only_entries.is_empty() {
         result["identity_only_entries"] = json!({"schema":1,
             "semantics":"endpoint correlation names only; no body, ABI, classification, acceptance or execution permission",
