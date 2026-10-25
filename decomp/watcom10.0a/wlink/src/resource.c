@@ -234,3 +234,59 @@ int ResReadUint32( unsigned long *value, int file )
     }
     return 0;
 }
+
+#pragma pack(1)
+struct WResHeader {
+    unsigned long Magic[2], DirOffset;
+    unsigned short NumResources, NumTypes, WResVer;
+};
+struct WResExtHeader {
+    unsigned short TargetOS, reserved[4];
+};
+#pragma pack()
+typedef char WResHeader_is_18[(sizeof(WResHeader)==18)?1:-1];
+typedef char WResExtHeader_is_10[(sizeof(WResExtHeader)==10)?1:-1];
+
+int readWResDir( int file, WResDir dir )
+{
+    WResHeader head;
+    WResExtHeader ext;
+    int error;
+
+    error = WResReadHeaderRecord( &head, file );
+    if( !error ) {
+        if( head.Magic[0] != 0xc3d4c1d7UL || head.Magic[1] != 0xc3d2cdcfUL ) {
+            error = 1;
+            WresRecordError( 3 );
+        }
+    }
+    if( !error && head.WResVer > 2 ) {
+        error = 1;
+        WresRecordError( 4 );
+    }
+    if( !error ) {
+        if( head.WResVer >= 1 ) {
+            error = (*WResRtns.seek)( file, sizeof(head), SEEK_CUR ) == -1L;
+            if( error ) {
+                WresRecordError( 9 );
+            } else {
+                error = WResReadExtHeader( &ext, file );
+            }
+        } else {
+            ext.TargetOS = 1;
+        }
+    }
+    if( !error ) {
+        dir->NumResources = head.NumResources;
+        dir->NumTypes = head.NumTypes;
+        dir->TargetOS = ext.TargetOS;
+        if( (*WResRtns.seek)( file, head.DirOffset, SEEK_SET ) == -1L ) {
+            error = 1;
+            WresRecordError( 9 );
+        }
+    }
+    if( !error ) {
+        error = readTypeList( file, dir, head.WResVer );
+    }
+    return error;
+}

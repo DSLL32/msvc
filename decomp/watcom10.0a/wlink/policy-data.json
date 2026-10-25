@@ -91,6 +91,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "readWResDir": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

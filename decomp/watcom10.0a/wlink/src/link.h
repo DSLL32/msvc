@@ -107,6 +107,11 @@ extern void __FreeTypeList( WResDir );
 extern int WResIsWResFile( int );
 extern int ResReadUint32( unsigned long *, int );
 extern int readWResDir( int, WResDir );
+typedef struct WResHeader WResHeader;
+typedef struct WResExtHeader WResExtHeader;
+extern int WResReadHeaderRecord( WResHeader *, int );
+extern int WResReadExtHeader( WResExtHeader *, int );
+extern int readTypeList( int, WResDir, unsigned short );
 extern int readMResDir( int, WResDir, int * );
 extern unsigned QWrite( int, void *, unsigned, char * );
 #include <recon.h>

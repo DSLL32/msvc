@@ -1,0 +1,12 @@
+{
+  "scope": "readWResDir259B validates two magic DWORDs and formatversion<=2, optional extendedheader, populates directory counts/targetOS, seeks directory offset and calls readTypeList. Stops at WResReadHeaderRecord. Original1994 has no newer fileinfo parameter and supportsversion2 rather than later3.",
+  "application_functions": 20,
+  "application_bytes": 2155,
+  "ABI": "Original EAXfd/EDXdir, preservesEBX/ECX/ESI/EDI; nearRET0. Exactpacked WResHeader18B/ExtHeader10B with16bitversion/counts.",
+  "bindings": {
+    "src/resource.c": "619006a2304f8b3b94c7f4f8e4a86d0860efd0fa8e0d6736afb5e51f6800c7d7",
+    "src/link.h": "2896e7f336fa8b90abd9f27cae786f32cf3f6e45088871f42aa39bda732eb667",
+    "binary.c": "574ff31528cd4a9b44c713af4c6f9e3457bd7016c6ebce7ff9f6a1c26cfc977d",
+    "policy-data.json": "52ec3b2b34c4edc7c5b5f4a904ab9156d79a75b2cc7fa590ca58f951bea7a10e"
+  }
+}
