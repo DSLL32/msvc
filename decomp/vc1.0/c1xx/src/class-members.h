@@ -23,6 +23,7 @@ typedef char FriendRecordNextOffsetMustBe8[(offsetof(FriendRecord, next) == 8) ?
 void __stdcall append_friend_record(FriendRecord *record);
 FriendRecord *__stdcall find_friend_record(unsigned *owner_index);
 void __stdcall browser_friend_reference(CppSymbol *symbol);
+char *__stdcall member_access_keyword(unsigned access);
 void __stdcall validate_anonymous_aggregate(DeclarationType *type);
 void __stdcall declare_anonymous_aggregate(CType *type);
 void __stdcall select_destructor_type(CppSymbol *member, DeclarationType *context,

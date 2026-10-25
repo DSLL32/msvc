@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1391 historical frontiers/1284 App bodies.
+ * Current reviewed boundary:1396 historical frontiers/1289 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -912,6 +912,15 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "top_packing",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_pop_packing",
+        .entry_rva = 0x114d0,
+        .code = (const ReconExtent[]) { { 0x114d0, 0x114eb } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "pop_packing",
         .implementation = RECON_IMPLEMENTED,
     },
     {
@@ -2143,12 +2152,21 @@ static const ReconFunction functions[] = {
         .native_symbol = "declare_anonymous_aggregate_object",
     },
     {
+        .name = "_member_access_keyword@4",
+        .entry_rva = 0x1e1d0,
+        .code = (const ReconExtent[]) { { 0x1e1d0, 0x1e1d1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "member_access_keyword",
+    },
+    {
         .name = "_validate_anonymous_aggregate@4",
         .entry_rva = 0x1e210,
-        .code = (const ReconExtent[]) { { 0x1e210, 0x1e211 } },
+        .code = (const ReconExtent[]) { { 0x1e210, 0x1e385 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "validate_anonymous_aggregate",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_new_tag_record@4",
@@ -2243,10 +2261,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_declare_anonymous_aggregate@4",
         .entry_rva = 0x1efe0,
-        .code = (const ReconExtent[]) { { 0x1efe0, 0x1efe1 } },
+        .code = (const ReconExtent[]) { { 0x1efe0, 0x1f227 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "declare_anonymous_aggregate",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_declare_class_member@8",
@@ -16277,18 +16296,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_push_pragma_packing@8",
         .entry_rva = 0x11920,
-        .code = (const ReconExtent[]) { { 0x11920, 0x11921 } },
+        .code = (const ReconExtent[]) { { 0x11920, 0x11956 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "push_pragma_packing",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_pop_pragma_packing@8",
         .entry_rva = 0x11960,
-        .code = (const ReconExtent[]) { { 0x11960, 0x11961 } },
+        .code = (const ReconExtent[]) { { 0x11960, 0x11a49 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "pop_pragma_packing",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_find_browser_declaration@4",

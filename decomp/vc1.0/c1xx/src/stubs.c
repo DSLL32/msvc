@@ -227,8 +227,6 @@ CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } r
 
 
 void __stdcall browser_friend_reference(CppSymbol *symbol) { __asm { int 3 } }
-void __stdcall validate_anonymous_aggregate(DeclarationType *type) { __asm { int 3 } }
-void __stdcall declare_anonymous_aggregate(CType *type) { __asm { int 3 } }
 
 void __stdcall apply_member_access_declaration(CppSymbol *owner, QualifiedDeclarator *qualified) { __asm { int 3 } }
 
@@ -554,10 +552,10 @@ void __stdcall set_default_inheritance_policy(int general) { __asm { int 3 } }
 void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
 void unpack_option_flags(unsigned flags) { __asm { int 3 } }
 
-void __stdcall push_pragma_packing(int alignment, char *label) { __asm { int 3 } }
-void __stdcall pop_pragma_packing(int alignment, char *label) { __asm { int 3 } }
 
 char *__stdcall diagnostic_format(unsigned code) { __asm { int 3 } return 0; }
 void emit_diagnostic(unsigned category, unsigned code, char *format, va_list arguments) { __asm { int 3 } }
 
 void browser_compilation_error(void) { __asm { int 3 } }
+
+char *__stdcall member_access_keyword(unsigned access) { __asm { int 3 } return 0; }

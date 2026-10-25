@@ -74,7 +74,8 @@ typedef struct CompilerOptions {
 } CompilerOptions;
 typedef struct PackingEntry {
     struct PackingEntry *next;
-    int alignment, field08;
+    int alignment;
+    char *label;
 } PackingEntry;
 typedef struct PackingStack {
     PackingEntry *active, *free;

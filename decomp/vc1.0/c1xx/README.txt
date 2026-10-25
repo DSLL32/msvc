@@ -1,25 +1,34 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; member_registry_browser is COMPLETE. Reconstruction is
-paused at this case boundary, as requested. There are 1284 application source
-functions plus seven unchanged historical CRT source functions. This completion
+PARTIAL reconstruction; packet_engine is active at static_member_from_alias
+(RVA0x45fb0). There are 1289 application source functions plus seven unchanged
+historical CRT source functions. Its first five accepted bodies add1270 code
+bytes: packing push/pop and recycling, anonymous aggregate validation and member
+copying. Fresh original/native comparisons, original compilation, the1297-function
+graph/ABI audit, nine cached cases and15 unit groups pass. Last native frontier
+run21.754ms; audit/setup1.476s; cached cases plus units0.185s. The untouched
+/O2 /G5 /Ob1 /Z7 /FR pipeline and generated executable both exit0. All six frozen
+frontend artifacts match standalone original capture; no normalization was added.
+
+member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1391: the 1302 trial baseline plus 88 application steps and that one CRT boundary.
+1396: the 1302 trial baseline plus 88 browser and five packet application steps,
+and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
 original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 314,542/476,418 .text bytes (66.02%); this is
+Application function extents cover 315,812/476,418 .text bytes (66.29%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
 2.056s, audit/case setup 1.850s, native case 31.313ms (setup 14.184ms, execution 13.263ms,
-checks 3.865ms), all eight cached cases plus unit groups 0.273s. No new case is queued.
+checks 3.865ms), all eight then-cached cases plus unit groups 0.273s.
 Commit ab264219f prematurely claimed the 70-function boundary before its failed
 native result. Fix-forward f27aab15a corrected the symbol flag byte and passed the
 unchanged original, fresh native, build, audit and cached checks before acceptance.
@@ -35,7 +44,7 @@ calls. Win32 source retains the bug; this path is not reached by the pack case.
 Build and run
 -------------
     make -j4                 # shared native i386 PIC/O0/debug libbinary.so
-    make -j4 check           # eight native-only saved-reference cases
+    make -j4 check           # nine native-only saved-reference cases
     make -j4 unit            # narrow forked native policy/control tests
     make -j4 win32           # explicit original-compiler build, uses shared Wine
     make -j4 audit           # inherited Rust graph/ABI/callback checks
@@ -62,6 +71,8 @@ Cases and provenance
 Seven complete frontend cases: cpp_basic, virtual_diamond, copy_assignment,
 stack_lifetime, new_delete, state_machine_defined_debug, member_registry_browser.
 Each checks exact streams, status and complete frontend artifacts against the cached original.
+packet_engine is partial at the frontier above, with original-backed packet,
+generated-special-member, temporary, SEH and integer/x87 assembly workloads.
 state_machine_debug remains a partial case at flush_current_function: its valid
 input encounters the unsupported native empty-closed-scope stale-local path.
 member_registry_browser is the completed case described above; capture.bin retains

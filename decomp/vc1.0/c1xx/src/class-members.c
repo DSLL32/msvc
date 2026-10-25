@@ -1303,3 +1303,91 @@ void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, Stor
     owner->detail.class_info->flags |= 0x80;
     member->cpp.parts.member_flags |= 4;
 }
+
+/* Original 0x2e210..0x2e384, stdcall4. Anonymous aggregates inherit
+   storage from their surrounding declaration and expose only public data. */
+void __stdcall validate_anonymous_aggregate(DeclarationType *context)
+{
+    CppSymbol *tag = cpp_context_stack->items[context->type->field08];
+    CppSymbol *member;
+    ClassMemberIterator iterator;
+    unsigned storage, access;
+    int at_file_scope = !declaration_mode && current_class_context < 0;
+    int found_data = 0;
+    if (!(context->storage[0] & 7))
+        context->storage[0] = (context->storage[0] & ~7) | (at_file_scope ? 2 : 4);
+    storage = context->storage[0] & 7;
+    if (storage != 3 && !(storage >= 4 && storage <= 6 && !at_file_scope)) {
+        report_syntax_error(646);
+        context->storage[0] = (context->storage[0] & ~4) | 3;
+    }
+    begin_class_members(&iterator, tag);
+    while (next_class_member(&iterator)) {
+        member = iterator.member;
+        if ((member->flags & 0x80) ||
+            ((member->kind & 31) != 2 && (member->kind & 31) != 3)) continue;
+        found_data = 1;
+        access = member->flags & 3;
+        if (access < 3)
+            report_syntax_error(626, member_access_keyword(access), member->name);
+        if ((member->storage[0] & 7) == 3) {
+            if (options.configuration.extensions_enabled)
+                report_syntax_error(619, message_text(333), member->name);
+            member->storage[0] = (member->storage[0] & ~7) | (at_file_scope ? 2 : 4);
+        }
+    }
+    if (!found_data) report_syntax_error(625);
+}
+
+/* Original 0x2efe0..0x2f226, stdcall4. Preserve the anonymous
+   aggregate's begin/end markers and copy its visible member declarations
+   into the surrounding class, retaining relative offsets for a struct. */
+void __stdcall declare_anonymous_aggregate(CType *type)
+{
+    CppSymbol *first, *last, *member, *copy, *tag;
+    unsigned offset, kind;
+    CLASS_TAG->attributes |= 0x200;
+    first = allocate_permanent(sizeof(CppSymbol));
+    first->flags |= 0x80;
+    first->kind = 3;
+    first->type = type;
+    first->name = name_alignment;
+    first->attributes |= 0x800;
+    first->flags = (first->flags & ~3) | (CLASS_CONTEXT.flags & 3);
+    offset = is_static_data_member(first) ? 0 : layout_data_member(first);
+    first->detail.value = offset;
+    tag = cpp_context_stack->items[type->field08];
+    CLASS_TAG->attributes = (CLASS_TAG->attributes & ~0x100U) | (tag->attributes & 0x100);
+    if ((tag->detail.class_info->flags & 1) || (type->flags & 0x404) == 0x404)
+        CLASS_TAG->detail.class_info->flags |= 1;
+    else CLASS_TAG->detail.class_info->flags &= ~1;
+    last = first;
+    for (member = tag->auxiliary.scope_members; member; member = member->next) {
+        kind = member->kind & 31;
+        if (kind == 15 || kind == 17 || kind == 4) continue;
+        if (find_class_member_name(member->name)) continue;
+        if (is_current_class_name(member->name)) {
+            report_syntax_error(459, format_symbol_name(member));
+            continue;
+        }
+        copy = allocate_permanent(sizeof(CppSymbol));
+        *copy = *member;
+        last->next = copy;
+        last = copy;
+        if (CLASS_CONTEXT.flags & 0x10) copy->detail.value += offset;
+        copy->flags = (copy->flags & ~3) | (CLASS_CONTEXT.flags & 3);
+    }
+    member = allocate_permanent(sizeof(CppSymbol));
+    member->flags |= 0x80;
+    member->kind = 3;
+    member->type = type;
+    member->name = name_alignment;
+    member->attributes |= 0x1000;
+    member->flags = (member->flags & ~3) | (CLASS_CONTEXT.flags & 3);
+    last->next = member;
+    if (first) {
+        member->next = 0;
+        append_class_members(first, member);
+    }
+    CLASS_CONTEXT.bit_field_type = 0;
+}

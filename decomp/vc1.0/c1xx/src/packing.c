@@ -11,7 +11,7 @@ void initialize_packing(void)
         entry->alignment = 8;
     else
         entry->alignment = options.option_Zp;
-    entry->field08 = 0;
+    entry->label = 0;
 }
 
 /* Original 0x21530..0x21545. */
@@ -42,4 +42,17 @@ PackingEntry *push_packing(PackingStack *stack)
 PackingEntry *top_packing(PackingStack *stack)
 {
     return stack->active;
+}
+
+/* Original 0x214d0..0x214ea, cdecl. Recycle the popped entry
+   without clearing its alignment or label; callers still inspect both. */
+void pop_packing(PackingStack *stack)
+{
+    PackingEntry *entry;
+    if (stack && stack->active) {
+        entry = stack->active;
+        stack->active = entry->next;
+        entry->next = stack->free;
+        stack->free = entry;
+    }
 }

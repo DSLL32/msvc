@@ -646,3 +646,44 @@ int __stdcall validate_packing(int alignment)
     compiler_warning(1, 86);
     return top_packing(packing_stack)->alignment;
 }
+
+/* Original 0x21920..0x21955, stdcall8. A zero alignment inherits
+   the current packing before the new entry is pushed; labels are interned names. */
+void __stdcall push_pragma_packing(int alignment, char *label)
+{
+    PackingEntry *entry;
+    if (!alignment) alignment = top_packing(packing_stack)->alignment;
+    entry = push_packing(packing_stack);
+    entry->alignment = alignment;
+    entry->label = label;
+}
+
+void pop_packing(PackingStack *stack);
+
+/* Original 0x21960..0x21a48, stdcall8. A named pop searches the
+   original recycled-entry chain; preserve its warnings and fallback alignment. */
+void __stdcall pop_pragma_packing(int alignment, char *label)
+{
+    PackingEntry *entry = top_packing(packing_stack);
+    if (!entry->next) {
+        compiler_warning(3, 161);
+        if (!alignment) alignment = options.option_Zp == -1 ? 8 : options.option_Zp;
+    } else {
+        pop_packing(packing_stack);
+        if (entry->label != label) {
+            if (!label) compiler_warning(3, 159, entry->label);
+            else {
+                while (entry->next) {
+                    entry = top_packing(packing_stack);
+                    pop_packing(packing_stack);
+                    if (entry->label == label) break;
+                }
+                if (entry->label != label) {
+                    compiler_warning(3, 160, label);
+                    if (!alignment) alignment = options.option_Zp == -1 ? 8 : options.option_Zp;
+                }
+            }
+        }
+    }
+    if (alignment) entry->alignment = alignment;
+}
