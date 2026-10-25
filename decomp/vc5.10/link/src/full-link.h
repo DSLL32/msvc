@@ -81,7 +81,7 @@ struct OutputModule {
     OutputModule *next;
     BYTE reserved70[20];
     WORD *incremental_state;
-    DWORD reserved88;
+    StringNode *defined_symbols;
     DWORD *symbol_bits[2], *symbol_indices;
     BYTE flags, reserved99[3];
 #ifdef __cplusplus
@@ -141,10 +141,10 @@ typedef struct SymbolAuxiliary {
 } SymbolAuxiliary;
 struct StringNode {
     IMAGE_SYMBOL symbol;
-    WORD reserved12;
+    WORD input_flags;
     Contribution *contribution;
     DWORD final_value;
-    StringNode **undefined_previous;
+    union { StringNode **undefined_previous; StringNode *defined_next; };
     StringNode *undefined_next;
     SymbolAuxiliary *auxiliary;
     DWORD reserved28, reserved2c;
@@ -201,6 +201,8 @@ typedef char SymbolOwnerAt14[(offsetof(StringNode,contribution)==0x14)?1:-1];
 typedef char SymbolValueAt18[(offsetof(StringNode,final_value)==0x18)?1:-1];
 typedef char ContributionComdatFields[(offsetof(Contribution,comdat_checksum)==0x38 &&
     offsetof(Contribution,comdat_selection)==0x3c)?1:-1];
+typedef char ModuleDefinedSymbolsAt88[(offsetof(OutputModule,defined_symbols)==0x88)?1:-1];
+typedef char SymbolInputFlagsAt12[(offsetof(StringNode,input_flags)==0x12)?1:-1];
 typedef char SymbolUndefinedLinks[(offsetof(StringNode,undefined_previous)==0x1c &&
     offsetof(StringNode,undefined_next)==0x20 && offsetof(StringNode,auxiliary)==0x24)?1:-1];
 typedef char SymbolAttributesAt34[(offsetof(StringNode,attributes)==0x34)?1:-1];

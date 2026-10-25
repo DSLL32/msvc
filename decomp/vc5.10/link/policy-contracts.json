@@ -743,6 +743,51 @@
           "declaration": "_CRTIMP char *  __cdecl strncpy(char *, const char *, size_t);"
         }
       ]
+    },
+    {
+      "identity": "msvcrt.dll!__unDName",
+      "provider_export": {
+        "ordinal": 135,
+        "rva": 68078
+      },
+      "entry_bytes": "8b44241081eca00000005333db3bc375",
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "preserves": [
+        "ebp"
+      ],
+      "abi": "Actual six-argument public exported CRT cdecl boundary, caller stack cleanup24, complete own EBP reference inventory; nested CRT and provided malloc/free callbacks obey ordinary normal-return cdecl ABI. No CRT implementation or unvisited-success claim.",
+      "declarations": [],
+      "signature": "char* __cdecl(char*,constchar*,int,void*(__cdecl*)(size_t),void(__cdecl*)(void*),unsignedshort)",
+      "original_provider_body": {
+        "begin_rva": 68078,
+        "end_rva": 68656,
+        "sha256": "988c9815ba6bbf9e959d2d21db866028669815d95958d772ba79b61b2f959b48",
+        "own_ebp_writes": [],
+        "normal_ret0_rvas": [
+          68104,
+          68485
+        ],
+        "instruction_count": 162
+      },
+      "caller_identity": {
+        "image_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+        "site": 4584193,
+        "slot": 4198636,
+        "callee_cleanup": 0,
+        "caller_cleanup": 24,
+        "arguments": [
+          "NULL",
+          "name+6",
+          "0",
+          "MSVCRT!malloc",
+          "MSVCRT!free",
+          "0x800"
+        ]
+      }
     }
   ],
   "functions": [
@@ -3042,7 +3087,8 @@
     {
       "name": "_link_warning",
       "preserves": [
-        "edi"
+        "edi",
+        "ebp"
       ],
       "original_witness": {
         "begin": 4391680,
@@ -3050,6 +3096,11 @@
         "sha256": "5109186d5ebf0457875779482b01f40d6b3731d23588ae908ebf06bbe0e91798",
         "preservation": {
           "edi": {
+            "saves": [],
+            "own_writes": [],
+            "restores": []
+          },
+          "ebp": {
             "saves": [],
             "own_writes": [],
             "restores": []

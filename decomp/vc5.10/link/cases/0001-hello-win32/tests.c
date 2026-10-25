@@ -974,7 +974,43 @@ static int symbol_class_call(void)
 {
     return recon_native_at_entry(emit_symbol_class,check_symbol_class,invoke_hello,NULL)==1;
 }
+extern void __stdcall define_input_symbol(StringNode *,Contribution *,DWORD,SHORT,WORD,
+    DWORD,OutputModule *,StringTable *);
+extern BYTE incremental_enabled;
+extern DWORD undefined_symbols;
+static void __stdcall check_input_symbol_definition(StringNode *symbol,Contribution *contribution,
+    DWORD value,SHORT section,WORD type,DWORD flags,OutputModule *module,StringTable *table)
+{
+    StringNode **previous,*next;
+    StringNode **last;
+    DWORD before_flags,before_undefined;
+    if (!symbol || !table || module!=current_input_library->module_head ||
+        contribution!=(Contribution *)module->contributions+1 ||
+        contribution->module!=module || value || section!=2 || type!=0x20 || flags ||
+        incremental_enabled || strcmp(contribution->group->section->name,".text") ||
+        (symbol->flags & 1)) recon_native_entry_finish(0);
+    previous=symbol->undefined_previous;
+    next=symbol->undefined_next;
+    last=table->undefined_last;
+    before_flags=symbol->flags;
+    before_undefined=undefined_symbols;
+    if (!previous || *previous!=symbol) recon_native_entry_finish(0);
+    define_input_symbol(symbol,contribution,value,section,type,flags,module,table);
+    recon_native_entry_finish(symbol->symbol.Value==value &&
+        symbol->symbol.SectionNumber==section && symbol->symbol.Type==type &&
+        symbol->input_flags==0 && symbol->contribution==contribution &&
+        symbol->flags==((before_flags & ~0x40c0U)|1) &&
+        !symbol->undefined_previous && !symbol->undefined_next && *previous==next &&
+        (!next || next->undefined_previous==previous) &&
+        table->undefined_last==(last==&symbol->undefined_next ? previous:last) &&
+        undefined_symbols==before_undefined-((before_flags & 0x40c0)!=0));
+}
+static int input_symbol_definition(void)
+{
+    return recon_native_at_entry(define_input_symbol,check_input_symbol_definition,invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"input-symbol-definition",1,input_symbol_definition},
     {"symbol-class-call",1,symbol_class_call},
     {"symbol-cursor-call",1,symbol_cursor},
     {"section-header-allocation",1,section_headers},

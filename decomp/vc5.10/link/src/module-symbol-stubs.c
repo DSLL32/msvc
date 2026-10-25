@@ -26,8 +26,5 @@ void __stdcall clear_incremental_undefined(StringNode *symbol,LinkContext *conte
 void __stdcall process_mac_undefined(LinkContext *context,StringNode *symbol,
     IMAGE_SYMBOL *raw,const char *name,BYTE created,OutputModule *module)
 { __asm { int 3 } }
-void __stdcall define_input_symbol(StringNode *symbol,Contribution *contribution,
-    DWORD value,SHORT section,WORD type,DWORD flags,OutputModule *module,StringTable *table)
-{ __asm { int 3 } }
 void __stdcall prepare_module_imports(OutputModule *module)
 { __asm { int 3 } }

@@ -1,8 +1,13 @@
 #include <windows.h>
 #include <string.h>
+#include <stdlib.h>
+#include <mbstring.h>
 #include "symbols.h"
 #include "files.h"
 #include "full-link.h"
+#include "full-link-functions.h"
+#include "sections.h"
+#include "options.h"
 #include <recon.h>
 
 extern void *__stdcall allocate_link_memory(unsigned,unsigned);
@@ -129,5 +134,44 @@ void __stdcall set_symbol_defined(StringNode *symbol,BYTE defined,StringTable *t
             symbol->undefined_next->undefined_previous=&symbol->undefined_next;
         if (table->undefined_last==previous) table->undefined_last=&symbol->undefined_next;
         if (!incremental_enabled) symbol->auxiliary=NULL;
+    }
+}
+
+/* Private exported MSVCRT entry used by the imported-destructor diagnostic. */
+extern char *__cdecl __unDName(char *,const char *,int,
+    void *(__cdecl *)(size_t),void (__cdecl *)(void *),unsigned short);
+extern DWORD undefined_symbols;
+extern char short_symbol_name[9];
+void __stdcall define_input_symbol(StringNode *symbol,Contribution *contribution,
+    DWORD value,SHORT section,WORD type,DWORD flags,OutputModule *module,StringTable *table)
+{
+    WORD name_kind;
+    const char *name;
+    char *decoded;
+    set_symbol_defined(symbol,1,table);
+    if (symbol->flags & 0x40c0) {
+        symbol->flags &= ~0x40c0U;
+        symbol->symbol.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
+        --undefined_symbols;
+    }
+    symbol->symbol.Value=value;
+    symbol->symbol.SectionNumber=section;
+    symbol->contribution=contribution;
+    symbol->symbol.Type=type;
+    symbol->input_flags=(WORD)flags;
+    if (contribution && contribution->group->section==import_section) {
+        name=get_symbol_name(symbol,table->hash.string_storage,&name_kind,NULL);
+        if (name_kind==1) name=strncpy(short_symbol_name,name,8);
+        if (!_mbsnbcmp((const unsigned char *)name,(const unsigned char *)"__imp_??_",9) && (name[9]=='E' || name[9]=='G')) {
+            decoded=__unDName(NULL,name+6,0,malloc,free,0x800);
+            if (decoded) {
+                link_warning(NULL,4103,decoded);
+                if (decoded!=name+6) free(decoded);
+            }
+        }
+    }
+    if (incremental_enabled) {
+        if (module->defined_symbols) symbol->defined_next=module->defined_symbols;
+        module->defined_symbols=symbol;
     }
 }

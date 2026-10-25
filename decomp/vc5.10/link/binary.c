@@ -13,7 +13,7 @@ static const ReconFunction functions[] = {
     {"_remember_common_symbol@8",0x61770,(const ReconExtent[]){{0x61770,0x61771}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remember_common_symbol",NULL,NULL,0,NULL},
     {"_clear_incremental_undefined@8",0x39050,(const ReconExtent[]){{0x39050,0x39051}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"clear_incremental_undefined",NULL,NULL,0,NULL},
     {"_process_mac_undefined@24",0x5efc0,(const ReconExtent[]){{0x5efc0,0x5efc1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_mac_undefined",NULL,NULL,0,NULL},
-    {"_define_input_symbol@32",0x5f220,(const ReconExtent[]){{0x5f220,0x5f221}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"define_input_symbol",NULL,NULL,0,NULL},
+    {"_define_input_symbol@32",0x5f220,(const ReconExtent[]){{0x5f220,0x5f351}},1,(const ReconExtent[]){{0x923c,0x9246}},1,RECON_APP,RECON_IMPLEMENTED,"define_input_symbol",NULL,NULL,0,NULL},
     {"_prepare_module_imports@4",0x5f360,(const ReconExtent[]){{0x5f360,0x5f361}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"prepare_module_imports",NULL,NULL,0,NULL},
     {"___CxxFrameHandler",0x65270,(const ReconExtent[]){{0x65270,0x65276}},1,NULL,0,RECON_IMPORT_NAME,RECON_UNIMPLEMENTED,NULL,"msvcrt.dll","__CxxFrameHandler",0,NULL},
     {"_main",0xde90,(const ReconExtent[]){{0xde90,0xe252}},1,(const ReconExtent[]){{0x17e8,0x17f4},{0x153c,0x1543},{0x152c,0x153c},{0x1524,0x152b},{0x151c,0x1523},{0x1514,0x151b},{0x17e0,0x17e8},{0x17b8,0x17e0},{0x1728,0x17b6},{0x1700,0x1725},{0x1588,0x16fe},{0x1ef4,0x1eff}},12,RECON_APP,RECON_IMPLEMENTED,"link_main",NULL,NULL,0,NULL},
