@@ -1133,8 +1133,8 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_intern_type", .entry_rva = 0x232b,
-.code = (const ReconExtent[]){{0x232b, 0x232c}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x232b, 0x23f9}},
+.code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
 .native_symbol = "intern_type",
     },
     {

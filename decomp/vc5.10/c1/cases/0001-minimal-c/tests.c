@@ -183,7 +183,39 @@ static int type_table_storage(void)
     for (i = 0; i < 4098; ++i) if (storage[i] != 0xa5a5a5a5) return 0;
     return 1;
 }
-const ReconTest minimal_tests[15] = {
+extern CompilerType *__cdecl intern_type(CompilerType *);
+static int type_interning(void)
+{
+    CompilerTypeEntry *buckets[2048] = { 0 };
+    DWORD storage[17];
+    CompilerType key = { 0, 0, NULL, 0, 37 };
+    CompilerType *first, *second, *third;
+    CompilerPool *pool = &c1_bss.pools[0];
+    unsigned i;
+    for (i = 0; i < 17; ++i) storage[i] = 0xa5a5a5a5;
+    c1_data.type_buckets = buckets;
+    c1_data.options.debug_info = 0;
+    pool->cursor = (BYTE *)(storage + 1);
+    pool->remaining = 60;
+    first = intern_type(&key);
+    key.debug_index = 99;
+    if (first->debug_index != 37 || intern_type(&key) != first ||
+        pool->remaining != 40) return 0;
+    key.flags = 2048; /* Same bucket, distinct semantic key. */
+    second = intern_type(&key);
+    if (second == first || buckets[0]->next != (CompilerTypeEntry *)(storage + 1) ||
+        second->flags != 2048 || second->debug_index != 99) return 0;
+    key.flags = 0;
+    if (intern_type(&key) != first) return 0;
+    key.attributes = 1;
+    c1_data.options.debug_info = 1;
+    third = intern_type(&key);
+    return third != first && third != second && third->debug_index == 0 &&
+        third->attributes == 1 && pool->remaining == 0 &&
+        pool->cursor == (BYTE *)(storage + 16) && storage[0] == 0xa5a5a5a5 &&
+        storage[16] == 0xa5a5a5a5;
+}
+const ReconTest minimal_tests[16] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -198,5 +230,6 @@ const ReconTest minimal_tests[15] = {
     { "output reservation bounds and no state mutation", 1, c1_test_output_ensure },
     { "buffer growth preserves used bytes, zeros tail and publishes relocation", 1, c1_test_output_grow },
     { "flush suppression resets cursor and retains bytes without stream access", 1, c1_test_output_flush_suppression },
-    { "type hash tables own exact arena spans without clearing them", 1, type_table_storage }
+    { "type hash tables own exact arena spans without clearing them", 1, type_table_storage },
+    { "type interning shares semantic keys, retains collision chains and handles debug cache", 1, type_interning }
 };

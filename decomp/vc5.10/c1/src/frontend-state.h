@@ -23,6 +23,12 @@ typedef struct CompilerType {
 } CompilerType;
 typedef char CompilerType_size[sizeof(CompilerType) == 16 ? 1 : -1];
 
+typedef struct CompilerTypeEntry {
+    struct CompilerTypeEntry *next;
+    CompilerType type;
+} CompilerTypeEntry;
+typedef char CompilerTypeEntry_size[sizeof(CompilerTypeEntry) == 20 ? 1 : -1];
+
 /* Integer-node projection. Original fields are kind0/flags1/type4/value16.
  * The authentic24-byte allocation is separate from this compact view;
  * original bytes2..3 and8..15 remain unmodeled and unwritten. */

@@ -282,7 +282,34 @@ extern "C" void __cdecl initialize_type_table(void)
         arena->CommitExtent();
     c1_data.type_list_buckets = (CompilerTypeListEntry **)storage;
 }
-extern "C" CompilerType *__cdecl intern_type(CompilerType *description) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl intern_type(CompilerType *description)
+{
+    unsigned hash = (((WORD)(unsigned)description->shape >> 2) +
+                     ((WORD)description->auxiliary >> 2) +
+                     description->attributes + description->flags) & 2047;
+    CompilerTypeEntry **bucket = &c1_data.type_buckets[hash];
+    CompilerTypeEntry *entry;
+    CompilerPool *pool = &c1_bss.pools[0];
+    for (entry = *bucket; entry; entry = entry->next) {
+        CompilerType *type = &entry->type;
+        if (type->shape == description->shape &&
+            type->auxiliary == description->auxiliary &&
+            type->flags == description->flags &&
+            type->attributes == description->attributes)
+            return type;
+    }
+    if (pool->remaining < 20)
+        pool->Refill(20);
+    entry = (CompilerTypeEntry *)pool->cursor;
+    pool->cursor += 20;
+    pool->remaining -= 20;
+    entry->next = *bucket;
+    *bucket = entry;
+    entry->type = *description;
+    if (c1_data.options.debug_info)
+        entry->type.debug_index = 0;
+    return &entry->type;
+}
 extern "C" void __cdecl initialize_global_scope(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_builtin_symbols(void) { __asm { int 3 } }
 extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, CompilerType *base) { __asm { int 3 } return NULL; }
