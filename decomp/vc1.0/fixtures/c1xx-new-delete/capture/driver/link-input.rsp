@@ -1,4 +1,0 @@
--out:allocation.exe
--debug:none
--nologo
-allocation.obj

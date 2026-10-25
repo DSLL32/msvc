@@ -12,9 +12,10 @@ the shared native i386 runner, `binary.c`, numbered flat cases and
 `capture.bin`. Original builds and graph/ABI checks remain separate. Normal
 regressions use saved references and do not invoke Wine.
 
-- **VC1.0:** C1, C1XX, C2, CL, CVPACK, RC and RCPP have migrated.
-  C1 and C1XX have resumed reconstruction; LINK is finishing migration.
-  Finished binaries are included.
+- **VC1.0:** all eight binaries have committed their migrations and layout
+  cleanup. C1XX and CVPACK are reconstructing; C1 has completed all identified
+  application stubs and retains two unattributed routines. Finished binaries
+  are included.
 - **VC5.10:** all nine binaries are in scope, including finished RC and CVTRES.
   All nine have committed their migrations and paused. Their 38 invocation
   cases, original builds and applicable graph/ABI checks pass.
@@ -27,7 +28,7 @@ The updated migration layout also separates reconstructed application code
 hosts/fixture/test glue (`harness/`). This applies to finished and already
 migrated binaries; folder cleanup is now an additional migration requirement,
 with all nine VC5.10 binaries now committed. VC1.0 C1, C2, CVPACK, RC and
-RCPP have committed this cleanup, as have C1XX and CL. LINK is completing it.
+RCPP have committed this cleanup, as have C1XX, CL and LINK.
 
 Accepted application functions and original references are preserved during
 migration, with the explicit source corrections documented below. Unaccepted
@@ -98,9 +99,9 @@ unit executors pass, with 187 accepted application functions and 20 stubs
 preserved. Original compilation took 3.799 s; native rebuild and strict audit
 took 1.536 s. Actual I/O fixture time totaled 208.224 ms. The final two affected
 cases took 19.601/34.821 ms; their build/check batch took 0.742 s. The remaining
-eight cases and units took 0.388 s including case builds. Its queued strip case
-and conditional original-CRT capture requirements remain documented for later
-reconstruction. The authorized padding correction is described below.
+eight cases and units took 0.388 s including case builds. Its queued strip case remains for later reconstruction. The old conditional
+CRT guards were subsequently found to be a bookkeeping restriction rather than
+a requirement for new guard machinery; the reviewed correction is below. The authorized padding correction is described below.
 
 C1's actual original-DIRECT integration and current residual case are complete
 in `bd5093ae9`. The final assembly helper adds one application function / 98
@@ -151,7 +152,7 @@ they do not imply that pending integrations have passed.
 | Actual null stdin and explicitly held-open pipe input | Preserve NUL versus file/pipe behavior and allow an existing synchronized Ctrl+C case to wait for its input event without premature EOF. | `0fb1c85aa`, `709574db9`. Native smoke and a stdout-ready-to-SIGINT pipe test passed. |
 | Explicit tracing for loaded application libraries | Register resolved application addresses/names with the existing instrumentation rather than assuming the application is the main ELF executable. | `00875e919`. Eleven GCC/Clang DSO checks, 18 existing trace checks and eight fork/exec checks passed. |
 | Module ownership and shared trace attachment | A loaded application library and case library need explicit ownership for application data/callback addresses. Child execution must attach to existing trace state without resetting it. | `161776ca1`. Focused and existing tests passed; real LINK help and editor-bind cases passed. Application data ownership and case callback ownership remain distinct. |
-| Explicit native self-command routing | Support a declared self-child invocation through the runner while retaining a fresh executable process and existing trace state. | `100852b60`. Eleven focused routing checks passed with GCC/Clang (0.0197/0.0241 s); eight existing process tests and both RSP2 suites passed. Runner support was subsequently published in `00331e531`; actual LINK integration is pending. |
+| Explicit native self-command routing | Support a declared self-child invocation through the runner while retaining a fresh executable process and existing trace state. | `100852b60`. Eleven focused routing checks passed with GCC/Clang (0.0197/0.0241 s); eight existing process tests and both RSP2 suites passed. Runner support was subsequently published in `00331e531`; actual Both actual LINK self-child cases pass (DLL 121.461 ms, debug DLL 141.942 ms), and the final 91-case LINK gate passes in `8bd298b5d`. |
 | Scoped expected RET cleanup contracts | Retain C2's existing calling-convention checks without imposing one global cleanup rule on every function. | `4ff437ad2`. 65 tests, including a negative test where both sides have the same wrong cleanup; C2's 15 contracts and 1,212 paired graphs pass. |
 | Strided callback tables and exact import-site assertions | Express VC5.10 CVPACK's existing callback layout, explicit null rows and resolver-site inventory in the common audit engine. | `8b6ea0935`. 67 tests and ten denial checks; real CVPACK 113-graph audit passed in about 0.202 s. |
 | More precise graph-audit failure diagnostics | Identify the owner, side, source and target of an unknown tail-call ABI instead of reporting only a generic failure. | `df221a941`. Exposed C1XX's specific pending debug-helper boundary; error reporting only, with no audit semantic change. |
@@ -164,8 +165,10 @@ they do not imply that pending integrations have passed.
 | Normal-loader original DIRECT probes | Add a helper import offline to a scratch PE; let its local exception handler invoke original-compiler typed probe code and publish a read-only broker receipt. | `29265595b`, `934790b33`. Host/i386 writer tests, completion/frontier and four failure controls pass. Original controls take about 1.4–2.1 s; matching native controls about 5.5 ms. C1's first trial reached an unclassified shipped `_strncpy` boundary in 1.973 s; exact 37-byte COFF proof qualified it as CRT, without application credit. The actual typed pair then passed at RVA `3f0cd`: original 1.639 s, native 17.452 ms, identical first-entry order. Unused remote-call prototype cleanup remains separate. |
 | Resume-capable native entry observer and exact dependency trees | A signal-safe one-shot observer inspects live entry state and resumes the genuine entry; optional read-only roots verify complete file membership as well as existing dependency hashes. | `a4954756a`. Focused observer controls pass (215 ms build, 3 ms run), membership tests and formatting pass. No descriptor ABI change; the optional capture field remains version 2. CL consumer integration passes in `6173606d3`. |
 | Retained process-policy failure diagnostics | Preserve bounded private broker diagnostics before temporary-workspace cleanup, without mixing them into target stderr. | `fe1756fd8`. A rejected-input control passes in 7.299 ms; error details are bounded to 16 KiB. CL then identified a consumer image-input mismatch rather than a transport defect. |
-| Plain native self-child execution | Public `native-child` command reenters the existing case with inherited arguments/environment/cwd/streams, fresh application state, shared RST1 tracing and readable child results. Existing process permission selects the route; no new wire protocol or original-binary changes. | `00331e531`. Eight actual canonical-release controls and existing smoke pass. Success takes 11.5–13.5 ms; a hung child is cleaned up at 505.8 ms. Child exit 7 reaches the parent; full DWORD is recorded separately, while the existing shim parent return remains eight bits. Handled traps and missing receipts still fail the fixture; INT3 owner and raised-signal diagnostics are distinct. 32 Rust tests, formatting and process/assets/output checks pass. LINK integration is pending. |
+| Plain native self-child execution | Public `native-child` command reenters the existing case with inherited arguments/environment/cwd/streams, fresh application state, shared RST1 tracing and readable child results. Existing process permission selects the route; no new wire protocol or original-binary changes. | `00331e531`. Eight actual canonical-release controls and existing smoke pass. Success takes 11.5–13.5 ms; a hung child is cleaned up at 505.8 ms. Child exit 7 reaches the parent; full DWORD is recorded separately, while the existing shim parent return remains eight bits. Handled traps and missing receipts still fail the fixture; INT3 owner and raised-signal diagnostics are distinct. 32 Rust tests, formatting and process/assets/output checks pass. Both actual LINK self-child cases pass (DLL 121.461 ms, debug DLL 141.942 ms), and the final 91-case LINK gate passes in `8bd298b5d`. |
 | Clear completed-capture partial expectations | A completed original capture clears inherited frontier-only expectations instead of carrying them forward from its input capture. | Root one-line correction to original.rs; C1XX encountered and explicitly finalized the real completed case without recapturing. Formatting and all 32 Rust tests pass. |
+| Qualified nonexact CRT identities | Permit CVPACK's explicitly reviewed original CRT variants to be classified as CRT while retaining identity-only graph projection, exact existing hashes/bounds and zero body availability/application credit. | `1e10445a3`. Two focused tests, formatting, Clippy and five CLI rejection controls pass. The actual 187-function audit takes 213 ms and its report is byte-identical to the old baseline. CVPACK mask verification restores only the three approved CRT bodies (1,253 bytes), retains all 20 App traps, and ten native cases/unit executors pass in 161.8 ms. Consumer correction is committed in `d7264dd14`; final audit passes in 4.708 s including original-compiler prerequisite rebuild and identification. |
+| Preserve application errno across host work | Fresh executors establish initial errno before loading; post-constructor descriptor metadata preserves constructor changes. Setup/callback checkpoints restore their own values after host preparation, and actual return errno reaches exit callbacks. | `e0116ffcb`. Native GDB proved host realpath/readlink changed errno to 22 after constructors in LINK. Constructor 77, setup 88, callback/atexit 99, fork/nonfork units and real SELF controls pass; baseline runner fails. Canonical controls take 2.8–3.0 ms for IO/DIRECT/no-setup, 4.8 ms for mixed units and 11.4 ms for SELF. Existing smoke/eight SELF/32 Rust tests pass. No library, App, fixture expectation or errno-mask changes. |
 | Separate application, CRT and harness builds | Default source discovery covers src/crt, explicitly selected C++ harness support uses C++ compiler/flags/linker, and quote-only local include paths preserve system headers. | `f71bc7e1c`. Focused parallel/incremental native/original Make tests pass, including C++ support and a local link.h shadowing regression. Existing explicit source lists remain supported. |
 | Optional registry support-extent guards | Structurally walk reviewed CRT/import intervals independently of accepted application graphs, reporting unavailable rebuilt bounds explicitly. | `493a69af8`. 71 tests and focused denial controls passed; canonical release matched frozen validation. RC's initial 114 rebuilt intervals became 117 after the qualified runtime recovery above; all 122 original guards remain. Default reports and graph/RET scope are unchanged. |
 
@@ -275,13 +278,33 @@ also requires the reconstruction's padding to be zero. Raw references remain
 preserved. No general output parser, duplicate artifact assets or allocator
 profile was added.
 
+CVPACK's prior README incorrectly made historical conditional CRT guards a
+prerequisite for resuming reconstruction. They whitelisted specific binary-mode
+`__sopen` invocations and one no-op `__freebuf` path because the embedded CRT
+variants differ from the shipped library; `_setvbuf` had no authored runtime
+guard. Those permissions do not cover the queued strip case. The correction
+classifies the three known, hash-bound variants as CRT identity boundaries,
+leaving their original bodies executable under the existing masker. Their
+nonexact differences and old guard facts remain documented; no CRT source,
+whole-library equivalence claim, new runtime guard or reconstruction credit is
+introduced. The shared adapter keeps these identities outside body graphs.
+
+CVPACK's correction is committed in `d7264dd14`; the user subsequently
+authorized autonomous reconstruction, which has resumed.
+All three variants are CRT definition 3 / implementation 0, while historical
+graph anchors remain accepted false / unmask false. The production mask check
+changes only their 1,253 bytes and leaves all 20 unfinished application traps.
+The final audit passes 187 graphs, 206 data objects and 207 identities. No
+application bodies, capture hashes or acceptance counts changed; the queued
+strip case remains unstarted.
+
 ## Shared work still pending
 
 These are approved or under design, not completed integrations:
 
 | Work | Consumers and purpose |
 | --- | --- |
-| LINK self-child consumer verification | Shared native self-child execution is published in `00331e531`; LINK is running its final 91-case batch before committing. Fixtures never fall back to Wine. |
+| Original-capture environment separation | CVPACK's first queued-strip reference attempt stopped before Wine launch because target PATH empty was applied to host executable lookup; target WINEPREFIX removal would also override the fixed transport prefix. The shared owner is implementing explicit target-environment overlay separate from host Wine transport, without another Wine process or private prefix. Native execution is unaffected. |
 
 The earlier shared worker was repeatedly stopped by the platform's
 possible-cybersecurity-risk flag while preparing self-child support. At the
@@ -316,6 +339,24 @@ masters, 936 raw payload records and trace seeds were checked against the old
 captures without recapturing originals. Each case now lists at most five specific
 external dependencies (child executable images and CL.ERR/CL32.MSG).
 
+LINK's complete migration and layout cleanup are committed in `8bd298b5d`.
+All 91 cases and seven narrow tests pass in 1.697 s wall at `-j4`; its host-only
+840-function graph/RET/reference/ownership/extent/runtime audit takes 1.464 s.
+Native incremental build takes 3.656 s; the earlier combined layout build/audit
+checkpoint took 8.976 s. All 803 App functions, 16 historical CRT overrides,
+raw masters and held demangler WIP are preserved. Fifteen buffered phases needed
+their frozen LINK32_DB=27 input restored. Three IO cases needed only the old
+phase-declared clock exclusions restored; four direct reports needed the shared
+errno fix. No new masks, expected values, original captures or App promotion
+were used to resolve those differences. LINK is paused after its commit.
+
+Root additionally ran native `make -j4 check unit` for the then-idle five VC1.0
+and all nine VC5.10 binaries against the errno-fixed runner. All 14 commands
+pass, with command wall times 0.162–3.052 s including any incremental build work;
+two binary commands ran concurrently. Per-binary results and logs are preserved
+at `/root/.ai-tmp/msvc2/errno-adoption-regression/results.json`. C1 and C1XX also
+adopted the fixed runner in their ordinary cached gates without recapturing.
+
 ## Retired local checks and historical evidence
 
 Migration removes duplicated runners, launchers, PE/CFG parsers and evidence
@@ -330,10 +371,17 @@ control facts, then retired its local parser (`6bed7f7f6`). Its nine I/O cases,
 depth unit, original build and shared audit passed. Neither requires a new generic
 initializer framework.
 
-The old `decomp/vc1.0/fixtures/` directory remains until every live consumer has
-transferred its required inputs and references and passed the shared runner.
-Existing history and scratch snapshots preserve unfinished work and removed
-historical material.
+The old `decomp/vc1.0/fixtures/` directory is retired after all eight migrations
+passed. Its 674 tracked files remain in Git history. A verified full snapshot,
+including ignored/untracked contents, is preserved at
+`/root/.ai-tmp/msvc2/retired-vc1-fixtures-20261025T135743Z/`: 681 entries and
+36,196,105 logical regular-file bytes, checked before deletion. There are no
+remaining live source dependencies on the tree. Seven obsolete graph parity/
+benchmark helpers and their dead README commands were retired in `b4ace6f40`;
+Rust code, useful tool test fixtures, profiles and historical timing receipts
+remain. RCPP's separately missed 27 historical console-interrupt evidence files
+were removed in `c89282a38`, with their Git/scratch copies preserved. No new
+capture or reconstruction was required for this cleanup.
 
 The stricter canonical registry also exposed a VC5.10 C2 source identity issue:
 17 distinct callback slots used a separate trapping placeholder for an original

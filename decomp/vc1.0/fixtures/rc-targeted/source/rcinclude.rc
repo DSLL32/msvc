@@ -1,9 +1,0 @@
-#define BASE_RESOURCE 200
-
- 	RcInClUdE    part.rc   	
-RCINCLUDE second.rc
-
-202 RCDATA
-BEGIN
-    0x1234, 0x89abcdefL
-END

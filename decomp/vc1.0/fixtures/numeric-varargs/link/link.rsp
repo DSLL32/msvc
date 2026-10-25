@@ -1,4 +1,0 @@
--out:numeric-varargs.exe
--debugtype:cv
--debug:notmapped,full
-numeric-varargs.obj

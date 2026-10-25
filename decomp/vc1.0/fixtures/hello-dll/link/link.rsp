@@ -1,5 +1,0 @@
--debug:none
--dll
--implib:hello.lib
--out:hello.dll
-hello-dll.obj

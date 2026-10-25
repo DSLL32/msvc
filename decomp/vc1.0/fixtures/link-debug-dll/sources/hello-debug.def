@@ -1,9 +1,0 @@
-LIBRARY hello-debug
-DESCRIPTION "Hello linker coverage"
-EXPORTS
- HelloEntry=_HelloMain@16 @7
- OrdinalEntry=_HelloMain@16 @9 NONAME
- ForwardedSleep=KERNEL32.Sleep @11
- Counter=exported_counter @13 DATA
- Alpha=alpha @15
- Beta=beta @17

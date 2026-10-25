@@ -1,6 +1,0 @@
-#include "values.h"
-STRINGTABLE
-BEGIN
-    1 "Native RCINCLUDE"
-    17 "Whitespace trimmed"
-END

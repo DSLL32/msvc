@@ -1,5 +1,0 @@
--out:state-machine.exe
--nologo
--debugtype:cv
--debug:notmapped,full
-state-machine.obj

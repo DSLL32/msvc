@@ -1,1 +1,0 @@
-R:\toolchains\1.0-nt\bin\link.exe -link @S:\vc1.0\c1xx\copy-assignment-driver\000740lk

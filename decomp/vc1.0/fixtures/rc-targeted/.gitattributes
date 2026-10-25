@@ -1,3 +1,0 @@
-*.bin binary
-*.res binary
-/source/rcinclude.rc -text -whitespace
