@@ -275,6 +275,7 @@ typedef struct FrontendBss {
      * original table's capacity; any other index stops before its read. */
     struct CompilerParameterContext *parameter_contexts[1]; /* bf4b4, BSS0 */
     int default_declaration_mode; /* c13cc, BSS0: c13d0[-1] only */
+    BYTE global_output_active; /* c06cc, BSS0; global-header rewind clears it */
     char *current_macro_text; /* b902c, borrowed text for recorded macro definition */
     unsigned char *macro_token_cursor, *macro_text_cursor, *saved_macro_text_cursor; /* b9040/b9044/b9038 */
     char macro_date_time[26]; /* c0b50, formatter's25B text plus retained NUL */

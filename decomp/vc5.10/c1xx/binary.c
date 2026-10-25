@@ -922,9 +922,15 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_write_global_header", .entry_rva = 0x2e54d,
-        .code = (const ReconExtent[]){{0x2e54d, 0x2e54e}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x2e54d, 0x2e58a}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "write_global_header",
+    },
+    {
+        .name = "_write_global_ir_record", .entry_rva = 0x16d4,
+        .code = (const ReconExtent[]){{0x16d4, 0x16d5}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "write_global_ir_record",
     },
     {
         .name = "_acquire_backend", .entry_rva = 0x1c7f0,

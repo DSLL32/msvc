@@ -161,6 +161,7 @@ int initialize_compiler_pass(void)
         frontend_bss.default_declaration_mode = 0;
         memset(frontend_bss.macro_date_time, 0, sizeof(frontend_bss.macro_date_time));
         frontend_bss.macro_date = frontend_bss.macro_time = NULL;
+        frontend_bss.global_output_active = 0;
         frontend_bss.current_macro_text = NULL;
         frontend_bss.macro_token_cursor = frontend_bss.macro_text_cursor = NULL;
         frontend_bss.saved_macro_text_cursor = NULL;

@@ -15,6 +15,7 @@ int c1xx_test_exception_counters(void)
     memcpy(record_bytes, frontend_data.symbol_record_bytes, sizeof(record_bytes));
     memcpy(size_class, frontend_data.symbol_size_class, sizeof(size_class));
     memset(frontend_data.predefined_time_text, 0xa9, sizeof(frontend_data.predefined_time_text));
+    frontend_bss.global_output_active = 0xa7;
     frontend_data.source_include_depth = 19;
     frontend_bss.current_macro_text = (char *)&frontend_data;
     frontend_data.macro_reset_value = 0x317;
@@ -113,6 +114,7 @@ int c1xx_test_exception_counters(void)
     if (initialize_compiler_pass())
         return 0;
     return memcmp(frontend_data.predefined_time_text, "......Unknown date......\0", 26) == 0 &&
+        frontend_bss.global_output_active == 0 &&
         frontend_data.source_include_depth == -1 && frontend_bss.current_macro_text == NULL &&
         frontend_data.macro_reset_value == 0 && frontend_bss.macro_token_cursor == NULL &&
         frontend_bss.macro_text_cursor == NULL && frontend_bss.saved_macro_text_cursor == NULL &&
