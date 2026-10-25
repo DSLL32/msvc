@@ -83,6 +83,10 @@ long __cdecl recon_watcom_lseek(int fd,long offset,int origin)
     recon_unsupported("Watcom lseek requires explicit profile");return -1;
 #endif
 }
+long __cdecl recon_watcom_tell(int fd)
+{
+    return recon_watcom_lseek(fd,0,SEEK_CUR);
+}
 void recon_bind_watcom_wlib_first_main_heap(const char *reference)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

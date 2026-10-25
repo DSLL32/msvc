@@ -11,7 +11,7 @@ generic = len(sys.argv) > 2 and sys.argv[2] == 'default'
 payload = bytes(range(256))*4
 for mode in ('', 'live', 'mode', 'null', 'empty', 'wildcard', 'nonascii',
              'directory', 'symlink', 'missing', 'failure', 'seek-invalid',
-             'seek-origin', 'seek-negative', 'seek-closed'):
+             'seek-origin', 'seek-negative', 'seek-closed', 'tell-invalid', 'tell-closed'):
     with tempfile.TemporaryDirectory() as directory:
         path = pathlib.Path(directory, 'binary.dat')
         path.write_bytes(payload)
@@ -27,5 +27,5 @@ for mode in ('', 'live', 'mode', 'null', 'empty', 'wildcard', 'nonascii',
             assert not result.stderr, result.stderr
         assert path.read_bytes() == payload
 print(('generic remains denied' if generic else
-       'readonly binary fd/position/raw bytes/seek/close; x3 errors xempty/live108FP, '
-       'FILE unchanged; thirteen unsupported/failure denials')+' PASS %.6fs' % (time.monotonic()-start))
+       'readonly binary fd/position/raw bytes/seek/tell/close; x3 errors xempty/live108FP, '
+       'FILE unchanged; fifteen unsupported/failure denials')+' PASS %.6fs' % (time.monotonic()-start))

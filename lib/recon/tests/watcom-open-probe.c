@@ -13,6 +13,9 @@ static void seek_to(int fd,long offset,int origin,long expected,unsigned row)
     fp(before);assert(recon_watcom_lseek(fd,offset,origin)==expected);fp(after);
     assert(!memcmp(before,after,108) && errno==(int)errors[row][0] && recon_doserrno==errors[row][1]);
     assert(!recon_GetLastError() && lseek((int)recon_get_osfhandle(fd)-1,0,SEEK_CUR)==expected);
+    fp(before);assert(recon_watcom_tell(fd)==expected);fp(after);
+    assert(!memcmp(before,after,108) && errno==(int)errors[row][0] && recon_doserrno==errors[row][1]);
+    assert(!recon_GetLastError() && lseek((int)recon_get_osfhandle(fd)-1,0,SEEK_CUR)==expected);
 }
 int main(int argc,char **argv)
 {
@@ -21,6 +24,7 @@ int main(int argc,char **argv)
     unsigned char before[108],after[108],payload[1024],files[sizeof(recon_iob)];
     struct stat information;
     if(argc>1 && !live) {
+        if(!strcmp(argv[1],"tell-invalid")){recon_watcom_tell(-1);return 42;}
         if(!strcmp(argv[1],"mode")){recon_watcom_open("binary.dat",0x8000);return 42;}
         if(!strcmp(argv[1],"null")){recon_watcom_open(NULL,0x0200);return 42;}
         if(!strcmp(argv[1],"empty")){recon_watcom_open("",0x0200);return 42;}
@@ -29,6 +33,10 @@ int main(int argc,char **argv)
         if(!strcmp(argv[1],"directory")){recon_watcom_open(".",0x0200);return 42;}
         if(!strcmp(argv[1],"symlink")){recon_watcom_open("alias.dat",0x0200);return 42;}
         if(!strcmp(argv[1],"missing")){recon_watcom_open("missing.dat",0x0200);return 42;}
+        if(!strcmp(argv[1],"tell-closed")) {
+            fd=recon_watcom_open("binary.dat",0x0200);assert(fd>=0 && !recon_close(fd));
+            recon_watcom_tell(fd);return 42;
+        }
         if(!strncmp(argv[1],"seek-",5)) {
             fd=recon_watcom_open("binary.dat",0x0200);assert(fd>=0);
             if(!strcmp(argv[1],"seek-invalid")){recon_watcom_lseek(-1,0,SEEK_SET);return 42;}

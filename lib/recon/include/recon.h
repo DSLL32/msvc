@@ -295,6 +295,7 @@ ReconSignalHandler recon_signal(int,ReconSignalHandler);
 int recon_watcom_heapchk(void),recon_watcom_nheapchk(void);
 int __cdecl recon_watcom_open(const char *,int,...);
 long __cdecl recon_watcom_lseek(int,long,int);
+long __cdecl recon_watcom_tell(int);
 ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
 int recon_watcom_raise(int);
 /* Host binding requires independently proved first-main-call/no-target-ctor
@@ -470,6 +471,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #if defined(RECON_CRT_PROFILE_WATCOM_100A)
 #define open recon_watcom_open
 #define lseek recon_watcom_lseek
+#define tell recon_watcom_tell
 #define _heapchk recon_watcom_heapchk
 #define _nheapchk recon_watcom_nheapchk
 #define signal recon_watcom_signal

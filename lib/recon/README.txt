@@ -579,7 +579,9 @@ unknown/closed/device/origin/failure domains deny125, without exposing MS error
 numbers as Watcom failures. The Microsoft _lseek mapping is unchanged. Actual
 WLIB fd3/-24/SEEK_END and WLINK resource traversal qualify the reached normal
 path; numeric descriptor identity, failure errno and FILE26 remain unclaimed.
-The existing Watcom open checks cover the coupled seek/read/close namespace.
+The Watcom-only long tell(int) callback spelling delegates to that same
+lseek(fd,0,SEEK_CUR) operation and leaves the descriptor position unchanged.
+The existing Watcom open checks cover the coupled seek/tell/read/close namespace.
 
 The public IMAGEHLP staging route recognizes LoadLibraryA("imagehlp" or
 "imagehlp.dll") as a built-in native module, alongside the existing system
