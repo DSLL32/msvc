@@ -895,3 +895,25 @@ void finish_pch_debug_types(void)
         ++next_debug_type_index;
     }
 }
+
+/* Original0x6e290..0x6e300, stdcall4. Emit a precompiled-type reference
+   using the restored type count/checksum and the saved object filename. */
+void __stdcall restore_pch_debug_state(char *filename)
+{
+    unsigned char *leaf, *name, *end;
+    if (options.configuration.line_records) {
+        begin_line_record_debug_info();
+        return;
+    }
+    debug_stream_offset = 0;
+    begin_debug_info();
+    leaf = debug_record_buffer + 2;
+    *(unsigned short *)leaf = 0x13;
+    *(unsigned short *)(leaf + 2) = 0x1000;
+    --next_debug_type_index;
+    *(unsigned short *)(leaf + 4) = (unsigned short)(next_debug_type_index - 0x1000);
+    *(unsigned *)(leaf + 6) = pragma_record_number;
+    name = leaf + 10;
+    end = copy_debug_name(name, filename);
+    emit_debug_type_record((end - name) + 10);
+}
