@@ -427,3 +427,24 @@ void restore_pch_pointers(void)
     }
     free(pch_relocation_chains);
 }
+
+/* Original0x6ae80..0x6af5a. Read saved bytes into real malloc-backed pages;
+   they are not file mappings. Only the unused tail of the last page is cleared. */
+void read_pch_pages(void)
+{
+    int page, last;
+    unsigned i;
+    unsigned char *tail;
+    pch_relocation_chains = malloc(pch_relocation_count * 8);
+    if (!pch_relocation_chains) fatal_error(60);
+    fread(pch_relocation_chains, 1, pch_relocation_count * 8, pch_file);
+    last = permanent_page_count - 1;
+    permanent_page_count = 1;
+    for (page = 0; page < last; ++page) {
+        fread(permanent_pages[page].start, 1, 0xeffc, pch_file);
+        new_permanent_page();
+    }
+    fread(permanent_pages[last].start, 1, 0xeffc - permanent_available, pch_file);
+    tail = permanent_pages[last].start + 0xeffc - permanent_available;
+    for (i = 0; i < permanent_available; ++i) tail[i] = 0;
+}
