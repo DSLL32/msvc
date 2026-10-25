@@ -3,6 +3,7 @@
 #include "preprocess.h"
 #include "directives.h"
 #include "macro-expansion.h"
+#include "resource-output.h"
 #include <recon.h>
 
 /* Named, ABI-correct INT3 stubs. None is accepted reconstruction. */
@@ -20,10 +21,9 @@ long __stdcall rc_seek(FILE *file, long offset, int origin)
     __asm int 3
     return 0;
 }
-int __stdcall rc_initialize_resource(void)
+void __stdcall rc_write_apstudio_header(FILE *file,DWORD size,WORD id)
 {
     __asm int 3
-    return 0;
 }
 int __stdcall rc_initialize_input(FILE *file)
 {

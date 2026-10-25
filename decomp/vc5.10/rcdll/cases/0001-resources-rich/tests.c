@@ -415,6 +415,12 @@ static int expanded_quoted_contract(void)
         rc_string_buffer[1034]==0xc9c9 &&
         !memcmp(rc_string_buffer+1,spelling,sizeof(spelling));
 }
+static void apstudio_unobserved(void)
+{
+    rc_apstudio=1;
+    rc_initialize_resource();
+}
+static int apstudio_hold(void){return trapped(apstudio_unobserved);}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -431,6 +437,7 @@ const ReconTest rich_tests[]={
     {"quoted-output-chunk-contract",1,quoted_output_contract},
     {"raw-macro-argument-contract",1,raw_macro_argument_contract},
     {"expanded-quoted-escape-contract",1,expanded_quoted_contract},
+    {"apstudio-service-hold",1,apstudio_hold},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };
