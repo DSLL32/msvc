@@ -428,12 +428,6 @@ void __fastcall prepare_input_comparison(C2Expression *left, C2Expression *right
     __asm { int 3 }
 }
 
-C2FunctionRegister *__fastcall new_temporary_register(unsigned short type)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 void __fastcall release_function_register(C2FunctionRegister *reg)
 {
     __asm { int 3 }

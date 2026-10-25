@@ -239,3 +239,14 @@ int __fastcall register_types_match(unsigned short first, unsigned short second)
         return 0;
     return (first & 0xfff) == (second & 0xfff);
 }
+
+C2FunctionRegister *__fastcall new_temporary_register(unsigned short type)
+{
+    C2FunctionRegister *reg = new_function_register(3);
+    reg->type = type;
+    reg->kind = 3;
+    reg->value_bytes = type & 0xfff;
+    reg->view_flags |= 1;
+    reg->canonical = reg;
+    return reg;
+}
