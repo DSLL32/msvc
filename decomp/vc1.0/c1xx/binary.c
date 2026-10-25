@@ -1,11 +1,27 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1540 historical frontiers/1433 App bodies.
+ * Current reviewed boundary:1541 historical frontiers/1434 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_copy_pch_stream@12",
+        .entry_rva = 0x5d140,
+        .code = (const ReconExtent[]) { { 0x5d140, 0x5d1fe } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "copy_pch_stream",
+    },
+    {
+        .name = "_stage_initial_pch_streams",
+        .entry_rva = 0x5d200,
+        .code = (const ReconExtent[]) { { 0x5d200, 0x5d465 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "stage_initial_pch_streams",
+    },
     {
         .name = "_finish_pch_debug_types",
         .entry_rva = 0x5e300,
@@ -62,6 +78,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "stage_pch_intermediates",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_pch_debug_symbols",

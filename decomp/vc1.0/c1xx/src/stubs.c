@@ -557,7 +557,8 @@ IrToken *__stdcall build_scalar_reference_temporary(CType *referent, CType *refe
 int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
 void restore_pch_frontend(void) { __asm { int 3 } }
 void declare_pch_debug_library(void) { __asm { int 3 } }
-void stage_pch_intermediates(void) { __asm { int 3 } }
+unsigned __stdcall copy_pch_stream(FILE *source, FILE *destination, int bytes) { __asm { int 3 } return 0; }
+void stage_initial_pch_streams(void) { __asm { int 3 } }
 void begin_browser_pch_record(void) { __asm { int 3 } }
 void relocate_pch_state(void) { __asm { int 3 } }
 unsigned short __stdcall write_pch_events(WorkingStack *stack, FILE *file, int mode) { __asm { int 3 } return 0; }
