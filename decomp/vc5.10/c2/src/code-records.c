@@ -259,3 +259,12 @@ C2Expression *__fastcall new_control_expression(unsigned opcode)
     record->location.line = record_line_delta;
     return record;
 }
+
+C2Expression *__fastcall new_function_entry(C2Function *function)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(22);
+    record->value.function = function;
+    record->opcode = 0x17a;
+    record->location.line = record_line_delta;
+    return record;
+}

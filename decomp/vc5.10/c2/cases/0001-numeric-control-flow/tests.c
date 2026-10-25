@@ -370,6 +370,7 @@ static int control_record_reuse(void)
     unsigned char allocation[32], expected[32];
     C2Expression *record;
     C2InputSymbol symbol;
+    C2Function function;
     memset(allocation, 0xa5, sizeof(allocation));
     *(C2SmallNode **)allocation = NULL;
     free_small_nodes[28] = (C2SmallNode *)allocation;
@@ -394,6 +395,18 @@ static int control_record_reuse(void)
     *(unsigned short *)(expected + 10) = 0x3004;
     *(C2Symbol **)(expected + 20) = &symbol.symbol;
     record = variable_input_expression(&symbol);
+    if (record != (C2Expression *)allocation || free_small_nodes[28] ||
+        memcmp(allocation, expected, sizeof(allocation))) return 0;
+    memset(&function, 0, sizeof(function));
+    *(C2SmallNode **)allocation = NULL;
+    free_small_nodes[28] = (C2SmallNode *)allocation;
+    record_line_delta = 0x5678;
+    memset(expected, 0, 28);
+    *(unsigned *)(expected + 4) = 0x17a;
+    expected[8] = 22;
+    *(unsigned short *)(expected + 16) = 0x5678;
+    *(C2Function **)(expected + 20) = &function;
+    record = new_function_entry(&function);
     return record == (C2Expression *)allocation && !free_small_nodes[28] &&
         !memcmp(allocation, expected, sizeof(allocation));
 }

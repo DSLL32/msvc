@@ -139,11 +139,6 @@ void __fastcall mark_first_input_expression(C2Expression *expression)
 }
 
 
-C2Expression * __fastcall new_function_entry(C2Function *function)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 
 C2Expression * __fastcall input_symbol_operand(C2InputSymbol *symbol)

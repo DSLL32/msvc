@@ -24,6 +24,7 @@ struct C2Expression {
         C2Symbol *symbol;
         C2ExpressionReference *reference;
         C2FunctionRegister *reg;
+        C2Function *function;
         void *pointer;
     } value;
     union { C2Expression *left; unsigned immediate; };
