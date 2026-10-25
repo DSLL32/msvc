@@ -120,7 +120,7 @@ extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions)
     }
     for (index = 0; definitions && index < definitions->count; ++index)
         define_command_line_macro((char *)definitions->items[index]);
-    if (!c1_bss.preprocessor_header_ready && c1_data.c9_il &&
+    if (!c1_bss.options.preprocess_stdout && c1_data.c9_il &&
         !c1_bss.options.prototypes_only)
         write_global_header();
     file = open_source_file(c1_bss.options.source_file, 0, 1, 1, 0);

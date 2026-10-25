@@ -267,7 +267,6 @@ typedef struct CompilerBss {
     char macro_date_time[26]; /* RVA550d0; ctime text, split into date/time strings */
     char *macro_date; /* RVA54fbc */
     char *macro_time; /* RVA54db4 */
-    int preprocessor_header_ready; /* RVA54f28; suppresses initial global header */
     CompilerVector *pending_forced_includes; /* RVA54da8 */
     short forced_include_index; /* RVA54dac */
     BYTE *macro_token_cursor; /* RVA5003c; first work-buffer cursor */
