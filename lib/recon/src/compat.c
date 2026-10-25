@@ -39,6 +39,12 @@ __attribute__((weak)) unsigned long __cdecl recon_mspdb_SigForPbCb(
     return signature;
 }
 
+int __cdecl recon_mspdb_NameMap_open(struct PDB *database,int writable,struct NameMap **result)
+{
+    (void)database;(void)writable;(void)result;
+    recon_unsupported("unreviewed MSPDB NameMap::open");return 0;
+}
+
 /* Distinct Watcom CRT boundaries. Only the explicit first-WLIB-main empty
  * target namespace heap check below has an established success contract. */
 ReconWatcomFirstMainHeap recon_watcom_first_main_heap;

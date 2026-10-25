@@ -779,3 +779,11 @@ build/cpp-delete-binding: build/cpp-delete-binding.o $(SOURCES)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
 cpp-delete-binding-check: build/cpp-delete-binding
 	$(PYTHON) tests/check-cpp-delete-binding.py build/cpp-delete-binding.o $<
+
+.PHONY: namemap-open-check
+build/namemap-open-probe.o: tests/namemap-open-probe.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) '-D__declspec(x)=' -m32 -std=gnu++98 -O0 -g -fPIC -fno-inline -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
+build/namemap-open-probe: build/namemap-open-probe.o $(SOURCES)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
+namemap-open-check: build/namemap-open-probe
+	./$<
