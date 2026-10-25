@@ -169,10 +169,7 @@ void __stdcall rc_macro_buffer_fatal(unsigned message)
 
 
 
-void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,const WCHAR *text)
-{
-    __asm int 3
-}
+
 
 
 void __stdcall rc_emit_macro_reference(RcMacro *macro)

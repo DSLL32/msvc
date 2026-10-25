@@ -180,7 +180,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_pack_macro_argument" },
     { .name="rc_copy_expanded_quoted", .original_symbol="_rc_copy_expanded_quoted@8", .entry_rva=0x5b07,
       .code=(const ReconExtent[]){{0x5b07,0x5bfa}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_copy_expanded_quoted" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_copy_expanded_quoted" },
     { .name="rc_append_macro_text", .original_symbol="_rc_append_macro_text@4", .entry_rva=0x5bfa,
       .code=(const ReconExtent[]){{0x5bfa,0x5c3a}}, .code_count=1,
       .definition=RECON_APP, .implementation=0, .native_symbol="rc_append_macro_text" },

@@ -396,6 +396,25 @@ static int raw_macro_argument_contract(void)
     text[0]=3;rc_source_cursor=text;
     return !rc_macro_argument_text()&&rc_source_cursor==text+1;
 }
+static int expanded_quoted_contract(void)
+{
+    const WCHAR spelling[]={L'"',L'a',L'\\',L'b',L'"',0};
+    const WCHAR expected[]={L'"',L'\\',L'"',L'a',L'\\',L'\\',L'b',L'\\',L'"',L'"'};
+    WCHAR *source=rc_string_buffer+1024;
+    memset(rc_string_buffer,0xa7,sizeof(rc_string_buffer));
+    memcpy(source,spelling,sizeof(spelling));
+    rc_macro_output_cursor=rc_string_buffer;
+    rc_pack_macro_argument(source,source+5);
+    rc_number_buffer=rc_string_buffer+1024;
+    rc_copy_expanded_quoted(L'"',NULL);
+    if(rc_number_buffer!=rc_string_buffer+1024)return 0;
+    rc_string_buffer[1034]=0xc9c9;
+    rc_copy_expanded_quoted(L'"',rc_string_buffer+1);
+    return rc_number_buffer==rc_string_buffer+1034 &&
+        !memcmp(rc_string_buffer+1024,expected,sizeof(expected)) &&
+        rc_string_buffer[1034]==0xc9c9 &&
+        !memcmp(rc_string_buffer+1,spelling,sizeof(spelling));
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -411,6 +430,7 @@ const ReconTest rich_tests[]={
     {"interior-numeric-spelling-contract",1,interior_number_contract},
     {"quoted-output-chunk-contract",1,quoted_output_contract},
     {"raw-macro-argument-contract",1,raw_macro_argument_contract},
+    {"expanded-quoted-escape-contract",1,expanded_quoted_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };

@@ -215,6 +215,45 @@ const WCHAR *__cdecl rc_macro_argument_text(void)
     return cursor+1;
 }
 
+void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,const WCHAR *text)
+{
+    int quoted=0;
+    unsigned short token,quote_kind;
+
+    if(!text)return;
+#ifdef RECON_NATIVE_TEST
+    if((delimiter!=L'"'&&delimiter!=L'\'') ||
+       ((DWORD)rc_number_buffer&1) ||
+       (DWORD)rc_number_buffer<(DWORD)&rc_string_buffer[1024] ||
+       (DWORD)rc_number_buffer>(DWORD)&rc_string_buffer[2044]){ __asm int 3 }
+    ARGUMENT_RECORD(text-1);
+#endif
+    *rc_number_buffer++=delimiter;
+    for(;;){
+        if(rc_number_buffer>=&rc_string_buffer[2043])
+            rc_macro_buffer_fatal(10056);
+        token=rc_character_token(*text);
+        if(token==8){
+            if(rc_character_token(delimiter)==8)*rc_number_buffer++=L'\\';
+        }
+        if(token==7||token==8){
+            if(rc_character_token(delimiter)!=7){
+                if(quoted){
+                    if(token==quote_kind)quoted=0;
+                }else{
+                    quoted=1;
+                    quote_kind=token;
+                }
+            }
+        }else if(token==3){
+            if(!*text)break;
+            if(quoted)*rc_number_buffer++=L'\\';
+        }
+        *rc_number_buffer++=*text++;
+    }
+    *rc_number_buffer++=delimiter;
+}
+
 #undef ARGUMENT_RECORD
 
 #ifdef RECON_NATIVE_TEST

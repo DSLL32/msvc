@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_copy_expanded_quoted` (RVA 5b07). Its partial streams and actual
+  stops at `rc_close_preprocessor` (RVA 476f). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **112 functions, 29,136 code bytes**
-This is 39.05% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **113 functions, 29,319 code bytes**
+This is 39.30% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (43.95%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (44.23%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -50,16 +50,15 @@ fresh matching original/native frontier evidence. The former WIP snapshot remain
 `~/.ai-tmp/msvc2/vc5.10/rcdll/migration-snapshot-20261025/`; contextual descriptor
 research remains under `analysis/output-descriptor-data/rows.json` in the same
 scratch namespace. Unavailable descriptors still trap before native consumption.
-The latest original capture took 1.110 s; matching native replay took 181.395 ms
-(setup 76.496, execution 35.998, checks 68.900 ms). Both builds and the strict
-graph audit took 3.466 s. The 80-byte packed-argument getter returns an actual
-text pointer; its prior unaccepted "is wide" name and integer type were corrected
-from both real callers. The still-pending quoted-expansion helper takes that
-pointer as its second formal. Fresh original stack bytes and native GDB agree
-on delimiter 34 and the returned text alias at rc_string_buffer+1. No original
-pointed bytes are claimed as directly observed. First/second/invalid packed
-record tests passed in 143.765 ms. The preceding quoted-output checkpoint passed
-both cases and all 15 then-current unit groups.
+The latest original capture took 1.402 s; matching native replay took 174.182 ms
+(setup 72.085, execution 33.864, checks 68.232 ms). Both builds and the strict
+graph audit took 4.091 s. Quoted macro expansion preserves its actual text
+pointer, outer delimiter, internal quote/escape handling and workspace cursor.
+The null-input and escaped-text unit passed in 144.708 ms; it verifies the
+packed input is unchanged and that no terminator is appended to this output.
+The current case has reached preprocessor cleanup, after the preprocessing loop.
+The preceding pointer getter's provisional "is wide" name/type was corrected
+before acceptance; its history and raw aliases remain recorded in scratch.
 Earlier failures and the unchanged original-reuse evidence remain in
 `~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0110/`.
 Two custom argument helpers have named ABI-correct traps and no body credit.
