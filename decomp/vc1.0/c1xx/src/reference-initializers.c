@@ -196,3 +196,26 @@ void diagnose_member_reference_temporary(void)
         else compiler_warning(1, 354, initializing_symbol->name);
     }
 }
+
+/* Original0x3cc70..0x3cd26, stdcall8. Build an anonymous declaration
+   with a private mutable type description and restore declaration context. */
+CppSymbol *__stdcall create_initializer_temporary(unsigned char storage, CType *type)
+{
+    unsigned char saved_mode = declaration_mode;
+    TypeDescription *description = copy_type_description(type);
+    DeclarationType context;
+    CppSymbol *symbol;
+    description->attributes &= 0xeff8;
+    if (storage != 3 && ((token_allocation_flags & 0x40) || !declaration_mode))
+        storage = 3;
+    if (storage == 3) declaration_mode = 0;
+    symbol = new_declarator(make_anonymous_identifier());
+    context.type = (CType *)description;
+    context.storage[0] = (declaration_storage[0] & ~7) | (storage & 7);
+    context.storage[1] = declaration_storage[1];
+    context.storage[2] = declaration_storage[2];
+    symbol = apply_declaration_type(&context, symbol);
+    declaration_mode = saved_mode;
+    --type_description_depth;
+    return symbol;
+}

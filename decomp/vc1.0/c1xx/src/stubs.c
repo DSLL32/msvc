@@ -114,7 +114,6 @@ IrToken *__stdcall adjust_general_member_pointer_object(IrToken *object, IrToken
 void __stdcall report_argument_conversion(unsigned code, CppSymbol *function,
     CType *function_type, char *name, unsigned argument, CType *source, CType *target) { __asm { int 3 } }
 void __stdcall report_call_argument_error(unsigned code, CppSymbol *function, unsigned index) { __asm { int 3 } }
-CppSymbol *__stdcall create_initializer_temporary(unsigned char storage, CType *type) { __asm { int 3 } return 0; }
 void __stdcall record_initialized_temporary(CppSymbol *symbol, CType *type) { __asm { int 3 } }
 IrToken *__stdcall materialize_call_result(IrToken *call) { __asm { int 3 } return 0; }
 
