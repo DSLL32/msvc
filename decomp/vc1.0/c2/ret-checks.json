@@ -130,6 +130,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@remember_exception_local@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

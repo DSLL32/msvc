@@ -18,6 +18,7 @@ extern int c2_finally_inputs(void);
 extern int c2_scope_finish_inputs(void);
 extern int c2_scope_collect_inputs(void);
 extern int c2_scope_remember_inputs(void);
+extern int c2_scope_find_local_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -333,6 +334,12 @@ static int collect_missing_scope_boundary(void)
     return recon_native_at_entry((const void *)compiler_internal_error,
         (const void *)missing_scope_entry,collecting_without_scope,0)==1;
 }
+static int remember_without_scope(void)
+{
+    exception_scope_stack_depth=0;
+    remember_exception_local((SymbolHeader *)1);
+    return exception_scope_stack_depth==0;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -365,5 +372,7 @@ const ReconTest c2_tests[]={
     {"actual collect tree ECX/filter EDX and current scope",1,c2_scope_collect_inputs},
     {"scope collector leaf/binary/call paths and retained flags",1,collect_tree_paths},
     {"scope collector missing active owner diagnostic",1,collect_missing_scope_boundary},
-    {"actual remembered symbol identifier and owning scope",1,c2_scope_remember_inputs}
+    {"actual remembered symbol identifier and owning scope",1,c2_scope_remember_inputs},
+    {"remembered symbol is unused without active scope",1,remember_without_scope},
+    {"actual empty64B local set and arena ownership",1,c2_scope_find_local_inputs}
 };

@@ -2,6 +2,16 @@
 #define EXCEPTION_SCOPE_H
 #include "flow-edges.h"
 #include <recon.h>
+/* Arena4 holds sixteen hash heads and eight-byte borrowed-symbol links. */
+typedef struct ExceptionLocalEntry {
+    SymbolHeader *symbol;
+    struct ExceptionLocalEntry *next;
+} ExceptionLocalEntry;
+typedef struct ExceptionLocalSet {
+    ExceptionLocalEntry *buckets[16];
+} ExceptionLocalSet;
+typedef char ExceptionLocalEntry_size_is_8[sizeof(ExceptionLocalEntry)==8?1:-1];
+typedef char ExceptionLocalSet_size_is_64[sizeof(ExceptionLocalSet)==64?1:-1];
 /* Per-function structured-exception preparation state. These four owners
    are independently addressed in the original, not an indexed image view. */
 extern ExceptionScope *prepared_exception_scopes; /* 0007b998 */
@@ -26,4 +36,6 @@ Node *__fastcall new_scope_unwind(long target);
 void __fastcall collect_exception_references(Node *node, unsigned filter_depth);
 void __fastcall mark_exception_references(Node *node, unsigned filter_depth);
 void __fastcall remember_exception_local(SymbolHeader *symbol);
+SymbolHeader *__fastcall find_exception_local(ExceptionLocalSet *set, unsigned identifier);
+void __fastcall insert_exception_local(ExceptionLocalSet *set, SymbolHeader *symbol);
 #endif

@@ -450,3 +450,21 @@ void __fastcall collect_exception_references(Node *node, unsigned filter_depth)
         node = node->left.node;
     }
 }
+
+/* Original [000660f0,00066169). Ascend past protected-body states until
+   the nearest active filter/finally owner, then remember this borrowed symbol
+   once. Temporary hash heads and links belong to arena4. */
+void __fastcall remember_exception_local(SymbolHeader *symbol)
+{
+    ExceptionScope *scope = current_exception_scope();
+    unsigned i;
+    while (scope && scope->state != 0x8d && scope->state != 0x8e)
+        scope = lookup_exception_scope(prepared_exception_scopes, scope->parent_identifier);
+    if (!scope) return;
+    if (!scope->locals) {
+        scope->locals = arena_alloc(4, sizeof(ExceptionLocalSet));
+        for (i = 0; i < 16; ++i) scope->locals->buckets[i] = 0;
+    }
+    if (!find_exception_local(scope->locals, symbol->identifier))
+        insert_exception_local(scope->locals, symbol);
+}

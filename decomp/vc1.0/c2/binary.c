@@ -4,10 +4,22 @@
 #include <recon-tool.h>
 static const ReconFunction functions[] = {
     {
-        .name = "@remember_exception_local@4", .entry_rva = 0x560f0,
-        .code = (const ReconExtent[]) { { 0x560f0, 0x560f1 } }, .code_count = 1,
-        .definition = RECON_APP, .native_symbol = "remember_exception_local",
+        .name = "@find_exception_local@8", .entry_rva = 0x56480,
+        .code = (const ReconExtent[]) { { 0x56480, 0x56481 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "find_exception_local",
         .implementation = RECON_UNIMPLEMENTED,
+    },
+    {
+        .name = "@insert_exception_local@8", .entry_rva = 0x564b0,
+        .code = (const ReconExtent[]) { { 0x564b0, 0x564b1 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "insert_exception_local",
+        .implementation = RECON_UNIMPLEMENTED,
+    },
+    {
+        .name = "@remember_exception_local@4", .entry_rva = 0x560f0,
+        .code = (const ReconExtent[]) { { 0x560f0, 0x56169 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "remember_exception_local",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@collect_exception_references@8", .entry_rva = 0x55fd0,
