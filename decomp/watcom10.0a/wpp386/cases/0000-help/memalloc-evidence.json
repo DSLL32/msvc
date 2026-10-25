@@ -1,0 +1,87 @@
+{
+  "scope": "MemAlloc93-byte reconstruction accepted against fresh matching next frontier; help case remains incomplete",
+  "original_entry": 531363,
+  "original_extent": [
+    531363,
+    531456
+  ],
+  "original_body_sha256": "24039764b65aaad9c87c7ff070d02df7ebf7fc65761efa7b77aee5e560af1560",
+  "known_source": {
+    "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443/bld/cg/c/memmgr.c",
+    "sha256": "b190f63529674b650d5c9b6b56a31c4572fb787bfce0b08602f129ada2b04148",
+    "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+    "function": "MemAlloc at263",
+    "adaptations": "recover4-byte tag/word,16-byte minimum, maximumclass7 from actual1994 instructions; retain full source notice"
+  },
+  "source": {
+    "path": "src/memory.c",
+    "sha256": "7d9a23db6d4b355c55b2fda52ec3a7c1229e36ed2c043c103ff7431813546850"
+  },
+  "pending_callees": {
+    "MemInit": 532033,
+    "SizeToClass": 531125,
+    "GetFromFrl": 531165,
+    "MemFromSys": 531838
+  },
+  "abi": {
+    "argument": "unsigned32 amount EAX",
+    "result": "pointer EAX",
+    "near_return_cleanup": 0,
+    "native": "GCC cdecl convention authorized; semantic value comparison"
+  },
+  "data": [
+    {
+      "name": "Initialized",
+      "start": 759668,
+      "end": 759672,
+      "initial": 0,
+      "type": "int32",
+      "read_only_until_next_frontier": true
+    }
+  ],
+  "graph": {
+    "report_sha256": "5d86f5f819b97ccd4f825f8e93416f495b744706bbe187ef343d329c7d2c2045",
+    "checked_functions": 1,
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "extent_ownership",
+      "whole_extent_boundaries"
+    ],
+    "original_local_return_cleanup": [
+      0
+    ],
+    "original_checked_return_cleanup": [
+      0
+    ]
+  },
+  "first_original_native_pair": "startup-pair.json",
+  "fresh_pair": {
+    "original_report_sha256": "a9e73f040fd5e04ea82be49d8d5a461b8f4cc4484adf86e2e808fb596f95997a",
+    "raw_gzip": "memalloc-original-report.json.gz",
+    "capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
+    "native_report_sha256": "f41c37fc718cf799ddfb76643190fa877ca892d5febdd81183e6cd56bbd106a5",
+    "first_entry_order": [
+      531363,
+      532033
+    ],
+    "terminal": "frontier:81e41",
+    "native_passed": true,
+    "original_wall_seconds": 9.381684515625238,
+    "native_wall_seconds": 0.022493562661111355,
+    "original_phases_ms": {
+      "catalog_ms": 205.58871049433947,
+      "cpu_scope": "frontend and children waited by it; shared wineserver excluded",
+      "entry_setup_ms": 1300.123113207519,
+      "frontend_cpu_ms": 8077.003865,
+      "guarded_runtime_ms": 7053.932870738208,
+      "waited_child_cpu_ms": 4959.728
+    },
+    "native_phases_ms": {
+      "setup_ms": 2.725021,
+      "execution_ms": 2.0035740000000004,
+      "checks_ms": 0.4231029999999999
+    }
+  },
+  "validation_limits": "Current path stops inside caller MemAlloc at its first pending MemInit call; remaining return/branch paths retain paired graph/ABI proof but are not claimed runtime-covered yet."
+}

@@ -5,12 +5,12 @@
 #include "startup.h"
 #include <recon.h>
 
-static const uint32_t first_entry_order[] = { 0x81ba3 };
+static const uint32_t first_entry_order[] = { 0x81ba3, 0x81e41 };
 
 RECON_EXPORT const ReconCase case_descriptor = {
     .abi_version=RECON_ABI_VERSION, .struct_size=sizeof(ReconCase),
-    .name="help", .description="Public WPP386 ?; initial CRT-to-App allocation frontier",
+    .name="help", .description="Public WPP386 ?; private allocator initialization frontier",
     .first_entry_order=first_entry_order, .first_entry_count=RECON_COUNT(first_entry_order),
-    .execution=RECON_IO, .terminal=RECON_FRONTIER, .frontier_rva=0x81ba3,
+    .execution=RECON_IO, .terminal=RECON_FRONTIER, .frontier_rva=0x81e41,
     .io=wpp_native_startup
 };

@@ -26,7 +26,8 @@ def main():
     witness_path = PROJECT / "harness/startup-witness.json"
     witness = load(witness_path)
     report_path = PROJECT / "build/graph-audit.json"
-    support = load(report_path)["decoded_support_instructions"]
+    facts = load(report_path)
+    support = facts["decoded_support_instructions"]
     authorization = {}
     for owner in witness["support_owners"]:
         name = owner["name"]
@@ -77,10 +78,28 @@ def main():
         ("stderr flag byte", 0xb8dc1, 0xb8dc2)]:
         span(name, start, end, True)
     span("first FILE flag", 0xb8d8c, 0xb8d90, False)
+    reports = [report]
+    paired = facts.get("decoded_instructions", {})
+    if paired.get("functions"):
+        candidate = dict(report)
+        candidate.update(kind="paired", check_ret=True,
+                         expected_inputs=paired["inputs"], authorization={})
+        for name, fact in paired["functions"].items():
+            original = fact["original"]
+            assert original["checked_ret_cleanup_set"] == [0]
+            candidate["authorization"][name] = {
+                "role": "candidate", "cleanup": 0,
+                "record_sha256": original["record_sha256"]}
+        reports.append(candidate)
+        # This scalar is introduced by MemAlloc itself; it is App heap state,
+        # rather than an unbounded writable runtime data span.
+        data.append(dict(name="private heap Initialized", start=0xb9774,
+                         end=0xb9778, write=False,
+                         evidence=bind(PROJECT / "cases/0000-help/memalloc-evidence.json")))
     catalog = {
         "schema": 1,
         "producer": bind(REPO / "tooling/graph-audit/target/release/graph-audit"),
-        "reports": [report], "data": data, "startup": True,
+        "reports": reports, "data": data, "startup": True,
         "max_steps": 32768}
     profile = load(PROJECT / "harness/cf-identity.json")
     profile["mode"] = "progress"

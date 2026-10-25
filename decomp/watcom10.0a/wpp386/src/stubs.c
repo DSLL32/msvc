@@ -1,4 +1,4 @@
-/* Pending application entries. No body has been reconstructed or accepted. */
+/* Pending application entries. */
 #include "memory.h"
 #include <recon.h>
 
@@ -8,16 +8,23 @@ void reconstruction_trap(void);
 #pragma aux reconstruction_trap = 0xcc;
 #endif
 
-void *MemAlloc(unsigned size)
+void MemInit(void)
 {
-    (void)size;
 #if defined(__WATCOMC__)
     reconstruction_trap();
 #else
     __asm__ __volatile__("int3");
 #endif
-    return 0;
 }
+
+#if defined(__WATCOMC__)
+#define STUB_TRAP() reconstruction_trap()
+#else
+#define STUB_TRAP() __asm__ __volatile__("int3")
+#endif
+int SizeToClass(unsigned size) { (void)size; STUB_TRAP(); return 0; }
+void *GetFromFrl(unsigned size, int cls) { (void)size; (void)cls; STUB_TRAP(); return 0; }
+void *MemFromSys(unsigned size) { (void)size; STUB_TRAP(); return 0; }
 
 int main(void)
 {
