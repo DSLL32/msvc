@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/audit.py", line 348, in <module>
-    if __name__=='__main__':main()
-                            ~~~~^^
-  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/audit.py", line 263, in main
-    assert result.returncode==0,result.stderr.decode('utf8','replace')
-           ^^^^^^^^^^^^^^^^^^^^
-AssertionError: graph-audit: "store_type" graph differs: {"_free", "_memcpy|_memmove", "checked_alloc", "find_forward_type", "hash_type", "numeric_leaf_size", "record_derived_types", "release_type_data", "save_type"} / {"_free", "_memcpy|_memmove", "checked_zero", "find_forward_type", "hash_type", "numeric_leaf_size", "record_derived_types", "release_type_data", "save_type"}
-

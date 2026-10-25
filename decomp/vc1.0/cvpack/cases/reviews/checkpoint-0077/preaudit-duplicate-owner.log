@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/audit.py", line 354, in <module>
-    if __name__=='__main__':main()
-                            ~~~~^^
-  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/audit.py", line 236, in main
-    assert len({r['original'] for r in functions})==len(functions)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

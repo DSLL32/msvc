@@ -1,9 +1,0 @@
-make: Nothing to be done for 'graph-identities'.
-make: Nothing to be done for 'graph-audit-tool'.
-exception 80000003 va 000262d0 base 00010000 first 1
-Restored entry ranges: 73
-/root/.ai-tmp/vc1.0-cvpack/0075-append_buffer-controller-final-original/receipt.json
-hello-debug-dll trap {'setup': 0.15581726655364037, 'execution': 0.015351484529674053, 'debugging': 2.103061132133007, 'checks': 0.02437697909772396, 'total': 2.298613260500133}
-/root/.ai-tmp/vc1.0-cvpack/0075-append_buffer-controller-final-native/receipt.json
-75 complete original/compiler CFG/callee/ABI functions; 165 contextual data objects; strict CRT/import identities verified.
-Fresh original/native candidate proof passes without acceptance: append_buffer

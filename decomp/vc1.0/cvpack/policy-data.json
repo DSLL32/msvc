@@ -1,0 +1,1859 @@
+{
+  "restored_runtime_names": [
+    "_mainCRTStartup",
+    "import:GetCommandLineA",
+    "import:GetEnvironmentStrings",
+    "import:GetVersion",
+    "__heap_init",
+    "__ioinit",
+    "import:GetStartupInfoA",
+    "import:GetStdHandle",
+    "import:GetFileType",
+    "__setargv",
+    "import:GetModuleFileNameA",
+    "_parse_cmdline",
+    "_malloc",
+    "__heap_search",
+    "__heap_grow",
+    "__heap_new_region",
+    "import:VirtualAlloc",
+    "__heap_grow_region",
+    "__heap_addblock",
+    "__heap_findaddr",
+    "__heap_grow_emptylist",
+    "__before",
+    "__heap_split_block",
+    "__setenvp",
+    "__cinit",
+    "__initterm",
+    "__setmode",
+    "_getenv",
+    "__strnicmp",
+    "_toupper",
+    "__spawnlp",
+    "__spawnvp",
+    "__spawnvpe",
+    "__spawnve",
+    "_strrchr",
+    "_strchr",
+    "__access",
+    "import:GetFileAttributesA",
+    "import:GetLastError",
+    "__dosmaperr",
+    "_free",
+    "__getpath",
+    "_printf",
+    "__stbuf",
+    "__isatty",
+    "__output",
+    "_write_char",
+    "__flsbuf",
+    "__getbuf",
+    "_get_int_arg",
+    "_write_multi_char",
+    "_write_string",
+    "__ftbuf",
+    "_sprintf",
+    "_exit",
+    "_doexit",
+    "__endstdio",
+    "__flushall",
+    "_flsall",
+    "_fflush",
+    "__flush",
+    "__write",
+    "import:WriteFile",
+    "import:ExitProcess",
+    "__stricmp",
+    "_calloc",
+    "__splitpath",
+    "_strncpy",
+    "__makepath",
+    "__strdup",
+    "_strlen",
+    "_strcpy",
+    "__open",
+    "__alloc_osfhnd",
+    "import:CreateFileA",
+    "__set_osfhnd",
+    "__stat",
+    "_strpbrk",
+    "__getdrive",
+    "import:GetCurrentDirectoryA",
+    "import:FindFirstFileA",
+    "import:FileTimeToSystemTime",
+    "___gmtotime_t",
+    "import:FindClose",
+    "__dtoxmode",
+    "__lseek",
+    "__get_osfhandle",
+    "import:SetFilePointer",
+    "__read",
+    "import:ReadFile",
+    "__chkstk",
+    "_strncmp",
+    "_qsort",
+    "_swap",
+    "_shortsort",
+    "__close",
+    "import:CloseHandle",
+    "__free_osfhnd",
+    "_realloc",
+    "__heap_expand_block",
+    "__chsize",
+    "import:SetEndOfFile",
+    "_fopen",
+    "__fsopen",
+    "__getstream",
+    "__openfile",
+    "__fileno",
+    "import:CreateFileMappingA",
+    "import:MapViewOfFile",
+    "__filelength",
+    "import:UnmapViewOfFile",
+    "_fclose",
+    "import:GetModuleHandleA",
+    "import:GetProcAddress",
+    "import:LoadLibraryA",
+    "_memmove",
+    "__snprintf"
+  ],
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {
+      "_main": {
+        "abi": "int main(int, char **, char **)",
+        "source": "src/main.c",
+        "stack_cleanup": 0,
+        "roots": [
+          95344,
+          95360
+        ],
+        "compiler_seh_scaffolding": true
+      },
+      "_parse_options": {
+        "abi": "void parse_options(int, char **)",
+        "source": "src/options.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "switches": {
+          "95495": [
+            95523,
+            95504,
+            95504,
+            95504,
+            95540,
+            95504,
+            95504,
+            95504,
+            95504,
+            95575,
+            95504,
+            95504,
+            95504,
+            95504,
+            95635,
+            95712,
+            95504,
+            95720,
+            95504,
+            95504,
+            95728,
+            95504,
+            95504,
+            95776
+          ]
+        },
+        "switch_tables": [
+          {
+            "start": 95836,
+            "targets": [
+              95523,
+              95504,
+              95504,
+              95504,
+              95540,
+              95504,
+              95504,
+              95504,
+              95504,
+              95575,
+              95504,
+              95504,
+              95504,
+              95504,
+              95635,
+              95712,
+              95504,
+              95720,
+              95504,
+              95504,
+              95728,
+              95504,
+              95504,
+              95776
+            ]
+          }
+        ],
+        "compiler_switch_counts": [
+          24
+        ]
+      },
+      "_print_banner": {
+        "abi": "void print_banner(void)",
+        "source": "src/diagnostics.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_fatal_error": {
+        "abi": "void fatal_error(int, const char *, const char *)",
+        "source": "src/diagnostics.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_warning": {
+        "abi": "void warning(int, const char *, const char *)",
+        "source": "src/diagnostics.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_files_initialize": {
+        "abi": "void files_initialize(int,int,int,int,int,unsigned char,void (*)(int,const char *,const char *))",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_open_file": {
+        "abi": "int open_file(const char *,int,...)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_close_file": {
+        "abi": "int close_file(int,unsigned char)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_initialize_type_tables": {
+        "abi": "void initialize_type_tables(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_image_debug": {
+        "abi": "void read_image_debug(void)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_pack_module": {
+        "abi": "int pack_module(unsigned short)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_strip_debug": {
+        "abi": "unsigned short strip_debug(int handle)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_finalize_types": {
+        "abi": "void finalize_types(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_build_source_file_index": {
+        "abi": "void build_source_file_index(void)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_packed_debug": {
+        "abi": "void write_packed_debug(void)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_update_image_checksum": {
+        "abi": "int update_image_checksum(const char *,unsigned long *,unsigned long *)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_new_page": {
+        "abi": "Page *new_page(void)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_new_file_slot": {
+        "abi": "FileSlot *new_file_slot(void)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_find_cached_file": {
+        "abi": "FileSlot *find_cached_file(const char *)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_acquire_file_slot": {
+        "abi": "FileSlot *acquire_file_slot(void)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_open_mapped_file": {
+        "abi": "int open_mapped_file(FileSlot *,int,unsigned char)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_open_buffered_file": {
+        "abi": "int open_buffered_file(FileSlot *,int,int,unsigned char)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_move_file_slot": {
+        "abi": "void move_file_slot(FileSlot *,FileSlot **,FileSlot **,FileSlot **,FileSlot **,unsigned char)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_release_file_slot": {
+        "abi": "int release_file_slot(FileSlot *)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_seek_buffered_file": {
+        "abi": "long seek_buffered_file(FileSlot *,long,int)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_grow_page_table": {
+        "abi": "void grow_page_table(FileSlot *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_allocate_file_page": {
+        "abi": "Page *allocate_file_page(FileSlot *,long)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_file_page": {
+        "abi": "void read_file_page(FileSlot *)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_touch_page": {
+        "abi": "void touch_page(Page *)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            173819,
+            173824
+          ]
+        ]
+      },
+      "_remove_lru_page": {
+        "abi": "Page *remove_lru_page(void)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            173995,
+            174000
+          ]
+        ]
+      },
+      "_release_page": {
+        "abi": "unsigned char release_page(Page *)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 8
+      },
+      "_attach_page": {
+        "abi": "unsigned char attach_page(FileSlot *,Page *)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_checked_zero": {
+        "abi": "void *checked_zero(unsigned long)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_checked_alloc": {
+        "abi": "void *checked_alloc(unsigned long)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_initialize_buffer": {
+        "abi": "void initialize_buffer(GrowingBuffer *,unsigned long)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_seek_file": {
+        "abi": "long seek_file(int,long,int)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_file": {
+        "abi": "int read_file(int,void *,unsigned long)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_tell_file": {
+        "abi": "long tell_file(int)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_file": {
+        "abi": "int write_file(int,const void *,unsigned long)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_truncate_file": {
+        "abi": "int truncate_file(int,long)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_cv_signature": {
+        "abi": "unsigned short read_cv_signature(void)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_old_directory": {
+        "abi": "void read_old_directory(void)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_new_directory": {
+        "abi": "void read_new_directory(int)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_initialize_modules": {
+        "abi": "void initialize_modules(void)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            130171,
+            130176
+          ]
+        ],
+        "switches": {
+          "129978": [
+            130004,
+            130048,
+            130080,
+            130102,
+            129985,
+            130128,
+            129985,
+            129985,
+            130149,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            130176,
+            130080,
+            130048,
+            130048,
+            130102,
+            129985,
+            130149,
+            130149,
+            130128,
+            129985,
+            129985,
+            129985,
+            129985,
+            130192,
+            130213,
+            130240
+          ]
+        },
+        "switch_tables": [
+          {
+            "start": 130728,
+            "targets": [
+              130004,
+              130048,
+              130080,
+              130102,
+              129985,
+              130128,
+              129985,
+              129985,
+              130149,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              129985,
+              130176,
+              130080,
+              130048,
+              130048,
+              130102,
+              129985,
+              130149,
+              130149,
+              130128,
+              129985,
+              129985,
+              129985,
+              129985,
+              130192,
+              130213,
+              130240
+            ]
+          }
+        ],
+        "compiler_switch_counts": [
+          47
+        ]
+      },
+      "_read_packed_modules": {
+        "abi": "void read_packed_modules(void)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_seek_mapped_file": {
+        "abi": "long seek_mapped_file(FileSlot *,long,int)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_mapped_file": {
+        "abi": "int read_mapped_file(FileSlot *,void *,unsigned long)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_buffered_file": {
+        "abi": "int read_buffered_file(FileSlot *,void *,unsigned long)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_advance_file_page": {
+        "abi": "void advance_file_page(FileSlot *)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_compare_directory": {
+        "abi": "int __cdecl compare_directory(const void *,const void *)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_subsection": {
+        "abi": "void read_subsection(const CvDirectoryEntry *,unsigned char **,unsigned long *)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_find_module": {
+        "abi": "ModuleInfo *find_module(unsigned short,int)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_old_module": {
+        "abi": "void read_old_module(unsigned long,ModuleInfo *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_module": {
+        "abi": "void read_module(CvDirectoryEntry *,ModuleInfo *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_module_name": {
+        "abi": "const char *module_name(ModuleInfo *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_symbols": {
+        "abi": "void read_symbols(unsigned long,const CvDirectoryEntry *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_global_types": {
+        "abi": "void read_global_types(const CvDirectoryEntry *,int)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_types": {
+        "abi": "void read_types(unsigned long,const CvDirectoryEntry *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_lines": {
+        "abi": "void read_lines(unsigned long,const CvDirectoryEntry *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_publics": {
+        "abi": "void read_publics(unsigned long,const CvDirectoryEntry *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_source_module": {
+        "abi": "void read_source_module(unsigned long,const CvDirectoryEntry *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_save_precompiled": {
+        "abi": "void save_precompiled(ModuleInfo *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_prepare_symbols": {
+        "abi": "void prepare_symbols(void *,unsigned long)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_pack_new_symbols": {
+        "abi": "void pack_new_symbols(void *,CvDirectoryEntry *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_pack_public_symbols": {
+        "abi": "void pack_public_symbols(void *,CvDirectoryEntry *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            152539,
+            152544
+          ],
+          [
+            152555,
+            152560
+          ],
+          [
+            152587,
+            152592
+          ]
+        ]
+      },
+      "_prepare_old_types": {
+        "abi": "void prepare_old_types(void *,unsigned long)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_pack_old_types": {
+        "abi": "void pack_old_types(void *,CvDirectoryEntry *,void *,ModuleInfo *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_index_new_types": {
+        "abi": "void index_new_types(void *,unsigned long,unsigned short *,unsigned short *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_pack_new_types": {
+        "abi": "void pack_new_types(void *,CvDirectoryEntry *,ModuleInfo *,unsigned short *,unsigned short *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_pack_new_lines": {
+        "abi": "void pack_new_lines(void *,CvDirectoryEntry *,ModuleInfo *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_pack_old_lines": {
+        "abi": "void pack_old_lines(void *,CvDirectoryEntry *,ModuleInfo *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@convert_old_type@4": {
+        "abi": "unsigned short __fastcall convert_old_type(unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@convert_new_type@4": {
+        "abi": "unsigned short __fastcall convert_new_type(unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 16
+      },
+      "_intern_public": {
+        "abi": "int intern_public(unsigned char *,SymbolHash)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_hash_public": {
+        "abi": "unsigned short __cdecl hash_public(const unsigned char *,unsigned long *,unsigned short *,unsigned short *,unsigned long *,unsigned short)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            110827,
+            110832
+          ]
+        ],
+        "rebuilt_extra_roots": [
+          347
+        ]
+      },
+      "_map_primitive": {
+        "abi": "unsigned short map_primitive(unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@compact_old_type@4": {
+        "abi": "unsigned short __fastcall compact_old_type(unsigned short)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_finish_recursive_types": {
+        "abi": "void finish_recursive_types(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_allocate_symbol": {
+        "abi": "void *allocate_symbol(unsigned long)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_numeric_leaf_size": {
+        "abi": "unsigned short numeric_leaf_size(const unsigned char *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "switches": {
+          "127464": [
+            127488,
+            127493,
+            127493,
+            127498,
+            127498,
+            127498,
+            127504,
+            127509,
+            127514
+          ]
+        },
+        "switch_tables": [
+          {
+            "start": 127520,
+            "targets": [
+              127488,
+              127493,
+              127493,
+              127498,
+              127498,
+              127498,
+              127504,
+              127509,
+              127514
+            ]
+          }
+        ],
+        "compiler_switch_counts": [
+          9
+        ],
+        "return_bits": 16
+      },
+      "_read_old_global_types": {
+        "abi": "void read_old_global_types(void *,unsigned long)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_new_global_types": {
+        "abi": "void read_new_global_types(unsigned long,int)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            106651,
+            106656
+          ]
+        ]
+      },
+      "_reset_type_hash": {
+        "abi": "void reset_type_hash(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_reset_local_types": {
+        "abi": "void reset_local_types(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_load_precompiled_types": {
+        "abi": "void load_precompiled_types(const unsigned char *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_import_type_server": {
+        "abi": "void import_type_server(const unsigned char *)",
+        "source": "src/pdb.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            108571,
+            108576
+          ]
+        ]
+      },
+      "@add_old_type@20": {
+        "abi": "void __fastcall add_old_type(const unsigned char *,int,int,int,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 12,
+        "roots": []
+      },
+      "_type_server_open": {
+        "abi": "TypeServer *type_server_open(const char *,const char *)",
+        "source": "src/pdb.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_type_server_close": {
+        "abi": "int type_server_close(TypeServer *)",
+        "source": "src/pdb-close.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_type_server_signature": {
+        "abi": "unsigned long type_server_signature(TypeServer *)",
+        "source": "src/pdb.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_type_server_age": {
+        "abi": "unsigned long type_server_age(TypeServer *)",
+        "source": "src/pdb.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_load_type_server_records": {
+        "abi": "void load_type_server_records(const char *)",
+        "source": "src/pdb.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_type_server_open_file@12": {
+        "abi": "int __stdcall type_server_open_file(TypeServer *,const char *,const char *)",
+        "source": "src/pdb.c",
+        "stack_cleanup": 12,
+        "roots": []
+      },
+      "_type_server_read_records@4": {
+        "abi": "int __stdcall type_server_read_records(TypeServer *)",
+        "source": "src/pdb.c",
+        "stack_cleanup": 4,
+        "roots": []
+      },
+      "_type_server_fill_alloc": {
+        "abi": "void *type_server_fill_alloc(unsigned long,unsigned char)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_type_server_record_init@16": {
+        "abi": "TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *,TypeServerRecord *,unsigned char *,unsigned short)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 16,
+        "roots": []
+      },
+      "_type_server_first": {
+        "abi": "unsigned short type_server_first(TypeServer *)",
+        "source": "src/pdb.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_type_server_limit": {
+        "abi": "unsigned short type_server_limit(TypeServer *)",
+        "source": "src/pdb.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_type_server_record": {
+        "abi": "unsigned char *type_server_record(TypeServer *,unsigned short)",
+        "source": "src/pdb.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_flush_file_page": {
+        "abi": "void flush_file_page(Page *)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@compact_new_type@4": {
+        "abi": "unsigned short __fastcall compact_new_type(unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            157259,
+            157264
+          ],
+          [
+            158139,
+            158144
+          ]
+        ],
+        "rebuilt_extra_roots": [
+          3661
+        ],
+        "switches": {
+          "157253": [
+            158274,
+            158323,
+            158336,
+            157285,
+            157285,
+            157392,
+            157492,
+            158914,
+            159010,
+            159613,
+            159192,
+            159613,
+            159248,
+            159613,
+            159613,
+            158242,
+            159297
+          ],
+          "157278": [
+            159613,
+            158242,
+            159441,
+            159441,
+            159490,
+            159490,
+            159613
+          ]
+        },
+        "switch_tables": [
+          {
+            "start": 159896,
+            "targets": [
+              158274,
+              158323,
+              158336,
+              157285,
+              157285,
+              157392,
+              157492,
+              158914,
+              159010,
+              159613,
+              159192,
+              159613,
+              159248,
+              159613,
+              159613,
+              158242,
+              159297
+            ]
+          },
+          {
+            "start": 159964,
+            "targets": [
+              159613,
+              158242,
+              159441,
+              159441,
+              159490,
+              159490,
+              159613
+            ]
+          }
+        ],
+        "compiler_switch_counts": [
+          17,
+          7
+        ],
+        "return_bits": 16
+      },
+      "_get_type_record": {
+        "abi": "TypeRecord *get_type_record(unsigned short,unsigned short *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_reserve_extra_type": {
+        "abi": "void reserve_extra_type(unsigned short,unsigned short *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_has_extra_type": {
+        "abi": "int has_extra_type(unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_begin_symbol_block": {
+        "abi": "void begin_symbol_block(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_end_symbol_block": {
+        "abi": "void end_symbol_block(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_bp_relative16": {
+        "abi": "void convert_bp_relative16(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_bp_relative32": {
+        "abi": "void convert_bp_relative32(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_register_symbol": {
+        "abi": "void convert_register_symbol(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_constant_symbol": {
+        "abi": "void convert_constant_symbol(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_object_name": {
+        "abi": "void convert_object_name(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_local_data16": {
+        "abi": "void convert_local_data16(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_global_data16": {
+        "abi": "void convert_global_data16(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_local_data32": {
+        "abi": "void convert_local_data32(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_global_data32": {
+        "abi": "void convert_global_data32(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_procedure16": {
+        "abi": "void convert_procedure16(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_procedure32": {
+        "abi": "void convert_procedure32(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_udt_symbol": {
+        "abi": "void convert_udt_symbol(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_search_symbol": {
+        "abi": "unsigned short write_search_symbol(unsigned char *,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 16
+      },
+      "_link_symbol_scopes": {
+        "abi": "int link_symbol_scopes(unsigned char *,unsigned long)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 32
+      },
+      "_record_symbol_offsets": {
+        "abi": "void record_symbol_offsets(unsigned char *,unsigned long,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@intern_global@8": {
+        "abi": "int __fastcall intern_global(unsigned char *,SymbolHash)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@find_named_type@12": {
+        "abi": "int __fastcall find_named_type(TypeRecord *,TypeCacheEntry **,int)",
+        "source": "src/types.c",
+        "stack_cleanup": 4,
+        "roots": [],
+        "alignment_padding": [
+          [
+            110043,
+            110048
+          ]
+        ],
+        "rebuilt_extra_roots": [
+          203
+        ],
+        "return_bits": 32
+      },
+      "@queue_type_match@8": {
+        "abi": "void __fastcall queue_type_match(unsigned short,TypeCacheEntry *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@compact_pointer@4": {
+        "abi": "unsigned char __fastcall compact_pointer(TypeRecord *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 8
+      },
+      "@compact_type_list@8": {
+        "abi": "unsigned short __fastcall compact_type_list(unsigned short,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            161403,
+            161408
+          ],
+          [
+            161627,
+            161632
+          ]
+        ],
+        "switches": {
+          "161330": [
+            161344,
+            161425,
+            161425,
+            161601,
+            161669,
+            161718,
+            161744,
+            161840,
+            161889,
+            161959,
+            162008,
+            162008
+          ]
+        },
+        "switch_tables": [
+          {
+            "start": 162520,
+            "targets": [
+              161344,
+              161425,
+              161425,
+              161601,
+              161669,
+              161718,
+              161744,
+              161840,
+              161889,
+              161959,
+              162008,
+              162008
+            ]
+          }
+        ],
+        "compiler_switch_counts": [
+          12
+        ],
+        "return_bits": 16
+      },
+      "_intern_type": {
+        "abi": "unsigned short intern_type(TypeRecord *,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            109867,
+            109872
+          ]
+        ],
+        "return_bits": 16
+      },
+      "@store_type@4": {
+        "abi": "void __fastcall store_type(TypeRecord *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "rebuilt_extra_roots": [
+          310
+        ]
+      },
+      "@add_recursive_offset@8": {
+        "abi": "void __fastcall add_recursive_offset(TypeRecord *,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            162619,
+            162624
+          ]
+        ]
+      },
+      "_merge_field_list": {
+        "abi": "void merge_field_list(unsigned char *,TypeRecord *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@hash_type@4": {
+        "abi": "unsigned short __fastcall hash_type(const unsigned char *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "switches": {
+          "115286": [
+            115765,
+            115698,
+            115631,
+            115564,
+            115497,
+            115430,
+            115363,
+            115296
+          ]
+        },
+        "switch_tables": [
+          {
+            "start": 115884,
+            "targets": [
+              115765,
+              115698,
+              115631,
+              115564,
+              115497,
+              115430,
+              115363,
+              115296
+            ]
+          }
+        ],
+        "compiler_switch_counts": [],
+        "return_bits": 16
+      },
+      "_release_type_data": {
+        "abi": "void release_type_data(TypeRecord *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@save_type@4": {
+        "abi": "void __fastcall save_type(TypeRecord *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "rebuilt_extra_roots": [
+          979,
+          984
+        ]
+      },
+      "_record_derived_types": {
+        "abi": "void record_derived_types(unsigned short,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@append_buffer@12": {
+        "abi": "void *__fastcall append_buffer(GrowingBuffer *,const void *,unsigned long)",
+        "source": "src/types.c",
+        "stack_cleanup": 4,
+        "roots": [],
+        "return_bits": 32
+      },
+      "_find_local_type": {
+        "abi": "int find_local_type(unsigned short,const unsigned char *,TypeCacheEntry **,int)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 32
+      },
+      "_find_global_type": {
+        "abi": "int find_global_type(unsigned short,const unsigned char *,TypeCacheEntry **)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "rebuilt_extra_roots": [
+          327
+        ],
+        "return_bits": 32
+      },
+      "_add_derived_type": {
+        "abi": "void add_derived_type(unsigned short,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_checked_realloc": {
+        "abi": "void *checked_realloc(void *,unsigned long)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@hash_recursive_type@4": {
+        "abi": "unsigned long __fastcall hash_recursive_type(TypeRecord *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "rebuilt_extra_roots": [
+          688
+        ],
+        "return_bits": 32
+      },
+      "@compare_recursive_type@16": {
+        "abi": "int __fastcall compare_recursive_type(TypeRecord *,unsigned short,unsigned char *,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 8,
+        "roots": [],
+        "alignment_padding": [
+          [
+            125291,
+            125296
+          ]
+        ],
+        "return_bits": 32
+      },
+      "@commit_recursive_type@4": {
+        "abi": "unsigned short __fastcall commit_recursive_type(unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 16
+      },
+      "@hash_referenced_type@8": {
+        "abi": "unsigned short __fastcall hash_referenced_type(TypeRecord *,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            116891,
+            116896
+          ]
+        ],
+        "return_bits": 16
+      },
+      "@publish_recursive_type@4": {
+        "abi": "void __fastcall publish_recursive_type(TypeRecord *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "@publish_packed_type@8": {
+        "abi": "void __fastcall publish_packed_type(unsigned char *,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_address_in_module": {
+        "abi": "unsigned short __cdecl address_in_module(ModuleInfo *,unsigned short,unsigned long)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_create_symbol_reference": {
+        "abi": "void __cdecl create_symbol_reference(unsigned char *,void **,unsigned short,unsigned long,unsigned short)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 0
+      },
+      "_initialize_strip_sections": {
+        "abi": "unsigned short initialize_strip_sections(void)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_collect_strip_records": {
+        "abi": "unsigned short collect_strip_records(void)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_strip_records": {
+        "abi": "void write_strip_records(void)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_free_strip_records": {
+        "abi": "void free_strip_records(void)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_coff_symbol": {
+        "abi": "unsigned short read_coff_symbol(CoffSymbol *,unsigned long)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_next_coff_symbol": {
+        "abi": "unsigned short next_coff_symbol(CoffSymbol *,unsigned long *)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_classify_coff_symbol": {
+        "abi": "int classify_coff_symbol(const CoffSymbol *)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_find_first_coff_function": {
+        "abi": "unsigned short find_first_coff_function(CoffSymbol *,CoffAuxiliary *,unsigned long *)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_find_next_coff_function": {
+        "abi": "unsigned short find_next_coff_function(CoffSymbol *,CoffAuxiliary *,unsigned long *)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_fill_coff_function": {
+        "abi": "unsigned short fill_coff_function(CoffFunction *,const CoffSymbol *,const CoffAuxiliary *,unsigned long)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_coff_function_block": {
+        "abi": "unsigned short read_coff_function_block(const CoffAuxiliary *,CoffSymbol *,CoffAuxiliary *,unsigned long *)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_coff_function_lines": {
+        "abi": "void read_coff_function_lines(CoffFunction *,CoffFunction *,unsigned long *,unsigned short)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_set_coff_function_end": {
+        "abi": "void set_coff_function_end(CoffFunction *,unsigned long)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_publish_coff_function": {
+        "abi": "CoffFunction *publish_coff_function(CoffFunction *)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_coff_auxiliary": {
+        "abi": "unsigned short read_coff_auxiliary(CoffAuxiliary *)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_coff_file_name": {
+        "abi": "unsigned short read_coff_file_name(char *,unsigned long)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_set_coff_function_name": {
+        "abi": "void set_coff_function_name(CoffFunction *,const char *)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_assign_coff_function_module": {
+        "abi": "void assign_coff_function_module(CoffFunction *,unsigned short,unsigned long)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_set_coff_function_section": {
+        "abi": "void set_coff_function_section(CoffFunction *,unsigned short)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_set_coff_function_line": {
+        "abi": "void set_coff_function_line(CoffFunction *,unsigned short)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_set_coff_function_offset": {
+        "abi": "void set_coff_function_offset(CoffFunction *,unsigned long)",
+        "source": "src/strip.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_finalize_derived_types": {
+        "abi": "void finalize_derived_types(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "alignment_padding": [
+          [
+            115051,
+            115056
+          ]
+        ]
+      },
+      "_type_scratch": {
+        "abi": "void *type_scratch(unsigned long)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_find_source_name": {
+        "abi": "int find_source_name(const unsigned char *,unsigned long *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_add_source_name": {
+        "abi": "SourceName *add_source_name(const unsigned char *,SourceName *,unsigned long)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_hash_source_name": {
+        "abi": "unsigned int hash_source_name(const unsigned char *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_initialize_output": {
+        "abi": "void initialize_output(int)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_output": {
+        "abi": "unsigned short write_output(const void *,unsigned long)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 16
+      },
+      "_flush_output": {
+        "abi": "unsigned short flush_output(void)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_subsection": {
+        "abi": "void write_subsection(unsigned long)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_global_publics": {
+        "abi": "void write_global_publics(CvDirectoryEntry *,unsigned long)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_global_symbols": {
+        "abi": "void write_global_symbols(CvDirectoryEntry *,unsigned long)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_static_symbols": {
+        "abi": "void write_static_symbols(CvDirectoryEntry *,unsigned long)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_packed_types": {
+        "abi": "unsigned long write_packed_types(void)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_old_packed_types": {
+        "abi": "unsigned long write_old_packed_types(void)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_compare_output_directory": {
+        "abi": "int __cdecl compare_output_directory(const void *,const void *)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_pad_symbols": {
+        "abi": "unsigned long pad_symbols(void **,unsigned long)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_build_symbol_name_hash": {
+        "abi": "void build_symbol_name_hash(SymbolHash,unsigned short *,unsigned long *,GrowingBuffer *,unsigned long,void **)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_build_symbol_address_hash": {
+        "abi": "void build_symbol_address_hash(unsigned short *,unsigned long *,GrowingBuffer *,unsigned long,void **)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_first_buffer_block": {
+        "abi": "BufferBlock *first_buffer_block(const GrowingBuffer *)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_next_buffer_block": {
+        "abi": "BufferBlock *next_buffer_block(const BufferBlock *)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_append_fill": {
+        "abi": "void *append_fill(GrowingBuffer *,unsigned char,unsigned long)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_compare_symbol_address": {
+        "abi": "int __cdecl compare_symbol_address(const void *,const void *)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_build_type_offsets": {
+        "abi": "void build_type_offsets(void)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_buffered_file": {
+        "abi": "int write_buffered_file(FileSlot *,const void *,unsigned long)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_write_mapped_file": {
+        "abi": "int write_mapped_file(FileSlot *,const void *,unsigned long)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_truncate_buffered_file": {
+        "abi": "int truncate_buffered_file(FileSlot *,long)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_truncate_mapped_file": {
+        "abi": "int truncate_mapped_file(FileSlot *,long)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_cache_closed_file": {
+        "abi": "void cache_closed_file(FileSlot *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_close_mapped_file": {
+        "abi": "int close_mapped_file(FileSlot *)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_checksum_image": {
+        "abi": "void *checksum_image(void *,unsigned long,unsigned long *,unsigned long *)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_checksum_words": {
+        "abi": "unsigned long checksum_words(unsigned long,const unsigned short *,unsigned long)",
+        "source": "src/output.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_image_nt_header@4": {
+        "abi": "void *WINAPI image_nt_header(void *)",
+        "source": "src/output.c",
+        "stack_cleanup": 4,
+        "roots": []
+      },
+      "_map_file": {
+        "abi": "int map_file(FileSlot *)",
+        "source": "src/files.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_grow_mapping": {
+        "abi": "void grow_mapping(FileSlot *,long)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_find_precompiled_module": {
+        "abi": "ModuleInfo *find_precompiled_module(const unsigned char *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_allocate_small_type": {
+        "abi": "void * allocate_small_type(void)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_recycle_small_type": {
+        "abi": "void recycle_small_type(void *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_allocate_medium_type": {
+        "abi": "void * allocate_medium_type(void)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_recycle_medium_type": {
+        "abi": "void recycle_medium_type(void *)",
+        "source": "src/types.c",
+        "stack_cleanup": 0,
+        "roots": []
+      }
+    },
+    "callback_tables": []
+  }
+}

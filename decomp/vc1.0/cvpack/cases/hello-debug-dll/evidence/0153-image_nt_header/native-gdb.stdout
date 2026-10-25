@@ -1,7 +1,0 @@
-Breakpoint 1 at 0x6b17: file src/main.c, line 13.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, main (argc=4, argv=0xffffa9e4, environment=0xffffa9f8) at src/main.c:13
-13	{
-[Inferior 1 (process 2043847) exited normally]

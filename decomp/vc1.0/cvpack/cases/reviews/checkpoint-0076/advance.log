@@ -1,9 +1,0 @@
-make: Nothing to be done for 'graph-identities'.
-make: Nothing to be done for 'graph-audit-tool'.
-exception 80000003 va 0001ad40 base 00010000 first 1
-Restored entry ranges: 74
-/root/.ai-tmp/vc1.0-cvpack/0076-finish_recursive_types-original/receipt.json
-hello-debug-dll trap {'setup': 0.1591129284352064, 'execution': 0.015054131858050823, 'debugging': 2.0883426228538156, 'checks': 0.031310892663896084, 'total': 2.2938276939094067}
-/root/.ai-tmp/vc1.0-cvpack/0076-finish_recursive_types-native/receipt.json
-76 complete original/compiler CFG/callee/ABI functions; 167 contextual data objects; strict CRT/import identities verified.
-Fresh original/native candidate proof passes without acceptance: finish_recursive_types

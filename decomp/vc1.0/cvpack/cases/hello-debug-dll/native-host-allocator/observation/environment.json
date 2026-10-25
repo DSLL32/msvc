@@ -1,8 +1,0 @@
-{
-  "GLIBC_TUNABLES": "glibc.malloc.tcache_count=0:glibc.malloc.mmap_threshold=0:glibc.malloc.trim_threshold=0",
-  "libc": "/lib32/libc.so.6",
-  "libc_sha256": "f2ed349542c0be517ea7e66381f342eda08857e01772d6aa33916ca41702f61c",
-  "libc_version": "ldd (Debian GLIBC 2.41-12+deb13u4) 2.41",
-  "native_executable_sha256": "3fb371dc066423d97aa86fee40877f6ed663067ae5c5ca1133d9b3bb9faaa612",
-  "scope": "Native-only explicit allocator choice; mmap chunk observed only for this allocation, no universal initialization claim; target source unchanged"
-}

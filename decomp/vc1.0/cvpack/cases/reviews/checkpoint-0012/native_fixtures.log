@@ -1,3 +1,0 @@
-help exit {'setup': 0.043627566657960415, 'execution': 0.00797304231673479, 'debugging': 0, 'checks': 0.00235135480761528, 'total': 0.05395570583641529}
-hello-debug-dll trap {'setup': 0.01681197714060545, 'execution': 0.005175909027457237, 'debugging': 0, 'checks': 0.011260918341577053, 'total': 0.03325244504958391}
-/root/.ai-tmp/vc1.0-cvpack/checkpoint-12/fixtures/receipt.json

@@ -1,1 +1,0 @@
-{"signal": 5, "frames": ["type_scratch", "finalize_derived_types", "finalize_types", "main"], "parameters": {"size": 10}, "globals": {"symbol_scope_depth": "00000000", "suppressed_symbol_depth": "00000000"}, "walks": {}, "later_heap_equality": false}

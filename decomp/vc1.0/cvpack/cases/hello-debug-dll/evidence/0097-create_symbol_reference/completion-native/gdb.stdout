@@ -1,9 +1,0 @@
-Breakpoint 1 at 0x6377: file src/main.c, line 13.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, main (argc=4, argv=0xff8fb3d4, environment=0xff8fb3e8) at src/main.c:13
-13	{
-
-Breakpoint -187, 0x5663ee35 in record_symbol_offsets (symbols=0x58510660 "\001", size=608, module=3) at src/types.c:1918
-1918	            create_symbol_reference(record, global_symbol_hash, module, offset, 0x400);

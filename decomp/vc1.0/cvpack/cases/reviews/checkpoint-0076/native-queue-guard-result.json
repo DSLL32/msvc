@@ -1,1 +1,0 @@
-{"signal": 5, "function": "finish_recursive_types", "queue": 1, "scope": "Native-only unsupported nonempty queue traps before dereference/free; not original-program evidence"}

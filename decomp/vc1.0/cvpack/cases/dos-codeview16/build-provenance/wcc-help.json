@@ -1,9 +1,0 @@
-{
-  "argv": [
-    "wine",
-    "R:\\toolchains\\watcom10.0a\\binnt\\WCC.EXE",
-    "/?"
-  ],
-  "status": 2,
-  "elapsed_seconds": 0.5473258448764682
-}

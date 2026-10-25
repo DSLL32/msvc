@@ -1,5 +1,0 @@
-{
-  "change": "EOF blank-line removal only; all C tokens/line positions unchanged. Prior183 genuine paired execution retained; no original recapture.",
-  "before_sha256": "3cc1fdb809cb8fc4a7a5fe4cb45912448bf4d8c9eb90cfaa8edf07253233d766",
-  "after_sha256": "72bae53628a81a715630c8f5aca93929b43aff715f0693358f6f2c8717224be2"
-}

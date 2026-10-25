@@ -1,9 +1,0 @@
-make: Nothing to be done for 'graph-identities'.
-make: Nothing to be done for 'graph-audit-tool'.
-exception 80000003 va 000256f0 base 00010000 first 1
-Restored entry ranges: 78
-/root/.ai-tmp/vc1.0-cvpack/0080-record_derived_types-original/receipt.json
-hello-debug-dll trap {'setup': 0.16446328163146973, 'execution': 0.015604622662067413, 'debugging': 2.0201606955379248, 'checks': 0.017822510562837124, 'total': 2.2180574368685484}
-/root/.ai-tmp/vc1.0-cvpack/0080-record_derived_types-native/receipt.json
-80 complete original/compiler CFG/callee/ABI functions; 167 contextual data objects; strict CRT/import identities verified.
-Fresh original/native candidate proof passes without acceptance: record_derived_types

@@ -1,1 +1,0 @@
-{"signal": 5, "frames": ["convert_constant_symbol", "pack_new_types", "pack_module", "main"], "parameters": {}, "globals": {"symbol_scope_depth": "00000000", "suppressed_symbol_depth": "00000000"}, "walks": {}, "later_heap_equality": false}

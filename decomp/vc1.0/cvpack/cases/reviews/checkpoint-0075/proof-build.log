@@ -1,5 +1,0 @@
-python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /I../../../lib/recon/include /Fobuild/debug-run.obj scripts/debug-run.c
-python3 scripts/graph_identities.py --prepare --output build/graph-identities.json
-Prepared hash-bound strict original/compiler relocation identities
-scripts/debug-run.c
-python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /out:build/debug-run.exe build/debug-run.obj

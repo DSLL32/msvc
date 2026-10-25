@@ -1,9 +1,0 @@
-{
-  "argv": [
-    "wine",
-    "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
-    "/?"
-  ],
-  "status": 0,
-  "elapsed_seconds": 0.61133923381567
-}

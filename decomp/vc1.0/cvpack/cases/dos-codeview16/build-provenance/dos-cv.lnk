@@ -1,8 +1,0 @@
-format dos
-debug codeview
-option map=dos-cv.map
-name dos-cv.exe
-file dos-main.obj,dos-visit.obj
-libpath R:\toolchains\watcom10.0a\lib286
-libpath R:\toolchains\watcom10.0a\lib286\DOS
-library clibs

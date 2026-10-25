@@ -1,9 +1,0 @@
-{
-  "change": "One extra terminal newline removed; all source tokens/lines and compared instructions/inputs/instrumentation unchanged.",
-  "captured_source": "cases/embedded-cpp-mapped/handle-review/captured-files.c",
-  "captured_source_sha256": "db07287c5af12ceb9b0a0d7d412f50da5183a41e0549c83236af62a1126075c8",
-  "current_source": "src/files.c",
-  "current_source_sha256": "28b3394bcc2c27758fae6fc4cab4dd440502f4f54c83336696a7bce0d9910599",
-  "configuration": "Fresh154 original/native configuration source_sha256 retains exact pre-formatting source identity.",
-  "approval": "Root explicitly approved retaining fresh pair for missing evidence directory/EOF-only bookkeeping fix; no extra original execution."
-}

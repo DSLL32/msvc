@@ -1,8 +1,0 @@
-spawn-mode 0
-spawn-string 0 71682e657865
-spawn-string 1 7168
-spawn-string 2 2d75
-spawn-string 3 63767061636b2e657865
-runtime 00030ad0 00030af0
-spawn-return -1 errno 2
-exit 1

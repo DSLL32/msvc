@@ -1,7 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-pack_new_types (types=0xffffd940, entry=0xffffd934, module=0xffffd904, padding_bytes=0xffffd902, skipped_bytes=0xffffd900) at src/types.c:426
-426	            if (conversion->convert) conversion->convert();
-Unknown symbol kind stopped before callback read: index32, kindFFFF, owning pack_new_types frame

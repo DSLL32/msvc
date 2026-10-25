@@ -1,196 +1,63 @@
-CVPACK 4.25 (vc1.0, toolchain 1.0-nt)
-====================================
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **187 accepted application
+functions, 56,759 original code bytes, and 20 named trapping stubs**.
+`binary.c` is the canonical function registry. This harness migration accepts
+no new application functions and grants no CRT reconstruction credit.
+The last accepted function is `type_server_close` (sequence 187,
+`src/pdb-close.c`, commit `a00fd6a90`). There were no candidate bodies or
+uncommitted source changes at migration start.
 
-Reconstruct readable Win32 C with original function/ABI boundaries. Source is in
-`src/`, owned tooling in `scripts/`, ordered cases and evidence in `cases/`.
-The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
+Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
+from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
+automatically discovers the ten numbered `case.c` descriptors, and runs their
+cached trace/status/stream/artifact checks in independent native workspaces.
+Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
+compiler through the shared Wine prefix. `audit` compares full original/compiler
+application CFGs, RET cleanup, extent ownership and instruction overlap;
+`check-context.py` additionally checks 206 initial data objects, diagnostic
+strings, typed callback identities and source/stub inventory. Target-specific
+switch/SEH/compiler annotations live in `policy-data.json`.
 
-`make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
-also verifies original-compiler compilability. Debug with GDB against
-`build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. The independent DLL case is complete: exit 0, empty streams and
-the exact 71,800-byte master DLL (no normalization);
-`functions.json` and the ordered case evidence are the authoritative counts and
-current frontier. The orchestrator's ten- and fifty-function reviews passed.
-CRT startup and case-specific runtime variants remain separate from application
-coverage. `audit` checks complete original/compiler CFGs and callees, RET cleanup,
-SEH roots, contextual data, ownership and library relocation identities.
+All ten dispatched cases have complete original-backed expectations and explicit
+unseeded first-entry order. The PDB cases materialize owned PDB bytes under
+private native Z: namespaces while preserving the original embedded Windows
+filenames. Existing references retain their historical Z: program path; they
+were packed without relabeling or rerunning the original. Future path-dependent
+captures must use the fixed shared drives and fresh original evidence.
 
-`scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
-original-only operation after `make build/debug-run.exe`. It creates an entirely
-masked original and unmasks only accepted function/text-data ranges. It is never
-a fixture prerequisite. `--unmasked` is explicit reference capture.
-`--discover-runtime` restores only reached exact-library/import ranges in the
-original debugger, recording their order. It also records instrumented first
-entries into accepted/candidate application functions; unknown traps stop it.
-`--candidate NAME` validates proposed source before acceptance. Captures keep
-configuration, image and helper hashes, registers/stack at a frontier, streams,
-artifact hashes and separate setup/execution timing.
+The original `build_source_file_index` left trailing filename alignment bytes
+uninitialized. At the user's direction, this reconstruction now writes zeroes
+to that padding in both native and Win32 builds, with the original defect
+documented at the write. This explicit behavior correction replaces the old
+allocator launch qualifications. Comparisons mask only the two established
+filename padding tails: hello `[0x110ae,0x110b0)` and embedded C++
+`[0xab91,0xab94)`. Case callbacks require actual zero padding. The hello callback
+also independently validates the raw PE checksum before its derived field
+`[0xd8,0xdc)` is excluded from the comparison hash; the mapped case retains its
+original zero checksum. All other bytes remain exact. Raw original oracles are
+preserved in the snapshot and Git; no allocator tunables or libc profiles remain.
 
-The root Wine prefix `~/.ai-tmp/vc1.0-capture/wine` is shared by explicit user
-authorization. These scripts never initialize, remap, reset or stop it. Z: paths
-and per-run private working directories avoid changes to its persistent state.
-Existing canonical Z: references remain fixed; newer captures can use the shared
-R: repository and S: scratch mappings without remapping either drive.
+`cases/0009-buffered-strip-cache/capture.bin` preserves the queued invocation,
+input and untouched original final oracle. It deliberately has no descriptor:
+the prior worker never established a masked/native frontier and explicitly
+excluded it from fixtures. To resume reconstruction, inspect its saved invocation
+with `recon-tool capture unpack`, establish a genuine masked/native frontier,
+then author the descriptor and reconstruct functions under the normal policy.
+Do not treat the saved final oracle as current native completion. The superseded
+unaligned field-list draft serialized nondeterministic original padding and
+remains excluded; its raw input/oracle/reason stay in Git and the snapshot.
 
-Initial cases: `/help` (exit 1, 219 stdout bytes), then the exact independent
-`/nologo /cvnew hello-debug.dll` process frozen by LINK. The second case reuses
-read-only prepack/packed bytes, not LINK execution. An independent original-only
-rerun produced the exact same 71,800-byte packed DLL without normalization.
-Partial fixtures compare their frozen frontier; completed ones compare full
-streams/artifacts and projected entry traces. `/help` attempts a missing QH.EXE;
-its exact invocation and -1/errno2 response are frozen and brokered natively.
+`runtime.json` is the unchanged frozen original library/import identity index.
+`runtime-policy.json` preserves identity-only anchors and the narrowly qualified
+case/phase/input/mode/share CRT boundaries. They grant neither unconditional
+restoration nor application credit. Shared original progress capture does not yet
+implement those conditional guards; resume that facility before using it on
+these cases. The native source still traps on unsupported all-pinned/empty LRU
+selection and NULL PDB-close arguments; no equivalence is claimed there.
 
-`runtime-anchors.json` contains reviewed identity-only `_freebuf` and `_setvbuf`
-variants. For `_freebuf`,
-the original clears flag 0x8, while shipped LIBC clears 0x408. The anchor resolves exact
-caller identities but never grants unconditional unmasking or coverage. The
-mask-negative check verifies this even under the entire exact runtime closure.
-
-Root reviewed and passed the scaffold before reconstruction, with graph/ABI/data
-checks required before acceptance; those checks are now implemented. Stop for orchestrator review
-at 10 and 50 application functions, counting CRT/support separately. After both
-initial cases, inspect remaining application code and propose further cases to
-the orchestrator before starting them. Shared shim changes belong to the dedicated recon_lib_maintenance worker.
-
-The ten-function review and measured build/fixture/audit receipts are in
-`cases/reviews/0010/`. Forced full builds: original 6.82 s, native 1.34 s;
-audits 0.53 s, rejection checks 1.55 s. Native case totals sum to 0.043 s
-(0.116 s including Python runner startup). Function-ten acceptance with fresh
-GDB state took 0.240 s natively; explicit masked-original capture took 5.72 s.
-
-The first source review and its tooling fixes passed; the fixes are recorded in
-`cases/reviews/0010/fixes/review-fixes.json`. Acceptance now requires matching
-current candidate snapshots and target/image hashes. The audit rejects overlapping
-application code/text data/runtime ownership; same-range runtime aliases need
-explicit identities and evidence. Historical proof snapshots remain unchanged.
-
-The actual `_sopen` CRT variant has separate case-specific support in
-`runtime-support.json`, with whole body/CFG/callee proof and per-invocation
-mode/name/share/input guards. It is never an exact-LIBC identity or ordinary
-unmask range and contributes no application coverage. Explicit original-only C
-controllers verify rearming twice and denying a bad second mode/share before body
-execution; fixtures only inspect those frozen receipts. See
-`cases/runtime-variants/sopen-review.json` for scope and review. The unused optional
-permission word retains both raw observations, with strict comparison whenever
-the create bit is active. Buffered FileSlot comparisons now include allocated
-name bytes and complete tagged page tables; mapped mode remains fail-closed.
-
-Checkpoint twenty adds buffered-page reads/LRU and type-table initialization.
-Descriptor observers avoid inferior calls; full page, typed pool, name, page-table
-and type-buffer state is compared. DLL references are now owned immutable copies.
-See `cases/reviews/checkpoint-0020/`; the shared Wine pre-startup timeout was
-preserved separately and the fresh retry passed.
-
-Checkpoint thirty covers PE/CodeView headers, the directory reader/sorter and
-module-table setup. Per-read original CALL/return breakpoints and native GDB
-observers compare return counts, errno, file positions and every defined byte
-before the caller consumes it. Typed stack-output identity keeps raw undefined
-precontents separately; short reads preserve each side's own untouched tail.
-`cases/reviews/checkpoint-0030/` records fresh timings.
-
-The normal audit uses the shared Rust CFG auditor with RET cleanup, ownership,
-whole-body extent and explicit instruction-overlap checks. Python retains the
-strict CRT identities, native/source/stub, contextual data and conditional seam
-policies. `make graph-identities` explicitly prepares the archive-relocation
-identity index after input changes; ordinary audits reject a stale cache. The
-index binds both PE files, MAP, LIBC, functions, runtime anchors/index and the
-identifier implementation. `--python-graph` keeps the prior graph audit available
-for parity and diagnosis. `make graph-audit-tool` uses the shared quiet incremental
-Cargo helper; audit execution calls the built binary directly. Fixtures do not
-build Rust or invoke Wine.
-
-The graph migration receipt is in `cases/reviews/graph-audit-migration/`. Paired
-full-audit medians were 1.017 s with Python and 0.326 s with Rust (~3.1x);
-explicit identity preparation took 0.357 s. The native fixture runner took
-0.162 s. The committed thirty-function source was independently built/tested
-in isolation from later reconstruction work.
-
-Checkpoint thirty-two adds subsection reads and the sorted module list. Scratch
-allocations have source/callsite/size/lifetime identities and retain raw bytes.
-Only the reviewed pre-first-module lifetime treats their unwritten payloads as
-undefined; unknown consumers or defined writes require a new proof. A non-NULL
-zero-sized allocation has an empty payload and unique base identity.
-
-The fifty-function packet is in `cases/reviews/0050/`. Public/module/type parsing
-now reaches the linked PDB provider. Its embedded Windows filename is preserved;
-an owned frozen PDB is prepared in a private native Z: namespace. Fixtures never
-read LINK's scratch or execute LINK. The provider's real functions remain source
-functions and named stubs, separately from CRT support. Exact header/payload reads,
-requested allocation extents, initialized offset tables and typed pool links are
-compared. Undefined storage retains raw evidence and earns no equality credit.
-The original's uninitialized incremental flag is observed at its actual consumer;
-only matching concrete state is accepted. A perturbed native allocation follows
-the alternate named stub and the regression rejects it.
-
-The original capture/debug helper is under `scripts/debug-run.c`, outside the
-reconstructed source inventory. Cached CRT guard controls and rejection fixtures
-use owned evidence, with no dependency on historical scratch directories.
-
-Gate fifty passed independent root review; its immutable approval is retained in
-`cases/reviews/0050/root-approval.json`. Checkpoint55 adds PDB-backed local type
-records and cache reset. That checkpoint's public read crosses a buffered page and is
-still pending: a narrowly bound observer proves197of209 bytes were actually
-written, compares them, and checks each untouched tail against its own entry
-bytes. Full raw buffers remain evidence; no return or general partial-write rule
-is invented. The184 rejection controls include this boundary's ownership,
-caller, extent, defined bytes, tail, completion and freshness checks.
-
-
-Checkpoint97 proves three module3 `create_symbol_reference` completions at the
-actual accepted caller return1d943. It retains the earlier full module3 state
-contracts, actual36-byte reservations in the existing8100-byte symbol slab,
-publication and caller ABI. Defined node bytes are0..6 and8..32; reserved6..8
-and32..36 retain their own before bytes without equality credit. Native GDB
-Finish observers bind each real invocation, caller frame/thread and CALL target.
-
-The same case then independently reaches the genuine masked module10 block
-callback, comparing complete filtered entry traces, status, streams, unchanged
-inputs and the exact next consumed scalar state. The zero-suppression path has
-no heap read. Broader module4..8 heap equality is explicitly unclaimed. These
-separate packets and the root-approved exact97 exception are identified in
-`cases/hello-debug-dll/evidence/0097-create_symbol_reference/`; no observational
-checkpoint is counted as a function. `accept-reference-slice.py` permits only
-this reviewed97 acceptance. Ordinary fixtures remain native-only; explicit
-original capture modes `--reference-completion` and `--entry-progress-only`
-are separate from fixture execution and standard acceptance rejects them.
-
-Checkpoint 98: `begin_symbol_block` is accepted from its actual first module10
-callback entry/return (scope 0 to 1, suppression 0, unchanged cursors), with
-independent genuine progression to `strip_debug(handle=15)`. Full module3
-ownership proof97 remains retained. Later symbol heap equality and the
-suppressed-input write branch are unexercised. There are 98 accepted application
-functions (32,084 bytes); no handwritten CRT reconstruction credit.
-
-Checkpoint 99: `strip_debug` is accepted (99 application functions, 32,547
-bytes). Routine acceptance now uses the existing entry-flow runner/acceptor:
-whole original/compiler graph and ABI, matching real next entry and formal
-inputs, relevant reached state, trace/status/streams/full artifacts. Additional
-probes address concrete gaps. The next real frontier is
-`initialize_strip_sections`.
-
-Current testing rule (explicit user override): never rerun the historical
-proof/negative suite, including at checkpoints or case completion. Do not run
-`check-rejections.py` or replay the bespoke 97/98 all-prefix proofs. Those
-files and receipts remain historical evidence only. Use original-compiler
-compilation, static graph/ABI/data audits and ordinary cached native
-trace/status/artifact fixtures. Add only small targeted checks for actual
-changes or mismatches. This supersedes all earlier replay-cadence notes.
-
-The DLL case uses an explicit native host allocator profile in
-`cases/hello-debug-dll/native-host-allocator/`. Its exact glibc and launch tunables
-are bound in native receipts; startup removes the host control before target
-`main`. The relevant 508-byte source index allocation was observed as mapped,
-zero before stores, with its two unwritten alignment bytes unchanged. This is a
-concrete host configuration, not a malloc initialization guarantee. The failed
-default-allocator comparison is retained; full output comparisons stay exact.
-Routine fixtures do not install allocation observers.
-
-Both initial cases are complete at 153 application functions (50,714 original
-code-extent bytes). The final DLL is raw-exact SHA256
-`6a22d74889ac7ff812a06f6db99fb33b5c958adad98e5321a8fb53e47b02b275`.
-The reached `_freebuf` variant has a separately guarded no-op boundary in
-`cases/runtime-variants/freebuf-noop-review/`: only registered stream 3, flag 0x80,
-no allocated buffer, exact fclose return and third-open phase. Each invocation
-checks full FILE/descriptor/error/x87 state unchanged. Its identity-only anchor
-still grants no unconditional unmasking or application coverage.
+The complete pre-migration tree, including ignored builds and diagnostics, plus
+scoped Git diff/status, is preserved at
+`/root/.ai-tmp/msvc2/vc1.0/cvpack/standardization/pre-migration-20261025T085002Z/`.
+Historical acceptance/proof packets remain in Git through `faceaf25b`.
+Migration command logs and authoring data are under that snapshot's parent.
+Do not rerun the historical proof/negative campaigns; the local `AGENTS.md`
+retains the explicit user override.

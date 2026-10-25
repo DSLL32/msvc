@@ -1,6 +1,0 @@
-{
-  "old_sha256": "a343ae073ddf3ee97de2580d42a90144c1706979507409fbbd8433aea41d9349",
-  "new_sha256": "9727e72099801a188d5499f057afe8d581eaa1eff11fdd4dd4118143cc3605d9",
-  "change": "Install existing sopen observer for nonempty reviewed case policies instead of only hello case; no historical scalar instrumentation or original execution change. Historical raw remains immutable; static forward binding refreshed only.",
-  "historical_execution": "not run"
-}

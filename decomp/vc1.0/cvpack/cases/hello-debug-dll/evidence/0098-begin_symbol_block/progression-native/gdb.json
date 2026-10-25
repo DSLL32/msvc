@@ -1,1 +1,0 @@
-{"signal": 5, "frames": ["strip_debug", "main"], "parameters": {"handle": 15}, "input_file": 15, "scope_depth": 0, "suppressed_depth": 0, "caller_pc": 1448663435, "caller_fp": 4287891592, "call_bytes": "e8b53a0000", "function_address": 1448678464, "thread": [1805159, 1805159, 0], "later_heap_equality": false}

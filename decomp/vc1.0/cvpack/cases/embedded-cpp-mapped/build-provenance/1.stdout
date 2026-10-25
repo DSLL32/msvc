@@ -1,3 +1,0 @@
-   Creating library embedded-cpp.lib and object embedded-cpp.exp ...
-libc.lib(CRT0.OBJ) : warning LNK4016: unresolved external symbol "_main"
-embedded-cpp.dll : error LNK1120: 1 unresolved externals

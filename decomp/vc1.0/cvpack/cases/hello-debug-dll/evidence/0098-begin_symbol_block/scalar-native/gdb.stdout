@@ -1,9 +1,0 @@
-Breakpoint 1 at 0x6377: file src/main.c, line 13.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, main (argc=4, argv=0xffb84a04, environment=0xffb84a18) at src/main.c:13
-13	{
-
-Breakpoint -10, 0x565f2813 in pack_new_types (types=0x57331e20, entry=0x5732ecd8, module=0x5732fdf0, padding_bytes=0x56619eb0 <module_type_base>, skipped_bytes=0x56619eae <module_type_count>) at src/types.c:426
-426	            if (conversion->convert) conversion->convert();
