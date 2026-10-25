@@ -692,6 +692,12 @@ build/heap-realloc-surface-probe: tests/heap-realloc-surface-probe.c $(SOURCES) 
 heap-realloc-surface-check: build/heap-realloc-surface-probe
 	$(PYTHON) tests/check-heap-realloc-surface.py $<
 
+.PHONY: local-fixed-check
+build/local-fixed-probe: tests/local-fixed-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -Wl,--wrap=malloc,--wrap=calloc -o $@
+local-fixed-check: build/local-fixed-probe
+	$(PYTHON) tests/check-local-fixed.py $<
+
 .PHONY: watcom-setmode-check
 build/watcom-setmode-probe: tests/watcom-setmode-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@

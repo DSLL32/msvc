@@ -1095,8 +1095,9 @@ HLOCAL WINAPI recon_LocalAlloc(UINT flags,DWORD bytes)
 {
     NativeLocalMemory *entry; void *memory; int saved_errno=errno;
     DWORD saved_error=last_error;
-    if (flags!=LMEM_ZEROINIT || !bytes) recon_unsupported("LocalAlloc fixed zero-init scope");
-    memory=calloc(1,bytes);
+    if ((flags!=LMEM_FIXED && flags!=LMEM_ZEROINIT) || !bytes)
+        recon_unsupported("LocalAlloc fixed allocation scope");
+    memory=flags&LMEM_ZEROINIT?calloc(1,bytes):malloc(bytes);
     if (!memory) recon_unsupported("LocalAlloc uncharacterized allocation failure");
     entry=mmap(NULL,sizeof(*entry),PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
     if (entry==MAP_FAILED) recon_unsupported("LocalAlloc ownership record");

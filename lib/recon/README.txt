@@ -454,10 +454,14 @@ Default VC1 behavior is unchanged. Successful observed mode transitions preserve
 errno/LastError; flush/allocation failure remains unsupported. Bind this opt-in
 to the canonical MSVCRT provider and build receipt, not tool version guesses.
 
-LocalAlloc/LocalFree support the encountered fixed LMEM_ZEROINIT positive-size
-allocation and same-owner successful free. Every requested byte is zeroed;
-native_local_memory records base, requested size and flags for typed inspection.
-Successful free returns NULL and both calls preserve observed errno/LastError.
+LocalAlloc/LocalFree support positive-size fixed allocations and same-owner
+successful free. LMEM_FIXED0 uses ordinary malloc with unspecified initial
+contents; LMEM_ZEROINIT zeroes every requested byte as before. The existing
+native_local_memory records retain base, requested size and flags. WCC/WPP's
+reached AH48 gateway adapter requests LMEM_FIXED0/65536B; no original zeroing or
+release-path observation is inferred from that allocation. Successful free
+returns NULL; both native calls preserve errno/LastError. The earlier zero-init
+reference remains distinct from the new fixed-allocation case qualification.
 Movable/unknown flags, zero size, unowned/double free and allocation failure are
 explicitly unsupported; physical allocator capacity is not target-owned data.
 
