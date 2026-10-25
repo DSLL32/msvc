@@ -20,6 +20,8 @@ struct Policy {
     enabled: Option<bool>,
     #[serde(default)]
     require_all_register_calls_resolved: bool,
+    #[serde(default)]
+    expected_sites: Option<ExpectedSites>,
 }
 /// New metadata can only add resolution to selected owners. It cannot disable
 /// the existing global CLI flag or silently broaden an unaccepted graph scope.
@@ -52,6 +54,86 @@ pub fn strict_policy(value: &Value) -> Result<bool> {
         serde_json::from_value(value.clone())?
     }
     .require_all_register_calls_resolved)
+}
+/// Optional exact assertions over already computed report facts. These cannot
+/// create identities or change must-analysis, graph scope, or call semantics.
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ExpectedSites {
+    original: SiteInventory,
+    rebuilt: SiteInventory,
+}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct SiteInventory {
+    resolved_register_calls: BTreeMap<u32, Identity>,
+    unresolved_register_calls: Vec<u32>,
+    other_unresolved_calls: Vec<u32>,
+    direct_import_calls: BTreeMap<u32, Identity>,
+}
+impl SiteInventory {
+    fn check(&self, actual: &Report, owner: &str, side: &str) -> Result<()> {
+        let unresolved: BTreeSet<_> = self.unresolved_register_calls.iter().copied().collect();
+        let other: BTreeSet<_> = self.other_unresolved_calls.iter().copied().collect();
+        ensure!(
+            unresolved.len() == self.unresolved_register_calls.len()
+                && other.len() == self.other_unresolved_calls.len(),
+            "duplicate expected import site for {side} {owner}"
+        );
+        ensure!(
+            self.resolved_register_calls == actual.resolved_register_calls,
+            "{side} {owner} expected resolved register call sites differ"
+        );
+        ensure!(
+            unresolved == actual.unresolved_register_calls,
+            "{side} {owner} expected unresolved register call sites differ"
+        );
+        ensure!(
+            other == actual.other_unresolved_calls,
+            "{side} {owner} expected opaque call sites differ"
+        );
+        ensure!(
+            self.direct_import_calls == actual.direct_import_calls,
+            "{side} {owner} expected direct import call sites differ"
+        );
+        Ok(())
+    }
+}
+pub fn expected_site_owners(metadata: &Value) -> Result<BTreeSet<String>> {
+    let mut owners = BTreeSet::new();
+    for (name, function) in metadata["functions"].as_object().into_iter().flatten() {
+        let value = &function["register_imports"];
+        if value.is_null() {
+            continue;
+        }
+        let policy: Policy = serde_json::from_value(value.clone())?;
+        if value.get("expected_sites").is_some() {
+            ensure!(
+                policy.expected_sites.is_some(),
+                "expected import sites must contain both original and rebuilt inventories: {name}"
+            );
+            owners.insert(name.clone());
+        }
+    }
+    Ok(owners)
+}
+pub fn check_expected_sites(
+    value: &Value,
+    original: &Report,
+    rebuilt: &Report,
+    owner: &str,
+) -> Result<bool> {
+    if value.is_null() {
+        return Ok(false);
+    }
+    let policy: Policy = serde_json::from_value(value.clone())?;
+    if let Some(expected) = policy.expected_sites {
+        expected.original.check(original, owner, "original")?;
+        expected.rebuilt.check(rebuilt, owner, "rebuilt")?;
+        Ok(true)
+    } else {
+        Ok(false)
+    }
 }
 const NAMES: [&str; 4] = ["ebx", "esi", "edi", "ebp"];
 type State = [Option<Identity>; 4];
@@ -576,5 +658,45 @@ mod tests {
         }
         assert_eq!(super::full(X86_REG_BP as u16), None);
         assert_eq!(super::full(X86_REG_BPL as u16), None);
+    }
+}
+
+#[cfg(test)]
+mod site_inventory_tests {
+    use super::*;
+    fn report() -> Report {
+        Report {
+            resolved_register_calls: BTreeMap::new(),
+            unresolved_register_calls: BTreeSet::new(),
+            other_unresolved_calls: BTreeSet::new(),
+            direct_import_calls: BTreeMap::new(),
+            roots: BTreeSet::new(),
+            callback_preservation: BTreeMap::new(),
+        }
+    }
+    #[test]
+    fn inventory_asserts_sites_without_resolving_or_ignoring_opaque_calls() {
+        let mut actual = report();
+        assert!(!check_expected_sites(&Value::Null, &actual, &actual, "f").unwrap());
+        actual.other_unresolved_calls.insert(7);
+        let expected: SiteInventory=serde_json::from_value(serde_json::json!({"resolved_register_calls":{},"unresolved_register_calls":[],"other_unresolved_calls":[7],"direct_import_calls":{}})).unwrap();
+        assert!(expected.check(&actual, "f", "original").is_ok());
+        actual.unresolved_register_calls.insert(9);
+        assert!(
+            expected
+                .check(&actual, "f", "original")
+                .unwrap_err()
+                .to_string()
+                .contains("unresolved register")
+        );
+        assert!(actual.other_unresolved_calls.contains(&7));
+        let bad = serde_json::json!({"functions":{"f":{"register_imports":{"enabled":true,"expected_sites":{"original":{},"rebuilt":{}}}}}});
+        assert!(expected_site_owners(&bad).is_err());
+        assert!(
+            expected_site_owners(
+                &serde_json::json!({"functions":{"f":{"register_imports":{"expected_sites":null}}}})
+            )
+            .is_err()
+        );
     }
 }

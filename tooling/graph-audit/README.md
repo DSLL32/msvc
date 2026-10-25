@@ -639,3 +639,19 @@ exercises the optional field, bindings, pending boundaries, gaps/data, overlappi
 streams and rejection-without-partial-output controls using static synthetic inputs.
 The real Watcom fixtures additionally check raw operand fixups and omission of an
 unreachable extra RET. These checks never launch Wine or target executables.
+
+### Exact callback and import-site policy
+
+Callback tables optionally set `stride` and `pointer_offset` (defaults 4 and 0).
+Ranges/counts describe whole rows; only each row's four-byte function pointer is
+read. `expected_functions` optionally lists every logical function name or null
+in row order, preserving null positions. Scalar tags remain target data policy.
+
+A resolver-enabled function's `register_imports.expected_sites` can contain exact
+`original` and `rebuilt` inventories. Both sides require `resolved_register_calls`
+and `direct_import_calls` address-to-qualified-import maps, plus
+`unresolved_register_calls` and `other_unresolved_calls` address arrays. These
+assert existing computed report facts; they neither seed identities nor permit
+unknown calls. Mixed real callbacks stay opaque and must match their declared
+sites. The owner must be selected, accepted, unambiguous and resolver-enabled.
+Without these optional fields, reports and checks retain their existing behavior.

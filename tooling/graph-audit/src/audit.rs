@@ -880,6 +880,22 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             "register import enabled owner missing from paired indexes: {owner}"
         );
     }
+    let expected_site_owners = crate::register_imports::expected_site_owners(&metadata)?;
+    for owner in &expected_site_owners {
+        ensure!(
+            selected.contains(owner),
+            "expected import sites owner is not selected/accepted: {owner}"
+        );
+        ensure!(
+            a.resolve_register_imports || enabled_owners.contains(owner),
+            "expected import sites owner requires register import resolution: {owner}"
+        );
+        ensure!(
+            x.oi.iter().filter(|r| &r.name == owner).count() == 1
+                && x.ri.iter().filter(|r| &r.name == owner).count() == 1,
+            "expected import sites owner missing or ambiguous in paired indexes: {owner}"
+        );
+    }
     let use_register_imports = a.resolve_register_imports || !enabled_owners.is_empty();
     ensure!(
         !use_register_imports || a.check_imports,
@@ -1003,9 +1019,17 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 crate::register_imports::Side::Rebuilt,
             )
             .with_context(|| format!("rebuilt {} register imports", f.name))?;
-            Some(
-                json!({"original":left,"rebuilt":right,"require_all_register_calls_resolved":strict}),
-            )
+            let sites_checked = crate::register_imports::check_expected_sites(
+                &metadata["functions"][&f.name]["register_imports"],
+                &left,
+                &right,
+                &f.name,
+            )?;
+            let mut report = json!({"original":left,"rebuilt":right,"require_all_register_calls_resolved":strict});
+            if sites_checked {
+                report["expected_sites_checked"] = json!(true);
+            }
+            Some(report)
         } else {
             None
         };
@@ -1444,6 +1468,32 @@ fn cfg_cleanup(
     visiting.remove(&r.start);
     Ok(returns)
 }
+fn callback_values(
+    pe: &impl ImageView,
+    begin: u32,
+    end: u32,
+    stride: u32,
+    offset: u32,
+) -> Result<Vec<u32>> {
+    ensure!(
+        stride >= 4 && offset.checked_add(4).is_some_and(|n| n <= stride),
+        "invalid callback stride/pointer offset"
+    );
+    ensure!(
+        begin <= end && (end - begin).is_multiple_of(stride),
+        "invalid callback range"
+    );
+    (0..(end - begin) / stride)
+        .map(|row| {
+            let pointer = row
+                .checked_mul(stride)
+                .and_then(|n| begin.checked_add(n))
+                .and_then(|n| n.checked_add(offset))
+                .context("callback pointer overflow")?;
+            pe.word(pointer)
+        })
+        .collect()
+}
 fn callback_tables(
     x: &Inputs,
     metadata: &Value,
@@ -1476,33 +1526,65 @@ fn callback_tables(
                     .context("rebuilt callback symbol")?,
             )
             .context("missing callback table public")?;
+        let stride = table
+            .get("stride")
+            .map(crate::index::num)
+            .transpose()?
+            .unwrap_or(4);
+        let pointer_offset = table
+            .get("pointer_offset")
+            .map(crate::index::num)
+            .transpose()?
+            .unwrap_or(0);
         let rebuilt_end = if let Some(symbol) = table["rebuilt_end"].as_str() {
             *x.publics
                 .get(symbol)
                 .context("missing callback end public")?
         } else {
-            rebuilt_begin + 4 * crate::index::num(&table["count"])?
+            rebuilt_begin
+                .checked_add(
+                    stride
+                        .checked_mul(crate::index::num(&table["count"])?)
+                        .context("callback size overflow")?,
+                )
+                .context("callback endpoint overflow")?
         };
-        ensure!(
-            begin <= end
-                && rebuilt_begin <= rebuilt_end
-                && (end - begin) % 4 == 0
-                && (rebuilt_end - rebuilt_begin) % 4 == 0,
-            "invalid callback range"
-        );
-        let values = |pe: &Image, a: u32, b: u32| -> Result<Vec<u32>> {
-            Ok((a..b)
-                .step_by(4)
-                .map(|p| pe.word(p))
-                .collect::<Result<Vec<_>>>()?
-                .into_iter()
-                .filter(|v| *v != 0)
-                .collect())
-        };
-        let left = values(&x.o, begin, end)?;
-        let right = values(&x.r, rebuilt_begin, rebuilt_end)?;
+        let mut left = callback_values(&x.o, begin, end, stride, pointer_offset)?;
+        let mut right = callback_values(&x.r, rebuilt_begin, rebuilt_end, stride, pointer_offset)?;
+        if let Some(expected) = table.get("expected_functions") {
+            let expected = expected
+                .as_array()
+                .context("expected callback functions must be an array")?;
+            ensure!(
+                left.len() == expected.len() && right.len() == expected.len(),
+                "expected callback row count differs"
+            );
+            for ((a, b), name) in left.iter().zip(&right).zip(expected) {
+                if name.is_null() {
+                    ensure!(*a == 0 && *b == 0, "expected null callback row differs");
+                } else {
+                    let name = name
+                        .as_str()
+                        .filter(|n| !n.is_empty())
+                        .context("expected callback function must be a logical name or null")?;
+                    ensure!(
+                        oa.get(a).is_some_and(|names| names.contains(name))
+                            && ra.get(b).is_some_and(|names| names.contains(name))
+                            && (table["require_accepted"] != true || x.accepted.contains(name)),
+                        "expected callback function identity or acceptance differs: {name}"
+                    );
+                }
+            }
+        } else {
+            // Preserve the historical contiguous-table comparison policy.
+            left.retain(|v| *v != 0);
+            right.retain(|v| *v != 0);
+        }
         ensure!(left.len() == right.len(), "callback count differs");
         for (a, b) in left.into_iter().zip(right) {
+            if a == 0 && b == 0 {
+                continue;
+            }
             ensure!(
                 oa.get(&a)
                     .is_some_and(|names| ra.get(&b).is_some_and(|other| names
@@ -1623,6 +1705,33 @@ mod alias_tests {
             (4, BTreeSet::from(["b".into()])),
         ]);
         assert!(equivalent(&left, &right, &oa, &ra));
+    }
+    #[test]
+    fn callback_stride_reads_only_pointer_fields() {
+        let mut bytes = vec![0; 24];
+        for (offset, value) in [
+            (0, 0xdeadbeefu32),
+            (4, 0x401020),
+            (8, 99),
+            (12, 0),
+            (16, 7),
+            (20, 0x401030),
+        ] {
+            bytes[offset..offset + 4].copy_from_slice(&value.to_le_bytes());
+        }
+        let image = crate::tests::image(&bytes);
+        assert_eq!(
+            callback_values(&image, 0x401000, 0x401018, 8, 4).unwrap(),
+            vec![0x401020, 0, 0x401030]
+        );
+        for (end, stride, offset) in [
+            (0x401018, 0, 0),
+            (0x401018, 8, 5),
+            (0x401017, 8, 4),
+            (0x401018, 8, u32::MAX),
+        ] {
+            assert!(callback_values(&image, 0x401000, end, stride, offset).is_err());
+        }
     }
     #[test]
     fn logical_immediate_masks_are_not_function_references() {

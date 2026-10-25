@@ -161,7 +161,9 @@ fn run() -> Result<()> {
         && let Some(path) = &args.metadata
     {
         anyhow::ensure!(
-            crate::register_imports::enabled_owners(&crate::index::json(path)?)?.is_empty(),
+            crate::register_imports::enabled_owners(&crate::index::json(path)?)?.is_empty()
+                && crate::register_imports::expected_site_owners(&crate::index::json(path)?)?
+                    .is_empty(),
             "per-owner register imports require a standalone CFG profile"
         );
     }
