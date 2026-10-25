@@ -28,5 +28,14 @@
   "rebuilt": {
     "path": "build/WPP386.EXE",
     "map": "build/wpp386.map"
-  }
+  },
+  "identity_only_entries": [
+    {
+      "name": "write",
+      "evidence": {
+        "path": "cases/0000-help/write-identity-evidence.json",
+        "sha256": "81ac3280a057d74d56b803f42973242a35daa70206fd3be65db4a5f66b60bf40"
+      }
+    }
+  ]
 }

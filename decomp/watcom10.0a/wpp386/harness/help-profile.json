@@ -29,7 +29,7 @@
     "schema": 1,
     "producer": {
       "path": "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
-      "sha256": "00cdd8ff8a34c6433f17df2a517f7e710f717a37fe8adb0e383e980434607339"
+      "sha256": "e6087d8860b74f2e2418da9ef40668c92f468a58be7079e5c0948068e8b1b8c1"
     },
     "reports": [
       {
@@ -37,7 +37,7 @@
         "project": "/root/msvc2/decomp/watcom10.0a/wpp386",
         "config": {
           "path": "/root/msvc2/decomp/watcom10.0a/wpp386/.build/functions.json",
-          "sha256": "d613f149f75296759b17cb20dae6412d81b6fc8a3c410d3352f73f45d10d4f5d"
+          "sha256": "ede503e45ec6de391c370094da9e0fffb249f0d7eb1134deb29c62acfbdc6789"
         },
         "runtime": {
           "path": "/root/msvc2/decomp/watcom10.0a/wpp386/.build/runtime-original.json",
@@ -53,16 +53,16 @@
         },
         "rebuilt": {
           "path": "/root/msvc2/decomp/watcom10.0a/wpp386/build/WPP386.EXE",
-          "sha256": "f703883a0a4cc9a0ff1f1165ff75bc517a04d0f9229e3118ed4553b22694f765"
+          "sha256": "9b4548f501c63645094fa1f76a9f0703b4d2c06291607497c576a8e0ab4c5168"
         },
         "map": {
           "path": "/root/msvc2/decomp/watcom10.0a/wpp386/build/wpp386.map",
-          "sha256": "ed6ef154b782a3a53acba471c127efd62d82f2ce01b578c43a9afe5b28c2331b"
+          "sha256": "004f84c32a10b81280d71a5e8db2abc9f509d0d1a95e2e26f29ccca84853e086"
         },
         "map_format": "watcom10",
         "check_ret": false,
         "expected_inputs": {
-          "config_sha256": "6caf6aba3414f2c267f1dd638bb8f406c3be433fcdda9849e68ba93de32a3de3",
+          "config_sha256": "779afa8ce15d7c47f8be93a14754848eec053a7e58418d77418387ea0641516a",
           "images": {
             "original": {
               "allocation_tail_contents": "not inferred",
@@ -88,6 +88,14 @@
                 [
                   531363,
                   531456
+                ],
+                [
+                  531890,
+                  532033
+                ],
+                [
+                  532033,
+                  532144
                 ],
                 [
                   544762,
@@ -181,7 +189,7 @@
             }
           },
           "metadata_sha256": "450ee4965c4300389e8c85712a9818b455467b7120536494c414a2a9d3507349",
-          "original_index_sha256": "a2d505c150b512fd34dcbd1916797479bf0a525f45b4c29c5a207c19c99245dd",
+          "original_index_sha256": "005eae72c9a22fcfe2f4a994378f0e3e755dfd6bd6a261bad2ac76b726eb9c9f",
           "selected_support_sha256": "4e54a5e72d0d71defb512490e0dfdd9ebcee726213e787106e85373f5d3bdaa0"
         },
         "authorization": {
@@ -252,7 +260,7 @@
         "project": "/root/msvc2/decomp/watcom10.0a/wpp386",
         "config": {
           "path": "/root/msvc2/decomp/watcom10.0a/wpp386/.build/functions.json",
-          "sha256": "d613f149f75296759b17cb20dae6412d81b6fc8a3c410d3352f73f45d10d4f5d"
+          "sha256": "ede503e45ec6de391c370094da9e0fffb249f0d7eb1134deb29c62acfbdc6789"
         },
         "runtime": {
           "path": "/root/msvc2/decomp/watcom10.0a/wpp386/.build/runtime-original.json",
@@ -268,17 +276,17 @@
         },
         "rebuilt": {
           "path": "/root/msvc2/decomp/watcom10.0a/wpp386/build/WPP386.EXE",
-          "sha256": "f703883a0a4cc9a0ff1f1165ff75bc517a04d0f9229e3118ed4553b22694f765"
+          "sha256": "9b4548f501c63645094fa1f76a9f0703b4d2c06291607497c576a8e0ab4c5168"
         },
         "map": {
           "path": "/root/msvc2/decomp/watcom10.0a/wpp386/build/wpp386.map",
-          "sha256": "ed6ef154b782a3a53acba471c127efd62d82f2ce01b578c43a9afe5b28c2331b"
+          "sha256": "004f84c32a10b81280d71a5e8db2abc9f509d0d1a95e2e26f29ccca84853e086"
         },
         "map_format": "watcom10",
         "check_ret": true,
         "expected_inputs": {
-          "accepted_names_sha256": "00d530987f251a2ba995a7579a1ca289af648fd22c306ac559d1aa17f85856ca",
-          "config_sha256": "6caf6aba3414f2c267f1dd638bb8f406c3be433fcdda9849e68ba93de32a3de3",
+          "accepted_names_sha256": "e3011d3c6f280dca7befb44add3e263b8b7c7c28e139ba32752c999258778785",
+          "config_sha256": "779afa8ce15d7c47f8be93a14754848eec053a7e58418d77418387ea0641516a",
           "images": {
             "original": {
               "allocation_tail_contents": "not inferred",
@@ -304,6 +312,14 @@
                 [
                   531363,
                   531456
+                ],
+                [
+                  531890,
+                  532033
+                ],
+                [
+                  532033,
+                  532144
                 ],
                 [
                   544762,
@@ -398,20 +414,25 @@
             "rebuilt": {
               "coordinates": "preferred-va",
               "format": "pe32",
-              "original_file_sha256": "f703883a0a4cc9a0ff1f1165ff75bc517a04d0f9229e3118ed4553b22694f765",
+              "original_file_sha256": "9b4548f501c63645094fa1f76a9f0703b4d2c06291607497c576a8e0ab4c5168",
               "preferred_base": 4194304
             }
           },
           "metadata_sha256": "450ee4965c4300389e8c85712a9818b455467b7120536494c414a2a9d3507349",
-          "original_index_sha256": "a2d505c150b512fd34dcbd1916797479bf0a525f45b4c29c5a207c19c99245dd",
-          "public_symbols_sha256": "dc3ac098c8d72096e9165ff663d11c04057b6ff052290c7bfba88e154f844622",
-          "rebuilt_index_sha256": "a8a90d536368479a306b301f7b607f9321c07d665c399401de4b0c873acb92b2"
+          "original_index_sha256": "005eae72c9a22fcfe2f4a994378f0e3e755dfd6bd6a261bad2ac76b726eb9c9f",
+          "public_symbols_sha256": "5ce3f073ac1f36d9bbf1e63f12252b72d12306a2bfb45c79e070e4b35bad2dd7",
+          "rebuilt_index_sha256": "ffb847aa7e5f977de488dd1f90fb1dac8a8b2ada0c8a3a0a3dd2450f8cb28b0d"
         },
         "authorization": {
           "MemAlloc": {
             "role": "candidate",
             "cleanup": 0,
             "record_sha256": "827ae94f6ce4306f1d6321888da7e3341428f302cc4fee93f12269426bdc5e44"
+          },
+          "MemInit": {
+            "role": "candidate",
+            "cleanup": 0,
+            "record_sha256": "3dcf32431a3a74ae1a2dca3421919a0351da2c33f36f9d8ae71526997421e0ac"
           }
         }
       }
@@ -591,10 +612,30 @@
         "name": "private heap Initialized",
         "start": 759668,
         "end": 759672,
+        "write": true,
+        "evidence": {
+          "path": "/root/msvc2/decomp/watcom10.0a/wpp386/cases/0000-help/meminit-evidence.json",
+          "sha256": "78c97cb96c97bb730c579caf526c1837047a3d33788381afcae5c5bfb89ff4a8"
+        }
+      },
+      {
+        "name": "private heap AllocSize",
+        "start": 759664,
+        "end": 759668,
+        "write": true,
+        "evidence": {
+          "path": "/root/msvc2/decomp/watcom10.0a/wpp386/cases/0000-help/meminit-evidence.json",
+          "sha256": "78c97cb96c97bb730c579caf526c1837047a3d33788381afcae5c5bfb89ff4a8"
+        }
+      },
+      {
+        "name": "WCGMEMORY name",
+        "start": 719644,
+        "end": 719654,
         "write": false,
         "evidence": {
-          "path": "/root/msvc2/decomp/watcom10.0a/wpp386/cases/0000-help/memalloc-evidence.json",
-          "sha256": "8d6a405684b9e53aa82f63fa8190eb12786f24cf688ab9bba0b9b6cc16778d2d"
+          "path": "/root/msvc2/decomp/watcom10.0a/wpp386/cases/0000-help/meminit-evidence.json",
+          "sha256": "78c97cb96c97bb730c579caf526c1837047a3d33788381afcae5c5bfb89ff4a8"
         }
       }
     ],

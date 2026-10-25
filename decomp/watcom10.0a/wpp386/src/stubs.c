@@ -8,13 +8,15 @@ void reconstruction_trap(void);
 #pragma aux reconstruction_trap = 0xcc;
 #endif
 
-void MemInit(void)
+unsigned char GetEnvVar(char *name, char *buffer, int length)
 {
+    (void)name; (void)buffer; (void)length;
 #if defined(__WATCOMC__)
     reconstruction_trap();
 #else
     __asm__ __volatile__("int3");
 #endif
+    return 0;
 }
 
 #if defined(__WATCOMC__)
@@ -25,9 +27,14 @@ void MemInit(void)
 int SizeToClass(unsigned size) { (void)size; STUB_TRAP(); return 0; }
 void *GetFromFrl(unsigned size, int cls) { (void)size; (void)cls; STUB_TRAP(); return 0; }
 void *MemFromSys(unsigned size) { (void)size; STUB_TRAP(); return 0; }
+int myatoi(char *text) { (void)text; STUB_TRAP(); return 0; }
+void myitoa(int value, char *text) { (void)value; (void)text; STUB_TRAP(); }
+char *CopyStr(char *source, char *dest) { (void)source; (void)dest; STUB_TRAP(); return 0; }
+unsigned Length(char *text) { (void)text; STUB_TRAP(); return 0; }
 
-int main(void)
+int main(int argc, char **argv)
 {
+    (void)argc; (void)argv;
 #if defined(__WATCOMC__)
     reconstruction_trap();
 #else

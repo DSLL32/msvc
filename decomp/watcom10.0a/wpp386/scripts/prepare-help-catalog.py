@@ -93,9 +93,19 @@ def main():
         reports.append(candidate)
         # This scalar is introduced by MemAlloc itself; it is App heap state,
         # rather than an unbounded writable runtime data span.
+        has_init = "MemInit" in paired["functions"]
+        heap_evidence = bind(PROJECT / ("cases/0000-help/meminit-evidence.json"
+                            if has_init else "cases/0000-help/memalloc-evidence.json"))
         data.append(dict(name="private heap Initialized", start=0xb9774,
-                         end=0xb9778, write=False,
-                         evidence=bind(PROJECT / "cases/0000-help/memalloc-evidence.json")))
+                         end=0xb9778, write=has_init,
+                         evidence=heap_evidence))
+        if has_init:
+            init_evidence = bind(PROJECT / "cases/0000-help/meminit-evidence.json")
+            data.extend([
+                dict(name="private heap AllocSize", start=0xb9770,
+                     end=0xb9774, write=True, evidence=init_evidence),
+                dict(name="WCGMEMORY name", start=0xafb1c,
+                     end=0xafb26, write=False, evidence=init_evidence)])
     catalog = {
         "schema": 1,
         "producer": bind(REPO / "tooling/graph-audit/target/release/graph-audit"),

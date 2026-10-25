@@ -1,0 +1,34 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-YSmSx8",
+    "pass": false,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      531363,
+      532033,
+      660889,
+      531125
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 531125,
+    "trap_site": 4156611269,
+    "elapsed_ms": 238.226083,
+    "setup_ms": 3.52993,
+    "execution_ms": 233.83257399999997,
+    "checks_ms": 0.863369,
+    "errors": [
+      "first-entry order differs: actual [81ba3, 81e41, a1599, 81ab5], expected [81ba3, 81e41, a1599]",
+      "native INT3 at f7c0dac5 belongs to RVA 81ab5, expected frontier a1599",
+      "unexpected terminal signal:5"
+    ],
+    "original_reference": {
+      "report": "/root/msvc2/decomp/watcom10.0a/wpp386/cases/0000-help/original-report.json",
+      "report_sha256": "1012d9d29f85842671b2713de1d57ac92e1821359a16bc720f5fc99ad90b13b9",
+      "capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
+      "source_binding_available": true
+    }
+  }
+]

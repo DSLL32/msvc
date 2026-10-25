@@ -5,7 +5,14 @@
  * Native tests use GCC's ordinary ABI; original Watcom builds use -3r. */
 void *MemAlloc(unsigned size);
 extern int Initialized;
+extern unsigned AllocSize, MemorySize;
 void MemInit(void);
+unsigned char GetEnvVar(char *name, char *buffer, int length);
+int myatoi(char *text);
+void myitoa(int value, char *text);
+char *CopyStr(char *source, char *dest);
+unsigned Length(char *text);
+extern int write(int handle, const void *buffer, unsigned amount);
 int SizeToClass(unsigned size);
 void *GetFromFrl(unsigned size, int cls);
 void *MemFromSys(unsigned size);

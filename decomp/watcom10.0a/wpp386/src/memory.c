@@ -39,6 +39,7 @@
 #include <recon.h>
 
 int Initialized = 0;
+unsigned AllocSize, MemorySize;
 
 void *MemAlloc(unsigned amount)
 {
@@ -57,4 +58,33 @@ void *MemAlloc(unsigned amount)
         ++cls;
     }
     return MemFromSys(amount);
+}
+
+/* Actual1994 MemInit contains the CalcMemSize tail in the same function.
+ * Its default is4MiB; the later source uses16MiB and initializes a free-list
+ * sentinel here that was already static data in the shipped1994 program. */
+void MemInit(void)
+{
+    unsigned requested;
+    unsigned char query_max, query_size;
+    char buff[80];
+
+    if (Initialized) return;
+    Initialized = 1;
+    AllocSize = 0;
+    Initialized = 2;
+    requested = 0;
+    query_max = 0;
+    query_size = 0;
+    if (GetEnvVar("WCGMEMORY", buff, 9)) {
+        if (buff[0] == '?' && !buff[1]) query_max = 1;
+        else if (buff[0] == '#' && !buff[1]) query_size = 1;
+        else requested = (unsigned)myatoi(buff) * 1024;
+    }
+    MemorySize = requested ? requested : 4u * 1024 * 1024;
+    if (query_max || query_size) {
+        myitoa(4096, CopyStr("Maximum WCGMEMORY=", buff));
+        write(1, buff, Length(buff));
+        write(1, "\r\n", 2);
+    }
 }

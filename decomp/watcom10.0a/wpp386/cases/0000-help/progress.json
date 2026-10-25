@@ -1,0 +1,21 @@
+{
+  "scope": "initial help in progress; no completed output oracle",
+  "accepted_app_functions": 2,
+  "accepted_app_code_bytes": 347,
+  "functions": [
+    {
+      "name": "MemAlloc",
+      "entry": 531363,
+      "bytes": 93
+    },
+    {
+      "name": "MemInit",
+      "entry": 532033,
+      "bytes": 254
+    }
+  ],
+  "current_frontier": "GetEnvVar@0xa1599",
+  "current_capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
+  "shared_controller_expansion": false,
+  "next": "GetEnvVar20-byte App wrapper calls CRT getenv. Shared per-opcode/service expansion is held; preserve this supported frontier and coordinate ordinary debugger/masking support."
+}

@@ -1,0 +1,16 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+0xf7fbb579 in __kernel_vsyscall ()
+Breakpoint 1 at 0xf7c0ca54: file src/stubs.c, line 12.
+GetEnvVar length=9 Initialized=2 AllocSize=0
+0xf7c24000:	"WCGMEMORY"
+#1  0xf7c0c96c in MemInit () at src/memory.c:79
+79	    if (GetEnvVar("WCGMEMORY", buff, 9)) {
+MemInit buffer extent=80
+#0  GetEnvVar (name=0xf7c24000 "WCGMEMORY", buffer=0xffe4b4ea "", length=9) at src/stubs.c:12
+12	{
+
+Program terminated with signal SIGTRAP, Trace/breakpoint trap.
+The program no longer exists.
+PASS help signal:5 (213.979 ms; setup 13.775 ms, execution 199.705 ms, checks 0.499 ms)
+recon-tool: GDB attached to invocation PID 3183288; quitting terminates any remaining invocation
