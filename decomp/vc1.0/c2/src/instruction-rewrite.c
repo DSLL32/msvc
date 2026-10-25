@@ -20,6 +20,20 @@ extern int optimize_speed, cpu_model, optimization_risc;
 #define HIGH_WORD_ZERO 0x4000U
 #define SET_OPERATION(i,op) ((i)->opcode = ((i)->opcode & ~0xff00U) | ((op) << 8))
 #define SET_BYTES(i,n) ((i)->opcode = ((i)->opcode & ~0xf0U) | ((n) << 4))
+/* Original signed-byte lookup [000803a0,000803b0), used only with the
+   four-bit Jcc/Scc condition from the two narrowing sites below. Keep the
+   unusual sign-condition row8->9 as well as signed-to-unsigned ordering. */
+static const signed char narrowed_comparison_conditions[16] = {
+    /* O,NO,B,AE,E,NE,BE,A */ 0,1,2,3,4,5,6,7,
+    /* S,NS,P,NP,L,GE,LE,G */ 9,9,10,11,2,3,6,7
+};
+/* Original [00021ca0,00021ca8). Callers already restrict condition to15;
+   preserve the original direct indexing assumption without a new guard. */
+int __fastcall narrow_comparison_condition(unsigned condition)
+{
+    return narrowed_comparison_conditions[condition];
+}
+
 /* Exchange operations while retaining the stream's links and use chains. */
 #define SWAP_OPERATIONS(a,b) do { \
     unsigned saved_opcode = (a)->opcode; \

@@ -212,6 +212,30 @@ TemporarySymbol *__fastcall create_temporary(ScopeHash *scope, unsigned type, lo
 enum { EXTERNAL_SYMBOL_BUCKETS = 128 };
 static SymbolHeader *external_symbols[EXTERNAL_SYMBOL_BUCKETS];
 unsigned __fastcall external_name_hash(char *name);
+/* Original [0004e550,0004e613). Data names share the runtime-function
+   cache. A hit retains its existing symbol kind; a miss creates the original
+   four-byte external-data descriptor before taking an owned name copy. */
+SymbolHeader *__fastcall lookup_external_name(char *name)
+{
+    unsigned first = external_name_hash(name) & (EXTERNAL_SYMBOL_BUCKETS - 1);
+    unsigned bucket = first;
+    char *left, *right;
+    BackendSymbol *symbol;
+    while (external_symbols[bucket]) {
+        left = external_symbols[bucket]->name; right = name;
+        while (*left == *right && *left) { ++left; ++right; }
+        if (*left == *right) return external_symbols[bucket];
+        bucket = (bucket + 1) & (EXTERNAL_SYMBOL_BUCKETS - 1);
+        if (bucket == first) compiler_internal_error("@(#)p2symtab.c:1.89", 0x545);
+    }
+    symbol = new_generated_storage(3, 4, 2, 0, 2, 0);
+    external_symbols[bucket] = &symbol->symbol;
+    symbol->symbol.name = arena_strdup(name, 0);
+    symbol->symbol.field0d = 0;
+    queue_symbol_debug(&symbol->symbol);
+    return &symbol->symbol;
+}
+
 /* Original [0004e620,0004e72d). Require an undecorated runtime function
    once, preserving its global symbol serial, name ownership and debug queue. */
 SymbolHeader *__fastcall require_external_symbol(char *name)

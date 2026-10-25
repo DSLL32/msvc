@@ -493,6 +493,13 @@ void __fastcall coff_write_word(unsigned short value)
     coff_write_scope_data(&value, 2);
 }
 
+/* Original [0006f010,0006f029). Materialize the incoming DWORD and
+   write its four little-endian bytes through the active scope writer. */
+void __fastcall coff_write_dword(unsigned value)
+{
+    coff_write_scope_data(&value, 4);
+}
+
 /* Original7e8d0..7e920: scratch for this writer's direct-file fill path. */
 static unsigned char coff_fill_scratch[80];
 /* Original6f1c0..6f36e. Contributions either count uninitialized space or

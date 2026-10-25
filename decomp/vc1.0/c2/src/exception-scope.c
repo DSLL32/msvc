@@ -4,6 +4,7 @@
 #include "expression-fields.h"
 #include "tree-rewrite.h"
 #include "instruction-selection.h"
+#include "output.h"
 #include <recon.h>
 ExceptionScope *prepared_exception_scopes;
 Node *exception_return_label;
@@ -543,4 +544,35 @@ ExceptionScope *__fastcall lookup_exception_scope(ExceptionScope *scopes, long i
 #ifdef RECON_NATIVE_TEST
     __asm int 3
 #endif
+}
+
+/* Original [000664e0,00066584). Emit frame descriptions for the filter
+   and finally instruction ranges. The length accumulator intentionally carries
+   across records when the next pair does not provide an increasing range.
+   Kind1 producers supply a filter label: the original later dereferences it
+   even when its earlier length-computation test found a null pointer. */
+void __fastcall emit_function_inline_data(Function *function)
+{
+    ExceptionScope *scope;
+    SymbolHeader *handler, *filter, *alternate;
+    unsigned bytes = 0;
+    for (scope = function->exception_scopes; scope; scope = scope->next) {
+        handler = scope->handler_label;
+        if (!handler) continue;
+        if (scope->kind == 1) {
+            filter = scope->filter_label;
+            if (filter && handler->field04 > filter->field04)
+                bytes = handler->field04 - filter->field04;
+            write_function_frame_record((FunctionSymbol *)function->symbol,
+                filter->field04 - function->symbol->field04, bytes, 0, 0, 0, 0, 1, 0);
+        } else {
+            if (scope->kind != 2)
+                compiler_internal_error("@(#)except.c:1.25", 0x334);
+            alternate = scope->alternate_label;
+            if (alternate && handler->field04 < alternate->field04)
+                bytes = alternate->field04 - handler->field04;
+            write_function_frame_record((FunctionSymbol *)function->symbol,
+                handler->field04 - function->symbol->field04, bytes, 0, 0, 0, 0, 1, 0);
+        }
+    }
 }

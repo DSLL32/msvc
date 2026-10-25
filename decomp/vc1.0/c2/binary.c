@@ -4200,11 +4200,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@lookup_external_name@4",
         .entry_rva = 0x3e550,
-        .code = (const ReconExtent[]) { { 0x3e550, 0x3e551 } },
+        .code = (const ReconExtent[]) { { 0x3e550, 0x3e613 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lookup_external_name",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@intrinsic_float_cleanup_count@4",
@@ -4902,11 +4902,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@coff_write_dword@4",
         .entry_rva = 0x5f010,
-        .code = (const ReconExtent[]) { { 0x5f010, 0x5f011 } },
+        .code = (const ReconExtent[]) { { 0x5f010, 0x5f029 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "coff_write_dword",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@coff_write_word@4",
@@ -9483,11 +9483,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@narrow_comparison_condition@4",
         .entry_rva = 0x11ca0,
-        .code = (const ReconExtent[]) { { 0x11ca0, 0x11ca1 } },
+        .code = (const ReconExtent[]) { { 0x11ca0, 0x11ca8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "narrow_comparison_condition",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@integer_width_mask@4",
@@ -12439,11 +12439,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@emit_function_inline_data@4",
         .entry_rva = 0x564e0,
-        .code = (const ReconExtent[]) { { 0x564e0, 0x564e1 } },
+        .code = (const ReconExtent[]) { { 0x564e0, 0x56584 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_function_inline_data",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@emit_function_exception_table@8",

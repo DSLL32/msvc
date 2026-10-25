@@ -7,6 +7,8 @@
 #include "instruction-selection.h"
 #include "seh-selection.h"
 #include "intrinsic-selection.h"
+#include "coff-writer.h"
+#include "backend-passes.h"
 #include <recon.h>
 extern unsigned exception_scope_stack_depth;
 struct Arena { void *blocks; char *next; unsigned remaining; int heap_flags; };
@@ -391,4 +393,40 @@ int c2_external_name_inputs(void)
 {
     return recon_native_at_entry((const void *)lookup_external_name,
         (const void *)external_name_entry,real_input,0)==1;
+}
+
+static int __fastcall narrow_condition_entry(unsigned condition)
+{
+    recon_native_entry_finish(condition==4);
+}
+int c2_narrow_condition_inputs(void)
+{
+    return recon_native_at_entry((const void *)narrow_comparison_condition,
+        (const void *)narrow_condition_entry,real_input,0)==1;
+}
+
+static void __fastcall coff_dword_entry(unsigned value)
+{
+    recon_native_entry_finish(value==~0U);
+}
+int c2_coff_dword_inputs(void)
+{
+    return recon_native_at_entry((const void *)coff_write_dword,
+        (const void *)coff_dword_entry,real_input,0)==1;
+}
+
+static void __fastcall function_ranges_entry(Function *function)
+{
+    ExceptionScope *scope=function->exception_scopes;
+    int valid=function==current_function&&!function->symbol->field04&&scope&&scope->next&&
+        !scope->next->next&&scope->kind==1&&scope->next->kind==2&&
+        scope->handler_label->field04==0x118&&scope->filter_label->field04==0x104&&
+        scope->alternate_label->field04==0&&scope->next->handler_label->field04==0xd5&&
+        !scope->next->filter_label&&scope->next->alternate_label->field04==0x131;
+    recon_native_entry_finish(valid);
+}
+int c2_function_ranges_inputs(void)
+{
+    return recon_native_at_entry((const void *)emit_function_inline_data,
+        (const void *)function_ranges_entry,real_input,0)==1;
 }

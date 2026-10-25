@@ -190,6 +190,26 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@lookup_external_name@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@narrow_comparison_condition@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@coff_write_dword@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@emit_function_inline_data@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

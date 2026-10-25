@@ -38,6 +38,9 @@ static const uint32_t order[] = {
     0xbc00,
     0xd3b0,
     0x3e550,
+    0x11ca0,
+    0x5f010,
+    0x564e0,
 };
 static const uint32_t seen[] = {
     0x3c100, /* main */
@@ -1239,8 +1242,8 @@ static const uint32_t seen[] = {
 };
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "seh",
-    "SEH current frontier lookup_external_name cached original C2 invocation; exact IR/environment and full final artifacts; explicit per-case first-entry seed. Untouched CL transport preserved.",
+    "Completed SEH cached original C2 invocation; exact IR/environment and full final artifacts; explicit per-case first-entry seed. Untouched CL transport preserved.",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x3e550,
-    NULL, invoke, NULL, c2_tests, 62
+    RECON_IO, RECON_EXIT, 0,
+    NULL, invoke, NULL, c2_tests, 71
 };

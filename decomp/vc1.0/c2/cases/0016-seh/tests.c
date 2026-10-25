@@ -8,8 +8,15 @@
 #include "register-transfers.h"
 #include "seh-selection.h"
 #include "initializers.h"
+#include "intrinsic-selection.h"
+#include "coff-writer.h"
+#include "backend-passes.h"
+#include "coff-output.h"
+#include "options.h"
+#include "output.h"
 #include <recon-native.h>
 #include <recon.h>
+extern unsigned next_serial;
 extern Node *free_nodes;
 extern Expression *free_expressions;
 extern int c2_scope_owned_record(void);
@@ -36,6 +43,9 @@ extern int c2_register_ends_inputs(void);
 extern int c2_assembly_record_inputs(void);
 extern int c2_scope_table_inputs(void);
 extern int c2_external_name_inputs(void);
+extern int c2_narrow_condition_inputs(void);
+extern int c2_coff_dword_inputs(void);
+extern int c2_function_ranges_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -780,6 +790,147 @@ static int seh_scope_table_records(void)
     }
     return 1;
 }
+unsigned __fastcall external_name_hash(char *name);
+SymbolHeader *__fastcall require_external_symbol(char *name);
+static int external_data_cache_identity(void)
+{
+    char first_name[]="ab",second_name[]="ba";SymbolHeader *first,*second,*function;
+    unsigned first_id;
+    next_serial=1; /* The cold constructor requires the normal nonzero module serial. */
+    if(external_name_hash(first_name)!=external_name_hash(second_name))return 0;
+    first=lookup_external_name(first_name);first_id=first->identifier;
+    if(first->kind!=1||first->value!=4||first->field0d||first->name==first_name||
+       strcmp(first->name,"ab"))return 0;
+    second=lookup_external_name(second_name);
+    if(second==first||second->kind!=1||second->value!=4||second->field0d||
+       second->name==second_name||strcmp(second->name,"ba"))return 0;
+    first_name[0]='z';second_name[0]='z';
+    if(lookup_external_name("ab")!=first||lookup_external_name("ba")!=second||
+       first->identifier!=first_id||strcmp(first->name,"ab")||strcmp(second->name,"ba")||
+       require_external_symbol("ab")!=first||first->kind!=1)return 0;
+    function=require_external_symbol("c2_cache_function");
+    return function->kind==4&&lookup_external_name("c2_cache_function")==function&&
+        function->kind==4&&lookup_external_name("")==lookup_external_name("");
+}
+static void __fastcall external_cache_full_entry(char *source,unsigned code)
+{
+    recon_native_entry_finish(code==0x545&&!strcmp(source,"@(#)p2symtab.c:1.89"));
+}
+static void fill_external_cache(void *argument)
+{
+    char name[24];unsigned i;
+    next_serial=1; /* Valid cold module state, not a public-invocation override. */
+    for(i=0;i<128;++i){sprintf(name,"c2_data_%u",i);lookup_external_name(name);}
+    lookup_external_name("c2_data_missing");
+}
+static int external_cache_capacity_boundary(void)
+{
+    return recon_native_at_entry((const void *)compiler_internal_error,
+        (const void *)external_cache_full_entry,fill_external_cache,0)==1;
+}
+static int narrowed_comparison_conditions(void)
+{
+    /* Independently decoded original16B table, not a host condition formula. */
+    static const int expected[]={0,1,2,3,4,5,6,7,9,9,10,11,2,3,6,7};unsigned i;
+    for(i=0;i<RECON_COUNT(expected);++i)
+        if(narrow_comparison_condition(i)!=expected[i])return 0;
+    return 1;
+}
+static int coff_dword_little_endian(void)
+{
+    static const unsigned values[]={0,0x89abcdefU,~0U};CoffScope scope;CoffDataBlock blocks[2];
+    unsigned i,j;
+    for(i=0;i<RECON_COUNT(values);++i){
+        memset(&scope,0,sizeof scope);memset(blocks,0x3c,sizeof blocks);
+        scope.kind=1;scope.block=blocks;blocks[0].next=blocks;coff_active_scope=&scope;
+        coff_write_dword(values[i]);
+        if(scope.buffered_bytes!=4||scope.completed_bytes||scope.write_count!=1||scope.block!=blocks)return 0;
+        for(j=0;j<4;++j)if(blocks[0].bytes[j]!=(unsigned char)(values[i]>>(j*8)))return 0;
+        for(j=4;j<500;++j)if(blocks[0].bytes[j]!=0x3c)return 0;
+    }
+    memset(&scope,0,sizeof scope);memset(blocks,0x3c,sizeof blocks);
+    scope.kind=1;scope.block=blocks;scope.buffered_bytes=498;blocks[0].next=blocks;
+    blocks[1].next=0;coff_free_blocks=&blocks[1];coff_active_scope=&scope;
+    coff_write_dword(0x89abcdefU);
+    if(scope.completed_bytes!=500||scope.buffered_bytes!=2||scope.write_count!=1||
+       scope.block!=&blocks[1]||blocks[0].next!=&blocks[1]||blocks[1].next!=blocks||coff_free_blocks||
+       blocks[0].bytes[498]!=0xef||blocks[0].bytes[499]!=0xcd||
+       blocks[1].bytes[0]!=0xab||blocks[1].bytes[1]!=0x89)return 0;
+    for(j=0;j<498;++j)if(blocks[0].bytes[j]!=0x3c)return 0;
+    for(j=2;j<500;++j)if(blocks[1].bytes[j]!=0x3c)return 0;
+    scope.value=1;coff_write_dword(~0U);
+    return scope.buffered_bytes==6&&scope.completed_bytes==500&&scope.write_count==2&&
+        blocks[1].bytes[2]==0x3c&&blocks[1].bytes[3]==0x3c;
+}
+typedef struct ScopeFrameCapture {
+    unsigned offset,bytes,locals;unsigned short parameters;unsigned char prologue,attributes;
+} ScopeFrameCapture;
+static ScopeFrameCapture captured_scope_frames[4];
+static unsigned scope_frame_events,scope_frame_count;static int scope_frame_valid;
+static Segment *scope_frame_segment;static SymbolHeader *scope_frame_symbol;
+static void __fastcall capture_scope_frame_segment(Segment *segment)
+{
+    if(scope_frame_events%3||segment!=scope_frame_segment)scope_frame_valid=0;
+    ++scope_frame_events;
+}
+static void __fastcall capture_scope_frame_data(void *data,unsigned bytes)
+{
+    if(scope_frame_events%3!=1||bytes!=16||scope_frame_count==4)scope_frame_valid=0;
+    else memcpy(&captured_scope_frames[scope_frame_count++],data,bytes);
+    ++scope_frame_events;
+}
+static void __fastcall capture_scope_frame_address(unsigned offset,SymbolHeader *symbol)
+{
+    if(scope_frame_events%3!=2||offset!=0U-16||symbol!=scope_frame_symbol)scope_frame_valid=0;
+    ++scope_frame_events;
+}
+static int function_scope_frame_ranges(void)
+{
+    static const unsigned handlers[]={0x150,0x120,0x180,0x1f0};
+    static const unsigned starts[]={0x130,0x140,0x1d0,0x1e0};
+    static const unsigned offsets[]={0x30,0x40,0x80,0xf0},lengths[]={0x20,0x20,0x50,0x50};
+    Function function;FunctionSymbol symbol;ExceptionScope scopes[5];SymbolHeader labels[8];
+    Segment segment;unsigned i;extern int coff_object;
+    memset(&function,0,sizeof function);memset(&symbol,0,sizeof symbol);
+    memset(scopes,0,sizeof scopes);memset(labels,0,sizeof labels);memset(&segment,0,sizeof segment);
+    function.symbol=&symbol.symbol;symbol.symbol.field04=0x100;
+    object_filename="scope-frame-test.obj";coff_object=1;coff_function_fpo_segment=&segment;
+    scope_frame_events=scope_frame_count=0;scope_frame_valid=1;
+    scope_frame_segment=&segment;scope_frame_symbol=&symbol.symbol;
+    output_callbacks.select_segment=capture_scope_frame_segment;output_callbacks.data=capture_scope_frame_data;
+    output_callbacks.address=capture_scope_frame_address;
+    emit_function_inline_data(&function);if(scope_frame_events)return 0;
+    function.exception_scopes=scopes;
+    for(i=0;i<5;++i){scopes[i].next=i==4?0:&scopes[i+1];scopes[i].kind=i<2?1:2;
+        if(i==4)continue;
+        labels[i*2].field04=handlers[i];labels[i*2+1].field04=starts[i];
+        scopes[i].handler_label=&labels[i*2];
+        if(i<2)scopes[i].filter_label=&labels[i*2+1];else scopes[i].alternate_label=&labels[i*2+1];}
+    emit_function_inline_data(&function);
+    if(!scope_frame_valid||scope_frame_events!=12||scope_frame_count!=4||segment.symbol.field04!=64)return 0;
+    for(i=0;i<4;++i)if(captured_scope_frames[i].offset!=offsets[i]||
+        captured_scope_frames[i].bytes!=lengths[i]||captured_scope_frames[i].locals||
+        captured_scope_frames[i].parameters||captured_scope_frames[i].prologue||
+        captured_scope_frames[i].attributes!=8||labels[i*2].field04!=handlers[i]||
+        labels[i*2+1].field04!=starts[i])return 0;
+    return symbol.symbol.field04==0x100&&function.exception_scopes==scopes;
+}
+static void __fastcall invalid_scope_frame_kind(char *source,unsigned code)
+{
+    recon_native_entry_finish(code==0x334&&!strcmp(source,"@(#)except.c:1.25"));
+}
+static void invoke_invalid_scope_frame(void *argument)
+{
+    Function function;ExceptionScope scope;SymbolHeader handler;
+    memset(&function,0,sizeof function);memset(&scope,0,sizeof scope);memset(&handler,0,sizeof handler);
+    function.exception_scopes=&scope;scope.kind=3;scope.handler_label=&handler;
+    emit_function_inline_data(&function);
+}
+static int function_scope_frame_kind_boundary(void)
+{
+    return recon_native_at_entry((const void *)compiler_internal_error,
+        (const void *)invalid_scope_frame_kind,invoke_invalid_scope_frame,0)==1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -842,5 +993,14 @@ const ReconTest c2_tests[]={
     {"SEH missing owners reach exact diagnostic boundaries",1,seh_missing_owner_boundaries},
     {"actual scope-table initializer hidden function/two-scope/symbol owners",1,c2_scope_table_inputs},
     {"scope table owns threeDWORD rows and optional label relocations",1,seh_scope_table_records},
-    {"actual external-name ECX consumes exact except-list literal",1,c2_external_name_inputs}
+    {"actual external-name ECX consumes exact except-list literal",1,c2_external_name_inputs},
+    {"external data collisions/copies share function-cache identities",1,external_data_cache_identity},
+    {"external cache full128-slot wrap reaches exact diagnostic",1,external_cache_capacity_boundary},
+    {"actual narrow comparison scalar condition4 in ECX",1,c2_narrow_condition_inputs},
+    {"narrowed conditions preserve all16 original signed-byte rows",1,narrowed_comparison_conditions},
+    {"actual COFF DWORD scalarECX preserves negative-one bits",1,c2_coff_dword_inputs},
+    {"COFF DWORD little-endian bytes cross500-byte scope boundary",1,coff_dword_little_endian},
+    {"actual function/scope/label offsets at SEH frame-range output",1,c2_function_ranges_inputs},
+    {"SEH frame ranges retain length across nonincreasing pairs",1,function_scope_frame_ranges},
+    {"SEH invalid frame-scope kind reaches exact diagnostic",1,function_scope_frame_kind_boundary}
 };

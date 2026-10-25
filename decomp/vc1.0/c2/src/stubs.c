@@ -76,7 +76,6 @@ void __fastcall change_warning_override(short number, signed char level) { __asm
 char *__fastcall diagnostic_format(unsigned number) { __asm int 3 }
 void __cdecl emit_diagnostic(unsigned category, unsigned number, char *format, va_list arguments) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void __fastcall emit_function_inline_data(Function *function) { __asm int 3 }
 #include "output.h"
 __declspec(naked) void output_noop_data(void) { RECON_TRACE_NAKED_ENTRY(output_noop_data) __asm int 3 }
 __declspec(naked) void output_noop_value(void) { RECON_TRACE_NAKED_ENTRY(output_noop_value) __asm int 3 }
@@ -122,7 +121,6 @@ MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm i
 
 #include "instruction-rewrite.h"
 int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall narrow_comparison_condition(unsigned condition) { __asm int 3 }
 unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
 unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 
@@ -250,7 +248,6 @@ int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInst
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
-void __fastcall coff_write_dword(unsigned value) { __asm int 3 }
 void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *relocation) { __asm int 3 }
 
 #include "intrinsics.h"
@@ -264,7 +261,6 @@ void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, 
     unsigned opcode, Node *counter, unsigned bytes, Node *assignment) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a6(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int mode) { __asm int 3 }
-SymbolHeader *__fastcall lookup_external_name(char *name) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region) { __asm int 3 }
