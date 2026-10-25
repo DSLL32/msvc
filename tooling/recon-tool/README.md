@@ -421,3 +421,29 @@ An explicit second audit view can use `registry-export --accepted-scope NAME`.
 accepted registry names. Missing, stale or unaccepted names fail; the selected
 view changes only `accepted`, retaining the complete driver/identity indexes.
 The normal export and full graph audit remain unrestricted.
+
+Rust host memory uses a pinned, prefixed jemalloc allocator with arena reuse.
+This separates Rust registry/ELF/parser buffers from the application's unchanged
+libc malloc/free/realloc heap. Build settings disable DSS (sbrk) and background
+threads, use one host arena, and keep 32-bit virtual-memory retention disabled.
+The startup guard validates the effective settings before CLI dispatch or any
+application load; it fails instead of changing an already initialized heap.
+No C malloc symbol replacement, LD_PRELOAD, target zeroing or heap tuning is used.
+
+FFI arguments, pointer arrays, trace labels and descriptor views remain borrowed.
+C must not free/realloc Rust-owned storage; Rust must not adopt target/libc-owned
+buffers as Vec/Box/CString ownership. Creator-owned release remains required for
+any future ownership transfer. jemalloc's ordinary atfork hooks cover inherited
+host allocations, while runner forks remain single-threaded and outside signal
+handlers; no background allocator threads run. Loader/libc allocations remain,
+so this separation does not guarantee values of unwritten target fields.
+
+Focused allocator checks are available as the host_allocator_contract Rust test
+(run with --test-threads=1). They cover alignment/reallocation, arena reuse,
+libc symbol ownership, and inherited live allocation behavior across fork.
+
+Native execution always installs a process boundary. Until a case's declared
+captured-response policy is supported, every RSP1/RSP2 request is denied; it
+cannot fall back to executing a host program. A rejected request fails the whole
+fixture even if the application handles the rejection. Ordinary host controller
+forks remain supervised independently. Unit mode also has no native fallback.

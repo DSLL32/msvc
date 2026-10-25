@@ -2,7 +2,7 @@ use crate::{
     abi::{self, Loaded},
     debug,
     fixture::{self, Action, Fixture},
-    status, trap,
+    process, status, trap,
 };
 use anyhow::{Context, Result, bail};
 use serde::{Deserialize, Serialize};
@@ -299,6 +299,7 @@ unsafe fn executor(
     cwd: &Path,
     stdin: RawFd,
     trace: RawFd,
+    spawn: RawFd,
     tests: bool,
     debug: &debug::Options,
     supervisor: i32,
@@ -348,6 +349,9 @@ unsafe fn executor(
         if let Some(cwd) = &f.logical_cwd {
             std::env::set_var("RECON_CANONICAL_CWD", cwd);
         }
+    }
+    unsafe {
+        std::env::set_var("RECON_SPAWN_FD", spawn.to_string());
     }
     std::env::set_current_dir(cwd)?;
     let receipt = status::Receipt::create(root)?;
@@ -540,12 +544,14 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             )?;
             (File::open(root.join("stdin"))?, None)
         };
+        let (mut process_server, process_client) = process::DenyServer::new()?;
         let trace = open_stream(&root.join("trace"))?;
         let setup_ms = start.elapsed().as_secs_f64() * 1000.;
         let run = Instant::now();
         let supervisor = unsafe { libc::getpid() };
         let pid = fork()?;
         if pid == 0 {
+            drop(process_server);
             drop(writer.take());
             let result = unsafe {
                 executor(
@@ -555,6 +561,7 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
                     &cwd,
                     input.as_raw_fd(),
                     trace.as_raw_fd(),
+                    process_client.as_raw_fd(),
                     tests,
                     debug,
                     supervisor,
@@ -571,6 +578,7 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             libc::setpgid(pid, pid);
         }
         drop(input);
+        drop(process_client);
         let mut close_requested = false;
         let mut pending = if f.stdin_kind == fixture::StdinKind::Pipe {
             f.stdin.as_ref().map_or(vec![], |b| b.0.clone())
@@ -585,6 +593,13 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
         let mut debugger_started = false;
         let mut debugger: Option<debug::Session> = None;
         loop {
+            match process_server.poll() {
+                Ok(denied) => errors.extend(denied),
+                Err(error) => {
+                    errors.push(format!("process boundary: {error:#}"));
+                    kill_descendants();
+                }
+            }
             if debug.enabled && !debugger_started && root.join("debug-ready").exists() {
                 debugger_started = true;
                 match debug::start(debug, &root) {

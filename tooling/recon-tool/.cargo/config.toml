@@ -1,2 +1,6 @@
 [build]
 target = "i686-unknown-linux-gnu"
+
+# Build-time policy for the prefixed Rust allocator; not target environment.
+[env]
+JEMALLOC_SYS_WITH_MALLOC_CONF = { value = "dss:disabled,background_thread:false,narenas:1,abort_conf:true", force = true }

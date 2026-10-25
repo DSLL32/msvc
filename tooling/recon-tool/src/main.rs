@@ -3,9 +3,11 @@ compile_error!("recon-tool must be built for i686-unknown-linux-gnu");
 mod abi;
 mod debug;
 mod fixture;
+mod host_alloc;
 mod native;
 mod original;
 mod original_image;
+mod process;
 mod projection;
 mod runtime;
 mod status;
@@ -100,6 +102,7 @@ fn main() {
     }
 }
 fn execute() -> Result<()> {
+    host_alloc::verify()?;
     match Cli::parse().command {
         Command::IdentifyRuntime(options) => runtime::identify(options)?,
         Command::Inspect { case } => println!(

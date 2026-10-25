@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <signal.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/wait.h>
@@ -24,6 +25,18 @@ int fixture_main(int argc, char **argv)
 {
     char line[128];
     FILE *f;
+    if (getenv("RECON_CHECK_PROCESS"))
+    {
+        const char *setting=getenv("RECON_SPAWN_FD");
+        uint32_t frame[]={0x31505352,16+4+14+4,0,0,0,0,14};
+        uint32_t empty=0,reply[3];int fd;
+        if(!setting)return 9;
+        fd=atoi(setting);frame[3]=(uint32_t)getpid();
+        if(write(fd,frame,sizeof(frame))!=sizeof(frame) ||
+            write(fd,"undeclared.exe",14)!=14 || write(fd,&empty,4)!=4 ||
+            read(fd,reply,sizeof(reply))!=sizeof(reply) || reply[1]!=2)return 10;
+        return 0; /* Handling a denial must still fail the whole fixture. */
+    }
     if (getenv("RECON_CHECK_HOLD"))
     {
         signal(SIGINT,hold_interrupt);
