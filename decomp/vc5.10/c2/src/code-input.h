@@ -192,4 +192,5 @@ int __fastcall symbol_range_boundary(C2Expression *record);
 void __fastcall splice_symbol_record_range(C2Expression *first,
     C2Expression *last, C2Expression *anchor);
 int __fastcall simplify_symbol_record(C2Expression *record);
+void __fastcall remove_symbol_record(C2Expression *record);
 #endif

@@ -769,3 +769,22 @@ void __fastcall simplify_symbol_records(C2Function *function)
         record = next;
     }
 }
+
+int __fastcall simplify_symbol_record(C2Expression *record)
+{
+    C2Expression *value, *previous;
+    value = record->tail.right;
+    if (!value) {
+        if (record->declaration->detail.variable.flags) return 0;
+        remove_symbol_record(record);
+        return 1;
+    }
+    previous = value->previous;
+    if (!previous || value->next || previous != record->previous ||
+        previous->opcode != 0x15a) return 0;
+    unlink_input_record((C2Record *)previous);
+    release_small_node(previous);
+    if (!record->declaration->detail.variable.flags)
+        remove_symbol_record(record);
+    return 1;
+}

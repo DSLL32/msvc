@@ -383,10 +383,9 @@ void __fastcall function_pass_42f060(C2Function *function)
     __asm { int 3 }
 }
 
-int __fastcall simplify_symbol_record(C2Expression *record)
+void __fastcall remove_symbol_record(C2Expression *record)
 {
     __asm { int 3 }
-    return 0;
 }
 
 void __fastcall function_pass_42f3e4(C2Function *function)
