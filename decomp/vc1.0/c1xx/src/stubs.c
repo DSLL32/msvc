@@ -570,7 +570,7 @@ void __stdcall mark_pch_expression_references(ExpressionReference *reference) { 
 void __stdcall mark_pch_reference_groups(MemberReferenceGroup *group) { __asm { int 3 } }
 struct VirtualThunkKey;
 void __stdcall mark_pch_virtual_thunk_key(struct VirtualThunkKey *key) { __asm { int 3 } }
-void mark_pch_declaration_thunks(void) { __asm { int 3 } }
+void __stdcall mark_pch_declaration_thunk_key(MemberPointerThunkKey *key) { __asm { int 3 } }
 void mark_pch_deferred_types(void) { __asm { int 3 } }
 void mark_pch_member_contexts(void) { __asm { int 3 } }
 void mark_pch_typedef_aliases(void) { __asm { int 3 } }

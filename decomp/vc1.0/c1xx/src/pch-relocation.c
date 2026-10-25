@@ -876,3 +876,13 @@ void mark_pch_virtual_thunks(void)
     mark_pch_hash_table(virtual_adjustment_thunks,
         (PchVisit)mark_pch_virtual_thunk_key, (PchVisit)mark_pch_symbol_chain);
 }
+
+void __stdcall mark_pch_declaration_thunk_key(MemberPointerThunkKey *key);
+
+/* Original0x4dc60..0x4dc76. Member-pointer thunk keys retain their
+   function pointer, and cached generated functions use the symbol walker. */
+void mark_pch_declaration_thunks(void)
+{
+    mark_pch_hash_table(declaration_thunks,
+        (PchVisit)mark_pch_declaration_thunk_key, (PchVisit)mark_pch_symbol_chain);
+}
