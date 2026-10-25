@@ -307,6 +307,7 @@ int __cdecl recon_watcom_setmode(int,int);
 extern unsigned recon_watcom_amblksiz;
 int __cdecl recon_watcom_memicmp(const void *,const void *,size_t);
 char *__cdecl recon_watcom_getcmd(char *);
+int __cdecl recon_watcom_getch(void);
 ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
 int recon_watcom_raise(int);
 /* Host binding requires independently proved first-main-call/no-target-ctor
@@ -491,6 +492,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define setmode recon_watcom_setmode
 #define memicmp recon_watcom_memicmp
 #define getcmd recon_watcom_getcmd
+#define getch recon_watcom_getch
 #define _heapchk recon_watcom_heapchk
 #define _nheapchk recon_watcom_nheapchk
 #define signal recon_watcom_signal

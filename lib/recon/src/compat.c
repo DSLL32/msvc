@@ -120,6 +120,10 @@ char *__cdecl recon_watcom_getcmd(char *buffer)
     (void)buffer;
     recon_unsupported("unreviewed Watcom getcmd");return NULL;
 }
+int __cdecl recon_watcom_getch(void)
+{
+    recon_unsupported("unreviewed Watcom getch");return 0;
+}
 void recon_bind_watcom_wlib_first_main_heap(const char *reference)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

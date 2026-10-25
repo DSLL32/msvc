@@ -630,6 +630,10 @@ output, including count0/NULL. WLINK currently stores the memicmp callback;
 WLIB's selected help path returns before getcmd. No comparison or command-line
 success, private CRT implementation or host import fallback is supported.
 
+The native conio.h surface and Watcom-only int getch(void) spelling are typed
+link support only: invocation always denies125, with no console read. WLIB's
+regular-stdout help returns from PauseOnConsole before this cold call.
+
 The public IMAGEHLP staging route recognizes LoadLibraryA("imagehlp" or
 "imagehlp.dll") as a built-in native module, alongside the existing system
 module routes. Only after that load can GetProcAddress resolve the exact name
