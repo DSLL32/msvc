@@ -1,4 +1,5 @@
 #include "c2.h"
+#include "code-input.h"
 #include <recon.h>
 
 C2DebugScope *current_debug_scope;
@@ -153,4 +154,12 @@ void __fastcall read_symbols(C2SymbolScope *scope)
             current_symbol_list_scope->records = link;
         }
     }
+}
+
+char *__fastcall lookup_input_filename(unsigned serial)
+{
+    C2Filename *file = filenames;
+    while (file->serial != serial)
+        file = file->next;
+    return file->name;
 }

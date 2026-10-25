@@ -429,11 +429,6 @@ short __fastcall read_counted_input_text(char *text, int capacity)
     return 0;
 }
 
-char *__fastcall lookup_input_filename(unsigned serial)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 
 void __fastcall discard_input_tree(C2Expression *tree)

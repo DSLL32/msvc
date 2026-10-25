@@ -15,12 +15,12 @@ unsigned input_aggregate_bytes, input_last_source_index;
 C2InputClause *input_clauses;
 
 /* Only the two high-byte properties read by this dispatcher are represented.
- * The encountered pragma opcode79 has the boundary bit and no expression bit.
+ * Encountered pragma79 and filename86 have the boundary bit and no expression bit.
  * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
 static struct {
-    unsigned char pending00[79], pragma, pending80[78];
-} input_opcode_properties = {{0}, 0x10, {0}};
+    unsigned char pending00[79], pragma, pending80[6], filename, pending87[71];
+} input_opcode_properties = {{0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 static unsigned input_register_opcode[17];
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
@@ -29,6 +29,7 @@ static unsigned char input_register_opcode_known[17];
 #define INPUT_PROPERTIES(op) \
     ((unsigned)(op) == 79 ? \
      input_opcode_properties.pragma : \
+     (unsigned)(op) == 86 ? input_opcode_properties.filename : \
      (recon_unsupported("unmodeled input opcode properties"), 0))
 #define INPUT_INVERSE(condition) \
     ((unsigned)(condition) < 16 && input_condition_known[(condition)] ? \

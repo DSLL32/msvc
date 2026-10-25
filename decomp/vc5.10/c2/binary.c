@@ -2953,8 +2953,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@lookup_input_filename@4",
         .entry_rva = 0x282d2,
+        .code = (const ReconExtent[]){{0x282d2, 0x282e6}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "lookup_input_filename",
     },
     {
