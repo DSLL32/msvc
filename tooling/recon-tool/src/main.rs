@@ -8,6 +8,7 @@ mod fixture;
 mod host_alloc;
 mod native;
 mod original;
+mod original_cf;
 mod original_image;
 mod original_loader;
 mod original_stage;
@@ -89,6 +90,10 @@ enum OriginalCommand {
     /// Run an original compiler/linker/tool in the shared Wine prefix.
     Tool(toolchain::Tool),
     Capture(original::Capture),
+    BuildCfHelper {
+        #[arg(long, default_value = ".")]
+        repo: PathBuf,
+    },
     BuildHelper {
         #[arg(long, default_value = ".")]
         repo: PathBuf,
@@ -128,6 +133,9 @@ fn execute() -> Result<()> {
             }
             OriginalCommand::Tool(options) => toolchain::run(options)?,
             OriginalCommand::Capture(options) => original::capture(options)?,
+            OriginalCommand::BuildCfHelper { repo } => {
+                println!("{}", original_cf::build_helper(&repo)?.display())
+            }
             OriginalCommand::BuildHelper { repo } => {
                 println!("{}", original::build_helper(&repo)?.display())
             }

@@ -190,6 +190,12 @@ use std::{
 };
 #[derive(clap::Args)]
 pub struct Capture {
+    /// Hash-bound CF loader profile; currently entry-stop only.
+    #[arg(long, requires = "entry_stop")]
+    pub cf_profile: Option<PathBuf>,
+    /// Stop at the actual CF entry INT3, without writing a fixture oracle.
+    #[arg(long, requires = "cf_profile")]
+    pub entry_stop: bool,
     pub case: PathBuf,
     #[arg(long, default_value = ".")]
     pub repo: PathBuf,
@@ -497,7 +503,7 @@ unsafe extern "C" fn remote_emit(
     }
 }
 
-fn quote(s: &str) -> String {
+pub(crate) fn quote(s: &str) -> String {
     let mut result = String::from("\"");
     let mut slashes = 0;
     for c in s.chars() {
@@ -660,6 +666,10 @@ fn export_artifacts(
 }
 #[derive(Serialize, Deserialize)]
 struct CaptureReport {
+    #[serde(default)]
+    oracle_written: bool,
+    #[serde(default)]
+    backend: Option<serde_json::Value>,
     case: String,
     terminal: String,
     first_entry_order: Vec<u32>,
@@ -814,7 +824,7 @@ fn capture_executor(
     root: &Path,
     cwd: &Path,
     artifacts_dir: Option<&Path>,
-) -> Result<(Fixture, CaptureReport)> {
+) -> Result<(Option<Fixture>, CaptureReport)> {
     let start = Instant::now();
     for key in [
         "RECON_TRACE_FD",
@@ -841,6 +851,33 @@ fn capture_executor(
         fixture::hex(&Sha256::digest(&original)) == loaded.info.original_sha256.to_lowercase(),
         "original binary SHA256 differs from binary_descriptor"
     );
+    if options.cf_profile.is_some() {
+        let environment = root.join("original-environment");
+        fs::write(&environment, target_environment(&f.env)?)?;
+        let backend = crate::original_cf::capture(
+            options,
+            &loaded.info,
+            f,
+            root,
+            cwd,
+            &program,
+            &environment,
+        )?;
+        let report = CaptureReport {
+            case: loaded.info.case,
+            terminal: format!("entry-stop:{:x}", loaded.info.original_entry_rva),
+            first_entry_order: vec![],
+            elapsed_ms: start.elapsed().as_secs_f64() * 1000.,
+            workspace: root.display().to_string(),
+            staged_files: vec![],
+            frontier: None,
+            artifacts_dir: None,
+            raw_artifacts: vec![],
+            oracle_written: false,
+            backend: Some(backend),
+        };
+        return Ok((None, report));
+    }
     let image = crate::original_image::Image::parse(&original)?;
     anyhow::ensure!(
         image.entry != 0,
@@ -1227,6 +1264,8 @@ fn capture_executor(
     }
     native::dependencies(f)?;
     let report = CaptureReport {
+        oracle_written: true,
+        backend: None,
         case: loaded.info.case,
         terminal,
         first_entry_order: broker.order,
@@ -1237,7 +1276,7 @@ fn capture_executor(
         artifacts_dir: artifacts_dir.map(Path::to_owned),
         raw_artifacts,
     };
-    Ok((fixture, report))
+    Ok((Some(fixture), report))
 }
 
 fn canonical_capture_cwd(
@@ -1337,7 +1376,9 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
                         if !options.replace && options.output.exists() {
                             bail!("capture output already exists")
                         }
-                        fixture::write(&options.output, &fixture)?;
+                        if let Some(fixture) = fixture {
+                            fixture::write(&options.output, &fixture)?;
+                        }
                         fs::write(root.join("capture-report"), serde_json::to_vec(&report)?)?;
                         Ok(())
                     })();
@@ -1421,6 +1462,10 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
     Ok(report)
 }
 pub fn capture(mut options: Capture) -> Result<()> {
+    anyhow::ensure!(
+        options.cf_profile.is_none() || options.artifacts_dir.is_none(),
+        "CF entry-stop does not export artifacts or write a fixture oracle"
+    );
     native::signals();
     options.repo = options.repo.canonicalize()?;
     options.case = if options.case.is_dir() {
@@ -1482,6 +1527,15 @@ pub fn capture(mut options: Capture) -> Result<()> {
     }
     if let Some(error) = value.get("error") {
         bail!("{error}")
+    }
+    if value["oracle_written"] == false {
+        println!(
+            "TRANSPORT {} {} ({:.3} ms); no fixture oracle written",
+            value["case"].as_str().unwrap_or("?"),
+            value["terminal"].as_str().unwrap_or("?"),
+            value["elapsed_ms"].as_f64().unwrap_or(0.)
+        );
+        return Ok(());
     }
     println!(
         "CAPTURE {} {}: {} first entries ({:.3} ms)",

@@ -648,3 +648,32 @@ against existing `readonly_dependencies` paths and hashes. Additions, missing fi
 changed bytes, symlinks and special files fail. Every root needs declared files;
 empty directory membership is outside this file-set contract. This adds an optional
 version-2 capture field without changing the C descriptor ABI.
+
+
+`original build-cf-helper --repo ROOT` builds the private Watcom debug transport.
+The first CF frontend mode is explicitly diagnostic:
+
+```sh
+recon-tool original capture CASE --repo ROOT --capture INPUT \
+  --cf-profile PROFILE --entry-stop --helper CF_BROKER \
+  --output UNUSED_ORACLE_PATH --report REPORT
+```
+
+This mode currently recognizes only the hash-bound WCC386 fixed loader protocol.
+The profile identifies the original binb payload, its base-zero CF header and
+relocation metadata, and the separate binnt loader. Both retain their original
+sibling paths. Fixture arguments, stdin, cwd and environment remain inputs; the
+profile cannot supply executable instructions or admission rules. The shared
+Windows environment overlay is applied to the debuggee, and its requested keys
+are checked against the actual payload environment before the handoff.
+
+The controller verifies the complete relocated loader code/data and CF image,
+then executes six fixed loader instructions and stops at the actual CF entry
+INT3. It executes zero CF body instructions. The report includes the observed
+allocation, real context/selectors/frame, byte identities, owned teardown, and
+backend source/helper hashes; floating state is explicitly absent. It writes no
+fixture at `--output`, records no App entries, and rejects `--artifacts-dir`.
+Use `--report` to retain success or failure diagnostics across workspace cleanup.
+Ordinary CF progress, CF DIRECT and other CF loader geometries remain unavailable
+until their separate source/catalog and execution controls have qualified them.
+Native replay and the PE capture backend keep their existing paths.

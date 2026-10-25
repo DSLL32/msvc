@@ -1,3 +1,7 @@
+> Shared implementation: `tooling/recon-tool/watcom/` and `recon-tool original capture`.
+> These module/build paths are temporary migration shims. Historical qualification below
+> retains its original scope; diagnostic entry-stop is not ordinary CF progress.
+
 # Watcom original capture gate
 
 This is original-reference tooling, never a native fixture dependency. Static

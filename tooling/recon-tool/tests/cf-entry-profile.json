@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "backend": "watcom-cf",
+  "mode": "entry-stop",
+  "target": {
+    "path": "toolchains/watcom10.0a/binb/WCC386.EXE",
+    "sha256": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+    "coordinates": "image-offset",
+    "analysis_base": 0,
+    "header": {
+      "header_file_offset": 80,
+      "image_file_offset": 8704,
+      "initialized_size": 532636,
+      "relocation_offset": 509000,
+      "allocation_size": 593920,
+      "entry_offset": 196096
+    },
+    "initialized_sha256": "67510f8687dc06331c2bd85b56382a3be729be7a434f4330db06dcbffb2747c7",
+    "relocation_sha256": "a9aac7fd5813bb859f95bbe287ddfcc2ee32c38bae5103fd4fedcb74738d3640",
+    "relocation_count": 11801,
+    "relocation_groups": 8
+  },
+  "loader": {
+    "path": "toolchains/watcom10.0a/binnt/WCC386.EXE",
+    "sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+    "protocol": "watcom10.0a-wcc-entry-v1"
+  },
+  "runtime_catalog": null
+}
