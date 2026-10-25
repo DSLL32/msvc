@@ -1,0 +1,38 @@
+{
+  "scope": "original CRT/OSI far gateway wrapper identity; no local CRT body, instruction/service emulation or App credit",
+  "entry": 419271,
+  "extent": [
+    419271,
+    419280
+  ],
+  "code_bytes": 9,
+  "body_sha256": "f610a8bf17fa97cfb058dfb1e4570fd86596a95aa31d05f80c25a53839424194",
+  "source": {
+    "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443/bld/clib/startup/a/cstrtosi.asm",
+    "sha256": "e410f48b6e5f34997f9e2cb35ce5c20e01a886ab8801e967348ef30366db1c90",
+    "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+    "publics": [
+      "__Int21",
+      "__Int21_"
+    ],
+    "role": "PUSH EBP; farCALL actual initialized __INT21ADDR; POP EBP; nearRET0"
+  },
+  "pointer_cell": {
+    "offset": 757048,
+    "bytes": 6,
+    "initialized_by": "actual cstart gateway EDX and BX selector"
+  },
+  "allocation_boundary": {
+    "actual_MemFromSys": 531838,
+    "AH": 72,
+    "EBX": "rounded bytes, first65536",
+    "actual_dispatcher": 4262895,
+    "case_target": 4263463,
+    "flags": "EDX cleared0, LMEM_FIXED",
+    "size_source": "saved EBX at[ESI+4]",
+    "LocalAlloc_thunk": 4264076,
+    "IAT": 4456716,
+    "result": "saved EAX pointer; NULL sets carry"
+  },
+  "native": "MemFromSys calls normal Win32 LocalAlloc(LMEM_FIXED,size), using shared published shim; original executes actual gateway directly under Wine."
+}

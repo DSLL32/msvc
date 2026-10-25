@@ -27,6 +27,10 @@
     "strnicmp": {
       "path": "cases/0000-help/environment-crt-evidence.json",
       "sha256": "d18c10ed4885983b8b777791f058cd6254793cd475e3e3acfd1b5362e56fe228"
+    },
+    "__Int21": {
+      "path": "cases/0000-help/int21-boundary-evidence.json",
+      "sha256": "5a4a658e238cc8357fd941626b7a1a776a13468e4fa93a1f2301ee44fe3661d8"
     }
   },
   "graph_metadata": {

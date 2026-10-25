@@ -32,7 +32,15 @@
   "current_frontier": "MemFromSys@0x81d7e",
   "current_capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
   "shared_controller_expansion": false,
-  "next": "Continue private allocator under ordinary debugger; no instruction admission machinery.",
+  "next": "Common site-scoped compatibility_calls check, then fresh ordinary original/native pair.",
   "last_passing_frontier": "MemFromSys@0x81d7e",
-  "next_expected_frontier": null
+  "next_expected_frontier": "AddBlock@0x81d57",
+  "candidate_app_functions": [
+    {
+      "name": "MemFromSys",
+      "entry": 531838,
+      "bytes": 52,
+      "state": "builds pass; graph service-boundary check pending; unaccepted"
+    }
+  ]
 }

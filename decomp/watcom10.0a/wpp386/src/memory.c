@@ -35,6 +35,7 @@
  * App code even though startup reaches it through malloc/nmalloc aliases.
  * Recovered tag/word size4, minimum allocation16 and maximum class7.
  * The surrounding allocator is introduced only as its bodies are reached. */
+#include <windows.h>
 #include "memory.h"
 #include <recon.h>
 
@@ -97,6 +98,23 @@ void *GetFromFrl(unsigned amount, int frl_class)
             return alloc;
         }
         free = free->link[frl_class].next;
+    }
+    return 0;
+}
+
+/* The 1994 OSI variant allocates a whole64KiB multiple through AH48.
+ * Actual loader dispatch translates that boundary to LocalAlloc(FIXED,size).
+ * Unlike the later source, no mem_blk header or BLK_ADJUST is present here. */
+void *MemFromSys(unsigned amount)
+{
+    char *ptr;
+    unsigned size;
+
+    size = (amount + 65535u) & ~65535u;
+    ptr = (char *)LocalAlloc(LMEM_FIXED, size);
+    if (ptr) {
+        AddBlock(ptr, size / 16);
+        return MemAlloc(amount);
     }
     return 0;
 }

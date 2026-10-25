@@ -26,4 +26,5 @@ extern int write(int handle, const void *buffer, unsigned amount);
 int SizeToClass(unsigned size);
 void *GetFromFrl(unsigned size, int cls);
 void *MemFromSys(unsigned size);
+unsigned AddBlock(char *block, unsigned paragraphs);
 #endif

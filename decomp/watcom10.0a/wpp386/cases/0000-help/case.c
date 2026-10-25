@@ -6,12 +6,12 @@
 #include <recon.h>
 
 /* Candidate's next expected frontier; no fresh acceptance claimed yet. */
-static const uint32_t first_entry_order[] = { 0x81ba3, 0x81e41, 0xa1599, 0x81ab5, 0x81add, 0x81d7e };
+static const uint32_t first_entry_order[] = { 0x81ba3, 0x81e41, 0xa1599, 0x81ab5, 0x81add, 0x81d7e, 0x81d57 };
 
 RECON_EXPORT const ReconCase case_descriptor = {
     .abi_version=RECON_ABI_VERSION, .struct_size=sizeof(ReconCase),
     .name="help", .description="Public WPP386 ?; private allocator initialization frontier",
     .first_entry_order=first_entry_order, .first_entry_count=RECON_COUNT(first_entry_order),
-    .execution=RECON_IO, .terminal=RECON_FRONTIER, .frontier_rva=0x81d7e,
+    .execution=RECON_IO, .terminal=RECON_FRONTIER, .frontier_rva=0x81d57,
     .io=wpp_native_startup
 };
