@@ -81,3 +81,20 @@ truncated:
     *size=0;
     return NULL;
 }
+
+/* This routine consumes only the public 18-byte IMAGE_SYMBOL prefix, including
+ * when the caller supplies an extended StringNode. Short names are borrowed. */
+const char *__stdcall get_symbol_name(StringNode *symbol,const void *strings,
+    WORD *kind,BYTE *is_import)
+{
+    const char *name;
+    if (!symbol->symbol.N.Name.Short) {
+        if (kind) *kind=0;
+        name=(const char *)strings+symbol->symbol.N.Name.Long;
+    } else {
+        if (kind) *kind=1;
+        name=(const char *)symbol->symbol.N.ShortName;
+    }
+    if (is_import) *is_import=(BYTE)((unsigned char)*name==0x7f);
+    return name;
+}

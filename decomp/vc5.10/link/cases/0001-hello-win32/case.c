@@ -1,7 +1,7 @@
 #include <recon-tool.h>
 #include "../../harness/startup.h"
 #include <recon.h>
-extern const ReconTest hello_tests[21];
+extern const ReconTest hello_tests[22];
 static const uint32_t order[] = {
  0x24e60, /* _initialize_buffer12 */
  0x24e70, /* _allocate_buffer12 */
@@ -122,10 +122,11 @@ static const uint32_t order[] = {
  0x5ff70, /* _read_comdat_section@20 */
  0x5fe80, /* _build_section_symbol_ranges@8 */
  0x61d80, /* _get_symbol_name@16 */
+ 0x61dd0, /* StringTable::LookupSymbol */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
- "Win32 hello link; COMDAT section symbols indexed; genuine symbol-name frontier.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x61d80,
- recon_link_setup,recon_link_invoke,NULL,hello_tests,21
+ "Win32 hello link; COMDAT name resolved; genuine symbol-table lookup frontier.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x61dd0,
+ recon_link_setup,recon_link_invoke,NULL,hello_tests,22
 };

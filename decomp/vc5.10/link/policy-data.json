@@ -5855,6 +5855,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_get_symbol_name@16": {
+        "expected_cleanup": [
+          16
+        ]
       }
     }
   }

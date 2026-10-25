@@ -439,6 +439,23 @@ static int comdat_symbol_name(void)
     return recon_native_at_entry(get_symbol_name,check_comdat_symbol_name,
         invoke_hello,NULL)==1;
 }
+extern StringNode *RECON_THISCALL native_lookup_symbol(StringTable *,WORD,const char *,BYTE *)
+    __asm__("_ZN11StringTable12LookupSymbolEtPKcPh");
+static StringNode *RECON_THISCALL check_comdat_lookup(StringTable *table,WORD kind,
+    const char *name,BYTE *created)
+{
+    recon_native_entry_finish(table && table->hash.state && !table->first &&
+        table->last==&table->first && kind==0 &&
+        name==current_module_strings+4 && !strcmp(name,"_HelloWindowProc@16") &&
+        created && !*created &&
+        comdat_symbol_module==current_input_library->module_head);
+    return NULL;
+}
+static int comdat_lookup(void)
+{
+    return recon_native_at_entry(native_lookup_symbol,check_comdat_lookup,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -460,5 +477,6 @@ const ReconTest hello_tests[]={
     {"default-library-entry",1,default_library_entry},
     {"first-comdat",1,first_comdat},
     {"section-symbol-ranges-call",1,section_symbol_ranges_call},
-    {"comdat-symbol-name",1,comdat_symbol_name}
+    {"comdat-symbol-name",1,comdat_symbol_name},
+    {"comdat-symbol-lookup",1,comdat_lookup}
 };

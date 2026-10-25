@@ -85,7 +85,6 @@ void RECON_THISCALL StringTable::SortSymbols(void) { __asm { int 3 } }
 extern "C" char * __stdcall replace_extension(const char *file,const char *extension) { __asm { int 3 } return 0; }
 void RECON_THISCALL LinkContext::UpdateChecksum(void) { __asm { int 3 } }
 extern "C" void __cdecl finish_symbol_tables(void) { __asm { int 3 } }
-extern "C" const char * __stdcall get_symbol_name(StringNode *symbol,const void *strings,WORD *kind,BYTE *is_import) { __asm { int 3 } return 0; }
 StringNode * RECON_THISCALL StringTable::LookupSymbol(WORD kind,const char *name,BYTE *created) { __asm { int 3 } return 0; }
 StringNode * RECON_THISCALL StringTable::FindSymbol(const char *name) { __asm { int 3 } return 0; }
 extern "C" void __stdcall set_symbol_defined(StringNode *symbol,BYTE defined,StringTable *symbols) { __asm { int 3 } }
