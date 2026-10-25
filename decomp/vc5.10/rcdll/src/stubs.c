@@ -73,10 +73,6 @@ int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
     __asm int 3
     return 0;
 }
-void __cdecl rc_undefine_macro(void)
-{
-    __asm int 3
-}
 void __cdecl rc_close_preprocessor(void)
 {
     __asm int 3

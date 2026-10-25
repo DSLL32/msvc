@@ -60,3 +60,37 @@ void __stdcall rc_list_macro(RcMacro *macro)
                               rc_cpp_output_file);
     }
 }
+
+void __cdecl rc_undefine_macro(void)
+{
+    RcMacro *macro=rc_macro_buckets[rc_macro_hash],*previous=NULL;
+    const unsigned char *name,*saved;
+    unsigned bytes;
+
+    while(macro){
+        name=(const unsigned char *)rc_macro_name;
+        saved=(const unsigned char *)macro->name;
+        bytes=rc_macro_name_length*sizeof(WCHAR);
+        while(bytes && *name==*saved){
+            ++name;
+            ++saved;
+            --bytes;
+        }
+        if(!bytes)break;
+        previous=macro;
+        macro=macro->next;
+    }
+    if(!macro)return;
+    if(macro->parameters < -2){
+        rc_error_template=rc_message(4117);
+        rc_format(rc_error_text,2048,rc_error_template,rc_macro_name,"#undef");
+        rc_input_warning(4117);
+        return;
+    }
+    if(previous)previous->next=macro->next;
+    else rc_macro_buckets[rc_macro_hash]=macro->next;
+    if(!wcscmp(macro->name,L"APSTUDIO_HIDDEN_SYMBOLS"))
+        rc_macro_listing_hidden=0;
+    if(!wcscmp(macro->name,L"APSTUDIO_READONLY_SYMBOLS"))
+        rc_macro_listing_readonly=0;
+}

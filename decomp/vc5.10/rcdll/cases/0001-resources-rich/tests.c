@@ -11,6 +11,7 @@
 #include <recon-native.h>
 #include <recon.h>
 extern int rcdll_native_invoke(int, char **);
+extern int rc_macro_listing_readonly,rc_macro_listing_hidden;
 
 static int trapped(void (*invoke)(void))
 {
@@ -154,12 +155,45 @@ static int replacement_quoted_contract(void)
     return end==rc_string_buffer+2043 && rc_source_cursor==source &&
         rc_string_buffer[2044]==L'"';
 }
+static void undef_query(const WCHAR *name,RcMacro *head)
+{
+    unsigned length=0;
+    do rc_macro_name[length]=name[length]; while(name[length++]);
+    rc_macro_name_length=length;
+    rc_macro_hash=rc_hash_macro_name(rc_macro_name);
+    rc_macro_buckets[rc_macro_hash]=head;
+}
+static int undef_unlink_contract(void)
+{
+    RcMacro last={NULL,L"last",NULL,0,0,0};
+    RcMacro target={&last,L"REMOVE",NULL,0,0,0};
+    RcMacro first={&target,L"other",NULL,0,0,0};
+    rc_macro_listing_hidden=5;
+    rc_macro_listing_readonly=7;
+    undef_query(L"REMOVE",&first);
+    rc_undefine_macro();
+    if(rc_macro_buckets[rc_macro_hash]!=&first || first.next!=&last ||
+       target.next!=&last || rc_macro_listing_hidden!=5 ||
+       rc_macro_listing_readonly!=7)return 0;
+    target.name=L"APSTUDIO_HIDDEN_SYMBOLS";
+    undef_query(target.name,&target);
+    rc_undefine_macro();
+    if(rc_macro_buckets[rc_macro_hash]!=&last || rc_macro_listing_hidden ||
+       rc_macro_listing_readonly!=7)return 0;
+    rc_macro_listing_hidden=5;
+    target.name=L"APSTUDIO_READONLY_SYMBOLS";
+    undef_query(target.name,&target);
+    rc_undefine_macro();
+    return rc_macro_buckets[rc_macro_hash]==&last &&
+        rc_macro_listing_hidden==5 && !rc_macro_listing_readonly;
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
     {"wide-copy-end-contract",1,copy_end_contract},
     {"comment-preservation-option-identity",1,comment_mode_identity},
     {"replacement-quoted-copy-contract",1,replacement_quoted_contract},
+    {"macro-undefinition-unlink-contract",1,undef_unlink_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };
