@@ -32,7 +32,7 @@ int FiniMsg( void )
 
 
 
-int OpenResFile( HANDLE_INFO *instance )
+int ResOpenFileRO( const char *filename )
 {
     WLIB_FRONTIER();
     return( 0 );

@@ -1,6 +1,6 @@
 {
   "status": "accepted",
-  "scope": "Three App bodies through the genuine pending OpenResFile frontier, not a completed help case. CRT bootstrap/body ownership remains independently justified and earns no App credit.",
+  "scope": "Four App bodies through the genuine pending ResOpenFileRO frontier; help is incomplete. CRT/support restoration earns no App credit.",
   "accepted": [
     {
       "name": "main",
@@ -25,12 +25,20 @@
         4279399
       ],
       "bytes": 105
+    },
+    {
+      "name": "OpenResFile",
+      "va": [
+        4295368,
+        4295383
+      ],
+      "bytes": 15
     }
   ],
-  "accepted_bytes": 248,
+  "accepted_bytes": 263,
   "next_frontier": {
-    "name": "OpenResFile",
-    "rva": 101064
+    "name": "ResOpenFileRO",
+    "rva": 105536
   },
   "candidate_runner": {
     "path": "/root/.ai-tmp/msvc2/watcom-main-argv-20261025/tooling/recon-tool/target/i686-unknown-linux-gnu/release/recon-tool",
@@ -40,20 +48,16 @@
     "status": "Exact shared candidate authorized and independently source/test reviewed by orchestrator before this run; canonical publication not required for this retained evidence."
   },
   "original_report": {
-    "path": "cases/0000-help/progress-openresfile.json",
-    "sha256": "5c536a06759d55cee2cb43a705a2844d4629f6473f117741cc956f0a59506244"
+    "path": "cases/0000-help/progress-resopenfilero.json",
+    "sha256": "e120c66a9a5dd158848f681bd4d77d020124ba27e18b3fa7229c1bc693bd2cc2"
   },
   "original_capture": {
-    "path": "cases/0000-help/progress-openresfile.bin",
-    "sha256": "5d078175948dd758b773b556b8f1e80d1766f72713fbab5228caf561e2989470"
+    "path": "cases/0000-help/progress-resopenfilero.bin",
+    "sha256": "f82c1c61878f9060b492f03c26aebeb24a8711ab9b766ba878dcb1a5d6314545"
   },
   "native_report": {
-    "path": "cases/0000-help/native-openresfile.json",
-    "sha256": "1700c8e7425ec3ca3e5946cc4cc0d1763e1c4fe77747eeb3b93a9078222d077f"
-  },
-  "native_adoption": {
-    "path": "harness/native-adoption.json",
-    "sha256": "bced5aba36ec8f20c61965ff4fc420b2a9a4ab7559b81b9ad8fe66b68df8053d"
+    "path": "cases/0000-help/native-resopenfilero.json",
+    "sha256": "d4a273e91668be95e9410eab60529ac856f08778ddc9224ec1849834ffb13a22"
   },
   "heap_closure": {
     "path": "harness/first-main-heap.json",
@@ -63,36 +67,45 @@
     "src/main.c": "2834b65d25880768e89e3a43d39091133f23c3b4a218484f22f28e28ca870ab5",
     "src/memory.c": "eabb8dd8496875c2d5745ce086f942a86b939f27c1f8cfec02bf0f863bcbec95",
     "src/messages.c": "1b881ecdf47f100b69ecb47e4812a368c079790349b05ece8711b73c07c57e47",
-    "src/stubs.c": "5d0eea3d9dbce94cbde503fabecffbcaf7f92ad584c342ef952e6e850076fe63",
-    "src/wlib.h": "38f9ebb161f0516def5474cd670927b5db90bbb46924ccf76cc576abca895649"
+    "src/resources.c": "b11fb0931b0e0bf942e57b9f6d79d0fcc7c3025d6e8511b8d427e785c2b34178",
+    "src/stubs.c": "c14d385898e3b28360e336e32869ff692058b8f54050cd49736dc4c903a2cfad",
+    "src/wlib.h": "3fce98bfc16d28bc43f216b2cd0d08d6bfcbfbb5dd556c086b98f8305244edbc"
   },
   "native_elf": {
     "path": ".build/libbinary.so",
-    "sha256": "3b1bb58fcd8fed3acd4d604179581e7ce71df1f9be6650310c42fad7980123d9"
+    "sha256": "82186f171639e89e57caf7464aaa0f86490d4a8da6dc5249485a26c76e4252eb"
   },
   "period_build": {
-    "PE_sha256": "59160bf90b5f62a3efc0b608af106a2ca918ca9daf5a76e9b007a5cc40110276",
-    "MAP_sha256": "36925d4a5488b936a49cc4da18187b087b47a38efb7057dee85cc35f417376af",
+    "PE_sha256": "1b58206beb3b60c6e599b6f74616318c20080f33cb5ef13fda9846625cbf0661",
+    "MAP_sha256": "3d3bb6a40ef1811612e47ca9fcecd427a910cb49575ba63cf750ace5a18ef0eb",
     "compile_flags": "-bt=nt -3r -od -d2 -s",
     "scope": "Win32 Watcom ABI; native GCC ABI is the explicitly authorized semantic projection."
   },
   "App_graph_audit": {
-    "report_sha256": "83bb0026111d821d7b73516abf26c3d69ee87f1fb9ab38ae453af1bd8f8dc18e",
+    "report_sha256": "efaef68b93371d05d775d089ff27a13a173bad07c29a17c9a648aac66a9261ae",
     "checks": [
       "call_graph",
       "ret_cleanup",
       "extent_ownership",
       "whole_extent_boundaries"
     ],
-    "checked_App_bodies": 3,
+    "checked_App_bodies": 4,
     "support_body_certification": false
   },
   "timing_ms": {
-    "original_capture": 682.672716,
-    "native_total": 5.31993,
-    "native_setup": 3.26667,
-    "native_execution": 1.46899,
-    "native_checks": 0.583896
+    "original_capture": 1194.166282,
+    "native_total": 8.166028,
+    "native_setup": 4.463323,
+    "native_execution": 2.950833,
+    "native_checks": 0.751346
   },
-  "input_semantics": "New regular-file stdin64LF; original requested argv and actual observed Watcom main argv retained separately. Native used the observed vector. No self-image read has occurred at this frontier."
+  "input_semantics": "New regular-file stdin64LF; latest actual staged argv0 projected by the authorized shared candidate. No file-open function has yet executed. The frozen initial heap closure is reused with unchanged main first-call logic, no target constructors in all five current App objects, and no clearing of sticky target allocation activity.",
+  "initial_heap_adoption": {
+    "path": "harness/native-adoption.json",
+    "sha256": "bced5aba36ec8f20c61965ff4fc420b2a9a4ab7559b81b9ad8fe66b68df8053d"
+  },
+  "current_build_bindings": {
+    "path": "cases/0000-help/openresfile-build-bindings.json",
+    "sha256": "750722b50d6d17c3a90cc97a8e7490c7c16c3a2919704a387fdef6f145825462"
+  }
 }

@@ -18,6 +18,7 @@ typedef struct handle_info {
 typedef char WlibResourceHandleSize[(sizeof(HANDLE_INFO) == 8) ? 1 : -1];
 
 int OpenResFile( HANDLE_INFO *instance );
+int ResOpenFileRO( const char *filename );
 int FindResources( HANDLE_INFO *instance );
 int InitResources( HANDLE_INFO *instance );
 
