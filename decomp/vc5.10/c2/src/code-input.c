@@ -25,13 +25,15 @@ static struct {
 } input_opcode_properties = {{0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 static unsigned input_register_opcode[17];
-/* The typed-operand family uses a distinct opcode table. No row has yet
- * been consumed: storage is UNMODELED and native reads are guarded. */
-static unsigned input_operand_opcode[17];
+/* Typed operand kind5 is the encountered local-register opcode. All other
+ * backing rows remain UNMODELED, and native guards precede their reads. */
+static union {
+    struct { unsigned pending00[5], local, pending06[11]; } row;
+    unsigned values[17];
+} input_operand_opcodes = {{{0}, 0x120, {0}}};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 static unsigned char input_condition_known[16];
 static unsigned char input_register_opcode_known[17];
-static unsigned char input_operand_opcode_known[17];
 #define INPUT_PROPERTIES(op) \
     ((unsigned)(op) == 38 ? input_opcode_properties.variable : \
      (unsigned)(op) == 70 ? input_opcode_properties.function_entry : \
@@ -48,14 +50,14 @@ static unsigned char input_operand_opcode_known[17];
      input_register_opcode[(kind)] : \
      (recon_unsupported("unmodeled input register opcode"), 0))
 #define INPUT_OPERAND_OPCODE(kind) \
-    ((unsigned)(kind) < 17 && input_operand_opcode_known[(kind)] ? \
-     input_operand_opcode[(kind)] : \
+    ((unsigned)(kind) == 5 ? \
+     input_operand_opcodes.row.local : \
      (recon_unsupported("unmodeled input operand opcode"), 0))
 #else
 #define INPUT_PROPERTIES(op) (((unsigned char *)&input_opcode_properties)[(op)])
 #define INPUT_INVERSE(condition) input_inverse_condition[(condition)]
 #define INPUT_REGISTER_OPCODE(kind) input_register_opcode[(kind)]
-#define INPUT_OPERAND_OPCODE(kind) input_operand_opcode[(kind)]
+#define INPUT_OPERAND_OPCODE(kind) input_operand_opcodes.values[(kind)]
 #endif
 #define INPUT_IS_REGISTER(node) ((1U << ((node)->kind & 31)) & 6U)
 #define INPUT_IS_OPERAND(node) ((1U << ((node)->kind & 31)) & 0x7feU)
@@ -1379,4 +1381,29 @@ C2FunctionRegister *__fastcall input_symbol_register(C2InputSymbol *symbol)
     reg->value_bytes = bytes;
     reg->canonical = reg;
     return reg;
+}
+
+unsigned __fastcall adjust_input_return_size(unsigned short type, unsigned bytes)
+{
+    switch (type) {
+    case 0:
+        return bytes & 0xffff0000U;
+    case 1:
+        return bytes | 0x1000;
+    case 2:
+        return bytes | 0x2000;
+    case 3: case 4: case 11:
+        return (bytes & 0xffff0000U) | input_value_type;
+    case 5: case 10:
+        return bytes == 10 ? (bytes & 0xffff0000U) | 0x400a : bytes | 0x4000;
+    case 6:
+        return ((int)bytes >= 0x1000 ? 0 : bytes) | 0x5000;
+    case 7:
+        return 0x1004;
+    default:
+        c2_report_internal("E:\\utc\\src\\\\P2\\getattr.c", 533);
+        /* The original clears AX after this diagnostic. Its upper return
+         * bits depend on the diagnostic's unspecified EAX; callers use AX. */
+        return 0;
+    }
 }

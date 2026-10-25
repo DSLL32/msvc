@@ -98,12 +98,6 @@ C2Expression * __fastcall new_function_exit(C2Function *function)
 
 
 
-unsigned __fastcall adjust_input_return_size(unsigned short type, unsigned bytes)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression * __fastcall convert_input_operand(C2InputStack *stack, unsigned short type, unsigned bytes, int flags)
 {
     __asm { int 3 }

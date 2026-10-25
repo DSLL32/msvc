@@ -523,6 +523,23 @@ static int input_register_cache(void)
         reg->pending18 == 0xa5a51234;
 }
 
+static int input_encoded_types(void)
+{
+    input_value_type = 0x3004;
+    return adjust_input_return_size(0, 0x12345678U) == 0x12340000U &&
+        adjust_input_return_size(1, 4) == 0x1004 &&
+        adjust_input_return_size(2, 4) == 0x2004 &&
+        adjust_input_return_size(3, 0x12345678U) == 0x12343004U &&
+        adjust_input_return_size(4, 0) == 0x3004 &&
+        adjust_input_return_size(11, 8) == 0x3004 &&
+        adjust_input_return_size(5, 10) == 0x400a &&
+        adjust_input_return_size(10, 8) == 0x4008 &&
+        adjust_input_return_size(6, 4095) == 0x5fff &&
+        adjust_input_return_size(6, 4096) == 0x5000 &&
+        adjust_input_return_size(6, 0x80000000U) == 0x80005000U &&
+        adjust_input_return_size(7, 0xffffffffU) == 0x1004;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -547,5 +564,6 @@ const ReconTest numeric_tests[] = {
     {"input stack reuse and drain preserve complete tree chain", 1, input_stack_reuse_and_link},
     {"filename selection retains cached string identity", 1, input_filename_identity},
     {"source-line mapping preserves spans and filename identity", 1, input_line_mapping},
-    {"symbol register cache preserves owner and allocation identity", 1, input_register_cache}
+    {"symbol register cache preserves owner and allocation identity", 1, input_register_cache},
+    {"input type encoding retains defined width and signed size boundary", 1, input_encoded_types}
 };

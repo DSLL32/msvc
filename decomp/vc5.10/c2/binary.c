@@ -2608,8 +2608,12 @@ static const ReconFunction functions[] = {
     {
         .name = "@adjust_input_return_size@8",
         .entry_rva = 0x25c1c,
+        .code = (const ReconExtent[]){{0x25c1c, 0x25c7c}, {0x6b4c5, 0x6b4d9}},
+        .code_count = 2,
+        .text_data = (const ReconExtent[]){{0x25c7c, 0x25cac}},
+        .text_data_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "adjust_input_return_size",
     },
     {

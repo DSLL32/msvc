@@ -819,6 +819,30 @@
             ]
           ]
         }
+      },
+      "@adjust_input_return_size@8": {
+        "original": {
+          "text_data": [
+            [
+              4349052,
+              4349100
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@adjust_input_return_size@8",
+                "offset": 174
+              },
+              {
+                "rebuilt_symbol": "@adjust_input_return_size@8",
+                "offset": 222
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],
