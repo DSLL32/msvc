@@ -1,7 +1,7 @@
 #include <recon-tool.h>
 #include "../../harness/startup.h"
 #include <recon.h>
-extern const ReconTest hello_tests[25];
+extern const ReconTest hello_tests[26];
 static const uint32_t order[] = {
  0x24e60, /* _initialize_buffer12 */
  0x24e70, /* _allocate_buffer12 */
@@ -126,10 +126,11 @@ static const uint32_t order[] = {
  0x30e20, /* _lookup_hash@20 */
  0x60790, /* _intern_symbol_string@8 */
  0x4f420, /* _allocate_symbol_string_block@4 */
+ 0x4f450, /* _reserve_byte_buffer@8 */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
- "Win32 hello link; COMDAT string interning entered; genuine tree-node pool frontier.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x4f420,
- recon_link_setup,recon_link_invoke,NULL,hello_tests,25
+ "Win32 hello link; COMDAT tree node allocated; genuine string-buffer reserve frontier.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x4f450,
+ recon_link_setup,recon_link_invoke,NULL,hello_tests,26
 };

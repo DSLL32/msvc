@@ -2,6 +2,7 @@
 #include <string.h>
 #include "symbols.h"
 #include "options.h"
+#include "memory.h"
 #include <recon.h>
 
 /* The twelve-byte string tree nodes use this separate4096-byte pool.
@@ -44,4 +45,10 @@ DWORD __stdcall intern_symbol_string(StringTable *table,const char *name)
     node->left=NULL;
     return node->offset;
 }
-void *__stdcall allocate_symbol_string_block(unsigned bytes) { __asm { int 3 } return NULL; }
+extern void *__stdcall zero_allocate(unsigned);
+void *__stdcall allocate_symbol_string_block(unsigned bytes)
+{
+    symbol_string_pool=(BYTE *)zero_allocate(symbol_string_pool_size);
+    symbol_string_pool_remaining=symbol_string_pool_size-bytes;
+    return symbol_string_pool;
+}

@@ -355,7 +355,7 @@ static const ReconFunction functions[] = {
     {"_append_symbol_string@8",0x60740,(const ReconExtent[]){{0x60740,0x60782}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"append_symbol_string",NULL,NULL,0,NULL},
     {"_intern_symbol_string@8",0x60790,(const ReconExtent[]){{0x60790,0x60897}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"intern_symbol_string",NULL,NULL,0,NULL},
     {"_grow_hash@8",0x30f60,(const ReconExtent[]){{0x30f60,0x30f61}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"grow_hash",NULL,NULL,0,NULL},
-    {"_allocate_symbol_string_block@4",0x4f420,(const ReconExtent[]){{0x4f420,0x4f443}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"allocate_symbol_string_block",NULL,NULL,0,NULL},
+    {"_allocate_symbol_string_block@4",0x4f420,(const ReconExtent[]){{0x4f420,0x4f443}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"allocate_symbol_string_block",NULL,NULL,0,NULL},
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconBinary),"vc5.10-link",

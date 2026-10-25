@@ -530,6 +530,25 @@ static int string_tree_pool(void)
     return recon_native_at_entry(allocate_symbol_string_block,check_string_tree_pool,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall reserve_byte_buffer(ByteBuffer *,unsigned);
+static void __stdcall check_string_buffer_reserve(ByteBuffer *buffer,unsigned bytes)
+{
+    HashTable *hash=(HashTable *)((BYTE *)buffer-4);
+    unsigned i;
+    if (bytes!=0x4000 || !buffer || buffer->data || buffer->used || buffer->capacity ||
+        hash->string_tree!=(StringTreeNode *)symbol_string_pool ||
+        !symbol_string_pool || symbol_string_pool_size!=4096 ||
+        symbol_string_pool_remaining!=4084 || symbol_string_pool_previous!=0 ||
+        !hash->state || hash->state->entries!=1)
+        recon_native_entry_finish(0);
+    for(i=0;i<4096;++i) if(symbol_string_pool[i]) recon_native_entry_finish(0);
+    recon_native_entry_finish(1);
+}
+static int string_buffer_reserve(void)
+{
+    return recon_native_at_entry(reserve_byte_buffer,check_string_buffer_reserve,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -555,5 +574,6 @@ const ReconTest hello_tests[]={
     {"comdat-symbol-lookup",1,comdat_lookup},
     {"comdat-hash-lookup",1,comdat_hash_lookup},
     {"intern-symbol",1,intern_symbol},
-    {"string-tree-pool",1,string_tree_pool}
+    {"string-tree-pool",1,string_tree_pool},
+    {"string-buffer-reserve",1,string_buffer_reserve}
 };
