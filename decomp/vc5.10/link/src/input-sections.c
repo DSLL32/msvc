@@ -164,8 +164,26 @@ void *__stdcall add_comdat_reference(StringNode *symbol,Contribution *parent,Con
 void __stdcall read_section_relocations(LinkContext *context,Contribution *contribution,IMAGE_SYMBOL *symbols,OutputModule *module) { __asm { int 3 } }
 DWORD __stdcall mac_contribution_padding(DWORD size) { __asm { int 3 } return 0; }
 void __stdcall add_module_to_list(ModuleListNode **list,OutputModule *module) { __asm { int 3 } }
+char *__stdcall next_directive_token(char *,BYTE *);
+void __stdcall remember_module_directive(const char *,StringTable *,OutputModule *);
 void __stdcall collect_module_directives(LinkContext *context,Contribution *contribution,
-    InputArguments *pending,char *directives) { __asm { int 3 } }
+    InputArguments *pending,char *directives)
+{
+    OutputModule *module=contribution->module;
+    char *token=next_directive_token(directives,NULL);
+    while (token) {
+        if (*token=='/' || *token=='-') {
+            if (token[1]=='?') ++token;
+            token=duplicate_argument(token+1);
+            if (incremental_enabled && !incremental_reuse && (module->library->flags & 16))
+                remember_module_directive(token,context->strings,module);
+            append_argument(pending,token);
+        }
+        token=next_directive_token(NULL,NULL);
+    }
+}
+char *__stdcall next_directive_token(char *text,BYTE *quoted) { __asm { int 3 } return NULL; }
+void __stdcall remember_module_directive(const char *text,StringTable *strings,OutputModule *module) { __asm { int 3 } }
 char *__stdcall format_contribution_module(Contribution *,char *);
 void __stdcall process_module_directives(LinkContext *context,Contribution *contribution,
     char *directives)

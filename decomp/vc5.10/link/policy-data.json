@@ -5652,6 +5652,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_collect_module_directives@16": {
+        "expected_cleanup": [
+          16
+        ]
       }
     }
   }
