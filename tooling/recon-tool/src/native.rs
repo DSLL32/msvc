@@ -502,6 +502,19 @@ unsafe fn executor(
         }
     }?;
     let constructor_errno = crate::errno::get();
+    // Keep the mutable Windows command text alive through main and atexit.
+    // Projected argv may have a different argv0 and cannot reconstruct this input.
+    let mut raw_command_line = f.raw_command_line.as_ref().map(|text| {
+        let mut bytes = text.as_bytes().to_vec();
+        bytes.push(0);
+        bytes
+    });
+    if let Some(bytes) = raw_command_line.as_mut() {
+        type Bind = unsafe extern "C" fn(*mut libc::c_char, usize);
+        if let Some(bind) = unsafe { loaded.optional::<Bind>(b"recon_bind_command_line\0") }? {
+            unsafe { bind(bytes.as_mut_ptr().cast(), bytes.len()) };
+        }
+    }
     let recorder =
         unsafe { loaded.optional::<status::Recorder>(b"recon_record_terminal_status\0") }?;
     receipt.supported(root, recorder.is_some())?;

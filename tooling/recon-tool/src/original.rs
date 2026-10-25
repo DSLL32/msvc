@@ -510,6 +510,9 @@ unsafe extern "C" fn remote_emit(
 }
 
 pub(crate) fn quote(s: &str) -> String {
+    if !s.is_empty() && !s.chars().any(|c| c.is_whitespace() || c == '"') {
+        return s.to_owned();
+    }
     let mut result = String::from("\"");
     let mut slashes = 0;
     for c in s.chars() {
@@ -528,6 +531,54 @@ pub(crate) fn quote(s: &str) -> String {
     result.push_str(&"\\".repeat(slashes * 2));
     result.push('"');
     result
+}
+fn capture_command_line(args: &[String], declared: Option<&str>) -> Result<String> {
+    let text = args
+        .iter()
+        .map(|arg| quote(arg))
+        .collect::<Vec<_>>()
+        .join(" ");
+    anyhow::ensure!(
+        text.is_ascii() && !text.contains('\0') && text.len() <= 32766,
+        "original command line must be ASCII without NUL and at most 32766 bytes"
+    );
+    anyhow::ensure!(
+        declared.is_none_or(|declared| declared == text),
+        "raw_command_line differs from constructed original launch text; use an inputs-only fixture without the captured raw_command_line for a fresh original invocation"
+    );
+    Ok(text)
+}
+
+#[cfg(test)]
+mod command_line_tests {
+    use super::*;
+    #[test]
+    fn records_exact_launch_quoting_and_rejects_changed_declared_input() {
+        let args = vec!["R:\\requested.exe".into(), "two words".into(), "?".into()];
+        let text = capture_command_line(&args, None).unwrap();
+        assert_eq!(text, "R:\\requested.exe \"two words\" ?");
+        assert_eq!(capture_command_line(&args, Some(&text)).unwrap(), text);
+        assert!(capture_command_line(&args, Some("different raw input")).is_err());
+        for bad in ["x\0y".into(), "é".into(), "x".repeat(32767)] {
+            assert!(capture_command_line(&[bad], None).is_err());
+        }
+    }
+    #[test]
+    fn command_line_quotes_only_tokens_that_require_escaping() {
+        for (input, expected) in [
+            ("?", "?"),
+            ("-q", "-q"),
+            ("@archive.rsp", "@archive.rsp"),
+            (r"R:\bin\tool.exe", r"R:\bin\tool.exe"),
+            ("", "\"\""),
+            ("two words", "\"two words\""),
+            ("a\tb", "\"a\tb\""),
+            ("a\"b", "\"a\\\"b\""),
+            ("path with\\", "\"path with\\\\\""),
+        ] {
+            assert_eq!(quote(input), expected, "{input:?}");
+        }
+    }
 }
 #[derive(Serialize, Deserialize)]
 struct FrontierSnapshot {
@@ -1326,14 +1377,14 @@ fn capture_executor(
             .all(|(key, value)| key.is_ascii() && value.as_ref().is_none_or(|v| v.is_ascii())),
         "original ANSI transport currently requires ASCII environment entries"
     );
-    let commandline = args.iter().map(|a| quote(a)).collect::<Vec<_>>().join(" ");
+    let commandline = capture_command_line(&args, f.raw_command_line.as_deref())?;
     let mut command = command(&options.repo)?;
     if options.native_msvcrt {
         command.env("WINEDLLOVERRIDES", "msvcrt=n");
     }
     command
         .arg(helper.canonicalize()?)
-        .arg(commandline)
+        .arg(&commandline)
         .arg(image.entry.to_string())
         .arg(windows(cwd, &options.repo)?)
         .arg(if f.stdin_kind == fixture::StdinKind::Null {
@@ -1573,6 +1624,7 @@ fn capture_executor(
     }
     broker.close()?;
     let mut fixture = f.clone();
+    fixture.raw_command_line = Some(commandline);
     fixture.args = if options.watcom_main_argv {
         watcom_main_argv
             .as_ref()

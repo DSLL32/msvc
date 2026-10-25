@@ -140,6 +140,9 @@ pub struct Fixture {
     pub version: u32,
     #[serde(default)]
     pub args: Vec<String>,
+    /// Exact ANSI text passed to the original CreateProcessA, independent of argv.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub raw_command_line: Option<String>,
     #[serde(default)]
     pub stdin: Option<Bytes>,
     #[serde(default)]
@@ -210,6 +213,11 @@ impl Fixture {
         }
         if self.timeout_ms == 0 {
             bail!("timeout_ms must be positive")
+        }
+        if let Some(text) = &self.raw_command_line {
+            if !text.is_ascii() || text.contains('\0') || text.len() > 32766 {
+                bail!("raw_command_line must be ASCII without NUL and at most 32766 bytes")
+            }
         }
         if let Some(d) = &self.logical_drive {
             if d.len() != 1 || !d.as_bytes()[0].is_ascii_alphabetic() {
@@ -397,6 +405,28 @@ pub fn write(path: &Path, f: &Fixture) -> Result<()> {
 #[cfg(test)]
 mod transport_tests {
     use super::*;
+    #[test]
+    fn raw_command_line_is_optional_bounded_exact_input() {
+        let mut f = Fixture::default();
+        assert!(
+            serde_json::to_value(&f)
+                .unwrap()
+                .get("raw_command_line")
+                .is_none()
+        );
+        for text in ["", "R:\\requested.exe\t ?  "] {
+            f.raw_command_line = Some(text.into());
+            assert!(f.validate().is_ok());
+            let value = serde_json::to_value(&f).unwrap();
+            assert_eq!(value["raw_command_line"], text);
+        }
+        f.raw_command_line = Some("x".repeat(32766));
+        assert!(f.validate().is_ok());
+        for text in ["x\0y".into(), "é".into(), "x".repeat(32767)] {
+            f.raw_command_line = Some(text);
+            assert!(f.validate().is_err());
+        }
+    }
     #[test]
     fn null_input_is_a_device_not_empty_file_bytes() {
         let f: Fixture = serde_json::from_value(serde_json::json!({"stdin_kind":"null"})).unwrap();

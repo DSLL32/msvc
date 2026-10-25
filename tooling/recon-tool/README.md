@@ -330,6 +330,16 @@ and removals remain distinct; names are case-insensitive and duplicates fail.
 The broker keeps hidden drive-current-directory entries and sorts the child
 block by name. The current capture environment transport accepts ASCII only and
 bounds both its NUL-delimited overlay and resulting block to 32767 bytes.
+PE capture retains the exact `CreateProcessA` text as optional fixture
+`raw_command_line`, separately from observed/projected argv. New launches leave
+safe nonempty tokens unchanged and escape empty, whitespace or quote-bearing
+arguments. Native replay binds the retained mutable NUL-terminated text through
+`recon_bind_command_line` when that shared provider is exported; the storage lives
+through target exit callbacks. Old fixtures without it leave the provider unbound.
+The input is ASCII, contains no embedded NUL and permits at most 32766 bytes before
+the terminator. An original input's declared raw text must equal the constructed
+launch text; use an inputs-only fixture without captured `raw_command_line` for
+a fresh invocation. Comparison derivation cannot change this invocation input.
 Rebuild the shared helper after updating these sources. Native replay is unchanged.
 `python3 tests/original-environment.py` checks this separation using a stand-in
 Wine plus the actual C merge routine; it never starts a Windows process.

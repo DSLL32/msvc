@@ -506,6 +506,21 @@ mod tests {
         )
     }
     #[test]
+    fn raw_command_line_is_immutable_during_comparison_derivation() {
+        let mut parent = fixture::Fixture::default();
+        parent.raw_command_line = Some("\"requested.exe\" \"?\"".into());
+        let mut next = parent.clone();
+        next.assets.push(fixture::AssetFile {
+            path: "oracle.bin".into(),
+            data: fixture::Bytes(vec![1]),
+        });
+        assert!(comparison_changes(&parent, &next).is_ok());
+        next.raw_command_line = Some("\"requested.exe\" ?".into());
+        assert!(comparison_changes(&parent, &next).is_err());
+        next.raw_command_line = None;
+        assert!(comparison_changes(&parent, &next).is_err());
+    }
+    #[test]
     fn direct_process_exit_requires_explicit_callback_proof() {
         let mut info = info();
         info.execution = 1;
