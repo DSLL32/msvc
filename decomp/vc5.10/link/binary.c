@@ -4,6 +4,7 @@
 
 static const ReconFunction functions[] = {
     {"_main",0xde90,(const ReconExtent[]){{0xde90,0xe252}},1,(const ReconExtent[]){{0x17e8,0x17f4},{0x153c,0x1543},{0x152c,0x153c},{0x1524,0x152b},{0x151c,0x1523},{0x1514,0x151b},{0x17e0,0x17e8},{0x17b8,0x17e0},{0x1728,0x17b6},{0x1700,0x1725},{0x1588,0x16fe},{0x1ef4,0x1eff}},12,RECON_APP,RECON_IMPLEMENTED,"link_main",NULL,NULL,0,NULL},
+    {"ScopedBuffer::~ScopedBuffer",0x331a0,(const ReconExtent[]){{0x331a0,0x331b0}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"_ZN12ScopedBufferD2Ev",NULL,NULL,0,"??1ScopedBuffer@@QAE@XZ"},
     {"_initialize_buffer12",0x24e60,(const ReconExtent[]){{0x24e60,0x24e6a}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_buffer12",NULL,NULL,0,NULL},
     {"_initialize_buffer8",0x31d70,(const ReconExtent[]){{0x31d70,0x31d7a}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_buffer8",NULL,NULL,0,NULL},
     {"_initialize_buffer4",0x31de0,(const ReconExtent[]){{0x31de0,0x31dea}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_buffer4",NULL,NULL,0,NULL},

@@ -8,7 +8,7 @@ NATIVE_CPPFLAGS = -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TRACE -DRECON_NA
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
 NATIVE_CXXFLAGS = -nostdinc++ -fno-exceptions -fno-rtti
 BINARY_SOURCES = src/option-stubs.c src/symbols.c src/string-storage.c src/buffers.c src/arguments.c src/reproduction.c src/memory.c src/files.c src/driver-stubs.c src/driver.c src/initializers.c src/full-link-init.c src/comdat.c src/sections.c src/libraries.c src/input.c src/machine.c src/module-index.c src/symbol-input.c src/input-sections.c src/default-libraries.c src/comdat-input.cpp src/symbol-table.cpp src/link-driver.cpp src/options.cpp src/full-link.cpp src/full-link-stubs.cpp src/section-driver.cpp src/pass-one.cpp src/input-machine.cpp src/input-module.cpp src/object-loader.cpp harness/startup.c
-BINARY_SOURCES += src/input-relocations.cpp src/x86-relocations.c
+BINARY_SOURCES += src/input-relocations.cpp src/x86-relocations.c src/symbol-buffer.cpp
 BINARY_SUPPORT_SOURCES = $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
 ORIGINAL_TOOLCHAIN = 5.10
@@ -49,3 +49,6 @@ build/operator-delete-alias.obj: scripts/weak-import.py
 build/mspdb50.lib: src/mspdb50.def
 	@mkdir -p $(@D)
 	$(RECON_TOOL) original tool 5.10 LIB.EXE -- /nologo /machine:IX86 /def:$< /out:$@
+
+# C++ test glue uses only the existing shared CRT compatibility layer.
+cases/0002-symbol-buffer-dtor/.build/case.so: CASE_LDFLAGS += -nostdlib++

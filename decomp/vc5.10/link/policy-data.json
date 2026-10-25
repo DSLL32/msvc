@@ -6205,6 +6205,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "ScopedBuffer::~ScopedBuffer": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

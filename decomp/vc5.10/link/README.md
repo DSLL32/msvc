@@ -1,6 +1,6 @@
 # VC5.10 LINK
 
-146 application functions / 48,010 original code bytes are reconstructed;
+147 application functions / 48,026 original code bytes are reconstructed;
 13 shipped CRT/import boundaries add no application credit.
 `binary.c` is the function and extent registry. The native harness aliases the
 canonical driver `main` to `link_main` using a compilation flag.
@@ -17,8 +17,8 @@ The hello capture retains both the final original output and the applicable
 partial output. No fixture invokes Wine.
 
 `make -j4 win32 audit` builds with the original 5.10 toolchain and checks the
-full 159-vertex graph, imports and ownership, with return-cleanup checks
-for the 146 application bodies and six CRT bodies. The seven import thunks
+full 160-vertex graph, imports and ownership, with return-cleanup checks
+for the 147 application bodies and six CRT bodies. The seven import thunks
 remain in the graph. Root policy files retain only live finite audit contracts;
 shared harness commands are documented in the repository's `STANDARDIZATION.md`.
 
@@ -29,3 +29,9 @@ at `0x48`; a native live-state check covers this difference. The hello workload
 now uses stable `T:\vc5.10\link\0001-hello-win32`; its old S: evidence and
 final master remain historical references. Continue this EXE case before the
 approved DLL workload.
+
+The internal `0002-symbol-buffer-dtor` DIRECT case qualifies the scoped buffer's
+16-byte destructor using NULL and a real startup `operator new` allocation.
+Its original probe runs at `main` entry; both probes stop before target cleanup
+because the tested startup owner has deliberately been consumed. This does not
+establish ordinary CLI reachability of the destructor.
