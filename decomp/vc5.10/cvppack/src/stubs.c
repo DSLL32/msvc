@@ -11,11 +11,11 @@
 unsigned char *allocate_type_buffer(unsigned size) { __asm { int 3 } return NULL; }
 unsigned int get_file_size(int file) { __asm { int 3 } return 0; }
 void *map_file_region(int file, unsigned int offset, unsigned int size) { __asm { int 3 } return NULL; }
-void close_file(int file, int release) { __asm { int 3 } }
 void warning(unsigned int message, const char *first, const char *second) { __asm { int 3 } }
 
 void open_stream_file(CachedFile *file, int flags, int mode, int created) { __asm { int 3 } }
-void release_cached_file(CachedFile *file) { __asm { int 3 } }
+int release_cached_file(CachedFile *file) { __asm { int 3 } return 0; }
+int mark_closed_file(CachedFile *file) { __asm { int 3 } return 0; }
 
 
 int seek_stream_file(CachedFile *file, int offset, int origin) { __asm { int 3 } return 0; }
@@ -62,6 +62,7 @@ void register_type_server(void *leaf) { __asm { int 3 } }
 void __fastcall find_type_server(void *name, unsigned mode, void *first, void *second, void *third) { __asm { int 3 } }
 
 unsigned short buffered_write(const void *data, unsigned size) { __asm { int 3 } return 0; }
-unsigned short end_buffered_output(void) { __asm { int 3 } return 0; }
-unsigned write_cached_file(int file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }
-void resize_cached_file(int file, unsigned size) { __asm { int 3 } }
+unsigned stream_write(CachedFile *file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }
+int resize_stream_file(CachedFile *file, int size) { __asm { int 3 } return 0; }
+
+int resize_mapped_file(CachedFile *file, int size) { __asm { int 3 } return 0; }

@@ -582,13 +582,48 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_end_buffered_output": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_cached_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_mapped_write": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_resize_cached_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_close_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_close_mapped_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_free_bytes": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
   "native_limitations": [
     "compact_legacy_pointer rejects the original uninitialized-offset unknown-kind path before consumption.",
     "MSPDB provider permits only the21 captured Widen lifetimes/inputs and observed methods; Record0x0c, TypesClose/PDBClose and unknown requests deny.",
-    "end_buffered_output is the current unimplemented frontier; accepted App code totals117 functions/40111bytes."
+    "Both cached cases complete. Unvisited application stubs, including stream IO, mapped resize/growth and additional type/symbol paths, remain unimplemented."
   ],
   "graph_metadata": {
     "schema": 1,

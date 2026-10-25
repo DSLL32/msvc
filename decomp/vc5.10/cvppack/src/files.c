@@ -305,3 +305,75 @@ unsigned tell_cached_file(int file)
     if (entry->flags & 8) return entry->position;
     return entry->current_page->position;
 }
+
+/* Public cached-file write dispatch [00401cc0,00401cf0). */
+unsigned write_cached_file(int index, const void *buffer, unsigned size)
+{
+    CachedFile *file = cached_files[index];
+    if (file->flags & 8) return mapped_write(file, buffer, size);
+    return stream_write(file, buffer, size);
+}
+
+/* Write into a mapped file and extend its logical length [00402360,004023cc). */
+unsigned mapped_write(CachedFile *file, const void *buffer, unsigned size)
+{
+    unsigned index;
+    int end = file->position + size;
+    const unsigned char *source = buffer;
+    if (end > file->capacity && !grow_mapping(file, end))
+        fatal_error(1008, NULL, NULL);
+    if (end > file->length) file->length = end;
+    for (index = 0; index < size; ++index)
+        ((unsigned char *)file->view)[file->position + index] = source[index];
+    file->position += size;
+    return size;
+}
+
+/* Resize dispatch returns the selected backend's status [004011b0,004011e5). */
+int resize_cached_file(int index, unsigned size)
+{
+    CachedFile *file = cached_files[index];
+    if ((int)size == file->length) return 0;
+    if (file->flags & 8) return resize_mapped_file(file, (int)size);
+    return resize_stream_file(file, (int)size);
+}
+
+
+/* Detach the cache entry, optionally retaining a read-only open file.
+ * [00401680,00401705), cdecl status result. */
+int close_file(int index, int release)
+{
+    CachedFile *file = cached_files[index];
+    if (!release && !(file->flags & 2)) {
+        ++closed_file_count;
+        move_cached_file(file, &active_files, NULL, &closed_files, &last_closed_file, 1);
+        mark_closed_file(file);
+        return 0;
+    }
+    move_cached_file(file, &active_files, NULL, &free_files, NULL, 0);
+    if (file->flags & 8) return close_mapped_file(file);
+    return release_cached_file(file);
+}
+
+/* Persist and close a mapped file, then release its retained name.
+ * [004023d0,00402437). The recycled entry keeps its original stale fields. */
+int close_mapped_file(CachedFile *file)
+{
+    int result, index;
+    UnmapViewOfFile(file->view);
+    if (file->flags & 2) {
+        SetFilePointer(file->handle, file->length, NULL, FILE_BEGIN);
+        SetEndOfFile(file->handle);
+    }
+    result = CloseHandle(file->handle);
+    for (index = 0; index < 16; ++index)
+        if (mapped_file_slots[index] == file) mapped_file_slots[index] = NULL;
+    free_bytes(file->name);
+    return result;
+}
+
+/* Binary-local release wrapper [00401000,0040100f). The CRT supplies free. */
+void free_bytes(void *buffer)
+{
+    free(buffer);
+}

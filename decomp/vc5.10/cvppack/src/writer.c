@@ -26,6 +26,17 @@ void begin_buffered_output(int file)
     output_file = file;
 }
 
+/* Flush and release the buffered stream [00410240,00410288). A failed
+ * write retains the buffer, matching the original caller's error path. */
+unsigned short end_buffered_output(void)
+{
+    if (write_cached_file(output_file, output_buffer, output_used) != output_used)
+        return 0;
+    free(output_buffer);
+    output_capacity = 0;
+    return 1;
+}
+
 /* The original expands this buffer shortcut at each write site. Keep it in
  * the writer's function body rather than adding a call vertex. */
 #define BUFFER_WRITE(source_, bytes_, result_) do { \

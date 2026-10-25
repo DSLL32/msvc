@@ -120,11 +120,17 @@ static const uint32_t order[] = {
     0x6460, /* write_global_types */
     0xd130, /* prepare_type_offsets */
     0x10240, /* end_buffered_output */
+    0x1cc0, /* write_cached_file */
+    0x2360, /* mapped_write */
+    0x11b0, /* resize_cached_file */
+    0x1680, /* close_file */
+    0x23d0, /* close_mapped_file */
+    0x1000, /* free_bytes */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  .abi_version=RECON_ABI_VERSION,.struct_size=sizeof(ReconCase),
- .name="hello-debug-dll",.description="Embedded CodeView DLL; unfinished at end_buffered_output",
+ .name="hello-debug-dll",.description="Embedded CodeView DLL; complete NB11 packing",
  .first_entry_order=order,.first_entry_count=RECON_COUNT(order),
- .execution=RECON_IO,.terminal=RECON_FRONTIER,.frontier_rva=0x10240,
+ .execution=RECON_IO,.terminal=RECON_EXIT,.frontier_rva=0,
  .setup=setup,.io=invoke,.tests=cvpack_tests,.test_count=13
 };

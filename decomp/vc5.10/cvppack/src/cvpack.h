@@ -30,7 +30,7 @@ void build_source_file_index(void);
 void flush_packed_file(void);
 unsigned int get_file_size(int file);
 void *map_file_region(int file, unsigned int offset, unsigned int size);
-void close_file(int file, int release);
+int close_file(int file, int release);
 void warning(unsigned int message, const char *first, const char *second);
 void fatal_error(unsigned int message, const char *first, const char *second);
 char *message_text(unsigned int message);
