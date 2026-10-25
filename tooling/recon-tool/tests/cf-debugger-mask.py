@@ -2,9 +2,10 @@
 from pathlib import Path
 import sys
 import struct
+import tempfile
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'watcom'))
-from debugger import mask_image
+from debugger import layout_evidence, mask_image, sha
 from broker import Broker
 from ipc import ProtocolError
 
@@ -68,6 +69,31 @@ class MaskTests(unittest.TestCase):
         self.assertNotIn('capstone', sys.modules)
         self.assertNotIn('gate', sys.modules)
         self.assertNotIn('arena', sys.modules)
+
+    def test_optional_documentary_layout_evidence(self):
+        scratch = Path.home() / '.ai-tmp'
+        scratch.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch) as directory:
+            repo = Path(directory)
+            self.assertIsNone(layout_evidence(repo, self.layout))
+            # There is no witness file, yet all ordinary mask checks still run.
+            masked, _, _ = mask_image(self.original, self.registry, self.layout, 16)
+            self.assertEqual(masked[64], 0xcc)
+            witness = repo / 'layout.json'
+            witness.write_bytes(b'documentary layout rationale')
+            binding = {'path': witness.name, 'sha256': sha(witness.read_bytes())}
+            self.layout['evidence'] = binding
+            self.assertEqual(layout_evidence(repo, self.layout), binding)
+            for bad in (None, {}, {'path': '../layout.json', 'sha256': binding['sha256']},
+                        {'path': witness.name, 'sha256': '0' * 64},
+                        {'path': witness.name, 'sha256': 'invalid'}):
+                self.layout['evidence'] = bad
+                with self.assertRaises(ProtocolError):
+                    layout_evidence(repo, self.layout)
+            self.layout['evidence'] = binding
+            witness.unlink()
+            with self.assertRaises(OSError):
+                layout_evidence(repo, self.layout)
 
 
 unittest.main()

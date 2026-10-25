@@ -26,6 +26,25 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def layout_evidence(repo, layout):
+    """Verify an optional documentary pin; mask ranges remain canonical."""
+    if 'evidence' not in layout:
+        return None
+    witness = layout['evidence']
+    require(isinstance(witness, dict) and set(witness) == {'path', 'sha256'} and
+            isinstance(witness['path'], str) and isinstance(witness['sha256'], str) and
+            len(witness['sha256']) == 64 and
+            all(c in '0123456789abcdefABCDEF' for c in witness['sha256']),
+            'invalid layout evidence binding')
+    relative = Path(witness['path'])
+    require(not relative.is_absolute() and relative.parts and all(part not in ('.', '..') for part in relative.parts),
+            'layout evidence must be repository relative')
+    evidence = (repo / relative).resolve()
+    require(evidence.is_relative_to(repo.resolve()) and sha(evidence.read_bytes()) == witness['sha256'],
+            'CODE layout evidence differs')
+    return witness
+
+
 def mask_image(snapshot, registry, layout, entry):
     """Preserve original relocated bytes outside explicit CODE mask spans."""
     ranges = layout['code']
@@ -84,13 +103,7 @@ def execute(request):
     shared.STUB = Path(request['loader'])
     shared.STUB_SHA = profile['loader']['sha256']
     layout = profile['code_layout']
-    witness = layout['evidence']
-    relative = Path(witness['path'])
-    require(not relative.is_absolute() and relative.parts and all(part not in ('.', '..') for part in relative.parts),
-            'layout evidence must be repository relative')
-    evidence = (repo / relative).resolve()
-    require(evidence.is_relative_to(repo.resolve()) and sha(evidence.read_bytes()) == witness['sha256'],
-            'CODE layout evidence differs')
+    witness = layout_evidence(repo, layout)
     h = meta['header']
     header = (0x4643, h['image_file_offset'], h['initialized_size'], h['relocation_offset'],
               h['allocation_size'], h['entry_offset'])

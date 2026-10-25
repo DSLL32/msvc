@@ -831,6 +831,10 @@ No OMF parser, body acceptance or runtime permission follows from the descriptor
 
 The CF profile uses `mode: "debugger"`, `runtime_catalog: null`, and
 `code_layout: {code: [[start,end],...], text_data: [[start,end],...],
-evidence: {path,sha256}}`. Coordinates are CF image offsets/base0; evidence is
-repository-relative and hash-bound. Mask ranges precede the relocation stream.
+evidence: {path,sha256}}`. Coordinates are CF image offsets/base0. The optional
+`evidence` field pins a documentary file; omit it when that provenance is kept
+outside the checkout. A supplied binding must be repository-relative and match
+the file hash; null or malformed bindings fail. The profile, target/container
+identity, interpreted ranges and registry ownership remain mandatory and checked
+without this documentary file. Mask ranges precede the relocation stream.
 The profile does not supply bodies or override registry classification/status.

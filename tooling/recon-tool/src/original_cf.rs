@@ -46,13 +46,25 @@ struct Loader {
 struct Layout {
     code: Vec<[u32; 2]>,
     text_data: Vec<[u32; 2]>,
-    evidence: Evidence,
+    #[serde(
+        default,
+        deserialize_with = "optional_evidence",
+        skip_serializing_if = "Option::is_none"
+    )]
+    evidence: Option<Evidence>,
 }
 #[derive(Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 struct Evidence {
     path: String,
     sha256: String,
+}
+fn optional_evidence<'de, D>(deserializer: D) -> Result<Option<Evidence>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    // Absence is allowed; an explicitly supplied null is malformed.
+    Evidence::deserialize(deserializer).map(Some)
 }
 #[derive(Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -155,14 +167,16 @@ fn validate(
                 "invalid CF text data"
             );
         }
-        ensure!(
-            !layout.evidence.path.is_empty()
-                && Path::new(&layout.evidence.path)
-                    .components()
-                    .all(|c| matches!(c, std::path::Component::Normal(_)))
-                && crate::fixture::unhex(&layout.evidence.sha256)?.len() == 32,
-            "CF layout requires repository-relative hash-bound evidence"
-        );
+        if let Some(evidence) = &layout.evidence {
+            ensure!(
+                !evidence.path.is_empty()
+                    && Path::new(&evidence.path)
+                        .components()
+                        .all(|c| matches!(c, std::path::Component::Normal(_)))
+                    && crate::fixture::unhex(&evidence.sha256)?.len() == 32,
+                "CF layout evidence must be repository-relative and hash-bound"
+            );
+        }
         return Ok(());
     }
     ensure!(
@@ -447,6 +461,26 @@ mod tests {
             *bad.pointer_mut(path).unwrap() = replacement;
             assert!(!valid(&bad), "{path}");
         }
+        for evidence in [
+            serde_json::Value::Null,
+            serde_json::json!({}),
+            serde_json::json!({"path":"layout.json","sha256":"invalid"}),
+        ] {
+            let mut bad = value.clone();
+            bad["code_layout"]["evidence"] = evidence;
+            assert!(!valid(&bad));
+        }
+        value["code_layout"]
+            .as_object_mut()
+            .unwrap()
+            .remove("evidence");
+        assert!(valid(&value));
+        let mut bad = value.clone();
+        bad["code_layout"]["code"] = serde_json::json!([[0, 0x8209c]]);
+        assert!(!valid(&bad));
+        let mut bad = value.clone();
+        bad["target"]["sha256"] = serde_json::json!("0".repeat(64));
+        assert!(!valid(&bad));
         value["mode"] = serde_json::json!("entry-stop");
         value.as_object_mut().unwrap().remove("code_layout");
         assert!(valid(&value)); // Format-only projection, no execution admission.
