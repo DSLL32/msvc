@@ -9,7 +9,13 @@ typedef struct C2ExpressionReference {
     unsigned char pending00[8];
     C2SymbolReference *reference;
 } C2ExpressionReference;
-typedef struct C2IntegerWords { unsigned low, high; } C2IntegerWords;
+/* Integer payloads are two DWORD-aligned words at record+24. */
+#pragma pack(push, 4)
+typedef union C2IntegerWords {
+    struct { unsigned low, high; };
+    unsigned __int64 value;
+} C2IntegerWords;
+#pragma pack(pop)
 struct C2Expression {
     C2Expression *next;
     unsigned opcode;

@@ -905,6 +905,30 @@
             ]
           ]
         }
+      },
+      "@input_binary_operator@8": {
+        "original": {
+          "text_data": [
+            [
+              4361920,
+              4361964
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@input_binary_operator@8",
+                "offset": 1526
+              },
+              {
+                "rebuilt_symbol": "@input_binary_operator@8",
+                "offset": 1570
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

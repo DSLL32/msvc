@@ -101,11 +101,6 @@ void __fastcall input_operand_pair(C2InputStack **stack, C2Expression **left, C2
     __asm { int 3 }
 }
 
-void __fastcall input_binary_operator(C2InputStack **stack, unsigned opcode)
-{
-    __asm { int 3 }
-}
-
 C2Expression * __fastcall new_input_expression(unsigned opcode, unsigned short type)
 {
     __asm { int 3 }
@@ -434,6 +429,31 @@ C2FunctionRegister *__fastcall new_bitfield_register(C2FunctionRegister *source,
 }
 
 void __fastcall replace_register_uses(C2FunctionRegister *source, C2FunctionRegister *replacement)
+{
+    __asm { int 3 }
+}
+
+unsigned short __fastcall common_input_value_type(unsigned short first, unsigned short second)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2Expression *__fastcall new_folded_binary_expression(unsigned opcode, unsigned short type,
+    C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2Expression *__fastcall new_comparison_expression(unsigned opcode, unsigned short type,
+    C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __fastcall prepare_input_comparison(C2Expression *left, C2Expression *right, int pointer_pair)
 {
     __asm { int 3 }
 }

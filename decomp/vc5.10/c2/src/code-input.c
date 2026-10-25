@@ -20,7 +20,7 @@ C2InputClause *input_clauses;
  * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
 static struct {
-    unsigned char pending00[12], divide, pending13[25], variable, pending39[9], conversion, pending49[2];
+    unsigned char pending00[12], bit_or, pending13[25], variable, pending39[9], conversion, pending49[2];
     unsigned char number, pending52[18];
     unsigned char function_entry, pending71[5];
     unsigned char parameter_end, pending77[2];
@@ -41,7 +41,7 @@ static union {
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 static unsigned char input_condition_known[16];
 #define INPUT_PROPERTIES(op) \
-    ((unsigned)(op) == 12 ? input_opcode_properties.divide : \
+    ((unsigned)(op) == 12 ? input_opcode_properties.bit_or : \
      (unsigned)(op) == 38 ? input_opcode_properties.variable : \
      (unsigned)(op) == 48 ? input_opcode_properties.conversion : \
      (unsigned)(op) == 51 ? input_opcode_properties.number : \
@@ -874,13 +874,13 @@ enum InputTokenForm {
     INPUT_FORM_SIGNED_PAIR, INPUT_FORM_SYMBOLS_SHORT
 };
 static struct {
-    unsigned char pending00[12], divide, pending13[25], variable, pending39[6], parameter, pending46[2];
+    unsigned char pending00[12], bit_or, pending13[25], variable, pending39[6], parameter, pending46[2];
     unsigned char conversion, pending49[2], number, pending52[18];
     unsigned char function_entry, pending71[5], parameter_end, pending77[2], pragma, pending80[3], scope_begin;
 } input_token_forms = {{0}, INPUT_FORM_NONE, {0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_SYMBOL, {0},
                        INPUT_FORM_TYPE, {0}, INPUT_FORM_NUMBER, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
-#define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 12 ? input_token_forms.divide : \
+#define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 12 ? input_token_forms.bit_or : \
     (unsigned)(op) == 38 ? input_token_forms.variable : \
     (unsigned)(op) == 45 ? input_token_forms.parameter : \
     (unsigned)(op) == 48 ? input_token_forms.conversion : \
@@ -1590,4 +1590,110 @@ C2Expression *__fastcall pop_input_expression(C2InputStack *stack)
 void __fastcall mark_first_input_expression(C2Expression *expression)
 {
     expression->kind = expression->kind == 3 ? 2 : 6;
+}
+
+void __fastcall input_binary_operator(C2InputStack **stack, unsigned opcode)
+{
+    C2Expression *left, *right, *record, *constant, *result;
+    C2Expression **prior;
+    unsigned short type;
+    int pointer_pair = 0;
+    unsigned char shift;
+    unsigned __int64 mask;
+
+    input_operand_pair(stack, &left, &right, 0);
+    if (opcode == 0x14b || opcode == 0x145) {
+        type = left->type;
+        prior = &(*stack)->last;
+        if ((right->type & 0xfff) < 5)
+            convert_input_expression(&right, type, prior);
+        else
+            convert_input_expression(&right, 0x1004, prior);
+        convert_input_expression(&left, type, prior);
+    } else {
+        type = common_input_value_type(left->type, right->type);
+        pointer_pair = (left->type & 0xf000) == 0x3000 &&
+                       (right->type & 0xf000) == 0x3000;
+        if (opcode == 0x151 && ((type & 0xf000) == 0x3000 || pointer_pair))
+            type = (type & 0xfff) | 0x2000;
+        prior = &(*stack)->last;
+        convert_input_expression(&left, type, prior);
+        convert_input_expression(&right, type, prior);
+        if ((right->type ^ left->type) & 0xfff)
+            c2_report_internal("E:\\utc\\src\\\\P2\\reader.c", 1787);
+    }
+    if (left->kind == 7 && !input_address_mode &&
+        (opcode == 0x141 || opcode == 0x143 || opcode == 0x146 ||
+         opcode == 0x147 || opcode == 0x148)) {
+        result = right;
+        right = left;
+        left = result;
+    }
+    if (right->kind != 7 || input_address_mode) goto build;
+    switch (opcode) {
+    case 0x141:
+        while (INPUT_IS_REGISTER(left) && (record = left->value.reg->value) != NULL &&
+               record->opcode == 0x141 && record->left->next->kind == 7) {
+            if (!(left->location.expression.properties & 0x10)) release_small_node(left);
+            left = copy_input_expression(record->left);
+            constant = record->left->next;
+            right->integer.value += constant->integer.value;
+            if (left->type != type) {
+                left->type = type;
+                right->integer.value = normalize_integer_value(type, right->integer.value);
+            }
+            if (*prior == record) *prior = record->previous;
+            unlink_input_record((C2Record *)record);
+            release_small_node(record);
+        }
+        /* Fall through to the zero identity shared with subtraction/shifts/xor. */
+    case 0x142: case 0x145: case 0x148: case 0x14b:
+        if (!right->integer.value) goto keep_left;
+        break;
+    case 0x143:
+        if (!right->integer.value) goto keep_right;
+        /* Fall through to the one identity. */
+    case 0x149:
+        if (right->integer.value == 1) goto keep_left;
+        break;
+    case 0x146:
+        if (!right->integer.value) goto keep_right;
+        shift = (unsigned char)((8 - (right->type & 0xfff)) * 8);
+        mask = shift >= 64 ? 0 : ~(unsigned __int64)0 >> shift;
+        if ((right->integer.value & mask) == mask) goto keep_left;
+        break;
+    case 0x147:
+        if (!right->integer.value) goto keep_left;
+        shift = (unsigned char)((8 - (right->type & 0xfff)) * 8);
+        mask = shift >= 64 ? 0 : ~(unsigned __int64)0 >> shift;
+        if ((right->integer.value & mask) == mask) goto keep_right;
+        break;
+    default:
+        break;
+    }
+    goto build;
+keep_left:
+    if (!(right->location.expression.properties & 0x10)) release_small_node(right);
+    if (left->location.expression.properties & 0x10) left = copy_input_expression(left);
+    link_code_nodes((C2Record *)*prior, (C2Record *)left);
+    *prior = left;
+    return;
+keep_right:
+    if (!(left->location.expression.properties & 0x10)) release_small_node(left);
+    if (right->location.expression.properties & 0x10) right = copy_input_expression(right);
+    *prior = (C2Expression *)prune_input_tree((C2Record *)*prior, 0);
+    link_code_nodes((C2Record *)*prior, (C2Record *)right);
+    *prior = right;
+    return;
+build:
+    if (opcode != 0x151) {
+        result = new_folded_binary_expression(opcode, type, left, right,
+                                               link_code_nodes, (C2Record *)*prior);
+        *prior = result;
+        return;
+    }
+    result = new_comparison_expression(0x151, type, left, right,
+                                       link_code_nodes, (C2Record *)*prior);
+    prepare_input_comparison(result->left, result->left->next, pointer_pair);
+    *prior = result;
 }
