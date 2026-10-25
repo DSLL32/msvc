@@ -351,4 +351,27 @@ int __stdcall close_argument_file(int file,int flags)
     if (record->flags & 8) return close_mapped_file(record);
     return close_buffered_file(record);
 }
-void __stdcall cache_file_record(FileRecord *record) { __asm { int 3 } }
+/* Only this flag field of the buffered block is encountered here. */
+typedef struct FileBufferHeader {
+    BYTE reserved00[20];
+    DWORD flags;
+} FileBufferHeader;
+typedef char FileBufferFlagsAt14[(offsetof(FileBufferHeader,flags)==0x14)?1:-1];
+void __stdcall cache_file_record(FileRecord *record)
+{
+    FileRecord *oldest;
+    FileBufferHeader *buffer;
+    record->flags |= 4;
+    if (!(record->flags & 8)) {
+        buffer=(FileBufferHeader *)record->base;
+        buffer->flags &= ~0x10U;
+        record->base=NULL;
+    }
+    if (cached_file_count==file_window_limit) {
+        oldest=cached_files;
+        --cached_file_count;
+        move_file_record(oldest,&cached_files,&cached_file_tail,&file_newest,NULL,0);
+        if (oldest->flags & 8) close_mapped_file(oldest);
+        else close_buffered_file(oldest);
+    }
+}

@@ -1135,12 +1135,21 @@ extern unsigned cached_file_count;
 extern int output_file;
 static void __stdcall check_cached_file_transition(FileRecord *record)
 {
-    recon_native_entry_finish(record==file_slots[current_input_file] &&
+    if (!(record==file_slots[current_input_file] &&
         current_input_file==14 && record->index==14 && !strcmp(record->name,"hello.obj") &&
         record->flags==9 && record->size==2262 && record->mapping_size==2262 &&
         record->view && record->file && !record->previous &&
         cached_files==record && cached_file_tail==record && cached_file_count==1 &&
-        pending_files==file_slots[output_file] && !pending_files->previous);
+        pending_files==file_slots[output_file] && !pending_files->previous && file_window_limit==14))
+        recon_native_entry_finish(0);
+    {
+        FileRecord expected=*record;
+        expected.flags |= 4;
+        cache_file_record(record);
+        recon_native_entry_finish(!memcmp(record,&expected,sizeof(expected)) &&
+            cached_file_count==1 && cached_files==record && cached_file_tail==record &&
+            pending_files==file_slots[output_file]);
+    }
 }
 static int cached_file_transition(void)
 {

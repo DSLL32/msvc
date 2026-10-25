@@ -6404,6 +6404,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_cache_file_record@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },
