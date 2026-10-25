@@ -309,7 +309,6 @@ IrToken * __stdcall convert_class_condition(IrToken *expression, int mode, unsig
 IrToken *__stdcall make_assignment_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_comma_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_conditional_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
-int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index) { __asm { int 3 } return 0; }
 
 
 

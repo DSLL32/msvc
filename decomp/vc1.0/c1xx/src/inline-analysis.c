@@ -340,3 +340,14 @@ void __stdcall record_qc_jump(int kind)
         }
     }
 }
+
+/* Original0x4512c..0x45158, stdcall12. Return the first matching
+   parameter slot or the original negative missing-slot sentinel. */
+int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count,
+    unsigned symbol_index)
+{
+    unsigned i;
+    for (i = 0; i < count; ++i)
+        if (slots[i] == symbol_index) return i;
+    return -1;
+}
