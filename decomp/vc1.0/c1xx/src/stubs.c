@@ -297,7 +297,6 @@ void __stdcall validate_based_self_source(IrToken *expression) { __asm { int 3 }
 IrToken *__stdcall attach_expression_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 
 
-void __stdcall analyze_inline_parameter(CppSymbol *parameter) { __asm { int 3 } }
 
 
 

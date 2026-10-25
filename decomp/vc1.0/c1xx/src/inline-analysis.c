@@ -1,6 +1,7 @@
 /* Shared qc state encountered by address-taking. */
 #include <stdlib.h>
 #include "inline-analysis.h"
+#include "type-sizes.h"
 #include <recon.h>
 unsigned short inline_base_region; /* original 0x912f0 */
 int inline_scope_depth; /* original 0x912f8 */
@@ -55,4 +56,25 @@ void initialize_function_inline_analysis(void)
     inline_regions[0].state06 = inline_regions[0].state07;
     ++inline_scope_depth;
     inline_scopes[inline_scope_depth].region = 0;
+}
+
+CppSymbol *inline_parameters[10]; /* original0x9132c..0x91354 */
+
+/* Original0x44d77..0x44e28, stdcall4. Track eligible word parameters
+   only while the fixed slot/scope/region tables can represent their state. */
+void __stdcall analyze_inline_parameter(CppSymbol *parameter)
+{
+    CType *type = parameter->type;
+    int eligible;
+    if (type->related) {
+        if (parameter->attributes & 0x400) return;
+        if (member_pointer_is_aggregate(type)) return;
+        eligible = pointer_kind_size(type->related->attributes) == 2;
+    } else eligible = (type->flags & 15) == 2 && !(type->flags & 0x400);
+    if (!eligible || (type->attributes & 0x2000) || inline_slot_count >= 10 ||
+        inline_scope_depth >= 8 || inline_region_count >= 255) return;
+    inline_parameter_slots[inline_slot_count] = parameter->index;
+    inline_parameters[inline_slot_count] = parameter;
+    write_ir_record(0x91, 0);
+    ++inline_slot_count;
 }

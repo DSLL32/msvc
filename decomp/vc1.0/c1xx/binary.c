@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1625 historical frontiers/1518 App bodies.
+ * Current reviewed boundary:1626 historical frontiers/1519 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -7286,10 +7286,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_analyze_inline_parameter@4",
         .entry_rva = 0x34d77,
-        .code = (const ReconExtent[]) { { 0x34d77, 0x34d78 } },
+        .code = (const ReconExtent[]) { { 0x34d77, 0x34e28 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "analyze_inline_parameter",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_record_qc_jump@4",
