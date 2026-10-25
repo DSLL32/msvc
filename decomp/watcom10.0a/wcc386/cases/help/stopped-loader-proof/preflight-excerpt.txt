@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/watcom10.0a/wcc386/scripts/stopped-loader.py", line 22, in <module>
-    from cf_identity import Image
-  File "/root/msvc2/tooling/watcom-capture/cf_identity.py", line 19, in <module>
-    @dataclass(frozen=True)
-  File "/usr/lib/python3.13/dataclasses.py", line 984, in _process_class
-    cls_annotations = inspect.get_annotations(cls)
-AttributeError: module 'inspect' has no attribute 'get_annotations' (local scripts/inspect.py shadowed stdlib)

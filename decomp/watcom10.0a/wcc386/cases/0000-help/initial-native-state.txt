@@ -1,0 +1,11 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+0xf7f32579 in __kernel_vsyscall ()
+Breakpoint 1 at 0xf7c374ec: file harness/startup.c, line 39.
+WCC first App size=8
+startup_checked=1 allocation_calls=1 SS=43 DS=43
+XI kinds=0,0,2 stderr=402 firstFILE=1
+
+Program terminated with signal SIGTRAP, Trace/breakpoint trap.
+The program no longer exists.
+PASS wcc-first-help-frontier signal:5 (137.443 ms; setup 1.439 ms, execution 135.603 ms, checks 0.401 ms)

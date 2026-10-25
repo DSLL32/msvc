@@ -1,0 +1,28 @@
+[
+  {
+    "case": "wcc-first-help-frontier",
+    "workspace": "/tmp/recon/run-DPraag",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      294007,
+      294677
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 294677,
+    "trap_site": 4156642388,
+    "elapsed_ms": 3.405058,
+    "setup_ms": 2.0823590000000003,
+    "execution_ms": 0.9041919999999996,
+    "checks_ms": 0.417529,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/build/memory-original-report.json",
+      "report_sha256": "95000d22e10df690b4b0886164cc0ae527cef84524137136a38eb0d8ac8f27d6",
+      "capture_sha256": "5f50163b7ca0ffcaf9c445d6455009dd5bd78aa3c342282171efa0c2ee344f11",
+      "source_binding_available": true
+    }
+  }
+]

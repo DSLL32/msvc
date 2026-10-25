@@ -1,7 +1,0 @@
-{
-  "scope": "Failed prelaunch Python import; helper/original launchcount0; no capture work directory created",
-  "status": 1,
-  "plan_sha256": "bc7e41d614f463f1328b7b18c621d0d0f74597490870a62f3337c1591c77137c",
-  "stderr": "stderr.txt",
-  "stderr_note": "Traceback excerpt retained from tool output; full original tool response remains in session. No raw launcher existed."
-}

@@ -1,0 +1,32 @@
+{
+  "runtime_evidence": {
+    "_cstart_": {
+      "path": "cases/0000-help/startup-evidence.json",
+      "sha256": "d29b80632db9a5f9b30fc48dcf703e98ac205e0d613288cf514cb316aedcfa0e"
+    },
+    "__InitRtns": {
+      "path": "cases/0000-help/startup-evidence.json",
+      "sha256": "d29b80632db9a5f9b30fc48dcf703e98ac205e0d613288cf514cb316aedcfa0e"
+    },
+    "_init_stk": {
+      "path": "cases/0000-help/startup-evidence.json",
+      "sha256": "d29b80632db9a5f9b30fc48dcf703e98ac205e0d613288cf514cb316aedcfa0e"
+    },
+    "__InitFiles_": {
+      "path": "cases/0000-help/startup-evidence.json",
+      "sha256": "d29b80632db9a5f9b30fc48dcf703e98ac205e0d613288cf514cb316aedcfa0e"
+    },
+    "malloc_segment_wrapper": {
+      "path": "cases/0000-help/startup-evidence.json",
+      "sha256": "d29b80632db9a5f9b30fc48dcf703e98ac205e0d613288cf514cb316aedcfa0e"
+    }
+  },
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {}
+  },
+  "rebuilt": {
+    "path": "build/WCC386.EXE",
+    "map": "build/wcc386.map"
+  }
+}

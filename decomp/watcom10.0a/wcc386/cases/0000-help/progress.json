@@ -1,0 +1,101 @@
+{
+  "case": "wcc-first-help-frontier",
+  "case_complete": false,
+  "accepted_application": [
+    {
+      "name": "MemAlloc",
+      "entry": 294007,
+      "extent": [
+        294007,
+        294100
+      ],
+      "original_bytes": 93,
+      "native_symbol": "MemAlloc"
+    }
+  ],
+  "next_frontier": {
+    "name": "MemInit",
+    "entry": 294677,
+    "implemented": false
+  },
+  "classification": "fiveCRT397bytes receivezeroAppcredit; privateallocator isApp",
+  "coverage": "1acceptedAppfunction/93originalcodebytes; totalAppcodeextentdenominatornotyetknown",
+  "native_build_seconds": 0.079676008,
+  "original_stub_build_seconds": 0.5541316652670503,
+  "candidate_combined_native_original_build_seconds": 0.854152095,
+  "original_capture": {
+    "command": [
+      "../../../tooling/recon-tool/target/i686-unknown-linux-gnu/release/recon-tool",
+      "original",
+      "capture",
+      "cases/0000-help",
+      "--repo",
+      "/root/msvc2",
+      "--capture",
+      "cases/0000-help/capture.bin",
+      "--cf-profile",
+      "build/progress-profile.json",
+      "--progress",
+      "--output",
+      "build/memory-original.bin",
+      "--report",
+      "build/memory-original-report.json"
+    ],
+    "elapsed_seconds": 9.513605830259621,
+    "status": 0
+  },
+  "native_comparison": {
+    "case": "wcc-first-help-frontier",
+    "workspace": "/tmp/recon/run-DPraag",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      294007,
+      294677
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 294677,
+    "trap_site": 4156642388,
+    "elapsed_ms": 3.405058,
+    "setup_ms": 2.0823590000000003,
+    "execution_ms": 0.9041919999999996,
+    "checks_ms": 0.417529,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/build/memory-original-report.json",
+      "report_sha256": "95000d22e10df690b4b0886164cc0ae527cef84524137136a38eb0d8ac8f27d6",
+      "capture_sha256": "5f50163b7ca0ffcaf9c445d6455009dd5bd78aa3c342282171efa0c2ee344f11",
+      "source_binding_available": true
+    }
+  },
+  "graph_checks": [
+    "commonfunctiongraph",
+    "ownership",
+    "extents",
+    "pairedRET0",
+    "instructionexport"
+  ],
+  "graph_report_sha256": "263e00fe0f79149e7ccc1f15afa9a5bc206d7daea83f6c48a3fe7092588e394a",
+  "original_PE_sha256": "f5633d7c590470d820694b1a4779b177491018fddd0cc50e63661d033f1e197f",
+  "original_MAP_sha256": "64eb39bfd601b0e0528d2e008efb0630e1e8a203553f0b0e90c290e4bb045e50",
+  "raw_bindings": {
+    "capture.bin": "5f50163b7ca0ffcaf9c445d6455009dd5bd78aa3c342282171efa0c2ee344f11",
+    "original-report.json": "95000d22e10df690b4b0886164cc0ae527cef84524137136a38eb0d8ac8f27d6",
+    "native-report.json": "8729fe4e8a4a75f69a46cdf9ff3aa7989fba9f76220538f1a9e06edcf853154d",
+    "initial-original-report.json.gz": "1bba1c12f4c5b11700c95bb59725b8946dba754676a37efb5bfe4e25caf4400b",
+    "initial-native-report.json": "34a4a6cdd6f0017af4d7670ba8c5dd3ea8dae488d805c07ba0d8aaaa5f7c3972",
+    "initial-native-state.txt": "ef072c3edf4d0c10c6851cae60ce25c66f71d05610ea3c033f740a4a030d0109",
+    "startup-evidence.json": "d29b80632db9a5f9b30fc48dcf703e98ac205e0d613288cf514cb316aedcfa0e",
+    "memory-evidence.json": "7b49b501c26e9b5d72f6d68dd74485fe3ae76d71a9d39f1e65579a763a4f6bcc"
+  },
+  "initial_original_reused_unchanged": "qualifiedcapture wcc-first-help-frontier originalreport555a40bc...; gzipcontainsidenticaloriginalrawbytes, no recaptureforpublication",
+  "failed_attempts": [
+    "firstnativeconfigmissedsharedtrace.c, fixed beforepassedfreshpair",
+    "periodcompilerforwardslashpathsfailed, correctedtoWindowsbackslashes",
+    "WLINKresponseinitiallyomittednewwildcardsource, fixeddependencyonORIGINAL_SOURCES",
+    "GDBownbreakpointmustresumewithsignal0 toavoidfeedingitsownINT3totarget; faileddebugattempts preservedinbuild"
+  ],
+  "gate": "NoAppbeyondMemAlloc93B/service/gatewayadmitted."
+}

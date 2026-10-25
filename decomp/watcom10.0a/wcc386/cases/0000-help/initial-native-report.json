@@ -1,0 +1,27 @@
+[
+  {
+    "case": "wcc-first-help-frontier",
+    "workspace": "/tmp/recon/run-KcUa1Q",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      294007
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 294007,
+    "trap_site": 4153971587,
+    "elapsed_ms": 2.874641,
+    "setup_ms": 1.458204,
+    "execution_ms": 1.1088439999999995,
+    "checks_ms": 0.307434,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/cases/0000-help/original-report.json",
+      "report_sha256": "555a40bc411594da7731578155accf65ef16bec9aaf181433aa3d9dc3d334cdb",
+      "capture_sha256": "5f50163b7ca0ffcaf9c445d6455009dd5bd78aa3c342282171efa0c2ee344f11",
+      "source_binding_available": true
+    }
+  }
+]

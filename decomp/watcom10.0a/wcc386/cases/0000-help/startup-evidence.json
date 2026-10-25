@@ -1,0 +1,1814 @@
+{
+  "scope": "STATIC minimum plumbing preparation, all App work remains PAUSED; no build/launch/reconstruction/acceptance",
+  "binary_sha256": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+  "bindings": {
+    "classification_json_sha256": "34a9fe2c31f7651a19669f3021f425f3a581f2d685d7be5a0cd35ea75ce45f6c",
+    "minimum_closure_json_sha256": "4281fa42663c921722fab0bf88883ae3f173f845f09ca4725666da88416f46ba",
+    "source_commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+    "script_sha256": "efb07ea8fd26e47d1cf0c8a562db2d8e66e0fd283aed0765a954034034702dd9"
+  },
+  "minimum_upstream_support": [
+    {
+      "name": "_cstart_",
+      "classification": "CRT startup; source-correlated only,1994 fiveparam contract differs2002 sixthIsDBCS",
+      "normal_reach": "upstream of first App allocation frontier, before any MemAlloc instruction",
+      "known_normal_callees": [
+        296230,
+        296384
+      ],
+      "chunks": [
+        {
+          "start": 196096,
+          "end": 196276,
+          "sha256": "e2e00bb82a47902f8129108573449da104a5c572aa6e2c68483ec55ea39a7216",
+          "bytes_hex": "88252c900700892512900700890d0e9007008b07a3f68f07008b4704a3f28f070066891df08f07008915ec8f07008b470ca3fe8f07008b4710a3029007008b77088935fa8f07006a0056ac3c0075fb803e0075f58925069007008d0d740708008d3d48c4070029f931c088cac1e902f3ab88d180e103f3aab9fefd0200668c198d157407080083c20383e2fc89151e900700b8ff000000e88a86010089251a9007002b251690070029ede811870100e978000000",
+          "CF_fixup_sites": [
+            196098,
+            196104,
+            196110,
+            196117,
+            196125,
+            196132,
+            196138,
+            196146,
+            196154,
+            196163,
+            196182,
+            196188,
+            196194,
+            196217,
+            196226,
+            196238,
+            196254,
+            196260
+          ],
+          "instructions": [
+            {
+              "at": 196096,
+              "bytes": "88252c900700",
+              "op": "mov",
+              "args": "byte ptr [0x7902c], ah"
+            },
+            {
+              "at": 196102,
+              "bytes": "892512900700",
+              "op": "mov",
+              "args": "dword ptr [0x79012], esp"
+            },
+            {
+              "at": 196108,
+              "bytes": "890d0e900700",
+              "op": "mov",
+              "args": "dword ptr [0x7900e], ecx"
+            },
+            {
+              "at": 196114,
+              "bytes": "8b07",
+              "op": "mov",
+              "args": "eax, dword ptr [edi]"
+            },
+            {
+              "at": 196116,
+              "bytes": "a3f68f0700",
+              "op": "mov",
+              "args": "dword ptr [0x78ff6], eax"
+            },
+            {
+              "at": 196121,
+              "bytes": "8b4704",
+              "op": "mov",
+              "args": "eax, dword ptr [edi + 4]"
+            },
+            {
+              "at": 196124,
+              "bytes": "a3f28f0700",
+              "op": "mov",
+              "args": "dword ptr [0x78ff2], eax"
+            },
+            {
+              "at": 196129,
+              "bytes": "66891df08f0700",
+              "op": "mov",
+              "args": "word ptr [0x78ff0], bx"
+            },
+            {
+              "at": 196136,
+              "bytes": "8915ec8f0700",
+              "op": "mov",
+              "args": "dword ptr [0x78fec], edx"
+            },
+            {
+              "at": 196142,
+              "bytes": "8b470c",
+              "op": "mov",
+              "args": "eax, dword ptr [edi + 0xc]"
+            },
+            {
+              "at": 196145,
+              "bytes": "a3fe8f0700",
+              "op": "mov",
+              "args": "dword ptr [0x78ffe], eax"
+            },
+            {
+              "at": 196150,
+              "bytes": "8b4710",
+              "op": "mov",
+              "args": "eax, dword ptr [edi + 0x10]"
+            },
+            {
+              "at": 196153,
+              "bytes": "a302900700",
+              "op": "mov",
+              "args": "dword ptr [0x79002], eax"
+            },
+            {
+              "at": 196158,
+              "bytes": "8b7708",
+              "op": "mov",
+              "args": "esi, dword ptr [edi + 8]"
+            },
+            {
+              "at": 196161,
+              "bytes": "8935fa8f0700",
+              "op": "mov",
+              "args": "dword ptr [0x78ffa], esi"
+            },
+            {
+              "at": 196167,
+              "bytes": "6a00",
+              "op": "push",
+              "args": "0"
+            },
+            {
+              "at": 196169,
+              "bytes": "56",
+              "op": "push",
+              "args": "esi"
+            },
+            {
+              "at": 196170,
+              "bytes": "ac",
+              "op": "lodsb",
+              "args": "al, byte ptr [esi]"
+            },
+            {
+              "at": 196171,
+              "bytes": "3c00",
+              "op": "cmp",
+              "args": "al, 0"
+            },
+            {
+              "at": 196173,
+              "bytes": "75fb",
+              "op": "jne",
+              "args": "0x2fe4a"
+            },
+            {
+              "at": 196175,
+              "bytes": "803e00",
+              "op": "cmp",
+              "args": "byte ptr [esi], 0"
+            },
+            {
+              "at": 196178,
+              "bytes": "75f5",
+              "op": "jne",
+              "args": "0x2fe49"
+            },
+            {
+              "at": 196180,
+              "bytes": "892506900700",
+              "op": "mov",
+              "args": "dword ptr [0x79006], esp"
+            },
+            {
+              "at": 196186,
+              "bytes": "8d0d74070800",
+              "op": "lea",
+              "args": "ecx, [0x80774]"
+            },
+            {
+              "at": 196192,
+              "bytes": "8d3d48c40700",
+              "op": "lea",
+              "args": "edi, [0x7c448]"
+            },
+            {
+              "at": 196198,
+              "bytes": "29f9",
+              "op": "sub",
+              "args": "ecx, edi"
+            },
+            {
+              "at": 196200,
+              "bytes": "31c0",
+              "op": "xor",
+              "args": "eax, eax"
+            },
+            {
+              "at": 196202,
+              "bytes": "88ca",
+              "op": "mov",
+              "args": "dl, cl"
+            },
+            {
+              "at": 196204,
+              "bytes": "c1e902",
+              "op": "shr",
+              "args": "ecx, 2"
+            },
+            {
+              "at": 196207,
+              "bytes": "f3ab",
+              "op": "rep stosd",
+              "args": "dword ptr es:[edi], eax"
+            },
+            {
+              "at": 196209,
+              "bytes": "88d1",
+              "op": "mov",
+              "args": "cl, dl"
+            },
+            {
+              "at": 196211,
+              "bytes": "80e103",
+              "op": "and",
+              "args": "cl, 3"
+            },
+            {
+              "at": 196214,
+              "bytes": "f3aa",
+              "op": "rep stosb",
+              "args": "byte ptr es:[edi], al"
+            },
+            {
+              "at": 196216,
+              "bytes": "b9fefd0200",
+              "op": "mov",
+              "args": "ecx, 0x2fdfe"
+            },
+            {
+              "at": 196221,
+              "bytes": "668c19",
+              "op": "mov",
+              "args": "word ptr [ecx], ds"
+            },
+            {
+              "at": 196224,
+              "bytes": "8d1574070800",
+              "op": "lea",
+              "args": "edx, [0x80774]"
+            },
+            {
+              "at": 196230,
+              "bytes": "83c203",
+              "op": "add",
+              "args": "edx, 3"
+            },
+            {
+              "at": 196233,
+              "bytes": "83e2fc",
+              "op": "and",
+              "args": "edx, 0xfffffffc"
+            },
+            {
+              "at": 196236,
+              "bytes": "89151e900700",
+              "op": "mov",
+              "args": "dword ptr [0x7901e], edx"
+            },
+            {
+              "at": 196242,
+              "bytes": "b8ff000000",
+              "op": "mov",
+              "args": "eax, 0xff"
+            },
+            {
+              "at": 196247,
+              "bytes": "e88a860100",
+              "op": "call",
+              "args": "0x48526"
+            },
+            {
+              "at": 196252,
+              "bytes": "89251a900700",
+              "op": "mov",
+              "args": "dword ptr [0x7901a], esp"
+            },
+            {
+              "at": 196258,
+              "bytes": "2b2516900700",
+              "op": "sub",
+              "args": "esp, dword ptr [0x79016]"
+            },
+            {
+              "at": 196264,
+              "bytes": "29ed",
+              "op": "sub",
+              "args": "ebp, ebp"
+            },
+            {
+              "at": 196266,
+              "bytes": "e811870100",
+              "op": "call",
+              "args": "0x485c0"
+            },
+            {
+              "at": 196271,
+              "bytes": "e978000000",
+              "op": "jmp",
+              "args": "0x2ff2c"
+            }
+          ]
+        }
+      ],
+      "runtime_eligible": false,
+      "return_contract": {
+        "kind": "no localRET; initialfarframe belongsInvoke, remains pending",
+        "cleanup": null,
+        "noreturn_proved": false
+      }
+    },
+    {
+      "name": "__InitRtns",
+      "classification": "exact shipped inirt386 first75B",
+      "normal_reach": "upstream of first App allocation frontier, before any MemAlloc instruction",
+      "known_normal_callees": [
+        295622,
+        303589,
+        293742
+      ],
+      "chunks": [
+        {
+          "start": 296230,
+          "end": 296305,
+          "sha256": "ad298f9d8713aa4be7858a6b14332ca2bbd7c9a96b0126e52693208ec76b0cb6",
+          "bytes_hex": "565753520689c23ebe30c407003ebf42c4070089fb88d039fe7314803e02740a384601770589f38a460183c606ebe839fb74128b430209c074061e0752ffd05ac60302ebc2075a5b5f5ec3",
+          "CF_fixup_sites": [
+            296239,
+            296245
+          ],
+          "instructions": [
+            {
+              "at": 296230,
+              "bytes": "56",
+              "op": "push",
+              "args": "esi"
+            },
+            {
+              "at": 296231,
+              "bytes": "57",
+              "op": "push",
+              "args": "edi"
+            },
+            {
+              "at": 296232,
+              "bytes": "53",
+              "op": "push",
+              "args": "ebx"
+            },
+            {
+              "at": 296233,
+              "bytes": "52",
+              "op": "push",
+              "args": "edx"
+            },
+            {
+              "at": 296234,
+              "bytes": "06",
+              "op": "push",
+              "args": "es"
+            },
+            {
+              "at": 296235,
+              "bytes": "89c2",
+              "op": "mov",
+              "args": "edx, eax"
+            },
+            {
+              "at": 296237,
+              "bytes": "3ebe30c40700",
+              "op": "mov",
+              "args": "esi, 0x7c430"
+            },
+            {
+              "at": 296243,
+              "bytes": "3ebf42c40700",
+              "op": "mov",
+              "args": "edi, 0x7c442"
+            },
+            {
+              "at": 296249,
+              "bytes": "89fb",
+              "op": "mov",
+              "args": "ebx, edi"
+            },
+            {
+              "at": 296251,
+              "bytes": "88d0",
+              "op": "mov",
+              "args": "al, dl"
+            },
+            {
+              "at": 296253,
+              "bytes": "39fe",
+              "op": "cmp",
+              "args": "esi, edi"
+            },
+            {
+              "at": 296255,
+              "bytes": "7314",
+              "op": "jae",
+              "args": "0x48555"
+            },
+            {
+              "at": 296257,
+              "bytes": "803e02",
+              "op": "cmp",
+              "args": "byte ptr [esi], 2"
+            },
+            {
+              "at": 296260,
+              "bytes": "740a",
+              "op": "je",
+              "args": "0x48550"
+            },
+            {
+              "at": 296262,
+              "bytes": "384601",
+              "op": "cmp",
+              "args": "byte ptr [esi + 1], al"
+            },
+            {
+              "at": 296265,
+              "bytes": "7705",
+              "op": "ja",
+              "args": "0x48550"
+            },
+            {
+              "at": 296267,
+              "bytes": "89f3",
+              "op": "mov",
+              "args": "ebx, esi"
+            },
+            {
+              "at": 296269,
+              "bytes": "8a4601",
+              "op": "mov",
+              "args": "al, byte ptr [esi + 1]"
+            },
+            {
+              "at": 296272,
+              "bytes": "83c606",
+              "op": "add",
+              "args": "esi, 6"
+            },
+            {
+              "at": 296275,
+              "bytes": "ebe8",
+              "op": "jmp",
+              "args": "0x4853d"
+            },
+            {
+              "at": 296277,
+              "bytes": "39fb",
+              "op": "cmp",
+              "args": "ebx, edi"
+            },
+            {
+              "at": 296279,
+              "bytes": "7412",
+              "op": "je",
+              "args": "0x4856b"
+            },
+            {
+              "at": 296281,
+              "bytes": "8b4302",
+              "op": "mov",
+              "args": "eax, dword ptr [ebx + 2]"
+            },
+            {
+              "at": 296284,
+              "bytes": "09c0",
+              "op": "or",
+              "args": "eax, eax"
+            },
+            {
+              "at": 296286,
+              "bytes": "7406",
+              "op": "je",
+              "args": "0x48566"
+            },
+            {
+              "at": 296288,
+              "bytes": "1e",
+              "op": "push",
+              "args": "ds"
+            },
+            {
+              "at": 296289,
+              "bytes": "07",
+              "op": "pop",
+              "args": "es"
+            },
+            {
+              "at": 296290,
+              "bytes": "52",
+              "op": "push",
+              "args": "edx"
+            },
+            {
+              "at": 296291,
+              "bytes": "ffd0",
+              "op": "call",
+              "args": "eax"
+            },
+            {
+              "at": 296293,
+              "bytes": "5a",
+              "op": "pop",
+              "args": "edx"
+            },
+            {
+              "at": 296294,
+              "bytes": "c60302",
+              "op": "mov",
+              "args": "byte ptr [ebx], 2"
+            },
+            {
+              "at": 296297,
+              "bytes": "ebc2",
+              "op": "jmp",
+              "args": "0x4852d"
+            },
+            {
+              "at": 296299,
+              "bytes": "07",
+              "op": "pop",
+              "args": "es"
+            },
+            {
+              "at": 296300,
+              "bytes": "5a",
+              "op": "pop",
+              "args": "edx"
+            },
+            {
+              "at": 296301,
+              "bytes": "5b",
+              "op": "pop",
+              "args": "ebx"
+            },
+            {
+              "at": 296302,
+              "bytes": "5f",
+              "op": "pop",
+              "args": "edi"
+            },
+            {
+              "at": 296303,
+              "bytes": "5e",
+              "op": "pop",
+              "args": "esi"
+            },
+            {
+              "at": 296304,
+              "bytes": "c3",
+              "op": "ret",
+              "args": ""
+            }
+          ]
+        }
+      ],
+      "runtime_eligible": false,
+      "return_contract": {
+        "kind": "near RET",
+        "cleanup": 0,
+        "evidence": "actual localRET48570 after restoredES/EDX/EBX/EDI/ESI"
+      }
+    },
+    {
+      "name": "_init_stk",
+      "classification": "exact DOSstk386 localfirst8B",
+      "normal_reach": "upstream of first App allocation frontier, before any MemAlloc instruction",
+      "known_normal_callees": [],
+      "chunks": [
+        {
+          "start": 295622,
+          "end": 295630,
+          "sha256": "ebcdda5ba0f84e2bd3cabe3f116a58d593a88f4d8a8a0a4e7ba4d292421586a2",
+          "bytes_hex": "668c15189f0700c3",
+          "CF_fixup_sites": [
+            295625
+          ],
+          "instructions": [
+            {
+              "at": 295622,
+              "bytes": "668c15189f0700",
+              "op": "mov",
+              "args": "word ptr [0x79f18], ss"
+            },
+            {
+              "at": 295629,
+              "bytes": "c3",
+              "op": "ret",
+              "args": ""
+            }
+          ]
+        }
+      ],
+      "runtime_eligible": false,
+      "return_contract": {
+        "kind": "near RET",
+        "cleanup": 0,
+        "evidence": "actual localRET482cd, bodychangesonlySSword"
+      }
+    },
+    {
+      "name": "__InitFiles_",
+      "classification": "exact shipped initfile120B",
+      "normal_reach": "upstream of first App allocation frontier, before any MemAlloc instruction",
+      "known_normal_callees": [
+        193741
+      ],
+      "chunks": [
+        {
+          "start": 303589,
+          "end": 303709,
+          "sha256": "a778d00910b18c1c894bdbaa921fc14a86dc1c55dfde03c038514b52d4cbce27",
+          "bytes_hex": "5351528a257d8d070080e4f888e288257d8d070080ca04b93c8d070088157d8d0700eb43b808000000e8ba52feff89c385c0751fb808000000e8aa52feff89c385c0750fb88c540700ba01000000e8dac901008b1564f80700894b04891d64f8070083c11a89138b510c85d275b6891568f707005a595bc3",
+          "CF_fixup_sites": [
+            303594,
+            303605,
+            303613,
+            303619,
+            303658,
+            303674,
+            303683,
+            303701
+          ],
+          "instructions": [
+            {
+              "at": 303589,
+              "bytes": "53",
+              "op": "push",
+              "args": "ebx"
+            },
+            {
+              "at": 303590,
+              "bytes": "51",
+              "op": "push",
+              "args": "ecx"
+            },
+            {
+              "at": 303591,
+              "bytes": "52",
+              "op": "push",
+              "args": "edx"
+            },
+            {
+              "at": 303592,
+              "bytes": "8a257d8d0700",
+              "op": "mov",
+              "args": "ah, byte ptr [0x78d7d]"
+            },
+            {
+              "at": 303598,
+              "bytes": "80e4f8",
+              "op": "and",
+              "args": "ah, 0xf8"
+            },
+            {
+              "at": 303601,
+              "bytes": "88e2",
+              "op": "mov",
+              "args": "dl, ah"
+            },
+            {
+              "at": 303603,
+              "bytes": "88257d8d0700",
+              "op": "mov",
+              "args": "byte ptr [0x78d7d], ah"
+            },
+            {
+              "at": 303609,
+              "bytes": "80ca04",
+              "op": "or",
+              "args": "dl, 4"
+            },
+            {
+              "at": 303612,
+              "bytes": "b93c8d0700",
+              "op": "mov",
+              "args": "ecx, 0x78d3c"
+            },
+            {
+              "at": 303617,
+              "bytes": "88157d8d0700",
+              "op": "mov",
+              "args": "byte ptr [0x78d7d], dl"
+            },
+            {
+              "at": 303623,
+              "bytes": "eb43",
+              "op": "jmp",
+              "args": "0x4a24c"
+            },
+            {
+              "at": 303625,
+              "bytes": "b808000000",
+              "op": "mov",
+              "args": "eax, 8"
+            },
+            {
+              "at": 303630,
+              "bytes": "e8ba52feff",
+              "op": "call",
+              "args": "0x2f4cd"
+            },
+            {
+              "at": 303635,
+              "bytes": "89c3",
+              "op": "mov",
+              "args": "ebx, eax"
+            },
+            {
+              "at": 303637,
+              "bytes": "85c0",
+              "op": "test",
+              "args": "eax, eax"
+            },
+            {
+              "at": 303639,
+              "bytes": "751f",
+              "op": "jne",
+              "args": "0x4a238"
+            },
+            {
+              "at": 303641,
+              "bytes": "b808000000",
+              "op": "mov",
+              "args": "eax, 8"
+            },
+            {
+              "at": 303646,
+              "bytes": "e8aa52feff",
+              "op": "call",
+              "args": "0x2f4cd"
+            },
+            {
+              "at": 303651,
+              "bytes": "89c3",
+              "op": "mov",
+              "args": "ebx, eax"
+            },
+            {
+              "at": 303653,
+              "bytes": "85c0",
+              "op": "test",
+              "args": "eax, eax"
+            },
+            {
+              "at": 303655,
+              "bytes": "750f",
+              "op": "jne",
+              "args": "0x4a238"
+            },
+            {
+              "at": 303657,
+              "bytes": "b88c540700",
+              "op": "mov",
+              "args": "eax, 0x7548c"
+            },
+            {
+              "at": 303662,
+              "bytes": "ba01000000",
+              "op": "mov",
+              "args": "edx, 1"
+            },
+            {
+              "at": 303667,
+              "bytes": "e8dac90100",
+              "op": "call",
+              "args": "0x66c12"
+            },
+            {
+              "at": 303672,
+              "bytes": "8b1564f80700",
+              "op": "mov",
+              "args": "edx, dword ptr [0x7f864]"
+            },
+            {
+              "at": 303678,
+              "bytes": "894b04",
+              "op": "mov",
+              "args": "dword ptr [ebx + 4], ecx"
+            },
+            {
+              "at": 303681,
+              "bytes": "891d64f80700",
+              "op": "mov",
+              "args": "dword ptr [0x7f864], ebx"
+            },
+            {
+              "at": 303687,
+              "bytes": "83c11a",
+              "op": "add",
+              "args": "ecx, 0x1a"
+            },
+            {
+              "at": 303690,
+              "bytes": "8913",
+              "op": "mov",
+              "args": "dword ptr [ebx], edx"
+            },
+            {
+              "at": 303692,
+              "bytes": "8b510c",
+              "op": "mov",
+              "args": "edx, dword ptr [ecx + 0xc]"
+            },
+            {
+              "at": 303695,
+              "bytes": "85d2",
+              "op": "test",
+              "args": "edx, edx"
+            },
+            {
+              "at": 303697,
+              "bytes": "75b6",
+              "op": "jne",
+              "args": "0x4a209"
+            },
+            {
+              "at": 303699,
+              "bytes": "891568f70700",
+              "op": "mov",
+              "args": "dword ptr [0x7f768], edx"
+            },
+            {
+              "at": 303705,
+              "bytes": "5a",
+              "op": "pop",
+              "args": "edx"
+            },
+            {
+              "at": 303706,
+              "bytes": "59",
+              "op": "pop",
+              "args": "ecx"
+            },
+            {
+              "at": 303707,
+              "bytes": "5b",
+              "op": "pop",
+              "args": "ebx"
+            },
+            {
+              "at": 303708,
+              "bytes": "c3",
+              "op": "ret",
+              "args": ""
+            }
+          ]
+        }
+      ],
+      "runtime_eligible": false,
+      "return_contract": {
+        "kind": "near RET",
+        "cleanup": 0,
+        "evidence": "actual localRET4a25c; firstfrontier happens beforethisreturn"
+      }
+    },
+    {
+      "name": "malloc/nmalloc_segment_wrapper",
+      "classification": "name from exact initfile externals; actualbody14B; not a matched CLIBallocator",
+      "normal_reach": "upstream of first App allocation frontier, before any MemAlloc instruction",
+      "known_normal_callees": [
+        294007
+      ],
+      "chunks": [
+        {
+          "start": 193741,
+          "end": 193755,
+          "sha256": "041ae40b5276a737450f269d719ad89e88b7fad3ef239816e7a9a22b9006c82e",
+          "bytes_hex": "5589e5061e07e89f87010007c9c3",
+          "CF_fixup_sites": [],
+          "instructions": [
+            {
+              "at": 193741,
+              "bytes": "55",
+              "op": "push",
+              "args": "ebp"
+            },
+            {
+              "at": 193742,
+              "bytes": "89e5",
+              "op": "mov",
+              "args": "ebp, esp"
+            },
+            {
+              "at": 193744,
+              "bytes": "06",
+              "op": "push",
+              "args": "es"
+            },
+            {
+              "at": 193745,
+              "bytes": "1e",
+              "op": "push",
+              "args": "ds"
+            },
+            {
+              "at": 193746,
+              "bytes": "07",
+              "op": "pop",
+              "args": "es"
+            },
+            {
+              "at": 193747,
+              "bytes": "e89f870100",
+              "op": "call",
+              "args": "0x47c77"
+            },
+            {
+              "at": 193752,
+              "bytes": "07",
+              "op": "pop",
+              "args": "es"
+            },
+            {
+              "at": 193753,
+              "bytes": "c9",
+              "op": "leave",
+              "args": ""
+            },
+            {
+              "at": 193754,
+              "bytes": "c3",
+              "op": "ret",
+              "args": ""
+            }
+          ]
+        }
+      ],
+      "runtime_eligible": false,
+      "return_contract": {
+        "kind": "near RET",
+        "cleanup": 0,
+        "evidence": "actual RET2f4da after POPES+LEAVE; actualCALL2f4d3 holdsreturn2f4d8"
+      }
+    }
+  ],
+  "shipped_exact_callback_dispatch_proofs": [
+    {
+      "name": "__setEFGfmt_",
+      "module": "setefg",
+      "start": 293742,
+      "end": 293769,
+      "length": 27,
+      "actual_code_sha256": "39a62e437581060b51285e1846c3deda459f2a4d95ff02634f712294eb6beb13",
+      "library_matches": [
+        {
+          "library": "/root/msvc2/toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+          "library_sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+          "module_THEADR": 85808,
+          "publics": [
+            {
+              "name": "__setEFGfmt_",
+              "segment": 1,
+              "offset": 0
+            }
+          ],
+          "code_segment_length": 27,
+          "OMF_LEDATA_record": 86060,
+          "object_slice_sha256": "6bd9300e3034a5161ac90baf02634e0d46e11d016d5e1fce2212fa44ea9f1301",
+          "nonfixup_bytes_compared": 11,
+          "all_relocated_bytes_match": true,
+          "fixups": [
+            {
+              "offset": 3,
+              "cf_site": 293745,
+              "relative": false,
+              "target_name": "_EFG_Format_",
+              "target_base": 420088,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 420088,
+              "linked_dword": 420088,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 86096
+            },
+            {
+              "offset": 8,
+              "cf_site": 293750,
+              "relative": false,
+              "target_name": "__cnvs2d_",
+              "target_base": 420381,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 420381,
+              "linked_dword": 420381,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 86096
+            },
+            {
+              "offset": 14,
+              "cf_site": 293756,
+              "relative": false,
+              "target_name": "___EFG_printf",
+              "target_base": 499504,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 499504,
+              "linked_dword": 499504,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 86096
+            },
+            {
+              "offset": 20,
+              "cf_site": 293762,
+              "relative": false,
+              "target_name": "___EFG_scanf",
+              "target_base": 499508,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 499508,
+              "linked_dword": 499508,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 86096
+            }
+          ]
+        },
+        {
+          "library": "/root/msvc2/toolchains/watcom10.0a/lib386/DOS/CLIB3R.LIB",
+          "library_sha256": "ea6f73080f9ea18825258369989f6e1d0b7abc7c3df05e4bb8f17a31a5cbdee8",
+          "module_THEADR": 70288,
+          "publics": [
+            {
+              "name": "__setEFGfmt_",
+              "segment": 1,
+              "offset": 0
+            }
+          ],
+          "code_segment_length": 27,
+          "OMF_LEDATA_record": 70540,
+          "object_slice_sha256": "6bd9300e3034a5161ac90baf02634e0d46e11d016d5e1fce2212fa44ea9f1301",
+          "nonfixup_bytes_compared": 11,
+          "all_relocated_bytes_match": true,
+          "fixups": [
+            {
+              "offset": 3,
+              "cf_site": 293745,
+              "relative": false,
+              "target_name": "_EFG_Format_",
+              "target_base": 420088,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 420088,
+              "linked_dword": 420088,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 70576
+            },
+            {
+              "offset": 8,
+              "cf_site": 293750,
+              "relative": false,
+              "target_name": "__cnvs2d_",
+              "target_base": 420381,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 420381,
+              "linked_dword": 420381,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 70576
+            },
+            {
+              "offset": 14,
+              "cf_site": 293756,
+              "relative": false,
+              "target_name": "___EFG_printf",
+              "target_base": 499504,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 499504,
+              "linked_dword": 499504,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 70576
+            },
+            {
+              "offset": 20,
+              "cf_site": 293762,
+              "relative": false,
+              "target_name": "___EFG_scanf",
+              "target_base": 499508,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 499508,
+              "linked_dword": 499508,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 70576
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "__InitFiles_",
+      "module": "initfile",
+      "start": 303589,
+      "end": 303709,
+      "length": 120,
+      "actual_code_sha256": "a778d00910b18c1c894bdbaa921fc14a86dc1c55dfde03c038514b52d4cbce27",
+      "library_matches": [
+        {
+          "library": "/root/msvc2/toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+          "library_sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+          "module_THEADR": 79936,
+          "publics": [
+            {
+              "name": "__InitFiles_",
+              "segment": 1,
+              "offset": 0
+            }
+          ],
+          "code_segment_length": 120,
+          "OMF_LEDATA_record": 80222,
+          "object_slice_sha256": "74229fba4ea3b489fb337d704e127e9a25623eecbca5fa4036e0b67cb4d2895c",
+          "nonfixup_bytes_compared": 76,
+          "all_relocated_bytes_match": true,
+          "fixups": [
+            {
+              "offset": 5,
+              "cf_site": 303594,
+              "relative": false,
+              "target_name": "___iob",
+              "target_base": 494908,
+              "object_addend": 65,
+              "omf_displacement": 0,
+              "resolved_target": 494973,
+              "linked_dword": 494973,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 80351
+            },
+            {
+              "offset": 16,
+              "cf_site": 303605,
+              "relative": false,
+              "target_name": "___iob",
+              "target_base": 494908,
+              "object_addend": 65,
+              "omf_displacement": 0,
+              "resolved_target": 494973,
+              "linked_dword": 494973,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 80351
+            },
+            {
+              "offset": 24,
+              "cf_site": 303613,
+              "relative": false,
+              "target_name": "___iob",
+              "target_base": 494908,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 494908,
+              "linked_dword": 494908,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 80351
+            },
+            {
+              "offset": 30,
+              "cf_site": 303619,
+              "relative": false,
+              "target_name": "___iob",
+              "target_base": 494908,
+              "object_addend": 65,
+              "omf_displacement": 0,
+              "resolved_target": 494973,
+              "linked_dword": 494973,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 80351
+            },
+            {
+              "offset": 42,
+              "cf_site": 303631,
+              "relative": true,
+              "target_name": "_nmalloc_",
+              "target_base": 193741,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 193741,
+              "linked_dword": 4294857402,
+              "CF_base_fixup": false,
+              "OMF_FIXUPP_record": 80351
+            },
+            {
+              "offset": 58,
+              "cf_site": 303647,
+              "relative": true,
+              "target_name": "malloc_",
+              "target_base": 193741,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 193741,
+              "linked_dword": 4294857386,
+              "CF_base_fixup": false,
+              "OMF_FIXUPP_record": 80351
+            },
+            {
+              "offset": 69,
+              "cf_site": 303658,
+              "relative": false,
+              "target_name": "module segment 2",
+              "target_base": 480396,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 480396,
+              "linked_dword": 480396,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 80351
+            },
+            {
+              "offset": 79,
+              "cf_site": 303668,
+              "relative": true,
+              "target_name": "__fatal_runtime_error_",
+              "target_base": 420882,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 420882,
+              "linked_dword": 117210,
+              "CF_base_fixup": false,
+              "OMF_FIXUPP_record": 80351
+            },
+            {
+              "offset": 85,
+              "cf_site": 303674,
+              "relative": false,
+              "target_name": "___OpenStreams",
+              "target_base": 522340,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 522340,
+              "linked_dword": 522340,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 80351
+            },
+            {
+              "offset": 94,
+              "cf_site": 303683,
+              "relative": false,
+              "target_name": "___OpenStreams",
+              "target_base": 522340,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 522340,
+              "linked_dword": 522340,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 80351
+            },
+            {
+              "offset": 112,
+              "cf_site": 303701,
+              "relative": false,
+              "target_name": "___ClosedStreams",
+              "target_base": 522088,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 522088,
+              "linked_dword": 522088,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 80351
+            }
+          ]
+        },
+        {
+          "library": "/root/msvc2/toolchains/watcom10.0a/lib386/DOS/CLIB3R.LIB",
+          "library_sha256": "ea6f73080f9ea18825258369989f6e1d0b7abc7c3df05e4bb8f17a31a5cbdee8",
+          "module_THEADR": 64528,
+          "publics": [
+            {
+              "name": "__InitFiles_",
+              "segment": 1,
+              "offset": 0
+            }
+          ],
+          "code_segment_length": 120,
+          "OMF_LEDATA_record": 64814,
+          "object_slice_sha256": "74229fba4ea3b489fb337d704e127e9a25623eecbca5fa4036e0b67cb4d2895c",
+          "nonfixup_bytes_compared": 76,
+          "all_relocated_bytes_match": true,
+          "fixups": [
+            {
+              "offset": 5,
+              "cf_site": 303594,
+              "relative": false,
+              "target_name": "___iob",
+              "target_base": 494908,
+              "object_addend": 65,
+              "omf_displacement": 0,
+              "resolved_target": 494973,
+              "linked_dword": 494973,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 64943
+            },
+            {
+              "offset": 16,
+              "cf_site": 303605,
+              "relative": false,
+              "target_name": "___iob",
+              "target_base": 494908,
+              "object_addend": 65,
+              "omf_displacement": 0,
+              "resolved_target": 494973,
+              "linked_dword": 494973,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 64943
+            },
+            {
+              "offset": 24,
+              "cf_site": 303613,
+              "relative": false,
+              "target_name": "___iob",
+              "target_base": 494908,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 494908,
+              "linked_dword": 494908,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 64943
+            },
+            {
+              "offset": 30,
+              "cf_site": 303619,
+              "relative": false,
+              "target_name": "___iob",
+              "target_base": 494908,
+              "object_addend": 65,
+              "omf_displacement": 0,
+              "resolved_target": 494973,
+              "linked_dword": 494973,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 64943
+            },
+            {
+              "offset": 42,
+              "cf_site": 303631,
+              "relative": true,
+              "target_name": "_nmalloc_",
+              "target_base": 193741,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 193741,
+              "linked_dword": 4294857402,
+              "CF_base_fixup": false,
+              "OMF_FIXUPP_record": 64943
+            },
+            {
+              "offset": 58,
+              "cf_site": 303647,
+              "relative": true,
+              "target_name": "malloc_",
+              "target_base": 193741,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 193741,
+              "linked_dword": 4294857386,
+              "CF_base_fixup": false,
+              "OMF_FIXUPP_record": 64943
+            },
+            {
+              "offset": 69,
+              "cf_site": 303658,
+              "relative": false,
+              "target_name": "module segment 2",
+              "target_base": 480396,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 480396,
+              "linked_dword": 480396,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 64943
+            },
+            {
+              "offset": 79,
+              "cf_site": 303668,
+              "relative": true,
+              "target_name": "__fatal_runtime_error_",
+              "target_base": 420882,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 420882,
+              "linked_dword": 117210,
+              "CF_base_fixup": false,
+              "OMF_FIXUPP_record": 64943
+            },
+            {
+              "offset": 85,
+              "cf_site": 303674,
+              "relative": false,
+              "target_name": "___OpenStreams",
+              "target_base": 522340,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 522340,
+              "linked_dword": 522340,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 64943
+            },
+            {
+              "offset": 94,
+              "cf_site": 303683,
+              "relative": false,
+              "target_name": "___OpenStreams",
+              "target_base": 522340,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 522340,
+              "linked_dword": 522340,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 64943
+            },
+            {
+              "offset": 112,
+              "cf_site": 303701,
+              "relative": false,
+              "target_name": "___ClosedStreams",
+              "target_base": 522088,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 522088,
+              "linked_dword": 522088,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 64943
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "_init_stk",
+      "module": "stk386",
+      "start": 295622,
+      "end": 295630,
+      "length": 8,
+      "actual_code_sha256": "ebcdda5ba0f84e2bd3cabe3f116a58d593a88f4d8a8a0a4e7ba4d292421586a2",
+      "library_matches": [
+        {
+          "library": "/root/msvc2/toolchains/watcom10.0a/lib386/DOS/CLIB3R.LIB",
+          "library_sha256": "ea6f73080f9ea18825258369989f6e1d0b7abc7c3df05e4bb8f17a31a5cbdee8",
+          "module_THEADR": 77936,
+          "publics": [
+            {
+              "name": "__STK",
+              "segment": 1,
+              "offset": 27
+            },
+            {
+              "name": "__CHK",
+              "segment": 1,
+              "offset": 8
+            },
+            {
+              "name": "__GRO",
+              "segment": 1,
+              "offset": 24
+            },
+            {
+              "name": "__STKOVERFLOW_",
+              "segment": 1,
+              "offset": 57
+            }
+          ],
+          "code_segment_length": 72,
+          "OMF_LEDATA_record": 78264,
+          "object_slice_sha256": "7c8e9916e15879a81de37ac87624e782179339bac7afd0ac675cdbcc0300b307",
+          "nonfixup_bytes_compared": 4,
+          "all_relocated_bytes_match": true,
+          "fixups": [
+            {
+              "offset": 3,
+              "cf_site": 295625,
+              "relative": false,
+              "target_name": "module segment 2",
+              "target_base": 499480,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 499480,
+              "linked_dword": 499480,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 78343
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "__InitRtns / __FiniRtns",
+      "module": "inirt386",
+      "start": 296230,
+      "end": 296384,
+      "length": 154,
+      "actual_code_sha256": "121be1d1acc997beeb15285f5ad7dbe31037caf0e7db486e807ab8ffc5dd665d",
+      "library_matches": [
+        {
+          "library": "/root/msvc2/toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+          "library_sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+          "module_THEADR": 92576,
+          "publics": [
+            {
+              "name": "__InitRtns",
+              "segment": 1,
+              "offset": 0
+            },
+            {
+              "name": "__FiniRtns",
+              "segment": 1,
+              "offset": 75
+            }
+          ],
+          "code_segment_length": 154,
+          "OMF_LEDATA_record": 92801,
+          "object_slice_sha256": "60169d66ed2d7ccadf016870f1f3c14bae15828700a71f2bb9ab54a2c93c6a85",
+          "nonfixup_bytes_compared": 138,
+          "all_relocated_bytes_match": true,
+          "fixups": [
+            {
+              "offset": 9,
+              "cf_site": 296239,
+              "relative": false,
+              "target_name": "module segment 3",
+              "target_base": 508976,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 508976,
+              "linked_dword": 508976,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 92962
+            },
+            {
+              "offset": 15,
+              "cf_site": 296245,
+              "relative": false,
+              "target_name": "module segment 5",
+              "target_base": 508994,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 508994,
+              "linked_dword": 508994,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 92962
+            },
+            {
+              "offset": 85,
+              "cf_site": 296315,
+              "relative": false,
+              "target_name": "module segment 6",
+              "target_base": 508994,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 508994,
+              "linked_dword": 508994,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 92962
+            },
+            {
+              "offset": 91,
+              "cf_site": 296321,
+              "relative": false,
+              "target_name": "module segment 8",
+              "target_base": 509000,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 509000,
+              "linked_dword": 509000,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 92962
+            }
+          ]
+        },
+        {
+          "library": "/root/msvc2/toolchains/watcom10.0a/lib386/DOS/CLIB3R.LIB",
+          "library_sha256": "ea6f73080f9ea18825258369989f6e1d0b7abc7c3df05e4bb8f17a31a5cbdee8",
+          "module_THEADR": 77072,
+          "publics": [
+            {
+              "name": "__InitRtns",
+              "segment": 1,
+              "offset": 0
+            },
+            {
+              "name": "__FiniRtns",
+              "segment": 1,
+              "offset": 75
+            }
+          ],
+          "code_segment_length": 154,
+          "OMF_LEDATA_record": 77297,
+          "object_slice_sha256": "60169d66ed2d7ccadf016870f1f3c14bae15828700a71f2bb9ab54a2c93c6a85",
+          "nonfixup_bytes_compared": 138,
+          "all_relocated_bytes_match": true,
+          "fixups": [
+            {
+              "offset": 9,
+              "cf_site": 296239,
+              "relative": false,
+              "target_name": "module segment 3",
+              "target_base": 508976,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 508976,
+              "linked_dword": 508976,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 77458
+            },
+            {
+              "offset": 15,
+              "cf_site": 296245,
+              "relative": false,
+              "target_name": "module segment 5",
+              "target_base": 508994,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 508994,
+              "linked_dword": 508994,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 77458
+            },
+            {
+              "offset": 85,
+              "cf_site": 296315,
+              "relative": false,
+              "target_name": "module segment 6",
+              "target_base": 508994,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 508994,
+              "linked_dword": 508994,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 77458
+            },
+            {
+              "offset": 91,
+              "cf_site": 296321,
+              "relative": false,
+              "target_name": "module segment 8",
+              "target_base": 509000,
+              "object_addend": 0,
+              "omf_displacement": 0,
+              "resolved_target": 509000,
+              "linked_dword": 509000,
+              "CF_base_fixup": true,
+              "OMF_FIXUPP_record": 77458
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "first_App_frontier": {
+    "entry": 294007,
+    "original_prebyte": "53",
+    "name": "MemAlloc in released cg/c/memmgr.c; parent logical candidate CGAlloc",
+    "classification": "compiler PRIVATE memory manager App; not CLIB nmalloc",
+    "formal": "size unsigned32 in EAX",
+    "first_formal_value": 8,
+    "actual_call_instruction": 193747,
+    "actual_next_return": 193752,
+    "wrapper_aliases": "_nmalloc_ and malloc_ externfixups in shipped initfile bothresolve2f4cd; aliasdoesnotmakeprivatecalleeCRT",
+    "execution": "trap before entryinstruction; all allocator internals and AH48 futuredependencies excludedfrom firstfrontier admission",
+    "pointer_context": "ECX firstFILE=CFbase+78d3c, EDX1 fromfirstFILEflag; wrapperES=DS, EBP=postPUSHEBP ESP; theseare actualsupportstate, sizeEAX8 issole formal"
+  },
+  "actual_callback_order_before_frontier": [
+    "InitRtns chooses last equalpriority record",
+    "_init_stk@482c6 runs andreturns",
+    "XI record7c43c kind becomes2",
+    "InitRtns chooses __InitFiles@4a1e5",
+    "InitFiles invokes _nmalloc8@2f4cd",
+    "wrapper invokes PRIVATE MemAlloc8@47c77 andstops; __setEFGfmt47b6e andmain1a99b NOTyetreached"
+  ],
+  "minimal_data": {
+    "entry_read": "fiveDWORDs@EDI, actualprogram/command/env/break/copyright pointers; no IsDBCS field20",
+    "external_env": "boundedactual NUL-terminated environmentblock; startupLODSB andnextbytechecks; actualstackptrarray holdsN envptrs+NULL, read accessownership must followcapturedinput",
+    "startup_globals_written": [
+      [
+        495660,
+        495661
+      ],
+      [
+        495634,
+        495638
+      ],
+      [
+        495630,
+        495634
+      ],
+      [
+        495606,
+        495610
+      ],
+      [
+        495602,
+        495606
+      ],
+      [
+        495596,
+        495602
+      ],
+      [
+        495614,
+        495618
+      ],
+      [
+        495618,
+        495622
+      ],
+      [
+        495610,
+        495614
+      ],
+      [
+        495622,
+        495626
+      ],
+      [
+        196094,
+        196096
+      ],
+      [
+        495646,
+        495650
+      ]
+    ],
+    "post_Init_actions_notyetexecuted": "ASTACKPTR write7901a, alternate SUBESP[79016], __CMain argc/argvloads andmaincall occur onlyafterallinitializersreturn",
+    "BSS_zero": [
+      509000,
+      526196
+    ],
+    "saved_DS_word": [
+      196094,
+      196096
+    ],
+    "curbrk_value_CFrelative": 526196,
+    "XI": [
+      508976,
+      508994
+    ],
+    "XI_pointer_cells": [
+      508978,
+      508984,
+      508990
+    ],
+    "XI_first_mutation": {
+      "cell": 508988,
+      "before": 0,
+      "after": 2
+    },
+    "XI_InitFiles_kind_atfrontier": {
+      "cell": 508982,
+      "value": 0,
+      "reason": "markedonlyaftercallbackreturns"
+    },
+    "saved_SS_word": [
+      499480,
+      499482
+    ],
+    "stderr_flag_byte": {
+      "cell": 494973,
+      "before": 0,
+      "after": 4,
+      "whole_FILE_flag_after": 1026
+    },
+    "first_FILE_read": [
+      494920,
+      494924
+    ],
+    "first_FILE_flag": 1,
+    "first_FILE_pointer": 494908,
+    "notyet_written": "no allocatedFILEnode, OpenStreams/ClosedStreams, EFGpointers, allocator-specific heapoperations or serviceallocation occurbeforefirstApptrap (generic startupBSSzero still applies)",
+    "stack": "actualentryfarframe+environmentpointerpushes+realnearCALLframes; segmentPUSH32bit slots preserve onlyselectorlow16, notundefinedupperpadding; no syntheticstackframes"
+  },
+  "concrete_support_capabilities": [
+    "captureactualentry5params and inputpointerownership",
+    "segmentword MOV and PUSHES/PUSHDS/POPES with actualselector+stackslots",
+    "boundedLODSB/environmentloop",
+    "exactREPSTOSD/STOSB BSS interval only",
+    "dynamicstackstate/LEAVE wrapper, pendingrealCALLRETownership",
+    "indirect initializerCALL target resolved fromboundedXI; true AppentryINT3 beforefirstoriginalMemAllocbyte"
+  ],
+  "source_discrepancies": [
+    "_cstart_2002reads sixthIsDBCS; actual1994doesnot",
+    "__InitFiles2002adds FILE->_link writes absentactual120B",
+    "PRIVATE MemAlloc/MemInit/MemFromSys correlation doesnotproveall2002implementationdetails; laterMemFromSys libc+blockheaders differactualAH48",
+    "sourcepublicMemAlloc isbettercorrelationthan libc_nmalloc alias; no originalsymboldebugname claim"
+  ],
+  "shortest_action": [
+    "Sharedowner constructs native target-specific startup adapter producing real globals/BSS/envstack/XI/SS/FILE effects and genuine malloc8 Appcallback beforemain; never trace-onlysyntheticcallback",
+    "Admit only five explicitupstreamsupportowners aftercommonfacts/bounds/ABIqualification; private47c77 is unresolvedAppentry",
+    "Whenrootreleases ordinarytransport, demonstrate fresh original/native pair at47c77 withsemanticEAX8 and correspondingownedstate; no needgatewayforfirstfrontier",
+    "Only lateruser-issued Appreconstruction may work allocatorbody; successfulfullhelpthenneedsAH48/newallocationowner plusnormalmain/exit; futuredependencies are in minimum-closure.json and NOTinitialblockers"
+  ],
+  "conditional_unknown_rule": "Any unexpectedowner/return/thread/callback, absentdatabound or byte/state mismatch HOLDS beforeexecution; no blanketCRTwaiver.",
+  "shared_owner": "/root/native_self_child owns descriptor/targetstartupadapter and finite reachedopcodequalification; no production editsmadebythisstaticpacket"
+}
