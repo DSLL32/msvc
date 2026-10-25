@@ -1909,7 +1909,7 @@
       },
       "_convert_old_leaf_5c": {
         "abi": "void convert_old_leaf_5c(TypeRecord *)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
         "roots": []
       },

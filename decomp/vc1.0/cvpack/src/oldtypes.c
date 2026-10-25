@@ -481,3 +481,21 @@ void convert_old_leaf_72(TypeRecord *entry)
     entry->flags |= 8;
     entry->data = record;
 }
+
+void convert_old_leaf_5c(TypeRecord *entry)
+{
+    unsigned char *old = entry->data+4, *record;
+    unsigned short type;
+    entry->flags |= 0x400;
+    record = checked_alloc(8);
+    *(unsigned short *)record = 6;
+    *(unsigned short *)(record+2) = 0x206;
+    record[4] = old[0];
+    type = old[0] <= 16 ? 0x11 : 0x12;
+    if (old[1] != 0x7d) type += 0x10;
+    *(unsigned short *)(record+6) = type;
+    record[5] = old[2];
+    if (entry->flags & 0x38) release_type_data(entry);
+    entry->flags |= 8;
+    entry->data = record;
+}
