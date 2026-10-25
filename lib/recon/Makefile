@@ -704,6 +704,12 @@ build/command-line-probe: tests/command-line-probe.c $(SOURCES) $(HEADERS) | bui
 command-line-check: build/command-line-probe
 	$(PYTHON) tests/check-command-line.py $<
 
+.PHONY: temporary-surface-check
+build/temporary-surface-probe: tests/temporary-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+temporary-surface-check: build/temporary-surface-probe
+	$(PYTHON) tests/check-temporary-surface.py $<
+
 .PHONY: watcom-signal-check
 build/watcom-signal-probe: tests/watcom-signal-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@

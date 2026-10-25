@@ -427,6 +427,8 @@ void recon_load_system_info_profile(const char *,const char *);
  X(void,GetSystemInfo,(LPSYSTEM_INFO)) X(void,GlobalMemoryStatus,(LPMEMORYSTATUS)) \
  X(DWORD,GetTickCount,(void)) \
  X(DWORD,GetModuleFileNameA,(HMODULE,LPSTR,DWORD)) X(LPSTR,GetCommandLineA,(void)) X(DWORD,GetVersion,(void)) \
+ X(DWORD,GetTempPathA,(DWORD,LPSTR)) X(UINT,GetTempFileNameA,(LPCSTR,LPCSTR,UINT,LPSTR)) \
+ X(BOOL,SetEnvironmentVariableA,(LPCSTR,LPCSTR)) \
  X(BOOL,SystemTimeToFileTime,(const SYSTEMTIME *,FILETIME *)) \
  X(BOOL,SetFileTime,(HANDLE,const FILETIME *,const FILETIME *,const FILETIME *)) \
  X(void,GetSystemTime,(SYSTEMTIME *)) X(void,ExitProcess,(UINT)) X(void,DebugBreak,(void)) \
@@ -746,6 +748,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define GetTickCount recon_GetTickCount
 #define GetModuleFileNameA recon_GetModuleFileNameA
 #define GetCommandLineA recon_GetCommandLineA
+#define GetTempPathA recon_GetTempPathA
+#define GetTempFileNameA recon_GetTempFileNameA
+#define SetEnvironmentVariableA recon_SetEnvironmentVariableA
 #define GetVersion recon_GetVersion
 #define SystemTimeToFileTime recon_SystemTimeToFileTime
 #define SetFileTime recon_SetFileTime

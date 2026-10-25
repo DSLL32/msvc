@@ -34,6 +34,21 @@ LPSTR WINAPI recon_GetCommandLineA(void)
     if(!command_line) recon_unsupported("unbound process command line");
     return command_line;
 }
+DWORD WINAPI recon_GetTempPathA(DWORD capacity,LPSTR output)
+{
+    (void)capacity;(void)output;
+    recon_unsupported("unreviewed GetTempPathA");return 0;
+}
+UINT WINAPI recon_GetTempFileNameA(LPCSTR directory,LPCSTR prefix,UINT unique,LPSTR output)
+{
+    (void)directory;(void)prefix;(void)unique;(void)output;
+    recon_unsupported("unreviewed GetTempFileNameA");return 0;
+}
+BOOL WINAPI recon_SetEnvironmentVariableA(LPCSTR name,LPCSTR value)
+{
+    (void)name;(void)value;
+    recon_unsupported("unreviewed SetEnvironmentVariableA");return FALSE;
+}
 char *__cdecl recon_watcom_getcmd(char *buffer)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

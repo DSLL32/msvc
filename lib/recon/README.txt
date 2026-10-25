@@ -637,6 +637,11 @@ Quotes are not interpreted or stripped, matching the old parser; malformed
 bindings, output overlap and other CRT profiles deny125. No general command-line parsing or host
 import fallback is supplied. Existing fixtures without raw input stay unbound.
 
+GetTempPathA, GetTempFileNameA and SetEnvironmentVariableA have exact SDK WINAPI
+declarations/remaps for LINK's complete unvisited DEF-processing branches.
+Invocation always denies125 without reading input or touching output; no temp
+file/path or process-environment mutation behavior is supplied.
+
 Watcom compile spellings stdaux/stdprn identify existing native iob slots3/4;
 this does not initialize their handles or qualify closing them. Bare isatty
 uses the existing descriptor boolean helper. _IOLBF retains Watcom0200, with
