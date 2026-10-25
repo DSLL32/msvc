@@ -1220,8 +1220,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_get_compilation_time", .entry_rva = 0x3b444,
-        .code = (const ReconExtent[]){{0x3b444, 0x3b445}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3b444, 0x3b453}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "get_compilation_time",
     },
     {

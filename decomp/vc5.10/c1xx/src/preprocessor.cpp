@@ -1,4 +1,5 @@
 #include <string.h>
+#include <time.h>
 #include "frontend.h"
 #pragma intrinsic(strcpy)
 #include <recon.h>
@@ -69,7 +70,10 @@ extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions)
     frontend_bss.forced_include_index = 0;
 }
 
-extern "C" long __cdecl get_compilation_time(long *stamp) { __asm { int 3 } return 0; }
+extern "C" long __cdecl get_compilation_time(long *stamp)
+{
+    return (long)time((time_t *)stamp);
+}
 extern "C" char *__cdecl format_predefined_time(long stamp) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_macro_buffers(void) { __asm { int 3 } }
 extern "C" void __cdecl define_preprocessor_macro(const char *text, unsigned length, int kind) { __asm { int 3 } }
