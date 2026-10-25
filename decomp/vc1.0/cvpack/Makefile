@@ -2,7 +2,7 @@ RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
 NATIVE_CC = clang
 NATIVE_CXX = clang++
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
 BINARY_SOURCES = $(wildcard src/*.c)
 BINARY_SUPPORT_SOURCES = $(wildcard $(RECON)/src/*.c)

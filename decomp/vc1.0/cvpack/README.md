@@ -6,6 +6,10 @@ The last accepted function is `type_server_close` (sequence 187,
 `src/pdb-close.c`, commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
+`src/` contains application reconstruction only. Shared fixture checks live in
+`harness/`; this binary has no private native host or binary-specific CRT
+implementation. Shared CRT compatibility remains in `lib/recon/`.
+
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
 automatically discovers the ten numbered `case.c` descriptors, and runs their

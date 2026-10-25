@@ -4,7 +4,7 @@
 #include <limits.h>
 #include <string.h>
 #include <recon-tool.h>
-#include "../padding-check.h"
+#include "../../harness/padding-check.h"
 static int check_outputs(const ReconOutputContext *context)
 {
     return check_padding(context, "hello-debug.dll", 71800, 0x110ae, 0x110b0, 1);
