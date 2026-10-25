@@ -65,3 +65,18 @@ C2BasicBlock *__fastcall insert_flow_block(C2FlowGraph *flow, C2BasicBlock *afte
     }
     return block;
 }
+
+C2BasicBlock *__fastcall prepend_flow_block(C2FlowGraph *flow)
+{
+    C2BasicBlock *block = allocate_flow_block(flow);
+    C2BasicBlock *first = flow->first;
+    block->next = first;
+    if (flow->last) {
+        flow->first = block;
+        first->previous = block;
+    } else {
+        flow->last = block;
+        flow->first = block;
+    }
+    return block;
+}
