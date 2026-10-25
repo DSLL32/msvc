@@ -35,6 +35,27 @@ void __cdecl initialize_state_12998(void)
 
 int __cdecl compile_translation_unit(void)
 {
+    int result = 1;
+
+    __try {
+        result = run_compiler();
+    } __except (compiler_exception_filter(GetExceptionInformation())) {
+        if (c1_bss.error_count > 0)
+            compiler_fatal(903);
+        else
+            compiler_error(1, "msc1.cpp", 1188);
+    }
+    return result;
+}
+
+int __cdecl run_compiler(void)
+{
     __asm { int 3 }
     return 1;
+}
+
+int __cdecl compiler_exception_filter(EXCEPTION_POINTERS *exception)
+{
+    __asm { int 3 }
+    return 0;
 }

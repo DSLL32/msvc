@@ -682,9 +682,22 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_compile_translation_unit", .entry_rva = 0x134f4,
-.code = (const ReconExtent[]){{0x134f4, 0x134f5}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x134f4, 0x1354b}, {0x30b11, 0x30b55}},
+.code_count = 2, .definition = RECON_APP,
+.implementation = RECON_IMPLEMENTED,
 .native_symbol = "compile_translation_unit",
+    },
+    {
+.name = "_run_compiler", .entry_rva = 0x1354b,
+.code = (const ReconExtent[]){{0x1354b, 0x1354c}},
+.code_count = 1, .definition = RECON_APP,
+.native_symbol = "run_compiler",
+    },
+    {
+.name = "_compiler_exception_filter", .entry_rva = 0x4387b,
+.code = (const ReconExtent[]){{0x4387b, 0x4387c}},
+.code_count = 1, .definition = RECON_APP,
+.native_symbol = "compiler_exception_filter",
     },
     {
 .name = "_next_internal_token", .entry_rva = 0x437c0,

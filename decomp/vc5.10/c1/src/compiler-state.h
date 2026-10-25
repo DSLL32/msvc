@@ -144,6 +144,8 @@ typedef struct CompilerBss {
     WORD path_fold[256];
     /* Borrowed current argument, retained for option-error diagnostics. */
     char *current_argument;
+    /* Diagnostic total, shared by guarded compilation and its reporting path. */
+    int error_count;
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
@@ -240,6 +242,8 @@ void __cdecl initialize_include_aliases(void);
 void __cdecl initialize_checksums(void);
 void __cdecl initialize_multibyte_scanner(void);
 int __cdecl compile_translation_unit(void);
+int __cdecl run_compiler(void);
+int __cdecl compiler_exception_filter(EXCEPTION_POINTERS *exception);
 #ifdef __cplusplus
 }
 #endif
