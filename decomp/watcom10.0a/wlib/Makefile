@@ -17,7 +17,7 @@ winpath = $(subst /,\,$(1))
 ORIGINAL_COMPILE = $(ORIGINAL_CC) -bt=nt -3r -od -d2 -s '-i=$(call winpath,$(RECON)/include)' '-i=$(call winpath,$(ORIGINAL_TOOLCHAIN_ROOT)/h)' '-fo=$(call winpath,$@)' '$(call winpath,$<)'
 ORIGINAL_LINK_COMMAND = $(ORIGINAL_LINK) '@build\wlib.lnk'
 RECON_POLICY = policy-data.json
-RECON_AUDIT_PREREQUISITES = harness/rebuilt-runtime.json harness/ret-runtime-original.json harness/readseek-runtime.json harness/call-identity.json $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
+RECON_AUDIT_PREREQUISITES = harness/rebuilt-runtime.json harness/ret-runtime-original.json harness/readseek-runtime.json harness/signal-runtime.json harness/call-identity.json $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
 RECON_AUDIT_PROFILE = cl
 RECON_IMAGE_BASE = 4194304
 # App-body audit. The finite original lseek record supplies the RET convention

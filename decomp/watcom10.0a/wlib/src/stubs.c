@@ -59,11 +59,6 @@ int WResReadExtraWResID( WResID *id, int handle )
 
 
 
-int WResReadFixedResRecord1( WResResInfo1 *info, int handle )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
 
 int WResReadFixedResRecord( WResResInfo *info, int handle )
 {

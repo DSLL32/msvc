@@ -450,13 +450,17 @@ static const ReconFunction functions[] = {
     {
         .name = "signal_",
         .entry_rva = 0x181ae,
-        .definition = RECON_UNKNOWN,
+        .code = (const ReconExtent[]) { {0x181ae, 0x1821f} },
+        .code_count = 1,
+        .definition = RECON_CRT,
         .original_symbol = "signal_",
     },
     {
         .name = "_setjmp_",
         .entry_rva = 0x185e8,
-        .definition = RECON_UNKNOWN,
+        .code = (const ReconExtent[]) { {0x185e8, 0x18621} },
+        .code_count = 1,
+        .definition = RECON_CRT,
         .original_symbol = "_setjmp_",
     },
     {
@@ -666,8 +670,10 @@ static const ReconFunction functions[] = {
     {
         .name = "WResReadFixedResRecord1",
         .entry_rva = 0x1b0c0,
+        .code = (const ReconExtent[]) { {0x1b0c0, 0x1b0fd} },
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "WResReadFixedResRecord1",
         .original_symbol = "WResReadFixedResRecord1_",
     },

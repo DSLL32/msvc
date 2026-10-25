@@ -1,0 +1,53 @@
+{
+  "scope": "Reached-next-call preparation for same bare? help; static CRT classification, no new observer/runtime or App credit.",
+  "target": {
+    "path": "toolchains/watcom10.0a/.patched/WLIB.EXE",
+    "sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e"
+  },
+  "signal": {
+    "entry": 4293038,
+    "end": 4293151,
+    "body_sha256": "ddac75bc5e95943530b1995b918648705e8d47e7366c75e5198b840177f1e4a4",
+    "native_formals": "ReconSignalHandler signal(int,ReconSignalHandler); original EAX number/EDX handler, returnEAX; caller ignores return.",
+    "calls": [
+      {
+        "number": 1,
+        "initial_table_va": 4327668,
+        "initial_handler_token": 2,
+        "oscode": 4294967295
+      },
+      {
+        "number": 7,
+        "initial_table_va": 4327716,
+        "initial_handler_token": 1,
+        "oscode": 3221225786
+      },
+      {
+        "number": 6,
+        "initial_table_va": 4327708,
+        "initial_handler_token": 1,
+        "oscode": 3221225786
+      },
+      {
+        "number": 4,
+        "initial_table_va": 4327692,
+        "initial_handler_token": 1,
+        "oscode": 3221225786
+      }
+    ],
+    "handler": "Same pending App HandleSignal (exactentry from binary registry) for all four; no delivered event in selected ordinary help.",
+    "effects": "Forvalid numbers: writes private raise slot420aa0=418134; uses already classified getter420974->418d7d reading thread_data43044c. Returns oldhandler and writes newhandler at thread_data+78+number*8. SIGFPE2-only FP branch not selected. No host SetConsoleCtrlHandler call in this1994 body. Unknown/raise/delivery not qualified.",
+    "initialization": "Already reviewed __SigInit418267..41828d copies all12 slots from immutable SignalTable4208ec via samegetter; selected initial tokens are DFL2 forABRT, IGN1 forBREAK/TERM/INT."
+  },
+  "setjmp": {
+    "entry": 4294120,
+    "end": 4294177,
+    "body_sha256": "77942d19e240f08dc00581cd9fb09a08c7f50e8e1e475cf849898c1860f01210",
+    "formal": "52B Env owner at430014, EAX pointer; save48B (GP,continuation,selectors,FS:0), finalDWORD untouched; returns0 normal and main testsAL. Existing reviewed native52B context/normal-return contract applies, no nonlocalreturn/unwind requested."
+  },
+  "source_and_library_witness": {
+    "path": "decomp/watcom10.0a/wlib/harness/call-identity.json",
+    "sha256": "2ebda38281d603e5f55a0abde521fec5d13529eb3f044c51ed4ae8aa861d6542",
+    "note": "Existing source/library public/module pin; upgrading classification requires own explicit complete body extents, not name-only evidence."
+  }
+}
