@@ -833,7 +833,7 @@ C2ILToken *__fastcall read_input_token(C2Function *function, C2ILToken *token)
     return result;
 }
 
-/* Only opcode38/70/79/83 classifier bytes are modeled. Padding is unavailable
+/* Only opcode38/45/70/79/83 classifier bytes are modeled. Padding is unavailable
  * backing, not a reconstruction of any other opcode's form/default. */
 enum InputTokenForm {
     INPUT_FORM_NONE, INPUT_FORM_TYPE, INPUT_FORM_SYMBOL,
@@ -846,11 +846,13 @@ enum InputTokenForm {
     INPUT_FORM_SIGNED_PAIR, INPUT_FORM_SYMBOLS_SHORT
 };
 static struct {
-    unsigned char pending00[38], variable, pending39[31], function_entry, pending71[8];
-    unsigned char pragma, pending80[3], scope_begin;
-} input_token_forms = {{0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
+    unsigned char pending00[38], variable, pending39[6], parameter, pending46[24];
+    unsigned char function_entry, pending71[8], pragma, pending80[3], scope_begin;
+} input_token_forms = {{0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_SYMBOL, {0},
+                       INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 38 ? input_token_forms.variable : \
+    (unsigned)(op) == 45 ? input_token_forms.parameter : \
     (unsigned)(op) == 70 ? input_token_forms.function_entry : \
     (unsigned)(op) == 79 ? input_token_forms.pragma : \
     (unsigned)(op) == 83 ? input_token_forms.scope_begin : \

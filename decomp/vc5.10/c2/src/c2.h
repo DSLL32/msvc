@@ -126,6 +126,7 @@ typedef struct C2SymbolScope C2SymbolScope;
 typedef struct C2Record C2Record;
 typedef struct C2BasicBlock C2BasicBlock;
 typedef struct C2FunctionRegister C2FunctionRegister;
+typedef struct C2InputUse C2InputUse;
 typedef struct C2Expression C2Expression;
 typedef struct C2FlowGraph C2FlowGraph;
 
@@ -190,7 +191,7 @@ typedef struct C2FunctionSymbol {
  * fields: local lifetime at3c, an alias target at3e, or flags/scope at3e/3f. */
 typedef struct C2InputSymbol {
     C2Symbol symbol;
-    union { C2InitRecord *initializer; C2Expression *input_operand; };
+    union { C2InitRecord *initializer; C2Expression *input_operand; C2InputUse *input_uses; };
     unsigned attributes;
     union {
         long frame_size;

@@ -63,6 +63,9 @@ typedef char C2InputHandlerSizeCheck[sizeof(C2InputHandler) == 16 ? 1 : -1];
  * inference omitted the final stack word. */
 typedef void (__fastcall *C2InputLink)(C2Record *, C2Record *);
 void __fastcall release_small_node(void *node);
+void __fastcall unlink_input_use(C2InputUse *use, C2Expression *owner);
+void __fastcall release_input_exception_context(C2Expression *tree);
+void __fastcall release_input_assembly_context(C2Expression *tree);
 C2Expression * __fastcall new_integer_expression(unsigned short type, unsigned __int64 value);
 C2Expression * __fastcall new_binary_expression(unsigned opcode, unsigned short type, C2Expression *right, C2Expression *left, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall copy_input_expression(C2Expression *expression);

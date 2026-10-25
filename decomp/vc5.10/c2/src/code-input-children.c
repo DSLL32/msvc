@@ -2,10 +2,6 @@
 #include <recon.h>
 
 /* Unreconstructed reader children stop at their own actual identities. */
-void __fastcall release_small_node(void *node)
-{
-    __asm { int 3 }
-}
 
 C2Expression * __fastcall new_integer_expression(unsigned short type, unsigned __int64 value)
 {
@@ -455,4 +451,19 @@ C2FunctionRegister *__fastcall input_symbol_register(C2InputSymbol *symbol)
 {
     __asm { int 3 }
     return 0;
+}
+
+void __fastcall unlink_input_use(C2InputUse *use, C2Expression *owner)
+{
+    __asm { int 3 }
+}
+
+void __fastcall release_input_exception_context(C2Expression *tree)
+{
+    __asm { int 3 }
+}
+
+void __fastcall release_input_assembly_context(C2Expression *tree)
+{
+    __asm { int 3 }
 }

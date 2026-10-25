@@ -16,7 +16,7 @@ struct C2Expression {
     unsigned short type;
     C2Expression *previous;
     union {
-        unsigned short line;
+        unsigned short line, attributes;
         struct { unsigned char properties, comparison; } expression;
     } location;
     unsigned char control_flags, pending13;
@@ -25,11 +25,12 @@ struct C2Expression {
         C2ExpressionReference *reference;
         C2FunctionRegister *reg;
         C2Function *function;
+        C2InputUse *use;
         void *pointer;
     } value;
-    union { C2Expression *left; unsigned immediate; };
+    union { C2Expression *left; C2InputSymbol *declaration; unsigned immediate; };
     union { C2Expression *right; C2ExpressionReference *indirect; } tail;
-    union { void *data; struct C2InputClause *clauses; } detail;
+    union { void *data; C2InputUse *use; struct C2InputClause *clauses; } detail;
     C2Expression *aggregate_value, *aggregate_second;
 };
 struct C2Record {

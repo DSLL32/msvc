@@ -7,14 +7,14 @@ Both invocations retain the original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 145 accepted application functions / 34,473 code bytes.
+The registry preserves 146 accepted application functions / 34,870 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
-1,763 bytes of contextual text data are separate. The full text extent is
+1,839 bytes of contextual text data are separate. The full text extent is
 573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `release_small_node` at original RVA 0x1139.
+  current accepted frontier is `input_symbol_operand` at original RVA 0x287ca.
   Twenty-three narrow units retain real-conversion and register-list behavior checks.
 
 The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
@@ -41,7 +41,7 @@ checks the allocated zeroed span and preserves an unrelated nonzero canary.
 
 The complete function-code dispatcher includes its hot/cold code and both switch
 families. Its pending value is a 28-byte expression-stack context; its EAX result
-is the final record pointer. Opcodes38/70/79/83 model their encountered classification bytes; opcodes38/70/79/83/86 model
+is the final record pointer. Opcodes38/45/70/79/83 model their encountered classification bytes; opcodes38/70/79/83/86 model
 only the two consumed high-byte properties. The inverse-comparison and register-opcode
 projections have no modeled rows. Native guards stop before unknown
 lookups; their reserved storage carries no default, low-bit or whole-table claim.

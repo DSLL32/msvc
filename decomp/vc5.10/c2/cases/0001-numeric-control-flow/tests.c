@@ -397,9 +397,10 @@ static int control_record_reuse(void)
     record = variable_input_expression(&symbol);
     if (record != (C2Expression *)allocation || free_small_nodes[28] ||
         memcmp(allocation, expected, sizeof(allocation))) return 0;
+    release_small_node(record);
+    if (free_small_nodes[28] != (C2SmallNode *)allocation ||
+        memcmp(allocation, expected, sizeof(allocation))) return 0;
     memset(&function, 0, sizeof(function));
-    *(C2SmallNode **)allocation = NULL;
-    free_small_nodes[28] = (C2SmallNode *)allocation;
     record_line_delta = 0x5678;
     memset(expected, 0, 28);
     *(unsigned *)(expected + 4) = 0x17a;

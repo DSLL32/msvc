@@ -743,6 +743,44 @@
             ]
           ]
         }
+      },
+      "@release_small_node@4": {
+        "original": {
+          "text_data": [
+            [
+              4199088,
+              4199136
+            ],
+            [
+              4199136,
+              4199164
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@release_small_node@4",
+                "offset": 573
+              },
+              {
+                "rebuilt_symbol": "@release_small_node@4",
+                "offset": 617
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@release_small_node@4",
+                "offset": 617
+              },
+              {
+                "rebuilt_symbol": "@release_small_node@4",
+                "offset": 641
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],
