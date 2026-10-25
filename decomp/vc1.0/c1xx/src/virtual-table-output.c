@@ -9,6 +9,18 @@
 #include "parameter-scopes.h"
 #include <recon.h>
 
+CppSymbol *__stdcall select_purecall_symbol(int model);
+
+/* Original 0x7b6e0..0x7b70d, stdcall4. Pure virtual slots use
+   the cached runtime handler while retaining this member's callable type. */
+IrToken *__stdcall pure_virtual_table_expression(CppSymbol *function)
+{
+    IrToken *value = builtin_unary_expression(0x3a,
+        symbol_reference(select_purecall_symbol(0)));
+    value->type = function_designator_type(function->type);
+    return value;
+}
+
 /* Original 0x7b5a0..0x7b6de, stdcall8. Reserve the initializer's
    symbol before testing whether this table definition has already appeared. */
 void __stdcall emit_class_virtual_table(VirtualTable *table, CppSymbol *tag)

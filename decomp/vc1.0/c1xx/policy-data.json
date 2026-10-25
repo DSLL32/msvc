@@ -417,8 +417,32 @@
     },
     {
       "kind": "bytes",
+      "name": "_browser_read_buffer",
+      "original": 609044,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_browser_filtered_file",
+      "original": 609048,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_browser_symbols_overflowed",
+      "original": 609052,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
       "name": "_purecall_symbol",
       "original": 651952,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_alternate_purecall_symbol",
+      "original": 651956,
       "bytes": 4
     },
     {

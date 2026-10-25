@@ -2,6 +2,7 @@
 #include "browser.h"
 #include "initialization.h"
 #include "cpp-context.h"
+#include "frontend.h"
 #include <direct.h>
 #include <recon.h>
 
@@ -298,6 +299,146 @@ void __stdcall serialize_browser_record(BrowserRecord *record, int track_symbols
 }
 #undef BROWSER_TRACK_INDEX
 #undef BROWSER_WRITE_SHORT
+
+char *read_browser_string(void);
+
+/* Original0x94b14/18/1c: filtering owns a separate string buffer,
+   output stream and symbol-index-rollover flag. */
+char *browser_read_buffer;
+FILE *browser_filtered_file;
+int browser_symbols_overflowed;
+
+/* Original 0x2b160..0x2b1d9, cdecl. Read a NUL-terminated name
+   into the filter's shared256-byte buffer. Retain the original extra tail
+   consumption when the terminator occupies exactly its final byte. */
+char *read_browser_string(void)
+{
+    char *cursor = browser_read_buffer;
+    do {
+        *cursor = (char)getc(browser_file);
+    } while (*cursor++);
+    if (browser_read_buffer - cursor == -256)
+        while (getc(browser_file)) ;
+    return browser_read_buffer;
+}
+
+/* Original 0x2b1e0..0x2b561, stdcall4; sixteen text dispatch
+   slots at0x2b564..0x2b5a3. Decode only each record kind's defined fields.
+   The name buffer is shared; clear only its ownership bit before forwarding. */
+unsigned char __stdcall deserialize_browser_record(BrowserRecord *record)
+{
+    record->header.kind = (unsigned char)getc(browser_file);
+    if (browser_file->_flag & 0x10) return 0xff;
+    switch (record->header.kind) {
+    case 0:
+        getc(browser_file);
+        getc(browser_file);
+        getc(browser_file);
+        getc(browser_file);
+        read_browser_string();
+        break;
+    case 1: case 15:
+        record->name = read_browser_string();
+        break;
+    case 2:
+        record->line = 0;
+        ((unsigned char *)&record->line)[0] = (unsigned char)getc(browser_file);
+        ((unsigned char *)&record->line)[1] = (unsigned char)getc(browser_file);
+        break;
+    case 3:
+        record->category = (unsigned char)getc(browser_file);
+        ((unsigned char *)&record->attributes)[0] = (unsigned char)getc(browser_file);
+        ((unsigned char *)&record->attributes)[1] = (unsigned char)getc(browser_file);
+        record->symbol_index = 0;
+        ((unsigned char *)&record->symbol_index)[0] = (unsigned char)getc(browser_file);
+        ((unsigned char *)&record->symbol_index)[1] = (unsigned char)getc(browser_file);
+        record->name = read_browser_string();
+        break;
+    case 4: case 5: case 11: case 13:
+        record->symbol_index = 0;
+        ((unsigned char *)&record->symbol_index)[0] = (unsigned char)getc(browser_file);
+        ((unsigned char *)&record->symbol_index)[1] = (unsigned char)getc(browser_file);
+        break;
+    case 12:
+        record->symbol_index = 0;
+        ((unsigned char *)&record->symbol_index)[0] = (unsigned char)getc(browser_file);
+        ((unsigned char *)&record->symbol_index)[1] = (unsigned char)getc(browser_file);
+        record->category = (unsigned char)getc(browser_file);
+        break;
+    }
+    record->header.flags &= ~2;
+    return 1;
+}
+
+/* Original 0x2bfd0..0x2bfd4. Drain pending records at an include
+   boundary or before finalizing the browser file; the original tail-jumps. */
+void browser_include_begin(void)
+{
+    flush_browser_records();
+}
+
+/* Original 0x2c050..0x2c2c4. Remove unreferenced declarations when
+   indices fit the reference bitmap; otherwise retain the complete stream. */
+void finish_browser_output(void)
+{
+    char filename[256];
+    BrowserRecord record, line_record;
+    ArenaPool *pool;
+    unsigned line;
+    if (error_count) browser_compilation_error();
+    browser_include_begin();
+    close_intermediate(browser_file);
+    format_browser_temporary_name(filename);
+    if (!browser_symbols_overflowed && !options.z_n) {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < 256) refill_arena(&compiler_arena, pool);
+        browser_read_buffer = (char *)pool->next;
+        pool->remaining -= 256;
+        pool->next += 256;
+        browser_filtered_file = fopen(options.option_Fr, "w+");
+        if (!browser_filtered_file)
+            report_fatal(83, message_text(340), options.option_Fr);
+        setvbuf(browser_filtered_file, 0, 0, 4096);
+        browser_last_line = (unsigned)-1;
+        rewind(browser_file);
+        auxiliary_ir_stream = browser_filtered_file;
+        /* The frozen stream begins with header, line0 and builtin names;
+           line0 becomes1 before the first location comparison. The original
+           earlier unwritten-local load is discarded on that defined path. */
+        while (deserialize_browser_record(&record) != 0xff) {
+            switch (record.header.kind) {
+            case 0:
+                break;
+            case 2:
+                line = record.line;
+                if (!line) line = 1;
+                continue;
+            case 3:
+                if (!(browser_symbol_references[record.symbol_index >> 3] &
+                    browser_symbol_bit_masks[record.symbol_index & 7])) continue;
+                /* Retained declarations share the normal line transition. */
+            default:
+                if (line != browser_last_line) {
+                    line_record = browser_record_template;
+                    browser_file_cookie = 0;
+                    browser_last_reference = 0;
+                    browser_last_line = line;
+                    line_record.line = line;
+                    line_record.header.kind = 2;
+                    serialize_browser_record(&line_record, 0);
+                }
+                break;
+            }
+            serialize_browser_record(&record, 0);
+        }
+        if (fclose(browser_file) || fclose(browser_filtered_file) || _unlink(filename))
+            report_fatal(83, message_text(340), options.option_Fr);
+    } else {
+        _unlink(options.option_Fr);
+        if (fclose(browser_file) || rename(filename, options.option_Fr))
+            report_fatal(83, message_text(340), options.option_Fr);
+    }
+}
 
 /* Original 0x69aa0..0x69af7. Reserve a complete 256-byte path in
    compiler pool 2, retaining _getcwd's return on ordinary builds. */

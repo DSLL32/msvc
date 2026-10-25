@@ -14,6 +14,8 @@ CType *__stdcall runtime_callback_type(unsigned short pointer_attributes, unsign
 void __stdcall declare_vector_helper(char *name, unsigned runtime_kind);
 CppSymbol *__stdcall runtime_function_symbol(int index);
 CppSymbol *purecall_symbol; /* original 0x9f2b0 */
+/* Original0x9f2b4 is a separate zero-initialized pointer; no writer was found. */
+CppSymbol *alternate_purecall_symbol;
 
 /* Original 0x38e80..0x38edd, stdcall 20. Vector helper arguments are
    the unqualified object pointer, element width, count and callback. */
@@ -114,6 +116,14 @@ RuntimeFunctionSpec runtime_function_specs[] = {
     { "_purecall", 0x11, 0 }
 };
 typedef char RuntimeFunctionSpecSizeMustBe12[(sizeof(RuntimeFunctionSpec) == 12) ? 1 : -1];
+
+/* Original 0x38c70..0x38c87, stdcall4. Keep the selector and
+   both original pointer objects, including its separate alternate-model slot. */
+CppSymbol *__stdcall select_purecall_symbol(int model)
+{
+    if (!model) return purecall_symbol;
+    return alternate_purecall_symbol;
+}
 
 /* Original 0x38c10..0x38c64. */
 CppSymbol *__stdcall runtime_function_symbol(int index)

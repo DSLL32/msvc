@@ -854,6 +854,13 @@
     "library": "LIBC.LIB"
   },
   {
+    "name": "__filbuf",
+    "start": 533664,
+    "end": 533879,
+    "object": "stdio\\obj\\i386\\_FILBUF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
     "name": "__fsopen",
     "start": 534080,
     "end": 534128,

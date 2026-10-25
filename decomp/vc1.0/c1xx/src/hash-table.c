@@ -183,6 +183,13 @@ EqualKeys equality_functions[] = {
     0
 };
 
+/* Original 0x544f0..0x54505, cdecl equality callback. These
+   declaration keys retain their own entry identity beside equal_symbol_indices. */
+int __cdecl equal_declaration_indices(void *left, void *right)
+{
+    return ((CppSymbol *)left)->index == ((CppSymbol *)right)->index;
+}
+
 /* Original 0x4edd0..0x4ee17. Select equality once, before walking this
    bucket. The callback receives the search key before the stored key. */
 HashEntry *__stdcall find_hash_entry(HashTable *table, void *key, unsigned bucket)

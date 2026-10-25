@@ -352,6 +352,19 @@ int __stdcall emit_copy_direct_base_initializer(CppSymbol *member, void *context
     return 1;
 }
 
+/* Original 0x357d0..0x35825, stdcall8 callback. Initialize
+   each eligible field from the corresponding member of the copy source. */
+int __stdcall emit_copy_field_initializer(CppSymbol *member, void *context)
+{
+    int *count;
+    if (!is_initializer_data_member(member)) return 1;
+    count = context;
+    format_work_text(compiler_stack, "%Fs%Fs(%Fs.%Fs)",
+        *count ? "," : ":", member->name, name_that, member->name);
+    ++*count;
+    return 1;
+}
+
 /* Original 0x355f0..0x35715, stdcall12. Synthesize the copy
    constructor declaration and base/member initializer list into deferred text. */
 void __stdcall emit_generated_copy_constructor(CppSymbol *symbol, int context,

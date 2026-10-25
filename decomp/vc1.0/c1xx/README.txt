@@ -1,23 +1,28 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; member_registry_browser completion is active.
-Current verified boundary: 1382 historical frontiers / 1276 application source
-functions plus seven unchanged historical CRT source functions. The current
-case stops at emit_copy_field_initializer RVA0x257d0 after125 first entries beyond its seed.
-Eighty further whole bodies are accepted since the five-function trial, including
-the5326-byte pragma dispatcher and its35-entry text switch. Discovered pragma
-helpers remain typed, named unimplemented stubs with entry-only extents.
+PARTIAL reconstruction; member_registry_browser is COMPLETE. Reconstruction is
+paused at this case boundary, as requested. There are 1284 application source
+functions plus seven unchanged historical CRT source functions. This completion
+accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
+bytes) after the five-function trial. The newly identified 215-byte filbuf library
+boundary has zero application/source credit. Historical frontier bookkeeping is
+1391: the 1302 trial baseline plus 88 application steps and that one CRT boundary.
 
-Fresh shared original/native pairs match actual entry order, owning INT3 frontier,
-streams and applicable partial-file assertions. Original builds, inherited
-function-graph/ABI checks, eight cached cases and15 unit groups pass.
-The final six-artifact oracle is unchanged; the partial case has not completed.
-No other binary or reconstruction case is being advanced.
-The70-function claim in commit ab264219f preceded its failed native result.
-The corrected eight-bit symbol flag mask then passed the unchanged original
-reference, fresh native run, original build, audit and eight cached cases;
-only that corrected result established that70-function boundary.
+The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
+original/native order, status, streams and all six complete artifacts match the
+unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
+No byte normalization was added. Original compilation, inherited graph/ABI audits
+(1292 mapped functions), all eight cached cases and 15 unit groups pass.
+Application function extents cover 314,542/476,418 .text bytes (66.02%); this is
+extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
+
+Final measured wall times: combined native/original build 2.764s, original capture
+2.056s, audit/case setup 1.850s, native case 31.313ms (setup 14.184, execution 13.263,
+checks 3.865), all eight cached cases plus unit groups 0.273s. No new case is queued.
+Commit ab264219f prematurely claimed the 70-function boundary before its failed
+native result. Fix-forward f27aab15a corrected the symbol flag byte and passed the
+unchanged original, fresh native, build, audit and cached checks before acceptance.
 
 Macro-frame analysis corrected the whitespace writer to macro_work_midpoint
 (original0x956dc), separate from macro_expansion_start0x95780; prior captures did
@@ -54,13 +59,13 @@ wrapper is retained.
 
 Cases and provenance
 --------------------
-Six complete frontend cases: cpp_basic, virtual_diamond, copy_assignment,
-stack_lifetime, new_delete, state_machine_defined_debug. Each checks exact
-streams, status and complete frontend artifacts against the cached original.
+Seven complete frontend cases: cpp_basic, virtual_diamond, copy_assignment,
+stack_lifetime, new_delete, state_machine_defined_debug, member_registry_browser.
+Each checks exact streams, status and complete frontend artifacts against the cached original.
 state_machine_debug remains a partial case at flush_current_function: its valid
 input encounters the unsupported native empty-closed-scope stale-local path.
-member_registry_browser is the separate partial checkpoint described above;
-capture.bin stores both final six-artifact oracle and partial file/presence assertions.
+member_registry_browser is the completed case described above; capture.bin retains
+the original six-artifact byte oracle and has no obsolete partial assertions.
 Its exact visible cwd S:\vc1.0\c1xx\member-registry-browser-driver is real input,
 not normalization. Inputs include registry.cpp and registry.h unchanged.
 
@@ -104,7 +109,7 @@ reachability claim is implied. The wide string-name branch remains unvalidated.
 
 Seven old runtime.c bodies are retained unchanged by user direction, support-only
 credit: setvbuf, sopen, freebuf, fseek, ftell, tzset, isindst. Their necessity for
-current cached paths was not established; no additional CRT bodies are authorized.
+the earlier six cached paths was not established; no additional CRT bodies are authorized.
 The older decimal parser uses the approved compatible shipped-library binding,
 not a new body or application credit. runtime-compatible.json binds unchanged
 original/library/member identities, established ABI/callees and bounded conversion
@@ -114,3 +119,12 @@ Virtual-method-pointer construction preserves the original ignored failed
 virtual-base query in Win32. Native builds trap only on that false-query branch
 before its unwritten entryESP-4 output is consumed; a narrow real-query
 success/failure and trap test passes. Public reachability remains unknown.
+
+The newly reached __filbuf CRT boundary (original824a0..82577) uses a qualified
+shipped-library binding, with zero application/source credit. Both bodies have
+the same getbuf/read graph and FILE ABI. The shipped variant additionally tests
+flag 0x400 before restoring a 512-byte owned buffer to 4096. Compatibility requires
+flag 0x400 clear, buffer size other than 512, or ownership flag 8 clear. This case's
+fresh binary update browser stream uses 4096-byte buffering and rewind retains
+that size. Newly reached incompatible state must hold; no general variant
+equivalence is claimed. The prior decimal-parser binding remains unchanged.

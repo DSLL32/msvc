@@ -72,7 +72,6 @@ unsigned __stdcall source_file_timestamp(char *filename) { __asm { int 3 } retur
 void __stdcall record_pch_open_include(char *filename) { __asm { int 3 } }
 void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { __asm { int 3 } }
 void generate_inline_queries(void) { __asm { int 3 } }
-void finish_browser_output(void) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
 void initialize_inline_queries(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
@@ -85,7 +84,6 @@ int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { 
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 void report_ide_source(void) { __asm { int 3 } }
-void browser_include_begin(void) { __asm { int 3 } }
 int release_input_handle(void) { __asm { int 3 } return 0; }
 char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
@@ -239,7 +237,6 @@ void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *me
 
 void __stdcall emit_generated_default_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 void __stdcall emit_copy_base_initializer(CppSymbol *tag, int *count) { __asm { int 3 } }
-int __stdcall emit_copy_field_initializer(CppSymbol *member, void *context) { __asm { int 3 } return 0; }
 void __stdcall emit_generated_assignment(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 
 
@@ -436,7 +433,6 @@ unsigned __cdecl hash_resolved_declaration(void *key) { __asm { int 3 } return 0
 unsigned __cdecl hash_word_triplet(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_word_pair(void *key) { __asm { int 3 } return 0; }
 
-int __cdecl equal_declaration_indices(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
@@ -461,7 +457,6 @@ void __stdcall finish_pascal_literal(ParserValue *literal) { __asm { int 3 } }
 
 
 
-IrToken *__stdcall pure_virtual_table_expression(CppSymbol *function) { __asm { int 3 } return 0; }
 
 
 
@@ -564,3 +559,5 @@ void __stdcall pop_pragma_packing(int alignment, char *label) { __asm { int 3 } 
 
 char *__stdcall diagnostic_format(unsigned code) { __asm { int 3 } return 0; }
 void emit_diagnostic(unsigned category, unsigned code, char *format, va_list arguments) { __asm { int 3 } }
+
+void browser_compilation_error(void) { __asm { int 3 } }

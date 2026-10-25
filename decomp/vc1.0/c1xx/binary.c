@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1382 historical frontiers/1276 App bodies.
+ * Current reviewed boundary:1391 historical frontiers/1284 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -1755,6 +1755,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_include_begin",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_begin_browser_output",
@@ -1766,12 +1767,41 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_read_browser_string",
+        .entry_rva = 0x1b160,
+        .code = (const ReconExtent[]) { { 0x1b160, 0x1b1da } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "read_browser_string",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_deserialize_browser_record@4",
+        .entry_rva = 0x1b1e0,
+        .code = (const ReconExtent[]) { { 0x1b1e0, 0x1b562 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "deserialize_browser_record",
+        .text_data = (const ReconExtent[]) { { 0x1b564, 0x1b5a4 } },
+        .text_data_count = 1,
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_finish_browser_output",
         .entry_rva = 0x1c050,
-        .code = (const ReconExtent[]) { { 0x1c050, 0x1c051 } },
+        .code = (const ReconExtent[]) { { 0x1c050, 0x1c2c5 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "finish_browser_output",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_browser_compilation_error",
+        .entry_rva = 0x1c370,
+        .code = (const ReconExtent[]) { { 0x1c370, 0x1c371 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "browser_compilation_error",
     },
     {
         .name = "_browser_end_tag",
@@ -3394,10 +3424,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_copy_field_initializer@8",
         .entry_rva = 0x257d0,
-        .code = (const ReconExtent[]) { { 0x257d0, 0x257d1 } },
+        .code = (const ReconExtent[]) { { 0x257d0, 0x25826 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_copy_field_initializer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_visit_class_members@12",
@@ -4107,6 +4138,15 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "runtime_function_symbol",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_select_purecall_symbol@4",
+        .entry_rva = 0x28c70,
+        .code = (const ReconExtent[]) { { 0x28c70, 0x28c88 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "select_purecall_symbol",
         .implementation = RECON_IMPLEMENTED,
     },
     {
@@ -8630,10 +8670,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_equal_declaration_indices",
         .entry_rva = 0x444f0,
-        .code = (const ReconExtent[]) { { 0x444f0, 0x444f1 } },
+        .code = (const ReconExtent[]) { { 0x444f0, 0x44506 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "equal_declaration_indices",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_defer_nested_tag@8",
@@ -13608,10 +13649,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_pure_virtual_table_expression@4",
         .entry_rva = 0x6b6e0,
-        .code = (const ReconExtent[]) { { 0x6b6e0, 0x6b6e1 } },
+        .code = (const ReconExtent[]) { { 0x6b6e0, 0x6b70e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "pure_virtual_table_expression",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_class_table_initializers@8",
@@ -14168,6 +14210,14 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]) { { 0x723a0, 0x724a0 } },
         .code_count = 1,
         .definition = RECON_CRT,
+    },
+    {
+        .name = "__filbuf",
+        .entry_rva = 0x724a0,
+        .code = (const ReconExtent[]) { { 0x724a0, 0x72577 } },
+        .code_count = 1,
+        .definition = RECON_CRT,
+        .native_symbol = "recon_filbuf",
     },
     {
         .name = "_setvbuf",
