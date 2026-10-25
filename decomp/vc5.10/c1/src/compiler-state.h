@@ -69,6 +69,7 @@ typedef struct CompilerOutputBuffer {
 #ifdef __cplusplus
     int RECON_THISCALL Close(void);
     int RECON_THISCALL Grow(int);
+    void RECON_THISCALL Flush(void);
     int RECON_THISCALL Open(const char *, const char *, const char *);
 #endif
 } CompilerOutputBuffer;
@@ -196,6 +197,7 @@ typedef struct CompilerBss {
     FILE *preprocessor_output;                      /* RVA54dbc */
     /* Six output-token prefixes used by the non-IL path. */
     BYTE output_kinds[6];
+    int expression_seek_status; /* RVA57e38, actual fseek result; BSS */
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

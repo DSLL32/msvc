@@ -263,7 +263,6 @@ extern "C" void __cdecl format_processor_switch(char *buffer, const char *format
 extern "C" int __cdecl prepare_pch_input(const char *filename) { __asm { int 3 } return 0; }
 extern "C" void __cdecl read_initial_input(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_line_tables(void) { }
-extern "C" void __cdecl open_expression_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_type_table(void) { __asm { int 3 } }
 extern "C" CompilerType *__cdecl intern_type(CompilerType *description) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_global_scope(void) { __asm { int 3 } }

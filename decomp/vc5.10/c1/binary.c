@@ -4,6 +4,13 @@
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    { .name = "_prepare_pch_expression_input", .entry_rva = 0x19463,
+      .code = (const ReconExtent[]){{0x19463, 0x19464}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "prepare_pch_expression_input" },
+    { .name = "CompilerOutputBuffer::Flush", .entry_rva = 0xfe60,
+      .code = (const ReconExtent[]){{0xfe60, 0xfe61}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN20CompilerOutputBuffer5FlushEv",
+      .original_symbol = "?Flush@CompilerOutputBuffer@@QAEXXZ" },
     { .name = "_intern_identifier", .entry_rva = 0x146a4,
       .code = (const ReconExtent[]){{0x146a4, 0x147fb}, {0x310da, 0x31103}},
       .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "intern_identifier" },
@@ -1062,8 +1069,8 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_open_expression_output", .entry_rva = 0x14914,
-.code = (const ReconExtent[]){{0x14914, 0x14915}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x14914, 0x149f6}, {0x31116, 0x3119e}},
+.code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
 .native_symbol = "open_expression_output",
     },
     {
