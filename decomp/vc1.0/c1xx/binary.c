@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1550 historical frontiers/1443 App bodies.
+ * Current reviewed boundary:1551 historical frontiers/1444 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -7,12 +7,61 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_mark_pch_vector@8",
+        .entry_rva = 0x5a540,
+        .code = (const ReconExtent[]) { { 0x5a540, 0x5a594 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_vector",
+    },
+    {
+        .name = "_mark_pch_inline_vector@8",
+        .entry_rva = 0x5a5a0,
+        .code = (const ReconExtent[]) { { 0x5a5a0, 0x5a5db } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_inline_vector",
+    },
+    {
+        .name = "_mark_pch_hash_table@12",
+        .entry_rva = 0x5a5e0,
+        .code = (const ReconExtent[]) { { 0x5a5e0, 0x5a636 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_hash_table",
+    },
+    {
+        .name = "_mark_pch_virtual_table@4",
+        .entry_rva = 0x6c250,
+        .code = (const ReconExtent[]) { { 0x6c250, 0x6c2f3 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_virtual_table",
+    },
+    {
+        .name = "_mark_pch_virtual_group@4",
+        .entry_rva = 0x6c320,
+        .code = (const ReconExtent[]) { { 0x6c320, 0x6c368 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_virtual_group",
+    },
+    {
+        .name = "_mark_pch_member_index@4",
+        .entry_rva = 0x5a110,
+        .code = (const ReconExtent[]) { { 0x5a110, 0x5a184 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_member_index",
+    },
+    {
         .name = "_mark_pch_tag@4",
         .entry_rva = 0x59ed0,
         .code = (const ReconExtent[]) { { 0x59ed0, 0x59fba } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_tag",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_pointer@4",

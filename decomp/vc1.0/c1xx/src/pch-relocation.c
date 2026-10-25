@@ -373,3 +373,44 @@ void __stdcall mark_pch_symbol_chain(CppSymbol *symbol)
         symbol = symbol->next;
     }
 }
+
+typedef void (__stdcall *PchVisit)(void *item);
+typedef struct PchMemberIndex {
+    ClassMemberBucket *buckets;
+    unsigned mask;
+} PchMemberIndex;
+void __stdcall mark_pch_vector(Vector *vector, PchVisit visit);
+void __stdcall mark_pch_inline_vector(InlineVector *vector, PchVisit visit);
+void __stdcall mark_pch_hash_table(HashTable *table, PchVisit key, PchVisit value);
+void __stdcall mark_pch_virtual_table(VirtualTable *table);
+void __stdcall mark_pch_virtual_group(VirtualTableGroup *group);
+void __stdcall mark_pch_member_index(PchMemberIndex *index);
+
+/* Original0x69ed0..0x69fba. Class information owns its table/conversion
+   containers; enum tags instead own a generic enumerator hash table. */
+void __stdcall mark_pch_tag(CppSymbol *tag)
+{
+    ClassInfo *info;
+    mark_pch_pointer((void **)&tag->detail.class_info);
+    info = tag->detail.class_info;
+    mark_pch_pointer((void **)&info->virtual_tables);
+    mark_pch_pointer((void **)&info->virtual_base_tables);
+    mark_pch_pointer((void **)&info->virtual_table_groups);
+    mark_pch_pointer((void **)&info->virtual_dispatch_pointer);
+    mark_pch_pointer((void **)&info->conversion_types);
+    mark_pch_pointer((void **)&info->ambiguous_conversion_types);
+    mark_pch_vector(info->virtual_tables, (PchVisit)mark_pch_virtual_table);
+    mark_pch_vector(info->virtual_base_tables, (PchVisit)mark_pch_virtual_table);
+    mark_pch_vector(info->virtual_table_groups, (PchVisit)mark_pch_virtual_group);
+    mark_pch_inline_vector(info->conversion_types, 0);
+    mark_pch_inline_vector(info->ambiguous_conversion_types, 0);
+    if (!(tag->type->flags & 0x200)) {
+        mark_pch_pointer((void **)&tag->auxiliary.scope_members);
+        mark_pch_symbol_chain(tag->auxiliary.scope_members);
+        mark_pch_member_index((PchMemberIndex *)&info->member_index);
+        mark_pch_pointer((void **)&info->member_index);
+    } else {
+        mark_pch_hash_table(tag->auxiliary.enumerators, 0, 0);
+        mark_pch_pointer((void **)&tag->auxiliary.enumerators);
+    }
+}
