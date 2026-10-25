@@ -73,7 +73,7 @@ C2DebugLink *__fastcall prepare_function_records(C2Function *function)
             }
             break;
         case 22:
-            queue_symbol_debug(record->reference->symbol);
+            queue_symbol_debug(record->owner.reference->symbol);
             break;
         case 25:
             declaration = record->value.declaration;

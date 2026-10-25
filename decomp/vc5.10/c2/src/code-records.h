@@ -24,7 +24,7 @@ struct C2Record {
     unsigned char kind, pending09[3];
     C2Record *previous;
     unsigned short line, pending12;
-    C2SymbolReference *reference;
+    union { C2SymbolReference *reference; C2BasicBlock *block; } owner;
     union { C2Expression *arguments; C2InputSymbol *declaration; } value;
     C2Expression *results;
 };
@@ -34,7 +34,7 @@ typedef char C2ExpressionIndirectCheck[offsetof(C2Expression, indirect) == 28 ? 
 typedef char C2RecordKindCheck[offsetof(C2Record, kind) == 8 ? 1 : -1];
 typedef char C2RecordPreviousCheck[offsetof(C2Record, previous) == 12 ? 1 : -1];
 typedef char C2RecordLineCheck[offsetof(C2Record, line) == 16 ? 1 : -1];
-typedef char C2RecordReferenceCheck[offsetof(C2Record, reference) == 20 ? 1 : -1];
+typedef char C2RecordReferenceCheck[offsetof(C2Record, owner) == 20 ? 1 : -1];
 typedef char C2RecordValueCheck[offsetof(C2Record, value) == 24 ? 1 : -1];
 typedef char C2RecordResultsCheck[offsetof(C2Record, results) == 28 ? 1 : -1];
 extern C2DebugLink *pending_debug_symbols;

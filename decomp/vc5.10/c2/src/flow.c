@@ -31,3 +31,18 @@ void __fastcall create_function_flow(C2Function *function, C2Record *first,
     function->flow = new_flow(pool);
     create_function_block(function, NULL, first, last);
 }
+
+C2BasicBlock *__fastcall create_function_block(C2Function *function,
+    C2BasicBlock *after, C2Record *first, C2Record *last)
+{
+    C2BasicBlock *block = insert_flow_block(function->flow, after);
+    block->last_record = last;
+    block->records = first;
+    block->number84 = 0xffff;
+    block->number86 = 0xffff;
+    block->number88 = 0xffff;
+    first->owner.block = block;
+    if (block->next)
+        block->next->last_record = first;
+    return block;
+}
