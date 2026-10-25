@@ -8,3 +8,14 @@
 void LnkMemFini( void )
 {
 }
+
+void *ChkLAlloc( unsigned size )
+{
+    void *ptr;
+
+    ptr = LAlloc( size );
+    if( ptr == 0 ) {
+        LnkMsg( 0x3409, 0 );
+    }
+    return ptr;
+}

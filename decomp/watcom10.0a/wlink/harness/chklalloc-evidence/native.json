@@ -1,0 +1,42 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-oVfWVZ",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      148192,
+      93500,
+      148424,
+      148908,
+      209664,
+      149584,
+      215224,
+      223360,
+      215304,
+      151696,
+      151116,
+      151756,
+      215240,
+      223408,
+      209700,
+      209668
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 209668,
+    "trap_site": 4153974696,
+    "elapsed_ms": 13.653022,
+    "setup_ms": 8.487623000000001,
+    "execution_ms": 1.27127,
+    "checks_ms": 3.893871,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlink-chklalloc/original.json",
+      "report_sha256": "1e274aed82d657668f265b4af6bbe4ec9709d99edbd0762be75dd3c120a2aec8",
+      "capture_sha256": "0f967ba42b56351247da6435960815eba4418c6e0a6a5de59caedae89a8aa6b7",
+      "source_binding_available": true
+    }
+  }
+]
