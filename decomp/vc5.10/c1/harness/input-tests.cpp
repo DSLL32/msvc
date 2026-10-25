@@ -2,6 +2,7 @@
 #include <new.h>
 #include "keywords.h"
 #include "frontend.h"
+#include "global-record.h"
 #include <recon.h>
 
 extern "C" int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
@@ -232,6 +233,69 @@ extern "C" int c1_test_returning_interner(void)
         c1_bss.arenas[0].cursor == names + 8 && !strcmp(first->name, "aa") &&
         !strcmp(second->name, "b]") && names[3] == 0xa5 && names[7] == 0xa5 &&
         records[0] == 0xa5a5a5a5 && records[9] == 0xa5a5a5a5;
+}
+
+extern "C" CompilerNameEntry *__cdecl intern_name_span(const char *, unsigned, unsigned, int *);
+extern "C" int c1_test_name_span_interner(void)
+{
+    CompilerNameEntry *buckets[2048] = { 0 };
+    DWORD records[10];
+    BYTE names[16];
+    CompilerNameEntry *first, *second;
+    int created = 37;
+    unsigned i;
+    for (i = 0; i != 10; ++i) records[i] = 0xa5a5a5a5;
+    memset(names, 0x96, sizeof(names));
+    c1_data.name_buckets = buckets;
+    c1_bss.pools[4].cursor = (BYTE *)(records + 1);
+    c1_bss.pools[4].remaining = 32;
+    c1_bss.arenas[0].cursor = names;
+    c1_bss.arenas[0].committed_limit = names + sizeof(names);
+    first = intern_name_span("aa-tail", 0x1eb, 2, &created);
+    if (created != 1 || strcmp(first->name, "aa")) return 0;
+    second = intern_name_span("b]-tail", 0x1eb, 2, &created);
+    if (created != 1 || second->next != first || buckets[491] != second ||
+        first->flags != 0xa5a501eb || second->flags != 0xa5a501eb ||
+        records[4] != 0xa5a5a5a5 || records[8] != 0xa5a5a5a5) return 0;
+    if (intern_name_span("aa-more", 0x1eb, 2, &created) != first || created != 0)
+        return 0;
+    return c1_data.current_identifier == first && first->next == second &&
+        !second->next && buckets[491] == first &&
+        c1_bss.pools[4].remaining == 0 &&
+        c1_bss.pools[4].cursor == (BYTE *)(records + 9) &&
+        c1_bss.arenas[0].cursor == names + 8 && names[3] == 0x96 && names[7] == 0x96 &&
+        records[0] == 0xa5a5a5a5 && records[9] == 0xa5a5a5a5;
+}
+
+extern "C" int c1_test_source_file_write_extent(void)
+{
+    CompilerTranslationUnit object;
+    CompilerSourceFile predecessor;
+    CompilerNameEntry *buckets[2048] = { 0 };
+    DWORD record[4];
+    DWORD bytes[16];
+    unsigned i;
+    memset(&object, 0x96, sizeof(object));
+    memset(&predecessor, 0x87, sizeof(predecessor));
+    memset(record, 0xa5, sizeof(record));
+    memset(bytes, 0x78, sizeof(bytes));
+    object.source_files = &predecessor;
+    c1_data.name_buckets = buckets;
+    c1_bss.pools[4].cursor = (BYTE *)record;
+    c1_bss.pools[4].remaining = sizeof(record);
+    c1_bss.arenas[0].cursor = (BYTE *)bytes;
+    c1_bss.arenas[0].committed_limit = (BYTE *)(bytes + 16);
+    CompilerSourceFile *file = object.FindSourceFile("aa", 0x1eb);
+    if ((void *)file != bytes + 1 || file->name != (void *)record || file->kind != 21 ||
+        file->record_id != 0x78787878 || file->next != &predecessor ||
+        object.source_files != file || c1_bss.arenas[0].cursor != (BYTE *)(bytes + 6))
+        return 0;
+    for (i = 5; i < 12; ++i)
+        if (((BYTE *)file)[i] != 0x78) return 0;
+    for (i = 6; i < 16; ++i)
+        if (bytes[i] != 0x78787878) return 0;
+    return predecessor.record_id == 0x87878787 &&
+        (unsigned)object.symbols == 0x96969696 && (unsigned)object.root == 0x96969696;
 }
 
 extern "C" int c1_test_translation_unit(void)

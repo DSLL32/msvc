@@ -526,7 +526,11 @@ static int global_header_record(void)
         if ((i < 4 || i >= 16) && bytes[i] != 0xa5) return 0;
     return 1;
 }
-const ReconTest minimal_tests[36] = {
+extern int c1_test_name_span_interner(void);
+extern int c1_test_source_file_write_extent(void);
+const ReconTest minimal_tests[38] = {
+    { "source-file allocation preserves unwritten ID, gaps and owned neighbors", 1, c1_test_source_file_write_extent },
+    { "name span interning honors supplied length, collision order and creation result", 1, c1_test_name_span_interner },
     { "global header emits twelve defined bytes and retains owned neighbors", 1, global_header_record },
     { "macro definition owns descriptor and length-defined writes only", 1, c1_test_macro_definition_extent },
     { "macro reset preserves work-buffer identities and all owned bytes", 1, macro_buffer_reset },

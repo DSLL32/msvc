@@ -286,9 +286,6 @@ CompilerSourceFile *RECON_THISCALL CompilerTranslationUnit::FindSourceFile(
     source_files = file;
     return file;
 }
-extern "C" CompilerNameEntry *__cdecl intern_name_span(const char *name, unsigned hash,
-                                                        unsigned length, int *created)
-{ __asm { int 3 } return NULL; }
 extern "C" void __cdecl select_pch_input(void *cursor) { __asm { int 3 } }
 extern "C" int __cdecl open_source_descriptor(const char *name) { __asm { int 3 } return -1; }
 extern "C" void __cdecl push_source_context(CompilerSourceFile *file, int kind, int descriptor, int flags)

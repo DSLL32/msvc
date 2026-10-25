@@ -1731,8 +1731,8 @@ static const ReconFunction functions[] = {
       .definition = RECON_APP, .native_symbol = "_ZN23CompilerTranslationUnit16LookupSourceFileEP17CompilerNameEntry",
       .original_symbol = "?LookupSourceFile@CompilerTranslationUnit@@QAEPAUCompilerSourceFile@@PAUCompilerNameEntry@@@Z" },
     { .name = "_intern_name_span", .entry_rva = 0x28b5,
-      .code = (const ReconExtent[]){{0x28b5, 0x28b6}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "intern_name_span" },
+      .code = (const ReconExtent[]){{0x28b5, 0x29f9}}, .code_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "intern_name_span" },
 };
 
 static const ReconExport exports[] = {
