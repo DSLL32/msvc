@@ -93,3 +93,41 @@ void convert_old_procedure(TypeRecord *entry)
     *(unsigned short *)(record+8) = count;
     *(unsigned short *)(record+10) = arguments;
 }
+
+/* C6 numeric leaves return an unsigned value and their complete byte count. */
+unsigned long read_old_numeric(unsigned char **cursor, unsigned short *size)
+{
+    unsigned char *value = *cursor;
+    unsigned char kind = *value++;
+    unsigned short length;
+    unsigned long result;
+    if (kind < 0x80) {
+        result = kind;
+        length = 1;
+    } else {
+        switch (kind) {
+        case 0x88:
+            result = *value++;
+            length = 2;
+            break;
+        case 0x85: case 0x89:
+            result = *(unsigned short *)value;
+            value += 2;
+            length = 3;
+            break;
+        case 0x86: case 0x8a:
+            result = *(unsigned long *)value;
+            value += 4;
+            length = 5;
+            break;
+        default:
+            fatal_error(18, module_name(current_module), NULL);
+            result = 0;
+            length = 0;
+            break;
+        }
+    }
+    *cursor = value;
+    if (size) *size = length;
+    return result;
+}
