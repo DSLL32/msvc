@@ -5,7 +5,6 @@
 #include <recon.h>
 
 void Fatal(unsigned message, ...) { (void)message; WASM_PENDING(); }
-void newBlk(cv_t *cv) { (void)cv; WASM_PENDING(); }
 void GenMSOmfInit(void) { WASM_PENDING(); }
 void do_init_stuff(int argc, char **argv)
 {

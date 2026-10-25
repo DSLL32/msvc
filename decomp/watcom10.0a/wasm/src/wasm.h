@@ -26,7 +26,10 @@ typedef struct File_Info {
 
 extern File_Info AsmFiles;
 extern global_options Options;
-typedef struct carve_block carve_block;
+typedef struct carve_block {
+    struct carve_block *next;
+    char data[1];
+} carve_block;
 typedef struct carve_control {
     size_t elm_size, blk_size, blk_top;
     char *top_elm;

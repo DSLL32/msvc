@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 6,
-  "accepted_app_bytes": 230,
+  "accepted_app_functions": 7,
+  "accepted_app_bytes": 269,
   "accepted": [
     {
       "name": "main",
@@ -51,9 +51,18 @@
         90629
       ],
       "evidence": "cases/0001-help/evidence/0006-asmalloc"
+    },
+    {
+      "name": "newBlk",
+      "extent": [
+        109184,
+        109223
+      ],
+      "evidence": "cases/0001-help/evidence/0007-new-block"
     }
   ],
-  "current_frontier": "newBlk",
-  "native_ms": 5.225,
-  "original_ms": 1527.051
+  "current_frontier": "GenMSOmfInit",
+  "native_ms": 5.246673,
+  "original_ms": 1527.051,
+  "last_audit_ms": 13.999853283166885
 }

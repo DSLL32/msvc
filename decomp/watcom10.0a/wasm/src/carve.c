@@ -30,6 +30,7 @@
 
 /* Adapted from bld/womp/c/carve.c, initial Open Watcom commit
  * 6b9cb4438959d845a2b4dd4bf19f7908ecd608e9. CF 1aaa8..1aadd. */
+#include <stddef.h>
 #include "wasm.h"
 #include <recon.h>
 
@@ -44,4 +45,14 @@ carve_t CarveCreate(size_t elm_size, size_t blk_size)
     cv->free_list = NULL;
     newBlk(cv);
     return cv;
+}
+
+/* CF1aa80..1aaa7: exact block header is four bytes, without tail padding. */
+void newBlk(cv_t *cv)
+{
+    carve_block *newblk;
+    newblk = MemAlloc(offsetof(carve_block, data) + cv->blk_top);
+    newblk->next = cv->blk_list;
+    cv->blk_list = newblk;
+    cv->top_elm = newblk->data + cv->blk_top;
 }
