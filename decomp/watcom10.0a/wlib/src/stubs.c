@@ -42,7 +42,7 @@ void __FreeTypeList( WResDir dir )
     WLIB_FRONTIER();
 }
 
-int WResIsWResFile( int handle )
+int ResReadUint32( unsigned long *value, int handle )
 {
     WLIB_FRONTIER();
     return( 0 );

@@ -125,6 +125,30 @@ int WResReadDir( int handle, WResDir dir, int *dup_discarded )
     return( error );
 }
 
+/* Original 0x41ba00..0x41ba85. Initial wriswrf.c algorithm, before
+   the later multiformat WResFindResType entry was introduced. */
+int WResIsWResFile( int handle )
+{
+    long savepos;
+    unsigned long magic[2];
+    int error;
+
+    savepos = (*WResRtns.seek)( handle, 0L, SEEK_SET );
+    if( savepos == -1L ) {
+        WresRecordError( WRS_SEEK_FAILED );
+        return( 0 );
+    }
+    error = ResReadUint32( magic, handle );
+    if( !error ) {
+        error = ResReadUint32( magic + 1, handle );
+    }
+    if( (*WResRtns.seek)( handle, savepos, SEEK_SET ) == -1L ) {
+        WresRecordError( WRS_SEEK_FAILED );
+    }
+    return( !error && magic[0] == 0xc3d4c1d7UL &&
+                     magic[1] == 0xc3d2cdcfUL );
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )

@@ -58,6 +58,7 @@ WResDir WResInitDir( void );
 int WResReadDir( int handle, WResDir dir, int *dup_discarded );
 void __FreeTypeList( WResDir dir );
 int WResIsWResFile( int handle );
+int ResReadUint32( unsigned long *value, int handle );
 int readWResDir( int handle, WResDir dir );
 int readMResDir( int handle, WResDir dir, int *dup_discarded );
 

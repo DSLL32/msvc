@@ -1,0 +1,76 @@
+{
+  "artifacts_dir": null,
+  "backend": null,
+  "capture_sha256": "29fdd63a572cf39a5d79b3924a7b32b12a88dff8ac058b4ad8dcf36e030acf49",
+  "case": "help",
+  "elapsed_ms": 991.10239,
+  "first_entry_order": [
+    76391,
+    73695,
+    84990,
+    101064,
+    105536,
+    101144,
+    84964,
+    101080,
+    105584,
+    107076,
+    113152,
+    114832
+  ],
+  "frontier": {
+    "floating_save": "hex:7f12ffff0000ffffffffffff0000000023000000000000002b00ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080ffff0000000000000080ff7f00000000",
+    "image_base": 4194304,
+    "registers": {
+      "eax": 3276520,
+      "ebp": 0,
+      "ebx": 0,
+      "ecx": 3,
+      "edi": 0,
+      "edx": 3,
+      "eflags": 531,
+      "eip": 4309136,
+      "esi": 3425024,
+      "esp": 3276516
+    },
+    "rva": 114832,
+    "stack": "hex:2fba410000e60000000000000043340000e600000300000000e600008ea241003cff3100000000000000000002000000fd8a410000000000dc423400364c4100",
+    "stack_address": 3276516,
+    "stack_error": null,
+    "stack_requested": 64
+  },
+  "identity": {
+    "binary": "WLIB.EXE",
+    "case": "help",
+    "execution": 0,
+    "first_entry_seen": [],
+    "original_path": "toolchains/watcom10.0a/.patched/WLIB.EXE",
+    "original_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e"
+  },
+  "oracle_written": true,
+  "raw_artifacts": [],
+  "staged_files": [
+    {
+      "role": "target",
+      "sha256": "ec08a6c47c1e2041f1a136c459caa84d451bb3e0df1c32ef2a13cb9414554a2e",
+      "source": "/root/msvc2/toolchains/watcom10.0a/.patched/WLIB.EXE",
+      "source_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+      "staged": "/tmp/recon/run-bcERmV/WLIB.EXE"
+    }
+  ],
+  "terminal": "frontier:1c090",
+  "watcom_main_argv": {
+    "actual": [
+      "T:\\run-bcERmV\\WLIB.EXE",
+      "?"
+    ],
+    "argc": 2,
+    "argv_address": 3424988,
+    "entry_rva": 76391,
+    "requested": [
+      "WLIB.EXE",
+      "?"
+    ]
+  },
+  "workspace": "/tmp/recon/run-bcERmV"
+}

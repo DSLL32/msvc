@@ -1,0 +1,38 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-ALClGY",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064,
+      105536,
+      101144,
+      84964,
+      101080,
+      105584,
+      107076,
+      113152,
+      114832
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 114832,
+    "trap_site": 4154077889,
+    "elapsed_ms": 8.614431,
+    "setup_ms": 5.2346509999999995,
+    "execution_ms": 1.6148879999999997,
+    "checks_ms": 1.765018,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-iswresfile-to-readuint32.json",
+      "report_sha256": "eae23f13cddbfd184cf0b1ab5e3ba83239eddcf4b9531ee046efd321e0557c40",
+      "capture_sha256": "29fdd63a572cf39a5d79b3924a7b32b12a88dff8ac058b4ad8dcf36e030acf49",
+      "source_binding_available": true
+    }
+  }
+]

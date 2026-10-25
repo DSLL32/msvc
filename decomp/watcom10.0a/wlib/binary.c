@@ -550,8 +550,10 @@ static const ReconFunction functions[] = {
     {
         .name = "WResIsWResFile",
         .entry_rva = 0x1ba00,
+        .code = (const ReconExtent[]) { {0x1ba00, 0x1ba85} },
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "WResIsWResFile",
         .original_symbol = "WResIsWResFile_",
     },
@@ -570,6 +572,16 @@ static const ReconFunction functions[] = {
         .implementation = RECON_UNIMPLEMENTED,
         .native_symbol = "readMResDir",
         .original_symbol = "readMResDir_",
+    },
+    {
+        .name = "ResReadUint32",
+        .entry_rva = 0x1c090,
+        .code = (const ReconExtent[]) { {0x1c090, 0x1c0cd} },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "ResReadUint32",
+        .original_symbol = "ResReadUint32_",
     },
     {
         .name = "write_",
