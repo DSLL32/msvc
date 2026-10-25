@@ -1,7 +1,7 @@
 #include <string.h>
 #include <time.h>
 #include "frontend.h"
-#pragma intrinsic(strcpy)
+#pragma intrinsic(strcpy, memcpy)
 #include <recon.h>
 
 extern "C" {
@@ -74,7 +74,22 @@ extern "C" long __cdecl get_compilation_time(long *stamp)
 {
     return (long)time((time_t *)stamp);
 }
-extern "C" char *__cdecl format_predefined_time(long stamp) { __asm { int 3 } return NULL; }
+extern "C" char *__cdecl format_predefined_time(long stamp)
+{
+    stamp &= 0x7fffffff;
+    char *text = ctime((time_t *)&stamp);
+    if (text) {
+        /* ctime supplies 25 bytes including its newline. The initialized
+         * trailing NUL belongs to this mutable buffer and is retained. */
+        memcpy(frontend_data.predefined_time_text, text, 25);
+        if (frontend_data.predefined_time_text[8] == '0')
+            frontend_data.predefined_time_text[8] = ' ';
+        memcpy(frontend_data.predefined_time_text + 11, text + 20, 4);
+        memcpy(frontend_data.predefined_time_text + 16, text + 11, 4);
+        memcpy(frontend_data.predefined_time_text + 20, text + 15, 4);
+    }
+    return frontend_data.predefined_time_text;
+}
 extern "C" void __cdecl initialize_macro_buffers(void) { __asm { int 3 } }
 extern "C" void __cdecl define_preprocessor_macro(const char *text, unsigned length, int kind) { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macro(char *definition) { __asm { int 3 } }

@@ -75,6 +75,7 @@ typedef struct FrontendData {
     struct CompilerTranslationSymbol *unnamed_translation_symbol; /* cc414, NULL */
     struct CompilerTranslationSymbol *local_size_symbol; /* cc418, NULL */
     CompilerVector *translation_symbols; /* cc438, NULL */
+    char predefined_time_text[26]; /* cc3a0, mutable default including two NULs */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */

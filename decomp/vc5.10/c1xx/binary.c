@@ -1226,8 +1226,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_format_predefined_time", .entry_rva = 0x3b453,
-        .code = (const ReconExtent[]){{0x3b453, 0x3b454}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3b453, 0x3b4b6}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "format_predefined_time",
     },
     {

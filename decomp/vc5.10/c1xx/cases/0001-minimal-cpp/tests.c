@@ -14,6 +14,7 @@ int c1xx_test_exception_counters(void)
         return 0;
     memcpy(record_bytes, frontend_data.symbol_record_bytes, sizeof(record_bytes));
     memcpy(size_class, frontend_data.symbol_size_class, sizeof(size_class));
+    memset(frontend_data.predefined_time_text, 0xa9, sizeof(frontend_data.predefined_time_text));
     frontend_data.recursion_depth = 17;
     frontend_bss.error_count = 23;
     frontend_data.pch_option_flags = 37;
@@ -105,7 +106,8 @@ int c1xx_test_exception_counters(void)
     frontend_data.initial_backend = (struct CompilerBackend *)&frontend_data;
     if (initialize_compiler_pass())
         return 0;
-    return frontend_data.recursion_depth == 0 && frontend_bss.error_count == 0 &&
+    return memcmp(frontend_data.predefined_time_text, "......Unknown date......\0", 26) == 0 &&
+        frontend_data.recursion_depth == 0 && frontend_bss.error_count == 0 &&
         frontend_data.pch_option_flags == 0 && frontend_data.saved_pch_mode == 0 &&
         frontend_data.report_statistics == 0 && frontend_data.backend == NULL &&
         frontend_data.translation_unit == NULL && frontend_data.dependency == NULL &&
