@@ -1,14 +1,14 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **206 accepted application
-functions, 62,986 original code bytes, and 21 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **207 accepted application
+functions, 63,628 original code bytes, and 21 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `convert_old_field_list` (RVA `0x127a0`). The last accepted
-function is `convert_old_structure` (sequence 206, 587 original bytes,
+frontier is now `convert_old_numeric_leaf` (RVA `0x17ea0`). The last accepted
+function is `convert_old_field_list` (sequence 207, 642 original bytes,
 `src/oldtypes.c`). Encountered converter dispatch and its calls have identified
 additional App helpers; these retain named trapping stubs and no accepted
-credit. The resumed workload has accepted nineteen application functions. Each
+credit. The resumed workload has accepted twenty application functions. Each
 has matching original/native progress and strict compiler/graph/data checks.
 All twelve cached cases and unit executors passed the 201-function checkpoint.
 The previous baseline ended at `type_server_close` (sequence 187,

@@ -317,3 +317,66 @@ void convert_old_structure(TypeRecord *entry)
     record += 14+numeric_size;
     for (i = 0; i < (unsigned short)name[0]+1; ++i) record[i] = name[i];
 }
+
+/* Join the separate C6 type and counted-name/offset lists into LF_FIELDLIST. */
+unsigned short convert_old_field_list(unsigned short types, unsigned short names,
+                                     unsigned short count)
+{
+    TypeRecord *entry, *name_entry;
+    unsigned short relative, unused, allocation, i, remaining;
+    unsigned char *type_cursor, *name_cursor, *after_name, *cursor, *start, *record;
+    unsigned long bytes, n, padding;
+#define OLD_FIELD_ENTRY(destination,index) \
+    do { \
+        relative = (unsigned short)((index)-0x200); \
+        if (!type_signature && relative == (unsigned short)(0xffff-first_user_type)) \
+            (destination) = empty_type; \
+        else { \
+            (destination) = &local_type_records[relative]; \
+            if ((destination)->flags & 0x1000) \
+                (destination) = get_type_record((unsigned short)((destination)->forward_index-0x1000), &unused); \
+        } \
+    } while (0)
+    OLD_FIELD_ENTRY(entry, types);
+    OLD_FIELD_ENTRY(name_entry, names);
+    type_cursor = entry->data+4;
+    name_cursor = name_entry->data;
+    allocation = (unsigned short)(count*10+*(unsigned short *)(name_cursor+1)+6);
+    name_cursor += 4;
+    cursor = type_scratch(allocation);
+    while ((unsigned long)cursor&3) ++cursor;
+    start = cursor;
+    cursor += 2;
+    *(unsigned short *)cursor = 0x204;
+    cursor += 2;
+    remaining = count;
+    while (remaining) {
+        ++name_cursor;
+        *(unsigned short *)cursor = 0x406;
+        cursor += 2;
+        if (*type_cursor++ == 0x83) {
+            *(unsigned short *)cursor = *(unsigned short *)type_cursor;
+            type_cursor += 2;
+        } else *(unsigned short *)cursor = 0xffff;
+        cursor += 2;
+        *(unsigned short *)cursor = 3;
+        cursor += 2;
+        after_name = name_cursor+*name_cursor+1;
+        convert_old_numeric_leaf(&after_name, &cursor);
+        for (i = 0; i < (unsigned short)*name_cursor+1; ++i) *cursor++ = name_cursor[i];
+        name_cursor = after_name;
+        padding = (unsigned long)cursor&3;
+        if (padding) {
+            *cursor++ = (unsigned char)(0xf4-padding);
+            while ((unsigned long)cursor&3) *cursor++ = 0;
+        }
+        --remaining;
+    }
+    bytes = cursor-start;
+    *(unsigned short *)start = (unsigned short)(bytes-2);
+    record = resize_old_type(entry, (unsigned short)bytes);
+    entry->flags |= 0x400;
+    for (n = 0; n < (unsigned short)bytes; ++n) record[n] = start[n];
+    return types;
+#undef OLD_FIELD_ENTRY
+}

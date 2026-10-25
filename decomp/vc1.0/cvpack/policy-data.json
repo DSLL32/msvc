@@ -1975,6 +1975,12 @@
       },
       "_convert_old_field_list": {
         "abi": "unsigned short convert_old_field_list(unsigned short,unsigned short,unsigned short)",
+        "source": "src/oldtypes.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_numeric_leaf": {
+        "abi": "unsigned short convert_old_numeric_leaf(unsigned char **,unsigned char **)",
         "source": "src/stubs.c",
         "stack_cleanup": 0,
         "roots": []

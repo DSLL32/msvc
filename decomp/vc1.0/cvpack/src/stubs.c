@@ -143,4 +143,6 @@ void convert_old_leaf_a7(TypeRecord *entry) { __asm { int 3 } }
 
 
 
-unsigned short convert_old_field_list(unsigned short types, unsigned short names, unsigned short count) { __asm { int 3 } return 0; }
+
+
+unsigned short convert_old_numeric_leaf(unsigned char **source, unsigned char **destination) { __asm { int 3 } return 0; }
