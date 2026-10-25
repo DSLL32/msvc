@@ -1,7 +1,7 @@
 #include <recon-tool.h>
 #include "entry.h"
 
-static const uint32_t order[] = { 0x20d50 };
+static const uint32_t order[] = { 0x20d50, 0x21080, 0x21050, 0x212f0 };
 
 /* Accepted application entries frozen before this substantial workload. */
 static const uint32_t seen[] = {
@@ -1378,6 +1378,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "dsp_bank",
     "DSP bank: assembly expression/label/segment/x87 paths, floating constants, intrinsics, exports/sections, access/conversion lifetimes and a512-field CodeView type; explicit initial seen seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x20d50,
+    RECON_IO, RECON_FRONTIER, 0x212f0,
     NULL, c1xx_case_invoke, NULL, NULL, 0
 };

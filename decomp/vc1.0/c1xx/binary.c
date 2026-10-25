@@ -1,11 +1,54 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1406 historical frontiers/1299 App bodies.
+ * Current reviewed boundary:1477 historical frontiers/1370 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_insert_member_access_declaration@12",
+        .entry_rva = 0x212c0,
+        .code = (const ReconExtent[]) { { 0x212c0, 0x212ef } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "insert_member_access_declaration",
+    },
+    {
+        .name = "_member_protection_keyword@4",
+        .entry_rva = 0x21890,
+        .code = (const ReconExtent[]) { { 0x21890, 0x218c8 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "member_protection_keyword",
+    },
+    {
+        .name = "_record_member_access_declaration@12",
+        .entry_rva = 0x21050,
+        .code = (const ReconExtent[]) { { 0x21050, 0x21079 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "record_member_access_declaration",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_qualified_member_protection@4",
+        .entry_rva = 0x21080,
+        .code = (const ReconExtent[]) { { 0x21080, 0x210e1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "qualified_member_protection",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_uniform_overload_protection@12",
+        .entry_rva = 0x210f0,
+        .code = (const ReconExtent[]) { { 0x210f0, 0x211bf } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "uniform_overload_protection",
+    },
+
     {
         .name = "_declaration_parameter_bytes@4",
         .entry_rva = 0x42a70,
@@ -2575,10 +2618,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_apply_member_access_declaration@8",
         .entry_rva = 0x20d50,
-        .code = (const ReconExtent[]) { { 0x20d50, 0x20d51 } },
+        .code = (const ReconExtent[]) { { 0x20d50, 0x2104d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "apply_member_access_declaration",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_hash_word_triplet",

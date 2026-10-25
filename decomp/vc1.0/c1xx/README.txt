@@ -1,10 +1,11 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is COMPLETE. There are1367 application
+PARTIAL reconstruction; packet_engine is COMPLETE. There are1370 application
 source functions plus seven unchanged historical CRT source functions. The new
-dsp_bank case is active at apply_member_access_declaration (RVA0x20d50). This
-substantial /O2 /G5 /Ob1 /Z7 /FR case accepted83 whole application bodies:
+dsp_bank has accepted three access-declaration bodies (903B) and is active
+at has_member_access_declaration (RVA0x212f0). The completed packet_engine
+/O2 /G5 /Ob1 /Z7 /FR case accepted83 whole application bodies:
 18,747 code bytes and820 owned switch-data bytes. It covers packed/anonymous
 aggregates, generated special members/defaults, temporaries, nested SEH,
 integer/x87 assembly, intrinsic lowering and diagnostic naming.
@@ -35,15 +36,15 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1474: the 1302 trial baseline plus 88 browser and83 packet application steps,
-and the one additional CRT boundary.
+1477: the 1302 trial baseline plus 88 browser and83 packet application steps,
+the first three DSP application steps, and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
 original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 333,289/476,418 .text bytes (69.96%); this is
+Application function extents cover 334,192/476,418 .text bytes (70.15%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -288,3 +289,9 @@ plus19 unit groups pass; this case addition earns zero reconstruction credit.
 The prefreeze draft rejected public access promotion and a trailing-const member
 pointer declarator; its source/logs remain in scratch. The valid source retains
 a protected access declaration and uses a nonconst virtual/member-call probe.
+
+The first three DSP bodies preserve access-declaration diagnostics, inherited
+protection traversal and duplicate suppression. Fresh original/native order and
+partial outputs match at has_member_access_declaration. Original compilation,
+the1378-function full graph/ABI audit, ten cached cases and19 unit groups pass.
+Native checkpoint03:31.203ms (setup18.099ms, execution6.367ms, checks6.736ms).

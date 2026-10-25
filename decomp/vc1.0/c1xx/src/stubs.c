@@ -210,7 +210,6 @@ CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } r
 
 void __stdcall browser_friend_reference(CppSymbol *symbol) { __asm { int 3 } }
 
-void __stdcall apply_member_access_declaration(CppSymbol *owner, QualifiedDeclarator *qualified) { __asm { int 3 } }
 
 void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *member) { __asm { int 3 } }
 
@@ -591,3 +590,9 @@ int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short fla
 void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { int 3 } }
 
 CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 } return 0; }
+
+int __stdcall uniform_overload_protection(CppSymbol *overloads, QualifierBinding *binding, unsigned char *protection) { __asm { int 3 } return 0; }
+
+char *__stdcall member_protection_keyword(unsigned char protection) { __asm { int 3 } return 0; }
+
+void __stdcall insert_member_access_declaration(CppSymbol *owner, BaseClassLink *base, CppSymbol *member) { __asm { int 3 } }

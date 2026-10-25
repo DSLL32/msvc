@@ -1,6 +1,8 @@
 /* Class member declarations and their storage, access and layout dispatch. */
 #include "class-members.h"
 #include "parameters.h"
+#include "inline-capture.h"
+#include "member-access.h"
 #include <recon.h>
 
 /* Original 0x4e130..0x4e181. Qualified member-pointer names must
@@ -1390,4 +1392,140 @@ void __stdcall declare_anonymous_aggregate(CType *type)
         append_class_members(first, member);
     }
     CLASS_CONTEXT.bit_field_type = 0;
+}
+
+char *__stdcall member_protection_keyword(unsigned char protection);
+void __stdcall record_member_access_declaration(CppSymbol *owner,
+    BaseClassLink *base, CppSymbol *member);
+unsigned char __stdcall qualified_member_protection(QualifierBinding *binding);
+int __stdcall uniform_overload_protection(CppSymbol *overloads,
+    QualifierBinding *binding, unsigned char *protection);
+
+/* Original0x30d50..0x3104d, stdcall8. An access declaration must name
+   a member through this class's direct base path and retain its protection.
+   Record every function in a uniformly protected overload set separately. */
+void __stdcall apply_member_access_declaration(CppSymbol *owner,
+    QualifiedDeclarator *qualified)
+{
+    QualifierResolution *resolution = qualified->resolution;
+    QualifierBinding *binding = resolution->binding, *path;
+    CppSymbol *member, *node, *function, *following, *base_class;
+    BaseClassLink *base = 0;
+    unsigned kind;
+    unsigned char protection;
+    short first, second;
+    char *first_text, *second_text, *old_access, *new_access;
+    if (resolution->tail != binding) return;
+    member = (CppSymbol *)binding->target;
+    for (path = binding->next; path; path = path->next) {
+        node = (CppSymbol *)path->target;
+        kind = node->kind & 31;
+        if (kind == 4 && node != owner) {
+            begin_type_diagnostic();
+            first = reserve_type_diagnostic();
+            format_diagnostic_symbol(first,node);
+            second = reserve_type_diagnostic();
+            format_diagnostic_symbol(second,owner);
+            second_text = type_diagnostic_text(second);
+            first_text = type_diagnostic_text(first);
+            report_syntax_error(602,first_text,member->name,second_text);
+            end_type_diagnostic();
+            return;
+        }
+        if (kind == 15) base = (BaseClassLink *)node;
+    }
+    if (binding->following->target != (ClassReference *)base) {
+        begin_type_diagnostic();
+        first = reserve_type_diagnostic();
+        base_class = cpp_context_stack->items[binding->following->target->context_index];
+        format_diagnostic_symbol(first,base_class);
+        second = reserve_type_diagnostic();
+        format_diagnostic_symbol(second,owner);
+        second_text = type_diagnostic_text(second);
+        first_text = type_diagnostic_text(first);
+        report_syntax_error(603,first_text,second_text);
+        end_type_diagnostic();
+        return;
+    }
+    if ((CLASS_CONTEXT.flags & 3) == 1) {
+        begin_type_diagnostic();
+        first = reserve_type_diagnostic();
+        base_class = cpp_context_stack->items[base->context_index];
+        format_diagnostic_symbol(first,base_class);
+        first_text = type_diagnostic_text(first);
+        report_syntax_error(606,first_text,member->name);
+        end_type_diagnostic();
+        return;
+    }
+    kind = member->kind & 31;
+    if (kind == 16 || kind == 17) {
+        if (!uniform_overload_protection(member,binding,&protection)) {
+            begin_type_diagnostic();
+            first = reserve_type_diagnostic();
+            base_class = cpp_context_stack->items[base->context_index];
+            format_diagnostic_symbol(first,base_class);
+            first_text = type_diagnostic_text(first);
+            report_syntax_error(605,first_text,member->name);
+            end_type_diagnostic();
+            return;
+        }
+    } else protection = qualified_member_protection(binding);
+    if ((CLASS_CONTEXT.flags & 3) != protection) {
+        begin_type_diagnostic();
+        first = reserve_type_diagnostic();
+        base_class = cpp_context_stack->items[base->context_index];
+        format_diagnostic_symbol(first,base_class);
+        first_text = type_diagnostic_text(first);
+        old_access = member_protection_keyword(protection);
+        new_access = member_protection_keyword((unsigned char)(CLASS_CONTEXT.flags & 3));
+        report_syntax_error(604,new_access,old_access,first_text,member->name);
+        end_type_diagnostic();
+        return;
+    }
+    kind = member->kind & 31;
+    if (kind != 16 && kind != 17) {
+        record_member_access_declaration(owner,base,member);
+        return;
+    }
+    function = member;
+    if (function && ((function->kind & 31) == 16 || (function->kind & 31) == 17))
+        function = ((OverloadSet *)function)->functions;
+    while (function && ((function->kind & 31) == 6 || (function->kind & 31) == 7)) {
+        following = function->next;
+        record_member_access_declaration(owner,base,function);
+        function = following;
+    }
+}
+
+/* Original0x31080..0x310e1, stdcall4. Follow the inherited qualification
+   path, honoring an access declaration before combining each base protection. */
+unsigned char __stdcall qualified_member_protection(QualifierBinding *binding)
+{
+    CppSymbol *member = (CppSymbol *)binding->target;
+    QualifierBinding *path = binding->next;
+    ClassReference *next;
+    CppSymbol *owner;
+    unsigned char protection = member->flags & 3;
+    while (path->next) {
+        next = path->next->target;
+        if ((next->kind & 31) != 15) break;
+        owner = cpp_context_stack->items[next->context_index];
+        if (!has_member_access_declaration(owner,(BaseClassLink *)path->target,member))
+            protection = combine_member_access(protection,
+                (unsigned char)(((CppSymbol *)path->target)->flags & 3));
+        path = path->next;
+    }
+    return protection;
+}
+
+void __stdcall insert_member_access_declaration(CppSymbol *owner,
+    BaseClassLink *base, CppSymbol *member);
+
+/* Original0x31050..0x31079, stdcall12. Duplicate declarations do not
+   add another access record to the class. */
+void __stdcall record_member_access_declaration(CppSymbol *owner,
+    BaseClassLink *base, CppSymbol *member)
+{
+    if (!has_member_access_declaration(owner,base,member))
+        insert_member_access_declaration(owner,base,member);
 }
