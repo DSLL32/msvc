@@ -112,7 +112,8 @@ FrontendData frontend_data = {
     { 0,9,9,9,10,5,9,9,9,9,9,9,9,9,9,2,7,7,4,9,9,3,9,6,1,8 },
     { NULL },
     NULL, /* symbol-group hash table, cc5c8 */
-    0, -1, -1, NULL, 5 /* compiler flags, declaration indices, empty parameters, type arena */
+    0, -1, -1, NULL, 5, /* compiler flags, declaration indices, empty parameters, type arena */
+    NULL, NULL, NULL /* translation symbols and vector */
 };
 FrontendBss frontend_bss;
 int restore_mode;

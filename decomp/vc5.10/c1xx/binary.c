@@ -1201,9 +1201,15 @@ static const ReconFunction functions[] = {
         .native_symbol = "initialize_intermediate_output",
     },
     {
-        .name = "_initialize_translation_state", .entry_rva = 0x3b10d,
-        .code = (const ReconExtent[]){{0x3b10d, 0x3b10e}},
+        .name = "_allocate_symbol_storage", .entry_rva = 0x23688,
+        .code = (const ReconExtent[]){{0x23688, 0x23689}},
         .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "allocate_symbol_storage",
+    },
+    {
+        .name = "_initialize_translation_state", .entry_rva = 0x3b10d,
+        .code = (const ReconExtent[]){{0x3b10d, 0x3b253}, {0x72ec0, 0x72f42}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "initialize_translation_state",
     },
     {

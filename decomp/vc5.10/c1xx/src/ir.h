@@ -37,12 +37,18 @@ struct CompilerAbstractSymbol : CompilerNamedSymbol {
 /* Extended members are accessed only for the larger IR symbol variants.
  * They must never enlarge the actual 20-byte namespace allocation. */
 struct CompilerIrSymbol : CompilerNamedSymbol {
-    struct CompilerSymbolPayload *payload; /* +10 */
+    union {
+        struct CompilerSymbolPayload *payload;
+        CompilerType *type;
+    };                                 /* +10, one shared typed pointer cell */
     unsigned emission_state;           /* +14, low2 reference count, bit2 context */
     unsigned encoded_index;            /* +18 */
     BYTE function_flags;               /* +1d, encountered bit0 */
     BYTE reference_flags;              /* +1f, encountered bit0 */
     BYTE linkage_flags, queue_flags;   /* +2d bit1, +2e bit7 */
+};
+struct CompilerTranslationSymbol : CompilerIrSymbol {
+    struct CompilerSymbolState *state; /* original +20, first record clears it */
 };
 /* Resolve's indexed class/member path reads only these two fields. The
  * original context's other bytes and the symbol tail remain unmodeled. */

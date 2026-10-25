@@ -40,6 +40,8 @@ WORD __cdecl normalize_shape_attributes(unsigned, WORD);
 CompilerTypeShape *__cdecl create_declarator_shape(unsigned, WORD, void *);
 void __cdecl initialize_intermediate_output(void);
 void __cdecl initialize_translation_state(void);
+void *__cdecl allocate_symbol_storage(unsigned, unsigned, unsigned);
+CompilerVector *__cdecl new_option_vector(unsigned, int);
 void __cdecl define_command_line_macros(CompilerVector *);
 void __cdecl begin_line_output(void);
 void __cdecl begin_source_input(void);
@@ -521,7 +523,64 @@ extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags)
     return intern_type(description);
 }
 extern "C" void __cdecl initialize_intermediate_output(void) {}
-extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
+extern "C" void __cdecl initialize_translation_state(void)
+{
+    CompilerTranslationSymbol *symbol = NULL;
+    unsigned size_class = frontend_data.symbol_size_class[9];
+    CompilerSymbolLink *link;
+    CompilerNameEntry *name;
+    void *memory;
+    if (size_class >= 11) { __asm { int 3 } }
+    link = frontend_data.recycled_symbols[size_class];
+    if (link) {
+        frontend_data.recycled_symbols[size_class] = link->next;
+        symbol = (CompilerTranslationSymbol *)((BYTE *)link - offsetof(CompilerNamedSymbol, link));
+        link->name = NULL;
+        link->next = NULL;
+        memset(symbol, 0, frontend_data.symbol_record_bytes[9]);
+        symbol->link.name = NULL;
+        symbol->kind = 9;
+    }
+    if (!symbol) {
+        memory = allocate_symbol_storage(48, 9, 0);
+        symbol = memory ? (CompilerTranslationSymbol *)
+            ((CompilerSymbol *)memory)->Initialize(9, NULL, 0) : NULL;
+    }
+    frontend_data.unnamed_translation_symbol = symbol;
+    symbol->state = NULL;
+    symbol->type = frontend_data.builtin_types.type_0000;
+    symbol->attributes |= 0x20;
+    symbol->definition_flags |= 4;
+    symbol->encoded_index = (symbol->encoded_index & 0xff000001) | 1;
+    symbol->emission_state = (symbol->emission_state & 7) | 8;
+
+    symbol = NULL;
+    size_class = frontend_data.symbol_size_class[9];
+    name = frontend_data.builtin_names.local_size;
+    if (size_class >= 11) { __asm { int 3 } }
+    link = frontend_data.recycled_symbols[size_class];
+    if (link) {
+        frontend_data.recycled_symbols[size_class] = link->next;
+        symbol = (CompilerTranslationSymbol *)((BYTE *)link - offsetof(CompilerNamedSymbol, link));
+        link->name = NULL;
+        link->next = NULL;
+        memset(symbol, 0, frontend_data.symbol_record_bytes[9]);
+        symbol->link.name = name;
+        symbol->kind = 9;
+    }
+    if (!symbol) {
+        memory = frontend_bss.arenas[0].Allocate((frontend_data.symbol_record_bytes[9] + 3) & ~3U);
+        symbol = memory ? (CompilerTranslationSymbol *)
+            ((CompilerSymbol *)memory)->Initialize(9, name, 0) : NULL;
+    }
+    frontend_data.local_size_symbol = symbol;
+    symbol->type = frontend_data.builtin_types.type_0000;
+    symbol->encoded_index = (symbol->encoded_index & 0xff00000a) | 0xa;
+    symbol->emission_state = (symbol->emission_state & 7) | 0x50;
+    symbol->attributes |= 0x20;
+    symbol->definition_flags |= 4;
+    frontend_data.translation_symbols = new_option_vector(1, 0);
+}
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_source_input(void) { __asm { int 3 } }
@@ -1333,3 +1392,5 @@ extern "C" CompilerTypeShape *__cdecl create_declarator_shape(unsigned flags, WO
     }
     return shape;
 }
+
+extern "C" void *__cdecl allocate_symbol_storage(unsigned bytes, unsigned kind, unsigned arena) { __asm { int 3 } return NULL; }

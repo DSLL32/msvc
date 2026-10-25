@@ -562,6 +562,60 @@
               272663048
             ]
           }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "?NormalizeBase@CompilerDeclarator@@QAEXXZ",
+                "offset": 452
+              },
+              {
+                "rebuilt_symbol": "?NormalizeBase@CompilerDeclarator@@QAEXXZ",
+                "offset": 488
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "?NormalizeBase@CompilerDeclarator@@QAEXXZ",
+                "offset": 488
+              },
+              {
+                "rebuilt_symbol": "?NormalizeBase@CompilerDeclarator@@QAEXXZ",
+                "offset": 556
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "?NormalizeBase@CompilerDeclarator@@QAEXXZ",
+                "offset": 84
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "?NormalizeBase@CompilerDeclarator@@QAEXXZ",
+                  "offset": 91
+                },
+                {
+                  "rebuilt_symbol": "?NormalizeBase@CompilerDeclarator@@QAEXXZ",
+                  "offset": 93
+                },
+                {
+                  "rebuilt_symbol": "?NormalizeBase@CompilerDeclarator@@QAEXXZ",
+                  "offset": 107
+                },
+                {
+                  "rebuilt_symbol": "?NormalizeBase@CompilerDeclarator@@QAEXXZ",
+                  "offset": 121
+                },
+                {
+                  "rebuilt_symbol": "?NormalizeBase@CompilerDeclarator@@QAEXXZ",
+                  "offset": 135
+                }
+              ]
+            }
+          ]
         }
       },
       "CompilerDeclarator::ValidateShapes": {
@@ -586,6 +640,64 @@
               272664119
             ]
           }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                "offset": 593
+              },
+              {
+                "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                "offset": 625
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                "offset": 625
+              },
+              {
+                "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                "offset": 693
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                "offset": 179
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                  "offset": 186
+                },
+                {
+                  "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                  "offset": 195
+                },
+                {
+                  "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                  "offset": 232
+                },
+                {
+                  "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                  "offset": 284
+                },
+                {
+                  "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                  "offset": 293
+                },
+                {
+                  "rebuilt_symbol": "?ValidateShapes@CompilerDeclarator@@QAEXXZ",
+                  "offset": 302
+                }
+              ]
+            }
+          ]
         }
       },
       "_normalize_shape_attributes": {
@@ -631,6 +743,60 @@
               272634520
             ]
           }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_create_declarator_shape",
+                "offset": 484
+              },
+              {
+                "rebuilt_symbol": "_create_declarator_shape",
+                "offset": 512
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "_create_declarator_shape",
+                "offset": 512
+              },
+              {
+                "rebuilt_symbol": "_create_declarator_shape",
+                "offset": 576
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_create_declarator_shape",
+                "offset": 148
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_create_declarator_shape",
+                  "offset": 155
+                },
+                {
+                  "rebuilt_symbol": "_create_declarator_shape",
+                  "offset": 192
+                },
+                {
+                  "rebuilt_symbol": "_create_declarator_shape",
+                  "offset": 279
+                },
+                {
+                  "rebuilt_symbol": "_create_declarator_shape",
+                  "offset": 463
+                },
+                {
+                  "rebuilt_symbol": "_create_declarator_shape",
+                  "offset": 474
+                }
+              ]
+            }
+          ]
         }
       }
     },
