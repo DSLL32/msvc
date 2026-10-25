@@ -1,26 +1,27 @@
 [
   {
     "case": "wcc-first-help-frontier",
-    "workspace": "/tmp/recon/run-DPraag",
+    "workspace": "/tmp/recon/run-jrOdU0",
     "pass": true,
     "terminal": "signal:5",
     "logical_exit_code": null,
     "first_entry_order": [
       294007,
-      294677
+      294677,
+      420398
     ],
     "tests": false,
     "process_requests": null,
-    "trap_rva": 294677,
-    "trap_site": 4156642388,
-    "elapsed_ms": 3.405058,
-    "setup_ms": 2.0823590000000003,
-    "execution_ms": 0.9041919999999996,
-    "checks_ms": 0.417529,
+    "trap_rva": 420398,
+    "trap_site": 4154223238,
+    "elapsed_ms": 5.126771,
+    "setup_ms": 2.571929,
+    "execution_ms": 2.141842,
+    "checks_ms": 0.412807,
     "errors": [],
     "original_reference": {
-      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/build/memory-original-report.json",
-      "report_sha256": "95000d22e10df690b4b0886164cc0ae527cef84524137136a38eb0d8ac8f27d6",
+      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/build/meminit-original-report.json",
+      "report_sha256": "a7e1b26aabba5d3bd83b6a18ee496dc359119dd0f626204a36ab5da057a7af21",
       "capture_sha256": "5f50163b7ca0ffcaf9c445d6455009dd5bd78aa3c342282171efa0c2ee344f11",
       "source_binding_available": true
     }

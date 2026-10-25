@@ -18,10 +18,12 @@ typedef struct WccStreamLink {
     struct WccStreamLink *next;
     WccFile *stream;
 } WccStreamLink;
+#pragma pack(push,1)
 typedef struct WccInitRecord {
     unsigned char kind, priority;
     void (*callback)(void);
 } WccInitRecord;
+#pragma pack(pop)
 typedef struct WccStartup {
     const char *program, *command;
     char **environment;

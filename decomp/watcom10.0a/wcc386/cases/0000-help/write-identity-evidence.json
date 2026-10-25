@@ -1,0 +1,87 @@
+{
+  "scope": "Finite external CALLidentity correlation ONLY. No codeextentownership,classificationchange, runtimeadmission, ABIpermission, reconstructedbody or acceptance.",
+  "registry": {
+    "name": "write",
+    "original_entry": 194581,
+    "definition": "Unknown",
+    "code": [],
+    "implementation": 0,
+    "native_symbol": null,
+    "original_symbol": "write_"
+  },
+  "policy_proposal": {
+    "identity_only_entries": [
+      "write"
+    ]
+  },
+  "actual_original": {
+    "binary": "toolchains/watcom10.0a/binb/WCC386.EXE",
+    "sha256": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+    "coordinates": "CFoffset/base0",
+    "caller": "privateMemInit optionalWCGMEMORY ?/#reporting",
+    "call_sites": [
+      294647,
+      294667
+    ],
+    "arguments": "EAXhandle1,EDXbuffer,EBXbytecount; standardwrite(handle,buffer,len) role",
+    "prefix42_hex": "5156575589e583ec18505253e8358a010089c28945e885c07514b804000000e865340000b8ffffffffe9",
+    "prefix42_sha256": "2cb08fce8086b0b1485b18453a0341d52c7ef497a9528c512b1fd3f13ca2400e"
+  },
+  "shipped_member": {
+    "library": "/root/msvc2/toolchains/watcom10.0a/lib386/DOS/CLIB3R.LIB",
+    "sha256": "ea6f73080f9ea18825258369989f6e1d0b7abc7c3df05e4bb8f17a31a5cbdee8",
+    "THEADR": 148800,
+    "publics": [
+      {
+        "name": "write_",
+        "segment": 1,
+        "offset": 0
+      }
+    ],
+    "first_LEDATA_record": 149053,
+    "first_LEDATA_record_sha256": "758c76847fde1fe847e0efa9db3a5355aa9a5614c4ccdcd33905b7ba7b198051",
+    "nonfixup_prefix42_bytes_match": true,
+    "compared_nonfixup_bytes": 34,
+    "resolved_prefix_external_calls": [
+      {
+        "cell": 194594,
+        "self_relative": true,
+        "linked_target": 295515,
+        "member_external": "__IOMode_"
+      },
+      {
+        "cell": 194613,
+        "self_relative": true,
+        "linked_target": 208030,
+        "member_external": "__set_errno_"
+      }
+    ],
+    "length_limit": "DOSmember465B is NOT taken asCFextent; actualOSI CALL21 substitutions change lengths/branches."
+  },
+  "int21_adaptation": {
+    "DOS_member_offset": 75,
+    "DOS_bytes": "cd21",
+    "actual_CF_site": 194656,
+    "actual_bytes": "e86e060000",
+    "actual_target": 196307,
+    "meaning": "actualnearCALL __Int21_ gatewaywrapper replacingDOSINT21. This correlates identity; no serviceenabled."
+  },
+  "source_corroboration": {
+    "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+    "path": "bld/clib/handleio/c/write.c",
+    "sha256": "cc212ea1cb484efa65ddadd162083d9fd6474938f67b9cb10c90ca97a96ff6eb",
+    "limit": "later2002splitos_write/bodychanges; notclaimedidenticalimplementation"
+  },
+  "actual_rebuilt": {
+    "PE": "build/WCC386.EXE",
+    "PE_sha256": "1cc4334e0efb32b896da76588ad7af9cd60d92424967b3b2166fd8845d8e38af",
+    "MAP": "build/wcc386.map",
+    "MAP_sha256": "889d85d2b679d5b0799aa7d5e73a67d1d84ebbfce2f59ec601ee0016924805e0",
+    "MAP_format": "watcom10",
+    "symbol": "write_",
+    "VA": 4260619,
+    "input_config_sha256": "ec75cd68b05c23dafd562e09223572bc6564b88ab1f7c214f775f6fe8a6a1cbd",
+    "metadata_sha256": "b0316412af94e18b86b91a8f0b5977014ead420e7674f5fa99f63109ea5ecc04"
+  },
+  "runtime_rule": "identitynormalizationonly; unknownwriteentry remainsstopped, no475/465/480Bguessedspan, noAppbody/CRTclassificationinvented"
+}

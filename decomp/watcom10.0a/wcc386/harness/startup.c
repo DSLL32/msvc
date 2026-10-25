@@ -21,7 +21,7 @@ static void *allocate_node(unsigned amount)
 {
     if (!wcc_startup.allocation_calls) {
         /* Validate genuine effects at the first allocation, before App entry. */
-        if (amount != 8 || sizeof(WccFile) != 26 || sizeof(WccStreamLink) != 8 ||
+        if (amount != 8 || sizeof(WccInitRecord) != 6 || sizeof(WccFile) != 26 || sizeof(WccStreamLink) != 8 ||
             wcc_startup.initializers[2].kind != 2 ||
             wcc_startup.initializers[1].kind != 0 ||
             wcc_startup.initializers[0].kind != 0 ||
@@ -83,12 +83,16 @@ int wcc_native_startup(int argc, char **argv)
 {
     unsigned i, count;
     char **environment;
+    char *empty_argv[1];
+    char command_tail[4]="\"?\"";
     if (argc != 2 || strcmp(argv[1],"?")) abort();
     /* Zero only declared runtime state; no copied original data section.
      * Original cstart zeroes its BSS before invoking the initializer table. */
     memset(&wcc_startup,0,sizeof(wcc_startup));
     wcc_startup.program=argv[0];
-    wcc_startup.command=argv[1];
+    /* Qualified original launch_inputs.command_tail_hex=223f2200: the
+     * shared invocation quotes this argument. Keep the raw tail, not argv[1]. */
+    wcc_startup.command=command_tail;
     wcc_startup.os_id=2;
     __asm__ __volatile__("mov %%ds,%0" : "=r"(wcc_startup.saved_ds));
     for (count=0; environ[count]; ++count) if (count>=4096) abort();
@@ -98,6 +102,12 @@ int wcc_native_startup(int argc, char **argv)
     for (i=0; i<count; ++i) environment[i]=environ[count-1-i];
     environment[count]=0;
     wcc_startup.environment=environment;
+    /* Shared shim binding for the reached ASCII WCGMEMORY getenv consumer.
+     * Preserve reversed order and borrowed value identity. The binder needs a
+     * nonnull argv vector; original unconsumed ___Argv is still NULL in our
+     * target state. A future consumer/rebinding must qualify that difference. */
+    empty_argv[0]=0;
+    recon_crt_bind_arguments(0,empty_argv,environment);
     for (i=0; i<5; ++i) wcc_startup.files[i].handle=i;
     wcc_startup.files[0].flag=1;
     wcc_startup.files[1].flag=2;

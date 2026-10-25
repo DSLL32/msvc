@@ -1,4 +1,5 @@
-/* Standard registry. MemAlloc is a candidate under comparison, not accepted.
+/* Standard registry. Body availability is separate from fresh-pair acceptance;
+ * case progress records the accepted prefix.
  * ABI2 registry metadata. Original addresses are canonical CF offsets/base0,
  * not PE RVAs and not the observed relocated heap addresses.
  * Admission and byte/fixup/ABI witnesses remain in the reviewed sidecar.
@@ -75,7 +76,9 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "MemInit", .entry_rva = 0x47f15,
-        .definition = RECON_APP, .implementation = RECON_UNIMPLEMENTED,
+        .code = (const ReconExtent[]) {{0x47f15,0x47f84},{0x47e86,0x47f15}},
+        .code_count = 2,
+        .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "MemInit", .original_symbol = "MemInit_",
     },
     {
@@ -93,6 +96,20 @@ static const ReconFunction functions[] = {
         .definition = RECON_APP, .implementation = RECON_UNIMPLEMENTED,
         .native_symbol = "MemFromSys", .original_symbol = "MemFromSys_",
     },
+    { .name="GetEnvVar", .entry_rva=0x66a2e, .definition=RECON_APP,
+      .implementation=RECON_UNIMPLEMENTED, .native_symbol="GetEnvVar", .original_symbol="GetEnvVar_" },
+    { .name="myatoi", .entry_rva=0x47f84, .definition=RECON_APP,
+      .implementation=RECON_UNIMPLEMENTED, .native_symbol="myatoi", .original_symbol="myatoi_" },
+    { .name="myitoa", .entry_rva=0x47fa0, .definition=RECON_APP,
+      .implementation=RECON_UNIMPLEMENTED, .native_symbol="myitoa", .original_symbol="myitoa_" },
+    { .name="CopyStr", .entry_rva=0x3d9bb, .definition=RECON_APP,
+      .implementation=RECON_UNIMPLEMENTED, .native_symbol="CopyStr", .original_symbol="CopyStr_" },
+    { .name="Length", .entry_rva=0x3d9e0, .definition=RECON_APP,
+      .implementation=RECON_UNIMPLEMENTED, .native_symbol="Length", .original_symbol="Length_" },
+    /* External write alias known at this entry; exact wrapper classification
+     * and native binding remain unqualified. Optional WCGMEMORY output holds. */
+    { .name="write", .entry_rva=0x2f815, .definition=RECON_UNKNOWN,
+      .implementation=0, .native_symbol=NULL, .original_symbol="write_" },
 };
 
 RECON_EXPORT const ReconBinary binary_descriptor = {

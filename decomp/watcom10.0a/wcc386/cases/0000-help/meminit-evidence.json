@@ -1,0 +1,75 @@
+{
+  "scope": "CandidateMemInit data/ABI witness; not acceptance or permission foroptionalunqualifiedtargets",
+  "entry": 294677,
+  "code_chunks": [
+    {
+      "start": 294677,
+      "end": 294788,
+      "sha256": "5d4517f70adcaf62bbe82092a7d45dcb58353eeebc96d70b311da1db120a5651"
+    },
+    {
+      "start": 294534,
+      "end": 294677,
+      "sha256": "88c49b6021ff3c703ed995a9c813f93ceb67abe026483c0365cefbcff88388e9"
+    }
+  ],
+  "source": "src/memory.c",
+  "source_sha256": "e0372ee4c582597b577ef076448d63c249032076ca274cc4969eea25801641ff",
+  "source_correlations": "2002cg/c/memmgr.c MemInit andinlinedCalcMemSize; actual1994uses4MiBdefault andalreadyinitializedstaticfreelist",
+  "normal_before_next_frontier": {
+    "pending": "GetEnvVar66a2e",
+    "Initialized": {
+      "span": [
+        499316,
+        499320
+      ],
+      "raw_initial_hex": "00000000",
+      "writes": [
+        1,
+        2
+      ]
+    },
+    "AllocSize": {
+      "span": [
+        499312,
+        499316
+      ],
+      "raw_initial_hex": "00000000",
+      "write": 0
+    },
+    "stackframe": {
+      "instruction": 294709,
+      "bytes": "c8580000",
+      "allocation": 88,
+      "nesting": 0,
+      "body_effects": "pushEBX/ECX/EDX, ENTER pushesEBP andsetsframe; typedbuff80fits88Bframe"
+    },
+    "GetEnvVar_args": {
+      "EAX": "CFbase+75228 ASCII WCGMEMORY\\0",
+      "EDX": "ownedstack EBP-58 buffer80",
+      "EBX": 9
+    }
+  },
+  "owned_string": {
+    "span": [
+      479784,
+      479794
+    ],
+    "bytes_hex": "5743474d454d4f525900"
+  },
+  "later_global": {
+    "MemorySize_span": [
+      524396,
+      524400
+    ],
+    "insideBSSzero": true,
+    "default": 4194304,
+    "not_written_until_GetEnvVar_returns": true
+  },
+  "ABI": {
+    "args": [],
+    "cleanup": 0,
+    "localRET": "47f14 shared epilogue; commonpairedRET0required"
+  },
+  "optional_unknown": "writeentry remainsUnknown0/identity-only; optionalparse/outputhelperspendingApp, allunadmitted."
+}
