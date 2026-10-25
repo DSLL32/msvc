@@ -25,11 +25,6 @@ void __fastcall prepare_alias_input(C2Function *function)
 }
 
 
-C2OptimizerNode * __fastcall collect_optimizer_blocks(C2BasicBlock *block, unsigned alias_count, unsigned operand_limit)
-{
-    __asm { int 3 }
-    return NULL;
-}
 
 C2OptimizerNode * __fastcall translate_optimizer_input(C2BasicBlock *block, unsigned count, int aliases, int no_global)
 {
@@ -145,4 +140,10 @@ C2OptimizerUse *__fastcall add_optimizer_use(C2OptimizerUse *head,
 {
     __asm { int 3 }
     return NULL;
+}
+
+void __fastcall subtract_optimizer_symbol_sets(C2RegisterSet *destination,
+    C2RegisterSet *source)
+{
+    __asm { int 3 }
 }

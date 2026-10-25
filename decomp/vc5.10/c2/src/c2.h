@@ -129,6 +129,7 @@ typedef struct C2SymbolScope C2SymbolScope;
 typedef struct C2Record C2Record;
 typedef struct C2BasicBlock C2BasicBlock;
 typedef struct C2FunctionRegister C2FunctionRegister;
+typedef struct C2RegisterSet C2RegisterSet;
 typedef struct C2InputUse C2InputUse;
 typedef struct C2Expression C2Expression;
 typedef struct C2BranchTarget C2BranchTarget;
@@ -275,7 +276,16 @@ struct C2BasicBlock {
     };
     unsigned flags;
     C2Record *records, *last_record;
-    unsigned char pending24[96];
+    union {
+        unsigned char pending24[96];
+        struct {
+            unsigned char pending24_prefix[8];
+            C2RegisterSet *alias_uses;
+            unsigned pending30;
+            C2RegisterSet *alias_kills;
+            unsigned char pending38[76];
+        };
+    };
     unsigned short number84, number86;
     union { unsigned short number88, scope_depth; };
     unsigned char pending8a[2];

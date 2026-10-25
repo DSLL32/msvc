@@ -4,7 +4,6 @@
 #include <recon.h>
 
 typedef struct C2RegisterBlock C2RegisterBlock;
-typedef struct C2RegisterSet C2RegisterSet;
 /* Only the encountered kind and number fields are named. The actual allocator's80B
  * records justify the extent; other fields/defaults remain unmodeled. */
 struct C2FunctionRegister {

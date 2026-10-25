@@ -11,7 +11,7 @@ int optimizer_context_mode;                  /* 490bd8 */
 unsigned optimizer_index_limit;              /* 48e2e8 */
 unsigned optimizer_initial_limit;            /* 490b8c */
 unsigned optimizer_original_limit;           /* 490b88 */
-C2OptimizerNode *optimizer_first_block;       /* 490bb0 */
+C2OptimizerAlias *optimizer_aliases;       /* 490bb0 */
 unsigned optimizer_state_a;                  /* 490bc4 */
 unsigned optimizer_state_b;                  /* 490ba4 */
 unsigned optimizer_state_c;                  /* 490bac */
@@ -63,7 +63,7 @@ void __fastcall optimize_function_flow(C2Function *function)
     optimizer_original_limit = optimizer_index_limit;
     block = function->flow->last;
     operand_limit = number_optimizer_operands(block->records, alias_count);
-    optimizer_first_block = collect_optimizer_blocks(block, alias_count, operand_limit);
+    optimizer_aliases = build_optimizer_aliases(block, alias_count, operand_limit);
     optimizer_state_a = optimizer_state_b = optimizer_state_c = 0;
     optimizer_operand_limit = operand_limit;
     root = translate_optimizer_input(block, count, c2_alias_optimization,
@@ -280,4 +280,56 @@ unsigned __fastcall number_optimizer_operands(C2Record *first, unsigned alias_co
                     operand->optimizer_alias_number = 0;
             }
     return alias_count;
+}
+
+C2OptimizerAlias *__fastcall build_optimizer_aliases(C2BasicBlock *first,
+    unsigned alias_count, unsigned operand_limit)
+{
+    C2OptimizerAlias *table = c2_pool_allocate(4, operand_limit * sizeof(*table));
+    C2BasicBlock *block;
+    C2Expression *record, *operand;
+    C2FunctionRegister *reg, *variant;
+    C2RegisterBlock *register_block;
+    C2RegisterSet *uses, *kills;
+    unsigned number, i;
+    for (block = first; block; block = block->previous) {
+        uses = new_register_set(6);
+        block->alias_uses = uses;
+        kills = new_register_set(6);
+        block->alias_kills = kills;
+        if (block == first)
+            for (i = 1; i < alias_count; ++i)
+                add_register_to_set(uses, i);
+        record = (C2Expression *)block->records;
+        for (;;) {
+            if (record->flags & 1)
+                for (operand = record->tail.right; operand; operand = operand->next) {
+                    number = operand->optimizer_alias_number;
+                    if (number) {
+                        reg = operand->value.reg;
+                        for (variant = reg->canonical; variant;
+                             variant = variant->variant_next)
+                            if (reg->displacement <= variant->displacement &&
+                                (long)((unsigned)variant->displacement + variant->value_bytes) <=
+                                (long)((unsigned)reg->displacement + reg->value_bytes)) {
+                                merge_optimizer_symbol_sets(uses, variant->optimizer->aliases);
+                                subtract_optimizer_symbol_sets(kills, variant->optimizer->aliases);
+                            }
+                        add_register_to_set(uses, number);
+                        table[number].record = record;
+                        table[number].reg = reg;
+                    }
+                }
+            if (record == (C2Expression *)block->last_record) break;
+            record = record->next;
+        }
+    }
+    set_optimizer_record_mode(first, 0);
+    number = 1;
+    for (register_block = first_function_register_block; register_block;
+         register_block = register_block->next)
+        for (reg = register_block->records; reg < register_block->cursor; ++reg)
+            if (reg->kind != 16 && (reg->view_flags & 8))
+                table[number++].reg = reg;
+    return table;
 }

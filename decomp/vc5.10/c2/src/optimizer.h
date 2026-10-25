@@ -7,6 +7,13 @@
 
 typedef struct C2OptimizerContext C2OptimizerContext;
 typedef struct C2OptimizerNode C2OptimizerNode;
+typedef struct C2OptimizerAlias {
+    C2FunctionRegister *reg;
+    unsigned char pending04[8];
+    C2Expression *record;
+    unsigned pending10;
+} C2OptimizerAlias;
+typedef char C2OptimizerAliasSizeCheck[sizeof(C2OptimizerAlias) == 20 ? 1 : -1];
 /* Prefix views for the scope information this pass actually reads. Their
  * remaining allocation/defaults are not inferred from these consumers. */
 typedef struct C2OptimizerScope {
@@ -24,7 +31,7 @@ unsigned __fastcall count_optimizer_records(C2Record *first);
 unsigned __fastcall assign_optimizer_registers(int aliases, int mode);
 void __fastcall prepare_alias_input(C2Function *function);
 unsigned __fastcall number_optimizer_operands(C2Record *first, unsigned alias_count);
-C2OptimizerNode * __fastcall collect_optimizer_blocks(C2BasicBlock *block, unsigned alias_count, unsigned operand_limit);
+C2OptimizerAlias * __fastcall build_optimizer_aliases(C2BasicBlock *block, unsigned alias_count, unsigned operand_limit);
 C2OptimizerNode * __fastcall translate_optimizer_input(C2BasicBlock *block, unsigned count, int aliases, int no_global);
 unsigned __fastcall fold_optimizer_records(unsigned operand_limit);
 void __fastcall prepare_optimizer_values(unsigned operand_limit);
@@ -58,4 +65,6 @@ struct C2OptimizerRegisterInfo {
 typedef char C2OptimizerInfoSizeCheck[sizeof(C2OptimizerRegisterInfo) == 20 ? 1 : -1];
 C2OptimizerUse *__fastcall add_optimizer_use(C2OptimizerUse *head,
     C2FunctionRegister *reg, int unique);
+void __fastcall subtract_optimizer_symbol_sets(C2RegisterSet *destination,
+    C2RegisterSet *source);
 #endif

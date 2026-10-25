@@ -1806,11 +1806,20 @@ static const ReconFunction functions[] = {
         .native_symbol = "number_optimizer_operands",
     },
     {
-        .name = "@collect_optimizer_blocks@12",
-        .entry_rva = 0x244df,
+        .name = "@subtract_optimizer_symbol_sets@8",
+        .entry_rva = 0x19df,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "collect_optimizer_blocks",
+        .native_symbol = "subtract_optimizer_symbol_sets",
+    },
+    {
+        .name = "@build_optimizer_aliases@12",
+        .entry_rva = 0x244df,
+        .code = (const ReconExtent[]){{0x244df, 0x2469c}, {0x6af73, 0x6af7c}},
+        .code_count = 2,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "build_optimizer_aliases",
     },
     {
         .name = "@translate_optimizer_input@16",
