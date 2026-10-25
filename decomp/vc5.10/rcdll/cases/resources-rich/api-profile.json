@@ -1,6 +1,0 @@
-{
-  "ansi_codepage": 1252,
-  "source": "api-reference/receipt.json",
-  "source_sha256": "2bc26b4a4d11cb7fa97f6fb3e94fe2db95eb3225ede02ae6b1a767f9f55585c1",
-  "contract": "GetACP actual original1252 preserves LastError/errno; separate from CRT locale/console codepage"
-}

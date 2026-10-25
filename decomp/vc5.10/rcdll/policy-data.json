@@ -1,0 +1,120 @@
+{
+  "crt_defaults": {},
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {
+      "rc_copy_macro_text": {
+        "original": {
+          "roots": [
+            1908588409,
+            1908588413
+          ]
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_rc_copy_macro_text@8",
+              "offset": 193
+            },
+            {
+              "rebuilt_symbol": "_rc_copy_macro_text@8",
+              "offset": 199
+            }
+          ]
+        }
+      },
+      "rc_apply_option": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_rc_apply_option@12",
+                "offset": 573
+              },
+              {
+                "rebuilt_symbol": "_rc_apply_option@12",
+                "offset": 644
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_rc_apply_option@12",
+                "offset": 47
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_rc_apply_option@12",
+                  "offset": 54
+                },
+                {
+                  "rebuilt_symbol": "_rc_apply_option@12",
+                  "offset": 71
+                },
+                {
+                  "rebuilt_symbol": "_rc_apply_option@12",
+                  "offset": 88
+                },
+                {
+                  "rebuilt_symbol": "_rc_apply_option@12",
+                  "offset": 299
+                },
+                {
+                  "rebuilt_symbol": "_rc_apply_option@12",
+                  "offset": 321
+                },
+                {
+                  "rebuilt_symbol": "_rc_apply_option@12",
+                  "offset": 459
+                },
+                {
+                  "rebuilt_symbol": "_rc_apply_option@12",
+                  "offset": 534
+                },
+                {
+                  "rebuilt_symbol": "_rc_apply_option@12",
+                  "offset": 567
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "callback_tables": []
+  },
+  "ret_checks": {
+    "schema": 1,
+    "functions": {
+      "rc_copy_macro_text": {
+        "expected_cleanup": [
+          0,
+          8
+        ]
+      }
+    }
+  },
+  "seh_roles": {
+    "owner": "rc_copy_macro_text",
+    "original": {
+      "filter": 151,
+      "handler": 155,
+      "end": 226,
+      "filter_bytes": "6a0158c3"
+    },
+    "rebuilt": {
+      "filter": 193,
+      "handler": 199,
+      "end": 283,
+      "filter_bytes": "b801000000c3"
+    },
+    "scope_level": 4294967295,
+    "parent_cleanup": 8,
+    "filter_cleanup": 0,
+    "filter_result": 1,
+    "exception_provider": "MSVCRT.dll",
+    "exception_name": "_except_handler3",
+    "native_scope": "proved readable normal path only; no native SEH equivalence"
+  }
+}

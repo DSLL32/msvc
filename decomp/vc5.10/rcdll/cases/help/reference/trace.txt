@@ -1,9 +1,0 @@
-rcdll_main
-RC
-rc_main
-rc_initialize
-rc_allocate
-rc_is_option
-rc_emit
-rc_message
-rc_format

@@ -1,4 +1,1 @@
-cases/help/reference/*.bin binary
-cases/resources-rich/reference/*.bin binary
-cases/resources-rich/reference/*.res binary
-cases/resources-rich/api-reference/*.bin binary
+cases/*/capture.bin binary

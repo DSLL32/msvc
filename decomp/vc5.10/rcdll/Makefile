@@ -1,154 +1,46 @@
 PYTHON ?= python3
-TC = ../../../toolchains/5.10
+RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
-TOOL = $(PYTHON) scripts/wine-tool.py
-NATIVE_CC ?= clang
-NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -fshort-wchar -O0 -g
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_LEGACY_JMP_WORDS=16 -DRECON_NATIVE_SETJMP3_COUNT0 -I$(RECON)/include -I$(RECON)/native -Isrc
-SOURCES = $(wildcard src/*.c)
-HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h)
-OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
-NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
-NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)
-.PHONY: all native original inspect check-plan fixtures check audit
-all: native
-include ../../../tooling/graph-audit/graph-audit.mk
-inspect:
-	$(PYTHON) scripts/pe_inventory.py
-check-plan:
-	$(PYTHON) scripts/check-plan.py
-build build/native:
-	mkdir -p $@
-build/%.obj: src/%.c $(HEADERS) | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /I$(RECON)/include /Fo$@ $<
-build/RCDLL.DLL build/rcdll.map &: $(OBJECTS) src/rcdll.def build/help.res
-	$(TOOL) LINK.EXE /nologo /DLL /entry:_DllMainCRTStartup@12 /def:src/rcdll.def /map:build/rcdll.map /out:build/RCDLL.DLL $(OBJECTS) build/help.res $(TC)/lib/MSVCRT.LIB kernel32.lib user32.lib
-	$(PYTHON) scripts/source-snapshot.py original build/original-source.json
-original: build/RCDLL.DLL
-build/native/%.o: src/%.c $(HEADERS) | build/native
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -Dmain=rcdll_command_main -finstrument-functions -c $< -o $@
-build/native/rcdll-host: $(NATIVE_OBJECTS) scripts/native-host.c $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/native-host.c $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-source.json
-native: build/native/rcdll-host build/help-resources.bin
+NATIVE_CC = clang
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_LEGACY_JMP_WORDS=16 -DRECON_NATIVE_SETJMP3_COUNT0 -Dmain=rcdll_command_main -I$(RECON)/include -I$(RECON)/native -Isrc -DRECON_RESOURCE_FILE='"$(abspath .build/help-resources.bin)"'
+NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks -fshort-wchar
+BINARY_SOURCES = $(wildcard src/*.c)
+BINARY_SUPPORT_SOURCES = $(wildcard $(RECON)/src/*.c)
 
-build/native/lexer-state-host: $(NATIVE_OBJECTS) scripts/lexer-state-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/lexer-state-host.c $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-lexer-state-source.json --host scripts/lexer-state-host.c
+ORIGINAL_TOOLCHAIN = 5.10
+ORIGINAL_SOURCES = $(BINARY_SOURCES)
+ORIGINAL_BUILD = .build/win32
+ORIGINAL_OUTPUT = $(ORIGINAL_BUILD)/RCDLL.DLL
+ORIGINAL_MAP = $(ORIGINAL_BUILD)/rcdll.map
+ORIGINAL_CPPFLAGS = /Isrc /I$(RECON)/include
+ORIGINAL_CFLAGS = /nologo /c /Od /MD /W3
+ORIGINAL_LDFLAGS = /nologo /DLL /entry:_DllMainCRTStartup@12 /def:src/rcdll.def
+ORIGINAL_LDLIBS = .build/help.res $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
+ORIGINAL_LINK_COMMAND = $(ORIGINAL_LINK) $(ORIGINAL_LDFLAGS) /map:$(ORIGINAL_MAP) /out:$(ORIGINAL_OUTPUT) $(ORIGINAL_OBJECTS) $(ORIGINAL_LDLIBS) kernel32.lib user32.lib
+ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 
-build/native/defined-mode-host: $(NATIVE_OBJECTS) scripts/defined-mode-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/defined-mode-host.c $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-defined-mode-source.json --host scripts/defined-mode-host.c
-fixtures check: native
-	$(PYTHON) scripts/fixtures.py
-build/debug-original.obj: scripts/debug-original.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/debug-original.exe: build/debug-original.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-	$(PYTHON) scripts/source-snapshot.py debugger build/debug-original-source.json
-graph-audit: $(GRAPH_AUDIT_BIN)
-	$(PYTHON) scripts/audit.py
-build/message-probe.obj: scripts/message-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/message-probe.exe: build/message-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
+RECON_AUDIT_PROFILE = link
+RECON_IMAGE_BASE = 1908539392
+RECON_POLICY = policy-data.json
+RECON_AUDIT_FLAGS = -q --original ../../../toolchains/5.10/bin/RCDLL.DLL --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --discovery cfg --check-ret --check-references --check-ownership --check-extents --check-accepted-extents --export-instructions
+RECON_AUDIT_REGISTRY_METADATA = 1
+RECON_METADATA_REBUILT_MAP = $(ORIGINAL_MAP)
+RECON_AUDIT_REGISTRY_RET_CHECKS = 1
+RECON_AUDIT_REGISTRY_RUNTIME = 1
+RECON_AUDIT_IDENTIFY_RUNTIME = 1
+RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
+RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
+include $(RECON_TOOL_DIR)/recon-tool.mk
 
-audit: graph-audit
-build/heap-probe.obj: scripts/heap-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/heap-probe.exe: build/heap-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-
-build/help-resources.bin build/help-messages.bin &: src/help.mc cases/help/message-entries.json scripts/prepare-resources.py $(RECON)/resources.py $(TC)/bin/RCDLL.DLL | build
+$(BINARY_LIBRARY): | .build/help-resources.bin
+.build/help-resources.bin .build/help-messages.bin &: src/help.mc scripts/prepare-resources.py $(RECON)/resources.py
 	$(PYTHON) scripts/prepare-resources.py
-.PHONY: check-abi
-check-abi:
-	$(PYTHON) scripts/check-abi.py
+.build/help.res: src/help.rc .build/help-messages.bin | $(RECON_TOOL)
+	$(RECON_TOOL) original tool 5.10 RC.EXE -- /r /fo$@ src/help.rc
+.PHONY: original
+original: recon-original
 
-build/help.res: src/help.rc build/help-messages.bin
-	$(TOOL) RC.EXE /r /fobuild/help.res src/help.rc
-
-build/resources-api-probe.obj: scripts/resources-api-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/resources-api-probe.exe: build/resources-api-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-
-build/wide-api-probe.obj: scripts/wide-api-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/wide-api-probe.exe: build/wide-api-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-
-build/cpinfo-api-probe.obj: scripts/cpinfo-api-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/cpinfo-api-probe.exe: build/cpinfo-api-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-
-build/ctype-api-probe.obj: scripts/ctype-api-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/ctype-api-probe.exe: build/ctype-api-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-
-build/towupper-api-probe.obj: scripts/towupper-api-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/towupper-api-probe.exe: build/towupper-api-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-
-build/line-format-api-probe.obj: scripts/line-format-api-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/line-format-api-probe.exe: build/line-format-api-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-
-build/wcstol-api-probe.obj: scripts/wcstol-api-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/wcstol-api-probe.exe: build/wcstol-api-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-
-build/source-line-format-api-probe.obj: scripts/source-line-format-api-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/source-line-format-api-probe.exe: build/source-line-format-api-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-
-build/native/class-boundary-host: build/native/characters.o scripts/class-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) build/native/characters.o scripts/class-boundary-host.c $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-class-boundary-source.json --host scripts/class-boundary-host.c
-
-build/native/directive-boundary-host: build/native/directive-names.o scripts/directive-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) build/native/directive-names.o scripts/directive-boundary-host.c $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-directive-boundary-source.json --host scripts/directive-boundary-host.c
-
-# Auxiliary guard check: localize only the dependency definition being controlled.
-# All target objects, including the lexer, remain the production objects.
-build/native/descriptor-number.o: build/native/numbers.o
-	objcopy --localize-symbol=rc_read_number $< $@
-build/native/descriptor-boundary-host: $(NATIVE_OBJECTS) build/native/descriptor-number.o scripts/descriptor-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(filter-out build/native/numbers.o,$(NATIVE_OBJECTS)) scripts/descriptor-boundary-host.c build/native/descriptor-number.o $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-descriptor-boundary-source.json --host scripts/descriptor-boundary-host.c
-
-build/native/number-mode-boundary-host: $(NATIVE_OBJECTS) scripts/number-mode-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/number-mode-boundary-host.c $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-number-mode-boundary-source.json --host scripts/number-mode-boundary-host.c
-
-build/native/integer-storage-boundary-host: $(NATIVE_OBJECTS) scripts/integer-storage-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/integer-storage-boundary-host.c $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-integer-storage-boundary-source.json --host scripts/integer-storage-boundary-host.c
-
-build/native/string-storage-host: $(NATIVE_OBJECTS) scripts/string-storage-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/string-storage-host.c $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-string-storage-source.json --host scripts/string-storage-host.c
-
-build/native/include-marker-boundary-host: $(NATIVE_OBJECTS) scripts/include-marker-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/include-marker-boundary-host.c $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-include-marker-boundary-source.json --host scripts/include-marker-boundary-host.c
-
-build/wcschr-api-probe.obj: scripts/wcschr-api-probe.c | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
-build/wcschr-api-probe.exe: build/wcschr-api-probe.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
-
-build/native/include-workspace-boundary-host: $(NATIVE_OBJECTS) scripts/include-workspace-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/include-workspace-boundary-host.c $(NATIVE_SHIMS) -Wl,--wrap=rc_open_source -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-include-workspace-boundary-source.json --host scripts/include-workspace-boundary-host.c
-
-build/native/parameter-storage-host: $(NATIVE_OBJECTS) scripts/parameter-storage-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/parameter-storage-host.c $(NATIVE_SHIMS) -o $@
-	$(PYTHON) scripts/source-snapshot.py native build/native-parameter-storage-source.json --host scripts/parameter-storage-host.c
+.PHONY: check-seh
+audit: check-seh
+check-seh: recon-graph-audit
+	$(PYTHON) scripts/check-seh.py --report $(RECON_AUDIT_REPORT) --policy $(RECON_POLICY) --original ../../../toolchains/5.10/bin/RCDLL.DLL --rebuilt $(ORIGINAL_OUTPUT)

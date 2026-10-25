@@ -1,6 +1,0 @@
-{
-  "original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/format-original2",
-  "native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/final-native-recheck",
-  "configuration_sha256": "c1be7cacb095c930d454eb401686db3dc670c8dd11a5d51d44de6524eff2bce5",
-  "original_reuse": "Same original target, controller, case argv/module path and exact masked trial configuration; later native shared-source rebuild and Win32-only resource linkage do not alter original execution inputs. Raw historical receipt retained unchanged."
-}

@@ -1,1 +1,0 @@
-/r "/dCASE_FROM_COMMAND=7 " /iinclude /foresources.res resources.rc
