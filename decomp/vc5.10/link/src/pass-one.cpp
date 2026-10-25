@@ -188,7 +188,15 @@ void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,Outpu
 }
 extern "C" void __stdcall resolve_weak_externals(LinkContext *context,DWORD flags) { __asm { int 3 } }
 extern "C" void __stdcall search_libraries(LinkContext *context) { __asm { int 3 } }
-extern "C" BYTE __stdcall resolve_initial_entry(LinkContext *context) { __asm { int 3 } return 0; }
+extern "C" StringNode *__stdcall resolve_entry_symbol(LinkContext *context)
+{ __asm { int 3 } return NULL; }
+extern "C" BYTE __stdcall resolve_initial_entry(LinkContext *context)
+{
+    if (!context->entry_name)
+        context->entry_name=duplicate_link_string(entry_point_name);
+    entry_symbol=resolve_entry_symbol(context);
+    return !(entry_symbol->flags & 1);
+}
 extern "C" void __stdcall find_console_entry_symbols(LinkContext *,StringNode **,StringNode **);
 extern "C" void __stdcall find_gui_entry_symbols(LinkContext *,StringNode **,StringNode **);
 extern "C" BYTE __stdcall infer_subsystem(LinkContext *context)

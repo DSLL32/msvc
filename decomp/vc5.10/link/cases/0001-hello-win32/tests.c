@@ -1233,7 +1233,22 @@ static int inferred_startup(void)
     return recon_native_at_entry(resolve_initial_entry,check_inferred_startup,
         invoke_hello,NULL)==1;
 }
+extern StringNode *__stdcall resolve_entry_symbol(LinkContext *);
+static StringNode *__stdcall check_initial_entry_copy(LinkContext *context)
+{
+    recon_native_entry_finish(context && context->entry_name && entry_point_name &&
+        context->entry_name!=entry_point_name &&
+        !strcmp(context->entry_name,"WinMainCRTStartup") &&
+        !strcmp(entry_point_name,"WinMainCRTStartup") && !entry_symbol);
+    return NULL;
+}
+static int initial_entry_copy(void)
+{
+    return recon_native_at_entry(resolve_entry_symbol,check_initial_entry_copy,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"initial-entry-copy",1,initial_entry_copy},
     {"inferred-startup",1,inferred_startup},
     {"entry-symbol-predicate",1,entry_symbol_predicate},
     {"gui-subsystem",1,gui_subsystem},
