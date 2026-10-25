@@ -155,3 +155,26 @@ int __stdcall based_pointer_has_indirect_base(TypeShape *shape)
     if (base && !(base->flags & 0x77)) base = base->related;
     return base && (base->flags & 3);
 }
+
+/* Original0x61000..0x6109d, stdcall12. The operation formal is unused;
+   diagnose differing concrete pointer modes or differing named bases. */
+void __stdcall check_based_pointer_conversion(unsigned char operation,
+    TypeShape *target, TypeShape *source)
+{
+    unsigned short target_mode, source_mode;
+    CppSymbol *target_base, *source_base;
+    if ((source->flags & 0x77) == 2 && (source->attributes & 0xc)) return;
+    target_mode = target->attributes & 15;
+    source_mode = source->attributes & 15;
+    if (!(target_mode & 4) && !(source_mode & 4)) return;
+    if (!(target_mode & 12) || !(source_mode & 12) ||
+        source_mode == 4 || target_mode == 4) return;
+    if (source_mode != target_mode) {
+        compiler_warning(1, 123);
+        return;
+    }
+    target_base = (target_mode & 7) >= 5 ? target->data.based_symbol : 0;
+    source_base = (source_mode & 7) >= 5 ? source->data.based_symbol : 0;
+    if (source_base != target_base)
+        compiler_warning(1, 119, target_base->name, source_base->name);
+}

@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1635 historical frontiers/1528 App bodies.
+ * Current reviewed boundary:1636 historical frontiers/1529 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -10847,10 +10847,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_check_based_pointer_conversion@12",
         .entry_rva = 0x51000,
-        .code = (const ReconExtent[]) { { 0x51000, 0x51001 } },
+        .code = (const ReconExtent[]) { { 0x51000, 0x5109d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "check_based_pointer_conversion",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_equivalent_shape_attributes@8",
