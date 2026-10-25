@@ -24,6 +24,22 @@ register-import contracts), retaining empty callback tables. Policy data must no
 `target`, `accepted`, or `driver`. Original-compiler builds and audits remain
 separate. Native execution never invokes Wine.
 
+For the qualified CF image, `registry-export --image-base 0 --cf-profile
+harness/cf-identity.json` derives graph image metadata using the same finite
+profile validator as original capture. Run it from the graph project directory;
+the profile path must be project-relative. Use an identity-only `entry-stop`
+profile with no instruction catalog as this witness. The ordinary `progress`
+profile separately binds the generated catalog, avoiding a circular dependency
+between the profile hash and graph configuration hash. The graph tool reads and
+checks the actual CF header and bytes independently.
+
+Optional policy `runtime_evidence` maps classified CRT names to explicit
+`{"path":"harness/support-witness.json","sha256":"..."}` file bindings.
+`--runtime-output` attaches these witnesses to registry-derived extents; unknown
+names, non-CRT entries, traversal and malformed hashes fail. This field changes
+neither accepted functions nor registry roles. Graph export and the capture
+consumer still validate the actual witness files and separate ABI admission.
+
 Include `include/recon-tool.h` for descriptor ABI **2**. Rebuild the binary and
 case modules when this header changes; old descriptor versions are rejected.
 `ReconFunction.original_symbol` optionally supplies the original compiler's MAP
@@ -385,8 +401,8 @@ Use a stable logical cwd whenever it is observable, as for debug records. R:/S:/
 are never remapped per case. Original-capture references/reports are saved outside
 the owned ephemeral directory before it is removed.
 
-The original backend supports PE32 i386 images and the diagnostic CF entry-stop
-mode described below. Ordinary CF progress and the Watcom gateway remain closed
+The original backend supports PE32 i386 images and the finite WCC CF modes
+described below. Unqualified CF loaders and the Watcom gateway remain closed
 pending their separate catalog/controller qualification. Direct calls support ordinary
 MSVC ECX/EDX/stack conventions, not arbitrary register ABIs such as Watcom watcall.
 
@@ -675,9 +691,35 @@ allocation, real context/selectors/frame, byte identities, owned teardown, and
 backend source/helper hashes; floating state is explicitly absent. It writes no
 fixture at `--output`, records no App entries, and rejects `--artifacts-dir`.
 Use `--report` to retain success or failure diagnostics across workspace cleanup.
-Ordinary CF progress, CF DIRECT and other CF loader geometries remain unavailable
-until their separate source/catalog and execution controls have qualified them.
-Native replay and the PE capture backend keep their existing paths.
+Ordinary WCC CF progress uses the same command with `--progress` in place of
+`--entry-stop` and a profile whose mode is `progress`. Its explicit runtime
+catalog binds the current binary registry, graph producer and audit inputs.
+The shared graph exporter supplies paired instruction facts or separate
+original-only CRT facts; a reviewed role and ABI contract are required in
+addition to those facts. Pending App entries remain real INT3 frontiers.
+
+The qualified initial WCC path covers five startup/support bodies and stops at
+the actual compiler `MemAlloc` entry with size 8. It does not authorize the
+allocator body, OS gateway services or complete help execution. Progress writes
+a version-2 partial I/O capture containing streams and files. Its SHA-bound
+original report records actual App entry order and terminal/frontier. Use
+`run --capture CAPTURE --original-report
+REPORT` for the corresponding fresh native comparison. The captured argv[0]
+records the actual payload name derived by the original loader.
+
+The controller checks each admitted instruction and its real transfer against
+the current stopped-thread state. The finite startup operations include bounded
+input scans, observed flat-selector reads/save/restore and zero-only REP stores
+inside the declared BSS span. Unknown owners, instructions, threads and gateways
+fail. Reports retain bounded event/step records plus full-stream hashes, actual
+elapsed/RPC/poll/CPU measurements, and explicit absence of floating state.
+CF DIRECT and other real CF loader geometries remain unavailable. Native replay
+and the PE capture backend keep their existing paths. The controller package is
+private to `recon-tool original capture`; it is not a second capture command.
+
+Offline/native controller checks live under `tests/cf-{gate,identity,ipc,child,
+startup,poll}.py`; they do not launch Wine. The authored Win32 controls require a
+separately reviewed frozen launch plan and provide no application acceptance.
 
 
 A binary that has several public method names for one physical body can set

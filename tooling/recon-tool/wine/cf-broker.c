@@ -15,7 +15,7 @@
 #include <sys/stat.h>
 
 enum { MAP_BYTES=16384, PAYLOAD=256, MAX_PAYLOAD=4096, MAX_SEQUENCE=1000000,
-       MAX_TRAPS=64, MAX_EVENTS=10000, MAX_STEPS=10000, MAX_READ=512 };
+       MAX_TRAPS=64, MAX_EVENTS=65536, MAX_STEPS=32768, MAX_READ=512 };
 enum { OP_EVENT=10, OP_CONTEXT=11, OP_READ=12, OP_TRAP=13, OP_CONSUME=14,
        OP_ARM=15, OP_STEP=16, OP_LOADER=17, OP_STOP=18, OP_SELECTORS=19, OP_REGION=20,
        OP_WCC_PREFIX=21, OP_WCC_ENTRY=22, OP_WCC_ENTRY_TRAP=23,
@@ -625,6 +625,7 @@ int main(int argc,char **argv)
     STARTUPINFOA startup;PROCESS_INFORMATION process;SECURITY_ATTRIBUTES security;
     DWORD high=0,operation,length,status=90,response_length;char command[4096];int ok,descriptor;unsigned i;
     HANDLE inherited[3];char *environment=NULL;
+    DWORD idle_since;unsigned idle_polls=0;
     /* map,target,rawargs,cwd,stdin,stdout,stderr,log,entry-rva,entry-byte,global-ms,lease-ms */
     if((argc!=13 && argc!=14) || strlen(argv[2])+strlen(argv[3])+5>=sizeof(command)) return 90;
     if(argc==14 && !(environment=target_environment(argv[13]))) return 90;
@@ -663,17 +664,25 @@ int main(int argc,char **argv)
     CloseHandle(input);input=INVALID_HANDLE_VALUE;CloseHandle(output);output=INVALID_HANDLE_VALUE;
     CloseHandle(error_output);error_output=INVALID_HANDLE_VALUE;
     fprintf(log_file,"owned-child pid=%lu tid=%lu entry-rva=%08lx entry-byte=%02lx\n",child_pid,child_tid,entry_rva,entry_byte);
-    status=92;
+    status=92;idle_since=GetTickCount();
     while(budget() && !exiting) {
         DWORD command_sequence=load(12);
         if(load(0)!=0x50434757UL || load(4)!=1 || load(8)!=MAP_BYTES) break;
-        if(command_sequence==seen) {Sleep(1);continue;}
+        if(command_sequence==seen) {
+            /* Keep immediate shared-map handoffs below a timer tick. Yield
+               after a bounded spin; debugger/idle gaps return to Sleep(1).
+               The unchanged budget/header checks run on every pass. */
+            if(idle_polls<64) ++idle_polls;
+            else Sleep(GetTickCount()-idle_since<2?0:1);
+            continue;
+        }
         if(command_sequence!=seen+1 || command_sequence>MAX_SEQUENCE || load(16)!=seen) break;
         operation=load(24);length=load(28);if(length>MAX_PAYLOAD) break;
         ok=dispatch(operation,length,&response_length);
         if(load(12)!=command_sequence || load(24)!=operation || load(28)!=length) ok=0;
         *(DWORD *)(area+32)=ok?0:93;*(DWORD *)(area+36)=ok?response_length:0;
         publish(16,command_sequence);seen=command_sequence;
+        idle_polls=0;idle_since=GetTickCount();
         if(!ok) break;
     }
     if(exiting && teardown_ok) status=0;

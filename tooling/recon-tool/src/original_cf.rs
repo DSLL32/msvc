@@ -38,6 +38,8 @@ struct Loader {
     path: String,
     sha256: String,
     protocol: String,
+    #[serde(default)]
+    setup_catalog: Option<serde_json::Value>,
 }
 #[derive(Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -69,8 +71,8 @@ fn validate(
     ensure!(
         profile.schema == 1
             && profile.backend == "watcom-cf"
-            && profile.mode == "entry-stop"
-            && profile.runtime_catalog.is_none(),
+            && ((profile.mode == "entry-stop" && profile.runtime_catalog.is_none())
+                || (profile.mode == "progress" && profile.runtime_catalog.is_some())),
         "unsupported CF profile/mode; entry-stop admits no instruction catalog"
     );
     ensure!(
@@ -84,8 +86,36 @@ fn validate(
     // A finite reviewed loader protocol, not an arbitrary list of executable PCs.
     // Other CF loaders need their own bounded geometry/byte qualification.
     let h = &profile.target.header;
+    let authored = profile.loader.protocol == "authored-cf-arena-v1";
+    if authored {
+        ensure!(
+            profile.mode == "progress"
+                && profile.loader.setup_catalog.is_some()
+                && profile.loader.sha256
+                    == "d0d1d34b0e44b12a29c553be48738b802f8b4ebda29c797c2e49c50c25f8cca6"
+                && profile.target.sha256
+                    == "5d89058bf2a8b2a46d65736cdda321cecde7e10f468df1ba7634eabc9802bbcc"
+                && [
+                    h.header_file_offset,
+                    h.image_file_offset,
+                    h.initialized_size,
+                    h.relocation_offset,
+                    h.allocation_size,
+                    h.entry_offset
+                ] == [0x40, 0x80, 0x401a, 0x4000, 0x5000, 0x1035]
+                && profile.target.initialized_sha256
+                    == "889fce7305fb1f38e33c20db5781181c51897cac6eaa513f6d119ecec9a31619"
+                && profile.target.relocation_sha256
+                    == "4f23ed9fcf6c4bc47126699d728fe2fb636b4a05223b364d66987cb05fcb0c58"
+                && profile.target.relocation_count == 10
+                && profile.target.relocation_groups == 1,
+            "unqualified authored CF control identity"
+        );
+        return Ok(());
+    }
     ensure!(
-        profile.loader.protocol == "watcom10.0a-wcc-entry-v1"
+        profile.loader.setup_catalog.is_none()
+            && profile.loader.protocol == "watcom10.0a-wcc-entry-v1"
             && profile.loader.path == "toolchains/watcom10.0a/binnt/WCC386.EXE"
             && profile.loader.sha256
                 == "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d"
@@ -111,6 +141,38 @@ fn validate(
     Ok(())
 }
 
+/// Project only the already qualified finite image identity for graph-audit.
+/// Instruction admission and runtime catalogs are deliberately not projected.
+pub(crate) fn graph_image(path: &Path, info: &crate::abi::Info) -> Result<serde_json::Value> {
+    ensure!(
+        !path.as_os_str().is_empty()
+            && path
+                .components()
+                .all(|c| matches!(c, std::path::Component::Normal(_))),
+        "CF projection profile must be relative to the graph project/current directory"
+    );
+    let raw = fs::read(path)?;
+    ensure!(raw.len() <= 65536, "CF profile exceeds 64 KiB");
+    let profile: Profile = serde_json::from_slice(&raw)?;
+    ensure!(
+        profile.mode == "entry-stop",
+        "CF graph projection requires an identity-only entry-stop profile, avoiding catalog/witness hash cycles"
+    );
+    validate(
+        &profile,
+        &info.original_path,
+        &info.original_sha256,
+        info.original_entry_rva,
+    )?;
+    Ok(serde_json::json!({
+        "format":"watcom-cf", "coordinates":"image-offset", "analysis_base":0,
+        "initialized_sha256":profile.target.initialized_sha256,
+        "relocation_sha256":profile.target.relocation_sha256,
+        "loader":{"path":profile.loader.path,"sha256":profile.loader.sha256},
+        "layout_evidence":{"path":path,"sha256":hash(&raw)}
+    }))
+}
+
 pub fn capture(
     options: &crate::original::Capture,
     info: &crate::abi::Info,
@@ -121,11 +183,11 @@ pub fn capture(
     environment: &Path,
 ) -> Result<serde_json::Value> {
     ensure!(
-        options.entry_stop
-            && options.host.is_none()
+        options.host.is_none()
             && options.direct_helper.is_none()
             && !options.native_msvcrt
-            && options.artifacts_dir.is_none()
+            && (!options.entry_stop || options.artifacts_dir.is_none())
+            && (options.entry_stop || options.progress)
             && info.execution == 0,
         "CF entry-stop requires IO and --entry-stop; PE host/DIRECT/provider options do not apply"
     );
@@ -142,6 +204,10 @@ pub fn capture(
         &info.original_sha256,
         info.original_entry_rva,
     )?;
+    ensure!(
+        options.entry_stop == (profile.mode == "entry-stop"),
+        "CF mode/--entry-stop mismatch"
+    );
     let target = options.repo.join(&profile.target.path).canonicalize()?;
     ensure!(
         target == program,
@@ -191,6 +257,7 @@ pub fn capture(
         "gate.py",
         "ipc.py",
         "wcc_handoff.py",
+        "catalog.py",
     ] {
         let path = package.join("watcom").join(name);
         sources.insert(
@@ -203,7 +270,7 @@ pub fn capture(
         serde_json::json!({"path":helper,"sha256":hash(&fs::read(&helper)?)}),
     );
     let request = serde_json::json!({"repo":options.repo,"profile":profile,"profile_sha256":hash(&raw),
-        "target_env":f.env,"sources":sources,"root":root,"cwd":cwd,"target":target,"loader":loader,"helper":helper,
+        "target_env":f.env,"registry":info.functions,"first_entry_seen":info.first_entry_seen,"sources":sources,"root":root,"cwd":cwd,"target":target,"loader":loader,"helper":helper,
         "wine":launch_executable(&wine)?,"environment":environment,"arguments":args,
         "stdin":if f.stdin_kind==crate::fixture::StdinKind::Null {"NUL".into()}else{crate::wine::windows(&stdin,&options.repo)?},
         "timeout_ms":f.timeout_ms,"seconds":(f.timeout_ms as f64/1000.+1.).min(300.)});
@@ -227,8 +294,8 @@ pub fn capture(
     let report: serde_json::Value = serde_json::from_slice(&raw)?;
     ensure!(
         report["passed"] == true
-            && report["oracle_written"] == false
-            && report["original_cf_instructions_executed"] == 0,
+            && report["oracle_written"] == !options.entry_stop
+            && (!options.entry_stop || report["original_cf_instructions_executed"] == 0),
         "invalid CF entry-stop receipt"
     );
     Ok(report)
@@ -288,6 +355,39 @@ mod tests {
         use std::os::unix::ffi::OsStringExt;
         let invalid = Command::new(std::ffi::OsString::from_vec(vec![b'/', 255]));
         assert!(launch_executable(&invalid).is_err());
+    }
+
+    #[test]
+    fn graph_projection_uses_finite_identity_and_project_relative_profile() {
+        let value: serde_json::Value =
+            serde_json::from_str(include_str!("../tests/cf-entry-profile.json")).unwrap();
+        let mut info: crate::abi::Info = serde_json::from_value(serde_json::json!({
+            "binary":"WCC386.EXE", "case":"metadata", "description":"", "execution":0,
+            "original_path":value["target"]["path"], "original_sha256":value["target"]["sha256"],
+            "original_entry_rva":0x2fe00, "terminal":1,"frontier_rva":0x47c77,
+            "first_entry_order":[],"first_entry_seen":[],"functions":[],"tests":[],"module":"metadata.so"
+        })).unwrap();
+        let path = Path::new("tests/cf-entry-profile.json");
+        let projected = graph_image(path, &info).unwrap();
+        assert_eq!(projected["format"], "watcom-cf");
+        assert_eq!(projected["analysis_base"], 0);
+        assert_eq!(projected["loader"]["sha256"], value["loader"]["sha256"]);
+        assert_eq!(
+            projected["layout_evidence"]["path"],
+            "tests/cf-entry-profile.json"
+        );
+        assert_eq!(
+            projected["layout_evidence"]["sha256"],
+            hash(&fs::read(path).unwrap())
+        );
+        assert!(projected.get("runtime_catalog").is_none());
+        assert!(graph_image(&path.canonicalize().unwrap(), &info).is_err());
+        assert!(graph_image(Path::new("../profile.json"), &info).is_err());
+        info.original_entry_rva = 0x1a99b;
+        assert!(graph_image(path, &info).is_err());
+        info.original_entry_rva = 0x2fe00;
+        info.original_sha256 = "0".repeat(64);
+        assert!(graph_image(path, &info).is_err());
     }
 
     #[test]

@@ -1,4 +1,0 @@
-*.stdout -text -diff
-*.stderr -text -diff
-*.bin -text -diff
-*.map -text -diff

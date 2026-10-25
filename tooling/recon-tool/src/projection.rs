@@ -9,6 +9,9 @@ pub struct Options {
     pub case: PathBuf,
     #[arg(long)]
     pub image_base: u32,
+    /// Use a finite CF profile, relative to the graph project/current directory.
+    #[arg(long)]
+    pub cf_profile: Option<PathBuf>,
     /// Select a finite policy.accepted_scopes view; never adds accepted functions.
     #[arg(long)]
     pub accepted_scope: Option<String>,
@@ -205,6 +208,7 @@ fn metadata(policy: &Value, info: &Info) -> Result<Value> {
 
 fn registry(info: &Info, image_base: u32, mut policy: Value) -> Result<Value> {
     ensure!(policy.is_object(), "policy must be a JSON object");
+    runtime_evidence(info, &policy)?;
     for field in ["target", "accepted", "driver"] {
         ensure!(
             policy.get(field).is_none(),
@@ -213,6 +217,7 @@ fn registry(info: &Info, image_base: u32, mut policy: Value) -> Result<Value> {
     }
     policy.as_object_mut().unwrap().remove("graph_metadata");
     policy.as_object_mut().unwrap().remove("ret_checks");
+    policy.as_object_mut().unwrap().remove("runtime_evidence");
     let add = |rva: u32| image_base.checked_add(rva).context("original VA overflow");
     policy["target"] = json!({"path":info.original_path,"sha256":info.original_sha256,"base":image_base,"entry":add(info.original_entry_rva)?});
     let audited = qualified_runtime_names(info, &policy)?;
@@ -265,6 +270,50 @@ fn registry(info: &Info, image_base: u32, mut policy: Value) -> Result<Value> {
     Ok(policy)
 }
 
+fn runtime_evidence(info: &Info, policy: &Value) -> Result<serde_json::Map<String, Value>> {
+    let Some(value) = policy.get("runtime_evidence") else {
+        return Ok(serde_json::Map::new());
+    };
+    let rows = value
+        .as_object()
+        .context("runtime_evidence must be an object")?;
+    for (name, witness) in rows {
+        ensure!(
+            info.functions
+                .iter()
+                .any(|f| f.name == *name && f.definition == 3 && !f.code.is_empty()),
+            "runtime evidence lacks classified CRT extent: {name}"
+        );
+        let object = witness
+            .as_object()
+            .context("runtime evidence must be a file binding")?;
+        ensure!(
+            object.len() == 2 && object.contains_key("path") && object.contains_key("sha256"),
+            "runtime evidence requires path/sha256 only"
+        );
+        let path = object["path"]
+            .as_str()
+            .context("runtime evidence path must be a string")?;
+        ensure!(
+            !path.is_empty()
+                && path.len() <= 4096
+                && !path.contains(['\0', '\\'])
+                && std::path::Path::new(path)
+                    .components()
+                    .all(|c| matches!(c, std::path::Component::Normal(_))),
+            "runtime witness must be project-relative without traversal"
+        );
+        let hash = object["sha256"]
+            .as_str()
+            .context("runtime evidence SHA256 must be a string")?;
+        ensure!(
+            hash.len() == 64 && hash.bytes().all(|b| b.is_ascii_hexdigit()),
+            "runtime evidence SHA256 must contain 64 hex digits"
+        );
+    }
+    Ok(rows.clone())
+}
+
 fn qualified_runtime_names<'a>(
     info: &Info,
     policy: &'a Value,
@@ -290,6 +339,7 @@ fn qualified_runtime_names<'a>(
 
 fn runtime_records(info: &Info, image_base: u32, policy: &Value) -> Result<Value> {
     let qualified = qualified_runtime_names(info, policy)?;
+    let evidence = runtime_evidence(info, policy)?;
     let add = |rva: u32| image_base.checked_add(rva).context("runtime VA overflow");
     let mut records = vec![];
     for function in info
@@ -311,7 +361,9 @@ fn runtime_records(info: &Info, image_base: u32, policy: &Value) -> Result<Value
                 )
             })?;
         let mut row = json!({"name":function.name,"start":add(primary[0])?,"end":add(primary[1])?,"shared":function.text_data.iter().map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?,"code_chunks":function.code.iter().filter(|r| *r != primary).map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?,"category":"runtime"});
-        if qualified.contains(function.name.as_str()) {
+        if let Some(witness) = evidence.get(&function.name) {
+            row["evidence"] = witness.clone();
+        } else if qualified.contains(function.name.as_str()) {
             row["evidence"] =
                 json!("binary.c classified extent; finite runtime_audit_names graph qualification");
         }
@@ -359,6 +411,13 @@ pub fn export(options: Options) -> Result<()> {
         None => json!({}),
     };
     let mut config = registry(&info, options.image_base, policy.clone())?;
+    if let Some(path) = options.cf_profile {
+        ensure!(
+            options.image_base == 0,
+            "CF graph coordinates require image-base zero"
+        );
+        config["target"]["image"] = crate::original_cf::graph_image(&path, &info)?;
+    }
     if let Some(scope) = options.accepted_scope {
         accepted_view(&mut config, &info, &policy, &scope)?;
     }
@@ -507,6 +566,41 @@ mod tests {
             .unwrap()["driver"][1]["pending_extent"],
             false
         );
+    }
+    #[test]
+    fn explicit_runtime_witnesses_preserve_registry_roles_and_extents() {
+        let mut i = info();
+        let mut crt = i.functions[0].clone();
+        crt.name = "crt".into();
+        crt.definition = 3;
+        crt.implementation = 0;
+        crt.native_symbol = None;
+        i.functions.push(crt);
+        let binding = json!({"path":"harness/witness.json","sha256":"a".repeat(64)});
+        let policy = json!({"runtime_evidence":{"crt":binding}});
+        let row = &runtime_records(&i, 0, &policy).unwrap()[0];
+        assert_eq!(row["evidence"], binding);
+        assert_eq!(row["start"], 16);
+        assert_eq!(row["end"], 20);
+        let plain = registry(&i, 0, json!({})).unwrap();
+        let projected = registry(&i, 0, policy).unwrap();
+        assert_eq!(plain["accepted"], projected["accepted"]);
+        assert_eq!(plain["driver"], projected["driver"]);
+        assert_eq!(plain["function_registry"], projected["function_registry"]);
+        assert!(projected.get("runtime_evidence").is_none());
+        for bad in [
+            json!({"unknown":binding}),
+            json!({"method":binding}),
+            json!({"crt":{"path":"../witness","sha256":"a".repeat(64)}}),
+            json!({"crt":{"path":"/witness","sha256":"a".repeat(64)}}),
+            json!({"crt":{"path":"harness\\witness","sha256":"a".repeat(64)}}),
+            json!({"crt":{"path":"witness","sha256":"short"}}),
+            json!({"crt":{"path":"witness","sha256":"a".repeat(64),"code":[[1,2]]}}),
+        ] {
+            assert!(runtime_records(&i, 0, &json!({"runtime_evidence":bad})).is_err());
+        }
+        i.functions[2].definition = 2;
+        assert!(runtime_records(&i, 0, &json!({"runtime_evidence":{"crt":binding}})).is_err());
     }
     #[test]
     fn aliases_pending_extents_and_strict_known_extents() {

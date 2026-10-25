@@ -448,11 +448,15 @@ thread-context redirection. Completion/frontier and four failure controls pass.
 The initial implementation supports EXE targets; C1 integration is in progress.
 The unused older remote-call prototype is being removed.
 
-The ordinary original backend supports PE32 i386 images. Shared CF entry-stop
-is diagnostic only: it executes no CF body and writes no fixture oracle.
-Ordinary CF progress/catalog support remains in development. Typed PE probe
-code lets the original compiler supply the target ABI; CF DIRECT probes remain
-unsupported.
+The original backend supports PE32 i386 and finite WCC CF progress. CF entry-stop
+remains diagnostic, with no CF body execution or fixture oracle. Ordinary CF
+progress requires a validated loader/image profile and explicit registry-bound
+instruction catalog, including separately witnessed support roles and ABIs. The
+qualified initial path reaches the genuine pending MemAlloc App frontier before
+its first instruction; allocator bodies and OS gateways remain closed. Use an
+identity-only profile for registry-export --cf-profile (base zero), separately
+from the ordinary admission catalog. Unknown loaders, operations and owners fail.
+CF DIRECT remains unsupported; typed PE probes use the original compiler ABI.
 
 Current original capture transport is single-threaded, ANSI/ASCII-path/argument based,
 and uses regular-file or explicit null-device stdin. It rejects pipe/timed-console events rather than

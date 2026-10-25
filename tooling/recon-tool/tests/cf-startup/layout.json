@@ -1,0 +1,52 @@
+{
+  "scope": "finite authored startup-op control, not App reconstruction",
+  "target_sha256": "9ee69ca278cafeaf058dc9101a2f8edb88c54958f5ade72834184b66cf7461f3",
+  "header": [
+    17987,
+    128,
+    16420,
+    16384,
+    20480,
+    4212
+  ],
+  "initialized_sha256": "33bf0d227f23f319aec29c4e9a524e8163d5c32c0c42dd3b968f673ec254cc4d",
+  "relocation_sha256": "56c6493313d5ee02a646fad2f744a98d7b754c8d584dba80e19a8c964de97f3d",
+  "relocation_count": 15,
+  "relocation_groups": 1,
+  "functions": {
+    "_probe_startup": {
+      "start": 4212,
+      "end": 4279
+    },
+    "_probe_unknown": {
+      "start": 4114,
+      "end": 4129
+    }
+  },
+  "data": {
+    "probe_word": {
+      "start": 8248,
+      "end": 8250
+    },
+    "probe_ds": {
+      "start": 8244,
+      "end": 8246
+    },
+    "probe_ss": {
+      "start": 8246,
+      "end": 8248
+    },
+    "probe_text": {
+      "start": 8200,
+      "end": 8202
+    },
+    "probe_zero": {
+      "start": 8208,
+      "end": 8239
+    },
+    "probe_marker": {
+      "start": 8240,
+      "end": 8244
+    }
+  }
+}

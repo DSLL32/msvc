@@ -27,6 +27,22 @@ REPLY_LEN=36
 MAX_SEQUENCE=1000000
 
 
+def reply_wait(start):
+    """Brief active handoff, then yield; long/debugger waits sleep normally.
+
+    Only called inside a live synchronous request. Header, sequence, lease and
+    absolute deadline checks remain in its surrounding loop on every pass.
+    """
+    elapsed = time.monotonic() - start
+    if elapsed >= 0.002:
+        time.sleep(0.001)
+        return 'sleep'
+    if elapsed >= 0.00005:
+        os.sched_yield()
+        return 'yield'
+    return 'spin'
+
+
 class ProtocolError(RuntimeError):
     pass
 
@@ -75,6 +91,7 @@ class Client:
         self.lock=threading.Lock()
         self.failed=False
         self.records=[]
+        self.wait_counts={'spin':0,'yield':0,'sleep':0}
         self.stop=threading.Event()
         self.heartbeat_error=None
 
@@ -149,7 +166,7 @@ class Client:
                     return response
                 if current!=expected-1:
                     raise ProtocolError("skipped/replayed response sequence")
-                time.sleep(0.001)
+                self.wait_counts[reply_wait(start)] += 1
         except BaseException:
             self.failed=True
             raise

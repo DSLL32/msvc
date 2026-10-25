@@ -190,8 +190,8 @@ use std::{
 };
 #[derive(clap::Args)]
 pub struct Capture {
-    /// Hash-bound CF loader profile; currently entry-stop only.
-    #[arg(long, requires = "entry_stop")]
+    /// Hash-bound CF loader profile and explicit instruction admission.
+    #[arg(long)]
     pub cf_profile: Option<PathBuf>,
     /// Stop at the actual CF entry INT3, without writing a fixture oracle.
     #[arg(long, requires = "cf_profile")]
@@ -528,7 +528,7 @@ struct FrontierSnapshot {
     image_base: u32,
     rva: u32,
     registers: BTreeMap<String, u32>,
-    floating_save: Bytes,
+    floating_save: Option<Bytes>,
     stack_address: u32,
     stack_requested: u32,
     stack: Option<Bytes>,
@@ -579,7 +579,7 @@ fn frontier_snapshot(
         image_base: base,
         rva,
         registers,
-        floating_save: Bytes(data[40..].to_vec()),
+        floating_save: Some(Bytes(data[40..].to_vec())),
         stack_address: esp,
         stack_requested: FRONTIER_STACK_BYTES,
         stack,
@@ -867,22 +867,77 @@ fn capture_executor(
             &program,
             &environment,
         )?;
+        let entry_stop = options.entry_stop;
+        let terminal = if entry_stop {
+            format!("entry-stop:{:x}", loaded.info.original_entry_rva)
+        } else {
+            backend["terminal"]
+                .as_str()
+                .context("CF terminal missing")?
+                .to_owned()
+        };
+        let order: Vec<u32> = serde_json::from_value(backend["first_entry_order"].clone())?;
+        let mut captured = None;
+        let mut raw_artifacts = vec![];
+        let mut snapshot = None;
+        if !entry_stop {
+            anyhow::ensure!(
+                options.progress && terminal.starts_with("frontier:"),
+                "CF backend currently requires an actual progress frontier"
+            );
+            let rva = u32::from_str_radix(terminal.strip_prefix("frontier:").unwrap(), 16)?;
+            anyhow::ensure!(
+                loaded
+                    .info
+                    .functions
+                    .iter()
+                    .any(|f| f.rva == rva && f.definition == 4 && f.implementation == 0),
+                "CF frontier is not a pending App registry entry"
+            );
+            let rules = f
+                .partial
+                .as_ref()
+                .map_or(&[][..], |p| p.output_files.as_slice());
+            if let Some(directory) = artifacts_dir {
+                raw_artifacts = export_artifacts(f, cwd, rules, directory)?;
+            }
+            let mut fixture = f.clone();
+            let argv0 = backend["logical_payload_argv0"]
+                .as_str()
+                .context("CF payload argv0 missing")?;
+            if fixture.args.is_empty() {
+                fixture.args.push(argv0.to_owned());
+            } else {
+                fixture.args[0] = argv0.to_owned();
+            }
+            fixture.partial = Some(fixture::Partial {
+                stdout: Some(Bytes(fs::read(root.join("original-stdout"))?)),
+                stderr: Some(Bytes(fs::read(root.join("original-stderr"))?)),
+                output_files: capture_files(f, cwd, rules)?,
+                reject_unexpected_files: f.reject_unexpected_files,
+            });
+            native::dependencies(f)?;
+            snapshot = Some(serde_json::from_value(
+                backend["frontier_snapshot"].clone(),
+            )?);
+            captured = Some(fixture);
+        }
         let report = CaptureReport {
             identity: Some(crate::original_reference::Identity::from_info(&loaded.info)),
             capture_sha256: None,
             case: loaded.info.case,
-            terminal: format!("entry-stop:{:x}", loaded.info.original_entry_rva),
-            first_entry_order: vec![],
+            terminal,
+            first_entry_order: order,
             elapsed_ms: start.elapsed().as_secs_f64() * 1000.,
             workspace: root.display().to_string(),
             staged_files: vec![],
-            frontier: None,
-            artifacts_dir: None,
-            raw_artifacts: vec![],
-            oracle_written: false,
+            frontier: snapshot,
+            artifacts_dir: artifacts_dir.map(Path::to_owned),
+            raw_artifacts,
+            oracle_written: !entry_stop,
             backend: Some(backend),
         };
-        return Ok((None, report));
+        return Ok((captured, report));
     }
     let image = crate::original_image::Image::parse(&original)?;
     anyhow::ensure!(
@@ -1473,7 +1528,7 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
 }
 pub fn capture(mut options: Capture) -> Result<()> {
     anyhow::ensure!(
-        options.cf_profile.is_none() || options.artifacts_dir.is_none(),
+        !options.entry_stop || options.artifacts_dir.is_none(),
         "CF entry-stop does not export artifacts or write a fixture oracle"
     );
     native::signals();

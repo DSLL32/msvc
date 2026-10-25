@@ -126,7 +126,8 @@ def observed_stack(broker,event,context):
 
 class Session:
     def __init__(self,broker,event,context,image,base,snapshot,functions,data_spans,
-                 *,support_data_spans=(),installed_masks=None,max_steps=1000,seconds=20):
+                 *,support_data_spans=(),external_input_spans=(),installed_masks=None,max_steps=1000,seconds=20,
+                 startup=False,zero_span=None,app_entries=(),first_entry_seen=(),record_limit=None):
         # Re-read the complete CURRENT arena, never trust an old snapshot as
         # current process identity. Only explicit owned trap bytes may differ.
         image.compare(snapshot,base)
@@ -156,12 +157,31 @@ class Session:
                     region['base']<=span.start and span.start+span.size<=region['base']+region['size'],
                     'support data lacks exact readonly owned PE-image span')
             spans.append(span)
+        for span in external_input_spans:
+            require(span.read and not span.write and 0 < span.size <= 65536,
+                    'external input must be bounded readonly observed bytes')
+            region = broker.region(span.start)
+            require(region['state'] == 0x1000 and not region['protect'] & 0x101 and
+                    region['base'] <= span.start and span.start + span.size <= region['base'] + region['size'],
+                    'external input is not in its actual readable region')
+            spans.append(span)
         for function in functions:
             spans.extend(Span(address,len(raw),function.name+' instruction')
                          for address,raw in function.instructions.items())
         self.gate=Gate(functions,broker.read,spans,self.stack,event['tid'],arena,
-                       flat_segments=flat,max_steps=max_steps,max_events=max_steps*3+20,seconds=seconds)
+                       flat_segments=flat,max_steps=max_steps,max_events=max_steps*3+20,seconds=seconds,
+                       startup=startup,zero_span=zero_span)
         self.gate.event('initial-stop',event['tid']);self.records=[];self.current=context
+        self.app_entries=set(app_entries)
+        self.seen=set(first_entry_seen)
+        self.first_entry_order=[]
+        require(record_limit is None or type(record_limit) is int and record_limit >= 2,
+                'invalid diagnostic record limit')
+        self.record_limit = record_limit
+        self.record_count = 0
+        self.cf_instruction_count = 0
+        self.cf_allocation_size = image.allocation_size
+        self.record_digest = hashlib.sha256()
         # No arbitrary range is registered: the exact full initialized CF image
         # has just compared, with actual requested allocation and region checks.
         broker.arena(base,image.allocation_size)
@@ -173,9 +193,21 @@ class Session:
         require(actual==expected,'owned entry consume changed unrelated full context')
         return actual
 
+    def record(self, value):
+        self.record_count += 1
+        if self.base <= value['before']['eip'] < self.base + self.cf_allocation_size:
+            self.cf_instruction_count += 1
+        self.record_digest.update(canonical(value) + b'\n')
+        self.records.append(value)
+        if self.record_limit is not None and len(self.records) > self.record_limit:
+            del self.records[self.record_limit // 2]
+
     def run(self,current):
         for _ in range(self.gate.max_steps):
             self.current=current
+            if current['eip'] in self.app_entries and current['eip'] not in self.seen:
+                self.seen.add(current['eip'])
+                self.first_entry_order.append(current['eip']-self.base)
             decision=self.gate.plan(current,self.event['tid'])
             if decision.action=='frontier':
                 require(decision.next_pc is not None,'unclassified current entry cannot execute')
@@ -192,14 +224,19 @@ class Session:
                 trap_event,trap_context=self.broker.frontier_trap(index,after)
                 require(trap_event['pid']==self.event['pid'] and trap_event['tid']==self.event['tid'],
                         'foreign frontier INT3 process/thread')
-                self.records.append({'before':current,'decision':asdict(decision),'armed':armed,'after':after})
+                self.record({'before':current,'decision':asdict(decision),'armed':armed,'after':after})
+                if after['eip'] in self.app_entries and after['eip'] not in self.seen:
+                    self.seen.add(after['eip'])
+                    self.first_entry_order.append(after['eip']-self.base)
                 return {'frontier':frontier,'actual_int3_event':trap_event,'actual_int3_context':trap_context,
                         'trap_index':index,'steps':self.records,'identity':self.identity,
                         'stack_proof':self.stack_proof,'segment_proof':self.segment_proof,
-                        'application_acceptance':False}
+                        'application_acceptance':False,'first_entry_order':self.first_entry_order,
+                        'step_log':{'total':self.record_count,'sha256':self.record_digest.hexdigest(),
+                                    'retained':len(self.records)}}
             armed=self.broker.arm(current,decision);event,after=self.broker.step()
             require(event['pid']==self.event['pid'] and event['tid']==self.event['tid'],'foreign process/thread')
             self.gate.observe(after,self.event['tid'])
-            self.records.append({'before':current,'decision':asdict(decision),'armed':armed,'after':after})
+            self.record({'before':current,'decision':asdict(decision),'armed':armed,'after':after})
             current=after;self.current=current
         raise Hold('runtime session instruction budget exhausted')
