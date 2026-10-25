@@ -2459,6 +2459,11 @@ WEAK int recon_mbsicmp(const unsigned char *left,const unsigned char *right)
         if (!a) return 0;
     }
 }
+int __cdecl recon_mbsnbcmp(const unsigned char *left,const unsigned char *right,size_t bytes)
+{
+    (void)left;(void)right;(void)bytes;
+    recon_unsupported("unreviewed _mbsnbcmp");return 0;
+}
 WEAK unsigned char *recon_mbsnbcpy(unsigned char *out,const unsigned char *text,size_t bytes)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

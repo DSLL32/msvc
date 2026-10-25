@@ -647,6 +647,12 @@ build/undname-surface-probe: tests/undname-surface-probe.c $(SOURCES) $(HEADERS)
 undname-surface-check: build/undname-surface-probe
 	$(PYTHON) tests/check-undname-surface.py $<
 
+.PHONY: mb-nbcmp-surface-check
+build/mb-nbcmp-surface-probe: tests/mb-nbcmp-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mb-nbcmp-surface-check: build/mb-nbcmp-surface-probe
+	$(PYTHON) tests/check-mb-nbcmp-surface.py $<
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@

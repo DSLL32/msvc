@@ -516,6 +516,12 @@ denies125 without accessing buffers or invoking allocator/release callbacks;
 no successful demangling, allocation, or faithful provider diagnostic is claimed.
 `make undname-surface-check` checks that boundary without an original run.
 
+_mbsnbcmp is a separate SDK-typed cdecl int(const unsigned char*,const unsigned
+char*,size_t) boundary (5.10 MBSTRING.H150). LINK's unvisited diagnostic branch
+uses that genuine import, rather than strncmp. Every input, including NULL and
+count0, denies125; no comparison/codepage/result semantics are supported.
+`make mb-nbcmp-surface-check` verifies typing, denial and absence of a host import.
+
 Lowio alloc marks the selected OS-handle slot invalid (-1) without publishing
 FOOPEN; set requires that sentinel, and free relinquishes ownership without
 closing the OS handle. For fd0..2, set/free update the Win32 standard table at
