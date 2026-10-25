@@ -1634,10 +1634,21 @@ static const ReconFunction functions[] = {
         .native_symbol = "split_function_block",
     },
     {
-        .name = "@normalize_line_record@4",
-        .entry_rva = 0x8a12,
+        .name = "@move_input_record_before@8",
+        .entry_rva = 0x369d1,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "move_input_record_before",
+    },
+    {
+        .name = "@normalize_line_record@4",
+        .entry_rva = 0x8a12,
+        .code = (const ReconExtent[]){{0x8a12, 0x8a98}},
+        .code_count = 1,
+        .text_data = (const ReconExtent[]){{0x8a98, 0x8ab8}},
+        .text_data_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "normalize_line_record",
     },
     {

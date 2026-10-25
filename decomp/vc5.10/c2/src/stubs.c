@@ -672,7 +672,7 @@ C2BasicBlock *__fastcall split_function_block(C2Function *function,
     return NULL;
 }
 
-void __fastcall normalize_line_record(C2Record *record)
+void __fastcall move_input_record_before(C2Record *before, C2Record *record)
 {
     __asm { int 3 }
 }

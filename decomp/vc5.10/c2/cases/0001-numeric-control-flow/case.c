@@ -188,13 +188,14 @@ static const uint32_t order[] = {
     0x2ab5,
     0x88f4,
     0x8a12,
+    0x2e10,
 
 };
 
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "numeric-control-flow",
-    "Original /O2 /G5 CL-generated IL; partial frontier at normalize_line_record, final COFF master retained.",
+    "Original /O2 /G5 CL-generated IL; partial frontier at split_function_block, final COFF master retained.",
     order, RECON_COUNT(order), NULL, 0,
-    RECON_IO, RECON_FRONTIER, 0x8a12,
+    RECON_IO, RECON_FRONTIER, 0x2e10,
     setup, invoke, NULL, numeric_tests, 44
 };

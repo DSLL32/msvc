@@ -835,3 +835,30 @@ void __fastcall partition_function_blocks(C2Function *function)
         record = next;
     }
 }
+
+void __fastcall normalize_line_record(C2Record *record)
+{
+    C2Expression *previous;
+    switch (record->opcode) {
+    case 0x17e: case 0x17f:
+        if (!record->owner.reference) {
+            unlink_and_release_input_record(record);
+            return;
+        }
+        previous = (C2Expression *)record->previous;
+        if ((1U << (previous->kind & 31)) & 0x50000U)
+            move_input_record_before((C2Record *)previous, record);
+        break;
+    case 0x180: case 0x181:
+        unlink_and_release_input_record(record);
+        break;
+    case 0x184:
+        previous = (C2Expression *)record->previous;
+        if ((1U << (previous->kind & 31)) & 0x50000U) {
+            if (previous->kind == 16 && previous->detail.data)
+                previous = ((C2Expression *)previous->left->next->value.pointer)->value.pointer;
+            move_input_record_before((C2Record *)previous, record);
+        }
+        break;
+    }
+}
