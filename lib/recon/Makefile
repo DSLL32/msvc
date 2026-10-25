@@ -641,6 +641,12 @@ mb-nbcopy-check: build/mb-nbcopy-default build/mb-nbcopy-510 build/mb-nbcopy-wat
 	$(PYTHON) tests/check-mb-nbcopy.py build/mb-nbcopy-510
 	$(PYTHON) tests/check-mb-nbcopy.py build/mb-nbcopy-watcom watcom
 
+.PHONY: undname-surface-check
+build/undname-surface-probe: tests/undname-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+undname-surface-check: build/undname-surface-probe
+	$(PYTHON) tests/check-undname-surface.py $<
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@

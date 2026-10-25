@@ -2489,6 +2489,16 @@ WEAK unsigned char *recon_mbsnbcpy(unsigned char *out,const unsigned char *text,
 #endif
 }
 
+/* LINK's private exported MSVCRT boundary: callback types and stack arguments
+ * are known, but no demangling/allocation behavior has been qualified. */
+char *__cdecl recon_unDName(char *output,const char *name,int capacity,
+                           void *(__cdecl *allocate)(size_t),
+                           void (__cdecl *release)(void *),unsigned short flags)
+{
+    (void)output;(void)name;(void)capacity;(void)allocate;(void)release;(void)flags;
+    recon_unsupported("unreviewed __unDName");return NULL;
+}
+
 WEAK WCHAR *recon_wcscat(WCHAR *out,const WCHAR *text)
 {
     WCHAR *end=out;

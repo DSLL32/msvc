@@ -508,6 +508,14 @@ the following newline is outside its read span. Provider effects are established
 statically; original per-call state was not measured and no API-only original
 run is claimed. `make mb-nbcopy-check` covers these bounded native contracts.
 
+__unDName has a typed private-MSVCRT declaration/remap only. LINK's authentic
+six-argument caller/IAT establishes cdecl char*(char*,const char*,int,
+void*(__cdecl*)(size_t),void(__cdecl*)(void*),unsigned short), including24-byte
+caller cleanup. No matching shipped SDK declaration was found. Every input
+denies125 without accessing buffers or invoking allocator/release callbacks;
+no successful demangling, allocation, or faithful provider diagnostic is claimed.
+`make undname-surface-check` checks that boundary without an original run.
+
 Lowio alloc marks the selected OS-handle slot invalid (-1) without publishing
 FOOPEN; set requires that sentinel, and free relinquishes ownership without
 closing the OS handle. For fd0..2, set/free update the Win32 standard table at

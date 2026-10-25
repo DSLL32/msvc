@@ -337,6 +337,8 @@ typedef struct ReconCppAllocation {
 extern ReconCppAllocation *recon_cpp_allocations;
 void *recon_cpp_new(size_t);
 void recon_cpp_delete(void *);
+char *__cdecl recon_unDName(char *,const char *,int,void *(__cdecl *)(size_t),
+                           void (__cdecl *)(void *),unsigned short);
 void recon_free(void *);
 void *recon_realloc(void *,size_t);
 int recon_system(const char *);
@@ -620,6 +622,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _ismbcspace recon_ismbcspace
 #define crt_operator_new recon_cpp_new
 #define crt_operator_delete recon_cpp_delete
+#define __unDName recon_unDName
 #if defined(RECON_CRT_PROFILE_WATCOM_100A)
 #define malloc recon_watcom_malloc
 #define calloc recon_watcom_calloc
