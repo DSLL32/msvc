@@ -11,6 +11,7 @@ struct CompilerDebugModule;
 struct CompilerTextInput;
 struct CompilerLexer;
 struct CompilerTypeShape;
+struct CompilerNameEntry;
 
 typedef struct CompilerType {
     WORD flags, attributes;

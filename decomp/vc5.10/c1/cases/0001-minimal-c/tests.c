@@ -78,11 +78,34 @@ static int predefined_token_prototypes(void)
         pool->remaining == (244 - 167) * 32 && storage[0] == 0xa5 &&
         storage[sizeof(storage) - 1] == 0xa5;
 }
-const ReconTest minimal_tests[6] = {
+extern void __cdecl initialize_keyword_table(void);
+static int keyword_storage(void)
+{
+    DWORD storage[2050];
+    CompilerArena *arena = &c1_bss.arenas[0];
+    BYTE *begin = (BYTE *)(storage + 1);
+    unsigned i;
+    for (i = 0; i < 2050; ++i) storage[i] = 0xa5a5a5a5;
+    c1_data.name_buckets = NULL;
+    arena->cursor = begin;
+    arena->committed_limit = begin + 8192;
+    initialize_keyword_table();
+    if ((BYTE *)c1_data.name_buckets != begin || arena->cursor != begin + 8192)
+        return 0;
+    /* An existing table returns without touching the arena or its bytes. */
+    arena->cursor = begin + 4;
+    initialize_keyword_table();
+    if ((BYTE *)c1_data.name_buckets != begin || arena->cursor != begin + 4)
+        return 0;
+    for (i = 0; i < 2050; ++i) if (storage[i] != 0xa5a5a5a5) return 0;
+    return 1;
+}
+const ReconTest minimal_tests[7] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
     { "browser factory shared slots and owned filename prefix", 1, c1_test_browser_factory },
     { "backend getter preserves existing identity and lazily constructs", 1, c1_test_backend_getter },
-    { "fixed-token prototype tags, stride and untouched bytes", 1, predefined_token_prototypes }
+    { "fixed-token prototype tags, stride and untouched bytes", 1, predefined_token_prototypes },
+    { "keyword storage extent, lazy identity and untouched bytes", 1, keyword_storage }
 };

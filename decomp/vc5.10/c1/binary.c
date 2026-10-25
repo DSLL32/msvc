@@ -1014,8 +1014,9 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_initialize_keyword_table", .entry_rva = 0x14025,
-.code = (const ReconExtent[]){{0x14025, 0x14026}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x14025, 0x14056}, {0x30fa9, 0x30fb8}},
+.code_count = 2, .definition = RECON_APP,
+.implementation = RECON_IMPLEMENTED,
 .native_symbol = "initialize_keyword_table",
     },
     {

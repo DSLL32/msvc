@@ -2,5 +2,5 @@
 #define C1_MINIMAL_CASE_H
 #include <recon-tool.h>
 #include <recon.h>
-extern const ReconTest minimal_tests[6];
+extern const ReconTest minimal_tests[7];
 #endif

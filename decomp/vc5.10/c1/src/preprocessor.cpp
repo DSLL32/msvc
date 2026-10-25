@@ -45,3 +45,18 @@ extern "C" void __cdecl initialize_predefined_tokens(void)
         }
     }
 }
+
+/* The hash consumers mask to 0x7ff and index DWORD bucket heads. The
+ * initializer only reserves their storage; it does not initialize or inspect
+ * any table byte. Entry layout is pending until its actual constructors. */
+extern "C" void __cdecl initialize_keyword_table(void)
+{
+    if (!c1_data.name_buckets) {
+        CompilerArena *arena = &c1_bss.arenas[0];
+        BYTE *memory = arena->cursor;
+        arena->cursor += 8192;
+        if (arena->cursor > arena->committed_limit)
+            arena->CommitExtent();
+        c1_data.name_buckets = (CompilerNameEntry **)memory;
+    }
+}
