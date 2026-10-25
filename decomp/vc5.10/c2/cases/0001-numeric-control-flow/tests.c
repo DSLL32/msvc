@@ -10,6 +10,8 @@
 #include <recon-tool.h>
 #include <recon.h>
 
+typedef char CanonicalTemporaryCountOffset[offsetof(C2FunctionSymbol, temporary_count) == 100 ? 1 : -1];
+
 static int plain_reuse(void)
 {
     C2FunctionRegister records[2], *result;

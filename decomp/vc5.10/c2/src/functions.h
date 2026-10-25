@@ -35,6 +35,7 @@ void begin_function_input(void);
 C2Function *__fastcall read_function(C2FunctionSymbol *symbol);
 void __fastcall activate_scope(C2ScopeHash *scope);
 void __fastcall canonicalize_function(C2Function *function);
+int __fastcall canonicalize_function_input(C2Function *function, int mode, int limit, int flags);
 int __fastcall skip_global_optimization(C2Function *function);
 void __fastcall function_pass_409dac(C2Function *function, int mode);
 void __fastcall function_pass_40d9be(C2Function *function, int mode);

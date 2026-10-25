@@ -1,4 +1,6 @@
 #include "functions.h"
+#include "function-reader.h"
+#include "function-records.h"
 #include <recon.h>
 
 extern char *c2_intermediate_base;
@@ -282,4 +284,30 @@ void initialize_backend(void)
     initialize_pass_functions();
     initialize_source_output(c2_source_name);
     process_records(prepare_function_records(NULL));
+}
+
+/* Count of temporary identities allocated during the canonicalization pass. */
+int input_temporary_count;
+extern int retain_function_input_pool;
+extern unsigned input_source_line_base;
+
+void __fastcall canonicalize_function(C2Function *function)
+{
+    int limit, changed;
+    C2RegisterBlock *block;
+    C2FunctionRegister *reg;
+    reset_input_pool(4);
+    input_temporary_count = function->symbol->temporary_count;
+    limit = input_temporary_count * 2;
+    if (limit < 1000) limit = 1000;
+    else if (limit > 35000) limit = 35000;
+    retain_function_input_pool = 1;
+    changed = canonicalize_function_input(function, 1, limit, 0);
+    retain_function_input_pool = 0;
+    reset_input_pool(4);
+    input_source_line_base = function->source_line_base;
+    if (changed > 0 || c2_global_optimize)
+        for (block = first_function_register_block; block; block = block->next)
+            for (reg = block->records; reg < block->cursor; ++reg)
+                if (reg->kind != 0x10) reg->view_flags &= 0x7d;
 }

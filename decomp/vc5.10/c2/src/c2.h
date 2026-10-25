@@ -188,7 +188,10 @@ typedef struct C2FunctionSymbol {
     long input_order;
     unsigned source_file;
     C2FunctionListing *listing;
-    unsigned pending62;
+    union {
+        unsigned pending62;
+        struct { unsigned short pending62_low; short temporary_count; };
+    };
     struct C2FunctionSymbol *pending_next;
     unsigned additional_flags;
 } C2FunctionSymbol;

@@ -1332,10 +1332,19 @@ static const ReconFunction functions[] = {
         .native_symbol = "activate_scope",
     },
     {
-        .name = "@canonicalize_function@4",
-        .entry_rva = 0x2491e,
+        .name = "@canonicalize_function_input@16",
+        .entry_rva = 0x249cb,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "canonicalize_function_input",
+    },
+    {
+        .name = "@canonicalize_function@4",
+        .entry_rva = 0x2491e,
+        .code = (const ReconExtent[]){{0x2491e, 0x249cb}, {0x6afa3, 0x6afad}},
+        .code_count = 2,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "canonicalize_function",
     },
     {
