@@ -353,7 +353,11 @@ extern "C" void __cdecl intern_identifier(const char *name)
     c1_data.current_identifier = entry;
     entry->flags = (entry->flags & 0xffff0000) | folded;
 }
-extern "C" void __cdecl unreserve_keyword(const char *name) { __asm { int 3 } }
+extern "C" void __cdecl unreserve_keyword(const char *name)
+{
+    intern_identifier(name);
+    c1_data.current_identifier->flags &= ~0x10000U;
+}
 extern "C" void __cdecl set_keyword_category2(const char *name) { __asm { int 3 } }
 extern "C" void __cdecl set_keyword_category3(const char *name) { __asm { int 3 } }
 extern "C" void __cdecl set_keyword_category1(const char *name) { __asm { int 3 } }
