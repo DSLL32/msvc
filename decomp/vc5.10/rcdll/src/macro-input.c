@@ -106,3 +106,15 @@ void __stdcall rc_pack_macro_argument(const WCHAR *begin,const WCHAR *end)
     *rc_macro_output_cursor=(WCHAR)((cursor-rc_macro_output_cursor)*sizeof(WCHAR));
     rc_macro_output_cursor=cursor;
 }
+
+void __cdecl rc_advance_macro_text(void)
+{
+    RcMacroFrame *frame;
+#ifdef RECON_NATIVE_TEST
+    if(rc_expanding_macro<1 || rc_expanding_macro>=64){ __asm int 3 }
+#endif
+    frame=&rc_macro_frames[rc_expanding_macro];
+    if(frame->arguments>frame->expanded)
+        rc_select_macro_argument(++frame->expanded);
+    else rc_select_macro_text();
+}

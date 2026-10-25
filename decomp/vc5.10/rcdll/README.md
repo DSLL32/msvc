@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_advance_macro_text` (RVA 5d1e). Its partial streams and actual
+  stops at `rc_select_macro_argument` (RVA 5cf1). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,10 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **105 functions, 28,055 code bytes**
+Accepted application reconstruction is **106 functions, 28,102 code bytes**
+This is 37.67% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (42.32%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (42.39%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -49,10 +50,10 @@ fresh matching original/native frontier evidence. The former WIP snapshot remain
 `~/.ai-tmp/msvc2/vc5.10/rcdll/migration-snapshot-20261025/`; contextual descriptor
 research remains under `analysis/output-descriptor-data/rows.json` in the same
 scratch namespace. Unavailable descriptors still trap before native consumption.
-The latest original capture took 1.126 s; native replay took 181.817 ms
-(setup 76.953, execution 35.318, checks 69.545 ms). Argument-packer
-builds and whole-candidate graph preflight took 4.464 s. Its header, UTF16
-padding and empty-record unit passed in 143.046 ms (4.090 ms execution).
+The latest original capture took 1.223 s; native replay took 190.700 ms
+(setup 88.555, execution 33.620, checks 68.525 ms). Argument-dispatch
+builds and whole-candidate graph preflight took 4.299 s. Both cached cases
+and all nine unit groups passed together in 245.927 ms at this checkpoint.
 Two custom argument helpers have named ABI-correct traps and no body credit.
 Packed arguments currently require even alignment natively; the original
 odd-address padding branch is retained in Win32 source, but is unclaimed.

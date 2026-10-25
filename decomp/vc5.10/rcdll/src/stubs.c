@@ -186,10 +186,6 @@ void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,int wide)
     __asm int 3
 }
 
-void __cdecl rc_advance_macro_text(void)
-{
-    __asm int 3
-}
 
 void __stdcall rc_emit_macro_reference(RcMacro *macro)
 {
@@ -205,6 +201,11 @@ const WCHAR *__stdcall rc_substitute_macro_argument(int *expanded)
     return NULL;
 }
 void __stdcall rc_append_macro_text(const WCHAR *text)
+{
+    __asm int 3
+}
+
+void __stdcall rc_select_macro_argument(unsigned char index)
 {
     __asm int 3
 }
