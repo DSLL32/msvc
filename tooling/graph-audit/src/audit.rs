@@ -897,6 +897,8 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         .as_ref()
         .map(|path| crate::ret_checks::Checks::load(path, &progress, &selected, &x.oi, &x.ri))
         .transpose()?;
+    let compatibility =
+        crate::compatibility_calls::Policy::parse(&metadata, x, &selected, &d, &a.project)?;
     let mut ret_report = BTreeMap::new();
     for owner in &enabled_owners {
         ensure!(
@@ -987,6 +989,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         };
         let mut options = options;
         apply_metadata(&mut options, &metadata["functions"][&f.name]["original"])?;
+        options.compatibility_calls = compatibility.sites(&f.name, false);
         validate_text_data(&x.o, f, &options.data, &x.oi)?;
         let mut l = flow::walk(&d, &x.o, f.start, f.end, &options)
             .with_context(|| format!("original {}", f.name))?;
@@ -1010,6 +1013,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             &mut rebuilt_options,
             &metadata["functions"][&f.name]["rebuilt"],
         )?;
+        rebuilt_options.compatibility_calls = compatibility.sites(&f.name, true);
         validate_text_data(&x.r, other, &rebuilt_options.data, &x.ri)?;
         let mut r = flow::walk(&d, &x.r, other.start, other.end, &rebuilt_options)
             .with_context(|| format!("reconstructed {}", f.name))?;
@@ -1028,6 +1032,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 f.name
             );
         }
+        let boundary_report = compatibility.checked(&f.name, &l, &r)?;
         let register_report = if resolve_owner {
             let strict = crate::register_imports::strict_policy(
                 &metadata["functions"][&f.name]["register_imports"],
@@ -1190,7 +1195,15 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         if l.indirect {
             edges.insert("indirect".into());
         }
+        edges.extend(
+            l.compatibility_calls
+                .values()
+                .map(|name| format!("boundary:{name}")),
+        );
         let mut function_report = json!({"edges":edges});
+        if let Some(boundaries) = boundary_report {
+            function_report["compatibility_calls"] = boundaries;
+        }
         if a.check_imports {
             function_report["imports"] = json!(l.imports);
         }

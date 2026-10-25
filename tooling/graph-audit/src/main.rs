@@ -1,5 +1,6 @@
 mod audit;
 mod cf;
+mod compatibility_calls;
 mod cvpack;
 mod cvpack_registry;
 mod decode;

@@ -1,0 +1,24 @@
+{
+  "scope": "Explicit paired compatibility CALL sites; opaque boundary role only, no callee equivalence/ABI/preservation/execution permission. Defaults unchanged.",
+  "release_sha256": "27d8e7df98bb7c3651039e85db9b1a18839039284c1aaa64e7e42b5e955245eb",
+  "source_sha256": {
+    "src/main.rs": "b955d8197279442222c3ca50407be1ae0dca0e61c5028dde41c43e33dd4200b5",
+    "src/audit.rs": "2722d720f0f4b8444287ad5c888e3ab20d3678337bcece166c671386858fcdff",
+    "src/compatibility_calls.rs": "f9d68f190b029ec0d283be43285e499a8fec9eee6a5031df787cfba95ab6d421",
+    "src/flow.rs": "c85f2ad6220579364e0bde4e5697d3effae43e22cd518f93170fd518abf7c19f",
+    "README.md": "332f257a901b0b4919b5e8cf341fdb1302d651caf53cf589b1fba23b00316dc0"
+  },
+  "verification": {
+    "focused_units": 3,
+    "all_target_clippy": "PASS",
+    "static_rejections": 9,
+    "default_scoped_report_parity": "byte-equivalent",
+    "scoped_wcc_ms": 24.65,
+    "scoped_wpp_ms": 32.38,
+    "independent_parent_wcc_ms": 27.8,
+    "independent_parent_wpp_ms": 34.7,
+    "no_target_execution": true,
+    "no_speedup_claim": true
+  },
+  "parent_review_sha256": "19d616b25edccec0f60f6e8c900d2df96b3a2ee75da75f0c6966698f8d6a43bb"
+}

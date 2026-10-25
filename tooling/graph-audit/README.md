@@ -735,3 +735,18 @@ not text-data or executable ownership. CFG roots/edges into it, overlapping code
 stale inputs and malformed contracts reject. The common tool verifies hashes and
 boundaries, not the witness's object-format semantics. Default MAP-derived
 extents remain unchanged when no descriptor is present.
+
+Finite paired compatibility CALL boundaries can be declared in optional metadata
+`compatibility_calls`: each row has `owner`, a unique `name`,
+`original: {site, target}`, `rebuilt: {site_offset, import: {dll, name}}`,
+and contained SHA-bound `evidence: {path, sha256}`. The original must be an exact
+unprefixed direct CALL; the rebuilt owner-relative instruction must CALL the
+named standard PE import, directly through its IAT or its verified thunk.
+Both sites must be discovered instruction starts in the selected nonpending
+paired owner. The report retains their raw bytes/targets and bound evidence.
+Only these two CALL edges share the declared boundary role; unrelated calls,
+references, indirect topology, RET, ownership and extent checks remain active.
+The declaration supplies no ABI, register preservation, provider equivalence,
+function extent, acceptance or execution permission. Boundary semantics and
+behavior remain the target's explicit responsibility. Without this metadata,
+existing discovery and reports are unchanged.

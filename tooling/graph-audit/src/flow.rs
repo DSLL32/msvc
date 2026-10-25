@@ -9,6 +9,7 @@ use std::collections::{BTreeMap, BTreeSet, HashMap};
 #[derive(Clone, Default)]
 pub struct Options {
     pub roots: Vec<u32>,
+    pub compatibility_calls: BTreeMap<u32, String>,
     pub record_dataflow: bool,
     pub imports: Option<std::sync::Arc<crate::imports::Catalog>>,
     pub code_chunks: Vec<(u32, u32)>,
@@ -27,6 +28,7 @@ pub struct Options {
 #[derive(Default)]
 pub struct Graph {
     pub calls: BTreeSet<u32>,
+    pub compatibility_calls: BTreeMap<u32, String>,
     pub imports: BTreeSet<crate::imports::Identity>,
     pub references: BTreeSet<u32>,
     pub returns: BTreeSet<u32>,
@@ -160,6 +162,10 @@ pub fn walk(
         if operation == "call" || operation == "lcall" {
             if let Some(t) = i.imm() {
                 ensure!(!is_data(t), "call enters declared text data at {t:x}");
+            }
+            if let Some(role) = options.compatibility_calls.get(&a) {
+                out.compatibility_calls.insert(a, role.clone());
+            } else if let Some(t) = i.imm() {
                 if let Some(identity) = options.imports.as_ref().and_then(|c| c.thunks.get(&t)) {
                     out.imports.insert(identity.clone());
                     if options.record_dataflow {
