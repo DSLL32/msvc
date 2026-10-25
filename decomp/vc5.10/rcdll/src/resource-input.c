@@ -391,3 +391,9 @@ DWORD __cdecl rc_parse_resource_hexadecimal(void)
     }
     return value;
 }
+
+void __cdecl rc_skip_resource_space(void)
+{
+    while(rc_resource_character!=0xe001&&rc_resource_character!=0xe000&&
+          rc_resource_character<=32)rc_next_resource_character();
+}

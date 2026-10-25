@@ -378,7 +378,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=0, .native_symbol="rc_read_resource_operator" },
     { .name="rc_skip_resource_space", .original_symbol="_rc_skip_resource_space", .entry_rva=0xa042,
       .code=(const ReconExtent[]){{0xa042,0xa062}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_skip_resource_space" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_skip_resource_space" },
     { .name="rc_read_resource_symbol", .original_symbol="_rc_read_resource_symbol@4", .entry_rva=0xa062,
       .code=(const ReconExtent[]){{0xa062,0xa124}}, .code_count=1,
       .definition=RECON_APP, .implementation=0, .native_symbol="rc_read_resource_symbol" },

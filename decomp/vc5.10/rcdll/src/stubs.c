@@ -401,10 +401,7 @@ int __stdcall rc_read_resource_operator(WCHAR *operation)
     __asm int 3
     return 0;
 }
-void __cdecl rc_skip_resource_space(void)
-{
-    __asm int 3
-}
+
 
 
 void __stdcall rc_resource_error_name(unsigned code,const WCHAR *name)
