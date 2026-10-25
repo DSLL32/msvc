@@ -18,8 +18,8 @@ Application function extents cover 314,542/476,418 .text bytes (66.02%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
-2.056s, audit/case setup 1.850s, native case 31.313ms (setup 14.184, execution 13.263,
-checks 3.865), all eight cached cases plus unit groups 0.273s. No new case is queued.
+2.056s, audit/case setup 1.850s, native case 31.313ms (setup 14.184ms, execution 13.263ms,
+checks 3.865ms), all eight cached cases plus unit groups 0.273s. No new case is queued.
 Commit ab264219f prematurely claimed the 70-function boundary before its failed
 native result. Fix-forward f27aab15a corrected the symbol flag byte and passed the
 unchanged original, fresh native, build, audit and cached checks before acceptance.
