@@ -978,18 +978,19 @@ C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function,
     return token;
 }
 
-/* Pragma 31 consumes one signed-long field. Other descriptor rows and the
+/* Pragma 31 consumes a signed long; pragma 32 consumes a short. Other rows and the
  * unused second DWORD of each row are unmodeled, not zero-valued defaults. */
 typedef struct C2ControlFields {
     signed char *fields;
     unsigned pending04;
 } C2ControlFields;
 static struct {
-    C2ControlFields pending00[31], signed_value;
-} input_control_fields = {{{0}}, {"\024", 0}};
+    C2ControlFields pending00[31], signed_value, short_value;
+} input_control_fields = {{{0}}, {"\024", 0}, {"\016", 0}};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define INPUT_CONTROL_FIELDS(control) \
     ((control) == 31 ? input_control_fields.signed_value.fields : \
+     (control) == 32 ? input_control_fields.short_value.fields : \
      (recon_unsupported("unmodeled input control fields"), (signed char *)0))
 #else
 #define INPUT_CONTROL_FIELDS(control) \
@@ -1077,5 +1078,38 @@ void __fastcall read_control_fields(C2ILToken *token)
             c2_report_internal("E:\\utc\\src\\\\P2\\p2pragma.c", 219);
             break;
         }
+    }
+}
+
+extern int c2_favor_speed, c2_alias_optimization, c2_float_precision;
+extern int c2_frame_optimization, c2_global_optimization, c2_exception_optimization;
+extern int extra_function_passes, special_function_passes;
+/* These independent DWORDs are written by the per-function option decoder.
+ * Active global optimization is retained when an input disables bit21. */
+unsigned input_option_high_bit;
+int input_no_global_optimization, input_global_optimization_active;
+
+void __fastcall set_function_input_options(unsigned options)
+{
+    input_option_high_bit = options >> 31;
+    c2_favor_speed = (options >> 23) & 1;
+    c2_alias_optimization = (options >> 25) & 1;
+    c2_float_precision = (options >> 18) & 1;
+    c2_frame_optimization = (options >> 11) & 1;
+    special_function_passes = (options >> 9) & 1;
+    c2_global_optimize = (options >> 21) & 1;
+    c2_global_optimization = (options >> 24) & 1;
+    extra_function_passes = (options >> 10) & 1;
+    if (c2_global_optimize)
+        input_global_optimization_active = 1;
+    else
+        c2_alias_optimization = 0;
+    input_no_global_optimization = c2_global_optimization == 0;
+    if (c2_global_optimization)
+        c2_alias_optimization = 1;
+    if (c2_exception_optimization &&
+        (((C2InputSymbol *)current_symbol)->additional_flags & 0x100)) {
+        c2_global_optimize = 0;
+        input_global_optimization_active = 0;
     }
 }

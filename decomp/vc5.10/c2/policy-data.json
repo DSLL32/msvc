@@ -667,6 +667,44 @@
             ]
           ]
         }
+      },
+      "@read_control_fields@4": {
+        "original": {
+          "text_data": [
+            [
+              4348320,
+              4348372
+            ],
+            [
+              4348376,
+              4348490
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@read_control_fields@4",
+                "offset": 763
+              },
+              {
+                "rebuilt_symbol": "@read_control_fields@4",
+                "offset": 815
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@read_control_fields@4",
+                "offset": 815
+              },
+              {
+                "rebuilt_symbol": "@read_control_fields@4",
+                "offset": 929
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

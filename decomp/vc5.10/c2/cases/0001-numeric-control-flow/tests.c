@@ -308,6 +308,35 @@ static int ended_token_input(void)
         !memcmp(&token, &saved_token, sizeof(token));
 }
 
+/* Synthetic option updates also exercise nonzero aliases shared with CLI
+ * switches, and the decoder's intentionally retained active flag. */
+extern int c2_favor_speed, c2_alias_optimization, c2_float_precision;
+extern int c2_frame_optimization, c2_global_optimization, c2_exception_optimization;
+extern int c2_global_optimize, extra_function_passes, special_function_passes;
+extern unsigned input_option_high_bit;
+extern int input_no_global_optimization, input_global_optimization_active;
+static int per_function_option_aliases(void)
+{
+    C2InputSymbol function;
+    memset(&function, 0, sizeof(function));
+    current_symbol = (C2Symbol *)&function;
+    c2_exception_optimization = 0;
+    set_function_input_options(0x83a40e00U);
+    if (!input_option_high_bit || !c2_favor_speed || !c2_alias_optimization ||
+        !c2_float_precision || !c2_frame_optimization || !special_function_passes ||
+        !extra_function_passes || !c2_global_optimize || !c2_global_optimization ||
+        input_no_global_optimization || input_global_optimization_active != 1) return 0;
+    set_function_input_options(0);
+    if (input_option_high_bit || c2_favor_speed || c2_alias_optimization ||
+        c2_float_precision || c2_frame_optimization || special_function_passes ||
+        extra_function_passes || c2_global_optimize || c2_global_optimization ||
+        !input_no_global_optimization || input_global_optimization_active != 1) return 0;
+    function.additional_flags = 0x100;
+    c2_exception_optimization = 1;
+    set_function_input_options(0x00200000U);
+    return !c2_global_optimize && !input_global_optimization_active;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -325,5 +354,6 @@ const ReconTest numeric_tests[] = {
     {"code-node insertion preserves both chains", 1, code_node_splice},
     {"pool12 zeroed allocation leaves unknown backing alone", 1, flow_pool_allocation},
     {"flow-block reuse clears only the popped allocation", 1, flow_block_reuse},
-    {"ended module does not consume or modify another token", 1, ended_token_input}
+    {"ended module does not consume or modify another token", 1, ended_token_input},
+    {"function option stores share CLI globals and retain active state", 1, per_function_option_aliases}
 };

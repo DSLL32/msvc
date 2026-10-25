@@ -179,10 +179,6 @@ C2Expression * __fastcall new_function_entry(C2Function *function)
     return 0;
 }
 
-void __fastcall set_function_input_options(unsigned options)
-{
-    __asm { int 3 }
-}
 
 C2Expression * __fastcall input_symbol_operand(C2InputSymbol *symbol)
 {
