@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 126 accepted application functions / 18132
+The single registry is binary.c: 127 accepted application functions / 18264
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 128
+as are four six-byte import endpoints (24 bytes, zero App credit). The 129
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine OutputBuffer::Flush INT3 at RVA3982;
+and currently reaches the genuine initialize_type_table INT3 at RVA3ae14;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -63,11 +63,17 @@ shared d6c43a2b5 supplies the reviewed declaration and NULL no-op, with existing
 nonNULL ownership checks unchanged. The paired ELF consumed those exact frozen
 bytes before publication, and no publication-only replay was needed.
 
-Original/native took 1.499 s / 13.146 ms (native setup 6.704, execution 4.834,
-checks 1.608); build/audit/unit took 8.829 s. Actual selected-report order and
-the genuine Flush frontier match. The new native unit source has a separate
-additive snapshot receipt because the inherited scratch path set omitted it;
-the original execution manifest remains unchanged.
+The 132-byte Flush member preserves all suppression flags, the actual fwrite
+boundary, a fresh post-call byte-count comparison and unconditional cursor
+reset after a nonempty flush. No new fields were needed. The partial expression
+file contains the exact six-byte 5b/80/00000484 record; its later zero marker is
+still stdio-buffered at this trap, so no final file-size claim is made.
+
+Original/native took 1.535 s / 11.172 ms (native setup 5.758, execution 3.729,
+checks 1.685); build/audit/unit took 3.244 s. Actual selected-report order,
+partial files and the genuine type-table initializer frontier match. The new
+native growth unit source has a separate additive snapshot receipt because
+the inherited scratch path set omitted it; the original manifest is unchanged.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

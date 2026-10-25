@@ -40,4 +40,3 @@ extern "C" void __cdecl open_expression_output(void)
 }
 
 extern "C" void __cdecl prepare_expression_input(const char *name) { __asm { int 3 } }
-void RECON_THISCALL OutputBuffer::Flush(void) { __asm { int 3 } }

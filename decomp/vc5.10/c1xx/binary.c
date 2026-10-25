@@ -18,10 +18,11 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "OutputBuffer::Flush", .entry_rva = 0x3982,
-        .code = (const ReconExtent[]){{0x3982, 0x3983}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3982, 0x39ee}, {0x52296, 0x522ae}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "_ZN12OutputBuffer5FlushEv",
         .original_symbol = "?Flush@OutputBuffer@@QAEXXZ",
+        .implementation = RECON_IMPLEMENTED,
     },
 
     {

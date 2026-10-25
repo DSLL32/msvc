@@ -1,8 +1,10 @@
 #include <new.h>
 #include <string.h>
-#include "output.h"
+#include "frontend.h"
 #pragma intrinsic(memcpy, memset)
 #include <recon.h>
+
+extern "C" int __cdecl report_response_error(int, ...);
 
 int RECON_THISCALL OutputBuffer::Grow(int bytes)
 {
@@ -26,4 +28,23 @@ int RECON_THISCALL OutputBuffer::Grow(int bytes)
     if (old_data != replacement && relocation)
         relocation(relocation_context, old_data, replacement);
     return 1;
+}
+
+void RECON_THISCALL OutputBuffer::Flush(void)
+{
+    unsigned bytes = (unsigned)(cursor - data);
+    size_t written;
+    if (bytes) {
+        if (frontend_bss.error_count + (frontend_bss.options.warnings_are_errors > 1) == 0 &&
+            !frontend_bss.options.preprocess_stdout && !frontend_bss.options.prototypes_only) {
+            if (!ok)
+                report_response_error(88, 339, filename);
+            else {
+                written = fwrite(data, 1, bytes, file);
+                if ((unsigned)(cursor - data) != written)
+                    report_response_error(88, 339, filename);
+            }
+        }
+        cursor = data;
+    }
 }
