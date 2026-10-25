@@ -876,3 +876,15 @@ char *__stdcall make_local_static_name(CppSymbol *symbol)
 {
     return intern_identifier(write_decorated_name(0, symbol, 0, 0));
 }
+
+unsigned __stdcall declaration_parameter_bytes(FunctionParameters *parameters);
+
+/* Original0x44600..0x4462b, stdcall4. Cache the explicit signature's
+   rounded stack size before plain stdcall-name decoration appends it. */
+void __stdcall cache_function_parameter_bytes(CppSymbol *function)
+{
+    TypeShape *shape = function->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    function->field2c = declaration_parameter_bytes(shape->data.parameters);
+    function->attributes |= 0x4000;
+}

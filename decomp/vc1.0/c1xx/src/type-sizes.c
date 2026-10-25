@@ -182,3 +182,15 @@ unsigned __stdcall data_member_pointer_size(TypeShape *shape)
         return 0;
     }
 }
+
+/* Original0x4f220..0x4f273, stdcall8. Arrays pass by pointer;
+   optional default-argument promotion widens an unshaped float to double. */
+unsigned __stdcall parameter_type_size(CType *type, int promote_float)
+{
+    TypeShape *shape = type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    if (shape && (shape->flags & 0x77) == 2)
+        return pointer_kind_size(shape->attributes);
+    if (promote_float && !shape && type->flags == 0x104) return 8;
+    return type_size(type);
+}

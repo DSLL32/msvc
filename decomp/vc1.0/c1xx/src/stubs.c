@@ -368,7 +368,6 @@ void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int l
 
 char *__stdcall mangle_based_symbol(char *cursor, unsigned short attributes, CppSymbol *symbol) { __asm { int 3 } return 0; }
 char *__stdcall mangle_pointer_base(char *cursor, CType *type) { __asm { int 3 } return 0; }
-void __stdcall cache_function_parameter_bytes(CppSymbol *function) { __asm { int 3 } }
 
 IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 

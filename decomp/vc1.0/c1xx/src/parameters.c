@@ -419,3 +419,17 @@ IrToken *__stdcall wrap_default_argument_members(IrToken *expression, MemberRefe
     wrapper->type = 0;
     return wrapper;
 }
+
+unsigned __stdcall parameter_type_size(CType *type, int promote_float);
+
+/* Original0x52a70..0x52aac, stdcall4. Each declared parameter occupies
+   a whole four-byte stack slot, including larger types rounded upward. */
+unsigned __stdcall declaration_parameter_bytes(FunctionParameters *parameters)
+{
+    CType **types = parameters->declarations->types;
+    int count = parameters->declarations->count;
+    unsigned bytes = 0;
+    while (count--)
+        bytes += (parameter_type_size(*types++,0) + 3) & ~3U;
+    return bytes;
+}

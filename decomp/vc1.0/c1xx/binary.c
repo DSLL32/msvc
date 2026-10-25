@@ -7,6 +7,25 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_declaration_parameter_bytes@4",
+        .entry_rva = 0x42a70,
+        .code = (const ReconExtent[]) { { 0x42a70, 0x42aac } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "declaration_parameter_bytes",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_parameter_type_size@8",
+        .entry_rva = 0x3f220,
+        .code = (const ReconExtent[]) { { 0x3f220, 0x3f273 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "parameter_type_size",
+        .implementation = RECON_IMPLEMENTED,
+    },
+
+    {
         .name = "_make_most_derived_test@4",
         .entry_rva = 0x6c130,
         .code = (const ReconExtent[]) { { 0x6c130, 0x6c243 } },
@@ -6225,10 +6244,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_cache_function_parameter_bytes@4",
         .entry_rva = 0x34600,
-        .code = (const ReconExtent[]) { { 0x34600, 0x34601 } },
+        .code = (const ReconExtent[]) { { 0x34600, 0x3462b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "cache_function_parameter_bytes",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_inline_queries",

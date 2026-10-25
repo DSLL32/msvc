@@ -1,20 +1,24 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is active at cache_function_parameter_bytes
-(RVA0x34600). There are 1364 application source functions plus seven unchanged
-historical CRT source functions. Its first eighty accepted bodies add 18,565 code
-bytes: packing and anonymous aggregates, static alias lookup, the empty lookahead
-error callback, copy-constructor selection/materialization, deferred defaults, else regions and
-runtime initializer emission, initializer object references and assembler state/operands and its separate whole grammar driver, token classification and instruction-name lookup.
-Fresh original/native comparisons, original compilation, the 1372-function
-inherited graph/ABI audit, nine cached cases and19 unit groups pass. Last native
-frontier run:32.892ms (setup16.405ms, execution9.873ms, checks6.614ms);
-audit/setup:2.156s; nine cached cases plus units:0.268s.
-An earlier regression command took19.582s including a shared native-fixture
-rebuild/relink; its individual case/test executions were14–33ms.
-Last native/original incremental build:3.642s; fresh original capture:1.726s.
-The earlier Makefile/layout rebuild took33.968s.
+PARTIAL reconstruction; packet_engine is COMPLETE. There are1367 application
+source functions plus seven unchanged historical CRT source functions. This
+substantial /O2 /G5 /Ob1 /Z7 /FR case accepted83 whole application bodies:
+18,747 code bytes and820 owned switch-data bytes. It covers packed/anonymous
+aggregates, generated special members/defaults, temporaries, nested SEH,
+integer/x87 assembly, intrinsic lowering and diagnostic naming.
+
+Fresh masked-original/native first-entry order, exit0, streams and all six final
+artifacts match the untouched full pipeline oracle. No byte normalization was
+added. Original compilation, the1375-function inherited graph/ABI audit, nine
+cached cases and19 unit groups pass. Final native case:29.499ms
+(setup14.221ms, execution9.950ms, checks5.328ms).
+Incremental native/original build:3.356s; original capture:2.153s;
+audit/setup:2.140s; cached cases plus units:0.265s.
+The earlier Makefile/layout rebuild took33.968s; its time is separate from
+fixture execution. The shared completion-capture inherited an obsolete partial
+field; explicit case finalization clears it after comparing the real full outputs.
+Raw83 and the canonical original-master remain separate and unchanged.
 Assembler serialization reuses control_counted_data at original0x8c0a4.
 The encountered78-byte prefix covers three header bytes plus three maximum
 25-byte operands; bytes0x8c0f2..0x8c124 remain uncredited. All21 format strings
@@ -30,7 +34,7 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1471: the 1302 trial baseline plus 88 browser and80 packet application steps,
+1474: the 1302 trial baseline plus 88 browser and83 packet application steps,
 and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
@@ -38,7 +42,7 @@ original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 333,107/476,418 .text bytes (69.92%); this is
+Application function extents cover 333,289/476,418 .text bytes (69.96%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -64,8 +68,8 @@ Build and run
     make -j4 win32           # explicit original-compiler build, uses shared Wine
     make -j4 audit           # inherited Rust graph/ABI/callback checks
 
-The ten SEH bodies preserve protected/except/finally depths, exit-label lifetime,
-filter lexical flags and emitted IR. The full1352-function audit passes after
+The ten accepted SEH bodies preserve protected/except/finally depths, exit-label lifetime,
+filter lexical flags and emitted IR. Their1352-function checkpoint audit passed after
 finite false CRT-candidate disqualifications and shared MAP-qualified runtime
 identification; genuine COFF aliases remain. An existing floating-token scanner
 was corrected to test/clear the original -xc cell0x9186c, rather than the distinct
@@ -96,11 +100,12 @@ wrapper is retained.
 
 Cases and provenance
 --------------------
-Seven complete frontend cases: cpp_basic, virtual_diamond, copy_assignment,
-stack_lifetime, new_delete, state_machine_defined_debug, member_registry_browser.
+Eight complete frontend cases: cpp_basic, virtual_diamond, copy_assignment,
+stack_lifetime, new_delete, state_machine_defined_debug, member_registry_browser,
+packet_engine.
 Each checks exact streams, status and complete frontend artifacts against the cached original.
-packet_engine is partial at the frontier above, with original-backed packet,
-generated-special-member, temporary, SEH and integer/x87 assembly workloads.
+packet_engine completes the original-backed packet, generated-special-member,
+temporary, SEH and integer/x87 assembly workload described above.
 state_machine_debug remains a partial case at flush_current_function: its valid
 input encounters the unsupported native empty-closed-scope stale-local path.
 member_registry_browser is the completed case described above; capture.bin retains
@@ -265,3 +270,7 @@ Diagnostic symbol names now retain original conversion/constructor/destructor
 spelling and arena-two ownership. The graph audit caught and corrected strncpy
 calls initially mistaken for memcpy; original80c was retained for the corrected
 native run, with no comparison normalization.
+
+Plain stdcall decoration now caches explicit parameter stack bytes, rounding
+each declared type to four bytes. Array parameters retain pointer sizing and
+optional float promotion remains distinct from ordinary type size.
