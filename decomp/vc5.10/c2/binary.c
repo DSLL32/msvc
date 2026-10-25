@@ -2411,8 +2411,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@new_binary_expression@24",
         .entry_rva = 0x1537,
+        .code = (const ReconExtent[]){{0x1537, 0x15d6}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_binary_expression",
     },
     {
@@ -2943,16 +2945,27 @@ static const ReconFunction functions[] = {
     {
         .name = "@swap_input_stacks@4",
         .entry_rva = 0x34712,
+        .code = (const ReconExtent[]){{0x34712, 0x34721}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "swap_input_stacks",
     },
     {
-        .name = "@input_shift_operator@8",
-        .entry_rva = 0x34721,
+        .name = "@input_deferred_store@8",
+        .entry_rva = 0x51671,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "input_shift_operator",
+        .native_symbol = "input_deferred_store",
+    },
+    {
+        .name = "@input_store_operator@8",
+        .entry_rva = 0x34721,
+        .code = (const ReconExtent[]){{0x34721, 0x3495f}, {0x6ece0, 0x6eced}},
+        .code_count = 2,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "input_store_operator",
     },
     {
         .name = "@input_comparison@4",

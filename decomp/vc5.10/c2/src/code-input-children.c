@@ -3,12 +3,6 @@
 
 /* Unreconstructed reader children stop at their own actual identities. */
 
-C2Expression * __fastcall new_binary_expression(unsigned opcode, unsigned short type, C2Expression *right, C2Expression *left, C2InputLink link, C2Record *prior)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression * __fastcall attach_input_expression(C2Expression *owner, C2Expression *prior, C2Expression *expression)
 {
     __asm { int 3 }
@@ -88,16 +82,6 @@ C2Expression * __fastcall new_transfer_expression(unsigned opcode, unsigned shor
 {
     __asm { int 3 }
     return 0;
-}
-
-void __fastcall swap_input_stacks(C2InputStack **stack)
-{
-    __asm { int 3 }
-}
-
-void __fastcall input_shift_operator(C2InputStack **stack, C2ILToken *token)
-{
-    __asm { int 3 }
 }
 
 unsigned char __fastcall input_comparison(C2InputStack **stack)
@@ -445,6 +429,11 @@ int c2_real_to_unsigned(C2Real *input, unsigned *output)
 }
 
 void __fastcall copy_input_assembly_context(C2Expression *source, C2Expression *copy)
+{
+    __asm { int 3 }
+}
+
+void __fastcall input_deferred_store(C2InputStack **stack, C2ILToken *token)
 {
     __asm { int 3 }
 }

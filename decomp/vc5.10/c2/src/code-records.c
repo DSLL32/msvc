@@ -469,3 +469,28 @@ C2Expression *__fastcall copy_input_expression(C2Expression *expression)
     }
     return copy;
 }
+
+C2Expression *__fastcall new_binary_expression(unsigned opcode, unsigned short type,
+    C2Expression *right, C2Expression *left, C2InputLink link, C2Record *prior)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(11);
+    record->opcode = opcode;
+    record->type = type;
+    record->flags |= 1;
+    if ((1U << (right->kind & 31)) & 0x7fe) {
+        if (right->location.expression.properties & 0x10)
+            right = copy_input_expression(right);
+        right->location.expression.properties |= 0x10;
+    }
+    record->tail.right = right;
+    if ((1U << (left->kind & 31)) & 0x7fe) {
+        if (left->location.expression.properties & 0x10)
+            left = copy_input_expression(left);
+        left->location.expression.properties |= 0x10;
+    }
+    record->left = left;
+    retain_aggregate_operands(record);
+    if (link) link(prior, (C2Record *)record);
+    record->location.line = record_line_delta;
+    return record;
+}

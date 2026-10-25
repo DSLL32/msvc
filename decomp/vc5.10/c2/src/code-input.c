@@ -22,10 +22,10 @@ C2InputClause *input_clauses;
 static struct {
     unsigned char pending00[5], divide, pending06[6], bit_or, pending13[25], variable, pending39[9], conversion, pending49, typed_operator;
     unsigned char number, pending52[18];
-    unsigned char function_entry, pending71[5];
+    unsigned char function_entry, pending71[4], statement_end;
     unsigned char parameter_end, pending77[2];
     unsigned char pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
-} input_opcode_properties = {{0}, 0, {0}, 0, {0}, 0, {0}, 0, 0, 0, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
+} input_opcode_properties = {{0}, 0, {0}, 0, {0}, 0, {0}, 0, 0, 0, 0, {0}, 0x10, {0}, 0x10, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 /* Only encountered tracked-register kind4 and parameter kind5 are modeled. */
 static union {
@@ -48,6 +48,7 @@ static unsigned char input_condition_known[16];
      (unsigned)(op) == 50 ? input_opcode_properties.typed_operator : \
      (unsigned)(op) == 51 ? input_opcode_properties.number : \
      (unsigned)(op) == 70 ? input_opcode_properties.function_entry : \
+     (unsigned)(op) == 75 ? input_opcode_properties.statement_end : \
      (unsigned)(op) == 76 ? input_opcode_properties.parameter_end : \
      (unsigned)(op) == 79 ? input_opcode_properties.pragma : \
      (unsigned)(op) == 83 ? input_opcode_properties.scope_begin : \
@@ -265,7 +266,7 @@ C2Record *__fastcall read_function_code(C2Function *function, C2InputStack **pen
             if ((token.type & 0xf000) == 0x5000) input_aggregate_bytes = token.bytes;
             break;
         case 50:
-            input_shift_operator(&stack, &token);
+            input_store_operator(&stack, &token);
             break;
         case 51:
             if ((token.type & 0xf000) == 0x4000)
@@ -878,9 +879,9 @@ enum InputTokenForm {
 static struct {
     unsigned char pending00[5], divide, pending06[6], bit_or, pending13[25], variable, pending39[6], parameter, pending46[2];
     unsigned char conversion, pending49, typed_operator, number, pending52[18];
-    unsigned char function_entry, pending71[5], parameter_end, pending77[2], pragma, pending80[3], scope_begin;
+    unsigned char function_entry, pending71[4], statement_end, parameter_end, pending77[2], pragma, pending80[3], scope_begin;
 } input_token_forms = {{0}, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_SYMBOL, {0},
-                       INPUT_FORM_TYPE, 0, INPUT_FORM_TYPE, INPUT_FORM_NUMBER, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
+                       INPUT_FORM_TYPE, 0, INPUT_FORM_TYPE, INPUT_FORM_NUMBER, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 5 ? input_token_forms.divide : \
     (unsigned)(op) == 12 ? input_token_forms.bit_or : \
@@ -890,6 +891,7 @@ static struct {
     (unsigned)(op) == 50 ? input_token_forms.typed_operator : \
     (unsigned)(op) == 51 ? input_token_forms.number : \
     (unsigned)(op) == 70 ? input_token_forms.function_entry : \
+    (unsigned)(op) == 75 ? input_token_forms.statement_end : \
     (unsigned)(op) == 76 ? input_token_forms.parameter_end : \
     (unsigned)(op) == 79 ? input_token_forms.pragma : \
     (unsigned)(op) == 83 ? input_token_forms.scope_begin : \
@@ -1919,4 +1921,75 @@ C2Expression *__fastcall fold_input_constant(C2Expression *expression,
     }
     expression->type = type;
     return expression;
+}
+
+/* Typed store: normalize the two stacks, then emit scalar or block assignment. */
+void __fastcall input_store_operator(C2InputStack **stack, C2ILToken *token)
+{
+    unsigned short type = token->type;
+    unsigned category = type & 0xf000;
+    C2InputStack *local;
+    C2Expression *value, *temporary, *size, *left, *right;
+    C2Expression **prior;
+    if (category == 0x5000) {
+        input_aggregate_bytes = token->bytes;
+        if ((long)input_aggregate_bytes > 0xfff) {
+            input_aggregate_return(stack, token);
+            return;
+        }
+    }
+    local = *stack;
+    value = pop_input_expression(local);
+    if (value->kind == 6 && category == 0x5000) {
+        if (!input_aggregate_bytes || (long)input_aggregate_bytes > 8 ||
+            (input_aggregate_bytes & (input_aggregate_bytes - 1)))
+            temporary = new_input_temporary(value->type);
+        else
+            temporary = new_temporary_operand(value->type);
+        size = new_integer_expression(0x1004, (__int64)(long)input_aggregate_bytes);
+        value = new_block_copy_expression(0x13f, value->type, temporary, value,
+                                          size, link_code_nodes, (C2Record *)local->last);
+        value->tail.right->value.reg->value = value;
+    } else {
+        if (value->location.expression.properties & 0x10)
+            value = copy_input_expression(value);
+        link_code_nodes((C2Record *)local->last, (C2Record *)value);
+    }
+    local->last = value;
+    swap_input_stacks(stack);
+    if ((*stack)->flags & 4) {
+        input_deferred_store(stack, token);
+        return;
+    }
+    convert_input_operand(*stack, type, token->bytes, token->flags & 0x800);
+    input_operand_pair(stack, &left, &right, 0);
+    if (category == 0x5000) {
+        size = new_integer_expression(0x1004, (__int64)(long)input_aggregate_bytes);
+        prior = &(*stack)->last;
+        value = new_block_copy_expression(0x13f, right->type, right, left,
+                                          size, link_code_nodes, (C2Record *)*prior);
+    } else {
+        prior = &(*stack)->last;
+        convert_input_expression(&left, type, prior);
+        value = new_binary_expression(0x131, right->type, right, left,
+                                      link_code_nodes, (C2Record *)*prior);
+    }
+    *prior = value;
+    if (right->kind != 2 && !((1U << (right->kind & 31)) & 0x180) &&
+        ((left->kind == 2 && !left->value.reg->value &&
+          !(left->value.reg->flags & 0x20) &&
+          !(left->location.expression.properties & 0x40)) ||
+         ((1U << (left->kind & 31)) & 0x180))) {
+        left = copy_input_expression(left);
+        link_code_nodes((C2Record *)*prior, (C2Record *)left);
+        *prior = left;
+    }
+}
+
+void __fastcall swap_input_stacks(C2InputStack **stack)
+{
+    C2InputStack *first = *stack;
+    *stack = first->next;
+    first->next = (*stack)->next;
+    (*stack)->next = first;
 }
