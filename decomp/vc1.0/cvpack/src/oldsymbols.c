@@ -299,3 +299,9 @@ void size_old_label16(void)
 {
     module_type_base += 7;
 }
+
+void size_old_block16(void)
+{
+    module_type_base += 15;
+    ++symbol_scope_depth;
+}

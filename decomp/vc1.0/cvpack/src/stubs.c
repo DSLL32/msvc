@@ -148,7 +148,7 @@ void convert_old_leaf_a7(TypeRecord *entry) { __asm { int 3 } }
 
 
 
-void size_old_block16(void) { __asm { int 3 } }
+
 void size_old_block32(void) { __asm { int 3 } }
 
 
