@@ -320,7 +320,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .native_symbol="delete_temporary", .implementation=RECON_IMPLEMENTED },
     { .name="_deferred_from_jobs", .entry_rva=0x3b8e,
       .code=(const ReconExtent[]){{0x3b8e,0x3bb7}}, .code_count=1,
-      .definition=RECON_APP, .native_symbol="deferred_from_jobs", .implementation=RECON_UNIMPLEMENTED },
+      .definition=RECON_APP, .native_symbol="deferred_from_jobs", .implementation=RECON_IMPLEMENTED },
     { .name="_vwrite_message", .entry_rva=0x5232,
       .code=(const ReconExtent[]){{0x5232,0x5259}}, .code_count=1,
       .definition=RECON_APP, .native_symbol="vwrite_message", .implementation=RECON_IMPLEMENTED },

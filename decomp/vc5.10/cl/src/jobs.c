@@ -18,3 +18,20 @@ Job *jobs_from_deferred(DeferredInput *inputs)
         last->next = NULL;
     return jobs;
 }
+
+/* 00403b8e..00403bb7: retain Job links and chain their embedded inputs. */
+DeferredInput *deferred_from_jobs(Job *jobs)
+{
+    DeferredInput *inputs = NULL, *last = NULL, *input;
+    for (; jobs; jobs = jobs->next) {
+        input = &jobs->deferred;
+        if (last)
+            last->next = input;
+        else
+            inputs = input;
+        last = input;
+    }
+    if (last)
+        last->next = NULL;
+    return inputs;
+}

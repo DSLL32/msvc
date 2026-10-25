@@ -2,11 +2,6 @@
 #include "cl.h"
 #include <recon.h>
 
-DeferredInput *deferred_from_jobs(Job *jobs) { __asm int 3
-    return NULL;
-}
-
-
 BOOL WINAPI console_control_handler(DWORD event)
 {
     __asm int 3

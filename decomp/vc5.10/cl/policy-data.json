@@ -898,6 +898,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_deferred_from_jobs": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -1013,7 +1018,8 @@
       "import:strcat",
       "import:strcpy",
       "import:memcpy",
-      "import:strcmp"
+      "import:strcmp",
+      "_deferred_from_jobs"
     ]
   },
   "runtime_audit_names": [

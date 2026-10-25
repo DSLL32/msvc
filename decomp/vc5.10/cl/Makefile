@@ -16,6 +16,8 @@ ORIGINAL_CFLAGS = /nologo /c /Od /G3 /MD
 ORIGINAL_LDFLAGS = /nologo /subsystem:console /map:build/cl.map
 ORIGINAL_LDLIBS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/SETARGV.OBJ $(ORIGINAL_TOOLCHAIN_ROOT)/lib/USER32.LIB build/messages.res build/mspdb50.lib
 ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
+ORIGINAL_DIRECT_FLAGS = --include src --include $(RECON)/include
+ORIGINAL_DIRECT_DEPS = src/cl.h
 
 RECON_AUDIT_PROFILE = cl
 RECON_IMAGE_BASE = 4194304
