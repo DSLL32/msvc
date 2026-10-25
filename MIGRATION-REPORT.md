@@ -426,13 +426,13 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 94 / 13,521 | 4.20% | Minimal C: keyword classification after identifier interning; `635eba52d` |
-| C1XX | 116 / 14,488 | 1.93% | Minimal C++: pointer-array allocation; `2ec67e3d8` |
-| C2 | 139 / 33,800 | 5.90% | Numeric case: lookup_input_filename after tree pruning/pop; `6bf9ec8f4` |
+| C1 | 106 / 14,523 | 4.51% | Minimal C: IR writer after expression-output open and integer node; `a87a64f9e` |
+| C1XX | 122 / 15,300 | 2.04% | Minimal C++: own IR writer after integer node; `966190714` |
+| C2 | 144 / 34,440 | 6.01% | Numeric case: new_function_entry after variable expression; `abb6e868b` |
 | CL | 109 / 18,279 | 95.89% | Bounded live Job-chain DIRECT complete, committed `677a11cab` and paused; 14 public cases unchanged |
 | CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
-| LINK | 132 / 45,148 | 10.88% | Hello EXE: definition-state candidate held for explicit original-report runner gate; `e80c5ca93` |
-| RCDLL | 117 / 29,882 | 40.05% | Rich corpus: underlying resource character reader; `d471e8eab` |
+| LINK | 136 / 45,695 | 11.02% | Hello EXE: COMDAT attachment after auxiliary lookup/alignment; `678d90935` |
+| RCDLL | 118 / 30,648 | 41.08% | Rich corpus: raw reader after resource character reader; `9bce0bc1d` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -451,9 +451,11 @@ LINK's next candidate exposed an unvisited wrong-field read and, separately,
 the fact that runner `--capture` selected inputs/IO while trace/frontier checks
 still used descriptor expectations. Its independent actual-report comparison
 caught the divergence before promotion. The source correction reuses the
-unchanged original; the explicit `--original-report` shared comparison is in
-qualification. Other active workers retain direct actual-pair equality, and no
-historical replay campaign is required.
+unchanged original. Shared releases `0bf036e0d` and `30f98e94c` now provide an
+explicit `--original-report` comparison and permit stale descriptor expectations
+only on that selected-report path. The saved mismatch rejects, the corrected
+native matches, and LINK's acceptance has resumed. Other active workers use the
+same explicit gate; no historical replay campaign is required.
 
 The concrete minimal capture work is:
 
