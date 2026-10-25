@@ -601,3 +601,8 @@ int compare_external_sections(const void *left,const void *right)
         return (int)first_section-(int)second_section;
     return (int)(first->value.final_value-second->value.final_value);
 }
+
+/* Constructor-installed end callback; original one-byte RET. */
+void end_undefined_enumerator(UndefinedEnumerator *scan)
+{
+}

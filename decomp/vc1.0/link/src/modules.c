@@ -574,3 +574,8 @@ void release_library_list(LibraryList *libraries)
     libraries->exclude_defaults=0;
     libraries->default_libraries=NULL;
 }
+
+/* Constructor-installed end callback; original one-byte RET. */
+void end_contribution_enumerator(ContributionEnumerator *scan)
+{
+}

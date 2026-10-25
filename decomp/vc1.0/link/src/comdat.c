@@ -255,3 +255,18 @@ void print_comdat_graph(ComdatNode *nodes)
         }
     }
 }
+
+/* Constructor-installed end callback; original one-byte RET. */
+void end_comdat_node_enumerator(ComdatNodeEnumerator *scan)
+{
+}
+
+/* Constructor-installed end callback; original one-byte RET. */
+void end_comdat_edge_enumerator(ComdatEdgeEnumerator *scan)
+{
+}
+
+/* Constructor-installed end callback; original one-byte RET. */
+void end_comdat_root_enumerator(ComdatRootEnumerator *scan)
+{
+}

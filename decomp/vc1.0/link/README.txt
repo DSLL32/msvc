@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 97 numbered case directories. Native
+The shared recon-tool harness discovers the 98 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,11 +21,11 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 816 application functions (759 public-reached, 57 direct-support),
-with accepted App extent union 230745/281634 (81.9308038%). The resource resize/release
-lifecycle adds two whole functions/66 bytes after the OMF header/error
-checkpoint. Support-inclusive historical accepted extent is 261684/281634
-(92.9163382%). The 1015 historical frontier count includes shipped CRT/import
+set now has 821 application functions (759 public-reached, 62 direct-support),
+with accepted App extent union 230750/281634 (81.9325792%). The iterator end-callback
+lifecycle adds five whole functions/five bytes after the resource resize/release
+checkpoint. Support-inclusive historical accepted extent is 261689/281634
+(92.9181136%). The 1020 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
 application credit. A complete non-CRT denominator remains unavailable. At the prior cleanup checkpoint the old
 partial body/data/alignment inventory left 11108 unaccepted bytes unclassified;
@@ -97,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 853 graphs for calls, RET cleanup, live function
+Current shared validation checks 858 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -356,3 +356,36 @@ identical; the frozen unused Watcom-only lseek candidate is identified separatel
 from the reviewed Microsoft APIs actually exercised. Raw evidence and timings:
 
     /root/.ai-tmp/msvc2/vc1.0/link/resource-allocation/
+
+
+Case 0097 completes five constructor-installed iterator end callbacks in one
+direct image-graph lifecycle. Each original body is exactly one RET byte; no
+alignment or undefined EAX value is credited. Real image/library/module,
+contribution and zeroed-arena COMDAT constructors supply all owners. Actual typed
+.end fields are called in empty, fresh, early-stop and exhausted states. The
+undefined iterator uses the genuine empty freshly created symbol table; it does
+not fabricate a private list or exercise populated-undefined traversal here.
+Every caller-owned initialized iterator byte and actual live owner extent stays
+unchanged within its own image. Arena storage is released only after all readers;
+no raw pointer address is serialized or normalized. The complete 512-byte report
+is exact, SHA256
+911d46247e06f81a997106d24d1486a5886ef5d5292d7835d2c31d959b140782.
+
+The first native attempt exposed glibc's obsolete create_module symbol resolving
+instead of LINK's constructor, returning -1 before the first new callback. Its AV
+and GDB evidence are retained. An uninstrumented, exact-ABI native-host forwarder
+uses the existing library Bsymbolic binding to call LINK's unchanged constructor;
+objdump proves that direct target. The same frozen original then matches. This
+host adapter receives no application credit and changes no global loader policy.
+
+The untouched baseline took 1.039s, final masked completion 0.660s, and its explicit
+native pair 14.108ms (setup 8.885/execution 2.180/checks 3.043). Five fresh masked
+frontier/native pairs pass. Eighteen actual native GDB entry/return observations
+confirm exact formal owners, ESP+4, nonvolatiles and FP preservation; void EAX is
+left undefined. Original compiler/relink and the 858-function graph/ABI audit pass
+in 21.670s combined. Final native/case build 4.393s and all 98 cached cases plus seven
+focused tests pass in 2.091s parallel wall time, with identical READY c63eea9e6
+shared-source inventories before/after. Three now-empty stub translation units
+are retired. Full raw receipts, GDB observations and timing/source accounting:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/iterator-lifecycle/

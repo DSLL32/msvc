@@ -78,13 +78,10 @@ BINARY_SOURCES = src/link.c \
     src/diagnostics.c \
     src/argument-stubs.c \
     src/files-stubs.c \
-    src/module-stubs.c \
     src/driver-stubs.c \
     src/machine-stubs.c \
-    src/pass-stubs.c \
     src/object-stubs.c \
     src/option-stubs.c \
-    src/link-pass-stubs.c \
     src/pass-two-stubs.c
 BINARY_SUPPORT_SOURCES = crt/runtime.c crt/anchors.c harness/native-host.c harness/fixture-artifacts.c harness/fixture-process.c $(wildcard $(RECON)/src/*.c)
 NATIVE_LDFLAGS = -Wl,--wrap=write_import_members -Wl,--wrap=omf_convert_debug_symbols
