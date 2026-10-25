@@ -2,7 +2,8 @@ C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
 PARTIAL reconstruction; packet_engine is COMPLETE. There are1367 application
-source functions plus seven unchanged historical CRT source functions. This
+source functions plus seven unchanged historical CRT source functions. The new
+dsp_bank case is active at apply_member_access_declaration (RVA0x20d50). This
 substantial /O2 /G5 /Ob1 /Z7 /FR case accepted83 whole application bodies:
 18,747 code bytes and820 owned switch-data bytes. It covers packed/anonymous
 aggregates, generated special members/defaults, temporaries, nested SEH,
@@ -63,7 +64,7 @@ calls. Win32 source retains the bug; this path is not reached by the pack case.
 Build and run
 -------------
     make -j4                 # shared native i386 PIC/O0/debug libbinary.so
-    make -j4 check           # nine native-only saved-reference cases
+    make -j4 check           # ten native-only saved-reference cases
     make -j4 unit            # narrow forked native policy/control tests
     make -j4 win32           # explicit original-compiler build, uses shared Wine
     make -j4 audit           # inherited Rust graph/ABI/callback checks
@@ -274,3 +275,16 @@ native run, with no comparison normalization.
 Plain stdcall decoration now caches explicit parameter stack bytes, rounding
 each declared type to four bytes. Array parameters retain pointer sizing and
 optional float promotion remains distinct from ordinary type size.
+
+dsp_bank freezes dsp-bank.cpp(3795B) and dsp-bank.h(9903B), including a512-field
+CodeView type, remaining integer/x87 assembly operators/labels/OFFSET/FS usage,
+floating constant arithmetic/conversions, intrinsic pragmas, exported stdcall
+functions/sections, friend/access declarations and reference-temporary lifetimes.
+The untouched full CL/frontend/C2/LINK pipeline and generated EXE both exit0;
+standalone original frontend exit/streams and all six artifacts are frozen. Its
+full trace observes39 pending registered application entries, without promising
+the final reach. Initial fresh original/native frontier20d50 and ten cached cases
+plus19 unit groups pass; this case addition earns zero reconstruction credit.
+The prefreeze draft rejected public access promotion and a trailing-const member
+pointer declarator; its source/logs remain in scratch. The valid source retains
+a protected access declaration and uses a nonconst virtual/member-call probe.
