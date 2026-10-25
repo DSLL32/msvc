@@ -82,6 +82,9 @@ typedef struct CompilerInitializedState {
     unsigned global_symbol_cache_index; /* RVA5f48c, default9 */
     CompilerIrSymbol *anonymous_global_symbol; /* RVA5e3ec, defaultNULL */
     CompilerIrSymbol *local_size_symbol; /* RVA5e3f0, defaultNULL */
+    /* RVA5e398: mutable ctime-derived text, including original extra NUL.
+     * Date/time macros borrow slices of the reformatted text. */
+    char predefined_time_text[26];
     /* Last: snapshot transfer excludes all unknown size slots. */
     CompilerRecordSizes record_sizes;
 } CompilerInitializedState;

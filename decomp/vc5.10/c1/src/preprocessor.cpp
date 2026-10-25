@@ -1,7 +1,7 @@
 #include <string.h>
 #include <time.h>
 #include "compiler-state.h"
-#pragma intrinsic(strcpy)
+#pragma intrinsic(strcpy, memcpy)
 #include <recon.h>
 
 /* One boolean flag selects which encountered token IDs receive a shared
@@ -131,7 +131,21 @@ extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions)
 extern "C" long __cdecl get_compilation_time(long *result)
 { return time(result); }
 extern "C" char *__cdecl format_predefined_time(long stamp)
-{ __asm { int 3 } return NULL; }
+{
+    stamp &= 0x7fffffff;
+    char *text = ctime(&stamp);
+    if (text) {
+        /* The first25 bytes retain the original newline. The separate
+         * initialized trailing NUL is not overwritten by this copy. */
+        memcpy(c1_data.predefined_time_text, text, 25);
+        if (c1_data.predefined_time_text[8] == '0')
+            c1_data.predefined_time_text[8] = ' ';
+        memcpy(c1_data.predefined_time_text + 11, text + 20, 4);
+        memcpy(c1_data.predefined_time_text + 16, text + 11, 4);
+        memcpy(c1_data.predefined_time_text + 20, text + 15, 4);
+    }
+    return c1_data.predefined_time_text;
+}
 extern "C" void __cdecl initialize_macro_buffers(void)
 { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macro(char *definition)

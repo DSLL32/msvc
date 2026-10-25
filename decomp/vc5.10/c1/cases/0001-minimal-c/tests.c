@@ -307,10 +307,12 @@ static int type_arena_snapshot(void)
         c1_data.record_sizes.known.intrinsic_symbol_bytes != 52 ||
         c1_data.record_sizes.known.global_symbol_bytes != 52 ||
         c1_data.record_sizes.known.abstract_symbol_bytes != 52 ||
+        memcmp(c1_data.predefined_time_text, "......Unknown date......\0", 26) ||
         c1_data.global_symbol_cache_index != 9 ||
         c1_data.anonymous_global_symbol || c1_data.local_size_symbol ||
         c1_data.intrinsic_symbol_cache_index != 9 || c1_data.next_symbol_record_id != 16)
         return 0;
+    memset(c1_data.predefined_time_text, 0x37, 26);
     c1_data.type_arena_kind = 2;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
     c1_data.record_sizes.known.global_symbol_bytes = 41;
@@ -336,6 +338,7 @@ static int type_arena_snapshot(void)
         saved->record_sizes.indexed[i] = 0xa5000000 + i;
         c1_data.record_sizes.indexed[i] = 0x5a000000 + i;
     }
+    memset(c1_data.predefined_time_text, 0x61, 26);
     saved->first_call = 0;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 61;
     c1_data.record_sizes.known.global_symbol_bytes = 67;
@@ -354,6 +357,9 @@ static int type_arena_snapshot(void)
         if (c1_data.record_sizes.indexed[i] != 0x5a000000 + i ||
             saved->record_sizes.indexed[i] != 0xa5000000 + i) return 0;
     }
+    for (i = 0; i < 26; ++i)
+        if (c1_data.predefined_time_text[i] != 0x37 ||
+            saved->predefined_time_text[i] != 0x37) return 0;
     return c1_data.type_arena_kind == 2 && c1_bss.saved_data == saved &&
         c1_data.record_sizes.known.intrinsic_symbol_bytes == 37 &&
         c1_data.record_sizes.known.global_symbol_bytes == 41 &&
