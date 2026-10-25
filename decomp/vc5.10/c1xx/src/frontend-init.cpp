@@ -1393,4 +1393,16 @@ extern "C" CompilerTypeShape *__cdecl create_declarator_shape(unsigned flags, WO
     return shape;
 }
 
-extern "C" void *__cdecl allocate_symbol_storage(unsigned bytes, unsigned kind, unsigned arena) { __asm { int 3 } return NULL; }
+extern "C" void *__cdecl allocate_symbol_storage(unsigned bytes, unsigned kind, unsigned arena_index)
+{
+    unsigned index = kind & 0xff;
+    CompilerArena *arena;
+    BYTE *memory;
+    (void)bytes; /* Kept as a genuine ABI argument; the original ignores it. */
+    if (index >= 26 || arena_index >= 9) { __asm { int 3 } }
+    arena = &frontend_bss.arenas[arena_index];
+    memory = arena->cursor;
+    arena->cursor += (frontend_data.symbol_record_bytes[index] + 3) & ~3U;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    return memory;
+}
