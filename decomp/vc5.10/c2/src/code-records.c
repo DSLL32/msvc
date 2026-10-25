@@ -362,3 +362,35 @@ C2Expression *__fastcall new_temporary_register_expression(unsigned opcode,
     expression->original_register = original;
     return expression;
 }
+
+/* Aggregate operands carry separate component uses in both input/result lists. */
+void __fastcall retain_aggregate_operands(C2Expression *expression)
+{
+    C2Expression *value;
+    for (value = expression->left; value; value = value->next) {
+        if (((1U << (value->kind & 31)) & 0x60) &&
+            !(value->location.expression.comparison & 0x20)) {
+            if (value->aggregate_value) {
+                value->aggregate_value->location.expression.properties &= ~0x10;
+                copy_input_operand(expression, value->aggregate_value);
+            }
+            if (value->aggregate_second) {
+                value->aggregate_second->location.expression.properties &= ~0x10;
+                copy_input_operand(expression, value->aggregate_second);
+            }
+        }
+    }
+    for (value = expression->tail.right; value; value = value->next) {
+        if (((1U << (value->kind & 31)) & 0x60) &&
+            !(value->location.expression.comparison & 0x20)) {
+            if (value->aggregate_value) {
+                value->aggregate_value->location.expression.properties &= ~0x10;
+                copy_input_operand(expression, value->aggregate_value);
+            }
+            if (value->aggregate_second) {
+                value->aggregate_second->location.expression.properties &= ~0x10;
+                copy_input_operand(expression, value->aggregate_second);
+            }
+        }
+    }
+}

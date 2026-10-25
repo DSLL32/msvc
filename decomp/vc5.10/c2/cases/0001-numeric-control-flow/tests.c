@@ -719,6 +719,24 @@ static int folded_integer_width(void)
         !memcmp(storage, expected, sizeof(storage));
 }
 
+static int temporary_node_sizes(void)
+{
+    union { unsigned alignment; unsigned char bytes[36]; } storage;
+    unsigned kind, size, i;
+    C2SmallNode *node = (C2SmallNode *)&storage;
+    for (kind = 1; kind <= 11; kind += 10) {
+        size = kind == 1 ? 28 : 32;
+        memset(&storage, 0xa5, sizeof(storage));
+        node->next = NULL;
+        free_small_nodes[size] = node;
+        if (allocate_small_node(kind) != node || free_small_nodes[size]) return 0;
+        for (i = 0; i < sizeof(storage.bytes); ++i)
+            if (storage.bytes[i] != (i < size ? (i == 8 ? kind : 0) : 0xa5))
+                return 0;
+    }
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -752,5 +770,6 @@ const ReconTest numeric_tests[] = {
     {"address views reuse compatible widths and widest aggregates without mutation", 1, widest_address_view},
     {"integer records preserve signed width, full payload and allocation canary", 1, integer_record_width},
     {"binary type selection preserves pointer, real and unsigned precedence", 1, binary_value_types},
-    {"constant narrowing marks only changed values and preserves record tails", 1, folded_integer_width}
+    {"constant narrowing marks only changed values and preserves record tails", 1, folded_integer_width},
+    {"temporary and binary node sizes preserve allocation canaries", 1, temporary_node_sizes}
 };

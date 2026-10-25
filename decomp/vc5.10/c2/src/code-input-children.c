@@ -449,8 +449,3 @@ int c2_real_to_unsigned(C2Real *input, unsigned *output)
     __asm { int 3 }
     return 0;
 }
-
-void __fastcall retain_aggregate_operands(C2Expression *expression)
-{
-    __asm { int 3 }
-}

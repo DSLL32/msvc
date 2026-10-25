@@ -2875,8 +2875,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@retain_aggregate_operands@4",
         .entry_rva = 0x131b,
+        .code = (const ReconExtent[]){{0x131b, 0x13c5}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "retain_aggregate_operands",
     },
     {
