@@ -4944,11 +4944,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_resource_usage",
         .entry_rva = 0x327f0,
-        .code = (const ReconExtent[]){{0x327f0, 0x327f1}},
+        .code = (const ReconExtent[]){{0x327f0, 0x3286c}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "resource_usage",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_convert_resources",
@@ -5137,6 +5137,24 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "convert_legacy_dialog",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_resource_copy_ansi_identifier",
+        .entry_rva = 0x343d0,
+        .code = (const ReconExtent[]){{0x343d0, 0x34422}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "resource_copy_ansi_identifier",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_convert_legacy_image_group",
+        .entry_rva = 0x348b0,
+        .code = (const ReconExtent[]){{0x348b0, 0x3492d}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "convert_legacy_image_group",
         .implementation = RECON_IMPLEMENTED,
     },
     {

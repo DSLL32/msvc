@@ -4,4 +4,3 @@
 #include "resources.h"
 #include <recon.h>
 void end_undefined_enumerator(UndefinedEnumerator *scan) { __asm { int 3 } }
-void resource_usage(int error) { __asm { int 3 } }

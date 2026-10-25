@@ -436,3 +436,35 @@ void display_legacy_dialog(const unsigned char *input,unsigned long size)
     }
     printf("\n");
 }
+
+/* Original [000443d0,00044422); ordinal or byte-string cursor copy.
+ * The original ordinal marker expands to FF00, not FFFF. */
+void resource_copy_ansi_identifier(unsigned char **output,const unsigned char **input)
+{
+    if (**input==0xff) {
+        (*output)[0]=0xff;
+        (*output)[1]=0;
+        (*output)[2]=(*input)[1];
+        (*output)[3]=(*input)[2];
+        *output+=4;
+        *input+=3;
+    } else {
+        resource_copy_bytes(output,input,0);
+        resource_align_word(output);
+    }
+}
+/* Original [000448b0,0004492d); byte-packed image-group input.
+ * The output aligns the six-byte header and each fourteen-byte entry. */
+unsigned long convert_legacy_image_group(const unsigned char *input,unsigned long size,
+                                        unsigned char *output)
+{
+    const unsigned char *source=input;
+    unsigned char *destination=output;
+    resource_copy_bytes(&destination,&source,6);
+    resource_align_dword(&destination);
+    while ((unsigned long)(source-input)<size) {
+        resource_copy_bytes(&destination,&source,14);
+        resource_align_dword(&destination);
+    }
+    return destination-output;
+}

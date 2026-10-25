@@ -39,6 +39,20 @@ void convert_resource_input(Argument *argument,unsigned short machine)
     } else fatal_message(argument->text,0x1a,"");
 }
 
+/* Original [000427f0,0004286c); the error argument is unused. */
+void resource_usage(int error)
+{
+    printf("Microsoft (R) Windows CVTRES Version %d.%02d\n",3,20);
+    printf("Copyright (C) Microsoft Corp. 1991-1992.  All rights reserved.\n\n");
+    printf("usage: CVTRES [-v] [-d] [-i386 | -mips | -alpha] [-o outfile] filespec\n");
+    printf("       where  filespec is an WIN32/WIN16 .RES file\n");
+    printf("              -d print debug info\n");
+    printf("              -v verbose - print conversion statistics & info\n");
+    printf("              outfile is the desired output file name.\n");
+    printf("              outfile defaults to filespec.obj.\n");
+    longjmp(resource_abort,-1);
+}
+
 /* Original [00042870,00042c10). Command driver retained inside LINK. */
 int convert_resources(int argc,char **argv)
 {

@@ -40,6 +40,8 @@ typedef struct ResourceType {
 } ResourceType;
 ResourceName * read_resource_name(int file);
 ResourceEntry * insert_resource(ResourceName *type,ResourceName *name,ResourceRecord *record);
+void resource_copy_ansi_identifier(unsigned char **output,const unsigned char **input);
+unsigned long convert_legacy_image_group(const unsigned char *input,unsigned long size,unsigned char *output);
 int resource_name_to_ansi(char *output,const unsigned short *input,unsigned long count);
 void set_resource_directory(IMAGE_RESOURCE_DIRECTORY *directory,unsigned long characteristics,unsigned long version,unsigned long stamp,unsigned short named,unsigned short ids);
 void set_resource_data(IMAGE_RESOURCE_DATA_ENTRY *entry,unsigned long offset,unsigned long size,unsigned long code_page,unsigned long reserved);
