@@ -1,0 +1,12 @@
+{
+  "scope": "WResIDExtraBytes18B returns numericID0 or old uint8-name-length minus1. Actual numeric type path returns0, allocates/initializes21B type node then reaches ResAddLLItemAtEnd.",
+  "application_functions": 25,
+  "application_bytes": 2683,
+  "ABI": "Original constIDpointerEAX/resultEAX, no otherGPwrites,RET0.",
+  "bindings": {
+    "src/resource.c": "d96c053c8fcb13a835067e967b96dc25fc72b13d6c2dd466e94e7ee110ac2215",
+    "src/link.h": "98f07cc53a2f16e73026f9ca19aafb58f2c95d287a4f462dec4918b9a3c2d531",
+    "binary.c": "8f7a55e80c917f8fab1a4d69afc3ba98ff80788bc48e2e1044e7d87b8d92aa29",
+    "policy-data.json": "d4d409b7c2b596c35b98fdfc4e8e8f673b0f2d0dc13d61912651b0347e8babe0"
+  }
+}

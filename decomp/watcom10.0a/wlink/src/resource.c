@@ -397,3 +397,11 @@ int WResReadFixedTypeRecord( WResTypeInfo *info, int file )
     WresRecordError( count == -1 ? 8 : 14 );
     return 1;
 }
+
+int WResIDExtraBytes( const WResID *id )
+{
+    if( id->IsName ) {
+        return id->ID.Name.NumChars - 1;
+    }
+    return 0;
+}

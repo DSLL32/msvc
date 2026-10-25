@@ -116,6 +116,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "WResIDExtraBytes": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }
