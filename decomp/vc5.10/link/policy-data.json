@@ -5925,6 +5925,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_allocate_pool_memory@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   }

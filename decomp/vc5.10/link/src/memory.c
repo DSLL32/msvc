@@ -100,4 +100,20 @@ void *__stdcall reallocate_memory(void *memory,unsigned bytes)
 }
 
 void *__stdcall allocate_pool_memory(MemoryPool **pool,unsigned bytes)
-{ __asm { int 3 } return NULL; }
+{
+    unsigned capacity;
+    MemoryPool *block;
+    BYTE *memory;
+    bytes=(bytes+3)&~3U;
+    if (!*pool || (*pool)->remaining<bytes) {
+        capacity=bytes<8192 ? 8192 : bytes;
+        block=(MemoryPool *)zero_allocate(capacity+sizeof(MemoryPool));
+        block->remaining=capacity;
+        block->previous=*pool;
+        *pool=block;
+    }
+    memory=(BYTE *)(*pool)+sizeof(MemoryPool)+(*pool)->used;
+    (*pool)->used+=bytes;
+    (*pool)->remaining-=bytes;
+    return memory;
+}

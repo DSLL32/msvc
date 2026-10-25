@@ -743,6 +743,39 @@ static int name_pool_call(void)
     return recon_native_at_entry(allocate_pool_memory,check_name_pool_call,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall read_section_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,OutputModule *);
+static void __stdcall check_relocation_reader(LinkContext *context,Contribution *contribution,
+    IMAGE_SYMBOL *symbols,OutputModule *module)
+{
+    ContributionInfo expected[7];
+    FileRecord *file=file_slots[current_input_file];
+    const BYTE *payload;
+    unsigned i;
+    if (!context || context->file_header.Machine!=0x14c ||
+        module!=current_input_library->module_head ||
+        contribution!=(Contribution *)module->contributions+1 ||
+        symbols!=(IMAGE_SYMBOL *)((BYTE *)file->view+1135) ||
+        !comdat_names || comdat_names->previous || comdat_names->used!=20 ||
+        comdat_names->remaining!=8172 || last_comdat!=contribution)
+        recon_native_entry_finish(0);
+    payload=(const BYTE *)(comdat_names+1);
+    memset(expected,0,sizeof(expected));
+    expected[1].reference_count=8;
+    expected[1].references=comdat_reference_arena->base;
+    expected[1].name=(const char *)payload;
+    expected[1].fold_candidate=contribution;
+    if (memcmp(module->contribution_info,expected,sizeof(expected)) ||
+        memcmp(payload,"_HelloWindowProc@16",20) ||
+        payload==(const BYTE *)current_module_strings+4)
+        recon_native_entry_finish(0);
+    for(i=20;i<8192;++i) if(payload[i]) recon_native_entry_finish(0);
+    recon_native_entry_finish(1);
+}
+static int relocation_reader(void)
+{
+    return recon_native_at_entry(read_section_relocations,check_relocation_reader,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -777,5 +810,6 @@ const ReconTest hello_tests[]={
     {"fold-record",1,fold_record},
     {"comdat-attachment",1,comdat_attachment},
     {"comdat-name-copy",1,comdat_name_copy},
-    {"name-pool-call",1,name_pool_call}
+    {"name-pool-call",1,name_pool_call},
+    {"relocation-reader",1,relocation_reader}
 };
