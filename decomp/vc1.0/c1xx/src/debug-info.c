@@ -1,5 +1,6 @@
 /* Frontend debug intermediate initialization and CodeView record output. */
 #include <stdarg.h>
+#include <time.h>
 #include "debug-info.h"
 #include "global-ir.h"
 #include "control-ir.h"
@@ -107,4 +108,29 @@ void write_debug_record(unsigned record, ...)
     }
     va_end(arguments);
     auxiliary_ir_stream = saved;
+}
+
+DebugDatabase *debug_database; /* original0xa269c */
+unsigned char *line_record_buffer; /* original0x8cca0 */
+unsigned char *line_record_leaf; /* original0x8cc9c */
+
+/* Original0x70800..0x7089c. Open the separate debug database once,
+   using the actual reproducible signature option before beginning its stream. */
+void begin_line_record_debug_info(void)
+{
+    if (debug_database) return;
+    if (options.configuration.option_Brepro)
+        debug_database = open_debug_database(options.configuration.database_path, "wi", 1);
+    else debug_database = open_debug_database(options.configuration.database_path,
+        "wi", (unsigned)time(0));
+    if (!debug_database) {
+        report_syntax_error(470, options.configuration.database_path);
+        return;
+    }
+    initialize_line_record_buffer();
+    write_debug_record(12);
+    write_debug_record(10);
+    *(unsigned *)line_record_buffer = 1;
+    write_debug_record(3, 4, line_record_buffer);
+    emit_line_record_database_reference();
 }

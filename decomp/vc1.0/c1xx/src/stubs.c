@@ -24,6 +24,7 @@
 #include "unary-expressions.h"
 #include "control-ir.h"
 #include "debug-types.h"
+#include "debug-info.h"
 /* Named, unaccepted reconstruction frontiers. */
 #include "initialization.h"
 #include "inline-vector.h"
@@ -394,7 +395,9 @@ int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 
 IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 
 
-void begin_line_record_debug_info(void) { __asm { int 3 } }
+DebugDatabase *__cdecl open_debug_database(char *filename, char *mode, unsigned signature) { __asm { int 3 } return 0; }
+void initialize_line_record_buffer(void) { __asm { int 3 } }
+void emit_line_record_database_reference(void) { __asm { int 3 } }
 
 
 

@@ -1,11 +1,35 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1654 historical frontiers/1547 App bodies.
+ * Current reviewed boundary:1655 historical frontiers/1548 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_open_debug_database",
+        .entry_rva = 0x7b70,
+        .code = (const ReconExtent[]) { { 0x7b70, 0x7dc3 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "open_debug_database",
+    },
+    {
+        .name = "_initialize_line_record_buffer",
+        .entry_rva = 0x60930,
+        .code = (const ReconExtent[]) { { 0x60930, 0x60948 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "initialize_line_record_buffer",
+    },
+    {
+        .name = "_emit_line_record_database_reference",
+        .entry_rva = 0x608a0,
+        .code = (const ReconExtent[]) { { 0x608a0, 0x6092a } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_line_record_database_reference",
+    },
     {
         .name = "_free_inline_query_tables",
         .entry_rva = 0x3510f,
@@ -12916,6 +12940,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "begin_line_record_debug_info",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_line_record_debug_info",
