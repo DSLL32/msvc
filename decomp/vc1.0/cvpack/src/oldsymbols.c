@@ -84,3 +84,8 @@ void size_old_data16(void)
 {
     module_type_base += 5;
 }
+
+void size_old_register(void)
+{
+    module_type_base += 6;
+}
