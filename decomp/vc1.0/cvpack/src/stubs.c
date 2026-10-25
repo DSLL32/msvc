@@ -186,4 +186,4 @@ void convert_old_symbol_register_relative16(void) { __asm { int 3 } }
 void convert_old_symbol_register_relative32(void) { __asm { int 3 } }
 void convert_old_symbol12(void) { __asm { int 3 } }
 void convert_old_symbol_skip(void) { __asm { int 3 } }
-void convert_old_symbol_change_segment(void) { __asm { int 3 } }
+

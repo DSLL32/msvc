@@ -185,3 +185,9 @@ void convert_old_symbols(unsigned char *end)
         }
     }
 }
+
+void convert_old_symbol_change_segment(void)
+{
+    old_symbol_segment = *(unsigned short *)(old_symbol_input+2);
+    old_symbol_input += old_symbol_input[0]+1;
+}
