@@ -1,4 +1,5 @@
 #include "flow.h"
+#include "code-input.h"
 #include <recon.h>
 
 int flow_block_count;
@@ -89,4 +90,22 @@ C2BasicBlock *__fastcall allocate_flow_block(C2FlowGraph *flow)
     flow->free_blocks = block->previous;
     memset(block, 0, flow->block_bytes);
     return block;
+}
+
+void __fastcall rebuild_function_flow(C2Function *function)
+{
+    C2Record *record, *next, *first, *last;
+    first = function->flow->last->records;
+    last = function->flow->first->last_record;
+    for (record = first->next; record != last; record = next) {
+        next = record->next;
+        if (record->kind == 24) {
+            unlink_input_record(record);
+            release_small_node(record);
+        }
+    }
+    first = function->flow->last->records;
+    last = function->flow->first->last_record;
+    reset_input_pool(12);
+    create_function_flow(function, first, last, 12);
 }

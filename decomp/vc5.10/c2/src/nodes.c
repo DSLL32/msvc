@@ -107,7 +107,7 @@ void __fastcall reset_input_pool(unsigned pool)
     C2Pool *arena;
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
     /* Other pools are valid original inputs; their reset slots are unmodeled. */
-    if (pool != 4) recon_unsupported("unmodeled C2 pool-reset free-head slot");
+    if (pool != 4 && pool != 12) recon_unsupported("unmodeled C2 pool-reset free-head slot");
 #endif
     arena = &c2_pools[pool];
     release_input_pool(arena);

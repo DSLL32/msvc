@@ -1853,11 +1853,13 @@ static const ReconFunction functions[] = {
         .native_symbol = "function_pass_42e6a6",
     },
     {
-        .name = "@function_pass_402cb6@4",
+        .name = "@rebuild_function_flow@4",
         .entry_rva = 0x2cb6,
+        .code = (const ReconExtent[]){{0x2cb6, 0x2d18}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "function_pass_402cb6",
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "rebuild_function_flow",
     },
     {
         .name = "@function_pass_402b6e@4",

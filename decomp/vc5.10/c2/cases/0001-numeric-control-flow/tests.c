@@ -990,7 +990,35 @@ static int inline_temporary_lifetimes(void)
         registers[0].view_flags == 0x82 && registers[1].view_flags == 0x42;
 }
 
+static int input_pool_twelve_reset(void)
+{
+    C2Pool saved = c2_pools[12];
+    C2RegisterSet *head = free_register_sets[1];
+    C2RegisterSet *head4 = free_register_sets[4];
+    C2RegisterSetNode *nodes = free_register_set_nodes[1];
+    C2RegisterSetNode *tail = last_free_register_set_nodes[1];
+    c2_pools[12].blocks = NULL;
+    c2_pools[12].cursor = (unsigned char *)0x12345678U;
+    c2_pools[12].remaining = 171;
+    free_register_sets[12] = (C2RegisterSet *)0x11111111U;
+    last_free_register_sets[12] = (C2RegisterSet *)0x22222222U;
+    free_register_set_nodes[12] = (C2RegisterSetNode *)0x33333333U;
+    last_free_register_set_nodes[12] = (C2RegisterSetNode *)0x44444444U;
+    free_register_sets[11] = (C2RegisterSet *)0x55667788U;
+    last_free_register_set_nodes[5] = (C2RegisterSetNode *)0x66778899U;
+    reset_input_pool(12);
+    if (c2_pools[12].blocks || c2_pools[12].cursor || c2_pools[12].remaining ||
+        free_register_sets[12] || last_free_register_sets[12] ||
+        free_register_set_nodes[12] || last_free_register_set_nodes[12]) return 0;
+    c2_pools[12] = saved;
+    return free_register_sets[1] == head && free_register_sets[4] == head4 &&
+        free_register_set_nodes[1] == nodes && last_free_register_set_nodes[1] == tail &&
+        free_register_sets[11] == (C2RegisterSet *)0x55667788U &&
+        last_free_register_set_nodes[5] == (C2RegisterSetNode *)0x66778899U;
+}
+
 const ReconTest numeric_tests[] = {
+    {"pool12 reset clears only its encountered cells and preserves unknown gaps", 1, input_pool_twelve_reset},
     {"inline collection tracks temporary lifetimes and address variants", 1, inline_temporary_lifetimes},
     {"pool release unlinks oversized blocks and retains the small-block chain", 1, pool_release_ownership},
     {"pending input cleanup releases each expression while retaining its pool", 1, pending_input_cleanup},

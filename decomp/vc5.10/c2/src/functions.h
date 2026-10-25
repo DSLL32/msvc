@@ -77,7 +77,7 @@ void __fastcall function_pass_42b750(C2Function *function);
 void __fastcall function_pass_42e689(C2Function *function);
 void __fastcall function_pass_483b6f(C2Function *function);
 void __fastcall function_pass_42e6a6(C2Function *function);
-void __fastcall function_pass_402cb6(C2Function *function);
+void __fastcall rebuild_function_flow(C2Function *function);
 void __fastcall function_pass_402b6e(C2Function *function);
 void __fastcall function_pass_42d635(C2Function *function);
 void __fastcall function_pass_42d65a(C2Function *function);

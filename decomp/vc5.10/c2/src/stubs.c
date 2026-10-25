@@ -360,10 +360,7 @@ void __fastcall function_pass_42e6a6(C2Function *function)
     __asm { int 3 }
 }
 
-void __fastcall function_pass_402cb6(C2Function *function)
-{
-    __asm { int 3 }
-}
+
 
 void __fastcall function_pass_402b6e(C2Function *function)
 {

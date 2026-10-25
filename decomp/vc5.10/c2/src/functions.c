@@ -212,7 +212,7 @@ void compile_functions(void)
         function_pass_state = 0;
         function_pass_result = 0;
         if (c2_global_optimize) {
-            function_pass_402cb6(function);
+            rebuild_function_flow(function);
             function_pass_402b6e(function);
             function_pass_state = 0;
         }
@@ -314,7 +314,7 @@ void __fastcall canonicalize_function(C2Function *function)
 
 void __fastcall function_pass_4088c7(C2Function *function)
 {
-    function_pass_402cb6(function);
+    rebuild_function_flow(function);
     function_pass_402b6e(function);
     function_pass_402c2c(function);
     function_pass_4088f4(function);
