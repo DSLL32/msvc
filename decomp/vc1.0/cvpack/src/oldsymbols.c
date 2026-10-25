@@ -521,3 +521,33 @@ void size_old_block32(void)
     module_type_base += 17;
     ++symbol_scope_depth;
 }
+
+void convert_old_symbol_procedure32(void)
+{
+    unsigned char *record = old_symbol_output, *name;
+    unsigned short length = old_symbol_input[0]+21;
+    unsigned short count = old_symbol_input[0]-16;
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)record = (unsigned short)(((length+3)&0xfffc)-2);
+    *(unsigned long *)(record+4) = 0;
+    *(unsigned long *)(record+8) = 0;
+    *(unsigned long *)(record+12) = 0;
+    *(unsigned short *)(record+32) = old_symbol_segment;
+    old_symbol_input += 2;
+    *(unsigned long *)(record+28) = *(unsigned long *)old_symbol_input;
+    old_symbol_input += 4;
+    *(unsigned short *)(record+34) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    *(unsigned long *)(record+16) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    *(unsigned long *)(record+20) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    *(unsigned long *)(record+24) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 4;
+    record[36] = *old_symbol_input++;
+    name = record+37;
+    while (count--) *name++ = *old_symbol_input++;
+    while (padding--) *name++ = 0;
+    *(unsigned short *)(record+34) = convert_old_type(*(unsigned short *)(record+34));
+    old_symbol_output = name;
+}
