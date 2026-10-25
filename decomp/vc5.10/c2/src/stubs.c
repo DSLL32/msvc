@@ -7,11 +7,6 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-unsigned reset_function_line_input(void)
-{
-    __asm { int 3 }
-    return 0;
-}
 C2Record *new_statement_boundary(void)
 {
     __asm { int 3 }

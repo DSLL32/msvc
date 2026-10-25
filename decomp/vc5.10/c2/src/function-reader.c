@@ -15,6 +15,18 @@ int input_error_seen, input_scope_active, input_inline_mark;
 int retain_function_input_pool, pending_optimized_input;
 unsigned input_source_line_base;
 unsigned short input_value_type = 0x1004;
+C2InputLineMap *input_line_cache;
+char *input_line_filename;
+unsigned input_last_line;
+int input_line_needs_record;
+
+unsigned reset_function_line_input(void)
+{
+    input_line_needs_record = 1;
+    input_line_cache = NULL;
+    input_line_filename = NULL;
+    return input_last_line;
+}
 
 C2ScopeHash *new_function_scope(void)
 {

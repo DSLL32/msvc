@@ -4,6 +4,11 @@
 #include <recon.h>
 
 C2ScopeHash *new_function_scope(void);
+typedef struct C2InputLineMap C2InputLineMap;
+extern C2InputLineMap *input_line_cache;
+extern char *input_line_filename;
+extern unsigned input_last_line;
+extern int input_line_needs_record;
 unsigned reset_function_line_input(void);
 C2Record *new_statement_boundary(void);
 void __fastcall link_code_nodes(C2Record *first, C2Record *last);

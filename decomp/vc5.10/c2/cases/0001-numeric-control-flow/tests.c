@@ -3,6 +3,7 @@
 #include "register-sets.h"
 #include "functions.h"
 #include "symbol-storage.h"
+#include "function-reader.h"
 #include <recon-tool.h>
 #include <recon.h>
 
@@ -205,6 +206,17 @@ static int local_storage_sequence(void)
         allocate_local_storage(3, 0) == -12 && local_stack_offset == -12;
 }
 
+static int function_line_reset(void)
+{
+    char filename[] = "retained.c";
+    input_last_line = 37;
+    input_line_needs_record = 0;
+    input_line_filename = filename;
+    input_line_cache = (C2InputLineMap *)0x13579bdfU;
+    return reset_function_line_input() == 37 && input_last_line == 37 &&
+        input_line_needs_record == 1 && !input_line_cache && !input_line_filename;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -216,5 +228,6 @@ const ReconTest numeric_tests[] = {
     {"local-symbol retention flag combinations", 1, symbol_retention_flags},
     {"parameter storage padding and idempotence", 1, parameter_storage_layout},
     {"byte and word stack-slot alignment", 1, stack_slot_alignment},
-    {"successive local stack allocations", 1, local_storage_sequence}
+    {"successive local stack allocations", 1, local_storage_sequence},
+    {"function line reset retains the cumulative line", 1, function_line_reset}
 };

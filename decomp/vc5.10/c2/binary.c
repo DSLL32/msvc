@@ -2153,8 +2153,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_reset_function_line_input",
         .entry_rva = 0x282b6,
+        .code = (const ReconExtent[]){{0x282b6, 0x282d2}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "reset_function_line_input",
     },
     {
