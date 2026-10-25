@@ -37,7 +37,7 @@ void __cdecl initialize_builtin_symbols(void);
 CompilerType *__cdecl make_function_type(unsigned, CompilerType *);
 CompilerType *__cdecl make_tagged_type(unsigned);
 WORD __cdecl normalize_shape_attributes(unsigned, WORD);
-CompilerTypeShape *__cdecl create_declarator_shape(unsigned, WORD, const void *);
+CompilerTypeShape *__cdecl create_declarator_shape(unsigned, WORD, void *);
 void __cdecl initialize_intermediate_output(void);
 void __cdecl initialize_translation_state(void);
 void __cdecl define_command_line_macros(CompilerVector *);
@@ -1286,4 +1286,50 @@ extern "C" WORD __cdecl normalize_shape_attributes(unsigned flags, WORD attribut
     }
     return attributes;
 }
-extern "C" CompilerTypeShape *__cdecl create_declarator_shape(unsigned flags, WORD attributes, const void *value) { __asm { int 3 } return NULL; }
+extern "C" CompilerTypeShape *__cdecl create_declarator_shape(unsigned flags, WORD attributes, void *value)
+{
+    unsigned arena_kind = (frontend_data.compiler_mode_flags & 0x20000000) ? 0 : 5;
+    CompilerArena *arena = &frontend_bss.arenas[arena_kind];
+    CompilerTypeShape *shape = (CompilerTypeShape *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    shape->flags = (WORD)flags;
+    shape->attributes = attributes;
+    switch (flags & 0x77) {
+    case 1: case 0x40:
+        if ((attributes & 1) && value) shape->payload.value = *(unsigned *)value;
+        break;
+    case 2:
+        if (flags & 0x1000) shape->payload.value = *(unsigned *)value;
+        else if (!value) shape->payload.value = 0;
+        else {
+            if (*(int *)value < 0) {
+                compiler_warning(118);
+                *(int *)value = 1;
+            }
+            shape->payload.value = *(unsigned *)value;
+        }
+        break;
+    case 4:
+        if (flags & 0x400) {
+            shape->flags &= ~0x400;
+            shape->payload.value = *(unsigned *)value;
+        } else {
+            CompilerParameterSet *parameters = value ? *(CompilerParameterSet **)value : NULL;
+            /* The original uses its discarded by-value attributes slot for
+             * this temporary flags word. No caller-visible slot is modeled. */
+            WORD function_flags = (WORD)flags;
+            if (frontend_bss.parser_context_depth >= 1) { __asm { int 3 } }
+            shape->payload.function = create_function_parameters(parameters, &function_flags,
+                link_parameter_symbols(frontend_bss.parameter_contexts[frontend_bss.parser_context_depth]), NULL);
+            if (frontend_bss.parser_context_depth >= 1) { __asm { int 3 } }
+            frontend_bss.parameter_contexts[frontend_bss.parser_context_depth] = NULL;
+            shape->flags |= function_flags;
+        }
+        break;
+    case 0x10: case 0x20:
+        shape->payload.value = *(unsigned *)value;
+        break;
+    }
+    return shape;
+}

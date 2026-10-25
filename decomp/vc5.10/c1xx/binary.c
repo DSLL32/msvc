@@ -1182,8 +1182,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_create_declarator_shape", .entry_rva = 0x11f9,
-        .code = (const ReconExtent[]){{0x11f9, 0x11fa}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x11f9, 0x129e}, {0x50aa7, 0x50b6f}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
+        .text_data = (const ReconExtent[]){{0x12a0, 0x12bc}, {0x12c0, 0x1300}},
+        .text_data_count = 2,
         .native_symbol = "create_declarator_shape",
     },
     {
