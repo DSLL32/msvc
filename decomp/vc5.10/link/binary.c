@@ -232,7 +232,7 @@ static const ReconFunction functions[] = {
     {"_create_contribution_group@8",0xe700,(const ReconExtent[]){{0xe700,0xe79f}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"create_contribution_group",NULL,NULL,0,NULL},
     {"_find_matching_output_section@20",0xf130,(const ReconExtent[]){{0xf130,0xf22b}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"find_matching_output_section",NULL,NULL,0,NULL},
     {"_adjust_output_section_flags@12",0x5e820,(const ReconExtent[]){{0x5e820,0x5e901}},1,(const ReconExtent[]){{0x21fc,0x2203},{0x2158,0x215c},{0x21d4,0x21da}},3,RECON_APP,RECON_IMPLEMENTED,"adjust_output_section_flags",NULL,NULL,0,NULL},
-    {"_format_module_name@8",0xe420,(const ReconExtent[]){{0xe420,0xe421}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"format_module_name",NULL,NULL,0,NULL},
+    {"_format_module_name@8",0xe420,(const ReconExtent[]){{0xe420,0xe5a9}},1,(const ReconExtent[]){{0x1870,0x1872},{0x186c,0x186e}},2,RECON_APP,RECON_IMPLEMENTED,"format_module_name",NULL,NULL,0,NULL},
     {"_resolve_output_section@4",0xe620,(const ReconExtent[]){{0xe620,0xe665}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"resolve_output_section",NULL,NULL,0,NULL},
     {"_initialize_group_enumerator@8",0xfc40,(const ReconExtent[]){{0xfc40,0xfc62}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_group_enumerator",NULL,NULL,0,NULL},
     {"_next_contribution_group@4",0xfc70,(const ReconExtent[]){{0xfc70,0xfca5}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_contribution_group",NULL,NULL,0,NULL},

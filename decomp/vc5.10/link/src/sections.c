@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <string.h>
+#include <stdlib.h>
 #include "sections.h"
 #include "memory.h"
 #include "full-link-functions.h"
@@ -17,7 +18,7 @@ MemoryArena *output_section_arena;
 MemoryArena *contribution_group_arena;
 WORD output_section_count;
 
-#pragma intrinsic(strcmp)
+#pragma intrinsic(strcmp,strcat)
 
 OutputSection *__stdcall create_output_section(OutputModule *module,const char *name,
     DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header)
@@ -131,8 +132,20 @@ void __stdcall adjust_output_section_flags(DWORD *flags,const char *name,IMAGE_O
 
 char *__stdcall format_module_name(OutputModule *module,char *name)
 {
-    __asm { int 3 }
-    return NULL;
+    char basename[256],extension[256];
+    *name=0;
+    if (!module) return name;
+    if (!(module->library->flags & 16)) {
+        _splitpath(module->library->name,NULL,NULL,basename,extension);
+        strcat(name,basename);
+        strcat(name,extension);
+        strcat(name,"(");
+    }
+    _splitpath(module->name,NULL,NULL,basename,extension);
+    strcat(name,basename);
+    strcat(name,extension);
+    if (!(module->library->flags & 16)) strcat(name,")");
+    return name;
 }
 OutputSection *__stdcall resolve_output_section(OutputSection *section)
 {

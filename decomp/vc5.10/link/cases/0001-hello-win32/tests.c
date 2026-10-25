@@ -332,6 +332,25 @@ static int module_name_call(void)
     return recon_native_at_entry(format_module_name,check_module_name_call,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall add_default_library(const char *,LinkPointerList *);
+static void __stdcall check_module_filename(const char *library,LinkPointerList *list)
+{
+    char buffer[512];
+    unsigned i;
+    OutputModule *module=current_input_library->module_head;
+    memset(buffer,0xa5,sizeof(buffer));
+    if (!library || strcmp(library,"user32.lib") || !list ||
+        library!=option_arguments.first->name+11 ||
+        format_module_name(module,buffer)!=buffer || strcmp(buffer,"hello.obj"))
+        recon_native_entry_finish(0);
+    for (i=10;i<sizeof(buffer);++i) if ((BYTE)buffer[i]!=0xa5) recon_native_entry_finish(0);
+    recon_native_entry_finish(1);
+}
+static int module_filename(void)
+{
+    return recon_native_at_entry(add_default_library,check_module_filename,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -348,5 +367,6 @@ const ReconTest hello_tests[]={
     {"directive-collection",1,directive_collection},
     {"first-directive-token",1,first_directive_token},
     {"collected-directives",1,collected_directives},
-    {"module-name-call",1,module_name_call}
+    {"module-name-call",1,module_name_call},
+    {"module-filename",1,module_filename}
 };

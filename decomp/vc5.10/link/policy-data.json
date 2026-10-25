@@ -5808,6 +5808,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_format_module_name@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   }
