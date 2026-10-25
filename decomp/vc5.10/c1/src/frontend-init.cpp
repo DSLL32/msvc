@@ -846,6 +846,13 @@ WORD RECON_THISCALL CompilerDeclarator::ResolveFunctionAttributes(CompilerTypeSh
 CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape)
 { __asm { int 3 } return NULL; }
 CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternUntil(CompilerTypeShape *stop)
-{ __asm { int 3 } return NULL; }
+{
+    /* The original recursively invokes this method for the NULL terminator;
+     * the identity test precedes every receiver dereference. */
+    if (this == stop)
+        return this;
+    base = base->InternUntil(stop);
+    return intern_type_shape(this);
+}
 extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape)
 { __asm { int 3 } return NULL; }
