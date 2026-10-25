@@ -387,6 +387,7 @@ void recon_load_system_info_profile(const char *,const char *);
 
 #define RECON_WIN32_FUNCTIONS(X) \
  X(HANDLE,CreateFileA,(LPCSTR,DWORD,DWORD,LPSECURITY_ATTRIBUTES,DWORD,DWORD,HANDLE)) \
+ X(BOOL,DeleteFileA,(LPCSTR)) \
  X(BOOL,CloseHandle,(HANDLE)) X(DWORD,GetLastError,(void)) X(void,SetLastError,(DWORD)) \
  X(DWORD,GetFileSize,(HANDLE,LPDWORD)) X(BOOL,FlushViewOfFile,(LPCVOID,DWORD)) \
  X(DWORD,GetFileType,(HANDLE)) X(DWORD,SetFilePointer,(HANDLE,LONG,LONG *,DWORD)) \
@@ -667,6 +668,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _fltused recon_fltused
 #define _tmpoff recon_tmpoff
 #define CreateFileA recon_CreateFileA
+#define DeleteFileA recon_DeleteFileA
 #define CloseHandle recon_CloseHandle
 #define GetLastError recon_GetLastError
 #define SetLastError recon_SetLastError

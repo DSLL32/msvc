@@ -522,6 +522,23 @@ uses that genuine import, rather than strncmp. Every input, including NULL and
 count0, denies125; no comparison/codepage/result semantics are supported.
 `make mb-nbcmp-surface-check` verifies typing, denial and absence of a host import.
 
+DeleteFileA supports translated nonempty, non-wildcard ordinary regular-file
+paths with no concurrent namespace mutation. Writable files are genuinely
+unlinked after excluding matching live views and current-process descriptor
+aliases by device/inode. Existing View records retain that identity even after
+their mapping/file handles close; an unrelated inode's live view is allowed.
+Missing leaf/parent returns FALSE with LastError2/3; read-only mode or host
+access denial returns FALSE/5. Success preserves LastError; all supported calls
+preserve CRT errno/DOS naturally across host checks. Symlinks/directories,
+open/mapped deletion and other failures deny125; there is no share/delete-pending
+emulation. The VC1 LINK baseline establishes two real closed/unmapped writable
+2MiB files disappear before ExitProcess, with BOOL ignored and no later
+GetLastError consumer. Its per-API return/errors were not captured; success
+LastError preservation is not claimed as an observed original effect. SDK
+WINBASE.H and documented DeleteFileA semantics establish the public signature
+and ordinary return/error scope. `make delete-file-check` verifies real deletion,
+errors/FP/FILE/lowio preservation, same-inode denials and other-inode mapping.
+
 Lowio alloc marks the selected OS-handle slot invalid (-1) without publishing
 FOOPEN; set requires that sentinel, and free relinquishes ownership without
 closing the OS handle. For fd0..2, set/free update the Win32 standard table at

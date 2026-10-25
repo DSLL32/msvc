@@ -11,6 +11,7 @@
 #include <wctype.h>
 #include <sys/ioctl.h>
 #include <link.h>
+#include <dirent.h>
 
 /* File HANDLEs encode fd+1; mapping handles own a dup of their source fd. */
 static DWORD last_error;
@@ -34,7 +35,10 @@ static HANDLE standard_handles[3]={(HANDLE)1,(HANDLE)2,(HANDLE)3};
 typedef struct Mapping {
     struct Mapping *next; int fd,writable; size_t length;
 } Mapping;
-typedef struct View { struct View *next; void *address; size_t length; } View;
+typedef struct View {
+    struct View *next; void *address; size_t length;
+    dev_t file_device; ino_t file_inode;
+} View;
 static Mapping *mappings;
 static View *views,*allocations;
 static BOOL (WINAPI *console_handler)(DWORD);
@@ -524,6 +528,60 @@ HANDLE WINAPI recon_CreateFileA(LPCSTR name,DWORD access,DWORD share,LPSECURITY_
     if (attributes&FILE_FLAG_DELETE_ON_CLOSE) unlink(path);
     last_error=0; errno=saved_errno; return (HANDLE)(uintptr_t)(fd+1);
 }
+/* The reached deletion occurs only after this file's views and handles close.
+ * A different file may still have a live view during the cleanup loop. */
+static void delete_file_closed(const struct stat *wanted)
+{
+    View *view;DIR *directory;struct dirent *entry;struct stat opened;char *end;int fd;
+    for(view=views;view;view=view->next)
+        if(view->file_device==wanted->st_dev && view->file_inode==wanted->st_ino)
+            recon_unsupported("DeleteFileA live mapped view");
+    directory=opendir("/proc/self/fd");
+    if(!directory) recon_unsupported("DeleteFileA descriptor inventory");
+    for(;;) {
+        errno=0;entry=readdir(directory);
+        if(!entry) {
+            if(errno) recon_unsupported("DeleteFileA descriptor enumeration");
+            break;
+        }
+        fd=(int)strtol(entry->d_name,&end,10);
+        if(end==entry->d_name || *end || fd==dirfd(directory)) continue;
+        if(fstat(fd,&opened)) {
+            if(errno==EBADF) continue;
+            recon_unsupported("DeleteFileA descriptor identity");
+        }
+        if(opened.st_dev==wanted->st_dev && opened.st_ino==wanted->st_ino)
+            recon_unsupported("DeleteFileA open file/mapping alias");
+    }
+    if(closedir(directory)) recon_unsupported("DeleteFileA descriptor close");
+}
+BOOL WINAPI recon_DeleteFileA(LPCSTR name)
+{
+    char path[PATH_MAX],parent[PATH_MAX],*separator;struct stat information;
+    int saved_errno=errno,failure;DWORD saved_error=last_error,code;
+    if(!name || !*name || strpbrk(name,"*?") || recon_host_path(name,path,sizeof(path)))
+        recon_unsupported("DeleteFileA path domain");
+    if(!lstat(path,&information)) {
+        if(!S_ISREG(information.st_mode)) recon_unsupported("DeleteFileA file kind");
+        if(!(information.st_mode&0222)) {
+            errno=saved_errno;last_error=ERROR_ACCESS_DENIED;return FALSE;
+        }
+        delete_file_closed(&information);
+        if(!unlink(path)) {errno=saved_errno;last_error=saved_error;return TRUE;}
+    }
+    failure=errno;
+    if(failure==ENOENT || failure==ENOTDIR) {
+        strcpy(parent,path);separator=strrchr(parent,'/');
+        if(!separator) strcpy(parent,".");
+        else if(separator==parent) separator[1]=0;
+        else *separator=0;
+        if(!stat(parent,&information)) code=S_ISDIR(information.st_mode)?ERROR_FILE_NOT_FOUND:ERROR_PATH_NOT_FOUND;
+        else if(errno==ENOENT || errno==ENOTDIR) code=ERROR_PATH_NOT_FOUND;
+        else recon_unsupported("DeleteFileA parent failure");
+    } else if(failure==EACCES || failure==EPERM) code=ERROR_ACCESS_DENIED;
+    else recon_unsupported("DeleteFileA deletion failure");
+    errno=saved_errno;last_error=code;return FALSE;
+}
 BOOL WINAPI recon_CloseHandle(HANDLE handle)
 {
     Mapping **p,*m; int fd;
@@ -800,16 +858,18 @@ HANDLE WINAPI recon_CreateFileMappingA(HANDLE file,LPSECURITY_ATTRIBUTES securit
 }
 LPVOID WINAPI recon_MapViewOfFile(HANDLE handle,DWORD access,DWORD high,DWORD low,DWORD bytes)
 {
-    Mapping *m; View *v; void *address; size_t length;
+    Mapping *m; View *v; void *address; size_t length;struct stat identity;
     for (m=mappings;m && (HANDLE)m!=handle;m=m->next) ;
     if (!m) { last_error=ERROR_INVALID_HANDLE; return NULL; }
     if (high || (access!=FILE_MAP_ALL_ACCESS && (access&~(FILE_MAP_READ|FILE_MAP_WRITE)))) { last_error=ERROR_NOT_SUPPORTED; return NULL; }
     if (low>=m->length || (bytes && bytes>m->length-low) || ((access&FILE_MAP_WRITE) && !m->writable)) { last_error=ERROR_INVALID_PARAMETER; return NULL; }
     length=bytes?bytes:m->length-low;
+    if(fstat(m->fd,&identity)) {last_error=error_code(errno);return NULL;}
     address=mmap(NULL,length,PROT_READ|((access&FILE_MAP_WRITE)?PROT_WRITE:0),MAP_SHARED,m->fd,low);
     if (address==MAP_FAILED) { last_error=error_code(errno); return NULL; }
     v=malloc(sizeof(*v)); if (!v) { munmap(address,length); last_error=ERROR_NOT_ENOUGH_MEMORY; return NULL; }
-    v->address=address; v->length=length; v->next=views; views=v; last_error=0; return address;
+    v->address=address; v->length=length;v->file_device=identity.st_dev;v->file_inode=identity.st_ino;
+    v->next=views; views=v; last_error=0; return address;
 }
 BOOL WINAPI recon_FlushViewOfFile(LPCVOID address,DWORD bytes)
 {
