@@ -5818,6 +5818,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_allocate_incremental@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   }

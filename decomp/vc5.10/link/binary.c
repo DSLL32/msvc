@@ -73,7 +73,7 @@ static const ReconFunction functions[] = {
     {"_close_argument_file@8",0xbd10,(const ReconExtent[]){{0xbd10,0xbd11}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"close_argument_file",NULL,NULL,0,NULL},
     {"_append_argument@8",0x5cca0,(const ReconExtent[]){{0x5cca0,0x5ccb3}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"append_argument",NULL,NULL,0,NULL},
     {"_append_argument_record@12",0x5cc00,(const ReconExtent[]){{0x5cc00,0x5cc4b}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"append_argument_record",NULL,NULL,0,NULL},
-    {"_allocate_incremental@4",0x4fce0,(const ReconExtent[]){{0x4fce0,0x4fce1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"allocate_incremental",NULL,NULL,0,NULL},
+    {"_allocate_incremental@4",0x4fce0,(const ReconExtent[]){{0x4fce0,0x4fd3f}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"allocate_incremental",NULL,NULL,0,NULL},
     {"LinkContext::InitializeVxd",0x63c40,(const ReconExtent[]){{0x63c40,0x63c41}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN11LinkContext13InitializeVxdEv",NULL,NULL,0,"?InitializeVxd@LinkContext@@QAEXXZ"},
     {"LinkContext::PeHeaderSize",0x59d00,(const ReconExtent[]){{0x59d00,0x59d01}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN11LinkContext12PeHeaderSizeEPm",NULL,NULL,0,"?PeHeaderSize@LinkContext@@QAEKPAK@Z"},
     {"LinkContext::VxdHeaderSize",0x63c90,(const ReconExtent[]){{0x63c90,0x63c91}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN11LinkContext13VxdHeaderSizeEPm",NULL,NULL,0,"?VxdHeaderSize@LinkContext@@QAEKPAK@Z"},
@@ -343,6 +343,7 @@ static const ReconFunction functions[] = {
     {"_next_directive_token@8",0x5c2c0,(const ReconExtent[]){{0x5c2c0,0x5c3f2}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_directive_token",NULL,NULL,0,NULL},
     {"_remember_module_directive@12",0x38790,(const ReconExtent[]){{0x38790,0x387c4}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remember_module_directive",NULL,NULL,0,NULL},
     {"_library_name_matches@8",0x16cc0,(const ReconExtent[]){{0x16cc0,0x16cc1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"library_name_matches",NULL,NULL,0,NULL},
+    {"_extend_incremental_heap@4",0x4fc00,(const ReconExtent[]){{0x4fc00,0x4fcd1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"extend_incremental_heap",NULL,NULL,0,NULL},
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconBinary),"vc5.10-link",

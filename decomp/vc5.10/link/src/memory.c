@@ -35,7 +35,25 @@ void *__stdcall allocate_link_memory(unsigned count,unsigned size)
     memset(memory,0,bytes);
     return memory;
 }
-void *__stdcall allocate_incremental(unsigned bytes) { __asm { int 3 } return NULL; }
+extern BYTE file_access_statistics;
+void __cdecl record_file_access(void);
+BYTE *incremental_allocation_cursor;
+unsigned incremental_allocation_remaining;
+void __stdcall extend_incremental_heap(unsigned);
+void *__stdcall allocate_incremental(unsigned bytes)
+{
+    BYTE *memory;
+    unsigned aligned;
+    if (file_access_statistics) record_file_access();
+    if (!incremental_enabled) return allocate_memory(bytes);
+    aligned=(bytes+3)&~3U;
+    if (aligned>incremental_allocation_remaining) extend_incremental_heap(aligned);
+    memory=incremental_allocation_cursor;
+    incremental_allocation_cursor+=aligned;
+    incremental_allocation_remaining-=aligned;
+    return memory;
+}
+void __stdcall extend_incremental_heap(unsigned bytes) { __asm { int 3 } }
 
 void *__stdcall allocate_memory(unsigned bytes)
 {

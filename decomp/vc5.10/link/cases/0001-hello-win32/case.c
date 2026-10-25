@@ -1,7 +1,7 @@
 #include <recon-tool.h>
 #include "../../harness/startup.h"
 #include <recon.h>
-extern const ReconTest hello_tests[17];
+extern const ReconTest hello_tests[18];
 static const uint32_t order[] = {
  0x24e60, /* _initialize_buffer12 */
  0x24e70, /* _allocate_buffer12 */
@@ -118,10 +118,11 @@ static const uint32_t order[] = {
  0xe420, /* _format_module_name@8 */
  0x16ba0, /* _add_default_library@8 */
  0x4fce0, /* _allocate_incremental@4 */
+ 0x16cc0, /* _library_name_matches@8 */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
- "Win32 hello link; default-library record requested, genuine allocator frontier.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x4fce0,
- recon_link_setup,recon_link_invoke,NULL,hello_tests,17
+ "Win32 hello link; first library entry linked, genuine library-name comparison frontier.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x16cc0,
+ recon_link_setup,recon_link_invoke,NULL,hello_tests,18
 };

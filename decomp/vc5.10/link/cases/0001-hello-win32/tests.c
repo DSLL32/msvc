@@ -351,6 +351,21 @@ static int module_filename(void)
     return recon_native_at_entry(add_default_library,check_module_filename,
         invoke_hello,NULL)==1;
 }
+extern BYTE __stdcall library_name_matches(const char *,DefaultLibrary *);
+static void __stdcall check_default_library_entry(const char *name,DefaultLibrary *library)
+{
+    InputArgument *argument=option_arguments.first;
+    recon_native_entry_finish(name && !strcmp(name,"gdi32.lib") && library &&
+        !library->next && library->name && !strcmp(library->name,"user32.lib") &&
+        library->flags==8 && !library->owner && argument && argument->next &&
+        library->name!=argument->name+11 && name==argument->next->name+11 &&
+        !incremental_enabled);
+}
+static int default_library_entry(void)
+{
+    return recon_native_at_entry(library_name_matches,check_default_library_entry,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -368,5 +383,6 @@ const ReconTest hello_tests[]={
     {"first-directive-token",1,first_directive_token},
     {"collected-directives",1,collected_directives},
     {"module-name-call",1,module_name_call},
-    {"module-filename",1,module_filename}
+    {"module-filename",1,module_filename},
+    {"default-library-entry",1,default_library_entry}
 };
