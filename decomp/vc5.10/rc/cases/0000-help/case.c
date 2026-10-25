@@ -1,5 +1,5 @@
 #include <recon-tool.h>
-#include "../../scripts/provider.h"
+#include "../../harness/provider.h"
 static const uint32_t order[] = {0x11d2, 0x1100};
 static const ReconTest tests[] = {
     {"uncaptured-export-flags-denied", 1, rc_provider_denies_flags},

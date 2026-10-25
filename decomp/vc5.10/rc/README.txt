@@ -12,7 +12,7 @@ make -j4 original audit   original5.10 compiler plus common Rust graph/ABI audit
 One O0/debug i386 .build/libbinary.so is shared by numbered case libraries.
 Reconstructed src/ files are unchanged Win32 C; only their native compilation
 aliases main to rc_main for host isolation. The original main symbol is _main.
-Original builds retain /MD /O2 /Oy- for rc.c and /MD /Od for startup.c.
+Original builds retain /MD /O2 /Oy- for rc.c and /MD /Od for crt/startup.c.
 
 The three captures retain help, rich resources, and missing%source.rc error
 oracles. RCDLL is a strict in-process response replay, not native RCDLL coverage.
@@ -24,7 +24,7 @@ Windows process environment was losslessly projected from ASCII UTF16 values,
 not independently observed CRT-heap environment data. Stable historical S: cwd
 labels map to private relative-input workspaces; they are not new captures.
 
-scripts/provider.c is native host glue, not reconstructed target code. It denies
+harness/provider.c is native host glue, not reconstructed target code. It denies
 unknown requests/inputs, checks callbacks and complete post-call pointer effects,
 and observes the actual shared console-handler shim via typed linker wrapping.
 Real target exit runs a completion assertion after the disable call. Its checked
@@ -41,3 +41,13 @@ RC-specific _adjust_fdiv pointer/scalar load witness is separate from call
 qualification. No local graph discovery, runtime identifier or Wine runner is
 retained. Historical proof packages remain in Git history and the pre-migration
 scratch snapshot, not in cases or another binary-local evidence directory.
+
+Layout: src/ contains only the two application bodies and their interface.
+crt/startup.c retains the previously verified executable-specific CRT startup,
+initializer/argument hooks and x87 precision ordering; MSVCRT.LIB is an import
+library and does not supply this exact startup body. crt/startup.h contains only
+its target ABI declarations. This preserves existing support and adds no CRT
+reconstruction. Native dependency replay and its narrow static imported-data
+predicate live in harness/. scripts/ contains only the import-library generator
+and its DEF input. Function bodies, identities, original RVAs and captures are
+unchanged by this separation.

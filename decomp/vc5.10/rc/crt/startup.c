@@ -1,5 +1,9 @@
-/* Embedded CRT support is reconstructed separately from the application. */
-#include "rc.h"
+/* Historical target CRT retained solely for the already verified RC startup
+ * graph/ABI: the shipped MSVCRT import library does not supply this exact
+ * executable startup body. Keep its argument/initializer/precision ordering;
+ * imported CRT implementations stay shared. No CRT credit is App credit, and
+ * the unreached math_error entry below remains its existing INT3 stub. */
+#include "startup.h"
 #include <recon.h>
 
 void (__cdecl *crt_xc[2])(void);

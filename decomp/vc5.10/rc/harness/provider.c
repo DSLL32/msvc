@@ -1,5 +1,6 @@
 /* Native-only, in-process response replay. No original or PE helper is run. */
 #include "rc.h"
+#include "../crt/startup.h"
 #include "provider.h"
 #include <dirent.h>
 #include <sys/wait.h>

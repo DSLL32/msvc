@@ -11,7 +11,7 @@ import sys
 
 out = Path(sys.argv[1])
 subprocess.run([sys.argv[2], 'original', 'tool', '5.10', 'LIB.EXE', '--',
-                '/nologo', '/def:src/rcdll.def', '/machine:IX86', '/out:' + str(out)], check=True)
+                '/nologo', '/def:scripts/rcdll.def', '/machine:IX86', '/out:' + str(out)], check=True)
 data = bytearray(out.read_bytes())
 assert data[:8] == b'!<arch>\n'
 offset = 8
