@@ -4599,6 +4599,66 @@
             }
           ]
         }
+      },
+      "LinkContext::CheckMachine": {
+        "original": {
+          "switches": [
+            {
+              "site": 4574978,
+              "targets": [
+                4574985,
+                4575000,
+                4575017,
+                4575071,
+                4575056
+              ]
+            }
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "?CheckMachine@LinkContext@@QAEXPBDG@Z",
+                "offset": 292
+              },
+              {
+                "rebuilt_symbol": "?CheckMachine@LinkContext@@QAEXPBDG@Z",
+                "offset": 385
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "?CheckMachine@LinkContext@@QAEXPBDG@Z",
+                "offset": 100
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "?CheckMachine@LinkContext@@QAEXPBDG@Z",
+                  "offset": 107
+                },
+                {
+                  "rebuilt_symbol": "?CheckMachine@LinkContext@@QAEXPBDG@Z",
+                  "offset": 147
+                },
+                {
+                  "rebuilt_symbol": "?CheckMachine@LinkContext@@QAEXPBDG@Z",
+                  "offset": 168
+                },
+                {
+                  "rebuilt_symbol": "?CheckMachine@LinkContext@@QAEXPBDG@Z",
+                  "offset": 216
+                },
+                {
+                  "rebuilt_symbol": "?CheckMachine@LinkContext@@QAEXPBDG@Z",
+                  "offset": 218
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     "callback_tables": [
@@ -6499,6 +6559,11 @@
       "_archive_big_endian_dword@4": {
         "expected_cleanup": [
           4
+        ]
+      },
+      "LinkContext::CheckMachine": {
+        "expected_cleanup": [
+          8
         ]
       }
     }

@@ -310,7 +310,7 @@ static const ReconFunction functions[] = {
     {"_create_input_module@48",0xea00,(const ReconExtent[]){{0xea00,0xedcc}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"create_input_module",NULL,NULL,0,NULL},
     {"_allocate_module_section_headers@4",0x62ef0,(const ReconExtent[]){{0x62ef0,0x62f10}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"allocate_module_section_headers",NULL,NULL,0,NULL},
     {"_detect_input_machine@8",0x103f0,(const ReconExtent[]){{0x103f0,0x10522}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"detect_input_machine",NULL,NULL,0,NULL},
-    {"LinkContext::CheckMachine",0x5cec0,(const ReconExtent[]){{0x5cec0,0x5cec1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN11LinkContext12CheckMachineEPKct",NULL,NULL,0,"?CheckMachine@LinkContext@@QAEXPBDG@Z"},
+    {"LinkContext::CheckMachine",0x5cec0,(const ReconExtent[]){{0x5cec0,0x5cf83}},1,(const ReconExtent[]){{0x5cf84,0x5cfe1}},1,RECON_APP,RECON_IMPLEMENTED,"_ZN11LinkContext12CheckMachineEPKct",NULL,NULL,0,"?CheckMachine@LinkContext@@QAEXPBDG@Z"},
     {"_convert_omf_input@8",0xff60,(const ReconExtent[]){{0xff60,0xff61}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"convert_omf_input",NULL,NULL,0,NULL},
     {"_convert_input_object@12",0x10380,(const ReconExtent[]){{0x10380,0x10381}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"convert_input_object",NULL,NULL,0,NULL},
     {"_validate_delay_load_options@4",0x1f9b0,(const ReconExtent[]){{0x1f9b0,0x1faa1}},1,(const ReconExtent[]){{0x3414,0x341e},{0x340c,0x3413}},2,RECON_APP,RECON_IMPLEMENTED,"validate_delay_load_options",NULL,NULL,0,NULL},

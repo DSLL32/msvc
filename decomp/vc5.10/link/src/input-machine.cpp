@@ -58,5 +58,28 @@ void __stdcall convert_input_object(LinkContext *context,InputArgument *argument
 }
 void RECON_THISCALL LinkContext::CheckMachine(const char *name,WORD machine)
 {
-    __asm { int 3 }
+    const char *input_machine;
+    if (file_header.Machine==machine) return;
+    input_machine=get_machine_name(NULL,machine);
+    switch (machine) {
+    case 0x162:
+        if (file_header.Machine==0x166 || file_header.Machine==0x168) return;
+        break;
+    case 0x166:
+        if (file_header.Machine==0x168) return;
+        break;
+    case 0x168:
+        if (file_header.Machine==0x166 && !(specified_switches & 0x1000)) {
+            file_header.Machine=0x168;
+            return;
+        }
+        break;
+    case 0x1a2:
+    case 0x1a6:
+        break;
+    default:
+        link_fatal(name,1113,(unsigned)machine);
+        break;
+    }
+    link_fatal(name,1112,input_machine,get_machine_name(this,file_header.Machine));
 }

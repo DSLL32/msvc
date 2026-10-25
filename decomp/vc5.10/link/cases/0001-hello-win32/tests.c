@@ -1389,7 +1389,42 @@ static int archive_index_tables(void)
     return recon_native_at_entry(native_check_library_machine,check_archive_index_tables,
         invoke_hello,NULL)==1;
 }
+extern void RECON_THISCALL native_library_search_symbols(OutputLibrary *,LinkContext *,BYTE *,BYTE *)
+    __asm__("_ZN13OutputLibrary13SearchSymbolsEP11LinkContextPhS2_");
+static void RECON_THISCALL check_library_search_outputs(OutputLibrary *library,
+    LinkContext *context,BYTE *changed,BYTE *keep_searching)
+{
+    recon_native_entry_finish(context && library==context->command_line_library->next &&
+        context->file_header.Machine==IMAGE_FILE_MACHINE_I386 &&
+        changed && keep_searching && changed!=keep_searching &&
+        *changed==0 && *keep_searching==1 && library->archive_symbol_count==1353 &&
+        library->index_data[3] && entry_symbol && !(entry_symbol->flags & 1));
+}
+static int library_search_outputs(void)
+{
+    return recon_native_at_entry(native_library_search_symbols,check_library_search_outputs,
+        invoke_hello,NULL)==1;
+}
+static void __stdcall check_library_file_restore(LinkContext *context,OutputLibrary *library)
+{
+    int saved=current_input_file;
+    if (!(file_slots[14] && !strcmp(file_slots[14]->name,"hello.obj") &&
+        library==context->command_line_library->next && !library->index_data[3]))
+        recon_native_entry_finish(0);
+    current_input_file=14;
+    ensure_library_loaded(context,library);
+    if (current_input_file!=14 || !library->index_data[3]) recon_native_entry_finish(0);
+    current_input_file=saved;
+    recon_native_entry_finish(1);
+}
+static int library_file_restore(void)
+{
+    return recon_native_at_entry(ensure_library_loaded,check_library_file_restore,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"library-file-restore",1,library_file_restore},
+    {"library-search-outputs",1,library_search_outputs},
     {"archive-index-tables",1,archive_index_tables},
     {"archive-count-bytes",1,archive_count_bytes},
     {"archive-header-call",1,archive_header_call},
