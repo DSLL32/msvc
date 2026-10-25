@@ -184,6 +184,16 @@ cancelled unless another concrete unresolved case demonstrates a need. C1XX's
 routine nine cached cases and 16 unit groups also passed with this exact runner;
 they were not rerun solely for the publication.
 
+The final CVPACK batch subsequently exposed two output-padding differences.
+Static analysis identified only unwritten filename-alignment bytes and a
+checksum derived from them. A bounded diagnostic restored the old runner's
+glibc startup tunables and reproduced both raw hashes, proving that migration
+had omitted an old launch prerequisite. The user rejected this kind of test:
+allocator tuning to reproduce unwritten padding is not a useful correctness
+contract. No startup-profile/reexec feature was implemented. Narrow case checks
+are being prepared to validate defined content, structure and checksum
+correctness, excluding only proven padding and retaining untouched raw captures.
+
 ## Shared work still pending
 
 These are approved or under design, not completed integrations:

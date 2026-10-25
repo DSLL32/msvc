@@ -153,6 +153,10 @@ output paths/hashes, input environment, exit code and synchronized input events 
 as Ctrl+C. Distinguish missing values/files from present-but-empty ones. Check
 unexpected and deleted outputs where relevant. Normalize only specifically
 identified nondeterministic fields, such as established clock fields.
+Proven unwritten output padding is not a byte-equality contract. Exclude only
+those structurally identified bytes; still check defined content, layout and
+checksum correctness. Preserve raw captures and do not tune allocator behavior
+to reproduce incidental padding.
 
 The `recon-tool` implementer owns the wire format. Provide clap subcommands to
 construct and deconstruct `capture.bin`, preserving arbitrary bytes and the
