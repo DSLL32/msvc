@@ -1,0 +1,47 @@
+/* Derived NB02 directory-width conversion; qualified original/native reconstruction frontier. */
+#include <recon-tool.h>
+extern int main(int, char **, char **);
+static int invoke(int argc, char **argv) { return main(argc, argv, (char **)0); }
+static const uint32_t order[] = {
+    0x7000,
+    0x74c0,
+    0x198a0,
+    0x1a8e0,
+    0x19a10,
+    0x19cf0,
+    0x19b20,
+    0x19ac0,
+    0x1a990,
+    0x19db0,
+    0x1a1f0,
+    0x1a910,
+    0x1a7f0,
+    0x1a540,
+    0x1a6a0,
+    0x93a0,
+    0xf060,
+    0x12f20,
+    0xf030,
+    0xf250,
+    0x1a2e0,
+    0x1a400,
+    0x1a350,
+    0x10dd0,
+    0x1a430,
+    0x11400,
+    0x1a5c0,
+    0x1a850,
+    0x1a120,
+    0x112c0,
+    0xfb60,
+    0xff70,
+    0x10010,
+    0x76f0,
+    0x8090,
+};
+RECON_EXPORT const ReconCase case_descriptor = {
+    RECON_ABI_VERSION, sizeof(ReconCase),
+    "derived-nb02-old-types", "Authentic legacy payloads with target-width directory entries.",
+    order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x8090,
+    NULL, invoke, NULL, NULL, 0
+};

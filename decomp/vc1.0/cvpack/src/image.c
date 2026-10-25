@@ -260,6 +260,33 @@ int directory_order[17][17] = {
 #undef ORDER_ROW
 #undef SUBSECTION_ORDER
 
+/* Legacy subsections put global types (0x103) before symbols (0x102).
+   The remaining subsection kinds follow their numeric order. */
+#define OLD_SUBSECTION_ORDER(a,b) ((a)<(b) ? -1 : ((a)>(b) ? 1 : 0))
+#define OLD_ORDER_ROW(a) { OLD_SUBSECTION_ORDER(a,0), OLD_SUBSECTION_ORDER(a,2), \
+    OLD_SUBSECTION_ORDER(a,1), OLD_SUBSECTION_ORDER(a,3), \
+    OLD_SUBSECTION_ORDER(a,4), OLD_SUBSECTION_ORDER(a,5), \
+    OLD_SUBSECTION_ORDER(a,6), OLD_SUBSECTION_ORDER(a,7), \
+    OLD_SUBSECTION_ORDER(a,8) }
+int old_directory_order[9][9] = {
+    OLD_ORDER_ROW(0), OLD_ORDER_ROW(2), OLD_ORDER_ROW(1),
+    OLD_ORDER_ROW(3), OLD_ORDER_ROW(4), OLD_ORDER_ROW(5),
+    OLD_ORDER_ROW(6), OLD_ORDER_ROW(7), OLD_ORDER_ROW(8)
+};
+#undef OLD_ORDER_ROW
+#undef OLD_SUBSECTION_ORDER
+
+int __cdecl compare_old_directory(const void *first, const void *second)
+{
+    const CvDirectoryEntry *a = first, *b = second;
+    unsigned short left, right;
+    if (b->module > a->module) return -1;
+    if (b->module < a->module) return 1;
+    left = a->subsection-0x101;
+    right = b->subsection-0x101;
+    return old_directory_order[left][right];
+}
+
 int __cdecl compare_directory(const void *first, const void *second)
 {
     const CvDirectoryEntry *a = first, *b = second;
@@ -425,5 +452,5 @@ void read_old_directory(void)
         directory_entries[i].size = (unsigned short)entry.size;
     }
     qsort(directory_entries, directory_entry_count, sizeof(CvDirectoryEntry),
-          compare_directory);
+          compare_old_directory);
 }

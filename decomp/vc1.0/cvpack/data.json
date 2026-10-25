@@ -1388,5 +1388,12 @@
     "original": 210772,
     "size": 260,
     "source": "src/modules.c"
+  },
+  {
+    "name": "old_directory_order",
+    "symbol": "_old_directory_order",
+    "original": 227496,
+    "size": 324,
+    "source": "src/image.c"
   }
 ]

@@ -1,9 +1,14 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **187 accepted application
-functions, 56,759 original code bytes, and 20 named trapping stubs**.
-`binary.c` is the canonical function registry. This harness migration accepts
-no new application functions and grants no CRT reconstruction credit.
-The last accepted function is `type_server_close` (sequence 187,
-`src/pdb-close.c`, commit `a00fd6a90`). There were no candidate bodies or
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **188 accepted application
+functions, 56,844 original code bytes, and 20 named trapping stubs**.
+`binary.c` is the canonical function registry. Reconstruction has resumed after
+harness migration; CRT identities grant no application reconstruction credit.
+The legacy workload exposed the omitted old-directory comparator and corrected
+`read_old_directory`'s previously wrong newer-callback reference. The matching
+frontier is now `read_old_module` (RVA `0x8090`). The last accepted function is
+`compare_old_directory` (sequence 188, 85 original bytes, `src/image.c`),
+qualified by matching original/native progress and strict compiler/graph/data
+checks. The previous baseline ended at `type_server_close` (sequence 187,
+commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
 `src/` contains application reconstruction only. Shared fixture checks live in
@@ -12,16 +17,17 @@ implementation. Shared CRT compatibility remains in `lib/recon/`.
 
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
-automatically discovers the eleven numbered `case.c` descriptors, and runs their
+automatically discovers the twelve numbered `case.c` descriptors, and runs their
 cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
 application CFGs, RET cleanup, extent ownership and instruction overlap;
-`check-context.py` additionally checks 206 initial data objects, diagnostic
+`check-context.py` additionally checks 207 initial data objects, diagnostic
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-All eleven dispatched cases have complete original-backed expectations and explicit
+Eleven dispatched cases complete; the derived NB02 case has an original-backed
+partial frontier. All twelve retain explicit
 unseeded first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
 filenames. Existing references retain their historical Z: program path; they
@@ -66,3 +72,15 @@ Historical acceptance/proof packets remain in Git through `faceaf25b`.
 Migration command logs and authoring data are under that snapshot's parent.
 Do not rerun the historical proof/negative campaigns; the local `AGENTS.md`
 retains the explicit user override.
+
+`0012-derived-nb02-old-types` is an authored input, not a historical producer
+output. It preserves the authentic NB02 `cfig386.dbg` payloads (98 modules,
+symbols, types and lines), widening its 212 directory entries from `<HHIH>` to
+the target-supported `<HHII>` and updating the trailer container length.
+Payload offsets and bytes, the count, directory offset and NB02 signature are
+unchanged. Input SHA256 changes from
+`2e01fe1d2d150f1e20352225636081e0373cae3d79c8b601d8482a4cedc4ddf4` to
+`801316eb6012ec914c4dc8a2eb29eae2416fbdf17ddd9a8aa75e18f7ba6a5dcb`.
+The untouched original accepts it and emits a packed debug container; the
+full final oracle remains in the partial capture. Exact derivation and validation
+are saved in `~/.ai-tmp/msvc2/vc1.0/cvpack/resume-20261025/0012-derived-nb02-old-types/input-provenance.json`.

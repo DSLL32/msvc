@@ -1,5 +1,5 @@
-/* Canonical registry: 187 accepted application functions (56,759 bytes),
- * 20 named trapping stubs. Harness migration grants no reconstruction credit.
+/* Canonical registry: 188 accepted application functions (56,844 bytes),
+ * 20 named trapping stubs.
  * CRT identities include three reviewed, nonexact original CRT boundaries.
  * They grant no application credit or shipped-library body equivalence;
  * runtime-policy.json keeps their provenance and historical qualifications. */
@@ -374,6 +374,15 @@ static const ReconFunction functions[] = {
         .definition = RECON_APP,
         .implementation = RECON_IMPLEMENTED,
         .native_symbol = "read_cv_signature",
+    },
+    {
+        .name = "_compare_old_directory",
+        .entry_rva = 0x112c0,
+        .code = (const ReconExtent[]){{0x112c0, 0x11315}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "compare_old_directory",
     },
     {
         .name = "_read_old_directory",

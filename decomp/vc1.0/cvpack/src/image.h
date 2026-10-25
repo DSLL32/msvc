@@ -87,6 +87,7 @@ extern unsigned long libraries_size, segment_map_size, segment_names_size;
 void read_subsection(const CvDirectoryEntry *,unsigned char **,unsigned long *);
 ModuleInfo *find_module(unsigned short,int);
 int __cdecl compare_directory(const void *,const void *);
+int __cdecl compare_old_directory(const void *,const void *);
 extern unsigned long directory_size;
 extern unsigned long module_size;
 extern unsigned long type_size;
