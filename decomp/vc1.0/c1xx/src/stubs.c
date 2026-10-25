@@ -140,7 +140,6 @@ IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initial
 
 unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken *object, char *name) { __asm { int 3 } return 0; }
 

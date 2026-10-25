@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1614 historical frontiers/1507 App bodies.
+ * Current reviewed boundary:1615 historical frontiers/1508 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -2524,10 +2524,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_lookup_based_symbol@4",
         .entry_rva = 0x1a580,
-        .code = (const ReconExtent[]) { { 0x1a580, 0x1a581 } },
+        .code = (const ReconExtent[]) { { 0x1a580, 0x1a655 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lookup_based_symbol",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_validate_bit_field_bound@8",

@@ -46,6 +46,7 @@ BINARY_SOURCES = src/c1xx.c \
     src/symbol-types.c \
     src/hash-table.c \
     src/type-attributes.c \
+    src/based-pointers.c \
     src/parameters.c \
     src/macros.c \
     src/macro-expansion.c \
