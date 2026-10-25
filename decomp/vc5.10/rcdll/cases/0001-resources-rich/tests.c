@@ -639,6 +639,21 @@ static int resource_hexadecimal_contract(void)
         rc_resource_number_cursor==rc_resource_name+3;
 }
 
+static int resource_operator_contract(void)
+{
+    struct {WCHAR value,tail;} output;
+    output.value=0x1234;output.tail=0xabcd;
+    rc_resource_character=L',';rc_resource_buffer_index=0;
+    if(rc_read_resource_operator(&output.value)||output.value!=L','||
+       output.tail!=0xabcd||rc_resource_buffer_index)return 0;
+    rc_resource_character=L'+';rc_resource_line_start=0;
+    rc_resource_read_buffer[0]=L' ';rc_resource_read_buffer[1]=L'a';
+    rc_resource_read_buffer[2]=0;
+    return rc_read_resource_operator(&output.value)==1&&output.value==L'+'&&
+        output.tail==0xabcd&&rc_resource_character==L'a'&&
+        rc_resource_buffer_index==2;
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -664,6 +679,7 @@ const ReconTest rich_tests[]={
     {"resource-word-contract",1,resource_word_contract},
     {"resource-digit-contract",1,resource_digit_contract},
     {"resource-hexadecimal-contract",1,resource_hexadecimal_contract},
+    {"resource-operator-contract",1,resource_operator_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},

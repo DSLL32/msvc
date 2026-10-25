@@ -396,11 +396,7 @@ int __stdcall rc_read_resource_symbol(unsigned flags)
 
 
 
-int __stdcall rc_read_resource_operator(WCHAR *operation)
-{
-    __asm int 3
-    return 0;
-}
+
 
 
 

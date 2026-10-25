@@ -1,3 +1,4 @@
+#include <wchar.h>
 #include <wctype.h>
 #include "command.h"
 #include "resource-input.h"
@@ -396,4 +397,18 @@ void __cdecl rc_skip_resource_space(void)
 {
     while(rc_resource_character!=0xe001&&rc_resource_character!=0xe000&&
           rc_resource_character<=32)rc_next_resource_character();
+}
+
+int __stdcall rc_read_resource_operator(WCHAR *operation)
+{
+    const WCHAR *found;
+    if(rc_resource_character==0xe001)rc_read_resource_marker(1,0xe001);
+    found=wcschr(L"+-|&",rc_resource_character);
+    *operation=rc_resource_character;
+    if(found){
+        rc_next_resource_character();
+        rc_skip_resource_space();
+        return 1;
+    }
+    return 0;
 }
