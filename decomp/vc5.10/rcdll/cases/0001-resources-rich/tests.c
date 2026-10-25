@@ -691,6 +691,21 @@ static int resource_decimal_id_contract(void)
         high_digit[0]==0x0131&&low_zero[0]==0x0100&&signed_byte[0]==0x00ff;
 }
 
+static int resource_keyword_contract(void)
+{
+    const WCHAR mixed[]={L'm',L'o',L'V',L'e',L'a',L'b',L'l',L'e',0};
+    /* BEDIT is deliberately shadowed by the original BEGIN/BEDIT order. */
+    return rc_lookup_resource_keyword(mixed)==0xfff1&&mixed[2]==L'V'&&
+        rc_lookup_resource_keyword(L"ALT")==110&&
+        rc_lookup_resource_keyword(L"VIRTKEY")==112&&
+        rc_lookup_resource_keyword(L"BEGIN")==13&&
+        rc_lookup_resource_keyword(L"BEDIT")==0xffff&&
+        rc_lookup_resource_keyword(L"MESAGETABLE")==96&&
+        rc_lookup_resource_keyword(L"MESSAGETABLE")==0xffff&&
+        rc_lookup_resource_keyword(L"")==0xffff&&
+        rc_lookup_resource_keyword(L"ZZZ")==0xffff;
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -719,6 +734,7 @@ const ReconTest rich_tests[]={
     {"resource-operator-contract",1,resource_operator_contract},
     {"resource-symbol-contract",1,resource_symbol_contract},
     {"resource-decimal-id-contract",1,resource_decimal_id_contract},
+    {"resource-keyword-contract",1,resource_keyword_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},

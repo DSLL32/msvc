@@ -442,3 +442,106 @@ int __stdcall rc_read_resource_symbol(unsigned flags)
     }
     return 1;
 }
+
+/* The resource keyword table is pointer/WORD/reserved-WORD, stride eight.
+ * Preserve the original order (including BEGIN before BEDIT) and spelling
+ * MESAGETABLE: the search stops as soon as the input sorts below a row. */
+typedef struct RcResourceKeyword {
+    const WCHAR *text;
+    WORD token,reserved;
+} RcResourceKeyword;
+typedef char RcResourceKeywordLayout[(sizeof(RcResourceKeyword)==8&&
+    offsetof(RcResourceKeyword,token)==4&&
+    offsetof(RcResourceKeyword,reserved)==6)?1:-1];
+static const RcResourceKeyword rc_resource_keywords[] = {
+    { L"ALT", 110, 0 },
+    { L"ASCII", 111, 0 },
+    { L"AUTO3STATE", 46, 0 },
+    { L"AUTOCHECKBOX", 44, 0 },
+    { L"AUTORADIOBUTTON", 48, 0 },
+    { L"BEGIN", 13, 0 },
+    { L"BEDIT", 57, 0 },
+    { L"BITMAP", 67, 0 },
+    { L"BLOCK", 114, 0 },
+    { L"BUTTON", 95, 0 },
+    { L"CAPTION", 135, 0 },
+    { L"CHARACTERISTICS", 130, 0 },
+    { L"CHECKBOX", 41, 0 },
+    { L"CHECKED", 73, 0 },
+    { L"CLASS", 100, 0 },
+    { L"COMBOBOX", 91, 0 },
+    { L"CONTROL", 134, 0 },
+    { L"CTEXT", 63, 0 },
+    { L"DEFPUSHBUTTON", 43, 0 },
+    { L"DISCARDABLE", 0xfff2, 0 },
+    { L"DLGINCLUDE", 136, 0 },
+    { L"DLGINIT", 138, 0 },
+    { L"EDIT", 64, 0 },
+    { L"EDITTEXT", 60, 0 },
+    { L"END", 14, 0 },
+    { L"EXSTYLE", 247, 0 },
+    { L"FILEFLAGS", 123, 0 },
+    { L"FILEFLAGSMASK", 122, 0 },
+    { L"FILEOS", 124, 0 },
+    { L"FILESUBTYPE", 126, 0 },
+    { L"FILETYPE", 125, 0 },
+    { L"FILEVERSION", 120, 0 },
+    { L"FIXED", 0xfff0, 0 },
+    { L"FONT", 94, 0 },
+    { L"GRAYED", 74, 0 },
+    { L"GROUPBOX", 51, 0 },
+    { L"HEDIT", 58, 0 },
+    { L"HELP", 79, 0 },
+    { L"ICON", 66, 0 },
+    { L"IEDIT", 59, 0 },
+    { L"IMPURE", 0xfff6, 0 },
+    { L"INACTIVE", 75, 0 },
+    { L"LANGUAGE", 131, 0 },
+    { L"LISTBOX", 90, 0 },
+    { L"LOADONCALL", 0xfff3, 0 },
+    { L"LTEXT", 61, 0 },
+    { L"MENU", 70, 0 },
+    { L"MENUBARBREAK", 76, 0 },
+    { L"MENUBREAK", 77, 0 },
+    { L"MENUITEM", 71, 0 },
+    { L"MESAGETABLE", 96, 0 },
+    { L"MOVEABLE", 0xfff1, 0 },
+    { L"NOINVERT", 103, 0 },
+    { L"NONSHARED", 0xfff6, 0 },
+    { L"NOT", 104, 0 },
+    { L"OWNERDRAW", 50, 0 },
+    { L"POPUP", 78, 0 },
+    { L"PRELOAD", 0xfff4, 0 },
+    { L"PRODUCTVERSION", 121, 0 },
+    { L"PURE", 0xfff5, 0 },
+    { L"PUSHBOX", 52, 0 },
+    { L"PUSHBUTTON", 42, 0 },
+    { L"RADIOBUTTON", 40, 0 },
+    { L"RCDATA", 92, 0 },
+    { L"RTEXT", 62, 0 },
+    { L"SCROLLBAR", 93, 0 },
+    { L"SEPARATOR", 72, 0 },
+    { L"SHARED", 0xfff5, 0 },
+    { L"SHIFT", 106, 0 },
+    { L"STATE3", 45, 0 },
+    { L"STATIC", 65, 0 },
+    { L"STYLE", 133, 0 },
+    { L"USERBUTTON", 47, 0 },
+    { L"VALUE", 113, 0 },
+    { L"VERSION", 132, 0 },
+    { L"VIRTKEY", 112, 0 },
+    { NULL, 0, 0 }
+};
+
+WORD __stdcall rc_lookup_resource_keyword(const WCHAR *text)
+{
+    const RcResourceKeyword *keyword=rc_resource_keywords;
+    int order;
+    while(keyword->text){
+        order=_wcsicmp(text,keyword->text);
+        if(!order)return keyword->token;
+        if(order<0)break;
+        ++keyword;
+    }
+    return 0xffff;
+}
