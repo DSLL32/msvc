@@ -348,7 +348,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_scan_resource_token" },
     { .name="rc_parse_resource_hexadecimal", .original_symbol="_rc_parse_resource_hexadecimal", .entry_rva=0x9c7d,
       .code=(const ReconExtent[]){{0x9c7d,0x9cda}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_parse_resource_hexadecimal" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_parse_resource_hexadecimal" },
     { .name="rc_parse_resource_octal", .original_symbol="_rc_parse_resource_octal", .entry_rva=0x9cda,
       .code=(const ReconExtent[]){{0x9cda,0x9d01}}, .code_count=1,
       .definition=RECON_APP, .implementation=0, .native_symbol="rc_parse_resource_octal" },

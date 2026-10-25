@@ -374,3 +374,20 @@ WCHAR __cdecl rc_next_resource_digit(void)
     rc_resource_number_character=*rc_resource_number_cursor++;
     return rc_resource_number_character;
 }
+
+DWORD __cdecl rc_parse_resource_hexadecimal(void)
+{
+    DWORD value=0;
+    WORD digit;
+    rc_next_resource_digit();
+    while(iswctype(rc_resource_number_character,128)){
+        rc_resource_number_character=(WCHAR)towupper(rc_resource_number_character);
+        /* The original widened load is narrowed to AX after subtraction;
+         * no neighboring high WORD contributes to the result. */
+        digit=(WORD)(rc_resource_number_character>=L'A'?
+            rc_resource_number_character-55:rc_resource_number_character-L'0');
+        value=(value<<4)+digit;
+        rc_next_resource_digit();
+    }
+    return value;
+}

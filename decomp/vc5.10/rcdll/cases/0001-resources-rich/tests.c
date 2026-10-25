@@ -620,6 +620,25 @@ static int resource_digit_contract(void)
     return trapped(resource_digit_call);
 }
 
+static int resource_hexadecimal_contract(void)
+{
+    static const WCHAR mixed[]=L"0xfF",overflow[]=L"0x100000000",stop[]=L"0xG";
+    memcpy(rc_resource_name,mixed,sizeof(mixed));
+    rc_resource_number_cursor=rc_resource_name+2;rc_resource_number_character=L'x';
+    rc_resource_token.unknown0=0x12345678;
+    if(rc_parse_resource_hexadecimal()!=255||rc_resource_number_character||
+       rc_resource_number_cursor!=rc_resource_name+5||
+       rc_resource_name[2]!=L'f'||rc_resource_token.unknown0!=0x12345678)return 0;
+    memcpy(rc_resource_name,overflow,sizeof(overflow));
+    rc_resource_number_cursor=rc_resource_name+2;rc_resource_number_character=L'x';
+    if(rc_parse_resource_hexadecimal()!=0||rc_resource_number_character||
+       rc_resource_number_cursor!=rc_resource_name+12)return 0;
+    memcpy(rc_resource_name,stop,sizeof(stop));
+    rc_resource_number_cursor=rc_resource_name+2;rc_resource_number_character=L'x';
+    return !rc_parse_resource_hexadecimal()&&rc_resource_number_character==L'G'&&
+        rc_resource_number_cursor==rc_resource_name+3;
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -644,6 +663,7 @@ const ReconTest rich_tests[]={
     {"resource-number-reset-contract",1,resource_number_reset_contract},
     {"resource-word-contract",1,resource_word_contract},
     {"resource-digit-contract",1,resource_digit_contract},
+    {"resource-hexadecimal-contract",1,resource_hexadecimal_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},
