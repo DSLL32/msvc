@@ -779,7 +779,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_release" },
     { .name="rc_duplicate_resource_name", .original_symbol="_rc_duplicate_resource_name@4", .entry_rva=0x10a1c,
       .code=(const ReconExtent[]){{0x10a1c,0x10a4f}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_duplicate_resource_name" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_duplicate_resource_name" },
     { .name="rc_read_bytes", .original_symbol="_rc_read_bytes@12", .entry_rva=0x10a4f,
       .code=(const ReconExtent[]){{0x10a4f,0x10a84}}, .code_count=1,
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_read_bytes" },

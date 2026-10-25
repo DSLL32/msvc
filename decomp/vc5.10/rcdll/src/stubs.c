@@ -379,9 +379,4 @@ void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *t
     __asm int 3
 }
 
-WCHAR *__stdcall rc_duplicate_resource_name(const WCHAR *name)
-{
-    __asm int 3
-    return NULL;
-}
 

@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_duplicate_resource_name` (RVA 10a1c). Its partial streams and actual
+  stops at `rc_initialize_resource_buffer` (RVA c924). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **123 functions, 33,633 code bytes**
-This is 45.08% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **124 functions, 33,684 code bytes**
+This is 45.15% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (50.73%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (50.81%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -107,3 +107,8 @@ The unvisited callback context at RVA 25f54 is the existing rc_heap HANDLE,
 also used by main for HeapDestroy. Its duplicate placeholder was removed after
 binding both actual consumers. The callback remains NULL-only natively; this
 storage correction supplies no callback behavior or reconstruction credit.
+
+The custom resource-name allocator/copy now executes for all 22 built-ins.
+A fresh original/native pair reaches resource-buffer initialization; full build
+and graph/ABI preflight passed. The name helper retains its NULL branch and
+uses the existing application allocator and shared WCHAR16 CRT operations.

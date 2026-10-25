@@ -397,3 +397,13 @@ RcResourceType *__stdcall rc_find_resource_type(const WCHAR *name,unsigned id)
     entry->id=(WORD)id;
     return entry;
 }
+
+WCHAR *__stdcall rc_duplicate_resource_name(const WCHAR *name)
+{
+    WCHAR *copy=NULL;
+    if(name){
+        copy=rc_allocate((wcslen(name)+1)*sizeof(WCHAR));
+        wcscpy(copy,name);
+    }
+    return copy;
+}
