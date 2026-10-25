@@ -49,6 +49,7 @@ struct CompilerIrSymbol : CompilerNamedSymbol {
 struct CompilerMemberContext { BYTE flags; /* original +3b, bit7 */ };
 struct CompilerMemberSymbol : CompilerNamedSymbol {
     CompilerMemberContext *context; /* original +20 */
+    BYTE declaration_flags; /* original +5, encountered bit0 */
 };
 struct CompilerExpression {
     BYTE kind, flags;                  /* original +0/+1 */

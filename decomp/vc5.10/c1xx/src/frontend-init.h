@@ -186,6 +186,8 @@ struct CompilerDeclarator {
     void RECON_THISCALL Resolve(void);
     void RECON_THISCALL ValidateSpecialFunction(void);
     void RECON_THISCALL NormalizeBase(void);
+    void RECON_THISCALL AddArrayShape(CompilerTypeShape *);
+    void RECON_THISCALL AddMemberPointerShape(CompilerTypeShape *);
     void RECON_THISCALL ValidateShapes(void);
     void RECON_THISCALL ValidateContext(void);
     CompilerType *RECON_THISCALL BuildType(CompilerTypeShape *);

@@ -51,6 +51,7 @@ int __cdecl report_response_error(int, ...);
 void __cdecl compiler_warning(int, ...);
 void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *);
+CompilerTypeShape *__cdecl copy_type_shape(CompilerTypeShape *);
 CompilerType *__cdecl find_declarator_type(CompilerSymbol *, unsigned);
 int __cdecl check_member_declaration(CompilerSymbol *);
 void __cdecl diagnose_member_declaration(CompilerSymbol *);
@@ -887,7 +888,50 @@ void RECON_THISCALL CompilerDeclarator::AddPointer(CompilerDeclaratorQualifiers 
 void RECON_THISCALL CompilerTypeShape::SetType(CompilerType *type) { __asm { int 3 } }
 
 void RECON_THISCALL CompilerDeclarator::ValidateSpecialFunction(void) { __asm { int 3 } }
-void RECON_THISCALL CompilerDeclarator::NormalizeBase(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::NormalizeBase(void)
+{
+    CompilerTypeShape *copy;
+    unsigned kind;
+    if (base_type->shape) {
+        copy = copy_type_shape(base_type->shape);
+        switch (copy->flags & 0x77) {
+        case 1: case 3: case 0x10: case 0x20:
+            break;
+        case 2:
+            AddArrayShape(copy);
+            break;
+        case 4:
+            AppendShape(copy);
+            break;
+        case 0x40: case 0x44:
+            AddMemberPointerShape(copy);
+            break;
+        default:
+            return;
+        }
+        if (last_shape) last_shape->base = copy;
+        else shape = copy;
+        last_shape = copy;
+        return;
+    }
+    if (!shape) return;
+    kind = last_shape->flags & 0x77;
+    if (!base_type->shape && (base_type->flags & 0x2fdf) == 0x80 &&
+        (kind == 2 || kind == 0x10 || kind == 0x40)) {
+        compiler_warning(182, symbol);
+        flags |= 1;
+        base_type = frontend_data.builtin_types.type_0063;
+    }
+    if ((last_shape->flags & 0x77) == 2 && !base_type->shape &&
+        (base_type->flags & 0x400) && (short)base_type->auxiliary >= 0) {
+        CompilerMemberSymbol *member = (CompilerMemberSymbol *)frontend_data.frontend_pointer_table->items[
+            (short)base_type->auxiliary];
+        if (member->declaration_flags & 1) {
+            compiler_warning(233, symbol);
+            flags |= 1;
+        }
+    }
+}
 void RECON_THISCALL CompilerDeclarator::ValidateShapes(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ValidateContext(void) { __asm { int 3 } }
 CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
@@ -896,3 +940,7 @@ extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape
 extern "C" CompilerType *__cdecl find_declarator_type(CompilerSymbol *symbol, unsigned context) { __asm { int 3 } return NULL; }
 extern "C" int __cdecl check_member_declaration(CompilerSymbol *symbol) { __asm { int 3 } return 0; }
 extern "C" void __cdecl diagnose_member_declaration(CompilerSymbol *symbol) { __asm { int 3 } }
+
+extern "C" CompilerTypeShape *__cdecl copy_type_shape(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
+void RECON_THISCALL CompilerDeclarator::AddArrayShape(CompilerTypeShape *shape) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::AddMemberPointerShape(CompilerTypeShape *shape) { __asm { int 3 } }
