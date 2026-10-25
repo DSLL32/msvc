@@ -153,6 +153,66 @@ pub fn configuration(input: &Value, metadata: &Value, runtime: &Value) -> Result
     )
 }
 
+/// Registry classification is separate from graph-body availability. The
+/// explicit reviewed variant policy qualifies a CRT identity without promoting
+/// it into restored support or an accepted body.
+fn anchor_registry_classification(
+    entry: &Value,
+    policy: &Value,
+    input: &Value,
+    name: &str,
+) -> Result<()> {
+    ensure!(
+        entry["implementation"] == 0,
+        "identity-only anchor has implementation: {name}"
+    );
+    if entry["definition"] == 0 {
+        return Ok(());
+    }
+    ensure!(
+        entry["definition"] == 3,
+        "identity-only anchor registry classification differs: {name}"
+    );
+    let boundaries = policy["crt_identity_boundaries"]
+        .as_array()
+        .context("CVPACK reviewed CRT identity boundaries")?;
+    let found: Vec<_> = boundaries
+        .iter()
+        .filter(|row| row["name"] == name)
+        .collect();
+    ensure!(
+        found.len() == 1,
+        "reviewed CRT identity boundary missing or ambiguous: {name}"
+    );
+    let row = found[0];
+    ensure!(
+        row["classification"] == "reviewed-original-nonexact-CRT-variant"
+            && row["nonexact_difference"]
+                .as_str()
+                .is_some_and(|text| !text.trim().is_empty()),
+        "reviewed CRT identity boundary qualification differs: {name}"
+    );
+    ensure!(
+        !input["accepted"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .any(|value| value == name)
+            && !input["restored_runtime_names"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .any(|value| value == name)
+            && !input["driver"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .any(|value| value["name"] == name),
+        "identity-only CRT anchor has graph-body availability: {name}"
+    );
+    Ok(())
+}
+
 pub fn original_runtime(
     mut runtime: Value,
     input: &Value,
@@ -212,10 +272,7 @@ pub fn original_runtime(
                 "identity-only anchor registry entry missing or ambiguous: {name}"
             );
             let entry = entries[0];
-            ensure!(
-                entry["definition"] == 0 && entry["implementation"] == 0,
-                "identity-only anchor registry classification differs: {name}"
-            );
+            anchor_registry_classification(entry, &policy, input, name)?;
             let chunks = entry["code"]
                 .as_array()
                 .context("identity-only anchor code intervals")?;
@@ -275,6 +332,65 @@ pub fn rebuilt_runtime(flat: Value, rebuilt: &Pe) -> Result<Value> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn reviewed_crt_anchor_classification_does_not_grant_body_availability() {
+        let entry = json!({"definition":3,"implementation":0});
+        let row = json!({"name":"variant","classification":"reviewed-original-nonexact-CRT-variant",
+            "nonexact_difference":"Reviewed original differs from shipped archive; identity only."});
+        let policy = json!({"crt_identity_boundaries":[row]});
+        let input = json!({"accepted":[],"driver":[],"restored_runtime_names":[]});
+        assert!(anchor_registry_classification(&entry, &policy, &input, "variant").is_ok());
+        assert!(
+            anchor_registry_classification(
+                &json!({"definition":0,"implementation":0}),
+                &json!({}),
+                &input,
+                "variant"
+            )
+            .is_ok()
+        );
+        for (key, value) in [
+            ("classification", json!("exact-library-match")),
+            ("nonexact_difference", json!(" ")),
+            ("nonexact_difference", json!(false)),
+        ] {
+            let mut wrong = policy.clone();
+            wrong["crt_identity_boundaries"][0][key] = value;
+            assert!(
+                anchor_registry_classification(&entry, &wrong, &input, "variant").is_err(),
+                "{key}"
+            );
+        }
+        assert!(anchor_registry_classification(&entry, &json!({}), &input, "variant").is_err());
+        assert!(
+            anchor_registry_classification(
+                &entry,
+                &json!({"crt_identity_boundaries":[row,row]}),
+                &input,
+                "variant"
+            )
+            .is_err()
+        );
+        for wrong in [
+            json!({"definition":4,"implementation":0}),
+            json!({"definition":3,"implementation":1}),
+        ] {
+            assert!(anchor_registry_classification(&wrong, &policy, &input, "variant").is_err());
+        }
+        for (key, value) in [
+            ("accepted", json!(["variant"])),
+            ("driver", json!([{"name":"variant"}])),
+            ("restored_runtime_names", json!(["variant"])),
+        ] {
+            let mut wrong = input.clone();
+            wrong[key] = value;
+            assert!(
+                anchor_registry_classification(&entry, &policy, &wrong, "variant").is_err(),
+                "{key}"
+            );
+        }
+    }
+
     #[test]
     fn richer_runtime_aliases_preserve_vertices() {
         let left = BTreeMap::from([
