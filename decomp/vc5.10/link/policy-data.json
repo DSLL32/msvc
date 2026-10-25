@@ -6200,6 +6200,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_release_relocations@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   }

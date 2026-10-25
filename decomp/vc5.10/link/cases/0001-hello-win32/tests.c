@@ -913,6 +913,22 @@ static int completed_references(void)
     return recon_native_at_entry(release_relocations,check_completed_references,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall process_module_symbols(LinkContext *,OutputModule *,void *,IMAGE_SYMBOL *,WORD,BYTE);
+static void __stdcall check_sections_complete(LinkContext *context,OutputModule *module,void *parent,
+    IMAGE_SYMBOL *symbols,WORD flags,BYTE first_pass)
+{
+    FileRecord *file=file_slots[current_input_file];
+    recon_native_entry_finish(context && module==current_input_library->module_head &&
+        !parent && symbols==(IMAGE_SYMBOL *)((BYTE *)file->view+1135) && !flags && !first_pass &&
+        !relocation_data_active && relocations_mapped==1 && total_relocation_count==21 &&
+        module->section_count==7 && module->contribution_info[1].references_used==8 &&
+        module->contribution_info[1].fold_signature==0xa81a7f01);
+}
+static int sections_complete(void)
+{
+    return recon_native_at_entry(process_module_symbols,check_sections_complete,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -954,5 +970,6 @@ const ReconTest hello_tests[]={
     {"x86-classifier",1,x86_classify},
     {"relocation-reference",1,relocation_reference},
     {"comdat-reference",1,comdat_reference},
-    {"completed-references",1,completed_references}
+    {"completed-references",1,completed_references},
+    {"sections-complete",1,sections_complete}
 };

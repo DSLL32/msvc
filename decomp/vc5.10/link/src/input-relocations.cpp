@@ -67,7 +67,10 @@ DWORD __stdcall read_sh_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,
 DWORD __stdcall read_arm_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,IMAGE_RELOCATION *,DWORD,DWORD) { __asm { int 3 } return 0; }
 DWORD __stdcall read_mac_ppc_relocations(LinkContext *,OutputModule *,Contribution *,IMAGE_SYMBOL *,IMAGE_RELOCATION *,DWORD,DWORD) { __asm { int 3 } return 0; }
 DWORD __stdcall read_ppc_relocations(LinkContext *,OutputModule *,Contribution *,IMAGE_SYMBOL *,IMAGE_RELOCATION *,DWORD,DWORD) { __asm { int 3 } return 0; }
-void __stdcall release_relocations(IMAGE_RELOCATION *) { __asm { int 3 } }
+void __stdcall release_relocations(IMAGE_RELOCATION *relocations)
+{
+    relocation_data_active=0;
+}
 }
 /* Converted modules carry their physical input offset in optional_data[3].
  * This expression is deliberately re-evaluated after child calls, matching

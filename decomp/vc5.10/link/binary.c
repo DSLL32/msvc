@@ -343,7 +343,7 @@ static const ReconFunction functions[] = {
     {"_read_arm_relocations@24",0xb1f0,(const ReconExtent[]){{0xb1f0,0xb1f1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_arm_relocations",NULL,NULL,0,NULL},
     {"_read_mac_ppc_relocations@28",0x57880,(const ReconExtent[]){{0x57880,0x57881}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_mac_ppc_relocations",NULL,NULL,0,NULL},
     {"_read_ppc_relocations@28",0x5af10,(const ReconExtent[]){{0x5af10,0x5af11}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_ppc_relocations",NULL,NULL,0,NULL},
-    {"_release_relocations@4",0x60f20,(const ReconExtent[]){{0x60f20,0x60f21}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"release_relocations",NULL,NULL,0,NULL},
+    {"_release_relocations@4",0x60f20,(const ReconExtent[]){{0x60f20,0x60f2a}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"release_relocations",NULL,NULL,0,NULL},
     {"?ReadConvertedRelocations@Contribution@@QAEXPAXK@Z",0xe960,(const ReconExtent[]){{0xe960,0xe961}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN12Contribution24ReadConvertedRelocationsEPvm",NULL,NULL,0,NULL},
     {"?ReadRelocations@Contribution@@QAEPAU_IMAGE_RELOCATION@@PAK@Z",0x60c80,(const ReconExtent[]){{0x60c80,0x60f20}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"_ZN12Contribution15ReadRelocationsEPm",NULL,NULL,0,NULL},
     {"_read_section_relocations@16",0x5e400,(const ReconExtent[]){{0x5e400,0x5e587}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"read_section_relocations",NULL,NULL,0,NULL},
