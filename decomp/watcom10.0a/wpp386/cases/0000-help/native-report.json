@@ -1,7 +1,7 @@
 [
   {
     "case": "help",
-    "workspace": "/tmp/recon/run-kbFudr",
+    "workspace": "/tmp/recon/run-Rn2TCk",
     "pass": true,
     "terminal": "signal:5",
     "logical_exit_code": null,
@@ -9,20 +9,21 @@
       531363,
       532033,
       660889,
-      531125
+      531125,
+      531165
     ],
     "tests": false,
     "process_requests": null,
-    "trap_rva": 531125,
-    "trap_site": 4156803830,
-    "elapsed_ms": 5.533377,
-    "setup_ms": 3.3574269999999995,
-    "execution_ms": 1.6609809999999996,
-    "checks_ms": 0.5148280000000001,
+    "trap_rva": 531165,
+    "trap_site": 4156935030,
+    "elapsed_ms": 5.496208,
+    "setup_ms": 2.861129,
+    "execution_ms": 2.104238,
+    "checks_ms": 0.5311250000000001,
     "errors": [],
     "original_reference": {
       "report": "/root/msvc2/decomp/watcom10.0a/wpp386/cases/0000-help/original-report.json",
-      "report_sha256": "b31acc251907f4747bba402bf1955d360deb5077b4eb5d5822bd6415eece1e1b",
+      "report_sha256": "7c845e5ef90978ee58eef0c989fe1b9f2395d62097aefeb6a99ce5fcf24ab269",
       "capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
       "source_binding_available": true
     }

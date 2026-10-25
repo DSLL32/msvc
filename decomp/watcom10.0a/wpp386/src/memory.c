@@ -41,6 +41,21 @@
 int Initialized = 0;
 unsigned AllocSize, MemorySize;
 
+int SizeToClass(unsigned amount)
+{
+    int cls;
+
+    if (amount >= 2048) return 7;
+    if (amount < 32) return 0;
+    amount >>= 4;
+    cls = 0;
+    do {
+        ++cls;
+        amount >>= 1;
+    } while (amount);
+    return cls;
+}
+
 void *MemAlloc(unsigned amount)
 {
     char *chunk;
