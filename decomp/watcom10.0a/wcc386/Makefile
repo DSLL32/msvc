@@ -10,7 +10,7 @@ ORIGINAL_TOOLCHAIN = watcom10.0a
 ORIGINAL_SOURCES = $(BINARY_SOURCES) harness/original-host.c
 ORIGINAL_OUTPUT = build/WCC386.EXE
 ORIGINAL_MAP = build/wcc386.map
-ORIGINAL_CPPFLAGS = '-i=src' '-i=..\..\..\lib\recon\include'
+ORIGINAL_CPPFLAGS = '-i=..\..\..\toolchains\watcom10.0a\h' '-i=..\..\..\toolchains\watcom10.0a\h\nt' '-i=src' '-i=..\..\..\lib\recon\include'
 ORIGINAL_CFLAGS = -bt=nt -3r -od -d2 -s
 ORIGINAL_CC = $(RECON_TOOL) original tool watcom10.0a WCC386.EXE --
 ORIGINAL_LINK = $(RECON_TOOL) original tool watcom10.0a WLINK.EXE --

@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "scope": "Conservative original CF CODE-class mask envelope with mixed code/data; not an instruction inventory, function extent index, execution permission or App reconstruction credit.",
+  "coordinates": "CF image offsets, canonical base0",
+  "target": {
+    "path": "toolchains/watcom10.0a/binb/WCC386.EXE",
+    "sha256": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+    "image_file_offset": 8704,
+    "entry": 196096,
+    "initialized_code_data_end": 509000,
+    "relocation_stream_end": 532636,
+    "runtime_allocation_size": 593920
+  },
+  "code_envelope": [
+    0,
+    459972
+  ],
+  "mask_semantics": "conservative CODE-class mask span, including gaps and embedded text data; not an instruction inventory or executable-byte permission",
+  "data_after_envelope": "CONST/initialized globals/initializer tables then BSS; preserve original bytes",
+  "text_data": "Keep encountered literals/jump/opcode tables as canonical registry-owned text_data; do not infer them from a code envelope. SavedDS[2fdfe,2fe00) belongs to the _cstart_ registry record and unchanged startup-evidence.json.",
+  "terminal_boundary": {
+    "EvalPoly": [
+      459868,
+      459920
+    ],
+    "OddPoly": [
+      459920,
+      459971
+    ],
+    "full_code_bytes": 103,
+    "full_code_sha256": "b56016ddf0b5aa600639ddf189efa613a2684b1aee1a98aa4dc8bb460e0e9d07",
+    "last_RET": 459970,
+    "following_alignment_byte": {
+      "offset": 459971,
+      "value": 0
+    },
+    "observed_CONST_start": 459972,
+    "leading_strings": [
+      "struct",
+      "union",
+      "enum",
+      "signed char",
+      "unsigned char"
+    ],
+    "normalized_call_operand_body_sha256": "658ff937fd7a00fd2e6c0ff4291a551e57677c115b099d98adfd42c67b6e8b89"
+  },
+  "terminal_context_hex": "ffff89f389f9e82ce3fbffc95f5ec30073747275637400756e696f6e00656e756d007369676e6564206368617200756e",
+  "library_correlation": {
+    "path": "toolchains/watcom10.0a/lib386/MATH3R.LIB",
+    "sha256": "061c20b697fb7507ada63dcf4f4a3ae2c9a81a9233c7370836111514569ed1a2",
+    "member": "evalpoly",
+    "module_offset": 12784,
+    "SEGDEF": {
+      "index": 1,
+      "name": "_TEXT",
+      "class": "CODE",
+      "length": 107,
+      "attributes": 41,
+      "meaning": "USE32 PUBLIC byte-aligned CODE contribution"
+    },
+    "publics": [
+      {
+        "name": "_EvalPoly_",
+        "segment": 1,
+        "offset": 0
+      },
+      {
+        "name": "_OddPoly_",
+        "segment": 1,
+        "offset": 53
+      }
+    ],
+    "role_match": [
+      "__FDM",
+      "__FDA",
+      "__FDM",
+      "_EvalPoly",
+      "__FDM"
+    ],
+    "limit": "Shipped MATH3R evalpoly is107B with public split0/53; actual bodies are103B with split0/52. Register/frame code generation differs. Therefore this is strong function identity/class/end corroboration, NOT byte-identical shipped-member ownership or an exact original linker map."
+  },
+  "source_commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+  "sources": [
+    {
+      "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443/bld/w32loadr/w32bind.c",
+      "sha256": "9b05516b3afa14bd0dceeae179f9258f8e2ce1820ad68409d0ff30630c447e89",
+      "role": "REX image copied intact; code+data size becomes offset_to_relocs; no text boundary field"
+    },
+    {
+      "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443/bld/clib/startup/a/cstrtosi.asm",
+      "sha256": "e410f48b6e5f34997f9e2cb35ce5c20e01a886ab8801e967348ef30366db1c90",
+      "role": "CODE/BEGTEXT and DGROUP CONST/DATA/BSS declaration/order"
+    },
+    {
+      "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443/bld/wl/c/objcalc.c",
+      "sha256": "1405f4a2f593f073e68c07df15f6dce8f167ad8b43bf3fc2f6438932371db511",
+      "role": "DOSSEG orders CODE classes before DATA/DGROUP and promotes BEGTEXT"
+    },
+    {
+      "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443/bld/mathlib/c/evalpoly.c",
+      "sha256": "53ebd9db44110dea2f14ba5295c13476fac1f3a257376d8a065a729e5cc67b61",
+      "role": "terminal WCC/WPP math function source correlation"
+    }
+  ],
+  "rationale": [
+    "WCC terminal math helpers end in real RET at704c2, followed by one00 alignment byte and ordinary CONST strings at704c4.",
+    "Actual103B terminal body matches WPP after only the five relativeCALL operand DWORDs are normalized; shipped107B module and released source corroborate function roles and CODE class but differ in code generation.",
+    "Released linker DOSSEG ordering places CODE before DATA/DGROUP; startup source declares BEGTEXT/CODE and DGROUP CONST/DATA/BSS. REX/CF binding preserves the image but stores no text boundary field.",
+    "Envelope intentionally includes gaps/embedded text data; it is not a claim that every byte is an instruction. Original CONST/globals/initializer data after704c4 must stay intact."
+  ],
+  "reviewed_inputs": {
+    "layout_review": {
+      "path": "/root/.ai-tmp/msvc2/watcom-shared-integration/cf-layout/layout-review.json",
+      "sha256": "57d3d1ebc82100fee4856df2aab03087899efb62cf6689bff0995a1520e69d39"
+    },
+    "math_terminal_boundary": {
+      "path": "/root/.ai-tmp/msvc2/watcom-shared-integration/wcc-startup/math-terminal-boundary.json",
+      "sha256": "f9da15b53023c6d28a4d50253140dba405efd3bc5b52efb93116087d7c036878"
+    }
+  },
+  "limits": [
+    "Recovered finite static layout; CF has no section table and no original MAP is claimed.",
+    "No whole-image function inventory or new opcode/gateway interpretation follows from this witness."
+  ]
+}

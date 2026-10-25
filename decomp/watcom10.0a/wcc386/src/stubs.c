@@ -8,7 +8,6 @@ void reconstruction_trap(void);
 #else
 #define STUB_TRAP() __asm__ __volatile__("int $3")
 #endif
-unsigned char GetEnvVar(char *name,char *buffer,int size) { (void)name; (void)buffer; (void)size; STUB_TRAP(); return 0; }
 int myatoi(char *text) { (void)text; STUB_TRAP(); return 0; }
 void myitoa(int value,char *text) { (void)value; (void)text; STUB_TRAP(); }
 char *CopyStr(char *src,char *dst) { (void)src; (void)dst; STUB_TRAP(); return 0; }

@@ -1,0 +1,173 @@
+{
+  "scope": "GetEnvVar App candidate and exact existing CRT support identification; no acceptance or new controller permissions",
+  "original_sha256": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+  "App": {
+    "name": "GetEnvVar",
+    "entry": 420398,
+    "code": [
+      420398,
+      420418
+    ],
+    "code_sha256": "4e13ea0cc05f6ccc467374d12e4a411027b037f7465bf9000b8549b96e0f8972",
+    "source": "src/environment.c",
+    "source_sha256": "243cb20e98c5aa0c9532519f51ebdb68941d819b5fec1cd8c253bd591129f884",
+    "reference": "initial2002 bld/cg/c/envvar.c",
+    "reference_sha256": "f02fcfb0f2a43ae76e85a5b732501b2142bc8a78a433e12ae19d01aee12e02ed",
+    "difference": "1994directgetenv;2002FEGetEnv wrapper",
+    "ABI": {
+      "EAX": "name",
+      "EDX": "output buffer",
+      "EBX": "unused length",
+      "result": "bool AL",
+      "cleanup": 0
+    }
+  },
+  "CRT_members": [
+    {
+      "library": "toolchains/watcom10.0a/lib386/DOS/CLIB3R.LIB",
+      "library_sha256": "ea6f73080f9ea18825258369989f6e1d0b7abc7c3df05e4bb8f17a31a5cbdee8",
+      "module": "getenv",
+      "module_offset": 154656,
+      "publics": [
+        {
+          "name": "getenv_",
+          "segment": 1,
+          "offset": 0
+        }
+      ],
+      "LEDATA_record_offset": 154875,
+      "length": 90,
+      "nonfixup_bytes_equal": 82,
+      "fixups": [
+        {
+          "offset": 10,
+          "target": "_environ",
+          "resolved_cf_offset": 495622,
+          "self_relative": false,
+          "CF_fixup": true
+        },
+        {
+          "offset": 51,
+          "target": "strnicmp_",
+          "resolved_cf_offset": 207033,
+          "self_relative": true,
+          "CF_fixup": false
+        }
+      ],
+      "actual_code_sha256": "6972e0f68aacbcbd0b04e10a1088a5fe700d6505fafb105e778ea61cb6d68326"
+    },
+    {
+      "library": "toolchains/watcom10.0a/lib386/DOS/CLIB3R.LIB",
+      "library_sha256": "ea6f73080f9ea18825258369989f6e1d0b7abc7c3df05e4bb8f17a31a5cbdee8",
+      "module": "strnicmp",
+      "module_offset": 37440,
+      "publics": [
+        {
+          "name": "strnicmp_",
+          "segment": 1,
+          "offset": 0
+        }
+      ],
+      "LEDATA_record_offset": 37636,
+      "length": 87,
+      "nonfixup_bytes_equal": 87,
+      "fixups": [],
+      "actual_code_sha256": "e0ac0b43d0effb4a36dfc95f0efbd05bb654d32395df1f705065f5f5b0e6f195"
+    },
+    {
+      "library": "toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+      "library_sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+      "module": "getenv",
+      "module_offset": 177280,
+      "publics": [
+        {
+          "name": "getenv_",
+          "segment": 1,
+          "offset": 0
+        }
+      ],
+      "LEDATA_record_offset": 177499,
+      "length": 90,
+      "nonfixup_bytes_equal": 82,
+      "fixups": [
+        {
+          "offset": 10,
+          "target": "_environ",
+          "resolved_cf_offset": 495622,
+          "self_relative": false,
+          "CF_fixup": true
+        },
+        {
+          "offset": 51,
+          "target": "strnicmp_",
+          "resolved_cf_offset": 207033,
+          "self_relative": true,
+          "CF_fixup": false
+        }
+      ],
+      "actual_code_sha256": "6972e0f68aacbcbd0b04e10a1088a5fe700d6505fafb105e778ea61cb6d68326"
+    },
+    {
+      "library": "toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+      "library_sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+      "module": "strnicmp",
+      "module_offset": 43392,
+      "publics": [
+        {
+          "name": "strnicmp_",
+          "segment": 1,
+          "offset": 0
+        }
+      ],
+      "LEDATA_record_offset": 43588,
+      "length": 87,
+      "nonfixup_bytes_equal": 87,
+      "fixups": [],
+      "actual_code_sha256": "e0ac0b43d0effb4a36dfc95f0efbd05bb654d32395df1f705065f5f5b0e6f195"
+    }
+  ],
+  "ABI": {
+    "getenv": {
+      "args": {
+        "EAX": "name pointer"
+      },
+      "result": "borrowed char pointer EAX or NULL",
+      "preserved": "EBX ECX EDX ESI EDI EBP",
+      "cleanup": 0,
+      "local_RET": 179830
+    },
+    "strnicmp": {
+      "args": {
+        "EAX": "environment string",
+        "EDX": "query name",
+        "EBX": "query byte length"
+      },
+      "result": "EAX unsigned-byte folded difference",
+      "preserved": "ECX",
+      "cleanup": 0,
+      "local_RETs": [
+        207047,
+        207110
+      ]
+    }
+  },
+  "owned_data": [
+    {
+      "start": 495622,
+      "end": 495626,
+      "write": false,
+      "meaning": "actual cstart-saved reversed environment array pointer; already admitted startup data"
+    },
+    {
+      "start": 479784,
+      "end": 479794,
+      "write": false,
+      "meaning": "WCGMEMORY NUL query, already witnessed by MemInit"
+    }
+  ],
+  "dynamic_data": "Actual cstart-owned stack vector and referenced loader environment strings; must retain exact observed region/byte ownership, no arbitrary environment admission.",
+  "case_environment": {
+    "WCGMEMORY": null
+  },
+  "unsupported_hold": "Reached REPNE SCASB at2be3f remains subject to existing shared Gate; no opcode implementation requested."
+}

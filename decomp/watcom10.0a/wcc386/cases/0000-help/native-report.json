@@ -1,28 +1,29 @@
 [
   {
     "case": "wcc-first-help-frontier",
-    "workspace": "/tmp/recon/run-jrOdU0",
+    "workspace": "/tmp/recon/run-rpE1KL",
     "pass": true,
     "terminal": "signal:5",
     "logical_exit_code": null,
     "first_entry_order": [
       294007,
       294677,
-      420398
+      420398,
+      293769
     ],
     "tests": false,
     "process_requests": null,
-    "trap_rva": 420398,
-    "trap_site": 4154223238,
-    "elapsed_ms": 5.126771,
-    "setup_ms": 2.571929,
-    "execution_ms": 2.141842,
-    "checks_ms": 0.412807,
+    "trap_rva": 293769,
+    "trap_site": 4154051624,
+    "elapsed_ms": 5.716393999999999,
+    "setup_ms": 3.1987089999999996,
+    "execution_ms": 2.0525870000000004,
+    "checks_ms": 0.464644,
     "errors": [],
     "original_reference": {
-      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/build/meminit-original-report.json",
-      "report_sha256": "a7e1b26aabba5d3bd83b6a18ee496dc359119dd0f626204a36ab5da057a7af21",
-      "capture_sha256": "5f50163b7ca0ffcaf9c445d6455009dd5bd78aa3c342282171efa0c2ee344f11",
+      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/build/getter-debugger-original-report.json",
+      "report_sha256": "638f94cbbac5da3b8205d4d4c7f105b537b3cd37071056cc53fc774127962b1b",
+      "capture_sha256": "2408553b3762d462de218db9a166a6d15d4e6d60e8754280fd90be856f189d73",
       "source_binding_available": true
     }
   }

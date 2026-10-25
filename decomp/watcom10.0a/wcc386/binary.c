@@ -12,6 +12,10 @@ static const ReconFunction functions[] = {
         .entry_rva = 0x2fe00,
         .code = (const ReconExtent[]) { {0x2fe00, 0x2feb4} },
         .code_count = 1,
+        /* Saved DS word written by startup; startup-evidence.json
+         * records this cell separately from executable instructions. */
+        .text_data = (const ReconExtent[]) { {0x2fdfe, 0x2fe00} },
+        .text_data_count = 1,
         .definition = RECON_CRT,
         .implementation = 0,
         .native_symbol = NULL,
@@ -97,7 +101,8 @@ static const ReconFunction functions[] = {
         .native_symbol = "MemFromSys", .original_symbol = "MemFromSys_",
     },
     { .name="GetEnvVar", .entry_rva=0x66a2e, .definition=RECON_APP,
-      .implementation=RECON_UNIMPLEMENTED, .native_symbol="GetEnvVar", .original_symbol="GetEnvVar_" },
+      .code=(const ReconExtent[]){{0x66a2e,0x66a42}}, .code_count=1,
+      .implementation=RECON_IMPLEMENTED, .native_symbol="GetEnvVar", .original_symbol="GetEnvVar_" },
     { .name="myatoi", .entry_rva=0x47f84, .definition=RECON_APP,
       .implementation=RECON_UNIMPLEMENTED, .native_symbol="myatoi", .original_symbol="myatoi_" },
     { .name="myitoa", .entry_rva=0x47fa0, .definition=RECON_APP,
@@ -106,6 +111,16 @@ static const ReconFunction functions[] = {
       .implementation=RECON_UNIMPLEMENTED, .native_symbol="CopyStr", .original_symbol="CopyStr_" },
     { .name="Length", .entry_rva=0x3d9e0, .definition=RECON_APP,
       .implementation=RECON_UNIMPLEMENTED, .native_symbol="Length", .original_symbol="Length_" },
+    /* Exact shipped CLIB3R members. Native calls shared getenv; no local
+     * CRT bodies or runtime admission follows from these identities. */
+    { .name="getenv", .entry_rva=0x2be1d,
+      .code=(const ReconExtent[]){{0x2be1d,0x2be77}}, .code_count=1,
+      .definition=RECON_CRT, .implementation=0,
+      .native_symbol=NULL, .original_symbol="getenv_" },
+    { .name="strnicmp", .entry_rva=0x328b9,
+      .code=(const ReconExtent[]){{0x328b9,0x32910}}, .code_count=1,
+      .definition=RECON_CRT, .implementation=0,
+      .native_symbol=NULL, .original_symbol="strnicmp_" },
     /* External write alias known at this entry; exact wrapper classification
      * and native binding remain unqualified. Optional WCGMEMORY output holds. */
     { .name="write", .entry_rva=0x2f815, .definition=RECON_UNKNOWN,
