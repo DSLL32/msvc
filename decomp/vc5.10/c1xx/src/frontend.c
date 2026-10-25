@@ -97,7 +97,12 @@ FrontendData frontend_data = {
     C1XX_SCANNER_DEFAULTS,
     0, /* recursion_depth */
     NULL, NULL, 0, 0, NULL, 0, /* encountered driver data */
-    { NULL }, 1, 0, 0, 0, 0, 0, 0, 0, NULL /* frontend initialization data */
+    { NULL }, 1, 0, 0, 0, 0, 0, 0, 0, NULL, /* frontend initialization data */
+    0, NULL, NULL, /* browser mode, named browser, initial backend */
+    { NULL }, /* canonical token records */
+    NULL, NULL, NULL, NULL, /* keyword table/current, pointer table/empty */
+    0, /* PCH expression file */
+    5 /* constant_arena_index, original cd88c */
 };
 FrontendBss frontend_bss;
 int restore_mode;

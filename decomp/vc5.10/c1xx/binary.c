@@ -7,6 +7,7 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x3fdc, 0x401f}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "allocate_integer_constant",
+        .implementation = RECON_IMPLEMENTED,
     },
 
     {

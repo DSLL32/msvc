@@ -55,6 +55,7 @@ int c1xx_test_exception_counters(void)
     frontend_data.pch_expression_file = 149;
     frontend_bss.expression_seek_result = 151;
     frontend_bss.output_buffers[3].filename[259] = 113;
+    frontend_data.constant_arena_index = 7;
     frontend_data.browser_mode = 139;
     frontend_data.named_browser = (struct CompilerBackend *)&frontend_data;
     frontend_data.initial_backend = (struct CompilerBackend *)&frontend_data;
@@ -85,5 +86,6 @@ int c1xx_test_exception_counters(void)
         frontend_data.named_browser == NULL && frontend_data.initial_backend == NULL &&
         frontend_data.canonical_token_records[137] == NULL && frontend_data.keyword_table == NULL && frontend_data.current_identifier == NULL && frontend_data.frontend_pointer_table == NULL && frontend_data.empty_pointer_array == NULL && frontend_data.pch_expression_file == 0 &&
         frontend_bss.expression_seek_result == 0 &&
-        frontend_bss.output_buffers[3].filename[259] == 0;
+        frontend_bss.output_buffers[3].filename[259] == 0 &&
+        frontend_data.constant_arena_index == 5;
 }

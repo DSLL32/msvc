@@ -55,6 +55,7 @@ typedef struct FrontendData {
     struct CompilerPointerArray *frontend_pointer_table; /* cc5b4, NULL */
     struct CompilerPointerArray *empty_pointer_array; /* cc6b0, NULL; temporary guard1 */
     int pch_expression_file; /* cd4e0, zero */
+    unsigned constant_arena_index; /* cd88c, original initialized5 */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
