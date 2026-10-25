@@ -565,3 +565,17 @@ void convert_old_symbol_bprel32(void)
     while (padding--) *old_symbol_output++ = 0;
     *(unsigned short *)(record+8) = convert_old_type(*(unsigned short *)(record+8));
 }
+
+void convert_old_symbol_data32(void)
+{
+    unsigned char *record = old_symbol_output;
+    unsigned short length = old_symbol_input[0]+3;
+    unsigned short count = old_symbol_input[0]-1;
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)record = (unsigned short)(((length+3)&0xfffc)-2);
+    old_symbol_input += 2;
+    old_symbol_output += 4;
+    while (count--) *old_symbol_output++ = *old_symbol_input++;
+    while (padding--) *old_symbol_output++ = 0;
+    *(unsigned short *)(record+10) = convert_old_type(*(unsigned short *)(record+10));
+}
