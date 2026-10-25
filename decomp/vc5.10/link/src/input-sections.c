@@ -5,6 +5,7 @@
 #include "input.h"
 #include "memory.h"
 #include "sections.h"
+#include "comdat.h"
 #include "full-link-functions.h"
 #include <recon.h>
 
@@ -24,7 +25,6 @@ void __stdcall remember_mac_module_name(const char *);
 void __stdcall mark_incremental_contribution(Contribution *);
 BYTE __stdcall read_comdat_section(LinkContext *,Contribution *,IMAGE_SYMBOL *,DWORD,char **);
 void __stdcall read_section_directives(LinkContext *,Contribution *,const char *,InputArguments *);
-void *__stdcall add_comdat_reference(DWORD ,Contribution *,Contribution *);
 void __stdcall read_section_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,OutputModule *);
 DWORD __stdcall mac_contribution_padding(DWORD);
 
@@ -174,7 +174,6 @@ void __stdcall read_section_directives(LinkContext *context,Contribution *contri
     else process_module_directives(context,contribution,directives);
     release_memory(directives);
 }
-void *__stdcall add_comdat_reference(DWORD symbol_index,Contribution *parent,Contribution *child) { __asm { int 3 } return NULL; }
 DWORD __stdcall mac_contribution_padding(DWORD size) { __asm { int 3 } return 0; }
 void __stdcall add_module_to_list(ModuleListNode **list,OutputModule *module) { __asm { int 3 } }
 char *__stdcall next_directive_token(char *,BYTE *);

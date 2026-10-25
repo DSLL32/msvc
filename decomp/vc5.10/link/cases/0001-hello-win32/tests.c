@@ -4,6 +4,7 @@
 #include <string.h>
 #include "../../src/input.h"
 #include "../../src/memory.h"
+#include "../../src/comdat.h"
 #include "../../src/initializers.h"
 #include "../../src/files.h"
 #include "../../src/options.h"
@@ -826,7 +827,7 @@ static BYTE __stdcall check_x86_classify(Contribution *contribution,WORD type,DW
         type==6 && !mode && !vxd && total_relocation_count==8 &&
         relocation_data_active==1 && relocations_mapped==1 &&
         buffer4.remaining==1 && ((ContributionInfo **)buffer4.base)[0]==info &&
-        !info->reserved14);
+        !info->fold_signature);
     return 0;
 }
 static int x86_classify(void)
@@ -847,7 +848,7 @@ static void __stdcall check_relocation_reference(LinkContext *context,Contributi
         symbols!=(IMAGE_SYMBOL *)((BYTE *)file->view+1135) ||
         relocation!=(IMAGE_RELOCATION *)((BYTE *)file->view+543) ||
         relocation->VirtualAddress!=39 || relocation->SymbolTableIndex!=17 ||
-        relocation->Type!=6 || info->reference_count!=8 || info->reserved14 ||
+        relocation->Type!=6 || info->reference_count!=8 || info->fold_signature ||
         info->references!=comdat_reference_arena->base || comdat_reference_arena->used!=96)
         recon_native_entry_finish(0);
     for(i=0;i<96;++i) if(comdat_reference_arena->base[i]) recon_native_entry_finish(0);
@@ -858,7 +859,7 @@ static int relocation_reference(void)
     return recon_native_at_entry(record_relocation_reference,check_relocation_reference,
         invoke_hello,NULL)==1;
 }
-extern void *__stdcall add_comdat_reference(DWORD ,Contribution *,Contribution *);
+extern void *__stdcall add_comdat_reference(DWORD,Contribution *,Contribution *);
 static void *__stdcall check_comdat_reference(DWORD symbol_index,Contribution *parent,
     Contribution *child)
 {
@@ -869,7 +870,7 @@ static void *__stdcall check_comdat_reference(DWORD symbol_index,Contribution *p
     unsigned i;
     if (symbol_index!=17 || parent!=(Contribution *)module->contributions+1 ||
         child || symbols[symbol_index].StorageClass!=IMAGE_SYM_CLASS_EXTERNAL ||
-        info->reserved00 || info->reference_count!=8 ||
+        info->references_used || info->reference_count!=8 ||
         info->references!=comdat_reference_arena->base || comdat_reference_arena->used!=96)
         recon_native_entry_finish(0);
     for(i=0;i<96;++i) if(comdat_reference_arena->base[i]) recon_native_entry_finish(0);
@@ -879,6 +880,37 @@ static void *__stdcall check_comdat_reference(DWORD symbol_index,Contribution *p
 static int comdat_reference(void)
 {
     return recon_native_at_entry(add_comdat_reference,check_comdat_reference,
+        invoke_hello,NULL)==1;
+}
+extern void __stdcall release_relocations(IMAGE_RELOCATION *);
+static void __stdcall check_completed_references(IMAGE_RELOCATION *relocations)
+{
+    static const DWORD indices[8]={17,16,15,14,13,10,9,8};
+    OutputModule *module=current_input_library->module_head;
+    FileRecord *file=file_slots[current_input_file];
+    Contribution *contribution=(Contribution *)module->contributions+1;
+    ContributionInfo expected[7];
+    ComdatReference references[8];
+    unsigned i;
+    memset(expected,0,sizeof(expected));
+    memset(references,0,sizeof(references));
+    expected[1].references_used=8;
+    expected[1].reference_count=8;
+    expected[1].references=comdat_reference_arena->base;
+    expected[1].name=(char *)(comdat_names+1);
+    expected[1].fold_signature=0xa81a7f01;
+    expected[1].fold_candidate=contribution;
+    for (i=0;i<8;++i) references[i].symbol_index=indices[i];
+    recon_native_entry_finish(relocations==(IMAGE_RELOCATION *)((BYTE *)file->view+543) &&
+        !memcmp(module->contribution_info,expected,sizeof(expected)) &&
+        !memcmp(comdat_reference_arena->base,references,sizeof(references)) &&
+        comdat_reference_arena->used==96 && comdat_reference_arena->remaining==4000 &&
+        total_relocation_count==8 && relocation_data_active==1 && relocations_mapped==1 &&
+        !module->base_relocation_size);
+}
+static int completed_references(void)
+{
+    return recon_native_at_entry(release_relocations,check_completed_references,
         invoke_hello,NULL)==1;
 }
 const ReconTest hello_tests[]={
@@ -921,5 +953,6 @@ const ReconTest hello_tests[]={
     {"x86-relocation-read",1,x86_relocation_read},
     {"x86-classifier",1,x86_classify},
     {"relocation-reference",1,relocation_reference},
-    {"comdat-reference",1,comdat_reference}
+    {"comdat-reference",1,comdat_reference},
+    {"completed-references",1,completed_references}
 };

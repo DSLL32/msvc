@@ -332,7 +332,7 @@ static const ReconFunction functions[] = {
     {"_mark_incremental_contribution@4",0x5eef0,(const ReconExtent[]){{0x5eef0,0x5ef41}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"mark_incremental_contribution",NULL,NULL,0,NULL},
     {"_read_comdat_section@20",0x5ff70,(const ReconExtent[]){{0x5ff70,0x60724}},1,(const ReconExtent[]){{0x60724,0x6073c}},1,RECON_APP,RECON_IMPLEMENTED,"read_comdat_section",NULL,NULL,0,NULL},
     {"_read_section_directives@16",0x5e910,(const ReconExtent[]){{0x5e910,0x5ea66}},1,(const ReconExtent[]){{0x2170,0x2174},{0x21b8,0x21c1}},2,RECON_APP,RECON_IMPLEMENTED,"read_section_directives",NULL,NULL,0,NULL},
-    {"_add_comdat_reference@12",0x62fe0,(const ReconExtent[]){{0x62fe0,0x63072}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_comdat_reference",NULL,NULL,0,NULL},
+    {"_add_comdat_reference@12",0x62fe0,(const ReconExtent[]){{0x62fe0,0x63072}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"add_comdat_reference",NULL,NULL,0,NULL},
     {"_create_incremental_symbol@20",0x619d0,(const ReconExtent[]){{0x619d0,0x619d1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"create_incremental_symbol",NULL,NULL,0,NULL},
     {"_redirect_comdat_reference@8",0x63910,(const ReconExtent[]){{0x63910,0x63911}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"redirect_comdat_reference",NULL,NULL,0,NULL},
     {"_record_relocation_reference@16",0x63080,(const ReconExtent[]){{0x63080,0x63150}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"record_relocation_reference",NULL,NULL,0,NULL},

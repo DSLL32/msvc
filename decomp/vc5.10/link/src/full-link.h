@@ -18,12 +18,12 @@ typedef struct SectionFileMap {
 typedef char SectionFileMapSize[(sizeof(SectionFileMap)==8)?1:-1];
 /* Internal per-contribution records at module+60h, separate from COFF headers. */
 typedef struct ContributionInfo {
-    WORD reserved00,reference_count;
+    WORD references_used,reference_count;
     void *references;
-    DWORD reserved08;
+    struct ContributionInfo *reference_overflow;
     Contribution *previous_contribution;
     const char *name;
-    DWORD reserved14,reserved18,reserved1c;
+    DWORD fold_signature,reserved18,reserved1c;
     Contribution *fold_candidate;
     DWORD reserved24;
 } ContributionInfo;

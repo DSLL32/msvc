@@ -2,6 +2,7 @@
 #include <string.h>
 #include "input.h"
 #include "initializers.h"
+#include "comdat.h"
 #include "full-link-functions.h"
 __declspec(dllimport) DWORD __cdecl SigForPbCb(const void *,long,DWORD);
 #include <recon.h>
@@ -49,20 +50,11 @@ DWORD __stdcall read_x86_relocations(LinkContext *context,Contribution *contribu
     if (folding) {
         checksum=SigForPbCb(&contribution->characteristics,4,checksum);
         checksum=SigForPbCb(&contribution->comdat_selection,1,checksum);
-        ((ContributionInfo **)buffer4.base)[buffer4.remaining-1]->reserved14=checksum;
+        ((ContributionInfo **)buffer4.base)[buffer4.remaining-1]->fold_signature=checksum;
     }
     return total;
 }
-/* This public prefix is the 12-byte reference record consumed here. Its first
- * two slots are alternatives populated by the reference constructor. */
-typedef struct ComdatReference {
-    DWORD symbol_index;
-    Contribution *contribution;
-    union { DWORD flags; BYTE flag_byte; Contribution *redirected; };
-} ComdatReference;
-typedef char ComdatReferenceSize[(sizeof(ComdatReference)==12)?1:-1];
 extern BYTE incremental_enabled;
-void *__stdcall add_comdat_reference(DWORD ,Contribution *,Contribution *);
 IMAGE_SYMBOL *__stdcall create_incremental_symbol(LinkContext *,Contribution *,DWORD,IMAGE_SYMBOL *,BYTE);
 void __stdcall redirect_comdat_reference(ComdatReference *,Contribution *);
 void __stdcall record_relocation_reference(LinkContext *context,Contribution *contribution,

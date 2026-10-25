@@ -6195,6 +6195,11 @@
         "expected_cleanup": [
           16
         ]
+      },
+      "_add_comdat_reference@12": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   }

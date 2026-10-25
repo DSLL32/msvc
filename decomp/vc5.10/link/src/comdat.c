@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <string.h>
 #include "memory.h"
+#include "comdat.h"
 #include "full-link-functions.h"
 #include <recon.h>
 
@@ -8,6 +9,7 @@
  * VirtualAlloc arena headers used for relocation references at49492c. */
 MemoryPool *comdat_names;
 MemoryArena *comdat_reference_arena;
+MemoryArena *comdat_overflow_arena;
 Contribution *last_comdat;
 void __cdecl initialize_comdats(void)
 {
@@ -30,7 +32,7 @@ void __stdcall attach_comdat(Contribution *contribution,const char *name,BYTE li
     info->fold_candidate=contribution;
     info->reserved24=0;
     info->reserved1c=0;
-    info->reserved14=0;
+    info->fold_signature=0;
     info->reserved18=0;
     if (last_comdat) info->previous_contribution=last_comdat;
     last_comdat=contribution;
@@ -42,4 +44,30 @@ char *__stdcall duplicate_comdat_name(const char *name)
     char *copy=(char *)allocate_pool_memory(&comdat_names,strlen(name)+1);
     memcpy(copy,name,strlen(name)+1);
     return copy;
+}
+void *__stdcall add_comdat_reference(DWORD symbol_index,Contribution *parent,Contribution *child)
+{
+    ContributionInfo *info=get_contribution_info(parent);
+    ComdatReference *reference;
+    WORD index;
+    while (info->references_used==info->reference_count) {
+        if (!info->reference_count) {
+            info->reference_count=8;
+            info->references=reserve_memory(&comdat_reference_arena,96);
+            break;
+        }
+        if (!info->reference_overflow)
+            info->reference_overflow=(ContributionInfo *)reserve_memory(&comdat_overflow_arena,40);
+        info=info->reference_overflow;
+    }
+    index=info->references_used++;
+    reference=(ComdatReference *)info->references+index;
+    if (child) {
+        reference->contribution=child;
+        reference->flags=0;
+    } else {
+        reference->flags=0;
+        reference->symbol_index=symbol_index;
+    }
+    return reference;
 }
