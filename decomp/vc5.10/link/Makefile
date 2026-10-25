@@ -8,7 +8,7 @@ NATIVE_CPPFLAGS = -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TRACE -DRECON_NA
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
 NATIVE_CXXFLAGS = -nostdinc++ -fno-exceptions -fno-rtti
 BINARY_SOURCES = src/option-stubs.c src/symbols.c src/string-storage.c src/buffers.c src/arguments.c src/reproduction.c src/memory.c src/files.c src/driver-stubs.c src/driver.c src/initializers.c src/full-link-init.c src/comdat.c src/sections.c src/libraries.c src/input.c src/machine.c src/module-index.c src/symbol-input.c src/input-sections.c src/default-libraries.c src/comdat-input.cpp src/symbol-table.cpp src/link-driver.cpp src/options.cpp src/full-link.cpp src/full-link-stubs.cpp src/section-driver.cpp src/pass-one.cpp src/input-machine.cpp src/input-module.cpp src/object-loader.cpp harness/startup.c
-BINARY_SOURCES += src/input-relocations.cpp src/x86-relocations.c src/symbol-buffer.cpp
+BINARY_SOURCES += src/input-relocations.cpp src/x86-relocations.c src/module-symbols.cpp src/module-symbol-stubs.c
 BINARY_SUPPORT_SOURCES = $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
 ORIGINAL_TOOLCHAIN = 5.10
@@ -30,7 +30,7 @@ RECON_AUDIT_REGISTRY_RUNTIME = 1
 RECON_AUDIT_REGISTRY_RET_CHECKS = 1
 RECON_METADATA_REBUILT_MAP = build/link.map
 RECON_AUDIT_PREREQUISITES = policy-contracts.json
-RECON_AUDIT_FLAGS = --original $(RECON_REPO_ROOT)/toolchains/5.10/bin/LINK.EXE -q --discovery cfg --check-imports --check-references --check-ownership --check-extents --check-callbacks --include-evidenced-runtime
+RECON_AUDIT_FLAGS = --original $(RECON_REPO_ROOT)/toolchains/5.10/bin/LINK.EXE -q --discovery cfg --check-imports --check-references --check-ownership --check-extents --check-callbacks --include-evidenced-runtime --export-instructions
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
 RECON_RUNTIME_FLAGS = --library MSVCRT.LIB
@@ -52,3 +52,13 @@ build/mspdb50.lib: src/mspdb50.def
 
 # C++ test glue uses only the existing shared CRT compatibility layer.
 cases/0002-symbol-buffer-dtor/.build/case.so: CASE_LDFLAGS += -nostdlib++
+
+# This authentic C++ lifetime is optimized away on normal paths in the original.
+# Only this TU needs inlining before instrumentation; its real App outlines stay.
+.build/pic/src/module-symbols.cpp.o: NATIVE_CXXFLAGS := $(filter-out -O0 -fno-inline -finstrument-functions,$(NATIVE_CXXFLAGS)) -O2 -finstrument-functions-after-inlining
+build/obj/src/module-symbols.cpp.obj: ORIGINAL_CFLAGS += /O2 /GX
+
+.PHONY: check-symbol-eh
+audit: check-symbol-eh
+check-symbol-eh: recon-graph-audit
+	$(PYTHON) -E harness/check-symbol-eh.py --report $(RECON_AUDIT_REPORT) --original ../../../toolchains/5.10/bin/LINK.EXE --rebuilt $(ORIGINAL_OUTPUT)

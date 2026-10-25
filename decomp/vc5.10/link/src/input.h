@@ -52,7 +52,7 @@ BYTE __stdcall read_coff_header(int,IMAGE_FILE_HEADER *,void *,BYTE *);
 void __stdcall validate_import_object_header(void *);
 OutputModule *__stdcall create_input_module(const char *,const char *,const void *,IMAGE_FILE_HEADER *,OutputLibrary *,BYTE *,BYTE,DWORD,IMAGE_SECTION_HEADER *,BYTE *,void *,DWORD);
 void __stdcall allocate_module_section_headers(OutputModule *);
-void __stdcall load_object_module(LinkContext *,void *,OutputModule *,WORD);
+void __stdcall load_object_module(LinkContext *,void *,OutputModule *,DWORD);
 void __stdcall infer_output_file_name(LinkContext *,InputArgument *);
 typedef char OutputModuleInputTagAt34[(offsetof(OutputModule,input_tag)==0x34)?1:-1];
 typedef char OutputModuleTimestampAt38[(offsetof(OutputModule,timestamp)==0x38)?1:-1];

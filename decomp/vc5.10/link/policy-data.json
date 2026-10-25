@@ -4470,6 +4470,26 @@
             }
           ]
         }
+      },
+      "_process_module_symbols@24": {
+        "original": {
+          "roots": [
+            4609488,
+            4609499
+          ]
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_process_module_symbols@24",
+              "offset": 2864
+            },
+            {
+              "rebuilt_symbol": "_process_module_symbols@24",
+              "offset": 2875
+            }
+          ]
+        }
       }
     },
     "callback_tables": [
@@ -6211,6 +6231,32 @@
           0
         ]
       }
+    }
+  },
+  "function_properties": {
+    "_process_module_symbols@24": {
+      "rebuilt_code_chunks": [
+        [
+          {
+            "rebuilt_symbol": "_process_module_symbols@24",
+            "offset": 2864
+          },
+          {
+            "rebuilt_symbol": "_process_module_symbols@24",
+            "offset": 2875
+          }
+        ],
+        [
+          {
+            "rebuilt_symbol": "_process_module_symbols@24",
+            "offset": 2875
+          },
+          {
+            "rebuilt_symbol": "_process_module_symbols@24",
+            "offset": 2885
+          }
+        ]
+      ]
     }
   }
 }

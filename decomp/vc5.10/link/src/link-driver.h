@@ -25,7 +25,7 @@ typedef struct LinkOptions {
     const char *mac_creator, *mac_type;
     DWORD reserved164;
     const char *default_extension;
-    DWORD reserved16c[5];
+    BYTE reserved16c,librarian_skip_directive_symbols,reserved16e[18];
     BYTE default180, reserved181[15];
 } LinkOptions;
 
@@ -98,7 +98,9 @@ struct LinkContext {
     DWORD reserved24c[2], mac_module_count, reserved258;
     void *mac_modules;
     LinkAuxiliaryData *auxiliary;
-    BYTE reserved264[36];
+    BYTE reserved264[24];
+    void *incremental_symbols;
+    BYTE reserved280[8];
     Contribution *incremental_contribution;
     BYTE ignore_directives, reserved28d[3];
     DWORD reserved290;
@@ -185,4 +187,7 @@ typedef char LinkContextSize[(sizeof(LinkContext)==664)?1:-1];
 typedef char LinkContextOptionalAt44[(offsetof(LinkContext,optional_header)==0x44)?1:-1];
 typedef char LinkContextOptionsAt124[(offsetof(LinkContext,options)==0x124)?1:-1];
 typedef char LinkContextVxdAt1e4[(offsetof(LinkContext,is_vxd)==0x1e4)?1:-1];
+typedef char LibrarianDirectiveFlagAt16d[(offsetof(LinkContext,options)+
+    offsetof(LinkOptions,librarian_skip_directive_symbols)==0x16d)?1:-1];
+typedef char IncrementalSymbolContextAt27c[(offsetof(LinkContext,incremental_symbols)==0x27c)?1:-1];
 #endif

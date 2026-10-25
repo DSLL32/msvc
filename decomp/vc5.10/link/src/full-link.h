@@ -66,7 +66,7 @@ struct OutputModule {
     BYTE reserved20[8];
     DWORD base_relocation_size;
     SectionFileMap *section_map;
-    DWORD reserved30, input_tag, timestamp, file_size;
+    DWORD compiler_id, input_tag, timestamp, file_size;
     DWORD section_offset;
     void *optional_data;
     IMAGE_SECTION_HEADER *section_headers;
@@ -125,6 +125,7 @@ struct Contribution {
     void RECON_THISCALL ReadConvertedRelocations(void *buffer,DWORD bytes);
 #endif
 };
+typedef char ModuleCompilerIdAt30[(offsetof(OutputModule,compiler_id)==0x30)?1:-1];
 typedef char ModuleContributionCountAt1c[(offsetof(OutputModule,contribution_count)==0x1c)?1:-1];
 typedef char ContributionAssociationAndPadding[(offsetof(Contribution,associated_contribution)==0x10 && offsetof(Contribution,padding)==0x14)?1:-1];
 typedef char ContributionSize[(sizeof(Contribution)==64)?1:-1];

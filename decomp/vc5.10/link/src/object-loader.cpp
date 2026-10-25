@@ -15,13 +15,14 @@ extern unsigned module_section_capacity;
 extern BYTE file_access_statistics;
 void __stdcall resize_module_section_buffers(unsigned);
 char *current_module_strings;
-DWORD *current_module_symbol_indices,*section_symbol_ranges;
+StringNode **current_module_symbols;
+DWORD *section_symbol_ranges;
 IMAGE_SYMBOL *__stdcall read_module_symbols(DWORD,DWORD,BYTE);
 char *__stdcall read_module_string_table(const char *,DWORD,DWORD *);
 void __stdcall add_input_section(LinkContext *,OutputModule *,DWORD,
     IMAGE_SECTION_HEADER *,IMAGE_SYMBOL *,InputArguments *);
 void __stdcall process_module_symbols(LinkContext *,OutputModule *,void *,
-    IMAGE_SYMBOL *,WORD,BYTE);
+    IMAGE_SYMBOL *,DWORD,BYTE);
 BYTE __stdcall process_incremental_sections(LinkContext *,OutputModule *,InputArguments *);
 void __stdcall record_module_comdats(OutputModule *);
 void __stdcall release_module_strings(char *);
@@ -29,7 +30,7 @@ void __stdcall release_module_symbols(IMAGE_SYMBOL *);
 }
 
 void __stdcall load_object_module(LinkContext *context,void *parent,
-    OutputModule *module,WORD flags)
+    OutputModule *module,DWORD flags)
 {
     IMAGE_SECTION_HEADER *headers;
     IMAGE_SYMBOL *symbols;
@@ -53,7 +54,7 @@ void __stdcall load_object_module(LinkContext *context,void *parent,
             module->identity : module->library->name),
         offset+module->symbol_count*18+module->symbol_offset,&strings_size);
     coff_string_size+=strings_size;
-    current_module_symbol_indices=(DWORD *)zero_allocate(module->symbol_count*4);
+    current_module_symbols=(StringNode **)zero_allocate(module->symbol_count*4);
     if (mac_target && !(module->characteristics & 0x4000))
         process_module_symbols(context,module,parent,symbols,flags,1);
     pending_arguments.first=pending_arguments.last=NULL;
@@ -67,7 +68,7 @@ void __stdcall load_object_module(LinkContext *context,void *parent,
     module->section_map=NULL;
     release_module_strings(current_module_strings);
     release_module_symbols(symbols);
-    release_memory(current_module_symbol_indices);
+    release_memory(current_module_symbols);
     current_module_strings=NULL;
     if (section_symbol_ranges) {
         release_memory(section_symbol_ranges);
@@ -108,11 +109,6 @@ IMAGE_SECTION_HEADER *RECON_THISCALL OutputModule::ReadSectionHeaders(IMAGE_SECT
     }
     if (result) *result=headers;
     return headers;
-}
-void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
-    void *parent,IMAGE_SYMBOL *symbols,WORD flags,BYTE first_pass)
-{
-    __asm { int 3 }
 }
 BYTE __stdcall process_incremental_sections(LinkContext *context,OutputModule *module,
     InputArguments *pending)

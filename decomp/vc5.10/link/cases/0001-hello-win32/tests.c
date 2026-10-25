@@ -14,7 +14,7 @@
 extern MemoryArena *section_header_arena;
 
 static void __stdcall check_section_headers(LinkContext *context,void *parent,
-    OutputModule *module,WORD flags)
+    OutputModule *module,DWORD flags)
 {
     unsigned i;
     BYTE *bytes;
@@ -135,7 +135,7 @@ static int symbol_mapping(void)
 extern BYTE module_strings_active,module_strings_mapped;
 extern ByteBuffer string_read_buffer;
 extern char *current_module_strings;
-extern DWORD *current_module_symbol_indices;
+extern StringNode **current_module_symbols;
 extern DWORD coff_string_size;
 extern void __stdcall add_input_section(LinkContext *,OutputModule *,DWORD,
     IMAGE_SECTION_HEADER *,IMAGE_SYMBOL *,InputArguments *);
@@ -151,9 +151,9 @@ static void __stdcall check_string_mapping(LinkContext *context,OutputModule *mo
         module_strings_active==1 && module_strings_mapped==1 &&
         module_symbols_active==1 && module_symbols_mapped==1 &&
         !string_read_buffer.data && !string_read_buffer.capacity &&
-        current_module_symbol_indices && pending && file->file_size==300;
+        current_module_symbols && pending && file->file_size==300;
     if (!pass) recon_native_entry_finish(0);
-    for (i=0;i<37;++i) if (current_module_symbol_indices[i]) recon_native_entry_finish(0);
+    for (i=0;i<37;++i) if (current_module_symbols[i]) recon_native_entry_finish(0);
     for (i=0;i<sizeof(*pending);++i) if (((BYTE *)pending)[i]) recon_native_entry_finish(0);
     recon_native_entry_finish(1);
 }
@@ -913,9 +913,9 @@ static int completed_references(void)
     return recon_native_at_entry(release_relocations,check_completed_references,
         invoke_hello,NULL)==1;
 }
-extern void __stdcall process_module_symbols(LinkContext *,OutputModule *,void *,IMAGE_SYMBOL *,WORD,BYTE);
+extern void __stdcall process_module_symbols(LinkContext *,OutputModule *,void *,IMAGE_SYMBOL *,DWORD,BYTE);
 static void __stdcall check_sections_complete(LinkContext *context,OutputModule *module,void *parent,
-    IMAGE_SYMBOL *symbols,WORD flags,BYTE first_pass)
+    IMAGE_SYMBOL *symbols,DWORD flags,BYTE first_pass)
 {
     FileRecord *file=file_slots[current_input_file];
     recon_native_entry_finish(context && module==current_input_library->module_head &&
@@ -929,7 +929,26 @@ static int sections_complete(void)
     return recon_native_at_entry(process_module_symbols,check_sections_complete,
         invoke_hello,NULL)==1;
 }
+extern IMAGE_SYMBOL *__stdcall next_coff_symbol(IMAGE_SYMBOL **);
+static IMAGE_SYMBOL *__stdcall check_symbol_cursor(IMAGE_SYMBOL **cursor)
+{
+    OutputModule *module=current_input_library->module_head;
+    FileRecord *file=file_slots[current_input_file];
+    unsigned i;
+    if(!cursor || *cursor!=(IMAGE_SYMBOL *)((BYTE *)file->view+1135) ||
+        module->symbol_count!=37 || module->compiler_id || !current_module_symbols ||
+        relocation_data_active || total_relocation_count!=21)
+        recon_native_entry_finish(0);
+    for(i=0;i<37;++i) if(current_module_symbols[i])recon_native_entry_finish(0);
+    recon_native_entry_finish(1);
+    return NULL;
+}
+static int symbol_cursor(void)
+{
+    return recon_native_at_entry(next_coff_symbol,check_symbol_cursor,invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"symbol-cursor-call",1,symbol_cursor},
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
     {"section-header-read",1,section_header_read},

@@ -33,9 +33,13 @@ static void destroy(BufferLayout *object)
     (((OriginalCleanup *)object)->*target.method)();
 }
 #else
+/* Retained native base-destructor entry; single nonvirtual base has the same
+ * ECX/RET0 ABI. Bind the real symbol without creating a wrapper vertex. */
+extern "C" void RECON_THISCALL native_buffer_cleanup(ScopedBuffer *)
+    __asm__("_ZN12ScopedBufferD2Ev");
 static void destroy(BufferLayout *object)
 {
-    ((ScopedBuffer *)object)->~ScopedBuffer();
+    native_buffer_cleanup((ScopedBuffer *)object);
 }
 #endif
 static void fail(void)
