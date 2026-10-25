@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 7,
-  "accepted_app_bytes": 269,
+  "accepted_app_functions": 8,
+  "accepted_app_bytes": 287,
   "accepted": [
     {
       "name": "main",
@@ -59,10 +59,18 @@
         109223
       ],
       "evidence": "cases/0001-help/evidence/0007-new-block"
+    },
+    {
+      "name": "GenMSOmfInit",
+      "extent": [
+        113488,
+        113506
+      ],
+      "evidence": "cases/0001-help/evidence/0008-genmsomf-init"
     }
   ],
-  "current_frontier": "GenMSOmfInit",
-  "native_ms": 5.246673,
+  "current_frontier": "PObjRegList",
+  "native_ms": 5.5150060000000005,
   "original_ms": 1527.051,
-  "last_audit_ms": 13.999853283166885
+  "last_audit_ms": 13.347230851650238
 }

@@ -43,6 +43,29 @@ void Fatal(unsigned message, ...);
 void newBlk(cv_t *cv);
 carve_t CarveCreate(size_t elm_size, size_t blk_size);
 void ObjRecInit(void);
+typedef struct obj_rec obj_rec;
+typedef struct pobj_state pobj_state;
+typedef int (*pobj_filter)(obj_rec *objr, pobj_state *state);
+#pragma pack(1)
+typedef struct pobj_list {
+    unsigned char command, pass;
+    pobj_filter func;
+} pobj_list;
+#pragma pack()
+int writeTheadr(obj_rec *objr, pobj_state *state);
+int writeComent(obj_rec *objr, pobj_state *state);
+int writeModend(obj_rec *objr, pobj_state *state);
+int writeMisc(obj_rec *objr, pobj_state *state);
+int writeSegdef(obj_rec *objr, pobj_state *state);
+int writeLedata(obj_rec *objr, pobj_state *state);
+int writeFixup(obj_rec *objr, pobj_state *state);
+int writePubdef(obj_rec *objr, pobj_state *state);
+int writeLinnum(obj_rec *objr, pobj_state *state);
+int writeLidata(obj_rec *objr, pobj_state *state);
+int writeMisc32(obj_rec *objr, pobj_state *state);
+int writeComdat(obj_rec *objr, pobj_state *state);
+int writeLinsym(obj_rec *objr, pobj_state *state);
+void PObjRegList(const pobj_list *list, size_t len);
 void GenMSOmfInit(void);
 int main(int argc, char **argv);
 void main_init(void);
