@@ -53,6 +53,7 @@ typedef struct FrontendData {
     struct CompilerKeywordTable *keyword_table; /* cc430, NULL; pointee not yet read */
     struct CompilerIdentifier *current_identifier; /* cc450, NULL */
     struct CompilerPointerArray *frontend_pointer_table; /* cc5b4, NULL */
+    struct CompilerPointerArray *empty_pointer_array; /* cc6b0, NULL; temporary guard1 */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */

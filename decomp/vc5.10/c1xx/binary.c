@@ -3,10 +3,19 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_pointer_array_size", .entry_rva = 0x149ba,
+        .code = (const ReconExtent[]){{0x149ba, 0x149c7}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "pointer_array_size",
+        .implementation = RECON_IMPLEMENTED,
+    },
+
+    {
         .name = "_new_pointer_array", .entry_rva = 0x14954,
-        .code = (const ReconExtent[]){{0x14954, 0x14955}},
+        .code = (const ReconExtent[]){{0x14954, 0x149ba}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "new_pointer_array",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_grow_pointer_array", .entry_rva = 0x4c5c9,

@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 116 accepted application functions / 14488
+The single registry is binary.c: 118 accepted application functions / 14603
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are three six-byte import endpoints (18 bytes, zero App credit). The 118
+as are three six-byte import endpoints (18 bytes, zero App credit). The 120
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine new_pointer_array INT3 at RVA14954;
+and currently reaches the genuine open_expression_output INT3 at RVA3acef;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -42,13 +42,16 @@ vtables resolve to one physical function. The alias unit inspects a real object
 without invoking pending methods. These aliases add no code credit. Only the
 initializer/factory TUs use /Ob1 for helpers proved inline in the original.
 
-The one-byte line hook and 65-byte frontend pointer-table setup each passed
-fresh original/native receipt equality and strict audits. The latest pair
-reaches new_pointer_array(1600): 0.637 s / 10.337 ms (native setup 4.811,
-execution 4.190, checks 1.336). Their build/audit/unit batches took 7.754 s and
-6.042 s. The table header has signed short count/capacity and inline pointer
-items; element meaning remains opaque. Its initialized owner pointer joins
-snapshot restoration and the focused nonzero unit.
+The 102-byte pointer-array creator and 13-byte signed-short size helper each
+passed fresh pairs and strict audits. The creator preserves the temporary
+pointer-one initialization guard and recursive zero-capacity header.
+The latest actual original/native frontier is open_expression_output:
+1.604 s / 10.771 ms (native setup 6.189, execution 3.066, checks 1.515).
+The two build/audit/unit batches took 8.136 s and 3.243 s. An initial predicted
+case frontier was corrected from initialize_type_table to the actual identical
+frontier on both executions; the unchanged original was reused with a pinned
+descriptor-only correction and fresh native check. The failed expectation and
+both actual reports remain in scratch; no source or mask was changed for it.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

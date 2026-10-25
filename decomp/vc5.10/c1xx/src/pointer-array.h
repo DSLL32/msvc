@@ -8,4 +8,6 @@ struct CompilerPointerArray {
     short count, capacity;
     void *items[1];
 };
+extern "C" CompilerPointerArray *__cdecl new_pointer_array(unsigned capacity);
+extern "C" CompilerPointerArray *__cdecl grow_pointer_array(CompilerPointerArray *array);
 #endif

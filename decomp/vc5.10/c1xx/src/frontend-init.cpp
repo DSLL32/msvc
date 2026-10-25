@@ -319,8 +319,6 @@ extern "C" void __cdecl initialize_keyword_table(void)
     }
 }
 extern "C" void __cdecl initialize_line_tables(void) {}
-extern "C" CompilerPointerArray *__cdecl new_pointer_array(unsigned capacity) { __asm { int 3 } return NULL; }
-extern "C" CompilerPointerArray *__cdecl grow_pointer_array(CompilerPointerArray *array) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_frontend_tables(void)
 {
     CompilerPointerArray *array = new_pointer_array(1600);
