@@ -26,6 +26,8 @@ typedef struct File_Info {
 
 extern File_Info AsmFiles;
 extern global_options Options;
+typedef void *carve_t;
+carve_t CarveCreate(size_t elm_size, size_t blk_size);
 void ObjRecInit(void);
 void GenMSOmfInit(void);
 int main(int argc, char **argv);

@@ -4,7 +4,10 @@
 #include "wasm.h"
 #include <recon.h>
 
-void ObjRecInit(void) { WASM_PENDING(); }
+carve_t CarveCreate(size_t elm_size, size_t blk_size)
+{
+    (void)elm_size; (void)blk_size; WASM_PENDING(); return NULL;
+}
 void GenMSOmfInit(void) { WASM_PENDING(); }
 void do_init_stuff(int argc, char **argv)
 {

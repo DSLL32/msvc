@@ -1,7 +1,7 @@
 RECON_TOOL_DIR := $(abspath ../../../tooling/recon-tool)
 RECON := ../../../lib/recon
 RECON_CF_PROFILE := harness/cf-profile.json
-BINARY_SOURCES := src/main.c src/stubs.c
+BINARY_SOURCES := src/main.c src/objrec.c src/stubs.c
 BINARY_SUPPORT_SOURCES := $(wildcard $(RECON)/src/*.c)
 NATIVE_CPPFLAGS := -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 NATIVE_CFLAGS := -std=gnu89

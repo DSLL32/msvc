@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 2,
-  "accepted_app_bytes": 104,
+  "accepted_app_functions": 3,
+  "accepted_app_bytes": 127,
   "accepted": [
     {
       "name": "main",
@@ -19,9 +19,17 @@
         52287
       ],
       "evidence": "cases/0001-help/evidence/0002-main-init"
+    },
+    {
+      "name": "ObjRecInit",
+      "extent": [
+        113808,
+        113831
+      ],
+      "evidence": "cases/0001-help/evidence/0003-objrec-init"
     }
   ],
-  "current_frontier": "ObjRecInit",
-  "native_ms": 5.276,
-  "original_ms": 1362.611
+  "current_frontier": "CarveCreate",
+  "native_ms": 5.291,
+  "original_ms": 681.423
 }
