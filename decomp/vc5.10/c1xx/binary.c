@@ -970,9 +970,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_acquire_initial_backend", .entry_rva = 0x7ca9,
-        .code = (const ReconExtent[]){{0x7ca9, 0x7caa}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x7ca9, 0x7cb7}, {0x54560, 0x54586}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "acquire_initial_backend",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_prepare_pch_input", .entry_rva = 0x48dc5,
