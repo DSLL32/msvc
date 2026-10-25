@@ -5,17 +5,18 @@ CVPACK 5.10 reconstruction
 the shared runner. `make -j4 win32 audit` checks original-compiler compatibility
 and the function graph/ABIs. Fixtures never invoke Wine.
 
-The accepted runnable baseline is 113 application functions totaling 37,019 original code
-bytes, unchanged from 8f832c69. This is 59.08% of the 62,662-byte whole-text extent;
+The accepted runnable baseline is 114 application functions totaling 37,967 original code
+bytes. This is 60.59% of the 62,662-byte whole-text extent;
 that denominator also contains CRT/support, unknown code and padding. A complete
 non-CRT denominator is not established. CRT/import selection earns no App credit.
 
 0000-help completes with status 1, 193 stdout bytes and empty stderr.
 0001-hello-debug-dll invokes `/nologo hello.dll` on the original embedded-CodeView
-DLL. Its current frontier is the named `write_globals` stub (RVA 0xd9a0); the
-948-byte prospective body remains analysis only. Its capture distinguishes the
-actual partial artifact from the final NB11 master. No new references were run
-for this migration.
+DLL. Its current frontier is the named `write_static_symbols` stub (RVA 0xf5f0). Its capture distinguishes the
+actual partial artifact from the final NB11 master. The active case uses a fresh env={} original reference; prior capture context remains
+in Git history. Native module-path setup is explicit host metadata; no equality
+with historical or future original staging paths is asserted. A future real
+module-path consumer requires fresh input qualification.
 
 `src/` contains application reconstruction; `harness/` contains the native host,
 strict dependency adapter and its ABI glue. `crt/crt-imports.h` declares the
@@ -49,3 +50,7 @@ Final canonical graph/ABI audit: 0.198s (113 App bodies, 112 scoped RET checks).
 Layout cleanup validation: native build 1.926s, original-toolchain build 7.918s;
 parallel cached replay, 12 units and strict graph/ABI audit passed in 0.365s.
 No source bodies, registry entries or captured case bytes changed.
+
+Function114 validation: reused the genuine qualified original capture (1.319s),
+then native rebuild, both replays,12 units and strict audit passed in0.845s.
+The partial debug replay took29.932ms (5.093 setup/8.072 execution/16.767checks).

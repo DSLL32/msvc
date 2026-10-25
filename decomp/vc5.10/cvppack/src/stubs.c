@@ -63,7 +63,6 @@ void __fastcall find_type_server(void *name, unsigned mode, void *first, void *s
 
 unsigned short buffered_write(const void *data, unsigned size) { __asm { int 3 } return 0; }
 unsigned short end_buffered_output(void) { __asm { int 3 } return 0; }
-void write_globals(CodeViewDirectoryEntry *entry, unsigned offset) { __asm { int 3 } }
 void write_static_symbols(CodeViewDirectoryEntry *entry, unsigned offset) { __asm { int 3 } }
 unsigned write_global_types(void) { __asm { int 3 } return 0; }
 unsigned write_cached_file(int file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }

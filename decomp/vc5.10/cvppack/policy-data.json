@@ -562,13 +562,18 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_write_globals": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
   "native_limitations": [
     "compact_legacy_pointer rejects the original uninitialized-offset unknown-kind path before consumption.",
     "MSPDB provider permits only the21 captured Widen lifetimes/inputs and observed methods; Record0x0c, TypesClose/PDBClose and unknown requests deny.",
-    "write_globals remains the unimplemented frontier; no new body accepted during migration."
+    "write_static_symbols remains the unimplemented frontier; accepted App code totals114 functions/37967bytes."
   ],
   "graph_metadata": {
     "schema": 1,
