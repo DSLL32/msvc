@@ -20,7 +20,7 @@ extern "C" int __cdecl create_input(int record, CompilerInput **input,
     return 1;
 }
 
-int RECON_THISCALL CompilerPlainInput::Begin(const void *context) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerPlainInput::Begin(const void *context) { return 1; }
 int RECON_THISCALL CompilerPlainInput::End(const void *context) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerPlainInput::Flush(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerPlainInput::Mark(void) { __asm { int 3 } }
