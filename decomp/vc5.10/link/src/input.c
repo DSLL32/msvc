@@ -161,10 +161,6 @@ void __stdcall allocate_module_section_headers(OutputModule *module)
     module->saved_section_headers=(IMAGE_SECTION_HEADER *)reserve_memory(
         &section_header_arena,module->section_count*sizeof(IMAGE_SECTION_HEADER));
 }
-void __stdcall load_object_module(LinkContext *context,void *parent,OutputModule *module,WORD flags)
-{
-    __asm { int 3 }
-}
 void __stdcall infer_output_file_name(LinkContext *context,InputArgument *argument)
 {
     __asm { int 3 }

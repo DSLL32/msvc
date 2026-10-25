@@ -1,6 +1,6 @@
 # VC5.10 LINK
 
-103 application functions / 37,094 original code bytes are reconstructed;
+104 application functions / 37,579 original code bytes are reconstructed;
 13 shipped CRT/import boundaries add no application credit.
 `binary.c` is the function and extent registry. The native harness aliases the
 canonical driver `main` to `link_main` using a compilation flag.
@@ -12,7 +12,7 @@ the original build links the shipped MSVCRT library.
 
 `make -j4 check unit` runs the saved native invocations. Help is complete
 (full DWORD status 1100); Win32 hello is partial at the genuine
-`load_object_module` INT3 (original RVA `0x5fc90`).
+`OutputModule::ReadSectionHeaders` INT3 (original RVA `0x608e0`).
 The hello capture retains both the final original output and the applicable
 partial output. No fixture invokes Wine.
 

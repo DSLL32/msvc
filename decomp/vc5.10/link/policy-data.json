@@ -5592,6 +5592,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_load_object_module@16": {
+        "expected_cleanup": [
+          16
+        ]
       }
     }
   }

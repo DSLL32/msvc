@@ -54,7 +54,7 @@ OutputModule *__stdcall create_input_module(const char *original_name,
             module->contributions=reserve_memory(&contribution_arena,section_count*64);
         else module->contributions=NULL;
     }
-    module->reserved2c=NULL;
+    module->section_map=NULL;
     module->identity=original_name ? duplicate_link_string(original_name) : identity;
     module->timestamp=header->TimeDateStamp;
     if (name) module->name=duplicate_link_string(name);

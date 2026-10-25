@@ -40,6 +40,27 @@ static int section_headers(void)
     return recon_native_at_entry(load_object_module,check_section_headers,
         invoke_hello,NULL)==1;
 }
+/* C harness spelling of the genuine native member entry: ECX module, one
+   stack output-pointer argument. No adapter enters the application graph. */
+extern IMAGE_SECTION_HEADER *RECON_THISCALL native_read_section_headers(
+    OutputModule *,IMAGE_SECTION_HEADER **)
+    __asm__("_ZN12OutputModule18ReadSectionHeadersEPP20IMAGE_SECTION_HEADER");
+extern OutputLibrary *current_input_library;
+static void RECON_THISCALL check_section_header_call(OutputModule *module,
+    IMAGE_SECTION_HEADER **headers)
+{
+    recon_native_entry_finish(module && headers &&
+        module->library==current_input_library &&
+        module->library->module_head==module && module->section_count==7 &&
+        module->saved_section_headers && !module->section_headers &&
+        sizeof(*headers)==4);
+}
+static int section_header_call(void)
+{
+    return recon_native_at_entry(native_read_section_headers,check_section_header_call,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
-    {"section-header-allocation",1,section_headers}
+    {"section-header-allocation",1,section_headers},
+    {"loader-section-header-call",1,section_header_call}
 };

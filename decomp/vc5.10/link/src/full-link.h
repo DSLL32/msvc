@@ -43,7 +43,7 @@ struct OutputModule {
     WORD optional_header_size, characteristics;
     DWORD section_count;
     BYTE reserved1c[16];
-    void *reserved2c;
+    void *section_map;
     DWORD reserved30, input_tag, timestamp, file_size;
     DWORD section_offset;
     void *optional_data;
@@ -62,6 +62,9 @@ struct OutputModule {
     DWORD reserved88;
     DWORD *symbol_bits[2], *symbol_indices;
     BYTE flags, reserved99[3];
+#ifdef __cplusplus
+    IMAGE_SECTION_HEADER *RECON_THISCALL ReadSectionHeaders(IMAGE_SECTION_HEADER **);
+#endif
 };
 struct OutputSection {
     char *name;
@@ -132,6 +135,7 @@ typedef char ModuleConstructorFields[(offsetof(OutputModule,module_index)==8 &&
     offsetof(OutputModule,incremental_state)==132 && offsetof(OutputModule,symbol_bits)==140 &&
     offsetof(OutputModule,symbol_indices)==148 && offsetof(OutputModule,flags)==152)?1:-1];
 typedef char LibraryModuleHeadAt38[(offsetof(OutputLibrary,module_head)==56)?1:-1];
+typedef char OutputModuleSectionMapAt2c[(offsetof(OutputModule,section_map)==0x2c)?1:-1];
 typedef char SavedSectionHeadersAt60[(offsetof(OutputModule,saved_section_headers)==0x60)?1:-1];
 typedef char OutputModuleLibraryAt64[(offsetof(OutputModule,library)==0x64)?1:-1];
 typedef char SectionFlagsAt20[(offsetof(OutputSection,characteristics)==0x20)?1:-1];
