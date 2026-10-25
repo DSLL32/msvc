@@ -68,4 +68,6 @@ void __stdcall rc_parse_dialog_include(RcResource *unused_resource);
 void __stdcall rc_write_resource_source(RcResource *resource,RcResourceType *type,const WCHAR *filename);
 void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *type,int phase);
 WCHAR *__stdcall rc_duplicate_resource_name(const WCHAR *);
+WCHAR *__cdecl rc_collect_resource_name(void);
+unsigned __stdcall rc_decimal_resource_id(const WCHAR *);
 #endif

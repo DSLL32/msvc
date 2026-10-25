@@ -199,11 +199,6 @@ void __stdcall rc_append_macro_text(const WCHAR *text)
 }
 
 
-int __cdecl rc_read_resource_name(void)
-{
-    __asm int 3
-    return 0;
-}
 
 void __stdcall rc_parse_menu(int extended,RcResource *resource)
 {
@@ -376,3 +371,14 @@ void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *t
 }
 
 
+
+WCHAR *__cdecl rc_collect_resource_name(void)
+{
+    __asm int 3
+    return NULL;
+}
+unsigned __stdcall rc_decimal_resource_id(const WCHAR *text)
+{
+    __asm int 3
+    return 0;
+}

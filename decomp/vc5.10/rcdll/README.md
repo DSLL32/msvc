@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_read_resource_name` (RVA a1db). Its partial streams and actual
+  stops at `rc_collect_resource_name` (RVA a2a2). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **125 functions, 33,706 code bytes**
-This is 45.18% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **126 functions, 33,905 code bytes**
+This is 45.44% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (50.84%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (51.14%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -118,3 +118,10 @@ storage operands bound. The fresh pair reaches the pending name reader in
 1.614 s original / 183.577 ms native (36.191 ms execution); both builds and strict
 audit took 3.948 s. The shared allocator's existing ownership contract applies;
 no new original pointed-buffer snapshot is claimed.
+
+The complete resource-name classifier is accepted through its first collector
+call. Its later uppercase and decimal/four-digit-hexadecimal branches have strict
+static graph/ABI proof but are not yet executed. Shared _wcsupr has only a typed
+fail-closed surface, and iswctype mask 128 remains unsupported. The fresh original
+capture took 1.442 s; native timing is recorded in resume-rich-0128. Header fanout
+made both builds and audit take 10.508 s.

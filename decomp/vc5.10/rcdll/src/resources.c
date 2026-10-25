@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <wchar.h>
+#include <wctype.h>
 #include "command.h"
 #include "resources.h"
 #include <recon.h>
@@ -412,4 +413,26 @@ void __cdecl rc_initialize_resource_buffer(void)
 {
     rc_resource_buffer_size=128000;
     rc_resource_buffer=rc_allocate(rc_resource_buffer_size);
+}
+
+int __cdecl rc_read_resource_name(void)
+{
+    WCHAR *text;
+    unsigned value,character;
+    int not_decimal=0,remaining;
+    if(!rc_collect_resource_name())return 0;
+    _wcsupr(rc_resource_name);
+    for(text=rc_resource_name;*text;++text)
+        if(!iswctype(*text,4))not_decimal=1;
+    if(rc_resource_name[0]==L'0'&&rc_resource_name[1]==L'X'){
+        value=0;remaining=4;text=rc_resource_name+2;
+        while(iswctype(*text,128)){
+            character=*text++;
+            value=(value<<4)+(character>=L'A'?character-55:character-L'0');
+            if(!--remaining)break;
+        }
+        rc_resource_token.value=(WORD)value;
+    }else if(not_decimal)rc_resource_token.value=0;
+    else rc_resource_token.value=(WORD)rc_decimal_resource_id(rc_resource_name);
+    return 1;
 }
