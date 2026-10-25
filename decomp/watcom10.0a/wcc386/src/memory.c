@@ -38,6 +38,16 @@
 
 int Initialized;
 unsigned AllocSize,MemorySize;
+/* One allocated sentinel, with eight circular list heads. These shared
+ * pointers have observable identity in the allocator's list operations. */
+FreeList _FreeList = {
+    1, 0, {
+        {&_FreeList,&_FreeList}, {&_FreeList,&_FreeList},
+        {&_FreeList,&_FreeList}, {&_FreeList,&_FreeList},
+        {&_FreeList,&_FreeList}, {&_FreeList,&_FreeList},
+        {&_FreeList,&_FreeList}, {&_FreeList,&_FreeList}
+    }
+};
 
 void *MemAlloc(unsigned amount)
 {
@@ -100,4 +110,42 @@ unsigned SizeToClass(unsigned amount)
         amount>>=1;
     } while (amount);
     return cls;
+}
+
+void *GetFromFrl(unsigned amount,int frl_class)
+{
+    FreeList *alloc;
+    FreeList *free;
+    int i;
+    int cls;
+    int amount_left;
+
+    free=_FreeList.link[frl_class].next;
+    while (free!=&_FreeList) {
+        amount_left=(int)(free->length-amount);
+        if (amount_left>=0) {
+            if (amount_left>=16) {
+                cls=SizeToClass((unsigned)amount_left);
+                for (i=cls+1;i<=free->class;++i) {
+                    free->link[i].next->link[i].prev=free->link[i].prev;
+                    free->link[i].prev->link[i].next=free->link[i].next;
+                }
+                free->class=cls;
+                free->length=(unsigned)amount_left;
+                alloc=(FreeList *)((char *)free+free->length);
+                alloc->length=amount;
+            } else {
+                for (i=0;i<=free->class;++i) {
+                    free->link[i].next->link[i].prev=free->link[i].prev;
+                    free->link[i].prev->link[i].next=free->link[i].next;
+                }
+                alloc=free;
+            }
+            AllocSize+=alloc->length;
+            alloc->length|=1;
+            return alloc;
+        }
+        free=free->link[frl_class].next;
+    }
+    return 0;
 }

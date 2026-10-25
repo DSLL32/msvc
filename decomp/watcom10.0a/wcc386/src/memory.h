@@ -5,6 +5,17 @@
  * GCC native convention is authorized; original Watcom uses -3r. */
 extern int Initialized;
 extern unsigned AllocSize,MemorySize;
+typedef struct free_list FreeList;
+typedef struct free_links {
+    FreeList *next;
+    FreeList *prev;
+} FreeLinks;
+struct free_list {
+    unsigned length;
+    int class;
+    FreeLinks link[8];
+};
+extern FreeList _FreeList;
 void *MemAlloc(unsigned size);
 void MemInit(void);
 /* Original66a2e returns an eight-bit bool in AL, not an int in EAX. */
@@ -15,6 +26,6 @@ char *CopyStr(char *,char *);
 unsigned Length(char *);
 extern int write(int,const void *,unsigned);
 unsigned SizeToClass(unsigned size);
-void *GetFromFrl(unsigned size,unsigned cls);
+void *GetFromFrl(unsigned size,int cls);
 void *MemFromSys(unsigned size);
 #endif

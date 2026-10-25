@@ -93,7 +93,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "GetFromFrl", .entry_rva = 0x47bb1,
-        .definition = RECON_APP, .implementation = RECON_UNIMPLEMENTED,
+        .code = (const ReconExtent[]) {{0x47bb1,0x47c77}}, .code_count = 1,
+        .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "GetFromFrl", .original_symbol = "GetFromFrl_",
     },
     {
