@@ -981,6 +981,12 @@
             ]
           ]
         }
+      },
+      "@release_input_pool@4": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
       }
     },
     "callback_tables": [],
@@ -995,7 +1001,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1007,7 +1013,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1019,7 +1025,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1031,7 +1037,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1043,7 +1049,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1055,7 +1061,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1067,7 +1073,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1079,7 +1085,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1091,7 +1097,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1103,7 +1109,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1117,7 +1123,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1129,7 +1135,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1140,11 +1146,12 @@
             }
           },
           "preserves": [
-            "ebp"
+            "ebp",
+            "ebx"
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1156,7 +1163,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1168,7 +1175,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1180,7 +1187,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1192,7 +1199,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1204,7 +1211,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1219,7 +1226,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1234,7 +1241,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1246,7 +1253,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1258,7 +1265,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1270,7 +1277,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1285,7 +1292,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1300,7 +1307,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1312,7 +1319,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1327,7 +1334,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         },
         {
@@ -1339,7 +1346,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "e27446d1a35710cc07ad2931add30a361c2e3b776a50999491d3555040583892"
+            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
           }
         }
       ]

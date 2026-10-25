@@ -8,10 +8,6 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-void __fastcall release_input_pool(C2Pool *pool)
-{
-    __asm { int 3 }
-}
 void __fastcall finish_function_debug(C2Function *function)
 {
     __asm { int 3 }

@@ -587,7 +587,23 @@
     "abi": "cdecl void free(void*); pointer push, caller cleanup4; EBP nonvolatile",
     "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
     "original_iat_slot": 4772064,
-    "scope": "Public cdecl normal-return EBP preservation only; no provider implementation or data credit."
+    "scope": "Public cdecl normal-return EBP preservation at the existing reader and EBX preservation at the pool-release cached call; no provider implementation or data credit.",
+    "normal_return_ebx": {
+      "preserves": [
+        "ebx"
+      ],
+      "declaration": "toolchains/5.10/include/STDLIB.H:424: _CRTIMP void __cdecl free(void *);",
+      "sdk_header_sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+      "export_ordinal": 604,
+      "export_rva": 5002,
+      "provider_extent": [
+        5002,
+        5106
+      ],
+      "provider_body_sha256": "1dc8cd36ef31619df6f9029a7b50f9eeab99039632c8e15e4396b7ea09412a85",
+      "caller": "C2 release_input_pool: MOV EBX,[48d0e0] at40250c; CALL EBX402535; ADD ESP4; loop reuses EBX. IAT is actual MSVCRT.free.",
+      "justification": "Identified public cdecl boundary preserves EBX on normal return; complete104-byte exported wrapper contains no EBX writer. Public ABI supports its call chain; no recursive dependency implementation or behavior credit."
+    }
   },
   "function_reader_fseek_ebp": {
     "scope": "Only normal-return EBP preservation for the cached fseek identity in read_function; no provider private-state or body equivalence claim.",

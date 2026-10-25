@@ -120,3 +120,21 @@ void __fastcall reset_input_pool(unsigned pool)
     last_free_register_sets[pool] = NULL;
     input_pool_reset_state_a = input_pool_reset_state_b = 0;
 }
+
+void __fastcall release_input_pool(C2Pool *pool)
+{
+    C2PoolBlock *head = pool->blocks, *block = head, *previous = NULL, *next;
+    while (block) {
+        next = block->next;
+        if ((unsigned)block->capacity > 4088U) {
+            if (previous) previous->next = next;
+            free(block);
+        } else
+            previous = block;
+        block = next;
+    }
+    if (previous) {
+        previous->next = c2_free_blocks;
+        c2_free_blocks = head;
+    }
+}

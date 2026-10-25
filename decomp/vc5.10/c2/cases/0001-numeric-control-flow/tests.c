@@ -915,7 +915,36 @@ static int pending_input_cleanup(void)
     return 1;
 }
 
+static int pool_release_ownership(void)
+{
+    C2Pool pool;
+    C2PoolBlock first, last, old;
+    C2PoolBlock *saved = c2_free_blocks;
+    C2PoolBlock *large = malloc(5008);
+    if (!large) return 0;
+    memset(&first, 0, sizeof(first));
+    memset(&last, 0, sizeof(last));
+    memset(&old, 0, sizeof(old));
+    first.capacity = last.capacity = 4088;
+    large->capacity = 5000;
+    first.next = large;
+    large->next = &last;
+    last.next = NULL;
+    pool.blocks = &first;
+    pool.cursor = (unsigned char *)0x13579bdfU;
+    pool.remaining = 177;
+    c2_free_blocks = &old;
+    release_input_pool(&pool);
+    if (c2_free_blocks != &first || first.next != &last || last.next != &old ||
+        pool.blocks != &first || pool.cursor != (unsigned char *)0x13579bdfU ||
+        pool.remaining != 177 || first.capacity != 4088 || last.capacity != 4088)
+        return 0;
+    c2_free_blocks = saved;
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
+    {"pool release unlinks oversized blocks and retains the small-block chain", 1, pool_release_ownership},
     {"pending input cleanup releases each expression while retaining its pool", 1, pending_input_cleanup},
     {"generic pointer conversion respects shared operands and register ownership", 1, generic_pointer_types},
     {"plain register reuse preserves number", 1, plain_reuse},
