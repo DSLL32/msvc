@@ -396,19 +396,20 @@ no reconstruction credit.
 ## VC5.10 readiness reread
 
 All nine actual workers reread the current guidance and their own documentation;
-no reconstruction, captures, edits or builds occurred during this readiness
-review. RC and CVTRES remain complete for identified application code. The seven
-unfinished binaries can use native builds/replay; fresh capture gaps are narrower
-than their initial reports suggested.
+that readiness review was read-only. The user subsequently released the seven
+unfinished binaries to implement the minimal capture prerequisites and finish
+their current cases, then pause and report before moving beyond them. RC and
+CVTRES remain complete for identified application code and stay idle. The counts
+below are the accepted baseline at release, not credit for current unaccepted work.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 82 / 7,037 | 2.18% | push_packing; finish minimal C, then broad preprocessing/C workload |
-| C1XX | 92 / 7,016 | 0.934% | resolve_option_path; finish minimal C++, then object/lifetime workload |
-| C2 | 106 / 21,801 | 3.80% | add_register_to_set; numeric case, then switches/register pressure/conversions |
-| CL | 108 / 18,238 | 95.68% | 14 cases complete; ordinary MRE retry proposed |
-| CVPACK | 113 / 37,019 | 59.08% | write_globals; debug DLL then multi-file C++ types/symbols |
-| LINK | 102 / 37,062 | 8.93% | section-header allocator; hello EXE then exported DLL |
+| C1 | 82 / 7,037 | 2.18% | Resume minimal C at push_packing after typed host integration |
+| C1XX | 92 / 7,016 | 0.934% | Resume minimal C++ at resolve_option_path after typed host integration |
+| C2 | 106 / 21,801 | 3.80% | Resume numeric case at add_register_to_set |
+| CL | 108 / 18,238 | 95.68% | 14 cases complete; bounded ordinary MRE retry case approved |
+| CVPACK | 113 / 37,019 | 59.08% | Resume debug DLL at write_globals |
+| LINK | 102 / 37,062 | 8.93% | Resume hello EXE at section-header allocator |
 | RCDLL | 95 / 25,732 | 34.49% | rc_run_preprocessor; finish rich resource corpus |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
@@ -419,12 +420,16 @@ data and padding.
 
 The concrete minimal capture work is:
 
-- C1/C1XX need small typed three-argument compiler-export hosts in each binary's `harness/`,
-  using existing shared `--host`. Old HOST argv/environment vectors and forced
-  LastError values were observer choices, not required App inputs.
+- C1/C1XX have implemented and original-compiled small typed three-argument
+  compiler-export hosts in each binary's `harness/`, using shared `--host`.
+  Actual capture integration is pending the shared launch/staging release.
+  Old HOST argv/environment vectors and forced LastError values were observer
+  choices, not required App inputs.
 - RCDLL reuses shipped RC.EXE; a new dynamic-loading host would unnecessarily
   change its static attachment lifecycle. Its IAT/debug/import/export data in
   executable sections must survive progress masking as verified data ranges.
+  The shared owner is implementing parsed loader-data preservation and private
+  staging of the supplied host, so its static imports resolve the masked DLL.
 - Exact MSVCRT identity is required only when reusing provider-specific table or
   instruction qualifications. C2 withdrew a universal hash blocker. Intended
   native-provider selection plus once-per-capture loaded identity is enough
@@ -435,48 +440,105 @@ The concrete minimal capture work is:
   a narrow typed Job-chain DIRECT test is preferable to a broad MRE framework.
 
 The target-environment separation fix is published as `54bb2913f`, including a
-real original control and subsequent CVPACK capture. VC5.10 workers remain paused
-pending root release; no replacement was necessary.
+real original control and subsequent CVPACK capture. The shared prerequisite
+owner also owns explicit native-MSVCRT Wine launch selection, separately from
+fixture target environment and without a universal provider-hash gate. Workers
+are active only within the released current-case scope; no replacement was
+necessary. New ordinary-IO frontier state needs and capture transport failures
+are routed to shared tooling, not local observer frameworks.
 
 ## Watcom compatibility report
 
-The native half can reuse the shared i386 application/case libraries, typed
-entry hooks, symbol-based tracing, full-DWORD terminal status and parallel case
-execution. Native tests use the explicitly authorized GCC ABI; original Watcom
-builds still preserve and audit the original ABI.
+Fresh read-only assessment, 2026-10-25. No Watcom migration, build, capture or
+application reconstruction was run for this assessment. All five workers remain
+paused for the user's review and case assignments.
 
 | Binary | Accepted application reconstruction | Current paused state |
 | --- | --- | --- |
-| WCC386 | 0 functions | Main stub; cached help output, no accepted application entry order. |
-| WPP386 | 0 functions | Main stub; cached help output. |
-| WASM | 0 functions | Guarded patched-help capture. |
-| WLIB | 2 functions / 143 bytes | `InitMsg` is unaccepted WIP; fixtures explicitly HOLD. |
-| WLINK | 1 function / 232 bytes | Cached native prefix; `Spawn` remains pending. |
+| WCC386 | 0 functions | CF main stub; cached `?` output is not a captured application entry order. |
+| WPP386 | 0 functions | CF main stub; cached `?` output, no accepted application prefix. |
+| WASM | 0 functions | CF main stub; guarded patched `/?` output, no accepted application prefix. |
+| WLIB | 2 functions / 143 bytes | Accepted main/hook prefix; `InitMsg` is unaccepted WIP and current fixtures explicitly HOLD. |
+| WLINK | 1 function / 232 bytes | Native main-to-`Spawn` prefix works; `Spawn` remains pending and excluded from production. |
 
-Already available support includes the shared Watcom original launcher,
-hash-pinned GS-patched WLINK, original build command overrides, Watcom MAP
-parsing and CF graph analysis. Header dependency scanning now resolves actual
-uppercase SDK names and backslash includes (`625530ee5`), with ambiguity
-rejection. The recon library assessment found no concrete additional native
-PIC/shim gap.
+**Already shipped.** The native i386 DSO runner, flat captures, typed native
+entry hooks, static-symbol tracing, full DWORD receipts and parallel check/unit
+targets apply to all five. Public native SELF children, captured dependency
+responses/assets, module ownership and errno preservation are available; none
+requires a Watcom replacement. Original target-environment separation
+(`54bb2913f`) and fixed R:/S:/T: transport are also available. Old captures retain
+their actual environment/path provenance; this fix does not rewrite them.
 
-Remaining Watcom accommodations are:
+Shared original-tool launching already supports Watcom and pins the patched
+WLINK hash. Original Make commands can be overridden for WCC386/WLINK; Windows
+header case/backslash dependency resolution is fixed. Graph-audit already reads
+CF images and real Watcom MAPs (`--map-format watcom10`). Registry ABI 2 preserves
+`original_symbol` separately from the native symbol: e.g. `main_` versus `main`.
+The opt-in Watcom FP, first-main heap and normal-only 52-byte setjmp support is
+published. No concrete additional shim or PIC implementation is currently needed.
 
-1. Preserve CF payload/image/loader/relocation metadata and base-zero payload
-   offsets in registry projection; do not overwrite these with PE assumptions.
-2. Identify runtime boundaries in rebuilt Watcom Win32 PEs using OMF
-   libraries/objects and sections such as `BEGTEXT`. A speculative whole-CF CRT
-   recognizer is not required.
-3. Integrate existing CF allocation, relocation, gateway and entry-control
-   machinery with shared original capture. Do not treat CF as PE or bulk-mask
-   mixed code/data.
-4. Use typed original-compiler glue for Watcom register arguments
-   (EAX/EDX/EBX/ECX) in fresh original DIRECT probes.
-5. Retain GS-patch provenance, selector/owner checks, verified bootstrap
-   boundaries and actual pipe/NUL semantics.
+**1. To migrate cached native cases now.** All five can use the current native
+runner; it does not execute their original PE/CF format. Binary workers can move
+application code to `src/`, glue to `harness/`, preserve pending work separately,
+and use shared Make rules with Watcom compile/link overrides. WLIB must retain
+the accepted snapshot's trap in place of pending `InitMsg`. CF output-only caches
+must not be presented as complete trace or frontier oracles; missing entry
+evidence stays explicit.
 
-The Watcom transport milestone remains eight authored controls passed. A
-thread-ordering correction was built but has not been rerun; the ninth control
-must not be reported as passed. Existing FILE, nonlocal-jump and signal
-limitations remain explicit. No new Watcom cases or autonomous reconstruction
-are started by this report.
+Two audit accommodations need shared-tool review:
+
+- **CF registry projection — recon-tool owner:** `src/projection.rs::registry`
+  currently forbids `policy.target` and constructs a PE-shaped target. Add a
+  bounded way to retain the exact existing CF `target.path`/`target.image`
+  descriptor, loader/container/relocation hashes and payload offsets at base 0.
+  Use graph-audit's existing CF reader; no synthetic PE or second CFG walker.
+- **Reviewed runtime catalog reuse — recon-tool owner, graph owner reviewing:**
+  `src/runtime.rs` still requires COFF/ar input and a `.text` section. Watcom's
+  CLIB3R objects/libraries are OMF and its Win32 code uses `BEGTEXT`. Preserve and
+  validate the current explicit runtime identity/extent evidence through shared
+  tooling instead of rebuilding a general OMF matcher for this migration.
+  Known names alone cannot supply bounds, body availability or CRT exemptions.
+
+DSO constructor ordering, WLIB's empty target-allocation namespace and actual
+entry FP state need migration validation, rather than new shim semantics. Case
+setup uses host allocation paths so it cannot falsely mark target activity.
+Native GCC ABI is explicitly authorized; original Watcom builds retain true
+watcall/signature/export checks. No per-function veneers or OMF-to-ELF transport
+are needed. The exact WLINK-main noreturn residual and Watcom register ABI checks
+remain target-specific; RET cleanup checks do not prove the whole ABI.
+
+**2. Before fresh original CLI/frontier captures.** Shared `original capture`
+remains PE32-only. Reuse the existing `tooling/watcom-capture/` controller behind
+an explicit shared capture adapter for CF allocation, full relocation identity,
+entry/transfer gating and base-relative trace receipts. Mixed CF code/data cannot
+be bulk-masked. WLIB/WLINK/WASM patched originals also require their existing
+GS-patch provenance and all-invocation selector/buffer-owner guards; a hash alone
+does not establish the patch's semantic conditions. Retain verified CRT bootstrap
+boundaries. Preserve actual stdin semantics: shared original capture supports
+NUL/file, but WLIB's saved pipe input is not yet supported there. Cached native
+replay does not require implementing or rerunning this capture path first.
+
+Actual controller evidence is narrower than full readiness: original WCC
+allocation/relocation and masked CF-entry stop passed; eight authored controls
+proved direct/indirect near CALL/JMP frontiers, accepted-prefix returns and
+wrong-return/byte/PC rejection. The ninth thread control failed its ordering
+expectation; its built correction has not run. Common controller WIP remains
+uncommitted. Arbitrary gateway/far-service transfers, callbacks/SEH/APCs and new
+threads remain unproved or fail closed. No original CF application body has been
+accepted. Adapter/remaining validation is shared capture work coordinated here,
+and requires the user's review before resuming.
+
+**3. Only when a DIRECT case is requested.** The typed original helper is already
+implemented; do not add a generic watcall remote-call engine. Its current
+`build-direct` hardcodes CL/LINK switches, libraries, entry/export spelling and
+MSVC breakpoint syntax. The recon-tool owner would add a small Watcom helper-build
+profile, using compiler-generated typed calls and explicit exports. Its probe
+currently exposes only saved ESP/ECX/EDX; a reached Watcom entry using EAX/EBX
+also needs those actual saved formals exposed in a versioned context. This does
+not require native GCC to imitate watcall. The current typed backend's PE marker
+identity cannot directly address a relocated CF payload, so CF DIRECT support
+waits for a concrete requested marker and the existing controller adapter.
+
+Existing FILE26, signal and nonlocal-jump denials remain explicit. No general
+allocator, DLL loader, ABI engine or new shim family is proposed. This report
+records support needs; it authorizes no migration, new case or reconstruction.
