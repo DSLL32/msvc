@@ -72,3 +72,10 @@ AsmOperand *__stdcall reset_asm_operand(int index)
     operand->frame_symbol = 0;
     return operand;
 }
+
+int asm_open_braces; /* original 0x8c1e0 */
+int asm_address_mode; /* original 0x8c00c, separate from instruction class 0x8c010 */
+int asm_explicit_size; /* original 0x8c134 */
+/* WORD..FAR logical storage encodings, original 0xa9ef0..0xa9ef8;
+   parser instructions use the biased base 0xa9ec2 plus keyword IDs46..54. */
+unsigned char asm_operand_size_codes[9] = { 1, 2, 5, 3, 4, 0, 0, 2, 5 };

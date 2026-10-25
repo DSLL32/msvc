@@ -2891,6 +2891,48 @@
       "name": "_asm_member_context",
       "original": 573744,
       "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_parser_stack",
+      "original": 632664,
+      "bytes": 1512
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_parser_control",
+      "original": 688500,
+      "bytes": 16
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_open_braces",
+      "original": 573920,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_address_mode",
+      "original": 573452,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_explicit_size",
+      "original": 573748,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_operand_size_codes",
+      "original": 696048,
+      "bytes": 9
+    },
+    {
+      "kind": "string_pointers",
+      "name": "_asm_token_names",
+      "original": 696608,
+      "count": 50
     }
   ],
   "buffered_streams": [

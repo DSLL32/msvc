@@ -556,4 +556,62 @@ IrToken *__stdcall make_copy_constructor_call(CppSymbol *constructor, CType *typ
 void __stdcall emit_runtime_initializer_call(unsigned operation, IrToken *destination, IrToken *source, IrToken *bytes) { __asm { int 3 } }
 void __stdcall emit_runtime_initializer_list(unsigned operation, IrToken *arguments) { __asm { int 3 } }
 
-int parse_inline_assembler(void) { __asm { int 3 } return 0; }
+
+
+unsigned char read_asm_token(void) { __asm { int 3 } return 0; }
+
+void __stdcall report_asm_expected_token(int actual, int expected) { __asm { int 3 } }
+
+RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token) { ParserValue value; __asm { int 3 } value.words.low = value.words.high = 0; RECON_RETURN8(value); }
+
+void __stdcall report_asm_parser_error(char *text) { __asm { int 3 } }
+
+int finish_asm_line(void) { __asm { int 3 } return 0; }
+
+void __stdcall emit_asm_label(char *name) { __asm { int 3 } }
+
+void __stdcall set_asm_directive(short directive, unsigned value) { __asm { int 3 } }
+
+void __stdcall select_asm_opcode(short opcode) { __asm { int 3 } }
+
+void emit_asm_instruction(void) { __asm { int 3 } }
+
+void __stdcall add_asm_displacement(unsigned value) { __asm { int 3 } }
+
+AsmExpression *__stdcall multiply_asm_expression(unsigned short operation, AsmExpression *left, AsmExpression *right) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall evaluate_asm_binary(unsigned short operation, AsmExpression *left, AsmExpression *right) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall combine_asm_addresses(unsigned short operation, AsmExpression *left, AsmExpression *right) { __asm { int 3 } return 0; }
+
+void __stdcall set_asm_address_operator(short operation) { __asm { int 3 } }
+
+char *asm_error_context(void) { __asm { int 3 } return 0; }
+
+CppSymbol *__stdcall lookup_asm_symbol(char *name, int allow_label) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall evaluate_asm_unary(short operation, AsmExpression *value) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall apply_asm_segment(short segment, AsmExpression *value) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall make_asm_constant(unsigned value) { __asm { int 3 } return 0; }
+
+unsigned __stdcall asm_symbol_type_size(CppSymbol *symbol) { __asm { int 3 } return 0; }
+
+unsigned __stdcall asm_symbol_length(CppSymbol *symbol) { __asm { int 3 } return 0; }
+
+unsigned __stdcall asm_member_offset(char *name) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall make_asm_symbol(char *name) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall make_asm_segment_value(AsmExpression *value) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall make_asm_offset(AsmExpression *value) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall make_asm_register(short reg) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall make_asm_stack_register(short reg, int index) { __asm { int 3 } return 0; }
+
+void __stdcall set_asm_operand_size(unsigned char size) { __asm { int 3 } }
+
+unsigned char __stdcall asm_size_encoding(unsigned bytes) { __asm { int 3 } return 0; }

@@ -93,6 +93,8 @@ BINARY_SOURCES = src/c1xx.c \
     src/unary-expressions.c \
     src/inline-analysis.c \
     src/asm.c \
+    src/asm-parser.c \
+    build/asm-grammar.c \
     src/control-ir.c \
     src/control-formats.c \
     src/ir-encoding.c \
@@ -146,3 +148,7 @@ build/parser-grammar.c: scripts/generate-parser.py scripts/grammar.py src/gramma
 build/lookahead-grammar.c: scripts/generate-lookahead.py scripts/generate-parser.py scripts/grammar.py src/lookahead.bnf
 	@mkdir -p $(@D)
 	$(PYTHON) scripts/generate-lookahead.py $@
+
+build/asm-grammar.c: scripts/generate-asm-grammar.py scripts/grammar.py src/asm-grammar.y
+	@mkdir -p $(@D)
+	$(PYTHON) scripts/generate-asm-grammar.py $@

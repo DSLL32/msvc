@@ -3,7 +3,7 @@ extern int main(int, char **, char **);
 static int invoke(int argc, char **argv) { return main(argc, argv, (char **)0); }
 
 /* Accepted application entries at this case's initial frozen boundary. */
-static const uint32_t order[] = { 0x11920, 0x1e210, 0x1efe0, 0x11960, 0x114d0, 0x45fb0, 0x650f0, 0x27cb0, 0x27c90, 0x56d30, 0x57010, 0x511d0, 0x2f3c0, 0x2f480, 0x35df0, 0x35a90, 0x6df38, 0x6d7fe, 0x6d84f, 0x6c4a7 };
+static const uint32_t order[] = { 0x11920, 0x1e210, 0x1efe0, 0x11960, 0x114d0, 0x45fb0, 0x650f0, 0x27cb0, 0x27c90, 0x56d30, 0x57010, 0x511d0, 0x2f3c0, 0x2f480, 0x35df0, 0x35a90, 0x6df38, 0x6d7fe, 0x6d84f, 0x6c4a7, 0x6d16d };
 static const uint32_t seen[] = {
     0x8140,
     0x8180,
@@ -1295,6 +1295,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "packet_engine",
     "Packet layout, generated copy/assignment, temporaries, SEH, inline x86/x87 and optimized/debug frontend; explicit initial seen seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x6c4a7,
+    RECON_IO, RECON_FRONTIER, 0x6d16d,
     NULL, invoke, NULL, NULL, 0
 };

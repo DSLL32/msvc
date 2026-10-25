@@ -1,16 +1,18 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is active at parse_inline_assembler
-(RVA0x6c4a7). There are 1303 application source functions plus seven unchanged
-historical CRT source functions. Its first nineteen accepted bodies add 2,941 code
+PARTIAL reconstruction; packet_engine is active at read_asm_token
+(RVA0x6d16d). There are 1304 application source functions plus seven unchanged
+historical CRT source functions. Its first twenty accepted bodies add 5,891 code
 bytes: packing and anonymous aggregates, static alias lookup, the empty lookahead
 error callback, copy-constructor selection/materialization, deferred defaults, else regions and
-runtime initializer emission, initializer object references and assembler state/operands.
-Fresh original/native comparisons, original compilation, the 1311-function
+runtime initializer emission, initializer object references and assembler state/operands and its separate whole grammar driver.
+Fresh original/native comparisons, original compilation, the 1312-function
 inherited graph/ABI audit, nine cached cases and 15 unit groups pass. Last native
-frontier run: 28.262ms; audit/setup: 1.887s; cached cases plus units: 0.201s.
-Last incremental native/original build: 3.260s; fresh original capture: 1.877s.
+frontier run: 27.028ms; audit/setup: 1.884s; cached cases plus units: 0.204s.
+Last measured incremental native/original build: 3.260s; current fresh original
+capture: 1.644s. The subsequent assembler-parser source-list rebuild passed but
+its wall time was not measured.
 The one-time ABI2/shared-header rebuild took 50.602s. No old oracle was
 recaptured for shared changes. The untouched
 /O2 /G5 /Ob1 /Z7 /FR pipeline and generated executable both exit 0. All six frozen
@@ -20,7 +22,7 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1410: the 1302 trial baseline plus 88 browser and nineteen packet application steps,
+1411: the 1302 trial baseline plus 88 browser and twenty packet application steps,
 and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
@@ -28,7 +30,7 @@ original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 317,483/476,418 .text bytes (66.64%); this is
+Application function extents cover 320,433/476,418 .text bytes (67.26%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -154,3 +156,12 @@ Their known 156-byte body 70800..7089c (RET0 at 7085c/7089b) and 79-byte body 70
 (RET0 at 7099e) are cdecl with internal branches only. Their static pending_extent
 properties are qualified false so the accepted debug wrappers' unreached tails
 can be audited; this does not implement, unmask or credit either helper.
+
+The separate assembler grammar has 136 states and 82 productions; its source
+rules generate readable logical rows rather than copied packed tables. All
+6,936 state/token actions and 3,128 gotos match the C1XX original. The whole
+2,950-byte driver owns its 320-byte rule switch. C++ member-name actions use
+CType's signed class-context index through cpp_context_stack, rather than C1's
+pointer field. Its stack union preserves the original sentinel/value aliases.
+The four variadic diagnostic payloads were independently recovered from C1XX
+calls; the shared C1 reference source omitted them on those unreached branches.
