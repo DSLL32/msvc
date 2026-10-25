@@ -702,6 +702,21 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_register_type_server": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_build_type_server_directory": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_type_database": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -1058,6 +1073,11 @@
         "register_imports": {
           "require_all_register_calls_resolved": true
         }
+      },
+      "_register_type_server": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
       }
     },
     "register_imports": {
@@ -1393,6 +1413,54 @@
           "evidence": {
             "path": "pch-import-policy.json",
             "sha256": "ae3bfd1a2a86a55121e76c0eb72cb3fcefb6f648ced145afddb2d169c8e83385"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "mspdb50.dll",
+              "name": "PDBOpen"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "type-server-import-policy.json",
+            "sha256": "bb0470439fc9c4b75a7db9085d91734065320df69691e52d2b11bf082bf5671d"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "mspdb50.dll",
+              "name": "PDBQuerySignature"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "type-server-import-policy.json",
+            "sha256": "bb0470439fc9c4b75a7db9085d91734065320df69691e52d2b11bf082bf5671d"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "mspdb50.dll",
+              "name": "PDBClose"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "type-server-import-policy.json",
+            "sha256": "bb0470439fc9c4b75a7db9085d91734065320df69691e52d2b11bf082bf5671d"
           }
         }
       ]

@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "scope": "Only ordinary-return nonvolatile facts needed by register_type_server cached named-import calls. No dependency-body reconstruction or application credit.",
+  "calling_convention": "The actual named C exports use i386 cdecl: caller arguments remain on the stack at actual return, with caller cleanup. EBX/EBP are nonvolatile. Typed declarations in src/pdb.h preserve this ABI.",
+  "imports": [
+    {
+      "dll": "mspdb50.dll",
+      "name": "PDBOpen",
+      "preserves": [
+        "ebx",
+        "ebp"
+      ]
+    },
+    {
+      "dll": "mspdb50.dll",
+      "name": "PDBQuerySignature",
+      "preserves": [
+        "ebx",
+        "ebp"
+      ]
+    },
+    {
+      "dll": "mspdb50.dll",
+      "name": "PDBClose",
+      "preserves": [
+        "ebx",
+        "ebp"
+      ]
+    }
+  ],
+  "target": {
+    "path": "toolchains/5.10/bin/CVPACK.EXE",
+    "sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+    "owner": "_register_type_server",
+    "seeds": {
+      "ebp": {
+        "iat": 4285000,
+        "load": 4243196
+      },
+      "ebx": {
+        "iat": 4285008,
+        "load": 4243252
+      }
+    },
+    "cached_call_sites": [
+      4243250,
+      4243274,
+      4243375,
+      4243392
+    ]
+  },
+  "qualification": "Successful actually reached export calls were observed at their real App CALL/next-instruction sites with cdecl ESP and EBX/ESI/EDI/EBP preservation. Unvisited ordinary returns use the same named cdecl interface contract, not an exhaustive provider-instruction proof. Unknown/custom calls retain normal kill behavior."
+}

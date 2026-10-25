@@ -38,6 +38,7 @@ APP_SOURCES := src/derived-types.c \
   src/type-pointers.c \
   src/type-recursive-hash.c \
   src/type-recursive.c \
+  src/type-server.c \
   src/type-references.c \
   src/types.c \
   src/writer.c \

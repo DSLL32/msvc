@@ -20,7 +20,7 @@ extern unsigned type_module_count;
 ModuleInfo *find_precompiled_module(const unsigned char *name);
 void initialize_module_type_storage(void);
 void use_precompiled_types(void *leaf);
-void register_type_server(void *leaf);
+void register_type_server(const unsigned char *leaf);
 void __fastcall append_module_type(unsigned char *data, unsigned local,
     unsigned precompiled, unsigned mapped_index, unsigned skip);
 void read_new_module_types(unsigned size, int precompiled);
@@ -56,6 +56,13 @@ void scan_module_symbols(void *lines, unsigned size, unsigned short *symbols, un
 void add_symbol_segment(unsigned short segment, unsigned short *symbols);
 int has_symbol_segment(unsigned short segment);
 void read_type_database(const char *path);
+void build_type_server_directory(char *path);
+unsigned char *module_file_name(unsigned short index);
+extern void *type_pdb, *type_pdb_types;
+extern int type_pdb_close_status;
+extern char type_database_path[260], current_type_server_path[260];
+extern int type_database_error;
+extern unsigned type_database_count;
 typedef void (*SymbolRewriteProc)(void);
 typedef struct SymbolRewriteEntry {
     unsigned short kind, reserved;

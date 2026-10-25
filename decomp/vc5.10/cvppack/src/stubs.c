@@ -21,7 +21,6 @@ unsigned stream_read(CachedFile *file, void *buffer, unsigned size) { __asm { in
 
 void decode_legacy_lines(void *lines, unsigned size) { __asm { int 3 } }
 void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info) { __asm { int 3 } }
-void read_type_database(const char *path) { __asm { int 3 } }
 void rewrite_register16_symbol(void) { __asm { int 3 } }
 void rewrite_data16_symbol(void) { __asm { int 3 } }
 void rewrite_global_data16_symbol(void) { __asm { int 3 } }
@@ -45,7 +44,8 @@ void read_legacy_module_types(void *types, unsigned size) { __asm { int 3 } }
 
 
 
-void register_type_server(void *leaf) { __asm { int 3 } }
 
 unsigned stream_write(CachedFile *file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }
 int resize_stream_file(CachedFile *file, int size) { __asm { int 3 } return 0; }
+
+unsigned char *module_file_name(unsigned short index) { __asm { int 3 } return NULL; }

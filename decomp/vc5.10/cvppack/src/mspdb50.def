@@ -3,3 +3,11 @@ EXPORTS
     ?fCreate@WidenTi@@SAHAAPAU1@IH@Z
     TypesClose
     PDBClose
+    PDBExportValidateInterface
+    PDBOpen
+    PDBQuerySignature
+    PDBQueryAge
+    PDBOpenTpi
+    TypesQueryTiMinEx
+    TypesQueryTiMacEx
+    TypesQueryPbCVRecordForTiEx
