@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1484 historical frontiers/1377 App bodies.
+ * Current reviewed boundary:1489 historical frontiers/1382 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -16630,10 +16630,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_pragma_message@4",
         .entry_rva = 0xf2e0,
-        .code = (const ReconExtent[]) { { 0xf2e0, 0xf2e1 } },
+        .code = (const ReconExtent[]) { { 0xf2e0, 0xf308 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "pragma_message",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_classify_pragma@4",
@@ -16673,26 +16674,29 @@ static const ReconFunction functions[] = {
     {
         .name = "_read_parenthesized_pragma_argument@4",
         .entry_rva = 0x11620,
-        .code = (const ReconExtent[]) { { 0x11620, 0x11621 } },
+        .code = (const ReconExtent[]) { { 0x11620, 0x1163d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "read_parenthesized_pragma_argument",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_visit_pragma_names@4",
         .entry_rva = 0x11640,
-        .code = (const ReconExtent[]) { { 0x11640, 0x11641 } },
+        .code = (const ReconExtent[]) { { 0x11640, 0x116b7 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "visit_pragma_names",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_read_pragma_argument@4",
         .entry_rva = 0x116c0,
-        .code = (const ReconExtent[]) { { 0x116c0, 0x116c1 } },
+        .code = (const ReconExtent[]) { { 0x116c0, 0x11880 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "read_pragma_argument",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_process_pack_pragma",
@@ -16714,10 +16718,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_set_warning_level@8",
         .entry_rva = 0x134b0,
-        .code = (const ReconExtent[]) { { 0x134b0, 0x134b1 } },
+        .code = (const ReconExtent[]) { { 0x134b0, 0x1352d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "set_warning_level",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_listing_directive@4",

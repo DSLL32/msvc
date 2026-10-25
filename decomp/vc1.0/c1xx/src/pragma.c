@@ -687,3 +687,126 @@ void __stdcall pop_pragma_packing(int alignment, char *label)
     }
     if (alignment) entry->alignment = alignment;
 }
+
+/* Original0x21620..0x2163d, stdcall4. Preserve the shared opening
+   delimiter check before converting a typed pragma argument. */
+int __stdcall read_parenthesized_pragma_argument(unsigned char kind)
+{
+    if (!pragma_open_parenthesis()) return 0;
+    return read_pragma_argument(kind);
+}
+
+/* Original0x216c0..0x21880, stdcall4. Convert one scalar/string pragma
+   argument and consume its closing delimiter. The original warning-suppression
+   cell is never updated: its store hits an unused string-descriptor tail, so
+   every trailing token retains its own diagnostic. */
+int __stdcall read_pragma_argument(unsigned char kind)
+{
+    int valid = 1;
+    char *name;
+    ParserValue text;
+    read_pragma_token();
+    switch (current_token_code) {
+    case 2:
+        name = current_token_value.name;
+        if (kind == 200) {
+            if (name[0] == 'o' && name[1] == 'n' && !name[2])
+                pragma_argument.integer = 1;
+            else if (name[0] == 'o' && name[1] == 'f' && name[2] == 'f' && !name[3])
+                pragma_argument.integer = 0;
+            else {
+                compiler_warning(1,85);
+                valid = 0;
+            }
+        } else if (kind == 2) pragma_argument.text = name;
+        else {
+            compiler_warning(1,109,name);
+            valid = 0;
+        }
+        break;
+    case 3:
+        if (kind == 3) {
+            text = current_token_value;
+            while (read_pragma_token() == 3)
+                concatenate_strings(&text,&current_token_value);
+            pragma_argument.text = text.name;
+            text_work_cursor = (unsigned char *)text.name;
+            if (current_token_code == 0x88) return 1;
+            goto trailing_token;
+        }
+        compiler_warning(1,110,token_spellings[3]);
+        valid = 0;
+        break;
+    case 7:
+        if (kind == 7)
+            pragma_argument.integer = current_token_value.expression->value.integer;
+        else {
+            compiler_warning(1,110,token_spellings[7]);
+            valid = 0;
+        }
+        break;
+    case 0x88:
+        return 0;
+    default:
+        warn_ident_requires_string();
+        valid = 0;
+        break;
+    }
+    for (;;) {
+        kind = read_pragma_token();
+        if (kind == 0x88) break;
+trailing_token:
+        compiler_warning(1,95,token_spellings[current_token_code]);
+        if (kind == 1) break;
+    }
+    return valid;
+}
+
+/* Original0x1f2e0..0x1f308, stdcall4. The caller supplies the newline;
+   retain the compiler's buffered stderr and its text-mode translation. */
+void __stdcall pragma_message(char *text)
+{
+    unsigned length;
+    for (length = 0; text[length]; ++length) ;
+    fwrite(text,length,1,stderr);
+}
+
+/* Original0x234b0..0x2352d, stdcall8. Accept an internal warning index
+   or its public4000-series spelling and retain the700-series emitted bounds. */
+void __stdcall set_warning_level(int number, int level)
+{
+    unsigned code = number;
+    if (code > 4000) code -= 4000;
+    if (code < 1 || code > 799) {
+        compiler_warning(1,616,number,4001,4799);
+        return;
+    }
+    warning_levels[code] = (unsigned char)level;
+    if (code >= 700 && code < 800) {
+        if (lowest_warning_700 >= code) lowest_warning_700 = code;
+        if (highest_warning_700 <= code) highest_warning_700 = code;
+    }
+}
+
+/* Original0x21640..0x216b7, stdcall4. Visit a comma-separated name
+   list. A declaration context diagnoses the pragma but still consumes it,
+   suppressing only the callback and its symbol changes. */
+void __stdcall visit_pragma_names(void (__stdcall *callback)(char *))
+{
+    unsigned char token;
+    if (declaration_mode) {
+        callback = 0;
+        report_syntax_error(156);
+    }
+    for (;;) {
+        if (read_pragma_token() != 2) {
+            compiler_warning(1,82,token_spellings[current_token_code]);
+            return;
+        }
+        if (callback) callback(current_token_value.name);
+        token = read_pragma_token();
+        if (token == 0x40) continue;
+        if (token != 0x88) warn_ident_requires_string();
+        return;
+    }
+}

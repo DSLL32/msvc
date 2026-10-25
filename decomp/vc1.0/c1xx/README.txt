@@ -1,10 +1,11 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is COMPLETE. There are1377 application
+PARTIAL reconstruction; packet_engine is COMPLETE. There are1382 application
 source functions plus seven unchanged historical CRT source functions. The new
-dsp_bank has accepted ten access-declaration/hash/browser/intrinsic bodies
-(1292B) and is active at read_parenthesized_pragma_argument (RVA0x11620). The completed packet_engine
+dsp_bank has accepted fifteen bodies (2053B) across access declarations,
+hashes, browser/intrinsic handling and pragma arguments/messages/warnings;
+active at enable_intrinsic_function (RVA0x2d4e0). The completed packet_engine
 /O2 /G5 /Ob1 /Z7 /FR case accepted83 whole application bodies:
 18,747 code bytes and820 owned switch-data bytes. It covers packed/anonymous
 aggregates, generated special members/defaults, temporaries, nested SEH,
@@ -36,15 +37,15 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1484: the 1302 trial baseline plus 88 browser and83 packet application steps,
-the first ten DSP application steps, and the one additional CRT boundary.
+1489: the 1302 trial baseline plus 88 browser and83 packet application steps,
+the first fifteen DSP application steps, and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
 original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 334,581/476,418 .text bytes (70.23%); this is
+Application function extents cover 335,342/476,418 .text bytes (70.39%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -290,11 +291,11 @@ The prefreeze draft rejected public access promotion and a trailing-const member
 pointer declarator; its source/logs remain in scratch. The valid source retains
 a protected access declaration and uses a nonconst virtual/member-call probe.
 
-DSP checkpoint10 matches fresh original/native first-entry order and partial
-outputs at read_parenthesized_pragma_argument. Original compilation, the1385-
-function full graph/ABI audit, ten cached cases and19 unit groups pass. Native
-32.311ms (setup18.733ms, execution7.666ms, checks5.912ms); build3.591s,
-original1.836s, audit2.141s and cached/unit aggregate0.279s.
+DSP checkpoint15 matches fresh original/native first-entry order and partial
+outputs at enable_intrinsic_function. Original compilation, the1390-function
+full graph/ABI audit, ten cached cases and19 unit groups pass. Native 38.516ms
+(setup23.554ms, execution8.192ms, checks6.770ms). Pragma trailing-token diagnostics
+preserve the original ineffective warning-suppression store; no silent fix.
 The shared errno-boundary runner e0116ffcb is covered by ordinary cached checks.
 The31st false CRT identity was the access-table getter final RET at312b0 plus15
 padding bytes. Only its two raw alias records and one canonical row were removed

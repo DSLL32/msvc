@@ -499,13 +499,8 @@ void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { in
 void suppress_browser_records(void) { __asm { int 3 } }
 
 /* Newly encountered pragma callees; bodies remain unaccepted entry traps. */
-void __stdcall pragma_message(char *text) { __asm { int 3 } }
 void warn_bad_pragma(void) { __asm { int 3 } }
-int __stdcall read_parenthesized_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
-void __stdcall visit_pragma_names(void (__stdcall *callback)(char *)) { __asm { int 3 } }
-int __stdcall read_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
 void synchronize_pch_pragma(void) { __asm { int 3 } }
-void __stdcall set_warning_level(int number, int level) { __asm { int 3 } }
 void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
 void warn_expected_identifier(void) { __asm { int 3 } }
 void __stdcall enable_intrinsic_function(char *name) { __asm { int 3 } }
