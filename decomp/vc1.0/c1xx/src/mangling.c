@@ -937,3 +937,38 @@ char *__stdcall mangle_pointer_base(char *cursor, CType *type)
     *cursor++ = '9';
     return cursor;
 }
+
+/* Original0x44110..0x441b7, stdcall12. Based declarations select a short
+   code, with segment names and nested pointer bases encoded only as required. */
+char *__stdcall mangle_based_symbol(char *cursor, unsigned short attributes, CppSymbol *symbol)
+{
+    unsigned kind = attributes & 7;
+    CType *type;
+    if (kind == 4) {
+        *cursor++ = '0';
+        return cursor;
+    }
+    if (attributes & 8) {
+        *cursor++ = '1';
+        return cursor;
+    }
+    if ((symbol->kind & 31) == 13) {
+        *cursor++ = '7';
+        return mangle_identifier(cursor, symbol->name, 1);
+    }
+    if (kind == 6) {
+        *cursor++ = '8';
+        return cursor;
+    }
+    type = symbol->type;
+    if (type->related) {
+        if ((type->related->attributes & 7) == 1) {
+            *cursor++ = '2';
+            return cursor;
+        }
+        *cursor++ = '5';
+        return mangle_pointer_base(cursor, type);
+    }
+    if (type->flags & 0x800) *cursor++ = '6';
+    return cursor;
+}
