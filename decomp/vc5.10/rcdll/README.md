@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_initialize_input` (RVA 91d5). Its partial streams and actual
+  stops at `rc_next_resource_character` (RVA 9217). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **115 functions, 29,790 code bytes**
-This is 39.93% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **116 functions, 29,834 code bytes**
+This is 39.99% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (44.94%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (45.00%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -50,16 +50,14 @@ fresh matching original/native frontier evidence. The former WIP snapshot remain
 `~/.ai-tmp/msvc2/vc5.10/rcdll/migration-snapshot-20261025/`; contextual descriptor
 research remains under `analysis/output-descriptor-data/rows.json` in the same
 scratch namespace. Unavailable descriptors still trap before native consumption.
-The latest original capture took 1.397 s; matching native replay took 182.168 ms
-(setup 76.710, execution 35.328, checks 70.130 ms). Both builds and the strict
-graph audit took 13.092 s, including shared-header fanout. Resource initialization
-preserves its full APSTUDIO branch, contextual MAX_PATH scratch names and
-FILE/size fields, and pending header writer; this case executes rc_apstudio=0.
-A compiled native hold stops the unobserved true branch before its services;
-the hold unit passed in 150.753 ms. Shared tmpnam has a typed unconditional
-failure boundary, not host-libc behavior (4232797ee). No APSTUDIO execution or
-arbitrary long-path behavior is claimed. The two historical startup CRT bodies
-and compiler support still receive no application credit.
+The latest original capture took 0.725 s; matching native replay took 180.204 ms
+(setup 75.946, execution 36.379, checks 67.879 ms). Both builds and strict audit
+took 11.222 s, including SDK-header fanout. Resource input initialization resets
+three distinct DWORD fields, binds its FILE pointer and reaches the named
+character reader. An entry-checkpoint unit seeds different initial values and
+verifies the exact stores and pointer alias (140.722 ms); it stops before the
+pending reader, without claiming its behavior. APSTUDIO services remain natively
+held and unobserved for this case.
 Earlier failures and the unchanged original-reuse evidence remain in
 `~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0110/`.
 Two custom argument helpers have named ABI-correct traps and no body credit.

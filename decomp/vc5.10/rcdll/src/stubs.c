@@ -4,6 +4,7 @@
 #include "directives.h"
 #include "macro-expansion.h"
 #include "resource-output.h"
+#include "resource-input.h"
 #include <recon.h>
 
 /* Named, ABI-correct INT3 stubs. None is accepted reconstruction. */
@@ -25,7 +26,7 @@ void __stdcall rc_write_apstudio_header(FILE *file,DWORD size,WORD id)
 {
     __asm int 3
 }
-int __stdcall rc_initialize_input(FILE *file)
+unsigned __cdecl rc_next_resource_character(void)
 {
     __asm int 3
     return 0;

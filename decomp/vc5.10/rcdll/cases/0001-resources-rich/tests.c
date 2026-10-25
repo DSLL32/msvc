@@ -8,6 +8,7 @@
 #include "command.h"
 #include "directives.h"
 #include "macro-expansion.h"
+#include "resource-input.h"
 #include <recon-tool.h>
 #include <recon-native.h>
 #include <recon.h>
@@ -421,6 +422,22 @@ static void apstudio_unobserved(void)
     rc_initialize_resource();
 }
 static int apstudio_hold(void){return trapped(apstudio_unobserved);}
+static void resource_input_invoke(void *unused)
+{
+    rc_resource_status=5;rc_resource_file_index=7;rc_resource_line=9;
+    rc_resource_input_file=(FILE *)0x23456780;
+    rc_initialize_input((FILE *)0x12345678);
+}
+static unsigned __cdecl resource_character_boundary(void)
+{
+    recon_native_entry_finish(!rc_resource_status&&!rc_resource_file_index&&
+        rc_resource_line==1&&rc_resource_input_file==(FILE *)0x12345678);
+}
+static int resource_input_contract(void)
+{
+    return recon_native_at_entry(rc_next_resource_character,
+        resource_character_boundary,resource_input_invoke,NULL)==1;
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -438,6 +455,7 @@ const ReconTest rich_tests[]={
     {"raw-macro-argument-contract",1,raw_macro_argument_contract},
     {"expanded-quoted-escape-contract",1,expanded_quoted_contract},
     {"apstudio-service-hold",1,apstudio_hold},
+    {"resource-input-initialization",1,resource_input_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };
