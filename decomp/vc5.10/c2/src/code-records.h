@@ -20,7 +20,7 @@ struct C2Expression {
     C2Expression *next;
     unsigned opcode;
     unsigned char kind, flags;
-    unsigned short type;
+    union { unsigned short type; struct { unsigned char convention, pending0b; }; };
     C2Expression *previous;
     union {
         unsigned short line, attributes;

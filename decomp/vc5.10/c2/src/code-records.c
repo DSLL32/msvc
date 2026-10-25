@@ -587,3 +587,36 @@ C2Expression *__fastcall symbol_input_expression(C2InputSymbol *symbol)
     expression->location.line = 0;
     return expression;
 }
+
+C2Expression *__fastcall new_call_expression(unsigned opcode, unsigned char convention,
+    C2Expression *target, C2Expression *arguments, C2Expression *result,
+    C2InputLink link, C2Record *prior)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(16);
+    record->opcode = opcode;
+    record->flags |= 1;
+    record->convention = convention;
+    if (target->kind == 25) {
+        bind_symbol_input_use(target, record);
+        target = resolve_symbol_input_operand(target, 0);
+    }
+    if ((1U << (target->kind & 31)) & 0x7fe) {
+        if (target->location.expression.properties & 0x10)
+            target = copy_input_expression(target);
+        target->location.expression.properties |= 0x10;
+    }
+    record->left = target;
+    if (arguments) {
+        if ((1U << (arguments->kind & 31)) & 0x7fe) {
+            if (arguments->location.expression.properties & 0x10)
+                arguments = copy_input_expression(arguments);
+            arguments->location.expression.properties |= 0x10;
+        }
+        target->next = arguments;
+        attach_call_result(record, result);
+    }
+    retain_aggregate_operands(record);
+    if (link) link(prior, (C2Record *)record);
+    record->location.line = record_line_delta;
+    return record;
+}

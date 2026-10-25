@@ -83,6 +83,9 @@ C2Expression *__fastcall fold_input_constant(C2Expression *expression, unsigned 
 C2FunctionRegister *__fastcall new_temporary_register(unsigned short type);
 void __fastcall release_function_register(C2FunctionRegister *reg);
 C2Expression * __fastcall convert_input_expression(C2Expression **expression, unsigned short type, C2Expression **prior);
+void __fastcall bind_symbol_input_use(C2Expression *symbol, C2Expression *use);
+C2Expression *__fastcall resolve_symbol_input_operand(C2Expression *symbol, int adjustment);
+void __fastcall attach_call_result(C2Expression *call, C2Expression *result);
 C2Expression * __fastcall new_call_expression(unsigned opcode, unsigned char convention, C2Expression *target, C2Expression *arguments, C2Expression *result, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall symbol_input_expression(C2InputSymbol *symbol);
 C2Expression * __fastcall new_aggregate_expression(unsigned opcode, unsigned short type, C2Expression *target, void *detail, C2Expression *source, C2Expression *destination, unsigned attributes);
