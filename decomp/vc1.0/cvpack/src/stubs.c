@@ -61,7 +61,7 @@ void read_lines(unsigned long directory,const CvDirectoryEntry * entry) { __asm 
 
 
 
-void pack_new_symbols(void * symbols,CvDirectoryEntry * entry) { __asm { int 3 } }
+
 
 
 void prepare_old_types(void * types,unsigned long size) { __asm { int 3 } }

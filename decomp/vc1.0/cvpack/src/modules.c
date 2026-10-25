@@ -262,6 +262,25 @@ void prepare_symbols(void *symbols, unsigned long size)
     }
 }
 
+void pack_new_symbols(void *symbols, CvDirectoryEntry *entry)
+{
+    unsigned char record[512];
+    unsigned char *cursor = symbols, *end = cursor+entry->size;
+    unsigned char type_offset = is_pe_image ? 6 : 4;
+    unsigned char length;
+    unsigned short padding, i;
+    while (cursor < end) {
+        length = (unsigned char)(type_offset+cursor[type_offset+2]+3);
+        *(unsigned short *)record = (unsigned short)(((length+7)&0xfffc)-2);
+        *(unsigned short *)(record+2) = is_pe_image ? 0x203 : 0x103;
+        padding = 3-((length+3)&3);
+        for (i = 0; i < length; ++i) record[4+i] = *cursor++;
+        record[4+length] = 0;
+        for (i = 0; i < padding; ++i) record[4+length+i] = 0;
+        intern_public(record, hash_public);
+    }
+}
+
 unsigned long symbol_scope_depth;
 
 void pack_public_symbols(void *symbols, CvDirectoryEntry *entry)
