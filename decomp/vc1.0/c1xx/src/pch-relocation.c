@@ -470,3 +470,23 @@ void __stdcall mark_pch_inline_vector(InlineVector *vector, PchVisit visit)
         if (visit) (*visit)(vector->items[i]);
     }
 }
+
+/* Original0x6a110..0x6a184. The member-index view aliases the adjacent
+   ClassInfo pointer/mask fields; each bucket owns a separate symbol array. */
+void __stdcall mark_pch_member_index(PchMemberIndex *index)
+{
+    ClassMemberBucket *bucket = index->buckets, current;
+    unsigned short left = (unsigned short)index->mask;
+    unsigned count;
+    CppSymbol **symbol;
+    ++left;
+    if (!bucket) return;
+    while (left--) {
+        current = *bucket;
+        mark_pch_pointer((void **)&bucket->symbols);
+        symbol = current.symbols;
+        count = current.count;
+        while (count--) mark_pch_pointer((void **)symbol++);
+        ++bucket;
+    }
+}

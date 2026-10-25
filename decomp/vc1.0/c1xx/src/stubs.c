@@ -567,8 +567,6 @@ void restore_pch_pointers(void) { __asm { int 3 } }
 void __stdcall mark_pch_hash_table(HashTable *table, void (__stdcall *key)(void *), void (__stdcall *value)(void *)) { __asm { int 3 } }
 void __stdcall mark_pch_virtual_base(VirtualBaseEntry *entry) { __asm { int 3 } }
 void __stdcall mark_pch_virtual_group(VirtualTableGroup *group) { __asm { int 3 } }
-struct PchMemberIndex;
-void __stdcall mark_pch_member_index(struct PchMemberIndex *index) { __asm { int 3 } }
 void mark_pch_types(void) { __asm { int 3 } }
 void mark_pch_shapes(void) { __asm { int 3 } }
 void mark_pch_macros(void) { __asm { int 3 } }
