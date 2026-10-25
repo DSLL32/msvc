@@ -402,23 +402,22 @@ DLL capture supplies `--host HOST.exe`; typed Win32 host glue loads the path in
 `RECON_ORIGINAL_DLL` and invokes exports. The broker identifies that exact loaded
 file and its actual module base/entry.
 
-The current direct-capture prototype exports `case_original_direct(ReconOriginal*)`
-from Linux glue and uses remote memory/register-call operations through the broker.
-Only synthetic harness tests use that original transport. Migrated native direct
-probes can replay existing captured original results. Fresh original direct
-capture still needs the intended typed Win32 setup/invocation counterpart,
-letting each compiler handle target-call ABIs; the native hook does not solve
-that remaining transport gap.
+Original DIRECT capture uses a typed Win32 probe DLL compiled with the original
+compiler. Add its normal import and marker trap offline to the scratch EXE;
+preserve existing imports, code/data locations, entry and relocations. The
+pristine original remains hash-bound and unchanged. Unsupported layouts fail.
 
-The approved replacement loads typed probe support through a normal DLL import
-added offline to the masked scratch EXE. Preserve existing imports, code/data
-locations, entry and relocations; the pristine original remains hash-bound and
-unchanged. Unsupported image layouts fail explicitly. This replaces remote
-helper loading; integration qualification is still pending.
+The imported helper handles the marker locally through a vectored exception
+handler, invokes the typed callback with genuine live owners/registers/stack,
+and publishes a bounded result receipt. The broker observes normal entry traps
+and reads that receipt; typed invocation uses no remote allocation, writes or
+thread-context redirection. Completion/frontier and four failure controls pass.
+The initial implementation supports EXE targets; C1 integration is in progress.
+The unused older remote-call prototype is being removed.
 
 The original backend supports PE32 i386 images; CF payloads/Watcom gateway capture
-remain separate. Direct calls use ECX/EDX and stack words for ordinary MSVC ABIs,
-not arbitrary register conventions such as Watcom watcall.
+remain separate. Typed probe code lets the original compiler supply the target
+ABI. The current loader/entry path does not yet support Watcom CF probes.
 
 Current original capture transport is single-threaded, ANSI/ASCII-path/argument based,
 and uses regular-file or explicit null-device stdin. It rejects pipe/timed-console events rather than
