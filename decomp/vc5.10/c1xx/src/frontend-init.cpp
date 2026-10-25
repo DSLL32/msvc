@@ -735,7 +735,14 @@ extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned
 }
 extern "C" CompilerType *__cdecl qualify_type(CompilerType *type, unsigned flags, WORD attributes) { __asm { int 3 } return NULL; }
 extern "C" CompilerSymbol *__cdecl link_parameter_symbols(CompilerParameterContext *context) { __asm { int 3 } return NULL; }
-void RECON_THISCALL CompilerDeclarator::ApplyQualifiers(CompilerDeclaratorQualifiers *qualifiers) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::ApplyQualifiers(CompilerDeclaratorQualifiers *value)
+{
+    if (value->flags & 1) {
+        compiler_warning(493);
+        flags |= 1;
+    }
+    qualifiers = *value;
+}
 
 extern "C" CompilerSymbol *__cdecl make_abstract_declarator(void)
 {

@@ -1415,8 +1415,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "CompilerDeclarator::ApplyQualifiers", .entry_rva = 0x23667,
-        .code = (const ReconExtent[]){{0x23667, 0x23668}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x23667, 0x23688}, {0x66165, 0x6617f}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "_ZN18CompilerDeclarator15ApplyQualifiersEP28CompilerDeclaratorQualifiers",
         .original_symbol = "?ApplyQualifiers@CompilerDeclarator@@QAEXPAUCompilerDeclaratorQualifiers@@@Z",
     },
