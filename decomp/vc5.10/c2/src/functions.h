@@ -82,7 +82,7 @@ void __fastcall group_symbol_records(C2Function *function);
 void __fastcall function_pass_42d635(C2Function *function);
 void __fastcall function_pass_42d65a(C2Function *function);
 void __fastcall function_pass_42f060(C2Function *function);
-void __fastcall function_pass_402c2c(C2Function *function);
+void __fastcall simplify_symbol_records(C2Function *function);
 void __fastcall function_pass_42f3e4(C2Function *function);
 void __fastcall function_pass_42f446(C2Function *function);
 void __fastcall function_pass_4330f7(C2Function *function);

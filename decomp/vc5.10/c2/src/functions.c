@@ -230,7 +230,7 @@ void compile_functions(void)
             function_pass_state = 0;
             group_symbol_records(function);
             function_pass_state = 0;
-            function_pass_402c2c(function);
+            simplify_symbol_records(function);
             function_pass_42f3e4(function);
             function_pass_state = 0;
             if (c2_global_optimize) {
@@ -316,7 +316,7 @@ void __fastcall function_pass_4088c7(C2Function *function)
 {
     rebuild_function_flow(function);
     group_symbol_records(function);
-    function_pass_402c2c(function);
+    simplify_symbol_records(function);
     function_pass_4088f4(function);
     function_pass_408ab8(function);
     function_pass_408b54(function);

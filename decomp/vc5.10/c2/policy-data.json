@@ -987,6 +987,22 @@
           "enabled": true,
           "require_all_register_calls_resolved": true
         }
+      },
+      "@symbol_range_boundary@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@symbol_range_boundary@4",
+                "offset": 91
+              },
+              {
+                "rebuilt_symbol": "@symbol_range_boundary@4",
+                "offset": 120
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

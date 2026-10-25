@@ -1910,11 +1910,20 @@ static const ReconFunction functions[] = {
         .native_symbol = "function_pass_42f060",
     },
     {
-        .name = "@function_pass_402c2c@4",
-        .entry_rva = 0x2c2c,
+        .name = "@simplify_symbol_record@4",
+        .entry_rva = 0x2ab5,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "function_pass_402c2c",
+        .native_symbol = "simplify_symbol_record",
+    },
+    {
+        .name = "@simplify_symbol_records@4",
+        .entry_rva = 0x2c2c,
+        .code = (const ReconExtent[]){{0x2c2c, 0x2c61}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "simplify_symbol_records",
     },
     {
         .name = "@function_pass_42f3e4@4",

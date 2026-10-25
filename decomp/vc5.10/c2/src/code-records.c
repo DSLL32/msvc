@@ -757,3 +757,15 @@ int __fastcall symbol_range_boundary(C2Expression *record)
         return 0;
     }
 }
+
+void __fastcall simplify_symbol_records(C2Function *function)
+{
+    C2Record *record, *next, *last;
+    last = function->flow->first->last_record;
+    record = function->flow->last->records->next;
+    while (record != last) {
+        next = record->next;
+        if (record->kind == 25) simplify_symbol_record((C2Expression *)record);
+        record = next;
+    }
+}
