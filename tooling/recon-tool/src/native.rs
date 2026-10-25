@@ -1,6 +1,6 @@
 use crate::{
     abi::{self, Loaded},
-    debug,
+    assets, debug,
     fixture::{self, Action, Fixture},
     process, status, trap,
 };
@@ -352,6 +352,7 @@ unsafe fn executor(
     }
     unsafe {
         std::env::set_var("RECON_SPAWN_FD", spawn.to_string());
+        std::env::remove_var("RECON_CASE_ASSETS");
     }
     std::env::set_current_dir(cwd)?;
     let receipt = status::Receipt::create(root)?;
@@ -364,6 +365,7 @@ unsafe fn executor(
     .ok();
     receipt.supported(root, recorder.is_some())?;
     fs::write(root.join("descriptor"), serde_json::to_vec(&loaded.info)?)?;
+    assets::configure(&loaded, f, root, cwd)?;
     if let Some(setup) = loaded.case.setup {
         if unsafe { setup() } == 0 {
             bail!("case setup failed")
@@ -407,6 +409,7 @@ unsafe fn executor(
                         }
                     }
                     std::env::set_current_dir(&dir)?;
+                    assets::configure(&loaded, f, root, &dir)?;
                     debug::checkpoint(debug, root, supervisor)?;
                     let result = unsafe { t.exec.unwrap()() };
                     unsafe {
@@ -523,6 +526,7 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
         dependencies(f)?;
         let cwd = workspace_cwd(f, &root)?;
         materialize(f, &cwd)?;
+        assets::materialize(f, &root, &cwd)?;
         let (input, mut writer) = if f.stdin_kind == fixture::StdinKind::Pipe {
             let mut pipe = [0; 2];
             if unsafe { libc::pipe2(pipe.as_mut_ptr(), libc::O_CLOEXEC) } < 0 {
@@ -707,6 +711,9 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             std::thread::sleep(Duration::from_millis(2));
         }
         dependencies(f)?;
+        if let Err(error) = assets::verify(f, &root) {
+            errors.push(format!("{error:#}"));
+        }
         let executor_setup_ms = fs::read_to_string(root.join("executor-setup-ms"))
             .ok()
             .and_then(|s| s.parse::<f64>().ok())

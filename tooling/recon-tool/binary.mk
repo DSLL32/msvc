@@ -16,7 +16,7 @@ BINARY_OBJECTS := $(addprefix $(BINARY_BUILD)/pic/,$(addsuffix .o,$(BINARY_ALL_S
 BINARY_SOURCE_ROOT ?= $(abspath $(RECON_TOOL_DIR)/../..)
 support-path = $(patsubst /%,external/%,$(patsubst $(BINARY_SOURCE_ROOT)/%,%,$(abspath $(1))))
 support-object = $(BINARY_BUILD)/support/$(call support-path,$(1)).o
-BINARY_TOOL_SUPPORT := $(RECON_TOOL_DIR)/native/entry-hook.c
+BINARY_TOOL_SUPPORT := $(RECON_TOOL_DIR)/native/entry-hook.c $(RECON_TOOL_DIR)/native/fixture.c
 BINARY_SUPPORT_OBJECTS := $(foreach s,$(BINARY_SUPPORT_SOURCES) $(BINARY_TOOL_SUPPORT),$(call support-object,$(s)))
 BINARY_LINKER ?= $(if $(filter %.cpp,$(BINARY_ALL_SOURCES)),$(NATIVE_CXX),$(NATIVE_CC))
 .PHONY: recon-native

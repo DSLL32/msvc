@@ -1,6 +1,7 @@
 #[cfg(not(target_arch = "x86"))]
 compile_error!("recon-tool must be built for i686-unknown-linux-gnu");
 mod abi;
+mod assets;
 mod debug;
 mod fixture;
 mod host_alloc;

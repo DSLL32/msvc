@@ -6,6 +6,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "recon-fixture.h"
 static void hold_interrupt(int sig) { (void)sig; write(1,"interrupt\n",10); _exit(0); }
 int fixture_add(int a, int b) { return a + b; }
 int fixture_trap(void)
@@ -25,6 +26,30 @@ int fixture_main(int argc, char **argv)
 {
     char line[128];
     FILE *f;
+    if (getenv("RECON_CHECK_ASSETS"))
+    {
+        char cwd[4096], path[4096];
+        unsigned char bytes[3];
+        const char *assets = recon_case_assets();
+        if (!assets || !getcwd(cwd,sizeof(cwd)) ||
+            strcmp(cwd,recon_case_workspace_cwd()) || getenv("RECON_CASE_ASSETS"))
+            return 11;
+        snprintf(path,sizeof(path),"%s/captures/response.bin",assets);
+        f=fopen(path,"rb");
+        if (!f || fread(bytes,1,3,f)!=3 || fgetc(f)!=EOF ||
+            bytes[0]!=0 || bytes[1]!=255 || bytes[2]!=42)
+            return 12;
+        fclose(f);
+        if (getenv("RECON_CHANGE_ASSET"))
+        {
+            chmod(path,0600);
+            f=fopen(path,"wb");
+            if(!f) return 13;
+            fputs("bad",f); fclose(f);
+        }
+        puts("asset=3");
+        return 0;
+    }
     if (getenv("RECON_CHECK_PROCESS"))
     {
         const char *setting=getenv("RECON_SPAWN_FD");

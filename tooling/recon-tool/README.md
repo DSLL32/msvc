@@ -447,3 +447,23 @@ captured-response policy is supported, every RSP1/RSP2 request is denied; it
 cannot fall back to executing a host program. A rejected request fails the whole
 fixture even if the application handles the rejection. Ordinary host controller
 forks remain supervised independently. Unit mode also has no native fallback.
+
+
+## Capture-owned fixture assets
+
+Optional `assets:[{"path":"captures/response.bin","data":"hex:00ff2a"}]`
+records use the same exact byte encoding as input files. They live read-only in a
+separate harness directory outside the application's cwd, so complete target file
+inventories remain meaningful. Paths must be unique canonical relative paths;
+file/directory collisions and symlinks are rejected. After all descendants exit,
+the runner checks the complete asset inventory, bytes and read-only modes.
+
+Native fixture glue can include `<recon-fixture.h>` and call
+`recon_case_assets()`, `recon_case_workspace_cwd()` and
+`recon_case_logical_cwd()`. Borrowed paths are configured before setup; absent
+assets/logical cwd return NULL. Assets are host metadata, never a target
+environment variable (`RECON_CASE_ASSETS` is removed). The shared make include
+links the small uninstrumented support once in libbinary.so. This optional capture
+field preserves version 2 compatibility; ordinary `input_files` remain target
+inputs. Typed process/output policy headers remain authoring interfaces until
+their implementations are published.

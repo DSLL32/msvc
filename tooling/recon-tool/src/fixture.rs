@@ -73,6 +73,12 @@ pub struct InputFile {
 }
 #[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(deny_unknown_fields)]
+pub struct AssetFile {
+    pub path: String,
+    pub data: Bytes,
+}
+#[derive(Clone, Serialize, Deserialize, Debug)]
+#[serde(deny_unknown_fields)]
 pub struct OutputFile {
     pub path: String,
     #[serde(default)]
@@ -149,6 +155,8 @@ pub struct Fixture {
     #[serde(default)]
     pub input_files: Vec<InputFile>,
     #[serde(default)]
+    pub assets: Vec<AssetFile>,
+    #[serde(default)]
     pub output_files: Vec<OutputFile>,
     #[serde(default)]
     pub env: BTreeMap<String, Option<String>>,
@@ -180,6 +188,7 @@ impl Default for Fixture {
 }
 pub fn safe_relative(s: &str) -> Result<()> {
     if s.is_empty()
+        || s.contains('\0')
         || s.contains('\\')
         || !Path::new(s)
             .components()
@@ -221,6 +230,26 @@ impl Fixture {
                 if mode & !0o777 != 0 {
                     bail!("invalid input mode")
                 }
+            }
+        }
+        paths.clear();
+        for asset in &self.assets {
+            safe_relative(&asset.path)?;
+            let canonical: std::path::PathBuf = Path::new(&asset.path).components().collect();
+            if canonical.to_str() != Some(asset.path.as_str()) || !paths.insert(&asset.path) {
+                bail!("duplicate/noncanonical asset path {}", asset.path)
+            }
+        }
+        for asset in &self.assets {
+            let mut parent = Path::new(&asset.path).parent();
+            while let Some(path) = parent.filter(|p| !p.as_os_str().is_empty()) {
+                if paths
+                    .iter()
+                    .any(|name| name.as_str() == path.to_str().unwrap_or(""))
+                {
+                    bail!("asset file/directory collision: {}", asset.path)
+                }
+                parent = path.parent();
             }
         }
         paths.clear();
@@ -335,5 +364,39 @@ mod transport_tests {
             let f: Fixture = serde_json::from_value(value).unwrap();
             assert!(f.validate().is_err());
         }
+    }
+}
+
+#[cfg(test)]
+mod asset_tests {
+    use super::*;
+    #[test]
+    fn asset_paths_are_canonical_and_collision_free() {
+        for paths in [
+            vec!["../x"],
+            vec!["/x"],
+            vec!["x\\y"],
+            vec!["x//y"],
+            vec!["x/"],
+            vec!["x\0y"],
+            vec!["x", "x"],
+            vec!["x", "x/y"],
+        ] {
+            let mut f = Fixture::default();
+            f.assets = paths
+                .into_iter()
+                .map(|path| AssetFile {
+                    path: path.into(),
+                    data: Bytes(vec![]),
+                })
+                .collect();
+            assert!(f.validate().is_err(), "{f:?}");
+        }
+        let mut f = Fixture::default();
+        f.assets = vec![AssetFile {
+            path: "nested/empty.bin".into(),
+            data: Bytes(vec![]),
+        }];
+        assert!(f.validate().is_ok());
     }
 }
