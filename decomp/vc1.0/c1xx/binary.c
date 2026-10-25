@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1610 historical frontiers/1503 App bodies.
+ * Current reviewed boundary:1611 historical frontiers/1504 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -5339,10 +5339,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_strip_function_designator@4",
         .entry_rva = 0x29f80,
-        .code = (const ReconExtent[]) { { 0x29f80, 0x29f81 } },
+        .code = (const ReconExtent[]) { { 0x29f80, 0x29f9f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "strip_function_designator",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_strip_address_expression@4",

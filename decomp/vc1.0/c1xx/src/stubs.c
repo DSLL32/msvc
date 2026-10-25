@@ -369,7 +369,6 @@ void __stdcall report_conversion_rank_failure(unsigned char operation, unsigned 
 int integer_to_extended(const long *value, Extended *result) { __asm { int 3 } return 0; }
 int unsigned_to_extended(const unsigned long *value, Extended *result) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall strip_function_designator(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall resolve_qualified_assignment_operand(CType *type, QualifiedDeclarator *reference) { __asm { int 3 } return 0; }
 
 

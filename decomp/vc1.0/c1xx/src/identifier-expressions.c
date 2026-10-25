@@ -472,7 +472,15 @@ typedef char QualifierFollowingOffsetMustBe4[
 typedef char QualifiedResolutionOffsetMustBe12[
     (offsetof(QualifiedDeclarator, resolution) == 12) ? 1 : -1];
 
-IrToken *__stdcall strip_function_designator(IrToken *expression);
+/* Original0x39f80..0x39f9f, stdcall4. Remove the ordered address,
+   member-selection and indirection wrappers from an untyped designator. */
+IrToken *__stdcall strip_function_designator(IrToken *expression)
+{
+    if (expression->kind == 0x3a) expression = expression->value.pointer;
+    if (expression->kind == 0x5c) expression = expression->tail.right;
+    if (expression->kind == 0x46) expression = expression->value.pointer;
+    return expression;
+}
 IrToken *__stdcall resolve_qualified_assignment_operand(CType *type, QualifiedDeclarator *reference);
 
 /* Original 0x39e50..0x39f73. Typed values pass through unchanged; untyped
