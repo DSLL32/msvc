@@ -2645,8 +2645,12 @@ static const ReconFunction functions[] = {
     {
         .name = "@input_symbol_register@4",
         .entry_rva = 0x261ae,
+        .code = (const ReconExtent[]){{0x261ae, 0x26298}, {0x6b611, 0x6b630}},
+        .code_count = 2,
+        .text_data = (const ReconExtent[]){{0x262a0, 0x262b4}, {0x262b4, 0x262d8}},
+        .text_data_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "input_symbol_register",
     },
     {

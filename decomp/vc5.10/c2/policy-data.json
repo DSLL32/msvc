@@ -781,6 +781,44 @@
             ]
           ]
         }
+      },
+      "@input_symbol_register@4": {
+        "original": {
+          "text_data": [
+            [
+              4350624,
+              4350644
+            ],
+            [
+              4350644,
+              4350680
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@input_symbol_register@4",
+                "offset": 415
+              },
+              {
+                "rebuilt_symbol": "@input_symbol_register@4",
+                "offset": 431
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@input_symbol_register@4",
+                "offset": 431
+              },
+              {
+                "rebuilt_symbol": "@input_symbol_register@4",
+                "offset": 463
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

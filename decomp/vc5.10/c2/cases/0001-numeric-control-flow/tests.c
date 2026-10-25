@@ -501,6 +501,28 @@ static int input_line_mapping(void)
     return input_line_cache->first_line == 1014 && input_last_line == 1014;
 }
 
+static int input_register_cache(void)
+{
+    C2RegisterBlock block;
+    C2InputSymbol symbol;
+    C2FunctionRegister *reg;
+    memset(&block, 0, sizeof(block));
+    memset(&symbol, 0, sizeof(symbol));
+    block.cursor = block.records;
+    block.end = block.records + 32;
+    block.records[0].number = 123;
+    default_register_block = &block;
+    symbol.symbol.kind = 3;
+    reg = input_symbol_register(&symbol);
+    if (reg != block.records || symbol.symbol.input_register != reg ||
+        reg->symbol != &symbol.symbol || reg->kind != 11 || reg->type != 0x1004 ||
+        reg->value_bytes != 4 || reg->canonical != reg || reg->number != 123)
+        return 0;
+    reg->pending18 = 0xa5a51234;
+    return input_symbol_register(&symbol) == reg && block.cursor == block.records + 1 &&
+        reg->pending18 == 0xa5a51234;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -524,5 +546,6 @@ const ReconTest numeric_tests[] = {
     {"control record clears its exact 28-byte allocation", 1, control_record_reuse},
     {"input stack reuse and drain preserve complete tree chain", 1, input_stack_reuse_and_link},
     {"filename selection retains cached string identity", 1, input_filename_identity},
-    {"source-line mapping preserves spans and filename identity", 1, input_line_mapping}
+    {"source-line mapping preserves spans and filename identity", 1, input_line_mapping},
+    {"symbol register cache preserves owner and allocation identity", 1, input_register_cache}
 };

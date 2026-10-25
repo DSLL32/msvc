@@ -442,12 +442,6 @@ void __fastcall release_small_node_list(C2SmallNode *nodes)
     __asm { int 3 }
 }
 
-C2FunctionRegister *__fastcall input_symbol_register(C2InputSymbol *symbol)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 void __fastcall unlink_input_use(C2InputUse *use, C2Expression *owner)
 {
     __asm { int 3 }

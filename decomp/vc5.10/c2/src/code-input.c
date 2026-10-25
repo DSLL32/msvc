@@ -1325,3 +1325,58 @@ C2Expression *__fastcall input_symbol_operand(C2InputSymbol *symbol)
     C2FunctionRegister *reg = input_symbol_register(symbol);
     return new_typed_register_expression(INPUT_OPERAND_OPCODE(reg->kind), reg->type, reg);
 }
+
+C2FunctionRegister *__fastcall input_symbol_register(C2InputSymbol *symbol)
+{
+    C2FunctionRegister *reg;
+    unsigned char kind;
+    unsigned selector, bytes, type;
+
+    if (symbol->symbol.input_register) return symbol->symbol.input_register;
+    kind = 0;
+    switch (symbol->symbol.kind) {
+    case 1:
+        switch ((symbol->attributes >> 4) & 7) {
+        case 0: case 1:
+            kind = 4;
+            break;
+        case 2: case 6:
+            kind = (symbol->attributes & 0x780) == 0x200 ? 8 : 7;
+            break;
+        case 3:
+            kind = 5;
+            break;
+        case 4: case 7:
+            selector = (symbol->attributes >> 7) & 15;
+            kind = selector == 1 || selector == 2 ? 7 : selector == 4 ? 8 : 9;
+            break;
+        case 5:
+            kind = ((symbol->symbol.flags >> 4) & 2) | 5;
+            break;
+        default:
+            kind = 0;
+            break;
+        }
+        break;
+    case 2: kind = 4; break;
+    case 3: kind = 11; break;
+    case 4: kind = 10; break;
+    default: kind = 0; break;
+    }
+    reg = new_function_register(kind);
+    symbol->symbol.input_register = reg;
+    reg->symbol = &symbol->symbol;
+    if (symbol->symbol.kind == 3) {
+        bytes = 4;
+        type = 0x1004;
+    } else {
+        bytes = symbol->symbol.kind == 4 ? symbol->storage.value_bytes :
+            (unsigned)symbol->symbol.value;
+        type = adjust_input_return_size((unsigned short)(symbol->attributes & 15), bytes);
+    }
+    reg->kind = kind;
+    reg->type = (unsigned short)type;
+    reg->value_bytes = bytes;
+    reg->canonical = reg;
+    return reg;
+}

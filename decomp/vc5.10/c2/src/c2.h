@@ -134,7 +134,8 @@ typedef struct C2FlowGraph C2FlowGraph;
 struct C2Symbol {
     C2Symbol *hash_next;
     signed char kind;
-    unsigned char pending05[7];
+    unsigned char pending05[3];
+    C2FunctionRegister *input_register;
     union { long parameter_offset; unsigned section_size; };
     long value;
     unsigned flags;
@@ -149,6 +150,7 @@ struct C2Symbol {
     long source_line;
     unsigned char source_kind, output_flags;
 };
+typedef char C2SymbolInputRegisterCheck[offsetof(C2Symbol, input_register) == 8 ? 1 : -1];
 struct C2ScopeHash {
     C2ScopeHash *previous;
     C2Symbol *buckets[1024];
@@ -195,6 +197,7 @@ typedef struct C2InputSymbol {
     unsigned attributes;
     union {
         long frame_size;
+        unsigned value_bytes;
         struct { unsigned short pending3a; signed char lifetime; unsigned char pending3d; } local;
         struct { unsigned short pending3a; unsigned char anonymous, pending3d; } temporary;
     } storage;
