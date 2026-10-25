@@ -620,6 +620,15 @@ conout-headless-check: build/conout-headless-default build/conout-headless-510
 	$(PYTHON) tests/check-conout-headless.py $< "$(CONOUT_REFERENCE)"
 	$(PYTHON) tests/check-conout-headless.py build/conout-headless-510 "$(CONOUT_REFERENCE)" 510
 
+.PHONY: iswctype-hex-check
+build/iswctype-hex-default: tests/iswctype-hex-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/iswctype-hex-510: tests/iswctype-hex-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+iswctype-hex-check: build/iswctype-hex-default build/iswctype-hex-510
+	$(PYTHON) tests/check-iswctype-hex.py $< default
+	$(PYTHON) tests/check-iswctype-hex.py build/iswctype-hex-510
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@

@@ -2501,6 +2501,16 @@ WEAK int recon_swprintf(WCHAR *out,const WCHAR *format,...)
 }
 WEAK int recon_iswctype(WCHAR character,WCHAR mask)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(mask==128) {
+        if(character>=128 || recon_lc_handle[2] || recon_lc_codepage ||
+           recon_mb_codepage || recon_mb_cur_max!=1)
+            recon_unsupported("iswctype hex mask outside MSVCRT510 default-C ASCII scope");
+        return ((character>='0' && character<='9') ||
+                (character>='A' && character<='F') ||
+                (character>='a' && character<='f'))?128:0;
+    }
+#endif
     if (character>=128 || (mask!=4 && mask!=8) || recon_lc_handle[2] || recon_lc_codepage)
         recon_unsupported("iswctype outside default-C ASCII digit/space scope");
     if (mask==4) return character>='0' && character<='9'?4:0;
