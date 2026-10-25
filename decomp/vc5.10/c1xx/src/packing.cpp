@@ -29,8 +29,13 @@ extern "C" void initialize_packing(void)
 
 extern "C" BYTE *allocate_packing_storage(unsigned bytes)
 {
-    __asm { int 3 }
-    return NULL;
+    CompilerArena *arena = &frontend_bss.arenas[0];
+    BYTE *result = arena->cursor;
+
+    arena->cursor += (bytes + 3) & ~3U;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    return result;
 }
 
 PackingFrame *RECON_THISCALL CompilerPacking::AcquireFrame(void)

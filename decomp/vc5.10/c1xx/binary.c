@@ -791,6 +791,7 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x39949, 0x39974}, {0x7275c, 0x7276b}},
         .code_count = 2, .definition = RECON_APP,
         .native_symbol = "allocate_packing_storage",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "CompilerPacking::AcquireFrame", .entry_rva = 0x2b85a,
