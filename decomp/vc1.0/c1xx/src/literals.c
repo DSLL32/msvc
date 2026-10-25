@@ -418,3 +418,73 @@ finish_narrow:
     }
     return code;
 }
+
+/* Original 0x248e0..0x24bc0, stdcall4. /E preserves source spelling
+   rather than decoding literal values. The same reader also feeds deferred
+   text into the compiler stack when no output FILE is selected. */
+#define COPY_LITERAL_CHARACTER(character_) do { \
+    if (preprocessor_stream) fputc((character_), preprocessor_stream); \
+    else write_work_character((character_), compiler_stack); \
+} while (0)
+void __stdcall copy_quoted_literal(unsigned char delimiter)
+{
+    unsigned char character;
+    int questions = 0, octal_digits;
+    COPY_LITERAL_CHARACTER(delimiter);
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        switch (character_class[character]) {
+        case CC_CARRIAGE_RETURN:
+            continue;
+        case CC_ESCAPE_OR_END:
+            if (character == '?') {
+                ++questions;
+                COPY_LITERAL_CHARACTER(character);
+                continue;
+            }
+            questions = 0;
+            if (character != '\\') {
+                recover_special_character();
+                continue;
+            }
+            COPY_LITERAL_CHARACTER(character);
+            if (consume_line_escape()) continue;
+            cpp_parser_flags |= 0x08000000UL;
+            character = next_source_character();
+            COPY_LITERAL_CHARACTER(character);
+            if (character_flags[character] & CF_OCTAL) {
+                character = next_source_character();
+                for (octal_digits = 1; (character_flags[character] & CF_OCTAL) &&
+                        octal_digits < 3; ++octal_digits) {
+                    COPY_LITERAL_CHARACTER(character);
+                    character = next_source_character();
+                }
+                cpp_parser_flags &= ~0x08000000UL;
+            } else if ((character & 0xdf) == 'X') {
+                character = next_source_character();
+                while (character_flags[character] & CF_HEX) {
+                    COPY_LITERAL_CHARACTER(character);
+                    character = next_source_character();
+                }
+                cpp_parser_flags &= ~0x08000000UL;
+            } else {
+                cpp_parser_flags &= ~0x08000000UL;
+                continue;
+            }
+            break;
+        case CC_LEAD_BYTE:
+            COPY_LITERAL_CHARACTER(character);
+            character = next_source_character();
+            COPY_LITERAL_CHARACTER(character);
+            continue;
+        case CC_NEWLINE:
+            if (token_allocation_flags & 0x200) report_syntax_error(1);
+            --source_text_cursor;
+            return;
+        }
+        COPY_LITERAL_CHARACTER(character);
+        if (character == delimiter && (questions < 2 || delimiter != '\'')) return;
+        questions = 0;
+    }
+}
+#undef COPY_LITERAL_CHARACTER

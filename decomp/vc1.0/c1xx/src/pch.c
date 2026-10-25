@@ -12,6 +12,7 @@
 #include "debug-types.h"
 #include "debug-info.h"
 #include "operators.h"
+#include "directives-internal.h"
 #include <recon.h>
 
 /* Original 0x23310..0x233dd. The default name retains the source drive and
@@ -397,4 +398,89 @@ void restore_pch_frontend(void)
             report_error(82, message_text(344), options.option_Fp, pch_diagnostic_name, 886);
     }
     options.option_Fp = 0;
+}
+
+void record_pch_event_header(unsigned kind, unsigned value, unsigned bytes);
+
+/* Original 0x6b140..0x6b2f7, stdcall12. Automatic-PCH capture stores
+   the two nul-terminated macro strings after a 12-byte event header. Playback
+   may consume matching definitions out of order, marking their records used. */
+int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count)
+{
+    unsigned short name_bytes, replacement_bytes;
+    unsigned length;
+    PchInputRecord *record;
+    char *left, *right, *saved_name;
+    if (pch_mode == 1) {
+        for (length = 0; name[length]; ++length) ;
+        name_bytes = (unsigned short)(length + 1);
+        for (length = 0; replacement[length]; ++length) ;
+        replacement_bytes = (unsigned short)(length + 1);
+        record_pch_event_header(1, (unsigned short)parameter_count,
+            name_bytes + replacement_bytes);
+        write_work_bytes(name, name_bytes, 1, pch_event_stack);
+        write_work_bytes(replacement, replacement_bytes, 1, pch_event_stack);
+        return 0;
+    }
+    if (pch_mode != 2) return 0;
+    record = pch_input_record;
+    for (;;) {
+        if (record->kind == 1) {
+            if ((unsigned short)record->value == (unsigned short)parameter_count) {
+                left = record->text;
+                right = name;
+                while (*left == *right && *left) { ++left; ++right; }
+                if (*left == *right) {
+                    for (length = 0; record->text[length]; ++length) ;
+                    left = record->text + length + 1;
+                    right = replacement;
+                    while (*left == *right && *left) { ++left; ++right; }
+                    if (*left == *right) break;
+                }
+            }
+        } else if (record->kind != 0) {
+            saved_name = copy_string(interned_name, 2);
+            if (!resume_pch_source_input()) {
+                intern_identifier(saved_name);
+                return 0;
+            }
+            return 1;
+        }
+        record = (PchInputRecord *)((char *)record + record->bytes + 12);
+    }
+    record->kind = 0;
+    while (!pch_input_record->kind)
+        pch_input_record = (PchInputRecord *)((char *)pch_input_record +
+            pch_input_record->bytes + 12);
+    return 1;
+}
+
+/* Original 0x6b070..0x6b133, stdcall12. Replay compares the stored
+   payload length, including its terminator, before advancing the event cursor.
+   A mismatched event resumes real source input and restores the interned name. */
+int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text)
+{
+    unsigned bytes, i;
+    char *saved_name;
+    if (pch_mode == 1) {
+        record_pch_string_event(kind, value, text);
+        return 0;
+    }
+    if (pch_mode != 2) return 0;
+    if (pch_input_record->kind == kind && pch_input_record->value == value) {
+        bytes = (unsigned)(short)pch_input_record->bytes;
+        for (i = 0; i < bytes; ++i)
+            if (pch_input_record->text[i] != text[i]) break;
+        if (i == bytes) {
+            pch_input_record = (PchInputRecord *)((char *)pch_input_record +
+                pch_input_record->bytes + 12);
+            return 1;
+        }
+    }
+    saved_name = copy_string(interned_name, 2);
+    if (!resume_pch_source_input()) {
+        intern_identifier(saved_name);
+        return 0;
+    }
+    return 1;
 }

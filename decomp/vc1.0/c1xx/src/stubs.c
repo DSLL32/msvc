@@ -64,7 +64,6 @@ void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
-void preprocess_translation_unit(void) { __asm { int 3 } }
 void begin_automatic_pch(void) { __asm { int 3 } }
 
 void record_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } }
@@ -77,7 +76,7 @@ void report_fatal(unsigned code, ...) { __asm { int 3 } }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
-int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count) { __asm { int 3 } return 0; }
+void record_pch_event_header(unsigned kind, unsigned value, unsigned bytes) { __asm { int 3 } }
 int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
@@ -158,12 +157,9 @@ void __stdcall report_parser_error(char *text) { __asm { int 3 } }
 
 
 
-void skip_line_comment(void) { __asm { int 3 } }
-void copy_block_comment(void) { __asm { int 3 } }
 void report_ide_source_end(void) { __asm { int 3 } }
 void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
-void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
 void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
 long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
@@ -356,7 +352,6 @@ int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm
 OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 
 void capture_directive_text(void) { __asm { int 3 } }
-void __stdcall skip_directive_literal(unsigned char delimiter) { __asm { int 3 } }
 int __stdcall record_pch_condition(int condition) { __asm { int 3 } return 0; }
 int process_pch_directive(void) { __asm { int 3 } return 0; }
 void warn_ident_requires_string(void) { __asm { int 3 } }
@@ -504,7 +499,6 @@ int __stdcall segment_name_has_suffix(char *name, char *suffix) { __asm { int 3 
 
 unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0; }
 
-int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
 void __stdcall reference_pch_debug_library(char *name) { __asm { int 3 } }
 void restore_pch_separate_debug(void) { __asm { int 3 } }
 void declare_pch_debug_library(void) { __asm { int 3 } }

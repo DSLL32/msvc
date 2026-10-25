@@ -1,6 +1,33 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Protocol-export case0014 is COMPLETE. The /E /C /Fi workload exports a public
+SDK with forced configuration, nested conditional/X-macro headers, pasted names,
+stringified fields, quoted/spliced literals, retained comments and assembly text.
+All eight fresh original/native first encounters, exit 0, streams and the complete
+3,596-byte protocol.i match the untouched full baseline exactly (SHA-256
+2145329be5c13a800b71249c46b73c6d8cdc2eae1ac2fd1d7127cfc6036656fa).
+No byte normalization, new native limitation or handwritten CRT body was added.
+
+The case accepted eight whole App bodies / 2,034 code bytes. Totals are 1,637 App
+bodies / 1,744 historical frontiers, plus the unchanged seven CRT source bodies.
+The application code-extent union is 377,529 / 476,418 bytes (79.24% of whole
+original code extent, not a non-CRT denominator). CRT/import/data are excluded.
+A newly discovered line-comment tail has its own function identity. The identified
+PCH event-header writer remains pending; the two accepted event-comparison bodies
+were reached only with PCH mode 0, so their capture/playback paths are unvalidated.
+
+Final fresh native replay: 25.914 ms (setup 17.037 ms, execution 3.037 ms,
+checks 5.839 ms); original capture 1.128 s and incremental native/Win32 build
+2.479 s. All 15 cached native cases, 30 unit groups and the 1,645-function
+six-check audit passed. That final gate took 38.534 s including a shared-header
+native/original rebuild; cached protocol execution/checks remained 25.984 ms.
+An earlier pair accidentally ran before a build completed and only re-proved the
+old stub boundary. It earned no credit; actual candidate acceptance used a fresh
+pair after the build exited successfully. Raw records remain in scratch.
+
+Earlier completed catalog-database case:
+
 Catalog-database case0013 is COMPLETE. The coherent /Zi /Brepro /FR /Ob1
 scene-query workload exercises packed keys, virtual hierarchies, nested cursors,
 member pointers, deferred defaults, scalar/reference temporaries and the embedded

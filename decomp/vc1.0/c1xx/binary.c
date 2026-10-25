@@ -1,11 +1,28 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current fresh-paired boundary:1736 historical frontiers/1629 App bodies.
+ * Current fresh-paired boundary:1744 historical frontiers/1637 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_record_pch_event_header",
+        .entry_rva = 0x5aff0,
+        .code = (const ReconExtent[]) { { 0x5aff0, 0x5b023 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "record_pch_event_header",
+    },
+    {
+        .name = "_copy_line_comment",
+        .entry_rva = 0x15c80,
+        .code = (const ReconExtent[]) { { 0x15c80, 0x15d48 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "copy_line_comment",
+        .implementation = RECON_IMPLEMENTED,
+    },
     {
         .name = "_DebugDatabase_commit",
         .entry_rva = 0x7a70,
@@ -1516,6 +1533,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "match_pch_string_event",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_build_scalar_reference_temporary@12",
@@ -2865,10 +2883,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_skip_directive_literal@4",
         .entry_rva = 0x143f0,
-        .code = (const ReconExtent[]) { { 0x143f0, 0x143f1 } },
+        .code = (const ReconExtent[]) { { 0x143f0, 0x1445a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "skip_directive_literal",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_read_skipped_directive",
@@ -2926,10 +2945,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_copy_quoted_literal@4",
         .entry_rva = 0x148e0,
-        .code = (const ReconExtent[]) { { 0x148e0, 0x148e1 } },
+        .code = (const ReconExtent[]) { { 0x148e0, 0x14bc0 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "copy_quoted_literal",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_scan_character_literal@4",
@@ -3087,18 +3107,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_skip_line_comment",
         .entry_rva = 0x15c60,
-        .code = (const ReconExtent[]) { { 0x15c60, 0x15c61 } },
+        .code = (const ReconExtent[]) { { 0x15c60, 0x15c7c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "skip_line_comment",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_copy_block_comment",
         .entry_rva = 0x15d50,
-        .code = (const ReconExtent[]) { { 0x15d50, 0x15d51 } },
+        .code = (const ReconExtent[]) { { 0x15d50, 0x15e4e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "copy_block_comment",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_skip_block_comment",
@@ -13045,10 +13067,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_preprocess_translation_unit",
         .entry_rva = 0x59ca0,
-        .code = (const ReconExtent[]) { { 0x59ca0, 0x59ca1 } },
+        .code = (const ReconExtent[]) { { 0x59ca0, 0x59cec } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "preprocess_translation_unit",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_new_permanent_page",
@@ -13098,7 +13121,7 @@ static const ReconFunction functions[] = {
     {
         .name = "_record_pch_string_event",
         .entry_rva = 0x5b030,
-        .code = (const ReconExtent[]) { { 0x5b030, 0x5b031 } },
+        .code = (const ReconExtent[]) { { 0x5b030, 0x5b070 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "record_pch_string_event",
@@ -13106,10 +13129,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_pch_record_macro@12",
         .entry_rva = 0x5b140,
-        .code = (const ReconExtent[]) { { 0x5b140, 0x5b141 } },
+        .code = (const ReconExtent[]) { { 0x5b140, 0x5b2f7 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "pch_record_macro",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_record_pch_condition@4",

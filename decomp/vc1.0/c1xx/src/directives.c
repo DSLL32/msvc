@@ -558,3 +558,29 @@ unsigned char next_directive_character(void)
         return character;
     }
 }
+
+/* Original 0x243f0..0x2445a, stdcall4. Quotes in an inactive
+   directive region still protect embedded directive-looking text. Leave the
+   physical newline for the conditional-source scanner. */
+void __stdcall skip_directive_literal(unsigned char delimiter)
+{
+    unsigned char character;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        switch (character_class[character]) {
+        case CC_ESCAPE_OR_END:
+            if (recover_special_character() & 0x10) ++source_text_cursor;
+            break;
+        case CC_NEWLINE:
+            --source_text_cursor;
+            return;
+        case CC_APOSTROPHE:
+        case CC_QUOTE:
+            if (character == delimiter) return;
+            break;
+        case CC_LEAD_BYTE:
+            next_source_character();
+            break;
+        }
+    }
+}

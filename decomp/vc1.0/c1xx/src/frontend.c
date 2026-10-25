@@ -1,6 +1,7 @@
 /* Translation-unit orchestration, original 0x69730..0x69a97. */
 #include <stdlib.h>
 #include "frontend.h"
+#include "lexer.h"
 #include <recon.h>
 
 unsigned initial_option_flags, token_allocation_flags;
@@ -106,4 +107,20 @@ finish:
     cleanup_precompiled_files();
     exit(error_count + (options.option_WX > 1));
     return error_count + (options.option_WX > 1);
+}
+
+/* Original 0x69ca0..0x69cec, cdecl. The lexer writes names, literals,
+   whitespace and source directives itself; only the remaining token spellings
+   need to be appended here. /Fi has already redirected the actual stdout. */
+void preprocess_translation_unit(void)
+{
+    unsigned char token;
+    char *text;
+    unsigned length;
+    while ((token = read_parser_token()) != 0) {
+        if (token == 1 || token == 0x93) continue;
+        text = token_spellings[current_token_code];
+        for (length = 0; text[length]; ++length) ;
+        fwrite(text, length, 1, stdout);
+    }
 }

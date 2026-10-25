@@ -89,3 +89,81 @@ void discard_line_comment(void)
         }
     }
 }
+
+/* Original 0x25d50..0x25e4e, cdecl. Preserve /C block-comment text,
+   excluding CR bytes, while retaining source-window and trigraph recovery. */
+void copy_block_comment(void)
+{
+    unsigned char character;
+    fwrite("/*", 2, 1, preprocessor_stream);
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        switch (character_class[character]) {
+        case CC_CARRIAGE_RETURN:
+            continue;
+        case CC_ESCAPE_OR_END:
+            if (source_text_cursor[-1] == '?') {
+                if (!(recover_trigraph() & 0x40)) continue;
+            } else if (source_text_cursor[-1] == '\\') {
+                putc('\\', stdout);
+                consume_line_escape();
+                continue;
+            } else {
+                recover_special_character();
+                continue;
+            }
+            break;
+        case CC_STAR:
+            if (match_source_character('/')) {
+                fwrite("*/", 2, 1, preprocessor_stream);
+                return;
+            }
+            break;
+        case CC_NEWLINE:
+            ++source_line_number;
+            break;
+        }
+        fputc(character, preprocessor_stream);
+    }
+}
+
+/* Original 0x25c60..0x25c7c, cdecl. Both branches are original tail
+   transfers. Directive scanning suppresses /C comment retention. */
+void skip_line_comment(void)
+{
+    if (options.option_C && !(token_allocation_flags & 0x10000))
+        copy_line_comment();
+    else
+        discard_line_comment();
+}
+
+/* Original 0x25c80..0x25d48, cdecl. The /C line-comment tail copies
+   source bytes but leaves the terminating newline for the normal scanner. */
+void copy_line_comment(void)
+{
+    unsigned char character;
+    fwrite("//", 2, 1, preprocessor_stream);
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        switch (character_class[character]) {
+        case CC_CARRIAGE_RETURN:
+            continue;
+        case CC_ESCAPE_OR_END:
+            if (source_text_cursor[-1] == '?') {
+                if (!(recover_trigraph() & 0x40)) continue;
+            } else if (source_text_cursor[-1] == '\\') {
+                putc('\\', stdout);
+                consume_line_escape();
+                continue;
+            } else {
+                recover_special_character();
+                continue;
+            }
+            break;
+        case CC_NEWLINE:
+            --source_text_cursor;
+            return;
+        }
+        fputc(character, preprocessor_stream);
+    }
+}
