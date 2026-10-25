@@ -299,6 +299,40 @@ static int substitute_invalid_index(void)
         expanded==0x12345678 && rc_source_cursor==text+1 &&
         text[0]==2 && text[1]==L')' && !text[2];
 }
+static int identifier_lookahead_contract(void)
+{
+    WCHAR text[]={1,L'x',L')',0};
+    RcMacro macro={NULL,L"LOOK",text,1,1,0};
+    unsigned i;
+    rc_set_character_token(1,36);
+    rc_expanding_macro=1;
+    rc_macro_frames[1].macro=&macro;
+    for(i=0;i<4;++i){
+        rc_source_cursor=text+i;
+        if(rc_macro_identifier_follows()!=(i<2) || rc_source_cursor!=text+i)return 0;
+    }
+    return text[0]==1 && text[1]==L'x' && text[2]==L')' && !text[3];
+}
+static void interior_number_call(void){rc_read_number(L'2');}
+static int interior_number_contract(void)
+{
+    WCHAR text[]={L'(',L'(',1,1,L')',L' ',L'*',L' ',L'2',L')',0,L'D',0};
+    RcMacro macro={NULL,L"TWICE",text,1,1,0};
+    rc_expanding_macro=1;rc_number_buffer_active=1;rc_cpp_active=1;
+    rc_macro_frames[1].macro=&macro;
+    rc_number_buffer=rc_string_buffer+1034;
+    rc_source_cursor=text+9;
+    rc_string_buffer[1036]=0xa7a7;
+    if(rc_read_number(L'2')!=1 || rc_number_buffer!=rc_string_buffer+1035 ||
+       rc_string_buffer[1034]!=L'2' || rc_string_buffer[1035] ||
+       rc_string_buffer[1036]!=0xa7a7 || rc_source_cursor!=text+9)return 0;
+    rc_source_cursor=text+8;
+    if(!trapped(interior_number_call))return 0;
+    rc_source_cursor=text;
+    if(!trapped(interior_number_call))return 0;
+    rc_source_cursor=text+11;
+    return trapped(interior_number_call);
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -310,6 +344,8 @@ const ReconTest rich_tests[]={
     {"collected-identifier-output-contract",1,collected_identifier_contract},
     {"nested-numeric-spelling-contract",1,nested_number_contract},
     {"substitution-invalid-index",1,substitute_invalid_index},
+    {"identifier-lookahead-contract",1,identifier_lookahead_contract},
+    {"interior-numeric-spelling-contract",1,interior_number_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };

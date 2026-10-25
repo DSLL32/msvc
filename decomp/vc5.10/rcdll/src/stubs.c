@@ -190,11 +190,7 @@ void __stdcall rc_emit_macro_reference(RcMacro *macro)
 
 
 
-int __cdecl rc_macro_identifier_follows(void)
-{
-    __asm int 3
-    return 0;
-}
+
 void __stdcall rc_append_macro_text(const WCHAR *text)
 {
     __asm int 3

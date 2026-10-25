@@ -32,8 +32,10 @@ unsigned char __stdcall rc_read_number(WCHAR first)
            (DWORD)rc_number_buffer<(DWORD)&rc_string_buffer[1024]||
            (DWORD)rc_number_buffer>=(DWORD)&rc_string_buffer[2045]){ __asm int 3 }
         macro=rc_macro_frames[rc_expanding_macro].macro;
-        if(!macro||!macro->text||rc_source_cursor!=macro->text+1||
-           macro->text[0]!=first||wcslen(macro->text)+1>
+        if(!macro||!macro->text||((DWORD)rc_source_cursor&1)||
+           (DWORD)rc_source_cursor<=(DWORD)macro->text||
+           (DWORD)rc_source_cursor>(DWORD)(macro->text+wcslen(macro->text))||
+           rc_source_cursor[-1]!=first||wcslen(macro->text)+1>
            (unsigned)(&rc_string_buffer[2045]-rc_number_buffer)){ __asm int 3 }
     }
 #endif

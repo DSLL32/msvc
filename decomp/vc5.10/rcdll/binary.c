@@ -198,7 +198,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_advance_macro_text" },
     { .name="rc_macro_identifier_follows", .original_symbol="_rc_macro_identifier_follows", .entry_rva=0x5d4d,
       .code=(const ReconExtent[]){{0x5d4d,0x5d8a}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_macro_identifier_follows" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_macro_identifier_follows" },
     { .name="rc_substitute_macro_argument", .original_symbol="_rc_substitute_macro_argument@4", .entry_rva=0x5d8a,
       .code=(const ReconExtent[]){{0x5d8a,0x5e09}}, .code_count=1,
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_substitute_macro_argument" },

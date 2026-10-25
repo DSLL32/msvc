@@ -279,3 +279,24 @@ copy_part:
 }
 
 #undef IDENTIFIER_SPACE
+
+int __cdecl rc_macro_identifier_follows(void)
+{
+    WCHAR character;
+#ifdef RECON_NATIVE_TEST
+    RcMacro *macro;
+    if(rc_expanding_macro<1||rc_expanding_macro>=64||
+       ((DWORD)rc_source_cursor&1)){ __asm int 3 }
+    macro=rc_macro_frames[rc_expanding_macro].macro;
+    if(!macro||!macro->text||
+       (DWORD)rc_source_cursor<(DWORD)macro->text||
+       (DWORD)rc_source_cursor>(DWORD)(macro->text+wcslen(macro->text))){ __asm int 3 }
+#endif
+    character=*rc_source_cursor++;
+    if(rc_character_token(character)==36 || rc_character_class(character)&16){
+        --rc_source_cursor;
+        return 1;
+    }
+    --rc_source_cursor;
+    return 0;
+}
