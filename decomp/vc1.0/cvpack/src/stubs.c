@@ -182,7 +182,7 @@ void convert_old_symbol_data32(void) { __asm { int 3 } }
 void convert_old_symbol_label32(void) { __asm { int 3 } }
 
 void convert_old_symbol_constant(void) { __asm { int 3 } }
-void convert_old_symbol_register_relative16(void) { __asm { int 3 } }
+
 void convert_old_symbol_register_relative32(void) { __asm { int 3 } }
 void convert_old_symbol12(void) { __asm { int 3 } }
 void convert_old_symbol_skip(void) { __asm { int 3 } }

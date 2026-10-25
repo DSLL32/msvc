@@ -373,3 +373,24 @@ void size_old_skip(void)
 {
     module_type_count += symbol_input[0] + 1;
 }
+
+/* This legacy converter consumes the fixed narrow record, including two
+   trailing words; it does not remap either through the type compactor. */
+void convert_old_symbol_register_relative16(void)
+{
+    unsigned char *record = old_symbol_output;
+    unsigned short length = old_symbol_input[0]+6;
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)record = (unsigned short)(((length+3)&0xfffc)-2);
+    old_symbol_input += 2;
+    *(unsigned short *)(record+4) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    *(unsigned short *)(record+6) = old_symbol_segment;
+    *(unsigned short *)(record+8) = *old_symbol_input++;
+    *(unsigned short *)(record+10) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    *(unsigned short *)(record+12) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    old_symbol_output += 14;
+    while (padding--) *old_symbol_output++ = 0;
+}
