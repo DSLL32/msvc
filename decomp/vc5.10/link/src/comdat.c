@@ -71,3 +71,30 @@ void *__stdcall add_comdat_reference(DWORD symbol_index,Contribution *parent,Con
     }
     return reference;
 }
+
+extern StringNode **current_module_symbols;
+void __stdcall record_module_comdats(OutputModule *module)
+{
+    ModuleContributionEnumerator contributions;
+    ComdatReferenceEnumerator references;
+    ComdatReference *reference;
+    initialize_module_contribution_enumerator(&contributions,module);
+    while (next_module_contribution(&contributions)) {
+        if (contributions.current->characteristics & 0x800) continue;
+        initialize_comdat_reference_enumerator(&references,
+            get_contribution_info(contributions.current));
+        while (next_comdat_reference(&references)) {
+            reference=references.current;
+            if (!reference->contribution)
+                reference->symbol=current_module_symbols[reference->symbol_index];
+        }
+    }
+}
+void __stdcall initialize_module_contribution_enumerator(ModuleContributionEnumerator *enumerator,
+    OutputModule *module) { __asm { int 3 } }
+BYTE __stdcall next_module_contribution(ModuleContributionEnumerator *enumerator)
+{ __asm { int 3 } return 0; }
+void __stdcall initialize_comdat_reference_enumerator(ComdatReferenceEnumerator *enumerator,
+    ContributionInfo *block) { __asm { int 3 } }
+BYTE __stdcall next_comdat_reference(ComdatReferenceEnumerator *enumerator)
+{ __asm { int 3 } return 0; }

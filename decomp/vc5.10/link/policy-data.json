@@ -6364,6 +6364,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_record_module_comdats@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

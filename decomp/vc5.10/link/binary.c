@@ -3,6 +3,10 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
+    {"_initialize_module_contribution_enumerator@8",0xfcb0,(const ReconExtent[]){{0xfcb0,0xfcb1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"initialize_module_contribution_enumerator",NULL,NULL,0,NULL},
+    {"_next_module_contribution@4",0xfce0,(const ReconExtent[]){{0xfce0,0xfce1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"next_module_contribution",NULL,NULL,0,NULL},
+    {"_initialize_comdat_reference_enumerator@8",0x63800,(const ReconExtent[]){{0x63800,0x63801}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"initialize_comdat_reference_enumerator",NULL,NULL,0,NULL},
+    {"_next_comdat_reference@4",0x63830,(const ReconExtent[]){{0x63830,0x63831}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"next_comdat_reference",NULL,NULL,0,NULL},
     {"_read_file_symbol@8",0x61300,(const ReconExtent[]){{0x61300,0x61301}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_file_symbol",NULL,NULL,0,NULL},
     {"_next_coff_symbol@4",0x61010,(const ReconExtent[]){{0x61010,0x6103a}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_coff_symbol",NULL,NULL,0,NULL},
     {"_mark_symbol_bit@8",0x61d00,(const ReconExtent[]){{0x61d00,0x61d01}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"mark_symbol_bit",NULL,NULL,0,NULL},
@@ -322,7 +326,7 @@ static const ReconFunction functions[] = {
     {"_add_input_section@24",0x5ea70,(const ReconExtent[]){{0x5ea70,0x5eee9}},1,(const ReconExtent[]){{0x71c8,0x71cf},{0x2dd4,0x2ddc},{0x79a8,0x79b0}},3,RECON_APP,RECON_IMPLEMENTED,"add_input_section",NULL,NULL,0,NULL},
     {"_process_module_symbols@24",0x5f430,(const ReconExtent[]){{0x5f430,0x5fc88},{0x655d0,0x655db},{0x655db,0x655e5}},3,(const ReconExtent[]){{0x1ed4,0x1edc},{0x8c30,0x8c42},{0x657b0,0x657d8}},3,RECON_APP,RECON_IMPLEMENTED,"process_module_symbols",NULL,NULL,0,NULL},
     {"_process_incremental_sections@12",0x387d0,(const ReconExtent[]){{0x387d0,0x388e5}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_incremental_sections",NULL,NULL,0,NULL},
-    {"_record_module_comdats@4",0x63150,(const ReconExtent[]){{0x63150,0x631d9}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"record_module_comdats",NULL,NULL,0,NULL},
+    {"_record_module_comdats@4",0x63150,(const ReconExtent[]){{0x63150,0x631d9}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"record_module_comdats",NULL,NULL,0,NULL},
     {"_release_module_strings@4",0x60bb0,(const ReconExtent[]){{0x60bb0,0x60bba}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"release_module_strings",NULL,NULL,0,NULL},
     {"_release_module_symbols@4",0x61000,(const ReconExtent[]){{0x61000,0x6100a}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"release_module_symbols",NULL,NULL,0,NULL},
     {"_resize_module_section_buffers@4",0xe2c0,(const ReconExtent[]){{0xe2c0,0xe35c}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"resize_module_section_buffers",NULL,NULL,0,NULL},

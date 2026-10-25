@@ -116,7 +116,6 @@ BYTE __stdcall process_incremental_sections(LinkContext *context,OutputModule *m
     __asm { int 3 }
     return 0;
 }
-void __stdcall record_module_comdats(OutputModule *module) { __asm { int 3 } }
 void __stdcall release_module_strings(char *strings) { __asm { int 3 } }
 void __stdcall release_module_symbols(IMAGE_SYMBOL *symbols) { __asm { int 3 } }
 

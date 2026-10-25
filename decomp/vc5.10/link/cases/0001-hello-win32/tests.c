@@ -874,7 +874,19 @@ static void *__stdcall check_comdat_reference(DWORD symbol_index,Contribution *p
         info->references!=comdat_reference_arena->base || comdat_reference_arena->used!=96)
         recon_native_entry_finish(0);
     for(i=0;i<96;++i) if(comdat_reference_arena->base[i]) recon_native_entry_finish(0);
-    recon_native_entry_finish(1);
+    {
+        Contribution *distinct_child=(Contribution *)module->contributions+2;
+        ComdatReference *first=(ComdatReference *)add_comdat_reference(symbol_index,parent,NULL);
+        ComdatReference *second=(ComdatReference *)add_comdat_reference(0x13579bdf,parent,distinct_child);
+        DWORD first_raw[3],second_raw[3];
+        /* Unwritten words retain the fresh arena zero prestate checked above. */
+        memcpy(first_raw,first,sizeof(first_raw));
+        memcpy(second_raw,second,sizeof(second_raw));
+        recon_native_entry_finish(first==(ComdatReference *)info->references &&
+            second==first+1 && first_raw[0]==0 && first_raw[1]==17 && first_raw[2]==0 &&
+            second_raw[0]==(DWORD)distinct_child && second_raw[1]==0 && second_raw[2]==0 &&
+            second_raw[0]!=0x13579bdf && info->references_used==2);
+    }
     return NULL;
 }
 static int comdat_reference(void)
