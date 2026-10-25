@@ -37,28 +37,53 @@
       ],
       "original_bytes": 20,
       "native_symbol": "GetEnvVar"
+    },
+    {
+      "name": "SizeToClass",
+      "entry": 293769,
+      "extent": [
+        293769,
+        293809
+      ],
+      "original_bytes": 40,
+      "native_symbol": "SizeToClass"
     }
   ],
   "next_frontier": {
-    "name": "SizeToClass",
-    "entry": 293769,
+    "name": "GetFromFrl",
+    "entry": 293809,
     "implemented": false
   },
   "classification": "SevenCRT/support397+177bytes receivezeroAppcredit; privateallocator isApp",
-  "coverage": "3acceptedAppfunctions/367originalcodebytes; totalAppcodeextentdenominatornotyetknown",
+  "coverage": "4acceptedAppfunctions/407originalcodebytes; totalAppcodeextentdenominatornotyetknown",
   "native_build_seconds": 0.079676008,
   "original_stub_build_seconds": 0.5541316652670503,
   "candidate_combined_native_original_build_seconds": 0.854152095,
   "original_capture": {
-    "command": "Shared owner ordinary-debugger qualifier, exact frozen command/source/input tuple independently reviewed by parent; preserved without rerun",
-    "elapsed_seconds": 1.374864967,
+    "command": [
+      "/root/msvc2/tooling/recon-tool/target/i686-unknown-linux-gnu/release/recon-tool",
+      "original",
+      "capture",
+      "cases/0000-help",
+      "--repo",
+      "/root/msvc2",
+      "--capture",
+      "cases/0000-help/capture.bin",
+      "--cf-profile",
+      "cf-profile.json",
+      "--progress",
+      "--output",
+      "build/sizeclass-original.bin",
+      "--report",
+      "build/sizeclass-original-report.json"
+    ],
     "status": 0,
-    "runtime_ms": 2.106,
-    "shared_READY": "cea53023405fcce7f9900f4626986008d8ded4db"
+    "elapsed_seconds": 1.8356150910258293,
+    "tool_elapsed_ms": 1823.567845
   },
   "native_comparison": {
     "case": "wcc-first-help-frontier",
-    "workspace": "/tmp/recon/run-rpE1KL",
+    "workspace": "/tmp/recon/run-K4knO4",
     "pass": true,
     "terminal": "signal:5",
     "logical_exit_code": null,
@@ -66,20 +91,21 @@
       294007,
       294677,
       420398,
-      293769
+      293769,
+      293809
     ],
     "tests": false,
     "process_requests": null,
-    "trap_rva": 293769,
-    "trap_site": 4154051624,
-    "elapsed_ms": 5.716393999999999,
-    "setup_ms": 3.1987089999999996,
-    "execution_ms": 2.0525870000000004,
-    "checks_ms": 0.464644,
+    "trap_rva": 293809,
+    "trap_site": 4154219688,
+    "elapsed_ms": 5.182797,
+    "setup_ms": 2.50038,
+    "execution_ms": 2.2394700000000003,
+    "checks_ms": 0.442951,
     "errors": [],
     "original_reference": {
-      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/build/getter-debugger-original-report.json",
-      "report_sha256": "638f94cbbac5da3b8205d4d4c7f105b537b3cd37071056cc53fc774127962b1b",
+      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/build/sizeclass-original-report.json",
+      "report_sha256": "79f9cc2873a47378677df8d2109a5cd44e0127e9449fb713af3df0789e48aa15",
       "capture_sha256": "2408553b3762d462de218db9a166a6d15d4e6d60e8754280fd90be856f189d73",
       "source_binding_available": true
     }
@@ -91,13 +117,13 @@
     "pairedRET0",
     "instructionexport"
   ],
-  "graph_report_sha256": "c1d8ad61dc542f945e100a5a2dc8487a80a8196ed88fd31f8fd6539dab60454c",
-  "original_PE_sha256": "b138526cff7679b045739b79246b11d1ad8f7851a217833974d409c4de2711a9",
-  "original_MAP_sha256": "9551793321b2e73da5a697c2e7e355d8db9f7534fe03a224f823e707a71bfdb3",
+  "graph_report_sha256": "919b46966d2600d0cac435c74c3543bbb8d08c4afa0f4350ee8bb6fdd156c356",
+  "original_PE_sha256": "a8458027416d395d6fa7498e0f1d33467e3443b96521da1ff95ea8cceb9897ab",
+  "original_MAP_sha256": "3a102a80c37c2059fcdfe0d59582d95f9394a0fcf7542cfd6f287518575af332",
   "raw_bindings": {
     "capture.bin": "2408553b3762d462de218db9a166a6d15d4e6d60e8754280fd90be856f189d73",
-    "original-report.json": "638f94cbbac5da3b8205d4d4c7f105b537b3cd37071056cc53fc774127962b1b",
-    "native-report.json": "687f03d7ee7a71816157f83a44edbef38ae360d43cea00dd2f64072957bdba27",
+    "original-report.json": "79f9cc2873a47378677df8d2109a5cd44e0127e9449fb713af3df0789e48aa15",
+    "native-report.json": "48ba7213baf1afc6eb9c30136fa96c30cc0a74806c491de89a4f6d1ed452eb42",
     "initial-original-report.json.gz": "1bba1c12f4c5b11700c95bb59725b8946dba754676a37efb5bfe4e25caf4400b",
     "initial-native-report.json": "34a4a6cdd6f0017af4d7670ba8c5dd3ea8dae488d805c07ba0d8aaaa5f7c3972",
     "initial-native-state.txt": "ef072c3edf4d0c10c6851cae60ce25c66f71d05610ea3c033f740a4a030d0109",
@@ -105,7 +131,8 @@
     "memory-evidence.json": "7b49b501c26e9b5d72f6d68dd74485fe3ae76d71a9d39f1e65579a763a4f6bcc",
     "meminit-evidence.json": "21b2813d50c92fd497a4a80b66a5870450a43cd5844348268e96bddb68d7e791",
     "write-identity-evidence.json": "d5a0aedc14f969634076142929008530f813c7eb5631fb155ba879190359a949",
-    "getenv-evidence.json": "a7e3d5d846266b99d21fa915c4a02948bd4e64bb3aa299d10c29f713e0ef5207"
+    "getenv-evidence.json": "a7e3d5d846266b99d21fa915c4a02948bd4e64bb3aa299d10c29f713e0ef5207",
+    "sizeclass-evidence.json": "ad76dba9779c17fdaa873527c1c9de118ef0893a1b05a938be1586156c46161d"
   },
   "initial_original_reused_unchanged": "qualifiedcapture wcc-first-help-frontier originalreport555a40bc...; gzipcontainsidenticaloriginalrawbytes, no recaptureforpublication",
   "failed_attempts": [
@@ -124,5 +151,9 @@
     "elapsed_seconds": 11.053380439057946,
     "report_sha256": "e310569c8b0b48b7ffab99baa3fd2a93db95b79a80dcaebea445ad0a0d1bf667",
     "raw_report_retained": "build/getter-original-report.json"
+  },
+  "last_build_audit": {
+    "elapsed_seconds": 1.5272172093391418,
+    "status": 0
   }
 }

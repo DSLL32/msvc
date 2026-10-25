@@ -1,7 +1,7 @@
 [
   {
     "case": "wcc-first-help-frontier",
-    "workspace": "/tmp/recon/run-rpE1KL",
+    "workspace": "/tmp/recon/run-K4knO4",
     "pass": true,
     "terminal": "signal:5",
     "logical_exit_code": null,
@@ -9,20 +9,21 @@
       294007,
       294677,
       420398,
-      293769
+      293769,
+      293809
     ],
     "tests": false,
     "process_requests": null,
-    "trap_rva": 293769,
-    "trap_site": 4154051624,
-    "elapsed_ms": 5.716393999999999,
-    "setup_ms": 3.1987089999999996,
-    "execution_ms": 2.0525870000000004,
-    "checks_ms": 0.464644,
+    "trap_rva": 293809,
+    "trap_site": 4154219688,
+    "elapsed_ms": 5.182797,
+    "setup_ms": 2.50038,
+    "execution_ms": 2.2394700000000003,
+    "checks_ms": 0.442951,
     "errors": [],
     "original_reference": {
-      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/build/getter-debugger-original-report.json",
-      "report_sha256": "638f94cbbac5da3b8205d4d4c7f105b537b3cd37071056cc53fc774127962b1b",
+      "report": "/root/msvc2/decomp/watcom10.0a/wcc386/build/sizeclass-original-report.json",
+      "report_sha256": "79f9cc2873a47378677df8d2109a5cd44e0127e9449fb713af3df0789e48aa15",
       "capture_sha256": "2408553b3762d462de218db9a166a6d15d4e6d60e8754280fd90be856f189d73",
       "source_binding_available": true
     }

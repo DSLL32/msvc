@@ -23,25 +23,25 @@
     },
     "command": [
       "/usr/bin/wine",
-      "/root/.ai-tmp/msvc2/cf-debugger-20261025/cf-broker.exe",
-      "T:\\run-VOMHuf\\cf-channel",
+      "/root/msvc2/tooling/recon-tool/.build/cf-broker.exe",
+      "T:\\run-W8sX91\\cf-channel",
       "R:\\toolchains\\watcom10.0a\\binnt\\WCC386.EXE",
       "\"?\"",
       "T:\\watcom10.0a\\wcc386\\first-help-frontier",
       "NUL",
-      "T:\\run-VOMHuf\\original-stdout",
-      "T:\\run-VOMHuf\\original-stderr",
-      "T:\\run-VOMHuf\\cf-events",
+      "T:\\run-W8sX91\\original-stdout",
+      "T:\\run-W8sX91\\original-stderr",
+      "T:\\run-W8sX91\\cf-events",
       "10010",
       "e9",
       "45000",
       "1000",
-      "T:\\run-VOMHuf\\original-environment"
+      "T:\\run-W8sX91\\original-environment"
     ],
     "cpu_scope": "frontend and waited children; shared wineserver excluded",
-    "elapsed_ms": 1229.9645589664578,
-    "event_log": "owned-child pid=1880 tid=1284 entry-rva=00010010 entry-byte=e9\nevent code=3 pid=1880 tid=1284 tick=2268754326\npatch address=00410010 before=e9 after=cc wrote=1 ok=1\nevent code=6 pid=1880 tid=1284 tick=2268754328\nstartup-load base=7bcf0000\nmodule base=7bcf0000 size=002fe000 export-name=ntdll.dll\nevent code=6 pid=1880 tid=1284 tick=2268754333\nstartup-load base=7bb70000\nmodule base=7bb70000 size=0016f000 export-name=KERNEL32.dll\nevent code=6 pid=1880 tid=1284 tick=2268754337\nstartup-load base=7b600000\nmodule base=7b600000 size=00551000 export-name=kernelbase.dll\nevent code=6 pid=1880 tid=1284 tick=2268754347\nstartup-load base=10000000\nevent code=7 pid=1880 tid=1284 tick=2268754349\nstartup-unload base=10000000 known-active=1\nevent code=6 pid=1880 tid=1284 tick=2268754349\nstartup-load base=10000000\nevent code=7 pid=1880 tid=1284 tick=2268754350\nstartup-unload base=10000000 known-active=1\nevent code=1 pid=1880 tid=1284 tick=2268754350\nexception code=80000003 first=1 address=7bd50145 pc=7bd50146 sp=0031fbec flags=00000246\nevent code=1 pid=1880 tid=1284 tick=2268754351\nexception code=80000003 first=1 address=00410010 pc=00410011 sp=0031ff54 flags=00000246\npatch address=00410010 before=cc after=e9 wrote=1 ok=1\npatch address=00410763 before=e8 after=cc wrote=1 ok=1\nwcc-prefix entry=00410010 launch=00410763\nevent code=1 pid=1880 tid=1284 tick=2268754354\nexception code=80000003 first=1 address=00410763 pc=00410764 sp=0031fe20 flags=00000206\nwcc-launch-stopped pc=00410764 cf-instructions=0\npatch address=00410763 before=cc after=e8 wrote=1 ok=1\nordinary-payload base=008e0020 size=00091000 entry=0090fe20\npatch address=00927c97 before=53 after=cc wrote=1 ok=1\npatch address=00927f35 before=83 after=cc wrote=1 ok=1\npatch address=00946a4e before=e8 after=cc wrote=1 ok=1\nordinary-event code=1 pid=1880 tid=1284\nordinary-stop exception=80000003 first=1 address=00927c97 pc=00927c98\npatch address=00927c97 before=cc after=53 wrote=1 ok=1\nordinary-event code=1 pid=1880 tid=1284\nordinary-stop exception=80000003 first=1 address=00927f35 pc=00927f36\npatch address=00927f35 before=cc after=83 wrote=1 ok=1\nordinary-event code=1 pid=1880 tid=1284\nordinary-stop exception=80000003 first=1 address=00946a4e pc=00946a4f\npatch address=00946a4e before=cc after=e8 wrote=1 ok=1\nordinary-event code=1 pid=1880 tid=1284\nordinary-stop exception=80000003 first=1 address=00927ba9 pc=00927baa\ndrain code=5 pid=1880 tid=1284\nowned-teardown exit-event=1 signaled=1 status=24576\nbroker-end status=0 events=15 steps=0 exit-event=1\n",
-    "event_log_sha256": "b5bf22d7bafc291b265b6f8518421dbf696b738e3bdb03f60495494c82ba564c",
+    "elapsed_ms": 1675.7410373538733,
+    "event_log": "owned-child pid=1176 tid=1372 entry-rva=00010010 entry-byte=e9\nevent code=3 pid=1176 tid=1372 tick=2270003662\npatch address=00410010 before=e9 after=cc wrote=1 ok=1\nevent code=6 pid=1176 tid=1372 tick=2270003664\nstartup-load base=7bcf0000\nmodule base=7bcf0000 size=002fe000 export-name=ntdll.dll\nevent code=6 pid=1176 tid=1372 tick=2270003667\nstartup-load base=7bb70000\nmodule base=7bb70000 size=0016f000 export-name=KERNEL32.dll\nevent code=6 pid=1176 tid=1372 tick=2270003670\nstartup-load base=7b600000\nmodule base=7b600000 size=00551000 export-name=kernelbase.dll\nevent code=6 pid=1176 tid=1372 tick=2270003682\nstartup-load base=10000000\nevent code=7 pid=1176 tid=1372 tick=2270003683\nstartup-unload base=10000000 known-active=1\nevent code=6 pid=1176 tid=1372 tick=2270003684\nstartup-load base=10000000\nevent code=7 pid=1176 tid=1372 tick=2270003684\nstartup-unload base=10000000 known-active=1\nevent code=1 pid=1176 tid=1372 tick=2270003685\nexception code=80000003 first=1 address=7bd50145 pc=7bd50146 sp=0031fbec flags=00000246\nevent code=1 pid=1176 tid=1372 tick=2270003742\nexception code=80000003 first=1 address=00410010 pc=00410011 sp=0031ff54 flags=00000246\npatch address=00410010 before=cc after=e9 wrote=1 ok=1\npatch address=00410763 before=e8 after=cc wrote=1 ok=1\nloader-prefix entry=00410010 launch=00410763\nevent code=1 pid=1176 tid=1372 tick=2270003750\nexception code=80000003 first=1 address=00410763 pc=00410764 sp=0031fe20 flags=00000206\npayload-launch-stopped pc=00410764 cf-instructions=0\npatch address=00410763 before=cc after=e8 wrote=1 ok=1\nordinary-payload base=008e0020 size=00091000 entry=0090fe20\npatch address=00927c97 before=53 after=cc wrote=1 ok=1\npatch address=00927f35 before=83 after=cc wrote=1 ok=1\npatch address=00927ba9 before=52 after=cc wrote=1 ok=1\npatch address=00946a4e before=e8 after=cc wrote=1 ok=1\nordinary-event code=1 pid=1176 tid=1372\nordinary-stop exception=80000003 first=1 address=00927c97 pc=00927c98\npatch address=00927c97 before=cc after=53 wrote=1 ok=1\nordinary-event code=1 pid=1176 tid=1372\nordinary-stop exception=80000003 first=1 address=00927f35 pc=00927f36\npatch address=00927f35 before=cc after=83 wrote=1 ok=1\nordinary-event code=1 pid=1176 tid=1372\nordinary-stop exception=80000003 first=1 address=00946a4e pc=00946a4f\npatch address=00946a4e before=cc after=e8 wrote=1 ok=1\nordinary-event code=1 pid=1176 tid=1372\nordinary-stop exception=80000003 first=1 address=00927ba9 pc=00927baa\npatch address=00927ba9 before=cc after=52 wrote=1 ok=1\nordinary-event code=1 pid=1176 tid=1372\nordinary-stop exception=80000003 first=1 address=00927bd1 pc=00927bd2\ndrain code=5 pid=1176 tid=1372\nowned-teardown exit-event=1 signaled=1 status=24576\nbroker-end status=0 events=16 exit-event=1\n",
+    "event_log_sha256": "c7ae7fe80c941cc0a820a99a30924e363294b4e46024bb67e4e6771f47534703",
     "events": [
       {
         "base": 4194304,
@@ -50,9 +50,9 @@
         "exception": 0,
         "exception_address": 0,
         "first_chance": 0,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "base": 4194304,
@@ -61,9 +61,9 @@
         "exception": 0,
         "exception_address": 0,
         "first_chance": 0,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "base": 4194304,
@@ -72,9 +72,9 @@
         "exception": 0,
         "exception_address": 0,
         "first_chance": 0,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "base": 4194304,
@@ -83,9 +83,9 @@
         "exception": 0,
         "exception_address": 0,
         "first_chance": 0,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "base": 4194304,
@@ -94,9 +94,9 @@
         "exception": 0,
         "exception_address": 0,
         "first_chance": 0,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "base": 4194304,
@@ -105,9 +105,9 @@
         "exception": 0,
         "exception_address": 0,
         "first_chance": 0,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "base": 4194304,
@@ -116,9 +116,9 @@
         "exception": 0,
         "exception_address": 0,
         "first_chance": 0,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "base": 4194304,
@@ -127,9 +127,9 @@
         "exception": 0,
         "exception_address": 0,
         "first_chance": 0,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "base": 4194304,
@@ -138,9 +138,9 @@
         "exception": 2147483651,
         "exception_address": 2077557061,
         "first_chance": 1,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "base": 4194304,
@@ -149,9 +149,9 @@
         "exception": 2147483651,
         "exception_address": 4259856,
         "first_chance": 1,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "base": 4194304,
@@ -160,52 +160,61 @@
         "exception": 2147483651,
         "exception_address": 4261731,
         "first_chance": 1,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       },
       {
         "code": 1,
         "exception": 2147483651,
         "exception_address": 9600151,
         "first_chance": 1,
-        "pid": 1880,
-        "tid": 1284
+        "pid": 1176,
+        "tid": 1372
       },
       {
         "code": 1,
         "exception": 2147483651,
         "exception_address": 9600821,
         "first_chance": 1,
-        "pid": 1880,
-        "tid": 1284
+        "pid": 1176,
+        "tid": 1372
       },
       {
         "code": 1,
         "exception": 2147483651,
         "exception_address": 9726542,
         "first_chance": 1,
-        "pid": 1880,
-        "tid": 1284
+        "pid": 1176,
+        "tid": 1372
       },
       {
         "code": 1,
         "exception": 2147483651,
         "exception_address": 9599913,
         "first_chance": 1,
-        "pid": 1880,
-        "tid": 1284
+        "pid": 1176,
+        "tid": 1372
+      },
+      {
+        "code": 1,
+        "exception": 2147483651,
+        "exception_address": 9599953,
+        "first_chance": 1,
+        "pid": 1176,
+        "tid": 1372
       }
     ],
     "first_entry_order": [
       294007,
       294677,
       420398,
-      293769
+      293769,
+      293809
     ],
     "floating_save": null,
     "forced_outer_stop": false,
-    "frontend_cpu_ms": 420.69439,
+    "frontend_cpu_ms": 666.997152,
     "frontier_snapshot": {
       "floating_save": null,
       "image_base": 9306144,
@@ -215,11 +224,11 @@
         "eax": 16,
         "ebp": 3275952,
         "ebx": 16,
-        "ecx": 9801052,
+        "ecx": 0,
         "edi": 9815138,
-        "edx": 1,
-        "eflags": 647,
-        "eip": 9599914,
+        "edx": 0,
+        "eflags": 582,
+        "eip": 9599954,
         "es": 43,
         "esi": 9815138,
         "esp": 3275928,
@@ -227,8 +236,8 @@
         "gs": 99,
         "ss": 43
       },
-      "rva": 293769,
-      "stack": "hex:cb7c9200010000005c8d950056c49500f8f490002b00c00f68ff310033a29200ff0000001efe900056c4950085859200ff0000002b0000469407960023008e00",
+      "rva": 293809,
+      "stack": "hex:d67c9200010000005c8d950056c49500f8f490002b00c00f68ff310033a29200ff0000001efe900056c4950085859200ff0000002b0000469407960023008e00",
       "stack_address": 3275928,
       "stack_error": null,
       "stack_requested": 64
@@ -241,11 +250,11 @@
         "eax": 16,
         "ebp": 3275952,
         "ebx": 16,
-        "ecx": 9801052,
+        "ecx": 0,
         "edi": 9815138,
-        "edx": 1,
-        "eflags": 647,
-        "eip": 9599914,
+        "edx": 0,
+        "eflags": 582,
+        "eip": 9599954,
         "es": 43,
         "esi": 9815138,
         "esp": 3275928,
@@ -256,10 +265,10 @@
       "event": {
         "code": 1,
         "exception": 2147483651,
-        "exception_address": 9599913,
+        "exception_address": 9599953,
         "first_chance": 1,
-        "pid": 1880,
-        "tid": 1284
+        "pid": 1176,
+        "tid": 1372
       }
     },
     "launch": {
@@ -288,12 +297,12 @@
         "exception": 2147483651,
         "exception_address": 4261731,
         "first_chance": 1,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       }
     },
-    "launcher_pid": 3261026,
+    "launcher_pid": 3295407,
     "loaded_loader": {
       "imports_excluded": "OS-resolved .idata",
       "observed_base": 4194304,
@@ -344,9 +353,9 @@
         "exception": 0,
         "exception_address": 0,
         "first_chance": 0,
-        "pid": 1880,
+        "pid": 1176,
         "teb": 1073618944,
-        "tid": 1284
+        "tid": 1372
       }
     },
     "logical_payload_argv0": "R:\\toolchains\\watcom10.0a\\binb\\WCC386.EXE",
@@ -1530,6 +1539,10 @@
         ],
         [
           293725,
+          293769
+        ],
+        [
+          293809,
           294007
         ],
         [
@@ -1868,7 +1881,7 @@
         "sha256": "2b2c9b186f81675dca9b79b7fcaf1211286f99c379880bbf2395b6ecfd8c3c3a"
       },
       "loaded_sha256": "17d591b6bb611f1ce12ffaa19a13031247b1e42f08379160cf882ee4f80de774",
-      "masked_sha256": "32b3cc67b8b689ac12e3068149acc2016f69a263a37d63f70d08afd1c24d1cd4",
+      "masked_sha256": "7a626ede958a2313f4a78907784aea6739d6178fa685f372ac64713dc03ca5a2",
       "restored": [
         {
           "end": 196276,
@@ -1911,6 +1924,11 @@
           "start": 294534
         },
         {
+          "end": 293809,
+          "name": "SizeToClass",
+          "start": 293769
+        },
+        {
           "end": 420418,
           "name": "GetEnvVar",
           "start": 420398
@@ -1932,35 +1950,35 @@
     "oracle_written": true,
     "passed": true,
     "poll_waits": {
-      "sleep": 777,
-      "spin": 119806,
-      "yield": 45228
+      "sleep": 964,
+      "spin": 99386,
+      "yield": 117420
     },
     "profile_sha256": "910f403157498819727bc9fc1ca5f78a8deb2cb14c896c50cf3798a16c44d41c",
-    "rpc_count": 2559,
+    "rpc_count": 2563,
     "sources": {
       "broker.py": {
-        "path": "/root/.ai-tmp/msvc2/cf-debugger-20261025/tooling/recon-tool/watcom/broker.py",
-        "sha256": "99303e76837c3da8c095e04c761f20bd2271ff1ed40d34132b80dafbb77b1bde"
+        "path": "/root/msvc2/tooling/recon-tool/watcom/broker.py",
+        "sha256": "76cc7ec8b78d717aea2bba7144945eedf6233186e38590447b00b6ba75014a8c"
       },
       "cf_identity.py": {
-        "path": "/root/.ai-tmp/msvc2/cf-debugger-20261025/tooling/recon-tool/watcom/cf_identity.py",
+        "path": "/root/msvc2/tooling/recon-tool/watcom/cf_identity.py",
         "sha256": "42718ef2d6297b407970ff6f27d93b2d7b200b1e704d0294b54700047b0b9e38"
       },
       "debugger.py": {
-        "path": "/root/.ai-tmp/msvc2/cf-debugger-20261025/tooling/recon-tool/watcom/debugger.py",
-        "sha256": "b2cd3d96d29f02100fde734085e1e3aaa703d21dbbdccf75e8b6ff6716b2f75f"
+        "path": "/root/msvc2/tooling/recon-tool/watcom/debugger.py",
+        "sha256": "28fdbc16d669bd84f31abdb1dd4fca2eb791883c5e361d454d0cbaae82371eb3"
       },
       "frontend.py": {
-        "path": "/root/.ai-tmp/msvc2/cf-debugger-20261025/tooling/recon-tool/watcom/frontend.py",
-        "sha256": "9d58eb572d2a5cec6985dc14a195d217b02f879b345e4b8e7360e15463dea1df"
+        "path": "/root/msvc2/tooling/recon-tool/watcom/frontend.py",
+        "sha256": "7b07253fb2a6d91da0a3cb9818113bd0d70011bb29936ac3c5d0af3681c369d5"
       },
       "helper": {
-        "path": "/root/.ai-tmp/msvc2/cf-debugger-20261025/cf-broker.exe",
-        "sha256": "e430b4b85a365289782504ed2d8bd899951a3ca727225d3539e98ef24eef8865"
+        "path": "/root/msvc2/tooling/recon-tool/.build/cf-broker.exe",
+        "sha256": "ddaf95b29e3f4d33ab4c15dae700ec68216ab3582928dec2c42495b570b3feaf"
       },
       "ipc.py": {
-        "path": "/root/.ai-tmp/msvc2/cf-debugger-20261025/tooling/recon-tool/watcom/ipc.py",
+        "path": "/root/msvc2/tooling/recon-tool/watcom/ipc.py",
         "sha256": "33aa6178eeebb6db26b9fcf02cd9b1db3aa25f4e97938b9b59ad9faa8af5c022"
       }
     },
@@ -1971,21 +1989,22 @@
       ],
       "verified": true
     },
-    "terminal": "frontier:47b89",
+    "terminal": "frontier:47bb1",
     "timing": {
-      "original_runtime_ms": 2.1063145250082016,
-      "setup_ms": 1226.291859522462
+      "execution_wall_ms": 4.4706640765070915,
+      "setup_ms": 1669.132531620562
     },
-    "waited_child_cpu_ms": 312.027
+    "waited_child_cpu_ms": 397.898
   },
   "capture_sha256": "2408553b3762d462de218db9a166a6d15d4e6d60e8754280fd90be856f189d73",
   "case": "wcc-first-help-frontier",
-  "elapsed_ms": 1374.864967,
+  "elapsed_ms": 1823.567845,
   "first_entry_order": [
     294007,
     294677,
     420398,
-    293769
+    293769,
+    293809
   ],
   "frontier": {
     "floating_save": null,
@@ -1996,11 +2015,11 @@
       "eax": 16,
       "ebp": 3275952,
       "ebx": 16,
-      "ecx": 9801052,
+      "ecx": 0,
       "edi": 9815138,
-      "edx": 1,
-      "eflags": 647,
-      "eip": 9599914,
+      "edx": 0,
+      "eflags": 582,
+      "eip": 9599954,
       "es": 43,
       "esi": 9815138,
       "esp": 3275928,
@@ -2008,8 +2027,8 @@
       "gs": 99,
       "ss": 43
     },
-    "rva": 293769,
-    "stack": "hex:cb7c9200010000005c8d950056c49500f8f490002b00c00f68ff310033a29200ff0000001efe900056c4950085859200ff0000002b0000469407960023008e00",
+    "rva": 293809,
+    "stack": "hex:d67c9200010000005c8d950056c49500f8f490002b00c00f68ff310033a29200ff0000001efe900056c4950085859200ff0000002b0000469407960023008e00",
     "stack_address": 3275928,
     "stack_error": null,
     "stack_requested": 64
@@ -2025,6 +2044,6 @@
   "oracle_written": true,
   "raw_artifacts": [],
   "staged_files": [],
-  "terminal": "frontier:47b89",
-  "workspace": "/tmp/recon/run-VOMHuf"
+  "terminal": "frontier:47bb1",
+  "workspace": "/tmp/recon/run-W8sX91"
 }

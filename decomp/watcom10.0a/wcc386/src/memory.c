@@ -86,3 +86,18 @@ void MemInit(void)
         write(1,"\r\n",2);
     }
 }
+
+unsigned SizeToClass(unsigned amount)
+{
+    unsigned cls;
+
+    if (amount>=2048) return 7;
+    if (amount<32) return 0;
+    amount>>=4;
+    cls=0;
+    do {
+        ++cls;
+        amount>>=1;
+    } while (amount);
+    return cls;
+}

@@ -87,7 +87,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "SizeToClass", .entry_rva = 0x47b89,
-        .definition = RECON_APP, .implementation = RECON_UNIMPLEMENTED,
+        .code = (const ReconExtent[]) {{0x47b89,0x47bb1}}, .code_count = 1,
+        .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "SizeToClass", .original_symbol = "SizeToClass_",
     },
     {
