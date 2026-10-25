@@ -1,7 +1,0 @@
-class Identity {
-    int value;
-public:
-    Identity(int initial) : value(initial) {}
-    int get() const { return value; }
-};
-int main(void) { Identity zero(0); return zero.get(); }
