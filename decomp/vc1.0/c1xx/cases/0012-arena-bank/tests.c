@@ -21,6 +21,17 @@ static int check_based_fallback(void)
     if (waitpid(child, &status, 0) != child) return 0;
     return WIFSIGNALED(status) && WTERMSIG(status) == SIGTRAP;
 }
-const ReconTest arena_bank_tests[1] = {
-    { "based-value unwritten fallback guard", 1, check_based_fallback }
+void __stdcall emit_runtime_initializer_expression(unsigned operation,
+    unsigned mode, IrToken *arguments);
+static int check_runtime_initializer_fallback(void)
+{
+    int child = fork(), status;
+    if (child < 0) return 0;
+    if (!child) { emit_runtime_initializer_expression(0, 2, 0); _exit(99); }
+    if (waitpid(child, &status, 0) != child) return 0;
+    return WIFSIGNALED(status) && WTERMSIG(status) == SIGTRAP;
+}
+const ReconTest arena_bank_tests[2] = {
+    { "based-value unwritten fallback guard", 1, check_based_fallback },
+    { "runtime-initializer unwritten fallback guard", 1, check_runtime_initializer_fallback }
 };

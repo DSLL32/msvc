@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1648 historical frontiers/1541 App bodies.
+ * Current reviewed boundary:1649 historical frontiers/1542 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_make_scalar_pointer_type@12",
+        .entry_rva = 0x533c0,
+        .code = (const ReconExtent[]) { { 0x533c0, 0x53430 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "make_scalar_pointer_type",
+    },
     {
         .name = "_convert_runtime_initializer_pointer@4",
         .entry_rva = 0x35b80,
@@ -22,6 +30,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_runtime_initializer_expression",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_diagnose_member_reference_temporary",

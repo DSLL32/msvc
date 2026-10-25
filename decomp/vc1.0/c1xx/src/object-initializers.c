@@ -641,3 +641,56 @@ IrToken *__stdcall convert_runtime_initializer_pointer(IrToken *expression)
 {
     return convert_initializer(1, type_indirect_0080_2, expression);
 }
+
+CType *__stdcall make_scalar_pointer_type(unsigned short flags,
+    unsigned short kind, unsigned short attributes);
+CType *__stdcall make_expression_qualified_type(CType *base, unsigned short kind,
+    unsigned short attributes, void *parameter);
+
+/* Original0x45c20..0x45d8a, stdcall12. Resolve or declare the original
+   far memory helper, then emit a call through its actual function type. */
+void __stdcall emit_runtime_initializer_expression(unsigned operation,
+    unsigned mode, IrToken *arguments)
+{
+    char *name;
+    CType *result_type;
+    CppSymbol *binding, *function;
+    IrToken *reference;
+    unsigned short attributes;
+    if (operation == 0xac) {
+        name = "_fmemcpy";
+        result_type = make_scalar_pointer_type(0x41, 1, 2);
+    } else if (operation == 0xad) {
+        name = "_fmemset";
+        result_type = make_scalar_pointer_type(0x41, 1, 2);
+    } else {
+#ifdef RECON_NATIVE_TEST
+        /* Original0x45c40/44 loads unwritten entryESP-8/-4 locals
+           for other operation values. Preserve Win32's bug, reject its use. */
+        __asm { int 3 }
+#endif
+    }
+    binding = find_outer_name(intern_identifier(name));
+    if (binding) function = ((OverloadSet *)binding)->functions;
+    else {
+        function = allocate_permanent(sizeof(CppSymbol));
+        function->storage[0] = (declaration_storage[0] & ~7) | 1;
+        function->storage[1] = declaration_storage[1];
+        function->storage[2] = declaration_storage[2];
+        function->kind = 7;
+        function->name = interned_name;
+        if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename)
+            browser_symbol_rollover();
+        function->index = next_symbol_index++;
+        function->references = 0;
+        function->declaration_flags = (function->declaration_flags & ~0x100) | 0x200;
+        function->type = make_function_type((unsigned short)(mode | 0x10), result_type);
+        symbol_scope_mode = 0;
+        insert_scope_symbol(global_scope, function);
+    }
+    reference = symbol_reference(function);
+    attributes = function->type->related->attributes & 0xf77;
+    reference->type = make_expression_qualified_type(function->type, 3, attributes, 0);
+    emit_expression_statement(new_left_typed_expression(0x7a, reference, arguments));
+}

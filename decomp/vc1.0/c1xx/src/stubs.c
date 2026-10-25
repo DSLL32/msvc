@@ -461,7 +461,7 @@ void browser_compilation_error(void) { __asm { int 3 } }
 char *__stdcall member_access_keyword(unsigned access) { __asm { int 3 } return 0; }
 
 
-void __stdcall emit_runtime_initializer_expression(unsigned operation, unsigned mode, IrToken *arguments) { __asm { int 3 } }
+CType *__stdcall make_scalar_pointer_type(unsigned short flags, unsigned short kind, unsigned short attributes) { __asm { int 3 } return 0; }
 
 
 
