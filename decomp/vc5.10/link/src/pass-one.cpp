@@ -30,7 +30,7 @@ BYTE output_file_open,arch_data_ignored;
 int current_image_file=-1;
 }
 
-#pragma intrinsic(strcmp,strcpy)
+#pragma intrinsic(strcmp,strcpy,strlen)
 void RECON_THISCALL LinkContext::PassOne(void)
 {
     InputArgument *argument;
@@ -189,7 +189,20 @@ void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,Outpu
 extern "C" void __stdcall resolve_weak_externals(LinkContext *context,DWORD flags) { __asm { int 3 } }
 extern "C" void __stdcall search_libraries(LinkContext *context) { __asm { int 3 } }
 extern "C" StringNode *__stdcall resolve_entry_symbol(LinkContext *context)
-{ __asm { int 3 } return NULL; }
+{
+    char *name=(char *)context->entry_name;
+    WORD machine=context->file_header.Machine;
+    if ((machine==IMAGE_FILE_MACHINE_I386 || machine==0x1a2 ||
+         machine==0x1a6 || machine==0x601) && context->is_vxd!=1 && name[0]!='?') {
+        name=(char *)allocate_memory(strlen(context->entry_name)+2);
+        name[0]='_';
+        strcpy(name+1,context->entry_name);
+    }
+    entry_symbol=context->symbols->Lookup((const unsigned char *)name,NULL);
+    /* Lookup may update the context through its symbol-table callbacks. */
+    if (name!=context->entry_name) release_memory(name);
+    return entry_symbol;
+}
 extern "C" BYTE __stdcall resolve_initial_entry(LinkContext *context)
 {
     if (!context->entry_name)

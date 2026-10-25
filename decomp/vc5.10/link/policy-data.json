@@ -6460,6 +6460,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_resolve_entry_symbol@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

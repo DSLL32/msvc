@@ -1247,7 +1247,25 @@ static int initial_entry_copy(void)
     return recon_native_at_entry(resolve_entry_symbol,check_initial_entry_copy,
         invoke_hello,NULL)==1;
 }
+extern StringNode *RECON_THISCALL native_lookup_entry_symbol(StringTable *,const unsigned char *,BYTE *)
+    __asm__("_ZN11StringTable6LookupEPKhPh");
+static StringNode *RECON_THISCALL check_decorated_entry(StringTable *table,
+    const unsigned char *name,BYTE *created)
+{
+    recon_native_entry_finish(table && table->hash.state &&
+        table->hash.state->key_name==string_key_name && !created &&
+        name && !strcmp((const char *)name,"_WinMainCRTStartup") &&
+        entry_point_name && !strcmp(entry_point_name,"WinMainCRTStartup") &&
+        name!=(const unsigned char *)entry_point_name && !entry_symbol);
+    return NULL;
+}
+static int decorated_entry(void)
+{
+    return recon_native_at_entry(native_lookup_entry_symbol,check_decorated_entry,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"decorated-entry",1,decorated_entry},
     {"initial-entry-copy",1,initial_entry_copy},
     {"inferred-startup",1,inferred_startup},
     {"entry-symbol-predicate",1,entry_symbol_predicate},

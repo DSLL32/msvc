@@ -264,7 +264,7 @@ static const ReconFunction functions[] = {
     {"_check_input_modules@8",0x49af0,(const ReconExtent[]){{0x49af0,0x49b39}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"check_input_modules",NULL,NULL,0,NULL},
     {"_resolve_weak_externals@8",0x4b4a0,(const ReconExtent[]){{0x4b4a0,0x4b4a1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"resolve_weak_externals",NULL,NULL,0,NULL},
     {"_search_libraries@4",0x49b90,(const ReconExtent[]){{0x49b90,0x49b91}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"search_libraries",NULL,NULL,0,NULL},
-    {"_resolve_entry_symbol@4",0x49530,(const ReconExtent[]){{0x49530,0x495ee}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"resolve_entry_symbol",NULL,NULL,0,NULL},
+    {"_resolve_entry_symbol@4",0x49530,(const ReconExtent[]){{0x49530,0x495ee}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"resolve_entry_symbol",NULL,NULL,0,NULL},
     {"_resolve_initial_entry@4",0x495f0,(const ReconExtent[]){{0x495f0,0x49627}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"resolve_initial_entry",NULL,NULL,0,NULL},
     {"_infer_subsystem@4",0x4b710,(const ReconExtent[]){{0x4b710,0x4b7c5}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"infer_subsystem",NULL,NULL,0,NULL},
     {"_infer_entry_point@4",0x4b590,(const ReconExtent[]){{0x4b590,0x4b6ea}},1,(const ReconExtent[]){{0x4b6ec,0x4b710},{0x86c0,0x86d6},{0x86d8,0x86eb},{0x86ec,0x8702},{0x8704,0x8714},{0x8714,0x8723},{0x8724,0x8737},{0x8738,0x874a},{0x874c,0x875d}},9,RECON_APP,RECON_IMPLEMENTED,"infer_entry_point",NULL,NULL,0,NULL},
