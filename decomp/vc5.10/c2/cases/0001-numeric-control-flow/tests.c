@@ -60,8 +60,29 @@ static int original_real_results(void)
     return 1;
 }
 
+static int register_set_existing_groups(void)
+{
+    C2RegisterSet set;
+    C2RegisterSetNode nodes[2];
+    memset(&set, 0, sizeof(set));
+    memset(nodes, 0, sizeof(nodes));
+    nodes[0].group = 0;
+    nodes[0].next = &nodes[1];
+    nodes[0].bits = 1;
+    nodes[1].group = 0x80000000U;
+    nodes[1].bits = 2;
+    set.links.first = nodes;
+    set.pool = 1;
+    add_register_to_set(&set, 31);
+    add_register_to_set(&set, 0x8000001fU);
+    return set.links.first == nodes && nodes[0].next == &nodes[1] &&
+        !nodes[1].next && nodes[0].bits == 0x80000001U &&
+        nodes[1].bits == 0x80000002U;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
-    {"original 0/1/2 extended-real results", 1, original_real_results}
+    {"original 0/1/2 extended-real results", 1, original_real_results},
+    {"existing unsigned register-set groups", 1, register_set_existing_groups}
 };

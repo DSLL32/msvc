@@ -18,3 +18,24 @@ C2RegisterSet *__fastcall new_register_set(int pool)
     set->state &= 0xff000000U;
     return set;
 }
+
+void __fastcall add_register_to_set(C2RegisterSet *set, unsigned number)
+{
+    C2RegisterSetNode **place, *node;
+    unsigned group;
+
+    group = number & ~31U;
+    place = &set->links.first;
+    node = *place;
+    while (node && node->group < group) {
+        place = &node->next;
+        node = *place;
+    }
+    if (!node || node->group != group) {
+        node = new_register_set_node(set);
+        node->group = group;
+        node->next = *place;
+        *place = node;
+    }
+    node->bits |= 1U << (number & 31);
+}

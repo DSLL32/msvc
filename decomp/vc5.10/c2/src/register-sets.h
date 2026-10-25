@@ -4,6 +4,15 @@
 #include <recon.h>
 
 typedef struct C2RegisterSetNode C2RegisterSetNode;
+struct C2RegisterSetNode {
+    unsigned group;
+    C2RegisterSetNode *next;
+    unsigned bits;
+};
+typedef char C2RegisterSetNodeSizeCheck[sizeof(C2RegisterSetNode) == 12 ? 1 : -1];
+typedef char C2RegisterSetNodeNextCheck[offsetof(C2RegisterSetNode,next) == 4 ? 1 : -1];
+typedef char C2RegisterSetNodeBitsCheck[offsetof(C2RegisterSetNode,bits) == 8 ? 1 : -1];
+C2RegisterSetNode *__fastcall new_register_set_node(C2RegisterSet *set);
 struct C2RegisterSet {
     union {
         C2RegisterSetNode *first;

@@ -2114,9 +2114,20 @@ static const ReconFunction functions[] = {
     {
         .name = "@add_register_to_set@8",
         .entry_rva = 0x189f,
+        .code = (const ReconExtent[]){{0x189f, 0x18e9}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "add_register_to_set",
+    },
+    {
+        .name = "@new_register_set_node@4",
+        .entry_rva = 0x18e9,
+        .code = (const ReconExtent[]){{0x18e9, 0x1967}},
+        .code_count = 1,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "add_register_to_set",
+        .native_symbol = "new_register_set_node",
     },
     {
         .name = "_controlfp",

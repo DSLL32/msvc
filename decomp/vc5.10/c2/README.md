@@ -7,23 +7,22 @@ Both invocations retain the original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 106 accepted application functions / 21,801 code bytes.
+The registry preserves 107 accepted application functions / 21,875 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
 853 bytes of contextual text data are separate. The full text extent is
 573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `add_register_to_set` at original RVA 0x189f.
-  Three narrow units retain real-conversion and register-list behavior checks.
+  current accepted frontier is `new_register_set_node` at original RVA 0x18e9.
+  Four narrow units retain real-conversion and register-list behavior checks.
 
-The unaccepted 74-byte `add_register_to_set` candidate (0x40189f..0x4018e9)
-remains research, with a trial frontier at `new_register_set_node` 0x4018e9.
-Its exact uncommitted source, patch, and status were saved before migration in
+The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
+fresh original/native pair at the genuine node-constructor trap. Its prior
+uncommitted source, patch, and status were saved before migration in
 `~/.ai-tmp/msvc2/vc5.10/c2/migration-20261025/owned-worktree/` and
-`uncommitted.patch`. Ordinary source restores the actual prior named INT3 stub;
-no candidate was accepted. Reuse the saved numeric inputs when reconstruction
-is separately resumed. Old proof packages remain in Git history.
+`uncommitted.patch`. The constructor remains a named INT3 stub. Old proof
+packages remain in Git history.
 
 Migration also corrected 19 address stores in 17 callback slots to the existing
 physical `c2_set_argv` function and removed the duplicate trapping placeholder.

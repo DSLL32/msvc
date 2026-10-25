@@ -1,6 +1,7 @@
 #include "code-records.h"
 #include "coff-output.h"
 #include "function-records.h"
+#include "register-sets.h"
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
@@ -675,7 +676,8 @@ void __fastcall clear_register_set(C2RegisterSet *set)
     __asm { int 3 }
 }
 
-void __fastcall add_register_to_set(C2RegisterSet *set, unsigned number)
+C2RegisterSetNode *__fastcall new_register_set_node(C2RegisterSet *set)
 {
     __asm { int 3 }
+    return NULL;
 }
