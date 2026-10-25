@@ -82,9 +82,9 @@ errors, and build diagnostics if compilation fails. Do not use `cargo run` per a
 Fixtures must never invoke Wine, directly or through helpers/children. Capture
 inputs and outputs of otherwise-required Windows invocations beforehand. Verify
 invocation and complete input before replaying captured responses; unknown
-dependencies fail. Normalize only identified clock fields. Do not require exact
-bytes for proven unwritten padding: check defined content, structure and checksum
-correctness while preserving raw captures. Do not tune the allocator to make
+dependencies fail. Normalize only identified clock fields. If the original writes
+uninitialized output padding, zero that padding in the reconstruction and comment
+on the original defect. Preserve raw captures; do not tune the allocator to make
 uninitialized output bytes match.
 Record elapsed fixture times, splitting build/setup/execution/checks where measured.
 
