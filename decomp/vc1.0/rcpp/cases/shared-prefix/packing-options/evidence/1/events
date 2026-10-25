@@ -1,3 +1,0 @@
-entry rc_parse_option_number
-entry rc_match_suffix
-exit 0

@@ -1,3 +1,0 @@
-#define PREFIX "before interrupt"
-PREFIX
-#include "\\.\pipe\vc10-rcpp-interrupt"

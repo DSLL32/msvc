@@ -1,0 +1,59 @@
+{
+  "crt_boundary_qualification": "User explicitly permits native substitution only for individually identified embedded CRT boundaries from an unavailable originating runtime variant. The original process-heap allocator differs from shipped LIBC/LIBCMT. Exact provenance remains unknown; CRT-internal graph need not match, ABI/observable contracts must. Native app graph remains strict. Canonical Win32 bodies retained; no new CRT reconstruction.",
+  "native_contract_limits": [
+    "Console native SIGINT/FIFO case preserves status/empty streams/46-byte prefix; original Windows OS-created callback-thread, retained ReadFile-return barrier and exclusive sharing state unsupported."
+  ],
+  "historical_accepted_extent_metric": {
+    "bytes": 35590,
+    "total": 40448,
+    "percentage": 87.9895174050633,
+    "branch_coverage": false,
+    "app_bodies": 112
+  },
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {
+      "_rcpp_start": {
+        "original": {
+          "roots": [
+            16813712,
+            16813744
+          ]
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "offset": 309,
+              "rebuilt_symbol": "_rcpp_start"
+            },
+            {
+              "offset": 351,
+              "rebuilt_symbol": "_rcpp_start"
+            }
+          ]
+        }
+      }
+    },
+    "callback_tables": []
+  },
+  "runtime_audit_names": [
+    "import:GetCommandLineA",
+    "import:GetEnvironmentStrings",
+    "import:GetVersion",
+    "import:GetProcessHeap",
+    "import:GetStartupInfoA",
+    "import:GetStdHandle",
+    "import:GetFileType",
+    "import:GetModuleFileNameA",
+    "import:HeapAlloc",
+    "import:SetConsoleCtrlHandler",
+    "import:CreateFileA",
+    "import:SetFilePointer",
+    "import:GetLastError",
+    "import:ReadFile",
+    "import:WriteFile",
+    "import:HeapFree",
+    "import:CloseHandle",
+    "import:ExitProcess"
+  ]
+}
