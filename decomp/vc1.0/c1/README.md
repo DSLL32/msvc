@@ -230,3 +230,21 @@ additional exhaustive search or speculative CRT reconstruction is implied.
 The final extension gate passes all174 cached native invocations in1.47s and
 all unit executors in1.14s. The bundled incremental build/case rebuild/audit
 is8.20s. These are native regressions; no original is rerun for bookkeeping.
+
+## Reserved assembler identifiers
+
+Case 0174 compiles valid declarations and inline assembly using register labels
+and mnemonic-named variables. It reaches both warning-405 sites in
+`classify_asm_identifier`. The original calls at4d84e..4d860 and4d96c..4d97e
+push the actual interned name before405 and1, with twelve-byte cdecl cleanup.
+Both reconstructed calls now forward that missing variadic argument. This
+corrects diagnostics without adding functions or reconstruction credit.
+
+The fresh original succeeds with four reserved-name warnings and two unused-label
+warnings. Native replay matches its complete340-entry unseeded application order,
+separate streams, five IR files and browser output. Original capture took1.973s;
+native setup/execution/checks took13.081/3.733/4.410ms (21.224ms total).
+The original compiler build and graph/ABI checks pass. The final incremental
+build/audit took1.525s; all175 cached cases pass in1.493s and unit executors
+in1.170s, using the shared fresh-before-load errno correction e0116ffcb.
+No existing oracle was recaptured for that runner update.

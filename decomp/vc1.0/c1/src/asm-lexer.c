@@ -285,7 +285,7 @@ unsigned char classify_asm_identifier(void)
             asm_current_token = AS_DIRECTIVE;
             return AS_DIRECTIVE;
         }
-        if (find_asm_keyword(interned_name) != -1) compiler_warning(1,405);
+        if (find_asm_keyword(interned_name) != -1) compiler_warning(1,405,interned_name);
     } else if (!asm_member_mode) {
         keyword = find_asm_keyword(interned_name);
         if (keyword != -1) {
@@ -300,7 +300,7 @@ unsigned char classify_asm_identifier(void)
             *(short *)current_token_value.bytes = keyword;
             return asm_current_token;
         }
-        if (find_asm_mnemonic(interned_name) != -1) compiler_warning(1,405);
+        if (find_asm_mnemonic(interned_name) != -1) compiler_warning(1,405,interned_name);
         symbol = find_identifier_symbol(current_token_value.identifier);
         if (symbol && (symbol->kind & 31) == 5) {
             asm_current_token = AS_ENUM_MEMBER;
