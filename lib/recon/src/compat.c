@@ -41,6 +41,13 @@ __attribute__((weak)) unsigned long __cdecl recon_mspdb_SigForPbCb(
 /* Distinct Watcom CRT boundaries. Only the explicit first-WLIB-main empty
  * target namespace heap check below has an established success contract. */
 ReconWatcomFirstMainHeap recon_watcom_first_main_heap;
+int __cdecl recon_watcom_open(const char *name,int flags,...)
+{
+    /* The actual caller supplies only two arguments. Do not fetch an unused
+     * variadic permission word, or reinterpret these flags as Microsoft/Linux. */
+    (void)name;(void)flags;
+    recon_unsupported("unreviewed Watcom open");return -1;
+}
 void recon_bind_watcom_wlib_first_main_heap(const char *reference)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

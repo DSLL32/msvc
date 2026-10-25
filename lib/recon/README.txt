@@ -546,6 +546,15 @@ Every input denies125, including NULL/empty/ASCII/nonASCII. No comparison,
 case-folding, locale or host wchar32 behavior is supported by this typed slice.
 `make wcsicmp-surface-check` verifies typing/denials/no plain host import.
 
+The Watcom100A profile alone remaps bare open to a distinct cdecl variadic
+typed boundary and supplies encountered O_BINARY=0x0200 (O_RDONLY=0). Every
+input denies125, without fetching any variadic permission word or entering
+host open/Microsoft recon_open. WLIB's actual two-argument resource-table call
+and shipped FCNTL.H establish this staging; its actual legacy provider and
+CLIB3R openwnt member are not claimed byte-identical. Successful descriptor,
+sharing/error/position/self-image semantics, wider flags and FILE26 remain
+unqualified. Existing `make watcom-surface-check` includes these two denials.
+
 Lowio alloc marks the selected OS-handle slot invalid (-1) without publishing
 FOOPEN; set requires that sentinel, and free relinquishes ownership without
 closing the OS handle. For fd0..2, set/free update the Win32 standard table at
