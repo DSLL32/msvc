@@ -632,7 +632,23 @@ extern "C" struct CompilerTypeList *__cdecl intern_function_parameters(const voi
     symbol->flags |= 2;
     return get_void_type_list();
 }
-extern "C" CompilerTypeList *__cdecl get_empty_type_list(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerTypeList *__cdecl get_empty_type_list(void)
+{
+    CompilerArena *arena;
+    CompilerTypeList *list;
+    if (c1_data.empty_type_list)
+        return c1_data.empty_type_list;
+    arena = &c1_bss.arenas[0];
+    list = (CompilerTypeList *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    c1_data.empty_type_list = list;
+    list->count = 0;
+    memset(list->unmodeled_04, 0, 4);
+    /* Its unused first element is not written by the original getter. */
+    return c1_data.empty_type_list;
+}
 extern "C" CompilerTypeList *__cdecl get_void_type_list(void) { __asm { int 3 } return NULL; }
 extern "C" unsigned __cdecl hash_type_list(const CompilerTypeList *list) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *shape) { __asm { int 3 } }

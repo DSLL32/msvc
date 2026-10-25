@@ -57,6 +57,7 @@ typedef struct CompilerInitializedState {
     unsigned abstract_symbol_bytes; /* RVA5f434, default52 */
     unsigned abstract_symbol_cache_index; /* RVA5f49c, default9 */
     CompilerSymbolBinding *abstract_symbol_free; /* Only head9 at RVA5e51c, defaultNULL */
+    CompilerTypeList *empty_type_list; /* RVA5e580, defaultNULL */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */

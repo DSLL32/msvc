@@ -246,7 +246,26 @@ static int type_shape_allocation(void)
         c1_bss.arenas[3].cursor == (BYTE *)(storage + 4) &&
         storage[0] == 0xa5a5a5a5 && storage[4] == 0xa5a5a5a5;
 }
-const ReconTest minimal_tests[22] = {
+extern CompilerTypeList *__cdecl get_empty_type_list(void);
+static int cached_empty_type_list(void)
+{
+    DWORD storage[5];
+    CompilerTypeList *list;
+    unsigned i;
+    for (i = 0; i < 5; ++i) storage[i] = 0xa5a5a5a5;
+    c1_data.empty_type_list = NULL;
+    c1_bss.arenas[0].cursor = (BYTE *)(storage + 1);
+    c1_bss.arenas[0].committed_limit = (BYTE *)(storage + 4);
+    list = get_empty_type_list();
+    if ((void *)list != storage + 1 || c1_data.empty_type_list != list ||
+        list->count || storage[2] || storage[3] != 0xa5a5a5a5 ||
+        c1_bss.arenas[0].cursor != (BYTE *)(storage + 4)) return 0;
+    c1_bss.arenas[0].cursor = (BYTE *)(storage + 2);
+    return get_empty_type_list() == list &&
+        c1_bss.arenas[0].cursor == (BYTE *)(storage + 2) &&
+        storage[0] == 0xa5a5a5a5 && storage[4] == 0xa5a5a5a5;
+}
+const ReconTest minimal_tests[23] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -268,5 +287,6 @@ const ReconTest minimal_tests[22] = {
     { "translation context constructs root scope and preserves unwritten slots", 1, c1_test_translation_unit },
     { "abstract symbol cache reuses only head9 within its owned52-byte record", 1, c1_test_abstract_symbol_reuse },
     { "symbol constructor retains untouched fields and clears kind4 context only", 1, c1_test_symbol_constructor },
-    { "type shape allocation truncates WORD fields and retains unwritten link", 1, type_shape_allocation }
+    { "type shape allocation truncates WORD fields and retains unwritten link", 1, type_shape_allocation },
+    { "empty parameter list is lazy, shared and leaves unused element untouched", 1, cached_empty_type_list }
 };
