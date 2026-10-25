@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1629 historical frontiers/1522 App bodies.
+ * Current reviewed boundary:1630 historical frontiers/1523 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_reconcile_inline_regions",
+        .entry_rva = 0x34e28,
+        .code = (const ReconExtent[]) { { 0x34e28, 0x34e66 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "reconcile_inline_regions",
+    },
     {
         .name = "_validate_based_self_source@4",
         .entry_rva = 0x1a960,
@@ -7254,10 +7262,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_finish_inline_function",
         .entry_rva = 0x346c1,
-        .code = (const ReconExtent[]) { { 0x346c1, 0x346c2 } },
+        .code = (const ReconExtent[]) { { 0x346c1, 0x346d4 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "finish_inline_function",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_generate_inline_queries",

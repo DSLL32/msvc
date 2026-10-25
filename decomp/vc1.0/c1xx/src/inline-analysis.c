@@ -225,3 +225,13 @@ void end_qc_control(void)
     --inline_scope_depth;
     inline_parent_region = inline_scopes[inline_scope_depth].region;
 }
+
+void reconcile_inline_regions(void);
+
+/* Original0x446c1..0x446d4. Resolve the function's completed region tree
+   before publishing its inline-query global record. */
+void finish_inline_function(void)
+{
+    reconcile_inline_regions();
+    write_global_record(15, function_symbol);
+}
