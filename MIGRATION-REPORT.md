@@ -583,23 +583,26 @@ multi-TU workload has not been started.
 Shared integration is published and READY in `04ee1337ad2f627d691b784f186d1d46b348da27`.
 The qualified real CF path is WCC startup to its first pending application
 allocator; this does not establish complete help execution or qualify the other
-CF geometries. Application reconstruction and native bootstrap work remain held
-until root release.
+CF geometries. Root has now released all five existing workers to build fresh
+standard scaffolds, complete one genuine basic initial help case each, and pause.
+This releases target bootstrap/reconstruction work within those cases; unknown
+loader, gateway and startup paths still require concrete shared support.
 
 The user subsequently approved integrating this backend into shared
 `recon-tool original capture`. The shared recon-tool owner implements the
 integration; the Watcom coordinator supplies controller contracts and review.
-After verified shared READY and root release, each worker may replace the old
-minimal source/cases with a fresh standard scaffold, complete one actual help
-case, then pause. No application runs are released before that checkpoint.
+That release permits replacing the old minimal source/cases; history preserves
+them. Workers use the shared runner, explicit original captures and period
+compiler checks, with native-only regression fixtures. No second case or
+autonomous queue is authorized.
 
-| Binary | Accepted application reconstruction | Current paused state |
+| Binary | Historical accepted application work | Released first-case work |
 | --- | --- | --- |
-| WCC386 | 0 functions | Old main stub; shared qualification now captures actual first App entry `47c77` and a bound partial oracle. Native startup adapter is pending. |
-| WPP386 | 0 functions | CF main stub; cached `?` output, no accepted application prefix. |
-| WASM | 0 functions | CF main stub; guarded patched `/?` output, no accepted application prefix. |
-| WLIB | 2 functions / 143 bytes | Accepted main/hook prefix; `InitMsg` is unaccepted WIP and current fixtures explicitly HOLD. |
-| WLINK | 1 function / 232 bytes | Native main-to-`Spawn` prefix works; `Spawn` remains pending and excluded from production. |
+| WCC386 | 0 functions | Fresh scaffold and real native startup adapter; reuse the exact captured `47c77` frontier identity before proceeding. |
+| WPP386 | 0 functions | Fresh scaffold and basic help; its own loader geometry and first App frontier remain to qualify. |
+| WASM | 0 functions | Fresh scaffold and basic help; its own CF geometry and GS guard contract remain to qualify. |
+| WLIB | 2 functions / 143 bytes | Fresh scaffold and help; finite PE runtime catalog and shared GS guard required. New explicit file stdin can replace old pipe input after genuine capture. |
+| WLINK | 1 function / 232 bytes | Fresh scaffold and help; exact GS guard and startup catalog requirements remain explicit. |
 
 **Already shipped.** The native i386 DSO runner, flat captures, typed native
 entry hooks, static-symbol tracing, full DWORD receipts and parallel check/unit
@@ -702,7 +705,7 @@ remain App code inside main. Original-only CRT structural export is now publishe
 in `307e3ed37`: it supplies bound original instruction facts with no invented NT
 counterpart, checked ABI or execution permission. Arbitrary gateway/far-service
 transfers, callbacks/SEH/APCs and new threads stay unproved or fail closed. The
-release qualifies ordinary capture only for the finite WCC path below; it does not release the five application workers.
+release qualifies ordinary capture only for the finite WCC path below; root separately released the five initial-case workers.
 
 **Shortest path to WCC's first real help frontier.** Static inspection found that
 CRT FILE initialization calls the compiler's private allocator at CF offset
@@ -716,7 +719,7 @@ remaining target-owned actions are:
 | Ordinary public CF capture | Shared recon-tool owner | Published: actual App entry/frontier/oracle path passed the public authored control and genuine WCC startup. |
 | Five original support owners | WCC worker and shared owner | Qualified 397 bytes: `_cstart_` `2fe00..2feb4`, `__InitRtns` `48526..48571`, `_init_stk` `482c6..482ce`, `__InitFiles_` `4a1e5..4a25d`, allocation wrapper `2f4cd..2f4db`. Complete extents and execution subsets remain distinct. |
 | Reached startup instructions and data | Shared recon-tool owner | Qualified operand-size-16 MOV/selector stores, LODSB, bounded REP BSS clearing, flat-segment PUSH/POP and exact launch/environment/stack/BSS/XI/FILE owners. Unknown instructions, services and callbacks still fail closed. |
-| Equivalent native startup | WCC worker after release | Add a target-specific bootstrap under `harness/` that performs the proved CRT-to-App allocation callback with its real arguments, order and state effects. Host CRT will not call this allocator automatically; trace-only calls are insufficient. |
+| Equivalent native startup | Released WCC worker | Add a target-specific bootstrap under `harness/` that performs the proved CRT-to-App allocation callback with its real arguments, order and state effects. Host CRT will not call this allocator automatically; trace-only calls are insufficient. |
 | Later progress in the same help case | WCC worker and shared owner when reached | Reconstruct the App allocator normally. Its later AH=48h boundary dispatches to actual loader `410e27` and `LocalAlloc(0, EBX)`, initially requesting 65,536 bytes; bind returned ownership and actual flags/effects. Keep conditional fatal/OOM, unknown services and asynchronous execution closed. |
 
 The wrapper's LEAVE and the memory-sourced startup stack reservation occur after
@@ -727,8 +730,10 @@ bytes, CF fixups, return contracts and first-entry effects, is
 (SHA-256 `d29b80632db9a5f9b30fc48dcf703e98ac205e0d613288cf514cb316aedcfa0e`).
 The actual loader service mapping is separately documented in
 `wcc-gateway-minimum/summary.md` under the same scratch root. These static packets
-and planned adaptations confer no application acceptance. All five workers
-remain paused until root releases the native bootstrap and fresh scaffold work.
+and planned adaptations confer no application acceptance. The released workers
+must obtain fresh matching evidence as their initial case progresses, and pause
+after that case is complete. Concrete shared gaps are reported to the existing
+shared owners, without local replacement capture tools or startup waivers.
 
 The root-approved genuine `?` qualification stopped at actual `MemAlloc 47c77`
 with EAX 8, ECX pointing to the first FILE, EDX 1 and real stack return `2f4d8`.
