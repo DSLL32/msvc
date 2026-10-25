@@ -89,3 +89,58 @@ void size_old_register(void)
 {
     module_type_base += 6;
 }
+
+unsigned short old_symbol_segment;
+unsigned char *old_symbol_input, *old_symbol_output;
+extern unsigned long total_packed_symbol_bytes;
+
+#pragma intrinsic(memcpy)
+
+/* Historical name: convert the old module's local-symbol stream. */
+void pack_old_types(void *symbols, CvDirectoryEntry *entry, void *module_record,
+                    ModuleInfo *module)
+{
+    unsigned char *buffer, *start, *end;
+    unsigned long output_size;
+    unsigned short i;
+    UDTSymbol *symbol;
+
+    old_symbol_input = symbols;
+    if (!extra_type_count) {
+        module_type_base += 13;
+        extra_types[extra_type_count++] = *(unsigned short *)((unsigned char *)module_record+8);
+    }
+    module_type_base += 4;
+    old_symbol_segment = extra_types[0];
+    end = (unsigned char *)symbols+entry->size;
+    output_size = entry->size+(unsigned long)module_symbol_count
+                  -(unsigned long)module_type_count+(unsigned long)module_type_base;
+    buffer = malloc(output_size);
+    if (!buffer) fatal_error(14, NULL, NULL);
+    old_symbol_output = buffer;
+    if (!buffer) fatal_error(14, NULL, NULL);
+    start = old_symbol_output;
+    *(unsigned long *)old_symbol_output = 1;
+    old_symbol_output += 4;
+    for (i = 0; i < extra_type_count; ++i)
+        old_symbol_output += write_search_symbol(old_symbol_output, extra_types[i]);
+    convert_old_symbols(end);
+    while (module_udt_symbols) {
+        memcpy(old_symbol_output, &module_udt_symbols->length,
+               module_udt_symbols->length+2);
+        old_symbol_output += module_udt_symbols->length+2;
+        symbol = module_udt_symbols;
+        module_udt_symbols = symbol->next;
+        free(symbol);
+    }
+    output_size = old_symbol_output-start;
+    if (!link_symbol_scopes(start, output_size)) {
+        warning(3, module_name(current_module), NULL);
+        output_size = 0;
+    }
+    entry->location.data = buffer;
+    entry->size = output_size;
+    total_packed_symbol_bytes += output_size;
+    module->symbol_size = output_size;
+    module->symbols = buffer;
+}

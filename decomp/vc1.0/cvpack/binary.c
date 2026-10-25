@@ -1,4 +1,4 @@
-/* Canonical registry: 215 accepted application functions (64,455 bytes),
+/* Canonical registry: 216 accepted application functions (64,913 bytes),
  * 31 named trapping stubs.
  * CRT identities include three reviewed, nonexact original CRT boundaries.
  * They grant no application credit or shipped-library body equivalence;
@@ -6,6 +6,13 @@
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_convert_old_symbols",
+        .entry_rva = 0x13690,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbols",
+    },
     {
         .name = "_size_old_block16",
         .entry_rva = 0x131a0,
@@ -744,8 +751,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_pack_old_types",
         .entry_rva = 0x134c0,
+        .code = (const ReconExtent[]){{0x134c0, 0x1368a}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "pack_old_types",
     },
     {

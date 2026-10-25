@@ -67,7 +67,7 @@ void grow_mapping(FileSlot *slot, long size) { __asm { int 3 } }
 
 
 
-void pack_old_types(void * types,CvDirectoryEntry * entry,void * module_record,ModuleInfo * module) { __asm { int 3 } }
+
 
 
 
@@ -166,3 +166,5 @@ void size_old_constant(void) { __asm { int 3 } }
 void size_old_data32(void) { __asm { int 3 } }
 
 void size_old_procedure32(void) { __asm { int 3 } }
+
+void convert_old_symbols(unsigned char *end) { __asm { int 3 } }

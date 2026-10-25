@@ -1,14 +1,14 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **215 accepted application
-functions, 64,455 original code bytes, and 31 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **216 accepted application
+functions, 64,913 original code bytes, and 31 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `pack_old_types` (RVA `0x134c0`), on the C6 local-symbol
-sizing path. The last accepted function is `size_old_register`
-(sequence 215, 17 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
+frontier is now `convert_old_symbols` (RVA `0x13690`), on the C6 local-symbol
+conversion path. The last accepted function is `pack_old_types`
+(sequence 216, 458 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
 additional App helpers; these retain named trapping stubs and no accepted
-credit. The resumed workload has accepted 28 application functions.
+credit. The resumed workload has accepted 29 application functions.
 Each has matching original/native progress and strict compiler/graph/data
 checks. All twelve cached cases and unit executors passed the 213-function
 checkpoint. The previous baseline ended at `type_server_close` (sequence 187,
@@ -26,7 +26,7 @@ cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
 application CFGs, RET cleanup, extent ownership and instruction overlap;
-`check-context.py` additionally checks 211 initial data objects, diagnostic
+`check-context.py` additionally checks 214 initial data objects, diagnostic
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 

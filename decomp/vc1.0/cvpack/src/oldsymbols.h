@@ -30,4 +30,5 @@ void size_old_data32(void);
 void size_old_procedure16(void);
 void size_old_procedure32(void);
 
+void convert_old_symbols(unsigned char *);
 #endif
