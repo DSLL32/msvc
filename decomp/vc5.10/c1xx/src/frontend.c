@@ -92,7 +92,8 @@ FrontendData frontend_data = {
         0 /* option_bcmpconv */
     },
     -1, /* language_context_depth */
-    C1XX_SCANNER_DEFAULTS
+    C1XX_SCANNER_DEFAULTS,
+    0 /* recursion_depth */
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -112,6 +113,7 @@ int initialize_compiler_pass(void)
         frontend_data = *saved;
         frontend_bss.saved_state = NULL;
         frontend_bss.cleanup_count = 0;
+        frontend_bss.error_count = 0;
         for (i = 0; i < 32; ++i)
             frontend_bss.cleanup_callbacks[i] = NULL;
         frontend_bss.context_stack.origin = NULL;
@@ -374,6 +376,33 @@ void initialize_frontend_hook(void)
 
 
 int compile_translation_unit(void)
+{
+    EXCEPTION_POINTERS *exception;
+    DWORD exception_code;
+    int result = 1;
+    __try {
+        result = run_compiler();
+    } __except ((exception = GetExceptionInformation(),
+                 exception_code = exception->ExceptionRecord->ExceptionCode,
+                 compiler_exception_filter(exception))) {
+        if (exception_code == EXCEPTION_STACK_OVERFLOW &&
+                frontend_data.recursion_depth > 0)
+            report_compiler_error(202);
+        if (frontend_bss.error_count > 0)
+            report_compiler_error(903);
+        else
+            report_compiler_diagnostic(1, "msc1.cpp", 1188);
+    }
+    return result;
+}
+
+int run_compiler(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+int compiler_exception_filter(EXCEPTION_POINTERS *exception)
 {
     __asm { int 3 }
     return 0;

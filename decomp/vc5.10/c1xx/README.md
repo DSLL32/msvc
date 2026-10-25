@@ -2,8 +2,7 @@ C1XX.DLL (Visual C++ 5.10)
 =========================
 
 `make -j4 check` runs the two numbered native cases through the shared recon-tool;
-`make -j4 unit` runs their initialized test checkpoints. No additional unit
-callbacks are currently registered. `make -j4 win32` builds the real DLL with
+`make -j4 unit` runs their initialized test checkpoints. A narrow forked unit checks nonzero restore/reset of the exception counters. `make -j4 win32` builds the real DLL with
 5.10 CL/LINK; `make -j4 audit` checks the accepted graph and individual ABIs.
 
 Application reconstruction is in src/; the two existing startup support bodies
@@ -11,18 +10,18 @@ and their declarations are in crt/, with their retained-variant rationale in
 crt/startup.c. Native case adapters and the import-library build definition are
 in harness/. Numbered case files contain descriptors and entry orders only.
 
-The single registry is binary.c. The current prefix has 98 accepted application
-functions / 7763 code bytes; historical CRT support is separate
+The single registry is binary.c. The current prefix has 99 accepted application
+functions / 7956 code bytes; historical CRT support is separate
 (2 functions / 451 bytes), with 12 bytes of generated import support. These
-8226 bytes are compared with a 751216-byte .text extent; that denominator also
+8419 bytes are compared with a 751216-byte .text extent; that denominator also
 contains runtime, data and padding and is not a non-CRT coverage measure.
-The audit checks 100 source bodies. The two six-byte import endpoints retain
+The audit checks 101 source bodies. The two six-byte import endpoints retain
 identity/catalog checks and zero application credit; they are not RET-body targets.
 
 0000 checks typed DLL attach, export presence without invoking exports, and
 detach against the completed original lifecycle case. 0001 invokes the actual
 CL-derived 26-argument C++ pass with BOOL1 on minimal.cpp. Its current oracle is
-the genuine compile_translation_unit INT3 at RVA39974, not completed compilation.
+the genuine run_compiler INT3 at RVA399cb, not completed compilation.
 Both cases compare the original-backed first application encounters.
 
 The minimal case uses a small original Win32 host in
@@ -43,9 +42,13 @@ Path resolution and normalization are reconstructed in src/path.c. Packing
 initialization in src/packing.cpp uses the observed 8-byte stack and 12-byte
 frames, with a genuine pending thiscall member and cdecl allocation helpers.
 Packing initialization, allocation, frame acquisition and push are reconstructed.
-The recycle clear helper remains a named trap. The latest fresh pair reaches
-the real no-argument compilation wrapper: original 1.396 s/native 7.723 ms
-(setup 3.893, execution 2.946, checks 0.884). Build took 2.903 s/audit 0.170 s;
+The recycle clear helper remains a named trap. The compilation wrapper preserves its full 193-byte hot/cold SEH graph; native
+execution currently exercises its normal try body only. Its encountered signed
+recursion counter (datafe cd514) and diagnostic count (bssfe c0abc) join the
+typed snapshot/reset projection, with original zero defaults and one nonzero
+restore unit. The latest fresh pair reaches the real no-argument run_compiler:
+original 1.243 s/native 10.572 ms (setup 6.080, execution 3.453, checks 1.039).
+Build took 6.308 s; the strict 101-body audit and unit checks pass;
 complete
 phase logs remain in `~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/`.
 The prior unaccepted resolver archive remains historical under

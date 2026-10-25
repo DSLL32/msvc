@@ -1,6 +1,4 @@
-/* Migration preserves 92 accepted App functions / 7016 code bytes. Historical
- * CRT support is separately classified and carries no application credit.
- * The 422-byte resolver analysis remains unaccepted in owned scratch. */
+/* Single App/CRT/import registry. Historical startup has zero App credit. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
@@ -575,9 +573,22 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_compile_translation_unit", .entry_rva = 0x39974,
-        .code = (const ReconExtent[]){{0x39974, 0x39975}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x39974, 0x399cb}, {0x7276b, 0x727d5}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "compile_translation_unit",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_run_compiler", .entry_rva = 0x399cb,
+        .code = (const ReconExtent[]){{0x399cb, 0x399cc}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "run_compiler",
+    },
+    {
+        .name = "_compiler_exception_filter", .entry_rva = 0x902b3,
+        .code = (const ReconExtent[]){{0x902b3, 0x902b4}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "compiler_exception_filter",
     },
     {
         .name = "_cleanup_main", .entry_rva = 0x346d3,

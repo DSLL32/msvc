@@ -29,6 +29,8 @@ typedef struct FrontendData {
     CompilerOptionData options;
     int language_context_depth;
     CompilerScannerTables scanner;
+    /* Original datafe RVA cd514: signed nesting counter, default zero. */
+    int recursion_depth;
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -173,6 +175,8 @@ typedef struct FrontendBss {
     WORD filename_case_map[256];
     /* Borrowed option text retained for diagnostics while matching. */
     char *current_argument;
+    /* Original bssfe RVA c0abc: diagnostics count. */
+    int error_count;
 } FrontendBss;
 
 #ifdef __cplusplus
@@ -199,6 +203,8 @@ unsigned calculate_arena_reservation(const ArenaDescriptor *descriptor);
 void initialize_pool_arenas(void);
 void process_compiler_options(int argc, char **argv);
 int compile_translation_unit(void);
+int run_compiler(void);
+int compiler_exception_filter(EXCEPTION_POINTERS *exception);
 void cleanup_main(void);
 void initialize_deferred_work(void);
 void destroy_deferred_work(void);

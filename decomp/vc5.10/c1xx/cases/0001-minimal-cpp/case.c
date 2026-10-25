@@ -102,10 +102,15 @@ static const uint32_t order[] = {
     0x2b85a, /* CompilerPacking::AcquireFrame */
     0x2b89d, /* push_packing */
     0x39974, /* compile_translation_unit */
+    0x399cb, /* run_compiler */
+};
+extern int c1xx_test_exception_counters(void);
+static const ReconTest tests[] = {
+    { "exception-counter-restore", 1, c1xx_test_exception_counters }
 };
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "minimal-cpp",
-    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine compile_translation_unit INT3. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
+    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine run_compiler INT3. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
     order, RECON_COUNT(order), NULL, 0,
-    RECON_IO, RECON_FRONTIER, 0x39974, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, NULL, 0
+    RECON_IO, RECON_FRONTIER, 0x399cb, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, tests, RECON_COUNT(tests)
 };
