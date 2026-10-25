@@ -1,9 +1,20 @@
-/* Accepted runnable baseline: 138 App bodies / 43272 original code bytes.
+/* Accepted runnable baseline: 159 App bodies / 47835 original code bytes.
  * Original CRT/import selection is support only. All addresses below are RVAs.
  * Native host adapters and dependency responses are outside the App graph. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    { .name="_evict_page", .entry_rva=0x1fc0, .code=(const ReconExtent[]){{0x1fc0,0x203e}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="evict_page" },
+    { .name="_release_page", .entry_rva=0x1ea0, .code=(const ReconExtent[]){{0x1ea0,0x1f0c}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="release_page" },
+    { .name="_link_page", .entry_rva=0x2040, .code=(const ReconExtent[]){{0x2040,0x2091}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="link_page" },
+    { .name="_advance_page", .entry_rva=0x1b20, .code=(const ReconExtent[]){{0x1b20,0x1be8}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="advance_page" },
+    { .name="_flush_page", .entry_rva=0x1bf0, .code=(const ReconExtent[]){{0x1bf0,0x1cb2}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="flush_page" },
+
+    { .name="_grow_page_table", .entry_rva=0x12b0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="grow_page_table" },
+    { .name="_obtain_page", .entry_rva=0x1f30, .code=(const ReconExtent[]){{0x1f30,0x1fb3}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="obtain_page" },
+    { .name="_read_page", .entry_rva=0x1aa0, .code=(const ReconExtent[]){{0x1aa0,0x1b20}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="read_page" },
+    { .name="_touch_page", .entry_rva=0x1de0, .code=(const ReconExtent[]){{0x1de0,0x1e98}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="touch_page" },
+
     { .name="_main", .entry_rva=0x4620, .code=(const ReconExtent[]){{0x4620,0x48b5}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="cvpack_main" },
     { .name="_initialize_messages", .entry_rva=0x7680, .code=(const ReconExtent[]){{0x7680,0x7686}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="initialize_messages" },
     { .name="_parse_options", .entry_rva=0x48c0, .code=(const ReconExtent[]){{0x48c0,0x49a6}}, .code_count=1, .text_data=(const ReconExtent[]){{0x49a8,0x49d8}}, .text_data_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="parse_options" },
@@ -23,7 +34,7 @@ static const ReconFunction functions[] = {
     { .name="_close_file", .entry_rva=0x1680, .code=(const ReconExtent[]){{0x1680,0x1705}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="close_file" },
     { .name="_close_mapped_file", .entry_rva=0x23d0, .code=(const ReconExtent[]){{0x23d0,0x2437}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="close_mapped_file" },
     { .name="_free_bytes", .entry_rva=0x1000, .code=(const ReconExtent[]){{0x1000,0x100f}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="free_bytes" },
-    { .name="_mark_closed_file", .entry_rva=0x1790, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="mark_closed_file" },
+    { .name="_mark_closed_file", .entry_rva=0x1790, .code=(const ReconExtent[]){{0x1790,0x180e}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="mark_closed_file" },
     { .name="_warning", .entry_rva=0x55a0, .code=(const ReconExtent[]){{0x55a0,0x562f}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="warning" },
     { .name="_fatal_error", .entry_rva=0x54d0, .code=(const ReconExtent[]){{0x54d0,0x5593}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="fatal_error" },
     { .name="_message_text", .entry_rva=0x7610, .code=(const ReconExtent[]){{0x7610,0x7678}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="message_text" },
@@ -33,12 +44,12 @@ static const ReconFunction functions[] = {
     { .name="_open_cached_file", .entry_rva=0x1310, .code=(const ReconExtent[]){{0x1310,0x1376}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="open_cached_file" },
     { .name="_prepare_cached_file", .entry_rva=0x1380, .code=(const ReconExtent[]){{0x1380,0x13f7}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="prepare_cached_file" },
     { .name="_open_mapped_file", .entry_rva=0x2140, .code=(const ReconExtent[]){{0x2140,0x226b}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="open_mapped_file" },
-    { .name="_open_stream_file", .entry_rva=0x1510, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="open_stream_file" },
+    { .name="_open_stream_file", .entry_rva=0x1510, .code=(const ReconExtent[]){{0x1510,0x1671}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="open_stream_file" },
     { .name="_find_cached_file", .entry_rva=0x1470, .code=(const ReconExtent[]){{0x1470,0x1505}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="find_cached_file" },
     { .name="_take_free_file", .entry_rva=0x1400, .code=(const ReconExtent[]){{0x1400,0x1467}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="take_free_file" },
     { .name="_duplicate_string", .entry_rva=0x1070, .code=(const ReconExtent[]){{0x1070,0x1098}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="duplicate_string" },
     { .name="_move_cached_file", .entry_rva=0x20a0, .code=(const ReconExtent[]){{0x20a0,0x2132}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="move_cached_file" },
-    { .name="_release_cached_file", .entry_rva=0x1710, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="release_cached_file" },
+    { .name="_release_cached_file", .entry_rva=0x1710, .code=(const ReconExtent[]){{0x1710,0x178f}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="release_cached_file" },
     { .name="_create_mapping", .entry_rva=0x2480, .code=(const ReconExtent[]){{0x2480,0x2537}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="create_mapping" },
     { .name="_mapped_seek", .entry_rva=0x2270, .code=(const ReconExtent[]){{0x2270,0x22e1}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="mapped_seek" },
     { .name="_allocate_cleared", .entry_rva=0xfb90, .code=(const ReconExtent[]){{0xfb90,0xfbce}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="allocate_cleared" },
@@ -50,10 +61,10 @@ static const ReconFunction functions[] = {
     { .name="_read_codeview_signature", .entry_rva=0x5690, .code=(const ReconExtent[]){{0x5690,0x575d}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="read_codeview_signature" },
     { .name="_read_codeview_directory", .entry_rva=0x57b0, .code=(const ReconExtent[]){{0x57b0,0x5907}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="read_codeview_directory" },
     { .name="_classify_debug_directory", .entry_rva=0x5a10, .code=(const ReconExtent[]){{0x5a10,0x5cc0}}, .code_count=1, .text_data=(const ReconExtent[]){{0x5cc0,0x5d00}}, .text_data_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="classify_debug_directory" },
-    { .name="_seek_stream_file", .entry_rva=0x1810, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="seek_stream_file" },
+    { .name="_seek_stream_file", .entry_rva=0x1810, .code=(const ReconExtent[]){{0x1810,0x1909}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="seek_stream_file" },
     { .name="_grow_mapping", .entry_rva=0x2440, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="grow_mapping" },
     { .name="_mapped_read", .entry_rva=0x22f0, .code=(const ReconExtent[]){{0x22f0,0x235d}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="mapped_read" },
-    { .name="_stream_read", .entry_rva=0x19b0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="stream_read" },
+    { .name="_stream_read", .entry_rva=0x19b0, .code=(const ReconExtent[]){{0x19b0,0x1a7d}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="stream_read" },
     { .name="_compare_directory_entries", .entry_rva=0x5760, .code=(const ReconExtent[]){{0x5760,0x57b0}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="compare_directory_entries" },
     { .name="_load_debug_subsection", .entry_rva=0x5910, .code=(const ReconExtent[]){{0x5910,0x5992}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="load_debug_subsection" },
     { .name="_find_module_info", .entry_rva=0x59a0, .code=(const ReconExtent[]){{0x59a0,0x5a0b}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="find_module_info" },
@@ -158,10 +169,10 @@ static const ReconFunction functions[] = {
     { .name="_prepare_type_offsets", .entry_rva=0xd130, .code=(const ReconExtent[]){{0xd130,0xd1ea}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="prepare_type_offsets" },
     { .name="_write_cached_file", .entry_rva=0x1cc0, .code=(const ReconExtent[]){{0x1cc0,0x1cf0}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="write_cached_file" },
     { .name="_mapped_write", .entry_rva=0x2360, .code=(const ReconExtent[]){{0x2360,0x23cc}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="mapped_write" },
-    { .name="_stream_write", .entry_rva=0x1cf0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="stream_write" },
+    { .name="_stream_write", .entry_rva=0x1cf0, .code=(const ReconExtent[]){{0x1cf0,0x1dd5}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="stream_write" },
     { .name="_resize_cached_file", .entry_rva=0x11b0, .code=(const ReconExtent[]){{0x11b0,0x11e5}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="resize_cached_file" },
     { .name="_resize_mapped_file", .entry_rva=0x11f0, .code=(const ReconExtent[]){{0x11f0,0x1234}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="resize_mapped_file" },
-    { .name="_resize_stream_file", .entry_rva=0x1240, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="resize_stream_file" },
+    { .name="_resize_stream_file", .entry_rva=0x1240, .code=(const ReconExtent[]){{0x1240,0x12ad}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="resize_stream_file" },
     { .name="_insert_symbol_page_padding", .entry_rva=0xf960, .code=(const ReconExtent[]){{0xf960,0xfad2}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="insert_symbol_page_padding" },
     { .name="_build_symbol_name_hash", .entry_rva=0xe920, .code=(const ReconExtent[]){{0xe920,0xedbb}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="build_symbol_name_hash" },
     { .name="_build_symbol_address_hash", .entry_rva=0xede0, .code=(const ReconExtent[]){{0xede0,0xf0c6}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="build_symbol_address_hash" },

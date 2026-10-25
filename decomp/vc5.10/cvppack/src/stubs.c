@@ -9,14 +9,9 @@
 #include <recon.h>
 
 
-void open_stream_file(CachedFile *file, int flags, int mode, int created) { __asm { int 3 } }
-int release_cached_file(CachedFile *file) { __asm { int 3 } return 0; }
-int mark_closed_file(CachedFile *file) { __asm { int 3 } return 0; }
 
 
-int seek_stream_file(CachedFile *file, int offset, int origin) { __asm { int 3 } return 0; }
 int grow_mapping(CachedFile *file, int size) { __asm { int 3 } return 0; }
-unsigned stream_read(CachedFile *file, void *buffer, unsigned size) { __asm { int 3 } return 0; }
 
 
 void decode_legacy_lines(void *lines, unsigned size) { __asm { int 3 } }
@@ -45,7 +40,7 @@ void read_legacy_module_types(void *types, unsigned size) { __asm { int 3 } }
 
 
 
-unsigned stream_write(CachedFile *file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }
-int resize_stream_file(CachedFile *file, int size) { __asm { int 3 } return 0; }
 
 unsigned char *module_file_name(unsigned short index) { __asm { int 3 } return NULL; }
+
+void grow_page_table(CachedFile *file) { __asm { int 3 } }

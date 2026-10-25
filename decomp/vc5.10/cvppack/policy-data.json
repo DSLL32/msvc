@@ -717,6 +717,81 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_open_stream_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_seek_stream_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_obtain_page": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_link_page": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_page": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_touch_page": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_stream_read": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_stream_write": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_advance_page": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_flush_page": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_release_cached_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_release_page": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_mark_closed_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_evict_page": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_resize_stream_file": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

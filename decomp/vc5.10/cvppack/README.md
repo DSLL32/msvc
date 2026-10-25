@@ -5,7 +5,7 @@ CVPACK 5.10 reconstruction
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-144 accepted application functions total 45,285 original code bytes: 72.27% of the
+159 accepted application functions total 47,835 original code bytes: 76.34% of the
 62,662-byte whole-text extent. That denominator includes CRT/support, unknown
 code and padding; a complete non-CRT denominator is not established. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
@@ -55,6 +55,15 @@ Completed cases:
   lookup and record import were reconstructed. The absolute compiler PDB path
   is reproduced through the case's stable T: cwd in a private native workspace.
 
+- 0009-stream-file-cache: internal API DIRECT from the genuine main entry,
+  followed by the unmapped initializer. Two real pages and descriptor slots copy
+  and read back 65,573 defined bytes in 997-byte fragments, cross page boundaries,
+  reuse cached descriptors, evict LRU pages/closed entries, and shrink the copied
+  file to 12,033 bytes. All three files match their complete deterministic recipe.
+  This proves the internal workload, not ordinary CLI reach or natural process
+  completion. Fifteen stream/cache functions were reconstructed; mapped growth
+  and page-table growth remain named traps.
+
 0002-cpp-scene-growth is a new three-module C++ workload with 240 telemetry
 schemas, shared recursive types, virtual inheritance and large arrays. Original
 packed CodeView is 238,240 bytes. Its source inputs remain capture assets. Numeric sizing, derived-base tracking,
@@ -89,16 +98,15 @@ reconstructed. `binary.c` is the sole function/extent/status registry. Finite
 rules remain in `policy-data.json`/`abi-policy.json`; the exact 8-byte Release tail
 retains its reviewed residual, with strict cleanup checks on all other accepted bodies.
 
-Latest type-server verification (2026-10-25): bounded dependency observation
-0.588s; separate fresh original CLI capture 0.689s. Matching native replay took
-13.956ms (setup 7.604/execution 4.515/checks 1.837ms). At case completion, all
-nine cached cases, twenty-three units and the original compiler build passed.
-That batch took 45.479s including a shared Cargo build wait and stopped at the
-new cached-import audit gap. The corrected strict audit passed in 0.315s;
-only the affected import facts were rechecked, without repeating successful
-original execution or the full suite. Cached case execution remained about
-10ms. Native tests cover mutable live spans and denial of wrong index, handle,
-method order or open mode. The earlier C7 archive's five tests remain active.
+Latest stream/cache verification (2026-10-25): the final fresh original DIRECT
+capture completed in 1.041s. Matching native replay took 15.099ms (setup6.837 /
+execution6.214 / checks2.048ms). The case-end `make -j4 check unit win32 audit`
+passed all ten cached cases, twenty-three units, original-compiler compatibility
+and the full159-body graph/import/data/extent audit, with strict RET checks on
+158 bodies and the existing Release residual. The incremental batch took0.605s;
+its stream/cache fixture took12.906ms. During reconstruction only current-case
+pairs and selected changed-function audits ran. The final small capture stores
+invocation and file hashes; the deterministic source recipe avoids pattern blobs.
 
 Full build/capture accounting stays in scratch. Historical per-function
 state/proof campaigns are not rerun. Unvisited application stubs remain traps.

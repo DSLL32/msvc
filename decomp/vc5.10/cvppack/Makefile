@@ -21,6 +21,7 @@ APP_SOURCES := src/derived-types.c \
   src/publics.c \
   src/source-index.c \
   src/stubs.c \
+  src/stream-files.c \
   src/symbol-handlers.c \
   src/symbol-reference.c \
   src/symbol-references.c \
@@ -92,3 +93,7 @@ build/cvpack.map: $(ORIGINAL_OUTPUT)
 $(RECON_REGISTRY_OUTPUTS): abi-policy.json
 # Scalar dispatch tags are target-specific data, checked by the narrow case test.
 audit: cases/0001-hello-debug-dll/unit
+
+# Explicit typed DIRECT builds only; ordinary fixtures stay native.
+ORIGINAL_DIRECT_FLAGS = --include $(abspath src) --include $(abspath crt) --include $(abspath $(RECON)/include)
+ORIGINAL_DIRECT_DEPS = src/files.h src/cvpack.h crt/crt-imports.h
