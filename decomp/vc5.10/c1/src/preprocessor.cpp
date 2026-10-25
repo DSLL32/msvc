@@ -2,6 +2,7 @@
 #include <time.h>
 #include "frontend.h"
 #include "keywords.h"
+#include "global-record.h"
 #pragma intrinsic(strcpy, memcpy)
 #include <recon.h>
 
@@ -74,7 +75,7 @@ void __cdecl define_command_line_macro(char *);
 void __cdecl define_preprocessor_macro(const char *, unsigned, int);
 struct CompilerNameEntry *__cdecl find_or_create_identifier(const char *);
 void __cdecl write_global_header(void);
-int __cdecl open_source_file(const char *, int, int, int, int);
+int __cdecl open_source_file(const char *, unsigned, int, int, int);
 void __cdecl report_source_file_error(const char *, int);
 }
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions)
@@ -215,7 +216,46 @@ extern "C" void __cdecl record_macro_definition(const char *name, const char *te
 { __asm { int 3 } }
 extern "C" int __cdecl compare_macro_text(const void *first, const void *second, unsigned size)
 { __asm { int 3 } return 0; }
-extern "C" int __cdecl open_source_file(const char *name, int kind, int report, int mode, int track)
-{ __asm { int 3 } return -1; }
+/* These alternate PCH inputs remain unmodeled until their actual producers
+ * and consumers are reached. The ordinary source-file path does not read them. */
+static void *unmodeled_pch_input_cursor; /* BSS RVA55924 */
+static CompilerSourceFile *unmodeled_active_source_file; /* initialized RVA5e228 */
+extern "C" void __cdecl select_pch_input(void *);
+extern "C" int __cdecl open_source_descriptor(const char *);
+extern "C" void __cdecl push_source_context(CompilerSourceFile *, int, int, int);
+extern "C" void __cdecl report_include_file(int depth, const char *name);
+extern "C" void __cdecl report_response_error(int, ...);
+extern "C" int __cdecl open_source_file(const char *name, unsigned hash,
+                                        int kind, int flags, int track)
+{
+    CompilerSourceFile *file = c1_data.translation_unit->FindSourceFile(name, hash);
+    int descriptor;
+    if (file->record_id & 0xff000000) return -3;
+    if (kind == 2) {
+#ifdef RECON_NATIVE_TEST
+        recon_unsupported("open_source_file: unmodeled PCH source context");
+#endif
+        select_pch_input(unmodeled_pch_input_cursor);
+        push_source_context(file, kind, (int)unmodeled_active_source_file, flags);
+        return -2;
+    }
+    descriptor = name ? open_source_descriptor(name) : stdin->_file;
+    if (descriptor == -1) {
+        if (kind == 1) report_response_error(83, 341, name);
+        return -1;
+    }
+    push_source_context(file, kind, descriptor, flags);
+    if (name && track && c1_bss.options.show_includes)
+        report_include_file(c1_data.source_include_depth, name);
+    return descriptor;
+}
+CompilerSourceFile *RECON_THISCALL CompilerTranslationUnit::FindSourceFile(
+    const char *name, unsigned hash)
+{ __asm { int 3 } return NULL; }
+extern "C" void __cdecl select_pch_input(void *cursor) { __asm { int 3 } }
+extern "C" int __cdecl open_source_descriptor(const char *name) { __asm { int 3 } return -1; }
+extern "C" void __cdecl push_source_context(CompilerSourceFile *file, int kind, int descriptor, int flags)
+{ __asm { int 3 } }
+extern "C" void __cdecl report_include_file(int depth, const char *name) { __asm { int 3 } }
 extern "C" void __cdecl report_source_file_error(const char *name, int file)
 { __asm { int 3 } }

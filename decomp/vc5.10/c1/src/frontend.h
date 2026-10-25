@@ -6,12 +6,14 @@
 #include <recon.h>
 
 /* Preserve C1's direct MSVCRT FILE-array import rather than the SDK's /MD
- * __p__iob accessor. Native stdout retains the shared shim declaration. */
+ * __p__iob accessor. Native streams retain the shared shim declaration. */
 #if defined(_MSC_VER) && !defined(RECON_NATIVE_TEST)
 #undef _iob
 #undef stdout
+#undef stdin
 extern "C" __declspec(dllimport) FILE _iob[];
 #define stdout (&_iob[1])
+#define stdin (&_iob[0])
 #endif
 
 /* Browser output interface, in the actual 24-slot order. Unrecovered slot
@@ -108,6 +110,7 @@ struct CompilerSymbolTable {
 };
 typedef char CompilerSymbolTable_size[sizeof(CompilerSymbolTable) == 24 ? 1 : -1];
 struct CompilerTypeAlias;
+struct CompilerSourceFile;
 struct CompilerTranslationUnit {
     CompilerSymbolTable *root, *current;
     /* Push/pop index this array by a byte depth, checked against128. Only
@@ -120,6 +123,7 @@ struct CompilerTranslationUnit {
     CompilerTypeAlias *type_aliases;
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
     CompilerIrSymbol **RECON_THISCALL EndParameterScope(void);
+    CompilerSourceFile *RECON_THISCALL FindSourceFile(const char *name, unsigned hash);
     void RECON_THISCALL PushScope(CompilerSymbolTable *);
     void RECON_THISCALL Finish(void);
 };
