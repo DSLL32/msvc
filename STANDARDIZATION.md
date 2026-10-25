@@ -3,8 +3,9 @@
 Shared Rust `recon-tool` is implemented under `tooling/recon-tool/`: native
 execution/tests, GDB debugging, capture pack/unpack, registry projection, and
 explicit PE original capture. VC1.0 C1XX has migrated to eight numbered cases.
-Its first C1XX reconstruction trial accepted five application functions using
-fresh original/native comparisons; all eight cached cases and existing units pass.
+The migrated C1XX browser case is complete using fresh original/native comparisons;
+seven cases are complete and one retains its documented partial frontier.
+All eight cached cases and existing units pass.
 VC1.0 C1 has migrated 65 I/O and 101 original-backed direct invocations; native
 replay, original compilation and graph/ABI audits pass with accepted code unchanged.
 
