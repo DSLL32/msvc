@@ -31,6 +31,128 @@ fn align(value: u32, alignment: u32) -> Result<u32> {
         & !(alignment - 1))
 }
 
+// Some linkers put the bound-import directory in otherwise spare header space.
+// Its module-name offsets are relative to this block, so preserve the complete
+// validated block and relocate only its directory RVA in the scratch image.
+fn bound_header_metadata(
+    image: &[u8],
+    pe: usize,
+    optional: usize,
+    optional_size: usize,
+    new_header: usize,
+    header_end: usize,
+    headers_size: usize,
+    table: usize,
+    count: usize,
+) -> Result<Vec<u8>> {
+    let directories = dword(image, optional + 92)? as usize;
+    ensure!(
+        directories > 11 && directories <= (optional_size - 96) / 8,
+        "occupied section header lacks bounded import metadata"
+    );
+    let start = dword(image, optional + 96 + 11 * 8)? as usize;
+    let size = dword(image, optional + 100 + 11 * 8)? as usize;
+    let end = start
+        .checked_add(size)
+        .context("bound import header overflow")?;
+    ensure!(
+        size >= 8
+            && size <= 65536
+            && start >= new_header
+            && end <= headers_size
+            && start < header_end
+            && image.get(start..end).is_some(),
+        "bound imports are not spare header metadata"
+    );
+    ensure!(
+        image[new_header..header_end]
+            .iter()
+            .enumerate()
+            .all(|(i, &byte)| byte == 0 || (start..end).contains(&(new_header + i))),
+        "section header contains other data"
+    );
+    for i in 0..directories {
+        if i == 11 {
+            continue;
+        }
+        let rva = dword(image, optional + 96 + i * 8)? as usize;
+        let len = dword(image, optional + 100 + i * 8)? as usize;
+        if rva == 0 {
+            continue;
+        }
+        let last = rva.checked_add(len).context("PE directory overflow")?;
+        ensure!(
+            !(rva < end && (len == 0 || last > start))
+                && !(rva < header_end && (len == 0 || last > new_header)),
+            "bound imports overlap another PE directory"
+        );
+    }
+    let symbol_table = dword(image, pe + 12)? as usize;
+    ensure!(
+        symbol_table == 0 || symbol_table >= headers_size,
+        "COFF symbol table occupies headers"
+    );
+    for i in 0..count {
+        for field in [24, 28] {
+            let raw = dword(image, table + i * 40 + field)? as usize;
+            ensure!(
+                raw == 0 || raw >= headers_size,
+                "COFF relocation/line table occupies headers"
+            );
+        }
+    }
+    let block = &image[start..end];
+    let mut at = 0usize;
+    let mut names = Vec::new();
+    loop {
+        ensure!(
+            at.checked_add(8).is_some_and(|end| end <= size),
+            "unterminated bound import table"
+        );
+        let stamp = dword(block, at)?;
+        let name = word(block, at + 4)? as usize;
+        let forwards = word(block, at + 6)? as usize;
+        at += 8;
+        if stamp == 0 && name == 0 && forwards == 0 {
+            break;
+        }
+        ensure!(name != 0, "bound import lacks module name");
+        names.push(name);
+        ensure!(
+            forwards <= (size - at) / 8,
+            "bound forwarders exceed directory"
+        );
+        for _ in 0..forwards {
+            names.push(word(block, at + 4)? as usize);
+            ensure!(
+                word(block, at + 6)? == 0,
+                "bound forwarder reserved field is nonzero"
+            );
+            at += 8;
+        }
+    }
+    ensure!(
+        !names.is_empty(),
+        "empty bound import directory does not own header data"
+    );
+    for name in names {
+        ensure!(
+            name >= at && name < size,
+            "bound module name outside name area"
+        );
+        let tail = &block[name..];
+        let end = tail
+            .iter()
+            .position(|&v| v == 0)
+            .context("unterminated bound module name")?;
+        ensure!(
+            end > 0 && end <= 255 && tail[..end].is_ascii(),
+            "invalid bound module name"
+        );
+    }
+    Ok(block.to_vec())
+}
+
 /// The DLL must be a basename; the caller places its verified helper beside the
 /// scratch executable. The symbol is its actual PE export spelling.
 pub fn add_helper_import(image: &[u8], dll: &str, symbol: &str) -> Result<Vec<u8>> {
@@ -88,13 +210,35 @@ pub fn add_helper_import(image: &[u8], dll: &str, symbol: &str) -> Result<Vec<u8
         "unsupported PE section/file alignment"
     );
     ensure!(
-        header_end <= headers_size
-            && headers_size <= image.len()
-            && image
-                .get(new_header..header_end)
-                .is_some_and(|b| b.iter().all(|&v| v == 0)),
-        "no unused PE section-header slot; header relocation is unsupported"
+        header_end <= headers_size && headers_size <= image.len(),
+        "no spare PE section-header capacity; header relocation is unsupported"
     );
+    let bound_in_slot = if optional_size >= 192 && dword(image, optional + 92)? > 11 {
+        let start = dword(image, optional + 184)? as usize;
+        let size = dword(image, optional + 188)? as usize;
+        let end = start
+            .checked_add(size)
+            .context("bound import header overflow")?;
+        start != 0 && start < header_end && (size == 0 || end > new_header)
+    } else {
+        false
+    };
+    let bound_metadata = if !bound_in_slot && image[new_header..header_end].iter().all(|&v| v == 0)
+    {
+        None
+    } else {
+        Some(bound_header_metadata(
+            image,
+            pe,
+            optional,
+            optional_size,
+            new_header,
+            header_end,
+            headers_size,
+            table,
+            count,
+        )?)
+    };
     // Authenticode cannot remain valid after a transformation. Do not silently
     // retain a security directory that would claim to authenticate this copy.
     if optional_size >= 136 && dword(image, optional + 92)? > 4 {
@@ -196,6 +340,14 @@ pub fn add_helper_import(image: &[u8], dll: &str, symbol: &str) -> Result<Vec<u8
     let data_size = name_offset
         .checked_add(u32::try_from(symbol.len() + 3)?)
         .context("helper import size overflow")?;
+    let bound_offset = align(data_size, 4)?;
+    let data_size = if let Some(block) = &bound_metadata {
+        bound_offset
+            .checked_add(u32::try_from(block.len())?)
+            .context("bound metadata size overflow")?
+    } else {
+        data_size
+    };
     let raw_size = align(data_size, file_alignment)?;
     let image_size = align(
         new_rva
@@ -208,6 +360,7 @@ pub fn add_helper_import(image: &[u8], dll: &str, symbol: &str) -> Result<Vec<u8
         .context("helper file size overflow")?;
     let mut result = image.to_vec();
     result.resize(end as usize, 0);
+    result[new_header..header_end].fill(0);
     result[new_header..new_header + 8].copy_from_slice(b".recon\0\0");
     for (off, value) in [
         (8, data_size),
@@ -227,7 +380,19 @@ pub fn add_helper_import(image: &[u8], dll: &str, symbol: &str) -> Result<Vec<u8
         .checked_add(raw_size)
         .context("initialized data size overflow")?;
     put(&mut result, optional + 8, initialized);
+    if bound_metadata.is_some() {
+        put(
+            &mut result,
+            optional + 96 + 11 * 8,
+            new_rva
+                .checked_add(bound_offset)
+                .context("bound metadata RVA overflow")?,
+        );
+    }
     let data = &mut result[raw_offset as usize..end as usize];
+    if let Some(block) = &bound_metadata {
+        data[bound_offset as usize..bound_offset as usize + block.len()].copy_from_slice(block);
+    }
     data[..descriptors.len()].copy_from_slice(&descriptors);
     let helper = descriptors.len();
     put(data, helper, new_rva + int_offset);
@@ -284,6 +449,110 @@ mod tests {
         b[0x380..0x38d].copy_from_slice(b"KERNEL32.dll\0");
         b.push(0xa5);
         b
+    }
+    fn bound_fixture() -> Vec<u8> {
+        let mut b = fixture();
+        put(&mut b, 0x150, 0x1a0);
+        put(&mut b, 0x154, 40);
+        put(&mut b, 0x1a0, 0x11223344);
+        b[0x1a4..0x1a6].copy_from_slice(&24u16.to_le_bytes());
+        b[0x1a6..0x1a8].copy_from_slice(&1u16.to_le_bytes());
+        put(&mut b, 0x1a8, 0x55667788);
+        b[0x1ac..0x1ae].copy_from_slice(&30u16.to_le_bytes());
+        b[0x1b8..0x1be].copy_from_slice(b"A.dll\0");
+        b[0x1be..0x1c4].copy_from_slice(b"B.dll\0");
+        b
+    }
+    #[test]
+    fn relocates_bound_forwarders_and_rejects_malformed_header_ownership() {
+        let b = bound_fixture();
+        let after = add_helper_import(&b, "probe.dll", "probe").unwrap();
+        let image = crate::original_image::Image::parse(&after).unwrap();
+        let rva = dword(&after, 0x150).unwrap();
+        let offset = image.file_offset(rva, 40).unwrap();
+        assert_eq!(&after[offset..offset + 40], &b[0x1a0..0x1c8]);
+        assert_eq!(&after[0x200..b.len()], &b[0x200..]);
+        for (offset, value) in [
+            (0x1a4, 0xffffu16),
+            (0x1a6, 0xffff),
+            (0x1ac, 39),
+            (0x1ae, 1),
+            (0x1a4, 1),
+        ] {
+            let mut bad = b.clone();
+            bad[offset..offset + 2].copy_from_slice(&value.to_le_bytes());
+            if offset == 0x1ac && value == 39 {
+                bad[0x1c7] = b'X';
+            }
+            assert!(
+                add_helper_import(&bad, "probe.dll", "probe").is_err(),
+                "malformed offset {offset:x}"
+            );
+        }
+        let mut empty = fixture();
+        put(&mut empty, 0x150, 0x1a0);
+        put(&mut empty, 0x154, 8);
+        assert!(add_helper_import(&empty, "probe.dll", "probe").is_err());
+        let mut bad = b.clone();
+        put(&mut bad, 0x154, 0x100);
+        assert!(add_helper_import(&bad, "probe.dll", "probe").is_err());
+        let mut bad = b.clone();
+        put(&mut bad, 0xf8, 0x1a0);
+        put(&mut bad, 0xfc, 8);
+        assert!(add_helper_import(&bad, "probe.dll", "probe").is_err());
+        let mut bad = b.clone();
+        put(&mut bad, 0x8c, 0x1a0);
+        assert!(add_helper_import(&bad, "probe.dll", "probe").is_err());
+        let mut bad = b.clone();
+        put(&mut bad, 0x1b0, 1);
+        assert!(add_helper_import(&bad, "probe.dll", "probe").is_err());
+    }
+    #[test]
+    fn actual_cl_bound_header_relocation_preserves_existing_image_bytes() {
+        let repo = std::env::var_os("RECON_TOOL_TEST_REPO")
+            .map(std::path::PathBuf::from)
+            .unwrap_or_else(|| std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../.."));
+        let before = std::fs::read(repo.join("toolchains/5.10/bin/CL.EXE")).unwrap();
+        let after = add_helper_import(
+            &before,
+            "recon-direct-probe.dll",
+            "recon_original_completion_trap",
+        )
+        .unwrap();
+        let pe = dword(&before, 0x3c).unwrap() as usize;
+        let optional = pe + 24;
+        let table = optional + word(&before, pe + 20).unwrap() as usize;
+        let count = word(&before, pe + 6).unwrap() as usize;
+        let header = table + count * 40;
+        let bound = dword(&before, optional + 184).unwrap() as usize;
+        let size = dword(&before, optional + 188).unwrap() as usize;
+        assert_eq!((bound, size), (0x240, 88));
+        assert_eq!(&after[table..header], &before[table..header]);
+        let allowed = [
+            (pe + 6, pe + 8),
+            (optional + 8, optional + 12),
+            (optional + 56, optional + 60),
+            (optional + 64, optional + 68),
+            (optional + 104, optional + 112),
+            (optional + 184, optional + 188),
+            (header, header + 40),
+        ];
+        for (i, &byte) in before.iter().enumerate() {
+            if !allowed.iter().any(|&(start, end)| start <= i && i < end) {
+                assert_eq!(after[i], byte, "changed original byte {i:x}");
+            }
+        }
+        let image = crate::original_image::Image::parse(&after).unwrap();
+        let moved = dword(&after, optional + 184).unwrap();
+        let offset = image.file_offset(moved, size).unwrap();
+        assert_eq!(&after[offset..offset + size], &before[bound..bound + size]);
+        let original_image = crate::original_image::Image::parse(&before).unwrap();
+        let mut imports = crate::original_loader::imports(&original_image, &before).unwrap();
+        imports.push("recon-direct-probe.dll".into());
+        assert_eq!(
+            crate::original_loader::imports(&image, &after).unwrap(),
+            imports
+        );
     }
     #[test]
     fn preserves_existing_sections_imports_and_overlay() {

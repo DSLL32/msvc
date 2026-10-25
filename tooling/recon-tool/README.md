@@ -335,6 +335,10 @@ performs normal detach. The broker matches the loaded DLL's file identity, then
 uses its actual module base and entry RVA; host code is outside the App trace.
 The same host can be reused across cases for that DLL interface.
 
+A bound-import table occupying the spare section-header slot is relocated as a
+validated block into the appended helper section; its timestamps and relative
+name offsets are retained. Existing section locations and bytes stay unchanged.
+
 For a DIRECT probe at a genuine live EXE marker, compile case-owned C with
 `recon-tool original build-direct CASE/direct.c --output CASE/.build/original-direct.dll`
 (optionally `--toolchain`, `--include` and `--define`). Shared Make rules expose
