@@ -471,7 +471,15 @@ extern "C" CompilerIrSymbol *__cdecl make_abstract_declarator(void)
     return symbol;
 }
 CompilerIrSymbol *RECON_THISCALL CompilerIrSymbol::Initialize(unsigned kind,
-    CompilerNameEntry *name, unsigned arena) { __asm { int 3 } return this; }
+    CompilerNameEntry *name, unsigned arena)
+{
+    this->kind = (BYTE)kind;
+    binding.next = NULL;
+    binding.name = name;
+    if ((BYTE)kind == 4)
+        kind4_context = NULL;
+    return this;
+}
 void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription *parameters)
 { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclarationAttributes *attributes)

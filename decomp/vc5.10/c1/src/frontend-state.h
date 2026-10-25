@@ -73,6 +73,8 @@ typedef struct CompilerIrSymbol {
     unsigned reference_flags;
     unsigned record_id;
     BYTE unmodeled_1c, scope_flags, unmodeled_1e, identifier_flags;
+    BYTE unmodeled_20[16];
+    void *kind4_context; /* Constructor clears this pointer only for kind4. */
 #ifdef __cplusplus
     CompilerIrSymbol *RECON_THISCALL Initialize(unsigned kind,
         struct CompilerNameEntry *name, unsigned arena);

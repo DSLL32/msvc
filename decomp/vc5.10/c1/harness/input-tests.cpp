@@ -289,3 +289,22 @@ extern "C" int c1_test_abstract_symbol_reuse(void)
     for (i = 0; i < sizeof(payload); ++i) if (payload[i] != 0x96) return 0;
     return owned[0] == 0xa5a5a5a5 && owned[14] == 0xa5a5a5a5;
 }
+
+extern "C" int c1_test_symbol_constructor(void)
+{
+    CompilerIrSymbol symbol;
+    CompilerNameEntry name;
+    unsigned pass, i;
+    for (pass = 0; pass != 2; ++pass) {
+        unsigned kind = pass ? 4 : 13;
+        memset(&symbol, 0xa5, sizeof(symbol));
+        if (symbol.Initialize(kind, &name, 3) != &symbol || symbol.kind != kind ||
+            symbol.binding.name != &name || symbol.binding.next) return 0;
+        if (pass && symbol.kind4_context) return 0;
+        for (i = 0; i < sizeof(symbol); ++i) {
+            if (i == 0 || (i >= 8 && i < 16) || (pass && i >= 48)) continue;
+            if (((BYTE *)&symbol)[i] != 0xa5) return 0;
+        }
+    }
+    return 1;
+}
