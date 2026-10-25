@@ -160,3 +160,20 @@ int c2_scope_finish_inputs(void)
     return recon_native_at_entry((const void *)finish_inline_function,
         (const void *)function_owner_entry,real_input,0)==1;
 }
+
+static void __fastcall collect_entry(Node *node,unsigned filter_depth)
+{
+    ExceptionScope *scope=exception_scope_stack[1];
+    int valid=!filter_depth&&node->opcode==0x32&&
+        node->attributes.value==0x8010104&&!node->info.value&&
+        node->left.node&&node->second.node&&node->right.symbol&&
+        node->detail.node==node&&exception_scope_stack_depth==2&&scope&&
+        scope->kind==2&&scope->state==0x8e&&scope->identifier==1&&
+        !scope->finally_depth&&!scope->parent_identifier;
+    recon_native_entry_finish(valid);
+}
+int c2_scope_collect_inputs(void)
+{
+    return recon_native_at_entry((const void *)collect_exception_references,
+        (const void *)collect_entry,real_input,0)==1;
+}

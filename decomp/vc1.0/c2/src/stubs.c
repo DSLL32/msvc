@@ -58,7 +58,6 @@ Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
 Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
-void __fastcall finish_inline_function(Function *function) { __asm int 3 }
 #include "inline-calls.h"
 int __fastcall inline_argument_has_global_load(Node *node) { __asm int 3 }
 unsigned __fastcall mark_inline_assembly_parameter(SymbolHeader *symbol, void *context) { __asm int 3 }
@@ -302,3 +301,5 @@ int inherit_float_motion_uses(void) { __asm int 3 }
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 
 Node *__fastcall new_scope_unwind(long target) { __asm int 3 }
+void __fastcall collect_exception_references(Node *node, unsigned filter_depth) { __asm int 3 }
+void __fastcall mark_exception_references(Node *node, unsigned filter_depth) { __asm int 3 }

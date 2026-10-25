@@ -4,6 +4,18 @@
 #include <recon-tool.h>
 static const ReconFunction functions[] = {
     {
+        .name = "@collect_exception_references@8", .entry_rva = 0x55fd0,
+        .code = (const ReconExtent[]) { { 0x55fd0, 0x55fd1 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "collect_exception_references",
+        .implementation = RECON_UNIMPLEMENTED,
+    },
+    {
+        .name = "@mark_exception_references@8", .entry_rva = 0x55f30,
+        .code = (const ReconExtent[]) { { 0x55f30, 0x55f31 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "mark_exception_references",
+        .implementation = RECON_UNIMPLEMENTED,
+    },
+    {
         .name = "@new_scope_finally_unwind@4", .entry_rva = 0x563b0,
         .code = (const ReconExtent[]) { { 0x563b0, 0x563f3 } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "new_scope_finally_unwind",
@@ -13048,11 +13060,13 @@ static const ReconFunction functions[] = {
     {
         .name = "@finish_inline_function@4",
         .entry_rva = 0x55d30,
-        .code = (const ReconExtent[]) { { 0x55d30, 0x55d31 } },
+        .code = (const ReconExtent[]) { { 0x55d30, 0x55e80 } },
         .code_count = 1,
+        .text_data = (const ReconExtent[]) { { 0x55e80, 0x55ec0 } },
+        .text_data_count = 1,
         .definition = RECON_APP,
         .native_symbol = "finish_inline_function",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@canonicalize_function@4",

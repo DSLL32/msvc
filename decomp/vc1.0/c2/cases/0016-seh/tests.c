@@ -16,6 +16,7 @@ extern int c2_scope_unwind_inputs(void);
 extern int c2_scope_finally_inputs(void);
 extern int c2_finally_inputs(void);
 extern int c2_scope_finish_inputs(void);
+extern int c2_scope_collect_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -231,6 +232,74 @@ static int seh_d9_lowering(void)
         node->left.node==callee&&node->second.node==sentinel_node&&
         node->attributes.words.type==0x202&&node->detail.control.code==8;
 }
+static int finish_scope_owners(void)
+{
+    Function function;ExceptionScope scopes[2];Expression expression;Node node;
+    memset(&function,0,sizeof function);memset(scopes,0,sizeof scopes);
+    memset(&expression,0,sizeof expression);memset(&node,0,sizeof node);
+    scopes[0].next=&scopes[1];scopes[0].locals=(struct ExceptionLocalSet *)&node;
+    scopes[1].locals=(struct ExceptionLocalSet *)&expression;
+    prepared_exception_scopes=scopes;exception_scope_stack_depth=0;
+    node.opcode=0x56;expression.tree=&node;expression.source_location=37;
+    function.expressions=&expression;finish_inline_function(&function);
+    return function.expressions==&expression&&function.exception_scopes==scopes&&
+        !prepared_exception_scopes&&!scopes[0].locals&&!scopes[1].locals&&
+        scopes[0].next==&scopes[1]&&!scopes[1].next&&!exception_scope_stack_depth&&
+        expression.tree==&node&&node.opcode==0x56&&expression.source_location==37;
+}
+static unsigned expected_finish_error;
+static void __fastcall finish_error_entry(char *source,unsigned code)
+{
+    recon_native_entry_finish(code==expected_finish_error&&
+        !strcmp(source,"@(#)except.c:1.25"));
+}
+static void unfinished_scope_marker(void *argument)
+{
+    Function function;Expression expression;Node node;ExceptionScope scope;
+    memset(&function,0,sizeof function);memset(&expression,0,sizeof expression);
+    memset(&node,0,sizeof node);memset(&scope,0,sizeof scope);
+    exception_scope_stack_depth=0;function.expressions=&expression;
+    expression.tree=&node;node.opcode=0x4f;node.left.pointer=&scope;
+    node.detail.control.code=(short)(unsigned)argument;
+    finish_inline_function(&function);
+}
+static int finish_filter_boundary(void)
+{
+    expected_finish_error=0x6b;
+    return recon_native_at_entry((const void *)compiler_internal_error,
+        (const void *)finish_error_entry,unfinished_scope_marker,(void *)0x28)==1;
+}
+static int finish_protected_boundary(void)
+{
+    expected_finish_error=0x8f;
+    return recon_native_at_entry((const void *)compiler_internal_error,
+        (const void *)finish_error_entry,unfinished_scope_marker,(void *)0x26)==1;
+}
+static int finish_marker_maps(void)
+{
+    static const unsigned short codes[][6]={{0x26,0x27,0x28,0x29,0x2a,0x2b},
+        {0x26,0x27,0x2c,0x2d,0,0}};
+    static const unsigned lengths[]={6,4};
+    Function function;ExceptionScope scope;Expression list[6];Node nodes[6];
+    unsigned row,i;
+    for(row=0;row<2;++row){
+        memset(&function,0,sizeof function);memset(&scope,0,sizeof scope);
+        memset(list,0,sizeof list);memset(nodes,0,sizeof nodes);
+        function.expressions=list;prepared_exception_scopes=&scope;
+        exception_scope_stack_depth=0;
+        for(i=0;i<lengths[row];++i){
+            list[i].next=i+1==lengths[row]?0:&list[i+1];list[i].tree=&nodes[i];
+            nodes[i].opcode=0x4f;nodes[i].detail.control.code=codes[row][i];
+            nodes[i].left.pointer=&scope;
+        }
+        finish_inline_function(&function);
+        if(exception_scope_stack_depth||prepared_exception_scopes||
+           function.exception_scopes!=&scope||exception_scope_stack[0])return 0;
+        for(i=0;i<lengths[row];++i)
+            if(list[i].tree!=&nodes[i]||nodes[i].detail.control.code!=codes[row][i])return 0;
+    }
+    return 1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -255,5 +324,10 @@ const ReconTest c2_tests[]={
     {"encountered SEH intrinsic recipes preserve typed arguments",1,seh_intrinsic_lowering},
     {"SEH status fixed signature and empty recipe",1,seh_status_lowering},
     {"encountered SEH d9 scalar default and empty recipe",1,seh_d9_lowering},
-    {"actual scope finalizer Function and expression owner",1,c2_scope_finish_inputs}
+    {"actual scope finalizer Function and expression owner",1,c2_scope_finish_inputs},
+    {"scope finalizer transfers list and clears temporary sets",1,finish_scope_owners},
+    {"scope finalizer unbalanced filter diagnostic boundary",1,finish_filter_boundary},
+    {"scope finalizer unbalanced protected diagnostic boundary",1,finish_protected_boundary},
+    {"finalizer both eight-entry annotation maps balance",1,finish_marker_maps},
+    {"actual collect tree ECX/filter EDX and current scope",1,c2_scope_collect_inputs}
 };

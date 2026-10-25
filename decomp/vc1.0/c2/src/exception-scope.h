@@ -23,4 +23,6 @@ Node *__fastcall new_finally_unwind(unsigned depth);
 Node *__fastcall insert_exception_unwind(Expression *previous, Node *before, long target);
 Node *__fastcall new_scope_finally_unwind(long target);
 Node *__fastcall new_scope_unwind(long target);
+void __fastcall collect_exception_references(Node *node, unsigned filter_depth);
+void __fastcall mark_exception_references(Node *node, unsigned filter_depth);
 #endif

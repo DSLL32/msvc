@@ -361,3 +361,64 @@ Node *__fastcall new_finally_unwind(unsigned depth)
     end = intern_leaf(0x4c, 0);
     return build_tree("PPPNYt", end, argument, callee, 0x40, 0x104);
 }
+
+/* Original code[00065d30,00065e80), private switch maps[65e80,65ec0).
+   Two distinct walks collect protected locals, then mark their references.
+   Annotation counters follow the serialized producer protocol; mismatched
+   closing markers retain the original diagnostic behavior. */
+void __fastcall finish_inline_function(Function *function)
+{
+    Expression *expression;
+    Node *node;
+    ExceptionScope *scope;
+    unsigned filter_depth = 0, finally_depth = 0, protected_depth = 0;
+    for (expression = function->expressions; expression; expression = expression->next) {
+        node = expression->tree;
+        if (node->opcode == 0x4f) {
+            switch (node->detail.control.code) {
+            case 0x26:
+                push_exception_scope(node->left.pointer);
+                break;
+            case 0x28: ++filter_depth; break;
+            case 0x29: --filter_depth; break;
+            case 0x2a: case 0x2c: ++finally_depth; break;
+            case 0x2b: case 0x2d:
+                --finally_depth;
+                pop_exception_scope();
+                break;
+            }
+        } else if (node->opcode >= 0x8e && node->opcode <= 0x90) {
+            release_tree(node);
+            expression->tree = new_node(1);
+        } else if (filter_depth || finally_depth) {
+            collect_exception_references(node, filter_depth);
+        }
+    }
+    if (filter_depth || finally_depth)
+        compiler_internal_error("@(#)except.c:1.25", 0x6b);
+    filter_depth = 0;
+    for (expression = function->expressions; expression; expression = expression->next) {
+        node = expression->tree;
+        if (node->opcode == 0x4f) {
+            switch (node->detail.control.code) {
+            case 0x26:
+                ++protected_depth;
+                push_exception_scope(node->left.pointer);
+                break;
+            case 0x27: --protected_depth; break;
+            case 0x28: ++filter_depth; break;
+            case 0x29: --filter_depth; break;
+            case 0x2b: case 0x2d: pop_exception_scope(); break;
+            }
+        } else if (protected_depth || filter_depth) {
+            mark_exception_references(node, filter_depth);
+        }
+    }
+    if (protected_depth || filter_depth)
+        compiler_internal_error("@(#)except.c:1.25", 0x8f);
+    function->exception_scopes = prepared_exception_scopes;
+    for (scope = prepared_exception_scopes; scope; scope = scope->next)
+        scope->locals = 0;
+    prepared_exception_scopes = 0;
+    reset_arena(4);
+}

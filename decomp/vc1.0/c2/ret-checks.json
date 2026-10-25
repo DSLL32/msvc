@@ -120,6 +120,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@finish_inline_function@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }
