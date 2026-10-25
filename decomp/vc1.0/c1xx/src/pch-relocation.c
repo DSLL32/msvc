@@ -331,3 +331,45 @@ void mark_pch_scopes(void)
     }
     mark_pch_symbol_chain(segment_symbols);
 }
+
+void __stdcall mark_pch_tag(CppSymbol *tag);
+
+/* Original0x69dd0..0x69e83;17-way switch0x69e84..0x69ec8. Visit only
+   the pointer fields belonging to the symbol's actual compact record kind. */
+void __stdcall mark_pch_symbol_chain(CppSymbol *symbol)
+{
+    while (symbol) {
+        mark_pch_pointer((void **)&symbol->next);
+        mark_pch_pointer((void **)&symbol->name);
+        switch (symbol->kind & 31) {
+        case 2: case 3: case 5: case 6: case 7: case 8:
+        case 11: case 12: case 18:
+            mark_pch_pointer((void **)&symbol->type);
+            break;
+        case 4:
+            mark_pch_pointer((void **)&symbol->type);
+            mark_pch_tag(symbol);
+            break;
+        case 9:
+            mark_pch_pointer((void **)&symbol->type);
+            if (symbol->storage[1] & 0x20)
+                mark_pch_pointer((void **)&symbol->auxiliary);
+            break;
+        case 10:
+            mark_pch_pointer((void **)&symbol->type);
+            mark_pch_pointer((void **)&symbol->detail.parameter_next);
+            break;
+        case 13:
+            mark_pch_pointer((void **)&symbol->type);
+            mark_pch_pointer((void **)&symbol->detail.segment_class);
+            /* Segments use this word for their associated initializer. */
+            mark_pch_pointer((void **)&symbol->field28);
+            break;
+        case 16: case 17:
+            mark_pch_pointer((void **)&((OverloadSet *)symbol)->functions);
+            mark_pch_symbol_chain(((OverloadSet *)symbol)->functions);
+            break;
+        }
+        symbol = symbol->next;
+    }
+}
