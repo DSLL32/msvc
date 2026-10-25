@@ -674,6 +674,33 @@ static int fold_record(void)
     return recon_native_at_entry(align_section_size,check_fold_record,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall attach_comdat(Contribution *,const char *,BYTE);
+static void __stdcall check_comdat_attachment(Contribution *contribution,const char *name,BYTE linker_defined)
+{
+    OutputModule *module=current_input_library->module_head;
+    Contribution *parts=(Contribution *)module->contributions;
+    Contribution expected;
+    memset(&expected,0,sizeof(expected));
+    expected.characteristics=module_section_headers[1].Characteristics;
+    expected.raw_size=160;
+    expected.module=module;
+    expected.group=parts[1].group;
+    expected.relocation_count=8;
+    expected.relocation_offset=543;
+    expected.input_raw_offset=383;
+    expected.comdat_selection=1;
+    recon_native_entry_finish(!linker_defined && contribution==parts+1 &&
+        !memcmp(contribution,&expected,sizeof(expected)) && expected.group &&
+        expected.group->alignment==16 && name==current_module_strings+4 &&
+        !strcmp(name,"_HelloWindowProc@16") && buffer4.remaining==1 &&
+        module->contribution_info[1].fold_candidate==contribution &&
+        ((ContributionInfo **)buffer4.base)[0]==module->contribution_info+1);
+}
+static int comdat_attachment(void)
+{
+    return recon_native_at_entry(attach_comdat,check_comdat_attachment,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -705,5 +732,6 @@ const ReconTest hello_tests[]={
     {"symbol-definition",1,symbol_definition},
     {"symbol-definition-transition",1,definition_transition},
     {"folded-contribution",1,folded_contribution},
-    {"fold-record",1,fold_record}
+    {"fold-record",1,fold_record},
+    {"comdat-attachment",1,comdat_attachment}
 };

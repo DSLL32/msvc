@@ -1,7 +1,7 @@
 #include <recon-tool.h>
 #include "../../harness/startup.h"
 #include <recon.h>
-extern const ReconTest hello_tests[31];
+extern const ReconTest hello_tests[32];
 static const uint32_t order[] = {
  0x24e60, /* _initialize_buffer12 */
  0x24e70, /* _allocate_buffer12 */
@@ -133,10 +133,11 @@ static const uint32_t order[] = {
  0x31f30, /* Contribution::CanFold */
  0x62f10, /* _get_contribution_info@4 */
  0x616d0, /* _align_section_size@8 */
+ 0x62f50, /* _attach_comdat@12 */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
- "Win32 hello link; First COMDAT auxiliary/fold record stored; genuine alignment frontier.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x616d0,
- recon_link_setup,recon_link_invoke,NULL,hello_tests,31
+ "Win32 hello link; First COMDAT alignment updated; genuine elimination-record frontier.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x62f50,
+ recon_link_setup,recon_link_invoke,NULL,hello_tests,32
 };

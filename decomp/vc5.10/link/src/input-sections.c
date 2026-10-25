@@ -120,7 +120,21 @@ char *__stdcall get_input_section_name(IMAGE_SECTION_HEADER *header,const char *
         return (char *)strings+offset;
     return input_section_name;
 }
-DWORD __stdcall align_section_size(DWORD size,DWORD flags) { __asm { int 3 } return 0; }
+DWORD __stdcall align_section_size(DWORD size,DWORD flags)
+{
+    DWORD alignment,mask;
+    if (flags & 8) return size; /* IMAGE_SCN_TYPE_NO_PAD */
+    alignment=flags & 0x700000;
+    if (!alignment || alignment==0x500000) mask=15;
+    else if (alignment==0x200000) mask=1;
+    else if (alignment==0x300000) mask=3;
+    else if (alignment==0x400000) mask=7;
+    else if (alignment==0x600000) mask=31;
+    else if (alignment==0x700000) mask=63;
+    else return size;
+    if (size & mask) size=(size & ~mask)+mask+1;
+    return size;
+}
 void __stdcall remember_mac_module_name(const char *name) { __asm { int 3 } }
 extern WORD warning_level;
 extern BYTE arch_data_ignored;

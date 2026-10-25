@@ -327,7 +327,7 @@ static const ReconFunction functions[] = {
     {"___dllonexit",0x653d0,(const ReconExtent[]){{0x653d0,0x653d6}},1,NULL,0,RECON_IMPORT_NAME,RECON_UNIMPLEMENTED,NULL,"msvcrt.dll","__dllonexit",0,NULL},
     {"import:??3@YAXPAX@Z",0x651b6,(const ReconExtent[]){{0x651b6,0x651bc}},1,NULL,0,RECON_IMPORT_NAME,RECON_UNIMPLEMENTED,NULL,"msvcrt.dll","??3@YAXPAX@Z",0,NULL},
     {"_get_input_section_name@8",0x61680,(const ReconExtent[]){{0x61680,0x616d0}},1,(const ReconExtent[]){{0x6cdc,0x6ce0}},1,RECON_APP,RECON_IMPLEMENTED,"get_input_section_name",NULL,NULL,0,NULL},
-    {"_align_section_size@8",0x616d0,(const ReconExtent[]){{0x616d0,0x6176a}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"align_section_size",NULL,NULL,0,NULL},
+    {"_align_section_size@8",0x616d0,(const ReconExtent[]){{0x616d0,0x6176a}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"align_section_size",NULL,NULL,0,NULL},
     {"_remember_mac_module_name@4",0x50e60,(const ReconExtent[]){{0x50e60,0x50e8b}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remember_mac_module_name",NULL,NULL,0,NULL},
     {"_mark_incremental_contribution@4",0x5eef0,(const ReconExtent[]){{0x5eef0,0x5ef41}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"mark_incremental_contribution",NULL,NULL,0,NULL},
     {"_read_comdat_section@20",0x5ff70,(const ReconExtent[]){{0x5ff70,0x60724}},1,(const ReconExtent[]){{0x60724,0x6073c}},1,RECON_APP,RECON_IMPLEMENTED,"read_comdat_section",NULL,NULL,0,NULL},
