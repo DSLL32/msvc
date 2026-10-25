@@ -337,6 +337,34 @@ static int per_function_option_aliases(void)
     return !c2_global_optimize && !input_global_optimization_active;
 }
 
+static int pragma_signed_fields(void)
+{
+    unsigned char bytes[] = {0x80, 0x0c, 0xfe, 0x80, 0x34, 0x12,
+                             0x80, 0x00, 0x9b, 0x32, 0xe2};
+    const long expected_values[] = {-500, 0x1234, -500000000L};
+    ShimFILE input;
+    FILE *saved = c2_current_il;
+    C2ILToken token, expected;
+    unsigned i;
+    memset(&input, 0, sizeof(input));
+    input._ptr = (char *)bytes;
+    input._cnt = sizeof(bytes);
+    c2_current_il = (FILE *)&input;
+    for (i = 0; i < 3; ++i) {
+        memset(&token, 0xa5, sizeof(token));
+        token.value.scalar.control_short = i < 2 ? 32 : 31;
+        expected = token;
+        expected.value.integer = expected_values[i];
+        read_control_fields(&token);
+        if (memcmp(&token, &expected, sizeof(token))) {
+            c2_current_il = saved;
+            return 0;
+        }
+    }
+    c2_current_il = saved;
+    return input._cnt == 0 && input._ptr == (char *)bytes + sizeof(bytes);
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -355,5 +383,6 @@ const ReconTest numeric_tests[] = {
     {"pool12 zeroed allocation leaves unknown backing alone", 1, flow_pool_allocation},
     {"flow-block reuse clears only the popped allocation", 1, flow_block_reuse},
     {"ended module does not consume or modify another token", 1, ended_token_input},
-    {"function option stores share CLI globals and retain active state", 1, per_function_option_aliases}
+    {"function option stores share CLI globals and retain active state", 1, per_function_option_aliases},
+    {"pragma short/long sign extension preserves unrelated token fields", 1, pragma_signed_fields}
 };

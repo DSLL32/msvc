@@ -986,7 +986,7 @@ typedef struct C2ControlFields {
 } C2ControlFields;
 static struct {
     C2ControlFields pending00[31], signed_value, short_value;
-} input_control_fields = {{{0}}, {"\024", 0}, {"\016", 0}};
+} input_control_fields = {{{0}}, {"\024", 0}, {"\025", 0}};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define INPUT_CONTROL_FIELDS(control) \
     ((control) == 31 ? input_control_fields.signed_value.fields : \
