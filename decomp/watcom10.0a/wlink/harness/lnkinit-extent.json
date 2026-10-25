@@ -2,15 +2,15 @@
   "scope": "Exact original-compiler module contribution; no terminal linker alignment. No text_data or additional body permission.",
   "rebuilt_PE": {
     "path": "build/WLINK.EXE",
-    "sha256": "22884be3708ef9178753a147e7e3911193b3c1dea459c50beed12bca048ec7e8"
+    "sha256": "b13956ff43915cb8dce86be5eb6b3cdc1e9967f248f99bb6115302a4554761eb"
   },
   "rebuilt_MAP": {
     "path": "build/wlink.map",
-    "sha256": "9be2f56bed89e71ed7b4826260f7264f026df2fbcbf156cf0d3b05f432a4a7c0"
+    "sha256": "1193c109577b1d1e4e7840d304d6291fe2c7f7970279feeb381fa3d875aed7cf"
   },
   "object": {
     "path": "build/obj/src/wlink.c.obj",
-    "sha256": "abc45477b8943adb6af30f076944ee10a419c377e6bf737595d1561c6dd892a7"
+    "sha256": "a1cc94e95ce237361215f7ecc5e55e6b184a0c26537a80c16577276f9348362b"
   },
   "SEGDEF": {
     "file_offset": 392,
@@ -22,7 +22,7 @@
     "length": 694
   },
   "PUBDEF": {
-    "file_offset": 4385,
+    "file_offset": 4381,
     "record_hex": "912d00020116446f4c696e6b46726f6d436f6d6d616e644c696e655f0000000000084c6e6b496e69745f8e01000000ff",
     "checksum_sum_mod256": 0,
     "symbols": {
@@ -31,13 +31,13 @@
     }
   },
   "arithmetic": {
-    "module_start": 4264397,
-    "LnkInit_entry": 4264795,
-    "contribution_end": 4265091,
+    "module_start": 4264961,
+    "LnkInit_entry": 4265359,
+    "contribution_end": 4265655,
     "LnkInit_body_length": 296,
-    "last_RET": 4265090,
+    "last_RET": 4265654,
     "next_module_symbol": "_lseek_",
-    "next_module_entry": 4265091,
+    "next_module_entry": 4265655,
     "padding_hex": ""
   },
   "limits": "PE/MAP/object are current built artifacts. Every refreshed build must regenerate/rebind this witness before its descriptor is used. No original executable run was needed."

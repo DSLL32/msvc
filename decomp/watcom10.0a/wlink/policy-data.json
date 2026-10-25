@@ -126,6 +126,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "readResList": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

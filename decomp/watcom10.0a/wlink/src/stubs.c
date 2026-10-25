@@ -68,8 +68,12 @@ unsigned char FreeUpMemory( void ) { TRAP(); return 0; }
 long QPos( int file ) { file = file; TRAP(); return 0; }
 void __FreeTypeList( WResDir dir ) { dir = dir; TRAP(); }
 int WResReadExtraWResID( WResID *id, int file ) { id = id; file = file; TRAP(); return 0; }
-int readResList( int file, WResTypeNode *node, unsigned short version )
-{ file = file; node = node; version = version; TRAP(); return 0; }
+int WResReadFixedResRecord1( WResResInfo1 *info, int file )
+{ info = info; file = file; TRAP(); return 0; }
+int WResReadFixedResRecord( WResResInfo *info, int file )
+{ info = info; file = file; TRAP(); return 0; }
+int readLangInfoList( int file, WResResNode *node )
+{ file = file; node = node; TRAP(); return 0; }
 int readMResDir( int file, WResDir dir, int *duplicates )
 { file = file; dir = dir; duplicates = duplicates; TRAP(); return 0; }
 unsigned QWrite( int file, void *buffer, unsigned length, char *name )

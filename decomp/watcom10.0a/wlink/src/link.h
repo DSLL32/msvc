@@ -120,6 +120,12 @@ extern int WResIDExtraBytes( const WResID * );
 extern int WResReadExtraWResID( WResID *, int );
 extern void ResAddLLItemAtEnd( void **, void **, void * );
 extern int readResList( int, WResTypeNode *, unsigned short );
+typedef struct WResResNode WResResNode;
+typedef struct WResResInfo WResResInfo;
+typedef struct WResResInfo1 WResResInfo1;
+extern int WResReadFixedResRecord1( WResResInfo1 *, int );
+extern int WResReadFixedResRecord( WResResInfo *, int );
+extern int readLangInfoList( int, WResResNode * );
 extern int readMResDir( int, WResDir, int * );
 extern unsigned QWrite( int, void *, unsigned, char * );
 #include <recon.h>
