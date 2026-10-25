@@ -718,20 +718,24 @@ followed that earlier pause.
 Shared integration is published. The simpler ordinary CF debugger is READY in
 `cea53023405fcce7f9900f4626986008d8ded4db`, superseding the active instruction
 controller from `04ee1337ad2f627d691b784f186d1d46b348da27`.
-All three real CF help paths now run through the ordinary debugger; none of
-the five initial help cases is complete yet. Root has released all five existing
-workers to build fresh
-standard scaffolds, complete one genuine basic initial help case each, and pause.
-This releases target bootstrap/reconstruction work within those cases; unknown
-loader, gateway and startup paths still require concrete shared support.
+All three CF binaries use the ordinary debugger. Two initial help cases are
+complete: WLIB (`23c416971`, 56 App functions / 4,768 unique original bytes,
+exit 0) and WASM (`f2710e44e`, 68 / 10,309 bytes, exit 1). Both match actual
+streams and entry order, pass period builds and full final graph/ABI checks,
+and keep only `case.c`/`capture.bin` plus ignored build output under cases.
+The user authorized WLIB and WASM to continue autonomously with substantial
+cases. WCC, WPP and WLINK must complete their initial help case, commit, pause,
+and request user review before autonomous continuation.
 
 The user subsequently approved integrating this backend into shared
 `recon-tool original capture`. The shared recon-tool owner implements the
 integration; the Watcom coordinator supplies controller contracts and review.
 That release permits replacing the old minimal source/cases; history preserves
 them. Workers use the shared runner, explicit original captures and period
-compiler checks, with native-only regression fixtures. No second case or
-autonomous queue is authorized.
+compiler checks, with native-only regression fixtures. WLIB and WASM alone
+have subsequent autonomous authorization.
+
+**Initial reset plan (historical).**
 
 | Binary | Historical accepted application work | Released first-case work |
 | --- | --- | --- |
@@ -742,31 +746,58 @@ autonomous queue is authorized.
 | WLINK | 1 function / 232 bytes | Fresh scaffold and help; validated finite PE startup catalog, with resource-reader conditions checked when reached. |
 
 **Case-layout correction.** Per-function diagnostics had accumulated under cases,
-contrary to the standardized layout. All five workers have stopped generating
-these files. WCC, WPP, WASM and WLIB have hash-preserved and removed 417
-unbound diagnostic files so far; WLINK's case was already clean. Raw histories
-remain in scratch or Git history. Final case directories retain scoped source,
-`capture.bin` and ignored `.build/` only. WCC cached replay now reads descriptor
+contrary to the standardized layout. All five stopped generating them and
+hash-preserved their raw histories in scratch before removing case copies and
+unbound harness proof packages. A direct inventory confirmed every initial case
+contains only `case.c`/`capture.bin` outside ignored `.build/`, with no legacy
+nested evidence directories. Git retains historical tracked material. WCC
+cached replay now reads descriptor
 expectations and `capture.bin`, without a permanent original-report dependency;
 fresh reconstruction comparisons still use the actual scratch original report.
 
-The remaining case witnesses are opaque documentary file/hash pins: their JSON
-contents are not interpreted. Optional `runtime_evidence` can be removed without
-changing registry CRT roles, extents or text data. A small shared change is being
-reviewed to allow absent documentary evidence on canonical identity, compatibility
-call, shared-return and rebuilt-extent policies; supplied bindings remain checked.
-Actual call sites, identities, CFG/ownership checks, and object/image/MAP or CF
-layout facts remain mandatory. No clean-checkout audit will require scratch
-history. No optional-provenance change is claimed published yet.
+The removed case witnesses were opaque documentary file/hash pins: their JSON
+contents were not interpreted. Optional `runtime_evidence` was omitted without
+changing registry CRT roles, extents or text data. Shared release `81cc675fb`
+permits absent documentary evidence on canonical
+identity, compatibility-call, shared-return and rebuilt-extent policies; supplied
+bindings remain checked. CF release `e8f12177e` similarly removes the optional
+nested layout documentary pin. Actual call sites, identities, CFG/ownership,
+object/image/MAP and canonical CF profile/layout facts remain mandatory.
+Clean-checkout audits do not require scratch history.
 
-WASM corrected an acceptance bookkeeping error: matching an old trap did not
-prove execution of an anticipated candidate. Its verified checkpoint is 46 App
-functions / 6,621 bytes at `ExpandTheWorld`, with unsupported later candidates
-remasked. No invalid oracle or commit was made. The acceptance check must prove
+During migration WASM corrected an acceptance bookkeeping error: matching an
+old trap did not prove execution of an anticipated candidate. At that point
+its verified checkpoint was 46 App functions / 6,621 bytes at `ExpandTheWorld`,
+with unsupported later candidates remasked. Subsequent genuine execution reached
+the completed 68-function case above. No invalid oracle or commit was made. The acceptance check must prove
 candidate body execution through to the next frontier or normal completion, not
 merely a matching trap at the candidate entry.
 
-**Earlier committed migration checkpoints; no initial help case is complete yet.**
+**Completed-case measurements.** WLIB's final normal-exit original/native pair
+was 487.759 / 8.974 ms; final cached check/unit were 8.098 / 10.516 ms, and
+parallel period build plus final gates took 1.740 s. Its full 56-App graph,
+references, ownership and extents pass; 54 ordinary return contracts plus a
+finite residual cover two cold nonlocal tails without accepting pending recovery
+code. WASM's final original/native pair was 1.342 s / 10.331 ms (5.572 setup,
+2.712 execution, 2.047 checks); period rebuild plus audit took 2.783 s. Its full
+68-App graph/reference/ownership/extent checks, 65 ordinary return contracts and
+reviewed exceptional/help-exit residual pass. No publication-only original was
+needed for either completed case.
+
+**Reached command-line input fix.** Shared release `61b2f237a` retains exact
+`CreateProcessA` text independently of argv, binds mutable process-lifetime
+native storage, and quotes only tokens that need escaping. This fixes a real
+old-parser failure caused by always quoting safe `?`/`@response`/option tokens;
+old raw captures are unchanged. WLINK's meaningful 42-entry pair passes at
+`NewCommandSource`: original 1,217.919 ms / native 15.263 ms. The captured raw
+program token is the requested R: path while observed Watcom argv0 is the staged
+T: image, both retained honestly. WLIB's corrected library seed succeeds, and
+its next substantial archive-update baseline exercises response/environment
+options, replacement/deletion/extraction/addition, dictionary handling and an
+explicit import. WASM's next coherent assembly case combines includes, macros,
+conditionals, typed data, symbols/relocations and integer/x87 instructions.
+
+**Earlier scaffold and committed migration checkpoints.**
 WLINK scaffold commit `e469762a1` and WASM scaffold commit `207036122b` use the
 shared build/runner and retire their local capture launchers. WASM's response
 cleanup is committed as `e9836ce56`. WLINK and WASM now generate Watcom link
@@ -863,7 +894,8 @@ header case/backslash dependency resolution is fixed. Graph-audit already reads
 CF images and real Watcom MAPs (`--map-format watcom10`). Registry ABI 2 preserves
 `original_symbol` separately from the native symbol: e.g. `main_` versus `main`.
 The opt-in Watcom FP, first-main heap and normal-only 52-byte setjmp support is
-published. No concrete additional shim or PIC implementation is currently needed.
+published. Reached API additions and their limits are recorded in the shared
+changes table; no new PIC mechanism is required.
 
 **1. Native migration prerequisites.** All five can use the current native
 runner; it does not execute their original PE/CF format. Binary workers can move
@@ -1036,5 +1068,6 @@ waits for a concrete requested marker and the existing controller adapter.
 
 Existing FILE26, signal and nonlocal-jump denials remain explicit. No general
 allocator, DLL loader, ABI engine or new shim family is proposed. This report
-records support needs, bounded transport milestones and the explicitly counted
-fresh application acceptances above; no initial help case is complete.
+records support needs, bounded transport milestones and fresh application
+acceptances. WLIB and WASM initial help cases are complete; the other three
+remain in progress.
