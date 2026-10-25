@@ -105,7 +105,6 @@ void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDecl
 
 
 
-void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
 void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
 void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }

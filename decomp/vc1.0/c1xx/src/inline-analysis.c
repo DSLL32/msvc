@@ -78,3 +78,48 @@ void __stdcall analyze_inline_parameter(CppSymbol *parameter)
     write_ir_record(0x91, 0);
     ++inline_slot_count;
 }
+
+unsigned char inline_saved_slot_count; /* original0x91848 */
+unsigned short inline_previous_region; /* original0x91858 */
+
+/* Original0x446d9..0x448c3, stdcall4. Enter a control region, link it
+   beneath the current region and save the tracked parameter reference bytes. */
+void __stdcall begin_qc_control(unsigned char mode)
+{
+    InlineRegion *region;
+    InlineScope *scope;
+    unsigned i;
+    ++inline_region_count;
+    ++inline_scope_depth;
+    if (inline_scope_depth < 8) {
+        if (inline_region_count >= 255) return;
+        scope = &inline_scopes[inline_scope_depth];
+        scope->region = inline_current_region;
+        region = &inline_regions[inline_region_count];
+        region->slot_count = inline_slot_count;
+        inline_saved_slot_count = inline_slot_count;
+        if (inline_regions[inline_current_region].child == 0xffff)
+            inline_regions[inline_current_region].child = inline_region_count;
+        else inline_regions[inline_tail_region].next = inline_region_count;
+        region->state07 = 0;
+        region->state06 = region->state07;
+        region->state0c = 0;
+        region->state08 = region->state0c;
+        region->child = 0xffff;
+        region->next = region->child;
+        region->kind = mode;
+        inline_previous_region = inline_current_region;
+        inline_current_region = inline_region_count;
+        for (i = 0; i < inline_slot_count; ++i) {
+            scope->prefix[i] = (unsigned char)inline_parameters[i]->references;
+            inline_parameters[i]->references = 0;
+        }
+        scope->flags = 0;
+        write_ir_record(0x93, 0);
+    } else if (inline_region_count < 255) {
+        region = &inline_regions[inline_region_count];
+        region->next = region->child = 0xffff;
+        region->slot_count = region->kind = region->state06 = region->state07 = 0xff;
+        region->state08 = region->state0c = ~0U;
+    }
+}
