@@ -694,3 +694,21 @@ void __stdcall emit_runtime_initializer_expression(unsigned operation,
     reference->type = make_expression_qualified_type(function->type, 3, attributes, 0);
     emit_expression_statement(new_left_typed_expression(0x7a, reference, arguments));
 }
+
+/* Original0x47d10..0x47db3, stdcall8. Outside a braced list, retain
+   the target's remaining byte count or infer its missing element bound. */
+int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value)
+{
+    TypeShape *shape;
+    unsigned width, count;
+    if (braced_initializer_depth >= 0) return 0;
+    shape = symbol->type->related;
+    if (symbol->attributes & 2) shape = shape->related;
+    width = (value->tail.string.auxiliary_flags & 1) ? 2 : 1;
+    if (shape->data.array_bound)
+        return (int)((unsigned)shape->data.array_bound * width - value->tail.string.length);
+    count = value->tail.string.length / width;
+    symbol->type = replace_first_type_shape(symbol->type, shape->flags,
+        shape->attributes, &count);
+    return 0;
+}
