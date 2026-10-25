@@ -97,10 +97,11 @@ static const uint32_t order[] = {
     0x100ea, /* append_option_vector */
     0x397db, /* resolve_option_path */
     0x398cd, /* normalize_path */
+    0x3990d, /* initialize_packing */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "minimal-cpp",
-    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine normalize_path INT3. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
+    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine initialize_packing INT3. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
     order, RECON_COUNT(order), NULL, 0,
-    RECON_IO, RECON_FRONTIER, 0x398cd, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, NULL, 0
+    RECON_IO, RECON_FRONTIER, 0x3990d, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, NULL, 0
 };

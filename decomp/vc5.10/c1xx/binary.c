@@ -771,6 +771,7 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x398cd, 0x3990d}, {0x7274a, 0x72752}},
         .code_count = 2, .definition = RECON_APP,
         .native_symbol = "normalize_path",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_disable_multibyte_identifiers", .entry_rva = 0x802c9,

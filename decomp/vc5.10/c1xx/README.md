@@ -11,18 +11,18 @@ and their declarations are in crt/, with their retained-variant rationale in
 crt/startup.c. Native case adapters and the import-library build definition are
 in harness/. Numbered case files contain descriptors and entry orders only.
 
-The single registry is binary.c. The current prefix has 93 accepted application
-functions / 7438 code bytes; historical CRT support is separate
+The single registry is binary.c. The current prefix has 94 accepted application
+functions / 7510 code bytes; historical CRT support is separate
 (2 functions / 451 bytes), with 12 bytes of generated import support. These
-7901 bytes are compared with a 751216-byte .text extent; that denominator also
+7973 bytes are compared with a 751216-byte .text extent; that denominator also
 contains runtime, data and padding and is not a non-CRT coverage measure.
-The audit checks 95 source bodies. The two six-byte import endpoints retain
+The audit checks 96 source bodies. The two six-byte import endpoints retain
 identity/catalog checks and zero application credit; they are not RET-body targets.
 
 0000 checks typed DLL attach, export presence without invoking exports, and
 detach against the completed original lifecycle case. 0001 invokes the actual
 CL-derived 26-argument C++ pass with BOOL1 on minimal.cpp. Its current oracle is
-the genuine normalize_path INT3 at RVA398cd, not completed compilation.
+the genuine initialize_packing INT3 at RVA3990d, not completed compilation.
 Both cases compare the original-backed first application encounters.
 
 The minimal case uses a small original Win32 host in
@@ -40,10 +40,13 @@ The new host baseline captured the same 93 application encounters in 1.585 s;
 its matching native fixture took 8.46 ms (setup 5.13, execution 2.32, checks 1.01).
 
 The 422-byte resolve_option_path body is reconstructed in src/path.c, with its
-full hot/cold graph and finite cached-import preservation witness. The fresh
-reference reaches the real normalizer stub (RVA398cd); original capture took
-1.430 s and native replay 10.625 ms. Combined parallel native/original build
-and strict audit took 5.371 s. The new ESI-contract removal control rejects.
+full hot/cold graph and finite cached-import preservation witness. The resolver
+reference reached the real normalizer stub in 1.430 s; native replay took
+10.625 ms and its ESI-contract removal control rejects. The 72-byte normalizer
+then advanced the real case to packing initialization, with fresh original
+1.318 s/native 8.291 ms and separate build 1.777 s/audit 0.168 s. It uses the
+existing filename table; original dead incoming-slot reuse is documented in
+source without requiring caller-stack mutation.
 The prior compiled-but-unaccepted resolver WIP remains historical under
 `~/.ai-tmp/msvc2/vc5.10/c1xx/standardization-20261025/resolver-wip/`;
 its missing old DLL is not claimed as preserved. Current fixtures have no

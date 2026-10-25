@@ -50,4 +50,22 @@ char *resolve_option_path(char *output, const char *input, unsigned capacity)
 }
 
 
-char *normalize_path(char *path) { __asm { int 3 } return path; }
+/* The original uses its dead incoming pointer slot as a byte temporary.
+ * Both callers discard that by-value slot immediately after the call. */
+char *normalize_path(char *path)
+{
+    char *cursor = path;
+    unsigned character;
+    WORD folded;
+
+    while ((character = (unsigned char)*cursor) != 0) {
+        folded = frontend_bss.filename_case_map[character];
+        if (folded == 0xffff)
+            cursor += 2;
+        else {
+            *cursor = (char)folded;
+            ++cursor;
+        }
+    }
+    return path;
+}
