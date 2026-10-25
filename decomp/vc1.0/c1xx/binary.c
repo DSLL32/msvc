@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1499 historical frontiers/1392 App bodies.
+ * Current reviewed boundary:1502 historical frontiers/1395 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -13,6 +13,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "unquote_diagnostic_message",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_remember_diagnostic_position@8",
@@ -21,6 +22,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "remember_diagnostic_position",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_parse_diagnostic_code@8",
@@ -16910,10 +16912,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_diagnostic",
         .entry_rva = 0x634a0,
-        .code = (const ReconExtent[]) { { 0x634a0, 0x634a1 } },
+        .code = (const ReconExtent[]) { { 0x634a0, 0x6367c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_diagnostic",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_flush_browser_records",

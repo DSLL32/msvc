@@ -3409,6 +3409,18 @@
       "win32": "NULL skips55c23 cursor writer; original uninitialized local retained",
       "authorization": "Established preserve-Win32-bug/exact-native-unsupported policy after whole-body def-use analysis",
       "coverage_note": "public NULL reach UNKNOWN; current pragma caller checks nonnull; no original stale-stack equality claim"
+    },
+    {
+      "function": "_emit_diagnostic",
+      "original": [
+        472224,
+        472700
+      ],
+      "condition": "category != 0 && category not in {1000,2000,4000}, at severity consumption after optional source prefix",
+      "behavior": "explicit native-only INT3 before original unwritten severity pointer read",
+      "win32": "original uninitialized severity local retained; SUB0x804 plus saved registers puts first load0x7351b at entryESP-2052; recognized branches supply EDX directly",
+      "authorization": "Established original-uninitialized-control policy; no invented severity or early suppression of genuine prefix work",
+      "coverage_note": "public reach UNKNOWN; current real category4000 is defined"
     }
   ],
   "function_properties": {

@@ -1,11 +1,11 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is COMPLETE. There are1392 application
+PARTIAL reconstruction; packet_engine is COMPLETE. There are1395 application
 source functions plus seven unchanged historical CRT source functions. The new
-dsp_bank has accepted twenty-five bodies (3504B), including named segments
+dsp_bank has accepted twenty-eight bodies (4119B), including named segments
 and catalog reading/position lookup alongside access declarations and pragmas;
-active at remember_diagnostic_position (RVA0x630a0). The completed packet_engine
+active at add_extended (RVA0x64c99). The completed packet_engine
 /O2 /G5 /Ob1 /Z7 /FR case accepted83 whole application bodies:
 18,747 code bytes and820 owned switch-data bytes. It covers packed/anonymous
 aggregates, generated special members/defaults, temporaries, nested SEH,
@@ -37,15 +37,15 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1499: the 1302 trial baseline plus 88 browser and83 packet application steps,
-the first twenty-five DSP application steps, and the one additional CRT boundary.
+1502: the 1302 trial baseline plus 88 browser and83 packet application steps,
+the first twenty-eight DSP application steps, and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
 original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 336,793/476,418 .text bytes (70.69%); this is
+Application function extents cover 337,408/476,418 .text bytes (70.82%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -147,7 +147,7 @@ not claims that all historical GDB injections remain fixtures.
 
 Boundaries
 ----------
-Twenty-three exact native limitations remain in policy-data.json and source. They
+Twenty-four exact native limitations remain in policy-data.json and source. They
 include original unwritten locals (lookahead, empty include/name, null overload
 iterators, debug-query/output scope and missing-colon false result), unknown
 internal type/member-pointer domains and the unmodeled browser category prefix.
@@ -306,3 +306,12 @@ The31st false CRT identity was the access-table getter final RET at312b0 plus15
 padding bytes. Only its two raw alias records and one canonical row were removed
 after independent entry/pointer/export checks. The33B getter has since passed
 normal whole-body acceptance; disqualification itself earned no credit.
+
+DSP diagnostic emission retains the original unknown-nonzero-category unwritten
+severity local in Win32; native traps exactly before that pointer read, after any
+source prefix formatting. Public reachability remains unknown. Current category4000
+is defined. The original0x804-byte allocation includes a4B severity slot followed
+by the2048B output array, not a2052B array. Ten native cases and21 unit groups
+pass; a unit-only attempted host-fd redirect initially failed because the shim
+open descriptor is not a host fd. Removing that unnecessary redirect made the
+focused guard/defined-warning control pass; application evidence was unchanged.

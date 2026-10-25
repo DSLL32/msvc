@@ -4,6 +4,8 @@
 #include "diagnostics.h"
 #include "initialization.h"
 #include "pragma.h"
+#include "source-input.h"
+#include "text-format.h"
 #include <recon.h>
 
 typedef struct MessageText {
@@ -185,4 +187,82 @@ char *__stdcall parse_diagnostic_code(char *text, int *code)
     }
     *code = (int)value;
     return text;
+}
+
+/* Original0x730a0..0x730e2, stdcall8. Retain the first exact
+   catalog position for a code; a full cache does not evict prior entries. */
+void __stdcall remember_diagnostic_position(long offset, unsigned code)
+{
+    int index;
+    for (index = 0; index < 20; ++index) {
+        if (!diagnostic_message_positions[index].code) break;
+        if ((unsigned)diagnostic_message_positions[index].code == code) return;
+    }
+    if (index < 20) {
+        diagnostic_message_positions[index].code = (int)code;
+        diagnostic_message_positions[index].offset = offset;
+    }
+}
+
+/* Original0x72ff0..0x73039, stdcall4. Decode catalog escapes in
+   place, preserving a backslash before an otherwise unknown escape. */
+char *__stdcall unquote_diagnostic_message(char *text)
+{
+    char *start, *destination;
+    while (*text++ != '"');
+    start = destination = text;
+    while (*text != '"') {
+        if (*text == '\\') {
+            ++text;
+            if (*text == 'n') *text = '\n';
+            else if (*text == 't') *text = '\t';
+            else *destination++ = '\\';
+        }
+        *destination++ = *text++;
+    }
+    *destination = 0;
+    return start;
+}
+
+/* Original0x734a0..0x7367c, cdecl4. Compose the frontend diagnostic,
+   then write and flush each enabled destination separately. */
+void emit_diagnostic(unsigned category, unsigned code, char *format, va_list arguments)
+{
+    char output[2048], *cursor = output, *severity, *source;
+    unsigned length;
+    if ((int)source_line_number > 0 && source_filename) {
+        format_text(cursor,"%Fs(%ld) : ",source_filename,source_line_number);
+        while (*cursor) ++cursor;
+    }
+    if (category) {
+        switch (category) {
+        case 1000: severity = message_text(315); break;
+        case 2000: severity = message_text(314); break;
+        case 4000: severity = message_text(313); break;
+        }
+#ifdef RECON_NATIVE_TEST
+        /* Original unknown nonzero categories reach0x7351b without
+           writing entryESP-2052. Preserve that Win32 bug; native cannot
+           reproduce the incidental severity pointer read at this point. */
+        if (category != 1000 && category != 2000 && category != 4000)
+            __asm { int 3 }
+#endif
+        source = severity;
+        do { *cursor = *source++; } while (*cursor++);
+        --cursor;
+        format_text(cursor," %c%d: ",'C',category + code);
+        while (*cursor) ++cursor;
+    }
+    vformat_text(cursor,format,arguments);
+    cursor = output;
+    while (*cursor) ++cursor;
+    length = cursor - output;
+    fwrite(output,length,1,stderr);
+    fwrite("\n",1,1,stderr);
+    fflush(stderr);
+    if (options.option_Fs && diagnostic_trace_file) {
+        fwrite(output,length,1,diagnostic_trace_file);
+        fwrite("\n",1,1,diagnostic_trace_file);
+        fflush(diagnostic_trace_file);
+    }
 }
