@@ -524,6 +524,23 @@ fn short_import(data: &[u8]) -> Result<bool> {
     Ok(true)
 }
 
+// Multiple COFF names can denote the same entry. They all own the same
+// proven interval through the next distinct symbol, not a zero-byte body.
+fn distinct_function_end<'a>(
+    symbols: impl Iterator<Item = &'a Symbol>,
+    begin: i64,
+    section_len: usize,
+) -> Result<usize> {
+    symbols
+        .filter(|symbol| symbol.value > begin)
+        .map(|symbol| symbol.value)
+        .min()
+        .map(usize::try_from)
+        .transpose()
+        .map(|end| end.unwrap_or(section_len))
+        .map_err(Into::into)
+}
+
 fn collect(
     pe: &Pe,
     library: &str,
@@ -563,13 +580,9 @@ fn collect(
         if !whole.is_empty() {
             pieces.push((text.clone(), funcs, whole));
         } else {
-            for (i, sym) in funcs.iter().enumerate() {
+            for sym in &funcs {
                 let begin = usize::try_from(sym.value)?;
-                let end = if i + 1 < funcs.len() {
-                    usize::try_from(funcs[i + 1].value)?
-                } else {
-                    text.data.len()
-                };
+                let end = distinct_function_end(funcs.iter(), sym.value, text.data.len())?;
                 if begin == end {
                     continue;
                 }
@@ -605,12 +618,9 @@ fn collect(
                     .and_then(|v| v.checked_add(offset as u32))
                     .context("matched section address overflow")?;
                 let mut records = vec![];
-                for (i, sym) in symbols.iter().enumerate() {
-                    let end = if i + 1 < symbols.len() {
-                        symbols[i + 1].value
-                    } else {
-                        fragment.data.len() as i64
-                    };
+                for sym in &symbols {
+                    let end = distinct_function_end(symbols.iter(), sym.value, fragment.data.len())?
+                        as i64;
                     let address =
                         |value: i64| -> Result<u32> { Ok(u32::try_from(start as i64 + value)?) };
                     records.push(Record {
@@ -884,7 +894,7 @@ fn override_targets(pe: &Pe, options: &Options) -> Result<HashMap<String, HashSe
                 .filter(|s| s.section == section.index && s.kind == 0x20)
                 .collect();
             functions.sort_by_key(|s| s.value);
-            for (i, symbol) in functions.iter().enumerate() {
+            for symbol in &functions {
                 if symbol.storage != 2 {
                     continue;
                 }
@@ -900,11 +910,11 @@ fn override_targets(pe: &Pe, options: &Options) -> Result<HashMap<String, HashSe
                     symbol.name,
                     owner.object
                 );
-                let end = if i + 1 < functions.len() {
-                    usize::try_from(functions[i + 1].value)?
-                } else {
-                    section.data.len()
-                };
+                let end = distinct_function_end(
+                    functions.iter().copied(),
+                    symbol.value,
+                    section.data.len(),
+                )?;
                 let address = validate_override(pe, &map, section, symbol, end, owner.address)?;
                 ensure!(
                     targets
@@ -1192,6 +1202,84 @@ mod tests {
             library: "test.lib".into(),
             shared: vec![],
         }
+    }
+    #[test]
+    fn whole_and_fragment_matches_keep_every_same_entry_alias() {
+        let body = [
+            0x31, 0xc0, 0x90, 0x90, 0x90, 0x90, 0x90, 0xc3, 0x33, 0xc0, 0x40, 0x40, 0x40, 0x40,
+            0x40, 0xc3,
+        ];
+        let symbol_offset = 60 + body.len();
+        let mut object = vec![0u8; symbol_offset + 3 * 18 + 4];
+        object[0..2].copy_from_slice(&0x14cu16.to_le_bytes());
+        object[2..4].copy_from_slice(&1u16.to_le_bytes());
+        object[8..12].copy_from_slice(&(symbol_offset as u32).to_le_bytes());
+        object[12..16].copy_from_slice(&3u32.to_le_bytes());
+        object[20..25].copy_from_slice(b".text");
+        object[36..40].copy_from_slice(&(body.len() as u32).to_le_bytes());
+        object[40..44].copy_from_slice(&60u32.to_le_bytes());
+        object[56..60].copy_from_slice(&0x60000020u32.to_le_bytes());
+        object[60..symbol_offset].copy_from_slice(&body);
+        for (i, (name, value)) in [("_first", 0u32), ("_alias", 0), ("_next", 8)]
+            .iter()
+            .enumerate()
+        {
+            let p = symbol_offset + i * 18;
+            object[p..p + name.len()].copy_from_slice(name.as_bytes());
+            object[p + 8..p + 12].copy_from_slice(&value.to_le_bytes());
+            object[p + 12..p + 14].copy_from_slice(&1i16.to_le_bytes());
+            object[p + 14..p + 16].copy_from_slice(&0x20u16.to_le_bytes());
+            object[p + 16] = 2;
+        }
+        object[symbol_offset + 54..].copy_from_slice(&4u32.to_le_bytes());
+        let pe = Pe {
+            data: vec![],
+            base: 0x1000,
+            optional: 0,
+            sections: vec![],
+        };
+        for change_neighbor in [false, true] {
+            let mut code = body;
+            if change_neighbor {
+                code[8] = 0x32;
+            }
+            let mut candidates = Vec::new();
+            collect(
+                &pe,
+                "test.lib",
+                "aliases.obj",
+                &object,
+                &code,
+                0,
+                &mut candidates,
+            )
+            .unwrap();
+            let records: Vec<_> = candidates.iter().flat_map(|c| &c.records).collect();
+            for name in ["_first", "_alias"] {
+                let matching: Vec<_> = records.iter().filter(|r| r.name == name).collect();
+                assert_eq!(matching.len(), 1);
+                assert_eq!((matching[0].start, matching[0].end), (0x1000, 0x1008));
+            }
+            assert!(records.iter().all(|r| r.start < r.end));
+            assert_eq!(records.iter().any(|r| r.name == "_next"), !change_neighbor);
+        }
+    }
+    #[test]
+    fn same_entry_aliases_share_next_distinct_symbol_boundary() {
+        let mut first = symbol("__alloca_probe", 1);
+        first.value = 0;
+        let mut alias = first.clone();
+        alias.name = "__chkstk".into();
+        let mut next = first.clone();
+        next.name = "next".into();
+        next.value = 45;
+        let symbols = [first, alias, next];
+        assert_eq!(distinct_function_end(symbols.iter(), 0, 80).unwrap(), 45);
+        assert_eq!(distinct_function_end(symbols.iter(), 45, 80).unwrap(), 80);
+        assert_eq!(
+            distinct_function_end(symbols[..2].iter(), 0, 45).unwrap(),
+            45
+        );
     }
     #[test]
     fn code_free_machine_neutral_aliases_are_not_runtime_bodies() {
