@@ -180,7 +180,7 @@ extern "C" void __cdecl initialize_language_keywords(void)
     for (entry = keywords; entry->name; ++entry) {
         intern_identifier(entry->name);
         c1_data.current_identifier->flags |= 0x10000;
-        c1_data.current_identifier->token = entry->token;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->token = entry->token;
     }
     unreserve_keyword("asm");
     unreserve_keyword("catch");
@@ -287,18 +287,18 @@ extern "C" void __cdecl initialize_language_keywords(void)
             if (strncmp(entry->name, "__", 2)) continue;
             intern_identifier(entry->name);
             if (!(c1_data.current_identifier->flags & 0x10000)) continue;
-            token = c1_data.current_identifier->token;
+            token = ((CompilerKeywordEntry *)c1_data.current_identifier)->token;
             if (token != 243) {
                 intern_identifier(entry->name + 1);
                 c1_data.current_identifier->flags |= 0x10000;
-                c1_data.current_identifier->token = token;
+                ((CompilerKeywordEntry *)c1_data.current_identifier)->token = token;
             } else {
-                token = c1_data.current_identifier->category;
+                token = ((CompilerKeywordEntry *)c1_data.current_identifier)->category;
                 if (token != 1 && token != 5) continue;
                 intern_identifier(entry->name + 1);
                 c1_data.current_identifier->flags |= 0x10000;
-                c1_data.current_identifier->token = 243;
-                c1_data.current_identifier->category = token;
+                ((CompilerKeywordEntry *)c1_data.current_identifier)->token = 243;
+                ((CompilerKeywordEntry *)c1_data.current_identifier)->category = token;
             }
         }
     }
@@ -306,7 +306,7 @@ extern "C" void __cdecl initialize_language_keywords(void)
         intern_identifier(*attribute);
         c1_data.current_identifier->flags |= 0x800000;
         if (!(c1_data.current_identifier->flags & 0x10000))
-            c1_data.current_identifier->token = (BYTE)code;
+            ((CompilerKeywordEntry *)c1_data.current_identifier)->token = (BYTE)code;
     }
 }
 
@@ -335,8 +335,8 @@ extern "C" void __cdecl intern_identifier(const char *name)
             return;
         }
     }
-    /* The compact view omits original DWORD12 and its allocation tail.
-     * Preserve the actual20-byte pool stride, not sizeof the projection. */
+    /* Keyword allocation extends the16-byte name header with token/category.
+     * Its macro pointer and keyword bytes retain their allocation contents. */
     if (pool->remaining < 20)
         pool->Refill(20);
     entry = (CompilerNameEntry *)pool->cursor;
@@ -406,48 +406,48 @@ extern "C" void __cdecl set_keyword_category2(const char *name)
 {
     intern_identifier(name);
     if (c1_data.current_identifier->flags & 0x10000) {
-        c1_data.current_identifier->token = 243;
-        c1_data.current_identifier->category = 2;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->token = 243;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->category = 2;
     }
 }
 extern "C" void __cdecl set_keyword_category3(const char *name)
 {
     intern_identifier(name);
     if (c1_data.current_identifier->flags & 0x10000) {
-        c1_data.current_identifier->token = 243;
-        c1_data.current_identifier->category = 3;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->token = 243;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->category = 3;
     }
 }
 extern "C" void __cdecl set_keyword_category1(const char *name)
 {
     intern_identifier(name);
     if (c1_data.current_identifier->flags & 0x10000) {
-        c1_data.current_identifier->token = 243;
-        c1_data.current_identifier->category = 1;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->token = 243;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->category = 1;
     }
 }
 extern "C" void __cdecl set_keyword_category5(const char *name)
 {
     intern_identifier(name);
     if (c1_data.current_identifier->flags & 0x10000) {
-        c1_data.current_identifier->token = 243;
-        c1_data.current_identifier->category = 5;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->token = 243;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->category = 5;
     }
 }
 extern "C" void __cdecl set_keyword_category4(const char *name)
 {
     intern_identifier(name);
     if (c1_data.current_identifier->flags & 0x10000) {
-        c1_data.current_identifier->token = 243;
-        c1_data.current_identifier->category = 4;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->token = 243;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->category = 4;
     }
 }
 extern "C" void __cdecl set_keyword_category6(const char *name)
 {
     intern_identifier(name);
     if (c1_data.current_identifier->flags & 0x10000) {
-        c1_data.current_identifier->token = 243;
-        c1_data.current_identifier->category = 6;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->token = 243;
+        ((CompilerKeywordEntry *)c1_data.current_identifier)->category = 6;
     }
 }
 extern "C" void __cdecl report_language_diagnostic(unsigned level, unsigned number, ...) { __asm { int 3 } }

@@ -86,6 +86,7 @@ typedef struct CompilerInitializedState {
      * Date/time macros borrow slices of the reformatted text. */
     char predefined_time_text[26];
     unsigned macro_reset_value; /* RVA5e3fc, default0; reset by macro setup */
+    int source_include_depth; /* RVA5e224, default-1; increments/decrements with input stack */
     /* Last: snapshot transfer excludes all unknown size slots. */
     CompilerRecordSizes record_sizes;
 } CompilerInitializedState;
@@ -272,6 +273,7 @@ typedef struct CompilerBss {
     BYTE *macro_token_cursor; /* RVA5003c; first work-buffer cursor */
     BYTE *macro_text_cursor; /* RVA50040; second work-buffer cursor */
     BYTE *saved_macro_text_cursor; /* RVA50034 */
+    const char *current_macro_text; /* RVA50028; encoded command-line/directive text */
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

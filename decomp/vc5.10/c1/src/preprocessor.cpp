@@ -1,6 +1,7 @@
 #include <string.h>
 #include <time.h>
-#include "compiler-state.h"
+#include "frontend.h"
+#include "keywords.h"
 #pragma intrinsic(strcpy, memcpy)
 #include <recon.h>
 
@@ -155,8 +156,65 @@ extern "C" void __cdecl initialize_macro_buffers(void)
 }
 extern "C" void __cdecl define_command_line_macro(char *definition)
 { __asm { int 3 } }
+extern "C" void __cdecl record_macro_definition(const char *, const char *, int);
+extern "C" int __cdecl compare_macro_text(const void *, const void *, unsigned);
+extern "C" void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 extern "C" void __cdecl define_preprocessor_macro(const char *text, unsigned length, int kind)
+{
+    CompilerNameEntry *identifier = c1_data.current_identifier;
+    if (identifier == c1_data.builtin_names.defined_operator) {
+        report_language_diagnostic(1, 117, identifier, "#define");
+        return;
+    }
+    CompilerMacro *macro = identifier->macro;
+    if (!c1_data.source_include_depth && c1_bss.forced_source_index) {
+        record_macro_definition(identifier->name,
+            length ? c1_bss.current_macro_text : "", kind);
+        identifier = c1_data.current_identifier;
+    }
+    if (macro) {
+        int previous_kind = macro->body->kind;
+        if (previous_kind < -3) {
+            report_language_diagnostic(1, 117, identifier, "#define");
+            return;
+        }
+        int changed;
+        if (kind != -3 && kind != previous_kind)
+            changed = 1;
+        else if (length)
+            changed = compare_macro_text(text, macro->body->payload, length - 1);
+        else
+            changed = macro->body->payload[0] != 0;
+        if (!changed)
+            return;
+        report_language_diagnostic(1, 5, identifier);
+    }
+    CompilerPool *pool = &c1_bss.pools[5];
+    if (pool->remaining < 8)
+        pool->Refill(8);
+    identifier = c1_data.current_identifier;
+    macro = (CompilerMacro *)pool->cursor;
+    pool->cursor += 8;
+    pool->remaining -= 8;
+    macro->identifier = identifier;
+    CompilerArena *arena = &c1_bss.arenas[0];
+    CompilerMacroBody *body = (CompilerMacroBody *)arena->cursor;
+    arena->cursor += (length + 11) & ~3U;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    macro->body = body;
+    if (length)
+        memcpy(body->payload, text, length);
+    identifier = c1_data.current_identifier;
+    identifier->flags |= 0x80000;
+    identifier->macro = macro;
+    body->kind = (signed char)kind;
+    c1_data.backend->Slot28(macro);
+}
+extern "C" void __cdecl record_macro_definition(const char *name, const char *text, int kind)
 { __asm { int 3 } }
+extern "C" int __cdecl compare_macro_text(const void *first, const void *second, unsigned size)
+{ __asm { int 3 } return 0; }
 extern "C" int __cdecl open_source_file(const char *name, int kind, int report, int mode, int track)
 { __asm { int 3 } return -1; }
 extern "C" void __cdecl report_source_file_error(const char *name, int file)

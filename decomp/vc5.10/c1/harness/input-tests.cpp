@@ -103,11 +103,11 @@ extern "C" int c1_test_identifier_interning(void)
     c1_bss.arenas[0].cursor = names;
     c1_bss.arenas[0].committed_limit = names + sizeof(names);
     first->flags = 0x9abc0000;
-    first->token = 77;
-    first->category = 88;
+    ((CompilerKeywordEntry *)first)->token = 77;
+    ((CompilerKeywordEntry *)first)->category = 88;
     intern_identifier("aa");
     if (c1_data.current_identifier != first || strcmp(first->name, "aa") ||
-        first->flags != 0x9abc01eb || first->token != 77 || first->category != 88)
+        first->flags != 0x9abc01eb || ((CompilerKeywordEntry *)first)->token != 77 || ((CompilerKeywordEntry *)first)->category != 88)
         return 0;
     intern_identifier("b]"); /* Same hash491, different spelling. */
     if (c1_data.current_identifier != second || second->next != first ||
