@@ -646,7 +646,7 @@
       },
       "_read_symbols": {
         "abi": "void read_symbols(unsigned long,const CvDirectoryEntry *)",
-        "source": "src/stubs.c",
+        "source": "src/modules.c",
         "stack_cleanup": 0,
         "roots": []
       },

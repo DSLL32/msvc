@@ -49,7 +49,7 @@ void grow_mapping(FileSlot *slot, long size) { __asm { int 3 } }
 
 
 
-void read_symbols(unsigned long directory,const CvDirectoryEntry * entry) { __asm { int 3 } }
+
 
 
 
