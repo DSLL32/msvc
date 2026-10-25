@@ -555,7 +555,6 @@ unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0
 
 IrToken *__stdcall build_scalar_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
-void extract_pch_intermediates(int separate_debug) { __asm { int 3 } }
 void __stdcall restore_pch_browser_name(char *filename) { __asm { int 3 } }
 void read_pch_pages(void) { __asm { int 3 } }
 void __stdcall restore_pch_debug_state(char *filename) { __asm { int 3 } }

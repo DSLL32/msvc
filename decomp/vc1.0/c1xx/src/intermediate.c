@@ -261,3 +261,39 @@ unsigned __stdcall copy_pch_stream(FILE *source, FILE *destination, int bytes)
     } while (count == 0x8000);
     return (unsigned)bytes - left;
 }
+
+/* Original0x6d470..0x6d640. Restore the saved stream prefixes, consuming
+   the browser PCH marker before replaying the remaining browser records. */
+void extract_pch_intermediates(int separate_debug)
+{
+    pch_transfer_buffer = malloc(0x8000);
+    intermediate_status = fseek(pch_file,
+        pch_header.symbol_bytes + pch_header.expression_bytes + 0x334, 0);
+    if (intermediate_status)
+        report_error(86, message_text(344), options.option_Fp, pch_diagnostic_name, 1540);
+    rewind(global_file);
+    copy_pch_stream(pch_file, global_file, pch_header.global_bytes);
+    rewind(line_file);
+    copy_pch_stream(pch_file, line_file, pch_header.line_bytes);
+    if (separate_debug) {
+        rewind(debug_file);
+        copy_pch_stream(pch_file, debug_file, pch_header.debug_bytes);
+    } else if (pch_header.debug_bytes) {
+        intermediate_status = fseek(pch_file, pch_header.debug_bytes, 1);
+        if (intermediate_status)
+            report_error(86, message_text(344), options.option_Fp, pch_diagnostic_name, 1554);
+    }
+    if (pch_header.browser_bytes) {
+        rewind(browser_file);
+        copy_pch_stream(pch_file, browser_file, pch_header.browser_offset);
+        do {
+            --pch_header.browser_bytes;
+        } while (fgetc(pch_file));
+        browser_open_file();
+        browser_include_begin();
+        copy_pch_stream(pch_file, browser_file,
+            pch_header.browser_bytes - pch_header.browser_offset);
+        fread(browser_symbol_references, 1, 0x1fff, pch_file);
+    }
+    free(pch_transfer_buffer);
+}
