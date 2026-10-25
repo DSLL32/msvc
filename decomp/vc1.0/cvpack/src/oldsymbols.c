@@ -62,3 +62,9 @@ void size_old_change_segment(void)
     } else
         module_type_count += 6;
 }
+
+void size_old_procedure16(void)
+{
+    ++symbol_scope_depth;
+    module_type_base += 17;
+}

@@ -164,5 +164,5 @@ void size_old_register(void) { __asm { int 3 } }
 void size_old_constant(void) { __asm { int 3 } }
 void size_old_data16(void) { __asm { int 3 } }
 void size_old_data32(void) { __asm { int 3 } }
-void size_old_procedure16(void) { __asm { int 3 } }
+
 void size_old_procedure32(void) { __asm { int 3 } }
