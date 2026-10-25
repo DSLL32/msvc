@@ -15,12 +15,12 @@ unsigned input_aggregate_bytes, input_last_source_index;
 C2InputClause *input_clauses;
 
 /* Only the two high-byte properties read by this dispatcher are represented.
- * Encountered pragma79 and filename86 have the boundary bit and no expression bit.
+ * Encountered pragma79, scope-begin83 and filename86 are boundaries.
  * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
 static struct {
-    unsigned char pending00[79], pragma, pending80[6], filename, pending87[71];
-} input_opcode_properties = {{0}, 0x10, {0}, 0x10, {0}};
+    unsigned char pending00[79], pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
+} input_opcode_properties = {{0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 static unsigned input_register_opcode[17];
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
@@ -29,6 +29,7 @@ static unsigned char input_register_opcode_known[17];
 #define INPUT_PROPERTIES(op) \
     ((unsigned)(op) == 79 ? \
      input_opcode_properties.pragma : \
+     (unsigned)(op) == 83 ? input_opcode_properties.scope_begin : \
      (unsigned)(op) == 86 ? input_opcode_properties.filename : \
      (recon_unsupported("unmodeled input opcode properties"), 0))
 #define INPUT_INVERSE(condition) \
@@ -829,7 +830,7 @@ C2ILToken *__fastcall read_input_token(C2Function *function, C2ILToken *token)
     return result;
 }
 
-/* Only opcode79's actual classifier byte is modeled. Padding is unavailable
+/* Only opcode38/79/83 classifier bytes are modeled. Padding is unavailable
  * backing, not a reconstruction of any other opcode's form/default. */
 enum InputTokenForm {
     INPUT_FORM_NONE, INPUT_FORM_TYPE, INPUT_FORM_SYMBOL,
@@ -842,10 +843,12 @@ enum InputTokenForm {
     INPUT_FORM_SIGNED_PAIR, INPUT_FORM_SYMBOLS_SHORT
 };
 static struct {
-    unsigned char pending00[79], pragma;
-} input_token_forms = {{0}, INPUT_FORM_PRAGMA};
+    unsigned char pending00[38], variable, pending39[40], pragma, pending80[3], scope_begin;
+} input_token_forms = {{0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
-#define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 79 ? input_token_forms.pragma : \
+#define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 38 ? input_token_forms.variable : \
+    (unsigned)(op) == 79 ? input_token_forms.pragma : \
+    (unsigned)(op) == 83 ? input_token_forms.scope_begin : \
     (recon_unsupported("unmodeled input token form"), 0))
 #else
 #define INPUT_TOKEN_FORM(op) (((unsigned char *)&input_token_forms)[(op)])

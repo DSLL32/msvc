@@ -4,16 +4,17 @@
 #include <recon.h>
 
 C2ScopeHash *new_function_scope(void);
-/* Only the linked cache and filename are consumed by filename selection.
- * The intervening line-map fields retain their separate, unmodeled payload. */
+/* Each24-byte map associates a contiguous internal line span with source
+ * lines in one filename. The cache walks older maps through previous. */
 typedef struct C2InputLineMap {
-    unsigned pending00;
-    struct C2InputLineMap *next;
-    unsigned char pending08[12];
+    struct C2InputLineMap *next, *previous;
+    unsigned first_line, last_line, source_line;
     char *filename;
 } C2InputLineMap;
-typedef char C2InputLineMapNextCheck[offsetof(C2InputLineMap, next) == 4 ? 1 : -1];
+typedef char C2InputLineMapSizeCheck[sizeof(C2InputLineMap) == 24 ? 1 : -1];
+typedef char C2InputLineMapPreviousCheck[offsetof(C2InputLineMap, previous) == 4 ? 1 : -1];
 typedef char C2InputLineMapNameCheck[offsetof(C2InputLineMap, filename) == 20 ? 1 : -1];
+extern C2InputLineMap *input_first_line_map;
 extern C2InputLineMap *input_line_cache;
 extern char *input_line_filename;
 extern unsigned input_last_line;

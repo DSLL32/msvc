@@ -17,7 +17,7 @@ int retain_function_input_pool;
 C2InputSymbol *pending_optimized_input;
 unsigned input_source_line_base;
 unsigned short input_value_type = 0x1004;
-C2InputLineMap *input_line_cache;
+C2InputLineMap *input_line_cache, *input_first_line_map;
 char *input_line_filename;
 unsigned input_last_line;
 int input_line_needs_record;
@@ -116,7 +116,7 @@ unsigned __fastcall set_input_filename(char *filename)
 {
     C2InputLineMap *entry;
     if (input_line_filename && !strcmp(input_line_filename, filename)) return 0;
-    for (entry = input_line_cache; entry; entry = entry->next) {
+    for (entry = input_line_cache; entry; entry = entry->previous) {
         if (!strcmp(filename, entry->filename)) {
             input_line_filename = entry->filename;
             return 0;
@@ -125,4 +125,37 @@ unsigned __fastcall set_input_filename(char *filename)
     input_line_filename = c2_pool_allocate(0, strlen(filename) + 1);
     strcpy(input_line_filename, filename);
     return 0;
+}
+
+unsigned __fastcall resolve_input_source_line(unsigned serial)
+{
+    C2InputLineMap *entry;
+    unsigned source_end, line;
+    if (serial == 0) return 0;
+    if (input_line_cache && !input_line_needs_record &&
+        input_line_cache->filename == input_line_filename) {
+        entry = input_line_cache;
+        source_end = entry->last_line - entry->first_line + entry->source_line;
+        if (source_end <= serial && serial <= source_end + 1000) {
+            line = serial - entry->source_line + entry->first_line;
+            if (line > input_last_line) {
+                entry->last_line = line;
+                input_last_line = line;
+            }
+            return line;
+        }
+    }
+    entry = c2_pool_allocate(0, sizeof(C2InputLineMap));
+    line = ++input_last_line;
+    input_line_needs_record = 0;
+    if (input_line_cache)
+        input_line_cache->next = entry;
+    else
+        input_first_line_map = entry;
+    entry->source_line = serial;
+    entry->first_line = entry->last_line = line;
+    entry->filename = input_line_filename;
+    entry->previous = input_line_cache;
+    input_line_cache = entry;
+    return line;
 }

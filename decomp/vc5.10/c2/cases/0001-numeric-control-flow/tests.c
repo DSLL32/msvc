@@ -426,8 +426,8 @@ static int input_filename_identity(void)
     C2InputLineMap entries[2];
     char first[] = "one.c", second[] = "two.c", equal[] = "two.c";
     memset(entries, 0xa5, sizeof(entries));
-    entries[0].next = &entries[1];
-    entries[1].next = NULL;
+    entries[0].previous = &entries[1];
+    entries[1].previous = NULL;
     entries[0].filename = first;
     entries[1].filename = second;
     input_line_cache = entries;
@@ -437,7 +437,39 @@ static int input_filename_identity(void)
     if (set_input_filename("new.c") || !input_line_filename ||
         input_line_filename == first || input_line_filename == second ||
         strcmp(input_line_filename, "new.c")) return 0;
-    return entries[0].pending08[0] == 0xa5 && entries[1].pending08[11] == 0xa5;
+    return entries[0].first_line == 0xa5a5a5a5U && entries[1].source_line == 0xa5a5a5a5U;
+}
+
+static int input_line_mapping(void)
+{
+    C2InputLineMap *first, *second;
+    char name[] = "same.c", equal[] = "same.c";
+    input_line_cache = input_first_line_map = NULL;
+    input_line_filename = name;
+    input_line_needs_record = 1;
+    input_last_line = 7;
+    if (resolve_input_source_line(0) || input_line_cache || input_last_line != 7 ||
+        !input_line_needs_record) return 0;
+    if (resolve_input_source_line(100) != 8) return 0;
+    first = input_line_cache;
+    if (first != input_first_line_map || first->previous || first->next ||
+        first->first_line != 8 || first->last_line != 8 ||
+        first->source_line != 100 || first->filename != name) return 0;
+    if (resolve_input_source_line(103) != 11 || first->last_line != 11 ||
+        input_last_line != 11 || input_line_cache != first) return 0;
+    if (resolve_input_source_line(1103) != 1011 || input_line_cache != first) return 0;
+    if (resolve_input_source_line(2104) != 1012) return 0;
+    second = input_line_cache;
+    if (second == first || first->next != second || second->previous != first ||
+        second->source_line != 2104 || second->first_line != 1012 ||
+        second->last_line != 1012 || input_first_line_map != first) return 0;
+    input_line_filename = equal; /* Equal bytes are a distinct source identity. */
+    if (resolve_input_source_line(2105) != 1013 || input_line_cache == second ||
+        input_line_cache->filename != equal || input_line_cache->previous != second)
+        return 0;
+    input_line_needs_record = 1;
+    if (resolve_input_source_line(2105) != 1014 || input_line_needs_record) return 0;
+    return input_line_cache->first_line == 1014 && input_last_line == 1014;
 }
 
 const ReconTest numeric_tests[] = {
@@ -462,5 +494,6 @@ const ReconTest numeric_tests[] = {
     {"pragma short/long sign extension preserves unrelated token fields", 1, pragma_signed_fields},
     {"control record clears its exact 28-byte allocation", 1, control_record_reuse},
     {"input stack reuse and drain preserve complete tree chain", 1, input_stack_reuse_and_link},
-    {"filename selection retains cached string identity", 1, input_filename_identity}
+    {"filename selection retains cached string identity", 1, input_filename_identity},
+    {"source-line mapping preserves spans and filename identity", 1, input_line_mapping}
 };

@@ -101,11 +101,6 @@ C2Expression * __fastcall new_function_exit(C2Function *function)
 
 
 
-unsigned __fastcall resolve_input_source_line(unsigned serial)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 unsigned __fastcall adjust_input_return_size(unsigned short type, unsigned bytes)
 {
