@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <mbstring.h>
 #include "link.h"
-#include "crt-imports.h"
+#include "../crt/crt-imports.h"
 #include "options.h"
 #include "full-link-functions.h"
 #include "pass-one.h"

@@ -2,18 +2,13 @@
 #include <stdlib.h>
 #include <windows.h>
 #include "initializers.h"
-#include "crt-imports.h"
+#include "../crt/crt-imports.h"
 #include <recon.h>
 
 BufferBlock buffer12, buffer8, buffer4;
 TimingState timing;
 
-#if defined(RECON_NATIVE_TEST)
-Initializer application_initializers[] = {
-    NULL,
-    initialize_buffer12, initialize_buffer8, initialize_buffer4, initialize_timing
-};
-#else
+#if !defined(RECON_NATIVE_TEST)
 #pragma data_seg(".CRT$XCU")
 Initializer application_initializer1 = initialize_buffer12;
 Initializer application_initializer2 = initialize_buffer8;

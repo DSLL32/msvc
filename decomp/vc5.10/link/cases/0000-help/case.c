@@ -1,7 +1,6 @@
 #include <recon-tool.h>
+#include "../../harness/startup.h"
 #include <recon.h>
-extern int recon_link_setup(void);
-extern int recon_link_invoke(int,char **);
 static const uint32_t order[] = {
  0x24e60, /* _initialize_buffer12 */
  0x24e70, /* _allocate_buffer12 */

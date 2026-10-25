@@ -8,7 +8,7 @@
 #include <mbstring.h>
 #include <io.h>
 #include "link.h"
-#include "crt-imports.h"
+#include "../crt/crt-imports.h"
 #include "options.h"
 #include <recon.h>
 

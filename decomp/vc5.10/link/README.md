@@ -4,6 +4,11 @@
 13 shipped CRT/import boundaries add no application credit.
 `binary.c` is the function and extent registry. The native harness aliases the
 canonical driver `main` to `link_main` using a compilation flag.
+Application bodies and original constructor registration remain in `src/`;
+`harness/startup.c` owns native setup, invocation and initializer wiring.
+`crt/crt-imports.h` only preserves LINK's direct `_iob` import declaration
+against the newer SDK macro. It implements no CRT routine and earns no credit;
+the original build links the shipped MSVCRT library.
 
 `make -j4 check unit` runs the saved native invocations. Help is complete
 (full DWORD status 1100); Win32 hello is partial at the genuine

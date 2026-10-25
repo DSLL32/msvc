@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "link.h"
 #include "options.h"
-#include "crt-imports.h"
+#include "../crt/crt-imports.h"
 #include <recon.h>
 
 BOOL WINAPI console_control(DWORD event) { __asm { int 3 } return FALSE; }

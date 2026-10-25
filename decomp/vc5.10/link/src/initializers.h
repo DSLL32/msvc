@@ -23,7 +23,6 @@ typedef struct TimingState {
 
 extern BufferBlock buffer12, buffer8, buffer4;
 extern TimingState timing;
-extern Initializer application_initializers[];
 void __cdecl initialize_buffer12(void);
 void __cdecl initialize_buffer8(void);
 void __cdecl initialize_buffer4(void);

@@ -7,11 +7,11 @@ BINARY_LINKER = clang
 NATIVE_CPPFLAGS = -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
 NATIVE_CXXFLAGS = -nostdinc++ -fno-exceptions -fno-rtti
-BINARY_SOURCES = src/option-stubs.c src/symbols.c src/arguments.c src/reproduction.c src/memory.c src/files.c src/driver-stubs.c src/driver.c src/initializers.c src/full-link-init.c src/comdat.c src/sections.c src/libraries.c src/input.c src/machine.c src/module-index.c src/link-driver.cpp src/options.cpp src/full-link.cpp src/full-link-stubs.cpp src/section-driver.cpp src/pass-one.cpp src/input-machine.cpp src/input-module.cpp
+BINARY_SOURCES = src/option-stubs.c src/symbols.c src/arguments.c src/reproduction.c src/memory.c src/files.c src/driver-stubs.c src/driver.c src/initializers.c src/full-link-init.c src/comdat.c src/sections.c src/libraries.c src/input.c src/machine.c src/module-index.c src/link-driver.cpp src/options.cpp src/full-link.cpp src/full-link-stubs.cpp src/section-driver.cpp src/pass-one.cpp src/input-machine.cpp src/input-module.cpp harness/startup.c
 BINARY_SUPPORT_SOURCES = $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
 ORIGINAL_TOOLCHAIN = 5.10
-ORIGINAL_SOURCES = $(BINARY_SOURCES)
+ORIGINAL_SOURCES = $(filter src/%,$(BINARY_SOURCES))
 ORIGINAL_BUILD = build
 ORIGINAL_OUTPUT = build/link.exe
 ORIGINAL_MAP = build/link.map

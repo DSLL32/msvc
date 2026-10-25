@@ -8,7 +8,7 @@
 #include <io.h>
 #include "link.h"
 #include "initializers.h"
-#include "crt-imports.h"
+#include "../crt/crt-imports.h"
 #include "full-link-functions.h"
 #include "memory.h"
 #include <recon.h>
