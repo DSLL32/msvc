@@ -1,0 +1,337 @@
+{
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {},
+    "callback_tables": []
+  },
+  "ret_checks": {
+    "schema": 1,
+    "functions": {
+      "main": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "main_init": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ObjRecInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CarveCreate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MemAlloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmAlloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "newBlk": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GenMSOmfInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PObjRegList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "do_init_stuff": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MsgInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OpenResFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResOpenFileRO": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindResources": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "res_seek": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitResources": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResInitDir": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResReadDir": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResIsWResFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResReadUint32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "readWResDir": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResReadHeaderRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResReadExtHeader": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "readTypeList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResReadFixedTypeRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResIDExtraBytes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResAddLLItemAtEnd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "readResList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResReadFixedResRecord1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "make_inst_hash_table": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "add": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "find": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "hashpjw": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "add_constant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "isvalidident": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StoreConstant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmScan": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_number": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "createconstant": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "AsmGetSymbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmFind": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "asmsym.hashpjw": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmAdd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmQueryExternal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ExpandTheWorld": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ExpandAllConsts": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "EvalExpr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "fix_parant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "do_envvar_cmdline": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "parse_token": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "parse_cmdline": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PrintfUsage": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Wait_for_return": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MsgGet": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LoadString": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "WResInitIDFromNum": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResFindResource": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResGetLangInfo": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "GetString": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "__FindType": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FindRes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FindLang": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResIDCmp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "trademark": {
+        "expected_cleanup": [
+          0
+        ]
+      }
+    }
+  }
+}

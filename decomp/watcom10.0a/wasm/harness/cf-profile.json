@@ -54,10 +54,6 @@
         121546,
         121550
       ]
-    ],
-    "evidence": {
-      "path": "decomp/watcom10.0a/wasm/harness/cf-layout.json",
-      "sha256": "e9fee87edda6d13b25bc8637f67cdbbbc9743d8afbf34de99e5a267e74f22f9e"
-    }
+    ]
   }
 }
