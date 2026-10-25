@@ -1,11 +1,60 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1604 historical frontiers/1497 App bodies.
+ * Current reviewed boundary:1605 historical frontiers/1498 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_extract_pch_intermediates",
+        .entry_rva = 0x5d470,
+        .code = (const ReconExtent[]) { { 0x5d470, 0x5d640 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "extract_pch_intermediates",
+    },
+    {
+        .name = "_restore_pch_browser_name@4",
+        .entry_rva = 0x1c4a0,
+        .code = (const ReconExtent[]) { { 0x1c4a0, 0x1c4e8 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "restore_pch_browser_name",
+    },
+    {
+        .name = "_read_pch_pages",
+        .entry_rva = 0x5ae80,
+        .code = (const ReconExtent[]) { { 0x5ae80, 0x5af5a } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "read_pch_pages",
+    },
+    {
+        .name = "_restore_pch_debug_state@4",
+        .entry_rva = 0x5e290,
+        .code = (const ReconExtent[]) { { 0x5e290, 0x5e300 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "restore_pch_debug_state",
+    },
+    {
+        .name = "_reference_pch_debug_library@4",
+        .entry_rva = 0x60190,
+        .code = (const ReconExtent[]) { { 0x60190, 0x602c0 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "reference_pch_debug_library",
+    },
+    {
+        .name = "_restore_pch_separate_debug",
+        .entry_rva = 0x5d640,
+        .code = (const ReconExtent[]) { { 0x5d640, 0x5d660 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "restore_pch_separate_debug",
+    },
+
     {
         .name = "_mark_pch_symbol_binding@4",
         .entry_rva = 0x46120,
@@ -699,6 +748,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "restore_pch_frontend",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_read_pch_file",

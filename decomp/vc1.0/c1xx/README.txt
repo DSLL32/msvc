@@ -5,7 +5,7 @@ Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
 /O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
 The independent native cases freeze source timestamps/cwds and the original
 53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1497 App bodies and1604
+original/native matching at compare_filenames; there are1498 App bodies and1605
 historical frontiers. Original compilation,1430-function inherited graph/ABI
 checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
 compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
@@ -603,3 +603,17 @@ by the2048B output array, not a2052B array. Ten native cases and21 unit groups
 pass; a unit-only attempted host-fd redirect initially failed because the shim
 open descriptor is not a host fd. Removing that unnecessary redirect made the
 focused guard/defined-warning control pass; application evidence was unchanged.
+
+Ledger consumer restore_pch_frontend(881B) is accepted at the genuine
+extract_pch_intermediates frontier. The reader scatters the149-root/scalar image
+back into its canonical operational owners before pointer restoration; it does
+not create a second live frontend state. The full saved-option, browser/debug,
+macro-reconciliation and stream-close paths retain their original graph/ABIs.
+Six newly identified subordinate helpers remain trapping and uncredited.
+Fresh original0.831s/native26.608ms (setup17.618ms, execution2.604ms,
+checks6.385ms) match six actual first entries, current partial artifacts and
+extractor argument0. Original-toolchain/header rebuild33.643s,1506-function
+six-check audit and all12cached/22unit groups pass (combined gate2.350s).
+There are1498 App bodies/1605 historical frontiers. The frozen final consumer
+oracle is unchanged. Only the newly reached extractor entry is runtime-validated
+here; later restorer paths still require their ordinary downstream checkpoints.

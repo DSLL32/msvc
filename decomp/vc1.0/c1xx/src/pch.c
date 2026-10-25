@@ -7,6 +7,11 @@
 #include "pragma.h"
 #include "browser.h"
 #include "function-finalization.h"
+#include "pch-relocation.h"
+#include "parser-state.h"
+#include "debug-types.h"
+#include "debug-info.h"
+#include "operators.h"
 #include <recon.h>
 
 /* Original 0x23310..0x233dd. The default name retains the source drive and
@@ -279,4 +284,117 @@ void finish_pch_debug_symbols(void)
         serialize_scope(global_scope);
         finish_pch_debug_types();
     }
+}
+
+extern unsigned permanent_available, pch_operator_count;
+extern unsigned short next_debug_type_index;
+extern int active_plmn_pragma, active_plmf_pragma;
+extern int member_pointer_full_generality, member_pointer_generality_fixed;
+extern int member_pointer_requested_model, anonymous_identifier_count;
+void extract_pch_intermediates(int separate_debug);
+void __stdcall restore_pch_browser_name(char *filename);
+void read_pch_pages(void);
+void __stdcall restore_pch_debug_state(char *filename);
+void __stdcall reference_pch_debug_library(char *name);
+void restore_pch_separate_debug(void);
+
+/* Original0x6bcf0..0x6c061. Recover saved streams, options and arena owners
+   before reconciling command-line macro definitions with the restored set. */
+void restore_pch_frontend(void)
+{
+    char object_name[256];
+    Vector *definitions;
+    short current, saved;
+    char *definition, *previous, *left, *right;
+    unsigned i;
+    int matched;
+    extract_pch_intermediates(saved_configuration.option_Yd &&
+        options.configuration.debug_info);
+    if (pch_mode == 2) {
+        intermediate_status = fseek(pch_file,
+            pch_header.event_bytes + pch_header.event_offset, 0);
+        if (intermediate_status)
+            report_error(86, message_text(344), options.option_Fp, pch_diagnostic_name, 738);
+    }
+    fread(&saved_configuration, 1, sizeof(saved_configuration), pch_file);
+    unpack_option_flags(saved_configuration.precompiled_option_flags);
+    if (pch_mode == 2) options.configuration = saved_configuration;
+    fread(&pch_compiler_image, 1, sizeof(pch_compiler_image), pch_file);
+    /* The original read directly overwrites contiguous operational globals.
+       Our logical image binds those same owners without duplicate storage. */
+    for (i = 0; i < 149; ++i) *pch_root_cells[i] = pch_compiler_image.roots[i];
+    pch_relocation_count = pch_compiler_image.relocation_count;
+    permanent_available = pch_compiler_image.permanent_available;
+    pch_operator_count = pch_compiler_image.operator_count;
+    function_directory_index = pch_compiler_image.function_directory_index;
+    active_plmn_pragma = pch_compiler_image.plmn_active;
+    active_plmf_pragma = pch_compiler_image.plmf_active;
+    member_pointer_full_generality = pch_compiler_image.member_full_generality;
+    member_pointer_generality_fixed = pch_compiler_image.member_generality_fixed;
+    member_pointer_requested_model = pch_compiler_image.member_requested_model;
+    next_symbol_index = pch_compiler_image.next_symbol_index;
+    browser_symbol_limit = pch_compiler_image.browser_symbol_limit;
+    anonymous_identifier_count = pch_compiler_image.anonymous_identifier_count;
+    hidden_frame_bytes = pch_compiler_image.hidden_frame_bytes;
+    next_debug_type_index = pch_compiler_image.next_debug_index;
+    pragma_record_number = pch_compiler_image.pragma_record_number;
+    debug_stream_offset = pch_compiler_image.debug_stream_offset;
+    pragma_vtordisp = pch_compiler_image.vtordisp;
+    for (i = 0; i < 800; ++i) warning_levels[i] = pch_compiler_image.warning_levels[i];
+    lowest_warning_700 = pch_compiler_image.lowest_warning;
+    highest_warning_700 = pch_compiler_image.highest_warning;
+    source_file_counter = pch_compiler_image.source_file_counter;
+    token_allocation_flags = pch_compiler_image.token_flags;
+    cpp_parser_flags = pch_compiler_image.parser_flags;
+    if ((unsigned)saved_configuration.field6c >> 16) {
+        fread(object_name, 1, (unsigned)saved_configuration.field6c >> 16, pch_file);
+        if (browser_filename && !pch_header.browser_bytes)
+            restore_pch_browser_name(object_name);
+    }
+    if ((unsigned short)saved_configuration.field6c)
+        fread(object_name, 1, (unsigned short)saved_configuration.field6c, pch_file);
+    fread(builtin_operators, 1, pch_operator_count * sizeof(BuiltinOperator), pch_file);
+    read_pch_pages();
+    restore_pch_pointers();
+    if (options.configuration.debug_info) {
+        if (!saved_configuration.option_Yd) {
+            if (saved_configuration.debug_info && options.option_Fo &&
+                compare_filenames(options.option_Fo, object_name)) {
+                if (!options.configuration.line_records)
+                    compiler_warning(3, 622, options.option_Fo);
+                if (options.configuration.pch_object_name[0]) declare_pch_debug_library();
+            }
+            restore_pch_debug_state(object_name);
+            if (!(unsigned char)options.pch_auto && saved_configuration.pch_object_name[0])
+                reference_pch_debug_library(saved_configuration.pch_object_name);
+        } else restore_pch_separate_debug();
+    }
+    definitions = options.defines;
+    for (current = 0; current < definitions->count; ) {
+        definition = definitions->items[current++];
+        matched = 0;
+        for (saved = 0; saved < pch_saved_defines->count; ) {
+            previous = pch_saved_defines->items[saved++];
+            left = definition;
+            right = previous;
+            while (*left == *right && *left) { ++left; ++right; }
+            if (*left == *right) {
+                *previous = 0;
+                matched = 1;
+                break;
+            }
+        }
+        if (!matched) define_command_line_macro(definition);
+    }
+    definitions = pch_saved_defines;
+    for (saved = 0; saved < definitions->count; ) {
+        definition = definitions->items[saved++];
+        if (*definition) compiler_warning(1, 651, definition);
+    }
+    if (!pch_write_enabled) {
+        intermediate_status = fclose(pch_file);
+        if (intermediate_status == -1)
+            report_error(82, message_text(344), options.option_Fp, pch_diagnostic_name, 886);
+    }
+    options.option_Fp = 0;
 }
