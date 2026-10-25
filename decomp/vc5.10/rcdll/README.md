@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_read_resource_number` (RVA 9e92). Its partial streams and actual
+  stops at `rc_parse_resource_expression` (RVA 9ee9). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **129 functions, 34,477 code bytes**
-This is 46.21% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **130 functions, 34,559 code bytes**
+This is 46.32% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (52.01%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (52.13%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -152,3 +152,12 @@ Its genuine unread dependencies have named ABI-correct traps. The fresh pair
 reaches the no-argument resource-number reader in 835.084 / 180.662 ms; both
 builds and strict graph/ABI preflight took 4.251 s. No dependency body or later
 scanner dispatch path receives credit from this advance.
+
+The numeric-expression wrapper explicitly resets its two actual DWORD owners
+at 27f88/27f90 and preserves numeric value/long-kind/error flow. A noncoincident
+entry-hook unit confirms both resets while distinct preprocessor/token state
+stays untouched. The original/rebuilt operand identities and corrected typed
+unit callback are retained in resume-rich-0132, including the initial failed
+unit adapter. Fresh original/native advance to the expression helper in
+1.297 s / 180.438 ms. Both builds/full audit took 3.170 s; the focused reset
+unit took 147.349 ms. Later expression results are not yet executed.

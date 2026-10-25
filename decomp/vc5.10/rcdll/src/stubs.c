@@ -382,15 +382,18 @@ void __cdecl rc_expand_resource_string(void)
 {
     __asm int 3
 }
-void __cdecl rc_read_resource_number(void)
-{
-    __asm int 3
-}
+
 void __cdecl rc_read_resource_integer(void)
 {
     __asm int 3
 }
 int __stdcall rc_read_resource_symbol(unsigned flags)
+{
+    __asm int 3
+    return 0;
+}
+
+DWORD __cdecl rc_parse_resource_expression(void)
 {
     __asm int 3
     return 0;

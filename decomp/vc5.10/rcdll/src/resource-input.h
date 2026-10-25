@@ -32,7 +32,9 @@ void __stdcall rc_copy_resource_token(RcResourceToken *,const RcResourceToken *)
 unsigned __stdcall rc_scan_resource_token(unsigned);
 void __cdecl rc_read_resource_string(void);
 void __cdecl rc_expand_resource_string(void);
+extern int rc_resource_parentheses,rc_resource_long_number;
 void __cdecl rc_read_resource_number(void);
+DWORD __cdecl rc_parse_resource_expression(void);
 void __cdecl rc_read_resource_integer(void);
 int __stdcall rc_read_resource_symbol(unsigned);
 void __stdcall rc_resource_input_fatal(unsigned);

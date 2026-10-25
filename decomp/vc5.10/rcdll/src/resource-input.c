@@ -210,3 +210,20 @@ read_again:
     }
     return rc_resource_token.kind;
 }
+
+/* Actual DWORDs at RVA27f88/27f90. This wrapper explicitly resets both before
+ * their first expression consumer; no prior runtime/default equality claimed. */
+int rc_resource_parentheses,rc_resource_long_number;
+
+void __cdecl rc_read_resource_number(void)
+{
+    DWORD value;
+    rc_resource_long_number=0;
+    rc_resource_parentheses=0;
+    value=rc_parse_resource_expression();
+    if(rc_resource_parentheses)rc_resource_error(1013);
+    if(rc_resource_long_number)rc_resource_token.unknown12=1;
+    rc_resource_token.unknown0=value;
+    rc_resource_token.value=(WORD)value;
+    rc_resource_token.kind=20;
+}

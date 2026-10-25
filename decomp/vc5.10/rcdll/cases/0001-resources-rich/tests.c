@@ -551,6 +551,24 @@ static int collected_resource_name_contract(void)
     return trapped(overlong_resource_name);
 }
 
+static void resource_number_invoke(void *context)
+{
+    (void)context;
+    rc_read_resource_number();
+}
+static DWORD __cdecl resource_number_reset_boundary(void)
+{
+    recon_native_entry_finish(!rc_resource_parentheses&&!rc_resource_long_number&&
+        rc_expression_parentheses==11&&rc_resource_token.unknown12==13);
+}
+static int resource_number_reset_contract(void)
+{
+    rc_resource_parentheses=5;rc_resource_long_number=7;
+    rc_expression_parentheses=11;rc_resource_token.unknown12=13;
+    return recon_native_at_entry(rc_parse_resource_expression,
+        resource_number_reset_boundary,resource_number_invoke,NULL)==1;
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -572,6 +590,7 @@ const ReconTest rich_tests[]={
     {"command-resource-reset-owners",1,command_reset_contract},
     {"resource-type-lookup-contract",1,resource_type_lookup_contract},
     {"collected-resource-name-contract",1,collected_resource_name_contract},
+    {"resource-number-reset-contract",1,resource_number_reset_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},
