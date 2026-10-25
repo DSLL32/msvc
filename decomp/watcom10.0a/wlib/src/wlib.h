@@ -24,7 +24,18 @@ typedef struct WResDirHead {
     struct WResTypeNode *Tail;
     unsigned short TargetOS;
 } WResDirHead;
+typedef struct WResHeader {
+    unsigned long Magic[2];
+    unsigned long DirOffset;
+    unsigned short NumResources, NumTypes, WResVer;
+} WResHeader;
+typedef struct WResExtHeader {
+    unsigned short TargetOS;
+    unsigned short reserved[4];
+} WResExtHeader;
 #pragma pack()
+typedef char WlibResourceHeaderSize[(sizeof(WResHeader) == 18) ? 1 : -1];
+typedef char WlibResourceExtHeaderSize[(sizeof(WResExtHeader) == 10) ? 1 : -1];
 typedef char WlibResourceDirectorySize[(sizeof(WResDirHead) == 14) ? 1 : -1];
 typedef WResDirHead *WResDir;
 extern WResDir MainDir;            /* Original VA 0x430444. */
@@ -43,6 +54,8 @@ struct WResRoutines {
 extern struct WResRoutines WResRtns;
 extern long FileShift;             /* Original VA 0x430440. */
 typedef enum {
+    WRS_BAD_SIG = 3,
+    WRS_BAD_VERSION = 4,
     WRS_OPEN_FAILED = 5,
     WRS_SEEK_FAILED = 9,
     WRS_READ_FAILED = 8,
@@ -62,6 +75,9 @@ void __FreeTypeList( WResDir dir );
 int WResIsWResFile( int handle );
 int ResReadUint32( unsigned long *value, int handle );
 int readWResDir( int handle, WResDir dir );
+int WResReadHeaderRecord( WResHeader *header, int handle );
+int WResReadExtHeader( WResExtHeader *header, int handle );
+int readTypeList( int handle, WResDir dir, unsigned short version );
 int readMResDir( int handle, WResDir dir, int *dup_discarded );
 
 void CheckMemoryHook( void );       /* Original VA 0x411fdf; name unknown. */

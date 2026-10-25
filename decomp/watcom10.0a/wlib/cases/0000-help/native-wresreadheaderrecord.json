@@ -1,0 +1,40 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-XJHb2i",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064,
+      105536,
+      101144,
+      84964,
+      101080,
+      105584,
+      107076,
+      113152,
+      114832,
+      106520,
+      111040
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 111040,
+    "trap_site": 4156618034,
+    "elapsed_ms": 7.892632,
+    "setup_ms": 4.382435,
+    "execution_ms": 1.883484,
+    "checks_ms": 1.626844,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-readwresdir-to-readheader.json",
+      "report_sha256": "475bf5f6df2829ebbd0b4af7feaee038c0d0a6b5f3a0c1ab07c29f37df3da310",
+      "capture_sha256": "afa5b3f257988fdd3c173d15228e04355512e518a3f758b8c3be56febfea41c1",
+      "source_binding_available": true
+    }
+  }
+]

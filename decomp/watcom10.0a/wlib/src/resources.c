@@ -163,6 +163,52 @@ int ResReadUint32( unsigned long *value, int handle )
     return( 0 );
 }
 
+/* Original 0x41a018..0x41a11b. Initial wrreaddi.c algorithm adapted
+   to the actual pre-version3 graph; two magic DWORDs and version<=2. */
+int readWResDir( int file, WResDir dir )
+{
+    WResHeader head;
+    WResExtHeader ext;
+    int error;
+
+    error = WResReadHeaderRecord( &head, file );
+    if( !error ) {
+        if( head.Magic[0] != 0xc3d4c1d7UL || head.Magic[1] != 0xc3d2cdcfUL ) {
+            error = 1;
+            WresRecordError( WRS_BAD_SIG );
+        }
+    }
+    if( !error && head.WResVer > 2 ) {
+        error = 1;
+        WresRecordError( WRS_BAD_VERSION );
+    }
+    if( !error ) {
+        if( head.WResVer >= 1 ) {
+            error = (*WResRtns.seek)( file, sizeof(head), SEEK_CUR ) == -1L;
+            if( error ) {
+                WresRecordError( WRS_SEEK_FAILED );
+            } else {
+                error = WResReadExtHeader( &ext, file );
+            }
+        } else {
+            ext.TargetOS = 1;
+        }
+    }
+    if( !error ) {
+        dir->NumResources = head.NumResources;
+        dir->NumTypes = head.NumTypes;
+        dir->TargetOS = ext.TargetOS;
+        if( (*WResRtns.seek)( file, head.DirOffset, SEEK_SET ) == -1L ) {
+            error = 1;
+            WresRecordError( WRS_SEEK_FAILED );
+        }
+    }
+    if( !error ) {
+        error = readTypeList( file, dir, head.WResVer );
+    }
+    return error;
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )

@@ -42,13 +42,25 @@ void __FreeTypeList( WResDir dir )
     WLIB_FRONTIER();
 }
 
-int readWResDir( int handle, WResDir dir )
+int readMResDir( int handle, WResDir dir, int *dup_discarded )
 {
     WLIB_FRONTIER();
     return( 0 );
 }
 
-int readMResDir( int handle, WResDir dir, int *dup_discarded )
+int WResReadHeaderRecord( WResHeader *header, int handle )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+int WResReadExtHeader( WResExtHeader *header, int handle )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+int readTypeList( int handle, WResDir dir, unsigned short version )
 {
     WLIB_FRONTIER();
     return( 0 );
