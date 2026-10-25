@@ -70,3 +70,14 @@ C2Symbol *__fastcall put_symbol(C2ScopeHash *scope, C2Symbol *symbol)
     symbol->hash_next = previous;
     return symbol;
 }
+
+C2Symbol *__fastcall lookup_symbol(C2ScopeHash *scope, unsigned serial)
+{
+    C2Symbol *symbol;
+    for (; scope; scope = scope->previous) {
+        for (symbol = scope->buckets[serial & 1023]; symbol; symbol = symbol->hash_next) {
+            if (symbol->serial == serial) return symbol;
+        }
+    }
+    return NULL;
+}

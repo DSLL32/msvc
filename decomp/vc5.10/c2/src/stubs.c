@@ -50,11 +50,6 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     return 0;
 }
 
-C2Symbol *__fastcall lookup_symbol(C2ScopeHash *scope, unsigned serial)
-{
-    __asm { int 3 }
-    return NULL;
-}
 
 
 void __fastcall queue_symbol_debug(C2Symbol *symbol)

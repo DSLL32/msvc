@@ -19,16 +19,16 @@ C2InputClause *input_clauses;
  * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
 static struct {
-    unsigned char pending00[79], pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
-} input_opcode_properties = {{0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
+    unsigned char pending00[38], variable, pending39[40], pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
+} input_opcode_properties = {{0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 static unsigned input_register_opcode[17];
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 static unsigned char input_condition_known[16];
 static unsigned char input_register_opcode_known[17];
 #define INPUT_PROPERTIES(op) \
-    ((unsigned)(op) == 79 ? \
-     input_opcode_properties.pragma : \
+    ((unsigned)(op) == 38 ? input_opcode_properties.variable : \
+     (unsigned)(op) == 79 ? input_opcode_properties.pragma : \
      (unsigned)(op) == 83 ? input_opcode_properties.scope_begin : \
      (unsigned)(op) == 86 ? input_opcode_properties.filename : \
      (recon_unsupported("unmodeled input opcode properties"), 0))

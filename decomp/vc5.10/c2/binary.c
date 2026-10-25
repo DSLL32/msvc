@@ -1115,8 +1115,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@lookup_symbol@8",
         .entry_rva = 0x2617d,
+        .code = (const ReconExtent[]){{0x2617d, 0x261ae}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "lookup_symbol",
     },
     {
