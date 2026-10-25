@@ -177,6 +177,8 @@ pub struct Fixture {
     /// Exact file membership, using the hashes already in readonly_dependencies.
     #[serde(default)]
     pub readonly_tree_roots: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub program_image: Option<crate::program_image::ProgramImage>,
 }
 fn version() -> u32 {
     VERSION
@@ -292,6 +294,19 @@ impl Fixture {
             if !Path::new(&d.path).is_absolute() || unhex(&d.sha256)?.len() != 32 {
                 bail!("invalid readonly dependency")
             }
+        }
+        if let Some(image) = &self.program_image {
+            image.validate()?;
+            anyhow::ensure!(
+                self.readonly_dependencies
+                    .iter()
+                    .any(|d| d.path == image.source_path && d.sha256 == image.source_sha256),
+                "program image source is not a bound readonly dependency"
+            );
+            anyhow::ensure!(
+                self.args.first() == Some(&image.logical_path),
+                "program image path differs from captured argv0"
+            );
         }
         let mut tree_roots = std::collections::BTreeSet::new();
         for root in &self.readonly_tree_roots {

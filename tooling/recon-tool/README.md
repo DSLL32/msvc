@@ -826,7 +826,7 @@ requested and observed vectors; the fixture stores the observed vector for
 native IO. In particular, an actual staged module path in argv0 is preserved
 byte for byte. This explicit mode requires reaching main and supports bounded
 ASCII arguments only. It adds no target execution or new debugger operation.
-Self-resource file materialization remains a separate input contract.
+Self-resource input is captured by the exact staged-image recipe below.
 
 An exact object-proven rebuilt end can use
 `function_properties[name].rebuilt_extent` with `end` (PE32 address or its own
@@ -837,3 +837,12 @@ and preserves this descriptor. Graph-audit resolves the end with its existing
 MAP parser, checks the object/witness hashes and exactly one terminal zero byte,
 and keeps the adjacent public and default envelope unchanged otherwise.
 No OMF parser, body acceptance or runtime permission follows from the descriptor.
+
+When that observed argv0 names the private staged T: program,
+`--watcom-main-argv` also records `program_image`: the immutable source path/hash,
+exact staged hash/length, and raw-offset INT3 ranges. Every staged difference
+must be an INT3 replacement; file resizing or other transforms fail. Native
+replay reconstructs this exact frozen image at its observed T: path under the
+owned workspace, outside application cwd, and verifies its read-only bytes after
+execution. The source is an explicit read-only dependency. No EXE bytes are
+stored in the capture, and replay does not recompute a mask from today's registry.

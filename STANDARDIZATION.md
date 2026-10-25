@@ -492,3 +492,9 @@ with a matching PE/MAP, and can project separate RET checks. Unknown-extent
 unimplemented App entries stay registered but are omitted from audit driver
 rows; no original extent is invented. `stdin_kind: null` preserves genuine
 native `/dev/null` and original `NUL` semantics.
+
+When a Watcom PE capture uses `--watcom-main-argv` and its actual argv0 names
+its private staged program, the fixture includes an exact `program_image` input
+recipe: readonly source identity, actual staged hash/length and raw INT3 ranges.
+Native replay recreates that frozen image at the observed T: path outside cwd
+and verifies it unchanged; no executable blob or current-registry mask is used.

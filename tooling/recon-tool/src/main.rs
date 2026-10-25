@@ -16,6 +16,7 @@ mod original_stage;
 mod output;
 mod pe_import;
 mod process;
+mod program_image;
 mod projection;
 mod runtime;
 mod self_child;

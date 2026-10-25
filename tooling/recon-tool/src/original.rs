@@ -1173,6 +1173,10 @@ fn capture_executor(
                 && f.exit_code.is_some()),
         "nonreturn DIRECT requires a typed DIRECT case and expected fixture exit_code"
     );
+    anyhow::ensure!(
+        f.program_image.is_none() || options.watcom_main_argv,
+        "program-image capture input requires --watcom-main-argv to refresh actual argv0"
+    );
     let watcom_main = if options.watcom_main_argv {
         anyhow::ensure!(
             !image.dll && loaded.info.execution == 0,
@@ -1348,6 +1352,16 @@ fn capture_executor(
             )?,
         )
         .current_dir(cwd);
+    let program_image_input = if options.watcom_main_argv && private_image {
+        Some(crate::program_image::ProgramImage::capture(
+            &program,
+            &original,
+            &fs::read(&target)?,
+            windows(&target, &options.repo)?,
+        )?)
+    } else {
+        None
+    };
     let mut target_env = f.env.clone();
     if options.native_msvcrt {
         anyhow::ensure!(
@@ -1550,6 +1564,35 @@ fn capture_executor(
     } else {
         args
     };
+    if options.watcom_main_argv {
+        fixture.program_image = None;
+    }
+    if let Some(image) = program_image_input {
+        anyhow::ensure!(
+            fixture::hex(&Sha256::digest(fs::read(&target)?)) == image.sha256,
+            "original staged program input changed during capture"
+        );
+        anyhow::ensure!(
+            fixture.args.first() == Some(&image.logical_path),
+            "observed Watcom argv0 differs from actual staged program path"
+        );
+        if let Some(existing) = fixture
+            .readonly_dependencies
+            .iter()
+            .find(|d| d.path == image.source_path)
+        {
+            anyhow::ensure!(
+                existing.sha256 == image.source_sha256,
+                "program source dependency conflicts"
+            );
+        } else {
+            fixture.readonly_dependencies.push(fixture::Dependency {
+                path: image.source_path.clone(),
+                sha256: image.source_sha256.clone(),
+            });
+        }
+        fixture.program_image = Some(image);
+    }
     let stdout = Bytes(fs::read(stdout)?);
     let stderr = Bytes(fs::read(stderr)?);
     let partial = options.progress && terminal.starts_with("frontier:");

@@ -507,6 +507,14 @@ unsafe fn executor(
     receipt.supported(root, recorder.is_some())?;
     fs::write(root.join("descriptor"), serde_json::to_vec(&loaded.info)?)?;
     assets::configure(&loaded, f, root, cwd)?;
+    if let Some(image) = &f.program_image {
+        anyhow::ensure!(
+            image
+                .source_sha256
+                .eq_ignore_ascii_case(&loaded.info.original_sha256),
+            "program image source differs from binary_descriptor original identity"
+        );
+    }
     let setup_errno = if let Some(setup) = loaded.case.setup {
         let (passed, value) = crate::errno::invoke(constructor_errno, || unsafe { setup() });
         if passed == 0 {
@@ -679,6 +687,7 @@ fn supervise(
         let cwd = workspace_cwd(f, &root)?;
         materialize(f, &cwd)?;
         assets::materialize(f, &root, &cwd)?;
+        crate::program_image::materialize(f, &root, &cwd)?;
         let (input, mut writer) = if f.stdin_kind == fixture::StdinKind::Pipe {
             let mut pipe = [0; 2];
             if unsafe { libc::pipe2(pipe.as_mut_ptr(), libc::O_CLOEXEC) } < 0 {
@@ -923,6 +932,9 @@ fn supervise(
         }
         dependencies(f)?;
         if let Err(error) = assets::verify(f, &root) {
+            errors.push(format!("{error:#}"));
+        }
+        if let Err(error) = crate::program_image::verify(f, &root, &cwd) {
             errors.push(format!("{error:#}"));
         }
         let executor_setup_ms = fs::read_to_string(root.join("executor-setup-ms"))
