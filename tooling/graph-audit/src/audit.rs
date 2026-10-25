@@ -1457,7 +1457,12 @@ fn cfg_cleanup(
             .iter()
             .rev()
             .find(|v| v.start == target && !v.pending_extent)
-            .context("unidentified tail-call ABI")?;
+            .with_context(|| {
+                format!(
+                    "{side} {} source [{:x}..{:x}] unidentified tail-call ABI at target {target:x}",
+                    r.name, r.start, r.end
+                )
+            })?;
         let inherited = cfg_cleanup(d, pe, target, index, metadata, side, visiting)?;
         ensure!(
             !inherited.is_empty(),
