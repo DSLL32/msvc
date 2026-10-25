@@ -532,3 +532,22 @@ void mark_pch_types(void)
         mark_pch_type_entries(type_descriptor_buckets[i]);
     }
 }
+
+void __stdcall mark_pch_type(CType *type);
+
+/* Original0x69ff0..0x6a012. Each interned type record has one hash link
+   followed by its12-byte type descriptor. */
+void __stdcall mark_pch_type_entries(TypeEntry *entry)
+{
+    while (entry) {
+        mark_pch_pointer((void **)&entry->next);
+        mark_pch_type(&entry->type);
+        entry = entry->next;
+    }
+}
+
+/* Original0x6a020..0x6a030. A type descriptor owns only its shape link. */
+void __stdcall mark_pch_type(CType *type)
+{
+    mark_pch_pointer((void **)&type->related);
+}
