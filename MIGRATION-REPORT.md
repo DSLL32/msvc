@@ -433,19 +433,34 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 121 / 18,441 | 5.72% | Minimal C: AddFunction after declarator/symbol initialization; `93e9bc627` |
-| C1XX | 132 / 19,125 | 2.55% | Minimal C++: translation-unit initializer; `5102c0cd9` |
-| C2 | 163 / 39,502 | 6.89% | Numeric case: convert_input_expression after operand-pair/type selection; `52608581f` |
+| C1 | 130 / 20,178 | 6.26% | Minimal C: FinalizeShape after declarator resolution; `dfbbc228e` |
+| C1XX | 139 / 20,136 | 2.68% | Minimal C++: declarator initializer after function-type construction; `10066dc4e` |
+| C2 | 174 / 42,994 | 7.50% | Numeric case: finish_input_expression; `680e00bc8` |
 | CL | 109 / 18,279 | 95.89% | Active: coherent remaining pass configuration and console/control DIRECT work; prior `677a11cab` preserved |
-| CVPACK | 124 / 40,643 | 64.86% | Active: substantial multi-TU C++ debug-DLL growth case; prior completion `d967c21fc` preserved |
-| LINK | 146 / 48,010 | 11.57% | Hello EXE: narrow real-destructor DIRECT prerequisite for module-symbol processor lifetime; `4d27b6fcd` |
-| RCDLL | 127 / 34,097 | 45.70% | Rich corpus: WORD-returning language reader after collector and shared ASCII uppercase adoption; `b5903e5eb` |
+| CVPACK | 128 / 41,373 | 66.03% | C++ debug-DLL growth complete; selecting the next coherent workload; `30d0665a4` |
+| LINK | 147 / 48,026 | 11.58% | Hello EXE: module-symbol processor after qualified real-destructor DIRECT; `d97668667` |
+| RCDLL | 134 / 35,167 | 47.13% | Rich corpus: digit reader after word collector; `2886b974c` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
 CL has a separately supported 98.57% identified-App percentage; other unfinished
 non-CRT denominators remain unclassified. Whole-text ratios include runtime,
 data and padding.
+
+The new CVPACK C++ growth case adds four functions and 730 code bytes. Its
+120-entry original/native completion has exit status zero, empty streams and
+an identical 285,168-byte packed DLL. The original takes 1.348 s; native replay
+takes 51.107 ms (4.902 ms setup, 42.322 ms execution and 3.882 ms checking).
+The complete original trace has no Widen/MSPDB traversal, so this case needs
+neither the old input-specific oracle nor a new dependency framework.
+The three cached cases, 13 units and strict audit pass in 0.193 s; the final
+combined original/native build and audit takes 24.04 s after shared headers
+force a full rebuild.
+
+CL's pass configuration has verified progress, but its console rows and inactive
+control-handler candidates remain unaccepted: the former has an unresolved
+public error difference, and the latter needs genuine nonreturning DIRECT
+status support. No console controller or post-exit assertion hook is retained.
 
 The current C2 descriptor-byte check caught a signed-short field-code error
 that matching trace/output values had hidden. Its corrected source, focused
