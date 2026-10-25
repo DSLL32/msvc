@@ -1,8 +1,8 @@
-# Experimental graph audit
+# Graph audit
 
 Standalone Rust audit with compatibility profiles for the eight `vc1.0` reconstructions
-and explicit PE/Watcom CF input support. Integration is
-coordinated per worker; preserve each project's required checks and explicit
+and explicit PE/Watcom CF input support. Migrated reconstructions use the shared
+registry and harness while preserving each project's required checks and explicit
 reference provenance. The executable reads files;
 it never invokes Python, Wine, a compiler, or a reconstructed/original executable.
 
@@ -10,8 +10,7 @@ Build with Rust 1.88+ and a host C compiler (for Capstone):
 
 ```sh
 cargo build --release --locked --manifest-path tooling/graph-audit/Cargo.toml
-tooling/graph-audit/target/release/graph-audit \
-  --repo . --project decomp/vc1.0/c2 --profile c2
+tooling/graph-audit/target/release/graph-audit --help
 ```
 
 Dependencies are Clap, Serde/JSON, SHA-256, Regex, Anyhow and Capstone's established
@@ -365,66 +364,46 @@ Concrete consolidated rules are regression-tested from observed layouts:
 * C2 `_normalize_extended` has the same form ending at `_store_extended` `0x71681`.
 * C2 `_finish_debugging` ends in `jmp dword ptr [0x7b92c]`, an indirect tail edge.
 
-## CVPACK identity cache and scope
+## CVPACK registry inputs and scope
 
-CVPACK's Python `audit.py` combines graph checks with strict archive relocation
-identification, source/stub checks, native symbol checks, contextual data and CRT
-seam approval. This tool **does not replace that full audit**. Its graph subset
-still checks every graph edge; ownership is not skipped merely because runtime
-identities are cached.
+Migrated CVPACK uses the shared registry export's `function_registry`, `driver`
+and graph metadata, together with the flat shared rebuilt-runtime identifier
+output supplied through `--rebuilt-runtime`. Its immutable original runtime
+catalog and finite `runtime-policy.json` identity qualifications remain explicit
+inputs. The normal binary-root `make -j4 audit` supplies the generated paths and
+runs the separate contextual/source checks.
 
-For comparison, explicitly prepare a frozen identity index with its existing
-strict verifier, then give that file to Rust:
+Runtime classification does not grant graph-body availability. Reviewed nonexact
+original CRT variants retain their exact canonical extent and body-hash checks;
+the graph adapter treats them as identity-only anchors, excluding accepted bodies
+and restored support. The legacy CVPACK input/cache format remains supported for
+historical inputs, without a live Python cache-generation helper.
 
-```sh
-python3 tooling/graph-audit/cvpack-reference.py \
-  --project /path/to/snapshot/decomp/vc1.0/cvpack \
-  --cache /path/to/snapshot/decomp/vc1.0/cvpack/graph-identities.json --prepare
+## Verification and recorded migration timings
 
-tooling/graph-audit/target/release/graph-audit --profile cvpack \
-  --repo /path/to/snapshot --project /path/to/snapshot/decomp/vc1.0/cvpack \
-  --rebuilt-runtime /path/to/snapshot/decomp/vc1.0/cvpack/graph-identities.json \
-  --check-ret --check-ownership --check-extents
-```
-
-The cache binds exact original/rebuilt PE bytes, LIBC archive, configuration, MAP
-and runtime anchor metadata. Original runtime records must equal the current
-recorded index. A changed input fails; no implicit cache refresh occurs. Cache
-creation is explicit Python tooling, outside executable operation and timed graph
-comparisons. It does not invoke Wine.
-
-## Verification and timings
-
-`validation.json` records the tested snapshot hashes, tests and measured results.
-The seven standalone Python audits are unchanged baselines, executed in scratch
-copies so their report writes never touch workers. CVPACK uses a newly extracted
-**graph-only** Python reference with the same frozen identity index; its full
-integrated audit is separately checked and timed, not used for a misleading
-like-for-unlike speedup.
+Run current Rust checks directly:
 
 ```sh
 cargo test --locked --manifest-path tooling/graph-audit/Cargo.toml
 cargo clippy --locked --manifest-path tooling/graph-audit/Cargo.toml --all-targets -- -D warnings
-python3 tooling/graph-audit/verify.py --snapshot ~/.ai-tmp/graph-audit/snapshot \
-  --snapshot-only --report ~/.ai-tmp/graph-audit/benchmarks.json
-# Prepare the CVPACK cache explicitly after making a new snapshot, then:
-python3 tooling/graph-audit/verify.py --snapshot ~/.ai-tmp/graph-audit/snapshot \
-  --reuse --report ~/.ai-tmp/graph-audit/benchmarks.json
-python3 tooling/graph-audit/negative-parity.py --snapshot ~/.ai-tmp/graph-audit/snapshot \
-  --report ~/.ai-tmp/graph-audit/negatives.json
-python3 tooling/graph-audit/check-flags.py --snapshot ~/.ai-tmp/graph-audit/snapshot \
-  --report ~/.ai-tmp/graph-audit/flags.json
-python3 tooling/graph-audit/benchmark-cfg.py --snapshot ~/.ai-tmp/graph-audit/snapshot \
-  --report ~/.ai-tmp/graph-audit/cfg-benchmarks.json
 ```
 
-Snapshots use a hash/recheck loop and are read-only with respect to worker files.
-Do not run mutation tests and benchmarks concurrently on the same snapshot.
-Benchmarks warm each CLI, alternate Python/Rust ordering, include startup/input
-loading/output, and report seven samples with medians and ranges. They exclude
-builds, fixture execution, Wine and explicit cache preparation. Current workers
-may advance after the pinned checkpoint; these results do not certify later
-unbuilt source changes.
+The focused static CLI controls below use synthetic inputs or explicit frozen
+corpora. The small fixtures in this package's `fixtures/` directory remain Rust
+test inputs; they are independent of the retired shared reconstruction fixtures.
+
+`validation.json` and the later validation receipts preserve historical input
+hashes, test results and timings. The migration-only Python parity, snapshot and
+benchmark scripts were retired after the reconstructions moved to the shared
+harness. Their source and original baselines remain in Git history and the
+retirement archive; they are not current audit commands. No baseline or timing
+receipt was regenerated during that cleanup.
+
+The following measurements are historical migration results. They used frozen
+scratch copies, warmed each CLI, and excluded builds, fixture execution, Wine and
+explicit identity-cache preparation. The CVPACK baseline was an extracted
+**graph-only** reference with the same frozen identity index, rather than its full
+integrated audit. These results do not certify later source or tooling changes.
 
 Measured medians in seconds (seven samples; ranges and full provenance are in
 `validation.json`). These compare retained Python baselines with later samples of
