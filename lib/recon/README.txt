@@ -630,6 +630,13 @@ output, including count0/NULL. WLINK currently stores the memicmp callback;
 WLIB's selected help path returns before getcmd. No comparison or command-line
 success, private CRT implementation or host import fallback is supported.
 
+Watcom compile spellings stdaux/stdprn identify existing native iob slots3/4;
+this does not initialize their handles or qualify closing them. Bare isatty
+uses the existing descriptor boolean helper. _IOLBF retains Watcom0200, with
+setvbuf routed to a distinct typed125 boundary rather than the Microsoft40
+implementation. No stream mutation, buffering/close or FILE26 success is added;
+WCC's current first InitGlobalVars trap precedes these operations.
+
 The native conio.h surface and Watcom-only int getch(void) spelling are typed
 link support only: invocation always denies125, with no console read. WLIB's
 regular-stdout help returns from PauseOnConsole before this cold call.

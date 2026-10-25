@@ -308,6 +308,7 @@ extern unsigned recon_watcom_amblksiz;
 int __cdecl recon_watcom_memicmp(const void *,const void *,size_t);
 char *__cdecl recon_watcom_getcmd(char *);
 int __cdecl recon_watcom_getch(void);
+int __cdecl recon_watcom_setvbuf(ShimFILE *,char *,int,size_t);
 ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
 int recon_watcom_raise(int);
 /* Host binding requires independently proved first-main-call/no-target-ctor
@@ -493,6 +494,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define memicmp recon_watcom_memicmp
 #define getcmd recon_watcom_getcmd
 #define getch recon_watcom_getch
+#define isatty recon_isatty
+#define stdaux (&recon_iob[3])
+#define stdprn (&recon_iob[4])
 #define _heapchk recon_watcom_heapchk
 #define _nheapchk recon_watcom_nheapchk
 #define signal recon_watcom_signal
@@ -550,7 +554,11 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define fwrite recon_fwrite
 #define fseek recon_fseek
 #define ftell recon_ftell
+#if defined(RECON_CRT_PROFILE_WATCOM_100A)
+#define setvbuf recon_watcom_setvbuf
+#else
 #define setvbuf recon_setvbuf
+#endif
 #define fgetc recon_fgetc
 #define fputc recon_fputc
 #define fgets recon_fgets
@@ -784,7 +792,11 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #undef _IOLBF
 #undef _IONBF
 #define _IOFBF 0
+#if defined(RECON_CRT_PROFILE_WATCOM_100A)
+#define _IOLBF 0x0200
+#else
 #define _IOLBF 0x40
+#endif
 #define _IONBF 4
 #endif /* !RECON_SHIM_IMPL */
 #endif /* Linux native test build */
