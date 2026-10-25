@@ -113,6 +113,33 @@
             "path": "import-contracts.json",
             "sha256": "0ea362d70e6aaf78dd1a6ead56f7e6cb94ca553804c3a06fdabd311aefd8de50"
           }
+        },
+        {
+          "target": {
+            "function": "_intern_identifier"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "keyword-imports.json",
+            "sha256": "4f2f6d8bb092b0f00ba4cb01de11db6543a2b35539adcb1f699026547d5b75b0"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "keyword-imports.json",
+            "sha256": "4f2f6d8bb092b0f00ba4cb01de11db6543a2b35539adcb1f699026547d5b75b0"
+          }
         }
       ]
     },
@@ -307,6 +334,11 @@
         }
       },
       "_resolve_option_path": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_initialize_language_keywords": {
         "register_imports": {
           "require_all_register_calls_resolved": true
         }

@@ -14,7 +14,7 @@ int __cdecl prepare_pch_input(const char *);
 void __cdecl read_initial_input(void);
 void __cdecl initialize_predefined_tokens(void);
 void __cdecl initialize_keyword_table(void);
-void __cdecl initialize_floating_point(void);
+void __cdecl initialize_language_keywords(void);
 void __cdecl initialize_line_tables(void);
 void __cdecl open_expression_output(void);
 void __cdecl initialize_type_table(void);
@@ -108,7 +108,7 @@ extern "C" void __cdecl initialize_frontend(void)
         !c1_data.options.pch_debug && c1_data.options.pch_create;
     initialize_predefined_tokens();
     initialize_keyword_table();
-    initialize_floating_point();
+    initialize_language_keywords();
     initialize_line_tables();
     if (!c1_bss.options.preprocess_stdout && !c1_bss.options.prototypes_only) {
         if (c1_data.c9_il) {
@@ -262,7 +262,6 @@ extern "C" void __cdecl normalize_frontend_options(void)
 extern "C" void __cdecl format_processor_switch(char *buffer, const char *format, unsigned size, int processor) { __asm { int 3 } }
 extern "C" int __cdecl prepare_pch_input(const char *filename) { __asm { int 3 } return 0; }
 extern "C" void __cdecl read_initial_input(void) { __asm { int 3 } }
-extern "C" void __cdecl initialize_floating_point(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_line_tables(void) { __asm { int 3 } }
 extern "C" void __cdecl open_expression_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_type_table(void) { __asm { int 3 } }
