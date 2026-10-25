@@ -3497,7 +3497,7 @@
     },
     "_free_inline_query_tables": {
       "pending_extent": false,
-      "reason": "ABI-only whole29B tail target of generate_inline_queries: original4510f..4512c calls free twice thencdeclRET0 at4512b; native pendingstubRET0. Remains unimplemented/masked, zero function/byte credit."
+      "reason": "Whole29B cdecl tail target of generate_inline_queries: original4510f..4512c calls free twice thenRET0 at4512b. ABI-only extent was exposed while pending; implementation credit now follows its verified App registry flag."
     }
   },
   "runtime_candidate_disqualifications": {

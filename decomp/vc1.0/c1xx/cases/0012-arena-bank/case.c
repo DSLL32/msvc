@@ -1517,6 +1517,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "arena_bank",
     "C++ relocatable based-pointer bank: linked records, array views, overloaded visitors, class-array/copy/reference temporaries and qc inline control",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x3510f,
+    RECON_IO, RECON_EXIT, 0,
     NULL, c1xx_case_invoke, NULL, arena_bank_tests, RECON_COUNT(arena_bank_tests)
 };

@@ -1,6 +1,40 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Arena-bank case0012 is COMPLETE. The coherent /Z7 /FR /Ob2 -qc -Ol workload
+compiles relocatable based-pointer linked records, two movable buffers, array
+views, overloaded visitors, class-array/copy/reference temporaries and runtime
+string/zero initialization. Its42 fresh original/native first encounters, exit0,
+streams and all six final IR/browser artifacts match the unchanged standalone
+master exactly. No byte normalization or downstream C2/runtime claim was added.
+
+This case accepted42 whole application bodies/7370 code bytes. Current totals:
+1547 App bodies/1654 historical frontiers, plus the unchanged seven historical
+CRT source bodies. The accepted application code-extent union is360885/476418B
+(75.75% of the whole original code extent, not a non-CRT denominator). This union
+excludes CRT/import and owned-data credit. The preceding Ledger summary's union
+was overstated by920B; its corrected registry union was353515B.
+
+Final native replay32.173ms (setup16.955ms, execution9.342ms, checks5.876ms);
+original0.778s, incremental native/Win32 build2.785s, and the1555-function six-check
+graph/ABI audit plus13 cached cases/24 unit groups2.344s pass. Full header rebuilds
+around30-36s are original-toolchain setup, separate from fixture execution.
+
+The reached qc tables have one operational owner shared by allocator, unary
+consumer and serializer. Earlier split type-stack globals caused a native NULL
+write and were removed. A later complete buffered-output check found four swapped
+control/continue label uses in the new loop code; the corrected source matches the
+unchanged original. Failed raw results remain in scratch. The false CRT candidate
+at finish_qc_loop's final RET/alignment was independently disqualified, with no
+function/byte credit. Two exact original unwritten-local fallbacks retain Win32
+behavior and explicit native-only traps, with narrow tests: based_type_expression
+and unknown runtime-initializer operations. Their public reach remains UNKNOWN;
+this valid case follows their defined paths. policy-data.json records all26 known
+native limitations. Nonzero inline-parameter ranking and non-debug use of the
+scalar-pointer builder's unwritten debug slot were not demonstrated by this case.
+
+Earlier completed Ledger pair:
+
 Ledger paired PCH is COMPLETE: cases0010-ledger-pch-create and0011-ledger-pch-use.
 The coherent /O2 /G5 /Ob1 /Z7 /FR /Ycledger.h and /Yuledger.h workload exercises
 nested macro/conditional includes, packed types, virtual/copy/default/member-pointer
@@ -9,9 +43,9 @@ original driver/frontend/C2/LINK pipelines and ledger.exe exit0. Independent
 frontend cases freeze real source timestamps/cwds and the53932B consumer PCH.
 
 The pair accepted84 whole application bodies:12550 code bytes and96 owned switch
-bytes. There are1505 App bodies/1612 historical frontiers, plus the unchanged
+bytes. At that boundary there were1505 App bodies/1612 historical frontiers, plus the unchanged
 seven historical CRT source bodies described below. Application source code
-extent union is354435/476418B (74.40% of the whole original code extent; this is
+extent union was353515/476418B (74.20% of the whole original code extent; this is
 not a non-CRT denominator and excludes CRT/library/import and owned-data credit).
 
 Producer reference/native exit0 and74 first encounters match. All six IR/browser

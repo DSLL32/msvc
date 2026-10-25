@@ -360,3 +360,11 @@ void generate_inline_queries(void)
 {
     free_inline_query_tables();
 }
+
+/* Original0x4510f..0x4512c. Preserve the dangling pointer globals;
+   another frontend initialization allocates fresh tables for both owners. */
+void free_inline_query_tables(void)
+{
+    free(inline_regions);
+    free(inline_scopes);
+}

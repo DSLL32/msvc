@@ -71,7 +71,6 @@ int resume_pch_source_input(void) { __asm { int 3 } return 0; }
 unsigned __stdcall source_file_timestamp(char *filename) { __asm { int 3 } return 0; }
 void __stdcall record_pch_open_include(char *filename) { __asm { int 3 } }
 void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { __asm { int 3 } }
-void free_inline_query_tables(void) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }

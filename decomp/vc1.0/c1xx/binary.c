@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1653 historical frontiers/1546 App bodies.
+ * Current reviewed boundary:1654 historical frontiers/1547 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -13,6 +13,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "free_inline_query_tables",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_scalar_pointer_type@12",
