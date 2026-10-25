@@ -60,8 +60,15 @@ PackingFrame *RECON_THISCALL CompilerPacking::AcquireFrame(void)
 
 extern "C" PackingFrame *push_packing(unsigned alignment, void *identifier)
 {
-    __asm { int 3 }
-    return NULL;
+    CompilerPacking *stack = frontend_data.options.packing_stack;
+    PackingFrame *frame;
+
+    if (!alignment)
+        alignment = stack->top->alignment;
+    frame = stack->AcquireFrame();
+    frame->alignment = alignment;
+    frame->identifier = identifier;
+    return frame;
 }
 
 extern "C" PackingFrame *clear_packing_frame(PackingFrame *frame)

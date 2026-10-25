@@ -812,6 +812,7 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x2b89d, 0x2b8c2}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "push_packing",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_compare_pch_paths", .entry_rva = 0x3b726,

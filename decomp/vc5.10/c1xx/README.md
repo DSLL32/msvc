@@ -11,18 +11,18 @@ and their declarations are in crt/, with their retained-variant rationale in
 crt/startup.c. Native case adapters and the import-library build definition are
 in harness/. Numbered case files contain descriptors and entry orders only.
 
-The single registry is binary.c. The current prefix has 97 accepted application
-functions / 7726 code bytes; historical CRT support is separate
+The single registry is binary.c. The current prefix has 98 accepted application
+functions / 7763 code bytes; historical CRT support is separate
 (2 functions / 451 bytes), with 12 bytes of generated import support. These
-8189 bytes are compared with a 751216-byte .text extent; that denominator also
+8226 bytes are compared with a 751216-byte .text extent; that denominator also
 contains runtime, data and padding and is not a non-CRT coverage measure.
-The audit checks 99 source bodies. The two six-byte import endpoints retain
+The audit checks 100 source bodies. The two six-byte import endpoints retain
 identity/catalog checks and zero application credit; they are not RET-body targets.
 
 0000 checks typed DLL attach, export presence without invoking exports, and
 detach against the completed original lifecycle case. 0001 invokes the actual
 CL-derived 26-argument C++ pass with BOOL1 on minimal.cpp. Its current oracle is
-the genuine push_packing INT3 at RVA2b89d, not completed compilation.
+the genuine compile_translation_unit INT3 at RVA39974, not completed compilation.
 Both cases compare the original-backed first application encounters.
 
 The minimal case uses a small original Win32 host in
@@ -42,10 +42,11 @@ its matching native fixture took 8.46 ms (setup 5.13, execution 2.32, checks 1.0
 Path resolution and normalization are reconstructed in src/path.c. Packing
 initialization in src/packing.cpp uses the observed 8-byte stack and 12-byte
 frames, with a genuine pending thiscall member and cdecl allocation helpers.
-Frame acquisition now implements its full 88-byte hot/cold member graph,
-including the named pending recycle helper. The latest fresh pair reaches
-push_packing(0,NULL): original 1.328 s/native 10.705 ms (setup 5.320,
-execution 4.351, checks 1.034). Build took 2.718 s/audit 0.173 s; complete
+Packing initialization, allocation, frame acquisition and push are reconstructed.
+The recycle clear helper remains a named trap. The latest fresh pair reaches
+the real no-argument compilation wrapper: original 1.396 s/native 7.723 ms
+(setup 3.893, execution 2.946, checks 0.884). Build took 2.903 s/audit 0.170 s;
+complete
 phase logs remain in `~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/`.
 The prior unaccepted resolver archive remains historical under
 `~/.ai-tmp/msvc2/vc5.10/c1xx/standardization-20261025/resolver-wip/`;
