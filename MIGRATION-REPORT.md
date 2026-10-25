@@ -580,10 +580,11 @@ multi-TU workload has not been started.
 
 ## Watcom compatibility report
 
-The initial compatibility assessment was read-only. Shared integration has since
-reached the transport milestone below; application reconstruction remains held.
-Workers may statically classify the finite startup paths while shared progress
-and oracle support is implemented.
+Shared integration is published and READY in `04ee1337ad2f627d691b784f186d1d46b348da27`.
+The qualified real CF path is WCC startup to its first pending application
+allocator; this does not establish complete help execution or qualify the other
+CF geometries. Application reconstruction and native bootstrap work remain held
+until root release.
 
 The user subsequently approved integrating this backend into shared
 `recon-tool original capture`. The shared recon-tool owner implements the
@@ -594,7 +595,7 @@ case, then pause. No application runs are released before that checkpoint.
 
 | Binary | Accepted application reconstruction | Current paused state |
 | --- | --- | --- |
-| WCC386 | 0 functions | CF main stub; cached `?` output is not a captured application entry order. |
+| WCC386 | 0 functions | Old main stub; shared qualification now captures actual first App entry `47c77` and a bound partial oracle. Native startup adapter is pending. |
 | WPP386 | 0 functions | CF main stub; cached `?` output, no accepted application prefix. |
 | WASM | 0 functions | CF main stub; guarded patched `/?` output, no accepted application prefix. |
 | WLIB | 2 functions / 143 bytes | Accepted main/hook prefix; `InitMsg` is unaccepted WIP and current fixtures explicitly HOLD. |
@@ -625,26 +626,23 @@ through that reset. CF output-only caches
 must not be presented as complete trace or frontier oracles; missing entry
 evidence stays explicit.
 
-Two minimal audit accommodations remain; the graph maintainer confirmed the
-existing CF/MAP reader and catalog interfaces:
+The minimum CF audit accommodations are published in the same shared release:
 
-- **CF registry projection — recon-tool owner:** `src/projection.rs::registry`
-  currently forbids `policy.target` and constructs a PE-shaped target. Add a
-  bounded way to retain the exact existing CF `target.path`/`target.image`
-  descriptor, loader/container/relocation hashes and payload offsets at base 0.
-  Use graph-audit's existing CF reader; no synthetic PE or second CFG walker.
-  Entry-only CF names belong in the existing identity registry; do not invent
-  one-byte or whole-image code extents to make them owned function records.
-- **Reviewed runtime catalog reuse — recon-tool owner:**
-  `src/runtime.rs` still requires COFF/ar input and a `.text` section. Watcom's
-  CLIB3R objects/libraries are OMF and its Win32 code uses `BEGTEXT`. Preserve and
-  validate the current explicit runtime identity/extent evidence through shared
-  tooling instead of rebuilding a general OMF matcher for this migration.
-  Known names alone cannot supply bounds, body availability or CRT exemptions.
-  Graph-audit already accepts flat `--runtime`/`--rebuilt-runtime` records
-  (`src/index.rs`); those inputs do not authenticate arbitrary JSON hashes.
-  The shared ingress must check the reviewed catalog, image/body/relocation
-  evidence and current rebuilt PE/MAP provenance before projecting records.
+- `registry-export --image-base 0 --cf-profile harness/cf-identity.json` derives
+  the finite CF image descriptor from an identity-only, project-relative profile.
+  Loader/container/relocation hashes and base-zero coordinates are retained;
+  graph-audit reads the real CF bytes. No synthetic PE or second CFG walker.
+- Policy `runtime_evidence` binds explicit witness files to registry-derived CRT
+  extents. The capture catalog regenerates graph facts from bound producer/input
+  files and checks current registry roles/ranges plus separate ABI admission.
+  Original-only support facts retain `checked:null`; `_cstart_` is an initial
+  root with unknown cleanup, not fabricated RET 0. Four returning owners have
+  separately witnessed near RET 0. No generic OMF matcher was added.
+
+Entry-only pending App names remain zero-extent identities, never fabricated
+one-byte owned bodies. Real pending stubs are not executable candidates. The
+current WCC proposal names the intended native trap symbol `MemAlloc`, as ABI 2
+requires, without claiming its body or implementation.
 
 DSO constructor ordering, WLIB's empty target-allocation namespace and actual
 entry FP state need migration validation, rather than new shim semantics. Case
@@ -656,12 +654,13 @@ remain target-specific; RET cleanup checks do not prove the whole ABI.
 CF import and callback-table checks remain unsupported; their availability must
 not be inferred from the existing CF reader or native typed-hook support.
 
-**2. Original capture integration.** Shared `original capture` now has a finite
-WCC CF entry-stop mode in `c52c33771`. It reuses the existing controller behind
-the shared frontend, with exact payload/loader identity, base-zero coordinates,
-full relocation verification and separate target environment inputs. It does
-not yet provide ordinary CF progress/oracle capture. Mixed CF code/data cannot
-be bulk-masked. WLIB can use the ordinary offline PE masker: its DGROUP tables,
+**2. Original capture integration.** Shared `original capture --progress` now
+provides ordinary finite WCC frontier capture, App entry order and a bound partial
+I/O oracle. Entry-stop remains diagnostic only. Both reuse the controller behind
+the shared frontend with exact payload/loader identity, base-zero coordinates,
+full relocation verification and separate target environment inputs. Mixed CF
+code/data cannot be bulk-masked. WLIB can use the ordinary offline PE masker: its
+DGROUP tables,
 resource overlay and file length survive. The missing prerequisite is a finite,
 validated transitive startup CRT/import closure, including actual code and any
 demonstrated owned text data. Existing direct-entry hashes omit some called
@@ -690,8 +689,11 @@ loader instructions, observes the actual CF-entry INT3, and executes zero CF bod
 instructions. App trace is empty, FP is explicitly absent, and no oracle file is
 written. An earlier OsStr serialization failure occurred before any Wine/helper
 launch and remains preserved. Exact pre-port controller WIP is recoverable in
-`4d957bb5b`/`409be007c`; old folder compatibility shims are temporary. Final
-integration removes `tooling/watcom-capture/`, its tests and all consumers.
+`4d957bb5b`/`409be007c`. Publication removed all 199 tracked files under
+`tooling/watcom-capture/` and the three obsolete WCC consumer scripts. Relevant
+controls and finite fixtures now live under `tooling/recon-tool/tests/`; there
+is no second active capture command. Historical evidence remains recoverable
+in Git.
 
 Finite static evidence now identifies WCC/WPP's three and WASM's four XI
 callbacks as CRT using shipped-library bodies/fixups. Callback order is derived
@@ -699,22 +701,21 @@ statically, not observed. WASM's `main_init`, `ObjRecInit` and `GenMSOmfInit`
 remain App code inside main. Original-only CRT structural export is now published
 in `307e3ed37`: it supplies bound original instruction facts with no invented NT
 counterpart, checked ABI or execution permission. Arbitrary gateway/far-service
-transfers, callbacks/SEH/APCs and new threads stay unproved or fail closed. This
-milestone does not release the five application workers or establish ordinary
-capture readiness.
+transfers, callbacks/SEH/APCs and new threads stay unproved or fail closed. The
+release qualifies ordinary capture only for the finite WCC path below; it does not release the five application workers.
 
 **Shortest path to WCC's first real help frontier.** Static inspection found that
 CRT FILE initialization calls the compiler's private allocator at CF offset
 `47c77`, before main. Its source-correlated memory manager is application code,
 not shipped CLIB `nmalloc`; the first real App call passes size 8 in EAX and
-returns to `2f4d8`. No gateway service precedes that entry. The following finite
-work replaces a broad startup-CRT campaign:
+returns to `2f4d8`. No gateway service precedes that entry. The finite work and
+remaining target-owned actions are:
 
-| Blocker | Owner | Minimum action |
+| Work item | Owner | Status or next action |
 | --- | --- | --- |
-| Ordinary public CF capture | Shared recon-tool owner | Finish catalog admission, actual App entry traces, frontier/raw/oracle finalization; qualify the existing authored arena through the public frontend. |
-| Five original support owners | WCC worker supplies witnesses; shared owner validates/consumes them | Bind `_cstart_` `2fe00..2feb4`, `__InitRtns` `48526..48571`, `_init_stk` `482c6..482ce`, `__InitFiles_` `4a1e5..4a25d`, and allocation wrapper `2f4cd..2f4db`. Preserve actual complete extents separately from execution subsets; stop at App `47c77`. |
-| Reached startup instructions and data | Shared recon-tool owner | Qualify operand-size-16 MOV/selector stores, LODSB, bounded REP BSS clearing and flat-segment PUSH/POP. Validate actual launch block, environment, stack, exact BSS `7c448..80774`, startup globals, selector, XI and accessed FILE spans; do not grant the entire allocation writable. |
+| Ordinary public CF capture | Shared recon-tool owner | Published: actual App entry/frontier/oracle path passed the public authored control and genuine WCC startup. |
+| Five original support owners | WCC worker and shared owner | Qualified 397 bytes: `_cstart_` `2fe00..2feb4`, `__InitRtns` `48526..48571`, `_init_stk` `482c6..482ce`, `__InitFiles_` `4a1e5..4a25d`, allocation wrapper `2f4cd..2f4db`. Complete extents and execution subsets remain distinct. |
+| Reached startup instructions and data | Shared recon-tool owner | Qualified operand-size-16 MOV/selector stores, LODSB, bounded REP BSS clearing, flat-segment PUSH/POP and exact launch/environment/stack/BSS/XI/FILE owners. Unknown instructions, services and callbacks still fail closed. |
 | Equivalent native startup | WCC worker after release | Add a target-specific bootstrap under `harness/` that performs the proved CRT-to-App allocation callback with its real arguments, order and state effects. Host CRT will not call this allocator automatically; trace-only calls are insufficient. |
 | Later progress in the same help case | WCC worker and shared owner when reached | Reconstruct the App allocator normally. Its later AH=48h boundary dispatches to actual loader `410e27` and `LocalAlloc(0, EBX)`, initially requesting 65,536 bytes; bind returned ownership and actual flags/effects. Keep conditional fatal/OOM, unknown services and asynchronous execution closed. |
 
@@ -726,8 +727,28 @@ bytes, CF fixups, return contracts and first-entry effects, is
 (SHA-256 `d29b80632db9a5f9b30fc48dcf703e98ac205e0d613288cf514cb316aedcfa0e`).
 The actual loader service mapping is separately documented in
 `wcc-gateway-minimum/summary.md` under the same scratch root. These static packets
-and planned adaptations authorize no application execution; all five workers
-remain paused until ordinary transport is qualified and released.
+and planned adaptations confer no application acceptance. All five workers
+remain paused until root releases the native bootstrap and fresh scaffold work.
+
+The root-approved genuine `?` qualification stopped at actual `MemAlloc 47c77`
+with EAX 8, ECX pointing to the first FILE, EDX 1 and real stack return `2f4d8`.
+Only App entry `[47c77]` was observed; no allocator body or gateway ran. It took
+9.042 s guarded / 11.082 s overall for 10,848 steps and 73,783 RPCs. The actual
+2,058-byte environment required a conservative 18,695-step allowance within the
+32,768 cap. Adaptive polling reduced normal RPC medians, with a CPU tradeoff:
+backend frontend CPU 9.774 s and its waited-child CPU 5.895 s; shared wineserver
+CPU is excluded. The authored public 40-step/four-return control took 1.655 s
+overall (37.179 ms guarded), and the finite startup-op control took 1.687 s
+(52.781 ms guarded). No overall speedup claim is made from differing loader waits.
+
+The genuine capture/report remain unchanged and reusable only with their exact
+`wcc-first-help-frontier` / `WCC386.EXE` / IO-0 / empty-seen case and input identity.
+The next binary-owned native bootstrap must reproduce the real callback and state
+effects, then compare through `--original-report`; publication required no repeat
+original run. Other CF geometries, gateway services, CF DIRECT and normal complete
+help execution remain unqualified. Canonical controls pass; READY receipt is
+`~/.ai-tmp/msvc2/watcom-ordinary-capture-20261025/READY.json` (SHA-256
+`463c1de1773c77406dddc60fc9cafc5ff6f84d3bb968f525c2d96bdff6b57cbe`).
 
 **3. Only when a DIRECT case is requested.** The typed original helper is already
 implemented; do not add a generic watcall remote-call engine. Its current
