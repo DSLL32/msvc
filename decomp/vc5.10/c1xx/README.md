@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 129 accepted application functions / 18682
+The single registry is binary.c: 130 accepted application functions / 18703
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 131
+as are four six-byte import endpoints (24 bytes, zero App credit). The 132
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine initialize_global_scope INT3 at RVA3aea7;
+and currently reaches the genuine initialize_builtin_symbols INT3 at RVA3aebc;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -82,9 +82,14 @@ reset. CompilerType has 14 semantic bytes in a 16-byte natural layout; original
 for that padding. The first real builtin loop supplies zero-backed 16-byte
 prototypes; broader unknown consumers stay behind their reconstruction frontiers.
 
-Original/native took 1.474 s / 11.247 ms (native setup 5.470, execution 4.022,
-checks 1.755); build/audit/unit took 7.727 s. Actual selected-report order,
-partial files and the genuine global-scope initializer frontier match.
+The 21-byte symbol-arena initializer clears the saved arena frame pointer and
+selects arena four. Own readers establish the arena stride and linked saved
+contexts. These two BSS fields join the existing nonzero reset unit; the frame
+pointee remains opaque until a semantic consumer is reached.
+
+Original/native took 1.055 s / 11.826 ms (native setup 6.712, execution 3.248,
+checks 1.866); build/audit/unit took 6.797 s. Actual selected-report order,
+partial files and the genuine builtin-name initializer frontier match.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

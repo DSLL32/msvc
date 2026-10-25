@@ -1147,9 +1147,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_initialize_global_scope", .entry_rva = 0x3aea7,
-        .code = (const ReconExtent[]){{0x3aea7, 0x3aea8}},
+        .code = (const ReconExtent[]){{0x3aea7, 0x3aebc}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "initialize_global_scope",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_builtin_symbols", .entry_rva = 0x3aebc,

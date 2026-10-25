@@ -240,6 +240,8 @@ typedef struct FrontendBss {
     struct CompilerSymbol *current_ir_symbol; /* c06e0, NULL */
     struct CompilerSymbol *current_function; /* c0824, NULL */
     int expression_seek_result; /* c5388, zero */
+    unsigned symbol_arena_kind; /* ba910, BSS0; global initialization selects4 */
+    struct CompilerSymbolArenaFrame *saved_symbol_arenas; /* ba914, NULL */
     unsigned processor_instruction_mask; /* c0aec, opcode-table mask */
 } FrontendBss;
 

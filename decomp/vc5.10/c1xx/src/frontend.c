@@ -144,6 +144,8 @@ int initialize_compiler_pass(void)
         frontend_bss.lexer_backend = NULL;
         frontend_bss.processor_instruction_mask = 0;
         frontend_bss.expression_seek_result = 0;
+        frontend_bss.symbol_arena_kind = 0;
+        frontend_bss.saved_symbol_arenas = NULL;
         frontend_bss.ir_record_count = 0;
         frontend_bss.ir_line_delta = 0;
         frontend_bss.current_ir_symbol = NULL;
