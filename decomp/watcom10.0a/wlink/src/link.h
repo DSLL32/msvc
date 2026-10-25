@@ -112,6 +112,14 @@ typedef struct WResExtHeader WResExtHeader;
 extern int WResReadHeaderRecord( WResHeader *, int );
 extern int WResReadExtHeader( WResExtHeader *, int );
 extern int readTypeList( int, WResDir, unsigned short );
+typedef struct WResID WResID;
+typedef struct WResTypeInfo WResTypeInfo;
+typedef struct WResTypeNode WResTypeNode;
+extern int WResReadFixedTypeRecord( WResTypeInfo *, int );
+extern int WResIDExtraBytes( const WResID * );
+extern int WResReadExtraWResID( WResID *, int );
+extern void ResAddLLItemAtEnd( void **, void **, void * );
+extern int readResList( int, WResTypeNode *, unsigned short );
 extern int readMResDir( int, WResDir, int * );
 extern unsigned QWrite( int, void *, unsigned, char * );
 #include <recon.h>

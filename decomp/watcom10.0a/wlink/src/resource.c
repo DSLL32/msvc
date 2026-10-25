@@ -39,7 +39,7 @@
 #include <recon.h>
 #if defined(__WATCOMC__)
 /* Target compares the fixed trailer prefix inline, as STRING.H permits. */
-#pragma intrinsic(memcmp)
+#pragma intrinsic(memcmp,memcpy)
 #endif
 
 struct WResRoutines {
@@ -326,4 +326,62 @@ int WResReadExtHeader( WResExtHeader *header, int file )
         return 1;
     }
     return 0;
+}
+
+/* Version0..2 has one-byte Pascal lengths, unlike the released version3. */
+#pragma pack(1)
+struct WResID {
+    unsigned char IsName;
+    union {
+        unsigned short Num;
+        struct {
+            unsigned char NumChars;
+            char Name[1];
+        } Name;
+    } ID;
+};
+struct WResTypeInfo {
+    unsigned short NumResources;
+    WResID TypeName;
+};
+struct WResTypeNode {
+    WResTypeNode *Next, *Prev;
+    struct WResResNode *Head, *Tail;
+    WResTypeInfo Info;
+};
+#pragma pack()
+typedef char WResID_is_3[(sizeof(WResID)==3)?1:-1];
+typedef char WResTypeInfo_is_5[(sizeof(WResTypeInfo)==5)?1:-1];
+typedef char WResTypeNode_is_21[(sizeof(WResTypeNode)==21)?1:-1];
+
+int readTypeList( int file, WResDir dir, unsigned short version )
+{
+    WResTypeNode *node;
+    WResTypeInfo info;
+    int error, typenum, extra;
+
+    for( error = 0, typenum = 0; typenum < dir->NumTypes && !error; ++typenum ) {
+        error = WResReadFixedTypeRecord( &info, file );
+        if( !error ) {
+            extra = WResIDExtraBytes( &info.TypeName );
+            node = (*WResRtns.alloc)( sizeof( *node ) + extra );
+            if( node == 0 ) {
+                error = 1;
+                WresRecordError( 13 );
+            }
+        }
+        if( !error ) {
+            node->Head = 0;
+            node->Tail = 0;
+            memcpy( &node->Info, &info, sizeof(info) );
+            if( extra > 0 ) {
+                error = WResReadExtraWResID( &node->Info.TypeName, file );
+            }
+        }
+        if( !error ) {
+            ResAddLLItemAtEnd( (void **)&dir->Head, (void **)&dir->Tail, node );
+            error = readResList( file, node, version );
+        }
+    }
+    return error;
 }
