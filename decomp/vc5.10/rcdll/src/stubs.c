@@ -385,8 +385,3 @@ WCHAR *__stdcall rc_duplicate_resource_name(const WCHAR *name)
     return NULL;
 }
 
-RcResourceType *__stdcall rc_find_resource_type(const WCHAR *name,unsigned id)
-{
-    __asm int 3
-    return NULL;
-}

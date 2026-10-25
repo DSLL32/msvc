@@ -447,7 +447,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_UNKNOWN, .implementation=0, .native_symbol=NULL },
     { .name="rc_find_resource_type", .original_symbol="_rc_find_resource_type@8", .entry_rva=0xaee9,
       .code=(const ReconExtent[]){{0xaee9,0xaf6c}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_find_resource_type" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_find_resource_type" },
     { .name="rc_read_resource_attributes", .original_symbol="_rc_read_resource_attributes@4", .entry_rva=0xaf6c,
       .code=(const ReconExtent[]){{0xaf6c,0xb032}}, .code_count=1,
       .definition=RECON_APP, .implementation=0, .native_symbol="rc_read_resource_attributes" },

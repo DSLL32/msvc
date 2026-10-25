@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_find_resource_type` (RVA aee9). Its partial streams and actual
+  stops at `rc_duplicate_resource_name` (RVA 10a1c). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **122 functions, 33,502 code bytes**
-This is 44.90% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **123 functions, 33,633 code bytes**
+This is 45.08% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (50.53%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (50.73%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -55,8 +55,14 @@ named traps for its unreconstructed dependencies. Its compiler-generated pointer
 and byte-remap tables use exact COFF-proven text-data intervals. Its built-in initializer now registers the 22 encountered literal name/ID pairs.
 The fresh original/native pair reaches the first CURSOR lookup with both actual
 formals matched: 1.447 s original and 181.037 ms native (setup 75.287, execution
-35.817, checks 69.933 ms). Both builds and strict audit took 2.823 s. Later list
+35.817, checks 69.933 ms). Both builds and strict audit took 2.823 s. Further list
 mutations and dispatcher object/callback/conversion paths remain unvisited.
+The type lookup now performs its linked-list search and empty-list insertion.
+The fresh pair reaches the name-copy helper: 1.387 s original and 181.035 ms
+native (36.462 ms execution). Both builds/full audit took 3.826 s. A focused
+lookup unit checks name priority, DWORD/WORD ID behavior and returned identity.
+Original pointed node bytes were not directly observed; native ownership and
+zeroing use the independently established allocator contract.
 The dispatcher reuses existing command/result/language globals and token fields.
 
 The raw UTF16 reader preserves its initialized index 4097, 8,194-byte buffer and

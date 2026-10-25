@@ -378,3 +378,22 @@ void __cdecl rc_initialize_resource_types(void)
  * the genuine 20-byte zeroed allocations, not image data. */
 RcResourceType *rc_resource_types;
 
+RcResourceType *__stdcall rc_find_resource_type(const WCHAR *name,unsigned id)
+{
+    RcResourceType *entry=rc_resource_types,*last=NULL;
+    while(entry){
+        if(name&&entry->name&&!wcscmp(name,entry->name))return entry;
+        if(!name&&id&&entry->id==(WORD)id)return entry;
+        if(!entry->next){last=entry;break;}
+        entry=entry->next;
+    }
+    entry=rc_allocate(sizeof(RcResourceType));
+    if(last)last->next=entry;
+    else rc_resource_types=entry;
+    name=rc_duplicate_resource_name(name);
+    entry->unknown18=0;
+    entry->unknown4=0;
+    entry->name=(WCHAR *)name;
+    entry->id=(WORD)id;
+    return entry;
+}

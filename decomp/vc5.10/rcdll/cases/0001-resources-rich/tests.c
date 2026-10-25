@@ -508,6 +508,22 @@ static int command_reset_contract(void)
                                   command_reset_invoke,NULL)==1;
 }
 
+static int resource_type_lookup_contract(void)
+{
+    WCHAR cursor[]=L"CURSOR",icon[]=L"ICON";
+    RcResourceType first={0},second={0},zero_id={0};
+    RcResourceType *saved=rc_resource_types;
+    int passed;
+    first.next=&second;first.name=cursor;first.id=12;
+    second.next=&zero_id;second.name=icon;second.id=14;
+    rc_resource_types=&first;
+    passed=rc_find_resource_type(icon,12)==&second &&
+        rc_find_resource_type(NULL,0x1000e)==&second &&
+        rc_find_resource_type(NULL,0x10000)==&zero_id;
+    rc_resource_types=saved;
+    return passed;
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -527,6 +543,7 @@ const ReconTest rich_tests[]={
     {"apstudio-service-hold",1,apstudio_hold},
     {"resource-input-initialization",1,resource_input_contract},
     {"command-resource-reset-owners",1,command_reset_contract},
+    {"resource-type-lookup-contract",1,resource_type_lookup_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},
