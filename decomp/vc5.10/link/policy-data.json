@@ -4291,6 +4291,23 @@
             }
           }
         }
+      },
+      "_read_comdat_section@20": {
+        "original": {
+          "switches": [
+            {
+              "site": 4588408,
+              "targets": [
+                4588415,
+                4588497,
+                4588958,
+                4588958,
+                4589333,
+                4589054
+              ]
+            }
+          ]
+        }
       }
     },
     "callback_tables": [
@@ -5827,6 +5844,11 @@
       "_library_name_matches@8": {
         "expected_cleanup": [
           8
+        ]
+      },
+      "_read_comdat_section@20": {
+        "expected_cleanup": [
+          20
         ]
       }
     }

@@ -159,7 +159,7 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
         if (section_data_size(small_data_section)) {
             if (file_header.Characteristics & IMAGE_FILE_DLL) link_warning(NULL,4066);
             gp_symbol=symbols->LookupSymbol(1,"_gp",NULL);
-            if (gp_symbol->flags & 1)
+            if (gp_symbol->flag_byte & 1)
                 link_contribution_fatal(gp_symbol->contribution,1155,"_gp");
             set_symbol_defined(gp_symbol,1,symbols);
             gp_symbol->symbol.SectionNumber=-2;
@@ -168,7 +168,7 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
     }
     if (mac_target) {
         mac_toc_symbol=symbols->LookupSymbol(1,"__TocTb",NULL);
-        if (mac_toc_symbol->flags & 1)
+        if (mac_toc_symbol->flag_byte & 1)
             link_contribution_fatal(mac_toc_symbol->contribution,1155,"__TocTb");
         set_symbol_defined(mac_toc_symbol,1,symbols);
         mac_toc_symbol->contribution=NULL;
@@ -177,7 +177,7 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
         mac_toc_symbol->symbol.SectionNumber=-2;
         ++local_symbol_count;
         mac_function_symbol=symbols->LookupSymbol(1,"__FTInfo",NULL);
-        if (mac_function_symbol->flags & 1)
+        if (mac_function_symbol->flag_byte & 1)
             link_contribution_fatal(mac_function_symbol->contribution,1155,"__FTInfo");
         set_symbol_defined(mac_function_symbol,1,symbols);
         mac_function_symbol->contribution=NULL;
@@ -187,7 +187,7 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
         ++local_symbol_count;
     }
     if (entry_symbol) {
-        if (!(entry_symbol->flags & 1)) ResolveEntryPoint();
+        if (!(entry_symbol->flag_byte & 1)) ResolveEntryPoint();
         if ((file_header.Characteristics & IMAGE_FILE_DLL) &&
             (optional_header.Subsystem==2 || optional_header.Subsystem==3) &&
             file_header.Machine==0x14c) {

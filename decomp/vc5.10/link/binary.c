@@ -330,7 +330,7 @@ static const ReconFunction functions[] = {
     {"_align_section_size@8",0x616d0,(const ReconExtent[]){{0x616d0,0x6176a}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"align_section_size",NULL,NULL,0,NULL},
     {"_remember_mac_module_name@4",0x50e60,(const ReconExtent[]){{0x50e60,0x50e8b}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remember_mac_module_name",NULL,NULL,0,NULL},
     {"_mark_incremental_contribution@4",0x5eef0,(const ReconExtent[]){{0x5eef0,0x5ef41}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"mark_incremental_contribution",NULL,NULL,0,NULL},
-    {"_read_comdat_section@20",0x5ff70,(const ReconExtent[]){{0x5ff70,0x5ff71}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_comdat_section",NULL,NULL,0,NULL},
+    {"_read_comdat_section@20",0x5ff70,(const ReconExtent[]){{0x5ff70,0x60724}},1,(const ReconExtent[]){{0x60724,0x6073c}},1,RECON_APP,RECON_IMPLEMENTED,"read_comdat_section",NULL,NULL,0,NULL},
     {"_read_section_directives@16",0x5e910,(const ReconExtent[]){{0x5e910,0x5ea66}},1,(const ReconExtent[]){{0x2170,0x2174},{0x21b8,0x21c1}},2,RECON_APP,RECON_IMPLEMENTED,"read_section_directives",NULL,NULL,0,NULL},
     {"_add_comdat_reference@12",0x62fe0,(const ReconExtent[]){{0x62fe0,0x63072}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_comdat_reference",NULL,NULL,0,NULL},
     {"_read_section_relocations@16",0x5e400,(const ReconExtent[]){{0x5e400,0x5e401}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_section_relocations",NULL,NULL,0,NULL},
@@ -344,6 +344,13 @@ static const ReconFunction functions[] = {
     {"_remember_module_directive@12",0x38790,(const ReconExtent[]){{0x38790,0x387c4}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remember_module_directive",NULL,NULL,0,NULL},
     {"_library_name_matches@8",0x16cc0,(const ReconExtent[]){{0x16cc0,0x16d59}},1,(const ReconExtent[]){{0x2364,0x2369}},1,RECON_APP,RECON_IMPLEMENTED,"library_name_matches",NULL,NULL,0,NULL},
     {"_extend_incremental_heap@4",0x4fc00,(const ReconExtent[]){{0x4fc00,0x4fcd1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"extend_incremental_heap",NULL,NULL,0,NULL},
+    {"_build_section_symbol_ranges@8",0x5fe80,(const ReconExtent[]){{0x5fe80,0x5ff07}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"build_section_symbol_ranges",NULL,NULL,0,NULL},
+    {"_discard_associated_comdats@4",0x5ff10,(const ReconExtent[]){{0x5ff10,0x5ff6f}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"discard_associated_comdats",NULL,NULL,0,NULL},
+    {"_report_duplicate_comdat@16",0x5ef50,(const ReconExtent[]){{0x5ef50,0x5efb9}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"report_duplicate_comdat",NULL,NULL,0,NULL},
+    {"_record_undefined_comdat@12",0x5f010,(const ReconExtent[]){{0x5f010,0x5f06c}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"record_undefined_comdat",NULL,NULL,0,NULL},
+    {"_remove_module_symbol@8",0x34760,(const ReconExtent[]){{0x34760,0x347a1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remove_module_symbol",NULL,NULL,0,NULL},
+    {"_get_contribution_info@4",0x62f10,(const ReconExtent[]){{0x62f10,0x62f49}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"get_contribution_info",NULL,NULL,0,NULL},
+    {"Contribution::CanOrder",0x31f30,(const ReconExtent[]){{0x31f30,0x31fa8}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN12Contribution8CanOrderEPKc",NULL,NULL,0,"?CanOrder@Contribution@@QAEEPBD@Z"},
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconBinary),"vc5.10-link",

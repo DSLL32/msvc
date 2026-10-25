@@ -395,6 +395,27 @@ static int first_comdat(void)
     return recon_native_at_entry(read_comdat_section,check_first_comdat,
         invoke_hello,NULL)==1;
 }
+extern DWORD *__stdcall build_section_symbol_ranges(Contribution *,IMAGE_SYMBOL *);
+extern OutputModule *comdat_symbol_module;
+extern DWORD *section_symbol_ranges;
+static void __stdcall check_section_symbol_ranges(Contribution *contribution,IMAGE_SYMBOL *symbols)
+{
+    OutputModule *module=current_input_library->module_head;
+    Contribution *parts=(Contribution *)module->contributions;
+    FileRecord *file=file_slots[current_input_file];
+    recon_native_entry_finish(contribution==parts+1 &&
+        contribution->module==module && comdat_symbol_module==module &&
+        !section_symbol_ranges && module->section_count==7 && module->symbol_count==37 &&
+        symbols==(IMAGE_SYMBOL *)((BYTE *)file->view+1135) &&
+        contribution->raw_size==160 && (contribution->characteristics & 0x1000) &&
+        contribution->group && !strcmp(contribution->group->name,".text") &&
+        contribution->group->first==contribution && contribution->group->last==contribution);
+}
+static int section_symbol_ranges_call(void)
+{
+    return recon_native_at_entry(build_section_symbol_ranges,check_section_symbol_ranges,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -414,5 +435,6 @@ const ReconTest hello_tests[]={
     {"module-name-call",1,module_name_call},
     {"module-filename",1,module_filename},
     {"default-library-entry",1,default_library_entry},
-    {"first-comdat",1,first_comdat}
+    {"first-comdat",1,first_comdat},
+    {"section-symbol-ranges-call",1,section_symbol_ranges_call}
 };

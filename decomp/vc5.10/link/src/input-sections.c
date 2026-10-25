@@ -132,7 +132,6 @@ void __stdcall mark_incremental_contribution(Contribution *contribution)
         contribution->characteristics |= 0x800;
     }
 }
-BYTE __stdcall read_comdat_section(LinkContext *context,Contribution *contribution,IMAGE_SYMBOL *symbols,DWORD index,char **name) { __asm { int 3 } return 0; }
 void __stdcall collect_module_directives(LinkContext *,Contribution *,InputArguments *,char *);
 void __stdcall process_module_directives(LinkContext *,Contribution *,char *);
 void __stdcall read_section_directives(LinkContext *context,Contribution *contribution,

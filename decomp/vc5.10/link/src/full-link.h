@@ -99,7 +99,12 @@ struct Contribution {
     Contribution *next;
     WORD relocation_count,line_number_count;
     DWORD relocation_offset,input_raw_offset;
-    BYTE reserved30[16];
+    BYTE reserved30[8];
+    DWORD comdat_checksum;
+    BYTE comdat_selection, reserved3d[3];
+#ifdef __cplusplus
+    BYTE RECON_THISCALL CanOrder(const char *name);
+#endif
 };
 typedef char ModuleContributionCountAt1c[(offsetof(OutputModule,contribution_count)==0x1c)?1:-1];
 typedef char ContributionAssociationAndPadding[(offsetof(Contribution,associated_contribution)==0x10 && offsetof(Contribution,padding)==0x14)?1:-1];
@@ -116,7 +121,8 @@ struct StringNode {
     WORD reserved12;
     Contribution *contribution;
     DWORD final_value, reserved1c[5];
-    BYTE flags;
+    union { DWORD flags; BYTE flag_byte; };
+    WORD attributes;
 };
 typedef struct SectionList {
     OutputSection *first, **last;
@@ -166,6 +172,9 @@ typedef char ContributionGroupAt1c[(offsetof(Contribution,group)==0x1c)?1:-1];
 typedef char ContributionNextAt20[(offsetof(Contribution,next)==0x20)?1:-1];
 typedef char SymbolOwnerAt14[(offsetof(StringNode,contribution)==0x14)?1:-1];
 typedef char SymbolValueAt18[(offsetof(StringNode,final_value)==0x18)?1:-1];
+typedef char ContributionComdatFields[(offsetof(Contribution,comdat_checksum)==0x38 &&
+    offsetof(Contribution,comdat_selection)==0x3c)?1:-1];
+typedef char SymbolAttributesAt34[(offsetof(StringNode,attributes)==0x34)?1:-1];
 typedef char SymbolFlagsAt30[(offsetof(StringNode,flags)==0x30)?1:-1];
 
 #endif
