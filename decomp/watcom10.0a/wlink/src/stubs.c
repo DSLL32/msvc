@@ -66,7 +66,10 @@ void InitObjIO( void ) { TRAP(); }
 
 unsigned char FreeUpMemory( void ) { TRAP(); return 0; }
 long QPos( int file ) { file = file; TRAP(); return 0; }
-int WResReadDir( int file, WResDir dir, int *duplicates )
+void __FreeTypeList( WResDir dir ) { dir = dir; TRAP(); }
+int WResIsWResFile( int file ) { file = file; TRAP(); return 0; }
+int readWResDir( int file, WResDir dir ) { file = file; dir = dir; TRAP(); return 0; }
+int readMResDir( int file, WResDir dir, int *duplicates )
 { file = file; dir = dir; duplicates = duplicates; TRAP(); return 0; }
 unsigned QWrite( int file, void *buffer, unsigned length, char *name )
 {

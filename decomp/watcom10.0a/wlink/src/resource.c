@@ -176,3 +176,28 @@ WResDir WResInitDir( void )
     }
     return newdir;
 }
+
+int WResReadDir( int file, WResDir dir, int *duplicates )
+{
+    int error;
+
+    error = 0;
+    if( duplicates != 0 ) {
+        *duplicates = 0;
+    }
+    if( dir->Head != 0 ) {
+        __FreeTypeList( dir );
+    }
+    if( (*WResRtns.seek)( file, 0L, SEEK_SET ) == -1L ) {
+        error = 1;
+        WresRecordError( 9 );
+    }
+    if( !error ) {
+        if( WResIsWResFile( file ) ) {
+            error = readWResDir( file, dir );
+        } else {
+            error = readMResDir( file, dir, duplicates );
+        }
+    }
+    return error;
+}

@@ -1,0 +1,12 @@
+{
+  "scope": "WResReadDir109B clears optional duplicate flag, frees old types if any, seeks logicalresource start, dispatches genuine Watcom-vs-Microsoft parser. Stops at WResIsWResFile. Preserves1994 directgraph rather than newer WResReadDir2 wrapper/tri-state API.",
+  "application_functions": 17,
+  "application_bytes": 1702,
+  "ABI": "Original EAXfd/EDXdir/EBXoptionalduplicates; preservesECX/ESI/EDI/EBP; nearRET0. Native uses same opaque file id and initialized14B dir.",
+  "bindings": {
+    "src/resource.c": "f1b9bc23526437677e6f7237adffeb1f5a93d11d8ccffa508ed5f4d818650a62",
+    "src/link.h": "1f6369fc2117bd66231061631c922067e0db61f2b5d432a6ac0339146e133a1a",
+    "binary.c": "af81d7c7f38556b3d93337d907ace1e469bc536da53eda396ff9ad031fb2772a",
+    "policy-data.json": "af3aff9a1fe852dc36b2ee53782c252f447bd38dd707379f65aa3746455ad0c6"
+  }
+}

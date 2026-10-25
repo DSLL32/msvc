@@ -103,6 +103,10 @@ extern void *LAlloc( unsigned );
 extern unsigned char FreeUpMemory( void );
 extern long QPos( int );
 extern int WResReadDir( int, WResDir, int * );
+extern void __FreeTypeList( WResDir );
+extern int WResIsWResFile( int );
+extern int readWResDir( int, WResDir );
+extern int readMResDir( int, WResDir, int * );
 extern unsigned QWrite( int, void *, unsigned, char * );
 #include <recon.h>
 #endif
