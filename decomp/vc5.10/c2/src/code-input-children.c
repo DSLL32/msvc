@@ -470,10 +470,6 @@ void __fastcall remove_input_result(C2Expression *tree, C2Expression *result)
     __asm { int 3 }
 }
 
-void __fastcall release_input_stack(C2InputStack *stack)
-{
-    __asm { int 3 }
-}
 
 void __fastcall release_small_node_list(C2SmallNode *nodes)
 {

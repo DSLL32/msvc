@@ -7,14 +7,14 @@ Both invocations retain the original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 138 accepted application functions / 33,774 code bytes.
+The registry preserves 139 accepted application functions / 33,800 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
 1,763 bytes of contextual text data are separate. The full text extent is
 573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `release_input_stack` at original RVA 0x25b4b.
+  current accepted frontier is `lookup_input_filename` at original RVA 0x282d2.
   Twenty-one narrow units retain real-conversion and register-list behavior checks.
 
 The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
@@ -47,7 +47,7 @@ projections have no modeled rows. Native guards stop before unknown
 lookups; their reserved storage carries no default, low-bit or whole-table claim.
 Reader child functions retain genuine named INT3 stubs and zero body credit.
 
-The pragma-field interpreter models the encountered control31 signed-long descriptor
-and control32 sign-extended short descriptor. Other rows and each row's unused second DWORD remain unmodeled behind
+The pragma-field interpreter models the encountered control2 filename, control31
+signed-long and control32 sign-extended short descriptors. Other rows and each row's unused second DWORD remain unmodeled behind
 native guards. Its unvisited warning-state branch zeros the original's unwritten
 terminal short; the defect is documented at the copy.

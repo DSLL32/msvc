@@ -385,7 +385,7 @@ static int control_record_reuse(void)
 
 static int input_stack_reuse_and_link(void)
 {
-    C2InputStack entries[2], expected, *stack = &entries[1];
+    C2InputStack entries[2], expected, free_tail, *stack = &entries[1];
     C2Expression sentinel, trees[2], prior;
     C2Record *last;
     memset(entries, 0xa5, sizeof(entries));
@@ -409,11 +409,16 @@ static int input_stack_reuse_and_link(void)
         trees[1].next || entries[1].flags != 0xa5) return 0;
     if (prune_input_tree(NULL, 0) != NULL) return 0;
     last = append_input_trees(stack, (C2Record *)&prior);
-    return last == (C2Record *)&trees[1] && !sentinel.next &&
-        stack->last == &sentinel && stack->first == &sentinel &&
-        prior.next == trees && trees[0].previous == &prior &&
-        trees[0].next == &trees[1] && trees[1].previous == trees &&
-        !trees[1].next && entries[1].flags == 0xa5;
+    if (last != (C2Record *)&trees[1] || sentinel.next ||
+        stack->last != &sentinel || stack->first != &sentinel ||
+        prior.next != trees || trees[0].previous != &prior ||
+        trees[0].next != &trees[1] || trees[1].previous != trees ||
+        trees[1].next || entries[1].flags != 0xa5) return 0;
+    free_input_stacks = &free_tail;
+    if (pop_input_trees(&stack) != NULL) return 0;
+    return stack == &entries[1] && free_input_stacks == &entries[0] &&
+        entries[0].next == &free_tail && entries[0].first == &sentinel &&
+        entries[0].last == &sentinel && !sentinel.next;
 }
 
 const ReconTest numeric_tests[] = {
