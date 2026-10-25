@@ -16,7 +16,13 @@ typedef struct CompilerPdbContext {
     MREngine *minimal_rebuild;
     PdbStreamState *stream_state;
     int read_mode;
+#ifdef __cplusplus
+    void RECON_THISCALL Finish(void);
+#endif
 } CompilerPdbContext;
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern CompilerPdbContext input_pdb_context;
 extern CompilerPdbContext output_pdb_context;
 extern CompilerPdbContext *current_pdb_context;
@@ -24,4 +30,7 @@ int initialize_pdb_context_01(void);
 void destroy_pdb_context_01(void);
 int initialize_pdb_context_02(void);
 void destroy_pdb_context_02(void);
+#ifdef __cplusplus
+}
+#endif
 #endif

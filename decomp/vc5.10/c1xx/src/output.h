@@ -18,6 +18,10 @@ typedef struct OutputBuffer {
     int ok;
     int descriptor;
     unsigned char mode;
+#ifdef __cplusplus
+    int RECON_THISCALL Close(void);
+    int RECON_THISCALL Grow(int bytes);
+#endif
 } OutputBuffer;
 
 enum { FRONTEND_OUTPUT_BUFFERS = 8 };

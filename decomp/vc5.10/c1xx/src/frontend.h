@@ -4,6 +4,7 @@
 #include "output.h"
 #include "options.h"
 #include "scanner.h"
+#include "frontend-driver.h"
 #include <recon.h>
 
 enum { FRONTEND_STATE_BYTES = 8520, FRONTEND_INITIALIZERS = 43 };
@@ -31,6 +32,12 @@ typedef struct FrontendData {
     CompilerScannerTables scanner;
     /* Original datafe RVA cd514: signed nesting counter, default zero. */
     int recursion_depth;
+    struct CompilerBackend *backend; /* datafe cc3e0, initially NULL */
+    struct CompilerTranslationUnit *translation_unit; /* cc528, NULL */
+    unsigned pch_option_flags; /* cd130, zero */
+    int saved_pch_mode; /* cd4dc, zero */
+    struct CompilerDependency *dependency; /* cd5bc, NULL */
+    int report_statistics; /* cd7b0, zero */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -177,6 +184,15 @@ typedef struct FrontendBss {
     char *current_argument;
     /* Original bssfe RVA c0abc: diagnostics count. */
     int error_count;
+    unsigned initial_option_flags; /* bssfe c5490 */
+    int pch_input_ready; /* c0a14 */
+    char *pch_input_file; /* c0a20 */
+    int global_expression_scope_active; /* bf204 */
+    CompilerPchSettings saved_options; /* known c4f68..c5384 settings */
+    unsigned forced_source_index; /* c5384 */
+    struct CompilerDebugModule *debug_module; /* c0b48 */
+    struct CompilerInput *input; /* c0a0c */
+    FILE *preprocessed_stream; /* c0ab4 */
 } FrontendBss;
 
 #ifdef __cplusplus

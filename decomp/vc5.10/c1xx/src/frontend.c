@@ -1,4 +1,6 @@
+#include <string.h>
 #include "frontend.h"
+#pragma intrinsic(memset)
 #include <recon.h>
 
 FrontendData frontend_data = {
@@ -93,7 +95,8 @@ FrontendData frontend_data = {
     },
     -1, /* language_context_depth */
     C1XX_SCANNER_DEFAULTS,
-    0 /* recursion_depth */
+    0, /* recursion_depth */
+    NULL, NULL, 0, 0, NULL, 0 /* encountered driver data */
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -114,6 +117,15 @@ int initialize_compiler_pass(void)
         frontend_bss.saved_state = NULL;
         frontend_bss.cleanup_count = 0;
         frontend_bss.error_count = 0;
+        frontend_bss.initial_option_flags = 0;
+        frontend_bss.pch_input_ready = 0;
+        frontend_bss.pch_input_file = NULL;
+        frontend_bss.global_expression_scope_active = 0;
+        memset(&frontend_bss.saved_options, 0, sizeof(frontend_bss.saved_options));
+        frontend_bss.forced_source_index = 0;
+        frontend_bss.debug_module = NULL;
+        frontend_bss.input = NULL;
+        frontend_bss.preprocessed_stream = NULL;
         for (i = 0; i < 32; ++i)
             frontend_bss.cleanup_callbacks[i] = NULL;
         frontend_bss.context_stack.origin = NULL;
@@ -394,12 +406,6 @@ int compile_translation_unit(void)
             report_compiler_diagnostic(1, "msc1.cpp", 1188);
     }
     return result;
-}
-
-int run_compiler(void)
-{
-    __asm { int 3 }
-    return 0;
 }
 
 int compiler_exception_filter(EXCEPTION_POINTERS *exception)
