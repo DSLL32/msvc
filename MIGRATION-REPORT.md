@@ -417,13 +417,13 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 82 / 7,037 | 2.18% | Resume minimal C at push_packing after typed host integration |
-| C1XX | 92 / 7,016 | 0.934% | Resume minimal C++ at resolve_option_path after typed host integration |
-| C2 | 110 / 22,105 | 3.86% | Numeric case now at read_function; same case continues |
-| CL | 108 / 18,238 | 95.68% | 14 cases complete; bounded ordinary MRE retry case approved |
-| CVPACK | 113 / 37,019 | 59.08% | Resume debug DLL at write_globals |
-| LINK | 102 / 37,062 | 8.93% | Resume hello EXE at section-header allocator |
-| RCDLL | 95 / 25,732 | 34.49% | rc_run_preprocessor; finish rich resource corpus |
+| C1 | 84 / 7,231 | 2.24% | Minimal C: run_compiler orchestration; same case continues |
+| C1XX | 94 / 7,510 | 1.00% | Minimal C++: packing chain after accepted path normalizer |
+| C2 | 112 / 22,668 | 3.95% | Numeric case: function_retains_symbols after accepted scope allocation |
+| CL | 108 / 18,238 | 95.68% | 14 cases complete; narrow live Job-chain DIRECT probe blocked before launch by PE import layout |
+| CVPACK | 123 / 40,628 | 64.84% | Debug DLL: final 15-byte free wrapper; mapped output already matches final master |
+| LINK | 104 / 37,579 | 9.06% | Hello EXE: ReadSectionHeaders after accepted module loader |
+| RCDLL | 95 / 25,732 | 34.49% | Rich corpus: 124-byte candidate has a matching new baseline; waits canonical static-loader fix |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -435,33 +435,42 @@ The concrete minimal capture work is:
 
 - C1/C1XX have implemented and original-compiled small typed three-argument
   compiler-export hosts in each binary's `harness/`, using shared `--host`.
-  Actual capture integration is pending the shared launch/staging release.
+  Both hosts now have successful genuine original/native frontier pairs.
   Old HOST argv/environment vectors and forced LastError values were observer
   choices, not required App inputs.
 - RCDLL reuses shipped RC.EXE; a new dynamic-loading host would unnecessarily
   change its static attachment lifecycle. Its IAT/debug/import/export data in
   executable sections must survive progress masking as verified data ranges.
-  The shared owner is implementing parsed loader-data preservation and private
-  staging of the supplied host, so its static imports resolve the masked DLL.
+  Parsed loader-data preservation and private host staging are published in
+  `b36c3c674`. A subsequent static-attachment ordering issue is diagnosed:
+  the broker consumed the loader-break allowance before Wine's real initial
+  process breakpoint. One corrected diagnostic capture matches the native
+  case; further originals wait for the canonical narrow fix, without repeating
+  that reference solely for publication.
 - Exact MSVCRT identity is required only when reusing provider-specific table or
   instruction qualifications. C2 withdrew a universal hash blocker. Intended
   native-provider selection plus once-per-capture loaded identity is enough
   where such proofs are used; no per-function scans or CRT reconstruction.
-- CL's 91-byte console_rows and separate 62-byte control handler can remain
-  explicitly pending while an ordinary two-source warm-IDB MRE case is tried.
-  Its 41-byte retry helper needs a real reached retry combination; if absent,
-  a narrow typed Job-chain DIRECT test is preferable to a broad MRE framework.
+- CL's 91-byte console_rows and separate 62-byte control handler remain
+  explicitly pending. The one ordinary two-source warm-IDB MRE retry completed
+  successfully but did not reach the 41-byte helper; it gains no App credit.
+  The approved fallback is one NULL/tail/head typed DIRECT probe on the genuine
+  live Job chain at prepare_jobs. Its first attempt was rejected before Wine
+  launch because the original PE has no spare section-header slot for the
+  helper import; shared tooling owns that layout gap. No local PE loader,
+  console machinery or MRE emulation is being added.
 
 VCPACK's empty target PATH was copied from old native harness sanitization during
 migration, not captured as an application requirement. Its genuinely new baseline
 removes that override and other unrelated harness controls, preserving the old
 capture/history. Removing it did not by itself fix the observed pre-entry failure;
-the shared owner is qualifying the separate Wine launcher/provider correction.
+the separately diagnosed Wine launcher/provider correction is now published.
 
-The target-environment separation fix is published as `54bb2913f`, including a
-real original control and subsequent CVPACK capture. The shared prerequisite
-owner also owns explicit native-MSVCRT Wine launch selection, separately from
-fixture target environment and without a universal provider-hash gate. Workers
+The target-environment separation fix is published as `54bb2913f`. Shared
+capture release `b36c3c674` adds loader-data/host staging, explicit target-only
+native-MSVCRT selection and actual frontier registers/FP plus 20 stack bytes.
+Its genuine CVPACK qualification reaches the next frontier in 1.319 s and was
+reused for the matching native acceptance, rather than repeated. Workers
 are active only within the released current-case scope; no replacement was
 necessary. New ordinary-IO frontier state needs and capture transport failures
 are routed to shared tooling, not local observer frameworks.
@@ -469,9 +478,12 @@ are routed to shared tooling, not local observer frameworks.
 The independent C2 partial-output collection fix is published as `608025b10`:
 frontier captures choose partial output rules before normalization, while final
 COFF bounds checks remain strict. C2 verified it with fresh original/native pairs
-and strict graph/ABI checks, then committed four application advances through
-`1c9640684` (register insertion, node construction, clearing and input-state reset).
-It continues the original numeric case; no additional case has been started.
+and strict graph/ABI checks, then committed six application advances through
+`176abee09` (register insertion, node construction, clearing, input-state reset,
+function reader and scope allocation). A normal/PCH selector error exposed
+beyond the previous child frontier was corrected without extra credit; the
+unchanged original reference was reused with fresh native evidence. It
+continues the original numeric case; no additional case has been started.
 
 ## Watcom compatibility report
 
