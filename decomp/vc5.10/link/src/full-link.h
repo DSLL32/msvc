@@ -18,11 +18,19 @@ typedef struct SectionFileMap {
 typedef char SectionFileMapSize[(sizeof(SectionFileMap)==8)?1:-1];
 /* Internal per-contribution records at module+60h, separate from COFF headers. */
 typedef struct ContributionInfo {
-    DWORD reserved[8];
+    WORD reserved00,reference_count;
+    void *references;
+    DWORD reserved08;
+    Contribution *previous_contribution;
+    const char *name;
+    DWORD reserved14,reserved18,reserved1c;
     Contribution *fold_candidate;
     DWORD reserved24;
 } ContributionInfo;
 typedef char ContributionInfoSize[(sizeof(ContributionInfo)==40)?1:-1];
+typedef char ContributionInfoFields[(offsetof(ContributionInfo,reference_count)==2 &&
+    offsetof(ContributionInfo,references)==4 && offsetof(ContributionInfo,previous_contribution)==12 &&
+    offsetof(ContributionInfo,name)==16)?1:-1];
 typedef char FoldCandidateAt20[(offsetof(ContributionInfo,fold_candidate)==0x20)?1:-1];
 
 /* Only fields consumed by reached reconstruction logic are named here. These are prefixes, not

@@ -218,7 +218,7 @@ static const ReconFunction functions[] = {
     {"_set_symbol_defined@12",0x61f50,(const ReconExtent[]){{0x61f50,0x62028}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"set_symbol_defined",NULL,NULL,0,NULL},
     {"_initialize_comdats",0x62eb0,(const ReconExtent[]){{0x62eb0,0x62ebb}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_comdats",NULL,NULL,0,NULL},
     {"_release_comdat_tables",0x62ec0,(const ReconExtent[]){{0x62ec0,0x62ec1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"release_comdat_tables",NULL,NULL,0,NULL},
-    {"_attach_comdat@12",0x62f50,(const ReconExtent[]){{0x62f50,0x62f51}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"attach_comdat",NULL,NULL,0,NULL},
+    {"_attach_comdat@12",0x62f50,(const ReconExtent[]){{0x62f50,0x62fdd}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"attach_comdat",NULL,NULL,0,NULL},
     {"_add_comdat_root@16",0x631e0,(const ReconExtent[]){{0x631e0,0x631e1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_comdat_root",NULL,NULL,0,NULL},
     {"_add_special_comdat_roots@4",0x63240,(const ReconExtent[]){{0x63240,0x63241}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_special_comdat_roots",NULL,NULL,0,NULL},
     {"_eliminate_unused_comdats@8",0x63390,(const ReconExtent[]){{0x63390,0x63391}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"eliminate_unused_comdats",NULL,NULL,0,NULL},
@@ -356,6 +356,7 @@ static const ReconFunction functions[] = {
     {"_intern_symbol_string@8",0x60790,(const ReconExtent[]){{0x60790,0x60897}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"intern_symbol_string",NULL,NULL,0,NULL},
     {"_grow_hash@8",0x30f60,(const ReconExtent[]){{0x30f60,0x30f61}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"grow_hash",NULL,NULL,0,NULL},
     {"_allocate_symbol_string_block@4",0x4f420,(const ReconExtent[]){{0x4f420,0x4f443}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"allocate_symbol_string_block",NULL,NULL,0,NULL},
+    {"_duplicate_comdat_name@4",0x62e60,(const ReconExtent[]){{0x62e60,0x62ea4}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"duplicate_comdat_name",NULL,NULL,0,NULL},
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconBinary),"vc5.10-link",

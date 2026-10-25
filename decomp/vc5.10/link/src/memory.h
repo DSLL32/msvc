@@ -6,6 +6,11 @@
 extern "C" {
 #endif
 
+typedef struct MemoryPool {
+    struct MemoryPool *previous;
+    unsigned used,remaining;
+} MemoryPool;
+typedef char MemoryPoolHeaderSize[(sizeof(MemoryPool)==12)?1:-1];
 typedef struct MemoryArena {
     struct MemoryArena *previous;
     unsigned used, remaining;

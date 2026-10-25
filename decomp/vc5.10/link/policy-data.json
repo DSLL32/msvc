@@ -5915,6 +5915,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_attach_comdat@12": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   }

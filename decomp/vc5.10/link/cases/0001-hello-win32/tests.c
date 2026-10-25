@@ -701,6 +701,36 @@ static int comdat_attachment(void)
     return recon_native_at_entry(attach_comdat,check_comdat_attachment,
         invoke_hello,NULL)==1;
 }
+extern char *__stdcall duplicate_comdat_name(const char *);
+extern MemoryPool *comdat_names;
+extern MemoryArena *comdat_reference_arena;
+extern Contribution *last_comdat;
+static char *__stdcall check_comdat_name_copy(const char *name)
+{
+    OutputModule *module=current_input_library->module_head;
+    Contribution *contribution=(Contribution *)module->contributions+1;
+    ContributionInfo expected[7];
+    unsigned i;
+    if (!comdat_reference_arena || comdat_reference_arena->previous ||
+        comdat_reference_arena->used!=96 || comdat_reference_arena->remaining!=4000 ||
+        !comdat_reference_arena->base || comdat_names || last_comdat)
+        recon_native_entry_finish(0);
+    memset(expected,0,sizeof(expected));
+    expected[1].reference_count=8;
+    expected[1].references=comdat_reference_arena->base;
+    expected[1].fold_candidate=contribution;
+    if (name!=current_module_strings+4 || strcmp(name,"_HelloWindowProc@16") ||
+        memcmp(module->contribution_info,expected,sizeof(expected)))
+        recon_native_entry_finish(0);
+    for(i=0;i<96;++i) if(comdat_reference_arena->base[i]) recon_native_entry_finish(0);
+    recon_native_entry_finish(1);
+    return NULL;
+}
+static int comdat_name_copy(void)
+{
+    return recon_native_at_entry(duplicate_comdat_name,check_comdat_name_copy,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -733,5 +763,6 @@ const ReconTest hello_tests[]={
     {"symbol-definition-transition",1,definition_transition},
     {"folded-contribution",1,folded_contribution},
     {"fold-record",1,fold_record},
-    {"comdat-attachment",1,comdat_attachment}
+    {"comdat-attachment",1,comdat_attachment},
+    {"comdat-name-copy",1,comdat_name_copy}
 };
