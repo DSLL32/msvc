@@ -1,6 +1,7 @@
 #include <new.h>
 #include <string.h>
 #include "frontend.h"
+#include "keywords.h"
 #include <recon.h>
 
 /* The first declared override has its own target body and supplies the ELF
@@ -90,7 +91,11 @@ extern "C" CompilerBackend *__cdecl acquire_initial_backend(void)
 }
 
 void RECON_THISCALL CompilerNullBrowser::Slot20(void *value) { __asm { int 3 }  }
-void RECON_THISCALL CompilerNullBrowser::Slot28(void *value) { __asm { int 3 }  }
+void RECON_THISCALL CompilerNullBrowser::Slot28(void *value)
+{
+    if (c1_data.browser_mode == 3)
+        ((CompilerMacro *)value)->identifier->flags |= 0x200000;
+}
 void RECON_THISCALL CompilerNullBrowser::ResetMode(void) { __asm { int 3 }  }
 int RECON_THISCALL CompilerNullBrowser::Disable(void) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerNullBrowser::CheckLocation(void) { __asm { int 3 }  }

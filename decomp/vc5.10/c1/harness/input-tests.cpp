@@ -378,3 +378,39 @@ extern "C" int c1_test_scope_binding_chains(void)
         if (i != 3 && buckets[i]) return 0;
     return 1;
 }
+
+extern "C" void __cdecl define_preprocessor_macro(const char *, unsigned, int);
+extern "C" int c1_test_macro_definition_extent(void)
+{
+    DWORD descriptors[4];
+    BYTE body_bytes[16];
+    CompilerNameEntry name;
+    unsigned i;
+    memset(descriptors, 0x96, sizeof(descriptors));
+    memset(body_bytes, 0xa5, sizeof(body_bytes));
+    memset(&name, 0, sizeof(name));
+    name.name = (char *)"owned_macro";
+    name.flags = 0x12040000;
+    c1_data.current_identifier = &name;
+    c1_data.source_include_depth = -1;
+    c1_data.backend = acquire_initial_backend();
+    c1_data.browser_mode = 0;
+    c1_bss.pools[5].cursor = (BYTE *)(descriptors + 1);
+    c1_bss.pools[5].remaining = 8;
+    c1_bss.arenas[0].cursor = body_bytes + 1;
+    c1_bss.arenas[0].committed_limit = body_bytes + 13;
+    define_preprocessor_macro("abc", 3, -3);
+    CompilerMacro *macro = (CompilerMacro *)(descriptors + 1);
+    if (name.macro != macro || name.flags != (0x12040000 | 0x80000) ||
+        macro->identifier != &name || (BYTE *)macro->body != body_bytes + 1 ||
+        macro->body->kind != -3 || memcmp(macro->body->payload, "abc", 3) ||
+        c1_bss.pools[5].cursor != (BYTE *)(descriptors + 3) ||
+        c1_bss.pools[5].remaining || c1_bss.arenas[0].cursor != body_bytes + 13 ||
+        descriptors[0] != 0x96969696 || descriptors[3] != 0x96969696) return 0;
+    for (i = 0; i < sizeof(body_bytes); ++i)
+        if ((i < 5 || i > 8) && body_bytes[i] != 0xa5) return 0;
+    c1_data.browser_mode = 3;
+    c1_data.backend->Slot28(macro);
+    return name.flags == (0x12040000 | 0x80000 | 0x200000) &&
+        macro->body->kind == -3 && !memcmp(macro->body->payload, "abc", 3);
+}

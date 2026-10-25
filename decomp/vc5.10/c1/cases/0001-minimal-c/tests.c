@@ -493,7 +493,9 @@ static int macro_buffer_reset(void)
         first[0] == 0xa5 && first[1] == 0x96 && first[2] == 0x87 &&
         second[0] == 0x78 && second[1] == 0x69 && second[2] == 0x5a;
 }
-const ReconTest minimal_tests[34] = {
+extern int c1_test_macro_definition_extent(void);
+const ReconTest minimal_tests[35] = {
+    { "macro definition owns descriptor and length-defined writes only", 1, c1_test_macro_definition_extent },
     { "macro reset preserves work-buffer identities and all owned bytes", 1, macro_buffer_reset },
     { "symbol allocator uses only known indexed sizes, byte kind and aligned stride", 1, symbol_size_indexing },
     { "shape interning keeps collision keys, canonical identity and16-byte ownership", 1, interned_type_shapes },
