@@ -3,6 +3,7 @@
 #include "c1xx.h"
 #include <recon.h>
 struct CompilerTypeShape;
+struct CompilerFunctionType;
 struct CompilerInternedType;
 struct CompilerMappedType;
 struct CompilerCompositeType;
@@ -39,6 +40,7 @@ struct CompilerTypeShape {
         CompilerType *type;
         struct CompilerSymbol *symbol;
         struct CompilerTypeList *parameters;
+        struct CompilerFunctionType *function;
         unsigned value;
     } payload;                         /* +8, interpreted by shape flags */
 #ifdef __cplusplus

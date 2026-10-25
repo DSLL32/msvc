@@ -1383,9 +1383,15 @@ static const ReconFunction functions[] = {
         .original_symbol = "?SetType@CompilerTypeShape@@QAEXPAUCompilerType@@@Z",
     },
     {
-        .name = "CompilerTypeShape::SetParameters", .entry_rva = 0x8408,
-        .code = (const ReconExtent[]){{0x8408, 0x8409}},
+        .name = "_create_function_parameters", .entry_rva = 0x842e,
+        .code = (const ReconExtent[]){{0x842e, 0x842f}},
         .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "create_function_parameters",
+    },
+    {
+        .name = "CompilerTypeShape::SetParameters", .entry_rva = 0x8408,
+        .code = (const ReconExtent[]){{0x8408, 0x842e}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "_ZN17CompilerTypeShape13SetParametersEP20CompilerParameterSetP21CompilerParameterLinkP12CompilerType", .original_symbol = "?SetParameters@CompilerTypeShape@@QAEXPAUCompilerParameterSet@@PAUCompilerParameterLink@@PAUCompilerType@@@Z",
     },
     {

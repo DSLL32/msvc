@@ -62,6 +62,7 @@ CompilerSymbol *__cdecl make_abstract_declarator(void);
 CompilerTypeShape *__cdecl create_type_shape(unsigned, unsigned, const unsigned *);
 CompilerType *__cdecl qualify_type(CompilerSymbol *, unsigned, WORD);
 CompilerParameterLink *__cdecl link_parameter_symbols(struct CompilerParameterContext *);
+CompilerFunctionType *__cdecl create_function_parameters(CompilerParameterSet *, WORD *, CompilerParameterLink *, CompilerType *);
 }
 
 extern "C" void __cdecl initialize_frontend(void)
@@ -820,7 +821,13 @@ void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *next)
         last_shape->attributes &= ~3;
     }
 }
-void RECON_THISCALL CompilerTypeShape::SetParameters(CompilerParameterSet *parameters, CompilerParameterLink *symbols, CompilerType *type) { __asm { int 3 } }
+void RECON_THISCALL CompilerTypeShape::SetParameters(CompilerParameterSet *parameters,
+    CompilerParameterLink *symbols, CompilerType *type)
+{
+    CompilerFunctionType *function = create_function_parameters(parameters, &flags, symbols, type);
+    flags |= 0x400;
+    payload.function = function;
+}
 extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned attributes, const unsigned *value)
 {
     CompilerArena *arena = &frontend_bss.arenas[5];
@@ -992,3 +999,5 @@ void RECON_THISCALL CompilerDeclarator::AddArrayShape(CompilerTypeShape *shape) 
 void RECON_THISCALL CompilerDeclarator::AddMemberPointerShape(CompilerTypeShape *shape) { __asm { int 3 } }
 
 extern "C" CompilerSymbol *__cdecl current_declarator_context(void) { __asm { int 3 } return NULL; }
+
+extern "C" CompilerFunctionType *__cdecl create_function_parameters(CompilerParameterSet *parameters, WORD *flags, CompilerParameterLink *symbols, CompilerType *type) { __asm { int 3 } return NULL; }
