@@ -14,6 +14,7 @@ C2BasicBlock *__fastcall create_function_block(C2Function *function,
     C2BasicBlock *after, C2Record *first, C2Record *last);
 C2BasicBlock *__fastcall split_function_block(C2Function *function,
     C2BasicBlock *block, C2Record *first);
+void __fastcall prepend_input_record(C2Record *before, C2Record *record);
 void __fastcall normalize_line_record(C2Record *record);
 void __fastcall move_input_record_before(C2Record *before, C2Record *record);
 int __fastcall record_closes_scope(C2Record *record);

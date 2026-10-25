@@ -1627,10 +1627,19 @@ static const ReconFunction functions[] = {
         .native_symbol = "function_pass_483f46",
     },
     {
-        .name = "@split_function_block@12",
-        .entry_rva = 0x2e10,
+        .name = "@prepend_input_record@8",
+        .entry_rva = 0x180e,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "prepend_input_record",
+    },
+    {
+        .name = "@split_function_block@12",
+        .entry_rva = 0x2e10,
+        .code = (const ReconExtent[]){{0x2e10, 0x2e6a}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "split_function_block",
     },
     {

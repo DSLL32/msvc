@@ -109,3 +109,17 @@ void __fastcall rebuild_function_flow(C2Function *function)
     reset_input_pool(12);
     create_function_flow(function, first, last, 12);
 }
+
+C2BasicBlock *__fastcall split_function_block(C2Function *function,
+    C2BasicBlock *block, C2Record *first)
+{
+    C2Record *boundary = new_statement_boundary();
+    C2BasicBlock *result;
+    prepend_input_record(first, boundary);
+    result = create_function_block(function, block->previous,
+                                   boundary, block->last_record);
+    result->number86 = block->number86;
+    result->scope_depth = block->scope_depth;
+    if (first->kind == 25) first->owner.block = result;
+    return result;
+}
