@@ -294,3 +294,8 @@ void convert_old_symbol_register(void)
     *(unsigned short *)(record+4) = convert_old_type(*(unsigned short *)(record+4));
     old_symbol_output = name;
 }
+
+void size_old_label16(void)
+{
+    module_type_base += 7;
+}

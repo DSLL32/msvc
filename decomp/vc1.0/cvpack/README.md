@@ -1,16 +1,16 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **226 accepted application
-functions, 69,997 original code bytes, and 42 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **227 accepted application
+functions, 70,014 original code bytes, and 41 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `size_old_label16` (RVA `0x13200`), on the C6 local-symbol
-sizing path. The last accepted function is `sort_line_ranges`
-(sequence 226, 603 original code bytes, `src/lines.c`). Encountered converter dispatch and its calls have identified
+frontier is now `size_old_block16` (RVA `0x131a0`), on the C6 local-symbol
+sizing path. The last accepted function is `size_old_label16`
+(sequence 227, 17 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
 additional App helpers; these retain named trapping stubs and no accepted
 credit. The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 39 application functions.
+The resumed workload has accepted 40 application functions.
 Each has matching original/native progress and strict compiler/graph/data
 checks. All twelve cached cases and unit executors passed the 223-function
 checkpoint. The previous baseline ended at `type_server_close` (sequence 187,
